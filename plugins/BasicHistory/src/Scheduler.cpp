@@ -91,7 +91,7 @@ int DoLastTask(WPARAM, LPARAM)
 {
 	for(std::vector<TaskOptions>::iterator it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it)
 	{
-		if(it->trigerType == TaskOptions::AtEnd && it->active)
+		if (it->trigerType == TaskOptions::AtEnd && it->active)
 		{
 			DoTask(*it);
 		}
@@ -102,140 +102,140 @@ int DoLastTask(WPARAM, LPARAM)
 
 bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err, std::wstring* errDescr)
 {
-	if(to.taskName.empty())
+	if (to.taskName.empty())
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Name");
 		return false;
 	}
-	if(top != NULL)
+	if (top != NULL)
 	{
 		for(std::list<TaskOptions>::iterator it = top->begin(); it != top->end(); ++it)
 		{
-			if(it->taskName == to.taskName)
+			if (it->taskName == to.taskName)
 			{
-				if(err != NULL)
+				if (err != NULL)
 					*err = TranslateT("Name");
 				return false;
 			}
 		}
 	}
-	if(!to.isSystem && to.contacts.size() == 0)
+	if (!to.isSystem && to.contacts.size() == 0)
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Contacts");
-		if(errDescr != NULL)
+		if (errDescr != NULL)
 			*errDescr = TranslateT("At least one contact should be selected.");
 		return false;
 	}
 
 	bool isImportTask = to.type == TaskOptions::Import || to.type == TaskOptions::ImportAndMarge;
-	if(!isImportTask)
+	if (!isImportTask)
 	{
-		if(to.filterId > 1)
+		if (to.filterId > 1)
 		{
 			int filter = 0;
 		
 			for(int i = 0; i < (int)Options::instance->customFilters.size(); ++i)
 			{
-				if(to.filterName == Options::instance->customFilters[i].name)
+				if (to.filterName == Options::instance->customFilters[i].name)
 				{
 					filter = i + 2;
 					break;
 				}
 			}
 
-			if(filter < 2)
+			if (filter < 2)
 			{
-				if(err != NULL)
+				if (err != NULL)
 					*err = TranslateT("Filter");
 				return false;
 			}
 
 			to.filterId = filter;
 		}
-		else if(to.filterId < 0)
+		else if (to.filterId < 0)
 		{
-			if(err != NULL)
+			if (err != NULL)
 				*err = TranslateT("Filter");
 			return false;
 		}
 	}
 
-	if(to.type == TaskOptions::Delete)
+	if (to.type == TaskOptions::Delete)
 	{
 		return true;
 	}
 
-	if(!Options::FTPAvail() && to.useFtp)
+	if (!Options::FTPAvail() && to.useFtp)
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Upload to FTP");
 		return false;
 	}
-	if(to.filePath.empty())
+	if (to.filePath.empty())
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Path to output file");
 		return false;
 	}
-	if(to.useFtp && to.ftpName.empty())
+	if (to.useFtp && to.ftpName.empty())
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Session name");
-		if(errDescr != NULL)
+		if (errDescr != NULL)
 			*errDescr = TranslateT("To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.");
 		return false;
 	}
-	if(to.useFtp && (to.filePath.find(_T('\\')) < to.filePath.length() || to.filePath.find(_T(':')) < to.filePath.length() || to.filePath[0] != L'/'))
+	if (to.useFtp && (to.filePath.find(_T('\\')) < to.filePath.length() || to.filePath.find(_T(':')) < to.filePath.length() || to.filePath[0] != L'/'))
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Path to file");
-		if(errDescr != NULL)
+		if (errDescr != NULL)
 			*errDescr = TranslateT("FTP path must contains '/' instead '\\' and starts from '/'.");
 		return false;
 	}
-	if(isImportTask && to.filePath.find(_T("<date>")) < to.filePath.length())
+	if (isImportTask && to.filePath.find(_T("<date>")) < to.filePath.length())
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Path to file");
-		if(errDescr != NULL)
+		if (errDescr != NULL)
 			*errDescr = TranslateT("FTP path cannot contain <date> in import task.");
 		return false;
 	}
-	if(!isImportTask && (to.exportType < IExport::RichHtml || to.exportType > IExport::Dat))
+	if (!isImportTask && (to.exportType < IExport::RichHtml || to.exportType > IExport::Dat))
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Export to");
 		return false;
 	}
-	if(isImportTask && (to.importType < IImport::Binary || to.importType > IImport::Dat))
+	if (isImportTask && (to.importType < IImport::Binary || to.importType > IImport::Dat))
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Import from");
 		return false;
 	}
-	if((to.trigerType == TaskOptions::Daily || to.trigerType == TaskOptions::Weekly || to.trigerType == TaskOptions::Monthly) && (to.dayTime < 0 || to.dayTime >= 24 * 60))
+	if ((to.trigerType == TaskOptions::Daily || to.trigerType == TaskOptions::Weekly || to.trigerType == TaskOptions::Monthly) && (to.dayTime < 0 || to.dayTime >= 24 * 60))
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Time");
 		return false;
 	}
-	if(to.trigerType == TaskOptions::Weekly && (to.dayOfWeek < 0 || to.dayOfWeek >= 7))
+	if (to.trigerType == TaskOptions::Weekly && (to.dayOfWeek < 0 || to.dayOfWeek >= 7))
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Day of week");
 		return false;
 	}
-	if(to.trigerType == TaskOptions::Monthly && (to.dayOfMonth <= 0 || to.dayOfMonth >= 32))
+	if (to.trigerType == TaskOptions::Monthly && (to.dayOfMonth <= 0 || to.dayOfMonth >= 32))
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Day");
 		return false;
 	}
-	if((to.trigerType == TaskOptions::DeltaMin || to.trigerType == TaskOptions::DeltaHour) && (to.deltaTime < 0 || to.deltaTime >= 10000))
+	if ((to.trigerType == TaskOptions::DeltaMin || to.trigerType == TaskOptions::DeltaHour) && (to.deltaTime < 0 || to.deltaTime >= 10000))
 	{
-		if(err != NULL)
+		if (err != NULL)
 			*err = TranslateT("Delta time");
 		return false;
 	}
@@ -259,12 +259,12 @@ bool DoTask(TaskOptions& to)
 {
 	std::wstring err;
 	std::wstring errDescr;
-	if(!IsValidTask(to, NULL, &err, &errDescr))
+	if (!IsValidTask(to, NULL, &err, &errDescr))
 	{
 		TCHAR msg[256];
-		if(err.empty())
+		if (err.empty())
 			_tcscpy_s(msg, TranslateT("Some value is invalid"));
-		else if(errDescr.empty())
+		else if (errDescr.empty())
 		{
 			mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), err.c_str());
 		}
@@ -278,11 +278,11 @@ bool DoTask(TaskOptions& to)
 
 	DWORD now = time(NULL);
 	long long int t = to.eventDeltaTime * 60;
-	if(to.eventUnit > TaskOptions::Minute)
+	if (to.eventUnit > TaskOptions::Minute)
 		t *= 60LL;
-	if(to.eventUnit > TaskOptions::Hour)
+	if (to.eventUnit > TaskOptions::Hour)
 		t *= 24LL;
-	if(t > 2147483647LL)
+	if (t > 2147483647LL)
 	{
 		DoError(to, TranslateT("Unknown error"));
 		return true;
@@ -291,9 +291,9 @@ bool DoTask(TaskOptions& to)
 	bool error = false;
 	std::wstring errorStr;
 	std::list<ExportManager*> managers;
-	if(to.type == TaskOptions::Delete)
+	if (to.type == TaskOptions::Delete)
 	{
-		if(to.isSystem)
+		if (to.isSystem)
 		{
 			ExportManager *exp = new ExportManager(NULL, NULL, to.filterId);
 			exp->SetDeleteWithoutExportEvents(t, now);
@@ -307,7 +307,7 @@ bool DoTask(TaskOptions& to)
 			managers.push_back(exp);
 		}
 	}
-	else if(to.type == TaskOptions::Import || to.type == TaskOptions::ImportAndMarge)
+	else if (to.type == TaskOptions::Import || to.type == TaskOptions::ImportAndMarge)
 	{
 		std::map<std::wstring, bool> existingContacts1;
 		ExportManager mExp = ExportManager(NULL, NULL, 1);
@@ -315,7 +315,7 @@ bool DoTask(TaskOptions& to)
 		std::wstring dir;
 		std::list<std::wstring> files;
 		std::vector<HANDLE> contacts;
-		if(to.useFtp || to.compress)
+		if (to.useFtp || to.compress)
 		{
 			std::map<std::wstring, bool> existingContacts;
 			TCHAR temp[MAX_PATH];
@@ -326,7 +326,7 @@ bool DoTask(TaskOptions& to)
 			dir = GetFileName(dir, L"", existingContacts, true);
 			dir = ReplaceExt(dir, L"");
 			size_t pos = dir.find_last_of(_T('.'));
-			if(pos < dir.length())
+			if (pos < dir.length())
 			{
 				dir = dir.substr(0, pos);
 			}
@@ -336,7 +336,7 @@ bool DoTask(TaskOptions& to)
 		}
 
 		const TCHAR* ext = ExportManager::GetExt(to.importType);
-		if(to.isSystem)
+		if (to.isSystem)
 		{
 			std::wstring n = GetFileName(filePath, mExp.GetContactName(), existingContacts1, true);
 			n = ReplaceExt(n, ext);
@@ -353,9 +353,9 @@ bool DoTask(TaskOptions& to)
 			contacts.push_back(to.contacts[i]);
 		}
 
-		if(to.useFtp)
+		if (to.useFtp)
 		{
-			if(to.compress)
+			if (to.compress)
 			{
 				std::map<std::wstring, bool> existingContacts;
 				std::wstring n = GetFileName(filePath, L"", existingContacts, true);
@@ -366,9 +366,9 @@ bool DoTask(TaskOptions& to)
 			}
 
 			error = FtpGetFiles(dir, files, to.ftpName);
-			if(error)
+			if (error)
 			{
-				if(!errorStr.empty())
+				if (!errorStr.empty())
 				{
 					errorStr += L"\n";
 				}
@@ -377,12 +377,12 @@ bool DoTask(TaskOptions& to)
 			}
 		}
 
-		if(!error && to.compress)
+		if (!error && to.compress)
 		{
 			error = UnzipFiles(dir, filePath, to.zipPassword);
-			if(error)
+			if (error)
 			{
-				if(!errorStr.empty())
+				if (!errorStr.empty())
 				{
 					errorStr += L"\n";
 				}
@@ -390,11 +390,11 @@ bool DoTask(TaskOptions& to)
 				errorStr += TranslateT("Cannot unzip file(s).");
 			}
 
-			if(to.useFtp)
+			if (to.useFtp)
 				DeleteFile(filePath.c_str());
 		}
 
-		if(!error && (to.useFtp || to.compress))
+		if (!error && (to.useFtp || to.compress))
 		{
 			files.clear();
 			std::list<std::wstring> files1;
@@ -405,16 +405,16 @@ bool DoTask(TaskOptions& to)
 			}
 		}
 
-		if(!error)
+		if (!error)
 		{
 			std::list<HANDLE> contactList;
 			for(std::list<std::wstring>::iterator it = files.begin(); it != files.end(); ++it)
 			{
 				mExp.SetAutoImport(*it);
 				int ret = mExp.Import(to.importType, contacts);
-				if(ret == -3)
+				if (ret == -3)
 				{
-					if(contacts.size() == 1)
+					if (contacts.size() == 1)
 					{
 						ret = 0;
 					}
@@ -428,19 +428,19 @@ bool DoTask(TaskOptions& to)
 							std::wstring n = GetFileName(to.filePath, mExp.GetContactName(), existingContacts, true);
 							n = ReplaceExt(n, ext);
 							n = GetName(n);
-							if(n == name)
+							if (n == name)
 								break;
 						}
 
-						if(ret >= (int)contacts.size())
+						if (ret >= (int)contacts.size())
 							ret = -1;
 					}
 				}
 
-				if(ret >= 0)
+				if (ret >= 0)
 				{
 					mExp.hContact =  contacts[ret];
-					if(to.type == TaskOptions::Import)
+					if (to.type == TaskOptions::Import)
 					{
 						EventList::AddImporter(mExp.hContact, to.importType, *it);
 						contactList.push_back(mExp.hContact);
@@ -448,16 +448,16 @@ bool DoTask(TaskOptions& to)
 					else
 					{
 						std::vector<IImport::ExternalMessage> messages;
-						if(mExp.Import(to.importType, messages, NULL))
+						if (mExp.Import(to.importType, messages, NULL))
 						{
 							mExp.MargeMessages(messages);
 							contactList.push_back(mExp.hContact);
 						}
 					}
 				}
-				else if(ret != -1)
+				else if (ret != -1)
 				{
-					if(!errorStr.empty())
+					if (!errorStr.empty())
 					{
 						errorStr += L"\n";
 					}
@@ -469,7 +469,7 @@ bool DoTask(TaskOptions& to)
 				}
 				else
 				{
-					if(!errorStr.empty())
+					if (!errorStr.empty())
 					{
 						errorStr += L"\n";
 					}
@@ -481,7 +481,7 @@ bool DoTask(TaskOptions& to)
 				}
 			}
 			
-			if(contactList.size() > 0)
+			if (contactList.size() > 0)
 			{
 				HANDLE* contacts = new HANDLE[contactList.size() + 1];
 				contacts[0] = (HANDLE)contactList.size();
@@ -495,7 +495,7 @@ bool DoTask(TaskOptions& to)
 			}
 		}
 
-		if(to.useFtp || to.compress)
+		if (to.useFtp || to.compress)
 		{
 			DeleteDirectory(dir.c_str());
 		}
@@ -505,10 +505,10 @@ bool DoTask(TaskOptions& to)
 		std::map<std::wstring, bool> existingContacts;
 		std::wstring filePath = to.filePath;
 		std::wstring dir;
-		if(!to.useFtp && !to.compress)
+		if (!to.useFtp && !to.compress)
 		{
 			dir = GetDirectoryName(filePath);
-			if(!dir.empty())
+			if (!dir.empty())
 			{
 				CreateDirectory(dir.c_str(), NULL);
 			}
@@ -524,7 +524,7 @@ bool DoTask(TaskOptions& to)
 			dir = GetFileName(dir, L"", existingContacts, true);
 			dir = ReplaceExt(dir, L"");
 			size_t pos = dir.find_last_of(_T('.'));
-			if(pos < dir.length())
+			if (pos < dir.length())
 			{
 				dir = dir.substr(0, pos);
 			}
@@ -533,15 +533,15 @@ bool DoTask(TaskOptions& to)
 			CreateDirectory(dir.c_str(), NULL);
 			filePath = dir + L"\\" + filePath;
 		}
-		if(to.isSystem)
+		if (to.isSystem)
 		{
 			ExportManager *exp = new ExportManager(NULL, NULL, to.filterId);
 			exp->SetAutoExport(GetFileName(filePath, exp->GetContactName(), existingContacts, true), t, now);
 			exp->useImportedMessages = to.exportImported;
-			if(!exp->Export(to.exportType))
+			if (!exp->Export(to.exportType))
 			{
 				error = true;
-				if(!errorStr.empty())
+				if (!errorStr.empty())
 				{
 					errorStr += L"\n";
 				}
@@ -552,7 +552,7 @@ bool DoTask(TaskOptions& to)
 				errorStr += msg;
 			}
 
-			if(to.type == TaskOptions::Export)
+			if (to.type == TaskOptions::Export)
 			{
 				delete exp;
 			}
@@ -562,17 +562,17 @@ bool DoTask(TaskOptions& to)
 			}
 		}
 
-		if(!error)
+		if (!error)
 		{
 			for(size_t i = 0; i < to.contacts.size(); ++i)
 			{
 				ExportManager *exp = new ExportManager(NULL, to.contacts[i], to.filterId);
 				exp->SetAutoExport(GetFileName(filePath, exp->GetContactName(), existingContacts, true), t, now);
 				exp->useImportedMessages = to.exportImported;
-				if(!exp->Export(to.exportType))
+				if (!exp->Export(to.exportType))
 				{
 					error = true;
-					if(!errorStr.empty())
+					if (!errorStr.empty())
 					{
 						errorStr += L"\n";
 					}
@@ -584,7 +584,7 @@ bool DoTask(TaskOptions& to)
 					break;
 				}
 
-				if(to.type == TaskOptions::Export)
+				if (to.type == TaskOptions::Export)
 				{
 					delete exp;
 				}
@@ -595,21 +595,21 @@ bool DoTask(TaskOptions& to)
 			}
 		}
 
-		if(error)
+		if (error)
 		{
-			if(to.compress && !to.useFtp)
+			if (to.compress && !to.useFtp)
 			{
 				DeleteDirectory(dir.c_str());
 			}
 		}
-		else if(to.compress)
+		else if (to.compress)
 		{
 			std::wstring zipFilePath = to.filePath;
 			std::wstring zipDir = dir;
-			if(!to.useFtp)
+			if (!to.useFtp)
 			{
 				zipDir = GetDirectoryName(zipFilePath);
-				if(!zipDir.empty())
+				if (!zipDir.empty())
 				{
 					CreateDirectory(zipDir.c_str(), NULL);
 				}
@@ -629,9 +629,9 @@ bool DoTask(TaskOptions& to)
 			}
 			error = ZipFiles(dir + L"\\", zipFilePath, to.zipPassword);
 			dir = zipDir;
-			if(error)
+			if (error)
 			{
-				if(!errorStr.empty())
+				if (!errorStr.empty())
 				{
 					errorStr += L"\n";
 				}
@@ -640,14 +640,14 @@ bool DoTask(TaskOptions& to)
 			}
 		}
 
-		if(to.useFtp)
+		if (to.useFtp)
 		{
-			if(!error)
+			if (!error)
 			{
 				error = FtpFiles(dir, to.filePath, to.ftpName);
-				if(error)
+				if (error)
 				{
-					if(!errorStr.empty())
+					if (!errorStr.empty())
 					{
 						errorStr += L"\n";
 					}
@@ -660,11 +660,11 @@ bool DoTask(TaskOptions& to)
 		}
 	}
 	
-	if(to.type == TaskOptions::Delete || to.type == TaskOptions::ExportAndDelete)
+	if (to.type == TaskOptions::Delete || to.type == TaskOptions::ExportAndDelete)
 	{
 		for(std::list<ExportManager*>::iterator it = managers.begin(); it != managers.end(); ++it)
 		{
-			if(!error)
+			if (!error)
 			{
 				(*it)->DeleteExportedEvents();
 			}
@@ -673,7 +673,7 @@ bool DoTask(TaskOptions& to)
 		}
 	}
 
-	if(error)
+	if (error)
 	{
 		DoError(to, errorStr.empty() ? TranslateT("Unknown error") : errorStr);
 	}
@@ -685,11 +685,11 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 {
 	std::wstring str = baseName;
 	size_t pos = baseName.find(_T("<contact>"));
-	if(replaceContact && pos < baseName.length())
+	if (replaceContact && pos < baseName.length())
 	{
 		str = baseName.substr(0, pos);
 		std::wstring baseName1 = contactName;
-		if(!baseName1.empty())
+		if (!baseName1.empty())
 		{
 			std::wstring name = baseName1;
 			int i = 0;
@@ -709,7 +709,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 	}
 
 	pos = str.find(_T("<date>"));
-	if(pos < str.length())
+	if (pos < str.length())
 	{
 		TCHAR time[256];
 		SYSTEMTIME st;
@@ -727,7 +727,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 std::wstring GetDirectoryName(const std::wstring &path)
 {
 	size_t find = path.find_last_of(L"\\/");
-	if(find < path.length())
+	if (find < path.length())
 	{
 		return path.substr(0, find);
 	}
@@ -743,10 +743,10 @@ void ListDirectory(const std::wstring &basePath, const std::wstring &path, std::
 		return;
 	do
 	{
-		if(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
 			std::wstring name = findFileData.cFileName;
-			if(name != L"." && name != L"..")
+			if (name != L"." && name != L"..")
 				ListDirectory(basePath, path + findFileData.cFileName + _T("\\"), files);
 		}
 		else
@@ -786,7 +786,7 @@ time_t GetNextExportTime(TaskOptions& to)
 		t.tm_min = to.dayTime%60;
 		t.tm_sec = 0;
 		time_t newTime = mktime(&t);
-		if(newTime <= to.lastExport)
+		if (newTime <= to.lastExport)
 		{
 			newTime += 60 * 60 * 24;
 		}
@@ -809,7 +809,7 @@ time_t GetNextExportTime(TaskOptions& to)
 			newTime = mktime(&t);
 		}
 
-		if(newTime <= to.lastExport)
+		if (newTime <= to.lastExport)
 		{
 			newTime += 7 * 60 * 60 * 24;
 		}
@@ -832,10 +832,10 @@ time_t GetNextExportTime(TaskOptions& to)
 			newTime += 60 * 60 * 24;
 			localtime_s(&t, &newTime);
 			newTime = mktime(&t);
-			if(to.dayOfMonth > 28 && t.tm_mon != lastM && (newTime - 60 * 60 * 24) > to.lastExport)
+			if (to.dayOfMonth > 28 && t.tm_mon != lastM && (newTime - 60 * 60 * 24) > to.lastExport)
 			{
 				lastM = t.tm_mon;
-				if(to.dayOfMonth > lastD)
+				if (to.dayOfMonth > lastD)
 				{
 					newTime -= 60 * 60 * 24;
 					break;
@@ -856,7 +856,7 @@ time_t GetNextExportTime(TaskOptions& to)
 
 void SchedulerThreadFunc(void*)
 {
-	if(initTask)
+	if (initTask)
 	{
 		WaitForSingleObject(hThreadEvent, 5 * 1000);
 		initTask = false; 
@@ -866,7 +866,7 @@ void SchedulerThreadFunc(void*)
 		DWORD timeWait;
 		time_t now = time(NULL);
 		while(nextExportTime <= now)
-			if(!ExecuteCurrentTask(now))
+			if (!ExecuteCurrentTask(now))
 				return;
 
 		time_t dif = nextExportTime - now;
@@ -882,7 +882,7 @@ void StartThread(bool init)
 	
 	initTask = false;
 	bool isExport = GetNextExportTime(init, time(NULL));
-	if(isExport) {
+	if (isExport) {
 		finishThread = false;
 		hThreadEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 		hThread = mir_forkthread(SchedulerThreadFunc, NULL);
@@ -891,7 +891,7 @@ void StartThread(bool init)
 
 void StopThread()
 {
-	if(hThread == NULL)
+	if (hThread == NULL)
 		return;
 
 	finishThread = true;
@@ -908,19 +908,19 @@ bool GetNextExportTime(bool init, time_t now)
 	bool isExport = false;
 	for(std::vector<TaskOptions>::iterator it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it)
 	{
-		if(it->forceExecute)
+		if (it->forceExecute)
 		{
 			nextExportTime = now;
 			isExport = true;
 			initTask = init;
 			break;
 		}
-		else if(it->active && it->trigerType != TaskOptions::AtStart && it->trigerType != TaskOptions::AtEnd)
+		else if (it->active && it->trigerType != TaskOptions::AtStart && it->trigerType != TaskOptions::AtEnd)
 		{
 			time_t t = GetNextExportTime(*it);
-			if(isExport)
+			if (isExport)
 			{
-				if(t < nextExportTime)
+				if (t < nextExportTime)
 					nextExportTime = t;
 			}
 			else
@@ -930,7 +930,7 @@ bool GetNextExportTime(bool init, time_t now)
 				initTask = init;
 			}
 		}
-		else if(it->active && it->trigerType == TaskOptions::AtStart && init)
+		else if (it->active && it->trigerType == TaskOptions::AtStart && init)
 		{
 			it->forceExecute = true;
 			it->showMBAfterExecute = false;
@@ -958,7 +958,7 @@ bool ExecuteCurrentTask(time_t now)
 	bool isExport = false;
 	for(std::vector<TaskOptions>::iterator it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it)
 	{
-		if(it->forceExecute)
+		if (it->forceExecute)
 		{
 			it->lastExport = time(NULL);
 			Options::instance->SaveTaskTime(*it);
@@ -966,10 +966,10 @@ bool ExecuteCurrentTask(time_t now)
 			isExport = true;
 			break;
 		}
-		else if(it->active && it->trigerType != TaskOptions::AtStart && it->trigerType != TaskOptions::AtEnd)
+		else if (it->active && it->trigerType != TaskOptions::AtStart && it->trigerType != TaskOptions::AtEnd)
 		{
 			time_t t = GetNextExportTime(*it);
-			if(t <= now)
+			if (t <= now)
 			{
 				it->lastExport = time(NULL);
 				Options::instance->SaveTaskTime(*it);
@@ -982,15 +982,15 @@ bool ExecuteCurrentTask(time_t now)
 
 	LeaveCriticalSection(&Options::instance->criticalSection);
 	
-	if(isExport)
+	if (isExport)
 	{
 		bool error = DoTask(to);
-		if(to.forceExecute)
+		if (to.forceExecute)
 		{
 			EnterCriticalSection(&Options::instance->criticalSection);
 			for(std::vector<TaskOptions>::iterator it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it)
 			{
-				if(it->taskName == to.taskName)
+				if (it->taskName == to.taskName)
 				{
 					it->forceExecute = false;
 					it->showMBAfterExecute = false;
@@ -1000,11 +1000,11 @@ bool ExecuteCurrentTask(time_t now)
 
 			LeaveCriticalSection(&Options::instance->criticalSection);
 
-			if(to.showMBAfterExecute)
+			if (to.showMBAfterExecute)
 			{
 				size_t size = to.taskName.size() + 1024;
 				TCHAR* name = new TCHAR[size];
-				if(error)
+				if (error)
 				{
 					mir_sntprintf(name, size, TranslateT("Task '%s' execution failed"), to.taskName.c_str());
 				}
@@ -1043,12 +1043,12 @@ bool GetFileCrc(const TCHAR* filenameinzip, unsigned char* buf, unsigned long si
 	unsigned long calculate_crc = 0;
 	bool error = true;
 	HANDLE hFile = CreateFile(filenameinzip, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-	if(hFile != INVALID_HANDLE_VALUE)
+	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		DWORD readed;
 		do
 		{
-			if(!ReadFile(hFile, buf, 1024, &readed, NULL))
+			if (!ReadFile(hFile, buf, 1024, &readed, NULL))
 			{
 				error = false;
 				break;
@@ -1077,7 +1077,7 @@ bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::stri
 	std::map<std::wstring, bool> existingContacts;
 	ListDirectory(dir, L"", files);
 	bool error = false;
-	if(files.size() > 0)
+	if (files.size() > 0)
 	{
 		zlib_filefunc_def pzlib_filefunc_def;
 		fill_win32_filefunc(&pzlib_filefunc_def);
@@ -1094,7 +1094,7 @@ bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::stri
 				std::wstring localDir = dir + L"\\" + zipDir;
 				zip_fileinfo zi = {0};	
 				GetZipFileTime(localDir.c_str(), &zi.dosDate);
-				if(zipDir.size() > MAX_PATH + 19)
+				if (zipDir.size() > MAX_PATH + 19)
 				{
 					error = true;
 					break;
@@ -1103,7 +1103,7 @@ bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::stri
 				BOOL badChar;
 				WideCharToMultiByte(CP_OEMCP, WC_NO_BEST_FIT_CHARS, zipDir.c_str(), -1, bufF, MAX_PATH + 20, NULL, &badChar);
 				int flag = 0;
-				if(badChar)
+				if (badChar)
 				{
 					flag = 0x800; // UTF
 					WideCharToMultiByte(CP_UTF8, 0, zipDir.c_str(), -1, bufF, MAX_PATH + 20, NULL, NULL);
@@ -1111,9 +1111,9 @@ bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::stri
 
 				unsigned long calculate_crc = 0;
 				const char* passwordCh = NULL;
-				if(password.size() > 0)
+				if (password.size() > 0)
 				{
-					if(!GetFileCrc(localDir.c_str(), buf, 1024, &calculate_crc))
+					if (!GetFileCrc(localDir.c_str(), buf, 1024, &calculate_crc))
 					{
 						error = true;
 						break;
@@ -1127,13 +1127,13 @@ bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::stri
 				if (err == ZIP_OK)
 				{
 					HANDLE hFile = CreateFile(localDir.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-					if(hFile != INVALID_HANDLE_VALUE)
+					if (hFile != INVALID_HANDLE_VALUE)
 					{
 						DWORD readed;
 						do
 						{
 							err = ZIP_OK;
-							if(!ReadFile(hFile, buf, 1024, &readed, NULL))
+							if (!ReadFile(hFile, buf, 1024, &readed, NULL))
 							{
 								error = true;
 								break;
@@ -1148,7 +1148,7 @@ bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::stri
 						CloseHandle(hFile);
 					}
 						
-					if(zipCloseFileInZip(zf) != ZIP_OK)
+					if (zipCloseFileInZip(zf) != ZIP_OK)
 					{
 						error = true;
 						break;
@@ -1197,7 +1197,7 @@ bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::s
 			if (err == UNZ_OK)
 			{
 				UINT cp = CP_OEMCP;
-				if(file_info.flag & 0x800)// UTF
+				if (file_info.flag & 0x800)// UTF
 				{
 					cp = CP_UTF8;
 				}
@@ -1242,7 +1242,7 @@ bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::s
 				else
 				{
 					const char* passwordCh = NULL;
-					if(password.size() > 0)
+					if (password.size() > 0)
 					{
 						passwordCh = password.c_str();
 					}
@@ -1252,7 +1252,7 @@ bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::s
 					{
 						CreatePath(GetDirectoryName(fileNameInZip).c_str());
 						HANDLE hFile = CreateFile(fileNameInZip.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, 0, NULL);
-						if(hFile != INVALID_HANDLE_VALUE)
+						if (hFile != INVALID_HANDLE_VALUE)
 						{
 							DWORD writed;
 							for (;;)
@@ -1268,7 +1268,7 @@ bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::s
 							}
 
 							CloseHandle(hFile);
-							if(err < 0)
+							if (err < 0)
 							{
 								error = true;
 								break;
@@ -1281,7 +1281,7 @@ bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::s
 							break;
 						}
 						
-						if(unzCloseCurrentFile(zf) != ZIP_OK)
+						if (unzCloseCurrentFile(zf) != ZIP_OK)
 						{
 							error = true;
 							break;
@@ -1317,10 +1317,10 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 	std::list<std::wstring> files;
 	std::map<std::wstring, bool> existingContacts;
 	ListDirectory(dir, L"\\", files);
-	if(files.size() > 0)
+	if (files.size() > 0)
 	{
 		std::wofstream stream ((dir + _T("\\script.sc")).c_str());
-		if(stream.is_open())
+		if (stream.is_open())
 		{
 			std::wstring ftpDir = GetDirectoryName(filePath);
 			ftpDir = GetFileName(ftpDir, L"", existingContacts, false);
@@ -1332,9 +1332,9 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 			{
 				std::wstring localDir = *files.begin();
 				std::wstring currentCD = ftpDir + GetDirectoryName(ReplaceStr(localDir, L'\\', L'/'));
-				if(currentCD != lastCD)
+				if (currentCD != lastCD)
 				{
-					if(!currentCD.empty() && currentCD != L"/")
+					if (!currentCD.empty() && currentCD != L"/")
 						stream << "mkdir \"" << currentCD << "\"\n";
 					stream << "cd \"" << currentCD << "\"\n";
 					lastCD = currentCD;
@@ -1356,18 +1356,18 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 			STARTUPINFO				startupInfo = {0};
 			PROCESS_INFORMATION		processInfo;
 			startupInfo.cb			= sizeof(STARTUPINFO);
-			if(CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, dir.c_str(), &startupInfo, &processInfo))
+			if (CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, dir.c_str(), &startupInfo, &processInfo))
 			{
 				WaitForSingleObject(processInfo.hProcess, INFINITE);
 				CloseHandle(processInfo.hThread);
 				CloseHandle(processInfo.hProcess);
-				if(log.empty())
+				if (log.empty())
 				{
 					return false;
 				}
 				
 				std::wifstream logStream (log.c_str());
-				if(logStream.is_open())
+				if (logStream.is_open())
 				{
 					bool isInMDTM = false;
 					std::list<std::wstring> dates;
@@ -1375,34 +1375,34 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 					{
 						std::wstring lineStr;
 						std::getline(logStream, lineStr);
-						if(lineStr.length() > 1)
+						if (lineStr.length() > 1)
 						{
-							if(lineStr[0] == L'>')
+							if (lineStr[0] == L'>')
 							{
-								if(isInMDTM)
+								if (isInMDTM)
 								{
-									if(lineStr.find(L"Script:") < lineStr.length())
+									if (lineStr.find(L"Script:") < lineStr.length())
 									{
 										dates.push_back(L"");
 										isInMDTM = false;
 									}
 								}
 
-								if(lineStr.find(L"Script: call MDTM") < lineStr.length())
+								if (lineStr.find(L"Script: call MDTM") < lineStr.length())
 								{
 									isInMDTM = true;
 								}
 							}
-							else if(isInMDTM && lineStr[0] == L'<')
+							else if (isInMDTM && lineStr[0] == L'<')
 							{
 								size_t ss = lineStr.find(L"Script: 213 ");
-								if(ss < lineStr.length())
+								if (ss < lineStr.length())
 								{
 									ss += 12;
-									if(ss < lineStr.length())
+									if (ss < lineStr.length())
 									{
 										lineStr = lineStr.substr(ss);
-										if(lineStr.size() == 14)
+										if (lineStr.size() == 14)
 										{
 											dates.push_back(lineStr);
 											isInMDTM = false;
@@ -1413,12 +1413,12 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 						}
 					}
 
-					if(dates.size() > 0 && dates.size() == filSize * 2)
+					if (dates.size() > 0 && dates.size() == filSize * 2)
 					{
 						for(std::list<std::wstring>::const_iterator it = dates.begin(); it != dates.end(); ++it)
 						{
 							std::wstring date1 = *it++;
-							if(it->empty() || date1 == *it)
+							if (it->empty() || date1 == *it)
 								return true;
 
 						}
@@ -1438,7 +1438,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 	std::map<std::wstring, bool> existingContacts;
 	std::wstring script = dir + _T("\\script.sc");
 	std::wofstream stream (script.c_str());
-	if(stream.is_open())
+	if (stream.is_open())
 	{
 		stream << "option batch continue\noption confirm off\nopen \""
 			<< ftpName << "\"\noption transfer binary\n";
@@ -1449,7 +1449,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 			std::wstring fileName = GetName(*it);
 			localFiles.push_back(dir + L"\\" + fileName);
 			std::wstring currentCD = GetDirectoryName(*it);
-			if(currentCD != lastCD)
+			if (currentCD != lastCD)
 			{
 				stream << "cd \"" << currentCD << "\"\n";
 				lastCD = currentCD;
@@ -1467,7 +1467,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 		STARTUPINFO				startupInfo = {0};
 		PROCESS_INFORMATION		processInfo;
 		startupInfo.cb			= sizeof(STARTUPINFO);
-		if(CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, dir.c_str(), &startupInfo, &processInfo))
+		if (CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, dir.c_str(), &startupInfo, &processInfo))
 		{
 			WaitForSingleObject(processInfo.hProcess, INFINITE);
 			CloseHandle(processInfo.hThread);
@@ -1478,7 +1478,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 		for(std::list<std::wstring>::const_iterator it = localFiles.begin(); it != localFiles.end(); ++it)
 		{
 			DWORD atr = GetFileAttributes(it->c_str());
-			if(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY)
+			if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY)
 			{
 				return true;
 			}
@@ -1516,7 +1516,7 @@ INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam)
 {
 	EnterCriticalSection(&Options::instance->criticalSection);
 	int taskNr = (int)wParam;
-	if(taskNr < 0 || taskNr >= (int)Options::instance->taskOptions.size())
+	if (taskNr < 0 || taskNr >= (int)Options::instance->taskOptions.size())
 	{
 		LeaveCriticalSection(&Options::instance->criticalSection);
 		return FALSE;
@@ -1533,7 +1533,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 {
 	TCHAR msg[256];
 	mir_sntprintf(msg, SIZEOF(msg), TranslateT("Task '%s' execution failed:"), to.taskName.c_str());
-	if(Options::instance->schedulerHistoryAlerts)
+	if (Options::instance->schedulerHistoryAlerts)
 	{
 		std::wstring error = msg;
 		error += L"\n";
@@ -1554,10 +1554,10 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 	}
 
 	
-	if(Options::instance->schedulerAlerts)
+	if (Options::instance->schedulerAlerts)
 	{
-		if(CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
-		if(ServiceExists(MS_POPUP_ADDPOPUPCLASS))
+		if (CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
+		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
 		{
 			ShowClassPopupT(MODULE, msg, (wchar_t*)_error.c_str());
 		} 

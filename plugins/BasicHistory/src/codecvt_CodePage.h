@@ -53,9 +53,9 @@ protected:
 		_Mid2 = _First2;
 
 		int conv = WideCharToMultiByte(codePage, 0, _First1, _Last1 - _First1, _First2, _Last2 - _First2, NULL, NULL);
-		if(conv == 0)
+		if (conv == 0)
 		{
-			if(GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+			if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
 				return (_Mybase::partial);
 			else
 				return (_Mybase::error);

@@ -119,9 +119,9 @@ void InitMenuItems()
 
 void InitTaskMenuItems()
 {
-	if(Options::instance->taskOptions.size() > 0) {
+	if (Options::instance->taskOptions.size() > 0) {
 		CLISTMENUITEM mi = { sizeof(mi) };
-		if(hTaskMainMenu == NULL) {
+		if (hTaskMainMenu == NULL) {
 			mi.position = 500060005;
 			mi.flags = CMIF_ROOTPOPUP;
 			mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
@@ -164,7 +164,7 @@ void InitTaskMenuItems()
 			taskMenus.push_back(menu);
 		}
 	}
-	else if(hTaskMainMenu != NULL)
+	else if (hTaskMainMenu != NULL)
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_HIDDEN;
@@ -223,18 +223,18 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	InitMenuItems();
 	
 	TCHAR ftpExe[MAX_PATH];
-	if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
+	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
 	{
 		_tcscat_s(ftpExe, _T("\\WinSCP\\WinSCP.exe"));
 		DWORD atr = GetFileAttributes(ftpExe);
-		if(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY)
+		if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY)
 		{
 #ifdef _WIN64
-			if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
+			if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
 			{
 				_tcscat_s(ftpExe, _T("\\WinSCP\\WinSCP.exe"));
 				atr = GetFileAttributes(ftpExe);
-				if(!(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY))
+				if (!(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY))
 				{
 					Options::instance->ftpExePathDef = ftpExe;
 				}
@@ -310,14 +310,14 @@ extern "C" int __declspec(dllexport) Unload(void)
 	
 	EventList::Deinit();
 	
-	if(Options::instance != NULL)
+	if (Options::instance != NULL)
 	{
 		Options::instance->Unload();
 		delete Options::instance;
 		Options::instance = NULL;
 	}
 
-	if(hEventIcons != NULL)
+	if (hEventIcons != NULL)
 	{
 		delete [] hEventIcons;
 	}

@@ -27,7 +27,7 @@ static LRESULT CALLBACK HotkeySubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 {
 	switch (msg) {
 	case WM_NCPAINT:
-		if(Options::instance->noFindBorder && GetDlgCtrlID(hwnd) == IDC_FIND_TEXT)
+		if (Options::instance->noFindBorder && GetDlgCtrlID(hwnd) == IDC_FIND_TEXT)
 			return 0;
 		break;
 	case WM_CHAR:
@@ -35,12 +35,12 @@ static LRESULT CALLBACK HotkeySubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case WM_UNICHAR:
 	case WM_DEADCHAR:
 	case WM_SYSDEADCHAR:
-		if(isPresed)
+		if (isPresed)
 			return 0;
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		if(isPresed)
+		if (isPresed)
 		{
 			isPresed = false;
 			return 0;
@@ -58,7 +58,7 @@ static LRESULT CALLBACK HotkeySubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			filter.nmhdr.hwndFrom = hwnd;
 			filter.nmhdr.code = EN_MSGFILTER;
 			filter.nmhdr.idFrom = GetDlgCtrlID(hwnd);
-			if(SendMessage(hwndParent, WM_NOTIFY, NULL, (LPARAM)&filter))
+			if (SendMessage(hwndParent, WM_NOTIFY, NULL, (LPARAM)&filter))
 			{
 				isPresed = true;
 				return 0;

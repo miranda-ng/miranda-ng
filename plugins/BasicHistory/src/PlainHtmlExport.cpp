@@ -52,7 +52,7 @@ void PlainHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstri
 	EXP_FILE << _T(".mes#session { background-color: #FFFDD7; }\n");
 	EXP_FILE << _T("--></style>\n</head><body>\n<h4>") << TranslateT("History Log") << _T("</h4>\n<h3>");
 	EXP_FILE << MakeTextHtmled(myName);
-	if(proto1.length() || myId.length())
+	if (proto1.length() || myId.length())
 	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(myId) << _T(") - ");
 	}
@@ -62,7 +62,7 @@ void PlainHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstri
 	}
 
 	EXP_FILE << MakeTextHtmled(name1);
-	if(proto1.length() || id1.length())
+	if (proto1.length() || id1.length())
 	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(id1) << _T(")</h3>\n");
 	}
@@ -94,7 +94,7 @@ void PlainHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, cons
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));
 	bool isUrl = false;
 	std::wstring& mes = UrlHighlightHtml(MakeTextHtmled(message), isUrl);
-	if(isUrl)
+	if (isUrl)
 		ev = _T("2");
 	EXP_FILE << _T("<div class=mes id=event") << ev << _T(">\n");
 	EXP_FILE << _T("<div class=nick id=") << id << _T(">") << MakeTextHtmled(user) << _T(":</div>\n");

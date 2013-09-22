@@ -68,25 +68,25 @@ bool BinaryExport::ReadString(std::wstring &str)
 	while(1)
 	{
 		buf.resize(size);
-		if(IMP_FILE.peek() == 0)
+		if (IMP_FILE.peek() == 0)
 		{
 			IMP_FILE.get();
 			break;
 		}
 
 		IMP_FILE.get(((char*)buf.c_str()) + pos, size - pos, 0);
-		if(!IMP_FILE.good())
+		if (!IMP_FILE.good())
 			return false;
 
 		int readed = IMP_FILE.gcount();
 		totalSize += readed;
 		char end;
 		IMP_FILE.get(end);
-		if(!IMP_FILE.good())
+		if (!IMP_FILE.good())
 			return false;
-		if(end == 0)
+		if (end == 0)
 			break;
-		if(size - pos - 1 != readed)
+		if (size - pos - 1 != readed)
 			return false;
 		buf[size - 1] = end;
 		++totalSize;
@@ -94,7 +94,7 @@ bool BinaryExport::ReadString(std::wstring &str)
 		pos += 1024;
 	}
 
-	if(totalSize == 0)
+	if (totalSize == 0)
 		return true;
 	int sizeW = MultiByteToWideChar(codepage, 0, (char*)buf.c_str(), totalSize, NULL, 0);
 	str.resize(sizeW);
@@ -133,7 +133,7 @@ void BinaryExport::WriteGroup(bool isMe, const std::wstring &time, const std::ws
 
 void BinaryExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei)
 {
-	if(dbei.timestamp >= lTime)
+	if (dbei.timestamp >= lTime)
 	{
 		BinaryFileMessageHeader header;
 		header.eventType = dbei.eventType;
@@ -148,11 +148,11 @@ void BinaryExport::WriteMessage(bool isMe, const std::wstring &longDate, const s
 bool ReadHeader(BinaryFileHeader& header, std::istream* stream)
 {
 	stream->read((char*)&header, sizeof(BinaryFileHeader));
-	if(!stream->good())
+	if (!stream->good())
 		return false;
-	if(memcmp(header.signature, "BHBF", 4) != 0)
+	if (memcmp(header.signature, "BHBF", 4) != 0)
 		return false;
-	if(header.version != 0 || header.codepage == 12000 || header.codepage == 12001)
+	if (header.version != 0 || header.codepage == 12000 || header.codepage == 12001)
 		return false;
 
 	return true;
@@ -161,7 +161,7 @@ bool ReadHeader(BinaryFileHeader& header, std::istream* stream)
 int BinaryExport::IsContactInFile(const std::vector<HANDLE>& contacts)
 {
 	BinaryFileHeader header;
-	if(!ReadHeader(header, IImport::stream))
+	if (!ReadHeader(header, IImport::stream))
 		return -2;
 	codepage = header.codepage;
 	std::wstring filterName;
@@ -170,21 +170,21 @@ int BinaryExport::IsContactInFile(const std::vector<HANDLE>& contacts)
 	std::wstring name1;
 	std::wstring proto1;
 	std::wstring id1;
-	if(!ReadString(filterName))
+	if (!ReadString(filterName))
 		return -2;
-	if(!ReadString(myName))
+	if (!ReadString(myName))
 		return -2;
-	if(!ReadString(myId))
+	if (!ReadString(myId))
 		return -2;
-	if(!ReadString(name1))
+	if (!ReadString(name1))
 		return -2;
-	if(!ReadString(proto1))
+	if (!ReadString(proto1))
 		return -2;
-	if(!ReadString(id1))
+	if (!ReadString(id1))
 		return -2;
 
 	size_t pos = IMP_FILE.tellg();
-	if(header.dataStart < pos)
+	if (header.dataStart < pos)
 		return -2;
 	
 	IMP_FILE.seekg(0, std::ios_base::beg);
@@ -192,7 +192,7 @@ int BinaryExport::IsContactInFile(const std::vector<HANDLE>& contacts)
 	{
 		std::wstring pn = GetProtocolName(contacts[i]);
 		std::wstring id = GetContactId(contacts[i]);
-		if(pn == proto1 && id == id1)
+		if (pn == proto1 && id == id1)
 		{
 			return i;
 		}
@@ -204,7 +204,7 @@ int BinaryExport::IsContactInFile(const std::vector<HANDLE>& contacts)
 bool BinaryExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 {
 	BinaryFileHeader header;
-	if(!ReadHeader(header, IImport::stream))
+	if (!ReadHeader(header, IImport::stream))
 		return false;
 	codepage = header.codepage;
 	IMP_FILE.seekg(header.dataStart, std::ios_base::beg);
@@ -212,16 +212,16 @@ bool BinaryExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList
 	while(1)
 	{
 		IMP_FILE.read((char*)&messageHeader, sizeof(BinaryFileMessageHeader));
-		if(IMP_FILE.eof())
+		if (IMP_FILE.eof())
 			break;
-		if(!IMP_FILE.good())
+		if (!IMP_FILE.good())
 			return false;
 
 		IImport::ExternalMessage exMsg;
 		exMsg.eventType = messageHeader.eventType;
 		exMsg.flags = messageHeader.flags;
 		exMsg.timestamp = messageHeader.timestamp;
-		if(!ReadString(exMsg.message))
+		if (!ReadString(exMsg.message))
 			return false;
 		
 		eventList.push_back(exMsg);

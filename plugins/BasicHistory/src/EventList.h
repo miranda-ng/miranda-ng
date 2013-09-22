@@ -95,7 +95,7 @@ protected:
 	bool GetEventIcon(bool isMe, int eventType, int &id);
 	void DeleteEvent(const EventIndex& ev)
 	{
-		if(!ev.isExternal)
+		if (!ev.isExternal)
 			db_event_delete(hContact, ev.hEvent);
 	}
 
@@ -134,19 +134,19 @@ public:
 	HICON GetEventCoreIcon(const EventIndex& ev);
 	void GetEventMessage(const EventIndex& ev, TCHAR* message) // must be allocated with MAXSELECTSTR len
 	{
-		if(!ev.isExternal)
+		if (!ev.isExternal)
 			GetObjectDescription(&gdbei, message, MAXSELECTSTR);
 		else
 			_tcscpy_s(message, MAXSELECTSTR,  importedMessages[ev.exIdx].message.c_str());
 	}
 	void GetEventMessage(const EventIndex& ev, TCHAR* message, int strLen)
 	{
-		if(!ev.isExternal)
+		if (!ev.isExternal)
 			GetObjectDescription(&gdbei, message, strLen);
 		else
 		{
 			std::wstring& meg = importedMessages[ev.exIdx].message;
-			if((int)meg.size() >= strLen)
+			if ((int)meg.size() >= strLen)
 			{
 				memcpy_s(message, strLen * sizeof(TCHAR), meg.c_str(), (strLen - 1) * sizeof(TCHAR));
 				message[strLen - 1] = 0;

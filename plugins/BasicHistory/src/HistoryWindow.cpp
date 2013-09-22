@@ -78,37 +78,37 @@ HistoryWindow::HistoryWindow(HANDLE _hContact) :
 
 HistoryWindow::~HistoryWindow()
 {
-	if(eventIcons != NULL)
+	if (eventIcons != NULL)
 	{
 		for(int i = 0; i < iconsNum; ++i)
-			if(eventIcons[i] != NULL)
+			if (eventIcons[i] != NULL)
 				Skin_ReleaseIcon(eventIcons[i]);
 
 		delete[] eventIcons;
 	}
 
-	if(plusIco != NULL)
+	if (plusIco != NULL)
 		Skin_ReleaseIcon(plusIco);
 
-	if(minusIco != NULL)
+	if (minusIco != NULL)
 		Skin_ReleaseIcon(minusIco);
 
-	if(findNextIco != NULL)
+	if (findNextIco != NULL)
 		Skin_ReleaseIcon(findNextIco);
 
-	if(findPrevIco != NULL)
+	if (findPrevIco != NULL)
 		Skin_ReleaseIcon(findPrevIco);
 
-	if(himlSmall != NULL)
+	if (himlSmall != NULL)
 		ImageList_Destroy(himlSmall);
 
-	if(himlNone != NULL)
+	if (himlNone != NULL)
 		ImageList_Destroy(himlNone);
 
-	if(bkBrush != NULL)
+	if (bkBrush != NULL)
 		DeleteObject(bkBrush);
 
-	if(bkFindBrush != NULL)
+	if (bkFindBrush != NULL)
 		DeleteObject(bkFindBrush);
 }
 
@@ -121,7 +121,7 @@ void HistoryWindow::Deinit()
 	std::vector<HANDLE> keys;
 	for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
-		if(!it->second->isDestroyed)
+		if (!it->second->isDestroyed)
 		{
 			keys.push_back(it->first);
 		}
@@ -129,7 +129,7 @@ void HistoryWindow::Deinit()
 	for(std::vector<HANDLE>::iterator it = keys.begin(); it != keys.end(); ++it)
 	{
 		std::map<HANDLE, HistoryWindow*>::iterator it1 = windows.find(*it);
-		if(it1 != windows.end())
+		if (it1 != windows.end())
 		{
 			DestroyWindow(it1->second->hWnd);
 			it1 = windows.find(*it);
@@ -140,7 +140,7 @@ void HistoryWindow::Deinit()
 	std::vector<HistoryWindow*> keys1;
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
 			keys1.push_back(*it);
 		}
@@ -151,14 +151,14 @@ void HistoryWindow::Deinit()
 	}
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
 			destroyed = false;
 			break;
 		}
 	}
 
-	if(destroyed)
+	if (destroyed)
 	{
 		for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 		{
@@ -178,7 +178,7 @@ void HistoryWindow::Deinit()
 
 void HistoryWindow::Open(HANDLE hContact)
 {
-	if(hContact == NULL)
+	if (hContact == NULL)
 	{
 		HistoryWindow *hw = new HistoryWindow(hContact);
 		freeWindows.push_back(hw);
@@ -187,7 +187,7 @@ void HistoryWindow::Open(HANDLE hContact)
 	else
 	{
 		std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(hContact);
-		if(it != windows.end())
+		if (it != windows.end())
 		{
 			it->second->Focus();
 		}
@@ -202,9 +202,9 @@ void HistoryWindow::Open(HANDLE hContact)
 void HistoryWindow::Close(HANDLE hContact)
 {
 	std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(hContact);
-	if(it != windows.end())
+	if (it != windows.end())
 	{
-		if(it->second->isDestroyed)
+		if (it->second->isDestroyed)
 		{
 			delete it->second;
 			windows.erase(it);
@@ -218,13 +218,13 @@ void HistoryWindow::Close(HANDLE hContact)
 
 void  HistoryWindow::Close(HistoryWindow* historyWindow)
 {
-	if(!historyWindow->isDestroyed)
+	if (!historyWindow->isDestroyed)
 	{
 		DestroyWindow(historyWindow->hWnd);
 		return;
 	}
 	std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(historyWindow->hContact);
-	if(it != windows.end() && it->second == historyWindow)
+	if (it != windows.end() && it->second == historyWindow)
 	{
 		delete it->second;
 		windows.erase(it);
@@ -233,7 +233,7 @@ void  HistoryWindow::Close(HistoryWindow* historyWindow)
 	{
 		for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 		{
-			if(*it == historyWindow)
+			if (*it == historyWindow)
 			{
 				freeWindows.erase(it);
 				delete historyWindow;
@@ -245,10 +245,10 @@ void  HistoryWindow::Close(HistoryWindow* historyWindow)
 
 void HistoryWindow::RebuildEvents(HANDLE hContact)
 {
-	if(hContact != NULL)
+	if (hContact != NULL)
 	{
 		std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(hContact);
-		if(it != windows.end() && !it->second->isDestroyed)
+		if (it != windows.end() && !it->second->isDestroyed)
 		{
 			SendMessage(it->second->hWnd,DM_HREBUILD,0,0);
 		}
@@ -256,7 +256,7 @@ void HistoryWindow::RebuildEvents(HANDLE hContact)
 	
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if((*it)->hContact == hContact && !(*it)->isDestroyed)
+		if ((*it)->hContact == hContact && !(*it)->isDestroyed)
 		{
 			SendMessage((*it)->hWnd,DM_HREBUILD,0,0);
 		}
@@ -266,7 +266,7 @@ void HistoryWindow::RebuildEvents(HANDLE hContact)
 void HistoryWindow::ChangeToFreeWindow(HistoryWindow* historyWindow)
 {
 	std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(historyWindow->hContact);
-	if(it != windows.end() && it->second == historyWindow)
+	if (it != windows.end() && it->second == historyWindow)
 	{
 		windows.erase(it);
 		freeWindows.push_back(historyWindow);
@@ -280,7 +280,7 @@ void HistoryWindow::Show()
 
 void HistoryWindow::Focus()
 {
-	if(IsIconic(hWnd))
+	if (IsIconic(hWnd))
 	{
 		ShowWindow(hWnd, SW_RESTORE);
 	}
@@ -296,7 +296,7 @@ int HistoryWindow::FontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
-		if(!it->second->isDestroyed)
+		if (!it->second->isDestroyed)
 		{
 			it->second->FontsChanged();
 		}
@@ -304,7 +304,7 @@ int HistoryWindow::FontsChanged(WPARAM wParam, LPARAM lParam)
 
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
 			(*it)->FontsChanged();
 		}
@@ -315,11 +315,11 @@ int HistoryWindow::FontsChanged(WPARAM wParam, LPARAM lParam)
 
 void HistoryWindow::FontsChanged()
 {
-	if(bkBrush != NULL)
+	if (bkBrush != NULL)
 	{
 		DeleteObject(bkBrush);
 	}
-	if(bkFindBrush != NULL)
+	if (bkFindBrush != NULL)
 	{
 		DeleteObject(bkFindBrush);
 	}
@@ -347,7 +347,7 @@ void HistoryWindow::OptionsGroupChanged()
 {
 	for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
-		if(!it->second->isDestroyed)
+		if (!it->second->isDestroyed)
 		{
 			it->second->GroupImagesChanged();
 			SendMessage(it->second->hWnd,DM_HREBUILD,0,0);
@@ -356,7 +356,7 @@ void HistoryWindow::OptionsGroupChanged()
 
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
 			(*it)->GroupImagesChanged();
 			SendMessage((*it)->hWnd,DM_HREBUILD,0,0);
@@ -373,7 +373,7 @@ void HistoryWindow::OptionsMainChanged()
 {
 	for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
-		if(!it->second->isDestroyed)
+		if (!it->second->isDestroyed)
 		{
 			it->second->ReloadMainOptions();
 		}
@@ -381,7 +381,7 @@ void HistoryWindow::OptionsMainChanged()
 
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
 			(*it)->ReloadMainOptions();
 		}
@@ -408,7 +408,7 @@ void HistoryWindow::OptionsSearchingChanged()
 {
 	for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
-		if(!it->second->isDestroyed)
+		if (!it->second->isDestroyed)
 		{
 			it->second->searcher.SetSearchForInLG(Options::instance->searchForInList);
 			it->second->searcher.SetSearchForInMes(Options::instance->searchForInMess);
@@ -417,7 +417,7 @@ void HistoryWindow::OptionsSearchingChanged()
 
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
 			(*it)->searcher.SetSearchForInLG(Options::instance->searchForInList);
 			(*it)->searcher.SetSearchForInMes(Options::instance->searchForInMess);
@@ -432,20 +432,20 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM lParam)
 	int start = 0;
 	int end = 0;
 	int count = EventList::GetContactMessageNumber(hContact);
-	if(!count)
+	if (!count)
 		return FALSE;
 	
 	for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
-		if(!it->second->isDestroyed)
+		if (!it->second->isDestroyed)
 		{
-			if(it->second->hContact == hContact)
+			if (it->second->hContact == hContact)
 			{
-				if(hWnd == NULL)
+				if (hWnd == NULL)
 				{
 					hWnd = it->second->hWnd;
 				}
-				else if(GetForegroundWindow() == it->second->hWnd)
+				else if (GetForegroundWindow() == it->second->hWnd)
 				{
 					hWnd = it->second->hWnd;
 				}
@@ -455,15 +455,15 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM lParam)
 
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
-			if((*it)->hContact == hContact)
+			if ((*it)->hContact == hContact)
 			{
-				if(hWnd == NULL)
+				if (hWnd == NULL)
 				{
 					hWnd = (*it)->hWnd;
 				}
-				else if(GetForegroundWindow() == (*it)->hWnd)
+				else if (GetForegroundWindow() == (*it)->hWnd)
 				{
 					hWnd = (*it)->hWnd;
 				}
@@ -472,7 +472,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM lParam)
 	}
 
 	TCHAR *message = TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?");
-	if(MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
+	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return FALSE;
 
 	std::deque<HANDLE> toRemove;
@@ -485,9 +485,9 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM lParam)
 	for(std::deque<HANDLE>::iterator it = toRemove.begin(); it != toRemove.end(); ++it)
 		db_event_delete(hContact, *it);
 
-	if(EventList::IsImportedHistory(hContact)) {
+	if (EventList::IsImportedHistory(hContact)) {
 		TCHAR *message = TranslateT("Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
-		if(MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
+		if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
 			EventList::DeleteImporter(hContact);
 	}
 		
@@ -499,9 +499,9 @@ bool HistoryWindow::IsInList(HWND hWnd)
 {
 	for(std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
-		if(!it->second->isDestroyed)
+		if (!it->second->isDestroyed)
 		{
-			if(it->second->hWnd == hWnd)
+			if (it->second->hWnd == hWnd)
 			{
 				return true;
 			}
@@ -510,9 +510,9 @@ bool HistoryWindow::IsInList(HWND hWnd)
 
 	for(std::vector<HistoryWindow*>::iterator it = freeWindows.begin(); it != freeWindows.end(); ++it)
 	{
-		if(!(*it)->isDestroyed)
+		if (!(*it)->isDestroyed)
 		{
-			if((*it)->hWnd == hWnd)
+			if ((*it)->hWnd == hWnd)
 			{
 				return true;
 			}
@@ -525,13 +525,13 @@ bool HistoryWindow::IsInList(HWND hWnd)
 void ClickLink(HWND hwnd, ENLINK *penLink)
 {
 	TCHAR buf[1024];
-	if(penLink->msg != WM_LBUTTONUP)
+	if (penLink->msg != WM_LBUTTONUP)
 		return;
-	if(penLink->chrg.cpMin >= 0 && penLink->chrg.cpMax > penLink->chrg.cpMin)
+	if (penLink->chrg.cpMin >= 0 && penLink->chrg.cpMax > penLink->chrg.cpMin)
 	{
 		// selection
 		int len = penLink->chrg.cpMax - penLink->chrg.cpMin;
-		if(len < 1023)
+		if (len < 1023)
 		{
 			TEXTRANGE tr;
 			CHARRANGE sel;
@@ -601,7 +601,7 @@ public:
 void __stdcall ShowMessageWindow(void* arg)
 {
 	ShowMessageData* dt = (ShowMessageData*)arg;
-	if(dt->str.empty())
+	if (dt->str.empty())
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)dt->hContact, 0);
 	else
 		CallService(MS_MSG_SENDMESSAGET, (WPARAM)dt->hContact, (LPARAM)dt->str.c_str());
@@ -659,7 +659,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 
 		case IDC_FIND_TEXT:
-			if(HIWORD(wParam) == EN_CHANGE)
+			if (HIWORD(wParam) == EN_CHANGE)
 			{
 				HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 				historyWindow->searcher.ClearFind();
@@ -669,10 +669,10 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 
 		case IDC_SHOWHIDE:
 			{
-				if(HIWORD( wParam ) == BN_CLICKED)
+				if (HIWORD( wParam ) == BN_CLICKED)
 				{
 					HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-					if(Button_GetCheck(GetDlgItem(hwndDlg,IDC_SHOWHIDE)) & BST_CHECKED)
+					if (Button_GetCheck(GetDlgItem(hwndDlg,IDC_SHOWHIDE)) & BST_CHECKED)
 					{
 						SendDlgItemMessage( hwndDlg, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)historyWindow->minusIco);
 						SendDlgItemMessage( hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Hide Contacts"), BATF_TCHAR);
@@ -704,23 +704,23 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			switch(pNmhdr->idFrom)
 			{
 				case IDC_LIST_CONTACTS:
-					if(pNmhdr->code == CLN_LISTREBUILT)
+					if (pNmhdr->code == CLN_LISTREBUILT)
 					{
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-						if(historyWindow != NULL)
+						if (historyWindow != NULL)
 						{
 							historyWindow->ReloadContacts();
 						}
 
 						DlgReturn(TRUE);
 					}
-					else if(pNmhdr->code == CLN_MYSELCHANGED)
+					else if (pNmhdr->code == CLN_MYSELCHANGED)
 					{
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-						if(historyWindow->ContactChanged())
+						if (historyWindow->ContactChanged())
 						{
 							MSGFILTER* msgFilter = (MSGFILTER *) lParam;
-							if(msgFilter->msg == WM_LBUTTONDOWN)
+							if (msgFilter->msg == WM_LBUTTONDOWN)
 							{
 								SendMessage(pNmhdr->hwndFrom, WM_LBUTTONUP, msgFilter->wParam, msgFilter->lParam);
 							}
@@ -728,7 +728,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 
 						DlgReturn(TRUE);
 					}
-					else if(pNmhdr->code == CLN_OPTIONSCHANGED)
+					else if (pNmhdr->code == CLN_OPTIONSCHANGED)
 					{
 						ResetCList(hwndDlg);
 						return FALSE;
@@ -744,18 +744,18 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						ClickLink(GetDlgItem(hwndDlg, IDC_EDIT), (ENLINK *) lParam);
 						return FALSE;
 					}
-					else if( pNmhdr->code == EN_SELCHANGE)
+					else if ( pNmhdr->code == EN_SELCHANGE)
 					{
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 						historyWindow->searcher.ClearFind();
 					}
-					else if(pNmhdr->code == EN_MSGFILTER)
+					else if (pNmhdr->code == EN_MSGFILTER)
 					{
 						MSGFILTER* msgFilter = (MSGFILTER *) lParam;
 						if (msgFilter->msg == WM_KEYDOWN || msgFilter->msg == WM_SYSKEYDOWN) 
 						{
 							HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-							if(historyWindow->DoHotkey(msgFilter->msg, msgFilter->lParam,  msgFilter->wParam, pNmhdr->idFrom))
+							if (historyWindow->DoHotkey(msgFilter->msg, msgFilter->lParam,  msgFilter->wParam, pNmhdr->idFrom))
 								DlgReturn(TRUE);
 						}
 						else if (msgFilter->msg == WM_RBUTTONDOWN || msgFilter->msg == WM_RBUTTONDBLCLK || msgFilter->msg == WM_NCRBUTTONUP || msgFilter->msg == WM_NCRBUTTONDBLCLK || msgFilter->msg == WM_NCRBUTTONDOWN) 
@@ -779,12 +779,12 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 							CHARRANGE chrg;
 							SendMessage(window,EM_EXGETSEL,0,(LPARAM)&chrg);
 							SendMessage(window,EM_GETSCROLLPOS,0,(LPARAM)&scrool);
-							if(selChar < chrg.cpMin || selChar > chrg.cpMax)
+							if (selChar < chrg.cpMin || selChar > chrg.cpMax)
 							{
 								chrg.cpMin = chrg.cpMax = selChar;
 							}
 
-							if(chrg.cpMin == chrg.cpMax)
+							if (chrg.cpMin == chrg.cpMax)
 							{
 								CHARRANGE chrgNew;
 								chrgNew.cpMin = chrg.cpMin;
@@ -796,13 +796,13 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 							chf.cbSize = sizeof(CHARFORMAT2);
 							chf.dwMask = CFM_LINK;
 							SendMessage(window, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&chf);
-							if(chrg.cpMin == chrg.cpMax)
+							if (chrg.cpMin == chrg.cpMax)
 								SendMessage(window,EM_EXSETSEL,0,(LPARAM)&chrg);
 
 							HMENU hPopupMenu = CreatePopupMenu();
-							if(hPopupMenu != NULL)
+							if (hPopupMenu != NULL)
 							{
-								if(chf.dwEffects & CFE_LINK)
+								if (chf.dwEffects & CFE_LINK)
 								{
 									AppendMenu(hPopupMenu, MF_STRING, IDM_OPENNEW, TranslateT("Open in &new window"));
 									AppendMenu(hPopupMenu, MF_STRING, IDM_OPENEXISTING, TranslateT("&Open in existing window"));
@@ -824,15 +824,15 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 								{
 								case IDM_COPY:
 									{
-										if(chrg.cpMax == chrg.cpMin && historyWindow->currentGroup.size() > 0)
+										if (chrg.cpMax == chrg.cpMin && historyWindow->currentGroup.size() > 0)
 										{
 											size_t start = 0;
 											while(start < historyWindow->currentGroup.size() && chrg.cpMin >= historyWindow->currentGroup[start].endPos) ++start;
-											if(start < historyWindow->currentGroup.size())
+											if (start < historyWindow->currentGroup.size())
 											{
 												CHARRANGE chrgNew;
 												chrgNew.cpMin = 0;
-												if(start > 0)
+												if (start > 0)
 													chrgNew.cpMin = historyWindow->currentGroup[start - 1].endPos;
 												chrgNew.cpMax = historyWindow->currentGroup[start].endPos;
 												SendMessage(window,EM_EXSETSEL,0,(LPARAM)&chrgNew);
@@ -852,14 +852,14 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 									break;
 								case IDM_QUOTE:
 									{
-										if(historyWindow->currentGroup.size() > 0)
+										if (historyWindow->currentGroup.size() > 0)
 										{
 											std::wstring quote;
-											if(chrg.cpMax == chrg.cpMin)
+											if (chrg.cpMax == chrg.cpMin)
 											{
 												size_t start = 0;
 												while(start < historyWindow->currentGroup.size() && chrg.cpMin >= historyWindow->currentGroup[start].endPos) ++start;
-												if(start < historyWindow->currentGroup.size())
+												if (start < historyWindow->currentGroup.size())
 												{
 													historyWindow->FormatQuote(quote, historyWindow->currentGroup[start], historyWindow->currentGroup[start].description);
 												}
@@ -870,17 +870,17 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 												while(start < historyWindow->currentGroup.size() && chrg.cpMin >= historyWindow->currentGroup[start].endPos) ++start;
 												size_t end = 0;
 												while(end < historyWindow->currentGroup.size() && chrg.cpMax > historyWindow->currentGroup[end].endPos) ++end;
-												if(end >= historyWindow->currentGroup.size())
+												if (end >= historyWindow->currentGroup.size())
 													end = historyWindow->currentGroup.size() - 1;
-												if(start == end && start < historyWindow->currentGroup.size())
+												if (start == end && start < historyWindow->currentGroup.size())
 												{
 													int iStart = historyWindow->currentGroup[start].startPos;
-													if(chrg.cpMin > iStart)
+													if (chrg.cpMin > iStart)
 														iStart = chrg.cpMin;
 													int iEnd = historyWindow->currentGroup[start].endPos;
-													if(chrg.cpMax < iEnd)
+													if (chrg.cpMax < iEnd)
 														iEnd = chrg.cpMax;
-													if(iEnd > iStart)
+													if (iEnd > iStart)
 													{
 														TEXTRANGE tr;
 														tr.chrg.cpMin = iStart;
@@ -901,7 +901,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 												}
 											}
 
-											if(!quote.empty())
+											if (!quote.empty())
 											{
 												CallFunctionAsync(ShowMessageWindow, new ShowMessageData(historyWindow->hContact, quote));
 											}
@@ -931,7 +931,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 											chf.cbSize = sizeof(CHARFORMAT2);
 											chf.dwMask = CFM_LINK;
 											int sel = SendMessage(window,EM_EXSETSEL,0,(LPARAM)&chrgNew);
-											if(sel != chrgNew.cpMax)
+											if (sel != chrgNew.cpMax)
 												break;
 											SendMessage(window, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&chf);
 											--chrgNew.cpMin;
@@ -948,7 +948,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 											chf.cbSize = sizeof(CHARFORMAT2);
 											chf.dwMask = CFM_LINK;
 											int sel = SendMessage(window,EM_EXSETSEL,0,(LPARAM)&chrgNew);
-											if(sel != chrgNew.cpMax)
+											if (sel != chrgNew.cpMax)
 												break;
 											SendMessage(window, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&chf);
 											++chrgNew.cpMin;
@@ -957,7 +957,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 										} while(chf.dwEffects & CFE_LINK);
 
 										--end;
-										if(selected == IDM_COPYLINK)
+										if (selected == IDM_COPYLINK)
 										{
 											chrgNew.cpMin = start;
 											chrgNew.cpMax = end;
@@ -987,24 +987,24 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 					}
 				break;
 				case IDC_LIST:
-					if( pNmhdr->code == LVN_ITEMCHANGED)
+					if ( pNmhdr->code == LVN_ITEMCHANGED)
 					{
 						NMLISTVIEW  *nmlv = (NMLISTVIEW*)lParam;
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-						if((nmlv->uChanged & LVIF_STATE) && (nmlv->uNewState & LVIS_SELECTED) && historyWindow->selected != nmlv->iItem && nmlv->iItem >= 0)
+						if ((nmlv->uChanged & LVIF_STATE) && (nmlv->uNewState & LVIS_SELECTED) && historyWindow->selected != nmlv->iItem && nmlv->iItem >= 0)
 						{
 							historyWindow->SelectEventGroup(nmlv->iItem);
 							DlgReturn(TRUE);
 						}
 					}
-					else if( pNmhdr->code == LVN_KEYDOWN)
+					else if ( pNmhdr->code == LVN_KEYDOWN)
 					{
 						LPNMLVKEYDOWN  nmlv = (LPNMLVKEYDOWN)lParam;
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-						if(historyWindow->DoHotkey(WM_KEYDOWN, 0, nmlv->wVKey, IDC_LIST))
+						if (historyWindow->DoHotkey(WM_KEYDOWN, 0, nmlv->wVKey, IDC_LIST))
 							DlgReturn(TRUE);
 					}
-					else if(pNmhdr->code ==  NM_RCLICK)
+					else if (pNmhdr->code ==  NM_RCLICK)
 					{
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 						POINT clicked;
@@ -1017,10 +1017,10 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						int newSel = SendMessage(window, LVM_SUBITEMHITTEST, 0, (LPARAM)&info);
 						int curSel = historyWindow->selected;
 
-						if(newSel >= 0)
+						if (newSel >= 0)
 						{ 
 							HMENU hPopupMenu = CreatePopupMenu();
-							if(hPopupMenu != NULL)
+							if (hPopupMenu != NULL)
 							{
 								AppendMenu(hPopupMenu, MF_STRING, IDM_COPY, TranslateT("Copy"));
 								AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
@@ -1063,30 +1063,30 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 
 					break;
 				case IDC_TOOLBAR:        
-					if( pNmhdr->code == TBN_DROPDOWN)
+					if ( pNmhdr->code == TBN_DROPDOWN)
 					{   
 						LPNMTOOLBAR lpnmTB= (LPNMTOOLBAR)lParam;
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-						if(lpnmTB->iItem == IDM_FIND)
+						if (lpnmTB->iItem == IDM_FIND)
 						{
 							historyWindow->FindToolbarClicked(lpnmTB);
 						}
-						else if(lpnmTB->iItem == IDM_CONFIG)
+						else if (lpnmTB->iItem == IDM_CONFIG)
 						{
 							historyWindow->ConfigToolbarClicked(lpnmTB);
 						}
-						else if(lpnmTB->iItem == IDM_DELETE)
+						else if (lpnmTB->iItem == IDM_DELETE)
 						{
 							historyWindow->DeleteToolbarClicked(lpnmTB);
 						}
 						
 						DlgReturn(TBDDRET_DEFAULT);
 					}
-					else if( pNmhdr->code == NM_KEYDOWN)
+					else if ( pNmhdr->code == NM_KEYDOWN)
 					{
 						LPNMKEY  nmlv = (LPNMKEY)lParam;
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-						if(historyWindow->DoHotkey(WM_KEYDOWN, 0, nmlv->nVKey, IDC_TOOLBAR))
+						if (historyWindow->DoHotkey(WM_KEYDOWN, 0, nmlv->nVKey, IDC_TOOLBAR))
 							DlgReturn(TRUE);
 					}
 					break;
@@ -1102,7 +1102,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
         {
 			HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 			HWND curhWnd = (HWND)lParam;
-			if(historyWindow->splitterXhWnd == curhWnd || historyWindow->splitterYhWnd == curhWnd)
+			if (historyWindow->splitterXhWnd == curhWnd || historyWindow->splitterYhWnd == curhWnd)
 			{
 				DlgReturn((LONG_PTR)historyWindow->bkBrush);
 			}
@@ -1113,7 +1113,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
         {
 			HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 			HWND curhWnd = (HWND)lParam;
-			if(historyWindow->findWindow == curhWnd)
+			if (historyWindow->findWindow == curhWnd)
 			{
 				HDC edithdc = (HDC)wParam;
 				LOGFONT font;
@@ -1144,7 +1144,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 	case DM_HREBUILD:
 		{
 			HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-			if(!historyWindow->isLoading)
+			if (!historyWindow->isLoading)
 			{
 				historyWindow->isLoading = true;
 				historyWindow->ReloadContacts();
@@ -1199,7 +1199,7 @@ void HistoryWindow::Initialise()
 	minusIco = LoadIconEx(IDI_HIDE, 1);
 	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASPUSHBTN, TRUE, 0 );
 	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, TRUE, 0 );
-	if(hContact == NULL || Options::instance->showContacts)
+	if (hContact == NULL || Options::instance->showContacts)
 	{
 		SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)minusIco);
 		SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Hide Contacts"), BATF_TCHAR);
@@ -1230,7 +1230,7 @@ void HistoryWindow::Initialise()
 	himlSmall = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 2);
 	himlNone = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 2);
 	ImageList_SetIconSize(himlNone, 0, 16);
-	if(himlSmall)
+	if (himlSmall)
 	{
 		allIconNumber = iconsNum + 3;
 		eventIcons = new HICON[allIconNumber];
@@ -1249,7 +1249,7 @@ void HistoryWindow::Initialise()
 		eventIcons[++id] = LoadSkinnedIcon(SKINICON_OTHER_WINDOWS);
 		ImageList_AddIcon(himlSmall, eventIcons[id]);
 
-		if((isGroupImages = Options::instance->groupShowEvents) != false)
+		if ((isGroupImages = Options::instance->groupShowEvents) != false)
 			ListView_SetImageList(listWindow, himlSmall, LVSIL_SMALL);
 	}
 	
@@ -1273,7 +1273,7 @@ void HistoryWindow::Initialise()
 	RegisterHotkeyControl(findWindow);
 			
 	HIMAGELIST himlButtons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 3, 3);
-	if(himlButtons)
+	if (himlButtons)
 	{
 		findNextIco = LoadIconEx(IDI_FINDNEXT);
 		ImageList_AddIcon(himlButtons, findNextIco);
@@ -1333,7 +1333,7 @@ void HistoryWindow::SplitterMoved(HWND splitter, LONG pos, bool screenPos)
 	POINT pt1;
 	POINT pt2;
 			
-	if(splitter == splitterXhWnd)
+	if (splitter == splitterXhWnd)
 	{
 		GetWindowRect(listWindow, &rc1);
 		GetWindowRect(editWindow, &rc2);
@@ -1343,16 +1343,16 @@ void HistoryWindow::SplitterMoved(HWND splitter, LONG pos, bool screenPos)
 		pt1.y = rc1.top;
 		pt2.x = rc2.right;
 		pt2.y = rc2.bottom;
-		if(screenPos)
+		if (screenPos)
 			ScreenToClient(hWnd, &pt);
 		ScreenToClient(hWnd, &pt1);
 		ScreenToClient(hWnd, &pt2);
 		if ((pt.y >= pt1.y + MIN_PANELHEIGHT) && (pt.y < pt2.y - MIN_PANELHEIGHT))
 		{
 			splitterY = pt.y;
-			if(!screenPos)
+			if (!screenPos)
 				SendMessage(hWnd, WM_SIZE, 0, 0);
-			//if(M->isAero())
+			//if (M->isAero())
 			//	InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
 		}
 	}
@@ -1366,16 +1366,16 @@ void HistoryWindow::SplitterMoved(HWND splitter, LONG pos, bool screenPos)
 		pt1.y = rc1.top;
 		pt2.x = rc2.right;
 		pt2.y = rc2.bottom;
-		if(screenPos)
+		if (screenPos)
 			ScreenToClient(hWnd, &pt);
 		ScreenToClient(hWnd, &pt1);
 		ScreenToClient(hWnd, &pt2);
 		if ((pt.x >= pt1.x + MIN_PANELHEIGHT) && (pt.x < pt2.x - MIN_PANELHEIGHT))
 		{
 			splitterX = pt.x;
-			if(!screenPos)
+			if (!screenPos)
 				SendMessage(hWnd, WM_SIZE, 0, 0);
-			//if(M->isAero())
+			//if (M->isAero())
 			//	InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
 		}
 	}
@@ -1389,7 +1389,7 @@ int HistoryWindow::HistoryDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 		{
 			urc->rcItem.bottom += historyWindow->splitterY - historyWindow->splitterOrgY;
 			urc->rcItem.left += historyWindow->splitterX - historyWindow->splitterOrgX;
-			if(!historyWindow->isContactList)
+			if (!historyWindow->isContactList)
 				urc->rcItem.left = historyWindow->listOryginalPos;
 			return RD_ANCHORX_WIDTH|RD_ANCHORY_TOP;
 		}
@@ -1403,7 +1403,7 @@ int HistoryWindow::HistoryDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 			urc->rcItem.top += historyWindow->splitterY - historyWindow->splitterOrgY;
 			urc->rcItem.bottom += historyWindow->splitterY - historyWindow->splitterOrgY;
 			urc->rcItem.left += historyWindow->splitterX - historyWindow->splitterOrgX;
-			if(!historyWindow->isContactList)
+			if (!historyWindow->isContactList)
 				urc->rcItem.left = 0;
 			return RD_ANCHORX_WIDTH|RD_ANCHORY_TOP;
 		}
@@ -1417,7 +1417,7 @@ int HistoryWindow::HistoryDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 		{
 			urc->rcItem.top += historyWindow->splitterY - historyWindow->splitterOrgY;
 			urc->rcItem.left += historyWindow->splitterX - historyWindow->splitterOrgX;
-			if(!historyWindow->isContactList)
+			if (!historyWindow->isContactList)
 				urc->rcItem.left = historyWindow->listOryginalPos;
 			return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
 		}
@@ -1447,10 +1447,10 @@ void HistoryWindow::FillHistoryThread(void* param)
 	item.iItem = 0;
 	item.state = LVIS_SELECTED;
 	item.stateMask = LVIS_SELECTED;
-	if(!isNewOnTop)
+	if (!isNewOnTop)
 	{
 		item.iItem = ListView_GetItemCount(hwndList) - 1;
-		if(item.iItem < 0)
+		if (item.iItem < 0)
 			item.iItem = 0;
 	}
 
@@ -1465,20 +1465,20 @@ void HistoryWindow::AddGroup(bool isMe, const std::wstring &time, const std::wst
 {
 	TCHAR msg[256];
 	msg[0] = 0;
-	if(Options::instance->groupShowTime)
+	if (Options::instance->groupShowTime)
 	{
 		_tcscpy_s(msg, time.c_str());
 	}
-	if(Options::instance->groupShowName)
+	if (Options::instance->groupShowName)
 	{
-		if(msg[0] != 0)
+		if (msg[0] != 0)
 			_tcscat_s(msg, _T(" "));
 		_tcscat_s(msg, user.c_str());
 	}
 
-	if(Options::instance->groupShowMessage)
+	if (Options::instance->groupShowMessage)
 	{
-		if(msg[0] != 0)
+		if (msg[0] != 0)
 			_tcscat_s(msg, _T(" "));
 		_tcscat_s(msg, eventText.c_str());
 	}
@@ -1493,7 +1493,7 @@ void HistoryWindow::AddGroup(bool isMe, const std::wstring &time, const std::wst
 
 void HistoryWindow::ReplaceIcons(HWND hwndDlg, int selStart, BOOL isSent)
 {
-	if(g_SmileyAddAvail)
+	if (g_SmileyAddAvail)
 	{
 		CHARRANGE sel;
 		SMADD_RICHEDIT3 smadd = {0};
@@ -1534,7 +1534,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 	SendMessage(editWindow, WM_SETTEXT, 0, (LPARAM)_T(""));
 	currentGroup.clear();
 	selected = sel;
-	if(sel < 0 || sel >= (int)eventList.size())
+	if (sel < 0 || sel >= (int)eventList.size())
 		return;
 
 	TCHAR _str[MAXSELECTSTR + 8]; // for safety reason
@@ -1567,7 +1567,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 	int caps = GetDeviceCaps(hDC, LOGPIXELSY);
 	std::deque<EventIndex> revDeq;
 	std::deque<EventIndex>& deq = eventList[sel];
-	if(Options::instance->messagesNewOnTop)
+	if (Options::instance->messagesNewOnTop)
 	{
 		revDeq.insert(revDeq.begin(), deq.rbegin(), deq.rend());
 		deq = revDeq;
@@ -1576,12 +1576,12 @@ void HistoryWindow::SelectEventGroup(int sel)
 	for(std::deque<EventIndex>::iterator it = deq.begin(); it != deq.end(); ++it)
 	{
 		EventIndex hDbEvent = *it;
-		if(GetEventData(hDbEvent, data))
+		if (GetEventData(hDbEvent, data))
 		{
 			bool isUser = Options::instance->messagesShowName && (isFirst || (!lastMe && data.isMe) || (lastMe && !data.isMe));
 			lastMe = data.isMe;
 			backColor = Options::instance->GetColor(lastMe ? Options::OutBackground : Options::InBackground);
-			if(Options::instance->messagesShowEvents)
+			if (Options::instance->messagesShowEvents)
 			{
 				str[0] = _T('>');
 				str[1] = 0;
@@ -1593,14 +1593,14 @@ void HistoryWindow::SelectEventGroup(int sel)
 				TextFont->Release();
 				int imId;
 				HICON ico;
-				if(GetEventIcon(lastMe, data.eventType, imId))
+				if (GetEventIcon(lastMe, data.eventType, imId))
 				{
 					ico = eventIcons[imId];
 				}
 				else
 				{
 					ico = GetEventCoreIcon(hDbEvent);
-					if(ico == NULL)
+					if (ico == NULL)
 					{
 						ico = eventIcons[imId];
 					}
@@ -1610,9 +1610,9 @@ void HistoryWindow::SelectEventGroup(int sel)
 			}
 
 			TCHAR* formatDate = Options::instance->messagesShowSec ? (isUser ? _T("d s ") : _T("d s\n")) : (isUser ? _T("d t ") : _T("d t\n"));
-			if(!Options::instance->messagesShowDate)
+			if (!Options::instance->messagesShowDate)
 			{
-				if(isFirst)
+				if (isFirst)
 				{
 					isFirst = false;
 					formatDate = Options::instance->messagesShowSec ? (isUser ? _T("s ") : _T("s\n")) : (isUser ? _T("t ") : _T("t\n"));
@@ -1624,7 +1624,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 					time_t tt = data.timestamp;
 					tm t;
 					localtime_s(&t, &tt);
-					if(lastTime.tm_yday == t.tm_yday && lastTime.tm_year == t.tm_year)
+					if (lastTime.tm_yday == t.tm_yday && lastTime.tm_year == t.tm_year)
 						formatDate = Options::instance->messagesShowSec ? (isUser ? _T("s ") : _T("s\n")) : (isUser ? _T("t ") : _T("t\n"));
 				}
 			}
@@ -1638,9 +1638,9 @@ void HistoryWindow::SelectEventGroup(int sel)
 			TextSelection->SetText(pStr);
 			TextFont->Release();
 
-			if(isUser)
+			if (isUser)
 			{
-				if(lastMe)
+				if (lastMe)
 					mir_sntprintf( str, MAXSELECTSTR, _T("%s\n"), myName );
 				else
 					mir_sntprintf( str, MAXSELECTSTR, _T("%s\n"), contactName );
@@ -1655,7 +1655,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 			GetEventMessage(hDbEvent, str);
 			strStl = str;
 			size_t i = strStl.length();
-			if(i + 1 >= MAXSELECTSTR)
+			if (i + 1 >= MAXSELECTSTR)
 				continue;
 			str[i++] = _T('\n');
 			str[i] = 0;
@@ -1668,7 +1668,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 			TextSelection->SetText(pStr);
 			TextFont->Release();
 
-			if(Options::instance->messagesUseSmileys)
+			if (Options::instance->messagesUseSmileys)
 				ReplaceIcons(editWindow, startAt, lastMe);
 			TextSelection->SetStart(MAXLONG);
 			TextSelection->GetStart(&endAt);
@@ -1688,7 +1688,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 		UpdateWindow(editWindow);
 	}
 
-	if(isStartSelect && !Options::instance->messagesNewOnTop)
+	if (isStartSelect && !Options::instance->messagesNewOnTop)
 	{
 		HWND h = SetFocus(editWindow);
 		CHARRANGE ch;
@@ -1704,7 +1704,7 @@ LRESULT CALLBACK HistoryWindow::SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM
 {
 	HWND hwndParent = GetParent(hwnd);
 	HistoryWindow *dat = (HistoryWindow*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
-	if(dat == NULL || dat->isDestroyed)
+	if (dat == NULL || dat->isDestroyed)
 		return FALSE;
 
 	switch (msg) {
@@ -1753,9 +1753,9 @@ void HistoryWindow::EnableWindows(BOOL enable)
 void HistoryWindow::ReloadContacts()
 {
 	HWND contactList = GetDlgItem(hWnd,IDC_LIST_CONTACTS);
-	if(EventList::GetContactMessageNumber(NULL))
+	if (EventList::GetContactMessageNumber(NULL))
 	{
-		if(hSystem == NULL)
+		if (hSystem == NULL)
 		{
 			CLCINFOITEM cii = { 0 };
 			cii.cbSize = sizeof(cii);
@@ -1766,39 +1766,34 @@ void HistoryWindow::ReloadContacts()
 	}
 	else
 	{
-		if(hSystem != NULL)
+		if (hSystem != NULL)
 		{
 			SendMessage(contactList, CLM_DELETEITEM, (WPARAM)hSystem, 0);
 			hSystem = NULL;
 		}
 	}
 
-	HANDLE hContact;
-	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if(EventList::GetContactMessageNumber(hContact) && (metaContactProto == NULL || db_get_b(hContact, metaContactProto, "IsSubcontact", 0) == 0))
-		{
-			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-			if(hItem == NULL)
-				SendMessage(contactList, CLM_ADDCONTACT, (WPARAM)hContact, 0);
+	for (HANDLE _hContact = db_find_first(); _hContact; _hContact = db_find_next(_hContact)) {
+		if (EventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || db_get_b(_hContact, metaContactProto, "IsSubcontact", 0) == 0)) {
+			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
+			if (hItem == NULL)
+				SendMessage(contactList, CLM_ADDCONTACT, (WPARAM)_hContact, 0);
 		}
 		else {
-			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-			if(hItem != NULL)
-				SendMessage(contactList, CLM_DELETEITEM, (WPARAM)hContact, 0);
+			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
+			if (hItem != NULL)
+				SendMessage(contactList, CLM_DELETEITEM, (WPARAM)_hContact, 0);
 		}
 	}
 
-	if(hContact != NULL)
-	{
+	if (hContact != NULL) {
 		HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		if(hItem != NULL)
-		{
+		if (hItem != NULL) {
 			SendMessage(contactList, CLM_ENSUREVISIBLE, (WPARAM)hItem, 0);
 			SendMessage(contactList, CLM_SELECTITEM, (WPARAM)hItem, 0);
 		}
 	}
-	else if(hSystem != NULL)
-	{
+	else if (hSystem != NULL) {
 		SendMessage(contactList, CLM_ENSUREVISIBLE, (WPARAM)hSystem, 0);
 		SendMessage(contactList, CLM_SELECTITEM, (WPARAM)hSystem, 0);
 	}
@@ -1903,47 +1898,39 @@ bool HistoryWindow::DoHotkey(UINT msg, LPARAM lParam, WPARAM wParam, int window)
 void HistoryWindow::RestorePos()
 {
 	HANDLE contactToLoad = hContact;
-	if(hContact == NULL)
-	{
+	if (hContact == NULL) {
 		Utils_RestoreWindowPosition(hWnd,NULL,MODULE,"history_");
 		contactToLoad = NULL;
 	}
-	else if(Utils_RestoreWindowPosition(hWnd,hContact,MODULE,"history_") != 0)
-	{
+	else if (Utils_RestoreWindowPosition(hWnd,hContact,MODULE,"history_") != 0) {
 		Utils_RestoreWindowPosition(hWnd,NULL,MODULE,"history_");
 		contactToLoad = NULL;
 	}
-	if(db_get_b(contactToLoad, MODULE, "history_ismax", 0))
-	{
+
+	if (db_get_b(contactToLoad, MODULE, "history_ismax", 0))
 		ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-	}
 
 	LONG pos = db_get_dw(contactToLoad, MODULE, "history_splitterv", 0);
-	if(pos > 0)
-	{
+	if (pos > 0)
 		SplitterMoved(splitterYhWnd, pos, false);
-	}
 
 	pos = db_get_dw(contactToLoad, MODULE, "history_splitter", 0);
-	if(pos > 0)
-	{
+	if (pos > 0)
 		SplitterMoved(splitterXhWnd, pos, false);
-	}
 }
 
 void HistoryWindow::SavePos(bool all)
 {
 	HANDLE contactToSave = hContact;
-	if(all)
-	{
-		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			db_unset(hContact, MODULE, "history_x");
-			db_unset(hContact, MODULE, "history_y");
-			db_unset(hContact, MODULE, "history_width");
-			db_unset(hContact, MODULE, "history_height");
-			db_unset(hContact, MODULE, "history_ismax");
-			db_unset(hContact, MODULE, "history_splitterv");
-			db_unset(hContact, MODULE, "history_splitter");
+	if (all) {
+		for (HANDLE _hContact = db_find_first(); _hContact; _hContact = db_find_next(_hContact)) {
+			db_unset(_hContact, MODULE, "history_x");
+			db_unset(_hContact, MODULE, "history_y");
+			db_unset(_hContact, MODULE, "history_width");
+			db_unset(_hContact, MODULE, "history_height");
+			db_unset(_hContact, MODULE, "history_ismax");
+			db_unset(_hContact, MODULE, "history_splitterv");
+			db_unset(_hContact, MODULE, "history_splitter");
 		}
 
 		contactToSave = NULL;
@@ -1965,7 +1952,7 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 	SendMessage(lpnmTB->hdr.hwndFrom, TB_GETRECT, (WPARAM)lpnmTB->iItem, (LPARAM)&rc); 
 	MapWindowPoints(lpnmTB->hdr.hwndFrom, HWND_DESKTOP, (LPPOINT)&rc, 2);         
 	HMENU hPopupMenu = CreatePopupMenu();
-	if(hPopupMenu != NULL)
+	if (hPopupMenu != NULL)
 	{
 		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDNEXT, TranslateT("Find Next"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDPREV, TranslateT("Find Previous"));
@@ -1984,13 +1971,13 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 		for(size_t i = 0 ; i < Options::instance->customFilters.size(); ++i)
 		{
 			UINT flags = MF_STRING;
-			if(filter - 2 == i)
+			if (filter - 2 == i)
 				flags |= MF_CHECKED;
 
 			AppendMenu(hFilterMenu, flags, DEF_FILTERS_START + i, Options::instance->customFilters[i].name.c_str());
 		}
 		AppendMenu(hPopupMenu, MF_STRING | MF_POPUP, (UINT_PTR)hFilterMenu, TranslateT("Filters"));
-		if(searcher.IsFindBack())
+		if (searcher.IsFindBack())
 			SetMenuDefaultItem(hPopupMenu, IDM_FINDPREV, FALSE);
 		else
 			SetMenuDefaultItem(hPopupMenu, IDM_FINDNEXT, FALSE);
@@ -2031,7 +2018,7 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 			SendMessage(hWnd,DM_HREBUILD,0,0);
 			break;
 		default:
-			if(selected >= DEF_FILTERS_START)
+			if (selected >= DEF_FILTERS_START)
 			{
 				SetDefFilter(selected - DEF_FILTERS_START + 2);
 				SendMessage(hWnd,DM_HREBUILD,0,0);
@@ -2050,7 +2037,7 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 	SendMessage(lpnmTB->hdr.hwndFrom, TB_GETRECT, (WPARAM)lpnmTB->iItem, (LPARAM)&rc); 
 	MapWindowPoints(lpnmTB->hdr.hwndFrom, HWND_DESKTOP, (LPPOINT)&rc, 2);         
 	HMENU hPopupMenu = CreatePopupMenu();
-	if(hPopupMenu != NULL)
+	if (hPopupMenu != NULL)
 	{
 		AppendMenu(hPopupMenu, MF_STRING, IDM_OPTIONS, TranslateT("Options"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_FONTS, TranslateT("Fonts & Colors"));
@@ -2169,43 +2156,35 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 	do
 	{
 		bool differentContact = false;
-		if(exp.Import(type, messages, &err, &differentContact, &contacts))
-		{
+		if (exp.Import(type, messages, &err, &differentContact, &contacts)) {
 			int act = MessageBox(hWnd, TranslateT("Do you want save imported messages to local profile?"), TranslateT("Import"), MB_ICONQUESTION | MB_YESNOCANCEL | MB_DEFBUTTON2);
-			if(act == IDYES)
-			{
+			if (act == IDYES) {
 				MargeMessages(messages);
-				if(!changeContact)
-				{
+				if (!changeContact)
 					HistoryWindow::RebuildEvents(hContact);
-				}
 			}
-			else if(act == IDNO)
-			{
+			else if (act == IDNO) {
 				EventList::AddImporter(hContact, type, exp.GetFileName());
-				if(!changeContact)
-				{
+				if (!changeContact)
 					HistoryWindow::RebuildEvents(hContact);
-				}
 			}
 		}
-		else if(differentContact)
+		else if (differentContact)
 		{
 			int act = MessageBox(hWnd, TranslateT("File contain history for different contact. Do you want to change contact and import?"), TranslateT("Error"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2);
-			if(act == IDYES)
-			{
+			if (act == IDYES) {
 				changeContact = true;
 				hContact = exp.hContact;
 			}
 		}
-		else if(!err.empty())
+		else if (!err.empty())
 		{
 			MessageBox(hWnd, err.c_str(), TranslateT("Error"), MB_ICONERROR);
 		}
 	}
-	while(changeContact && i--);
-	if(changeContact)
-	{
+		while(changeContact && i--);
+	
+	if (changeContact) {
 		hContact = lastContact;
 		ReloadContacts();
 		SelectContact(exp.hContact);
@@ -2219,16 +2198,14 @@ void HistoryWindow::DeleteToolbarClicked(LPNMTOOLBAR lpnmTB)
 	SendMessage(lpnmTB->hdr.hwndFrom, TB_GETRECT, (WPARAM)lpnmTB->iItem, (LPARAM)&rc); 
 	MapWindowPoints(lpnmTB->hdr.hwndFrom, HWND_DESKTOP, (LPPOINT)&rc, 2);         
 	HMENU hPopupMenu = CreatePopupMenu();
-	if(hPopupMenu != NULL)
-	{
+	if (hPopupMenu != NULL) {
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETE, TranslateT("Delete"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete All User History"));
 		SetMenuDefaultItem(hPopupMenu, IDM_DELETE, FALSE);
 
 		int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hWnd, 0);
-		switch (selected)
-		{
+		switch (selected) {
 		case IDM_DELETE:
 			Delete(0);
 			break;
@@ -2249,100 +2226,75 @@ void HistoryWindow::Delete(int what)
 	int toDelete = 1;
 	size_t start = 0;
 	size_t end = 0;
-	if(selected < 0 || selected >= (int)eventList.size() || what > 2 || what < 0)
+	if (selected < 0 || selected >= (int)eventList.size() || what > 2 || what < 0)
 		return;
-	if(what == 0)
-	{
+	if (what == 0) {
 		CHARRANGE chrg;
 		SendMessage(editWindow,EM_EXGETSEL,0,(LPARAM)&chrg);
-		if(chrg.cpMin == 0 && chrg.cpMax == -1)
-		{
+		if (chrg.cpMin == 0 && chrg.cpMax == -1)
 			toDelete = (int)currentGroup.size();
-		}
-		else
-		{
+		else {
 			while(start < currentGroup.size() && chrg.cpMin >= currentGroup[start].endPos) ++start;
 			end = start;
 			while(end < currentGroup.size() && chrg.cpMax > currentGroup[end].endPos) ++end;
-			if(start >= currentGroup.size())
+			if (start >= currentGroup.size())
 				return;
-			if(end < currentGroup.size())
+			if (end < currentGroup.size())
 				++end;
 			toDelete = (int)(end - start);
 		}
 	}
-	else if(what == 1)
-	{
+	else if (what == 1) {
 		end = currentGroup.size();
 		toDelete = (int)end;
 	}
-	else
-	{
-		if(eventList.size() == 0)
+	else {
+		if (eventList.size() == 0)
 			return;
 		toDelete = 1;
 	}
 
-	if(toDelete == 0)
+	if (toDelete == 0)
 		return;
 	TCHAR message[256];
-	if(what == 2)
+	if (what == 2)
 		_tcscpy_s(message, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"));
 	else
 		mir_sntprintf(message, SIZEOF(message), TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
-	if(MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
+	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
 
 	bool areImpMessages = false;
 	bool rebuild = false;
-	if(what == 2)
-	{
+	if (what == 2) {
 		for(size_t j = 0; j < eventList.size(); ++j)
-		{
 			for(size_t i = 0; i < eventList[j].size(); ++i)
-			{
 				DeleteEvent(eventList[j][i]);
-			}
-		}
 		
 		areImpMessages = EventList::IsImportedHistory(hContact);
 		rebuild = true;
 	}
-	else
-	{
-		for(size_t i = start; i < end; ++i)
-		{
+	else {
+		for(size_t i = start; i < end; ++i) {
 			EventIndex& ev = eventList[selected][i];
 			DeleteEvent(ev);
 			areImpMessages |= ev.isExternal;
 		}
 
-		if(start == 0 && end == currentGroup.size())
-		{
-			rebuild = true;
-		}
-		else
-		{
-			rebuild = false;
-		}
+		rebuild = (start == 0 && end == currentGroup.size());
 	}
 
-	if(areImpMessages)
-	{
+	if (areImpMessages) {
 		TCHAR *message = TranslateT("Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
-		if(MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
-		{
+		if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES) {
 			EventList::DeleteImporter(hContact);
 			rebuild = true;
 		}
 	}
 
-	if(rebuild)
-	{
+	if (rebuild)
 		RebuildEvents(hContact);
-	}
-	else
-	{
+	else {
 		RebuildGroup(selected);
 		SelectEventGroup(selected);
 	}
@@ -2350,36 +2302,36 @@ void HistoryWindow::Delete(int what)
 
 bool HistoryWindow::ContactChanged(bool sync)
 {
-	if(!isLoading)
+	if (!isLoading)
 	{
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_GETSELECTION, 0, 0);
-		if(hItem != NULL)
+		if (hItem != NULL)
 		{
 			int typeOf = SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_GETITEMTYPE,(WPARAM)hItem,0);
-			if(typeOf == CLCIT_CONTACT)
+			if (typeOf == CLCIT_CONTACT)
 			{
-				if(hContact != hItem)
+				if (hContact != hItem)
 				{
 					ChangeToFreeWindow(this);
 					isLoading = true;
 					hContact = hItem;
 					ReloadContacts();
-					if(sync)
+					if (sync)
 						FillHistoryThread(this);
 					else
 						mir_forkthread(HistoryWindow::FillHistoryThread, this);
 					return true;
 				}
 			}
-			else if(typeOf == CLCIT_INFO && hSystem == hItem)
+			else if (typeOf == CLCIT_INFO && hSystem == hItem)
 			{
-				if(hContact != NULL)
+				if (hContact != NULL)
 				{
 					ChangeToFreeWindow(this);
 					isLoading = true;
 					hContact = NULL;
 					ReloadContacts();
-					if(sync)
+					if (sync)
 						FillHistoryThread(this);
 					else
 						mir_forkthread(HistoryWindow::FillHistoryThread, this);
@@ -2394,23 +2346,18 @@ bool HistoryWindow::ContactChanged(bool sync)
 
 void HistoryWindow::GroupImagesChanged()
 {
-	if(isGroupImages != Options::instance->groupShowEvents)
-	{
+	if (isGroupImages != Options::instance->groupShowEvents) {
 		isGroupImages = Options::instance->groupShowEvents;
-		if(isGroupImages)
-		{
+		if (isGroupImages)
 			ListView_SetImageList(listWindow, himlSmall, LVSIL_SMALL);
-		}
 		else
-		{
 			ListView_SetImageList(listWindow, himlNone, LVSIL_SMALL);
-		}
 	}
 }
 
 void HistoryWindow::FormatQuote(std::wstring& quote, const MessageData& md, const std::wstring& msg)
 {
-	if(md.isMe)
+	if (md.isMe)
 		quote += myName;
 	else
 		quote += contactName;
@@ -2423,9 +2370,9 @@ void HistoryWindow::FormatQuote(std::wstring& quote, const MessageData& md, cons
 	do
 	{
 		int nf = (int)msg.find_first_of(_T("\r\n"), f);
-		if(nf >= 0 && nf < (int)msg.length())
+		if (nf >= 0 && nf < (int)msg.length())
 		{
-			if(nf - f >= 0 )
+			if (nf - f >= 0 )
 			{
 				quote += _T(">");
 				quote += msg.substr(f, nf - f);
@@ -2433,10 +2380,10 @@ void HistoryWindow::FormatQuote(std::wstring& quote, const MessageData& md, cons
 			}
 
 			f = nf + 1;
-			if(msg[nf] == _T('\r') && f < (int)msg.length() && msg[f] == _T('\n'))
+			if (msg[nf] == _T('\r') && f < (int)msg.length() && msg[f] == _T('\n'))
 				++f;
 		}
-		else if(msg.length() - f > 0)
+		else if (msg.length() - f > 0)
 		{
 			quote += _T(">");
 			quote += msg.substr(f, msg.length() - f);
@@ -2454,15 +2401,15 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 	HWND contactList = GetDlgItem(hWnd,IDC_LIST_CONTACTS);
 	bool find = false;
 	HANDLE _hContact;
-	if(adder > 0)
+	if (adder > 0)
 	{
-		if(hContact != NULL)
+		if (hContact != NULL)
 		{
 			_hContact = db_find_next(hContact);
 			while(_hContact)
 			{
 				HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
-				if(hItem != NULL)
+				if (hItem != NULL)
 				{
 					find = true;
 					break;
@@ -2471,20 +2418,20 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 				_hContact = db_find_next(_hContact);
 			}
 		
-			if(!find && EventList::GetContactMessageNumber(NULL))
+			if (!find && EventList::GetContactMessageNumber(NULL))
 			{
 				_hContact = NULL;
 				find = true;
 			}
 		}
 
-		if(!find)
+		if (!find)
 		{
 			_hContact = db_find_first();
 			while(_hContact && _hContact != hContact)
 			{
 				HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
-				if(hItem != NULL)
+				if (hItem != NULL)
 				{
 					find = true;
 					break;
@@ -2501,7 +2448,7 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 		while(_hContact && _hContact != hContact)
 		{
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
-			if(hItem != NULL)
+			if (hItem != NULL)
 			{
 				lastContact = _hContact;
 			}
@@ -2509,15 +2456,15 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 			_hContact = db_find_next(_hContact);
 		}
 		
-		if(hContact != NULL)
+		if (hContact != NULL)
 		{
-			if(lastContact == NULL && !EventList::GetContactMessageNumber(NULL))
+			if (lastContact == NULL && !EventList::GetContactMessageNumber(NULL))
 			{
 				_hContact = db_find_next(hContact);
 				while(_hContact)
 				{
 					HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
-					if(hItem != NULL)
+					if (hItem != NULL)
 					{
 						lastContact = _hContact;
 					}
@@ -2526,20 +2473,20 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 				}
 			}
 
-			if(lastContact != NULL || EventList::GetContactMessageNumber(NULL))
+			if (lastContact != NULL || EventList::GetContactMessageNumber(NULL))
 			{
 				_hContact = lastContact;
 				find = true;
 			}
 		}
-		else if(lastContact != NULL)
+		else if (lastContact != NULL)
 		{
 			_hContact = lastContact;
 			find = true;
 		}
 	}
 
-	if(find)
+	if (find)
 	{
 		return _hContact;
 	}
@@ -2551,13 +2498,13 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 
 void HistoryWindow::SelectContact(HANDLE _hContact)
 {
-	if(hContact != _hContact)
+	if (hContact != _hContact)
 	{
 		HWND contactList = GetDlgItem(hWnd,IDC_LIST_CONTACTS);
-		if(_hContact != NULL)
+		if (_hContact != NULL)
 		{
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
-			if(hItem != NULL)
+			if (hItem != NULL)
 			{
 				SendMessage(contactList, CLM_ENSUREVISIBLE, (WPARAM)hItem, 0);
 				SendMessage(contactList, CLM_SELECTITEM, (WPARAM)hItem, 0);

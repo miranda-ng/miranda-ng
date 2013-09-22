@@ -61,13 +61,13 @@ public:
 	}
 	void SetOnlyIn(bool val){
 		onlyIn = val;
-		if(val && onlyOut)
+		if (val && onlyOut)
 			onlyOut = false;
 		ClearFind();
 	}
 	void SetOnlyOut(bool val){
 		onlyOut = val;
-		if(val && onlyIn)
+		if (val && onlyIn)
 			onlyIn = false;
 		ClearFind();
 	}
@@ -79,7 +79,7 @@ public:
 	}
 	void SetOnlyGroup(bool val){
 		onlyGroup = val;
-		if(onlyGroup)
+		if (onlyGroup)
 			allUsers = false;
 		ClearFind();
 	}
@@ -88,7 +88,7 @@ public:
 	}
 	void SetAllUsers(bool val){
 		allUsers = val;
-		if(allUsers)
+		if (allUsers)
 			onlyGroup = false;
 		ClearFind();
 	}
@@ -96,14 +96,14 @@ public:
 		return allUsers;
 	}
 	void SetSearchForInLG(bool val){
-		if(searchForInLG != val)
+		if (searchForInLG != val)
 		{
 			searchForInLG = val;
 			ClearFind();
 		}
 	}
 	void SetSearchForInMes(bool val){
-		if(searchForInMes != val)
+		if (searchForInMes != val)
 		{
 			searchForInMes = val;
 			ClearFind();

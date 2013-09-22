@@ -38,11 +38,11 @@ var timer;
 
 function ShowMenu(isShow) 
 {
-	if(timer) 
+	if (timer) 
 		clearTimeout(timer);
 	
 	var menu = document.getElementById("L1");
-	if(isShow == 1) 
+	if (isShow == 1) 
 		menu.style.visibility = "visible";
 	else
 		menu.style.visibility = "hidden";
@@ -59,13 +59,13 @@ function OpenAll(isOpen)
 	while(gr = document.getElementById("group" + idMod))
 	{
 		var imageNode = gr.previousSibling;
-		if(imageNode.tagName == null)
+		if (imageNode.tagName == null)
 			imageNode = imageNode.previousSibling;
 		imageNode = imageNode.getElementsByTagName("span")[0].getElementsByTagName("img")[0];
 		var l = imageNode.src.length;
-		if(gr.style.display == "block")
+		if (gr.style.display == "block")
 		{
-			if(!isOpen)
+			if (!isOpen)
 			{
 				if (imageNode != null) 
 				{
@@ -77,7 +77,7 @@ function OpenAll(isOpen)
 				gr.style.display = "none";
 			}
 		}
-		else if(isOpen)
+		else if (isOpen)
 		{
 			if (imageNode != null) 
 			{

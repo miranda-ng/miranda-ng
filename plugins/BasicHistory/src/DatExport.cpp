@@ -59,7 +59,7 @@ DatExport::~DatExport()
 int DatExport::WriteString(const std::wstring &str)
 {
 	int conv = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length() + 1, NULL, 0, NULL, NULL);
-	if(conv > (int)memBuf.size())
+	if (conv > (int)memBuf.size())
 	{
 		memBuf.resize(conv);
 	}
@@ -102,7 +102,7 @@ void DatExport::WriteMessage(bool isMe, const std::wstring &longDate, const std:
 	header.timestamp = dbei.timestamp;
 	header.szModule = 0;
 	header.pBlob = 0;
-	if(dbei.flags & 0x800)
+	if (dbei.flags & 0x800)
 	{
 		//Imported
 		header.flags |= DBEF_UTF;
@@ -124,9 +124,9 @@ void DatExport::WriteMessage(bool isMe, const std::wstring &longDate, const std:
 bool ReadHeader(MCHeader& header, std::istream* stream)
 {
 	stream->read((char*)&header, sizeof(MCHeader));
-	if(!stream->good())
+	if (!stream->good())
 		return false;
-	if(memcmp(header.signature, "HB", 2) != 0)
+	if (memcmp(header.signature, "HB", 2) != 0)
 		return false;
 
 	return true;
@@ -135,10 +135,10 @@ bool ReadHeader(MCHeader& header, std::istream* stream)
 int DatExport::IsContactInFile(const std::vector<HANDLE>& contacts)
 {
 	MCHeader header;
-	if(!ReadHeader(header, IImport::stream))
+	if (!ReadHeader(header, IImport::stream))
 		return -2;
 	
-	if(contacts.size() == 1)
+	if (contacts.size() == 1)
 	{
 		hContact = contacts[0];
 	}
@@ -150,7 +150,7 @@ int DatExport::IsContactInFile(const std::vector<HANDLE>& contacts)
 bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 {
 	MCHeader header;
-	if(!ReadHeader(header, IImport::stream))
+	if (!ReadHeader(header, IImport::stream))
 		return false;
 	dataSize = header.dataSize;
 	DBEVENTINFO86 messageHeader;
@@ -163,13 +163,13 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 	{
 		messageHeader.cbSize = 0;
 		IMP_FILE.read((char*)&messageHeader, sizeof(DBEVENTINFO86));
-		if(!IMP_FILE.good())
+		if (!IMP_FILE.good())
 			return false;
 
-		if(messageHeader.cbSize < sizeof(DBEVENTINFO86))
+		if (messageHeader.cbSize < sizeof(DBEVENTINFO86))
 			return false;
 
-		if(messageHeader.cbSize > sizeof(DBEVENTINFO86))
+		if (messageHeader.cbSize > sizeof(DBEVENTINFO86))
 		{
 			IMP_FILE.seekg(messageHeader.cbSize - sizeof(DBEVENTINFO86), std::ios_base::cur);
 		}
@@ -178,13 +178,13 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 		exMsg.eventType = messageHeader.eventType;
 		exMsg.flags = messageHeader.flags;
 		exMsg.timestamp = messageHeader.timestamp;
-		if(messageHeader.cbBlob > memBuf.size())
+		if (messageHeader.cbBlob > memBuf.size())
 		{
 			memBuf.resize(messageHeader.cbBlob);
 		}
 
 		IMP_FILE.read((char*)memBuf.c_str(), messageHeader.cbBlob);
-		if(!IMP_FILE.good())
+		if (!IMP_FILE.good())
 			return false;
 		
 		info.eventType = messageHeader.eventType;

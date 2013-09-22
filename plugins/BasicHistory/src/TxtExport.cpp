@@ -29,7 +29,7 @@ void TxtExport::WriteHeader(const std::wstring &fileName, const std::wstring &fi
 	TCHAR* start = TranslateT("###");
 	EXP_FILE << start << "\n" << start << _T(" ") << TranslateT("History Log") << _T("\n");
 	EXP_FILE << start << _T(" ") << myName;
-	if(proto1.length() || myId.length())
+	if (proto1.length() || myId.length())
 	{
 		EXP_FILE << _T(" (") << proto1 << _T(": ") << myId << _T(") - ");
 	}
@@ -39,7 +39,7 @@ void TxtExport::WriteHeader(const std::wstring &fileName, const std::wstring &fi
 	}
 
 	EXP_FILE << name1;
-	if(proto1.length() || id1.length())
+	if (proto1.length() || id1.length())
 	{
 		EXP_FILE << _T(" (") << proto1 << _T(": ") << id1 << _T(")\n");
 	}

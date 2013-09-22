@@ -59,10 +59,10 @@ std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<si
 		}
 
 		start = find + 1;
-		if(positionMap != NULL)
+		if (positionMap != NULL)
 		{
 			size_t len = ret.length() - start - currentAdd;
-			if(len != 0)
+			if (len != 0)
 			{
 				positionMap->push(std::pair<size_t, size_t>(start + currentAdd, len));
 				currentAdd += len;
@@ -85,11 +85,11 @@ std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl)
 	{
 		size_t urlStart = message.find_last_of(htmlStop, find);
 		size_t urlEnd = message.find_first_of(htmlStop, find + 3);
-		if(urlStart >= message.length())
+		if (urlStart >= message.length())
 			urlStart = -1;
-		if(urlEnd >= message.length())
+		if (urlEnd >= message.length())
 			urlEnd = message.length();
-		if(((int)urlEnd -3 - (int)find > 0) && ((int)find - (int)urlStart -1 > 0))
+		if (((int)urlEnd -3 - (int)find > 0) && ((int)find - (int)urlStart -1 > 0))
 		{
 			ret += message.substr(start, (urlStart + 1) - start);
 			std::wstring url = message.substr(urlStart + 1, urlEnd - urlStart - 1);
@@ -112,7 +112,7 @@ std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl)
 std::wstring RemoveExt(const std::wstring &fileName)
 {
 	size_t find = fileName.find_last_of(L'.');
-	if(find < fileName.length())
+	if (find < fileName.length())
 	{
 		return fileName.substr(0, find);
 	}
@@ -123,7 +123,7 @@ std::wstring RemoveExt(const std::wstring &fileName)
 std::wstring GetName(const std::wstring &path)
 {
 	size_t find = path.find_last_of(L"\\/");
-	if(find < path.length())
+	if (find < path.length())
 	{
 		return path.substr(find + 1);
 	}
@@ -134,17 +134,17 @@ std::wstring GetName(const std::wstring &path)
 void ExtractFile(short int res, const std::wstring &fileName)
 {
 	HRSRC rSrc = FindResource(hInst, MAKEINTRESOURCE(res), MAKEINTRESOURCE(CUSTOMRES));
-	if(rSrc != NULL)
+	if (rSrc != NULL)
 	{
 		HGLOBAL res = LoadResource(hInst, rSrc);
 		int size = SizeofResource(hInst, rSrc);
-		if(res != NULL)
+		if (res != NULL)
 		{
 			char* resData = (char*)LockResource(res);
-			if(resData != NULL)
+			if (resData != NULL)
 			{
 				std::ofstream stream (fileName.c_str(), std::ios_base::binary);
-				if(stream.is_open())
+				if (stream.is_open())
 				{
 					stream.write(resData, size);
 					stream.close();
@@ -187,10 +187,10 @@ typedef struct tagMyBITMAPINFO {
 void IcoSave(const std::wstring &fileName, HICON hicon)
 {
 	std::ofstream store (fileName.c_str(), std::ios_base::binary);
-	if(!store.is_open())
+	if (!store.is_open())
 		return;
 	ICONINFO		ii;
-	if(!GetIconInfo(hicon,&ii))
+	if (!GetIconInfo(hicon,&ii))
 	{
 		store.close();
 		return;
@@ -200,7 +200,7 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 	HBITMAP hbmColor = ii.hbmColor;
 	BITMAP  bmiMask;
 	BITMAP  bmiColor;
-	if(
+	if (
 	GetObject(hbmColor,sizeof(bmiColor),&bmiColor) &&
 	GetObject(hbmMask,sizeof(bmiMask),&bmiMask) &&
 	(bmiColor.bmWidth==bmiMask.bmWidth) &&
@@ -267,8 +267,8 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 	}
 	
 	store.close();
-	if(ii.hbmColor) DeleteObject(ii.hbmColor);
-	if(ii.hbmMask ) DeleteObject(ii.hbmMask );
+	if (ii.hbmColor) DeleteObject(ii.hbmColor);
+	if (ii.hbmMask ) DeleteObject(ii.hbmMask );
 }
 
 bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true)
@@ -286,7 +286,7 @@ bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true)
   fileop.pTo    = NULL;    // no destination needed
   fileop.fFlags = FOF_NOCONFIRMATION|FOF_SILENT;  // do not prompt the user
   
-  if(!noRecycleBin)
+  if (!noRecycleBin)
     fileop.fFlags |= FOF_ALLOWUNDO;
 
   fileop.fAnyOperationsAborted = FALSE;
@@ -307,12 +307,12 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	CreateDirectory(folder.c_str(), NULL);
 	std::wstring css =  folder + _T("\\history.css");
 	BOOL cssCopied = FALSE;
-	if(!Options::instance->extCssHtml2.empty())
+	if (!Options::instance->extCssHtml2.empty())
 	{
 		cssCopied = CopyFile(Options::instance->extCssHtml2.c_str(), css.c_str(), FALSE);
 	}
 
-	if(!cssCopied)
+	if (!cssCopied)
 		ExtractFile(IDR_CSS, css);
 	ExtractFile(IDR_JS, folder + _T("\\history.js"));
 
@@ -352,14 +352,14 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	EXP_FILE << _T("<script language=\"JavaScript\">\n");
 	EXP_FILE << _T("<!--\n");
 	EXP_FILE << _T("var menu = document.getElementById(\"menubar\");\n");
-	EXP_FILE << _T("if(menu != null)\n");
+	EXP_FILE << _T("if (menu != null)\n");
 	EXP_FILE << _T("  menu.style.visibility = \"visible\";\n");
 	EXP_FILE << _T("// -->\n");
 	EXP_FILE << _T("</script>\n");
 
 	EXP_FILE << _T("<h4>") << TranslateT("History Log") << _T("</h4>\n<h3>");
 	EXP_FILE << MakeTextHtmled(myName);
-	if(proto1.length() || myId.length())
+	if (proto1.length() || myId.length())
 	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(myId) << _T(") - ");
 	}
@@ -369,7 +369,7 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	}
 
 	EXP_FILE << MakeTextHtmled(name1);
-	if(proto1.length() || id1.length())
+	if (proto1.length() || id1.length())
 	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(id1) << _T(")</h3>\n");
 	}
@@ -384,7 +384,7 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 
 void RichHtmlExport::WriteFooter()
 {
-	if(groupId > 0)
+	if (groupId > 0)
 	{
 		EXP_FILE << _T("</div>\n");
 	}
@@ -396,7 +396,7 @@ void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::
 {
 	TCHAR *id = isMe ? _T("out") : _T("inc");
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));
-	if(groupId > 0)
+	if (groupId > 0)
 	{
 		EXP_FILE << _T("</div>\n");
 	}
@@ -419,7 +419,7 @@ void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const
 	TCHAR* ev1 = ev;
 	bool isUrl = false;
 	std::wstring& mes = ReplaceSmileys(isMe, message, isUrl);
-	if(isUrl)
+	if (isUrl)
 		ev = _T("2");
 	EXP_FILE << _T("<div class=mes id=event") << ev << _T(">\n");
 	EXP_FILE << _T("<div class=eventimg id=") << id << _T(">")  << _T("<img src=\"") << folderName << _T("\\event") << ev1 << _T(".ico\" class=sessionimage width=\"16\" height=\"16\"/></div>\n");
@@ -433,7 +433,7 @@ void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const
 
 std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, bool &isUrl)
 {
-	if(Options::instance->exportHtml2UseSmileys && g_SmileyAddAvail)
+	if (Options::instance->exportHtml2UseSmileys && g_SmileyAddAvail)
 	{
 		TCHAR* msgbuf = new TCHAR[msg.length() + 1];
 		memcpy_s(msgbuf, (msg.length() + 1) * sizeof(TCHAR), msg.c_str(), (msg.length() + 1) * sizeof(TCHAR));
@@ -459,7 +459,7 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 		size_t last_pos=0;
 		std::pair<size_t, size_t> pos(0, 0);
 		size_t currentAdd = 0;
-		if(!positionMap.empty())
+		if (!positionMap.empty())
 		{
 			pos = positionMap.front();
 			positionMap.pop();
@@ -472,7 +472,7 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 			{
 				startChar += pos.second;
 				currentAdd += pos.second;
-				if(!positionMap.empty())
+				if (!positionMap.empty())
 				{
 					pos = positionMap.front();
 					positionMap.pop();
@@ -488,7 +488,7 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 			{
 				endChar += pos.second;
 				currentAdd += pos.second;
-				if(!positionMap.empty())
+				if (!positionMap.empty())
 				{
 					pos = positionMap.front();
 					positionMap.pop();
@@ -510,7 +510,7 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 				}
 
 				std::wstring smileyName = GetName(spr[i].filepath);
-				if(smileys.find(smileyName) == smileys.end())
+				if (smileys.find(smileyName) == smileys.end())
 				{
 					smileys.insert(smileyName);
 					CopyFile(spr[i].filepath, (folder + _T("\\") + smileyName).c_str(), FALSE);
