@@ -113,27 +113,22 @@ void SplashMain()
 			}
 		}
 
-		//for 9x "alfa" testing
 		DBVARIANT dbv = {0};
-		db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv);
-		if (lstrcmp(dbv.ptszVal, NULL) == 0)
+		if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv))
 		{
-			_tcscpy_s(szPrefix, _T(""));
-			db_free(&dbv);
-		}
-		else
 			_tcscpy_s(szPrefix, dbv.ptszVal);
-		dbv.ptszVal = NULL;
-
-		db_get_ts(NULL, MODNAME, "Path", &dbv);
-		if (lstrcmp(dbv.ptszVal, NULL) == 0)
-		{
-			_tcscpy_s(inBuf, _T("splash\\splash.png"));
 			db_free(&dbv);
 		}
 		else
+			_tcscpy_s(szPrefix, _T(""));
+
+		if (!db_get_ts(NULL, MODNAME, "Path", &dbv))
+		{
 			_tcscpy_s(inBuf, dbv.ptszVal);
-		dbv.ptszVal = NULL;
+			db_free(&dbv);
+		}
+		else
+			_tcscpy_s(inBuf, _T("splash\\splash.png"));
 
 		TCHAR szExpandedSplashFile[MAX_PATH];
 		ExpandEnvironmentStrings(inBuf, szExpandedSplashFile, SIZEOF(szExpandedSplashFile));
@@ -146,14 +141,13 @@ void SplashMain()
 		else
 			_tcscpy_s(szSplashFile, inBuf);
 
-		db_get_ts(NULL, MODNAME, "Sound", &dbv);
-		if (lstrcmp(dbv.ptszVal, NULL) == 0)
+		if (!db_get_ts(NULL, MODNAME, "Sound", &dbv))
 		{
-			_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
+			_tcscpy_s(inBuf, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else
-			_tcscpy_s(inBuf, dbv.ptszVal);
+			_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
 
 		TCHAR szExpandedSoundFile[MAX_PATH];
 		ExpandEnvironmentStrings(inBuf, szExpandedSoundFile, SIZEOF(szExpandedSoundFile));

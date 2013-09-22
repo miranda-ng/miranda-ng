@@ -68,37 +68,33 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ReadDbConfig();
 				TCHAR inBuf[80];
 				DBVARIANT dbv = {0};
-				db_get_ts(NULL, MODNAME, "Path", &dbv);
-				if (lstrcmp(dbv.ptszVal, NULL) == 0)
+				if (!db_get_ts(NULL, MODNAME, "Path", &dbv))
 				{
+					_tcscpy_s(inBuf, dbv.ptszVal);
+					db_free(&dbv);
+				}
+				else
 					_tcscpy_s(inBuf, _T("splash\\splash.png"));
-					db_free(&dbv);
-				}
-				else
-					_tcscpy_s(inBuf, dbv.ptszVal);
-				dbv.ptszVal = NULL;
-				SetWindowText(GetDlgItem(hwndDlg, IDC_SPLASHPATH),inBuf);
-				db_get_ts(NULL, MODNAME, "Sound", &dbv);
-				if (lstrcmp(dbv.ptszVal, NULL) == 0)
-				{
-					_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
-					db_free(&dbv);
-				}
-				else
-					_tcscpy_s(inBuf, dbv.ptszVal);
-				dbv.ptszVal = NULL;
-				SetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH),inBuf);
+				SetDlgItemText(hwndDlg, IDC_SPLASHPATH, inBuf);
 
-				db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv);
-				if (lstrcmp(dbv.ptszVal, NULL) == 0)
+				if (!db_get_ts(NULL, MODNAME, "Sound", &dbv))
 				{
-					_tcscpy_s(inBuf, _T(""));
+					_tcscpy_s(inBuf, dbv.ptszVal);
 					db_free(&dbv);
 				}
 				else
+					_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
+				SetDlgItemText(hwndDlg, IDC_SNDPATH, inBuf);
+
+				if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv))
+				{
 					_tcscpy_s(inBuf, dbv.ptszVal);
-				dbv.ptszVal = NULL;
-				SetWindowText(GetDlgItem(hwndDlg, IDC_VERSIONPREFIX), inBuf);
+					db_free(&dbv);
+				}
+				else
+					_tcscpy_s(inBuf, _T(""));
+				SetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, inBuf);
+
 				if (options.active)
 					CheckDlgButton(hwndDlg, IDC_ACTIVE, BST_CHECKED);
 				if (options.playsnd && !options.inheritGS)
