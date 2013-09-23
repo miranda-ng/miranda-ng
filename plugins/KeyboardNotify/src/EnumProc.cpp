@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL findFilename(TCHAR *);
 TCHAR *filename(TCHAR *);
-BOOL WINAPI Enum16(DWORD, WORD, WORD, TCHAR *, TCHAR *, LPARAM);
-
 
 // Globals
 extern PROCESS_LIST ProcessList;
@@ -48,35 +46,10 @@ BOOL areThereProcessesRunning(void)
 		// Search szFileName in user-defined list
 		if (findFilename(szFileNameAux))
 			return TRUE;
-
-		// Did we just bump into an NTVDM?
-		if (!_wcsicmp(szFileNameAux, L"NTVDM.EXE")) {
-			BOOL bFound = FALSE;
-
-			// Enum the 16-bit stuff.
-			VDMEnumTaskWOWEx(procentry.th32ProcessID, (TASKENUMPROCEX)Enum16, (LPARAM)&bFound);
-
-			// Did we find any user-defined process?
-			if (bFound)
-				return TRUE;
-		}
 	}
 
 	return FALSE;
 }
-
-
-BOOL WINAPI Enum16(DWORD dwThreadId, WORD hMod16, WORD hTask16, TCHAR *szModName, TCHAR *szFileName, LPARAM lpUserDefined)
-{
-	BOOL bRet;
-	BOOL *pbFound = (BOOL *)lpUserDefined;
-
-	if ((bRet = findFilename(filename(szFileName))))
-		*pbFound = TRUE;
-
-	return bRet;
-}
-
 
 BOOL findFilename(TCHAR *fileName)
 {
