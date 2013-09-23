@@ -160,15 +160,10 @@ BOOL TimeStampToSystemTime(time_t timestamp,SYSTEMTIME *st)
 BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 {
 	static BOOL fInited=FALSE;
-	static int (WINAPI *pfnStrFromTimeInterval)(TCHAR*,UINT,DWORD,int);
 	static int (WINAPI *pfnGetDurationFormat)(LCID,DWORD,const SYSTEMTIME*,double,WCHAR*,WCHAR*,int);
 	/* Init */
-	if(!fInited) {
+	if(!fInited && IsWinVerVistaPlus()) {
 		*(PROC*)&pfnGetDurationFormat=GetProcAddress(GetModuleHandleA("KERNEL32"),"GetDurationFormat");
-		if(pfnGetDurationFormat==NULL) {
-			HMODULE hShlwDLL=LoadLibraryA("SHLWAPI"); /* all ascii */
-			*(PROC*)&pfnStrFromTimeInterval=GetProcAddress(hShlwDLL,"StrFromTimeIntervalW");
-		}
 		fInited=TRUE;
 	}
 	/* WinVista */
@@ -180,10 +175,9 @@ BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 			if(pfnGetDurationFormat(locale,0,&st,0,NULL,pszOut,nSize))
 				return TRUE;
 		return FALSE;
-	}
+	} else
 	/* Win9x/NT/XP */
-	if(pfnStrFromTimeInterval!=NULL)
-		return pfnStrFromTimeInterval(pszOut,nSize,(countdown>(MAXDWORD/1000))?MAXDWORD:(countdown*1000),10)!=0;
+		return StrFromTimeInterval(pszOut,nSize,(countdown>(MAXDWORD/1000))?MAXDWORD:(countdown*1000),10)!=0;
 	return FALSE;
 }
 

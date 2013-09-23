@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>   /* for mktime(),time() */
 #include <windows.h>
 #include <Uxtheme.h>
+#include <Shlwapi.h>
 
 /* WinXP+: shutdown reason codes */
 #if defined(EWX_RESTARTAPPS)   /* new MS Platform SDK */

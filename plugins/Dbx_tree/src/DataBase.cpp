@@ -150,10 +150,7 @@ int CDataBase::LoadFile(TDBFileType Index)
 	TGenericFileHeader h;
 	m_EncryptionManager[Index] = new CEncryptionManager;
 
-	if (CMappedMemory::InitMMAP())
-		m_FileAccess[Index] = new CMappedMemory(m_FileName[Index]);
-	else
-		m_FileAccess[Index] = new CDirectAccess(m_FileName[Index]);
+	m_FileAccess[Index] = new CMappedMemory(m_FileName[Index]);
 
 	m_FileAccess[Index]->Read(&h, 0, sizeof(h));
 	m_EncryptionManager[Index]->InitEncryption(h.Gen.FileEncryption);

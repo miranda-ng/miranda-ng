@@ -85,11 +85,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			SendMessage(hList, CB_SETCURSEL, 0, 0);
 			PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_BKGRLIST, CBN_SELCHANGE), 0);
-			{
-				HRESULT (STDAPICALLTYPE *MySHAutoComplete)(HWND,DWORD);
-				MySHAutoComplete = (HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(GetModuleHandleA("shlwapi"),"SHAutoComplete");
-				if (MySHAutoComplete) MySHAutoComplete(GetDlgItem(hwndDlg,IDC_FILENAME),1);
-			}
+			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 			return TRUE;
 		}
 		case WM_DESTROY:

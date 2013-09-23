@@ -27,8 +27,6 @@ POINT mousepos;
 UINT_PTR hTimer; 
 UINT mouseidle, minutes;
 
-static BOOL (WINAPI * MyGetLastInputInfo)(PLASTINPUTINFO);
-
 VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT idEvent, DWORD dwTime);
 
 static bool IsScreenSaverRunning()
@@ -46,25 +44,12 @@ static bool IsUserIdle()
 		return GetTickCount() - dwTick > (minutes * 60 * 1000);
 	}
 	
-	if ( MyGetLastInputInfo != NULL ) {
-		LASTINPUTINFO ii;
-		ZeroMemory(&ii,sizeof(ii));
-		ii.cbSize=sizeof(ii);
-		if ( MyGetLastInputInfo(&ii)) 
-			return GetTickCount() - ii.dwTime > (minutes * 60 * 1000);
-	}
-	else {
-		POINT pt;
-		GetCursorPos(&pt);
-		if ( pt.x != mousepos.x || pt.y != mousepos.y ) {
-			mousepos=pt;
-			mouseidle=0;
-		}
-		else mouseidle += 2;
+	LASTINPUTINFO ii;
+	ZeroMemory(&ii,sizeof(ii));
+	ii.cbSize=sizeof(ii);
+	if (GetLastInputInfo(&ii)) 
+		return GetTickCount() - ii.dwTime > (minutes * 60 * 1000);
 
-		if ( mouseidle )
-			return mouseidle >= (minutes * 60);
-	}
 	return FALSE;
 }
 
@@ -81,7 +66,6 @@ VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime)
 void InitIdleTimer()
 {
 	minutes = db_get_b(NULL,MOD_NAME,"time",10);
-	MyGetLastInputInfo=(BOOL (WINAPI *)(LASTINPUTINFO*))GetProcAddress(GetModuleHandleA("user32"), "GetLastInputInfo");
 	hTimer=SetTimer(NULL, 0, 2000, IdleTimer);
 }
 

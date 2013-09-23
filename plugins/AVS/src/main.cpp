@@ -41,8 +41,6 @@ HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 void   InitServices();
 
-BOOL (WINAPI *AvsAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION) = NULL;
-
 static int ComparePicture( const protoPicCacheEntry* p1, const protoPicCacheEntry* p2 )
 {
 	if ((lstrcmpA(p1->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
@@ -314,12 +312,12 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 	//else
 	//	FillRect(r->hTargetDC, &r->rcDraw, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
-	if (r->dwFlags & AVDRQ_FORCEFASTALPHA && !(r->dwFlags & AVDRQ_AERO) && AvsAlphaBlend) {
-		AvsAlphaBlend(
+	if (r->dwFlags & AVDRQ_FORCEFASTALPHA && !(r->dwFlags & AVDRQ_AERO)) {
+		GdiAlphaBlend(
 			r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight,
 			hdcAvatar, 0, 0, bmWidth, bmHeight, bf);
 	} else {
-		if ((bf.SourceConstantAlpha == 255 && bf.AlphaFormat == 0 && !(r->dwFlags & AVDRQ_FORCEALPHA) && !(r->dwFlags & AVDRQ_AERO)) || !AvsAlphaBlend) {
+		if (bf.SourceConstantAlpha == 255 && bf.AlphaFormat == 0 && !(r->dwFlags & AVDRQ_FORCEALPHA) && !(r->dwFlags & AVDRQ_AERO)) {
 			StretchBlt(r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight, hdcAvatar, 0, 0, bmWidth, bmHeight, SRCCOPY);
 		} else {
 			/*
@@ -335,7 +333,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 			HDC hdcTemp = CreateCompatibleDC(r->hTargetDC);
 			hbmTempOld = (HBITMAP)SelectObject(hdcTemp, hbmResized);
 
-			AvsAlphaBlend(
+			GdiAlphaBlend(
 				r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight,
 				hdcTemp, 0, 0, newWidth, newHeight, bf);
 
@@ -429,12 +427,6 @@ static int LoadAvatarModule()
 	InitServices();
 	InitCache();
 	InitPolls();
-
-	HMODULE hDll;
-	if (hDll = GetModuleHandle(_T("gdi32")))
-		AvsAlphaBlend = (BOOL (WINAPI *)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION)) GetProcAddress(hDll, "GdiAlphaBlend");
-	if (AvsAlphaBlend == NULL && (hDll = LoadLibrary(_T("msimg32.dll"))))
-		AvsAlphaBlend = (BOOL (WINAPI *)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION)) GetProcAddress(hDll, "AlphaBlend");
 
 	lstrcpyn(g_szDataPath, VARST(_T("%miranda_userdata%")), SIZEOF(g_szDataPath)-1);
 	g_szDataPath[MAX_PATH - 1] = 0;

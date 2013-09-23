@@ -32,8 +32,6 @@
 
 #include <commonheaders.h>
 
-BOOL (WINAPI *MySetProcessWorkingSetSize)(HANDLE, SIZE_T, SIZE_T) = 0;
-
 extern int AddEvent(WPARAM wParam, LPARAM lParam);
 extern int RemoveEvent(WPARAM wParam, LPARAM lParam);
 
@@ -102,7 +100,6 @@ int LoadContactListModule(void)
 
 	hSvc_GetContactStatusMsg = CreateServiceFunction("CList/GetContactStatusMsg", GetContactStatusMessage);
 	InitCustomMenus();
-	MySetProcessWorkingSetSize = (BOOL(WINAPI *)(HANDLE, SIZE_T, SIZE_T))GetProcAddress(GetModuleHandleA("kernel32"), "SetProcessWorkingSetSize");
 	return 0;
 }
 
@@ -273,8 +270,8 @@ int ShowHide(WPARAM wParam, LPARAM lParam)
 	else {                      //It needs to be hidden
 		ShowWindow(pcli->hwndContactList, SW_HIDE);
 		cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
-		if (MySetProcessWorkingSetSize != NULL && cfg::getByte("CList", "DisableWorkingSet", 1))
-			MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
+		if (cfg::getByte("CList", "DisableWorkingSet", 1))
+			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
 	return 0;
 }

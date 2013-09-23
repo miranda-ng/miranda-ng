@@ -24,32 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "MappedMemory.h"
 #include "Logger.h"
 
-typedef BOOL (WINAPI *TUnmapViewOfFile)(LPCVOID);
-typedef BOOL (WINAPI *TFlushViewOfFile)(LPCVOID, SIZE_T);
-typedef HANDLE (WINAPI *TCreateFileMappingA)(HANDLE, LPSECURITY_ATTRIBUTES, DWORD, DWORD, DWORD, LPCSTR);
-typedef LPVOID (WINAPI *TMapViewOfFile)(HANDLE, DWORD, DWORD, DWORD, SIZE_T);
-
-HMODULE myKernelLib = NULL;
-TUnmapViewOfFile myUnmapViewOfFile = NULL;
-TFlushViewOfFile myFlushViewOfFile = NULL;
-TCreateFileMappingA myCreateFileMappingA = NULL;
-TMapViewOfFile myMapViewOfFile = NULL;
-
-bool CMappedMemory::InitMMAP()
-{
-	if (!myKernelLib)
-		myKernelLib = GetModuleHandleA("kernel32.dll"); // is always loaded
-	
-	if (myKernelLib)
-	{
-		myUnmapViewOfFile = (TUnmapViewOfFile) GetProcAddress(myKernelLib, "UnmapViewOfFile");
-		myFlushViewOfFile = (TFlushViewOfFile) GetProcAddress(myKernelLib, "FlushViewOfFile");
-		myCreateFileMappingA = (TCreateFileMappingA) GetProcAddress(myKernelLib, "CreateFileMappingA");
-		myMapViewOfFile = (TMapViewOfFile) GetProcAddress(myKernelLib, "MapViewOfFile");
-	}
-
-	return myUnmapViewOfFile && myFlushViewOfFile && myCreateFileMappingA && myMapViewOfFile;
-}
 CMappedMemory::CMappedMemory(const TCHAR* FileName)
 :	CFileAccess(FileName)
 {
@@ -85,8 +59,8 @@ CMappedMemory::~CMappedMemory()
 {
 	if (m_Base)
 	{
-		myFlushViewOfFile(m_Base, NULL);
-		myUnmapViewOfFile(m_Base);
+		FlushViewOfFile(m_Base, NULL);
+		UnmapViewOfFile(m_Base);
 	}
 	if (m_FileMapping)
 		CloseHandle(m_FileMapping);
@@ -117,8 +91,8 @@ uint32_t CMappedMemory::_SetSize(uint32_t Size)
 {
 	if (m_Base)
 	{
-		myFlushViewOfFile(m_Base, 0);
-		myUnmapViewOfFile(m_Base);
+		FlushViewOfFile(m_Base, 0);
+		UnmapViewOfFile(m_Base);
 	}
 	if (m_FileMapping)
 		CloseHandle(m_FileMapping);
@@ -138,7 +112,7 @@ uint32_t CMappedMemory::_SetSize(uint32_t Size)
 		return 0;
 	}
 
-	m_FileMapping = myCreateFileMappingA(m_DirectFile, NULL, PAGE_READWRITE, 0, Size, NULL);
+	m_FileMapping = CreateFileMappingA(m_DirectFile, NULL, PAGE_READWRITE, 0, Size, NULL);
 
 	if (!m_FileMapping)
 	{
@@ -146,7 +120,7 @@ uint32_t CMappedMemory::_SetSize(uint32_t Size)
 		return 0;
 	}
 
-	m_Base = (uint8_t*) myMapViewOfFile(m_FileMapping, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+	m_Base = (uint8_t*)MapViewOfFile(m_FileMapping, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 	if (!m_Base)
 	{
 		LOGSYS(logERROR, _T("MapViewOfFile failed"));
@@ -163,6 +137,6 @@ void CMappedMemory::_Invalidate(uint32_t Dest, uint32_t Size)
 
 void CMappedMemory::_Flush()
 {
-	myFlushViewOfFile(m_Base, NULL);
+	FlushViewOfFile(m_Base, NULL);
 	FlushFileBuffers(m_DirectFile);
 }

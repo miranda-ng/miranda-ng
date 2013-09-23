@@ -42,6 +42,4 @@ protected:
 public:
 	CMappedMemory(const TCHAR* FileName);
 	virtual ~CMappedMemory();
-
-	static bool InitMMAP();
 };
