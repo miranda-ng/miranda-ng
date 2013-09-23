@@ -587,7 +587,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
 	if (item != NULL) {
 		XmlNode p(_T("presence")); xmlAddAttr(p, _T("to"), item->jid);
-		if (item->m_pItemResource->m_iStatus == ID_STATUS_ONLINE)
+		if (item->getTemp()->m_iStatus == ID_STATUS_ONLINE)
 			xmlAddAttr(p, _T("type"), _T("unavailable"));
 		m_ThreadInfo->send(p);
 	}

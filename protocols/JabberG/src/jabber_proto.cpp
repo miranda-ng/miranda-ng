@@ -753,14 +753,14 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 						m_ThreadInfo->send(iq5);
 					}
 
-					if ( !r->m_dwVersionRequestTime) {
+					if (r->m_dwVersionRequestTime == 0) {
 						XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 						iq4 << XQUERY(JABBER_FEAT_VERSION);
 						m_ThreadInfo->send(iq4);
 					}
 				}
 			}
-			else if (item->m_pItemResource && item->m_pItemResource->m_dwVersionRequestTime == 0) {
+			else if (item->getTemp()->m_dwVersionRequestTime == 0) {
 				XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 				iq4 << XQUERY(JABBER_FEAT_VERSION);
 				m_ThreadInfo->send(iq4);
@@ -1337,8 +1337,9 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 				return;
 			}
 
-			if (item->m_pItemResource->m_tszStatusMessage != NULL) {
-				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->m_pItemResource->m_tszStatusMessage);
+			TCHAR *tszStatusMsg = item->getTemp()->m_tszStatusMessage;
+			if (tszStatusMsg != NULL) {
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)tszStatusMsg);
 				return;
 			}
 		}

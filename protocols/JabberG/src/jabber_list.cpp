@@ -65,7 +65,8 @@ JABBER_LIST_ITEM::~JABBER_LIST_ITEM()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 JABBER_RESOURCE_STATUS::JABBER_RESOURCE_STATUS() :
-	m_refCount(1)
+	m_refCount(1),
+	m_iStatus(ID_STATUS_OFFLINE)
 {
 }
 
@@ -135,10 +136,6 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	item->jid = s;
 	item->resourceMode = RSMODE_LASTSEEN;
 	item->bUseResource = bUseResource;
-	if (!bUseResource) {
-		item->m_pItemResource = new JABBER_RESOURCE_STATUS();
-		item->m_pItemResource->m_iStatus = ID_STATUS_OFFLINE;
-	}
 	m_lstRoster.insert(item);
 	lck.unlock();
 
@@ -177,7 +174,7 @@ void CJabberProto::ListRemoveByIndex(int index)
 
 JABBER_LIST_ITEM* CJabberProto::ListGetItemPtr(JABBER_LIST list, const TCHAR *jid)
 {
-	JABBER_LIST_ITEM *tmp = (JABBER_LIST_ITEM*)alloca( sizeof(JABBER_LIST_ITEM));
+	JABBER_LIST_ITEM *tmp = (JABBER_LIST_ITEM*)_alloca( sizeof(JABBER_LIST_ITEM));
 	tmp->list = list;
 	tmp->jid  = (TCHAR*)jid;
 	tmp->bUseResource = FALSE;
@@ -256,32 +253,34 @@ bool CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int statu
 	const TCHAR *q = _tcschr((p == NULL) ? jid : p, '/');
 	if (q) {
 		const TCHAR *resource = q+1;
-		if (resource[0]) {
-			pResourceStatus r( LI->findResource(resource));
-			if (r != NULL) { // Already exists, update status and statusMessage
-				r->m_iStatus = status;
+		if (*resource == 0)
+			return 0;
+
+		JABBER_RESOURCE_STATUS *r = LI->findResource(resource);
+		if (r != NULL) { // Already exists, update status and statusMessage
+			r->m_iStatus = status;
+			r->m_tszStatusMessage = mir_tstrdup(statusMessage);
+			r->m_iPriority = priority;
+		}
+		else { // Does not exist, add new resource
+			bIsNewResource = true;
+			r = new JABBER_RESOURCE_STATUS();
+			r->m_iStatus = status;
+			r->m_affiliation = AFFILIATION_NONE;
+			r->m_role = ROLE_NONE;
+			r->m_tszResourceName = mir_tstrdup(resource);
+			r->m_tszNick = mir_tstrdup(nick);
+			if (statusMessage)
 				r->m_tszStatusMessage = mir_tstrdup(statusMessage);
-				r->m_iPriority = priority;
-			}
-			else { // Does not exist, add new resource
-				bIsNewResource = true;
-				r = new JABBER_RESOURCE_STATUS();
-				r->m_iStatus = status;
-				r->m_affiliation = AFFILIATION_NONE;
-				r->m_role = ROLE_NONE;
-				r->m_tszResourceName = mir_tstrdup(resource);
-				r->m_tszNick = mir_tstrdup(nick);
-				if (statusMessage)
-					r->m_tszStatusMessage = mir_tstrdup(statusMessage);
-				r->m_iPriority = priority;
-				LI->arResources.insert(r);
-		}	}
+			r->m_iPriority = priority;
+			LI->arResources.insert(r);
+		}
 	}
 	// No resource, update the main statusMessage
 	else {
-		LI->m_pItemResource = new JABBER_RESOURCE_STATUS();
-		LI->m_pItemResource->m_iStatus = status;
-		LI->m_pItemResource->m_tszStatusMessage = mir_tstrdup(statusMessage);
+		JABBER_RESOURCE_STATUS *r = LI->getTemp();
+		r->m_iStatus = status;
+		r->m_tszStatusMessage = mir_tstrdup(statusMessage);
 	}
 
 	lck.unlock();
@@ -350,6 +349,14 @@ pResourceStatus JABBER_LIST_ITEM::getBestResource() const
 	}
 	
 	return (nBestPos != -1) ? arResources[nBestPos] : NULL;
+}
+
+JABBER_RESOURCE_STATUS* JABBER_LIST_ITEM::getTemp()
+{
+	if (m_pItemResource == NULL)
+		m_pItemResource = new JABBER_RESOURCE_STATUS();
+
+	return m_pItemResource;
 }
 
 TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)

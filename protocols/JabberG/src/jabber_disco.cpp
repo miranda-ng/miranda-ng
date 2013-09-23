@@ -1229,9 +1229,9 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 				continue;
 			if ((items[i].flags & SD_FLG_NOTSUBSCRIBED) && (rosterItem && (rosterItem->subscription != SUB_NONE)))
 				continue;
-			if ((items[i].flags & SD_FLG_ONLINE) && rosterItem && (rosterItem->m_pItemResource->m_iStatus != ID_STATUS_OFFLINE))
+			if ((items[i].flags & SD_FLG_ONLINE) && rosterItem && (rosterItem->getTemp()->m_iStatus != ID_STATUS_OFFLINE))
 				continue;
-			if ((items[i].flags & SD_FLG_NOTONLINE) && rosterItem && (rosterItem->m_pItemResource->m_iStatus == ID_STATUS_OFFLINE))
+			if ((items[i].flags & SD_FLG_NOTONLINE) && rosterItem && (rosterItem->getTemp()->m_iStatus == ID_STATUS_OFFLINE))
 				continue;
 			if ((items[i].flags & SD_FLG_NORESOURCE) && _tcschr(pNode->GetJid(), _T('/')))
 				continue;

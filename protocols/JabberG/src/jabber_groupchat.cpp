@@ -1164,7 +1164,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 				resource = tmpnick;
 			}
 		}
-		item->m_pItemResource->m_tszStatusMessage = mir_tstrdup(msgText);
+		item->getTemp()->m_tszStatusMessage = mir_tstrdup(msgText);
 	}
 	else {
 		if ((n = xmlGetChildByTag(node , "body", "xml:lang", m_tszSelectedLang)) == NULL)

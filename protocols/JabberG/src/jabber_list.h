@@ -157,7 +157,8 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	JABBER_RESOURCE_STATUS
 		*m_pLastSeenResource, // resource which was last seen active
 		*m_pManualResource,   // manually set resource
-		*m_pItemResource;     // resource for jids without /resource node
+		*m_pItemResource,     // resource for jids without /resource node
+		*getTemp();           // allocates m_pItemResource if needed
 
 	JABBER_SUBSCRIPTION subscription;
 	TCHAR* group;

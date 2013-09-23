@@ -1517,9 +1517,9 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	if ( !item->arResources.getCount()) {
 		// set offline only if jid has resources
 		if (_tcschr(jid, '/') == NULL)
-			status = item->m_pItemResource->m_iStatus;
-		if (item->m_pItemResource->m_tszStatusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", item->m_pItemResource->m_tszStatusMessage);
+			status = item->getTemp()->m_iStatus;
+		if (item->getTemp()->m_tszStatusMessage)
+			db_set_ts(hContact, "CList", "StatusMsg", item->getTemp()->m_tszStatusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
 	}
@@ -1539,7 +1539,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 				nSelectedResource = i;
 		}
 	}
-	item->m_pItemResource->m_iStatus = status;
+	item->getTemp()->m_iStatus = status;
 	if (nSelectedResource != -1) {
 		pResourceStatus r(item->arResources[nSelectedResource]);
 		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->m_tszResourceName);
@@ -1708,8 +1708,8 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 			// set status only if no more available resources
 			if ( !item->arResources.getCount()) {
-				item->m_pItemResource->m_iStatus = ID_STATUS_OFFLINE;
-				item->m_pItemResource->m_tszStatusMessage = mir_tstrdup(xmlGetText( xmlGetChild(node , "status")));
+				item->getTemp()->m_iStatus = ID_STATUS_OFFLINE;
+				item->getTemp()->m_tszStatusMessage = mir_tstrdup(xmlGetText( xmlGetChild(node , "status")));
 			}
 		}
 		else Log("SKIP Receive presence offline from %S (who is not in my roster)", from);
