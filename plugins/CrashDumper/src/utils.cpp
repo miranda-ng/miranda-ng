@@ -18,6 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utils.h"
 
+static HINSTANCE hKernel = GetModuleHandleA("kernel32.dll");
+
+typedef BOOL (WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+tGetProductInfo pGetProductInfo = (tGetProductInfo)GetProcAddress(hKernel, "GetProductInfo");
+
 void CheckForOtherCrashReportingPlugins(void)
 {
 	HMODULE hModule = GetModuleHandle(TEXT("attache.dll"));
@@ -42,8 +47,7 @@ void GetOSDisplayString(bkstring& buffer)
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
 	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
-	if (!bOsVersionInfoEx)
-	{
+	if (!bOsVersionInfoEx) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		if (!GetVersionEx((OSVERSIONINFO*)&osvi)) 
 			return;
@@ -51,15 +55,12 @@ void GetOSDisplayString(bkstring& buffer)
 
 	GetNativeSystemInfo(&si);
 
-	if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion > 4)
-	{
+	if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion > 4) {
 		buffer.append(TEXT("Operating System: Microsoft "));
 
 		// Test for the specific product.
-		if (osvi.dwMajorVersion == 6)
-		{
-			switch (osvi.dwMinorVersion)
-			{
+		if (osvi.dwMajorVersion == 6) {
+			switch (osvi.dwMinorVersion) {
 			case 0:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					buffer.append(TEXT("Windows Vista "));
@@ -82,10 +83,10 @@ void GetOSDisplayString(bkstring& buffer)
 				break;
 			}
 
-			GetProductInfo(6, 0, 0, 0, &dwType);
+			if (pGetProductInfo)
+				pGetProductInfo(6, 0, 0, 0, &dwType);
 
-			switch(dwType)
-			{
+			switch(dwType) {
 			case PRODUCT_ULTIMATE:
 				buffer.append(TEXT("Ultimate Edition"));
 				break;
@@ -145,8 +146,7 @@ void GetOSDisplayString(bkstring& buffer)
 				buffer.append(TEXT(", 32-bit"));
 		}
 
-		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2)
-		{
+		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) {
 			if (GetSystemMetrics(SM_SERVERR2))
 				buffer.append(TEXT("Windows Server 2003 R2, "));
 			else if (osvi.wSuiteMask==VER_SUITE_STORAGE_SERVER)
@@ -157,27 +157,21 @@ void GetOSDisplayString(bkstring& buffer)
 			else buffer.append(TEXT("Windows Server 2003, "));
 
 			// Test for the server type.
-			if (osvi.wProductType != VER_NT_WORKSTATION)
-			{
-				if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_IA64)
-				{
+			if (osvi.wProductType != VER_NT_WORKSTATION) {
+				if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64) {
 					if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
 						buffer.append(TEXT("Datacenter Edition for Itanium-based Systems"));
 					else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
 						buffer.append(TEXT("Enterprise Edition for Itanium-based Systems"));
 				}
-
-				else if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_AMD64)
-				{
+				else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
 					if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
 						buffer.append(TEXT("Datacenter x64 Edition"));
 					else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
 						buffer.append(TEXT("Enterprise x64 Edition"));
 					else buffer.append(TEXT("Standard x64 Edition"));
 				}
-
-				else
-				{
+				else {
 					if (osvi.wSuiteMask & VER_SUITE_COMPUTE_SERVER)
 						buffer.append(TEXT("Compute Cluster Edition"));
 					else if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
@@ -191,8 +185,7 @@ void GetOSDisplayString(bkstring& buffer)
 			}
 		}
 
-		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1)
-		{
+		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1) {
 			buffer.append(TEXT("Windows XP "));
 			if (osvi.wSuiteMask & VER_SUITE_PERSONAL)
 				buffer.append(TEXT("Home Edition"));
@@ -200,16 +193,12 @@ void GetOSDisplayString(bkstring& buffer)
 				buffer.append(TEXT("Professional"));
 		}
 
-		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0)
-		{
+		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0) {
 			buffer.append(TEXT("Windows 2000 "));
 
 			if (osvi.wProductType == VER_NT_WORKSTATION)
-			{
 				buffer.append(TEXT("Professional"));
-			}
-			else 
-			{
+			else {
 				if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
 					buffer.append(TEXT("Datacenter Server"));
 				else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
@@ -217,18 +206,16 @@ void GetOSDisplayString(bkstring& buffer)
 				else buffer.append(TEXT("Server"));
 			}
 		}
-		if (_tcslen(osvi.szCSDVersion) > 0)
-		{
+
+		if (_tcslen(osvi.szCSDVersion) > 0) {
 			buffer.append(TEXT(" "));
 			buffer.append(osvi.szCSDVersion);
 		}
 
 		buffer.appendfmt(TEXT(" (build %d)"), osvi.dwBuildNumber);
 	}
-	else
-	{
-		if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId)
-		{
+	else {
+		if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId) {
 			buffer.append(TEXT("Microsoft Windows NT "));
 			if (osvi.wProductType == VER_NT_WORKSTATION)
 				buffer.append(TEXT("Workstation 4.0 "));
@@ -238,32 +225,26 @@ void GetOSDisplayString(bkstring& buffer)
 				buffer.append(TEXT("Server 4.0 "));
 		}
 
-		if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && osvi.dwMajorVersion == 4)
-		{
-			if (osvi.dwMinorVersion == 0)
-			{
+		if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && osvi.dwMajorVersion == 4) {
+			if (osvi.dwMinorVersion == 0) {
 				buffer.append(TEXT("Microsoft Windows 95 "));
 				if (osvi.szCSDVersion[1]==TEXT('C') || osvi.szCSDVersion[1]==TEXT('B'))
 					buffer.append(TEXT("OSR2 "));
 			} 
 
-			if (osvi.dwMinorVersion == 10)
-			{
+			if (osvi.dwMinorVersion == 10) {
 				buffer.append(TEXT("Microsoft Windows 98 "));
 				if (osvi.szCSDVersion[1]==TEXT('A') || osvi.szCSDVersion[1]==TEXT('B'))
 					buffer.append(TEXT("SE "));
 			} 
 
 			if (osvi.dwMinorVersion == 90)
-			{
 				buffer.append(TEXT("Microsoft Windows Millennium Edition"));
-			} 
+
 			buffer.appendfmt(TEXT("(build %d)"), LOWORD(osvi.dwBuildNumber));
 		}
 		else if (osvi.dwPlatformId == VER_PLATFORM_WIN32s)
-		{
 			buffer.append(TEXT("Microsoft Win32s"));
-		}
 	}
 }
 
