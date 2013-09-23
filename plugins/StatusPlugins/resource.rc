@@ -250,7 +250,7 @@ BEGIN
     CTEXT           "You enabled ""Change my status mode to"" in the ""Idle"" options dialog, AdvancedAutoAway's options are ignored.",IDC_IDLEWARNING,7,164,244,20,NOT WS_VISIBLE
     CONTROL         "Monitor keyboard activity",IDC_MONITORKEYBOARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,77,220,10
     CONTROL         "Monitor mouse activity",IDC_MONITORMOUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,88,220,10
-    CONTROL         "Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys",IDC_IGNSYSKEYS,
+    CONTROL         "Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys",IDC_IGNSYSKEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,55,220,10
     CONTROL         "Ignore any key combination with above keys",IDC_IGNALTCOMBO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,66,220,10
