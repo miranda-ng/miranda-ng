@@ -1,8 +1,147 @@
+// Microsoft Visual C++ generated resource script.
+//
 #include "..\src\resource.h"
 #include "..\src\version.h"
-#include <windows.h>
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Polish (Poland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PLK)
+LANGUAGE LANG_POLISH, SUBLANG_DEFAULT
+#pragma code_page(1250)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_OFF            ICON                    "option_off.ico"
+IDI_ICON_FF             ICON                    "option_showinff.ico"
+IDI_ICON_PN             ICON                    "popup_notify.ico"
+IDI_ICON_PE             ICON                    "popup_error.ico"
+#endif    // Polish (Poland) resources
+/////////////////////////////////////////////////////////////////////////////
 
 
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT1 DIALOGEX 0, 0, 310, 230
+STYLE DS_SETFONT | WS_POPUP
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Send to contact action",IDC1_STATIC_G1,17,10,275,146
+    LTEXT           "on left mouse button click",IDC1_LABEL2,26,25,256,10
+    COMBOBOX        IDC1_COMBO1,26,38,256,16,CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "on right mouse button click",IDC1_LABEL3,26,59,256,10
+    COMBOBOX        IDC1_COMBO2,26,73,256,12,CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)",IDC1_LABEL4,26,92,256,32
+    COMBOBOX        IDC1_COMBO3,26,132,256,15,CBS_DROPDOWNLIST | WS_TABSTOP
+    GROUPBOX        "Firefox profiles",IDC1_STATIC_G2,17,162,275,55
+    CONTROL         "Show Miranda menu only in these firefox profiles (comma delimited)",IDC1_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,26,171,252,20
+    EDITTEXT        IDC1_EDIT1,26,195,249,14,ES_AUTOHSCROLL
+END
+
+IDD_OPT2 DIALOGEX 0, 0, 310, 230
+STYLE DS_SETFONT | WS_POPUP
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Show these contacts in 'Send ... to' option in Firefox",IDC_STATIC,6,7,299,219
+    CONTROL         "",IDC2_CONTACTS_LIST,"CListControl",WS_TABSTOP | 0x1d2,11,19,287,201,WS_EX_CLIENTEDGE
+END
+
+IDD_OPT3 DIALOGEX 0, 0, 310, 230
+STYLE DS_SETFONT | WS_POPUP
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Show these accounts in 'Set status message' option in Firefox",IDC3_STATIC_G1,17,18,275,191
+    CONTROL         "",IDC3_PROTOCOLS_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,33,35,243,164
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT1, DIALOG
+    BEGIN
+        VERTGUIDE, 19
+        VERTGUIDE, 26
+        VERTGUIDE, 282
+    END
+
+    IDD_OPT2, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT3, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral (Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -10,8 +149,8 @@
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION __FILEVERSION_STRING
- PRODUCTVERSION __FILEVERSION_STRING
+ FILEVERSION 0,5,0,0
+ PRODUCTVERSION 0,5,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -42,122 +181,7 @@ BEGIN
     END
 END
 
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Neutral (Default) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
-#pragma code_page(1250)
-#endif //_WIN32
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_OPT1 DIALOGEX 0, 0, 310, 230
-STYLE DS_SETFONT | WS_POPUP
-FONT 8, "MS Sans Serif", 0, 0, 0x0
-BEGIN
-    GROUPBOX        "",IDC1_STATIC_G1,17,10,275,146
-    LTEXT           "Send to contact action",IDC1_LABEL1,25,16,261,20
-    LTEXT           "on left mouse button click",IDC1_LABEL2,48,37,234,10
-    COMBOBOX        IDC1_COMBO1,48,48,235,16,CBS_DROPDOWNLIST | WS_TABSTOP
-    LTEXT           "on right mouse button click",IDC1_LABEL3,48,71,234,10
-    COMBOBOX        IDC1_COMBO2,48,83,235,12,CBS_DROPDOWNLIST | WS_TABSTOP
-    LTEXT           "on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)",IDC1_LABEL4,48,108,234,30
-    COMBOBOX        IDC1_COMBO3,48,132,235,15,CBS_DROPDOWNLIST | WS_TABSTOP
-    GROUPBOX        "",IDC1_STATIC_G2,17,162,275,55
-    CONTROL         "Show Miranda menu only in this firefox profiles (comma delimited)",IDC1_CHECK1,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,27,171,259,20
-    EDITTEXT        IDC1_EDIT1,41,195,242,14,ES_AUTOHSCROLL
-    GROUPBOX        "",IDC1_STATIC_G3,19,218,273,10,NOT WS_VISIBLE
-END
-
-IDD_OPT2 DIALOGEX 0, 0, 310, 230
-STYLE DS_SETFONT | WS_POPUP
-FONT 8, "MS Sans Serif", 0, 0, 0x0
-BEGIN
-    LTEXT           "Show these contacts in 'Send ... to' option in Firefox",IDC2_LABEL1,4,5,301,19
-    CONTROL         "",IDC2_CONTACTS_LIST,"CListControl",WS_TABSTOP | 0x1d2,4,25,302,201,WS_EX_CLIENTEDGE
-END
-
-IDD_OPT3 DIALOGEX 0, 0, 310, 230
-STYLE DS_SETFONT | WS_POPUP
-FONT 8, "MS Sans Serif", 0, 0, 0x0
-BEGIN
-    GROUPBOX        "",IDC3_STATIC_G1,17,18,275,180
-    LTEXT           "Show these accounts in 'Set status message' option in Firefox",IDC3_LABEL1,23,31,261,19
-    CONTROL         "",IDC3_PROTOCOLS_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,61,52,183,126
-END
-
-
-
-
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Neutral (Default) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Polish resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PLK)
-#ifdef _WIN32
-LANGUAGE LANG_POLISH, SUBLANG_DEFAULT
-#pragma code_page(1250)
-#endif //_WIN32
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_ICON_OFF            ICON                    "res\\option_off.ico"
-IDI_ICON_FF             ICON                    "res\\option_showinff.ico"
-IDI_ICON_PN             ICON                    "res\\popup_notify.ico"
-IDI_ICON_PE             ICON                    "res\\popup_error.ico"
-#endif    // Polish resources
+#endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
