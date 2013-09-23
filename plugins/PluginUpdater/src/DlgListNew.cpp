@@ -67,7 +67,7 @@ static void ApplyDownloads(void *param)
 		ListView_SetItemText(hwndList, i, 2, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)){
+		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
 			ListView_SetItemText(hwndList, i, 2, TranslateT("Failed!"));
 		}
 		else
@@ -159,8 +159,6 @@ static int ListDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_SELNONE:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
-
 	case IDOK:
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 
