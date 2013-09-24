@@ -27,9 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ******************************************
 
 Only new style protocols (Miranda 0.9+) with m_iVersion set to 2 or higher
-support Unicode services documented below, all other support only ANSI. 
+support Unicode services documented below, all other support only ANSI.
 
-For all other that do not support Unicode services, Miranda core will 
+For all other that do not support Unicode services, Miranda core will
 convert Unicode to ANSI and call the appropriate service.
 }
 
@@ -223,10 +223,12 @@ type
 
   PPROTORECVEVENT = ^TPROTORECVEVENT;
   TPROTORECVEVENT = record
-    flags    : DWORD;
-    timestamp: DWORD;
-    szMessage: TChar;
-    lParam   : LPARAM;
+    flags     : DWORD;
+    timestamp : DWORD;
+    szMessage : TChar;
+    lParam    : LPARAM;
+    customInfo: Pointer;
+    customSize: DWORD;
   end;
 
   PPROTORECVFILE = ^TPROTORECVFILE;
@@ -594,7 +596,7 @@ const
  Asks protocol for the status message for a status
  wParam=(WORD) 0 for current status or a status id
  lParam=SGMA_xxx
- Returns status msg or NULL if there is none.  The protocol have to handle only the current 
+ Returns status msg or NULL if there is none.  The protocol have to handle only the current
  status. Handling messages for other statuses is optional.
  Remember to mir_free the return value
 }
@@ -968,7 +970,7 @@ const
              userNick should be a human-readable description of the user. It need not
              be the nick, or even confined to displaying just one type of
              information. The dbe.flags can contain DBEF_UTF defining userNick as
-             utf-8 encoded. 
+             utf-8 encoded.
              userId should be a machine-readable representation of the unique
              protocol identifying field of the user. Because of the need to be
              zero-terminated, binary data should be converted to text.

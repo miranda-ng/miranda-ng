@@ -500,7 +500,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			{
 				CallService(MS_PROTO_CONTACTISTYPING, WPARAM(hContact), 0);
 
-				PROTORECVEVENT pre;
+				PROTORECVEVENT pre = { 0 };
 				pre.szMessage = (char*)msgBody;
 				pre.flags = PREF_UTF + (isRtl ? PREF_RTL : 0);
 				pre.timestamp = (DWORD)time(NULL);

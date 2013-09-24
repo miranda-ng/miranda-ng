@@ -718,7 +718,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 
 			HANDLE hContact = CList_AddContact(&user, false, true);
 
-			PROTORECVEVENT pre;
+			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = (DWORD)time(NULL);
 			pre.flags = PREF_UTF;
 			pre.szMessage = mir_utf8encodeW( mess.c_str());

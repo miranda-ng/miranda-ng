@@ -334,7 +334,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 
 								if (!MesExist) {
-									PROTORECVEVENT recv;
+									PROTORECVEVENT recv = { 0 };
 									recv.flags = PREF_TCHAR;
 									recv.timestamp = stamp;
 									recv.tszMessage = message;
@@ -579,7 +579,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 
 								if (!MesExist) {
-									PROTORECVEVENT recv;
+									PROTORECVEVENT recv = { 0 };
 									recv.flags = PREF_TCHAR;
 									recv.timestamp = stamp;
 									recv.tszMessage = message;

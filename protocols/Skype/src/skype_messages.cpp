@@ -68,7 +68,7 @@ void CSkypeProto::OnMessageReceived(const ConversationRef &conversation, const M
 	if (status != CMessage::UNCONSUMED_NORMAL) 
 		flags |= PREF_CREATEREAD;
 
-	PROTORECVEVENT recv;
+	PROTORECVEVENT recv = { 0 };
 	recv.flags = flags;	
 	recv.lParam = (LPARAM)&param;
 	recv.timestamp = timestamp;

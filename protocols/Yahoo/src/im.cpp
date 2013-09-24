@@ -104,7 +104,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	//setWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
 
-	PROTORECVEVENT pre;
+	PROTORECVEVENT pre = { 0 };
 	pre.flags = (utf8) ? PREF_UTF : 0;
 
 	if (tm) {

@@ -342,11 +342,9 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 					RequestStatus(true, cont->m_addr.S_un.S_addr);
 				else
 				{
-					PROTORECVEVENT pre;
-					pre.flags = 0;
+					PROTORECVEVENT pre = { 0 };
 					pre.timestamp = get_time();
 					pre.szMessage = pak.strMessage;
-					pre.lParam = 0;
 					ProtoChainRecv( FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status),
 						pak.flIsUrl ? PSR_URL : PSR_MESSAGE, 0, (LPARAM)&pre );
 
@@ -367,8 +365,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 
 			if (pak.strAwayMessage && cont)
 			{
-				PROTORECVEVENT pre;
-				pre.flags = 0;
+				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = get_time();
 				pre.szMessage = pak.strAwayMessage;
 				pre.lParam = pak.idAckAwayMessage;

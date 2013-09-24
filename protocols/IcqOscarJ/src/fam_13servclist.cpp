@@ -1634,8 +1634,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 
 	HANDLE hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
-	PROTORECVEVENT pre;
-	pre.flags = 0;
+	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = time(NULL);
 	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + 5;
 	// Prepare reason

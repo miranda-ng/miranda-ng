@@ -149,6 +149,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 		return NULL;
 
 	ptrA pszTemp;
+	mir_ptr<BYTE> pszBlob;
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
@@ -163,7 +164,15 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	}
 	else {
 		dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
-		dbei.pBlob = (PBYTE) pre->szMessage;
+		dbei.pBlob = (PBYTE)pre->szMessage;
+	}
+
+	if (pre->cbCustomDataSize != 0) {
+		pszBlob = (PBYTE)mir_alloc(dbei.cbBlob + pre->cbCustomDataSize);
+		memcpy(pszBlob, dbei.pBlob, dbei.cbBlob);
+		memcpy((PBYTE)pszBlob + dbei.cbBlob, pre->pCustomData, pre->cbCustomDataSize);
+		dbei.pBlob = pszBlob;
+		dbei.cbBlob += pre->cbCustomDataSize;
 	}
 
 	if (pre->flags & PREF_CREATEREAD)

@@ -469,7 +469,7 @@ void CSkypeProto::OnContactsReceived(const ConversationRef &conversation, const 
 	message->GetPropGuid(guid);
 	ReadMessageParam param = { guid, messageType };
 
-	PROTORECVEVENT pre;
+	PROTORECVEVENT pre = { 0 };
 	pre.flags = PREF_UTF;
 	pre.lParam = (LPARAM)&param;
 	pre.timestamp = timestamp;

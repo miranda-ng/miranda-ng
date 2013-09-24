@@ -622,7 +622,7 @@ void TwitterProto::UpdateMessages(bool pre_read)
 		{
 			HANDLE hContact = AddToClientList(i->username.c_str(),"");
 
-			PROTORECVEVENT recv = {};
+			PROTORECVEVENT recv = { 0 };
 			recv.flags = PREF_UTF;
 			if(pre_read)
 				recv.flags |= PREF_CREATEREAD;

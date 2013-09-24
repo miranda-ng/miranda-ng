@@ -586,7 +586,6 @@ static void TlenProcessAvatar(XmlNode* node, ThreadData *info)
 static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 {
 	HANDLE hContact;
-	PROTORECVEVENT recv;
 	XmlNode *bodyNode, *subjectNode, *xNode, *n;
 	char *from, *type, *nick, *p, *localMessage, *idStr;
 	DWORD msgTime;
@@ -703,7 +702,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 								msgTime = time(NULL);
 							}
 						}
-						recv.flags = 0;
+						PROTORECVEVENT recv = { 0 };
 						recv.timestamp = (DWORD) msgTime;
 						recv.szMessage = localMessage;
 						recv.lParam = 0;
@@ -952,7 +951,6 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 static void TlenProcessW(XmlNode *node, ThreadData *info)
 {
 	HANDLE hContact;
-	PROTORECVEVENT recv;
 	char *f, *e, *s, *body;
 	char *str, *localMessage;
 	int strSize;
@@ -984,10 +982,9 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 
 		localMessage = TlenTextDecode(str);
 
-		recv.flags = 0;
+		PROTORECVEVENT recv = { 0 };
 		recv.timestamp = (DWORD) time(NULL);
 		recv.szMessage = localMessage;
-		recv.lParam = 0;
 		ProtoChainRecvMsg(hContact, &recv);	
 
 		mir_free(localMessage);
@@ -1001,7 +998,6 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 static void TlenProcessM(XmlNode *node, ThreadData *info)
 {
 	HANDLE hContact;
-	PROTORECVEVENT recv;
 	char *f;//, *from;//username
 	char *tp;//typing start/stop
 	char *p, *n, *r, *s, *str, *localMessage;
@@ -1071,10 +1067,10 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 						db_set_b(hContact, info->proto->m_szModuleName, "bChat", TRUE);
 						mir_free(str);
 						localMessage = TlenTextDecode(bNode->text);
-						recv.flags = 0;
+
+						PROTORECVEVENT recv = { 0 };
 						recv.timestamp = (DWORD) timestamp;
 						recv.szMessage = localMessage;
-						recv.lParam = 0;
 						ProtoChainRecvMsg(hContact, &recv);
 						mir_free(localMessage);
 					} else {

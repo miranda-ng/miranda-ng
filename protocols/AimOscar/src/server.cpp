@@ -1315,11 +1315,10 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 			// Okay we are setting up the structure to give the message back to miranda's core
 			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hMsgContact, 0);
 			{
-				PROTORECVEVENT pre;
+				PROTORECVEVENT pre = { 0 };
 				pre.flags = PREF_UTF;
 				pre.timestamp = (is_offline) ? offline_timestamp : (DWORD)time(0);
 				pre.szMessage = msg_buf;
-				pre.lParam = 0;
 				ProtoChainRecvMsg(hMsgContact, &pre);
 			}
 

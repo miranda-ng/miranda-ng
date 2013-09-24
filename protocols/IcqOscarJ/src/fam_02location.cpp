@@ -278,8 +278,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 					disposeChain(&pChain);
 				}
 
-				PROTORECVEVENT pre;
-				pre.flags = 0;
+				PROTORECVEVENT pre = { 0 };
 				pre.szMessage = szMsg ? szMsg : (char *)"";
 				pre.timestamp = time(NULL);
 				pre.lParam = dwCookie;
