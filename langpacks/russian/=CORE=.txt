@@ -31,8 +31,8 @@
 %s файл
 [%s Icons]
 %s значки
-[Status Icons/]
-Значки статуса/
+[Status Icons]
+Значки статуса
 [%s is Online]
 %s в сети
 [%s Message for %s]
