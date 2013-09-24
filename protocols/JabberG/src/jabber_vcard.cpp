@@ -302,7 +302,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
 					char* p = mir_t2a(szTempFileName);
 					if ((dat->hBitmap=(HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)p)) != NULL) {
-						JabberBitmapPremultiplyChannels(dat->hBitmap);
+						FIP->FI_Premultiply(dat->hBitmap);
 						_tcscpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 					}

@@ -592,6 +592,8 @@ extern TCHAR szCoreVersion[];
 extern int g_cbCountries;
 extern struct CountryListEntry* g_countries;
 
+extern FI_INTERFACE *FIP;
+
 /*******************************************************************
  * Function declarations
  *******************************************************************/
@@ -753,7 +755,6 @@ time_t str2time(const TCHAR*);
 
 const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr);
 void JabberCopyText(HWND hwnd, TCHAR *text);
-void JabberBitmapPremultiplyChannels(HBITMAP hBitmap);
 CJabberProto *JabberChooseInstance(bool bIsLink=false);
 
 bool JabberReadXep203delay(HXML node, time_t &msgTime);

@@ -57,6 +57,7 @@ XML_API  xi;
 TIME_API tmi;
 
 CLIST_INTERFACE* pcli;
+FI_INTERFACE *FIP = NULL;
 
 BOOL   jabberChatDllPresent = FALSE;
 
@@ -184,6 +185,14 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
+
+	if (ServiceExists(MS_IMG_GETINTERFACE)) {
+		INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
+		if (FIP == NULL || result != S_OK) {
+			MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags Module will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+			return 1;
+		}
+	}
 
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
