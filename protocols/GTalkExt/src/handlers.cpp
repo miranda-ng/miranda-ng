@@ -134,8 +134,10 @@ BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR m
 	if (!acc)
 		return FALSE;
 
-	if (!unreadCount)
+	if (!unreadCount) {
+		SetupPseudocontact(jid, xi.getAttrValue(node, ATTRNAME_TOTAL_MATCHED), acc);
 		return TRUE;
+	}
 
 	DWORD settings = ReadNotificationSettings(acc);
 
@@ -380,6 +382,8 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	RenewPseudocontactHandles();
+
 	int count;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
@@ -389,7 +393,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			ji->Net()->AddSendHandler(SendHandler);
 	}
 
-	HookEvent(ME_JABBER_MENUINIT, InitMenus);
 	HookOptionsInitialization();
 	return 0;
 }

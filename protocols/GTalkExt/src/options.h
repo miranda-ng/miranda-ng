@@ -27,6 +27,8 @@ static const LPTSTR MAIL_NOTIFICATIONS = LPGENT("GMail notifications");
 static const LPTSTR FULL_NOTIFICATION_FORMAT = LPGENT("subject\n    %s\nfrom\n%s\n%s\n");
 static const LPTSTR SHORT_NOTIFICATION_FORMAT = LPGENT("subject\n    %s\nfrom\n%s");
 
+static const LPSTR PSEUDOCONTACT_LINK = "GTalkExtNotifyContact";
+static const LPSTR PSEUDOCONTACT_FLAG = "IsNotifyContact";
 static const LPSTR BACK_COLOR_SETTING = "BackColor";
 static const LPSTR TEXT_COLOR_SETTING = "TextColor";
 static const LPSTR TIMEOUT_SETTING = "Timeout";

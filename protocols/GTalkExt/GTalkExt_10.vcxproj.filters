@@ -45,6 +45,9 @@
     <ClCompile Include="src\tipper_items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\avatar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\db.h">
@@ -74,6 +77,9 @@
     <ClInclude Include="src\tipper_items.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="res\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\settings.rc">
@@ -82,5 +88,13 @@
     <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\PopupIcon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\pseudoava.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

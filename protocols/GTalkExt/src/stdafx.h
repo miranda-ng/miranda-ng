@@ -65,3 +65,6 @@
 #pragma warning(pop)
 
 extern HINSTANCE g_hInst;
+
+void SetAvatar(HANDLE hContact);
+BOOL InitAvaUnit(BOOL init);

@@ -173,6 +173,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\avatar.cpp" />
     <ClCompile Include="src\db.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\GTalkExt.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="src\tipper_items.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\db.h" />
     <ClInclude Include="src\handlers.h" />
     <ClInclude Include="src\inbox.h" />
@@ -200,6 +202,10 @@
   <ItemGroup>
     <ResourceCompile Include="res\settings.rc" />
     <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\PopupIcon.ico" />
+    <None Include="res\pseudoava.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

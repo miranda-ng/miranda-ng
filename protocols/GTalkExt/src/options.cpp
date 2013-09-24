@@ -43,7 +43,17 @@ void CheckControlsEnabled(HWND wnd)
 	BOOL PopupsEnabled = (SendDlgItemMessage(wnd, IDC_POPUPSENABLED, BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
 	EnableWindow(GetDlgItem(wnd, IDC_POPUPSINFULLSCREEN), PopupsEnabled);
 	EnableWindow(GetDlgItem(wnd, IDC_POPUPSINFULLSCREENLABEL), PopupsEnabled);
-	EnableWindow(GetDlgItem(wnd, IDC_ADDSNIP), PopupsEnabled);
+
+	BOOL CListEnabled = (SendMessage(GetDlgItem(wnd, IDC_PSEUDOCONTACTENABLED), BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
+	EnableWindow(GetDlgItem(wnd, IDC_CLEARPSEUDOCONTACTLOG), CListEnabled);
+
+	EnableWindow(GetDlgItem(wnd, IDC_MARKEVENTREAD), PopupsEnabled && CListEnabled);
+	EnableWindow(GetDlgItem(wnd, IDC_ADDSNIP), PopupsEnabled || CListEnabled);
+
+	EnableWindow(GetDlgItem(wnd, IDC_MAILBOXVIEWLABEL), PopupsEnabled || CListEnabled);
+	EnableWindow(GetDlgItem(wnd, IDC_UNKNOWNVIEW), PopupsEnabled || CListEnabled);
+	EnableWindow(GetDlgItem(wnd, IDC_STANDARDVIEW), PopupsEnabled || CListEnabled);
+	EnableWindow(GetDlgItem(wnd, IDC_HTMLVIEW), PopupsEnabled || CListEnabled);
 
 	EnableWindow(GetDlgItem(wnd, IDC_MAILBOXVIEWLABEL), PopupsEnabled);
 	EnableWindow(GetDlgItem(wnd, IDC_UNKNOWNVIEW), PopupsEnabled);
@@ -63,7 +73,10 @@ DWORD ReadCheckboxes(HWND wnd, LPCSTR mod)
 {
 	DWORD controls = db_get_dw(0, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, 0);
 	ReadCheckbox(wnd, IDC_POPUPSENABLED, controls);
+	ReadCheckbox(wnd, IDC_PSEUDOCONTACTENABLED, controls);
+	ReadCheckbox(wnd, IDC_CLEARPSEUDOCONTACTLOG, controls);
 	ReadCheckbox(wnd, IDC_POPUPSINFULLSCREEN, controls);
+	ReadCheckbox(wnd, IDC_MARKEVENTREAD, controls);
 	ReadCheckbox(wnd, IDC_AUTHONMAILBOX, controls);
 	ReadCheckbox(wnd, IDC_ADDSNIP, controls);
 	ReadCheckbox(wnd, IDC_UNKNOWNVIEW, controls);
@@ -81,9 +94,11 @@ DWORD GetCheckboxSaveValue(HWND wnd, int id)
 
 void SaveControls(HWND wnd, LPCSTR mod)
 {
-	DWORD controls = 
+	DWORD controls = GetCheckboxSaveValue(wnd, IDC_CLEARPSEUDOCONTACTLOG) |
 		GetCheckboxSaveValue(wnd, IDC_POPUPSINFULLSCREEN) |
 		GetCheckboxSaveValue(wnd, IDC_POPUPSENABLED) |
+		GetCheckboxSaveValue(wnd, IDC_PSEUDOCONTACTENABLED) |
+		GetCheckboxSaveValue(wnd, IDC_MARKEVENTREAD) |
 		GetCheckboxSaveValue(wnd, IDC_AUTHONMAILBOX) |
 		GetCheckboxSaveValue(wnd, IDC_ADDSNIP) |
 		GetCheckboxSaveValue(wnd, IDC_UNKNOWNVIEW) |
@@ -111,10 +126,13 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_POPUPSENABLED:
+		case IDC_PSEUDOCONTACTENABLED:
 			if (HIWORD(wParam) == BN_CLICKED) CheckControlsEnabled(wnd);
 			// no break
 
+		case IDC_CLEARPSEUDOCONTACTLOG:
 		case IDC_POPUPSINFULLSCREEN:
+		case IDC_MARKEVENTREAD:
 		case IDC_AUTHONMAILBOX:
 		case IDC_ADDSNIP:
 		case IDC_UNKNOWNVIEW:
@@ -217,8 +235,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 
 void AddPopupsPage(WPARAM wParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.ptszTitle = MAIL_NOTIFICATIONS;
 	odp.pfnDlgProc = PopupsOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);

@@ -176,6 +176,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\avatar.cpp" />
     <ClCompile Include="src\db.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\GTalkExt.cpp" />

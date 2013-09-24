@@ -66,8 +66,7 @@ const DWORD SIZE_OF_JABBER_OPTIONS = 243 * sizeof(DWORD);
 
 LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 {
-	NETLIBHTTPREQUEST nlhr = {0};
-	nlhr.cbSize = sizeof(nlhr);
+	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
 	nlhr.requestType = REQUEST_POST;
 	nlhr.flags = NLHRF_GENERATEHOST | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP | NLHRF_NODUMPHEADERS;
 	nlhr.szUrl = reqUrl;
@@ -240,13 +239,17 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 		mir_forkthread(ShellExecuteThread, mir_tstrdup(url));
 }
 
-void OpenContactInbox(LPCSTR acc)
+void OpenContactInbox(HANDLE hContact)
 {
-	DBVARIANT dbv;
-	if ( db_get_ts(0, acc, "jid", &dbv))
+	LPSTR acc = GetContactProto(hContact);
+	if (!acc)
 		return;
 
-	LPTSTR host = _tcschr(dbv.ptszVal, '@');
+	ptrT tszJid( db_get_tsa(0, acc, "jid"));
+	if (tszJid == NULL)
+		return;
+
+	LPTSTR host = _tcschr(tszJid, '@');
 	if (!host)
 		return;
 	*host++ = 0;
@@ -256,7 +259,5 @@ void OpenContactInbox(LPCSTR acc)
 		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T("a/"), host);   // hosted
 	else
 		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T(""), _T("mail")); // common
-	OpenUrl(acc, dbv.ptszVal, buf);
-
-	db_free(&dbv);
+	OpenUrl(acc, tszJid, buf);
 }
