@@ -357,6 +357,8 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// for our pseudo contact only our own popups are allowed
+// 0 = allowed, 1 = disallowed
 
 int OnFilterPopup(WPARAM wParam, LPARAM lParam)
 {
@@ -364,7 +366,7 @@ int OnFilterPopup(WPARAM wParam, LPARAM lParam)
 	if ( !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		return 0;
 
-	return (lParam == (LPARAM)&PopupProc);
+	return (lParam != (LPARAM)&PopupProc);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
