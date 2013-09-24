@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resources.h"
 #include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
