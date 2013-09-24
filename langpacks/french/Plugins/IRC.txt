@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Ajouter
@@ -12,6 +14,8 @@
 &Modifier
 [&Del]
 &Effacer
+[Enable]
+Activer
 [only while connecting]
 seulement à la connexion
 [Force visible (-i)]
@@ -28,6 +32,8 @@ Afficher les adresses
 Utiliser la fenêtre du serveur
 [Show server window on startup]
 Afficher la fenêtre au démarrage
+[Keep connection alive]
+Garder la connection active
 [Automatically join on invite]
 Rejoindre auto. si invité
 ['Old style' mode changes]
@@ -46,6 +52,8 @@ Pseudo
 Identifiant
 [Full name (e-mail)]
 Nom (e-mail)
+[Password]
+Mot de passe
 [Server name]
 Nom du Serveur
 [Alternative nick]
@@ -54,6 +62,8 @@ Pseudo alternatif
 Ident.
 [System]
 Système
+[Port]
+Port
 [Default network]
 Réseau par défaut
 [User info - Required]
@@ -68,10 +78,18 @@ Attente (s)
 Nb d'essais
 [Check every (s):]
 Vérifier toutes les (secondes) :
+[SSL]
+SSL
 [Don't check if more than (users):]
 Ne pas vérifier si plus de (usagers) :
 [User information]
 Information usager
+[Ping]
+Ping
+[Version]
+Version
+[Time]
+Heure
 [Userinfo]
 Info usager
 [&Refresh]
@@ -82,14 +100,24 @@ Info usager
 &Fermer
 [Name]
 Nom
+[Address]
+Adresse
 [Channels]
 Canaux
+[Auth]
+
+[Server]
+Serveur
+[User]
+Utilisateur
 [Away Info]
 Info d'inactivité
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
 Le serveur a retourné l'information suivante. Veuillez noter que cette information peut être trompeuse ou falsifiée
 [CTCP information]
 Information CTCP
+[Question]
+Question
 [&OK]
 OK
 [&Cancel]
@@ -98,6 +126,8 @@ OK
 Action
 [&Set]
 &Régler
+[Alias]
+
 [Perform on event:]
 Action sur l'évènement :
 [Scripting support]
@@ -110,22 +140,40 @@ Page de code du serveur :
 Auto-détection de l'UTF8
 [Add server]
 Ajouter serveur
+[On]
+
+[Auto]
+
+[Off]
+
+[Host address]
+Adresse d'hôte
+[Server description]
+Description du serveur
 [Network]
 Réseau
 [Channels on server]
 Canaux sur le serveur
 [&Join]
 Re&joindre
+[Filter by]
+Filtrer par
 [C&onnect]
 &Connecter
+[&Save]
+&Sauvegarder
 [Hostmask]
 Masque d'hôte
 [&Clear all]
 &Tout effacer
 [Online detection mode]
 Détection en ligne
+[Basic]
+Basique
 [Wildcard enabled network search]
 Recherche réseau de la Wildcard
+[Channel manager]
+Manager de canaux
 [Bans]
 Exclusions
 [Invites]
@@ -144,18 +192,30 @@ Modéré
 Code :
 [User limit:]
 Nb max usager :
+[Private]
+Privé
+[Secret]
+Secret
 [Topic]
 Sujet
 [User modes]
 Modes d'usager
 [Channel modes]
 Modes de canal
+[Hidden]
+Caché
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
 Utilisez les préférences pour régler les modes pour ce canal. Vous devez normalement être op. ou plus pour modifier
+[Strip colors]
+
+[Normal]
+Normale
 [Send-ahead]
 Prévenir
 [Attempt reverse DCC (good if firewalled)]
 Essayer DCC inversé (bon avec pare-feu)
+[none]
+Aucun
 [everyone on the contact list]
 toute la liste
 [everyone]
@@ -182,6 +242,8 @@ Accepter automatiq. de :
 Envoyer une notice
 [CTCP Chat Request]
 Requêtes CTCP
+[&Accept]
+&Accepter
 [&Deny]
 &Refuser
 [Enable (*)]
@@ -198,8 +260,16 @@ Ignorer les requêtes de DCC Chat venant de contacts inconnus
 Ignorer les usagers
 [(*) Queries from users on your contactlist are never ignored]
 (*) Ne jamais ignorer les messages privés d'utilisateurs de la liste de contacts
+[Queries]
+
+[Messages]
+Messages
 [Notices]
 Notifications
+[CTCP]
+CTCP
+[DCC]
+DCC
 [Ignore mask ( nick!user@host )]
 Ignorer masque ( nick!user@host )
 [Network (*)]
@@ -208,8 +278,12 @@ Réseau (*)
 Ignorer les évènements
 [(*) blank to set this mask for all networks]
 (*) laisser vide pour couvrir tous les réseaux
+[Server:]
+Serveur:
 [Password:]
 Passe :
+[Alternate nick]
+Pseudo alternatif
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
@@ -218,6 +292,8 @@ Requête de chat CTCP de %s
 %s règle le mode %s
 [%s sets mode %s%s]
 %s règle le mode %s%s
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+
 [CTCP FINGER requested by %s]
 FINGER CTCP requis par %s
 [CTCP VERSION requested by %s]
@@ -281,6 +357,8 @@ Erreur IRC
 La fonction de vérification des amis est activée
 [The buddy check function is disabled]
 La fonction de vérification des amis est désactivée
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+Paramètre incorrecte. Utiliser: /sleep [ms], ms doit être compris entre 0 et 4000.
 [Ignore system is enabled]
 Filtre usagers activé
 [Ignore system is disabled]
@@ -318,9 +396,21 @@ Saisir commande
 [Please enter the reply]
 Veuillez saisir la réponse
 ;file \protocols\IRCG\src\irclib.cpp
+[Failed to connect to]
+N'a pas pu se connecter à
+[DCC ERROR: Unable to bind local port for passive filetransfer]
+
 ;file \protocols\IRCG\src\ircproto.cpp
+[%s server connection]
+%s serveur connexion
+[%s client-to-client connections]
+/s client-to-client connexions
+[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
+Le protocole IRC dépends d'un autre plugin appelé 'Chat'\n\nVoulez-vous le télécharger à partir du site web Miranda NG?
 [Information]
 Informations
+[Nickname]
+
 [DCC ERROR: No valid files specified]
 Erreur DCC : Fichiers spécifiés invalide
 [DCC reversed file transfer request sent to %s [%s]]
@@ -335,7 +425,11 @@ Le protocole n'est pas en ligne
 La connexion de chat DCC est inactive
 [Please choose an IRC-network to go online. This network will be the default.]
 Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+La connexion n'as pas pu être établie! Vous n'avez pas compléter tous les champs nécessaire (Nickname, Identifiant et m_name).
 ;file \protocols\IRCG\src\options.cpp
+[Main]
+Principales
 [Add]
 Ajouter
 [Apply]
@@ -350,10 +444,48 @@ Annuler
 Liste des salons
 [Quick connect]
 Connexion rapide
+[Server window]
+Fenêtre du serveur
 [Show channel]
 Afficher le salon
+[WhoIs]
+WhoIs
 [Incoming DCC Chat]
 Requête de discussion directe DCC
+[Logo (48x48)]
+Logo (48x48)
+[Thai]
+Thaïlandais
+[Japanese]
+Japonais
+[Simplified Chinese]
+Chinois simplifié
+[Korean]
+Coréen
+[Traditional Chinese]
+Chinois traditionnel
+[Central European]
+Europe Centrale
+[Cyrillic (Windows)]
+
+[Cyrillic (KOI8R)]
+
+[Latin I]
+Latin I
+[Greek]
+Grecque
+[Turkish]
+Turque
+[Hebrew]
+Hébreux
+[Arabic]
+Arabe
+[Baltic]
+Balte
+[Vietnamese]
+Vietnamien
+[Korean (Johab)]
+Coréen (Johab)
 [Please complete all fields]
 Veuillez renseigner tous les champs
 [Add a new network]
@@ -378,6 +510,8 @@ Effacer le serveur
 Cliquez pour définir la commande pour cet évènement
 [Click to delete the commands for this event]
 Cliquez pour effacer la commande de cet évènement
+[Default ANSI codepage]
+
 [Add new ignore]
 Ajouter un nouvel ignoré
 [Edit this ignore]
@@ -386,6 +520,16 @@ Ajouter un nouvel ignoré
 Effacer cet ignoré
 [Ignore mask]
 Ignorer le masque
+[Flags]
+
+[Add ignore]
+
+[Edit ignore]
+
+[Account]
+
+[DCC'n CTCP]
+
 [Advanced]
 Avancé
 ;file \protocols\IRCG\src\output.cpp
@@ -406,6 +550,8 @@ Notice à %s :
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Connexion &rapide
+[&Join channel]
+Re&joindre un canal
 [&Change your nickname]
 &Changer de pseudo
 [Show the &list of available channels]
@@ -434,12 +580,100 @@ Veuillez sélectionner un réseau IRC et entrer le mot de passe si nécessaire.
 Changer le pseudo
 [Please enter a unique nickname]
 Veuillez entrer un pseudo unique
+[Please enter your authentification code]
+Veuillez entrer votre code d'authentification
+[Authentificate nick]
+
+[Are you sure you want to unregister your current nick?]
+Êtes vous sur de vouloir désenregistrer votre pseudo actuel? 
+[Delete nick]
+Effacer le pseudo
+[Identify nick]
+
+[Please enter your password]
+Veuillez entrer votre mot de passe
+[Please enter your new password]
+Veuillez entrer votre nouveau mot de passe
+[Set new password]
+Créer nouveau mot de passe
+[Please enter desired languageID (numeric value, depends on server)]
+Veuillez entrer votre IDlangue désiré (valeur numérique, dépend du serveur)
+[Change language of NickServ messages]
+Changer la langue des messages NickServ
+[Please enter URL that will be linked to your nick]
+Veuillez entrer une URL qui sera liée à votre pseudo
+[Set URL, linked to nick]
+URL, lié a votre pseudo
+[Please enter your e-mail, that will be linked to your nick]
+Veuillez entrer votre e-mail, il sera lié à votre pseudo
+[Set e-mail, linked to nick]
+E-mail, lié à votre pseudo
+[Please enter some information about your nick]
+Veuillez entrer quelques informations à propos de votre pseudo
+[Set information for nick]
+Informations sur le pseudo
+[Please enter nick you want to link to your current nick]
+Veuillez entrer un pseudo que vous voulez lié à votre pseudo actuel
+[Link another nick to current nick]
+Lié un autre pseudo à votre pseudo actuel
+[Please enter nick you want to unlink from your current nick]
+Veuillez entrer un pseudo que vous voulez délié à votre pseudo actuel
+[Unlink another nick from current nick]
+Délié un pseudo à votre pseudo actuel
+[Please enter nick you want to set as your main nick]
+Veuillez entrer le pseudo que vous souhaitez en pseudo principal
+[Set main nick]
+Pseudo principale
+[Kick]
+Exclure
 [Please enter the notice text]
 Veuillez taper votre notice
 [Please enter the channel name to invite to]
 Veuillez saisir le nom du salon
 [Invite to channel]
 Inviter sur un salon
+[NickServ]
+NickServ
+[Register nick]
+
+[Auth nick]
+
+[Remind password]
+
+[Set language]
+
+[Set homepage]
+
+[Set e-mail]
+
+[Set info]
+
+[Hide e-mail from info]
+Cacher l'e-mail dans les infos
+[Show e-mail in info]
+Montrer l'e-mail dans les infos
+[Set security for nick]
+
+[Remove security for nick]
+
+[Link nick to current]
+
+[Unlink nick from current]
+
+[List all your nicks]
+
+[List your channels]
+
+[Kill unauthorized: off]
+
+[Kill unauthorized: on]
+
+[Kill unauthorized: quick]
+
+[Hide nick from list]
+
+[Show nick to list]
+
 [Show the server &window]
 Voir &fenêtre du serveur
 [&Leave the channel]
@@ -448,6 +682,14 @@ Voir &fenêtre du serveur
 &Inviter sur un salon
 [Send &notice]
 Envoyer une &notice
+[&Slap]
+
+[Nickserv info]
+
+[Nickserv kill ghost]
+
+[&Control]
+
 [Give Owner]
 Rendre Owner
 [Take Owner]
@@ -468,8 +710,12 @@ Enlever H&alfop
 Rendre &Voice
 [Take V&oice]
 Enlever V&oice
+[&Kick]
+
 [Ki&ck (reason)]
 Ki&ck (Motif)
+[&Ban]
+
 [Ban'&n kick]
 Ban &et kick
 [Ban'n kick (&reason)]
@@ -492,9 +738,27 @@ Connexion à
 [Offline]
 Hors ligne
 ;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
+
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
+
 ;file \protocols\IRCG\src\windows.cpp
+[Please wait...]
+
 [Channel]
 Canal
+[Mode]
+
+[%s - Filtered - %d items]
+
+[---- Not listed server ----]
+
+[Type new server address here]
+
 [Add ban/invite/exception]
 Ajouter ban/invite/exception
 [Edit selected ban/invite/exception]
