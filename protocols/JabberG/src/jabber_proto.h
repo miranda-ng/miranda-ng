@@ -133,12 +133,12 @@ private:
 
 struct CJabberInterface: public IJabberInterface
 {
-	DWORD STDMETHODCALLTYPE					GetFlags() const;			// Set of JIF_* flags.
-	int STDMETHODCALLTYPE					GetVersion() const;			// Returns version of IJabberInterface.
-	DWORD STDMETHODCALLTYPE					GetJabberVersion() const;	// Returns Jabber plugin version.
+	DWORD STDMETHODCALLTYPE GetFlags() const;                    // Set of JIF_* flags.
+	int   STDMETHODCALLTYPE GetVersion() const;                  // Returns version of IJabberInterface.
+	DWORD STDMETHODCALLTYPE GetJabberVersion() const;            // Returns Jabber plugin version.
 
-	IJabberSysInterface* STDMETHODCALLTYPE	Sys() const;				// Jabber system utilities.
-	IJabberNetInterface* STDMETHODCALLTYPE	Net() const;				// Jabber network interface.
+	IJabberSysInterface* STDMETHODCALLTYPE	Sys() const;          // Jabber system utilities.
+	IJabberNetInterface* STDMETHODCALLTYPE	Net() const;          // Jabber network interface.
 
 	CJabberProto *m_psProto;
 };
@@ -589,7 +589,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 	void   OnProcessLoginRq(ThreadData* info, DWORD rq);
 	void   OnLoggedIn(void);
 
-	//---- jabber_iq_handlers.cpp --------------------------------------------------------
+	//---- jabber_iq_handlers.cpp -------------------------------------------------------
 
 	BOOL   OnIqRequestVersion(HXML node, CJabberIqInfo* pInfo);
 	BOOL   OnIqRequestLastActivity(HXML node, CJabberIqInfo *pInfo);
@@ -618,7 +618,11 @@ struct CJabberProto : public PROTO<CJabberProto>
 	int    FtReceive(HANDLE hConn, filetransfer *ft, char* buffer, int datalen);
 	void   FtReceiveFinal(BOOL success, filetransfer *ft);
 
-	//---- jabber_message_handlers.cpp --------------------------------------------------------
+	//---- jabber_iqid.cpp ---------------------------------------------------------------
+
+	void   GroupchatJoinByHContact(HANDLE hContact, bool autojoin=false);
+
+	//---- jabber_message_handlers.cpp ---------------------------------------------------
 
 	BOOL   OnMessageError(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
 	BOOL   OnMessageIbb(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
@@ -875,12 +879,10 @@ struct CJabberProto : public PROTO<CJabberProto>
 	//---- jabber_vcard.c -----------------------------------------------
 
 	int    m_vCardUpdates;
-	HWND   m_hwndPhoto;
 	bool   m_bPhotoChanged;
 	TCHAR  m_szPhotoFileName[MAX_PATH];
 	void   OnUserInfoInit_VCard(WPARAM, LPARAM);
 
-	void   GroupchatJoinByHContact(HANDLE hContact, bool autojoin=false);
 	int    SendGetVcard(const TCHAR *jid);
 	void   AppendVcardFromDB(HXML n, char* tag, char* key);
 	void   SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName);
@@ -907,10 +909,10 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	//---- jabber_xstatus.c --------------------------------------------------------------
 
-	INT_PTR    __cdecl OnSetListeningTo(WPARAM wParam, LPARAM lParams);
-	INT_PTR    __cdecl OnGetXStatusIcon(WPARAM wParam, LPARAM lParams);
-	INT_PTR    __cdecl OnGetXStatusEx(WPARAM wParam, LPARAM lParams);
-	INT_PTR    __cdecl OnSetXStatusEx(WPARAM wParam, LPARAM lParams);
+	INT_PTR __cdecl OnSetListeningTo(WPARAM wParam, LPARAM lParams);
+	INT_PTR __cdecl OnGetXStatusIcon(WPARAM wParam, LPARAM lParams);
+	INT_PTR __cdecl OnGetXStatusEx(WPARAM wParam, LPARAM lParams);
+	INT_PTR __cdecl OnSetXStatusEx(WPARAM wParam, LPARAM lParams);
 
 	HICON  GetXStatusIcon(int bStatus, UINT flags);
 
@@ -926,31 +928,29 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	void   SetContactTune(HANDLE hContact,  LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack);
 
-	void InfoFrame_OnUserMood(CJabberInfoFrame_Event *evt);
-	void InfoFrame_OnUserActivity(CJabberInfoFrame_Event *evt);
-
-	int m_xsActivity;
+	void   InfoFrame_OnUserMood(CJabberInfoFrame_Event *evt);
+	void   InfoFrame_OnUserActivity(CJabberInfoFrame_Event *evt);
 
 	CPepServiceList m_pepServices;
 
 private:
-	char*   m_szXmlStreamToBeInitialized;
+	char  *m_szXmlStreamToBeInitialized;
 
-	DWORD   m_lastTicks;
+	DWORD  m_lastTicks;
 
-	HANDLE  m_hPopupClass;
+	HANDLE m_hPopupClass;
 
-	HANDLE  m_hJabberAvatarsFolder;
-	BOOL    m_bFoldersInitDone;
+	HANDLE m_hJabberAvatarsFolder;
+	BOOL   m_bFoldersInitDone;
 
-	LONG    m_nSerial;
+	LONG   m_nSerial;
 
-	HGENMENU m_hPrivacyMenuRoot;
-	BOOL     m_menuItemsStatus;
+	HGENMENU   m_hPrivacyMenuRoot;
+	BOOL       m_menuItemsStatus;
 	LIST<void> m_hPrivacyMenuItems;
 
-	int       m_nMenuResourceItems;
-	HGENMENU *m_phMenuResourceItems;
+	int        m_nMenuResourceItems;
+	HGENMENU  *m_phMenuResourceItems;
 };
 
 extern LIST<CJabberProto> g_Instances;
