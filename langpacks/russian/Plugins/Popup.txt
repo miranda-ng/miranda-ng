@@ -403,8 +403,6 @@ BBCode ([b]..[/b] - жирный)
 Включить действия
 [Second test action]
 Второе пробное действие
-[Enable Win 9x/Me transparency]
-Прозрачность в Win9x/ME
 [Global Status]
 Общий статус
 [Don't close popups on default actions]
