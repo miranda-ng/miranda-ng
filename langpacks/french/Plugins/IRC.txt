@@ -426,7 +426,7 @@ La connexion de chat DCC est inactive
 [Please choose an IRC-network to go online. This network will be the default.]
 Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-La connexion n'as pas pu être établie! Vous n'avez pas compléter tous les champs nécessaire (Nickname, Identifiant et m_name).
+La connexion n'as pas pu être établie! Vous n'avez pas compléter tous les champs nécessaires (Nickname, Identifiant et m_name).
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Principales
