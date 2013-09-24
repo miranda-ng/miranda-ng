@@ -188,7 +188,6 @@
     <ClCompile Include="src\tipper_items.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\db.h" />
     <ClInclude Include="src\handlers.h" />
     <ClInclude Include="src\inbox.h" />
