@@ -1136,12 +1136,12 @@ struct JabberEnterStringParams
 
 static int sttEnterStringResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
-	switch (urc->wId)
-	{
+	switch (urc->wId) {
 	case IDC_TXT_MULTILINE:
 	case IDC_TXT_COMBO:
 	case IDC_TXT_RICHEDIT:
 		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP|RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+
 	case IDOK:
 	case IDCANCEL:
 		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
@@ -1155,42 +1155,35 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		//SetWindowPos(hwndDlg, HWND_TOPMOST ,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE);
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_OTHER_RENAME));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_RENAME));
-		JabberEnterStringParams *params = (JabberEnterStringParams *)lParam;
+		params = (JabberEnterStringParams *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
 		SetWindowText(hwndDlg, params->caption);
-
-		RECT rc; GetWindowRect(hwndDlg, &rc);
-		switch (params->type)
 		{
+			RECT rc; GetWindowRect(hwndDlg, &rc);
+			switch (params->type) {
 			case JES_PASSWORD:
-			{
 				params->idcControl = IDC_TXT_PASSWORD;
 				params->height = rc.bottom-rc.top;
 				break;
-			}
+
 			case JES_MULTINE:
-			{
 				params->idcControl = IDC_TXT_MULTILINE;
 				params->height = 0;
 				rc.bottom += (rc.bottom-rc.top) * 2;
 				SetWindowPos(hwndDlg, NULL, 0, 0, rc.right-rc.left, rc.bottom-rc.top, SWP_NOMOVE|SWP_NOREPOSITION);
 				break;
-			}
+
 			case JES_COMBO:
-			{
 				params->idcControl = IDC_TXT_COMBO;
 				params->height = rc.bottom-rc.top;
 				if (params->windowName && params->recentCount)
 					params->ppro->ComboLoadRecentStrings(hwndDlg, IDC_TXT_COMBO, params->windowName, params->recentCount);
 				break;
-			}
+
 			case JES_RICHEDIT:
-			{
 				params->idcControl = IDC_TXT_RICHEDIT;
 				SendDlgItemMessage(hwndDlg, IDC_TXT_RICHEDIT, EM_AUTOURLDETECT, TRUE, 0);
 				SendDlgItemMessage(hwndDlg, IDC_TXT_RICHEDIT, EM_SETEVENTMASK, 0, ENM_LINK);
@@ -1200,7 +1193,6 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				break;
 			}
 		}
-
 		ShowWindow(GetDlgItem(hwndDlg, params->idcControl), SW_SHOW);
 		SetDlgItemText(hwndDlg, params->idcControl, params->result);
 
@@ -1209,8 +1201,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		SetTimer(hwndDlg, 1000, 50, NULL);
 
-		if (params->timeout > 0)
-		{
+		if (params->timeout > 0) {
 			SetTimer(hwndDlg, 1001, 1000, NULL);
 			TCHAR buf[128];
 			mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), params->timeout);
@@ -1218,75 +1209,73 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		}
 
 		return TRUE;
-	}
+
 	case WM_DESTROY:
 		WindowFreeIcon(hwndDlg);
 		break;
+
 	case WM_TIMER:
-	{
-		switch (wParam)
-		{
-			case 1000:
-				KillTimer(hwndDlg,1000);
-				EnableWindow(GetParent(hwndDlg), TRUE);
-				return TRUE;
+		switch (wParam) {
+		case 1000:
+			KillTimer(hwndDlg,1000);
+			EnableWindow(GetParent(hwndDlg), TRUE);
+			break;
 
-			case 1001:
-			{
-				TCHAR buf[128];
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), --params->timeout);
-				SetDlgItemText(hwndDlg, IDOK, buf);
+		case 1001:
+			TCHAR buf[128];
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), --params->timeout);
+			SetDlgItemText(hwndDlg, IDOK, buf);
 
-				if (params->timeout < 0)
-				{
-					KillTimer(hwndDlg, 1001);
-					UIEmulateBtnClick(hwndDlg, IDOK);
-				}
-
-				return TRUE;
+			if (params->timeout < 0) {
+				KillTimer(hwndDlg, 1001);
+				UIEmulateBtnClick(hwndDlg, IDOK);
 			}
 		}
-	}
+		return TRUE;
+
 	case WM_SIZE:
-	{
-		UTILRESIZEDIALOG urd = {0};
-		urd.cbSize = sizeof(urd);
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwndDlg;
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_GROUPCHAT_INPUT);
-		urd.pfnResizer = sttEnterStringResizer;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		{
+			UTILRESIZEDIALOG urd = {0};
+			urd.cbSize = sizeof(urd);
+			urd.hInstance = hInst;
+			urd.hwndDlg = hwndDlg;
+			urd.lpTemplate = MAKEINTRESOURCEA(IDD_GROUPCHAT_INPUT);
+			urd.pfnResizer = sttEnterStringResizer;
+			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		}
 		break;
-	}
+
 	case WM_GETMINMAXINFO:
-	{
-		LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-		if (params && params->height)
-			lpmmi->ptMaxSize.y = lpmmi->ptMaxTrackSize.y = params->height;
+		{
+			LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
+			if (params && params->height)
+				lpmmi->ptMaxSize.y = lpmmi->ptMaxTrackSize.y = params->height;
+		}
 		break;
-	}
+
 	case WM_NOTIFY:
-	{
-		ENLINK *param = (ENLINK *)lParam;
-		if (param->nmhdr.idFrom != IDC_TXT_RICHEDIT) break;
-		if (param->nmhdr.code != EN_LINK) break;
-		if (param->msg != WM_LBUTTONUP) break;
+		{
+			ENLINK *param = (ENLINK *)lParam;
+			if (param->nmhdr.idFrom != IDC_TXT_RICHEDIT) break;
+			if (param->nmhdr.code != EN_LINK) break;
+			if (param->msg != WM_LBUTTONUP) break;
 
-		CHARRANGE sel;
-		SendMessage(param->nmhdr.hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
-		if (sel.cpMin != sel.cpMax) break; // allow link selection
+			CHARRANGE sel;
+			SendMessage(param->nmhdr.hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
+			if (sel.cpMin != sel.cpMax) break; // allow link selection
 
-		TEXTRANGE tr;
-		tr.chrg = param->chrg;
-		tr.lpstrText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 2));
-        SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
+			TEXTRANGE tr;
+			tr.chrg = param->chrg;
+			tr.lpstrText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 2));
+			SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
 
-		char *tmp = mir_t2a(tr.lpstrText);
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM)tmp);
-        mir_free(tmp);
-        mir_free(tr.lpstrText);
-        return TRUE;
-	}
+			char *tmp = mir_t2a(tr.lpstrText);
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)tmp);
+			mir_free(tmp);
+			mir_free(tr.lpstrText);
+		}
+		return TRUE;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
@@ -1310,21 +1299,20 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		case IDC_TXT_MULTILINE:
 		case IDC_TXT_RICHEDIT:
-			if ((HIWORD(wParam) != EN_SETFOCUS) && (HIWORD(wParam) != EN_KILLFOCUS))
-			{
+			if ((HIWORD(wParam) != EN_SETFOCUS) && (HIWORD(wParam) != EN_KILLFOCUS)) {
 				SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
 				KillTimer(hwndDlg, 1001);
 			}
 			break;
 
 		case IDC_TXT_COMBO:
-			if ((HIWORD(wParam) != CBN_SETFOCUS) && (HIWORD(wParam) != CBN_KILLFOCUS))
-			{
+			if ((HIWORD(wParam) != CBN_SETFOCUS) && (HIWORD(wParam) != CBN_KILLFOCUS)) {
 				SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
 				KillTimer(hwndDlg, 1001);
 			}
 			break;
-	}	}
+		}
+	}
 
 	return FALSE;
 }
@@ -1332,11 +1320,10 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 BOOL CJabberProto::EnterString(TCHAR *result, size_t resultLen, TCHAR *caption, int type, char *windowName, int recentCount, int timeout)
 {
 	bool free_caption = false;
-	if ( !caption || (caption==result))
-	{
+	if ( !caption || caption == result) {
 		free_caption = true;
 		caption = mir_tstrdup(result);
-		result[ 0 ] = _T('\0');
+		result[0] = _T('\0');
 	}
 
 	JabberEnterStringParams params = { this, type, caption, result, resultLen, windowName, recentCount, timeout };
@@ -1348,7 +1335,9 @@ BOOL CJabberProto::EnterString(TCHAR *result, size_t resultLen, TCHAR *caption, 
 	return bRetVal;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // XEP-0203 delay support
+
 bool JabberReadXep203delay(HXML node, time_t &msgTime)
 {
 	HXML n = xmlGetChildByTag(node, "delay", "xmlns", _T("urn:xmpp:delay"));
@@ -1373,7 +1362,7 @@ bool JabberReadXep203delay(HXML node, time_t &msgTime)
 	return msgTime != 0;
 }
 
-////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Premultiply bitmap channels for 32-bit bitmaps
 
 void JabberBitmapPremultiplyChannels(HBITMAP hBitmap)
@@ -1413,96 +1402,6 @@ void JabberBitmapPremultiplyChannels(HBITMAP hBitmap)
 	SetBitmapBits(hBitmap, dwLen, p);
 
 	free(p);
-}
-
-// Last resource map
-void CJabberProto::CleanLastResourceMap()
-{
-	EnterCriticalSection(&m_csLastResourceMap);
-
-	m_dwResourceMapPointer = 0;
-	ZeroMemory(m_ulpResourceToDbEventMap, sizeof(m_ulpResourceToDbEventMap));
-
-	while (m_pLastResourceList) {
-		void *pNext = ((void **)m_pLastResourceList)[ 0 ];
-		mir_free(m_pLastResourceList);
-		m_pLastResourceList = pNext;
-	}
-
-	LeaveCriticalSection(&m_csLastResourceMap);
-}
-
-// lock CS before use
-BOOL CJabberProto::IsLastResourceExists(void *pResource)
-{
-	if ( !pResource)
-		return FALSE;
-
-	void *pOurResource = m_pLastResourceList;
-	while (pOurResource) {
-		if (pOurResource == pResource)
-			return TRUE;
-		pOurResource = ((void **)pOurResource)[ 0 ];
-	}
-	return FALSE;
-}
-
-// lock CS before use
-void* CJabberProto::AddToLastResourceMap(LPCTSTR szFullJid)
-{
-	// detach resource from full jid
-	const TCHAR *szResource = _tcschr(szFullJid, '/');
-	if (szResource == NULL)
-		return NULL;
-	if (*++szResource == '\0')
-		return NULL;
-
-	DWORD dwResourceCount = 0;
-
-	void *pNewTailResource = NULL;
-	void *pOurResource = m_pLastResourceList;
-	while (pOurResource) {
-		dwResourceCount++;
-
-		if ( !_tcscmp((TCHAR *)((BYTE *)pOurResource + sizeof(void *)), szResource))
-			return pOurResource;
-
-		void *pTmp = ((void **)pOurResource)[ 0 ];
-		if (pTmp && !(((void **)pTmp)[ 0 ]))
-			pNewTailResource = pOurResource;
-		pOurResource = pTmp;
-	}
-
-	if (pNewTailResource && (dwResourceCount > (SIZEOF(m_ulpResourceToDbEventMap) / 2))) {
-		void *pTmp = ((void **)pNewTailResource)[ 0 ];
-		((void **)pNewTailResource)[ 0 ] = NULL;
-		mir_free(pTmp);
-	}
-
-	void *pNewResource = mir_alloc(sizeof(void *) + sizeof(TCHAR) * (_tcslen(szResource) + 1));
-	if ( !pNewResource)
-		return NULL;
-
-	((void **)pNewResource)[ 0 ] = m_pLastResourceList;
-	_tcscpy((TCHAR *)((BYTE *)pNewResource + sizeof(void *)), szResource);
-
-	m_pLastResourceList = pNewResource;
-
-	return pNewResource;
-}
-
-// lock CS before use
-TCHAR* CJabberProto::FindLastResourceByDbEvent(HANDLE hDbEvent)
-{
-	for (int i = 0; i < SIZEOF(m_ulpResourceToDbEventMap); i += 2) {
-		if (m_ulpResourceToDbEventMap[ i ] == (ULONG_PTR)hDbEvent) {
-			TCHAR *szRetVal = (TCHAR *)(m_ulpResourceToDbEventMap[ i + 1 ] + sizeof(void *));
-			m_ulpResourceToDbEventMap[ i ] = 0;
-			m_ulpResourceToDbEventMap[ i + 1 ] = 0;
-			return szRetVal;
-		}
-	}
-	return NULL;
 }
 
 BOOL CJabberProto::IsMyOwnJID(LPCTSTR szJID)

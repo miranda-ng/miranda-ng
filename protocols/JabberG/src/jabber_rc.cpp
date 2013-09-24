@@ -554,60 +554,60 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 
 		int nEventsSent = 0;
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			DBVARIANT dbv;
-			if ( getTString(hContact, "jid", &dbv))
+			ptrT tszJid( getTStringA(hContact, "jid"));
+			if (tszJid == NULL)
 				continue;
 				
-			HANDLE hDbEvent = db_event_firstUnread(hContact);
-			while (hDbEvent) {
-				DBEVENTINFO dbei = { 0 };
-				dbei.cbSize = sizeof(dbei);
+			for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
+				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-				if (dbei.cbBlob != -1) {
-					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-					int nGetTextResult = db_event_get(hDbEvent, &dbei);
-					if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-						TCHAR *szEventText = DbGetEventTextT(&dbei, CP_ACP);
-						if (szEventText) {
-							XmlNode msg(_T("message"));
-							msg << XATTR(_T("to"), pInfo->GetFrom()) << XATTRID(SerialNext())
-								<< XCHILD(_T("body"), szEventText);
+				if (dbei.cbBlob == -1)
+					continue;
 
-							HXML addressesNode = msg << XCHILDNS(_T("addresses"), JABBER_FEAT_EXT_ADDRESSING);
-							TCHAR szOFrom[JABBER_MAX_JID_LEN];
-							EnterCriticalSection(&m_csLastResourceMap);
-							TCHAR *szOResource = FindLastResourceByDbEvent(hDbEvent);
-							if (szOResource)
-								mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s/%s"), dbv.ptszVal, szOResource);
-							else
-								mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s"), dbv.ptszVal);
-							LeaveCriticalSection(&m_csLastResourceMap);
-							addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("ofrom")) << XATTR(_T("jid"), szOFrom);
-							addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("oto")) << XATTR(_T("jid"), m_ThreadInfo->fullJID);
+				mir_ptr<BYTE> pEventBuf((PBYTE)mir_alloc(dbei.cbBlob + 1));
+				dbei.pBlob = pEventBuf;
+				if ( db_event_get(hDbEvent, &dbei))
+					continue;
 
-							time_t ltime = (time_t)dbei.timestamp;
-							struct tm *gmt = gmtime(&ltime);
-							TCHAR stime[512];
-							mir_sntprintf(stime, SIZEOF(stime), _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
-								gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
-							msg << XCHILDNS(_T("delay"), _T("urn:xmpp:delay")) << XATTR(_T("stamp"), stime);
+				if (dbei.eventType != EVENTTYPE_MESSAGE || (dbei.flags & (DBEF_READ | DBEF_SENT)))
+					continue;
 
-							m_ThreadInfo->send(msg);
+				ptrT szEventText( DbGetEventTextT(&dbei, CP_ACP));
+				if (szEventText == NULL)
+					continue;
 
-							nEventsSent++;
+				XmlNode msg(_T("message"));
+				msg << XATTR(_T("to"), pInfo->GetFrom()) << XATTRID(SerialNext())
+					<< XCHILD(_T("body"), szEventText);
 
-							db_event_markRead(hContact, hDbEvent);
-							if (bRemoveCListEvents)
-								CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
+				HXML addressesNode = msg << XCHILDNS(_T("addresses"), JABBER_FEAT_EXT_ADDRESSING);
+				TCHAR szOFrom[JABBER_MAX_JID_LEN];
 
-							mir_free(szEventText);
-						}
-					}
-					mir_free(dbei.pBlob);
+				size_t cbBlob = strlen((LPSTR)dbei.pBlob)+1;
+				if (cbBlob < dbei.cbBlob) { // rest of message contains a sender's resource
+					ptrT szOResource( mir_utf8decodeT((LPSTR)dbei.pBlob + cbBlob+1));
+					mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s/%s"), tszJid, szOResource);
 				}
-				hDbEvent = db_event_next(hDbEvent);
+				else mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s"), tszJid);
+
+				addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("ofrom")) << XATTR(_T("jid"), szOFrom);
+				addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("oto")) << XATTR(_T("jid"), m_ThreadInfo->fullJID);
+
+				time_t ltime = (time_t)dbei.timestamp;
+				struct tm *gmt = gmtime(&ltime);
+				TCHAR stime[512];
+				mir_sntprintf(stime, SIZEOF(stime), _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
+					gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
+				msg << XCHILDNS(_T("delay"), _T("urn:xmpp:delay")) << XATTR(_T("stamp"), stime);
+
+				m_ThreadInfo->send(msg);
+
+				nEventsSent++;
+
+				db_event_markRead(hContact, hDbEvent);
+				if (bRemoveCListEvents)
+					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
 			}
-			db_free(&dbv);
 		}
 
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%d message(s) forwarded"), nEventsSent);

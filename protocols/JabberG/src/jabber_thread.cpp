@@ -1453,15 +1453,11 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	if (m_options.FixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
 		msgTime = now;
 
-	PROTORECVEVENT recv;
+	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = buf;
-
-	EnterCriticalSection(&m_csLastResourceMap);
-	recv.lParam = (LPARAM)AddToLastResourceMap(from);
-	LeaveCriticalSection(&m_csLastResourceMap);
-
+	recv.lParam = (LPARAM)((pFromResource != NULL && m_options.EnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
 	ProtoChainRecvMsg(hContact, &recv);
 
 	mir_free((void*)szMessage);

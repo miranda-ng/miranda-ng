@@ -67,13 +67,11 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	m_priorityMenuValSet(false),
 	m_hPrivacyMenuRoot(0),
 	m_hPrivacyMenuItems(10),
-	m_pLastResourceList(NULL),
 	m_lstJabberFeatCapPairsDynamic(2),
 	m_uEnabledFeatCapsDynamic(0)
 {
 	InitializeCriticalSection(&m_csModeMsgMutex);
 	InitializeCriticalSection(&m_csLists);
-	InitializeCriticalSection(&m_csLastResourceMap);
 
 	m_szXmlStreamToBeInitialized = NULL;
 
@@ -179,8 +177,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 		db_free(&dbv);
 		delSetting("Password");
 	}
-
-	CleanLastResourceMap();
 }
 
 CJabberProto::~CJabberProto()
@@ -199,8 +195,6 @@ CJabberProto::~CJabberProto()
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
 	DestroyHookableEvent(m_hEventXStatusChanged);
 
-	CleanLastResourceMap();
-
 	ListWipe();
 	DeleteCriticalSection(&m_csLists);
 
@@ -209,7 +203,6 @@ CJabberProto::~CJabberProto()
 
 	DeleteCriticalSection(&m_filterInfo.csPatternLock);
 	DeleteCriticalSection(&m_csModeMsgMutex);
-	DeleteCriticalSection(&m_csLastResourceMap);
 
 	mir_free(m_modeMsgs.szOnline);
 	mir_free(m_modeMsgs.szAway);
@@ -311,7 +304,6 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		}
 	}
 
-	CleanLastResourceMap();
 	return 0;
 }
 
@@ -914,7 +906,7 @@ int __cdecl CJabberProto::RecvContacts(HANDLE /*hContact*/, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
-int __cdecl CJabberProto::RecvFile(HANDLE hContact, PROTORECVFILET* evt)
+int __cdecl CJabberProto::RecvFile(HANDLE hContact, PROTORECVFILET *evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -922,19 +914,12 @@ int __cdecl CJabberProto::RecvFile(HANDLE hContact, PROTORECVFILET* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CJabberProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* evt)
+int __cdecl CJabberProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *evt)
 {
-	INT_PTR nDbEvent = Proto_RecvMessage(hContact, evt);
-
-	EnterCriticalSection(&m_csLastResourceMap);
-	if (IsLastResourceExists((void*)evt->lParam)) {
-		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = nDbEvent;
-		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = evt->lParam;
-		if (m_dwResourceMapPointer >= SIZEOF(m_ulpResourceToDbEventMap))
-			m_dwResourceMapPointer = 0;
-	}
-	LeaveCriticalSection(&m_csLastResourceMap);
-
+	ptrA szResUtf( mir_utf8encodeT((LPCTSTR)evt->lParam));
+	evt->pCustomData = szResUtf;
+	evt->cbCustomDataSize = lstrlenA(szResUtf);
+	Proto_RecvMessage(hContact, evt);
 	return 0;
 }
 

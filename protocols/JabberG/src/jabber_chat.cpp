@@ -396,7 +396,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Context menu hooks
 
-static struct gc_item *sttFindGcMenuItem(GCMENUITEMS *items, DWORD id)
+static gc_item *sttFindGcMenuItem(GCMENUITEMS *items, DWORD id)
 {
 	for (int i = 0; i < items->nItems; i++)
 		if (items->Item[i].dwID == id)
@@ -482,7 +482,7 @@ static gc_item sttLogListItems[] =
 };
 
 static TCHAR sttRJidBuf[JABBER_MAX_JID_LEN] = {0};
-static struct gc_item sttListItems[] =
+static gc_item sttListItems[] =
 {
 	{ LPGENT("&Slap"),                IDM_SLAP,               MENU_ITEM           },   // 0
 	{ LPGENT("&User details"),        IDM_VCARD,              MENU_ITEM           },   // 1
@@ -612,13 +612,13 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 				sttFindGcMenuItem(gcmi, idx)->uType = 0;
 
 			for (i = 0; i < SIZEOF(sttAffiliationItems); i++) {
-				struct gc_item *item = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
+				gc_item *item = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
 				item->uType = (him->m_affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
 			}
 
 			for (i = 0; i < SIZEOF(sttRoleItems); i++) {
-				struct gc_item *item = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
+				gc_item *item = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
 				item->uType = (him->m_role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttRoleItems[i].check(me, him));
 			}
