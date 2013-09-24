@@ -59,7 +59,7 @@ BEGIN
     LTEXT           "on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)",IDC1_LABEL4,26,92,256,32
     COMBOBOX        IDC1_COMBO3,26,132,256,15,CBS_DROPDOWNLIST | WS_TABSTOP
     GROUPBOX        "Firefox profiles",IDC1_STATIC_G2,17,162,275,55
-    CONTROL         "Show Miranda menu only in these firefox profiles (comma delimited)",IDC1_CHECK1,
+    CONTROL         "Show Miranda menu only in these Firefox profiles (comma delimited)",IDC1_CHECK1,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,26,171,252,20
     EDITTEXT        IDC1_EDIT1,26,195,249,14,ES_AUTOHSCROLL
 END
