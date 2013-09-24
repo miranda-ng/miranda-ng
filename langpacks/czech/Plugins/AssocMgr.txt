@@ -54,7 +54,7 @@ Miranda NG nemohla otevřít "%S".\n\nTento soubor nemohl být zpracován.
 Miranda NG nemůže otevřít URL
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
 Miranda NG nemohla otevřít "%S".\n\nNení zaregistrován handler pro tento typ URL.
-[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 Miranda NG nemohla otevřít "%S".\n\nZadaná URL je neplatná a nemůže být použita.
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]

@@ -72,7 +72,7 @@ Odstranění avataru:
 Náhled
 [Avatar History: Select how to store history avatars]
 Historie avatarů: Vyberte způsob ukládání historie avatarů
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Prosím vyberte způsob ukládání historie avatarů. Toto nastavení NELZE v budoucnu měnit, protože by to způsobilo ztrátu celé historie avatarů.
 [Store history in miranda history and all history avatars in same folder]
 Ukládat záznamy do historie Mirandy a všechny avatary do stejné složky

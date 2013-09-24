@@ -57,8 +57,8 @@ Přenos dat úspěšně dokončen
 Příjem dat...
 [Sent successfully]
 Přenos dat úspěšně dokončen
-[Unknown command for "" SERVICE_TITLE "" was received]
-Byl přijat neznámý příkaz pro "" SERVICE_TITLE ""
+[Unknown command for "File As Message" was received]
+Byl přijat neznámý příkaz pro "Soubor jako zpráva"
 [Incoming file request. Do you want proceed?]
 Žádost o přenos souboru. Chcete pokračovat?
 [Cancelled by remote user]

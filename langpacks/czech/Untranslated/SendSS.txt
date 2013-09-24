@@ -56,7 +56,7 @@
 [Fill description textbox.]
 [Delete after send]
 [Capture]
-[Cant create a Screenshot]
+[Can't create a Screenshot]
 [Screenshot ]
 [for Client area ]
 [of "]

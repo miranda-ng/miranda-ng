@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Variables.dll
 ;  Plugin: Variables
-;  Version: 0.2.3.9
+;  Version: 0.2.3.10
 ;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
@@ -259,8 +259,8 @@ zkonvertuje první písmeno slova na VELKÉ
 vloží znak konce řádku (EOL)
 [depends on calling plugin]
 závislost na doplňku
-[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
-
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+nahradit všechny výskyty \\n (Unix) za \\r\\n (Windows)
 [cuts x after the first line and appends y (y is optional)]
 
 [replaces all end of line characters by y (y is optional)]
@@ -371,7 +371,7 @@ vypíše obsah proměnné x
 [user name]
 uživatelské jméno
 [text from clipboard]
-
+text ze schránky
 ;file \plugins\Variables\src\parse_variables.cpp
 [variable set by put(s) with name x]
 

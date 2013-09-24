@@ -10,8 +10,8 @@ Aktualizátor pro Mirandu NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Nalezeny aktualizace!
-[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
-Aktualizátor našel novější verze některých komponent Mirandy. Klikněte na tlačítko 'Detaily' pro zobrazení více informací.
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
+Aktualizátor našel novější verze některých komponent Mirandy. Klikněte na tlačítko 'Detaily' pro zobrazení více informací
 [Update]
 Aktualizovat
 [Details >>]
@@ -128,10 +128,8 @@ Načítání seznamu již probíhá!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Bude smazán!
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Stahování dokončeno. Spustit aktualizaci? Všechny vaše data budou uložena a Miranda NG bude restartována.
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Zvolili jste nespouštět aktualizaci nyní.\n
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
+Aktualizace dokončena. Přejete si nyní restartovat Mirandu?
 [<< Details]
 << Detaily
 [No updates found.]

@@ -158,6 +158,59 @@ Oznámení
 
 [Select e-mail]
 
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+[Male]
+muž
+[Female]
+žena
+[January]
+leden
+[February]
+únor
+[March]
+březen
+[April]
+duben
+[May]
+květen
+[June]
+červen
+[July]
+červenec
+[August]
+srpen
+[September]
+září
+[October]
+říjen
+[November]
+listopad
+[December]
+prosinec
+[Aries]
+Beran
+[Taurus]
+Býk
+[Gemini]
+Blíženci
+[Cancer]
+Rak
+[Leo]
+Lev
+[Virgo]
+Panna
+[Libra]
+Váhy
+[Scorpio]
+Štír
+[Sagittarius]
+Střelec
+[Capricorn]
+Kozoroh
+[Aquarius]
+Vodnář
+[Pisces]
+Ryby
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
@@ -165,7 +218,7 @@ Oznámení
 Avatary
 [Avatars: server return HTTP code: %lu]
 
-[Avatars: cant open file %s, error]
+[Avatars: can't open file %s, error]
 
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
@@ -240,13 +293,13 @@ Nová pošta
 [Please authorize me]
 
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: cant allocate disk space for file, size %lu bytes, error]
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
 
-[Receive files: cant open file %s, error]
+[Receive files: can't open file %s, error]
 
 [Receive files: request for file %s not sended, error]
 
-[Send files: cant open file %s, error]
+[Send files: can't open file %s, error]
 
 [Send files: requested file: %S - not found in send files list.]
 
@@ -257,6 +310,10 @@ Hlavní nabídka
 Menu kontaktu
 [Extra status]
 Rozšířený stav
+[Protocols]
+Protokoly
+[MRA]
+MRA
 [Custom Status]
 Rozšířený stav
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -292,7 +349,7 @@ E-mail
 
 [No unread mail is available\r\nTotal messages: %lu]
 
-[Closing in]
+[Closing in %ld]
 
 [Reply to %s blog status]
 
@@ -318,7 +375,7 @@ Soubory
 
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
 
-[Server error: cant get MPOP key for web authorize]
+[Server error: can't get MPOP key for web authorize]
 
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
 

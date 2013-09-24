@@ -1770,8 +1770,8 @@ Vytváření záložek a oken pro příchozí zprávy
 Zobrazit text stavu na panelu
 [Prefer xStatus icons when available]
 Preferovat ikonu rozšířeného stavu
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Zobrazit tipy nad panely (vyžaduje mToolTip či Tipper)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Zobrazit tipy nad panely (vyžaduje doplněk Tipper)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 VŽDY aktivovat panel/okno s novou zprávou (má PRIORITU před nastavením uvedeném dále)
 [Automatically create new message sessions without activating them]

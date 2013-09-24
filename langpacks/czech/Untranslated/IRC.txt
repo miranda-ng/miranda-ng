@@ -3,7 +3,7 @@
 [Failed to connect to]
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 [WhoIs]
 [Add ignore]
 [Edit ignore]

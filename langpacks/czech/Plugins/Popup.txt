@@ -6,12 +6,12 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
-
+Poskytuje služby oznámení pro různé doplňky.
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Chování a vzhled
 [Go to Customize > Fonts && Colors for fonts and colors options]
-
+Nastavení naleznete v sekci Vlastní úpravy -> Písma a barvy
 [Miscellaneous]
 Ostatní
 [Effects]
@@ -54,8 +54,6 @@ okno Mirandy
 aktivní okno
 [Transparency]
 Průhlednost
-[Enable Win 9x/Me transparency]
-Povolit průhlednost ve Win 9x/Me
 [Use transparency]
 Průhlednost
 [opacity:]
@@ -155,7 +153,7 @@ Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy.
 [More...]
 Více...
 [Disable if message window is open]
-
+Zakázat, je-li otevřeno komunikační okno
 [Sec]
 sek.
 [0 = Default]
@@ -246,9 +244,9 @@ Po najetí myši
 Čas
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
-
+Historie oznámení je vypnuta
 [Popup History message]
-
+Zpráva historie oznámení
 ;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Oznámení jsou zapnuta
@@ -308,7 +306,7 @@ Vypnout oznámení
 [Popup Plus]
 Oznámení plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
-
+Chyba: Nelze zaregistrovat třídu Popup Window.\r\nDoplněk nebude fungovat.
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Bez efektu
@@ -318,7 +316,7 @@ Plynulé přechody
 [CLASS Plugins]
 Doplňky
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
-
+Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
 ;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Offline
@@ -366,7 +364,7 @@ Upozorňujeme, že volba 'Obrátit pořadí' není zapnutá.\r\nTento fakt můž
 Varování doplňku Oznámení plus
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
-
+Nelze zaregistrovat třídu %s.
 [Skin preview]
 Náhled skinu
 [Just take a look at this skin... ;)]
@@ -390,9 +388,9 @@ Aktualizovat seznam
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
-
+Nelze získat GetClassInfoExW z třídy EDIT.
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
-
+Nelze zaregistrovat třídu vlastního edit boxu.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 ;file \plugins\Popup\src\services.cpp
 [Error]
 Chyba
@@ -402,19 +400,19 @@ Upozornění
 Oznámení
 ;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-
+Pokoušíte se načíst skin, který je navržen pro\r\nnovější verzi doplňku Popup Plus a nebude proto\r\nsprávně zobrazen.\r\n\r\nZvolte prosím jiný skin.
 ;file \plugins\Popup\src\srmm_menu.cpp
-[Popup Mode: Auto]
-
-[Popup Mode: Favourite]
-
-[Popup Mode: Ignore fullscreen]
-
-[Popup Mode: Block contact]
-
 [Auto]
-Auto
+Výchozí
 [Favourite]
-Oblíbené
+Oblíbený
 [Block]
 Blokovat
+[Popup Mode: Auto]
+Režim oznámení: Výchozí
+[Popup Mode: Favourite]
+Režim oznámení: Oblíbený kontakt
+[Popup Mode: Ignore fullscreen]
+Režim oznámení: Ignorovat celoobrazovkový režim
+[Popup Mode: Block contact]
+Režim oznámení: Blokovat kontakt

@@ -77,7 +77,7 @@ Heslo:
 
 [In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
 
-[This utility check your notes.ini file if it's set to autenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin buildin authentication will not work propertly. Do you want to add Plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME\]
+[This utility check your notes.ini file if it's set to autenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin buildin authentication will not work propertly. Do you want to add Plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]
 
 [LotusNotify plugin configuration]
 
@@ -99,7 +99,7 @@ Doplňky
 
 [New Lotus document detected]
 
-[LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)]
+[LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)]
 
 [LotusNotify]
 

@@ -298,8 +298,8 @@ Zobrazit v nabídce položku 'Restart'
 Použít znamení zvěrokruhu jako výchozí avatar
 [Country Flags]
 Vlajky zemí
-[Use &unknown flag if country can not be determined]
-
+[Use &unknown flag if country cannot be determined]
+Použít &neznámou vlajku pokud nelze zjistit zemi
 [Show country flag as &status icon on message window]
 Zobrazit vlajku jako &stavovou ikonu v komunikačním okně
 [Birthday]

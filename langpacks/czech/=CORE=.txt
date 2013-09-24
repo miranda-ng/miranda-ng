@@ -157,7 +157,7 @@ Soubor
 Funkce OutputDebugString()
 [File]
 Soubor
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 Spustit program při startu Mirandy NG (např. tail -f, dbgview, atd.):
 [Run now]
 Spustit
@@ -285,7 +285,7 @@ Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a
 pro databázi Mirandy
 [Driver]
 Ovladač
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_mmap.dll
 [Download more plugins]
 Stáhnout další doplňky
@@ -2110,7 +2110,7 @@ Vlastní úpravy
 ;file \src\modules\clist\groups.cpp
 [New Group]
 nová skupina
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
 [Delete Group]
 Smazat skupinu

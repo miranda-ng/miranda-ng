@@ -16,7 +16,7 @@ Zobrazit vlajku jako &stavovou ikonu v komunikačním okně
 Zobrazit vlajku jako ikonu v s&eznamu kontaktů
 [Use &IP-to-country database for country detection]
 Pro detekci státu použít databázi &IP adres
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 Použít &neznámou vlajku pokud země nelze zjistit
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]

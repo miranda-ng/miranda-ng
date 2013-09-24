@@ -82,7 +82,7 @@ Proměnné:
 %length% - délka skladby
 [%player% - Player name]
 %player% - přehrávač
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 %type% - druh média (hudba, rádio, video, atd.)
 [When variable not found, use:]
 Není-li proměnná, vložit text:
@@ -113,8 +113,8 @@ Poslat všem protokolům
 Poslech hudby
 [Listening info as set in the options]
 Poslech hudby dle voleb v možnostech
-[Media type: Music, Video, etc]
-Typ média: hudba, video, atd.
+[Media type: Music, Video, etc.]
+Druh média: hudba, video, atd.
 [Artist name]
 Jméno umělce
 [Album name]

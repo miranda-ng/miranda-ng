@@ -155,11 +155,11 @@ Přehled přihlášených relací %s\nZobrazí informace o aktivních relacích
 [Sign out all sessions]
 Odhlásit všechny relace
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Can not create avatars cache directory. ERROR: %d: %s\n%s]
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Nelze vytvořit složku pro cache avatarů. CHYBA: %d: %s\n%s
-[Can not create avatar file. ERROR: %d: %s\n%s]
+[Cannot create avatar file. ERROR: %d: %s\n%s]
 Nelze vytvořit soubor s avatarem. CHYBA: %d: %s\n%s
-[Can not open avatar file. ERROR: %d: %s\n%s]
+[Cannot open avatar file. ERROR: %d: %s\n%s]
 Nelze otevřít soubor s avatarem. CHYBA: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
@@ -248,9 +248,9 @@ Vaše údaje byly nahrány na veřejného adresáře.
 [You have to be logged in before you can change your details.]
 Musíte být přihlášeni pro změnu vašich údajů.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-[Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s
-[Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
@@ -349,11 +349,11 @@ Obrázek od %s
 Obrázek pro %s
 [Select picture to send]
 Vybrat obrázek k odeslání
-[Can not create image cache directory. ERROR: %d: %s\n%s]
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
 Nelze vytvořit složku pro cache obrázků. CHYBA: %d: %s\n%s
 [Cannot save received image to file. ERROR: %d: %s\n%s]
 Nelze uložit přijatý obrázek do souboru. CHYBA: %d: %s\n%s
-[Can not open image file. ERROR: %d: %s\n%s]
+[Cannot open image file. ERROR: %d: %s\n%s]
 Nelte otevřít soubor s obrázkem. CHYBA: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
 Obrázek překračuje maximální povolenou veilkost 255 KB.
@@ -362,7 +362,7 @@ Obrázek překračuje maximální povolenou veilkost 255 KB.
 Aktualizovat seznam kontaktů na serveru lze pouze po připojení k síti Gadu-Gadu.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
 Seznam nemůže být importován z důvodu chyby:\n\t%s (Chyba: %d)
-[List cannot be removeed because of error: %s (Error: %d)]
+[List cannot be removed because of error: %s (Error: %d)]
 Seznam nemůže být odstraněn z důvodu chyby: %s (Chyba: %d)
 [Text files]
 Textové soubory
@@ -400,9 +400,9 @@ Oznámení
 [Error]
 Chyba
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 Nelze odstranit starý soubor s avatarem před obnovením. CHYBA: %d: %s\n%s
-[Can not remove old avatar file. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
 Nelze odstranit starý soubor s avatarem. CHYBA: %d: %s\n%s
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 Pro zrušení vašeho avataru Gadu-Gadu musíte použít stránku gg.pl.

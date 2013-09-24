@@ -186,8 +186,8 @@ Po aktivaci možnosti 'Změnit můj stav na' na stránce 'Nečinnost' je nastave
 Monitorovat psaní na klávesnici
 [Monitor mouse activity]
 Monitorovat pohyb myši
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
-Ignorovat klávesy CRTL, ALT, SHIFT, TAB, ESC a WIN
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ignorovat klávesy CTRL, ALT, SHIFT, TAB, ESC a WIN
 [Ignore any key combination with above keys]
 Ignorovat kombinace s výše uvedenými klávesami
 [Accounts]

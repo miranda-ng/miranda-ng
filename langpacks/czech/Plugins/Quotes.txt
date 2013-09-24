@@ -224,19 +224,6 @@ Poslední rok
 [User-Defined]
 Vlastní
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-Záznamové soubory (*.txt,*.log)
-[Enter integer value]
-Zadejte číselnou hodnotu
-[Enter log file name.]
-Zadejte název záznamového souboru.
-[Enter log file format.]
-Zadejte formát záznamového souboru.
-[Enter history format.]
-Zadejte formát historie.
-[Enter popup window format.]
-Zadejte formát oznámení.
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -291,3 +278,15 @@ Zadejte formát oznámení.
 [Change]
 Změnit
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Záznamové soubory (*.txt,*.log)
+[Enter integer value]
+Zadejte číselnou hodnotu
+[Enter log file name.]
+Zadejte název záznamového souboru.
+[Enter log file format.]
+Zadejte formát záznamového souboru.
+[Enter history format.]
+Zadejte formát historie.
+[Enter popup window format.]
+Zadejte formát oznámení.
