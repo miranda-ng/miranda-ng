@@ -1303,7 +1303,6 @@
 [Locked status]
 [Status Icons]
 [%s Icons]
-[Status Icons/]
 [Main Icons]
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]

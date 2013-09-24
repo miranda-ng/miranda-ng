@@ -30,7 +30,6 @@
 [Miranda's window]
 [the active window]
 [Transparency]
-[Enable Win 9x/Me transparency]
 [Use transparency]
 [opacity:]
 [Opaque popups under cursor]

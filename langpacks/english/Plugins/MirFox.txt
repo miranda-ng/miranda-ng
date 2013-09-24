@@ -11,7 +11,8 @@
 [on left mouse button click]
 [on right mouse button click]
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
-[Show Miranda menu only in this firefox profiles (comma delimited)]
+[Firefox profiles]
+[Show Miranda menu only in these firefox profiles (comma delimited)]
 [Show these contacts in 'Send ... to' option in Firefox]
 [Show these accounts in 'Set status message' option in Firefox]
 ;file \plugins\MirFox\src\MirandaInterface.cpp

@@ -96,7 +96,7 @@
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
 [Monitor keyboard activity]
 [Monitor mouse activity]
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 [Ignore any key combination with above keys]
 [Accounts]
 [Enable checking]
