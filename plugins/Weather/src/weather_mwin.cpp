@@ -23,9 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MS_TOOLTIP_SHOWTIP		"mToolTip/ShowTip"
 #define MS_TOOLTIP_HIDETIP		"mToolTip/HideTip"
 
-typedef BOOL (WINAPI *ft_TrackMouseEvent) (LPTRACKMOUSEEVENT lpEventTrack);
-
-static ft_TrackMouseEvent f_TrackMouseEvent = NULL;
 static HANDLE hMwinWindowList;
 static HANDLE hFontHook;
 
@@ -72,20 +69,19 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_MOUSEMOVE:
-		if (f_TrackMouseEvent)
 		{
 			TRACKMOUSEEVENT tme = {0};
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
 			tme.hwndTrack = hwnd;
 			tme.dwFlags = TME_QUERY;
-			f_TrackMouseEvent(&tme);
+			TrackMouseEvent(&tme);
 
 			if (tme.dwFlags == 0)
 			{
 				tme.dwFlags = TME_HOVER | TME_LEAVE;
 				tme.hwndTrack = hwnd;
 				tme.dwHoverTime = CallService(MS_CLC_GETINFOTIPHOVERTIME, 0, 0);
-				f_TrackMouseEvent(&tme);
+				TrackMouseEvent(&tme);
 			}
 		}
 		break;
@@ -326,12 +322,8 @@ int RedrawFrame(WPARAM wParam, LPARAM lParam)
 
 void InitMwin(void)
 {
-	HMODULE hUser = GetModuleHandle(_T("user32.dll"));
-
-	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) return;
-
-	f_TrackMouseEvent = (ft_TrackMouseEvent)GetProcAddress(hUser, "TrackMouseEvent");
-
+	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+		return;
 
 	hMwinWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 

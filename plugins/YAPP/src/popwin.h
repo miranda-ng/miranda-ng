@@ -19,7 +19,6 @@
 #define ANIMATE_HORZ		1
 #define ANIMATE_VERT		2
 
-void InitWindowStack();
 void DeinitWindowStack();
 
 void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam);

@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 GlobalMessageData g_dat;
-extern PSLWA pSetLayeredWindowAttributes;
 
 static int ackevent(WPARAM wParam, LPARAM lParam);
 
@@ -388,7 +387,7 @@ void ReloadGlobals()
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGSWITCH, SRMSGDEFSET_SHOWTYPINGSWITCH))
 		g_dat.flags2 |= SMF2_SHOWTYPINGSWITCH;
 
-	if (LOBYTE(LOWORD(GetVersion())) >= 5  && pSetLayeredWindowAttributes != NULL) {
+	if (LOBYTE(LOWORD(GetVersion())) >= 5) {
 		if (db_get_b(NULL, SRMMMOD, SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY))
 			g_dat.flags2 |= SMF2_USETRANSPARENCY;
 		g_dat.activeAlpha = db_get_dw(NULL, SRMMMOD, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA);

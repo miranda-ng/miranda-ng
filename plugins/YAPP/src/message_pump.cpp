@@ -69,8 +69,6 @@ bool is_workstation_locked()
 
 unsigned __stdcall MessagePumpThread(void* param)
 {
-	InitWindowStack();
-
 	if (param) SetEvent((HANDLE)param);
 
 	MSG hwndMsg = {0};

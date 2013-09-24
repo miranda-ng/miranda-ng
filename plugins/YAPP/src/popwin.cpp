@@ -1,11 +1,5 @@
 #include "common.h"
 
-HMODULE hUserDll;
-BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD) = 0;
-BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags) = 0;
-HMONITOR (WINAPI *MyMonitorFromRect)(LPCRECT rect, DWORD flags) = 0;
-BOOL (WINAPI *MyGetMonitorInfo)(HMONITOR hMonitor, LPMONITORINFO mi) = 0;
-
 #define ID_CLOSETIMER		0x0101
 #define ID_MOVETIMER		0x0102
 
@@ -85,16 +79,16 @@ void AddWindowToStack(HWND hwnd) {
 
 	RECT wa_rect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &wa_rect, 0);
-	if (options.use_mim_monitor && MyMonitorFromRect && MyGetMonitorInfo)
+	if (options.use_mim_monitor)
 	{
 		RECT clr;
 		GetWindowRect((HWND)CallService(MS_CLUI_GETHWND, 0, 0), &clr);
-		HMONITOR hMonitor = MyMonitorFromRect(&clr, MONITOR_DEFAULTTONEAREST);
+		HMONITOR hMonitor = MonitorFromRect(&clr, MONITOR_DEFAULTTONEAREST);
 		if (hMonitor)
 		{
 			MONITORINFO mi;
 			mi.cbSize = sizeof(mi);
-			if (MyGetMonitorInfo(hMonitor, &mi))
+			if (GetMonitorInfo(hMonitor, &mi))
 				wa_rect = mi.rcWork;
 		}
 	}
@@ -276,16 +270,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 #endif
 
 #ifdef LWA_ALPHA
-		if (MySetLayeredWindowAttributes) {
-			MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (int)(options.opacity / 100.0 * 255), LWA_ALPHA);
-			if (options.trans_bg) {
-				COLORREF bg;
-				if (pd->colorBack == pd->colorText)
-					bg = colBg;
-				else
-					bg = pd->colorBack;
-				MySetLayeredWindowAttributes(hwnd, bg, 0, LWA_COLORKEY);
-			}
+		SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (int)(options.opacity / 100.0 * 255), LWA_ALPHA);
+		if (options.trans_bg) {
+			COLORREF bg;
+			if (pd->colorBack == pd->colorText)
+				bg = colBg;
+			else
+				bg = pd->colorBack;
+			SetLayeredWindowAttributes(hwnd, bg, 0, LWA_COLORKEY);
 		}
 #endif
 		PostMessage(hwnd, UM_INITPOPUP, (WPARAM)hwnd, 0);
@@ -745,19 +737,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
-
-void InitWindowStack()
-{
-	hUserDll = GetModuleHandle(_T("user32.dll"));
-	if (hUserDll) {
-		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		MyAnimateWindow=(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
-		MyMonitorFromRect=(HMONITOR (WINAPI*)(LPCRECT,DWORD))GetProcAddress(hUserDll, "MonitorFromRect");
-		MyGetMonitorInfo=(BOOL (WINAPI*)(HMONITOR,LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoW");
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////
 
 void PopupData::SetIcon(HICON hNewIcon)
 {

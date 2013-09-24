@@ -27,9 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MSGERROR_RETRY	1
 #define MSGERROR_DONE	2
 
-typedef DWORD (WINAPI *PSLWA)(HWND, DWORD, BYTE, DWORD);
-extern PSLWA pSetLayeredWindowAttributes;
-
 typedef struct ToolbarButtonStruct
 {
 	TCHAR *name;

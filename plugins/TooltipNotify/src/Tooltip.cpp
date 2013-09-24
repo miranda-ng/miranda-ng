@@ -169,17 +169,8 @@ void CTooltip::Hide()
 
 void CTooltip::set_Translucency(BYTE bAlpha)
 {
-	typedef BOOL (WINAPI *pfnSetLayeredWindowAttributes_t)(HWND, COLORREF, BYTE, DWORD);
-	pfnSetLayeredWindowAttributes_t pfnSetLayeredWindowAttributes;
-
-	pfnSetLayeredWindowAttributes = reinterpret_cast<pfnSetLayeredWindowAttributes_t>
-		(GetProcAddress(GetModuleHandle(_T("user32.dll")), "SetLayeredWindowAttributes"));
-	
-	if (pfnSetLayeredWindowAttributes && 
-		SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, GetWindowLongPtr(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED) != 0)
-	{
-		pfnSetLayeredWindowAttributes(m_hWnd, RGB(0,0,0), bAlpha, LWA_ALPHA);
-	}
+	if (SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, GetWindowLongPtr(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED) != 0)
+		SetLayeredWindowAttributes(m_hWnd, RGB(0,0,0), bAlpha, LWA_ALPHA);
 }
 
 void CTooltip::set_TransparentInput(BOOL bOnOff)

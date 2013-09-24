@@ -439,7 +439,7 @@ static void SetContainerWindowStyle(ParentWindowData *dat)
 	ws |= dat->flags2 & SMF2_USETRANSPARENCY ? WS_EX_LAYERED : 0;
 	SetWindowLongPtr(dat->hwnd , GWL_EXSTYLE , ws);
 	if (dat->flags2 & SMF2_USETRANSPARENCY)
-		pSetLayeredWindowAttributes(dat->hwnd, RGB(255,255,255), (BYTE)(255-g_dat.inactiveAlpha), LWA_ALPHA);
+		SetLayeredWindowAttributes(dat->hwnd, RGB(255,255,255), (BYTE)(255-g_dat.inactiveAlpha), LWA_ALPHA);
 
 	ws = GetWindowLongPtr(dat->hwndTabs, GWL_STYLE) & ~(TCS_BOTTOM | 0x2000);
 	if (dat->flags2 & SMF2_TABSATBOTTOM)
@@ -755,7 +755,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ws |= dat->flags2 & SMF2_USETRANSPARENCY ? WS_EX_LAYERED : 0;
 			SetWindowLongPtr(hwndDlg , GWL_EXSTYLE , ws);
 			if (dat->flags2 & SMF2_USETRANSPARENCY) {
-				pSetLayeredWindowAttributes(hwndDlg, RGB(255,255,255), (BYTE)(255-g_dat.inactiveAlpha), LWA_ALPHA);
+				SetLayeredWindowAttributes(hwndDlg, RGB(255,255,255), (BYTE)(255-g_dat.inactiveAlpha), LWA_ALPHA);
 				//				RedrawWindow(hwndDlg, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
 			}
 			break;
@@ -773,7 +773,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		ws |= dat->flags2 & SMF2_USETRANSPARENCY ? WS_EX_LAYERED : 0;
 		SetWindowLongPtr(hwndDlg , GWL_EXSTYLE , ws);
 		if (dat->flags2 & SMF2_USETRANSPARENCY)
-			pSetLayeredWindowAttributes(hwndDlg, RGB(255,255,255), (BYTE)(255-g_dat.activeAlpha), LWA_ALPHA);
+			SetLayeredWindowAttributes(hwndDlg, RGB(255,255,255), (BYTE)(255-g_dat.activeAlpha), LWA_ALPHA);
 		break;
 
 	case WM_LBUTTONDOWN:

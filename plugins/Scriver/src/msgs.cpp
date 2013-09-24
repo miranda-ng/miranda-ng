@@ -29,8 +29,6 @@ HGENMENU hMsgMenuItem;
 
 extern HWND GetParentWindow(HANDLE hContact, BOOL bChat);
 
-PSLWA pSetLayeredWindowAttributes;
-
 #define EVENTTYPE_SCRIVER 2010
 #define SCRIVER_DB_GETEVENTTEXT "Scriver/GetText"
 
@@ -523,9 +521,6 @@ int OnLoadModule(void)
 			return 1;
 		return 0;
 	}
-
-	HMODULE hDLL = GetModuleHandle(_T("user32"));
-	pSetLayeredWindowAttributes = (PSLWA) GetProcAddress(hDLL,"SetLayeredWindowAttributes");
 
 	InitGlobals();
 	RichUtil_Load();

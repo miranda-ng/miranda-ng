@@ -508,25 +508,15 @@ void SavewinSettings(void)
 /*****************************************************************************/
 void ValidatePosition(HWND hwndDlg)
 {
-	typedef HMONITOR WINAPI MyMonitorFromPoint(POINT, DWORD);
-	typedef BOOL WINAPI MyGetMonitorInfo(HMONITOR, LPMONITORINFO);
-
-	HMODULE hUserInstance = GetModuleHandle(_T("user32"));
-
 	RECT r;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &r, 0);
 
-	MyGetMonitorInfo *LPMyGetMonitorInfo = (MyGetMonitorInfo*)GetProcAddress(hUserInstance, "GetMonitorInfoA");
-	MyMonitorFromPoint *LPMyMonitorFromPoint = (MyMonitorFromPoint*)GetProcAddress(hUserInstance, "MonitorFromPoint");
-	if (LPMyMonitorFromPoint == NULL || LPMyGetMonitorInfo == NULL)
-		return;
-
 	POINT pt = { 0, 0 };
-	HMONITOR hMonitor = LPMyMonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST); // always 
+	HMONITOR hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST); // always 
 
 	MONITORINFO monitorInfo;
 	monitorInfo.cbSize = sizeof(MONITORINFO);
-	if ( LPMyGetMonitorInfo(hMonitor, &monitorInfo))
+	if ( GetMonitorInfo(hMonitor, &monitorInfo))
 		CopyMemory(&r, &monitorInfo.rcMonitor, sizeof(RECT));
 
 	// /window going off right of screen*

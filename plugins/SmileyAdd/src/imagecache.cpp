@@ -18,9 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "general.h"
 
-typedef BOOL (WINAPI *tAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
-static tAlphaBlend pAlphaBlend;
-
 static FI_INTERFACE *fei;
 
 static HANDLE g_hMutexIm;
@@ -492,12 +489,12 @@ void ImageFType::DrawInternal(HDC hdc, int x, int y, int sizeX, int sizeY)
 	BITMAP bm;
 	GetObject(m_bmp, sizeof(bm), &bm);
 
-	if (bm.bmBitsPixel == 32 && pAlphaBlend)
+	if (bm.bmBitsPixel == 32)
 	{
 		BLENDFUNCTION bf = {0};
 		bf.SourceConstantAlpha = 255;
 		bf.AlphaFormat = AC_SRC_ALPHA;
-		pAlphaBlend(hdc, x, y, sizeX, sizeY, hdcImg, 0, 0, bm.bmWidth, bm.bmHeight, bf);
+		GdiAlphaBlend(hdc, x, y, sizeX, sizeY, hdcImg, 0, 0, bm.bmWidth, bm.bmHeight, bf);
 	}
 	else
 	{
@@ -707,10 +704,6 @@ void InitImageCache(void)
 {
 	g_hMutexIm = CreateMutex(NULL, FALSE, NULL);
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM) &fei);
-
-	pAlphaBlend = (tAlphaBlend) GetProcAddress(GetModuleHandleA("gdi32"), "GdiAlphaBlend");
-	if (pAlphaBlend == NULL)
-		pAlphaBlend = (tAlphaBlend) GetProcAddress(LoadLibraryA("msimg32"), "AlphaBlend");
 }
 
 void DestroyImageCache(void)

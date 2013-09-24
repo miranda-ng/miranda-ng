@@ -122,9 +122,6 @@
     <ClInclude Include="src\msgwindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\multimon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -250,7 +250,6 @@
     <ClInclude Include="src\input.h" />
     <ClInclude Include="src\msgs.h" />
     <ClInclude Include="src\msgwindow.h" />
-    <ClInclude Include="src\multimon.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\richutil.h" />
     <ClInclude Include="src\sendqueue.h" />
