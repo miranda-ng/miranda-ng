@@ -73,6 +73,8 @@ static const LPCTSTR SETTING_TRUE = _T("true");
 static const DWORD RESPONSE_TIMEOUT = 1000 * 60 * 60;
 static const DWORD TIMER_INTERVAL = 1000 * 60 * 2;
 
+LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 XML_API xi = {0};
 
 #include <tchar.h>
@@ -356,6 +358,17 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int OnFilterPopup(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	if ( !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
+		return 0;
+
+	return (lParam == (LPARAM)&PopupProc);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
 {
 	IJabberInterface *japi = getJabberApi(szModuleName);
@@ -393,6 +406,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			ji->Net()->AddSendHandler(SendHandler);
 	}
 
+	HookEvent(ME_POPUP_FILTER, OnFilterPopup);
 	HookOptionsInitialization();
 	return 0;
 }

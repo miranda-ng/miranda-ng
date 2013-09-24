@@ -58,12 +58,10 @@ static bool isFullScreen()
 
 	// check foregroundwindow
 	HWND hWnd = GetForegroundWindow();
-	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell)
-	{
+	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
 		TCHAR tszClassName[128] = _T("");
 		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
-		if (_tcscmp(tszClassName, _T("WorkerW")))
-		{
+		if (_tcscmp(tszClassName, _T("WorkerW"))) {
 			RECT rect, rectw, recti;
 			GetWindowRect(hWnd, &rectw);
 
@@ -83,10 +81,12 @@ static bool isFullScreen()
 //===== Popup/AddPopup
 INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
 {
-	if (!gbPopupLoaded) return -1;
+	if (!gbPopupLoaded)
+		return -1;
 
 	POPUPDATA *ppd = (POPUPDATA*)wParam;
-	if (!ppd) return -1;
+	if (!ppd)
+		return -1;
 
 	POPUPDATA2 ppd2 = { sizeof(ppd2) };
 	ppd2.flags = PU2_ANSI;
@@ -105,10 +105,12 @@ INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
 //===== Popup/AddPopupW
 INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 {
-	if (!gbPopupLoaded) return -1;
+	if (!gbPopupLoaded)
+		return -1;
 
 	POPUPDATAW_V2 *ppd = (POPUPDATAW_V2*)wParam;
-	if (!ppd) return -1;
+	if (!ppd)
+		return -1;
 
 	POPUPDATA2 ppd2 = {0};
 	ppd2.cbSize = sizeof(ppd2);
@@ -144,10 +146,15 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 {
 	/* NOTE: we will return 0 instead of -1 since tabSRMM stops using popup after first failure :/ */
 
-	if (!gbPopupLoaded) return -1;
+	if (!gbPopupLoaded)
+		return -1;
 
-	POPUPDATA2 *ppdIn = (POPUPDATA2 *)wParam;
-	if (!ppdIn) return -1;
+	POPUPDATA2 *ppdIn = (POPUPDATA2*)wParam;
+	if (!ppdIn)
+		return -1;
+
+	if ( NotifyEventHooks(hEventNotify, (WPARAM)ppdIn->lchContact, (LPARAM)ppdIn->PluginWindowProc))
+		return 0;
 
 	POPUPDATA2 ppdFixed = {0};
 	POPUPDATA2 *ppd = &ppdFixed;
@@ -156,7 +163,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	DWORD disableWhen;
 	FillNotificationData(ppd, &disableWhen);
 
-	if (!(lParam&APF_NO_HISTORY))
+	if ( !(lParam & APF_NO_HISTORY))
 		PopupHistoryAdd(ppd);
 
 	if (PopupThreadIsFull())
@@ -164,9 +171,9 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 
 	#ifdef _DEBUG
 		char temp[128];
-			OutputDebugStringA("isWorkstationLocked: \t");
-			OutputDebugStringA(isWorkstationLocked() ? "true":"false");
-			OutputDebugStringA("\n");
+		OutputDebugStringA("isWorkstationLocked: \t");
+		OutputDebugStringA(isWorkstationLocked() ? "true":"false");
+		OutputDebugStringA("\n");
 	#endif
 
 	if (isWorkstationLocked())
@@ -182,8 +189,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	if (bShowMode == PU_SHOWMODE_BLOCK)
 		return -1;
 
-	if (bShowMode != PU_SHOWMODE_FAVORITE)
-	{
+	if (bShowMode != PU_SHOWMODE_FAVORITE) {
 		if (!PopupOptions.ModuleIsEnabled)
 			return -1;
 		#ifdef _DEBUG
@@ -210,8 +216,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if ((disableWhen & 0x0000FFFF) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
 			return -1;
 
-		if (proto)
-		{
+		if (proto) {
 			char prefix[128];
 			mir_snprintf(prefix, sizeof(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
 			if (db_get_dw(NULL, MODULNAME, prefix, 0) &
@@ -222,12 +227,11 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (lParam&APF_CUSTOM_POPUP)
+	if (lParam & APF_CUSTOM_POPUP)
 		ppd->flags |= PU2_CUSTOM_POPUP;
+	
 	PopupWnd2 *wnd = new PopupWnd2(ppd, NULL, false);
-
-	if (lParam & APF_RETURN_HWND)
-	{
+	if (lParam & APF_RETURN_HWND) {
 		while (!wnd->m_bWindowCreated) Sleep(1);
 		return (INT_PTR)wnd->getHwnd();
 	}
@@ -313,32 +317,32 @@ INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam) {
 	ppd2.cbSize		= sizeof(ppd2);
 	ppd2.flags		= PU2_ANSI;
 	ppd2.lpzText	= (char*)wParam;
-	switch (lParam&0x7fffffff) {
-		case SM_ERROR:
-			ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_ERROR,0);
-			ppd2.colorBack			= RGB(191,0,0);
-			ppd2.colorText			= RGB(255,245,225);
-			ppd2.lchNotification	= g_hntfError;
-			ppd2.lpzTitle			= Translate("Error");
-			break;
-		case SM_WARNING:
-			ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_WARNING,0);
-			ppd2.colorBack			= RGB(210,210,150);
-			ppd2.colorText			= RGB(0,0,0);
-			ppd2.lchNotification	= g_hntfWarning;
-			ppd2.lpzTitle			= Translate("Warning");
-			break;
-		case SM_NOTIFY:
-			ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_NOTIFY,0);
-			ppd2.colorBack			= RGB(230,230,230);
-			ppd2.colorText			= RGB(0,0,0);
-			ppd2.lchNotification	= g_hntfNotification;
-			ppd2.lpzTitle			= Translate("Notify");
-			break;
-		default: //No no no... you must give me a good value.
-			return -1;
+	switch (lParam & 0x7fffffff) {
+	case SM_ERROR:
+		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_ERROR,0);
+		ppd2.colorBack			= RGB(191,0,0);
+		ppd2.colorText			= RGB(255,245,225);
+		ppd2.lchNotification	= g_hntfError;
+		ppd2.lpzTitle			= Translate("Error");
+		break;
+	case SM_WARNING:
+		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_WARNING,0);
+		ppd2.colorBack			= RGB(210,210,150);
+		ppd2.colorText			= RGB(0,0,0);
+		ppd2.lchNotification	= g_hntfWarning;
+		ppd2.lpzTitle			= Translate("Warning");
+		break;
+	case SM_NOTIFY:
+		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_NOTIFY,0);
+		ppd2.colorBack			= RGB(230,230,230);
+		ppd2.colorText			= RGB(0,0,0);
+		ppd2.lchNotification	= g_hntfNotification;
+		ppd2.lpzTitle			= Translate("Notify");
+		break;
+	default: //No no no... you must give me a good value.
+		return -1;
 	}
-	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam&0x80000000)?APF_NO_HISTORY:0));
+	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam & 0x80000000)?APF_NO_HISTORY:0));
 }
 
 INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
@@ -350,31 +354,31 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 	ppd2.flags		= PU2_UNICODE;
 	ppd2.lpwzText	= (WCHAR*)wParam;
 	switch (lParam&0x7fffffff) {
-		case SM_ERROR:
-			ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_ERROR,0);
-			ppd2.colorBack			= RGB(191,0,0);
-			ppd2.colorText			= RGB(255,245,225);
-			ppd2.lchNotification	= g_hntfError;
-			ppd2.lpwzTitle			= TranslateW(L"Error");
-			break;
-		case SM_WARNING:
-			ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_WARNING,0);
-			ppd2.colorBack			= RGB(210,210,150);
-			ppd2.colorText			= RGB(0,0,0);
-			ppd2.lchNotification	= g_hntfWarning;
-			ppd2.lpwzTitle			= TranslateW(L"Warning");
-			break;
-		case SM_NOTIFY:
-			ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_NOTIFY,0);
-			ppd2.colorBack			= RGB(230,230,230);
-			ppd2.colorText			= RGB(0,0,0);
-			ppd2.lchNotification	= g_hntfNotification;
-			ppd2.lpwzTitle			= TranslateW(L"Notify");
-			break;
-		default: //No no no... you must give me a good value.
-			return -1;
+	case SM_ERROR:
+		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_ERROR,0);
+		ppd2.colorBack			= RGB(191,0,0);
+		ppd2.colorText			= RGB(255,245,225);
+		ppd2.lchNotification	= g_hntfError;
+		ppd2.lpwzTitle			= TranslateW(L"Error");
+		break;
+	case SM_WARNING:
+		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_WARNING,0);
+		ppd2.colorBack			= RGB(210,210,150);
+		ppd2.colorText			= RGB(0,0,0);
+		ppd2.lchNotification	= g_hntfWarning;
+		ppd2.lpwzTitle			= TranslateW(L"Warning");
+		break;
+	case SM_NOTIFY:
+		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_NOTIFY,0);
+		ppd2.colorBack			= RGB(230,230,230);
+		ppd2.colorText			= RGB(0,0,0);
+		ppd2.lchNotification	= g_hntfNotification;
+		ppd2.lpwzTitle			= TranslateW(L"Notify");
+		break;
+	default: //No no no... you must give me a good value.
+		return -1;
 	}
-	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam&0x80000000)?APF_NO_HISTORY:0));
+	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam & 0x80000000)?APF_NO_HISTORY:0));
 }
 
 //===== Popup/Query

@@ -27,6 +27,7 @@ WORD SETTING_MAXIMUMWIDTH_MAX = GetSystemMetrics(SM_CXSCREEN);
 #define MENUCOMMAND_HISTORY "Popup/ShowHistory"
 #define MENUCOMMAND_SVC "Popup/EnableDisableMenuCommand"
 
+HANDLE hEventNotify;
 
 //===== MessageBoxes =====
 //void MB(char*); //This one is for Debug purposes
@@ -379,6 +380,8 @@ MIRAPI int Load(void)
 		LoadOptions();
 
 	//Service Functions
+	hEventNotify = CreateHookableEvent(ME_POPUP_FILTER);
+
 	CreateServiceFunction(MS_POPUP_ADDPOPUP,             Popup_AddPopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            Popup_AddPopupW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            Popup_AddPopup2);
@@ -435,7 +438,9 @@ MIRAPI int Unload(void)
 	FreeLibrary(hMsimgDll);
 	FreeLibrary(hGdiDll);
 
-	if (PopupOptions.SkinPack) mir_free(PopupOptions.SkinPack);
+	DestroyHookableEvent(hEventNotify);
+
+	mir_free(PopupOptions.SkinPack);
 	mir_free(PopupOptions.Effect);
 
 	OptAdv_UnregisterVfx();

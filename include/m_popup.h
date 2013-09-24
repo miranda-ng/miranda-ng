@@ -300,6 +300,17 @@ static int __inline PUShowMessageW(wchar_t *lpwzText, DWORD kind) {
 #define PUShowMessageT	PUShowMessage
 #endif
 
+/* Popup/Filter
+Filters popups out
+
+wParam = (HANDLE)hContact
+lParam = (void*)pWindowProc;
+
+returns: 0 = popup allowed, 1 = popup filtered out
+*/
+
+#define ME_POPUP_FILTER "Popup/Filter"
+
 //------------- Class API ----------------//
 
 typedef struct {

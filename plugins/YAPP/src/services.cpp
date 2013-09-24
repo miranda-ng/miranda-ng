@@ -2,6 +2,7 @@
 
 extern HANDLE hTTButton;
 extern HGENMENU hMenuRoot, hMenuItem, hMenuItemHistory;
+static HANDLE hEventNotify;
 
 void StripBBCodesInPlace(wchar_t *text)
 {
@@ -42,8 +43,10 @@ void StripBBCodesInPlace(wchar_t *text)
 static INT_PTR CreatePopup(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATA *pd_in = (POPUPDATA *)wParam;
-	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
+	if ( NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
+		return 0;
 
+	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
 	pd_out->cbSize = sizeof(PopupData);
 	pd_out->flags = PDF_UNICODE;
 	pd_out->pwzTitle = mir_a2u(pd_in->lpzContactName);
@@ -78,8 +81,10 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM lParam)
 static INT_PTR CreatePopupW(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATAW *pd_in = (POPUPDATAW *)wParam;
-	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
+	if ( NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
+		return 0;
 
+	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
 	pd_out->cbSize = sizeof(PopupData);
 	pd_out->flags = PDF_UNICODE;
 	pd_out->pwzTitle = mir_wstrdup(pd_in->lpwzContactName);
@@ -129,7 +134,8 @@ void ShowPopup(PopupData &pd_in)
 	if (pd_in.flags & PDF_UNICODE) {
 		pd_out->pwzTitle = mir_wstrdup(pd_in.pwzTitle);
 		pd_out->pwzText = mir_wstrdup(pd_in.pwzText);
-	} else {
+	}
+	else {
 		pd_out->flags |= PDF_UNICODE;
 		pd_out->pwzTitle = mir_a2u(pd_in.pszTitle);
 		pd_out->pwzText = mir_a2u(pd_in.pszText); 
@@ -139,23 +145,21 @@ void ShowPopup(PopupData &pd_in)
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 
-	if (!db_get_b(0, MODULE, "Enabled", 1)) 
-	{
+	if (!db_get_b(0, MODULE, "Enabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
 	}
-	else
-		PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
+	else PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
 }
 
 static INT_PTR GetContact(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndPop = (HWND)wParam;
 	HANDLE hContact;
-	if (GetCurrentThreadId() == message_pump_thread_id) {
+	if (GetCurrentThreadId() == message_pump_thread_id)
 		SendMessage(hwndPop, PUM_GETCONTACT, (WPARAM)&hContact, 0);
-	} else {
+	else {
 		HANDLE hEvent = CreateEvent(0, 0, 0, 0);
 		PostMessage(hwndPop, PUM_GETCONTACT, (WPARAM)&hContact, (LPARAM)hEvent);
 		MsgWaitForMultipleObjectsEx(1, &hEvent, INFINITE, 0, 0);
@@ -169,9 +173,9 @@ static INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndPop = (HWND)wParam;
 	void *data = 0;
-	if (GetCurrentThreadId() == message_pump_thread_id) {
+	if (GetCurrentThreadId() == message_pump_thread_id)
 		SendMessage(hwndPop, PUM_GETOPAQUE, (WPARAM)&data, 0);
-	} else {
+	else {
 		HANDLE hEvent = CreateEvent(0, 0, 0, 0);
 		PostMessage(hwndPop, PUM_GETOPAQUE, (WPARAM)&data, (LPARAM)hEvent);
 		MsgWaitForMultipleObjectsEx(1, &hEvent, INFINITE, 0, 0);
@@ -276,25 +280,25 @@ static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 {
-	if ( !db_get_b(0, MODULE, "Enabled", 1)) return 0;
-
-	POPUPDATAT pd = {0};
-	_tcscpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
-	pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-	_tcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, 0);
+	if ( db_get_b(0, MODULE, "Enabled", 1)) {
+		POPUPDATAT pd = {0};
+		_tcscpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
+		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
+		_tcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
+		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, 0);
+	}
 	return 0;
 }
 
 static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 {
-	if ( !db_get_b(0, MODULE, "Enabled", 1)) return 0;
-
-	POPUPDATAW pd = {0};
-	wcscpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
-	pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-	wcsncpy(pd.lpwzText, (wchar_t *)wParam, MAX_SECONDLINE);
-	CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, 0);
+	if ( db_get_b(0, MODULE, "Enabled", 1)) {
+		POPUPDATAW pd = {0};
+		wcscpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
+		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
+		wcsncpy(pd.lpwzText, (wchar_t *)wParam, MAX_SECONDLINE);
+		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, 0);
+	}
 	return 0;
 }
 
@@ -375,6 +379,9 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	if (pc) {
+		if ( NotifyEventHooks(hEventNotify, (WPARAM)pdc->hContact, (LPARAM)pc->PluginWindowProc))
+			return 0;
+
 		PopupData pd = {sizeof(PopupData)};
 		if (pc->flags & PCF_UNICODE) pd.flags |= PDF_UNICODE;
 		pd.colorBack = pc->colorBack;
@@ -397,6 +404,8 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 
 void InitServices() 
 {
+	hEventNotify = CreateHookableEvent(ME_POPUP_FILTER);
+
 	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterPopupClass);
 	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, UnregisterPopupClass);
 
@@ -419,6 +428,8 @@ void InitServices()
 
 void DeinitServices()
 {
+	DestroyHookableEvent(hEventNotify);
+
 	for (int i = 0; i < arClasses.getCount(); i++)
 		FreePopupClass(arClasses[i]);
 	arClasses.destroy();
