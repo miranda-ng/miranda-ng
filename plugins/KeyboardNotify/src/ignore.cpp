@@ -59,7 +59,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if(hChildItem)
 			SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
-		for(i=0; i < SIZEOF(iconOn); i++)
+		for (i=0; i < SIZEOF(iconOn); i++)
 			if(iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0)
 				iconOn[i] = 0;
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
@@ -70,7 +70,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	else
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while(hItem) {
-		for(i=0; i < SIZEOF(iconOn); i++) {
+		for (i=0; i < SIZEOF(iconOn); i++) {
 			iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if(iconOn[i] && iImage == 0)
 				iconOn[i] = 0;
@@ -80,7 +80,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
-	for(i=0; i < SIZEOF(iconOn); i++) {
+	for (i=0; i < SIZEOF(iconOn); i++) {
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+3:0):EMPTY_EXTRA_ICON));
 		if(groupChildCount)
 			groupChildCount[i] += childCount[i];
@@ -129,7 +129,7 @@ static void ResetListOptions(HWND hwndList)
 	SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
 	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
 	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-	for(i=0; i <= FONTID_MAX; i++)
+	for (i=0; i <= FONTID_MAX; i++)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
@@ -162,7 +162,7 @@ static void InitialiseItem(HWND hwndList, HANDLE hContact, HANDLE hItem, DWORD p
 	int i;
 	
 	mask = GetMask(hContact);
-	for(i=0; i < IGNOREEVENT_MAX; i++)
+	for (i=0; i < IGNOREEVENT_MAX; i++)
 		if(ignoreIdToPf1[i] == 0xFFFFFFFF || protoCaps & ignoreIdToPf1[i])
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, mask&(1<<i)?i+3:0));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 1));
@@ -174,7 +174,7 @@ static void SaveItemMask(HWND hwndList, HANDLE hContact, HANDLE hItem, const cha
 	DWORD mask;
 	int i, iImage;
 
-	for(i=0, mask=0; i < IGNOREEVENT_MAX; i++) {
+	for (i=0, mask=0; i < IGNOREEVENT_MAX; i++) {
 		iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 		if(iImage && iImage != EMPTY_EXTRA_ICON)
 			mask |= 1<<i;
@@ -219,7 +219,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_EVENT_FILE));
 				ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-				for(i=0; i < SIZEOF(hIcons); i++)
+				for (i=0; i < SIZEOF(hIcons); i++)
 					hIcons[i] = ImageList_GetIcon(hIml, 1+i, ILD_NORMAL);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_ALLICON, STM_SETICON, (WPARAM)hIcons[0], 0);
@@ -284,11 +284,11 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							if (!(hitFlags & CLCHT_ONITEMEXTRA))
 								break;
 							if(nm->iColumn == IGNOREEVENT_MAX) {   //ignore all
-								for(iImage=0; iImage < IGNOREEVENT_MAX; iImage++)
+								for (iImage=0; iImage < IGNOREEVENT_MAX; iImage++)
 									SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, iImage, iImage+3);
 							}
 							else if(nm->iColumn == IGNOREEVENT_MAX+1) {	//ignore none
-								for(iImage=0; iImage < IGNOREEVENT_MAX; iImage++)
+								for (iImage=0; iImage < IGNOREEVENT_MAX; iImage++)
 									SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, iImage, 0);
 							}
 							else {
@@ -326,7 +326,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case WM_DESTROY:
 		{	int i;
 			HIMAGELIST hIml;
-			for(i=0; i < SIZEOF(hIcons); i++)
+			for (i=0; i < SIZEOF(hIcons); i++)
 				DestroyIcon(hIcons[i]);
 			hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 			ImageList_Destroy(hIml);

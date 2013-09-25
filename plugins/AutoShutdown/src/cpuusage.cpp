@@ -31,12 +31,12 @@ static BOOL WinNT_PerfStatsSwitch(TCHAR *pszServiceName,BOOL fDisable)
 	DWORD dwData,dwDataSize;
 	BOOL fSwitched=FALSE;
 	/* Win2000+ */
-	if(!RegOpenKeyEx(HKEY_LOCAL_MACHINE,_T("System\\CurrentControlSet\\Services"),0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hKeyServices)) {
-		if(!RegOpenKeyEx(hKeyServices,pszServiceName,0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hKeyService)) {
-			if(!RegOpenKeyEx(hKeyService,_T("Performance"),0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hKeyPerf)) {
+	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE,_T("System\\CurrentControlSet\\Services"),0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hKeyServices)) {
+		if (!RegOpenKeyEx(hKeyServices,pszServiceName,0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hKeyService)) {
+			if (!RegOpenKeyEx(hKeyService,_T("Performance"),0,KEY_QUERY_VALUE|KEY_SET_VALUE,&hKeyPerf)) {
 				dwDataSize=sizeof(DWORD);
-				if(!RegQueryValueEx(hKeyPerf,_T("Disable Performance Counters"),NULL,NULL,(BYTE*)&dwData,&dwDataSize))
-					if((dwData!=0)!=fDisable)
+				if (!RegQueryValueEx(hKeyPerf,_T("Disable Performance Counters"),NULL,NULL,(BYTE*)&dwData,&dwDataSize))
+					if ((dwData != 0) != fDisable)
 						fSwitched=!RegSetValueEx(hKeyPerf,_T("Disable Performance Counters"),0,REG_DWORD,(BYTE*)&fDisable,dwDataSize);
 				RegCloseKey(hKeyPerf);
 			}
@@ -58,7 +58,7 @@ struct CpuUsageThreadParams {
 
 static BOOL CallBackAndWait(struct CpuUsageThreadParams *param,BYTE nCpuUsage)
 {
-	if(param->hFirstEvent!=NULL) {
+	if (param->hFirstEvent != NULL) {
 		/* return value for PollCpuUsage() */
 		*param->pidThread=GetCurrentThreadId();
 		SetEvent(param->hFirstEvent);
@@ -66,7 +66,7 @@ static BOOL CallBackAndWait(struct CpuUsageThreadParams *param,BYTE nCpuUsage)
 		/* lower priority after first call */
 		SetThreadPriority(GetCurrentThread(),THREAD_PRIORITY_IDLE);
 	}
-	if(!param->pfnDataAvailProc(nCpuUsage,param->lParam)) return FALSE;
+	if (!param->pfnDataAvailProc(nCpuUsage,param->lParam)) return FALSE;
 	SleepEx(param->dwDelayMillis,TRUE);
 	return !Miranda_Terminated();
 }
@@ -102,25 +102,25 @@ static void WinNT_PollThread(void *vparam)
 		res=RegQueryValueExW(HKEY_PERFORMANCE_DATA,wszValueName,NULL,NULL,(BYTE*)pPerfData,&dwBufferSize);
 		while(!pBuffer || res==ERROR_MORE_DATA) {
 			pBuffer=(BYTE*)mir_realloc(pPerfData,dwBufferSize+=256);
-			if(!pBuffer) break;
+			if (!pBuffer) break;
 			pPerfData=(PERF_DATA_BLOCK*)pBuffer;
 			res=RegQueryValueExW(HKEY_PERFORMANCE_DATA,wszValueName,NULL,NULL,pBuffer,&dwBufferSize);
 		}
-		if(res!=ERROR_SUCCESS) break;
+		if (res != ERROR_SUCCESS) break;
 
 		/* find object in data */
 		fFound=FALSE;
 		/* first object */
 		pPerfObj=(PERF_OBJECT_TYPE*)((BYTE*)pPerfData+pPerfData->HeaderLength);
 		for(dwCount=0;dwCount<pPerfData->NumObjectTypes;++dwCount) {
-			if(pPerfObj->ObjectNameTitleIndex==dwObjectId) {
+			if (pPerfObj->ObjectNameTitleIndex==dwObjectId) {
 				/* find counter in object data */
 				/* first counter */
 				pPerfCounter=(PERF_COUNTER_DEFINITION*)((BYTE*)pPerfObj+pPerfObj->HeaderLength);
 				for(dwCount=0;dwCount<(pPerfObj->NumCounters);++dwCount) { 
-					if(pPerfCounter->CounterNameTitleIndex==dwCounterId) {
+					if (pPerfCounter->CounterNameTitleIndex==dwCounterId) {
 						/* find instance in counter data */
-						if(pPerfObj->NumInstances==PERF_NO_INSTANCES) { 
+						if (pPerfObj->NumInstances==PERF_NO_INSTANCES) { 
 							pPerfCounterBlock=(PERF_COUNTER_BLOCK*)((BYTE*)pPerfObj+pPerfObj->DefinitionLength);
 							liCurrentCounterValue=*(LARGE_INTEGER*)((BYTE*)pPerfCounterBlock+pPerfCounter->CounterOffset);
 							fFound=TRUE;
@@ -130,7 +130,7 @@ static void WinNT_PollThread(void *vparam)
 							pPerfInstance=(PERF_INSTANCE_DEFINITION*)((BYTE*)pPerfObj+pPerfObj->DefinitionLength);
 							for(lCount=0;lCount<(pPerfObj->NumInstances);++lCount) {
 								pPerfCounterBlock=(PERF_COUNTER_BLOCK*)((BYTE*)pPerfInstance+pPerfInstance->ByteLength);
-								if(!lstrcmpiW(pwszInstanceName,(WCHAR*)((BYTE*)pPerfInstance+pPerfInstance->NameOffset)) || !pwszInstanceName) {
+								if (!lstrcmpiW(pwszInstanceName,(WCHAR*)((BYTE*)pPerfInstance+pPerfInstance->NameOffset)) || !pwszInstanceName) {
 									liCurrentCounterValue=*(LARGE_INTEGER*)((BYTE*)pPerfCounterBlock+pPerfCounter->CounterOffset);
 									fFound=TRUE;
 									break;
@@ -149,14 +149,14 @@ static void WinNT_PollThread(void *vparam)
 			/* next object */
 			pPerfObj=(PERF_OBJECT_TYPE*)((BYTE*)pPerfObj+pPerfObj->TotalByteLength);
 		}
-		if(!fFound) break;
+		if (!fFound) break;
 
 		/* calc val from data, we need two samplings
 		 * counter type: PERF_100NSEC_TIMER_INV
 		 * calc: time base=100Ns, value=100*(1-(data_diff)/(100NsTime_diff)) */
-		if(!fIsFirst) {
+		if (!fIsFirst) {
 			nCpuUsage=(BYTE)((1.0-(Li2Double(liCurrentCounterValue)-Li2Double(liPrevCounterValue))/(Li2Double(pPerfData->PerfTime100nSec)-Li2Double(liPrevPerfTime100nSec)))*100.0+0.5);
-			if(!CallBackAndWait(param,nCpuUsage)) break;
+			if (!CallBackAndWait(param,nCpuUsage)) break;
 		}
 		else fIsFirst=FALSE;
 		/* store current sampling for next */
@@ -165,11 +165,11 @@ static void WinNT_PollThread(void *vparam)
 	}
 
 	/* uninit */
-	if(pPerfData) mir_free(pPerfData);
-	if(fSwitched) WinNT_PerfStatsSwitch(_T("PerfOS"),TRUE);
+	if (pPerfData) mir_free(pPerfData);
+	if (fSwitched) WinNT_PerfStatsSwitch(_T("PerfOS"),TRUE);
 
 	/* return error for PollCpuUsage() if never succeeded */
-	if(param->hFirstEvent!=NULL) SetEvent(param->hFirstEvent);
+	if (param->hFirstEvent != NULL) SetEvent(param->hFirstEvent);
 	mir_free(param);
 } 
 
@@ -184,18 +184,18 @@ DWORD PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc,LPARAM lParam,DWORD dwDela
 
 	/* init params */
 	param=(struct CpuUsageThreadParams*)mir_alloc(sizeof(struct CpuUsageThreadParams));
-	if(param==NULL) return FALSE;
+	if (param==NULL) return FALSE;
 	param->dwDelayMillis=dwDelayMillis;
 	param->pfnDataAvailProc=pfnDataAvailProc;
 	param->lParam=lParam;
 	param->pidThread=&idThread;
 	param->hFirstEvent=hFirstEvent=CreateEvent(NULL,FALSE,FALSE,NULL);
-	if(hFirstEvent==NULL) {
+	if (hFirstEvent==NULL) {
 		mir_free(param);
 		return 0;
 	}
 	/* start thread */
-	if((int)mir_forkthread(WinNT_PollThread, param) != -1)
+	if ((int)mir_forkthread(WinNT_PollThread, param) != -1)
 		WaitForSingleObject(hFirstEvent,INFINITE); /* wait for first success */
 	else
 		mir_free(param); /* thread not started */

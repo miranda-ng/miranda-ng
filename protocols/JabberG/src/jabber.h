@@ -241,11 +241,6 @@ protected:
 // Font for groupchat log dialog
 #define JABBER_GCLOG_NUM_FONT      6	// 6 fonts (0:send, 1:msg, 2:time, 3:nick, 4:sys, 5:/me)
 
-// Old SDK don't have this
-#ifndef SPI_GETSCREENSAVERRUNNING
-#define SPI_GETSCREENSAVERRUNNING 114
-#endif
-
 // Icon list
 enum {
 	JABBER_IDI_GCOWNER = 0,

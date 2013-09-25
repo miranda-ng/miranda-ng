@@ -88,7 +88,6 @@ static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam
 static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam);
-static BOOL IsSaverRunning();
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved);
 
 static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime);
@@ -280,8 +279,8 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 		int sts2Time = aas.naTime * SECS_PER_MINUTE;
 		int sts1setTime = aas.sts1setTimer==0?0:(GetTickCount() - aas.sts1setTimer)/1000;
 		int currentMode = CallProtoService(aas.szName,PS_GETSTATUS,0, 0);
-		if ( aas.optionFlags & FLAG_ONSAVER )
-			SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &screenSaver, FALSE);
+		if (aas.optionFlags & FLAG_ONSAVER)
+			screenSaver = IsScreenSaverRunning();
 
 		if (aas.optionFlags & FLAG_ONLOCK)
 			locked = IsWorkstationLocked();

@@ -64,8 +64,7 @@ MIR_CORE_DLL(BOOL) IsFullScreen()
 			ClientToScreen(hWnd, (LPPOINT)&rect);
 			ClientToScreen(hWnd, (LPPOINT)&rect.right);
 
-			if (EqualRect(&rect, &rectw) && IntersectRect(&recti, &rect, &rcScreen) &&
-				EqualRect(&recti, &rcScreen))
+			if (EqualRect(&rect, &rectw) && IntersectRect(&recti, &rect, &rcScreen) && EqualRect(&recti, &rcScreen))
 				return true;
 		}
 	}
@@ -79,8 +78,11 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 	if (hDesk == NULL)
 		return true;
 
+	TCHAR tszName[100];
+	DWORD cbName;
+	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, SIZEOF(tszName), &cbName) || lstrcmpi(tszName,_T("default")) != 0);
 	CloseDesktop(hDesk);
-	return false;
+	return bLocked;
 }
 
 MIR_CORE_DLL(BOOL) IsScreenSaverRunning(void)

@@ -543,7 +543,7 @@ void MirandaImport(HWND hdlg)
 		if (nImportOption == IMPORT_ALL || (nCustomOptions & 2046)) { // 2 - 1024 types
 			AddMessage( LPGENT("Importing history."));
 			HANDLE hContact = srcDb->FindFirstContact();
-			for(int i=1; hContact != NULL; i++) {
+			for (int i=1; hContact != NULL; i++) {
 				ImportHistory(hContact, NULL, NULL);
 
 				SetProgress(100 * i / nNumberOfContacts);

@@ -36,14 +36,14 @@ const TCHAR *unitNames[]={LPGENT("Second(s)"), LPGENT("Minute(s)"), LPGENT("Hour
 static void EnableDlgItem(HWND hwndDlg,int idCtrl,BOOL fEnable)
 {
 	hwndDlg=GetDlgItem(hwndDlg,idCtrl);
-	if(hwndDlg!=NULL && IsWindowEnabled(hwndDlg)!=fEnable)
+	if (hwndDlg != NULL && IsWindowEnabled(hwndDlg) != fEnable)
 		EnableWindow(hwndDlg,fEnable);
 }
 
 static BOOL CALLBACK DisplayCpuUsageProc(BYTE nCpuUsage,LPARAM lParam)
 {
 	/* dialog closed? */
-	if(!IsWindow((HWND)lParam)) return FALSE; /* stop poll thread */
+	if (!IsWindow((HWND)lParam)) return FALSE; /* stop poll thread */
 	TCHAR str[64];
 	mir_sntprintf(str,SIZEOF(str),TranslateT("(current: %u%%)"),nCpuUsage);
 	SetWindowText((HWND)lParam,str);
@@ -54,9 +54,9 @@ static bool AnyProtoHasCaps(DWORD caps1)
 {
 	int nProtoCount;
 	PROTOACCOUNT **protos;
-	if(!ProtoEnumAccounts(&nProtoCount, &protos))
+	if (!ProtoEnumAccounts(&nProtoCount, &protos))
 		for(int i=0;i<nProtoCount;++i)
-			if(CallProtoService(protos[i]->szModuleName,PS_GETCAPS,(WPARAM)PFLAGNUM_1,0)&caps1)
+			if (CallProtoService(protos[i]->szModuleName,PS_GETCAPS,(WPARAM)PFLAGNUM_1,0)&caps1)
 				return true; /* CALLSERVICE_NOTFOUND also handled gracefully */
 	return false;
 }
@@ -77,7 +77,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			{
 				HFONT hBoldFont;
 				LOGFONT lf;
-				if(GetObject((HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0),sizeof(lf),&lf)) {
+				if (GetObject((HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0),sizeof(lf),&lf)) {
 					lf.lfWeight=FW_BOLD;
 					hBoldFont=CreateFontIndirect(&lf);
 				} else hBoldFont=NULL;
@@ -87,17 +87,17 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			{
 				WORD watcherType=db_get_w(NULL,"AutoShutdown","WatcherFlags",SETTING_WATCHERFLAGS_DEFAULT);
 				CheckRadioButton(hwndDlg,IDC_RADIO_STTIME,IDC_RADIO_STCOUNTDOWN,(watcherType&SDWTF_ST_TIME)?IDC_RADIO_STTIME:IDC_RADIO_STCOUNTDOWN);
-				CheckDlgButton(hwndDlg,IDC_CHECK_SPECIFICTIME,(watcherType&SDWTF_SPECIFICTIME)!=0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,(watcherType&SDWTF_MESSAGE)!=0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_FILETRANSFER,(watcherType&SDWTF_FILETRANSFER)!=0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_IDLE,(watcherType&SDWTF_IDLE)!=0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_STATUS,(watcherType&SDWTF_STATUS)!=0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_CPUUSAGE,(watcherType&SDWTF_CPUUSAGE)!=0);
+				CheckDlgButton(hwndDlg,IDC_CHECK_SPECIFICTIME,(watcherType&SDWTF_SPECIFICTIME) != 0);
+				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,(watcherType&SDWTF_MESSAGE) != 0);
+				CheckDlgButton(hwndDlg,IDC_CHECK_FILETRANSFER,(watcherType&SDWTF_FILETRANSFER) != 0);
+				CheckDlgButton(hwndDlg,IDC_CHECK_IDLE,(watcherType&SDWTF_IDLE) != 0);
+				CheckDlgButton(hwndDlg,IDC_CHECK_STATUS,(watcherType&SDWTF_STATUS) != 0);
+				CheckDlgButton(hwndDlg,IDC_CHECK_CPUUSAGE,(watcherType&SDWTF_CPUUSAGE) != 0);
 			}
 			/* read-in countdown val */
 			{
 				SYSTEMTIME st;
-				if(!TimeStampToSystemTime((time_t)db_get_dw(NULL,"AutoShutdown","TimeStamp",SETTING_TIMESTAMP_DEFAULT),&st))
+				if (!TimeStampToSystemTime((time_t)db_get_dw(NULL,"AutoShutdown","TimeStamp",SETTING_TIMESTAMP_DEFAULT),&st))
 					GetLocalTime(&st);
 				DateTime_SetSystemtime(GetDlgItem(hwndDlg,IDC_TIME_TIMESTAMP),GDT_VALID,&st);
 				DateTime_SetSystemtime(GetDlgItem(hwndDlg,IDC_DATE_TIMESTAMP),GDT_VALID,&st);
@@ -105,7 +105,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 			{
 				DWORD setting=db_get_dw(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
-				if(setting<1) setting=SETTING_COUNTDOWN_DEFAULT;
+				if (setting<1) setting=SETTING_COUNTDOWN_DEFAULT;
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_COUNTDOWN,UDM_SETRANGE,0,MAKELPARAM(UD_MAXVAL,1));
 				SendDlgItemMessage(hwndDlg,IDC_EDIT_COUNTDOWN,EM_SETLIMITTEXT,(WPARAM)10,0);
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_COUNTDOWN,UDM_SETPOS,0,MAKELPARAM(setting,0));
@@ -118,19 +118,19 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				SendMessage(hwndCombo,CB_INITSTORAGE,SIZEOF(unitNames),SIZEOF(unitNames)*16); /* approx. */
 				for(int i=0;i<SIZEOF(unitNames);++i) {
 					int index=SendMessage(hwndCombo,CB_ADDSTRING,0,(LPARAM)TranslateTS(unitNames[i]));
-					if(index!=LB_ERR) {
+					if (index != LB_ERR) {
 						SendMessage(hwndCombo,CB_SETITEMDATA,index,(LPARAM)unitValues[i]);
-						if(i==0 || unitValues[i]==lastUnit) SendMessage(hwndCombo,CB_SETCURSEL,index,0);
+						if (i==0 || unitValues[i]==lastUnit) SendMessage(hwndCombo,CB_SETCURSEL,index,0);
 					}
 				}
 			}
 			{
 				DBVARIANT dbv;
-				if(!db_get_ts(NULL,"AutoShutdown","Message",&dbv)) {
+				if (!db_get_ts(NULL,"AutoShutdown","Message",&dbv)) {
 					SetDlgItemText(hwndDlg,IDC_EDIT_MESSAGE,dbv.ptszVal);
 					mir_free(dbv.ptszVal);
 				}
-				if(ServiceExists(MS_AUTOREPLACER_ADDWINHANDLE))
+				if (ServiceExists(MS_AUTOREPLACER_ADDWINHANDLE))
 					CallService(MS_AUTOREPLACER_ADDWINHANDLE,0,(LPARAM)GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE));
 			}
 			/* cpuusage threshold */
@@ -149,29 +149,29 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				SendMessage(hwndCombo,CB_SETEXTENDEDUI,TRUE,0);
 				SendMessage(hwndCombo,CB_INITSTORAGE,SDSDT_MAX,SDSDT_MAX*32);
 				for(BYTE shutdownType=1;shutdownType<=SDSDT_MAX;++shutdownType)
-					if(ServiceIsTypeEnabled(shutdownType,0)) {
+					if (ServiceIsTypeEnabled(shutdownType,0)) {
 						TCHAR *pszText=(TCHAR*)ServiceGetTypeDescription(shutdownType,GSTDF_TCHAR); /* never fails */
 						int index=SendMessage(hwndCombo,CB_ADDSTRING,0,(LPARAM)pszText);
-						if(index!=LB_ERR) {
+						if (index != LB_ERR) {
 							SendMessage(hwndCombo,CB_SETITEMDATA,index,(LPARAM)shutdownType);
-							if(shutdownType==1 || shutdownType==lastShutdownType) SendMessage(hwndCombo,CB_SETCURSEL,(WPARAM)index,0);
+							if (shutdownType==1 || shutdownType==lastShutdownType) SendMessage(hwndCombo,CB_SETCURSEL,(WPARAM)index,0);
 						}
 					}
 				SendMessage(hwndDlg,M_UPDATE_SHUTDOWNDESC,0,(LPARAM)hwndCombo);
 			}
 			/* check if proto is installed that supports instant messages and check if a message dialog plugin is installed */
-			if(!AnyProtoHasCaps(PF1_IMRECV) || !ServiceExists(MS_MSG_SENDMESSAGE)) { /* no srmessage present? */
+			if (!AnyProtoHasCaps(PF1_IMRECV) || !ServiceExists(MS_MSG_SENDMESSAGE)) { /* no srmessage present? */
 				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_MESSAGE),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE),FALSE);
 			}
 			/* check if proto is installed that supports file transfers and check if a file transfer dialog is available */
-			if((!AnyProtoHasCaps(PF1_FILESEND) && !AnyProtoHasCaps(PF1_FILERECV)) || !ServiceExists(MS_FILE_SENDFILE)) {  /* no srfile present? */
+			if ((!AnyProtoHasCaps(PF1_FILESEND) && !AnyProtoHasCaps(PF1_FILERECV)) || !ServiceExists(MS_FILE_SENDFILE)) {  /* no srfile present? */
 				CheckDlgButton(hwndDlg,IDC_CHECK_FILETRANSFER,FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_FILETRANSFER),FALSE);
 			}
 			/* check if cpu usage can be detected */
-			if(!PollCpuUsage(DisplayCpuUsageProc,(LPARAM)GetDlgItem(hwndDlg,IDC_TEXT_CURRENTCPU),1800)) {
+			if (!PollCpuUsage(DisplayCpuUsageProc,(LPARAM)GetDlgItem(hwndDlg,IDC_TEXT_CURRENTCPU),1800)) {
 				CheckDlgButton(hwndDlg,IDC_CHECK_CPUUSAGE,FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_CPUUSAGE),FALSE);
 			}
@@ -181,13 +181,13 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		}
 	case WM_DESTROY:
 		{
-			if(ServiceExists(MS_AUTOREPLACER_ADDWINHANDLE))
+			if (ServiceExists(MS_AUTOREPLACER_ADDWINHANDLE))
 				CallService(MS_AUTOREPLACER_REMWINHANDLE,0,(LPARAM)GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE));
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","SettingsDlg_");
 			HICON hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
 			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
 			SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,0,FALSE); /* no return value */
-			if(hFont!=NULL) DeleteObject(hFont);
+			if (hFont != NULL) DeleteObject(hFont);
 			hwndSettingsDlg=NULL;
 		}
 		return TRUE;
@@ -209,9 +209,9 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 	case M_ENABLE_SUBCTLS:
 		{
-			BOOL checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_MESSAGE)!=0;
+			BOOL checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_MESSAGE) != 0;
 			EnableDlgItem(hwndDlg,IDC_EDIT_MESSAGE,checked);
-			checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SPECIFICTIME)!=0;
+			checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SPECIFICTIME) != 0;
 			EnableDlgItem(hwndDlg,IDC_RADIO_STTIME,checked);
 			EnableDlgItem(hwndDlg,IDC_RADIO_STCOUNTDOWN,checked);
 			checked=(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SPECIFICTIME) && IsDlgButtonChecked(hwndDlg,IDC_RADIO_STTIME));
@@ -221,9 +221,9 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			EnableDlgItem(hwndDlg,IDC_EDIT_COUNTDOWN,checked);
 			EnableDlgItem(hwndDlg,IDC_SPIN_COUNTDOWN,checked);
 			EnableDlgItem(hwndDlg,IDC_COMBO_COUNTDOWNUNIT,checked);
-			checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_IDLE)!=0;
+			checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_IDLE) != 0;
 			EnableDlgItem(hwndDlg,IDC_URL_IDLE,checked);
-			checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_CPUUSAGE)!=0;
+			checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_CPUUSAGE) != 0;
 			EnableDlgItem(hwndDlg,IDC_EDIT_CPUUSAGE,checked);
 			EnableDlgItem(hwndDlg,IDC_SPIN_CPUUSAGE,checked);
 			EnableDlgItem(hwndDlg,IDC_TEXT_PERCENT,checked);
@@ -256,16 +256,16 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			st.wMonth=stBuf.wMonth;
 			st.wYear=stBuf.wYear;
 			GetLocalTime(&stBuf);
-			if(SystemTimeToTimeStamp(&st,&timestamp)) {
+			if (SystemTimeToTimeStamp(&st,&timestamp)) {
 				/* set to current date if earlier */
-				if(timestamp<time(NULL)) {
+				if (timestamp<time(NULL)) {
 					st.wDay=stBuf.wDay;
 					st.wDayOfWeek=stBuf.wDayOfWeek;
 					st.wMonth=stBuf.wMonth;
 					st.wYear=stBuf.wYear;
-					if(SystemTimeToTimeStamp(&st,&timestamp)) {
+					if (SystemTimeToTimeStamp(&st,&timestamp)) {
 						/* step one day up if still earlier */
-						if(timestamp<time(NULL)) {
+						if (timestamp<time(NULL)) {
 							timestamp+=24*60*60;
 							TimeStampToSystemTime(timestamp,&st);
 						}
@@ -305,8 +305,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			return TRUE;
 
 		case IDC_EDIT_COUNTDOWN:
-			if(HIWORD(wParam)==EN_KILLFOCUS) {
-				if((int)GetDlgItemInt(hwndDlg,IDC_EDIT_COUNTDOWN,NULL,TRUE)<1) {
+			if (HIWORD(wParam)==EN_KILLFOCUS) {
+				if ((int)GetDlgItemInt(hwndDlg,IDC_EDIT_COUNTDOWN,NULL,TRUE)<1) {
 					SendDlgItemMessage(hwndDlg,IDC_SPIN_COUNTDOWN,UDM_SETPOS,0,MAKELPARAM(1,0));
 					SetDlgItemInt(hwndDlg,IDC_EDIT_COUNTDOWN,1,FALSE);
 				}
@@ -315,10 +315,10 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			break;
 
 		case IDC_EDIT_CPUUSAGE:
-			if(HIWORD(wParam)==EN_KILLFOCUS) {
+			if (HIWORD(wParam)==EN_KILLFOCUS) {
 				WORD val=(WORD)GetDlgItemInt(hwndDlg,IDC_EDIT_CPUUSAGE,NULL,FALSE);
-				if(val<1) val=1;
-				else if(val>100) val=100;
+				if (val<1) val=1;
+				else if (val>100) val=100;
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_CPUUSAGE,UDM_SETPOS,0,MAKELPARAM(val,0));
 				SetDlgItemInt(hwndDlg,IDC_EDIT_CPUUSAGE,val,FALSE);
 				return TRUE;
@@ -337,7 +337,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 
 		case IDC_COMBO_SHUTDOWNTYPE:
-			if(HIWORD(wParam)==CBN_SELCHANGE)
+			if (HIWORD(wParam)==CBN_SELCHANGE)
 				SendMessage(hwndDlg,M_UPDATE_SHUTDOWNDESC,0,lParam);
 			return TRUE;
 
@@ -348,7 +348,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				HWND hwndEdit=GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE);
 				int len=GetWindowTextLength(hwndEdit)+1;
 				TCHAR *pszText=(TCHAR*)mir_alloc(len*sizeof(TCHAR));
-				if(pszText!=NULL && GetWindowText(hwndEdit,pszText,len+1)) {
+				if (pszText != NULL && GetWindowText(hwndEdit,pszText,len+1)) {
 					TrimString(pszText);
 					db_set_ts(NULL,"AutoShutdown","Message",pszText);
 				}
@@ -359,28 +359,28 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				SYSTEMTIME st;
 				time_t timestamp;
 				DateTime_GetSystemtime(GetDlgItem(hwndDlg,IDC_TIME_TIMESTAMP),&st); /* time gets synchronized */
-				if(!SystemTimeToTimeStamp(&st,&timestamp))
+				if (!SystemTimeToTimeStamp(&st,&timestamp))
 					timestamp=time(NULL);
 				db_set_dw(NULL,"AutoShutdown","TimeStamp",(DWORD)timestamp);
 			}
 			/* shutdown type */
 			{
 				int index = SendDlgItemMessage(hwndDlg,IDC_COMBO_SHUTDOWNTYPE,CB_GETCURSEL,0,0);
-				if(index!=LB_ERR) db_set_b(NULL,"AutoShutdown","ShutdownType",(BYTE)SendDlgItemMessage(hwndDlg,IDC_COMBO_SHUTDOWNTYPE,CB_GETITEMDATA,(WPARAM)index,0));
+				if (index != LB_ERR) db_set_b(NULL,"AutoShutdown","ShutdownType",(BYTE)SendDlgItemMessage(hwndDlg,IDC_COMBO_SHUTDOWNTYPE,CB_GETITEMDATA,(WPARAM)index,0));
 				index=SendDlgItemMessage(hwndDlg,IDC_COMBO_COUNTDOWNUNIT,CB_GETCURSEL,0,0);
-				if(index!=LB_ERR) db_set_dw(NULL,"AutoShutdown","CountdownUnit",(DWORD)SendDlgItemMessage(hwndDlg,IDC_COMBO_COUNTDOWNUNIT,CB_GETITEMDATA,(WPARAM)index,0));
+				if (index != LB_ERR) db_set_dw(NULL,"AutoShutdown","CountdownUnit",(DWORD)SendDlgItemMessage(hwndDlg,IDC_COMBO_COUNTDOWNUNIT,CB_GETITEMDATA,(WPARAM)index,0));
 				db_set_dw(NULL,"AutoShutdown","Countdown",(DWORD)GetDlgItemInt(hwndDlg,IDC_EDIT_COUNTDOWN,NULL,FALSE));
 				db_set_b(NULL,"AutoShutdown","CpuUsageThreshold",(BYTE)GetDlgItemInt(hwndDlg,IDC_EDIT_CPUUSAGE,NULL,FALSE));
 			}
 			/* watcher type */
 			{
 				WORD watcherType = (WORD)(IsDlgButtonChecked(hwndDlg,IDC_RADIO_STTIME)?SDWTF_ST_TIME:SDWTF_ST_COUNTDOWN);
-				if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SPECIFICTIME)) watcherType|=SDWTF_SPECIFICTIME;
-				if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_MESSAGE)) watcherType|=SDWTF_MESSAGE;
-				if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_FILETRANSFER)) watcherType|=SDWTF_FILETRANSFER;
-				if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_IDLE)) watcherType|=SDWTF_IDLE;
-				if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_STATUS)) watcherType|=SDWTF_STATUS;
-				if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_CPUUSAGE)) watcherType|=SDWTF_CPUUSAGE;
+				if (IsDlgButtonChecked(hwndDlg,IDC_CHECK_SPECIFICTIME)) watcherType|=SDWTF_SPECIFICTIME;
+				if (IsDlgButtonChecked(hwndDlg,IDC_CHECK_MESSAGE)) watcherType|=SDWTF_MESSAGE;
+				if (IsDlgButtonChecked(hwndDlg,IDC_CHECK_FILETRANSFER)) watcherType|=SDWTF_FILETRANSFER;
+				if (IsDlgButtonChecked(hwndDlg,IDC_CHECK_IDLE)) watcherType|=SDWTF_IDLE;
+				if (IsDlgButtonChecked(hwndDlg,IDC_CHECK_STATUS)) watcherType|=SDWTF_STATUS;
+				if (IsDlgButtonChecked(hwndDlg,IDC_CHECK_CPUUSAGE)) watcherType|=SDWTF_CPUUSAGE;
 				db_set_w(NULL,"AutoShutdown","WatcherFlags",watcherType);
 				ServiceStartWatcher(0,watcherType);
 			}
@@ -403,7 +403,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 static INT_PTR ServiceShowSettingsDialog(WPARAM wParam,LPARAM lParam)
 {
-	if(hwndSettingsDlg!=NULL) { /* already opened, bring to front */
+	if (hwndSettingsDlg != NULL) { /* already opened, bring to front */
 		SetForegroundWindow(hwndSettingsDlg);
 		return 0;
 	}
@@ -430,7 +430,7 @@ int ToolbarLoaded(WPARAM,LPARAM)
 
 void SetShutdownToolbarButton(bool fActive)
 {
-	if(hToolbarButton)
+	if (hToolbarButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton,fActive?TTBST_PUSHED:TTBST_RELEASED);
 }
 
@@ -443,7 +443,7 @@ void SetShutdownMenuItem(bool fActive)
 	/* main menu */
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2001090000;
-	if(fActive)
+	if (fActive)
 	{
 		mi.icolibItem = iconList[1].hIcolib;
 		mi.ptszName = LPGENT("Stop automatic &shutdown");
@@ -463,7 +463,7 @@ void SetShutdownMenuItem(bool fActive)
 
 	/* tray menu */
 	mi.position = 899999;
-	if(hTrayMenuItem != NULL) {
+	if (hTrayMenuItem != NULL) {
 		mi.flags |= CMIM_NAME | CMIM_ICON;
 		Menu_ModifyItem(hTrayMenuItem, &mi);
 	}
@@ -473,7 +473,7 @@ void SetShutdownMenuItem(bool fActive)
 static INT_PTR MenuItemCommand(WPARAM,LPARAM)
 {
 	/* toggle between StopWatcher and ShowSettingsDdialog */
-	if(ServiceIsWatcherEnabled(0,0))
+	if (ServiceIsWatcherEnabled(0,0))
 		ServiceStopWatcher(0,0);
 	else
 		ServiceShowSettingsDialog(0,0);

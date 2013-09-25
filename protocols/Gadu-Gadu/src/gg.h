@@ -310,11 +310,6 @@ extern LIST<GGPROTO> g_Instances;
 extern PLUGININFOEX pluginInfo;
 extern IconItem iconList[];
 
-// Screen saver
-#ifndef SPI_GETSCREENSAVERRUNNING
-#define SPI_GETSCREENSAVERRUNNING 114
-#endif
-
 /////////////////////////////////////////////////
 // Methods
 

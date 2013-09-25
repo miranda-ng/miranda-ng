@@ -1004,25 +1004,21 @@ INT_PTR ShowStatusMessageDialog(WPARAM wParam, LPARAM lParam)
 
 static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 {
+	if (Miranda_Terminated())
+		return 0;
+
 	int iStatus = (int)wParam;
 	char *szProto = (char*)lParam;
-	int iDlgFlags;
-	BOOL bShowDlg, bOnStartup = FALSE, bGlobalStartupStatus = TRUE, bScreenSaverRunning = FALSE;
-	char szSetting[80];
-
-	if (Miranda_Terminated()) return 0;
 
 	// TODO this could be done better
-	if (szProto && !strcmp(szProto, "SimpleStatusMsgGlobalStartupStatus"))
-	{
+	BOOL bOnStartup = FALSE, bGlobalStartupStatus = TRUE;
+	if (szProto && !strcmp(szProto, "SimpleStatusMsgGlobalStartupStatus")) {
 		szProto = NULL;
 		bOnStartup = TRUE;
 	}
 
-	if (accounts->statusMsgCount == 1 && !szProto)
-	{
-		for (int i = 0; i < accounts->count; ++i)
-		{
+	if (accounts->statusMsgCount == 1 && !szProto) {
+		for (int i = 0; i < accounts->count; ++i) {
 			if (!IsAccountEnabled(accounts->pa[i]))
 				continue;
 
@@ -1033,8 +1029,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 				continue;
 
 			szProto = accounts->pa[i]->szModuleName;
-			if (bOnStartup && iStatus == ID_STATUS_CURRENT)
-			{
+			if (bOnStartup && iStatus == ID_STATUS_CURRENT) {
 				iStatus = GetStartupStatus(accounts->pa[i]->szModuleName);
 				bGlobalStartupStatus = FALSE;
 			}
@@ -1042,13 +1037,14 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
+	char szSetting[80];
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%sFlags", szProto ? szProto : "");
-	iDlgFlags = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(iStatus, szSetting), STATUS_DEFAULT);
-	bShowDlg = iDlgFlags & STATUS_SHOW_DLG || bOnStartup;
-	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &bScreenSaverRunning, 0);
+	int iDlgFlags = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(iStatus, szSetting), STATUS_DEFAULT);
 
-	if (szProto)
-	{
+	BOOL bShowDlg = iDlgFlags & STATUS_SHOW_DLG || bOnStartup;
+	BOOL bScreenSaverRunning = IsScreenSaverRunning();
+
+	if (szProto) {
 		struct MsgBoxInitData *box_data;
 		int status_modes = 0, status_modes_msg = 0, iProtoFlags;
 
@@ -1057,10 +1053,8 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		status_modes_msg = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0);
-		if (!(Proto_Status2Flag(iStatus) & status_modes_msg) || !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
-		{
-			if (bOnStartup && GetCurrentStatus(szProto) != iStatus)
-			{
+		if (!(Proto_Status2Flag(iStatus) & status_modes_msg) || !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)) {
+			if (bOnStartup && GetCurrentStatus(szProto) != iStatus) {
 				CallProtoService(szProto, PS_SETSTATUS, iStatus, 0);
 #ifdef _DEBUG
 				log2file("ChangeStatusMessage(): Set %s status for %s.", StatusModeToDbSetting(iStatus, ""), szProto);
@@ -1071,13 +1065,11 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 
 		mir_snprintf(szSetting, SIZEOF(szSetting), "Proto%sFlags", szProto);
 		iProtoFlags = db_get_b(NULL, "SimpleStatusMsg", szSetting, PROTO_DEFAULT);
-		if (iProtoFlags & PROTO_NO_MSG || iProtoFlags & PROTO_THIS_MSG)
-		{
+		if (iProtoFlags & PROTO_NO_MSG || iProtoFlags & PROTO_THIS_MSG) {
 			if (HasProtoStaticStatusMsg(szProto, iStatus, iStatus))
 				return 1;
 		}
-		else if (iProtoFlags & PROTO_NOCHANGE && !bOnStartup)
-		{
+		else if (iProtoFlags & PROTO_NOCHANGE && !bOnStartup) {
 			DBVARIANT dbv;
 			TCHAR *msg = NULL;
 
@@ -1097,8 +1089,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 			return 1;
 		}
 
-		if (!bShowDlg || bScreenSaverRunning)
-		{
+		if (!bShowDlg || bScreenSaverRunning) {
 			TCHAR *msg = GetAwayMessageFormat(iStatus, szProto);
 #ifdef _DEBUG
 			log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, szProto);
@@ -1128,21 +1119,15 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 			DestroyWindow(hwndSAMsgDialog);
 		hwndSAMsgDialog = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_AWAYMSGBOX), NULL, AwayMsgBoxDlgProc, (LPARAM)box_data);
 	}
-	else
-	{
-		struct MsgBoxInitData *box_data;
-		int iProtoFlags;
-
+	else {
 		// iStatus == ID_STATUS_CURRENT only when bOnStartup == TRUE
 		if (iStatus == ID_STATUS_OFFLINE || (!(accounts->statusMsgFlags & Proto_Status2Flag(iStatus)) && iStatus != ID_STATUS_CURRENT))
 			return 0;
 
-		iProtoFlags = db_get_b(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
-		if (!bShowDlg || bScreenSaverRunning || (iProtoFlags & PROTO_NOCHANGE && !bOnStartup))
-		{
+		int iProtoFlags = db_get_b(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
+		if (!bShowDlg || bScreenSaverRunning || (iProtoFlags & PROTO_NOCHANGE && !bOnStartup)) {
 			TCHAR *msg = NULL;
-			for (int i = 0; i < accounts->count; ++i)
-			{
+			for (int i = 0; i < accounts->count; ++i) {
 				if (!IsAccountEnabled(accounts->pa[i]))
 					continue;
 
@@ -1156,8 +1141,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 					!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 					continue;
 
-				if (iProtoFlags & PROTO_NOCHANGE)
-				{
+				if (iProtoFlags & PROTO_NOCHANGE) {
 					DBVARIANT dbv;
 					mir_snprintf(szSetting, SIZEOF(szSetting), "FCur%sMsg", accounts->pa[i]->szModuleName);
 					if (!db_get_ts(NULL, "SimpleStatusMsg", szSetting, &dbv))
@@ -1179,7 +1163,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 			return 1;
 		}
 
-		box_data = (struct MsgBoxInitData *)mir_alloc(sizeof(struct MsgBoxInitData));
+		MsgBoxInitData *box_data = (MsgBoxInitData*)mir_alloc( sizeof(MsgBoxInitData));
 		box_data->m_szProto = NULL;
 		box_data->m_iStatus = iStatus;
 		box_data->m_iStatusModes = accounts->statusFlags;
@@ -1263,26 +1247,8 @@ static INT_PTR SetOutToLunchStatus(WPARAM wParam, LPARAM lParam)
 static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
-
 	if (!ack || !ack->szModule)
 		return 0;
-
-	if (ack->type == ACKTYPE_AWAYMSG && ack->result == ACKRESULT_SENTREQUEST && !ack->lParam)
-	{
-		TCHAR *tszMsg = GetAwayMessage(CallProtoService((char *)ack->szModule, PS_GETSTATUS, 0, 0), (char *)ack->szModule, TRUE, NULL);
-
-		{
-			char *szMsg = mir_u2a(tszMsg);
-			CallContactService(ack->hContact, PSS_AWAYMSG, (WPARAM)(HANDLE)ack->hProcess, (LPARAM)szMsg);
-			if (szMsg) mir_free(szMsg);
-		}
-
-#ifdef _DEBUG
-		log2file("ProcessProtoAck(): Send away message \"%S\" reply.", tszMsg);
-#endif
-		if (tszMsg) mir_free(tszMsg);
-		return 0;
-	}
 
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS || ack->hContact != NULL)
 		return 0;

@@ -315,11 +315,11 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 {
-	BOOL bScreenSaverRunning = FALSE;
 	int statusMode = (int)wParam;
 	char *szProto = (char*)lParam;
 
-	if (protoModeMsgFlags == 0) return 0;
+	if (protoModeMsgFlags == 0)
+		return 0;
 
 	// If its a global change check the complete PFLAGNUM_3 flags to see if a popup might be needed
 	if ( !szProto)
@@ -335,7 +335,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 			return 0;
 	}
 
-	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &bScreenSaverRunning, FALSE);
+	BOOL bScreenSaverRunning = IsScreenSaverRunning();
 	if (GetStatusModeByte(statusMode, "Ignore"))
 		ChangeAllProtoMessages(szProto, statusMode, NULL);
 

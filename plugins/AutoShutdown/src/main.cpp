@@ -74,9 +74,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	INITCOMMONCONTROLSEX icc;
 	icc.dwSize=sizeof(icc);
 	icc.dwICC=ICC_DATE_CLASSES|ICC_UPDOWN_CLASS|ICC_PROGRESS_CLASS;
-	if(!InitCommonControlsEx(&icc)) return 1;
+	if (!InitCommonControlsEx(&icc)) return 1;
 
-	if(InitFrame()) return 1; /* before icons */
+	if (InitFrame()) return 1; /* before icons */
 
 	/* shared */
 	Icon_Register(hInst, "Automatic Shutdown", iconList, SIZEOF(iconList));

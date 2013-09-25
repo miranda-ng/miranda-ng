@@ -26,10 +26,6 @@
 
 #define NCONVERS_BLINKID ((HANDLE)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 
-#ifndef SPI_GETSCREENSAVERRUNNING
-#define SPI_GETSCREENSAVERRUNNING 114
-#endif
-
 #ifndef WM_XBUTTONDBLCLK
 #define WM_XBUTTONDBLCLK 0x020D
 #endif
@@ -109,7 +105,6 @@ BOOL bReminderDisabled = FALSE;
 char *szMetaProto = NULL;
 BYTE bMetaProtoEnabled = 0;
 
-
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -124,8 +119,6 @@ PLUGININFOEX pluginInfo={
 	{0x119d7288, 0x2050, 0x448d, {0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf}}
 };
 
-
-
 int InitializeOptions(WPARAM,LPARAM);
 void LoadSettings(void);
 int HookWindowsHooks(void);
@@ -137,7 +130,6 @@ static LRESULT CALLBACK MirandaKeyBoardHookFunction(int, WPARAM, LPARAM);
 static LRESULT CALLBACK MirandaWndProcHookFunction(int, WPARAM, LPARAM);
 BOOL CheckMsgWnd(HANDLE, BOOL *);
 
-
 BOOL isMetaContactsSubContact(HANDLE hMetaContact, HANDLE hContact)
 {
 	char *szProto = GetContactProto(hMetaContact);
@@ -148,7 +140,6 @@ BOOL isMetaContactsSubContact(HANDLE hMetaContact, HANDLE hContact)
 	}
 	return FALSE;
 }
-
 
 BOOL checkOpenWindow(HANDLE hContact)
 {
@@ -172,75 +163,26 @@ BOOL checkOpenWindow(HANDLE hContact)
 	return FALSE;
 }
 
-BOOL isScreenSaverRunning()
-{
-	BOOL screenSaverIsRunning=FALSE;
-
-	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &screenSaverIsRunning, FALSE);
-	return screenSaverIsRunning;
-}
-
-
-/* this function is from the original idle module */
-BOOL isWorkstationLocked()
-{
-	HDESK hd;
-	char buf[MAX_PATH];
-
-	hd = OpenInputDesktop(0, FALSE, MAXIMUM_ALLOWED); /* if it fails then the workstation is prolly locked anyway */
-	if (hd == NULL) return TRUE;
-	GetUserObjectInformation(hd, UOI_NAME, buf, sizeof(buf), NULL); /* if we got it (hmm,) get a name */
-	CloseDesktop(hd);
-	return strcmp(buf, "Winlogon")==0;
-}
-
-
-BOOL isFullScreen()
-{
-	int w = GetSystemMetrics(SM_CXSCREEN);
-	int h = GetSystemMetrics(SM_CYSCREEN);
-
-	HWND hWnd = 0;
-	while (hWnd = FindWindowEx(NULL, hWnd, NULL, NULL)) {
-		RECT WindowRect;
-
-		if (!(GetWindowLongPtr(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST))
-			continue;
-
-		GetWindowRect(hWnd, &WindowRect);
-		if ((w != (WindowRect.right - WindowRect.left)) || (h != (WindowRect.bottom - WindowRect.top)))
-			continue;
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-
 BOOL checkNotifyOptions()
 {
-	BOOL fullScreenMode, screenSaverIsRunning, workstationIsLocked, processesRunning;
-
-	screenSaverIsRunning = isScreenSaverRunning();
+	BOOL screenSaverIsRunning = IsScreenSaverRunning();
 	if (screenSaverIsRunning && bScreenSaverRunning)
-			return TRUE;
+		return TRUE;
 
-	workstationIsLocked = isWorkstationLocked();
+	BOOL workstationIsLocked = IsWorkstationLocked();
 	if (workstationIsLocked && bWorkstationLocked)
-			return TRUE;
+		return TRUE;
 
-	fullScreenMode = isFullScreen() && !screenSaverIsRunning;
+	BOOL fullScreenMode = IsFullScreen() && !screenSaverIsRunning;
 	if (fullScreenMode && bFullScreenMode)
-			return TRUE;
+		return TRUE;
 
-	processesRunning = areThereProcessesRunning();
+	BOOL processesRunning = areThereProcessesRunning();
 	if (processesRunning && bProcessesAreRunning)
-			return TRUE;
+		return TRUE;
 
 	return (!fullScreenMode && !screenSaverIsRunning && !workstationIsLocked && !processesRunning && bWorkstationActive);
 }
-
 
 BOOL isStatusEnabled(int status)
 {
@@ -259,12 +201,10 @@ BOOL isStatusEnabled(int status)
 	}
 }
 
-
 BOOL checkGlobalStatus()
 {
 	return isStatusEnabled(CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 }
-
 
 BOOL checkGlobalXstatus()
 {
@@ -288,18 +228,14 @@ BOOL checkGlobalXstatus()
 	return protosSupporting == 0;
 }
 
-
 DBEVENTINFO createMsgEventInfo(HANDLE hContact)
 {
 	DBEVENTINFO einfo = {0};
-
 	einfo.cbSize = sizeof(einfo);
 	einfo.eventType = EVENTTYPE_MESSAGE;
 	einfo.szModule = GetContactProto(hContact);
-
 	return einfo;
 }
-
 
 DBEVENTINFO readEventInfo(HANDLE hDbEvent, HANDLE hContact)
 {
@@ -311,25 +247,22 @@ DBEVENTINFO readEventInfo(HANDLE hDbEvent, HANDLE hContact)
 	return einfo;
 }
 
-
 BOOL checkIgnore(HANDLE hContact, WORD eventType)
 {
 	return !IsIgnored(hContact, eventType);
 }
-
 
 BOOL checkProtocol(char *szProto)
 {
 	if (!szProto)
 		return FALSE;
 
-	for(int i=0; i < ProtoList.protoCount; i++)
+	for (int i=0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].szProto && !strcmp(ProtoList.protoInfo[i].szProto, szProto))
 			return ProtoList.protoInfo[i].enabled;
 
 	return FALSE;
 }
-
 
 BOOL metaCheckProtocol(char *szProto, HANDLE hContact, WORD eventType)
 {
@@ -365,7 +298,6 @@ BOOL checkUnopenEvents()
 
 	return FALSE;
 }
-
 
 static void FlashThreadFunction()
 {
@@ -485,7 +417,7 @@ BOOL checkXstatus(char *szProto)
 	if (!szProto)
 		return checkGlobalXstatus();
 
-	for(int i=0; i < ProtoList.protoCount; i++)
+	for (int i=0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].szProto && !strcmp(ProtoList.protoInfo[i].szProto, szProto)) {
 			if (!ProtoList.protoInfo[i].xstatus.count) return TRUE;
 
@@ -643,7 +575,7 @@ void createProcessList(void)
 	ProcessList.count = 0;
 	ProcessList.szFileName = (TCHAR **)malloc(count * sizeof(TCHAR *));
 	if (ProcessList.szFileName) {
-		for(i=0; i < count; i++)
+		for (i=0; i < count; i++)
 			if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
 				ProcessList.szFileName[i] = NULL;
 			else {
@@ -665,7 +597,7 @@ void destroyProcessList(void)
 	count = ProcessList.count;
 
 	ProcessList.count = 0;
-	for(i=0; i < count; i++)
+	for (i=0; i < count; i++)
 		if (ProcessList.szFileName[i])
 			free(ProcessList.szFileName[i]);
 
@@ -723,11 +655,11 @@ void LoadSettings(void)
 		db_set_b(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
 	if (db_get_b(NULL, KEYBDMODULE, "testsecs", -1) == -1)
 		db_set_b(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
-	for(int i=0; i < ProtoList.protoCount; i++)
+	for (int i=0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].visible) {
 			unsigned int j;
 			ProtoList.protoInfo[i].enabled = db_get_b(NULL, KEYBDMODULE, ProtoList.protoInfo[i].szProto, DEF_SETTING_PROTOCOL);
-			for(j=0; j < ProtoList.protoInfo[i].xstatus.count; j++)
+			for (j=0; j < ProtoList.protoInfo[i].xstatus.count; j++)
 				ProtoList.protoInfo[i].xstatus.enabled[j] = db_get_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
 		}
 
@@ -773,7 +705,7 @@ void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 	if (!protoInfo->xstatus.enabled)
 		protoInfo->xstatus.count = 0;
 	else
-		for(unsigned i=0; i < protoInfo->xstatus.count; i++)
+		for (unsigned i=0; i < protoInfo->xstatus.count; i++)
 			protoInfo->xstatus.enabled[i] = FALSE;
 }
 
@@ -792,7 +724,7 @@ void createProtocolList(void)
 		return;
 	}
 
-	for(int i=0; i < ProtoList.protoCount; i++) {
+	for (int i=0; i < ProtoList.protoCount; i++) {
 		ProtoList.protoInfo[i].xstatus.count = 0;
 		ProtoList.protoInfo[i].xstatus.enabled = NULL;
 		ProtoList.protoInfo[i].szProto = (char *)malloc(strlen(proto[i]->szModuleName) + 1);
@@ -899,7 +831,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 void destroyProtocolList(void)
 {
-	for(int i=0; i < ProtoList.protoCount; i++) {
+	for (int i=0; i < ProtoList.protoCount; i++) {
 		if (ProtoList.protoInfo[i].szProto)
 			free(ProtoList.protoInfo[i].szProto);
 		if (ProtoList.protoInfo[i].xstatus.enabled)

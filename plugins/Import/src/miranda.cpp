@@ -84,16 +84,14 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		{
-			TCHAR *pfd, *pfd1, *pfd2, *pfn;
-
 			REPLACEVARSDATA dat = {0};
 			dat.cbSize = sizeof(dat);
 			dat.dwFlags = RVF_TCHAR;
 
-			pfd  = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_path%\\Profiles"), (LPARAM)&dat);
-			pfd1 = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_path%"), (LPARAM)&dat);
-			pfd2 = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_profile%"), (LPARAM)&dat);
-			pfn  = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_profilename%"), (LPARAM)&dat);
+			TCHAR *pfd  = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_path%\\Profiles"), (LPARAM)&dat);
+			TCHAR *pfd1 = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_path%"), (LPARAM)&dat);
+			TCHAR *pfd2 = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_profile%"), (LPARAM)&dat);
+			TCHAR *pfn  = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)_T("%miranda_profilename%"), (LPARAM)&dat);
 
 			SearchForLists(hdlg, pfd2, pfn);
 			SearchForLists(hdlg, pfd1, NULL);
@@ -104,8 +102,8 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			mir_free(pfd2);
 			mir_free(pfd1);
 			mir_free(pfd);
-			return TRUE;
 		}
+		return TRUE;
 
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
@@ -116,9 +114,8 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 		case IDOK:
 			{
 				TCHAR filename[MAX_PATH];
-
 				GetDlgItemText(hdlg, IDC_FILENAME, filename, SIZEOF(filename));
-				if (_taccess(filename, 4)) {
+				if ( _taccess(filename, 4)) {
 					MessageBox(hdlg, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
 					break;
 				}
@@ -140,40 +137,36 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			break;
 
 		case IDC_OTHER:
-			{
-				OPENFILENAME ofn;
-				TCHAR str[MAX_PATH], text[256];
-				TCHAR *pfd;
+			OPENFILENAME ofn;
+			TCHAR str[MAX_PATH], text[256];
+			TCHAR *pfd;
 
-				pfd = Utils_ReplaceVarsT(_T("%miranda_profile%"));
+			pfd = Utils_ReplaceVarsT(_T("%miranda_profile%"));
 
-				GetDlgItemText(hdlg, IDC_FILENAME, str, SIZEOF(str));
-				ZeroMemory(&ofn, sizeof(ofn));
-				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-				ofn.hwndOwner = hdlg;
-				mir_sntprintf(text, SIZEOF(text), _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
-				ofn.lpstrFilter = text;
-				ofn.lpstrDefExt = _T("dat");
-				ofn.lpstrFile = str;
-				ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
-				ofn.nMaxFile = SIZEOF(str);
-				ofn.lpstrInitialDir = pfd;
-				if (GetOpenFileName(&ofn))
-					SetDlgItemText(hdlg, IDC_FILENAME, str);
+			GetDlgItemText(hdlg, IDC_FILENAME, str, SIZEOF(str));
+			ZeroMemory(&ofn, sizeof(ofn));
+			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+			ofn.hwndOwner = hdlg;
+			mir_sntprintf(text, SIZEOF(text), _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			ofn.lpstrFilter = text;
+			ofn.lpstrDefExt = _T("dat");
+			ofn.lpstrFile = str;
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
+			ofn.nMaxFile = SIZEOF(str);
+			ofn.lpstrInitialDir = pfd;
+			if (GetOpenFileName(&ofn))
+				SetDlgItemText(hdlg, IDC_FILENAME, str);
 
-				mir_free(pfd);
-				break;
-			}
+			mir_free(pfd);
+			break;
 		}
 		break;
-	case WM_DESTROY:
-		{
-			int i;
 
-			for(i=SendDlgItemMessage(hdlg,IDC_LIST,LB_GETCOUNT,0,0)-1;i>=0;i--)
-				mir_free((char*)SendDlgItemMessage(hdlg,IDC_LIST,LB_GETITEMDATA,i,0));
-			break;
-	}	}
+	case WM_DESTROY:
+		for (int i = SendDlgItemMessage(hdlg,IDC_LIST,LB_GETCOUNT,0,0)-1; i >= 0; i--)
+			mir_free((char*)SendDlgItemMessage(hdlg, IDC_LIST, LB_GETITEMDATA, i, 0));
+		break;
+	}
 
 	return FALSE;
 }
@@ -199,7 +192,7 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPA
 			break;
 
 		case IDOK:
-			if (IsDlgButtonChecked(hdlg,IDC_RADIO_ALL)) {
+			if ( IsDlgButtonChecked(hdlg,IDC_RADIO_ALL)) {
 				nImportOption = IMPORT_ALL;
 				nCustomOptions = 0;//IOPT_MSGSENT|IOPT_MSGRECV|IOPT_URLSENT|IOPT_URLRECV;
 				DoImport = MirandaImport;
@@ -207,7 +200,7 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPA
 				break;
 			}
 
-			if (IsDlgButtonChecked(hdlg,IDC_RADIO_CONTACTS)) {
+			if ( IsDlgButtonChecked(hdlg,IDC_RADIO_CONTACTS)) {
 				nImportOption = IMPORT_CONTACTS;
 				nCustomOptions = 0;
 				DoImport = MirandaImport;
@@ -327,21 +320,17 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,
 		case IDC_ALL:
 		case IDC_INCOMING:
 		case IDC_OUTGOING:
-			{
-				int i;
+			if (LOWORD(wParam) == IDC_ALL)
+				for (int i = 0; i < sizeof(SysControls)/sizeof(SysControls[0]); i++)
+					CheckDlgButton(hdlg,SysControls[i], !IsDlgButtonChecked(hdlg,SysControls[i]));
 
-				if (LOWORD(wParam) == IDC_ALL)
-					for (i = 0; i < sizeof(SysControls)/sizeof(SysControls[0]); i++)
-						CheckDlgButton(hdlg,SysControls[i], !IsDlgButtonChecked(hdlg,SysControls[i]));
+			if (LOWORD(wParam) != IDC_OUTGOING)
+				for (int i = 0; i < sizeof(InControls)/sizeof(InControls[0]); i++)
+					CheckDlgButton(hdlg,InControls[i], !IsDlgButtonChecked(hdlg,InControls[i]));
 
-				if (LOWORD(wParam) != IDC_OUTGOING)
-					for (i = 0; i < sizeof(InControls)/sizeof(InControls[0]); i++)
-						CheckDlgButton(hdlg,InControls[i], !IsDlgButtonChecked(hdlg,InControls[i]));
-
-				if (LOWORD(wParam) != IDC_INCOMING)
-					for (i = 0; i < sizeof(OutControls)/sizeof(OutControls[0]); i++)
-						CheckDlgButton(hdlg,OutControls[i], !IsDlgButtonChecked(hdlg,OutControls[i]));
-			}
+			if (LOWORD(wParam) != IDC_INCOMING)
+				for (int i = 0; i < sizeof(OutControls)/sizeof(OutControls[0]); i++)
+					CheckDlgButton(hdlg,OutControls[i], !IsDlgButtonChecked(hdlg,OutControls[i]));
 			break;
 
 		case IDC_MSG:

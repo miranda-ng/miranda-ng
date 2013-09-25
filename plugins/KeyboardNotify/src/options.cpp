@@ -224,7 +224,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				lvItem.cchTextMax = 256;
 				lvItem.iItem = 0;
 				lvItem.iSubItem = 0;
-				for(int i=0; i < ProtoList.protoCount; i++) {
+				for (int i=0; i < ProtoList.protoCount; i++) {
 					int count; PROTOACCOUNT** protos;
 					ProtoEnumAccounts( &count, &protos );
 					if(ProtoList.protoInfo[i].visible) {
@@ -519,7 +519,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 						if (XstatusListAux)
 							for (int i = 0; i < ProtoList.protoCount; i++)
-								for(int j = 0; j < (int)XstatusListAux[i].count; j++)
+								for (int j = 0; j < (int)XstatusListAux[i].count; j++)
 									db_set_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
 
 						LoadSettings();
@@ -1211,7 +1211,7 @@ void createProcessListAux(void)
 
 void destroyProcessListAux(void)
 {
-	for(int i = 0; i < ProcessListAux.count; i++)
+	for (int i = 0; i < ProcessListAux.count; i++)
 		if (ProcessListAux.szFileName[i])
 			free(ProcessListAux.szFileName[i]);
 
@@ -1307,7 +1307,7 @@ void createXstatusListAux(void)
 				if (!XstatusListAux[i].enabled)
 					XstatusListAux[i].count = 0;
 				else
-					for(int j = 0; j < (int)XstatusListAux[i].count; j++)
+					for (int j = 0; j < (int)XstatusListAux[i].count; j++)
 						XstatusListAux[i].enabled[j] = ProtoList.protoInfo[i].xstatus.enabled[j];
 			}
 		}
@@ -1318,7 +1318,7 @@ void createXstatusListAux(void)
 void destroyXstatusListAux(void)
 {
 	if (XstatusListAux) {
-		for(int i = 0; i < ProtoList.protoCount; i++)
+		for (int i = 0; i < ProtoList.protoCount; i++)
 			if (XstatusListAux[i].enabled)
 				free(XstatusListAux[i].enabled);
 		free(XstatusListAux);
@@ -1382,7 +1382,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					tvis.item.iImage = tvis.item.iSelectedImage = ImageList_AddIcon(hImageList, hIconAux=(HICON)CallProtoService(ProtoList.protoInfo[i].szProto, PS_LOADICON, PLI_PROTOCOL, 0));
 					if (hIconAux) DestroyIcon(hIconAux);
 					hParent = TreeView_InsertItem(hwndTree, &tvis);
-					for(j = 0; j < XstatusListAux[i].count; j++) {
+					for (j = 0; j < XstatusListAux[i].count; j++) {
 						tvis.hParent = hParent;
 						tvis.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 						if (!j){

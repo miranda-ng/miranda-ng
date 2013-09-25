@@ -51,7 +51,7 @@ static LOGFONT* GetDefaultFont(LOGFONT *lf)
 	NONCLIENTMETRICS ncm;
 	ZeroMemory(&ncm,sizeof(ncm));
 	ncm.cbSize=sizeof(ncm);
-	if(SystemParametersInfo(SPI_GETNONCLIENTMETRICS,ncm.cbSize,&ncm,0)) {
+	if (SystemParametersInfo(SPI_GETNONCLIENTMETRICS,ncm.cbSize,&ncm,0)) {
 		*lf=ncm.lfStatusFont;
 		return lf;
 	}
@@ -63,7 +63,7 @@ static HICON SetFrameTitleIcon(WORD hFrame,HICON hNewIcon)
 	HICON hPrevIcon;
 	hPrevIcon=(HICON)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_ICON,hFrame),0);
 	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_ICON,hFrame),(LPARAM)hNewIcon);
-	if((int)hPrevIcon==-1) return (HICON)NULL;
+	if ((int)hPrevIcon==-1) return (HICON)NULL;
 	return hPrevIcon;
 }
 
@@ -123,7 +123,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 		case WM_NCCREATE:  /* init window data */
 			dat=(struct CountdownFrameWndData*)mir_calloc(sizeof(*dat));
 			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)dat);
-			if(dat==NULL) return FALSE; /* creation failed */
+			if (dat==NULL) return FALSE; /* creation failed */
 			dat->fTimeFlags=*(WORD*)((CREATESTRUCT*)lParam)->lpCreateParams;
 			dat->flags=FWPDF_COUNTDOWNINVALID;
 			break;
@@ -151,7 +151,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					NULL,
 					params->hInstance,
 					NULL);
-			if(dat->hwndProgress==NULL) return -1; /* creation failed, calls WM_DESTROY */
+			if (dat->hwndProgress==NULL) return -1; /* creation failed, calls WM_DESTROY */
 			SendMessage(dat->hwndProgress,PBM_SETSTEP,(WPARAM)1,0);
 			mir_subclassWindow(dat->hwndProgress, ProgressBarSubclassProc);
 			dat->hwndDesc=CreateWindowEx(WS_EX_NOPARENTNOTIFY,
@@ -178,7 +178,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					NULL,
 					params->hInstance,
 					NULL);
-			if(dat->hwndTime==NULL) return -1; /* creation failed, calls WM_DESTROY */
+			if (dat->hwndTime==NULL) return -1; /* creation failed, calls WM_DESTROY */
 			/* create tooltips */
 			TTTOOLINFO ti;
 			dat->hwndToolTip=CreateWindowEx(WS_EX_TOPMOST,
@@ -191,7 +191,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					NULL,
 					params->hInstance,
 					NULL);
-			if(dat->hwndToolTip!=NULL) {
+			if (dat->hwndToolTip != NULL) {
 				SetWindowPos(dat->hwndToolTip,HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
 				ZeroMemory(&ti,sizeof(ti));
 				ti.cbSize=sizeof(ti);
@@ -203,11 +203,11 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 				ti.uFlags&=~TTF_TRANSPARENT;
 				ti.uId=(UINT)dat->hwndProgress;
 				SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
-				if(dat->hwndDesc!=NULL) {
+				if (dat->hwndDesc != NULL) {
 					ti.uId=(UINT)dat->hwndDesc;
 					SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
 				}
-				if(dat->hwndIcon!=NULL) {
+				if (dat->hwndIcon != NULL) {
 					ti.uId=(UINT)dat->hwndIcon;
 					SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
 				}
@@ -221,24 +221,24 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			SendMessage(hwndFrame,M_REFRESH_ICONS,0,0);
 			SendMessage(hwndFrame,M_SET_COUNTDOWN,0,0);
 			SendMessage(hwndFrame,M_UPDATE_COUNTDOWN,0,0);
-			if(!SetTimer(hwndFrame,1,1000,NULL)) return -1; /* creation failed, calls WM_DESTROY */
+			if (!SetTimer(hwndFrame,1,1000,NULL)) return -1; /* creation failed, calls WM_DESTROY */
 			return 0;
 		}
 		case WM_DESTROY:
 		{
-			if(dat==NULL) return 0;
+			if (dat==NULL) return 0;
 			UnhookEvent(dat->hHookColorsChanged);
 			UnhookEvent(dat->hHookFontsChanged);
 			UnhookEvent(dat->hHookIconsChanged);
 			/* other childs are destroyed automatically */
-			if(dat->hwndToolTip!=NULL) DestroyWindow(dat->hwndToolTip);
+			if (dat->hwndToolTip != NULL) DestroyWindow(dat->hwndToolTip);
 			HICON hIcon=(HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,0);
 			break;
 		}
 		case WM_NCDESTROY:
-			if(dat==NULL) return 0;
-			if(dat->hFont!=NULL) DeleteObject(dat->hFont);
-			if(dat->hbrBackground!=NULL) DeleteObject(dat->hbrBackground);
+			if (dat==NULL) return 0;
+			if (dat->hFont != NULL) DeleteObject(dat->hFont);
+			if (dat->hbrBackground != NULL) DeleteObject(dat->hbrBackground);
 			mir_free(dat);
 			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)NULL);
 			break;
@@ -256,7 +256,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			height=rc.bottom-(GetSystemMetrics(SM_CYICON)/2)-5;
 			hdwp=DeferWindowPos(hdwp,dat->hwndProgress,NULL,0,0,width,height,SWP_NOMOVE|defflg);
 			/* desc */
-			if(dat->hwndDesc!=NULL) hdwp=DeferWindowPos(hdwp,dat->hwndDesc,NULL,GetSystemMetrics(SM_CXICON)+5,5+height,0,0,SWP_NOSIZE|defflg);
+			if (dat->hwndDesc != NULL) hdwp=DeferWindowPos(hdwp,dat->hwndDesc,NULL,GetSystemMetrics(SM_CXICON)+5,5+height,0,0,SWP_NOSIZE|defflg);
 			/* time */
 			hdwp=DeferWindowPos(hdwp,dat->hwndTime,NULL,GetSystemMetrics(SM_CXICON)+85,5+height,width-80,(GetSystemMetrics(SM_CXICON)/2),defflg);
 			EndDeferWindowPos(hdwp);
@@ -266,11 +266,11 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 		case M_REFRESH_COLORS:
 		{
 			COLORREF clrBar;
-			if(FontService_GetColor(_T("Automatic Shutdown"),_T("Progress Bar"),&clrBar))
+			if (FontService_GetColor(_T("Automatic Shutdown"),_T("Progress Bar"),&clrBar))
 				clrBar=GetDefaultColor(FRAMEELEMENT_BAR);
-			if(FontService_GetColor(_T("Automatic Shutdown"),_T("Background"),&dat->clrBackground))
+			if (FontService_GetColor(_T("Automatic Shutdown"),_T("Background"),&dat->clrBackground))
 				dat->clrBackground=GetDefaultColor(FRAMEELEMENT_BKGRND);
-			if(dat->hbrBackground!=NULL) DeleteObject(dat->hbrBackground);
+			if (dat->hbrBackground != NULL) DeleteObject(dat->hbrBackground);
 			dat->hbrBackground=CreateSolidBrush(dat->clrBackground);
 			SendMessage(dat->hwndProgress,PBM_SETBARCOLOR,0,(LPARAM)clrBar);
 			SendMessage(dat->hwndProgress,PBM_SETBKCOLOR,0,(LPARAM)dat->clrBackground);
@@ -282,18 +282,18 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 		case M_REFRESH_FONTS:
 		{
 			LOGFONT lf;
-			if(!FontService_GetFont(_T("Automatic Shutdown"),_T("Countdown on Frame"),&dat->clrText,&lf)) {
-				if(dat->hFont!=NULL) DeleteObject(dat->hFont);
+			if (!FontService_GetFont(_T("Automatic Shutdown"),_T("Countdown on Frame"),&dat->clrText,&lf)) {
+				if (dat->hFont != NULL) DeleteObject(dat->hFont);
 				dat->hFont=CreateFontIndirect(&lf);
 			}
 			else {
 				dat->clrText=GetDefaultColor(FRAMEELEMENT_TEXT);
-				if(GetDefaultFont(&lf)!=NULL) {
-					if(dat->hFont!=NULL) DeleteObject(dat->hFont);
+				if (GetDefaultFont(&lf) != NULL) {
+					if (dat->hFont != NULL) DeleteObject(dat->hFont);
 					dat->hFont=CreateFontIndirect(&lf);
 				}
 			}
-			if(dat->hwndDesc!=NULL)
+			if (dat->hwndDesc != NULL)
 				SendMessage(dat->hwndDesc,WM_SETFONT,(WPARAM)dat->hFont,FALSE);
 			SendMessage(dat->hwndTime,WM_SETFONT,(WPARAM)dat->hFont,FALSE);
 			InvalidateRect(hwndFrame,NULL,FALSE);
@@ -319,20 +319,20 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			return (BOOL)dat->hbrBackground;
 		case WM_ERASEBKGND:
 		{	RECT rc;
-			if(dat->hbrBackground!=NULL && GetClientRect(hwndFrame,&rc)) {
+			if (dat->hbrBackground != NULL && GetClientRect(hwndFrame,&rc)) {
 				FillRect((HDC)wParam,&rc,dat->hbrBackground);
 				return TRUE;
 			}
 			return FALSE;
 		}
 		case M_SET_COUNTDOWN:
-			if(dat->fTimeFlags&SDWTF_ST_TIME) {
+			if (dat->fTimeFlags&SDWTF_ST_TIME) {
 				dat->settingLastTime=(time_t)db_get_dw(NULL,"AutoShutdown","TimeStamp",SETTING_TIMESTAMP_DEFAULT);
 				dat->countdown=time(NULL);
-				if(dat->settingLastTime>dat->countdown) dat->countdown=dat->settingLastTime-dat->countdown;
+				if (dat->settingLastTime>dat->countdown) dat->countdown=dat->settingLastTime-dat->countdown;
 				else dat->countdown=0;
 			}
-			else if(dat->flags&FWPDF_COUNTDOWNINVALID) {
+			else if (dat->flags&FWPDF_COUNTDOWNINVALID) {
 				dat->countdown=(time_t)db_get_dw(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
 				dat->countdown*=(time_t)db_get_dw(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
 			}
@@ -341,13 +341,13 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			SendMessage(dat->hwndProgress,PBM_SETRANGE32,0,(LPARAM)dat->countdown);
 			return 0;
 		case WM_TIMER:
-			if(dat==NULL) return 0;
-			if(dat->countdown!=0 && !(dat->flags&FWPDF_COUNTDOWNINVALID) && !(dat->flags&FWPDF_PAUSED)) {
+			if (dat==NULL) return 0;
+			if (dat->countdown != 0 && !(dat->flags&FWPDF_COUNTDOWNINVALID) && !(dat->flags&FWPDF_PAUSED)) {
 				dat->countdown--;
 				PostMessage(dat->hwndProgress,PBM_STEPIT,0,0);
 			}
-			if(IsWindowVisible(hwndFrame)) PostMessage(hwndFrame,M_UPDATE_COUNTDOWN,0,0);
-			if(dat->countdown==0) {
+			if (IsWindowVisible(hwndFrame)) PostMessage(hwndFrame,M_UPDATE_COUNTDOWN,0,0);
+			if (dat->countdown==0) {
 				SendMessage(hwndFrame,M_CLOSE_COUNTDOWN,0,0);
 				ServiceShutdown(0,TRUE);
 				ServiceStopWatcher(0,0);
@@ -355,25 +355,25 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			return 0;
 		case WM_SHOWWINDOW:
 			/* the text is kept unchanged while hidden */
-			if((BOOL)wParam) SendMessage(hwndFrame,M_UPDATE_COUNTDOWN,0,0);
+			if ((BOOL)wParam) SendMessage(hwndFrame,M_UPDATE_COUNTDOWN,0,0);
 			break;
 		case M_UPDATE_COUNTDOWN:
-			if(dat->flags&FWPDF_PAUSED && !(dat->flags&FWPDF_PAUSEDSHOWN)) {
+			if (dat->flags&FWPDF_PAUSED && !(dat->flags&FWPDF_PAUSEDSHOWN)) {
 				SetWindowText(dat->hwndTime,TranslateT("Paused"));
 				dat->flags|=FWPDF_PAUSEDSHOWN;
 			}
 			else {
 				TCHAR szOutput[256];
-				if(dat->fTimeFlags&SDWTF_ST_TIME)
+				if (dat->fTimeFlags&SDWTF_ST_TIME)
 					GetFormatedDateTime(szOutput,SIZEOF(szOutput),dat->settingLastTime,TRUE);
 				else GetFormatedCountdown(szOutput,SIZEOF(szOutput),dat->countdown);
 				SetWindowText(dat->hwndTime,szOutput);
 				PostMessage(hwndFrame,M_CHECK_CLIPPED,0,0);
 				/* update tooltip text (if shown) */
-				if(dat->hwndToolTip!=NULL && !(dat->flags&FWPDF_PAUSED)) {
+				if (dat->hwndToolTip != NULL && !(dat->flags&FWPDF_PAUSED)) {
 					TTTOOLINFO ti;
 					ti.cbSize=sizeof(ti);
-					if(SendMessage(dat->hwndToolTip,TTM_GETCURRENTTOOL,0,(LPARAM)&ti) && (HWND)ti.uId!=dat->hwndIcon)
+					if (SendMessage(dat->hwndToolTip,TTM_GETCURRENTTOOL,0,(LPARAM)&ti) && (HWND)ti.uId != dat->hwndIcon)
 						SendMessage(dat->hwndToolTip,TTM_UPDATE,0,0);
 				} else dat->flags&=~FWPDF_PAUSEDSHOWN;
 			}
@@ -390,7 +390,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			SendMessage(dat->hwndProgress,PBM_SETMARQUEE,TRUE,10); /* marquee for rest of time */
 			return 0;
 		case M_PAUSE_COUNTDOWN:
-			if(dat->flags&FWPDF_PAUSED) {
+			if (dat->flags&FWPDF_PAUSED) {
 				/* unpause */
 				dat->flags&=~(FWPDF_PAUSED|FWPDF_PAUSEDSHOWN);
 				SendMessage(hwndFrame,M_SET_COUNTDOWN,0,0);
@@ -406,17 +406,17 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 		case WM_CONTEXTMENU:
 		{	HMENU hContextMenu;
 			POINT pt;
-			if(dat->flags&FWPDF_COUNTDOWNINVALID) return 0;
+			if (dat->flags&FWPDF_COUNTDOWNINVALID) return 0;
 			POINTSTOPOINT(pt,MAKEPOINTS(lParam));
-			if(pt.x==-1 && pt.y==-1) { /* invoked by keyboard */
+			if (pt.x==-1 && pt.y==-1) { /* invoked by keyboard */
 				RECT rc;
 				/* position in middle above rect */
-				if(!GetWindowRect(hwndFrame, &rc)) return 0;
+				if (!GetWindowRect(hwndFrame, &rc)) return 0;
 				pt.x=rc.left+((int)(rc.right-rc.left)/2);
 				pt.y=rc.top+((int)(rc.bottom-rc.top)/2);
 			}
 			hContextMenu=CreatePopupMenu();
-			if(hContextMenu!=NULL) {
+			if (hContextMenu != NULL) {
 				AppendMenu(hContextMenu,MF_STRING,MENUITEM_PAUSECOUNTDOWN,(dat->flags&FWPDF_PAUSED)?TranslateT("&Unpause Countdown"):TranslateT("&Pause Countdown"));
 				SetMenuDefaultItem(hContextMenu,MENUITEM_PAUSECOUNTDOWN,FALSE);
 				AppendMenu(hContextMenu,MF_STRING,MENUITEM_STOPCOUNTDOWN,TranslateT("&Cancel Countdown"));
@@ -426,14 +426,14 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			return 0;
 		}
 		case WM_LBUTTONDBLCLK:
-			if(!(dat->flags&FWPDF_COUNTDOWNINVALID))
+			if (!(dat->flags&FWPDF_COUNTDOWNINVALID))
 				SendMessage(hwndFrame,M_PAUSE_COUNTDOWN,0,0);
 			return 0;
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
 				case MENUITEM_STOPCOUNTDOWN:
 					/* close only countdown window when other watcher types running */
-					if(dat->fTimeFlags&~(SDWTF_SPECIFICTIME|SDWTF_ST_MASK))
+					if (dat->fTimeFlags&~(SDWTF_SPECIFICTIME|SDWTF_ST_MASK))
 						CloseCountdownFrame(); /* something else is running */
 					else ServiceStopWatcher(0,0); /* calls CloseCountdownFrame() */
 					return 0;
@@ -449,16 +449,16 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			HFONT hFontPrev=NULL;
 			TCHAR szOutput[256];
 			dat->flags&=~FWPDF_TIMEISCLIPPED;
-			if(GetWindowText(dat->hwndTime,szOutput,SIZEOF(szOutput)-1))
-				if(GetClientRect(dat->hwndTime,&rc)) {
+			if (GetWindowText(dat->hwndTime,szOutput,SIZEOF(szOutput)-1))
+				if (GetClientRect(dat->hwndTime,&rc)) {
 					hdc=GetDC(dat->hwndTime);
-					if(hdc!=NULL) {
-						if(dat->hFont!=NULL)
+					if (hdc != NULL) {
+						if (dat->hFont != NULL)
 							hFontPrev = (HFONT)SelectObject(hdc,dat->hFont);
-						if(GetTextExtentPoint32(hdc,szOutput,lstrlen(szOutput),&size))
-							if(size.cx>=(rc.right-rc.left))
+						if (GetTextExtentPoint32(hdc,szOutput,lstrlen(szOutput),&size))
+							if (size.cx>=(rc.right-rc.left))
 								dat->flags&=FWPDF_TIMEISCLIPPED;
-						if(dat->hFont!=NULL)
+						if (dat->hFont != NULL)
 							SelectObject(hdc,hFontPrev);
 						ReleaseDC(dat->hwndTime,hdc);
 					}
@@ -466,12 +466,12 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			return 0;
 		}
 		case WM_NOTIFY:
-			if(((NMHDR*)lParam)->hwndFrom==dat->hwndToolTip)
+			if (((NMHDR*)lParam)->hwndFrom==dat->hwndToolTip)
 				switch(((NMHDR*)lParam)->code) {
 					case TTN_SHOW: /* 'in-place' tooltip on dat->hwndTime */
-						if(dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime) {
+						if (dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime) {
 							RECT rc;
-							if(GetWindowRect(dat->hwndTime,&rc)) {
+							if (GetWindowRect(dat->hwndTime,&rc)) {
 								SetWindowLongPtr(dat->hwndToolTip, GWL_STYLE, GetWindowLongPtr(dat->hwndToolTip, GWL_STYLE) | TTS_NOANIMATE);
 								SetWindowLongPtr(dat->hwndToolTip, GWL_EXSTYLE, GetWindowLongPtr(dat->hwndToolTip, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
 								SendMessage(dat->hwndToolTip,TTM_ADJUSTRECT,TRUE,(LPARAM)&rc);
@@ -489,15 +489,15 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 						return 0;
 					case TTN_NEEDTEXT:
 					{	NMTTDISPINFO *ttdi=(NMTTDISPINFO*)lParam;
-						if(dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime) {
-							if(GetWindowText(dat->hwndTime,ttdi->szText,SIZEOF(ttdi->szText)-1))
+						if (dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime) {
+							if (GetWindowText(dat->hwndTime,ttdi->szText,SIZEOF(ttdi->szText)-1))
 								ttdi->lpszText=ttdi->szText;
 						}
-						else if((HWND)wParam==dat->hwndIcon)
+						else if ((HWND)wParam==dat->hwndIcon)
 							ttdi->lpszText=TranslateT("Automatic Shutdown");
 						else {
 							TCHAR szTime[SIZEOF(ttdi->szText)];
-							if(dat->fTimeFlags&SDWTF_ST_TIME)
+							if (dat->fTimeFlags&SDWTF_ST_TIME)
 								GetFormatedDateTime(szTime,SIZEOF(szTime),dat->settingLastTime,FALSE);
 							else GetFormatedCountdown(szTime,SIZEOF(szTime),dat->countdown);
 							mir_sntprintf(ttdi->szText,SIZEOF(ttdi->szText),_T("%s %s"),(dat->fTimeFlags&SDWTF_ST_TIME)?TranslateT("Shutdown at:"):TranslateT("Time left:"),szTime);
@@ -526,9 +526,9 @@ void ShowCountdownFrame(WORD fTimeFlags)
 	                                  NULL,
 	                                  hInst,
 	                                  &fTimeFlags);
-	if(hwndCountdownFrame==NULL) return;
+	if (hwndCountdownFrame==NULL) return;
 
-	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		CLISTFrame clf = { sizeof(clf) };
 		clf.hIcon=Skin_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
 		clf.align=alBottom;
@@ -538,7 +538,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 		clf.TBname=Translate("Automatic Shutdown");
 		clf.hWnd=hwndCountdownFrame;
 		hFrame=(WORD)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&clf,0);
-		if(hFrame) {
+		if (hFrame) {
 			ShowWindow(hwndCountdownFrame,SW_SHOW);
 			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,hFrame),(LPARAM)clf.name);
 			/* HACKS TO FIX CLUI FRAMES:
@@ -548,7 +548,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 			/* workaround #2: drawing glitch after adding a frame (frame positioned wrongly when hidden) */
 			CallService(MS_CLIST_FRAMES_UPDATEFRAME,hFrame,FU_FMPOS|FU_FMREDRAW);
 			/* workaround #3: MS_CLIST_FRAMES_SETFRAMEOPTIONS does cause redrawing problems */
-			if(!(CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,hFrame),0)&F_VISIBLE))
+			if (!(CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,hFrame),0)&F_VISIBLE))
 				CallService(MS_CLIST_FRAMES_SHFRAME,hFrame,0);
 			/* workaround #4: MS_CLIST_FRAMES_SHFRAME does cause redrawing problems when frame was hidden */
 			RedrawWindow(hwndCountdownFrame,NULL,NULL,RDW_INVALIDATE|RDW_ALLCHILDREN|RDW_ERASE);
@@ -560,9 +560,9 @@ void ShowCountdownFrame(WORD fTimeFlags)
 
 void CloseCountdownFrame(void)
 {
-	if(hwndCountdownFrame!=NULL) {
+	if (hwndCountdownFrame != NULL) {
 		SendMessage(hwndCountdownFrame,M_CLOSE_COUNTDOWN,0,0);
-		if(hFrame) {
+		if (hFrame) {
 			/* HACKS TO FIX CLUIFrames:
 			 * workaround #6: MS_CLIST_FRAMES_REMOVEFRAME does not finish with
 			 * destroy cycle (clist_modern, clist_nicer crashes) */
@@ -584,14 +584,14 @@ void CloseCountdownFrame(void)
 
 static int FrameModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		LOGFONT lf;
 		/* built-in font module is not available before this hook */
 		COLORREF clr = GetDefaultColor(FRAMEELEMENT_TEXT);
 		FontService_RegisterFont("AutoShutdown","CountdownFont",LPGENT("Automatic Shutdown"),LPGENT("Countdown on Frame"),LPGENT("Automatic Shutdown"),LPGENT("Background"),0,FALSE,GetDefaultFont(&lf),clr);
 		clr=GetDefaultColor(FRAMEELEMENT_BKGRND);
 		FontService_RegisterColor("AutoShutdown","BkgColor",LPGENT("Automatic Shutdown"),LPGENT("Background"),clr);
-		if( !IsThemeActive()) {
+		if ( !IsThemeActive()) {
 			/* progressbar color can only be changed with classic theme */
 			clr=GetDefaultColor(FRAMEELEMENT_BAR);
 			FontService_RegisterColor("AutoShutdown","ProgressColor",TranslateT("Automatic Shutdown"),TranslateT("Progress Bar"),clr);
@@ -610,7 +610,7 @@ int InitFrame(void)
 	wcx.hInstance     =hInst;
 	wcx.hCursor       =(HCURSOR)LoadImage(NULL,IDC_ARROW,IMAGE_CURSOR,0,0,LR_SHARED);
 	wcx.lpszClassName =COUNTDOWNFRAME_CLASS;
-	if(!RegisterClassEx(&wcx)) return 1;
+	if (!RegisterClassEx(&wcx)) return 1;
 
 	hwndCountdownFrame=NULL;
 	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,FrameModulesLoaded);
