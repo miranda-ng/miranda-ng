@@ -169,9 +169,9 @@ BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR m
 			LPCTSTR url = xi.getAttrValue(thread, ATTRNAME_URL);
 			LPCTSTR tid = xi.getAttrValue(thread, ATTRNAME_TID);
 
-			if (ReadCheckbox(0, IDC_STANDARDVIEW, settings))
+			if ( ReadCheckbox(0, IDC_STANDARDVIEW, settings))
 				FormatMessageUrl(MESSAGE_URL_FORMAT_STANDARD, (LPTSTR)url, mailboxUrl, tid);
-			else if (ReadCheckbox(0, IDC_HTMLVIEW, settings))
+			else if ( ReadCheckbox(0, IDC_HTMLVIEW, settings))
 				FormatMessageUrl(MESSAGE_URL_FORMAT_HTML, (LPTSTR)url, mailboxUrl, tid);
 			else
 				MakeUrlHex((LPTSTR)url, tid);

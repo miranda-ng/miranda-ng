@@ -68,7 +68,7 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 void MarkEventRead(HANDLE hCnt, HANDLE hEvt)
 {
 	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
-	if (ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
+	if ( ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
 		 ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
 		 ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
 		 db_event_markRead(hCnt, hEvt) != -1)
@@ -146,22 +146,16 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 static bool DoAddPopup(POPUPDATAT *data)
 {
-	bool result = false;
-	HWND handle = 0;
-
-	if (ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings))) {
-		handle = CreateWindowEx(WS_EX_TOOLWINDOW, TEMP_WINDOW_CLASS_NAME, NULL, WS_OVERLAPPED | WS_VISIBLE,
-				-100, -100, 10, 10, NULL, NULL, NULL, NULL);
+	if ( ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings)) && IsFullScreen()) {
+		HWND handle = CreateWindowEx(WS_EX_TOOLWINDOW, TEMP_WINDOW_CLASS_NAME, NULL, WS_OVERLAPPED | WS_VISIBLE, -100, -100, 10, 10, 0, 0, 0, 0);
 		if (handle) {
 			ShowWindow(handle, SW_MINIMIZE);
 			ShowWindow(handle, SW_RESTORE);
 		}
+		DestroyWindow(handle);
 	}
-	result = PUAddPopupT(data) == 0;
 
-	if (handle) DestroyWindow(handle);
-
-	return result;
+	return PUAddPopupT(data) == 0;
 }
 
 void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCount)
@@ -281,7 +275,7 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 		currSender += lstrlen(currSender);
 	}
 
-	if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
+	if ( ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
 		mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
 	else
 		mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);

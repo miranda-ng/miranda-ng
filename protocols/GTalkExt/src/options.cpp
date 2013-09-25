@@ -71,7 +71,7 @@ BOOL ReadCheckbox(HWND wnd, int id, DWORD controls)
 
 DWORD ReadCheckboxes(HWND wnd, LPCSTR mod)
 {
-	DWORD controls = db_get_dw(0, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, 0);
+	DWORD controls = db_get_dw(NULL, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, 0);
 	ReadCheckbox(wnd, IDC_POPUPSENABLED, controls);
 	ReadCheckbox(wnd, IDC_PSEUDOCONTACTENABLED, controls);
 	ReadCheckbox(wnd, IDC_CLEARPSEUDOCONTACTLOG, controls);
@@ -105,7 +105,7 @@ void SaveControls(HWND wnd, LPCSTR mod)
 		GetCheckboxSaveValue(wnd, IDC_STANDARDVIEW) |
 		GetCheckboxSaveValue(wnd, IDC_HTMLVIEW);
 
-	db_set_dw(0, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, controls);
+	db_set_dw(NULL, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, controls);
 }
 
 INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
