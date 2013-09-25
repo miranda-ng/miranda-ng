@@ -561,7 +561,7 @@ HRESULT RemoveCOMRegistryEntries()
 
 void CheckUnregisterServer()
 {
-	if (IsWinVerVistaPlus) {
+	if ( IsWinVerVistaPlus()) {
 		// launches regsvr to remove the dll under admin.
 		TCHAR szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
 		GetModuleFileName(hInst, szFileName, SIZEOF(szFileName));
@@ -589,7 +589,7 @@ void CheckRegisterServer()
 	HKEY hRegKey;
 	if ( !RegOpenKeyExA(HKEY_CLASSES_ROOT, "miranda.shlext", 0, KEY_READ, &hRegKey))
 		RegCloseKey(hRegKey);
-	else if (IsWinVerVistaPlus) {
+	else if ( IsWinVerVistaPlus()) {
 		MessageBoxA(0,
 			"Shell context menus requires your permission to register with Windows Explorer (one time only).",
 			"Miranda NG - Shell context menus (shellext.dll)", MB_OK | MB_ICONINFORMATION);
