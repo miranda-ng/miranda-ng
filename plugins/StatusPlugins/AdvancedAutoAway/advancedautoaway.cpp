@@ -191,36 +191,23 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 
 int OnAccChanged(WPARAM wParam,LPARAM lParam)
 {
-	PROTOACCOUNT* pa = ( PROTOACCOUNT* )lParam;
+	PROTOACCOUNT* pa = (PROTOACCOUNT*)lParam;
 	switch( wParam ) {
 	case PRAC_ADDED:
-		autoAwaySettings->insert( new TAAAProtoSetting( pa ));
+		autoAwaySettings->insert( new TAAAProtoSetting(pa));
 		break;
 		
 	case PRAC_REMOVED:
-		{
-			for ( int i=0; i < autoAwaySettings->getCount(); i++ ) {
-				if ( !lstrcmpA( (*autoAwaySettings)[i].szName, pa->szModuleName )) {
-					autoAwaySettings->remove( i );
-					break;
-		}	}	}
+		for (int i=0; i < autoAwaySettings->getCount(); i++) {
+			if ( !lstrcmpA( (*autoAwaySettings)[i].szName, pa->szModuleName )) {
+				autoAwaySettings->remove( i );
+				break;
+			}
+		}
 		break;
 	}
 
 	return 0;
-}
-
-/* this function is from the original auto-away module */
-static BOOL IsWorkstationLocked (void)
-{
-	BOOL rc = FALSE;
-
-	HDESK hDesk = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
-	if (hDesk == NULL)
-		rc = TRUE;
-	else
-		CloseDesktop(hDesk);
-	return rc;
 }
 
 static char* status2descr( int status )
@@ -274,7 +261,7 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 	int statusChanged = FALSE;
 	int confirm = FALSE;
 
-	for ( int i=0; i < autoAwaySettings->getCount(); i++ ) {
+	for (int i=0; i < autoAwaySettings->getCount(); i++) {
 		TAAAProtoSetting& aas = (*autoAwaySettings)[i];
 		aas.status = ID_STATUS_DISABLED;
 
@@ -316,7 +303,8 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 				aas.status = aas.lv2Status;
 				aas.statusChanged = statusChanged = TRUE;
 				changeState(aas, STATUS2_SET);
-		}	}
+			}
+		}
 
 		if (aas.curState == STATUS1_SET) {
 			if (( mouseStationaryTimer < sts1Time && !screenSaver && !locked ) && !(aas.optionFlags & FLAG_RESET )) {
@@ -337,7 +325,8 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 				aas.status = aas.lv2Status;
 				aas.statusChanged = statusChanged = TRUE;
 				changeState(aas, STATUS2_SET);
-		}	}
+			}
+		}
 
 		if ( aas.curState == STATUS2_SET ) {
 			if ( mouseStationaryTimer < sts2Time && !screenSaver && !locked && ( aas.optionFlags & FLAG_RESET )) {
@@ -349,7 +338,8 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 				/* Remember: after status1 is set, and "only on inactive" is NOT set, it implies !reset. */
 				changeState(aas, HIDDEN_ACTIVE);
 				aas.lastStatus = CallProtoService(aas.szName,PS_GETSTATUS,0, 0);
-		}	}
+			}
+		}
 
 		if ( aas.curState == HIDDEN_ACTIVE ) {
 			if ( aas.mStatus ) {
@@ -383,11 +373,9 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 
 	if ( confirm || statusChanged ) {
 		OBJLIST<TAAAProtoSetting> ps = *autoAwaySettings;
-
-		int i;
-		for ( i=0; i < ps.getCount(); i++ ) {
-			if ( ps[i].szMsg )
-				ps[i].szMsg = _tcsdup( ps[i].szMsg );
+		for (int i=0; i < ps.getCount(); i++) {
+			if (ps[i].szMsg)
+				ps[i].szMsg = _tcsdup(ps[i].szMsg);
 
 			if (ps[i].status == ID_STATUS_DISABLED)
 				ps[i].szName = "";
@@ -405,15 +393,15 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 static int HookWindowsHooks(int hookMiranda, int hookAll)
 {
 	if (hookMiranda) {
-		if ( monitorKeyboard && hMirandaKeyBoardHook == NULL )
+		if (monitorKeyboard && hMirandaKeyBoardHook == NULL)
 			hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD,MirandaKeyBoardHookFunction,NULL,GetCurrentThreadId());
-		if ( monitorMouse && hMirandaMouseHook == NULL )
+		if (monitorMouse && hMirandaMouseHook == NULL)
 			hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE,MirandaMouseHookFunction,NULL,GetCurrentThreadId());
 	}
 	if (hookAll) {
-		if ( monitorKeyboard && hKeyBoardHook == NULL )
+		if (monitorKeyboard && hKeyBoardHook == NULL)
 			hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
-		if ( monitorMouse && hMouseHook == NULL )
+		if (monitorMouse && hMouseHook == NULL)
 			hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
 	}
 
@@ -428,7 +416,6 @@ static int UnhookWindowsHooks()
 	UnhookWindowsHookEx(hMirandaKeyBoardHook);
 
 	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = NULL;
-
 	return 0;
 }
 
@@ -447,7 +434,8 @@ static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM
 		if (pt.x!=lastMousePos.x || pt.y!=lastMousePos.y) {
 			lastMousePos = pt;
 			lastMirandaInput = GetTickCount();	 
-	}	}
+		}
+	}
 				
 	return CallNextHookEx(hMirandaMouseHook, code, wParam, lParam);
 }
@@ -455,17 +443,19 @@ static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM
 static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code >= 0) {
-		if (ignoreAltCombo) {//&& ((HIWORD(lParam)&KF_ALTDOWN) || (wParam == VK_MENU))) {
-			if ( ((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
-				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
-				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
-				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
-				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
-				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
-				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN))) {
+		if (ignoreAltCombo) {
+			if (((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
+				 ((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
+				 ((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
+				 ((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
+				 ((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
+				 ((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
+				 ((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)))
+			{
 				return CallNextHookEx(hMirandaKeyBoardHook, code, wParam, lParam);
 			}
 		}
+
 		switch (wParam) {
 		case VK_NUMLOCK:
 		case VK_CAPITAL:
@@ -488,7 +478,8 @@ static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPA
 		default:
 			lastMirandaInput = GetTickCount();
 			break;
-	}	}
+		}
+	}
 	
 	return CallNextHookEx(hMirandaKeyBoardHook, code, wParam, lParam);
 }
@@ -514,17 +505,19 @@ static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam
 static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code >= 0) {
-		if (ignoreAltCombo) {//&& ((HIWORD(lParam)&KF_ALTDOWN) || (wParam == VK_MENU))) {
+		if (ignoreAltCombo) {
 			if ( ((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
 				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
 				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
 				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
 				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
 				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
-				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN))) {
+				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)))
+			{
 				return CallNextHookEx(hKeyBoardHook, code, wParam, lParam);
 			}
 		}
+
 		switch (wParam) {
 		case VK_NUMLOCK:
 		case VK_CAPITAL:
@@ -547,7 +540,8 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 		default:
 			lastInput = GetTickCount();
 			break;
-	}	}
+		}
+	}
 	
 	return CallNextHookEx(hKeyBoardHook, code, wParam, lParam);
 }

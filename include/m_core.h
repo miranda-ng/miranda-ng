@@ -898,9 +898,14 @@ MIR_CORE_DLL(void)    mir_unsubclassWindow(HWND hWnd, WNDPROC wndProc);
 MIR_CORE_DLL(void)    KillModuleSubclassing(HMODULE hInst);
 
 ///////////////////////////////////////////////////////////////////////////////
+// Windows utilities
 
 MIR_CORE_DLL(BOOL)    IsWinVerVistaPlus();
 MIR_CORE_DLL(BOOL)    IsWinVer7Plus();
+
+MIR_CORE_DLL(BOOL)    IsFullScreen();
+MIR_CORE_DLL(BOOL)    IsWorkstationLocked();
+MIR_CORE_DLL(BOOL)    IsScreenSaverRunning();
 
 ///////////////////////////////////////////////////////////////////////////////
 

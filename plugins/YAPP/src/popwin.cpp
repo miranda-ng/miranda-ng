@@ -79,13 +79,11 @@ void AddWindowToStack(HWND hwnd) {
 
 	RECT wa_rect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &wa_rect, 0);
-	if (options.use_mim_monitor)
-	{
+	if (options.use_mim_monitor) {
 		RECT clr;
 		GetWindowRect((HWND)CallService(MS_CLUI_GETHWND, 0, 0), &clr);
 		HMONITOR hMonitor = MonitorFromRect(&clr, MONITOR_DEFAULTTONEAREST);
-		if (hMonitor)
-		{
+		if (hMonitor) {
 			MONITORINFO mi;
 			mi.cbSize = sizeof(mi);
 			if (GetMonitorInfo(hMonitor, &mi))
@@ -93,41 +91,40 @@ void AddWindowToStack(HWND hwnd) {
 		}
 	}
 
-	switch (options.animate)
-	{
-		case ANIMATE_NO:
-			if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
-				pop_start_x = wa_rect.right - options.win_width - 1;
-			else
-				pop_start_x = wa_rect.left + 1;
+	switch (options.animate) {
+	case ANIMATE_NO:
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+			pop_start_x = wa_rect.right - options.win_width - 1;
+		else
+			pop_start_x = wa_rect.left + 1;
 
-			if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
-				pop_start_y = wa_rect.bottom;
-			else
-				pop_start_y = wa_rect.top + 1;
-			break;
-		case ANIMATE_HORZ:
-			if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
-				pop_start_x = wa_rect.right;
-			else
-				pop_start_x = wa_rect.left - options.win_width;
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
+			pop_start_y = wa_rect.bottom;
+		else
+			pop_start_y = wa_rect.top + 1;
+		break;
+	case ANIMATE_HORZ:
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+			pop_start_x = wa_rect.right;
+		else
+			pop_start_x = wa_rect.left - options.win_width;
 
-			if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
-				pop_start_y = wa_rect.bottom;
-			else
-				pop_start_y = wa_rect.top + 1;
-			break;
-		case ANIMATE_VERT:
-			if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
-				pop_start_x = wa_rect.right - options.win_width - 1;
-			else
-				pop_start_x = wa_rect.left + 1;
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
+			pop_start_y = wa_rect.bottom;
+		else
+			pop_start_y = wa_rect.top + 1;
+		break;
+	case ANIMATE_VERT:
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+			pop_start_x = wa_rect.right - options.win_width - 1;
+		else
+			pop_start_x = wa_rect.left + 1;
 
-			if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
-				pop_start_y = wa_rect.bottom;
-			else
-				pop_start_y = wa_rect.top - height + 1;
-			break;
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
+			pop_start_y = wa_rect.bottom;
+		else
+			pop_start_y = wa_rect.top - height + 1;
+		break;
 	}
 
 	SetWindowPos(hwnd, 0, pop_start_x, pop_start_y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
@@ -159,9 +156,7 @@ void RemoveWindowFromStack(HWND hwnd)
 	// ≈сли после удалени€ в стеке остались окна, то нужно провести сжатие:
 	// сдвинуть все окна к верхнему/нижнему краю экрана.
 	if (hwnd_stack_top)
-	{
 		RepositionWindows();
-	}
 }
 
 void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -244,16 +239,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pwd);
 
-			if (pd->timeout == -1 || (pd->timeout == 0 && options.default_timeout == -1)) {
-				// make a really long timeout - say 7 days? ;)
+			// make a really long timeout - say 7 days? ;)
+			if (pd->timeout == -1 || (pd->timeout == 0 && options.default_timeout == -1))
 				SetTimer(hwnd, ID_CLOSETIMER, 7 * 24 * 60 * 60 * 1000, 0);
-			} else {
-				if (pd->timeout == 0) {
-					SetTimer(hwnd, ID_CLOSETIMER, options.default_timeout * 1000, 0);
-				} else {
-					SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
-				}
-			}
+			else if (pd->timeout == 0)
+				SetTimer(hwnd, ID_CLOSETIMER, options.default_timeout * 1000, 0);
+			else
+				SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
 
 			AddWindowToStack(hwnd); // this updates our size
 		}
@@ -311,7 +303,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				PostMessage(hwnd, UM_DESTROYPOPUP, 0, 0);
 			}
 			return TRUE;
-		} else if (wParam == ID_MOVETIMER) {
+		}
+		
+		if (wParam == ID_MOVETIMER) {
 			RECT r;
 			GetWindowRect(hwnd, &r);
 
@@ -333,6 +327,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return TRUE;
 		}
 		break;
+
 	case WM_ERASEBKGND:
 		{
 			HDC hdc = (HDC) wParam; 
@@ -364,9 +359,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SelectObject(hdc, hOldBrush);
 				SelectObject(hdc, hOldPen);
 			}
-
 		}
 		return TRUE;
+
 	case WM_PAINT:
 		{
 			RECT r;
@@ -388,7 +383,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					else if (pwd->have_av) avr.right = avr.left + pwd->real_av_width;
 					else avr.right = avr.left + pwd->time_width;
 					r.left = avr.right;
-				} else if (options.av_layout == PAV_RIGHT) {
+				}
+				else if (options.av_layout == PAV_RIGHT) {
 					avr.right = r.right - options.av_padding;
 					if (pwd->have_av && options.time_layout == PT_WITHAV) avr.left = avr.right - max(pwd->real_av_width, pwd->time_width);
 					else if (pwd->have_av) avr.left = avr.right - pwd->real_av_width;
@@ -432,7 +428,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (options.right_icon) {
 					iconx = r.right - (16 + options.padding);
 					textxmax -= 16 + options.padding;
-				} else {
+				}
+				else {
 					iconx = r.left + options.padding;
 					textxmin += 16 + options.padding;
 				}
@@ -456,8 +453,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					ttr.right = textxmax; ttr.left = ttr.right - pwd->time_width;
 					textxmax -= pwd->time_width + options.padding;
 					DrawText(ps.hdc, pwd->tbuff, (int)_tcslen(pwd->tbuff), &ttr, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
-					break;
-				default:
 					break;
 				}
 			}
@@ -535,11 +530,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			HRGN hRgn1;
 			RECT r;
 
-			int v,h;
-			int w=11;
+			int w = 11;
 			GetWindowRect(hwnd,&r);
-			h=(r.right-r.left)>(w*2)?w:(r.right-r.left);
-			v=(r.bottom-r.top)>(w*2)?w:(r.bottom-r.top);
+			int h = (r.right-r.left) > (w*2)?w:(r.right-r.left);
+			int v = (r.bottom-r.top) > (w*2)?w:(r.bottom-r.top);
 			h=(h<v)?h:v;
 			hRgn1=CreateRoundRectRgn(0,0,(r.right-r.left) + 1,(r.bottom-r.top) + 1,h,h);
 			SetWindowRgn(hwnd,hRgn1,FALSE);
@@ -552,7 +546,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pwd->new_x = (int)wParam;
 			pwd->new_y = (int)lParam;
 			SetTimer(hwnd, ID_MOVETIMER, 10, 0);
-		} else {
+		}
+		else {
 			SetWindowPos(hwnd, 0, (int)wParam, (int)lParam, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 			if (!IsWindowVisible(hwnd)) { 
 				ShowWindow(hwnd, SW_SHOWNOACTIVATE);
@@ -569,15 +564,16 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_GETCONTACT:
 		{
-			HANDLE *phContact = (HANDLE *)wParam;
+			HANDLE *phContact = (HANDLE*)wParam;
 			*phContact = pd->hContact;
-			if (lParam) SetEvent((HANDLE)lParam);
+			if (lParam)
+				SetEvent((HANDLE)lParam);
 		}
 		return TRUE;
 
 	case PUM_GETHEIGHT:
 		{
-			int *pHeight = (int *)wParam;
+			int *pHeight = (int*)wParam;
 			HDC hdc = GetDC(hwnd);
 			SIZE size;
 			HFONT hOldFont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
@@ -675,16 +671,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			pwd->pd = pd = (PopupData *)lParam;
 
-			if (pd->timeout != -1) {
-				if (pd->timeout == 0) {
-					SetTimer(hwnd, ID_CLOSETIMER, 7 * 1000, 0);
-				} else {
-					SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
-				}
-			} else {
-				// make a really long timeout - say 7 days? ;)
+			// make a really long timeout - say 7 days? ;)
+			if (pd->timeout == -1)
 				SetTimer(hwnd, ID_CLOSETIMER, 7 * 24 * 60 * 60 * 1000, 0);
-			}
+			else if (pd->timeout == 0)
+				SetTimer(hwnd, ID_CLOSETIMER, 7 * 1000, 0);
+			else
+				SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
 
 			InvalidateRect(hwnd, 0, TRUE);
 			RepositionWindows();
@@ -714,8 +707,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			InvalidateRect(hwnd, 0, TRUE);
 			RepositionWindows();
 		}
-
 		return TRUE;
+
 	case PUM_KILLNOTIFY:
 		if (pwd->hNotify != (HANDLE)wParam)
 			return TRUE;

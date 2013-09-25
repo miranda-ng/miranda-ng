@@ -742,8 +742,17 @@ procedure mir_unsubclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall;
                  external CoreDLL name 'mir_unsubclassWindow';
 
 ///////////////////////////////////////////////////////////////////////////////
+// Windows utilities
 
-procedure UnloadCoreModule(); stdcall;
-                 external CoreDLL name 'UnloadCoreModule';
+function IsWinVerVistaPlus():int; stdcall;
+                 external CoreDLL name 'IsWinVerVistaPlus';
+function IsWinVer7Plus():int; stdcall;
+                 external CoreDLL name 'IsWinVer7Plus';
+function IsFullScreen():int; stdcall;
+                 external CoreDLL name 'IsFullScreen';
+function IsWorkstationLocked():int; stdcall;
+                 external CoreDLL name 'IsWorkstationLocked';
+function IsScreenSaverRunning():int; stdcall;
+                 external CoreDLL name 'IsScreenSaverRunning';
 
 {$ENDIF}

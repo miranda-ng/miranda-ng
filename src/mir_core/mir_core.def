@@ -238,3 +238,8 @@ mirstr_getNil                 @235
 mirstr_lock                   @236
 mirstr_release                @237
 mirstr_unlock                 @238
+IsWinVerVistaPlus             @239
+IsWinVer7Plus                 @240
+IsFullScreen                  @241
+IsWorkstationLocked           @242
+IsScreenSaverRunning          @243

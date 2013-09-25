@@ -312,7 +312,8 @@ BOOL DiscoverHandler(IJabberInterface *ji, HXML node, void *pUserData)
 	node = xi.getChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
 
 	HXML child = xi.getChildByAttrValue(node, NODENAME_FEATURE, ATTRNAME_VAR, SETTING_FEATURE_XMLNS);
-	if (child) SetNotificationSetting(jid, ji);
+	if (child)
+		SetNotificationSetting(jid, ji);
 
 	child = xi.getChildByAttrValue(node, NODENAME_FEATURE, ATTRNAME_VAR, NOTIFY_FEATURE_XMLNS);
 	if (child) {

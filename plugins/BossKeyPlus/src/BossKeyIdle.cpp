@@ -29,13 +29,6 @@ UINT mouseidle, minutes;
 
 VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT idEvent, DWORD dwTime);
 
-static bool IsScreenSaverRunning()
-{
-	bool rc = FALSE;
-	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &rc, FALSE);
-	return rc;
-}
-
 static bool IsUserIdle()
 {
 	DWORD dwTick;
@@ -53,14 +46,11 @@ static bool IsUserIdle()
 	return FALSE;
 }
 
-
 VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime)
 {
-	if ( hTimer == idEvent && !g_bWindowHidden && 
-		((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) || 
-		(g_wMaskAdv & OPT_HIDEIFSCRSVR && IsScreenSaverRunning()))) 
-
-			BossKeyHideMiranda(0, 0);
+	if ( hTimer == idEvent && !g_bWindowHidden && ((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) || 
+		 (g_wMaskAdv & OPT_HIDEIFSCRSVR) && IsScreenSaverRunning()))
+		BossKeyHideMiranda(0, 0);
 }
 
 void InitIdleTimer()

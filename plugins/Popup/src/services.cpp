@@ -25,59 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int num_classes = 0;			//for core class api support
 
-// isWorkstationLocked() code from core
-bool isWorkstationLocked()
-{
-	if (OpenInputDesktop != NULL) {
-		HDESK hDesk = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
-		if (hDesk == NULL)
-			return true;
-		if (CloseDesktop != NULL)
-			CloseDesktop(hDesk);
-	}
-	return false;
-}
-
-// isFullScreen() code from core
-static bool isFullScreen()
-{
-	RECT rcScreen = {0};
-	rcScreen.right = GetSystemMetrics(SM_CXSCREEN);
-	rcScreen.bottom = GetSystemMetrics(SM_CYSCREEN);
-
-	if (MonitorFromWindow != NULL) {
-		HMONITOR hMon = MonitorFromWindow(GetForegroundWindow(), MONITOR_DEFAULTTONEAREST);
-		MONITORINFO mi;
-		mi.cbSize = sizeof(mi);
-		if (GetMonitorInfo(hMon, &mi))
-			rcScreen = mi.rcMonitor;
-	}
-
-	HWND hWndDesktop = GetDesktopWindow();
-	HWND hWndShell = GetShellWindow();
-
-	// check foregroundwindow
-	HWND hWnd = GetForegroundWindow();
-	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
-		TCHAR tszClassName[128] = _T("");
-		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
-		if (_tcscmp(tszClassName, _T("WorkerW"))) {
-			RECT rect, rectw, recti;
-			GetWindowRect(hWnd, &rectw);
-
-			GetClientRect(hWnd, &rect);
-			ClientToScreen(hWnd, (LPPOINT)&rect);
-			ClientToScreen(hWnd, (LPPOINT)&rect.right);
-
-			if (EqualRect(&rect, &rectw) && IntersectRect(&recti, &rect, &rcScreen) &&
-				EqualRect(&recti, &rcScreen))
-				return true;
-		}
-	}
-
-	return false;
-}
-
 //===== Popup/AddPopup
 INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
 {
@@ -166,17 +113,10 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	if ( !(lParam & APF_NO_HISTORY))
 		PopupHistoryAdd(ppd);
 
-	if (PopupThreadIsFull())
+	if ( PopupThreadIsFull())
 		return -1;
 
-	#ifdef _DEBUG
-		char temp[128];
-		OutputDebugStringA("isWorkstationLocked: \t");
-		OutputDebugStringA(isWorkstationLocked() ? "true":"false");
-		OutputDebugStringA("\n");
-	#endif
-
-	if (isWorkstationLocked())
+	if ( IsWorkstationLocked())
 		return -1;
 
 	// Check if contact handle is valid.
@@ -192,25 +132,11 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	if (bShowMode != PU_SHOWMODE_FAVORITE) {
 		if (!PopupOptions.ModuleIsEnabled)
 			return -1;
-		#ifdef _DEBUG
-			_itoa(PopupOptions.DisableWhenFullscreen,temp,10);
-			OutputDebugStringA("PopupOptions.DisableWhenFullscreen: \t");
-			OutputDebugStringA(temp);
-			OutputDebugStringA("\n");
-			_itoa(bShowMode,temp,10);
-			OutputDebugStringA("bShowMode: \t");
-			OutputDebugStringA(temp);
-			OutputDebugStringA("\n");
-			OutputDebugStringA("isFullScreen: \t");
-			OutputDebugStringA(isFullScreen() ? "true":"false");
-			OutputDebugStringA("\n");
-		#endif
 
-		if (PopupOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && isFullScreen())
+		if (PopupOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && IsFullScreen())
 			return -1;
 
-		if (db_get_dw(NULL, MODULNAME, LPGEN("Global Status"), 0) &
-				Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
+		if (db_get_dw(NULL, MODULNAME, LPGEN("Global Status"), 0) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
 			return -1;
 
 		if ((disableWhen & 0x0000FFFF) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
@@ -219,8 +145,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (proto) {
 			char prefix[128];
 			mir_snprintf(prefix, sizeof(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
-			if (db_get_dw(NULL, MODULNAME, prefix, 0) &
-					Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
+			if (db_get_dw(NULL, MODULNAME, prefix, 0) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
 				return -1;
 			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
 				return -1;

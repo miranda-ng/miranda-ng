@@ -40,7 +40,6 @@ struct PopupData
 // will post a message to the message queue which will set the hwnd value
 // and then set the event...so create an event, call this function and then wait on the event
 // when the event is signalled, the hwnd will be valid
-void FindWindow(PopupData *pd, HANDLE hEvent, HWND *hwnd);
 
 void InitMessagePump();
 void DeinitMessagePump();

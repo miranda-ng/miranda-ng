@@ -34,3 +34,58 @@ MIR_CORE_DLL(BOOL) IsWinVer7Plus()
 {
 	return dwWinVer >= _WIN32_WINNT_WIN7;
 }
+
+MIR_CORE_DLL(BOOL) IsFullScreen()
+{
+	RECT rcScreen = {0};
+
+	rcScreen.right = GetSystemMetrics(SM_CXSCREEN);
+	rcScreen.bottom = GetSystemMetrics(SM_CYSCREEN);
+
+	HMONITOR hMon = MonitorFromWindow(GetForegroundWindow(), MONITOR_DEFAULTTONEAREST);
+	MONITORINFO mi;
+	mi.cbSize = sizeof(mi);
+	if (GetMonitorInfo(hMon, &mi))
+		rcScreen = mi.rcMonitor;
+
+	HWND hWndDesktop = GetDesktopWindow();
+	HWND hWndShell = GetShellWindow();
+
+	// check foregroundwindow
+	HWND hWnd = GetForegroundWindow();
+	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
+		TCHAR tszClassName[128] = _T("");
+		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
+		if ( _tcscmp(tszClassName, _T("WorkerW"))) {
+			RECT rect, rectw, recti;
+			GetWindowRect(hWnd, &rectw);
+
+			GetClientRect(hWnd, &rect);
+			ClientToScreen(hWnd, (LPPOINT)&rect);
+			ClientToScreen(hWnd, (LPPOINT)&rect.right);
+
+			if (EqualRect(&rect, &rectw) && IntersectRect(&recti, &rect, &rcScreen) &&
+				EqualRect(&recti, &rcScreen))
+				return true;
+		}
+	}
+
+	return false;
+}
+
+MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
+{
+	HDESK hDesk = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
+	if (hDesk == NULL)
+		return true;
+
+	CloseDesktop(hDesk);
+	return false;
+}
+
+MIR_CORE_DLL(BOOL) IsScreenSaverRunning(void)
+{
+	BOOL rc = FALSE;
+	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &rc, FALSE);
+	return rc != 0;
+}

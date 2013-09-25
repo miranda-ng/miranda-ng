@@ -76,80 +76,64 @@ void SetLabelProp(int index, LPSTR setting)
 {
 	sprintf(setting, LABEL_SETTING_PROP, index); //!!!!!!!!!!!!!!
 
-	DBVARIANT dbv1 = {0};
-	if (!db_get_ts(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv1))
-		__try {
-			DBVARIANT dbv2 = {0};
-			if (!db_get_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, &dbv2))
-				__try {
-					if (!lstrcmp(dbv1.ptszVal, dbv2.ptszVal)) {
-						LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
-						db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
-						db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, label);
-					}
-				}
-				__finally {
-					db_free(&dbv2);
-				}
-		}
-		__finally {
-			db_free(&dbv1);
-		}
+	ptrT tszProp( db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
+	if (tszProp == NULL)
+		return;
+
+	ptrT tszLastWritten( db_get_tsa(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING));
+	if (tszLastWritten == NULL)
+		return;
+
+	if ( !lstrcmp(tszProp, tszLastWritten)) {
+		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
+		db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
+		db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, label);
+	}
 }
 
 void AddTipperItem()
 {
-	unsigned short itemCount = db_get_w(0, TIPPER_ITEMS_MOD_NAME,
-		TIPPER_ITEM_COUNT_SETTING , unsigned short(-1));
-	if (unsigned short(-1) == itemCount) return;
+	WORD itemCount = db_get_w(0, TIPPER_ITEMS_MOD_NAME, TIPPER_ITEM_COUNT_SETTING, WORD(-1));
+	if (itemCount == WORD(-1))
+		return;
 
 	int i, l = 0;
 	for (i = itemCount; i > 0; i /= 10) l++; // var setting path
 	l += 30; // const setting part
 
-	LPSTR setting = (LPSTR)malloc(l * sizeof(TCHAR));
-	__try {
-		for (i = 0; i < itemCount; i++) {
-			mir_snprintf(setting, l, VALUE_SETTING_PROP, i);
+	LPSTR setting = (LPSTR)_alloca(l * sizeof(TCHAR));
 
-			DBVARIANT dbv = {0};
-			if (!db_get_ts(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv))
-				__try {
-					if (!lstrcmp(UNREAD_THREADS_RAW, dbv.ptszVal)) {
-						SetLabelProp(i, setting);
-						return;
-					}
-				}
-				__finally {
-					db_free(&dbv);
-				}
+	for (i = 0; i < itemCount; i++) {
+		mir_snprintf(setting, l, VALUE_SETTING_PROP, i);
+		ptrT tszSetting( db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
+		if (tszSetting) {
+			if ( !lstrcmp(UNREAD_THREADS_RAW, tszSetting)) {
+				SetLabelProp(i, setting);
+				return;
+			}
 		}
-
-		for (i = 0; i < MAX_TIPPER_ITEM_PROP; i++)
-			ShiftTipperSettings(setting, itemCount, TipperItemProps[i]);
-
-		#define WRITE_TIPPER_PROPS(index, value)\
-			mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
-			db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
-		#define WRITE_TIPPER_PROPB(index, value)\
-			mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
-			db_set_b(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
-
-		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
-
-		db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
-
-		WRITE_TIPPER_PROPS(0, label);
-		WRITE_TIPPER_PROPB(1, 0);
-		WRITE_TIPPER_PROPB(2, 0);
-		WRITE_TIPPER_PROPB(3, 0);
-		WRITE_TIPPER_PROPS(4, UNREAD_THREADS_RAW);
-		WRITE_TIPPER_PROPB(5, 1);
-	}
-	__finally {
-		free(setting);
 	}
 
-	db_set_w(0, TIPPER_ITEMS_MOD_NAME,
-		TIPPER_ITEM_COUNT_SETTING, itemCount + 1);
+	for (i = 0; i < MAX_TIPPER_ITEM_PROP; i++)
+		ShiftTipperSettings(setting, itemCount, TipperItemProps[i]);
+
+	#define WRITE_TIPPER_PROPS(index, value)\
+		mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
+		db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
+	#define WRITE_TIPPER_PROPB(index, value)\
+		mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
+		db_set_b(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
+
+	LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
+
+	db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
+
+	WRITE_TIPPER_PROPS(0, label);
+	WRITE_TIPPER_PROPB(1, 0);
+	WRITE_TIPPER_PROPB(2, 0);
+	WRITE_TIPPER_PROPB(3, 0);
+	WRITE_TIPPER_PROPS(4, UNREAD_THREADS_RAW);
+	WRITE_TIPPER_PROPB(5, 1);
+
+	db_set_w(0, TIPPER_ITEMS_MOD_NAME, TIPPER_ITEM_COUNT_SETTING, itemCount+1);
 }

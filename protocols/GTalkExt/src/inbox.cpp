@@ -242,7 +242,7 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 void OpenContactInbox(HANDLE hContact)
 {
 	LPSTR acc = GetContactProto(hContact);
-	if (!acc)
+	if (acc == NULL)
 		return;
 
 	ptrT tszJid( db_get_tsa(0, acc, "jid"));

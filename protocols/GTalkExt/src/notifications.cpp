@@ -54,17 +54,13 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	int count = 0;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
-
-	DBVARIANT dbv;
-	for (int i=0; i < count; i++)
-		if (getJabberApi(protos[i]->szModuleName))
-			if (!db_get_ts(0, protos[i]->szModuleName, "jid", &dbv))
-				__try {
-					if (!lstrcmpi(jid, dbv.ptszVal)) return protos[i]->szModuleName;
-				}
-				__finally {
-					db_free(&dbv);
-				}
+	for (int i=0; i < count; i++) {
+		if ( getJabberApi(protos[i]->szModuleName)) {
+			ptrT tszJid( db_get_tsa(0, protos[i]->szModuleName, "jid"));
+			if ( !lstrcmpi(jid, tszJid))
+				return protos[i]->szModuleName;
+		}
+	}
 
 	return NULL;
 }
@@ -246,7 +242,7 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	data->PluginWindowProc = PopupProc;
 	int lurl = (lstrlen(url) + 1) * sizeof(TCHAR);
 	int ljid = (lstrlen(jid) + 1) * sizeof(TCHAR);
-	
+
 	POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)malloc(sizeof(POPUP_DATA_HEADER) + lurl + ljid);
 	ppdh->MarkRead = FALSE;
 	ppdh->hContact = hCnt;

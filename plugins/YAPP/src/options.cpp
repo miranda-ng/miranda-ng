@@ -111,8 +111,8 @@ void ShowExamplePopups() {
 	}
 }
 
-static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
-
+static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	switch ( msg ) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
@@ -138,7 +138,8 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (ServiceExists(MS_AV_DRAWAVATAR)) {
 			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left avatar"));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right avatar"));
-		} else {
+		}
+		else {
 			HWND hw = GetDlgItem(hwndDlg, IDC_CMB_AV);
 			EnableWindow(hw, FALSE);
 			hw = GetDlgItem(hwndDlg, IDC_SPIN_AVSIZE);
@@ -206,12 +207,16 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
 			EnableWindow(hw, FALSE);
 			SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, 7, FALSE);
-		} else {
+		}
+		else {
 			CheckDlgButton(hwndDlg, IDC_RAD_TIMEOUT, TRUE);
 			SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, options.default_timeout, FALSE);
 		}
-		if (options.right_icon) CheckDlgButton(hwndDlg, IDC_RAD_RIGHTICON, TRUE);
-		else CheckDlgButton(hwndDlg, IDC_RAD_LEFTICON, TRUE);
+		
+		if (options.right_icon)
+			CheckDlgButton(hwndDlg, IDC_RAD_RIGHTICON, TRUE);
+		else
+			CheckDlgButton(hwndDlg, IDC_RAD_LEFTICON, TRUE);
 
 		if (ServiceExists(MS_AV_DRAWAVATAR)) {
 			switch(options.av_layout) {
@@ -219,7 +224,8 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case PAV_RIGHT: CheckDlgButton(hwndDlg, IDC_RAD_RIGHTAV, TRUE); break;
 				case PAV_LEFT: CheckDlgButton(hwndDlg, IDC_RAD_LEFTAV, TRUE); break;
 			}
-		} else {
+		}
+		else {
 			CheckDlgButton(hwndDlg, IDC_RAD_NOAV, TRUE);
 			HWND hw = GetDlgItem(hwndDlg, IDC_RAD_RIGHTAV);
 			EnableWindow(hw, FALSE);
@@ -255,16 +261,16 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return FALSE;
 
 	case WM_COMMAND:
-		if ( HIWORD( wParam ) == CBN_SELCHANGE)
+		if ( HIWORD(wParam) == CBN_SELCHANGE)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus())
+		else if ( HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		else if ( HIWORD( wParam ) == BN_CLICKED ) {
+		else if ( HIWORD(wParam) == BN_CLICKED ) {
 			if (LOWORD(wParam) == IDC_BTN_PREVIEW)
 				ShowExamplePopups();
 			else {
 				HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
-				switch( LOWORD( wParam )) {
+				switch( LOWORD(wParam)) {
 				case IDC_RAD_NOTIMEOUT:
 					EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_RAD_TIMEOUT));
 					break;
@@ -283,7 +289,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case LVN_ITEMCHANGED:
 				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 				if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
 				break;
 			}
 		}
@@ -367,7 +373,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 		return FALSE;
 
 	case WM_COMMAND:
-		if ( LOWORD(wParam) == IDC_LST_CLASSES && HIWORD( wParam ) == LBN_SELCHANGE) {
+		if ( LOWORD(wParam) == IDC_LST_CLASSES && HIWORD(wParam) == LBN_SELCHANGE) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PREVIEW), index != -1);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COL_TEXT), index != -1);
@@ -383,7 +389,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), index != -1 && IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT));
 			return TRUE;
 		}
-		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
+		if ( HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
 			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
@@ -407,17 +413,17 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 						else arNewClasses[i]->iSeconds = -1;
 						SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, arNewClasses[i]->iSeconds, TRUE);
 					}
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
 					break;
 
 				case IDC_COL_TEXT:
 					arNewClasses[i]->colorText = SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_GETCOLOUR, 0, 0);
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
 					break;
 
 				case IDC_COL_BG:
 					arNewClasses[i]->colorBack = SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_GETCOLOUR, 0, 0);
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
 					break;
 
 				case IDC_BTN_PREVIEW:
@@ -428,7 +434,8 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 						d.pwszTitle = L"Preview";
 						d.pwszText = L"The quick brown fox jumps over the lazy dog.";
 						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
-					} else {
+					}
+					else {
 						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = 0;
 						POPUPDATACLASS d = {sizeof(d), pc.pszName};
@@ -443,7 +450,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			arClasses = arNewClasses;
 			char setting[256];
 			for (int i = 0; i < arClasses.getCount(); i++) {
@@ -483,7 +490,6 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTab = LPGEN("Classes");
 	odp.pfnDlgProc = DlgProcOptsClasses;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 
