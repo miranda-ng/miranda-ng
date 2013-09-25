@@ -1362,9 +1362,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 //options page on miranda called
 int LotusNotifyOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.ptszTitle = _A2T(PLUGINNAME);

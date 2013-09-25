@@ -49,8 +49,7 @@ int BgStatusBarChange(WPARAM wParam,LPARAM lParam)
 
 int ClcOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.pszGroup = LPGEN("Contact List");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);

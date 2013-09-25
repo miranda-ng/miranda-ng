@@ -624,11 +624,9 @@ void ReloadLangOptList(void)
 	}
 }
 
-static int LangOptInit(WPARAM wParam, LPARAM lParam)
+static int LangOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	UNREFERENCED_PARAMETER(lParam);
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.position = 1200000090;

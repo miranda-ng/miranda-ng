@@ -76,16 +76,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 //add the exchange options dialog to miranda
 int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXCHANGE);
 	odp.ptszTitle = LPGENT("Exchange notify");
 	odp.ptszGroup = LPGENT("Plugins");
 	odp.groupPosition = 910000000;
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;

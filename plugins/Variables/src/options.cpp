@@ -129,8 +129,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 
 int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize        = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position      = 150000000;
 	odp.pszGroup      = LPGEN("Services");
 	odp.groupPosition = 910000000;
@@ -140,6 +139,5 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc    = SetOptsDlgProc;
 	odp.flags         = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

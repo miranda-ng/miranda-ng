@@ -189,7 +189,7 @@ int OmegleProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 int OmegleProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance   = g_hInstance;
 	odp.ptszTitle   = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
@@ -201,7 +201,6 @@ int OmegleProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = OmegleOptionsProc;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

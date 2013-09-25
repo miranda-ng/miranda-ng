@@ -163,7 +163,6 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		Options_AddPage(wParam, &odp);
 	}
-
 	return 0;
 }
 

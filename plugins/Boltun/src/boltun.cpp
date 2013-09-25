@@ -482,21 +482,19 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize      = sizeof(odp);
-	odp.position    = 910000000;
-	odp.hInstance   = hInst;
-	odp.pszGroup    = BOLTUN_GROUP;
-	odp.pszTitle    = BOLTUN_NAME;
-	odp.pfnDlgProc  = MainDlgProc;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.position = 910000000;
+	odp.hInstance = hInst;
+	odp.pszGroup = BOLTUN_GROUP;
+	odp.pszTitle = BOLTUN_NAME;
+	odp.pfnDlgProc = MainDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
-	odp.pszTab      = TAB_GENERAL;
+	odp.pszTab = TAB_GENERAL;
 	Options_AddPage(wParam, &odp);
-	odp.pfnDlgProc  = EngineDlgProc;
+	
+	odp.pfnDlgProc = EngineDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ENGINE);
-	odp.pszTab      = TAB_ENGINE;
+	odp.pszTab = TAB_ENGINE;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

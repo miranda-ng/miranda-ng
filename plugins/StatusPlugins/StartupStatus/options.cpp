@@ -908,19 +908,19 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance   = hInst;
-	odp.pszGroup    = LPGEN("Status");
-	odp.pszTitle    = LPGEN("StartupStatus");
-	odp.flags       = ODPF_BOLDGROUPS;
+	odp.hInstance = hInst;
+	odp.pszGroup = LPGEN("Status");
+	odp.pszTitle = LPGEN("StartupStatus");
+	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pszTab      = LPGEN("General");
+	odp.pszTab = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STARTUPSTATUS);
-	odp.pfnDlgProc  = StartupStatusOptDlgProc;
+	odp.pfnDlgProc = StartupStatusOptDlgProc;
 	Options_AddPage(wparam,&odp);
 
-	odp.pszTab      = LPGEN("Status Profiles");
+	odp.pszTab = LPGEN("Status Profiles");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUSPROFILES);
-	odp.pfnDlgProc  = StatusProfilesOptDlgProc;
+	odp.pfnDlgProc = StatusProfilesOptDlgProc;
 	Options_AddPage(wparam,&odp);
 	return 0;
 }

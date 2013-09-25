@@ -121,9 +121,7 @@ Options::~Options()
 
 int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
@@ -158,7 +156,6 @@ int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

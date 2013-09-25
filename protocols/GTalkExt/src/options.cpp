@@ -242,7 +242,6 @@ void AddPopupsPage(WPARAM wParam)
 	odp.hInstance = g_hInst;
 	odp.ptszGroup = POPUPS_OPTIONS_GROUP;
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
-
 	Options_AddPage(wParam, &odp);
 }
 
@@ -257,7 +256,6 @@ void AddAccPage(LPTSTR acc, LPCSTR mod, WPARAM wParam)
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.ptszTab = MAIL_NOTIFICATIONS;
 	odp.dwInitParam = (LPARAM)mod;
-
 	Options_AddPage(wParam, &odp);
 }
 

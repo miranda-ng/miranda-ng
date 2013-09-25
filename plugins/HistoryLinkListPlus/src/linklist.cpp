@@ -107,12 +107,9 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-int InitOptionsDlg(WPARAM wParam, LPARAM lParam)
+int InitOptionsDlg(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	UNREFERENCED_PARAMETER(lParam);
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("History");
 	odp.pszTitle = LPGEN("History Linklist");

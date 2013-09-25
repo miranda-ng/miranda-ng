@@ -2377,8 +2377,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int OptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
 	odp.hInstance = hInst;
@@ -2416,7 +2415,6 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszGroup = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcOptsExtra;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

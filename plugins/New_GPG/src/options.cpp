@@ -37,56 +37,32 @@ BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting)
 	return state;
 }
 
-
 int GpgOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG);
 	odp.ptszTitle = _T(szGPGModuleName);
 	odp.ptszGroup = LPGENT("Services");
 	odp.ptszTab = LPGENT("Main");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcGpgOpts;
 	Options_AddPage(wParam, &odp);
 
-	ZeroMemory(&odp, sizeof(odp));
-
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_BIN);
-	odp.ptszTitle = _T(szGPGModuleName);
-	odp.ptszGroup = LPGENT("Services");
 	odp.ptszTab = LPGENT("GnuPG Variables");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcGpgBinOpts;
 	Options_AddPage(wParam, &odp);
 
-	ZeroMemory(&odp, sizeof(odp));
-
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_MESSAGES);
-	odp.ptszTitle = _T(szGPGModuleName);
-	odp.ptszGroup = LPGENT("Services");
 	odp.ptszTab = LPGENT("Messages");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcGpgMsgOpts;
 	Options_AddPage(wParam, &odp);
 
-	ZeroMemory(&odp, sizeof(odp));
-
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_ADVANCED);
-	odp.ptszTitle = _T(szGPGModuleName);
-	odp.ptszGroup = LPGENT("Services");
 	odp.ptszTab = LPGENT("Advanced");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcGpgAdvOpts;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

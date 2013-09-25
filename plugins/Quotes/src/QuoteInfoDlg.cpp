@@ -120,22 +120,15 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp,LPARAM lp)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(lp);
 	if(NULL == hContact)
-	{
 		return 0;
-	}
-
 
 	if(false == IsMyContact(hContact))
-	{
 		return 0;
-	}
 
 	g_hContact = hContact;
 
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof( odp );
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
-
 	odp.hIcon = Quotes_LoadIconEx(ICON_STR_MAIN);
 	odp.pfnDlgProc = QuoteInfoDlgProc;
 	odp.position = -2000000000;

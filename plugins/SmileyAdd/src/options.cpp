@@ -53,8 +53,7 @@ static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wPa
 //Init and de-init functions, called from main
 int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMILEYS);
@@ -63,7 +62,6 @@ int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 	odp.pfnDlgProc = DlgProcSmileysOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(addInfo, &odp);
-
 	return 0;
 }
 

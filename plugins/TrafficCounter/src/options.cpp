@@ -370,6 +370,5 @@ int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam)
 		odp.flags=ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);
 	}
-
 	return 0;
 }

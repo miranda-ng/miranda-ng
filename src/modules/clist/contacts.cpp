@@ -487,8 +487,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 
 static int ContactOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -1000000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACT);

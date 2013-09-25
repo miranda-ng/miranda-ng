@@ -903,9 +903,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg,UINT uMsg,WPARAM wParam
 
 static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);

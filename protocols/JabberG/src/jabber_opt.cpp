@@ -1571,37 +1571,35 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRosterControl(WPARAM, LPARAM)
 
 int CJabberProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize      = sizeof(odp);
-	odp.hInstance   = hInst;
-	odp.ptszGroup   = LPGENT("Network");
-	odp.ptszTitle   = m_tszUserName;
-	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.hInstance = hInst;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTitle = m_tszUserName;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-	odp.ptszTab     = LPGENT("Account");
+	odp.ptszTab = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER);
-	odp.pfnDlgProc  = CDlgBase::DynamicDlgProc;
+	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
 	odp.dwInitParam = (LPARAM)&OptCreateAccount;
 	OptCreateAccount.create = CDlgOptAccount::Create;
 	OptCreateAccount.param = this;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = LPGENT("Conferences");
+	odp.ptszTab = LPGENT("Conferences");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER4);
-	odp.pfnDlgProc  = CDlgBase::DynamicDlgProc;
+	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
 	odp.dwInitParam = (LPARAM)&OptCreateGc;
 	OptCreateGc.create = CDlgOptGc::Create;
 	OptCreateGc.param = this;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = LPGENT("Advanced");
+	odp.ptszTab = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER2);
-	odp.pfnDlgProc  = CDlgBase::DynamicDlgProc;
+	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
 	odp.dwInitParam = (LPARAM)&OptCreateAdvanced;
 	OptCreateAdvanced.create = CDlgOptAdvanced::Create;
 	OptCreateAdvanced.param = this;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

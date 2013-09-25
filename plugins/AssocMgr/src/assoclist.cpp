@@ -953,8 +953,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 static int AssocListOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ASSOCLIST);
 	odp.position = 900000100; /* network opts  =  900000000 */

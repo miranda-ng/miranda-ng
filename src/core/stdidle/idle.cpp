@@ -416,8 +416,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 static int IdleOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_IDLE);

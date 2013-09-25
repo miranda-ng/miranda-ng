@@ -53,18 +53,15 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.ptszTitle = LPGENT("Yahoo Groups");
 	odp.ptszGroup = LPGENT("Plugins");
 	odp.groupPosition = 810000000;
-	odp.flags= ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

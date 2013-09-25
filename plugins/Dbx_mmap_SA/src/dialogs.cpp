@@ -43,8 +43,7 @@ BOOL IsDlgItemEnabled(HWND hwndDlg, int iIDCtrl)
 
 static int OptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -790000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);

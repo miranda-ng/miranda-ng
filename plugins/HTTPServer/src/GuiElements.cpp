@@ -1338,14 +1338,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/) {
-	OPTIONSDIALOGPAGE odp;
-	/*
-	bWindowTextSet = FALSE;
-	bUnaplyedChanges = FALSE;
-	*/
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize = sizeof(odp);
+int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 900000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_HTTP_SERVER);
@@ -1356,9 +1351,6 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/) {
 	Options_AddPage(wParam,&odp);
 	return 0;
 }
-
-
-
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : MainThreadCallback

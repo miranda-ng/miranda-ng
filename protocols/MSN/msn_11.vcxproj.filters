@@ -110,9 +110,6 @@
     <ClCompile Include="src\msn_threads.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\msn_useropts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\msn_ws.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -547,11 +547,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int TTBOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("Contact List");
-
 	odp.position = -1000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);
 	odp.pszTitle = LPGEN("Toolbar");

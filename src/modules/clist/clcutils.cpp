@@ -67,7 +67,6 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 	ClcContact *hitcontact = NULL;
 	ClcGroup *hitgroup = NULL;
 	int indent, i;
-	HFONT hFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (flags)
@@ -79,20 +78,16 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 	ClientToScreen(hwnd, &pt);
 
 	HWND hwndParent = hwnd, hwndTemp;
-	do
-	{
+	do {
 		hwndTemp = hwndParent;
 		hwndParent = (HWND)GetWindowLongPtr(hwndTemp, GWLP_HWNDPARENT);
 
 		POINT pt1 = pt;
 		ScreenToClient(hwndParent, &pt1);
-		HWND h = ChildWindowFromPointEx(hwndParent ? hwndParent : GetDesktopWindow(),
-			pt1, CWP_SKIPINVISIBLE | CWP_SKIPTRANSPARENT);
+		HWND h = ChildWindowFromPointEx(hwndParent ? hwndParent : GetDesktopWindow(), pt1, CWP_SKIPINVISIBLE | CWP_SKIPTRANSPARENT);
 		if (h != hwndTemp)
-		{
 			if ( !hwndParent || !(GetWindowLongPtr(hwndTemp, GWL_STYLE) & BS_GROUPBOX))
 				return -1;
-		}
 	}
 		while (hwndParent);
 
@@ -164,11 +159,9 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 			return hit;
 		}
 	}
+
 	HDC hdc = GetDC(hwnd);
-	if (hitcontact->type == CLCIT_GROUP)
-		hFont = (HFONT)SelectObject(hdc, dat->fontInfo[FONTID_GROUPS].hFont);
-	else
-		hFont = (HFONT)SelectObject(hdc, dat->fontInfo[FONTID_CONTACTS].hFont);
+	HFONT hFont = (HFONT)SelectObject(hdc, dat->fontInfo[hitcontact->type == CLCIT_GROUP ? FONTID_GROUPS : FONTID_CONTACTS].hFont);
 
 	SIZE textSize;
 	GetTextExtentPoint32(hdc, hitcontact->szText, lstrlen(hitcontact->szText), &textSize);

@@ -1147,6 +1147,5 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.pszGroup = LPGEN("Message Sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam,&odp);
-
 	return 0;
 }

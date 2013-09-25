@@ -698,35 +698,30 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
  */
 int OptInit(WPARAM wParam, LPARAM lParam) {
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-
-	//options init
-	odp.cbSize						= sizeof(odp);
-	odp.position					= -790000000;
-	odp.hInstance					= hInst;
-	odp.ptszTitle					= LPGENT(PLUGIN_OPTIONS_NAME);
-	odp.ptszGroup					= LPGENT("Services");
-
-	odp.flags						= ODPF_BOLDGROUPS | ODPF_TCHAR;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.position = -790000000;
+	odp.hInstance = hInst;
+	odp.ptszTitle = LPGENT(PLUGIN_OPTIONS_NAME);
+	odp.ptszGroup = LPGENT("Services");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
 	//1 - options
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT1);
-	odp.ptszTab						= LPGENT("Options");
-	odp.pfnDlgProc					= DlgProcOpts_Tab1;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
+	odp.ptszTab = LPGENT("Options");
+	odp.pfnDlgProc = DlgProcOpts_Tab1;
 	Options_AddPage(wParam, &odp);
 
 	//2 - contacts
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT2);
-	odp.ptszTab						= LPGENT("Contacts");
-	odp.pfnDlgProc					= DlgProcOpts_Tab2;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT2);
+	odp.ptszTab = LPGENT("Contacts");
+	odp.pfnDlgProc = DlgProcOpts_Tab2;
 	Options_AddPage(wParam, &odp);
 
 	//3 - accounts
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT3);
-	odp.ptszTab						= LPGENT("Accounts");
-	odp.pfnDlgProc					= DlgProcOpts_Tab3;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT3);
+	odp.ptszTab = LPGENT("Accounts");
+	odp.pfnDlgProc = DlgProcOpts_Tab3;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

@@ -59,8 +59,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-   odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
    odp.hInstance = hInst;
    odp.pszGroup = LPGEN("Contacts");
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_LASTUC_OPT);
@@ -68,6 +67,5 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
    odp.pfnDlgProc = DlgProcOptions;
    odp.flags = ODPF_BOLDGROUPS;
    Options_AddPage(wParam, &odp);
-
    return 0;
 }

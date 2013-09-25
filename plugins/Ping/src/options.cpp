@@ -559,23 +559,21 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int PingOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize						= sizeof(odp);
-	odp.hInstance					= hInst;
-	odp.flags						= ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.ptszGroup					= LPGENT("Network");
-	odp.ptszTitle					= LPGENT("PING");
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.hInstance = hInst;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTitle = LPGENT("PING");
 
-	odp.ptszTab						= LPGENT("Settings");
-	odp.pszTemplate					= MAKEINTRESOURCE(IDD_DIALOG1);
-	odp.pfnDlgProc					= DlgProcOpts;
+	odp.ptszTab = LPGENT("Settings");
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_DIALOG1);
+	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam,&odp);
 
-	odp.ptszTab						= LPGENT("Hosts");
-	odp.pszTemplate					= MAKEINTRESOURCE(IDD_DIALOG2);
-	odp.pfnDlgProc					= DlgProcOpts2;
+	odp.ptszTab = LPGENT("Hosts");
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_DIALOG2);
+	odp.pfnDlgProc = DlgProcOpts2;
 	Options_AddPage(wParam,&odp);
-
 	return 0;
 }
 

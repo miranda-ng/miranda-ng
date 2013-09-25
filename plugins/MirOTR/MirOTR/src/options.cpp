@@ -99,9 +99,7 @@ void LoadOptions() {
 
 extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-
-	odp.cbSize      = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position    = 100;
 	odp.hInstance   = hInst;
 	odp.ptszGroup   = LPGENT("Services");
@@ -127,7 +125,6 @@ extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FINGER);
 	odp.pfnDlgProc  = DlgProcMirOTROptsFinger;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

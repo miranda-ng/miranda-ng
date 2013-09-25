@@ -1106,8 +1106,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 static int OptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp={0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszGroup = LPGEN("Services");

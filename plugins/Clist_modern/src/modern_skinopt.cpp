@@ -45,12 +45,9 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 int SkinOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	if ( !g_CluiData.fDisableSkinEngine )
-	{
+	if ( !g_CluiData.fDisableSkinEngine) {
 		//Tabbed settings
-		ZeroMemory( &odp, sizeof( odp ));
-		odp.cbSize = sizeof( odp );
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.position = -200000000;
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;

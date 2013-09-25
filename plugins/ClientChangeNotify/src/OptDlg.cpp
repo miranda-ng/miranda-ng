@@ -173,8 +173,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 int OptionsDlgInit(WPARAM wParam, LPARAM lParam)
 {
 	if (bPopupExists) {
-		OPTIONSDIALOGPAGE optDi = {0};
-		optDi.cbSize = sizeof(optDi);
+		OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };
 		optDi.position = 920000000;
 		optDi.ptszTitle = LPGENT("ClientChangeNotify");
 		optDi.pfnDlgProc = PopupOptDlg;

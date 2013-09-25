@@ -287,7 +287,6 @@ int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = CTooltipNotify::OptionsDlgProcWrapper;
 	::Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

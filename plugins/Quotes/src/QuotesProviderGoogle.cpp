@@ -445,19 +445,11 @@ namespace
 	}
 }
 
-void CQuotesProviderGoogle::ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp)
+void CQuotesProviderGoogle::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp)
 {
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_OPT_GOOGLE);
 	odp.pfnDlgProc = GoogleOptDlgProc;
-// #if MIRANDA_VER >= 0x0600
-	//odp.ptszTab = TranslateTS(const_cast<LPTSTR>(GetInfo().m_sName.c_str()));
 	odp.ptszTab = const_cast<LPTSTR>(GetInfo().m_sName.c_str());
-// #else
-// 	tostringstream o;
-// 	o << TranslateTS(QUOTES_PROTOCOL_NAME) << _T(" - ") << TranslateTS(GetInfo().m_sName.c_str());
-// 	tstring sTitle = o.str();
-// 	odp.ptszTitle = TranslateTS(const_cast<LPTSTR>(sTitle.c_str()));
-// #endif
 	Options_AddPage(wp, &odp);
 }
 

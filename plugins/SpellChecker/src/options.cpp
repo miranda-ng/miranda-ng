@@ -55,8 +55,7 @@ static OptPageControl autoReplaceControls[] = {
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("Message Sessions");
 	odp.pszTitle = LPGEN("Spell Checker");
@@ -74,7 +73,6 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_REPLACEMENTS);
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

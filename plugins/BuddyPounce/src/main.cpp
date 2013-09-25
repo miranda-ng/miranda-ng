@@ -95,8 +95,7 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 
 int BuddyPounceOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
@@ -104,7 +103,6 @@ int BuddyPounceOptInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle = LPGENT("Buddy Pounce");
 	odp.pfnDlgProc = BuddyPounceOptionsDlgProc;
 	Options_AddPage(wParam, &odp);
-	
 	return 0;
 }
 

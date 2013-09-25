@@ -421,11 +421,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 int ClcOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize = sizeof(odp);
-	odp.position = 0;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.pszGroup = LPGEN("Contact List");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
@@ -439,7 +435,6 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcClcBkgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

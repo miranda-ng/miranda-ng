@@ -81,8 +81,7 @@ static int OnDbChanged(WPARAM wparam, LPARAM lparam)
 
 static int OnInitOptions(WPARAM wparam, LPARAM lparam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 955000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);

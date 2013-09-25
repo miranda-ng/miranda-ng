@@ -292,7 +292,6 @@ int __cdecl EMPCreateOptionsDlg(WPARAM wParam,LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = EMPDlgProcMainOpts;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

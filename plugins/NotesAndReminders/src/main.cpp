@@ -117,8 +117,7 @@ void InitIcons(void)
 
 int OnOptInitialise(WPARAM w, LPARAM L)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 900002000;
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_STNOTEOPTIONS);

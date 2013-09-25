@@ -742,8 +742,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	if (GetNumberOfSlots() < 1)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("Contact List");
 	odp.pszTitle = LPGEN("Extra icons");
@@ -752,6 +751,5 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_EI_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

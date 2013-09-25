@@ -33,24 +33,20 @@ information
 // lParam = current contact
 int UserInfoInit(WPARAM wParam, LPARAM lParam) 
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.position = 100000000;
 	odp.ptszTitle = _T(WEATHERPROTONAME);
 
-	if (lParam == 0) 
-	{
+	if (lParam == 0) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = DlgProcINIPage;
 		odp.flags = ODPF_TCHAR;
 		UserInfo_AddPage(wParam, &odp);
 	}
-	else
-	{
+	else {
 		// check if it is a weather contact
-		if (IsMyContact((HANDLE)lParam)) 
-		{
+		if (IsMyContact((HANDLE)lParam)) {
 			// register the contact info page
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
@@ -58,7 +54,6 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 			UserInfo_AddPage(wParam, &odp);
 		}
 	}
-
 	return 0;
 }
 

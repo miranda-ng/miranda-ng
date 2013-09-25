@@ -242,7 +242,6 @@
     <ClCompile Include="src\msn_svcs.cpp" />
     <ClCompile Include="src\msn_switchboard.cpp" />
     <ClCompile Include="src\msn_threads.cpp" />
-    <ClCompile Include="src\msn_useropts.cpp" />
     <ClCompile Include="src\msn_ws.cpp" />
     <ClCompile Include="src\msn.cpp" />
   </ItemGroup>

@@ -520,8 +520,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 
 int AutoAwayOptInitialise(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 1000000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);

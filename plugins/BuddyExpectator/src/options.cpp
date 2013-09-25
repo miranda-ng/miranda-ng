@@ -540,16 +540,13 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 
 int UserinfoInit(WPARAM wparam, LPARAM lparam)
 {
-	if (lparam > 0)
-	{
-		OPTIONSDIALOGPAGE uip = {0};
-		uip.cbSize = sizeof(uip);
+	if (lparam > 0) {
+		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.hInstance = hInst;
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 		uip.flags = ODPF_TCHAR;
 		uip.ptszTitle = LPGENT("Buddy Expectator");
 		uip.pfnDlgProc = UserinfoDlgProc;
-
 		UserInfo_AddPage(wparam, &uip);
 	}
 	return 0;

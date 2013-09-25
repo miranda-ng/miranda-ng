@@ -296,15 +296,13 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = ModuleName;
 	odp.pfnDlgProc = OptionsProc;
 	odp.pszGroup = LPGEN("Sounds");
 	odp.flags = ODPF_BOLDGROUPS;
-
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

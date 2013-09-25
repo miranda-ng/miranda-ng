@@ -479,8 +479,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 int PluginOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pfnDlgProc = DlgPluginOpt;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PLUGINS);

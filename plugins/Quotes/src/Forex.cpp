@@ -311,8 +311,7 @@ namespace
 		const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
 		const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
 
-		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.cbSize = sizeof(odp);
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.position = 910000000;
 		odp.hInstance = g_hInstance;
 		odp.ptszTitle = _T(QUOTES_PROTOCOL_NAME);

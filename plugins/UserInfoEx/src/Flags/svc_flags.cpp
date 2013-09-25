@@ -476,7 +476,6 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 //hookProc ME_OPT_INITIALISE
 static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
 	return 0;
 }
 

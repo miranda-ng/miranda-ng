@@ -865,7 +865,6 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.pszTitle = LPGEN("Photo");
 		UserInfo_AddPage(wParam, &odp);
 	}
-
 	return 0;
 }
 

@@ -1071,14 +1071,12 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 int OptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	DWORD i;
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTitle = LPGEN("Message Sessions");
 	odp.flags = ODPF_BOLDGROUPS;
-	for (i = 0; i < SIZEOF(tabPages); i++) {
+	for (int i = 0; i < SIZEOF(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
 		odp.pszTab = (char*)tabPages[i].tabName;
@@ -1091,6 +1089,5 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	odp.pszTab = NULL;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

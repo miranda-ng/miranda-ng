@@ -36,8 +36,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VERSIONINFO);
@@ -46,8 +45,6 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
-	
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

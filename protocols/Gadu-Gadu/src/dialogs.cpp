@@ -153,8 +153,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 
 int GGPROTO::options_init(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.flags = ODPF_TCHAR;
 	odp.position = 1003000;
 	odp.hInstance = hInstance;
@@ -177,7 +176,6 @@ int GGPROTO::options_init(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_ADVANCED);
 	odp.pfnDlgProc = gg_advoptsdlgproc;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

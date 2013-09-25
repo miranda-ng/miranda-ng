@@ -60,7 +60,6 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
-	
 	return 0;
 }
 

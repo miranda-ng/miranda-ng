@@ -1416,11 +1416,9 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 
 int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-
 	bUnaplyedChanges = FALSE;
 
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);

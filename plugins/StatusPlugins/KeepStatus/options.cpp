@@ -565,16 +565,14 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize    = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Status");
 	odp.ptszTitle = LPGENT("KeepStatus");
-	odp.flags     = ODPF_BOLDGROUPS|ODPF_TCHAR;
-
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
-	odp.pfnDlgProc  = DlgProcKsTabs;
-	Options_AddPage(wparam,&odp);
+	odp.pfnDlgProc = DlgProcKsTabs;
+	Options_AddPage(wparam, &odp);
 
 	if ( ServiceExists( MS_POPUP_ADDPOPUPT )) {
 		ZeroMemory(&odp,sizeof(odp));
@@ -589,6 +587,5 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 		odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 		Options_AddPage(wparam,&odp);
 	}
-
 	return 0;
 }

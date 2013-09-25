@@ -580,11 +580,8 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (GetContactProto((HANDLE)lParam) == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp;
-	odp.cbSize = sizeof(odp);
-	odp.hIcon = NULL;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
-	odp.flags = 0;
 
 	odp.pfnDlgProc = SummaryDlgProc;
 	odp.position = -2100000000;

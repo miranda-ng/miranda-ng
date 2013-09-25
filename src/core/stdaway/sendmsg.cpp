@@ -534,8 +534,7 @@ static int AwayMsgOptInitialise(WPARAM wParam, LPARAM)
 	if (protoModeMsgFlags == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 870000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AWAYMSG);

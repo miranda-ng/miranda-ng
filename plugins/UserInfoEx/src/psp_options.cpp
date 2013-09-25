@@ -1225,7 +1225,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 {
 	DlgContactInfoInitTreeIcons();
 
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 95400;
 	odp.hInstance = ghInst;
 	odp.pszTitle = MODNAME;

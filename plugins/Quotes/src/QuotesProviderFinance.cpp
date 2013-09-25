@@ -299,7 +299,7 @@ namespace
 	}
 }
 
-void CQuotesProviderFinance::ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp)
+void CQuotesProviderFinance::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp)
 {
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_OPT_FINANCE);
 	odp.pfnDlgProc = GoogleFinanceOptDlgProc;

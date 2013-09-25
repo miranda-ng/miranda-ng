@@ -569,8 +569,7 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -800000000;
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Network");

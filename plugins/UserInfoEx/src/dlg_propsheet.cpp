@@ -460,59 +460,59 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 
 	odp.ptszTitle = szTitle;
 	
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_GENERAL);
-	odp.position	= 0x8000000;
-	odp.pfnDlgProc	= PSPProcGeneral;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_TREE_GENERAL);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_GENERAL);
+	odp.position = 0x8000000;
+	odp.pfnDlgProc = PSPProcGeneral;
+	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_GENERAL);
 	mir_tcsncpy(szTitle + ofs, LPGENT("General"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
-	odp.position	= 0x8000001;
-	odp.pfnDlgProc	= PSPProcContactHome;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_TREE_ADDRESS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
+	odp.position = 0x8000001;
+	odp.pfnDlgProc = PSPProcContactHome;
+	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
 	mir_tcsncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Contact (private)"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
-	odp.position	= 0x8000002;
-	odp.pfnDlgProc	= PSPProcOrigin;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_TREE_ADVANCED);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
+	odp.position = 0x8000002;
+	odp.pfnDlgProc = PSPProcOrigin;
+	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADVANCED);
 	mir_tcsncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Origin"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
-	odp.position	= 0x8000003;
-	odp.pfnDlgProc	= PSPProcAnniversary;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_BIRTHDAY);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
+	odp.position = 0x8000003;
+	odp.pfnDlgProc = PSPProcAnniversary;
+	odp.hIcon = (HICON)ICONINDEX(IDI_BIRTHDAY);
 	mir_tcsncpy(szTitle + ofs,  LPGENT("General") _T("\\") LPGENT("Anniversaries"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
-	odp.position	= 0x8000004;
-	odp.pfnDlgProc	= PSPProcCompany;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_TREE_COMPANY);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
+	odp.position = 0x8000004;
+	odp.pfnDlgProc = PSPProcCompany;
+	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_COMPANY);
 	mir_tcsncpy(szTitle + ofs, LPGENT("Work"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
-	odp.position	= 0x8000005;
-	odp.pfnDlgProc	= PSPProcContactWork;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_TREE_ADDRESS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
+	odp.position = 0x8000005;
+	odp.pfnDlgProc = PSPProcContactWork;
+	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
 	mir_tcsncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (Work)"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
-	odp.position	= 0x8000006;
-	odp.pfnDlgProc	= PSPProcAbout;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_TREE_ABOUT);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
+	odp.position = 0x8000006;
+	odp.pfnDlgProc = PSPProcAbout;
+	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ABOUT);
 	mir_tcsncpy(szTitle + ofs, LPGENT("About"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
-	odp.position	= 0x8000007;
-	odp.pfnDlgProc	= PSPProcContactProfile;
-	odp.hIcon		= (HICON)ICONINDEX(IDI_TREE_PROFILE);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
+	odp.position = 0x8000007;
+	odp.pfnDlgProc = PSPProcContactProfile;
+	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_PROFILE);
 	mir_tcsncpy(szTitle + ofs, LPGENT("About") _T("\\") LPGENT("Profile"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 	return 0;
@@ -529,32 +529,22 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 static int InitDetails(WPARAM wParam, LPARAM lParam)
 {
 	CPsHdr* pPsh = (CPsHdr*)wParam;
-
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
-
-		OPTIONSDIALOGPAGE odp;
 		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && db_get_b(NULL, MODNAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
-		
-		// important to avoid craches!!
-		ZeroMemory(&odp, sizeof(odp));
-
 		if (lParam || bChangeDetailsEnabled) {
-			odp.cbSize = sizeof(odp);
+			OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 			odp.hInstance = ghInst;
 			odp.flags = ODPF_ICON | ODPF_TCHAR;
 			odp.ptszGroup = IcoLib_GetDefaultIconFileName();
 
 			if (lParam) {
-
 				// ignore common pages for weather contacts
-				if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) 
-				{
+				if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) {
 					AddProtocolPages(odp, wParam);
 					odp.ptszTitle = LPGENT("About") _T("\\") LPGENT("Notes");
 				}
-				else {
-					odp.ptszTitle = LPGENT("Notes");
-				}
+				else odp.ptszTitle = LPGENT("Notes");
+
 				odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
 				odp.position = 0x8000008;
 				odp.pfnDlgProc = PSPProcMyNotes;

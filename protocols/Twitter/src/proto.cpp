@@ -319,7 +319,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM,LPARAM)
 
 int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position    = 271828;
 	odp.hInstance   = g_hInstance;
 	odp.ptszGroup   = LPGENT("Network");
@@ -332,14 +332,12 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM)
 	odp.pfnDlgProc  = options_proc;
 	Options_AddPage(wParam, &odp);
 
-	if(ServiceExists(MS_POPUP_ADDPOPUPT))
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.ptszTab     = LPGENT("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc  = popup_options_proc;
 		Options_AddPage(wParam, &odp);
 	}
-
 	return 0;
 }
 

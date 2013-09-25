@@ -104,8 +104,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Icons");
@@ -113,6 +112,5 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Ignore State");
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

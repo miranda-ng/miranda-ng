@@ -173,15 +173,13 @@ int OnOptInitialized(WPARAM wParam, LPARAM lParam)
 	mir_snprintf(tabName, SIZEOF(tabName), "Button %x", iNumber + 1);
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.pszGroup   = LPGEN("Message Sessions");
-	odp.pszTitle   = LPGEN("Quick Replies");
-	odp.pszTab     = tabName;
-	odp.position   = iNumber;
-	odp.hInstance  = hInstance;
-
-	odp.pszTemplate= MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
+	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("Quick Replies");
+	odp.pszTab = tabName;
+	odp.position = iNumber;
+	odp.hInstance = hInstance;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
 	odp.pfnDlgProc = DlgProcOptionsPage;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

@@ -417,8 +417,7 @@ static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt,  char *path, in
 
 int IEViewOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInstance;
 	odp.ptszGroup = LPGENT("Message Sessions");
 	odp.ptszTitle = LPGENT("IEView");

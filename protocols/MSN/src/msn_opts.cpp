@@ -669,8 +669,7 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int CMsnProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize      = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position    = -790000000;
 	odp.hInstance   = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN);

@@ -1672,8 +1672,7 @@ int InitOptions(WPARAM wParam, LPARAM lParam)
 	if (accounts->statusCount == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 
@@ -1704,6 +1703,5 @@ int InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgAdvancedOptionsProc;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

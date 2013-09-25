@@ -101,8 +101,7 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	char *title = ::mir_t2a(this->m_tszUserName);
 
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
 	odp.pszTitle = title;
 	odp.dwInitParam = LPARAM(this);
@@ -133,8 +132,7 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if ((!this->IsProtoContact((HANDLE)lParam)) && lParam)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.flags = ODPF_TCHAR | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.hInstance = g_hInstance;
 	odp.dwInitParam = LPARAM(this);
@@ -142,18 +140,15 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle = this->m_tszUserName;
 
 	HANDLE hContact = (HANDLE)lParam;
-	if (hContact) 
-	{
+	if (hContact) {
 		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) 
-		{
+		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			odp.pfnDlgProc = SkypeDlgProc;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
 			UserInfo_AddPage(wParam, &odp);
 		}
 	} 
-	else 
-	{
+	else {
 		NeedUpdate = 0;
 		odp.pfnDlgProc = ContactSkypeDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_CONTACT);
@@ -175,7 +170,6 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.ptszTab = LPGENT("Skype account");
 		UserInfo_AddPage(wParam, &odp);
 	}
-
 	return 0;
 }
 

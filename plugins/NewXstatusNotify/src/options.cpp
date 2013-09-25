@@ -1024,9 +1024,7 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;
@@ -1065,6 +1063,5 @@ int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = DlgProcSMPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}
-
 	return 0;
 }

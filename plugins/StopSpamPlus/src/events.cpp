@@ -190,8 +190,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.pszGroup = LPGEN("Message Sessions");
 	odp.pszTitle = pluginName;
 	odp.position = -1;
@@ -211,7 +210,6 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
 	Options_AddPage(w, &odp);
-
 	return 0;
 }
 

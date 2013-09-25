@@ -71,8 +71,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.pszGroup = LPGEN("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AUTHSTATE_OPT);
@@ -80,6 +79,5 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

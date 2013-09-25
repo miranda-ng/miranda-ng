@@ -1133,6 +1133,5 @@ int OptInit(WPARAM wParam,LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTFEAT4);
 	odp.ptszTab = LPGENT("Games");
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

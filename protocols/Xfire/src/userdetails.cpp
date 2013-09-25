@@ -429,21 +429,15 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 
 int OnDetailsInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-
 	if (!IsXFireContact((HANDLE)lParam))
 		return 0;
 
-	odp.cbSize = sizeof(odp);
-	odp.hIcon = NULL;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hinstance;
 	odp.pfnDlgProc = DlgProcUserDetails;
 	odp.position = -1900000000;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_UD);
 	odp.ptszTitle = TranslateT("XFire");
-	odp.pszGroup = NULL;
-
 	UserInfo_AddPage(wParam, &odp);
-
 	return 0;
 }

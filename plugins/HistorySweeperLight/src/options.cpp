@@ -308,9 +308,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 int HSOptInitialise(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
-	odp.position = 0;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORYSWEEPER);
 	odp.pszTitle = ModuleName;
@@ -318,6 +316,5 @@ int HSOptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = DlgProcHSOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

@@ -217,7 +217,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM)
 			ShowWindow(hWnd,SW_HIDE);
 		}
 	}
-	return(true);
+	return true;
 }
 
 TCHAR* GetDefStatusMsg(unsigned uStatus, const char* szProto)
@@ -414,7 +414,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			g_bOldSetting |= OLD_WASHIDDEN;
 			db_set_b(NULL, MOD_NAME, "OldSetting", g_bOldSetting);
-			return(0);
+			return 0;
 		} break;
 		case WM_USER+52: // back
 		{
@@ -480,7 +480,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			g_bWindowHidden = false;
 
 			db_set_b(NULL, MOD_NAME, "OldSetting", 0);
-			return(0);
+			return 0;
 		} break;
 		default:break;
 	}
@@ -764,7 +764,7 @@ int MirandaLoaded(WPARAM,LPARAM)
 	if ((g_wMaskAdv & OPT_HIDEONSTART) || (g_wMaskAdv & OPT_RESTORE && g_bOldSetting))
 		BossKeyHideMiranda(0, 0);
 
-	return(0);
+	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
@@ -833,5 +833,5 @@ extern "C" int __declspec(dllexport) Unload(void)
 	delete[] oldStatus;
 	delete[] oldStatusMsg;
 
-	return(0);
+	return 0;
 }

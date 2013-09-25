@@ -273,8 +273,7 @@ static INT_PTR BkgrCfg_Register(WPARAM wParam,LPARAM lParam)
 
 int OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.pszGroup = LPGEN("Customize");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG2);
@@ -282,7 +281,6 @@ int OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = DlgProcBkgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

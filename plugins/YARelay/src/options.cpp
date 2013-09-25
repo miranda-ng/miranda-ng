@@ -189,13 +189,13 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance   = hInst;
-	odp.position    = -1;
-	odp.pszGroup    = LPGEN("Plugins");
+	odp.hInstance = hInst;
+	odp.position = -1;
+	odp.pszGroup = LPGEN("Plugins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
-	odp.pszTitle    = LPGEN("yaRelay");
-	odp.pfnDlgProc  = OptionsFrameProc;
-	odp.flags       = ODPF_BOLDGROUPS;
+	odp.pszTitle = LPGEN("yaRelay");
+	odp.pfnDlgProc = OptionsFrameProc;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

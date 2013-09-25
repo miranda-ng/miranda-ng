@@ -89,9 +89,7 @@ BYTE trillianLedsMsg, trillianLedsURL, trillianLedsFile, trillianLedsOther;
 // **
 int InitializeOptions(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
-	odp.position = 0;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("Keyboard Flash");
@@ -100,7 +98,6 @@ int InitializeOptions(WPARAM wParam,LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

@@ -265,8 +265,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 	if (MirandaExiting())
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.pszTitle = LPGEN("Contact List");
@@ -290,7 +289,6 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);
 	}
-
 	return 0;
 }
 

@@ -146,11 +146,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 
 int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.ptszTitle = _T(SERVICE_TITLE);
@@ -158,7 +154,6 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

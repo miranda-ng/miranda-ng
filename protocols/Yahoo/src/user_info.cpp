@@ -113,11 +113,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 
 int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 {
-	//if ( !JCallService( MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName ))
-	//	return 0;
-
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof( odp );
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInstance;
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
@@ -130,7 +126,6 @@ int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 		odp.ptszTitle = m_tszUserName;
 		UserInfo_AddPage(wParam, &odp);
 	} 
-
 	return 0;
 }
 

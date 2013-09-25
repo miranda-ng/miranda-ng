@@ -1209,8 +1209,7 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	m_bPhotoChanged = FALSE;
 	m_szPhotoFileName[0] = 0;
 
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_TCHAR|ODPF_USERINFOTAB|ODPF_DONTTRANSLATE;

@@ -49,22 +49,16 @@ void LoadOptions()
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
-    odp.cbSize=sizeof(odp);
-    odp.position=0;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance=hInst;
 	odp.ptszGroup = LPGENT("Contacts");
 	odp.ptszTitle = LPGENT("Quick Contacts");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-    odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam,&odp);
-
 	return 0;
 }
-
 
 void InitOptions()
 {

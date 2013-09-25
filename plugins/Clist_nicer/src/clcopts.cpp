@@ -524,9 +524,7 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int ClcOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
-	odp.position = 0;
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 
 	////////////////////////////////////////////////////////////////////////////
@@ -534,7 +532,6 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 
 	odp.position = -1000000000;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = NULL;
 	odp.pszTitle = LPGEN("Contact List");
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = DlgProcGenOpts;

@@ -287,8 +287,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if ((!IsICQContact((HANDLE)lParam)) && lParam)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.hInstance = hInst;
 	odp.dwInitParam = LPARAM(this);
@@ -298,8 +297,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
 	UserInfo_AddPage(wParam, &odp);
 
-	if (!lParam)
-	{
+	if (!lParam) {
 		TCHAR buf[200];
 		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s Details"), m_tszUserName);
 		odp.ptszTitle = buf;

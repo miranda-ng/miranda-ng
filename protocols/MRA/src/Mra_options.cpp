@@ -216,8 +216,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 
 int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.dwInitParam = (LPARAM)this;
 	odp.hInstance = masMraSettings.hInstance;
 	odp.ptszTitle = m_tszUserName;

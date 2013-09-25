@@ -87,7 +87,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			SendMessage(hwndDlg,WM_USER + 50,0,0);
 
 			s_fRedraw = true;
-			return(true);
+			return true;
 		} break;
 		case WM_NOTIFY:
 		{
@@ -138,7 +138,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 					db_set_w(NULL,MOD_NAME,"optsmask",wMask);
 					g_wMask = wMask;
 
-					return(true);
+					return true;
 				} break;
 			}
 		} break;
@@ -165,7 +165,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			}
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG),(IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED) && (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) != BST_CHECKED));
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MAINOPT_VARHELP), IsWindowEnabled(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG)) && ServiceExists(MS_VARS_FORMATSTRING));
-			return(true);
+			return true;
 		} break;
 		case WM_USER+60:
 		{
@@ -175,7 +175,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_ONLINEONLY),fEnable);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_USEDEFMSG),fEnable);			
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_PASS),IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_REQPASS) == BST_CHECKED);
-			return(true);
+			return true;
 		} break;
 		case WM_COMMAND:
 		{
@@ -190,7 +190,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 						SendMessage(hwndDlg,WM_USER + 50,0,0);
 					}
 					SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-					return(0);
+					return 0;
 				} break;
 				case BN_CLICKED:
 				{
@@ -202,32 +202,32 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 						case IDC_MAINOPT_TRAYICON:
 						{
 							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
+							return true;
 						} break;
 						case IDC_MAINOPT_USEDEFMSG:
 						{
 							SendMessage(hwndDlg,WM_USER + 50,0,0);
 							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
+							return true;
 						} break;
 						case IDC_MAINOPT_CHANGESTATUSBOX:
 						{
 							SendMessage(hwndDlg,WM_USER + 60,0,0);
 							SendMessage(hwndDlg,WM_USER + 50,0,0);
 							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
+							return true;
 						} break;
 						case IDC_MAINOPT_REQPASS:
 						{
 							SendMessage(hwndDlg,WM_USER + 60,0,0);
 							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
+							return true;
 						} break;
 						case IDC_MAINOPT_VARHELP:
 						{
 							variables_showhelp(hwndDlg, IDC_MAINOPT_STATMSG, VHF_INPUT|VHF_HELP, 0, 0);
 							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
+							return true;
 						} break;
 						case IDC_MAINOPT_LNK_HOTKEY:
 						{
@@ -239,7 +239,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 							return (true);
 						} break;
 					}
-					return(0);
+					return 0;
 				} break;
 				case EN_UPDATE:
 				{
@@ -256,7 +256,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		case WM_DESTROY:
 		{
 			g_fOptionsOpen = false;
-			return(0);
+			return 0;
 		} break;
 	}
 	return(false);
@@ -266,12 +266,10 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	static bool inFocus = false;
 
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
 			g_fOptionsOpen = true;
 
 			minutes = db_get_b(NULL,MOD_NAME,"time",10);
@@ -287,107 +285,92 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFSCRSVR,(g_wMaskAdv & OPT_HIDEIFSCRSVR) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEONSTART,(g_wMaskAdv & OPT_HIDEONSTART) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_RESTORE,(g_wMaskAdv & OPT_RESTORE) ? (BST_CHECKED) : (BST_UNCHECKED));
+		}
+		return true;
 
-			return(true);
-		} break;
-		case WM_NOTIFY:
+	case WM_NOTIFY:
 		{
 			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code)
-			{
-				case PSN_APPLY:
-				{
-					WORD wMaskAdv = 0;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFLOCK) == BST_CHECKED)		wMaskAdv |= OPT_HIDEIFLOCK;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFWINIDLE) == BST_CHECKED)	wMaskAdv |= OPT_HIDEIFWINIDLE;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFMIRIDLE) == BST_CHECKED)	wMaskAdv |= OPT_HIDEIFMIRIDLE;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFSCRSVR) == BST_CHECKED)	wMaskAdv |= OPT_HIDEIFSCRSVR;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEONSTART) == BST_CHECKED)		wMaskAdv |= OPT_HIDEONSTART;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_RESTORE) == BST_CHECKED)			wMaskAdv |= OPT_RESTORE;
+			switch (nmhdr->code) {
+			case PSN_APPLY:
+				WORD wMaskAdv = 0;
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFLOCK) == BST_CHECKED)		wMaskAdv |= OPT_HIDEIFLOCK;
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFWINIDLE) == BST_CHECKED)	wMaskAdv |= OPT_HIDEIFWINIDLE;
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFMIRIDLE) == BST_CHECKED)	wMaskAdv |= OPT_HIDEIFMIRIDLE;
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFSCRSVR) == BST_CHECKED)	wMaskAdv |= OPT_HIDEIFSCRSVR;
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEONSTART) == BST_CHECKED)		wMaskAdv |= OPT_HIDEONSTART;
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_RESTORE) == BST_CHECKED)			wMaskAdv |= OPT_RESTORE;
 
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_MENUITEM) == BST_CHECKED ) 
-					{
-						if (g_hMenuItem == 0) BossKeyMenuItemInit();
-						wMaskAdv |= OPT_MENUITEM;
-					} else 
-						if (g_hMenuItem != 0) BossKeyMenuItemUnInit();
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_MENUITEM) == BST_CHECKED ) {
+					if (g_hMenuItem == 0)
+						BossKeyMenuItemInit();
+					wMaskAdv |= OPT_MENUITEM;
+				}
+				else if (g_hMenuItem != 0)
+					BossKeyMenuItemUnInit();
 
-					TCHAR szMinutes[4] = {0};
-					GetDlgItemText(hwndDlg,IDC_MAINOPT_TIME,szMinutes,3);
-					minutes = _ttoi(szMinutes);
-					if(minutes<1) minutes = 1;
-					db_set_b(NULL,MOD_NAME,"time",minutes);
-					db_set_w(NULL,MOD_NAME,"optsmaskadv",wMaskAdv);
-					g_wMaskAdv = wMaskAdv;
-
-					return(true);
-				} break;
+				TCHAR szMinutes[4] = {0};
+				GetDlgItemText(hwndDlg,IDC_MAINOPT_TIME,szMinutes,3);
+				minutes = _ttoi(szMinutes);
+				if(minutes<1) minutes = 1;
+				db_set_b(NULL,MOD_NAME,"time",minutes);
+				db_set_w(NULL,MOD_NAME,"optsmaskadv",wMaskAdv);
+				g_wMaskAdv = wMaskAdv;
+				return true;
 			}
-		} break;
-		case WM_COMMAND:
-		{
-			switch (HIWORD(wParam))
-			{
-				case BN_CLICKED:
-				{
-					switch(LOWORD(wParam))
-					{
-						case IDC_MAINOPT_MENUITEM:
-						case IDC_MAINOPT_HIDEIFLOCK:
-						case IDC_MAINOPT_HIDEIFSCRSVR:
-						case IDC_MAINOPT_HIDEONSTART:
-						case IDC_MAINOPT_RESTORE:
-						{
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
-						} break;
-						case IDC_MAINOPT_HIDEIFWINIDLE:
-						{
-							if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFWINIDLE) == BST_CHECKED)
-								CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFMIRIDLE,BST_UNCHECKED);
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
-						} break;
-						case IDC_MAINOPT_HIDEIFMIRIDLE:
-						{
-							if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFMIRIDLE) == BST_CHECKED)
-								CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFWINIDLE,BST_UNCHECKED);
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return(true);
-						} break;
-					}
-					return(0);
-				} break;
-				case EN_SETFOCUS:
-				{
-					inFocus = true;
-					return(0);
-				} break;
-				case EN_UPDATE:
-				{
-					switch( LOWORD( wParam )) {
-						case IDC_MAINOPT_TIME:
-							if(inFocus)
-								SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-					}
-				} break;
-				default:break;
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (HIWORD(wParam)) {
+		case BN_CLICKED:
+			switch(LOWORD(wParam)) {
+			case IDC_MAINOPT_MENUITEM:
+			case IDC_MAINOPT_HIDEIFLOCK:
+			case IDC_MAINOPT_HIDEIFSCRSVR:
+			case IDC_MAINOPT_HIDEONSTART:
+			case IDC_MAINOPT_RESTORE:
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
+
+			case IDC_MAINOPT_HIDEIFWINIDLE:
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFWINIDLE) == BST_CHECKED)
+					CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFMIRIDLE,BST_UNCHECKED);
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
+
+			case IDC_MAINOPT_HIDEIFMIRIDLE:
+				if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_HIDEIFMIRIDLE) == BST_CHECKED)
+					CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFWINIDLE,BST_UNCHECKED);
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
 			}
-		} break;
-		case WM_DESTROY:
-		{
-			g_fOptionsOpen = false;
-			return(0);
-		} break;
+			return 0;
+
+		case EN_SETFOCUS:
+			inFocus = true;
+			return 0;
+
+		case EN_UPDATE:
+			switch( LOWORD( wParam )) {
+			case IDC_MAINOPT_TIME:
+				if(inFocus)
+					SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+			}
+			break;
+		}
+		break;
+
+	case WM_DESTROY:
+		g_fOptionsOpen = false;
+		return 0;
 	}
-	return(false);
+	return false;
 }
 
 int OptsDlgInit(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE optDi;
-	ZeroMemory(&optDi, sizeof(optDi));
-	optDi.cbSize = sizeof(optDi);
+	OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };
 	optDi.position = 920000000;
 	optDi.pfnDlgProc = MainOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGMAIN);
@@ -396,13 +379,11 @@ int OptsDlgInit(WPARAM wParam,LPARAM)
 	optDi.ptszGroup = LPGENT("Events");
 	optDi.ptszTab	= LPGENT("Main");
 	optDi.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
-
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
 	optDi.ptszTab	= LPGENT("Advanced");
-
 	Options_AddPage(wParam, &optDi);
-	return(0);
+	return 0;
 }

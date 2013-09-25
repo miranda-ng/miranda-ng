@@ -427,7 +427,6 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_ADVANCED);
 	odp.pfnDlgProc  = FBOptionsAdvancedProc;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

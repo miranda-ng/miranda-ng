@@ -246,37 +246,35 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
-	case WM_INITDIALOG:	{
-			TranslateDialogDefault(hwnd);
-			SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_SETCHECK, gbInvisDisable ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_SETCHECK, gbCaseInsensitive ? BST_CHECKED : BST_UNCHECKED, 0);
-			gbDosServiceExist?EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION),1):EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION),0);
-			SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_SETCHECK, gbDosServiceIntegration ? BST_CHECKED : BST_UNCHECKED, 0);
-			SetDlgItemText(hwnd, ID_SPECIALGROUPNAME, gbSpammersGroup.c_str());
-			SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_SETCHECK, gbSpecialGroup ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_SETCHECK, gbExclude ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_SETCHECK, gbDelExcluded ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_SETCHECK, gbDelAllTempory ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_SETCHECK, gbIgnoreURL ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_SETCHECK, gbAutoAuth ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_SETCHECK, gbAutoAddToServerList ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_SETCHECK, gbAutoReqAuth ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, IDC_REGEX, BM_SETCHECK, gbRegexMatch ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_SETCHECK, gbHistoryLog ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_SETCHECK, gbMathExpression ? BST_CHECKED : BST_UNCHECKED, 0 );
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwnd);
+		SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_SETCHECK, gbInvisDisable ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_SETCHECK, gbCaseInsensitive ? BST_CHECKED : BST_UNCHECKED, 0);
+		gbDosServiceExist?EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION),1):EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION),0);
+		SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_SETCHECK, gbDosServiceIntegration ? BST_CHECKED : BST_UNCHECKED, 0);
+		SetDlgItemText(hwnd, ID_SPECIALGROUPNAME, gbSpammersGroup.c_str());
+		SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_SETCHECK, gbSpecialGroup ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_SETCHECK, gbExclude ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_SETCHECK, gbDelExcluded ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_SETCHECK, gbDelAllTempory ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_SETCHECK, gbIgnoreURL ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_SETCHECK, gbAutoAuth ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_SETCHECK, gbAutoAddToServerList ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_SETCHECK, gbAutoReqAuth ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, IDC_REGEX, BM_SETCHECK, gbRegexMatch ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_SETCHECK, gbHistoryLog ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_SETCHECK, gbMathExpression ? BST_CHECKED : BST_UNCHECKED, 0 );
 
-			SetDlgItemText(hwnd, IDC_AUTOADDGROUP, gbAutoAuthGroup.c_str());
-		}
+		SetDlgItemText(hwnd, IDC_AUTOADDGROUP, gbAutoAuthGroup.c_str());
 		return TRUE;
-	case WM_COMMAND: {
-		switch (LOWORD(wParam))
-		{
-		case IDC_MATH_DETAILS: {
-				MessageBox(hwnd, TranslateT("If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces"), TranslateT("Info"), MB_OK);
-			}
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_MATH_DETAILS:
+			MessageBox(hwnd, TranslateT("If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces"), TranslateT("Info"), MB_OK);
 			break;
+
 		case IDC_INVIS_DISABLE: 
 		case IDC_CASE_INSENSITIVE: 
 		case ID_DOS_INTEGRATION:
@@ -295,56 +293,53 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		}
-	}
 		break;
-	case WM_NOTIFY:	{
-			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code)
+
+	case WM_NOTIFY:
+		NMHDR* nmhdr = (NMHDR*)lParam;
+		switch (nmhdr->code) {
+		case PSN_APPLY:
+			db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "DOSIntegration",  gbDosServiceIntegration = BST_CHECKED == SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_GETCHECK, 0, 0));
 			{
-			case PSN_APPLY: {
-					db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "DOSIntegration",  gbDosServiceIntegration = BST_CHECKED == SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_GETCHECK, 0, 0));
-					{
-						static tstring NewGroupName, CurrentGroupName;
-						NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
-						CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("0"));
-						if (wcscmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
-							bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
-							db_set_ws(NULL,pluginName, "SpammersGroup", NewGroupName.c_str());
-							gbSpammersGroup = DBGetContactSettingStringPAN(NULL,pluginName,"SpammersGroup", _T("Spammers"));
-							if(!GroupExist && gbSpecialGroup)
-								CreateCListGroup((TCHAR*)gbSpammersGroup.c_str());
-						}
-					}
-					db_set_b(NULL, pluginName, "SpecialGroup",  gbSpecialGroup = BST_CHECKED == SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "ExcludeContacts",  gbExclude = BST_CHECKED == SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "DelExcluded",  gbDelExcluded = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "DelAllTempory",  gbDelAllTempory = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "IgnoreURL",  gbIgnoreURL =	BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_GETCHECK, 0, 0));
-
-					db_set_b(NULL, pluginName, "AutoAuth",  gbAutoAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "AutoAddToServerList",  gbAutoAddToServerList = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "AutoReqAuth",  gbAutoReqAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "RegexMatch",  gbRegexMatch = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REGEX, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "HistoryLog",  gbHistoryLog = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "MathExpression",  gbMathExpression = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_GETCHECK, 0, 0));
-
-					{
-						static tstring NewAGroupName, CurrentAGroupName;
-						NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
-						CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("0"));
-						if (wcscmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
-							bool GroupExist = Clist_GroupExists(NewAGroupName.c_str());
-							db_set_ws(NULL,pluginName, "AutoAuthGroup", NewAGroupName.c_str());
-							gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL,pluginName,"AutoAuthGroup", _T("Not Spammers"));
-							if(!GroupExist && gbAutoAddToServerList)
-								CreateCListGroup((TCHAR*)gbAutoAuthGroup.c_str());
-						}
-					}
+				static tstring NewGroupName, CurrentGroupName;
+				NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
+				CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("0"));
+				if (wcscmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
+					bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
+					db_set_ws(NULL,pluginName, "SpammersGroup", NewGroupName.c_str());
+					gbSpammersGroup = DBGetContactSettingStringPAN(NULL,pluginName,"SpammersGroup", _T("Spammers"));
+					if(!GroupExist && gbSpecialGroup)
+						CreateCListGroup((TCHAR*)gbSpammersGroup.c_str());
 				}
-				return TRUE;
 			}
+			db_set_b(NULL, pluginName, "SpecialGroup",  gbSpecialGroup = BST_CHECKED == SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "ExcludeContacts",  gbExclude = BST_CHECKED == SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "DelExcluded",  gbDelExcluded = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "DelAllTempory",  gbDelAllTempory = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "IgnoreURL",  gbIgnoreURL =	BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_GETCHECK, 0, 0));
+
+			db_set_b(NULL, pluginName, "AutoAuth",  gbAutoAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "AutoAddToServerList",  gbAutoAddToServerList = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "AutoReqAuth",  gbAutoReqAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "RegexMatch",  gbRegexMatch = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REGEX, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "HistoryLog",  gbHistoryLog = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "MathExpression",  gbMathExpression = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_GETCHECK, 0, 0));
+
+			{
+				static tstring NewAGroupName, CurrentAGroupName;
+				NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
+				CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("0"));
+				if (wcscmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
+					bool GroupExist = Clist_GroupExists(NewAGroupName.c_str()) != NULL;
+					db_set_ws(NULL,pluginName, "AutoAuthGroup", NewAGroupName.c_str());
+					gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL,pluginName,"AutoAuthGroup", _T("Not Spammers"));
+					if(!GroupExist && gbAutoAddToServerList)
+						CreateCListGroup((TCHAR*)gbAutoAuthGroup.c_str());
+				}
+			}
+			return TRUE;
 		}
 		break;			
 	}
@@ -355,8 +350,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 HINSTANCE hInst;
 MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.ptszGroup = LPGENT("Message Sessions");
 	odp.ptszTitle = LPGENT("StopSpam");
 	odp.position = -1;
@@ -383,6 +377,5 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADVANCED);
 	odp.pfnDlgProc = AdvancedDlgProc;
 	Options_AddPage(w, &odp);
-
 	return 0;
 }

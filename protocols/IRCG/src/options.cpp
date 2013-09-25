@@ -1658,9 +1658,7 @@ void CIgnorePrefsDlg::UpdateList()
 
 int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_CONNECT);
 	odp.ptszTitle = m_tszUserName;
