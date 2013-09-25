@@ -45,14 +45,14 @@ struct CONNECTION* GetConnectionsTable()
 			memset(newConn,0,sizeof(struct CONNECTION));
 			//pid2name(pTcpTable->table[i].dwOwningPid,&newConn->Pname);
 			
-			if(pTcpTable->table[i].dwLocalAddr)
+			if (pTcpTable->table[i].dwLocalAddr)
 			{
 				IpAddr.S_un.S_addr = (ULONG) pTcpTable->table[i].dwLocalAddr;
 				//_snprintf(newConn->strIntIp,_countof(newConn->strIntIp),"%d.%d.%d.%d",IpAddr.S_un.S_un_b.s_b1,IpAddr.S_un.S_un_b.s_b2,IpAddr.S_un.S_un_b.s_b3,IpAddr.S_un.S_un_b.s_b4);
 				wcsncpy(newConn->strIntIp, mir_a2t(inet_ntoa(IpAddr)),_tcslen(mir_a2t(inet_ntoa(IpAddr))));
 			}
 			
-			if(pTcpTable->table[i].dwRemoteAddr)
+			if (pTcpTable->table[i].dwRemoteAddr)
 			{
 				IpAddr.S_un.S_addr = (u_long) pTcpTable->table[i].dwRemoteAddr;
 				wcsncpy(newConn->strExtIp, mir_a2t(inet_ntoa(IpAddr)),_tcslen(mir_a2t(inet_ntoa(IpAddr))));
@@ -147,27 +147,19 @@ struct CONNECTION* searchConnection(struct CONNECTION* head,TCHAR *intIp,TCHAR *
 	struct CONNECTION *cur=head;
 	while(cur!=NULL)
 	{
-		if(wcscmp(cur->strIntIp,intIp)==0 && wcscmp(cur->strExtIp,extIp)==0 && cur->intExtPort==extPort && cur->intIntPort==intPort && cur->state==state)
+		if (wcscmp(cur->strIntIp,intIp)==0 && wcscmp(cur->strExtIp,extIp)==0 && cur->intExtPort==extPort && cur->intIntPort==intPort && cur->state==state)
 			return cur;
 		cur=cur->next;
 	}
 	return NULL;
 }
 
-void getDnsName(TCHAR *strIp,TCHAR *strHostName)
+void getDnsName(TCHAR *strIp, TCHAR *strHostName, size_t len)
 {
-	struct in_addr iaHost;
-	struct hostent *h;
-
+	in_addr iaHost;
 	iaHost.s_addr = inet_addr(mir_t2a(strIp));
-	if ((h = gethostbyaddr ((char *)&iaHost, sizeof(struct in_addr), AF_INET))== NULL)
-		{  // get the host info error
-			_stprintf(strHostName,_T("%s"), strIp); //!!!!!!!!!!!
-            return;
-        }
-	_stprintf(strHostName,_T("%s"),mir_a2t(h->h_name)); //!!!!!!!!!!!!!
-	//_tcsncpy_s(strHostName,128, h->h_name,_tcslen(h->h_name));
-
+	hostent *h = gethostbyaddr((char *)&iaHost, sizeof(struct in_addr), AF_INET);
+	_tcsncpy_s(strHostName, len, (h == NULL) ? strIp : _A2T(h->h_name), _TRUNCATE);
 }
 
 int wildcmp(const TCHAR *wild, const TCHAR *string) {

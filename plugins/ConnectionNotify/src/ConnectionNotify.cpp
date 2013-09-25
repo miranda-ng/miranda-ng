@@ -68,7 +68,7 @@ BOOL strrep(TCHAR *src,TCHAR *needle,TCHAR *newstring)
 
 	//strset(begining,' ');
 	//strset(tail,' ');
-	if(!(found=_tcsstr(src,needle)))
+	if (!(found=_tcsstr(src,needle)))
 		return FALSE;
 
 	pos=(int)(found-src);
@@ -82,14 +82,6 @@ BOOL strrep(TCHAR *src,TCHAR *needle,TCHAR *newstring)
 	pos=mir_sntprintf(src,_tcslen(src),_T("%s%s%s"),begining,newstring,tail);
 	return TRUE;
 }
-/*miranda IM
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	if(mirandaVersion<PLUGIN_MAKE_VERSION(0,1,0,1)) return NULL;
-	pluginInfo.cbSize=sizeof(PLUGININFO); // needed as v0.6 does equality check 
-	return (PLUGININFO*)&pluginInfo;
-}
-*/
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -137,16 +129,16 @@ struct CONNECTION* LoadSettingsConnections()
 	{
 		struct CONNECTION *conn=(struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 		mir_snprintf(buff,sizeof(buff), "%dFilterIntIp", i);
-		if(!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
-		wcsncpy(conn->strIntIp,dbv.ptszVal,_countof(conn->strIntIp) );
+		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
+		wcsncpy(conn->strIntIp,dbv.ptszVal,_countof(conn->strIntIp));
 		db_free(&dbv);
 		mir_snprintf(buff,sizeof(buff), "%dFilterExtIp", i);
-		if(!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
-		wcsncpy(conn->strExtIp,dbv.ptszVal,_countof(conn->strExtIp) );
+		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
+		wcsncpy(conn->strExtIp,dbv.ptszVal,_countof(conn->strExtIp));
 		db_free(&dbv);
 		mir_snprintf(buff,sizeof(buff), "%dFilterPName", i);
-		if(!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
-		wcsncpy(conn->PName,dbv.ptszVal,_countof(conn->PName) );
+		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
+		wcsncpy(conn->PName,dbv.ptszVal,_countof(conn->PName));
 		db_free(&dbv);
 				
 		mir_snprintf(buff,sizeof(buff), "%dFilterIntPort", i);
@@ -206,14 +198,14 @@ void fillExceptionsListView(HWND hwndDlg)
 		lvI.pszText=tmp->PName;
 		ListView_InsertItem(hwndList, &lvI);
 		lvI.iSubItem=1;
-		if(tmp->intIntPort==-1)
+		if (tmp->intIntPort==-1)
 			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:*"),tmp->strIntIp);
 		else
 			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:%d"),tmp->strIntIp,tmp->intIntPort);
 		lvI.pszText=tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem=2;
-		if(tmp->intExtPort==-1)
+		if (tmp->intExtPort==-1)
 			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:*"),tmp->strExtIp);
 		else
 			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:%d"),tmp->strExtIp,tmp->intExtPort);
@@ -241,12 +233,12 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 			SetDlgItemText(hWnd, ID_TXT_LOCAL_IP,conn->strIntIp);
 			SetDlgItemText(hWnd, ID_TXT_REMOTE_IP,conn->strExtIp);
 
-			if(conn->intIntPort==-1)
+			if (conn->intIntPort==-1)
 				SetDlgItemText(hWnd, ID_TXT_LOCAL_PORT,_T("*"));
 			else
 				SetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT,conn->intIntPort,FALSE);
 
-			if(conn->intExtPort==-1)
+			if (conn->intExtPort==-1)
 				SetDlgItemText(hWnd, ID_TXT_REMOTE_PORT,_T("*"));
 			else
 				SetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT,conn->intExtPort,FALSE);
@@ -304,11 +296,9 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList;
-	switch(msg)
-	{
-		case WM_INITDIALOG://initialize dialog, so set properties from db.
+	switch(msg) {
+	case WM_INITDIALOG://initialize dialog, so set properties from db.
 		{
-
 			LVCOLUMN lvc={0};
 			LVITEM lvI={0};
 			TCHAR buff[256];
@@ -331,8 +321,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 			SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingBgColor);
 			SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingFgColor);
-			if(!settingSetColours) 
-			{
+			if (!settingSetColours) {
 				HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
 				CheckDlgButton(hwndDlg, IDC_SETCOLOURS, FALSE);
 				EnableWindow(hwnd, FALSE);
@@ -360,14 +349,12 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			// Initialize LVITEM members that are common to all
 			// items. 
 			lvI.mask = LVIF_TEXT;
-			for(int i = 0; i < STATUS_COUNT; i++) 
-			{
+			for(int i = 0; i < STATUS_COUNT; i++) {
 				lvI.pszText= (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_ONLINE + i), GSMDF_TCHAR);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
 				ListView_SetCheckState(hwndList, i, settingStatus[i]);
 			}
-
 
 			connExceptionsTmp=LoadSettingsConnections();
 			hwndList = GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS);
@@ -389,255 +376,232 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 			//fill exceptions list
 			fillExceptionsListView(hwndDlg);
-				
+		}
+		break;
+
+	case WM_COMMAND://user changed something, so get changes to variables
+		PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		switch(LOWORD(wParam)) {
+		case IDC_INTERVAL: settingInterval =GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE); break;
+		case IDC_INTERVAL1: settingInterval1 =GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE); break;
+		case IDC_RESOLVEIP: settingResolveIp=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_RESOLVEIP); break;
+		case ID_CHK_DEFAULTACTION: settingDefaultAction=(BYTE) IsDlgButtonChecked(hwndDlg, ID_CHK_DEFAULTACTION); break;
+		case ID_ADD:
+			{
+				struct CONNECTION *cur=(struct CONNECTION *)mir_alloc(sizeof(struct CONNECTION));
+				memset(cur,0,sizeof(struct CONNECTION));
+				cur->intExtPort=-1;
+				cur->intIntPort=-1;
+				cur->Pid=0;
+				cur->PName[0]='*';
+				cur->strExtIp[0]='*';
+				cur->strIntIp[0]='*';
+
+				if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur)==IDCANCEL) {
+					mir_free(cur);
+					cur = NULL;
+				}
+				else {
+					cur->next = connExceptionsTmp;
+					connExceptionsTmp = cur;
+				}
+
+				fillExceptionsListView(hwndDlg);
+				ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),0,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
+				SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
+			}
+			break;
+
+		case ID_DELETE: 
+			{
+				int pos,pos1;
+				struct CONNECTION *cur = connExceptionsTmp, *pre = NULL;
+
+				pos=(int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS),-1,LVNI_FOCUSED );
+				if (pos==-1)break;
+				pos1=pos;
+				while(pos--)
+				{
+					pre=cur;
+					cur=cur->next;
+				}
+				if (pre==NULL)
+					connExceptionsTmp=connExceptionsTmp->next;
+				else
+					(pre)->next=cur->next;
+				mir_free(cur);
+				fillExceptionsListView(hwndDlg);
+				ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
+				SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
+				break;
+			}
+		case ID_UP: 
+			{
+				int pos,pos1;
+				struct CONNECTION *cur=NULL,*pre=NULL,*prepre=NULL;
+
+				cur=connExceptionsTmp;
+
+				pos=(int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS),-1,LVNI_FOCUSED );
+				if (pos==-1)break;
+				pos1=pos;
+				while(pos--)
+				{
+					prepre=pre;
+					pre=cur;
+					cur=cur->next;
+				}
+				if (prepre!=NULL)
+				{
+					pre->next=cur->next;
+					cur->next=pre;
+					prepre->next=cur;
+				}
+				else if (pre!=NULL)
+				{
+					pre->next=cur->next;
+					cur->next=pre;
+					connExceptionsTmp=cur;							
+				}
+				fillExceptionsListView(hwndDlg);
+				ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1-1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
+				SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
+				break;
+			}
+		case ID_DOWN: 
+			{
+				int pos,pos1;
+				struct CONNECTION *cur=NULL,*pre=NULL;
+
+				cur=connExceptionsTmp;
+
+				pos=(int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS),-1,LVNI_FOCUSED );
+				if (pos==-1)break;
+				pos1=pos;
+				while(pos--)
+				{
+					pre=cur;
+					cur=cur->next;
+				}
+				if (cur==connExceptionsTmp&&cur->next!=NULL)
+				{
+					connExceptionsTmp=cur->next;
+					cur->next=cur->next->next;
+					connExceptionsTmp->next=cur;
+				}
+				else if (cur->next!=NULL)
+				{
+					struct CONNECTION *tmp=cur->next->next;
+					pre->next=cur->next;
+					cur->next->next=cur;
+					cur->next=tmp;
+				}
+				fillExceptionsListView(hwndDlg);
+				ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1+1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
+				SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
+				break;
+			}				
+		case IDC_SETCOLOURS:
+			{
+				HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
+				settingSetColours=IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
+				EnableWindow(hwnd,settingSetColours );
+				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
+				EnableWindow(hwnd, settingSetColours);
+				break;
+			}
+		case IDC_BGCOLOR: settingBgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);break;
+		case IDC_FGCOLOR: settingFgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_GETCOLOUR, 0, 0);break;
+
+		}
+		break;
+
+	case WM_NOTIFY://apply changes so write it to db
+		switch(((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
+				LoadSettings();
+				deleteConnectionsTable(connExceptionsTmp);
+				connExceptionsTmp=LoadSettingsConnections();
+				return TRUE;
+
+			case PSN_APPLY:
+				db_set_dw (NULL, PLUGINNAME, "Interval", settingInterval );
+				db_set_dw (NULL, PLUGINNAME, "PopupInterval", settingInterval1 );
+				db_set_b(NULL, PLUGINNAME, "PopupSetColours", settingSetColours);
+				db_set_dw(NULL, PLUGINNAME, "PopupBgColor", (DWORD)settingBgColor);
+				db_set_dw(NULL, PLUGINNAME, "PopupFgColor", (DWORD)settingFgColor);
+				db_set_b(NULL, PLUGINNAME, "ResolveIp", settingResolveIp);
+				db_set_b(NULL, PLUGINNAME, "FilterDefaultAction", settingDefaultAction);
+
+				for(int i = 0; i < STATUS_COUNT ; i++) {
+					char buff[128];
+					mir_snprintf(buff,_countof(buff), "Status%d", i);
+					settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
+					db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
+				}
+				if (WAIT_OBJECT_0 == WaitForSingleObject(hExceptionsMutex, 100)) {
+					deleteConnectionsTable(connExceptions);
+					saveSettingsConnections(connExceptionsTmp);
+					connExceptions = connExceptionsTmp;
+					connExceptionsTmp = LoadSettingsConnections();
+					ReleaseMutex(hExceptionsMutex);
+				}
+				return TRUE;
+			}
 			break;
 		}
-		case WM_COMMAND://user changed something, so get changes to variables
-			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			switch(LOWORD(wParam))
-			{
-				case IDC_INTERVAL: settingInterval =GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE); break;
-				case IDC_INTERVAL1: settingInterval1 =GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE); break;
-				case IDC_RESOLVEIP: settingResolveIp=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_RESOLVEIP); break;
-				case ID_CHK_DEFAULTACTION: settingDefaultAction=(BYTE) IsDlgButtonChecked(hwndDlg, ID_CHK_DEFAULTACTION); break;
-				case ID_ADD:
-				{
-					struct CONNECTION *cur=(struct CONNECTION *)mir_alloc(sizeof(struct CONNECTION));
-					memset(cur,0,sizeof(struct CONNECTION));
-					cur->intExtPort=-1;
-					cur->intIntPort=-1;
-					cur->Pid=0;
-					cur->PName[0]='*';
-					cur->strExtIp[0]='*';
-					cur->strIntIp[0]='*';
 
-					if(DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur)==IDCANCEL)
-					{
-						mir_free(cur);
-						cur=NULL;
-					}
-					else
-					{
-						cur->next=connExceptionsTmp;
-						connExceptionsTmp=cur;
-					}
-
-					fillExceptionsListView(hwndDlg);
-					ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),0,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
-					SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
-					break;
-				}
-				case ID_DELETE: 
+		if (GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS)==((LPNMHDR) lParam)->hwndFrom) {
+			switch (((LPNMHDR) lParam)->code) {
+			case NM_DBLCLK:
 				{
 					int pos,pos1;
-					struct CONNECTION *cur=NULL,*pre=NULL;
+					struct CONNECTION *cur=NULL;
 
 					cur=connExceptionsTmp;
 
 					pos=(int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS),-1,LVNI_FOCUSED );
-					if(pos==-1)break;
+					if (pos==-1)break;
 					pos1=pos;
 					while(pos--)
 					{
-						pre=cur;
 						cur=cur->next;
 					}
-					if (pre==NULL)
-						connExceptionsTmp=connExceptionsTmp->next;
-					else
-						(pre)->next=cur->next;
-					mir_free(cur);
+					DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
 					fillExceptionsListView(hwndDlg);
 					ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
 					SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
 					break;
 				}
-				case ID_UP: 
-				{
-					int pos,pos1;
-					struct CONNECTION *cur=NULL,*pre=NULL,*prepre=NULL;
-
-					cur=connExceptionsTmp;
-
-					pos=(int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS),-1,LVNI_FOCUSED );
-					if(pos==-1)break;
-					pos1=pos;
-					while(pos--)
-					{
-						prepre=pre;
-						pre=cur;
-						cur=cur->next;
-					}
-					if (prepre!=NULL)
-						{
-							pre->next=cur->next;
-							cur->next=pre;
-							prepre->next=cur;
-						}
-					else if(pre!=NULL)
-						{
-							pre->next=cur->next;
-							cur->next=pre;
-							connExceptionsTmp=cur;							
-						}
-					fillExceptionsListView(hwndDlg);
-					ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1-1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
-					SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
-					break;
-				}
-				case ID_DOWN: 
-				{
-					int pos,pos1;
-					struct CONNECTION *cur=NULL,*pre=NULL;
-
-					cur=connExceptionsTmp;
-
-					pos=(int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS),-1,LVNI_FOCUSED );
-					if(pos==-1)break;
-					pos1=pos;
-					while(pos--)
-					{
-						pre=cur;
-						cur=cur->next;
-					}
-					if (cur==connExceptionsTmp&&cur->next!=NULL)
-						{
-							connExceptionsTmp=cur->next;
-							cur->next=cur->next->next;
-							connExceptionsTmp->next=cur;
-						}
-					else if (cur->next!=NULL)
-						{
-							struct CONNECTION *tmp=cur->next->next;
-							pre->next=cur->next;
-							cur->next->next=cur;
-							cur->next=tmp;
-						}
-					fillExceptionsListView(hwndDlg);
-					ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1+1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
-					SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
-					break;
-				}				
-				case IDC_SETCOLOURS:
-				{
-					HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
-					settingSetColours=IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
-					EnableWindow(hwnd,settingSetColours );
-					hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
-					EnableWindow(hwnd, settingSetColours);
-					break;
-				}
-				case IDC_BGCOLOR: settingBgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);break;
-				case IDC_FGCOLOR: settingFgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_GETCOLOUR, 0, 0);break;
-
 			}
-			break;
+		}
 
-			case WM_NOTIFY://apply changes so write it to db
-			switch(((LPNMHDR)lParam)->idFrom)
-			{
-				case 0:
-				{
-					switch (((LPNMHDR)lParam)->code)
-					{
-						case PSN_RESET:
-						LoadSettings();
-							deleteConnectionsTable(connExceptionsTmp);
-							connExceptionsTmp=LoadSettingsConnections();
-							return TRUE;
-						case PSN_APPLY:
-						{
-							db_set_dw (NULL, PLUGINNAME, "Interval", settingInterval );
-							db_set_dw (NULL, PLUGINNAME, "PopupInterval", settingInterval1 );
-							db_set_b(NULL, PLUGINNAME, "PopupSetColours", settingSetColours);
-							db_set_dw(NULL, PLUGINNAME, "PopupBgColor", (DWORD)settingBgColor);
-							db_set_dw(NULL, PLUGINNAME, "PopupFgColor", (DWORD)settingFgColor);
-							db_set_b(NULL, PLUGINNAME, "ResolveIp", settingResolveIp);
-							db_set_b(NULL, PLUGINNAME, "FilterDefaultAction", settingDefaultAction);
-								
-							for(int i = 0; i < STATUS_COUNT ; i++) 
-							{
-								char buff[128];
-								mir_snprintf(buff,_countof(buff), "Status%d", i);
-								settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
-								db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
-							}
-							if( WAIT_OBJECT_0 == WaitForSingleObject( hExceptionsMutex, 100 ) )
-							{
-								deleteConnectionsTable(connExceptions);
-								saveSettingsConnections(connExceptionsTmp);
-								connExceptions=connExceptionsTmp;
-								connExceptionsTmp=LoadSettingsConnections();
-								ReleaseMutex(hExceptionsMutex);
-							}
-						}//case PSN_APPLY
-							
-
-						return TRUE;
-						break;
-					}//switch ->code
-					break;
-				}//case 0
-			}//id from
-			if (GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS)==((LPNMHDR) lParam)->hwndFrom)
-			{
-				switch (((LPNMHDR) lParam)->code)
-				{
-					case NM_DBLCLK:
-					{
-						int pos,pos1;
-						struct CONNECTION *cur=NULL;
-
-						cur=connExceptionsTmp;
-
-						pos=(int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS),-1,LVNI_FOCUSED );
-						if(pos==-1)break;
-						pos1=pos;
-						while(pos--)
-						{
-							cur=cur->next;
-						}
-						DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
-						fillExceptionsListView(hwndDlg);
-						ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
-						SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
-						break;
-					}
-				}
+		if (GetDlgItem(hwndDlg, IDC_STATUS) == ((LPNMHDR) lParam)->hwndFrom) {
+			switch (((LPNMHDR) lParam)->code) {
+			case LVN_ITEMCHANGED:
+				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+				if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				break;
 			}
-			if (GetDlgItem(hwndDlg, IDC_STATUS)==((LPNMHDR) lParam)->hwndFrom)
-			{
-				switch (((LPNMHDR) lParam)->code)
-				{
-					case LVN_ITEMCHANGED:
-					{
-						NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-						if((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
-						{
-							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
-						}
-						break;
-							
-					}
-					break;
-				}
-			}
-			break;//switch(msg)
-		case WM_DESTROY:
-			{
-				bOptionsOpen=FALSE;
-				deleteConnectionsTable(connExceptionsTmp);
-				connExceptionsTmp=NULL;
-				return TRUE;
-			}
-		}//end switch(msg)
+		}
+		break;
+
+	case WM_DESTROY:
+		bOptionsOpen=FALSE;
+		deleteConnectionsTable(connExceptionsTmp);
+		connExceptionsTmp=NULL;
+		return TRUE;
+	}
 	return 0;
 }
+
 //options page on miranda called
 int ConnectionNotifyOptInit(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE odp={0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.ptszTitle = _T(PLUGINNAME);
@@ -648,18 +612,18 @@ int ConnectionNotifyOptInit(WPARAM wParam,LPARAM)
 	return 0;
 }
 
-
 //gives protocol avainable statuses
 INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 {
-	if(wParam==PFLAGNUM_1)
+	if (wParam==PFLAGNUM_1)
 		return 0;
-	if(wParam==PFLAGNUM_2)
+	if (wParam==PFLAGNUM_2)
 		return PF2_ONLINE; // add the possible statuses here.
-	if(wParam==PFLAGNUM_3)
+	if (wParam==PFLAGNUM_3)
 		return 0;
 	return 0;
 }
+
 //gives  name to protocol module
 INT_PTR GetName(WPARAM wParam,LPARAM lParam)
 {
@@ -696,14 +660,14 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 	{
 		diffstat=0;
 		ResetEvent(killCheckThreadEvent);
-		if(!hConnectionCheckThread)
+		if (!hConnectionCheckThread)
 			hConnectionCheckThread = (HANDLE)mir_forkthreadex(checkthread, 0, (unsigned int*)&ConnectionCheckThreadId);
 	}
 	else
 	{
 		int retv=0;
 		
-		if(settingStatus[wParam - ID_STATUS_ONLINE])
+		if (settingStatus[wParam - ID_STATUS_ONLINE])
 			retv= SetStatus(ID_STATUS_OFFLINE,lParam);
 		else
 			retv= SetStatus(ID_STATUS_ONLINE,lParam);
@@ -716,7 +680,7 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 	//broadcast the message
 	
 	//oldStatus = currentStatus;
-	if(currentStatus!=wParam)
+	if (currentStatus!=wParam)
 		ProtoBroadcastAck(PLUGINNAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)currentStatus,wParam);
 	currentStatus = wParam;
 	return 0;
@@ -746,36 +710,28 @@ static unsigned __stdcall checkthread(void *dummy)
 	{
 		struct CONNECTION* conn=NULL,*connOld=first,*cur=NULL;
 #ifdef _DEBUG
-	_OutputDebugString(_T("checking connections table..."));
+		_OutputDebugString(_T("checking connections table..."));
 #endif
-	if(WAIT_OBJECT_0 == WaitForSingleObject(killCheckThreadEvent,100))
-	{
-		hConnectionCheckThread=NULL;
-		return 0;
-	}
-	//TranslateMessage(&msg);
-		//DispatchMessage(&msg);
-	
-//		if(currentStatus==ID_STATUS_OFFLINE)
-//			continue;//if status lets to check
+		if (WAIT_OBJECT_0 == WaitForSingleObject(killCheckThreadEvent,100))
+		{
+			hConnectionCheckThread=NULL;
+			return 0;
+		}
 
 		conn=GetConnectionsTable();
 		cur=conn;
-		while(cur!=NULL)
-		{	
-			if (searchConnection(first,cur->strIntIp,cur->strExtIp,cur->intIntPort,cur->intExtPort,cur->state)==NULL && (settingStatusMask & (1 << (cur->state-1))))
-			{
-				
+		while(cur!=NULL) {	
+			if (searchConnection(first,cur->strIntIp,cur->strExtIp,cur->intIntPort,cur->intExtPort,cur->state)==NULL && (settingStatusMask & (1 << (cur->state-1)))) {				
 
 #ifdef _DEBUG
-	TCHAR msg[1024];
-	mir_sntprintf(msg,_countof(msg),_T("%s:%d\n%s:%d"),cur->strIntIp,cur->intIntPort,cur->strExtIp,cur->intExtPort);
-	_OutputDebugString(_T("New connection: %s"),msg);
+				TCHAR msg[1024];
+				mir_sntprintf(msg,_countof(msg),_T("%s:%d\n%s:%d"),cur->strIntIp,cur->intIntPort,cur->strExtIp,cur->intExtPort);
+				_OutputDebugString(_T("New connection: %s"),msg);
 #endif
-				pid2name(cur->Pid,cur->PName);
-				if( WAIT_OBJECT_0 == WaitForSingleObject( hExceptionsMutex, 100 ) )
+				pid2name(cur->Pid, cur->PName, SIZEOF(cur->PName));
+				if ( WAIT_OBJECT_0 == WaitForSingleObject( hExceptionsMutex, 100 ))
 				{
-					if(checkFilter(connExceptions,cur))
+					if (checkFilter(connExceptions,cur))
 					{
 						showMsg(cur->PName,cur->Pid,cur->strIntIp,cur->strExtIp,cur->intIntPort,cur->intExtPort,cur->state);
 						SkinPlaySound(PLUGINNAME_NEWSOUND);
@@ -797,45 +753,34 @@ static unsigned __stdcall checkthread(void *dummy)
 //popup reactions
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) 
-	{
-		case WM_COMMAND:
-			{
-				if (HIWORD(wParam) == STN_CLICKED)//client clicked on popup with left mouse button
-				{
-					struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
-					struct CONNECTION *mpd=(struct CONNECTION*) PUGetPluginData(hWnd);
-					
-					memcpy(conn,mpd,sizeof(struct CONNECTION));
-					PUDeletePopup(hWnd);
-					PostThreadMessage(FilterOptionsThreadId,WM_ADD_FILTER,(WPARAM)0, (LPARAM)conn);
-				}
-				break;
-			}
+	switch(message) {
+	case WM_COMMAND:
+		if (HIWORD(wParam) == STN_CLICKED)//client clicked on popup with left mouse button
+		{
+			struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
+			struct CONNECTION *mpd=(struct CONNECTION*) PUGetPluginData(hWnd);
 
-		case WM_RBUTTONUP:
-			{
-				PUDeletePopup(hWnd);
-				break;
-			}		
+			memcpy(conn,mpd,sizeof(struct CONNECTION));
+			PUDeletePopup(hWnd);
+			PostThreadMessage(FilterOptionsThreadId,WM_ADD_FILTER,(WPARAM)0, (LPARAM)conn);
+		}
+		break;
 
-		case UM_INITPOPUP:
-			{
-				//struct CONNECTON *conn=NULL;
-				//conn = (struct CONNECTION*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)conn);
-				//MessageBox(NULL,conn->extIp);
-				//PUDeletePopUp(hWnd);
-				break;
-			}
+	case WM_RBUTTONUP:
+		PUDeletePopup(hWnd);
+		break;
 
-		case UM_FREEPLUGINDATA: 
-			{
-				struct CONNECTION *mpd = (struct CONNECTION*)PUGetPluginData(hWnd);
-				if (mpd > 0) mir_free(mpd);
-				return TRUE; //TRUE or FALSE is the same, it gets ignored.
-			}
-		default:
-			break;
+	case UM_INITPOPUP:
+		//struct CONNECTON *conn=NULL;
+		//conn = (struct CONNECTION*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)conn);
+		//MessageBox(NULL,conn->extIp);
+		//PUDeletePopUp(hWnd);
+		break;
+
+	case UM_FREEPLUGINDATA: 
+		struct CONNECTION *mpd = (struct CONNECTION*)PUGetPluginData(hWnd);
+		if (mpd > 0) mir_free(mpd);
+		return TRUE; //TRUE or FALSE is the same, it gets ignored.
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -859,19 +804,16 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL;//(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
-	if(settingResolveIp)
-	{
+	if (settingResolveIp) {
 		TCHAR hostName[128];
-		getDnsName(extIp,hostName);
+		getDnsName(extIp, hostName, SIZEOF(hostName));
 		mir_sntprintf(ppd.lptzText,MAX_SECONDLINE,_T("%s:%d\n%s:%d"),hostName,extPort,intIp,intPort);
 	}
-	else
-		mir_sntprintf(ppd.lptzText,MAX_SECONDLINE,_T("%s:%d\n%s:%d"),extIp,extPort,intIp,intPort);
+	else mir_sntprintf(ppd.lptzText,MAX_SECONDLINE,_T("%s:%d\n%s:%d"),extIp,extPort,intIp,intPort);
 
 	mir_sntprintf(ppd.lptzContactName,MAX_CONTACTNAME,_T("%s (%s)"),pName,tcpStates[state-1]);
-	//lstrcpy(ppd.lpzText, text);
-	if(settingSetColours)
-	{
+
+	if (settingSetColours) {
 		ppd.colorBack = settingBgColor; 
 		ppd.colorText = settingFgColor;
 	}
@@ -884,10 +826,7 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	mir_sntprintf(mpd->PName,_countof(mpd->PName),_T("%s"),pName);
 	mpd->intIntPort = intPort;
 	mpd->intExtPort = extPort;
-	mpd->Pid=pid;
-
-
-	//mpd->newStatus = ID_STATUS_ONLINE;
+	mpd->Pid = pid;
 
 	//Now that the plugin data has been filled, we add it to the PopUpData.
 	ppd.PluginData = mpd;
@@ -895,8 +834,6 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	//Now that every field has been filled, we want to see the popup.
 	PUAddPopupT(&ppd);
 }
-
-
 
 //called after all plugins loaded.
 //all Connection staff will be called, that will not hang miranda on startup
@@ -986,16 +923,16 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	WaitForSingleObjectEx(hConnectionCheckThread, INFINITE, FALSE);
-        if(hConnectionCheckThread )CloseHandle(hConnectionCheckThread);
-	if(hCheckEvent)DestroyHookableEvent(hCheckEvent);
+        if (hConnectionCheckThread )CloseHandle(hConnectionCheckThread);
+	if (hCheckEvent)DestroyHookableEvent(hCheckEvent);
 	if (hOptInit) UnhookEvent(hOptInit);
 	if (hCheckHook)UnhookEvent(hCheckHook);
-	if(hHookModulesLoaded)UnhookEvent(hHookModulesLoaded);
-	if(hHookPreShutdown)UnhookEvent(hHookPreShutdown);
-	if(killCheckThreadEvent)
+	if (hHookModulesLoaded)UnhookEvent(hHookModulesLoaded);
+	if (hHookPreShutdown)UnhookEvent(hHookPreShutdown);
+	if (killCheckThreadEvent)
 		CloseHandle(killCheckThreadEvent);
-	//if(hCurrentEditMutex) CloseHandle(hCurrentEditMutex);
-	if(hExceptionsMutex) CloseHandle(hExceptionsMutex);
+	//if (hCurrentEditMutex) CloseHandle(hCurrentEditMutex);
+	if (hExceptionsMutex) CloseHandle(hExceptionsMutex);
 
 #ifdef _DEBUG
 	_OutputDebugString(_T("Unloaded"));

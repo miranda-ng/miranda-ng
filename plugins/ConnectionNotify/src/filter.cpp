@@ -33,7 +33,7 @@ static unsigned __stdcall filterQueue(void *dummy)
 	//while(1)
 	while( (bRet = GetMessage( &msg, NULL, 0, 0 )) != 0)
 	{
-		if(msg.message==WM_ADD_FILTER )
+		if (msg.message==WM_ADD_FILTER )
 		{
 			struct CONNECTION *conn=(struct CONNECTION *)msg.lParam;
 			filterAddDlg=CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), NULL, ConnectionFilterEditProc,(LPARAM)conn);
@@ -87,7 +87,7 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 						MessageBox(hWnd,TranslateT("First close options window"),_T("ConnectionNotify"),MB_OK | MB_ICONSTOP);
 						break;
 					}
-						if( WAIT_OBJECT_0 == WaitForSingleObject( hExceptionsMutex, 100 ) )
+						if ( WAIT_OBJECT_0 == WaitForSingleObject( hExceptionsMutex, 100 ))
 						{
 							if (connCurrentEdit==NULL)
 							{
@@ -145,7 +145,7 @@ BOOL checkFilter(struct CONNECTION *head,struct CONNECTION *conn)
 	struct CONNECTION *cur=head;
 	while(cur!=NULL)
 	{
-		if(wildcmp(cur->PName,conn->PName)&&wildcmp(cur->strIntIp,conn->strIntIp)&&wildcmp(cur->strExtIp,conn->strExtIp)&&(cur->intIntPort==-1||cur->intIntPort==conn->intIntPort)&&(cur->intExtPort==-1||cur->intExtPort==conn->intExtPort))
+		if (wildcmp(cur->PName,conn->PName)&&wildcmp(cur->strIntIp,conn->strIntIp)&&wildcmp(cur->strExtIp,conn->strExtIp)&&(cur->intIntPort==-1||cur->intIntPort==conn->intIntPort)&&(cur->intExtPort==-1||cur->intExtPort==conn->intExtPort))
 			return cur->Pid;
 		cur=cur->next;
 	}
