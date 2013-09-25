@@ -1325,7 +1325,7 @@ static INT_PTR OpenOptionsPage(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 {
-	if (hwndOptions || GetAsyncKeyState(VK_CONTROL) || !ServiceExists(MS_MODERNOPT_SHOW))
+	if (hwndOptions || !ServiceExists(MS_MODERNOPT_SHOW))
 		OpenOptionsNow(NULL, NULL, NULL, NULL);
 	else
 		CallService(MS_MODERNOPT_SHOW, 0, 0);
