@@ -47,14 +47,14 @@
 [Display traffic for current]
 Трафік за бягучы
 ;file \plugins\TrafficCounter\src\options.cpp
-[Display/]
-Паказваць/
+[Display]
+Паказваць
 [Icon]
 Значок
 [Account name]
 Імя конта
-[General/]
-Агульнае/
+[General]
+Агульнае
 [Draw frame as skin element]
 Адмалёўваць фрэйм як элемент скіна
 [Show tooltip in traffic window]

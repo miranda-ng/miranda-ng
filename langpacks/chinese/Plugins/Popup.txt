@@ -42,8 +42,6 @@
 Miranda 窗口屏幕
 [the active window]
 当前窗口屏幕
-[Enable Win 9x/Me transparency]
-启用 Win 9x/Me 透明
 [opacity:]
 不透明度:
 [Opaque popups under cursor]

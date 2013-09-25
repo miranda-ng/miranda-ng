@@ -886,8 +886,8 @@ Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples 
 Afficher le texte d'état dans l'onglet
 [Prefer xStatus icons when available]
 Préférer les icônes xStatus si disponibles
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Bulle détaillée sur les onglets (requière mToolTip ou Tipper)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Bulle détaillée sur les onglets (requière Tipper)
 [Remember and set keyboard layout per contact]
 Se rappeler du keyboard layout de chaques contacts.
 [Add offline contacts to multisend list]

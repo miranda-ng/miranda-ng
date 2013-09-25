@@ -1386,8 +1386,8 @@ BBCode 書式設定をサポート
 タブにステータステキストを表示
 [Prefer xStatus icons when available]
 利用可能な時は xStatus アイコンを優先
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-タブ上のツールチップの詳細 ( mToolTip もしくは Tipper プラグインが必要)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+タブ上のツールチップの詳細 ( Tipper プラグインが必要)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 「常に」新規メッセージセッションをアクティブ化する ( 優先度は下のオプションよりも高い )
 [Automatically create new message sessions without activating them]

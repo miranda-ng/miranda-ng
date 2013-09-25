@@ -362,7 +362,7 @@ Das Bild überschreitet eine max. Größe von 255 KB.
 Sie müssen verbunden sein, bevor Sie Kontakte vom/zum Server ex-/importieren können.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
 
-[List cannot be removeed because of error: %s (Error: %d)]
+[List cannot be removed because of error: %s (Error: %d)]
 
 [Text files]
 Textdateien

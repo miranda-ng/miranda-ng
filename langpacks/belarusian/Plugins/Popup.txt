@@ -54,8 +54,6 @@ History++ для гісторыі вокнаў
 Актыўнае акно
 [Transparency]
 Празрыстасць
-[Enable Win 9x/Me transparency]
-Празрыстасць у Win9x/ME
 [Use transparency]
 Празрыстасць
 [opacity:]

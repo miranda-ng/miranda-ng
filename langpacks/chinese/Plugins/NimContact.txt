@@ -86,7 +86,7 @@
 导出非即时通信联系人(&E)
 [Co&py Non-IM Contact]
 复制非即时通信联系人(&P)
-[Type one replace string per line in the format "origional text,new text"]
+[Type one replace string per line in the format "original text,new text"]
 在每一行依照格式 "原文本,新文本" 键入一个替换字符串
 [EXAMPLE: %fn1,%fn2]
 例如: %fn1,%fn2

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BasicHistory.dll
 ;  Plugin: Basic history
-;  Version: 1.0.1.9
+;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
@@ -14,28 +14,8 @@ Mostra icone eventi
 Mostra nomi
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 ;file \plugins\BasicHistory\src\BasicHistory.cpp

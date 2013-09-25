@@ -821,7 +821,7 @@
 [How to create tabs and windows for incoming messages]
 [Show status text on tabs]
 [Prefer xStatus icons when available]
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
+[Detailed tooltip on tabs (requires Tipper plugin)]
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 [Automatically create new message sessions without activating them]
 [New windows are minimized (the option above MUST be active)]

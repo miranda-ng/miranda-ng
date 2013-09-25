@@ -183,7 +183,7 @@ Cтатус-профиль
 Следить за активностью клавиатуры
 [Monitor mouse activity]
 Следить за активностью мыши
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Игнорировать клавиши Ctrl, Alt, Shift, Tab, Esc, Win
 [Ignore any key combination with above keys]
 Игнор. комбинации с упомянутыми клавишами

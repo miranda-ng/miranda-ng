@@ -360,7 +360,7 @@ Ignorovať
 
 [List cannot be imported because of error:\n\t%s (Error: %d)]
 
-[List cannot be removeed because of error: %s (Error: %d)]
+[List cannot be removed because of error: %s (Error: %d)]
 
 [Text files]
 

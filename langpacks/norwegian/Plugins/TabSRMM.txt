@@ -776,8 +776,8 @@ Bruk Meldingsgruppering
 Vis statustekst på faner
 [Prefer xStatus icons when available]
 Foretrekk xStatus ikoner når tilgjengelig
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Detaljert verktøtytips på faner (krever mToolTip eller Tipper tillegget)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Detaljert verktøtytips på faner (krever Tipper tillegget)
 [Remember and set keyboard layout per contact]
 Husk, og sett tastaturoppsett pr. kontakt
 [Add offline contacts to multisend list]

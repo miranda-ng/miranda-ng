@@ -184,7 +184,7 @@ Dial-up (эксперыментальна)
 Сачыць за актыўнасцю клавіятуры
 [Monitor mouse activity]
 Сачыць за актыўнасцю мышы
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Ігнараваць клавішы Ctrl, Alt, Shift, Tab, Esc, Win
 [Ignore any key combination with above keys]
 Ігнараваць камбінацыі са згаданымі клавішамі

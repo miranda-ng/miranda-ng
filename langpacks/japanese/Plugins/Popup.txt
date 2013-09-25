@@ -40,8 +40,6 @@
 Miranda のウィンドウ
 [the active window]
 アクティブウィンドウ
-[Enable Win 9x/Me transparency]
-Win 9x/Me で透明度を有効
 [opacity:]
 不透明度 :
 [Opaque popups under cursor]

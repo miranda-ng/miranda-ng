@@ -49,7 +49,7 @@ Farba pozadia:
 [Display traffic for current]
 
 ;file \plugins\TrafficCounter\src\options.cpp
-[Display/]
+[Display]
 
 [Icon]
 
@@ -63,7 +63,7 @@ Farba pozadia:
 
 [Total online]
 
-[General/]
+[General]
 
 [Draw frame as skin element]
 
@@ -71,7 +71,7 @@ Farba pozadia:
 
 ["Toggle traffic counter" in main menu]
 
-[Visible accounts/]
+[Visible accounts]
 
 [Summary traffic for visible accounts]
 

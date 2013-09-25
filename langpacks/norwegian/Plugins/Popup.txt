@@ -32,8 +32,6 @@ Aktiver avataroppdateringer
 Mirandas vindu
 [the active window]
 det aktive vinduet
-[Enable Win 9x/Me transparency]
-Aktiver Win 9x/Me gj.siktighet
 [opacity:]
 Uklarhet:
 [Opaque popups under cursor]

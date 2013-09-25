@@ -1770,7 +1770,7 @@ Ikona v oznamovacej oblasti
 
 [Prefer xStatus icons when available]
 
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
+[Detailed tooltip on tabs (requires Tipper plugin)]
 
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 

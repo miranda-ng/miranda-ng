@@ -150,7 +150,7 @@ Jestem botem!
 Ignoruj wszystkie kombinacje z tymi klawiszami
 [Ignore caps-lock, num-lock and scroll-lock keys]
 Ignoruj caps-lock, num-lock i scroll-lock
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Ignoruj CTRL, ALT, SHIFT, TAB, ESC i klawisz Windows
 [Ignore locked status of protocols]
 Ignoruj zablokowane statusy protokołów

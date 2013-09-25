@@ -186,7 +186,7 @@ Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
 
 [Monitor mouse activity]
 
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 
 [Ignore any key combination with above keys]
 

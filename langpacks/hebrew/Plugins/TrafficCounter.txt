@@ -13,8 +13,8 @@
 [Custom]
 מותאם
 ;file \plugins\TrafficCounter\src\options.cpp
-[General/]
-כללי/
+[General]
+כללי
 [Options]
 אפשרוית
 [Popups]

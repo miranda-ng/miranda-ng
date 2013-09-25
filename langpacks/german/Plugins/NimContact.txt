@@ -110,13 +110,17 @@ Kontakt kopieren/exportieren
 Nicht-IM-Kontakt exportieren
 [Co&py Non-IM Contact]
 Nicht-IM-Kontakt kopieren
-[Type one replace string per line in the format "origional text,new text"]
+[Type one replace string per line in the format "original text,new text"]
 Geben Sie einen String pro Zeile im Format "original text,neuer Text" ein
 [EXAMPLE: %fn1,%fn2]
 BEISPIEL: %fn1,%fn2
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
 [Select Folder]
 Ordner wählen
+[Non-IM Contact protocol timer is Disabled]
+
+[Timer intervals... Non-IM Contact Protocol timer is %d seconds]
+
 [New Non-IM Contact]
 Neuer Nicht-IM-Kontakt
 ;file \plugins\Non-IM Contact\src\dialog.cpp
@@ -150,7 +154,19 @@ Neuer Nicht-IM-Kontakt
 
 [filename(0)     <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0))) <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello\]
 
+[Contacts Display Info]
+
+[Link and CList Settings]
+
+[Copy Contact]
+
+[Files]
+
+[Edit Non-IM Contact "%s"]
+
 ;file \plugins\Non-IM Contact\src\files.cpp
+[Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
+
 [File couldn't be opened]
 
 [File couldn't be opened,2]

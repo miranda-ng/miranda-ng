@@ -31,8 +31,8 @@
 Склеивать контакты
 [Use fixed width]
 Ширина
-[requires mToolTip or Tipper plugin]
-требуется плагин mToolTip или Tipper
+[*requires Tipper plugin]
+*требуется плагин Tipper
 [Bring to front]
 На передний план
 [Bring to front every]

@@ -1434,8 +1434,8 @@ Cómo crear pestañas y ventanas de los mensajes entrantes
 Mostrar texto de estado en las fichas
 [Prefer xStatus icons when available]
 xStatus Prefiero iconos cuando esté disponible
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Descripción detallada en las fichas (o volquete mToolTip Requiere plugin)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Descripción detallada en las fichas (requis Tipper plugin)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 SIEMPRE activar nuevas sesiones de mensajes (tiene prioridad sobre las opciones a continuación)
 [Automatically create new message sessions without activating them]

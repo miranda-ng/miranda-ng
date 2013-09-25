@@ -49,8 +49,8 @@ Popup времетраене
 [Display traffic for current]
 Изобразяване на трафика за текущия
 ;file \plugins\TrafficCounter\src\options.cpp
-[Display/]
-Изобразяване/
+[Display]
+Изобразяване
 [Icon]
 Икона
 [Account name]
@@ -63,16 +63,16 @@ Popup времетраене
 Текущо време "На линия"
 [Total online]
 Общо време "На линия"
-[General/]
-Основни/
+[General]
+Основни
 [Draw frame as skin element]
 Добавяне на рамката като елемент на облика
 [Show tooltip in traffic window]
 Подсказка в прозореца на брояча
 ["Toggle traffic counter" in main menu]
 Вкл./Изкл. на брояча от гл. меню
-[Visible accounts/]
-Видими акаунти/
+[Visible accounts]
+Видими акаунти
 [Summary traffic for visible accounts]
 Обобщение на статистика за видимите акаунти
 [Overall traffic]

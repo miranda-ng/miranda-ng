@@ -1710,8 +1710,8 @@ TabSRMM: Набірае
 Паказваць тэкст статусу ва ўкладцы
 [Prefer xStatus icons when available]
 Паказваць значок хстатуса, калі даступна (замест статусу)
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Паказваць падказку на ўкладках (патрабуецца модуль mToolTip ці Tipper)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Паказваць падказку на ўкладках (патрабуецца модуль Tipper)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 Заўсёды ствараць укладку пры новым паведамленні (мае прыярытэт над наступнымі опцыямі)
 [Automatically create new message sessions without activating them]

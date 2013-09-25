@@ -11,7 +11,7 @@ Cuentas
 [Custom]
 Personalizado
 ;file \plugins\TrafficCounter\src\options.cpp
-[General/]
+[General]
 General
 [Options]
 Opciones

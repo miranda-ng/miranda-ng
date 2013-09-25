@@ -54,8 +54,6 @@ das Miranda-Fenster enthält
 das aktive Fenster enthält
 [Transparency]
 Transparenz
-[Enable Win 9x/Me transparency]
-Win 9x/Me Transparenz aktivieren
 [Use transparency]
 Transparenz verwenden
 [opacity:]

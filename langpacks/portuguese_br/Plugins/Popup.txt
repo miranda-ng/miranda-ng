@@ -44,8 +44,6 @@ Iniciar os popups no monitor com
 A janela do Miranda
 [the active window]
 A janela ativa
-[Enable Win 9x/Me transparency]
-Ativar trasparência no Win 9x/Me
 [opacity:]
 Opacidade
 [Opaque popups under cursor]

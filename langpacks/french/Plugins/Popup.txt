@@ -34,8 +34,6 @@ Afficher les popups sur l'écran de
 la fenêtre de Miranda
 [the active window]
 la fenêtre active
-[Enable Win 9x/Me transparency]
-Transparence (9x-ME)
 [opacity:]
 opacité :
 [Opaque popups under cursor]

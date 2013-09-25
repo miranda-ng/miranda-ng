@@ -1458,8 +1458,8 @@ SHIFT - Enter 发送
 标签显示状态文本
 [Prefer xStatus icons when available]
 可能时优先使用扩展状态图标
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-标签详细工具提示 (需 mToolTip 或 Tipper 插件)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+标签详细工具提示 (需 Tipper 插件)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 永远激活新消息会话 (优先于以下选项)
 [Automatically create new message sessions without activating them]

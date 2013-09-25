@@ -1770,8 +1770,8 @@ Opcje tworzenia kart i okna rozmowy dla przychodzących wiadomości
 Pokaż status na kartach
 [Prefer xStatus icons when available]
 Używaj ikon xStatus, jeśli dostępne
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Szczegółowe podpowiedzi na kartach (wymaga mToolTip lub Tippera)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Szczegółowe podpowiedzi na kartach (wymaga Tippera)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 Zawsze aktywuj nowe okna rozmowy (ma PRIORYTET!)
 [Automatically create new message sessions without activating them]

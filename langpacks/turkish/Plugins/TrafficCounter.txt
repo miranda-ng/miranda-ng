@@ -11,8 +11,8 @@ Hesaplar
 [Custom]
 Kişisel
 ;file \plugins\TrafficCounter\src\options.cpp
-[General/]
-Genel/
+[General]
+Genel
 [Options]
 Seçenekler
 [Options]

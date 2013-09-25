@@ -54,8 +54,6 @@
 активният прозорец
 [Transparency]
 Прозрачност
-[Enable Win 9x/Me transparency]
-Включване на Win 9x/Me прозрачност
 [Use transparency]
 
 [opacity:]

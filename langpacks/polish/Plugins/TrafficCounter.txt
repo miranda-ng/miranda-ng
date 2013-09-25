@@ -49,8 +49,8 @@ Format powiadomienia:
 [Display traffic for current]
 Licznik obejmuje
 ;file \plugins\TrafficCounter\src\options.cpp
-[Display/]
-Wyświetlanie/
+[Display]
+Wyświetlanie
 [Icon]
 Ikona
 [Account name]
@@ -63,16 +63,16 @@ Całkowite zużycie danych
 Aktualnie połączeni
 [Total online]
 Całkowity czas online
-[General/]
-Ogólne/
+[General]
+Ogólne
 [Draw frame as skin element]
 Rysuj ramkę jako element skórki
 [Show tooltip in traffic window]
 Pokaż powiadomienie w oknie licznika
 ["Toggle traffic counter" in main menu]
 "Przełącznik licznika transferu" w menu głównym
-[Visible accounts/]
-Widoczne konta/
+[Visible accounts]
+Widoczne konta
 [Summary traffic for visible accounts]
 Podsumowanie dla widocznych kont
 [Overall traffic]

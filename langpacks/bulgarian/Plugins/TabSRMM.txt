@@ -1770,8 +1770,8 @@ TabSRMM съобщение (%s)
 Показване на състоянието в табовете
 [Prefer xStatus icons when available]
 Ползване на икона за хСъстояние, ако е налично
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Подробни подсказки (изисква приставка mToolTip или Tipper)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Подробни подсказки (изисква приставка Tipper)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 АКТИВИРАНЕ на новия разговор при получаване на ново съобщение (има предимство!)
 [Automatically create new message sessions without activating them]

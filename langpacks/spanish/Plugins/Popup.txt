@@ -42,8 +42,6 @@ Inicie el pop-ups en la pantalla con
 ventana de Miranda
 [the active window]
 la ventana activa
-[Enable Win 9x/Me transparency]
-Permitir la transparencia de Windows 9x/Me
 [opacity:]
 opacidad:
 [Opaque popups under cursor]

@@ -769,7 +769,6 @@
 [Always invisible]
 [Locked status]
 [Status Icons]
-[Status Icons/]
 [Sound Files]
 [WAV Files]
 [You need an image services plugin to process PNG images.]

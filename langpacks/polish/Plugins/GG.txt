@@ -362,7 +362,7 @@ Rozmiar pliku obrazka przekracza maksymalny dozwolony rozmiar 255 KB.
 Połącz się przed importem/eksportem kontaktów z/na serwer.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
 Nie można zaimportować listy z powodu błędu:\n\t%s (Error: %d)
-[List cannot be removeed because of error: %s (Error: %d)]
+[List cannot be removed because of error: %s (Error: %d)]
 Nie można usunąć listy z powodu błędu: %s (Error: %d)
 [Text files]
 Pliki tekstowe

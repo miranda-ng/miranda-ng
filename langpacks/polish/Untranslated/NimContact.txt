@@ -1,0 +1,8 @@
+﻿[Non-IM Contact protocol timer is Disabled]
+[Timer intervals... Non-IM Contact Protocol timer is %d seconds]
+[Contacts Display Info]
+[Link and CList Settings]
+[Copy Contact]
+[Files]
+[Edit Non-IM Contact "%s"]
+[Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]

@@ -2,12 +2,10 @@
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating contacts
-;  Version: 0.7.0.0
+;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 ;file \plugins\FloatingContacts\res\fltcnt.rc
-[pixels]
-pixels
 [pixels]
 pixels
 [seconds]
@@ -18,26 +16,14 @@ Interface de clique simples
 Desvanecer contatos inativos
 [Background]
 Fundo
-[Background]
-Fundo
-[Stretch to width]
-Esticar em largura
 [Stretch to width]
 Esticar em largura
 [Stretch to height]
 Esticar em altura
-[Stretch to height]
-Esticar em altura
-[Tile horizontally]
-Título horizontal
 [Tile horizontally]
 Título horizontal
 [Tile vertically]
 Título vertical
-[Tile vertically]
-Título vertical
-[Stretch proportionally]
-Esticar proporcionalmente
 [Stretch proportionally]
 Esticar proporcionalmente
 ;file \plugins\FloatingContacts\src\main.cpp

@@ -46,7 +46,7 @@
 Открыть файл
 [String to test]
 Строка для просмотра
-[Type one replace string per line in the format "origional text,new text"]
+[Type one replace string per line in the format "original text,new text"]
 Одна строка замены на каждую строчку в формате "оригинал,новый"
 [Ignore global status change]
 Игнорировать глобальную смену статуса

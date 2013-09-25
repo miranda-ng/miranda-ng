@@ -2507,8 +2507,6 @@ Pomoc
 
 [%s Icons]
 %s ikon
-[Status Icons/]
-
 [Main Icons]
 Moje ikony
 ;file \src\modules\skin\sounds.cpp

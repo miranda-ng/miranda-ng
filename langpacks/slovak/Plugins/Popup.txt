@@ -54,8 +54,6 @@ Okno Mirandy
 aktívne okno
 [Transparency]
 
-[Enable Win 9x/Me transparency]
-
 [Use transparency]
 
 [opacity:]

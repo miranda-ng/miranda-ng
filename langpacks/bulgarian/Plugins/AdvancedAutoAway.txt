@@ -186,8 +186,8 @@ Dial-up (експериментално)
 Следене активността на клавиатурата
 [Monitor mouse activity]
 Следене активността на мишката
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
-Игнориране на CRTL, ALT, SHIFT, TAB, ESC и Windows клавишите
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+Игнориране на CTRL, ALT, SHIFT, TAB, ESC и Windows клавишите
 [Ignore any key combination with above keys]
 Игнориране на всяка комбинация с гореизброените клавиши
 [Accounts]

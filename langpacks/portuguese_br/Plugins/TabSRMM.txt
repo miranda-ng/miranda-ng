@@ -1652,8 +1652,8 @@ Mostrar texto de status em abas
 Mostrar texto de status em abas
 [Prefer xStatus icons when available]
 Preferir ícones xStatus quando disponível
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Dicas detalhadas em abas (requer mToolTip ou o plugin Tipper)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Dicas detalhadas em abas (requer plugin Tipper)
 [Remember and set keyboard layout per contact]
 Lembrar e definir layout de teclado por contato
 [Add offline contacts to multisend list]

@@ -2523,8 +2523,6 @@ Zablokowany status
 Ikony statusu
 [%s Icons]
 %s ikony
-[Status Icons/]
-Ikony statusu/
 [Main Icons]
 Główne ikony 
 ;file \src\modules\skin\sounds.cpp

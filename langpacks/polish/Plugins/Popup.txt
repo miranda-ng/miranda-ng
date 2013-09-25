@@ -54,8 +54,6 @@ Okno Mirandy
 Aktywne okno
 [Transparency]
 Przeźroczystość
-[Enable Win 9x/Me transparency]
-Włącz przezroczystość Win 9x/ME
 [Use transparency]
 Przeźroczystość
 [opacity:]

@@ -186,7 +186,7 @@ Włączyłeś "Zmień mój status na" w opcjach "Bezczynności", ustawienia Adva
 Śledź aktywność klawiatury
 [Monitor mouse activity]
 Śledź aktywność myszki
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Ignoruj CTRL, ALT, SHIFT, TAB, ESC i klawisz Windows
 [Ignore any key combination with above keys]
 Ignoruj wszystkie kombinacje z tymi klawiszami

@@ -186,7 +186,7 @@ Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktivi
 Tastaturaktivität überwachen
 [Monitor mouse activity]
 Mausaktivität überwachen
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Strg-, Alt-, Umschalt-, Tab-, Esc- und Windowstaste ignorieren
 [Ignore any key combination with above keys]
 Beliebige Kombinationen mit obigen Tasten ignorieren

@@ -18,7 +18,6 @@
 [Multimonitor]
 [Start the popups in the monitor with]
 [Transparency]
-[Enable Win 9x/Me transparency]
 [Use transparency]
 [opacity:]
 [Opaque popups under cursor]
