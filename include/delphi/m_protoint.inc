@@ -89,7 +89,6 @@ type
 
     GetAwayMsg :function(intf:PPROTO_INTERFACE;hContact:THANDLE):THANDLE; cdecl;
     RecvAwayMsg:function(intf:PPROTO_INTERFACE;hContact:THANDLE;mode:int;var evt:TPROTORECVEVENT):int; cdecl;
-    SendAwayMsg:function(intf:PPROTO_INTERFACE;hContact:THANDLE;hProcess:THANDLE;const msg:PAnsiChar):int; cdecl;
     SetAwayMsg :function(intf:PPROTO_INTERFACE;iStatus:int; const msg:PAnsiChar):int; cdecl;
 
     UserIsTyping:function(intf:PPROTO_INTERFACE;hContact:THANDLE; _type:int):int; cdecl;

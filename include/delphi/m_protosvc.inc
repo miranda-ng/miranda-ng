@@ -778,22 +778,6 @@ const
 
   {
     CCSDATA: Yes
-    wParam : hProcess
-    lParam : pointer to a buffer to fill with away message to reply with
-    Affect : Sends an away message reply to a user, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : This service must only be called is caps has PF1_MODEMSGSEND set
-             as well as PF1_INDIVMODEMSG otherwise PS_SETAWAYMESSAGE should
-             be used.
-             -
-             Reply will be sent in the form of an ack :
-
-             type=ACKTYPE_AWAYMSG, result=ACKRESULT_SENTREQUEST, lParam=0
-  }
-  PSS_AWAYMSG = '/SendAwayMsg';
-
-  {
-    CCSDATA: Yes
     wParam : status_mode
     lParam : 0
     Affect : Set the status mode the user will appear in to a user, see notes
