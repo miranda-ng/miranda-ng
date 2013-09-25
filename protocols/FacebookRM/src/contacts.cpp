@@ -299,8 +299,8 @@ void FacebookProto::SendPokeWorker(void *p)
 	std::string id = (*(std::string*)p);
 	delete p;
 
-	std::string data = "uid=" + id;
-	data += "&phstamp=0&pokeback=0&ask_for_confirm=0";
+	std::string data = "poke_target=" + id;
+	data += "&do_confirm=0&phstamp=0";
 	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 	data += "&__user=" + facy.self_.user_id;
 
@@ -311,11 +311,14 @@ void FacebookProto::SendPokeWorker(void *p)
 	facy.validate_response(&resp);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
+		std::string message = utils::text::source_get_value(&resp.data, 3, "__html\":\"", "\\/button>", "\"}");
 
-		std::string message = utils::text::special_expressions_decode(
+		if (message.empty()) // message has different format, try to get whole message
+			message = utils::text::source_get_value(&resp.data, 2, "__html\":\"", "\"}");
+
+		message = utils::text::special_expressions_decode(
 			utils::text::remove_html(
-				utils::text::slashu_to_utf8(
-					utils::text::source_get_value(&resp.data, 3, "\"body\":", "__html\":\"", "\"}"))));
+				utils::text::slashu_to_utf8(message)));
 
 		ptrT tmessage( mir_utf8decodeT(message.c_str()));
 		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER);

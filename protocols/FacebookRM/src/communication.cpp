@@ -522,7 +522,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/chat/privacy/visibility.php?__a=1";
 
 	case REQUEST_POKE:
-		return "/ajax/poke_dialog.php?__a=1";
+		return "/pokes/dialog/?__a=1";
 
 	case REQUEST_ASYNC:
 	{
