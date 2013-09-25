@@ -51,7 +51,7 @@ Importuj z pliku
 [Export to file]
 Eksportuj do pliku
 [Jabber]
-
+Jabber
 [Username:]
 Użytkownik:
 [Change password]
@@ -145,7 +145,7 @@ Zapamiętaj hasło dla tej sesji
 [Save password permanently]
 Zapisz hasło
 [Data form test]
-
+Test formularza danych
 [Address1:]
 Adres 1:
 [Address2:]
@@ -283,7 +283,7 @@ Zaproszenie czatowe
 [<room jid>\nIncoming groupchat invitation.]
 <room jid>\nNadchodzące zaproszenie czatu.
 [You are invited to conference room by]
-
+Jesteś zaproszony do pokoju konferencyjnego przez
 [with following reason:]
 Powód:
 [Nickname:]
@@ -411,7 +411,7 @@ Niestandardowa wiadomość
 [Quit:]
 Opuść:
 [Slap:]
-
+Klaps:
 [Authorization Request]
 Prośba o autoryzację
 [HTTP Authorization\nAccept or reject incoming request]
@@ -421,7 +421,7 @@ Ktoś (może Ty) wysłał pytanie o następujący plik:
 [Request was sent from JID:]
 Wysłano zapytanie z JID:
 [The transaction identifier is:]
-
+Identyfikator transakcji to:
 [Request method is:]
 Metoda zapytania:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
@@ -429,15 +429,15 @@ Jeśli chcesz zaakceptować zapytanie, kliknij autoryzuj.
 [Authorize]
 Autoryzacja
 [Deny]
-
+Odrzuć
 [Dialog]
 Okno
 [Jabber Notebook]
-
+Zeszyt Jabbera
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 Notatki Jabber\nPrzechowuj notatki na serwerze.
 [Bots Challenge Test]
-
+Test Sprawdzający Obecność Botów
 [XML Console]
 Konsola XML
 [Reset log]
@@ -459,7 +459,7 @@ Nastrój
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z http://miranda-ng.org/.
 [/me slaps %s around a bit with a large trout]
-
+/me delikatnie bije %s dużym pstrągiem
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Błąd %s %s
@@ -556,9 +556,9 @@ Wsparcie dla funkcji publikowania autoryzacji
 [Supports SecureIM plugin for Miranda NG]
 Wsparcie dla wtyczki SecureIM w Mirandzie NG
 [Supports MirOTR plugin for Miranda NG]
-
+Wspiera wtyczkę MirOtr dla Miranda NG
 [Supports New_GPG plugin for Miranda NG]
-
+Wspiera wtyczkę New_GPG dla Miranda NG
 [Can block communications from particular other users using Privacy lists]
 Możliwość blokowania komunikacji z innymi użytkownikami za pomocą list prywatności
 [Supports Message Receipts]
@@ -589,7 +589,7 @@ Wsparcie dla zarządzania listą kontaktów (Roster Exchange)
 Wsparcie dla prywatnych czatów GTalk
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
-
+Wprowadź tekst, który widzisz
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Brak
@@ -622,7 +622,7 @@ Użytkownik %s zmienil status na %s
 [Room configuration was changed.]
 Konfiguracja pokoju została zmieniona.
 [Outcast]
-
+Wygnaniec
 [Affiliation of %s was changed to '%s'.]
 Powiązanie %s zmienino na '%s'.
 [Role of %s was changed to '%s'.]
@@ -821,284 +821,284 @@ Obsługiwane funkcje
 [Info request error]
 Informacje o błędach
 [Items request error]
-
+Błąd żądania elementów
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
-
+Jeden lub więcej adresów przeznaczonych do komunikacji w sprawach dotyczących nadużywania transmisji danych
 [One or more addresses for customer feedback]
-
+Jeden lub więcej adresów do zgłaszania uwag przez użytkowników
 [One or more addresses for communication related to sales and marketing]
-
+Jeden lub więcej adresów przeznaczonych na komunikację związaną ze sprzedażą i marketingiem
 [One or more addresses for communication related to security concerns]
-
+Jeden lub więcej adresów przeznaczonych na komunikację związaną z kwestiami bezpieczeństwa
 [One or more addresses for customer support]
-
+Jeden lub więcej adresów przeznaczonych na wsparcie techniczne
 [The Jabber ID of a single entity to which an operation applies]
-
+Jabber ID pojedynczej jednostki, do której stosowana jest operacja
 [The Jabber ID of one or more entities to which an operation applies]
-
+Jabber ID jednej lub więcej jednostek, do których stosowana jest operacja
 [The Jabber IDs associated with active sessions]
-
+Jabber ID'y skojarzone z aktywnymi sesjami
 [The number of online entities that are active]
-
+Liczba dostępnych jednostek, które są aktywne
 [A list of entities with administrative privileges]
-
+Lista jednostek z uprawnieniami administratora
 [The text of an announcement to be sent to active users or all users]
-
+Tekst ogłoszenia, które ma zostać wysłane do aktywnych użytkowników lub wszystkich użytkowników
 [A list of entities with whom communication is blocked]
-
+Lista jednostek, z którymi komunikacja jest zablokowana
 [The number of seconds to delay before applying a change]
-
+Liczba sekund, o którą należy opóźnić zastosowanie zmiany
 [The Jabber IDs that have been disabled]
-
+Jabber ID'y, które zostały wyłączone
 [The number of disabled entities]
-
+Liczba wyłączonych jednostek
 [The email address for a user]
-
+Adres e-mail użytkownika
 [The given (first) name of a user]
-
+Podane imię użytkownika
 [The number of online entities that are idle]
-
+Liczba dostępnych jednostek w stanie bezczynności
 [The IP addresses of an account's online sessions]
-
+Adresy IP dostępnych sesji konta
 [The last login time (per XEP-0082) of a user]
-
+Ostatni czas zalogowania użytkownika (według XEP-0082)
 [The number of logins per minute for an account]
-
+Liczba zalogowań na minutę dla konta
 [The maximum number of items associated with a search or list]
-
+Maksymalna liczba elementów powiązanych z wyszukiwaniem lub listą
 [The text of a message of the day]
-
+Tekst wiadomości dnia
 [The names of an account's online sessions]
-
+Nazwy dostępnych sesji konta
 [The Jabber IDs associated with online users]
-
+Jabber ID'y powiązane z dostępnymi użytkownikami
 [The number of online entities]
-
+Liczba dostępnych jednostek
 [The password for an account]
-
+Hasło konta
 [Password verification]
-
+Weryfikacja hasła
 [A list of registered entities]
-
+Lista zarejestrowanych jednostek
 [The number of registered entities]
-
+Liczba zarejestrowanych jednostek
 [Number of roster items for an account]
-
+Liczba elementów rostera dla konta
 [The number of stanzas being sent per second by an account]
-
+Liczba stanz wysyłanych każdej sekundy przez konto
 [The family (last) name of a user]
-
+Nazwisko użytkownika
 [The text of a welcome message]
-
+Tekst wiadomości powitalnej
 [A list of entities with whom communication is allowed]
-
+Lista jednostek, z którymi komunikacja jest dozwolona
 [First Name]
 Imię
 [Last Name]
 Nazwisko
 [Desired Nickname]
-
+żądany nick
 [Your URL]
-
+Twój link
 [Email Address]
-
+Adres email
 [FAQ Entry]
-
+Wpis FAQ
 [Whether to Allow Occupants to Invite Others]
-
+Pozwolić użytkownikom na zapraszanie innych
 [Whether to Allow Occupants to Change Subject]
-
+Pozwolić użytkownikom na zmianę tematu
 [Whether to Enable Logging of Room Conversations]
-
+Włączyć logowanie rozmów
 [Natural Language for Room Discussions]
-
+Naturalny język dyskusji w pokoju
 [Maximum Number of Room Occupants]
-
+Maksymalna liczba użytkowników w pokoju
 [Whether an Make Room Members-Only]
-
+sprawić, by pokój był tylko dla członków
 [Whether to Make Room Moderated]
-
+sprawić, by pokój był moderowany
 [Whether a Password is Required to Enter]
-
+hasło jest wymagane
 [Whether to Make Room Persistent]
-
+sprawić, by pokój był stały
 [Roles for which Presence is Broadcast]
-
+Role, dla których obecność jest transmitowana
 [Whether to Allow Public Searching for Room]
-
+Zezwolić na publiczne wyszukiwanie pokoju
 [Full List of Room Admins]
-
+Pełna lista administratorów pokoju
 [Short Description of Room]
-
+Krótki opis pokoju
 [Natural-Language Room Name]
-
+Nazwa pokoju w języku naturalnym
 [Full List of Room Owners]
-
+Pełna lista właścicieli pokoju
 [The Room Password]
-
+Hasło pokoju
 [Affiliations that May Discover Real JIDs of Occupants]
-
+powiązania zezwalające na odkrywanie prawdziwych JIDów
 [Precondition: node configuration with the specified access model]
-
+Warunek wstępny: konfiguracja węzła z ustalonym modelem dostępu
 [Whether to allow the subscription]
-
+Pozwolić na subskrypcję
 [The SubID of the subscription]
-
+ID podrzędne subskrypcji
 [The NodeID of the relevant node]
-
+ID węzła właściwego
 [The address (JID) of the subscriber]
-
+Adres (JID) subskrybenta
 [Whether an entity wants to receive or disable notifications]
-
+Jednostka chce otrzymywać lub wyłączyć powiadomienia
 [Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
-
+Jednostka chce otrzymywać paczki powiadomień lub wszystkie powiadomienia indywidualnie
 [The minimum number of milliseconds between sending any two notification digests]
-
+Minimalna liczba milisekund pomiędzy wysyłkami paczek powiadomień
 [The DateTime at which a leased subscription will end or has ended]
-
+Data i czas wygaśnięcia subskrypcji
 [Whether an entity wants to receive an XMPP message body in addition to the payload format]
-
+Jednostka chce otrzymywać treść wiadomości XMPP oprócz formatu bloku danych
 [The presence states for which an entity wants to receive notifications]
-
+Stany obecności, przy których jednostka chce otrzymywać powiadomienia
 [Who may subscribe and retrieve items]
-
+Kto może subskrybować i pobierać elementy
 [The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
-
+Link transformacji XLS, która może zostać zastosowana do bloków danych w celu wygenerowania stosownej treści wiadomości.
 [The collection with which a node is affiliated]
-
+Kolekcja, z którą jest powiązany węzeł
 [The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
-
+Link transformacji XLS, która może zostać zastosowana  do bloków danych w celu wygenerowania poprawnego wyniku formularzy danych, który klient może wyświetlić używając ogólnego silnika renderowania formularzy danych
 [Whether to deliver payloads with event notifications]
-
+Dostarczać bloki danych wraz z powiadomieniami o zdarzeniach
 [Whether owners or publisher should receive replies to items]
-
+Właściciele  lub osoba publikująca powinni otrzymywać odpowiedzi na elementy
 [Who may associate leaf nodes with a collection]
-
+Kto może kojarzyć węzły liściaste z kolekcją
 [The list of JIDs that may associated leaf nodes with a collection]
-
+Lista JIDów, które mogą kojarzyć węzły liściaste z kolekcją
 [The child nodes (leaf or collection) associated with a collection]
-
+Liść węzła potomnego lub kolekcja skojarzone z kolekcją
 [The maximum number of child nodes that can be associated with a collection]
-
+Maksymalna liczba węzłów potomnych, które mogą być skojarzone z kolekcją
 [The maximum number of items to persist]
-
+Maksymalna liczba elementów do utrzymania
 [The maximum payload size in bytes]
-
+Maksymalny rozmiar bloku danych w bajtach
 [Whether the node is a leaf (default) or a collection]
-
+Węzeł jest liściem (domyślnie) lub kolekcją
 [Whether to notify subscribers when the node configuration changes]
-
+Powiadamiać subskrybentów, gdy konfiguracja węzła zmieni się
 [Whether to notify subscribers when the node is deleted]
-
+Powiadamiać subskrybentów, gdy węzeł zostaje usunięty
 [Whether to notify subscribers when items are removed from the node]
-
+Powiadamiać subskrybentów, gdy elementy są usuwane z węzła
 [Whether to persist items to storage]
-
+Utrzymywać elementy w przechowalni
 [Whether to deliver notifications to available users only]
-
+Dostarczać powiadomienia tylko dostępnym użytkownikom
 [The publisher model]
-
+Model publikowania
 [The specific multi-user chat rooms to specify for replyroom]
-
+Określone pokoje czatów wieloosobowych do ustalenia jako pokoje odpowiedzi
 [The specific JID(s) to specify for replyto]
-
+Określone JIDy do ustalenia do pola odpowiedzi
 [The roster group(s) allowed to subscribe and retrieve items]
-
+Grupy rostera uprawnione do subskrybowania i pobierania elementów
 [Whether to send items to new subscribers]
-
+Wysyłać elementy nowym subskrybentom
 [Whether to allow subscriptions]
-
+Zezwolić na subskrypcje
 [A friendly name for the node]
-
+Przyjazna nazwa węzła
 [The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
-
+Typ danych węzła, zazwyczaj określany przez przestrzeń nazw jeśli w ogóle; może być pojedynczą listą, a nie pojedynczym tekstem
 [The JIDs of those to contact with questions]
-
+JIDy tych, z którymi należy się kontaktować w razie pytań
 [The datetime when the node was created]
-
+Data i czas stworzenia węzła
 [The JID of the node creator]
-
+JID twórcy węzła
 [A description of the node]
-
+Opis węzła
 [The default language of the node]
-
+Domyślny język węzły
 [The number of subscribers to the node]
-
+Liczba subskrybentów węzła
 [The JIDs of those with an affiliation of owner]
-
+JIDy z przynależnością  właściciela
 [The JIDs of those with an affiliation of publisher]
-
+JIDy osób z przynależnością osoby publikującej
 [The name of the node]
-
+Nazwa węzła
 [Payload type]
-
+Typ bloku danych
 [Whether to automatically authorize subscription requests]
-
+Autoryzować automatycznie prośby o subskrypcję
 [Whether to automatically accept file transfers]
-
+Automatycznie akceptować transfery plików
 [Whether to automatically open new messages]
-
+Automatycznie otwierać nowe wiadomości
 [Whether to automatically go offline when idle]
-
+Automatycznie rozłączać się, po przejściu w stan bezczynności
 [Whether to play sounds]
-
+Grać dźwięki
 [A list of pending file transfers]
-
+Lista oczekujących transferów pliku
 [A list of joined groupchat rooms]
-
+Lista pokoi czatowych, do których dołączyłeś
 [A presence or availability status]
-
+Obecność lub status dostępności
 [The status message text]
-
+Tekst opisu
 [The new priority for the client]
-
+Nowy priorytet klienta
 [Account name associated with the user]
-
+Nazwa konta powiązana z użytkownikiem
 [Familiar name of the user]
-
+Znajoma nazwa użytkownika
 [Password or secret for the user]
-
+Hasło lub tajemnica użytkownika
 [Full name of the user]
-
+Imię i nazwisko użytkownika
 [First name or given name of the user]
-
+Imię lub podana nazwa użytkownika
 [Last name, surname, or family name of the user]
-
+Nazwisko użytkownika
 [Email address of the user]
-
+Adresemail użytkownika
 [Street portion of a physical or mailing address]
-
+Ulica w adresie fizycznym lub pocztowym
 [Locality portion of a physical or mailing address]
-
+Miejscowość w adresie fizycznym lub pocztowym
 [Region portion of a physical or mailing address]
-
+Region w adresie fizycznym lub pocztowym
 [Postal code portion of a physical or mailing address]
-
+Kod pocztowy w adresie fizycznym lub pocztowym
 [Family Name]
-
+Nazwisko
 [Whether to accept the invitation]
-
+Akceptować zaproszenie
 [Another resource with which to continue the session]
-
+Inny zasób, na którym należy kontynuować sesję
 [Disclosure of content, decryption keys or identities]
-
+Ujawnienie zawartości, klucze lub tożsamości odszyfrowujące
 [Whether may send Chat State Notifications per XEP-0085]
-
+Może wysyłać powiadomienia o stanie w czatach (według XEP-0085)
 [Whether allowed to use XHTML-IM formatting per XEP-0071]
-
+Zezwolić na używanie formatowania wiadomości XHTML według XEP-0071
 [Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
-
+Pierwszy język pisany czatu (każda wartość pojawia się w preferowaneym porządku i odpowiada RFC 4646 oraz rejestrowi IANA)
 [Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
-
+Zezwolić na logowanie wiadomości (czyli tryb Off-The-Record jest wymagany)
 [Whether to renegotiate the session]
-
+Renegocjować sesję
 [Minimum security level]
-
+Minimalny poziom bezpieczeństwa
 [Whether to terminate the session]
-
+Zakańczać sesję
 [Whether to enable Message Receipts per XEP-0184]
-
+Włączyć potwierdzenie otrzymania wiadomości według XEP-0184
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Nie udało się pobrać listy pokoi z serwera.
@@ -1119,7 +1119,7 @@ Zakładki...
 [Change nickname in <%s>]
 Zmień nick w <%s>
 [has set the subject to:]
-
+Ustawił temat na:
 [%s\nIncoming groupchat invitation.]
 %s\nNadchodzi zaproszenie do czatu.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -1312,7 +1312,7 @@ Do
 [From]
 Od
 [Both]
-
+Obydwa
 [Errors]
 Błędy
 ;file \protocols\JabberG\src\jabber_notes.cpp
@@ -1329,86 +1329,86 @@ Notatki nie są zapisywane, zamknąć okno bez wysyłania danych do serwera?
 [Are you sure?]
 Jesteś pewien?
 [Incoming note]
-
+Przychodząca notatka
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
-
+Afar
 [Abkhazian]
-
+abchaski
 [Afrikaans]
 Afrykanerski
 [Akan]
-
+akan
 [Albanian]
 Albański
 [Amharic]
-
+amharski
 [Arabic]
 Arabski
 [Aragonese]
-
+aragoński
 [Armenian]
 Armeński
 [Assamese]
-
+asamski
 [Avaric]
-
+awarski
 [Avestan]
-
+awestyjski
 [Aymara]
-
+ajmara
 [Azerbaijani]
 Azerski
 [Bashkir]
-
+baszkirski
 [Bambara]
-
+bambara
 [Basque]
-
+baskijski
 [Belarusian]
-
+białoruski
 [Bengali]
-
+bengalski
 [Bihari]
-
+bihari
 [Bislama]
-
+bislama
 [Bosnian]
 Bośniacki
 [Breton]
-
+bretoński
 [Bulgarian]
 Bułgarski
 [Burmese]
 Birmański
 [Catalan; Valencian]
-
+kataloński; Walencja
 [Chamorro]
 Chamorro
 [Chechen]
-
+czeczeński
 [Chinese]
 Chiński
 [Church Slavic; Old Slavonic]
-
+starocerkiewnosłowiański
 [Chuvash]
-
+czuwaski
 [Cornish]
-
+kornwalijski
 [Corsican]
-
+korsykański
 [Cree]
-
+kri
 [Czech]
 Czeski
 [Danish]
 Duński
 [Divehi; Dhivehi; Maldivian]
-
+malediwski
 [Dutch; Flemish]
-
+flamancki
 [Dzongkha]
-
+dzongkha
 [English]
 Angielski
 [Esperanto]
@@ -1416,291 +1416,291 @@ Esperanto
 [Estonian]
 Estoński
 [Ewe]
-
+ewe
 [Faroese]
-
+farerski
 [Fijian]
-
+fidżyjski
 [Finnish]
 Fiński
 [French]
 Francuski
 [Western Frisian]
-
+zachodnio fryzyjski
 [Fulah]
-
+ful
 [Georgian]
-
+gruziński
 [German]
 Niemiecki
 [Gaelic; Scottish Gaelic]
-
+gaelicki szkocki
 [Irish]
-
+irlancki
 [Galician]
-
+galicyjski
 [Manx]
-
+manx
 [Greek, Modern (1453-)]
-
+grecki, nowoczesny
 [Guarani]
-
+guarani
 [Gujarati]
 Gudżarati
 [Haitian; Haitian Creole]
-
+kreolski, haitański
 [Hausa]
-
+hausa
 [Hebrew]
 Hebrajski
 [Herero]
-
+herero
 [Hindi]
 Hinduski
 [Hiri Motu]
-
+hiri motu
 [Hungarian]
 Węgierski
 [Igbo]
-
+igbo
 [Icelandic]
 Islandzki
 [Ido]
-
+ido
 [Sichuan Yi]
-
+sichuan yi
 [Inuktitut]
-
+inuktitut
 [Interlingue]
-
+occidental
 [Interlingua (International Auxiliary Language Association)]
-
+interlingua (międzynarodowe pomocnicze stowarzyszenie językowe)
 [Indonesian]
 Indonezyjski
 [Inupiaq]
-
+inupiak
 [Italian]
 Włoski
 [Javanese]
-
+jawajski
 [Japanese]
 Japoński
 [Kalaallisut; Greenlandic]
-
+Kalaallisut; grenlancki
 [Kannada]
-
+kannada
 [Kashmiri]
-
+kaszmirski
 [Kanuri]
-
+kanuri
 [Kazakh]
-
+kazachski
 [Central Khmer]
-
+khmerski
 [Kikuyu; Gikuyu]
-
+kikuju
 [Kinyarwanda]
-
+rundi
 [Kirghiz; Kyrgyz]
-
+kirgiski
 [Komi]
-
+komi
 [Kongo]
-
+kongijski
 [Korean]
 Koreański
 [Kuanyama; Kwanyama]
-
+kwanyama
 [Kurdish]
 Kurdyjski
 [Lao]
 Laotański
 [Latin]
-
+łacina
 [Latvian]
 Łotewski
 [Limburgan; Limburger; Limburgish]
-
+limburski
 [Lingala]
-
+lingala
 [Lithuanian]
 Litewski
 [Luxembourgish; Letzeburgesch]
-
+luksemburski
 [Luba-Katanga]
-
+kiluba
 [Ganda]
-
+luganda
 [Macedonian]
 Macedoński
 [Marshallese]
-
+marszalski
 [Malayalam]
-
+malajalam
 [Maori]
-
+maori
 [Marathi]
-
+marathi
 [Malay]
 Malajski
 [Malagasy]
-
+malgaski
 [Maltese]
-
+maltański
 [Moldavian]
-
+mołdawski
 [Mongolian]
 Mongolski
 [Nauru]
 Nauru
 [Navajo; Navaho]
-
+nawaho
 [Ndebele, South; South Ndebele]
-
+ndebele południowy
 [Ndebele, North; North Ndebele]
-
+ndebele północny
 [Ndonga]
-
+ndonga
 [Nepali]
-
+nepalski
 [Norwegian Nynorsk; Nynorsk, Norwegian]
-
+norweski Nynorsk,
 [Bokmaal, Norwegian; Norwegian Bokmaal]
-
+norweski bokmaal
 [Norwegian]
 Norweski
 [Chichewa; Chewa; Nyanja]
-
+nyanja
 [Occitan (post 1500); Provencal]
-
+prowansalski
 [Ojibwa]
-
+odżibwe
 [Oriya]
-
+orija
 [Oromo]
-
+oromo
 [Ossetian; Ossetic]
-
+osetyjski
 [Panjabi; Punjabi]
-
+punjabi
 [Persian]
 Perski
 [Pali]
-
+pali
 [Polish]
 Polski
 [Portuguese]
 Portugalski
 [Pushto]
-
+pasztoński
 [Quechua]
-
+keczua
 [Romansh]
-
+romansz
 [Romanian]
 Rumuński
 [Rundi]
-
+rundi
 [Russian]
 Rosyjski
 [Sango]
-
+sango
 [Sanskrit]
-
+sanskrit
 [Serbian]
 Serbski
 [Croatian]
 Chorwacki
 [Sinhala; Sinhalese]
-
+syngaleski
 [Slovak]
 Słowacki
 [Slovenian]
 Słoweński
 [Northern Sami]
-
+północno lapoński
 [Samoan]
-
+samoański
 [Shona]
-
+shona
 [Sindhi]
 Sindhi
 [Somali]
 Somalijski
 [Sotho, Southern]
-
+sotho południowy
 [Spanish; Castilian]
-
+hiszpański
 [Sardinian]
-
+sardyński
 [Swati]
-
+swati
 [Sundanese]
-
+sundajski
 [Swahili]
 Suahili
 [Swedish]
 Szwedzki
 [Tahitian]
-
+tahitański
 [Tamil]
 Tamilski
 [Tatar]
 Tatarski
 [Telugu]
-
+telugu
 [Tajik]
-
+tadżycki
 [Tagalog]
 Tagalog
 [Thai]
 Tajski
 [Tibetan]
-
+tybetański
 [Tigrinya]
-
+tigrinia
 [Tonga (Tonga Islands)]
-
+tonga (wyspy tonga)
 [Tswana]
-
+tswana
 [Tsonga]
-
+tsonga
 [Turkmen]
-
+turkmeński
 [Turkish]
 Turecki
 [Twi]
-
+twi
 [Uighur; Uyghur]
-
+tamilski
 [Ukrainian]
 Ukraiński
 [Urdu]
 Urdu
 [Uzbek]
-
+uzbecki
 [Venda]
-
+venda
 [Vietnamese]
 Wietnamski
 [Volapuk]
-
+wolapik
 [Welsh]
 Walijski
 [Walloon]
-
+waloński
 [Wolof]
-
+wolof
 [Xhosa]
-
+xhosa
 [Yiddish]
 Jidysz
 [Yoruba]
 Joruba
 [Zhuang; Chuang]
-
+zhuang
 [Zulu]
-
+zulu
 [These changes will take effect the next time you connect to the Jabber network.]
 Te zmiany przyniosą efekt po następnym połączeniu z siecią Jabber
 [Jabber Protocol Option]
@@ -1830,13 +1830,13 @@ Bezpieczna sieć XMPP
 [Secure XMPP Network (old style)]
 Bezpieczna sieć XMPP (stary styl)
 [Google Talk!]
-
+Google Talk
 [LiveJournal Talk]
-
+LiveJournal Talk
 [Facebook Chat]
-
+Facebook Chat
 [Odnoklassniki]
-
+Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]
 Niektóre zmiany przyniosą efekt po następnym połączeniu z siecią Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -1878,11 +1878,11 @@ Włącz
 [Set default]
 Domyślnie
 [Edit rule]
-
+Edytuj regułę
 [Add rule]
 Dodaj zasadę
 [Delete rule]
-
+Usuń regułę
 [Move rule up]
 Przesuń zasadę w górę
 [Move rule down]
@@ -1946,21 +1946,21 @@ Proszę zapisać listę przed aktywowaniem!
 [First, save the list]
 Uwaga! Zapisz listę!
 [Please save list before you make it the default list]
-
+Proszę zapisać listę przed uczynieniem jej domyślną
 [Unable to save list because you are currently offline.]
 Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]
 Edytuj listy...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
-
+Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Protocol is offline or no jid]
 Protokół jest rozłączony lub brak jid
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Komenda zakończona poprawnie
 [Error occured during processing command]
-
+Wystąpił błąd podczas przetwarzania komendy
 [Set status]
 Wybierz status
 [Set options]
@@ -2006,17 +2006,17 @@ Wyłącz zdalne sterowanie (sprawdź dwa razy co robisz)
 [There is no messages to forward]
 Nie ma wiadomości do przekazania
 [Forward options]
-
+Opcje przekierowania
 [%d message(s) to be forwarded]
 %d wiadomości, które mają być przekazywane
 [Mark messages as read]
-
+Oznacz wiadomości jako przeczytane
 [%d message(s) forwarded]
 %d wiadomości
 [Workstation successfully locked]
 Komputer został pomyślnie zabezpieczony
 [Error %d occured during workstation lock]
-
+Wystąpił błąd %d podczas blokowania stacji roboczej
 [Confirmation needed]
 Potrzebne zatwierdzenie
 [Please confirm Miranda NG shutdown]
@@ -2052,7 +2052,7 @@ Cofnięto autoryzację
 [sent error presence]
 Informacja: Odnotowano obecność błędów
 [sent unknown presence type]
-
+Wyślij nieznany typ obecności
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Wprowadź hasło dla %s

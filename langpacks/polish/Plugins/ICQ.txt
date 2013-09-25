@@ -55,7 +55,7 @@ Bezpieczne, szyfrowane połączenie (SSL)
 [Secure (MD5) login]
 Bezpieczne logowanie (MD5)
 [Legacy fix (for ICQ Groupware or IServerD only)]
-
+Poprawka tylko dla ICQ Groupware oraz IServerD)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Wyślij "Keep-alives" (włącz tą opcję, jeśli korzystasz z serwera proxy i występują częste rozłączenia)
 [Ignore concurrent error messages]
@@ -101,7 +101,7 @@ Uczyń mnie tymczasowo widocznym dla kontaktów, którym wysyłam wiadomość
 [Notify me when a message delivery has failed (recommended)]
 Powiadom mnie, gdy dostarczenie wiadomości nie powiodło się (zalecane)
 [Never use legacy messaging (server acknowledgements)]
-
+Nigdy nie używaj potwierdzeń serwera legacy wiadomości
 [Peer-to-peer Messaging]
 Wiadomości bezpośrednie
 [Enable peer-to-peer message connections]
@@ -111,7 +111,7 @@ Tryb pasywny, tzn. nie inicjuje nowych połączeń
 [Extra Features]
 Dodatkowe opcje
 [Enable Custom status support for xtraz]
-
+Włącz wsparcie dla własnego statusu dla xtraz
 [Enable Custom status support for moods]
 Włącz obsługę statusu nastrojów
 [Reset Custom status on status change]
@@ -282,48 +282,48 @@ Podaj jeszcze raz nowe hasło:
 Wprowadź obecne hasło:
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
-
+Nie udało się połączyć ze zmigrowanym serwerem komunikacji ICQ
 [Unable to connect to ICQ communication server]
-
+Nie udało się połączyć z serwerem komunikacji ICQ
 [You could not sign on because the server returned invalid data. Try again.]
-
+Nie mogłeś się zalogować ponieważ serwer zwrócił nieprawidłowe dane. Spróbuj ponownie.
 [You have been disconnected from the ICQ network because the current server shut down.]
-
+Zostałeś rozłączony z siecią ICQ, ponieważ obecny serwer został wyłączony.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
-
+Połączenie nieudane.\nTwój numer ICQ lub hasło zostały odrzucone (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
-
+Połączenie nieudane.\nSerwer jest tymczasowo niedostępny (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
-
+Połączenie nieudane.\nSErwer otrzymał zbyt wiele połączeń z twojego adresu IP (%d).
 [Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
-
+Połączenie nieudane.\nŁączyłeś się zbyt szybko.\nPoczekaj i spróbuj ponownie 10 do 20 minut później (%d).
 [Connection failed.\nThe server did not accept this client version.]
-
+Połączenie nieudane.\nSerwer nie przyjął tej wersji klienta.
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
-
+Serwer wysłał ostrzeżenie. Ta wersja staje się przestarzała.\nSpróbuj poszukać nowszej.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
-
+Połączenie nieudane.\nZostałeś odrzucony przez serwer z nieznanego powodu.\nMoże się to zdarzyć jeśli UIN jest już połączony.
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
-
+Połączenie nieudane.\nBezpieczne logowanie (MD5) nie jest wspierane na tym koncie.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-
+Połączenie nieudane.\nNieznanybłąd podczas logowania: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
-
+Zostałeś rozłączony z siecią ICQ, ponieważ zalogowałeś się z innego miejsca przy użyciu tego samego numeru ICQ.
 [Unknown runtime error: 0x%02x]
-
+Nieznany błąd: 0x%02x
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Migracja serwera nie powiodła się, ponieważ serwer zwrócił błędne dane. Musisz połączyć się ponownie ręcznie.
 [Failed to request offline messages. They may be received next time you log in.]
-
+Nie udało się wysłać prośby o wiadomości offline. Być może otrzymasz je przy następnym logowaniu.
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
-
+Wykryto spambota
 [Contact deleted & further events blocked.]
-
+Kontakt usunięty, a kolejne zdarzenia zablokowane.
 ;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
-
+Przychodzący link:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
 Za szybko wysyłasz. Poczekaj chwilę i spróbuj ponownie. \r\nSNAC(4.1) Błąd x02
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
@@ -350,27 +350,27 @@ Kontakt "%s" zamknął okno rozmowy.
 Notatka ICQ
 ;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
-
+Lista kontaktów serwera jest niedostępna, Miranda użyje lokalnej listy kontaktów.
 [Updating of server contact failed.]
-
+Aktualizacja kontaktu na serwerze nieudana.
 [Adding of privacy item to server list failed.]
 Błąd dodawania elementów do listy na serwerze.
 [Removing of privacy item from server list failed.]
 Błąd usuwania listy prywatności z listy na serwerze.
 [Adding of contact to server list failed.]
-
+Dodawanie kontaktu do listy serwera nieudane.
 [Adding of group to server list failed.]
 Błąd dodawania grupy do listy na serwerze.
 [Removing of contact from server list failed.]
 Błąd usuwania kontaktu z listy na serwerze.
 [Updating of group on server list failed.]
-
+Aktualizacja grupy na liście serwera nieudana.
 [Removing of group from server list failed.]
 Błąd usuwania grupy z listy na serwerze.
 [Moving of user to another group on server list failed.]
-
+Przeniesienie użytkownika do innej grupy na liście serwera nieudane.
 [Renaming of server group failed.]
-
+Zmiana nazwy grupy na serwerze nieudana.
 [Contact "%s" was authorized in the server list.]
 Kontakt "%s" został za autoryzowany na liście serwera. 
 [Contact "%s" lost its authorization in the server list.]
@@ -401,9 +401,9 @@ Potwierdź
 [Avatars]
 Awatary
 [Error uploading avatar to server, server temporarily unavailable.]
-
+Błąd ładowania awatara na serwer, serwer tymczasowo niedostępny.
 [Error uploading avatar to server, server refused to accept the image.]
-
+Błąd ładowania awatara na serwer, serwer odrzucił obraz.
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
@@ -913,11 +913,11 @@ Sztuka
 [Astronomy]
 Astronomia
 [Audio and Visual]
-
+Audiowizualne
 [Business]
 Sprawy biznesowe
 [Business Services]
-
+Usługi biznesowe
 [Cars]
 Samochody
 [Celebrity Fans]
@@ -929,61 +929,61 @@ Kolekcje
 [Computers]
 Komputery
 [Culture]
-
+Kultura
 [Ecology]
-
+Ekologia
 [Entertainment]
 Rozrywka
 [Finance and Corporate]
-
+Finansowe i korporacyjne
 [Fitness]
 Fitness
 [Health and Beauty]
-
+Zdrowie i uroda
 [Hobbies]
 Hobbi
 [Home Automation]
-
+Automatyka domów
 [Household Products]
-
+Produkty gospodarstwa domowego
 [Games]
 Gry
 [Government]
 Rząd
 [ICQ - Help]
-
+Pomoc ICQ
 [Internet]
 Internet
 [Lifestyle]
 Styl Życia
 [Mail Order Catalog]
-
+Katalog zamówień
 [Media]
 Media
 [Movies and TV]
-
+Filmy i TV
 [Music]
 Muzyka
 [Mystics]
 Mistyczne
 [News and Media]
-
+Wiadomości i media
 [Outdoors]
-
+Rekreacja
 [Parenting]
 Rodzicielstwo
 [Parties]
 Imprezy
 [Pets and Animals]
-
+Zwierzęta
 [Publishing]
 Wydawnictwo
 [Religion]
 Religia
 [Retail Stores]
-
+Sklepy sprzedażowe
 [Science]
-
+Nauka
 [Skills]
 Umiejętności
 [Social science]
@@ -991,7 +991,7 @@ Nauka społeczna
 [Space]
 Kosmos
 [Sporting and Athletic]
-
+Sport i atletyka
 [Sports]
 Sport
 [Travel]
@@ -1163,51 +1163,51 @@ Kobieta
 [Male]
 Mężczyzna
 [Associated degree]
-
+Powiązany stopień
 [Bachelor's degree]
-
+Licencjat
 [Elementary]
-
+Szkoła podstawowa
 [High-school]
-
+Szkoła Średnia
 [Master's degree]
-
+Magister
 [PhD]
-
+Doktor
 [Postdoctoral]
-
+podoktoranckie
 [University / College]
 Uniwersytet
 [Agriculture]
-
+Agrokultura
 [Arts]
-
+Sztuka
 [Construction]
-
+Budownictwo
 [Consumer Goods]
-
+Dobra konsumenckie
 [Corporate Services]
-
+Usługi korporacyjne
 [Education]
 Edukacja
 [Finance]
-
+Finanse
 [High Tech]
-
+Wyspecjalizowana technologia
 [Legal]
-
+Prawne
 [Manufacturing]
 Produkcja
 [Medical & Health Care]
-
+Medyczne oraz opieka zdrowotna
 [Non-Profit Organization Management]
-
+Zarządzanie organizacją Non-Profit
 [Recreation, Travel & Entertainment]
-
+Rekreacja, podróże i rozrywka
 [Service Industry]
-
+Przemysł usługowy
 [Transportation]
-
+Transport
 [Academic]
 Akademicka
 [Administrative]
@@ -1307,15 +1307,15 @@ W separacji
 [Widowed]
 Wdowa/Wdowiec
 [Open relationship]
-
+Związek otwarty
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
 [No description given]
 Brak opisu
 ;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-
+Transfer pliku został przerwany, ponieważ jeden z wybranych przez ciebie plików nie mógł zostać odczytany z dysku. Być może go usunąłeś lub przeniosłeś.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
-
+Odbieranie pliku zostało przerwane, ponieważ Miranda nie mogła otworzyć pliku docelowego w celu dokonania zapisu. Być może próbujesz zapisać plik w folderze tylko do odczytu.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Poproś o autoryzację
@@ -1392,27 +1392,27 @@ ID użytkownika
 Nie możesz wpisać numeru ICQ.\nSkonfiguruj to w Opcje->Sieć->ICQ i spróbuj ponownie.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
-
+Nie udało się połączyć z serwerem logowania ICQ. Nie udało się wynegocjować połączenia szyfrowanego SSL.
 [Unable to connect to ICQ login server]
 Nie można połączyć się z serwerem logowania ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-
+Miranda nie była w stanie przydzielić portu nasłuchu połączeń bezpośrednich P2P pomiędzy klientami. Będziesz w stanie używać większości funkcji sieci ICQ normalnie, ale możesz napotkać na problemy przy próbie wysyłania i odbierania plików.\n\nJeżęli używasz firewalla, może być to czynnik blokujący Mirandę. W tym przypadku skonfiguruj firewall tak, by pozostawić otwarte porty, a następnie wskaż Mirandzie porty, które powinny być używane w M->Opcje->ICQ->Sieć.
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
-
+Połączenie nieudane.\nSekwencja logowania nie powiodła się z nieznanej przyczyny.\nSpróbuj ponownie później.
 [Your connection with the ICQ server was abortively closed]
-
+Połączenie z serwerem ICQ zostało niepomyślnie zamknięte
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
-
+Informacje o kontakcie były zbyt duże i zostały obcięte.
 [Failed to create the correct sub-group, the using closest parent group.]
-
+Nie udało się stworzyć właściwej podgrupy, użycie zamyka grupę główną.
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
-
+NIE ZNALEZIONO
 [ALREADY EXISTS]
-
+JUŻ ISTNIEJE
 [INVALID DATA]
-
+NIEPRAWIDŁOWE DANE
 [LIST FULL]
 PEŁNA LISTA
 [FAILED]
@@ -1517,11 +1517,11 @@ Oglądam pro7 w TV
 [Love]
 Miłość
 [Hot Dog]
-
+Hot Dog
 [Rough]
 Szorstki
 [Rock On]
-
+Rock ON
 [Baby]
 Niemowlę
 [Soccer]
@@ -1587,7 +1587,7 @@ Lizak
 [Kitty]
 Kot
 [Sumo]
-
+Sumo
 [Broken hearted]
 Złamane serce
 [Free for Chat]
@@ -1619,7 +1619,7 @@ Kupidyn mnie ustrzelił
 [Celebrating]
 Święto
 [Sushi]
-
+Sushi
 [Playing]
 Gra
 [Writing]
@@ -1661,25 +1661,25 @@ błąd
 [%d Files]
 %d Plików
 [The file transfer was aborted by the other user.]
-
+Transfer pliku został przerwany przez drugą stronę.
 [The file transfer failed: Proxy error]
-
+Transfer pliku nie powiódł się: błąd proxy
 [The file transfer failed: Invalid request]
-
+Transfer pliku nie powiódł się: nieprawidłowe żądanie
 [The file transfer failed: Proxy unavailable]
-
+Transfer pliku nie powiódł się: proxy niedostępne
 [Failed to Initialize File Transfer. No valid files were specified.]
 Nie udało się zainicjować transferu. Nie wybrano żadnych plików.
 [The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
-
+Pliki są zbyt duże, by wysłać je naraz. Pliki większe niż 4gb mogą zostać wysłane tylko oddzielnie.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
-
+Nie udało się zainicjować transferu pliku. Nie udało się przypisać portu lokalnego, a proxy plików jest niedostępne.
 [Connection lost during file transfer.]
-
+Utracono połączenie podczas transferu pliku.
 [File transfer negotiation failed for unknown reason.]
-
+Negocjacja transferu plików nieudana z nieznanej przyczyny.
 [The checksum of file "%s" does not match, the file is probably damaged.]
-
+Suma kontrolna pliku "%s" nie zgadza się. Prawdopodobnie plik jest uszkodzony.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <niepoprawny>
@@ -1865,7 +1865,7 @@ Znany język 3
 [Originally from]
 Pochodzi z
 [Level]
-
+Poziom
 [Institute]
 Instytut
 [Degree]
@@ -1895,7 +1895,7 @@ Departament firmy
 [Company position]
 Pozycja w firmie
 [Company industry]
-
+Firma przemysł
 [Personal Interests]
 Zainteresowania
 [Interest category 1]
