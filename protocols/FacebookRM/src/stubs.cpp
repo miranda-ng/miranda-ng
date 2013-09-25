@@ -113,8 +113,3 @@ int FacebookProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
 {
 	return 1;
 }
-
-int FacebookProto::SendAwayMsg(HANDLE hContact,HANDLE hProcess,const char *msg)
-{
-	return 1;
-}

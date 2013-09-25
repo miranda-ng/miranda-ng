@@ -2135,15 +2135,6 @@ int __cdecl CIcqProto::RecvAwayMsg( HANDLE hContact, int statusMode, PROTORECVEV
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AWAYMSG - send status mode message (individual mode)
-
-int __cdecl CIcqProto::SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg )
-{
-	return 1;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetAwayMsg - sets the away status message
 
 int __cdecl CIcqProto::SetAwayMsg(int status, const TCHAR* msg)

@@ -64,7 +64,6 @@ struct CYahooProto : public PROTO<CYahooProto>
 
 	virtual	HANDLE __cdecl GetAwayMsg( HANDLE hContact );
 	virtual	int    __cdecl RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt );
-	virtual	int    __cdecl SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg );
 	virtual	int    __cdecl SetAwayMsg( int m_iStatus, const PROTOCHAR* msg );
 	virtual INT_PTR __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 

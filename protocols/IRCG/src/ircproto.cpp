@@ -982,14 +982,6 @@ int __cdecl CIrcProto::RecvAwayMsg( HANDLE, int, PROTORECVEVENT* )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AWAYMSG
-
-int __cdecl CIrcProto::SendAwayMsg( HANDLE, HANDLE, const char* )
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
 int __cdecl CIrcProto::SetAwayMsg( int status, const TCHAR* msg )

@@ -250,8 +250,6 @@ will pick this up and everything will be good.
 //Returns 0 on success, nonzero on failure
 //Note that this service will not be available unless PF1_MODEMSGSEND is set
 //and PF1_INDIVMODEMSG is *not* set.
-//If PF1_INDIVMODEMSG is set, then see PSS_AWAYMSG for details of
-//the operation of away messages
 //Protocol modules must support szMessage = NULL. It may either mean to use an
 //empty message, or (preferably) to not reply at all to any requests
 #define PS_SETAWAYMSG   "/SetAwayMsg"
@@ -616,17 +614,6 @@ typedef struct {
 //The reply will be in the form of an ack:
 //type = ACKTYPE_AWAYMSG, result = success/failure, lParam = (const char*)szMessage
 #define PSS_GETAWAYMSG    "/GetAwayMsg"
-
-//Sends an away message reply to a user
-//wParam = (WPARAM)(HANDLE)hProcess (of ack)
-//lParam = (LPARAM)(const char*)szMessage
-//Returns 0 on success, nonzero on failure
-//This function must only be used if the protocol has PF1_MODEMSGSEND and
-//PF1_INDIVMODEMSG set. Otherwise, PS_SETAWAYMESSAGE should be used.
-//This function must only be called in response to an ack that a user has
-//requested our away message. The ack is sent as:
-//type = ACKTYPE_AWAYMSG, result = ACKRESULT_SENTREQUEST, lParam = 0
-#define PSS_AWAYMSG     "/SendAwayMsg"
 
 //Allows a file transfer to begin
 //wParam = (WPARAM)(HANDLE)hTransfer

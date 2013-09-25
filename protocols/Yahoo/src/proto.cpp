@@ -604,14 +604,6 @@ int __cdecl CYahooProto::RecvAwayMsg( HANDLE /*hContact*/, int /*statusMode*/, P
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AWAYMSG
-
-int __cdecl CYahooProto::SendAwayMsg( HANDLE /*hContact*/, HANDLE /*hProcess*/, const char* )
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
 int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )

@@ -617,7 +617,6 @@ int CSkypeProto::SetStatus(int new_status)
 
 HANDLE __cdecl CSkypeProto::GetAwayMsg(HANDLE hContact) { return 0; }
 int    __cdecl CSkypeProto::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT *evt) { return 0; }
-int    __cdecl CSkypeProto::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char *msg) { return 0; }
 int    __cdecl CSkypeProto::SetAwayMsg(int m_iStatus, const TCHAR *msg) { return 0; }
 
 int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)

@@ -505,21 +505,6 @@ int CMLan::GetAwayMsg(CCSDATA* ccs)
 	return cid;
 }
 
-//int CMLan::SendAwayMsg(CCSDATA* ccs)
-//{
-//	if (ccs->lParam)
-//	{
-//		TPacket pak;
-//		ZeroMemory(&pak, sizeof(pak));
-//
-//		pak.idAckAwayMessage = ccs->wParam;
-//		pak.strAwayMessage = (char*)ccs->lParam;
-//		u_long addr = db_get_dw(ccs->hContact, PROTONAME, "ipaddr", 0);
-//		SendPacketExt(pak, addr);
-//	}
-//	return 0;
-//}
-
 int CMLan::RecvAwayMsg(CCSDATA* ccs)
 {
 	PROTORECVEVENT *pre=(PROTORECVEVENT*)ccs->lParam;

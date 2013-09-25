@@ -1009,14 +1009,6 @@ int __cdecl CMsnProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVE
 	return 1;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AWAYMSG
-
-int __cdecl CMsnProto::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg)
-{
-	return 1;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSetStatus - set the plugin's connection status
 

@@ -147,11 +147,6 @@ int OmegleProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
 	return 1;
 }
 
-int OmegleProto::SendAwayMsg(HANDLE hContact,HANDLE hProcess,const char *msg)
-{
-	return 1;
-}
-
 int OmegleProto::UserIsTyping(HANDLE hContact, int type)
 {
 	return 1;

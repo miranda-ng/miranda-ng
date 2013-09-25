@@ -486,7 +486,6 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 			case 29: return (INT_PTR)ppi->SetStatus(wParam);
 			case 30: return (INT_PTR)ppi->GetAwayMsg(hContact);
 			case 31: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
-			case 32: return (INT_PTR)ppi->SendAwayMsg(hContact, (HANDLE)wParam, (const char*)lParam);
 			case 33:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((char*)lParam));
@@ -678,7 +677,6 @@ int LoadProtocolsModule(void)
 	InsertServiceListItem(29, PS_SETSTATUS);
 	InsertServiceListItem(30, PSS_GETAWAYMSG);
 	InsertServiceListItem(31, PSR_AWAYMSG);
-	InsertServiceListItem(32, PSS_AWAYMSG);
 	InsertServiceListItem(33, PS_SETAWAYMSG);
 	InsertServiceListItem(34, PSS_USERISTYPING);
 	InsertServiceListItem(35, PS_GETNAME);

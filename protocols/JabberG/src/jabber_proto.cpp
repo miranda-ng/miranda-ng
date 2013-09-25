@@ -1351,14 +1351,6 @@ int __cdecl CJabberProto::RecvAwayMsg(HANDLE /*hContact*/, int /*statusMode*/, P
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AWAYMSG
-
-int __cdecl CJabberProto::SendAwayMsg(HANDLE /*hContact*/, HANDLE /*hProcess*/, const char*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetAwayMsg - sets the away status message
 
 int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)

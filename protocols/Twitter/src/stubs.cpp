@@ -123,11 +123,6 @@ int TwitterProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
 	return 1;
 }
 
-int TwitterProto::SendAwayMsg(HANDLE hContact,HANDLE hProcess,const char *msg)
-{
-	return 1;
-}
-
 int TwitterProto::SetAwayMsg(int status,const TCHAR *msg)
 {
 	return 1;

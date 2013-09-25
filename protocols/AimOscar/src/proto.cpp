@@ -756,14 +756,6 @@ int __cdecl CAimProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVE
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AWAYMSG
-
-int __cdecl CAimProto::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away m_iStatus message
 
 int __cdecl CAimProto::SetAwayMsg(int status, const TCHAR* msg)

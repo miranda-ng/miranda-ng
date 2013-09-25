@@ -140,7 +140,6 @@ int    GGPROTO::RecvUrl(HANDLE hContact, PROTORECVEVENT *pre) { return 1; }
 int    GGPROTO::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) { return 1; }
 int    GGPROTO::SendUrl(HANDLE hContact, int flags, const char *url) { return 1; }
 int    GGPROTO::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT *evt) { return 1; }
-int    GGPROTO::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char *msg) { return 1; }
 
 //////////////////////////////////////////////////////////
 // when contact is added to list

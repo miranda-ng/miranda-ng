@@ -252,12 +252,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSR_AWAYMSG, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg)
-	{
-		CCSDATA ccs = { hContact, PSS_AWAYMSG, (WPARAM)hProcess, (LPARAM)msg };
-		return (int)ProtoCallService(m_szModuleName, PSS_AWAYMSG, 0, (LPARAM)&ccs);
-	}
-
 	int __cdecl SetAwayMsg(int iStatus, const TCHAR* msg)
 	{
 		return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)StrConvA(msg));

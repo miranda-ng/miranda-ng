@@ -75,7 +75,6 @@ public:
 
 	virtual	HANDLE    __cdecl GetAwayMsg(HANDLE);
 	virtual	int       __cdecl RecvAwayMsg(HANDLE,int,PROTORECVEVENT *);
-	virtual	int       __cdecl SendAwayMsg(HANDLE,HANDLE,const char *);
 	virtual	int       __cdecl SetAwayMsg(int,const TCHAR *);
 
 	virtual	int       __cdecl UserIsTyping(HANDLE,int);

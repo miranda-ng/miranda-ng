@@ -172,7 +172,6 @@ struct  PROTO_INTERFACE : public MZeroedObject
 
 	virtual	HANDLE    __cdecl GetAwayMsg(HANDLE hContact) = 0;
 	virtual	int       __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt) = 0;
-	virtual	int       __cdecl SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg) = 0;
 	virtual	int       __cdecl SetAwayMsg(int iStatus, const PROTOCHAR* msg) = 0;
 
 	virtual	int       __cdecl UserIsTyping(HANDLE hContact, int type) = 0;

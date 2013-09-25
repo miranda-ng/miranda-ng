@@ -206,7 +206,6 @@ HANDLE CMraProto::ChangeInfo(int, void*) { return NULL; }
 int    CMraProto::FileResume(HANDLE, int*, const TCHAR**) { return 1; }
 int    CMraProto::RecvAwayMsg(HANDLE, int, PROTORECVEVENT*) { return 1; }
 int    CMraProto::RecvUrl(HANDLE, PROTORECVEVENT*) { return 1; }
-int    CMraProto::SendAwayMsg(HANDLE, HANDLE, const char* ) { return 1; }
 int    CMraProto::SendUrl(HANDLE, int, const char*) { return 1; }
 
 /////////////////////////////////////////////////////////////////////////////////////////

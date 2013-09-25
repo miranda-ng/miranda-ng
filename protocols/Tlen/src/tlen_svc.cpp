@@ -714,11 +714,6 @@ int TlenProtocol::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt)
 	return 0;
 }
 
-int TlenProtocol::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg)
-{
-	return 0;
-}
-
 HANDLE TlenProtocol::FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	TLEN_FILE_TRANSFER *ft;
