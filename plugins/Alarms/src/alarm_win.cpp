@@ -6,10 +6,6 @@
 #define SPEACH_REPEAT_PERIOD		15000	// milliseconds
 HANDLE hAlarmWindowList = 0;
 
-HMODULE hUserDll;
-BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD) = 0;
-BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags) = 0;
-
 FontIDT title_font_id, window_font_id;
 ColourIDT bk_colour_id;
 HFONT hTitleFont = 0, hWindowFont = 0;
@@ -31,11 +27,6 @@ typedef struct WindowData_tag {
 void SetAlarmWinOptions()
 {
 	WindowList_Broadcast(hAlarmWindowList, WMU_SETOPT, IDC_SNOOZE, 0);
-}
-
-bool TransparencyEnabled()
-{
-	return MySetLayeredWindowAttributes != 0;
 }
 
 INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -146,8 +137,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) | WS_EX_LAYERED);
 #endif
 #ifdef LWA_ALPHA
-			if (MySetLayeredWindowAttributes) 
-				MySetLayeredWindowAttributes(hwndDlg, RGB(0,0,0), (int)((100 - opt->aw_trans) / 100.0 * 255), LWA_ALPHA);
+			SetLayeredWindowAttributes(hwndDlg, RGB(0,0,0), (int)((100 - opt->aw_trans) / 100.0 * 255), LWA_ALPHA);
 #endif
 		}
 		return TRUE;
@@ -413,10 +403,6 @@ int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 void InitAlarmWin()
 {
-	hUserDll = LoadLibrary(_T("user32.dll"));
-	if (hUserDll)
-		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-
 	hAlarmWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, AlarmWinModulesLoaded);
@@ -425,8 +411,6 @@ void InitAlarmWin()
 void DeinitAlarmWin()
 {	
 	WindowList_Broadcast(hAlarmWindowList, WM_COMMAND, IDC_SNOOZE, 0);
-
-	FreeLibrary(hUserDll);
 
 	if (hBackgroundBrush) DeleteObject(hBackgroundBrush);
 	if (hTitleFont) DeleteObject(hTitleFont);

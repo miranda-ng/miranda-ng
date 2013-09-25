@@ -30,6 +30,7 @@
 
 #include <windows.h>
 #include <shellapi.h>
+#include <Wtsapi32.h>
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -109,6 +110,4 @@ typedef struct HWND_ITEM_TYPE
 	HWND_ITEM_TYPE *next;
 }	HWND_ITEM;
 
-typedef BOOL (WINAPI *PWTSRegisterSessionNotification)(HWND hWnd, DWORD dwFlags);
-typedef BOOL (WINAPI *PWTSUnRegisterSessionNotification)(HWND hWnd);
 typedef HRESULT (WINAPI *PFNDwmIsCompositionEnabled)(BOOL *);

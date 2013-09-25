@@ -2,7 +2,7 @@
 
 int upCount, total = 0;
 
-int list_size = 0;
+size_t list_size = 0;
 
 HANDLE mainThread;
 HANDLE hWakeEvent = 0;
@@ -25,9 +25,6 @@ HFONT hFont = 0;
 COLORREF bk_col = RGB(255, 255, 255);
 
 ////////////////
-static HMODULE hUserDll;
-BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags);
 #define TM_AUTOALPHA  1
 static int transparentFocus=1;
 /////////////////
@@ -105,7 +102,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 
 		Lock(&data_list_cs, "ping thread loop start");
 		set_list_changed(false);
-		int size = data_list.size();
+		size_t size = data_list.size();
 		Unlock(&data_list_cs);
 
 		int index = 0;
@@ -530,7 +527,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 #endif
 #ifdef LWA_ALPHA
-				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 #endif
 			}
 		}
@@ -553,7 +550,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if(db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
 				KillTimer(hwnd,TM_AUTOALPHA);
 #ifdef LWA_ALPHA
-				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 #endif
 				transparentFocus=1;
 			}
@@ -562,9 +559,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_SETCURSOR:
 		if(db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
-			if (!transparentFocus && GetForegroundWindow()!=hwnd && MySetLayeredWindowAttributes) {
+			if (!transparentFocus && GetForegroundWindow()!=hwnd) {
 #ifdef LWA_ALPHA
-				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 #endif
 				transparentFocus=1;
 				SetTimer(hwnd, TM_AUTOALPHA,250,NULL);
@@ -588,12 +585,12 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				hwndPt=WindowFromPoint(pt);
 				inwnd=(hwndPt==hwnd || GetParent(hwndPt)==hwnd);
 			}
-			if (inwnd!=transparentFocus && MySetLayeredWindowAttributes)
+			if (inwnd!=transparentFocus)
 			{ //change
 				transparentFocus=inwnd;
 #ifdef LWA_ALPHA
-				if(transparentFocus) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
-				else MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+				if(transparentFocus) SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				else SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 #endif
 			}
 			if(!transparentFocus) KillTimer(hwnd,TM_AUTOALPHA);
@@ -616,7 +613,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				sourceAlpha=0;
 				destAlpha=(BYTE)db_get_b(NULL,"CList","Alpha",SETTING_AUTOALPHA_DEFAULT);
 #ifdef LWA_ALPHA
-				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
 #endif
 				noRecurse=1;
 				ShowWindow(hwnd,SW_SHOW);
@@ -630,16 +627,16 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				thisTick=GetTickCount();
 				if(thisTick>=startTick+200) break;
 #ifdef LWA_ALPHA
-				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)(sourceAlpha+(destAlpha-sourceAlpha)*(int)(thisTick-startTick)/200), LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)(sourceAlpha+(destAlpha-sourceAlpha)*(int)(thisTick-startTick)/200), LWA_ALPHA);
 #endif
 			}
 #ifdef LWA_ALPHA
-			MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)destAlpha, LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)destAlpha, LWA_ALPHA);
 #endif
 		}
 		else {
 //			if(wParam) SetForegroundWindow(hwnd);
-			MyAnimateWindow(hwnd,200,AW_BLEND|(wParam?0:AW_HIDE));
+			AnimateWindow(hwnd,200,AW_BLEND|(wParam?0:AW_HIDE));
 			//SetWindowPos(label,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED);
 		}
 #endif
@@ -915,7 +912,7 @@ void UpdateFrame() {
 	GetWindowRect(hwnd_clist, &r_clist);
 	RECT r_frame;
 	GetWindowRect(hpwnd, &r_frame);
-	int height = list_size * options.row_height;
+	int height = (int)list_size * options.row_height;
 	if(GetWindowLong(hpwnd, GWL_STYLE) & WS_BORDER) {
 		RECT r_frame_client;
 		GetClientRect(hpwnd, &r_frame_client);
@@ -969,12 +966,6 @@ void AttachToClist(bool attach)
 
 void InitList()
 {
-	hUserDll = LoadLibrary(_T("user32.dll"));
-	if (hUserDll) {
-		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		MyAnimateWindow=(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
-	}
-
 	hwnd_clist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
 	WNDCLASS wndclass;

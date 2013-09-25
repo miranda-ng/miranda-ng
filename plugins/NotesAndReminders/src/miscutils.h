@@ -10,11 +10,6 @@ void WriteSettingIntArray(HANDLE hContact,char *ModuleName,
 bool ReadSettingIntArray(HANDLE hContact,char *ModuleName,
 				   char *SettingName,int *Value, int Size);
 
-extern BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-extern HANDLE (WINAPI *MyMonitorFromWindow)(HWND,DWORD);
-extern BOOL (WINAPI *MyTzSpecificLocalTimeToSystemTime)(LPTIME_ZONE_INFORMATION,LPSYSTEMTIME,LPSYSTEMTIME);
-extern BOOL (WINAPI *MySystemTimeToTzSpecificLocalTime)(LPTIME_ZONE_INFORMATION,LPSYSTEMTIME,LPSYSTEMTIME);
-
 WORD ConvertHotKeyToControl(WORD HK);
 WORD ConvertControlToHotKey(WORD HK);
 

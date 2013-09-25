@@ -3,18 +3,8 @@
 #ifndef _ICMP_H
 #define _ICMP_H
 
-typedef HANDLE (WINAPI* pfnHV)(VOID);
-typedef BOOL (WINAPI* pfnBH)(HANDLE);
-typedef DWORD (WINAPI* pfnDHDPWPipPDD)(HANDLE, HANDLE, FARPROC, PVOID, IPAddr, LPVOID, WORD, PIP_OPTION_INFORMATION, LPVOID, DWORD, DWORD);
-
 class ICMP {
 protected:
-	pfnHV pIcmpCreateFile;
-	pfnBH pIcmpCloseHandle;
-	pfnDHDPWPipPDD pIcmpSendEcho2;
-
-	HMODULE hDLL;
-
 	HANDLE hIP;
 
 	unsigned int timeout;

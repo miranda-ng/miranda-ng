@@ -376,10 +376,6 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				SetDlgItemText(hdlg,IDC_EDIT_EMAILSMS,"");
 
 			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : _T(""));
-      if (!MySetLayeredWindowAttributes)
-      { // layered UI not available
-        EnableWindow(GetDlgItem(hdlg,IDC_SLIDER_TRANSPARENCY), FALSE);
-      }
 			return TRUE;
 		}
 	case WM_HSCROLL:

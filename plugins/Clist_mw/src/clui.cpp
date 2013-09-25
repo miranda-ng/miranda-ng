@@ -28,7 +28,6 @@
 
 extern int DefaultImageListColorDepth;
 
-static HMODULE hUserDll;
 HMENU hMenuMain;
 static HANDLE hContactDraggingEvent,hContactDroppedEvent,hContactDragStopEvent;
 UINT hMsgGetProfile = 0;
@@ -57,9 +56,6 @@ ProtoTicks CycleStartTick[64];//max 64 protocols
 int CycleTimeInterval = 2000;
 int CycleIconCount = 8;
 int DefaultStep = 100;
-
-BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags);
 
 int CluiOptInit(WPARAM wParam,LPARAM lParam);
 int SortList(WPARAM wParam,LPARAM lParam);
@@ -476,8 +472,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		if ( db_get_b( NULL, "CList", "Transparent", 0 )) {
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-			if ( MySetLayeredWindowAttributes )
-				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 		}
 		transparentFocus = 1;
 		return FALSE;
@@ -726,12 +721,6 @@ int LoadCLUIModule(void)
 	TCHAR titleText[256];
 	canloadstatusbar = FALSE;
 	hFrameContactTree = 0;
-
-	hUserDll = LoadLibraryA("user32.dll");
-	if (hUserDll) {
-		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		MyAnimateWindow = (BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
-	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED,CluiModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE,CluiOptInit);

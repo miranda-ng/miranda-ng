@@ -14,7 +14,6 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 extern HANDLE hAlarmWindowList;
 
 void SetAlarmWinOptions();
-bool TransparencyEnabled();
 
 void InitAlarmWin();
 void DeinitAlarmWin();

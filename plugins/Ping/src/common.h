@@ -14,6 +14,7 @@
 #include <commdlg.h>
 #include <commctrl.h>
 #include <iphlpapi.h>
+#include <Icmpapi.h>
 #include <list>
 
 #include <newpluginapi.h>

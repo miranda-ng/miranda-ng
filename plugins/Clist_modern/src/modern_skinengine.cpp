@@ -92,24 +92,6 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_DrawTextWithEffect(WPARAM wParam, LPARAM lParam);
 
-//Decoders
-static HMODULE hImageDecoderModule;
-
-typedef  DWORD  (__stdcall *pfnImgNewDecoder)(void ** ppDecoder);
-static pfnImgNewDecoder ImgNewDecoder;
-
-typedef DWORD (__stdcall *pfnImgDeleteDecoder)(void * pDecoder);
-static pfnImgDeleteDecoder ImgDeleteDecoder;
-
-typedef  DWORD  (__stdcall *pfnImgNewDIBFromFile)(LPVOID /*in*/pDecoder, LPCSTR /*in*/pFileName, LPVOID /*out*/*pImg);
-static pfnImgNewDIBFromFile ImgNewDIBFromFile;
-
-typedef DWORD (__stdcall *pfnImgDeleteDIBSection)(LPVOID /*in*/pImg);
-static pfnImgDeleteDIBSection ImgDeleteDIBSection;
-
-typedef DWORD (__stdcall *pfnImgGetHandle)(LPVOID /*in*/pImg, HBITMAP /*out*/*pBitmap, LPVOID /*out*/*ppDIBBits);
-static pfnImgGetHandle ImgGetHandle;
-
 static MODERNEFFECT meCurrentEffect = {-1,{0}, 0, 0};
 
 
@@ -428,36 +410,6 @@ HRESULT SkinEngineLoadModule()
 	// Initialize GDI+
 	InitGdiPlus();
 	AniAva_InitModule();
-	//load decoder
-	hImageDecoderModule = NULL;
-	if (g_CluiData.fGDIPlusFail)
-	{
-		hImageDecoderModule = LoadLibrary(_T("ImgDecoder.dll"));
-		if (hImageDecoderModule == NULL)
-		{
-			char tDllPath[ MAX_PATH ];
-			GetModuleFileNameA( g_hInst, tDllPath, sizeof( tDllPath ));
-			{
-				char* p = strrchr( tDllPath, '\\' );
-				if ( p != NULL )
-					strcpy( p+1, "ImgDecoder.dll");
-				else
-				{
-					strcpy( tDllPath, "ImgDecoder.dll");
-				}
-			}
-
-			hImageDecoderModule = LoadLibraryA(tDllPath);
-		}
-		if (hImageDecoderModule != NULL)
-		{
-			ImgNewDecoder = (pfnImgNewDecoder )GetProcAddress( hImageDecoderModule, "ImgNewDecoder");
-			ImgDeleteDecoder = (pfnImgDeleteDecoder )GetProcAddress( hImageDecoderModule, "ImgDeleteDecoder");
-			ImgNewDIBFromFile = (pfnImgNewDIBFromFile)GetProcAddress( hImageDecoderModule, "ImgNewDIBFromFile");
-			ImgDeleteDIBSection = (pfnImgDeleteDIBSection)GetProcAddress( hImageDecoderModule, "ImgDeleteDIBSection");
-			ImgGetHandle = (pfnImgGetHandle)GetProcAddress( hImageDecoderModule, "ImgGetHandle");
-		}
-	}
 	//create services
 	CreateServiceFunction(MS_SKIN_DRAWGLYPH,ske_Service_DrawGlyph);
 	CreateServiceFunction(MS_SKINENG_UPTATEFRAMEIMAGE,ske_Service_UpdateFrameImage);
@@ -506,7 +458,6 @@ int SkinEngineUnloadModule()
 	DeleteCriticalSection(&cs_SkinChanging);
 	GdiFlush();
 	DestroyHookableEvent(g_CluiData.hEventSkinServicesCreated);
-	if (hImageDecoderModule) FreeLibrary(hImageDecoderModule);
 	AniAva_UnloadModule();
 	ShutdownGdiPlus();
 	//free variables
@@ -515,7 +466,7 @@ int SkinEngineUnloadModule()
 
 BOOL ske_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest,int nHeightDest,HDC hdcSrc,int nXOriginSrc,int nYOriginSrc,int nWidthSrc,int nHeightSrc,BLENDFUNCTION blendFunction)
 {
-	if (g_CluiData.fDisableSkinEngine && !(!g_CluiData.fGDIPlusFail && blendFunction.BlendFlags&128))
+	if (g_CluiData.fDisableSkinEngine && !(blendFunction.BlendFlags&128))
 	{
 		if (nWidthDest != nWidthSrc || nHeightDest != nHeightSrc)
 			return StretchBlt(hdcDest,nXOriginDest,nYOriginDest,nWidthDest,nHeightDest,hdcSrc,nXOriginSrc,nYOriginSrc,nWidthSrc,nHeightSrc, SRCCOPY);
@@ -523,7 +474,7 @@ BOOL ske_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest
 			return BitBlt(hdcDest,nXOriginDest,nYOriginDest,nWidthDest,nHeightDest,hdcSrc,nXOriginSrc,nYOriginSrc, SRCCOPY);
 	}
 
-	if ( !g_CluiData.fGDIPlusFail && blendFunction.BlendFlags&128 ) //Use gdi+ engine
+	if (blendFunction.BlendFlags&128) //Use gdi+ engine
 	{
 		return GDIPlus_AlphaBlend( hdcDest,nXOriginDest,nYOriginDest,nWidthDest,nHeightDest,
 			hdcSrc,nXOriginSrc,nYOriginSrc,nWidthSrc,nHeightSrc,
@@ -1939,9 +1890,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 	HBITMAP hBitmap = NULL;
 	TCHAR ext[5];
 	BYTE f = 0;
-	LPBYTE pBitmapBits;
 	LPVOID pImg = NULL;
-	LPVOID m_pImgDecoder;
 
 	BITMAP bmpInfo;
 	{
@@ -1960,16 +1909,8 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
 		f = (bmpInfo.bmBits != NULL);
 	}
-	else if (hImageDecoderModule == NULL || !mir_bool_tstrcmpi(ext, _T(".png"))) {
+	else if (!mir_bool_tstrcmpi(ext, _T(".png"))) {
 		hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)tszFileName);
-	}
-	else {
-		f = 1;
-		ImgNewDecoder(&m_pImgDecoder);
-		if ( !ImgNewDIBFromFile(m_pImgDecoder, _T2A(tszFileName), &pImg)) {
-			ImgGetHandle(pImg, &hBitmap, (LPVOID *)&pBitmapBits);
-			ImgDeleteDecoder(m_pImgDecoder);
-		}
 	}
 
 	if (hBitmap) {
@@ -1999,7 +1940,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 
 static HBITMAP ske_skinLoadGlyphImage(const TCHAR *tszFileName)
 {
-	if ( !g_CluiData.fGDIPlusFail && !wildcmpit(tszFileName, _T("*.tga")))
+	if (!wildcmpit(tszFileName, _T("*.tga")))
 		return GDIPlus_LoadGlyphImage(tszFileName);
 
 	return ske_LoadGlyphImageByDecoders(tszFileName);

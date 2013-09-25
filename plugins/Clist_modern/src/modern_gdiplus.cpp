@@ -22,26 +22,15 @@ int       g_hottrack;
 void InitGdiPlus(void)
 {
 	GdiplusStartupInput gdiplusStartupInput;
-	g_CluiData.fGDIPlusFail = false;
-	__try {
-		if (g_gdiplusToken == 0)
-			GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
-	}
-	__except ( EXCEPTION_EXECUTE_HANDLER ) {
-		g_CluiData.fGDIPlusFail = true;
-	}
+	if (g_gdiplusToken == 0)
+		GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
 }
 
 void ShutdownGdiPlus(void)
 {
 	GdiplusStartupInput gdiplusStartupInput;
-	__try {
-		if (g_gdiplusToken)
-			GdiplusShutdown(g_gdiplusToken);
-	}
-	__except ( EXCEPTION_EXECUTE_HANDLER ) {
-		g_CluiData.fGDIPlusFail = true;
-	}
+	if (g_gdiplusToken)
+		GdiplusShutdown(g_gdiplusToken);
 	g_gdiplusToken = 0;
 }
 

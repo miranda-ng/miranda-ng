@@ -888,12 +888,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_TRANS), UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
 			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_TRANS), UDM_SETPOS, 0, temp_options.aw_trans);
-			if (!TransparencyEnabled()) {
-				HWND hw = GetDlgItem(hwndDlg, IDC_SPIN_TRANS);
-				EnableWindow(hw, FALSE);
-				hw = GetDlgItem(hwndDlg, IDC_ED_TRANS);
-				EnableWindow(hw, FALSE);
-			}
 		}
 
 		CheckDlgButton(hwndDlg, IDC_SHOWHIDE, temp_options.auto_showhide ? TRUE : FALSE);

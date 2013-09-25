@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <windows.h>
 #include <Uxtheme.h>
 #include <Shlwapi.h>
+#include <PowrProf.h>
+#include <Ras.h>
 
 /* WinXP+: shutdown reason codes */
 #if defined(EWX_RESTARTAPPS)   /* new MS Platform SDK */

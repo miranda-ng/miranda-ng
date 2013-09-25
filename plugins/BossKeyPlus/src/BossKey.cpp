@@ -36,7 +36,7 @@ HANDLE g_hHideService, g_hIsHiddenService;
 HWINEVENTHOOK g_hWinHook;
 HWND g_hListenWindow, hDlg, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
-HMODULE hWTS, hDwmApi;
+HMODULE hDwmApi;
 DWORD g_dwMirandaPID;
 WORD g_wMask, g_wMaskAdv;
 bool g_bWindowHidden, g_fKeyPressed, g_fPassRequested, g_TrayIcon;
@@ -49,8 +49,6 @@ TCHAR **oldStatusMsg;
 BYTE g_bOldSetting;
 int hLangpack;
 
-PWTSRegisterSessionNotification wtsRegisterSessionNotification ;
-PWTSUnRegisterSessionNotification wtsUnRegisterSessionNotification;
 PFNDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
 void LanguageChanged(HWND hDlg);
@@ -715,19 +713,8 @@ int MirandaLoaded(WPARAM,LPARAM)
 
 	if (RegisterClass(&winclass))
 	{
-		hWTS = LoadLibrary(_T("wtsapi32.dll"));
-
 		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO,BOSSKEY_LISTEN_INFO,WS_POPUP,0,0,5,5,pcli->hwndContactList,NULL,g_hInstance,NULL);
-
-		if (hWTS)
-		{
-			wtsRegisterSessionNotification = (PWTSRegisterSessionNotification)GetProcAddress(hWTS, "WTSRegisterSessionNotification");
-			if (wtsRegisterSessionNotification)
-			{
-				wtsUnRegisterSessionNotification = (PWTSUnRegisterSessionNotification)GetProcAddress(hWTS, "WTSUnRegisterSessionNotification");
-				wtsRegisterSessionNotification(g_hListenWindow, 0);
-			}
-		}
+		WTSRegisterSessionNotification(g_hListenWindow, 0);
 	}
 
 	if (IsWinVerVistaPlus())
@@ -809,13 +796,10 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	if (g_hListenWindow)
 	{
-		if (wtsUnRegisterSessionNotification)
-			wtsUnRegisterSessionNotification(g_hListenWindow);
+		WTSUnRegisterSessionNotification(g_hListenWindow);
 		DestroyWindow(g_hListenWindow);
 	}
 
-	if (hWTS)
-		FreeLibrary(hWTS);
 	if (hDwmApi)
 		FreeLibrary(hDwmApi);
 

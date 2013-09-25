@@ -1406,66 +1406,9 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 
 						// Draw avatar
 						if ( dat->use_avatar_service )
-							/*if ( ServiceExists( MS_AV_BLENDDRAWAVATAR ))
-							{
-							AVATARDRAWREQUEST adr;
-
-							adr.cbSize = sizeof( AVATARDRAWREQUEST );
-							adr.hContact = Drawing->hContact;
-							adr.hTargetDC = hdcMem;
-							adr.rcDraw = p_rect;
-							adr.dwFlags = ( dat->avatars_draw_border ? AVDRQ_DRAWBORDER : 0 ) |
-							( dat->avatars_round_corners ? AVDRQ_ROUNDEDCORNER : 0 ) |
-							AVDRQ_HIDEBORDERONTRANSPARENCY;
-							adr.clrBorder = dat->avatars_border_color;
-							adr.radius = round_radius;
-							adr.alpha = blendmode;
-
-							CallService(MS_AV_DRAWAVATAR, 0, (LPARAM) &adr );
-							}
-							else
-							*/
 						{
 							int w = width;
 							int h = height;
-/*							if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
-							{
-								DrawAvatarImageWithGDIp( hdcMem, p_rect.left, p_rect.top, w, h, Drawing->avatar_data->hbmPic, 0, 0, Drawing->avatar_data->bmWidth, Drawing->avatar_data->bmHeight, Drawing->avatar_data->dwFlags, blendmode );
-							}
-							else
-							{
-								if ( !( Drawing->avatar_data->dwFlags&AVS_PREMULTIPLIED ))
-								{
-									HDC hdcTmp = CreateCompatibleDC( hdcMem );
-									RECT r = {0, 0, w, h};
-									HDC hdcTmp2 = CreateCompatibleDC( hdcMem );
-									HBITMAP bmo = ( HBITMAP )SelectObject( hdcTmp, Drawing->avatar_data->hbmPic );
-									HBITMAP b2 = ske_CreateDIB32( w, h );
-									HBITMAP bmo2 = ( HBITMAP )SelectObject( hdcTmp2, b2 );
-									SetStretchBltMode( hdcTmp,  HALFTONE );
-									SetStretchBltMode( hdcTmp2,  HALFTONE );
-									StretchBlt( hdcTmp2, 0, 0, w, h, 
-										hdcTmp, 0, 0, Drawing->avatar_data->bmWidth, Drawing->avatar_data->bmHeight, 
-										SRCCOPY );
-
-									ske_SetRectOpaque( hdcTmp2, &r );
-									BitBlt( hdcMem, p_rect.left, p_rect.top, w, h, hdcTmp2, 0, 0, SRCCOPY );
-									SelectObject( hdcTmp2, bmo2 );
-									SelectObject( hdcTmp, bmo );
-									DeleteDC( hdcTmp );
-									DeleteDC( hdcTmp2 );
-									DeleteObject( b2 );
-								}
-								else {
-									BLENDFUNCTION bf = {AC_SRC_OVER, 0, blendmode, AC_SRC_ALPHA };
-									HDC hdcTempAv = CreateCompatibleDC( hdcMem );
-									HBITMAP hbmTempAvOld;
-									hbmTempAvOld = ( HBITMAP )SelectObject( hdcTempAv, Drawing->avatar_data->hbmPic );
-									ske_AlphaBlend( hdcMem, p_rect.left, p_rect.top, w, h, hdcTempAv, 0, 0, Drawing->avatar_data->bmWidth, Drawing->avatar_data->bmHeight, bf );
-									SelectObject( hdcTempAv, hbmTempAvOld );
-									DeleteDC( hdcTempAv );
-								}
-							}*/
 							_DrawContactAvatar( hdcMem, dat, Drawing, &row_rc, selected, hottrack, p_rect, &p_rect );
 						}
 						else

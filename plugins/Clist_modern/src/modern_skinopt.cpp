@@ -240,19 +240,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				imgPos.x = workRect.left+(( wWidth-dWidth )>>1 );
 				imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );
 				//DrawImage
-				if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
-				{
-					DrawAvatarImageWithGDIp( memDC, imgPos.x, imgPos.y, dWidth, dHeight, hPreviewBitmap, 0, 0, bmp.bmWidth, bmp.bmHeight, 8, 255 );
-				}
-				else
-				{
-					BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-					HDC imgDC = CreateCompatibleDC( dis->hDC );
-					HBITMAP imgOldbmp = (HBITMAP) SelectObject( imgDC, hPreviewBitmap );
-					ske_AlphaBlend( memDC, imgPos.x, imgPos.y, dWidth, dHeight, imgDC, 0, 0, bmp.bmWidth, bmp.bmHeight, bf );
-					SelectObject( imgDC, imgOldbmp );
-					DeleteDC( imgDC );
-				}
+				DrawAvatarImageWithGDIp( memDC, imgPos.x, imgPos.y, dWidth, dHeight, hPreviewBitmap, 0, 0, bmp.bmWidth, bmp.bmHeight, 8, 255 );
 			}
 			BitBlt( dis->hDC, dis->rcItem.left, dis->rcItem.top, mWidth, mHeight, memDC, 0, 0, SRCCOPY );
 			SelectObject( memDC, holdbmp );
@@ -553,8 +541,6 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 {
 	DRAWITEMSTRUCT *dis = ( DRAWITEMSTRUCT * )wParam;
 
-	HDC imgDC;
-	HBITMAP imgOldbmp;
 	int mWidth, mHeight;
 	RECT workRect = {0};
 	mWidth = dis->rcItem.right-dis->rcItem.left;
@@ -593,16 +579,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 			imgPos.x = workRect.left+(( wWidth-dWidth )>>1 );
 			imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );
 			//DrawImage
-			if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
-				DrawAvatarImageWithGDIp( dis->hDC, imgPos.x, imgPos.y, dWidth, dHeight, hPreviewBitmap, 0, 0, bmp.bmWidth, bmp.bmHeight, 8, 255 );
-			else {
-				BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-				imgDC = CreateCompatibleDC( dis->hDC );
-				imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );
-				ske_AlphaBlend( dis->hDC, imgPos.x, imgPos.y, dWidth, dHeight, imgDC, 0, 0, bmp.bmWidth, bmp.bmHeight, bf );
-				SelectObject( imgDC, imgOldbmp );
-				DeleteDC( imgDC );
-			}
+			DrawAvatarImageWithGDIp( dis->hDC, imgPos.x, imgPos.y, dWidth, dHeight, hPreviewBitmap, 0, 0, bmp.bmWidth, bmp.bmHeight, 8, 255 );
 			ske_UnloadGlyphImage(hPreviewBitmap);
 		}
 	}

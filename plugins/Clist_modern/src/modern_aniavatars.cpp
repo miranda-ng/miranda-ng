@@ -211,10 +211,7 @@ static void _AniAva_AnimationTreadProc(void*)
 // Init AniAva module
 int AniAva_InitModule()
 {
-	if (g_CluiData.fGDIPlusFail)
-		return 0;
-
-	if ( !(db_get_b(NULL,"CList","AvatarsAnimated",( ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail)) &&
+	if ( !(db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
 		    db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)))
 		 return 0;
 
@@ -269,8 +266,7 @@ int AniAva_UnloadModule()
 int AniAva_UpdateOptions()
 {
 	BOOL bReloadAvatars = FALSE;
-	BOOL bBeEnabled = (!g_CluiData.fGDIPlusFail &&
-		db_get_b(NULL,"CList","AvatarsAnimated",( ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail)) &&
+	BOOL bBeEnabled = (db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
 		db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT));
 	if (bBeEnabled && !s_bModuleStarted) {
 		AniAva_InitModule();

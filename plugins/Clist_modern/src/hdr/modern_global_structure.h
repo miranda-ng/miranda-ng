@@ -41,7 +41,6 @@ typedef struct tagCLUIDATA
 	BOOL	fSmoothAnimation;
 	BOOL	fLayered;
 	BOOL	fDocked;
-	BOOL	fGDIPlusFail;
 	BOOL	fSortNoOfflineBottom;
 	BOOL	fAutoSize;
 	BOOL	fAeroGlass;

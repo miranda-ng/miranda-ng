@@ -778,40 +778,7 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 
 			int w = width_clip;
 			int h = height_clip;
-			if ( !g_CluiData.fGDIPlusFail) //Use gdi+ engine
-				DrawAvatarImageWithGDIp(hdc, 0, 0, w, h,ace->hbmPic, 0, 0, ace->bmWidth,ace->bmHeight,ace->dwFlags,255);
-			else {
-				if ( !(ace->dwFlags & AVS_PREMULTIPLIED)) {
-					HDC hdcTmp = CreateCompatibleDC(hdc);
-					RECT r = {0, 0, w,h};
-					HDC hdcTmp2 = CreateCompatibleDC(hdc);
-					HBITMAP bmo = (HBITMAP)SelectObject(hdcTmp,ace->hbmPic);
-					HBITMAP b2 = ske_CreateDIB32(w,h);
-					HBITMAP bmo2 = (HBITMAP)SelectObject(hdcTmp2,b2);
-					SetStretchBltMode(hdcTmp,  HALFTONE);
-					SetStretchBltMode(hdcTmp2,  HALFTONE);
-					StretchBlt(hdcTmp2, 0, 0, w, h,
-						hdcTmp, 0, 0, ace->bmWidth, ace->bmHeight,
-						SRCCOPY);
-
-					ske_SetRectOpaque(hdcTmp2,&r);
-					BitBlt(hdc, rc.left, rc.top, w, h,hdcTmp2, 0, 0, SRCCOPY);
-					SelectObject(hdcTmp2,bmo2);
-					SelectObject(hdcTmp,bmo);
-					DeleteDC(hdcTmp);
-					DeleteDC(hdcTmp2);
-					DeleteObject(b2);
-				}
-				else {
-					BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-					HDC hdcTempAv = CreateCompatibleDC(hdc);
-					HBITMAP hbmTempAvOld;
-					hbmTempAvOld = (HBITMAP)SelectObject(hdcTempAv,ace->hbmPic);
-					ske_AlphaBlend(hdc, rc.left, rc.top, w, h, hdcTempAv, 0, 0, ace->bmWidth,ace->bmHeight, bf);
-					SelectObject(hdcTempAv, hbmTempAvOld);
-					DeleteDC(hdcTempAv);
-				}
-			}
+			DrawAvatarImageWithGDIp(hdc, 0, 0, w, h,ace->hbmPic, 0, 0, ace->bmWidth,ace->bmHeight,ace->dwFlags,255);
 		}
 		SelectObject(hdc,oldBmp);
 		DeleteDC(hdc);

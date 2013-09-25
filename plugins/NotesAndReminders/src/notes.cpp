@@ -303,7 +303,7 @@ STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,
 	TSN->pCustomFont = pCustomFont;
 
 	L1 = WS_EX_TOOLWINDOW;
-	if (MySetLayeredWindowAttributes && g_Transparency < 255) L1 |= WS_EX_LAYERED;
+	if (g_Transparency < 255) L1 |= WS_EX_LAYERED;
 	if (OnTop) L1 |= WS_EX_TOPMOST;
 
 	L2 = WS_POPUP | WS_THICKFRAME | WS_CAPTION;
@@ -313,14 +313,14 @@ STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,
 	//       we don't have to worry about notes "drifting" between sessions
 	TSN->SNHwnd = CreateWindowEx(L1, NOTE_WND_CLASS, _T("StickyNote"), L2, Ax,Ay,Aw,Ah, NULL, 0, hmiranda, TSN);
 
-	if (MySetLayeredWindowAttributes && g_Transparency < 255)
-		MySetLayeredWindowAttributes(TSN->SNHwnd,0,(BYTE)g_Transparency,LWA_ALPHA);
+	if (g_Transparency < 255)
+		SetLayeredWindowAttributes(TSN->SNHwnd,0,(BYTE)g_Transparency,LWA_ALPHA);
 
 	// ensure that window is not placed off-screen (if previous session had different monitor count or resolution)
 	// NOTE: SetWindowPlacement should do this, but it's extremly flakey
 	if (Data)
 	{
-		if (MyMonitorFromWindow && !MyMonitorFromWindow(TSN->SNHwnd, MONITOR_DEFAULTTONULL) )
+		if (!MonitorFromWindow(TSN->SNHwnd, MONITOR_DEFAULTTONULL) )
 		{
 			TWP.length = sizeof(WINDOWPLACEMENT);
 			GetWindowPlacement(GetDesktopWindow(), &TWP);

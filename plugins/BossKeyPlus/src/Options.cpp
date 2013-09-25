@@ -50,11 +50,6 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			g_fOptionsOpen = true;
 			s_fRedraw = false;
 
-			extern PWTSRegisterSessionNotification wtsRegisterSessionNotification;
-
-			if (wtsRegisterSessionNotification == 0)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_MAINOPT_HIDEIFLOCK), SW_HIDE);
-
 			// set icon and tooltip for variables help button
 			variables_skin_helpbutton(hwndDlg, IDC_MAINOPT_VARHELP);
 

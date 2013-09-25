@@ -28,8 +28,6 @@ HINSTANCE g_hInst = 0;
 CLIST_INTERFACE* pcli = NULL;
 HIMAGELIST himlCListClc = NULL;
 
-BOOL(WINAPI * MySetLayeredWindowAttributes) (HWND, COLORREF, BYTE, DWORD) = NULL;
-
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void RebuildEntireList(HWND hwnd, ClcData *dat);
@@ -157,9 +155,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
-
-	MySetLayeredWindowAttributes = (BOOL(WINAPI *) (HWND, COLORREF, BYTE, DWORD)) GetProcAddress(
-		LoadLibraryA("user32.dll"), "SetLayeredWindowAttributes");
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 

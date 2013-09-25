@@ -73,14 +73,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 	switch(shutdownType) {
 		case SDSDT_HIBERNATE:
 		case SDSDT_STANDBY:
-			{	HMODULE hPowerDLL=LoadLibraryA("POWRPROF"); /* all ascii */
-				if (hPowerDLL != NULL) {
-					BOOLEAN (STDAPICALLTYPE *pfnIsPwrModeAllowed)(void);
-					*(PROC*)&pfnIsPwrModeAllowed=GetProcAddress(hPowerDLL,(shutdownType==SDSDT_HIBERNATE)?"IsPwrHibernateAllowed":"IsPwrSuspendAllowed");
-					if (pfnIsPwrModeAllowed) bReturn=pfnIsPwrModeAllowed() != 0;
-					FreeLibrary(hPowerDLL);
-				}
-			}
+			bReturn = shutdownType == SDSDT_HIBERNATE ? IsPwrHibernateAllowed() : IsPwrSuspendAllowed() != 0;
 			/* test privilege */
 			if (bReturn) {
 				bReturn=WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
@@ -117,7 +110,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 			break;
 		case SDSDT_CLOSERASCONNECTIONS:
 			/* check if RAS installed/available */
-			bReturn=SearchPath(NULL,_T("RASAPI32"),_T(".DLL"),0,NULL,NULL) != 0;
+			bReturn = TRUE;
 			break;
 		case SDSDT_SETMIRANDAOFFLINE:
 		case SDSDT_CLOSEMIRANDA:
@@ -180,74 +173,60 @@ static DWORD ShutdownNow(BYTE shutdownType)
 		ShutdownNow(SDSDT_SETMIRANDAOFFLINE); /* set Miranda offline */
 		/* hang up all ras connections */
 		{	
-			HMODULE hRasApiDLL=LoadLibrary(_T("RASAPI32")); /* all ascii */
-			if (hRasApiDLL != NULL) {
-				DWORD (APIENTRY *pfnRasEnumConnections)(RASCONN*,DWORD*,DWORD*);
-				DWORD (APIENTRY *pfnRasHangUp)(HRASCONN);
-				DWORD (APIENTRY *pfnRasGetConnectStatus)(HRASCONN,RASCONNSTATUS*);
-				*(PROC*)&pfnRasEnumConnections=GetProcAddress(hRasApiDLL,"RasEnumConnectionsW");
-				*(PROC*)&pfnRasHangUp=GetProcAddress(hRasApiDLL,"RasHangUpW");
-				*(PROC*)&pfnRasGetConnectStatus=GetProcAddress(hRasApiDLL,"RasGetConnectStatusW");
-				if (pfnRasEnumConnections && pfnRasGetConnectStatus && pfnRasHangUp) {
-					RASCONN *paConn;
-					RASCONN *paConnBuf;
-					DWORD dwConnSize,dwConnItems,dwRetries;
-					RASCONNSTATUS rcs;
-					DWORD dw,dwLastTickCount;
+			RASCONN *paConn;
+			RASCONN *paConnBuf;
+			DWORD dwConnSize,dwConnItems,dwRetries;
+			RASCONNSTATUS rcs;
+			DWORD dw,dwLastTickCount;
 
-					dwConnSize=sizeof(RASCONN);
-					dwConnItems=0;
-					paConn=(RASCONN*)mir_alloc(dwConnSize);
-					dwErrCode=ERROR_NOT_ENOUGH_MEMORY;
-					if (paConn != NULL) {
-						for(dwRetries=5; dwRetries != 0; dwRetries--) { /* prevent infinite loop (rare) */
-							ZeroMemory(paConn, dwConnSize);
-							paConn[0].dwSize = sizeof(RASCONN);
-							dwErrCode = pfnRasEnumConnections(paConn,&dwConnSize,&dwConnItems);
-							if (dwErrCode != ERROR_BUFFER_TOO_SMALL) break;
-							paConnBuf=(RASCONN*)mir_realloc(paConn,dwConnSize);
-							if (paConnBuf != NULL) {
-								mir_free(paConn);
-								paConn = NULL;
-								dwErrCode = ERROR_NOT_ENOUGH_MEMORY;
-								break;
-							}
-							paConn=paConnBuf;
+			dwConnSize=sizeof(RASCONN);
+			dwConnItems=0;
+			paConn=(RASCONN*)mir_alloc(dwConnSize);
+			dwErrCode=ERROR_NOT_ENOUGH_MEMORY;
+			if (paConn != NULL) {
+				for(dwRetries=5; dwRetries != 0; dwRetries--) { /* prevent infinite loop (rare) */
+					ZeroMemory(paConn, dwConnSize);
+					paConn[0].dwSize = sizeof(RASCONN);
+					dwErrCode = RasEnumConnections(paConn, &dwConnSize, &dwConnItems);
+					if (dwErrCode != ERROR_BUFFER_TOO_SMALL) break;
+					paConnBuf=(RASCONN*)mir_realloc(paConn,dwConnSize);
+					if (paConnBuf != NULL) {
+						mir_free(paConn);
+						paConn = NULL;
+						dwErrCode = ERROR_NOT_ENOUGH_MEMORY;
+						break;
+					}
+					paConn=paConnBuf;
+				}
+				if (dwErrCode==ERROR_SUCCESS || dwErrCode==ERROR_BUFFER_TOO_SMALL) {
+					for(dw=0;dw<dwConnItems;++dw) {
+						if (dwErrCode) {
+							if (RasHangUp(paConn[dw].hrasconn))
+								paConn[dw].hrasconn=NULL; /* do not wait for on error */
 						}
-						if (dwErrCode==ERROR_SUCCESS || dwErrCode==ERROR_BUFFER_TOO_SMALL) {
-							for(dw=0;dw<dwConnItems;++dw) {
-								if (dwErrCode) {
-									if (pfnRasHangUp(paConn[dw].hrasconn))
-										paConn[dw].hrasconn=NULL; /* do not wait for on error */
-								}
-								else {
-									dwErrCode=pfnRasHangUp(paConn[dw].hrasconn);
-									if (!dwErrCode) paConn[dw].hrasconn=NULL; /* do not wait for on error */
-								}
-							}
-							/* RAS does not allow to quit directly after HangUp (see docs) */
-							dwLastTickCount = GetTickCount();
-							ZeroMemory(&rcs,sizeof(RASCONNSTATUS));
-							rcs.dwSize = sizeof(RASCONNSTATUS);
-							for(dw=0; dw < dwConnItems; ++dw) {
-								if (paConn[dw].hrasconn != NULL) {
-									while(pfnRasGetConnectStatus(paConn[dw].hrasconn, &rcs) != ERROR_INVALID_HANDLE) {
-										Sleep(0); /* give rest of time silce to other threads with equal priority */
-										/* infinite loop protection (3000ms defined in docs) */
-										dwRetries = GetTickCount();
-										if (dwRetries - dwLastTickCount>3000)
-											break; /* wraparound works */
-									}
-								}
+						else {
+							dwErrCode = RasHangUp(paConn[dw].hrasconn);
+							if (!dwErrCode) paConn[dw].hrasconn=NULL; /* do not wait for on error */
+						}
+					}
+					/* RAS does not allow to quit directly after HangUp (see docs) */
+					dwLastTickCount = GetTickCount();
+					ZeroMemory(&rcs,sizeof(RASCONNSTATUS));
+					rcs.dwSize = sizeof(RASCONNSTATUS);
+					for(dw=0; dw < dwConnItems; ++dw) {
+						if (paConn[dw].hrasconn != NULL) {
+							while(RasGetConnectStatus(paConn[dw].hrasconn, &rcs) != ERROR_INVALID_HANDLE) {
+								Sleep(0); /* give rest of time silce to other threads with equal priority */
+								/* infinite loop protection (3000ms defined in docs) */
+								dwRetries = GetTickCount();
+								if (dwRetries - dwLastTickCount>3000)
+									break; /* wraparound works */
 							}
 						}
-						mir_free(paConn); /* does NULL check */
 					}
 				}
-				else dwErrCode = GetLastError();
-				FreeLibrary(hRasApiDLL);
+				mir_free(paConn); /* does NULL check */
 			}
-			else dwErrCode = GetLastError();
 		}
 		/* set Miranda to offline again, to remain offline with reconnection plugins */
 		ShutdownNow(SDSDT_SETMIRANDAOFFLINE);
