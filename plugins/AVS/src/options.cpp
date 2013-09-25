@@ -393,7 +393,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 					if ( g_selectedProto ) {
 						DBVARIANT dbv;
 						if ( !db_get_ts(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
-							if ( !AVS_pathIsAbsolute(dbv.ptszVal)) {
+							if ( !AVS_pathIsAbsolute( VARST(dbv.ptszVal))) {
 								TCHAR szFinalPath[MAX_PATH];
 								mir_sntprintf(szFinalPath, SIZEOF(szFinalPath), _T("%%miranda_path%%\\%s"), dbv.ptszVal);
 								SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, szFinalPath);
