@@ -1,7 +1,5 @@
 ﻿[Stable]
 [Var]
-[Max]
-[Min]
 [Rain Mist]
 [Smoke]
 [Snow Mist]
