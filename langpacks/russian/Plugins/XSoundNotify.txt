@@ -24,7 +24,7 @@
 [Ignore sound for this contact]
 Игнорировать звук для этого контакта
 [Custom contact sound]
-Пользовательский звук контакта
+Заданный звук контакта
 [Custom sound for %s (%s)]
 Пользовательский звук для %s (%s)
 [Self status]
