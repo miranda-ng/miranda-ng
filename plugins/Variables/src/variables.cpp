@@ -533,7 +533,6 @@ int LoadVarModule()
 	registerVariablesTokens();
 	registerRegExpTokens();
 	registerInetTokens();
-	registerXsltTokens();
 	registerAliasTokens();
 	registerMetaContactsTokens();
 

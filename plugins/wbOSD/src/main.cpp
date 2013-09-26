@@ -15,8 +15,6 @@ HWND hwnd=0;
 HANDLE hservosda;
 int hLangpack = 0;
 HANDLE hHookedNewEvent, hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged, hpluginShutDown;
-HINSTANCE hUser32;
-BOOL (WINAPI*pSetLayeredWindowAttributes)(HWND, COLORREF, BYTE, DWORD);
 
 void logmsg2(char *str);
 int MainInit(WPARAM,LPARAM);
@@ -49,22 +47,6 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfo);
 
 	logmsg("Load");
-	pSetLayeredWindowAttributes=0;
-
-#ifndef FORCE_9XDRAWING
-	hUser32=LoadLibrary(_T("user32.dll"));
-#else
-	hUser32=0;
-#endif
-
-	if (hUser32) {
-		pSetLayeredWindowAttributes=(BOOL(WINAPI*)(HWND, COLORREF, BYTE, DWORD))GetProcAddress(hUser32, "SetLayeredWindowAttributes");
-		if (!pSetLayeredWindowAttributes) {
-			FreeLibrary(hUser32);
-			hUser32=0;
-		}
-	}
-
 	hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	return 0;
 }
@@ -80,10 +62,6 @@ extern "C" __declspec(dllexport) int Unload()
 	UnhookEvent(hContactStatusChanged);
 	UnhookEvent(hHookedNewEvent);
 	UnhookEvent(hHookedInit);
-
-	if (hUser32)
-		FreeLibrary(hUser32);
-	pSetLayeredWindowAttributes=0;
 
 	DestroyServiceFunction(hservosda);
 	DestroyHookableEvent(hHookContactStatusChanged);

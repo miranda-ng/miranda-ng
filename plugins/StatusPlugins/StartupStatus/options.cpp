@@ -29,7 +29,6 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 INT_PTR CALLBACK OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 
-BOOL MyGetSpecialFolderPath(HWND hwndOwner, LPTSTR lpszPath, int nFolder, BOOL fCreate);
 static int CountSettings(const char *szSetting,LPARAM lParam);
 static int DeleteSetting(const char *szSetting,LPARAM lParam);
 static int ClearDatabase(char* filter);
@@ -173,7 +172,7 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 	char *args = GetCMDLArguments(protoSettings);
 	char *desc = GetLinkDescription(protoSettings);
 
-	if (MyGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
+	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
 		_tcscat(savePath, _T(SHORTCUT_FILENAME));
 	else
 		mir_sntprintf(savePath, SIZEOF(savePath), _T(".\\%s"), _T(SHORTCUT_FILENAME));
@@ -925,29 +924,6 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-// from: http://www.codeproject.com/winhelp/msdnintegrator/
-
-	static const CHAR _szSpecialFolderPath[] = "SHGetSpecialFolderPathW";
-
-BOOL MyGetSpecialFolderPath(HWND hwndOwner, LPTSTR lpszPath, int nFolder, BOOL fCreate)
-{
-	typedef int (WINAPI* _SHGET)(HWND, LPTSTR, int, BOOL);
-
-	// Get a function pointer to SHGetSpecialFolderPath(...) from
-	// Shell32.dll, if this returns NULL then check ShFolder.dll...
-	_SHGET pfn = (_SHGET)GetProcAddress( LoadLibraryA( "Shell32.dll" ), _szSpecialFolderPath);
-	if (pfn == NULL) {
-		// Try to get the function pointer from ShFolder.dll, if pfn is still
-		// NULL then we have bigger problems...
-		pfn = (_SHGET)GetProcAddress( LoadLibraryA("ShFolder.dll"), _szSpecialFolderPath);
-		if (pfn == NULL)
-			return FALSE;
-	}
-
-	return pfn(hwndOwner, lpszPath, nFolder, fCreate);
-}
-
-// end: from: http://www.codeproject.com/winhelp/msdnintegrator/
 static int ClearDatabase(char* filter)
 {
 	DBCONTACTENUMSETTINGS dbces;

@@ -415,8 +415,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			else
 				SetClassLongPtr(hwnd, GCL_STYLE, 0);
 
-			if (!skin.bNeedLayerUpdate && MySetLayeredWindowAttributes)
-				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
+			if (!skin.bNeedLayerUpdate)
+				SetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
 
 			if (opt.showEffect) 
 				SetTimer(hwnd, ID_TIMER_ANIMATE, ANIM_ELAPSE, 0);
@@ -708,7 +708,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					POINT ptSrc = {0, 0};
 					SIZE szTip = {r.right - r.left, r.bottom - r.top};
 					blend.SourceConstantAlpha = pwd->iTrans;			
-					MyUpdateLayeredWindow(hwnd, NULL, NULL, &szTip, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+					UpdateLayeredWindow(hwnd, NULL, NULL, &szTip, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 
 					if (opt.bAeroGlass && MyDwmEnableBlurBehindWindow) {
 						DWM_BLURBEHIND bb = {0};
@@ -718,8 +718,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						MyDwmEnableBlurBehindWindow(hwnd, &bb);
 					}
 				} 
-				else if (MySetLayeredWindowAttributes) 
-					MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), pwd->iTrans, LWA_ALPHA);
+				else
+					SetLayeredWindowAttributes(hwnd, RGB(0,0,0), pwd->iTrans, LWA_ALPHA);
 			}	
 
 			SelectObject(hdc, hOldFont);
@@ -880,15 +880,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				blend.AlphaFormat = AC_SRC_ALPHA;
 
 				while (blend.SourceConstantAlpha != 0) {
-					MyUpdateLayeredWindow(hwnd, NULL, NULL, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+					UpdateLayeredWindow(hwnd, NULL, NULL, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 					blend.SourceConstantAlpha = max(blend.SourceConstantAlpha - opt.iAnimateSpeed, 0);
 					Sleep(ANIM_ELAPSE);
 				}
 			} 
-			else if (MySetLayeredWindowAttributes) {
+			else {
 				int iTrans = pwd->iTrans;
 				while (iTrans != 0) {
-					MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), iTrans, LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0,0,0), iTrans, LWA_ALPHA);
 					iTrans = max(iTrans - opt.iAnimateSpeed, 0);
 					Sleep(ANIM_ELAPSE);
 				}
@@ -1018,10 +1018,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			blend.SourceConstantAlpha = 0;
 			blend.AlphaFormat = AC_SRC_ALPHA;
 
-			MyUpdateLayeredWindow(hwnd, NULL, NULL, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+			UpdateLayeredWindow(hwnd, NULL, NULL, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 		} 
-		else if (MySetLayeredWindowAttributes)
-			MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
+		else
+			SetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
 
 		SendMessage(hwnd, PUM_REFRESHTRAYTIP, 1, 0);
 		SendMessage(hwnd, PUM_GETHEIGHT, 0, 0);
@@ -1325,10 +1325,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						pwd->iAnimStep = ANIM_STEPS;
 					}
 
-					MyUpdateLayeredWindow(hwnd, NULL, NULL, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+					UpdateLayeredWindow(hwnd, NULL, NULL, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 
 				} 
-				else if (MySetLayeredWindowAttributes) 
+				else
 				{
 					pwd->iCurrentTrans += opt.iAnimateSpeed;
 					if (pwd->iCurrentTrans > pwd->iTrans) 
@@ -1337,7 +1337,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						pwd->iAnimStep = ANIM_STEPS;
 					}
 
-					MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), pwd->iCurrentTrans, LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0,0,0), pwd->iCurrentTrans, LWA_ALPHA);
 				}
 
 			} 
@@ -1372,7 +1372,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					blend.SourceConstantAlpha = pwd->iTrans;
 					blend.AlphaFormat = AC_SRC_ALPHA;		
 
-					MyUpdateLayeredWindow(hwnd, NULL, &ptPos, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+					UpdateLayeredWindow(hwnd, NULL, &ptPos, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 				} 
 			}
 
@@ -1395,8 +1395,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (opt.showEffect == PSE_ANIMATE && pwd->iAnimStep == 1) 
 				{
-					if (MySetLayeredWindowAttributes)
-						MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), pwd->iTrans, LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0,0,0), pwd->iTrans, LWA_ALPHA);
 				}
 
 			}
@@ -1431,14 +1430,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			RECT rcWork, rc;
 
 			SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWork, FALSE);
-			if (MyMonitorFromPoint)
-			{
-				HMONITOR hMon = MyMonitorFromPoint(pwd->clcit.ptCursor, MONITOR_DEFAULTTONEAREST);
-				MONITORINFO mi;
-				mi.cbSize = sizeof(mi);
-				if (MyGetMonitorInfo(hMon, &mi))
-					rcWork = mi.rcWork;
-			}
+			HMONITOR hMon = MonitorFromPoint(pwd->clcit.ptCursor, MONITOR_DEFAULTTONEAREST);
+			MONITORINFO mi;
+			mi.cbSize = sizeof(mi);
+			if (GetMonitorInfo(hMon, &mi))
+				rcWork = mi.rcWork;
 
 			GetWindowRect(hwnd, &rc);
 

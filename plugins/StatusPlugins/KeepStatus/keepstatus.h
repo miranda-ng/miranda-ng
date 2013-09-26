@@ -24,6 +24,8 @@
 #include <winsock.h>
 #include <wininet.h>
 #include <ipexport.h>
+#include <Icmpapi.h>
+
 #include <m_options.h>
 #include <m_skin.h>
 #include <m_utils.h>

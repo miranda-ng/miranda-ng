@@ -20,14 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "common.h"
 
-BOOL (WINAPI *MyGetDiskFreeSpaceEx)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
-BOOL (WINAPI *MyIsWow64Process)(HANDLE, PBOOL);
-void (WINAPI *MyGetSystemInfo)(LPSYSTEM_INFO);
-BOOL (WINAPI *MyGlobalMemoryStatusEx)(LPMEMORYSTATUSEX lpBuffer) = NULL;
-
-LANGID (WINAPI *MyGetUserDefaultUILanguage)() = NULL;
-LANGID (WINAPI *MyGetSystemDefaultUILanguage)() = NULL;
-
 static int ValidExtension(TCHAR *fileName, TCHAR *extension)
 {
 	TCHAR *dot = _tcschr(fileName, '.');
@@ -224,36 +216,20 @@ bool CVersionInfo::GetOSVersion()
 		break; //added windows 2003 info
 	}
 
-	HMODULE hKernel32 = LoadLibrary(_T("kernel32.dll"));
-	if (hKernel32) {
-		SYSTEM_INFO si = {0};
-		// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
-		MyGetSystemInfo = (void (WINAPI *) (LPSYSTEM_INFO)) GetProcAddress(hKernel32, "GetNativeSystemInfo");
-		if (MyGetSystemInfo != NULL)
-			MyGetSystemInfo(&si);
-		else
-			GetSystemInfo(&si);
+	SYSTEM_INFO si = {0};
+	GetNativeSystemInfo(&si);
 
-		if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
-			lpzOSName.append(_T(", 64-bit "));
-		else if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_INTEL)
-			lpzOSName.append(_T(", 32-bit "));
+	if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
+		lpzOSName.append(_T(", 64-bit "));
+	else if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_INTEL)
+		lpzOSName.append(_T(", 32-bit "));
 
-		lpzOSName.append(osvi.szCSDVersion);
-		lpzOSName.append(_T(" (build "));
-		TCHAR buildno[MAX_PATH];
-		_itot(osvi.dwBuildNumber, buildno, 10);
-		lpzOSName.append(buildno);
-		lpzOSName.append(_T(")"));
-		FreeLibrary(hKernel32);
-	}
-	else {
-		lpzOSName.append(_T(" "));
-		lpzOSName.append(osvi.szCSDVersion);
-		lpzOSName.append(_T(" (build "));
-		lpzOSName.append((TCHAR *)LOWORD(osvi.dwBuildNumber));
-		lpzOSName.append(_T(")"));
-	}
+	lpzOSName.append(osvi.szCSDVersion);
+	lpzOSName.append(_T(" (build "));
+	TCHAR buildno[MAX_PATH];
+	_itot(osvi.dwBuildNumber, buildno, 10);
+	lpzOSName.append(buildno);
+	lpzOSName.append(_T(")"));
 
 	return TRUE;
 }
@@ -292,35 +268,16 @@ bool CVersionInfo::GetHWSettings()
 
 	//Free space on Miranda Partition.
 	TCHAR szMirandaPath[MAX_PATH] = { 0 };
-	{
-		GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
-		TCHAR* str2 = _tcsrchr(szMirandaPath,'\\');
-		if ( str2 != NULL) *str2=0;
-	}
-	HMODULE hKernel32;
-	hKernel32 = LoadLibraryA("kernel32.dll");
-	if (hKernel32) {
-
-			MyGetDiskFreeSpaceEx = (BOOL (WINAPI *)(LPCTSTR,PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER))GetProcAddress(hKernel32, "GetDiskFreeSpaceExW");
-
-
-		MyIsWow64Process = (BOOL (WINAPI *) (HANDLE, PBOOL)) GetProcAddress(hKernel32, "IsWow64Process");
-		MyGetSystemInfo = (void (WINAPI *) (LPSYSTEM_INFO)) GetProcAddress(hKernel32, "GetNativeSystemInfo");
-		MyGlobalMemoryStatusEx = (BOOL (WINAPI *) (LPMEMORYSTATUSEX)) GetProcAddress(hKernel32, "GlobalMemoryStatusEx");
-		if ( !MyGetSystemInfo )
-			MyGetSystemInfo = GetSystemInfo;
-
-		FreeLibrary(hKernel32);
-	}
-	if ( MyGetDiskFreeSpaceEx ) {
-		ULARGE_INTEGER FreeBytes, a, b;
-		MyGetDiskFreeSpaceEx(szMirandaPath, &FreeBytes, &a, &b);
-		//Now we need to convert it.
-		__int64 aux = FreeBytes.QuadPart;
-		aux /= (1024*1024);
-		luiFreeDiskSpace = (unsigned long int)aux;
-	}
-	else luiFreeDiskSpace = 0;
+	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
+	TCHAR* str2 = _tcsrchr(szMirandaPath,'\\');
+	if ( str2 != NULL)
+		*str2=0;
+	ULARGE_INTEGER FreeBytes, a, b;
+	GetDiskFreeSpaceEx(szMirandaPath, &FreeBytes, &a, &b);
+	//Now we need to convert it.
+	__int64 aux = FreeBytes.QuadPart;
+	aux /= (1024*1024);
+	luiFreeDiskSpace = (unsigned long int)aux;
 
 	TCHAR szInfo[1024];
 	GetWindowsShell(szInfo, SIZEOF(szInfo));
@@ -332,27 +289,18 @@ bool CVersionInfo::GetHWSettings()
 	lpzAdministratorPrivileges = (IsCurrentUserLocalAdministrator()) ? _T("Yes") : _T("No");
 
 	bIsWOW64 = 0;
-	if (MyIsWow64Process)
-		if (!MyIsWow64Process(GetCurrentProcess(), &bIsWOW64))
-			bIsWOW64 = 0;
+	if (!IsWow64Process(GetCurrentProcess(), &bIsWOW64))
+		bIsWOW64 = 0;
 
 	SYSTEM_INFO sysInfo = {0};
 	GetSystemInfo(&sysInfo);
 	luiProcessors = sysInfo.dwNumberOfProcessors;
 
 	//Installed RAM
-	if (MyGlobalMemoryStatusEx) { //windows 2000+
-		MEMORYSTATUSEX ms = {0};
-		ms.dwLength = sizeof(ms);
-		MyGlobalMemoryStatusEx(&ms);
-		luiRAM = (unsigned int) ((ms.ullTotalPhys / (1024 * 1024)) + 1);
-	}
-	else {
-		MEMORYSTATUS ms = {0};
-		ms.dwLength = sizeof(ms);
-		GlobalMemoryStatus(&ms);
-		luiRAM = (ms.dwTotalPhys/(1024*1024))+1; //Ugly hack!!!!
-	}
+	MEMORYSTATUSEX ms = {0};
+	ms.dwLength = sizeof(ms);
+	GlobalMemoryStatusEx(&ms);
+	luiRAM = (unsigned int) ((ms.ullTotalPhys / (1024 * 1024)) + 1);
 
 	return TRUE;
 }
@@ -421,83 +369,11 @@ bool CVersionInfo::GetOSLanguages()
 
 	LANGID UILang;
 
-	OSVERSIONINFO os = {0};
-	os.dwOSVersionInfoSize = sizeof(os);
-	GetVersionEx(&os);
-	if (os.dwMajorVersion == 4) {
-		if (os.dwPlatformId == VER_PLATFORM_WIN32_NT) { //Win NT
-			HMODULE hLib = LoadLibraryA("ntdll.dll");
-
-			if (hLib) {
-				EnumResourceLanguages(hLib, RT_VERSION, MAKEINTRESOURCE(1), EnumResLangProc, NULL);
-
-				FreeLibrary(hLib);
-
-				if (systemLangID == US_LANG_ID) {
-					UINT uiACP;
-
-					uiACP = GetACP();
-					switch (uiACP)
-					{
-						case 874:     // Thai code page activated, it's a Thai enabled system
-							systemLangID = MAKELANGID(LANG_THAI, SUBLANG_DEFAULT);
-							break;
-
-						case 1255:    // Hebrew code page activated, it's a Hebrew enabled system
-							systemLangID = MAKELANGID(LANG_HEBREW, SUBLANG_DEFAULT);
-							break;
-
-						case 1256:    // Arabic code page activated, it's a Arabic enabled system
-							systemLangID = MAKELANGID(LANG_ARABIC, SUBLANG_ARABIC_SAUDI_ARABIA);
-							break;
-
-						default:
-							break;
-					}
-				}
-			}
-		}
-		else { //Win 95-Me
-			HKEY hKey = NULL;
-			TCHAR szLangID[128] = _T("0x");
-			DWORD size = SIZEOF(szLangID) - 2;
-			TCHAR err[512];
-
-			if (RegOpenKeyEx(HKEY_CURRENT_USER, _T("Control Panel\\Desktop\\ResourceLocale"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
-				if (RegQueryValueEx(hKey, _T(""), 0, NULL, (LPBYTE) &szLangID + 2, &size) == ERROR_SUCCESS)
-					_tscanf(szLangID, _T("%lx"), &systemLangID);
-				else {
-					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError(), LANG_SYSTEM_DEFAULT, err, size, NULL);
-					MessageBox(0, err, _T("Error at RegQueryValueEx()"), MB_OK);
-				}
-				RegCloseKey(hKey);
-			}
-			else {
-				FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError(), LANG_SYSTEM_DEFAULT, err, size, NULL);
-				MessageBox(0, err, _T("Error at RegOpenKeyEx()"), MB_OK);
-			}
-		}
-
-		lpzOSLanguages += GetLanguageName(systemLangID);
-	}
-	else {
-		HMODULE hKernel32 = LoadLibraryA("kernel32.dll");
-		if (hKernel32) {
-			MyGetUserDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetUserDefaultUILanguage");
-			MyGetSystemDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetSystemDefaultUILanguage");
-
-			FreeLibrary(hKernel32);
-		}
-
-		if ((MyGetUserDefaultUILanguage) && (MyGetSystemDefaultUILanguage)) {
-			UILang = MyGetUserDefaultUILanguage();
-			lpzOSLanguages += GetLanguageName(UILang);
-			lpzOSLanguages += _T("/");
-			UILang = MyGetSystemDefaultUILanguage();
-			lpzOSLanguages += GetLanguageName(UILang);
-		}
-		else lpzOSLanguages += _T("Missing functions in kernel32.dll (GetUserDefaultUILanguage, GetSystemDefaultUILanguage)");
-	}
+	UILang = GetUserDefaultUILanguage();
+	lpzOSLanguages += GetLanguageName(UILang);
+	lpzOSLanguages += _T("/");
+	UILang = GetSystemDefaultUILanguage();
+	lpzOSLanguages += GetLanguageName(UILang);
 
 	lpzOSLanguages += _T(" | ");
 	lpzOSLanguages += GetLanguageName(LOCALE_USER_DEFAULT);

@@ -29,12 +29,6 @@ Boston, MA 02111-1307, USA.
 #define MUM_GOTAVATAR			(WM_USER + 0x014)
 #define MUM_GOTXSTATUS			(WM_USER + 0x015)
 
-extern BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-extern BOOL (WINAPI *MyUpdateLayeredWindow)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
-extern BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags);
-extern HMONITOR (WINAPI *MyMonitorFromPoint)(POINT, DWORD);
-extern BOOL (WINAPI *MyGetMonitorInfo)(HMONITOR, LPMONITORINFO);
- 
 #define DWM_BB_ENABLE					0x00000001
 #define DWM_BB_BLURREGION				0x00000002
 #define DWM_BB_TRANSITIONONMAXIMIZED	0x00000004

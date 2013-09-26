@@ -55,7 +55,6 @@ static UINT_PTR checkContinTimerId = 0;
 static UINT_PTR checkConnectingTimerId = 0;
 static int retryCount = 0;
 static BOOL bLastPingResult = TRUE;
-static HMODULE hICMP = NULL;
 // variables (options)
 static int maxRetries = 0;
 static int initDelay = 0;
@@ -121,7 +120,6 @@ int LoadMainOptions()
 	if (IsWindow(hMessageWindow))
 		DestroyWindow(hMessageWindow);
 	if (StartTimer(IDT_CHECKCONTIN, -1, FALSE)) {
-		FreeLibrary(hICMP);
 		WSACleanup();
 	}
 	StopTimer(IDT_CHECKCONN|IDT_PROCESSACK|IDT_AFTERCHECK|IDT_CHECKCONTIN|IDT_CHECKCONNECTING);
@@ -132,12 +130,7 @@ int LoadMainOptions()
 		if ( db_get_b(NULL, MODULENAME, SETTING_CONTCHECK, FALSE)) {
 			if ( db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE)) {
 				WSADATA wsaData;
-
 				WSAStartup(MAKEWORD(2, 2), &wsaData);
-				hICMP = LoadLibraryA("ICMP.DLL");
-				if (hICMP == NULL) {
-					log_infoA("KeepStatus: icmp.dll not found, ping disabled");
-				}
 			}
 			StartTimer(IDT_CHECKCONTIN, 0, FALSE);
 		}
@@ -768,10 +761,6 @@ static VOID CALLBACK AfterCheckTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWO
 		StopChecking();
 }
 
-typedef HANDLE ( WINAPI *pfnIcmpCreateFile )( void );
-typedef BOOL ( WINAPI *pfnIcmpCloseHandle )( HANDLE );
-typedef DWORD ( WINAPI *pfnIcmpSendEcho )( HANDLE, DWORD, int, int, void*, char*, int, int );
-
 static void CheckContinueslyFunction(void *arg)
 {
 	static int pingFailures = 0;
@@ -815,14 +804,7 @@ static void CheckContinueslyFunction(void *arg)
 			char reply[sizeof(ICMP_ECHO_REPLY)+8];
 
 			bLastPingResult = FALSE;
-			pfnIcmpCreateFile lpfnIcmpCreateFile = (pfnIcmpCreateFile)GetProcAddress(hICMP,"IcmpCreateFile");
-			pfnIcmpCloseHandle lpfnIcmpCloseHandle = (pfnIcmpCloseHandle)GetProcAddress(hICMP,"IcmpCloseHandle");
-			pfnIcmpSendEcho lpfnIcmpSendEcho = (pfnIcmpSendEcho)GetProcAddress(hICMP,"IcmpSendEcho");
-			if ((hICMP == NULL) || (lpfnIcmpCreateFile == NULL) || (lpfnIcmpCloseHandle == NULL) ||  (lpfnIcmpSendEcho == NULL)) {
-				bLastPingResult = TRUE;
-				log_infoA("KeepStatus: icmp.dll error (1)");
-			}
-			HANDLE hICMPFile = (HANDLE) lpfnIcmpCreateFile();
+			HANDLE hICMPFile = (HANDLE)IcmpCreateFile();
 			if (hICMPFile == INVALID_HANDLE_VALUE) {
 				bLastPingResult = TRUE;
 				log_infoA("KeepStatus: icmp.dll error (2)");
@@ -838,7 +820,7 @@ static void CheckContinueslyFunction(void *arg)
 					hostent = gethostbyname(host);
 					if (hostent != NULL) {
 						addr = (DWORD *)( *hostent->h_addr_list );
-						bLastPingResult = (lpfnIcmpSendEcho(hICMPFile, *addr, 0,0,NULL, reply,sizeof(ICMP_ECHO_REPLY)+8,5000) != 0);
+						bLastPingResult = (IcmpSendEcho(hICMPFile, *addr, 0,0,NULL, reply,sizeof(ICMP_ECHO_REPLY)+8,5000) != 0);
 
 						if (bLastPingResult)
 							pingFailures = 0;
@@ -854,7 +836,7 @@ static void CheckContinueslyFunction(void *arg)
 						start++;
 				}
 			}
-			lpfnIcmpCloseHandle(hICMPFile);
+			IcmpCloseHandle(hICMPFile);
 		}
 		db_free(&dbv);
 	}

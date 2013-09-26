@@ -48,17 +48,6 @@
 
 #include "ac\ac.h"
 #include "pcre\include\pcre.h"
-#include "libxml\xmlmemory.h"
-#include "libxml\debugXML.h"
-#include "libxml\HTMLtree.h"
-#include "libxml\xmlIO.h"
-#include "libxml\DOCBparser.h"
-#include "libxml\xinclude.h"
-#include "libxml\catalog.h"
-#include "libxslt\xslt.h"
-#include "libxslt\xsltInternals.h"
-#include "libxslt\transform.h"
-#include "libxslt\xsltutils.h"
 
 #include "resource.h"
 #include "version.h"
@@ -192,8 +181,6 @@ int  OptionsInit(WPARAM wParam, LPARAM lParam);
 int  registerRegExpTokens();
 // inet
 int  registerInetTokens();
-// xml
-int  registerXsltTokens();
 // help
 INT_PTR  showHelpService(WPARAM wParam, LPARAM lParam);
 INT_PTR  showHelpExService(WPARAM wParam, LPARAM lParam);

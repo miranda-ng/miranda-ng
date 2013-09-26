@@ -314,8 +314,7 @@ void CreateFromBitmaps(bool bServiceTip)
 					skin.hbmpSkinParts[i][j] = NULL;
 				}
 
-			if (MyUpdateLayeredWindow) 
-				skin.bNeedLayerUpdate = true;
+			skin.bNeedLayerUpdate = true;
 
 			DeleteDC(hdcMem);
 		}

@@ -195,11 +195,7 @@ LRESULT	CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			mir_free(ms->text);
 			mir_free(ms);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-			if (!pSetLayeredWindowAttributes) {
-				logmsg("WindowProcedure::USER+4/old+9x");
-				ShowWindow(hwnd, SW_HIDE);
-				Sleep(50);
-		}	}
+		}
 
 		ms =(osdmsg*)mir_alloc(sizeof(osdmsg));
 		memcpy(ms, (osdmsg*)wParam, sizeof(osdmsg));
@@ -275,8 +271,8 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	if ( !RegisterClassEx( &wincl ))
 		return 0;
 
-	hwnd = CreateWindowEx((pSetLayeredWindowAttributes?WS_EX_LAYERED:0)|WS_EX_TOOLWINDOW, szClassName, _T("WannaBeOSD"),
-		(pSetLayeredWindowAttributes?0:WS_CLIPSIBLINGS) | WS_POPUP,
+	hwnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOOLWINDOW, szClassName, _T("WannaBeOSD"),
+		WS_POPUP,
 		db_get_dw(NULL,THIS_MODULE, "winxpos", DEFAULT_WINXPOS),
 		db_get_dw(NULL,THIS_MODULE, "winypos", DEFAULT_WINYPOS),
 		db_get_dw(NULL,THIS_MODULE, "winx", DEFAULT_WINX),
@@ -285,8 +281,7 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 
-	if (pSetLayeredWindowAttributes)
-		pSetLayeredWindowAttributes(hwnd, db_get_dw(NULL,THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL,THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL,THIS_MODULE, "transparent", DEFAULT_TRANPARENT)?LWA_COLORKEY:0)|LWA_ALPHA);
+	SetLayeredWindowAttributes(hwnd, db_get_dw(NULL,THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL,THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL,THIS_MODULE, "transparent", DEFAULT_TRANPARENT)?LWA_COLORKEY:0)|LWA_ALPHA);
 
 	hservosda=CreateServiceFunction("OSD/Announce", OSDAnnounce);
 	

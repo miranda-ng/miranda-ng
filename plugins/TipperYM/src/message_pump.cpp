@@ -20,11 +20,6 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD) = 0;
-BOOL (WINAPI *MyUpdateLayeredWindow)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags) = 0;
-BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags) = 0;
-HMONITOR (WINAPI *MyMonitorFromPoint)(POINT, DWORD);
-BOOL (WINAPI *MyGetMonitorInfo)(HMONITOR, LPMONITORINFO);
 HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = 0;
 
 unsigned int uintMessagePumpThreadId = 0;
@@ -247,15 +242,6 @@ void InitMessagePump()
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = POP_WIN_CLASS;
 	RegisterClassEx(&wcl);
-
-	HMODULE hUserDll = LoadLibrary(_T("user32.dll"));
-	if (hUserDll) {
-		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		MyUpdateLayeredWindow = (BOOL (WINAPI *)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags))GetProcAddress(hUserDll, "UpdateLayeredWindow");
-		MyAnimateWindow =(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll, "AnimateWindow");
-		MyMonitorFromPoint = (HMONITOR (WINAPI*)(POINT, DWORD))GetProcAddress(hUserDll, "MonitorFromPoint");
-		MyGetMonitorInfo = (BOOL (WINAPI*)(HMONITOR, LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoW");
-	}
 
 	HMODULE hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
 	if (hDwmapiDll)

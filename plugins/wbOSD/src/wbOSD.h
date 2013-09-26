@@ -112,12 +112,9 @@ typedef struct _osdmsg {
 
 int OptionsInit(WPARAM wparam,LPARAM lparam);
 
-extern BOOL (WINAPI*pSetLayeredWindowAttributes)(HWND, COLORREF, BYTE, DWORD);
-
 void loadDBSettings(plgsettings *ps);
 
 extern HINSTANCE hI;
 extern HWND hwnd;
 extern HANDLE hservosda;
 extern HANDLE hHookedNewEvent, hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged, hpluginShutDown;
-extern HINSTANCE hUser32;

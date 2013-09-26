@@ -78,9 +78,6 @@
     <ClCompile Include="src\parse_variables.cpp">
       <Filter>Source Files\Parse</Filter>
     </ClCompile>
-    <ClCompile Include="src\parse_xml.cpp">
-      <Filter>Source Files\Parse</Filter>
-    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

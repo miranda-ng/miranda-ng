@@ -203,7 +203,6 @@
     <ClCompile Include="src\parse_str.cpp" />
     <ClCompile Include="src\parse_system.cpp" />
     <ClCompile Include="src\parse_variables.cpp" />
-    <ClCompile Include="src\parse_xml.cpp" />
     <ClCompile Include="..\helpers\gen_helpers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

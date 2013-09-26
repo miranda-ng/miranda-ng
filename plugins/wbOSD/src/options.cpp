@@ -225,7 +225,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			loadDBSettings(&ps[0]);
 			ps[1]=ps[0];
 			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG)ps);
-			SetWindowLongPtr(hwnd, GWL_STYLE, (LONG)(pSetLayeredWindowAttributes?0:WS_CLIPSIBLINGS)|WS_POPUP|WS_SIZEBOX);
+			SetWindowLongPtr(hwnd, GWL_STYLE, WS_POPUP | WS_SIZEBOX);
 			SetWindowPos(hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE|SWP_FRAMECHANGED);
 
 			SetWindowLongPtr(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE,GetWindowLong(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
@@ -276,12 +276,11 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			ps[0]=ps[1];
 			saveDBSettings(&ps[0]);
 
-			SetWindowLongPtr(hwnd, GWL_STYLE, (LONG)(pSetLayeredWindowAttributes?0:WS_CLIPSIBLINGS)|WS_POPUP);
+			SetWindowLongPtr(hwnd, GWL_STYLE, WS_POPUP);
 			SetWindowPos(hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE|SWP_FRAMECHANGED);
 
 			SetWindowPos(hwnd, 0, ps->winxpos, ps->winypos, ps->winx, ps->winy, SWP_NOZORDER|SWP_NOACTIVATE);
-			if (pSetLayeredWindowAttributes)
-				pSetLayeredWindowAttributes(hwnd, ps->bkclr, ps->alpha, (ps->transparent?LWA_COLORKEY:0)|LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, ps->bkclr, ps->alpha, (ps->transparent?LWA_COLORKEY:0)|LWA_ALPHA);
 
 			free((void*)GetWindowLongPtr(hDlg, GWLP_USERDATA));
 			return 0;
@@ -364,8 +363,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 xxx:
 			saveDBSettings(ps);
 			SetWindowPos(hwnd, 0, 0, 0, ps->winx, ps->winy, SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE);
-			if (pSetLayeredWindowAttributes)
-				pSetLayeredWindowAttributes(hwnd, db_get_dw(NULL,THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL,THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL,THIS_MODULE, "transparent", DEFAULT_TRANPARENT)?LWA_COLORKEY:0)|LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, db_get_dw(NULL,THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL,THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL,THIS_MODULE, "transparent", DEFAULT_TRANPARENT)?LWA_COLORKEY:0)|LWA_ALPHA);
 			InvalidateRect(hwnd, 0, TRUE);
 			SendMessage(GetParent(hDlg),PSM_CHANGED,0,0);
 
@@ -395,8 +393,7 @@ xxx:
 					ps[1]=ps[0]; //apply current settings at closing
 
 					saveDBSettings(ps);
-					if (pSetLayeredWindowAttributes)
-						pSetLayeredWindowAttributes(hwnd, db_get_dw(NULL,THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL,THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL,THIS_MODULE, "transparent", DEFAULT_TRANPARENT)?LWA_COLORKEY:0)|LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, db_get_dw(NULL,THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL,THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL,THIS_MODULE, "transparent", DEFAULT_TRANPARENT)?LWA_COLORKEY:0)|LWA_ALPHA);
 					InvalidateRect(hwnd, 0, TRUE);
 					break;
 			}
