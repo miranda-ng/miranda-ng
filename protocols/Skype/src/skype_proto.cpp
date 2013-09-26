@@ -624,7 +624,7 @@ int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
 		ptrW sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
-		if (::wcsicmp(sid, this->login) != 0)
+		if (sid != NULL && ::wcsicmp(sid, this->login) != 0)
 		{
 			SEStringList targets;
 			targets.append((char *)ptrA(::mir_utf8encodeW(sid)));
