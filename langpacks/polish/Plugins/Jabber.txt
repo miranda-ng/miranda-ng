@@ -898,7 +898,7 @@ Imię
 [Last Name]
 Nazwisko
 [Desired Nickname]
-żądany nick
+Żądany nick
 [Your URL]
 Twój link
 [Email Address]
@@ -916,13 +916,13 @@ Naturalny język dyskusji w pokoju
 [Maximum Number of Room Occupants]
 Maksymalna liczba użytkowników w pokoju
 [Whether an Make Room Members-Only]
-sprawić, by pokój był tylko dla członków
+Sprawić, by pokój był tylko dla członków
 [Whether to Make Room Moderated]
-sprawić, by pokój był moderowany
+Sprawić, by pokój był moderowany
 [Whether a Password is Required to Enter]
-hasło jest wymagane
+Hasło jest wymagane
 [Whether to Make Room Persistent]
-sprawić, by pokój był stały
+Sprawić, by pokój był stały
 [Roles for which Presence is Broadcast]
 Role, dla których obecność jest transmitowana
 [Whether to Allow Public Searching for Room]
@@ -938,7 +938,7 @@ Pełna lista właścicieli pokoju
 [The Room Password]
 Hasło pokoju
 [Affiliations that May Discover Real JIDs of Occupants]
-powiązania zezwalające na odkrywanie prawdziwych JIDów
+Powiązania zezwalające na odkrywanie prawdziwych JIDów
 [Precondition: node configuration with the specified access model]
 Warunek wstępny: konfiguracja węzła z ustalonym modelem dostępu
 [Whether to allow the subscription]
@@ -972,13 +972,13 @@ Link transformacji XLS, która może zostać zastosowana  do bloków danych w ce
 [Whether to deliver payloads with event notifications]
 Dostarczać bloki danych wraz z powiadomieniami o zdarzeniach
 [Whether owners or publisher should receive replies to items]
-Właściciele  lub osoba publikująca powinni otrzymywać odpowiedzi na elementy
+Właściciele lub osoba publikująca powinni otrzymywać odpowiedzi na elementy
 [Who may associate leaf nodes with a collection]
 Kto może kojarzyć węzły liściaste z kolekcją
 [The list of JIDs that may associated leaf nodes with a collection]
 Lista JIDów, które mogą kojarzyć węzły liściaste z kolekcją
 [The child nodes (leaf or collection) associated with a collection]
-Liść węzła potomnego lub kolekcja skojarzone z kolekcją
+Liść węzła potomnego lub kolekcji skojarzone z kolekcją
 [The maximum number of child nodes that can be associated with a collection]
 Maksymalna liczba węzłów potomnych, które mogą być skojarzone z kolekcją
 [The maximum number of items to persist]
@@ -1022,7 +1022,7 @@ JID twórcy węzła
 [A description of the node]
 Opis węzła
 [The default language of the node]
-Domyślny język węzły
+Domyślny język węzła
 [The number of subscribers to the node]
 Liczba subskrybentów węzła
 [The JIDs of those with an affiliation of owner]
@@ -1066,7 +1066,7 @@ Imię lub podana nazwa użytkownika
 [Last name, surname, or family name of the user]
 Nazwisko użytkownika
 [Email address of the user]
-Adresemail użytkownika
+Adres email użytkownika
 [Street portion of a physical or mailing address]
 Ulica w adresie fizycznym lub pocztowym
 [Locality portion of a physical or mailing address]
@@ -1119,7 +1119,7 @@ Zakładki...
 [Change nickname in <%s>]
 Zmień nick w <%s>
 [has set the subject to:]
-Ustawił temat na:
+ustawił temat na:
 [%s\nIncoming groupchat invitation.]
 %s\nNadchodzi zaproszenie do czatu.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -1334,81 +1334,81 @@ Przychodząca notatka
 [Afar]
 Afar
 [Abkhazian]
-abchaski
+Abchaski
 [Afrikaans]
 Afrykanerski
 [Akan]
-akan
+Akan
 [Albanian]
 Albański
 [Amharic]
-amharski
+Amharski
 [Arabic]
 Arabski
 [Aragonese]
-aragoński
+Aragoński
 [Armenian]
 Armeński
 [Assamese]
-asamski
+Asamski
 [Avaric]
-awarski
+Awarski
 [Avestan]
-awestyjski
+Awestyjski
 [Aymara]
-ajmara
+Ajmara
 [Azerbaijani]
 Azerski
 [Bashkir]
-baszkirski
+Baszkirski
 [Bambara]
-bambara
+Bambara
 [Basque]
-baskijski
+Baskijski
 [Belarusian]
-białoruski
+Białoruski
 [Bengali]
-bengalski
+Bengalski
 [Bihari]
-bihari
+Bihari
 [Bislama]
-bislama
+Bislama
 [Bosnian]
 Bośniacki
 [Breton]
-bretoński
+Bretoński
 [Bulgarian]
 Bułgarski
 [Burmese]
 Birmański
 [Catalan; Valencian]
-kataloński; Walencja
+Kataloński
 [Chamorro]
 Chamorro
 [Chechen]
-czeczeński
+Czeczeński
 [Chinese]
 Chiński
 [Church Slavic; Old Slavonic]
-starocerkiewnosłowiański
+Starocerkiewnosłowiański
 [Chuvash]
-czuwaski
+Czuwaski
 [Cornish]
-kornwalijski
+Kornwalijski
 [Corsican]
-korsykański
+Korsykański
 [Cree]
-kri
+Kri
 [Czech]
 Czeski
 [Danish]
 Duński
 [Divehi; Dhivehi; Maldivian]
-malediwski
+Malediwski
 [Dutch; Flemish]
-flamancki
+Flamancki
 [Dzongkha]
-dzongkha
+Dzongkha
 [English]
 Angielski
 [Esperanto]
@@ -1416,291 +1416,291 @@ Esperanto
 [Estonian]
 Estoński
 [Ewe]
-ewe
+Ewe
 [Faroese]
-farerski
+Farerski
 [Fijian]
-fidżyjski
+Fidżyjski
 [Finnish]
 Fiński
 [French]
 Francuski
 [Western Frisian]
-zachodnio fryzyjski
+Zachodnio-fryzyjski
 [Fulah]
-ful
+Ful
 [Georgian]
-gruziński
+Gruziński
 [German]
 Niemiecki
 [Gaelic; Scottish Gaelic]
-gaelicki szkocki
+Gaelicki szkocki
 [Irish]
-irlancki
+Irlancki
 [Galician]
-galicyjski
+Galicyjski
 [Manx]
-manx
+Manx
 [Greek, Modern (1453-)]
-grecki, nowoczesny
+Grecki, nowoczesny
 [Guarani]
-guarani
+Guarani
 [Gujarati]
 Gudżarati
 [Haitian; Haitian Creole]
-kreolski, haitański
+Kreolski, Haitański
 [Hausa]
-hausa
+Hausa
 [Hebrew]
 Hebrajski
 [Herero]
-herero
+Herero
 [Hindi]
 Hinduski
 [Hiri Motu]
-hiri motu
+Hiri motu
 [Hungarian]
 Węgierski
 [Igbo]
-igbo
+Igbo
 [Icelandic]
 Islandzki
 [Ido]
-ido
+Ido
 [Sichuan Yi]
-sichuan yi
+Sichuan yi
 [Inuktitut]
-inuktitut
+Inuktitut
 [Interlingue]
-occidental
+Interlingua
 [Interlingua (International Auxiliary Language Association)]
-interlingua (międzynarodowe pomocnicze stowarzyszenie językowe)
+Interlingua (międzynarodowe pomocnicze stowarzyszenie językowe)
 [Indonesian]
 Indonezyjski
 [Inupiaq]
-inupiak
+Inupiak
 [Italian]
 Włoski
 [Javanese]
-jawajski
+Jawajski
 [Japanese]
 Japoński
 [Kalaallisut; Greenlandic]
-Kalaallisut; grenlancki
+Kalaallisut; grenlandzki
 [Kannada]
-kannada
+Kannada
 [Kashmiri]
-kaszmirski
+Kaszmirski
 [Kanuri]
-kanuri
+Kanuri
 [Kazakh]
-kazachski
+Kazachski
 [Central Khmer]
-khmerski
+Khmerski
 [Kikuyu; Gikuyu]
-kikuju
+Kikuju
 [Kinyarwanda]
-rundi
+Rundi
 [Kirghiz; Kyrgyz]
-kirgiski
+Kirgiski
 [Komi]
-komi
+Komi
 [Kongo]
-kongijski
+Kongijski
 [Korean]
 Koreański
 [Kuanyama; Kwanyama]
-kwanyama
+Kwanyama
 [Kurdish]
 Kurdyjski
 [Lao]
 Laotański
 [Latin]
-łacina
+Łaciński
 [Latvian]
 Łotewski
 [Limburgan; Limburger; Limburgish]
-limburski
+Limburski
 [Lingala]
-lingala
+Lingala
 [Lithuanian]
 Litewski
 [Luxembourgish; Letzeburgesch]
-luksemburski
+Luksemburski
 [Luba-Katanga]
-kiluba
+Kiluba
 [Ganda]
-luganda
+Luganda
 [Macedonian]
 Macedoński
 [Marshallese]
-marszalski
+Marszalski
 [Malayalam]
-malajalam
+Malajalam
 [Maori]
-maori
+Maori
 [Marathi]
-marathi
+Marathi
 [Malay]
 Malajski
 [Malagasy]
-malgaski
+Malgaski
 [Maltese]
-maltański
+Maltański
 [Moldavian]
-mołdawski
+Mołdawski
 [Mongolian]
 Mongolski
 [Nauru]
 Nauru
 [Navajo; Navaho]
-nawaho
+Nawaho
 [Ndebele, South; South Ndebele]
-ndebele południowy
+Nndebele południowy
 [Ndebele, North; North Ndebele]
-ndebele północny
+Ndebele północny
 [Ndonga]
-ndonga
+Ndonga
 [Nepali]
-nepalski
+Nepalski
 [Norwegian Nynorsk; Nynorsk, Norwegian]
-norweski Nynorsk,
+Norweski Nynorsk,
 [Bokmaal, Norwegian; Norwegian Bokmaal]
-norweski bokmaal
+Norweski bokmaal
 [Norwegian]
 Norweski
 [Chichewa; Chewa; Nyanja]
-nyanja
+Nyanja
 [Occitan (post 1500); Provencal]
-prowansalski
+Prowansalski
 [Ojibwa]
-odżibwe
+Odżibwe
 [Oriya]
-orija
+Orija
 [Oromo]
-oromo
+Oromo
 [Ossetian; Ossetic]
-osetyjski
+Osetyjski
 [Panjabi; Punjabi]
-punjabi
+Punjabi
 [Persian]
 Perski
 [Pali]
-pali
+Pali
 [Polish]
 Polski
 [Portuguese]
 Portugalski
 [Pushto]
-pasztoński
+Pasztoński
 [Quechua]
-keczua
+Keczua
 [Romansh]
-romansz
+Romansz
 [Romanian]
 Rumuński
 [Rundi]
-rundi
+Rundi
 [Russian]
 Rosyjski
 [Sango]
-sango
+Sango
 [Sanskrit]
-sanskrit
+Sanskrit
 [Serbian]
 Serbski
 [Croatian]
 Chorwacki
 [Sinhala; Sinhalese]
-syngaleski
+Syngaleski
 [Slovak]
 Słowacki
 [Slovenian]
 Słoweński
 [Northern Sami]
-północno lapoński
+Północno-lapoński
 [Samoan]
-samoański
+Samoański
 [Shona]
-shona
+Shona
 [Sindhi]
 Sindhi
 [Somali]
 Somalijski
 [Sotho, Southern]
-sotho południowy
+Sotho południowy
 [Spanish; Castilian]
-hiszpański
+Hiszpański
 [Sardinian]
-sardyński
+Sardyński
 [Swati]
-swati
+Swati
 [Sundanese]
-sundajski
+Sundajski
 [Swahili]
 Suahili
 [Swedish]
 Szwedzki
 [Tahitian]
-tahitański
+Tahitański
 [Tamil]
 Tamilski
 [Tatar]
 Tatarski
 [Telugu]
-telugu
+Telugu
 [Tajik]
-tadżycki
+Tadżycki
 [Tagalog]
 Tagalog
 [Thai]
 Tajski
 [Tibetan]
-tybetański
+Tybetański
 [Tigrinya]
-tigrinia
+Tigrinia
 [Tonga (Tonga Islands)]
-tonga (wyspy tonga)
+Tonga (wyspy Tonga)
 [Tswana]
-tswana
+Tswana
 [Tsonga]
-tsonga
+Tsonga
 [Turkmen]
-turkmeński
+Turkmeński
 [Turkish]
 Turecki
 [Twi]
-twi
+Twi
 [Uighur; Uyghur]
-tamilski
+Tamilski
 [Ukrainian]
 Ukraiński
 [Urdu]
 Urdu
 [Uzbek]
-uzbecki
+Uzbecki
 [Venda]
-venda
+Venda
 [Vietnamese]
 Wietnamski
 [Volapuk]
-wolapik
+Wolapik
 [Welsh]
 Walijski
 [Walloon]
-waloński
+Waloński
 [Wolof]
-wolof
+Wolof
 [Xhosa]
-xhosa
+Xhosa
 [Yiddish]
 Jidysz
 [Yoruba]
 Joruba
 [Zhuang; Chuang]
-zhuang
+Zhuang
 [Zulu]
-zulu
+Zulu
 [These changes will take effect the next time you connect to the Jabber network.]
 Te zmiany przyniosą efekt po następnym połączeniu z siecią Jabber
 [Jabber Protocol Option]
@@ -2052,7 +2052,7 @@ Cofnięto autoryzację
 [sent error presence]
 Informacja: Odnotowano obecność błędów
 [sent unknown presence type]
-Wyślij nieznany typ obecności
+wysłał nieznany typ obecności
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Wprowadź hasło dla %s

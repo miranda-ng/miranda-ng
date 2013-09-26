@@ -133,7 +133,7 @@ Nazwa kanału.
 [The item synopsis.]
 Opis kanału.
 [The URL of the item.]
-Czy chcesz nadpisać zawartość pliku?\r\n\r\nNaciśnięcie Nie dołączy te  kontakty na końcu pliku.
+Link do kanału.
 [Email address of the author of the item.]
 Adres e-mail autora.
 [URL of a page for comments relating to the item.]

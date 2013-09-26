@@ -55,7 +55,7 @@ Bezpieczne, szyfrowane połączenie (SSL)
 [Secure (MD5) login]
 Bezpieczne logowanie (MD5)
 [Legacy fix (for ICQ Groupware or IServerD only)]
-Poprawka tylko dla ICQ Groupware oraz IServerD)
+Poprawka (tylko dla ICQ Groupware oraz IServerD)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Wyślij "Keep-alives" (włącz tą opcję, jeśli korzystasz z serwera proxy i występują częste rozłączenia)
 [Ignore concurrent error messages]
@@ -294,7 +294,7 @@ Połączenie nieudane.\nTwój numer ICQ lub hasło zostały odrzucone (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Połączenie nieudane.\nSerwer jest tymczasowo niedostępny (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
-Połączenie nieudane.\nSErwer otrzymał zbyt wiele połączeń z twojego adresu IP (%d).
+Połączenie nieudane.\nSerwer otrzymał zbyt wiele połączeń z twojego adresu IP (%d).
 [Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
 Połączenie nieudane.\nŁączyłeś się zbyt szybko.\nPoczekaj i spróbuj ponownie 10 do 20 minut później (%d).
 [Connection failed.\nThe server did not accept this client version.]
@@ -306,7 +306,7 @@ Połączenie nieudane.\nZostałeś odrzucony przez serwer z nieznanego powodu.\n
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
 Połączenie nieudane.\nBezpieczne logowanie (MD5) nie jest wspierane na tym koncie.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-Połączenie nieudane.\nNieznanybłąd podczas logowania: 0x%02x
+Połączenie nieudane.\nNieznany błąd podczas logowania: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 Zostałeś rozłączony z siecią ICQ, ponieważ zalogowałeś się z innego miejsca przy użyciu tego samego numeru ICQ.
 [Unknown runtime error: 0x%02x]
@@ -320,7 +320,7 @@ Nie udało się wysłać prośby o wiadomości offline. Być może otrzymasz je 
 [Spambot Detected]
 Wykryto spambota
 [Contact deleted & further events blocked.]
-Kontakt usunięty, a kolejne zdarzenia zablokowane.
+Kontakt usunięty, a dalsze zdarzenia zablokowane.
 ;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 Przychodzący link:
@@ -1396,7 +1396,7 @@ Nie udało się połączyć z serwerem logowania ICQ. Nie udało się wynegocjow
 [Unable to connect to ICQ login server]
 Nie można połączyć się z serwerem logowania ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Miranda nie była w stanie przydzielić portu nasłuchu połączeń bezpośrednich P2P pomiędzy klientami. Będziesz w stanie używać większości funkcji sieci ICQ normalnie, ale możesz napotkać na problemy przy próbie wysyłania i odbierania plików.\n\nJeżęli używasz firewalla, może być to czynnik blokujący Mirandę. W tym przypadku skonfiguruj firewall tak, by pozostawić otwarte porty, a następnie wskaż Mirandzie porty, które powinny być używane w M->Opcje->ICQ->Sieć.
+Miranda nie była w stanie przydzielić portu nasłuchu połączeń bezpośrednich P2P pomiędzy klientami. Będziesz w stanie używać większości funkcji sieci ICQ normalnie, ale możesz napotkać na problemy przy próbie wysyłania i odbierania plików.\n\nJeżeli używasz firewalla, może być to czynnik blokujący Mirandę. W tym przypadku skonfiguruj firewall tak, by pozostawić otwarte porty, a następnie wskaż Mirandzie porty, które powinny być używane w M->Opcje->ICQ->Sieć.
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Połączenie nieudane.\nSekwencja logowania nie powiodła się z nieznanej przyczyny.\nSpróbuj ponownie później.
 [Your connection with the ICQ server was abortively closed]
@@ -1405,7 +1405,7 @@ Połączenie z serwerem ICQ zostało niepomyślnie zamknięte
 [The contact's information was too big and was truncated.]
 Informacje o kontakcie były zbyt duże i zostały obcięte.
 [Failed to create the correct sub-group, the using closest parent group.]
-Nie udało się stworzyć właściwej podgrupy, użycie zamyka grupę główną.
+Nie udało się stworzyć właściwej podgrupy, używając najbliższej grupy nadrzędnej.
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 NIE ZNALEZIONO
@@ -1671,7 +1671,7 @@ Transfer pliku nie powiódł się: proxy niedostępne
 [Failed to Initialize File Transfer. No valid files were specified.]
 Nie udało się zainicjować transferu. Nie wybrano żadnych plików.
 [The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
-Pliki są zbyt duże, by wysłać je naraz. Pliki większe niż 4gb mogą zostać wysłane tylko oddzielnie.
+Pliki są zbyt duże, by wysłać je naraz. Pliki większe niż 4GB mogą zostać wysłane tylko oddzielnie.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Nie udało się zainicjować transferu pliku. Nie udało się przypisać portu lokalnego, a proxy plików jest niedostępne.
 [Connection lost during file transfer.]
