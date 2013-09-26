@@ -147,39 +147,30 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDL
 	if (cws->value.type != DBVT_DELETED && !(cws->value.type==DBVT_BYTE && cws->value.bVal==0))
 		return;
 
-	DBVARIANT jid, dbv;
-	if (getTString(hContact, "jid", &jid))
+	ptrT jid( getTStringA(hContact, "jid"));
+	if (jid == NULL)
 		return;
 
-	TCHAR *nick;
-	Log("Add %S permanently to list", jid.pszVal);
-	if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv)) {
-		nick = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-	else if ( !getTString(hContact, "Nick", &dbv)) {
-		nick = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-	else nick = JabberNickFromJID(jid.ptszVal);
-	if (nick == NULL) {
-		db_free(&jid);
+	Log("Add %S permanently to list", jid);
+	ptrT nick( db_get_tsa(hContact, "CList", "MyHandle"));
+	if (nick == NULL)
+		nick = getTStringA(hContact, "Nick");
+	if (nick == NULL)
+		nick = JabberNickFromJID(jid);
+	if (nick == NULL)
 		return;
-	}
 
-	if ( !db_get_ts(hContact, "CList", "Group", &dbv)) {
-		AddContactToRoster(jid.ptszVal, nick, dbv.ptszVal);
-		db_free(&dbv);
-	}
-	else AddContactToRoster(jid.ptszVal, nick, NULL);
+	AddContactToRoster(jid, nick, ptrT( db_get_tsa(hContact, "CList", "Group")));
 
-	m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid.ptszVal) << XATTR(_T("type"), _T("subscribe")));
+	HXML xPresence = XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribe"));
+	ptrT myNick( getTStringA(NULL, "Nick"));
+	if (myNick != NULL)
+		xPresence << XCHILD(_T("nick"), nick) << XATTR(_T("xmlns"), JABBER_FEAT_NICK);
+	m_ThreadInfo->send(xPresence);
 
-	SendGetVcard(jid.ptszVal);
+	SendGetVcard(jid);
 
-	mir_free(nick);
 	db_unset(hContact, "CList", "Hidden");
-	db_free(&jid);
 }
 
 int __cdecl CJabberProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)

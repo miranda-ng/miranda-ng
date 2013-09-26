@@ -514,8 +514,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 	m_proto->ComboLoadRecentStrings(m_hwnd, IDC_SERVER, "joinWnd_rcSvr");
 
 	int i;
-	for (i=0; i < 5; i++)
-	{
+	for (i=0; i < 5; i++) {
 		TCHAR jid[JABBER_MAX_JID_LEN];
 		JabberGcRecentInfo info(m_proto);
 		if ( !info.loadRecent(i))
