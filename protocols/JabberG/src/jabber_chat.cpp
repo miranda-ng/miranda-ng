@@ -106,7 +106,8 @@ int JabberGcGetStatus(JABBER_GC_AFFILIATION a, JABBER_GC_ROLE r)
 		switch (r) {
 			case ROLE_MODERATOR:	return 2;
 			case ROLE_PARTICIPANT:	return 1;
-	}	}
+		}
+	}
 
 	return 0;
 }
@@ -121,8 +122,8 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	int i;
 
 	// translate string for menus (this can't be done in initializer)
-	for (i = 0; i < SIZEOF(sttAffiliationItems); i++) sttAffiliationItems[i].translate();
-	for (i = 0; i < SIZEOF(sttRoleItems); i++) sttRoleItems[i].translate();
+	for (i=0; i < SIZEOF(sttAffiliationItems); i++) sttAffiliationItems[i].translate();
+	for (i=0; i < SIZEOF(sttRoleItems); i++) sttRoleItems[i].translate();
 
 	TCHAR *szNick = JabberNickFromJID(item->jid);
 
@@ -398,7 +399,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 
 static gc_item *sttFindGcMenuItem(GCMENUITEMS *items, DWORD id)
 {
-	for (int i = 0; i < items->nItems; i++)
+	for (int i=0; i < items->nItems; i++)
 		if (items->Item[i].dwID == id)
 			return items->Item + i;
 	return NULL;
@@ -406,14 +407,14 @@ static gc_item *sttFindGcMenuItem(GCMENUITEMS *items, DWORD id)
 
 static void sttSetupGcMenuItem(GCMENUITEMS *items, DWORD id, bool disabled)
 {
-	for (int i = 0; i < items->nItems; i++)
+	for (int i=0; i < items->nItems; i++)
 		if ( !id || (items->Item[i].dwID == id))
 			items->Item[i].bDisabled = disabled;
 }
 
 static void sttShowGcMenuItem(GCMENUITEMS *items, DWORD id, int type)
 {
-	for (int i = 0; i < items->nItems; i++)
+	for (int i=0; i < items->nItems; i++)
 		if ( !id || (items->Item[i].dwID == id))
 			items->Item[i].uType = type;
 }
@@ -611,13 +612,13 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			for (; idx <= IDM_LINK9; ++idx)
 				sttFindGcMenuItem(gcmi, idx)->uType = 0;
 
-			for (i = 0; i < SIZEOF(sttAffiliationItems); i++) {
+			for (i=0; i < SIZEOF(sttAffiliationItems); i++) {
 				gc_item *item = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
 				item->uType = (him->m_affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
 			}
 
-			for (i = 0; i < SIZEOF(sttRoleItems); i++) {
+			for (i=0; i < SIZEOF(sttRoleItems); i++) {
 				gc_item *item = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
 				item->uType = (him->m_role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttRoleItems[i].check(me, him));
@@ -742,7 +743,7 @@ public:
 
 	~CGroupchatInviteDlg()
 	{
-		for (int i = 0; i < m_newJids.getCount(); i++)
+		for (int i=0; i < m_newJids.getCount(); i++)
 			mir_free(m_newJids[i]);
 		mir_free(m_room);
 	}
@@ -779,7 +780,7 @@ public:
 		}
 
 		int i;
-		for (i = 0; i < m_newJids.getCount(); i++)
+		for (i=0; i < m_newJids.getCount(); i++)
 			if ( !lstrcmp(m_newJids[i]->jid, buf))
 				break;
 		if (i != m_newJids.getCount())
@@ -821,7 +822,7 @@ public:
 		}
 
 		// invite others
-		for (int i = 0; i < m_newJids.getCount(); i++)
+		for (int i=0; i < m_newJids.getCount(); i++)
 			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)m_newJids[i]->hItem, 0))
 				InviteUser(m_newJids[i]->jid, text);
 
@@ -901,7 +902,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			SetDlgItemText(hwndDlg, IDC_TXT_JID, dat->him->m_tszRealJid ? dat->him->m_tszRealJid : TranslateT("Real JID not available"));
 			SetDlgItemText(hwndDlg, IDC_TXT_STATUS, dat->him->m_tszStatusMessage);
 
-			for (i = 0; i < SIZEOF(sttRoleItems); i++)
+			for (i=0; i < SIZEOF(sttRoleItems); i++)
 			{
 				if ((sttRoleItems[i].value == dat->him->m_role) || sttRoleItems[i].check(dat->me, dat->him))
 				{
@@ -912,7 +913,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 						SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETCURSEL, idx, 0);
 				}
 			}
-			for (i = 0; i < SIZEOF(sttAffiliationItems); i++)
+			for (i=0; i < SIZEOF(sttAffiliationItems); i++)
 			{
 				if ((sttAffiliationItems[i].value == dat->him->m_affiliation) || sttAffiliationItems[i].check(dat->me, dat->him))
 				{
@@ -1318,7 +1319,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 			TCHAR *ptszBuf = (TCHAR*)_alloca(sizeof(TCHAR) * cbLen);
 			if (s) {
 				TCHAR *d = ptszBuf;
-				for (size_t i = 0; i < cbLen && s[i] != 0; i++) {
+				for (size_t i=0; i < cbLen && s[i] != 0; i++) {
 					if (s[i] != '\n' || (i && s[i-1] == '\r'))
 						*d++ = s[i];
 					else {

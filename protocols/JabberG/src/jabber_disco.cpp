@@ -441,7 +441,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		else if ( !lstrcmp(szJid, _T(SD_FAKEJID_FAVORITES))) {
 			sttBrowseMode = SD_BROWSE_FAVORITES;
 			int count = getDword("discoWnd_favCount", 0);
-			for (int i = 0; i < count; i++)
+			for (int i=0; i < count; i++)
 			{
 				DBVARIANT dbv;
 				char setting[MAXMODULELABELLENGTH];
@@ -508,7 +508,7 @@ void CJabberProto::ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode)
 			iOverlay = SD_OVERLAY_NONE;
 	}
 
-	for (int i = 0; i < SIZEOF(sttNodeIcons); i++)
+	for (int i=0; i < SIZEOF(sttNodeIcons); i++)
 	{
 		if ( !sttNodeIcons[i].iconIndex && !sttNodeIcons[i].iconName) continue;
 
@@ -680,7 +680,7 @@ void CJabberDlgDiscovery::OnInitDialog()
 
 	TreeList_Create(hwndList);
 	TreeList_AddIcon(hwndList, m_proto->LoadIconEx("main"), 0);
-	for (i = 0; i < SIZEOF(sttNodeIcons); i++)
+	for (i=0; i < SIZEOF(sttNodeIcons); i++)
 	{
 		bool needDestroy = false;
 		HICON hIcon;
@@ -801,7 +801,7 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 {
 	HMENU hMenu = CreatePopupMenu();
 	int count = m_proto->getDword("discoWnd_favCount", 0);
-	for (int i = 0; i < count; i++) {
+	for (int i=0; i < count; i++) {
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", i);
 
@@ -867,7 +867,7 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 	if (res == 1)
 	{
 		int count = m_proto->getDword("discoWnd_favCount", 0);
-		for (int i = 0; i < count; i++)
+		for (int i=0; i < count; i++)
 		{
 			char setting[MAXMODULELABELLENGTH];
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", i);
@@ -1216,7 +1216,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	HMENU hMenu = CreatePopupMenu();
 	BOOL lastSeparator = TRUE;
 	bool bFilterItems = !GetAsyncKeyState(VK_CONTROL);
-	for (int i = 0; i < SIZEOF(items); i++) {
+	for (int i=0; i < SIZEOF(items); i++) {
 		JABBER_LIST_ITEM *rosterItem = NULL;
 		if (bFilterItems) {
 			if ((items[i].flags & SD_FLG_NONODE) && pNode->GetNode())

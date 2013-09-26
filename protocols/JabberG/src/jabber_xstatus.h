@@ -66,7 +66,7 @@ public:
 
 	void ProcessEvent(const TCHAR *from, HXML eventNode)
 	{
-		for (int i = 0; i < getCount(); i++)
+		for (int i=0; i < getCount(); i++)
 		{
 			CPepService &pepSvc = (*this)[i];
 			HXML itemsNode = xmlGetChildByTag(eventNode, _T("items"), _T("node"), pepSvc.GetNode());
@@ -77,43 +77,43 @@ public:
 
 	void InitGui()
 	{
-		for (int i = 0; i < getCount(); i++)
+		for (int i=0; i < getCount(); i++)
 			(*this)[i].InitGui();
 	}
 
 	void RebuildMenu()
 	{
-		for (int i = 0; i < getCount(); i++)
+		for (int i=0; i < getCount(); i++)
 			(*this)[i].RebuildMenu();
 	}
 
 	void ResetExtraIcon(HANDLE hContact)
 	{
-		for (int i = 0; i < getCount(); i++)
+		for (int i=0; i < getCount(); i++)
 			(*this)[i].ResetExtraIcon(hContact);
 	}
 
 	void PublishAll()
 	{
-		for (int i = 0; i < getCount(); i++)
+		for (int i=0; i < getCount(); i++)
 			(*this)[i].Publish();
 	}
 
 	void RetractAll()
 	{
-		for (int i = 0; i < getCount(); i++)
+		for (int i=0; i < getCount(); i++)
 			(*this)[i].Retract();
 	}
 
 	void ResetPublishAll()
 	{
-		for(int i = 0; i < getCount(); i++)
+		for(int i=0; i < getCount(); i++)
 			(*this)[i].ResetPublish();
 	}
 
 	CPepService *Find(TCHAR *node)
 	{
-		for (int i = 0; i < getCount(); i++)
+		for (int i=0; i < getCount(); i++)
 			if ( !lstrcmp((*this)[i].GetNode(), node))
 				return &((*this)[i]);
 		return NULL;

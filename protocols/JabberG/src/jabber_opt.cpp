@@ -458,7 +458,7 @@ protected:
 
 		// fill predefined resources
 		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
-		for (i = 0; i < SIZEOF(szResources); i++)
+		for (i=0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
 		// append computer name to the resource list
@@ -476,7 +476,7 @@ protected:
 		}
 		else m_cbResource.SetText(_T("Miranda"));
 
-		for (i = 0; g_LanguageCodes[i].szCode; i++)
+		for (i=0; g_LanguageCodes[i].szCode; i++)
 		{
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
 			if ( !_tcscmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
@@ -737,7 +737,7 @@ private:
 
 		m_cbServer.ResetContent();
 		if (node) {
-			for (int i = 0; ; i++) {
+			for (int i=0; ; i++) {
 				HXML n = xmlGetChild(node, i);
 				if ( !n)
 					break;
@@ -1241,11 +1241,11 @@ static LRESULT CALLBACK _RosterItemNewEditProc(HWND hEditor, UINT msg, WPARAM wP
 
 void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 {
-	TCHAR filename[MAX_PATH]={0};
+	TCHAR filename[MAX_PATH] = { 0 };
 
 	TCHAR filter[MAX_PATH];
 	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.xml)%c*.xml%c%c"), TranslateT("XML for MS Excel (UTF-8 encoded)"), 0, 0, 0);
-	OPENFILENAME ofn={0};
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hwndDlg;
 	ofn.hInstance = NULL;
@@ -1259,8 +1259,8 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 
 	FILE * fp = fopent(filename,_T("w"));
 	if ( !fp) return;
-	HWND hList=GetDlgItem(hwndDlg, IDC_ROSTER);
-	int ListItemCount=ListView_GetItemCount(hList);
+	HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
+	int ListItemCount = ListView_GetItemCount(hList);
 
 	XmlNode root(_T("Workbook"));
 	root << XATTR(_T("xmlns"), _T("urn:schemas-microsoft-com:office:spreadsheet"))
@@ -1677,7 +1677,7 @@ protected:
 
 		// fill predefined resources
 		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
-		for (i = 0; i < SIZEOF(szResources); i++)
+		for (i=0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
 		// append computer name to the resource list
@@ -2197,7 +2197,7 @@ void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 	m_cbServer.ResetContent();
 	if (node)
 	{
-		for (int i = 0; ; i++) {
+		for (int i=0; ; i++) {
 			HXML n = xmlGetChild(node, i);
 			if ( !n)
 				break;

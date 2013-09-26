@@ -372,7 +372,7 @@ public:
 
 		TCHAR *szTypes[] = { _T("JID"), _T("Group"), _T("Subscription"), _T("Any") };
 		int i, nTypes[] = { Jid, Group, Subscription, Else };
-		for (i = 0; i < SIZEOF(szTypes); i++)
+		for (i=0; i < SIZEOF(szTypes); i++)
 		{
 			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szTypes[i]));
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_SETITEMDATA, nItem, nTypes[i]);
@@ -382,7 +382,7 @@ public:
 
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_RESETCONTENT, 0, 0);
 		TCHAR *szSubscriptions[] = { _T("none"), _T("from"), _T("to"), _T("both") };
-		for (i = 0; i < SIZEOF(szSubscriptions); i++)
+		for (i=0; i < SIZEOF(szSubscriptions); i++)
 		{
 			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSubscriptions[i]));
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETITEMDATA, nItem, (LPARAM)szSubscriptions[i]);
@@ -671,7 +671,7 @@ protected:
 		TCLCInfo(): newJids(1, TJidData::cmp), bChanged(false), pList(0) {}
 		~TCLCInfo()
 		{
-			for (int i = 0; i < newJids.getCount(); i++)
+			for (int i=0; i < newJids.getCount(); i++)
 			{
 				mir_free(newJids[i]->jid);
 				mir_free(newJids[i]);
@@ -966,7 +966,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		};
 
 		int i, totalWidth = -5; // spacing for last item
-		for (i = 0; i < SIZEOF(items); i++)
+		for (i=0; i < SIZEOF(items); i++)
 		{
 			SIZE sz = {0};
 			items[i].text = TranslateTS(items[i].textEng);
@@ -978,7 +978,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		RECT rc = lpdis->rcItem;
 		rc.left = (rc.left + rc.right - totalWidth)/2;
 
-		for (i = 0; i < SIZEOF(items); i++)
+		for (i=0; i < SIZEOF(items); i++)
 		{
 			DrawIconEx(lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, m_proto->LoadIconEx(items[i].icon),
 				16, 16, 0, NULL, DI_NORMAL);
@@ -1336,7 +1336,7 @@ void CJabberDlgPrivacyLists::CListResetOptions(HWND)
 	m_clcClist.SetIndent(10);
 	m_clcClist.SetHideEmptyGroups(false);
 	m_clcClist.SetHideOfflineRoot(false);
-	for (int i = 0; i <= FONTID_MAX; i++)
+	for (int i=0; i <= FONTID_MAX; i++)
 		m_clcClist.SetTextColor(i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
@@ -1352,7 +1352,7 @@ void CJabberDlgPrivacyLists::CListFilter(HWND)
 
 void CJabberDlgPrivacyLists::CListResetIcons(HWND, HANDLE hItem, bool hide)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i=0; i < 4; i++)
 		m_clcClist.SetExtraImage(hItem, i, hide ? EMPTY_EXTRA_ICON : 0);
 }
 

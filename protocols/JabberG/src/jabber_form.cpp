@@ -124,7 +124,7 @@ void JabberFormSetInstruction(HWND hwndForm, const TCHAR *text)
 	if (fixedLen != len) {
 		fixedText = (TCHAR *)mir_alloc(sizeof(TCHAR) * (fixedLen+1));
 		TCHAR *p = fixedText;
-		for (int i = 0; i < len; i++) {
+		for (int i=0; i < len; i++) {
 			*p = text[i];
 			if (i && (text[i] == _T('\n')) && (text[i] != _T('\r'))) {
 				*p++ = _T('\r');
@@ -420,7 +420,7 @@ void JabberFormLayoutControls(HWND hwndStatic, TJabberFormLayoutInfo *layout_inf
 	TJabberFormControlList *controls = (TJabberFormControlList *)GetWindowLongPtr(hwndStatic, GWLP_USERDATA);
 	if ( !controls) return;
 
-	for (int i = 0; i < controls->getCount(); i++)
+	for (int i=0; i < controls->getCount(); i++)
 	{
 		if ((*controls)[i]->hLabel)
 			SetWindowPos((*controls)[i]->hLabel, 0,
@@ -578,7 +578,7 @@ void JabberFormDestroyUI(HWND hwndStatic)
 {
 	TJabberFormControlList *controls = (TJabberFormControlList *)GetWindowLongPtr(hwndStatic, GWLP_USERDATA);
 	if (controls) {
-		for (int i = 0; i < controls->getCount(); i++)
+		for (int i=0; i < controls->getCount(); i++)
 			mir_free((*controls)[i]);
 		controls->destroy();
 		delete controls;
@@ -798,7 +798,7 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (zDelta) {
 				int nScrollLines=0;
 				SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void*)&nScrollLines, 0);
-				for (int i = 0; i < (nScrollLines + 1) / 2; i++)
+				for (int i=0; i < (nScrollLines + 1) / 2; i++)
 					SendMessage(hwndDlg, WM_VSCROLL, (zDelta < 0) ? SB_LINEDOWN : SB_LINEUP, 0);
 			}
 		}

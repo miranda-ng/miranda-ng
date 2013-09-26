@@ -96,7 +96,7 @@ void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 			}
 		}
 		else {
-			for (int i = 0; i < xmlGetChildCount(node); i++)
+			for (int i=0; i < xmlGetChildCount(node); i++)
 				OnConsoleProcessXml(xmlGetChild(node, i), flags);
 		}
 	}
@@ -106,13 +106,13 @@ bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 {
 	int i;
 
-	for (i = 0; i < xmlGetAttrCount(node); i++)
+	for (i=0; i < xmlGetAttrCount(node); i++)
 	{
 		if (JabberStrIStr(xmlGetAttr(node,i), m_filterInfo.pattern))
 			return true;
 	}
 
-	for (i = 0; i < xmlGetChildCount(node); i++) {
+	for (i=0; i < xmlGetChildCount(node); i++) {
 		if (RecursiveCheckFilter(xmlGetChild(node, i), flags))
 			return true;
 	}
@@ -230,7 +230,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 	sttAppendBufW(buf, (TCHAR*)xmlGetName(node));
 	sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 
-	for (i = 0; i < xmlGetAttrCount(node); i++)
+	for (i=0; i < xmlGetAttrCount(node); i++)
 	{
 		TCHAR *attr = (TCHAR*)xmlGetAttrName(node, i);
 		sttAppendBufRaw(buf, " ");
@@ -267,7 +267,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 			sttAppendBufRaw(buf, RTF_ENDTEXT);
 	}
 
-	for (i = 0; i < xmlGetChildCount(node) ; i++)
+	for (i=0; i < xmlGetChildCount(node) ; i++)
 		sttRtfAppendXml(buf, xmlGetChild(node ,i), flags & ~(JCPF_IN|JCPF_OUT), indent+1);
 
 	if (xmlGetChildCount(node) || xmlGetText(node))
@@ -314,9 +314,9 @@ static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 
 	SendMessage(hwndCombo, CB_RESETCONTENT, 0, 0);
 
-	for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)g_JabberFeatCapPairs[i].szFeature);
-	for (i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++)
+	for (i=0; g_JabberFeatCapPairsExt[i].szFeature; i++)
 		SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)g_JabberFeatCapPairsExt[i].szFeature);
 
 	LISTFOREACH_NODEF(i, ppro, LIST_ROSTER)
@@ -405,7 +405,7 @@ void CJabberDlgConsole::OnInitDialog()
 	};
 
 	int i;
-	for (i = 0; i < SIZEOF(buttons); i++) {
+	for (i=0; i < SIZEOF(buttons); i++) {
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(buttons[i].icon));
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONADDTOOLTIP, (WPARAM)buttons[i].title, 0);
@@ -413,7 +413,7 @@ void CJabberDlgConsole::OnInitDialog()
 		if (buttons[i].pushed) CheckDlgButton(m_hwnd, buttons[i].idc, TRUE);
 	}
 
-	for (i = 0; i < SIZEOF(filter_modes); i++)
+	for (i=0; i < SIZEOF(filter_modes); i++)
 		if (filter_modes[i].type == m_proto->m_filterInfo.type) {
 			g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon));
@@ -603,7 +603,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					int i;
 					HMENU hMenu = CreatePopupMenu();
-					for (i = 0; i < SIZEOF(filter_modes); i++)
+					for (i=0; i < SIZEOF(filter_modes); i++)
 					{
 						AppendMenu(hMenu,
 							MF_STRING | ((filter_modes[i].type == m_proto->m_filterInfo.type) ? MF_CHECKED : 0),
@@ -618,7 +618,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (res)
 					{
 						m_proto->m_filterInfo.type = (TFilterInfo::Type)(res - 1);
-						for (i = 0; i < SIZEOF(filter_modes); i++)
+						for (i=0; i < SIZEOF(filter_modes); i++)
 							if (filter_modes[i].type == m_proto->m_filterInfo.type)
 							{
 								g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));

@@ -929,7 +929,7 @@ int CJabberNetInterface::RemoveHandler(HJHANDLER hHandler)
 JabberFeatCapPairDynamic *CJabberNetInterface::FindFeature(LPCTSTR szFeature)
 {
 	int i;
-	for (i = 0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+	for (i=0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if ( !lstrcmp(m_psProto->m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
 			return m_psProto->m_lstJabberFeatCapPairsDynamic[i];
 	return NULL;
@@ -943,7 +943,7 @@ int CJabberNetInterface::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescriptio
 
 	// check for this feature in core features, and return false if it's present, to prevent re-registering a core feature
 	int i;
-	for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 	{
 		if ( !lstrcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
 		{
@@ -957,11 +957,11 @@ int CJabberNetInterface::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescriptio
 		JabberCapsBits jcb = JABBER_CAPS_OTHER_SPECIAL; // set all bits not included in g_JabberFeatCapPairs
 
 		// set all bits occupied by g_JabberFeatCapPairs
-		for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+		for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 			jcb |= g_JabberFeatCapPairs[i].jcbCap;
 
 		// set all bits already occupied by external plugins
-		for (i = 0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+		for (i=0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 			jcb |= m_psProto->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 
 		// Now get first zero bit. The line below is a fast way to do it. If there are no zero bits, it returns 0.
@@ -1061,24 +1061,24 @@ LPTSTR CJabberNetInterface::GetResourceFeatures(LPCTSTR jid)
 	int i;
 	int iLen = 1; // 1 for extra zero terminator at the end of the string
 	// calculate total necessary string length
-	for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
 			iLen += lstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 
-	for (i = 0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+	for (i=0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (jcb & m_psProto->m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
 			iLen += lstrlen(m_psProto->m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
 
 	// allocate memory and fill it
 	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(TCHAR));
 	LPTSTR p = str;
-	for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 			lstrcpy(p, g_JabberFeatCapPairs[i].szFeature);
 			p += lstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 		}
 
-	for (i = 0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+	for (i=0; i < m_psProto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (jcb & m_psProto->m_lstJabberFeatCapPairsDynamic[i]->jcbCap) {
 			lstrcpy(p, m_psProto->m_lstJabberFeatCapPairsDynamic[i]->szFeature);
 			p += lstrlen(m_psProto->m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;

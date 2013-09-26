@@ -48,66 +48,53 @@ void CJabberProto::IqUninit()
 
 void CJabberProto::IqRemove(int index)
 {
-	EnterCriticalSection(&m_csIqList);
+	mir_cslock lck(m_csIqList);
 	if (index>=0 && index<m_nIqCount) {
 		memmove(m_ppIqList+index, m_ppIqList+index+1, sizeof(JABBER_IQ_FUNC)*(m_nIqCount-index-1));
 		m_nIqCount--;
 	}
-	LeaveCriticalSection(&m_csIqList);
 }
 
 void CJabberProto::IqExpire()
 {
-	int i;
-	time_t expire;
+	time_t expire = time(NULL) - 120;	// 2 minute
 
-	EnterCriticalSection(&m_csIqList);
-	expire = time(NULL) - 120;	// 2 minute
-	i = 0;
-	while (i < m_nIqCount) {
+	mir_cslock lck(m_csIqList);
+	for (int i=0; i < m_nIqCount; ) {
 		if (m_ppIqList[i].requestTime < expire)
 			IqRemove(i);
 		else
 			i++;
 	}
-	LeaveCriticalSection(&m_csIqList);
 }
 
 JABBER_IQ_PFUNC CJabberProto::JabberIqFetchFunc(int iqId)
 {
-	int i;
-	JABBER_IQ_PFUNC res;
-
-	EnterCriticalSection(&m_csIqList);
+	mir_cslock lck(m_csIqList);
 	IqExpire();
-#ifdef _DEBUG
-	for (i=0; i<m_nIqCount; i++)
-		Log("  %04d : %02d : 0x%x", m_ppIqList[i].iqId, m_ppIqList[i].procId, m_ppIqList[i].func);
-#endif
+
+	int i;
 	for (i=0; i<m_nIqCount && m_ppIqList[i].iqId!=iqId; i++);
 	if (i < m_nIqCount) {
-		res = m_ppIqList[i].func;
+		JABBER_IQ_PFUNC res = m_ppIqList[i].func;
 		IqRemove(i);
+		return res;
 	}
-	else {
-		res = (JABBER_IQ_PFUNC) NULL;
-	}
-	LeaveCriticalSection(&m_csIqList);
-	return res;
+	return NULL;
 }
 
 void CJabberProto::IqAdd(unsigned int iqId, JABBER_IQ_PROCID procId, JABBER_IQ_PFUNC func)
 {
 	int i;
 
-	EnterCriticalSection(&m_csIqList);
+	mir_cslock lck(m_csIqList);
 	Log("IqAdd id=%d, proc=%d, func=0x%x", iqId, procId, func);
 	if (procId == IQ_PROC_NONE)
 		i = m_nIqCount;
 	else
 		for (i=0; i<m_nIqCount && m_ppIqList[i].procId!=procId; i++);
 
-	if (i>=m_nIqCount && m_nIqCount>=m_nIqAlloced) {
+	if (i >= m_nIqCount && m_nIqCount >= m_nIqAlloced) {
 		m_nIqAlloced = m_nIqCount + 8;
 		m_ppIqList = (JABBER_IQ_FUNC *)mir_realloc(m_ppIqList, sizeof(JABBER_IQ_FUNC)*m_nIqAlloced);
 	}
@@ -117,9 +104,9 @@ void CJabberProto::IqAdd(unsigned int iqId, JABBER_IQ_PROCID procId, JABBER_IQ_P
 		m_ppIqList[i].procId = procId;
 		m_ppIqList[i].func = func;
 		m_ppIqList[i].requestTime = time(NULL);
-		if (i == m_nIqCount) m_nIqCount++;
+		if (i == m_nIqCount)
+			m_nIqCount++;
 	}
-	LeaveCriticalSection(&m_csIqList);
 }
 
 BOOL CJabberIqManager::FillPermanentHandlers()
@@ -205,7 +192,7 @@ void CJabberIqManager::ExpirerThread()
 		Unlock();
 		if ( !pInfo)
 		{
-			for (int i = 0; !m_bExpirerThreadShutdownRequest && (i < 10); i++)
+			for (int i=0; !m_bExpirerThreadShutdownRequest && (i < 10); i++)
 				Sleep(50);
 
 			// -1 thread :)

@@ -285,7 +285,7 @@ void g_MenuInit(void)
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.flags |= CMIF_ROOTHANDLE | CMIF_TCHAR;
-	for (int i = 0; i < SIZEOF(PresenceModeArray); i++) {
+	for (int i=0; i < SIZEOF(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[SIZEOF(buf)-2] = '0' + i;
 		mi.pszService = buf;
@@ -367,7 +367,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		return 0;
 
 	Menu_ShowItem(g_hMenuDirectPresence[0], TRUE);
-	for (int i = 0; i < SIZEOF(PresenceModeArray); i++) {
+	for (int i=0; i < SIZEOF(PresenceModeArray); i++) {
 		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_ICON | CMIM_FLAGS;
 		clmi.hIcon = (HICON)LoadSkinnedProtoIcon(m_szModuleName, PresenceModeArray[i].mode);
@@ -438,7 +438,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 				mi.pszContactOwner = m_szModuleName;
 
 				TCHAR szTmp[512];
-				for (int i = 0; i < nMenuResourceItemsNew; i++) {
+				for (int i=0; i < nMenuResourceItemsNew; i++) {
 					mir_snprintf(tDest, SIZEOF(text) - nModuleNameLength, "/UseResource_%d", i);
 					if (i >= m_nMenuResourceItems) {
 						CreateProtoServiceParam(tDest, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES+i);
@@ -796,7 +796,7 @@ void CJabberProto::MenuInit()
 		CreateProtoServiceParam(svcName, &CJabberProto::OnMenuSetPriority, 0);
 
 	int steps[] = { 10, 5, 1, 0, -1, -5, -10 };
-	for (int i = 0; i < SIZEOF(steps); i++) {
+	for (int i=0; i < SIZEOF(steps); i++) {
 		if ( !steps[i]) {
 			mi.position += 100000;
 			continue;
@@ -1102,7 +1102,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Highest priority (server's choice)"));
 
 	AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-	for (int i = 0; i < LI->arResources.getCount(); i++)
+	for (int i=0; i < LI->arResources.getCount(); i++)
 		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES+i, LI->arResources[i]->m_tszResourceName);
 
 	if (LI->resourceMode == RSMODE_LASTSEEN)
@@ -1215,7 +1215,7 @@ CJabberProto *JabberChooseInstance(bool bIsLink)
 	}
 
 	if (bIsLink) {
-		for (int i = 0; i < g_Instances.getCount(); i++)
+		for (int i=0; i < g_Instances.getCount(); i++)
 			if (g_Instances[i]->m_options.ProcessXMPPLinks)
 				return g_Instances[i];
 	}
@@ -1223,7 +1223,7 @@ CJabberProto *JabberChooseInstance(bool bIsLink)
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 
 	int nItems = 0, lastItemId = 0;
-	for (int i = 0; i < g_Instances.getCount(); i++) {
+	for (int i=0; i < g_Instances.getCount(); i++) {
 		clmi.flags = CMIM_FLAGS;
 
 		CJabberProto *ppro = g_Instances[i];

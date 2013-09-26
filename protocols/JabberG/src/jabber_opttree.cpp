@@ -36,7 +36,7 @@ CCtrlTreeOpts::CCtrlTreeOpts(CDlgBase* dlg, int ctrlId):
 
 CCtrlTreeOpts::~CCtrlTreeOpts()
 {
-	for (int i = 0; i < m_options.getCount(); i++)
+	for (int i=0; i < m_options.getCount(); i++)
 		delete m_options[i];
 	m_options.destroy();
 }
@@ -120,7 +120,7 @@ void CCtrlTreeOpts::OnInit()
 	SetImageList(hImgLst, TVSIL_NORMAL);
 
 	/* build options tree. based on code from IcoLib */
-	for (int i = 0; i < m_options.getCount(); i++)
+	for (int i=0; i < m_options.getCount(); i++)
 	{
 		TCHAR *sectionName;
 		int sectionLevel = 0;
@@ -198,7 +198,7 @@ void CCtrlTreeOpts::OnApply()
 {
 	CCtrlTreeView::OnApply();
 
-	for (int i = 0; i < m_options.getCount(); i++)
+	for (int i=0; i < m_options.getCount(); i++)
 	{
 		TVITEMEX tvi;
 		GetItem(m_options[i]->m_hItem, &tvi);
@@ -232,7 +232,7 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 		case IMG_NORCHECK:
 		{
 			int i;
-			for (i = 0; i < m_options.getCount(); i++)
+			for (i=0; i < m_options.getCount(); i++)
 			{
 				if (m_options[i]->m_groupId == m_options[tvi.lParam]->m_groupId)
 				{

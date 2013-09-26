@@ -154,7 +154,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode)
 		}
 		else {
 			int Order=0;
-			for (int i = 0; ; i++) {
+			for (int i=0; ; i++) {
 				HXML chNode = xmlGetChild(queryNode, i);
 				if ( !chNode)
 					break;

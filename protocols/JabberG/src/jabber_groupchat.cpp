@@ -261,24 +261,19 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 {
 	JabberGcRecentInfo info(this);
 
-	int i = 0;
 	bool found = false;
-	for (i = 0 ; i < 5; i++)
-	{
+	for (int i=0 ; i < 5; i++) {
 		if ( !info.loadRecent(i))
 			continue;
 
-		if (info.equals(room, server, nick, password))
-		{
+		if (info.equals(room, server, nick, password)) {
 			found = true;
 			break;
 		}
 	}
 
-	if ( !found)
-	{
-		for (int i = 4; i--;)
-		{
+	if (!found) {
+		for (int i = 4; i--;) {
 			if (info.loadRecent(i))
 				info.saveRecent(i + 1);
 		}
@@ -419,7 +414,7 @@ static void sttJoinDlgShowRecentItems(HWND hwndDlg, int newCount)
 
 	RECT rc;
 	int ctrls[] = { IDC_BOOKMARKS, IDOK, IDCANCEL };
-	for (int i = 0; i < SIZEOF(ctrls); i++)
+	for (int i=0; i < SIZEOF(ctrls); i++)
 	{
 		GetWindowRect(GetDlgItem(hwndDlg, ctrls[i]), &rc);
 		MapWindowPoints(NULL, hwndDlg, (LPPOINT)&rc, 2);
@@ -518,21 +513,18 @@ void CJabberDlgGcJoin::OnInitDialog()
 
 	m_proto->ComboLoadRecentStrings(m_hwnd, IDC_SERVER, "joinWnd_rcSvr");
 
-	int i = 0;
-	for (; i < 5; i++)
+	int i;
+	for (i=0; i < 5; i++)
 	{
 		TCHAR jid[JABBER_MAX_JID_LEN];
 		JabberGcRecentInfo info(m_proto);
-		if (info.loadRecent(i))
-		{
-			mir_sntprintf(jid, SIZEOF(jid), _T("%s@%s (%s)"),
-				info.room, info.server,
-				info.nick ? info.nick : TranslateT("<no nick>"));
-			SetDlgItemText(m_hwnd, IDC_RECENT1+i, jid);
-		} else
-		{
+		if ( !info.loadRecent(i))
 			break;
-		}
+
+		mir_sntprintf(jid, SIZEOF(jid), _T("%s@%s (%s)"),
+			info.room, info.server,
+			info.nick ? info.nick : TranslateT("<no nick>"));
+		SetDlgItemText(m_hwnd, IDC_RECENT1+i, jid);
 	}
 	sttJoinDlgShowRecentItems(m_hwnd, i);
 }
@@ -917,9 +909,6 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	pResourceStatus r( item->findResource(resource));
 
 	HXML nNode = xmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK);
-	if (nNode == NULL)
-		nNode = xmlGetChildByTag(node, "nick:nick", "xmlns:nick", JABBER_FEAT_NICK);
-
 	const TCHAR *cnick = xmlGetText(nNode);
 	const TCHAR *nick = cnick ? cnick : (r && r->m_tszNick ? r->m_tszNick : resource);
 
@@ -928,7 +917,6 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		r->m_tszNick = mir_tstrdup(cnick);
 
 	HXML xNode = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
-	HXML xUserNode = xmlGetChildByTag(node, "user:x", "xmlns:user", JABBER_FEAT_MUC_USER);
 	HXML itemNode = xmlGetChild(xNode , "item");
 
 	const TCHAR *type = xmlGetAttrValue(node, _T("type"));

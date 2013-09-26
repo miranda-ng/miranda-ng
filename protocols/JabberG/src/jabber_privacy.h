@@ -265,7 +265,7 @@ public:
 		// sort array of pointers, slow, but working :)
 		DWORD i, j;
 		CPrivacyListRule *pTmp;
-		for (i = 0; i < dwCount; i++) {
+		for (i=0; i < dwCount; i++) {
 			for (j = dwCount - 1; j > i; j--) {
 				if (pRules[j - 1]->GetOrder() > pRules[j]->GetOrder()) {
 					pTmp = pRules[j - 1];
@@ -278,7 +278,7 @@ public:
 		// reorder linked list
 		DWORD dwOrder = 100;
 		CPrivacyListRule **ppPtr = &m_pRules;
-		for (i = 0; i < dwCount; i++) {
+		for (i=0; i < dwCount; i++) {
 			*ppPtr = pRules[ i ];
 			ppPtr = &pRules[ i ]->m_pNext;
 			pRules[ i ]->SetOrder(dwOrder);

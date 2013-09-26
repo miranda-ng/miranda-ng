@@ -729,7 +729,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 
 		if (item != NULL) {
 			if (item->arResources.getCount()) {
-				for (int i = 0; i < item->arResources.getCount(); i++) {
+				for (int i=0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
 					TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
 					JabberStripJid(jid, szp1, SIZEOF(szp1));
@@ -951,7 +951,7 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 //	m << XCHILD(_T("body"), msg);
 	HXML x = m << XCHILDNS(_T("x"), JABBER_FEAT_ROSTER_EXCHANGE);
 
-	for (int i = 0; i < nContacts; i++) {
+	for (int i=0; i < nContacts; i++) {
 		DBVARIANT dbv;
 		if ( !getTString(hContactsList[i], "jid", &dbv)) {
 			x << XCHILD(_T("item")) << XATTR(_T("action"), _T("add")) << XATTR(_T("jid"), dbv.ptszVal);

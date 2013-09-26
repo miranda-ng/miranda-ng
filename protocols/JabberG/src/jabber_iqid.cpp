@@ -1518,7 +1518,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode)
 			ListRemoveList(LIST_BOOKMARK);
 
 			HXML itemNode;
-			for (int i = 0; itemNode = xmlGetChild(storageNode, i); i++) {
+			for (int i=0; itemNode = xmlGetChild(storageNode, i); i++) {
 				if (name = xmlGetName(itemNode)) {
 					if ( !_tcscmp(name, _T("conference")) && (jid = xmlGetAttrValue(itemNode, _T("jid")))) {
 						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);

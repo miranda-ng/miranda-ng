@@ -169,7 +169,7 @@ void ThreadData::xmpp_client_query(void)
 				dnsList.insert(&rec->Data.Srv);
 		}
 
-		for (int i = 0; i < dnsList.getCount(); i++) {
+		for (int i=0; i < dnsList.getCount(); i++) {
 			WORD dnsPort = port == 0 || port == 5222 ? dnsList[i]->wPort : port;
 			char* dnsHost = dnsList[i]->pNameTarget;
 
@@ -1258,17 +1258,11 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	}
 
 	// parsing extensions
-	for (int i = 0; (xNode = xmlGetChild(node, i)) != NULL; i++) {
-		xNode = xmlGetNthChild(node, _T("x"), i + 1);
-		if (xNode == NULL) {
-			xNode = xmlGetNthChild(node, _T("user:x"), i + 1);
-			if (xNode == NULL)
-				continue;
-		}
+	for (int i=0; (xNode = xmlGetChild(node, i)) != NULL; i++) {
+		if ((xNode = xmlGetNthChild(node, _T("x"), i+1)) == NULL)
+			continue;
 
 		const TCHAR *ptszXmlns = xmlGetAttrValue(xNode, _T("xmlns"));
-		if (ptszXmlns == NULL)
-			ptszXmlns = xmlGetAttrValue(xNode, _T("xmlns:user"));
 		if (ptszXmlns == NULL)
 			continue;
 
@@ -1481,8 +1475,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 
 	// check XEP-0115 support, and old style:
 	if ((n = xmlGetChildByTag(node, "c", "xmlns", JABBER_FEAT_ENTITY_CAPS)) != NULL ||
-		(n = xmlGetChildByTag(node, "caps:c", "xmlns:caps", JABBER_FEAT_ENTITY_CAPS)) != NULL ||
-		(n = xmlGetChild(node, "c")) != NULL) {
+		 (n = xmlGetChild(node, "c")) != NULL) {
 		const TCHAR *szNode = xmlGetAttrValue(n, _T("node"));
 		const TCHAR *szVer = xmlGetAttrValue(n, _T("ver"));
 		const TCHAR *szExt = xmlGetAttrValue(n, _T("ext"));
@@ -1523,7 +1516,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	// Determine status to show for the contact based on the remaining resources
 	int nSelectedResource = -1, i = 0;
 	int nMaxPriority = -999; // -128...+127 valid range
-	for (i = 0; i < item->arResources.getCount(); i++) {
+	for (i=0; i < item->arResources.getCount(); i++) {
 		pResourceStatus r(item->arResources[i]);
 		if (r->m_iPriority > nMaxPriority) {
 			nMaxPriority = r->m_iPriority;

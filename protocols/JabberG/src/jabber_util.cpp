@@ -502,7 +502,7 @@ TCHAR* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	if (str == NULL)
 		str = xmlGetText(xmlGetChild(errorNode, _T("text")));
 	if (str == NULL) {
-		for (int i = 0; ; i++) {
+		for (int i=0; ; i++) {
 			HXML c = xmlGetChild(errorNode, i);
 			if (c == NULL) break;
 			const TCHAR *attr = xmlGetAttrValue(c, _T("xmlns"));
@@ -653,7 +653,7 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		arrExtCaps.insert( _T(JABBER_EXT_MIR_NOTES));
 
 	// add features enabled through IJabberNetInterface::AddFeatures()
-	for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+	for (int i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (m_uEnabledFeatCapsDynamic & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
 			arrExtCaps.insert(m_lstJabberFeatCapPairsDynamic[i]->szExt);
 
@@ -953,7 +953,7 @@ TStringPairs::~TStringPairs()
 
 const char* TStringPairs::operator[](const char* key) const
 {
-	for (int i = 0; i < numElems; i++)
+	for (int i=0; i < numElems; i++)
 		if ( !strcmp(elems[i].name, key))
 			return elems[i].value;
 
@@ -965,7 +965,7 @@ const char* TStringPairs::operator[](const char* key) const
 
 void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount)
 {
-	for (int i = 0; i < recentCount; i++) {
+	for (int i=0; i < recentCount; i++) {
 		DBVARIANT dbv;
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, sizeof(setting), "%s%d", param, i);
@@ -1395,7 +1395,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 {
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
 	HANDLE hHttpCon = NULL;
-	for (int i = 0; i < avs.getCount(); i++) {
+	for (int i=0; i < avs.getCount(); i++) {
 		NETLIBHTTPREQUEST nlhr = {0};
 		nlhr.cbSize = sizeof(nlhr);
 		nlhr.requestType = REQUEST_GET;

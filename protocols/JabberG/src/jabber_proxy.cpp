@@ -130,7 +130,7 @@ PBYTE JabberHttpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, i
 	int i, copyBytes;
 
 	tbuf = buf;
-	for (i = 0;;)
+	for (i=0;;)
 	{
 		if (tbuf - buf + 2 > len) break;
 		unpackWord(&tbuf, &wLen);

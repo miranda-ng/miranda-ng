@@ -129,7 +129,7 @@ static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (lParam) {
 			ppro = (CJabberProto*)lParam;
 			TranslateDialogDefault(hwndDlg);
-			for (int i = 0; i < g_cbCountries; i++)	{
+			for (int i=0; i < g_cbCountries; i++)	{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 					TCHAR *country = mir_a2t(g_countries[i].szName);
 					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
@@ -192,7 +192,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (lParam) { // proto info is available
 			ppro = (CJabberProto*)lParam;
 			TranslateDialogDefault(hwndDlg);
-			for (int i = 0; i < g_cbCountries; i++)	{
+			for (int i=0; i < g_cbCountries; i++)	{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 					TCHAR *country = mir_a2t(g_countries[i].szName);
 					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));

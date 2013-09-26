@@ -264,7 +264,7 @@ void TreeList_SetIcon(HTREELISTITEM hItem, int iIcon, int iOverlay)
 
 void TreeList_RecursiveApply(HTREELISTITEM hItem, void (*func)(HTREELISTITEM, LPARAM), LPARAM data)
 {
-	for (int i = 0; i < hItem->subItems.getCount(); i++) {
+	for (int i=0; i < hItem->subItems.getCount(); i++) {
 		func(hItem->subItems[i], data);
 		TreeList_RecursiveApply(hItem->subItems[i], func, data);
 }	}
@@ -511,7 +511,7 @@ static void sttTreeList_ResetIndex(HTREELISTITEM hItem, LPARAM data)
 static void sttTreeList_FilterItems(HTREELISTITEM hItem, LPARAM data)
 {
 	int i = 0;
-	for (i = 0; i < hItem->text.getCount(); i++)
+	for (i=0; i < hItem->text.getCount(); i++)
 		if (JabberStrIStr(hItem->text[i], (TCHAR *)data))
 			break;
 

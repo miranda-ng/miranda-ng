@@ -195,7 +195,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				{IDC_BTN_FILTERAPPLY,	"Apply filter",		"sd_filter_apply",	false},
 				{IDC_BTN_FILTERRESET,	"Reset filter",		"sd_filter_reset",	false},
 			};
-			for (int i = 0; i < SIZEOF(buttons); i++)
+			for (int i=0; i < SIZEOF(buttons); i++)
 			{
 				SendDlgItemMessage(hwndDlg, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)dat->ppro->LoadIconEx(buttons[i].icon));
 				SendDlgItemMessage(hwndDlg, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);

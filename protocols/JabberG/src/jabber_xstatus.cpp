@@ -226,7 +226,7 @@ void CJabberDlgPepSimple::OnInitDialog()
 	SetWindowText(m_hwnd, m_title);
 
 	m_txtDescription.Enable(false);
-	for (int i = 0; i < m_modes.getCount(); i++) {
+	for (int i=0; i < m_modes.getCount(); i++) {
 		int idx = m_cbModes.AddString(m_modes[i].m_title, i);
 		if ((m_modes[i].m_id == m_active) || !idx) {
 			m_prevSelected = idx;
@@ -638,7 +638,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 	if ( !moodNode) return;
 
 	LPCTSTR moodType = NULL, moodText = NULL;
-	for (int i = 0; n = xmlGetChild(moodNode, i); i++) {
+	for (int i=0; n = xmlGetChild(moodNode, i); i++) {
 		if ( !_tcscmp(xmlGetName(n), _T("text")))
 			moodText = xmlGetText(n);
 		else
@@ -1020,7 +1020,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 	LPCTSTR szFirstNode = NULL, szSecondNode = NULL;
 
 	HXML n;
-	for (int i = 0; n = xmlGetChild(actNode, i); i++) {
+	for (int i=0; n = xmlGetChild(actNode, i); i++) {
 		if (lstrcmp(xmlGetName(n), _T("text"))) {
 			szFirstNode = xmlGetName(n);
 			HXML secondNode = xmlGetChild(n, 0);
@@ -1112,7 +1112,7 @@ void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecon
 void CPepActivity::ShowSetDialog(BYTE bQuiet)
 {
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
-	for (int i = 0; i < SIZEOF(g_arrActivities); i++)
+	for (int i=0; i < SIZEOF(g_arrActivities); i++)
 		if (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond)
 			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateTS(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
 

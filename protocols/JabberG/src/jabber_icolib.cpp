@@ -168,7 +168,7 @@ CIconPool::CPoolItem *CIconPool::FindItemByName(const char *name)
 void CJabberProto::IconsInit(void)
 {
 	m_transportProtoTableStartIndex = (int *)mir_alloc(sizeof(int) * SIZEOF(TransportProtoTable));
-	for (int i = 0; i < SIZEOF(TransportProtoTable); i++)
+	for (int i=0; i < SIZEOF(TransportProtoTable); i++)
 		m_transportProtoTableStartIndex[i] = -1;
 }
 

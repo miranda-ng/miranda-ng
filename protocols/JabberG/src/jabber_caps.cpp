@@ -199,7 +199,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 	}
 
 	if (item) {
-		for (int i = 0; i < item->arResources.getCount(); i++) {
+		for (int i=0; i < item->arResources.getCount(); i++) {
 			TCHAR szFullJid[JABBER_MAX_JID_LEN];
 			mir_sntprintf(szFullJid, JABBER_MAX_JID_LEN, _T("%s/%s"), szBareJid, item->arResources[i]->m_tszResourceName);
 			JabberCapsBits jcb = GetResourceCapabilites(szFullJid, FALSE);
@@ -549,7 +549,7 @@ void CJabberClientCapsManager::AddDefaultCaps()
 {
 	SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szCoreVersion, JABBER_CAPS_MIRANDA_ALL);
 
-	for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++)
+	for (int i=0; g_JabberFeatCapPairsExt[i].szFeature; i++)
 		SetClientCaps(JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature, g_JabberFeatCapPairsExt[i].jcbCap);
 }
 
@@ -614,7 +614,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo* pInfo, con
 	JabberCapsBits jcb = 0;
 
 	if (szNode) {
-		for (i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++) {
+		for (i=0; g_JabberFeatCapPairsExt[i].szFeature; i++) {
 			TCHAR szExtCap[ 512 ];
 			mir_sntprintf(szExtCap, SIZEOF(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
 			if ( !_tcscmp(szNode, szExtCap)) {
@@ -624,7 +624,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo* pInfo, con
 		}
 
 		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
-		for (i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
+		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
 			TCHAR szExtCap[ 512 ];
 			mir_sntprintf(szExtCap, SIZEOF(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
 			if ( !_tcscmp(szNode, szExtCap)) {
@@ -639,7 +639,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo* pInfo, con
 	}
 	else {
 		jcb = JABBER_CAPS_MIRANDA_ALL;
-		for (i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 			jcb |= ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 	}
 
@@ -655,11 +655,11 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo* pInfo, con
 	query << XCHILD(_T("identity")) << XATTR(_T("category"), _T("client"))
 			<< XATTR(_T("type"), _T("pc")) << XATTR(_T("name"), _T("Miranda"));
 
-	for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
 			query << XCHILD(_T("feature")) << XATTR(_T("var"), g_JabberFeatCapPairs[i].szFeature);
 
-	for (i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+	for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
 			query << XCHILD(_T("feature")) << XATTR(_T("var"), ppro->m_lstJabberFeatCapPairsDynamic[i]->szFeature);
 

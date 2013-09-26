@@ -764,7 +764,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo* pInfo, CJabbe
 		// Groupchat list here:
 		HXML fieldNode = xmlGetChildByTag(xNode,"field", "var", _T("groupchats"));
 		if (fieldNode) {
-			for (i = 0; i < xmlGetChildCount(fieldNode); i++) {
+			for (i=0; i < xmlGetChildCount(fieldNode); i++) {
 				HXML valueNode = xmlGetChild(fieldNode, i);
 				if (valueNode && xmlGetName(valueNode) && xmlGetText(valueNode) && !_tcscmp(xmlGetName(valueNode), _T("value"))) {
 					JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, xmlGetText(valueNode));

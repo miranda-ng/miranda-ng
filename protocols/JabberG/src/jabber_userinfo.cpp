@@ -274,7 +274,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	if ( !(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
 		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), NULL, TranslateT("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
 		int i;
-		for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+		for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				TCHAR szDescription[ 1024 ];
 				if (g_JabberFeatCapPairs[i].tszDescription)
@@ -391,7 +391,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// resources
 	if (item->arResources.getCount()) {
-		for (int i = 0; i < item->arResources.getCount(); i++)
+		for (int i=0; i < item->arResources.getCount(); i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
 	}
 	else if ( !_tcschr(item->jid, _T('@')) || (r->m_iStatus != ID_STATUS_OFFLINE))
@@ -405,7 +405,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 static void sttGetNodeText(HWND hwndTree, HTREEITEM hti, UserInfoStringBuf *buf, int indent = 0)
 {
-	for (int i = 0; i < indent; i++)
+	for (int i=0; i < indent; i++)
 		buf->append(_T("\t"));
 
 	TVITEMEX tvi = {0};

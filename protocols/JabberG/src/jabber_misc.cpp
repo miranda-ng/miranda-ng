@@ -421,7 +421,7 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSi
 		int i;
 
 		// search through known software list
-		for (i = 0; i < SIZEOF(sttCapsNodeToName_Map); i++)
+		for (i=0; i < SIZEOF(sttCapsNodeToName_Map); i++)
 			if (_tcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node))
 			{
 				mir_sntprintf(buf, bufSize, _T("%s %s"), sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);

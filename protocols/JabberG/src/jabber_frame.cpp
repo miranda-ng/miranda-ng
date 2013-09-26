@@ -191,7 +191,7 @@ LRESULT CJabberInfoFrame::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		{
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			for (int i = 0; i < m_pItems.getCount(); i++)
+			for (int i=0; i < m_pItems.getCount(); i++)
 				if (m_pItems[i].m_onEvent && PtInRect(&m_pItems[i].m_rcItem, pt)) {
 					m_clickedItem = i;
 					return 0;
@@ -404,7 +404,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 	int line_height = cy_icon + SZ_LINEPADDING;
 	int cy = SZ_FRAMEPADDING;
 
-	for (int i = 0; i < m_pItems.getCount(); i++) {
+	for (int i=0; i < m_pItems.getCount(); i++) {
 		CJabberInfoFrameItem &item = m_pItems[i];
 
 		if ( !item.m_bShow) {
@@ -474,7 +474,7 @@ void CJabberInfoFrame::ShowInfoItem(char *pszName, bool bShow)
 {
 	bool bUpdate = false;
 	size_t length = strlen(pszName);
-	for (int i = 0; i < m_pItems.getCount(); i++)
+	for (int i=0; i < m_pItems.getCount(); i++)
 		if ((m_pItems[i].m_bShow != bShow) && !strncmp(m_pItems[i].m_pszName, pszName, length)) {
 			m_pItems[i].m_bShow = bShow;
 			m_hiddenItemCount += bShow ? -1 : 1;
@@ -489,7 +489,7 @@ void CJabberInfoFrame::RemoveInfoItem(char *pszName)
 {
 	bool bUpdate = false;
 	size_t length = strlen(pszName);
-	for (int i = 0; i < m_pItems.getCount(); i++)
+	for (int i=0; i < m_pItems.getCount(); i++)
 		if ( !strncmp(m_pItems[i].m_pszName, pszName, length)) {
 			if ( !m_pItems[i].m_bShow) --m_hiddenItemCount;
 			RemoveTooltip(m_pItems[i].m_tooltipId);
