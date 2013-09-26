@@ -113,46 +113,38 @@ static void FI_CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 */
 static BOOL FreeImage_PreMultiply(HBITMAP hBitmap)
 {
-	BYTE *p = NULL;
-	DWORD dwLen;
-	int width, height, x, y;
-	BITMAP bmp;
-	BYTE alpha;
 	BOOL transp = FALSE;
 
+	BITMAP bmp;
 	GetObject(hBitmap, sizeof(bmp), &bmp);
-	width = bmp.bmWidth;
-	height = bmp.bmHeight;
-	dwLen = width * height * 4;
-	p = (BYTE *)malloc(dwLen);
-	if (p != NULL)
-	{
-		GetBitmapBits(hBitmap, dwLen, p);
+	if (bmp.bmBitsPixel == 32) {
+		int width = bmp.bmWidth;
+		int height = bmp.bmHeight;
+		int dwLen = width * height * 4;
+		BYTE *p = (BYTE *)malloc(dwLen);
+		if (p != NULL) {
+			GetBitmapBits(hBitmap, dwLen, p);
 
-		for (y = 0; y < height; ++y)
-		{
-			BYTE *px = p + width * 4 * y;
+			for (int y = 0; y < height; ++y) {
+				BYTE *px = p + width * 4 * y;
+				for (int x = 0; x < width; ++x) {
+					BYTE alpha = px[3];
+					if (alpha < 255) {
+						transp = TRUE;
 
-			for (x = 0; x < width; ++x)
-			{
-				alpha = px[3];
+						px[0] = px[0] * alpha/255;
+						px[1] = px[1] * alpha/255;
+						px[2] = px[2] * alpha/255;
+					}
 
-				if (alpha < 255)
-				{
-					transp  = TRUE;
-
-					px[0] = px[0] * alpha/255;
-					px[1] = px[1] * alpha/255;
-					px[2] = px[2] * alpha/255;
+					px += 4;
 				}
-
-				px += 4;
 			}
-		}
 
-		if (transp)
-			dwLen = SetBitmapBits(hBitmap, dwLen, p);
-		free(p);
+			if (transp)
+				dwLen = SetBitmapBits(hBitmap, dwLen, p);
+			free(p);
+		}
 	}
 
 	return transp;
