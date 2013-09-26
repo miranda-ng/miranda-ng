@@ -121,39 +121,39 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// init fontservice for info frame
-	FontID fontid = {0};
+	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	strcpy(fontid.group, "Jabber");
-	strcpy(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE);
-	strcpy(fontid.backgroundGroup, "Jabber");
-	strcpy(fontid.backgroundName,"Background");
+	_tcsncpy(fontid.group, LPGENT("Jabber"), SIZEOF(fontid.group));
+	strncpy(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE, SIZEOF(fontid.dbSettingsGroup));
+	_tcsncpy(fontid.backgroundGroup, _T("Jabber"), SIZEOF(fontid.backgroundGroup));
+	_tcsncpy(fontid.backgroundName,_T("Background"), SIZEOF(fontid.backgroundName));
 	fontid.flags = FIDF_DEFAULTVALID;
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.colour = GetSysColor(COLOR_WINDOWTEXT);
 	fontid.deffontsettings.size = -11;
-	lstrcpyA(fontid.deffontsettings.szFace, "MS Shell Dlg");
+	lstrcpyn(fontid.deffontsettings.szFace, _T("MS Shell Dlg"), SIZEOF(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 
-	strcpy(fontid.name, LPGEN("Frame title"));
-	strcpy(fontid.prefix, "fntFrameTitle");
+	_tcsncpy(fontid.name, LPGENT("Frame title"), SIZEOF(fontid.name));
+	strncpy(fontid.prefix, "fntFrameTitle", SIZEOF(fontid.prefix));
 	fontid.deffontsettings.style = DBFONTF_BOLD;
-	FontRegister(&fontid);
+	FontRegisterT(&fontid);
 
-	strcpy(fontid.name, LPGEN("Frame text"));
-	strcpy(fontid.prefix, "fntFrameClock");
+	_tcsncpy(fontid.name, LPGENT("Frame text"), SIZEOF(fontid.name));
+	strncpy(fontid.prefix, "fntFrameClock", SIZEOF(fontid.prefix));
 	fontid.deffontsettings.style = 0;
-	FontRegister(&fontid);
+	FontRegisterT(&fontid);
 
-	ColourID colourid = {0};
+	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	strcpy(colourid.group, "Jabber");
-	strcpy(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE);
+	_tcsncpy(colourid.group, _T("Jabber"), SIZEOF(colourid.group));
+	strncpy(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE, SIZEOF(colourid.dbSettingsGroup));
 
-	strcpy(colourid.name, "Background");
-	strcpy(colourid.setting, "clFrameBack");
+	_tcsncpy(colourid.name, _T("Background"), SIZEOF(colourid.name));
+	strncpy(colourid.setting, "clFrameBack", SIZEOF(colourid.setting));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegister(&colourid);
+	ColourRegisterT(&colourid);
 
 	// Init extra icons
 	hExtraActivity = ExtraIcon_Register("activity", LPGEN("Jabber Activity"), "jabber_dancing");

@@ -241,23 +241,23 @@ void CJabberInfoFrame::ReloadFonts()
 {
 	LOGFONT lfFont;
 
-	FontID fontid = {0};
+	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	lstrcpyA(fontid.group, "Jabber");
-	lstrcpyA(fontid.name, "Frame title");
-	m_clTitle = CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lfFont);
+	lstrcpyn(fontid.group, _T("Jabber"), SIZEOF(fontid.group));
+	lstrcpyn(fontid.name, _T("Frame title"), SIZEOF(fontid.name));
+	m_clTitle = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
-	lstrcpyA(fontid.name, "Frame text");
-	m_clText = CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lfFont);
+	lstrcpyn(fontid.name, _T("Frame text"), SIZEOF(fontid.name));
+	m_clText = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
-	ColourID colourid = {0};
+	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	lstrcpyA(colourid.group, "Jabber");
-	lstrcpyA(colourid.name, "Background");
-	m_clBack = CallService(MS_COLOUR_GET, (WPARAM)&colourid, 0);
+	lstrcpyn(colourid.group, _T("Jabber"), SIZEOF(colourid.group));
+	lstrcpyn(colourid.name, _T("Background"), SIZEOF(colourid.name));
+	m_clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	UpdateSize();
 }
