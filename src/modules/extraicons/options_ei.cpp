@@ -474,8 +474,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (lpnmhdr->code == (UINT) PSN_APPLY) {
 					// Store old slots
 					int *oldSlots = new int[registeredExtraIcons.getCount()];
-					int i, lastUsedSlot = -1;
-					for (i = 0; i < registeredExtraIcons.getCount(); i++) {
+					int lastUsedSlot = -1;
+					for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
 						if (extraIconsByHandle[i] == registeredExtraIcons[i])
 							oldSlots[i] = registeredExtraIcons[i]->getSlot();
 						else
@@ -533,7 +533,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					// Store data
-					for (i = 0; i < registeredExtraIcons.getCount(); i++) {
+					for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
 						BaseExtraIcon *extra = registeredExtraIcons[i];
 
 						char setting[512];
@@ -550,13 +550,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						ExtraIconGroup *group = groups[k];
 
 						char setting[512];
-						mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
+						mir_snprintf(setting, SIZEOF(setting), "%d_count", k);
 						db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
 
 						for (unsigned j = 0; j < group->items.size(); j++) {
 							BaseExtraIcon *extra = group->items[j];
 
-							mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
+							mir_snprintf(setting, SIZEOF(setting), "%d_%d", k, j);
 							db_set_s(NULL, MODULE_NAME "Groups", setting, extra->getName());
 						}
 					}
@@ -578,7 +578,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					delete[] oldSlots;
-
 					return TRUE;
 				}
 			}
