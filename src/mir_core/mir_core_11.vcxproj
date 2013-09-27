@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\include\m_database.h" />
     <ClInclude Include="..\..\include\m_json.h" />
     <ClInclude Include="..\..\include\m_system.h" />
+    <ClInclude Include="..\..\include\m_system_cpp.h" />
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="json\internalJSONNode.h" />
     <ClInclude Include="json\JSONChildren.h" />
