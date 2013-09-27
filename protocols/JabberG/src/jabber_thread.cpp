@@ -1732,7 +1732,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			RebuildInfoFrame();
 		}
 		else {
-			HXML n = xmlGetChild(node , "nick");
+			HXML n = xmlGetChild(node, "nick");
 			nick = (n == NULL) ? JabberNickFromJID(from) : mir_tstrdup(xmlGetText(n));
 			if (nick != NULL) {
 				Log("%S (%S) requests authorization", nick, from);
@@ -1742,24 +1742,19 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		return;
 	}
 
-	if ( !_tcscmp(type, _T("unsubscribe"))) {
+	if ( !_tcscmp(type, _T("unsubscribe")))
 		if (hContact = HContactFromJID(from))
 			AddDbPresenceEvent(hContact, JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBE);
-	}
 
-	if ( !_tcscmp(type, _T("unsubscribed"))) {
+	if ( !_tcscmp(type, _T("unsubscribed")))
 		if (hContact = HContactFromJID(from))
 			AddDbPresenceEvent(hContact, JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBED);
-	}
 
-	if ( !_tcscmp(type, _T("error"))) {
-		if (hContact = HContactFromJID(from)) {
+	if ( !_tcscmp(type, _T("error")))
+		if (hContact = HContactFromJID(from))
 			AddDbPresenceEvent(hContact, JABBER_DB_EVENT_PRESENCE_ERROR);
-		}
-	}
 
 	if ( !_tcscmp(type, _T("subscribed"))) {
-
 		if (hContact = HContactFromJID(from))
 			AddDbPresenceEvent(hContact, JABBER_DB_EVENT_PRESENCE_SUBSCRIBED);
 

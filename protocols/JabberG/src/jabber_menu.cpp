@@ -534,43 +534,34 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleRequestAuth(WPARAM wParam, LPARAM)
 {
-	HANDLE hContact;
-	DBVARIANT dbv;
-
-	if ((hContact=(HANDLE)wParam) != NULL && m_bJabberOnline) {
-		if ( !getTString(hContact, "jid", &dbv)) {
-			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("subscribe")));
-			db_free(&dbv);
-	}	}
-
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact != NULL && m_bJabberOnline) {
+		ptrT jid( getTStringA(hContact, "jid"));
+		if (jid != NULL)
+			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribe")));
+	}
 	return 0;
 }
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM wParam, LPARAM)
 {
-	HANDLE hContact;
-	DBVARIANT dbv;
-
-	if ((hContact=(HANDLE)wParam) != NULL && m_bJabberOnline) {
-		if ( !getTString(hContact, "jid", &dbv)) {
-			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("subscribed")));
-			db_free(&dbv);
-	}	}
-
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact != NULL && m_bJabberOnline) {
+		ptrT jid( getTStringA(hContact, "jid"));
+		if (jid != NULL)
+			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribed")));
+	}
 	return 0;
 }
 
 INT_PTR __cdecl CJabberProto::OnMenuRevokeAuth(WPARAM wParam, LPARAM)
 {
-	HANDLE hContact;
-	DBVARIANT dbv;
-
-	if ((hContact=(HANDLE)wParam) != NULL && m_bJabberOnline) {
-		if ( !getTString(hContact, "jid", &dbv)) {
-			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("unsubscribed")));
-			db_free(&dbv);
-	}	}
-
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact != NULL && m_bJabberOnline) {
+		ptrT jid( getTStringA(hContact, "jid"));
+		if (jid != NULL)
+			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("unsubscribed")));
+	}
 	return 0;
 }
 

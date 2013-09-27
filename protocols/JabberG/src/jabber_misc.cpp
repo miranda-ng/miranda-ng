@@ -69,9 +69,8 @@ int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
 
 void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 {
-	HANDLE hContact = DBCreateContact(jid, NULL, TRUE, TRUE);
+	HANDLE hContact = DBCreateContact(jid, nick, TRUE, TRUE);
 	delSetting(hContact, "Hidden");
-	//setTString(hContact, "Nick", nick);
 
 	char* szJid = mir_utf8encodeT(jid);
 	char* szNick = mir_utf8encodeT(nick);
