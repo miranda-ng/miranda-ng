@@ -3,6 +3,7 @@
 
 HINSTANCE hInst;
 int hLangpack;
+bool bIsVistaPlus;
 
 TCHAR tszLogPath[MAX_PATH];
 
@@ -23,6 +24,8 @@ PLUGININFOEX pluginInfoEx = {
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
+		bIsVistaPlus = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != NULL;
+
 		GetTempPath(SIZEOF(tszLogPath), tszLogPath);
 		_tcscat_s(tszLogPath, SIZEOF(tszLogPath), _T("shlext.log"));
 

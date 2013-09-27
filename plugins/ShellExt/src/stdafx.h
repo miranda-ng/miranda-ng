@@ -46,6 +46,7 @@ HRESULT RemoveCOMRegistryEntries();
 
 extern  HINSTANCE hInst;
 extern  HANDLE hLogger;
+extern  bool bIsVistaPlus;
 extern  int DllFactoryCount, DllObjectCount;
 
 int OnOptionsInit(WPARAM wParam, LPARAM lParam);

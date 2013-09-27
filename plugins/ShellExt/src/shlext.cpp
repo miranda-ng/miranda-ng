@@ -212,7 +212,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 			mii.dwTypeData = pg->szGroup;
 
 		// For Vista + let the system draw the theme && icons, pct = contact associated data
-		if ( IsWinVerVistaPlus() && pct != NULL && psd != NULL) {
+		if (bIsVistaPlus && pct != NULL && psd != NULL) {
 			mii.fMask = MIIM_BITMAP | MIIM_FTYPE | MIIM_ID | MIIM_DATA | MIIM_STRING;
 			// BuildSkinIcons() built an array of bitmaps which we can use here
 			mii.hbmpItem = psd->hStatusBitmap;
@@ -237,7 +237,7 @@ int __stdcall ClearMRUIPC(
 
 void RemoveCheckmarkSpace(HMENU HMENU)
 {
-	if ( !IsWinVerVistaPlus())
+	if (!bIsVistaPlus)
 		return;
 
 	MENUINFO mi;
@@ -473,7 +473,7 @@ static void BuildMenus(TEnumData *lParam)
 	// allocate display info/memory for "Miranda" string
 
 	mii.cbSize = sizeof(MENUITEMINFO);
-	if ( IsWinVerVistaPlus())
+	if (bIsVistaPlus)
 		mii.fMask = MIIM_ID | MIIM_DATA | MIIM_FTYPE | MIIM_SUBMENU | MIIM_STRING | MIIM_BITMAP;
 	else
 		mii.fMask = MIIM_ID | MIIM_DATA | MIIM_TYPE | MIIM_SUBMENU;
@@ -532,7 +532,7 @@ static void BuildMenus(TEnumData *lParam)
 
 static void BuildSkinIcons(TEnumData *lParam)
 {
-	IWICImagingFactory *factory = ( IsWinVerVistaPlus()) ? ARGB_GetWorker() : NULL;
+	IWICImagingFactory *factory = (bIsVistaPlus) ? ARGB_GetWorker() : NULL;
 
 	TSlotIPC *pct = lParam->ipch->NewIconsBegin;
 	TShellExt *Self = lParam->Self;
@@ -550,7 +550,7 @@ static void BuildSkinIcons(TEnumData *lParam)
 		// with the shell object.
 
 		for (int j = 0; j < 10; j++) {
-			if ( IsWinVerVistaPlus()) {
+			if (bIsVistaPlus) {
 				d->hBitmaps[j] = ARGB_BitmapFromIcon(factory, Self->hMemDC, p->hIcons[j]);
 				d->hIcons[j] = NULL;				
 			}
@@ -654,7 +654,7 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFirs
 		}
 
 		// if we're using Vista (or later),  the ownerdraw code will be disabled, because the system draws the icons.
-		if ( IsWinVerVistaPlus())
+		if (bIsVistaPlus)
 			bMF_OWNERDRAW = false;
 
 		HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
@@ -901,7 +901,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 		MEASUREITEMSTRUCT *msi = (MEASUREITEMSTRUCT*)lParam;
 		TMenuDrawInfo *psd = (TMenuDrawInfo*)msi->itemData;
 		NONCLIENTMETRICS ncm;
-		ncm.cbSize = (IsWinVerVistaPlus()) ? sizeof(ncm) : offsetof(NONCLIENTMETRICS, iPaddedBorderWidth);
+		ncm.cbSize = (bIsVistaPlus) ? sizeof(ncm) : offsetof(NONCLIENTMETRICS, iPaddedBorderWidth);
 		SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &ncm, 0);
 		// create the font used in menus, this font should be cached somewhere really
 		HFONT hFont = CreateFontIndirect(&ncm.lfMenuFont);
