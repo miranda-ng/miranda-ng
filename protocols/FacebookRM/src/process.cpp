@@ -173,25 +173,29 @@ void FacebookProto::ProcessFriendList(void* data)
 				// Found contact, update it and remove from map
 				fbu = iter->second;
 
-				DBVARIANT dbv;
-				bool update_required = true;
-
 				// TODO RM: remove, because contacts cant change it, so its only for "first run"
 					// - but what with contacts, that was added after logon?
 				// Update gender
 				if (getByte(hContact, "Gender", 0) != fbu->gender)
 					setByte(hContact, "Gender", fbu->gender);
 
-				// Update real name
-				if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv))
+				// Update name
+				DBVARIANT dbv;
+				bool update_required = true;
+
+				// TODO: remove in some future version?
+				ptrA realname(getStringA(hContact, "RealName"));
+				if (realname != NULL) {
+					delSetting(hContact, "RealName");
+				}
+				else if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, &dbv))
 				{
 					update_required = strcmp(dbv.pszVal, fbu->real_name.c_str()) != 0;
 					db_free(&dbv);
 				}
 				if (update_required)
 				{
-					db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
-					db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
+					SaveName(hContact, fbu);
 				}
 
 				if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
@@ -224,7 +228,7 @@ void FacebookProto::ProcessFriendList(void* data)
 					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
 					std::string contactname = id;
-					if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv)) {
+					if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, &dbv)) {
 						contactname = dbv.pszVal;
 						db_free(&dbv);
 					}

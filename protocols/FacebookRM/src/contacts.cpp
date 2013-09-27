@@ -22,6 +22,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
+void FacebookProto::SaveName(HANDLE hContact, const facebook_user *fbu)
+{
+	if (fbu->real_name.empty()) {
+		delSetting(hContact, FACEBOOK_KEY_NICK);
+		delSetting(hContact, FACEBOOK_KEY_FIRST_NAME);
+		delSetting(hContact, FACEBOOK_KEY_SECOND_NAME);
+		delSetting(hContact, FACEBOOK_KEY_LAST_NAME);
+		return;
+	}
+
+	db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
+
+	// Explode whole name into first, second and last name
+	std::vector<std::string> names;
+	utils::text::explode(fbu->real_name, " ", &names);
+
+	db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_FIRST_NAME, names.front().c_str());
+	db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_LAST_NAME, names.back().c_str());
+
+	if (names.size() > 2) {
+		std::string middle = "";
+		for (std::string::size_type i = 1; i < names.size() - 1; i++) {
+			if (!middle.empty())
+				middle += " ";
+
+			middle += names.at(i);
+		}
+		db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_SECOND_NAME, middle.c_str());
+	} else {
+		delSetting(hContact, FACEBOOK_KEY_SECOND_NAME);
+	}
+}
+
 bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 {
 	const char *proto = GetContactProto(hContact);
@@ -91,8 +124,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 				db_set_ts(hContact, "CList", "Group", group);
 
 			if (!fbu->real_name.empty()) {
-				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
-				db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
+				SaveName(hContact, fbu);
 			}
 
 			if (fbu->gender)

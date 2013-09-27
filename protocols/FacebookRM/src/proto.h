@@ -200,6 +200,7 @@ public:
 	void ToggleStatusMenuItems(BOOL bEnable);
 	void ParseSmileys(std::string message, HANDLE hContact);
 	void OpenUrl(std::string url);
+	void SaveName(HANDLE hContact, const facebook_user *fbu);
 
 	// Handles, Locks
 	HGENMENU m_hMenuRoot, m_hMenuServicesRoot, m_hStatusMind;

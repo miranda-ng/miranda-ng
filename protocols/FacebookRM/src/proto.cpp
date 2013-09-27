@@ -463,7 +463,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 	if (wall->user_id == facy.self_.user_id) {
 		wall->title = _tcsdup(TranslateT("Own wall"));
 	} else
-		wall->title = getTStringA(hContact, FACEBOOK_KEY_NAME);
+		wall->title = getTStringA(hContact, FACEBOOK_KEY_NICK);
 
 	post_status_data *data = new post_status_data(this, wall);
 
@@ -577,7 +577,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
 		return 0;
 
-	ptrT tname(getTStringA(hContact, FACEBOOK_KEY_NAME));
+	ptrT tname(getTStringA(hContact, FACEBOOK_KEY_NICK));
 	if (tname == NULL)
 		tname = getTStringA(hContact, FACEBOOK_KEY_ID);
 

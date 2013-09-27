@@ -159,7 +159,7 @@ void GetSelectedContacts(FacebookProto *proto, HANDLE hItem, HWND hwndList, std:
 			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				facebook_user *fu = new facebook_user();
 				fu->user_id = ptrA(proto->getStringA(hItem, FACEBOOK_KEY_ID));
-				fu->real_name = _T2A(ptrT(proto->getTStringA(hItem, FACEBOOK_KEY_NAME)));
+				fu->real_name = _T2A(ptrT(proto->getTStringA(hItem, FACEBOOK_KEY_NICK)));
 				contacts->push_back(fu);
 			}
 		}
@@ -213,15 +213,10 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_LAST_WALL, 0), 0);
 		RefreshPrivacy(hwnd, data);
 
-		ptrA name(data->proto->getStringA(FACEBOOK_KEY_NAME));
-		if (name != NULL) {
-			std::string firstname = name;
-			std::string::size_type pos = firstname.find(" ");
-			if (pos != std::string::npos)
-				firstname = firstname.substr(0, pos);
-
+		ptrA firstname(data->proto->getStringA(FACEBOOK_KEY_FIRST_NAME));
+		if (firstname != NULL) {
 			char title[100];
-			mir_snprintf(title, SIZEOF(title), Translate("What's on your mind, %s?"), firstname.c_str());
+			mir_snprintf(title, SIZEOF(title), Translate("What's on your mind, %s?"), firstname);
 			SetWindowTextA(hwnd, title);
 		}
 	}
