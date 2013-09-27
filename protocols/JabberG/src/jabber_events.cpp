@@ -165,7 +165,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDL
 	HXML xPresence = XmlNode(_T("presence")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("subscribe"));
 	ptrT myNick( getTStringA(NULL, "Nick"));
 	if (myNick != NULL)
-		xPresence << XCHILD(_T("nick"), nick) << XATTR(_T("xmlns"), JABBER_FEAT_NICK);
+		xPresence << XCHILD(_T("nick"), myNick) << XATTR(_T("xmlns"), JABBER_FEAT_NICK);
 	m_ThreadInfo->send(xPresence);
 
 	SendGetVcard(jid);
