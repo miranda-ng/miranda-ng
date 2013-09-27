@@ -40,10 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <vssym32.h>
 #include <Shlwapi.h>
 
-#include <map>
 #include <vector>
-#include <string>
-#include <algorithm>
 using namespace std;
 
 #include <stdio.h>
@@ -60,6 +57,7 @@ using namespace std;
 
 #include <m_system.h>
 #include <m_system_cpp.h>
+#include <m_string.h>
 #include <m_core.h>
 #include <newpluginapi.h>
 #include <m_database.h>

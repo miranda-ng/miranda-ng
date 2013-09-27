@@ -23,9 +23,10 @@ Boston, MA 02111-1307, USA.
 
 #include "extraicons.h"
 
-BaseExtraIcon::BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
-		MIRANDAHOOKPARAM OnClick, LPARAM param) :
-	ExtraIcon(name), id(id), description(description), descIcon(descIcon), OnClick(OnClick), onClickParam(param)
+BaseExtraIcon::BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
+	ExtraIcon(name), id(id), OnClick(OnClick), onClickParam(param),
+	tszDescription( mir_tstrdup(description)),
+	szDescIcon( mir_strdup(descIcon))
 {
 }
 
@@ -44,24 +45,24 @@ int BaseExtraIcon::getID() const
 	return id;
 }
 
-const TCHAR *BaseExtraIcon::getDescription() const
+const TCHAR* BaseExtraIcon::getDescription() const
 {
-	return description.c_str();
+	return tszDescription;
 }
 
 void BaseExtraIcon::setDescription(const TCHAR *desc)
 {
-	description = desc;
+	tszDescription = mir_tstrdup(desc);
 }
 
 const char *BaseExtraIcon::getDescIcon() const
 {
-	return descIcon.c_str();
+	return szDescIcon;
 }
 
 void BaseExtraIcon::setDescIcon(const char *icon)
 {
-	descIcon = icon;
+	szDescIcon = mir_strdup(icon);
 }
 
 void BaseExtraIcon::onClick(HANDLE hContact)
@@ -77,6 +78,5 @@ int BaseExtraIcon::ClistSetExtraIcon(HANDLE hContact, HANDLE hImage)
 	ExtraIcon *tmp = extraIconsByHandle[id - 1];
 	if (tmp != this)
 		return tmp->ClistSetExtraIcon(hContact, hImage);
-	else
-		return Clist_SetExtraIcon(hContact, slot, hImage);
+	return Clist_SetExtraIcon(hContact, slot, hImage);
 }

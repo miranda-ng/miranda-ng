@@ -22,9 +22,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __EXTRAICON_H__
 #define __EXTRAICON_H__
 
-#include <string>
-#include <vector>
-
 #define EXTRAICON_TYPE_GROUP -1
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -57,16 +54,6 @@ public:
 	virtual void setPosition(int position);
 
 	virtual bool isEnabled() const;
-
-	/// @retun <0 if this < other, 0 if this == other, >0 if this > other
-	virtual int compare(const ExtraIcon *other) const;
-
-	bool operator==(const ExtraIcon &other) const;
-	bool operator!=(const ExtraIcon &other) const;
-	bool operator<(const ExtraIcon &other) const;
-	bool operator<=(const ExtraIcon &other) const;
-	bool operator>(const ExtraIcon &other) const;
-	bool operator>=(const ExtraIcon &other) const;
 
 	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage) = 0;
 
@@ -102,8 +89,8 @@ public:
 
 protected:
 	int id;
-	std::tstring description;
-	std::string descIcon;
+	ptrT tszDescription;
+	ptrA szDescIcon;
 	MIRANDAHOOKPARAM OnClick;
 	LPARAM onClickParam;
 };
@@ -183,7 +170,7 @@ public:
 	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage);
 
 protected:
-	std::tstring description;
+	ptrT tszDescription;
 	bool setValidExtraIcon;
 	bool insideApply;
 

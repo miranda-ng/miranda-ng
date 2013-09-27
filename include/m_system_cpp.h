@@ -137,20 +137,22 @@ template<class T> struct LIST
 		return *this;
 	}
 
-	__inline int getIndex(T* p) const
+	__inline int getIndex(T *p) const
 	{	int idx;
 		return ( !List_GetIndex((SortedList*)this, p, &idx)) ? -1 : idx;
 	}
 
 	__inline void destroy(void)        { List_Destroy((SortedList*)this); }
 
-	__inline T*  find(T* p)            { return (T*)List_Find((SortedList*)this, p); }
-	__inline int indexOf(T* p)         { return List_IndexOf((SortedList*)this, p); }
-	__inline int insert(T* p, int idx) { return List_Insert((SortedList*)this, p, idx); }
+	__inline T*  find(T *p)            { return (T*)List_Find((SortedList*)this, p); }
+	__inline int indexOf(T *p)         { return List_IndexOf((SortedList*)this, p); }
+	__inline int insert(T *p, int idx) { return List_Insert((SortedList*)this, p, idx); }
 	__inline int remove(int idx)       { return List_Remove((SortedList*)this, idx); }
 
-	__inline int insert(T* p)          { return List_InsertPtr((SortedList*)this, p); }
-	__inline int remove(T* p)          { return List_RemovePtr((SortedList*)this, p); }
+	__inline int insert(T *p)          { return List_InsertPtr((SortedList*)this, p); }
+	__inline int remove(T *p)          { return List_RemovePtr((SortedList*)this, p); }
+
+	__inline void put(int idx, T *p)   { items[idx] = p; }
 
 protected:
 	T**        items;
@@ -200,7 +202,7 @@ template<class T> struct OBJLIST : public LIST<T>
 		return List_Remove((SortedList*)this, idx);
 	}
 
-	__inline int remove(T* p)
+	__inline int remove(T *p)
 	{
 		int i = getIndex( p );
 		if ( i != -1 ) {	

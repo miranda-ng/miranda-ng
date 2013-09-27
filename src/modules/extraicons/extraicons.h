@@ -34,8 +34,7 @@ extern HINSTANCE hInst;
 #include "Extraicon.h"
 
 extern LIST<BaseExtraIcon> registeredExtraIcons;
-extern vector<ExtraIcon*> extraIconsByHandle;
-extern vector<ExtraIcon*> extraIconsBySlot;
+extern LIST<ExtraIcon> extraIconsByHandle, extraIconsBySlot;
 void RebuildListsBasedOnGroups(vector<ExtraIconGroup *> &groups);
 ExtraIcon * GetExtraIconBySlot(int slot);
 

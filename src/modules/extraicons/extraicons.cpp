@@ -31,9 +31,19 @@ Boston, MA 02111-1307, USA.
 
 typedef vector<ExtraIcon*>::iterator IconIter;
 
+int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2)
+{
+	int ret = p1->getPosition() - p2->getPosition();
+	if (ret != 0)
+		return ret;
+
+	int id1 = (p1->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*) p1)->getID() : 0;
+	int id2 = (p2->getType() != EXTRAICON_TYPE_GROUP) ? ((BaseExtraIcon*) p2)->getID() : 0;
+	return id1 - id2;
+}
+
+LIST<ExtraIcon> extraIconsByHandle(10), extraIconsBySlot(10, SortFunc);
 LIST<BaseExtraIcon> registeredExtraIcons(10);
-vector<ExtraIcon*> extraIconsByHandle;
-vector<ExtraIcon*> extraIconsBySlot;
 
 BOOL clistRebuildAlreadyCalled = FALSE;
 BOOL clistApplyAlreadyCalled = FALSE;
@@ -93,17 +103,16 @@ int Clist_SetExtraIcon(HANDLE hContact, int slot, HANDLE hImage)
 
 ExtraIcon* GetExtraIcon(HANDLE id)
 {
-	unsigned int i = (int)id;
-
-	if (i < 1 || i > extraIconsByHandle.size())
+	int i = (int)id;
+	if (i < 1 || i > extraIconsByHandle.getCount())
 		return NULL;
 
-	return extraIconsByHandle[i - 1];
+	return extraIconsByHandle[i-1];
 }
 
 ExtraIcon* GetExtraIconBySlot(int slot)
 {
-	for (unsigned int i = 0; i < extraIconsBySlot.size(); i++) {
+	for (int i = 0; i < extraIconsBySlot.getCount(); i++) {
 		ExtraIcon *extra = extraIconsBySlot[i];
 		if (extra->getSlot() == slot)
 			return extra;
@@ -173,44 +182,35 @@ static ExtraIconGroup * IsInGroup(vector<ExtraIconGroup *> &groups, BaseExtraIco
 	return NULL;
 }
 
-struct compareFunc : std::binary_function<const ExtraIcon *, const ExtraIcon *, bool>
-{
-	bool operator()(const ExtraIcon * one, const ExtraIcon * two) const
-	{
-		return *one < *two;
-	}
-};
-
 void RebuildListsBasedOnGroups(vector<ExtraIconGroup *> &groups)
 {
-	extraIconsByHandle.clear();
-	for (int k = 0; k < registeredExtraIcons.getCount(); k++)
-		extraIconsByHandle.push_back(registeredExtraIcons[k]);
+	extraIconsByHandle.destroy();
+	int k;
+	for (k=0; k < registeredExtraIcons.getCount(); k++)
+		extraIconsByHandle.insert(registeredExtraIcons[k]);
 
-	unsigned int i;
-	for (i = 0; i < extraIconsBySlot.size(); i++) {
-		ExtraIcon *extra = extraIconsBySlot[i];
+	for (k=0; k < extraIconsBySlot.getCount(); k++) {
+		ExtraIcon *extra = extraIconsBySlot[k];
 		if (extra->getType() == EXTRAICON_TYPE_GROUP)
 			delete extra;
 	}
-	extraIconsBySlot.clear();
+	extraIconsBySlot.destroy();
 
+	unsigned int i;
 	for (i = 0; i < groups.size(); i++) {
 		ExtraIconGroup *group = groups[i];
 
 		for (unsigned int j = 0; j < group->items.size(); j++)
-			extraIconsByHandle[group->items[j]->getID() - 1] = group;
+			extraIconsByHandle.put(group->items[j]->getID()-1, group);
 
-		extraIconsBySlot.push_back(group);
+		extraIconsBySlot.insert(group);
 	}
 
-	for (i = 0; i < extraIconsByHandle.size(); i++) {
-		ExtraIcon *extra = extraIconsByHandle[i];
+	for (k = 0; k < extraIconsByHandle.getCount(); k++) {
+		ExtraIcon *extra = extraIconsByHandle[k];
 		if (extra->getType() != EXTRAICON_TYPE_GROUP)
-			extraIconsBySlot.push_back(extra);
+			extraIconsBySlot.insert(extra);
 	}
-
-	std::sort(extraIconsBySlot.begin(), extraIconsBySlot.end(), compareFunc());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -247,7 +247,7 @@ int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam)
 
 	ResetIcons();
 
-	for (unsigned int i = 0; i < extraIconsBySlot.size(); i++)
+	for (int i=0; i < extraIconsBySlot.getCount(); i++)
 		extraIconsBySlot[i]->rebuildIcons();
 
 	return 0;
@@ -261,7 +261,7 @@ int ClistExtraImageApply(WPARAM wParam, LPARAM lParam)
 
 	clistApplyAlreadyCalled = TRUE;
 
-	for (unsigned int i = 0; i < extraIconsBySlot.size(); i++)
+	for (int i=0; i < extraIconsBySlot.getCount(); i++)
 		extraIconsBySlot[i]->applyIcon(hContact);
 
 	return 0;
@@ -275,7 +275,7 @@ int ClistExtraClick(WPARAM wParam, LPARAM lParam)
 
 	int clistSlot = (int)lParam;
 
-	for (unsigned int i = 0; i < extraIconsBySlot.size(); i++) {
+	for (int i=0; i < extraIconsBySlot.getCount(); i++) {
 		ExtraIcon *extra = extraIconsBySlot[i];
 		if (ConvertToClistSlot(extra->getSlot()) == clistSlot) {
 			extra->onClick(hContact);
@@ -379,7 +379,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 
 		// Found one, now merge it
 		if ( _tcsicmp(extra->getDescription(), desc)) {
-			tstring newDesc = extra->getDescription();
+			CMString newDesc = extra->getDescription();
 			newDesc += _T(" / ");
 			newDesc += desc;
 			extra->setDescription(newDesc.c_str());
@@ -429,7 +429,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 	extra->hLangpack = (int)lParam;
 
 	registeredExtraIcons.insert(extra);
-	extraIconsByHandle.push_back(extra);
+	extraIconsByHandle.insert(extra);
 
 	vector<ExtraIconGroup *> groups;
 	LoadGroups(groups);
@@ -441,8 +441,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		for (unsigned int i = 0; i < groups.size(); i++)
 			delete groups[i];
 
-		extraIconsBySlot.push_back(extra);
-		std::sort(extraIconsBySlot.begin(), extraIconsBySlot.end(), compareFunc());
+		extraIconsBySlot.insert(extra);
 	}
 
 	if (slot >= 0 || group != NULL) {
@@ -450,7 +449,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 			extra->rebuildIcons();
 
 		slot = 0;
-		for (unsigned int i = 0; i < extraIconsBySlot.size(); i++) {
+		for (int i=0; i < extraIconsBySlot.getCount(); i++) {
 			ExtraIcon *ex = extraIconsBySlot[i];
 			if (ex->getSlot() < 0)
 				continue;
@@ -548,4 +547,6 @@ void UnloadExtraIconsModule(void)
 		delete registeredExtraIcons[i];
 
 	registeredExtraIcons.destroy();
+	extraIconsByHandle.destroy();
+	extraIconsBySlot.destroy();
 }

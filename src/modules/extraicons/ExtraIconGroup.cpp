@@ -38,13 +38,15 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 {
 	items.push_back(extra);
 
-	description.clear();
+	CMString description;
 	for (unsigned int i = 0; i < items.size(); i++)
 	{
 		if (i > 0)
 			description += _T(" / ");
 		description += items[i]->getDescription();
 	}
+
+	tszDescription = mir_tstrdup(description);
 }
 
 void ExtraIconGroup::rebuildIcons()
@@ -123,7 +125,7 @@ int ExtraIconGroup::setIconByName(int id, HANDLE hContact, const char *value)
 int ExtraIconGroup::internalSetIcon(int id, HANDLE hContact, void *value, bool bByName)
 {
 	if (insideApply) {
-		for (unsigned int i = 0; i < items.size(); i++)
+		for (unsigned int i=0; i < items.size(); i++)
 			if (items[i]->getID() == id) {
 				if (bByName)
 					return items[i]->setIconByName(id, hContact, (const char*)value);
@@ -190,7 +192,7 @@ int ExtraIconGroup::internalSetIcon(int id, HANDLE hContact, void *value, bool b
 
 const TCHAR *ExtraIconGroup::getDescription() const
 {
-	return description.c_str();
+	return tszDescription;
 }
 
 const char *ExtraIconGroup::getDescIcon() const
