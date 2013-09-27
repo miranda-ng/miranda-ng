@@ -56,25 +56,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void KillModuleExtraIcons(int hLangpack)
-{
-	for (IconIter p1 = extraIconsByHandle.begin(); p1 != extraIconsByHandle.end(); p1++)
-		if ((*p1)->hLangpack == hLangpack)
-			extraIconsByHandle.erase(p1--);
-
-	for (IconIter p2 = extraIconsBySlot.begin(); p2 != extraIconsBySlot.end(); p2++)
-		if ((*p2)->hLangpack == hLangpack)
-			extraIconsBySlot.erase(p2--);
-
-	for (int i=registeredExtraIcons.getCount()-1; i >= 0; i--) {
-		BaseExtraIcon *p = registeredExtraIcons[i];
-		if (p->hLangpack == hLangpack) {
-			registeredExtraIcons.remove(i);
-			delete p;
-		}
-	}
-}
-
 int GetNumberOfSlots()
 {
 	return clistSlotCount;
@@ -202,16 +183,15 @@ struct compareFunc : std::binary_function<const ExtraIcon *, const ExtraIcon *, 
 
 void RebuildListsBasedOnGroups(vector<ExtraIconGroup *> &groups)
 {
-	unsigned int i;
-	for (i = 0; i < extraIconsByHandle.size(); i++)
-		extraIconsByHandle[i] = registeredExtraIcons[i];
+	extraIconsByHandle.clear();
+	for (int k = 0; k < registeredExtraIcons.getCount(); k++)
+		extraIconsByHandle.push_back(registeredExtraIcons[k]);
 
+	unsigned int i;
 	for (i = 0; i < extraIconsBySlot.size(); i++) {
 		ExtraIcon *extra = extraIconsBySlot[i];
-		if (extra->getType() != EXTRAICON_TYPE_GROUP)
-			continue;
-
-		delete extra;
+		if (extra->getType() == EXTRAICON_TYPE_GROUP)
+			delete extra;
 	}
 	extraIconsBySlot.clear();
 
@@ -231,6 +211,32 @@ void RebuildListsBasedOnGroups(vector<ExtraIconGroup *> &groups)
 	}
 
 	std::sort(extraIconsBySlot.begin(), extraIconsBySlot.end(), compareFunc());
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void KillModuleExtraIcons(int hLangpack)
+{
+	LIST<ExtraIcon> arDeleted(1);
+
+	for (int i=registeredExtraIcons.getCount()-1; i >= 0; i--) {
+		BaseExtraIcon *p = registeredExtraIcons[i];
+		if (p->hLangpack == hLangpack) {
+			registeredExtraIcons.remove(i);
+			arDeleted.insert(p);
+		}
+	}
+
+	if (arDeleted.getCount() == 0)
+		return;
+
+	vector<ExtraIconGroup*> groups;
+	LoadGroups(groups);
+	RebuildListsBasedOnGroups(groups);
+
+	for (int k=0; k < arDeleted.getCount(); k++)
+		delete arDeleted[k];
+	arDeleted.destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
