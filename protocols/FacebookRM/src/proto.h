@@ -50,6 +50,16 @@ public:
 		return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
 
+	// DB utils missing in proto_interface
+
+	__forceinline INT_PTR getStringUtf(const char *name, DBVARIANT *result) {
+		return db_get_utf(NULL, m_szModuleName, name, result); }
+	__forceinline INT_PTR getStringUtf(HANDLE hContact, const char *name, DBVARIANT *result) {
+		return db_get_utf(hContact, m_szModuleName, name, result); }
+
+	__forceinline void setStringUtf(const char *name, const char* value) { db_set_utf(NULL, m_szModuleName, name, value); }
+	__forceinline void setStringUtf(HANDLE hContact, const char *name, const char* value) { db_set_utf(hContact, m_szModuleName, name, value); }
+
 	//PROTO_INTERFACE
 
 	virtual	HANDLE   __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);

@@ -188,7 +188,7 @@ void FacebookProto::ProcessFriendList(void* data)
 				if (realname != NULL) {
 					delSetting(hContact, "RealName");
 				}
-				else if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, &dbv))
+				else if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv))
 				{
 					update_required = strcmp(dbv.pszVal, fbu->real_name.c_str()) != 0;
 					db_free(&dbv);
@@ -228,7 +228,7 @@ void FacebookProto::ProcessFriendList(void* data)
 					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
 					std::string contactname = id;
-					if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, &dbv)) {
+					if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
 						contactname = dbv.pszVal;
 						db_free(&dbv);
 					}

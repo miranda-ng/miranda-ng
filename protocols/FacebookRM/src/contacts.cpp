@@ -32,14 +32,14 @@ void FacebookProto::SaveName(HANDLE hContact, const facebook_user *fbu)
 		return;
 	}
 
-	db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
+	setStringUtf(hContact, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
 
 	// Explode whole name into first, second and last name
 	std::vector<std::string> names;
 	utils::text::explode(fbu->real_name, " ", &names);
 
-	db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_FIRST_NAME, names.front().c_str());
-	db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_LAST_NAME, names.back().c_str());
+	setStringUtf(hContact, FACEBOOK_KEY_FIRST_NAME, names.front().c_str());
+	setStringUtf(hContact, FACEBOOK_KEY_LAST_NAME, names.back().c_str());
 
 	if (names.size() > 2) {
 		std::string middle = "";
@@ -49,7 +49,7 @@ void FacebookProto::SaveName(HANDLE hContact, const facebook_user *fbu)
 
 			middle += names.at(i);
 		}
-		db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_SECOND_NAME, middle.c_str());
+		setStringUtf(hContact, FACEBOOK_KEY_SECOND_NAME, middle.c_str());
 	} else {
 		delSetting(hContact, FACEBOOK_KEY_SECOND_NAME);
 	}
