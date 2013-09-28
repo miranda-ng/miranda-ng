@@ -25,7 +25,6 @@
 #include "options.h"
 #include "notifications.h"
 #include "handlers.h"
-#include "tipper_items.h"
 #include "Version.h"
 #include "inbox.h"
 
