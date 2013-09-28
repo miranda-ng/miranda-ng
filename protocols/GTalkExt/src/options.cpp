@@ -23,18 +23,18 @@
 #include "db.h"
 #include "options.h"
 
-static const LPTSTR ACCOUNT_PROP_NAME = _T("{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}");
-static const LPTSTR DIALOG_INITIALIZED_PROP_NAME = _T("{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}");
+#define ACCOUNT_PROP_NAME             _T("{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}")
+#define DIALOG_INITIALIZED_PROP_NAME  _T("{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}")
 
-static const LPTSTR POPUPS_OPTIONS_GROUP = LPGENT("Popups");
-static const LPTSTR NETWORK_OPTIONS_GROUP = LPGENT("Network");
+#define POPUPS_OPTIONS_GROUP   LPGENT("Popups")
+#define NETWORK_OPTIONS_GROUP  LPGENT("Network")
 
-static const LPSTR NOTIFY_SETTINGS_FROM_MOD_NAME = SHORT_PLUGIN_NAME ".NotifySettingsFromModName";
+#define NOTIFY_SETTINGS_FROM_MOD_NAME SHORT_PLUGIN_NAME ".NotifySettingsFromModName"
 
-static const LPTSTR TEST_LETTER_SUBJECT = LPGENT("Why C sucks");
-static const LPTSTR TEST_LETTER_INBOX = LPGENT("brickstrace@gmail.com [1]");
-static const LPTSTR TEST_LETTER_SENDER = LPGENT("    bems\n");
-static const LPTSTR TEST_LETTER_SNIP = LPGENT("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions");
+#define TEST_LETTER_SUBJECT LPGENT("Why C sucks")
+#define TEST_LETTER_INBOX   LPGENT("brickstrace@gmail.com [1]")
+#define TEST_LETTER_SENDER  LPGENT("    bems\n")
+#define TEST_LETTER_SNIP    LPGENT("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions")
 
 extern HINSTANCE g_hInst;
 
@@ -108,6 +108,8 @@ void SaveControls(HWND wnd, LPCSTR mod)
 	db_set_dw(NULL, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, controls);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -150,6 +152,8 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void ShowTestPopup(HWND wnd)
 {
 	POPUPDATAT data = {0};
@@ -179,21 +183,16 @@ void ShowTestPopup(HWND wnd)
 
 INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	TCHAR timeout[20];
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(wnd);
 		SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
 		SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
-		{
-			LPTSTR timeout = (LPTSTR)malloc(11 * sizeof(TCHAR));
-			__try {
-				wsprintf(timeout, _T("%d"), db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
-				SetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout);
-			}
-			__finally {
-				free(timeout);
-			}
-		}
+
+		_itot( db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0), timeout, 10);
+		SetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout);
 
 		SetProp(wnd, DIALOG_INITIALIZED_PROP_NAME, (HANDLE)TRUE);
 		break;
@@ -219,19 +218,13 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 			db_set_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 		db_set_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 
-		int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
-		LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));
-		__try {
-			GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, len);
-			db_set_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
-		}
-		__finally {
-			free(timeout);
-		}
-		break;
+		GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, SIZEOF(timeout));
+		db_set_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
 	}
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 {
@@ -249,24 +242,18 @@ int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 	for (int i=0; i < g_accs.getCount(); i++) {
 		LPCSTR szProto = g_accs[i]->GetModuleName();
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
-		if (pa == 0)
-			continue;
-
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-		odp.ptszTitle = pa->tszAccountName;
-		odp.pfnDlgProc = AccOptionsDlgProc;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
-		odp.hInstance = g_hInst;
-		odp.ptszGroup = NETWORK_OPTIONS_GROUP;
-		odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-		odp.ptszTab = MAIL_NOTIFICATIONS;
-		odp.dwInitParam = (LPARAM)szProto;
-		Options_AddPage(wParam, &odp);
+		if (pa != NULL) {
+			OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+			odp.ptszTitle = pa->tszAccountName;
+			odp.pfnDlgProc = AccOptionsDlgProc;
+			odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
+			odp.hInstance = g_hInst;
+			odp.ptszGroup = NETWORK_OPTIONS_GROUP;
+			odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
+			odp.ptszTab = MAIL_NOTIFICATIONS;
+			odp.dwInitParam = (LPARAM)szProto;
+			Options_AddPage(wParam, &odp);
+		}
 	}
 	return 0;
-}
-
-void HookOptionsInitialization()
-{
-	HookEvent(ME_OPT_INITIALISE, OptionsInitialization);
 }

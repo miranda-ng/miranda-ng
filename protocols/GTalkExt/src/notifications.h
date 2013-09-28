@@ -21,9 +21,9 @@
 
 #pragma once
 
-const LPTSTR TEMP_WINDOW_CLASS_NAME = _T("AntiShittyFullscreenDetectionWindowClass");
+#define TEMP_WINDOW_CLASS_NAME _T("AntiShittyFullscreenDetectionWindowClass")
 
-const int SENDER_COUNT = 10;
+#define SENDER_COUNT 10
 
 struct SENDER {
 	LPCTSTR name;

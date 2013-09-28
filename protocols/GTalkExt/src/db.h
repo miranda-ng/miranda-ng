@@ -22,8 +22,8 @@
 #pragma once
 #include "resources.h"
 
-static const LPSTR LAST_MAIL_TIME_FROM_JID = SHORT_PLUGIN_NAME ".LastMailTimeFromJid";
-static const LPSTR LAST_THREAD_ID_FROM_JID = SHORT_PLUGIN_NAME ".LastThreadIdFromJid";
+#define LAST_MAIL_TIME_FROM_JID  SHORT_PLUGIN_NAME ".LastMailTimeFromJid"
+#define LAST_THREAD_ID_FROM_JID  SHORT_PLUGIN_NAME ".LastThreadIdFromJid"
 
 LPTSTR ReadJidSetting(LPCSTR name, LPCTSTR jid);
 void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting);

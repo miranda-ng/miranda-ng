@@ -20,17 +20,15 @@
 //***************************************************************************************
 
 #include "StdAfx.h"
-#include "tipper_items.h"
 #include "resources.h"
 
-static const int MAX_TIPPER_ITEM_PROP = 6 ;
+#define VALUE_SETTING_PROP "DIValue%d"
+#define LABEL_SETTING_PROP "DILabel%d"
 
-static const LPSTR VALUE_SETTING_PROP = "DIValue%d";
-static const LPSTR LABEL_SETTING_PROP = "DILabel%d";
+#define LAST_WRITTEN_LABEL_SETTING "LastWrittenTipperLabel"
 
-static const LPSTR LAST_WRITTEN_LABEL_SETTING = "LastWrittenTipperLabel";
-
-static LPSTR TipperItemProps[MAX_TIPPER_ITEM_PROP] = {
+static LPSTR TipperItemProps[] =
+{
 	LABEL_SETTING_PROP,
 	"DILineAbove%d",
 	"DITipperVarsFirst%d",
@@ -39,10 +37,10 @@ static LPSTR TipperItemProps[MAX_TIPPER_ITEM_PROP] = {
 	"DIVisible%d"
 };
 
-static const LPSTR TIPPER_ITEMS_MOD_NAME = "Tipper_Items";
-static const LPSTR TIPPER_ITEM_COUNT_SETTING = "DINumValues";
-static const LPTSTR UNREAD_THREADS_RAW = _T("%raw:") _T(SHORT_PLUGIN_NAME) _T("/UnreadThreads%");
-static const LPTSTR UNREAD_THREADS_LABEL = LPGENT("Unread threads:");
+#define TIPPER_ITEMS_MOD_NAME     "Tipper_Items"
+#define TIPPER_ITEM_COUNT_SETTING "DINumValues"
+#define UNREAD_THREADS_RAW        _T("%raw:") _T(SHORT_PLUGIN_NAME) _T("/UnreadThreads%")
+#define UNREAD_THREADS_LABEL      LPGENT("Unread threads:")
 
 void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 {
@@ -114,7 +112,7 @@ void AddTipperItem()
 		}
 	}
 
-	for (i = 0; i < MAX_TIPPER_ITEM_PROP; i++)
+	for (i = 0; i < SIZEOF(TipperItemProps); i++)
 		ShiftTipperSettings(setting, itemCount, TipperItemProps[i]);
 
 	#define WRITE_TIPPER_PROPS(index, value)\

@@ -74,7 +74,6 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{	JABBER_FEAT_MIRANDA_NOTES,        JABBER_CAPS_MIRANDA_NOTES,        LPGENT("Supports Miranda NG notes extension") },
 	{	JABBER_FEAT_JINGLE,               JABBER_CAPS_JINGLE,               LPGENT("Supports Jingle") },
 	{	JABBER_FEAT_ROSTER_EXCHANGE,      JABBER_CAPS_ROSTER_EXCHANGE,      LPGENT("Supports Roster Exchange") },
-	{	JABBER_FEAT_GTALK_PMUC,           JABBER_CAPS_GTALK_PMUC,           LPGENT("Supports GTalk private multi-user chat") },
 	{	NULL,                             0,                                NULL }
 };
 
@@ -86,7 +85,6 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 	{	_T(JABBER_EXT_USER_MOOD),         JABBER_CAPS_USER_MOOD_NOTIFY     },
 	{	_T(JABBER_EXT_USER_TUNE),         JABBER_CAPS_USER_TUNE_NOTIFY     },
 	{	_T(JABBER_EXT_USER_ACTIVITY),     JABBER_CAPS_USER_ACTIVITY_NOTIFY },
-	{	_T(JABBER_EXT_GTALK_PMUC),        JABBER_CAPS_GTALK_PMUC           },
 	{	_T(JABBER_EXT_MIR_NOTES),         JABBER_CAPS_MIRANDA_NOTES,       },
 	{	szCoreVersion,                    JABBER_CAPS_MIRANDA_PARTIAL      },
 	{	_T(JABBER_EXT_PLATFORMX86),       JABBER_CAPS_PLATFORMX86          },

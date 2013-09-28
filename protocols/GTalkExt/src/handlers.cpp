@@ -28,52 +28,52 @@
 
 #define JABBER_EXT_GTALK_PMUC _T("pmuc-v1")
 
-static const LPCTSTR JABBER_IQID = _T("mir_");
-static const LPCTSTR JABBER_IQID_FORMAT = _T("mir_%d");
+#define JABBER_IQID  _T("mir_")
+#define JABBER_IQID_FORMAT  _T("mir_%d")
 
-static const LPCTSTR NOTIFY_FEATURE_XMLNS = _T("google:mail:notify");
-static const LPCTSTR SETTING_FEATURE_XMLNS = _T("google:setting");
-static const LPCTSTR DISCOVERY_XMLNS = _T("http://jabber.org/protocol/disco#info");
+#define NOTIFY_FEATURE_XMLNS  _T("google:mail:notify")
+#define SETTING_FEATURE_XMLNS  _T("google:setting")
+#define DISCOVERY_XMLNS  _T("http://jabber.org/protocol/disco#info")
 
-static const LPCTSTR MESSAGE_URL_FORMAT_STANDARD = _T("%s/#inbox/%x%08x");
-static const LPCTSTR MESSAGE_URL_FORMAT_HTML = _T("%s/h/?v=c&th=%x%08x");
+#define MESSAGE_URL_FORMAT_STANDARD _T("%s/#inbox/%x%08x")
+#define MESSAGE_URL_FORMAT_HTML  _T("%s/h/?v=c&th=%x%08x")
 
-static const LPCTSTR ATTRNAME_TYPE = _T("type");
-static const LPCTSTR ATTRNAME_FROM = _T("from");
-static const LPCTSTR ATTRNAME_TO = _T("to");
-static const LPCTSTR ATTRNAME_URL = _T("url");
-static const LPCTSTR ATTRNAME_TID = _T("tid");
-static const LPCTSTR ATTRNAME_UNREAD = _T("unread");
-static const LPCTSTR ATTRNAME_XMLNS = _T("xmlns");
-static const LPCTSTR ATTRNAME_ID = _T("id");
-static const LPCTSTR ATTRNAME_TOTAL_MATCHED = _T("total-matched");
-static const LPCTSTR ATTRNAME_NAME = _T("name");
-static const LPCTSTR ATTRNAME_ADDRESS = _T("address");
-static const LPCTSTR ATTRNAME_RESULT_TIME = _T("result-time");
-static const LPCTSTR ATTRNAME_NEWER_THAN_TIME = _T("newer-than-time");
-static const LPCTSTR ATTRNAME_NEWER_THAN_TID = _T("newer-than-tid");
-static const LPCTSTR ATTRNAME_VALUE = _T("value");
-static const LPCTSTR ATTRNAME_VAR = _T("var");
+#define ATTRNAME_TYPE              _T("type")
+#define ATTRNAME_FROM              _T("from")
+#define ATTRNAME_TO                _T("to")
+#define ATTRNAME_URL               _T("url")
+#define ATTRNAME_TID               _T("tid")
+#define ATTRNAME_UNREAD            _T("unread")
+#define ATTRNAME_XMLNS             _T("xmlns")
+#define ATTRNAME_ID                _T("id")
+#define ATTRNAME_TOTAL_MATCHED     _T("total-matched")
+#define ATTRNAME_NAME              _T("name")
+#define ATTRNAME_ADDRESS           _T("address")
+#define ATTRNAME_RESULT_TIME       _T("result-time")
+#define ATTRNAME_NEWER_THAN_TIME   _T("newer-than-time")
+#define ATTRNAME_NEWER_THAN_TID    _T("newer-than-tid")
+#define ATTRNAME_VALUE             _T("value")
+#define ATTRNAME_VAR               _T("var")
+										     
+#define IQTYPE_RESULT              _T("result")
+#define IQTYPE_SET                 _T("set")
+#define IQTYPE_GET                 _T("get")
 
-static const LPCTSTR IQTYPE_RESULT = _T("result");
-static const LPCTSTR IQTYPE_SET = _T("set");
-static const LPCTSTR IQTYPE_GET = _T("get");
+#define NODENAME_MAILBOX           _T("mailbox")
+#define NODENAME_QUERY             _T("query")
+#define NODENAME_IQ                _T("iq")
+#define NODENAME_USERSETTING       _T("usersetting")
+#define NODENAME_MAILNOTIFICATIONS _T("mailnotifications")
+#define NODENAME_SUBJECT           _T("subject")
+#define NODENAME_SNIPPET           _T("snippet")
+#define NODENAME_SENDERS           _T("senders")
+#define NODENAME_FEATURE           _T("feature")
+#define NODENAME_NEW_MAIL          _T("new-mail")
 
-static const LPCTSTR NODENAME_MAILBOX = _T("mailbox");
-static const LPCTSTR NODENAME_QUERY = _T("query");
-static const LPCTSTR NODENAME_IQ = _T("iq");
-static const LPCTSTR NODENAME_USERSETTING = _T("usersetting");
-static const LPCTSTR NODENAME_MAILNOTIFICATIONS = _T("mailnotifications");
-static const LPCTSTR NODENAME_SUBJECT = _T("subject");
-static const LPCTSTR NODENAME_SNIPPET = _T("snippet");
-static const LPCTSTR NODENAME_SENDERS = _T("senders");
-static const LPCTSTR NODENAME_FEATURE = _T("feature");
-static const LPCTSTR NODENAME_NEW_MAIL = _T("new-mail");
+#define SETTING_TRUE               _T("true")
 
-static const LPCTSTR SETTING_TRUE = _T("true");
-
-static const DWORD RESPONSE_TIMEOUT = 1000 * 60 * 60;
-static const DWORD TIMER_INTERVAL = 1000 * 60 * 2;
+#define RESPONSE_TIMEOUT (1000 * 60 * 60)
+#define TIMER_INTERVAL   (1000 * 60 * 2)
 
 LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -429,6 +429,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_POPUP_FILTER, OnFilterPopup);
 	HookEvent(ME_JABBER_EXTLISTINIT, OnExtListInit);
-	HookOptionsInitialization();
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialization);
 	return 0;
 }

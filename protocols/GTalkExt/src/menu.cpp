@@ -25,8 +25,8 @@
 #include "options.h"
 #include "inbox.h"
 
-static const LPSTR MS_GTALKEXT_OPENMAILBOX = SHORT_PLUGIN_NAME "/OpenMailbox";
-static const LPTSTR _T(OPEN_MAILBOX_ITEM_CAPTION) = LPGENT("Open mailbox");
+#define MS_GTALKEXT_OPENMAILBOX SHORT_PLUGIN_NAME "/OpenMailbox"
+#define OPEN_MAILBOX_ITEM_CAPTION LPGENT("Open mailbox")
 
 extern HICON g_hPopupIcon;
 
@@ -67,7 +67,7 @@ BOOL InitMenus(BOOL init)
 		CLISTMENUITEM cmi = { sizeof(cmi) };
 		cmi.flags = CMIF_TCHAR;
 		cmi.hIcon = g_hPopupIcon;
-		cmi.ptszName = _T(OPEN_MAILBOX_ITEM_CAPTION);
+		cmi.ptszName = OPEN_MAILBOX_ITEM_CAPTION;
 		cmi.pszService = MS_GTALKEXT_OPENMAILBOX;
 		hOpenMailboxMenuItem = Menu_AddContactMenuItem(&cmi);
 

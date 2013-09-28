@@ -23,16 +23,17 @@
 
 #include "resources.h"
 
-static const LPTSTR MAIL_NOTIFICATIONS = LPGENT("GMail notifications");
-static const LPTSTR FULL_NOTIFICATION_FORMAT = LPGENT("subject\n    %s\nfrom\n%s\n%s\n");
-static const LPTSTR SHORT_NOTIFICATION_FORMAT = LPGENT("subject\n    %s\nfrom\n%s");
+#define JABBER_FEAT_GTALK_PMUC _T("http://www.google.com/xmpp/protocol/pmuc/v1")
 
-static const LPSTR PSEUDOCONTACT_LINK = "GTalkExtNotifyContact";
-static const LPSTR PSEUDOCONTACT_FLAG = "IsNotifyContact";
-static const LPSTR BACK_COLOR_SETTING = "BackColor";
-static const LPSTR TEXT_COLOR_SETTING = "TextColor";
-static const LPSTR TIMEOUT_SETTING = "Timeout";
+#define MAIL_NOTIFICATIONS        LPGENT("GMail notifications")
+#define FULL_NOTIFICATION_FORMAT  LPGENT("subject\n    %s\nfrom\n%s\n%s\n")
+#define SHORT_NOTIFICATION_FORMAT LPGENT("subject\n    %s\nfrom\n%s")
 
-void HookOptionsInitialization();
+#define PSEUDOCONTACT_LINK  "GTalkExtNotifyContact"
+#define PSEUDOCONTACT_FLAG  "IsNotifyContact"
+#define BACK_COLOR_SETTING  "BackColor"
+#define TEXT_COLOR_SETTING  "TextColor"
+#define TIMEOUT_SETTING     "Timeout"
+
 DWORD ReadCheckboxes(HWND wnd, LPCSTR mod);
 BOOL ReadCheckbox(HWND wnd, int id, DWORD controls);

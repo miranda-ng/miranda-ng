@@ -25,39 +25,26 @@
 #include "db.h"
 #include "options.h"
 
-const LPTSTR COMMON_GMAIL_HOST1 = _T("gmail.com");
-const LPTSTR COMMON_GMAIL_HOST2 = _T("googlemail.com");
+#define COMMON_GMAIL_HOST1 _T("gmail.com")
+#define COMMON_GMAIL_HOST2 _T("googlemail.com")
 
-const LPSTR AUTH_REQUEST_URL = "https://www.google.com/accounts/ClientAuth";
-const LPSTR AUTH_REQUEST_PARAMS = "Email=%s&Passwd=%s&"
-	"accountType=HOSTED_OR_GOOGLE&"
-	"skipvpage=true&"
-	"PersistentCookie=false";
+#define AUTH_REQUEST_URL    "https://www.google.com/accounts/ClientAuth"
+#define AUTH_REQUEST_PARAMS "Email=%s&Passwd=%s&accountType=HOSTED_OR_GOOGLE&skipvpage=true&PersistentCookie=false"
 
-const LPSTR ISSUE_TOKEN_REQUEST_URL = "https://www.google.com/accounts/IssueAuthToken";
-const LPSTR ISSUE_TOKEN_REQUEST_PARAMS = "SID=%s&LSID=%s&"
-	"Session=true&"
-	"skipvpage=true&"
-	"service=gaia";
+#define ISSUE_TOKEN_REQUEST_URL    "https://www.google.com/accounts/IssueAuthToken"
+#define ISSUE_TOKEN_REQUEST_PARAMS "SID=%s&LSID=%s&Session=true&skipvpage=true&service=gaia"
 
-const LPSTR TOKEN_AUTH_URL = "https://www.google.com/accounts/TokenAuth?"\
-	"auth=%s&"
-	"service=mail&"
-	"continue=%s&"
-	"source=googletalk";
-
+#define TOKEN_AUTH_URL "https://www.google.com/accounts/TokenAuth?auth=%s&service=mail&continue=%s&source=googletalk"
 
 const NETLIBHTTPHEADER HEADER_URL_ENCODED = {"Content-Type", "application/x-www-form-urlencoded"};
-const int HTTP_OK = 200;
+#define HTTP_OK 200
 
-const LPSTR SID_KEY_NAME = "SID=";
-const LPSTR LSID_KEY_NAME = "LSID=";
+#define SID_KEY_NAME  "SID="
+#define LSID_KEY_NAME "LSID="
 
-const LPSTR LOGIN_PASS_SETTING_NAME = "LoginPassword";
+#define LOGIN_PASS_SETTING_NAME "LoginPassword"
 
-const LPTSTR INBOX_URL_FORMAT = _T("https://mail.google.com/%s%s/#inbox");
-
-const DWORD SIZE_OF_JABBER_OPTIONS = 243 * sizeof(DWORD);
+#define INBOX_URL_FORMAT  _T("https://mail.google.com/%s%s/#inbox")
 
 // 3 lines from netlib.h
 #define GetNetlibHandleType(h)  (h?*(int*)h:NLH_INVALID)

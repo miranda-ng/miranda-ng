@@ -25,3 +25,6 @@ extern HANDLE hModulesLoaded;
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam);
 int AccListChanged(WPARAM wParam, LPARAM lParam);
+int OptionsInitialization(WPARAM wParam, LPARAM lParam);
+
+void AddTipperItem();

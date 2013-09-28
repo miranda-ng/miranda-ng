@@ -23,12 +23,12 @@
 #include "resources.h"
 #include "options.h"
 
-static const LPTSTR AVA_FILE_NAME_FORMAT = _T("%s\\%s\\AvatarCache\\Jabber\\") _T(SHORT_PLUGIN_NAME) _T(".pseudoava.png");
-static const LPTSTR AVA_RES_TYPE = _T("PNG");
-static const LPSTR SRMM_MODULE_NAME = "SRMM";
-static const LPSTR SRMM_AVATAR_SETTING_NAME = "Avatar";
+#define AVA_FILE_NAME_FORMAT  _T("%s\\%s\\AvatarCache\\Jabber\\") _T(SHORT_PLUGIN_NAME) _T(".pseudoava.png")
+#define AVA_RES_TYPE  _T("PNG")
+#define SRMM_MODULE_NAME  "SRMM"
+#define SRMM_AVATAR_SETTING_NAME  "Avatar"
 
-static const int SET_AVATAR_INTERVAL = 2000;
+#define SET_AVATAR_INTERVAL 2000
 
 LPTSTR CreateAvaFile(HANDLE *hFile)
 {

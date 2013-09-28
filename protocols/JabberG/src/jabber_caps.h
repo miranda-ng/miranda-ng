@@ -145,8 +145,6 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_JINGLE                      ((JabberCapsBits)1<<39)
 #define JABBER_FEAT_ROSTER_EXCHANGE             _T("http://jabber.org/protocol/rosterx")
 #define JABBER_CAPS_ROSTER_EXCHANGE             ((JabberCapsBits)1<<40)
-#define JABBER_FEAT_GTALK_PMUC                  _T("http://www.google.com/xmpp/protocol/pmuc/v1")
-#define JABBER_CAPS_GTALK_PMUC                  ((JabberCapsBits)1<<41)
 
 #define JABBER_FEAT_PUBSUB_EVENT                _T("http://jabber.org/protocol/pubsub#event")
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          _T("http://jabber.org/protocol/pubsub#node_config")
