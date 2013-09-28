@@ -75,7 +75,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{	JABBER_FEAT_JINGLE,               JABBER_CAPS_JINGLE,               LPGENT("Supports Jingle") },
 	{	JABBER_FEAT_ROSTER_EXCHANGE,      JABBER_CAPS_ROSTER_EXCHANGE,      LPGENT("Supports Roster Exchange") },
 	{	JABBER_FEAT_GTALK_PMUC,           JABBER_CAPS_GTALK_PMUC,           LPGENT("Supports GTalk private multi-user chat") },
-	{	NULL,                                 0,                                NULL}
+	{	NULL,                             0,                                NULL }
 };
 
 const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {

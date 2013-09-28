@@ -721,9 +721,7 @@ int MirandaLoaded(WPARAM,LPARAM)
 	{
 		hDwmApi = LoadLibrary(_T("dwmapi.dll"));
 		if (hDwmApi)
-		{
 			dwmIsCompositionEnabled = (PFNDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");
-		}
 	}
 	if (g_wMaskAdv & OPT_MENUITEM)
 		BossKeyMenuItemInit();

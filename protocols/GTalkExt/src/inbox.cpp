@@ -155,7 +155,7 @@ HANDLE FindNetUserHandle(LPCSTR acc)
 	if (!ji)
 		return NULL;
 
-	return ji->Net()->GetHandle();
+	return ji->GetHandle();
 }
 
 void OpenUrlThread(void *param)

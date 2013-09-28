@@ -204,7 +204,7 @@ BOOL MailListHandler(IJabberInterface *ji, HXML node, void *pUserData)
 	}
 	__finally {
 		if (jidWithRes)
-			ji->Net()->AddTemporaryIqHandler(TimerHandler, JABBER_IQ_TYPE_RESULT, 0,
+			ji->AddTemporaryIqHandler(TimerHandler, JABBER_IQ_TYPE_RESULT, 0,
 				(PVOID)_tcsdup(jidWithRes), TIMER_INTERVAL);
 			// Never get a real result stanza. Results elapsed request after WAIT_TIMER_INTERVAL ms
 	}
@@ -217,7 +217,7 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 	xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_GET);
 	xi.addAttr(node, ATTRNAME_FROM, jidWithRes);
 
-	UINT uID = ji->Net()->SerialNext();
+	UINT uID = ji->SerialNext();
 	ptrT jid( ExtractJid(jidWithRes));
 	xi.addAttr(node, ATTRNAME_TO, jid);
 
@@ -234,10 +234,8 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 	xi.addAttr(child, ATTRNAME_NEWER_THAN_TIME, lastMailTime);
 	xi.addAttr(child, ATTRNAME_NEWER_THAN_TID, lastThreadId);
 
-	IJabberNetInterface* piNet = ji->Net();
-	if ( piNet )
-		if (piNet->SendXmlNode(node))
-			piNet->AddTemporaryIqHandler(MailListHandler, JABBER_IQ_TYPE_RESULT, (int)uID, NULL, RESPONSE_TIMEOUT);
+	if (ji->SendXmlNode(node))
+		ji->AddTemporaryIqHandler(MailListHandler, JABBER_IQ_TYPE_RESULT, (int)uID, NULL, RESPONSE_TIMEOUT);
 
 	if (child) xi.destroyNode(child);
 	if (node) xi.destroyNode(node);
@@ -267,7 +265,7 @@ BOOL NewMailHandler(IJabberInterface *ji, HXML node, void *pUserData)
 		if (!attr) return FALSE;
 		xi.addAttr(response, ATTRNAME_FROM, attr);
 
-		int bytesSent = ji->Net()->SendXmlNode(response);
+		int bytesSent = ji->SendXmlNode(response);
 		RequestMail(attr, ji);
 		return bytesSent > 0;
 	}
@@ -288,7 +286,7 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	xi.addAttr(node, ATTRNAME_TO, jid);
 
 	TCHAR id[30];
-	mir_sntprintf(id, SIZEOF(id), JABBER_IQID_FORMAT, ji->Net()->SerialNext());
+	mir_sntprintf(id, SIZEOF(id), JABBER_IQID_FORMAT, ji->SerialNext());
 	xi.addAttr(node, ATTRNAME_ID, id);
 
 	child = xi.addChild(node, NODENAME_USERSETTING, NULL);
@@ -297,7 +295,7 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	child = xi.addChild(child, NODENAME_MAILNOTIFICATIONS, NULL);
 	xi.addAttr(child, ATTRNAME_VALUE, SETTING_TRUE);
 
-	ji->Net()->SendXmlNode(node);
+	ji->SendXmlNode(node);
 
 	if (child) xi.destroyNode(child);
 	if (node) xi.destroyNode(node);
@@ -317,7 +315,7 @@ BOOL DiscoverHandler(IJabberInterface *ji, HXML node, void *pUserData)
 
 	child = xi.getChildByAttrValue(node, NODENAME_FEATURE, ATTRNAME_VAR, NOTIFY_FEATURE_XMLNS);
 	if (child) {
-		ji->Net()->AddIqHandler(NewMailHandler, JABBER_IQ_TYPE_SET, NOTIFY_FEATURE_XMLNS, NODENAME_NEW_MAIL);
+		ji->AddIqHandler(NewMailHandler, JABBER_IQ_TYPE_SET, NOTIFY_FEATURE_XMLNS, NODENAME_NEW_MAIL);
 		RequestMail(jid, ji);
 	}
 
@@ -338,7 +336,7 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 
 	TlsSetValue(itlsRecursion, (PVOID)TRUE);
 
-	UINT id = ji->Net()->SerialNext();
+	UINT id = ji->SerialNext();
 	HXML newNode = xi.createNode(NODENAME_IQ, NULL, FALSE);
 	xi.addAttr(newNode, ATTRNAME_TYPE, IQTYPE_GET);
 	xi.addAttr(newNode, ATTRNAME_TO, xi.getAttrValue(node, ATTRNAME_TO));
@@ -348,11 +346,11 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 	xi.addAttr(newNode, ATTRNAME_ID, idAttr);
 
 	xi.addAttr(xi.addChild(newNode, NODENAME_QUERY, NULL), ATTRNAME_XMLNS, DISCOVERY_XMLNS);
-	ji->Net()->SendXmlNode(newNode);
+	ji->SendXmlNode(newNode);
 
 	xi.destroyNode(newNode);
 
-	ji->Net()->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
+	ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
 	TlsSetValue(itlsRecursion, (PVOID)FALSE);
 	return FALSE;
 }
@@ -375,15 +373,14 @@ int OnFilterPopup(WPARAM wParam, LPARAM lParam)
 IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
 {
 	IJabberInterface *japi = getJabberApi(szModuleName);
-	if (!japi) return NULL;
-
-	DBVARIANT dbv;
-	if ( db_get_s(NULL, szModuleName, "ManualHost", &dbv))
+	if (!japi)
 		return NULL;
 
-	bool res = !strcmp(dbv.pszVal, "talk.google.com");
-	db_free(&dbv);
-	return (res) ? japi : NULL;
+	ptrA host( db_get_sa(NULL, szModuleName, "ManualHost"));
+	if (host == NULL)
+		return NULL;
+
+	return ( !strcmp(host, "talk.google.com")) ? japi : NULL;
 }
 
 int AccListChanged(WPARAM wParam, LPARAM lParam)
@@ -391,7 +388,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 	if (wParam == PRAC_ADDED) {
 		IJabberInterface *ji = getJabberApi(((PROTOACCOUNT*)lParam)->szModuleName);
 		if (ji)
-			ji->Net()->AddSendHandler(SendHandler);
+			ji->AddSendHandler(SendHandler);
 	}
 	return 0;
 }
@@ -406,7 +403,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	for (int i=0; i < count; i++) {
 		IJabberInterface *ji = IsGoogleAccount(protos[i]->szModuleName);
 		if (ji)
-			ji->Net()->AddSendHandler(SendHandler);
+			ji->AddSendHandler(SendHandler);
 	}
 
 	HookEvent(ME_POPUP_FILTER, OnFilterPopup);

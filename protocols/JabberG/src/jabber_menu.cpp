@@ -813,7 +813,7 @@ void CJabberProto::MenuInit()
 	m_pepServices.RebuildMenu();
 	CheckMenuItems();
 
-	NotifyFastHook(hStatusMenuInit, (WPARAM)hJabberRoot, (LPARAM)&m_JabberApi);
+	NotifyFastHook(hStatusMenuInit, (WPARAM)hJabberRoot, (LPARAM)this);
 }
 
 //////////////////////////////////////////////////////////////////////////

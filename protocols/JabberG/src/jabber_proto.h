@@ -83,67 +83,7 @@ struct TFilterInfo
 	TCHAR pattern[256];
 };
 
-struct CJabberSysInterface: public IJabberSysInterface
-{
-	int    STDMETHODCALLTYPE GetVersion() const;                      // Returns version of IJabberSysInterface.
-	int    STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2); // Strips resource names from given JIDs and returns result of comparison for these JIDs.
-	HANDLE STDMETHODCALLTYPE ContactFromJID(LPCTSTR jid);             // Returns contact handle for given JID.
-	LPTSTR STDMETHODCALLTYPE ContactToJID(HANDLE hContact);           // Returns JID of hContact. You must free the result using mir_free().
-	LPTSTR STDMETHODCALLTYPE GetBestResourceName(LPCTSTR jid);        // Returns best resource name for given JID. You must free the result using mir_free().
-	LPTSTR STDMETHODCALLTYPE GetResourceList(LPCTSTR jid);            // Returns all resource names for a given JID in format "resource1\0resource2\0resource3\0\0" (all resources are separated by \0 character and the whole string is terminated with two \0 characters). You must free the string using mir_free().
-	char*  STDMETHODCALLTYPE GetModuleName() const;                   // Returns Jabber module name.
-
-	CJabberProto *m_psProto;
-};
-
-struct CJabberNetInterface: public IJabberNetInterface
-{
-	int  STDMETHODCALLTYPE GetVersion() const;     // Returns version of IJabberNetInterface.
-	UINT STDMETHODCALLTYPE SerialNext();           // Returns id that can be used for next message sent through SendXmlNode().
-	int  STDMETHODCALLTYPE SendXmlNode(HXML node); // Sends XML node.
-
-	// In all incoming stanza handlers, return TRUE to continue processing of the stanza (Jabber plugin will then call other handlers). Return FALSE only when you're sure noone else will need to process this stanza.
-	// Registers incoming <presence/> handler. Returns handler handle on success or NULL on error.
-	HJHANDLER STDMETHODCALLTYPE AddPresenceHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority);
-	// Registers incoming <message/> handler for messages of types specified by iMsgTypes. iMsgTypes is a combination of JABBER_MESSAGE_TYPE_* flags. Returns handler handle on success or NULL on error.
-	HJHANDLER STDMETHODCALLTYPE AddMessageHandler(JABBER_HANDLER_FUNC Func, int iMsgTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData, int iPriority);
-	// Registers incoming <iq/> handler. iIqTypes is a combination of JABBER_IQ_TYPE_* flags. Returns handler handle on success or NULL on error.
-	HJHANDLER STDMETHODCALLTYPE AddIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData, int iPriority);
-	// Registers temporary handler for incoming <iq/> stanza of type iIqType with id iIqId. iIqTypes is a combination of JABBER_IQ_TYPE_* flags. Returns handler handle on success or NULL on error. You must free pUserData in the handler by yourself.
-	HJHANDLER STDMETHODCALLTYPE AddTemporaryIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, int iIqId, void *pUserData, DWORD dwTimeout, int iPriority);
-
-	// Registers handler for outgoing nodes. The handler may modify the node if it's necessary. Return TRUE in the handler to continue, or FALSE to abort sending.
-	HJHANDLER STDMETHODCALLTYPE AddSendHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority);
-
-	// Unregisters handler by its handle.
-	int    STDMETHODCALLTYPE RemoveHandler(HJHANDLER hHandler);
-
-	// Registers feature so that it's displayed with proper description in other users' details. Call this function in your ME_SYSTEM_MODULESLOADED handler. Returns TRUE on success or FALSE on error.
-	int    STDMETHODCALLTYPE RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription);
-	int    STDMETHODCALLTYPE AddFeatures(LPCTSTR szFeatures);    // Adds features to the list of features returned by the client.
-	int    STDMETHODCALLTYPE RemoveFeatures(LPCTSTR szFeatures); // Removes features from the list of features returned by the client.
-	LPTSTR STDMETHODCALLTYPE GetResourceFeatures(LPCTSTR jid);   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
-	HANDLE STDMETHODCALLTYPE GetHandle();                        // Returns connection handle
-
-	CJabberProto *m_psProto;
-
-private:
-	JabberFeatCapPairDynamic *FindFeature(LPCTSTR szFeature);
-};
-
-struct CJabberInterface: public IJabberInterface
-{
-	DWORD STDMETHODCALLTYPE GetFlags() const;                    // Set of JIF_* flags.
-	int   STDMETHODCALLTYPE GetVersion() const;                  // Returns version of IJabberInterface.
-	DWORD STDMETHODCALLTYPE GetJabberVersion() const;            // Returns Jabber plugin version.
-
-	IJabberSysInterface* STDMETHODCALLTYPE	Sys() const;          // Jabber system utilities.
-	IJabberNetInterface* STDMETHODCALLTYPE	Net() const;          // Jabber network interface.
-
-	CJabberProto *m_psProto;
-};
-
-struct CJabberProto : public PROTO<CJabberProto>
+struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 {
 				CJabberProto(const char*, const TCHAR*);
 				~CJabberProto();
@@ -342,10 +282,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	TFilterInfo m_filterInfo;
 
 	CNoteList m_notes;
-
-	CJabberInterface m_JabberApi;
-	CJabberSysInterface m_JabberSysApi;
-	CJabberNetInterface m_JabberNetApi;
 
 	/*******************************************************************
 	* Function declarations
@@ -853,8 +789,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const TCHAR *jid);
 
-	int    SerialNext(void);
-
 	HANDLE HContactFromJID(const TCHAR *jid , BOOL bStripResource = 3);
 	HANDLE ChatRoomHContactFromJID(const TCHAR *jid);
 	void   Log(const char* fmt, ...);
@@ -950,6 +884,37 @@ private:
 
 	int        m_nMenuResourceItems;
 	HGENMENU  *m_phMenuResourceItems;
+
+public:
+	DWORD     STDMETHODCALLTYPE GetFlags() const;                    // Set of JIF_* flags.
+	int       STDMETHODCALLTYPE GetVersion() const;                  // Returns version of IJabberInterface.
+	DWORD     STDMETHODCALLTYPE GetJabberVersion() const;            // Returns Jabber plugin version.
+			    
+	int       STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2); // Strips resource names from given JIDs and returns result of comparison for these JIDs.
+	HANDLE    STDMETHODCALLTYPE ContactFromJID(LPCTSTR jid);             // Returns contact handle for given JID.
+	LPTSTR    STDMETHODCALLTYPE ContactToJID(HANDLE hContact);           // Returns JID of hContact. You must free the result using mir_free().
+	LPTSTR    STDMETHODCALLTYPE GetBestResourceName(LPCTSTR jid);        // Returns best resource name for given JID. You must free the result using mir_free().
+	LPTSTR    STDMETHODCALLTYPE GetResourceList(LPCTSTR jid);            // Returns all resource names for a given JID in format "resource1\0resource2\0resource3\0\0" (all resources are separated by \0 character and the whole string is terminated with two \0 characters). You must free the string using mir_free().
+	char*     STDMETHODCALLTYPE GetModuleName() const;                   // Returns Jabber module name.
+
+	int       STDMETHODCALLTYPE SerialNext();           // Returns id that can be used for next message sent through SendXmlNode().
+	int       STDMETHODCALLTYPE SendXmlNode(HXML node); // Sends XML node.
+
+	HJHANDLER STDMETHODCALLTYPE AddPresenceHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority);
+	HJHANDLER STDMETHODCALLTYPE AddMessageHandler(JABBER_HANDLER_FUNC Func, int iMsgTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData, int iPriority);
+	HJHANDLER STDMETHODCALLTYPE AddIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData, int iPriority);
+	HJHANDLER STDMETHODCALLTYPE AddTemporaryIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, int iIqId, void *pUserData, DWORD dwTimeout, int iPriority);
+	HJHANDLER STDMETHODCALLTYPE AddSendHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority);
+	int       STDMETHODCALLTYPE RemoveHandler(HJHANDLER hHandler);
+
+	int       STDMETHODCALLTYPE RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription);
+	int       STDMETHODCALLTYPE AddFeatures(LPCTSTR szFeatures);    // Adds features to the list of features returned by the client.
+	int       STDMETHODCALLTYPE RemoveFeatures(LPCTSTR szFeatures); // Removes features from the list of features returned by the client.
+	LPTSTR    STDMETHODCALLTYPE GetResourceFeatures(LPCTSTR jid);   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
+	HANDLE    STDMETHODCALLTYPE GetHandle();                        // Returns connection handle
+			    
+private:
+	JabberFeatCapPairDynamic *FindFeature(LPCTSTR szFeature);
 };
 
 extern LIST<CJabberProto> g_Instances;

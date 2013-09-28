@@ -77,11 +77,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 
 	Log("Setting protocol/module name to '%s'", m_szModuleName);
 
-	// Initialize Jabber API
-	m_JabberApi.m_psProto = this;
-	m_JabberSysApi.m_psProto = this;
-	m_JabberNetApi.m_psProto = this;
-
 	// Jabber dialog list
 	m_windowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
