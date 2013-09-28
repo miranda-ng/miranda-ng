@@ -25,10 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber_caps.h"
 
-extern CRITICAL_SECTION mutex;
-extern HANDLE hExtListInit;
-extern int bSecureIM, bMirOTR, bNewGPG, bPlatform;
-
 int CJabberProto::SerialNext(void)
 {
 	return ::InterlockedIncrement(&m_nSerial);
@@ -681,8 +677,7 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 			if (!msg) msg = m_modeMsgs.szOnline;
 			break;
 		case ID_STATUS_INVISIBLE:
-			if (!m_bGoogleSharedStatus)
-				p << XATTR(_T("type"), _T("invisible"));
+			p << XATTR(_T("type"), _T("invisible"));
 			break;
 		case ID_STATUS_AWAY:
 		case ID_STATUS_ONTHEPHONE:
@@ -709,9 +704,6 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 
 		if (msg)
 			p << XCHILD(_T("status"), msg);
-
-		if (m_bGoogleSharedStatus && !to)
-			SendIqGoogleSharedStatus(status, msg);
 	}
 
 	m_ThreadInfo->send(p);
@@ -732,88 +724,6 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 				mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, item->nick);
 				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, NULL);
 }	}	}	}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Google Shared Status
-
-void CJabberProto::OnIqResultGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInfo) {
-	m_bGoogleSharedStatus = (JABBER_IQ_TYPE_RESULT == pInfo->GetIqType());
-	m_bGoogleSharedStatusLock = FALSE;
-}
-
-BOOL CJabberProto::OnIqSetGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInfo) {
-	if (JABBER_IQ_TYPE_SET != pInfo->GetIqType()) return FALSE;
-	if (m_bGoogleSharedStatusLock) return TRUE;
-
-	int status;
-	HXML query = xmlGetChild(iqNode, _T("query"));
-	HXML node = xmlGetChild(query, _T("invisible"));
-	if (0 == _tcsicmp(_T("true"), xmlGetAttrValue(node, _T("value"))))
-		status = ID_STATUS_INVISIBLE;
-	else {
-		LPCTSTR txt = xmlGetText(xmlGetChild(query, _T("show")));
-		if (txt && 0 == _tcsicmp(_T("dnd"), txt))
-			status = ID_STATUS_DND;
-		else if (m_iStatus == ID_STATUS_DND || m_iStatus == ID_STATUS_INVISIBLE)
-			status = ID_STATUS_ONLINE;
-		else
-			status = m_iStatus;
-	}
-
-	if (status != m_iStatus) SetStatus(status);
-
-	return TRUE;
-}
-
-void CJabberProto::SendIqGoogleSharedStatus(int status, const TCHAR *msg) {
-	XmlNodeIq iq(m_iqManager.AddHandler(&CJabberProto::OnIqResultGoogleSharedStatus, JABBER_IQ_TYPE_SET));
-	HXML query = iq << XQUERY(JABBER_FEAT_GTALK_SHARED_STATUS) << XATTR(_T("version"), _T("2"));
-	query << XCHILD(_T("status"), msg);
-	if (status == ID_STATUS_INVISIBLE) {
-		query << XCHILD(_T("show"), _T("default"));
-		query << XCHILD(_T("invisible")) << XATTR(_T("value"), _T("true"));
-	}
-	else {
-		if (status == ID_STATUS_DND)
-			query << XCHILD(_T("show"), _T("dnd"));
-		else
-			query << XCHILD(_T("show"), _T("default"));
-
-		query << XCHILD(_T("invisible")) << XATTR(_T("value"), _T("false"));
-	}
-	m_bGoogleSharedStatusLock = TRUE;
-	m_ThreadInfo->send(iq);
-}
-
-void __stdcall JabberStringAppend(char* *str, int *sizeAlloced, const char* fmt, ...)
-{
-	va_list vararg;
-	char* p;
-	size_t size, len;
-
-	if (str == NULL) return;
-
-	if (*str == NULL || *sizeAlloced<=0) {
-		*sizeAlloced = 2048;
-        size = 2048;
-		*str = (char*)mir_alloc(size);
-		len = 0;
-	}
-	else {
-		len = strlen(*str);
-		size = *sizeAlloced - strlen(*str);
-	}
-
-	p = *str + len;
-	va_start(vararg, fmt);
-	while (mir_vsnprintf(p, size, fmt, vararg) == -1) {
-		size += 2048;
-		(*sizeAlloced) += 2048;
-		*str = (char*)mir_realloc(*str, *sizeAlloced);
-		p = *str + len;
-	}
-	va_end(vararg);
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetPacketID - converts the xml id attribute into an integer

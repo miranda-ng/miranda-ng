@@ -240,7 +240,7 @@ int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 	}
 
 	for (int i=0; i < g_accs.getCount(); i++) {
-		LPCSTR szProto = g_accs[i]->GetModuleName();
+		LPCSTR szProto = g_accs[i]->m_pa->szModuleName;
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		if (pa != NULL) {
 			OPTIONSDIALOGPAGE odp = { sizeof(odp) };

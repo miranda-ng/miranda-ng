@@ -43,26 +43,20 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
 
 	HXML identity;
 	for (int i = 1; (identity = xmlGetNthChild(query, _T("identity"), i)) != NULL; i++) {
-		const TCHAR *identityCategory = xmlGetAttrValue(identity, _T("category"));
-		const TCHAR *identityType = xmlGetAttrValue(identity, _T("type"));
-		const TCHAR *identityName = xmlGetAttrValue(identity, _T("name"));
-		if (identityCategory && identityType && !_tcscmp(identityCategory, _T("pubsub")) && !_tcscmp(identityType, _T("pep"))) {
+		JABBER_DISCO_FIELD tmp = { 
+			xmlGetAttrValue(identity, _T("category")),
+			xmlGetAttrValue(identity, _T("type")),
+			xmlGetAttrValue(identity, _T("name")) };
+
+		if ( !lstrcmp(tmp.category, _T("pubsub")) && !lstrcmp(tmp.type, _T("pep"))) {
 			m_bPepSupported = TRUE;
 
 			EnableMenuItems(TRUE);
 			RebuildInfoFrame();
+			continue;
 		}
-		else if (identityCategory && identityType && identityName &&
-			!_tcscmp(identityCategory, _T("server")) &&
-			!_tcscmp(identityType, _T("im")) &&
-			!_tcscmp(identityName, _T("Google Talk"))) {
-				m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
 
-				// Google Shared Status
-				m_ThreadInfo->send(
-					XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultGoogleSharedStatus, JABBER_IQ_TYPE_GET))
-						<< XQUERY(JABBER_FEAT_GTALK_SHARED_STATUS) << XATTR(_T("version"), _T("2")));
-		}
+		NotifyFastHook(hDiscoInfoResult, (WPARAM)&tmp, (LPARAM)(IJabberInterface*)this);
 	}
 
 	if (m_ThreadInfo) {

@@ -182,7 +182,6 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_IQ_ROSTER                   _T("jabber:iq:roster")
 #define JABBER_FEAT_DELAY                       _T("jabber:x:delay")
 #define JABBER_FEAT_ENTITY_TIME_OLD             _T("jabber:iq:time")
-#define JABBER_FEAT_GTALK_SHARED_STATUS         _T("google:shared-status")
 
 #define JABBER_FEAT_MUC_ADMIN                   _T("http://jabber.org/protocol/muc#admin")
 #define JABBER_FEAT_MUC_OWNER                   _T("http://jabber.org/protocol/muc#owner")

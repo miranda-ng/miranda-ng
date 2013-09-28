@@ -386,7 +386,6 @@ struct ThreadData
 	void  shutdown(void);
 	int   recv(char* buf, size_t len);
 	int   send(char* buffer, int bufsize = -1);
-//	int   send(const char* fmt, ...);
 	int   send(HXML node);
 
 	int   recvws(char* buffer, size_t bufsize, int flags);
@@ -589,6 +588,10 @@ extern struct CountryListEntry* g_countries;
 
 extern FI_INTERFACE *FIP;
 
+extern CRITICAL_SECTION mutex;
+extern HANDLE hExtListInit, hDiscoInfoResult;
+extern int bSecureIM, bMirOTR, bNewGPG, bPlatform;
+
 /*******************************************************************
  * Function declarations
  *******************************************************************/
@@ -737,7 +740,6 @@ TCHAR*        __stdcall JabberErrorStr(int errorCode);
 TCHAR*        __stdcall JabberErrorMsg(HXML errorNode, int* errorCode = NULL);
 void          __stdcall JabberUtfToTchar(const char* str, size_t cbLen, LPTSTR& dest);
 time_t        __stdcall JabberIsoToUnixTime(const TCHAR *stamp);
-void          __stdcall JabberStringAppend(char* *str, int *sizeAlloced, const char* fmt, ...);
 TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t destLen);
 int           __stdcall JabberGetPacketID(HXML n);
 

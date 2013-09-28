@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\db.h" />
+    <ClInclude Include="src\googletalk.h" />
     <ClInclude Include="src\handlers.h" />
     <ClInclude Include="src\inbox.h" />
     <ClInclude Include="src\notifications.h" />

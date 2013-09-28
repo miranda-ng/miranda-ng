@@ -56,7 +56,9 @@
 #include <m_jabber.h>
 #include <m_langpack.h>
 #include <m_protosvc.h>
+#include <m_protocols.h>
 #include <m_protomod.h>
+#include <m_protoint.h>
 #include <m_options.h>
 #include <m_utils.h>
 #include <m_clist.h>
@@ -65,8 +67,10 @@
 #include <win2k.h>
 #pragma warning(pop)
 
+#include "googletalk.h"
+
 extern HINSTANCE g_hInst;
-extern LIST<IJabberInterface> g_accs;
+extern LIST<GoogleTalkAcc> g_accs;
 
 void SetAvatar(HANDLE hContact);
 BOOL InitAvaUnit(BOOL init);

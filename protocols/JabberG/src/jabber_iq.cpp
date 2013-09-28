@@ -111,9 +111,6 @@ void CJabberProto::IqAdd(unsigned int iqId, JABBER_IQ_PROCID procId, JABBER_IQ_P
 
 BOOL CJabberIqManager::FillPermanentHandlers()
 {
-	// Google Shared Status (http://code.google.com/apis/talk/jep_extensions/shared_status.html)
-	AddPermanentHandler(&CJabberProto::OnIqSetGoogleSharedStatus, JABBER_IQ_TYPE_SET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO | JABBER_IQ_PARSE_ID_STR, _T("google:shared-status"), FALSE, _T("query"));
-
 	// version requests (XEP-0092)
 	AddPermanentHandler(&CJabberProto::OnIqRequestVersion, JABBER_IQ_TYPE_GET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR, JABBER_FEAT_VERSION, FALSE, _T("query"));
 

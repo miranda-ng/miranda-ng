@@ -162,13 +162,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int  __cdecl JabberGcEventHook(WPARAM, LPARAM);
 	int  __cdecl JabberGcMenuHook(WPARAM, LPARAM);
 
-	// Google Shared Status
-	BOOL m_bGoogleSharedStatus;
-	BOOL m_bGoogleSharedStatusLock;
-	void OnIqResultGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInfo);
-	BOOL OnIqSetGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInfo);
-	void SendIqGoogleSharedStatus(int status, const TCHAR *msg);
-
 	//====| Data |========================================================================
 
 	ThreadData* m_ThreadInfo;

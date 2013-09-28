@@ -32,7 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define JABBER_DISCO_RESULT_ERROR					-1
 #define JABBER_DISCO_RESULT_OK						-2
 
-class CJabberSDIdentity;
 class CJabberSDIdentity
 {
 protected:

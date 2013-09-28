@@ -26,60 +26,21 @@
 #include "notifications.h"
 #include "options.h"
 
-#define JABBER_EXT_GTALK_PMUC _T("pmuc-v1")
-
 #define JABBER_IQID  _T("mir_")
 #define JABBER_IQID_FORMAT  _T("mir_%d")
-
-#define NOTIFY_FEATURE_XMLNS  _T("google:mail:notify")
-#define SETTING_FEATURE_XMLNS  _T("google:setting")
-#define DISCOVERY_XMLNS  _T("http://jabber.org/protocol/disco#info")
-
-#define MESSAGE_URL_FORMAT_STANDARD _T("%s/#inbox/%x%08x")
-#define MESSAGE_URL_FORMAT_HTML  _T("%s/h/?v=c&th=%x%08x")
-
-#define ATTRNAME_TYPE              _T("type")
-#define ATTRNAME_FROM              _T("from")
-#define ATTRNAME_TO                _T("to")
-#define ATTRNAME_URL               _T("url")
-#define ATTRNAME_TID               _T("tid")
-#define ATTRNAME_UNREAD            _T("unread")
-#define ATTRNAME_XMLNS             _T("xmlns")
-#define ATTRNAME_ID                _T("id")
-#define ATTRNAME_TOTAL_MATCHED     _T("total-matched")
-#define ATTRNAME_NAME              _T("name")
-#define ATTRNAME_ADDRESS           _T("address")
-#define ATTRNAME_RESULT_TIME       _T("result-time")
-#define ATTRNAME_NEWER_THAN_TIME   _T("newer-than-time")
-#define ATTRNAME_NEWER_THAN_TID    _T("newer-than-tid")
-#define ATTRNAME_VALUE             _T("value")
-#define ATTRNAME_VAR               _T("var")
-										     
-#define IQTYPE_RESULT              _T("result")
-#define IQTYPE_SET                 _T("set")
-#define IQTYPE_GET                 _T("get")
-
-#define NODENAME_MAILBOX           _T("mailbox")
-#define NODENAME_QUERY             _T("query")
-#define NODENAME_IQ                _T("iq")
-#define NODENAME_USERSETTING       _T("usersetting")
-#define NODENAME_MAILNOTIFICATIONS _T("mailnotifications")
-#define NODENAME_SUBJECT           _T("subject")
-#define NODENAME_SNIPPET           _T("snippet")
-#define NODENAME_SENDERS           _T("senders")
-#define NODENAME_FEATURE           _T("feature")
-#define NODENAME_NEW_MAIL          _T("new-mail")
-
-#define SETTING_TRUE               _T("true")
-
-#define RESPONSE_TIMEOUT (1000 * 60 * 60)
-#define TIMER_INTERVAL   (1000 * 60 * 2)
 
 LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 XML_API xi = {0};
 
 #include <tchar.h>
+
+GoogleTalkAcc* isGoogle(LPARAM lParam)
+{
+	return g_accs.find((GoogleTalkAcc*)&lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void FormatMessageUrl(LPCTSTR format, LPTSTR buf, LPCTSTR mailbox, LPCTSTR tid)
 {
@@ -328,33 +289,139 @@ extern DWORD itlsRecursion;
 
 BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 {
+	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
+	if (gta == NULL)
+		return FALSE;
+
 	HXML queryNode = xi.getChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
-	if (!queryNode)
-		return FALSE;
-	if ( lstrcmp(xi.getName(node), NODENAME_IQ) || lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_GET))
-		return FALSE;
-	if (TlsGetValue(itlsRecursion))
-		return FALSE;
+	if (queryNode) {
+		if ( lstrcmp(xi.getName(node), NODENAME_IQ) || lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_GET))
+			return FALSE;
+		if (TlsGetValue(itlsRecursion))
+			return FALSE;
 
-	TlsSetValue(itlsRecursion, (PVOID)TRUE);
+		TlsSetValue(itlsRecursion, (PVOID)TRUE);
 
-	UINT id = ji->SerialNext();
-	HXML newNode = xi.createNode(NODENAME_IQ, NULL, FALSE);
-	xi.addAttr(newNode, ATTRNAME_TYPE, IQTYPE_GET);
-	xi.addAttr(newNode, ATTRNAME_TO, xi.getAttrValue(node, ATTRNAME_TO));
+		UINT id = ji->SerialNext();
+		HXML newNode = xi.createNode(NODENAME_IQ, NULL, FALSE);
+		xi.addAttr(newNode, ATTRNAME_TYPE, IQTYPE_GET);
+		xi.addAttr(newNode, ATTRNAME_TO, xi.getAttrValue(node, ATTRNAME_TO));
+		xi.addAttrInt(newNode, ATTRNAME_ID, id);
+		xi.addAttr(xi.addChild(newNode, NODENAME_QUERY, NULL), ATTRNAME_XMLNS, DISCOVERY_XMLNS);
+		ji->SendXmlNode(newNode);
+		xi.destroyNode(newNode);
 
-	TCHAR idAttr[30];
-	mir_sntprintf(idAttr, SIZEOF(idAttr), JABBER_IQID_FORMAT, id);
-	xi.addAttr(newNode, ATTRNAME_ID, idAttr);
+		ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
+		TlsSetValue(itlsRecursion, (PVOID)FALSE);
+	}
 
-	xi.addAttr(xi.addChild(newNode, NODENAME_QUERY, NULL), ATTRNAME_XMLNS, DISCOVERY_XMLNS);
-	ji->SendXmlNode(newNode);
+	if ( !lstrcmp(xi.getName(node), _T("presence")) && xi.getAttrValue(node, ATTRNAME_TO) == 0) {
+		if (!gta->m_bGoogleSharedStatus)
+			return FALSE;
 
-	xi.destroyNode(newNode);
+		HXML statNode = xi.getChildByPath(node, _T("status"), 0);
+		HXML showNode = xi.getChildByPath(node, _T("show"), 0);
+		if (statNode) {
+			LPCTSTR status = xi.getText(showNode);
+			LPCTSTR msg = xi.getText(statNode);
+			gta->SendIqGoogleSharedStatus(status, msg);
+		}
+	}
 
-	ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
-	TlsSetValue(itlsRecursion, (PVOID)FALSE);
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Google shared status
+
+BOOL OnIqResultGoogleSharedStatus(IJabberInterface *ji, HXML node, void *pUserData)
+{
+	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
+	if (gta != NULL) {
+		gta->m_bGoogleSharedStatus = lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT) == 0;
+		gta->m_bGoogleSharedStatusLock = FALSE;
+	}
+	return FALSE;
+}
+
+BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *pUserData)
+{
+	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
+	if (gta == NULL)
+		return FALSE;
+	if (lstrcmp(xi.getAttrValue(iqNode, ATTRNAME_TYPE), IQTYPE_SET))
+		return FALSE;
+	if (gta->m_bGoogleSharedStatusLock)
+		return TRUE;
+
+	int status;
+	HXML query = xi.getChildByPath(iqNode, NODENAME_QUERY, 0);
+	HXML node = xi.getChildByPath(query, _T("invisible"), 0);
+	if (0 == _tcsicmp(_T("true"), xi.getAttrValue(node, _T("value"))))
+		status = ID_STATUS_INVISIBLE;
+	else {
+		LPCTSTR txt = xi.getText( xi.getChildByPath(query, _T("show"), 0));
+		if (txt && 0 == _tcsicmp(_T("dnd"), txt))
+			status = ID_STATUS_DND;
+		else if (gta->m_pa->ppro->m_iStatus == ID_STATUS_DND || gta->m_pa->ppro->m_iStatus == ID_STATUS_INVISIBLE)
+			status = ID_STATUS_ONLINE;
+		else
+			status = gta->m_pa->ppro->m_iStatus;
+	}
+
+	if (status != gta->m_pa->ppro->m_iStatus)
+		CallProtoService(gta->m_pa->szModuleName, PS_SETSTATUS, status, 0);
+
+	return TRUE;
+}
+
+void GoogleTalkAcc::SendIqGoogleSharedStatus(LPCTSTR status, LPCTSTR msg)
+{
+	HXML iq = xi.createNode(NODENAME_IQ, NULL, FALSE);
+	xi.addAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
+
+	HXML query = xi.addChild(iq, NODENAME_QUERY, NULL);
+	xi.addChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
+	xi.addAttrInt(query, _T("version"), 2);
+
+	HXML statNode = xi.addChild(query, _T("status"), msg);
+	if ( !lstrcmp(status, _T("invisible"))) {
+		xi.addChild(query, _T("show"), _T("default"));
+		xi.addAttr( xi.addChild(query, _T("invisible"), 0), _T("value"), _T("true"));
+	}
+	else {
+		if ( !lstrcmp(status, _T("dnd")))
+			xi.addChild(query, _T("show"), _T("dnd"));
+		else
+			xi.addChild(query, _T("show"), _T("default"));
+
+		xi.addAttr( xi.addChild(query, _T("invisible"), 0), _T("value"), _T("false"));
+	}
+	m_bGoogleSharedStatusLock = TRUE;
+	m_japi->SendXmlNode(iq);
+	xi.destroyNode(iq);
+}
+
+int OnServerDiscoInfo(WPARAM wParam, LPARAM lParam)
+{
+	GoogleTalkAcc *gta = isGoogle(lParam);
+	if (gta == NULL)
+		return FALSE;
+
+	// m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
+
+	JABBER_DISCO_FIELD *fld = (JABBER_DISCO_FIELD*)wParam;
+	if ( !lstrcmp(fld->category, _T("server")) && !lstrcmp(fld->type, _T("im")) && !lstrcmp(fld->name, _T("Google Talk"))) {
+		HXML iq = xi.createNode(NODENAME_IQ, NULL, FALSE);
+		xi.addAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
+
+		HXML query = xi.addChild(iq, NODENAME_QUERY, NULL);
+		xi.addChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
+		xi.addAttrInt(query, _T("version"), 2);
+		gta->m_japi->SendXmlNode(iq);
+		xi.destroyNode(iq);
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -362,8 +429,8 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 
 int OnExtListInit(WPARAM wParam, LPARAM lParam)
 {
-	IJabberInterface *japi = (IJabberInterface*)lParam;
-	if (g_accs.indexOf(japi) != -1) {
+	GoogleTalkAcc *gta = isGoogle(lParam);
+	if (gta != NULL) {
 		LIST<TCHAR> *pList = (LIST<TCHAR>*)wParam;
 		pList->insert(JABBER_EXT_GTALK_PMUC);
 	}
@@ -385,31 +452,33 @@ int OnFilterPopup(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int AccListChanged(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam == PRAC_ADDED) {
-		IJabberInterface *ji = getJabberApi(((PROTOACCOUNT*)lParam)->szModuleName);
-		if (ji) {
-			g_accs.insert(ji);
-			ji->AddSendHandler(SendHandler);
-		}
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
+static void sttCreateInstance(LPCSTR szModuleName)
 {
 	IJabberInterface *japi = getJabberApi(szModuleName);
-	if (!japi)
-		return NULL;
+	if (japi == NULL)
+		return;
 
 	ptrA host( db_get_sa(NULL, szModuleName, "ManualHost"));
-	if (host == NULL)
-		return NULL;
+	if (host == NULL || strcmp(host, "talk.google.com"))
+		return;
 
-	return ( !strcmp(host, "talk.google.com")) ? japi : NULL;
+	GoogleTalkAcc *gta = new GoogleTalkAcc();
+	gta->m_japi = japi;
+	gta->m_pa = ProtoGetAccount(szModuleName);
+	g_accs.insert(gta);
+
+	// Google Shared Status (http://code.google.com/apis/talk/jep_extensions/shared_status.html)
+	japi->AddIqHandler(::OnIqResultGoogleSharedStatus, JABBER_IQ_TYPE_SET, JABBER_FEAT_GTALK_SHARED_STATUS, NULL);
+	japi->AddIqHandler(::OnIqResultGoogleSharedStatus, JABBER_IQ_TYPE_GET, JABBER_FEAT_GTALK_SHARED_STATUS, NODENAME_QUERY);
+
+	japi->AddSendHandler(SendHandler);
+}
+
+int AccListChanged(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == PRAC_ADDED)
+		sttCreateInstance(((PROTOACCOUNT*)lParam)->szModuleName);
+	return 0;
 }
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
@@ -419,13 +488,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	int count;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
-	for (int i=0; i < count; i++) {
-		IJabberInterface *ji = IsGoogleAccount(protos[i]->szModuleName);
-		if (ji) {
-			g_accs.insert(ji);
-			ji->AddSendHandler(SendHandler);
-		}
-	}
+	for (int i=0; i < count; i++)
+		sttCreateInstance(protos[i]->szModuleName);
 
 	HookEvent(ME_POPUP_FILTER, OnFilterPopup);
 	HookEvent(ME_JABBER_EXTLISTINIT, OnExtListInit);

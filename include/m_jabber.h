@@ -72,6 +72,11 @@ enum
 	JH_PRIORITY_UNHANDLED = 5000 // useful for example to catch unhandled Iq stanzas to send a correct reply.
 };
 
+struct JABBER_DISCO_FIELD
+{
+	LPCTSTR category, type, name;
+};
+
 typedef void* HJHANDLER;
 
 typedef BOOL (*JABBER_HANDLER_FUNC)(struct IJabberInterface *ji, HXML node, void *pUserData);
@@ -195,5 +200,14 @@ Returns FALSE if all is Ok, and TRUE otherwise.
 */
 
 #define ME_JABBER_EXTLISTINIT "Jabber/ExtListInit"
+
+/*
+A hook to be called during server disco info parsing
+wParam = (WPARAM)(JABBER_DISCO_FIELD*)
+lParam = (LPARAM)(IJabberInterface*).
+Returns FALSE if all is Ok, and TRUE otherwise.
+*/
+
+#define ME_JABBER_SRVDISCOINFO "Jabber/ServerDiscoInfo"
 
 #endif // M_JABBER_H__
