@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 
 extern CRITICAL_SECTION mutex;
-
+extern HANDLE hExtListInit;
 extern int bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 int CJabberProto::SerialNext(void)
@@ -620,9 +620,6 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		<< XATTR(_T("ver"), szCoreVersion);
 
 	LIST<TCHAR> arrExtCaps(5);
-	if (m_bGoogleTalk)
-		arrExtCaps.insert( _T(JABBER_EXT_GTALK_PMUC));
-
 	if (bSecureIM)
 		arrExtCaps.insert( _T(JABBER_EXT_SECUREIM));
 
@@ -651,6 +648,8 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 
 	if (m_options.AcceptNotes)
 		arrExtCaps.insert( _T(JABBER_EXT_MIR_NOTES));
+
+	NotifyFastHook(hExtListInit, (WPARAM)&arrExtCaps, (LPARAM)(IJabberInterface*)this);
 
 	// add features enabled through IJabberNetInterface::AddFeatures()
 	for (int i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)

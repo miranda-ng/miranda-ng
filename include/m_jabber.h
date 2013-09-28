@@ -180,13 +180,20 @@ __forceinline IJabberInterface *getJabberApi(const char *szAccount)
 
 /*
 A menu hook to be called during Jabber protocol menu initialization.
-
-wParam = 0;
-lParam = (LPARAM)(IJabberInterface**).
-
+wParam = (HGENMENU)m_hMenuRoot;
+lParam = (LPARAM)(IJabberInterface*).
 Returns FALSE if all is Ok, and TRUE otherwise.
 */
 
 #define ME_JABBER_MENUINIT "Jabber/ProtoMenuInit"
+
+/*
+A hook to be called during extensions list's creation
+wParam = (WPARAM)(LIST<TCHAR>*) - extensions list to be populated;
+lParam = (LPARAM)(IJabberInterface*).
+Returns FALSE if all is Ok, and TRUE otherwise.
+*/
+
+#define ME_JABBER_EXTLISTINIT "Jabber/ExtListInit"
 
 #endif // M_JABBER_H__

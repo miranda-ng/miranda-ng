@@ -166,7 +166,6 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_EXT_USER_MOOD                    "mood"
 #define JABBER_EXT_USER_TUNE                    "tune"
 #define JABBER_EXT_USER_ACTIVITY                "activity"
-#define JABBER_EXT_GTALK_PMUC                   "pmuc-v1"
 #define JABBER_EXT_MIR_NOTES                    "mir_notes"
 #define JABBER_EXT_PLATFORMX86                  "x86"
 #define JABBER_EXT_PLATFORMX64                  "x64"

@@ -233,46 +233,37 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 	return 0;
 }
 
-void AddPopupsPage(WPARAM wParam)
-{
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.ptszTitle = MAIL_NOTIFICATIONS;
-	odp.pfnDlgProc = PopupsOptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);
-	odp.hInstance = g_hInst;
-	odp.ptszGroup = POPUPS_OPTIONS_GROUP;
-	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
-	Options_AddPage(wParam, &odp);
-}
-
-void AddAccPage(LPTSTR acc, LPCSTR mod, WPARAM wParam)
-{
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.ptszTitle = acc;
-	odp.pfnDlgProc = AccOptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
-	odp.hInstance = g_hInst;
-	odp.ptszGroup = NETWORK_OPTIONS_GROUP;
-	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-	odp.ptszTab = MAIL_NOTIFICATIONS;
-	odp.dwInitParam = (LPARAM)mod;
-	Options_AddPage(wParam, &odp);
-}
-
 int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 {
-	int count;
-	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&count, &accs);
-	for (int i = 0; i < count; i++) {
-		IJabberInterface *ji = IsGoogleAccount(accs[i]->szModuleName);
-		if (ji)
-			AddAccPage(accs[i]->tszAccountName, accs[i]->szModuleName, wParam);
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		odp.ptszTitle = MAIL_NOTIFICATIONS;
+		odp.pfnDlgProc = PopupsOptionsDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);
+		odp.hInstance = g_hInst;
+		odp.ptszGroup = POPUPS_OPTIONS_GROUP;
+		odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
+		Options_AddPage(wParam, &odp);
 	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		AddPopupsPage(wParam);
-	return FALSE;
+	for (int i=0; i < g_accs.getCount(); i++) {
+		LPCSTR szProto = g_accs[i]->GetModuleName();
+		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		if (pa == 0)
+			continue;
+
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		odp.ptszTitle = pa->tszAccountName;
+		odp.pfnDlgProc = AccOptionsDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
+		odp.hInstance = g_hInst;
+		odp.ptszGroup = NETWORK_OPTIONS_GROUP;
+		odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
+		odp.ptszTab = MAIL_NOTIFICATIONS;
+		odp.dwInitParam = (LPARAM)szProto;
+		Options_AddPage(wParam, &odp);
+	}
+	return 0;
 }
 
 void HookOptionsInitialization()

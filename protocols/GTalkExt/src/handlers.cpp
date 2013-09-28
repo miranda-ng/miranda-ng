@@ -26,6 +26,8 @@
 #include "notifications.h"
 #include "options.h"
 
+#define JABBER_EXT_GTALK_PMUC _T("pmuc-v1")
+
 static const LPCTSTR JABBER_IQID = _T("mir_");
 static const LPCTSTR JABBER_IQID_FORMAT = _T("mir_%d");
 
@@ -356,6 +358,19 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// adds Google extensions into the caps list
+
+int OnExtListInit(WPARAM wParam, LPARAM lParam)
+{
+	IJabberInterface *japi = (IJabberInterface*)lParam;
+	if (g_accs.indexOf(japi) != -1) {
+		LIST<TCHAR> *pList = (LIST<TCHAR>*)wParam;
+		pList->insert(JABBER_EXT_GTALK_PMUC);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // for our pseudo contact only our own popups are allowed
 // 0 = allowed, 1 = disallowed
 
@@ -366,6 +381,20 @@ int OnFilterPopup(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	return (lParam != (LPARAM)&PopupProc);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int AccListChanged(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == PRAC_ADDED) {
+		IJabberInterface *ji = getJabberApi(((PROTOACCOUNT*)lParam)->szModuleName);
+		if (ji) {
+			g_accs.insert(ji);
+			ji->AddSendHandler(SendHandler);
+		}
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -383,16 +412,6 @@ IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
 	return ( !strcmp(host, "talk.google.com")) ? japi : NULL;
 }
 
-int AccListChanged(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam == PRAC_ADDED) {
-		IJabberInterface *ji = getJabberApi(((PROTOACCOUNT*)lParam)->szModuleName);
-		if (ji)
-			ji->AddSendHandler(SendHandler);
-	}
-	return 0;
-}
-
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	RenewPseudocontactHandles();
@@ -402,11 +421,14 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ProtoEnumAccounts(&count, &protos);
 	for (int i=0; i < count; i++) {
 		IJabberInterface *ji = IsGoogleAccount(protos[i]->szModuleName);
-		if (ji)
+		if (ji) {
+			g_accs.insert(ji);
 			ji->AddSendHandler(SendHandler);
+		}
 	}
 
 	HookEvent(ME_POPUP_FILTER, OnFilterPopup);
+	HookEvent(ME_JABBER_EXTLISTINIT, OnExtListInit);
 	HookOptionsInitialization();
 	return 0;
 }

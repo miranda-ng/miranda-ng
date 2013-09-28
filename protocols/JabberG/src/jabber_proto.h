@@ -195,7 +195,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	BOOL   m_bChangeStatusMessageOnly;
 	BOOL   m_bSendKeepAlive;
 	BOOL   m_bPepSupported;
-	BOOL   m_bGoogleTalk;
 
 	HWND   m_hwndAgentRegInput;
 	HWND   m_hwndRegProgress;

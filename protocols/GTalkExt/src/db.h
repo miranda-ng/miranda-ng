@@ -28,6 +28,4 @@ static const LPSTR LAST_THREAD_ID_FROM_JID = SHORT_PLUGIN_NAME ".LastThreadIdFro
 LPTSTR ReadJidSetting(LPCSTR name, LPCTSTR jid);
 void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting);
 
-IJabberInterface* IsGoogleAccount(LPCSTR szModuleName);
-
 void RenewPseudocontactHandles();

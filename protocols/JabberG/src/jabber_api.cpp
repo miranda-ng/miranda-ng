@@ -204,28 +204,23 @@ int CJabberProto::RemoveHandler(HJHANDLER hHandler)
 
 JabberFeatCapPairDynamic *CJabberProto::FindFeature(LPCTSTR szFeature)
 {
-	int i;
-	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+	for (int i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if ( !lstrcmp(m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
 			return m_lstJabberFeatCapPairsDynamic[i];
+
 	return NULL;
 }
 
 int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 {
-	if ( !szFeature) {
+	if ( !szFeature)
 		return false;
-	}
 
 	// check for this feature in core features, and return false if it's present, to prevent re-registering a core feature
 	int i;
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
-	{
 		if ( !lstrcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
-		{
 			return false;
-		}
-	}
 
 	mir_cslock lck(m_csLists);
 	JabberFeatCapPairDynamic *fcp = FindFeature(szFeature);

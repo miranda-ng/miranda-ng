@@ -63,6 +63,7 @@ BOOL   jabberChatDllPresent = FALSE;
 
 HANDLE hExtraActivity = NULL;
 HANDLE hExtraMood = NULL;
+HANDLE hExtListInit;
 
 void JabberUserInfoInit(void);
 
@@ -202,6 +203,8 @@ extern "C" int __declspec(dllexport) Load()
 
 	setlocale(LC_ALL, "");
 
+	hExtListInit = CreateHookableEvent(ME_JABBER_EXTLISTINIT);
+
 	// Register protocol module
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "JABBER";
@@ -224,6 +227,7 @@ extern "C" int __declspec(dllexport) Load()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	DestroyHookableEvent(hExtListInit);
 	g_MenuUninit();
 
 	g_Instances.destroy();

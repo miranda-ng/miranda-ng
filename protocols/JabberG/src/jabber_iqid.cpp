@@ -34,55 +34,55 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
 		return;
 
 	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
-	int i;
+	if ( _tcscmp(type, _T("result")))
+		return;
 
-	if ( !_tcscmp(type, _T("result"))) {
-		HXML query = xmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
-		if ( !query)
-			return;
+	HXML query = xmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
+	if ( !query)
+		return;
 
-		HXML identity;
-		for (i = 1; (identity = xmlGetNthChild(query, _T("identity"), i)) != NULL; i++) {
-			const TCHAR *identityCategory = xmlGetAttrValue(identity, _T("category"));
-			const TCHAR *identityType = xmlGetAttrValue(identity, _T("type"));
-			const TCHAR *identityName = xmlGetAttrValue(identity, _T("name"));
-			if (identityCategory && identityType && !_tcscmp(identityCategory, _T("pubsub")) && !_tcscmp(identityType, _T("pep"))) {
-				m_bPepSupported = TRUE;
+	HXML identity;
+	for (int i = 1; (identity = xmlGetNthChild(query, _T("identity"), i)) != NULL; i++) {
+		const TCHAR *identityCategory = xmlGetAttrValue(identity, _T("category"));
+		const TCHAR *identityType = xmlGetAttrValue(identity, _T("type"));
+		const TCHAR *identityName = xmlGetAttrValue(identity, _T("name"));
+		if (identityCategory && identityType && !_tcscmp(identityCategory, _T("pubsub")) && !_tcscmp(identityType, _T("pep"))) {
+			m_bPepSupported = TRUE;
 
-				EnableMenuItems(TRUE);
-				RebuildInfoFrame();
-			}
-			else if (identityCategory && identityType && identityName &&
-				!_tcscmp(identityCategory, _T("server")) &&
-				!_tcscmp(identityType, _T("im")) &&
-				!_tcscmp(identityName, _T("Google Talk"))) {
-					m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
-					m_bGoogleTalk = true;
+			EnableMenuItems(TRUE);
+			RebuildInfoFrame();
+		}
+		else if (identityCategory && identityType && identityName &&
+			!_tcscmp(identityCategory, _T("server")) &&
+			!_tcscmp(identityType, _T("im")) &&
+			!_tcscmp(identityName, _T("Google Talk"))) {
+				m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
 
-					// Google Shared Status
-					m_ThreadInfo->send(
-						XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultGoogleSharedStatus, JABBER_IQ_TYPE_GET))
-							<< XQUERY(JABBER_FEAT_GTALK_SHARED_STATUS) << XATTR(_T("version"), _T("2")));
+				// Google Shared Status
+				m_ThreadInfo->send(
+					XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultGoogleSharedStatus, JABBER_IQ_TYPE_GET))
+						<< XQUERY(JABBER_FEAT_GTALK_SHARED_STATUS) << XATTR(_T("version"), _T("2")));
+		}
+	}
+
+	if (m_ThreadInfo) {
+		HXML feature;
+		for (int i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
+			const TCHAR *featureName = xmlGetAttrValue(feature, _T("var"));
+			if (!featureName)
+				continue;
+
+			for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++) {
+				if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
+					m_ThreadInfo->jabberServerCaps |= g_JabberFeatCapPairs[j].jcbCap;
+					break;
+				}
 			}
 		}
+	}
 
-		if (m_ThreadInfo) {
-			HXML feature;
-			for (i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
-				const TCHAR *featureName = xmlGetAttrValue(feature, _T("var"));
-				if (!featureName)
-					continue;
-
-				for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++)
-					if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
-						m_ThreadInfo->jabberServerCaps |= g_JabberFeatCapPairs[j].jcbCap;
-						break;
-					}
-			}
-		}
-
-		OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_SERVERINFO);
-}	}
+	OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_SERVERINFO);
+}
 
 void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo* pInfo)
 {

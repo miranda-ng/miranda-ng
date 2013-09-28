@@ -51,6 +51,7 @@
 #pragma warning(disable:4996)
 
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_popup.h>
 #include <m_jabber.h>
 #include <m_langpack.h>
@@ -65,6 +66,7 @@
 #pragma warning(pop)
 
 extern HINSTANCE g_hInst;
+extern LIST<IJabberInterface> g_accs;
 
 void SetAvatar(HANDLE hContact);
 BOOL InitAvaUnit(BOOL init);

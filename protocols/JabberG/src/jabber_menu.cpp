@@ -49,11 +49,12 @@ static HGENMENU g_hMenuResourcesRoot;
 static HGENMENU g_hMenuResourcesActive;
 static HGENMENU g_hMenuResourcesServer;
 
-static struct
+struct
 {
 	int icon;
 	int mode;
-} PresenceModeArray[] =
+}
+static PresenceModeArray[] =
 {
 	{ SKINICON_STATUS_ONLINE, ID_STATUS_ONLINE },
 	{ SKINICON_STATUS_AWAY, ID_STATUS_AWAY },
@@ -813,7 +814,7 @@ void CJabberProto::MenuInit()
 	m_pepServices.RebuildMenu();
 	CheckMenuItems();
 
-	NotifyFastHook(hStatusMenuInit, (WPARAM)hJabberRoot, (LPARAM)this);
+	NotifyFastHook(hStatusMenuInit, (WPARAM)hJabberRoot, (LPARAM)(IJabberInterface*)this);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -1194,6 +1195,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM l
 
 ////////////////////////////////////////////////////////////////////////
 // Choose protocol instance
+
 CJabberProto *JabberChooseInstance(bool bIsLink)
 {
 	if (g_Instances.getCount() == 0)

@@ -32,6 +32,8 @@
 int   hLangpack;
 HICON g_hPopupIcon = 0;
 
+LIST<IJabberInterface> g_accs(1, PtrKeySortT);
+
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
@@ -101,6 +103,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	g_accs.destroy();
 	InitAvaUnit(FALSE);
 	InitMenus(FALSE);
 	return 0;
