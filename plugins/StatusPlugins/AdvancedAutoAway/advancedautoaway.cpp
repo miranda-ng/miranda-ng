@@ -269,10 +269,9 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 		if ( aas.optionFlags & FLAG_MONITORMIRANDA )
 			mouseStationaryTimer = (GetTickCount() - lastMirandaInput)/1000;
 		else {
-			LASTINPUTINFO lii = { 0 };
-			lii.cbSize = sizeof(lii);
-			GetLastInputInfo(&lii);
-			mouseStationaryTimer = (GetTickCount()-lii.dwTime)/1000;
+			LASTINPUTINFO ii = { sizeof(ii) };
+			GetLastInputInfo(&ii);
+			mouseStationaryTimer = (GetTickCount() - ii.dwTime)/1000;
 		}
 
 		int sts1Time = aas.awayTime * SECS_PER_MINUTE;

@@ -99,12 +99,13 @@ static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 
 			for (int i=0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *item = hotkeys[i];
+				if (item->type != HKT_LOCAL || !item->Enabled)
+					continue;
+				
 				BYTE hkMod, hkVk;
-				if (item->type != HKT_LOCAL) continue;
 				sttWordToModAndVk(item->Hotkey, &hkMod, &hkVk);
-				if ( !hkVk) continue;
-				if ( !item->Enabled) continue;
-				if (item->pszService && (vk == hkVk) && (mod == hkMod)) {
+				if (!hkVk) continue;
+				if (item->pszService && vk == hkVk && mod == hkMod) {
 					CallService(item->pszService, 0, item->lParam);
 					return TRUE;
 	}	}	}	}

@@ -140,7 +140,6 @@ static const WORD aa_Status[] = {ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIE
 
 static IdleObject gIdleObject;
 static HANDLE hIdleEvent;
-static BOOL (WINAPI * MyGetLastInputInfo)(PLASTINPUTINFO);
 
 void CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime);
 
@@ -186,25 +185,10 @@ static int IdleObject_IsUserIdle(IdleObject * obj)
 		return GetTickCount() - dwTick > (obj->minutes * 60 * 1000);
 	}
 
-	if (MyGetLastInputInfo != NULL) {
-		LASTINPUTINFO ii;
-		ZeroMemory(&ii, sizeof(ii));
-		ii.cbSize = sizeof(ii);
-		if (MyGetLastInputInfo(&ii))
-			return GetTickCount() - ii.dwTime > (obj->minutes * 60 * 1000);
-	}
-	else {
-		POINT pt;
-		GetCursorPos(&pt);
-		if (pt.x != obj->mousepos.x || pt.y != obj->mousepos.y) {
-			obj->mousepos = pt;
-			obj->mouseidle = 0;
-		}
-		else obj->mouseidle += 2;
+	LASTINPUTINFO ii = { sizeof(ii) };
+	if ( GetLastInputInfo(&ii))
+		return GetTickCount() - ii.dwTime > (obj->minutes * 60 * 1000);
 
-		if (obj->mouseidle)
-			return obj->mouseidle * 1000 >= (obj->minutes * 60 * 1000);
-	}
 	return FALSE;
 }
 

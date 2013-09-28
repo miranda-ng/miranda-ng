@@ -37,10 +37,8 @@ static bool IsUserIdle()
 		return GetTickCount() - dwTick > (minutes * 60 * 1000);
 	}
 	
-	LASTINPUTINFO ii;
-	ZeroMemory(&ii,sizeof(ii));
-	ii.cbSize=sizeof(ii);
-	if (GetLastInputInfo(&ii)) 
+	LASTINPUTINFO ii = { sizeof(ii) };
+	if ( GetLastInputInfo(&ii)) 
 		return GetTickCount() - ii.dwTime > (minutes * 60 * 1000);
 
 	return FALSE;

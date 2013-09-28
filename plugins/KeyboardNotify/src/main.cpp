@@ -320,11 +320,9 @@ static void FlashThreadFunction()
 				break;
 			if (bFlashUntil & UNTIL_REATTENDED) {
 				if (bMirandaOrWindows == ACTIVE_WINDOWS && !bEmulateKeypresses) {
-					LASTINPUTINFO lii;
-					ZeroMemory(&lii, sizeof(lii));
-					lii.cbSize = sizeof(lii);
-					GetLastInputInfo(&lii);
-					dwLastInput = lii.dwTime;
+					LASTINPUTINFO ii = { sizeof(ii) };
+					GetLastInputInfo(&ii);
+					dwLastInput = ii.dwTime;
 				}
 				if (dwLastInput > dwEventStarted)
 					break;
