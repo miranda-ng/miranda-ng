@@ -40,7 +40,8 @@ int UpdateWeather(HANDLE hContact)
 	DBVARIANT dbv;
 	BOOL Ch = FALSE;
 
-	if (hContact == NULL) return 1;		// some error prevention
+	if (hContact == NULL) // some error prevention
+		return 1;
 
 	dbv.pszVal = "";
 
@@ -53,11 +54,10 @@ int UpdateWeather(HANDLE hContact)
 	// download the info and parse it
 	// result are stored in database
 	int code = GetWeatherData(hContact);
-	if (code != 0) 
-	{
+	if (code != 0) {
 		// error occurs if the return value is not equals to 0
-		if (opt.ShowWarnings) 
-		{	// show warnings by popup
+		if (opt.ShowWarnings) {
+			// show warnings by popup
 			mir_sntprintf(str, SIZEOF(str) - 105, 
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
 			_tcscat(str, _T("\n"));
@@ -67,10 +67,10 @@ int UpdateWeather(HANDLE hContact)
 		// log to netlib
 		Netlib_LogfT(hNetlibUser, _T("Error! Update cannot continue... Start to free memory"));
 		Netlib_LogfT(hNetlibUser, _T("<-- Error occurs while updating station: %s -->"), dbv.ptszVal);
-		if ( !dbres) db_free(&dbv);
+		if (!dbres) db_free(&dbv);
 		return 1;
 	}
-	if ( !dbres) db_free(&dbv);
+	if (!dbres) db_free(&dbv);
 
 	// initialize, load new weather Data
 	WEATHERINFO winfo = LoadWeatherInfo(hContact);
@@ -170,6 +170,7 @@ int UpdateWeather(HANDLE hContact)
 				// for the option for overwriting the file, delete old file first
 				if (db_get_b(hContact,WEATHERPROTONAME, "Overwrite",0))
 					DeleteFile(dbv.ptszVal);
+
 				// open the file and set point to the end of file
 				FILE *file = _tfopen( dbv.ptszVal, _T("a"));
 				db_free(&dbv);
@@ -178,7 +179,9 @@ int UpdateWeather(HANDLE hContact)
 					GetDisplay(&winfo, opt.eText, str2);
 					_fputts(str2, file);
 					fclose(file);
-		}	}	}
+				}
+			}
+		}
 
 		if (db_get_b(hContact, WEATHERPROTONAME, "History", 0)) {
 			// internal log using history
@@ -238,15 +241,15 @@ HANDLE UpdateGetFirst()
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListHead != NULL) 
-	{
+	if (UpdateListHead != NULL) {
 		UPDATELIST* Item = UpdateListHead; 
 
 		hContact = Item->hContact;
 		UpdateListHead = Item->next;
 		mir_free(Item);
 
-		if (UpdateListHead == NULL) UpdateListTail = NULL; 
+		if (UpdateListHead == NULL)
+			UpdateListTail = NULL; 
 	}
 
 	ReleaseMutex(hUpdateMutex);
@@ -258,11 +261,9 @@ void DestroyUpdateList(void)
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	UPDATELIST *temp = UpdateListHead;
-
 	// free the list one by one
-	while (temp != NULL) 
-	{
+	UPDATELIST *temp = UpdateListHead;
+	while (temp != NULL) {
 		UpdateListHead = temp->next;
 		mir_free(temp);
 		temp = UpdateListHead;
@@ -273,7 +274,6 @@ void DestroyUpdateList(void)
 	ReleaseMutex(hUpdateMutex);
 }
 
-
 //============  UPDATE WEATHER  ============
 
 // update all weather station
@@ -282,12 +282,11 @@ void DestroyUpdateList(void)
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveData) 
 {
 	// add all weather contact to the update queue list
-	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+	for (HANDLE hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
 		if ( !db_get_b(hContact,WEATHERPROTONAME, "AutoUpdate",FALSE) || !AutoUpdate) {
 			if (RemoveData)	DBDataManage((HANDLE)hContact, WDBM_REMOVE, 0, 0);
 			UpdateListAdd(hContact);
 		}
-	}
 
 	// if it is not updating, then start the update thread process
 	// if it is updating, the stations just added to the queue will get updated by the already-running process
@@ -299,8 +298,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam) 
 {
-	if (IsMyContact((HANDLE)wParam)) 
-	{
+	if (IsMyContact((HANDLE)wParam)) {
 		// add the station to the end of the update queue	
 		UpdateListAdd((HANDLE)wParam);
 
@@ -318,8 +316,7 @@ INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam) 
 {
-	if (IsMyContact((HANDLE)wParam)) 
-	{
+	if (IsMyContact((HANDLE)wParam)) {
 		// add the station to the end of the update queue, and also remove old data
 		DBDataManage((HANDLE)wParam, WDBM_REMOVE, 0, 0);
 		UpdateListAdd((HANDLE)wParam);
@@ -338,8 +335,7 @@ INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam)
 void UpdateThreadProc(LPVOID hWnd) 
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
-	if (ThreadRunning)
-	{
+	if (ThreadRunning) {
 		ReleaseMutex(hUpdateMutex);
 		return;
 	}
@@ -359,13 +355,15 @@ void UpdateThreadProc(LPVOID hWnd)
 // the "Update All" menu item in main menu
 INT_PTR UpdateAllInfo(WPARAM wParam,LPARAM lParam)
 {
-	if ( !ThreadRunning)  UpdateAll(FALSE, FALSE);
+	if (!ThreadRunning)
+		UpdateAll(FALSE, FALSE);
 	return 0;
 }
 
 // the "Update All" menu item in main menu and remove the old data
 INT_PTR UpdateAllRemove(WPARAM wParam,LPARAM lParam) {
-	if ( !ThreadRunning)  UpdateAll(FALSE, TRUE);
+	if (!ThreadRunning)
+		UpdateAll(FALSE, TRUE);
 	return 0;
 }
 
@@ -399,10 +397,9 @@ int GetWeatherData(HANDLE hContact)
 	if (Data == NULL) 
 		return SVC_NOT_FOUND;	// the ini for the station cannot be found
 
-	WIDATAITEMLIST* Item;
 	WORD cond = NA;
 	char loc[256];
-	for (int i=0; i<4; ++i) {
+	for (int i=0; i < 4; ++i) {
 		// generate update URL
 		switch(i) {
 		case 0:
@@ -425,7 +422,7 @@ int GetWeatherData(HANDLE hContact)
 			continue;
 		}
 
-		if ( loc[0] == 0 )
+		if (loc[0] == 0)
 			continue;
 
 		// download the html file from the internet
@@ -441,7 +438,7 @@ int GetWeatherData(HANDLE hContact)
 		}
 
 		szInfo = szData;
-		Item = Data->UpdateData;
+		WIDATAITEMLIST *Item = Data->UpdateData;
 
 		// begin parsing item by item
 		while (Item != NULL) {
