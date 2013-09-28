@@ -576,7 +576,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					list<JabberAccount*>::iterator end = Accounts.end();
 					for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
 					{
-						TCHAR *caps = (*p)->getJabberInterface()->Net()->GetResourceFeatures(jid);
+						TCHAR *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
 						if(caps)
 						{
 							wstring str;
@@ -908,7 +908,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 					list<JabberAccount*>::iterator end = Accounts.end();
 					for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
 					{
-						TCHAR *caps = (*p)->getJabberInterface()->Net()->GetResourceFeatures(jid);
+						TCHAR *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
 						if(caps)
 						{
 							wstring str;

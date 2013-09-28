@@ -570,7 +570,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 				list<JabberAccount*>::iterator end = Accounts.end();
 				for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
 				{
-					TCHAR *caps = (*p)->getJabberInterface()->Net()->GetResourceFeatures(jid);
+					TCHAR *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
 					if(caps)
 					{
 						supported_proto = true;
@@ -724,7 +724,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 		LPCTSTR attr = xi.getAttrValue(local_node, _T("to"));
 		if(attr)
 		{
-			HANDLE hContact = ji->Sys()->ContactFromJID(attr);
+			HANDLE hContact = ji->ContactFromJID(attr);
 			if(hContact)
 				if(!isContactSecured(hContact))
 					return FALSE;
@@ -788,7 +788,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 					{
 						char *inkeyid;
 						{
-							char *proto = ji->Sys()->GetModuleName();
+							char *proto = ji->GetModuleName();
 							char setting[64];
 							strcpy(setting, proto);
 							strcat(setting, "_KeyID");
@@ -1022,7 +1022,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 										{
 											if(!(*p))
 												break;
-											hContact = (*p)->getJabberInterface()->Sys()->ContactFromJID(xi.getAttrValue(node, _T("from")));
+											hContact = (*p)->getJabberInterface()->ContactFromJID(xi.getAttrValue(node, _T("from")));
 											if(hContact)
 												hcontact_data[hContact].key_in_prescense = out.substr(p1, p2-p1-1).c_str();
 										}
@@ -1057,20 +1057,20 @@ void AddHandlers()
 		if(!(*p))
 			break;
 		if((*p)->getSendHandler() == INVALID_HANDLE_VALUE)
-			(*p)->setSendHandler((*p)->getJabberInterface()->Net()->AddSendHandler((JABBER_HANDLER_FUNC)SendHandler));
+			(*p)->setSendHandler((*p)->getJabberInterface()->AddSendHandler((JABBER_HANDLER_FUNC)SendHandler));
 		if((*p)->getPrescenseHandler() == INVALID_HANDLE_VALUE)
-			(*p)->setPrescenseHandler((*p)->getJabberInterface()->Net()->AddPresenceHandler((JABBER_HANDLER_FUNC)PrescenseHandler));
+			(*p)->setPrescenseHandler((*p)->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PrescenseHandler));
 //		if((*p)->getMessageHandler() == INVALID_HANDLE_VALUE)
-//			(*p)->setMessageHandler((*p)->getJabberInterface()->Net()->AddMessageHandler((JABBER_HANDLER_FUNC)MessageHandler, JABBER_MESSAGE_TYPE_ANY ,NULL,NULL));
+//			(*p)->setMessageHandler((*p)->getJabberInterface()->AddMessageHandler((JABBER_HANDLER_FUNC)MessageHandler, JABBER_MESSAGE_TYPE_ANY ,NULL,NULL));
 		if(bAutoExchange)
 		{
-			(*p)->getJabberInterface()->Net()->RegisterFeature(_T("GPG_Key_Auto_Exchange:0"), _T("Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)"));
-			(*p)->getJabberInterface()->Net()->AddFeatures(_T("GPG_Key_Auto_Exchange:0\0\0"));
+			(*p)->getJabberInterface()->RegisterFeature(_T("GPG_Key_Auto_Exchange:0"), _T("Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)"));
+			(*p)->getJabberInterface()->AddFeatures(_T("GPG_Key_Auto_Exchange:0\0\0"));
 		}
 		if(bFileTransfers)
 		{
-			(*p)->getJabberInterface()->Net()->RegisterFeature(_T("GPG_Encrypted_FileTransfers:0"), _T("Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)"));
-			(*p)->getJabberInterface()->Net()->AddFeatures(_T("GPG_Encrypted_FileTransfers:0\0\0"));
+			(*p)->getJabberInterface()->RegisterFeature(_T("GPG_Encrypted_FileTransfers:0"), _T("Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)"));
+			(*p)->getJabberInterface()->AddFeatures(_T("GPG_Encrypted_FileTransfers:0\0\0"));
 		}
 	}
 }
