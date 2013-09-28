@@ -566,7 +566,6 @@ int UnloadVarModule() {
 	DestroyServiceFunction(hGetIconService);
 	DestroyCursor(hCurSplitNS);
 	deinitContactModule();
-	deInitExternal();
 	deinitTokenRegister();
 	unregisterAliasTokens();
 	unregisterVariablesTokens();

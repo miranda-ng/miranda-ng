@@ -46,7 +46,6 @@
 
 #include "..\helpers\gen_helpers.h"
 
-#include "ac\ac.h"
 #include "pcre\include\pcre.h"
 
 #include "resource.h"
@@ -160,7 +159,6 @@ void unregisterAliasTokens();
 int  registerSystemTokens();
 // external
 int  registerExternalTokens();
-int  deInitExternal();
 // miranda
 int  registerMirandaTokens();
 // str

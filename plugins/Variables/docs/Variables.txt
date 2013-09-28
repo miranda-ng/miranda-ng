@@ -360,13 +360,6 @@ PCRE is available from the "external" folder in this package and/or
 from http://www.pcre.org/
 
 4)
-The variables amipvar and amipformat are only available if you have
-ac.dll in your miranda directory (or system32). ac.dll is available
-from the "external" folder in this package and/or from
-http://amip.tools-for.net/ (part of amip_sdk). You'll also need to
-install one of the AMIP servers from http://amip.tools-for.net/
-
-5)
 Variables v0.2.0.0 syntax is inspired by the TAGZ system used in
 Foobar2000, http://www.foobar2000.org/.
 

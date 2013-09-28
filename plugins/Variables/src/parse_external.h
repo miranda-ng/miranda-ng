@@ -20,7 +20,3 @@
 #define WINAMPSONG			"winampsong"
 #define WINAMPSTATE			"winampstate"
 #define DEF_WINAMPTITLE		"Winamp3"
-
-#define AMIPEVAL			"amipvar"
-#define AMIPFORMAT			"amipformat"
-#define AMIP_TIMEOUT		5000
