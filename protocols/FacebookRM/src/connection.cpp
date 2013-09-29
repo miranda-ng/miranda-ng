@@ -139,44 +139,22 @@ bool FacebookProto::NegotiateConnection()
 {
 	LOG("***** Negotiating connection with Facebook");
 
-	bool error;
-	std::string user, pass;
 	DBVARIANT dbv = {0};
 
-	error = true;
-	if (!getString(FACEBOOK_KEY_LOGIN, &dbv))
-	{
-		user = dbv.pszVal;
-		db_free(&dbv);
-		error = user.empty();
-	}
-	if (error)
-	{
+	ptrA username( getStringA(FACEBOOK_KEY_LOGIN));
+	if (!username || !strlen(username)) {
 		NotifyEvent(m_tszUserName,TranslateT("Please enter a username."),NULL,FACEBOOK_EVENT_CLIENT);
 		return false;
 	}
 
-	error = true;
-	if (!getString(FACEBOOK_KEY_PASS, &dbv))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
-			reinterpret_cast<LPARAM>(dbv.pszVal));
-		pass = dbv.pszVal;
-		db_free(&dbv);
-		error = pass.empty();
-	}
-	if (error)
-	{
+	ptrA password( getStringA(FACEBOOK_KEY_PASS));
+	if (!password || !strlen(password)) {
 		NotifyEvent(m_tszUserName,TranslateT("Please enter a password."),NULL,FACEBOOK_EVENT_CLIENT);
 		return false;
 	}
 
-	// Load machine name
-	if (!getString(FACEBOOK_KEY_DEVICE_ID, &dbv))
-	{
-		facy.cookies["datr"] = dbv.pszVal;
-		db_free(&dbv);
-	}
+	CallService(MS_DB_CRYPT_DECODESTRING, strlen(password) + 1, password);
+	password = mir_utf8encode(password);
 
 	// Refresh last time of feeds update
 	facy.last_feeds_update_ = ::time(NULL);
@@ -189,7 +167,7 @@ bool FacebookProto::NegotiateConnection()
 	if (groupName != NULL)
 		Clist_CreateGroup(0, groupName);
 	
-	return facy.login(user, pass);
+	return facy.login(username, password);
 }
 
 void FacebookProto::UpdateLoop(void *)

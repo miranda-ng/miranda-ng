@@ -124,7 +124,7 @@ public:
 
 	// Login handling
 
-	bool    login(const std::string &username, const std::string &password);
+	bool    login(const char *username, const char *password);
 	bool    logout();
 
 	const std::string & get_username() const;

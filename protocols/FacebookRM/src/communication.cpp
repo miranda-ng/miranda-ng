@@ -675,15 +675,22 @@ void loginError(FacebookProto *proto, std::string error_str) {
 	proto->facy.client_notify(buf);
 }
 
-bool facebook_client::login(const std::string &username,const std::string &password)
+bool facebook_client::login(const char *username, const char *password)
 {
 	handle_entry("login");
 
 	username_ = username;
 	password_ = password;
+	
+	if (cookies.empty()) {
+		// Set device ID
+		ptrA device( parent->getStringA(FACEBOOK_KEY_DEVICE_ID));
+		if (device != NULL)
+			cookies["datr"] = device;
 
-	// Get initial cookies
-	flap(REQUEST_LOGIN);
+		// Get initial cookies
+		flap(REQUEST_HOME);
+	}
 
 	// Prepare login data
 	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&pass_placeHolder=Password&login=Login&persistent=1";
@@ -718,7 +725,6 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
 			parent->setByte(FACEBOOK_KEY_FORCE_HTTPS, 1);
 			this->https_ = true;
-			return login(username, password);
 		}
 
 		// Check whether some Facebook things are required
