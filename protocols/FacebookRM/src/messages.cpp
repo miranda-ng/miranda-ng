@@ -60,8 +60,7 @@ void FacebookProto::SendMsgWorker(void *p)
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, data->msgid, 0);
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)data->hContact, NULL);
 		} else {
-			ptrA err( mir_utf8decodeA(error_text.c_str()));
-			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)err);
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)error_text.c_str());
 		}
 		db_free(&dbv);
 	}

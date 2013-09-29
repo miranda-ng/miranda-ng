@@ -110,7 +110,7 @@ public:
 
 	unsigned int error_count_;
 
-	bool    validate_response(http::response*);
+	bool    validate_response(http::response *resp, bool notify = true);
 
 	bool    handle_entry(std::string method);
 	bool    handle_success(std::string method);

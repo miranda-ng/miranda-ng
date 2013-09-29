@@ -96,6 +96,7 @@ namespace http
 		int code;
 		unsigned int error_number;
 		std::string error_text;
+		std::string error_title;
 		std::map< std::string, std::string > headers;
 		std::string data;
 	};

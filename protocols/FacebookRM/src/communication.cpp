@@ -118,7 +118,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	return resp;
 }
 
-bool facebook_client::validate_response(http::response* resp)
+bool facebook_client::validate_response(http::response* resp, bool notify)
 {
 	if (resp->code == HTTP_CODE_FAKE_DISCONNECTED)
 	{
@@ -142,35 +142,46 @@ bool facebook_client::validate_response(http::response* resp)
 	}
 */
 	std::string::size_type pos = resp->data.find("\"error\":");
-	if (pos != std::string::npos)
-    try
-  	{
-		pos += 8;
-	    int error_num = atoi(resp->data.substr(pos, resp->data.find(",", pos) - pos).c_str());
-	    if (error_num != 0)
-	    {
-			std::string error = "";
-			pos = resp->data.find("\"errorDescription\":\"", pos);
-			if (pos != std::string::npos) {
-				pos += 20;
-				error = resp->data.substr(pos, resp->data.find("\"", pos) - pos);
-				error = utils::text::trim(
-					utils::text::special_expressions_decode(
-						utils::text::slashu_to_utf8(error)));
+	if (pos != std::string::npos) {
+		try
+  		{
+			pos += 8;
+			int error_num = atoi(resp->data.substr(pos, resp->data.find(",", pos) - pos).c_str());
+			if (error_num != 0) {
+				std::string error = "";
+				pos = resp->data.find("\"errorDescription\":\"", pos);
+				if (pos != std::string::npos) {
+					pos += 20;
+					error = resp->data.substr(pos, resp->data.find("\"", pos) - pos);
+					error = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(error)));
+					error = ptrA( mir_utf8decodeA(error.c_str()));	
+				}
 
+				std::string title = "";
+				pos = resp->data.find("\"errorSummary\":\"", pos);
+				if (pos != std::string::npos) {
+					pos += 16;
+					title = resp->data.substr(pos, resp->data.find("\"", pos) - pos);
+					title = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(title)));
+					title = ptrA( mir_utf8decodeA(title.c_str()));	
+				}
+
+				resp->error_number = error_num;
+				resp->error_text = error;
+				resp->error_title = title;
+				resp->code = HTTP_CODE_FAKE_ERROR;
+
+				parent->Log(" ! !  Received Facebook error: %d -- %s", error_num, error.c_str());
+				if (notify)
+					client_notify(_A2T(error.c_str()));
+
+				return false;
 			}
-
-		    resp->error_number = error_num;
-		    resp->error_text = error;
-		    parent->Log(" ! !  Received Facebook error: %d -- %s", error_num, error.c_str());
-			// client_notify(...);
-		    resp->code = HTTP_CODE_FAKE_ERROR;
-		    return false;
-	    }
-    } catch (const std::exception &e) {
-	    parent->Log(" @ @  validate_response: Exception: %s",e.what());
-		return false;
-    }
+		} catch (const std::exception &e) {
+			parent->Log(" @ @  validate_response: Exception: %s",e.what());
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -1249,7 +1260,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 		}
 	}
 	
-	validate_response(&resp);
+	validate_response(&resp, false);
 	*error_text = resp.error_text;
 
 	switch (resp.error_number)
@@ -1366,21 +1377,12 @@ bool facebook_client::post_status(status_data *status)
 		flap(REQUEST_IDENTITY_SWITCH, &data);
 	}
 
-	validate_response(&resp);
-
-	switch (resp.code)
-	{
-	case HTTP_CODE_OK:
-  		if (resp.error_number != 0 && !resp.error_text.empty())
-			client_notify(ptrT(mir_utf8decodeT(resp.error_text.c_str())));
-		else
-			parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, FACEBOOK_EVENT_OTHER);
+	if (validate_response(&resp) && resp.code == HTTP_CODE_OK) {
+		parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, FACEBOOK_EVENT_OTHER);
 		return handle_success("post_status");
-  	case HTTP_CODE_FAKE_ERROR:
-	case HTTP_CODE_FAKE_DISCONNECTED:
-	default:
-  		return handle_error("post_status");
 	}
+
+	return handle_error("post_status");
 }
 
 //////////////////////////////////////////////////////////////////////////////
