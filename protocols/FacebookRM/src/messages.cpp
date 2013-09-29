@@ -210,7 +210,7 @@ void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 		} else {
 			facy.save_url(url, filename, nlc);
 		}
-		TCHAR *path = _tcsdup(filename.c_str());
+		ptrT path( _tcsdup(filename.c_str()));
 
 		SMADD_CONT cont;
 		cont.cbSize = sizeof(SMADD_CONT);
@@ -219,7 +219,6 @@ void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 		cont.path = path;
 
 		CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
-		mir_free(path);
 	}
 	Netlib_CloseHandle(nlc);
 }

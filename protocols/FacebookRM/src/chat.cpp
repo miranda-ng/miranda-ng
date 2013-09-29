@@ -24,34 +24,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp)
 {
+	ptrT tchat_id( mir_a2t(chat_id));
+	ptrT tid( mir_a2t(id));
+	ptrT tnick( mir_a2t_cp(name,CP_UTF8));
+	ptrT ttext( mir_a2t_cp(message,CP_UTF8));
+
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = mir_a2t(chat_id);
+	gcd.ptszID = tchat_id;
 
 	GCEVENT gce  = {sizeof(gce)};
 	gce.pDest    = &gcd;
-	gce.ptszText = mir_a2t_cp(message,CP_UTF8);
+	gce.ptszText = ttext;
 	gce.time     = timestamp ? timestamp : ::time(NULL);
 	gce.dwFlags  = GC_TCHAR;
 	gcd.iType  = GC_EVENT_MESSAGE;
 	gce.bIsMe = !strcmp(id,facy.self_.user_id.c_str());
 	gce.dwFlags  |= GCEF_ADDTOLOG;
 
-	gce.ptszNick = mir_a2t_cp(name,CP_UTF8);
-	gce.ptszUID  = mir_a2t(id);
+	gce.ptszNick = tnick;
+	gce.ptszUID  = tid;
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
-
-	mir_free(const_cast<TCHAR*>(gce.ptszUID));
-	mir_free(const_cast<TCHAR*>(gce.ptszNick));
-	mir_free(const_cast<TCHAR*>(gce.ptszText));
-	mir_free(const_cast<TCHAR*>(gcd.ptszID));
 }
 
 int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-	char *text;
-	char *id;
 
 	if (strcmp(hook->pDest->pszModule,m_szModuleName))
 		return 0;
@@ -60,17 +58,11 @@ int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 	{
 	case GC_USER_MESSAGE:
 	{
-		text = mir_t2a_cp(hook->ptszText,CP_UTF8);
-		std::string msg = text;
+		std::string msg = ptrA( mir_t2a_cp(hook->ptszText,CP_UTF8));
+		std::string chat_id = ptrA( mir_t2a_cp(hook->pDest->ptszID,CP_UTF8));
 
-		id = mir_t2a_cp(hook->pDest->ptszID,CP_UTF8);
-		std::string chat_id = id;
-
-		mir_free(text);
-		mir_free(id);
-	
 		if (isOnline()) {
-			LOG("**Chat - Outgoing message: %s", text);
+			LOG("**Chat - Outgoing message: %s", msg.c_str());
 			ForkThread(&FacebookProto::SendChatMsgWorker, new send_chat(chat_id, msg));
 		}
 	
@@ -89,15 +81,19 @@ int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 
 void FacebookProto::AddChatContact(const char *chat_id, const char *id, const char *name)
 {
+	ptrT tchat_id( mir_a2t(chat_id));
+	ptrT tnick( mir_a2t_cp(name, CP_UTF8));
+	ptrT tid( mir_a2t(id));
+
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = mir_a2t(chat_id);
+	gcd.ptszID = tchat_id;
 	gcd.iType  = GC_EVENT_JOIN;
 
 	GCEVENT gce    = {sizeof(gce)};
 	gce.pDest      = &gcd;
 	gce.dwFlags    = GC_TCHAR | GCEF_ADDTOLOG;
-	gce.ptszNick   = mir_a2t_cp(name, CP_UTF8);
-	gce.ptszUID    = mir_a2t(id);
+	gce.ptszNick   = tnick;
+	gce.ptszUID    = tid;
 	gce.time       = ::time(NULL);
 	gce.bIsMe      = !strcmp(id, facy.self_.user_id.c_str());
 
@@ -107,10 +103,6 @@ void FacebookProto::AddChatContact(const char *chat_id, const char *id, const ch
 		gce.ptszStatus = _T("Normal");
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
-
-	mir_free(const_cast<TCHAR*>(gce.ptszNick));
-	mir_free(const_cast<TCHAR*>(gce.ptszUID));
-	mir_free(const_cast<TCHAR*>(gcd.ptszID));
 }
 
 
@@ -119,38 +111,37 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id)
 	// We dont want to remove our self-contact from chat. Ever.
 	if (!strcmp(id, facy.self_.user_id.c_str()))
 		return;
+
+	ptrT tchat_id( mir_a2t(chat_id));
+	ptrT tid( mir_a2t(id));
 	
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = mir_a2t(chat_id);
+	gcd.ptszID = tchat_id;
 	gcd.iType  = GC_EVENT_PART;
 
 	GCEVENT gce    = {sizeof(gce)};
 	gce.pDest      = &gcd;
 	gce.dwFlags    = GC_TCHAR | GCEF_ADDTOLOG;
 	//gce.ptszNick   = mir_a2t_cp(name, CP_UTF8);
-	gce.ptszUID    = mir_a2t(id);
-	gce.ptszNick   = gce.ptszUID;
+	gce.ptszUID    = tid;
+	gce.ptszNick   = tid;
 	gce.time       = ::time(NULL);
 	gce.bIsMe      = false;//!strcmp(id, facy.self_.user_id.c_str());
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
-
-	mir_free(const_cast<TCHAR*>(gcd.ptszID));
-	mir_free(const_cast<TCHAR*>(gce.ptszNick));
-	mir_free(const_cast<TCHAR*>(gce.ptszUID));	
 }
 
+/** Caller must free result */
 char *FacebookProto::GetChatUsers(const char *chat_id)
 {
+	ptrT tid( mir_a2t(chat_id));
 	GC_INFO gci = {0};
 	gci.Flags = USERS;
 	gci.pszModule = m_szModuleName;
-	gci.pszID = mir_a2t(chat_id);
+	gci.pszID = tid;
 	CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
 
 	LOG("**Chat - Users in chat %s: %s", chat_id, gci.pszUsers);
-
-	mir_free(gci.pszID);
 
 	// mir_free(gci.pszUsers);
 	return gci.pszUsers;
@@ -158,34 +149,28 @@ char *FacebookProto::GetChatUsers(const char *chat_id)
 
 bool FacebookProto::IsChatContact(const char *chat_id, const char *id)
 {
-	char *users = GetChatUsers(chat_id);
-	bool found = false;
-
-	if (users != NULL && strstr(users, id) != NULL)
-		found = true;
-
-	mir_free(users);
-	return found;
+	ptrA users( GetChatUsers(chat_id));
+	return (users != NULL && strstr(users, id) != NULL);
 }
 
 void FacebookProto::AddChat(const char *id, const char *name)
 {
 	GCSESSION gcw = {sizeof(gcw)};
 
+	ptrT tname( mir_a2t_cp(name, CP_UTF8));
+	ptrT tid( mir_a2t(id));
+
 	// Create the group chat session
 	gcw.dwFlags   = GC_TCHAR;
 	gcw.iType     = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
-	gcw.ptszName  = mir_a2t_cp(name, CP_UTF8);
-	gcw.ptszID    = mir_a2t(id);
+	gcw.ptszName  = tname;
+	gcw.ptszID    = tid;
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
-
-	mir_free(const_cast<TCHAR*>(gcw.ptszName));
-	mir_free(const_cast<TCHAR*>(gcw.ptszID));
 
 	// Send setting events
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = mir_a2t(id);
+	gcd.ptszID = tid;
 
 	GCEVENT gce = {sizeof(gce)};
 	gce.pDest = &gcd;
@@ -207,8 +192,6 @@ void FacebookProto::AddChat(const char *id, const char *name)
 	AddChatContact(id, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
 	CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
-
-	mir_free(const_cast<TCHAR*>(gcd.ptszID));
 }
 
 /*void FacebookProto::SetTopic(const char *topic)

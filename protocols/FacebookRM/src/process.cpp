@@ -116,9 +116,8 @@ void FacebookProto::ProcessBuddyList(void* data)
 
 				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
-				TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
+				ptrT szTitle( mir_utf8decodeT(fbu->real_name.c_str()));
 				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, &url);
-				mir_free(szTitle);
 			}
 
 			// Check avatar change
@@ -209,9 +208,8 @@ void FacebookProto::ProcessFriendList(void* data)
 
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
-					TCHAR* szTitle = mir_utf8decodeT(fbu->real_name.c_str());
+					ptrT szTitle( mir_utf8decodeT(fbu->real_name.c_str()));
 					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
-					mir_free(szTitle);
 				}
 
 				// Check avatar change
@@ -235,9 +233,8 @@ void FacebookProto::ProcessFriendList(void* data)
 
 					std::string url = FACEBOOK_URL_PROFILE + id;
 
-					TCHAR* szTitle = mir_utf8decodeT(contactname.c_str());
+					ptrT szTitle( mir_utf8decodeT(contactname.c_str()));
 					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
-					mir_free(szTitle);
 				}
 			}
 		}
@@ -481,12 +478,9 @@ void FacebookProto::ProcessMessages(void* data)
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
-		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
-		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
+		ptrT szTitle( mir_utf8decodeT(this->m_szModuleName));
+		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
 		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
-		mir_free(szTitle);
-		mir_free(szText);
-
 		delete notifications[i];
 	}
 	notifications.clear();
@@ -539,12 +533,9 @@ void FacebookProto::ProcessNotifications(void*)
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
 		LOG("      Got notification: %s", notifications[i]->text.c_str());
-		TCHAR* szTitle = mir_utf8decodeT(this->m_szModuleName);
-		TCHAR* szText = mir_utf8decodeT(notifications[i]->text.c_str());
+		ptrT szTitle( mir_utf8decodeT(this->m_szModuleName));
+		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
 		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
-		mir_free(szTitle);
-		mir_free(szText);
-
 		delete notifications[i];
 	}
 	notifications.clear();
@@ -733,11 +724,9 @@ void FacebookProto::ProcessFeeds(void* data)
 	for(std::vector<facebook_newsfeed*>::size_type i=0; i<news.size(); i++)
 	{
 		LOG("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
-		TCHAR* szTitle = mir_utf8decodeT(news[i]->title.c_str());
-		TCHAR* szText = mir_utf8decodeT(news[i]->text.c_str());
+		ptrT szTitle( mir_utf8decodeT(news[i]->title.c_str()));
+		ptrT szText( mir_utf8decodeT(news[i]->text.c_str()));
 		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
-		mir_free(szTitle);
-		mir_free(szText);
 		delete news[i];
 	}
 	news.clear();
@@ -886,7 +875,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 				PROTOSEARCHRESULT isr = {0};
 				isr.cbSize = sizeof(isr);
 				isr.flags = PSR_TCHAR;
-				isr.id  = tid;
+				isr.id = tid;
 				isr.firstName = tname;
 				isr.lastName = tsurname;
 
