@@ -97,8 +97,10 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			Log("      Got thread info: %s = %s", data->chat_id.c_str(), tid.c_str());
 		}		
 		
-		if (!tid.empty())
-			facy.send_message(tid, data->msg, &err_message, MESSAGE_TID);
+		if (!tid.empty()) {
+			if (facy.send_message(tid, data->msg, &err_message, MESSAGE_TID))
+				UpdateChat(data->chat_id.c_str(), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
+		}
 	}
 
 	delete data;
@@ -110,7 +112,7 @@ int FacebookProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 	if (flags & PREF_UNICODE)
 		msg = mir_utf8encode(msg);
   
-	facy.msgid_ = (facy.msgid_ % 1024)+1;
+	facy.msgid_ = (facy.msgid_ % 1024) + 1;
 	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE)facy.msgid_));
 	return facy.msgid_;
 }
@@ -138,15 +140,13 @@ void FacebookProto::SendTypingWorker(void *p)
 	facy.is_typing_ = (typing->status == PROTOTYPE_SELFTYPING_ON);
 	SleepEx(2000, true);
 
-	if (!facy.is_typing_ == (typing->status == PROTOTYPE_SELFTYPING_ON))
-	{
+	if (!facy.is_typing_ == (typing->status == PROTOTYPE_SELFTYPING_ON)) {
 		delete typing;
 		return;
 	}
 		
 	DBVARIANT dbv;
-	if (!getString(typing->hContact, FACEBOOK_KEY_ID, &dbv))
-	{
+	if (!getString(typing->hContact, FACEBOOK_KEY_ID, &dbv)) {
 		std::string data = "&source=mercury-chat";
 		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0"); // PROTOTYPE_SELFTYPING_OFF
 		data += "&to=" + std::string(dbv.pszVal);

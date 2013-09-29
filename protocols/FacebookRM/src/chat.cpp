@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "common.h"
+#include <m_history.h>
+#include <m_userinfo.h>
 
 void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp)
 {
@@ -45,9 +47,15 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	gce.ptszUID  = tid;
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+	
+	std::map<std::string, facebook_chatroom>::iterator chatroom = facy.chat_rooms.find(chat_id);
+	chatroom->second.message_readers = "";
+
+	HANDLE hChatContact = ChatIDToHContact(chat_id);
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)mir_a2u("Unseen"));
 }
 
-int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
+int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
@@ -69,11 +77,61 @@ int FacebookProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 		break;
 	}
 
-	case GC_USER_LEAVE:
-	case GC_SESSION_TERMINATE:
+	case GC_USER_PRIVMESS:
 	{
+		char* sn = mir_t2a(hook->ptszUID);
+		HANDLE hContact = ContactIDToHContact(sn);
+		mir_free(sn);
+		CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
+		
 		break;
 	}
+
+	/*
+	case GC_USER_LOGMENU:
+	{
+		switch(hook->dwData) 
+		{
+		case 10:
+			DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog, 
+				LPARAM(new invite_chat_param(item->id, this)));
+			break;
+
+		case 20:
+			//chat_leave(id);
+			break;
+		}
+		break;
+	}
+	*/
+
+	case GC_USER_NICKLISTMENU: 
+	{
+		char *sn = mir_t2a(hook->ptszUID);
+		HANDLE hContact = ContactIDToHContact(sn);
+		mir_free(sn);
+
+		switch (hook->dwData) 
+		{
+		case 10:
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			break;
+
+		case 20:
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
+			break;
+
+		case 110:
+			//chat_leave(id);
+			break;
+		}
+
+		break;
+	}
+
+	case GC_USER_LEAVE:
+	case GC_SESSION_TERMINATE:
+		break;
 	}
 
 	return 0;
@@ -102,6 +160,10 @@ void FacebookProto::AddChatContact(const char *chat_id, const char *id, const ch
 	else
 		gce.ptszStatus = _T("Normal");
 
+	std::map<std::string, facebook_chatroom>::iterator room = facy.chat_rooms.find(chat_id);
+	if(room != facy.chat_rooms.end())
+		room->second.participants.insert(std::make_pair(id, name));
+
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
 
@@ -127,6 +189,10 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id)
 	gce.ptszNick   = tid;
 	gce.time       = ::time(NULL);
 	gce.bIsMe      = false;//!strcmp(id, facy.self_.user_id.c_str());
+
+	std::map<std::string, facebook_chatroom>::iterator room = facy.chat_rooms.find(chat_id);
+	if (room != facy.chat_rooms.end())
+		room->second.participants.erase(id);
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
@@ -187,6 +253,10 @@ void FacebookProto::AddChat(const char *id, const char *name)
 	gcd.iType = GC_EVENT_CONTROL;
 	gce.time = ::time(NULL);
 	gce.pDest = &gcd;
+	
+	facebook_chatroom chatroom;
+	chatroom.chat_name = name;
+	facy.chat_rooms.insert(std::make_pair(id, chatroom));
 
 	// Add self contact
 	AddChatContact(id, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
@@ -294,3 +364,52 @@ void FacebookProto::SetChatStatus(int status)
 	}
 }
 */
+
+int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS *gcmi= (GCMENUITEMS*) lParam;
+
+	if (gcmi == NULL || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
+
+	if (gcmi->Type == MENU_ON_LOG)
+	{
+		static const struct gc_item Items[] =
+		{
+			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
+			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+		};
+		gcmi->nItems = SIZEOF(Items);
+		gcmi->Item = (gc_item*)Items;
+	}
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+	{
+		char* email = mir_t2a(gcmi->pszUID);
+		if (!_stricmp(facy.self_.user_id.c_str(), email))
+		{
+			/*static const struct gc_item Items[] =
+			{
+				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
+				{ _T(""), 100, MENU_SEPARATOR, FALSE },
+				{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
+			};
+			gcmi->nItems = SIZEOF(Items);
+			gcmi->Item = (gc_item*)Items;*/
+			gcmi->nItems = 0;
+			gcmi->Item = NULL;
+		}
+		else
+		{
+			static const struct gc_item Items[] =
+			{
+				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE }
+			};
+			gcmi->nItems = SIZEOF(Items);
+			gcmi->Item = (gc_item*)Items;
+		}
+		mir_free(email);
+	}
+
+	return 0;
+}

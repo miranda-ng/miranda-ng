@@ -146,7 +146,8 @@ public:
 	int  __cdecl OnPreShutdown(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM,LPARAM);
-	int  __cdecl OnChatOutgoing(WPARAM,LPARAM);
+	int  __cdecl OnGCEvent(WPARAM,LPARAM);
+	int  __cdecl OnGCMenuHook(WPARAM,LPARAM);
 
 	// Loops
 	bool    NegotiateConnection();

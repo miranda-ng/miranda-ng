@@ -59,6 +59,18 @@ struct facebook_user
 	}
 };
 
+struct facebook_chatroom
+{
+	HANDLE handle;
+
+	std::string chat_name;
+	std::map<std::string, std::string> participants;
+
+	std::string message_readers;
+
+	DWORD last_active;
+};
+
 struct facebook_message
 {
 	std::string user_id;

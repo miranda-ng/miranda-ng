@@ -418,14 +418,65 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (reader == NULL || time == NULL)
 					continue;
 
-				// TODO: add check for chat contacts
-				HANDLE hContact = proto->ContactIDToHContact(json_as_pstring(reader));
-				if (hContact) {
-					TCHAR ttime[64], tstr[100];
-					_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
-					mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
+				JSONNODE *threadid = json_get(it, "tid");
+				if (threadid != NULL) { // multi user chat
+					const char *tid = json_as_string(threadid);
+					const char *reader_id = json_as_string(reader);
 
-					CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
+					std::map<std::string, facebook_chatroom>::iterator chatroom = proto->facy.chat_rooms.find(tid);
+					if (chatroom != proto->facy.chat_rooms.end()) {
+						std::map<std::string, std::string>::const_iterator participant = chatroom->second.participants.find(reader_id);
+						if (participant == chatroom->second.participants.end()) {
+							std::string search = utils::url::encode(tid) + "?";
+							http::response resp = proto->facy.flap(REQUEST_USER_INFO, NULL, &search);
+
+							if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
+								search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MOBILE"/", "_rdr", true);
+								resp = proto->facy.flap(REQUEST_USER_INFO, NULL, &search);
+							}
+
+							proto->facy.validate_response(&resp);
+
+							if (resp.code == HTTP_CODE_OK) {
+								std::string about = utils::text::source_get_value(&resp.data, 2, "<div class=\"timeline", "<div id=\"footer");
+
+								std::string name = utils::text::source_get_value(&about, 3, "class=\"profileName", ">", "</");
+								std::string surname;
+
+								std::string::size_type pos;
+								if ((pos = name.find(" ")) != std::string::npos) {
+									surname = name.substr(pos + 1, name.length() - pos - 1);
+									name = name.substr(0, pos);
+								}
+
+								proto->AddChatContact(tid, reader_id, name.c_str());
+							}
+						}
+
+						participant = chatroom->second.participants.find(reader_id);
+						if (participant != chatroom->second.participants.end()) {
+							HANDLE hChatContact = proto->ChatIDToHContact(tid);
+							const char *participant_name = participant->second.c_str();
+
+							if (!chatroom->second.message_readers.empty())
+								chatroom->second.message_readers += ", ";
+							chatroom->second.message_readers += participant_name;
+
+							TCHAR ttime[64], tstr[100];
+							_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
+							mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s by %s"), ttime, ptrT(mir_utf8decodeT(chatroom->second.message_readers.c_str())));
+							CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)tstr);
+						}
+					}
+ 				} else { // classic contact
+					HANDLE hContact = proto->ContactIDToHContact(json_as_pstring(reader));
+					if (hContact) {
+						TCHAR ttime[64], tstr[100];
+						_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
+						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
+
+						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
+					}
 				}
 			} else if (t == "deliver") {
 				// inbox message (multiuser or direct)
@@ -461,14 +512,58 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (message_text.empty())
 					continue;
 
-				facebook_message* message = new facebook_message();
-				message->message_text = message_text;
-				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name)));
-				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
-				message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-				message->message_id = message_id;
+				// Multi-user
+				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
+				if (gthreadinfo != NULL) {
+					JSONNODE *thread_name = json_get(gthreadinfo, "name");
+					const char* thread_id = json_as_string(tid);
 
-				messages->push_back(message);
+					// RM TODO: better use check if chatroom exists/is in db/is online... no?
+					/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
+					if (proto->GetChatUsers(thread_id) == NULL) {
+						// Set thread id (TID) for later.
+						proto->AddChat(thread_id, json_as_string(thread_name));
+						db_set_s(proto->ChatIDToHContact(thread_id), proto->m_szModuleName, FACEBOOK_KEY_TID, thread_id);
+					}
+
+					// This is a recent 5 person listing of participants.
+					JSONNODE *participants_ids = json_get(gthreadinfo, "participant_ids");
+					JSONNODE *participants_names = json_get(gthreadinfo, "participant_names");
+					for (unsigned int n = 0; n < json_size(participants_ids); n++) {
+						JSONNODE *idItr = json_at(participants_ids, n);
+						const char* pId = json_as_string(idItr);
+
+						JSONNODE *nameItr = json_at(participants_names, n);
+						const char* pName = json_as_string(nameItr);
+
+						if (!proto->IsChatContact(thread_id, pId)) {
+							proto->AddChatContact(thread_id, pId, pName);
+						}
+					}
+
+					std::string senderName = json_as_string(sender_name);
+					std::string::size_type pos;
+					/*if ((pos = senderName.find(" ")) != std::string::npos) {
+						senderName = senderName.substr(0, pos);							
+					}*/
+
+					// Last fall-back for adding this sender (Incase was not in the participants) - Is this even needed?
+					if (!proto->IsChatContact(thread_id, id.c_str())) {
+						proto->AddChatContact(thread_id, id.c_str(), senderName.c_str());
+					}
+
+					// Update chat with message.
+					proto->UpdateChat(thread_id, id.c_str(), senderName.c_str(), message_text.c_str(), utils::time::fix_timestamp(json_as_float(timestamp)));
+				} else {
+					facebook_message* message = new facebook_message();
+					message->message_text = message_text;
+					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_string(sender_name)));
+					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+					message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+					message->message_id = message_id;
+
+					messages->push_back(message);
+				}
 			}
 		} else if (t == "thread_msg") {
 			// multiuser message

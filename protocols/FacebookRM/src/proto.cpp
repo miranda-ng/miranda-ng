@@ -48,9 +48,10 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu);
 	HookProtoEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit);
-	HookProtoEvent(ME_GC_EVENT,                 &FacebookProto::OnChatOutgoing);
 	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged);
 	HookProtoEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit);
+	HookProtoEvent(ME_GC_EVENT,					&FacebookProto::OnGCEvent);
+	HookProtoEvent(ME_GC_BUILDMENU,				&FacebookProto::OnGCMenuHook);
 
 	InitHotkeys();
 	InitPopups();
