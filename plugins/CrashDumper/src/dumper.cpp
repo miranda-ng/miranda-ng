@@ -569,8 +569,6 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 		}
 		__except(EXCEPTION_EXECUTE_HANDLER) {}
 	}
-
-	if (flags & (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL)) UnloadDbgHlp();
 }
 
 

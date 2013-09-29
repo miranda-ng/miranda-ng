@@ -88,7 +88,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>dbghelp.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -123,7 +122,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>dbghelp.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -156,7 +154,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>dbghelp.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -185,7 +182,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>dbghelp.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>

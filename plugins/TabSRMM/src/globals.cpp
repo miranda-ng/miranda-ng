@@ -549,8 +549,7 @@ int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
-	if (PluginConfig.m_chat_enabled)
-		::Chat_PreShutdown();
+	::Chat_PreShutdown();
 
 	::TN_ModuleDeInit();
 

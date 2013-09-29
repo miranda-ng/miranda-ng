@@ -102,7 +102,6 @@ extern TCHAR VersionInfoFolder[MAX_PATH];
 
 void WriteBBFile(bkstring& buffer, bool hdr);
 void WriteUtfFile(HANDLE hDumpFile, char* bufu);
-void UnloadDbgHlp(void);
 
 LONG WINAPI myfilter(PEXCEPTION_POINTERS exc_ptr);
 LONG WINAPI myfilterv(PEXCEPTION_POINTERS exc_ptr);

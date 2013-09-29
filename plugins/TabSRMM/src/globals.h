@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -146,7 +143,6 @@ public:
    char        szMetaName[256];
    BYTE        bMetaEnabled;
    HANDLE      m_hMessageWindowList, hUserPrefsWindowList;
-   bool        m_chat_enabled;
    HMENU       m_MenuBar;
    COLORREF    m_ipBackgroundGradient;
    COLORREF    m_ipBackgroundGradientHigh;

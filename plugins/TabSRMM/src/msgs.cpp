@@ -60,8 +60,7 @@ int IEViewOptionsChanged(WPARAM,LPARAM)
 int SmileyAddOptionsChanged(WPARAM,LPARAM)
 {
 	M.BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
-	if (PluginConfig.m_chat_enabled)
-		SM_BroadcastMessage(NULL, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
+	SM_BroadcastMessage(NULL, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
 	return 0;
 }
 
@@ -503,8 +502,7 @@ int IcoLibIconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadFromIconLib();
 	CacheMsgLogIcons();
-	if (PluginConfig.m_chat_enabled)
-		Chat_IconsChanged(wParam, lParam);
+	Chat_IconsChanged(wParam, lParam);
 	return 0;
 }
 
@@ -514,8 +512,7 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 	CacheMsgLogIcons();
 	M.BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
 	M.BroadcastMessage(DM_UPDATEWINICON, 0, 0);
-	if (PluginConfig.m_chat_enabled)
-		Chat_IconsChanged(wParam, lParam);
+	Chat_IconsChanged(wParam, lParam);
 
 	return 0;
 }
@@ -1034,8 +1031,7 @@ static int TSAPI SetupIconLibConfig()
 	}
 
 	GetModuleFileName(g_hIconDLL, szFilename, MAX_PATH);
-	if (PluginConfig.m_chat_enabled)
-		Chat_AddIcons();
+	Chat_AddIcons();
 	version = GetIconPackVersion(g_hIconDLL);
 	FreeLibrary(g_hIconDLL);
 	g_hIconDLL = 0;

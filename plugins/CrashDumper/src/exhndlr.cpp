@@ -22,11 +22,6 @@ void RemoveExceptionHandler(void)
 	exchndlrv = NULL;
 }
 
-void UnloadDbgHlp(void)
-{
-	__FUnloadDelayLoadedDLL2("dbghelp.dll");
-}
-
 int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 {
 	if (code ==	VcppException(ERROR_SEVERITY_ERROR, ERROR_MOD_NOT_FOUND) ||
@@ -113,8 +108,6 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	bool empty1 = GetFileSize(hDumpFile, NULL) == 0;
 	CloseHandle(hDumpFile);
 	if (empty1) DeleteFile(path);
-
-	UnloadDbgHlp();
 }
 
 LONG WINAPI myfilter(PEXCEPTION_POINTERS exc_ptr)

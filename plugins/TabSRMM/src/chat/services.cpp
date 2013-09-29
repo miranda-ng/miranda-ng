@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -44,9 +41,6 @@ HGENMENU hJoinMenuItem, hLeaveMenuItem;
 
 int Chat_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	if (!PluginConfig.m_chat_enabled)
-		return 0;
-
 	char * mods[3] = {"Chat", CHAT_FONTMODULE};
 	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, (LPARAM)2);
 
@@ -808,16 +802,6 @@ void UnhookEvents(void)
 
 int CreateServiceFunctions(void)
 {
-	PluginConfig.m_chat_enabled = false;
-
-	if (ServiceExists(MS_GC_REGISTER)) {
-		LRESULT result = CWarning::show(CWarning::WARN_CHAT_ENABLED, CWarning::CWF_NOALLOWHIDE | MB_YESNOCANCEL | MB_ICONQUESTION);
-		if (result == IDYES)
-			db_set_b(0, "PluginDisable", "chat.dll", 1);
-		return 0;
-	}
-	PluginConfig.m_chat_enabled = true;
-
 	CreateServiceFunction(MS_GC_REGISTER,        Service_Register);
 	CreateServiceFunction(MS_GC_NEWSESSION,      Service_NewChat);
 	CreateServiceFunction(MS_GC_EVENT,           Service_AddEvent);

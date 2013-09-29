@@ -232,7 +232,6 @@ void DestroyGdiPlus(void)
 	if (g_gdiplusToken != 0)
 	{
 		Gdiplus::GdiplusShutdown(g_gdiplusToken);
-		__FUnloadDelayLoadedDLL2("gdiplus.dll");
 		g_gdiplusToken = 0;
 	}
 }

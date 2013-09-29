@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -215,14 +212,13 @@ public:
 		WARN_EDITUSERNOTES					= 2,
 		WARN_ICONPACKMISSING				= 3,
 		WARN_AEROPEEK_SKIN					= 4,
-		WARN_CHAT_ENABLED					= 5,
-		WARN_SENDFILE						= 6,
-		WARN_HPP_APICHECK					= 7,
-		WARN_NO_SENDLATER					= 8,
-		WARN_CLOSEWINDOW					= 9,
-		WARN_OPTION_CLOSE					= 10,
-		WARN_THEME_OVERWRITE				= 11,
-		WARN_LAST							= 12
+		WARN_SENDFILE						= 5,
+		WARN_HPP_APICHECK					= 6,
+		WARN_NO_SENDLATER					= 7,
+		WARN_CLOSEWINDOW					= 8,
+		WARN_OPTION_CLOSE					= 9,
+		WARN_THEME_OVERWRITE				= 10,
+		WARN_LAST							= 11
 	};
 
 	/*

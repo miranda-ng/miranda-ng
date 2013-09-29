@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -54,10 +51,6 @@ char  *pszActiveWndModule = 0;
 
 int Chat_Load()
 {
-	if (M.GetByte("forceDisableMUC", 0)) {
-		PluginConfig.m_chat_enabled = false;
-		return 0;
-	}
 	g_hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENU));
 	if (CreateServiceFunctions()) {
 		HookEvents();
@@ -73,9 +66,6 @@ int Chat_Load()
 
 int Chat_Unload(void)
 {
-	if (!PluginConfig.m_chat_enabled)
-		return 0;
-
 	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 	db_set_w(NULL, "Chat", "splitY", (WORD)g_Settings.iSplitterY);
 
