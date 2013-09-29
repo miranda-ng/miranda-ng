@@ -731,13 +731,6 @@ bool facebook_client::login(const char *username, const char *password)
 			return handle_error("login", FORCE_QUIT);
 		}
 
-		// Check whether HTTPS connection is required and we don't have it enabled
-		if (!this->https_ && resp.headers["Location"].find("https://") != std::string::npos) {
-			client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
-			parent->setByte(FACEBOOK_KEY_FORCE_HTTPS, 1);
-			this->https_ = true;
-		}
-
 		// Check whether some Facebook things are required
 		if (resp.headers["Location"].find("help.php") != std::string::npos)
 		{
@@ -823,6 +816,7 @@ bool facebook_client::login(const char *username, const char *password)
 		return handle_error("login", FORCE_QUIT);
 
 	case HTTP_CODE_FOUND: // Found and redirected to Home, Logged in, everything is OK
+	{
 		if (cookies.find("c_user") != cookies.end()) {
 			this->self_.user_id = cookies.find("c_user")->second;
 			parent->setString(FACEBOOK_KEY_ID, this->self_.user_id.c_str());
@@ -833,6 +827,7 @@ bool facebook_client::login(const char *username, const char *password)
 			parent->Log(" ! !  Login error, probably bad login credentials.");
 			return handle_error("login", FORCE_QUIT);
 		}
+	}
 	}
 }
 
@@ -872,6 +867,14 @@ bool facebook_client::home()
 
 	// get fb_dtsg
 	http::response resp = flap(REQUEST_DTSG);
+
+	// Check whether HTTPS connection is required and we don't have it enabled
+	if (!this->https_ && resp.headers["Location"].find("https://") != std::string::npos) {
+		client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
+		parent->setByte(FACEBOOK_KEY_FORCE_HTTPS, 1);
+		this->https_ = true;
+		return home();
+	}
 
 	this->dtsg_ = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 	parent->Log("      Got self dtsg: %s", this->dtsg_.c_str());
