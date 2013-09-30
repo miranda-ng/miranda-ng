@@ -29,9 +29,9 @@ Quickmenü aktivieren
 [Consider as ServiceName]
 Behandeln als Servicename
 [You have changed the plugin settings via database.\nThis requires restart!]
-
+Sie haben die Plugineinstellungen per Datenbank geändert.\nDies benötigt einen Neustart!
 [Quick Messages Help]
-Quick Messages Hilfe
+Schnellnachrichten - Hilfe
 [- Selected text]
 - Ausgewählter Text
 [List of variables:]
@@ -47,21 +47,21 @@ Tipps:
 [*Rename menu item into "---" to insert separator]
 *Benennen Sie Menüeintrag als "---" um Trennzeichen einzufügen
 [*Use drag'n'drop for arranging menu items]
-*Benutzen Sie drag'n'drop um Menüeinträge zu verwalten
+*Verschieben Sie Menüeinträge mit der Maus
 [- Contact first name]
 - Kontaktvorname
 [- Contact last name]
-
+- Kontaktnachname
 ;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]
-
+Schnellnachrichten
 ;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
-
+Wert eingeben
 [Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
-
+Gratuliere!\r\nSie haben 100-mal auf diese Schaltfläche geklickt!\r\nEs gab eine Zugriffsverletzung an diesem Punkt...\r\nUnd jetzt muss die Funktion zur Ressourcenfreigabe aufgerufen werden...\r\nAber nein! Es gibt nur 'ne Pause :D
 [You win!]
-
+Sie gewinnen!
 [New Button]
 Neue Schaltfläche
 [New Menu Entry]
@@ -70,4 +70,4 @@ Neuer Menüeintrag
 Nachrichtensitzungen
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]
-Quick Messages Button %u
+Schnellnachrichten-Schaltfläche %u

@@ -7,6 +7,78 @@
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Miranda NG) - ein Stück Miranda-Firefox-Integration - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\res\resource.rc
+[Send to contact action]
+Sende-an-Kontakt-Aktion
+[on left mouse button click]
+bei Linksklick mit Maus
+[on right mouse button click]
+bei Rechtsklick mit Maus
+[on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
+bei Klick mit der mittleren Maustaste\n(Hinweis: verwenden Sie die mittlere Maustaste, um mehrere Nachrichten von Firefox aus zu versenden)
+[Firefox profiles]
+Firefox-Profile
+[Show Miranda menu only in these Firefox profiles (comma delimited)]
+Miranda-Menü nur in diesen Firefox-Profilen anzeigen (kommagetrennt)
+[Show these contacts in 'Send ... to' option in Firefox]
+Folgende Kontakte in "Senden an" in Firefox zeigen
+[Show these accounts in 'Set status message' option in Firefox]
+Folgende Konten in der "Statusnachricht setzen"-Option in Firefox zeigen
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[MirFox/Notification]
+MirFox/Benachrichtigung
+[MirFox/Error]
+MirFox/Fehler
 ;file \plugins\MirFox\src\MirandaOptions.cpp
+[just send message]
+Nur Nachricht senden
+[send message and open message window]
+Nachricht senden und Nachrichtenfenster öffnen
+[show message window with pasted message]
+Nachrichtenfenster mit eingefügter Nachricht öffnen
+[** All contacts **]
+** Alle Kontakte **
+[Protocol]
+Protokoll
 [Services]
 Dienste
+[Options]
+Einstellungen
+[Contacts]
+Kontakte
+[Accounts]
+Konten
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[MirFox log]
+MirFox-Protokoll
+[Message sent to %s (%s)]
+Nachricht an %s (%s) gesendet
+[Message sent]
+Nachricht gesendet
+[MirFox]
+MirFox
+[Cannot send message to %s (%s) - %S]
+Kann Nachricht nicht an %s (%s) senden - %S
+[Cannot send message - %S]
+Kann Nachricht nicht senden - %S
+[Cannot send message to %s (%s)]
+Kann Nachricht nicht an %s senden (%s)
+[Cannot send message]
+Kann Nachricht nicht senden
+[MirFox error]
+MirFox-Fehler
+[Status message set on %s]
+Statusnachricht gesetzt auf %s
+[Status message set]
+Statusnachricht gesetzt
+[Cannot set status message on %s]
+Kann Statusnachricht auf %s nicht setzen
+[Cannot set status message]
+Kann Statusnachricht nicht setzen
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[This MirFox (Miranda) plugin is too old. Please update it.]
+Dieses MirFox-Miranda-Plugin ist zu alt. Bitte aktualisieren Sie es.
+[MirFox (Miranda) - Error]
+MirFox (Miranda) - Fehler
+[This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
+Dieses MirFox-Plugin kann nicht gestartet werden, weil irgendeine andere MirFox-Komponente zu alt ist. Bitte überprüfen und aktualisieren Sie Ihre MirFox-Komponenten.

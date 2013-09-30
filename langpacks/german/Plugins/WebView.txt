@@ -6,12 +6,12 @@
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
-Fügt Webseiten Ihrer Kontaktliste hinzu, und kann Text anzeigen und/oder bei Änderungen auf diesen Seiten einen Alarm auslösen.
+Fügt Webseiten Ihrer Kontaktliste hinzu und kann Text anzeigen und/oder bei Änderungen auf diesen Seiten einen Alarm auslösen.
 ;file \plugins\WebView\res\webview.rc
 [Webview]
 Webview
 [Update data every]
-Daten updaten alle
+Daten aktualisieren alle
 [minutes]
 Minuten
 [Delay update on start]
@@ -57,9 +57,9 @@ Download-Schutz deaktivieren
 [Display Data in Popup on Alert]
 Daten in Popup bei Alarm anzeigen
 [Display Data in Popup]
-Daten in Popups darstellen
-[You may need to restart Miranda IM for this change to take effect.]
-Sie müssen Miranda IM neu starten, damit die Änderungen übernommen werden.
+Daten in Popups anzeigen
+[You may need to restart Miranda NG for this change to take effect.]
+Sie müssen Miranda NG neu starten, damit die Änderungen übernommen werden.
 [Contact name:]
 Kontaktname:
 [URL:]
@@ -127,7 +127,7 @@ Alarmiere bei neuem String auf der Webseite
 [String:]
 String:
 [Alert When Specific Area Of Web Page Changes]
-Alarm, falls bestimmte Änderungen der Webseite
+Alarm, falls bestimmter Teil der Webseite sich ändert
 [Log To file]
 In Datei loggen
 [Log File:]
@@ -208,7 +208,7 @@ Daten erneuern
 [Contact Options]
 Kontakteinstellungen
 [Contact Alert Options]
-Kontakt Alarmeinstellungen
+Kontakt-Alarmeinstellungen
 [Ping Web Site]
 Webseite anpingen
 [Stop Data Processing]
@@ -224,36 +224,36 @@ Popups
 [Cannot write to file]
 Kann nicht in Datei schreiben.
 [Last updated on]
-Letztes Update um
+Zuletzt geändert um
 [Start/end strings not found or strings not set.]
-Start/End Strings wurden auf der Seite nicht gefunden.
+Start-/Ende-Strings wurden auf der Seite nicht gefunden.
 [Alert start/end strings not found or strings not set.]
-Alarm Start/End Strings wurden auf der Seite nicht gefunden.
+Alarm-Start-/Ende-Strings wurden auf der Seite nicht gefunden.
 [The string]
 Der String
 [has been found on the web page]
 wurde auf der Webseite gefunden
 [Download successful; about to process data...]
-Download komplett; Daten werden nun verarbeitet...
+Download erfolgreich; Daten werden nun verarbeitet...
 [Unknown Alert Type.]
-
+Unbekannter Alarmtyp.
 [Cannot read from file]
-
+Kann nicht aus Datei lesen
 [Cannot write to file 1]
-
+Kann nicht in Datei 1 schreiben
 [The Web Page Has Changed.]
 Die Webseite wurde geändert.
 [Cannot write to file 2]
-
+Kann nicht in Datei 2 schreiben
 [Specific Part Of The Web Page Has Changed.]
-
+Bestimmter Teil der Webseite wurde geändert.
 [Cannot read from cache file]
-
+Kann nicht aus Zwischenspeicher lesen
 [Loaded From Cache]
-
+Aus Zwischenspeicher
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
-
+FEHLER: Sie haben zwei oder mehr Webview-Kontakte mit demselben URL und Kontaktnamen.
 [Stop Processing]
 Verarbeitung stoppen
 [Click here to open this URL in a browser window.]
@@ -261,9 +261,9 @@ Klicken Sie hier, um die URL im Browserfenster zu öffnen.
 [Stick to the front]
 Zum Vordergrund anheften
 [Disable Stick to the Front]
-Deaktiviere das zum Vordergrund anheften
+'Zum Vordergrund anheften' deaktivieren
 [Disable Stick to the front]
-Zum Vordergrund anheften deaktivieren
+'Zum Vordergrund anheften' deaktivieren
 ;file \plugins\WebView\src\webview_getdata.cpp
 [URL not supplied]
 URL nicht angegeben
@@ -272,13 +272,13 @@ Download in Vorbereitung, bitte warten...
 [Updating...]
 Aktualisieren...
 [The server replied with a failure code]
-Der Server antwortete mit einem Fehler-Code
+Der Server antwortete mit einem Fehlercode
 [The server is down or lagging.]
 Der Server ist nicht erreichbar.
 [Invalid search parameters.]
-Ung�ltige Suchparameter.
+Ungültige Suchparameter.
 [Both search strings not found or strings not set.]
-Beide Suchbegriffe nicht gefunden oder 'Strings' nicht gesetzt.
+Beide Suchbegriffe nicht gefunden oder Zeichenketten nicht gesetzt.
 [at the time]
 zum Zeitpunkt
 [Processing data (Stage 1)]
@@ -306,11 +306,11 @@ Online
 [A site is already downloading, try again in a moment.]
 Diese Seite wurde bereits gedownloaded, versuchen Sie es später erneut.
 [Bytes in display]
-Bytes im Bildschirm
+Byte im Bildschirm
 [Bytes downloaded]
-Bytes gedownloaded
+Byte heruntergeladen
 [Alert test conditions not met; press the refresh button to view content.]
-Benachrichtigungs Test-Bedingung wurden nicht erfüllt, drücken Sie die Aktualisierungsschaltfläche um den Inhalt sehen zu können.
+Benachrichtigungs-Test-Bedingung wurden nicht erfüllt, drücken Sie die Aktualisierungsschaltfläche, um den Inhalt sehen zu können.
 ;file \plugins\WebView\src\webview_opts.cpp
 [No whitespace removal]
 Keine Leerzeichen entfernen
@@ -333,9 +333,9 @@ Ein neuer String vorhanden ist
 [The Web Page Changes]
 Die Webseite sich verändert
 [A Specific Part of Web Page Changes]
-Ein spezifizierter Teil einer geänderten Webseite
+Ein bestimmter Teil der Webseite sich verändert
 [This is a preview popup.]
-Dies ist ein Vorschau Popup.
+Dies ist ein Vorschau-Popup.
 [You need to supply a search string.]
 Sie müssen ein Such-String festlegen.
 [You need to supply a start string.]
@@ -345,17 +345,17 @@ Sie müssen einen End-String festlegen.
 [You need to supply a file name and path.]
 Sie müssen einen Dateinamen und Pfad angeben.
 [You need to supply a URL.]
-Sie müssen eine URL festlegen.
+Sie müssen einen URL festlegen.
 [You need to supply a name for the contact.]
 Sie müssen einen Namen für den Kontakt festlegen.
 [Invalid symbol present in contact name.]
-Ung�ltige Zeichen im Namen des Kontakts.
+Ungültige Zeichen im Namen des Kontakts.
 ;file \plugins\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
-
+Zwischenspeicherordner existiert nicht.
 [Missing "psite.bat" file.]
-
+Fehlende Datei "psite.bat".
 [Site URL]
-
+Site-URL
 [Please select site in Find/Add Contacts...]
-Bitte wählen Sie eine Seite in "Kontakte finden/hinzufügen" aus.
+Bitte wählen Sie eine Site in "Kontakte finden/hinzufügen" aus.

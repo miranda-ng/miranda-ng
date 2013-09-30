@@ -6,10 +6,10 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File tranfer by using the messaging services - as plain text.]
-
+Dateiübertragungen über Nachrichtendienste - als reiner Text.
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
-
+fileAsMessage
 [Filename:]
 Dateiname:
 [Size:]
@@ -19,15 +19,15 @@ Größe:
 [ms]
 ms
 [Delays between sends]
-
+Verzögerung zwischen Senden
 [bytes]
 Bytes
 [Transfer settings]
-
+Übertragungseinstellungen
 [Appearance]
 Erscheinungsbild
 [Unsent]
-
+Ungesendet
 [Sent]
 Gesendet
 [To send]
@@ -35,29 +35,29 @@ Zu Senden
 [Received]
 Empfangen
 [Use only alphanumeric encoding on transfer]
-
+Nur alphanumerische Kodierung in Übertragungen verwenden
 [Extra options: Events > File Transfers, "Receiving files" group]
 
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
-
+Datei existiert bereits. Überschreiben?
 [Couldn't open a file]
-
+Kann Datei nicht öffnen
 [Size: %d bytes]
 Größe: %d Bytes
 [Request sent. Awaiting of acceptance..]
-
+Angrage gesendet. Warte auf Annahme.
 [Sending...]
 Sende...
 [Received successfully]
-
+Erfolgreich empfangen.
 [Requesting of missing chunks]
 
 [Receiving...]
 Empfange...
 [Sent successfully]
-
-[Unknown command for "" SERVICE_TITLE "" was received]
+Erfolgreich gesendet
+[Unknown command for "File As Message" was received]
 
 [Incoming file request. Do you want proceed?]
 
@@ -70,19 +70,19 @@ Empfange...
 [Failed on file initialization]
 
 [Paused...]
-
+Pausiert...
 [Synchronizing...]
-
+Synchronisieren....
 [Select a file]
-
+Datei auswählen
 [Save as]
-
+Speichern als
 [Can't get a file size]
-
+Kann Dateigröße nicht erhalten
 [Cancelled by user]
-
+Durch Benutzer abgebrochen
 [Transfer is in progress. Do you really want to close?]
-
+Übertragung dauert an. Möchten Sie wirklich abbrechen?
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Abspielen
@@ -97,7 +97,7 @@ Allgemein
 [Plugins]
 Plugins
 [File As Message...]
-
+Datei als Nachricht...
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-
+Datei als Nachricht

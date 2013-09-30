@@ -181,7 +181,7 @@ Einladungen
 [Excepts]
 Ausnahmen
 [Only Ops set topic]
-Nur Ops setzen Titel
+Nur Ops setzen Thema
 [No external messages]
 Keine externen Nachrichten
 [Invite only]
@@ -197,7 +197,7 @@ Privat
 [Secret]
 Geheim
 [Topic]
-Titel
+Thema
 [User modes]
 Benutzermodi
 [Channel modes]
@@ -251,11 +251,11 @@ Aktivieren (*)
 [Ignore channel messages by default]
 Channelnachrichten standardmäßig ignorieren
 [Ignore filetransfer requests]
-Dateiübertragungsanfragen ablehnen
+Dateiübertragungsanfragen ignorieren
 [Ignore DCC Chat requests]
-DCC-Chatanfragen ablehnen
+DCC-Chatanfragen ignorieren
 [Ignore DCC Chat requests from unknown contacts]
-DCC-Chatanfragen von unbekannten Kontakten ablehnen
+DCC-Chatanfragen von unbekannten Kontakten ignorieren
 [Ignore users]
 Ignorierte Benutzer
 [(*) Queries from users on your contactlist are never ignored]
@@ -425,7 +425,7 @@ Protokoll ist nicht online
 Die DCC-Chatverbindung ist nicht aktiv
 [Please choose an IRC-network to go online. This network will be the default.]
 Bitte ein IRC-Netzwerk zum Verbinden auswählen. Dieses wird dann das Standardnetzwerk.
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Verbindung kann nicht hergestellt werden. Es wurden nicht alle erforderlichen Felder (Nickname, ID und Name) ausgefüllt.
 ;file \protocols\IRCG\src\options.cpp
 [Main]
@@ -511,7 +511,7 @@ Klicken Sie hier, um die Befehle zu setzen, die bei diesem Ereignis ausgeführt 
 [Click to delete the commands for this event]
 Klicken Sie hier, um die Befehle für dieses Ereignis zu löschen.
 [Default ANSI codepage]
-ANSI-Codepage des installierten Betriebssystems
+Standard-ANSI-Codepage
 [Add new ignore]
 Neu
 [Edit this ignore]
@@ -569,7 +569,7 @@ Benutzer ignorieren
 [%s (%s) is requesting a client-to-client chat connection.]
 %s (%s) bittet um eine Client-to-Client-Chatverbindung.
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Bitte geben Sie eine Hostmaske (nick!user@host) ein \nHinweis: Kontakte in Ihrer Kontaktliste werden niemals ignoriert!
+Bitte geben Sie eine Hostmaske (nick!user@host) ein.\nHinweis: Kontakte in Ihrer Kontaktliste werden niemals ignoriert!
 [Join channel]
 Channel betreten
 [Please enter a channel to join]
@@ -705,7 +705,7 @@ O&p entziehen
 [Give &Halfop]
 &Halfop verleihen
 [Take H&alfop]
-&Halfop entziehen
+H&alfop entziehen
 [Give &Voice]
 &Voice verleihen
 [Take V&oice]

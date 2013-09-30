@@ -5,7 +5,7 @@
 ;  Version: 0.2.1.0
 ;  Authors: Andrej Krutak
 ;============================================================
-[Shows new message/status change info using onscreen display.]
+[Shows new message/status change info using on-screen display.]
 Zeigt Nachrichten und Statusänderungen direkt auf dem Bildschirm an.
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
@@ -43,11 +43,11 @@ Timeout (ms):
 [Show]
 Zeige
 [Show events]
-Zeige Ereignisse
+Ereignisse anzeigen
 [Status changes]
 Statusänderungen
 [Show testing OSD]
-Zeige Test-OSD
+Test-OSD anzeigen
 [Show my status changes]
 Meine Statusänderungen anzeigen
 [Show message window after click]

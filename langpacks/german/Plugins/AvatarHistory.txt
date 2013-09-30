@@ -50,7 +50,7 @@ Windowsfarben verwenden
 Standardfarben verwenden
 [Delay]
 Verzögerung
-[From popup plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.
@@ -72,7 +72,7 @@ Avatarentfernung:
 Vorschau
 [Avatar History: Select how to store history avatars]
 Wie sollen Avatare im Verlauf und auf der Festplatte gespeichert werden?
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Bitte sorgfältig auswählen, wie der Avatar-Verlauf gespeichert werden soll. Diese Einstellung kann in Zukunft NICHT ohne den Verlust des Verlaufes geändert werden.
 [Store history in miranda history and all history avatars in same folder]
 Verlauf in Miranda und alle Avatare im selben Verzeichnis speichern

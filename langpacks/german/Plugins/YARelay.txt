@@ -15,7 +15,7 @@ Jedem
 [Contact]
 Kontakt
 [Forward when your status is...]
-Jedem, wenn Ihr Status ist...
+Weiterleiten, wenn Ihr Status ist...
 [Offline]
 Offline
 [Online]
@@ -37,31 +37,31 @@ Nachrichten weiterleiten an...
 [Template]
 Vorlage
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
-
+%u - Nickname;   %i - UIN;    %t - Zeit;   \r%d - Datum;   %m - Nachricht
 [Forwarding options]
-
+Weiterleitungsoptionen
 [Split message (%m)]
-
+Nachricht aufspalten (%m)
 [Send only first]
-
+Sende nur die ersten
 [Max size of split part (chars)]
-
+Max. Größe der gespaltenen Teile (Zeichen)
 [Mark received messages as 'read']
-
+Empfangene Nachrichten als 'gelesen' markieren
 [Save sent messages in recipient's history]
-
+Gesendete nachrichten im Verlauf des Empfängers speichern
 [split parts (0 = all)]
-
+gespaltene Teile (0 = alle)
 [Note: Max size - it's a size of %m parameter]
-
+Hinweis: Max. Größe ist die Größe des %m Parameters
 [Note: messages from this contact will not be forwarded]
-
+Hinweis: Nachrichten von diesem Kontakt werden nicht weitergeleitet
 ;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
-
+!JEDER!
 [!DON'T FORWARD!]
-
+!NICHT WEITERLEITEN!
 [Plugins]
 Plugins
 [yaRelay]
-
+YARelay

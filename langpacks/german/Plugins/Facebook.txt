@@ -86,13 +86,13 @@ Lokale Zeit für empfangene Nachrichten verwenden
 Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
-
+Kontakt e&inladen
 [&Leave chat session]
-
+Chatsitzung ver&lassen
 [User &details]
-
+Benutzer&details
 [User &history]
-
+Kontakt&verlauf
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Loginfehler: %s
@@ -194,7 +194,7 @@ ein Foto
 [User sent you %s:]
 Benutzer hat Ihnen %s gesendet:
 [Message read: %s by %s]
-
+Nachricht gelesen: %s von %s
 [Message read: %s]
 Nachricht gelesen: %s
 ;file \protocols\FacebookRM\src\messages.cpp

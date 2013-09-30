@@ -8,15 +8,15 @@
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
 Diese Plugin spielt Internetradiostreams ab und nimmt sie auf. Auch lokale Mediendateien können abgespielt werden.
 [mRadio Mod]
-
+mRadio Mod
 [REC]
-
+REC
 [Cave]
 Höhle
 [Arena]
 Bühne
 [Genre]
-
+Genre
 [Plain]
 Flugzeug
 [Alley]
@@ -24,7 +24,7 @@ Gasse
 [Dizzy]
 Benommen
 [Generic]
-
+Generisch
 [Bathroom]
 Badezimmer
 [Parking Lot]
@@ -48,13 +48,13 @@ Stationsname:
 [Timeout, ms (5000)]
 Zeiüber., ms (5000)
 [PreBuf, % (75%)]
-
+PreBuf, % (75%)
 [Hallway]
 Flur
 [Mountains]
 Berge
 [Use EAX]
-Benutze EAX
+EAX verwenden
 [Under Water]
 Unter Wasser
 [Station URL (required)]
@@ -68,7 +68,7 @@ Station hinzufügen
 [Add Station]
 Station hinzufügen
 [Bitrate]
-
+Bitrate
 [Stone Room]
 Steinraum
 [Living Room]
@@ -80,7 +80,7 @@ Aufnahmeverzeichnis
 [Padded Cell]
 Gummizelle
 [Autoconnect last station]
-Verbinde automatisch mit letztem Sender
+Automatisch mit letztem Sender verbinden
 [Concert Hall]
 Konzerthalle
 [Psychotic]
@@ -92,7 +92,7 @@ Zur Liste
 [Hangar]
 Flugzeughalle
 [Offline station as Offline]
-Unsichtbare Sender als offline anzeigen
+Offline Sender als offline anzeigen
 [Protocol depending status]
 Protokoll abhängig vom Status
 [Continuous record]
@@ -104,11 +104,11 @@ Entschuldigung!
 [BASS.DLL not found!]
 Bass.dll nicht gefunden!
 [Station]
-
+Station
 [Custom INI file]
-
+Eigene INI-Datei
 [Radio station URL]
-
+URL der Radiostation
 [Start record]
 Aufnahme starten
 [Stop record]
@@ -130,13 +130,13 @@ breche ab
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
 
 [Start broadcasting]
-
+Übertragung beginnen
 [Stop broadcasting]
-Stoppe Stream
+Übertragung beenden
 [Start/Stop broadcasting]
-
+Übertragung beginnen/beenden
 [Start/Stop Record]
-
+Aufnahme beginnen/beenden
 [Record]
 Aufnahme
 [Status message template]
@@ -164,17 +164,17 @@ stumm
 [mRadio volume control]
 
 [Import File]
-
+Datei importieren
 [Play Station]
 
 [Forced Mono]
 Mono fokusieren
 [Play/Pause]
-
+Play/Pause
 [Oops! BASS error]
 
 [Mute with Miranda]
-
+Mit Miranda stummschalten
 [Advanced]
 Erweitert
 [Stop]
@@ -190,6 +190,6 @@ Lautstärke
 [Device list]
 
 [Equalizer]
-
+Equalizer
 [New]
 Neu

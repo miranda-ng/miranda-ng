@@ -16,8 +16,6 @@ Splash anzeigen
 Zufälligen Splash anzeigen
 [Play sound]
 Sound abspielen
-[Loop sound]
-Ton wiederholen
 [Show Miranda Version]
 Mirandaversion anzeigen
 [Enable]
@@ -28,8 +26,8 @@ Präfix:
 Erscheinungsbild
 [Display time:]
 Anzeigedauer:
-[msec]
-mSek.
+[ms]
+ms
 [Fade in:]
 Einblenden:
 [steps]

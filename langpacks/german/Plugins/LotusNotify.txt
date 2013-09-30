@@ -63,21 +63,21 @@ Passwort:
 [Offline status mean:]
 Offline-Status bedeutet:
 [To / CopyTo]
-
+An / Kopiere An
 [autoregister]
 Registrierung
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
-
+Konnte nicht alle benötigten Lotus-API-Funktionen laden.
 [Lotus Notes Client not detected. Check plugin configuration descripted on install.txt]
-
+Lotus Notes Client wurde nicht gefunden. Prüfen Sie die Plugin-Einrichtung gemäß install.txt
 [Unable to initialize Notes.]
-
+Konnte Notes nicht imitialisieren.
 [Lotus Notes Extension Manager was not registered. Authentication function will not work propertly]
-
+Lotus Notes Extension Manager wurde nicht registriert. Authentifizierung wird nicht richtig funktionieren.
 [In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
-
-[This utility check your notes.ini file if it's set to autenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin buildin authentication will not work propertly. Do you want to add Plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME\]
+In notes.ini ist kein benötigter Eintrag EXTMGR_ADDINS=plugindllnameohne".dll"
+[This utility check your notes.ini file if it's set to autenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin buildin authentication will not work propertly. Do you want to add Plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]
 
 [LotusNotify plugin configuration]
 LotusNotify Plugin-Einstellungen
@@ -86,7 +86,7 @@ notes.ini erfolgreich angepasst, Miranda Neustart notwendig.
 [notes.ini seem to be set correctly.]
 notes.ini scheint in Ordnung zu sein.
 [Now checking Lotus, try again later]
-
+Prüfe jetzt Lotus, versuchen Sie es später nochmal.
 [Attachments: %d bytes]
 Anhänge: %d Bytes
 [Status]
@@ -99,7 +99,7 @@ Lotus prüfen
 Lotus Benachrichtigungen
 [New Lotus document detected]
 Neues Lotus-Dokument erkannt
-[LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)]
+[LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)]
 LotusNotify.dll funktioniert nicht mit 64bit Miranda (Lotus Client ist nur 32bit).
 [LotusNotify]
 LotusNotify

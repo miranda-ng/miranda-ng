@@ -58,7 +58,7 @@ Schnellsuchoptionen
 [&New]
 &Neu
 [D&n]
-
+D&n
 [Setting:]
 Einstellung:
 [De&fault]
@@ -66,17 +66,17 @@ Standard
 [&Set Item]
 Element &setzen
 [At Start Sort by Status]
-
+Beim Start nach Status sortieren
 [Global scope hotkey:]
-
+Systemweiter Hotkey:
 [Miranda scope hotkey:]
-
+Miranda-weiter Hotkey:
 [Add Item to Main Menu]
-
+Hauptmenüeintrag anzeigen
 [Show Only Users in List]
-
+Nur Benutzer in Liste zeigen
 [Add Button to TopToolBar]
-
+Schaltfläche zur TopToolBar hinzufügen
 [Additional Options]
 Zusätzliche Einstellungen
 [Columns && Data]
@@ -132,7 +132,7 @@ Spalte ab bewegen
 [Delete Column]
 Spalte löschen
 [Only Users in List]
-Nur Kontakte in Liste zeigen
+Nur Benutzer in Liste zeigen
 [Show Client Icons]
 Clienticons anzeigen
 [Item in Main Menu]
@@ -156,7 +156,7 @@ Letzten Suchbegriff speichern
 [QuickSearch error]
 Schnellsuche-Fehler
 [Quick Search Mod]
-
+Quick Search Mod
 [Script]
 Skript
 [Int]
@@ -164,7 +164,7 @@ Int
 [ContactInfo]
 Kontaktinfo
 [LastEvent]
-LetztesEreignis
+Letztes Ereignis
 [TimeStamp]
 Zeitstempel
 [Script Editor]
@@ -184,15 +184,15 @@ Hintergrund gelöschter Konten
 [Deleted account foreground]
 Vordergrund gelöschter Konten
 [Not-in-list contact background]
-
+Hintergrund von Nicht-In-Listen-Kontakten
 [Not-in-list contact foreground]
-
+Vordergrund von Nicht-In-Listen-Kontakten
 [C&onvert to Meta]
 In Metak&ontakt umwandeln
 [Some of selected contacts in different metacontacts already]
 Einige der ausgewählten Kontakte gehören bereits zu anderen Metakontakten
 [Do you really want to delete selected contacts?]
-
+Möchten Sie die ausgewählten Kontakte wirklich löschen?
 [One or more contacts in same Meta already. Try to convert anyway?]
 Ein oder mehrere Kontakte gehören bereits zum selben Metakontakt. Trotzdem versuchen umzuwandeln?
 [Metacontact background]
@@ -204,11 +204,11 @@ Sub-Metakontakt-Hintergrund
 [SubMetacontact foreground]
 Sub-Metakontakt-Vordergrund
 [%u users found (%u) Online: %u]
-%u Nutzer gefunden (Gesamt: %u | Online: %u)
+%u Benutzer gefunden (%u) Online: %u
 [ users found (]
-Benutzer gefunden
+ Benutzer gefunden (
 [) Online: ]
-) online: 
+) online:\s
 [Colorize]
 Einfärben
 [Metacontact]
@@ -220,9 +220,9 @@ Vordergrund versteckter Kontakte
 [QuickSearch window hotkey]
 Schnellsuchfensterhotkey
 [Previous item]
-Vorheriger Gegenstand
+Vorheriger Eintrag
 [Next item]
-Nächster Gegenstand
+Nächster Eintrag
 [Open main window]
 Öffne Hauptfenster
 [Frame background]

@@ -152,7 +152,7 @@ Spiel hinzufügen
 [Search:]
 Suche:
 [Custom ...]
-
+Eigenes...
 [Game name:]
 Spielname:
 [Game exe:]
@@ -168,7 +168,7 @@ Sende Spiel-ID:
 [Statusmessage for Xfire, if this game will be started:]
 Statusnachricht für XFire, wenn dieses Spiel läuft:
 [Parameter:]
-
+Parameter:
 [Add a new game]
 Neues Spiel hinzufügen
 [Searching games ...]
@@ -233,9 +233,9 @@ Fehler bei der Icons.dll-Aktualisierung.
 [Protocol icon]
 Protokollicon
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
-
+%s (Nickname: %s) hat Sie in den Clan %s eingeladen. Nachricht: %s%sBitte gehen Sie auf die XFire-Clanseite um die Einladung anzunehmen.
 [Friends of Friends Playing]
-
+Freunde von Freunden spielen
 [Login failed.]
 Login fehlgeschlagen.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -305,7 +305,7 @@ XFire Spiel Icon
 [XFire voice icon]
 XFire Vioce Icon
 [XFire does not support offline messaging!]
-
+XFire unterstützt keine Offline-Nachrichten!
 [Username]
 Benutzername
 [Unable to connect to XFire.]
@@ -396,7 +396,7 @@ Der Benutzername muss in Kleinbuchstaben geschrieben sein, damit es in Kleinbuch
 [Hidden]
 Versteckt
 [Messagebox]
-
+Meldungsfelder
 [Popup]
 Popup
 [No]

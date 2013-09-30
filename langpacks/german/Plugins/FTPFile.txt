@@ -8,7 +8,7 @@
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Laden Sie eine Datei auf einen Server und senden Sie die URL an Ihren Freund. Unterstützt automatisches Zippen vor dem Hochladen und Verschlüsselung mit SFTP und FTPS.
 ;file \plugins\FTPFileYM\res\ftpfile.rc
-[FTP account]
+[FTP accounts]
 FTP-Konten
 [Host name]
 Hostname
@@ -49,7 +49,7 @@ Verstecke inaktive Konten
 [Other]
 Sonstige
 [Automatically delete file from FTP server after (experimental):]
-Datei automatisch vom FTP-Server löschen nach: (experimentell)
+Datei automatisch vom FTP-Server löschen nach (experimentell):
 [ZIP support]
 ZIP Unterstützung
 [Enter archive name manually]
@@ -119,7 +119,7 @@ Wie fortfahren?
 [Copy URL]
 URL kopieren
 [Close dialog after upload finishes]
-Schließe Dialog, wenn Dateiupload fertig ist
+Dialog schließen, wenn Dateiupload fertig ist
 [Automatically delete file after...]
 Datei automatisch löschen nach...
 [Disabled]
@@ -140,7 +140,7 @@ Link in Zwischenablage kopieren
 [%d days]
 %d Tage
 [Do you really want to cancel all running jobs?]
-
+Möchten Sie wirklich alle aktuellen Aufträge abbrechen?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
 FTP Server 1
@@ -169,7 +169,7 @@ Verzeichnis zippen und hochladen
 [FTP File manager]
 FTP-Dateimanager
 [Show FTPFile manager]
-Zeige FTP-File-Dialog
+FTP-File-Dialog anzeigen
 [FTP_ShowManager]
 
 [Upload file]
@@ -192,28 +192,28 @@ FTP File - Dateien auswählen
 [FTP File - Select a folder]
 FTP File - Verzeichnis auswählen
 [Folder not found!]
-
+Verzeichnis nicht gefunden!
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
-
+Das ausgewählte Verzeichnis enthält keine Dateien.\nFTPFile sendet nur Dateien aus dem ausgewählten Verzeichnis, nicht aus den Unterverzeichnissen.
 [CANCELED]
-
+ABGEBROCHEN
 [COMPLETED]
-
+KOMPLETT
 [CONNECTING...]
-
+VERBINDEN...
 [CREATED]
-
+ERSTELLT
 [PACKING...]
-
+PACKEN...
 [PAUSED]
-
+PAUSIERT
 [WAITING...]
-
+WARTEN...
 [UNKNOWN]
-
+UNBEKANNT
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occured when zipping the file(s).]
-Fehler beim Zippen der Dateien aufgetreten.
+Fehler beim Zippen der Datei(en) aufgetreten.
 [%0.1f kB/s]
 %0.1f kB/s
 [%0.1f%% (%d kB/%d kB)]
@@ -230,17 +230,15 @@ Datei existiert - %s
 [Error occurred when opening local file.\nAborting file upload...]
 Es ist ein Fehler beim Öffnen der lokalen Datei aufgetreten.\nDateiupload wird abgebrochen...
 [Error occurred when initializing libcurl.\nAborting file upload...]
-
+Fehler bei der Initialisierung von libcurl aufgetreten\nBreche Dateiupload ab.
 [FTP error occurred.\n%s]
-
-[WAITTING...]
-
+FTP-Fehler aufgetreten.\n%s
 [Download link:]
-
+Downloadlink:
 [Do you really want to cancel running upload?]
-
+Möchten Sie wirklich alle laufenden Uploads abbrechen?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-%s\r\nGeschwindigkeit: %s\r\nKomplett: %s\r\nVerblöeibend: %s
+%s\r\nGeschwindigkeit: %s\r\nKomplett: %s\r\nVerbleibend: %s
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 Sie müssen erst die FTP-Server Einstellungen ausfüllen und aktivieren.

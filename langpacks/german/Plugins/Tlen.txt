@@ -8,7 +8,7 @@ Passwort:
 [Save password]
 Passwort speichern
 [Create new account]
-Neues Konto erstellen...
+Neues Konto erstellen
 [Tlen]
 Tlen
 [Options]
@@ -22,21 +22,21 @@ Werbung ignorieren
 [Automatically delete contacts not in my roster]
 Kontakte außerhalb meiner Kontaktliste automatisch löschen
 [Show offline users with status messages as invisible in contact list]
-Zeige Offline-Kontakte mit Statusnachrichten als Unsichtbar in der Kontaktliste
+Offline-Kontakte mit Statusnachrichten als Unsichtbar in der Kontaktliste anzeigen
 [Enable avatars]
 Avatare aktivieren
 [Send and receive client version information]
-Sende und empfange Versionsinformationen
+Versionsinformationen senden und empfangen
 [Alert policy]
 Alarm-Einstellung
 [Use Nudge plugin]
-Benutze Nudge-Plugin
+Nudge-Plugin verwenden
 [Log alerts as messages]
 Alarme als Nachrichten speichern
 [Group chat policy]
-Gruppenchat-Einstell.
+Gruppenchat-Einstellungen
 [Image transfer policy]
-Bildtransfer-Einstell.
+Bildtransfer-Einstellungen
 [Voice Chats]
 Sprachchats
 [Voice chat policy]
@@ -58,11 +58,11 @@ Verbindung aufrechterhalten
 [Enable encryption]
 Verschlüsselung aktivieren
 [Enable Always Visible and Never Visible]
-Aktiviere Immer sichtbar und Niemals sichtbar
+Immer sichtbar und Niemals sichtbar aktivieren
 [P2P Connections]
 P2P-Verbindungen
 [Use proxy for incoming connections]
-Benutze Proxy für eingehende Nachrichten
+Proxy für eingehende Nachrichten verwenden
 [Proxy type:]
 Proxytyp:
 [Proxy server:]
@@ -70,9 +70,9 @@ Proxyserver:
 [Proxy requires authorization]
 Proxy benötigt Autorisierung
 [Mail Notification]
-eMail-Benachrichtigung
+E-Mail-Benachrichtigung
 [Enable incoming mail notification]
-Aktiviere Benachrichtigung bei eingehenden E-Mails
+Benachrichtigung bei eingehenden E-Mails aktivieren
 [Colours]
 Farben
 [Background]
@@ -89,8 +89,8 @@ Benutzerdefiniert
 Dau&erhaft
 [Preview]
 Vorschau
-[Jabber Password]
-Jabber-Passwort
+[Tlen Password]
+Tlen-Passwort
 [OK]
 OK
 [Cancel]
@@ -169,12 +169,79 @@ Tlen Sprachchat Einladung
 Von:
 [The following invitation to join a voice chat is received.]
 Die folgende Einladung, einem Sprachchat beizutreten, ist eingegangen.
-;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+Protokollicon
+[Tlen inbox]
+Tlen Posteingang
+[Group chats]
+Gruppenchats
+[Tlen chats]
+Tlen Chats
+[Voice chat]
+Sprachchat
+[Microphone]
+Mikrofon
+[Speaker]
+Lautsprecher
+[Send image]
+Bild senden
+[Incoming mail]
+Eingehende E-Mail
+[Alert]
+Alarm
+[Tlen Chats]
+Tlen Chats
+[Multi-User Conference]
+Gruppenkonferenz
+[Tlen Mail]
+Tlen Mail
+[Send picture]
+Bild senden
+[Voice Chat]
+Sprachchat
+[Request authorization]
+Autorisierung anfragen
+[Grant authorization]
+Autorisierung gewähren
+;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+1 Datei
+[%d Files]
+%d Dateien
+;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for]
 Authentifizierung fehlgeschlagen für
 [Tlen Authentication]
 Tlen-Authentifizierung
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+Sie wurden gekickt. Grund: %s
+[You cannot join this chat room, because you are banned.]
+Sie können diesen Chatraum nicht betreten, da Sie gebannt wurden.
+[Chat room not found.]
+Chatraum nicht gefunden.
+[This is a private chat room and you are not one of the members.]
+Dies ist ein privater Chatraum und Sie sind keines der Mitglieder.
+[You cannot send any message unless you join this chat room.]
+Sie können keine Nachricht senden, bevor Sie nicht den Chatraum betreten haben.
+[Chat room with already created.]
+Chatraum wurde bereits erstellt.
+[Nickname '%s' is already registered.]
+Nick '%s' ist bereits registriert.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+Der Nick wird bereits verwendet, bitte versuchen Sie einen anderen. Hinweis: '%s' ist frei.
+[You cannot register more than %s nicknames.]
+Sie können nicht mehr als %s Nicks registrieren.
+[You cannot create more than %s chat rooms.]
+Sie können nicht mehr als %s Chaträume erstellen.
+[You cannot join more than %s chat rooms.]
+Sie können nicht mehr als %s Chaträume betreten.
+[Anonymous nicknames are not allowed in this chat room.]
+Anonyme Nicks sind in diesem Chatraum nicht erlaubt.
+[Unknown error code : %d]
+Unbekannter Fehlercode: %d
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Allgemein
 [Advanced]
@@ -219,14 +286,19 @@ SOCKS4
 SOCKS5
 [%s mail]
 %s Mail
-;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+Gesendete Bilddatei://%s
+[Image received file://%s]
+Empfangene Bilddatei://%s
+;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 Tlen-Anmeldung
-;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Passwort eingeben für
-[Jabber Connection Error]
-Jabber-Verbindungsfehler
+[Tlen Connection Error]
+Tlen-Verbindungsfehler
 [Windows Server 2003]
 Windows Server 2003
 [Windows XP]
@@ -257,83 +329,6 @@ Ein Alarm wurde empfangen.
 Private Konferenz
 [Subject]
 Betreff
-;file \protocols\Tlen\src\jabber_ws.cpp
-[%s connection]
-%s Verbindung
-[%s SOCKS connection]
-&s SUCKS verbindung
-;file \protocols\Tlen\src\tlen.cpp
-[Protocol icon]
-Protokollicon
-[Tlen inbox]
-Tlen Posteingang
-[Group chats]
-Gruppenchats
-[Tlen chats]
-Tlen Chats
-[Voice chat]
-Sprachchat
-[Microphone]
-Mikrofon
-[Speaker]
-Lautsprecher
-[Send image]
-Bild senden
-[Incoming mail]
-Eingehende E-Mail
-[Alert]
-Alarm
-[Tlen Chats]
-Tlen Chats
-[Multi-User Conference]
-Gruppenkonferenz
-[Tlen Mail]
-Tlen Mail
-[Send picture]
-Bild senden
-[Voice Chat]
-Sprachchat
-[Request authorization]
-Autorisierung anfragen
-[Grant authorization]
-Autorisierung gewähren
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-1 Datei
-[%d Files]
-%d Dateien
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-Sie wurden gekickt. Grund: %s
-[You cannot join this chat room, because you are banned.]
-Sie können diesen Chatraum nicht betreten, da Sie gebannt wurden.
-[Chat room not found.]
-Chatraum nicht gefunden.
-[This is a private chat room and you are not one of the members.]
-Dies ist ein privater Chatraum und Sie sind keines der Mitglieder.
-[You cannot send any message unless you join this chat room.]
-Sie können keine Nachricht senden, bevor Sie nicht den Chatraum betreten haben.
-[Chat room with already created.]
-Chatraum wurde bereits erstellt.
-[Nickname '%s' is already registered.]
-Nick '%s' ist bereits registriert.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Der Nick wird bereits verwendet, bitte versuchen Sie einen anderen. Hinweis: '%s' ist frei.
-[You cannot register more than %s nicknames.]
-Sie können nicht mehr als %s Nicks registrieren.
-[You cannot create more than %s chat rooms.]
-Sie können nicht mehr als %s Chaträume erstellen.
-[You cannot join more than %s chat rooms.]
-Sie können nicht mehr als %s Chaträume betreten.
-[Anonymous nicknames are not allowed in this chat room.]
-Anonyme Nicks sind in diesem Chatraum nicht erlaubt.
-[Unknown error code : %d]
-Unbekannter Fehlercode: %d
-;file \protocols\Tlen\src\tlen_picture.cpp
-[Image sent file://%s]
-
-[Image received file://%s]
-
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Konto
@@ -358,3 +353,8 @@ Nicht im Roster
 ...Abgelehnt...
 [Default]
 Standard
+;file \protocols\Tlen\src\tlen_ws.cpp
+[%s connection]
+%s Verbindung
+[%s SOCKS connection]
+%s SOCKS-Verbindung

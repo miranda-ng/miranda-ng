@@ -23,5 +23,5 @@ Journal "%s" wurde beim Start gefunden.\nSicherung "%s"%s erstellt und Sicherung
  wurde erfolgreich
 [ could not be]
  konnte nicht
-[Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
+[Journal "%s" was found on start.\nBackups "%s" and "%s" could not be created in "%s".]
 Journal "%s" wurde beim Start gefunden.\nSicherungen "%s" und "%s" konnten nicht in "%s" erstellt werden.

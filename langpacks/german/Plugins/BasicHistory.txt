@@ -97,7 +97,7 @@ Fehler durch Popups anzeigen
 [Save errors to system history]
 Fehler im Systemverlauf speichern
 [Task]
-
+Task
 [Name]
 Name
 [Active]
@@ -135,20 +135,20 @@ Importierte Nachrichten exportieren
 [* Use negative values to filter younger events]
 * negative Werte verwenden um neuere Ereignisse zu filtern
 [Execute task for specified contacts]
-Aktion für ausgewählte Kontakte ausführen
+Task für ausgewählte Kontakte ausführen
 [OK]
 OK
 [Cancel]
 Abbrechen
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
-Öffne Verlauf
+Verlauf öffnen
 [View &History]
 Verlauf anzeigen
 [Delete All User History]
-Lösche kompletten Benutzerverlauf
+Kompletten Benutzerverlauf löschen
 [Execute history task]
-VErlaufs-Aktion ausführen
+Verlaufs-Aktion ausführen
 [Incoming message]
 Eingehende Nachricht
 [Outgoing message]
@@ -223,7 +223,7 @@ Einstellungen
 [Filters]
 Filter
 [Fonts & Colors]
-Schriften & Farben
+Schriften && Farben
 [Icons]
 Icons
 [Hotkeys]
@@ -239,9 +239,9 @@ Binär
 [Dat (mContacts)]
 Dat (mContacts)
 [Save window position as default]
-Speichere Fensterposition als Standard
+Fensterposition als Standard speichern
 [Save window position for all contacts]
-Speichere Fensterposition für alle Kontakte
+Fensterposition für alle Kontakte speichern
 [Do you want save imported messages to local profile?]
 Wollen Sie die importierten Nachrichten im lokalen Profil speichern?
 [File contain history for different contact. Do you want to change contact and import?]
@@ -304,7 +304,7 @@ Fenster-Hintergrund
 [Contact list background]
 Kontaktlisten-Hintergrund
 [Open global history]
-Öffne globalen Verlauf
+Globalen Verlauf öffnen
 [Find]
 Suchen
 [Switch Match Case]
@@ -421,7 +421,7 @@ Filter:
 Unterhaltung begonnen am %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [_files]
-
+_files
 [Menu]
 Menü
 [Open all]
@@ -430,7 +430,7 @@ Alle öffnen
 Alle schließen
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
-
+Verlaufs-Task
 [Contacts]
 Kontakte
 [At least one contact should be selected.]
@@ -438,39 +438,39 @@ Es muss mindestens ein Kontakt ausgewählt werden.
 [Upload to FTP]
 Mit FTP hochladen
 [Path to output file]
-
+Pfad zur Ausgabedatei
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
-
+Um eine Sitzung zu erstellen, öffnen Sie WinSCP, erstellen Sie eine neue Sitzung, geben Sie die Daten ein und speichern Sie diese unter dem angegebenen Namen. Beachten Sie, dass Sie das Passwort in WinSCP speichern müssen, wenn der Server eines benötigt.
 [Path to file]
-
+Pfad zur Datei
 [FTP path must contains '/' instead '\' and starts from '/'.]
-
+FTP-Pfad muss '/' anstelle von '\' beinhalten und mit '/' anfangen.
 [FTP path cannot contain <date> in import task.]
-
+FTP-Pfad darf nicht <date> im Inport-Task enthalten.
 [Unknown error]
 Unbekannter Fehler
 [Cannot get FTP file(s).]
-
+Kann FTP-Datei(en) nicht bekommen.
 [Cannot unzip file(s).]
-
+Kann Datei(en) nicht entpacken.
 [Incorrect file format: %s.]
-
+Inkorrektes Dateiformat: %s.
 [Unknown contact in file: %s.]
-
+Unbekanter kontakt in Datei: %s.
 [Cannot export history for contact: %s.]
-
+Kann Verlauf für Kontakt nicht exportieren: %s.
 [Cannot compress file(s).]
-
+Kann Datei(en) nicht komprimieren.
 [Cannot send FTP file(s).]
-
+Kann FTP-Datei(en) nicht senden.
 [Task finished]
-
+Task beendet
 [Task '%s' execution failed]
-
+Ausführung von Task '%s' fehlgeschlgen.
 [Task '%s' finished successfully]
-
+Ausführung von Task '%s' erfolgreich.
 [Task '%s' execution failed:]
-
+Ausführung von Task '%s' fehlgeschlgen:
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" nicht gefunden

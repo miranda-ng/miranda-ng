@@ -9,13 +9,13 @@
 Sucht nach Netzwerknutzern Ihrer freigegebenen Dateien und benachrichtigt Sie mit Popups.
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
-
+WUMF: Aktuelle Verbindungen
 [OK]
 OK
 [Popup delay settings]
 Popup Verzögerung
 [Popup Delay (seconds)]
-
+Popupverzögerung (Sekunden)
 [Background color]
 Hintergrundfarbe
 [Text color]
@@ -25,35 +25,33 @@ Vorschau
 [Show infinitely]
 Ewig zeigen
 [Default Popup delay]
-Standard Popup Verzögerung
+Standard-Popupverzögerung
 [Choose delay time]
 Verzögerung wählen
 [Popup color settings]
-Popup Farben
+Popup Farbeinstellungen
 [Use windows colors]
 Windowsfarben verwenden
 [Use default Popup colors]
-Standard Popup Farben
+Standard-Popupfarben verwenden
 [Choose colors]
 Farben wählen
 [File access filter && logging settings]
-
-[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
-
+Dateizugriff- && Log-Einstellungen
 [Log into text file]
-Textdatei speichern
+In Textdatei speichern
 [Log folders access]
 Ordnerzugriff speichern
 [Alerts on folders access]
 Alarm bei Ordnerzugriff
 [Log files and folders in UNC format]
-
+Dateien und Verzeichnisse in UNC-Format speichern
 [Alert files && folders in UNC format]
-
+Dateien && Verzeichnisse in UNC-Format alarmieren
 [Log computer name with username]
-
+Computernamen mit Benutzernamen speichern
 [Alert computer name with username]
-
+Computername mit Benutzernamen alarmieren
 [Disabled options will be available in the next version]
 Deaktivierte Optionen in nächster Version verfügbar
 [Show current connections]
@@ -66,30 +64,30 @@ Benutzer
 [File]
 Datei
 [Access]
-
+Zugriff
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
-
+Das Plugin WhoUsesMyFiles setzt administrative Rechte zum Funktionieren voraus.
 [Error opening file]
 Fehler beim Öffnen der Datei
 [Error memory allocation]
-
+Fehler bei der Speicherzuweisung
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
-[Error crerating menu]
+[Error creating menu]
 
 [Popup plugin not found!]
-
+Popup-Plugin nicht gefunden!
 [Error]
 Fehler
 [Enable WUMF popups]
-WUMF Popups aktivieren
+WUMF-Popups aktivieren
 [Disable WUMF popups]
-
+WUMF-Popups deaktivieren
 [Common Dialog Error 0x%lx]
-
+Common Dialog Error 0x%lx
 [Not implemented yet...]
-
+Noch nicht implementiert...
 [Show connections list]
-
+Verbindungsliste anzeigen
 [Wumf]
 WUMF
 [Services]
@@ -97,4 +95,4 @@ Dienste
 [Popups]
 Popups
 [WUMF: Show connections]
-
+WUMF: Verbindungen anzeigen

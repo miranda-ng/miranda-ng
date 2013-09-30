@@ -9,11 +9,11 @@
 Zeigt einen kleinen Tooltip über dem Systemtray wenn ein Kontakt seinen Status ändert.
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
-Protokoll Auswahl
+Protokolle auswählen
 [OK]
 OK
-[Choose contacts...]
-Wähle Kontakte...
+[Choose contacts]
+Kontakte auswählen
 [Allow tooltip notifications for the following users:]
 Tooltip-Benachrichtigungen für die folgenden Kontakte erlauben:
 [Cancel]
@@ -46,10 +46,10 @@ ms
 Doppelte Dauer bei Onlinehinweis
 [Double click on tooltip]
 Doppelklick auf Tooltip
-[Shows/Hides CList]
-Zeigt/Versteckt CList
+[Shows/Hides contact list]
+Kontaktliste anzeigen/verbergen
 [Opens message dialog]
-Öffnet Nachricht
+Nachrichtenfenster öffnen
 [Behavior]
 Verhalten
 [Misc]

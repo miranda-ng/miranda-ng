@@ -71,9 +71,9 @@ Datenbankprobleme
 [Performing aggressive pass]
 Ausführen: Gründliche Fehlersuche
 [Aggressive: random junk at %08X: skipping]
-Grundliche Suche: unnutzer Verweis an %08X: Ubersprungen
+Aggressiv: unnutzer Verweis an %08X: Ubersprungen
 [Aggressive: unlinked data at %08X: can't automatically place]
-Gründliche Suche: Daten ohne Verweis an %08X: konnte nicht autom. platziert werden.
+Aggressiv: Daten ohne Verweis an %08X: konnte nicht autom. platziert werden.
 ;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
 [Processing contact chain]
 Verarbeite Kontaktstrukturen
@@ -83,13 +83,13 @@ Fehler in der Kontaktanzahl: Korrigiert
 Kontaktstrukturen beschädigt, nachfolgende Einträge wurden ignoriert
 ;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
 [Invalid offset found (database truncated?)]
-
+Ungültiger Offset gefunden (Datenbank beschädigt?)
 [Invalid offset found]
 Ungültiger Offset gefunden
 [Error reading, database truncated? (%u)]
 Fehler beim Einlesen, Datenbank unvollständig (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]
-
+Kann nicht in Arbeitsdatei schreiben, aggressiver Modus könnte jetzt zu aggressiv sein.
 [Can't write to output file - disk full? (%u)]
 Kann Ausgabedatei nicht erzeugen, Festplatte voll? (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
@@ -132,20 +132,20 @@ Datenbank wurde neu erstellt und hat keine Daten zum Verarbeiten
 [Processing completed successfully]
 Verarbeitung wurde erfolgreich beendet
 [Can't create file mapping (%u)]
-
+Kann Datei-Mapping nicht erstellen (%u)
 [Can't create map view of file (%u)]
-
+Kann Map-File-View der Datei nicht erstellen (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
 [Processing module name chain]
-Verarbeite Pluginstrukturen
+Verarbeite Modulnamenskette
 [Module chain corrupted, further entries ignored]
-Pluginstrukturen beschädigt, nachfolgende Einträge wurden ignoriert
+Modulkette beschädigt, nachfolgende Einträge wurden ignoriert
 [Unreasonably long module name, skipping]
-Ungewöhnlich langer Pluginname: Übersprungen
-[Module name '%s' is not unique: %d duplicates found)]
-Pluginname '%s' ist mehrmals vorhanden, %d Duplikate gefunden.
+Ungewöhnlich langer Modulname: Übersprungen
+[Module name '%s' is not unique: %d duplicates found]
+Modulname '%s' ist mehrmals vorhanden, %d Duplikate gefunden.
 [Invalid module name offset, skipping data]
-Ungültiger Pluginnamenoffset: Übersprungen
+Ungültiger Modulnamenoffset: Übersprungen
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]
 Einstellungsstrukturen beschadigt, nachfolgende Eintrage wurden ignoriert

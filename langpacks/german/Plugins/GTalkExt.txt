@@ -15,11 +15,11 @@ Benachrichtigung im Vollbildschirm
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Benutzen Sie dies falls Ihr Popup-Plugin keine Vollbildanwendungen erkennt. Es wird Ihren Tastaturfokus wegnehmen
 [Notify in contact list]
-
+In Kontaktliste benachrichtigen
 [Clear pseudocontact history before adding new events]
-
+Pseudokontakt Verlauf löschen bevor neue Ereignisse hinzgfügt werden
 [Mark history event read when popup closed]
-
+Verlaufsereignis als gelesen markieren wenn Popup geschlossen wurd
 [Add message snip to notification]
 Füge Nachrichtenstück zur Benachrichtigung hinzu
 [Try to login before open mailbox]
@@ -43,7 +43,7 @@ Timeout
 [If both colors set to the same value, default colors will be used]
 Wenn beide Farben auf den gleichen Wert sind, werden Standardfarben verwendet
 [0 means default timeout,\n-1 means no timeout]
-0 bedeutet keine Zeitüberschreitung\n-1 meint unendlich
+0 bedeutet Standard-Zeitüberschreitung\n-1 meint unendlich
 [Test]
 Testen
 ;file \protocols\GTalkExt\src\menu.cpp
@@ -54,23 +54,21 @@ Mailbox öffnen
 Popups
 [Network]
 Netzwerk
-[* Primitive type system\n]
-
-[* No overloading\n]
-
-[* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
-
-[* No metaprogramming except preprocessor macros\n]
-
-[* No exceptions]
-
+[Why C sucks]
+Nachteile von C
+[brickstrace@gmail.com [1]]
+brickstrace@gmail.com [1]
+[    bems\n]
+    bems\n
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
+* Primitives Typensystem\n* Keine Überladung\n* Begrenzte Möglichkeiten für Datenabstraktion, Polymorphismus, Subtypen und Codewiederverwendung\n* Keine Metaprogrammierung außer Präprozessormakros\n* Keine Ausnahmen
 ;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
 GMail-Benachrichtigungen
 [subject\n    %s\nfrom\n%s\n%s\n]
-Subjekt\n     %s\nvon\n%s\n%s\n
+Betreff\n     %s\nvon\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
-
+Betreff\n     %s\nvon\n%s
 ;file \protocols\GTalkExt\src\tipper_items.cpp
 [Unread threads:]
 Ungelesene Themen:

@@ -3,7 +3,7 @@
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 ICQ-Protokollunterstützung für Miranda NG.
@@ -1167,15 +1167,15 @@ Berufsabschluss
 [Bachelor's degree]
 Bachelor-Abschluss
 [Elementary]
-
+Grundschule
 [High-school]
-
+Gymnasium
 [Master's degree]
 Master-Abschluss
 [PhD]
-
+Doktor
 [Postdoctoral]
-
+Habilitation
 [University / College]
 Universität / Hochschule
 [Agriculture]
@@ -1187,7 +1187,7 @@ Bau
 [Consumer Goods]
 Verbrauchsgüter
 [Corporate Services]
-
+Unternehmensdienste
 [Education]
 Bildung
 [Finance]
@@ -1201,7 +1201,7 @@ Fertigung
 [Medical & Health Care]
 Medizin & Gesundheitspflege
 [Non-Profit Organization Management]
-
+Non-Profit Organisation Management
 [Recreation, Travel & Entertainment]
 Erholung, Reisen & Unterhaltung
 [Service Industry]
@@ -1405,7 +1405,7 @@ Ihre Verbindung mit dem ICQ-Server wurde vorzeitig abgebrochen.
 [The contact's information was too big and was truncated.]
 Die Kontaktinformationen sind zu groß und werden abgekürzt.
 [Failed to create the correct sub-group, the using closest parent group.]
-
+Konnte niicht die richtige Untergruppe erstellen, die die nächste Elterngruppe verwendet.
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 Nicht gefunden

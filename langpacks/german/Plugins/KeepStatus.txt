@@ -21,7 +21,7 @@ Popups anzeigen
 [General]
 Allgemein
 [Accounts to check]
-Folgende Accounts prüfen
+Folgende Konten prüfen
 [Dial-Up]
 Internetverbindung
 [Don't reconnect if no internet connection seems available]
@@ -181,7 +181,7 @@ Prüfintervall (s)
 [Confirm dialog timeout (secs)]
 Dialogfenster autom. schließen (s)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktiviert,  Einstellungen von AdvancedAutoAway werden ignoriert.
+Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktiviert, Einstellungen von AdvancedAutoAway werden ignoriert.
 [Monitor keyboard activity]
 Tastaturaktivität überwachen
 [Monitor mouse activity]

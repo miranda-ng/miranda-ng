@@ -21,7 +21,7 @@ Copyright:
 [Contact:]
 Kontakt:
 [WWW:]
-
+Website:
 [Check this account]
 Dieses Konto prüfen
 [Check interval [min]:]
@@ -43,7 +43,7 @@ Kontaktlistenhinweis für dieses Konto
 [Replace nick name]
 Ersetze Nickname
 [Disable Events]
-Deak. Ereign.
+Deakt. Ereign.
 [Server:]
 Server:
 [User Name:]
@@ -61,7 +61,7 @@ STLS deaktivieren
 [Startup check]
 Prüfe beim Start
 [Auto retrieve body]
-Automatisch den E-Mail-Body abfragen
+Automatisch den E-Mail-Text abfragen
 [Check from menu]
 Prüfe vom Menü
 [Only check when ...]
@@ -91,7 +91,7 @@ Neue E-Mail
 [Errors]
 Fehler
 [Check while ...]
-Prüfe während
+Prüfe, während
 [Cancel]
 Abbrechen
 [Choose modes]
@@ -122,20 +122,20 @@ Allgemeine YAMN-Einstellungen
 TopToolbar-Button "E-Mails abrufen"
 [Enable YAMN Main Menu]
 YAMN im Hauptmenu aktivieren
-[Show YAMN as a Protocol  (Require Restart)]
+[Show YAMN as a Protocol (Require Restart)]
 Zeige YAMN als ein Protokoll (Neustart erforderlich)
 [MailBrowser Options]
 Einstellungen für E-Mail-Browser
 [Enable Close on Delete Button]
-Aktiviere "Schließen beim Löschen"
+"Schließen beim Löschen"-Button aktivieren
 [Show long localised date]
-Zeige langes Datumsformat
+Langes Datumsformat anzeigen
 [Don't show today's date]
-Heutiges Datum nicht zeigen
+Heutiges Datum nicht anzeigen
 [Date/Time Representation]
 Datums-/Zeitdarstellung
 [Don't show seconds]
-Sekunden nicht zeigen
+Sekunden nicht anzeigen
 [Mail Notifications]
 E-Mail-Hinweis
 [Popup]
@@ -172,7 +172,7 @@ E-&Mails von diesem Konto abrufen
 [Launch application]
 Programm ausführen
 [YAMN]
-
+YAMN
 [YAMN Account Folder]
 Kontoordner
 [Check mail]
@@ -191,13 +191,13 @@ Nick
 Keine neue E-Mail-Nachricht
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
-
+%s - Verbindungsfehler
 [An error occured. Error code: %d]
-
+Ein Fehler ist aufgetreten. Fehlercode: %d
 [Unknown error]
 Unbekannter Fehler
 [ - connection error]
-
+ - Verbindungsfehler
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d neue E-Mails, %d gesamt
@@ -210,13 +210,13 @@ Unbekannter Fehler
 [No new mail message, %d spam(s)]
 Keine neue E-Mail, %d Spam-Mail(s)
 [Invalid]
-
+Ungültig
 [Header]
 Kopfzeile
 [Value]
 Wert
 [Copy Selected]
-
+Auswahl kopieren
 [Copy All]
 Alles kopieren
 [Run application]
@@ -234,22 +234,22 @@ Größe
 [Date]
 Datum
 [Do you really want to delete %d selected mails?]
-Möchten Sie %d markierte Mail(s) wirklich löschen?
+Möchten Sie %d markierte E-Mail(s) wirklich löschen?
 [Delete confirmation]
 Löschen bestätigen
 ;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
-
+Fehler beim Übersetzen der Kopfzeile
 [Part]
-
+Teil
 ;file \plugins\YAMN\src\proto\netlib.cpp
 [%s connection]
-%s Verbindung
+%s-Verbindung
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Verbindung getrennt
 [POP3 protocol (internal)]
-
+POP3-Protokoll (intern)
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Mail-Benachrichtigung und -Browser für Miranda NG. Beinhaltet das POP3-Protokoll.
 [Found new version of account book, not compatible with this version of YAMN.]
@@ -273,19 +273,19 @@ Eingabe des POP3-Kontos
 [Searching for new mail message]
 Suche nach neuen E-Mail-Nachrichten
 [Reading body %s]
-
+Lese Mailtext %s
 [Reading new mail messages (%d%% done)]
-
+Lese neue E-Mails (%d%% erledigt)
 [Deleting requested mails]
 Lösche angeforderte E-Mail(s)
 [Deleting spam]
-
+Lösche Spam
 [Memory allocation error.]
 Speicher-Zuordnungsfehler.
 [Account is about to be stopped.]
 Konto wird angehalten.
 [Cannot connect to POP3 server.]
-Kann nicht zum POP3-Server verbinden.
+Kann nicht mit dem POP3-Server verbinden.
 [Cannot allocate memory for received data.]
 Kann keinen Speicher für empfangene Daten zuordnen.
 [Cannot login to POP3 server.]
@@ -340,15 +340,15 @@ Kein Konto ausgewählt
 [Time left to next check [s]: %d]
 Zeit bis zur nächsten Abfrage [s]: %d
 [New Account]
-
+Neues Konto
 [Executables]
-
+Ausführbare Dateien
 [All Files]
 Alle Dateien
 [Select executable used for notification]
 Programm für Benachrichtigungen auswählen
 [Dialog box error]
-
+Dialogfensterfehler
 [Failed]
 Fehlgeschlagen
 [Do you really want to delete this account?]
@@ -362,15 +362,15 @@ Dies ist kein gültiger Zahlenwert
 [Input error]
 Eingabefehler
 [Please select application to run]
-
+Bitte wählen SIe die auszuführende Anwendung aus
 [Cannot allocate memory space for new account]
 Kein Speicher für neues Konto verfügbar
 [Memory error]
 Speicherfehler
 [Account Test]
-
+Kontentest
 [Account Test (failed)]
-
+Kontentest (fehlgeschlagen)
 [You have N new mail messages]
 Sie haben N neue E-Mail(s)
 [Connection failed message]

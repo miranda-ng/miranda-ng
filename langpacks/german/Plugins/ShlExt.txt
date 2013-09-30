@@ -1,12 +1,36 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;  File: ShlExt.dll
+;  Plugin: Shell extension
+;  Version: 2.2.0.3
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
-Klicken und Senden Unterstützung für Dateien im Explorer, Rechtsklick auf einen Kontakt, um die Miranda-Kontaktliste angezeigt zu bekommen, und dann das Profil/den Kontakt auswählen, dem Sie die Datei senden wollen.
+[Windows Explorer extension for Miranda NG.]
+Windows Explorer Erweiterung für Miranda NG.
+;file \plugins\ShellExt\res\shldlgs.rc
+[Display contacts in their assigned groups (if any)]
+Zeige Kontakte in ihren zugewiesenen Gruppen
+[Only if/when the contact list is using them]
+Nur, wenn Kontaktliste Gruppen anzeigt
+[Display hidden, ignored or temporary contacts]
+Versteckte, ignorierte oder temporäre Kontakte anzeigen
+[Menus]
+Menüs
+[Shell Status]
+Status der Einbindung
+[Shell context menus]
+Shell-Kontextmenüs
+[Do not display the profile name in use]
+Namen des benutzten Profils nicht anzeigen
+[Show contacts that you have set privacy rules for]
+Kontakte anzeigen, für die andere Privatsphärenregeln gelten
+[Remove]
+Entfernen
+[Do not show status icons in menus]
+Kein Statusicon in den Menüs anzeigen
+[Do not show contacts that are offline, even if my contact list does]
+Keine Offlinekontakte anzeigen, unabhängig von Einstellungen der Kontaktliste
+;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
 Fehler, Registrierung fehlgeschlagen/gelöscht.
 [Successfully created shell registration.]
@@ -15,29 +39,14 @@ Erfolgreich im Explorer integriert.
 Nicht bestätigt
 [Approved]
 Bestätigt
-[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Bist du dir sicher? Alle Einstellungen im Profil sowie alle Registrierungseinträge, die Miranda in den Explorer einbinden, werden gelöscht
+[Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+Sind Sie sich sicher? Alle Einstellungen im Profil sowie alle Registrierungseinträge, die Miranda in den Explorer einbinden, werden gelöscht
 [Disable/Remove shlext]
 ShlExt deaktivieren/entfernen
-[Shell context menus]
-Kontextmenüs (Explorer)
-[Display contacts in their assigned groups (if any)]
-Zeige Kontakte in ihren zugewiesenen Gruppen
-[Only if/when the contact list is using them]
-Nur, wenn Kontaktliste Gruppen anzeigt
-[Display hidden, ignored or temporary contacts]
-Versteckte, ignorierte oder temporäre Kontakte anzeigen
-[Shell Status]
-Status der Einbindung
-[Do not display the profile name in use]
-Namen des benutzten Profils nicht anzeigen
-[Contact Status]
-Kontaktstatus
-[Show contacts that you have set privacy rules for]
-Kontakte anzeigen, für die andere Privatsphärenregeln gelten
-[Do not show status icons in menus]
-Kein Statusicon in den Menüs anzeigen
-[Do not show contacts that are offline, even if my contact list does]
-Keine Offlinekontakte anzeigen, unabhängig von Einstellungen der Kontaktliste
-[Shell context menus for transfers]
-
+;file \plugins\ShellExt\src\shlcom.cpp
+[Miranda]
+Miranda
+[Recently]
+Zuletzt
+[Clear entries]
+Einträge löschen

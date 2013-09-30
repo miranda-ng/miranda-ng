@@ -25,7 +25,7 @@ Niemals
 [End sessions on window close]
 Sitzung beend., wenn Fenster geschlossen wird
 [End sessions when contacts go offline]
-Sitzung beend., wenn Kontakt offline
+Sitzung beenden, wenn Kontakt offline
 [Prefix encrypted IMs:]
 Präfix verschlüsselter IM:
 [Don't add encrypted messages to the history]
@@ -75,18 +75,18 @@ Socialist Millionaire Protocol\r\nVerifizierung
 [OTR status]
 OTR-Status
 [&Start OTR session]
-&Starte OTR-Sitzung
+OTR-Sitzung &starten
 [&Refresh OTR session]
-E&rneuere OTR-Sitzung
+OTR-Sitzung e&rneuern
 [Sto&p OTR session]
-Sto&ppe OTR-Sitzung
+OTR-Sitzung stop&pen
 [&Verify Fingerprint]
-&Verifiziere Fingerabdruck
+Fingerabdruck &verifizieren
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
-OTR aktivieren
+OTR starten
 [Stop OTR]
-OTR deaktivieren
+OTR stoppen
 [Yes]
 Ja
 [No]
@@ -102,7 +102,7 @@ OTR-Verschlüsselung: Privat
 [OTR Encryption: Finished]
 OTR-Verschlüsselung: Beendet
 [&Convert HTML (for Pidgin)]
-Konvertiere HTML (für Pidgin)
+HTML konvertieren (für Pidgin)
 [OTR encrypted session with '%s' has been terminated]
 OTR-verschlüsselte Sitzung mit '%s' wurde beendet.
 [Requesting OTR encrypted session with '%s']
@@ -152,7 +152,7 @@ OTR beendet
 [OTR private]
 OTR privat
 [OTR not secure]
-OTR-Sitzung nicht sicher
+OTR nicht sicher
 [OTR]
 OTR
 [Generating new private key for protocol '%s'.\nPlease Wait...]
@@ -222,7 +222,7 @@ Die Authentifizierung für '%s' ist bereits im Gange.
 [OTR Authenticating: %s (%s)]
 OTR-Authentifizierung mit: %s (%s)
 [Authenticating contact:\n%s (%s)]
-Authentifiziere Kontakt: \n%s (%s)
+Authentifiziere Kontakt:\n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
 OTR verschlusselte Nachricht mit '%s' (Ungepruft).\nBenutzen Sie eine Frage, die nur Ihr Partner beantworten kann.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]

@@ -29,7 +29,7 @@ Allgemein
 [Use classic dates]
 Klassische Datumsanzeige verwenden
 [Create reports in subfolders naming as current date]
-Erstelle Crashdatei in Unterordner mit Zeitanzeige
+Absturzberichte in Unterordner mit Zeitanzeige erstellen
 [View]
 Anzeigen
 [&Copy]

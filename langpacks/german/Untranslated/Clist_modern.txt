@@ -1,4 +1,0 @@
-﻿[Layered]
-[ layered]
-[reVista for Modern v0.5]
-[This is second default Modern Contact list skin in Vista Aero style]

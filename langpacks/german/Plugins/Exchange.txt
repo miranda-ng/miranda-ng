@@ -41,7 +41,7 @@ Versuche zu verbinden
 [times before giving up]
 Mal bevor Aufgeben
 [Show email notifications using popup module]
-Zeige E-Mail Benachrichtigungen mit Popup-Modul.
+E-Mail Benachrichtigungen mit Popup-Modul anzeigen
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
 Eintrag ID

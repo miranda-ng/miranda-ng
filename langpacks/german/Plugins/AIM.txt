@@ -44,7 +44,7 @@ Sofort als untätig anmelden
 Dateien per Proxy versenden
 [Masquerade as a Sidekick/Hiptop User]
 Als Sidekick-/Hiptop-Nutzer ausgeben
-[*Aim must be reconnected  for some option to take effect.]
+[*Aim must be reconnected for some option to take effect]
 AIM muss zum Übernehmen einiger Einstellungen neu verbunden werden
 [Connection]
 Verbindung
@@ -164,9 +164,9 @@ Ein unbekannter Fehler ist beim Verbindungsversuch aufgetreten.
 [Invalid SNAC header.]
 Ungültiger SNAC-Header.
 [Server rate limit exceeded.]
-
+Server rate limit überschritten.
 [Client rate limit exceeded]
-
+Client rate limit überschritten.
 [Recipient is not logged in.]
 Empfänger ist nicht verbunden.
 [Requested service is unavailable.]
@@ -266,7 +266,7 @@ Interner Fehler.
 [There is already a Pending Request for this Screen Name.]
 Es gibt bereits eine Anfrage für diesen Anzeigenamen.
 [Not DT status.]
-
+Nicht DT Status.
 [Outstanding Confirmation.]
 Ausstehende Bestätigung.
 [No Email Address.]
@@ -297,13 +297,13 @@ Mailkonto öffnen?
 [[Auto-Response]:]
 [Automatische Antwort]:
 [Contact tried to open an audio/video conference (currently not supported)]
-
+Kontakt versucht, eine Audio-/Video-Konferenz zu öffnen (momentan nicht unterstützt).
 [No information has been provided by the server.]
 Es wurden keine Informationen über den Server ermittelt.
 [Item you want to delete not found in list.]
 Das Artikel zum löschen wurde in der Liste nicht gefunden.
 [Failed to add buddy to list: Item already exist.]
-Fehler mein Kontakt hinzufügen: Dieser existiert bereits in Ihrer Liste!
+Fehler Kontakt zur Liste hinzufügen: Dieser existiert bereits in Ihrer Liste!
 [Error adding buddy(invalid id?, already in list?)]
 Fehler beim Kontakt hinzufügen (falsche ID?, existiert bereits in Ihrer Liste?)
 [Cannot add buddy. Limit for this type of item exceeded.]
@@ -317,7 +317,7 @@ Unbekannter Fehler beim hinzufügen eines Kontaktes in Ihre Liste. Fehlercode %#
 [Item you want to modify not found in list.]
 Der Kontakt den Sie modifizieren möchten wurde in ihrer Liste nicht gefunden.
 [Unknown error when attempting to modify a group. Error code %#x]
-
+Unbekannter Fehler beim Versuch, eine Gruppe zu modifizieren. Fehlercode %#x
 [You've got mail! Checked at]
 Sie haben eine neue E-Mail! Geprüft um:
 [Error uploading avatar. (Too small)]

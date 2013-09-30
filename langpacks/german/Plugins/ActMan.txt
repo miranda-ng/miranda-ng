@@ -9,8 +9,6 @@
 ;============================================================
 [Contact window]
 Kontaktfenster
-[Text insert]
-Text einfügen
 [vars]
 Variablen
 [DWord]
@@ -27,8 +25,6 @@ Dienstname
 wParam
 [lParam]
 lParam
-[Structure]
-Struktur
 [Result action]
 Ergebnisaktion
 [Window option]
@@ -38,7 +34,7 @@ Popup zeigen
 [Start hidden]
 Versteckt starten
 [Show in messagebox]
-Zeige in Nachrichtenfenster
+In Meldungsfelder anzeigen
 [Start maximized]
 Maximiert starten
 [Continued]
@@ -118,7 +114,7 @@ Letztes Ergebnis speichern
 [Keep handle only]
 Nur Handle speichern
 [Variables mark]
-
+Variablen-Markierung
 [C&ancel]
 &Abbrechen
 [Structure Editor]
@@ -154,11 +150,11 @@ Aktion auswählen
 [A&ppend]
 Anf&ügen
 [Action "$" exists, do you want to rewrite it?]
-
+Aktion "$" existiert, möchten Sie sie neu erstellen?
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
 Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-
+^s - ausgewählter (und ersetzter) Teil\r\n^e - ersetzt durch leere Zeichenkette\r\n^v - Text aus Zwischenablage einfügen\r\n^t - ersetzt durch Zeilenvorschub\r\n^l - ersetzt durch letztes Ergebnis als Unicode\r\n^h - ersetzt durch letztes Ergebnis als Hex\r\n^a - am Ende: automatisch senden\r\n^f(name\[,str])\r\n     fügt Zeile aus Textdatei ein.\r\n     Klammerinhalte dürfen keine Leerzeichen enthalten
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
 [Don't use Variables]
@@ -168,27 +164,27 @@ Kontaklistenformat
 [Active accounts only]
 Nur aktive Konten
 [Dropdown list format]
-
+Auswahllistenformat
+[Apply]
+Übernehmen
 [Apply format]
 Format anwenden
-[You can use %name%, %uid%, %account% and %group% macros]
-Sie können die Makros %name%, %uid%, %account% und %group% verwenden
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 
 [New]
 Neu
 [Hooks]
-
+Hooks
 [Event]
 Ereignis
 [hook sample]
-
+Hookbeispiel
 [QWord]
 QWord
 [Packed structure]
 Gepackte Struktur
 [NativeInt]
-
+NativeInt
 [Starting from]
 Ausgehend von
 [Starting after]
@@ -226,9 +222,9 @@ Traymenü
 [2 state button/item]
 Zwei-Zustand-Schaltfläche/Element
 [Save button/item state]
-Speicherntaste/Elementzustand
+Schaltfläche/Elementzustand 
 [Normal button tooltip]
-Normale Tooltip-Schaltfläche
+Normale Schaltflächentooltip
 [Pressed button tooltip]
 Gedrückter Schaltflächentooltip
 [Separated]
@@ -246,7 +242,7 @@ Eingetragene Aktionen
 [Menu icons]
 Menüicons
 [Data align]
-
+Datenausrichtung
 [Native]
 Nativ
 [Packed]
@@ -291,18 +287,18 @@ Aktueller Kontakt
 [Choose Contact]
 Kontakt wählen
 [Miranda service help]
-
+Mirandadiensthilfe
 [Return]
 Rückgabewert
 [Effect]
 Effekt
 [Start]
-
-[action group list was changed: some was added or deleted]
-
-[the context menu for a contact is about to be built]
-
-[double click on the CList]
+Starten
+[Action group list was changed: some was added or deleted]
+Aktionsgruppenliste wurde geändert: Etwas wurde hinzugefügt oder gelöscht
+[The context menu for a contact is about to be built]
+Das Kontextmenu für einen Kontakt wird gerade gebaut
+[Double click on the CList]
 Doppelklick auf die Kontaktliste
 [New contact added to database]
 Neuer Kontakt zur Datenbank hinzugefügt

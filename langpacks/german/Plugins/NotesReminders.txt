@@ -89,11 +89,11 @@ Zeit && Datum:
 [&Remind Again]
 Erneut erinnern
 [&Create Note]
-
+Notiz erstellen
 [&Dismiss]
 verwerfen
 [Reminders]
-
+Erinnerungen
 [Add New]
 Neue hinzufügen
 [Edi&t Reminder]
@@ -161,7 +161,7 @@ Notizen & Erinnerungen
 [New Note]
 Neue Notiz
 [Toggle Notes Visibility]
-
+Sichtbarkeit der Notizen umstellen
 [Bring All Notes to Front]
 Alle Notizen in Vordergrund bringen
 [New Reminder]
@@ -176,23 +176,23 @@ Alle Notizen löschen
 [Show/Hide Notes]
 Notizen zeigen/verbergen
 [On Top Caption Icon]
-
+Im Vordergrund Überschrift Icon
 [Delete All Reminders]
 Ale Erinnerungen löschen
 [View Reminders]
 Erinnerungen ansehen
 [Not on Top Caption Icon]
-
+Nicht Im Vordergrund Überschrift Icon
 [Hide Note Icon]
-Notiz Icon verbergen
+Notiz verbergen Icon
 [Remove Note Icon]
-Notizicon entfernen
+Notiz entfernen Icon
 [Reminder Icon]
 Erinnerungs-Icon
 [Bring All to Front]
-
+Alle in Vordergrund bringen
 [Play Sound Icon]
-
+Klang spielen Icon
 [View Notes]
 Notizen anzeigen
 [Sticky Notes]
@@ -222,7 +222,7 @@ Alle Notizen löschen
 [&Bring All to Front]
 Alle in Vordergrund bringen
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-
+Miranda konnte das 'Note & Reminders'-Plugin nicht laden, RICHED20.dll fehlt. Wenn Sie Windows 95 oder WINE nutzen, dann stellen Sie sicher, dass Sie riched20.dll haben. Drücken Sie 'Ja' Um Miranda zu laden.
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Schwarz
@@ -268,15 +268,15 @@ Notiztext
 Datum/Titel
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
-
+Sticky Notiz Überschrift
 [Sticky Note Background Color]
-
+Sticky Notiz Hintergrundfarbe
 [Sticky Note Body]
-
+Sticky Notiz Body
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
-
+Ausführbare Dateien\0*.exe\0Alle Dateien\0*.*\0\0
 [Select Executable]
-
+Ausführbare Datei auswählen
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 Minuten
@@ -291,11 +291,11 @@ Tage
 [Week]
 Woche
 [The specified time is invalid due to begin of daylight saving (summer time).]
-
+Die angegebene Zeit ist ungültig wegen dem Anfang der Sommerzeit.
 [The specified time is invalid.]
-
+Die angegebene Zeit ist ungültig.
 [The specified time offset is invalid.]
-
+Die angegebene Zeitverschiebung ist ungültig.
 [&Update Reminder]
 Erinnerung aktuallisieren
 [Every]

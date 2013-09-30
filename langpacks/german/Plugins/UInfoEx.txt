@@ -298,7 +298,7 @@ Neustart-Menüeintrag anzeigen
 Benutze Tierkreiszeichen als Standard-Avatar
 [Country Flags]
 Länderflaggen
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 &Unbekannte flagge verwenden wenn Land nicht bestimmt werden kann.
 [Show country flag as &status icon on message window]
 Länderflagge als &Statusicon im Nachrichtenfenster anzeigen
@@ -328,7 +328,7 @@ Kontaktinformationen
 Kontaktverlauf
 [Select Modules]
 Module auswählen
-[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Wählen Sie die Module in der Baumstruktur aus, die Sie von dem Kontakt exportieren möchten. Um eine Datei in der Listenansicht einzufügen, müssen Sie mindestens ein Protokoll-Modul exportieren.
 [Check all]
 Alle auswählen
@@ -1171,7 +1171,7 @@ Import eines neuen Metasubkontakts fehlgeschlagen!
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
 Der neu erstellte Metasubkontakt '%s'\nkonnte nicht zu Metakontakt '%s' hinzugefügt werden!\n\nMöchten Sie diesen Kontakt löschen?
 [Settings: %S]
-Einstellungen_ %S
+Einstellungen: %S
 [Events: %S]
 Ereignisse: %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
@@ -1215,7 +1215,7 @@ Benutzerprofil aus vCard importieren
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Kann XML-Datei nicht erzeugen!\n%S
-[Export took %f msec]
+[Export took %f ms]
 Export dauerte %f ms
 [Contact: %s (%S)]
 Kontakt: %s (%S)
@@ -1237,7 +1237,7 @@ Fertig
 Inhaber erfolgreich importiert.
 [Selected XMLCard does not contain an owner contact!]
 Die gewählte XMLCard enthält keinen Inhaber!
-[Import took %f msec]
+[Import took %f ms]
 Import dauerte %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Importierte Kontakte: %u / %u\nImportierte Einstellungen: %u / %u\nImportierte Ereignisse: %u / %u\nDoppelte Ereignisse: %u

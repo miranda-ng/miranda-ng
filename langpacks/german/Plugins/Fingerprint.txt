@@ -29,7 +29,7 @@ Sicherheits-Overlay
 [Select protocols]
 Protokolle auswählen
 [AIM clients]
-AIM Clients
+AIM-Clients
 [Gadu-Gadu clients]
 Gadu-Gadu-Clients
 [ICQ clients]
@@ -96,9 +96,9 @@ PHP-Jabber-Client
 [MP3 Script for mIRC]
 MP3-Script für mIRC
 [Mail.Ru Agent (official)]
-
+Mail.Ru Agent (offiziell)
 [Mail.Ru (unknown client)]
-
+Mail.Ru (unbekannter Client)
 [TM 2008 and >]
 TM 2008 und höher
 [Gadu-Gadu client]
@@ -112,123 +112,123 @@ Jabberclient
 [XMPP client]
 XMPP-Client
 [Client not found]
-
+Client nicht gefunden
 [Unknown client]
 Unbekannter Client
 [Undetected client]
 Unerkannter Client
 [AIM overlay]
-
+AIM overlay
 [ICQJ Plus Mod overlay]
-
+ICQJ Plus Mod overlay
 [ICQJ overlay]
-
+ICQJ overlay
 [IRC overlay]
-
+IRC overlay
 [JGmail overlay]
-
+JGmail overlay
 [JGTalk overlay]
-
+JGTalk overlay
 [Jabber overlay]
-
+Jabber overlay
 [MSN overlay]
-
+MSN overlay
 [QQ overlay]
-
+QQ overlay
 [Tlen.pl overlay]
-
+Tlen.pl overlay
 [Yahoo overlay]
-
+Yahoo overlay
 [Mail.Ru Agent overlay]
-
+Mail.Ru Agent overlay
 [ICQ 2003 overlay]
-
+ICQ 2003 overlay
 [ICQ Lite 4 overlay]
-
+ICQ Lite 4 overlay
 [ICQ v5.x overlay]
-
+ICQ v5.x overlay
 [ICQ v6.x overlay]
-
+ICQ v6.x overlay
 [ICQ v7.x overlay]
-
+ICQ v7.x overlay
 [ICQ v8.x overlay]
-
+ICQ v8.x overlay
 [Yahoo v11.x overlay]
-
+Yahoo v11.x overlay
 [Yahoo v10.x overlay]
-
+Yahoo v10.x overlay
 [Yahoo v9.x overlay]
-
+Yahoo v9.x overlay
 [Gadu-Gadu v11 client]
-
+Gadu-Gadu v11 client
 [Gadu-Gadu v10 client]
-
+Gadu-Gadu v10 client
 [Gadu-Gadu v9 client]
-
+Gadu-Gadu v9 client
 [Gadu-Gadu v8 client]
-
+Gadu-Gadu v8 client
 [Tlen 7.x overlay]
-
+Tlen 7.x overlay
 [Tlen 6.x overlay]
-
+Tlen 6.x overlay
 [Tlen 5.x overlay]
-
+Tlen 5.x overlay
 [TM/QQ 2012 overlay]
-
+TM/QQ 2012 overlay
 [TM/QQ 2011 overlay]
-
+TM/QQ 2011 overlay
 [TM/QQ 2010 overlay]
-
+TM/QQ 2010 overlay
 [TM/QQ 2009 overlay]
-
+TM/QQ 2009 overlay
 [TM/QQ 2008 overlay]
-
+TM/QQ 2008 overlay
 [TM/QQ 2007 overlay]
-
+TM/QQ 2007 overlay
 [TM/QQ 2006 overlay]
-
+TM/QQ 2006 overlay
 [TM/QQ 2005 overlay]
-
+TM/QQ 2005 overlay
 [QQ 2004 overlay]
-
+QQ 2004 overlay
 [TM 3.x / QQ 2003 overlay]
-
+TM 3.x / QQ 2003 overlay
 [TM 2.x overlay]
-
+TM 2.x overlay
 [TM 1.x overlay]
-
+TM 1.x overlay
 [QQ 2000 overlay]
-
+QQ 2000 overlay
 [Windows overlay]
-
+Windows overlay
 [iOS overlay (iPhone/iPad)]
-
+iOS overlay (iPhone/iPad)
 [MacOS overlay]
-
+MacOS overlay
 [Linux overlay]
-
+Linux overlay
 [Flash overlay]
-
+Flash overlay
 [Java overlay]
-
+Java overlay
 [Symbian overlay]
-
+Symbian overlay
 [Amiga overlay]
-
+Amiga overlay
 [Android overlay]
-
+Android overlay
 [debug overlay]
-
+Debug-overlay
 [office overlay]
-
+Büro-Overlay
 [mobile overlay]
-
+Mobil-Overlay
 [home overlay]
-
+Home-Overlay
 [work overlay]
-Arbeitsoverlay
+Arbeit-Overlay
 [notebook overlay]
-Notebookverlay
+Notebook-Overlay
 [MirandaNG v0.6 #2 overlay]
 Miranda-NG-v0.6-#2-Overlay
 [MirandaNG v0.5 #2 overlay]

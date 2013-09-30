@@ -53,13 +53,13 @@ Aktivieren
 [Go to Sound to select the sounds]
 Gehen Sie zu Klänge und wählen Sie die Klänge aus
 [Extra status]
-XStatus
+Extra Status
 [Open]
 Öffnen
 [Status message]
 Statusnachricht
 [IndSndList]
-
+IndSndList
 [Change]
 Ändern
 [Preview]

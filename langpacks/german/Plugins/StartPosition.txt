@@ -9,15 +9,15 @@
 Plugin setzt die Startposition der Kontaktliste relativ zur Taskleiste und dem Bildschirmrand.
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
-Kontaktlistenfenster Startposition
+Kontaktlistenfenster-Startposition
 [Left]
 Links
 [Right]
 Rechts
 [Pixels from Top]
-Pixel von Oben
+Pixel von oben
 [Pixels from Bottom]
-Pixel von Unten
+Pixel von unten
 [Pixels from Side]
 Pixel von der Seite
 [Width]

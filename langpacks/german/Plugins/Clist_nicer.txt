@@ -25,7 +25,7 @@ OK
 [Clist Nicer+]
 CList Nicer+
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-
+Copyright 2004-2011 beim Miranda-IM-Projekt, 2012-2013 beim Miranda-NG-Projekt. Detaillierte Informationen sind in der enthaltenen README-Datei zu finden.
 [Version]
 Version
 [Support and latest version information]
@@ -583,10 +583,6 @@ Klänge an / aus
 Kontaktliste minimieren
 [Status menu]
 Statusmenü
-[tabSRMM session list]
-tabSRMM-Sitzungsliste
-[tabSRMM Menu]
-TabSRMM-Menü
 [Select view mode]
 Kontaktfilter auswählen
 [Setup view modes]
@@ -628,9 +624,7 @@ Nichts
 Name
 [Status]
 Status
-[Last Message]
-Letzter Nachricht
-[Message Frequency]
+[Message frequency]
 Nachrichtenhäufigkeit
 [Never]
 Niemals
@@ -697,10 +691,10 @@ Offlinekontakte zeigen / ausblenden
 Gruppen ausblenden
 [Find contacts]
 Kontakt suchen
-[Show tabSRMM session list]
-Zeige TabSRMM-Sitzungsliste
-[Show tabSRMM menu]
-Zeige TabSRMM-Menü
+[Show TabSRMM session list]
+TabSRMM-Sitzungsliste anzeigen
+[Show TabSRMM menu]
+TabSRMM-Menü anzeigen
 [Sounds are off]
 Klänge sind aus
 [Reset view mode]
@@ -722,11 +716,11 @@ Hauptmenü öffnen
 [Set status modes]
 Status auswählen
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-
+Die geforderte Aktion erfordert einen ausgewählten Kontakt. Bitte wählen Sie einen Kontakt aus der Kontaktliste aus und widerholen Sie die Aktion.
 [Parameter mismatch]
 Parameter stimmen nicht überein
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-
+Der Dienst %s, angegeben in %s Button-Definition, wurde nicht gefunden. Gegebenenfalls müssen Sie zusätzliche Plugins installieren.
 [Service failure]
 Dienstfehler
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed]

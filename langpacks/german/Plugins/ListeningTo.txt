@@ -82,7 +82,7 @@ Variablen:
 %length% - Länge des Liedes
 [%player% - Player name]
 %player% - Name des Players
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 %type% - Medientyp (Musik, Radio, Video etc.)
 [When variable not found, use:]
 Wenn Variable nicht gefunden:
@@ -113,7 +113,7 @@ In allen Protokollen senden
 "Ich höre gerade"-Info
 [Listening info as set in the options]
 Info wie unter Status=>"Ich höre gerade" : Formate eingestellt
-[Media type: Music, Video, etc]
+[Media type: Music, Video, etc.]
 Medientyp: Musik, Video usw.
 [Artist name]
 Name des Interpreten

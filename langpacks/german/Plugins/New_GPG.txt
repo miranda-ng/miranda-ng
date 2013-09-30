@@ -6,7 +6,7 @@
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
-Unterstützung für GPG, basierend auf Ideen aus dem alten GPG Plugin und SecureIM.
+Unterstützung für GPG, basierend auf Code aus dem alten GPG Plugin und SecureIM.
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 Öffentlichen GPG-Schlüssel laden
@@ -19,9 +19,9 @@ Wähle existierenden
 [Turn on encryption]
 Verschlüsselung aktivieren
 [Import key from keyserver]
-Importiere Schlüssel vom Schlüsselserver
+Schlüssel vom Schlüsselserver importieren
 [Set own key]
-Setze eigenen Schlüssel
+Eigenen Schlüssel setzen
 [Generate key]
 Generiere Schlüssel
 [Select key for use]
@@ -37,7 +37,7 @@ Generiere zufälligen Schlüssel
 [Account:]
 Konto:
 [key id:]
-
+Schlüssel-ID:
 [Copy public key]
 Öffentlichen Schlüssen kopieren
 [Export private key]
@@ -91,13 +91,13 @@ Die Generierung kann eine Weile dauern, bitte warten Sie
 [0 - does not expire]
 0 - verfällt nicht
 [Select existing public key from list]
-
+Wählen Sie einen existierenden öffentlichen Schlüssel aus der Liste
 [Enter password for your secret key]
-
+Geben Sie das Passwort für Ihren geheimen Schlüssel ein
 [Password:]
 Passwort:
 [Save password to database]
-
+Passwort in Datenbank speichern
 [Default password]
 Standardpasswort
 [Import]
@@ -105,23 +105,23 @@ Importieren
 [Select keyserver for key search:]
 Wählen Sie den Keyserver für die Schlüsselsuche aus:
 [Recieved encrypted file]
-
+Verschlüsselte Datei empfangen
 [Decrypt]
 Entschlüsseln
 [Recieved encrypted file form contact whith disabled encryption.]
-
+Verschlüsselte Datei von Kontakt mit deaktivierter Verschlüsselung empfangen.
 [Remember choice]
 Auswahl merken
 [Choose which  keys to export]
-
+Wählen Sie die zu exportierenden Schlüssel aus
 [Export public keys (only set for contacts)]
-
+Öffentliche Schlüssel exportieren (nur für Kontakte gesetzt)
 [Export all private keys]
-
+Alle privaten Schlüssel exportieren
 [Export public and private keys]
-
+Öffentliche und private Schlüssel exportieren
 [Change private key password]
-
+Passwort des privaten Schlüssels ändern
 [Current password:]
 Aktuelles Passwort:
 [New password twice:]
@@ -205,7 +205,7 @@ Konnte die Datei nicht öffnen
 [Error]
 Fehler
 [Generating new random key, please wait]
-
+Erstelle neuen zufälligen Schlüssel, bitte warten
 [Failed to alocate memory]
 
 [gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
@@ -269,7 +269,7 @@ Schreibzugriff auf temporäres Verzeichnis gewährt (das ist gut).\n
 [Temp dir have not write access (plugin should work, but may have some problems, filetransfers will not work).]
 Schreibzugriff auf temporäres Verzeichnis nicht gewährt (Plugin sollte funktionieren, aber könnte Probleme verursachen, Dateiübertragungen funktionieren nicht).
 [\nGPG will be disabled until you solve this problems]
-
+\nGPG wird deaktiviert bis Sie dieses Problem beheben.
 [GPG plugin problems]
 GPG-Pluginprobleme
 [Your secret key whith id: ]
@@ -279,13 +279,13 @@ Ihr geheimer Schlüssel mit ID:
 [ deleted from gpg secret keyring\nDo you want to set another key ?]
  gelöscht vom GPG-Schlüsselring\nWollen Sie einen anderen Schlüssel setzen?
 [Own secret key warning]
-
+Eigener geheimer Schlüssen Warnung
 [ expired and will not work\nDo you want to set another key ?]
 
 [You didn't set a private key.\nWould you like to set it now?]
 
 [Own private key warning]
-
+Eigener privater Schlüssen Warnung
 [Do you want load key for all subcontacts ?]
 Wollen Sie alle Schlüssel für den Unterkontakt laden?
 [Metacontact detected]

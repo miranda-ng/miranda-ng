@@ -14,7 +14,7 @@ Willkommen zum Miranda-Datenbankreparaturassistenten
 Die Verwendung dieses Tools löscht unnütze Einträge, die beim normalen Gebrauch entstehen können, untersucht die Datenbank auf mögliche Fehler und versucht diese zu beheben.
 [To continue, click Next.]
 Um fortzufahren, drücken Sie "Weiter".
-[This programme is licenced under the terms of the GNU General Public License.]
+[This program is licenced under the terms of the GNU General Public License.]
 Dieses Programm wurde unter der GNU General Public License lizenziert.
 [Miranda Database Tool]
 Miranda-Datenbankassistent
@@ -51,7 +51,7 @@ Sicherheitskopie erstellen
 [Creates a backup copy of the database before any of the requested changes are made.]
 Erstellt eine Sicherheitskopie, bevor irgendwelche Änderungen vorgenommen werden.
 [Aggressively find corruption]
-Gründliche Fehlersuche
+Aggressive Fehlersuche
 [Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
 Untersucht die Datenbank auf Einträge, auf die keine Verweise existieren. Diese Option ist nur erforderlich, wenn Sie den Verdacht haben, Ihr Profil könnte beschädigt sein.
 [Check consistency only]
@@ -79,7 +79,7 @@ Vorgang läuft...
 [Please wait while the requested operations are being performed.]
 Bitte warten Sie, bis die notwendigen Arbeitsgänge beendet wurden.
 [Finished!]
-Ich bin fix und fertig!
+Fertig!
 [All tasks have been completed.]
 Alle Arbeitsschritte wurden beendet.
 [Launch Miranda with this profile]

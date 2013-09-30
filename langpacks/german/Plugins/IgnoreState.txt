@@ -5,7 +5,7 @@
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
-[Shows ignore state of contact in contacts list.]
+[Shows ignore state of contact in contact list.]
 Zeigt in der Kontaktliste an, ob Sie Ihren Kontakt ignorieren.
 ;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]

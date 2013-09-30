@@ -46,7 +46,7 @@ Letzte Frage ist leer.
 [Your question is too short.]
 Ihre Frage ist zu kurz.
 [Your '/asl' setting is empty.]
-Ihre '/asl' Einstellungen sind leer.
+Ihre '/asl'-Einstellungen sind leer.
 [There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
 Es gibt drei verschiedene Chat-Modus:\n1) Standard-Modus\t- Sie chatten privat mit einem zufällig ausgewählten Fremden\n2) Frage-Modus\t- Sie können zwei Fremden eine Frage stellen und deren Diskussion beobachten (Sie können selbst nichts schreiben, nur zusehen)\n3) Spion-Modus\t- Sie können mit einem Fremden über eine Frage eines dritten Fremden diskutieren (er kann nichts schreiben, nur zusehen)
 [You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
@@ -56,7 +56,7 @@ Unbekannter Befehl. Benutzen Sie '/commands' für eine Übersicht.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
 Sie sind zu keinem Fremden verbunden. Senden Sie '/help' oder '/commands' für Hilfe oder Übersicht.
 [You can't send messages in question mode.]
-Sie können im Frage-Modus keine Nachrichten senden
+Sie können im Frage-Modus keine Nachrichten senden.
 [Omegle is a great way of meeting new friends!]
 Das Omegle-Protokoll ist ein schöner Weg neue Freunde zu finden!
 [You]
@@ -83,7 +83,7 @@ Fremder tippt nicht mehr
 [%s disconnected.]
 %d wurde getrennt
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-Recaptcha benötigt.\nÖffnen Sie http://omegle.com, lösen Sie das Recaptcha, und versuchen Sie es nochmal
+Recaptcha benötigt.\nÖffnen Sie http://omegle.com, lösen Sie das Recaptcha und versuchen Sie es nochmal.
 [Error: ]
 Fehler:\s
 [We are still waiting...]

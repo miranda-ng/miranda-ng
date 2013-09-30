@@ -257,7 +257,7 @@ später leichter Regen
 [Am Light Rain]
 vormittags leichter Regen
 [Jun]
-
+Jun
 [T-Storms]
 Gewitter
 [Rain / Thunder]

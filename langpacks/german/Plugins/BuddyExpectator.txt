@@ -11,7 +11,7 @@ Reagiert auf die Rückkehr, oder eine längere Abwesenheit, von Kontakten mit Be
 [When a contact returns after]
 Wenn ein Kontakt erscheint nach
 [Show a popup]
-Zeige Popup
+Popup anzeigen
 [Add an event (flashing icon) to the contact]
 Ein Ereignis (blinkendes Icon) zum Kontakt hinzufügen
 [On event action (double click) or popup click:]

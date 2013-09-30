@@ -35,7 +35,7 @@ Aktion beim Beenden
 [Ask]
 Fragen
 [Save Current Session]
-Speichere aktuelle Sitzung
+Aktuelle Sitzung speichern
 [Save only last]
 Speichere nur die letzte
 [Sessions]
@@ -46,8 +46,8 @@ Diverses
 Schließe versteckte Kontakte beim Beenden aus der Sitzung aus
 [Warn, when some of LastSession contacts are hidden]
 Warnung, wenn einige Kontakte der letzten Sitzung versteckt sind
-[Show other warnings ("session already opened" etc...)]
-Zeige Warnungen ("Sitzung bereits geöffnet" etc.)
+[Show other warnings ("session already opened" etc.)]
+Warnungen anzeigen ("Sitzung bereits geöffnet" etc.)
 [Crash Recovery mode]
 Wiederherstellung nach Absturz
 [Restore Session]

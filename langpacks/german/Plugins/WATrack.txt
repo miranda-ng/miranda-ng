@@ -8,7 +8,7 @@
 [Clear xStatus before set new one]
 XStatus zurücksetzen, bevor ein neuer gesetzt wird.
 [Emulate Multimedia keys]
-Emuliere Multimedia-Tasten
+Multimedia-Tasten emulieren
 [xStatus will cleared before text changing and restored with new text later.]
 Der XStatus wird kurzzeitig zurückgesetzt, um bestimmte ICQ-Clients dazu zu zwingen, die XStatus-Nachricht erneut auszulesen.
 [Paste played music info into message window or status text]
@@ -170,7 +170,7 @@ WATrack-Frametext
 [Export Text]
 Text exportieren
 [Postfix]
-
+Postfix
 [Refresh time, sec]
 Erneuerungszeit (Sek.)
 [Report]
@@ -436,13 +436,13 @@ Statusvorlage
 [XStatus Title]
 xStatus-Titel
 ['mono' / 'stereo']
-
+'mono' / 'stereo'
 [- "mono" / "stereo"]
-
+- "mono" / "stereo"
 [- artist]
-
+- Interpret
 [- bitrate]
-
+- Bitrate
 [- current song position (sec)]
 
 [- player version]
@@ -616,7 +616,7 @@ Schriftart wählen
 [Genres]
 Genres
 [[X]Status Title / Text]
-
+[X]Status Title / Text
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Scrobbeln bei

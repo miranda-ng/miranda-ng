@@ -17,7 +17,7 @@ Abbrechen
 [Text file]
 Textdatei
 [MessageBox]
-Meldung
+Meldungsfenster
 [DialogBox]
 Dialogfenster
 [Output Debug String]

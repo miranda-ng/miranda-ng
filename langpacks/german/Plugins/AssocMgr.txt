@@ -12,7 +12,7 @@ Verwaltet Verknüpfungen mit Dateien und URLs wie aim, ymsgr, xmpp, wpmsg, gg, t
 Mit Miranda NG registrierte Verknüpfungen:
 [Miscellaneous]
 Sonstiges
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the computer starts (using current profile)]
 Miranda NG automatisch bei &Systemstart ausführen (mit dem aktuellen Profil)
 [Only associate with Miranda NG while it is &running]
 Verknüpfungen sind nur aktiv, wenn Miranda NG ausgefüh&rt wird.
@@ -54,7 +54,7 @@ Miranda NG konnte "%S" nicht öffnen.\n\nDie Datei konnte nicht verarbeitet werd
 Miranda NG konnte URL nicht öffnen.
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
 Miranda NG konnte "%S" nicht öffnen.\n\nEs gibt keinen registrierten Handler für diesen URL-Typen.
-[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 Miranda NG konnte "%S" nicht öffnen.\n\nDer angegebene URL ist ungültig und kann nicht verarbeitet werden.
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]

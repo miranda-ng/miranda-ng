@@ -155,7 +155,7 @@ Popup-Dialog zur Nachfrage nach Statusnachricht
 [?scroll(string,numchars,numchars)]
 
 [More variables...]
-
+Mehr Variablen...
 [Cut]
 Ausschneiden
 [Copy]
@@ -176,18 +176,18 @@ S&chließen
 [Copy %s Message]
 %s Nachricht kopieren
 [&Go to URL in %s Message]
-&Gehe zu URL in %s-Nachricht
+Zu URL in %s-Nachricht &gehen
 [Re&ad Away Message]
 Abwesenheitsnachricht lesen
 [Copy Away Message]
 Abwesenheitsnachricht kopieren
 [&Go to URL in Away Message]
-&Gehe zur URL in der Abwesenheitsnachricht
+Zur URL in der Abwesenheitsnachricht &gehen
 ;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change Status Message]
-Statusnachricht wechseln
+Statusnachricht ändern
 [Open Status Message Dialog]
-Öffnet Statusnachrichtenfenster
+Statusnachrichtenfenster öffnen
 [Status Message]
 Statusnachricht
 [Status Message...]

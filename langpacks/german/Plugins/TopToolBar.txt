@@ -17,7 +17,7 @@ Buttonbreite
 [Interval between buttons]
 Abstand zwischen Buttons
 [Use flat mode]
-Flache Anzeige
+Flache Anzeige verwenden
 [Auto resize]
 Automatische Größenanpassung
 [Single line]
@@ -39,8 +39,8 @@ Setzen
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Standard
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
-Frames-Dienst wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu benutzen, müssen Sie ein Kontaktlisten-Plugin installieren und/oder aktivieren, das Frames unterstützt.\n - Modern Contact List\n - MultiWindow (MW)\n - Nicer+\mSie bekommen diese unter http://miranda-ng.org
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
+Frames-Dienst wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu benutzen, müssen Sie ein Kontaktlisten-Plugin installieren und/oder aktivieren, das Frames unterstützt.\n - Modern Contact List\n - MultiWindow (MW)\n - Nicer+\mSie bekommen diese unter http://miranda-ng.org/
 [TopToolBar]
 TopToolBar
 ;file \plugins\TopToolBar\src\ttbopt.cpp

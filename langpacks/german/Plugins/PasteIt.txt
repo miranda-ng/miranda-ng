@@ -6,7 +6,7 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
-Text zur Webseite hochladen und den Link zu einem Freund senden
+Text auf eine Webseite hochladen und den Link zu einem Freund senden
 ;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
 Einstellungen
@@ -61,13 +61,13 @@ Benutzername
 [Password]
 Passwort
 [Paste It]
-
+Paste It
 [Format]
 Format
 [Encoding]
-Codierung
+Kodierung
 [Recode]
-
+Neu kodieren
 ;file \plugins\PasteIt\src\Options.cpp
 [Use default codepage]
 Standardkodierung verwenden
@@ -125,7 +125,7 @@ Aus Zwischenablage einfugen
 [Paste from file]
 Aus Datei einfügen
 [Paste It HTTP connections]
-Paste It HTTP-Verbindungen
+Paste-It-HTTP-Verbindungen
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Sie können nur eine Datei einfügen.
@@ -134,7 +134,7 @@ Die Daten konnten nicht aus der Zwischenablage entnommen werden.
 [File size is %dKB, do you realy want to paste such large file?]
 Die Dateigröße ist %dKB, wollen Sie wirklich so eine Große Datei einfügen?
 [Are You sure?]
-Sind Sie sicher?
+Sind Sie sich sicher?
 [Cannot read file '%s']
 Die Datei '%s' konnte nicht gelesen werden.
 [File size is larger then 10MB, cannot be send]

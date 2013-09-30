@@ -1,12 +1,12 @@
 ﻿#muuid {2925520b-6677-4658-8bad-5661d13e4692}
 ;============================================================
 ;  File: SkypeStatusChange.dll
-;  Plugin: SkypeStatusChange
+;  Plugin: Skype status change
 ;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
-[Skype Status Change according to miranda-Status.]
-Skype-Status gemäss Miranda-Status ändern.
+[Skype status change according to Miranda status.]
+Skype-Status gemäss Miranda-Status ändern
 ;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
 Statusnachricht synchronisieren
@@ -15,7 +15,7 @@ Protokolle oder Status auswählen, die ni&cht synchronisiert werden sollen:
 [Synchronize if current status differs from previous one]
 Synchronisieren, falls aktiver Status unterschiedlich ist
 ;file \plugins\SkypeStatusChange\src\options.cpp
-[Change Skype Status]
+[Change Skype status]
 Skype-Status ändern
 [Plugins]
 Plugins

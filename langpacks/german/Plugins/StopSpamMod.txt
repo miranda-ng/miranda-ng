@@ -1,11 +1,11 @@
-﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+﻿#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
 ;  Version: 0.0.2.0
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-[Antispam plugin for Miranda NG.]
+[Anti-spam plugin for Miranda NG.]
 Antispam-Plugin für Miranda NG.
 ;file \plugins\StopSpamMod\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]
@@ -17,11 +17,11 @@ Antwort:
 [Congratulation:]
 Gratulation:
 [Auth. request reply:]
-Rückmeldung bei Authorisierungsanfragen:
+Antwort bei Authorisierungsanfragen:
 [Vars]
 Vars
 [Available accounts:]
-Installierte Protokolle:
+Installierte Konten:
 [Filtered accounts:]
 Gefilterte Konten:
 [Do not send more than]
@@ -37,11 +37,11 @@ Autorisierungsanfragen blockieren
 [Hide unanswered contacts and spammers from contact list]
 Unbeantwortete Kontakte und Spammer in Kontaktliste verbergen
 [Ignore spammers (do not write messages to history)]
-Spammer ignorieren (Nachrichten nicht in den Systemverlauf schreiben)
+Spammer ignorieren (Nachrichten nicht in den Verlauf schreiben)
 [Log spam to file]
 Spam in Datei schreiben
 [Case insensitive answer checking]
-Groß-/Kleinschreibung bei Antwort überprüfen
+Groß-/Kleinschreibung bei Antwort ignorieren
 [Disable question in invisible mode]
 Frage in Unsichtbar-Modus deaktivieren
 [Enable integration with DOS plugin]
@@ -51,7 +51,7 @@ Kontakte, denen wir etwas senden, von Spamprüfung ausnehmen
 [Remove Excluded contacts after restart]
 Ausgeschlossene Kontakte nach Neustart entfernen
 [Add contacts to specified group:]
-Kontakt in angegebene Gruppe hinzufügen
+Kontakt in angegebene Gruppe hinzufügen:
 [Ignore URL in messages and auth requests]
 URLs in Nachrichten und Autorisierungsanfragen ignorieren
 [Add contact to server list]
@@ -61,7 +61,7 @@ Nach Gratulation (nur ICQ)
 [Automatically grant authorization]
 Automatisch Autorisierung gewähren
 [Request authorization from contacts which pass stopspam test]
-Autorisierung von Kontakten, die den Spam-Test bestanden haben,  anfragen
+Autorisierung von Kontakten, die den Spam-Test bestanden haben, anfragen
 [Remove all tempory contacts after restart]
 Alle temporären Kontakte nach einem Neustart entfernen
 [Use regex for answers checking]
@@ -69,29 +69,29 @@ Prüfe Antwort mit regulärem Ausdruck
 [Log Spammers to system history]
 Spammer in den Systemverlauf eintragen
 [Use math expression in question]
-Matehmatischen Ausdruck in Frage verwenden
+Mathematischen Ausdruck in Frage verwenden
 [Details..]
 Details...
 ;file \plugins\StopSpamMod\src\init.cpp
 [StopSpam]
 StopSpam
 [StopSpam Logs]
-
+StopSpam-Logs
 [Remove Temporary Contacts]
 Temporäre Kontakte entfernen
 ;file \plugins\StopSpamMod\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 Nie wieder Spam! Spambots haben keine Chance! Nur Menschen sind eingeladen!\r\n\r\nDieses Plugin arbeitet sehr einfach:\r\nNachrichten von Ihren Kontakten werden behandelt, als gäbe es kein Anti-Spam-System. Auf der anderen Seite werden Nachrichten von unbekannten Kontakten nicht direkt an Sie weitergeleitet. Sie werden aber auch nicht ignoriert, sondern dieses Plugin stellt eine einfache Frage. Wird diese richtig beantwortet, wird der Kontakt ihrer Kontaktliste hinzugefügt und kann Sie nun kontaktieren.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
-
+Spammer haben mich dazu gebracht, ein kleines Anti-Spam-System zu installieren, mit dem Sie nun sprechen.\r\nBitte antworten Sie mit "nospam" ohne Anführungszeichen, wenn Sie mich kontaktieren möchten.
 [nospam]
-
+nospam
 [StopSpam: send a message and reply to a anti-spam bot question.]
-StopSpam: senden Sie eine Nachricht und antworten Sie auf die Frage des Anti-Spam-Bot's.
+StopSpam: senden Sie eine Nachricht und antworten Sie auf die Frage des Anti-Spam-Bots.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Sie eine Nachricht schreiben.
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces]
-
+[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
+Wenn mathematischer Ausdruck aktiviert ist dann können Sie folgenden Ausdruck im Nachrichtentext verwenden:\nXX+XX-X/X*X\nJedes X wird durch eine Zufallszahl ersetzt und die Antwort wird das Ergebnis des Ausdruckes sein.\nNachricht darf nur einen Ausdruck ohne Leerzeichen enthalten.
 [Info]
 Info
 [Message Sessions]

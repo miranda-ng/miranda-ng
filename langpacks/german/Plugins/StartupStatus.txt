@@ -181,13 +181,13 @@ Prüfintervall (s)
 [Confirm dialog timeout (secs)]
 Dialogfenster autom. schließen (s)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktiviert,  Einstellungen von AdvancedAutoAway werden ignoriert.
+Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktiviert, Einstellungen von AdvancedAutoAway werden ignoriert.
 [Monitor keyboard activity]
 Tastaturaktivität überwachen
 [Monitor mouse activity]
 Mausaktivität überwachen
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
-Strg-, Alt-, Shift-, Tab-, Esc- und Windowstaste ignorieren
+Strg-, Alt-, Umschalt-, Tab-, Esc- und Windowstaste ignorieren
 [Ignore any key combination with above keys]
 Beliebige Kombinationen mit obigen Tasten ignorieren
 [Accounts]
@@ -294,7 +294,7 @@ Unbekannt
 [At least one profile must exist]
 Mindestens ein Profil muss angelegt sein
 [StartupStatus]
-
+StartupStatus
 [Your default profile will be changed]
 Ihre Profile wurden geändert
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp

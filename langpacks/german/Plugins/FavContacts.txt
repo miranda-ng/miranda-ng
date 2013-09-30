@@ -43,34 +43,32 @@ Icon untätiger Kontakte abblenden
 [Show]
 Zeige
 [recent contacts]
-
+letzte Kontakte
 ;file \plugins\FavContacts\src\favlist.h
 [<no group>]
-
+<keine Gruppe>
 ;file \plugins\FavContacts\src\main.cpp
 [Favourite Contact]
-
+Favorisierte Kontakte
 [Regular Contact]
-
+Reguläre Kontakte
 [Contact name]
 Kontaktname:
 [Second line]
 Zweite Zeile
 [Selected contact name (color)]
-
+Ausgewählter Kontaktname (Farbe)
 [Selected second line (color)]
-
+Ausgewählte zweite zeile (Farbe)
 [Background]
 Hintergrund
 [Selected background]
 Markierter Hintergrund
 [Show favourite contacts]
-
+Favorisierte Kontakte anzeigen
 [Contacts]
 Kontakte
 [Favourites]
 Favoriten
 [&Favourite Contacts...]
-
-[<No group>]
-<Keine Gruppe>
+&Favorisierte Kontakte...

@@ -44,9 +44,9 @@ Fehler beim Hinzufügen der Nachricht in die Datenbank
 [Error opening file]
 Fehler beim Öffnen der Datei
 [Error mapping file]
-
+Fehler beim Abbilden der Datei
 [Error mapping]
-
+Fehler beim Abbilden
 [Header not found]
 Kopfinformationen nicht gefunden
 [Import Text Files Wizard]

@@ -1,8 +1,0 @@
-﻿[recent contacts]
-[<no group>]
-[Favourite Contact]
-[Regular Contact]
-[Selected contact name (color)]
-[Selected second line (color)]
-[Show favourite contacts]
-[&Favourite Contacts...]

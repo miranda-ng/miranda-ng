@@ -362,7 +362,7 @@ Am Telefon
 Global
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
-
+_NoProtocol_
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp

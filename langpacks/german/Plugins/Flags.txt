@@ -16,7 +16,7 @@ Länderflagge als &Statusicon im Nachrichtenfenster anzeigen
 Länderflagge als &Extra Icon in &Kontaktliste anzeigen
 [Use &IP-to-country database for country detection]
 &IP-Datenbank zur Bestimmung des Landes verwenden
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 "&Unbekannt" anzeigen, wenn Land nicht bestimmbar
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]

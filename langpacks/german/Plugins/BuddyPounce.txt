@@ -46,8 +46,8 @@ Dialog
 Status
 [Use Advanced Dialog]
 Erweiterten Dialog verwenden
-[The Message:       (Characters:  )]
-Die Nachricht:    (Zeichen:   )
+[The Message (characters: )]
+Die Nachricht (Zeichen: )
 [Default Settings]
 Standardeinstellung
 [Show Delivery Messages]
@@ -110,33 +110,33 @@ Zu Am Telefon
 [To Out To Lunch]
 Zu Zum Essen
 [The Message    (%d Characters)]
-
+Die Nachricht   (%d Zeichen)
 [Couldnt Allocate enough memory]
-
+Konnte nicht genig Speicher allokieren.
 [error......]
-
+fehler...
 [The Message    (0 Characters)]
-
+Die Nachricht   (0 Zeichen)
 [Reuse this message? (0 to use it once)]
-
+Diese Nachricht wiederverwenden? (0 meint nicht wiederverwenden)
 [Times]
 Zeitzonen
 [Giveup after.. (0 to not giveup)]
-
+Aufgeben nach.. (0 meint nicht aufgeben)
 [Days]
 Tage
 [Show confirmation window? (0 to not Show)]
-
+Bestätigungsfenster anzeigen? (0 meint nicht anzeigen)
 [Seconds to wait before sending]
-
+Sekunden warten vor dem Senden
 [Pounce being sent to %s in %d seconds]
-
+Pounce wird an %s in %d Sekunden gesendet
 [Retry]
 Wiederholen
 [Message successfully sent to %s]
-
+Nachricht erfolgreich an %s gesenden
 [Message failed to send to %s]
-
+Nachricht an %s senden fehlgeschlagen
 ;file \plugins\BuddyPounce\src\main.cpp
 [Message Sessions]
 Nachrichtensitzungen

@@ -155,11 +155,11 @@ Gleichzeitige %s Loginsitzungen\nInformationen zu aktiven gleichzeitigen Sitzung
 [Sign out all sessions]
 Alle Sitzungen abmelden
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Can not create avatars cache directory. ERROR: %d: %s\n%s]
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Kann Avatarcacheverzeichnis nicht erzeugen. Fehler: %d: %s\n%s
-[Can not create avatar file. ERROR: %d: %s\n%s]
+[Cannot create avatar file. ERROR: %d: %s\n%s]
 Kann Avatardatei nicht erzeugen. Fehler: %d: %s\n%s
-[Can not open avatar file. ERROR: %d: %s\n%s]
+[Cannot open avatar file. ERROR: %d: %s\n%s]
 Kann Avatardatei nicht öffnen. Fehler: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
@@ -248,9 +248,9 @@ Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
 [You have to be logged in before you can change your details.]
 Sie müssen sich einloggen bevor sie ihre Details ändern können.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-[Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Kann Datei nicht übertragen. Fehler: %d: %s (dcc)\n%s
-[Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
 Kann Datei nicht übertragen. Fehler: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
@@ -288,7 +288,7 @@ Ignorierte Konferenzen löschen
 [%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
 %s initiierte eine Konferenz mit %d Teilnehmern (%d Unbekannten).\nMöchten Sie teilnehmen?
 [%s initiated the conference.]
-%s initiierte eine Konferenz.
+%s initiierte die Konferenz.
 [This is my own conference.]
 Dies ist meine eigene Konferenz.
 [Participants]
@@ -349,33 +349,33 @@ Bild von %s
 Bild für %s
 [Select picture to send]
 Wählen Sie ein Bild zum übersenden
-[Can not create image cache directory. ERROR: %d: %s\n%s]
-
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
+Kann Bilder-Cache_Verzeichnis nicht erstellen. FEHLER: %d: %s\n%s
 [Cannot save received image to file. ERROR: %d: %s\n%s]
-
-[Can not open image file. ERROR: %d: %s\n%s]
-
+Kann empfangenes Bild  nicht in Datei speichern. FEHLER: %d: %s\n%s
+[Cannot open image file. ERROR: %d: %s\n%s]
+Kann Bilddatei nicht öffnen. FEHLER: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
 Das Bild überschreitet eine max. Größe von 255 KB.
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Sie müssen verbunden sein, bevor Sie Kontakte vom/zum Server ex-/importieren können.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
-
+Liste kann nicht importiert werden wegen Fehler:\n\t%s (Fehler: %d)
 [List cannot be removed because of error: %s (Error: %d)]
-
+Liste kann nicht importiert werden wegen Fehler: %s (Fehler: %d)
 [Text files]
 Textdateien
 [All Files]
 Alle Dateien
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
-
+Liste kann nicht aus Datei "%s" importiert werden wegen Fehler:\n\t%s (Fehler %d)
 [contacts]
 Kontakte
 [List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
-
+Liste kann nicht in Datei "%s" exportiert werden wegen Fehler:\n\t%s (Fehler %d)
 [List cannot be exported because of error:\n\t%s (Error: %d)]
-
+Liste kann nicht exportiert werden wegen Fehler:\n\t%s (Fehler %d)
 [Import List From &Server]
 Liste vom &Server importieren
 [Import List From &Text File...]
@@ -400,9 +400,9 @@ Benachrichtigung
 [Error]
 Fehler
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 Kann alte Avatardatei vor Aktualisierung nicht entfernen. Fehler: %d: %s\n%s
-[Can not remove old avatar file. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
 Kann alte Avatardatei nicht entfernen. Fehler: %d: %s\n%s
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 Um Ihr Gadu-Gadu-Avatar zu entfernen, müssen Sie die Website gg.pl verwenden.
@@ -438,7 +438,7 @@ Es konnte kein neues Konto registriert werden, Fehler:\n\t%s
 [Registration rejected]
 Registration abgewiesen
 [You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
-Sie müssen ein neues Konto anlegen.\nBitte füllen sie alle wichtigen Informationen unter "Meine Details ändern" aus.
+Sie haben ein neues Konto angelegt.\nBitte füllen sie alle persönlichen Informationen unter "Meine Details ändern" aus.
 [Your account cannot be removed because of error:\n\t%s]
 Ihr Konto konnte nicht entfernt werden, Fehler:\n\t%s
 [Bad number or password]

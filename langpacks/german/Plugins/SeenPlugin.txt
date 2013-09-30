@@ -6,7 +6,7 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
-Speichert, wann ein Benutzer zuletzt online gesehen wurde, und welche Nutzer online waren während Sie weg waren.
+Speichert, wann ein Benutzer zuletzt online gesehen wurde und welche Nutzer online waren, während Sie weg waren.
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Einstellungen
@@ -32,8 +32,8 @@ Ignorieren, wenn Kontakt offline geht
 "Verpasst"-Funktion aktivieren
 [Count times]
 Mitzählen
-[Protocols to watch:]
-Zu überwachende Protokolle:
+[Accounts to watch:]
+Folgende Konten beobachten:
 [Use popups]
 Popups nutzen
 [Title]
@@ -63,15 +63,15 @@ Unsichtbar
 [Offline]
 Offline
 [Reset colors]
-Stand. Farben
+Standardfarben
 [Last seen plugin]
-
+Zuletzt gesehen
 [OK]
 OK
 [You missed following contacts:]
 Du hast folgende Kontakte verpasst:
 [Test\nTest]
-
+Test\nTest
 [Alert when user status changes]
 Melden, wenn Benutzerstatus sich ändert
 ;file \plugins\SeenPlugin\src\history.cpp
@@ -84,7 +84,7 @@ Kontaktmenü
 [Send Instant Message]
 Nachricht senden
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
-
+Datum: %d.%m.%y(%Y) \n Beschr.: %W - %w - %E - %e \n Zeit: %H:%M:%S (%h-%p) \n Benutzer: %n - %u \n Status: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Zuletzt gesehen
@@ -105,16 +105,16 @@ Zuletzt gesehen
 <keine>
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
-
+Zuletzt-gesehen-Variablen
 [Contacts]
 Kontakte
 [Popups]
 Popups
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
-
+%n ist %s (%u)
 [%i(%r)%bWas %o]
-
+%i(%r)%bwar %o
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
 Name:%t%N%bStatus:%t%s%bTag:%t%d.%m.%Y%bZeit:%t%H:%M:%S%bVorheriger Status:%t%o%b%b%P ID:%t%u%bExterne IP:%t%i%bInterne IP:%t%r%bClientID: %t%C%b%bStatusnachricht:%t%T
 [-- Date --]
@@ -264,10 +264,10 @@ Nov.
 [Dec.]
 Dez.
 [<never seen>]
-<Noch niemals gesehen>
+<noch niemals gesehen>
 [Idle]
 Untätig
 [Unknown]
 Unbekannt
 [Not Idle]
-Nicht Untätig
+Nicht untätig

@@ -76,11 +76,6 @@ Bearbeiten
 Keine Popups für RSS-Feeds
 [No popups for read messages]
 Keine Popups für gelesene Nachrichten
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Nachrichtensitzung
-[Message Received]
-Nachricht empfangen
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popups
@@ -123,5 +118,5 @@ Dieses ist ein Beispiel-Popup für einen Dateitransfer
 Dieses ist ein Beispiel-Popup für ein anderes Ereignis
 [Plugin Test]
 Plugin Test
-[Number of new message: ]
-Anzahl neuer nachrichten:
+[[b]Number of new message(s): %d[/b]\n]
+[b]Anzahl neuer Nachrichten: %d[/b]\n

@@ -1,5 +1,0 @@
-﻿[Server rate limit exceeded.]
-[Client rate limit exceeded]
-[Not DT status.]
-[Contact tried to open an audio/video conference (currently not supported)]
-[Unknown error when attempting to modify a group. Error code %#x]

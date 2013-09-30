@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.7
+;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -402,6 +402,12 @@ Benachrichtigung
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 Der Skin, den Sie zu laden versuchen, wurde für\r\neine neuere Popup+-Version entwickelt und wird\r\nnicht korrekt angezeigt werden.\r\n\r\nBitte wählen Sie einen anderen Skin aus.
 ;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+Auto
+[Favourite]
+Favorit
+[Block]
+Blockieren
 [Popup Mode: Auto]
 Popup-Modus: Auto
 [Popup Mode: Favourite]
@@ -410,9 +416,3 @@ Popup-Modus: Favorit
 Popup-Modus: Vollbildschirm ignorieren
 [Popup Mode: Block contact]
 Popup-Modus: Blockiere Kontakt
-[Auto]
-Auto
-[Favourite]
-Favorit
-[Block]
-Blockieren

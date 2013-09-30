@@ -1,2 +1,0 @@
-﻿[Image sent file://%s]
-[Image received file://%s]

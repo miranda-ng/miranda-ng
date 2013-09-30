@@ -9,7 +9,7 @@
 Benachrichtigt mittels Popup falls eine Verbindung aufgebaut wird.
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colours]
-Popupfarben bestimmen
+Popupfarben setzen
 [Popup options]
 Popup-Einstellungen
 [Background]
@@ -57,6 +57,10 @@ Abbrechen
 [Remote IP:Port]
 Remote IP:Port
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+Anzeigen
+[Hide]
+Verbergen
 [Always show popup]
 Popups immer anzeigen
 [Never show popup]
@@ -73,8 +77,8 @@ Externer Socket
 Aktion
 [Plugins]
 Plugins
-[ConnectionNotify: New Connection Notification]
-ConnectionNotify: Neue Verbindungs-Benachrichtigung
+[New Connection Notification]
+Neue Verbindungs-Benachrichtigung
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Zuerst Einstellungsfenster schließen

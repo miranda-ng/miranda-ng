@@ -27,7 +27,7 @@ trüb
 [Fog]
 Nebel
 [Patches Fog]
-
+Leichter Nebel
 [Mist]
 Nebelschleier
 [Light Rain]
@@ -59,7 +59,7 @@ Stabil
 [Falling]
 Fallend
 [Var]
-
+Var
 [N]
 N
 [W]
@@ -393,9 +393,9 @@ Dunst
 [Light Snow Grains]
 leichte Schneekörner
 [Light Rain Snow]
-
+leichter Schneeregen
 [Snow Mist]
-
+Schneedunst
 [Light Rain Snow Mist]
 
 [Light Showers Snow Rain Mist]
@@ -405,7 +405,7 @@ leichte Schneekörner
 [Snow 50% Chance Of Precipitation]
 
 [Drizzle Fog]
-
+Nieselregen Nebel
 [Local Time]
 Lokale Zeit
 [Moonrise]
@@ -413,7 +413,7 @@ Mondaufgang
 [Moonset]
 Monduntergang
 [Pressure Change]
-
+Druckänderung
 [Heavy Showers Snow Mist]
 
 [Light Freezing Rain Light Showers Snow Mist]

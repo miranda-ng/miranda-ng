@@ -2,16 +2,18 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.0.0.1
-;  Authors: 
+;  Version: 2.1.0.5
+;  Authors: Ivan Rozhuk
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
+Miranda Mail.ru-Agent-Protokoll-Plugin.
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-Mail:
 [Password:]
 Passwort:
 [Create a new Mail.ru account]
-Neues Mail.ru Konto erstellen
+Neues Mail.ru-Konto erstellen
 [Configuration]
 Konfiguration
 [Login Server:]
@@ -28,8 +30,6 @@ Kontakte bei Login automatisch hinzufügen
 Autorisierung für Benutzer in Kontaktliste automatisch gewähren
 [Automatically grant authorization to new users]
 Autorisierung automatisch neuen Nutzern gewähren
-[Disable spam check]
-Spam-Überprüfung deaktivieren
 [Notify me when a message delivery has failed]
 Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
 [Notify about new mail if increment]
@@ -77,7 +77,7 @@ Suche nur nach Onlinenutzern
 [City:]
 Stadt:
 [Remember]
-
+Erinnerung
 [Enable avatars support (loading)]
 Avatar-Unterstützung aktivieren (laden)
 [Server:]
@@ -123,7 +123,7 @@ Ein neues Mail.ru-Konto über die Mail.ru Website erstellen
 [Retrieve a lost password]
 Vergessenes Kennwort anfordern
 [Leave empty if you dont want change password]
-
+Leer lassen, wenn Sie Ihr Passwort nicht ändern wollen.
 [Popup type]
 Popup-Typ
 [Popup settings]
@@ -148,28 +148,6 @@ In %d schließen
 Titel:
 [Message:]
 Nachricht:
-[Enable Anti Spam]
-Spamschutz aktivieren
-[Check temp contacts]
-Überprüfe auf Temporäre Kontakte
-[Delete spam bot contacts]
-Spambot-Kontakte löschen
-[Max. language changes in message (0 - disabled)]
-Max. Sprachänderungen in Nachrichten (0 - deaktiviert)
-[Show pop up]
-Popup anzeigen
-[Write to system history]
-In den Systemverlauf schreiben
-[Send spam report to server]
-Spam-Report zum Server senden
-[Bad words list]
-Zensurliste
-[Add]
-Hinzufügen
-[Remove]
-Entfernen
-[Ignory non AlphaNumeric characters]
-Ignoriere nicht Alphanumerische Zeichen
 [OK]
 OK
 [Cancel]
@@ -177,14 +155,62 @@ Abbrechen
 [Notify]
 Benachrichtigung
 [Writed:]
-
+Geschrieben:
 [Select e-mail]
 E-Mail auswählen
-;file \protocols\MRA\src\MraAntiSpam.cpp
-[Spam bot blocked]
-Spambot blockiert
-[Spam bot contact deleted]
-Spambotkontakt gelöscht
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+[Male]
+männlich
+[Female]
+weiblich
+[January]
+Januar
+[February]
+Februar
+[March]
+März
+[April]
+April
+[May]
+Mai
+[June]
+Juni
+[July]
+Juli
+[August]
+August
+[September]
+September
+[October]
+Oktober
+[November]
+November
+[December]
+Dezember
+[Aries]
+Widder
+[Taurus]
+Stier
+[Gemini]
+Zwillinge
+[Cancer]
+Krebs
+[Leo]
+Löwe
+[Virgo]
+Jungfrau
+[Libra]
+Waage
+[Scorpio]
+Skorpion
+[Sagittarius]
+Schütze
+[Capricorn]
+Steinbock
+[Aquarius]
+Wassermann
+[Pisces]
+Fische
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 Avatar Plugin-Verbindungen
@@ -192,15 +218,15 @@ Avatar Plugin-Verbindungen
 Avatare
 [Avatars: server return HTTP code: %lu]
 Avatare: Server gibt HTTP-Code %lu zurück.
-[Avatars: cant open file %s, error]
-
+[Avatars: can't open file %s, error]
+Avatare: Kann Datei %s nicht öffnen, Fehler.
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Chat.dll ist für Mehrbenutzerkonferenzen erforderlich. Bitte installieren Sie diese Datei nach.
 [invite sender]
-
+Sender einladen
 [invite new members]
-
+Neue Mitglieder einladen
 ;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
 Dein Kontakt weckt dich
@@ -223,7 +249,7 @@ Meine Antworten
 [My World]
 Meine Welt
 [Zhuki]
-
+Zhuki
 [Web search]
 Web-Suche
 [Update all users info]
@@ -243,7 +269,7 @@ Album ansehen
 [&Read Blog]
 Blog lesen
 [Reply Blog Status]
-
+Blog-Status beantworten
 [View Video]
 Video ansehen
 [Answers]
@@ -261,25 +287,22 @@ Nicht autorisiert
 [Phone/SMS only contact]
 Nur Telefon/SMS-Kontakt
 [Blog status message]
-
+Statusnachricht bloggen
 [New E-mail available in Inbox]
 Neue E-Mail im Posteingang
 [Please authorize me]
-
+Bitte autorisieren Sie mich
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: cant allocate disk space for file, size %lu bytes, error]
-
-[Receive files: cant open file %s, error]
-
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
+Dateien empfangen: Kann nicht genug Speicherplatz für die Datei belegen, Größe %lu Bytes, Fehler
+[Receive files: can't open file %s, error]
+Dateien empfangen: Kann Datei %s nicht öffnen, Fehler
 [Receive files: request for file %s not sended, error]
-
-[Send files: cant open file %s, error]
-
+Dateien empfangen: Anfrage für Datei %s nicht gesendet, Fehler
+[Send files: can't open file %s, error]
+Dateien senden: Kann Datei %s nicht öffnen, Fehler
 [Send files: requested file: %S - not found in send files list.]
-
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
-[No description given]
-Keine Beschreibung vorhanden.
+Dateien senden: Angefragte Datei %S - nicht in Liste der gesendeten Dateien gefunden.
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Hauptmenü
@@ -287,6 +310,10 @@ Hauptmenü
 Kontaktmenü
 [Extra status]
 Extra Status
+[Protocols]
+Protokolle
+[MRA]
+MRA
 [Custom Status]
 Custom Status
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -310,26 +337,26 @@ Popups
 [%s connection]
 %s Verbindung
 [Mail.ru Xstatus]
-
+Mail.ru Xstatus
 [Mail.ru extra info]
-
+Mail.ru extra info
 [E-mail address]
 E-Mail-Adresse
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Ungelesene E-Mails ist/sind verfügbar: %lu/%lu Nachrichten
-[From: %s\r\nSubject: %s\r\n%s]
-Von: %s\r\nBetreff: %s\r\n%s
+[From: %S\r\nSubject: %S\r\n%s]
+Von: %S\r\nBetreff: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Keine ungelesene E-Mails\r\nNachrichten gesamt: %lu
-[Closing in]
-
+[Closing in %ld]
+In %ld schließen
 [Reply to %s blog status]
-
+Auf %s Blog-Status antworten
 [Set my blog status]
-
+Meinen Blog-Status setzen
 [Writed]
-
+Geschrieben
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Netzwerk
@@ -337,8 +364,6 @@ Netzwerk
 Konto
 [Connections]
 Verbindungen
-[Anti spam]
-Spamschutz
 [Files]
 Dateien
 ;file \protocols\MRA\src\Mra_proto.cpp
@@ -350,7 +375,7 @@ Bitte richten Sie ein Kennwort unter Optionen ein.
 Anmeldefehler: Falscher Benutzername/Kennwort
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
 MRIM_CS_MESSAGE_STATUS: Nicht in der Warteschlange gefunden
-[Server error: cant get MPOP key for web authorize]
+[Server error: can't get MPOP key for web authorize]
 Serverfehler: Konnte MPOP-Schlüssel für Web-Autorisierung nicht anfordern
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
 MRIM_CS_FILE_TRANSFER_ACK: Unbekannter Fehler. Code: %lu
@@ -363,7 +388,7 @@ MRIM_CS_*_CONTACT_ACK: Nicht in der Warteschlange gefunden
 [MRIM_ANKETA_INFO: not found in queue]
 MRIM_ANKETA_INFO: Nicht in der Warteschlange gefunden
 [MRIM_CS_GAME: unknown internal game message code: %lu]
-
+MRIM_CS_GAME:  Unbekannter interner Spiele-Nachricht-Code: %lu
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
 MRIM_CS_CONTACT_LIST2: Unbekannter Serverfehler. Code : %lu
 [MRIM_CS_SMS_ACK: not found in queue]

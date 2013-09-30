@@ -5,8 +5,8 @@
 ;  Version: 0.1.1.3
 ;  Authors: StDenis
 ;============================================================
-[Plugin replaces MessageBoxes [whose have only OK button] into Popups.]
-Ersetzt Nachrichtenfenster (die mit nur OK Buttons) durch Popups.
+[Plugin replaces MessageBoxes (those having only OK button) with popups.]
+Ersetzt Meldungsfenlder (die mit nur OK Buttons) durch Popups.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 Information-Stil
@@ -33,7 +33,7 @@ Sound abspielen
 
 [MsgBox]
 
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised..\nTry to call the author]
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
 
 [MessagePopup]
 

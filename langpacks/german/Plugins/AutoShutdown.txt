@@ -11,7 +11,7 @@ Dieses Plugin ermöglicht es, den Computer beim Eintreten festgelegter Ereigniss
 [Shutdown]
 Herunterfahren
 [&Show confirmation dialog before shutdown]
-&Bestätigungsfenster vor dem Beenden anzeigen
+&Bestätigungsfenster vor dem Herunterfahren anzeigen
 [&Countdown starts at:]
 Countdown beginnt bei:
 [seconds]
@@ -26,7 +26,7 @@ Ereignisse beim Herunterfahren
 Kritische Ereignisse
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automatisch bei einem der folgenden Ereignisse herunterfahren und ausschalten:
-[&Thunderstorm warning is issued  (Weather)]
+[&Thunderstorm warning is issued (Weather)]
 &Gewitterwarnung ist aktiv (Wetterplugin)
 [&Harddrive overheats (HDD Info)]
 Festplatte überhitzt (HDD-Info)
@@ -98,8 +98,6 @@ Inaktiv
 [Events]
 Ereignisse
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
-[(current: %u%%)]
-(aktuell: %u%%)
 [Second(s)]
 Sekunden(n)
 [Minute(s)]
@@ -112,27 +110,23 @@ Tage(n)
 Woche(n)
 [Month(s)]
 Monat(en)
+[(current: %u%%)]
+(aktuell: %u%%)
 [Start/Stop automatic shutdown]
 Automatisches Beenden (de-)aktivieren
-[Stop automatic shutdown]
-Automatisches Beenden deaktivieren
 [Start automatic shutdown]
 Automatisches Beenden aktivieren
+[Stop automatic shutdown]
+Automatisches Beenden deaktivieren
 [Stop automatic &shutdown]
 Automatisches &Beenden abbrechen
 [Automatic &shutdown...]
 Automatisches &Beenden
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[Automatic Shutdown Error]
-AutoBeenden-Fehler
-[The shutdown process failed!\nReason: %s]
-Herunterfahren fehlgeschlagen!\nGrund: %s
-[Unknown]
-Unbekannt
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG wird in %u Sekunde(n) automatisch geschlossen.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
-Alle Protokolle  in Miranda NG werden in %u Sekunde(n) offline gesetzt.
+Alle Protokolle in Miranda NG werden in %u Sekunde(n) offline gesetzt.
 [You will be logged off automatically in %u second(s).]
 Sie werden in %u Sekunde(n) automatisch ausgeloggt.
 [The computer will automatically be restarted in %u second(s).]
@@ -147,6 +141,12 @@ Diese Arbeitsstation wird in %u Sekunde(n) automatisch gesperrt.
 Alle Einwahlverbindungen werden in %u Sekunde(n) automatisch geschlossen.
 [The computer will automatically be shut down in %u second(s).]
 Dieser Computer wird in %u Sekunde(n) automatisch heruntergefahren.
+[Automatic Shutdown Error]
+AutoBeenden-Fehler
+[The shutdown process failed!\nReason: %s]
+Herunterfahren fehlgeschlagen!\nGrund: %s
+[Unknown]
+Unbekannt
 [Inititiating the shutdown process failed!\nReason: %s]
 Einleitung des Herunterfahrens fehlgeschlagen!\nGrund: %s
 [Close Miranda NG]
@@ -182,11 +182,11 @@ Behält die Windowssitzung bei, speichert die Daten im Arbeitsspeicher und schal
 [Saves the current Windows session on harddisc, so that the power can be turned off.]
 Speichert die Windowssitzung auf der Festplatte, so dass der Computer ausgeschaltet werden kann.
 [Locks the computer. To unlock the computer, you must log in.]
-Verriegelt den Computer gegen Zugriff. Um den Computer wieder zu entriegeln müssen Sie sich erneut anmelden.
+Sperrt den Computer. Um den Computer wieder zu entsperren müssen Sie sich erneut anmelden.
 [Sets all protocols to offline and closes all RAS connections.]
-Setzt alle Netzwerkprotokolle auf "offline" und trennt alle aktiven DFÜ-Netzwerkverbindungen.
+Setzt alle Protokolle auf "offline" und trennt alle aktiven DFÜ-Netzwerkverbindungen.
 [Alerts]
-Hinweis
+Hinweise
 [Automatic Shutdown Countdown]
 AutoBeenden-Countdown
 ;file \plugins\AutoShutdown\src\utils.cpp

@@ -39,15 +39,15 @@ Passwort:
 NotifyAnything
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
-
+Kein Ressourcenname angegeben.
 [Icon indices start at 1.]
-
+Symbolindizes beginnen bei 1.
 [Could not find the requested icon.]
-
+Konnte das angefragte Symbol nicht finden.
 [Application launching is disabled.]
-
+Anwendungsausführung ist deaktiviert.
 [Unterminated option.]
-
+Nicht terminierte Option.
 [No argument given to msg option.]
 
 [Id is required for replacement.]
@@ -57,9 +57,9 @@ NotifyAnything
 [Empty message ignored.]
 
 [Failed to write to log file.]
-
+Konnte nicht in Protokolldatei schreiben.
 [Failed to open log file.]
-
+Konnte Protokolldatei nicht öffnen.
 [N/A: Failed to format error message]
 
 [N/A: FormatMessage failed, error code was 0x]

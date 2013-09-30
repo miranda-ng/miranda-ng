@@ -19,7 +19,7 @@ Status immer in der Kontaktliste anzeigen
 [Context Menu only for "Miranda" clients]
 Kontaktmenü nur für Miranda-Clients anz.
 [Status in Context Menu]
-Zeige Status im Kontaktmenü
+Status im Kontaktmenü anzeigen
 [Disable encryption for game plugins]
 Keine Verschl. für Spiele-Plugins
 [Always secured if possible]
@@ -29,7 +29,7 @@ Unverschlüsselt für unbekannte Kontakte
 [Auto accept RSA key (NOT SECURED)]
 Autom. RSA-Schlüssel akzept. (UNSICHER!)
 [Mode in Context Menu]
-Zeige Modus im Kontaktmenü
+Modus im Kontaktmenü anzeigen
 [Key Exchange Timeout :]
 Schlüsseltausch-Timeout:
 [sec]
@@ -167,7 +167,7 @@ Pre-Shared Key setzen
 [Delete pre-shared key]
 Pre-Shared Key löschen
 [Public key]
-Öffentl. Schlüssel (PUB)
+Öffentlicher Schlüssel
 [Export key]
 Schlüssel exportieren
 [Import key]
@@ -206,27 +206,27 @@ Entschlüssele Datei:
 [Bad key received...]
 Falschen Schlüssel erhalten...
 [SecureIM: Error while decrypting the message.]
-
+SecureIM: Fehler beim Entschlüsseln der Nachricht.
 [SecureIM: Error while decrypting the message, bad message length.]
-
+SecureIM: Fehler beim Entschlüsseln der Nachricht, fehlerhafte Länge.
 [SecureIM: Error while decrypting the message, bad message CRC.]
-
+SecureIM: Fehler beim Entschlüsseln der Nachricht, fehlerhaftes CRC.
 [User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
-
+Benutzer hat den Schlüsselaustausch nicht beantwortet!\nIhre Nachrichten sind immer noch in der SecureIM-Warteschlange, möchten Sie diese nun unverschlüsselt senden?
 [SecureIM not enabled! You Must Enable SecureIM with this user...]
-
+SecureIM nicht aktiviert! Sie müssen bei diesem Benutzer SecureIM aktivieren...
 [Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
-
+Kann keine verschlüsselte nachricht senden!\nDer Benutzer ist jetzt offline und sein geheimer Schlüssel ist ausgelaufen,\nmöchten Sie Ihre Nachricht nun unverschlüsselt senden?
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
-
+SecureIM wird nicht geladen weil cryptopp.dll fehlt oder in einer falschen Version vorliegt!
 [SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-
+SecureIM kann PGP-/GPG-Schlüssel nicht laden. Prüfen Sie Ihre PGP-/GPG-Einstellungen!
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
-
+SecureIM kann die Nachricht nicht verschlüsseln! Prüfen Sie die Vertrauenswürdigkeit Ihrer PGP-/GPG-Schlüssel.
 [Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
-
+Kann Nachricht nicht verschlüsselt senden.\nMöchten Sie die Nachricht unverschlüsselt senden?
 [Can't change mode! Secure connection established!]
-
+Kann Modus nicht ändern! Sichere Verbindung aufgebaut.
 [Can't export RSA private key!]
 Kann privaten RSA-Schlüssel nicht exportieren!
 [Can't import RSA private key!]
@@ -306,33 +306,33 @@ SecureIM-Status (aktiviert)
 [SecureIM status (always try)]
 SecureIM-Status (immer versuchen)
 [SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
-
+SecureIM: Kann nachricht nicht entschlüsseln weil Sie kein PGP/GPG installiert haben. Besuchen Sie www.pgp.com oder www.gnupg.org für weitere Informationen.
 [SecureIM received unencrypted message:\n]
-
+SecureIM hat unverschlüsselte Nachricht empfangen:\n
 [SecureIM received encrypted message:\n]
-
+SecureIM hat verschlüsselte Nachricht empfangen:\n
 [Session closed by receiving incorrect message type]
 Sitzung aufgrund des Empfangs eines falschen Nachrichtentyps unterbrochen
 [Session closed by other side on error]
 Sitzung aufgrund eines Fehlers unterbrochen.
 [Error while decoding AES message]
-
+Fehler beim Dekodieren der AES-Nachricht
 [Error while decoding RSA message]
-
+Fehler beim Dekodieren der RSA-Nachricht
 [Session closed on timeout]
 Sitzung aufgrund eines Timeouts unterbrochen.
 [Session closed by other side when status "disabled"]
-
+Sitzung vom Gegenüber mit Status "deaktiviert" geschlossen
 [Session closed on error: %02x]
-
+Sitzung geschlossen mit Fehler: %02x
 [SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
-SecureIM hat den öffentlichen RSA-Schlüssel von "%s" erhalten.\n\nSHA1: %s\n\nMöchten Sie diesen akzeptieren?
+SecureIM hat den öffentlichen RSA-Schlüssel von "%s" erhalten.\n\nSHA1: %s\n\nMöchten Sie diesen Schlüssel akzeptieren?
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
-
+SecureIM hat öffentlichen RSA-Schlüssel automatisch akzeptiert von: %s, UIN: %s, SHA1: %s
 [SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
-
+SecureIM hat NEUEN öffentlichen RSA-Schlüssel von "%s" empfangen.\n\nNeues SHA1: %s\n\nAltes SHA1: %s\n\nMöchten Sie diesen Schlüssel ersetzen?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
-
+SecureIM hat NEUEN öffentlichen RSA-Schlüssel automatisch akzeptiert von: %s, UIN: %s, Neues SHA1: %s, Altes SHA1: %s
 ;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Kontaktliste

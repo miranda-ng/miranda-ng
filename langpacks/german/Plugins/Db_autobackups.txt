@@ -90,6 +90,6 @@ Minuten
 [Select Backup Folder]
 Backup-Verzeichnis auswählen
 [Error creating backup folder]
-
+Fehler beim Erstellen des Backup-Verzeichnisses.
 [Database AutoBackups]
 Datenbank-AutoBackups

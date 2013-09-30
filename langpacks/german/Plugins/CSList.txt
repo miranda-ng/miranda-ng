@@ -13,9 +13,9 @@ Custom-Status-Liste
 [No items available in the database.\nClick the Add button to define some.]
 Keine Einträge in der Datenbank.\nKlicken Sie auf das Pluszeichen, um welche hinzuzufügen.
 [Add/Modify Custom Status]
-
+Custom Status hinzufügen/bearbeiten
 [Add/Modify]
-
+Hinzufügen/Bearbeiten
 [Cancel]
 Abbrechen
 [List settings]
@@ -36,13 +36,13 @@ Hinzufügen
 [Add]
 Hinzufügen
 [Modify item]
-
+Eintrag bearbeiten
 [Modify]
 Ändern
 [Warning]
 Warnung
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
-
+Dieses Feld akzeptiert keine Strings mit mehr als %d Zeichen. Der String wird gekürzt.
 [Favourites]
 Favoriten
 [Regular statuses]
@@ -54,7 +54,7 @@ Nachricht
 [Do you really want to delete selected item?]
 Ausgewählten Eintrag wirklich löschen?
 [Do you want old database entries to be deleted after Import?]
-
+Wollen Sie nach dem Import alte Datenbankeinträge löschen?
 ;file \plugins\CSList\src\cslist.h
 [Main Menu]
 Hauptmenü

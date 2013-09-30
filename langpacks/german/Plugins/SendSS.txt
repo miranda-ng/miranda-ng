@@ -43,7 +43,7 @@ Starten
 [About]
 Über
 [%s\nv%s]
-
+%s\nv%s
 [Credits >]
 Dank an >
 [&Close]
@@ -78,13 +78,13 @@ Der angegebene Anhang wurde nicht gefunden
 [The specified attachment could not be opened]
 Der angegebene Anhang konnte nicht geöffnet werden
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
-
+Der Typ des Empfängers war nicht MAPI_TO, MAPI_CC, oder MAPI_BCC
 [One or more unspecified errors occurred]
 Ein oder mehrere unbekannte Fehler traten auf
 [There was insufficient memory to proceed]
 Es gab nicht genug freien Speicher zum Fortfahren
 [One or more recipients were invalid or did not resolve to any address]
-
+Ein oder mehrere Empfänger waren ungültig und konnten zu keiner Adresse aufgelöst werden.
 [There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
 
 [The text in the message was too large]
@@ -125,12 +125,12 @@ Abbrechen
 Ignorieren
 ;file \plugins\SendScreenshotPlus\src\global.h
 [SendScreenshot - Error]
-
+SendScreenshot - Fehler
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 
 [SendSS]
-
+SendSS
 [Screenshots]
 Screenshots
 [SendSS HTTP connections]
@@ -146,16 +146,16 @@ Screenshot machen
 [Could not register miranda service.]
 Konnte Mirandadienst nicht initialisieren.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-
+Kann Screenshot-Verzeichnis nicht erstellen (Fehlercode: %d):\n%s\nHaben Sie Schreibberechtigungen?
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Screenshot Icon1]
-
+Screenshot Icon1
 [Screenshot Icon2]
-
+Screenshot Icon2
 [Target Cursor]
-
+Target Cursor]
 [Target Desktop]
-
+Target Desktop
 [Default]
 Standard
 [overlay on]
@@ -188,7 +188,7 @@ Pfeil runter
 [Buttons]
 Schaltflächen
 [overlays]
-
+overlays
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Danksagung
@@ -229,14 +229,14 @@ Fülle Beschreibungstextbox.
 Nach dem Senden löschen
 [Capture]
 Einfangen
-[Cant create a Screenshot]
+[Can't create a Screenshot]
 Konnte kein Screenshot erstellen.
 [Select a target window.]
 Bitte gewünschtes Fenster auswählen.
 [Screenshot ]
-Screenshot 
+Screenshot\s
 [for Client area ]
-für Client-Bereich
+für Client-Bereich\s
 [of "]
 vom "
 [" Window]

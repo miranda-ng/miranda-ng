@@ -5,7 +5,7 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
 Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderungen an. Unterstützt MW-Erweiterungen, erweiterte Unterstützung für Metakontakte.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -183,12 +183,12 @@ Horizontale Ausr.
 [Multiline status bar:]
 Mehrzeilige Statusleiste
 [Accounts per line]
-Accounts pro Zeile
+Konten pro Zeile
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Änderung der Statusleistenhöhe:\nHauptmenü->Frames->Statusl.->Titell. anzeigen, auf Titelleiste drücken und Höhe ändern.
 [Hold [Shift] to inverse [Right Click] behaviour]
 Shift gedrückt halten, um Rechtsklick-Verhalten umzukehren
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 Strg+Linksklick filtert Protokolle. Auf freie Stelle klicken, um alle zu zeigen.
 [Set options per account]
 Einstellungen je Account setzen
@@ -284,7 +284,7 @@ Mausziehen bewirkt:
 Einfaches Scrollen
 [Easy move]
 Einfaches Bewegen
-[x100 msec]
+[x100 ms]
 x100 ms
 [show delay]
 Anzeigeverzögerung
@@ -595,7 +595,7 @@ Containerbreite:
 [Container height:]
 Containerhöhe:
 [Layered]
-
+Layered
 [Move up]
 Hoch
 [Move down]
@@ -949,7 +949,7 @@ Linien
 [%s, contain %s]
 %s, enthält %s
 [ layered]
-
+ layered
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [- Empty - (do not draw this object)]
 - Leer - (dieses Objekt nicht zeichnen)
@@ -986,9 +986,9 @@ Objekteditor
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nAutor(en): %s\nKontakt:\t %s\nWeb:\t %s\n\nDatei:\t %s
 [reVista for Modern v0.5]
-
+reVista for Modern v0.5
 [This is second default Modern Contact list skin in Vista Aero style]
-
+This is second default Modern Contact list skin in Vista Aero style
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (Grafiken), FYR (Vorlage)
 [Inside library]

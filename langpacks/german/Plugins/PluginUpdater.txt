@@ -10,7 +10,7 @@ Plugin-Updater für Miranda NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Aktualisierungen gefunden!
-[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 PluginUpdater hat aktualisierte Versionen einiger Miranda-\nKomponenten gefunden. Klicken Sie auf Details für weitere Informationen.
 [Update]
 Aktualisieren
@@ -128,10 +128,8 @@ Laden der Liste hat bereits begonnen!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Wird gelöscht!
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Download vollständig, Aktualisierung durchführen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Sie haben sich dazu entschieden, nicht alle Plugins sofort zu installieren.\nSie können diese manuell aus folgendem Verzeichnis installieren:\n\n%s
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
+Aktualisierung abgeschlossen. Klicken Sie Ja um Miranda neu zu starten oder Nein um einen Neustart nach dem Beenden zu machen.
 [<< Details]
 << Details
 [No updates found.]

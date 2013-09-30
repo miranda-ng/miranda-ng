@@ -6,7 +6,7 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-Blinkt Ihre Tastatur wenn eine neue Nachricht empfangen wird.
+Lässt Ihre Tastatur-LEDs blinken, wenn eine neue Nachricht empfangen wird.
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Folgende Konten prüfen
@@ -145,11 +145,11 @@ Abbrechen
 [Set LEDs for events]
 LEDs für Ereignisse auswählen
 [Num]
-
+Num
 [Caps]
-
+Caps
 [Scroll]
-
+Scroll
 [Message events]
 Nachrichten-Ereignisse
 [File events]
@@ -159,9 +159,9 @@ URL-Ereignisse
 [Other events]
 Sonstige Ereignisse
 [Consider event opened after]
-
+Betrachte Ereignis geöffnet nach
 [Use custom theme]
-
+Eigenes Theme verwenden
 [The following events are being ignored:]
 Die folgenden Ereignisse werden ignoriert:
 [Ignore messages]
@@ -211,8 +211,8 @@ Tastaturblinker-Schemas
 [All Files]
 Alle Dateien
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
+\n; Automatisch erzeugte Keyboard-Notify-Designdatei\n\n\n
 [\n; End of automatically generated Keyboard Notify Theme file\n]
-
+\n; Ende der automatisch erzeugten Keyboard-Notify-Designdatei\n
 [None]
 Keine

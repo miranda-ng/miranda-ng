@@ -1,5 +1,1 @@
-﻿[&Invite user...]
-[&Leave chat session]
-[User &details]
-[User &history]
-[Message read: %s by %s]
+﻿[Message read: %s by %s]

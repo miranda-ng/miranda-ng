@@ -226,25 +226,25 @@ Konnte Zeitstempel und Benutzernamen nicht in Datei schreiben:\n
 [Failed to write message to the file :\n]
 Nachricht konnte nicht in die Datei geschrieben werden :\n
 [URL: ]
-URL:
+URL:\s
 [File: ]
-Datei:
+Datei:\s
 [Description: ]
-Beschreibung:
+Beschreibung:\s
 [Failed to write URL/File to the file :\n]
-URL/File konnte nicht in die Datei geschrieben werden :\n
+URL/Datei konnte nicht in die Datei geschrieben werden :\n
 [Nick      :]
-Nickname:
+Nickname   :
 [FirstName :]
-Vorname:
+Vorname    :
 [LastName  :]
-Nachname:
+Nachname   :
 [e-mail    :]
-E-Mail:
+E-Mail     :
 [Reason    :]
-Grund:
+Grund      :
 [Invalid Database event received. Type %d, size %d]
-
+Unbekanntes Datenbankereignis empfangen. Typ %d, Größe %d.
 [Failed to write Invalid Database event the file :\n]
 
 [The following user made an authorization request:]
@@ -252,7 +252,7 @@ Der folgende User hat eine Authorisationsanfrage gestellt
 [The following user added you to their contact list:]
 Der folgende User hat dich seiner Kontaktliste hinzugefügt
 [UIN       :]
-
+UIN        :
 [Failed to write AUTHREQUEST or ADDED to the file :\n]
 
 [EmailExpress from:]
@@ -266,7 +266,7 @@ EmailExpress konnte nicht in die Datei geschrieben werden :\n
 [Failed to write SMS to the file :\n]
 SMS konnte nicht in die Datei geschrieben werden :\n
 [Unknown event type %d, size %d]
-
+Unbekannter Ereignistyp %d, Größe %d.
 [Failed to write Unknown event to the file :\n]
 
 [User has been deleted do you want to delete the file?]

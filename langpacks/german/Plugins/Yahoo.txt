@@ -153,7 +153,7 @@ Yahoo-Ignorierliste
 Bitte einen gültigen Benutzernamen zum Ignorieren eingeben
 [The buddy is already on your ignore list.]
 Dieser Kontakt befindet sich bereits auf Ihrer Ignorierliste.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Sie müssen mit Yahoo verbunden sein, um jemanden von Ihrer Ignorierliste zu entfernen.
 [Please select a buddy on the ignore list to remove.]
 Bitte einen Kontakt aus der Ignorierliste auswählen, um ihn zu entfernen.
@@ -173,9 +173,9 @@ Neue E-Mail im Posteingang
 [ID]
 ID
 [Please enter your yahoo id in Options/Network/Yahoo]
-Bitte die Yahoo-ID unter 'Einstellungen -> Protokolle -> Yahoo' eintragen!
+Bitte die Yahoo-ID unter 'Einstellungen -> Netzwerk -> Yahoo' eintragen!
 [Please enter your yahoo password in Options/Network/Yahoo]
-Bitte das Yahoo-Passwort unter 'Einstellungen -> Protokolle -> Yahoo' eintragen!
+Bitte das Yahoo-Passwort unter 'Einstellungen -> Netzwerk -> Yahoo' eintragen!
 [Yahoo Login Error]
 Yahoo-Anmeldefehler
 ;file \protocols\Yahoo\src\services.cpp
@@ -225,11 +225,11 @@ Von: %s\nBetreff: %s
 Yahoo-Systemnachricht
 [Yahoo Ping Error]
 Yahoo-Pingfehler
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Verbindungsfehler zum Yahoo-Server - Benutzername unbekannt. Bitte Benutzername und Passwort in den Einstellungen überprüfen.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Verbindungsfehler zum Yahoo-Server - Falsches Passwort. Bitte Benutzername und Passwort in den Einstellungen überprüfen.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Verbindungsfehler zum Yahoo-Server. Ihr Konto ist gesperrt.\nBitte zum Freischalten auf %s gehen.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Sie wurden vermutlich aufgrund eines Mehrfachlogins vom Yahooserver getrennt.
@@ -247,11 +247,11 @@ Eigener Fehler %s
 %s wird bereits ignoriert
 [%s is not in the ignore list]
 %s ist nicht in der Ignorierliste
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s ist in der Server-Kontaktliste - Ignorieren nicht möglich
 [System Error: %s]
 Systemfehler: %s
 [Server Connection Error: %s]
 Verbindungsfehler zum Server: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Konnte sich nicht zum Yahoo-Server verbinden. Bitte überprüfen sie ob eine Internetverbindung besteht und der Hostname und Port korrekt ist.

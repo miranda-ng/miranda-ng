@@ -21,7 +21,7 @@ Einstellungen
 [Update weather information on startup]
 Wetter-Informationen beim Start aktualisieren
 [Update weather information every]
-Aktualisiere die Wetter-Informationen alle
+Wetter-Informationen aktualisieren alle
 [minutes]
 Minuten
 [Consider weather info updated only when condition and temperature are changed]
@@ -216,7 +216,7 @@ Mehr...
 Wetter-Protokoll-INI-Einrichtung
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Wetter-Protokoll-INI-Einrichtung\nInstallieren und laden Sie hier die Wetter-INI-Dateien
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Das Wetter-Protokoll kann keine INI-Datei auf dem Rechner finden. Um eine INI-Datei und eine Wetterstation einzustellen, befolgen Sie diese Schritte:
 [Click here to download a weather ini file from Miranda file listing]
 Klicken Sie hier, um eine INI-Datei aus der Miranda-Dateiliste zu laden
@@ -352,7 +352,7 @@ Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
 Wetterlage wurde nicht aufgezeichnet.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 Für die komplette Vorhersage ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Für die Wetterkarte ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
 [Get city name from ID]
 Stadt-Namen aus ID beziehen
