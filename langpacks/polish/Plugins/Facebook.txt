@@ -86,13 +86,13 @@ Użyj tego serwera do otwierania linków:
 Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
-
+Zaproś użytkownika
 [&Leave chat session]
-
+Opuść sesję czatu
 [User &details]
-
+Dane użytkownika
 [User &history]
-
+Historia użytkownika
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s
@@ -194,7 +194,7 @@ zdjęcie
 [User sent you %s:]
 Użytkownik wysłał Ci %s:
 [Message read: %s by %s]
-
+Wiadomość odczytana: %s przez %s
 [Message read: %s]
 Wiadomość odczytana: %s
 ;file \protocols\FacebookRM\src\messages.cpp

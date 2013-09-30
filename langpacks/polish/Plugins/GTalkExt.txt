@@ -15,11 +15,11 @@ Powiadamiaj w trybie pełnoekranowym
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Użyj tej opcji jeśli twoja wtyczka Popupów niepoprawnie wykrywa tryb pełnego ekranu. To przejmie focus klawiszy.
 [Notify in contact list]
-
+Powiadamiaj na liście kontaktów
 [Clear pseudocontact history before adding new events]
-
+Wyczyść historię pseudokontaktu przed dodaniem nowych zdarzeń
 [Mark history event read when popup closed]
-
+Oznacz zdarzenia historii jako przeczytane po zamknięciu popupu.
 [Add message snip to notification]
 Dodaj przyciętą wiadmość do powiadomienia
 [Try to login before open mailbox]
