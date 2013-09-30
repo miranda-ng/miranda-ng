@@ -26,13 +26,6 @@
 
 #define NCONVERS_BLINKID ((HANDLE)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 
-#ifndef WM_XBUTTONDBLCLK
-#define WM_XBUTTONDBLCLK 0x020D
-#endif
-#ifndef WM_NCXBUTTONDBLCLK
-#define WM_NCXBUTTONDBLCLK 0x00AD
-#endif
-
 
 HINSTANCE hInst;
 
@@ -372,13 +365,14 @@ BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
 	if (!bFlashIfMsgOlder)
 		return TRUE;
 
-	DBEVENTINFO einfo = { sizeof(einfo) };
 	for (HANDLE hEvent = db_event_prev(hEventCurrent); hEvent; hEvent = db_event_prev(hEvent)) {
-		db_event_get(hEvent, &einfo);
-		if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
-			return TRUE;
-		if (einfo.eventType == EVENTTYPE_MESSAGE)
-			return FALSE;
+		DBEVENTINFO einfo = { sizeof(einfo) };
+		if(!db_event_get(hEvent, &einfo)) {
+			if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
+				return TRUE;
+			if (einfo.eventType == EVENTTYPE_MESSAGE)
+				return FALSE;
+		}
 	}
 
 	return TRUE;
@@ -409,7 +403,6 @@ BOOL checkStatus(char *szProto)
 BOOL checkXstatus(char *szProto)
 {
 	int status=0;
-	CUSTOM_STATUS xstatus = { sizeof(CUSTOM_STATUS) };
 
 	if (!szProto)
 		return checkGlobalXstatus();
@@ -419,6 +412,7 @@ BOOL checkXstatus(char *szProto)
 			if (!ProtoList.protoInfo[i].xstatus.count) return TRUE;
 
 			// Retrieve xstatus for protocol
+			CUSTOM_STATUS xstatus = { sizeof(CUSTOM_STATUS) };
 			xstatus.flags = CSSF_MASK_STATUS;
 			xstatus.status = &status;
 			CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
@@ -438,8 +432,7 @@ static int PluginMessageEventHook(WPARAM wParam, LPARAM lParam)
 
 	//get DBEVENTINFO without pBlob
 	DBEVENTINFO einfo = { sizeof(einfo) };
-	db_event_get(hEvent, &einfo);
-	if (!(einfo.flags & DBEF_SENT))
+	if (!db_event_get(hEvent, &einfo) && !(einfo.flags & DBEF_SENT))
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hEvent, einfo.timestamp)) ||
 		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||
 		    (einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
@@ -468,9 +461,8 @@ static VOID CALLBACK ReminderTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DW
 		return;
 	}
 
-	DBEVENTINFO einfo = { sizeof(einfo) };
 	for (nIndex = 0; !bReminderDisabled && (pCLEvent = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, -1, nIndex)); nIndex++) {
-		einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
+		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg)  ||
 		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||
@@ -589,12 +581,10 @@ void createProcessList(void)
 
 void destroyProcessList(void)
 {
-	unsigned int i, count;
-
-	count = ProcessList.count;
+	unsigned int count = ProcessList.count;
 
 	ProcessList.count = 0;
-	for (i=0; i < count; i++)
+	for (unsigned int i=0; i < count; i++)
 		if (ProcessList.szFileName[i])
 			free(ProcessList.szFileName[i]);
 
@@ -673,9 +663,9 @@ void LoadSettings(void)
 void GetWindowsVersion(void)
 {
 	OSVERSIONINFOEX osvi = { sizeof(OSVERSIONINFOEX) };
-	BOOL bOsVersionInfoEx;
+	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
 
-	if (!(bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi))) {
+	if (!bOsVersionInfoEx) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		if (!GetVersionEx((OSVERSIONINFO *)&osvi))
 			osvi.dwPlatformId = VER_PLATFORM_WIN32_WINDOWS;
@@ -1022,10 +1012,9 @@ void countUnopenEvents(int *msgCount, int *fileCount, int *urlCount, int *otherC
 {
 	int nIndex;
 	CLISTEVENT *pCLEvent;
-	DBEVENTINFO einfo = { sizeof(einfo) };
 
 	for (nIndex = 0; pCLEvent = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, -1, nIndex); nIndex++) {
-		einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
+		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType))
 			switch (einfo.eventType) {
