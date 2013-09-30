@@ -230,8 +230,7 @@ BOOL checkGlobalXstatus()
 
 DBEVENTINFO createMsgEventInfo(HANDLE hContact)
 {
-	DBEVENTINFO einfo = {0};
-	einfo.cbSize = sizeof(einfo);
+	DBEVENTINFO einfo = { sizeof(einfo) };
 	einfo.eventType = EVENTTYPE_MESSAGE;
 	einfo.szModule = GetContactProto(hContact);
 	return einfo;
@@ -373,8 +372,8 @@ BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
 	if (!bFlashIfMsgOlder)
 		return TRUE;
 
+	DBEVENTINFO einfo = { sizeof(einfo) };
 	for (HANDLE hEvent = db_event_prev(hEventCurrent); hEvent; hEvent = db_event_prev(hEvent)) {
-		DBEVENTINFO einfo = { sizeof(einfo) };
 		db_event_get(hEvent, &einfo);
 		if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
 			return TRUE;
@@ -410,7 +409,7 @@ BOOL checkStatus(char *szProto)
 BOOL checkXstatus(char *szProto)
 {
 	int status=0;
-	CUSTOM_STATUS xstatus={0};
+	CUSTOM_STATUS xstatus = { sizeof(CUSTOM_STATUS) };
 
 	if (!szProto)
 		return checkGlobalXstatus();
@@ -420,7 +419,6 @@ BOOL checkXstatus(char *szProto)
 			if (!ProtoList.protoInfo[i].xstatus.count) return TRUE;
 
 			// Retrieve xstatus for protocol
-			xstatus.cbSize = sizeof(CUSTOM_STATUS);
 			xstatus.flags = CSSF_MASK_STATUS;
 			xstatus.status = &status;
 			CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
@@ -470,8 +468,9 @@ static VOID CALLBACK ReminderTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DW
 		return;
 	}
 
+	DBEVENTINFO einfo = { sizeof(einfo) };
 	for (nIndex = 0; !bReminderDisabled && (pCLEvent = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, -1, nIndex)); nIndex++) {
-		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
+		einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg)  ||
 		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||
@@ -673,11 +672,9 @@ void LoadSettings(void)
 
 void GetWindowsVersion(void)
 {
-	OSVERSIONINFOEX osvi;
+	OSVERSIONINFOEX osvi = { sizeof(OSVERSIONINFOEX) };
 	BOOL bOsVersionInfoEx;
 
-	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
-	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	if (!(bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi))) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		if (!GetVersionEx((OSVERSIONINFO *)&osvi))
@@ -1005,12 +1002,10 @@ static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPAR
 BOOL CheckMsgWnd(HANDLE hContact, BOOL *focus)
 {
 	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {	// use the new message API
-		MessageWindowData mwd;
-		MessageWindowInputData mwid;
-		mwid.cbSize = sizeof(MessageWindowInputData);
+		MessageWindowData mwd = { sizeof(MessageWindowData) };
+		MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
 		mwid.hContact = hContact;
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-		mwd.cbSize = sizeof(MessageWindowData);
 		mwd.hContact = hContact;
 		if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) && mwd.hwndWindow) {
 			*focus = mwd.uState & MSG_WINDOW_STATE_FOCUS;
@@ -1027,9 +1022,10 @@ void countUnopenEvents(int *msgCount, int *fileCount, int *urlCount, int *otherC
 {
 	int nIndex;
 	CLISTEVENT *pCLEvent;
+	DBEVENTINFO einfo = { sizeof(einfo) };
 
 	for (nIndex = 0; pCLEvent = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, -1, nIndex); nIndex++) {
-		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
+		einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType))
 			switch (einfo.eventType) {
