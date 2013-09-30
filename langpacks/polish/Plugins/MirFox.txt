@@ -18,7 +18,7 @@ po kliknięciu prawym przyciskiem myszy
 po kliknięciu środkowym przyciskiem myszy\n(używając środkowego przycisku można wysłać wiadomość wielokrotnie)
 [Firefox profiles]
 Profile Firefox
-[Show Miranda menu only in these firefox profiles (comma delimited)]
+[Show Miranda menu only in these Firefox profiles (comma delimited)]
 Aktywuj MirFox tylko dla następujących profili Firefox (rozdzielone przecinkiem)
 [Show these contacts in 'Send ... to' option in Firefox]
 Pokazuj następujące kontakty w menu 'wyślij do' w Firefox

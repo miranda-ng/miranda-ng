@@ -90,10 +90,6 @@ Aplikacje zewnętrzne
 pobiera nazwę piosenki aktualnie odtwarzanej w Winamp'ie
 [retrieves current Winamp state (Playing/Paused/Stopped)]
 pobiera aktualny status Winamp (Odtwarzanie/Pauza/Zatrzymanie)
-[retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
-pobiera informacje od AMIP'a ("x" jest dowolną zmienną AMIP w formacie var_<zmienna>)
-[retrieves info from AMIP (x is AMIP format string)]
-pobiera informacje od AMIP'a ("x" jest ciągiem w formacie AMIP)
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Spokrewnione z internetem
@@ -379,11 +375,4 @@ wstawia zmienną o nazwie "x"
 wstawia "y", oraz przechowuje "y" jako zmienną o nazwie "x"
 [only stores y as variables x]
 przechowuje "y" jako zmienną o nazwie "x"
-;file \plugins\Variables\src\parse_xml.cpp
-[XML]
-XML
-[apply stylesheet file x to document file y]
-zastosuj plik arkusza stylów "x" do pliku dokumentu "y"
-[apply stylesheet x to document y]
-zastosuj arkusz stylów "x" do dokumentu "y"
 ;file \plugins\Variables\src\variables.cpp

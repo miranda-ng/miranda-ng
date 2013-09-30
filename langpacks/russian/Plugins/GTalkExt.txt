@@ -13,8 +13,6 @@
 тема\n    %s\nот\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
 тема\n    %s\nот\n%s
-[You've received an e-mail\n%s unread threads]
-Вам пришла почта\nНепрочитанных цепочек: %s
 [Unread threads:]
 Непрочитанных цепочек:
 [GMail notifications]

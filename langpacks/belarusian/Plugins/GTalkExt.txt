@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GTalkExt.dll
 ;  Plugin: GTalk Extension
-;  Version: 0.0.1.1
+;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
 ;file \protocols\GTalkExt\res\settings.rc
@@ -41,9 +41,6 @@
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Адкрыць паштовую скрыню
-;file \protocols\GTalkExt\src\notifications.cpp
-[You've received an e-mail\n%s unread threads]
-Вам прыйшла пошта\nНепрачытаных ланцужкоў: %s
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Усплывальныя вокны

@@ -90,10 +90,6 @@ Externe Anwendungen
 Empfängt den Titel des aktuell in Winamp abgespielten Liedes
 [retrieves current Winamp state (Playing/Paused/Stopped)]
 Empfängt den Status von Winamp (Spielt/Pausiert/Gestoppt)
-[retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
-Empfängt Info von AMIP (x ist var_<variable> mit einer AMIP-Variable)
-[retrieves info from AMIP (x is AMIP format string)]
-Empfängt Info von AMIP (x ist AMIP Format String)
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Internet-bezogen
@@ -379,11 +375,4 @@ Variable des Namens x, gesetzt von put(s)
 x, und speichert y als Variable x
 [only stores y as variables x]
 Speichert nur Variable y als x
-;file \plugins\Variables\src\parse_xml.cpp
-[XML]
-XML
-[apply stylesheet file x to document file y]
-Wende Stylesheet-Datei x auf Dokument-Datei y an.
-[apply stylesheet x to document y]
-Wende Stylesheet x auf Dokument y an.
 ;file \plugins\Variables\src\variables.cpp

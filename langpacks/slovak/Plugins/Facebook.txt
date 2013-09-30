@@ -88,6 +88,17 @@ Prednastavené
 
 [Use this server for opening links:]
 
+[Allow posting statuses to my pages (may slow down login)]
+
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+
+[&Leave chat session]
+
+[User &details]
+
+[User &history]
+
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 
@@ -95,13 +106,13 @@ Prednastavené
 Neznáma chyba
 [Login error: Invalid request.]
 
-[Your account requires HTTPS connection. Activating.]
-
 [Login error: Some Facebook things are required.]
 
 [Login error: Captcha code is required. Bad login credentials?]
 
 [Login error, probably bad login credentials.]
+
+[Your account requires HTTPS connection. Activating.]
 
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 
@@ -168,6 +179,12 @@ Neznáma chyba
 [Sample notification]
 
 ;file \protocols\FacebookRM\src\json.cpp
+[a photo]
+
+[User sent you %s:]
+
+[Message read: %s by %s]
+
 [Message read: %s]
 
 ;file \protocols\FacebookRM\src\messages.cpp

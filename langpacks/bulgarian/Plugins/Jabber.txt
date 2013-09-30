@@ -585,8 +585,6 @@ Jabber настроение
 
 [Supports Roster Exchange]
 
-[Supports GTalk private multi-user chat]
-
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Въведете текста, който виждате

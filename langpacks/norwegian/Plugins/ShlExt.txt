@@ -2,6 +2,6 @@
 ;============================================================
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
-;  Version: 2.2.0.2
+;  Version: 2.2.0.3
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================

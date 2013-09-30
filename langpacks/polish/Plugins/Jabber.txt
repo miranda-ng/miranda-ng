@@ -455,6 +455,8 @@ Ramka tekstu
 Aktywność
 [Jabber Mood]
 Nastrój
+[Fatal error, image services not found. Flags Module will be disabled.]
+
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z http://miranda-ng.org/.
@@ -585,8 +587,6 @@ Wsparcie 'notatek' w Mirandzie NG
 Wsparcie dla rozmów audio i wideo (Jingle)
 [Supports Roster Exchange]
 Wsparcie dla zarządzania listą kontaktów (Roster Exchange)
-[Supports GTalk private multi-user chat]
-Wsparcie dla prywatnych czatów GTalk
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz

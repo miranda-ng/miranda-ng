@@ -90,10 +90,6 @@
 Извлича името на песента, която се възпроизвежда в момента от Winamp
 [retrieves current Winamp state (Playing/Paused/Stopped)]
 Извлича текущото състоянието на Winamp (възпроизвеждане/пауза/стоп)
-[retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
-
-[retrieves info from AMIP (x is AMIP format string)]
-
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Свързани с интернет
@@ -378,12 +374,5 @@
 [x, and stores y as variable named x]
 
 [only stores y as variables x]
-
-;file \plugins\Variables\src\parse_xml.cpp
-[XML]
-
-[apply stylesheet file x to document file y]
-
-[apply stylesheet x to document y]
 
 ;file \plugins\Variables\src\variables.cpp

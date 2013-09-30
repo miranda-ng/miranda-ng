@@ -293,5 +293,4 @@ y > 0: 文件 x 行号 y, y = 0: 整个文件, y < 0: 行号 y 到文件尾, y =
 x, 存储 y 为变量且命名为 x
 [only stores y as variables x]
 仅存储 y 至变量 x
-;file \plugins\Variables\src\parse_xml.cpp
 ;file \plugins\Variables\src\variables.cpp

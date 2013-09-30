@@ -325,5 +325,4 @@ variable establecida por el puesto (s) con el nombre de x
 x, y las tiendas y como variable llamada x
 [only stores y as variables x]
 sólo almacena y como variables x
-;file \plugins\Variables\src\parse_xml.cpp
 ;file \plugins\Variables\src\variables.cpp

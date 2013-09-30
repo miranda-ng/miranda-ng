@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GTalkExt.dll
 ;  Plugin: GTalk Extension
-;  Version: 0.0.1.1
+;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
@@ -42,9 +42,6 @@
 Тест
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
-
-;file \protocols\GTalkExt\src\notifications.cpp
-[You've received an e-mail\n%s unread threads]
 
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]

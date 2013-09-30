@@ -1,0 +1,3 @@
+﻿[Notify in contact list]
+[Clear pseudocontact history before adding new events]
+[Mark history event read when popup closed]

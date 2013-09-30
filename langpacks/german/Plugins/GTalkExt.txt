@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GTalkExt.dll
 ;  Plugin: GTalk Extension
-;  Version: 0.0.1.1
+;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
@@ -14,6 +14,12 @@ Popup-Benachrichtigungen (benötigt Popup-Plugin)
 Benachrichtigung im Vollbildschirm
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Benutzen Sie dies falls Ihr Popup-Plugin keine Vollbildanwendungen erkennt. Es wird Ihren Tastaturfokus wegnehmen
+[Notify in contact list]
+
+[Clear pseudocontact history before adding new events]
+
+[Mark history event read when popup closed]
+
 [Add message snip to notification]
 Füge Nachrichtenstück zur Benachrichtigung hinzu
 [Try to login before open mailbox]
@@ -43,9 +49,6 @@ Testen
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Mailbox öffnen
-;file \protocols\GTalkExt\src\notifications.cpp
-[You've received an e-mail\n%s unread threads]
-Sie haben eine E-Mail erhalten \n%s ungelesene Themen
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Popups

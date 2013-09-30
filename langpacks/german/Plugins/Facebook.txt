@@ -84,6 +84,15 @@ Lokale Zeit für empfangene Nachrichten verwenden
 Öffne Links auf diesem Server:
 [Allow posting statuses to my pages (may slow down login)]
 Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+
+[&Leave chat session]
+
+[User &details]
+
+[User &history]
+
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Loginfehler: %s
@@ -91,14 +100,14 @@ Loginfehler: %s
 Unbekannter Fehler
 [Login error: Invalid request.]
 Loginfehler: Ungültige Anfrage
-[Your account requires HTTPS connection. Activating.]
-Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
 [Login error: Some Facebook things are required.]
 Login-Fehler: Einige Facebook-Dinge werden benötigt.
 [Login error: Captcha code is required. Bad login credentials?]
 Login-Fehler: Ein Captcha-Code wird benötigt. Falsche Zugangsdaten?
 [Login error, probably bad login credentials.]
 Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
+[Your account requires HTTPS connection. Activating.]
+Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Irgendwas geschah mit Facebook. Vielleicht gab es ein großes Update, warten Sie auf ein Plugin-Update.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
@@ -184,6 +193,8 @@ Fotos
 ein Foto
 [User sent you %s:]
 Benutzer hat Ihnen %s gesendet:
+[Message read: %s by %s]
+
 [Message read: %s]
 Nachricht gelesen: %s
 ;file \protocols\FacebookRM\src\messages.cpp

@@ -55,5 +55,4 @@ Aiuto
 ;file \plugins\Variables\src\parse_str.cpp
 ;file \plugins\Variables\src\parse_system.cpp
 ;file \plugins\Variables\src\parse_variables.cpp
-;file \plugins\Variables\src\parse_xml.cpp
 ;file \plugins\Variables\src\variables.cpp

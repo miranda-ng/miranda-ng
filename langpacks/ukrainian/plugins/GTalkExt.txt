@@ -11,8 +11,6 @@
 тема\n %s\nвід\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
 тема\n    %s\nвід\n%s
-[You've received an e-mail\n%s unread threads]
-Вам прийшла пошта\nНепрочитаних ланцюжків: %s
 [Unread threads:]
 Непрочитаних ланцюжків:
 [GMail notifications]
