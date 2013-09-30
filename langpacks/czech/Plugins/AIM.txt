@@ -270,7 +270,7 @@ Chybějící stav DT.
 [Outstanding Confirmation.]
 Mimořádné potvrzení.
 [No Email Address.]
-Chybající e-mailová adresa.
+Chybějící e-mailová adresa.
 [Over Limit.]
 Přes limit.
 [Email Host Fail.]

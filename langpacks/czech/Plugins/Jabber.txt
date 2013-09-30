@@ -455,6 +455,8 @@ Text rámečku
 Jabber aktivita
 [Jabber Mood]
 Jabber nálada
+[Fatal error, image services not found. Flags Module will be disabled.]
+
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z http://miranda-ng.org/.
@@ -585,8 +587,6 @@ Podporuje rozšíření poznámky Miranda NG
 Podporuje Jingle
 [Supports Roster Exchange]
 Podporuje výměnu seznamů na serveru
-[Supports GTalk private multi-user chat]
-Podporuje důvěrný režim
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte

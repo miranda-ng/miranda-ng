@@ -30,5 +30,4 @@
 [Show client description in info panel]
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
-[TabSRMM group chat module|TabSRMM could not enable its group chat module. The most likely cause is that you have installed and enabled \\b1chat.dll\\b0  or another plugin that provides groupchat services.\n\nShould I try to fix this now \\b1(a restart of Miranda is required to apply these changes)?\\b0]
 [Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]

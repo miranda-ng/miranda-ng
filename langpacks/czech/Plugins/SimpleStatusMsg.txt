@@ -55,7 +55,7 @@ Přiřadit výchozí zprávu do seznamu
 [Variables]
 Proměnné
 [Update variables in status messages every]
-Aktualizovat proměnné ve zprávě stavu každých
+Aktualizovat proměnné ve zprávě stavu co
 [seconds]
 sek.
 [Do not update variables during idle]

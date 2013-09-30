@@ -84,6 +84,15 @@ Použít lokální čas počítače pro příchozí zprávy
 Pro otevírání odkazů použít tento server:
 [Allow posting statuses to my pages (may slow down login)]
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+Pozvat k d&iskusi...
+[&Leave chat session]
+&Opustit diskusi
+[User &details]
+&Detaily uživatele
+[User &history]
+Zobrazit &historii
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Chyba připojení: %s
@@ -91,14 +100,14 @@ Chyba připojení: %s
 Neznámá chyba
 [Login error: Invalid request.]
 Chyba připojení: Neplatný požadavek.
-[Your account requires HTTPS connection. Activating.]
-Váš účet vyžaduje zabezpečené spojení. Aktivováno.
 [Login error: Some Facebook things are required.]
 Chyba připojení: Něco je vyžadováno.
 [Login error: Captcha code is required. Bad login credentials?]
 Chyba připojení: Je vyžadována captcha. Špatné přihlašovací údaje?
 [Login error, probably bad login credentials.]
 Chyba při přihlašování, možná máte špatné přihlašovací údaje.
+[Your account requires HTTPS connection. Activating.]
+Váš účet vyžaduje zabezpečené spojení. Aktivováno.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Chyba při připojování k síti Facebook. Důvodem mohou být větší změny na straně serveru, což vyžaduje zároveň změny na straně Mirandy.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
@@ -184,6 +193,8 @@ fotky
 fotku
 [User sent you %s:]
 Uživatel vám poslal %s:
+[Message read: %s by %s]
+Zpráva byla přečtena: %s - %s
 [Message read: %s]
 Zpráva byla přečtena: %s
 ;file \protocols\FacebookRM\src\messages.cpp

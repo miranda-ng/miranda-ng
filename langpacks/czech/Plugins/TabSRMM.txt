@@ -1828,8 +1828,6 @@ Editovat poznámky k uživateli|Editujete poznámky k uživateli. Klikněte na t
 
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Aero náhled - varování|Máte povolen Aero náhled a nahrán vlastní styl kontejneru\n\nTo může vést k vedlejším vizuálním anomáliím.
-[TabSRMM group chat module|TabSRMM could not enable its group chat module. The most likely cause is that you have installed and enabled \\b1chat.dll\\b0  or another plugin that provides groupchat services.\n\nShould I try to fix this now \\b1(a restart of Miranda is required to apply these changes)?\\b0]
-
 [Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
 
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
