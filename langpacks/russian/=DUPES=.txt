@@ -3168,7 +3168,7 @@ Web Дизайн
 [Dialogs]
 Диалоги
 [&Leave chat session]
-&Покинуть сеанс
+&Покинуть чат
 [Office]
 Офис
 [&Copy to clipboard]

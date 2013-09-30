@@ -1452,8 +1452,6 @@ ID пользователя в панели статуса
 Предупреждение окна сообщений
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Предупреждение Aero peek|Вы включили использование особенностей Aero Peek и используете скин окна диалогов\n\nЭто может привести к незначительным визуальным искажениям в быстром просмотре.
-[TabSRMM group chat module|TabSRMM could not enable its group chat module. The most likely cause is that you have installed and enabled \\b1chat.dll\\b0  or another plugin that provides groupchat services.\n\nShould I try to fix this now \\b1(a restart of Miranda is required to apply these changes)?\\b0]
-Модуль чатов TabSRMM|TabSRMM не удалось задействовать свой модуль чатов. Вероятная причина в том, что у вас установлен и задействован \\b1chat.dll\\b0 или другой плагин, обеспечивающий сервис чатов.\n\nПопробовать исправить это сейчас \\b1(требуется перезапуск программы для применения этих изменений)?\\b0
 [Do not show this message again]
 Не показывать снова
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
