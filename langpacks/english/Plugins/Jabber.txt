@@ -231,6 +231,7 @@
 [Frame text]
 [Jabber Activity]
 [Jabber Mood]
+[Fatal error, image services not found. Flags Module will be disabled.]
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 [/me slaps %s around a bit with a large trout]
@@ -299,7 +300,6 @@
 [Supports Miranda NG notes extension]
 [Supports Jingle]
 [Supports Roster Exchange]
-[Supports GTalk private multi-user chat]
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 ;file \protocols\JabberG\src\jabber_chat.cpp

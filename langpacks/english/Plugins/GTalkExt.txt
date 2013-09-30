@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GTalkExt.dll
 ;  Plugin: GTalk Extension
-;  Version: 0.0.1.1
+;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
@@ -10,6 +10,9 @@
 [Popup notifications (needs popup plugin)]
 [Notify in fullscreen mode too]
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
+[Notify in contact list]
+[Clear pseudocontact history before adding new events]
+[Mark history event read when popup closed]
 [Add message snip to notification]
 [Try to login before open mailbox]
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
@@ -25,8 +28,6 @@
 [Test]
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
-;file \protocols\GTalkExt\src\notifications.cpp
-[You've received an e-mail\n%s unread threads]
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 [Network]
