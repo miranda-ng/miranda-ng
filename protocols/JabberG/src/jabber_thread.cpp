@@ -1735,7 +1735,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 				if ((item = ListGetItemPtr(LIST_ROSTER, from)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 					Log("Try adding contact automatically jid = %S", from);
 					if ((hContact = AddToListByJID(from, 0)) != NULL) {
-						db_set_ts(hContact, "CList", "Nick", tszNick);
+						setTString(hContact, "Nick", tszNick);
 						db_unset(hContact, "CList", "NotOnList");
 					}
 				}
