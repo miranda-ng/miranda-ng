@@ -3,17 +3,19 @@
 // Used by whatsapp.rc
 //
 #define IDD_WHATSAPPACCOUNT             101
-#define IDI_WHATSAPP                    103
-#define IDD_INPUTBOX                    103
-#define IDI_ADD_GROUP                   106
-#define IDI_ADD_USER_TO_GROUP           107
-#define IDI_RENAME_GROUP                108
-#define IDI_CHANGE_GROUP_SUBJECT        108
-#define IDI_LEAVE_GROUP                 109
-#define IDI_REMOVE_USER_FROM_GROUP      110
+#define IDD_INPUTBOX                    102
+#define IDR_REGISTERUTILITY             103
+#define IDI_WHATSAPP                    203
+#define IDI_ADD_GROUP                   206
+#define IDI_ADD_USER_TO_GROUP           207
+#define IDI_RENAME_GROUP                208
+#define IDI_CHANGE_GROUP_SUBJECT        209
+#define IDI_LEAVE_GROUP                 210
+#define IDI_REMOVE_USER_FROM_GROUP      211
 #define IDC_LOGIN                       1003
-#define IDC_SSL                          1004
-#define IDC_NICK                        1005
+#define IDC_PW                          1004
+#define IDC_SSL                         1005
+#define IDC_NICK                        1006
 #define IDC_BUTTON_REQUEST_CODE         1007
 #define IDC_BUTTON_REGISTER             1008
 #define IDC_CC                          1009

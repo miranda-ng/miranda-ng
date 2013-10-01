@@ -34,10 +34,19 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			db_free(&dbv);
 		}
 
+		if ( !db_get_s(0,proto->ModuleName(),WHATSAPP_KEY_PASS,&dbv,DBVT_ASCIIZ))
+		{
+			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
+				reinterpret_cast<LPARAM>(dbv.pszVal));
+			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
+			db_free(&dbv);
+		}
+
 		if (!proto->isOffline()) {
 			SendMessage(GetDlgItem(hwnd,IDC_CC),EM_SETREADONLY,1,0);
 			SendMessage(GetDlgItem(hwnd,IDC_LOGIN),EM_SETREADONLY,1,0);
 			SendMessage(GetDlgItem(hwnd,IDC_NICK),EM_SETREADONLY,1,0);
+			SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,1,0);
 			EnableWindow(GetDlgItem(hwnd, IDC_SSL), FALSE);
 		}
 
@@ -94,6 +103,7 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			case IDC_LOGIN:
 			case IDC_NICK:
 			case IDC_SSL:
+			case IDC_PW:
 				SendMessage(GetParent(hwnd) ,PSM_CHANGED, 0, 0);
 			}
 		}
@@ -115,6 +125,10 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_NICK, str);
 
 			db_set_b(0, proto->ModuleName(), WHATSAPP_KEY_SSL, IsDlgButtonChecked(hwnd, IDC_SSL));
+
+			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
+			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
+			db_set_s(0,proto->ModuleName(),WHATSAPP_KEY_PASS,str);
 
 			return TRUE;
 		}

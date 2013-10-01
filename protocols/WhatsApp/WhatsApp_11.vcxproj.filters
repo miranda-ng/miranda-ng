@@ -30,6 +30,9 @@
     <Filter Include="WhatsAPI++\OpenSSL">
       <UniqueIdentifier>{eaedb8f8-8e43-4360-9007-b1a3448d2d16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Icons">
+      <UniqueIdentifier>{06318065-d7dc-4678-b6d0-8c5feca76d8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\chat.cpp">
@@ -198,5 +201,25 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\add-group.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\add-user-to-group.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\change-group-subject.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\leave-group.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\remove-user-from-group.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\whatsapp.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>
