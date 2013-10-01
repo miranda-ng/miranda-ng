@@ -139,19 +139,24 @@ MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen)
 	char *p = output;
 
 	while (input < stop) {
-		BYTE e0 = Base64DecodeTable[*input++];
-		BYTE e1 = Base64DecodeTable[*input++];
-		BYTE e2 = Base64DecodeTable[*input++];
-		BYTE e3 = Base64DecodeTable[*input++];
+		BYTE e[4];
+		for (int i=0; i < 4; ) {
+			if (*input == '\n' || *input == '\r') // simply skip a char
+				input++;
+			else if (*input == 0)  // do not advance input
+				e[i++] = (BYTE)-1;
+			else
+				e[i++] = Base64DecodeTable[*input++];
+		}
 
-		if (e0 == (BYTE)-1 || e1 == (BYTE)-1)
+		if (e[0] == (BYTE)-1 || e[1] == (BYTE)-1)
 			break;
 
-		*p++ = (e0 << 2) | (e1 >> 4);
-		if (e2 != (BYTE)-1)
-			*p++ = ((e1 & 15) << 4) | (e2 >> 2);
-		if (e3 != (BYTE)-1)
-			*p++ = ((e2 & 3) << 6) | e3;
+		*p++ = (e[0] << 2) | (e[1] >> 4);
+		if (e[2] != (BYTE)-1)
+			*p++ = ((e[1] & 15) << 4) | (e[2] >> 2);
+		if (e[3] != (BYTE)-1)
+			*p++ = ((e[2] & 3) << 6) | e[3];
 	}
 
 	*p = 0;
