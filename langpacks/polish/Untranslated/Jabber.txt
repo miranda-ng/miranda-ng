@@ -1,2 +1,0 @@
-﻿[Fatal error, image services not found. Flags Module will be disabled.]
-
