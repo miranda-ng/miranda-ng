@@ -1250,6 +1250,8 @@ JID / URL:
 Поддерживаемые возможности
 [Logon]
 Войти
+[Logoff]
+Выйти
 [Discovery]
 Просмотр
 [Browse node]
