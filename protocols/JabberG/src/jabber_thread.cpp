@@ -1716,6 +1716,16 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		if (hContact = HContactFromJID(from))
 			AddDbPresenceEvent(hContact, JABBER_DB_EVENT_PRESENCE_SUBSCRIBE);
 
+		ptrT tszNick( JabberNickFromJID(from));
+		HXML xNick = xmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK);
+		if (xNick != NULL) {
+			LPCTSTR xszNick = xmlGetText(xNick);
+			if (xszNick != NULL && *xszNick) {
+				Log("Grabbed nick from presence: %S", xszNick);
+				tszNick = mir_tstrdup(xszNick);
+			}
+		}
+
 		// automatically send authorization allowed to agent/transport
 		if (_tcschr(from, '@') == NULL || m_options.AutoAcceptAuthorization) {
 			ListAdd(LIST_ROSTER, from);
@@ -1724,21 +1734,18 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			if (m_options.AutoAdd == TRUE) {
 				if ((item = ListGetItemPtr(LIST_ROSTER, from)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 					Log("Try adding contact automatically jid = %S", from);
-					if ((hContact=AddToListByJID(from, 0)) != NULL) {
-						// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
-						// See AddToListByJID() and JabberDbSettingChanged().
+					if ((hContact = AddToListByJID(from, 0)) != NULL) {
+						db_set_ts(hContact, "CList", "Nick", tszNick);
 						db_unset(hContact, "CList", "NotOnList");
-			}	}	}
+					}
+				}
+			}
 			RebuildInfoFrame();
 		}
 		else {
-			HXML n = xmlGetChild(node, "nick");
-			nick = (n == NULL) ? JabberNickFromJID(from) : mir_tstrdup(xmlGetText(n));
-			if (nick != NULL) {
-				Log("%S (%S) requests authorization", nick, from);
-				DBAddAuthRequest(from, nick);
-				mir_free(nick);
-		}	}
+			Log("%S (%S) requests authorization", tszNick, from);
+			DBAddAuthRequest(from, tszNick);
+		}
 		return;
 	}
 
