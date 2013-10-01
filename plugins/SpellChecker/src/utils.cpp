@@ -566,6 +566,8 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	LRESULT ret = mir_callNextSubclass(hwnd, EditProc, msg, wParam, lParam);
+	if ((dlgit = dialogs.find(hwnd)) == dialogs.end())
+		return ret;
 
 	switch(msg) {
 	case WM_KEYDOWN:
