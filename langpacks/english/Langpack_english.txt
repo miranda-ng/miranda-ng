@@ -9027,7 +9027,7 @@
 [Frame text]
 [Jabber Activity]
 [Jabber Mood]
-[Fatal error, image services not found. Flags Module will be disabled.]
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 [/me slaps %s around a bit with a large trout]
@@ -13697,7 +13697,7 @@
 [Next item]
 [Open main window]
 [Frame background]
-﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
@@ -13819,6 +13819,13 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13848,12 +13855,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
