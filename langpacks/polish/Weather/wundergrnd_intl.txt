@@ -55,11 +55,11 @@ Rosnące
 [Steady]
 Stały
 [Stable]
-
+Stabilna
 [Falling]
 Spadające
 [Var]
-
+Zmienna
 [N]
 północ
 [W]
@@ -379,7 +379,7 @@ Zimny śnieg, lekka mżawka
 [Heavy Fog]
 Gęsta mgła
 [Rain Mist]
-
+Mrzawka
 [Light Showers Showers Rain]
 Lekkie opady deczu
 [Showers Showers Rain]
@@ -387,7 +387,7 @@ Opady deszczu
 [Heavy Thunderstorm Rain]
 Burza, ciężkie opady deszczu
 [Smoke]
-
+Dymy
 [Haze]
 Mgiełka
 [Light Snow Grains]
@@ -395,7 +395,7 @@ Lekki ziarnisty śnieg
 [Light Rain Snow]
 Lekkie deszcz ze śniegiem
 [Snow Mist]
-
+Drobna śnieżyca
 [Light Rain Snow Mist]
 Lekki deszcz ze śniegiem
 [Light Showers Snow Rain Mist]
@@ -405,7 +405,7 @@ Intensywne zawieje śnieżne
 [Snow 50% Chance Of Precipitation]
 Snieg 50%, możliwość opadów
 [Drizzle Fog]
-
+Mrzawka mgła
 [Local Time]
 Czas lokalny
 [Moonrise]
@@ -421,7 +421,7 @@ Zimne opady deszczu,lekka mgła
 [Light Drizzle Fog]
 Lekka mżawka
 [Snow Rain Mist]
-
+Mrzawka deszcz ze śniegiem
 [Snow Heavy Blowing Snow]
 Intensywny śnieg, zawieje śnieżne
 [Low Drifting Snow Mist]
@@ -429,9 +429,9 @@ Lekkie zamiecie śnieżne
 [Light Freezing Drizzle Light Snow Grains Mist]
 Lekki, zimny, ziarnisty śnieg
 [Light Ice Pellets Mist]
-
+Delikatna mgiełka grad zimowy
 [Ice Pellets]
-
+Grad zimowy
 [Rain Fog]
 Mgła deszczu
 [Showers Snow Low Drifting Snow]
@@ -447,11 +447,11 @@ Odczuwalna
 [Alert]
 Ostrzeżenie
 [longer]
-
+Dłużej
 [Heat Index]
 Wskaźnik upałów
 [Visible Light Length]
-
+Widoczna długość światła
 [Wind Gust]
 Porywy wiatru
 [Showers Rain Snow]
@@ -463,70 +463,70 @@ Krótszy
 [T-Storms 50% Chance Of Precipitation]
 Burza z piorunami 50%, możliwość opadów
 [Light Showers Rain Snow]
-
+Delikatne opady deszczu i śniegu
 [Light Showers Rain Snow Mist]
-
+Delikatne opady deszczu i śniegu mrzawka
 [Snow Grains]
-
+Śnieg ziarnisty
 [Heavy Snow Showers]
-
+Mocne opady śniegu
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
-
+Szanse na burze 20% szanse opadów atmosferycznych
 [Chance Of Rain 60% Chance Of Precipitation]
 Możliwe opady deszczu 60%, możliwość opadów
 [Chance Of Rain 70% Chance Of Precipitation]
 Możliwe opady deszczu 70%, możliwość opadów
 [Rain 20% Chance Of Precipitation]
-
+Deszcz 20% szans opadów atmosferycznych
 [Chance Of Snow 70% Chance Of Precipitation]
-
+Szanse opadów śniegu 70% szans opadów atmosferycznych
 [Chance Of Snow 80% Chance Of Precipitation]
-
+Szanse opadów śniegu 80% szans opadów atmosferycznych
 [Light Rain Fog]
-
+Delikatny deszcz mgła
 [Snow 90% Chance Of Precipitation]
-
+Śnieg 90% szans opadów atmosferycznych
 [Snow 20% Chance Of Precipitation]
-
+Śnieg 20% szans opadów atmosferycznych
 [Chance Rain 80% Chance Of Precipitation]
-
+Szanse opadów deszczu 80% szans opadów atmosferycznych
 [Heavy Rain Showers]
-
+Ostre opady deszczu
 [Rain 40% Chance Of Precipitation]
-
+Deszcz 40% szans opadów atmosferycznych
 [Chance Rain 40% Chance Of Precipitation]
-
+Szanse opadów deszczu 50% szans opadów atmosferycznych
 [Chance Of Snow 60% Chance Of Precipitation]
-
+Szanse opadów śniegu 60% szans opadów atmosferycznych
 [Chance Rain 50% Chance Of Precipitation]
-
+Szanse opadów deszczu 50% szans opadów atmosferycznych
 [Snow 40% Chance Of Precipitation]
-
+Śnieg 40% szans opadów atmosferycznych
 [Snow 80% Chance Of Precipitation]
-
+Śnieg 80% szans opadów atmosferycznych
 [Snow 70% Chance Of Precipitation]
-
+Śnieg 70% szans opadów atmosferycznych
 [Light Blowing Snow]
-
+Delikatny podmuch wiatru ze śniegiem
 [Snow Freezing Rain Mist]
-
+Mrzawka zmrożony deszcz ze śniegiem
 [Patches Fog Mist]
-
+Cienka warstwa mgły
 [Snow 60% Chance Of Precipitation]
-
+Śnieg 60% szans opadów atmosferycznych
 [Light Low Drifting Snow]
-
+Lekka śnieżyca
 [Snow 30% Chance Of Precipitation]
-
+Śnieg 30% szans opadów atmosferycznych
 [Light Snow Rain]
-
+Delikatny deszcz ze śniegiem
 [Chance Rain 90% Chance Of Precipitation]
-
+Szanse opadów deszczu 90% szans opadów atmosferycznych
 [Chance Of T-Storms 70% Chance Of Precipitation]
-
+Szanse na burze z piorunami 70% szans opadów atmosferycznych
 [T-Storms 30% Chance Of Precipitation]
-
+Burze z piorunami 30% szans opadów atmosferycznych
 [Chance Of T-Storms 90% Chance Of Precipitation]
-
+Szanse na burze z piorunami 90% szans opadów atmosferycznych
 [Chance Of T-Storms 80% Chance Of Precipitation]
-
+Szanse na burze z piorunami 80% szans opadów atmosferycznych
