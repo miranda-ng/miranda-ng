@@ -108,82 +108,48 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	} else {
 		parent->Log("!!!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;
-		// Better to have something set explicitely as this value
-	    // is compaired in all communication requests
+		// Better to have something set explicitely as this value is compaired in all communication requests
 	}
 
-	if (parent->getByte(FACEBOOK_KEY_VALIDATE_RESPONSE, 0) == 1)
-		validate_response(&resp);
-
-	return resp;
-}
-
-bool facebook_client::validate_response(http::response* resp, bool notify)
-{
-	if (resp->code == HTTP_CODE_FAKE_DISCONNECTED)
-	{
-		parent->Log(" ! !  Request has timed out, connection or server error");
-		return false;
-	}
-
-	if (parent->getByte(FACEBOOK_KEY_VALIDATE_RESPONSE, 0) == 2) {
-		return true;
-	}
-
-/*	
-	// TODO: Is this from jarvis? Or me? Add it?
-	std::string cookie = utils::text::source_get_value(&resp->data, 2, "setCookie(\\\"", ");");	
-	if (!cookie.empty()) {
-		std::string cookie_name = utils::text::source_get_value(&cookie, 1, "\\\"");
-		std::string cookie_value = utils::text::source_get_value(&cookie, 3, "\\\"", "\\\"", "\\\"");
-
-		parent->Log("      New cookie from response '%s': %s", cookie_name.c_str(), cookie_value.c_str());
-		this->cookies[cookie_name] = cookie_value;
-	}
-*/
-	std::string::size_type pos = resp->data.find("\"error\":");
-	if (pos != std::string::npos) {
-		try
-  		{
+	// Get Facebook's error message
+	if (resp.code == HTTP_CODE_OK) {
+		std::string::size_type pos = resp.data.find("\"error\":");
+		if (pos != std::string::npos) {
 			pos += 8;
-			int error_num = atoi(resp->data.substr(pos, resp->data.find(",", pos) - pos).c_str());
+			int error_num = atoi(resp.data.substr(pos, resp.data.find(",", pos) - pos).c_str());
 			if (error_num != 0) {
 				std::string error = "";
-				pos = resp->data.find("\"errorDescription\":\"", pos);
+
+				pos = resp.data.find("\"errorDescription\":\"", pos);
 				if (pos != std::string::npos) {
 					pos += 20;
-					error = resp->data.substr(pos, resp->data.find("\"", pos) - pos);
+					error = resp.data.substr(pos, resp.data.find("\"", pos) - pos);
 					error = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(error)));
 					error = ptrA( mir_utf8decodeA(error.c_str()));	
 				}
 
 				std::string title = "";
-				pos = resp->data.find("\"errorSummary\":\"", pos);
+				pos = resp.data.find("\"errorSummary\":\"", pos);
 				if (pos != std::string::npos) {
 					pos += 16;
-					title = resp->data.substr(pos, resp->data.find("\"", pos) - pos);
+					title = resp.data.substr(pos, resp.data.find("\"", pos) - pos);
 					title = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(title)));
 					title = ptrA( mir_utf8decodeA(title.c_str()));	
 				}
 
-				resp->error_number = error_num;
-				resp->error_text = error;
-				resp->error_title = title;
-				resp->code = HTTP_CODE_FAKE_ERROR;
+				resp.error_number = error_num;
+				resp.error_text = error;
+				resp.error_title = title;
+				resp.code = HTTP_CODE_FAKE_ERROR;
 
 				parent->Log(" ! !  Received Facebook error: %d -- %s", error_num, error.c_str());
-				if (notify)
+				if (notify_errors(request_type))
 					client_notify(_A2T(error.c_str()));
-
-				return false;
 			}
-		} catch (const std::exception &e) {
-			parent->Log(" @ @  validate_response: Exception: %s",e.what());
-			return false;
 		}
 	}
 
-	return true;
+	return resp;
 }
 
 bool facebook_client::handle_entry(std::string method)
@@ -564,6 +530,21 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	}
 }
 
+bool facebook_client::notify_errors(RequestType request_type)
+{
+	switch (request_type)
+	{
+	case REQUEST_BUDDY_LIST:
+	case REQUEST_MESSAGE_SEND2:
+	case REQUEST_MESSAGE_SEND:
+	case REQUEST_ASYNC:
+		return false;
+
+	default:
+		return true;
+	}
+}
+
 NETLIBHTTPHEADER* facebook_client::get_request_headers(int request_type, int* headers_count)
 {
 	if (request_type == REQUEST_POST)
@@ -715,9 +696,6 @@ bool facebook_client::login(const char *username, const char *password)
 	// Send validation
 	http::response resp = flap(REQUEST_LOGIN, &data);
 
-	// Process result data
-	validate_response(&resp);
-
 	// Save Device ID
 	if (cookies["datr"].length())
 		parent->setString(FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
@@ -782,7 +760,6 @@ bool facebook_client::login(const char *username, const char *password)
 			inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 
 			resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
-			validate_response(&resp);
 		}
 	}
 
@@ -884,9 +861,6 @@ bool facebook_client::home()
 		
 	resp = flap(REQUEST_HOME);
 
-	// Process result data
-	validate_response(&resp);
-
 	switch (resp.code)
 	{
 	case HTTP_CODE_OK:
@@ -942,9 +916,6 @@ bool facebook_client::reconnect()
 	// Request reconnect
 	http::response resp = flap(REQUEST_RECONNECT);
 
-	// Process result data
-	validate_response(&resp);
-
 	switch (resp.code)
 	{
 	case HTTP_CODE_OK:
@@ -990,9 +961,6 @@ bool facebook_client::buddy_list()
 	// Get buddy list
 	http::response resp = flap(REQUEST_BUDDY_LIST, &data);
 
-	// Process result data
-	validate_response(&resp);
-
 	switch (resp.code) {
 	case HTTP_CODE_OK:
 		parent->ForkThread(&FacebookProto::ProcessBuddyList, new std::string(resp.data));
@@ -1011,9 +979,6 @@ bool facebook_client::load_friends()
 
 	// Get buddy list
 	http::response resp = flap(REQUEST_LOAD_FRIENDS);
-
-	// Process result data
-	validate_response(&resp);
 
 	switch (resp.code) {
 	case HTTP_CODE_OK:
@@ -1034,9 +999,6 @@ bool facebook_client::feeds()
 	// Get feeds
 	http::response resp = flap(REQUEST_FEEDS);
 
-	// Process result data
-	validate_response(&resp);
-  
 	switch (resp.code) {
 	case HTTP_CODE_OK:
 		if (resp.data.find("\"num_stories\":0") == std::string::npos)
@@ -1061,9 +1023,6 @@ bool facebook_client::load_pages()
 	// Get feeds
 	http::response resp = flap(REQUEST_PAGES);
 
-	// Process result data
-	validate_response(&resp);
-  
 	switch (resp.code) {
 	case HTTP_CODE_OK:
 	{
@@ -1111,9 +1070,6 @@ bool facebook_client::channel()
 
 	// Get update
 	http::response resp = flap(REQUEST_MESSAGES_RECEIVE);
-
-	// Process result data
-	validate_response(&resp);
 
 	if (resp.code != HTTP_CODE_OK)
 	{
@@ -1263,7 +1219,6 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 		}
 	}
 	
-	validate_response(&resp, false);
 	*error_text = resp.error_text;
 
 	switch (resp.error_number)
@@ -1380,7 +1335,7 @@ bool facebook_client::post_status(status_data *status)
 		flap(REQUEST_IDENTITY_SWITCH, &data);
 	}
 
-	if (validate_response(&resp) && resp.code == HTTP_CODE_OK) {
+	if (resp.isValid()) {
 		parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, FACEBOOK_EVENT_OTHER);
 		return handle_success("post_status");
 	}

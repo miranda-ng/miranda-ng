@@ -28,7 +28,6 @@ Info:
 "DisableLogout" (Byte) - 1 = Disable logout procedure, 0 = default
 "PollRate" (Byte) - Waiting time between buddy list and newsfeed parsing.
 "Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc.
-"ValidateResponse" (Byte) - Set how otfen it should validate facebook responses and thus handle/show errors; 0 = default, 1 = always, 2 = never
 "UseLocalTimestampUnread" (Byte) - 1 = Use local timestamp for offline (unread) messages
 
 --------------------------------
@@ -38,7 +37,7 @@ Info:
 0.2.1.0 - 1.10.2013
  + Save name into first, second and last name fields separately
  + First experimental implementation of multi user chats (thanks to nobodyreal for patch)
- * Notify more facebook errors in validate_reseponse
+ * Notify more facebook errors
  * Don't use local_timestamp for unread messages (even if enabled in options) by default (use hidden setting to enable it)
  ! Duplicit contacts fixes (and hopefully it won't create duplicit contacts anymore)
  ! Fixed Poke

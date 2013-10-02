@@ -84,7 +84,7 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 		}
 	}
 
-	// Find now awailable contacts
+	// Find now available contacts
 	JSONNODE *nowAvailable = json_get(list, "nowAvailableList");
 	if (nowAvailable != NULL) {		
 		for (unsigned int i = 0; i < json_size(nowAvailable); i++) {
@@ -295,7 +295,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 			if (!message_text->empty())
 				*message_text += "\n\n";
 			
-			// we can use this as offline messages doesn't have it
+			// we can't use this as offline messages doesn't have it
 			/* JSONNODE *admin_snippet = json_get(it, "admin_snippet");
 			if (admin_snippet != NULL) {
 				*message_text += json_as_pstring(admin_snippet);
@@ -435,8 +435,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 								resp = proto->facy.flap(REQUEST_USER_INFO, NULL, &search);
 							}
 
-							proto->facy.validate_response(&resp);
-
 							if (resp.code == HTTP_CODE_OK) {
 								std::string about = utils::text::source_get_value(&resp.data, 2, "<div class=\"timeline", "<div id=\"footer");
 
@@ -542,8 +540,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					}
 
 					std::string senderName = json_as_string(sender_name);
-					std::string::size_type pos;
-					/*if ((pos = senderName.find(" ")) != std::string::npos) {
+					/*std::string::size_type pos;
+					if ((pos = senderName.find(" ")) != std::string::npos) {
 						senderName = senderName.substr(0, pos);							
 					}*/
 

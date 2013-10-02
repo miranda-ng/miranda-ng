@@ -80,12 +80,14 @@ struct facebook_message
 	DWORD time;
 	bool isIncoming;
 	bool isUnread;
+	bool isChat;
 
 	facebook_message()
 	{
 		this->user_id = this->message_text = this->sender_name = this->message_id = "";
 		this->time = 0;
 		this->isUnread = this->isIncoming = true;
+		this->isChat = false;
 	}
 
 	facebook_message(const facebook_message& msg)
@@ -97,6 +99,7 @@ struct facebook_message
 		this->time = msg.time;
 		this->isIncoming = msg.isIncoming;
 		this->isUnread = msg.isUnread;
+		this->isChat = msg.isChat;
 	}
 };
 

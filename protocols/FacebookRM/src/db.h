@@ -55,11 +55,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_LAST_WALL				"LastWall"
 #define FACEBOOK_KEY_LOAD_PAGES				"LoadPages"
 
-#define FACEBOOK_KEY_POLL_RATE				"PollRate" // [HIDDEN]
-#define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit" // [HIDDEN]
-#define FACEBOOK_KEY_DISABLE_LOGOUT			"DisableLogout" // [HIDDEN]
-#define FACEBOOK_KEY_VALIDATE_RESPONSE		"ValidateResponse" // [HIDDEN] - 0 = standard, 1 = always, 2 = never
-#define	FACEBOOK_KEY_LOCALE					"Locale" // [HIDDEN] - en_US, cs_CZ, etc.
+#define FACEBOOK_KEY_POLL_RATE				"PollRate"		// [HIDDEN]
+#define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit"	// [HIDDEN]
+#define FACEBOOK_KEY_DISABLE_LOGOUT			"DisableLogout"	// [HIDDEN]
+#define	FACEBOOK_KEY_LOCALE					"Locale"		// [HIDDEN] - en_US, cs_CZ, etc.
 #define FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD	"UseLocalTimestampUnread" // [HIDDEN] - 1 = use local timestamp for offline messages
 
 #define FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE     "EventNotificationsEnable"

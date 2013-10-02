@@ -197,9 +197,6 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	// Get unread inbox threads
 	http::response resp = facy.flap(REQUEST_DELETE_FRIEND, &query, &get_query);
 
-	// Process result data
-	facy.validate_response(&resp);
-
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{
 		facebook_user* fbu = facy.buddies.find(id);
@@ -242,9 +239,6 @@ void FacebookProto::AddContactToServer(void *data)
 	// Get unread inbox threads
 	http::response resp = facy.flap(REQUEST_REQUEST_FRIEND, &query);
 
-	// Process result data
-	facy.validate_response(&resp);
-
 	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
 		HANDLE hContact = ContactIDToHContact(id);
 
@@ -281,9 +275,6 @@ void FacebookProto::ApproveContactToServer(void *data)
 
 	http::response resp = facy.flap(REQUEST_APPROVE_FRIEND, &post_data, &get_data);
 
-	// Process result data
-	facy.validate_response(&resp);
-
 	setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 }
 
@@ -306,9 +297,6 @@ void FacebookProto::CancelFriendsRequest(void *data)
 
 	// Get unread inbox threads
 	http::response resp = facy.flap(REQUEST_CANCEL_REQUEST, &query);
-
-	// Process result data
-	facy.validate_response(&resp);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{
@@ -338,9 +326,6 @@ void FacebookProto::SendPokeWorker(void *p)
 
 	// Send poke
 	http::response resp = facy.flap(REQUEST_POKE, &data);
-
-	// Process result data
-	facy.validate_response(&resp);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		std::string message = utils::text::source_get_value(&resp.data, 3, "__html\":\"", "\\/button>", "\"}");

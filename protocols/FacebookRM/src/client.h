@@ -111,8 +111,6 @@ public:
 
 	unsigned int error_count_;
 
-	bool    validate_response(http::response *resp, bool notify = true);
-
 	bool    handle_entry(std::string method);
 	bool    handle_success(std::string method);
 	bool    handle_error(std::string method, int force_disconnect = 0);
@@ -174,6 +172,7 @@ public:
 
 	DWORD   choose_security_level(RequestType);
 	int     choose_method(RequestType);
+	bool	notify_errors(RequestType);
 	std::string choose_proto(RequestType);
 	std::string choose_server(RequestType, std::string* data = NULL, std::string* get_data = NULL);
 	std::string choose_action(RequestType, std::string* data = NULL, std::string* get_data = NULL);

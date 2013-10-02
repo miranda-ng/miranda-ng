@@ -278,7 +278,6 @@ void FacebookProto::ProcessUnreadMessages(void*)
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
 	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
-	facy.validate_response(&resp);
 
 	if (resp.code == HTTP_CODE_OK) {
 		
@@ -343,7 +342,6 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 		}
 
 		resp = facy.flap(REQUEST_THREAD_INFO, &data);
-		facy.validate_response(&resp);
 
 		if (resp.code == HTTP_CODE_OK) {
 		
@@ -371,22 +369,26 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 					ParseSmileys(messages[i]->message_text, hContact);
 
-					if (messages[i]->isIncoming) {
-						PROTORECVEVENT recv = {0};
-						recv.flags = PREF_UTF;
-						recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-						recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-						ProtoChainRecvMsg(hContact, &recv);
+					if (messages[i]->isChat) {
+
 					} else {
-						DBEVENTINFO dbei = {0};
-						dbei.cbSize = sizeof(dbei);
-						dbei.eventType = EVENTTYPE_MESSAGE;
-						dbei.flags = DBEF_SENT | DBEF_UTF;
-						dbei.szModule = m_szModuleName;
-						dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-						dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
-						dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
-						db_event_add(hContact, &dbei);
+						if (messages[i]->isIncoming) {
+							PROTORECVEVENT recv = {0};
+							recv.flags = PREF_UTF;
+							recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
+							recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+							ProtoChainRecvMsg(hContact, &recv);
+						} else {
+							DBEVENTINFO dbei = {0};
+							dbei.cbSize = sizeof(dbei);
+							dbei.eventType = EVENTTYPE_MESSAGE;
+							dbei.flags = DBEF_SENT | DBEF_UTF;
+							dbei.szModule = m_szModuleName;
+							dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+							dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
+							dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
+							db_event_add(hContact, &dbei);
+						}
 					}
 				}
 				delete messages[i];
@@ -510,9 +512,6 @@ void FacebookProto::ProcessNotifications(void*)
 	// Get notifications
 	http::response resp = facy.flap(REQUEST_NOTIFICATIONS);
 
-	// Process result data
-	facy.validate_response(&resp);
-  
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("notifications");
 		return;
@@ -556,9 +555,6 @@ void FacebookProto::ProcessFriendRequests(void*)
 	// Get notifications
 	http::response resp = facy.flap(REQUEST_LOAD_REQUESTS);
 
-	// Process result data
-	facy.validate_response(&resp);
-  
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("friendRequests");
 		return;
@@ -763,9 +759,6 @@ void FacebookProto::SearchAckThread(void *targ)
 
 		http::response resp = facy.flap(REQUEST_SEARCH, NULL, &get_data);
 
-		// Process result data
-		facy.validate_response(&resp);
-
 		if (resp.code == HTTP_CODE_OK)
 		{
 			std::string items = utils::text::source_get_value(&resp.data, 2, "<body", "</body>");
@@ -847,8 +840,6 @@ void FacebookProto::SearchIdAckThread(void *targ)
 			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MOBILE"/", "_rdr", true);
 			resp = facy.flap(REQUEST_USER_INFO, NULL, &search);
 		}
-
-		facy.validate_response(&resp);
 
 		if (resp.code == HTTP_CODE_OK)
 		{

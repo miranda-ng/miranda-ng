@@ -90,7 +90,6 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			post_data += "&phstamp=0";
 
 			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data);
-			facy.validate_response(&resp);
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
 			setString(hContact, FACEBOOK_KEY_TID, tid.c_str());
