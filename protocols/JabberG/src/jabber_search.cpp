@@ -131,7 +131,7 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 ////////////////////////////////////////////////////////////////////////////////
 // Available search field request result handler  (XEP-0055. Examples 2, 7)
 
-void CJabberProto::OnIqResultGetSearchFields(HXML iqNode)
+void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if ( !searchHandleDlg)
 		return;
@@ -295,7 +295,7 @@ TCHAR* CopyKey(TCHAR* key)
 ////////////////////////////////////////////////////////////////////////////////
 // Search field request result handler  (XEP-0055. Examples 3, 8)
 
-void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
+void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	const TCHAR *type;
 	int    id;
@@ -467,10 +467,9 @@ int CJabberProto::SearchRenewFields(HWND hwndDlg, JabberSearchData * dat)
 
 	searchHandleDlg = hwndDlg;
 
-	int iqId = SerialNext();
-	IqAdd(iqId, IQ_PROC_GETSEARCHFIELDS, &CJabberProto::OnIqResultGetSearchFields);
-	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, szServerName) << XQUERY(_T("jabber:iq:search")));
-	return iqId;
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetSearchFields, JABBER_IQ_TYPE_GET, szServerName);
+	m_ThreadInfo->send( XmlNodeIq(pInfo) << XQUERY(_T("jabber:iq:search")));
+	return pInfo->GetIqId();
 }
 
 static void JabberSearchAddUrlToRecentCombo(HWND hwndDlg, const TCHAR *szAddr)
@@ -734,8 +733,8 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 	GetDlgItemText(hwndDlg, IDC_SERVER, szServerName, SIZEOF(szServerName));
 
 	// formating query
-	int iqId = SerialNext();
-	XmlNodeIq iq(_T("set"), iqId, szServerName);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultAdvancedSearch, JABBER_IQ_TYPE_SET, szServerName);
+	XmlNodeIq iq(pInfo);
 	HXML query = iq << XQUERY(_T("jabber:iq:search"));
 
 	if (m_tszSelectedLang)
@@ -759,11 +758,8 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 	}	}	}
 
 	if (fRequestNotEmpty) {
-		// register search request result handler
-		IqAdd(iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultAdvancedSearch);
-		// send request
 		m_ThreadInfo->send(iq);
-		return (HWND)iqId;
+		return (HWND)pInfo->GetIqId();
 	}
 	return 0;
 }

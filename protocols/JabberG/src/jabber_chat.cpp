@@ -843,11 +843,10 @@ void CJabberProto::AdminSetReason(const TCHAR *to, const TCHAR *ns, const TCHAR 
 {   m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(szItem, itemVal) << XATTR(var, varVal) << XCHILD(_T("reason"), rsn));
 }
 
-void CJabberProto::AdminGet(const TCHAR *to, const TCHAR *ns, const TCHAR *var, const TCHAR *varVal, JABBER_IQ_PFUNC foo)
+void CJabberProto::AdminGet(const TCHAR *to, const TCHAR *ns, const TCHAR *var, const TCHAR *varVal, JABBER_IQ_HANDLER foo)
 {
-	int id = SerialNext();
-	IqAdd(id, IQ_PROC_NONE, foo);
-	m_ThreadInfo->send( XmlNodeIq(_T("get"), id, to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(var, varVal));
+	m_ThreadInfo->send( XmlNodeIq( AddIQ(foo, JABBER_IQ_TYPE_GET, to))
+		<< XQUERY(ns) << XCHILD(_T("item")) << XATTR(var, varVal));
 }
 
 // Member info dialog
@@ -1356,15 +1355,11 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		break;
 
 	case IDM_CONFIG:
-	{
-		int iqId = ppro->SerialNext();
-		ppro->IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetMuc);
-
-		XmlNodeIq iq(_T("get"), iqId, gch->pDest->ptszID);
-		iq << XQUERY(JABBER_FEAT_MUC_OWNER);
-		ppro->m_ThreadInfo->send(iq);
+		ppro->m_ThreadInfo->send(
+			XmlNodeIq( ppro->AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, gch->pDest->ptszID))
+				<< XQUERY(JABBER_FEAT_MUC_OWNER));
 		break;
-	}
+
 	case IDM_BOOKMARKS:
 	{
 		JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_BOOKMARK, gch->pDest->ptszID);
@@ -1492,9 +1487,9 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_CHANMGR:
-		int iqId = SerialNext();
-		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetMuc);
-		m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, item->jid) << XQUERY(JABBER_FEAT_MUC_OWNER));
+		m_ThreadInfo->send(
+			XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid))
+				<< XQUERY(JABBER_FEAT_MUC_OWNER));
 		break;
 	}
 
@@ -1509,7 +1504,8 @@ void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* s
 	if (jidListInfo->type == MUC_BANLIST) {
 		AdminSetReason(roomJid, JABBER_FEAT_MUC_ADMIN, field, str, _T("affiliation"), _T("outcast"), rsn);
 		AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, _T("affiliation"), _T("outcast"), &CJabberProto::OnIqResultMucGetBanList);
-}	}
+	}
+}
 
 void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str)
 {

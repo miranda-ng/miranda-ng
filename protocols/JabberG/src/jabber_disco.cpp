@@ -289,7 +289,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInf
 			for (int i = 1; (item = xmlGetNthChild(query, _T("item"), i)) != NULL; i++) {
 				const TCHAR *szJid = xmlGetAttrValue(item, _T("jid"));
 				const TCHAR *szNode = xmlGetAttrValue(item, _T("node"));
-				CJabberIqInfo *pNewInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryRootInfo, JABBER_IQ_TYPE_GET, szJid);
+				CJabberIqInfo *pNewInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootInfo, JABBER_IQ_TYPE_GET, szJid);
 				pNewInfo->m_pUserData = pInfo->m_pUserData;
 				pNewInfo->SetTimeout(30000);
 
@@ -310,7 +310,7 @@ BOOL CJabberProto::SendInfoRequest(CJabberSDNode *pNode, HXML parent)
 
 	// disco#info
 	if ( !pNode->GetInfoRequestId()) {
-		CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryInfo, JABBER_IQ_TYPE_GET, pNode->GetJid());
+		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryInfo, JABBER_IQ_TYPE_GET, pNode->GetJid());
 		pInfo->SetTimeout(30000);
 		pNode->SetInfoRequestId(pInfo->GetIqId());
 
@@ -340,7 +340,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, HXML parent)
 
 	// disco#info
 	if ( !pNode->GetInfoRequestId()) {
-		CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryInfo, JABBER_IQ_TYPE_GET, pNode->GetJid());
+		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryInfo, JABBER_IQ_TYPE_GET, pNode->GetJid());
 		pInfo->SetTimeout(30000);
 		pNode->SetInfoRequestId(pInfo->GetIqId());
 
@@ -357,7 +357,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, HXML parent)
 
 	// disco#items
 	if ( !pNode->GetItemsRequestId()) {
-		CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryItems, JABBER_IQ_TYPE_GET, pNode->GetJid());
+		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryItems, JABBER_IQ_TYPE_GET, pNode->GetJid());
 		pInfo->SetTimeout(30000);
 		pNode->SetItemsRequestId(pInfo->GetIqId());
 
@@ -419,7 +419,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		else if ( !lstrcmp(szJid, _T(SD_FAKEJID_CONFERENCES))) {
 			sttBrowseMode = SD_BROWSE_CONFERENCES;
 			TCHAR *szServerJid = mir_a2t(m_ThreadInfo->server);
-			CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
+			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
 			pInfo->m_pUserData = (void*)JABBER_FEAT_MUC;
 			pInfo->SetTimeout(30000);
 			XmlNodeIq iq(pInfo);
@@ -430,7 +430,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		else if ( !lstrcmp(szJid, _T(SD_FAKEJID_AGENTS))) {
 			sttBrowseMode = SD_BROWSE_AGENTS;
 			TCHAR *szServerJid = mir_a2t(m_ThreadInfo->server);
-			CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
+			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
 			pInfo->m_pUserData = (void*)_T("jabber:iq:gateway");
 			pInfo->SetTimeout(30000);
 			XmlNodeIq iq(pInfo);

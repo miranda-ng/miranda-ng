@@ -34,15 +34,11 @@ int CJabberProto::SendGetVcard(const TCHAR *jid)
 {
 	if ( !m_bJabberOnline) return 0;
 
-	int iqId = SerialNext();
-	JABBER_IQ_PROCID procId = !lstrcmp(jid, m_szJabberJID) ? IQ_PROC_GETVCARD : IQ_PROC_NONE;
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, jid);
+	m_ThreadInfo->send( XmlNodeIq(pInfo) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP)
+		<< XATTR(_T("prodid"), _T("-//HandGen//NONSGML vGen v1.0//EN")) << XATTR(_T("version"), _T("2.0")));
 
-	IqAdd(iqId, procId, &CJabberProto::OnIqResultGetVcard);
-	m_ThreadInfo->send(
-		XmlNodeIq(_T("get"), iqId, jid) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP)
-			<< XATTR(_T("prodid"), _T("-//HandGen//NONSGML vGen v1.0//EN")) << XATTR(_T("version"), _T("2.0")));
-
-	return iqId;
+	return pInfo->GetIqId();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1033,16 +1029,12 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	if ( !m_bJabberOnline) return;
 
 	DBVARIANT dbv;
-	int  iqId;
 	TCHAR *szFileName;
 	int  i;
 	char idstr[33];
 	WORD nFlag;
 
-	iqId = SerialNext();
-	IqAdd(iqId, IQ_PROC_SETVCARD, &CJabberProto::OnIqResultSetVcard);
-
-	XmlNodeIq iq(_T("set"), iqId);
+	XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultSetVcard, JABBER_IQ_TYPE_SET));
 	HXML v = iq << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
 
 	AppendVcardFromDB(v, "FN", "FullName");
@@ -1056,7 +1048,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	AppendVcardFromDB(v, "BDAY", "BirthDate");
 	AppendVcardFromDB(v, "GENDER", "GenderString");
 
-	for (i=0;;i++) {
+	for (i=0; ; i++) {
 		mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", i);
 		if ( getTString(idstr, &dbv))
 			break;
@@ -1104,7 +1096,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	AppendVcardFromDB(v, "URL", "Homepage");
 	AppendVcardFromDB(v, "DESC", "About");
 
-	for (i=0;;i++) {
+	for (i=0; ; i++) {
 		mir_snprintf(idstr, SIZEOF(idstr), "Phone%d", i);
 		if ( getTString(idstr, &dbv)) break;
 		db_free(&dbv);

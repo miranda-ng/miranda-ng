@@ -676,7 +676,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					{
 						sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_WAIT, TranslateT("Loading..."), TranslateT("Please wait for room list to download."), _T(""));
 
-						CJabberIqInfo *pInfo = m_proto->m_iqManager.AddHandler(&CJabberProto::OnIqResultDiscovery, JABBER_IQ_TYPE_GET, server, 0, -1, (void*)GetDlgItem(m_hwnd, IDC_ROOM));
+						CJabberIqInfo *pInfo = m_proto->AddIQ(&CJabberProto::OnIqResultDiscovery, JABBER_IQ_TYPE_GET, server, 0, -1, (void*)GetDlgItem(m_hwnd, IDC_ROOM));
 						pInfo->SetTimeout(30000);
 						XmlNodeIq iq(pInfo);
 						iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
@@ -1023,13 +1023,12 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		// Check <created/>
 		if (bRoomCreated) {
 			HXML n = xmlGetChild(node , "created");
-			if (n != NULL && (str = xmlGetAttrValue(n, _T("xmlns"))) != NULL && !_tcscmp(str, JABBER_FEAT_MUC_OWNER)) {
+			if (n != NULL && (str = xmlGetAttrValue(n, _T("xmlns"))) != NULL && !_tcscmp(str, JABBER_FEAT_MUC_OWNER))
 				// A new room just created by me
 				// Request room config
-				int iqId = SerialNext();
-				IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetMuc);
-				m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, item->jid) << XQUERY(JABBER_FEAT_MUC_OWNER));
-			}
+				m_ThreadInfo->send(
+					XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid))
+						<< XQUERY(JABBER_FEAT_MUC_OWNER));
 		}
 
 		mir_free(room);

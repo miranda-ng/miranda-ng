@@ -159,13 +159,9 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 				Log("Rereading %s for %S", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
-				int iqId = SerialNext();
-				if (isXVcard)
-					IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetVCardAvatar);
-				else
-					IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetClientAvatar);
-
-				XmlNodeIq iq(_T("get"), iqId, szJid);
+				XmlNodeIq iq(
+					AddIQ((isXVcard) ? &CJabberProto::OnIqResultGetVCardAvatar : &CJabberProto::OnIqResultGetClientAvatar,
+					JABBER_IQ_TYPE_GET, szJid));
 				if (isXVcard)
 					iq << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
 				else

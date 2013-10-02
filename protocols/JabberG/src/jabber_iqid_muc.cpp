@@ -36,7 +36,7 @@ void CJabberProto::SetMucConfig(HXML node, void *from)
 	}
 }
 
-void CJabberProto::OnIqResultGetMuc(HXML iqNode)
+void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML queryNode, xNode;
 	const TCHAR *type, *from, *str;
@@ -505,37 +505,37 @@ void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE 
 				mir_free(jidListInfo);
 }	}	}
 
-void CJabberProto::OnIqResultMucGetVoiceList(HXML iqNode)
+void CJabberProto::OnIqResultMucGetVoiceList(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqResultMucGetVoiceList");
 	OnIqResultMucGetJidList(iqNode, MUC_VOICELIST);
 }
 
-void CJabberProto::OnIqResultMucGetMemberList(HXML iqNode)
+void CJabberProto::OnIqResultMucGetMemberList(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqResultMucGetMemberList");
 	OnIqResultMucGetJidList(iqNode, MUC_MEMBERLIST);
 }
 
-void CJabberProto::OnIqResultMucGetModeratorList(HXML iqNode)
+void CJabberProto::OnIqResultMucGetModeratorList(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqResultMucGetModeratorList");
 	OnIqResultMucGetJidList(iqNode, MUC_MODERATORLIST);
 }
 
-void CJabberProto::OnIqResultMucGetBanList(HXML iqNode)
+void CJabberProto::OnIqResultMucGetBanList(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqResultMucGetBanList");
 	OnIqResultMucGetJidList(iqNode, MUC_BANLIST);
 }
 
-void CJabberProto::OnIqResultMucGetAdminList(HXML iqNode)
+void CJabberProto::OnIqResultMucGetAdminList(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqResultMucGetAdminList");
 	OnIqResultMucGetJidList(iqNode, MUC_ADMINLIST);
 }
 
-void CJabberProto::OnIqResultMucGetOwnerList(HXML iqNode)
+void CJabberProto::OnIqResultMucGetOwnerList(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqResultMucGetOwnerList");
 	OnIqResultMucGetJidList(iqNode, MUC_OWNERLIST);

@@ -29,33 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CJabberIqInfo;
 
-typedef enum {
-	IQ_PROC_NONE,
-	IQ_PROC_GETAGENTS,
-	IQ_PROC_GETREGISTER,
-	IQ_PROC_SETREGISTER,
-	IQ_PROC_GETVCARD,
-	IQ_PROC_SETVCARD,
-	IQ_PROC_GETSEARCH,
-	IQ_PROC_GETSEARCHFIELDS,
-	IQ_PROC_BROWSEROOMS,
-	IQ_PROC_DISCOROOMSERVER,
-	IQ_PROC_DISCOAGENTS,
-	IQ_PROC_DISCOBOOKMARKS,
-	IQ_PROC_SETBOOKMARKS,
-	IQ_PROC_DISCOCOMMANDS,
-	IQ_PROC_EXECCOMMANDS,
-} JABBER_IQ_PROCID;
-
 struct CJabberProto;
-typedef void (CJabberProto::*JABBER_IQ_PFUNC)(HXML iqNode);
 typedef void (*IQ_USER_DATA_FREE_FUNC)(void *pUserData);
-
-typedef struct {
-	TCHAR *xmlns;
-	JABBER_IQ_PFUNC func;
-	BOOL allowSubNs;		// e.g. #info in disco#info
-} JABBER_IQ_XMLNS_FUNC;
 
 // 2 minutes, milliseconds
 #define JABBER_DEFAULT_IQ_REQUEST_TIMEOUT		120000
@@ -209,7 +184,7 @@ public:
 	BOOL Shutdown();
 
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
-	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType = JABBER_IQ_TYPE_GET, const TCHAR *szReceiver = NULL, DWORD dwParamsToParse = 0, int nIqId = -1, void *pUserData = NULL, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const TCHAR *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
 	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const TCHAR *szXmlns, BOOL bAllowPartialNs, const TCHAR *szTag, void *pUserData = NULL, IQ_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
 
 	// returns TRUE when pInfo found, or FALSE otherwise

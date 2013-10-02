@@ -101,7 +101,7 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 	TCHAR tszJid[ 512 ];
 	mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s/%s"), jid, rs);
 
-	XmlNodeIq iq(m_iqManager.AddHandler(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, tszJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
+	XmlNodeIq iq( AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, tszJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
 	HXML si = iq << XCHILDNS(_T("si"), JABBER_FEAT_SI) << XATTR(_T("id"), sid)
 						<< XATTR(_T("mime-type"), _T("binary/octet-stream")) << XATTR(_T("profile"), JABBER_FEAT_SI_FT);
 	si << XCHILDNS(_T("file"), JABBER_FEAT_SI_FT) << XATTR(_T("name"), filename)

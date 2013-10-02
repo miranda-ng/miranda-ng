@@ -60,18 +60,16 @@ static BOOL CALLBACK sttDeleteChildWindowsProc(HWND hwnd, LPARAM)
 	return TRUE;
 }
 
-static void sttEnableControls(HWND hwndDlg, BOOL bEnable, const int * controlsID)
+static void sttEnableControls(HWND hwndDlg, BOOL bEnable, const int *controlsID)
 {
-	int i=0;
-	while (controlsID[i] != 0)
-		EnableDlgItem(hwndDlg, controlsID[i++], bEnable);
+	for (int i=0; controlsID[i] != 0; i++)
+		EnableDlgItem(hwndDlg, controlsID[i], bEnable);
 }
 
-static void sttShowControls(HWND hwndDlg, BOOL bShow, int * controlsID)
+static void sttShowControls(HWND hwndDlg, BOOL bShow, int *controlsID)
 {
-	int i=0;
-	while (controlsID[i] != 0)
-		ShowDlgItem(hwndDlg, controlsID[i++], (bShow) ? SW_SHOW : SW_HIDE);
+	for (int i=0; controlsID[i] != 0; i++)
+		ShowDlgItem(hwndDlg, controlsID[i], (bShow) ? SW_SHOW : SW_HIDE);
 }
 
 static void JabberAdHoc_RefreshFrameScroll(HWND hwndDlg, JabberAdHocData * dat)
@@ -92,30 +90,26 @@ static void JabberAdHoc_RefreshFrameScroll(HWND hwndDlg, JabberAdHocData * dat)
 	else ShowWindow(hwndScroll, SW_HIDE);
 
 	SetScrollRange(hwndScroll, SB_CTL, 0, dat->CurrentHeight-dat->frameHeight, FALSE);
-
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Iq handlers
 // Forwards to dialog window procedure
 
-void CJabberProto::OnIqResult_ListOfCommands(HXML iqNode)
+void CJabberProto::OnIqResult_ListOfCommands(HXML iqNode, CJabberIqInfo*)
 {
 	SendMessage(GetWindowFromIq(iqNode), JAHM_COMMANDLISTRESULT, 0, (LPARAM)xi.copyNode(iqNode));
 }
 
-void CJabberProto::OnIqResult_CommandExecution(HXML iqNode)
+void CJabberProto::OnIqResult_CommandExecution(HXML iqNode, CJabberIqInfo*)
 {
 	SendMessage(GetWindowFromIq(iqNode), JAHM_PROCESSRESULT, (WPARAM)xi.copyNode(iqNode), 0);
 }
 
-int CJabberProto::AdHoc_RequestListOfCommands(TCHAR * szResponder, HWND hwndDlg)
+void CJabberProto::AdHoc_RequestListOfCommands(TCHAR * szResponder, HWND hwndDlg)
 {
-	int iqId = (int)hwndDlg;
-	IqAdd(iqId, IQ_PROC_DISCOCOMMANDS, &CJabberProto::OnIqResult_ListOfCommands);
-	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, szResponder) << XQUERY(JABBER_FEAT_DISCO_ITEMS)
-		<< XATTR(_T("node"), JABBER_FEAT_COMMANDS));
-	return iqId;
+	m_ThreadInfo->send( XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetCollectionList, JABBER_IQ_TYPE_GET, szResponder, 0, (int)hwndDlg))
+		<< XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR(_T("node"), JABBER_FEAT_COMMANDS));
 }
 
 int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, TCHAR*, JabberAdHocData* dat)
@@ -129,16 +123,14 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, TCHAR*, JabberAdHocData* da
 		const TCHAR *node = xmlGetAttrValue(itemNode, _T("node"));
 		if (node) {
 			const TCHAR *jid2 = xmlGetAttrValue(itemNode, _T("jid"));
-
-			int iqId = (int)hwndDlg;
-			IqAdd(iqId, IQ_PROC_EXECCOMMANDS, &CJabberProto::OnIqResult_CommandExecution);
 			m_ThreadInfo->send(
-				XmlNodeIq(_T("set"), iqId, jid2)
+				XmlNodeIq( AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, 0, (int)hwndDlg))
 					<< XCHILDNS(_T("command"), JABBER_FEAT_COMMANDS) << XATTR(_T("node"), node) << XATTR(_T("action"), _T("execute")));
 
 			EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
 			SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
-	}	}
+		}
+	}
 
 	xi.destroyNode(dat->CommandsNode); dat->CommandsNode = NULL;
 	return TRUE;
@@ -301,8 +293,8 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData* dat, TC
 	HXML xNode		  = xmlGetChild(commandNode , "x");
 	HXML dataNode    = JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), xNode);
 
-	int iqId = (int)hwndDlg;
-	XmlNodeIq iq(_T("set"), iqId, xmlGetAttrValue(dat->AdHocNode, _T("from")));
+	LPCTSTR jid2 = xmlGetAttrValue(dat->AdHocNode, _T("from"));
+	XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, 0, (int)hwndDlg));
 	HXML command = iq << XCHILDNS(_T("command"), JABBER_FEAT_COMMANDS);
 
 	const TCHAR *sessionId = xmlGetAttrValue(commandNode, _T("sessionid"));
@@ -317,7 +309,6 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData* dat, TC
 		command << XATTR(_T("action"), action);
 
 	xmlAddChild(command, dataNode);
-	IqAdd(iqId, IQ_PROC_EXECCOMMANDS, &CJabberProto::OnIqResult_CommandExecution);
 	m_ThreadInfo->send(iq);
 
 	xi.destroyNode(dataNode);
@@ -403,10 +394,8 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			}
 			else
 			{
-				int iqId = (int)hwndDlg;
-				dat->proto->IqAdd(iqId, IQ_PROC_EXECCOMMANDS, &CJabberProto::OnIqResult_CommandExecution);
 				dat->proto->m_ThreadInfo->send(
-					XmlNodeIq(_T("set"), iqId, pStartupParams->m_szJid)
+					XmlNodeIq( dat->proto->AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, pStartupParams->m_szJid, 0, (int)hwndDlg))
 						<< XCHILDNS(_T("command"), JABBER_FEAT_COMMANDS)
 							<< XATTR(_T("node"), pStartupParams->m_szNode) << XATTR(_T("action"), _T("execute")));
 

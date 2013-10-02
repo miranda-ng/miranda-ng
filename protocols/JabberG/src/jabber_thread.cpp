@@ -470,7 +470,7 @@ LBL_FatalError:
 					break;
 				else if (nSelRes == 0 && m_bSendKeepAlive) {
 					if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PING) {
-						CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, NULL, 0, -1, this);
+						CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, NULL, 0, -1, this);
 						pInfo->SetTimeout(m_options.ConnectionKeepAliveTimeout);
 						info->send( XmlNodeIq(pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID) << XCHILDNS(_T("ping"), JABBER_FEAT_PING));
 					}
@@ -620,9 +620,8 @@ void CJabberProto::PerformRegistration(ThreadData* info)
 void CJabberProto::PerformIqAuth(ThreadData* info)
 {
 	if (info->type == JABBER_SESSION_NORMAL) {
-		int iqId = SerialNext();
-		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetAuth);
-		info->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T("jabber:iq:auth")) << XCHILD(_T("username"), info->username));
+		info->send( XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetAuth, JABBER_IQ_TYPE_GET)) 
+			<< XQUERY(_T("jabber:iq:auth")) << XCHILD(_T("username"), info->username));
 	}
 	else if (info->type == JABBER_SESSION_REGISTER)
 		PerformRegistration(info);
@@ -820,7 +819,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 	// mechanisms are not defined.
 	if (info->auth) { //We are already logged-in
 		info->send(
-			XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
+			XmlNodeIq( AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS(_T("bind"), _T("urn:ietf:params:xml:ns:xmpp-bind"))
 				<< XCHILD(_T("resource"), info->resource));
 
@@ -1859,7 +1858,6 @@ void CJabberProto::OnProcessIq(HXML node)
 {
 	HXML queryNode;
 	const TCHAR *type, *xmlns;
-	JABBER_IQ_PFUNC pfunc;
 
 	if ( !xmlGetName(node) || _tcscmp(xmlGetName(node), _T("iq"))) return;
 	if ((type=xmlGetAttrValue(node, _T("type"))) == NULL) return;
@@ -1882,14 +1880,6 @@ void CJabberProto::OnProcessIq(HXML node)
 	if (OnProcessJingle(node))
 		return;
 
-	/////////////////////////////////////////////////////////////////////////
-	// OLD MATCH BY ID
-	/////////////////////////////////////////////////////////////////////////
-	if ((!_tcscmp(type, _T("result")) || !_tcscmp(type, _T("error"))) && ((pfunc=JabberIqFetchFunc(id)) != NULL)) {
-		Log("Handling iq request for id=%d", id);
-		(this->*pfunc)(node);
-		return;
-	}
 	// RECVED: <iq type='error'> ...
 	if ( !_tcscmp(type, _T("error"))) {
 		Log("XXX on entry");

@@ -1030,7 +1030,7 @@ static void _RosterListClear(HWND hwndDlg)
 	ListView_SetColumnWidth(hList,3,width*10/100);
 }
 
-void CJabberProto::_RosterHandleGetRequest(HXML node)
+void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 {
 	HWND hList=GetDlgItem(rrud.hwndDlg, IDC_ROSTER);
 	if (rrud.bRRAction==RRA_FILLLIST)
@@ -1101,18 +1101,13 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 		if ( !queryRoster)
 			return;
 
-		int iqId = SerialNext();
-		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::_RosterHandleGetRequest);
-
-		XmlNode iq(_T("iq"));
-		xmlAddAttr(iq, _T("type"), _T("set"));
-		iq << XATTRID(iqId);
+		XmlNodeIq iq( AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_SET));
 
 		HXML query = iq << XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER);
 
 		int itemCount=0;
 		int ListItemCount=ListView_GetItemCount(hList);
-		for (int index=0; index<ListItemCount; index++)
+		for (int index=0; index < ListItemCount; index++)
 		{
 			TCHAR jid[JABBER_MAX_JID_LEN]=_T("");
 			TCHAR name[260]=_T("");
@@ -1179,12 +1174,12 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 
 void CJabberProto::_RosterSendRequest(HWND hwndDlg, BYTE rrAction)
 {
-	rrud.bRRAction=rrAction;
-	rrud.hwndDlg=hwndDlg;
-
-	int iqId = SerialNext();
-	IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::_RosterHandleGetRequest);
-	m_ThreadInfo->send(XmlNode(_T("iq")) << XATTR(_T("type"), _T("get")) << XATTRID(iqId) << XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER));
+	rrud.bRRAction = rrAction;
+	rrud.hwndDlg = hwndDlg;
+	
+	m_ThreadInfo->send(
+		XmlNodeIq( AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_GET))
+			<< XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER));
 }
 
 static void _RosterItemEditEnd(HWND hEditor, ROSTEREDITDAT * edat, BOOL bCancel)

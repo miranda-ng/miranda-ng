@@ -38,8 +38,7 @@ void CJabberProto::RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pIt
 
 	pItem->bHistoryRead = TRUE;
 
-	int iqId = SerialNext();
-	XmlNodeIq iq(_T("get"), iqId);
+	XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultGetCollectionList, JABBER_IQ_TYPE_GET));
 	HXML list = iq << XCHILDNS( _T("list"), JABBER_FEAT_ARCHIVE) << XATTR(_T("with"), pItem->jid);
 
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
@@ -47,12 +46,10 @@ void CJabberProto::RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pIt
 		TCHAR buf[40];
 		list << XATTR(_T("start"), time2str(tmLast, buf, SIZEOF(buf)));
 	}
-
-	IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetCollectionList);
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::OnIqResultGetCollectionList(HXML iqNode)
+void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 {
 	const TCHAR *to = xmlGetAttrValue(iqNode, _T("to"));
 	if (to == NULL || lstrcmp( xmlGetAttrValue(iqNode, _T("type")), _T("result")))
@@ -82,10 +79,8 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode)
 			tmLast = getDword(hContact, "LastCollection", 0);
 		}
 
-		int iqId = SerialNext();
-		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetCollection);
 		m_ThreadInfo->send(
-			XmlNodeIq(_T("get"), iqId)
+			XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetCollection, JABBER_IQ_TYPE_GET))
 				<< XCHILDNS( _T("retrieve"), JABBER_FEAT_ARCHIVE) << XATTR(_T("with"), with) << XATTR(_T("start"), start));
 
 		time_t tmThis = str2time(start);
@@ -248,7 +243,7 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO& dbei)
 	return FALSE;
 }
 
-void CJabberProto::OnIqResultGetCollection(HXML iqNode)
+void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 {
 	if ( lstrcmp( xmlGetAttrValue(iqNode, _T("type")), _T("result")))
 		return;

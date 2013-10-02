@@ -131,14 +131,10 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 				replaceStrT(item->name, (text[0] == 0) ? roomJID : text);
 
 				item->bAutoJoin = (SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_GETCHECK,0, 0) == BST_CHECKED);
-				{
-					int iqId = param->ppro->SerialNext();
-					param->ppro->IqAdd(iqId, IQ_PROC_SETBOOKMARKS, &CJabberProto::OnIqResultSetBookmarks);
 
-					XmlNodeIq iq(_T("set"), iqId);
-					param->ppro->SetBookmarkRequest(iq);
-					param->ppro->m_ThreadInfo->send(iq);
-				}
+				XmlNodeIq iq( param->ppro->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
+				param->ppro->SetBookmarkRequest(iq);
+				param->ppro->m_ThreadInfo->send(iq);
 			}
 			// fall through
 		case IDCANCEL:
@@ -243,10 +239,7 @@ private:
 
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
-		int iqId = m_proto->SerialNext();
-		m_proto->IqAdd(iqId, IQ_PROC_SETBOOKMARKS, &CJabberProto::OnIqResultSetBookmarks);
-
-		XmlNodeIq iq(_T("set"), iqId);
+		XmlNodeIq iq( m_proto->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
 		m_proto->SetBookmarkRequest(iq);
 		m_proto->m_ThreadInfo->send(iq);
 	}
@@ -269,10 +262,9 @@ void CJabberDlgBookmarks::UpdateData()
 {
 	if ( !m_proto->m_bJabberOnline) return;
 
-	int iqId = m_proto->SerialNext();
-	m_proto->IqAdd(iqId, IQ_PROC_DISCOBOOKMARKS, &CJabberProto::OnIqResultDiscoBookmarks);
-	m_proto->m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
-		<< XCHILDNS(_T("storage"), _T("storage:bookmarks")));
+	m_proto->m_ThreadInfo->send(
+		XmlNodeIq( m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
+			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 }
 
 void CJabberDlgBookmarks::OnInitDialog()

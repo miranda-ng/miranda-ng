@@ -139,7 +139,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	InitPopups();
 	GlobalMenuInit();
 	WsInit();
-	IqInit();
 	ConsoleInit();
 	InitCustomFolders();
 
@@ -176,7 +175,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 CJabberProto::~CJabberProto()
 {
 	WsUninit();
-	IqUninit();
 	ConsoleUninit();
 	GlobalMenuUninit();
 
@@ -686,11 +684,11 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 
 	if (m_ThreadInfo) {
 		m_ThreadInfo->send(
-			XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_HCONTACT))
+			XmlNodeIq( AddIQ(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_HCONTACT))
 				<< XCHILDNS(_T("time"), JABBER_FEAT_ENTITY_TIME));
 
 		// XEP-0012, last logoff time
-		XmlNodeIq iq2(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM));
+		XmlNodeIq iq2( AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM));
 		iq2 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 		m_ThreadInfo->send(iq2);
 
@@ -728,25 +726,25 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 					JabberStripJid(jid, szp1, SIZEOF(szp1));
 					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->m_tszResourceName);
 
-					XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
+					XmlNodeIq iq3( AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
 					iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 					m_ThreadInfo->send(iq3);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
-						XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
+						XmlNodeIq iq5( AddIQ(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
 						iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
 						m_ThreadInfo->send(iq5);
 					}
 
 					if (r->m_dwVersionRequestTime == 0) {
-						XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
+						XmlNodeIq iq4( AddIQ(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 						iq4 << XQUERY(JABBER_FEAT_VERSION);
 						m_ThreadInfo->send(iq4);
 					}
 				}
 			}
 			else if (item->getTemp()->m_dwVersionRequestTime == 0) {
-				XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
+				XmlNodeIq iq4( AddIQ(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 				iq4 << XQUERY(JABBER_FEAT_VERSION);
 				m_ThreadInfo->send(iq4);
 			}
@@ -833,11 +831,10 @@ HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
 
 	ptrA szServerName( getStringA("Jud"));
 
-	int iqId = SerialNext();
-	IqAdd(iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultSetSearch);
-	m_ThreadInfo->send( XmlNodeIq(_T("set"), iqId, _A2T(szServerName == 0 ? "users.jabber.org" : szServerName)) << XQUERY(_T("jabber:iq:search"))
-		<< XCHILD(_T("email"), email));
-	return (HANDLE)iqId;
+	LPCSTR jid = szServerName == 0 ? "users.jabber.org" : szServerName;
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultSetSearch, JABBER_IQ_TYPE_SET, _A2T(jid));
+	m_ThreadInfo->send( XmlNodeIq(pInfo) << XQUERY(_T("jabber:iq:search")) << XCHILD(_T("email"), email));
+	return (HANDLE)pInfo->GetIqId();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -852,13 +849,13 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 
 	ptrA szServerName( getStringA("Jud"));
 
-	int iqId = SerialNext();
-	XmlNodeIq iq(_T("set"), iqId, _A2T(szServerName == 0 ? "users.jabber.org" : szServerName));
-	HXML query = iq << XQUERY(_T("jabber:iq:search"));
+	CJabberIqInfo *pInfo = AddIQ(
+		(bIsExtFormat) ? &CJabberProto::OnIqResultExtSearch : &CJabberProto::OnIqResultSetSearch,
+		JABBER_IQ_TYPE_SET, _A2T(szServerName == 0 ? "users.jabber.org" : szServerName));
+	XmlNodeIq iq(pInfo);
+	HXML query = iq << XQUERY( _T("jabber:iq:search"));
 
 	if (bIsExtFormat) {
-		IqAdd(iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultExtSearch);
-
 		if (m_tszSelectedLang)
 			iq << XATTR(_T("xml:lang"), m_tszSelectedLang);
 
@@ -873,7 +870,6 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 			x << XCHILD(_T("field")) << XATTR(_T("var"), _T("given")) << XATTR(_T("value"), lastName);
 	}
 	else {
-		IqAdd(iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultSetSearch);
 		if (nick[0] != '\0')
 			query << XCHILD(_T("nick"), nick);
 
@@ -885,7 +881,7 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 	}
 
 	m_ThreadInfo->send(iq);
-	return (HANDLE)iqId;
+	return (HANDLE)pInfo->GetIqId();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

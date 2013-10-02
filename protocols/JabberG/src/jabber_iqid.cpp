@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "jabber_privacy.h"
 
-void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
+void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 {
 	if ( !iqNode)
 		return;
@@ -103,7 +103,7 @@ void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo *pInf
 	// roster request
 	TCHAR *szUserData = mir_tstrdup(szGroupDelimeter ? szGroupDelimeter : _T("\\"));
 	m_ThreadInfo->send(
-		XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET, NULL, 0, -1, (void*)szUserData))
+		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET, NULL, 0, -1, (void*)szUserData))
 			<< XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER));
 }
 
@@ -170,7 +170,7 @@ void CJabberProto::OnLoggedIn()
 
 	// XEP-0083 support
 	{
-		CJabberIqInfo *pIqInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
+		CJabberIqInfo *pIqInfo = AddIQ(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
 		// ugly hack to prevent hangup during login process
 		pIqInfo->SetTimeout(30000);
 		m_ThreadInfo->send(
@@ -179,24 +179,21 @@ void CJabberProto::OnLoggedIn()
 	}
 
 	// Server-side notes
-	{
-		m_ThreadInfo->send(
-			XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultNotes, JABBER_IQ_TYPE_GET))
-				<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
-				<< XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES));
-	}
-
-	int iqId = SerialNext();
-	IqAdd(iqId, IQ_PROC_DISCOBOOKMARKS, &CJabberProto::OnIqResultDiscoBookmarks);
 	m_ThreadInfo->send(
-		XmlNodeIq(_T("get"), iqId) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
-			<< XCHILDNS(_T("storage"), _T("storage:bookmarks")));
+		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultNotes, JABBER_IQ_TYPE_GET))
+			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
+			<< XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES));
+	
+	m_ThreadInfo->send(
+		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
+			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 
 	m_bPepSupported = FALSE;
 	m_ThreadInfo->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
-	iqId = SerialNext();
-	IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultServerDiscoInfo);
-	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, _A2T(m_ThreadInfo->server)) << XQUERY(JABBER_FEAT_DISCO_INFO));
+	
+	m_ThreadInfo->send( 
+		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, _A2T(m_ThreadInfo->server)))
+			<< XQUERY(JABBER_FEAT_DISCO_INFO));
 
 	QueryPrivacyLists(m_ThreadInfo);
 
@@ -208,7 +205,7 @@ void CJabberProto::OnLoggedIn()
 	m_pepServices.ResetPublishAll();
 }
 
-void CJabberProto::OnIqResultGetAuth(HXML iqNode)
+void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	// RECVED: result of the request for authentication method
 	// ACTION: send account authentication information to log in
@@ -220,10 +217,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode)
 	if ((queryNode=xmlGetChild(iqNode , "query")) == NULL) return;
 
 	if ( !lstrcmp(type, _T("result"))) {
-		int iqId = SerialNext();
-		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultSetAuth);
-
-		XmlNodeIq iq(_T("set"), iqId);
+		XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultSetAuth, JABBER_IQ_TYPE_SET));
 		HXML query = iq << XQUERY(_T("jabber:iq:auth"));
 		query << XCHILD(_T("username"), m_ThreadInfo->username);
 		if (xmlGetChild(queryNode, "digest") != NULL && m_szStreamId) {
@@ -240,7 +234,6 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode)
 			query << XCHILD(_T("password"), m_ThreadInfo->password);
 		else {
 			Log("No known authentication mechanism accepted by the server.");
-
 			m_ThreadInfo->send("</stream:stream>");
 			return;
 		}
@@ -260,7 +253,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode)
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
 }	}
 
-void CJabberProto::OnIqResultSetAuth(HXML iqNode)
+void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	const TCHAR *type;
 
@@ -305,7 +298,7 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 		}
 		if (m_ThreadInfo->bIsSessionAvailable)
 			m_ThreadInfo->send(
-				XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultSession, JABBER_IQ_TYPE_SET))
+				XmlNodeIq( AddIQ(&CJabberProto::OnIqResultSession, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS(_T("session"), _T("urn:ietf:params:xml:ns:xmpp-session")));
 		else
 			OnLoggedIn();
@@ -548,7 +541,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	RebuildInfoFrame();
 }
 
-void CJabberProto::OnIqResultGetRegister(HXML iqNode)
+void CJabberProto::OnIqResultGetRegister(HXML iqNode, CJabberIqInfo*)
 {
 	// RECVED: result of the request for (agent) registration mechanism
 	// ACTION: activate (agent) registration input dialog
@@ -571,7 +564,7 @@ void CJabberProto::OnIqResultGetRegister(HXML iqNode)
 			mir_free(str);
 }	}	}
 
-void CJabberProto::OnIqResultSetRegister(HXML iqNode)
+void CJabberProto::OnIqResultSetRegister(HXML iqNode, CJabberIqInfo*)
 {
 	// RECVED: result of registration process
 	// ACTION: notify of successful agent registration
@@ -675,7 +668,7 @@ static TCHAR* sttGetText(HXML node, char* tag)
 	return (TCHAR*)xmlGetText(n);
 }
 
-void CJabberProto::OnIqResultGetVcard(HXML iqNode)
+void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML vCardNode, m, n, o;
 	const TCHAR *type, *jid;
@@ -1149,7 +1142,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 	}
 }
 
-void CJabberProto::OnIqResultSetVcard(HXML iqNode)
+void CJabberProto::OnIqResultSetVcard(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqIdSetVcard");
 	if ( !xmlGetAttrValue(iqNode, _T("type")))
@@ -1158,7 +1151,7 @@ void CJabberProto::OnIqResultSetVcard(HXML iqNode)
 	WindowNotify(WM_JABBER_REFRESH_VCARD);
 }
 
-void CJabberProto::OnIqResultSetSearch(HXML iqNode)
+void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML queryNode, n;
 	const TCHAR *type, *jid;
@@ -1209,7 +1202,7 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode)
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 }
 
-void CJabberProto::OnIqResultExtSearch(HXML iqNode)
+void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML queryNode;
 	const TCHAR *type;
@@ -1276,7 +1269,7 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode)
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 }
 
-void CJabberProto::OnIqResultSetPassword(HXML iqNode)
+void CJabberProto::OnIqResultSetPassword(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqIdSetPassword");
 
@@ -1298,19 +1291,19 @@ void CJabberProto::OnIqResultDiscoAgentItems(HXML iqNode, void *userdata)
 		return;
 }
 */
-void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
+void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	const TCHAR *type;
-
 	Log("<iq/> OnIqResultGetVCardAvatar");
 
 	const TCHAR *from = xmlGetAttrValue(iqNode, _T("from"));
 	if (from == NULL)
 		return;
+
 	HANDLE hContact = HContactFromJID(from);
 	if (hContact == NULL)
 		return;
 
+	const TCHAR *type;
 	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 	if (_tcscmp(type, _T("result"))) return;
 
@@ -1327,7 +1320,6 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
 			delSetting(hContact, "AvatarSaved");
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
 		}
-
 		return;
 	}
 
@@ -1340,7 +1332,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
 	OnIqResultGotAvatar(hContact, n, mimeType);
 }
 
-void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode)
+void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	const TCHAR *type;
 
@@ -1371,10 +1363,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode)
 			*res = 0;
 
 		// Try server stored avatar
-		int iqId = SerialNext();
-		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetServerAvatar);
-
-		XmlNodeIq iq(_T("get"), iqId, szJid);
+		XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultGetServerAvatar, JABBER_IQ_TYPE_GET, szJid));
 		iq << XQUERY(JABBER_FEAT_SERVER_AVATAR);
 		m_ThreadInfo->send(iq);
 
@@ -1387,7 +1376,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode)
 }
 
 
-void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode)
+void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	const TCHAR *type;
 
@@ -1418,13 +1407,9 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode)
 			*res = 0;
 
 		// Try VCard photo
-		int iqId = SerialNext();
-		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetVCardAvatar);
-
-		XmlNodeIq iq(_T("get"), iqId, szJid);
-		iq << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
-		m_ThreadInfo->send(iq);
-
+		m_ThreadInfo->send(
+			XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid))
+				<< XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP));
 		return;
 	}
 
@@ -1492,7 +1477,7 @@ LBL_ErrFormat:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Bookmarks
 
-void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode)
+void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML storageNode;//, nickNode, passNode;
 	const TCHAR *type, *jid, *name;
@@ -1581,7 +1566,7 @@ void CJabberProto::SetBookmarkRequest (XmlNodeIq& iq)
 	}
 }
 
-void CJabberProto::OnIqResultSetBookmarks(HXML iqNode)
+void CJabberProto::OnIqResultSetBookmarks(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	// RECVED: server's response
 	// ACTION: refresh bookmarks list dialog
