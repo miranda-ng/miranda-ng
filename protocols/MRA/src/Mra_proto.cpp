@@ -1856,7 +1856,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					if (m_heNudgeReceived)
 						NotifyEventHooks(m_heNudgeReceived, (WPARAM)hContact, NULL);
 					else {
-						pre.flags = 0;
+						pre.flags = PREF_UNICODE;
 						pre.szMessage = (LPSTR)TranslateTS(MRA_ALARM_MESSAGE);
 						ProtoChainRecvMsg(hContact, &pre);
 					}
