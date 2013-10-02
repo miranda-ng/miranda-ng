@@ -342,66 +342,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			continue;
 
 		std::string t = json_as_pstring(type);
-		if (t == "msg" || t == "offline_msg") {
-			// we use this only for outgoing messages
-			
-			// TODO: load recipient id here, but use data from "messaging" section, problem is that "messaging" is usually before this
-
-			JSONNODE *msg = json_get(it, "msg");
-			if (msg == NULL)
-				continue;
-
-			JSONNODE *from = json_get(it, "from");
-			JSONNODE *from_name = json_get(it, "from_name");
-			JSONNODE *text = json_get(msg, "text");
-			JSONNODE *messageId = json_get(msg, "messageId");
-			JSONNODE *time = json_get(msg, "time");
-			// JSONNODE *tab_type = json_get(it, "tab_type"); // e.g. "friend"
-
-			if (from == NULL || from_name == NULL || text == NULL || messageId == NULL || time == NULL)
-				continue;
-
-			std::string from_id = json_as_pstring(from);
-
-			// ignore incomming messages
-			if (from_id != proto->facy.self_.user_id)
-				continue;
-
-			std::string message_id = json_as_pstring(messageId);
-			std::string message_text = json_as_pstring(text);
-
-			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
-			if (message_text.empty())
-				continue;
-
-			JSONNODE *truncated = json_get(msg, "truncated");
-			if (truncated != NULL && json_as_int(truncated) == 1) {
-				std::string msg = "????? We got truncated message\n";
-				msg += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text));
-				proto->Log(msg.c_str());
-			}
-
-			// ignore duplicits or messages sent from miranda
-			if (ignore_duplicits(proto, message_id, message_text))
-				continue;
-
-			// Outgoing message
-			JSONNODE *to = json_get(it, "to");
-			if (to == NULL)
-				continue;
-
-			JSONNODE *to_name = json_get(it, "to_name");
-
-			facebook_message* message = new facebook_message();
-			message->message_text = message_text;
-			message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(to_name)));
-			message->time = utils::time::fix_timestamp(json_as_float(time));
-			message->user_id = json_as_pstring(to); // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-			message->message_id = message_id;
-			message->isIncoming = false;
-
-			messages->push_back(message);
-		} else if (t == "messaging") {
+		if (t == "messaging") {
 			// we use this only for incomming messages (and getting seen info)
 
 			JSONNODE *type = json_get(it, "event");
@@ -420,8 +361,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid != NULL) { // multi user chat
-					const char *tid = json_as_string(threadid);
-					const char *reader_id = json_as_string(reader);
+					std::string tid = json_as_pstring(threadid);
+					std::string reader_id = json_as_pstring(reader);
 
 					std::map<std::string, facebook_chatroom>::iterator chatroom = proto->facy.chat_rooms.find(tid);
 					if (chatroom != proto->facy.chat_rooms.end()) {
@@ -447,7 +388,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 									name = name.substr(0, pos);
 								}
 
-								proto->AddChatContact(tid, reader_id, name.c_str());
+								proto->AddChatContact(tid.c_str(), reader_id.c_str(), name.c_str());
 							}
 						}
 
@@ -512,50 +453,83 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				// Multi-user
 				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
-				if (gthreadinfo != NULL) {
-					JSONNODE *thread_name = json_get(gthreadinfo, "name");
-					const char* thread_id = json_as_string(tid);
-
-					// RM TODO: better use check if chatroom exists/is in db/is online... no?
-					/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
-					if (proto->GetChatUsers(thread_id) == NULL) {
-						// Set thread id (TID) for later.
-						proto->AddChat(thread_id, json_as_string(thread_name));
-						db_set_s(proto->ChatIDToHContact(thread_id), proto->m_szModuleName, FACEBOOK_KEY_TID, thread_id);
-					}
+				if (gthreadinfo != NULL) {					
+					std::string thread_id = json_as_pstring(tid);
 
 					// This is a recent 5 person listing of participants.
 					JSONNODE *participants_ids = json_get(gthreadinfo, "participant_ids");
 					JSONNODE *participants_names = json_get(gthreadinfo, "participant_names");
-					for (unsigned int n = 0; n < json_size(participants_ids); n++) {
-						JSONNODE *idItr = json_at(participants_ids, n);
-						const char* pId = json_as_string(idItr);
 
-						JSONNODE *nameItr = json_at(participants_names, n);
-						const char* pName = json_as_string(nameItr);
+					JSONNODE *thread_name_ = json_get(gthreadinfo, "name");
+					std::string name = json_as_pstring(thread_name_);
 
-						if (!proto->IsChatContact(thread_id, pId)) {
-							proto->AddChatContact(thread_id, pId, pName);
+					// if there is no name for this room, set own name
+					if (name.empty()) {
+						unsigned int namesCount = 3; // how many names should be in room name; max. 5
+
+						for (unsigned int n = 0; n < json_size(participants_names) && n < namesCount; n++) {
+							JSONNODE *nameItr = json_at(participants_names, n);
+							
+							if (!name.empty())
+								name += ", ";
+
+							name += json_as_pstring(nameItr);
+						}
+						JSONNODE *count_ = json_get(gthreadinfo, "participant_total_count");
+						unsigned int count = json_as_int(count_);
+
+						if (count > namesCount) {
+							char more[200];
+							mir_snprintf(more, SIZEOF(more), Translate("%s and more (%d)"), name.c_str(), count - namesCount);
+							name = more;
 						}
 					}
 
-					std::string senderName = json_as_string(sender_name);
+					HANDLE hChatContact;
+
+					// RM TODO: better use check if chatroom exists/is in db/is online... no?
+					/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
+					if (proto->GetChatUsers(thread_id.c_str()) == NULL) {
+						// Set thread id (TID) for later.
+						proto->AddChat(thread_id.c_str(), name.c_str());
+						hChatContact = proto->ChatIDToHContact(thread_id);
+						proto->setString(hChatContact, FACEBOOK_KEY_TID, thread_id.c_str());
+					}
+
+					if (!hChatContact)
+						hChatContact = proto->ChatIDToHContact(thread_id.c_str());
+
+					for (unsigned int n = 0; n < json_size(participants_ids); n++) {
+						JSONNODE *idItr = json_at(participants_ids, n);
+						std::string pId = json_as_pstring(idItr);
+
+						JSONNODE *nameItr = json_at(participants_names, n);
+						std::string pName = json_as_pstring(nameItr);
+
+						if (!proto->IsChatContact(thread_id.c_str(), pId.c_str())) {
+							proto->AddChatContact(thread_id.c_str(), pId.c_str(), pName.c_str());
+						}
+					}
+
+					std::string senderName = json_as_pstring(sender_name);
 					/*std::string::size_type pos;
 					if ((pos = senderName.find(" ")) != std::string::npos) {
 						senderName = senderName.substr(0, pos);							
 					}*/
 
 					// Last fall-back for adding this sender (Incase was not in the participants) - Is this even needed?
-					if (!proto->IsChatContact(thread_id, id.c_str())) {
-						proto->AddChatContact(thread_id, id.c_str(), senderName.c_str());
+					if (!proto->IsChatContact(thread_id.c_str(), id.c_str())) {
+						proto->AddChatContact(thread_id.c_str(), id.c_str(), senderName.c_str());
 					}
 
 					// Update chat with message.
-					proto->UpdateChat(thread_id, id.c_str(), senderName.c_str(), message_text.c_str(), utils::time::fix_timestamp(json_as_float(timestamp)));
+					proto->UpdateChat(thread_id.c_str(), id.c_str(), senderName.c_str(), message_text.c_str(), utils::time::fix_timestamp(json_as_float(timestamp)));
+					proto->setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, message_id.c_str());
+					proto->ForkThread(&FacebookProto::ReadMessageWorker, hChatContact);
 				} else {
 					facebook_message* message = new facebook_message();
 					message->message_text = message_text;
-					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_string(sender_name)));
+					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name)));
 					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 					message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 					message->message_id = message_id;
@@ -563,50 +537,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					messages->push_back(message);
 				}
 			}
-		} else if (t == "thread_msg") {
-			// multiuser message
-
-			JSONNODE *from_name = json_get(it, "from_name");
-			JSONNODE *to_name_ = json_get(it, "to_name");
-			if (to_name_ == NULL)
-				continue;
-			JSONNODE *to_name = json_get(to_name_, "__html");
-			JSONNODE *to_id = json_get(it, "to");
-			JSONNODE *from_id = json_get(it, "from");
-
-			JSONNODE *msg = json_get(it, "msg");
-			JSONNODE *text = json_get(msg, "text");
-			JSONNODE *messageId = json_get(msg, "messageId");
-
-			if (from_id == NULL || text == NULL || messageId == NULL)
-				continue;
-
-			std::string id = json_as_pstring(from_id);
-			std::string message_id = json_as_pstring(messageId);
-			std::string message_text = json_as_pstring(text);
-
-			// Ignore messages from myself
-			if (id == proto->facy.self_.user_id)
-				continue;
-				
-			// Ignore duplicits or messages sent from miranda
-			if (ignore_duplicits(proto, message_id, message_text))
-				continue;
-
-			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
-			if (message_text.empty())
-				continue;
-
-			std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(to_name)));
-			std::string url = "/?action=read&sk=inbox&page&query&tid=" + id;
-			std::string popup_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(from_name)));
-			popup_text += ": " + message_text;
-
-			proto->Log("      Got multichat message");
-		    
-			ptrT szTitle( mir_utf8decodeT(title.c_str()));
-			ptrT szText( mir_utf8decodeT(popup_text.c_str()));
-			proto->NotifyEvent(szTitle, szText, NULL, FACEBOOK_EVENT_OTHER, &url);
 		} else if (t == "notification_json") {
 			// event notification
 
@@ -617,8 +547,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			for (unsigned int j = 0; j < json_size(nodes); j++) {
 				JSONNODE *itNodes = json_at(nodes, j);
 
-				//JSONNODE *text = json_get(itNodes, "title/text");
-				JSONNODE *text_ = json_get(itNodes, "unaggregatedTitle");
+				//JSONNODE *text = json_get(itNodes, "title/text"); // use this when popups will be ready to allow changes of their content
+				JSONNODE *text_ = json_get(itNodes, "unaggregatedTitle"); // notifications one by one, not grouped
 				if (text_ == NULL)
 					continue;
 				JSONNODE *text = json_get(text_, "text");
@@ -687,8 +617,71 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				proto->Log("      Requested chat switch to %s", isVisible ? "Online" : "Offline");
 				proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
 			}
-		}
-		else
+		} else if (t == "buddylist_overlay") {
+			// we opened/closed chat window - pretty useless info for us
+			continue;
+		} else if (t == "ticker_update:home") {
+			JSONNODE *actor_ = json_get(it, "actor");
+			JSONNODE *time_ = json_get(it, "actor");
+			JSONNODE *story_ = json_get(it, "story_xhp");
+
+			std::string id = json_as_pstring(actor_);
+			time_t time = json_as_float(time_);
+			std::string text = json_as_pstring(story_);
+			text = utils::text::slashu_to_utf8(text);
+
+			text = utils::text::trim(
+					utils::text::special_expressions_decode(
+						utils::text::source_get_value(&text, 3, "<h5", ">", "</h5>")));
+			
+			// TODO: notify ticker updates
+			/* if (!text.empty()) {
+				proto->NotifyEvent()
+			}*/
+		} else if (t == "inbox") {
+			// count of unread/unseen messages - pretty useless info for us
+			/* JSONNODE *unread_ = json_get(it, "unread");
+			JSONNODE *unseen_ = json_get(it, "unseen");
+			JSONNODE *other_unread_ = json_get(it, "other_unread");
+			JSONNODE *other_unseen_ = json_get(it, "other_unseen");
+			JSONNODE *seen_timestamp_ = json_get(it, "seen_timestamp"); */
+			continue;
+		} else if (t == "mercury") {
+			// rename multi user chat, ...
+
+			JSONNODE *actions_ = json_get(it, "actions");
+			if (actions_ == NULL)
+				continue;
+
+			for (unsigned int i = 0; i < json_size(actions_); i++) {
+				JSONNODE *action_ = json_at(actions_, i);
+		
+				JSONNODE *thread_id_ = json_get(action_, "thread_id");
+				JSONNODE *log_body_ = json_get(action_, "log_message_body");
+				JSONNODE *log_data_ = json_get(action_, "log_message_data");
+				if (!log_data_ || !thread_id_)
+					continue;
+
+				JSONNODE *name_ = json_get(log_data_, "name");
+				std::string name = json_as_pstring(name_);
+				std::string thread_id = json_as_pstring(thread_id_);
+				std::string message = json_as_pstring(log_body_);
+
+				// proto->RenameChat(thread_id.c_str(), name.c_str()); // this don't work, why?
+				proto->setStringUtf(proto->ChatIDToHContact(thread_id), FACEBOOK_KEY_NICK, name.c_str());
+
+				proto->UpdateChat(thread_id.c_str(), NULL, NULL, message.c_str());
+			}
+		} else if (t == "notifications_read") {
+			// TODO: close popups with these IDs
+			JSONNODE *alert_ids = json_get(it, "alert_ids");
+			for (unsigned int n = 0; n < json_size(alert_ids); n++) {
+				JSONNODE *idItr = json_at(alert_ids, n);
+				std::string alert_id = json_as_pstring(idItr);
+
+				// PUDeletePopup(hWndPopup);
+			}
+		} else
 			continue;
 	}
 
@@ -740,7 +733,7 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, bool unreadOnly, int limit)
+int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, int limit)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
@@ -761,13 +754,37 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		return EXIT_FAILURE;
 	}
 
+	JSONNODE *roger = json_get(payload, "roger");
+	if (roger != NULL) {
+		for (unsigned int i = 0; i < json_size(roger); i++) {
+			JSONNODE *it = json_at(roger, i);
+			
+			facebook_chatroom *room = new facebook_chatroom();
+			room->thread_id = json_name(it);
+
+			for (unsigned int j = 0; j < json_size(it); j++) {
+				JSONNODE *jt = json_at(it, j);
+				std::string user_id = json_name(jt);
+				room->participants.insert(std::make_pair(user_id, user_id)); // TODO: get name somehow
+			}
+
+			chatrooms->insert(std::make_pair(room->thread_id, room));
+		}
+	}
+
 	std::map<std::string, std::string> thread_ids;
 	for (unsigned int i = 0; i < json_size(threads); i++) {
 		JSONNODE *it = json_at(threads, i);
 		JSONNODE *canonical = json_get(it, "canonical_fbid");
 		JSONNODE *thread_id = json_get(it, "thread_id");
+		JSONNODE *name = json_get(it, "name");
 		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
 		
+		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(json_as_pstring(thread_id));
+		if (iter != chatrooms->end()) {
+			iter->second->chat_name = json_as_pstring(name); // TODO: create name from users if there is no name...
+		}
+
 		if (canonical == NULL || thread_id == NULL)
 			continue;
 
@@ -790,23 +807,13 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *timestamp = json_get(it, "timestamp");
 
 		if (author == NULL || body == NULL || mid == NULL || tid == NULL || timestamp == NULL)
-			continue;
+			continue;		
 
-		// Ignore read messages if we want only unread messages
-		JSONNODE *is_unread = json_get(it, "is_unread");
-		if (unreadOnly && (is_unread == NULL || !json_as_bool(is_unread)))
-			continue;
-
-		// Try to get user id from "threads" array (and simultaneously ignore multi user threads)		
-		std::map<std::string, std::string>::iterator iter = thread_ids.find(json_as_pstring(tid));
-		if (iter == thread_ids.end())
-			continue; // not found or ignored multi user thread
-
-		std::string user_id = iter->second;
-		std::string message_id = json_as_pstring(mid);
+		std::string thread_id = json_as_pstring(tid);
+		std::string message_id = json_as_pstring(mid);		
 		std::string message_text = json_as_pstring(body);
 		std::string author_id = json_as_pstring(author);
-		std::string::size_type pos = author_id.find(":");
+		std::string::size_type pos = author_id.find(":");		
 		if (pos != std::string::npos)
 			author_id = author_id.substr(pos+1);
 
@@ -817,14 +824,36 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		if (message_text.empty())
 			continue;
 
-		facebook_message* message = new facebook_message();
+		facebook_message* message = new facebook_message();	
 		message->message_text = message_text;
 		if (author_email != NULL)
 			message->sender_name = json_as_pstring(author_email);
 		message->time = utils::time::fix_timestamp(json_as_float(timestamp));
-		message->user_id = user_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 		message->message_id = message_id;
 		message->isIncoming = (author_id != proto->facy.self_.user_id);
+
+		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(thread_id);
+		if (iter != chatrooms->end()) {
+			// this is chatroom message
+			message->isChat = true;
+			message->user_id = author_id;
+			message->thread_id = thread_id;
+		} else {
+			// this is standard message
+
+			// Ignore read messages if we want only unread messages
+			JSONNODE *is_unread = json_get(it, "is_unread");
+			if (unreadOnly && (is_unread == NULL || !json_as_bool(is_unread)))
+				continue;
+
+			message->isChat = false;
+			std::map<std::string, std::string>::iterator iter = thread_ids.find(thread_id);
+			if (iter != thread_ids.end()) {
+				message->user_id = iter->second; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+			} else {
+				continue;
+			}
+		}		
 
 		messages->push_back(message);
 	}

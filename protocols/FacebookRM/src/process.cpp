@@ -348,13 +348,45 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			CODE_BLOCK_TRY
 		
 			std::vector<facebook_message*> messages;
+			std::map<std::string, facebook_chatroom*> chatrooms;
 
 			facebook_json_parser* p = new facebook_json_parser(this);
-			p->parse_thread_messages(&resp.data, &messages, true, limit);
+			p->parse_thread_messages(&resp.data, &messages, &chatrooms, true, limit);
 			delete p;	
 
-			for(std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
-				if (messages[i]->user_id != facy.self_.user_id) {
+			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end(); ) {
+
+				facebook_chatroom *room = it->second;
+				HANDLE hChatContact;
+				if (GetChatUsers(room->thread_id.c_str()) == NULL) {
+					// Set thread id (TID) for later.
+					AddChat(room->thread_id.c_str(), room->chat_name.c_str());
+					hChatContact = ChatIDToHContact(room->thread_id);
+					setString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
+
+					for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end(); ) {
+						AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+						jt++;
+					}
+				}
+
+				if (!hChatContact)
+					hChatContact = ChatIDToHContact(room->thread_id);
+
+				setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, room->thread_id.c_str());
+				ForkThread(&FacebookProto::ReadMessageWorker, hChatContact);
+
+				delete it->second;
+				it = chatrooms.erase(it);
+			}
+			chatrooms.clear();
+
+
+			for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {				
+				if (messages[i]->isChat) {
+					LOG("      Got chat message: %s", messages[i]->message_text.c_str());
+					UpdateChat(messages[i]->thread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time);
+				} else if (messages[i]->user_id != facy.self_.user_id) {
 					LOG("      Got message: %s", messages[i]->message_text.c_str());
 					facebook_user fbu;
 					fbu.user_id = messages[i]->user_id;
@@ -369,26 +401,22 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 					ParseSmileys(messages[i]->message_text, hContact);
 
-					if (messages[i]->isChat) {
-
+					if (messages[i]->isIncoming) {
+						PROTORECVEVENT recv = {0};
+						recv.flags = PREF_UTF;
+						recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
+						recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+						ProtoChainRecvMsg(hContact, &recv);
 					} else {
-						if (messages[i]->isIncoming) {
-							PROTORECVEVENT recv = {0};
-							recv.flags = PREF_UTF;
-							recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-							recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-							ProtoChainRecvMsg(hContact, &recv);
-						} else {
-							DBEVENTINFO dbei = {0};
-							dbei.cbSize = sizeof(dbei);
-							dbei.eventType = EVENTTYPE_MESSAGE;
-							dbei.flags = DBEF_SENT | DBEF_UTF;
-							dbei.szModule = m_szModuleName;
-							dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-							dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
-							dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
-							db_event_add(hContact, &dbei);
-						}
+						DBEVENTINFO dbei = {0};
+						dbei.cbSize = sizeof(dbei);
+						dbei.eventType = EVENTTYPE_MESSAGE;
+						dbei.flags = DBEF_SENT | DBEF_UTF;
+						dbei.szModule = m_szModuleName;
+						dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+						dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
+						dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
+						db_event_add(hContact, &dbei);
 					}
 				}
 				delete messages[i];

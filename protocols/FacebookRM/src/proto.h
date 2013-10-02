@@ -195,6 +195,7 @@ public:
 	// Chats handling
  	void AddChat(const char *id, const char *name);
 	void UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0);
+	void RenameChat(const char *chat_id, const char *name);
 	bool IsChatContact(const char *chat_id, const char *id);
 	void AddChatContact(const char *chat_id, const char *id, const char *name);
 	void RemoveChatContact(const char *chat_id, const char *id);

@@ -83,6 +83,14 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY,DEFAULT_SYSTRAY_NOTIFY))
 	{
 		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
+			
+			// TODO: if popup with particular ID is already showed, just update his content
+			// ... but f***ed up Popup Classes won't allow it now - they need to return hPopupWindow somehow
+			/* if (popup exists) {
+				if (PUChangeTextT(hWndPopup, info) > 0) // success
+					return;
+			}*/
+
 			POPUPDATACLASS pd = { sizeof(pd) };
 			pd.ptszTitle = title;
 			pd.ptszText = info;

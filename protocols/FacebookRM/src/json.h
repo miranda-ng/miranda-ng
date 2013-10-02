@@ -35,7 +35,7 @@ public:
 	int parse_notifications(void*, std::vector< facebook_notification* >*);
 	int parse_messages(void*, std::vector< facebook_message* >*, std::vector< facebook_notification* >*);
 	int parse_unread_threads(void*, std::vector< std::string >*);
-	int parse_thread_messages(void*, std::vector< facebook_message* >*, bool unreadOnly, int limit);
+	int parse_thread_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly, int limit);
 
 	facebook_json_parser(FacebookProto* proto)
 	{

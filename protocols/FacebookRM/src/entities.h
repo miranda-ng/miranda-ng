@@ -64,6 +64,7 @@ struct facebook_chatroom
 	HANDLE handle;
 
 	std::string chat_name;
+	std::string thread_id;
 	std::map<std::string, std::string> participants;
 
 	std::string message_readers;
@@ -74,9 +75,10 @@ struct facebook_chatroom
 struct facebook_message
 {
 	std::string user_id;
-	std::string message_text;
 	std::string sender_name;
+	std::string message_text;	
 	std::string message_id;
+	std::string thread_id;
 	DWORD time;
 	bool isIncoming;
 	bool isUnread;
@@ -84,7 +86,7 @@ struct facebook_message
 
 	facebook_message()
 	{
-		this->user_id = this->message_text = this->sender_name = this->message_id = "";
+		this->user_id = this->message_text = this->sender_name = this->message_id = this->thread_id = "";
 		this->time = 0;
 		this->isUnread = this->isIncoming = true;
 		this->isChat = false;
@@ -93,9 +95,10 @@ struct facebook_message
 	facebook_message(const facebook_message& msg)
 	{
 		this->user_id = msg.user_id;
-		this->message_text = msg.message_text;
 		this->sender_name = msg.sender_name;
+		this->message_text = msg.message_text;		
 		this->message_id = msg.message_id;
+		this->message_id = msg.thread_id;
 		this->time = msg.time;
 		this->isIncoming = msg.isIncoming;
 		this->isUnread = msg.isUnread;

@@ -40,7 +40,8 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	gce.time     = timestamp ? timestamp : ::time(NULL);
 	gce.dwFlags  = GC_TCHAR;
 	gcd.iType  = GC_EVENT_MESSAGE;
-	gce.bIsMe = !strcmp(id,facy.self_.user_id.c_str());
+	if (id != NULL)
+		gce.bIsMe = !strcmp(id,facy.self_.user_id.c_str());
 	gce.dwFlags  |= GCEF_ADDTOLOG;
 
 	gce.ptszNick = tnick;
@@ -53,6 +54,23 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 
 	HANDLE hChatContact = ChatIDToHContact(chat_id);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)mir_a2u("Unseen"));
+}
+
+void FacebookProto::RenameChat(const char *chat_id, const char *name)
+{
+	ptrT tchat_id( mir_a2t(chat_id));
+	ptrT tname( mir_a2t_cp(name, CP_UTF8));
+
+	GCDEST gcd = { m_szModuleName };
+	gcd.ptszID = tchat_id;
+
+	GCEVENT gce  = {sizeof(gce)};
+	gce.pDest    = &gcd;
+	gce.ptszText = tname;
+	gce.dwFlags  = GC_TCHAR;
+	gcd.iType    = GC_EVENT_CHANGESESSIONAME;
+
+	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
 int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
@@ -281,8 +299,17 @@ void FacebookProto::AddChat(const char *id, const char *name)
 }
 */
 
-INT_PTR FacebookProto::OnJoinChat(WPARAM,LPARAM suppress)
+INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 {	
+	HANDLE hContact = (HANDLE)wParam;
+
+	// TODO: load info from server + old history,...
+
+	ptrA id( getStringA(hContact, "ChatRoomID"));
+	ptrA name( getStringA(hContact, "Nick"));
+
+	AddChat(id, name);
+
 /*	GCSESSION gcw = {sizeof(gcw)};
 
 	// Create the group chat session
