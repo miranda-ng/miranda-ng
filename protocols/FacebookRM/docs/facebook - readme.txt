@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.1.1.0 |
+| Facebook Protocol RM 0.2.1.0 |
 |        for Miranda NG        |
-|          (21.5.2013)         |
+|          (1.10.2013)         |
 --------------------------------
 
 Autor: Robyer
@@ -25,13 +25,57 @@ Info:
       Hidden settings
 --------------------------------
 "TimeoutsLimit" (Byte) - Errors limit (default 3) after which fb disconnects
-"DisableLogout" (Byte) - Disables logout procedure, default 0
+"DisableLogout" (Byte) - 1 = Disable logout procedure, 0 = default
 "PollRate" (Byte) - Waiting time between buddy list and newsfeed parsing.
 "Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc.
+"ValidateResponse" (Byte) - Set how otfen it should validate facebook responses and thus handle/show errors; 0 = default, 1 = always, 2 = never
+"UseLocalTimestampUnread" (Byte) - 1 = Use local timestamp for offline (unread) messages
 
 --------------------------------
        Version history
 --------------------------------
+
+0.2.1.0 - 1.10.2013
+ + Save name into first, second and last name fields separately
+ + First experimental implementation of multi user chats (thanks to nobodyreal for patch)
+ * Notify more facebook errors in validate_reseponse
+ * Don't use local_timestamp for unread messages (even if enabled in options) by default (use hidden setting to enable it)
+ ! Duplicit contacts fixes (and hopefully it won't create duplicit contacts anymore)
+ ! Fixed Poke
+ ! Post status dialog accessibility fixes
+ ! Various login fixes (now also passwords with not-ASCII characters are working)
+ ! Fixed receiving attachements
+ ! Various other fixes and improvements
+
+0.2.0.0 - 31.7.2013
+ + Ability to search friends by ID or username
+ + Greatly improved Post Status dialog
+   - Ability to post status with tagged friends
+   - Ability to post URL attachments
+   - Ability to post statuses to other contact's wall
+   - Ability to post statuses to own pages (you need to enable this in options first)
+ + Improved receiving messages  with attachments (files, photos, stickers)
+ + Greatly improved receiving offline messages at login
+   - loads up to 21 unread messages per contact
+   - loads messages also from "Other" messaging tab
+   - uses most effective requests with ability for future function "loading contact history from server"
+ * Increased timeout value for requests from 15 to 20 seconds.
+ * Switched completely to core JSON parser
+ * Raised messages and status updates length limit
+ * Use Popup Classes for popups
+ ! Various contacts handling fixes
+ ! Various login fixes (now supports enabled advanced security on Facebook)
+   - it connects after approving this unknown device in browser - BUT you must logout and login in your browser for correct approval! (fb bug)
+ ! Receiving offline messages fixes and improvements (gets also name of contact)
+ ! Fixed not receiving sent messages from other instances 
+ ! Fixed crash when using AddContactPlus
+ ! Various other fixes and improvements
+
+0.1.1.1 - 12.6.2013
+ + Hotkey for Facebook posting dialog
+ + Load sent messages from other devices into Miranda
+ ! Fixes related to messages handling (no empty and duplicit messages anymore)
+
 0.1.1.0 - 21.5.2013
  * Mind dialog improvements
  + Added privacy and place options into Mind dialog
@@ -65,11 +109,11 @@ Info:
 0.0.9.5 - 2.3.2013
  ! Folders plugin related fixes (thanks ghazan)
  ! Some internal changes (thanks ghazan)
-	
+
 0.0.9.4 - 28.8.2013;
  ! Fixed showing correct login error
  ! Some internal changes (thanks ghazan)
-	
+
 0.0.9.3 - 8.2.2013
  ! Fixed getting friendship requests
  ! Fixed getting notifications
@@ -164,8 +208,8 @@ Info:
  * Reworked Facebook options
   + Option for use https connection also for "channel" requests
   + Option for use bigger avatars
-	+ Option for getting unread messages after login (EXPERIMENTAL!)
-	+ Option fot disconnect chat when going offline in Miranda
+  + Option for getting unread messages after login (EXPERIMENTAL!)
+  + Option fot disconnect chat when going offline in Miranda
   - Removed option for setting User-Agent
   - Removed option for show Cookies
  * When contact is deleted, in database you can found datetime of this discovery (value "Deleted" of type DWORD)
