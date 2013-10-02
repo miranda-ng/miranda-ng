@@ -13,7 +13,7 @@
 	 
 1. Run createstructure.bat.
 
-2. Browse to InnoNG_32 or InnoNG_64 folder.
+2. Browse to Common folder.
 
 3. Run GenerateInnoGuiCompatScript.bat.
 
