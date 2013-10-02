@@ -306,12 +306,16 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 		HXML newNode = xi.createNode(NODENAME_IQ, NULL, FALSE);
 		xi.addAttr(newNode, ATTRNAME_TYPE, IQTYPE_GET);
 		xi.addAttr(newNode, ATTRNAME_TO, xi.getAttrValue(node, ATTRNAME_TO));
-		xi.addAttrInt(newNode, ATTRNAME_ID, id);
+
+		TCHAR idAttr[30];
+		mir_sntprintf(idAttr, SIZEOF(idAttr), JABBER_IQID_FORMAT, id);
+		xi.addAttr(newNode, ATTRNAME_ID, idAttr);
+		
 		xi.addAttr(xi.addChild(newNode, NODENAME_QUERY, NULL), ATTRNAME_XMLNS, DISCOVERY_XMLNS);
 		ji->SendXmlNode(newNode);
 		xi.destroyNode(newNode);
 
-		ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
+ 		ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
 		TlsSetValue(itlsRecursion, (PVOID)FALSE);
 	}
 

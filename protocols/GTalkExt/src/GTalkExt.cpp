@@ -31,7 +31,7 @@
 int   hLangpack;
 HICON g_hPopupIcon = 0;
 
-LIST<GoogleTalkAcc> g_accs(1, PtrKeySortT);
+LIST<GoogleTalkAcc> g_accs(1, HandleKeySortT);
 
 PLUGININFOEX pluginInfo =
 {
