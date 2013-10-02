@@ -129,7 +129,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	m_iqManager.FillPermanentHandlers();
 	m_iqManager.Start();
 	m_messageManager.FillPermanentHandlers();
-	m_messageManager.Start();
 	m_presenceManager.FillPermanentHandlers();
 	m_presenceManager.Start();
 	m_sendManager.Start();
@@ -327,7 +326,6 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 
 	m_iqManager.ExpireAll();
 	m_iqManager.Shutdown();
-	m_messageManager.Shutdown();
 	m_presenceManager.Shutdown();
 	m_sendManager.Shutdown();
 	ConsoleUninit();

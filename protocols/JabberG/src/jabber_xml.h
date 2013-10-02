@@ -86,9 +86,9 @@ struct XmlNodeIq : public XmlNode
 	XmlNodeIq(const TCHAR *type, const TCHAR *idStr, const TCHAR *to);
 	XmlNodeIq(const TCHAR *type, HXML node, const TCHAR *to);
 	// new request
-	XmlNodeIq(CJabberIqInfo* pInfo);
+	XmlNodeIq(CJabberIqInfo *pInfo);
 	// answer to request
-	XmlNodeIq(const TCHAR *type, CJabberIqInfo* pInfo);
+	XmlNodeIq(const TCHAR *type, CJabberIqInfo *pInfo);
 };
 
 typedef void (*JABBER_XML_CALLBACK)(HXML, void*);

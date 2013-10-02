@@ -78,7 +78,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
 	OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_SERVERINFO);
 }
 
-void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	const TCHAR *szGroupDelimeter = NULL;
 	BOOL bPrivateStorageSupport = FALSE;
@@ -107,7 +107,7 @@ void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo* pInf
 			<< XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER));
 }
 
-void CJabberProto::OnIqResultNotes(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultNotes(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if (iqNode && pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		HXML hXmlData = XPathFmt(iqNode, _T("query[@xmlns='%s']/storage[@xmlns='%s']"),
@@ -170,7 +170,7 @@ void CJabberProto::OnLoggedIn()
 
 	// XEP-0083 support
 	{
-		CJabberIqInfo* pIqInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
+		CJabberIqInfo *pIqInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
 		// ugly hack to prevent hangup during login process
 		pIqInfo->SetTimeout(30000);
 		m_ThreadInfo->send(
@@ -289,7 +289,7 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode)
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
 }	}
 
-void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if ( !m_ThreadInfo || !iqNode)
 		return;
@@ -317,7 +317,7 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo* pInfo)
 	}
 }
 
-void CJabberProto::OnIqResultSession(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultSession(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)
 		OnLoggedIn();
@@ -349,7 +349,7 @@ void CJabberProto::GroupchatJoinByHContact(HANDLE hContact, bool autojoin)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberIqResultGetRoster - populates LIST_ROSTER and creates contact for any new rosters
 
-void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	Log("<iq/> iqIdGetRoster");
 	TCHAR *szGroupDelimeter = (TCHAR *)pInfo->GetUserData();
@@ -1604,7 +1604,7 @@ void CJabberProto::OnIqResultSetBookmarks(HXML iqNode)
 }	}
 
 // last activity (XEP-0012) support
-void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	pResourceStatus r( ResourceInfoFromJID(pInfo->m_szFrom));
 	if (r == NULL)
@@ -1630,7 +1630,7 @@ void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo* pInfo)
 }
 
 // entity time (XEP-0202) support
-void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo *pInfo)
 {
 	if ( !pInfo->m_hContact)
 		return;

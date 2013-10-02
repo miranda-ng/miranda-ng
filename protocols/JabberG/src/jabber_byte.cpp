@@ -52,7 +52,7 @@ JABBER_BYTE_TRANSFER::~JABBER_BYTE_TRANSFER()
 	mir_free(szStreamhostUsed);
 }
 
-void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	JABBER_BYTE_TRANSFER *jbt = (JABBER_BYTE_TRANSFER *)pInfo->GetUserData();
 
@@ -146,7 +146,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	TCHAR szPort[8];
 	HANDLE hEvent = NULL;
 	TCHAR *proxyJid;
-	CJabberIqInfo* pInfo = NULL;
+	CJabberIqInfo *pInfo = NULL;
 	int nIqId = 0;
 
 	Log("Thread started: type=bytestream_send");
@@ -302,7 +302,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	Log("Thread ended: type=bytestream_send");
 }
 
-void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	JABBER_BYTE_TRANSFER *jbt = (JABBER_BYTE_TRANSFER *)pInfo->GetUserData();
 

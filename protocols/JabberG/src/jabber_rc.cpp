@@ -39,7 +39,7 @@ CJabberAdhocSession::CJabberAdhocSession(CJabberProto* global)
 	m_dwStartTime = GetTickCount();
 }
 
-BOOL CJabberProto::IsRcRequestAllowedByACL(CJabberIqInfo* pInfo)
+BOOL CJabberProto::IsRcRequestAllowedByACL(CJabberIqInfo *pInfo)
 {
 	if ( !pInfo || !pInfo->GetFrom())
 		return FALSE;
@@ -47,7 +47,7 @@ BOOL CJabberProto::IsRcRequestAllowedByACL(CJabberIqInfo* pInfo)
 	return IsMyOwnJID(pInfo->GetFrom());
 }
 
-BOOL CJabberProto::HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo* pInfo)
+BOOL CJabberProto::HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if ( !pInfo->GetChildNode())
 		return TRUE;
@@ -65,7 +65,7 @@ BOOL CJabberProto::HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo* pInfo)
 	return TRUE;
 }
 
-BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo* pInfo, const TCHAR *szNode)
+BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const TCHAR *szNode)
 {
 	if ( !szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
 		return FALSE;
@@ -94,7 +94,7 @@ BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo* pInfo, const T
 	return FALSE;
 }
 
-BOOL CJabberAdhocManager::HandleInfoRequest(HXML, CJabberIqInfo* pInfo, const TCHAR *szNode)
+BOOL CJabberAdhocManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const TCHAR *szNode)
 {
 	if ( !szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
 		return FALSE;
@@ -135,7 +135,7 @@ BOOL CJabberAdhocManager::HandleInfoRequest(HXML, CJabberIqInfo* pInfo, const TC
 	return FALSE;
 }
 
-BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo* pInfo, const TCHAR *szNode)
+BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo, const TCHAR *szNode)
 {
 	// ATTN: ACL and db settings checked in calling function
 
@@ -251,7 +251,7 @@ static char *StatusModeToDbSetting(int status,const char *suffix)
 	return str;
 }
 
-int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession)
+int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
 {
 	if (pSession->GetStage() == 0) {
 		// first form
@@ -395,7 +395,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhoc
 	return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 }
 
-int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession)
+int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
 {
 	if (pSession->GetStage() == 0) {
 		// first form
@@ -492,7 +492,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 	return nEventsSent;
 }
 
-int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession)
+int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
 {
 	TCHAR szMsg[ 1024 ];
 	if (pSession->GetStage() == 0) {
@@ -624,7 +624,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 	return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 }
 
-int CJabberProto::AdhocLockWSHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession)
+int CJabberProto::AdhocLockWSHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
 {
 	BOOL bOk = LockWorkStation();
 
@@ -648,7 +648,7 @@ static void __stdcall JabberQuitMirandaIMThread(void*)
 	CallService("CloseAction", 0, 0);
 }
 
-int CJabberProto::AdhocQuitMirandaHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession)
+int CJabberProto::AdhocQuitMirandaHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
 {
 	if (pSession->GetStage() == 0) {
 		// first form
@@ -694,7 +694,7 @@ int CJabberProto::AdhocQuitMirandaHandler(HXML, CJabberIqInfo* pInfo, CJabberAdh
 	return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 }
 
-int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession)
+int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
 {
 	int i = 0;
 	if (pSession->GetStage() == 0) {

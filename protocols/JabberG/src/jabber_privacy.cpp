@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define JABBER_PL_BUSY_MSG	 LPGEN("Sending request, please wait...")
 
-BOOL CJabberProto::OnIqRequestPrivacyLists(HXML, CJabberIqInfo* pInfo)
+BOOL CJabberProto::OnIqRequestPrivacyLists(HXML, CJabberIqInfo *pInfo)
 {
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_SET) {
 		if ( !m_pDlgPrivacyLists)
@@ -45,7 +45,7 @@ BOOL CJabberProto::OnIqRequestPrivacyLists(HXML, CJabberIqInfo* pInfo)
 	return TRUE;
 }
 
-void CJabberProto::OnIqResultPrivacyListModify(HXML, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultPrivacyListModify(HXML, CJabberIqInfo *pInfo)
 {
 	if ( !pInfo->m_pUserData)
 		return;
@@ -169,7 +169,7 @@ CPrivacyListRule* GetSelectedRule(HWND hDlg)
 	return (CPrivacyListRule*)nItemData;
 }
 
-void CJabberProto::OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	CPrivacyList *pList = (CPrivacyList *)pInfo->GetUserData();
 
@@ -209,7 +209,7 @@ void CJabberProto::OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo* pInfo
 	BuildPrivacyListsMenu(true);
 }
 
-void CJabberProto::OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	CPrivacyList *pList = (CPrivacyList *)pInfo->GetUserData();
 
@@ -248,7 +248,7 @@ void CJabberProto::OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo* pInf
 	}
 }
 
-void CJabberProto::OnIqResultPrivacyLists(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultPrivacyLists(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if (pInfo->m_nIqType != JABBER_IQ_TYPE_RESULT)
 		return;

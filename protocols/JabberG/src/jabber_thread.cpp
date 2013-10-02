@@ -133,7 +133,7 @@ static VOID CALLBACK JabberOfflineChatWindows(void* param)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Jabber keep-alive thread
 
-void CJabberProto::OnPingReply(HXML, CJabberIqInfo* pInfo)
+void CJabberProto::OnPingReply(HXML, CJabberIqInfo *pInfo)
 {
 	if ( !pInfo)
 		return;
@@ -470,7 +470,7 @@ LBL_FatalError:
 					break;
 				else if (nSelRes == 0 && m_bSendKeepAlive) {
 					if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PING) {
-						CJabberIqInfo* pInfo = m_iqManager.AddHandler(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, NULL, 0, -1, this);
+						CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, NULL, 0, -1, this);
 						pInfo->SetTimeout(m_options.ConnectionKeepAliveTimeout);
 						info->send( XmlNodeIq(pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID) << XCHILDNS(_T("ping"), JABBER_FEAT_PING));
 					}
@@ -1891,7 +1891,7 @@ void CJabberProto::OnProcessIq(HXML node)
 		return;
 	}
 	// RECVED: <iq type='error'> ...
-	else if ( !_tcscmp(type, _T("error"))) {
+	if ( !_tcscmp(type, _T("error"))) {
 		Log("XXX on entry");
 		// Check for file transfer deny by comparing idStr with ft->iqId
 		LISTFOREACH(i, this, LIST_FILE)
@@ -1903,7 +1903,8 @@ void CJabberProto::OnProcessIq(HXML node)
 				if (item->ft->hFileEvent != NULL)
 					SetEvent(item->ft->hFileEvent);	// Simulate the termination of file server connection
 			}
-	}	}
+		}
+	}
 	else if ((!_tcscmp(type, _T("get")) || !_tcscmp(type, _T("set")))) {
 		XmlNodeIq iq(_T("error"), idStr, xmlGetAttrValue(node, _T("from")));
 

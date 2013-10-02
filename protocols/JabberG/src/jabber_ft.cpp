@@ -122,7 +122,7 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML siNode, featureNode, xNode, fieldNode, valueNode;
 	filetransfer *ft = (filetransfer *)pInfo->GetUserData();
@@ -422,7 +422,7 @@ void CJabberProto::FtAcceptIbbRequest(filetransfer *ft)
 				<< XCHILD(_T("value"), JABBER_FEAT_IBB));
 }	}
 
-BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo* pInfo)
+BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML queryNode = pInfo->GetChildNode();
 

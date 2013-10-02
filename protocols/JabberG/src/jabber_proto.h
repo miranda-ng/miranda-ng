@@ -286,15 +286,15 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int    __cdecl ContactMenuRunCommands(WPARAM wParam, LPARAM lParam);
 
 	HWND   GetWindowFromIq(HXML iqNode);
-	BOOL   HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo* pInfo);
-	BOOL   IsRcRequestAllowedByACL(CJabberIqInfo* pInfo);
+	BOOL   HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo *pInfo);
+	BOOL   IsRcRequestAllowedByACL(CJabberIqInfo *pInfo);
 
-	int    AdhocSetStatusHandler(HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession);
-	int    AdhocOptionsHandler(HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession);
-	int    AdhocForwardHandler(HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession);
-	int    AdhocLockWSHandler(HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession);
-	int    AdhocQuitMirandaHandler(HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession);
-	int    AdhocLeaveGroupchatsHandler(HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession);
+	int    AdhocSetStatusHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession);
+	int    AdhocOptionsHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession);
+	int    AdhocForwardHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession);
+	int    AdhocLockWSHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession);
+	int    AdhocQuitMirandaHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession);
+	int    AdhocLeaveGroupchatsHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession);
 
 	void   OnIqResult_ListOfCommands(HXML iqNode);
 	void   OnIqResult_CommandExecution(HXML iqNode);
@@ -337,8 +337,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   __cdecl ByteSendThread(JABBER_BYTE_TRANSFER *jbt);
 	void   __cdecl ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt);
 
-	void   IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo* pInfo);
-	void   ByteInitiateResult(HXML iqNode, CJabberIqInfo* pInfo);
+	void   IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo);
+	void   ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo);
 	void   ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt);
 	int    ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen);
 	void   IqResultStreamActivate(HXML iqNode);
@@ -393,11 +393,11 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR    __cdecl OnMenuHandleServiceDiscoveryTransports(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuHandleServiceDiscoveryConferences(WPARAM wParam, LPARAM lParam);
 
-	void   OnIqResultServiceDiscoveryInfo(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultServiceDiscoveryItems(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultServiceDiscoveryRootInfo(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultServiceDiscoveryRoot(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultServiceDiscoveryInfo(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultServiceDiscoveryItems(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultServiceDiscoveryRootInfo(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultServiceDiscoveryRoot(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInfo *pInfo);
 	BOOL   SendInfoRequest(CJabberSDNode *pNode, HXML parent);
 	BOOL   SendBothRequests(CJabberSDNode *pNode, HXML parent);
 	void   PerformBrowse(HWND hwndDlg);
@@ -408,8 +408,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int    SetupServiceDiscoveryDlg(TCHAR* jid);
 
-	void   OnIqResultCapsDiscoInfo(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultCapsDiscoInfoSI(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultCapsDiscoInfo(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultCapsDiscoInfoSI(HXML iqNode, CJabberIqInfo *pInfo);
 
 	void   RegisterAgent(HWND hwndDlg, TCHAR* jid);
 
@@ -439,7 +439,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   FtHandleSiRequest(HXML iqNode);
 	void   FtAcceptSiRequest(filetransfer *ft);
 	void   FtAcceptIbbRequest(filetransfer *ft);
-	BOOL   FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo* pInfo);
+	BOOL   FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo);
 	BOOL   FtHandleIbbRequest(HXML iqNode, BOOL bOpen);
 
 	//---- jabber_groupchat.c ------------------------------------------------------------
@@ -483,9 +483,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   IqRemove(int index);
 	void   IqExpire();
 
-	void   OnIqResultBind(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultDiscoBookmarks(HXML iqNode);
-	void   OnIqResultEntityTime(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultEntityTime(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultExtSearch(HXML iqNode);
 	void   OnIqResultGetAuth(HXML iqNode);
 	void   OnIqResultGetVCardAvatar(HXML iqNode);
@@ -494,18 +494,18 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultGotAvatar(HANDLE hContact, HXML n, const TCHAR *mimeType);
 	void   OnIqResultGetMuc(HXML iqNode);
 	void   OnIqResultGetRegister(HXML iqNode);
-	void   OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetVcard(HXML iqNode);
-	void   OnIqResultLastActivity(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultLastActivity(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultMucGetAdminList(HXML iqNode);
 	void   OnIqResultMucGetBanList(HXML iqNode);
 	void   OnIqResultMucGetMemberList(HXML iqNode);
 	void   OnIqResultMucGetModeratorList(HXML iqNode);
 	void   OnIqResultMucGetOwnerList(HXML iqNode);
 	void   OnIqResultMucGetVoiceList(HXML iqNode);
-	void   OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultNotes(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultSession(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultNotes(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultSession(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultSetAuth(HXML iqNode);
 	void   OnIqResultSetBookmarks(HXML iqNode);
 	void   OnIqResultSetPassword(HXML iqNode);
@@ -518,7 +518,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_iq_handlers.cpp -------------------------------------------------------
 
-	BOOL   OnIqRequestVersion(HXML node, CJabberIqInfo* pInfo);
+	BOOL   OnIqRequestVersion(HXML node, CJabberIqInfo *pInfo);
 	BOOL   OnIqRequestLastActivity(HXML node, CJabberIqInfo *pInfo);
 	BOOL   OnIqRequestPing(HXML node, CJabberIqInfo *pInfo);
 	BOOL   OnIqRequestTime(HXML node, CJabberIqInfo *pInfo);
@@ -527,18 +527,18 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	BOOL   OnSiRequest(HXML node, CJabberIqInfo *pInfo);
 	BOOL   OnRosterPushRequest(HXML node, CJabberIqInfo *pInfo);
 	BOOL   OnIqRequestOOB(HXML node, CJabberIqInfo *pInfo);
-	BOOL   OnIqHttpAuth(HXML node, CJabberIqInfo* pInfo);
+	BOOL   OnIqHttpAuth(HXML node, CJabberIqInfo *pInfo);
 	BOOL   AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams);
 
 	void   __cdecl IbbSendThread(JABBER_IBB_TRANSFER *jibb);
 	void   __cdecl IbbReceiveThread(JABBER_IBB_TRANSFER *jibb);
 
-	void   OnIbbInitiateResult(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIbbCloseResult(HXML iqNode, CJabberIqInfo* pInfo);
-	BOOL   OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIbbInitiateResult(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIbbCloseResult(HXML iqNode, CJabberIqInfo *pInfo);
+	BOOL   OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo *pInfo);
 	BOOL   OnIbbRecvdData(const TCHAR *data, const TCHAR *sid, const TCHAR *seq);
 
-	void   OnFtSiResult(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo);
 	BOOL   FtIbbSend(int blocksize, filetransfer *ft);
 	BOOL   FtSend(HANDLE hConn, filetransfer *ft);
 	void   FtSendFinal(BOOL success, filetransfer *ft);
@@ -660,12 +660,12 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   QueryPrivacyLists(ThreadData *pThreadInfo = NULL);
 
-	BOOL   OnIqRequestPrivacyLists(HXML iqNode, CJabberIqInfo* pInfo);
+	BOOL   OnIqRequestPrivacyLists(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultPrivacyList(HXML iqNode);
-	void   OnIqResultPrivacyLists(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo* pInfo);
-	void   OnIqResultPrivacyListModify(HXML iqNode, CJabberIqInfo* pInfo);
+	void   OnIqResultPrivacyLists(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo *pInfo);
+	void   OnIqResultPrivacyListModify(HXML iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_proto.cpp --------------------------------------------------------------
 
@@ -774,7 +774,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	BOOL   OnProcessJingle(HXML node);
 	void   OnProcessIq(HXML node);
 	void   OnProcessRegIq(HXML node, ThreadData* info);
-	void   OnPingReply(HXML node, CJabberIqInfo* pInfo);
+	void   OnPingReply(HXML node, CJabberIqInfo *pInfo);
 
 	bool   ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info);
 
@@ -829,8 +829,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_xmlns.c ----------------------------------------------------------------
 
-	BOOL   OnHandleDiscoInfoRequest(HXML iqNode, CJabberIqInfo* pInfo);
-	BOOL   OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo* pInfo);
+	BOOL   OnHandleDiscoInfoRequest(HXML iqNode, CJabberIqInfo *pInfo);
+	BOOL   OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_xstatus.c --------------------------------------------------------------
 

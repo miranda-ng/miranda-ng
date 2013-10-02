@@ -43,7 +43,7 @@ void JabberIbbFreeJibb(JABBER_IBB_TRANSFER *jibb)
 		mir_free(jibb);
 }	}
 
-BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo* pInfo)
+BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	if ( !_tcscmp(pInfo->GetChildNodeName(), _T("open")))
 		FtHandleIbbRequest(iqNode, TRUE);
@@ -67,7 +67,7 @@ BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo* pInfo)
 	return TRUE;
 }
 
-void CJabberProto::OnIbbInitiateResult(HXML, CJabberIqInfo* pInfo)
+void CJabberProto::OnIbbInitiateResult(HXML, CJabberIqInfo *pInfo)
 {
 	JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *)pInfo->GetUserData();
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)
@@ -76,7 +76,7 @@ void CJabberProto::OnIbbInitiateResult(HXML, CJabberIqInfo* pInfo)
 		SetEvent(jibb->hEvent);
 }
 
-void CJabberProto::OnIbbCloseResult(HXML, CJabberIqInfo* pInfo)
+void CJabberProto::OnIbbCloseResult(HXML, CJabberIqInfo *pInfo)
 {
 	JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *)pInfo->GetUserData();
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)

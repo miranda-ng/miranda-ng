@@ -92,7 +92,7 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 	{	NULL,                             0                                }
 };
 
-void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo *pInfo)
 {
 	pResourceStatus r( ResourceInfoFromJID(pInfo->GetFrom()));
 	if (r == NULL)
@@ -130,7 +130,7 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo* pInfo)
 	}
 }
 
-void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 {
 	pResourceStatus r( ResourceInfoFromJID(pInfo->GetFrom()));
 
@@ -261,7 +261,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 				{
 					// send disco#info query
 
-					CJabberIqInfo* pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
+					CJabberIqInfo *pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
 					pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
 					m_clientCapsManager.SetClientCaps(r->m_tszCapsNode, token, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 
@@ -606,7 +606,7 @@ BOOL CJabberClientCapsManager::SetClientCaps(int nIqId, JabberCapsBits jcbCaps)
 	return bOk;
 }
 
-BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo* pInfo, const TCHAR *szNode)
+BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const TCHAR *szNode)
 {
 	int i;
 	JabberCapsBits jcb = 0;

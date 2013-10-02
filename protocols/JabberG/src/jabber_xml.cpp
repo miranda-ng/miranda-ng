@@ -59,7 +59,7 @@ XmlNodeIq::XmlNodeIq(const TCHAR *type, HXML node, LPCTSTR to) :
 	}
 }
 
-XmlNodeIq::XmlNodeIq(CJabberIqInfo* pInfo) :
+XmlNodeIq::XmlNodeIq(CJabberIqInfo *pInfo) :
 	XmlNode(_T("iq"))
 {
 	if (pInfo) {
@@ -69,7 +69,7 @@ XmlNodeIq::XmlNodeIq(CJabberIqInfo* pInfo) :
 	}
 }
 
-XmlNodeIq::XmlNodeIq(const TCHAR *type, CJabberIqInfo* pInfo) :
+XmlNodeIq::XmlNodeIq(const TCHAR *type, CJabberIqInfo *pInfo) :
 	XmlNode(_T("iq"))
 {
 	if (type != NULL) *this << XATTR(_T("type"), type);

@@ -281,7 +281,7 @@ public:
 	BOOL SetClientCaps(const TCHAR *szNode, const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
 	BOOL SetClientCaps(int nIqId, JabberCapsBits jcbCaps);
 
-	BOOL HandleInfoRequest(HXML iqNode, CJabberIqInfo* pInfo, const TCHAR *szNode);
+	BOOL HandleInfoRequest(HXML iqNode, CJabberIqInfo *pInfo, const TCHAR *szNode);
 };
 
 struct JabberFeatCapPair
