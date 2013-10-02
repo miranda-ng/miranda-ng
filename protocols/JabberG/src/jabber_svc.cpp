@@ -129,7 +129,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-	TCHAR tszFileName[ MAX_PATH ];
+	TCHAR tszFileName[MAX_PATH];
 	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
 	_tcsncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
 
@@ -159,13 +159,11 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 				Log("Rereading %s for %S", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
-				XmlNodeIq iq(
-					AddIQ((isXVcard) ? &CJabberProto::OnIqResultGetVCardAvatar : &CJabberProto::OnIqResultGetClientAvatar,
-					JABBER_IQ_TYPE_GET, szJid));
+				HXML iq;
 				if (isXVcard)
-					iq << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
+					iq = XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
 				else
-					iq << XQUERY(isXVcard ? _T("") : JABBER_FEAT_AVATAR);
+					iq = XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetClientAvatar, JABBER_IQ_TYPE_GET, szJid)) << XQUERY(JABBER_FEAT_AVATAR);
 				m_ThreadInfo->send(iq);
 
 				db_free(&dbv);
@@ -210,56 +208,48 @@ INT_PTR __cdecl CJabberProto::OnGetEventTextPresence(WPARAM, LPARAM lParam)
 	INT_PTR nRetVal = 0;
 
 	if (pdbEvent->dbei->cbBlob > 0) {
-		switch (pdbEvent->dbei->pBlob[0])
-		{
+		switch (pdbEvent->dbei->pBlob[0]) {
 		case JABBER_DB_EVENT_PRESENCE_SUBSCRIBE:
-			{
-				if (pdbEvent->datatype == DBVT_WCHAR)
-					nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("sent subscription request")));
-				else if (pdbEvent->datatype == DBVT_ASCIIZ)
-					nRetVal = (INT_PTR)mir_strdup(Translate("sent subscription request"));
-				break;
-			}
+			if (pdbEvent->datatype == DBVT_WCHAR)
+				nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("sent subscription request")));
+			else if (pdbEvent->datatype == DBVT_ASCIIZ)
+				nRetVal = (INT_PTR)mir_strdup(Translate("sent subscription request"));
+			break;
+
 		case JABBER_DB_EVENT_PRESENCE_SUBSCRIBED:
-			{
-				if (pdbEvent->datatype == DBVT_WCHAR)
-					nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("approved subscription request")));
-				else if (pdbEvent->datatype == DBVT_ASCIIZ)
-					nRetVal = (INT_PTR)mir_strdup(Translate("approved subscription request"));
-				break;
-			}
+			if (pdbEvent->datatype == DBVT_WCHAR)
+				nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("approved subscription request")));
+			else if (pdbEvent->datatype == DBVT_ASCIIZ)
+				nRetVal = (INT_PTR)mir_strdup(Translate("approved subscription request"));
+			break;
+
 		case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBE:
-			{
-				if (pdbEvent->datatype == DBVT_WCHAR)
-					nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("declined subscription")));
-				else if (pdbEvent->datatype == DBVT_ASCIIZ)
-					nRetVal = (INT_PTR)mir_strdup(Translate("declined subscription"));
-				break;
-			}
+			if (pdbEvent->datatype == DBVT_WCHAR)
+				nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("declined subscription")));
+			else if (pdbEvent->datatype == DBVT_ASCIIZ)
+				nRetVal = (INT_PTR)mir_strdup(Translate("declined subscription"));
+			break;
+
 		case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBED:
-			{
-				if (pdbEvent->datatype == DBVT_WCHAR)
-					nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("declined subscription")));
-				else if (pdbEvent->datatype == DBVT_ASCIIZ)
-					nRetVal = (INT_PTR)mir_strdup(Translate("declined subscription"));
-				break;
-			}
+			if (pdbEvent->datatype == DBVT_WCHAR)
+				nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("declined subscription")));
+			else if (pdbEvent->datatype == DBVT_ASCIIZ)
+				nRetVal = (INT_PTR)mir_strdup(Translate("declined subscription"));
+			break;
+
 		case JABBER_DB_EVENT_PRESENCE_ERROR:
-			{
-				if (pdbEvent->datatype == DBVT_WCHAR)
-					nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("sent error presence")));
-				else if (pdbEvent->datatype == DBVT_ASCIIZ)
-					nRetVal = (INT_PTR)mir_strdup(Translate("sent error presence"));
-				break;
-			}
+			if (pdbEvent->datatype == DBVT_WCHAR)
+				nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("sent error presence")));
+			else if (pdbEvent->datatype == DBVT_ASCIIZ)
+				nRetVal = (INT_PTR)mir_strdup(Translate("sent error presence"));
+			break;
+
 		default:
-			{
-				if (pdbEvent->datatype == DBVT_WCHAR)
-					nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("sent unknown presence type")));
-				else if (pdbEvent->datatype == DBVT_ASCIIZ)
-					nRetVal = (INT_PTR)mir_strdup(Translate("sent unknown presence type"));
-				break;
-			}
+			if (pdbEvent->datatype == DBVT_WCHAR)
+				nRetVal = (INT_PTR)mir_tstrdup(TranslateTS(_T("sent unknown presence type")));
+			else if (pdbEvent->datatype == DBVT_ASCIIZ)
+				nRetVal = (INT_PTR)mir_strdup(Translate("sent unknown presence type"));
+			break;
 		}
 	}
 
@@ -338,7 +328,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberSetNickname(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *nickname = (wParam & SMNN_UNICODE) ? mir_u2t((WCHAR *) lParam) : mir_a2t((char *) lParam);
+	TCHAR *nickname = (wParam & SMNN_UNICODE) ? mir_u2t((WCHAR*)lParam) : mir_a2t((char*)lParam);
 
 	setTString("Nick", nickname);
 	SetServerVcard(FALSE, _T(""));
@@ -356,8 +346,8 @@ INT_PTR __cdecl CJabberProto::ServiceSendXML(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // "/GCGetToolTipText" - gets tooltip text
 
-static const TCHAR * JabberEnum2AffilationStr[]={ _T("None"), _T("Outcast"), _T("Member"), _T("Admin"), _T("Owner") };
-static const TCHAR * JabberEnum2RoleStr[]={ _T("None"), _T("Visitor"), _T("Participant"), _T("Moderator") };
+static const TCHAR *JabberEnum2AffilationStr[] = { _T("None"), _T("Outcast"), _T("Member"), _T("Admin"), _T("Owner") };
+static const TCHAR *JabberEnum2RoleStr[] = { _T("None"), _T("Visitor"), _T("Participant"), _T("Moderator") };
 
 static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, TCHAR* buf, size_t bufSize)
 {
@@ -440,13 +430,10 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM wParam, LPARAM lP
 	if (arg == NULL)
 		return 1;
 
-	TCHAR szUri[ 1024 ];
-	mir_sntprintf(szUri, SIZEOF(szUri), _T("%s"), arg);
-
-	TCHAR *szJid = szUri;
-
 	// skip leading prefix
-	szJid = _tcschr(szJid, _T(':'));
+	TCHAR szUri[ 1024 ];
+	_tcsncpy_s(szUri, SIZEOF(szUri), arg, _TRUNCATE);
+	TCHAR *szJid = _tcschr(szUri, _T(':'));
 	if (szJid == NULL)
 		return 1;
 

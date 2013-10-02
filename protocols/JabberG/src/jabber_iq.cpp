@@ -185,8 +185,11 @@ BOOL CJabberIqManager::ExpireIq(int nIqId)
 {
 	CJabberIqInfo *pInfo = DetachInfo(nIqId);
 	if (pInfo) {
-		ExpireInfo(pInfo);
-		delete pInfo;
+		do {
+			ExpireInfo(pInfo);
+			delete pInfo;
+		}
+			while ((pInfo = DetachInfo(nIqId)) != NULL);
 		return TRUE;
 	}
 	return FALSE;
@@ -263,7 +266,10 @@ BOOL CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		return FALSE;
 
 	CJabberIqInfo *pInfo = DetachInfo(nIqId);
-	if (pInfo) {
+	if (pInfo == NULL)
+		return FALSE;
+
+	do {
 		pInfo->m_nIqType = nIqType;
 		if (nIqType == JABBER_IQ_TYPE_RESULT) {
 			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NODE)
@@ -288,9 +294,9 @@ BOOL CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 
 		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
-		return TRUE;
 	}
-	return FALSE;
+		while ((pInfo = DetachInfo(nIqId)) != NULL);
+	return TRUE;
 }
 
 BOOL CJabberIqManager::HandleIqPermanent(HXML pNode)

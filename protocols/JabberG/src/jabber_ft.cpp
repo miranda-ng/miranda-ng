@@ -30,19 +30,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CJabberProto::FtCancel(filetransfer *ft)
 {
-	JABBER_LIST_ITEM *item;
-	JABBER_BYTE_TRANSFER *jbt;
-	JABBER_IBB_TRANSFER *jibb;
-
 	Log("Invoking JabberFtCancel()");
 
 	// For file sending session that is still in si negotiation phase
 	if (m_iqManager.ExpireByUserData(ft))
 		return;
+
 	// For file receiving session that is still in si negotiation phase
 	LISTFOREACH(i, this, LIST_FTRECV)
 	{
-		item = ListGetItemPtrFromIndex(i);
+		JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 		if (item->ft == ft) {
 			Log("Canceling file receiving session while in si negotiation");
 			ListRemoveByIndex(i);
@@ -52,7 +49,8 @@ void CJabberProto::FtCancel(filetransfer *ft)
 		}
 	}
 	// For file transfer through bytestream
-	if ((jbt=ft->jbt) != NULL) {
+	JABBER_BYTE_TRANSFER *jbt = ft->jbt;
+	if (jbt != NULL) {
 		Log("Canceling bytestream session");
 		jbt->state = JBT_ERROR;
 		if (jbt->hConn) {
@@ -64,8 +62,10 @@ void CJabberProto::FtCancel(filetransfer *ft)
 		if (jbt->hEvent) SetEvent(jbt->hEvent);
 		if (jbt->hProxyEvent) SetEvent(jbt->hProxyEvent);
 	}
+
 	// For file transfer through IBB
-	if ((jibb=ft->jibb) != NULL) {
+	JABBER_IBB_TRANSFER *jibb = ft->jibb;
+	if (jibb != NULL) {
 		Log("Canceling IBB session");
 		jibb->state = JIBB_ERROR;
 		m_iqManager.ExpireByUserData(jibb);
