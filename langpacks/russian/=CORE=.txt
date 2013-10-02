@@ -1314,7 +1314,7 @@ URL от %s
 [Use %time% for the current time, %date% for the current date]
 %date% - сегодняшняя дата; %time% - текущее время
 [Use Options->Contacts->Ignore to unhide contacts.]
-Скрытые контакты: "События->Контакты->Игнорировать"
+Скрытые контакты: "Настройки->Контакты->Игнорировать"
 [Use proxy server]
 И&спользовать прокси
 [User &Details]
