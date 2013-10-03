@@ -1168,7 +1168,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 
 	// If message is from a stranger (not in roster), item is NULL
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, from);
-	if ( !item)
+	if (item == NULL)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
 
 	time_t msgTime = 0;
@@ -1863,7 +1863,6 @@ void CJabberProto::OnProcessIq(HXML node)
 	if ((type=xmlGetAttrValue(node, _T("type"))) == NULL) return;
 
 	int id = JabberGetPacketID(node);
-	const TCHAR *idStr = xmlGetAttrValue(node, _T("id"));
 
 	queryNode = xmlGetChild(node , "query");
 	xmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
@@ -1887,7 +1886,7 @@ void CJabberProto::OnProcessIq(HXML node)
 		LISTFOREACH(i, this, LIST_FILE)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item->ft != NULL && item->ft->state == FT_CONNECTING && !_tcscmp(idStr, item->ft->iqId)) {
+			if (item->ft != NULL && item->ft->state == FT_CONNECTING && id == item->ft->iqId) {
 				Log("Denying file sending request");
 				item->ft->state = FT_DENIED;
 				if (item->ft->hFileEvent != NULL)
@@ -1896,7 +1895,7 @@ void CJabberProto::OnProcessIq(HXML node)
 		}
 	}
 	else if ((!_tcscmp(type, _T("get")) || !_tcscmp(type, _T("set")))) {
-		XmlNodeIq iq(_T("error"), idStr, xmlGetAttrValue(node, _T("from")));
+		XmlNodeIq iq(_T("error"), id, xmlGetAttrValue(node, _T("from")));
 
 		HXML pFirstChild = xmlGetChild(node , 0);
 		if (pFirstChild)

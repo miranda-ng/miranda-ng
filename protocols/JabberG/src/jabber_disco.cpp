@@ -176,7 +176,7 @@ void CJabberProto::OnIqResultServiceDiscoveryInfo(HXML iqNode, CJabberIqInfo *pI
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		HXML query = xmlGetChild(iqNode , "query");
-		if ( !query)
+		if (query == NULL)
 			pNode->SetInfoRequestId(JABBER_DISCO_RESULT_ERROR);
 		else {
 			HXML feature;
@@ -222,7 +222,7 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(HXML iqNode, CJabberIqInfo *p
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		HXML query = xmlGetChild(iqNode , "query");
-		if ( !query)
+		if (query == NULL)
 			pNode->SetItemsRequestId(JABBER_DISCO_RESULT_ERROR);
 		else {
 			HXML item;

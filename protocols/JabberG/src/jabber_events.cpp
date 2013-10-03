@@ -77,32 +77,22 @@ static TCHAR* sttSettingToTchar(DBCONTACTWRITESETTING* cws)
 
 void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hContact)
 {
-	DBVARIANT jid, dbv;
-	if (getTString(hContact, "jid", &jid))
-		return;
-
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
-	db_free(&jid);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
 	if (item == NULL)
 		return;
 
-	TCHAR *nick;
-	if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv)) {
-		nick = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-	else if ( !getTString(hContact, "Nick", &dbv)) {
-		nick = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-	else nick = JabberNickFromJID(item->jid);
-	if (nick == NULL)
+	ptrT tszNick( db_get_tsa(hContact, "CList", "MyHandle"));
+	if (tszNick == NULL)
+		tszNick = getTStringA(hContact, "Nick");
+	if (tszNick == NULL)
+		tszNick = JabberNickFromJID(item->jid);
+	if (tszNick == NULL)
 		return;
 
 	if (cws->value.type == DBVT_DELETED) {
 		if (item->group != NULL) {
 			Log("Group set to nothing");
-			AddContactToRoster(item->jid, nick, NULL);
+			AddContactToRoster(item->jid, tszNick, NULL);
 		}
 	}
 	else {
@@ -110,21 +100,15 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 		if (cws->value.pszVal != NULL && lstrcmp(p, item->group)) {
 			Log("Group set to %S", p);
 			if (p)
-				AddContactToRoster(item->jid, nick, p);
+				AddContactToRoster(item->jid, tszNick, p);
 		}
 		mir_free(p);
 	}
-	mir_free(nick);
 }
 
 void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hContact)
 {
-	DBVARIANT jid;
-	if (getTString(hContact, "jid", &jid))
-		return;
-
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
-	db_free(&jid);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
 	if (item == NULL)
 		return;
 

@@ -352,7 +352,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				ft->jid = mir_tstrdup(from);
 				ft->std.hContact = HContactFromJID(from);
 				ft->sid = mir_tstrdup(sid);
-				ft->iqId = mir_tstrdup(szId);
+				ft->iqId = _ttoi(szId+4);
 				ft->type = ftType;
 				ft->std.totalFiles = 1;
 				ft->std.tszCurrentFile = mir_tstrdup(filename);
@@ -449,7 +449,7 @@ BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 {
-	if ( !iqNode) return FALSE;
+	if (iqNode == NULL) return FALSE;
 
 	const TCHAR *id = xmlGetAttrValue(iqNode, _T("id"));
 	const TCHAR *from = xmlGetAttrValue(iqNode, _T("from"));
@@ -464,7 +464,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 
 	// already closed?
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
-	if ( !item) {
+	if (item == NULL) {
 		m_ThreadInfo->send(
 			XmlNodeIq(_T("error"), id, from)
 				<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))

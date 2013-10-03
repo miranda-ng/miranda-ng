@@ -335,7 +335,7 @@ void CJabberProto::OnIqResultDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)
 	{
 		HXML query = xmlGetChild(iqNode , "query");
-		if ( !query)
+		if (query == NULL)
 		{
 			sttRoomListAppend(hwndList, RoomInfo::ROOM_FAIL,
 				TranslateT("Jabber Error"),

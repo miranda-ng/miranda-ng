@@ -137,7 +137,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 
 	LPCTSTR type = xmlGetAttrValue(iqNode, _T("type"));
-	if ( !type)
+	if (type == NULL)
 		return;
 
 	if ( !lstrcmp(type, _T("result"))) {

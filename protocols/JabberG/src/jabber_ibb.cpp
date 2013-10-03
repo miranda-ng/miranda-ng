@@ -168,7 +168,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 BOOL CJabberProto::OnIbbRecvdData(const TCHAR *data, const TCHAR *sid, const TCHAR *seq)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
-	if ( !item) return FALSE;
+	if (item == NULL) return FALSE;
 
 	WORD wSeq = (WORD)_ttoi(seq);
 	if (wSeq != item->jibb->wPacketId) {

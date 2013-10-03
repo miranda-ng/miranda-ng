@@ -321,11 +321,11 @@ protected:
 	TCHAR *m_szActiveListName;
 	TCHAR *m_szDefaultListName;
 	CPrivacyList *m_pLists;
-	CRITICAL_SECTION m_cs;
 	BOOL m_bModified;
 
 public:
 	CJabberProto* m_proto;
+	CRITICAL_SECTION m_cs;
 
 	CPrivacyListManager(CJabberProto *ppro)
 	{
@@ -343,16 +343,6 @@ public:
 		RemoveAllLists();
 		DeleteCriticalSection(&m_cs);
 	};
-	BOOL Lock()
-	{
-		EnterCriticalSection(&m_cs);
-		return TRUE;
-	}
-	BOOL Unlock()
-	{
-		LeaveCriticalSection(&m_cs);
-		return TRUE;
-	}
 	void SetActiveListName(const TCHAR *szListName)
 	{
 		replaceStrT(m_szActiveListName, szListName);

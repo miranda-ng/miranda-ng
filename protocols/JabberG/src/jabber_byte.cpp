@@ -422,7 +422,7 @@ void CJabberProto::IqResultStreamActivate(HXML iqNode, CJabberIqInfo*)
 	mir_sntprintf(listJid, SIZEOF(listJid), _T("ftproxy_%d"), id);
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTIQID, listJid);
-	if ( !item)
+	if (item == NULL)
 		return;
 
 	if ( !lstrcmp(xmlGetAttrValue(iqNode, _T("type")), _T("result")))

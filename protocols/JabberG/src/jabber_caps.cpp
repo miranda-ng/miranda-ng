@@ -184,7 +184,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 	JabberStripJid(jid, szBareJid, SIZEOF(szBareJid));
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szBareJid);
-	if ( !item)
+	if (item == NULL)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, szBareJid);
 
 	JabberCapsBits jcbToReturn = JABBER_RESOURCE_CAPS_NONE;

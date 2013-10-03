@@ -284,33 +284,24 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 
 			char *pFileName = mir_urlEncode( ptrA( mir_utf8encodeT(p)));
 			if (pFileName != NULL) {
-				int id = SerialNext();
-				if (ft->iqId) mir_free(ft->iqId);
-				size_t size = strlen(JABBER_IQID) + 20;
-				ft->iqId = (TCHAR *)mir_alloc(sizeof(TCHAR) * size);
-				mir_sntprintf(ft->iqId, size, _T(JABBER_IQID)_T("%d"), id);
+				ft->iqId = SerialNext();
 
-				char *myAddr = NULL;
-				DBVARIANT dbv;
-				if (m_options.BsDirect && m_options.BsDirectManual) {
-					if ( !getString("BsDirectAddr", &dbv))
-						myAddr = dbv.pszVal;
-				}
-
+				ptrA myAddr;
+				if (m_options.BsDirect && m_options.BsDirectManual)
+					myAddr = getStringA("BsDirectAddr");
 				if (myAddr == NULL)
 					myAddr = (char*)CallService(MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP);
 
-				char szAddr[ 256 ];
+				char szAddr[256];
 				mir_snprintf(szAddr, sizeof(szAddr), "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
 
 				mir_free(pFileName);
-				mir_free(myAddr);
 
 				int len = lstrlen(ptszResource) + lstrlen(ft->jid) + 2;
 				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
 				mir_sntprintf(fulljid, len, _T("%s/%s"), ft->jid, ptszResource);
 
-				XmlNodeIq iq(_T("set"), id, fulljid);
+				XmlNodeIq iq(_T("set"), ft->iqId, fulljid);
 				HXML query = iq << XQUERY(JABBER_FEAT_OOB);
 				query << XCHILD(_T("url"), _A2T(szAddr));
 				query << XCHILD(_T("desc"), ft->szDescription);
@@ -478,7 +469,6 @@ filetransfer::~filetransfer()
 
 	if (jid) mir_free(jid);
 	if (sid) mir_free(sid);
-	if (iqId) mir_free(iqId);
 	if (fileSize) mir_free(fileSize);
 	if (httpHostName) mir_free(httpHostName);
 	if (httpPath) mir_free(httpPath);

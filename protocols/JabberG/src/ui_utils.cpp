@@ -69,51 +69,48 @@ int CDlgBase::Resizer(UTILRESIZECONTROL*)
 
 INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		m_initialized = false;
+		TranslateDialogDefault(m_hwnd);
 		{
-			m_initialized = false;
-			TranslateDialogDefault(m_hwnd);
-
 			for (CCtrlBase* p = m_first; p != NULL; p = p->m_next)
 				AddControl(p);
-
-			NotifyControls(&CCtrlBase::OnInit);
-			OnInitDialog();
-
-			m_initialized = true;
-			return TRUE;
 		}
+		NotifyControls(&CCtrlBase::OnInit);
+		OnInitDialog();
 
-		case WM_MEASUREITEM:
+		m_initialized = true;
+		return TRUE;
+
+	case WM_MEASUREITEM:
 		{
 			MEASUREITEMSTRUCT *param = (MEASUREITEMSTRUCT *)lParam;
 			if (param && param->CtlID)
 				if (CCtrlBase *ctrl = FindControl(param->CtlID))
 					return ctrl->OnMeasureItem(param);
-			return FALSE;
 		}
+		return FALSE;
 
-		case WM_DRAWITEM:
+	case WM_DRAWITEM:
 		{
 			DRAWITEMSTRUCT *param = (DRAWITEMSTRUCT *)lParam;
 			if (param && param->CtlID)
 				if (CCtrlBase *ctrl = FindControl(param->CtlID))
 					return ctrl->OnDrawItem(param);
-			return FALSE;
 		}
+		return FALSE;
 
-		case WM_DELETEITEM:
+	case WM_DELETEITEM:
 		{
 			DELETEITEMSTRUCT *param = (DELETEITEMSTRUCT *)lParam;
 			if (param && param->CtlID)
 				if (CCtrlBase *ctrl = FindControl(param->CtlID))
 					return ctrl->OnDeleteItem(param);
-			return FALSE;
 		}
+		return FALSE;
 
-		case WM_COMMAND:
+	case WM_COMMAND:
 		{
 			HWND hwndCtrl = (HWND)lParam;
 			WORD idCtrl = LOWORD(wParam);
@@ -133,20 +130,16 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			return FALSE;
 		}
 
-		case WM_NOTIFY:
+	case WM_NOTIFY:
 		{
 			int idCtrl = wParam;
 			NMHDR *pnmh = (NMHDR *)lParam;
-
-			if (pnmh->idFrom == 0)
-			{
-				if (pnmh->code == PSN_APPLY)
-				{
+			if (pnmh->idFrom == 0) {
+				if (pnmh->code == PSN_APPLY) {
 					NotifyControls(&CCtrlBase::OnApply);
 					OnApply();
 				}
-				else if (pnmh->code == PSN_RESET)
-				{
+				else if (pnmh->code == PSN_RESET) {
 					NotifyControls(&CCtrlBase::OnReset);
 					OnReset();
 				}
@@ -157,52 +150,42 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			return FALSE;
 		}
 
-		case WM_SIZE:
-		{
-			if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_SIZEBOX))
-			{
-				UTILRESIZEDIALOG urd;
-				urd.cbSize = sizeof(urd);
-				urd.hwndDlg = m_hwnd;
-				urd.hInstance = hInst;
-				urd.lpTemplate = MAKEINTRESOURCEA(m_idDialog);
-				urd.lParam = 0;
-				urd.pfnResizer = GlobalDlgResizer;
-				CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-			}
-			return TRUE;
+	case WM_SIZE:
+		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_SIZEBOX)) {
+			UTILRESIZEDIALOG urd;
+			urd.cbSize = sizeof(urd);
+			urd.hwndDlg = m_hwnd;
+			urd.hInstance = hInst;
+			urd.lpTemplate = MAKEINTRESOURCEA(m_idDialog);
+			urd.lParam = 0;
+			urd.pfnResizer = GlobalDlgResizer;
+			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 		}
+		return TRUE;
 
-		case WM_CLOSE:
-		{
-			m_lresult = FALSE;
-			OnClose();
-			if ( !m_lresult)
-			{
-				if (m_isModal)
-					EndDialog(m_hwnd, 0);
-				else
-					DestroyWindow(m_hwnd);
-			}
-			return TRUE;
-		}
-
-		case WM_DESTROY:
-		{
-			OnDestroy();
-			NotifyControls(&CCtrlBase::OnDestroy);
-
-			SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-			m_hwnd = NULL;
+	case WM_CLOSE:
+		m_lresult = FALSE;
+		OnClose();
+		if ( !m_lresult) {
 			if (m_isModal)
-			{
-				m_isModal = false;
-			} else
-			{	// modeless dialogs MUST be allocated with 'new'
-				delete this;
-			}
-			return TRUE;
+				EndDialog(m_hwnd, 0);
+			else
+				DestroyWindow(m_hwnd);
 		}
+		return TRUE;
+
+	case WM_DESTROY:
+		OnDestroy();
+		NotifyControls(&CCtrlBase::OnDestroy);
+
+		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
+		m_hwnd = NULL;
+		if (m_isModal)
+			m_isModal = false;
+		else // modeless dialogs MUST be allocated with 'new'
+			delete this;
+
+		return TRUE;
 	}
 
 	return FALSE;
@@ -211,17 +194,15 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CDlgBase *wnd = NULL;
-	if (msg == WM_INITDIALOG)
-	{
+	if (msg == WM_INITDIALOG) {
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 		wnd = (CDlgBase *)lParam;
 		wnd->m_hwnd = hwnd;
-	} else
-	{
-		wnd = (CDlgBase *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
+	else wnd = (CDlgBase *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-	if ( !wnd) return FALSE;
+	if (!wnd)
+		return FALSE;
 
 	wnd->m_msg.hwnd = hwnd;
 	wnd->m_msg.message = msg;
@@ -233,9 +214,7 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
 	CDlgBase *wnd = (CDlgBase *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if ( !wnd) return 0;
-
-	return wnd->Resizer(urc);
+	return (wnd == NULL) ? 0 : wnd->Resizer(urc);
 }
 
 void CDlgBase::ThemeDialogBackground(BOOL tabbed)
@@ -364,11 +343,10 @@ CCtrlListBox::CCtrlListBox(CDlgBase* dlg, int ctrlId) :
 
 BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
 {
-	switch (idCode)
-	{
-		case LBN_DBLCLK:	OnDblClick(this); break;
-		case LBN_SELCANCEL:	OnSelCancel(this); break;
-		case LBN_SELCHANGE:	OnSelChange(this); break;
+	switch (idCode) {
+		case LBN_DBLCLK:    OnDblClick(this); break;
+		case LBN_SELCANCEL: OnSelCancel(this); break;
+		case LBN_SELCHANGE: OnSelChange(this); break;
 	}
 	return TRUE;
 }
@@ -609,20 +587,19 @@ CCtrlClc::CCtrlClc(CDlgBase* dlg, int ctrlId):
 BOOL CCtrlClc::OnNotify(int, NMHDR *pnmh)
 {
 	TEventInfo evt = { this, (NMCLISTCONTROL *)pnmh };
-	switch (pnmh->code)
-	{
-		case CLN_EXPANDED:			OnExpanded(&evt); break;
-		case CLN_LISTREBUILT:		OnListRebuilt(&evt); break;
-		case CLN_ITEMCHECKED:		OnItemChecked(&evt); break;
-		case CLN_DRAGGING:			OnDragging(&evt); break;
-		case CLN_DROPPED:			OnDropped(&evt); break;
-		case CLN_LISTSIZECHANGE:	OnListSizeChange(&evt); break;
-		case CLN_OPTIONSCHANGED:	OnOptionsChanged(&evt); break;
-		case CLN_DRAGSTOP:			OnDragStop(&evt); break;
-		case CLN_NEWCONTACT:		OnNewContact(&evt); break;
-		case CLN_CONTACTMOVED:		OnContactMoved(&evt); break;
-		case CLN_CHECKCHANGED:		OnCheckChanged(&evt); break;
-		case NM_CLICK:				OnClick(&evt); break;
+	switch (pnmh->code) {
+		case CLN_EXPANDED:       OnExpanded(&evt); break;
+		case CLN_LISTREBUILT:    OnListRebuilt(&evt); break;
+		case CLN_ITEMCHECKED:    OnItemChecked(&evt); break;
+		case CLN_DRAGGING:       OnDragging(&evt); break;
+		case CLN_DROPPED:        OnDropped(&evt); break;
+		case CLN_LISTSIZECHANGE: OnListSizeChange(&evt); break;
+		case CLN_OPTIONSCHANGED: OnOptionsChanged(&evt); break;
+		case CLN_DRAGSTOP:       OnDragStop(&evt); break;
+		case CLN_NEWCONTACT:     OnNewContact(&evt); break;
+		case CLN_CONTACTMOVED:   OnContactMoved(&evt); break;
+		case CLN_CHECKCHANGED:   OnCheckChanged(&evt); break;
+		case NM_CLICK:           OnClick(&evt); break;
 	}
 	return FALSE;
 }
@@ -865,7 +842,7 @@ HIMAGELIST CCtrlListView::CreateImageList(int iImageList)
 void CCtrlListView::AddColumn(int iSubItem, TCHAR *name, int cx)
 {
 	LVCOLUMN lvc;
-	lvc.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM;
+	lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
 	lvc.iImage = 0;
 	lvc.pszText = name;
 	lvc.cx = cx;
@@ -877,7 +854,7 @@ void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
 {
 	LVGROUP lvg = {0};
 	lvg.cbSize = sizeof(lvg);
-	lvg.mask = LVGF_HEADER|LVGF_GROUPID;
+	lvg.mask = LVGF_HEADER | LVGF_GROUPID;
 	lvg.pszHeader = name;
 	lvg.cchHeader = lstrlen(lvg.pszHeader);
 	lvg.iGroupId = iGroupId;
@@ -887,19 +864,15 @@ void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
 int CCtrlListView::AddItem(TCHAR *text, int iIcon, LPARAM lParam, int iGroupId)
 {
 	LVITEM lvi = {0};
-	lvi.mask = LVIF_PARAM|LVIF_TEXT|LVIF_IMAGE;
+	lvi.mask = LVIF_PARAM | LVIF_TEXT | LVIF_IMAGE;
 	lvi.iSubItem = 0;
 	lvi.pszText = text;
 	lvi.iImage = iIcon;
 	lvi.lParam = lParam;
-
-
-	if ((iGroupId >= 0))
-	{
+	if (iGroupId >= 0) {
 		lvi.mask |= LVIF_GROUPID;
 		lvi.iGroupId = iGroupId;
 	}
-
 
 	return InsertItem(&lvi);
 }
@@ -911,9 +884,7 @@ void CCtrlListView::SetItem(int iItem, int iSubItem, TCHAR *text, int iIcon)
 	lvi.iItem = iItem;
 	lvi.iSubItem = iSubItem;
 	lvi.pszText = text;
-
-	if (iIcon >= 0)
-	{
+	if (iIcon >= 0) {
 		lvi.mask |= LVIF_IMAGE;
 		lvi.iImage = iIcon;
 	}
@@ -991,48 +962,12 @@ int CCtrlListView::GetCountPerPage()
 HWND CCtrlListView::GetEditControl()
 {	return ListView_GetEditControl(m_hwnd);
 }
-//void CCtrlListView::GetEmptyText(PWSTR pszText, UINT cchText)
-//{	ListView_GetEmptyText(m_hwnd, pszText, cchText);
-//}
 DWORD CCtrlListView::GetExtendedListViewStyle()
 {	return ListView_GetExtendedListViewStyle(m_hwnd);
 }
-//INT CCtrlListView::GetFocusedGroup()
-//{	return ListView_GetFocusedGroup(m_hwnd);
-//}
-//void CCtrlListView::GetFooterInfo(LPLVFOOTERINFO plvfi)
-//{	ListView_GetFooterInfo(m_hwnd, plvfi);
-//}
-//void CCtrlListView::GetFooterItem(UINT iItem, LVFOOTERITEM *pfi)
-//{	ListView_GetFooterItem(m_hwnd, iItem, pfi);
-//}
-//void CCtrlListView::GetFooterItemRect(UINT iItem,  RECT *prc)
-//{	ListView_GetFooterItemRect(m_hwnd, iItem, prc);
-//}
-//void CCtrlListView::GetFooterRect(RECT *prc)
-//{	ListView_GetFooterRect(m_hwnd, prc);
-//}
-//int CCtrlListView::GetGroupCount()
-//{	return ListView_GetGroupCount(m_hwnd);
-//}
-//HIMAGELIST CCtrlListView::GetGroupHeaderImageList()
-//{	return ListView_GetGroupHeaderImageList(m_hwnd);
-//}
-//void CCtrlListView::GetGroupInfo(int iGroupId, PLVGROUP pgrp)
-//{	ListView_GetGroupInfo(m_hwnd, iGroupId, pgrp);
-//}
-//void CCtrlListView::GetGroupInfoByIndex(int iIndex, PLVGROUP pgrp)
-//{	ListView_GetGroupInfoByIndex(m_hwnd, iIndex, pgrp);
-//}
 void CCtrlListView::GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics)
 {	ListView_GetGroupMetrics(m_hwnd, pGroupMetrics);
 }
-//BOOL CCtrlListView::GetGroupRect(int iGroupId, RECT *prc)
-//{	return ListView_GetGroupRect(m_hwnd, iGroupId, prc);
-//}
-//UINT CCtrlListView::GetGroupState(UINT dwGroupId, UINT dwMask)
-//{	return ListView_GetGroupState(m_hwnd, dwGroupId, dwMask);
-//}
 HWND CCtrlListView::GetHeader()
 {	return ListView_GetHeader(m_hwnd);
 }
@@ -1066,9 +1001,6 @@ void CCtrlListView::GetItem(LPLVITEM pitem)
 int CCtrlListView::GetItemCount()
 {	return ListView_GetItemCount(m_hwnd);
 }
-//void CCtrlListView::GetItemIndexRect(LVITEMINDEX *plvii, LONG iSubItem, LONG code, LPRECT prc)
-//{	ListView_GetItemIndexRect(m_hwnd, plvii, iSubItem, code, prc);
-//}
 void CCtrlListView::GetItemPosition(int i, POINT *ppt)
 {	ListView_GetItemPosition(m_hwnd, i, ppt);
 }
@@ -1087,9 +1019,6 @@ void CCtrlListView::GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cch
 int CCtrlListView::GetNextItem(int iStart, UINT flags)
 {	return ListView_GetNextItem(m_hwnd, iStart, flags);
 }
-//BOOL CCtrlListView::GetNextItemIndex(LVITEMINDEX *plvii, LPARAM flags)
-//{	return ListView_GetNextItemIndex(m_hwnd, plvii, flags);
-//}
 BOOL CCtrlListView::GetNumberOfWorkAreas(LPUINT lpuWorkAreas)
 {	return  ListView_GetNumberOfWorkAreas(m_hwnd, lpuWorkAreas);
 }
@@ -1150,9 +1079,6 @@ BOOL CCtrlListView::HasGroup(int dwGroupId)
 int CCtrlListView::HitTest(LPLVHITTESTINFO pinfo)
 {	return ListView_HitTest(m_hwnd, pinfo);
 }
-//int CCtrlListView::HitTestEx(LPLVHITTESTINFO pinfo)
-//{	return ListView_HitTestEx(m_hwnd, pinfo);
-//}
 int CCtrlListView::InsertColumn(int iCol, const LPLVCOLUMN pcol)
 {	return ListView_InsertColumn(m_hwnd, iCol, pcol);
 }
@@ -1171,9 +1097,6 @@ BOOL CCtrlListView::InsertMarkHitTest(LPPOINT point, LVINSERTMARK *plvim)
 BOOL CCtrlListView::IsGroupViewEnabled()
 {	return ListView_IsGroupViewEnabled(m_hwnd);
 }
-//UINT CCtrlListView::IsItemVisible(UINT index)
-//{	return ListView_IsItemVisible(m_hwnd, index);
-//}
 UINT CCtrlListView::MapIDToIndex(UINT id)
 {	return ListView_MapIDToIndex(m_hwnd, id);
 }
@@ -1219,18 +1142,12 @@ void CCtrlListView::SetExtendedListViewStyle(DWORD dwExStyle)
 void CCtrlListView::SetExtendedListViewStyleEx(DWORD dwExMask, DWORD dwExStyle)
 {	ListView_SetExtendedListViewStyleEx(m_hwnd, dwExMask, dwExStyle);
 }
-//HIMAGELIST CCtrlListView::SetGroupHeaderImageList(HIMAGELIST himl)
-//{	return ListView_SetGroupHeaderImageList(m_hwnd, himl);
-//}
 int CCtrlListView::SetGroupInfo(int iGroupId, PLVGROUP pgrp)
 {	return ListView_SetGroupInfo(m_hwnd, iGroupId, pgrp);
 }
 void CCtrlListView::SetGroupMetrics(PLVGROUPMETRICS pGroupMetrics)
 {	ListView_SetGroupMetrics(m_hwnd, pGroupMetrics);
 }
-//void CCtrlListView::SetGroupState(UINT dwGroupId, UINT dwMask, UINT dwState)
-//{	ListView_SetGroupState(m_hwnd, dwGroupId, dwMask, dwState);
-//}
 HCURSOR CCtrlListView::SetHotCursor(HCURSOR hCursor)
 {	return ListView_SetHotCursor(m_hwnd, hCursor);
 }
@@ -1264,9 +1181,6 @@ void CCtrlListView::SetItemCount(int cItems)
 void CCtrlListView::SetItemCountEx(int cItems, DWORD dwFlags)
 {	ListView_SetItemCountEx(m_hwnd, cItems, dwFlags);
 }
-//HRESULT CCtrlListView::SetItemIndexState(LVITEMINDEX *plvii, UINT data, UINT mask)
-//{	return ListView_SetItemIndexState(m_hwnd, plvii, data, mask);
-//}
 BOOL CCtrlListView::SetItemPosition(int i, int x, int y)
 {	return ListView_SetItemPosition(m_hwnd, i, x, y);
 }
@@ -1352,7 +1266,6 @@ struct CFilterData : public MZeroedObject
 
 	void ReleaseFilterData()
 	{
-		//DeleteObject(m_hfntNormal);	m_hfntNormal = NULL;	// managed by system
 		DeleteObject(m_hfntEmpty);	m_hfntEmpty = NULL;
 	}
 
@@ -1390,57 +1303,45 @@ void CCtrlFilterListView::OnInit()
 static LRESULT CALLBACK sttEditBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CFilterData *fdat = (CFilterData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if ( !fdat) return DefWindowProc(hwnd, msg, wParam, lParam);
+	if (fdat == NULL)
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
-	switch (msg)
-	{
-		case WM_GETDLGCODE:
-			if ((wParam == VK_RETURN) || (wParam == VK_ESCAPE))
-				return DLGC_WANTMESSAGE;
-			break;
+	switch (msg) {
+	case WM_GETDLGCODE:
+		if ((wParam == VK_RETURN) || (wParam == VK_ESCAPE))
+			return DLGC_WANTMESSAGE;
+		break;
 
-		case WM_SYSKEYDOWN:
-		case WM_KEYDOWN:
-		{
-			if (wParam == VK_RETURN)
-			{
-				if (fdat->m_filterText) mir_free(fdat->m_filterText);
-				int length = GetWindowTextLength(hwnd) + 1;
-				if (length == 1)
-				{
-					fdat->m_filterText = 0;
-				} else
-				{
-					fdat->m_filterText = (TCHAR *)mir_alloc(sizeof(TCHAR) * length);
-					GetWindowText(hwnd, fdat->m_filterText, length);
-				}
-
-				DestroyWindow(hwnd);
-				RedrawWindow(fdat->m_hwndOwner, NULL, NULL, RDW_INVALIDATE|RDW_FRAME);
-				PostMessage(fdat->m_hwndOwner, WM_APP, 0, 0);
-			} else
-			if (wParam == VK_ESCAPE)
-			{
-				DestroyWindow(hwnd);
-				return 0;
-			} else
-			{
-				PostMessage(fdat->m_hwndOwner, WM_APP, 1, 0);
+	case WM_SYSKEYDOWN:
+	case WM_KEYDOWN:
+		if (wParam == VK_RETURN) {
+			if (fdat->m_filterText) mir_free(fdat->m_filterText);
+			int length = GetWindowTextLength(hwnd) + 1;
+			if (length == 1)
+				fdat->m_filterText = 0;
+			else {
+				fdat->m_filterText = (TCHAR *)mir_alloc(sizeof(TCHAR) * length);
+				GetWindowText(hwnd, fdat->m_filterText, length);
 			}
 
-			break;
+			DestroyWindow(hwnd);
+			RedrawWindow(fdat->m_hwndOwner, NULL, NULL, RDW_INVALIDATE|RDW_FRAME);
+			PostMessage(fdat->m_hwndOwner, WM_APP, 0, 0);
 		}
-
-		case WM_KILLFOCUS:
-		{
+		else if (wParam == VK_ESCAPE) {
 			DestroyWindow(hwnd);
 			return 0;
 		}
 
-		case WM_DESTROY:
-		{
-			fdat->m_hwndEditBox = NULL;
-		}
+		PostMessage(fdat->m_hwndOwner, WM_APP, 1, 0);
+		break;
+
+	case WM_KILLFOCUS:
+		DestroyWindow(hwnd);
+		return 0;
+
+	case WM_DESTROY:
+		fdat->m_hwndEditBox = NULL;
 	}
 
 	return CallWindowProc(fdat->m_oldWndProc, hwnd, msg, wParam, lParam);
@@ -1450,20 +1351,15 @@ void CCtrlFilterListView::FilterHighlight(TCHAR *str)
 {
 	TCHAR buf[256];
 	int count = GetItemCount();
-	for (int i=0; i < count; i++)
-	{
+	for (int i=0; i < count; i++) {
 		bool found = false;
-
-		if (str)
-		{
-			for (int j = 0; j < 10; ++j)
-			{
+		if (str) {
+			for (int j = 0; j < 10; ++j) {
 				GetItemText(i, j, buf, SIZEOF(buf));
 				if ( !*buf)
 					break;
 
-				if (_tcsstr(buf, str))
-				{
+				if (_tcsstr(buf, str)) {
 					found = true;
 					break;
 				}
@@ -1476,67 +1372,56 @@ void CCtrlFilterListView::FilterHighlight(TCHAR *str)
 
 LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_APP:
-		{
-			switch (wParam)
-			{
-				case 0:
-				{
-					OnFilterChanged(this);
-					if ( !m_keepHiglight) FilterHighlight(NULL);
-					break;
+	POINT pt;
+
+	switch (msg) {
+	case WM_APP:
+		switch (wParam) {
+		case 0:
+			OnFilterChanged(this);
+			if (!m_keepHiglight)
+				FilterHighlight(NULL);
+			break;
+
+		case 1:
+			if (m_trackFilter && fdat->m_hwndEditBox) {
+				TCHAR *str = 0;
+				int length = GetWindowTextLength(fdat->m_hwndEditBox) + 1;
+				if (length == 1)
+					str = 0;
+				else {
+					str = (TCHAR *)mir_alloc(sizeof(TCHAR) * length);
+					GetWindowText(fdat->m_hwndEditBox, str, length);
 				}
-
-				case 1:
-				{
-					if (m_trackFilter && fdat->m_hwndEditBox)
-					{
-						TCHAR *str = 0;
-						int length = GetWindowTextLength(fdat->m_hwndEditBox) + 1;
-						if (length == 1)
-						{
-							str = 0;
-						} else
-						{
-							str = (TCHAR *)mir_alloc(sizeof(TCHAR) * length);
-							GetWindowText(fdat->m_hwndEditBox, str, length);
-						}
-						FilterHighlight(str);
-						if (str) mir_free(str);
-					}
-					break;
-				}
-
-				case 2:
-				{
-					fdat->m_hwndOwner = m_hwnd;
-					fdat->m_hwndEditBox = CreateWindow(_T("edit"), fdat->m_filterText,
-						WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_LEFT|ES_AUTOHSCROLL,
-						0, 0, 0, 0,
-						::GetParent(m_hwnd), (HMENU)-1, hInst, NULL);
-
-					SendMessage(fdat->m_hwndEditBox, WM_SETFONT, (WPARAM)fdat->m_hfntNormal, 0);
-
-					RECT rc = fdat->m_rcEditBox;
-					MapWindowPoints(m_hwnd, ::GetParent(m_hwnd), (LPPOINT)&rc, 2);
-					SetWindowPos(fdat->m_hwndEditBox, HWND_TOP, rc.left-5, rc.top+2, rc.right-rc.left, rc.bottom-rc.top-4, SWP_SHOWWINDOW);
-					SendMessage(fdat->m_hwndEditBox, EM_SETSEL, 0, -1);
-
-					fdat->m_oldWndProc = (WNDPROC)GetWindowLongPtr(fdat->m_hwndEditBox, GWLP_WNDPROC);
-					SetWindowLongPtr(fdat->m_hwndEditBox, GWLP_USERDATA, (LONG_PTR)fdat);
-					SetWindowLongPtr(fdat->m_hwndEditBox, GWLP_WNDPROC, (LONG_PTR)sttEditBoxSubclassProc);
-
-					SetFocus(m_hwnd); // hack to avoid popping of list over the box...
-					SetFocus(fdat->m_hwndEditBox);
-					break;
-				}
+				FilterHighlight(str);
+				if (str) mir_free(str);
 			}
 			break;
-		}
 
-		case WM_NCCALCSIZE:
+		case 2:
+			fdat->m_hwndOwner = m_hwnd;
+			fdat->m_hwndEditBox = CreateWindow(_T("edit"), fdat->m_filterText,
+				WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_LEFT|ES_AUTOHSCROLL,
+				0, 0, 0, 0,
+				::GetParent(m_hwnd), (HMENU)-1, hInst, NULL);
+
+			SendMessage(fdat->m_hwndEditBox, WM_SETFONT, (WPARAM)fdat->m_hfntNormal, 0);
+
+			RECT rc = fdat->m_rcEditBox;
+			MapWindowPoints(m_hwnd, ::GetParent(m_hwnd), (LPPOINT)&rc, 2);
+			SetWindowPos(fdat->m_hwndEditBox, HWND_TOP, rc.left-5, rc.top+2, rc.right-rc.left, rc.bottom-rc.top-4, SWP_SHOWWINDOW);
+			SendMessage(fdat->m_hwndEditBox, EM_SETSEL, 0, -1);
+
+			fdat->m_oldWndProc = (WNDPROC)GetWindowLongPtr(fdat->m_hwndEditBox, GWLP_WNDPROC);
+			SetWindowLongPtr(fdat->m_hwndEditBox, GWLP_USERDATA, (LONG_PTR)fdat);
+			SetWindowLongPtr(fdat->m_hwndEditBox, GWLP_WNDPROC, (LONG_PTR)sttEditBoxSubclassProc);
+
+			SetFocus(m_hwnd); // hack to avoid popping of list over the box...
+			SetFocus(fdat->m_hwndEditBox);
+		}
+		break;
+
+	case WM_NCCALCSIZE:
 		{
 			RECT *prect = (RECT *)lParam;
 
@@ -1546,7 +1431,8 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 			fdat->ReleaseFilterData();
 
 			fdat->m_hfntNormal = (HFONT)SendMessage(m_hwnd, WM_GETFONT, 0, 0);
-			if  (!fdat->m_hfntNormal) fdat->m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+			if (!fdat->m_hfntNormal)
+				fdat->m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
 			LOGFONT lf;
 			GetObject(fdat->m_hfntNormal, sizeof(lf), &lf);
@@ -1558,50 +1444,16 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 			fdat->m_clGray = RGB(
 				(GetRValue(clBack) + 2*GetRValue(clText)) / 3,
 				(GetGValue(clBack) + 2*GetGValue(clText)) / 3,
-				(GetBValue(clBack) + 2*GetBValue(clText)) / 3
-				);
+				(GetBValue(clBack) + 2*GetBValue(clText)) / 3);
 
-			if (fdat->m_hwndEditBox) DestroyWindow(fdat->m_hwndEditBox);
-
-			return 0;
+			if (fdat->m_hwndEditBox)
+				DestroyWindow(fdat->m_hwndEditBox);
 		}
+		return 0;
 
-		case WM_NCPAINT:
+	case WM_NCPAINT:
+		CSuper::CustomWndProc(msg, wParam, lParam);
 		{
-/*
-			{
-				HRGN hrgnUpdate, hrgnTmp;
-				RECT rc;
-				GetWindowRect(m_hwnd, &rc);
-				OffsetRect(&rc, -rc.left, -rc.top);
-
-				RECT rcClient;
-				GetClientRect(m_hwnd, &rcClient);
-
-				hrgnTmp = CreateRectRgn(rcClient.left, rcClient.top, rcClient.right, rcClient.bottom);
-				if (wParam == 1)
-				{
-					hrgnUpdate = CreateRectRgn(rc.left, rc.top, rc.right, rc.bottom);
-					CombineRgn(hrgnUpdate, hrgnUpdate, hrgnTmp, RGN_DIFF);
-				} else
-				{
-					hrgnUpdate = CreateRectRgn(0, 0, 0, 0);
-					CombineRgn(hrgnUpdate, (HRGN)wParam, hrgnTmp, RGN_DIFF);
-				}
-				DeleteObject(hrgnTmp);
-
-				InflateRect(&rc, -1, -1);
-				rc.top = rc.bottom - FILTER_BOX_HEIGHT;
-				hrgnTmp = CreateRectRgn(rc.left, rc.top, rc.right, rc.bottom);
-				CombineRgn(hrgnUpdate, hrgnUpdate, hrgnTmp, RGN_DIFF);
-				DeleteObject(hrgnTmp);
-
-				CSuper::CustomWndProc(msg, (WPARAM)hrgnUpdate, lParam);
-				DeleteObject(hrgnUpdate);
-			}
-*/
-			CSuper::CustomWndProc(msg, wParam, lParam);
-
 			RECT rc;
 			GetWindowRect(m_hwnd, &rc);
 			OffsetRect(&rc, -rc.left, -rc.top);
@@ -1624,8 +1476,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 
 			SetBkMode(hdc, TRANSPARENT);
 
-			if (fdat->m_filterText)
-			{
+			if (fdat->m_filterText) {
 				SetRect(&fdat->m_rcButtonClear,
 					rc.right - FILTER_BOX_HEIGHT + (FILTER_BOX_HEIGHT-16)/2, rc.top + (FILTER_BOX_HEIGHT-16)/2,
 					rc.right - FILTER_BOX_HEIGHT + (FILTER_BOX_HEIGHT-16)/2 + 16, rc.top + (FILTER_BOX_HEIGHT-16)/2 + 16);
@@ -1641,8 +1492,8 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 				SelectObject(hdc, fdat->m_hfntNormal);
 				::SetTextColor(hdc, GetSysColor(COLOR_WINDOWTEXT));
 				DrawText(hdc, fdat->m_filterText, -1, &rc, DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX|DT_END_ELLIPSIS);
-			} else
-			{
+			}
+			else {
 				SetRect(&fdat->m_rcButtonClear, 0, 0, 0, 0);
 
 				DrawIconEx(hdc, rc.left + (FILTER_BOX_HEIGHT-16)/2, rc.top + (FILTER_BOX_HEIGHT-16)/2, g_LoadIconEx("sd_filter_reset"), 16, 16, 0, NULL, DI_NORMAL);
@@ -1660,59 +1511,46 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 			ReleaseDC(m_hwnd, hdc);
 
 			DeleteObject(hrgnFilter);
-
-			return 0;
 		}
+		return 0;
 
-		case WM_NCHITTEST:
-		{
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			MapWindowPoints(NULL, m_hwnd, &pt, 1);
+	case WM_NCHITTEST:
+		pt.x = LOWORD(lParam);
+		pt.y = HIWORD(lParam);
+		MapWindowPoints(NULL, m_hwnd, &pt, 1);
 
-			if (PtInRect(&fdat->m_rcButtonClear, pt))
-				return HTBORDER;
-			if (PtInRect(&fdat->m_rcEditBox, pt))
-				return HTBORDER;
+		if (PtInRect(&fdat->m_rcButtonClear, pt))
+			return HTBORDER;
+		if (PtInRect(&fdat->m_rcEditBox, pt))
+			return HTBORDER;
+		break;
 
-			break;
+	case WM_NCLBUTTONUP:
+		pt.x = LOWORD(lParam);
+		pt.y = HIWORD(lParam);
+		MapWindowPoints(NULL, m_hwnd, &pt, 1);
+
+		if (PtInRect(&fdat->m_rcButtonClear, pt)) {
+			SetFocus(m_hwnd);
+			if (fdat->m_filterText) mir_free(fdat->m_filterText);
+			fdat->m_filterText = NULL;
+			RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME);
+			OnFilterChanged(this);
+			FilterHighlight(NULL);
 		}
+		else if (PtInRect(&fdat->m_rcEditBox, pt))
+			PostMessage(m_hwnd, WM_APP, 2, 0);
+		break;
 
-		case WM_NCLBUTTONUP:
-		{
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			MapWindowPoints(NULL, m_hwnd, &pt, 1);
-
-			if (PtInRect(&fdat->m_rcButtonClear, pt))
-			{
-				SetFocus(m_hwnd);
-				if (fdat->m_filterText) mir_free(fdat->m_filterText);
-				fdat->m_filterText = NULL;
-				RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME);
-				OnFilterChanged(this);
-				FilterHighlight(NULL);
-			} else
-			if (PtInRect(&fdat->m_rcEditBox, pt))
-			{
-				PostMessage(m_hwnd, WM_APP, 2, 0);
-			}
-
-			break;
-		}
-
-		case WM_KEYDOWN:
-		{
-			if (wParam == 'F' && GetAsyncKeyState(VK_CONTROL))
-				PostMessage(m_hwnd, WM_APP, 2, 0);
-			break;
-		}
+	case WM_KEYDOWN:
+		if (wParam == 'F' && GetAsyncKeyState(VK_CONTROL))
+			PostMessage(m_hwnd, WM_APP, 2, 0);
+		break;
 	}
 
 	return CSuper::CustomWndProc(msg, wParam, lParam);
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
@@ -1725,8 +1563,7 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 {
 	TEventInfo evt = { this, pnmh };
 
-	switch (pnmh->code)
-	{
+	switch (pnmh->code) {
 		case TVN_BEGINDRAG:			OnBeginDrag(&evt);		return TRUE;
 		case TVN_BEGINLABELEDIT:	OnBeginLabelEdit(&evt);	return TRUE;
 		case TVN_BEGINRDRAG:		OnBeginRDrag(&evt);		return TRUE;
@@ -1748,9 +1585,8 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 
 void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
 {
-	TCHAR buf[128];
 	TVITEMEX tvi;
-
+	TCHAR buf[128];
 	GetItem(hItem, &tvi, buf, SIZEOF(buf));
 	tvi.pszText = TranslateTS(tvi.pszText);
 	tvi.cchTextMax = lstrlen(tvi.pszText);
@@ -1760,8 +1596,7 @@ void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
 void CCtrlTreeView::TranslateTree()
 {
 	HTREEITEM hItem = GetRoot();
-	while (hItem)
-	{
+	while (hItem) {
 		TranslateItem(hItem);
 
 		HTREEITEM hItemTmp = 0;
@@ -1769,13 +1604,11 @@ void CCtrlTreeView::TranslateTree()
 			hItem = hItemTmp;
 		else if (hItemTmp = GetNextSibling(hItem))
 			hItem = hItemTmp;
-		else
-		{
-			while (1)
-			{
-				if ( !(hItem = GetParent(hItem))) break;
-				if (hItemTmp = GetNextSibling(hItem))
-				{
+		else {
+			while (true) {
+				if ( !(hItem = GetParent(hItem)))
+					break;
+				if (hItemTmp = GetNextSibling(hItem)) {
 					hItem = hItemTmp;
 					break;
 				}
@@ -1801,8 +1634,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 	tvi.pszText = str;
 	tvi.cchTextMax = SIZEOF(str);
 
-	while (tvi.hItem)
-	{
+	while (tvi.hItem) {
 		GetItem(&tvi);
 
 		if ( !lstrcmp(tvi.pszText, name))
@@ -2090,9 +1922,7 @@ void CCtrlPages::OnInit()
 LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_SIZE)
-	{
 		ShowPage(m_pActivePage);
-	}
 
 	return CSuper::CustomWndProc(msg, wParam, lParam);
 }
@@ -2132,16 +1962,14 @@ void CCtrlPages::AttachDialog(int iPage, CDlgBase *pDlg)
 	tci.mask = TCIF_PARAM;
 	TabCtrl_GetItem(m_hwnd, iPage, &tci);
 
-	if (TPageInfo *info = (TPageInfo *)tci.lParam)
-	{
+	if (TPageInfo *info = (TPageInfo *)tci.lParam) {
 		if (info->m_pDlg)
 			info->m_pDlg->Close();
 
 		info->m_pDlg = pDlg;
 		//SetParent(info->m_pDlg->GetHwnd(), m_hwnd);
 
-		if (iPage == TabCtrl_GetCurSel(m_hwnd))
-		{
+		if (iPage == TabCtrl_GetCurSel(m_hwnd)) {
 			m_pActivePage = info->m_pDlg;
 			ShowPage(info->m_pDlg);
 		}
@@ -2167,47 +1995,40 @@ void CCtrlPages::ActivatePage(int iPage)
 
 BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 {
-	switch (pnmh->code)
-	{
+	switch (pnmh->code) {
 	case TCN_SELCHANGING:
-	{
-		TCITEM tci = {0};
-		tci.mask = TCIF_PARAM;
-		TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
-
-		if (TPageInfo *info = (TPageInfo *)tci.lParam)
 		{
-			if (info->m_pDlg)
-			{
-				m_pActivePage = NULL;
-				ShowWindow(info->m_pDlg->GetHwnd(), SW_HIDE);
+			TCITEM tci = {0};
+			tci.mask = TCIF_PARAM;
+			TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
+
+			if (TPageInfo *info = (TPageInfo *)tci.lParam) {
+				if (info->m_pDlg) {
+					m_pActivePage = NULL;
+					ShowWindow(info->m_pDlg->GetHwnd(), SW_HIDE);
+				}
 			}
 		}
-
 		return TRUE;
-	}
 
 	case TCN_SELCHANGE:
-	{
-		TCITEM tci = {0};
-		tci.mask = TCIF_PARAM;
-		TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
-
-		if (TPageInfo *info = (TPageInfo *)tci.lParam)
 		{
-			if (info->m_pDlg)
-			{
-				m_pActivePage = info->m_pDlg;
-				ShowPage(info->m_pDlg);
-			} else
-			{
-				m_pActivePage = NULL;
-				info->m_onCreate(info->m_param);
+			TCITEM tci = {0};
+			tci.mask = TCIF_PARAM;
+			TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
+
+			if (TPageInfo *info = (TPageInfo *)tci.lParam) {
+				if (info->m_pDlg) {
+					m_pActivePage = info->m_pDlg;
+					ShowPage(info->m_pDlg);
+				}
+				else {
+					m_pActivePage = NULL;
+					info->m_onCreate(info->m_param);
+				}
 			}
 		}
-
 		return TRUE;
-	}
 	}
 
 	return FALSE;
@@ -2216,14 +2037,12 @@ BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 void CCtrlPages::OnDestroy()
 {
 	int count = TabCtrl_GetItemCount(m_hwnd);
-	for (int i=0; i < count ; i++)
-	{
+	for (int i=0; i < count; i++) {
 		TCITEM tci = {0};
 		tci.mask = TCIF_PARAM;
 		TabCtrl_GetItem(m_hwnd, i, &tci);
 
-		if (TPageInfo *info = (TPageInfo *)tci.lParam)
-		{
+		if (TPageInfo *info = (TPageInfo *)tci.lParam) {
 			if (info->m_pDlg)
 				info->m_pDlg->Close();
 
@@ -2233,8 +2052,7 @@ void CCtrlPages::OnDestroy()
 
 	TabCtrl_DeleteAllItems(m_hwnd);
 
-	if (m_hIml)
-	{
+	if (m_hIml) {
 		TabCtrl_SetImageList(m_hwnd, NULL);
 		ImageList_Destroy(m_hIml);
 	}
@@ -2349,8 +2167,7 @@ void CCtrlBase::Subclass()
 
 void CCtrlBase::Unsubclass()
 {
-	if (m_wndproc)
-	{
+	if (m_wndproc) {
 		SetWindowLongPtr(m_hwnd, GWLP_WNDPROC, (LONG_PTR)m_wndproc);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)0);
 		m_wndproc = 0;
@@ -2417,8 +2234,7 @@ void CDbLink::SaveInt(DWORD value)
 TCHAR* CDbLink::LoadText()
 {
 	if (dbv.type != DBVT_DELETED) db_free(&dbv);
-	if ( !db_get_ts(NULL, m_szModule, m_szSetting, &dbv))
-	{
+	if (!db_get_ts(NULL, m_szModule, m_szSetting, &dbv)) {
 		if (dbv.type == DBVT_TCHAR)
 			return dbv.ptszVal;
 		return m_szDefault;
@@ -2436,7 +2252,7 @@ void CDbLink::SaveText(TCHAR *value)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Base protocol dialog
 
-void CProtoIntDlgBase::SetStatusText(TCHAR *statusText)
+void CProtoIntDlgBase::SetStatusText(const TCHAR *statusText)
 {
 	if (m_hwndStatus)
 		SendMessage(m_hwndStatus, SB_SETTEXT, 0, (LPARAM)statusText);
@@ -2444,81 +2260,76 @@ void CProtoIntDlgBase::SetStatusText(TCHAR *statusText)
 
 INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
-		{	//	call inherited init code first
-			INT_PTR result = CSuper::DlgProc(msg, wParam, lParam);
-			if (m_show_label)
-			{
-				m_hwndStatus = CreateStatusWindow(WS_CHILD|WS_VISIBLE, NULL, m_hwnd, IDC_STATUSBAR);
-				SetWindowPos(m_hwndStatus, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
-				UpdateStatusBar();
-				UpdateProtoTitle();
-			}
-			return result;
+	INT_PTR result;
+
+	switch (msg) {
+	case WM_INITDIALOG: // call inherited init code first
+		result = CSuper::DlgProc(msg, wParam, lParam);
+		if (m_show_label) {
+			m_hwndStatus = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, m_hwnd, IDC_STATUSBAR);
+			SetWindowPos(m_hwndStatus, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			UpdateStatusBar();
+			UpdateProtoTitle();
 		}
+		return result;
 
-		case WM_SETTEXT:
-		if (m_show_label && IsWindowUnicode(m_hwnd))
-
-			{
-				TCHAR *szTitle = (TCHAR *)lParam;
-				if ( !_tcsstr(szTitle, m_proto_interface->m_tszUserName))
-				{
-					UpdateProtoTitle(szTitle);
-					return TRUE;
-				}
+	case WM_SETTEXT:
+		if (m_show_label && IsWindowUnicode(m_hwnd)) {
+			TCHAR *szTitle = (TCHAR *)lParam;
+			if ( !_tcsstr(szTitle, m_proto_interface->m_tszUserName)) {
+				UpdateProtoTitle(szTitle);
+				return TRUE;
 			}
-			break;
+		}
+		break;
 
-		case WM_SIZE:
-			if (m_hwndStatus)
-			{
-				RECT rcStatus; GetWindowRect(m_hwndStatus, &rcStatus);
-				RECT rcClient; GetClientRect(m_hwnd, &rcClient);
-				SetWindowPos(m_hwndStatus, NULL, 0, rcClient.bottom-(rcStatus.bottom-rcStatus.top), rcClient.right, (rcStatus.bottom-rcStatus.top), SWP_NOZORDER);
-				UpdateStatusBar();
-			}
-			break;
+	case WM_SIZE:
+		if (m_hwndStatus) {
+			RECT rcStatus; GetWindowRect(m_hwndStatus, &rcStatus);
+			RECT rcClient; GetClientRect(m_hwnd, &rcClient);
+			SetWindowPos(m_hwndStatus, NULL, 0, rcClient.bottom-(rcStatus.bottom-rcStatus.top), rcClient.right, (rcStatus.bottom-rcStatus.top), SWP_NOZORDER);
+			UpdateStatusBar();
+		}
+		break;
 
-		// Protocol events
-		case WM_PROTO_ACTIVATE:
-			OnProtoActivate(wParam, lParam);
-			return m_lresult;
-		case WM_PROTO_CHECK_ONLINE:
-			if (m_hwndStatus)
-				UpdateStatusBar();
-			OnProtoCheckOnline(wParam, lParam);
-			return m_lresult;
-		case WM_PROTO_REFRESH:
-			OnProtoRefresh(wParam, lParam);
-			return m_lresult;
+	// Protocol events
+	case WM_PROTO_ACTIVATE:
+		OnProtoActivate(wParam, lParam);
+		return m_lresult;
+
+	case WM_PROTO_CHECK_ONLINE:
+		if (m_hwndStatus)
+			UpdateStatusBar();
+		OnProtoCheckOnline(wParam, lParam);
+		return m_lresult;
+
+	case WM_PROTO_REFRESH:
+		OnProtoRefresh(wParam, lParam);
+		return m_lresult;
 	}
 
 	return CSuper::DlgProc(msg, wParam, lParam);
 }
 
-void CProtoIntDlgBase::UpdateProtoTitle(TCHAR *szText)
+void CProtoIntDlgBase::UpdateProtoTitle(const TCHAR *szText)
 {
 	if ( !m_show_label) return;
 
 	int curLength;
-	TCHAR *curText;
+	const TCHAR *curText;
 
-	if (szText)
-	{
+	if (szText) {
 		curText = szText;
 		curLength = lstrlen(curText);
-	} else
-	{
+	}
+	else {
 		curLength = GetWindowTextLength(m_hwnd) + 1;
-		curText = (TCHAR *)_alloca(curLength * sizeof(TCHAR));
-		GetWindowText(m_hwnd, curText, curLength);
+		TCHAR *tmp = (TCHAR *)_alloca(curLength * sizeof(TCHAR));
+		GetWindowText(m_hwnd, tmp, curLength);
+		curText = tmp;
 	}
 
-	if ( !_tcsstr(curText, m_proto_interface->m_tszUserName))
-	{
+	if ( !_tcsstr(curText, m_proto_interface->m_tszUserName)) {
 		int length = curLength + lstrlen(m_proto_interface->m_tszUserName) + 256;
 		TCHAR *text = (TCHAR *)_alloca(length * sizeof(TCHAR));
 		mir_sntprintf(text, length, _T("%s [%s: %s]"), curText, TranslateT("Account"), m_proto_interface->m_tszUserName);

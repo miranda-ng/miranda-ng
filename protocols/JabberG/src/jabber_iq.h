@@ -55,16 +55,16 @@ protected:
 	JABBER_IQ_HANDLER m_pHandler;
 	CJabberIqInfo *m_pNext;
 
-	int m_nIqId;
-	DWORD m_dwParamsToParse;
-	DWORD m_dwRequestTime;
-	DWORD m_dwTimeout;
+	int    m_nIqId;
+	DWORD  m_dwParamsToParse;
+	DWORD  m_dwRequestTime;
+	DWORD  m_dwTimeout;
 	TCHAR *m_szReceiver;
-	int m_iPriority;
+	int    m_iPriority;
+
 public:
-	void *m_pUserData;
-public:// parsed data
-	int m_nIqType;
+	void  *m_pUserData;
+	int    m_nIqType;
 	TCHAR *m_szFrom;
 	TCHAR *m_szChildTagXmlns;
 	TCHAR *m_szChildTagName;

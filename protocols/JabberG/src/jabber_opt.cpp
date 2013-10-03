@@ -1037,11 +1037,11 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 	{
 		_RosterListClear(rrud.hwndDlg);
 		HXML query = xmlGetChild(node , "query");
-		if ( !query) return;
+		if (query == NULL) return;
 		int i = 1;
 		while (TRUE) {
 			HXML item = xmlGetNthChild(query, _T("item"), i++);
-			if ( !item)
+			if (item == NULL)
 				break;
 
 			const TCHAR *jid = xmlGetAttrValue(item, _T("jid"));

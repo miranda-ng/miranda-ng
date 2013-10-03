@@ -1081,7 +1081,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
 	db_free(&dbv);
 
-	if ( !LI)
+	if (LI == NULL)
 		return 0;
 
 	HMENU hMenu = CreatePopupMenu();
@@ -1131,15 +1131,12 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
-
-	DBVARIANT dbv;
-	if (getTString(hContact, "jid", &dbv))
+	ptrT tszJid( getTStringA(hContact, "jid"));
+	if (tszJid == NULL)
 		return 0;
 
-	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
-	db_free(&dbv);
-
-	if ( !LI)
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, tszJid);
+	if (LI == NULL)
 		return 0;
 
 	if (res == MENUITEM_LASTSEEN) {
@@ -1168,35 +1165,32 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM l
 	HANDLE hContact = (HANDLE)wParam;
 
 	TCHAR *jid, text[ 1024 ];
+	ptrT tszJid( getTStringA(hContact, "jid"));
+	if (tszJid == NULL) {
+		ptrT roomid( getTStringA(hContact, "ChatRoomID"));
+		if (roomid == NULL)
+			return 0;
 
-	DBVARIANT dbv;
-	int result = getTString(hContact, "jid", &dbv);
-	if (result)
-	{
-		result = getTString(hContact, "ChatRoomID", &dbv);
-		if (result) return 0;
-
-		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, dbv.ptszVal);
-		if ( !item) return 0;
+		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, roomid);
+		if (item == NULL)
+			return 0;
 
 		mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, item->nick);
 		jid = text;
 	}
-	else
-		jid = dbv.ptszVal;
+	else jid = tszJid;
 
 	TCHAR buf[1024] = _T("");
 	EnterString(buf, SIZEOF(buf), TranslateT("Status Message"), JES_MULTINE);
 
 	SendPresenceTo(res, jid, NULL, buf);
-	db_free(&dbv);
 	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Choose protocol instance
 
-CJabberProto *JabberChooseInstance(bool bIsLink)
+CJabberProto* JabberChooseInstance(bool bIsLink)
 {
 	if (g_Instances.getCount() == 0)
 		return NULL;
@@ -1207,11 +1201,10 @@ CJabberProto *JabberChooseInstance(bool bIsLink)
 		return NULL;
 	}
 
-	if (bIsLink) {
+	if (bIsLink)
 		for (int i=0; i < g_Instances.getCount(); i++)
 			if (g_Instances[i]->m_options.ProcessXMPPLinks)
 				return g_Instances[i];
-	}
 
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 

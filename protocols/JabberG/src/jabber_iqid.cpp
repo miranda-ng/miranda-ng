@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 {
-	if ( !iqNode)
+	if (iqNode == NULL)
 		return;
 
 	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
@@ -38,7 +38,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 		return;
 
 	HXML query = xmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
-	if ( !query)
+	if (query == NULL)
 		return;
 
 	HXML identity;

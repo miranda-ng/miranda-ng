@@ -1240,7 +1240,7 @@ public:
 
 	__inline PROTO_INTERFACE *GetProtoInterface() { return m_proto_interface; }
 
-	void SetStatusText(TCHAR *statusText);
+	void SetStatusText(const TCHAR *statusText);
 
 protected:
 	PROTO_INTERFACE *m_proto_interface;
@@ -1254,7 +1254,7 @@ protected:
 	virtual void OnProtoCheckOnline(WPARAM, LPARAM) {}
 
 private:
-	void UpdateProtoTitle(TCHAR *szText = NULL);
+	void UpdateProtoTitle(const TCHAR *szText = NULL);
 	void UpdateStatusBar();
 };
 
