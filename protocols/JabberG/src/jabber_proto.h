@@ -272,7 +272,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	int    __cdecl ContactMenuRunCommands(WPARAM wParam, LPARAM lParam);
 
-	HWND   GetWindowFromIq(HXML iqNode);
+	HWND   GetWindowFromIq(CJabberIqInfo *pInfo);
 	BOOL   HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo *pInfo);
 	BOOL   IsRcRequestAllowedByACL(CJabberIqInfo *pInfo);
 
