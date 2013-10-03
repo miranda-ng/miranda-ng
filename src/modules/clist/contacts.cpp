@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 
-#define NAMEORDERCOUNT 8
+#define NAMEORDERCOUNT 9
 static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] =
 {
 	LPGENT("My custom name (not moveable)"),
@@ -33,6 +33,7 @@ static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] =
 	LPGENT("LastName"),
 	LPGENT("Username"),
 	LPGENT("FirstName LastName"),
+	LPGENT("LastName FirstName"),
 	LPGENT("'(Unknown Contact)' (not moveable)")
 };
 
@@ -290,9 +291,10 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						break;
 					}
 					case 6: // first + last name
-						if ( !GetDatabaseString(ci, "FirstName", &dbv)) {
+					case 7: // last + first name
+						if ( !GetDatabaseString(ci, nameOrder[i] == 6 ? "FirstName" : "LastName", &dbv)) {
 							DBVARIANT dbv2;
-							if ( !GetDatabaseString(ci, "LastName", &dbv2)) {
+							if ( !GetDatabaseString(ci, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
 								ci->type = CNFT_ASCIIZ;
 
 								if (ci->dwFlag & CNF_UNICODE) {
@@ -318,7 +320,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						}
 						break;
 
-					case 7:
+					case 8:
 						if (ci->dwFlag & CNF_UNICODE)
 							ci->pszVal = (TCHAR*)mir_wstrdup(TranslateW(L"'(Unknown Contact)'"));
 						else
