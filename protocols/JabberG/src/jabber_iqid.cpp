@@ -91,7 +91,7 @@ void CJabberProto::OnIqResultNestedRosterGroups(HXML iqNode, CJabberIqInfo *pInf
 	}
 
 	// global fuckup
-	if ( !m_ThreadInfo)
+	if (m_ThreadInfo == NULL)
 		return;
 
 	// is our default delimiter?

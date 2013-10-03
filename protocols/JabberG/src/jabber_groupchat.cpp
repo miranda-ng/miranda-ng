@@ -556,10 +556,9 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		RoomInfo *info = (RoomInfo *)lpdis->itemData;
-		if (info->line1) mir_free(info->line1);
-		if (info->line2) mir_free(info->line2);
+		mir_free(info->line1);
+		mir_free(info->line2);
 		mir_free(info);
-
 		break;
 	}
 

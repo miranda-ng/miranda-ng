@@ -467,20 +467,19 @@ filetransfer::~filetransfer()
 	if (hWaitEvent != INVALID_HANDLE_VALUE)
 		CloseHandle(hWaitEvent);
 
-	if (jid) mir_free(jid);
-	if (sid) mir_free(sid);
-	if (fileSize) mir_free(fileSize);
-	if (httpHostName) mir_free(httpHostName);
-	if (httpPath) mir_free(httpPath);
-	if (szDescription) mir_free(szDescription);
+	mir_free(jid);
+	mir_free(sid);
+	mir_free(fileSize);
+	mir_free(httpHostName);
+	mir_free(httpPath);
+	mir_free(szDescription);
 
-	if (std.tszWorkingDir) mir_free(std.tszWorkingDir);
-	if (std.tszCurrentFile) mir_free(std.tszCurrentFile);
+	mir_free(std.tszWorkingDir);
+	mir_free(std.tszCurrentFile);
 
 	if (std.ptszFiles) {
 		for (int i=0; i < std.totalFiles; i++)
-			if (std.ptszFiles[i]) mir_free(std.ptszFiles[i]);
-
+			mir_free(std.ptszFiles[i]);
 		mir_free(std.ptszFiles);
 }	}
 

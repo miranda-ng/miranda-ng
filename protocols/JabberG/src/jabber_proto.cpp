@@ -214,8 +214,7 @@ CJabberProto::~CJabberProto()
 	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szExt);
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szFeature);
-		if (m_lstJabberFeatCapPairsDynamic[i]->szDescription)
-			mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);
+		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);
 		delete m_lstJabberFeatCapPairsDynamic[i];
 	}
 	m_lstJabberFeatCapPairsDynamic.destroy();
@@ -353,7 +352,7 @@ HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 		setTString(hContact, "jid", jid);
 		if ((nick=JabberNickFromJID(newJid)) == NULL)
 			nick = mir_tstrdup(newJid);
-//		setTString(hContact, "Nick", nick);
+
 		mir_free(nick);
 		mir_free(jid);
 
@@ -487,20 +486,19 @@ int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
-	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
+
+	mir_ptr<BYTE> pBlob((PBYTE) mir_alloc(dbei.cbBlob));
+	if ((dbei.pBlob = pBlob) == NULL)
 		return 1;
-	if (db_event_get(hDbEvent, &dbei)) {
-		mir_free(dbei.pBlob);
+
+	if (db_event_get(hDbEvent, &dbei))
 		return 1;
-	}
-	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) {
-		mir_free(dbei.pBlob);
+
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
-	}
-	if (strcmp(dbei.szModule, m_szModuleName)) {
-		mir_free(dbei.pBlob);
+
+	if (strcmp(dbei.szModule, m_szModuleName))
 		return 1;
-	}
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
 	char *firstName = nick + strlen(nick) + 1;
@@ -509,12 +507,8 @@ int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 
 	Log("Send 'authorization denied' to %s", jid);
 
-	TCHAR *newJid = dbei.flags & DBEF_UTF ? mir_utf8decodeT(jid) : mir_a2t(jid);
-
-	m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), newJid) << XATTR(_T("type"), _T("unsubscribed")));
-
-	mir_free(newJid);
-	mir_free(dbei.pBlob);
+	ptrT newJid(dbei.flags & DBEF_UTF ? mir_utf8decodeT(jid) : mir_a2t(jid));
+	m_ThreadInfo->send( XmlNode(_T("presence")) << XATTR(_T("to"), newJid) << XATTR(_T("type"), _T("unsubscribed")));
 	return 0;
 }
 
@@ -1388,9 +1382,7 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 	}
 	else {
 		// Update with the new mode message
-		if (*szMsg != NULL)
-			mir_free(*szMsg);
-		*szMsg = newModeMsg;
+		replaceStrT(*szMsg, newModeMsg);
 		// Send a presence update if needed
 		lck.unlock();
 		if (status == m_iStatus)

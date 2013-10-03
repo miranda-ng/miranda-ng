@@ -30,19 +30,11 @@ BOOL CJabberProto::WsInit(void)
 	TCHAR name[128];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
 
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = name;
 	nlu.szSettingsModule = m_szModuleName;
-	//nlu.szHttpGatewayHello = "http://http.proxy.icq.com/hello";
-	//nlu.szHttpGatewayUserAgent = "Mozilla/4.08 [en] (WinNT; U ;Nav)";
-	//nlu.pfnHttpGatewayInit = JabberHttpGatewayInit;
-	//nlu.pfnHttpGatewayBegin = JabberHttpGatewayBegin;
-	//nlu.pfnHttpGatewayWrapSend = JabberHttpGatewayWrapSend;
-	//nlu.pfnHttpGatewayUnwrapRecv = JabberHttpGatewayUnwrapRecv;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-
 	return m_hNetlibUser != NULL;
 }
 

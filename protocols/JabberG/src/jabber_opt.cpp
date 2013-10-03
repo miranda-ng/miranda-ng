@@ -1080,9 +1080,9 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 						db_free(&dbvtemp);
 					}
 					_RosterInsertListItem(hList, jid, name, group, NULL, FALSE);
-					if (jid) mir_free(jid);
-					if (name) mir_free(name);
-					if (group) mir_free(group);
+					mir_free(jid);
+					mir_free(name);
+					mir_free(group);
 				}
 				db_free(&dbv);
 			}

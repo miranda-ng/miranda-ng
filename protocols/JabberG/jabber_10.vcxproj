@@ -240,7 +240,6 @@
     <ClCompile Include="src\jabber_presence_manager.cpp" />
     <ClCompile Include="src\jabber_privacy.cpp" />
     <ClCompile Include="src\jabber_proto.cpp" />
-    <ClCompile Include="src\jabber_proxy.cpp" />
     <ClCompile Include="src\jabber_rc.cpp" />
     <ClCompile Include="src\jabber_search.cpp" />
     <ClCompile Include="src\jabber_secur.cpp" />
@@ -276,7 +275,6 @@
     <ClInclude Include="src\jabber_presence_manager.h" />
     <ClInclude Include="src\jabber_privacy.h" />
     <ClInclude Include="src\jabber_proto.h" />
-    <ClInclude Include="src\jabber_proxy.h" />
     <ClInclude Include="src\jabber_rc.h" />
     <ClInclude Include="src\jabber_search.h" />
     <ClInclude Include="src\jabber_secur.h" />

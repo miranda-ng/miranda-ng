@@ -597,8 +597,8 @@ recvRest:
 
 	Log("Thread ended: type=%d server='%s'", info->type, info->server);
 
-	if (info->type==JABBER_SESSION_NORMAL && m_ThreadInfo==info) {
-		if (m_szStreamId) mir_free(m_szStreamId);
+	if (info->type == JABBER_SESSION_NORMAL && m_ThreadInfo == info) {
+		mir_free(m_szStreamId);
 		m_szStreamId = NULL;
 		m_ThreadInfo = NULL;
 	}

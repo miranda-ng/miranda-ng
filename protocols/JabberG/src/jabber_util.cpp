@@ -1273,7 +1273,7 @@ bool JabberReadXep203delay(HXML node, time_t &msgTime)
 
 BOOL CJabberProto::IsMyOwnJID(LPCTSTR szJID)
 {
-	if ( !m_ThreadInfo)
+	if (m_ThreadInfo == NULL)
 		return FALSE;
 
 	TCHAR *szFrom = JabberPrepareJid(szJID);
