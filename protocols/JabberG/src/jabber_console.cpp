@@ -378,12 +378,10 @@ void CJabberDlgConsole::OnInitDialog()
 	m_proto->m_filterInfo.iq = m_proto->getByte("consoleWnd_iq", TRUE);
 	m_proto->m_filterInfo.type = (TFilterInfo::Type)m_proto->getByte("consoleWnd_ftype", TFilterInfo::T_OFF);
 
-	DBVARIANT dbv;
 	*m_proto->m_filterInfo.pattern = 0;
-	if ( !m_proto->getTString("consoleWnd_fpattern", &dbv)) {
-		lstrcpyn(m_proto->m_filterInfo.pattern, dbv.ptszVal, SIZEOF(m_proto->m_filterInfo.pattern));
-		db_free(&dbv);
-	}
+	ptrT tszPattern( m_proto->getTStringA("consoleWnd_fpattern"));
+	if (tszPattern != NULL)
+		lstrcpyn(m_proto->m_filterInfo.pattern, tszPattern, SIZEOF(m_proto->m_filterInfo.pattern));
 
 	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
 	SetWindowText(GetDlgItem(m_hwnd, IDC_CB_FILTER), m_proto->m_filterInfo.pattern);

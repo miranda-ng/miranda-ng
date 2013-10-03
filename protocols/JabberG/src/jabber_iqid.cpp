@@ -263,11 +263,9 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 	if ((type=xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 
 	if ( !lstrcmp(type, _T("result"))) {
-		DBVARIANT dbv;
-		if (getTString("Nick", &dbv))
+		ptrT tszNick( getTStringA("Nick"));
+		if (tszNick == NULL)
 			setTString("Nick", m_ThreadInfo->username);
-		else
-			db_free(&dbv);
 
 		OnLoggedIn();
 	}
@@ -436,14 +434,12 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		}
 
 		if (name != NULL) {
-			DBVARIANT dbNick;
-			if ( !getTString(hContact, "Nick", &dbNick)) {
-				if (lstrcmp(nick, dbNick.ptszVal) != 0)
+			ptrT tszNick( getTStringA("Nick"));
+			if (tszNick != NULL) {
+				if (lstrcmp(nick, tszNick) != 0)
 					db_set_ts(hContact, "CList", "MyHandle", nick);
 				else
 					db_unset(hContact, "CList", "MyHandle");
-
-				db_free(&dbNick);
 			}
 			else db_set_ts(hContact, "CList", "MyHandle", nick);
 		}
@@ -474,11 +470,10 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 				Clist_CreateGroup(0, item->group);
 
 				// Don't set group again if already correct, or Miranda may show wrong group count in some case
-				DBVARIANT dbv;
-				if ( !db_get_ts(hContact, "CList", "Group", &dbv)) {
-					if (lstrcmp(dbv.ptszVal, item->group))
+				ptrT tszGroup( db_get_tsa(hContact, "CList", "Group"));
+				if (tszGroup != NULL) {
+					if ( lstrcmp(tszGroup, item->group))
 						db_set_ts(hContact, "CList", "Group", item->group);
-					db_free(&dbv);
 				}
 				else db_set_ts(hContact, "CList", "Group", item->group);
 			}
@@ -636,8 +631,8 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HANDLE hCon
 		Log("My picture saved to %S", szAvatarFileName);
 	}
 	else {
-		DBVARIANT dbv;
-		if ( !getTString(hContact, "jid", &dbv)) {
+		ptrT jid( getTStringA(hContact, "jid"));
+		if (jid != NULL) { 
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 			if (item == NULL) {
 				item = ListAdd(LIST_VCARD_TEMP, jid); // adding to the temp list to store information about photo
@@ -651,9 +646,8 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HANDLE hCon
 				Log("Contact's picture saved to %S", szAvatarFileName);
 				OnIqResultGotAvatar(hContact, o, szPicType);
 			}
-
-			db_free(&dbv);
-	}	}
+		}
+	}
 
 	if ( !hasPhoto)
 		DeleteFile(szAvatarFileName);
@@ -1314,9 +1308,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode, CJabberIqInfo *pInfo)
 
 	if (xmlGetChildCount(vCard) == 0) {
 		delSetting(hContact, "AvatarHash");
-		DBVARIANT dbv = {0};
-		if ( !getTString(hContact, "AvatarSaved", &dbv)) {
-			db_free(&dbv);
+		if ( ptrT( getTStringA(hContact, "AvatarSaved")) != NULL) {
 			delSetting(hContact, "AvatarSaved");
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
 		}

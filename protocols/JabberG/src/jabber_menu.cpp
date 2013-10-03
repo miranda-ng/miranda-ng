@@ -344,17 +344,15 @@ void g_MenuUninit(void)
 
 int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	DBVARIANT dbv;
-	HANDLE hContact;
-	if ((hContact=(HANDLE)wParam) == NULL)
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact == NULL)
 		return 0;
 
 	bool bIsChatRoom  = isChatRoom(hContact);
 	bool bIsTransport = getBool(hContact, "IsTransport", false);
 
 	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
-		if ( !getTString(hContact, bIsChatRoom?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
-			db_free(&dbv);
+		if ( ptrT( getTStringA(hContact, bIsChatRoom?(char*)"ChatRoomID":(char*)"jid")) != NULL) {
 			Menu_ShowItem(g_hMenuConvert, TRUE);
 
 			CLISTMENUITEM clmi = { sizeof(clmi) };
@@ -376,14 +374,13 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	}
 
 	if (bIsChatRoom) {
-		if ( !getTString(hContact, "ChatRoomID", &dbv)) {
+		ptrT roomid( getTStringA(hContact, "ChatRoomID"));
+		if (roomid != NULL) {
 			Menu_ShowItem(g_hMenuRosterAdd, FALSE);
 
-			if (ListGetItemPtr(LIST_BOOKMARK, dbv.ptszVal) == NULL)
+			if (ListGetItemPtr(LIST_BOOKMARK, roomid) == NULL)
 				if (m_ThreadInfo && m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
 					Menu_ShowItem(g_hMenuAddBookmark, TRUE);
-
-			db_free(&dbv);
 		}
 	}
 
@@ -395,84 +392,85 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		Menu_ShowItem(g_hMenuRefresh, TRUE);
 	}
 
-	if ( !getTString(hContact, "jid", &dbv)) {
-		JabberCapsBits jcb = GetTotalJidCapabilites(dbv.ptszVal);
-		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
-		db_free(&dbv);
-		if (item != NULL) {
-			BOOL bCtrlPressed = (GetKeyState(VK_CONTROL)&0x8000) != 0;
-			Menu_ShowItem(g_hMenuRequestAuth, item->subscription == SUB_FROM || item->subscription == SUB_NONE || bCtrlPressed);
-			Menu_ShowItem(g_hMenuGrantAuth, bCtrlPressed);
-			Menu_ShowItem(g_hMenuRevokeAuth, item->subscription == SUB_FROM || item->subscription == SUB_BOTH || bCtrlPressed);
-			Menu_ShowItem(g_hMenuCommands, ((jcb & JABBER_CAPS_COMMANDS) != 0) || bCtrlPressed);
-			Menu_ShowItem(g_hMenuSendNote, TRUE);
+	ptrT jid( getTStringA(hContact, "jid"));
+	if (jid == NULL)
+		return 0;
 
-			if (item->arResources.getCount() >= 1) {
-				Menu_ShowItem(g_hMenuResourcesRoot, TRUE);
+	JabberCapsBits jcb = GetTotalJidCapabilites(jid);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
+	if (item == NULL)
+		return 0;
 
-				CLISTMENUITEM mi = { sizeof(mi) };
-				mi.flags = CMIM_ICON | CMIM_FLAGS;
-				mi.icolibItem = m_hProtoIcon;
-				Menu_ModifyItem(g_hMenuResourcesRoot, &mi);
+	BOOL bCtrlPressed = (GetKeyState(VK_CONTROL)&0x8000) != 0;
+	Menu_ShowItem(g_hMenuRequestAuth, item->subscription == SUB_FROM || item->subscription == SUB_NONE || bCtrlPressed);
+	Menu_ShowItem(g_hMenuGrantAuth, bCtrlPressed);
+	Menu_ShowItem(g_hMenuRevokeAuth, item->subscription == SUB_FROM || item->subscription == SUB_BOTH || bCtrlPressed);
+	Menu_ShowItem(g_hMenuCommands, ((jcb & JABBER_CAPS_COMMANDS) != 0) || bCtrlPressed);
+	Menu_ShowItem(g_hMenuSendNote, TRUE);
 
-				mi.flags = CMIM_ICON | CMIM_FLAGS | ((item->resourceMode == RSMODE_LASTSEEN) ? CMIF_CHECKED : 0);
-				Menu_ModifyItem(g_hMenuResourcesActive, &mi);
+	if (item->arResources.getCount() == 0)
+		return 0;
 
-				mi.flags = CMIM_FLAGS | ((item->resourceMode == RSMODE_SERVER) ? CMIF_CHECKED : 0);
-				Menu_ModifyItem(g_hMenuResourcesServer, &mi);
+	Menu_ShowItem(g_hMenuResourcesRoot, TRUE);
 
-				int nMenuResourceItemsNew = m_nMenuResourceItems;
-				if (m_nMenuResourceItems < item->arResources.getCount()) {
-					m_phMenuResourceItems = (HGENMENU*)mir_realloc(m_phMenuResourceItems, item->arResources.getCount() * sizeof(HGENMENU));
-					nMenuResourceItemsNew = item->arResources.getCount();
-				}
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_ICON | CMIM_FLAGS;
+	mi.icolibItem = m_hProtoIcon;
+	Menu_ModifyItem(g_hMenuResourcesRoot, &mi);
 
-				char text[ 256 ];
-				strcpy(text, m_szModuleName);
-				size_t nModuleNameLength = strlen(text);
-				char* tDest = text + nModuleNameLength;
+	mi.flags = CMIM_ICON | CMIM_FLAGS | ((item->resourceMode == RSMODE_LASTSEEN) ? CMIF_CHECKED : 0);
+	Menu_ModifyItem(g_hMenuResourcesActive, &mi);
 
-				mi.flags = CMIF_CHILDPOPUP;
-				mi.position = 0;
-				mi.icolibItem = NULL;
-				mi.pszService = text;
-				mi.pszContactOwner = m_szModuleName;
+	mi.flags = CMIM_FLAGS | ((item->resourceMode == RSMODE_SERVER) ? CMIF_CHECKED : 0);
+	Menu_ModifyItem(g_hMenuResourcesServer, &mi);
 
-				TCHAR szTmp[512];
-				for (int i=0; i < nMenuResourceItemsNew; i++) {
-					mir_snprintf(tDest, SIZEOF(text) - nModuleNameLength, "/UseResource_%d", i);
-					if (i >= m_nMenuResourceItems) {
-						CreateProtoServiceParam(tDest, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES+i);
-						mi.pszName = "";
-						mi.position = i;
-						mi.hParentMenu = g_hMenuResourcesRoot;
-						m_phMenuResourceItems[i] = Menu_AddContactMenuItem(&mi);
-					}
-					if (i < item->arResources.getCount()) {
-						pResourceStatus r(item->arResources[i]);
-						CLISTMENUITEM clmi = { sizeof(clmi) };
-						clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
-						if ((item->resourceMode == RSMODE_MANUAL) && (item->m_pManualResource == r))
-							clmi.flags |= CMIF_CHECKED;
-						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-							clmi.flags |= CMIM_ICON;
-							FormatMirVer(r, szTmp, SIZEOF(szTmp));
-							clmi.hIcon = Finger_GetClientIcon(szTmp, 0);
-						}
-						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
-						clmi.ptszName = szTmp;
-						Menu_ModifyItem(m_phMenuResourceItems[i], &clmi);
-						DestroyIcon(clmi.hIcon);
-					}
-					else Menu_ShowItem(m_phMenuResourceItems[i], FALSE);
-				}
+	int nMenuResourceItemsNew = m_nMenuResourceItems;
+	if (m_nMenuResourceItems < item->arResources.getCount()) {
+		m_phMenuResourceItems = (HGENMENU*)mir_realloc(m_phMenuResourceItems, item->arResources.getCount() * sizeof(HGENMENU));
+		nMenuResourceItemsNew = item->arResources.getCount();
+	}
 
-				m_nMenuResourceItems = nMenuResourceItemsNew;
+	char text[ 256 ];
+	strcpy(text, m_szModuleName);
+	size_t nModuleNameLength = strlen(text);
+	char* tDest = text + nModuleNameLength;
+
+	mi.flags = CMIF_CHILDPOPUP;
+	mi.position = 0;
+	mi.icolibItem = NULL;
+	mi.pszService = text;
+	mi.pszContactOwner = m_szModuleName;
+
+	TCHAR szTmp[512];
+	for (int i=0; i < nMenuResourceItemsNew; i++) {
+		mir_snprintf(tDest, SIZEOF(text) - nModuleNameLength, "/UseResource_%d", i);
+		if (i >= m_nMenuResourceItems) {
+			CreateProtoServiceParam(tDest, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES+i);
+			mi.pszName = "";
+			mi.position = i;
+			mi.hParentMenu = g_hMenuResourcesRoot;
+			m_phMenuResourceItems[i] = Menu_AddContactMenuItem(&mi);
+		}
+		if (i < item->arResources.getCount()) {
+			pResourceStatus r(item->arResources[i]);
+			CLISTMENUITEM clmi = { sizeof(clmi) };
+			clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
+			if ((item->resourceMode == RSMODE_MANUAL) && (item->m_pManualResource == r))
+				clmi.flags |= CMIF_CHECKED;
+			if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+				clmi.flags |= CMIM_ICON;
+				FormatMirVer(r, szTmp, SIZEOF(szTmp));
+				clmi.hIcon = Finger_GetClientIcon(szTmp, 0);
 			}
+			mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
+			clmi.ptszName = szTmp;
+			Menu_ModifyItem(m_phMenuResourceItems[i], &clmi);
+			DestroyIcon(clmi.hIcon);
+		}
+		else Menu_ShowItem(m_phMenuResourceItems[i], FALSE);
+	}
 
-			return 0;
-	}	}
-
+	m_nMenuResourceItems = nMenuResourceItemsNew;
 	return 0;
 }
 
@@ -482,11 +480,10 @@ INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM wParam, LPARAM)
 	BYTE bIsChatRoom = isChatRoom(hContact);
 	const char *szSetting = (bIsChatRoom) ? "ChatRoomID" : "jid";
 
-	DBVARIANT dbv;
-	if ( !getTString(hContact, szSetting, &dbv)) {
+	ptrT jid( getTStringA(hContact, szSetting));
+	if (jid != NULL) {
 		delSetting(hContact, szSetting);
-		setTString(hContact, szSetting, dbv.ptszVal);
-		db_free(&dbv);
+		setTString(hContact, szSetting, jid);
 		setByte(hContact, "ChatRoom", !bIsChatRoom);
 	}
 	return 0;
@@ -494,24 +491,15 @@ INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 {
-	DBVARIANT dbv;
 	if ( !wParam) return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
-	if ( getTString((HANDLE)wParam, "ChatRoomID", &dbv)) return 0;
 
-	TCHAR *roomID = NEWTSTR_ALLOCA(dbv.ptszVal);
-	db_free(&dbv);
+	ptrT roomID( getTStringA((HANDLE)wParam, "ChatRoomID"));
+	if (roomID == NULL) return 0;
 
 	if (ListGetItemPtr(LIST_ROSTER, roomID) == NULL) {
-		TCHAR *nick = 0;
-		TCHAR *group = 0;
-		if ( !db_get_ts((HANDLE)wParam, "CList", "Group", &dbv)) {
-			group = NEWTSTR_ALLOCA(dbv.ptszVal);
-			db_free(&dbv);
-		}
-		if ( !getTString((HANDLE)wParam, "Nick", &dbv)) {
-			nick = NEWTSTR_ALLOCA(dbv.ptszVal);
-			db_free(&dbv);
-		}
+		ptrT group( db_get_tsa((HANDLE)wParam, "CList", "Group"));
+		ptrT nick( getTStringA((HANDLE)wParam, "Nick"));
+
 		AddContactToRoster(roomID, nick, group);
 		if (m_options.AddRoster2Bookmarks == TRUE) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_BOOKMARK, roomID);
@@ -519,14 +507,9 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 				item = new JABBER_LIST_ITEM();
 				item->jid = mir_tstrdup(roomID);
 				item->name = mir_tstrdup(nick);
-				if ( !getTString((HANDLE)wParam, "MyNick", &dbv)) {
-					item->nick = mir_tstrdup(dbv.ptszVal);
-					db_free(&dbv);
-				}
+				item->nick = getTStringA((HANDLE)wParam, "MyNick");
 				AddEditBookmark(item);
-				mir_free(item->jid);
-				mir_free(item->name);
-				mir_free(item);
+				delete item;
 			}
 		}
 	}
@@ -572,19 +555,13 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 	if ( !getByte(hContact, "IsTransport", 0))
 		return 0;
 
-	DBVARIANT jid;
-	if (getTString(hContact, "jid", &jid))
-		return 0;
-
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
 	if (item != NULL) {
 		XmlNode p(_T("presence")); xmlAddAttr(p, _T("to"), item->jid);
 		if (item->getTemp()->m_iStatus == ID_STATUS_ONLINE)
 			xmlAddAttr(p, _T("type"), _T("unavailable"));
 		m_ThreadInfo->send(p);
 	}
-
-	db_free(&jid);
 	return 0;
 }
 
@@ -594,11 +571,9 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportResolve(WPARAM wParam, LPARAM)
 	if ( !getByte(hContact, "IsTransport", 0))
 		return 0;
 
-	DBVARIANT jid;
-	if ( !getTString(hContact, "jid", &jid)) {
-		ResolveTransportNicks(jid.ptszVal);
-		db_free(&jid);
-	}
+	ptrT jid( getTStringA(hContact, "jid"));
+	if (jid != NULL) 
+		ResolveTransportNicks(jid);
 	return 0;
 }
 
@@ -608,31 +583,18 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM wParam, LPARAM)
 	if (!hContact)
 		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
-	DBVARIANT dbv;
-	if ( !getTString(hContact, "ChatRoomID", &dbv)) {
-		TCHAR *roomID = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-		if (ListGetItemPtr(LIST_BOOKMARK, roomID) == NULL) {
-			TCHAR *nick = 0;
-			if ( !getTString(hContact, "Nick", &dbv)) {
-				nick = mir_tstrdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
-			
-			JABBER_LIST_ITEM *item = new JABBER_LIST_ITEM();
-			item->jid = mir_tstrdup(roomID);
-			item->name = pcli->pfnGetContactDisplayName(hContact, 0);
-			item->type = _T("conference");
-			if ( !getTString(hContact, "MyNick", &dbv)) {
-				item->nick = mir_tstrdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
-			AddEditBookmark(item);
-			mir_free(item);
+	ptrT roomID( getTStringA(hContact, "ChatRoomID"));
+	if (roomID == NULL)
+		return 0;
 
-			if (nick) mir_free(nick);
-		}
-		mir_free(roomID);
+	if (ListGetItemPtr(LIST_BOOKMARK, roomID) == NULL) {
+		JABBER_LIST_ITEM *item = new JABBER_LIST_ITEM();
+		item->jid = mir_tstrdup(roomID);
+		item->name = pcli->pfnGetContactDisplayName(hContact, 0);
+		item->type = _T("conference");
+		item->nick = getTStringA(hContact, "MyNick");
+		AddEditBookmark(item);
+		delete item;
 	}
 	return 0;
 }
@@ -1074,13 +1036,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	if ( !hContact)
 		return 0;
 
-	DBVARIANT dbv;
-	if (getTString(hContact, "jid", &dbv))
-		return 0;
-
-	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
-	db_free(&dbv);
-
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, ptrT( getTStringA(hContact, "jid")));
 	if (LI == NULL)
 		return 0;
 

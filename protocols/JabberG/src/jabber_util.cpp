@@ -50,18 +50,13 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 		return NULL;
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		DBVARIANT dbv;
-		int result = getTString(hContact, "ChatRoomID", &dbv);
-		if (result)
-			result = getTString(hContact, "jid", &dbv);
+		ptrT dbJid( getTStringA(hContact, "ChatRoomID"));
+		if (dbJid == NULL)
+			if ((dbJid = getTStringA(hContact, "jid")) == NULL)
+				continue;
 
-		if ( !result) {
-			int result;
-			result = lstrcmpi(jid, dbv.ptszVal);
-			db_free(&dbv);
-			if ( !result && isChatRoom(hContact))
-				return hContact;
-		}
+		if (!lstrcmpi(jid, dbJid) && isChatRoom(hContact))
+			return hContact;
 	}
 
 	return NULL;
@@ -80,27 +75,26 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		bool bIsChat = isChatRoom(hContact);
 
-		DBVARIANT dbv;
-		if ( !getTString(hContact, bIsChat ? "ChatRoomID" : "jid", &dbv)) {
+		ptrT dbJid( getTStringA(hContact, bIsChat ? "ChatRoomID" : "jid"));
+		if (dbJid != NULL) {
 			int result;
 			if (item != NULL)
-				result = lstrcmpi(jid, dbv.ptszVal);
+				result = lstrcmpi(jid, dbJid);
 			else {
 				if (bStripResource == 3) {
 					if (bIsChat)
-						result = lstrcmpi(jid, dbv.ptszVal);  // for chat room we have to have full contact matched
+						result = lstrcmpi(jid, dbJid);  // for chat room we have to have full contact matched
 					else if (TRUE)
-						result = _tcsnicmp(jid, dbv.ptszVal, _tcslen(dbv.ptszVal));
+						result = _tcsnicmp(jid, dbJid, _tcslen(dbJid));
 					else
-						result = JabberCompareJids(jid, dbv.ptszVal);
+						result = JabberCompareJids(jid, dbJid);
 				}
 				// most probably it should just look full matching contact
 				else
-					result = lstrcmpi(jid, dbv.ptszVal);
-
+					result = lstrcmpi(jid, dbJid);
 			}
-			db_free(&dbv);
-			if ( !result)
+
+			if (result == 0)
 				return hContact;
 		}
 	}
@@ -875,13 +869,13 @@ const char* TStringPairs::operator[](const char* key) const
 void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount)
 {
 	for (int i=0; i < recentCount; i++) {
-		DBVARIANT dbv;
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, sizeof(setting), "%s%d", param, i);
-		if ( !getTString(setting, &dbv)) {
-			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
-			db_free(&dbv);
-	}	}
+		ptrT tszRecent( getTStringA(setting));
+		if (tszRecent != NULL)
+			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, tszRecent);
+	}
+
 	if ( !SendDlgItemMessage(hwndDlg, idcCombo, CB_GETCOUNT, 0, 0))
 		SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
 }

@@ -481,44 +481,42 @@ static void JabberSearchAddUrlToRecentCombo(HWND hwndDlg, const TCHAR *szAddr)
 
 void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFromDB)
 {
-	DBVARIANT dbv;
-	char key[30];
 	//search in recent
 	for (int i=0; i<10; i++) {
+		char key[30];
 		mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", i);
-		if ( !getTString(key, &dbv)) {
-			if ( !_tcsicmp(szAddr, dbv.ptszVal)) {
-				db_free(&dbv);
-				for (int j=i; j<10; j++) {
-					mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j + 1);
-					if ( !getTString(key, &dbv)) {
-						mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
-						setTString(NULL,key,dbv.ptszVal);
-						db_free(&dbv);
-					}
-					else {
-						if (deleteLastFromDB) {
-							mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
-							delSetting(NULL,key);
-						}
-						break;
-				}	}
-				break;
+		ptrT szValue( getTStringA(key));
+		if (szValue == NULL || _tcsicmp(szAddr, szValue))
+			continue;
+
+		for (int j=i; j < 10; j++) {
+			mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j + 1);
+			szValue = getTStringA(key);
+			if (szValue != NULL) {
+				mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
+				setTString(NULL, key, szValue);
 			}
-			else db_free(&dbv);
-}	}	}
+			else {
+				if (deleteLastFromDB) {
+					mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
+					delSetting(NULL,key);
+				}
+				break;
+		}	}
+		break;
+}	}
 
 void CJabberProto::SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog)
 {
-	DBVARIANT dbv;
 	char key[30];
 	SearchDeleteFromRecent(szAddr);
+
 	for (int j=9; j > 0; j--) {
 		mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j - 1);
-		if ( !getTString(key, &dbv)) {
+		ptrT szValue( getTStringA(key));
+		if (szValue != NULL) {
 			mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
-			setTString(NULL,key,dbv.ptszVal);
-			db_free(&dbv);
+			setTString(NULL, key, szValue);
 	}	}
 
 	mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", 0);
@@ -551,14 +549,13 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szTransp);
 			}
 
-			DBVARIANT dbv;
 			for (i=0; i < 10; i++) {
 				char key[30];
 				mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", i);
-				if ( !dat->ppro->getTString(key, &dbv)) {
-					JabberSearchAddUrlToRecentCombo(hwndDlg, dbv.ptszVal);
-					db_free(&dbv);
-			}	}
+				ptrT szValue( dat->ppro->getTStringA(key));
+				if (szValue != NULL)
+					JabberSearchAddUrlToRecentCombo(hwndDlg, szValue);
+			}
 
 			//TO DO: Add 4 recently used
 			dat->lastRequestIq = dat->ppro->SearchRenewFields(hwndDlg,dat);

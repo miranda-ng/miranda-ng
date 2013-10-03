@@ -283,13 +283,8 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
 		mir_snprintf(szSetting, SIZEOF(szSetting), "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 
-		DBVARIANT dbv;
-		if ( !m_proto->getTString(szSetting, &dbv)) {
-			m_txtDescription.SetText(dbv.ptszVal);
-			db_free(&dbv);
-		}
-		else m_txtDescription.SetTextA("");
-
+		ptrT szDescr( m_proto->getTStringA(szSetting));
+		m_txtDescription.SetText((szDescr != NULL) ? szDescr : _T(""));
 		m_txtDescription.Enable(true);
 	}
 	else {
@@ -1494,32 +1489,18 @@ void CJabberProto::WriteAdvStatus(HANDLE hContact, const char *pszSlot, const TC
 	}
 }
 
-char *CJabberProto::ReadAdvStatusA(HANDLE hContact, const char *pszSlot, const char *pszValue)
+char* CJabberProto::ReadAdvStatusA(HANDLE hContact, const char *pszSlot, const char *pszValue)
 {
 	char szSetting[128];
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
-
-	DBVARIANT dbv;
-	if ( db_get_s(hContact, "AdvStatus", szSetting, &dbv))
-		return NULL;
-
-	char *res = mir_strdup(dbv.pszVal);
-	db_free(&dbv);
-	return res;
+	return db_get_sa(hContact, "AdvStatus", szSetting);
 }
 
-TCHAR *CJabberProto::ReadAdvStatusT(HANDLE hContact, const char *pszSlot, const char *pszValue)
+TCHAR* CJabberProto::ReadAdvStatusT(HANDLE hContact, const char *pszSlot, const char *pszValue)
 {
 	char szSetting[128];
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
-
-	DBVARIANT dbv;
-	if ( db_get_ts(hContact, "AdvStatus", szSetting, &dbv))
-		return NULL;
-
-	TCHAR *res = mir_tstrdup(dbv.ptszVal);
-	db_free(&dbv);
-	return res;
+	return db_get_tsa(hContact, "AdvStatus", szSetting);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

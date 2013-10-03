@@ -32,44 +32,35 @@ int JabberGcGetStatus(JABBER_RESOURCE_STATUS *r);
 
 struct JabberGcRecentInfo
 {
-	TCHAR *room, *server, *nick, *password;
+	ptrT room, server, nick, password;
 	CJabberProto *ppro;
 
 	JabberGcRecentInfo(CJabberProto* proto)
 	{
 		ppro = proto;
-		room = server = nick = password = NULL;
 	}
 	JabberGcRecentInfo(CJabberProto* proto, const TCHAR *_room, const TCHAR *_server, const TCHAR *_nick = NULL, const TCHAR *_password = NULL)
 	{
 		ppro = proto;
-		room = server = nick = password = NULL;
 		fillData(_room, _server, _nick, _password);
 	}
 	JabberGcRecentInfo(CJabberProto* proto, const TCHAR *jid)
 	{
 		ppro = proto;
-		room = server = nick = password = NULL;
 		fillData(jid);
 	}
 	JabberGcRecentInfo(CJabberProto* proto, int iRecent)
 	{
 		ppro = proto;
-		room = server = nick = password = NULL;
 		loadRecent(iRecent);
 	}
 
 	~JabberGcRecentInfo()
 	{
-		cleanup();
 	}
 
 	void cleanup()
 	{
-		mir_free(room);
-		mir_free(server);
-		mir_free(nick);
-		mir_free(password);
 		room = server = nick = password = NULL;
 	}
 
@@ -100,11 +91,10 @@ struct JabberGcRecentInfo
 
 	void fillData(const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL, const TCHAR *password = NULL)
 	{
-		cleanup();
-		this->room		= room		? mir_tstrdup(room)		: NULL;
-		this->server	= server	? mir_tstrdup(server)	: NULL;
-		this->nick		= nick		? mir_tstrdup(nick)		: NULL;
-		this->password	= password	? mir_tstrdup(password)	: NULL;
+		this->room = mir_tstrdup(room);
+		this->server = mir_tstrdup(server);
+		this->nick = mir_tstrdup(nick);
+		this->password	= mir_tstrdup(password);
 	}
 
 	void fillData(const TCHAR *jid)
@@ -112,13 +102,12 @@ struct JabberGcRecentInfo
 		TCHAR *room, *server, *nick=NULL;
 		room = NEWTSTR_ALLOCA(jid);
 		server = _tcschr(room, _T('@'));
-		if (server)
-		{
+		if (server) {
 			*server++ = 0;
 			nick = _tcschr(server, _T('/'));
 			if (nick) *nick++ = 0;
-		} else
-		{
+		}
+		else {
 			server = room;
 			room = NULL;
 		}
@@ -128,28 +117,15 @@ struct JabberGcRecentInfo
 
 	BOOL loadRecent(int iRecent)
 	{
-		DBVARIANT dbv;
 		char setting[MAXMODULELABELLENGTH];
-
-		cleanup();
-
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_server", iRecent);
-		if ( !ppro->getTString(setting, &dbv)) {
-			server = mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
-		}
+		server = ppro->getTStringA(setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_room", iRecent);
-		if ( !ppro->getTString(setting, &dbv)) {
-			room = mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
-		}
+		room = ppro->getTStringA(setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
-		if ( !ppro->getTString(setting, &dbv)) {
-			nick = mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
-		}
+		nick = ppro->getTStringA(setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_passwordW", iRecent);
 		password = ppro->JGetStringCrypt(NULL, setting);
@@ -211,49 +187,42 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 {
-	DBVARIANT nick, jid;
 	HANDLE hContact = (HANDLE)wParam;
-	if (getTString(hContact, "ChatRoomID", &jid))
+	ptrT jid( getTStringA(hContact, "ChatRoomID"));
+	if (jid == NULL)
 		return 0;
 
-	if (getTString(hContact, "MyNick", &nick))
-		if (getTString("Nick", &nick)) {
-			db_free(&jid);
+	ptrT nick( getTStringA(hContact, "MyNick"));
+	if (nick == NULL)
+		if ((nick = getTStringA("Nick")) == NULL)
 			return 0;
-		}
 
-	TCHAR *password = JGetStringCrypt(hContact, "LoginPassword");
+	ptrT password( JGetStringCrypt(hContact, "LoginPassword"));
 
 	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
 		if ( !jabberChatDllPresent)
 			JabberChatDllError();
 		else {
-			TCHAR *p = _tcschr(jid.ptszVal, '@');
+			TCHAR *p = _tcschr(jid, '@');
 			if (p != NULL) {
 				*p++ = 0;
-				GroupchatJoinRoom(p, jid.ptszVal, nick.ptszVal, password);
+				GroupchatJoinRoom(p, jid, nick, password);
 	}	}	}
 
-	mir_free(password);
-	db_free(&nick);
-	db_free(&jid);
 	return 0;
 }
 
 INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
-	DBVARIANT jid;
 	HANDLE hContact = (HANDLE)wParam;
-	if (getTString(hContact, "ChatRoomID", &jid))
-		return 0;
-
-	if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
-		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid.ptszVal);
-		if (item != NULL)
-			GcQuit(item, 0, NULL);
+	ptrT jid( getTStringA(hContact, "ChatRoomID"));
+	if (jid != NULL) {
+		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
+			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
+			if (item != NULL)
+				GcQuit(item, 0, NULL);
+		}
 	}
-
-	db_free(&jid);
 	return 0;
 }
 
@@ -457,13 +426,11 @@ void CJabberDlgGcJoin::OnInitDialog()
 	JabberGcRecentInfo *info = NULL;
 	if (m_jid)
 		info = new JabberGcRecentInfo(m_proto, m_jid);
-	else
-	{
+	else {
 		OpenClipboard(m_hwnd);
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 
-		if (hData)
-		{
+		if (hData) {
 			TCHAR *buf = (TCHAR *)GlobalLock(hData);
 			if (buf && _tcschr(buf, _T('@')) && !_tcschr(buf, _T(' ')))
 				info = new JabberGcRecentInfo(m_proto, buf);
@@ -472,39 +439,28 @@ void CJabberDlgGcJoin::OnInitDialog()
 		CloseClipboard();
 	}
 
-	if (info)
-	{
+	if (info) {
 		info->fillForm(m_hwnd);
 		delete info;
 	}
 
-	DBVARIANT dbv;
-	if ( !m_proto->getTString("Nick", &dbv)) {
-		SetDlgItemText(m_hwnd, IDC_NICK, dbv.ptszVal);
-		db_free(&dbv);
-	}
-	else {
-		TCHAR *nick = JabberNickFromJID(m_proto->m_szJabberJID);
-		SetDlgItemText(m_hwnd, IDC_NICK, nick);
-		mir_free(nick);
-	}
+	ptrT tszNick( m_proto->getTStringA("Nick"));
+	if (tszNick == NULL)
+		tszNick = JabberNickFromJID(m_proto->m_szJabberJID);
+	SetDlgItemText(m_hwnd, IDC_NICK, tszNick);
 
-	{
-		TEXTMETRIC tm = {0};
-		HDC hdc = GetDC(m_hwnd);
-		GetTextMetrics(hdc, &tm);
-		ReleaseDC(m_hwnd, hdc);
-		sttTextLineHeight = tm.tmHeight;
-		SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_SETITEMHEIGHT, -1, sttTextLineHeight-1);
-	}
+	TEXTMETRIC tm = {0};
+	HDC hdc = GetDC(m_hwnd);
+	GetTextMetrics(hdc, &tm);
+	ReleaseDC(m_hwnd, hdc);
+	sttTextLineHeight = tm.tmHeight;
+	SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_SETITEMHEIGHT, -1, sttTextLineHeight-1);
 
-	{
-		LOGFONT lf = {0};
-		HFONT hfnt = (HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_GETFONT, 0, 0);
-		GetObject(hfnt, sizeof(lf), &lf);
-		lf.lfWeight = FW_BOLD;
-		SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), TRUE);
-	}
+	LOGFONT lf = {0};
+	HFONT hfnt = (HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_GETFONT, 0, 0);
+	GetObject(hfnt, sizeof(lf), &lf);
+	lf.lfWeight = FW_BOLD;
+	SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), TRUE);
 
 	SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx("bookmarks"));
 	SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BUTTONSETASFLATBTN, TRUE, 0);

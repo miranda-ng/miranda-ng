@@ -231,10 +231,11 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData* info)
 
 void CJabberProto::ServerThread(ThreadData* info)
 {
-	DBVARIANT dbv;
 	char* buffer;
-	int datalen;
-	int oldStatus;
+	int  datalen;
+	int  oldStatus;
+	ptrA szValue;
+	ptrT tszValue;
 
 	Log("Thread started: type=%d", info->type);
 
@@ -242,11 +243,10 @@ void CJabberProto::ServerThread(ThreadData* info)
 	info->auth = NULL;
 
 	if (m_options.ManualConnect == TRUE) {
-		if ( !getString("ManualHost", &dbv)) {
-			strncpy(info->manualHost, dbv.pszVal, SIZEOF(info->manualHost));
-			info->manualHost[SIZEOF(info->manualHost)-1] = '\0';
-			db_free(&dbv);
-		}
+		ptrA szManualHost( getStringA("ManualHost"));
+		if (szManualHost != NULL)
+			strncpy_s(info->manualHost, SIZEOF(info->manualHost), szManualHost, _TRUNCATE);
+
 		info->port = getWord("ManualPort", JABBER_DEFAULT_PORT);
 	}
 	else info->port = getWord("Port", JABBER_DEFAULT_PORT);
@@ -254,10 +254,8 @@ void CJabberProto::ServerThread(ThreadData* info)
 	info->useSSL = m_options.UseSSL;
 
 	if (info->type == JABBER_SESSION_NORMAL) {
-
 		// Normal server connection, we will fetch all connection parameters
 		// e.g. username, password, etc. from the database.
-
 		if (m_ThreadInfo != NULL) {
 			// Will not start another connection thread if a thread is already running.
 			// Make APC call to the main thread. This will immediately wake the thread up
@@ -271,13 +269,10 @@ LBL_Exit:
 		}
 
 		m_ThreadInfo = info;
-		if (m_szStreamId) mir_free(m_szStreamId);
-		m_szStreamId = NULL;
+		replaceStr(m_szStreamId, NULL);
 
-		if ( !getTString("LoginName", &dbv)) {
-			_tcsncpy(info->username, dbv.ptszVal, SIZEOF(info->username)-1);
-			db_free(&dbv);
-		}
+		if ((tszValue = getTStringA("LoginName")) != NULL)
+			_tcsncpy_s(info->username, SIZEOF(info->username), tszValue, _TRUNCATE);
 
 		if (*rtrimt(info->username) == '\0') {
 			DWORD dwSize = SIZEOF(info->username);
@@ -298,26 +293,23 @@ LBL_FatalError:
 			goto LBL_Exit;
 		}
 
-		if ( !getString("LoginServer", &dbv)) {
-			strncpy(info->server, dbv.pszVal, SIZEOF(info->server)-1);
-			db_free(&dbv);
-		}
+		if ((szValue = getStringA("LoginServer")) != NULL)
+			strncpy_s(info->server, SIZEOF(info->server), szValue, _TRUNCATE);
 		else {
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 			Log("Thread ended, login server is not configured");
 			goto LBL_FatalError;
 		}
 
-		if (m_options.HostNameAsResource == FALSE) {
-			if ( !getTString("Resource", &dbv)) {
-				_tcsncpy(info->resource, dbv.ptszVal, SIZEOF(info->resource) - 1);
-				db_free(&dbv);
-			}
-			else _tcscpy(info->resource, _T("Miranda"));
+		if (m_options.HostNameAsResource) {
+			DWORD dwCompNameLen = SIZEOF(info->resource)-1;
+			if ( !GetComputerName(info->resource, &dwCompNameLen))
+				_tcscpy(info->resource, _T("Miranda"));
 		}
 		else {
-			DWORD dwCompNameLen = SIZEOF(info->resource) - 1;
-			if ( !GetComputerName(info->resource, &dwCompNameLen))
+			if ((tszValue = getTStringA("Resource")) != NULL)
+				_tcsncpy_s(info->resource, SIZEOF(info->resource), tszValue, _TRUNCATE);
+			else
 				_tcscpy(info->resource, _T("Miranda"));
 		}
 
@@ -888,18 +880,16 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData* info)
 		return;
 
 	if ( !_tcscmp(type, _T("urn:ietf:params:xml:ns:xmpp-sasl"))) {
-		DBVARIANT dbv;
-
 		if ( !info->auth->validateLogin(xmlGetText(node))) {
 			info->send("</stream:stream>");
 			return;
 		}
 
 		Log("Success: Logged-in.");
-		if ( getString("Nick", &dbv))
+		ptrT tszNick( getTStringA("Nick"));
+		if (tszNick == NULL)
 			setTString("Nick", info->username);
-		else
-			db_free(&dbv);
+
 		xmlStreamInitialize("after successful sasl");
 	}
 	else Log("Success: unknown action %S.",type);
@@ -1672,9 +1662,8 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			if ( !hasAvatar && removedAvatar) {
 				Log("Has no avatar");
 				delSetting(hContact, "AvatarHash");
-				DBVARIANT dbv = {0};
-				if ( !getTString(hContact, "AvatarSaved", &dbv)) {
-					db_free(&dbv);
+				
+				if ( ptrT( getTStringA(hContact, "AvatarSaved")) != NULL) {
 					delSetting(hContact, "AvatarSaved");
 					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
 		}	}	}

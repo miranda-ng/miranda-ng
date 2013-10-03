@@ -36,23 +36,22 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
-	DBVARIANT dbv;
-	if ( !getTString(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid", &dbv)) {
-		if (ListGetItemPtr(LIST_ROSTER, dbv.ptszVal)) {
-			if ( !_tcschr(dbv.ptszVal, _T('@'))) {
-				TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
-				JabberStripJid(m_ThreadInfo->fullJID, szStrippedJid, SIZEOF(szStrippedJid));
-				TCHAR *szDog = _tcschr(szStrippedJid, _T('@'));
-				if (szDog && _tcsicmp(szDog + 1, dbv.ptszVal))
-					m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), dbv.ptszVal) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(_T("remove")));
-			}
+	ptrT jid( getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
+	if (jid == NULL)
+		return 0;
 
-			// Remove from roster, server also handles the presence unsubscription process.
-			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
-				<< XCHILD(_T("item")) << XATTR(_T("jid"), dbv.ptszVal) << XATTR(_T("subscription"), _T("remove")));
+	if (ListGetItemPtr(LIST_ROSTER, jid)) {
+		if ( !_tcschr(jid, _T('@'))) {
+			TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
+			JabberStripJid(m_ThreadInfo->fullJID, szStrippedJid, SIZEOF(szStrippedJid));
+			TCHAR *szDog = _tcschr(szStrippedJid, _T('@'));
+			if (szDog && _tcsicmp(szDog + 1, jid))
+				m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), jid) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(_T("remove")));
 		}
 
-		db_free(&dbv);
+		// Remove from roster, server also handles the presence unsubscription process.
+		m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
+			<< XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("subscription"), _T("remove")));
 	}
 	return 0;
 }

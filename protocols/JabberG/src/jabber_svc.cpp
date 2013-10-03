@@ -540,23 +540,22 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
-	DBVARIANT dbv;
-	if ( !getTString(hContact, "jid", &dbv)) {
-		TCHAR tszJid[JABBER_MAX_JID_LEN];
-		TCHAR *szResource = ListGetBestClientResourceNamePtr(dbv.ptszVal);
-		if (szResource)
-			mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s/%s"), dbv.ptszVal, szResource);
-		else
-			mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s"), dbv.ptszVal);
-		db_free(&dbv);
+	ptrT jid( getTStringA(hContact, "jid"));
+	if (jid == NULL)
+		return 0;
 
-		JabberCapsBits jcb = GetResourceCapabilites(tszJid, FALSE);
+	TCHAR tszJid[JABBER_MAX_JID_LEN];
+	TCHAR *szResource = ListGetBestClientResourceNamePtr(jid);
+	if (szResource)
+		mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s/%s"), jid, szResource);
+	else
+		mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s"), jid);
 
-		m_ThreadInfo->send(
-			XmlNode(_T("message")) << XATTR(_T("type"), _T("headline")) << XATTR(_T("to"), tszJid)
-				<< XCHILDNS(_T("attention"),
-				jcb & JABBER_CAPS_ATTENTION ? JABBER_FEAT_ATTENTION : JABBER_FEAT_ATTENTION_0));
-	}
+	JabberCapsBits jcb = GetResourceCapabilites(tszJid, FALSE);
+	m_ThreadInfo->send(
+		XmlNode(_T("message")) << XATTR(_T("type"), _T("headline")) << XATTR(_T("to"), tszJid)
+			<< XCHILDNS(_T("attention"),
+			(jcb & JABBER_CAPS_ATTENTION) ? JABBER_FEAT_ATTENTION : JABBER_FEAT_ATTENTION_0));
 	return 0;
 }
 

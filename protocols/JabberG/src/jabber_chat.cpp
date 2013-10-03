@@ -137,32 +137,29 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 	HANDLE hContact = HContactFromJID(item->jid);
 	if (hContact != NULL) {
-		DBVARIANT dbv;
 		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid))
 			if (bookmark->name) {
-				if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv))
-					db_free(&dbv);
-				else
+				ptrT myHandle( db_get_tsa(hContact, "CList", "MyHandle"));
+				if (myHandle == NULL)
 					db_set_ts(hContact, "CList", "MyHandle", bookmark->name);
 			}
 
-		if ( !getTString(hContact, "MyNick", &dbv)) {
-			if ( !lstrcmp(dbv.ptszVal, szNick))
+		ptrT tszNick( getTStringA(hContact, "MyNick"));
+		if (tszNick != NULL) {
+			if ( !lstrcmp(tszNick, szNick))
 				delSetting(hContact, "MyNick");
 			else
 				setTString(hContact, "MyNick", item->nick);
-			db_free(&dbv);
 		}
 		else setTString(hContact, "MyNick", item->nick);
 
-		TCHAR *passw = JGetStringCrypt(hContact, "LoginPassword");
+		ptrT passw( JGetStringCrypt(hContact, "LoginPassword"));
 		if (lstrcmp_null(passw, item->password)) {
 			if ( !item->password || !item->password[0])
 				delSetting(hContact, "LoginPassword");
 			else
 				JSetStringCrypt(hContact, "LoginPassword", item->password);
 		}
-		mir_free(passw);
 	}
 	mir_free(szNick);
 
@@ -366,17 +363,15 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 		CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
 
-		DBVARIANT dbvMessage;
-		if ( !getTString("GcMsgQuit", &dbvMessage)) {
-			szMessage = NEWTSTR_ALLOCA(dbvMessage.ptszVal);
-			db_free(&dbvMessage);
-		}
-		else szMessage = TranslateTS(JABBER_GC_MSG_QUIT);
+		ptrT tszMessage( getTStringA("GcMsgQuit"));
+		if (tszMessage != NULL)
+			szMessage = NEWTSTR_ALLOCA(tszMessage);
+		else
+			szMessage = TranslateTS(JABBER_GC_MSG_QUIT);
 	}
 	else {
-		TCHAR *myNick = JabberNickFromJID(m_szJabberJID);
+		ptrT myNick( JabberNickFromJID(m_szJabberJID));
 		GcLogUpdateMemberStatus(item, myNick, myNick, NULL, GC_EVENT_KICK, reason);
-		mir_free(myNick);
 		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	}
 
@@ -812,11 +807,9 @@ public:
 
 			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0)) {
 				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-					DBVARIANT dbv={0};
-					m_proto->getTString(hContact, "jid", &dbv);
-					if (dbv.ptszVal && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR))
-						InviteUser(dbv.ptszVal, text);
-					db_free(&dbv);
+					ptrT jid( m_proto->getTStringA(hContact, "jid"));
+					if (jid != NULL)
+						InviteUser(jid, text);
 				}
 			}
 		}
@@ -1051,9 +1044,9 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	switch(gch->dwData) {
 	case IDM_SLAP:
 		if (ppro->m_bJabberOnline) {
-			DBVARIANT dbv = {0};
-			TCHAR *szMessage = ppro->getTString("GcMsgSlap", &dbv) ?
-				NEWTSTR_ALLOCA(TranslateTS(JABBER_GC_MSG_SLAP)) : dbv.ptszVal;
+			ptrT szMessage( ppro->getTStringA("GcMsgSlap"));
+			if (szMessage == NULL)
+				szMessage = mir_tstrdup( TranslateTS(JABBER_GC_MSG_SLAP));
 
 			TCHAR buf[256];
 			// do not use snprintf to avoid possible problems with % symbol
@@ -1067,9 +1060,6 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			ppro->m_ThreadInfo->send(
 				XmlNode(_T("message")) << XATTR(_T("to"), item->jid) << XATTR(_T("type"), _T("groupchat"))
 					<< XCHILD(_T("body"), buf));
-
-			if (szMessage == dbv.ptszVal)
-				db_free(&dbv);
 		}
 		break;
 

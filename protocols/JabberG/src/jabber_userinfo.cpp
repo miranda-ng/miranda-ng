@@ -467,26 +467,21 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if ( !dat) break;
 
 		if ( !dat->item) {
-			DBVARIANT dbv = {0};
-			if (dat->ppro->getTString(dat->hContact, "jid", &dbv))
+			ptrT jid( dat->ppro->getTStringA(dat->hContact, "jid"));
+			if (jid == NULL)
 				break;
 
-			if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, dbv.ptszVal)))
-				dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
+			if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
+				dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 
-			if ( !dat->item)
-			{
+			if ( !dat->item) {
 				HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
 				TreeView_DeleteAllItems(hwndTree);
-				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, NULL, dat->ppro->LoadIconEx("main"), _T("JID"), dbv.ptszVal, sttInfoLineId(0, INFOLINE_NAME), true);
+				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, NULL, dat->ppro->LoadIconEx("main"), _T("JID"), jid, sttInfoLineId(0, INFOLINE_NAME), true);
 				sttFillInfoLine(hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), NULL,
 					TranslateT("Please switch online to see more details."));
-
-				db_free(&dbv);
 				break;
 			}
-
-			db_free(&dbv);
 		}
 		sttFillUserInfo(dat->ppro, GetDlgItem(hwndDlg, IDC_TV_INFO), dat->item);
 		break;
@@ -560,15 +555,12 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				break;
 
 			case PSN_PARAMCHANGED:
-				dat->ppro = (CJabberProto*)(CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
+				dat->ppro = (CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
 				if (dat->hContact != NULL) {
-					DBVARIANT dbv = {0};
-					if (dat->ppro->getTString(dat->hContact, "jid", &dbv))
-						break;
-
-					if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, dbv.ptszVal)))
-						dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
-					db_free(&dbv);
+					ptrT jid( dat->ppro->getTStringA(dat->hContact, "jid"));
+					if (jid != NULL)
+						if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
+							dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 				}
 				break;
 		}	}
@@ -640,17 +632,15 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 	case WM_JABBER_REFRESH:
 		{
-			JABBER_LIST_ITEM *item;
-			DBVARIANT dbv;
-
 			if (photoInfo->hBitmap) {
 				DeleteObject(photoInfo->hBitmap);
 				photoInfo->hBitmap = NULL;
 			}
 			ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
-			if ( !photoInfo->ppro->getTString(photoInfo->hContact, "jid", &dbv)) {
-				TCHAR *jid = dbv.ptszVal;
-				if ((item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
+			ptrT jid( photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
+			if (jid != NULL) {
+				JABBER_LIST_ITEM *item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
+				if (item == NULL)
 					item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 				if (item != NULL) {
 					if (item->photoFileName) {
@@ -660,7 +650,6 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 						ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_SHOW);
 					}
 				}
-				db_free(&dbv);
 			}
 			InvalidateRect(hwndDlg, NULL, TRUE);
 			UpdateWindow(hwndDlg);
@@ -670,80 +659,52 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_SAVE:
-			{
-				DBVARIANT dbv;
-				JABBER_LIST_ITEM *item;
-				HANDLE hFile;
-				static TCHAR szFilter[512];
-				unsigned char buffer[3];
-				TCHAR szFileName[MAX_PATH];
-				DWORD n;
+			static TCHAR szFilter[512];
+			DWORD n;
 
-				if (photoInfo->ppro->getTString(photoInfo->hContact, "jid", &dbv))
+			ptrT jid( photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
+			if (jid == NULL)
+				break;
+
+			JABBER_LIST_ITEM *item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
+			if (item == NULL)
+				if ((item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid)) == NULL)
 					break;
 
-				TCHAR *jid = dbv.ptszVal;
-				if ((item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
-					item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid);
-				if (item != NULL) {
-					if ((hFile=CreateFile(item->photoFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) != INVALID_HANDLE_VALUE) {
-						if (ReadFile(hFile, buffer, 3, &n, NULL) && n==3) {
-							if ( !strncmp((char*)buffer, "BM", 2)) {
-								mir_sntprintf(szFilter, SIZEOF(szFilter), _T("BMP %s (*.bmp)"), TranslateT("format"));
-								n = (DWORD)_tcslen(szFilter);
-								_tcsncpy(szFilter+n+1, _T("*.BMP"), SIZEOF(szFilter)-n-2);
-							}
-							else if ( !strncmp((char*)buffer, "GIF", 3)) {
-								mir_sntprintf(szFilter, SIZEOF(szFilter), _T("GIF %s (*.gif)"), TranslateT("format"));
-								n = (DWORD)_tcslen(szFilter);
-								_tcsncpy(szFilter+n+1, _T("*.GIF"), SIZEOF(szFilter)-n-2);
-							}
-							else if (buffer[0]==0xff && buffer[1]==0xd8 && buffer[2]==0xff) {
-								mir_sntprintf(szFilter, SIZEOF(szFilter), _T("JPEG %s (*.jpg;*.jpeg)"), TranslateT("format"));
-								n = (DWORD)_tcslen(szFilter);
-								_tcsncpy(szFilter+n+1, _T("*.JPG;*.JPEG"), SIZEOF(szFilter)-n-2);
-							}
-							else {
-								mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s (*.*)"), TranslateT("Unknown format"));
-								n = (DWORD)_tcslen(szFilter);
-								_tcsncpy(szFilter+n+1, _T("*.*"), SIZEOF(szFilter)-n-2);
-							}
-							szFilter[SIZEOF(szFilter)-1] = 0;
+			switch ( ProtoGetAvatarFileFormat(item->photoFileName)) {
+			case PA_FORMAT_BMP:
+				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("BMP %s (*.bmp)"), TranslateT("format"));
+				_tcsncpy(szFilter+n+1, _T("*.BMP"), SIZEOF(szFilter)-n-2);
+				break;
 
-							OPENFILENAME ofn = { 0 };
-							ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-							ofn.hwndOwner = hwndDlg;
-							ofn.hInstance = NULL;
-							ofn.lpstrFilter = szFilter;
-							ofn.lpstrCustomFilter = NULL;
-							ofn.nMaxCustFilter = 0;
-							ofn.nFilterIndex = 0;
-							ofn.lpstrFile = szFileName;
-							ofn.nMaxFile = _MAX_PATH;
-							ofn.lpstrFileTitle = NULL;
-							ofn.nMaxFileTitle = 0;
-							ofn.lpstrInitialDir = NULL;
-							ofn.lpstrTitle = NULL;
-							ofn.Flags = OFN_OVERWRITEPROMPT;
-							ofn.nFileOffset = 0;
-							ofn.nFileExtension = 0;
-							ofn.lpstrDefExt = NULL;
-							ofn.lCustData = 0L;
-							ofn.lpfnHook = NULL;
-							ofn.lpTemplateName = NULL;
-							szFileName[0] = '\0';
-							if (GetSaveFileName(&ofn)) {
-								photoInfo->ppro->Log("File selected is %s", szFileName);
-								CopyFile(item->photoFileName, szFileName, FALSE);
-							}
-						}
-						CloseHandle(hFile);
-					}
-				}
-				db_free(&dbv);
+			case PA_FORMAT_GIF:
+				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("GIF %s (*.gif)"), TranslateT("format"));
+				_tcsncpy(szFilter+n+1, _T("*.GIF"), SIZEOF(szFilter)-n-2);
+				break;
 
+			case PA_FORMAT_JPEG:
+				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("JPEG %s (*.jpg;*.jpeg)"), TranslateT("format"));
+				_tcsncpy(szFilter+n+1, _T("*.JPG;*.JPEG"), SIZEOF(szFilter)-n-2);
+				break;
+
+			default:
+				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s (*.*)"), TranslateT("Unknown format"));
+				_tcsncpy(szFilter+n+1, _T("*.*"), SIZEOF(szFilter)-n-2);
 			}
-			break;
+			szFilter[SIZEOF(szFilter)-1] = 0;
+
+			TCHAR szFileName[MAX_PATH]; szFileName[0] = '\0';
+			OPENFILENAME ofn = { 0 };
+			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+			ofn.hwndOwner = hwndDlg;
+			ofn.lpstrFilter = szFilter;
+			ofn.lpstrFile = szFileName;
+			ofn.nMaxFile = _MAX_PATH;
+			ofn.Flags = OFN_OVERWRITEPROMPT;
+			if ( GetSaveFileName(&ofn)) {
+				photoInfo->ppro->Log("File selected is %s", szFileName);
+				CopyFile(item->photoFileName, szFileName, FALSE);
+			}
 		}
 		break;
 

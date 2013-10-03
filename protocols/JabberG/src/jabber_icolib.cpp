@@ -344,7 +344,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 int CJabberProto::GetTransportProtoID(TCHAR* TransportDomain)
 {
 	for (int i=0; i<SIZEOF(TransportProtoTable); i++)
-		if (MatchMask(TransportDomain, TransportProtoTable[i].mask))
+		if ( MatchMask(TransportDomain, TransportProtoTable[i].mask))
 			return i;
 
 	return -1;
@@ -399,21 +399,16 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 	if ( !getByte(hContact, "IsTransported", 0))
 		return -1;
 
-	DBVARIANT dbv;
-	if (getTString(hContact, "Transport", &dbv))
+	int iID = GetTransportProtoID( ptrT( getTStringA(hContact, "Transport")));
+	if (iID < 0)
 		return -1;
 
-	int iID = GetTransportProtoID(dbv.ptszVal);
-	db_free(&dbv);
-	if (iID >= 0) {
-		WORD Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-		if (Status < ID_STATUS_OFFLINE)
-			Status = ID_STATUS_OFFLINE;
-		else if (Status > ID_STATUS_INVISIBLE)
-			Status = ID_STATUS_ONLINE;
-		return GetTransportStatusIconIndex(iID, Status);
-	}
-	return -1;
+	WORD Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	if (Status < ID_STATUS_OFFLINE)
+		Status = ID_STATUS_OFFLINE;
+	else if (Status > ID_STATUS_INVISIBLE)
+		Status = ID_STATUS_ONLINE;
+	return GetTransportStatusIconIndex(iID, Status);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

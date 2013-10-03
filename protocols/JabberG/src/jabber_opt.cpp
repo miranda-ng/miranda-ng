@@ -442,7 +442,6 @@ protected:
 		CSuper::OnInitDialog();
 
 		int i;
-		DBVARIANT dbv;
 
 		m_gotservers = false;
 
@@ -467,17 +466,15 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		if ( !m_proto->getTString("Resource", &dbv)) {
-			if (CB_ERR == m_cbResource.FindString(dbv.ptszVal, -1, true))
-				m_cbResource.AddString(dbv.ptszVal);
-
-			m_cbResource.SetText(dbv.ptszVal);
-			db_free(&dbv);
+		ptrT tszResource( m_proto->getTStringA("Resource"));
+		if (tszResource != NULL) {
+			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
+				m_cbResource.AddString(tszResource);
+			m_cbResource.SetText(tszResource);
 		}
 		else m_cbResource.SetText(_T("Miranda"));
 
-		for (i=0; g_LanguageCodes[i].szCode; i++)
-		{
+		for (i=0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
 			if ( !_tcscmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
 				m_cbLocale.SetCurSel(iItem);
@@ -490,8 +487,7 @@ protected:
 		if (m_proto->m_options.Disable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
 		m_chkUseSsl.Enable(m_proto->m_options.Disable3920auth || (m_proto->m_options.UseTLS ? false : true));
 
-		if (m_proto->m_options.ManualConnect)
-		{
+		if (m_proto->m_options.ManualConnect) {
 			m_txtManualHost.Enable();
 			m_txtManualPort.Enable();
 			m_txtPort.Disable();
@@ -501,7 +497,6 @@ protected:
 			chkUseDomainLogin_OnChange(&m_chkUseDomainLogin);
 
 		CheckRegistration();
-
 	}
 
 	void OnApply()
@@ -509,8 +504,7 @@ protected:
 		// clear saved password
 		*m_proto->m_savedPassword = 0;
 
-		if (m_chkSavePassword.GetState() == BST_CHECKED)
-		{
+		if (m_chkSavePassword.GetState() == BST_CHECKED) {
 			TCHAR *text = m_txtPassword.GetText();
 			m_proto->JSetStringCrypt(NULL, "LoginPassword", text);
 			mir_free(text);
@@ -518,8 +512,7 @@ protected:
 		else m_proto->delSetting("LoginPassword");
 
 		int index = m_cbLocale.GetCurSel();
-		if (index >= 0)
-		{
+		if (index >= 0) {
 			TCHAR *szLanguageCode = (TCHAR *)m_cbLocale.GetItemData(index);
 			if (szLanguageCode) {
 				m_proto->setTString("XmlLang", szLanguageCode);
@@ -530,8 +523,7 @@ protected:
 
 		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
 
-		if (m_proto->m_bJabberOnline)
-		{
+		if (m_proto->m_bJabberOnline) {
 			if (m_txtUsername.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
 				m_cbServer.IsChanged() || m_chkUseHostnameAsResource.IsChanged() || m_txtPort.IsChanged() ||
 				m_txtManualHost.IsChanged() || m_txtManualPort.IsChanged() || m_cbLocale.IsChanged())
@@ -553,8 +545,7 @@ protected:
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		switch (msg)
-		{
+		switch (msg) {
 		case WM_ACTIVATE:
 			m_chkUseTls.Enable(!m_proto->m_options.Disable3920auth && (m_proto->m_options.UseSSL ? false : true));
 			if (m_proto->m_options.Disable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
@@ -657,8 +648,7 @@ private:
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
 		m_cbResource.Enable(chk->GetState() != BST_CHECKED);
-		if (chk->GetState() == BST_CHECKED)
-		{
+		if (chk->GetState() == BST_CHECKED) {
 			TCHAR szCompName[MAX_COMPUTERNAME_LENGTH + 1];
 			DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
 			if (GetComputerName(szCompName, &dwCompNameLength))
@@ -684,14 +674,14 @@ private:
 	void chkUseSsl_OnChange(CCtrlData*)
 	{
 		BOOL bManualHost = m_chkManualHost.GetState() == BST_CHECKED;
-		if (m_chkUseSsl.GetState() == BST_CHECKED)
-		{
+		if (m_chkUseSsl.GetState() == BST_CHECKED) {
 			m_chkUseTls.Disable();
 			if ( !bManualHost)
 				m_txtPort.SetInt(5223);
-		} else
-		{
-			if ( !m_proto->m_options.Disable3920auth) m_chkUseTls.Enable();
+		}
+		else {
+			if ( !m_proto->m_options.Disable3920auth)
+				m_chkUseTls.Enable();
 			if ( !bManualHost)
 				m_txtPort.SetInt(5222);
 		}
@@ -711,12 +701,11 @@ private:
 		m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 		m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, SIZEOF(regInfo.server));
-		if (m_chkManualHost.GetState() == BST_CHECKED)
-		{
+		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (WORD)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
-		} else
-		{
+		}
+		else {
 			regInfo.port = (WORD)m_txtPort.GetInt();
 			regInfo.manualHost[0] = '\0';
 		}
@@ -885,16 +874,15 @@ public:
 
 	void chkDirect_OnChange(CCtrlData *)
 	{
-		if (m_chkDirect.GetState() == BST_CHECKED)
-		{
+		if (m_chkDirect.GetState() == BST_CHECKED) {
 			if (m_chkDirectManual.GetState() == BST_CHECKED)
 				m_txtDirect.Enable();
 			else
 				m_txtDirect.Disable();
 
 			m_chkDirectManual.Enable();
-		} else
-		{
+		}
+		else {
 			m_txtDirect.Disable();
 			m_chkDirectManual.Disable();
 		}
@@ -974,17 +962,13 @@ struct ROSTEREDITDAT
 
 static int	_RosterInsertListItem(HWND hList, const TCHAR * jid, const TCHAR * nick, const TCHAR * group, const TCHAR * subscr, BOOL bChecked)
 {
-	LVITEM item={0};
-	int index;
-	item.mask=LVIF_TEXT|LVIF_STATE;
-
+	LVITEM item = {0};
+	item.mask = LVIF_TEXT | LVIF_STATE;
 	item.iItem = ListView_GetItemCount(hList);
-	item.iSubItem = 0;
 	item.pszText = (TCHAR*)jid;
 
-	index=ListView_InsertItem(hList, &item);
-
-	if (index<0)
+	int index = ListView_InsertItem(hList, &item);
+	if (index < 0)
 		return index;
 
 	ListView_SetCheckState(hList, index, bChecked);
@@ -993,48 +977,48 @@ static int	_RosterInsertListItem(HWND hList, const TCHAR * jid, const TCHAR * ni
 	ListView_SetItemText(hList, index, 1, (TCHAR*)nick);
 	ListView_SetItemText(hList, index, 2, (TCHAR*)group);
 	ListView_SetItemText(hList, index, 3, TranslateTS(subscr));
-
 	return index;
 }
 
 static void _RosterListClear(HWND hwndDlg)
 {
-	HWND hList=GetDlgItem(hwndDlg, IDC_ROSTER);
-	if ( !hList)	return;
+	HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
+	if ( !hList)
+		return;
+
 	ListView_DeleteAllItems(hList);
-	while (	ListView_DeleteColumn(hList, 0));
+	while ( ListView_DeleteColumn(hList, 0));
 
-	LV_COLUMN column={0};
-	column.mask=LVCF_TEXT;
-	column.cx=500;
+	LV_COLUMN column = {0};
+	column.mask = LVCF_TEXT;
+	column.cx = 500;
 
-	column.pszText=TranslateT("JID");
+	column.pszText = TranslateT("JID");
 	ListView_InsertColumn(hList, 1, &column);
 
-	column.pszText=TranslateT("Nick Name");
+	column.pszText = TranslateT("Nick Name");
 	ListView_InsertColumn(hList, 2, &column);
 
-	column.pszText=TranslateT("Group");
+	column.pszText = TranslateT("Group");
 	ListView_InsertColumn(hList, 3, &column);
 
-	column.pszText=TranslateT("Subscription");
+	column.pszText = TranslateT("Subscription");
 	ListView_InsertColumn(hList, 4, &column);
 
 	RECT rc;
 	GetClientRect(hList, &rc);
-	int width=rc.right-rc.left;
+	int width = rc.right-rc.left;
 
-	ListView_SetColumnWidth(hList,0,width*40/100);
-	ListView_SetColumnWidth(hList,1,width*25/100);
-	ListView_SetColumnWidth(hList,2,width*20/100);
-	ListView_SetColumnWidth(hList,3,width*10/100);
+	ListView_SetColumnWidth(hList, 0, width*40/100);
+	ListView_SetColumnWidth(hList, 1, width*25/100);
+	ListView_SetColumnWidth(hList, 2, width*20/100);
+	ListView_SetColumnWidth(hList, 3, width*10/100);
 }
 
 void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 {
-	HWND hList=GetDlgItem(rrud.hwndDlg, IDC_ROSTER);
-	if (rrud.bRRAction==RRA_FILLLIST)
-	{
+	HWND hList = GetDlgItem(rrud.hwndDlg, IDC_ROSTER);
+	if (rrud.bRRAction == RRA_FILLLIST) {
 		_RosterListClear(rrud.hwndDlg);
 		HXML query = xmlGetChild(node , "query");
 		if (query == NULL) return;
@@ -1056,35 +1040,22 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 
 		// now it is require to process whole contact list to add not in roster contacts
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			DBVARIANT dbv;
-			if ( !getTString(hContact, "jid", &dbv)) {
-				LVFINDINFO lvfi={0};
-				lvfi.flags = LVFI_STRING;
-				lvfi.psz = dbv.ptszVal;
-				TCHAR *p = _tcschr(dbv.ptszVal,_T('@'));
-				if (p) {
-					p = _tcschr(dbv.ptszVal, _T('/'));
-					if (p) *p = _T('\0');
-				}
-				if (ListView_FindItem(hList, -1, &lvfi) == -1) {
-					TCHAR *jid = mir_tstrdup(dbv.ptszVal);
-					TCHAR *name = NULL;
-					TCHAR *group = NULL;
-					DBVARIANT dbvtemp;
-					if ( !db_get_ts(hContact, "CList", "MyHandle", &dbvtemp)) {
-						name = mir_tstrdup(dbvtemp.ptszVal);
-						db_free(&dbvtemp);
-					}
-					if ( !db_get_ts(hContact, "CList", "Group", &dbvtemp)) {
-						group = mir_tstrdup(dbvtemp.ptszVal);
-						db_free(&dbvtemp);
-					}
-					_RosterInsertListItem(hList, jid, name, group, NULL, FALSE);
-					mir_free(jid);
-					mir_free(name);
-					mir_free(group);
-				}
-				db_free(&dbv);
+			ptrT tszJid( getTStringA(hContact, "jid"));
+			if (tszJid == NULL)
+				continue;
+
+			LVFINDINFO lvfi = {0};
+			lvfi.flags = LVFI_STRING;
+			lvfi.psz = tszJid;
+			TCHAR *p = _tcschr(tszJid, _T('@'));
+			if (p) {
+				p = _tcschr(tszJid, _T('/'));
+				if (p) *p = _T('\0');
+			}
+			if ( ListView_FindItem(hList, -1, &lvfi) == -1) {
+				ptrT tszName( db_get_tsa(hContact, "CList", "MyHandle"));
+				ptrT tszGroup( db_get_tsa(hContact, "CList", "Group"));
+				_RosterInsertListItem(hList, tszJid, tszName, tszGroup, NULL, FALSE);
 			}
 		}
 		rrud.bReadyToDownload = FALSE;
@@ -1092,10 +1063,10 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 		SetDlgItemText(rrud.hwndDlg, IDC_DOWNLOAD, TranslateT("Download"));
 		SetDlgItemText(rrud.hwndDlg, IDC_UPLOAD, TranslateT("Upload"));
 		SendMessage(rrud.hwndDlg, JM_STATUSCHANGED, 0, 0);
-        return;
+		return;
 	}
-	else if (rrud.bRRAction == RRA_SYNCROSTER)
-	{
+	
+	if (rrud.bRRAction == RRA_SYNCROSTER) {
 		SetDlgItemText(rrud.hwndDlg, IDC_UPLOAD, TranslateT("Uploading..."));
 		HXML queryRoster = xmlGetChild(node , "query");
 		if ( !queryRoster)
@@ -1107,8 +1078,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 
 		int itemCount=0;
 		int ListItemCount=ListView_GetItemCount(hList);
-		for (int index=0; index < ListItemCount; index++)
-		{
+		for (int index=0; index < ListItemCount; index++) {
 			TCHAR jid[JABBER_MAX_JID_LEN]=_T("");
 			TCHAR name[260]=_T("");
 			TCHAR group[260]=_T("");
@@ -1119,14 +1089,12 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 			ListView_GetItemText(hList, index, 3, subscr, SIZEOF(subscr));
 			HXML itemRoster = xmlGetChildByTag(queryRoster, "item", "jid", jid);
 			BOOL bRemove = !ListView_GetCheckState(hList,index);
-			if (itemRoster && bRemove)
-			{
+			if (itemRoster && bRemove) {
 				//delete item
 				query << XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("subscription") ,_T("remove"));
 				itemCount++;
 			}
-			else if ( !bRemove)
-			{
+			else if ( !bRemove) {
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if ( !bPushed) {
 					const TCHAR *rosterName = xmlGetAttrValue(itemRoster, _T("name"));
@@ -1154,21 +1122,18 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				}
 			}
 		}
-		rrud.bRRAction=RRA_SYNCDONE;
+		rrud.bRRAction = RRA_SYNCDONE;
 		if (itemCount)
 			m_ThreadInfo->send(iq);
 		else
-			_RosterSendRequest(rrud.hwndDlg,RRA_FILLLIST);
+			_RosterSendRequest(rrud.hwndDlg, RRA_FILLLIST);
 	}
-	else
-	{
-		SetDlgItemText(rrud.hwndDlg,IDC_UPLOAD,TranslateT("Upload"));
-		rrud.bReadyToUpload=FALSE;
-		rrud.bReadyToDownload=FALSE;
-		SendMessage(rrud.hwndDlg, JM_STATUSCHANGED,0,0);
-		SetDlgItemText(rrud.hwndDlg,IDC_DOWNLOAD,TranslateT("Downloading..."));
-		_RosterSendRequest(rrud.hwndDlg,RRA_FILLLIST);
-
+	else {
+		SetDlgItemText(rrud.hwndDlg, IDC_UPLOAD, TranslateT("Upload"));
+		rrud.bReadyToUpload = rrud.bReadyToDownload = FALSE;
+		SendMessage(rrud.hwndDlg, JM_STATUSCHANGED, 0, 0);
+		SetDlgItemText(rrud.hwndDlg, IDC_DOWNLOAD, TranslateT("Downloading..."));
+		_RosterSendRequest(rrud.hwndDlg, RRA_FILLLIST);
 	}
 }
 
@@ -1655,15 +1620,10 @@ protected:
 	{
 		CSuper::OnInitDialog();
 
-		int i;
-		DBVARIANT dbv;
-		char server[256], manualServer[256]={0};
-
 		m_gotservers = false;
 
 		TCHAR *passw = m_proto->JGetStringCrypt(NULL, "LoginPassword");
-		if (passw)
-		{
+		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
 		}
@@ -1672,7 +1632,7 @@ protected:
 
 		// fill predefined resources
 		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
-		for (i=0; i < SIZEOF(szResources); i++)
+		for (int i=0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
 		// append computer name to the resource list
@@ -1681,12 +1641,11 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		if ( !m_proto->getTString("Resource", &dbv)) {
-			if (CB_ERR == m_cbResource.FindString(dbv.ptszVal, -1, true))
-				m_cbResource.AddString(dbv.ptszVal);
-
-			m_cbResource.SetText(dbv.ptszVal);
-			db_free(&dbv);
+		ptrT tszResource( m_proto->getTStringA("Resource"));
+		if (tszResource != NULL) {
+			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
+				m_cbResource.AddString(tszResource);
+			m_cbResource.SetText(tszResource);
 		}
 		else m_cbResource.SetText(_T("Miranda"));
 
@@ -1699,11 +1658,11 @@ protected:
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
+		char server[256], manualServer[256]={0};
 		m_cbServer.GetTextA(server, SIZEOF(server));
-		if ( !db_get_s(NULL, m_proto->m_szModuleName, "ManualHost", &dbv)) {
-			lstrcpynA(manualServer, dbv.pszVal, SIZEOF(manualServer));
-			db_free(&dbv);
-		}
+		ptrA dbManualServer( db_get_sa(NULL, m_proto->m_szModuleName, "ManualHost"));
+		if (dbManualServer != NULL)
+			lstrcpynA(manualServer, dbManualServer, SIZEOF(manualServer));
 
 		m_canregister = true;
 		if ( !lstrcmpA(manualServer, "talk.google.com")) {
@@ -1740,10 +1699,9 @@ protected:
 				m_txtManualHost.Enable();
 				m_txtPort.Enable();
 
-				if ( !m_proto->getTString("ManualHost", &dbv)) {
-					m_txtManualHost.SetText(dbv.ptszVal);
-					db_free(&dbv);
-				}
+				ptrT dbManualHost( m_proto->getTStringA("ManualHost"));
+				if (dbManualHost != NULL)
+					m_txtManualHost.SetText(dbManualHost);
 
 				m_txtPort.SetInt(m_proto->getWord("ManualPort", m_txtPort.GetInt()));
 			}

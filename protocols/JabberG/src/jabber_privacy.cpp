@@ -418,11 +418,9 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 			{
 				for (HANDLE hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
-					DBVARIANT dbv;
-					if ( !m_proto->getTString(hContact, "jid", &dbv)) {
-						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
-						db_free(&dbv);
-					}
+					ptrT jid( m_proto->getTStringA(hContact, "jid"));
+					if (jid != NULL)
+						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, jid);
 				}
 
 				// append known chatroom jids from bookmarks
@@ -1460,19 +1458,15 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		hItem = m_clcClist.FindContact(hContact);
 
-		DBVARIANT dbv = {0};
-		if (m_proto->getTString(hContact, "jid", &dbv))
-			if (m_proto->getTString(hContact, "ChatRoomID", &dbv))
+		ptrT jid( m_proto->getTStringA(hContact, "jid"));
+		if (jid == NULL)
+			if ((jid = m_proto->getTStringA(hContact, "ChatRoomID")) == NULL)
 				continue;
-
-		szJid = dbv.ptszVal;
 
 		if (dwPackets = CListGetPackets(hwndList, hItem, true))
 			pList->AddRule(Jid, szJid, TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hwndList, hItem, false))
 			pList->AddRule(Jid, szJid, FALSE, dwOrder++, dwPackets);
-
-		db_free(&dbv);
 	}
 
 	// group handles start with 1 (0 is "root")

@@ -104,15 +104,11 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 
 HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource)
 {
-	HANDLE hContact;
-	TCHAR *s, *p, *q;
-	size_t len;
-
 	if (jid == NULL || jid[0]=='\0')
 		return NULL;
 
-	s = mir_tstrdup(jid);
-	q = NULL;
+	TCHAR *s = NEWTSTR_ALLOCA(jid);
+	TCHAR *q = NULL, *p;
 	// strip resource if present
 	if ((p = _tcschr(s, '@')) != NULL)
 		if ((q = _tcschr(p, '/')) != NULL)
@@ -120,37 +116,31 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 
 	if ( !stripResource && q != NULL)	// so that resource is not stripped
 		*q = '/';
-	len = _tcslen(s);
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		DBVARIANT dbv;
-		if ( !getTString(hContact, "jid", &dbv)) {
-			p = dbv.ptszVal;
-			if (p && _tcslen(p) >= len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len)) {
-				db_free(&dbv);
-				break;
-			}
-			db_free(&dbv);
-		}
+	size_t len = _tcslen(s);
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		ptrT jid( getTStringA(hContact, "jid"));
+		if (jid == NULL)
+			continue;
+
+		TCHAR *p = jid;
+		if (p && _tcslen(p) >= len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len))
+			return hContact;
 	}
 
-	if (hContact == NULL) {
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
-		setTString(hContact, "jid", s);
-		if (nick != NULL && *nick != '\0')
-			setTString(hContact, "Nick", nick);
-		if (temporary)
-			db_set_b(hContact, "CList", "NotOnList", 1);
-		else
-			SendGetVcard(s);
-		Log("Create Jabber contact jid=%S, nick=%S", s, nick);
-		DBCheckIsTransportedContact(s,hContact);
-	}
-
-	mir_free(s);
-	return hContact;
+	HANDLE hNewContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
+	setTString(hNewContact, "jid", s);
+	if (nick != NULL && *nick != '\0')
+		setTString(hNewContact, "Nick", nick);
+	if (temporary)
+		db_set_b(hNewContact, "CList", "NotOnList", 1);
+	else
+		SendGetVcard(s);
+	Log("Create Jabber contact jid=%S, nick=%S", s, nick);
+	DBCheckIsTransportedContact(s,hNewContact);
+	return hNewContact;
 }
 
 BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
@@ -255,28 +245,20 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 		if ( !getByte(hContact, "IsTransported", 0))
 			continue;
 
-		DBVARIANT dbv, nick;
-		if (getTString(hContact, "jid", &dbv))
+		ptrT dbJid( getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
+		ptrT dbNick( getTStringA(hContact, "Nick")); if (dbNick == NULL) continue;
+
+		TCHAR *p = _tcschr(dbJid, '@');
+		if (p == NULL)
 			continue;
-		if (getTString(hContact, "Nick", &nick)) {
-			db_free(&dbv);
-			continue;
+
+		*p = 0;
+		if ( !lstrcmp(jid, p+1) && !lstrcmp(dbJid, dbNick)) {
+			*p = '@';
+			m_ThreadInfo->resolveID = SendGetVcard(dbJid);
+			m_ThreadInfo->resolveContact = hContact;
+			return;
 		}
-
-		TCHAR *p = _tcschr(dbv.ptszVal, '@');
-		if (p) {
-			*p = 0;
-			if ( !lstrcmp(jid, p+1) && !lstrcmp(dbv.ptszVal, nick.ptszVal)) {
-				*p = '@';
-				m_ThreadInfo->resolveID = SendGetVcard(dbv.ptszVal);
-				m_ThreadInfo->resolveContact = hContact;
-				db_free(&dbv);
-				db_free(&nick);
-				return;
-		}	}
-
-		db_free(&dbv);
-		db_free(&nick);
 	}
 
 	m_ThreadInfo->resolveID = -1;
@@ -480,19 +462,17 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, pResourceStatus &resource)
 	FormatMirVer(resource, szMirVer, SIZEOF(szMirVer));
 	if (szMirVer[0])
 		setTString(hContact, "MirVer", szMirVer);
-//	else
-//		delSetting(hContact, "MirVer");
 
-	DBVARIANT dbv;
-	if ( !getTString(hContact, "jid", &dbv)) {
-		TCHAR szFullJid[JABBER_MAX_JID_LEN];
-		if (resource->m_tszResourceName)
-			mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), dbv.ptszVal, resource->m_tszResourceName);
-		else
-			lstrcpyn(szFullJid, dbv.ptszVal, SIZEOF(szFullJid));
-		setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
-		db_free(&dbv);
-	}
+	ptrT jid( getTStringA(hContact, "jid"));
+	if (jid == NULL)
+		return;
+
+	TCHAR szFullJid[JABBER_MAX_JID_LEN];
+	if (resource->m_tszResourceName)
+		mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), jid, resource->m_tszResourceName);
+	else
+		lstrcpyn(szFullJid, jid, SIZEOF(szFullJid));
+	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
 }
 
 void CJabberProto::UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *item)

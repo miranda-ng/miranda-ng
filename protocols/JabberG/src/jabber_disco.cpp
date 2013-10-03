@@ -441,23 +441,21 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		else if ( !lstrcmp(szJid, _T(SD_FAKEJID_FAVORITES))) {
 			sttBrowseMode = SD_BROWSE_FAVORITES;
 			int count = getDword("discoWnd_favCount", 0);
-			for (int i=0; i < count; i++)
-			{
-				DBVARIANT dbv;
+			for (int i=0; i < count; i++) {
 				char setting[MAXMODULELABELLENGTH];
 				mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", i);
-				if ( !getTString(setting, &dbv)) {
-					DBVARIANT dbvJid, dbvNode;
-					mir_snprintf(setting, sizeof(setting), "discoWnd_favJID_%d", i);
-					getTString(setting, &dbvJid);
-					mir_snprintf(setting, sizeof(setting), "discoWnd_favNode_%d", i);
-					getTString(setting, &dbvNode);
-					CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(dbvJid.ptszVal, dbvNode.ptszVal, dbv.ptszVal);
-					SendBothRequests(pNode, NULL);
-					db_free(&dbv);
-					db_free(&dbvJid);
-					db_free(&dbvNode);
-		}	}	}
+				ptrT tszName( getTStringA(setting));
+				if (tszName == NULL)
+					continue;
+					
+				mir_snprintf(setting, sizeof(setting), "discoWnd_favJID_%d", i);
+				ptrT dbvJid( getTStringA(setting));
+				mir_snprintf(setting, sizeof(setting), "discoWnd_favNode_%d", i);
+				ptrT dbvNode( getTStringA(setting));
+				CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(dbvJid, dbvNode, tszName);
+				SendBothRequests(pNode, NULL);
+			}
+		}
 		else {
 			sttBrowseMode = SD_BROWSE_NORMAL;
 			CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(szJid, _tcslen(szNode) ? szNode : NULL, NULL);
@@ -804,16 +802,14 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 	for (int i=0; i < count; i++) {
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", i);
-
-		DBVARIANT dbv;
-		if ( !m_proto->getTString(setting, &dbv)) {
+		ptrT tszName( m_proto->getTStringA(setting));
+		if (tszName != NULL) {
 			HMENU hSubMenu = CreatePopupMenu();
 			AppendMenu(hSubMenu, MF_STRING, 100+i*10+0, TranslateT("Navigate"));
 			AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL);
 			AppendMenu(hSubMenu, MF_STRING, 100+i*10+1, TranslateT("Remove"));
-			AppendMenu(hMenu, MF_POPUP|MF_STRING, (UINT_PTR)hSubMenu, dbv.ptszVal);
+			AppendMenu(hMenu, MF_POPUP|MF_STRING, (UINT_PTR)hSubMenu, tszName);
 		}
-		db_free(&dbv);
 	}
 	int res = 0;
 	if (GetMenuItemCount(hMenu)) {
@@ -852,23 +848,21 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 			SetDlgItemText(m_hwnd, IDC_COMBO_JID, _T(""));
 			SetDlgItemText(m_hwnd, IDC_COMBO_NODE, _T(""));
 
-			DBVARIANT dbv;
 			char setting[MAXMODULELABELLENGTH];
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favJID_%d", res);
-			if ( !m_proto->getTString(setting, &dbv)) SetDlgItemText(m_hwnd, IDC_COMBO_JID, dbv.ptszVal);
-			db_free(&dbv);
+			ptrT dbv( m_proto->getTStringA(setting));
+			if (dbv) SetDlgItemText(m_hwnd, IDC_COMBO_JID, dbv);
+
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favNode_%d", res);
-			if ( !m_proto->getTString(setting, &dbv)) SetDlgItemText(m_hwnd, IDC_COMBO_NODE, dbv.ptszVal);
-			db_free(&dbv);
+			dbv = m_proto->getTStringA(setting);
+			if (dbv) SetDlgItemText(m_hwnd, IDC_COMBO_NODE, dbv);
 
 			PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
 		}
-	} else
-	if (res == 1)
-	{
+	}
+	else if (res == 1) {
 		int count = m_proto->getDword("discoWnd_favCount", 0);
-		for (int i=0; i < count; i++)
-		{
+		for (int i=0; i < count; i++) {
 			char setting[MAXMODULELABELLENGTH];
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", i);
 			m_proto->delSetting(setting);
@@ -878,9 +872,8 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 			m_proto->delSetting(setting);
 		}
 		m_proto->delSetting("discoWnd_favCount");
-	} else
-	if ((res >= 10) && (res <= 20))
-	{
+	}
+	else if ((res >= 10) && (res <= 20)) {
 		switch (res-10) {
 		case SD_BROWSE_FAVORITES:
 			SetDlgItemText(m_hwnd, IDC_COMBO_JID, _T(SD_FAKEJID_FAVORITES));

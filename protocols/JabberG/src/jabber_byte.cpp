@@ -141,11 +141,8 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 
 void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 {
-	char* localAddr = NULL;
-	DBVARIANT dbv;
 	TCHAR szPort[8];
 	HANDLE hEvent = NULL;
-	TCHAR *proxyJid;
 	CJabberIqInfo *pInfo = NULL;
 	int nIqId = 0;
 
@@ -154,12 +151,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	BOOL bDirect = m_options.BsDirect;
 
 	if (m_options.BsProxyManual) {
-		proxyJid = NULL;
-		if ( !getString("BsProxyServer", &dbv)) {
-			proxyJid = mir_a2t(dbv.pszVal);
-			db_free(&dbv);
-		}
-
+		ptrT proxyJid( getTStringA("BsProxyServer"));
 		if (proxyJid) {
 			jbt->bProxyDiscovered = FALSE;
 			jbt->szProxyHost = NULL;
@@ -198,10 +190,9 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 		HXML query = iq << XQUERY(JABBER_FEAT_BYTESTREAMS) << XATTR(_T("sid"), jbt->sid);
 
 		if (bDirect) {
-			if (m_options.BsDirectManual) {
-				if ( !getString("BsDirectAddr", &dbv))
-					localAddr = dbv.pszVal;
-			}
+			ptrA localAddr;
+			if (m_options.BsDirectManual)
+				localAddr = getStringA("BsDirectAddr");
 
 			NETLIBBIND nlb = {0};
 			nlb.cbSize = sizeof(NETLIBBIND);
@@ -232,7 +223,6 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 					query << XCHILD(_T("streamhost")) << XATTR(_T("jid"), m_ThreadInfo->fullJID) << XATTR(_T("host"), _A2T(ihaddr->szIp[i])) << XATTRI(_T("port"), nlb.wPort);
 
 			mir_free(ihaddr);
-			mir_free(localAddr);
 		}
 
 		if (jbt->bProxyDiscovered)

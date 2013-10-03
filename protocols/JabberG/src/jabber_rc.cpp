@@ -466,27 +466,25 @@ int CJabberProto::RcGetUnreadEventsCount()
 {
 	int nEventsSent = 0;
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		DBVARIANT dbv;
-		if ( !getTString(hContact, "jid", &dbv)) {
-			HANDLE hDbEvent = db_event_firstUnread(hContact);
-			while (hDbEvent) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-				if (dbei.cbBlob != -1) {
-					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-					int nGetTextResult = db_event_get(hDbEvent, &dbei);
-					if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-						TCHAR *szEventText = DbGetEventTextT(&dbei, CP_ACP);
-						if (szEventText) {
-							nEventsSent++;
-							mir_free(szEventText);
-						}
-					}
-					mir_free(dbei.pBlob);
+		ptrT jid( getTStringA(hContact, "jid"));
+		if (jid == NULL) continue;
+
+		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+			if (dbei.cbBlob == -1)
+				continue;
+
+			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
+			int nGetTextResult = db_event_get(hDbEvent, &dbei);
+			if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
+				TCHAR *szEventText = DbGetEventTextT(&dbei, CP_ACP);
+				if (szEventText) {
+					nEventsSent++;
+					mir_free(szEventText);
 				}
-				hDbEvent = db_event_next(hDbEvent);
 			}
-			db_free(&dbv);
+			mir_free(dbei.pBlob);
 		}
 	}
 	return nEventsSent;

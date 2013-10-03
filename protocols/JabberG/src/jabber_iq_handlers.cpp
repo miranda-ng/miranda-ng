@@ -556,14 +556,12 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					else setTString(hContact, "jid", jid);
 
 					if (name != NULL) {
-						DBVARIANT dbnick;
-						if ( !getTString(hContact, "Nick", &dbnick)) {
-							if (_tcscmp(nick, dbnick.ptszVal) != 0)
+						ptrT tszNick( getTStringA(hContact, "Nick"));
+						if (tszNick != NULL) {
+							if (_tcscmp(nick, tszNick) != 0)
 								db_set_ts(hContact, "CList", "MyHandle", nick);
 							else
 								db_unset(hContact, "CList", "MyHandle");
-
-							db_free(&dbnick);
 						}
 						else db_set_ts(hContact, "CList", "MyHandle", nick);
 					}
