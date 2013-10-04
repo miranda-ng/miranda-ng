@@ -12,6 +12,8 @@ Automatically request authorisation on logon
 Automatically grant authorisation to users in contact list
 [Automatically grant authorization to new users]
 Automatically grant authorisation to new users
+[Background color]
+Background colour
 [&Use Windows colors]
 &Use Windows colours
 [Back Color]

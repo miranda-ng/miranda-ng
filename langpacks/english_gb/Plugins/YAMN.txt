@@ -6,6 +6,12 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[Use custom color]
+Use custom colour
+[Background color]
+Background colour
+[Text color]
+Text colour
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp

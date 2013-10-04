@@ -12,7 +12,15 @@ and stay minimised
 Minimise on send
 [Customize fonts and colors]
 Customise fonts and colours
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
 ;file \plugins\Scriver\src\globals.cpp
+[Text color]
+Text colour
+[Background color]
+Background colour
 ;file \plugins\Scriver\src\input.cpp
 [Window: Minimize]
 Window: Minimise
@@ -28,15 +36,13 @@ Window: Minimise
 ;file \plugins\Scriver\src\chat\log.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
 ;file \plugins\Scriver\src\chat\options.cpp
+[Timestamp has same color as event]
+Timestamp has same colour as event
 [Strip colors from messages]
 Strip colours from messages
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
 ;file \plugins\Scriver\src\chat\window.cpp
-[Text color]
-Text colour
-[Background color]
-Background colour
 [Make the text italicized (CTRL+I)]
 Make the text italicised (CTRL+I)
 [Select a background color for the text (CTRL+L)]

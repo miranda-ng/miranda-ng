@@ -10,6 +10,10 @@
 Centre groupnames horizontally
 [Centered when possible]
 Centred when possible
+[Use Windows colors]
+Use Windows colours
+[Background color]
+Background colour
 [Protocol skins override status text colors]
 Protocol skins override status text colours
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc

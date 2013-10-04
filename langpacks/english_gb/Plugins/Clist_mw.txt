@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Clist_mw\res\resource.rc
+[Background color:]
+Background colour:
+[Selection color:]
+Selection colour:
 [Minimize to tray]
 Minimise to tray
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp

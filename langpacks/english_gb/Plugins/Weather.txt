@@ -6,6 +6,14 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Weather\res\resource.rc
+[Colors]
+Colours
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
 ;file \plugins\Weather\src\weather.cpp
 ;file \plugins\Weather\src\weather.h
 [HTTP Error: Unauthorized (401)]

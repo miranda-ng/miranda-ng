@@ -25,6 +25,10 @@ Play sounds when minimised
 ESC key behaviour
 [Use contact list groups for organizing tabs (one window per group)]
 Use contact list groups for organising tabs (one window per group)
+[U&se Popup colors]
+U&se Popup colours
+[&Use Windows colors]
+&Use Windows colours
 [Define up to 5 colors which you can use with some variables]
 Define up to 5 colours which you can use with some variables
 [Load fonts and colors provided by skin]
@@ -85,6 +89,8 @@ Minimise the window to the task bar
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Font color]
 Font colour
+[Background color]
+Background colour
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 ;file \plugins\TabSRMM\src\sendlater.cpp
@@ -116,8 +122,6 @@ Loading a theme|Loading a colour and font theme can overwrite the settings defin
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Text colour
-[Background color]
-Background colour
 ;file \plugins\TabSRMM\src\chat\log.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp

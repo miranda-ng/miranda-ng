@@ -18,6 +18,8 @@ Back Colour
 Text Colour
 [&Use Windows colors]
 &Use Windows colours
+[Use default colors]
+Use default colours
 [Synchronize]
 Synchronise
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp

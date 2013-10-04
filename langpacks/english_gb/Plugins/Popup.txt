@@ -23,6 +23,8 @@ Favourite Contact
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
 ;file \plugins\Popup\src\opt_skins.cpp
+[Use Windows colors]
+Use Windows colours
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp

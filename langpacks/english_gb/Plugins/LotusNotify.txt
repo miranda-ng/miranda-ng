@@ -6,6 +6,8 @@
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 ;file \plugins\LotusNotify\res\LotusNotify.rc
+[Set popup colors]
+Set popup colours
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to initialize Notes.]
 Unable to initialise Notes.

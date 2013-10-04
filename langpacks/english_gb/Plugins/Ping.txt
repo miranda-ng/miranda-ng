@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
-[Use the Customize/Fonts options to change text size and colour.]
+[Use the Customize/Fonts options to change text size and color.]
 Use the Customise/Fonts options to change text size and colour.
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp

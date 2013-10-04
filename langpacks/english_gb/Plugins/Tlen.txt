@@ -3,6 +3,8 @@
 ;file \protocols\Tlen\res\tlen.rc
 [Proxy requires authorization]
 Proxy requires authorisation
+[Colors]
+Colours
 ;file \protocols\Tlen\src\tlen.cpp
 [Request authorization]
 Request authorisation

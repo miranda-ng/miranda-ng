@@ -8,8 +8,14 @@
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Go to Customize -> Hotkeys to change the hotkey]
 Go to Customise -> Hotkeys to change the hotkey
+[Colors]
+Colours
 [Use cus&tom colors]
 Use cus&tom colours
+[Use &Windows colors]
+Use &Windows colours
+[Use Pop&up colors]
+Use Pop&up colours
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 ;file \plugins\PluginUpdater\src\Options.cpp

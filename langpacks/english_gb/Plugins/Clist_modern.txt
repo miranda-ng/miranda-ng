@@ -6,14 +6,24 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
+[Background color:]
+Background colour:
+[Selection color:]
+Selection colour:
 [Use Windows Colors]
 Use Windows Colours
+[Color]
+Colour
 [Minimize to tray]
 Minimise to tray
 [Border color:]
 Border colour:
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Special colors]
+Special colours
+[3rd party frames transparent back color]
+3rd party frames transparent back colour
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp

@@ -6,6 +6,16 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Colors]
+Colours
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [Minimized]
 Minimised
