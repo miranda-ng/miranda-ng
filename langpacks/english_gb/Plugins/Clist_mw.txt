@@ -8,8 +8,6 @@
 ;file \plugins\Clist_mw\res\resource.rc
 [Minimize to tray]
 Minimise to tray
-[Automatically resize window to height of list]
-Automatically resise window to height of list
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Customise
