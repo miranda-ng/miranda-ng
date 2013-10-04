@@ -538,9 +538,9 @@ Gruba yeni odalar ekle:
 Kişi listesi satır aralığı (piksel):
 [Use same style as in the message log]
 Aynı stili ileti günlüğünde kullan
-[Use default colours]
+[Use default colors]
 Varsayılan renkleri kullan
-[Use custom colours]
+[Use custom colors]
 Kişisel renkleri kullan
 [Popups for the Chat plugin]
 Sohbet eklentisi için açılır pencereler
@@ -737,11 +737,9 @@ Gamma düzeltmesi
 Şu olduğunda tüm listeyi karart:
 [Contact List Background]
 Kişi Listesi Art Alanı
-[Background colour]
+[Background color]
 Art alan rengi
-[Background colour]
-Art alan rengi
-[Selection colour]
+[Selection color]
 Seçim rengi
 [Use background image]
 Art alan resmi göster
@@ -757,9 +755,7 @@ Dikey döşe
 Yazıyla kaydır
 [Stretch proportionally]
 Oransal Gerdir
-[Use Windows colours]
-Windows renklerini kullan
-[Use Windows colours]
+[Use Windows colors]
 Windows renklerini kullan
 [Status Bar]
 Durum Çubuğu
@@ -1151,9 +1147,7 @@ Durum
 [Join chat]
 Sohbete katıl
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
-Yazı rengi
-[Text colour]
+[Text color]
 Yazı rengi
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1263,7 +1257,7 @@ Kişi durum simgesini rol simgesinden önce göster
 Tüm etkinliklerin önüne zaman damgası ekle
 [Only prefix with timestamp if it has changed]
 Zaman değiştiğinde zaman damgasını öne ekle
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Zaman damgası etkinlik ile aynı renkte olsun
 [Indent the second line of a message]
 İletinin ikinci satırını içe al

@@ -430,11 +430,11 @@ Miranda NG перезапускається.\nЗачекайте...
 Ефект шрифту
 [Effect:]
 Ефект:
-[Base colour:]
+[Base color:]
 Основний колір:
 [opacity:]
 прозорість:
-[Secondary colour:]
+[Secondary color:]
 Вторинний колір:
 [Select the extra icons to be shown in the contact list:]
 Виберіть, які додаткові значки буде показано в списку контактів:
@@ -598,9 +598,9 @@ Miranda NG перезапускається.\nЗачекайте...
 Відстань між рядками (пікселі):
 [Use same style as in the message log]
 Використ. стиль журналу повідомлень
-[Use default colours]
+[Use default colors]
 Стандартні кольори
-[Use custom colours]
+[Use custom colors]
 Вказати кольори
 [Popups for the Chat plugin]
 Спливаючі вікна чату
@@ -790,9 +790,9 @@ Miranda NG перезапускається.\nЗачекайте...
 Зробити сірим, якщо:
 [Contact List Background]
 Фон списку контактів
-[Background colour]
+[Background color]
 Колір фону
-[Selection colour]
+[Selection color]
 Колір виділення
 Фонове зображення
 [Stretch to width]
@@ -807,7 +807,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Прокручувати з текстом
 [Stretch proportionally]
 Розтягнути
-[Use Windows colours]
+[Use Windows colors]
 Кольори Windows
 [Status Bar]
 Панель статусу
@@ -1258,7 +1258,7 @@ Iндекс:
 Увійти до чату
 [Open chat window]
 Відкрити вікно чату
-[Text colour]
+[Text color]
 Колір тексту
 [%s has joined]
 %s увійшов
@@ -1372,7 +1372,7 @@ Iндекс:
 Показувати час для всіх подій
 [Only prefix with timestamp if it has changed]
 Показувати час, якщо він змінився
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Часова мітка того ж кольору що й подія
 [Indent the second line of a message]
 Відступ другого рядка повідомлення

@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32.exe
 ;  Module: Miranda Core
-;  Versions: 0.8.0 - 0.94.5
+;  Versions: 0.8.0 - 0.94.6
 ;============================================================
 ['%s' is disabled, re-enable?]
 '%s' отключён, включить?
@@ -313,7 +313,7 @@ ANSI плагин
 Отсутствую
 [Background info]
 Биография
-[Base colour:]
+[Base color:]
 Основной цвет:
 [Become idle if a terminal session is disconnected]
 Режим ожидания, если удалённая сессия завершена
@@ -609,6 +609,8 @@ URL:
 Имя:
 [FirstName LastName]
 Имя Фамилия
+[LastName FirstName]
+Фамилия Имя
 [FirstName]
 Имя
 [Font Effect]
@@ -1079,7 +1081,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Поиск
 [sec]
 с
-[Secondary colour:]
+[Secondary color:]
 Вторичный цвет:
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
 Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед опасными изменениями.
@@ -2200,7 +2202,7 @@ Cвернуть
 Список контактов (классик)
 [Row height:]
 Высота строки:
-[Selection colour]
+[Selection color]
 Цвет выделения
 [Sort contacts by name]
 Сортировка по имени

@@ -441,11 +441,11 @@ Wybierz zdarzenia, które chcesz ignorować:
 Efekt
 [Effect:]
 Efekt:
-[Base colour:]
+[Base color:]
 Pierwszy kolor:
 [opacity:]
 Widoczność:
-[Secondary colour:]
+[Secondary color:]
 Drugi kolor:
 [Select the extra icons to be shown in the contact list:]
 Tylko zaznaczone ikony będą pokazywane na liście kontaktów:
@@ -614,9 +614,9 @@ Dodaj nowe pokoje do grupy:
 Odstęp między wierszami (px): 
 [Use same style as in the message log]
 Użyj takiego samego stylu, jak w dzienniku
-[Use default colours]
+[Use default colors]
 Użyj domyślnych kolorów
-[Use custom colours]
+[Use custom colors]
 Użyj niestandardowych kolorów
 [Popups for the Chat plugin]
 Czat
@@ -811,9 +811,9 @@ Korekcja Gamma
 Przyciemnij całą listę kiedy:
 [Contact List Background]
 Tło listy kontaktów
-[Background colour]
+[Background color]
 Kolor tła
-[Selection colour]
+[Selection color]
 Kolor zaznaczenia
 [Use background image]
 Użyj obrazu tła
@@ -829,7 +829,7 @@ Układaj pionowo
 Przewijaj z tekstem
 [Stretch proportionally]
 Rozciągnij proporcjonalnie
-[Use Windows colours]
+[Use Windows colors]
 Użyj kolorów Windows
 [Status Bar]
 Pasek statusu
@@ -1295,7 +1295,7 @@ Dołącz do pokoju
 [Open chat window]
 Otwórz okno czatu
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Kolor tekstu
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1411,7 +1411,7 @@ Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
 Poprzedź wszystkie zdarzenia czasem
 [Only prefix with timestamp if it has changed]
 Dodawaj czas tylko jeśli uległ zmianie
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
 Wcinaj drugą linię wiadomości
@@ -2093,6 +2093,8 @@ Nazwisko
 Użytkownik
 [FirstName LastName]
 Imię Nazwisko
+[LastName FirstName]
+
 ['(Unknown Contact)' (not moveable)]
 "(Nieznany kontakt)" (nieprzesuwalne)
 ['(Unknown Contact)']

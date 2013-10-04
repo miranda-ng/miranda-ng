@@ -441,11 +441,11 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Эфект шрыфта
 [Effect:]
 Эфект:
-[Base colour:]
+[Base color:]
 Асноўны колер:
 [opacity:]
 непразрыстасць:
-[Secondary colour:]
+[Secondary color:]
 Другасны колер:
 [Select the extra icons to be shown in the contact list:]
 Абярыце якія экстра абразкі будуць адлюстроўвацца ў спісе кантактаў:
@@ -614,9 +614,9 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Адлегласць паміж радкамі (пікс.):
 [Use same style as in the message log]
 Той жа стыль, што і ў логе
-[Use default colours]
+[Use default colors]
 Колеры па змаўчанні
-[Use custom colours]
+[Use custom colors]
 Задаць колеры
 [Popups for the Chat plugin]
 Усплывальныя вокны чата
@@ -811,9 +811,9 @@ Wikipedia
 Зрабіць шэрым, калі:
 [Contact List Background]
 Фон спісу
-[Background colour]
+[Background color]
 Колер фону
-[Selection colour]
+[Selection color]
 Колер вылучэння
 [Use background image]
 Выкарыстоўваць фон
@@ -829,7 +829,7 @@ Wikipedia
 Пракручваць з тэкстам
 [Stretch proportionally]
 Расцягнуць
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
 [Status Bar]
 Панэль статусу
@@ -1295,7 +1295,7 @@ Miranda
 [Open chat window]
 Адчыніць вакно чата
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Колер тэксту
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1411,7 +1411,7 @@ Miranda
 Падстаўляць час ва ўсе падзеі
 [Only prefix with timestamp if it has changed]
 Падстаўляць час, калі ёсць змены
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Паказваць час тым жа колерам што і падзею
 [Indent the second line of a message]
 Водступ другога радка паведамлення

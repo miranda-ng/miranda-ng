@@ -441,11 +441,11 @@ Klávesové skratky
 
 [Effect:]
 
-[Base colour:]
+[Base color:]
 
 [opacity:]
 
-[Secondary colour:]
+[Secondary color:]
 
 [Select the extra icons to be shown in the contact list:]
 
@@ -614,9 +614,9 @@ Vaše meno
 
 [Use same style as in the message log]
 
-[Use default colours]
+[Use default colors]
 
-[Use custom colours]
+[Use custom colors]
 
 [Popups for the Chat plugin]
 
@@ -811,9 +811,9 @@ Gamma korekcia
 Potlačiť intenzitu u týchto položiek:
 [Contact List Background]
 Pozadie zoznamu kontaktov
-[Background colour]
+[Background color]
 Farba pozadia
-[Selection colour]
+[Selection color]
 
 [Use background image]
 
@@ -829,7 +829,7 @@ Nad sebou
 Posúvať s textom
 [Stretch proportionally]
 Roztiahnúť veľkosť
-[Use Windows colours]
+[Use Windows colors]
 
 [Status Bar]
 Stavový riadok
@@ -1295,7 +1295,7 @@ Stav
 [Open chat window]
 
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Fraba textu
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1411,7 +1411,7 @@ Fraba textu
 
 [Only prefix with timestamp if it has changed]
 
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 
 [Indent the second line of a message]
 
@@ -2087,6 +2087,8 @@ Priezvisko
 
 [FirstName LastName]
 Meno Priezvisko
+[LastName FirstName]
+
 ['(Unknown Contact)' (not moveable)]
 '(neznámý kontakt)' (nepresúvatelné)
 ['(Unknown Contact)']

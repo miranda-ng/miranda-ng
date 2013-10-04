@@ -504,9 +504,9 @@ Egyéb
 Felhasználó-lista sor távolság (képpont):
 [Use same style as in the message log]
 Azonos stílus, mint az üzenet naplóban
-[Use default colours]
+[Use default colors]
 Alap színek használata
-[Use custom colours]
+[Use custom colors]
 Egyedi színek használata
 [Popups for the Chat plugin]
 Felugrók a csevegés beépülõhöz
@@ -697,9 +697,9 @@ Gamma javítás
 Teljes lista kiszürkítése, ha:
 [Contact List Background]
 Kapcsolati lista háttér
-[Background colour]
+[Background color]
 Háttérszín
-[Selection colour]
+[Selection color]
 Kijelölés színe
 [Use background image]
 Háttérkép használata
@@ -715,7 +715,7 @@ Osztás függõlegesen
 Görgetés a szöveggel
 [Stretch proportionally]
 Nyújtás arányosan
-[Use Windows colours]
+[Use Windows colors]
 Windows színek használata
 [Status Bar]
 Állapotsáv
@@ -1101,7 +1101,7 @@ Inaktíííííív
 [Join chat]
 Csatlakozás csevegéshez
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Szövegszín
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1211,7 +1211,7 @@ Partner állapotainak megjelenítése, ha a protokoll támogatja
 Minden esemény elõtt legyen idõbélyeg
 [Only prefix with timestamp if it has changed]
 Csak akkor van idõbélyeg, ha az változott
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Az idõbélyegnak és az eseménynek azonos a színe
 [Indent the second line of a message]
 Az üzenet 2. sorának behúzása

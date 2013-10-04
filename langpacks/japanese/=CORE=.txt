@@ -421,11 +421,11 @@ Miranda NG は再起動中です\nお待ちください...
 フォント効果
 [Effect:]
 効果 :
-[Base colour:]
+[Base color:]
 基本色 :
 [opacity:]
 不透明度 :
-[Secondary colour:]
+[Secondary color:]
 第 2 色 :
 [Tray]
 トレイ
@@ -586,9 +586,9 @@ Miranda を非表示
 ユーザーリストの行間隔 ( ピクセル ):
 [Use same style as in the message log]
 メッセージログと同じスタイルを使用
-[Use default colours]
+[Use default colors]
 デフォルト色を使用
-[Use custom colours]
+[Use custom colors]
 カスタム色を使用
 [Popups for the Chat plugin]
 チャットプラグイン用ポップアップ
@@ -781,9 +781,9 @@ Wikipedia
 リスト全体を灰色表示する :
 [Contact List Background]
 コンタクトリストの背景
-[Background colour]
+[Background color]
 背景色
-[Selection colour]
+[Selection color]
 選択色
 [Use background image]
 背景に画像を使用
@@ -799,7 +799,7 @@ Wikipedia
 テキストに合わせてスクロール
 [Stretch proportionally]
 比例して拡大
-[Use Windows colours]
+[Use Windows colors]
 ウィンドウ色を使用
 [Status Bar]
 ステータスバー
@@ -1255,7 +1255,7 @@ SMS テキストメッセージを受信できる電話
 [Open chat window]
 チャットウィンドウを開く
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 テキスト色
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1365,7 +1365,7 @@ SMS テキストメッセージを受信できる電話
 全てのイベントの前にタイムスタンプを表示
 [Only prefix with timestamp if it has changed]
 変更された場合タイムスタンプのみプレフィックス
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 タイムスタンプをイベントと同じ色にする
 [Indent the second line of a message]
 メッセージの２行目をインデントする

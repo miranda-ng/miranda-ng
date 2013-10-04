@@ -379,11 +379,11 @@ Elija eventos que desea ingorar:
 Efecto de la fuente
 [Effect:]
 Efecto:
-[Base colour:]
+[Base color:]
 Base de color:
 [opacity:]
 opacidad:
-[Secondary colour:]
+[Secondary color:]
 Color secundario:
 [&Hide/Show]
 &Mostrar / Ocultar
@@ -532,9 +532,9 @@ Añadir nuevas habitaciones en el grupo:
 Lista Alejado de la fila (píxeles):
 [Use same style as in the message log]
 Utilice el mismo estilo como en el registro de mensajes
-[Use default colours]
+[Use default colors]
 Utilice los colores por defecto
-[Use custom colours]
+[Use custom colors]
 Usar colores personalizados
 [Popups for the Chat plugin]
 Pop-ups para el plugin de chat
@@ -717,11 +717,9 @@ Corrección de gamma
 lista gris de todo cuando:
 [Contact List Background]
 Contacto Lista de fondo
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
-[Selection colour]
+[Selection color]
 Selección de color
 [Use background image]
 Usar imagen de fondo
@@ -739,7 +737,7 @@ Vaya con el texto
 Vaya con el texto
 [Stretch proportionally]
 Estire proporcionalmente
-[Use Windows colours]
+[Use Windows colors]
 Usar colores de Windows
 [Status Bar]
 Barra de estado
@@ -1143,7 +1141,7 @@ Ingreso de chat
 [Open chat window]
 Abrir ventana de chat
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Color del texto
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1247,7 +1245,7 @@ Mostrar icono de estado en contacto antes de icono de función de usuario
 Prefijo de todos los eventos con una marca de tiempo
 [Only prefix with timestamp if it has changed]
 Sólo con el prefijo de marca de tiempo si ha cambiado
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Marca de tiempo del mismo color que tiene el evento
 [Indent the second line of a message]
 indent la segunda línea de un mensaje

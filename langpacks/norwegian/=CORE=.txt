@@ -484,9 +484,9 @@ Legg til nye rom til gruppen
 Brukerliste radavstand (piksler):
 [Use same style as in the message log]
 Bruk samme stil som i samtaleloggen
-[Use default colours]
+[Use default colors]
 Bruk standardfarger
-[Use custom colours]
+[Use custom colors]
 Bruk selvvalgte farger
 [Popups for the Chat plugin]
 Popups for Chat plugin
@@ -681,11 +681,9 @@ Gammakorreksjon
 Grå ut hele listen når:
 [Contact List Background]
 Kontaktliste bakgrunn
-[Background colour]
+[Background color]
 Bakgrunnsfarge
-[Background colour]
-Bakgrunnsfarge
-[Selection colour]
+[Selection color]
 Utvalgsfarge
 [Use background image]
 Bruk bakgrunnsbilde
@@ -701,7 +699,7 @@ Still opp vertikalt
 Rull med tekst
 [Stretch proportionally]
 Strekk proporsjonelt
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
 [Status Bar]
 Statuslinje
@@ -1073,7 +1071,7 @@ chiiiiller'n
 Status
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Tekstfarge
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1179,7 +1177,7 @@ Vis kontaktstatus ikon før brukerrolle ikon
 Vis tidspunkt foran alle hendelser
 [Only prefix with timestamp if it has changed]
 Bare nevn ved tidspunkt hvis det har blitt forandret
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Tidsmerknad har samme farge som hendelsen
 [Indent the second line of a message]
 Rykk inn andre linjen av en melding

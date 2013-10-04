@@ -364,9 +364,9 @@ Nieuwe ruimtes toevoegen aan groep:
 Gebruikerslijst rij afstand (pixels):
 [Use same style as in the message log]
 Dezelfde stijl als in het bericht log gebruiken
-[Use default colours]
+[Use default colors]
 Standaard kleuren gebruiken
-[Use custom colours]
+[Use custom colors]
 Aangepaste kleuren gebruiken
 [Popups for the Chat plugin]
 Popups voor de Chat plugin
@@ -531,9 +531,9 @@ Gamma correctie
 Gehele lijst grijs maken wanneer:
 [Contact List Background]
 Persoon lijst achtergrond
-[Background colour]
+[Background color]
 Achtergrond kleur
-[Selection colour]
+[Selection color]
 Selectie kleur
 [Use background image]
 Achtergrondplaatje gebruiken
@@ -549,7 +549,7 @@ Onder elkaar
 Met tekst scrollen
 [Stretch proportionally]
 Proportioneel uitrekken
-[Use Windows colours]
+[Use Windows colors]
 Windows kleuren gebruiken
 [Status Bar]
 Status balk
@@ -881,7 +881,7 @@ ruuuuustig
 Status
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Tekst kleur
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -977,7 +977,7 @@ Toggle de zichtbaarheidsstatus bij een dubbelklik in de persoon lijst
 Voor alle gebeurtenissen een tijdstempel zetten
 [Only prefix with timestamp if it has changed]
 Alleen een tijdstempel toevoegen als het veranderd is
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Tijdstempel heeft dezelfde kleur als de gebeurtenis
 [Indent the second line of a message]
 De tweede lijn van een bericht inspringen

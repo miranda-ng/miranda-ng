@@ -378,9 +378,9 @@
 רשימת משתמשים מרחק גולמי (פיקסלים):
 [Use same style as in the message log]
 עיצוב דומה כמו ביומן ההודעות
-[Use default colours]
+[Use default colors]
 צבעי ברירת מחדל
-[Use custom colours]
+[Use custom colors]
 צבעים מותאמים אישית
 [Popups for the Chat plugin]
 פופאפים לפלאג הצ'אט
@@ -551,11 +551,9 @@
 האפר את כל הרשימה כש:
 [Contact List Background]
 רקע רשימת אנשי קשר
-[Background colour]
+[Background color]
 צבע רקע
-[Background colour]
-צבע רקע
-[Selection colour]
+[Selection color]
 בחירת צבע
 [Use background image]
 השתמש בתמונת רקע
@@ -571,7 +569,7 @@
 גלול עם טקסט
 [Stretch proportionally]
 מתח פרופורצית
-[Use Windows colours]
+[Use Windows colors]
 השתמש בצבעי חלונות
 [Status Bar]
 שורת מצב
@@ -883,7 +881,7 @@
 מצב
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 צבע טקסט
 ;file \src\core\stdchat\src\log.cpp
 [%s is now known as %s]
@@ -973,7 +971,7 @@
 תקן מראש את כל האירועים עם חותמת זמן
 [Only prefix with timestamp if it has changed]
 תקן מראש עם חותמת זמן רק אם שונה
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 לחותמת זמן יש אותו צבע כמו לאירוע
 [Indent the second line of a message]
 לחתוך את הקו השני של הודעה

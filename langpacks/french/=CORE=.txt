@@ -441,11 +441,11 @@ Choisir l'évènement que vous voulez ignorer :
 
 [Effect:]
 Effet :
-[Base colour:]
+[Base color:]
 Couleur de base :
 [opacity:]
 opacité :
-[Secondary colour:]
+[Secondary color:]
 Couleur secondaire :
 [Select the extra icons to be shown in the contact list:]
 
@@ -614,9 +614,9 @@ Ajouter salons au groupe :
 Écart entre rangs (pixels) :
 [Use same style as in the message log]
 Utiliser même style que la fenêtre
-[Use default colours]
+[Use default colors]
 Couleurs par défaut
-[Use custom colours]
+[Use custom colors]
 Couleurs personnalisées
 [Popups for the Chat plugin]
 Popups pour le plugin Chat
@@ -811,9 +811,9 @@ Correction gamma
 Griser toute la liste quand :
 [Contact List Background]
 Arrière-plan de la liste
-[Background colour]
+[Background color]
 Couleur de fond
-[Selection colour]
+[Selection color]
 Couleur de sélection
 [Use background image]
 Utiliser image de fond
@@ -829,7 +829,7 @@ Paver verticalement
 Défiler avec le texte
 [Stretch proportionally]
 Étirer proportionnellement
-[Use Windows colours]
+[Use Windows colors]
 Utiliser les couleurs Windows
 [Status Bar]
 Barre d'état
@@ -1295,7 +1295,7 @@ Joindre un salon
 [Open chat window]
 
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Couleur du texte
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1411,7 +1411,7 @@ Afficher une icône pour l'état du contact avant l'icône de statut
 Afficher date/heure pour tous les évènements
 [Only prefix with timestamp if it has changed]
 N'afficher l'heure que si elle change
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Date/heure de la même couleur que l'évènement
 [Indent the second line of a message]
 Mettre la deuxième ligne d'un message en retrait

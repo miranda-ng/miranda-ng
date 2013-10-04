@@ -316,7 +316,7 @@ Võimalda kettale logimine
 Logimise kataloog
 [Other]
 Muu
-[Use default colours]
+[Use default colors]
 Kasuta vaikimisi värve
 [Text]
 Tekst
@@ -409,7 +409,7 @@ Rea kõrgus:
 Gamma parandus
 [Contact List Background]
 Kontaktide nimekirja taust
-[Background colour]
+[Background color]
 Taustavärv
 [Use background image]
 Kasuta taustapilti
@@ -677,7 +677,7 @@ Mmm...söök
 Staatus
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Teksti värv
 ;file \src\core\stdchat\src\log.cpp
 ;file \src\core\stdchat\src\options.cpp

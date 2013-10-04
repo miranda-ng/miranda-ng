@@ -413,11 +413,11 @@ Miranda NG 正准备重启. \n请稍候...
 字体特效
 [Effect:]
 特效:
-[Base colour:]
+[Base color:]
 基色:
 [opacity:]
 不透明度:
-[Secondary colour:]
+[Secondary color:]
 辅助色:
 [Select the extra icons to be shown in the contact list:]
 选择的额外图标将显示于联系人列表中:
@@ -576,9 +576,9 @@ Miranda NG 正准备重启. \n请稍候...
 用户列表列间距 (像素): 
 [Use same style as in the message log]
 消息记录使用相同的样式
-[Use default colours]
+[Use default colors]
 使用默认颜色
-[Use custom colours]
+[Use custom colors]
 使用自定颜色
 [Popups for the Chat plugin]
 聊天插件弹出窗口
@@ -769,11 +769,9 @@ Miranda NG 正准备重启. \n请稍候...
 下列清况将整个列表变灰: 
 [Contact List Background]
 联系人列表背景
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
-背景颜色
-[Selection colour]
+[Selection color]
 选择颜色
 [Use background image]
 使用背景图片
@@ -789,7 +787,7 @@ Miranda NG 正准备重启. \n请稍候...
 与文本一起滚动
 [Stretch proportionally]
 按比例拉伸
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
 [Status Bar]
 状态栏
@@ -1241,7 +1239,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Open chat window]
 打开聊天窗口
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 文本颜色
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1357,7 +1355,7 @@ Miranda NG 正准备重启. \n请稍候...
 在所有事件前加上时间戳
 [Only prefix with timestamp if it has changed]
 有变化时才加上时间戳
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 时间戳与事件使用相同的颜色
 [Indent the second line of a message]
 缩排消息第二行

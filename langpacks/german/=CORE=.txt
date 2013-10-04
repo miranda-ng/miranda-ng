@@ -441,11 +441,11 @@ Die folgenden Ereignisse werden ignoriert:
 Texteffekt
 [Effect:]
 Effekt:
-[Base colour:]
+[Base color:]
 Basisfarbe:
 [opacity:]
 Deckkraft:
-[Secondary colour:]
+[Secondary color:]
 Zweite Farbe:
 [Select the extra icons to be shown in the contact list:]
 Wählen Sie die Extraicons aus, welche in der Kontaktliste angezeigt werden sollen:
@@ -614,9 +614,9 @@ Gruppe für neue Räume:
 Vertikaler Abstand Benutzerliste:
 [Use same style as in the message log]
 Selben Stil wie im Verlaufsfenster verwenden
-[Use default colours]
+[Use default colors]
 Standardfarben verwenden
-[Use custom colours]
+[Use custom colors]
 Benutzerdefinierte Farben
 [Popups for the Chat plugin]
 Popups für das Chatplugin
@@ -811,9 +811,9 @@ Gammakorrektur
 Liste grau färben, wenn:
 [Contact List Background]
 Hintergrund der Kontaktliste
-[Background colour]
+[Background color]
 Hintergrundfarbe
-[Selection colour]
+[Selection color]
 Auswahlfarbe
 [Use background image]
 Hintergrundbild verwenden
@@ -829,7 +829,7 @@ Vertikal kacheln
 Mit Text scrollen
 [Stretch proportionally]
 Proportional strecken
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
 [Status Bar]
 Statusleiste
@@ -1295,7 +1295,7 @@ Chat betreten
 [Open chat window]
 Chatfenster öffnen
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Textfarbe
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1411,7 +1411,7 @@ Statusicon vor dem Rangicon anzeigen
 Zeitstempel bei allen Ereignissen
 [Only prefix with timestamp if it has changed]
 Zeitstempel nur bei Änderungen
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Zeitstempel hat die gleiche Farbe wie das Ereignis
 [Indent the second line of a message]
 2. Zeile einer Nachricht einziehen
@@ -2093,6 +2093,8 @@ Nachname
 Benutzername
 [FirstName LastName]
 Vorname Nachname
+[LastName FirstName]
+
 ['(Unknown Contact)' (not moveable)]
 'Unbekannter Kontakt' (nicht verschiebbar)
 ['(Unknown Contact)']

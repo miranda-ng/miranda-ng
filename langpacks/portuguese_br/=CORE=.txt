@@ -7,32 +7,10 @@ Escolha o tipo de protocolo
 Especifique o nome da conta interna (opcional)
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Add %s]
 Adicionar %s
-[&Add]
-&Adicionar
 [&Add]
 &Adicionar
 [&Cancel]
@@ -43,12 +21,6 @@ Enviar pedido de autorização
 Nome personalizado:
 [Group:]
 Grupo:
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Options]
 Opções
 [Authorization Request]
@@ -678,9 +650,9 @@ Adicionar novas salas para o grupo
 Espaçamento da lista de usuários (pixels):
 [Use same style as in the message log]
 Usar estilo igual ao do registro de mensagens
-[Use default colours]
+[Use default colors]
 Usar cores padrão
-[Use custom colours]
+[Use custom colors]
 Usar cores personalizadas
 [Popups for the Chat plugin]
 Popup para o plugin Chat
@@ -869,10 +841,6 @@ Rolar a lista suavemente
 Tempo:
 [milliseconds]
 milisegundos
-[milliseconds]
-Milisegundos
-[milliseconds]
-milissegundos
 [Left margin:]
 Margem esquerda:
 [Hide vertical scroll bar]
@@ -885,37 +853,25 @@ Correção de gama
 Acinzentar lista quando
 [Contact List Background]
 Fundo dos Contatos
-[Background colour]
+[Background color]
 Cor do fundo
-[Selection colour]
+[Selection color]
 Selecionar cor
 [Use background image]
 Usar imagem de fundo
 [Stretch to width]
 Esticar em largura
-[Stretch to width]
-Esticar em largura
-[Stretch to height]
-Esticar em altura
 [Stretch to height]
 Esticar em altura
 [Tile horizontally]
 Título horizontal
-[Tile horizontally]
-Título horizontal
-[Tile vertically]
-Título vertical
 [Tile vertically]
 Título vertical
 [Scroll with text]
 Rolar com texto
-[Scroll with text]
-Rolar com texto
 [Stretch proportionally]
 Esticar proporcionalmente
-[Stretch proportionally]
-Esticar proporcionalmente
-[Use Windows colours]
+[Use Windows colors]
 Usar Janelas coloridas
 [Status Bar]
 Barra de Status
@@ -1371,7 +1327,7 @@ Entrar no bate-papo
 [Join chat]
 Entrar no chat
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Texto colorido
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1503,7 +1459,7 @@ Prefixo de todos os eventos com um timestamp
 Só anteceder com 'timestamp' só se este tiver mudado
 [Only prefix with timestamp if it has changed]
 Apenas prefixo com hora e data, se mudou
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Timestamp tem a mesma cor que o evento
 [Indent the second line of a message]
 Recortar segunda linha de uma mensagem

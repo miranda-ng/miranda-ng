@@ -635,7 +635,7 @@ Correggi la gamma dei colori
 L'intera lista diventa grigia quando:
 [Contact List Background]
 Sfondo lista contatti
-[Background colour]
+[Background color]
 Colore di sfondo
 [Stretch to width]
 Allarga
@@ -649,7 +649,7 @@ Mosaico verticale
 Scorri assieme al testo
 [Stretch proportionally]
 Mantieni le proporzioni
-[Use Windows colours]
+[Use Windows colors]
 Utilizza colori di Windows
 [Status Bar]
 Barra di stato
@@ -997,7 +997,7 @@ Stato
 Stato
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Colore del testo
 ;file \src\core\stdchat\src\log.cpp
 [%s is now known as %s]
