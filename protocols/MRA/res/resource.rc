@@ -96,7 +96,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,151,263,8
     CONTROL         "Send formatted text (send RTF)",IDC_RTF_SEND_ENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,162,263,8
-    LTEXT           "Background colour",IDC_STATIC,112,175,157,8
+    LTEXT           "Background color",IDC_STATIC,112,175,157,8
     PUSHBUTTON      "Font",IDC_BUTTON_FONT,23,173,42,12
     CONTROL         "",IDC_RTF_BGCOLOUR,"ColourPicker",WS_TABSTOP,70,173,38,12
 END

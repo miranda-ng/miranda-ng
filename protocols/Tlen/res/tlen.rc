@@ -179,7 +179,7 @@ BEGIN
     GROUPBOX        "Mail Notification",IDC_STATIC,0,0,304,110
     CONTROL         "Enable incoming mail notification",IDC_ENABLEPOPUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,12,267,10
-    GROUPBOX        "Colours",IDC_STATIC,8,26,140,55
+    GROUPBOX        "Colors",IDC_STATIC,8,26,140,55
     LTEXT           "Background",IDC_STATIC,47,43,95,8
     LTEXT           "Text",IDC_STATIC,47,62,96,8
     CONTROL         "",IDC_COLORBKG,"ColourPicker",WS_TABSTOP,17,41,24,12

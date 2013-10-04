@@ -106,10 +106,10 @@
 
 ; Popup options dialog
 
-[Colours]
-[Background colour]
-[Text colour]
-[&Use Windows colours]
+[Colors]
+[Background color]
+[Text color]
+[&Use Windows colors]
 [Disable receiving Hotmail notifications]
 [Ignore new messages in 'Junk Mail' folder only (at startup)]
 [Timeout (*)]
