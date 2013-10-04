@@ -29,8 +29,8 @@
 [Text indent:]
 [Padding:]
 [Round corners (avatar)]
-[Text colour:]
-[Background colour:]
+[Text color:]
+[Background color:]
 [Set timeout]
 [Timeout value (0 = default):]
 ;file \plugins\YAPP\src\icons.cpp

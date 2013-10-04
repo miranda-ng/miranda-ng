@@ -32,7 +32,7 @@
 [Left-top edge's color:]
 [Right-bottom edge's color:]
 [Background]
-[Background colour:]
+[Background color:]
 [Use background bitmap]
 [Stretch to width]
 [Stretch to height]

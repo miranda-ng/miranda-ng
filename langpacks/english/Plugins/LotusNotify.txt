@@ -9,7 +9,7 @@
 ;file \plugins\LotusNotify\res\LotusNotify.rc
 [Show again if still unread]
 [Show error messages]
-[Set popup colours]
+[Set popup colors]
 [Popup options]
 [Background]
 [Text]

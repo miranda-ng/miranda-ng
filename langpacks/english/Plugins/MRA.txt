@@ -24,7 +24,7 @@
 [Click to Inbox]
 [Show received formatted text (receive RTF)]
 [Send formatted text (send RTF)]
-[Background colour]
+[Background color]
 [Font]
 [Summary]
 [Nickname:]

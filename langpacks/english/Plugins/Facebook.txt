@@ -105,6 +105,7 @@
 [User sent you %s:]
 [Message read: %s by %s]
 [Message read: %s]
+[%s and more (%d)]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 ;file \protocols\FacebookRM\src\process.cpp

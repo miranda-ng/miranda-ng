@@ -24,7 +24,7 @@
 [Sec]
 [0 = Default]
 [-1 = Infinite]
-[Colours]
+[Colors]
 [Background]
 [Use default]
 [Text]

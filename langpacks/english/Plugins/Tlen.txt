@@ -37,7 +37,7 @@
 [Proxy requires authorization]
 [Mail Notification]
 [Enable incoming mail notification]
-[Colours]
+[Colors]
 [Background]
 [Text]
 [Delay]

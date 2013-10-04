@@ -94,7 +94,7 @@
 [&Use Windows colors]
 [Use system &icons]
 [Previe&w]
-[Use default colours]
+[Use default colors]
 [UIN:]
 [External IP:]
 [Internal IP:]

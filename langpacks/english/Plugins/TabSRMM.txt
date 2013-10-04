@@ -252,8 +252,8 @@
 [...is &typing]
 [...stopped t&yping]
 [Back]
-[U&se Popup colours]
-[&Use Windows colours]
+[U&se Popup colors]
+[&Use Windows colors]
 [Only &one popup for each contact]
 [Show &entry in the main menu]
 [...is typing]
@@ -745,7 +745,7 @@
 [Font face]
 [Font color]
 [Format strike-through]
-[Background colour]
+[Background color]
 [Room settings]
 [Event filter]
 [Nick list]
@@ -944,7 +944,6 @@
 [Open chat window]
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
-[Background color]
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 [You have joined %s]

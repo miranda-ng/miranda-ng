@@ -8,8 +8,8 @@
 [Displays contacts, event notifications, protocol status with MW modifications.]
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
-[Background colour:]
-[Selection colour:]
+[Background color:]
+[Selection color:]
 [Use background bitmap]
 [Stretch to width]
 [Stretch to height]
