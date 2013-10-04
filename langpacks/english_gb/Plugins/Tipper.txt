@@ -1,0 +1,25 @@
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
+;file \plugins\TipperYM\res\resource.rc
+[Load fonts and colors]
+Load fonts and colours
+[Enable skin coloring]
+Enable skin colouring
+;file \plugins\TipperYM\src\mir_smileys.cpp
+;file \plugins\TipperYM\src\options.cpp
+[Customize]
+Customise
+;file \plugins\TipperYM\src\options.h
+;file \plugins\TipperYM\src\popwin.cpp
+;file \plugins\TipperYM\src\preset_items.cpp
+;file \plugins\TipperYM\src\skin_parser.cpp
+[# Solid color fill]
+# Solid colour fill
+;file \plugins\TipperYM\src\tipper.cpp
+;file \plugins\TipperYM\src\translations.cpp
+;file \plugins\TipperYM\src\translations.h

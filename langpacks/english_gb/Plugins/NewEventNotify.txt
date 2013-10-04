@@ -1,0 +1,14 @@
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+;file \plugins\NewEventNotify\res\resource.rc
+;file \plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\neweventnotify.h
+;file \plugins\NewEventNotify\src\options.cpp
+;file \plugins\NewEventNotify\src\popup.cpp
+[ requested authorization]
+ requested authorisation

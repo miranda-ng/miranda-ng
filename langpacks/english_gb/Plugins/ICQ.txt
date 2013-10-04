@@ -1,0 +1,80 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: IcqOscarJ Protocol
+;  Version: 0.11.0.1
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
+;============================================================
+;file \protocols\IcqOscarJ\res\resources.rc
+[Enter an authorization request]
+Enter an authorisation request
+[Allow direct connections only when I authorize or initiate them]
+Allow direct connections only when I authorise or initiate them
+[Contact List Authorization]
+Contact List Authorisation
+[Back Color]
+Back Colour
+[Text Color]
+Text Colour
+[&Use Windows colors]
+&Use Windows colours
+[Synchronize]
+Synchronise
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+[Contact "%s" was authorized in the server list.]
+Contact "%s" was authorised in the server list.
+[Contact "%s" lost its authorization in the server list.]
+Contact "%s" lost its authorisation in the server list.
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
+Are you sure you want to revoke user's authorisation (this will remove you from his/her list on some clients) ?
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+;file \protocols\IcqOscarJ\src\icq_constants.h
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Past Organization]
+Past Organisation
+[Non-Profit Organization Management]
+Non-Profit Organisation Management
+[Non-Government Organization]
+Non-Government Organisation
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+Request authorisation
+[Grant authorization]
+Grant authorisation
+[Revoke authorization]
+Revoke authorisation
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[You have to be online to sychronize the server-list !]
+You have to be online to sychronise the server-list !
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+;file \protocols\IcqOscarJ\src\init.cpp
+;file \protocols\IcqOscarJ\src\log.cpp
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[Failed to Initialize File Transfer. No valid files were specified.]
+Failed to Initialise File Transfer. No valid files were specified.
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+Failed to Initialise File Transfer. Unable to bind local port and File proxy unavailable.
+;file \protocols\IcqOscarJ\src\utilities.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
+;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+Please authorise me to add you to my contact list.
+;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
+;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp

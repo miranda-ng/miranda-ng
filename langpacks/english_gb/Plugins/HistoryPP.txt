@@ -1,0 +1,33 @@
+﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: historypp.dll
+;  Module: History++ (Unicode + ANSI)
+;  Versions: 1.5.1.4
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2995
+;  Source: http://historypp.googlecode.com/svn/historypp/trunk
+;  Authors: theMIROn
+;============================================================
+[Customize Filters]
+Customise Filters
+[Customize Toolbar]
+Customise Toolbar
+[&Customize...]
+&Customise...
+[Authorization request granted by %s (%d): %s]
+Authorisation request granted by %s (%d): %s
+[Authorization request denied by %s (%d): %s]
+Authorisation request denied by %s (%d): %s
+[Authorization future request by %s (%d): %s]
+Authorisation future request by %s (%d): %s
+[FontService is installed. Go to Customize -> Fonts to change settings.]
+FontService is installed. Go to Customise -> Fonts to change settings.
+[IcoLib is installed. Go to Customize -> Icons to change icons.]
+IcoLib is installed. Go to Customise -> Icons to change icons.
+[Customize %s]
+Customise %s
+[Customize the look of %s Event. Select it's font, font color and background color.]
+Customise the look of %s Event. Select it's font, font colour and background colour.
+[Date Font Color]
+Date Font Colour
+[Nick Font Color]
+Nick Font Colour

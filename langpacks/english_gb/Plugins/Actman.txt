@@ -1,0 +1,12 @@
+﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: actman.dll
+;  Plugin: Action Manager
+;  Versions: 0.2.0.1
+;  URL: 
+;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
+;  Authors: Awkward
+;============================================================
+[Start maximized]
+Start maximised
+;other strings

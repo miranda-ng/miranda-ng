@@ -1,0 +1,164 @@
+﻿;file \src\resource.rc
+[Send authorization request]
+Send authorisation request
+[Authorization Request]
+Authorisation Request
+[Fonts and Colors]
+Fonts and Colours
+[Color/Background]
+Colour/Background
+[Text Color]
+Text Colour
+[&Color:]
+&Colour:
+[Base color:]
+Base colour:
+[Secondary color:]
+Secondary colour:
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&Authorise
+[Add to contact list if authorized]
+Add to contact list if authorised
+;file \src\core\stdaway\resource.rc
+;file \src\core\stdchat\res\chat.rc
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
+;file \src\core\stdclist\res\resource.rc
+[Minimize to tray]
+Minimise to tray
+[Background color]
+Background colour
+[Selection color]
+Selection colour
+[Use Windows colors]
+Use Windows colours
+;file \src\core\stdfile\resource.rc
+[Minimize the file transfer window]
+Minimise the file transfer window
+;file \src\core\stdhelp\resource.rc
+;file \src\core\stdidle\resource.rc
+;file \src\core\stdmsg\res\resource.rc
+[Minimize the message window on send]
+Minimise the message window on send
+;file \src\core\stduihist\resource.rc
+;file \src\core\stduserinfo\resource.rc
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s requests authorisation
+[%u requests authorization]
+%u requests authorisation
+[Authorization request]
+Authorisation request
+;file \src\core\stdauth\authdialogs.cpp
+[%s requested authorization\n%u (%s) on %s]
+%s requested authorisation\n%u (%s) on %s
+[%s requested authorization\n%u on %s]
+%s requested authorisation\n%u on %s
+[%s requested authorization\n%s on %s]
+%s requested authorisation\n%s on %s
+;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
+[Text color]
+Text colour
+;file \src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\options.cpp
+[Timestamp has same color as the event]
+Timestamp has same colour as the event
+[Strip colors from messages in the log]
+Strip colours from messages in the log
+;file \src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+[Make the text italicized (CTRL+I)]
+Make the text italicised (CTRL+I)
+[Select a background color for the text (CTRL+L)]
+Select a background colour for the text (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Select a foreground colour for the text (CTRL+K)
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdemail\email.cpp
+;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\help.cpp
+;file \src\core\stdidle\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stduihist\history.cpp
+;file \src\core\stdurl\url.cpp
+;file \src\core\stdurl\urldialogs.cpp
+;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduseronline\useronline.cpp
+;file \src\modules\addcontact\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Please authorise my request and add me to your contact list.
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+;file \src\modules\clist\clistmod.cpp
+;file \src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+;file \src\modules\clist\contacts.cpp
+[LastName FirstName]
+FirstName LastName
+;file \src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenuopt.cpp
+[Customize]
+Customise
+;file \src\modules\clist\groups.cpp
+;file \src\modules\clist\keyboard.cpp
+;file \src\modules\clist\movetogroup.cpp
+;file \src\modules\database\database.cpp
+;file \src\modules\database\dbini.cpp
+;file \src\modules\database\profilemanager.cpp
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\options_ei.cpp
+;file \src\modules\findadd\findadd.cpp
+;file \src\modules\findadd\searchresults.cpp
+;file \src\modules\fonts\FontOptions.cpp
+[Fonts & Colors]
+Fonts & Colours
+;file \src\modules\fonts\FontService.cpp
+;file \src\modules\icolib\skin2opts.cpp
+;file \src\modules\ignore\ignore.cpp
+;file \src\modules\netlib\netliblog.cpp
+;file \src\modules\netlib\netlibopts.cpp
+;file \src\modules\netlib\netlibssl.cpp
+;file \src\modules\options\options.cpp
+;file \src\modules\plugins\newplugins.cpp
+;file \src\modules\plugins\pluginopts.cpp
+;file \src\modules\protocols\protoopts.cpp
+;file \src\modules\skin\hotkey_opts.cpp
+;file \src\modules\skin\skinicons.cpp
+[Request authorization]
+Request authorisation
+[Grant authorization]
+Grant authorisation
+[Revoke authorization]
+Revoke authorisation
+;file \src\modules\skin\sounds.cpp
+;file \src\modules\utils\bmpfilter.cpp
+;file \src\modules\utils\timezones.cpp
+;file \src\modules\utils\utils.cpp
+;file \src\modules\visibility\visibility.cpp

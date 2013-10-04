@@ -1,0 +1,30 @@
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.8
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+;file \plugins\Popup\res\resource.rc
+[Go to Customize > Fonts && Colors for fonts and colors options]
+Go to Customise > Fonts && Colours for fonts and colours options
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Colours can be configured in\r\nCustomise > Fonts && Colours
+;file \plugins\Popup\src\actions.cpp
+;file \plugins\Popup\src\config.cpp
+;file \plugins\Popup\src\effects.cpp
+;file \plugins\Popup\src\font.cpp
+;file \plugins\Popup\src\history.cpp
+;file \plugins\Popup\src\icons.cpp
+[Favorite Contact]
+Favourite Contact
+;file \plugins\Popup\src\main.cpp
+;file \plugins\Popup\src\opt_adv.cpp
+;file \plugins\Popup\src\opt_class.cpp
+;file \plugins\Popup\src\opt_gen.cpp
+;file \plugins\Popup\src\opt_skins.cpp
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\srmm_menu.cpp

@@ -1,0 +1,15 @@
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.45
+;  Authors: P Boon
+;============================================================
+;file \Plugins\StatusPlugins\resource.rc
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[Minimized]
+Minimised
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

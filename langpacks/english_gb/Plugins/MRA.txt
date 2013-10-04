@@ -1,0 +1,44 @@
+﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: 2.1.0.5
+;  Authors: Ivan Rozhuk
+;============================================================
+;file \protocols\MRA\res\resource.rc
+[Automatically request authorization on logon]
+Automatically request authorisation on logon
+[Automatically grant authorization to users in contact list]
+Automatically grant authorisation to users in contact list
+[Automatically grant authorization to new users]
+Automatically grant authorisation to new users
+[&Use Windows colors]
+&Use Windows colours
+[Back Color]
+Back Colour
+[Text Color]
+Text Colour
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+;file \protocols\MRA\src\MraAvatars.cpp
+;file \protocols\MRA\src\MraChat.cpp
+;file \protocols\MRA\src\MraConstans.h
+[Request authorization for all]
+Request authorisation for all
+[Request authorization]
+Request authorisation
+[Grant authorization]
+Grant authorisation
+[Not authorized]
+Not authorised
+[Please authorize me]
+Please authorise me
+;file \protocols\MRA\src\MraFilesQueue.cpp
+;file \protocols\MRA\src\MraIcons.cpp
+;file \protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraProto.cpp
+;file \protocols\MRA\src\Mra_functions.cpp
+;file \protocols\MRA\src\Mra_options.cpp
+;file \protocols\MRA\src\Mra_proto.cpp
+[Server error: can't get MPOP key for web authorize]
+Server error: can't get MPOP key for web authorise
+;file \protocols\MRA\src\Mra_svcs.cpp

@@ -1,0 +1,24 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN Protocol
+;  Version: 0.11.0.2
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[Send message font color/size info inside messages]
+Send message font colour/size info inside messages
+;file \protocols\MSN\src\msn_chat.cpp
+;file \protocols\MSN\src\msn_commands.cpp
+;file \protocols\MSN\src\msn_errors.cpp
+;file \protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_mail.cpp
+;file \protocols\MSN\src\msn_menu.cpp
+;file \protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+;file \protocols\MSN\src\msn_p2p.cpp
+;file \protocols\MSN\src\msn_proto.cpp
+;file \protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_ws.cpp

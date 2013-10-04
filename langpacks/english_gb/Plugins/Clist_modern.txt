@@ -1,0 +1,39 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+;file \plugins\Clist_modern\res\resource.rc
+[Use Windows Colors]
+Use Windows Colours
+[Minimize to tray]
+Minimise to tray
+[Border color:]
+Border colour:
+;file \plugins\Clist_modern\src\modern_clc.cpp
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Center group names]
+Centre group names
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[Center]
+Centre
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Minimize]
+Minimise
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp

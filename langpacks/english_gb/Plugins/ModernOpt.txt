@@ -1,0 +1,13 @@
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+;file \plugins\ModernOpt\res\resource.rc
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Miranda NG configuration center]
+Miranda NG configuration centre
+[Customize look&&feel of your chat windows here.]
+Customise look&&feel of your chat windows here.

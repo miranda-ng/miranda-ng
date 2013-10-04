@@ -1,0 +1,19 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+;file \plugins\YAMN\src\main.cpp
+;file \plugins\YAMN\src\main.h
+;file \plugins\YAMN\src\services.cpp
+;file \plugins\YAMN\src\browser\badconnect.cpp
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+;file \plugins\YAMN\src\mails\mime.cpp
+;file \plugins\YAMN\src\proto\netlib.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+[Server does not support APOP authorization.]
+Server does not support APOP authorisation.
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp

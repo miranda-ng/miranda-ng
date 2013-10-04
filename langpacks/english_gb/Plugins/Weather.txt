@@ -1,0 +1,26 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \plugins\Weather\res\resource.rc
+;file \plugins\Weather\src\weather.cpp
+;file \plugins\Weather\src\weather.h
+[HTTP Error: Unauthorized (401)]
+HTTP Error: Unauthorised (401)
+;file \plugins\Weather\src\weather_addstn.cpp
+;file \plugins\Weather\src\weather_contacts.cpp
+;file \plugins\Weather\src\weather_conv.cpp
+;file \plugins\Weather\src\weather_data.cpp
+;file \plugins\Weather\src\weather_http.cpp
+;file \plugins\Weather\src\weather_icons.cpp
+;file \plugins\Weather\src\weather_info.cpp
+;file \plugins\Weather\src\weather_ini.cpp
+;file \plugins\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_opt.cpp
+;file \plugins\Weather\src\weather_popup.cpp
+;file \plugins\Weather\src\weather_svcs.cpp
+;file \plugins\Weather\src\weather_update.cpp
+;file \plugins\Weather\src\weather_userinfo.cpp

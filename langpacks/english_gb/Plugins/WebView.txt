@@ -1,0 +1,27 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+;file \plugins\WebView\res\webview.rc
+[Background Color:]
+Background Colour:
+[Text Color:]
+Text Colour:
+[Colors]
+Colours
+[Use Custom Colors]
+Use Custom Colours
+[Use Windows Colors]
+Use Windows Colours
+[Use Same Colors As Data Window]
+Use Same Colours As Data Window
+;file \plugins\WebView\src\main.cpp
+;file \plugins\WebView\src\webview.cpp
+;file \plugins\WebView\src\webview_alerts.cpp
+;file \plugins\WebView\src\webview_datawnd.cpp
+;file \plugins\WebView\src\webview_getdata.cpp
+;file \plugins\WebView\src\webview_opts.cpp
+;file \plugins\WebView\src\webview_services.cpp

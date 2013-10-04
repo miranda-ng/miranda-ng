@@ -1,0 +1,19 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+;file \plugins\SeenPlugin\res\resource.rc
+[Popup Colors]
+Popup Colours
+[Reset colors]
+Reset colours
+;file \plugins\SeenPlugin\src\history.cpp
+;file \plugins\SeenPlugin\src\main.cpp
+;file \plugins\SeenPlugin\src\menu.cpp
+;file \plugins\SeenPlugin\src\options.cpp
+;file \plugins\SeenPlugin\src\seen.h
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp

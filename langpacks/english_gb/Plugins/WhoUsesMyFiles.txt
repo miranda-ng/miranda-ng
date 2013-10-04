@@ -1,0 +1,22 @@
+﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.2
+;  Authors: Nikolay Redko
+;============================================================
+;file \plugins\WhoUsesMyFiles\res\resource.rc
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Popup color settings]
+Popup colour settings
+[Use windows colors]
+Use windows colours
+[Use default Popup colors]
+Use default Popup colours
+[Choose colors]
+Choose colours
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

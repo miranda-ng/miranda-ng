@@ -1,0 +1,25 @@
+﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
+;file \protocols\AimOscar\res\aim.rc
+;file \protocols\AimOscar\src\avatars.cpp
+;file \protocols\AimOscar\src\chat.cpp
+;file \protocols\AimOscar\src\error.cpp
+;file \protocols\AimOscar\src\file.cpp
+;file \protocols\AimOscar\src\links.cpp
+;file \protocols\AimOscar\src\popup.cpp
+;file \protocols\AimOscar\src\proto.cpp
+;file \protocols\AimOscar\src\server.cpp
+[Cannot add this buddy because it requires authorization.]
+Cannot add this buddy because it requires authorisation.
+;file \protocols\AimOscar\src\theme.cpp
+[Foreground Color]
+Foreground Colour
+[Background Color]
+Background Colour
+;file \protocols\AimOscar\src\ui.cpp
+;file \protocols\AimOscar\src\utility.cpp

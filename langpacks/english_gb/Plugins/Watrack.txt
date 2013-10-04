@@ -1,0 +1,29 @@
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: watrack.dll
+;  Module: Winamp Track |Unicode aware|
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;============================================================
+[Center horizontally]
+Centre horizontally
+[Center vertically]
+Centre vertically
+[Color codes]
+Colour codes
+[Align text to center]
+Align text to centre
+[Default colors]
+Default colours
+[Windows colors]
+Windows colours
+[Custom colors]
+Custom colours
+[Color]
+Colour
+;file \plugins\Watrack\myshows\myshows.rc
+;file \plugins\Watrack\lastfm\i_last_api.inc
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+;file \plugins\Watrack\proto\proto.pas
+;other strings
+[WATrack status]WATrack status

@@ -1,0 +1,14 @@
+﻿#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.0
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+;file \plugins\StopSpamMod\res\stopspam.rc
+[Automatically grant authorization]
+Automatically grant authorisation
+[Request authorization from contacts which pass stopspam test]
+Request authorisation from contacts which pass stopspam test
+;file \plugins\StopSpamMod\src\init.cpp
+;file \plugins\StopSpamMod\src\options.cpp

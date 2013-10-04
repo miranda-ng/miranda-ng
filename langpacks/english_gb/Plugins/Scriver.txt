@@ -1,0 +1,45 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+;file \plugins\Scriver\res\resource.rc
+[and stay minimized]
+and stay minimised
+[Minimize on send]
+Minimise on send
+[Customize fonts and colors]
+Customise fonts and colours
+;file \plugins\Scriver\src\globals.cpp
+;file \plugins\Scriver\src\input.cpp
+[Window: Minimize]
+Window: Minimise
+;file \plugins\Scriver\src\msgdialog.cpp
+;file \plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
+;file \plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
+;file \plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+[Strip colors from messages]
+Strip colours from messages
+;file \plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\window.cpp
+[Text color]
+Text colour
+[Background color]
+Background colour
+[Make the text italicized (CTRL+I)]
+Make the text italicised (CTRL+I)
+[Select a background color for the text (CTRL+L)]
+Select a background colour for the text (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Select a foreground colour for the text (CTRL+K)

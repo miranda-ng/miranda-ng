@@ -1,0 +1,19 @@
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+;file \protocols\Twitter\res\twitter.rc
+[Colors]
+Colours
+[Use Windows colors]
+Use Windows colours
+[Use Popup colors]
+Use Popup colours
+[Use custom colors]
+Use custom colours
+;file \protocols\Twitter\src\connection.cpp
+;file \protocols\Twitter\src\proto.cpp
+;file \protocols\Twitter\src\theme.cpp

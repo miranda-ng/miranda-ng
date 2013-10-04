@@ -1,0 +1,22 @@
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+;file \plugins\SecureIM\res\resource.rc
+[Key agreement colors]
+Key agreement colours
+[Secure connection colors]
+Secure connection colours
+[Send/Receive encrypted colors]
+Send/Receive encrypted colours
+[SecureIM Popup Colors]
+SecureIM Popup Colours
+;file \plugins\SecureIM\src\language.cpp
+;file \plugins\SecureIM\src\loadicons.cpp
+;file \plugins\SecureIM\src\main.cpp
+;file \plugins\SecureIM\src\options.cpp
+;file \plugins\SecureIM\src\popupOptions.cpp
+;file \plugins\SecureIM\src\svcs_srmm.cpp
