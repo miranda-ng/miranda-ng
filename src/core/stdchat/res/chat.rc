@@ -202,9 +202,9 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Use same style as in the message log",IDC_RADIO1,"Button",
 					BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,33,29,225,10
-    CONTROL         "Use default colours",IDC_RADIO2,"Button",
+    CONTROL         "Use default colors",IDC_RADIO2,"Button",
 					BS_AUTORADIOBUTTON,33,62,217,10
-    CONTROL         "Use custom colours",IDC_RADIO3,"Button",
+    CONTROL         "Use custom colors",IDC_RADIO3,"Button",
 					BS_AUTORADIOBUTTON,33,95,105,10
     CONTROL         "Custom1",IDC_TEXT,"ColourPicker",WS_TABSTOP,141,93,50,
 					14,0x18000000L

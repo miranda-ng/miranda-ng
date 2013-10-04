@@ -112,7 +112,7 @@ static const struct branch_t branch1[] = {
 static const struct branch_t branch2[] = {
 	{ LPGENT("Prefix all events with a timestamp"), "ShowTimeStamp", 0,1},
 	{ LPGENT("Only prefix with timestamp if it has changed"), "ShowTimeStampIfChanged", 0,0},
-	{ LPGENT("Timestamp has same colour as the event"), "TimeStampEventColour", 0,0},
+	{ LPGENT("Timestamp has same color as the event"), "TimeStampEventColour", 0,0},
 	{ LPGENT("Indent the second line of a message"), "LogIndentEnabled", 0,1},
 	{ LPGENT("Limit user names in the message log to 20 characters"), "LogLimitNames", 0,1},
 	{ LPGENT("Add \':\' to auto-completed user names"), "AddColonToAutoComplete", 0, 1},
@@ -429,8 +429,8 @@ void RegisterFonts( void )
 static IconItem iconList[] =
 {
 	{ LPGEN("Window Icon"),           "chat_window",           IDI_CHANMGR,     0 },
-	{ LPGEN("Text colour"),           "chat_fgcol",            IDI_COLOR,       0 },
-	{ LPGEN("Background colour"),     "chat_bkgcol",           IDI_BKGCOLOR,    0 },
+	{ LPGEN("Text color"),            "chat_fgcol",            IDI_COLOR,       0 },
+	{ LPGEN("Background color"),      "chat_bkgcol",           IDI_BKGCOLOR,    0 },
 	{ LPGEN("Bold"),                  "chat_bold",             IDI_BBOLD,       0 },
 	{ LPGEN("Italics"),               "chat_italics",          IDI_BITALICS,    0 },
 	{ LPGEN("Underlined"),            "chat_underline",        IDI_BUNDERLINE,  0 },

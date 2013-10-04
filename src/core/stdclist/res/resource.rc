@@ -181,9 +181,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Contact List Background",IDC_STATIC,4,4,227,146
-    LTEXT           "Background colour",IDC_STATIC,59,35,72,8,NOT WS_GROUP
+    LTEXT           "Background color",IDC_STATIC,59,35,72,8,NOT WS_GROUP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,22,35,32,10
-    LTEXT           "Selection colour",IDC_STATIC,59,51,72,8
+    LTEXT           "Selection color",IDC_STATIC,59,51,72,8
     CONTROL         "",IDC_SELCOLOUR,"ColourPicker",WS_TABSTOP,22,51,32,10
     CONTROL         "Use background image",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,70,161,10
     EDITTEXT        IDC_FILENAME,22,88,184,12,ES_AUTOHSCROLL
@@ -194,7 +194,7 @@ BEGIN
     CONTROL         "Tile vertically",IDC_TILEV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,118,101,10
     CONTROL         "Scroll with text",IDC_SCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,131,100,10
     CONTROL         "Stretch proportionally",IDC_PROPORTIONAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,131,101,10
-    CONTROL         "Use Windows colours",IDC_WINCOLOUR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,20,156,10
+    CONTROL         "Use Windows colors",IDC_WINCOLOUR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,20,156,10
 END
 
 IDD_OPT_SBAR DIALOGEX 0, 0, 203, 212
@@ -310,9 +310,9 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Background colour",IDC_STATIC,57,28,72,8,NOT WS_GROUP
+    LTEXT           "Background color",IDC_STATIC,57,28,72,8,NOT WS_GROUP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,20,28,32,10
-    LTEXT           "Selection colour",IDC_STATIC,57,44,72,8
+    LTEXT           "Selection color",IDC_STATIC,57,44,72,8
     CONTROL         "",IDC_SELCOLOUR,"ColourPicker",WS_TABSTOP,20,44,32,10
     CONTROL         "Use background image",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,63,161,10
     EDITTEXT        IDC_FILENAME,20,79,184,12,ES_AUTOHSCROLL
@@ -323,7 +323,7 @@ BEGIN
     CONTROL         "Tile vertically",IDC_TILEV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,109,101,10
     CONTROL         "Scroll with text",IDC_SCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,122,100,10
     CONTROL         "Stretch proportionally",IDC_PROPORTIONAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,122,101,10
-    CONTROL         "Use Windows colours",IDC_WINCOLOUR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,156,10
+    CONTROL         "Use Windows colors",IDC_WINCOLOUR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,156,10
     LTEXT           "Contact list background:",IDC_TXT_TITLE1,1,0,230,8
 END
 
