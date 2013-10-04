@@ -55,7 +55,7 @@ struct FontOptionsList
 #define CLCGROUP			LPGENT("Contact List")_T("/")LPGENT("Contact names")
 #define CLCLINESGROUP		LPGENT("Contact List")_T("/")LPGENT("Row Items")
 #define CLCFRAMESGROUP		LPGENT("Contact List")_T("/")LPGENT("Frame texts")
-#define CLCCOLOURSGROUP     LPGENT("Contact List")_T("/")LPGENT("Special colours")
+#define CLCCOLOURSGROUP     LPGENT("Contact List")_T("/")LPGENT("Special colors")
 
 #define DEFAULT_COLOUR		RGB(0, 0, 0)
 #define DEFAULT_GREYCOLOUR	RGB(128, 128, 128)
@@ -119,7 +119,7 @@ static struct ColourOptionsList colourOptionsList[] = {
 	{ "Menu",			"SelTextColour",	  CLCCOLOURSGROUP,      LPGENT("Selected menu text"),							CLCDEFAULT_MODERN_SELTEXTCOLOUR},
 	{ "FrameTitleBar",	"TextColour",		  CLCCOLOURSGROUP,      LPGENT("Frame title text"),							CLCDEFAULT_TEXTCOLOUR },
 	{ "StatusBar",		"TextColour",		  CLCCOLOURSGROUP,      LPGENT("Statusbar text"),								CLCDEFAULT_TEXTCOLOUR},
-	{ "ModernSettings", "KeyColor",			  CLCCOLOURSGROUP,      LPGENT("3rd party frames transparent back colour"),	SETTING_KEYCOLOR_DEFAULT},
+	{ "ModernSettings", "KeyColor",			  CLCCOLOURSGROUP,      LPGENT("3rd party frames transparent back color"),	SETTING_KEYCOLOR_DEFAULT},
 
 };
 

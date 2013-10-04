@@ -194,13 +194,13 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Popup Window Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Colours",IDC_STATIC,7,7,149,82,WS_GROUP
-    CONTROL         "Use default colours",IDC_RADIO_DEFAULT_COLOURS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,15,20,82,10
-    CONTROL         "Use user-defined colours",IDC_RADIO_USER_DEFINED_COLOURS,
+    GROUPBOX        "Colors",IDC_STATIC,7,7,149,82,WS_GROUP
+    CONTROL         "Use default colors",IDC_RADIO_DEFAULT_COLOURS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,15,20,82,10
+    CONTROL         "Use user-defined colors",IDC_RADIO_USER_DEFINED_COLOURS,
                     "Button",BS_AUTORADIOBUTTON,15,34,97,10
-    LTEXT           "Background colour",IDC_STATIC,70,53,66,8
+    LTEXT           "Background color",IDC_STATIC,70,53,66,8
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,26,49,35,14
-    LTEXT           "Text colour",IDC_STATIC,70,71,66,8
+    LTEXT           "Text color",IDC_STATIC,70,71,66,8
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,26,67,35,14
     GROUPBOX        "Delay",IDC_STATIC,162,6,149,82,WS_GROUP
     CONTROL         "From Popup plugin",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,174,20,76,10

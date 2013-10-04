@@ -181,12 +181,12 @@ IDD_POPUP_OPTION_FORM DIALOGEX 0, 0, 188, 126
 STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Colours",IDC_GROUP_COLOURS,2,2,91,72,WS_GROUP
-    CONTROL         "Popup colours",IDC_RADIO_COLOURS_POPUP,"Button",
+    GROUPBOX        "Colors",IDC_GROUP_COLOURS,2,2,91,72,WS_GROUP
+    CONTROL         "Popup colors",IDC_RADIO_COLOURS_POPUP,"Button",
                     BS_AUTORADIOBUTTON,6,12,82,10
-    CONTROL         "Windows colours",IDC_RADIO_COLOURS_WINDOWS,"Button",
+    CONTROL         "Windows colors",IDC_RADIO_COLOURS_WINDOWS,"Button",
                     BS_AUTORADIOBUTTON,6,23,82,10
-    CONTROL         "Custom colours",IDC_RADIO_COLOURS_CUSTOM,"Button",
+    CONTROL         "Custom colors",IDC_RADIO_COLOURS_CUSTOM,"Button",
                     BS_AUTORADIOBUTTON,6,34,82,10
     CTEXT           "Back",IDC_STATIC,8,46,39,8
     CONTROL         "Custom1",IDC_CUSTOM_BACK,"ColourPicker",WS_TABSTOP,12,

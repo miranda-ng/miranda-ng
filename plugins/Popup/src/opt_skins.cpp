@@ -206,7 +206,7 @@ static LPTSTR mainOption [] = {
 	LPGENT("Drop shadow effect"),
 	LPGENT("Drop shadow effect")_T("/")LPGENT("non rectangular"),
 	LPGENT("Enable Aero Glass (Vista+)"),
-	LPGENT("Use Windows colours"),
+	LPGENT("Use Windows colors"),
 	LPGENT("Use advanced text render")};
 
 int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions)

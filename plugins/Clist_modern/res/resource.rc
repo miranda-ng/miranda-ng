@@ -125,9 +125,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Settings",IDC_STATIC,4,21,226,152
-    LTEXT           "Background colour:",IDC_BC_STATIC,12,48,72,8,NOT WS_GROUP
+    LTEXT           "Background color:",IDC_BC_STATIC,12,48,72,8,NOT WS_GROUP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,84,47,32,10
-    LTEXT           "Selection colour:",IDC_SC_STATIC,12,64,72,8
+    LTEXT           "Selection color:",IDC_SC_STATIC,12,64,72,8
     CONTROL         "",IDC_SELCOLOUR,"ColourPicker",WS_TABSTOP,84,63,32,10
     CONTROL         "Use background bitmap",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,81,161,10
     EDITTEXT        IDC_FILENAME,22,95,184,12,ES_AUTOHSCROLL
@@ -174,7 +174,7 @@ BEGIN
     GROUPBOX        "Object properties",IDC_GROUP_1,127,6,178,49,WS_GROUP
     LTEXT           "Type",IDC_STATIC,136,18,29,11,NOT WS_GROUP
     COMBOBOX        IDC_TYPE,168,16,133,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Colour",IDC_ST_COLOUR,136,38,29,11
+    LTEXT           "Color",IDC_ST_COLOUR,136,38,29,11
     CONTROL         "",IDC_COLOR,"ColourPicker",WS_TABSTOP,168,37,41,12
     LTEXT           "Alpha",IDC_ST_ALPHA,222,38,33,11
     EDITTEXT        IDC_EDIT_ALPHA,261,37,40,12,ES_NUMBER

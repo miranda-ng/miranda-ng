@@ -22,7 +22,7 @@ EXSTYLE WS_EX_WINDOWEDGE
 FONT 8, "Ms Shell Dlg", 400, 0, 1
 {
 
-    AUTOCHECKBOX    "Set popup colours", IDC_SETCOLOURS, 20, 174, 132, 10, WS_GROUP | BS_PUSHLIKE
+    AUTOCHECKBOX    "Set popup colors", IDC_SETCOLOURS, 20, 174, 132, 10, WS_GROUP | BS_PUSHLIKE
     CONTROL         "Custom1", IDC_BGCOLOR, "ColourPicker", 0x50030000, 18, 185, 10, 10
     CONTROL         "Custom1", IDC_FGCOLOR, "ColourPicker", 0x50030000, 78, 185, 10, 9
     GROUPBOX        "Popup options", IDC_STATIC, 10, 164, 187, 52, WS_GROUP

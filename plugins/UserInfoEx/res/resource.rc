@@ -216,13 +216,13 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Birthday popup colours",IDC_STATIC,25,55,125,73,WS_GROUP
+    GROUPBOX        "Birthday popup colors",IDC_STATIC,25,55,125,73,WS_GROUP
     CONTROL         "r",CLR_BBACK,"ColourPicker",WS_TABSTOP,32,69,29,12
-    LTEXT           "Background colour",TXT_OPT_POPUP_CLR_BACK,67,70,80,8
+    LTEXT           "Background color",TXT_OPT_POPUP_CLR_BACK,67,70,80,8
     CONTROL         "",CLR_BTEXT,"ColourPicker",WS_TABSTOP,32,84,29,13
-    LTEXT           "Text colour",TXT_OPT_POPUP_CLR_TEXT,66,85,80,8
-    CONTROL         "Use Windows colours",CHECK_OPT_POPUP_WINCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,101,114,10
-    CONTROL         "Use default colours",CHECK_OPT_POPUP_DEFCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,114,114,10
+    LTEXT           "Text color",TXT_OPT_POPUP_CLR_TEXT,66,85,80,8
+    CONTROL         "Use Windows colors",CHECK_OPT_POPUP_WINCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,101,114,10
+    CONTROL         "Use default colors",CHECK_OPT_POPUP_DEFCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,114,114,10
     GROUPBOX        "Delay",IDC_STATIC,176,132,108,58,WS_GROUP
     CONTROL         "From Popup plugin",RADIO_OPT_POPUP_DEFAULT,"Button",BS_AUTORADIOBUTTON,182,146,96,10
     CONTROL         "Custom",RADIO_OPT_POPUP_CUSTOM,"Button",BS_AUTORADIOBUTTON,182,160,59,10
@@ -230,13 +230,13 @@ BEGIN
     EDITTEXT        EDIT_DELAY,246,159,33,14,ES_AUTOHSCROLL
     CONTROL         "Show reminder messages as popups (if reminder is enabled)",CHECK_OPT_POPUP_ENABLED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,36,267,10
-    GROUPBOX        "Anniversary popup colours",IDC_STATIC,159,55,125,73,WS_GROUP
+    GROUPBOX        "Anniversary popup colors",IDC_STATIC,159,55,125,73,WS_GROUP
     CONTROL         "r",CLR_ABACK,"ColourPicker",WS_TABSTOP,166,69,29,12
-    LTEXT           "Background colour",TXT_OPT_POPUP_CLR_ABACK,201,70,80,8
+    LTEXT           "Background color",TXT_OPT_POPUP_CLR_ABACK,201,70,80,8
     CONTROL         "",CLR_ATEXT,"ColourPicker",WS_TABSTOP,166,84,29,13
-    LTEXT           "Text colour",TXT_OPT_POPUP_CLR_ATEXT,200,85,80,8
-    CONTROL         "Use Windows colours",CHECK_OPT_POPUP_AWINCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,101,114,10
-    CONTROL         "Use default colours",CHECK_OPT_POPUP_ADEFCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,114,114,10
+    LTEXT           "Text color",TXT_OPT_POPUP_CLR_ATEXT,200,85,80,8
+    CONTROL         "Use Windows colors",CHECK_OPT_POPUP_AWINCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,101,114,10
+    CONTROL         "Use default colors",CHECK_OPT_POPUP_ADEFCLR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,114,114,10
     CONTROL         "Replace progress dialogs with popups",CHECK_OPT_POPUP_PROGRESS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,22,267,10
     CONTROL         "Replace message boxes with popups",CHECK_OPT_POPUP_MSGBOX,
@@ -362,7 +362,7 @@ BEGIN
     LTEXT           "Overwritten information",TXT_OPT_CLR_BOTH,46,47,104,8
     CONTROL         "",CLR_CHANGED,"ColourPicker",WS_TABSTOP,153,45,29,12
     LTEXT           "Changed information",TXT_OPT_CLR_CHANGED,187,47,96,8
-    CONTROL         "Enable colours to give information about information's status.",CHECK_OPT_CLR,
+    CONTROL         "Enable colors to give information about information's status.",CHECK_OPT_CLR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,16,271,10
     CONTROL         "Make protocol based contact information readonly.",CHECK_OPT_READONLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,104,271,10
@@ -372,7 +372,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,165,271,10
     CONTROL         "",CLR_META,"ColourPicker",WS_TABSTOP,12,61,29,12
     LTEXT           "Info of a MetaContact's SubContact",TXT_OPT_CLR_META,46,63,232,8
-    GROUPBOX        "Colours",IDC_STATIC,3,4,303,74
+    GROUPBOX        "Colors",IDC_STATIC,3,4,303,74
     GROUPBOX        "Common",IDC_STATIC,3,79,303,53
     CONTROL         "Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)",CHECK_OPT_CHANGEMYDETAILS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,117,292,10

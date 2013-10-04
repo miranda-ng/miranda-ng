@@ -188,11 +188,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,15,19,35,14
-    LTEXT           "Background colour",IDC_STATIC,59,23,66,8
+    LTEXT           "Background color",IDC_STATIC,59,23,66,8
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,15,37,35,14
-    LTEXT           "Text colour",IDC_STATIC,59,41,66,8
-    CONTROL         "Use Windows colours",IDC_WINCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,56,108,10
-    CONTROL         "Use default colours",IDC_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,107,10
+    LTEXT           "Text color",IDC_STATIC,59,41,66,8
+    CONTROL         "Use Windows colors",IDC_WINCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,56,108,10
+    CONTROL         "Use default colors",IDC_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,107,10
     GROUPBOX        "Delay",IDC_STATIC,137,7,110,52
     EDITTEXT        IDC_DELAY,221,30,20,14,ES_AUTOHSCROLL | ES_NUMBER
     GROUPBOX        "On left click",IDC_STATIC,7,84,103,51
@@ -203,7 +203,7 @@ BEGIN
     CONTROL         "Do nothing",IDC_RNOTHING,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,96,78,10
     CONTROL         "Close popup",IDC_RCLOSE,"Button",BS_AUTORADIOBUTTON,143,108,78,10
     CONTROL         "Cancel reconnecting",IDC_RCANCEL,"Button",BS_AUTORADIOBUTTON,143,120,94,10
-    GROUPBOX        "Colours",IDC_STATIC,7,7,126,73
+    GROUPBOX        "Colors",IDC_STATIC,7,7,126,73
     PUSHBUTTON      "Preview",IDC_PREV,137,63,50,14
     GROUPBOX        "Events",IDC_STATIC,7,140,240,76
     CONTROL         "Show when connection is lost",IDC_PUCONNLOST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,153,226,10

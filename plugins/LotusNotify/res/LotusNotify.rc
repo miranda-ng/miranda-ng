@@ -53,7 +53,7 @@ BEGIN
                     BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | WS_TABSTOP,177,
                     92,130,10
     EDITTEXT        IDC_SERVERSEC,75,28,115,11,ES_AUTOHSCROLL
-    CONTROL         "Set popup colours",IDC_SETCOLOURS,"Button",
+    CONTROL         "Set popup colors",IDC_SETCOLOURS,"Button",
                     BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,17,
                     76,132,10
     CONTROL         "Custom1",IDC_BGCOLOR,"ColourPicker",WS_GROUP | 

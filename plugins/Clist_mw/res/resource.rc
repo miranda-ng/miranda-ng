@@ -65,9 +65,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Settings",IDC_STATIC,4,19,226,141
-    LTEXT           "Background colour:",IDC_BC_STATIC,12,35,72,8,NOT WS_GROUP
+    LTEXT           "Background color:",IDC_BC_STATIC,12,35,72,8,NOT WS_GROUP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,84,34,32,10
-    LTEXT           "Selection colour:",IDC_SC_STATIC,12,51,72,8
+    LTEXT           "Selection color:",IDC_SC_STATIC,12,51,72,8
     CONTROL         "",IDC_SELCOLOUR,"ColourPicker",WS_TABSTOP,84,50,32,10
     CONTROL         "Use background bitmap",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,68,161,10
     EDITTEXT        IDC_FILENAME,22,82,184,12,ES_AUTOHSCROLL
@@ -262,9 +262,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Contact List Background",IDC_STATIC,4,4,227,141
-    LTEXT           "Background colour:",IDC_STATIC,12,20,72,8,NOT WS_GROUP
+    LTEXT           "Background color:",IDC_STATIC,12,20,72,8,NOT WS_GROUP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,84,19,32,10
-    LTEXT           "Selection colour:",IDC_STATIC,12,36,72,8
+    LTEXT           "Selection color:",IDC_STATIC,12,36,72,8
     CONTROL         "",IDC_SELCOLOUR,"ColourPicker",WS_TABSTOP,84,35,32,10
     CONTROL         "Use background bitmap",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,161,10
     EDITTEXT        IDC_FILENAME,22,67,184,12,ES_AUTOHSCROLL
@@ -310,7 +310,7 @@ BEGIN
     CONTROL         "Right click opens Miranda menu",IDC_RIGHTMIRANDA,"Button",BS_AUTORADIOBUTTON,20,122,142,10
     CONTROL         "Make sections equal width",IDC_EQUALSECTIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,141,142,10
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,100,175,32,10
-    LTEXT           "Background colour:",IDC_STATIC,20,175,72,8,NOT WS_GROUP
+    LTEXT           "Background color:",IDC_STATIC,20,175,72,8,NOT WS_GROUP
     PUSHBUTTON      "-",IDC_DEFBKCOLOR,135,175,6,10
     CONTROL         "Show size grip",IDC_SHOWSIZEGRIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,72,142,10
     CONTROL         "Show bevel effect on panels",IDC_SBPANELBEVEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,86,107,10

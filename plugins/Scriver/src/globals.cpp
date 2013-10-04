@@ -60,8 +60,8 @@ static IconItem iconList[] =
 	{ LPGEN("Notice (10x10)"),         "scriver_NOTICE",       IDI_NOTICE,  10}, // 16
 
 	{ LPGEN("Window Icon"),            "chat_window",          IDI_CHANMGR     }, //  1 
-	{ LPGEN("Text colour"),            "chat_fgcol",           IDI_COLOR       }, //  2
-	{ LPGEN("Background colour"),      "chat_bkgcol",          IDI_BKGCOLOR    }, //  3
+	{ LPGEN("Text color"),            "chat_fgcol",           IDI_COLOR       }, //  2
+	{ LPGEN("Background color"),      "chat_bkgcol",          IDI_BKGCOLOR    }, //  3
 	{ LPGEN("Bold"),                   "chat_bold",            IDI_BBOLD       }, //  4
 	{ LPGEN("Italics"),                "chat_italics",         IDI_BITALICS    }, //  5
 	{ LPGEN("Underlined"),             "chat_underline",       IDI_BUNDERLINE  }, //  6

@@ -941,7 +941,7 @@ static TIconDesc _exttoolbaricons[] =
 
 static TIconDesc _chattoolbaricons[] =
 {
-	{ "chat_bkgcol",LPGEN("Background colour"), &PluginConfig.g_buttonBarIcons[31] ,-IDI_BKGCOLOR, 1 },
+	{ "chat_bkgcol",LPGEN("Background color"), &PluginConfig.g_buttonBarIcons[31] ,-IDI_BKGCOLOR, 1 },
 	{ "chat_settings",LPGEN("Room settings"),  &PluginConfig.g_buttonBarIcons[32],-IDI_TOPICBUT, 1 },
 	{ "chat_filter",LPGEN("Event filter"), &PluginConfig.g_buttonBarIcons[33] ,-IDI_FILTER2, 1 },
 	{ "chat_shownicklist",LPGEN("Nick list"),&PluginConfig.g_buttonBarIcons[35]  ,-IDI_SHOWNICKLIST, 1 }

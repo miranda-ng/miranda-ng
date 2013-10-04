@@ -75,7 +75,7 @@ BEGIN
     CTEXT           "0 = Default",IDC_POPUPOPTDLG_STATIC_DEFAULT,234,84,54,8
     CTEXT           "-1 = Infinite",IDC_POPUPOPTDLG_STATIC_INFINITE,234,96,
                     54,8
-    GROUPBOX        "Colours",-1,6,116,156,48
+    GROUPBOX        "Colors",-1,6,116,156,48
     CONTROL         "",IDC_POPUPOPTDLG_BGCOLOUR,"ColourPicker",WS_TABSTOP,13,
                     128,19,12
     LTEXT           "Background",IDC_POPUPOPTDLG_STATIC_BGCOLOUR,37,131,53,8

@@ -62,9 +62,9 @@ BEGIN
     CONTROL         "Notify me on every",IDC_NOTIFYTIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,30,85,10
     EDITTEXT        IDC_ENOTIFYTIME,96,28,29,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "minutes",IDC_STATIC,129,30,44,8
-    LTEXT           "Background colour:",IDC_STATIC,178,17,63,8
+    LTEXT           "Background color:",IDC_STATIC,178,17,63,8
     CONTROL         "",IDC_COLOR1,"ColourPicker",WS_TABSTOP,242,14,33,12
-    LTEXT           "Text colour:",IDC_STATIC,178,30,60,8
+    LTEXT           "Text color:",IDC_STATIC,178,30,60,8
     CONTROL         "",IDC_COLOR2,"ColourPicker",WS_TABSTOP,242,28,33,12
     PUSHBUTTON      "Reset to default",IDC_RESETCOLORS,178,44,97,14
     GROUPBOX        "Popup timeout",IDC_STATIC,10,62,110,41

@@ -138,12 +138,12 @@ BEGIN
     GROUPBOX        "Popup Options",IDC_STATIC,4,5,158,54
     CONTROL         "Enable popups",IDC_E,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,15,143,9
     CONTROL         "Popup only when condition changes",IDC_CH,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,44,140,10
-    GROUPBOX        "Colours",IDC_STATIC,168,5,139,54
+    GROUPBOX        "Colors",IDC_STATIC,168,5,139,54
     CONTROL         "",IDC_BGCOLOUR,"ColourPicker",WS_TABSTOP,177,16,39,11
-    LTEXT           "Background colour",IDC_STATIC,223,18,78,8,SS_CENTERIMAGE
+    LTEXT           "Background color",IDC_STATIC,223,18,78,8,SS_CENTERIMAGE
     CONTROL         "",IDC_TEXTCOLOUR,"ColourPicker",WS_TABSTOP,177,30,39,11
-    LTEXT           "Text colour",IDC_STATIC,223,31,80,8,SS_CENTERIMAGE
-    CONTROL         "Use Windows colours",IDC_USEWINCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,177,43,125,13
+    LTEXT           "Text color",IDC_STATIC,223,31,80,8,SS_CENTERIMAGE
+    CONTROL         "Use Windows colors",IDC_USEWINCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,177,43,125,13
     GROUPBOX        "Popup Actions",IDC_STATIC,4,63,157,46
     LTEXT           "Left Click",IDC_STATIC,13,77,42,8
     CONTROL         "",IDC_LeftClick,"MButtonClass",WS_TABSTOP,59,76,95,9,WS_EX_NOACTIVATE | 0x10000000L

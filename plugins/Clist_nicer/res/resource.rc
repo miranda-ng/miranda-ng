@@ -329,9 +329,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Contact List Background",IDC_STATIC,1,4,302,177
-    CONTROL         "Use Windows colours",IDC_WINCOLOUR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,20,282,10
+    CONTROL         "Use Windows colors",IDC_WINCOLOUR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,20,282,10
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,22,34,22,10
-    LTEXT           "Background colour",IDC_STATIC,48,35,246,8,NOT WS_GROUP
+    LTEXT           "Background color",IDC_STATIC,48,35,246,8,NOT WS_GROUP
     CONTROL         "Use background image",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,57,282,10
     EDITTEXT        IDC_FILENAME,22,71,184,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BROWSE,208,72,15,11
