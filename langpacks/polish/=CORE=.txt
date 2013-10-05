@@ -2079,8 +2079,8 @@ Zmień nazwę
 [&Add permanently to list]
 Dodaj na stałe do listy
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
-Moja nazwa (nieprzesuwalne)
+[My custom name (not movable)]
+Moja własna nazwa (przeniesienie niemożliwe)
 [Nick]
 Nick
 [FirstName]
@@ -2094,9 +2094,9 @@ Użytkownik
 [FirstName LastName]
 Imię Nazwisko
 [LastName FirstName]
-
-['(Unknown Contact)' (not moveable)]
-"(Nieznany kontakt)" (nieprzesuwalne)
+Nazwisko Imię
+['(Unknown Contact)' (not movable)]
+"(nieznany kontakt)" (przeniesienie niemożliwe)
 ['(Unknown Contact)']
 "(Nieznany kontakt)"
 [Contact names]
