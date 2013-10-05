@@ -10,78 +10,61 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	if (-1 == dbei.cbBlob)
 		return 0;
 
-	dbei.pBlob = new BYTE[dbei.cbBlob];
+	mir_ptr<BYTE> blob((LPBYTE)mir_alloc(dbei.cbBlob));
+	dbei.pBlob = blob;
 	db_event_get(hDbEvent, &dbei);
 
 	// if event is in protocol that is not despammed
-	if(plSets->ProtoDisabled(dbei.szModule)) {
-		delete [] dbei.pBlob;
+	if (plSets->ProtoDisabled(dbei.szModule))
 		return 0;
-	}
 
 	// event is an auth request
-	if (!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST)
-	{
+	if (!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 		HANDLE hcntct = DbGetAuthEventContact(&dbei);
 
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
-
-		if(db_get_b(hcntct, "CList", "NotOnList", 0) &&
-			!db_get_b(hcntct, pluginName, answeredSetting, 0) &&
-			!IsExistMyMessage(hcntct))
-		{
-			if (!plSets->HandleAuthReq.Get())
-			{
-
-					char * buf=mir_utf8encodeW(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
-					CallContactService(hcntct, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
-					mir_free(buf);
-
+		if (db_get_b(hcntct, "CList", "NotOnList", 0) && !db_get_b(hcntct, pluginName, answeredSetting, 0) && !IsExistMyMessage(hcntct)) {
+			if (!plSets->HandleAuthReq.Get()) {
+				char *buf = mir_utf8encodeW(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
+				CallContactService(hcntct, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
+				mir_free(buf);
 			}
-			char *AuthRepl;
-
-				AuthRepl=mir_u2a(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
 
 			// ...send message
-			std::string allowService = dbei.szModule;
-			allowService += PS_AUTHDENY;
-			CallService(allowService.c_str(), (WPARAM)hDbEvent, (LPARAM)AuthRepl);
-
-				mir_free(AuthRepl);
+			char *AuthRepl = mir_u2a(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
+			ProtoCallService(dbei.szModule, PS_AUTHDENY, (WPARAM)hDbEvent, (LPARAM)AuthRepl);
+			mir_free(AuthRepl);
 
 			db_set_b(hcntct, "CList", "NotOnList", 1);
 			db_set_b(hcntct, "CList", "Hidden", 1);
 			if (!plSets->HistLog.Get())
 				db_event_delete(0, hDbEvent);
-			delete [] dbei.pBlob;
 			return 1;
 		}
 	}
-	delete [] dbei.pBlob;
 	return 0;
 }
 
 MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 {
 	HANDLE hContact = (HANDLE)w;
-
-	if (!l) //fix potential DEP crash
+	DBEVENTINFO *dbei = (DBEVENTINFO*)l;
+	if (dbei == NULL) //fix potential DEP crash
 		return 0;
-	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
 
 	// if event is in protocol that is not despammed
-	if(plSets->ProtoDisabled(dbei->szModule))
+	if (plSets->ProtoDisabled(dbei->szModule))
 		// ...let the event go its way
 		return 0;
 
 	// if event is not a message, or if the message has been read or sent...
-	if(dbei->flags & DBEF_SENT || dbei->flags & DBEF_READ || dbei->eventType != EVENTTYPE_MESSAGE )
+	if (dbei->flags & DBEF_SENT || dbei->flags & DBEF_READ || dbei->eventType != EVENTTYPE_MESSAGE )
 		// ...let the event go its way
 		return 0;
 
 	// if message is from known or marked Answered contact
-	if(db_get_b(hContact, pluginName, answeredSetting, 0))
+	if (db_get_b(hContact, pluginName, answeredSetting, 0))
 		// ...let the event go its way
 		return 0;
 
@@ -91,7 +74,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		return 0;
 
 	//if I sent message to this contact
-	if(IsExistMyMessage(hContact))
+	if (IsExistMyMessage(hContact))
 		return 0;
 
 	// if message is corrupted or empty it cannot be an answer.
@@ -101,19 +84,15 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 	tstring message;
 
-	if(dbei->flags & DBEF_UTF){
+	if (dbei->flags & DBEF_UTF){
 		WCHAR* msg_u=mir_utf8decodeW((char*)dbei->pBlob);
-
 		message = msg_u;
-
 		mir_free(msg_u);
 	}
-	else{
-
+	else {
 		WCHAR* msg_u = mir_a2u((char*)(dbei->pBlob));
 		message = msg_u;
 		mir_free(msg_u);
-
 	}
 
 	// if message equal right answer...
@@ -121,19 +100,13 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	answers.append(plSets->AnswSplitString.Get());
 	tstring::size_type pos = 0;
 	tstring::size_type prev_pos = 0;
-	while((pos = answers.find(plSets->AnswSplitString.Get(), pos)) != tstring::npos)
-    {
+	while((pos = answers.find(plSets->AnswSplitString.Get(), pos)) != tstring::npos) {
 		// get one of answers and trim witespace chars
-        tstring answer = trim(answers.substr(prev_pos, pos - prev_pos));
+		tstring answer = trim(answers.substr(prev_pos, pos - prev_pos));
 		// if answer not empty
-		if (answer.length() > 0)
-		{
+		if (answer.length() > 0) {
 			// if message equal right answer...
-			if (plSets->AnswNotCaseSens.Get() ?
-				!lstrcmpi(message.c_str(), answer.c_str()) :
-				!lstrcmp(message.c_str(), answer.c_str())
-			)
-			{
+			if (plSets->AnswNotCaseSens.Get() ? !lstrcmpi(message.c_str(), answer.c_str()) : !lstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
 				db_unset(hContact, "CList", "Hidden");
 
@@ -141,7 +114,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				db_set_b(hContact, pluginName, answeredSetting, 1);
 
 				//add contact permanently
-				if(plSets->AddPermanent.Get())
+				if (plSets->AddPermanent.Get())
 					db_unset(hContact, "CList", "NotOnList");
 
 				// send congratulation
@@ -154,12 +127,12 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				return 1;
 			}
 		}
-        prev_pos = ++pos;
-    }
+		prev_pos = ++pos;
+	}
 
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
-	if ( (!plSets->InfTalkProtection.Get() || tstring::npos==message.find(infTalkProtPrefix))
+	if ((!plSets->InfTalkProtection.Get() || tstring::npos == message.find(infTalkProtPrefix))
 		&& (!plSets->MaxQuestCount.Get() || db_get_dw(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get()))
 	{
 		// send question
@@ -174,9 +147,9 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		// increment question count
 		DWORD questCount = db_get_dw(hContact, pluginName, questCountSetting, 0);
 		db_set_dw(hContact, pluginName, questCountSetting, questCount + 1);
-
-		// hide contact from contact list
 	}
+
+	// hide contact from contact list
 	db_set_b(hContact, "CList", "NotOnList", 1);
 	db_set_b(hContact, "CList", "Hidden", 1);
 
@@ -216,15 +189,15 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
 {
 	HANDLE hContact = (HANDLE)w;
-	DBCONTACTWRITESETTING * cws = (DBCONTACTWRITESETTING*)l;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)l;
 
 	// if CList/NotOnList is being deleted then remove answeredSetting
-	if(strcmp(cws->szModule, "CList"))
+	if (strcmp(cws->szModule, "CList"))
 		return 0;
-	if(strcmp(cws->szSetting, "NotOnList"))
+	if (strcmp(cws->szSetting, "NotOnList"))
 		return 0;
-	if (!cws->value.type)
-	{
+
+	if (!cws->value.type) {
 		db_unset(hContact, pluginName, answeredSetting);
 		db_unset(hContact, pluginName, questCountSetting);
 	}

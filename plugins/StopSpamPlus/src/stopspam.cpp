@@ -64,12 +64,12 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	miranda::EventHooker::UnhookAll();
 	
-	if(hFunc)
+	if (hFunc)
 	{
 		DestroyServiceFunction(hFunc);
 		hFunc = 0;
 	}
-	if(hTempRemove)
+	if (hTempRemove)
 	{
 		DestroyServiceFunction(hTempRemove);
 		hFunc = 0;

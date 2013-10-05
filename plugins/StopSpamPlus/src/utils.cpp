@@ -20,7 +20,7 @@ bool IsExistMyMessage(HANDLE hContact)
 		if (db_event_get(hDbEvent, &dbei))
 			break;
 
-		if(dbei.flags & DBEF_SENT){
+		if (dbei.flags & DBEF_SENT){
 			// mark contact as Answered
 			db_set_b(hContact, pluginName, answeredSetting, 1);
 			// ...let the event go its way

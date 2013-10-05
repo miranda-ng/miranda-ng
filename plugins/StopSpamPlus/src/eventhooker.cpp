@@ -42,7 +42,7 @@ namespace miranda
 
 	void EventHooker::Unhook()
 	{
-		if(handle_)
+		if (handle_)
 		{
 			UnhookEvent(handle_);
 			handle_ = 0;

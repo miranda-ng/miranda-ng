@@ -4,7 +4,7 @@
 tstring db_usage::DBGetPluginSetting(std::string const &name, tstring const &defValue)
 {
 	DBVARIANT dbv;
-	if(db_get_ts(NULL, pluginName, name.c_str(), &dbv))
+	if (db_get_ts(NULL, pluginName, name.c_str(), &dbv))
 		return defValue;
 	tstring value = dbv.ptszVal;
 	db_free(&dbv);
@@ -15,7 +15,7 @@ tstring db_usage::DBGetPluginSetting(std::string const &name, tstring const &def
 std::string db_usage::DBGetPluginSetting(std::string const &name, std::string const &defValue)
 {
 	DBVARIANT dbv;
-	if(db_get_s(NULL, pluginName, name.c_str(), &dbv))
+	if (db_get_s(NULL, pluginName, name.c_str(), &dbv))
 		return defValue;
 	std::string value = dbv.pszVal;
 	db_free(&dbv);

@@ -24,11 +24,11 @@ int FillTree(HWND hwnd)
 
 	TreeView_DeleteAllItems(hwnd);
 
-	if(CallService(MS_PROTO_ENUMACCOUNTS, (LPARAM)&n, (WPARAM)&pa))
+	if (CallService(MS_PROTO_ENUMACCOUNTS, (LPARAM)&n, (WPARAM)&pa))
 		return FALSE;
 
 	for ( i = 0; i < n; i++ ) {
-		if(IsAccountEnabled( pa[i] )) {
+		if (IsAccountEnabled( pa[i] )) {
 			PD = ( ProtocolData* )mir_alloc( sizeof( ProtocolData ));
 			PD->RealName = pa[i]->szModuleName;
 			PD->enabled = IsProtoIM( pa[i]);
@@ -88,7 +88,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 					if (tvi.lParam!=0) {
 						ProtocolData* ppd = ( ProtocolData* )tvi.lParam;
-						if(ppd->enabled && ppd->show)
+						if (ppd->enabled && ppd->show)
 							out << ppd->RealName << " ";
 					}
 
