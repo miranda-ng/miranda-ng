@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Colors]
 Colours
 [Use custom colors]
@@ -14,11 +13,3 @@ Use custom colours
 Use Windows colours
 [Use Popup colors]
 Use Popup colours
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
-;file \plugins\NewXstatusNotify\src\indsnd.h
-;file \plugins\NewXstatusNotify\src\main.cpp
-;file \plugins\NewXstatusNotify\src\options.cpp
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.h

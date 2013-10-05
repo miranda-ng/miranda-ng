@@ -5,11 +5,7 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-;file \plugins\TrafficCounter\res\resource.rc
 [Background color:]
 Background colour:
 [Text color:]
 Text colour:
-;file \plugins\TrafficCounter\src\options.cpp
-;file \plugins\TrafficCounter\src\statistics.cpp
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp

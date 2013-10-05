@@ -5,9 +5,5 @@
 ;  Version: 0.1.1.3
 ;  Authors: Deathdemon
 ;============================================================
-;file \plugins\ClientChangeNotify\res\Resources.rc
 [Colors]
 Colours
-;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
-;file \plugins\ClientChangeNotify\src\Misc.h
-;file \plugins\ClientChangeNotify\src\OptDlg.cpp

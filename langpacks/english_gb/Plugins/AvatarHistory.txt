@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Colors]
 Colours
 [Background color]
@@ -16,9 +15,3 @@ Text colour
 Use Windows colours
 [Use default colors]
 Use default colours
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-;file \plugins\AvatarHistory\src\icolib.cpp
-;file \plugins\AvatarHistory\src\options.cpp
-;file \plugins\AvatarHistory\src\utils.cpp

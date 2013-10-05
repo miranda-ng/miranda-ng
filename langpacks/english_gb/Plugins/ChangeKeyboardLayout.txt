@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.5
 ;  Authors: Yasnovidyashii
 ;============================================================
-;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Colors]
 Colours
 [Popup colors]
@@ -14,5 +13,3 @@ Popup colours
 Windows colours
 [Custom colors]
 Custom colours
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp

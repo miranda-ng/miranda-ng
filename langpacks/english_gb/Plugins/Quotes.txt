@@ -5,7 +5,6 @@
 ;  Version: 0.0.24.0
 ;  Authors: Dioksin
 ;============================================================
-;file \plugins\Quotes\res\Forex.rc
 [Colors]
 Colours
 [Use default colors]
@@ -16,16 +15,3 @@ Use user-defined colours
 Background colour
 [Text color]
 Text colour
-;file \plugins\Quotes\src\Chart.h
-;file \plugins\Quotes\src\CommonOptionDlg.cpp
-;file \plugins\Quotes\src\CurrencyConverter.cpp
-;file \plugins\Quotes\src\Forex.cpp
-;file \plugins\Quotes\src\HTTPSession.cpp
-;file \plugins\Quotes\src\IconLib.cpp
-;file \plugins\Quotes\src\ImportExport.cpp
-;file \plugins\Quotes\src\ModuleInfo.cpp
-;file \plugins\Quotes\src\QuoteChart.cpp
-;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
-;file \plugins\Quotes\src\SettingsDlg.cpp

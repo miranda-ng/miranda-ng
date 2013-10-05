@@ -5,14 +5,9 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Color Select]
 Colour Select
 [Backgroundcolor]
 Backgroundcolour
 [Textcolor]
 Textcolour
-;file \plugins\HistoryLinkListPlus\src\language.h
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

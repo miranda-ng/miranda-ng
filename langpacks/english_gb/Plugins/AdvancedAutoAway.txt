@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [Background color]
 Background colour
 [Text color]
@@ -16,6 +15,3 @@ Use Windows colours
 Use default colours
 [Colors]
 Colours
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-;file \Plugins\StatusPlugins\commonstatus.cpp
-;file \Plugins\StatusPlugins\confirmdialog.cpp
