@@ -2595,8 +2595,6 @@ ID пользователя:
 Сообщение xСтатуса
 [An error has occurred. The protocol reported the following error:]
 Протокол вернул следующую ошибку:
-[An unknown error has occurred.]
-Произошла неизвестная ошибка.
 [Try again]
 Ещё раз
 [View Homepage]
