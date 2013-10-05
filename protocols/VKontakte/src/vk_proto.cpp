@@ -71,10 +71,50 @@ DWORD_PTR CVkProto::GetCaps(int type, HANDLE hContact)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::SetStatus(int new_status)
+int CVkProto::SetStatus(int iNewStatus)
 {
+	if (m_iDesiredStatus == iNewStatus)
+		return 0;
+
+	int oldStatus = m_iStatus;
+ 	if (iNewStatus == ID_STATUS_OFFLINE) {
+		if ( IsOnline())
+			ShutdownSession();
+
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	}
+	else if (!m_hWorkerThread && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		ForkThread(&CVkProto::WorkerThread, 0);
+	}
+	else if ( IsOnline())
+		SetServerStatus(iNewStatus);
+	else
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	return 0;
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
+{
+	switch(event) {
+	case EV_PROTO_ONLOAD:
+		return OnModulesLoaded(wParam,lParam);
+
+	case EV_PROTO_ONEXIT:
+		return OnPreShutdown(wParam,lParam);
+
+	case EV_PROTO_ONOPTIONS:
+		return OnOptionsInit(wParam,lParam);
+	}
+
+	return 1;
+}
+
+//////////////////////////////////////////////////////////////////////////////
 
 HANDLE CVkProto::SearchBasic(const PROTOCHAR* id)
 {
@@ -228,22 +268,4 @@ HANDLE CVkProto::GetAwayMsg(HANDLE hContact)
 int CVkProto::SetAwayMsg(int status, const PROTOCHAR *msg)
 {
 	return 0; // Status messages are disabled
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
-{
-	switch(event) {
-	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam,lParam);
-
-	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam,lParam);
-
-	case EV_PROTO_ONOPTIONS:
-		return OnOptionsInit(wParam,lParam);
-	}
-
-	return 1;
 }

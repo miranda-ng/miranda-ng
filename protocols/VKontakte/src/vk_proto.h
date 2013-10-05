@@ -82,4 +82,16 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
+
+	__forceinline bool IsOnline() const { return m_bOnline; }
+
+	void ShutdownSession();
+	void OnLoggedOut();
+	void __cdecl WorkerThread(void*);
+
+private:
+	int  SetServerStatus(int);
+
+	bool m_bOnline;
+	UINT m_hWorkerThread;
 };
