@@ -61,11 +61,11 @@ Texte
 [Colors]
 Couleurs
 [Use cus&tom colors]
-Utiliser des couleurs &personnalisé
+Utiliser des couleurs &personnalisées
 [Use &Windows colors]
-Utiliser les couleur &Windows
+Utiliser les couleurs &Windows
 [Use Pop&up colors]
-Utiliser les couleur des Pop&up
+Utiliser les couleurs des Pop&up
 [Preview]
 Aperçu
 [Click action]
@@ -129,7 +129,7 @@ Liste vide.
 [Will be deleted!]
 Sera effacé!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-Mise à jour accompli. Appuyer sur Oui pour redémarrer Miranda maintenant.
+Mise à jour accomplie. Appuyer sur Oui pour redémarrer Miranda maintenant.
 [<< Details]
 <<Détails
 [No updates found.]
@@ -164,4 +164,4 @@ Connection HTTP du plugin de mise à jour
 [Checking new updates...]
 Vérification de mises à jour...
 [An error occured while checking new updates.]
-Une erreur est survenu lors de la vérification des mises à jour.
+Une erreur est survenue lors de la vérification des mises à jour.
