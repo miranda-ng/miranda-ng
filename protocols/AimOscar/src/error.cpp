@@ -35,7 +35,7 @@ void CAimProto::login_error(unsigned short error)
 		break;
 
 	default:
-		ShowPopup(LPGEN("Unknown error occured when attempting to connect."), ERROR_POPUP);
+		ShowPopup(LPGEN("Unknown error occurred when attempting to connect."), ERROR_POPUP);
 		break;
 	}
 }
@@ -219,7 +219,7 @@ void CAimProto::admin_error(unsigned short error)
 		break;
 
 	case 0x13:
-		ShowPopup(LPGEN("An Error has occured."), ERROR_POPUP);
+		ShowPopup(LPGEN("An Error has occurred."), ERROR_POPUP);
 		break;
 
 	case 0x14:

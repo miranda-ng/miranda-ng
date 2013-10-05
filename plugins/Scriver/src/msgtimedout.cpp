@@ -40,7 +40,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (ewd->szDescription) {
 					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ewd->szDescription);
 				} else {
-					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occured."));
+					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
 				}
 				if (ewd->szText) {
 					SETTEXTEX  st = {0};

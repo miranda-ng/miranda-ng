@@ -71,7 +71,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Send Error"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "An error has occured. The protocol reported the following error:",IDC_STATIC,5,4,177,20
+    LTEXT           "An error has occurred. The protocol reported the following error:",IDC_STATIC,5,4,177,20
     EDITTEXT        IDC_ERRORTEXT,5,24,177,21,ES_MULTILINE | ES_READONLY
     LTEXT           "while sending the following message:",IDC_STATIC,6,48,175,8
     CONTROL         "",IDC_MSGTEXT,RICHEDIT_CLASS,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_CLIPSIBLINGS | WS_VSCROLL | WS_TABSTOP,5,60,177,26,WS_EX_STATICEDGE

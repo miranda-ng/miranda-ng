@@ -331,7 +331,7 @@ DWORD WINAPI WritePOP3Accounts()
 	DWORD ReturnValue = CallService(MS_YAMN_WRITEACCOUNTS,(WPARAM)POP3Plugin,(LPARAM)FileName);
 	if (ReturnValue == EACC_SYSTEM) {
 		TCHAR temp[1024] = {0};
-		mir_sntprintf(temp, SIZEOF(temp), _T("%s\n%s"), TranslateT("Error while copying data to disk occured. File in use?"), FileName);
+		mir_sntprintf(temp, SIZEOF(temp), _T("%s\n%s"), TranslateT("Error while copying data to disk occurred. Is file in use?"), FileName);
 		MessageBox(NULL, temp, TranslateT("POP3 plugin- write file error"), MB_OK );
 	}
 

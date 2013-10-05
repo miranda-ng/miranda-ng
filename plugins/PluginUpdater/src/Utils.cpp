@@ -222,7 +222,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 	Netlib_CloseHandle(nlc);
 
 	if (!ret && !opts.bSilent) {
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while checking new updates."), 1, 0);
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occurred while checking new updates."), 1, 0);
 		return false;
 	}
 

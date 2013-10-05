@@ -203,7 +203,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 			XmlNodeIq(_T("result"), pInfo)
 				<< XCHILDNS(_T("command"), JABBER_FEAT_COMMANDS) << XATTR(_T("node"), szNode)
 					<< XATTR(_T("sessionid"), pSession->GetSessionId()) << XATTR(_T("status"), _T("canceled"))
-				<< XCHILD(_T("note"), TranslateT("Error occured during processing command")) << XATTR(_T("type"), _T("error")));
+				<< XCHILD(_T("note"), TranslateT("Error occurred during processing command")) << XATTR(_T("type"), _T("error")));
 
 		RemoveSession(pSession);
 		pSession = NULL;
@@ -630,7 +630,7 @@ int CJabberProto::AdhocLockWSHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSes
 	if (bOk)
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Workstation successfully locked"));
 	else
-		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Error %d occured during workstation lock"), GetLastError());
+		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Error %d occurred during workstation lock"), GetLastError());
 
 	m_ThreadInfo->send(
 		XmlNodeIq(_T("result"), pInfo)

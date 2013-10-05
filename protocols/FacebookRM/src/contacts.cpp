@@ -214,7 +214,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER);
 	} else {
-		facy.client_notify(TranslateT("Error occured when removing contact from server."));
+		facy.client_notify(TranslateT("Error occurred when removing contact from server."));
 	}
 
 	if (resp.code != HTTP_CODE_OK)
@@ -248,7 +248,7 @@ void FacebookProto::AddContactToServer(void *data)
 
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER);
 	}
-	else facy.client_notify(TranslateT("Error occured when requesting friendship."));
+	else facy.client_notify(TranslateT("Error occurred when requesting friendship."));
 
 	if (resp.code != HTTP_CODE_OK)
 		facy.handle_error("AddContactToServer");

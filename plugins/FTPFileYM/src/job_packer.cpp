@@ -129,7 +129,7 @@ void PackerJob::pack()
 	{
 		if (res == ZIP_ERRNO)
 		{
-			Utils::msgBox(TranslateT("Error occured when zipping the file(s)."), MB_OK | MB_ICONERROR);
+			Utils::msgBox(TranslateT("Error occurred when zipping the file(s)."), MB_OK | MB_ICONERROR);
 			delete this->tab;	
 		}
 

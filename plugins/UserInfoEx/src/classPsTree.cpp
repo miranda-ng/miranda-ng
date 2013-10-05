@@ -393,7 +393,7 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 		// insert item into tree if set visible
 		if ((tvii.itemex.hItem = TreeView_InsertItem(_hWndTree, &tvii)) == NULL) 
 		{
-			MsgErr(GetParent(_hWndTree), LPGENT("An fatal error occured on adding a property sheet page!\nDialog creation aborted!"));
+			MsgErr(GetParent(_hWndTree), LPGENT("A fatal error occurred on adding a property sheet page!\nDialog creation aborted!"));
 			return NULL;
 		}
 		pti->Hti(tvii.itemex.hItem);

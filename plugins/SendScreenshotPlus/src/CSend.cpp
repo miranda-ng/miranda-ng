@@ -341,7 +341,7 @@ void	CSend::Exit(unsigned int Result) {
 	if (err){
 		SkinPlaySound("FileFailed");
 		if(m_ErrorMsg && m_ErrorMsg[0] != 0) MsgBoxService(NULL, (LPARAM)&m_box);
-		else MsgErr(NULL, LPGENT("An unknown error has occured."));
+		else MsgErr(NULL, LPGENT("An unknown error has occurred."));
 	}
 
 	AfterSendDelete();

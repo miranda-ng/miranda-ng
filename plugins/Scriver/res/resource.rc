@@ -232,7 +232,7 @@ STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER |
 CAPTION "Send Error"
 FONT 8, "MS Shell Dlg"
 BEGIN
-    LTEXT           "An error has occured. The protocol reported the following error:",
+    LTEXT           "An error has occurred. The protocol reported the following error:",
                     IDC_STATIC,5,4,177,20
     EDITTEXT        IDC_ERRORTEXT,5,24,177,21,ES_MULTILINE | ES_READONLY
     LTEXT           "while sending the following message:",IDC_STATIC,6,48,

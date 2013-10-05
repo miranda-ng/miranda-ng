@@ -194,7 +194,7 @@ void DlgDownloadProc()
 	CallFunctionAsync(CreateDownloadDialog, 0);
 	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath)) {
 		Title = TranslateT("Pack Updater");
-		Text = TranslateT("An error occured while downloading the update.");
+		Text = TranslateT("An error occurred while downloading the update.");
 		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
 			show_popup(0, Title, Text, Number, 0);
