@@ -201,5 +201,3 @@ Yahoo
 Причина приглашения
 [Join My Conference...]
 Заходи в мою чат-комнату...
-[YAHOO plugin HTTP connections]
-HTTP подключение YAHOO

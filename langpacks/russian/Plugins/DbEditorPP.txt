@@ -176,8 +176,6 @@ BL&OB
 Восстановить последнее положение
 [Automatically expand "settings" when Database Editor ++ starts]
 Автоматически раскрывать "настройки" при запуске
-[Automatically expand "settings" when Database Editor ++ starts]
-Открывать ветку "настройки" при запуске
 [Use known modules list]
 Использовать список известных модулей
 [Warn when deleting modules]
@@ -194,8 +192,6 @@ BL&OB
 Изменения в этом списке вступят в силу при следующем запуске Miranda NG
 [Popup timeout (0 for infinite)]
 Длительность (0 = оставить)
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Если в имени модуля есть пробел, поместите \\ перед ним, напр. "aaa\\ bbb"
 [Database Editor++]
 Редактор базы
 [Error Loading Module List]

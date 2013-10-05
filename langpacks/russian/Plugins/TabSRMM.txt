@@ -1551,8 +1551,6 @@ ID пользователя в панели статуса
 
 ;Трей
 
-[TabSRMM]
-Беседы
 [Recent Sessions]
 Последние сеансы
 [Show the Tray Icon]

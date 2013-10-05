@@ -257,8 +257,6 @@ HTTP неизвестная ошибка
 Допустимый размер в 255Кб превышен
 [Image files (*.bmp,*.jpg,*.gif,*.png)]
 Изображения (*.bmp,*.jpg,*.gif,*.png)
-[List cannot be exported to file "%s" because of error:\n\t%s]
-Нельзя экспортировать список в файл "%s" из-за ошибки:\n\t%s
 [List cannot be removed because of error:\n\t%s]
 Нельзя удалить список из-за ошибки:\n\t%s
 [Advanced Configuration]

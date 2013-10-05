@@ -83,8 +83,6 @@ ID города
 Доп. текст
 [External Log]
 Внешняя история
-[Popup Text]
-Текст окна
 [More Info URL]
 URL доп. информации
 [Weather Map]
@@ -304,7 +302,7 @@ INI файл погоды для этой станции не найден (20)
 [Fahrenheit]
 Фаренгейт
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для полного прогноза погоды. Вы можете указать его в меню Настройки.
+Не указан URL для полного прогноза погоды. Укажите его в настройках.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
 [Open URLs in new browser window]
@@ -455,16 +453,12 @@ Weather: Погода изменилась
 К старым
 [Variable]
 Переменная
-[Invalid ID format, missing "/" (10)]
-Неправильный формат ID, нет "/" (10)
 [Debug for INI files]
 Отладить INI файлы
 [Avatar size]
 Размер аватара
 [Frame Title Font]
 Шрифт заголовка фрейма
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
-URL полного прогноза погоды не установлен. Вы можете установить его в настройках.
 [Do not append units to values]
 Не добавлять единицы к значениям
 [Do not display fractional values]

@@ -679,8 +679,6 @@ Nickserv убить фантома
 %s игнорируется.
 [%s Ignore]
 %s Игнор
-[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
 [Automatically accept chat requsts from...]
 Автоматически принимать входящие запросы от...
 [IRC protocol]
