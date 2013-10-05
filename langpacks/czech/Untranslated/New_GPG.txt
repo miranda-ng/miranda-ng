@@ -145,7 +145,6 @@
 [GPG public key file]
 [Where is no public or private key.]
 [Do you want to toggle encryption for all subcontacts ?]
-[Send publick key]
 [Target file exists, do you want to replace it ?]
 [Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
 [Filetransfer warning]

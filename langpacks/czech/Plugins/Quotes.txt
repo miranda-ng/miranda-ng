@@ -70,15 +70,15 @@ Získat data od:
 Filtr:
 [Popup Window Settings]
 Nastavení oznámení
-[Colours]
+[Colors]
 Barvy
-[Use default colours]
+[Use default colors]
 Použít výchozí barvy
-[Use user-defined colours]
+[Use user-defined colors]
 Použít vlastní barvy
-[Background colour]
+[Background color]
 Barva pozadí
-[Text colour]
+[Text color]
 Barva textu
 [Delay]
 Prodleva
@@ -224,7 +224,6 @@ Poslední rok
 [User-Defined]
 Vlastní
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 

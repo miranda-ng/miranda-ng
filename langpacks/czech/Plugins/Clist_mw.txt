@@ -10,9 +10,9 @@ Zobrazuje kontakty, upozornění na události, stavy protokolů a podporuje rám
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Nastavení
-[Background colour:]
+[Background color:]
 Barva pozadí:
-[Selection colour:]
+[Selection color:]
 Barva výběru:
 [Use background bitmap]
 Použít na pozadí obrázek

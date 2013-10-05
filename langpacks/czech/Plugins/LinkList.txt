@@ -34,7 +34,7 @@ Jen odkazy na stránky
 Hledat i ve zprávách
 [Static]
 Statický
-[Colour Select]
+[Color Select]
 Výběr barev
 [Incoming messages]
 Příchozí zprávy
@@ -44,11 +44,11 @@ Výchozí
 Náhled
 [Outgoing messages]
 Odchozí zprávy
-[Backgroundcolour]
+[Background color]
 Barva pozadí
 [Use Miranda Settings]
 Použít nastavení Mirandy
-[Textcolour]
+[Text color]
 Barva textu
 [General Settings]
 Obecná nastavení

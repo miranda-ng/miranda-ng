@@ -166,7 +166,7 @@ Zapamatovat hledaný řetězec
 [LastEvent]
 
 [TimeStamp]
-
+Časový údaj
 [Script Editor]
 
 [Normal foreground]
@@ -212,7 +212,7 @@ Zapamatovat hledaný řetězec
 [Colorize]
 Obarvit
 [Metacontact]
-
+Metakontakt
 [Hidden contact background]
 
 [Hidden contact foreground]

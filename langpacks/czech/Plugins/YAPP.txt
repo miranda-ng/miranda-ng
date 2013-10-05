@@ -52,9 +52,9 @@ Odsazení textu:
 Vyplnění:
 [Round corners (avatar)]
 Zaoblit rohy avatarů
-[Text colour:]
+[Text color:]
 Barva textu:
-[Background colour:]
+[Background color:]
 Barva pozadí:
 [Set timeout]
 Nastavit dobu zobrazení

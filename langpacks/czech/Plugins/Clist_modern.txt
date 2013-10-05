@@ -56,9 +56,9 @@ Zobrazit názvy protokolů
 Zobrazit stav
 [Settings]
 Nastavení
-[Background colour:]
+[Background color:]
 Barva pozadí:
-[Selection colour:]
+[Selection color:]
 Barva výběru:
 [Use background bitmap]
 Použít na pozadí obrázek
@@ -104,7 +104,7 @@ Vložit
 Vlastnosti objektu
 [Type]
 Typ
-[Colour]
+[Color]
 Barva
 [Alpha]
 Průhlednost
@@ -694,7 +694,7 @@ Jména kontaktů
 Položky řádků
 [Frame texts]
 Texty rámečků
-[Special colours]
+[Special colors]
 Speciální barvy
 [Standard contacts]
 Standardní kontakty
@@ -758,7 +758,7 @@ Text vybrané položky v nabídce
 Text záhlaví rámečku
 [Statusbar text]
 Text ve stavové liště
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 Klíčovací barva pozadí externích rámečků
 [General]
 Obecné

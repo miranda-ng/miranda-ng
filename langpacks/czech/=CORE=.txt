@@ -441,11 +441,11 @@ Vyberte události, které chcete filtrovat:
 Efekt
 [Effect:]
 Efekt:
-[Base colour:]
+[Base color:]
 Základní barva:
 [opacity:]
 průhlednost:
-[Secondary colour:]
+[Secondary color:]
 Doplňková barva:
 [Select the extra icons to be shown in the contact list:]
 Zvolte doplňkové ikony, které budou zobrazeny v seznamu kontaktů:
@@ -614,9 +614,9 @@ Nové místnosti do skupiny:
 Odstup uživatelů v seznamu (v pix.):
 [Use same style as in the message log]
 Použít nastavení pro záznam komunikace
-[Use default colours]
+[Use default colors]
 Použít výchozí barvy
-[Use custom colours]
+[Use custom colors]
 Použít vlastní barvy
 [Popups for the Chat plugin]
 Oznamovací okna
@@ -811,9 +811,9 @@ Gama korekce
 Zešednout seznam v případě:
 [Contact List Background]
 Pozadí seznamu kontaktů
-[Background colour]
+[Background color]
 Barva pozadí
-[Selection colour]
+[Selection color]
 Barva výběru
 [Use background image]
 Použít na pozadí obrázek
@@ -829,7 +829,7 @@ Svisle vedle sebe
 Rolovat s textem
 [Stretch proportionally]
 Uzpůsobit poměrně
-[Use Windows colours]
+[Use Windows colors]
 Použít barvy Windows
 [Status Bar]
 Stavová lišta
@@ -1295,7 +1295,7 @@ Přidat se do diskuse
 [Open chat window]
 Otevřít komunikační okno
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text colour]
+[Text color]
 Barva textu
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
@@ -1408,11 +1408,11 @@ Zobrazit stav kontaktu, pokud je protokol podporuje
 [Display contact status icon before user role icon]
 Zobrazit ikonu stavu kontaktu před ikonou jeho role
 [Prefix all events with a timestamp]
-Před každou událost přidat informaci o čase
+Před každou událost přidat časový údaj
 [Only prefix with timestamp if it has changed]
-Informaci o čase přidat pouze pokud se změní
-[Timestamp has same colour as the event]
-Pro informaci o čase použít stejnou barvu jakou má příslušná událost
+Časový údaj přidat pouze pokud se změní
+[Timestamp has same color as the event]
+Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
 Odsadit druhý řádek dlouhé zprávy
 [Limit user names in the message log to 20 characters]
@@ -2079,7 +2079,7 @@ Př&ejmenovat
 [&Add permanently to list]
 Přid&at do seznamu natrvalo
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Upravené jméno (nelze přesunout)
 [Nick]
 Přezdívka
@@ -2093,7 +2093,9 @@ Příjmení
 Uživatel
 [FirstName LastName]
 Jméno Příjmení
-['(Unknown Contact)' (not moveable)]
+[LastName FirstName]
+Příjmení Jméno
+['(Unknown Contact)' (not movable)]
 '(neznámý kontakt)' (nelze přesunout)
 ['(Unknown Contact)']
 '(neznámý kontakt)'

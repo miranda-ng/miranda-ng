@@ -182,7 +182,7 @@ Po&užít barvy Windows
 Použít &ikony systému
 [Previe&w]
 &Náhled
-[Use default colours]
+[Use default colors]
 Použít výchozí barvy
 [UIN:]
 UIN:

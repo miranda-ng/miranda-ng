@@ -455,7 +455,7 @@ Text rámečku
 Jabber aktivita
 [Jabber Mood]
 Jabber nálada
-[Fatal error, image services not found. Flags Module will be disabled.]
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
 
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]

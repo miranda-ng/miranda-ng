@@ -11,7 +11,7 @@ Poskytuje služby oznámení pro různé doplňky.
 [Content && Style]
 Chování a vzhled
 [Go to Customize > Fonts && Colors for fonts and colors options]
-Nastavení naleznete v sekci Vlastní úpravy -> Písma a barvy
+Nastavení změníte v sekci Vlastní úpravy -> Písma a barvy
 [Miscellaneous]
 Ostatní
 [Effects]
@@ -377,7 +377,7 @@ Zobrazit stín
 realističtější
 [Enable Aero Glass (Vista+)]
 Povolit Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Použít barvy Windows
 [Use advanced text render]
 Použít pokročilé vykreslování textu

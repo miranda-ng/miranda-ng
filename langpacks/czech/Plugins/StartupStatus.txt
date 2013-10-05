@@ -120,13 +120,13 @@ Automaticky vytáčet po spuštění
 Automaticky zavěsit po ukončení
 [Dial-up (experimental)]
 Vytáčené spojení (experimentální)
-[Background colour]
+[Background color]
 Barva pozadí
-[Text colour]
+[Text color]
 Barva textu
-[Use Windows colours]
+[Use Windows colors]
 Použít barvy Windows
-[Use default colours]
+[Use default colors]
 Použít výchozí barvy
 [Delay]
 Prodleva
@@ -140,7 +140,7 @@ Nedělat nic
 Zavřít oznámení
 [Cancel reconnecting]
 Přerušit připojování
-[Colours]
+[Colors]
 Barvy
 [Preview]
 Náhled

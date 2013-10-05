@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.0.0
+;  Version: 0.2.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -197,6 +197,8 @@ Uživatel vám poslal %s:
 Zpráva byla přečtena: %s - %s
 [Message read: %s]
 Zpráva byla přečtena: %s
+[%s and more (%d)]
+%s a další (%d)
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.

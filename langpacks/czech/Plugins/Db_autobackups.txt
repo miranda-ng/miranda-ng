@@ -31,7 +31,7 @@ Složka pro zálohování profilů:
 [Browse...]
 Procházet...
 [Go to the "Customize -> Folders" to change settings]
-Přejděte do "Vlastní úpravy -> Složky" pro změnu nastavení
+Nastavení změníte v sekci Vlastní úpravy -> Složky
 [Disable progress bar]
 Vypnout ukazatel průběhu
 [Disable Popups]

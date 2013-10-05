@@ -497,9 +497,9 @@ Oznámení
 ... &dopsal zprávu
 [Back]
 Pozadí
-[U&se Popup colours]
-Použít globální na&stavení
-[&Use Windows colours]
+[U&se Popup colors]
+P&oužít výchozí barvy
+[&Use Windows colors]
 Po&užít barvy Windows
 [Only &one popup for each contact]
 Pouze jedn&o oznámení na kontakt
@@ -1467,7 +1467,7 @@ Písmo
 Barva písma
 [Format strike-through]
 Přeškrtnutý text
-[Background colour]
+[Background color]
 Barva pozadí
 [Room settings]
 Nastavení místnosti
@@ -1848,8 +1848,6 @@ Otevřít komunikační okno
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Barva textu
-[Background color]
-Barva pozadí
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 Příchod: %s

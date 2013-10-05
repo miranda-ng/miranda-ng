@@ -272,9 +272,9 @@ Skrýt svislý posuvník
 Zešednout seznam v případě:
 [Contact List Background]
 Pozadí seznamu kontaktů
-[Use Windows colours]
+[Use Windows colors]
 Použít barvy Windows
-[Background colour]
+[Background color]
 Barva pozadí
 [Use background image]
 Použít na pozadí obrázek

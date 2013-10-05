@@ -38,15 +38,15 @@ Povolit sledování pro tyto protokoly:
 Upozornění pro metakontakty: Informace o změně avataru pocházejí od jednotlivých kontaktů.
 [Show popup when a contact change his avatar]
 Zobrazit oznámení, když kontakt změní svůj avatar
-[Colours]
+[Colors]
 Barvy
-[Background colour]
+[Background color]
 Barva pozadí
-[Text colour]
+[Text color]
 Barva textu
-[Use Windows colours]
+[Use Windows colors]
 Použít barvy Windows
-[Use default colours]
+[Use default colors]
 Použít výchozí barvy
 [Delay]
 Prodleva
@@ -91,11 +91,11 @@ Umístění na disku: <profil>\\Avatars History\\<hash_avataru>
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
 Umístění na disku: <profil>\\Avatars History\\<protokol>\\<hash_avataru>
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
-Umístění na disku: <profil>\\Avatars History\\<protokol>\\<hash_avataru>, přičemž zástupce najdete v <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<čas>
+Umístění na disku: <profil>\\Avatars History\\<protokol>\\<hash_avataru>, přičemž zástupce najdete v <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<časový údaj>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 Uloží historii avatarů pouze na disk. Zobrazíte ji interním prohlížečem.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
-Umístění na disku: <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<čas> (stejný obrázek může být uložen víckrát!)
+Umístění na disku: <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<časový údaj> (stejný obrázek může být uložen víckrát!)
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
 

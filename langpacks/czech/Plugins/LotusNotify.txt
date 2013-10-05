@@ -12,7 +12,7 @@
 
 [Show error messages]
 
-[Set popup colours]
+[Set popup colors]
 Nastavit barvy oznámení
 [Popup options]
 Možnosti oznámení

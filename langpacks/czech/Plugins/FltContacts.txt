@@ -58,7 +58,7 @@ Barva levého horního okraje:
 Barva pravého spodního okraje:
 [Background]
 Pozadí
-[Background colour:]
+[Background color:]
 Barva pozadí:
 [Use background bitmap]
 Použít na pozadí obrázek

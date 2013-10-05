@@ -42,7 +42,7 @@ sek.
 0 = výchozí
 [-1 = Infinite]
 -1 = neustále
-[Colours]
+[Colors]
 Barvy
 [Background]
 Pozadí

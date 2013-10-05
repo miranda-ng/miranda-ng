@@ -24,9 +24,9 @@ Upozornit každých
 kB
 [minutes]
 min.
-[Background colour:]
+[Background color:]
 Barva pozadí:
-[Text colour:]
+[Text color:]
 Barva textu:
 [Reset to default]
 Obnovit výchozí

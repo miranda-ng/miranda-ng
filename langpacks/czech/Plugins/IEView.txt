@@ -69,7 +69,7 @@ Zobrazit datum
 [Use long date format]
 Použít dlouhý formát data
 [Use relative timestamp]
-Použít relativní zápis času
+Použít relativní časové údaje
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Odchozí přenos souboru

@@ -73,7 +73,7 @@ Proxy vyžaduje autorizaci
 Oznámení nové pošty
 [Enable incoming mail notification]
 Povolit oznámení o došlé poště
-[Colours]
+[Colors]
 Barvy
 [Background]
 Pozadí

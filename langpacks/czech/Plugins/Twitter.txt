@@ -47,9 +47,9 @@ Barvy
 [Use Windows colors]
 Použít barvy Windows
 [Use Popup colors]
-
+Použít výchozí barvy
 [Use custom colors]
-
+Použít vlastní barvy
 [Back]
 Pozadí
 [Text]

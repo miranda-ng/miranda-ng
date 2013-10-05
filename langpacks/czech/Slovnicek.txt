@@ -1,3 +1,5 @@
+Pojmy:
+
 (system) tray - oznamovací oblast
 Autoreply - automatická odpovìï
 Avatar - avatar (avatara, avatarù, avataøi)
@@ -18,7 +20,6 @@ Message log - záznam komunikace
 Message window - komunikaèní okno
 Nick - pøezdívka
 PopUp - oznámení
-Reset to default - obnovit výchozí
 Session nebo message session, conversation - rozhovor
 Smiley library - knihovna smajlíkù
 Status - stav
@@ -35,3 +36,8 @@ Userinfoex, extended user info - detaily uživatele
 View mode - pohled
 Xstatus - rozšíøený stav
 Xstatus message - zpráva rozšíøeného stavu
+
+Fráze:
+Go to ... -> ... to change settings - Nastavení zmìníte v sekci ... -> ...
+Use Popup colors - Použít výchozí barvy
+Reset to default - Obnovit výchozí

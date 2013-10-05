@@ -136,13 +136,13 @@ Možnosti oznámení
 Povolit oznámení
 [Popup only when condition changes]
 Oznámit pouze při změně situace
-[Colours]
+[Colors]
 Barvy
-[Background colour]
+[Background color]
 Barva pozadí
-[Text colour]
+[Text color]
 Barva textu
-[Use Windows colours]
+[Use Windows colors]
 Použít barvy Windows
 [Popup Actions]
 Akce při oznámení

@@ -8,7 +8,6 @@
 [APOP]
 [Enable YAMN Main Menu]
 [Mail Notifications]
-[Use custom colour]
 [..s Popup duration]
 [Check &mail (This Account)]
 [Launch application]

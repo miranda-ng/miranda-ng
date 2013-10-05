@@ -42,7 +42,7 @@ Upozornit při nedoručení odeslané zprávy
 
 [Send formatted text (send RTF)]
 
-[Background colour]
+[Background color]
 Barva pozadí
 [Font]
 Písmo

@@ -236,9 +236,9 @@ kB
 Skupinový rozhovor
 [Use same style as in the message log]
 Použít nastavení pro záznam komunikace
-[Use default colours]
+[Use default colors]
 Použít výchozí barvy
-[Use custom colours]
+[Use custom colors]
 Použít vlastní barvy
 [Text]
 Text
@@ -347,9 +347,9 @@ Odchozí zpráva (10x10)
 Poznámka (10x10)
 [Window Icon]
 Ikona okna
-[Text colour]
+[Text color]
 Barva textu
-[Background colour]
+[Background color]
 Barva pozadí
 [Bold]
 Tučné
@@ -758,8 +758,8 @@ Přidat ':' k automaticky doplněným jménům
 Před každou událost přidat informaci o čase
 [Only prefix with timestamp if it has changed]
 Informaci o čase přidat pouze pokud se změní
-[Timestamp has same colour as event]
-Pro informaci o čase použít stejnou barvu jakou má příslušná událost
+[Timestamp has same color as event]
+Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
 Odsadit druhý řádek dlouhé zprávy
 [Limit user names to 20 characters]
@@ -959,10 +959,6 @@ Aktuální téma: %s (nastavil %s)
 Kurzíva
 [Underline]
 Podtržené
-[Text color]
-Barva textu
-[Background color]
-Barva pozadí
 [Filter]
 Filtr
 [Manager]

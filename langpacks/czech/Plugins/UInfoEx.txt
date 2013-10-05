@@ -126,17 +126,17 @@ Automaticky zálohovat a udržovat informace o narozeninách aktuální
 Přehrát zvuk
 [Use ignore list]
 Použít seznam filtrování kontaktů
-[Birthday popup colours]
+[Birthday popup colors]
 Barvy upozornění na narozeniny
 [r]
-
-[Background colour]
+r
+[Background color]
 Barva pozadí
-[Text colour]
+[Text color]
 Barva textu
-[Use Windows colours]
+[Use Windows colors]
 Použít barvy Windows
-[Use default colours]
+[Use default colors]
 Použít výchozí barvy
 [Delay]
 Prodleva
@@ -148,7 +148,7 @@ Vlastní
 Trvale
 [Show reminder messages as popups (if reminder is enabled)]
 Upozorňovat na připomínky (jsou-li připomínky zapnuty)
-[Anniversary popup colours]
+[Anniversary popup colors]
 Barvy upozornění na výročí
 [Replace progress dialogs with popups]
 Zobrazovat oznámení místo oken průběhu
@@ -224,7 +224,7 @@ Vlastní informace
 Vlastní protokolové informace
 [Changed information]
 Změněné informace
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Zpřehlednit informace o stavu obarvováním textu
 [Make protocol based contact information readonly.]
 Neměnit osobní informace definované protokolem
@@ -234,7 +234,7 @@ Povolit skupiny ve stromovém zobrazení detailů
 Seřadit položky v menu dle abecedy
 [Info of a MetaContact's SubContact]
 Informace o podkontaktu z metakontaktu
-[Colours]
+[Colors]
 Barvy
 [Common]
 Obecné

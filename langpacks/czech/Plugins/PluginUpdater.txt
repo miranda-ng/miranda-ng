@@ -58,14 +58,14 @@ Dialogy s postupem
 Pozadí
 [Text]
 Text
-[Colours]
+[Colors]
 Barvy
 [Use cus&tom colors]
 Použít vlastní barvy
-[Use &Windows colours]
-Použít barvy Windows
-[Use Pop&up colours]
-Použít výchozí barvy
+[Use &Windows colors]
+Použít barvy &Windows
+[Use Pop&up colors]
+Po&užít výchozí barvy
 [Preview]
 Náhled
 [Click action]

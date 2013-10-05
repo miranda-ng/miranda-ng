@@ -144,8 +144,8 @@ Oznámení
 Vše v jednom
 [Multi popup]
 Více za sebou
-[Use custom colour]
-
+[Use custom color]
+Použít vlastní barvu
 [No new mail notifications]
 Žádné nové zprávy
 [Popup if no mail]
@@ -160,9 +160,9 @@ Upozornit oznámením
 
 [Preview]
 Náhled
-[Background colour]
+[Background color]
 Barva pozadí
-[Text colour]
+[Text color]
 Barva textu
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

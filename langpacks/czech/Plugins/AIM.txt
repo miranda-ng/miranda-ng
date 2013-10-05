@@ -136,6 +136,9 @@ O&dmítnout
 Zpráva
 [Room]
 Místnost
+;file \protocols\AimOscar\proto_aim\src\resource.h
+[ICQ]
+ICQ
 ;file \protocols\AimOscar\src\avatars.cpp
 [Avatars]
 Avatary
@@ -341,8 +344,6 @@ Váš účet je již potvrzen.
 [Can't start the confirmation procedure.]
 Nelze zahájit potvrzovací proceduru.
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-ICQ
 [Block]
 Blokovat
 [Profile]
