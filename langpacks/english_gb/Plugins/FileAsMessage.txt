@@ -5,11 +5,7 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
-;file \plugins\FileAsMessage\res\resources.rc
-;file \plugins\FileAsMessage\src\dialog.cpp
 [Failed on file initialization]
 Failed on file initialisation
 [Synchronizing...]
 Synchronising...
-;file \plugins\FileAsMessage\src\main.cpp
-;file \plugins\FileAsMessage\src\main.h

@@ -1,19 +1,13 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
-;file \protocols\Tlen\res\tlen.rc
 [Proxy requires authorization]
 Proxy requires authorisation
 [Colors]
 Colours
-;file \protocols\Tlen\src\tlen.cpp
 [Request authorization]
 Request authorisation
 [Grant authorization]
 Grant authorisation
-;file \protocols\Tlen\src\tlen_file.cpp
-;file \protocols\Tlen\src\tlen_iqid.cpp
-;file \protocols\Tlen\src\tlen_muc.cpp
-;file \protocols\Tlen\src\tlen_opt.cpp
 [Ignore alerts from unauthorized contacts]
 Ignore alerts from unauthorised contacts
 [Accept invitations from authorized contacts]
@@ -22,9 +16,3 @@ Accept invitations from authorised contacts
 Ignore invitations from unauthorised contacts
 [Ignore images from unauthorized contacts]
 Ignore images from unauthorised contacts
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_svc.cpp
-;file \protocols\Tlen\src\tlen_thread.cpp
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-;file \protocols\Tlen\src\tlen_voice.cpp
-;file \protocols\Tlen\src\tlen_ws.cpp

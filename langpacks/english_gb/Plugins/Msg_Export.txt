@@ -5,13 +5,7 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
-;file \plugins\Msg_Export\src\FileViewer.cpp
 [Color...]
 Colour...
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
-;file \plugins\Msg_Export\src\options.cpp
-;file \plugins\Msg_Export\src\utils.cpp
 [The following user made an authorization request:]
 The following user made an authorisation request:

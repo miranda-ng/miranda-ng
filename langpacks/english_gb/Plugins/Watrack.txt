@@ -21,9 +21,5 @@ Windows colours
 Custom colours
 [Color]
 Colour
-;file \plugins\Watrack\myshows\myshows.rc
-;file \plugins\Watrack\lastfm\i_last_api.inc
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-;file \plugins\Watrack\proto\proto.pas
 ;other strings
 [WATrack status]WATrack status

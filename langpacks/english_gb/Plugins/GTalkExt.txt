@@ -5,14 +5,9 @@
 ;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
-;file \protocols\GTalkExt\res\settings.rc
 [Background color]
 Background colour
 [Text color]
 Text colour
 [If both colors set to the same value, default colors will be used]
 If both colours set to the same value, default colours will be used
-;file \protocols\GTalkExt\src\menu.cpp
-;file \protocols\GTalkExt\src\options.cpp
-;file \protocols\GTalkExt\src\options.h
-;file \protocols\GTalkExt\src\tipper_items.cpp

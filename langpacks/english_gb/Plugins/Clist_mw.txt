@@ -5,24 +5,11 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Background color:]
 Background colour:
 [Selection color:]
 Selection colour:
 [Minimize to tray]
 Minimise to tray
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Customise
-;file \plugins\Clist_mw\src\clcfonts.cpp
-;file \plugins\Clist_mw\src\clcopts.cpp
-;file \plugins\Clist_mw\src\clistopts.cpp
-;file \plugins\Clist_mw\src\clistsettings.cpp
-;file \plugins\Clist_mw\src\clisttray.cpp
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

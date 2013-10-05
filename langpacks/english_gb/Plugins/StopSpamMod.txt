@@ -5,10 +5,7 @@
 ;  Version: 0.0.2.0
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-;file \plugins\StopSpamMod\res\stopspam.rc
 [Automatically grant authorization]
 Automatically grant authorisation
 [Request authorization from contacts which pass stopspam test]
 Request authorisation from contacts which pass stopspam test
-;file \plugins\StopSpamMod\src\init.cpp
-;file \plugins\StopSpamMod\src\options.cpp

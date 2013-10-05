@@ -5,15 +5,7 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Popup Colors]
 Popup Colours
 [Reset colors]
 Reset colours
-;file \plugins\SeenPlugin\src\history.cpp
-;file \plugins\SeenPlugin\src\main.cpp
-;file \plugins\SeenPlugin\src\menu.cpp
-;file \plugins\SeenPlugin\src\options.cpp
-;file \plugins\SeenPlugin\src\seen.h
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp

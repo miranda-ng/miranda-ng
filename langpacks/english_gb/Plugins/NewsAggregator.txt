@@ -5,14 +5,5 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\NewsAggregator\Res\Resource.rc
 [Visualization]
 Visualisation
-;file \plugins\NewsAggregator\Src\Authentication.cpp
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
-;file \plugins\NewsAggregator\Src\ExportImport.cpp
-;file \plugins\NewsAggregator\Src\Icons.cpp
-;file \plugins\NewsAggregator\Src\Menus.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
-;file \plugins\NewsAggregator\Src\Services.cpp
-;file \plugins\NewsAggregator\Src\Utils.cpp

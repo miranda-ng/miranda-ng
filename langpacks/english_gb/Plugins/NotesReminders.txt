@@ -5,18 +5,11 @@
 ;  Version: 0.0.5.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
-;file \plugins\NotesAndReminders\res\resource.rc
 [Background Color]
 Background Colour
 [Text Color]
 Text Colour
-;file \plugins\NotesAndReminders\src\globals.h
-;file \plugins\NotesAndReminders\src\hotkeys.cpp
-;file \plugins\NotesAndReminders\src\main.cpp
-;file \plugins\NotesAndReminders\src\notes.cpp
 [Gray]
 Grey
-;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Background Color]
 Sticky Note Background Colour
-;file \plugins\NotesAndReminders\src\reminders.cpp

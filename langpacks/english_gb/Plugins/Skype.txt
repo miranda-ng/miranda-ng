@@ -5,33 +5,15 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
-;file \protocols\Skype\res\Resource.rc
-;file \protocols\Skype\src\skype.cpp
-;file \protocols\Skype\src\skype_account.cpp
-;file \protocols\Skype\src\skype_blocked.cpp
-;file \protocols\Skype\src\skype_bookmarks.cpp
-;file \protocols\Skype\src\skype_chat.cpp
-;file \protocols\Skype\src\skype_contacts.cpp
-;file \protocols\Skype\src\skype_dialogs.cpp
-;file \protocols\Skype\src\skype_events.cpp
-;file \protocols\Skype\src\skype_icons.cpp
-;file \protocols\Skype\src\skype_ignore_list.cpp
-;file \protocols\Skype\src\skype_instances.cpp
 [Initialization key corrupted or not valid.]
 Initialisation key corrupted or not valid.
 [SkypeKit did not initialize (%d).]
 SkypeKit did not initialise (%d).
-;file \protocols\Skype\src\skype_menus.cpp
 [Request authorization]
 Request authorisation
 [Grant authorization]
 Grant authorisation
 [Revoke authorization]
 Revoke authorisation
-;file \protocols\Skype\src\skype_messages.cpp
 [history synchronization]
 history synchronisation
-;file \protocols\Skype\src\skype_netlib.cpp
-;file \protocols\Skype\src\skype_proto.cpp
-;file \protocols\Skype\src\skype_transfers.cpp
-;file \protocols\Skype\src\skype_utils.cpp

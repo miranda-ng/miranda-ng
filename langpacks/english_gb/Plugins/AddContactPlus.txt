@@ -5,12 +5,9 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-;file \plugins\AddContactPlus\res\resource.rc
 [Send authorization request]
 Send authorisation request
 [Authorization Request]
 Authorisation Request
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
-;file \plugins\AddContactPlus\src\main.cpp

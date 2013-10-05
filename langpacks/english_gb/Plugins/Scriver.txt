@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [and stay minimized]
 and stay minimised
 [Minimize on send]
@@ -16,33 +15,16 @@ Customise fonts and colours
 Use default colours
 [Use custom colors]
 Use custom colours
-;file \plugins\Scriver\src\globals.cpp
 [Text color]
 Text colour
 [Background color]
 Background colour
-;file \plugins\Scriver\src\input.cpp
 [Window: Minimize]
 Window: Minimise
-;file \plugins\Scriver\src\msgdialog.cpp
-;file \plugins\Scriver\src\msglog.cpp
-;file \plugins\Scriver\src\msgoptions.cpp
-;file \plugins\Scriver\src\msgs.cpp
-;file \plugins\Scriver\src\msgtimedout.cpp
-;file \plugins\Scriver\src\msgwindow.cpp
-;file \plugins\Scriver\src\sendqueue.cpp
-;file \plugins\Scriver\src\chat\clist.cpp
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
-;file \plugins\Scriver\src\chat\main.cpp
-;file \plugins\Scriver\src\chat\options.cpp
 [Timestamp has same color as event]
 Timestamp has same colour as event
 [Strip colors from messages]
 Strip colours from messages
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
-;file \plugins\Scriver\src\chat\window.cpp
 [Make the text italicized (CTRL+I)]
 Make the text italicised (CTRL+I)
 [Select a background color for the text (CTRL+L)]

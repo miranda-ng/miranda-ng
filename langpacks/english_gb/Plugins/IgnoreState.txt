@@ -5,8 +5,5 @@
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
-;file \plugins\IgnoreState\res\ignore.rc
-;file \plugins\IgnoreState\src\main.cpp
 [Authorization]
 Authorisation
-;file \plugins\IgnoreState\src\options.cpp

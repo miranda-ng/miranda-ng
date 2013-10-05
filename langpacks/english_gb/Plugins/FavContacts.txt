@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Customise
 [Use system colors and fonts]
@@ -14,8 +13,6 @@ Use system colours and fonts
 Hotkey shows menu centred on screen
 [Configure fonts and colors...]
 Configure fonts and colours...
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
 [Selected contact name (color)]
 Selected contact name (colour)
 [Selected second line (color)]

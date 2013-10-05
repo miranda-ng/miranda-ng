@@ -5,8 +5,5 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
-;file \plugins\CSList\res\cslist.rc
-;file \plugins\CSList\src\cslist.cpp
-;file \plugins\CSList\src\cslist.h
 [Set/unset current item as favorite]
 Set/unset current item as favourite

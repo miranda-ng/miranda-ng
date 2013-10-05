@@ -5,11 +5,7 @@
 ;  Version: 0.7.5.4
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
-;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
-;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [You are not authorized for access to Database]
 You are not authorised for access to Database
 [Secured MMAP: authorization successful]
 Secured MMAP: authorisation successful
-;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
-;file \plugins\Dbx_mmap_SA\src\security.cpp

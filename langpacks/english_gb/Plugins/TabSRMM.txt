@@ -5,8 +5,6 @@
 ;  Version: 3.1.99.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
-;file \plugins\TabSRMM\res\resource.rc
 [Customize the panel]
 Customise the panel
 [Default colors]
@@ -55,76 +53,40 @@ Add Contact to Favourites
 Remove Contact from Favourites
 [Show Popups if Window is minimized]
 Show Popups if Window is minimised
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Select font color]
 Select font colour
 [Change background color]
 Change background colour
-;file \plugins\TabSRMM\src\container.cpp
-;file \plugins\TabSRMM\src\containeroptions.cpp
-;file \plugins\TabSRMM\src\controls.cpp
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 Session list.\nClick left for a list of open sessions.\nClick right to access favourites and quickly configure message window behaviour
-;file \plugins\TabSRMM\src\eventpopups.cpp
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favourites.
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favourite status.
-;file \plugins\TabSRMM\src\globals.cpp
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
 [Do not synchronize the panel height with IM windows]
 Do not synchronise the panel height with IM windows
 [Do not synchronize the panel height with group chat windows]
 Do not synchronise the panel height with group chat windows
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [Minimize the window to the task bar]
 Minimise the window to the task bar
-;file \plugins\TabSRMM\src\msgs.cpp
 [Font color]
 Font colour
 [Background color]
 Background colour
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
-;file \plugins\TabSRMM\src\sendlater.cpp
-;file \plugins\TabSRMM\src\sendqueue.cpp
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
 [Semi transparent, custom colors]
 Semi transparent, custom colours
 [Custom (use own gradient colors)]
 Custom (use own gradient colours)
-;file \plugins\TabSRMM\src\translator.cpp
 [New windows are minimized (the option above MUST be active)]
 New windows are minimised (the option above MUST be active)
 [Activate a minimized window when a new tab is created inside it]
 Activate a minimised window when a new tab is created inside it
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Automatically switch existing tabs in minimised windows on incoming messages (ignored when using Aero Peek task bar features)
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
-;file \plugins\TabSRMM\src\userprefs.cpp
-;file \plugins\TabSRMM\src\utils.cpp
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Loading a theme|Loading a colour and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?
-;file \plugins\TabSRMM\src\chat\clist.cpp
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Text colour
-;file \plugins\TabSRMM\src\chat\log.cpp
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Common colors]
 Common colours
 [Window fill color]
@@ -139,6 +101,3 @@ Timestamp has same colour as the event
 Strip colours from messages in the log
 [Colorize user names in message log]
 Colourise user names in message log
-;file \plugins\TabSRMM\src\chat\services.cpp
-;file \plugins\TabSRMM\src\chat\tools.cpp
-;file \plugins\TabSRMM\src\chat\window.cpp

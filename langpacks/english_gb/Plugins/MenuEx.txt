@@ -5,12 +5,10 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
 Enter an authorisation request
 [Request Authorization]
 Request Authorisation
-;file \plugins\MenuItemEx\src\main.cpp
 [Authorization]
 Authorisation
 [Please authorize me to add you to my contact list.]
@@ -19,6 +17,5 @@ Please authorise me to add you to my contact list.
 Do you want to send authorisation request\nto new contact?
 [Request authorization]
 Request authorisation
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Customise

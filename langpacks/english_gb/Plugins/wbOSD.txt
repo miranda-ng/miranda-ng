@@ -5,12 +5,9 @@
 ;  Version: 0.2.1.0
 ;  Authors: Andrej Krutak
 ;============================================================
-;file \plugins\wbOSD\res\wbOSD.rc
 [Text color]
 Text colour
 [Background color]
 Background colour
 [Shadow color]
 Shadow colour
-;file \plugins\wbOSD\src\events.cpp
-;file \plugins\wbOSD\src\options.cpp

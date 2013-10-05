@@ -5,12 +5,9 @@
 ;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
-;file \plugins\FloatingContacts\res\fltcnt.rc
 [Left-top edge's color:]
 Left-top edge's colour:
 [Right-bottom edge's color:]
 Right-bottom edge's colour:
 [Background color:]
 Background colour:
-;file \plugins\FloatingContacts\src\main.cpp
-;file \plugins\FloatingContacts\src\options.cpp

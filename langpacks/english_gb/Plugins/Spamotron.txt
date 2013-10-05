@@ -5,7 +5,6 @@
 ;  Version: 0.0.4.6
 ;  Authors: vu1tur
 ;============================================================
-;file \plugins\Spamotron\res\spamotron.rc
 [Analyze]
 Analyse
 [Send challenge on authorization request:]
@@ -14,13 +13,7 @@ Send challenge on authorisation request:
 Default colours
 [Windows colors]
 Windows colours
-;file \plugins\Spamotron\src\bayes.cpp
-;file \plugins\Spamotron\src\common.h
 [Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
 Spam-o-tron delayed authorisation request. First reply with "%response%" without quotes.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 Spam-o-tron delayed authorisation request. First reply with a result of expression %mathexpr%.
-;file \plugins\Spamotron\src\options.cpp
-;file \plugins\Spamotron\src\popups.cpp
-;file \plugins\Spamotron\src\spamotron.cpp
-;file \plugins\Spamotron\src\utils.cpp

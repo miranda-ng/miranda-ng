@@ -5,7 +5,6 @@
 ;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
-;file \plugins\PluginUpdater\res\Resource.rc
 [Go to Customize -> Hotkeys to change the hotkey]
 Go to Customise -> Hotkeys to change the hotkey
 [Colors]
@@ -16,8 +15,3 @@ Use cus&tom colours
 Use &Windows colours
 [Use Pop&up colors]
 Use Pop&up colours
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
-;file \plugins\PluginUpdater\src\Options.cpp
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-;file \plugins\PluginUpdater\src\Utils.cpp

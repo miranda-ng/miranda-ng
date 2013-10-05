@@ -5,19 +5,9 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-;file \plugins\FTPFileYM\res\ftpfile.rc
-;file \plugins\FTPFileYM\src\dialog.cpp
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [Upload canceled]
 Upload cancelled
-;file \plugins\FTPFileYM\src\job_generic.cpp
 [CANCELED]
 CANCELLED
-;file \plugins\FTPFileYM\src\job_packer.cpp
-;file \plugins\FTPFileYM\src\job_upload.cpp
 [Error occurred when initializing libcurl.\nAborting file upload...]
 Error occurred when initialising libcurl.\nAborting file upload...
-;file \plugins\FTPFileYM\src\manager.cpp
-;file \plugins\FTPFileYM\src\options.cpp
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

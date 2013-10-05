@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [Background color]
 Background colour
 [Text color]
@@ -18,5 +17,3 @@ Use windows colours
 Use default Popup colours
 [Choose colors]
 Choose colours
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

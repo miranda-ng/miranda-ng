@@ -5,7 +5,5 @@
 ;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
-;file \plugins\TooltipNotify\res\main.rc
 [Behavior]
 Behaviour
-;file \plugins\TooltipNotify\src\TooltipNotify.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [Color difference allowed:]
 Colour difference allowed:
 [Make transparency proportional to color diff]
@@ -14,7 +13,3 @@ Make transparency proportional to colour diff
 Draw avatars greyscale
 [Color diff:]
 Colour diff:
-;file \plugins\AVS\src\acc.cpp
-;file \plugins\AVS\src\main.cpp
-;file \plugins\AVS\src\options.cpp
-;file \plugins\AVS\src\services.cpp

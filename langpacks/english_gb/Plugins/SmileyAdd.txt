@@ -5,15 +5,7 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-;file \plugins\SmileyAdd\src\download.cpp
-;file \plugins\SmileyAdd\src\main.cpp
-;file \plugins\SmileyAdd\src\options.cpp
 [Customize]
 Customise
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
 Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customise | Smileys.
-;file \plugins\SmileyAdd\src\smltool.cpp

@@ -5,23 +5,11 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [Strip colors]
 Strip colours
-;file \protocols\IRCG\src\clist.cpp
-;file \protocols\IRCG\src\commandmonitor.cpp
-;file \protocols\IRCG\src\input.cpp
-;file \protocols\IRCG\src\irclib.cpp
-;file \protocols\IRCG\src\ircproto.cpp
-;file \protocols\IRCG\src\options.cpp
-;file \protocols\IRCG\src\output.cpp
-;file \protocols\IRCG\src\services.cpp
 [Kill unauthorized: off]
 Kill unauthorised: off
 [Kill unauthorized: on]
 Kill unauthorised: on
 [Kill unauthorized: quick]
 Kill unauthorised: quick
-;file \protocols\IRCG\src\tools.cpp
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp

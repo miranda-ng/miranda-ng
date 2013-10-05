@@ -5,7 +5,6 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Colors]
 Colours
 [Use Windows colors]
@@ -14,6 +13,3 @@ Use Windows colours
 Use Popup colours
 [Use custom colors]
 Use custom colours
-;file \protocols\Twitter\src\connection.cpp
-;file \protocols\Twitter\src\proto.cpp
-;file \protocols\Twitter\src\theme.cpp

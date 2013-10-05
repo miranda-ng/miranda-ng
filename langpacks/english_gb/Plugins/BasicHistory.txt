@@ -5,19 +5,7 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
-;file \plugins\BasicHistory\src\BasicHistory.cpp
-;file \plugins\BasicHistory\src\EventList.cpp
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Fonts & Colors]
 Fonts & Colours
-;file \plugins\BasicHistory\src\Options.cpp
 [Authorization request]
 Authorisation request
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
-;file \plugins\BasicHistory\src\Searcher.cpp
-;file \plugins\BasicHistory\src\TxtExport.cpp

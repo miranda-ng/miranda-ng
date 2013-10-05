@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.3
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [Authorization Request]
 Authorisation Request
 [HTTP Authorization\nAccept or reject incoming request]
@@ -14,63 +13,27 @@ HTTP Authorisation\nAccept or reject incoming request
 If you wish to confirm this request, please click authorise. Otherwise, press deny to reject it.
 [Authorize]
 Authorise
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
-;file \protocols\JabberG\src\jabber_adhoc.cpp
-;file \protocols\JabberG\src\jabber_agent.cpp
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
-;file \protocols\JabberG\src\jabber_console.cpp
-;file \protocols\JabberG\src\jabber_disco.cpp
 [Browse all favorites]
 Browse all favourites
 [Remove all favorites]
 Remove all favourites
 [Add to favorites]
 Add to favourites
-;file \protocols\JabberG\src\jabber_disco.h
-;file \protocols\JabberG\src\jabber_form2.cpp
 [Whether to automatically authorize subscription requests]
 Whether to automatically authorise subscription requests
-;file \protocols\JabberG\src\jabber_groupchat.cpp
-;file \protocols\JabberG\src\jabber_icolib.cpp
-;file \protocols\JabberG\src\jabber_iqid.cpp
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 Request authorisation
 [Grant authorization]
 Grant authorisation
 [Revoke authorization]
 Revoke authorisation
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Automatically add contact when accept authorization]
 Automatically add contact when accept authorisation
 [Automatically accept authorization requests]
 Automatically accept authorisation requests
-;file \protocols\JabberG\src\jabber_password.cpp
-;file \protocols\JabberG\src\jabber_privacy.cpp
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
-;file \protocols\JabberG\src\jabber_search.cpp
-;file \protocols\JabberG\src\jabber_svc.cpp
-;file \protocols\JabberG\src\jabber_thread.cpp
-;file \protocols\JabberG\src\jabber_userinfo.cpp
-;file \protocols\JabberG\src\jabber_util.cpp
 [Unauthorized]
 Unauthorised
-;file \protocols\JabberG\src\jabber_vcard.cpp
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [socializing]
 socialising
 [Traveling]
 Travelling
-;file \protocols\JabberG\src\ui_utils.cpp

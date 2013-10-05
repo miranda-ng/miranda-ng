@@ -5,13 +5,9 @@
 ;  Version: 0.1.3.0
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\Sessions\res\Sessions.rc
-;file \plugins\Sessions\Src\Main.cpp
 [Favorite Session]
 Favourite Session
 [Not favorite Session]
 Not favourite Session
 [Show Favorite Sessions Menu]
 Show Favourite Sessions Menu
-;file \plugins\Sessions\Src\Options.cpp
-;file \plugins\Sessions\Src\Utils.cpp
