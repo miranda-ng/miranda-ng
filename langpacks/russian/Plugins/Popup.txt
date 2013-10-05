@@ -509,8 +509,6 @@ BBCode ([b]..[/b] - жирный)
 Обновить список
 [Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for Popup and message dialog.]
 SmileyAdd предпочтительней из-за дефектов во внутреннем MSL коде. Это позволяет вам выбирать те же значки для всплывающих окон и диалога в сообщениях.
-[Show colors in text bloc]
-Показывать цвета в текстовом блоке
 [Show avatar border]
 Показывать границы аватара
 [Black text bg.]
