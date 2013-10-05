@@ -5,19 +5,163 @@
 ;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
+[Plugin updater for Miranda NG.]
+Plugin de mises à jour de Miranda NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
+[Updates found!]
+Mises à jour trouvées!
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
+L'outil de mise à jour a détecté de nouvelles versions des composants de Miranda. Cliquer sur Détails pour avoir plus d'informations.
+[Update]
+Mise à jour
+[Details >>]
+Détails
 [Cancel]
 Annuler
+[Select &all]
+&Tout sélectionner
+[Select &none]
+&Rien sélectionner
+[Hotkey]
+Raccourci clavier
+[Go to Customize -> Hotkeys to change the hotkey]
+Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
+[Plugin updates options]
+Options du plugin de mise à jour
+[On startup]
+Au démarrage
+[(but only once a day)]
+(mais seulement une fois par jour)
+[Every]
+Tous les
+[Files source]
+Source du fichier
+[Stable version]
+Version stable
+[Development version (less stable)]
+Version de développement (moins stable)
+[Development version with debug symbols]
+Version de développement avec les symboles de debug
+[Custom version]
+Version personnalisée
+[Notifications]
+Notifications
+[Message boxes (*)]
+
+[Errors]
+Erreurs
+[Info messages]
+
+[Progress dialogs]
+
+[Back]
+Fond
 [Text]
 Texte
+[Colors]
+Couleurs
+[Use cus&tom colors]
+Utiliser des couleurs &personnalisé
+[Use &Windows colors]
+Utiliser les couleur &Windows
+[Use Pop&up colors]
+Utiliser les couleur des Pop&up
+[Preview]
+Aperçu
+[Click action]
+Action du clic
+[On left click]
+Clic gauche
+[On right click]
+Clic droit
+[Timeout]
+
+[0 = Default]
+0 = Défaut
+[-1 = Infinite]
+-1 = Infini
+[Sec]
+Sec
+[* Needs popup actions to be enabled]
+* Les actions sur popups doivent être activées
+[Not sets for "Message boxes"]
+
+[Boxes]
+
+[Popups]
+Popups
+[Component list]
+Liste des composants
+[Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
+Ici se trouve la liste complète des composants manquants de Miranda NG. Cocher les composants que vous souhaitez télécharger.\n\nCliquer sur l'icône info pour voir la page d'information du composant.
+[Download]
+Téléchargement
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Skipped.]
+
+[Downloading...]
+Télécharge...
+[Failed!]
+
+[Succeeded.]
+Accompli.
+[Plugin Updater]
+
+[Download complete]
+Téléchargement terminé
+[Download complete. Do you want to go to plugins option page?]
+Téléchargement terminé. Voulez-vous ouvrir la page d'option des plugins?
+[Component Name]
+Nom du composant
+[State]
+État
+[Plugins]
+Plugins
 [Icons]
 Icônes
 [Other]
 Autre
+[List is empty.]
+Liste vide.
+[List loading already started!]
+
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Will be deleted!]
+Sera effacé!
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
+Mise à jour accompli. Appuyer sur Oui pour redémarrer Miranda maintenant.
+[<< Details]
+<<Détails
+[No updates found.]
+Aucune mises à jour trouvée.
+[Update checking already started!]
+Vérification des mises à jour en cours!
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 heures
+[days]
+jours
+[Test]
+Test
+[Services]
+Services
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
+[Check for plugin updates]
+Vérifier la présence de mises à jour
+[Show full plugin list]
+Montrer la liste complète des plugins
 ;file \plugins\PluginUpdater\src\Utils.cpp
+['Yes' Button]
+Bouton 'Oui'
+['No' Button]
+Bouton 'Non'
+[Plugin info]
+Informations sur le plugin
+[Plugin list]
+Liste des plugins
+[Plugin Updater HTTP connection]
+Connection HTTP du plugin de mise à jour
+[Checking new updates...]
+Vérification de mises à jour...
+[An error occured while checking new updates.]
+Une erreur est survenu lors de la vérification des mises à jour.
