@@ -55,11 +55,11 @@
 Инвертировать регистр
 [Changing Layout]
 Смена раскладки
-[Popup colours]
+[Popup colors]
 Цвета вспл.окон
-[Windows colours]
+[Windows colors]
 Цвета Windows
-[Custom colours]
+[Custom colors]
 Настроить цвета
 [Inverting lettercase:]
 Инвертировать регистр:

@@ -40,8 +40,6 @@ Mensajes salientes
 Color de fondo
 [Use Miranda Settings]
 Utilice Configuración de Miranda
-[Text color]
-Textcolour
 [Open links always in a new window]
 Abrir enlaces siempre en una ventana nueva
 [Update list on new events]

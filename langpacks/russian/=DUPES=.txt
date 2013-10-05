@@ -5,7 +5,7 @@
 -1=Бесконечно
 [ Actions ]
  Действия\s
-[ Colours ]
+[ Colors ]
  Цвета\s
 [ Delay ]
  Задержка\s
@@ -177,8 +177,6 @@ xСтатус %s
 Фон
 [Background color]
 Цвет фона
-[Background colour]
-Цвет фона
 [Baltic]
 Балтийский
 [Bambara]
@@ -277,12 +275,8 @@ xСтатус %s
 Цвет
 [Colors]
 Цвета
-[Colours]
-Цвета
 [Style]
 Стиль
-[Colour]
-Цвет
 [Bold]
 Жирный
 [Italic]
@@ -1133,8 +1127,6 @@ E-Mail
 Тест
 [Text color]
 Цвет текста
-[Text colour]
-Цвет текста
 [Thai]
 Тайский
 [Tibetan]
@@ -1189,7 +1181,7 @@ E-Mail
 Настройки уведомлений набора
 [Typing Notify]
 Набирает текст
-[U&se Popup colours]
+[U&se Popup colors]
 Цвета вспл. окон
 [Uighur; Uyghur]
 Уйгурский
@@ -1209,7 +1201,7 @@ E-Mail
 Урду
 [Use background image]
 Использовать фон
-[Use custom colours]
+[Use custom colors]
 Задать цвета
 [Use default]
 По умолчанию
@@ -1355,7 +1347,7 @@ Web-страница
 %s подключение к серверу 
 [%s client-to-client connections]
 %s подключения между клиентами
-[Use default colours]
+[Use default colors]
 Цвета по умолчанию
 [Do nothing]
 Ничего не делать
@@ -1469,9 +1461,9 @@ Web-страница
 Поместить окно на передний план, если оно прикрыто другими окнами
 [Contact List Background]
 Фон списка
-[Use Windows colours]
+[Use Windows colors]
 Цвета Windows
-[&Use Windows colours]
+[&Use Windows colors]
 Цвета Windows
 [Stretch to height]
 Растянуть по высоте
@@ -1539,7 +1531,7 @@ Web-страница
 Отступ для групп:
 [Second line]
 Вторая строка
-[Background colour:]
+[Background color:]
 Цвет фона:
 [N/A]
 Недоступен
@@ -2267,7 +2259,7 @@ ID пользователя:
 Не открывать окно чата при входе в чат-комнату
 [Toggle the visible state when double clicking in the contact list]
 Переключить видимость по двойному щелчку в списке контактов
-[Timestamp has same colour as the event]
+[Timestamp has same color as the event]
 Показывать время тем же цветом что и событие
 [Add ':' to auto-completed user names]
 Добавлять ":" к именам пользователей
@@ -3541,9 +3533,9 @@ Web Дизайн
 Показывать имя &группы контакта
 [Use cus&tom colors]
 Настроить цвета
-[Use Pop&up colours]
+[Use Pop&up colors]
 Цвета Pop&up
-[Use &Windows colours]
+[Use &Windows colors]
 Цвета Windows
 [Use individual sounds]
 Индивидуальные звуки
@@ -3757,7 +3749,7 @@ xСтатусы
 Месяц
 [Select protocols]
 Протоколы
-[Text colour:]
+[Text color:]
 Цвет текста:
 [translates x]
 переводит х

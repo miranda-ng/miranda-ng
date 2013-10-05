@@ -16,7 +16,7 @@ Opciones
 por defecto
 [Default]
 Predeterminado
-[Windows colours]
+[Windows colors]
 Ventanas de colores
 [Text]
 Texto

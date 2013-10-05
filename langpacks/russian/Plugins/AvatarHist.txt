@@ -115,15 +115,15 @@
 Сохранять изменения аватаров
 [Log this user's avatars]
 Сохранять историю
-[Popup background colour]
+[Popup background color]
 Цвет фона
-[Popup text colour]
+[Popup text color]
 Цвет текста
 [Show 'Avatar History' on contacts' menus (takes effect after restart)]
 Показывать пункт "История аватаров" в меню контакта
 [Show popup when user changes their avatar]
 Вспл. окно при смене аватара
-[Use default colours for popups]
+[Use default colors for popups]
 Стандартные цвета для окон
 [Contact changed avatar]
 Контакт сменил аватар

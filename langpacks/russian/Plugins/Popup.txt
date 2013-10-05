@@ -231,9 +231,9 @@ History++ для истории окон
 Это многострочное сообщение!\nКруто, не так ли? :)
 [opacity: %d%%]
 непрозрачность: %d%%
-[Default colour]
+[Default color]
 Цвет фона
-[Default text colour]
+[Default text color]
 Цвет текста
 [In (ms)]
 Откр. (мс)
@@ -341,7 +341,7 @@ BBCode ([b]..[/b] - жирный)
 Закруглить углы аватаров
 [Draw borders for semitransparent avatars too]
 Также для полупрозрачных аватаров
-[Show colours]
+[Show colors]
 Показывать цвета
 [Show shadow]
 Тень
@@ -509,7 +509,7 @@ BBCode ([b]..[/b] - жирный)
 Обновить список
 [Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for Popup and message dialog.]
 SmileyAdd предпочтительней из-за дефектов во внутреннем MSL коде. Это позволяет вам выбирать те же значки для всплывающих окон и диалога в сообщениях.
-[Show colours in text bloc]
+[Show colors in text bloc]
 Показывать цвета в текстовом блоке
 [Show avatar border]
 Показывать границы аватара

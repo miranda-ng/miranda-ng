@@ -53,11 +53,11 @@
 Інвертувати регістр
 [Changing Layout]
 Зміна розкладки
-[PopUp colours]
+[PopUp colors]
 Кольори спл.окон
-[Windows colours]
+[Windows colors]
 Кольори Windows
-[Custom colours]
+[Custom colors]
 Налаштувати кольорів
 [Inverting lettercase:]
 Інвертувати регістр:

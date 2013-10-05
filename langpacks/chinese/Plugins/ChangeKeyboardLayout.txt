@@ -36,11 +36,11 @@
 反转大小写时设置 Caps Lock 状态:
 [Change active keyboard layout in system]
 改变当前系统键盘布局
-[Popup colours]
+[Popup colors]
 弹出颜色
-[Windows colours]
+[Windows colors]
 窗口颜色
-[Custom colours]
+[Custom colors]
 自定义颜色
 [Text]
 文本

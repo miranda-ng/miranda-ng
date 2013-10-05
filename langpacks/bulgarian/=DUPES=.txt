@@ -307,9 +307,9 @@ Copyright:
 Добавяне на новите стаи към група:
 [Use same style as in the message log]
 Ползване на същия стил както в дневника за съобщения
-[Use default colours]
+[Use default colors]
 Стандартни цветове
-[Use custom colours]
+[Use custom colors]
 Зададени цветове
 [Timeout (s)]
 Времетраене (сек)
@@ -489,7 +489,7 @@ Copyright:
 Посивяване на списъка, когато:
 [Contact List Background]
 Фон на списъка с контакти
-[Background colour]
+[Background color]
 Цвят на фона
 [Use background image]
 Фоново изображение
@@ -505,7 +505,7 @@ Copyright:
 Придвижване с текста
 [Stretch proportionally]
 Пропорционално разтягане
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
 [Status Bar]
 Лента за състояние
@@ -711,7 +711,7 @@ Copyright:
 Влизане в чата
 [Open chat window]
 Отваряне на чат прозорец
-[Text colour]
+[Text color]
 Цвят на текста
 [%s has joined]
 %s влезе
