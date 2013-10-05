@@ -1421,21 +1421,21 @@ void ExportGpGKeysFunc(int type)
 			case DBVT_BYTE:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbv.bVal);
+					mir_snprintf(_id, 64, "%d", dbv.bVal);
 					id += _id;
 				}
 				break;
 			case DBVT_WORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbv.wVal);
+					mir_snprintf(_id, 64, "%d", dbv.wVal);
 					id += _id;
 				}
 				break;
 			case DBVT_DWORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbv.dVal);
+					mir_snprintf(_id, 64, "%d", dbv.dVal);
 					id += _id;
 				}
 				break;
@@ -1472,21 +1472,21 @@ void ExportGpGKeysFunc(int type)
 			case DBVT_BYTE:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbv.bVal);
+					mir_snprintf(_id, 64, "%d", dbv.bVal);
 					id += _id;
 				}
 				break;
 			case DBVT_WORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbv.wVal);
+					mir_snprintf(_id, 64, "%d", dbv.wVal);
 					id += _id;
 				}
 				break;
 			case DBVT_DWORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, 63, "%d", dbv.dVal);
+					mir_snprintf(_id, 64, "%d", dbv.dVal);
 					id += _id;			
 				}
 				break;
@@ -1549,11 +1549,11 @@ void ExportGpGKeysFunc(int type)
 		file.close();
 	char msg[512];
 	if(type == 2)
-		mir_snprintf(msg, 511, "%s %d %s %s %s", Translate("we have succesfully exported"), exported_keys, Translate("public keys"), Translate("and"), Translate("all private keys"));
+		mir_snprintf(msg, 512, "%s %d %s %s %s", Translate("we have succesfully exported"), exported_keys, Translate("public keys"), Translate("and"), Translate("all private keys"));
 	else if(type == 1)
-		mir_snprintf(msg, 511, "%s %s", Translate("we have succesfully exported"), Translate("all private keys"));
+		mir_snprintf(msg, 512, "%s %s", Translate("we have succesfully exported"), Translate("all private keys"));
 	else if(!type)
-		mir_snprintf(msg, 511, "%s %d %s",Translate("we have succesfully exported"), exported_keys, Translate("public keys"));
+		mir_snprintf(msg, 512, "%s %d %s",Translate("we have succesfully exported"), exported_keys, Translate("public keys"));
 	MessageBoxA(NULL, msg, Translate("Keys export result"), MB_OK);
 }
 
@@ -1626,7 +1626,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_BYTE:
 					{
 						char _id[64];
-						mir_snprintf(_id, 63, "%d", dbv.bVal);
+						mir_snprintf(_id, 64, "%d", dbv.bVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1635,7 +1635,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_WORD:
 					{
 						char _id[64];
-						mir_snprintf(_id, 63, "%d", dbv.wVal);
+						mir_snprintf(_id, 64, "%d", dbv.wVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1644,7 +1644,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_DWORD:
 					{
 						char _id[64];
-						mir_snprintf(_id, 63, "%d", dbv.dVal);
+						mir_snprintf(_id, 64, "%d", dbv.dVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1695,7 +1695,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_BYTE:
 						{
 							char _id[64];
-							mir_snprintf(_id, 63, "%d", dbv.bVal);
+							mir_snprintf(_id, 64, "%d", dbv.bVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1704,7 +1704,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_WORD:
 						{
 							char _id[64];
-							mir_snprintf(_id, 63, "%d", dbv.wVal);
+							mir_snprintf(_id, 64, "%d", dbv.wVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1713,7 +1713,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_DWORD:
 						{
 							char _id[64];
-							mir_snprintf(_id, 63, "%d", dbv.dVal);
+							mir_snprintf(_id, 64, "%d", dbv.dVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1899,9 +1899,9 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 		file.close();
 	char msg[512];
 	if(processed_private_keys)
-		mir_snprintf(msg, 511, "we have succesfully processed %d public keys and some private keys", processed_keys);
+		mir_snprintf(msg, 512, "we have succesfully processed %d public keys and some private keys", processed_keys);
 	else
-		mir_snprintf(msg, 511, "we have succesfully processed %d public keys", processed_keys);
+		mir_snprintf(msg, 512, "we have succesfully processed %d public keys", processed_keys);
 	MessageBoxA(NULL, msg, Translate("Keys import result"), MB_OK);
 	return 0;
 }
