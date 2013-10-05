@@ -78,4 +78,8 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Services ======================================================================
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+
+	//==== Misc ==========================================================================
+
+	TCHAR* GetUserStoredPassword(void);
 };

@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CVkProto>(szModuleName, ptszUserName)
 {
+	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
 }
 
 CVkProto::~CVkProto()
