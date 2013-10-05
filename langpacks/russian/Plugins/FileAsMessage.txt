@@ -68,9 +68,9 @@
 Синхронизация...
 [Paused...]
 Пауза...
-[New incoming file request. Do you want proceed?]
+[New incoming file request. Do you want to proceed?]
 Новый входящий файл. Хотите продолжить?
-[Incoming file request. Do you want proceed?]
+[Incoming file request. Do you want to proceed?]
 Входящий файл. Хотите продолжить?
 [Unknown command for "file As Message" was received]
 Принята неизвестная команда для "file As Message"

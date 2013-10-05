@@ -77,7 +77,7 @@
 Вы можете просто заблокировать кого-нибудь, щелчком правой кнопки по пользователю в контакт листе.
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Этот файл используется для поиска и обнаружения игры. Файл содержит поддерживаемые игры Xfire.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Этот файл содержит оригинальные значки игр. Вы можете так же активировать автоматическую загрузку, если этого файла у вас нет.
 [Be sure you put these files in following folder:]
 Будьте внимательны, вы поместите файлы в эту папку:
@@ -127,7 +127,7 @@
 Онлайн профиль XFire
 [Remove F&riend ...]
 Удалить из друзей ...
-[Do you really want delete your friend %s?]
+[Do you really want to delete your friend %s?]
 Вы действительно хотите удалить %s?
 [Automatically Detect]
 Автоматическое обнаружение
@@ -139,7 +139,7 @@
 Обзор...
 [Hide yourself in buddylist]
 Скрыть себя в списке друзей
-[Dont display game search results]
+[Don't display game search results]
 Не показывать результаты поиска игр
 [Gameicon:]
 Значок игры:
@@ -155,7 +155,7 @@
 Голосовой чат
 [Userdetails]
 Детали пользователя
-[Dont display game search status window]
+[Don't display game search status window]
 Не показывать окно при поиске игр
 [Searching games ...]
 Поиск игр ...
@@ -189,9 +189,9 @@
 Автоматически переподключаться при смене версии протокола
 [Background updating]
 Обновлять фон
-[Dont detect this game as running]
+[Don't detect this game as running]
 Не обнаруживать игру когда запущена
-[Dont set status message for other protocols]
+[Don't set status message for other protocols]
 Не ставить сообщение статуса другим протоколам
 [Account options]
 Настройки учётной записи

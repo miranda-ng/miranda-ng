@@ -118,7 +118,7 @@ HTTP подключение Plugin Updater
 Ниже перечислены все отсутствующие компоненты Miranda NG. Выберите компоненты, которые вы хотите установить.\n\nНажмите на значок информации, чтобы перейти на страницу компонента на сайте.
 [Download complete]
 Загрузка завершена
-[Download complete. Do you want go to plugins option page?]
+[Download complete. Do you want to go to plugins option page?]
 Загрузка завершена. Перейти на страницу настроек плагинов?
 [List loading already started!]
 Список загружается!

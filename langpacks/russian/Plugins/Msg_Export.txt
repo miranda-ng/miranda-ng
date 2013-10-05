@@ -159,5 +159,5 @@ UTF8 в новых файлах
 Дополнительно
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
-[User has been deleted do you want to delete the file?]
+[User has been deleted. Do you want to delete the file?]
 Контакт удалён. Хотите удалить файл?

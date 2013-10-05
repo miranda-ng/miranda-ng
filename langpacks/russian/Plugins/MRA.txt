@@ -380,7 +380,7 @@ MRA подключение
 Сделанные вами изменения вступят в силу после следующего входа в сеть (Mail.ru Агент)
 [Connections]
 Соединения
-[Leave empty if you dont want change password]
+[Leave empty if you dont want to change password]
 Оставьте пустым если не хотите менять пароль
 [Notify me when a message delivery has failed]
 Уведомить меня, если сообщение не доставлено

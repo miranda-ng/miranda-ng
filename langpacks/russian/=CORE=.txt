@@ -5,7 +5,7 @@
 ;============================================================
 ['%s' is disabled, re-enable?]
 '%s' отключён, включить?
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(Неизвестный)' (всегда последнее)
 ['(Unknown Contact)']
 '(Неизвестный контакт)'
@@ -837,7 +837,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Группа
 [Moving to next file...]
 Следующий файл...
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Заданное имя (всегда первое)
 [My notes:]
 Мои заметки:

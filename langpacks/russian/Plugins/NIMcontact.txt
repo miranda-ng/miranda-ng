@@ -98,7 +98,7 @@
 файл(#)
 [Intervals]
 периодов
-[If the protocol timer is disabled web pages wont be updated]
+[If the protocol timer is disabled web pages won't be updated]
 При выключенном таймере ссылки не обновляются
 [NIM_Contact]
 Не-IM контакт

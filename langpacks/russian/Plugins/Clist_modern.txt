@@ -42,7 +42,7 @@
 -Ничего-
 [Place offline users out of groups]
 Отключённых показывать вне групп
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Не перемещать отключённых вниз
 
 ;Трей
@@ -576,21 +576,21 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Конвертация в метаконтакт
 [Converting to MetaContact (Moving)]
 Конвертирование в метаконтакт (перемещение)
-[Do You want contact '%s' to be removed from MetaContact '%s' to group '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' to group '%s'?]
 Хотите удалить '%s' из метаконтакта '%s' и переместить в группу '%s'?
-[Do You want contact '%s' to be removed from MetaContact '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s'?]
 Хотите удалить контакт '%s' из метаконтакта '%s'?
-[Do You want contact '%s' to be added to MetaContact '%s'?]
+[Do you want contact '%s' to be added to MetaContact '%s'?]
 Хотите добавить контакт '%s' в метаконтакт '%s'?
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него (удалить его из '%s')?
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него?
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 Хотите сделать '%s' контактом по умолчанию?
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Хотите удалить '%s' из метаконтакта '%s' и добавить в '%s'?
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Хотите добавить '%s' в метаконтакт '%s'?
 [Do you want to contact '%s' be converted to MetaContact and contact '%s' be added?]
 Конвертировать '%s' в метаконтакт и добавить к нему '%s'?
