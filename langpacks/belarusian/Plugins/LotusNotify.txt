@@ -7,7 +7,7 @@
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 ;file \plugins\LotusNotify\res\LotusNotify.rc
-[Set popup colours]
+[Set popup colors]
 Колер вакна
 [Popup options]
 Налады ўсплывальных вокнаў

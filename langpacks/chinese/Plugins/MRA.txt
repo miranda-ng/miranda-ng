@@ -22,9 +22,7 @@
 新邮件托盘图标
 [Click to Inbox]
 点击打开收信箱
-[Background colour]
-背景颜色
-[Background colour]
+[Background color]
 背景颜色
 [Font]
 字体

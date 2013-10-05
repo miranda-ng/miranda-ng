@@ -12,11 +12,11 @@ OK
 Tühista
 [Close]
 Sulge
-[Use default colours]
+[Use default colors]
 Kasuta vaikimisi värve
-[Background colour]
+[Background color]
 Taustavärv
-[Text colour]
+[Text color]
 Teksti värv
 [&Add]
 &Lisa

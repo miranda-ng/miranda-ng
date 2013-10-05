@@ -150,9 +150,9 @@ Kiemelendõ szavak (helyettesítõk használhatóak)
 Helyzet
 [Use same style as in the message log]
 Azonos stílus, mint az üzenet naplóban
-[Use default colours]
+[Use default colors]
 Alap színek használata
-[Use custom colours]
+[Use custom colors]
 Egyedi színek használata
 [Text]
 Szöveg
@@ -233,9 +233,9 @@ Kimenõ üzenet (10x10)
 Megjegyzés (10x10)
 [Window Icon]
 Ablak ikon
-[Text colour]
+[Text color]
 Szövegszín
-[Background colour]
+[Background color]
 Háttérszín
 [Bold]
 Félkövér

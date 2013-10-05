@@ -116,9 +116,9 @@ Localización
 Conversaciones en grupo
 [Use same style as in the message log]
 Utilice el mismo estilo como en el registro de mensajes
-[Use default colours]
+[Use default colors]
 Utilice los colores por defecto
-[Use custom colours]
+[Use custom colors]
 Usar colores personalizados
 [Text]
 Texto
@@ -175,12 +175,10 @@ Smiley botón
 Icono de superposición
 [Window Icon]
 Icono de ventana
-[Text colour]
+[Text color]
 Color del texto
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
 [Bold]
 Bold
 [Italics]

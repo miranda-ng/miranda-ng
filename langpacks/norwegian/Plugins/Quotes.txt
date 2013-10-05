@@ -14,13 +14,11 @@ Logg
 Avbryt
 [Close]
 Lukk
-[Use default colours]
+[Use default colors]
 Bruk standardfarger
-[Background colour]
+[Background color]
 Bakgrunnsfarge
-[Background colour]
-Bakgrunnsfarge
-[Text colour]
+[Text color]
 Tekstfarge
 [Custom]
 Selvvalgt

@@ -220,12 +220,10 @@ Cacher l'ascenseur vertical
 Griser toute la liste quand :
 [Contact List Background]
 Arrière-plan de la liste
-[Use Windows colours]
+[Use Windows colors]
 Utiliser les couleurs Windows
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
 [Use background image]
 Utiliser image de fond
 [Stretch to width]

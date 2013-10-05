@@ -120,13 +120,13 @@ Automatycznie łącz na starcie
 Automatycznie rozłącz przy wyjściu
 [Dial-up (experimental)]
 Połączenie (eksperymentalne)
-[Background colour]
+[Background color]
 Kolor tła
-[Text colour]
+[Text color]
 Kolor tekstu
-[Use Windows colours]
+[Use Windows colors]
 Użyj kolorów Windows
-[Use default colours]
+[Use default colors]
 Użyj domyślnych kolorów
 [Delay]
 Wyświetlaj
@@ -140,7 +140,7 @@ Nic nie rób
 Zamknij popup
 [Cancel reconnecting]
 Anuluj ponowne łączenie
-[Colours]
+[Colors]
 Kolory
 [Preview]
 Podgląd

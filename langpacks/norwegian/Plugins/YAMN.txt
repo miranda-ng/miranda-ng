@@ -48,11 +48,9 @@ Usynlig
 I Telefonen
 [Out to lunch]
 Ute til lunsj
-[Background colour]
+[Background color]
 Bakgrunnsfarge
-[Background colour]
-Bakgrunnsfarge
-[Text colour]
+[Text color]
 Tekstfarge
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

@@ -70,15 +70,15 @@ Pobieraj dane z:
 Filtruj:
 [Popup Window Settings]
 Ustawienia popupa
-[Colours]
+[Colors]
 Kolory
-[Use default colours]
+[Use default colors]
 Użyj domyślnych kolorów
-[Use user-defined colours]
+[Use user-defined colors]
 Użyj kolorów zdefiniowanych przez użytkownika
-[Background colour]
+[Background color]
 Kolor tła
-[Text colour]
+[Text color]
 Kolor tekstu
 [Delay]
 Wyświetlaj

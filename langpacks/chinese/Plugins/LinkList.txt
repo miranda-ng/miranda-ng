@@ -30,7 +30,7 @@
 仅网页地址
 [Deep search]
 深度搜索
-[Colour Select]
+[Color Select]
 选择颜色
 [Incoming messages]
 传入消息
@@ -38,11 +38,11 @@
 插件默认值
 [Outgoing messages]
 发送的消息
-[Backgroundcolour]
+[Background color]
 背景颜色
 [Use Miranda Settings]
 使用 Miranda 设置
-[Textcolour]
+[Text color]
 文本颜色
 [Open links always in a new window]
 永远在新窗口打开链接

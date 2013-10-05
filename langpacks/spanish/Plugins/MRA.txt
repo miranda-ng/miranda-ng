@@ -18,10 +18,8 @@ Puerto:
 por defecto
 [Default]
 Predeterminado
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
 [Font]
 Fuentes
 [Summary]

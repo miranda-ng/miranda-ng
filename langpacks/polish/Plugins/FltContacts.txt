@@ -58,7 +58,7 @@ Lewy-górny kolor krawędzi
 Prawy-dolny kolor krawędzi
 [Background]
 Tło
-[Background colour:]
+[Background color:]
 Kolor tła:
 [Use background bitmap]
 Użyj jako tła

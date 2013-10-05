@@ -40,9 +40,9 @@ Chiudi
 Chiudi
 [Close]
 Chiudi
-[Background colour]
+[Background color]
 Colore di sfondo
-[Text colour]
+[Text color]
 Colore del testo
 [Custom]
 Personalizzato

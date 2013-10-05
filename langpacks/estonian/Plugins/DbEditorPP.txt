@@ -10,7 +10,7 @@
 Otsi
 [&Cancel]
 &Tühista
-[Background colour]
+[Background color]
 Taustavärv
 [OK]
 OK

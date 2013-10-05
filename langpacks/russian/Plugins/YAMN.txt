@@ -173,7 +173,7 @@ APOP
 Уведомления о почте
 [..s Popup duration]
 сек (длительность)
-[Use custom colour]
+[Use custom color]
 Свои цвета
 [Account Test]
 Проверка

@@ -20,7 +20,7 @@
 [Text indent:]
 [Padding:]
 [Round corners (avatar)]
-[Text colour:]
+[Text color:]
 [Set timeout]
 [Timeout value (0 = default):]
 [Popups are enabled]

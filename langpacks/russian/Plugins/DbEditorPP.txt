@@ -490,7 +490,7 @@ Null Mod контекст
 Пожалуйста введите имя параметра!
 [Value name already existed!]
 Имя параметра уже существует!
-[Background colour]
+[Background color]
 Цвет фона
 [Decoded string..]
 Расшифрованная строка

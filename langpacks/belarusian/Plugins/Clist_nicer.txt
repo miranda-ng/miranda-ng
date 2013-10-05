@@ -272,9 +272,9 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Зрабіць шэрым, калі:
 [Contact List Background]
 Фон спісу
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
-[Background colour]
+[Background color]
 Колер фону
 [Use background image]
 Выкарыстоўваць фон

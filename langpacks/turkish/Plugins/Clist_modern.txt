@@ -72,7 +72,7 @@ Kopyala
 Yapıştır
 [Object properties]
 Nesne özellikleri
-[Colour]
+[Color]
 Renk
 [Image file and fitting mode]
 resim dosyasyı ve sığma kipi

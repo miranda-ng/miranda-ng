@@ -56,7 +56,7 @@ Kopiëren
 Plakken
 [Object properties]
 Object eigenschappen
-[Colour]
+[Color]
 Kleur
 [Image file and fitting mode]
 Afbeeldingbestand en pas modus

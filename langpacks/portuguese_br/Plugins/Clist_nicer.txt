@@ -230,19 +230,15 @@ Rolar a lista suavemente
 Tempo:
 [milliseconds]
 milisegundos
-[milliseconds]
-Milisegundos
-[milliseconds]
-milissegundos
 [Hide vertical scroll bar]
 Ocultar barra de rolagem vertical
 [Grey out entire list when:]
 Acinzentar lista quando
 [Contact List Background]
 Fundo dos Contatos
-[Use Windows colours]
+[Use Windows colors]
 Usar Janelas coloridas
-[Background colour]
+[Background color]
 Cor do fundo
 [Use background image]
 Usar imagem de fundo

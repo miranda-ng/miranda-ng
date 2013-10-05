@@ -10,9 +10,9 @@
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Настройки
-[Background colour:]
+[Background color:]
 Цвят на фона:
-[Selection colour:]
+[Selection color:]
 Цвят за маркиране:
 [Use background bitmap]
 Ползване на фоново изображение

@@ -34,11 +34,11 @@ Cancelar
 Cancelar
 [Close]
 Fechar
-[Use default colours]
+[Use default colors]
 Usar cores padrão
-[Background colour]
+[Background color]
 Cor do fundo
-[Text colour]
+[Text color]
 Texto colorido
 [Custom]
 Padrão

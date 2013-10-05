@@ -58,13 +58,13 @@
 Фон
 [Text]
 Тэкст
-[Colours]
+[Colors]
 Колеры
 [Use cus&tom colors]
 Наладзіць колеры
-[Use &Windows colours]
+[Use &Windows colors]
 Колеры Windows
-[Use Pop&up colours]
+[Use Pop&up colors]
 Колеры Pop&up
 [Preview]
 Тэст

@@ -208,9 +208,9 @@ kB
 グループチャット
 [Use same style as in the message log]
 メッセージログと同じスタイルを使用
-[Use default colours]
+[Use default colors]
 デフォルト色を使用
-[Use custom colours]
+[Use custom colors]
 カスタム色を使用
 [Text]
 テキスト
@@ -307,9 +307,9 @@ Unicode オフ
 通知 (10x10)
 [Window Icon]
 ウィンドウアイコン
-[Text colour]
+[Text color]
 テキスト色
-[Background colour]
+[Background color]
 背景色
 [Bold]
 太字
@@ -608,7 +608,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 全てのイベントの前にタイムスタンプを表示
 [Only prefix with timestamp if it has changed]
 変更された場合タイムスタンプのみプレフィックス
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 タイムスタンプをイベントと同じ色にする
 [Indent the second line of a message]
 メッセージの２行目をインデントする

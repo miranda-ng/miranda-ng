@@ -96,9 +96,9 @@ Invisível
 Ao telefone
 [Out to lunch]
 Saiu para almoço
-[Background colour]
+[Background color]
 Cor do fundo
-[Text colour]
+[Text color]
 Texto colorido
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

@@ -236,9 +236,9 @@ kB
 Gruppenchat
 [Use same style as in the message log]
 Selben Stil wie im Verlaufsfenster verwenden
-[Use default colours]
+[Use default colors]
 Standardfarben verwenden
-[Use custom colours]
+[Use custom colors]
 Benutzerdefinierte Farben
 [Text]
 Text
@@ -347,9 +347,9 @@ Ausgehende Nachricht (10x10)
 Notiz (10x10)
 [Window Icon]
 Fenstericon
-[Text colour]
+[Text color]
 Textfarbe
-[Background colour]
+[Background color]
 Hintergrundfarbe
 [Bold]
 Fett
@@ -758,7 +758,7 @@ Autom. vervollständigten Namen ':' anfügen
 Zeitstempel bei allen Ereignissen
 [Only prefix with timestamp if it has changed]
 Zeitstempel nur bei Änderungen
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 Zeitstempel hat dieselbe Farbe wie das Ereignis
 [Indent the second line of a message]
 Zweite Zeile einer Nachricht einziehen
@@ -959,10 +959,6 @@ Das Thema ist '%s' (gesetzt von %s)
 Kursiv
 [Underline]
 Unterstrichen
-[Text color]
-Textfarbe
-[Background color]
-Hintergrundfarbe
 [Filter]
 Filter
 [Manager]

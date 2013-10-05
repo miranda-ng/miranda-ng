@@ -136,13 +136,13 @@ Popup nastavenia
 
 [Popup only when condition changes]
 
-[Colours]
+[Colors]
 Farby
-[Background colour]
+[Background color]
 Farba pozadia
-[Text colour]
+[Text color]
 Fraba textu
-[Use Windows colours]
+[Use Windows colors]
 
 [Popup Actions]
 

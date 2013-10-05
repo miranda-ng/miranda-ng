@@ -126,9 +126,9 @@ milliseconden
 Gehele lijst grijs maken wanneer:
 [Contact List Background]
 Persoon lijst achtergrond
-[Use Windows colours]
+[Use Windows colors]
 Windows kleuren gebruiken
-[Background colour]
+[Background color]
 Achtergrond kleur
 [Use background image]
 Achtergrondplaatje gebruiken

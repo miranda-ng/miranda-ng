@@ -68,11 +68,11 @@ Inserisci nazione, prefisso e numero di telefono:
 Oppure inserisci un numero internazionale completo:
 [Phone can receive SMS text messages]
 Il telefono può ricevere messaggi SMS
-[Background colour]
+[Background color]
 Colore di sfondo
-[Text colour]
+[Text color]
 Colore del testo
-[Use Windows colours]
+[Use Windows colors]
 Utilizza colori di Windows
 [Custom]
 Personalizzato

@@ -10,9 +10,7 @@
 &Ara
 [&Cancel]
 İ&ptal
-[Background colour]
-Art alan rengi
-[Background colour]
+[Background color]
 Art alan rengi
 [OK]
 Tamam

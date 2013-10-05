@@ -44,13 +44,13 @@ Zostaw tak jak jest
 Ustaw stan Caps Locka zamieniając wielkość liter:
 [Change active keyboard layout in system]
 Zmień aktywny układ klawiatury w systemie
-[Colours]
+[Colors]
 Kolory
-[Popup colours]
+[Popup colors]
 Kolory popupów
-[Windows colours]
+[Windows colors]
 Kolory Windows
-[Custom colours]
+[Custom colors]
 Niestandardowe kolory
 [Back]
 Wstecz

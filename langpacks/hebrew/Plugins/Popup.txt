@@ -189,7 +189,7 @@
 פשוט תעיף מבט בסקין הזה... ;)
 [Enable Aero Glass (Vista+)]
 אפשר מראה אירו (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 השתמש בצבעי חלונות
 [Use advanced text render]
 השתמש ברינדור טקסט מתקדם

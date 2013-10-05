@@ -52,13 +52,13 @@ Meldungsfelder (*)
 Hgrd.
 [Text]
 Text
-[Colours]
+[Colors]
 Farben
 [Use cus&tom colors]
 Eigene Farben verwenden
-[Use &Windows colours]
+[Use &Windows colors]
 &Windows-Farben verwenden
-[Use Pop&up colours]
+[Use Pop&up colors]
 Pop&up-Farben verwenden
 [Preview]
 Vorschau

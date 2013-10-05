@@ -42,7 +42,7 @@ Klicke hier, um zum Posteingang zu gelangen
 Empfangenen Text formatiert anzeigen (RTF empfangen)
 [Send formatted text (send RTF)]
 Formatierten Text senden (RTF senden)
-[Background colour]
+[Background color]
 Hintergrundfarbe
 [Font]
 Schriftart

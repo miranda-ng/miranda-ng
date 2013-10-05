@@ -12,7 +12,7 @@ Benachrichtigung über Mails in Lotus Datenbank
 Zeige erneut falls ungelesen
 [Show error messages]
 Fehlermeldungen anzeigen
-[Set popup colours]
+[Set popup colors]
 Popupfarben bestimmen
 [Popup options]
 Popup-Einstellungen

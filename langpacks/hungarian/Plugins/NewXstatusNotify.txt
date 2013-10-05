@@ -36,9 +36,9 @@ Felugrók
 Háttér
 [Text]
 Szöveg
-[Use custom colours]
+[Use custom colors]
 Egyedi színek használata
-[Use Windows colours]
+[Use Windows colors]
 Windows színek használata
 [Reset]
 Alapraállítás

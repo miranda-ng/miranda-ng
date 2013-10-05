@@ -12,7 +12,7 @@ E-mail:
 Parool:
 [Port:]
 Port:
-[Background colour]
+[Background color]
 Taustavärv
 [Font]
 Font

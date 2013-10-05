@@ -187,6 +187,8 @@ Neznáma chyba
 
 [Message read: %s]
 
+[%s and more (%d)]
+
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 

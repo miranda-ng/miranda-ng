@@ -106,13 +106,11 @@
 取消
 [Popup only when condition changes]
 仅状况变更时弹出窗口
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
-背景颜色
-[Text colour]
+[Text color]
 文本颜色
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
 [Popup Actions]
 弹出窗口操作

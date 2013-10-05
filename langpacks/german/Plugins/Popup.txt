@@ -377,7 +377,7 @@ Schatten werfen
 nicht rechteckig
 [Enable Aero Glass (Vista+)]
 Aero Glass aktivieren (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
 [Use advanced text render]
 Erweitertes Text-Rendern

@@ -58,7 +58,7 @@ Hľadať
 
 [Popup timeout (0 for infinite)]
 
-[Background colour]
+[Background color]
 Farba pozadia
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 

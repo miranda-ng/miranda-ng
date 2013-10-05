@@ -56,9 +56,9 @@
 Паказваць тэкст статусу
 [Settings]
 Налады
-[Background colour:]
+[Background color:]
 Колер фону:
-[Selection colour:]
+[Selection color:]
 Колер вылучэння:
 [Use background bitmap]
 Фонавая выява
@@ -104,7 +104,7 @@
 Уласцівасці аб'екта
 [Type]
 Тып
-[Colour]
+[Color]
 Колер
 [Alpha]
 Альфа
@@ -690,7 +690,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Элементы радкоў
 [Frame texts]
 Тэкст фрэйма
-[Special colours]
+[Special colors]
 Адмысловыя колеры
 [Standard contacts]
 Стандартныя кантакты
@@ -754,7 +754,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Тэкст загалоўка фрэйма
 [Statusbar text]
 Тэкст панэлі статусу
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 Фон празрыстасці іншых фрэймаў
 [General]
 Агульнае

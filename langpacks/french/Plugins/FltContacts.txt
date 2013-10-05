@@ -58,7 +58,7 @@ Couleur du bord Haut-Gauche:
 Couleur du bord Bas-Droit:
 [Background]
 Arrière-plan
-[Background colour:]
+[Background color:]
 Couleur d'arrière-plan:
 [Use background bitmap]
 Utiliser une image d'arrière-plan

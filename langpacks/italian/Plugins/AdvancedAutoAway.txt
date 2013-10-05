@@ -10,96 +10,32 @@
 Generale
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Profile]
 Profilo
-[Profile]
-Profilo
-[Profile]
-Profilo
-[Message]
-Messaggio
-[Message]
-Messaggio
 [Message]
 Messaggio
 [Set]
 Imposta
-[Set]
-Imposta
-[OK]
-OK
 [OK]
 OK
 [Other]
 Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
-[Other]
-Altro
-[Background colour]
+[Background color]
 Colore di sfondo
-[Text colour]
+[Text color]
 Colore del testo
-[Use Windows colours]
+[Use Windows colors]
 Utilizza colori di Windows
-[Events]
-Eventi
-[Events]
-Eventi
 [Events]
 Eventi
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
 [Use %time% for the current time, %date% for the current date]
 Utilizza %time% per l'ora e %date% per la data corrente
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Delete]
-Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
 [Delete]
 Elimina
 [seconds]
@@ -135,13 +71,5 @@ Mmm... cibo...
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protocollo
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
-[Closing in %d]
-Chiusura in %d sec
-[Closing in %d]
-Chiusura in %d
 [Closing in %d]
 Chiusura in %d

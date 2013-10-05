@@ -56,9 +56,9 @@ Protokollnamen anzeigen
 Statustext anzeigen
 [Settings]
 Einstellungen
-[Background colour:]
+[Background color:]
 Hintergrundfarbe:
-[Selection colour:]
+[Selection color:]
 Auswahlfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden
@@ -104,7 +104,7 @@ Einfügen
 Objekteigenschaften
 [Type]
 Typ
-[Colour]
+[Color]
 Farbe
 [Alpha]
 Alpha
@@ -694,7 +694,7 @@ Kontaktnamen
 Zeileninhalt
 [Frame texts]
 Frame-Texte
-[Special colours]
+[Special colors]
 Spezielle Farben
 [Standard contacts]
 Standardkontakte
@@ -758,7 +758,7 @@ Markierter Menütext
 Frame-Titel-Text
 [Statusbar text]
 Statuszeilentext
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 Transparente Hintergrundfarbe Frames
 [General]
 Allgemein

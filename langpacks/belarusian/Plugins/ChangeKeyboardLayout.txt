@@ -44,13 +44,13 @@ EN
 Усталяваць стан Caps Lock пры інвертаванні рэгістра:
 [Change active keyboard layout in system]
 Змяняць актыўную раскладку клавіятуры
-[Colours]
+[Colors]
 Колеры
-[Popup colours]
+[Popup colors]
 Колеры успл. вокнаў
-[Windows colours]
+[Windows colors]
 Колеры Windows
-[Custom colours]
+[Custom colors]
 Наладзіць колеры
 [Back]
 Фон

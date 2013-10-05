@@ -80,11 +80,9 @@
 התראת כשל בחיבור
 [Popup notification if failed]
 התראה בפופ אפ אם נכשל
-[Background colour]
+[Background color]
 צבע רקע
-[Background colour]
-צבע רקע
-[Text colour]
+[Text color]
 צבע טקסט
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

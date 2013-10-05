@@ -272,9 +272,9 @@ Ukryj pionowy pasek przewijania
 Przyciemnij całą listę kiedy:
 [Contact List Background]
 Tło listy kontaktów
-[Use Windows colours]
+[Use Windows colors]
 Użyj kolorów Windows
-[Background colour]
+[Background color]
 Kolor tła
 [Use background image]
 Użyj obrazu tła

@@ -108,23 +108,21 @@ Cumpleaños el modo de compatibilidad:
 Automáticamente copias de seguridad y mantener cumpleaños protocolo basado hasta la fecha
 [Use ignore list]
 Utilice la lista de ignorados
-[Birthday popup colours]
+[Birthday popup colors]
 colores cumpleaños emergente
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
-[Text colour]
+[Text color]
 Color del texto
-[Use Windows colours]
+[Use Windows colors]
 Usar colores de Windows
-[Use default colours]
+[Use default colors]
 Utilice los colores por defecto
 [Custom]
 Personalizado
 [Show reminder messages as popups (if reminder is enabled)]
 Mostrar mensajes de aviso como pop-ups (si está habilitado recordatorio)
-[Anniversary popup colours]
+[Anniversary popup colors]
 colores Aniversario emergente
 [Replace progress dialogs with popups]
 Vuelva a colocar los cuadros de diálogo progreso con pop-ups
@@ -188,7 +186,7 @@ Información personalizada sobre
 Sobrescribe la información
 [Changed information]
 Cambio de la información
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Activar los colores para dar información sobre el estado de la información.
 [Make protocol based contact information readonly.]
 Hacer que la información de contacto basada en protocolo de sólo lectura.

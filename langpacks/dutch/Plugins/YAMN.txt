@@ -40,9 +40,9 @@ Onzichtbaar
 Aan de telefoon
 [Out to lunch]
 Aan het lunchen
-[Background colour]
+[Background color]
 Achtergrond kleur
-[Text colour]
+[Text color]
 Tekst kleur
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

@@ -10,9 +10,9 @@ Wyświetla kontakty, powiadomienia o zdarzeniach, status protokołu z modyfikacj
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Ustawienia
-[Background colour:]
+[Background color:]
 Kolor tła:
-[Selection colour:]
+[Selection color:]
 Kolor zaznaczenia:
 [Use background bitmap]
 Użyj jako tła

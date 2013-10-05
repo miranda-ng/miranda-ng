@@ -533,9 +533,9 @@ Ajuda em recipientes
 ...está está digitando
 [...stopped t&yping]
 ...parou a d&igitação
-[U&se Popup colours]
+[U&se Popup colors]
 U&se cores no Popup
-[&Use Windows colours]
+[&Use Windows colors]
 &Usar janelas coloridas
 [Only &one popup for each contact]
 Apenas e um pop-up para cada contato
@@ -1415,14 +1415,12 @@ Cor da fonte
 Tachado
 [Format strike-through]
 Formatar quebra de linha
-[Background colour]
+[Background color]
 Cor do fundo
 [Room settings]
 Histórico de configurações
 [Event filter]
 Filtro de eventos
-[Message delivery error]
-Mensagem de erro de entrega
 [Message delivery error]
 Mensagem de erro de entrega
 [Incoming message]

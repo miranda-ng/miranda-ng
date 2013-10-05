@@ -443,9 +443,9 @@ ESC 键行为
 ...正在键入(&T)
 [...stopped t&yping]
 ...已停止键入(&Y)
-[U&se Popup colours]
+[U&se Popup colors]
 使用弹出窗口颜色(&S)
-[&Use Windows colours]
+[&Use Windows colors]
 使用 Windows 颜色
 [Only &one popup for each contact]
 每个联系人仅一个弹出窗口(&O)
@@ -1195,9 +1195,7 @@ History++ 插件
 字体颜色
 [Format strike-through]
 格式删除线
-[Background colour]
-背景颜色
-[Background colour]
+[Background color]
 背景颜色
 [Room settings]
 房间设置

@@ -136,13 +136,13 @@ PopUp настройки
 Включване на popups
 [Popup only when condition changes]
 Popup само при промяна на условията
-[Colours]
+[Colors]
 Цветове
-[Background colour]
+[Background color]
 Фонов цвят
-[Text colour]
+[Text color]
 Цвят на текста
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
 [Popup Actions]
 Popup Действия

@@ -259,7 +259,7 @@ millisekunder
 Popups
 [Popups]
 Popups
-[&Use Windows colours]
+[&Use Windows colors]
 &Bruk Windowsfarger
 [...is typing]
 ...skriver
@@ -645,9 +645,7 @@ Understreket type
 Skriftutseende
 [Font color]
 Skriftfarge
-[Background colour]
-Bakgrunnsfarge
-[Background colour]
+[Background color]
 Bakgrunnsfarge
 [Room settings]
 Rominnstillinger

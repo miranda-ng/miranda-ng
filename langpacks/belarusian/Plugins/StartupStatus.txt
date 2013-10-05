@@ -118,13 +118,13 @@
 Раздзіраць сувязь пры выйсці
 [Dial-up (experimental)]
 Dial-up (эксперыментальна)
-[Background colour]
+[Background color]
 Колер фону
-[Text colour]
+[Text color]
 Колер тэксту
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
-[Use default colours]
+[Use default colors]
 Колеры па змаўчанні
 [Delay]
 Затрымка
@@ -138,7 +138,7 @@ Dial-up (эксперыментальна)
 Зачыніць акно
 [Cancel reconnecting]
 Адмена далучэння
-[Colours]
+[Colors]
 Колеры
 [Preview]
 Тэст

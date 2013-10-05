@@ -89,7 +89,7 @@ xСтатус изменен
 xСтатус удален
 [Popup text]
 Текст всплывающих окон
-[Use Popup colours]
+[Use Popup colors]
 Цвета всплывающих окон
 [Show contact group name]
 Показывать имя группы контакта

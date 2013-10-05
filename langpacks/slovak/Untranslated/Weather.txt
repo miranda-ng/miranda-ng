@@ -59,7 +59,7 @@
 [Change]
 [Enable popups]
 [Popup only when condition changes]
-[Use Windows colours]
+[Use Windows colors]
 [Popup Actions]
 [Left Click]
 [Right Click]

@@ -70,13 +70,13 @@ Digite país, código de área do número de telefone:
 Ou digite um número internacional inteiro:
 [Phone can receive SMS text messages]
 Telefone pode receber mensagens de texto SMS
-[Background colour]
+[Background color]
 Cor do fundo
-[Text colour]
+[Text color]
 Texto colorido
-[Use Windows colours]
+[Use Windows colors]
 Usar Janelas coloridas
-[Use default colours]
+[Use default colors]
 Usar cores padrão
 [Custom]
 Padrão

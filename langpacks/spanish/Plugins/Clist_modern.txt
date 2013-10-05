@@ -84,7 +84,7 @@ Copiar
 Pegar
 [Object properties]
 Propiedades de los objetos
-[Colour]
+[Color]
 Color
 [Image file and fitting mode]
 Imagen de archivo y el modo de ajuste
@@ -512,7 +512,7 @@ Póngase en contacto con los nombres
 Fila artículos
 [Frame texts]
 Marco de los textos
-[Special colours]
+[Special colors]
 Colores especiales
 [Standard contacts]
 Normal contactos
@@ -574,8 +574,8 @@ Texto seleccionado del menú
 Marco de texto del título
 [Statusbar text]
 Barra de estado de texto
-[3rd party frames transparent back colour]
-3 º partido de vuelta de color transparente
+[3rd party frames transparent back color]
+3º partido de vuelta de color transparente
 [General]
 General
 [General]

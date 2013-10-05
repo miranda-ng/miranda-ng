@@ -84,7 +84,7 @@
 粘贴
 [Object properties]
 对象属性
-[Colour]
+[Color]
 颜色
 [Image file and fitting mode]
 图片文件及适合模式
@@ -596,7 +596,7 @@ x100 毫秒
 框架标题文本
 [Statusbar text]
 状态栏文本
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 第三方框架使用透明背景色
 [General]
 常规

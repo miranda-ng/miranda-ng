@@ -126,17 +126,17 @@ Na toto číslo môžete posielať SMS správy
 
 [Use ignore list]
 
-[Birthday popup colours]
+[Birthday popup colors]
 
 [r]
 
-[Background colour]
+[Background color]
 Farba pozadia
-[Text colour]
+[Text color]
 Fraba textu
-[Use Windows colours]
+[Use Windows colors]
 
-[Use default colours]
+[Use default colors]
 
 [Delay]
 
@@ -148,7 +148,7 @@ Fraba textu
 
 [Show reminder messages as popups (if reminder is enabled)]
 
-[Anniversary popup colours]
+[Anniversary popup colors]
 
 [Replace progress dialogs with popups]
 
@@ -224,7 +224,7 @@ Ikony
 
 [Changed information]
 
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 
 [Make protocol based contact information readonly.]
 
@@ -234,7 +234,7 @@ Ikony
 
 [Info of a MetaContact's SubContact]
 
-[Colours]
+[Colors]
 Farby
 [Common]
 

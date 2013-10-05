@@ -377,7 +377,7 @@ Nezadali ste hodnotu menšiu alebo väčšiu ako %d.
 
 [Enable Aero Glass (Vista+)]
 
-[Use Windows colours]
+[Use Windows colors]
 
 [Use advanced text render]
 

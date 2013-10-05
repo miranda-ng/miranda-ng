@@ -56,9 +56,9 @@ Pokaż nazwy protokołów
 Pokaż nazwę statusu
 [Settings]
 Ustawienia
-[Background colour:]
+[Background color:]
 Kolor tła:
-[Selection colour:]
+[Selection color:]
 Kolor zaznaczenia:
 [Use background bitmap]
 Użyj jako tła
@@ -104,7 +104,7 @@ Wklej
 Właściwości obiektu
 [Type]
 Typ
-[Colour]
+[Color]
 Kolor
 [Alpha]
 Alpha
@@ -694,7 +694,7 @@ Nazwy kontaktów
 Dodatkowe linie
 [Frame texts]
 Tekst ramki
-[Special colours]
+[Special colors]
 Specjalne kolory
 [Standard contacts]
 Standardowe kontakty
@@ -758,7 +758,7 @@ Zaznaczony tekst menu
 Tekst tytułu ramki
 [Statusbar text]
 Tekst na pasku statusu
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 Tło ramki jako przezroczyste
 [General]
 Ogólne

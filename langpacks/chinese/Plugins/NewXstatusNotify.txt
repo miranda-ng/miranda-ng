@@ -56,9 +56,9 @@
 背景
 [Text]
 文本
-[Use custom colours]
+[Use custom colors]
 使用自定颜色
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
 [Popup text]
 弹出文本

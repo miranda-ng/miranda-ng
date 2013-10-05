@@ -52,13 +52,13 @@
 Фон
 [Text]
 Текст
-[Colours]
+[Colors]
 Цветове
 [Use cus&tom colors]
 Избор на цветове
-[Use &Windows colours]
+[Use &Windows colors]
 Цветове от Windows
-[Use Pop&up colours]
+[Use Pop&up colors]
 От Popup приставката
 [Preview]
 Преглед

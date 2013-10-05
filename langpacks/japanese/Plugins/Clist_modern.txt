@@ -84,7 +84,7 @@
 ペースト
 [Object properties]
 オブジェクトプロパティー
-[Colour]
+[Color]
 色
 [Image file and fitting mode]
 画像ファイルと調和モード
@@ -594,7 +594,7 @@ Miranda を非表示
 フレーム表示文
 [Statusbar text]
 ステータスバーテキスト
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 サードパーティフレーム 透明背景色
 [General]
 全般

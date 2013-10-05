@@ -34,7 +34,7 @@ nur Internetadressen
 Genaue Suche
 [Static]
 Statisch
-[Colour Select]
+[Color Select]
 Farbauswahl
 [Incoming messages]
 Eingehende Nachrichten
@@ -44,11 +44,11 @@ Standard
 Vorschau
 [Outgoing messages]
 Ausgehende Nachrichten
-[Backgroundcolour]
+[Background color]
 Hintergrundfarbe
 [Use Miranda Settings]
 Miranda-Einstellungen verwenden
-[Textcolour]
+[Text color]
 Textfarbe
 [General Settings]
 Allgemeine Einstellungen

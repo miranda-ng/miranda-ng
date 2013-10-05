@@ -10,9 +10,9 @@
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Налады
-[Background colour:]
+[Background color:]
 Колер фону:
-[Selection colour:]
+[Selection color:]
 Колер вылучэння:
 [Use background bitmap]
 Фонавая выява

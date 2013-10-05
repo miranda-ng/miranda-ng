@@ -44,13 +44,13 @@ EN
 Задаване на състояние за Caps Lock при смяна на буквите:
 [Change active keyboard layout in system]
 Сменяване на клавиатурната подредба на ОС
-[Colours]
+[Colors]
 Цветове
-[Popup colours]
+[Popup colors]
 
-[Windows colours]
+[Windows colors]
 Цветове от Windows
-[Custom colours]
+[Custom colors]
 Избор на цветове
 [Back]
 Назад

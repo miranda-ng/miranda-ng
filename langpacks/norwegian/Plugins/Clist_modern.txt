@@ -72,7 +72,7 @@ Kopier
 Lim inn
 [Object properties]
 Objektegenskaper
-[Colour]
+[Color]
 Farge
 [Image file and fitting mode]
 Bildefil og tilpasningsmodus

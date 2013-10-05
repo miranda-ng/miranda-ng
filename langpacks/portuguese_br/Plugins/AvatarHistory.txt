@@ -8,21 +8,13 @@
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Background colour]
+[Background color]
 Cor do fundo
-[Text colour]
+[Text color]
 Texto colorido
-[Use Windows colours]
+[Use Windows colors]
 Usar Janelas coloridas
-[Use default colours]
+[Use default colors]
 Usar cores padrão
 [Custom]
 Padrão
@@ -32,10 +24,6 @@ Ações
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 ;file \plugins\AvatarHistory\src\icolib.cpp
-[History]
-Histórico
-[History]
-Histórico
 [History]
 Histórico
 ;file \plugins\AvatarHistory\src\options.cpp

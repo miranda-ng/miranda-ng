@@ -58,7 +58,7 @@
 Змены ў гэтым спісе набудуць моц пры наступным запуску Miranda NG
 [Popup timeout (0 for infinite)]
 Працягласць (0 = пакінуць)
-[Background colour]
+[Background color]
 Колер фону
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Калі ў назве плагіна ёсць прабел, змесціце \\ перад ім, напр. "aaa\\ bbb"

@@ -199,7 +199,7 @@ Trükkimise teavitus
 Salvesta ja sulge
 [Font color]
 Fondi värv
-[Background colour]
+[Background color]
 Taustavärv
 [Room settings]
 Jututoa seaded

@@ -52,9 +52,9 @@ Zavrieť
 
 [Round corners (avatar)]
 
-[Text colour:]
+[Text color:]
 
-[Background colour:]
+[Background color:]
 Farba pozadia:
 [Set timeout]
 

@@ -226,9 +226,9 @@ kB
 Чат-пакой
 [Use same style as in the message log]
 Той жа стыль, што і ў логе
-[Use default colours]
+[Use default colors]
 Колеры па змаўчанні
-[Use custom colours]
+[Use custom colors]
 Задаць колеры
 [Text]
 Тэкст
@@ -335,9 +335,9 @@ Yahoo
 Апавяшчэнне (10x10)
 [Window Icon]
 Абразок вакна
-[Text colour]
+[Text color]
 Колер тэксту
-[Background colour]
+[Background color]
 Колер фону
 [Bold]
 Тоўсты
@@ -732,7 +732,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 Падстаўляць час ва ўсе падзеі
 [Only prefix with timestamp if it has changed]
 Падстаўляць час, калі ёсць змены
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 Час таго ж колеры, як і падзея
 [Indent the second line of a message]
 Водступ другога радка паведамлення
@@ -933,10 +933,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Курсіў
 [Underline]
 Падкрэсленне
-[Text color]
-Колер тэксту
-[Background color]
-Колер фону
 [Filter]
 Фільтр
 [Manager]

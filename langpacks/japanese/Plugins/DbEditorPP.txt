@@ -10,7 +10,7 @@
 検索 (&S)
 [&Cancel]
 Cancel(&C)
-[Background colour]
+[Background color]
 背景色
 [OK]
 OK

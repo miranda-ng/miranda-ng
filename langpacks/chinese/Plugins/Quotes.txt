@@ -50,13 +50,13 @@
 交换(&S)
 [Close]
 关闭
-[Use default colours]
+[Use default colors]
 使用默认颜色
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
+[Background color]
 背景颜色
-[Text colour]
+[Text color]
 文本颜色
 [Custom]
 自定义

@@ -22,11 +22,11 @@ Sea
 OK
 [Other]
 Muu
-[Background colour]
+[Background color]
 Taustavärv
-[Text colour]
+[Text color]
 Teksti värv
-[Use default colours]
+[Use default colors]
 Kasuta vaikimisi värve
 [Events]
 Sündmused

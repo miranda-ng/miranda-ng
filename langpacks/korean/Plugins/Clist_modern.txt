@@ -40,7 +40,7 @@
 알맞게 늘리기
 [Apply]
 적용
-[Colour]
+[Color]
 색깔
 [File]
 파일

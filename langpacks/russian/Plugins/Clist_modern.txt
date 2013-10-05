@@ -504,7 +504,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 
 ;Специальные цвета
 
-[Special colours]
+[Special colors]
 Специальные цвета
 [Hot text]
 Текст под курсором
@@ -518,7 +518,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Текст выделенного меню
 [Statusbar text]
 Текст панели статуса
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 Фон прозрачности сторонних фреймов
 
 ;Текст фрейма
@@ -602,7 +602,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Растягивать вертикально по высоте
 [Use Windows Colors]
 Цвета Windows
-[Selection colour:]
+[Selection color:]
 Цвет выделения:
 [Event Area Background]
 Фон области событий

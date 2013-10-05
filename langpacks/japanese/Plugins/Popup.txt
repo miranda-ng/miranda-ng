@@ -217,7 +217,7 @@ Popup Plus 警告
 スキンプレビュー
 [Just take a look at this skin... ;)]
 このスキンで見てみる... ;)
-[Use Windows colours]
+[Use Windows colors]
 ウィンドウ色を使用
 [Refresh List]
 更新リスト

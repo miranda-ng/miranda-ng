@@ -38,15 +38,15 @@ Folgende Protokolle verfolgen:
 Metakontakte werden gesondert gehandhabt: Änderungen von den Unterkontakten werden übernommen, Benachrichtigungen von Metakontakten werden ignoriert
 [Show popup when a contact change his avatar]
 Zeige Popup, wenn Kontakt seinen Avatar ändert
-[Colours]
+[Colors]
 Farben
-[Background colour]
+[Background color]
 Hintergrundfarbe
-[Text colour]
+[Text color]
 Textfarbe
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
-[Use default colours]
+[Use default colors]
 Standardfarben verwenden
 [Delay]
 Verzögerung

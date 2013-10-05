@@ -497,9 +497,9 @@ milisekúnd
 
 [Back]
 Späť
-[U&se Popup colours]
+[U&se Popup colors]
 
-[&Use Windows colours]
+[&Use Windows colors]
 Použi farby Windowsu
 [Only &one popup for each contact]
 
@@ -1467,7 +1467,7 @@ Správa od %s
 
 [Format strike-through]
 
-[Background colour]
+[Background color]
 Farba pozadia
 [Room settings]
 
@@ -1847,8 +1847,6 @@ Ikona v oznamovacej oblasti
 
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
-
-[Background color]
 
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]

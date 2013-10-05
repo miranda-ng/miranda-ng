@@ -14,9 +14,7 @@ Passord:
 Port:
 [Default]
 Standard
-[Background colour]
-Bakgrunnsfarge
-[Background colour]
+[Background color]
 Bakgrunnsfarge
 [Font]
 Skrift

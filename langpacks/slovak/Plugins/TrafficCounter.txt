@@ -24,9 +24,9 @@
 
 [minutes]
 
-[Background colour:]
+[Background color:]
 Farba pozadia:
-[Text colour:]
+[Text color:]
 
 [Reset to default]
 

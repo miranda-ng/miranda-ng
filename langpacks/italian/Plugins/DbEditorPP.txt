@@ -10,48 +10,22 @@
 &Cerca
 [&Cancel]
 &Annulla
-[Background colour]
+[Background color]
 Colore di sfondo
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [E&xit]
 &Esci
 [&Delete]
 &Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Cancella
-[&Delete]
-Elimina
 [&Rename]
 &Rinomina
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 ;file \plugins\DbEditorPP\src\exportimport.cpp
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 ;file \plugins\DbEditorPP\src\findwindow.cpp
@@ -66,24 +40,10 @@ Contatti
 ;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
 [Size]
 Dimensioni
-[Size]
-Dimensioni
-[Size]
-Dimensioni
-[Size]
-Dimensione
 [<unknown>]
 <avvistamento sconosciuto>
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 Contatto
-[Contact]
-Contatti

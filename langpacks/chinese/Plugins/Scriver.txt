@@ -196,9 +196,9 @@
 群组聊天
 [Use same style as in the message log]
 消息记录使用相同的样式
-[Use default colours]
+[Use default colors]
 使用默认颜色
-[Use custom colours]
+[Use custom colors]
 使用自定颜色
 [Text]
 文本
@@ -285,11 +285,9 @@ Unicode 已关闭
 公告 (10x10)
 [Window Icon]
 窗口图标
-[Text colour]
+[Text color]
 文本颜色
-[Background colour]
-背景颜色
-[Background colour]
+[Background color]
 背景颜色
 [Bold]
 粗体
@@ -626,7 +624,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 在所有事件前加上时间戳
 [Only prefix with timestamp if it has changed]
 有变化时才加上时间戳
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 时间戳与事件相同颜色
 [Indent the second line of a message]
 缩排消息第二行

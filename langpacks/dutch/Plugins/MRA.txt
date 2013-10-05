@@ -12,7 +12,7 @@ Wachtwoord:
 Poort:
 [Default]
 Standaard
-[Background colour]
+[Background color]
 Achtergrond kleur
 [Summary]
 Samenvatting

@@ -81,7 +81,7 @@
 [Use full row for selection and hottracking]
 [Double click on avatar opens userinfo]
 [Hide vertical scroll bar]
-[Use Windows colours]
+[Use Windows colors]
 [Use background image]
 [Use these settings to skin the entire background]
 [If you enable this, the background settings will affect the entire contact list frame.]

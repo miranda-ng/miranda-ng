@@ -14,9 +14,9 @@ Valikud
 Nähtavus
 [Cancel]
 Tühista
-[Background colour]
+[Background color]
 Taustavärv
-[Text colour]
+[Text color]
 Teksti värv
 [seconds]
 sekundit

@@ -10,15 +10,13 @@
 OK
 [Enable tracking for these protocols:]
 Habilitar el seguimiento de estos protocolos:
-[Background colour]
-Color de fondo
-[Background colour]
+[Background color]
 Colores de fondo
-[Text colour]
+[Text color]
 Color del texto
-[Use Windows colours]
+[Use Windows colors]
 Usar colores de Windows
-[Use default colours]
+[Use default colors]
 Utilice los colores por defecto
 [From Popup plugin]
 Desde emergente plugin

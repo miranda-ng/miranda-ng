@@ -26,7 +26,7 @@ Ping 超时 (秒):
 界面
 [Do not change icon when testing]
 测试时不改变图标
-[Use the Customize/Fonts options to change text size and colour.]
+[Use the Customize/Fonts options to change text size and color.]
 使用自定义/字体选项改变文本大小及颜色.
 [Row height:]
 列高: 

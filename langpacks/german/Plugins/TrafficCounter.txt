@@ -24,9 +24,9 @@ Anzeige bei allen
 Kilobyte
 [minutes]
 Minuten
-[Background colour:]
+[Background color:]
 Hintergrundfarbe:
-[Text colour:]
+[Text color:]
 Textfarbe:
 [Reset to default]
 Zurücksetzen auf Standard

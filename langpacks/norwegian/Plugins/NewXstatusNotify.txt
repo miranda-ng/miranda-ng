@@ -52,11 +52,11 @@ Popups
 Bakgrunn
 [Text]
 Tekst
-[Use custom colours]
+[Use custom colors]
 Bruk selvvalgte farger
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
-[Use Popup colours]
+[Use Popup colors]
 Bruk Popupfarger
 [Read status message]
 Les statusmelding

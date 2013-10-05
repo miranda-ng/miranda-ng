@@ -112,17 +112,11 @@ Bu istasyon için kendiliğinden güncellemeyi kapat
 İptal
 [Popup only when condition changes]
 Yalnız hava durumu değiştiğinde açılsın
-[Background colour]
+[Background color]
 Art alan rengi
-[Background colour]
-Art alan rengi
-[Text colour]
+[Text color]
 Yazı rengi
-[Text colour]
-Yazı rengi
-[Use Windows colours]
-Windows renklerini kullan
-[Use Windows colours]
+[Use Windows colors]
 Windows renklerini kullan
 [Popup Actions]
 Açılan Pencere Eylemleri

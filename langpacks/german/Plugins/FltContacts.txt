@@ -58,7 +58,7 @@ Farbe der Ecke links oben:
 Farbe der Ecke rechts unten:
 [Background]
 Hintergrund
-[Background colour:]
+[Background color:]
 Hintergrundfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden

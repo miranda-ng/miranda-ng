@@ -98,23 +98,21 @@ Dernière vérif :
 Compatibilité des anniversaires :
 [Use ignore list]
 Utiliser la liste des ignorés
-[Birthday popup colours]
+[Birthday popup colors]
 Popups des anniversaires
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
-[Text colour]
+[Text color]
 Couleur du texte
-[Use Windows colours]
+[Use Windows colors]
 Utiliser les couleurs Windows
-[Use default colours]
+[Use default colors]
 Couleurs par défaut
 [Custom]
 Défini
 [Show reminder messages as popups (if reminder is enabled)]
 Montrer les messages de rappel dans des popups (si rappel activé)
-[Anniversary popup colours]
+[Anniversary popup colors]
 Couleurs des popup d'anniversaire
 [Homepage:]
 Page web :
@@ -166,7 +164,7 @@ Informations personnalisées
 Informations réécrites
 [Changed information]
 Informations modifiées
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Activer les couleurs pour les états d'informations
 [Make protocol based contact information readonly.]
 Mettre les infos basées sur un protocole du contact en lecture seule.

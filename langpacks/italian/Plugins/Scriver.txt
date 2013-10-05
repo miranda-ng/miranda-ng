@@ -167,9 +167,9 @@ Lista
 [&Message]
 &Messaggio
 ;file \plugins\Scriver\src\globals.cpp
-[Text colour]
+[Text color]
 Colore del testo
-[Background colour]
+[Background color]
 Colore di sfondo
 [Bold]
 Grassetto

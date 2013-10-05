@@ -30,7 +30,7 @@ Padrão
 Padrão
 [Default]
 Padrão
-[Background colour]
+[Background color]
 Cor do fundo
 [Font]
 Fonte

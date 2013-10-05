@@ -158,9 +158,9 @@ Vurgulanacak kelimeler (arama işaretleri geçerli)
 Yerleşim
 [Use same style as in the message log]
 Aynı stili ileti günlüğünde kullan
-[Use default colours]
+[Use default colors]
 Varsayılan renkleri kullan
-[Use custom colours]
+[Use custom colors]
 Kişisel renkleri kullan
 [Text]
 Yazı
@@ -245,13 +245,9 @@ Gönderilen ileti (10x10)
 Dikkat (10x10)
 [Window Icon]
 Pencere Simgesi
-[Text colour]
+[Text color]
 Yazı rengi
-[Text colour]
-Yazı rengi
-[Background colour]
-Art alan rengi
-[Background colour]
+[Background color]
 Art alan rengi
 [Bold]
 Koyu

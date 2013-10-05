@@ -313,9 +313,9 @@ Açılır Pencereler
 ...&yazıyor
 [...stopped t&yping]
 ...y&azmayı bıraktı
-[U&se Popup colours]
+[U&se Popup colors]
 Açılır Pencere &Renklerini Kullan
-[&Use Windows colours]
+[&Use Windows colors]
 Windows renklerini k&ullan
 [Only &one popup for each contact]
 Her kişi için &bir tek açılır pencere
@@ -753,9 +753,7 @@ Yazı tipi
 Yazı rengi
 [Format strike-through]
 Üstü çizili biçim
-[Background colour]
-Art alan rengi
-[Background colour]
+[Background color]
 Art alan rengi
 [Room settings]
 Oda ayarları

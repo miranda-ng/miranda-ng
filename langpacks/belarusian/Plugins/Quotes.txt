@@ -68,15 +68,15 @@
 Фільтр:
 [Popup Window Settings]
 Налады ўсплывальных вокнаў
-[Colours]
+[Colors]
 Колеры
-[Use default colours]
+[Use default colors]
 Колеры па змаўчанні
-[Use user-defined colours]
+[Use user-defined colors]
 Наладзіць колеры
-[Background colour]
+[Background color]
 Колер фону
-[Text colour]
+[Text color]
 Колер тэксту
 [Delay]
 Затрымка

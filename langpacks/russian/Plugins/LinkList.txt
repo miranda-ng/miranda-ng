@@ -20,9 +20,9 @@
 Все направления
 [All types]
 Все виды
-[Backgroundcolour]
+[Background color]
 Фон
-[Colour Select]
+[Color Select]
 Выбор цвета
 [Deep search]
 Глубокий поиск
@@ -56,7 +56,7 @@
 Показывать полное сообщение при наведении мыши
 [Show...]
 Показывать...
-[Textcolour]
+[Text color]
 Цвет текста
 [Update list on new events]
 Автоматическое обновление списка при новых событиях

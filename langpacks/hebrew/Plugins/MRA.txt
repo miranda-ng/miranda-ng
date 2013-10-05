@@ -12,9 +12,7 @@
 יציאה:
 [Default]
 ברירת מחדל
-[Background colour]
-צבע רקע
-[Background colour]
+[Background color]
 צבע רקע
 [Font]
 גופן

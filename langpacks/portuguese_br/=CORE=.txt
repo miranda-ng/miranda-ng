@@ -45,8 +45,6 @@ Gerenciador de Perfil do Miranda NG BR
 &Executar
 [&Exit]
 &Sair
-[&Exit]
-&Sair
 [Start in Service Mode with]
 Iniciar no Modo de serviço com
 [Find/Add Contacts]
@@ -127,8 +125,6 @@ O que você deseja fazer com o arquivo agora?
 &Lixeira
 [&Delete]
 &Excluir
-[&Delete]
-&Apagar
 [&Move/Rename]
 &Mover/Renomear
 [&Leave]
@@ -507,8 +503,6 @@ procurar/adicionar
 Enviar &Mensagem
 [Log]
 Registro
-[&Copy]
-&Copiar
 [&Copy]
 &Copiar
 [Co&py All]
@@ -2007,8 +2001,6 @@ Escrevendo Notificação
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Mensagem de %s
-[%s is typing a message]
-%s está escrevendo uma mensagem
 [%s is typing a message]
 %s está escrevendo uma mensagem
 [Typing Notification]

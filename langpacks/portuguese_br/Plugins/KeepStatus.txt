@@ -50,13 +50,13 @@ OK
 OK
 [Other]
 Outros
-[Background colour]
+[Background color]
 Cor do fundo
-[Text colour]
+[Text color]
 Texto colorido
-[Use Windows colours]
+[Use Windows colors]
 Usar Janelas coloridas
-[Use default colours]
+[Use default colors]
 Usar cores padrão
 [Events]
 Eventos

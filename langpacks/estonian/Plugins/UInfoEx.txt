@@ -40,11 +40,11 @@ Lisa telefoninumber
 Sisesta riik, ala kood ja telefoni nr:
 [Or enter a full international number:]
 Või sisesta täielik rahvusvaheline nr:
-[Background colour]
+[Background color]
 Taustavärv
-[Text colour]
+[Text color]
 Teksti värv
-[Use default colours]
+[Use default colors]
 Kasuta vaikimisi värve
 [Homepage:]
 Koduleht:

@@ -136,13 +136,13 @@ Opcje Popup
 Włącz popupy
 [Popup only when condition changes]
 Tylko przy zmianie warunków
-[Colours]
+[Colors]
 Kolory
-[Background colour]
+[Background color]
 Kolor tła
-[Text colour]
+[Text color]
 Kolor tekstu
-[Use Windows colours]
+[Use Windows colors]
 Użyj kolorów Windows
 [Popup Actions]
 Akcje Popup

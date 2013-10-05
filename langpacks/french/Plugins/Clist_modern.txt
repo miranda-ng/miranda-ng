@@ -70,7 +70,7 @@ Copier
 Coller
 [Object properties]
 Propriété de l'objet
-[Colour]
+[Color]
 Couleur
 [Image file and fitting mode]
 Image et étirements

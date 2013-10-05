@@ -42,7 +42,7 @@ Kliknij, by przejść do skrzynki odbiorczej
 Pokazuj sformatowany tekst po odebraniu (przyjmuj RTF)
 [Send formatted text (send RTF)]
 Wyślij sformatowany tekst (RTF)
-[Background colour]
+[Background color]
 Kolor tła
 [Font]
 Czcionka

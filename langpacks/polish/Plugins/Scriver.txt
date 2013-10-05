@@ -236,9 +236,9 @@ kB
 Rozmowy grupowe
 [Use same style as in the message log]
 Użyj takiego samego stylu, jak w dzienniku
-[Use default colours]
+[Use default colors]
 Użyj domyślnych kolorów
-[Use custom colours]
+[Use custom colors]
 Użyj niestandardowych kolorów
 [Text]
 Tekst
@@ -347,9 +347,9 @@ Wychodząca wiadomość (10x10)
 Powiadomienie (10x10)
 [Window Icon]
 Ikona okna
-[Text colour]
+[Text color]
 Kolor tekstu
-[Background colour]
+[Background color]
 Kolor tła
 [Bold]
 Pogrubienie
@@ -758,7 +758,7 @@ Dodawaj ":" do automatycznie uzupełnianych nazw
 Poprzedź wszystkie zdarzenia czasem
 [Only prefix with timestamp if it has changed]
 Dodawaj czas tylko jeśli uległ zmianie
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
 Wcinaj drugą linię wiadomości
@@ -959,10 +959,6 @@ Temat to "%s" (ustawiony przez %s)
 Kursywa
 [Underline]
 Podkreślenie
-[Text color]
-Kolor tekstu
-[Background color]
-Kolor tła
 [Filter]
 Filtr
 [Manager]

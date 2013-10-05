@@ -38,15 +38,15 @@
 Метаконтактите се третират различно. Инф. винаги се взима от подконтактите (известията от метаконтактите се игнорират)
 [Show popup when a contact change his avatar]
 popup когато контакта промени аватара си
-[Colours]
+[Colors]
 Цветове
-[Background colour]
+[Background color]
 Фонов цвят
-[Text colour]
+[Text color]
 Цвят на текста
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
-[Use default colours]
+[Use default colors]
 Стандартни цветове
 [Delay]
 Закъснение

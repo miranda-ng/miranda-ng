@@ -120,13 +120,13 @@ ms
 Автоматично затваряне при излизане
 [Dial-up (experimental)]
 Dial-up (експериментално)
-[Background colour]
+[Background color]
 Фонов цвят
-[Text colour]
+[Text color]
 Цвят на текста
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
-[Use default colours]
+[Use default colors]
 Стандартни цветове
 [Delay]
 Закъснение
@@ -140,7 +140,7 @@ Dial-up (експериментално)
 Затваря popup
 [Cancel reconnecting]
 Отказ от повторно свързване
-[Colours]
+[Colors]
 Цветове
 [Preview]
 Образец

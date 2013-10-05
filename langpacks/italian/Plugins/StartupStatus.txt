@@ -68,11 +68,11 @@ Altro
 Varie
 [Other]
 Altro
-[Background colour]
+[Background color]
 Colore di sfondo
-[Text colour]
+[Text color]
 Colore del testo
-[Use Windows colours]
+[Use Windows colors]
 Utilizza colori di Windows
 [Events]
 Eventi

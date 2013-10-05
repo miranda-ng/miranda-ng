@@ -10,7 +10,7 @@
 &Procurar
 [&Cancel]
 &Cancelar
-[Background colour]
+[Background color]
 Cor do fundo
 [OK]
 OK

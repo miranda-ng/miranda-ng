@@ -236,9 +236,9 @@ kB
 Групов чат
 [Use same style as in the message log]
 Ползване на същия стил както в дневника за съобщения
-[Use default colours]
+[Use default colors]
 Стандартни цветове
-[Use custom colours]
+[Use custom colors]
 Зададени цветове
 [Text]
 Текст
@@ -347,9 +347,9 @@ Unicode е изключен
 Известие (10x10)
 [Window Icon]
 Икона на прозореца
-[Text colour]
+[Text color]
 Цвят на текста
-[Background colour]
+[Background color]
 Фонов цвят
 [Bold]
 Удебеляване
@@ -758,7 +758,7 @@ Latin I
 Времева марка като представка за всички събития
 [Only prefix with timestamp if it has changed]
 Представка (времева марка) само ако времето е различно
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 Еднакъв цвят на времевата марка и събитието
 [Indent the second line of a message]
 Отстъп на втория ред от всяко съобщение
@@ -959,10 +959,6 @@ Popups
 Наклоняване
 [Underline]
 Подчертаване
-[Text color]
-Цвят на текста
-[Background color]
-Цвят на фона
 [Filter]
 Филтър
 [Manager]

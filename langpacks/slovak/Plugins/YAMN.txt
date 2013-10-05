@@ -144,7 +144,7 @@ Na obede
 
 [Multi popup]
 
-[Use custom colour]
+[Use custom color]
 
 [No new mail notifications]
 
@@ -160,9 +160,9 @@ Na obede
 
 [Preview]
 
-[Background colour]
+[Background color]
 Farba pozadia
-[Text colour]
+[Text color]
 Fraba textu
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

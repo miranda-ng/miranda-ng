@@ -269,7 +269,7 @@ Mostrar reloj
 no rectangulares
 [Enable Aero Glass (Vista+)]
 Activar Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Usar colores de Windows
 [Use advanced text render]
 Uso avanzado representar texto

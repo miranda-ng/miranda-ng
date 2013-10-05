@@ -117,13 +117,13 @@ Cтатус-профиль
 Разрывать связь при выходе
 [Dial-up (experimental)]
 Уд. доступ (экспериментально)
-[Background colour]
+[Background color]
 Цвет фона
-[Text colour]
+[Text color]
 Цвет текста
-[Use Windows colours]
+[Use Windows colors]
 Цвета Windows
-[Use default colours]
+[Use default colors]
 Цвета по умолчанию
 [Delay]
 Задержка
@@ -137,7 +137,7 @@ Cтатус-профиль
 Закрыть окно
 [Cancel reconnecting]
 Отмена подключения
-[Colours]
+[Colors]
 Цвета
 [Preview]
 Тест

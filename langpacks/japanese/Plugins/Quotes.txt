@@ -14,11 +14,11 @@ OK
 Cancel
 [Close]
 閉じる
-[Use default colours]
+[Use default colors]
 デフォルト色を使用
-[Background colour]
+[Background color]
 背景色
-[Text colour]
+[Text color]
 テキスト色
 [Custom]
 カスタム

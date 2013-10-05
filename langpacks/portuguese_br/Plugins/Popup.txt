@@ -251,7 +251,7 @@ Apenas dê uma olhada nessa capa...
 Mostrar rélogio
 [Enable Aero Glass (Vista+)]
 Ativar Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Usar Janelas coloridas
 [Use advanced text render]
 Usar renderizador de texto avançado

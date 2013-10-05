@@ -130,9 +130,9 @@ Mots à surligner (joker * autorisés)
 Lieu
 [Use same style as in the message log]
 Utiliser même style que la fenêtre
-[Use default colours]
+[Use default colors]
 Couleurs par défaut
-[Use custom colours]
+[Use custom colors]
 Couleurs personnalisées
 [Text]
 Texte
@@ -197,12 +197,10 @@ Surimpression d'icône
 Note (10x10)
 [Window Icon]
 Icônes de la fenêtre
-[Text colour]
+[Text color]
 Couleur du texte
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
 [Bold]
 Gras
 [Italics]

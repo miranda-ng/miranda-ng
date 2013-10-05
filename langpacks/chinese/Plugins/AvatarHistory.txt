@@ -30,15 +30,13 @@
 中继联系人有特别处理方法: 资料永远从子联系人复制 (中继联系人发出通知会被忽略)
 [Show popup when a contact change his avatar]
 联系人变更头像时显示弹出窗口
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
-背景颜色
-[Text colour]
+[Text color]
 文本颜色
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
-[Use default colours]
+[Use default colors]
 使用默认颜色
 [From Popup plugin]
 从弹出窗口插件

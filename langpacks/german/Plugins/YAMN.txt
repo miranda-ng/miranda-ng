@@ -144,7 +144,7 @@ Popup
 Einzelnes Popup anzeigen
 [Multi popup]
 Mehrere Popups anzeigen
-[Use custom colour]
+[Use custom color]
 Benutzerdefinierte Farbe
 [No new mail notifications]
 Keine neue E-Mail - Hinweis
@@ -160,9 +160,9 @@ Popup anzeigen
 s Anzeigedauer
 [Preview]
 Vorschau
-[Background colour]
+[Background color]
 Hintergrundfarbe
-[Text colour]
+[Text color]
 Textfarbe
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

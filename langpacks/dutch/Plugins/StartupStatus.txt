@@ -22,13 +22,13 @@ Instellen
 OK
 [Other]
 Ander
-[Background colour]
+[Background color]
 Achtergrond kleur
-[Text colour]
+[Text color]
 Tekst kleur
-[Use Windows colours]
+[Use Windows colors]
 Windows kleuren gebruiken
-[Use default colours]
+[Use default colors]
 Standaard kleuren gebruiken
 [Events]
 Gebeurtenissen

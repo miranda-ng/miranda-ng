@@ -94,11 +94,11 @@ Annulla
 Annulla
 [Popup only when condition changes]
 Popup solo al cambiare delle condizioni
-[Background colour]
+[Background color]
 Colore di sfondo
-[Text colour]
+[Text color]
 Colore del testo
-[Use Windows colours]
+[Use Windows colors]
 Utilizza colori di Windows
 [Popup Actions]
 Azioni popup al click

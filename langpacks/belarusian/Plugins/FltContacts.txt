@@ -48,7 +48,7 @@
 Паказваць рамку
 [Background]
 Фон
-[Background colour:]
+[Background color:]
 Колер фону:
 [Use background bitmap]
 Фонавая выява

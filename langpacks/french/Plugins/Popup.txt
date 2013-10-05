@@ -175,7 +175,7 @@ Aperçu du Skin
 Pris juste pour voir le Skin...  ;-)
 [Enable Aero Glass (Vista+)]
 Activer Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Utiliser les couleurs Windows
 [Use advanced text render]
 Rendu avancé du texte

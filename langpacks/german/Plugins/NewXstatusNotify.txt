@@ -90,13 +90,13 @@ Alle aktivieren
 Hintergrund
 [Text]
 Text
-[Colours]
+[Colors]
 Farben
-[Use custom colours]
+[Use custom colors]
 Benutzerdefinierte Farben
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
-[Use Popup colours]
+[Use Popup colors]
 Popup-Farben verwenden
 [Popup text]
 Popup-Text

@@ -34,7 +34,7 @@ Opciones
 Color del texto
 [Error]
 Error 
-[Use default colours]
+[Use default colors]
 Utilice los colores por defecto
 [Summary]
 Resumen

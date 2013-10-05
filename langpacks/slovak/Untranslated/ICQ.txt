@@ -70,7 +70,7 @@
 [Spam detected]
 [&Use Windows colors]
 [Use system &icons]
-[Use default colours]
+[Use default colors]
 [Protocol Version:]
 [User Client:]
 [Online since:]

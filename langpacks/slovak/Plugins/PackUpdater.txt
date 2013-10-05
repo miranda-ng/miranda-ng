@@ -52,13 +52,13 @@ Udalosť
 Späť
 [Text]
 Text
-[Colours]
+[Colors]
 Farby
 [Use cus&tom colors]
 
-[Use &Windows colours]
+[Use &Windows colors]
 
-[Use Pop&up colours]
+[Use Pop&up colors]
 
 [Preview]
 

@@ -58,13 +58,13 @@
 фон
 [Text]
 Текст
-[Colours]
+[Colors]
 Цветове
 [Use cus&tom colors]
 Избор на цветове
-[Use &Windows colours]
+[Use &Windows colors]
 Цветове от Windows
-[Use Pop&up colours]
+[Use Pop&up colors]
 Цветове от Popup приставката
 [Preview]
 Образец

@@ -164,7 +164,7 @@
 [Drop shadow effect]
 [non rectangular]
 [Enable Aero Glass (Vista+)]
-[Use Windows colours]
+[Use Windows colors]
 [Use advanced text render]
 [Global settings]
 [Refresh List]

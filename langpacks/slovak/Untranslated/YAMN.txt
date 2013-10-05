@@ -49,7 +49,7 @@
 [Popup]
 [Single popup]
 [Multi popup]
-[Use custom colour]
+[Use custom color]
 [No new mail notifications]
 [Popup if no mail]
 [Persistant message]

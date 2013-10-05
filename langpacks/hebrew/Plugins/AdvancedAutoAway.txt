@@ -22,15 +22,13 @@
 אישור
 [Other]
 אחר
-[Background colour]
+[Background color]
 צבע רקע
-[Background colour]
-צבע רקע
-[Text colour]
+[Text color]
 צבע טקסט
-[Use Windows colours]
+[Use Windows colors]
 השתמש בצבעי חלונות
-[Use default colours]
+[Use default colors]
 צבעי ברירת מחדל
 [Events]
 אירועים

@@ -253,7 +253,7 @@ Popup Plus 警告
 下拉阴影效果
 [non rectangular]
 非矩形
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
 [Global settings]
 全局设置

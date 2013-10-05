@@ -24,15 +24,13 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 确定
 [Other]
 其它
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
-背景颜色
-[Text colour]
+[Text color]
 文本颜色
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
-[Use default colours]
+[Use default colors]
 使用默认颜色
 [Events]
 事件

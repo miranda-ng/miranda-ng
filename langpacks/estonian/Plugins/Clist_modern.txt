@@ -32,7 +32,7 @@ Kopeeri
 Pane
 [Object properties]
 Objekti omadused
-[Colour]
+[Color]
 Värv
 [File]
 Fail

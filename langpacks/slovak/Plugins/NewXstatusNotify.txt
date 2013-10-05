@@ -90,13 +90,13 @@ Zvuky
 Pozadie
 [Text]
 Text
-[Colours]
+[Colors]
 Farby
-[Use custom colours]
+[Use custom colors]
 
-[Use Windows colours]
+[Use Windows colors]
 
-[Use Popup colours]
+[Use Popup colors]
 
 [Popup text]
 

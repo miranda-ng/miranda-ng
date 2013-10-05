@@ -14,13 +14,11 @@
 ביטול
 [Close]
 סגור
-[Use default colours]
+[Use default colors]
 צבעי ברירת מחדל
-[Background colour]
+[Background color]
 צבע רקע
-[Background colour]
-צבע רקע
-[Text colour]
+[Text color]
 צבע טקסט
 [Custom]
 מותאם

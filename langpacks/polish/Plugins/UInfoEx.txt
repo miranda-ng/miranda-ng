@@ -126,17 +126,17 @@ Automatycznie twórz kopie bezpieczeństwa i aktualizuj dane o urodzinach
 Odtwarzaj dźwięk
 [Use ignore list]
 Użyj listy blokowania
-[Birthday popup colours]
+[Birthday popup colors]
 Kolory popupów urodzin
 [r]
 r
-[Background colour]
+[Background color]
 Kolor tła
-[Text colour]
+[Text color]
 Kolor tekstu
-[Use Windows colours]
+[Use Windows colors]
 Użyj kolorów Windows
-[Use default colours]
+[Use default colors]
 Użyj domyślnych kolorów
 [Delay]
 Wyświetlaj
@@ -148,7 +148,7 @@ Niestandardowe
 Stałe
 [Show reminder messages as popups (if reminder is enabled)]
 Pokaż przypomnienie w popupie (jeśli jest włączony)
-[Anniversary popup colours]
+[Anniversary popup colors]
 Kolory popupów rocznic
 [Replace progress dialogs with popups]
 Nadpisz dialogi popupów
@@ -224,7 +224,7 @@ Niestandardowe informacje
 Nadpisanie informacji
 [Changed information]
 Zmiana informacji
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Włącz kolory do informowania o statusie.
 [Make protocol based contact information readonly.]
 Informacje oparte na protokole kontaktu tylko do odczytu.
@@ -234,7 +234,7 @@ Włącz grupy w drzewku okna szczegółów.
 Sortuj wpisy alfabetycznie.
 [Info of a MetaContact's SubContact]
 Informacje o subkontaktach metakontaktów
-[Colours]
+[Colors]
 Kolory
 [Common]
 Wspólne

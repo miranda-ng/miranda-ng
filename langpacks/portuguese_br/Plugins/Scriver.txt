@@ -200,9 +200,9 @@ Palavras para destacar (wildcards permitidos)
 Localidade
 [Use same style as in the message log]
 Usar estilo igual ao do registro de mensagens
-[Use default colours]
+[Use default colors]
 Usar cores padrão
-[Use custom colours]
+[Use custom colors]
 Usar cores personalizadas
 [Text]
 Texto
@@ -317,9 +317,9 @@ Mensagem de saída (10x10)
 Notificação (10X10)
 [Window Icon]
 Janela do Ícone
-[Text colour]
+[Text color]
 Texto colorido
-[Background colour]
+[Background color]
 Cor do fundo
 [Bold]
 Negrito

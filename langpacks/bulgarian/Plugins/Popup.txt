@@ -377,7 +377,7 @@ Popup Plus Предупреждение
 
 [Enable Aero Glass (Vista+)]
 
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
 [Use advanced text render]
 

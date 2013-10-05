@@ -48,9 +48,9 @@ Popups
 Achtergrond
 [Text]
 Tekst
-[Use custom colours]
+[Use custom colors]
 Aangepaste kleuren gebruiken
-[Use Windows colours]
+[Use Windows colors]
 Windows kleuren gebruiken
 [Reset]
 Terugzetten

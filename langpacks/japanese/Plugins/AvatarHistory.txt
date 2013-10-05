@@ -8,13 +8,13 @@
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [OK]
 OK
-[Background colour]
+[Background color]
 背景色
-[Text colour]
+[Text color]
 テキスト色
-[Use Windows colours]
+[Use Windows colors]
 ウィンドウ色を使用
-[Use default colours]
+[Use default colors]
 デフォルト色を使用
 [Custom]
 カスタム

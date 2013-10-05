@@ -101,12 +101,10 @@ Terugzetten
 milliseconden
 [Popups]
 Popups
-[U&se Popup colours]
+[U&se Popup colors]
 Popup kleuren gebruiken
-[&Use Windows colours]
+[&Use Windows colors]
 Windows kleuren gebr&uik
-[&Use Windows colours]
-Windows kleuren gebr&uiken
 [Custom]
 Aangepast
 [Close]
@@ -175,7 +173,7 @@ Algemeen
 [Typing Notify]
 Typen meldingen
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Background colour]
+[Background color]
 Achtergrond kleur
 [Incoming message]
 Binnenkomend bericht

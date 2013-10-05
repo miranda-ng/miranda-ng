@@ -48,9 +48,9 @@ Sons
 Arrière-plan
 [Text]
 Texte
-[Use custom colours]
+[Use custom colors]
 Couleurs personnalisées
-[Use Windows colours]
+[Use Windows colors]
 Utiliser les couleurs Windows
 [Read status message]
 Lire le message d'état

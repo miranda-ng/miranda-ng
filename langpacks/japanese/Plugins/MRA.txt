@@ -14,7 +14,7 @@
 ポート :
 [Default]
 デフォルト
-[Background colour]
+[Background color]
 背景色
 [Font]
 フォント

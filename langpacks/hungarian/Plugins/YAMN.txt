@@ -44,9 +44,9 @@ Láthatatlan
 Telefonál
 [Out to lunch]
 Ebédel
-[Background colour]
+[Background color]
 Háttérszín
-[Text colour]
+[Text color]
 Szövegszín
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

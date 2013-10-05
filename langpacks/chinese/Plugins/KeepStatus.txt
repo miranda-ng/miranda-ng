@@ -24,15 +24,13 @@ KeepStatus, 一个连接检查插件, 可与 (或不与) StartupStatus 及/或 A
 确定
 [Other]
 其它
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
-背景颜色
-[Text colour]
+[Text color]
 文本颜色
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
-[Use default colours]
+[Use default colors]
 使用默认颜色
 [Events]
 事件

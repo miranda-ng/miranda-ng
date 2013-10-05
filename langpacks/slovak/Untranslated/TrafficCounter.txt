@@ -7,7 +7,7 @@
 [Notify me on every]
 [kilobytes]
 [minutes]
-[Text colour:]
+[Text color:]
 [Reset to default]
 [Popup timeout]
 [From Popup plugin]

@@ -86,13 +86,13 @@
 Фон
 [Text]
 Тэкст
-[Colours]
+[Colors]
 Колеры
-[Use custom colours]
+[Use custom colors]
 Задаць колеры
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
-[Use Popup colours]
+[Use Popup colors]
 Колеры ўсплывальных вокнаў
 [Popup text]
 Тэкст усплывальных вокнаў

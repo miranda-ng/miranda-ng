@@ -58,7 +58,7 @@ Nepoužívať dvojklik myšou
 
 [Background]
 Pozadie
-[Background colour:]
+[Background color:]
 Farba pozadia:
 [Use background bitmap]
 Použiť obrázok na pozadí

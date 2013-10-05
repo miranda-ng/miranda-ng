@@ -1514,7 +1514,7 @@ ID пользователя в панели статуса
 Либо плагин тряски не установлен, либо протокол контакта не поддерживает отправку события тряски.
 [TabSRMM Information]
 Информация TabSRMM
-[U&se Popup colours]
+[U&se Popup colors]
 Цвета плагина Popup
 [TabSRMM fatal error]
 Критическая ошибка TabSRMM

@@ -182,7 +182,7 @@ ICQ аватари
 Ползване на системните икони
 [Previe&w]
 Образец
-[Use default colours]
+[Use default colors]
 Стандартни цветове
 [UIN:]
 

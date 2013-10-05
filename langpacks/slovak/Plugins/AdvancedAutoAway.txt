@@ -120,13 +120,13 @@ OK
 
 [Dial-up (experimental)]
 
-[Background colour]
+[Background color]
 Farba pozadia
-[Text colour]
+[Text color]
 Fraba textu
-[Use Windows colours]
+[Use Windows colors]
 
-[Use default colours]
+[Use default colors]
 
 [Delay]
 
@@ -140,7 +140,7 @@ Pravým klikom
 
 [Cancel reconnecting]
 
-[Colours]
+[Colors]
 Farby
 [Preview]
 

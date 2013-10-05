@@ -24,9 +24,9 @@ Powiadom mnie co:
 kb
 [minutes]
 minut
-[Background colour:]
+[Background color:]
 Kolor tła:
-[Text colour:]
+[Text color:]
 Kolor tekstu:
 [Reset to default]
 Domyślne ustawienia

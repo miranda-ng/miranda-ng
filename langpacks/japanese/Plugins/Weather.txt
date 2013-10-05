@@ -106,11 +106,11 @@ URL の詳細情報
 Cancel
 [Popup only when condition changes]
 天気に変化があった時のみポップアップ
-[Background colour]
+[Background color]
 背景色
-[Text colour]
+[Text color]
 テキスト色
-[Use Windows colours]
+[Use Windows colors]
 ウィンドウ色を使用
 [Popup Actions]
 ポップアップ操作

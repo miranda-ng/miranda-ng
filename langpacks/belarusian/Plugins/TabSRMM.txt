@@ -497,9 +497,9 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 скончыў набіраць
 [Back]
 Фон
-[U&se Popup colours]
+[U&se Popup colors]
 Колер плагіна Popup
-[&Use Windows colours]
+[&Use Windows colors]
 Колеры Windows
 [Only &one popup for each contact]
 Толькі адно вакно на кантакт
@@ -1429,7 +1429,7 @@ TabSRMM: Набірае
 Колер шрыфта
 [Format strike-through]
 Перакрэслены
-[Background colour]
+[Background color]
 Колер фону
 [Room settings]
 Налады
@@ -1782,8 +1782,6 @@ TabSRMM: Набірае
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Колер тэксту
-[Background color]
-Колер фону
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s увайшоў

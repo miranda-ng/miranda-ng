@@ -144,7 +144,7 @@ Popup
 Jeden popup
 [Multi popup]
 Więcej popupów
-[Use custom colour]
+[Use custom color]
 Użyj niestandardowych kolorów
 [No new mail notifications]
 Powiadomienie o braku nowych wiadomości E-mail
@@ -160,9 +160,9 @@ Popup gdy niepowodzenie
 .. czas trwania popupu
 [Preview]
 Podgląd
-[Background colour]
+[Background color]
 Kolor tła
-[Text colour]
+[Text color]
 Kolor tekstu
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

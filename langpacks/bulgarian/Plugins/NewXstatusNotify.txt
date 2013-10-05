@@ -90,13 +90,13 @@ Popups
 Фон
 [Text]
 Текст
-[Colours]
+[Colors]
 Цветове
-[Use custom colours]
+[Use custom colors]
 Зададени цветове
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
-[Use Popup colours]
+[Use Popup colors]
 От Popup приставката
 [Popup text]
 Текст на Popup-а

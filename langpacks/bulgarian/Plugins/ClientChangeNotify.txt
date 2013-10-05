@@ -42,7 +42,7 @@
 0 = стандарт
 [-1 = Infinite]
 -1 = безкрайно
-[Colours]
+[Colors]
 Цветове
 [Background]
 Фон

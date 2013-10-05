@@ -12,7 +12,7 @@ Powiadamiaj o nowej poczcie w bazie Lotusa
 Pokazuj ponownie wszystkie nieczytane
 [Show error messages]
 Pokazuj błędy połączeń
-[Set popup colours]
+[Set popup colors]
 Ustaw kolory komunikatów
 [Popup options]
 Opcje komunikatów

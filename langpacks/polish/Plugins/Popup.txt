@@ -377,7 +377,7 @@ Rzucaj cień
 nie prostokątne
 [Enable Aero Glass (Vista+)]
 Włącz Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Użyj kolorów Windows
 [Use advanced text render]
 Zaawansowany rendering tekstu

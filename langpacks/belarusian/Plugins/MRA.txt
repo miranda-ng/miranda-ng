@@ -40,7 +40,7 @@
 Паказваць прыняты фарматаваны тэкст
 [Send formatted text (send RTF)]
 Адпраўляць Фарматаваны тэкст
-[Background colour]
+[Background color]
 Колер фону
 [Font]
 Шрыфт

@@ -24,9 +24,9 @@
 кілабайт
 [minutes]
 хвілін(ы)
-[Background colour:]
+[Background color:]
 Колер фону:
-[Text colour:]
+[Text color:]
 Колер тэксту:
 [Reset to default]
 Па змаўчанні

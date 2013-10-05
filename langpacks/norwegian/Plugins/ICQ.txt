@@ -30,7 +30,7 @@ Valg
 TekstFarge
 [Error]
 Feil
-[Use default colours]
+[Use default colors]
 Bruk standardfarger
 [Idle since:]
 Inaktiv siden:

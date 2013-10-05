@@ -137,12 +137,10 @@ millisecondi
 Popup
 [Popups]
 Popups
-[U&se Popup colours]
+[U&se Popup colors]
 Utilizza plugin Popup
-[&Use Windows colours]
+[&Use Windows colors]
 &Utilizza i colori di Windows
-[&Use Windows colours]
-Utilizza i colori di Windows
 [Custom]
 Personalizzato
 [Custom]
@@ -263,7 +261,7 @@ Generale
 [Typing Notify]
 Notifica digitazione
 ;file \plugins\TabSRMM\src\msgs.cpp
-[Background colour]
+[Background color]
 Colore di sfondo
 [Incoming message]
 Messaggio in arrivo

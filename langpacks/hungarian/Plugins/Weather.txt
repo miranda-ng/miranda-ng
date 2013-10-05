@@ -14,11 +14,11 @@ Beállítások
 Láthatóság
 [Cancel]
 Mégsem
-[Background colour]
+[Background color]
 Háttérszín
-[Text colour]
+[Text color]
 Szövegszín
-[Use Windows colours]
+[Use Windows colors]
 Windows színek használata
 [seconds]
 mp.

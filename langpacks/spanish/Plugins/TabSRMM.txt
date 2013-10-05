@@ -443,9 +443,9 @@ El uso de Windows 7 tarea mejoras bar (requiere reiniciar)
 ... Dejó de e&scribir
 [...stopped t&yping]
 ... Dejó de escrib&ir
-[U&se Popup colours]
+[U&se Popup colors]
 Utilice colore&s Popup
-[&Use Windows colours]
+[&Use Windows colors]
 &Usar colores de Windows
 [Only &one popup for each contact]
 Sól&o una ventana emergente para cada contacto
@@ -1173,10 +1173,8 @@ Cara
 Color de la fuente
 [Format strike-through]
 Formato de huelga a través de
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
 [Room settings]
 Configuración de sala
 [Event filter]

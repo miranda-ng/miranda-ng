@@ -56,9 +56,9 @@
 Показване на текст за състоянието
 [Settings]
 Настройки
-[Background colour:]
+[Background color:]
 Цвят на фона:
-[Selection colour:]
+[Selection color:]
 Цвят за маркиране:
 [Use background bitmap]
 Ползване на фоново изображение
@@ -104,7 +104,7 @@
 Информация за обекта
 [Type]
 Тип
-[Colour]
+[Color]
 Цвят
 [Alpha]
 Алфа
@@ -694,7 +694,7 @@ Modern contact list
 Елементи на реда
 [Frame texts]
 Текст в рамките
-[Special colours]
+[Special colors]
 Специални цветове
 [Standard contacts]
 Стандартни контакти
@@ -758,7 +758,7 @@ Modern contact list
 Заглавие на рамките
 [Statusbar text]
 Текст в лентата за състояние
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 
 [General]
 Основни

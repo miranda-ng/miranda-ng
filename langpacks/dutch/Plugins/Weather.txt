@@ -14,11 +14,11 @@ Opties
 Zichtbaarheid
 [Cancel]
 Annuleren
-[Background colour]
+[Background color]
 Achtergrond kleur
-[Text colour]
+[Text color]
 Tekst kleur
-[Use Windows colours]
+[Use Windows colors]
 Windows kleuren gebruiken
 [seconds]
 seconden

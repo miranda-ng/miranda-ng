@@ -134,13 +134,13 @@ URL дап. інфармацыі
 Уключыць вокны
 [Popup only when condition changes]
 Толькі пры змене надвор'я
-[Colours]
+[Colors]
 Колеры
-[Background colour]
+[Background color]
 Колер фону
-[Text colour]
+[Text color]
 Колер тэксту
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
 [Popup Actions]
 Кнопкі мышы

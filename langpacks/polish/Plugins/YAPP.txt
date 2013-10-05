@@ -52,9 +52,9 @@ Wcięcie tekstu:
 Wypełnienie:
 [Round corners (avatar)]
 Zaokrąglone rogi (awatara)
-[Text colour:]
+[Text color:]
 Kolor tekstu:
-[Background colour:]
+[Background color:]
 Kolor tła:
 [Set timeout]
 Ustaw czas oczekiwania

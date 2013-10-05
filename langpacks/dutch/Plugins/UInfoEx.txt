@@ -98,21 +98,21 @@ Tijdstip laatste controle:
 Birthday compatibiliteits modus:
 [Automatically backup and keep protocol based birthdays up to date]
 Automatisch backups maken en protocol gebaseerde verjaardagen up to date houden
-[Birthday popup colours]
+[Birthday popup colors]
 Verjaardag popup kleuren
-[Background colour]
+[Background color]
 Achtergrond kleur
-[Text colour]
+[Text color]
 Tekst kleur
-[Use Windows colours]
+[Use Windows colors]
 Windows kleuren gebruiken
-[Use default colours]
+[Use default colors]
 Standaard kleuren gebruiken
 [Custom]
 Aangepast
 [Show reminder messages as popups (if reminder is enabled)]
 Herinneringsberichten als popups weergeven (als herinnering is ingeschakeld)
-[Anniversary popup colours]
+[Anniversary popup colors]
 Feest popup kleuren
 [Add Affiliation]
 Betrokkenheid toevoegen
@@ -158,7 +158,7 @@ Aangepaste informatie
 Overschreven informatie
 [Changed information]
 Gewijzigde informatie
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Kleuren voor informatie over statusinformatie inschakelen
 [Make protocol based contact information readonly.]
 Protocol gebaseerde persoonsinformatie alleen lezen maken.

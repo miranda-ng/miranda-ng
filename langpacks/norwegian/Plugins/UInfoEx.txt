@@ -66,15 +66,13 @@ Bursdags kompatibilitetsmodus:
 Utført automatisk backup og hold protokollbaserte bursdager oppdatert
 [Use ignore list]
 Bruk ignoreringsliste
-[Background colour]
+[Background color]
 Bakgrunnsfarge
-[Background colour]
-Bakgrunnsfarge
-[Text colour]
+[Text color]
 Tekstfarge
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
-[Use default colours]
+[Use default colors]
 Bruk standardfarger
 [Custom]
 Selvvalgt
@@ -82,7 +80,7 @@ Selvvalgt
 Selvvalgt
 [Show reminder messages as popups (if reminder is enabled)]
 Vis påminnelser som popups (om påminnelser er aktivert)
-[Anniversary popup colours]
+[Anniversary popup colors]
 Årsdags popup farger
 [Homepage:]
 Webside:
@@ -112,7 +110,7 @@ Selvvalgt informasjon
 Overskrevet informasjon
 [Changed information]
 Endret informasjon
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Aktiver farger for å gi informasjon om informasjonsstatuser
 [Make protocol based contact information readonly.]
 Gjør protokollbasert kontaktinformasjon kun mulig for lesing.

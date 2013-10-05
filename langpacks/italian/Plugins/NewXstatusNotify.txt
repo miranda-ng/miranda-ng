@@ -94,7 +94,7 @@ Testo
 Testo
 [Text]
 Testo
-[Use Windows colours]
+[Use Windows colors]
 Utilizza colori di Windows
 [Reset]
 Reimposta

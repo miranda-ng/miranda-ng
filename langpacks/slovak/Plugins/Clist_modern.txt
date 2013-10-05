@@ -56,9 +56,9 @@ Zobraziť meno protokolu
 Zobraziť stavový text
 [Settings]
 
-[Background colour:]
+[Background color:]
 Farba pozadia:
-[Selection colour:]
+[Selection color:]
 Vyber farbu:
 [Use background bitmap]
 Použiť obrázok na pozadí
@@ -104,7 +104,7 @@ Aplikovať
 
 [Type]
 typ
-[Colour]
+[Color]
 Farba
 [Alpha]
 
@@ -698,7 +698,7 @@ Zmazať skupinu
 
 [Frame texts]
 
-[Special colours]
+[Special colors]
 
 [Standard contacts]
 Štandardné kontakty
@@ -762,7 +762,7 @@ Pozadie
 
 [Statusbar text]
 
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 
 [General]
 

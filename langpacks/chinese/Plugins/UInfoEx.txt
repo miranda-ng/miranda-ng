@@ -102,23 +102,21 @@
 自动备份及保持基于协议生日资料最新
 [Use ignore list]
 使用忽略列表
-[Birthday popup colours]
+[Birthday popup colors]
 生日弹出窗口颜色
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
-背景颜色
-[Text colour]
+[Text color]
 文本颜色
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
-[Use default colours]
+[Use default colors]
 使用默认颜色
 [Custom]
 自定义
 [Show reminder messages as popups (if reminder is enabled)]
 弹出窗口显示提醒消息 (如提醒已启用)
-[Anniversary popup colours]
+[Anniversary popup colors]
 周年弹出窗口颜色
 [Homepage:]
 主页: 
@@ -176,7 +174,7 @@
 被覆盖信息
 [Changed information]
 已变更信息
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 启用颜色以提供信息状态资料. 
 [Make protocol based contact information readonly.]
 使基于协议联系人信息只读. 

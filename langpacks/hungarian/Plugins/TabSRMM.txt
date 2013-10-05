@@ -299,9 +299,9 @@ Felugrók
 ...&gépel
 [...stopped t&yping]
 ...befejezte a &gépelést
-[U&se Popup colours]
+[U&se Popup colors]
 Felugró színek &használata
-[&Use Windows colours]
+[&Use Windows colors]
 Windows színek használata
 [Only &one popup for each contact]
 Csak egy &felugró minden egyes partnerhez
@@ -739,7 +739,7 @@ Betûkép
 Betûszín
 [Format strike-through]
 Áthúzott
-[Background colour]
+[Background color]
 Háttérszín
 [Room settings]
 Szoba beállítások

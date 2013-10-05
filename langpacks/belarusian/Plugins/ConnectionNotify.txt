@@ -8,7 +8,7 @@
 [Notify with popup if some connection established]
 Паведамляе вакном пра далучэнне
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
-[Set popup colours]
+[Set popup colors]
 Колер паведамленняў
 [Popup options]
 Налады ўсплывальных вокнаў

@@ -147,7 +147,7 @@ vertikal
 ;file \plugins\Popup\src\opt_skins.cpp
 [Enable Aero Glass (Vista+)]
 Aktiver Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
 [Use advanced text render]
 Bruk avansert textgjengivelse

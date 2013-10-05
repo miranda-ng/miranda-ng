@@ -9,7 +9,7 @@
 ;file \plugins\LotusNotify\res\LotusNotify.rc
 [Show error messages]
 显示错误信息
-[Set popup colours]
+[Set popup colors]
 设置弹出提示颜色
 [Popup options]
 弹出窗口选项

@@ -10,9 +10,9 @@ Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderu
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Einstellungen
-[Background colour:]
+[Background color:]
 Hintergrundfarbe:
-[Selection colour:]
+[Selection color:]
 Auswahlfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden

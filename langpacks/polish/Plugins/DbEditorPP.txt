@@ -58,7 +58,7 @@ Umieść spację lub przecinek między nazwami modułów
 Zmiany na tej liście przyniosą efekt po ponownym uruchomieniu Mirandy
 [Popup timeout (0 for infinite)]
 Wyświetlania (0 = Nie chowaj)
-[Background colour]
+[Background color]
 Kolor tła
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Jeśli moduł ma w nazwie spację, umieść \\ przed spacją, np. "aaa\\ bbb"

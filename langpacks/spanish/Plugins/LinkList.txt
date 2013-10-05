@@ -28,7 +28,7 @@ Correo electrónico sólo
 Direcciones web sólo
 [Deep search]
 búsqueda profunda
-[Colour Select]
+[Color Select]
 Color Seleccionar
 [Incoming messages]
 Los mensajes entrantes
@@ -36,11 +36,11 @@ Los mensajes entrantes
 Plugin por defecto
 [Outgoing messages]
 Mensajes salientes
-[Backgroundcolour]
+[Background color]
 Color de fondo
 [Use Miranda Settings]
 Utilice Configuración de Miranda
-[Textcolour]
+[Text color]
 Textcolour
 [Open links always in a new window]
 Abrir enlaces siempre en una ventana nueva

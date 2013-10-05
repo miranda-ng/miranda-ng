@@ -184,11 +184,9 @@
 האפר את כל הרשימה כש:
 [Contact List Background]
 רקע רשימת אנשי קשר
-[Use Windows colours]
+[Use Windows colors]
 השתמש בצבעי חלונות
-[Background colour]
-צבע רקע
-[Background colour]
+[Background color]
 צבע רקע
 [Use background image]
 השתמש בתמונת רקע

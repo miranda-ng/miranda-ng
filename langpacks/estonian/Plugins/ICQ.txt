@@ -28,7 +28,7 @@ Valikud
 Teksti värv
 [Error]
 Viga
-[Use default colours]
+[Use default colors]
 Kasuta vaikimisi värve
 [Protocol Version:]
 Protokolli versioon:

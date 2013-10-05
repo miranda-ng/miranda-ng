@@ -40,9 +40,9 @@
 רקע
 [Text]
 טקסט
-[Use custom colours]
+[Use custom colors]
 צבעים מותאמים אישית
-[Use Windows colours]
+[Use Windows colors]
 השתמש בצבעי חלונות
 [Reset]
 אפס

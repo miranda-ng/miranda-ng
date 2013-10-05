@@ -10,7 +10,7 @@
 Zoeken
 [&Cancel]
 Annuleren
-[Background colour]
+[Background color]
 Achtergrond kleur
 [OK]
 OK

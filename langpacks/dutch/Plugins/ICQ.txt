@@ -26,7 +26,7 @@ Berichtgeving
 Opties
 [Error]
 Fout
-[Use default colours]
+[Use default colors]
 Standaard kleuren gebruiken
 [Summary]
 Samenvatting

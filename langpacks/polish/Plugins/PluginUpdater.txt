@@ -58,13 +58,13 @@ Postęp
 Wstecz
 [Text]
 Tekst
-[Colours]
+[Colors]
 Kolory
 [Use cus&tom colors]
 Użyj niestandardowych kolorów
-[Use &Windows colours]
+[Use &Windows colors]
 Użyj kolorów Windows
-[Use Pop&up colours]
+[Use Pop&up colors]
 Użyj kolorów Popup
 [Preview]
 Podgląd

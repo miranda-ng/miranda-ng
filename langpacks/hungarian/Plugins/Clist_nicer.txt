@@ -236,9 +236,9 @@ Függõleges görgõ elrejtése
 Teljes lista kiszürkítése, ha:
 [Contact List Background]
 Kapcsolati lista háttér
-[Use Windows colours]
+[Use Windows colors]
 Windows színek használata
-[Background colour]
+[Background color]
 Háttérszín
 [Use background image]
 Háttérkép használata

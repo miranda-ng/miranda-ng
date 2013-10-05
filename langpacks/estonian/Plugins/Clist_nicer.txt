@@ -60,7 +60,7 @@ Aeg:
 millisekundit
 [Contact List Background]
 Kontaktide nimekirja taust
-[Background colour]
+[Background color]
 Taustavärv
 [Use background image]
 Kasuta taustapilti

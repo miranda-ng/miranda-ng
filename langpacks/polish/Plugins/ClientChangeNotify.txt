@@ -42,7 +42,7 @@ s
 0 = Domyślny
 [-1 = Infinite]
 -1 = Nie chowaj
-[Colours]
+[Colors]
 Kolory
 [Background]
 Tło

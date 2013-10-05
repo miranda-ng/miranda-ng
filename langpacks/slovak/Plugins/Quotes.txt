@@ -70,15 +70,15 @@ Zavrieť
 
 [Popup Window Settings]
 
-[Colours]
+[Colors]
 Farby
-[Use default colours]
+[Use default colors]
 
-[Use user-defined colours]
+[Use user-defined colors]
 
-[Background colour]
+[Background color]
 Farba pozadia
-[Text colour]
+[Text color]
 Fraba textu
 [Delay]
 

@@ -20,9 +20,9 @@
 Всі напрямки
 [All types]
 Всі види
-[Backgroundcolour]
+[Background color]
 Фон
-[Colour Select]
+[Color Select]
 Вибір кольору
 [Deep search]
 Глибокий пошук
@@ -56,7 +56,7 @@ Linklist плагін
 Показувати повне повідомлення при наведенні миші
 [Show...]
 Показати...
-[Textcolour]
+[Text color]
 Колір тексту
 [Update list on new events]
 Автоматичне оновлення списку нових події

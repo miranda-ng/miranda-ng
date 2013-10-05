@@ -46,9 +46,9 @@ Cancel
 電話中
 [Out to lunch]
 昼食中
-[Background colour]
+[Background color]
 背景色
-[Text colour]
+[Text color]
 テキスト色
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

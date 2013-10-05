@@ -154,7 +154,7 @@ AIM コンタクトサポートを有効
 スパムを検出
 [Use system &icons]
 システムアイコンを使用 (&i)
-[Use default colours]
+[Use default colors]
 デフォルト色を使用
 [UIN:]
 UIN :

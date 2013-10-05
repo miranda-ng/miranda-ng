@@ -272,9 +272,9 @@ ms
 Посивяване на списъка с контакти, при състояние:
 [Contact List Background]
 Фон на списъка с контакти
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
-[Background colour]
+[Background color]
 Фонов цвят
 [Use background image]
 Фоново изображение

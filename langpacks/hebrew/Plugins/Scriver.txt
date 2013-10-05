@@ -168,9 +168,9 @@
 קבוצת צ'אט
 [Use same style as in the message log]
 עיצוב דומה כמו ביומן ההודעות
-[Use default colours]
+[Use default colors]
 צבעי ברירת מחדל
-[Use custom colours]
+[Use custom colors]
 צבעים מותאמים אישית
 [Text]
 טקסט
@@ -237,11 +237,9 @@
 כפתור סגירה
 [Icon overlay]
 מעל אייקון
-[Text colour]
+[Text color]
 צבע טקסט
-[Background colour]
-צבע רקע
-[Background colour]
+[Background color]
 צבע רקע
 [Bold]
 בולט
@@ -468,7 +466,7 @@
 תקן מראש את כל האירועים עם חותמת זמן
 [Only prefix with timestamp if it has changed]
 תקן מראש עם חותמת זמן רק אם שונה
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 לחתימת זמן יש אותו צבע כמו אירוע
 [Indent the second line of a message]
 לחתוך את הקו השני של הודעה

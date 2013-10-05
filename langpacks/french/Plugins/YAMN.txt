@@ -102,11 +102,9 @@ Message persistant
 Notifications, erreur de connexion
 [Popup notification if failed]
 Popup de notification d'erreur
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
-[Text colour]
+[Text color]
 Couleur du texte
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

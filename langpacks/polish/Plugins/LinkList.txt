@@ -34,7 +34,7 @@ Tylko adresy WWW
 Głębokie wyszukiwanie
 [Static]
 Statyczne
-[Colour Select]
+[Color Select]
 Kolor zaznaczenia
 [Incoming messages]
 Przychodzące wiadomości
@@ -44,11 +44,11 @@ Domyślna wtyczka
 Podgląd
 [Outgoing messages]
 Wychodzące wiadomości
-[Backgroundcolour]
+[Background color]
 Kolor tła
 [Use Miranda Settings]
 Użyj ustawień Mirandy
-[Textcolour]
+[Text color]
 Kolor tekstu
 [General Settings]
 Ogólne

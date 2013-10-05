@@ -8,18 +8,14 @@
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [OK]
 OK
-[Background colour]
+[Background color]
 Bakgrunnsfarge
-[Background colour]
-Bakgrunnsfarge
-[Text colour]
+[Text color]
 Tekstfarge
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
-[Use default colours]
+[Use default colors]
 Bruk standardfarger
-[Custom]
-Selvvalgt
 [Custom]
 Selvvalgt
 [Actions]
@@ -31,8 +27,6 @@ Handlinger
 [History]
 Historikk
 ;file \plugins\AvatarHistory\src\options.cpp
-[Popups]
-Popups
 [Popups]
 Popups
 ;file \plugins\AvatarHistory\src\utils.cpp

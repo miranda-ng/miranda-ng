@@ -14,9 +14,7 @@ Parola:
 Port:
 [Default]
 Varsayılan
-[Background colour]
-Art alan rengi
-[Background colour]
+[Background color]
 Art alan rengi
 [Font]
 Yazı tipi

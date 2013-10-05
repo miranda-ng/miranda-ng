@@ -122,15 +122,15 @@
 Прайграць гук
 [Use ignore list]
 Выкарыстоўваць спіс ігнаравання
-[Birthday popup colours]
+[Birthday popup colors]
 Налада дзён нараджэння
-[Background colour]
+[Background color]
 Колер фону
-[Text colour]
+[Text color]
 Колер тэксту
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
-[Use default colours]
+[Use default colors]
 Колеры па змаўчанні
 [Delay]
 Затрымка
@@ -142,7 +142,7 @@
 Увесь час
 [Show reminder messages as popups (if reminder is enabled)]
 Напамінкі ва ўсплывальных вокнах (калі дазволены)
-[Anniversary popup colours]
+[Anniversary popup colors]
 Налада свят
 [Replace progress dialogs with popups]
 Замяніць дыялогі прагрэсу ўсплывальнымі вокнамі
@@ -218,7 +218,7 @@
 Перазапісаная інфармацыя
 [Changed information]
 Змененыя дадзеныя
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Уключыць колеры для паказу статусу інфармацыі
 [Make protocol based contact information readonly.]
 Забараніць змену інфармацыі, якая базуецца на пратаколе
@@ -228,7 +228,7 @@
 Адсартаваць усе пункты ў алфавітным парадку
 [Info of a MetaContact's SubContact]
 Інфармацыя субкантакта Метакантакту
-[Colours]
+[Colors]
 Колеры
 [Common]
 Агульныя

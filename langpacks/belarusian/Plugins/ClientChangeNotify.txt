@@ -42,7 +42,7 @@
 0=Змаўчанне
 [-1 = Infinite]
 -1=Бясконца
-[Colours]
+[Colors]
 Колеры
 [Background]
 Фон

@@ -28,9 +28,7 @@
 שינויים לרשימה זאת יופעלו בפעם הבאה שמירנדה תופעל
 [Popup timeout (0 for infinite)]
 פסק זמן פופאפ 0 ללא הגבלה
-[Background colour]
-צבע רקע
-[Background colour]
+[Background color]
 צבע רקע
 [OK]
 אישור

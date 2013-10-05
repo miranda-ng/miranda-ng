@@ -20,15 +20,11 @@ Günlük
 İptal
 [Close]
 Kapat
-[Use default colours]
+[Use default colors]
 Varsayılan renkleri kullan
-[Background colour]
+[Background color]
 Art alan rengi
-[Background colour]
-Art alan rengi
-[Text colour]
-Yazı rengi
-[Text colour]
+[Text color]
 Yazı rengi
 [Custom]
 Kişisel

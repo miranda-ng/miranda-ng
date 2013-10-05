@@ -138,7 +138,7 @@ HTTP подключение Quotes
 Котировка
 [Popup Window Settings]
 Настройки всплывающих окон
-[Use user-defined colours]
+[Use user-defined colors]
 Настроить цвета
 [Open Price]
 Цена на открытие

@@ -36,11 +36,9 @@ Açılır Pencereler
 Art Alan
 [Text]
 Yazı
-[Use custom colours]
+[Use custom colors]
 Kişisel renkleri kullan
-[Use Windows colours]
-Windows renklerini kullan
-[Use Windows colours]
+[Use Windows colors]
 Windows renklerini kullan
 [Reset]
 Sıfırla

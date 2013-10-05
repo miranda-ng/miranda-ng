@@ -14,7 +14,7 @@ Jelszó:
 Port:
 [Default]
 Alap
-[Background colour]
+[Background color]
 Háttérszín
 [Font]
 Betûtípus

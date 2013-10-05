@@ -40,9 +40,9 @@ Nähtamatu
 Telefonil
 [Out to lunch]
 Lõunastamas
-[Background colour]
+[Background color]
 Taustavärv
-[Text colour]
+[Text color]
 Teksti värv
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

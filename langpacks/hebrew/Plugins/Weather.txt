@@ -98,13 +98,11 @@ URL עוד מידע
 ביטול
 [Popup only when condition changes]
 פופ אפ רק כאשר מצב משתנה
-[Background colour]
+[Background color]
 צבע רקע
-[Background colour]
-צבע רקע
-[Text colour]
+[Text color]
 צבע טקסט
-[Use Windows colours]
+[Use Windows colors]
 השתמש בצבעי חלונות
 [Popup Actions]
 פעולות פופ אפ

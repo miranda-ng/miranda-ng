@@ -73,7 +73,7 @@ Proxy benötigt Autorisierung
 E-Mail-Benachrichtigung
 [Enable incoming mail notification]
 Benachrichtigung bei eingehenden E-Mails aktivieren
-[Colours]
+[Colors]
 Farben
 [Background]
 Hintergrund

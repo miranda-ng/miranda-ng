@@ -126,17 +126,17 @@ Automatische Sicherung und Aktualisierung protokollbasierender Geburtsdaten
 Sound abspielen
 [Use ignore list]
 Ignorierliste verwenden
-[Birthday popup colours]
+[Birthday popup colors]
 Farben für Erinnerung
 [r]
 r
-[Background colour]
+[Background color]
 Hintergrundfarbe
-[Text colour]
+[Text color]
 Textfarbe
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
-[Use default colours]
+[Use default colors]
 Standardfarben verwenden
 [Delay]
 Verzögerung
@@ -148,7 +148,7 @@ Benutzerdef.
 Dauerhaft
 [Show reminder messages as popups (if reminder is enabled)]
 Erinnerungen als Popup anzeigen (wenn Erinnerung aktiviert)
-[Anniversary popup colours]
+[Anniversary popup colors]
 Farben für Jahrestage
 [Replace progress dialogs with popups]
 Fortschrittsanzeige durch Popups
@@ -224,7 +224,7 @@ Angepasste Informationen
 Überschriebene Informationen
 [Changed information]
 Veränderte Informationen
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Aktiviere farbige Informationsstatusanzeige
 [Make protocol based contact information readonly.]
 Schreibschutz für protokollbasierte Kontaktinformationen
@@ -234,7 +234,7 @@ Aktiviere Gruppen im Baum des Profildialogs
 Baum alphabetisch sortieren
 [Info of a MetaContact's SubContact]
 Informationen des Unterkontaktes aus einem Metakontakt
-[Colours]
+[Colors]
 Farben
 [Common]
 Allgemein

@@ -90,13 +90,13 @@ Wszystkie włączone
 Tło
 [Text]
 Tekst
-[Colours]
+[Colors]
 Kolory
-[Use custom colours]
+[Use custom colors]
 Użyj niestandardowych kolorów
-[Use Windows colours]
+[Use Windows colors]
 Użyj kolorów Windows
-[Use Popup colours]
+[Use Popup colors]
 Użyj kolorów Popup
 [Popup text]
 Tekst popupu

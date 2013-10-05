@@ -142,9 +142,9 @@ Ord som skal merkes (jokertegn er tillatt)
 Plassering
 [Use same style as in the message log]
 Bruk samme stil som i samtaleloggen
-[Use default colours]
+[Use default colors]
 Bruk standardfarger
-[Use custom colours]
+[Use custom colors]
 Bruk selvvalgte farger
 [Text]
 Tekst
@@ -227,11 +227,9 @@ Utgående melding (10x10)
 Varsel (10x10)
 [Window Icon]
 Vindu Ikon
-[Text colour]
+[Text color]
 Tekstfarge
-[Background colour]
-Bakgrunnsfarge
-[Background colour]
+[Background color]
 Bakgrunnsfarge
 [Bold]
 Fet

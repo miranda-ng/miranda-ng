@@ -36,15 +36,15 @@
 Метакантакты апрацоўваюцца асоба: інфармацыя заўсёды капіюецца з субкантактаў (апавяшчэнні ад метакантактаў ігнаруюцца)
 [Show popup when a contact change his avatar]
 Усплывальнае акно пры змене аватара
-[Colours]
+[Colors]
 Колеры
-[Background colour]
+[Background color]
 Колер фону
-[Text colour]
+[Text color]
 Колер тэксту
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
-[Use default colours]
+[Use default colors]
 Колеры па змаўчанні
 [Delay]
 Затрымка

@@ -144,7 +144,7 @@ SSL
 
 [Multi popup]
 
-[Use custom colour]
+[Use custom color]
 
 [No new mail notifications]
 
@@ -160,9 +160,9 @@ SSL
 
 [Preview]
 Образец
-[Background colour]
+[Background color]
 Фонов цвят
-[Text colour]
+[Text color]
 Цвят на текста
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

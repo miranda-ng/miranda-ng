@@ -24,9 +24,9 @@
 килобайта
 [minutes]
 минути
-[Background colour:]
+[Background color:]
 Цвят на фона:
-[Text colour:]
+[Text color:]
 Цвят на текста:
 [Reset to default]
 Стандарт

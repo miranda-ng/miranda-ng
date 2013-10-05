@@ -18,15 +18,13 @@ Profil
 OK
 [Other]
 Autre
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
-[Text colour]
+[Text color]
 Couleur du texte
-[Use Windows colours]
+[Use Windows colors]
 Utiliser les couleurs Windows
-[Use default colours]
+[Use default colors]
 Couleurs par défaut
 [Events]
 Évènements

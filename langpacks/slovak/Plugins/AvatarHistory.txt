@@ -38,15 +38,15 @@ OK
 
 [Show popup when a contact change his avatar]
 
-[Colours]
+[Colors]
 Farby
-[Background colour]
+[Background color]
 Farba pozadia
-[Text colour]
+[Text color]
 Fraba textu
-[Use Windows colours]
+[Use Windows colors]
 
-[Use default colours]
+[Use default colors]
 
 [Delay]
 

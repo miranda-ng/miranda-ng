@@ -14,13 +14,11 @@ Valg
 Synlighet
 [Cancel]
 Avbryt
-[Background colour]
+[Background color]
 Bakgrunnsfarge
-[Background colour]
-Bakgrunnsfarge
-[Text colour]
+[Text color]
 Tekstfarge
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
 [seconds]
 sekunder

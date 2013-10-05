@@ -152,7 +152,7 @@ P2P 通信
 检测出滥发机器
 [Use system &icons]
 使用系统图标(&I)
-[Use default colours]
+[Use default colors]
 使用默认颜色
 [External IP:]
 外部 IP: 

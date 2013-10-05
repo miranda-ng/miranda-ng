@@ -73,7 +73,7 @@
 
 [Enable incoming mail notification]
 
-[Colours]
+[Colors]
 Цветове
 [Background]
 Фон

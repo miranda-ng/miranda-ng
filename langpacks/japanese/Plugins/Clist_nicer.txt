@@ -240,9 +240,9 @@ Clist Nicer+
 リスト全体を灰色表示する :
 [Contact List Background]
 コンタクトリストの背景
-[Use Windows colours]
+[Use Windows colors]
 ウィンドウ色を使用
-[Background colour]
+[Background color]
 背景色
 [Use background image]
 背景に画像を使用

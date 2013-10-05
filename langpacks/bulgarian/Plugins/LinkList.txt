@@ -34,7 +34,7 @@
 
 [Static]
 Статичен
-[Colour Select]
+[Color Select]
 
 [Incoming messages]
 Входящите съобщения
@@ -44,11 +44,11 @@
 Преглед
 [Outgoing messages]
 Изходящи съобщения
-[Backgroundcolour]
+[Background color]
 
 [Use Miranda Settings]
 
-[Textcolour]
+[Text color]
 
 [General Settings]
 

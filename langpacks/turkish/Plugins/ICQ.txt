@@ -146,7 +146,7 @@ Hata
 Spam algılandı
 [Use system &icons]
 Sistem s&imgelerini kullan
-[Use default colours]
+[Use default colors]
 Varsayılan renkleri kullan
 [UIN:]
 UIN:

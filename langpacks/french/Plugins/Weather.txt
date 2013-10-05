@@ -76,13 +76,11 @@ Désactiver la mise à jour automatique pour cette Station.
 Annuler
 [Popup only when condition changes]
 Seulement si les conditions changent
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
-[Text colour]
+[Text color]
 Couleur du texte
-[Use Windows colours]
+[Use Windows colors]
 Utiliser les couleurs Windows
 [Popup Actions]
 Action sur un popup

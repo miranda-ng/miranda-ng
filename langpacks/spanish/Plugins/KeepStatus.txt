@@ -26,15 +26,13 @@ Set
 OK
 [Other]
 Otros
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
-[Text colour]
+[Text color]
 Color del texto
-[Use Windows colours]
+[Use Windows colors]
 Usar colores de Windows
-[Use default colours]
+[Use default colors]
 Utilice los colores por defecto
 [Events]
 Eventos

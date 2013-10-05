@@ -52,9 +52,9 @@ Texteinzug:
 Randabstand:
 [Round corners (avatar)]
 Runde Ecken (Avatar)
-[Text colour:]
+[Text color:]
 Textfarbe:
-[Background colour:]
+[Background color:]
 Hintergrundfarbe:
 [Set timeout]
 Anzeigedauer setzen

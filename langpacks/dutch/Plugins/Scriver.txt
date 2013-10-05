@@ -82,9 +82,9 @@ Woorden om op te lichten (jokertekens toegestaan)
 Locatie
 [Use same style as in the message log]
 Dezelfde stijl als in het bericht log gebruiken
-[Use default colours]
+[Use default colors]
 Standaard kleuren gebruiken
-[Use custom colours]
+[Use custom colors]
 Aangepaste kleuren gebruiken
 [Text]
 Tekst
@@ -131,9 +131,9 @@ Lo&g opschonen
 [Co&py all]
 Alles ko&piëren
 ;file \plugins\Scriver\src\globals.cpp
-[Text colour]
+[Text color]
 Tekst kleur
-[Background colour]
+[Background color]
 Achtergrond kleur
 [Bold]
 Vet

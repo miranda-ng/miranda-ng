@@ -16,10 +16,8 @@ Configuration
 Port :
 [Default]
 Défaut
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
 [Font]
 Police
 [Summary]

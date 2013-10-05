@@ -345,7 +345,7 @@ History++ для гісторыі вокнаў
 не прастакутныя
 [Enable Aero Glass (Vista+)]
 Эфект Aero Glass (Vista+)
-[Use Windows colours]
+[Use Windows colors]
 Колеры Windows
 [Use advanced text render]
 Пашыраная апрацоўка тэксту

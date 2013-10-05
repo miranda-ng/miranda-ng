@@ -272,9 +272,9 @@ milisekúnd
 Potlačiť intenzitu u týchto položiek:
 [Contact List Background]
 Pozadie zoznamu kontaktov
-[Use Windows colours]
+[Use Windows colors]
 
-[Background colour]
+[Background color]
 Farba pozadia
 [Use background image]
 

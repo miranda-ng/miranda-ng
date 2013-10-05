@@ -182,7 +182,7 @@ Użyj kolorów Windows
 Użyj ikon systemowych
 [Previe&w]
 Podgląd
-[Use default colours]
+[Use default colors]
 Użyj domyślnych kolorów
 [UIN:]
 UIN:

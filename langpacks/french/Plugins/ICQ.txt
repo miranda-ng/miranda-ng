@@ -136,7 +136,7 @@ Erreur fatale
 Spam détecté
 [Use system &icons]
 Utiliser les icônes du système
-[Use default colours]
+[Use default colors]
 Couleurs par défaut
 [UIN:]
 UIN :

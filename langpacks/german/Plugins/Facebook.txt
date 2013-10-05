@@ -197,6 +197,8 @@ Benutzer hat Ihnen %s gesendet:
 Nachricht gelesen: %s von %s
 [Message read: %s]
 Nachricht gelesen: %s
+[%s and more (%d)]
+
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.

@@ -40,7 +40,7 @@
 
 [Send formatted text (send RTF)]
 
-[Background colour]
+[Background color]
 Фонов цвят
 [Font]
 Шрифт

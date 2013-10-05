@@ -126,17 +126,17 @@
 Възпроизвеждане на звук
 [Use ignore list]
 Ползване на списък за игнориране
-[Birthday popup colours]
+[Birthday popup colors]
 popup за рожден ден
 [r]
 
-[Background colour]
+[Background color]
 Фонов цвят
-[Text colour]
+[Text color]
 Цвят на текста
-[Use Windows colours]
+[Use Windows colors]
 Цветове от Windows
-[Use default colours]
+[Use default colors]
 Стандартни цветове
 [Delay]
 Закъснение
@@ -148,7 +148,7 @@ popup за рожден ден
 Постоянно
 [Show reminder messages as popups (if reminder is enabled)]
 Показване на съобщенията за напомняне като popups (ако напомнянето е включено)
-[Anniversary popup colours]
+[Anniversary popup colors]
 popup за годишнина
 [Replace progress dialogs with popups]
 Замяна на прозореца за напредък с popups
@@ -224,7 +224,7 @@ popup за годишнина
 Презаписана информация
 [Changed information]
 Променена информация
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Ползване на цветове за предаване на информация, за данните.
 [Make protocol based contact information readonly.]
 
@@ -234,7 +234,7 @@ popup за годишнина
 Азбучно сортиране на всички елементи на дървото.
 [Info of a MetaContact's SubContact]
 Информация от подконтакт на метаконтакт
-[Colours]
+[Colors]
 Цветове
 [Common]
 Общи

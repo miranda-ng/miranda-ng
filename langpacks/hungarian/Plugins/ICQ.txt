@@ -140,7 +140,7 @@ Végzetes
 Észlelt spam
 [Use system &icons]
 Rendszer &ikonok használata
-[Use default colours]
+[Use default colors]
 Alap színek használata
 [UIN:]
 UIN:

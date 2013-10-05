@@ -112,7 +112,7 @@
 ; Беседы — Лог чата
 [Group Chat Log]
 Лог чата
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 Время того же цвета, как и событие
 [Limit user names to 20 characters]
 Ограничить имена в журнале 20-ю символами

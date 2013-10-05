@@ -124,9 +124,9 @@ Popup se non ci sono msg
 Notifiche di fallimento connessione
 [Popup notification if failed]
 Notifica con popup se errore
-[Background colour]
+[Background color]
 Colore di sfondo
-[Text colour]
+[Text color]
 Colore del testo
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

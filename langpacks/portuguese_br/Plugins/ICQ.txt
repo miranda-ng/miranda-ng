@@ -182,7 +182,7 @@ Fatal
 Spam detectado
 [Use system &icons]
 Use o sistema e ícones
-[Use default colours]
+[Use default colors]
 Usar cores padrão
 [UIN:]
 UIN:

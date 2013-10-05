@@ -73,7 +73,7 @@ Proxy wymaga uwierzytelnienia
 Powiadomienie o poczcie
 [Enable incoming mail notification]
 Włącz powiadomienia o przychodzącej poczcie
-[Colours]
+[Colors]
 Kolory
 [Background]
 Tło

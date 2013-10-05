@@ -240,13 +240,9 @@ Dikey kaydırma çubuğunu gizle
 Şu olduğunda tüm listeyi karart:
 [Contact List Background]
 Kişi Listesi Art Alanı
-[Use Windows colours]
+[Use Windows colors]
 Windows renklerini kullan
-[Use Windows colours]
-Windows renklerini kullan
-[Background colour]
-Art alan rengi
-[Background colour]
+[Background color]
 Art alan rengi
 [Use background image]
 Art alan resmi göster

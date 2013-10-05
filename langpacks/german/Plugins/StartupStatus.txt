@@ -120,13 +120,13 @@ Verbindung beim Start herstellen
 Verbindung beim Beenden trennen
 [Dial-up (experimental)]
 Verbindungsaufbau/-abbau (experimentell)
-[Background colour]
+[Background color]
 Hintergrundfarbe
-[Text colour]
+[Text color]
 Textfarbe
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
-[Use default colours]
+[Use default colors]
 Standardfarben verwenden
 [Delay]
 Verzögerung
@@ -140,7 +140,7 @@ Nichts tun
 Popup schließen
 [Cancel reconnecting]
 Wiederverb. stoppen
-[Colours]
+[Colors]
 Farben
 [Preview]
 Vorschau

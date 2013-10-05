@@ -42,7 +42,7 @@ Prednastavené
 
 [Send formatted text (send RTF)]
 
-[Background colour]
+[Background color]
 Farba pozadia
 [Font]
 

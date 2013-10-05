@@ -144,7 +144,7 @@ APOP
 Адно акно
 [Multi popup]
 Шмат вокнаў
-[Use custom colour]
+[Use custom color]
 Свае колеры
 [No new mail notifications]
 Пры адсутнасці новай пошты
@@ -160,9 +160,9 @@ APOP
 сек (працягласць)
 [Preview]
 Тэст
-[Background colour]
+[Background color]
 Колер фону
-[Text colour]
+[Text color]
 Колер тэксту
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

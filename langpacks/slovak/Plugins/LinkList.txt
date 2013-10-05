@@ -34,7 +34,7 @@ Zavrieť
 
 [Static]
 
-[Colour Select]
+[Color Select]
 
 [Incoming messages]
 
@@ -44,11 +44,11 @@ Zavrieť
 
 [Outgoing messages]
 
-[Backgroundcolour]
+[Background color]
 
 [Use Miranda Settings]
 
-[Textcolour]
+[Text color]
 
 [General Settings]
 

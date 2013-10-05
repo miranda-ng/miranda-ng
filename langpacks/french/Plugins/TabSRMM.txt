@@ -273,9 +273,9 @@ millisecondes
 ... vous &écrit
 [...stopped t&yping]
 ... n'écrit &plus
-[U&se Popup colours]
+[U&se Popup colors]
 Couleurs par défaut
-[&Use Windows colours]
+[&Use Windows colors]
 &Utiliser couleurs Windows
 [Only &one popup for each contact]
 Seulement &un popup par contact
@@ -729,10 +729,8 @@ Police
 Couleur
 [Format strike-through]
 Style de barré
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
 [Room settings]
 Paramètres du salon
 [Message delivery error]

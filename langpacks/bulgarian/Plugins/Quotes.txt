@@ -70,15 +70,15 @@ Popup настройки...
 Филтър:
 [Popup Window Settings]
 Настройки на Popup прозореца
-[Colours]
+[Colors]
 Цветове
-[Use default colours]
+[Use default colors]
 Стандартни цветове
-[Use user-defined colours]
+[Use user-defined colors]
 Избор на цветове
-[Background colour]
+[Background color]
 Фонов цвят
-[Text colour]
+[Text color]
 Цвят на текста
 [Delay]
 Закъснение

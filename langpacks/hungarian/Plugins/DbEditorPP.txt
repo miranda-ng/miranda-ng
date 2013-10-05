@@ -10,7 +10,7 @@
 &Keresés
 [&Cancel]
 &Mégse
-[Background colour]
+[Background color]
 Háttérszín
 [OK]
 OK

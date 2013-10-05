@@ -8,7 +8,7 @@
 [Notify with popup if some connection established]
 Benachrichtigt mittels Popup falls eine Verbindung aufgebaut wird.
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
-[Set popup colours]
+[Set popup colors]
 Popupfarben setzen
 [Popup options]
 Popup-Einstellungen

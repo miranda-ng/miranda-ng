@@ -54,13 +54,9 @@ Görünmez
 Telefonda
 [Out to lunch]
 Yemekte
-[Background colour]
+[Background color]
 Art alan rengi
-[Background colour]
-Art alan rengi
-[Text colour]
-Yazı rengi
-[Text colour]
+[Text color]
 Yazı rengi
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

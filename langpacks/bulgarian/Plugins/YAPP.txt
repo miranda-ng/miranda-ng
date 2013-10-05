@@ -52,9 +52,9 @@
 Отстъп:
 [Round corners (avatar)]
 Закръглени ъгли (на аватара)
-[Text colour:]
+[Text color:]
 Цвят на текста:
-[Background colour:]
+[Background color:]
 Цвят на фона:
 [Set timeout]
 Задаване на времетраене

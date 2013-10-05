@@ -59,7 +59,7 @@ P2P далучэнні
 Ужыв. проксі для ўваходных далучэнняў
 [Enable incoming mail notification]
 Укл. апавяшчэнне пра ўваходную пошту
-[Colours]
+[Colors]
 Колеры
 [Background]
 Фон

@@ -22,14 +22,8 @@ Exibir as contas dos contatos no grupo
 Ocultar grupo quando não houver contato online
 [1st:]
 1º:
-[1st:]
-1º:
 [2nd:]
 2º:
-[2nd:]
-2º:
-[3rd:]
-3º:
 [3rd:]
 3º:
 [Always on top]
@@ -104,28 +98,16 @@ AVISO:\tSkins pode modificar o seu perfil atual. Reversão não é possível.\n\
 AVISO:\tSkins pode modificar o seu perfil atual. Não é possível reverter.\n\t\tPor favor COPIE seu banco de dados antes de aplicar a skin.
 [* Restart may be required for all changes to take effect]
 * Reiniciar pode ser exigido para que todas as alterações tenham efeito
-[* Restart may be required for all changes to take effect]
-* É necessário reiniciar para que as alterações tenham efeito
 [Available objects]
 Objetos disponíveis
-[Available objects]
-Objetos disponíveis
-[Copy]
-Copiar
-[Copy]
-Copiar
 [Copy]
 Copiar
 [Paste]
 Colar
 [Object properties]
 Propriedades do objeto
-[Object properties]
-Propriedades do objeto
-[Colour]
+[Color]
 Cor
-[Image file and fitting mode]
-Modo de arquivo de imagem e montagem
 [Image file and fitting mode]
 Modo de arquivo de imagem e montagem
 [File]
@@ -152,8 +134,6 @@ Posição:
 Tamanho:
 [W x H: 0 x 0 pixels]
 W x H: 0 x 0 pixels
-[W x H: 0 x 0 pixels]
-L x H: 0 x 0 pixels
 [Show contacts in groups]
 Mostrar contatos em grupos
 [Show contacts in groups]
@@ -852,7 +832,7 @@ Nomes Contato
 Itens de Linha
 [Frame texts]
 Janela de textos
-[Special colours]
+[Special colors]
 Cores Especiais
 [Standard contacts]
 Contatos padrão
@@ -946,7 +926,7 @@ Texto de menu selecionado
 Texto da janela de Título
 [Statusbar text]
 Texto da barra de status
-[3rd party frames transparent back colour]
+[3rd party frames transparent back color]
 Cor de fundo transparente para outras janelas
 [General]
 Geral

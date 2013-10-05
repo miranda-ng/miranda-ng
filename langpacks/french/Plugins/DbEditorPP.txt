@@ -50,10 +50,8 @@ Mettre un espace ou une virgule entre chaque nom de module
 Les changements ne prendront effet qu'après un redémarrage de Miranda
 [Popup timeout (0 for infinite)]
 Délai du Popup (0 pour infini) :
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Si le nom du module contient un espace, insérer \\ avant l'espace (ex "aaa\\ bbb")
 [Add a module to contact]

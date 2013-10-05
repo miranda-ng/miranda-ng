@@ -42,7 +42,7 @@ Pravým klikom
 
 [-1 = Infinite]
 
-[Colours]
+[Colors]
 Farby
 [Background]
 Pozadie

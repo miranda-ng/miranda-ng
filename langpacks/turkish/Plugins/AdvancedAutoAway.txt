@@ -12,10 +12,6 @@ Genel
 Kapat
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Profile]
 Profile
 [Message]
@@ -26,20 +22,14 @@ Ayarla
 Tamam
 [Other]
 Diğer
-[Background colour]
+[Background color]
 Art alan rengi
-[Background colour]
-Art alan rengi
-[Text colour]
+[Text color]
 Yazı rengi
-[Text colour]
+[Text color]
 Yazı rengi
-[Use Windows colours]
+[Use Windows colors]
 Windows renklerini kullan
-[Use Windows colours]
-Windows renklerini kullan
-[Use default colours]
-Varsayılan renkleri kullan
 [Events]
 Etkinlikler
 [Custom]
@@ -52,8 +42,6 @@ Hesaplar
 Durum
 [Delete]
 Sil
-[seconds]
-saniye
 [seconds]
 saniye
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp

@@ -238,11 +238,9 @@
 下列清况将整个列表变灰: 
 [Contact List Background]
 联系人列表背景
-[Use Windows colours]
+[Use Windows colors]
 使用 Windows 颜色
-[Background colour]
-背景颜色
-[Background colour]
+[Background color]
 背景颜色
 [Use background image]
 使用背景图片

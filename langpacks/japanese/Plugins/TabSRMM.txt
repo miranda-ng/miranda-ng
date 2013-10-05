@@ -451,9 +451,9 @@ Windows 7 タスクバー拡張機能を使用 ( 要再起動 )
 ...は入力中 (&t)
 [...stopped t&yping]
 ...入力を中止 (&y)
-[U&se Popup colours]
+[U&se Popup colors]
 ポップアップ色を使用 (&s)
-[&Use Windows colours]
+[&Use Windows colors]
 ウィンドウ色を使用 (&U)
 [Only &one popup for each contact]
 コンタクト毎にポップアップは1つのみ (&o)
@@ -1141,7 +1141,7 @@ History++ プラグイン
 フォント色
 [Format strike-through]
 取り消し線形式
-[Background colour]
+[Background color]
 背景色
 [Room settings]
 ルーム設定

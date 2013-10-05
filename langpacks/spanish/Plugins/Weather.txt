@@ -18,13 +18,11 @@ Visibilidad
 Cancelar
 [Cancel]
 Cancelar
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
-[Text colour]
+[Text color]
 Color del texto
-[Use Windows colours]
+[Use Windows colors]
 Usar colores de Windows
 [seconds]
 segundo

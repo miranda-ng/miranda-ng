@@ -22,13 +22,13 @@ Beállít
 OK
 [Other]
 Egyéb
-[Background colour]
+[Background color]
 Háttérszín
-[Text colour]
+[Text color]
 Szövegszín
-[Use Windows colours]
+[Use Windows colors]
 Windows színek használata
-[Use default colours]
+[Use default colors]
 Alap színek használata
 [Events]
 Események

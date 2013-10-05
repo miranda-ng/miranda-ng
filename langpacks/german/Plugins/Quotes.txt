@@ -70,15 +70,15 @@ Daten von:
 Filter:
 [Popup Window Settings]
 Popup-Fenstereinstellungen
-[Colours]
+[Colors]
 Farben
-[Use default colours]
+[Use default colors]
 Standardfarben verwenden
-[Use user-defined colours]
+[Use user-defined colors]
 Benutzerdefinierte Farben
-[Background colour]
+[Background color]
 Hintergrundfarbe
-[Text colour]
+[Text color]
 Textfarbe
 [Delay]
 Verzögerung

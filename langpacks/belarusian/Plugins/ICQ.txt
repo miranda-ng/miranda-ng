@@ -180,7 +180,7 @@ ICQ
 Сістэмныя значкі
 [Previe&w]
 &Тэст
-[Use default colours]
+[Use default colors]
 Колеры па змаўчанні
 [UIN:]
 Нумар:

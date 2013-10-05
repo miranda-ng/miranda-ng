@@ -183,9 +183,9 @@
 ...&מקליד
 [...stopped t&yping]
 ...הפסיק ל&הקליד
-[U&se Popup colours]
+[U&se Popup colors]
 ה&שתמש בצבעי פופאפ
-[&Use Windows colours]
+[&Use Windows colors]
 &השתמש בצבעי חלונות
 [Only &one popup for each contact]
 רק &פופאפ אחד לכל איש קשר
@@ -431,9 +431,7 @@ IEViewפלאג ה
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Smiley button]
 כפתור סמיילים
-[Background colour]
-צבע רקע
-[Background colour]
+[Background color]
 צבע רקע
 [Room settings]
 הגדרות חדר

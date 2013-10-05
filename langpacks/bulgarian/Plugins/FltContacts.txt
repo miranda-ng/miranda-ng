@@ -58,7 +58,7 @@ ms
 
 [Background]
 Фон
-[Background colour:]
+[Background color:]
 Цвят на фона:
 [Use background bitmap]
 Ползване на фоново изображение

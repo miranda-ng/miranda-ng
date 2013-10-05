@@ -497,9 +497,9 @@ Popups
 ...ti&ppt nicht mehr
 [Back]
 Hgrd.
-[U&se Popup colours]
+[U&se Popup colors]
 Standardfarben verwenden
-[&Use Windows colours]
+[&Use Windows colors]
 Windowsfarben verwenden
 [Only &one popup for each contact]
 Nur ein P&opup pro Kontakt
@@ -1467,7 +1467,7 @@ Schriftart
 Schriftfarbe
 [Format strike-through]
 Durchgestrichen
-[Background colour]
+[Background color]
 Hintergrundfarbe
 [Room settings]
 Raumeinstellungen
@@ -1848,8 +1848,6 @@ Chatfenster öffnen
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Textfarbe
-[Background color]
-Hintergrundfarbe
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s ist beigetreten

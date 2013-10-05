@@ -16,13 +16,11 @@ Cancelar
 Cancelar
 [Close]
 Cerrar
-[Use default colours]
+[Use default colors]
 Utilice los colores por defecto
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
-[Text colour]
+[Text color]
 Color del texto
 [Custom]
 Personalizado

@@ -68,7 +68,7 @@ Ajatempel
 Võimalda esiletõst
 [Location]
 Asukoht
-[Use default colours]
+[Use default colors]
 Kasuta vaikimisi värve
 [Text]
 Tekst
@@ -113,9 +113,9 @@ Kopeeri kõik
 ;file \plugins\Scriver\src\globals.cpp
 [Sending]
 Saatmine
-[Text colour]
+[Text color]
 Teksti värv
-[Background colour]
+[Background color]
 Taustavärv
 [Bold]
 Rasvane

@@ -108,7 +108,7 @@ TopToolBar "检查邮件" 按钮
 单一弹出窗口
 [Multi popup]
 多重弹出窗口
-[Use custom colour]
+[Use custom color]
 使用自定义颜色
 [No new mail notifications]
 无新邮件通知
@@ -122,11 +122,9 @@ TopToolBar "检查邮件" 按钮
 失败时发出弹出窗口通知
 [..s Popup duration]
 ..s 弹出窗口持续
-[Background colour]
+[Background color]
 背景颜色
-[Background colour]
-背景颜色
-[Text colour]
+[Text color]
 文本颜色
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]

@@ -272,9 +272,9 @@ Vertikale Bildlaufleiste ausblenden
 Liste grau färben, wenn:
 [Contact List Background]
 Hintergrund der Kontaktliste
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
-[Background colour]
+[Background color]
 Hintergrundfarbe
 [Use background image]
 Hintergrundbild verwenden

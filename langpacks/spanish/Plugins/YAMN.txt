@@ -52,11 +52,9 @@ Invisible
 En el teléfono
 [Out to lunch]
 A almorzar
-[Background colour]
+[Background color]
 Color de fondo
-[Background colour]
-Colores de fondo
-[Text colour]
+[Text color]
 Color del texto
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h

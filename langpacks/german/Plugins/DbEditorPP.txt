@@ -58,7 +58,7 @@ Trennen Sie die einzelnen Einträge durch ein Leerzeichen oder Komma
 Änderungen in dieser Liste werden erst beim nächsten Start von Miranda wirksam.
 [Popup timeout (0 for infinite)]
 Anzeigedauer (0 für endlos)
-[Background colour]
+[Background color]
 Hintergrundfarbe
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Wenn Modulname Leerzeichen enthält, vor das Leerzeichen ein \\ setzen, z. B. "aaa\\ bbb"

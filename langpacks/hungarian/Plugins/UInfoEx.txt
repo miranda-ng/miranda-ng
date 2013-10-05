@@ -50,13 +50,13 @@ Add meg az országot, irányítószámot és telefonszámot:
 Vagy adj meg egy teljes nemzetközi számot:
 [Phone can receive SMS text messages]
 A telefon képes SMS szöveges üzenetek fogadására
-[Background colour]
+[Background color]
 Háttérszín
-[Text colour]
+[Text color]
 Szövegszín
-[Use Windows colours]
+[Use Windows colors]
 Windows színek használata
-[Use default colours]
+[Use default colors]
 Alap színek használata
 [Custom]
 Egyedi

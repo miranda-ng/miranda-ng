@@ -6,7 +6,7 @@
 ;  Authors: MaKaR
 ;============================================================
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
-[Set popup colours]
+[Set popup colors]
 设置弹出提示颜色
 [Popup options]
 弹出窗口选项

@@ -10,9 +10,9 @@
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 
-[Background colour:]
+[Background color:]
 Farba pozadia:
-[Selection colour:]
+[Selection color:]
 Vyber farbu:
 [Use background bitmap]
 Použiť obrázok na pozadí

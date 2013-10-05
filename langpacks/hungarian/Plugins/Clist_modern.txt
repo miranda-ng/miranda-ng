@@ -70,7 +70,7 @@ Másol
 Beszúrás
 [Object properties]
 Objektum tulajdonságok
-[Colour]
+[Color]
 Szín:
 [Image file and fitting mode]
 Képfájl és illeszkedés mójda

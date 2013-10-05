@@ -236,11 +236,9 @@ Skjul vertikal scroll bar
 Grå ut hele listen når:
 [Contact List Background]
 Kontaktliste bakgrunn
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
-[Background colour]
-Bakgrunnsfarge
-[Background colour]
+[Background color]
 Bakgrunnsfarge
 [Use background image]
 Bruk bakgrunnsbilde

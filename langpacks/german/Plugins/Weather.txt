@@ -136,13 +136,13 @@ Popup-Einstellungen
 Popups aktivieren
 [Popup only when condition changes]
 Popups nur bei Wetteränderung
-[Colours]
+[Colors]
 Farben
-[Background colour]
+[Background color]
 Hintergrundfarbe
-[Text colour]
+[Text color]
 Textfarbe
-[Use Windows colours]
+[Use Windows colors]
 Windowsfarben verwenden
 [Popup Actions]
 Popup-Aktionen

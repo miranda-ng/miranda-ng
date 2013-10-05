@@ -236,9 +236,9 @@ Miesto
 
 [Use same style as in the message log]
 
-[Use default colours]
+[Use default colors]
 
-[Use custom colours]
+[Use custom colors]
 
 [Text]
 Text
@@ -347,9 +347,9 @@ Zoznam
 
 [Window Icon]
 
-[Text colour]
+[Text color]
 Fraba textu
-[Background colour]
+[Background color]
 Farba pozadia
 [Bold]
 Tučné
@@ -758,7 +758,7 @@ Opustiť
 
 [Only prefix with timestamp if it has changed]
 
-[Timestamp has same colour as event]
+[Timestamp has same color as event]
 
 [Indent the second line of a message]
 
@@ -957,10 +957,6 @@ Vyber zložku
 Kurzíva
 [Underline]
 Podtrhnuté
-[Text color]
-
-[Background color]
-
 [Filter]
 
 [Manager]

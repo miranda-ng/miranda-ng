@@ -180,7 +180,7 @@ Chyba
 
 [Previe&w]
 Ukázať
-[Use default colours]
+[Use default colors]
 
 [UIN:]
 UIN:

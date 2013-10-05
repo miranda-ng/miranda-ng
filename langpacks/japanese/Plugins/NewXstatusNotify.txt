@@ -38,9 +38,9 @@
 背景
 [Text]
 テキスト
-[Use custom colours]
+[Use custom colors]
 カスタム色を使用
-[Use Windows colours]
+[Use Windows colors]
 ウィンドウ色を使用
 [Reset]
 リセット

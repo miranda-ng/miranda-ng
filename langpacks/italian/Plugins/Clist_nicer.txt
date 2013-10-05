@@ -8,10 +8,6 @@
 ;file \plugins\Clist_nicer\res\resource.rc
 [OK]
 OK
-[OK]
-OK
-[Version]
-Versione
 [Version]
 Versione
 [Delete Contact]
@@ -138,15 +134,13 @@ Scorri lista in modo continuo
 Tempo:
 [milliseconds]
 millisecondi
-[milliseconds]
-millisecondi
 [Grey out entire list when:]
 L'intera lista diventa grigia quando:
 [Contact List Background]
 Sfondo lista contatti
-[Use Windows colours]
+[Use Windows colors]
 Utilizza colori di Windows
-[Background colour]
+[Background color]
 Colore di sfondo
 [Stretch to width]
 Allarga

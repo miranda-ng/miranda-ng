@@ -24,15 +24,13 @@ Melding
 OK
 [Other]
 Annet
-[Background colour]
+[Background color]
 Bakgrunnsfarge
-[Background colour]
-Bakgrunnsfarge
-[Text colour]
+[Text color]
 Tekstfarge
-[Use Windows colours]
+[Use Windows colors]
 Bruk Windowsfarger
-[Use default colours]
+[Use default colors]
 Bruk standardfarger
 [Events]
 Hendelser

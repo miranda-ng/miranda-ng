@@ -136,7 +136,7 @@
 ספאם נתגלה
 [Use system &icons]
 השתמש ב&אייקוני מערכת
-[Use default colours]
+[Use default colors]
 צבעי ברירת מחדל
 [UIN:]
 מספר:

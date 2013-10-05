@@ -8,11 +8,11 @@
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [OK]
 OK
-[Background colour]
+[Background color]
 Taustavärv
-[Text colour]
+[Text color]
 Teksti värv
-[Use default colours]
+[Use default colors]
 Kasuta vaikimisi värve
 [Actions]
 Tegevused

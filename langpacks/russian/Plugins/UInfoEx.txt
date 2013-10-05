@@ -51,7 +51,7 @@
 ;  настройки - плагины - личные данные - диалоги
 [Details Dialog]
 Диалоги
-[Enable colours to give information about information's status.]
+[Enable colors to give information about information's status.]
 Включить цвета для показа статуса информации
 [Protocol's information]
 Данные протокола
@@ -115,9 +115,9 @@
 Заменить диалоги прогресса всплывающими окнами
 [Show reminder messages as popups (if reminder is enabled)]
 Напоминания во всплывающих окнах (если разрешены)
-[Birthday popup colours]
+[Birthday popup colors]
 Настройка дней рождения
-[Anniversary popup colours]
+[Anniversary popup colors]
 Настройка праздников
 [This is the reminder message]
 Сообщение напоминания

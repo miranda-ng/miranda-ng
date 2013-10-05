@@ -34,7 +34,7 @@
 Глыбокі пошук
 [Static]
 Статычны
-[Colour Select]
+[Color Select]
 Выбар колеру
 [Incoming messages]
 Уваходныя паведамленні
@@ -44,11 +44,11 @@
 Тэст
 [Outgoing messages]
 Выходныя паведамленні
-[Backgroundcolour]
+[Background color]
 Фон
 [Use Miranda Settings]
 Выкарыстоўваць налады праграмы
-[Textcolour]
+[Text color]
 Колер тэксту
 [General Settings]
 Асноўныя налады

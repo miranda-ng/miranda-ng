@@ -12,13 +12,11 @@ Journal
 Annuler
 [Close]
 Fermer
-[Use default colours]
+[Use default colors]
 Couleurs par défaut
-[Background colour]
+[Background color]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
-[Text colour]
+[Text color]
 Couleur du texte
 [Custom]
 Défini

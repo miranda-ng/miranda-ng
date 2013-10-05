@@ -66,11 +66,11 @@ Background
 Texto
 [Text]
 Texto
-[Use custom colours]
+[Use custom colors]
 Usar colores personalizados
-[Use Windows colours]
+[Use Windows colors]
 Usar colores de Windows
-[Use Popup colours]
+[Use Popup colors]
 Utilice colores Popup
 [Read status message]
 Lea el mensaje de estado
