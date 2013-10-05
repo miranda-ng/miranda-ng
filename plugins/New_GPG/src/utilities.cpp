@@ -495,8 +495,8 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 		name = filename;
 	else
 		name++;
-	TCHAR *file_out =  new TCHAR [_tcslen(filename)+ _tcslen(_T("%s.gpg")) + 1];
-	mir_sntprintf(file_out, _tcslen(file_out), _T("%s.gpg"), name);
+	TCHAR *file_out =  new TCHAR [_tcslen(name) + _tcslen(_T("%s.gpg")) + 1];
+	mir_sntprintf(file_out, _tcslen(name) + _tcslen(_T("%s.gpg")) + 1, _T("%s.gpg"), name);
 	cmd.push_back(szKeyid);
 	if(db_get_b(hcnt, szGPGModuleName, "bAlwaysTrust", 0))
 	{
