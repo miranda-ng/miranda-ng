@@ -179,8 +179,10 @@ AIM Предупреждение
 Все сообщения сброшены. Вы превысили ограничение скорости сервера.
 [Administrator]
 Администратор
-[Unknown error occured when attempting to connect]
-Неизвестная ошибка при соединении
+[Unknown error occurred when attempting to connect.]
+Неизвестная ошибка при соединении.
+[An Error has occurred.]
+Неизвестная ошибка.
 [Anonymous]
 Анонимно
 [AOL has reported that you have been warned by another user.]

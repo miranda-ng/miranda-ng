@@ -1306,7 +1306,7 @@ JID / URL:
 Нет чатов для отключения
 [Workstation successfully locked]
 Компьютер успешно заблокирован
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 Ошибка %d возникла во время процесса блокировки
 [Quit Miranda NG]
 Закрыть Miranda NG
@@ -1320,7 +1320,7 @@ Jabber ошибка
 Обработка. Подождите...
 [Command completed successfully]
 Команда выполнена успешно
-[Error occured during processing command]
+[Error occurred during processing command]
 Возникла ошибка в процессе выполнения команды
 [%s\nSend groupchat invitation.]
 %s\Пригласить в конференцию.

@@ -2593,8 +2593,10 @@ ID пользователя:
 Секунды (00-60)
 [X-Status Message]
 Сообщение xСтатуса
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Протокол вернул следующую ошибку:
+[An unknown error has occurred.]
+Произошла неизвестная ошибка.
 [Try again]
 Ещё раз
 [View Homepage]

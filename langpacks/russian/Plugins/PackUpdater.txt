@@ -16,7 +16,7 @@
 Обновлений нет.
 [View info]
 Посмотреть инфо
-[An error occured while downloading the update.]
+[An error occurred while downloading the update.]
 Во время загрузки обновления произошла ошибка.
 [URL for checking updates not found.]
 Ссылка для проверки обновлений не найдена.

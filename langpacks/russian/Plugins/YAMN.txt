@@ -245,7 +245,7 @@ YAMN: новое письмо
 Ошибка распределения памяти при чтении данных.
 [Reading file error. File already in use?]
 Ошибка чтения файла. Файл уже используется?
-[Error while copying data to disk occured. File in use?]
+[Error while copying data to disk occurred. Is file in use?]
 Ошибка копирования данных на диске. Файл уже используется?
 [YAMN (internal POP3) read error]
 YAMN (внутренний POP3) ошибка чтения

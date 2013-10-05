@@ -94,7 +94,7 @@
 Плагин Exchange не запущен.
 [Could not retrieve setting '%s/%s': %s.]
 Невозможно прочитать настройку '%s/%s': %s.
-[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 Miranda была закрыта или произошла ошибка при ожидании результата, невозможно обработать запрос.
 [Unknown parameter '%s' for command '%s'.]
 Неизвестный аргумент '%s' для команды '%s'.

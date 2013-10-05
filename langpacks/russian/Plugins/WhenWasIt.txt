@@ -129,7 +129,7 @@
 Править день рождения
 [Add/change user &birthday]
 День рождения пользователя
-[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occuring today]]
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
 Устанавливает задержку уведомления о приближающихся др.\nФормат: задержка по умолчанию [ | задержка для др сегодня]
 [Upcoming birthdays]
 Наступающие дни рождения
