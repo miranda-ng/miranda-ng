@@ -1068,7 +1068,7 @@
 [&Rename]
 [&Add permanently to list]
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 [Nick]
 [FirstName]
 [E-mail]
@@ -1076,7 +1076,7 @@
 [Username]
 [FirstName LastName]
 [LastName FirstName]
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 ['(Unknown Contact)']
 [Contact names]
 ;file \src\modules\clist\genmenu.cpp

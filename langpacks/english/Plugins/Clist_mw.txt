@@ -57,7 +57,7 @@
 [System tray icon]
 [System tray icon when using multiple protocols]
 [Contact List Sorting]
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 [Pin to desktop]
 [Rows]
 [Row height:]

@@ -654,7 +654,7 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 		}
 		else if (g_bWarnOnHidden)
 		{
-			if (MessageBox(NULL, TranslateT("This Session already opened(but probably hidden)\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO|MB_ICONQUESTION) == IDYES)
+			if (MessageBox(NULL, TranslateT("This Session already opened (but probably hidden).\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO|MB_ICONQUESTION) == IDYES)
 			{
 				j=0;
 				while(hidden[j]!=0)

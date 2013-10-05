@@ -19,7 +19,7 @@ begin
         'changed next time.');
       CheckDlgButton(Dialog,IDC_SIMPLEMODE,SimpleMode);
       MakeHint(Dialog,IDC_INDEPENDED,
-        'If this option is "ON", XStatus doesn''t depend of protocol status.');
+        'If this option is "ON", XStatus doesn''t depend on protocol status.');
       CheckDlgButton(Dialog,IDC_INDEPENDED,XIndepended);
       MakeHint(Dialog,IDC_USESTATUS,
         'If this option is "ON", status text will be replaced by music info.');

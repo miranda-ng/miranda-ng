@@ -303,7 +303,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER);
 	}
-	else facy.client_notify(TranslateT("Error occured when canceling friendship request."));
+	else facy.client_notify(TranslateT("Error occurred when canceling friendship request."));
 
 	if (resp.code != HTTP_CODE_OK)
 		facy.handle_error("CancelFriendsRequest");

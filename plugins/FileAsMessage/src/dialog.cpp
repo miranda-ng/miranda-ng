@@ -795,7 +795,7 @@ void FILEECHO::perform(char *str)
 		switch(msgId)
 		{
 			case CMD_REQ:
-				if(MessageBox(hDlg, Translate("Incoming file request. Do you want proceed?"),
+				if(MessageBox(hDlg, Translate("Incoming file request. Do you want to proceed?"),
 					Translate(SERVICE_TITLE), MB_YESNO | MB_ICONWARNING) == IDYES)
 				{
 					SetDlgItemText(hDlg, IDC_STATUS, "");
@@ -843,7 +843,7 @@ void FILEECHO::perform(char *str)
 			case CMD_REQ:
 				if(chunkCount)
 				{
-					if(MessageBox(hDlg, Translate("New incoming file request. Do you want proceed?"),
+					if(MessageBox(hDlg, Translate("New incoming file request. Do you want to proceed?"),
 						Translate(SERVICE_TITLE), MB_YESNO | MB_ICONWARNING) != IDYES)
 						break;
 					//sendCmd(0, CMD_CANCEL, "", NULL);

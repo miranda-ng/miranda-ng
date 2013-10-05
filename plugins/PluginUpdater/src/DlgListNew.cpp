@@ -110,7 +110,7 @@ static void ApplyDownloads(void *param)
 	PopupDataText temp;
 	temp.Title = TranslateT("Plugin Updater");
 	temp.Text = tszBuff;
-	lstrcpyn(tszBuff, TranslateT("Download complete. Do you want go to plugins option page?"), SIZEOF(tszBuff));
+	lstrcpyn(tszBuff, TranslateT("Download complete. Do you want to go to plugins option page?"), SIZEOF(tszBuff));
 	int rc = MessageBox(hDlg, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
 	if (rc == IDYES)
 		CallFunctionAsync(OpenPluginOptions, 0);

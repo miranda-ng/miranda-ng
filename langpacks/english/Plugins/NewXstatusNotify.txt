@@ -32,7 +32,6 @@
 [Extra status]
 [Open]
 [Status message]
-[IndSndList]
 [Change]
 [Preview]
 [Delete]

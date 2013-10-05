@@ -204,7 +204,7 @@ BEGIN
     CONTROL         "Create a new Mail.ru account using the Mail.ru website",IDC_NEW_ACCOUNT_LINK,
                     "Hyperlink",WS_TABSTOP,18,72,258,9
     CONTROL         "Retrieve a lost password",IDC_LOOKUPLINK,"Hyperlink",WS_TABSTOP,18,85,258,9
-    LTEXT           "Leave empty if you dont want change password",IDC_STATIC,72,48,212,8
+    LTEXT           "Leave empty if you don't want to change password",IDC_STATIC,72,48,212,8
 END
 
 IDD_OPT_POPUPS DIALOGEX 0, 0, 295, 150

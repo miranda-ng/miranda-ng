@@ -135,7 +135,7 @@ BEGIN
     LTEXT           "This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.",IDC_STC9,160,12,136,74,NOT WS_GROUP
     LTEXT           "You can simply block someone, if you right click on his friend request in clist and choose Block User ...",IDC_STC19,160,48,130,39,NOT WS_GROUP
     LTEXT           "This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.",IDC_STC20,92,105,206,28,NOT WS_GROUP
-    LTEXT           "This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.",IDC_STC21,92,136,206,30,NOT WS_GROUP
+    LTEXT           "This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.",IDC_STC21,92,136,206,30,NOT WS_GROUP
     LTEXT           "Be sure you put these files in following folder:",IDC_STC24,7,171,290,9,NOT WS_GROUP
     EDITTEXT        IDC_FILESSHOULDBE,7,183,290,13,ES_READONLY | NOT WS_BORDER,WS_EX_CLIENTEDGE
 END
@@ -167,16 +167,16 @@ BEGIN
     GROUPBOX        "Games",IDC_GRP10,2,0,300,225
     LTEXT           "Game:",IDC_STC27,162,11,136,9,NOT WS_GROUP
     EDITTEXT        IDC_GAMENAME,162,20,136,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "Dont detect this game as running",IDC_DONTDETECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,55,152,9
+    CONTROL         "Don't detect this game as running",IDC_DONTDETECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,55,152,9
     ICON            "",IDC_GAMEICO,138,11,21,20,SS_CENTERIMAGE
     GROUPBOX        "Options",IDC_GRP11,138,40,160,181
     PUSHBUTTON      "Apply",IDC_APPLY,142,199,72,17
-    CONTROL         "Dont set status message for other protocols",IDC_NOSTATUSMSG,
+    CONTROL         "Don't set status message for other protocols",IDC_NOSTATUSMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,68,152,9
     EDITTEXT        IDC_TEXTSTATUS,142,186,152,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     PUSHBUTTON      "Add new game",IDC_ADDGAME,6,201,66,15
     PUSHBUTTON      "Remove",IDC_REMOVE,74,202,60,15
-    CONTROL         "Dont show in start menu",IDC_NOTINSTARTMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,81,152,9
+    CONTROL         "Don't show in start menu",IDC_NOTINSTARTMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,81,152,9
     LTEXT           "(manual added)",IDC_MANADDED,162,31,134,9,NOT WS_VISIBLE | NOT WS_GROUP
     LTEXT           "Extra Command Line Parameters:",IDC_STC15,142,99,150,9,NOT WS_GROUP
     EDITTEXT        IDC_EXTRAPARAMS,142,110,152,13,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE

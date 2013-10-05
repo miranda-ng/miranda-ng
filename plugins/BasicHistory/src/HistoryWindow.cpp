@@ -484,7 +484,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM)
 	CallService(MS_DB_SETSAFETYMODE, TRUE, 0);
 
 	if (EventList::IsImportedHistory(hContact)) {
-		TCHAR *message = TranslateT("Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
+		TCHAR *message = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
 		if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
 			EventList::DeleteImporter(hContact);
 	}
@@ -2039,7 +2039,7 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 	{
 		bool differentContact = false;
 		if (exp.Import(type, messages, &err, &differentContact, &contacts)) {
-			int act = MessageBox(hWnd, TranslateT("Do you want save imported messages to local profile?"), TranslateT("Import"), MB_ICONQUESTION | MB_YESNOCANCEL | MB_DEFBUTTON2);
+			int act = MessageBox(hWnd, TranslateT("Do you want to save imported messages to local profile?"), TranslateT("Import"), MB_ICONQUESTION | MB_YESNOCANCEL | MB_DEFBUTTON2);
 			if (act == IDYES) {
 				MargeMessages(messages);
 				if (!changeContact)
@@ -2053,7 +2053,7 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 		}
 		else if (differentContact)
 		{
-			int act = MessageBox(hWnd, TranslateT("File contain history for different contact. Do you want to change contact and import?"), TranslateT("Error"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2);
+			int act = MessageBox(hWnd, TranslateT("File contains history for different contact. Do you want to change contact and import?"), TranslateT("Error"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2);
 			if (act == IDYES) {
 				changeContact = true;
 				hContact = exp.hContact;
@@ -2154,7 +2154,7 @@ void HistoryWindow::Delete(int what)
 	rebuild = (start == 0 && end == currentGroup.size());
 
 	if (areImpMessages) {
-		TCHAR *message = TranslateT("Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
+		TCHAR *message = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
 		if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES) {
 			EventList::DeleteImporter(hContact);
 			rebuild = true;

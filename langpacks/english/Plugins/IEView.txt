@@ -53,7 +53,7 @@
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]
 [C++ Event Sink]
-[OleInitialize failed.]
+[Ole Initialize failed.]
 [ERROR]
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]

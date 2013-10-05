@@ -125,7 +125,7 @@ BEGIN
   CONTROL "This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.",IDC_STC9,"Static",WS_CHILD|WS_VISIBLE,160,12,136,74
   CONTROL "You can simply block someone, if you right click on his friend request in clist and choose Block User ...",IDC_STC19,"Static",WS_CHILD|WS_VISIBLE,160,48,130,39
   CONTROL "This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.",IDC_STC20,"Static",WS_CHILD|WS_VISIBLE,92,105,206,28
-  CONTROL "This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.",IDC_STC21,"Static",WS_CHILD|WS_VISIBLE,92,136,206,26
+  CONTROL "This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.",IDC_STC21,"Static",WS_CHILD|WS_VISIBLE,92,136,206,26
   CONTROL "Be sure you put these files in following folder:",IDC_STC24,"Static",WS_CHILD|WS_VISIBLE,8,168,290,9
   CONTROL "",IDC_FILESSHOULDBE,"Edit",WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_READONLY,8,179,290,13,WS_EX_CLIENTEDGE
 END
@@ -156,15 +156,15 @@ BEGIN
   CONTROL "Games",IDC_GRP10,"Button",WS_CHILD|WS_VISIBLE|BS_GROUPBOX,2,0,300,233
   CONTROL "Game:",IDC_STC27,"Static",WS_CHILD|WS_VISIBLE,162,11,136,9
   CONTROL "",IDC_GAMENAME,"Edit",WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_READONLY|ES_AUTOHSCROLL,162,20,136,11
-  CONTROL "Dont detect this game as running",IDC_DONTDETECT,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_AUTOCHECKBOX,142,55,152,9
+  CONTROL "Don't detect this game as running",IDC_DONTDETECT,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_AUTOCHECKBOX,142,55,152,9
   CONTROL "",IDC_GAMEICO,"Static",WS_CHILD|WS_VISIBLE|SS_CENTERIMAGE|SS_ICON,138,11,22,19
   CONTROL "Options",IDC_GRP11,"Button",WS_CHILD|WS_VISIBLE|BS_GROUPBOX,138,40,160,187
   CONTROL "Apply",IDC_APPLY,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP,142,206,72,17
-  CONTROL "Dont set status message for other protocols",IDC_NOSTATUSMSG,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_AUTOCHECKBOX,142,68,152,9
+  CONTROL "Don't set status message for other protocols",IDC_NOSTATUSMSG,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_AUTOCHECKBOX,142,68,152,9
   CONTROL "",IDC_TEXTSTATUS,"Edit",WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_READONLY|ES_AUTOHSCROLL|ES_CENTER,142,192,152,11
   CONTROL "Add new game",IDC_ADDGAME,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP,6,212,66,15
   CONTROL "Remove",IDC_REMOVE,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP,74,212,60,15
-  CONTROL "Dont show in start menu",IDC_NOTINSTARTMENU,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_AUTOCHECKBOX,142,81,152,9
+  CONTROL "Don't show in start menu",IDC_NOTINSTARTMENU,"Button",WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_AUTOCHECKBOX,142,81,152,9
   CONTROL "(manual added)",IDC_MANADDED,"Static",NOT WS_VISIBLE|WS_CHILD,162,31,134,9
   CONTROL "Extra Command Line Parameters:",IDC_STC15,"Static",WS_CHILD|WS_VISIBLE,142,99,150,9
   CONTROL "",IDC_EXTRAPARAMS,"Edit",WS_CHILD|WS_VISIBLE|WS_TABSTOP|ES_AUTOHSCROLL,142,110,152,13,WS_EX_CLIENTEDGE

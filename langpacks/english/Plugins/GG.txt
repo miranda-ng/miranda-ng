@@ -149,7 +149,7 @@
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 [&Clear ignored conferences]
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 [%s initiated the conference.]
 [This is my own conference.]
 [Participants]

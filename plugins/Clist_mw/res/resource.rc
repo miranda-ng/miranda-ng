@@ -153,7 +153,7 @@ BEGIN
     GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,142,310,57
     GROUPBOX        "Contact List Sorting",IDC_STATIC,143,2,169,69,WS_GROUP
     CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,177,109,11,12
-    CONTROL         "Dont move offline user to bottom",IDC_NOOFFLINEMOVE,
+    CONTROL         "Don't move offline user to bottom",IDC_NOOFFLINEMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,26,142,10
     CONTROL         "Pin to desktop",IDC_ONDESKTOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,120,125,15
     CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,84,97,10

@@ -524,7 +524,7 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 	if(out.find("There is no assurance this key belongs to the named user") != string::npos)
 	{
 		out.clear();
-		if(MessageBox(0, TranslateT("We trying to encrypt with untrusted key, do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 		{
 			db_set_b(hcnt, szGPGModuleName, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;

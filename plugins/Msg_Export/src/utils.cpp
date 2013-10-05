@@ -1615,7 +1615,7 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 
 		TCHAR szTemp[500];
 		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s\r\n%s"),
-			TranslateT("User has been deleted do you want to delete the file?"), sFilePath.c_str());
+			TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
 
 		if (enDeleteAction == eDAAutomatic ||
 			 MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES )

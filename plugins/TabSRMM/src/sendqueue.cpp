@@ -789,7 +789,7 @@ inform_and_discard:
 LRESULT SendQueue::WarnPendingJobs(unsigned int uNrMessages)
 {
 	return MessageBox(0,
-		TranslateT("There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?"),
+		TranslateT("There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?"),
 		TranslateT("Message window warning"), MB_YESNO | MB_ICONHAND);
 }
 

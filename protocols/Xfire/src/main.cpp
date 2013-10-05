@@ -3449,7 +3449,7 @@ INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam) {
 
 	if(!db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
 	{
-		mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want delete your friend %s?"), dbv.pszVal);
+		mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to delete your friend %s?"), dbv.pszVal);
 		if(MessageBoxA(NULL,temp,Translate("Confirm Delete"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			if(myClient!=NULL)

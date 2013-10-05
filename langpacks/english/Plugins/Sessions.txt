@@ -53,7 +53,7 @@
 [Last Sessions is empty]
 [No contacts to open]
 [This Session already opened]
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 [Open Sessions Manager]
 [Show Favorite Sessions Menu]
 [Restore last Session]

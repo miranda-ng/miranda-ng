@@ -2322,7 +2322,7 @@ void ImportKey()
 	new_key_hcnt_mutex.unlock();
 	bool for_all_sub = false;
 	if(metaIsProtoMetaContacts(hContact))
-		if(MessageBox(0, TranslateT("Do you want load key for all subcontacts ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 			for_all_sub = true;
 	if(metaIsProtoMetaContacts(hContact))
 	{

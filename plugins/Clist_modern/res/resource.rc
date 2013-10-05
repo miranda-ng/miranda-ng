@@ -364,7 +364,7 @@ BEGIN
     CONTROL         "Hide empty groups",IDC_HIDEEMPTYGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,37,124,10
     CONTROL         "Disable groups",IDC_DISABLEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,49,124,10
     CONTROL         "Ask before deleting contacts",IDC_CONFIRMDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,61,124,10
-    CONTROL         "Dont move offline user to bottom",IDC_NOOFFLINEMOVE,
+    CONTROL         "Don't move offline user to bottom",IDC_NOOFFLINEMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,77,141,10
     GROUPBOX        "Contact List",IDC_STCLISTGROUP,2,8,142,84
     GROUPBOX        "Contact List Sorting",IDC_STATIC,146,8,154,84,WS_GROUP

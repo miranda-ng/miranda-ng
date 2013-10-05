@@ -698,7 +698,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				if(!strlen(temp))
 				{
 					if(!editgame) delete newgame;
-					return MessageBoxA(hwndDlg, Translate("Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					return MessageBoxA(hwndDlg, Translate("Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				}
 				else
 				{
