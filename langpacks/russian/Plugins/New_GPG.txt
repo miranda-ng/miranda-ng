@@ -84,7 +84,7 @@
 [Key type:]
 Тип ключа:
 [Key length:]
-Длинна ключа
+Длина ключа
 [Key password:]
 Пароль ключа:
 [Real name:]
@@ -128,7 +128,7 @@
 [Creation date]
 Дата создания
 [Key length]
-Длинна ключа
+Длина ключа
 [Own private key warning]
 Предупреждение! Не выбран приватный ключ.
 [You didn't set a private key.\nWould you like to set it now?]
