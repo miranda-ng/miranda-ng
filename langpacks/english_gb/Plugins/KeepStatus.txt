@@ -1,0 +1,22 @@
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+;file \Plugins\StatusPlugins\resource.rc
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Colors]
+Colours
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

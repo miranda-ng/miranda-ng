@@ -1,0 +1,23 @@
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+;file \plugins\DbEditorPP\res\resource.rc
+[Background color]
+Background colour
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+;file \plugins\DbEditorPP\src\copymodule.cpp
+;file \plugins\DbEditorPP\src\deletemodule.cpp
+;file \plugins\DbEditorPP\src\exportimport.cpp
+;file \plugins\DbEditorPP\src\findwindow.cpp
+;file \plugins\DbEditorPP\src\icons.cpp
+;file \plugins\DbEditorPP\src\main.cpp
+;file \plugins\DbEditorPP\src\main_window.cpp
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
+;file \plugins\DbEditorPP\src\options.cpp
+;file \plugins\DbEditorPP\src\settinglist.cpp
+;file \plugins\DbEditorPP\src\watchedvars.cpp

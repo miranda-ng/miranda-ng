@@ -1,0 +1,21 @@
+﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+;============================================================
+;  File: AdvancedAutoAway.dll
+;  Plugin: Advanced Auto Away
+;  Version: 0.8.0.42
+;  Authors: P Boon
+;============================================================
+;file \Plugins\StatusPlugins\resource.rc
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Colors]
+Colours
+;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+;file \Plugins\StatusPlugins\commonstatus.cpp
+;file \Plugins\StatusPlugins\confirmdialog.cpp

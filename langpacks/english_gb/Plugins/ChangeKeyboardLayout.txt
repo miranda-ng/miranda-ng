@@ -1,0 +1,18 @@
+﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
+;============================================================
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Colors]
+Colours
+[Popup colors]
+Popup colours
+[Windows colors]
+Windows colours
+[Custom colors]
+Custom colours
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp

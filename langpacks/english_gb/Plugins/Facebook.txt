@@ -7,5 +7,5 @@
 ;============================================================
 [Request for friendship was canceled.]
 Request for friendship was cancelled.
-[Error occured when canceling friendship request.]
-Error occured when cancelling friendship request.
+[Error occurred when canceling friendship request.]
+Error occurred when cancelling friendship request.
