@@ -95,16 +95,18 @@ struct CVkProto : public PROTO<CVkProto>
 private:
 	struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	{
-		~AsyncHttpRequest()
-		{
-			mir_free(szUrl);
-		}
+		AsyncHttpRequest();
+		~AsyncHttpRequest();
+
+		void AddHeader(LPCSTR, LPCSTR);
+		void Redirect(NETLIBHTTPREQUEST*);
 
 		VK_REQUEST_HANDLER m_pFunc;
 		time_t m_expireTime;
 	};
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
 	CRITICAL_SECTION m_csRequestsQueue;
+	CMStringA m_prevUrl, m_savedCookie;
 	HANDLE m_evRequestsQueue;
 	HANDLE m_hWorkerThread;
 	bool   m_bTerminated;
@@ -112,10 +114,14 @@ private:
 	void   InitQueue();
 	void   UninitQueue();
 	void   ExecuteRequest(AsyncHttpRequest*);
-	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int iTimeout = 10000);
+	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, NETLIBHTTPHEADER *pParams = 0, int iTimeout = 10000);
+	bool   PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
 	int    SetupConnection(void);
 	void   __cdecl WorkerThread(void*);
 
+	CMStringA AutoFillForm(char*, CMStringA&);
+	void   ConnectionFailed(int iReason);
+	void   OnLoggedIn();
 	void   OnLoggedOut();
 	void   ShutdownSession();
 

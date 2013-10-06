@@ -42,3 +42,134 @@ int CVkProto::SetServerStatus(int iStatus)
 {
 	return 0;
 }
+
+LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
+{
+	for (int i=0; i < pReq->headersCount; i++)
+		if ( !_stricmp(pReq->headers[i].szName, szField))
+			return pReq->headers[i].szValue;
+
+	return NULL;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Quick & dirty form parser
+
+static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
+{
+	char *pEnd = strchr(szSrc, '>');
+	if (pEnd == NULL)
+		return "";
+
+	*pEnd = 0;
+	char *p1 = strstr(szSrc, szAttrName);
+	if (p1 == NULL) {
+LBL_NotFound:
+		*pEnd = '>';
+		return "";
+	}
+	p1 += strlen(szAttrName);
+	if (p1[0] != '=' || p1[1] != '\"')
+		goto LBL_NotFound;
+
+	p1 += 2;
+	char *p2 = strchr(p1, '\"');
+	if (p2 == NULL) 
+		goto LBL_NotFound;
+
+	*pEnd = '>';
+	return CMStringA(p1, (int)(p2-p1));
+}
+
+CMStringA CVkProto::AutoFillForm(char *pBody, CMStringA &szAction)
+{
+	char *pFormBeg = strstr(pBody, "<form ");
+	if (pFormBeg == NULL) return "";
+
+	char *pFormEnd = strstr(pFormBeg, "</form>");
+	if (pFormEnd == NULL) return "";
+
+	*pFormEnd = 0;
+
+	szAction = getAttr(pFormBeg, "action");
+
+	CMStringA result;
+	char *pFieldBeg = pFormBeg;
+	while (true) {
+		if ((pFieldBeg = strstr(pFieldBeg+1, "<input ")) == NULL)
+			break;
+
+		CMStringA type = getAttr(pFieldBeg, "type");
+		if (type != "submit") {
+			CMStringA name = getAttr(pFieldBeg, "name");
+			CMStringA value = getAttr(pFieldBeg, "value");
+			if (name == "email")
+				value = ptrA( mir_utf8encodeT( ptrT( getTStringA("Login"))));
+			else if (name == "pass")
+				value = ptrA( mir_utf8encodeT( ptrT( GetUserStoredPassword())));
+
+			if ( !result.IsEmpty())
+				result.AppendChar('&');
+			result += name + "=";
+			result += ptrA( mir_urlEncode(value));
+		}
+	}
+
+	return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMStringA loginCookie;
+
+CVkProto::AsyncHttpRequest::AsyncHttpRequest()
+{
+	cbSize = sizeof(NETLIBHTTPREQUEST);
+
+	AddHeader("Connection", "keep-alive");
+}
+
+CVkProto::AsyncHttpRequest::~AsyncHttpRequest()
+{
+	for (int i=0; i < headersCount; i++) {
+		mir_free(headers[i].szName);
+		mir_free(headers[i].szValue);
+	}
+	mir_free(headers);
+	mir_free(szUrl);
+	mir_free(pData);
+}
+
+void CVkProto::AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
+{
+	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
+	headers[headersCount].szName = mir_strdup(szName);
+	headers[headersCount].szValue = mir_strdup(szValue);
+	headersCount++;
+}
+
+void CVkProto::AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
+{
+	CMStringA szCookie;
+
+	for (int i=0; i < nhr->headersCount; i++) {
+		LPCSTR szValue = nhr->headers[i].szValue;
+		if (!_stricmp(nhr->headers[i].szName, "Location"))
+			replaceStr(szUrl, szValue);
+		else if (!_stricmp(nhr->headers[i].szName, "Set-cookie")) {
+			if ( strstr(szValue, "login.vk.com")) {
+				if (!szCookie.IsEmpty())
+					szCookie.Append("; ");
+
+				LPCSTR p = strchr(szValue, ';');
+				if (p == NULL)
+					szCookie += szValue;
+				else
+					szCookie.Append(szValue, p-szValue);
+			}
+		}
+	}
+
+	if (!szCookie.IsEmpty())
+		loginCookie = szCookie;
+}
