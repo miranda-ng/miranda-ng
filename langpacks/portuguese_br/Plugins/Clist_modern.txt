@@ -614,9 +614,7 @@ Substituir smileys em clist
 Mostrar smileys na primeira linha
 [Draw smileys on first line]
 Desenhar smileys na primeira linha
-[Resize smileys and 'Listining to' icon]
-Redimensionar smileys e ícone 'Ouvindo a'
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Redimensionar smileys e ícone 'Ouvindo a'
 [Align to right]
 Alinhar à direita

@@ -512,7 +512,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Смайлікі пратаколу
 [Draw smileys on first line]
 Смайлікі ў першым радку
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Змяніць памеры смайлікаў і значка 'Зараз слухаю'
 [Align to right]
 Выраўняць справа

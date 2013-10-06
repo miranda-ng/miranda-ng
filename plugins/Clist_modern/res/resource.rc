@@ -699,7 +699,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,119,246,8
     CONTROL         "Ignore size for row height calcs",IDC_IGNORE_SIZE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,68,246,8
-    CONTROL         "Resize smileys and 'Listining to' icon",IDC_RESIZE_SMILEYS,
+    CONTROL         "Resize smileys and 'Listening to' icon",IDC_RESIZE_SMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,107,232,8
     CONTROL         "Align to right",IDC_ALIGN_RIGHT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,55,246,8
     COMBOBOX        IDC_ALIGNGROUPCOMBO,6,24,140,45,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP

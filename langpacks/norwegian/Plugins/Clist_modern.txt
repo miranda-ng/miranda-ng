@@ -352,7 +352,7 @@ Høyre-Til-Venstre lesemodus (speil mal)
 Erstatt smileyer i k.liste
 [Draw smileys on first line]
 Tegn smileyer på første linje
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Endre smileystørrelse og 'Hører på' ikon
 [Align to right]
 Oppstilling mot høyre

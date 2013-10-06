@@ -259,7 +259,7 @@
 [Replace smileys in clist]
 [Use protocol smileys]
 [Draw smileys on first line]
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 [Align to right]
 [Append nick if different from custom name]
 [Trim long text with ellipsis]

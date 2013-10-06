@@ -512,7 +512,7 @@ MetaContacts - настройки
 
 [Draw smileys on first line]
 Показване на усмивки в първия ред
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Оразмеряване на усмивките и иконата "Слуша"
 [Align to right]
 Подреждане отдясно

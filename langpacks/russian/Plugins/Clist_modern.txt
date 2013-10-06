@@ -314,7 +314,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Выровнять справа
 [Replace smileys in clist]
 Заменять смайлики в списке
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Изменить размеры смайликов и значка 'Сейчас слушаю'
 [Draw smileys on first line]
 Смайлики в первой строке

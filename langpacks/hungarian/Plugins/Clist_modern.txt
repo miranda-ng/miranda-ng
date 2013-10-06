@@ -380,7 +380,7 @@ Jobbról-balra olvasás mód (tükör sablon)
 Emotikonok lecserélése a cListában
 [Draw smileys on first line]
 Emotikonok az elsõ sorban
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Emotikonok és 'ezt hallgatom' ikon átméretezése
 [Align to right]
 Igazítás jobbra

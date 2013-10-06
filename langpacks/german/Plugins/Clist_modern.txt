@@ -512,7 +512,7 @@ Textsmileys durch Grafik ersetzen
 Protokollspezifische Smileys
 [Draw smileys on first line]
 Grafiksmileys in der 1. Zeile
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Smiley- und ListeningTo-Icongröße anpassen
 [Align to right]
 Nach rechts ausrichten

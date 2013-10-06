@@ -362,7 +362,7 @@ x100 מילי שניות
 החלף סמיילים ב clist
 [Draw smileys on first line]
 צייר סמיילים בשורה הראשונה
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 הגדל סמיילים ואייקון האזנה ל
 [Align to right]
 סדר לימין

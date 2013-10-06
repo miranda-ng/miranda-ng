@@ -402,7 +402,7 @@ x100 毫秒
 替换联系人列表中的表情符号
 [Draw smileys on first line]
 在第一行绘制表情符号
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 自动调整表情及 "正在聆听" 图标大小
 [Align to right]
 向右对齐

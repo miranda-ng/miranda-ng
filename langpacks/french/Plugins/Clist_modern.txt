@@ -366,7 +366,7 @@ Lecture inversée (effet mirroir = DàG)
 Afficher des smileys dans la CList
 [Draw smileys on first line]
 Afficher les smileys sur la 1ière ligne
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Redimensionner les smileys et l'icône "J'écoute"
 [Align to right]
 Aligner à droite

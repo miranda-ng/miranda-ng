@@ -512,7 +512,7 @@ Grafické smajlíky v seznamu
 Použít smajlíky protokolu
 [Draw smileys on first line]
 Vykreslit smajlíky na prvním řádku
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Měnit velikost smajlíků a ikony 'Poslech hudby'
 [Align to right]
 Zarovnat doprava

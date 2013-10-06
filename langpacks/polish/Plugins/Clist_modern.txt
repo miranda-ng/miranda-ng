@@ -512,8 +512,8 @@ Zamień uśmieszki na liście
 Użyj emotikon protokołu
 [Draw smileys on first line]
 Rysuj emotikony w pierwszej linii
-[Resize smileys and 'Listining to' icon]
-Rysuj emotikony i ikony 'Listetning to'
+[Resize smileys and 'Listening to' icon]
+Rysuj emotikony i ikony 'Listening to'
 [Align to right]
 Wyrównaj do prawej
 [Append nick if different from custom name]

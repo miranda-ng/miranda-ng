@@ -406,8 +406,8 @@ De derecha a izquierda modo de lectura (modelo de espejo)
 emoticonos Reemplazar en CList
 [Draw smileys on first line]
 Dibuje caritas en primera línea
-[Resize smileys and 'Listining to' icon]
-Cambiar el tamaño de emoticonos y "listining a 'icono
+[Resize smileys and 'Listening to' icon]
+Cambiar el tamaño de emoticonos y "listening a 'icono
 [Align to right]
 Alinear a la derecha
 [Append nick if different from custom name]

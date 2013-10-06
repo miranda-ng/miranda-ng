@@ -516,7 +516,7 @@ Minimalizovať do oznamovacej oblasti
 
 [Draw smileys on first line]
 
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 
 [Align to right]
 

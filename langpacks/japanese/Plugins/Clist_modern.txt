@@ -398,7 +398,7 @@ RTL 読み取りモード ( ミラーテンプレート )
 コンタクトリストの顔文字を置き換える
 [Draw smileys on first line]
 1 行目に顔文字を描画
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 顔文字と ' リストに載せる ' アイコンのサイズ変更
 [Align to right]
 右揃え

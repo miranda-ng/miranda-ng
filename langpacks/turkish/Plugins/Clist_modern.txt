@@ -388,7 +388,7 @@ Sağdan sola okuma kipi (ayna kalıbı)
 Clist içine gülen yüzleri koy
 [Draw smileys on first line]
 Gülen yüzleri ilk satıra yerleştir
-[Resize smileys and 'Listining to' icon]
+[Resize smileys and 'Listening to' icon]
 Gülen yüzleri ve 'Şunu dinliyor' simgelerini yeniden boyutlandır
 [Align to right]
 Sağa yasla
