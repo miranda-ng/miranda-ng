@@ -15,4 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#define VK_APP_ID  3917910
+
+#define VK_API_URL "api.vk.com"
+#define VK_REDIRECT_URL "http://" VK_API_URL "/blank.html"
+
 extern HINSTANCE hInst;

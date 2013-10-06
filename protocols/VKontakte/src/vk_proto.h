@@ -15,6 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+struct CVkProto;
+typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*);
+
 struct CVkProto : public PROTO<CVkProto>
 {
 				CVkProto(const char*, const TCHAR*);
@@ -75,6 +78,8 @@ struct CVkProto : public PROTO<CVkProto>
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 
+	void OnOAuthAuthorize(NETLIBHTTPREQUEST*);
+
 	//==== Services ======================================================================
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
@@ -85,13 +90,41 @@ struct CVkProto : public PROTO<CVkProto>
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
 
-	void ShutdownSession();
-	void OnLoggedOut();
-	void __cdecl WorkerThread(void*);
+	void RequestMyInfo();
 
 private:
-	int  SetServerStatus(int);
+	struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+	{
+		~AsyncHttpRequest()
+		{
+			mir_free(szUrl);
+		}
 
-	bool m_bOnline;
-	UINT m_hWorkerThread;
+		VK_REQUEST_HANDLER m_pFunc;
+		time_t m_expireTime;
+	};
+	LIST<AsyncHttpRequest> m_arRequestsQueue;
+	CRITICAL_SECTION m_csRequestsQueue;
+	HANDLE m_evRequestsQueue;
+	HANDLE m_hWorkerThread;
+	bool   m_bTerminated;
+
+	void   InitQueue();
+	void   UninitQueue();
+	void   ExecuteRequest(AsyncHttpRequest*);
+	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int iTimeout = 10000);
+	int    SetupConnection(void);
+	void   __cdecl WorkerThread(void*);
+
+	void   OnLoggedOut();
+	void   ShutdownSession();
+
+	void   SetAllContactStatuses(int status);
+	int    SetServerStatus(int);
+
+	bool   m_bOnline;
+
+	HANDLE m_hNetlibUser, m_hNetlibConn;
+	HANDLE hAvatarFolder;
+	ptrA   m_szAccessToken;
 };

@@ -18,13 +18,33 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
-	PROTO<CVkProto>(szModuleName, ptszUserName)
+	PROTO<CVkProto>(szModuleName, ptszUserName),
+	m_arRequestsQueue(10)
 {
+	InitQueue();
+
 	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
+
+	TCHAR descr[512];
+	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
+
+	NETLIBUSER nlu = {sizeof(nlu)};
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.szSettingsModule = m_szModuleName;
+	nlu.szSettingsModule = m_szModuleName;
+	nlu.ptszDescriptiveName = descr;
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+
+	mir_sntprintf(descr, SIZEOF(descr), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
+	hAvatarFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, descr, m_tszUserName);
+
+	// Set all contacts offline -- in case we crashed
+	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
 CVkProto::~CVkProto()
 {
+	UninitQueue();
 }
 
 int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
@@ -34,6 +54,8 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
+	m_bTerminated = true;
+	SetEvent(m_evRequestsQueue);
 	return 0;
 }
 
@@ -77,17 +99,19 @@ int CVkProto::SetStatus(int iNewStatus)
 		return 0;
 
 	int oldStatus = m_iStatus;
- 	if (iNewStatus == ID_STATUS_OFFLINE) {
+	m_iDesiredStatus = iNewStatus;
+
+	if (iNewStatus == ID_STATUS_OFFLINE) {
 		if ( IsOnline())
 			ShutdownSession();
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (!m_hWorkerThread && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+	else if ( !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		ForkThread(&CVkProto::WorkerThread, 0);
+		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
 	}
 	else if ( IsOnline())
 		SetServerStatus(iNewStatus);

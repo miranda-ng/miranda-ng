@@ -19,19 +19,27 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CVkProto::ShutdownSession()
 {
+	if (m_hWorkerThread) {
+		m_bTerminated = true;
+		SetEvent(m_evRequestsQueue);
+	}
+
 	OnLoggedOut();
 }
 
 void CVkProto::OnLoggedOut()
 {
+	m_hWorkerThread = 0;
+
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 }
 
-void CVkProto::WorkerThread(void*)
+void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply)
 {
-	m_hWorkerThread = GetCurrentThreadId();
-
-	OnLoggedOut();
-	m_hWorkerThread = 0;
 }
+
+void CVkProto::RequestMyInfo()
+{
+}
+

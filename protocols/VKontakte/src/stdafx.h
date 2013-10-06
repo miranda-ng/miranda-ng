@@ -56,6 +56,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_userinfo.h>
 #include <m_utils.h>
 
+#include <m_folders.h>
+
 #include "win2k.h"
 
 #include "resource.h"
