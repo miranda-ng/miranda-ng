@@ -569,9 +569,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	}
 
 	for (ai = air; ai && !Miranda_Terminated(); ai = ai->ai_next) {
-		char* szIp = NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr);
-		NetlibLogf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, szIp);
-		mir_free(szIp);
+		NetlibLogf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA( NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr)));
 retry:
 		nlc->s = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
 		if (nlc->s == INVALID_SOCKET)

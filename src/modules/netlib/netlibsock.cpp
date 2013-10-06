@@ -224,20 +224,17 @@ bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr)
 char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 {
 	char saddr[128];
-
 	DWORD len = sizeof(saddr);
 	if ( !WSAAddressToStringA((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
 		return mir_strdup(saddr);
-	if (addr->si_family == AF_INET)
-	{
+	
+	if (addr->si_family == AF_INET) {
 		char *szIp = inet_ntoa(addr->Ipv4.sin_addr);
-		if (addr->Ipv4.sin_port != 0)
-		{
+		if (addr->Ipv4.sin_port != 0) {
 			mir_snprintf(saddr, sizeof(saddr), "%s:%d", szIp, htons(addr->Ipv4.sin_port));
 			return mir_strdup(saddr);
 		}
-		else
-			return mir_strdup(szIp);
+		return mir_strdup(szIp);
 	}
 	return NULL;
 }
@@ -249,8 +246,7 @@ void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo)
 	SOCKADDR_INET_M sin = {0};
 	int len = sizeof(sin);
 
-	if ( !getsockname(nlc->s, (PSOCKADDR)&sin, &len))
-	{
+	if ( !getsockname(nlc->s, (PSOCKADDR)&sin, &len)) {
 		connInfo->wPort = ntohs(sin.Ipv4.sin_port);
 		connInfo->dwIpv4 = sin.si_family == AF_INET ? htonl(sin.Ipv4.sin_addr.s_addr) : 0;
 

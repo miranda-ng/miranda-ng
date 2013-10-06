@@ -359,15 +359,13 @@ INT_PTR NetlibStringToAddressSrv(WPARAM wParam, LPARAM lParam)
 
 INT_PTR NetlibAddressToStringSrv(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam)
-	{
+	if (wParam) {
 		SOCKADDR_INET_M iaddr = {0};
 		iaddr.Ipv4.sin_family = AF_INET;
 		iaddr.Ipv4.sin_addr.s_addr = htonl((unsigned)lParam);
 		return (INT_PTR)NetlibAddressToString(&iaddr);
 	}
-	else
-		return (INT_PTR)NetlibAddressToString((SOCKADDR_INET_M*)lParam);
+	return (INT_PTR)NetlibAddressToString((SOCKADDR_INET_M*)lParam);
 }
 
 INT_PTR NetlibGetConnectionInfoSrv(WPARAM wParam, LPARAM lParam)
@@ -526,7 +524,7 @@ int LoadNetlibModule(void)
 	CreateServiceFunction(MS_NETLIB_GETMOREPACKETS, NetlibPacketRecverGetMore);
 	CreateServiceFunction(MS_NETLIB_SETPOLLINGTIMEOUT, NetlibHttpSetPollingTimeout);
 	CreateServiceFunction(MS_NETLIB_STARTSSL, NetlibStartSsl);
-	CreateServiceFunction(MS_NETLIB_STARINGTOADDRESS, NetlibStringToAddressSrv);
+	CreateServiceFunction(MS_NETLIB_STRINGTOADDRESS, NetlibStringToAddressSrv);
 	CreateServiceFunction(MS_NETLIB_ADDRESSTOSTRING, NetlibAddressToStringSrv);
 	CreateServiceFunction(MS_NETLIB_GETCONNECTIONINFO, NetlibGetConnectionInfoSrv);
 	CreateServiceFunction(MS_NETLIB_GETMYIP, NetlibGetMyIp);
