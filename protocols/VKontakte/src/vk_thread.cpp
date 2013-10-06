@@ -43,7 +43,8 @@ void CVkProto::OnLoggedIn()
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
 
-	RequestMyInfo();
+	HttpParam param = { "access_token", m_szAccessToken };
+	PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
 }
 
 void CVkProto::OnLoggedOut()
@@ -136,6 +137,42 @@ LBL_NoForm:
 	PushAsyncHttpRequest(pReq);
 }
 
-void CVkProto::RequestMyInfo()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply)
 {
+	if (reply->resultCode != 200) {
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		return;
+	}
+
+	JSONNODE *pRoot = json_parse(reply->pData);
+	if (pRoot == NULL)
+		return;
+
+	JSONNODE *pResponse = json_get(pRoot, "response");
+	if (pResponse == NULL)
+		return;
+
+	for (size_t i = 0; i < json_size(pResponse); i++) {
+		JSONNODE *it = json_at(pResponse, i);
+		LPCSTR id = json_name(it);
+		if ( !_stricmp(id, "user_id"))
+			setString("ID", json_as_pstring(it).c_str());
+		else if ( !_stricmp(id, "user_name"))
+			setTString("Nick", ptrT( mir_utf8decodeT( json_as_pstring(it).c_str())));
+		else if ( !_stricmp(id, "user_sex"))
+			setByte("Gender", json_as_int(it) == 2 ? 'M' : 'F');
+		else if ( !_stricmp(id, "user_bdate")) {
+			std::string date = json_as_pstring(it);
+			int d, m, y;
+			if ( sscanf(date.c_str(), "%d.%d.%d", &d, &m, &y) == 3) {
+				setByte("BirthDay", d);
+				setByte("BirthMonth", m);
+				setByte("BirthYear", y);
+			}
+		}
+		else if ( !_stricmp(id, "user_photo"))
+			setString("Photo", json_as_pstring(it).c_str());
+	}
 }

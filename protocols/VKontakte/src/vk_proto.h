@@ -79,6 +79,7 @@ struct CVkProto : public PROTO<CVkProto>
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST*);
+	void OnReceiveMyInfo(NETLIBHTTPREQUEST*);
 
 	//==== Services ======================================================================
 
@@ -89,8 +90,6 @@ struct CVkProto : public PROTO<CVkProto>
 	TCHAR* GetUserStoredPassword(void);
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
-
-	void RequestMyInfo();
 
 private:
 	struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject

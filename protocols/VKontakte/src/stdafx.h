@@ -28,6 +28,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <tchar.h>
 #include <time.h>
 
+#include <string>
+
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_system_cpp.h>
@@ -42,6 +44,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 #include <m_idle.h>
+#include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_netlib.h>
