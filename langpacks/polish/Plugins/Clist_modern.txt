@@ -682,7 +682,7 @@ Chcesz żeby "%s" był domyslnym kontaktem?
 [Set default contact]
 Ustaw domyślny kontakt
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
-
+Chcesz usunąć kontakt "%s" z metakontaktu "%s" i dodać go do "%s"?
 [Changing MetaContacts (Moving)]
 Zmiana metakontaktów (przesuwanie)
 [Do you want contact '%s' to be added to MetaContact '%s'?]
