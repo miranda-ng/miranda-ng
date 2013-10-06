@@ -107,7 +107,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 			nloc.flags = NLOCF_V2;
 			nloc.timeout = ((MRA_TIMEOUT_DIRECT_CONN-1)/(pmmpd->malAddrList.dwAddrCount*dwConnectReTryCount));// -1 сек чтобы был запас
 			if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
-			if (nloc.timeout > MRA_TIMEOUT_CONN_МAX) nloc.timeout = MRA_TIMEOUT_CONN_МAX;
+			if (nloc.timeout > MRA_TIMEOUT_CONN_MAX) nloc.timeout = MRA_TIMEOUT_CONN_MAX;
 
 			// Set up the sockaddr structure
 			for (size_t i = 0; i < pmmpd->malAddrList.dwAddrCount && dwRetErrorCode != NO_ERROR; i++) {

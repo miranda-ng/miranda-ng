@@ -53,7 +53,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	nloc.flags = NLOCF_V2;
 	nloc.timeout = getDword("TimeOutConnectMRIM", MRA_DEFAULT_TIMEOUT_CONN_MRIM);
 	if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
-	if (nloc.timeout > MRA_TIMEOUT_CONN_ÌAX) nloc.timeout = MRA_TIMEOUT_CONN_ÌAX;
+	if (nloc.timeout > MRA_TIMEOUT_CONN_MAX) nloc.timeout = MRA_TIMEOUT_CONN_MAX;
 
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 	if (MraGetNLBData(szHost, &nloc.wPort) == NO_ERROR) {
@@ -152,7 +152,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 
 	nloc.timeout = getDword("TimeOutConnectNLB", MRA_DEFAULT_TIMEOUT_CONN_NLB);
 	if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
-	if (nloc.timeout > MRA_TIMEOUT_CONN_ÌAX) nloc.timeout = MRA_TIMEOUT_CONN_ÌAX;
+	if (nloc.timeout > MRA_TIMEOUT_CONN_MAX) nloc.timeout = MRA_TIMEOUT_CONN_MAX;
 
 	dwCurConnectReTryCount = dwConnectReTryCount;
 	do {
