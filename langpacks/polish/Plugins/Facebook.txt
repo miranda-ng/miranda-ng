@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.0.0
+;  Version: 0.2.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -161,8 +161,8 @@ Pytanie o znajomość zostało wysłane.
 Błąd podczas pytania o znajomość.
 [Request for friendship was canceled.]
 Pytanie o znajomość zostało cofnięte.
-[Error occured when canceling friendship request.]
-Błąd podczas anulowania pytania o znajomość.
+[Error occurred when canceling friendship request.]
+Wystąpił błąd podczas anulowania zaproszenia do grona znajomych
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Domyślny
@@ -198,7 +198,7 @@ Wiadomość odczytana: %s przez %s
 [Message read: %s]
 Wiadomość odczytana: %s
 [%s and more (%d)]
-
+%s i więcej (%d)
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nie można wysłać wiadomości, gdy jesteś offline.
