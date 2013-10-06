@@ -112,7 +112,7 @@ static int ChangesNotSaved(HWND hWnd, PFolderItem item)
 static void CheckForChanges(HWND hWnd, int bNeedConfirmation = 1)
 {
 	if (ChangesNotSaved(hWnd, lastItem))
-		if ((!bNeedConfirmation) || MessageBox(hWnd, TranslateT("Some changes weren't saved. Apply the changes now ?"), TranslateT("Changes not saved"), MB_YESNO | MB_ICONINFORMATION) == IDYES)
+		if ((!bNeedConfirmation) || MessageBox(hWnd, TranslateT("Some changes weren't saved. Apply the changes now?"), TranslateT("Changes not saved"), MB_YESNO | MB_ICONINFORMATION) == IDYES)
 			SaveItem(hWnd, lastItem, TRUE);
 }
 

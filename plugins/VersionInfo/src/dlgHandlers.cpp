@@ -386,7 +386,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_SHOWUUIDS:
 			if (IsDlgButtonChecked(hWnd, IDC_SHOWUUIDS) && MessageBox(hWnd, 
 				TranslateT("Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it."), 
-				TranslateT("Show plugin UUIDs ?"), MB_YESNO | MB_ICONWARNING) == IDNO)
+				TranslateT("Show plugin UUIDs?"), MB_YESNO | MB_ICONWARNING) == IDNO)
 			{
 				CheckDlgButton(hWnd, IDC_SHOWUUIDS, FALSE);
 

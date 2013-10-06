@@ -19,7 +19,7 @@ LPCSTR sim013 = LPGEN("Bad key received...");
 LPCSTR sim101 = LPGEN("SecureIM: Error while decrypting the message.");
 LPCSTR sim102 = LPGEN("SecureIM: Error while decrypting the message, bad message length.");
 LPCSTR sim103 = LPGEN("SecureIM: Error while decrypting the message, bad message CRC.");
-LPCSTR sim104 = LPGEN("User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?");
+LPCSTR sim104 = LPGEN("User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now?");
 LPCSTR sim105 = LPGEN("SecureIM not enabled! You Must Enable SecureIM with this user...");
 LPCSTR sim106 = LPGEN("Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !");
 LPCSTR sim107 = LPGEN("SecureIM won't be loaded because cryptopp.dll is missing or wrong version !");
@@ -95,9 +95,9 @@ LPCSTR sim506 = LPGEN("Error while decoding RSA message");
 LPCSTR sim507 = LPGEN("Session closed on timeout");
 LPCSTR sim508 = LPGEN("Session closed by other side when status \"disabled\"");
 LPCSTR sim510 = LPGEN("Session closed on error: %02x");
-LPCSTR sim520 = LPGEN("SecureIM received RSA Public Key from \"%s\"\n\nSHA1: %s\n\nDo you Accept this Key ?");
+LPCSTR sim520 = LPGEN("SecureIM received RSA Public Key from \"%s\"\n\nSHA1: %s\n\nDo you Accept this Key?");
 LPCSTR sim521 = LPGEN("SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s");
-LPCSTR sim522 = LPGEN("SecureIM received NEW RSA Public Key from \"%s\"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?");
+LPCSTR sim522 = LPGEN("SecureIM received NEW RSA Public Key from \"%s\"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?");
 LPCSTR sim523 = LPGEN("SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s");
 
 

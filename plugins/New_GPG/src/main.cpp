@@ -1297,7 +1297,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 		SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 		TranslateDialogDefault(hwndDlg);
 		TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
-		SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace with new key ?"):TranslateT("New public key was received, do you want to import it?"));
+		SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace with new key?"):TranslateT("New public key was received, do you want to import it?"));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT_AND_USE), db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?0:1);
 		SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
 		mir_free(tmp);
@@ -2152,7 +2152,7 @@ void InitCheck()
 					question += keyid;
 					question += Translate(" for account ");
 					question += toUTF8(accounts[i]->tszAccountName);
-					question += Translate(" deleted from gpg secret keyring\nDo you want to set another key ?");
+					question += Translate(" deleted from gpg secret keyring\nDo you want to set another key?");
 					if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 						ShowFirstRunDialog();
 				}
@@ -2194,7 +2194,7 @@ void InitCheck()
 						question += keyid;
 						question += Translate(" for account ");
 						question += toUTF8(accounts[i]->tszAccountName);
-						question += Translate(" expired and will not work\nDo you want to set another key ?");
+						question += Translate(" expired and will not work\nDo you want to set another key?");
 						if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 							ShowFirstRunDialog();
 					}
@@ -2220,7 +2220,7 @@ void InitCheck()
 		if((p = out.find(keyid)) == string::npos)
 		{
 			question += keyid;
-			question += Translate(" deleted from gpg secret keyring\nDo you want to set another key ?");
+			question += Translate(" deleted from gpg secret keyring\nDo you want to set another key?");
 			if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 				ShowFirstRunDialog();
 		}
@@ -2260,7 +2260,7 @@ void InitCheck()
 			if(expired)
 			{
 				question += keyid;
-				question += Translate(" expired and will not work\nDo you want to set another key ?");
+				question += Translate(" expired and will not work\nDo you want to set another key?");
 				if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 					ShowFirstRunDialog();
 			}
@@ -2322,7 +2322,7 @@ void ImportKey()
 	new_key_hcnt_mutex.unlock();
 	bool for_all_sub = false;
 	if(metaIsProtoMetaContacts(hContact))
-		if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 			for_all_sub = true;
 	if(metaIsProtoMetaContacts(hContact))
 	{

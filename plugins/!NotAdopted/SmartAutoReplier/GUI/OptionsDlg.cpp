@@ -408,7 +408,7 @@ BEGIN_PROTECT_AND_LOG_CODE
 		DWORD dwptr = static_cast<DWORD>(m_listRules.GetItemData(nIndex));
 		if (dwptr)/// we have ptr
 		{
-			if (MessageBox(TranslateTS(TEXT("Do you really want delete selected rule ?")), g_strPluginName, MB_YESNO) == IDNO)
+			if (MessageBox(TranslateTS(TEXT("Do you really want delete selected rule?")), g_strPluginName, MB_YESNO) == IDNO)
 				return FALSE;
 
 			CRulesStorage & hash = g_pMessHandler->getSettings().getStorage();

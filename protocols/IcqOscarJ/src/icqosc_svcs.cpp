@@ -497,7 +497,7 @@ INT_PTR CIcqProto::RevokeAuthorization(WPARAM wParam, LPARAM lParam)
 		if (getContactUid((HANDLE)wParam, &dwUin, &szUid))
 			return 0; // Invalid contact
 
-		if (MessageBoxUtf(NULL, LPGEN("Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?"), LPGEN("Confirmation"), MB_ICONQUESTION | MB_YESNO) != IDYES)
+		if (MessageBoxUtf(NULL, LPGEN("Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)"), LPGEN("Confirmation"), MB_ICONQUESTION | MB_YESNO) != IDYES)
 			return 0;
 
 		icq_sendRevokeAuthServ(dwUin, szUid);

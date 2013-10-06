@@ -300,7 +300,7 @@ CAPTION "Send To All Tabs"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDI_QUESTION, IDC_STATIC, 10, 10, 21, 21
-    LTEXT           "You are about to send a message to all open tabs.\nAre you sure ?",
+    LTEXT           "You are about to send a message to all open tabs.\nAre you sure?",
                     IDC_STATIC,40,10,175,20
     CONTROL         "Remember my choice for this container",
                     IDC_REMEMBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,39,

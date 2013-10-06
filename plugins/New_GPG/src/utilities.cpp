@@ -211,7 +211,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	if(metaIsProtoMetaContacts(hContact))
 	{
 		HANDLE hcnt = NULL;
-		if(MessageBox(0, TranslateT("Do you want to toggle encryption for all subcontacts ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 		{
 			int count = metaGetContactsNum(hContact);
 			for(int i = 0; i < count; i++)
@@ -345,7 +345,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 						file.erase(p1, _tcslen(_T(".gpg")));
 						if(boost::filesystem::exists(file))
 						{
-							if(MessageBox(0, TranslateT("Target file exists, do you want to replace it ?"), TranslateT("Warning"), MB_YESNO) == IDNO)
+							if(MessageBox(0, TranslateT("Target file exists, do you want to replace it?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 								return 0;
 						}
 						cmd.push_back(file);
@@ -524,7 +524,7 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 	if(out.find("There is no assurance this key belongs to the named user") != string::npos)
 	{
 		out.clear();
-		if(MessageBox(0, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 		{
 			db_set_b(hcnt, szGPGModuleName, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;

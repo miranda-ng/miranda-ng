@@ -375,7 +375,7 @@ int ShowMessage(TCHAR *message, int cUnreadEmails)
 		return ShowPopupMessage(TranslateT("Exchange email"), message, cUnreadEmails);
 	}
 	else{
-		return ShowMessageBoxMessage(TranslateT("Do you want to see the email headers ?"), message, cUnreadEmails);
+		return ShowMessageBoxMessage(TranslateT("Do you want to see the email headers?"), message, cUnreadEmails);
 	}
 	
 	return 0;

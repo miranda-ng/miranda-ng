@@ -35,7 +35,7 @@ bool NotifyAboutWrongSettings(LPTSTR szFile)
 	_tcscat(szTxt, szFile);
 	_tcscat(szTxt, TEXT(" is corrupted !\n"));
 	_tcscat(szTxt, TEXT("As a result plugin can crush.\n"));
-	_tcscat(szTxt, TEXT("Reset settings to default ?"));
+	_tcscat(szTxt, TEXT("Reset settings to default?"));
 
 	DWORD dw = MessageBox(NULL, TranslateTS(szTxt), g_strPluginName, MB_YESNO);
 	return (dw == IDYES);

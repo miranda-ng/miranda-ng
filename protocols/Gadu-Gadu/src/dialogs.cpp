@@ -345,7 +345,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					MessageBox(NULL, TranslateT("You need to specify your registration e-mail first."),
 					gg->m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
 				else if (MessageBox(NULL,
-					TranslateT("Your password will be sent to your registration e-mail.\nDo you want to continue ?"),
+					TranslateT("Your password will be sent to your registration e-mail.\nDo you want to continue?"),
 					gg->m_tszUserName,
 					MB_OKCANCEL | MB_ICONQUESTION) == IDOK)
 					gg->remindpassword(uin, email);
@@ -357,7 +357,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				if (MessageBox(
 					NULL,
-					TranslateT("You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?"),
+					TranslateT("You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?"),
 					gg->m_tszUserName,
 					MB_OKCANCEL | MB_ICONEXCLAMATION) == IDCANCEL)
 					break;

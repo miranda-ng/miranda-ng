@@ -42,7 +42,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 			{
 				if(bDebugLog)
 					debuglog<<std::string(time_str()+": info: received encrypted message from: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with turned off encryption");
-				if(MessageBox(0, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
+				if(MessageBox(0, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 				{
 					if(!isContactHaveKey(hContact))
 					{
@@ -66,7 +66,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 						setClistIcon(hContact);
 					}
 				}
-				else if(MessageBox(0, TranslateT("Do you want to try to decrypt encrypted message ?"), TranslateT("Warning"), MB_YESNO) == IDNO)
+				else if(MessageBox(0, TranslateT("Do you want to try to decrypt encrypted message?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 				{
 					
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
@@ -690,7 +690,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	if(out.find("There is no assurance this key belongs to the named user") != string::npos)
 	{
 		out.clear();
-		if(MessageBox(0, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 		{
 			db_set_b(hContact, szGPGModuleName, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;

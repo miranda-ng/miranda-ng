@@ -227,7 +227,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  }
 			  }
 			  if(!keep)
-				  if(MessageBox(0, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring ?"), TranslateT("Key info"), MB_YESNO) == IDYES)
+				  if(MessageBox(0, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES)
 				  {
 					  std::vector<wstring> cmd;
 					  string output;
@@ -261,7 +261,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  mir_free(tmp);
 				  if(ismetacontact)
 				  {
-					  if(MessageBox(0, TranslateT("Do you want to remove key from entire metacontact (all subcontacts) ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
+					  if(MessageBox(0, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 					  {
 						  HANDLE hcnt = NULL;
 						  int count = metaGetContactsNum(meta);
@@ -895,7 +895,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						if(metaIsProtoMetaContacts(hContact))
 						{
 							HANDLE hcnt = NULL;
-							if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
+							if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 							{
 								allsubcontacts = true;
 								int count = metaGetContactsNum(hContact);
