@@ -100,33 +100,24 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = protoInit;
 	pd.fnUninit = protoUninit;
 	CallService(MS_PROTO_REGISTERMODULE,0,reinterpret_cast<LPARAM>(&pd));
-
 	
 	InitIcons();
 	InitContactMenus();
 
 	// Init native User-Agent
-	{
-		std::stringstream agent;
-//		DWORD mir_ver = (DWORD)CallService(MS_SYSTEM_GETVERSION, NULL, NULL);
-		agent << "MirandaNG/";
-		agent << ((g_mirandaVersion >> 24) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion >> 16) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion >>  8) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion     ) & 0xFF);
+	WORD v[4];
+	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
+	std::stringstream agent;
+	agent << "MirandaNG/" << v[0] << "." << v[1] << "." << v[2] << "." << v[3] << ".";
 	#ifdef _WIN64
 		agent << " Facebook Protocol RM x64/";
 	#else
 		agent << " Facebook Protocol RM/";
 	#endif
-		agent << __VERSION_STRING;
-		g_strUserAgent = agent.str();
-	}
+	agent << __VERSION_STRING;
+	g_strUserAgent = agent.str();
 
-  return 0;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
