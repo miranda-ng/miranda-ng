@@ -122,7 +122,7 @@ Przykład: Petrov_Ivan@mail.ru
 Utwórz nowe konto Mail.ru używając strony Mail.ru
 [Retrieve a lost password]
 Odzyskaj zapomniane hasło
-[Leave empty if you dont want change password]
+[Leave empty if you don't want to change password]
 Pozostaw to pole puste, jeśli nie chcesz zmieniać hasła
 [Popup type]
 Typ popupu

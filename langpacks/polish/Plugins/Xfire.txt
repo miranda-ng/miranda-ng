@@ -67,7 +67,7 @@ Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usuną
 Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liscie i wybierając opcje Zablokuj Kontakt ...
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier. 
-[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Ten plik posiada wszystkie orginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
 [Be sure you put these files in following folder:]
 Upewnij się że pliki znajdują się w folderze:
@@ -91,17 +91,17 @@ Preferuj nie przeszkadzać jeśli możliwe
 Gry
 [Game:]
 Gra:
-[Dont detect this game as running]
+[Don't detect this game as running]
 Nie wykrywaj tej gry gdy jest uruchomiona
 [Apply]
 Zastosuj
-[Dont set status message for other protocols]
+[Don't set status message for other protocols]
 Nie ustawiaj statusu dla innych protokołów
 [Add new game]
 Dodaj grę
 [Remove]
 Usuń
-[Dont show in start menu]
+[Don't show in start menu]
 Nie pokazuj w menu startu
 [(manual added)]
 (dodano ręcznie)
@@ -195,7 +195,7 @@ Proszę podać ID gry.
 Proszę podać ID gry większe niż 1.
 [This game id is already in use.]
 To ID gry jest już w użyciu.
-[Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
+[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 Proszę wybrać plik wykonywalny gry. Uwaga: jeśli nie wybierzesz pliku wykonywalnego uruchamiającego grę, plik wykonywalny gry zostanie użyty w menu startowym gry.
 [Supported Games]
 Wspierane gry
@@ -322,7 +322,7 @@ Ostatnio uruchomiona: %s grano: %.2d:%.2d:%.2d
 %s gra w %s na serwerze %d.%d.%d.%d:%d.
 [Playing]
 Gra
-[Do you really want delete your friend %s?]
+[Do you really want to delete your friend %s?]
 Czy na pewno chcesz usunąć znajomego %s?
 [Confirm Delete]
 Zatwierdź usuwanie
@@ -335,7 +335,7 @@ Potwierdzenie zablokowania
 Awatary
 [Disable avatars]
 Wyłącz awatary
-[Dont download avatars of clan members]
+[Don't download avatars of clan members]
 Nie pobieraj awatarów od członków klanu
 [Use alternate way for Avatar download]
 Użyj alteranatywnego sposobu pobierania awatarów
@@ -349,8 +349,8 @@ Automatycznie połącz po zmianie wersji protokołu
 Brak IP/Portu w opisie
 [Use Online status for unsupported global statuses]
 Użyj statusu Dostępny dla nieobsługiwanych globalnych statusów
-[Dont move friends to clan groups]
-Nie przenoś znajomych do grup klanowch
+[Don't move friends to clan groups]
+Nie przenoś znajomych do grupy klanowej
 [GameServerQuery support]
 Wsparcie GameServerQuery
 [No custom away message]
@@ -359,14 +359,14 @@ Wyłącz opis w trybie Zaraz Wracam
 Usuń znajomego z profilu
 [Hide yourself in buddylist]
 Ukryj mnie na liście
-[Dont display game search results]
+[Don't display game search results]
 Nie wyświetlaj rezultatów wyszukiwania
-[Dont display game search status window]
+[Don't display game search status window]
 Nie pokazuj okna wyszukiwania gier
 [Display popup, if someone start a game]
 Pokaż popup kiedy ktoś z listy zacznie grać
-[Dont automatically create clan groups]
-Nie twórz autamatycznie grup klanowych
+[Don't automatically create clan groups]
+Nie twórz automatycznie grup klanowych
 [Enable MBot support]
 Włącz wsparcie MBot
 [Gamedetection]

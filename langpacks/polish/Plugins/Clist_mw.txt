@@ -108,7 +108,7 @@ Ikona w zasobniku
 Ikona w zasobniku systemowym podczas korzystania z wielu protokołów
 [Contact List Sorting]
 Sortowanie kontaktów
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Nie przesuwaj rozłączonych na dół
 [Pin to desktop]
 Przypnij do pulpitu

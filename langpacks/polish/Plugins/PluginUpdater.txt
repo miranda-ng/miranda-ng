@@ -109,7 +109,7 @@ Pobrano.
 Aktualizacje
 [Download complete]
 Pobieranie zakończone
-[Download complete. Do you want go to plugins option page?]
+[Download complete. Do you want to go to plugins option page?]
 Pobieranie zakończone. Czy chcesz otworzyć opcje wtyczek?
 [Component Name]
 Komponent

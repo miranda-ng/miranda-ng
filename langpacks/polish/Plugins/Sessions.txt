@@ -99,7 +99,7 @@ Ostatnia sesja jest pusta
 Brak kontaktów do otwarcia
 [This Session already opened]
 Ta sesja jest już otwarta
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Ta sesja jest już otwarta (ale prawdopodobnie ukryta).\nCzy chcesz pokazać ukryte kontakty?
 [Open Sessions Manager]
 Otwórz menedżer sesji

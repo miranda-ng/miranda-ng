@@ -269,7 +269,7 @@ Nie można zapisać wiadomości SMS do pliku:\n
 Typ nieznanego zdarzenia %d, rozmiar %d
 [Failed to write Unknown event to the file :\n]
 Nie udało się zapisać nieznanego zdarzenia do pliku:\n
-[User has been deleted do you want to delete the file?]
+[User has been deleted. Do you want to delete the file?]
 Użytkownik został usnięty. Czy chcesz usunąć plik?
 [Failed to delete the file]
 Błąd usuwania pliku

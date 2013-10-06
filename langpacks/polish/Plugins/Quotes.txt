@@ -224,7 +224,6 @@ Ostatni rok
 [User-Defined]
 Zdefiniowane przez użytkownika
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 Wystąpił błąd podczas przetwarzania HTML.

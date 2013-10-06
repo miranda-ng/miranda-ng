@@ -59,11 +59,11 @@ Otrzymywanie...
 Wysłano pomyślnie
 [Unknown command for "File As Message" was received]
 Otrzymano nieznaną komendę dla usługi "File As Message"
-[Incoming file request. Do you want proceed?]
+[Incoming file request. Do you want to proceed?]
 Przychodzący transfer pliku. Czy chcesz kontynuować?
 [Cancelled by remote user]
 Anulowane przez drugą stronę
-[New incoming file request. Do you want proceed?]
+[New incoming file request. Do you want to proceed?]
 Nowy przychodzący plik. Czy odebrać?
 [Paused, 'coz connection dropped]
 Wstrzymane, z powodu utraconego połączenia

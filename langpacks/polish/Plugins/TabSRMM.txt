@@ -1573,7 +1573,7 @@ Wiadomość nie może zostać wysłana do jednego lub więcej nadawców lub opó
 Dostarczenie wiadomości nie powiodło się.\nKliknij, aby otworzyć okno rozmowy.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Po zamknięciu okna rozmowy, dostarczenie wiadomości nie powiodło się. Musisz ponownie wysłać ostatnią wiadomość
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Niewysłane wiadomości czekają na potwierdzenie.\nJeśli teraz zamkniesz okno, Miranda spróbuje je wysłać, ale może nie być w stanie powiadomić o ewentualnych błędach.\nNa pewno chcesz zamknąć okno/okna?
 [Message window warning]
 Ostrzeżenie okna rozmowy

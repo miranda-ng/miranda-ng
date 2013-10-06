@@ -285,7 +285,7 @@ Numer Gadu-Gadu
 Otwórz &konferencję...
 [&Clear ignored conferences]
 &Wyczyść ignorowane
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 %s zainicjował(a) konferencję z %d uczestnikami - %d nieznany(ch).\nChcesz dołączyć do tej konferencji?
 [%s initiated the conference.]
 %s zainicjował(a) konferencję.

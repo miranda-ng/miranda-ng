@@ -244,7 +244,7 @@ Ukryj puste grupy
 Wyłącz grupy
 [Ask before deleting contacts]
 Pytaj przed usunięciem kontaktów
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Nie przesuwaj rozłączonych na dół
 [Contact List]
 Lista kontaktów
@@ -665,27 +665,27 @@ Nakładka awatara
 Nakładka statusu
 [Contact List smileys]
 Emotikony listy kontaktów
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Chcesz przekonwertować kontakt "%s" do metakontaktu i dodać do niego "%s"?
 [Converting to MetaContact]
 Konwertowanie do metakontaktu
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Chcesz przekonwertować kontakt "%s" do metakontaktu i dodać do niego "%s" (zostanie usunięty z "%s")?
 [Converting to MetaContact (Moving)]
 Konwertowanie do metakontaktu (przesuwanie)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Chcesz dodać kontakt "%s" do metakontaktu "%s"?
 [Adding contact to MetaContact]
 Dodawanie kontaktu do metakontaktu
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 Chcesz żeby "%s" był domyslnym kontaktem?
 [Set default contact]
 Ustaw domyślny kontakt
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
-Chcesz usunąć kontakt "%s" z metakontaktu "%s" i dodać go do "%s"?
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+
 [Changing MetaContacts (Moving)]
 Zmiana metakontaktów (przesuwanie)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
+[Do you want contact '%s' to be added to MetaContact '%s'?]
 Chcesz dodać kontakt "%s" do metakontaktu "%s"?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]

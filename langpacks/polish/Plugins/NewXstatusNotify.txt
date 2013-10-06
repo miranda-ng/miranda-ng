@@ -58,8 +58,6 @@ xStatus
 Otwórz
 [Status message]
 Opis
-[IndSndList]
-Lista Dźwięków Indywidualnych
 [Change]
 Zmień
 [Preview]

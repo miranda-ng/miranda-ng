@@ -200,7 +200,7 @@ Plik jest nieprawidłowy
 Ta operacja TRWALE USUNIE całą historię tego kontaktu.\nCzy na pewno chcesz to zrobić?
 [Are You sure?]
 Czy na pewno?
-[Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Czy chcesz usunąć wszystkie zimportowane wiadomości dla tego kontaktu?\nZauważ że nastepne zadanie harmonogramu zimportuje tą wiadomość ponownie.
 [Open in &new window]
 Otwórz w nowym oknie
@@ -242,9 +242,9 @@ Dat (mContacts)
 Zapisz pozycję okna jako domyslne
 [Save window position for all contacts]
 Zapisz pozycję okna dla wszystkich kontaktów
-[Do you want save imported messages to local profile?]
+[Do you want to save imported messages to local profile?]
 Czy chcesz zapisać importowane wiadomości do lokalnego profilu?
-[File contain history for different contact. Do you want to change contact and import?]
+[File contains history for different contact. Do you want to change contact and import?]
 Plik zawiera historię innego kontaktu. Czy chcesz zmienić kontakt i importować?
 [Error]
 Błąd
