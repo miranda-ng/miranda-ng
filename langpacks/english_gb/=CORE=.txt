@@ -60,8 +60,6 @@ Select a background colour for the text (CTRL+L)
 Select a foreground colour for the text (CTRL+K)
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
-[LastName FirstName]
-FirstName LastName
 [Customize]
 Customise
 [Fonts & Colors]
