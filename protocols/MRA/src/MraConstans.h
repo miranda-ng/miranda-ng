@@ -146,7 +146,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY 3
 #define MRA_TIMEOUT_DIRECT_CONN              30 //internal; время после которого клиент считает что к нему подключится не удалось
 #define MRA_TIMEOUT_CONN_MIN                 2 //internal; минимальное время ожидания пока устанавливается исходящее подключение
-#define MRA_TIMEOUT_CONN_МАХ                 16 //internal; максимальное время ожидания пока устанавливается исходящее подключение
+#define MRA_TIMEOUT_CONN_МAX                 16 //internal; максимальное время ожидания пока устанавливается исходящее подключение
 #define MRA_MAXLENOFMESSAGE                  32768 //internal
 #define MRA_MAXCONTACTSPERPACKET             256 //internal
 #define MRA_CODE_PAGE                        1251 //internal

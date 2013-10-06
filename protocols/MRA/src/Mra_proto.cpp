@@ -52,8 +52,8 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = NLOCF_V2;
 	nloc.timeout = getDword("TimeOutConnectMRIM", MRA_DEFAULT_TIMEOUT_CONN_MRIM);
-	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
-	if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
+	if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
+	if (nloc.timeout > MRA_TIMEOUT_CONN_МAX) nloc.timeout = MRA_TIMEOUT_CONN_МAX;
 
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 	if (MraGetNLBData(szHost, &nloc.wPort) == NO_ERROR) {
@@ -151,8 +151,8 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 		nloc.wPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT);
 
 	nloc.timeout = getDword("TimeOutConnectNLB", MRA_DEFAULT_TIMEOUT_CONN_NLB);
-	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
-	if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
+	if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
+	if (nloc.timeout > MRA_TIMEOUT_CONN_МAX) nloc.timeout = MRA_TIMEOUT_CONN_МAX;
 
 	dwCurConnectReTryCount = dwConnectReTryCount;
 	do {
@@ -758,7 +758,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 				if (grpName) {
 					dwFlags |= SCBIF_GROUP_ID;
 					dwGroupID = MraMoveContactToGroup(hContact, -1, grpName);
-				}					
+				}
 				SetContactBasicInfoW(hContact, 0, dwFlags, buf.getDword(), dwGroupID, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, 0, 0, 0);
 			}
 			break;
@@ -823,7 +823,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 
 		CMStringA *pmralpsFields = new CMStringA[dwFieldsNum];
 		CMStringA val;
-		CMStringW valW; 
+		CMStringW valW;
 
 		// read headers name
 		for (unsigned i = 0; i < dwFieldsNum; i++) {
@@ -1003,7 +1003,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 				for (unsigned i = 0; i < dwFieldsNum; i++) {
 					CMStringA &fld = pmralpsFields[i];
 					if (fld == "Username") {
-						buf >> val; 
+						buf >> val;
 						mralpsUsernameValue = val;
 					}
 					else if (fld == "Domain") { // имя было уже задано ранее
@@ -1011,15 +1011,15 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 						wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), SIZEOF(szEmail));
 					}
 					else if (fld == "Nickname") {
-						buf >> valW; 
+						buf >> valW;
 						wcsncpy_s(szNick, valW, SIZEOF(szNick));
 					}
 					else if (fld == "FirstName") {
-						buf >> valW; 
+						buf >> valW;
 						wcsncpy_s(szFirstName, valW, SIZEOF(szFirstName));
 					}
 					else if (fld == "LastName") {
-						buf >> valW; 
+						buf >> valW;
 						wcsncpy_s(szLastName, valW, SIZEOF(szLastName));
 					}
 					else buf >> val;
@@ -1317,7 +1317,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						dwTemp = GetMirandaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
 
 						if (bAdded) { // update user info
-							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_FLAG|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_NICK|SCBIF_PHONES), 
+							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_FLAG|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_NICK|SCBIF_PHONES),
 								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
 							// request user info from server
 							MraUpdateContactInfo(hContact);
@@ -1553,7 +1553,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	case MRIM_CS_PROXY_ACK:           return CmdProxyAck(buf);
 	case MRIM_CS_NEW_MAIL:            return CmdNewMail(buf);
 	case MRIM_CS_USER_BLOG_STATUS:    return CmdBlogStatus(buf);
-	
+
 	case MRIM_CS_CONNECTION_PARAMS:// Изменение параметров соединения
 		buf >> m_dwPingPeriod;
 		m_dwNextPingSendTickTime = 0; // force send ping

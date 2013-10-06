@@ -368,7 +368,7 @@ HANDLE MraAvatarsHttpConnect(HANDLE m_hNetlibUser, LPCSTR lpszHost, DWORD dwPort
 	nloc.wPort = ( IsHTTPSProxyUsed(m_hNetlibUser)) ? MRA_SERVER_PORT_HTTPS : dwPort;
 	nloc.timeout = db_get_dw(NULL, MRA_AVT_SECT_NAME, "TimeOutConnect", MRA_AVT_DEFAULT_TIMEOUT_CONN);
 	if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
-	if (nloc.timeout > MRA_TIMEOUT_CONN_ÌÀÕ) nloc.timeout = MRA_TIMEOUT_CONN_ÌÀÕ;
+	if (nloc.timeout > MRA_TIMEOUT_CONN_ÌAX) nloc.timeout = MRA_TIMEOUT_CONN_ÌAX;
 
 	DWORD dwConnectReTryCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "ConnectReTryCount", MRA_AVT_DEFAULT_CONN_RETRY_COUNT);
 	DWORD dwCurConnectReTryCount = dwConnectReTryCount;
