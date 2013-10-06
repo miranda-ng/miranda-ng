@@ -367,8 +367,8 @@ HANDLE MraAvatarsHttpConnect(HANDLE m_hNetlibUser, LPCSTR lpszHost, DWORD dwPort
 	nloc.szHost = lpszHost;
 	nloc.wPort = ( IsHTTPSProxyUsed(m_hNetlibUser)) ? MRA_SERVER_PORT_HTTPS : dwPort;
 	nloc.timeout = db_get_dw(NULL, MRA_AVT_SECT_NAME, "TimeOutConnect", MRA_AVT_DEFAULT_TIMEOUT_CONN);
-	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
-	if (nloc.timeout>MRA_TIMEOUT_CONN_Ã¿’) nloc.timeout = MRA_TIMEOUT_CONN_Ã¿’;
+	if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
+	if (nloc.timeout > MRA_TIMEOUT_CONN_Ã¿’) nloc.timeout = MRA_TIMEOUT_CONN_Ã¿’;
 
 	DWORD dwConnectReTryCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "ConnectReTryCount", MRA_AVT_DEFAULT_CONN_RETRY_COUNT);
 	DWORD dwCurConnectReTryCount = dwConnectReTryCount;
@@ -376,7 +376,7 @@ HANDLE MraAvatarsHttpConnect(HANDLE m_hNetlibUser, LPCSTR lpszHost, DWORD dwPort
 	do {
 		m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 	}
-	while (--dwCurConnectReTryCount && m_hConnection == NULL);
+		while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
 	return m_hConnection;
 }

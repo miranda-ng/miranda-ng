@@ -152,9 +152,9 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 	}
 }
 
-static void TlenFileReceivingConnection(TLEN_SOCKET hConnection, DWORD dwRemoteIP, void * pExtra)
+static void TlenFileReceivingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
 {
-	TLEN_SOCKET slisten;
+	HANDLE slisten;
 	TLEN_FILE_TRANSFER *ft;
 
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
@@ -187,16 +187,14 @@ static void TlenFileReceivingConnection(TLEN_SOCKET hConnection, DWORD dwRemoteI
 
 static void __cdecl TlenFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 {
-	NETLIBOPENCONNECTION nloc;
-	TLEN_SOCKET s;
 	TlenLog(ft->proto, "Thread started: type=file_receive server='%s' port='%d'", ft->hostName, ft->wPort);
 	ft->mode = FT_RECV;
-	nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
+
+	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = ft->hostName;
 	nloc.wPort = ft->wPort;
-	nloc.flags = 0;
 	ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
-	s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
+	HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
 	if (s != NULL) {
 		ft->s = s;
 		TlenLog(ft->proto, "Entering file receive loop");
@@ -395,9 +393,9 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 	}
 }
 
-static void TlenFileSendingConnection(TLEN_SOCKET hConnection, DWORD dwRemoteIP, void * pExtra)
+static void TlenFileSendingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
 {
-	TLEN_SOCKET slisten;
+	HANDLE slisten;
 	TLEN_FILE_TRANSFER *ft;
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 
@@ -462,7 +460,7 @@ int TlenFileCancelAll(TlenProtocol *proto)
 
 static void __cdecl TlenFileSendingThread(TLEN_FILE_TRANSFER *ft)
 {
-	TLEN_SOCKET s = NULL;
+	HANDLE s = NULL;
 	HANDLE hEvent;
 	char *nick;
 
@@ -494,15 +492,13 @@ static void __cdecl TlenFileSendingThread(TLEN_FILE_TRANSFER *ft)
 		TlenLog(ft->proto, "ft->s is NULL");
 
 		if (ft->state == FT_SWITCH) {
-			NETLIBOPENCONNECTION nloc;
-			TLEN_SOCKET s;
 			TlenLog(ft->proto, "Sending as client...");
 			ft->state = FT_CONNECTING;
-			nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
+
+			NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
-			nloc.flags = 0;
-			s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
+			HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
 			if (s != NULL) {
 				ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 				ft->s = s;

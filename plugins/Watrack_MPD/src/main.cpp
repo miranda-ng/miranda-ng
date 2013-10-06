@@ -24,14 +24,14 @@ SONGINFO SongInfo = {0};
 
 void Start(void* param)
 {
-	NETLIBOPENCONNECTION nloc = {0};
+	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	char *tmp = (char*)mir_u2a(gbHost);
-	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = tmp;
 	nloc.timeout = 5;
+	nloc.flags = NLOCF_V2;
 	nloc.wPort = gbPort;
 	Connected = FALSE;
-	ghConnection = NetLib_CreateConnection(ghNetlibUser, &nloc);
+	ghConnection =  (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ghNetlibUser, (LPARAM)&nloc);
 	if(ghConnection)
 		ghPacketReciever = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER,(WPARAM)ghConnection,2048);
 }

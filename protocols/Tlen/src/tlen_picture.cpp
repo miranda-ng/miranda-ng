@@ -42,7 +42,7 @@ static void TlenPsPostThread(void *ptr) {
 	TLENPSREQUESTTHREADDATA *data = (TLENPSREQUESTTHREADDATA *)ptr;
 	TlenProtocol *proto = data->proto;
 	TLEN_LIST_ITEM *item = data->item;
-	TLEN_SOCKET socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
+	HANDLE socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
 	BOOL bSent = FALSE;
 	if (socket != NULL) {
 		char header[512];
@@ -108,7 +108,7 @@ static void TlenPsGetThread(void *ptr) {
 	FILE *fp;
 	fp = fopen( item->ft->files[0], "wb" );
 	if (fp) {
-		TLEN_SOCKET socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
+		HANDLE socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
 		if (socket != NULL) {
 			XmlState xmlState;
 			char header[512];

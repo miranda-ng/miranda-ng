@@ -312,17 +312,13 @@ static void TlenVoiceCrypt(char *buffer, int len)
 
 void __cdecl TlenVoiceReceiveThread(TLEN_FILE_TRANSFER *ft)
 {
-	NETLIBOPENCONNECTION nloc;
-	TLEN_SOCKET s;
-
 	TlenLog(ft->proto, "Thread started: type=file_receive server='%s' port='%d'", ft->hostName, ft->wPort);
-	nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
+
+	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = ft->hostName;
 	nloc.wPort = ft->wPort;
-	nloc.flags = 0;
 	SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
-//	ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
-	s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
+	HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
 	if (s != NULL) {
 		ft->s = s;
 		TlenLog(ft->proto, "Entering file receive loop");
@@ -386,9 +382,9 @@ void __cdecl TlenVoiceReceiveThread(TLEN_FILE_TRANSFER *ft)
 	TlenP2PFreeFileTransfer(ft);
 }
 
-static void TlenVoiceReceivingConnection(TLEN_SOCKET hConnection, DWORD dwRemoteIP, void * pExtra)
+static void TlenVoiceReceivingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
 {
-	TLEN_SOCKET slisten;
+	HANDLE slisten;
 	TLEN_FILE_TRANSFER *ft;
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 
@@ -533,7 +529,7 @@ static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft)
 
 void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft)
 {
-	TLEN_SOCKET s = NULL;
+	HANDLE s = NULL;
 	HANDLE hEvent;
 	char *nick;
 
@@ -565,15 +561,13 @@ void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft)
 		TlenLog(ft->proto, "ft->s is NULL");
 
 		if (ft->state == FT_SWITCH) {
-			NETLIBOPENCONNECTION nloc;
-			TLEN_SOCKET s;
 			TlenLog(ft->proto, "Sending as client...");
 			ft->state = FT_CONNECTING;
-			nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
+
+			NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
-			nloc.flags = 0;
-			s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
+			HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nloc);
 			if (s != NULL) {
 				SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
 				//ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
@@ -591,11 +585,11 @@ void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft)
 				}
 				TlenLog(ft->proto, "Closing connection for this file transfer... ");
 				Netlib_CloseHandle(s);
-			} else {
-				ft->state = FT_ERROR;
 			}
+			else ft->state = FT_ERROR;
 		}
-	} else {
+	}
+	else {
 		TlenLog(ft->proto, "Cannot allocate port to bind for file server thread, thread ended.");
 		ft->state = FT_ERROR;
 	}

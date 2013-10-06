@@ -157,19 +157,6 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 			ptrT mirver( getTStringA(hContact, "MirVer"));
 			if (!mirver || _tcscmp(mirver, _T(FACEBOOK_NAME)))
 				setTString(hContact, "MirVer", _T(FACEBOOK_NAME));
-
-			/*std::tstring foldername = GetAvatarFolder() + L"\\smileys\\";
-			TCHAR *path = _tcsdup(foldername.c_str());
-
-			if (getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
-				SMADD_CONT cont;
-				cont.cbSize = sizeof(SMADD_CONT);
-				cont.hContact = hContact;
-				cont.type = 0;
-				cont.path = path;
-				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
-				mir_free(path);
-			}*/
 		}
 
 		if (getWord(hContact, "Status", 0) != status)

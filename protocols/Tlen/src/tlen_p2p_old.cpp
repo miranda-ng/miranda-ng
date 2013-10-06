@@ -114,7 +114,7 @@ void TlenP2PInit() {
 void TlenP2PUninit() {
 }
 
-int TlenP2PPacketSend(TLEN_SOCKET s, TLEN_FILE_PACKET *packet)
+int TlenP2PPacketSend(HANDLE s, TLEN_FILE_PACKET *packet)
 {
 	DWORD sendResult;
 	if (packet != NULL && packet->packet != NULL) {
@@ -126,7 +126,7 @@ int TlenP2PPacketSend(TLEN_SOCKET s, TLEN_FILE_PACKET *packet)
 	return 1;
 }
 
-TLEN_FILE_PACKET* TlenP2PPacketReceive(TLEN_SOCKET s)
+TLEN_FILE_PACKET* TlenP2PPacketReceive(HANDLE s)
 {
 	TLEN_FILE_PACKET *packet;
 	DWORD recvResult;
@@ -185,7 +185,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 	}
 }
 
-TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, TLEN_SOCKET s, TLEN_LIST list, BOOL sendAck)
+TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HANDLE s, TLEN_LIST list, BOOL sendAck)
 {
 	TLEN_LIST_ITEM *item = NULL;
 	TLEN_FILE_PACKET *packet;
@@ -296,20 +296,17 @@ static void __cdecl TlenFileBindSocks5Thread(TLEN_FILE_TRANSFER* ft)
 
 }
 
-static TLEN_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
+static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 {	//rfc1928
 	int len;
 	BYTE buf[256];
 	int status;
 	struct in_addr in;
-	NETLIBOPENCONNECTION nloc;
-	TLEN_SOCKET s;
 
-	nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
+	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
-	nloc.flags = 0;
-	s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
+	HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
 	if (s == NULL) {
 //		TlenLog("Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
@@ -352,19 +349,16 @@ static TLEN_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	return s;
 }
 
-static TLEN_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
+static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 {	//rfc1928
 	BYTE buf[512];
 	int len, status;
-	NETLIBOPENCONNECTION nloc;
 	struct in_addr in;
-	TLEN_SOCKET s;
 
-	nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
+	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
-	nloc.flags = 0;
-	s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
+	HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
 	if (s == NULL) {
 		TlenLog(ft->proto, "Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
@@ -453,10 +447,10 @@ static TLEN_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 }
 
 
-TLEN_SOCKET TlenP2PListen(TLEN_FILE_TRANSFER *ft)
+HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 {
 	NETLIBBIND nlb = {0};
-	TLEN_SOCKET s = NULL;
+	HANDLE s = NULL;
 	int	  useProxy;
 	DBVARIANT dbv;
 	SOCKSBIND sb;
@@ -525,7 +519,7 @@ TLEN_SOCKET TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 	return s;
 }
 
-void TlenP2PStopListening(TLEN_SOCKET s) {
+void TlenP2PStopListening(HANDLE s) {
 	if (s != NULL) {
 //		listenCount--;
 //		if (listenCount <= 0) {

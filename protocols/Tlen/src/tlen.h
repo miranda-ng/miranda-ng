@@ -132,7 +132,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*******************************************************************
  * Global data structures and data type definitions
  *******************************************************************/
-typedef HANDLE TLEN_SOCKET;
 
 typedef enum {
 	LIST_ROSTER,	// Roster list
@@ -367,7 +366,7 @@ typedef struct ThreadDataStruct{
 	WORD port;
 	BOOL useEncryption;
 
-	TLEN_SOCKET s;    //HANDLE from CallService(MS_NETLIB_OPENCONNECTION (tlen_ws.c:68)
+	HANDLE s;    //HANDLE from CallService(MS_NETLIB_OPENCONNECTION (tlen_ws.c:68)
 	aes_context aes_in_context;
 	aes_context aes_out_context;
 	unsigned char aes_in_iv[16];
@@ -383,7 +382,7 @@ typedef enum { FT_CONNECTING, FT_INITIALIZING, FT_RECEIVING, FT_DONE, FT_ERROR, 
 typedef enum { FT_RECV, FT_SEND} TLEN_FILE_MODE;
 typedef struct TLEN_FILE_TRANSFER_STRUCT{
 	HANDLE hContact;
-	TLEN_SOCKET s;
+	HANDLE s;
 	NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
 	TLEN_FILE_STATE state;
 	char *jid;
@@ -457,9 +456,9 @@ void __cdecl TlenServerThread(ThreadData *info);
 // tlen_ws.cpp
 BOOL TlenWsInit(TlenProtocol *proto);
 void TlenWsUninit(TlenProtocol *proto);
-TLEN_SOCKET TlenWsConnect(TlenProtocol *proto, char *host, WORD port);
-int TlenWsSend(TlenProtocol *proto, TLEN_SOCKET s, char *data, int datalen);
-int TlenWsRecv(TlenProtocol *proto, TLEN_SOCKET s, char *data, long datalen);
+HANDLE TlenWsConnect(TlenProtocol *proto, char *host, WORD port);
+int TlenWsSend(TlenProtocol *proto, HANDLE s, char *data, int datalen);
+int TlenWsRecv(TlenProtocol *proto, HANDLE s, char *data, long datalen);
 int TlenWsSendAES(TlenProtocol *proto, char *data, int datalen, aes_context *aes_ctx, unsigned char *aes_iv);
 int TlenWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *aes_ctx, unsigned char *aes_iv);
 

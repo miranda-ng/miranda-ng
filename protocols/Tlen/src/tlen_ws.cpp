@@ -56,7 +56,7 @@ void TlenWsUninit(TlenProtocol *proto)
 	proto->hFileNetlibUser = NULL;
 }
 
-TLEN_SOCKET TlenWsConnect(TlenProtocol *proto, char *host, WORD port)
+HANDLE TlenWsConnect(TlenProtocol *proto, char *host, WORD port)
 {
 	NETLIBOPENCONNECTION nloc = {0};
 
@@ -69,7 +69,7 @@ TLEN_SOCKET TlenWsConnect(TlenProtocol *proto, char *host, WORD port)
 }
 
 
-int TlenWsSend(TlenProtocol *proto, TLEN_SOCKET s, char *data, int datalen)
+int TlenWsSend(TlenProtocol *proto, HANDLE s, char *data, int datalen)
 {
 	int len;
 	if ((len=Netlib_Send(s, data, datalen, /*MSG_NODUMP|*/MSG_DUMPASTEXT)) == SOCKET_ERROR || len != datalen) {
@@ -79,7 +79,7 @@ int TlenWsSend(TlenProtocol *proto, TLEN_SOCKET s, char *data, int datalen)
 	return TRUE;
 }
 
-int TlenWsRecv(TlenProtocol *proto, TLEN_SOCKET s, char *data, long datalen)
+int TlenWsRecv(TlenProtocol *proto, HANDLE s, char *data, long datalen)
 {
 	int ret;
 	ret = Netlib_Recv(s, data, datalen, /*MSG_NODUMP|*/MSG_DUMPASTEXT);

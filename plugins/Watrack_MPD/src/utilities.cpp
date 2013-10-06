@@ -30,21 +30,3 @@ TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,c
   db_free(&dbv);
   return szRes;
 }
-
-HANDLE NetLib_CreateConnection(HANDLE hUser, NETLIBOPENCONNECTION* nloc) //from icq )
-{
-	HANDLE hConnection;
-
-	nloc->cbSize = sizeof(NETLIBOPENCONNECTION);
-	nloc->flags |= NLOCF_V2;
-
-	hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hUser, (LPARAM)nloc);
-	if (!hConnection && (GetLastError() == 87))
-	{ // this ensures, an old Miranda will be able to connect also
-		nloc->cbSize = NETLIBOPENCONNECTION_V1_SIZE;
-		hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hConnection, (LPARAM)nloc);
-	}
-	return hConnection;	
-}
-
-
