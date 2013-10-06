@@ -262,20 +262,6 @@ it shouldnt matter */
 
 typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HANDLE hNewConnection, DWORD dwRemoteIP, void * pExtra);
 typedef void (*NETLIBNEWCONNECTIONPROC)(HANDLE hNewConnection, DWORD dwRemoteIP);
-/* This is NETLIBBIND prior to 2004/08/05+, DONT use this anymore unless you want to work
-with older cores, pExtra isnt available on older cores and never will be - for a period of time, the ABI
-for this service was broken and older NETLIBBINDs were not supported, if NULL is returned and the
-argument is good, then tell the user to upgrade to the latest CVS.
-
-The older structure was used til around 2004/08/05 */
-typedef struct {
-	int cbSize;
-	NETLIBNEWCONNECTIONPROC pfnNewConnection;
-	     //function to call when there's a new connection. Params are: the
-		 //new connection, IP of remote machine (host byte order)
-	DWORD dwInternalIP;   //set on return, host byte order
-	WORD wPort;			  //set on return, host byte order
-} NETLIBBINDOLD;
 
 typedef struct {
 	int cbSize;
@@ -334,7 +320,7 @@ a hard timeout is reached, this can be anywhere between 30-60 seconds, and it st
 this is attempted, clearing sucking - so now you can set a timeout of any value, there is still a hard limit which is
 always reached by Windows, If a timeout occurs, or Miranda is exiting then you will get ERROR_TIMEOUT as soon as possible.
 */
-#define NETLIBOPENCONNECTION_V1_SIZE 16 /* old sizeof() is 14 bytes, but there is padding of 2 bytes */
+
 struct NETLIBOPENCONNECTION_tag {
 	int cbSize;
 	const char *szHost;	  //can contain the string representation of an IP
@@ -345,6 +331,9 @@ struct NETLIBOPENCONNECTION_tag {
 	stopped, the remaining timeout value can also be adjusted */
 	int (*waitcallback) (unsigned int * timeout);
 };
+
+#define NETLIBOPENCONNECTION_V1_SIZE offsetof(NETLIBOPENCONNECTION_tag, timeout) /* old sizeof() is 14 bytes, but there is padding of 2 bytes */
+
 //typedef struct NETLIBOPENCONNECTION_tag NETLIBOPENCONNECTION;  //(above for reasons of forward referencing)
 #define MS_NETLIB_OPENCONNECTION	"Netlib/OpenConnection"
 
@@ -389,7 +378,7 @@ typedef struct {
 // wParam = (WPARAM)(char*) string to convert
 // lParam = (LPARAM)(SOCKADDR_INET*) numeric IP address structure
 // Returns 0 on success
-#define MS_NETLIB_STARINGTOADDRESS "Netlib/StringToAddress"
+#define MS_NETLIB_STRINGTOADDRESS "Netlib/StringToAddress"
 
 // Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
 // IPv4 will be supplied in formats address:port or address
