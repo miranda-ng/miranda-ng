@@ -36,12 +36,22 @@ void CVkProto::ConnectionFailed(int iReason)
 	ShutdownSession();
 }
 
+static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR pObject, DWORD)
+{
+	CVkProto *ppro = (CVkProto*)pObject;
+	ppro->SetServerStatus(ppro->m_iStatus);
+}
+
 void CVkProto::OnLoggedIn()
 {
 	m_bOnline = true;
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+
+	// initialize online timer
+	SetServerStatus(m_iStatus);
+	m_timer = SetTimer(NULL, (UINT_PTR)this, 870000, TimerProc);
 
 	HttpParam param = { "access_token", m_szAccessToken };
 	PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
@@ -56,6 +66,17 @@ void CVkProto::OnLoggedOut()
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+
+	KillTimer(NULL, m_timer);
+}
+
+int CVkProto::SetServerStatus(int iStatus)
+{
+	if (iStatus != ID_STATUS_OFFLINE && iStatus != ID_STATUS_INVISIBLE) {
+		HttpParam param = { "access_token", m_szAccessToken };
+		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOnline.json", true, NULL, 1, &param);
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +85,7 @@ extern CMStringA loginCookie;
 
 static char VK_TOKEN_BEG[] = "access_token=";
 
-void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply)
+void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, void*)
 {
 	if (reply->resultCode == 302) { // manual redirect
 		LPCSTR pszLocation = findHeader(reply, "Location");
@@ -143,7 +164,7 @@ LBL_NoForm:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply)
+void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, void*)
 {
 	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveMyInfo %d", reply->resultCode);
 	if (reply->resultCode != 200) {
@@ -200,7 +221,7 @@ void CVkProto::RetrieveUserInfo(LPCSTR szUserId)
 	PushAsyncHttpRequest(REQUEST_GET, "/method/getProfiles.json", true, &CVkProto::OnReceiveUserInfo, SIZEOF(params), params);
 }
 
-void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply)
+void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, void*)
 {
 	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveUserInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
@@ -257,7 +278,7 @@ void CVkProto::RetrieveFriends()
 	PushAsyncHttpRequest(REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends, SIZEOF(params), params);
 }
 
-void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply)
+void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, void*)
 {
 	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveFriends %d", reply->resultCode);
 	if (reply->resultCode != 200)

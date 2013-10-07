@@ -52,7 +52,8 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 	if (reply != NULL) {
-		(this->*(pReq->m_pFunc))(reply);
+		if (pReq->m_pFunc != NULL)
+			(this->*(pReq->m_pFunc))(reply, pReq->pUserInfo);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
 	}
 	delete pReq;
@@ -80,6 +81,7 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 			url.AppendChar('=');
 			url += ptrA( mir_urlEncode(pParams[i].szValue));
 		}
+		pReq->nlc = m_hNetlibConn;
 	}
 	else {
 		url = szUrl;
@@ -94,8 +96,7 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 
 bool CVkProto::PushAsyncHttpRequest(AsyncHttpRequest *pReq, int iTimeout)
 {
-	pReq->nlc = m_hNetlibConn;
-	pReq->m_expireTime = time(0) + iTimeout;
+	pReq->timeout = iTimeout;
 	{
 		mir_cslock lck(m_csRequestsQueue);
 		m_arRequestsQueue.insert(pReq);

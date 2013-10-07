@@ -24,7 +24,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <Windows.h>
 #include <Shlwapi.h>
 #include <Wincrypt.h>
+
 #include <stdio.h>
+#include <malloc.h>
 #include <tchar.h>
 #include <time.h>
 

@@ -16,7 +16,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 struct CVkProto;
-typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*);
+typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, void*);
 
 struct CVkProto : public PROTO<CVkProto>
 {
@@ -78,22 +78,26 @@ struct CVkProto : public PROTO<CVkProto>
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 
-	void OnOAuthAuthorize(NETLIBHTTPREQUEST*);
-	void OnReceiveMyInfo(NETLIBHTTPREQUEST*);
+	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, void*);
+	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, void*);
+	void OnReceiveAvatar(NETLIBHTTPREQUEST*, void*);
 
 	//==== Services ======================================================================
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
 
 	void RetrieveUserInfo(LPCSTR szUserId);
-	void OnReceiveUserInfo(NETLIBHTTPREQUEST*);
+	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, void*);
 
 	void RetrieveFriends();
-	void OnReceiveFriends(NETLIBHTTPREQUEST*);
+	void OnReceiveFriends(NETLIBHTTPREQUEST*, void*);
+
+	int  SetServerStatus(int);
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
 
@@ -107,7 +111,7 @@ private:
 		void Redirect(NETLIBHTTPREQUEST*);
 
 		VK_REQUEST_HANDLER m_pFunc;
-		time_t m_expireTime;
+		void *pUserInfo;
 	};
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
 	CRITICAL_SECTION m_csRequestsQueue;
@@ -131,15 +135,17 @@ private:
 	void   OnLoggedOut();
 	void   ShutdownSession();
 
+	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen);
+
 	HANDLE FindUser(LPCSTR userid, bool bCreate = false);
 
 	void   SetAllContactStatuses(int status);
-	int    SetServerStatus(int);
 
 	bool   m_bOnline;
 
 	HANDLE m_hNetlibUser, m_hNetlibConn;
-	HANDLE hAvatarFolder;
+	HANDLE m_hAvatarFolder;
 	ptrA   m_szAccessToken, m_myUserId;
 	ptrT   m_defaultGroup;
+	UINT_PTR m_timer;
 };

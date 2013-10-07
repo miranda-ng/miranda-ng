@@ -59,11 +59,6 @@ HANDLE CVkProto::FindUser(LPCSTR pUserid, bool bCreate)
 	return hNewContact;
 }
 
-int CVkProto::SetServerStatus(int iStatus)
-{
-	return 0;
-}
-
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 {
 	for (int i=0; i < pReq->headersCount; i++)
