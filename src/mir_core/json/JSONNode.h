@@ -135,7 +135,7 @@ public:
 	JSONNode & operator[](const json_string & name_t);
 	const JSONNode & operator[](const json_string & name_t) const;
 	#ifdef JSON_LIBRARY
-		void push_back(JSONNode * node);
+		void push_back(JSONNode *node);
 	#else
 		void push_back(const JSONNode & node);
 	#endif
@@ -385,7 +385,7 @@ public:
 				auto_lock(JSONNode & node, int thread) : mynode(&node), mythread(thread){
 					mynode -> lock(mythread);
 				}
-				auto_lock(JSONNode * node, int thread) : mynode(node), mythread(thread){
+				auto_lock(JSONNode *node, int thread) : mynode(node), mythread(thread){
 					mynode -> lock(mythread);
 				}
 				~auto_lock(void){

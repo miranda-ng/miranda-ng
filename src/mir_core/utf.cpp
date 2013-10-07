@@ -247,7 +247,7 @@ int Utf8toUcs2(const char *src, int srclen, wchar_t *dst, int dstlen)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Utf8Decode - converts UTF8-encoded string to the UCS2/MBCS format
 
-MIR_CORE_DLL(char*) Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2)
+MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 {
 	int len; 
 	bool needs_free = false;
@@ -303,12 +303,12 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2)
 	return str;
 }
 
-MIR_CORE_DLL(char*) Utf8Decode(char* str, wchar_t** ucs2)
+MIR_CORE_DLL(char*) Utf8Decode(char *str, wchar_t **ucs2)
 {
 	return Utf8DecodeCP(str, Langpack_GetDefaultCodePage(), ucs2);
 }
 
-MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char* str)
+MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
 {
 	if (str == NULL)
 		return NULL;
@@ -408,7 +408,7 @@ MIR_CORE_DLL(char*) Utf8EncodeW(const wchar_t* src)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Utf8Encode - converts UCS2 string to the UTF8-encoded format
 
-MIR_CORE_DLL(BOOL) Utf8CheckString(const char* str)
+MIR_CORE_DLL(BOOL) Utf8CheckString(const char *str)
 {
 	int expect_bytes = 0, utf_found = 0;
 

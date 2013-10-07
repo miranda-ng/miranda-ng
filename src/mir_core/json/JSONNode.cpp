@@ -254,7 +254,7 @@ const JSONNode & JSONNode::at(const json_string & name_t) const {
 #ifndef JSON_LIBRARY
 	struct auto_delete {
 		public:
-			auto_delete(JSONNode * node) : mynode(node){};
+			auto_delete(JSONNode *node) : mynode(node){};
 			~auto_delete(void){ JSONNode::deleteJSONNode(mynode); };
 			JSONNode * mynode;
 		private:

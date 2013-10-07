@@ -88,7 +88,7 @@ TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
 
 /**** options.cpp **********************************************************************/
 
-HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
+HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR *name);
 
 /**** subclass.cpp *********************************************************************/
 

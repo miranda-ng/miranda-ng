@@ -73,7 +73,7 @@ MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str)
 	return str;
 }
 
-MIR_CORE_DLL(char*) ltrim(char* str)
+MIR_CORE_DLL(char*) ltrim(char *str)
 {
 	if (str == NULL)
 		return NULL;

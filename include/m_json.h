@@ -38,88 +38,100 @@ extern "C"
 typedef void JSONNODE;
 #endif
 
-MIR_CORE_DLL(void) json_free(void * str);
-MIR_CORE_DLL(void) json_delete(JSONNODE * node);
+MIR_CORE_DLL(void) json_free(void *str);
+MIR_CORE_DLL(void) json_delete(JSONNODE *node);
 
-MIR_CORE_DLL(JSONNODE*) json_parse(const char * json);
-MIR_CORE_DLL(char*) json_strip_white_space(const char * json);
+MIR_CORE_DLL(JSONNODE*) json_parse(const char *json);
+MIR_CORE_DLL(TCHAR*) json_strip_white_space(const char *json);
 
 #ifdef JSON_VALIDATE
-	MIR_CORE_DLL(JSONNODE*) json_validate(const char * json);
+	MIR_CORE_DLL(JSONNODE*) json_validate(const char *json);
 #endif
 
 /*
 	stuff that's in class JSONNode
 */
 //ctors
-MIR_CORE_DLL(JSONNODE*) json_new_a(const char * name, const char * value);
-MIR_CORE_DLL(JSONNODE*) json_new_i(const char * name, long value);
-MIR_CORE_DLL(JSONNODE*) json_new_f(const char * name, double value);
-MIR_CORE_DLL(JSONNODE*) json_new_b(const char * name, int value);  //because C bools are ints and C++ will implicitly cast it
+MIR_CORE_DLL(JSONNODE*) json_new_a(const char *name, const char *value);
+MIR_CORE_DLL(JSONNODE*) json_new_i(const char *name, long value);
+MIR_CORE_DLL(JSONNODE*) json_new_f(const char *name, double value);
+MIR_CORE_DLL(JSONNODE*) json_new_b(const char *name, int value);  //because C bools are ints and C++ will implicitly cast it
 MIR_CORE_DLL(JSONNODE*) json_new(char type);
-MIR_CORE_DLL(JSONNODE*) json_copy(const JSONNODE * orig);
-MIR_CORE_DLL(JSONNODE*) json_duplicate(const JSONNODE * orig);
+MIR_CORE_DLL(JSONNODE*) json_copy(const JSONNODE *orig);
+MIR_CORE_DLL(JSONNODE*) json_duplicate(const JSONNODE *orig);
 
 //assignment
-MIR_CORE_DLL(void) json_set_a(JSONNODE * node, const char * value);
-MIR_CORE_DLL(void) json_set_i(JSONNODE * node, long value);
-MIR_CORE_DLL(void) json_set_f(JSONNODE * node, double value);
-MIR_CORE_DLL(void) json_set_b(JSONNODE * node, int value);  //because C bools are ints ane C++ will implicit
-MIR_CORE_DLL(void) json_set_n(JSONNODE * node, const JSONNODE * orig);
+MIR_CORE_DLL(void) json_set_a(JSONNODE *node, const char *value);
+MIR_CORE_DLL(void) json_set_i(JSONNODE *node, long value);
+MIR_CORE_DLL(void) json_set_f(JSONNODE *node, double value);
+MIR_CORE_DLL(void) json_set_b(JSONNODE *node, int value);  //because C bools are ints ane C++ will implicit
+MIR_CORE_DLL(void) json_set_n(JSONNODE *node, const JSONNODE *orig);
 
 //inspectors
-MIR_CORE_DLL(char) json_type(const JSONNODE * node);
-MIR_CORE_DLL(size_t) json_size(const JSONNODE * node);
-MIR_CORE_DLL(int) json_empty(const JSONNODE * node);
-MIR_CORE_DLL(const char*) json_name(const JSONNODE * node);
+MIR_CORE_DLL(char) json_type(const JSONNODE *node);
+MIR_CORE_DLL(size_t) json_size(const JSONNODE *node);
+MIR_CORE_DLL(int) json_empty(const JSONNODE *node);
+MIR_CORE_DLL(const char*) json_name(const JSONNODE *node);
 #ifdef JSON_COMMENTS
-	MIR_CORE_DLL(char * json_get_comment(const JSONNODE * node);
+	MIR_CORE_DLL(char * json_get_comment(const JSONNODE *node);
 #endif
-MIR_CORE_DLL(char*) json_as_string(const JSONNODE * node);
-MIR_CORE_DLL(long) json_as_int(const JSONNODE * node);
-MIR_CORE_DLL(double) json_as_float(const JSONNODE * node);
-MIR_CORE_DLL(int) json_as_bool(const JSONNODE * node);
-MIR_CORE_DLL(JSONNODE*) json_as_node(const JSONNODE * node);
-MIR_CORE_DLL(JSONNODE*) json_as_array(const JSONNODE * node);
+MIR_CORE_DLL(TCHAR*) json_as_string(const JSONNODE *node);
+MIR_CORE_DLL(long) json_as_int(const JSONNODE *node);
+MIR_CORE_DLL(double) json_as_float(const JSONNODE *node);
+MIR_CORE_DLL(int) json_as_bool(const JSONNODE *node);
+MIR_CORE_DLL(JSONNODE*) json_as_node(const JSONNODE *node);
+MIR_CORE_DLL(JSONNODE*) json_as_array(const JSONNODE *node);
 
-MIR_CORE_DLL(char*) json_write(const JSONNODE * node);
-MIR_CORE_DLL(char*) json_write_formatted(const JSONNODE * node);
+MIR_CORE_DLL(TCHAR*) json_write(const JSONNODE *node);
+MIR_CORE_DLL(TCHAR*) json_write_formatted(const JSONNODE *node);
 
 //modifiers
-MIR_CORE_DLL(void) json_set_name(JSONNODE * node, const char * name);
+MIR_CORE_DLL(void) json_set_name(JSONNODE *node, const char *name);
 #ifdef JSON_COMMENTS
-	MIR_CORE_DLL(void) json_set_comment(JSONNODE * node, const char * comment);
+	MIR_CORE_DLL(void) json_set_comment(JSONNODE *node, const char * comment);
 #endif
-MIR_CORE_DLL(void) json_clear(JSONNODE * node);
-MIR_CORE_DLL(void) json_nullify(JSONNODE * node);
-MIR_CORE_DLL(void) json_swap(JSONNODE * node, JSONNODE * node2);
-MIR_CORE_DLL(void) json_merge(JSONNODE * node, JSONNODE * node2);
+MIR_CORE_DLL(void) json_clear(JSONNODE *node);
+MIR_CORE_DLL(void) json_nullify(JSONNODE *node);
+MIR_CORE_DLL(void) json_swap(JSONNODE *node, JSONNODE *node2);
+MIR_CORE_DLL(void) json_merge(JSONNODE *node, JSONNODE *node2);
 #ifndef JSON_PREPARSE
-	MIR_CORE_DLL(void) json_preparse(JSONNODE * node);
+	MIR_CORE_DLL(void) json_preparse(JSONNODE *node);
 #endif
 #ifdef JSON_BINARY
-	MIR_CORE_DLL(void) json_set_binary(JSONNODE * node, const void * data, unsigned long length);
+	MIR_CORE_DLL(void) json_set_binary(JSONNODE *node, const void * data, unsigned long length);
 #endif
-MIR_CORE_DLL(void) json_cast(JSONNODE * node, char type);
+MIR_CORE_DLL(void) json_cast(JSONNODE *node, char type);
 
 //children access
-MIR_CORE_DLL(void) json_reserve(JSONNODE * node, size_t siz);
-MIR_CORE_DLL(JSONNODE*) json_at(JSONNODE * node, size_t pos);
-MIR_CORE_DLL(JSONNODE*) json_get(JSONNODE * node, const char * name);
+MIR_CORE_DLL(void) json_reserve(JSONNODE *node, size_t siz);
+MIR_CORE_DLL(JSONNODE*) json_at(JSONNODE *node, size_t pos);
+MIR_CORE_DLL(JSONNODE*) json_get(JSONNODE *node, const char *name);
 #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
-	MIR_CORE_DLL(JSONNODE*) json_get_nocase(JSONNODE * node, const char * name);
-	MIR_CORE_DLL(JSONNODE*) json_pop_back_nocase(JSONNODE * node, const char * name);
+	MIR_CORE_DLL(JSONNODE*) json_get_nocase(JSONNODE *node, const char *name);
+	MIR_CORE_DLL(JSONNODE*) json_pop_back_nocase(JSONNODE *node, const char *name);
 #endif
-MIR_CORE_DLL(void) json_push_back(JSONNODE * node, JSONNODE * node2);
-MIR_CORE_DLL(JSONNODE*) json_pop_back_at(JSONNODE * node, size_t pos);
-MIR_CORE_DLL(JSONNODE*) json_pop_back(JSONNODE * node, const char * name);
+MIR_CORE_DLL(void) json_push_back(JSONNODE *node, JSONNODE *node2);
+MIR_CORE_DLL(JSONNODE*) json_pop_back_at(JSONNODE *node, size_t pos);
+MIR_CORE_DLL(JSONNODE*) json_pop_back(JSONNODE *node, const char *name);
 
 //comparison
-MIR_CORE_DLL(int) json_equal(JSONNODE * node, JSONNODE * node2);
+MIR_CORE_DLL(int) json_equal(JSONNODE *node, JSONNODE *node2);
 
 #ifdef __cplusplus
+
+class JSONROOT
+{
+	JSONNODE *m_node;
+
+public:
+	__forceinline JSONROOT(LPCSTR text) { m_node = json_parse(text); }
+	__forceinline ~JSONROOT() { json_delete(m_node); }
+
+	__forceinline operator JSONNODE*() const { return m_node; }
+};
+
 #ifdef _XSTRING_
-MIR_C_CORE_DLL(std::string) json_as_pstring(const JSONNODE * node);
+MIR_C_CORE_DLL(std::string) json_as_pstring(const JSONNODE *node);
 #endif
 }
 

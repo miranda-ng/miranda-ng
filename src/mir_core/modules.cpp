@@ -290,7 +290,7 @@ extern "C" MIR_CORE_DLL(int) GetSubscribersCount(THook* pHook)
 	return pHook->subscriberCount;
 }
 
-static HANDLE HookEventInt(int type, const char* name, MIRANDAHOOK hookProc, void* object, LPARAM lParam)
+static HANDLE HookEventInt(int type, const char *name, MIRANDAHOOK hookProc, void* object, LPARAM lParam)
 {
 	mir_cslock lck(csHooks);
 
@@ -310,27 +310,27 @@ static HANDLE HookEventInt(int type, const char* name, MIRANDAHOOK hookProc, voi
 	return (HANDLE)((p->id << 16) | p->subscriberCount);
 }
 
-MIR_CORE_DLL(HANDLE) HookEvent(const char* name, MIRANDAHOOK hookProc)
+MIR_CORE_DLL(HANDLE) HookEvent(const char *name, MIRANDAHOOK hookProc)
 {
 	return HookEventInt(1, name, hookProc, 0, 0);
 }
 
-MIR_CORE_DLL(HANDLE) HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam)
+MIR_CORE_DLL(HANDLE) HookEventParam(const char *name, MIRANDAHOOKPARAM hookProc, LPARAM lParam)
 {
 	return HookEventInt(2, name, (MIRANDAHOOK)hookProc, 0, lParam);
 }
 
-MIR_CORE_DLL(HANDLE) HookEventObj(const char* name, MIRANDAHOOKOBJ hookProc, void* object)
+MIR_CORE_DLL(HANDLE) HookEventObj(const char *name, MIRANDAHOOKOBJ hookProc, void* object)
 {
 	return HookEventInt(3, name, (MIRANDAHOOK)hookProc, object, 0);
 }
 
-MIR_CORE_DLL(HANDLE) HookEventObjParam(const char* name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam)
+MIR_CORE_DLL(HANDLE) HookEventObjParam(const char *name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam)
 {
 	return HookEventInt(4, name, (MIRANDAHOOK)hookProc, object, lParam);
 }
 
-MIR_CORE_DLL(HANDLE) HookEventMessage(const char* name, HWND hwnd, UINT message)
+MIR_CORE_DLL(HANDLE) HookEventMessage(const char *name, HWND hwnd, UINT message)
 {
 	mir_cslock lck(csHooks);
 

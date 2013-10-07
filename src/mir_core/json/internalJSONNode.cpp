@@ -354,7 +354,7 @@ void internalJSONNode::Nullify(void) const {
 #endif
 
 #ifdef JSON_LIBRARY
-void internalJSONNode::push_back(JSONNode * node){
+void internalJSONNode::push_back(JSONNode *node){
 #else
 void internalJSONNode::push_back(const JSONNode & node){
 #endif

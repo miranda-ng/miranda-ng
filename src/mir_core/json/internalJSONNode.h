@@ -97,7 +97,7 @@ public:
 	#endif
 
 	#ifdef JSON_LIBRARY
-		void push_back(JSONNode * node);
+		void push_back(JSONNode *node);
 	#else
 		void push_back(const JSONNode & node);
 	#endif
