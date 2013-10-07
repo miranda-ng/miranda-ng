@@ -233,7 +233,7 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 	LOG("Server response: %s", pnlhr->pData);
 	MessageBoxA(NULL, pnlhr->pData, "Debug", MB_OK);
 
-	JSONNODE* resp = json_parse(pnlhr->pData);
+	JSONROOT resp(pnlhr->pData);
 	if (resp == NULL)
 	{
 		this->NotifyEvent(title, this->TranslateStr("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
@@ -242,10 +242,10 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 
 	// Status = fail
 	JSONNODE *val = json_get(resp, "status");
-	if (!lstrcmpA( json_as_string(val), "fail"))
+	if (!lstrcmp( ptrT(json_as_string(val)), _T("fail")))
 	{
 		JSONNODE *tmpVal = json_get(resp, "reason");
-		if (!lstrcmpA( json_as_string(tmpVal), "stale"))
+		if (!lstrcmp( ptrT(json_as_string(tmpVal)), _T("stale")))
 			this->NotifyEvent(title, this->TranslateStr("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
 		else
 			this->NotifyEvent(title, this->TranslateStr("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
@@ -258,7 +258,7 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 	//  Request code
 	else if (state == REG_STATE_REQ_CODE)
 	{
-		if (!lstrcmpA(json_as_string(val), "sent"))
+		if ( !lstrcmp( ptrT(json_as_string(val)), _T("sent")))
 			this->NotifyEvent(title, this->TranslateStr("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
 	}
 
@@ -269,7 +269,7 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 		if (val == NULL)
 			this->NotifyEvent(title, this->TranslateStr("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
 		else
-			ret = json_as_string(val);
+			ret = _T2A( ptrT(json_as_string(val)));
 	}
 
 	json_delete(resp);
