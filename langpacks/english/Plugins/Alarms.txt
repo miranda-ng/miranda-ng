@@ -50,7 +50,7 @@
 [Yearly]
 [i'm hiding]
 [Date and Time]
-[Disable next occurence]
+[Disable next occurrence]
 [Don't trigger on startup]
 [No reminder]
 [Dismiss]

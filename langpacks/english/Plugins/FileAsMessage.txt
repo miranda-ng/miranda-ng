@@ -36,7 +36,7 @@
 [Incoming file request. Do you want to proceed?]
 [Cancelled by remote user]
 [New incoming file request. Do you want to proceed?]
-[Paused, 'coz connection dropped]
+[Paused, because connection dropped]
 [Failed on file initialization]
 [Paused...]
 [Synchronizing...]

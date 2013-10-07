@@ -32,7 +32,7 @@
 [You have %d unread emails ...]
 [You have one unread email ...]
 [Exchange email]
-[Do you want to see the email headers ?]
+[Do you want to see the email headers?]
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
 [Exchange notify]

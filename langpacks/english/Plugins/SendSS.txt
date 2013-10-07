@@ -34,7 +34,7 @@
 [Target Tool]
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [GCHAT error]
-[An unknown error has occured.]
+[An unknown error has occurred.]
 [Error]
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]

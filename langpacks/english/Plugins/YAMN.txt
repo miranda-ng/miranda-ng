@@ -101,7 +101,7 @@
 [No new mail message]
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
-[An error occured. Error code: %d]
+[An error occurred. Error code: %d]
 [Unknown error]
 [ - connection error]
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
@@ -138,7 +138,7 @@
 [Error reading account file. Account file corrupted.]
 [Memory allocation error while data reading]
 [Reading file error. File already in use?]
-[Error while copying data to disk occured. File in use?]
+[Error while copying data to disk occurred. Is file in use?]
 [POP3 plugin- write file error]
 [Connecting to server]
 [Entering POP3 account]

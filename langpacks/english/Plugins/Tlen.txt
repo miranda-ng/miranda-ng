@@ -1,10 +1,5 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
-;============================================================
-;  File: Tlen.dll
-;  Plugin: Tlen Protocol
-;  Version: 2.1.0.0
-;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
-;============================================================
+;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
 [Password:]

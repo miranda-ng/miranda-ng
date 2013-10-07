@@ -544,7 +544,7 @@
 [Limit avatar height to]
 [Max Number of Flashes]
 [Send Error]
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 [while sending the following message:]
 [Try again]
 [Message Session]
@@ -1004,7 +1004,7 @@
 [Contact started typing]
 [Contact stopped typing]
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 [Outgoing Message]

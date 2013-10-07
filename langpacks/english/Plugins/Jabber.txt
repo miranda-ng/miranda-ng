@@ -996,7 +996,7 @@
 [Protocol is offline or no jid]
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
-[Error occured during processing command]
+[Error occurred during processing command]
 [Set status]
 [Set options]
 [Forward unread messages]
@@ -1024,7 +1024,7 @@
 [Mark messages as read]
 [%d message(s) forwarded]
 [Workstation successfully locked]
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 [Confirmation needed]
 [Please confirm Miranda NG shutdown]
 [There is no groupchats to leave]

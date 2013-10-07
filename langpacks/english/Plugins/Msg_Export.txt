@@ -75,7 +75,7 @@
 [Nick]
 [Proto]
 [UIN]
-[You have unapplyed changes do you wish to apply these first ?]
+[You have unapplyed changes do you wish to apply these first?]
 [Executable files]
 [All files]
 [Failed to get the shells allocator!]

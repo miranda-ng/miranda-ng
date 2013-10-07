@@ -21,7 +21,7 @@
 [&Details]
 [Close]
 [Contacts send error]
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 [Try again]
 [Popup]
 [Add to List]
