@@ -70,6 +70,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_conn_Skype", "..\protocols\Skype\proto_conn_skype\Proto_conn_Skype_10.vcxproj", "{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte_10.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -358,6 +360,14 @@ Global
 		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|Win32.Build.0 = Release|Win32
 		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|x64.ActiveCfg = Release|x64
 		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|x64.Build.0 = Release|x64
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Debug|Win32.Build.0 = Debug|Win32
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Debug|x64.ActiveCfg = Debug|x64
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Debug|x64.Build.0 = Debug|x64
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|Win32.ActiveCfg = Release|Win32
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|Win32.Build.0 = Release|Win32
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|x64.ActiveCfg = Release|x64
+		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
