@@ -244,7 +244,7 @@ Skryť prázdne skupiny
 Skryť skupiny
 [Ask before deleting contacts]
 
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 
 [Contact List]
 Zoznam kontaktov
@@ -669,27 +669,25 @@ Zmazať skupinu
 
 [Contact List smileys]
 
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 
 [Converting to MetaContact]
 
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 
 [Converting to MetaContact (Moving)]
 
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 
 [Adding contact to MetaContact]
 
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 
 [Set default contact]
 
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 
 [Changing MetaContacts (Moving)]
-
-[Do You want contact '%s' to be added to MetaContact '%s'?]
 
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]

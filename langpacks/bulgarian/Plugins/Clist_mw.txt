@@ -108,7 +108,7 @@ ms между две мигания
 Режим на иконата в трея, когато се използват няколко протокола
 [Contact List Sorting]
 Сортиране на списъка с контакти по:
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 
 [Pin to desktop]
 Прилепване към работния плот

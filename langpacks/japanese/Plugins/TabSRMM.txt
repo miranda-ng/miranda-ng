@@ -1227,7 +1227,7 @@ History++ プラグイン
 メッセージ配信に失敗しました\nクリックしてメッセージウィンドウを開く
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 コンタクトチャットウィンドウが閉じた後のメッセージ配信に失敗しました。最終メッセージの再送信をする
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 確認待ちの未送信メッセージがあります。\n今ウィンドウを閉じると , Miranda はそれらの送信を試みますが , 発生しうる配信エラーについての通知ができない可能性があります。本当にウィンドウを閉じますか ?
 [Message window warning]
 メッセージウィンドウの警告

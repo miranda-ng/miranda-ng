@@ -109,7 +109,7 @@ Erfolgreich.
 Plugin-Updater
 [Download complete]
 Download vollständig
-[Download complete. Do you want go to plugins option page?]
+[Download complete. Do you want to go to plugins option page?]
 Download vollständig. Möchten Sie zu den Plugin-Einstellungen gehen?
 [Component Name]
 Komponentenname

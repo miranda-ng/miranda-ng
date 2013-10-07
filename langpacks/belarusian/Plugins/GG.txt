@@ -249,7 +249,7 @@ HTTP невядомая памылка
 Адкрыць канферэнцыю...
 [&Clear ignored conferences]
 Ачысціць ігнаруемыя канферэнцыі
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 %s пачаў(а) канферэнцыю з %d удзельнікамі (%d невядома).\nПрыняць удзел?
 [%s initiated the conference.]
 %s пачаў(а) канферэнцыю.

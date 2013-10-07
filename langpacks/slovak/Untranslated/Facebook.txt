@@ -67,7 +67,7 @@
 [Request for friendship was sent.]
 [Error occured when requesting friendship.]
 [Request for friendship was canceled.]
-[Error occured when canceling friendship request.]
+[Error occurred when canceling friendship request.]
 [What's on your mind, %s?]
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 [Sample event]

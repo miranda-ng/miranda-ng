@@ -1407,7 +1407,7 @@ E&limina
 [&Add permanently to list]
 &Aggiungi definitivamente alla lista
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Mio nome personalizzato (non spostabile)
 [Nick]
 Nick
@@ -1421,7 +1421,7 @@ Cognome
 Nome utente
 [FirstName LastName]
 Nome Cognome
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(Contatto sconosciuto)' (non spostabile)
 ['(Unknown Contact)']
 '(Contatto sconosciuto)'

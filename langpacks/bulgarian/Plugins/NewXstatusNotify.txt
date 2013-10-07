@@ -58,8 +58,6 @@
 
 [Status message]
 Текст за състояние
-[IndSndList]
-
 [Change]
 Промяна
 [Preview]

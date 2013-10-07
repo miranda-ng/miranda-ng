@@ -479,28 +479,26 @@ Effacer le groupe
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Smileys de la CList
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Voulez-vous que le contact '%s' soit converti en MetaContact et y ajouter '%s' ?
 [Converting to MetaContact]
 Conversion en MetaContact
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Voulez-vous que le contact '%s' soit converti en MetaContact et y ajouter '%s' (le retiré de '%s') ?
 [Converting to MetaContact (Moving)]
 Conversion en MetaContact (Déplacement)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
 [Adding contact to MetaContact]
 Ajout d'un contact dans MetaContact
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 Voulez-vous que '%s' soir le par défaut ?
 [Set default contact]
 Ce contact en par défaut
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Voulez-vous que le contact '%s' soit transféré du MetaContact '%s' au MetaContact '%s' ?
 [Changing MetaContacts (Moving)]
 Changement de MetaContact (Déplacement)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-Voulez-vous que le contact '%s' soit ajouté au metacontact '%s' ?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Standard contacts]
 Contacts standards

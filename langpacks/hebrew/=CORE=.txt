@@ -1441,7 +1441,7 @@
 [&Add permanently to list]
 &הוסף בקביעות לרשימה
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 (השם שאני הגדרתי (לא ניתן להזזה
 [Nick]
 כינוי
@@ -1451,7 +1451,7 @@
 שם משתמש
 [FirstName LastName]
 שם פרטי + שם משפחה
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 (איש קשר לא מוכר)' (לא ניתן להזזה)'
 ['(Unknown Contact)']
 '(תוכן לא ידוע)'

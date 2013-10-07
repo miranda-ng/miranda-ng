@@ -99,7 +99,7 @@ Letzte Sitzungen sind leer.
 Keine Kontakte zu öffnen.
 [This Session already opened]
 Diese Sitzung ist bereits geöffnet.
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Diese Sitzung ist bereits geöffnet (aber vermutlich versteckt).\nWollen Sie versteckte Kontakte anzeigen?
 [Open Sessions Manager]
 Öffne Sitzungsmanager

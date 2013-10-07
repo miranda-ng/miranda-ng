@@ -505,28 +505,26 @@ Grubu Yeniden Adlandı&r
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kişi Listesi gülen yüzler
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 '%s' kişisinin '%s' Metakişisine dünüştürülmesini ve eklenmesini istiyor musunuz?
 [Converting to MetaContact]
 MetaKişiye dönüştürülüyor
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 '%s' kişisinin '%s' Metakişisine dünüştürülmesini ve eklenmesini istiyor musunuz ('%s' ögesinden silinecek)?
 [Converting to MetaContact (Moving)]
 MetaKişiye dönüştürülüyor (taşınıyor)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 '%s' kişisinin '%s' metakişisine eklenmesini istiyor musunuz?
 [Adding contact to MetaContact]
 Kişiler MetaKişilere ekleniyor
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 '%s' kişisinin varsayılan olmasını istiyor musunuz?
 [Set default contact]
 Varsayılan kişiyi ayarla
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 '%s' kişisinin '%s' Metakişisinden silinmesini ve '%s' ögesine eklenmesini istiyor musunuz?
 [Changing MetaContacts (Moving)]
 MetaKişiler değiştiriliyor (taşınıyor)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-'%s' kişisinin '%s' Metakişisine eklenmesini istiyor musunuz?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Standard contacts]
 Standart kişiler

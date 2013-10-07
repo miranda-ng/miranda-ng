@@ -244,7 +244,7 @@
 Без групи
 [Ask before deleting contacts]
 Запитване преди изтриване на контакт
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 
 [Contact List]
 Списък с контакти
@@ -665,28 +665,26 @@ Modern contact list
 Насложени над състоянието икони
 [Contact List smileys]
 Усмивки в списъка с контакти
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него?
 [Converting to MetaContact]
 Превръщане в метаконтакт
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него (премахнете го от "%s")?
 [Converting to MetaContact (Moving)]
 Превръщане в метаконтакт (Местене)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Желаете ли контакта "%s" да бъде добавен към метаконтакта "%s"?
 [Adding contact to MetaContact]
 Добавяне в метаконтакт
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 Желаете ли, стандартният контакт да бъде '%s'?
 [Set default contact]
 Задаване на стандартен контакт
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Желаете ли контакта "%s" да бъде премахнат от метаконтакта "%s" и добавен към "%s"?
 [Changing MetaContacts (Moving)]
 Промяна на метаконтакт (преместване)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-Желаете ли контакта "%s" да бъде добавен към метаконтакта "%s"?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Имена на контактите

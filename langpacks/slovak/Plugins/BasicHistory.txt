@@ -200,7 +200,7 @@ História pre %s
 
 [Are You sure?]
 
-[Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 
 [Open in &new window]
 Otvoriť v novom okne
@@ -242,9 +242,9 @@ Klávesové skratky
 
 [Save window position for all contacts]
 
-[Do you want save imported messages to local profile?]
+[Do you want to save imported messages to local profile?]
 
-[File contain history for different contact. Do you want to change contact and import?]
+[File contains history for different contact. Do you want to change contact and import?]
 
 [Error]
 Chyba

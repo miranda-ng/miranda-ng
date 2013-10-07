@@ -181,7 +181,7 @@ Gadu-Gadu 号码
 打开会议(&C)...
 [&Clear ignored conferences]
 清除已忽略会议(&C)
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 %s 已发起会议, 有 %d 名参与者 (其中 %d 已知). \n您要加入吗? 
 [%s initiated the conference.]
 %s 已经开始会议. 

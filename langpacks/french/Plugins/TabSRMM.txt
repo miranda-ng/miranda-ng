@@ -783,8 +783,8 @@ Message
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Échec d'envoi du message.\nCliquer pour ouvrir la fenêtre de message.
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
-Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda-IM tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]

@@ -108,7 +108,7 @@ Systemtray-Icon
 Systemtray-Icon bei Benutzung mehrerer Protokolle
 [Contact List Sorting]
 Sortierung der Kontaktliste
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Offline-Kontakte nicht nach unten setzen
 [Pin to desktop]
 An den Desktop anheften

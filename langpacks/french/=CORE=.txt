@@ -2073,7 +2073,7 @@ Ce contact est sur un système de messagerie instantanée gardant les listes de 
 [&Add permanently to list]
 &Ajouter à la liste
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Le nom choisi (non déplaçable)
 [Nick]
 Pseudo
@@ -2087,7 +2087,7 @@ Nom
 ID
 [FirstName LastName]
 Prénom Nom
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(Contact Inconnu)' (non déplaçable)
 ['(Unknown Contact)']
 '(Contacts Inconnus)'

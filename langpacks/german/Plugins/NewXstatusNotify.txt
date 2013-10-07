@@ -58,8 +58,6 @@ Extra Status
 Öffnen
 [Status message]
 Statusnachricht
-[IndSndList]
-IndSndList
 [Change]
 Ändern
 [Preview]

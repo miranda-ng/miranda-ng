@@ -1813,7 +1813,7 @@ E&liminar
 [&Rename]
 &Cambiar el nombre de
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Mi nombre personalizado (no móvil)
 [Nick]
 Nick
@@ -1827,7 +1827,7 @@ Apellido
 Nombre de usuario
 [FirstName LastName]
 Nombres
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 (Contacto desconocido) '(no móvil)
 ['(Unknown Contact)']
 '(Contacto desconocido)'

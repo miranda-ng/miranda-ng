@@ -1502,7 +1502,7 @@ ID пользователя в панели статуса
 Шаблоны сброшены. Пожалуйста, закройте и откройте снова все окна сообщений. Это окно сейчас будет закрыто.
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Удаление всех шаблонов и сброс на шаблоны по умолчанию. Вы уверены, что хотите этого?
-	[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 В очереди есть неотправленные сообщения, ждущие подтверждения.\nЕсли вы закроете окно, Miranda попытается отправить их, но не сможет предупредить о возможных ошибках.\nВы действительно хотите закрыть окно(а)?
 [You haven't selected any contacts from the list. Click the checkbox box next to a name to send the message to that person.]
 Вы не выбрали ни одного контакта из списка. Отметьте те контакты, которым вы желаете послать сообщение.

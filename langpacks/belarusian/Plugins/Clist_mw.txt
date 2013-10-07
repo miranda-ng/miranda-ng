@@ -108,7 +108,7 @@ Cлужба:
 Абразкі пратаколаў у сістэмным лапку
 [Contact List Sorting]
 Сартаванне спісу кантактаў
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Не перасоўваць адключаных уніз
 [Pin to desktop]
 Прымацаваць ды стала

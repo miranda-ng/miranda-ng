@@ -1761,7 +1761,7 @@ Sl&ett
 [&Add permanently to list]
 &Legg til i liste permanent
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Mitt valgte navn (ikke flyttbart)
 [Nick]
 Kallenavn

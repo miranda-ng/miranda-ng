@@ -795,7 +795,7 @@ Kapcsolat
 Egy üzenetküldés sikertelen volt.\nKattints az üzenetablak megnyitásához.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Egy üzenetküldés sikertelen volt a partner csevegõablakának bezárása miatt. Az utolsó üzenet újraküldése javasolt
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 El nem küldött üzenetek várnak megerõsítésre.\nHa most bezárod az ablakot, Miranda megpróbálja kézbesíteni azokat, de a lehetséges küldési hibákról esetlegesen nem kapsz értesítést.\nTényleg be akarod zárni az ablako(ka)t?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp

@@ -99,7 +99,7 @@
 Няма кантактаў для адкрыцця
 [This Session already opened]
 Сесія ўжо адкрыта
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Сесія ўжо адкрыта(але магчыма ўтоена)\n Вы жадаеце паказваць утоеныя кантакты?
 [Open Sessions Manager]
 Адкрыць мэнэджар сесій

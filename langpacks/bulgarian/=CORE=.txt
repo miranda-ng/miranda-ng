@@ -2079,7 +2079,7 @@ URL
 [&Add permanently to list]
 Добавяне за постоянно в списъка
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Зададено име (неподвижно)
 [Nick]
 Прякор
@@ -2093,7 +2093,7 @@ URL
 Потребител
 [FirstName LastName]
 Име Фамилия
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 "Непознат контакт" (неподвижно)
 ['(Unknown Contact)']
 "(Непознат контакт)"

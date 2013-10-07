@@ -1573,7 +1573,7 @@ Latin I
 Неуспешно доставяне на съобщение.\nНатиснете тук, за да бъде отворен прозореца за съобщения.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Неуспешно доставяне на съобщението след затваряне на прозореца за съобщения. Може би, желаете съобщението да бъде изпратено отново
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Неизпратени съобщения чакат за потвърждение.\nСлед затваряне на прозореца ще бъдат направени нови опити за изпращане, но уведомяването при недоставяне не е сигурно.\nНаистина ли желаете да затворите прозореца(ите)?
 [Message window warning]
 

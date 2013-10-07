@@ -67,7 +67,7 @@ Prezívka:
 
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 
-[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 
 [Be sure you put these files in following folder:]
 
@@ -91,17 +91,17 @@ Prezívka:
 Hry
 [Game:]
 
-[Dont detect this game as running]
+[Don't detect this game as running]
 
 [Apply]
 Aplikovať
-[Dont set status message for other protocols]
+[Don't set status message for other protocols]
 
 [Add new game]
 
 [Remove]
 
-[Dont show in start menu]
+[Don't show in start menu]
 
 [(manual added)]
 
@@ -195,7 +195,7 @@ Všetky súbory
 
 [This game id is already in use.]
 
-[Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
+[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 
 [Supported Games]
 
@@ -322,7 +322,7 @@ Nastav prezívku
 
 [Playing]
 
-[Do you really want delete your friend %s?]
+[Do you really want to delete your friend %s?]
 
 [Confirm Delete]
 
@@ -335,7 +335,7 @@ Nastav prezívku
 
 [Disable avatars]
 
-[Dont download avatars of clan members]
+[Don't download avatars of clan members]
 
 [Use alternate way for Avatar download]
 
@@ -349,7 +349,7 @@ Nastav prezívku
 
 [Use Online status for unsupported global statuses]
 
-[Dont move friends to clan groups]
+[Don't move friends to clan groups]
 
 [GameServerQuery support]
 
@@ -359,13 +359,13 @@ Nastav prezívku
 
 [Hide yourself in buddylist]
 
-[Dont display game search results]
+[Don't display game search results]
 
-[Dont display game search status window]
+[Don't display game search status window]
 
 [Display popup, if someone start a game]
 
-[Dont automatically create clan groups]
+[Don't automatically create clan groups]
 
 [Enable MBot support]
 

@@ -515,28 +515,26 @@ x100 毫秒
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 联系人列表表情
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人? 
 [Converting to MetaContact]
 转换为中继联系人
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人 (从 %s 移除)? 
 [Converting to MetaContact (Moving)]
 转换为中继联系人 (正在移动)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 您想将联系人 '%s' 加至中继联系人 '%s'? 
 [Adding contact to MetaContact]
 添加联系人至中继联系人
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 您想将联系人 '%s' 设为默认值? 
 [Set default contact]
 设置默认联系人
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 您想将联系人 '%s' 从中继联系人 '%s' 移除, 并加至 '%s'? 
 [Changing MetaContacts (Moving)]
 变更中继联系人 (正在移动)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-您想将联系人 '%s' 加至中继联系人 '%s' 移除 '%s'? 
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Standard contacts]
 标准联系人

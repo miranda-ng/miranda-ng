@@ -217,7 +217,7 @@ Gadu-Gadu 番号
 会議を開く (&c)...
 [&Clear ignored conferences]
 無視する会議をクリア (&C)
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 %s は参加者 &d 人 ( 不明 %d 人 ) の会議に参加しました\nあなたも参加しますか ?
 [%s initiated the conference.]
 %s は会議に参加した

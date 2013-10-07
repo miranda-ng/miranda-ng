@@ -122,7 +122,7 @@ Beispiel: Petrov_Ivan@mail.ru
 Ein neues Mail.ru-Konto über die Mail.ru Website erstellen
 [Retrieve a lost password]
 Vergessenes Kennwort anfordern
-[Leave empty if you dont want change password]
+[Leave empty if you don't want to change password]
 Leer lassen, wenn Sie Ihr Passwort nicht ändern wollen.
 [Popup type]
 Popup-Typ

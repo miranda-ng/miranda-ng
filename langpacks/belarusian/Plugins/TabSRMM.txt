@@ -1521,7 +1521,7 @@ TabSRMM: Набірае
 Дастаўка паведамлення не атрымалася.\nНажміце для адкрыцця акна гутаркі
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Не атрымалася перадаць паведамленні пасля зачынення акна гутаркі. Магчыма, вам трэба адправіць яго яшчэ раз
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 У чэргі ёсць неадпраўленыя паведамленні, якія чакаюць пацверджанні.\nКалі вы зачыніце акно, Miranda паспрабуе адправіць іх, але не зможа папярэдзіць пра магчымыя памылкі.\nВы сапраўды жадаеце зачыніць акно(а)?
 [Message window warning]
 Папярэджанне акна гутаркі

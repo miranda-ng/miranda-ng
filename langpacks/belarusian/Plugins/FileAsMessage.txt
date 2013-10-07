@@ -57,11 +57,11 @@
 Атрыманне...
 [Sent successfully]
 Паслана паспяхова
-[Incoming file request. Do you want proceed?]
+[Incoming file request. Do you want to proceed?]
 Уваходны файл. Хочаце працягнуць?
 [Cancelled by remote user]
 Адменена другім кантактам
-[New incoming file request. Do you want proceed?]
+[New incoming file request. Do you want to proceed?]
 Новы уваходны файл. Хочаце пацягнуць?
 [Paused, 'coz connection dropped]
 Спынена, з-за абрыва злучэння

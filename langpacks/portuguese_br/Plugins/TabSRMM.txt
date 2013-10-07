@@ -1519,10 +1519,8 @@ A entrega da mensagem falhou.\n Clique para abrir a janela de mensagem.
 A entrega da mensagem falhou.\n Clique para abrir a janela de mensagem.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 A entrega da mensagem falhou após os contatos de bate-papo fecharem a janela. Você pode querer reenviar a última mensagem
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Existem mensagens não enviadas à espera de confirmação.\nQuando você fechar a janela agora, Miranda vai tentar enviá-las, mas pode ser incapaz de informar sobre possíveis erros de entrega.\n Você realmente deseja fechar a janela (s)?
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
-Existem mensagens não enviadas à espera de confirmação.\nQuando você fechar a janela, Miranda vai tentar enviá-las, mas pode ser incapaz de informar sobre possíveis erros de entrega.\n Você realmente deseja fechar a(s) janela(s)?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]

@@ -2073,7 +2073,7 @@ Zmazať
 [&Add permanently to list]
 Pridať do zoznamu kontaktov
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Moje vlastné označenie (nepresúvatelné)
 [Nick]
 Prezívka
@@ -2089,7 +2089,7 @@ Priezvisko
 Meno Priezvisko
 [LastName FirstName]
 
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(neznámý kontakt)' (nepresúvatelné)
 ['(Unknown Contact)']
 

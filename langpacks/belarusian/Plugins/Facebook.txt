@@ -150,7 +150,7 @@
 Адбылася памылка пры запыце дружбы.
 [Request for friendship was canceled.]
 Запыт на сяброўства быў адменены.
-[Error occured when canceling friendship request.]
+[Error occurred when canceling friendship request.]
 Адбылася памылка пры скасаванні запыта сяброўства.
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [What's on your mind, %s?]

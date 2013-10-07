@@ -1993,7 +1993,7 @@ xСтатус
 Перейменувати
 [&Add permanently to list]
 Додати до списку
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Задане ім'я (завжди перше)
 [Nick]
 Нік
@@ -2005,7 +2005,7 @@ xСтатус
 Ім'я користувача
 [FirstName LastName]
 Ім'я Прізвище
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(Невідомий)' (завжди останнє)
 ['(Unknown Contact)']
 '(Невідомий контакт)'

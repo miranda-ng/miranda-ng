@@ -99,7 +99,7 @@ ms
 
 [This Session already opened]
 
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 
 [Open Sessions Manager]
 

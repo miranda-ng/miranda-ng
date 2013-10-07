@@ -63,7 +63,7 @@ XFire
 Вы можаце проста заблакаваць каго-небудзь, пстрычкай правай кнопкі па карыстачу ў кантакт лісце.
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Гэты файл выкарыстоўваецца для пошуку і выяўленні гульні. Файл утрымоўвае падтрымоўваныя гульні Xfire.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Гэты файл утрымоўвае арыгінальныя значкі гульняў. Вы можаце гэтак жа актываваць аўтаматычную загрузку, калі гэтага файла ў вас няма.
 [Be sure you put these files in following folder:]
 Будзьце ўважлівыя, вы змесціце файлы ў гэту тэчку:
@@ -87,11 +87,11 @@ XFire
 Гульні
 [Game:]
 Гульня:
-[Dont detect this game as running]
+[Don't detect this game as running]
 Не выяўляць гульню калі запушчана
 [Apply]
 Ужыць
-[Dont set status message for other protocols]
+[Don't set status message for other protocols]
 Не ставіць паведамленне статусу іншым пратаколам
 [Add new game]
 Дадаць новую гульню
@@ -222,7 +222,7 @@ XFireне падтрымлівае паведамленні адключаным
 Лагін не ўсталяваны!
 [Playing]
 Грае
-[Do you really want delete your friend %s?]
+[Do you really want to delete your friend %s?]
 Вы сапраўды жадаеце выдаліць %s?
 [Confirm Delete]
 Пацвердзіце выдаленне
@@ -235,7 +235,7 @@ XFireне падтрымлівае паведамленні адключаным
 Аватары
 [Disable avatars]
 Выключыць аватары
-[Dont download avatars of clan members]
+[Don't download avatars of clan members]
 Не пампаваць аватары членаў клана
 [Use alternate way for Avatar download]
 Выкарыстоўваць альтэрнатыўны шлях спампоўкі аватараў
@@ -257,9 +257,9 @@ XFireне падтрымлівае паведамленні адключаным
 Выдаляць сяброў з базы дадзеных
 [Hide yourself in buddylist]
 Схаваць сябе ў спісе сяброў
-[Dont display game search results]
+[Don't display game search results]
 Не паказваць вынікі пошуку гульняў
-[Dont display game search status window]
+[Don't display game search status window]
 Не паказваць акно пры пошуку гульняў
 [Display popup, if someone start a game]
 Усплывальныя вокны, калі хто-небудзь пачынае гульню

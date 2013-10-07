@@ -78,7 +78,7 @@
 Немає контактів для відкриття
 [This Session already opened]
 Сесія вже відкрита
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Сесія вже відкрита(але можливо прихована)\nВи хочете показувати приховані контакти?
 [Close Session]
 Закрити сесію

@@ -20,4 +20,4 @@
 [Failed to write Invalid Database event the file :\n]
 [Failed to write AUTHREQUEST or ADDED to the file :\n]
 [Failed to write Unknown event to the file :\n]
-[User has been deleted do you want to delete the file?]
+[User has been deleted. Do you want to delete the file?]

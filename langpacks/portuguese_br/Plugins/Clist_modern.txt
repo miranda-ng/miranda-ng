@@ -779,50 +779,26 @@ Smileys dos Contatos
 Smileys da Lista de Contato
 [Contact List smileys]
 Smileys da Lista de Contato
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
-Você quer contato que '%s' seja convertido para MetaContato e '%s' seja adicionado a ele?
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Você quer contato que '%s' seja convertido para MetaContato e '%s' seja adicionado a ele?
 [Converting to MetaContact]
 Convertendo para MetaContato
-[Converting to MetaContact]
-Convertendo para MetaContato
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
-Você quer contato que '%s' seja convertido para MetaContato e '%s' seja adicionado a ele (removê-lo de '%s')?
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Você quer contato que '%s' seja convertido para MetaContato e '%s' seja adicionado a ele (removê-lo de '%s')?
 [Converting to MetaContact (Moving)]
 Convertendo para MetaContato (Movendo)
-[Converting to MetaContact (Moving)]
-Convertendo para MetaContato (Movendo)
-[Do you want to contact '%s' be added to metacontact '%s'?]
-Deseja que o contato '%s' seja adicionado ao metacontao '%s'?
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Deseja que o contato '%s' seja adicionado ao metacontao '%s'?
 [Adding contact to MetaContact]
 Adicionando contato para MetaContato
-[Adding contact to MetaContact]
-Adicionando contato para MetaContato
-[Do You want contact '%s' to be default ?]
-Você quer que usar o contato '%s' para ser padrão?
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 Você quer que usar o contato '%s' para ser padrão?
 [Set default contact]
 Conjunto de contato padrão
-[Set default contact]
-Configurar contato padrão
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
-Você quer que o contato '%s' seja  removido do MetaContato '%s' e acrescentado a '%s'?
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Você quer que o contato '%s' seja  removido do MetaContato '%s' e acrescentado a '%s'?
 [Changing MetaContacts (Moving)]
 Alterando Metacontatos (Movendo)
-[Changing MetaContacts (Moving)]
-Mudando MetaContatos (Mudança)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-Você quer que o contato '%s' seja adicionado ao MetaContato '%s'?
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-Você quer que o contato '%s' seja adicionado ao MetaContato '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Nomes Contato

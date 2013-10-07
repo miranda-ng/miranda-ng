@@ -286,18 +286,18 @@ Súhlas
 
 [Own private key warning]
 
-[Do you want load key for all subcontacts ?]
+[Do you want to load key for all subcontacts ?]
 
 [Metacontact detected]
 
 ;file \plugins\New_GPG\src\messages.cpp
-[We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?]
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact ?]
 
-[Do you want try to decrypt encrypted message ?]
+[Do you want to try to decrypt encrypted message ?]
 
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
 
-[We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently ?]
 
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
 
@@ -320,7 +320,7 @@ Kontakt
 
 [Protocol]
 
-[This key not used by any contact, do you want to remove it from public keyring ?]
+[This key is not used by any contact. Do you want to remove it from public keyring ?]
 
 [Key info]
 

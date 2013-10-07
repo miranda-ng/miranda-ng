@@ -2131,7 +2131,7 @@ Este contato é sobre um sistema de mensagens instantâneas que armazena sua lis
 [&Add permanently to list]
 &Adicionar permanentemente a lista
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Meu nome pessoal (não movível)
 [Nick]
 Apelido
@@ -2147,7 +2147,7 @@ Sobrenome
 Usuário
 [FirstName LastName]
 Nome e Sobrenome
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(Contato Desconhecido)' (não movível)
 ['(Unknown Contact)']
 '(Contato Desconhecido)'

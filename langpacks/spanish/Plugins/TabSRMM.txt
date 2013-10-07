@@ -1261,7 +1261,7 @@ El mensaje no puede ser retrasado o enviado a varios contactos, porque supera la
 A la entrega de mensajes ha fallado.\nHaga clic para abrir la ventana del mensaje.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 A la entrega de mensajes ha fracasado después de los contactos de ventana de chat se cerró. Es posible que desee volver a enviar el último mensaje
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Hay mensajes no enviados de espera para la confirmación.\nCuando cerrar la ventana ahora, Miranda tratará de enviar, pero puede ser incapaz de informarle acerca de los posibles errores de entrega.\n¿Seguro que deseas cerrar la ventana (s)?
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Mensaje de éxito en cola para su posterior entrega.\nSe enviará tan pronto como sea posible y una ventana emergente le informará sobre el resultado.

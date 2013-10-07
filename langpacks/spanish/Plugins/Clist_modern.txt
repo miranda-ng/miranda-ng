@@ -483,28 +483,26 @@ Ocultar Miranda
 Estado de superposición
 [Contact List smileys]
 Póngase en contacto con la lista de emoticonos
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 ¿Quieres ponerte en contacto con '%s' que se convierte en MetaContact y '%s' se añade a ella?
 [Converting to MetaContact]
 La conversión a MetaContact
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 ¿Quieres ponerte en contacto con '%s' que se convierte en MetaContact y '%s' se añadirá a él (sacarlo de '%s')?
 [Converting to MetaContact (Moving)]
 La conversión a MetaContact (en movimiento)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 ¿Quieres ponerte en contacto con '%s' se añade metacontact '%s'?
 [Adding contact to MetaContact]
 Agregar contacto a MetaContact
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 ¿Quieres ponerte en contacto con '%s' que por defecto?
 [Set default contact]
 Establecer contacto por defecto
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 ¿Quieres ponerte en contacto con '%s' ser removido de MetaContact '%s' y se añade a '%s'?
 [Changing MetaContacts (Moving)]
 Metacontactos Cambio (Movimiento)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-¿Quieres ponerte en contacto con '%s' que se añade a MetaContact '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Póngase en contacto con los nombres

@@ -45,11 +45,11 @@ En requête de parties manquantes
 Réception...
 [Sent successfully]
 Envoi réussi
-[Incoming file request. Do you want proceed?]
+[Incoming file request. Do you want to proceed?]
 Requête de fichier entrant. Voulez-vous continuer ?
 [Cancelled by remote user]
 Annulé par l'utilisateur à distance
-[New incoming file request. Do you want proceed?]
+[New incoming file request. Do you want to proceed?]
 Nouvelle requête de fichier entrant. Voulez-vous continuer ?
 [Paused, 'coz connection dropped]
 Suspendu, due à la perte de connexion

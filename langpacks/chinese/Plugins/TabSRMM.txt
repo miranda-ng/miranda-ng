@@ -1287,7 +1287,7 @@ History++ 插件
 一项消息递送已失败. \n请点击打开消息窗口. 
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 一项消息递送在聊天窗口关闭后失败. 您可能想重新发送最后消息
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 有正等候确认的未发消息. \n如果您现在关闭窗口, Miranda 将尝试发送他们, 但可能无法通知您任何递送错误. \n您确定要关闭窗口? 
 [Message window warning]
 消息窗口警告

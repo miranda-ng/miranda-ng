@@ -61,7 +61,7 @@
 如您右键好友列表中的联系人并选择封锁用户, 可非常简单的封锁某人 ...
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 此文件用于游戏搜索, 游戏检测及游戏解析. 它包含所有 Xfire 支持的游戏.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 此文件包含所有原版游戏图标. 如您没有此文件, 可启用选项下载图标.
 [Be sure you put these files in following folder:]
 请确认您已把这些文件放至以下目录:
@@ -75,11 +75,11 @@
 如您退出游戏, 状态消息及状态将被重置.
 [Game:]
 游戏:
-[Dont detect this game as running]
+[Don't detect this game as running]
 不要检测此游戏是否运行
 [Apply]
 应用
-[Dont set status message for other protocols]
+[Don't set status message for other protocols]
 其它协议不要设置状态信息
 [Remove]
 移除
@@ -182,7 +182,7 @@ XFire 不支持离线消息!
 未设置登录名!
 [No Password is set!]
 未设置密码!
-[Do you really want delete your friend %s?]
+[Do you really want to delete your friend %s?]
 您真的想删除好友 %s?
 [Confirm Delete]
 确认删除
@@ -207,9 +207,9 @@ XFire 不支持离线消息!
 从数据库中将自身从对方好友列表中移除
 [Hide yourself in buddylist]
 在好友列表中隐藏自身
-[Dont display game search results]
+[Don't display game search results]
 不要显示游戏搜索结果
-[Dont display game search status window]
+[Don't display game search status window]
 不要显示游戏搜索状态窗口
 [Display popup, if someone start a game]
 如某人开始游戏, 则显示弹出窗口

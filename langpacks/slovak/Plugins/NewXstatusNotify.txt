@@ -58,8 +58,6 @@ Konfigurovať
 
 [Status message]
 
-[IndSndList]
-
 [Change]
 
 [Preview]

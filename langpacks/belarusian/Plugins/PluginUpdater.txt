@@ -109,7 +109,7 @@
 Абнаўленне плагінаў
 [Download complete]
 Загрузка завершана
-[Download complete. Do you want go to plugins option page?]
+[Download complete. Do you want to go to plugins option page?]
 Загрузка завершана. Адчыніць старонку налад?
 [Component Name]
 Імя кампанента

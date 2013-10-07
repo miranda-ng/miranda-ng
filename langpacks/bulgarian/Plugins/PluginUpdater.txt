@@ -109,7 +109,7 @@
 Plugin Updater
 [Download complete]
 Свалянето приключи
-[Download complete. Do you want go to plugins option page?]
+[Download complete. Do you want to go to plugins option page?]
 Свалянето приключи. Желаете ли да отворите страницата с настройките?
 [Component Name]
 Име на компонента

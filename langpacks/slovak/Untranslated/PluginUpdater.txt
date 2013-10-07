@@ -43,7 +43,7 @@
 [Succeeded.]
 [Plugin Updater]
 [Download complete]
-[Download complete. Do you want go to plugins option page?]
+[Download complete. Do you want to go to plugins option page?]
 [Component Name]
 [State]
 [Plugins]

@@ -244,7 +244,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Адключыць групы
 [Ask before deleting contacts]
 Пацверджанне выдалення
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Не перасоўваць адключаных уніз
 [Contact List]
 Спіс кантактаў
@@ -663,26 +663,24 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Аверлэй статусу
 [Contact List smileys]
 Смайлы спісу кантактаў
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
 [Converting to MetaContact]
 Канвертаванне ў метакантакт
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго (выдаліць яго з '%s')?
 [Converting to MetaContact (Moving)]
 Канвертаванне ў метакантакт (перасоўванне)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Жадаеце дадаць '%s' у метакантакт '%s'?
 [Adding contact to MetaContact]
 Даданне да метакантакту
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 Жадаеце зрабіць '%s' кантактам па змаўчанні?
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
 [Changing MetaContacts (Moving)]
 Змена метакантакту (перасоўванне)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-Жадаеце дадаць кантакт '%s' у метакантакт '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Кантакты

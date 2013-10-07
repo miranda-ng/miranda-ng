@@ -349,7 +349,7 @@ Automaticky připojit při změně verze protokolu
 Žádná IP/Port ve zprávě stavu
 [Use Online status for unsupported global statuses]
 Použít stav Online při nepodporovaných globálních stavech
-[Dont move friends to clan groups]
+[Don't move friends to clan groups]
 Nepřesouvat přátele do klanových skupin
 [GameServerQuery support]
 Podpora GameServerQuery

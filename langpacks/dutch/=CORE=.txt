@@ -1343,7 +1343,7 @@ He&rnoemem
 [&Add permanently to list]
 Perm&anent aan lijst toevoegen
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Mijn eigen naam (niet verplaatsbaar)
 [Nick]
 Bijnaam
@@ -1355,7 +1355,7 @@ Achternaam
 Gebruikersnaam
 [FirstName LastName]
 Voornaam achternaam
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(Onbekend Persoon)' (niet verplaatsbaar)
 ['(Unknown Contact)']
 '(Onbekend Persoon)'

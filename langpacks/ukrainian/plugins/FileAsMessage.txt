@@ -68,11 +68,11 @@
 Синхронізація...
 [Paused...]
 Пауза...
-[New incoming file request. Do you want proceed?]
+[New incoming file request. Do you want to proceed?]
 Новий вхідний файл. Хочете продовжити?
-[Incoming file request. Do you want proceed?]
+[Incoming file request. Do you want to proceed?]
 Вхідний файл. Хочете продовжити?
-[Unknown command for "file As Message" was received]
+[Unknown command for "file As Message" was to received]
 Прийнята невідома команда "file As Message"
 [Failed on file initialization]
 Помилка при ініціалізації файлу

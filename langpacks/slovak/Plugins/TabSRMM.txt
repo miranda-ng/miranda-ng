@@ -1573,7 +1573,7 @@ Stav
 
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 
 [Message window warning]
 

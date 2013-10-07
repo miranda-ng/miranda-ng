@@ -67,7 +67,7 @@ Die Liste enthält all Ihre blockierten XFire-Nutzer. Sie können einen entferne
 Sie können einen Nutzer zu der Liste hinzufügen, indem Sie in Ihrer Kontaktliste einen Rechtsklick auf ihn machen und "Benutzer ignorieren" auswählen.
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle Spiele, die von XFire unterstützt werden.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Diese Datei beinhaltet alle Spielicons. Man kann die Einstellung aktivieren, dass die Icons heruntergeladen werden, wenn sie nicht vorhanden sind.
 [Be sure you put these files in following folder:]
 Die Dateien müssen in folgendem Ordner sein:
@@ -91,17 +91,17 @@ Bitte nicht stören bevorzugen wenn verfügbar
 Spiele
 [Game:]
 Spiel:
-[Dont detect this game as running]
+[Don't detect this game as running]
 Spielstart nicht erkennen
 [Apply]
 Übernehmen
-[Dont set status message for other protocols]
+[Don't set status message for other protocols]
 Keine Statusnachrichten setzen
 [Add new game]
 Spiel hinzufügen
 [Remove]
 Entfernen
-[Dont show in start menu]
+[Don't show in start menu]
 Nicht im Spiel-starten-Menü anzeigen
 [(manual added)]
 (manuell hinzugefügt)
@@ -195,7 +195,7 @@ Bitte geben Sie eine Spiel-ID ein.
 Bitte geben Sie eine Spiel-ID über 1 ein.
 [This game id is already in use.]
 Diese Spiel-ID wird bereits verwendet.
-[Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
+[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 Bitte wählen Sie die ausführbare Spieldatei aus. Achtung: Wenn Sie keine Launcher-.exe angeben, wird die Spiel-.exe im Spiel-starten-Menü verwendet.
 [Supported Games]
 Unterstützte Spiele
@@ -322,7 +322,7 @@ Letztes Spiel: %s Spielzeit: %.2d:%.2d:%.2d
 %s spielt %s auf Server %d.%d.%d.%d:%d.
 [Playing]
 Spielen
-[Do you really want delete your friend %s?]
+[Do you really want to delete your friend %s?]
 Möchten Sie wirklich Ihren Freund %s löschen?
 [Confirm Delete]
 Löschvorgang bestätigen
@@ -335,7 +335,7 @@ Blockierung bestätigen
 Avatare
 [Disable avatars]
 Avatare deaktivieren
-[Dont download avatars of clan members]
+[Don't download avatars of clan members]
 Avatare von Clan-Mitgliedern nicht herunterladen
 [Use alternate way for Avatar download]
 Alternative Avatar-Download-Variante verwenden
@@ -349,7 +349,7 @@ Automatisch nach Protokoll-Versionsänderungen neu verbinden
 Keine Server-IP- und Portanzeige bei der Statusmeldung
 [Use Online status for unsupported global statuses]
 Wechsle auf Online statt Abwesend bei nicht unterstütztem Status
-[Dont move friends to clan groups]
+[Don't move friends to clan groups]
 Meinen Freunden keine Clangruppen zuordnen
 [GameServerQuery support]
 GameServerQuery-Unterstützung
@@ -359,13 +359,13 @@ Eigene "Away"-Nachricht abschalten
 Entferne die Freunde meiner Freunde von der Datenbank
 [Hide yourself in buddylist]
 Sich selbst nicht in der Server-Kontaktliste anzeigen
-[Dont display game search results]
+[Don't display game search results]
 Ergebnis der Spielesuche nicht anzeigen
-[Dont display game search status window]
+[Don't display game search status window]
 Statusfenster der Spielesuche nicht anzeigen
 [Display popup, if someone start a game]
 Popup anzeigen, wenn jemand ein Spiel startet
-[Dont automatically create clan groups]
+[Don't automatically create clan groups]
 Clangruppen nicht automatisch erstellen
 [Enable MBot support]
 MBot-Unterstützung aktivieren

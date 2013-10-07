@@ -181,7 +181,7 @@ Gadu-Gadu Numarası
 Kon&ferans aç...
 [&Clear ignored conferences]
 Yoksayılan konferansları &sil
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 %s %d katılımcı ile (%d bilinmeyen) bir konferans açtı.\Katılmak istiyor musunuz?
 [%s initiated the conference.]
 %s konferans açtı.

@@ -152,7 +152,7 @@ URL:
 
 [Request for friendship was canceled.]
 
-[Error occured when canceling friendship request.]
+[Error occurred when canceling friendship request.]
 
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]

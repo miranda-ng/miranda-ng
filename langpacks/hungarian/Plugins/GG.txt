@@ -173,7 +173,7 @@ Gadu-Gadu szám
 Kon&ferencia indítása...
 [&Clear ignored conferences]
 Elvetett konferenciák tör&lése
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 %s konferenciát indított %d résztvevõvel (%d ismeretlenek).\nRészt kívánsz venni benne?
 [%s initiated the conference.]
 %s indította a konferenciát.

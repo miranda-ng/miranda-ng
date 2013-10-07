@@ -20,7 +20,7 @@
 更新网址于每
 [Intervals]
 间隔
-[If the protocol timer is disabled web pages wont be updated]
+[If the protocol timer is disabled web pages won't be updated]
 如协议计时禁用, 网页将不会被更新
 [contact display info]
 联系人显示信息

@@ -809,7 +809,7 @@ Durum
 Bir ileti gönderilemedi.\nİleti penceresini açmak için tıklayın.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Kişi sohbet penceresi kapandıktan sonra bir ileti gönderilemedi. son iletiyi yeniden göndermek isteyebilirsiniz
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Onay bekleyen gönderilmemiş iletiler var.\nPencereyi şimdi kapatırsanız, Miranda onları göndermeyi deneyecek ancak olabilecek hataları size bildiremeyecek.\nPencereyi kapatmak istiyor musunuz?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp

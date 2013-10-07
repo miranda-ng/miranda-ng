@@ -108,7 +108,7 @@ Ikona v oznamovacej oblasti
 Ikona v oznamovacej oblasti pri použití viacerých protokolov
 [Contact List Sorting]
 
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 
 [Pin to desktop]
 

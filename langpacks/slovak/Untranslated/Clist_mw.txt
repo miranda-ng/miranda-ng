@@ -19,7 +19,7 @@
 [ms, delay between icon blinking]
 [icon when statuses differ]
 [Contact List Sorting]
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 [Pin to desktop]
 [Translucency options]
 [If window is partially covered, bring to front instead of hiding]

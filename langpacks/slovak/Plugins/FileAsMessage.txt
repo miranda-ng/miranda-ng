@@ -59,11 +59,11 @@ Prijímam...
 
 [Unknown command for "File As Message" was received]
 
-[Incoming file request. Do you want proceed?]
+[Incoming file request. Do you want to proceed?]
 
 [Cancelled by remote user]
 
-[New incoming file request. Do you want proceed?]
+[New incoming file request. Do you want to proceed?]
 
 [Paused, 'coz connection dropped]
 

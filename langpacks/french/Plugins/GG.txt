@@ -181,7 +181,7 @@ Numéro Gadu-Gadu :
 Ouvrir un &chat...
 [&Clear ignored conferences]
 &Effacer les conférences ignorées
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
 %s a lancé une conférence avec %d participants (%d inconnus).\nVoulez-vous participez-vous ?
 [%s initiated the conference.]
 %s a lancé(e) le chat.

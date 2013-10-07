@@ -286,18 +286,18 @@ Eigener geheimer Schlüssen Warnung
 
 [Own private key warning]
 Eigener privater Schlüssen Warnung
-[Do you want load key for all subcontacts ?]
+[Do you want to load key for all subcontacts ?]
 Wollen Sie alle Schlüssel für den Unterkontakt laden?
 [Metacontact detected]
 Metakontakt entdeckt
 ;file \plugins\New_GPG\src\messages.cpp
-[We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?]
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact ?]
 Sie haben eine verschlüsselte Nachricht von einem Kontakt empfangen der die Verschlüsselung deaktiviert hat.\nWollen Sie die Verschlüsselung für diesen Kontakt deaktivieren?
-[Do you want try to decrypt encrypted message ?]
+[Do you want to try to decrypt encrypted message ?]
 Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
 
-[We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently ?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
 Konnte Nachricht nicht verschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein
@@ -320,7 +320,7 @@ Kontakt
 Schlüssel-ID
 [Protocol]
 Protokoll
-[This key not used by any contact, do you want to remove it from public keyring ?]
+[This key is not used by any contact. Do you want to remove it from public keyring ?]
 Dieser Schlüssel wird von keinem Kontakt verwendet, wollen Sie ihn entfernen?
 [Key info]
 Schlüssel-Info

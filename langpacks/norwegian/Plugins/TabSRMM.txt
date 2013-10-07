@@ -699,7 +699,7 @@ Status
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 En meldingslevering feilet.\nKlikk for å åpne meldingsvinduet.
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Det er usendte meldinger som venter på bekreftelse.\nNår du lukker vinduet, vil Miranda forsøke å sende dem, men kan være ute av stand til å informere deg om mulige leveringsfeil.\nVil du virkelig lukke vinduet(ene)?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp

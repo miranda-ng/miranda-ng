@@ -200,7 +200,7 @@ Datei ist beschädigt.
 Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCHEN.\nSind Sie sich sicher, dass Sie dies machen wollen?
 [Are You sure?]
 Sind Sie sicher?
-[Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Wollen Sie alle importierten Nachrichten für diesen Kontakt löschen?\nBeachten Sie, dass der nächste Sheduler-Task diese Nachrichten wieder importiert.
 [Open in &new window]
 In &neuem Fenster öffnen
@@ -242,9 +242,9 @@ Dat (mContacts)
 Fensterposition als Standard speichern
 [Save window position for all contacts]
 Fensterposition für alle Kontakte speichern
-[Do you want save imported messages to local profile?]
+[Do you want to save imported messages to local profile?]
 Wollen Sie die importierten Nachrichten im lokalen Profil speichern?
-[File contain history for different contact. Do you want to change contact and import?]
+[File contains history for different contact. Do you want to change contact and import?]
 Datei beinhaltet Verlauf für einen anderen Kontakt. Wollen Sie den Kontakt ändern und importieren?
 [Error]
 Fehler

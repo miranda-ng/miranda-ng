@@ -513,28 +513,26 @@ Miranda を非表示
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 コンタクトリストの顔文字
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 コンタクト '%s' をメタコンタクトに変換して , '%s' を追加しますか ?
 [Converting to MetaContact]
 メタコンタクトへの変換
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 コンタクト '%s' をメタコンタクトに変換して , '%s' を追加しますか ('%s' からは削除 )?
 [Converting to MetaContact (Moving)]
 メタコンタクトへの変換 ( 移動 )
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 コンタクト '%s' をメタコンタクト '%s' に追加しますか ?
 [Adding contact to MetaContact]
 コンタクトをメタコンタクトに追加
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 コンタクト '%s' をデフォルトにしますか ?
 [Set default contact]
 デフォルトコンタクトを設定
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 コンタクト '%s' をメタコンタクト '%s' から削除して , '%s' に追加しますか ?
 [Changing MetaContacts (Moving)]
 メタコンタクトを変更 ( 移動 )
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-コンタクト '%s' をメタコンタクト '%s' に追加しますか ?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Standard contacts]
 標準コンタクト

@@ -495,28 +495,26 @@ Csoport átnevezése
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kapcsolati lista emotikonok
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Átalakítja '%s' partnert Metapartnerré, és hozzáadja '%s'-t ehhez?
 [Converting to MetaContact]
 Konvertálás meta-partnerré
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Átalakítja '%s' partnert Metapartnerré, és hozzáadja '%s'-t ehhez (eltávolítás '%s' helyrõl)?
 [Converting to MetaContact (Moving)]
 Konvertálás meta-partnerré (mozgatás)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Hozzáadja '%s' partnert '%s' MetaPartnerhez?
 [Adding contact to MetaContact]
 Partner hozzáadása a MetaContact-hoz
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default ?]
 Legyen '%s' az alapértelmezett?
 [Set default contact]
 Alapértelmezett kapcsolat megadása
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Eltávolítja '%s' partnert '%s' MetaParnerekbõl és hozzáadja ide: '%s'?
 [Changing MetaContacts (Moving)]
 MetaContact módosítása (mozgatás)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
-Hozzáadja '%s' partnert '%s' Metapartnerekhez?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Standard contacts]
 Alapvetõ partnerek

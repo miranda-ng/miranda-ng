@@ -1573,7 +1573,7 @@ Die Nachricht kann nicht verzögert gesendet werden oder an mehrere Kontakte wei
 Eine Nachricht konnte nicht zugestellt werden.\nKlicken Sie hier, um das Nachrichtenfenster zu öffnen.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Eine Nachrichtenübertragung schlug fehl, nachdem der Kontakt das Chatfenster geschlossen hatte. Sie möchten vielleicht die letzte Nachricht erneut senden.
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Ungesendete Nachrichten warten auf Bestätigung.\nWenn Sie das Fenster nun schließen, wird Miranda weiterhin versuchen, sie zu senden; es ist aber nicht immer möglich, Sie über mögliche Übertragungsfehler zu informieren.\n\Wollen Sie das Nachrichtenfenster wirklich schließen?
 [Message window warning]
 Nachrichtenfensterwarnung

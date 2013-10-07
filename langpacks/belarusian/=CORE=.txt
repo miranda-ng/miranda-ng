@@ -2077,7 +2077,7 @@ URL ад %s
 [&Add permanently to list]
 &Дадаць у сталы спіс
 ;file \src\modules\clist\contacts.cpp
-[My custom name (not moveable)]
+[My custom name (not movable)]
 Зададзенае імя (заўсёды першае)
 [Nick]
 Нік
@@ -2091,7 +2091,7 @@ URL ад %s
 Імя карыстача
 [FirstName LastName]
 Імя Прозвішча
-['(Unknown Contact)' (not moveable)]
+['(Unknown Contact)' (not movable)]
 '(Невядомы)' (заўсёды апошняе)
 ['(Unknown Contact)']
 '(Невядомы кантакт)'
