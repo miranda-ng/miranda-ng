@@ -129,7 +129,7 @@ IDI_REMOVE_USER_FROM_GROUP ICON                    "remove-user-from-group.ico"
 // BIN
 //
 
-IDR_REGISTERUTILITY             BIN                     "WART-1.5.0.0.exe"
+IDR_REGISTERUTILITY             BIN                     "WART-1.5.1.0.exe"
 
 
 
