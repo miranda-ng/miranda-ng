@@ -80,6 +80,7 @@
 #include "Xfire_voicechat.h"
 
 #include "variables.h"
+#include "version.h"
 
 #include <stdexcept>
 #include <sstream>
@@ -127,17 +128,18 @@ extern LPtsrGetServerInfo tsrGetServerInfo;
 HANDLE hGameDetection = CreateEvent(NULL,FALSE,FALSE,NULL);
 HANDLE hConnectionClose = CreateEvent(NULL,TRUE,FALSE,NULL);
 
-PLUGININFOEX pluginInfoEx={
-		sizeof(PLUGININFOEX),
-		"Xfire protocol",
-		PLUGIN_MAKE_VERSION(0,1,8,4),
-		"Xfire protocol support for Miranda NG.",
-		"dufte",
-		"dufte@justmail.de",
-		"(c) 2012 Xfirelib by Herbert Poul, Xfire Miranda protocol plugin by dufte",
-		"http://miranda-ng.org",
-		UNICODE_AWARE,
-		{ 0x9b8e1735, 0x970d, 0x4ce0, { 0x93, 0xc, 0xa5, 0x61, 0x95, 0x6b, 0xdc, 0xa2 } } // {9B8E1735-970D-4ce0-930C-A561956BDCA2}
+PLUGININFOEX pluginInfo = {
+    sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {9B8E1735-970D-4ce0-930C-A561956BDCA2}
+	{0x9b8e1735, 0x970d, 0x4ce0, {0x93, 0xc, 0xa5, 0x61, 0x95, 0x6b, 0xdc, 0xa2}}
 };
 
 static IconItem icon = { LPGEN("Protocol icon"), "XFIRE_main", IDI_TM };
@@ -758,7 +760,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfoEx;
+	return &pluginInfo;
 }
 
 //=====================================================
@@ -1055,7 +1057,7 @@ int ExtraImageApply(WPARAM wparam, LPARAM lparam)
 
 extern "C" __declspec(dllexport) int  Load(void)
 {
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	InitializeCriticalSection(&modeMsgsMutex);
 	InitializeCriticalSection(&connectingMutex);

@@ -204,6 +204,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Xfire_avatar_loader.cpp" />
@@ -294,6 +295,7 @@
     <ClCompile Include="src\xfireutils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\version.h" />
     <ClInclude Include="src\Xfire_avatar_loader.h" />
     <ClInclude Include="src\Xfire_base.h" />
     <ClInclude Include="src\Xfire_game.h" />

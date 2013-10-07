@@ -539,9 +539,15 @@
     <ClInclude Include="src\xfireutils.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>XFirelib\headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
