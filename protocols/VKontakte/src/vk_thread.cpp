@@ -111,7 +111,9 @@ LBL_NoForm:
 		return;
 	}
 
-	if ( strstr(reply->pData, ptrA( mir_utf8encodecp("неверный логин или пароль", 1251)))) {
+	if ( strstr(reply->pData, "Invalid login or password") ||
+		  strstr(reply->pData, ptrA( mir_utf8encodecp("неверный логин или пароль", 1251))))
+	{
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
