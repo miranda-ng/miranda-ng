@@ -89,6 +89,12 @@ struct CVkProto : public PROTO<CVkProto>
 
 	TCHAR* GetUserStoredPassword(void);
 
+	void RetrieveUserInfo(LPCSTR szUserId);
+	void OnReceiveUserInfo(NETLIBHTTPREQUEST*);
+
+	void RetrieveFriends();
+	void OnReceiveFriends(NETLIBHTTPREQUEST*);
+
 	__forceinline bool IsOnline() const { return m_bOnline; }
 
 private:
@@ -113,7 +119,7 @@ private:
 	void   InitQueue();
 	void   UninitQueue();
 	void   ExecuteRequest(AsyncHttpRequest*);
-	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, NETLIBHTTPHEADER *pParams = 0, int iTimeout = 10000);
+	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, HttpParam *pParams = 0, int iTimeout = 10000);
 	bool   PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
 	int    SetupConnection(void);
 	void   __cdecl WorkerThread(void*);
@@ -125,6 +131,8 @@ private:
 	void   OnLoggedOut();
 	void   ShutdownSession();
 
+	HANDLE FindUser(LPCSTR userid, bool bCreate = false);
+
 	void   SetAllContactStatuses(int status);
 	int    SetServerStatus(int);
 
@@ -132,5 +140,6 @@ private:
 
 	HANDLE m_hNetlibUser, m_hNetlibConn;
 	HANDLE hAvatarFolder;
-	ptrA   m_szAccessToken;
+	ptrA   m_szAccessToken, m_myUserId;
+	ptrT   m_defaultGroup;
 };

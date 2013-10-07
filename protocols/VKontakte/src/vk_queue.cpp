@@ -60,7 +60,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams, NETLIBHTTPHEADER *pParams, int iTimeout)
+bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams, HttpParam *pParams, int iTimeout)
 {
 	if ( !SetupConnection())
 		return false;
@@ -124,27 +124,22 @@ void CVkProto::WorkerThread(void*)
 	}
 
 	while(true) {
-		DWORD dwRet = WaitForSingleObject(m_evRequestsQueue, 1000);
-		if (dwRet == WAIT_TIMEOUT) {
-			// check expiration;
-			continue;
-		}
-
-		if (dwRet != WAIT_OBJECT_0)
-			continue;
-
+		WaitForSingleObject(m_evRequestsQueue, 1000);
 		if (m_bTerminated)
 			break;
 
 		AsyncHttpRequest *pReq;
-		{	mir_cslock lck(m_csRequestsQueue);
-			if (m_arRequestsQueue.getCount() == 0)
-				continue;
+		while(true) {
+			{
+				mir_cslock lck(m_csRequestsQueue);
+				if (m_arRequestsQueue.getCount() == 0)
+					break;
 
-			pReq = m_arRequestsQueue[0];
-			m_arRequestsQueue.remove(0);
+				pReq = m_arRequestsQueue[0];
+				m_arRequestsQueue.remove(0);
+			}
+			ExecuteRequest(pReq);
 		}
-		ExecuteRequest(pReq);
 	}
 
 	OnLoggedOut();

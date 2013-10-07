@@ -38,6 +38,13 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	mir_sntprintf(descr, SIZEOF(descr), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
 	hAvatarFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, descr, m_tszUserName);
 
+	m_defaultGroup = getTStringA("ProtoGroup");
+	if (m_defaultGroup == NULL)
+		m_defaultGroup = mir_tstrdup( TranslateT("VKontakte"));
+	Clist_CreateGroup(NULL, m_defaultGroup);
+
+	db_set_resident(m_szModuleName, "Status");
+
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }

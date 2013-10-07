@@ -38,6 +38,27 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 	}
 }
 
+HANDLE CVkProto::FindUser(LPCSTR pUserid, bool bCreate)
+{
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		ptrA dbUserid(getStringA(hContact, "ID"));
+		if (dbUserid == NULL)
+			continue;
+
+		if ( !strcmp(dbUserid, pUserid))
+			return hContact;
+	}
+
+	if (!bCreate)
+		return NULL;
+
+	HANDLE hNewContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
+	setString(hNewContact, "ID", pUserid);
+	db_set_ts(hNewContact, "CList", "Group", m_defaultGroup);
+	return hNewContact;
+}
+
 int CVkProto::SetServerStatus(int iStatus)
 {
 	return 0;

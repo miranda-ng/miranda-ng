@@ -20,7 +20,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VK_API_URL "api.vk.com"
 #define VK_REDIRECT_URL "http://" VK_API_URL "/blank.html"
 
-typedef NETLIBHTTPHEADER HttpParam;
+struct HttpParam
+{
+	LPCSTR szName, szValue;
+};
 
 extern HINSTANCE hInst;
 

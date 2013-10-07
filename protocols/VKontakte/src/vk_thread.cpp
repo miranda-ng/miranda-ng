@@ -45,6 +45,8 @@ void CVkProto::OnLoggedIn()
 
 	HttpParam param = { "access_token", m_szAccessToken };
 	PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
+
+	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
 void CVkProto::OnLoggedOut()
@@ -143,12 +145,13 @@ LBL_NoForm:
 
 void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply)
 {
+	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveMyInfo %d", reply->resultCode);
 	if (reply->resultCode != 200) {
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
 
-	JSONNODE *pRoot = json_parse(reply->pData);
+	JSONROOT pRoot(reply->pData);
 	if ( !CheckJsonResult(pRoot))
 		return;
 
@@ -159,8 +162,11 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply)
 	for (size_t i = 0; i < json_size(pResponse); i++) {
 		JSONNODE *it = json_at(pResponse, i);
 		LPCSTR id = json_name(it);
-		if ( !_stricmp(id, "user_id"))
-			setTString("ID", ptrT( json_as_string(it)));
+		if ( !_stricmp(id, "user_id")) {
+			ptrT userid( json_as_string(it));
+			m_myUserId = mir_t2a(userid);
+			setTString("ID", userid);
+		}
 		else if ( !_stricmp(id, "user_name"))
 			setTString("Nick", ptrT( json_as_string(it)));
 		else if ( !_stricmp(id, "user_sex"))
@@ -168,13 +174,123 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply)
 		else if ( !_stricmp(id, "user_bdate")) {
 			ptrT date( json_as_string(it));
 			int d, m, y;
-			if ( _tscanf(date, _T("%d.%d.%d"), &d, &m, &y) == 3) {
+			if ( _stscanf(date, _T("%d.%d.%d"), &d, &m, &y) == 3) {
 				setByte("BirthDay", d);
 				setByte("BirthMonth", m);
-				setByte("BirthYear", y);
+				setWord("BirthYear", y);
 			}
 		}
 		else if ( !_stricmp(id, "user_photo"))
 			setTString("Photo", ptrT( json_as_string(it)));
+	}
+
+	RetrieveUserInfo(m_myUserId);
+	RetrieveFriends();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::RetrieveUserInfo(LPCSTR szUserId)
+{
+	HttpParam params[] = {
+		{ "fields", "uid,first_name,last_name,photo,sex,bdate,city,relation" },
+		{ "uids", szUserId },
+		{ "access_token", m_szAccessToken }
+	};
+	PushAsyncHttpRequest(REQUEST_GET, "/method/getProfiles.json", true, &CVkProto::OnReceiveUserInfo, SIZEOF(params), params);
+}
+
+void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply)
+{
+	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveUserInfo %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+
+	JSONROOT pRoot(reply->pData);
+	if ( !CheckJsonResult(pRoot))
+		return;
+
+	JSONNODE *pResponse = json_get(pRoot, "response");
+	if (pResponse == NULL)
+		return;
+
+	HANDLE hContact;
+	for (size_t i = 0; i < json_size(pResponse); i++) {
+		JSONNODE *it = json_at(pResponse, i);
+		LPCSTR id = json_name(it);
+		if ( !_stricmp(id, "user_id")) {
+			ptrA userid( _T2A( json_as_string(it)));
+			if ( !lstrcmpA(userid, m_myUserId))
+				hContact = NULL;
+			else if ((hContact = FindUser(userid, false)) == NULL)
+				return;
+		}
+		else if ( !_stricmp(id, "user_name"))
+			setTString(hContact, "Nick", ptrT( json_as_string(it)));
+		else if ( !_stricmp(id, "user_sex"))
+			setByte(hContact, "Gender", json_as_int(it) == 2 ? 'M' : 'F');
+		else if ( !_stricmp(id, "user_bdate")) {
+			ptrT date( json_as_string(it));
+			int d, m, y;
+			if ( _stscanf(date, _T("%d.%d.%d"), &d, &m, &y) == 3) {
+				setByte(hContact, "BirthDay", d);
+				setByte(hContact, "BirthMonth", m);
+				setWord(hContact, "BirthYear", y);
+			}
+		}
+		else if ( !_stricmp(id, "user_photo"))
+			setTString(hContact, "Photo", ptrT( json_as_string(it)));
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::RetrieveFriends()
+{
+	Netlib_Logf(m_hNetlibUser, "CVkProto::RetrieveFriends");
+
+	HttpParam params[] = {
+		{ "fields", "uid,first_name,last_name,photo,contacts" },
+		{ "count", "1000" },
+		{ "access_token", m_szAccessToken }
+	};
+	PushAsyncHttpRequest(REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends, SIZEOF(params), params);
+}
+
+void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply)
+{
+	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveFriends %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+
+	JSONROOT pRoot(reply->pData);
+	if ( !CheckJsonResult(pRoot))
+		return;
+
+	JSONNODE *pResponse = json_get(pRoot, "response"), *pInfo;
+	if (pResponse == NULL)
+		return;
+
+	for (int i=0; (pInfo = json_at(pResponse, i)) != NULL; i++) {
+		ptrT szValue( json_as_string( json_get(pInfo, "uid")));
+		if (szValue == NULL)
+			continue;
+
+		HANDLE hContact = FindUser(_T2A(szValue), true);
+		szValue = json_as_string( json_get(pInfo, "first_name"));
+		if (szValue) setTString(hContact, "FirstName", szValue);
+
+		szValue = json_as_string( json_get(pInfo, "last_name"));
+		if (szValue) setTString(hContact, "LastName", szValue);
+
+		szValue = json_as_string( json_get(pInfo, "photo"));
+		if (szValue) setTString(hContact, "AvatarUrl", szValue);
+
+		setWord(hContact, "Status", (json_as_int( json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE); 
+
+		szValue = json_as_string( json_get(pInfo, "mobile_phone"));
+		if (szValue && *szValue) setTString(hContact, "Phone0", szValue);
+		szValue = json_as_string( json_get(pInfo, "home_phone"));
+		if (szValue && *szValue) setTString(hContact, "Phone1", szValue);
 	}
 }
