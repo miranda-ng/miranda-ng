@@ -5,7 +5,7 @@
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME				"Xfire protocol"
+#define __PLUGIN_NAME				"Xfire Protocol"
 #define __FILENAME					"Xfire.dll"
 #define __DESCRIPTION 				"Xfire protocol support for Miranda NG."
 #define __AUTHOR					"dufte"

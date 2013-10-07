@@ -1,5 +1,4 @@
 #include "..\src\resource.h"
-#include "..\src\commons.h"
 #include <windows.h>
 #ifndef IDC_STATIC
 #define IDC_STATIC (-1)
@@ -364,50 +363,6 @@ BEGIN
     EDITTEXT        IDC_FROM,85,20,100,12,ES_AUTOHSCROLL | ES_READONLY
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,3,40,203,4
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION TLEN_FILEVERSION_STRING
- PRODUCTVERSION TLEN_FILEVERSION_STRING
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "041504e3"
-        BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "http://miranda-ng.org/\0"
-            VALUE "FileDescription", "Tlen Protocol Plugin for Miranda NG\0"
-            VALUE "FileVersion", TLEN_VERSION_STRING
-            VALUE "InternalName", "tlen\0"
-            VALUE "LegalCopyright", "Copyright (c) 2002-2011 Santithorn Bunchua, Piotr Piastucki\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "tlen.dll\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Tlen Protocol Plugin\0"
-            VALUE "ProductVersion", TLEN_VERSION_STRING
-            VALUE "SpecialBuild", "\0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x415, 1251
-    END
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

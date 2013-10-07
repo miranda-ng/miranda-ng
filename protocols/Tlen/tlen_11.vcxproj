@@ -293,6 +293,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\tlen.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commons.h" />
@@ -314,6 +315,7 @@
     <ClInclude Include="src\tlen_picture.h" />
     <ClInclude Include="src\tlen_presence.h" />
     <ClInclude Include="src\tlen_voice.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\auth_grant.ico" />

@@ -40,17 +40,18 @@ int hLangpack;
 HINSTANCE hInst;
 HANDLE hMainThread;
 
-PLUGININFOEX pluginInfoEx = {
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Tlen Protocol",
-	PLUGIN_MAKE_VERSION(TLEN_MAJOR_VERSION,TLEN_MINOR_VERSION,TLEN_RELEASE_NUM,TLEN_BUILD_NUM),
-	"Tlen protocol support for Miranda NG.",
-	"Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki",
-	"the_leech@users.berlios.de",
-	"(c) 2002-2012 Santithorn Bunchua, Piotr Piastucki",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0x748f8934, 0x781a, 0x528d, { 0x52, 0x08, 0x00, 0x12, 0x65, 0x40, 0x4a, 0xb3 }}
+	// {748F8934-781A-528D-5208-001265404AB3}
+	{0x748f8934, 0x781a, 0x528d, {0x52, 0x08, 0x00, 0x12, 0x65, 0x40, 0x4a, 0xb3}}
 };
 
 // Main tlen server connection thread global variables
@@ -67,7 +68,7 @@ BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	return &pluginInfoEx;
+	return &pluginInfo;
 }
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
@@ -391,7 +392,7 @@ static int tlenProtoUninit(TlenProtocol* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP( &pluginInfoEx );
+	mir_getLP( &pluginInfo );
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
