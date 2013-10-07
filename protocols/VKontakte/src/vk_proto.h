@@ -120,6 +120,7 @@ private:
 
 	CMStringA AutoFillForm(char*, CMStringA&);
 	void   ConnectionFailed(int iReason);
+	bool   CheckJsonResult(JSONNODE*);
 	void   OnLoggedIn();
 	void   OnLoggedOut();
 	void   ShutdownSession();

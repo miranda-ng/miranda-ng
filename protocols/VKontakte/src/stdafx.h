@@ -28,8 +28,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <tchar.h>
 #include <time.h>
 
-#include <string>
-
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_system_cpp.h>

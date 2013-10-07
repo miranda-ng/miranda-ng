@@ -149,7 +149,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply)
 	}
 
 	JSONNODE *pRoot = json_parse(reply->pData);
-	if (pRoot == NULL)
+	if ( !CheckJsonResult(pRoot))
 		return;
 
 	JSONNODE *pResponse = json_get(pRoot, "response");
@@ -160,21 +160,21 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply)
 		JSONNODE *it = json_at(pResponse, i);
 		LPCSTR id = json_name(it);
 		if ( !_stricmp(id, "user_id"))
-			setString("ID", json_as_pstring(it).c_str());
+			setTString("ID", ptrT( json_as_string(it)));
 		else if ( !_stricmp(id, "user_name"))
-			setTString("Nick", ptrT( mir_utf8decodeT( json_as_pstring(it).c_str())));
+			setTString("Nick", ptrT( json_as_string(it)));
 		else if ( !_stricmp(id, "user_sex"))
 			setByte("Gender", json_as_int(it) == 2 ? 'M' : 'F');
 		else if ( !_stricmp(id, "user_bdate")) {
-			std::string date = json_as_pstring(it);
+			ptrT date( json_as_string(it));
 			int d, m, y;
-			if ( sscanf(date.c_str(), "%d.%d.%d", &d, &m, &y) == 3) {
+			if ( _tscanf(date, _T("%d.%d.%d"), &d, &m, &y) == 3) {
 				setByte("BirthDay", d);
 				setByte("BirthMonth", m);
 				setByte("BirthYear", y);
 			}
 		}
 		else if ( !_stricmp(id, "user_photo"))
-			setString("Photo", json_as_pstring(it).c_str());
+			setTString("Photo", ptrT( json_as_string(it)));
 	}
 }

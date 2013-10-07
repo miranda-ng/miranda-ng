@@ -52,6 +52,21 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 	return NULL;
 }
 
+bool CVkProto::CheckJsonResult(JSONNODE *pNode)
+{
+	if (pNode == NULL)
+		return false;
+
+	JSONNODE *pError = json_get(pNode, "error"), *pErrorCode = json_get(pError, "error_code");
+	if (pError == NULL || pErrorCode == NULL)
+		return true;
+
+	int iErrorCode = json_as_int(pErrorCode);
+	if (iErrorCode == ERROR_ACCESS_DENIED)
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+	return iErrorCode == 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Quick & dirty form parser
 
