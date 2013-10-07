@@ -880,7 +880,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if(boost::filesystem::exists(gpg_lang_path))
 				lang_exists = true;
 			if(gpg_exists && !lang_exists)
-				MessageBox(0, TranslateT("gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned."), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have beed warned."), TranslateT("Warning"), MB_OK);
 			mir_free(gpg_path);
 			mir_free(gpg_lang_path);
 		}
@@ -890,7 +890,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, _T("Software\\GNU\\GnuPG"), _T("gpgProgram"), 0, path, &len) == ERROR_SUCCESS)?path:_T(""));
 			if(tmp[0])
 				if(!boost::filesystem::exists(tmp))
-					MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+					MessageBox(0, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 		}
 		else
 			tmp = mir_wstrdup(path);
@@ -924,10 +924,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			else
 			{
 				bad_version = false;
-				MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Error"), MB_OK);
+				MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Error"), MB_OK);
 			}
 			if(bad_version)
-				MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 		}
 		mir_free(tmp);
 		{
@@ -941,7 +941,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if(_access(mir_path, 0) != -1)
 				{
 					tmp = mir_wstrdup(toUTF16(mir_path).c_str());
-					MessageBox(0, TranslateT("found \"gpg\" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set."), TranslateT("Info"), MB_OK);
+					MessageBox(0, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
 				}
 				else
 				{
@@ -986,7 +986,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		  break;
 	  case IDC_SET_HOME_DIR:
 		  {
-			  GetFolderPath(_T("Set home diractory"), "szHomePath");
+			  GetFolderPath(_T("Set home directory"), "szHomePath");
 			  tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 			  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 			  char mir_path[MAX_PATH];
@@ -1014,7 +1014,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  delete [] mir_path;
 			  if(!boost::filesystem::exists(tmp))
 			  {
-				  MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+				  MessageBox(0, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 				  break;
 			  }
 		  }
@@ -1049,10 +1049,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  else
 			  {
 				  bad_version = false;
-				  MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+				  MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 			  }
 			  if(bad_version)
-				  MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+				  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 		  }
 		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
@@ -1092,7 +1092,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				delete [] mir_path;
 				if(!boost::filesystem::exists(tmp))
 				{
-					MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+					MessageBox(0, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 					break;
 				}
 			}
@@ -1127,10 +1127,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				else
 				{
 					bad_version = false;
-					MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+					MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 				}
 				if(bad_version)
-					MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+					MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 			}
 			db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
@@ -1297,7 +1297,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 		SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 		TranslateDialogDefault(hwndDlg);
 		TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
-		SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace with new key?"):TranslateT("New public key was received, do you want to import it?"));
+		SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace it with new key?"):TranslateT("New public key was received, do you want to import it?"));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT_AND_USE), db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?0:1);
 		SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
 		mir_free(tmp);
@@ -1395,7 +1395,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  if(_tcslen(tmp) < 3)
 				  {
 					  mir_free(tmp); tmp = NULL;
-					  MessageBox(0, TranslateT("You must set encryption algorythm first"), TranslateT("Error"), MB_OK);
+					  MessageBox(0, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
 					  break;
 				  }
 				  if(tmp)
@@ -2091,11 +2091,11 @@ void InitCheck()
 		if(!home_dir_access || !temp_access || !gpg_valid)
 		{
 			char buf[4096];
-			strcpy(buf, gpg_valid?Translate("GPG binary is set and valid (this is good).\n"):Translate("GPG binary unset or invalid (plugin will not work).\n"));
-			strcat(buf, home_dir_access?Translate("Home dir write access granted (this is good).\n"):Translate("Home dir have not write access (plugin most probably will not work).\n"));
-			strcat(buf, temp_access?Translate("Temp dir write access granted (this is good).\n"):Translate("Temp dir have not write access (plugin should work, but may have some problems, filetransfers will not work)."));
+			strcpy(buf, gpg_valid?Translate("GPG binary is set and valid (This is good).\n"):Translate("GPG binary unset or invalid (Plugin will not work).\n"));
+			strcat(buf, home_dir_access?Translate("Home dir write access granted (This is good).\n"):Translate("Home dir has no write access (Plugin most probably will not work).\n"));
+			strcat(buf, temp_access?Translate("Temp dir write access granted (This is good).\n"):Translate("Temp dir has no write access (Plugin should work, but may have some problems, file transfers will not work)."));
 			if(!gpg_valid)
-				strcat(buf, Translate("\nGPG will be disabled until you solve this problems"));
+				strcat(buf, Translate("\nGPG will be disabled until you solve these problems"));
 			MessageBoxA(0, buf, Translate("GPG plugin problems"), MB_OK);
 		}
 		if(!gpg_valid)
@@ -2142,7 +2142,7 @@ void InitCheck()
 			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc.c_str(), "");
 			if(keyid[0])
 			{
-				question = Translate("Your secret key whith id: ");
+				question = Translate("Your secret key with id: ");
 				mir_free(keyid);
 				keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 				key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
@@ -2152,7 +2152,7 @@ void InitCheck()
 					question += keyid;
 					question += Translate(" for account ");
 					question += toUTF8(accounts[i]->tszAccountName);
-					question += Translate(" deleted from gpg secret keyring\nDo you want to set another key?");
+					question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
 					if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 						ShowFirstRunDialog();
 				}
@@ -2194,7 +2194,7 @@ void InitCheck()
 						question += keyid;
 						question += Translate(" for account ");
 						question += toUTF8(accounts[i]->tszAccountName);
-						question += Translate(" expired and will not work\nDo you want to set another key?");
+						question += Translate(" expired and will not work.\nDo you want to set another key?");
 						if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 							ShowFirstRunDialog();
 					}
@@ -2207,7 +2207,7 @@ void InitCheck()
 				keyid = nullptr;
 			}
 		}
-		question = Translate("Your secret key whith id: ");
+		question = Translate("Your secret key with id: ");
 		keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 		key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 		void ShowFirstRunDialog();
@@ -2220,7 +2220,7 @@ void InitCheck()
 		if((p = out.find(keyid)) == string::npos)
 		{
 			question += keyid;
-			question += Translate(" deleted from gpg secret keyring\nDo you want to set another key?");
+			question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
 			if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 				ShowFirstRunDialog();
 		}
@@ -2260,7 +2260,7 @@ void InitCheck()
 			if(expired)
 			{
 				question += keyid;
-				question += Translate(" expired and will not work\nDo you want to set another key?");
+				question += Translate(" expired and will not work.\nDo you want to set another key?");
 				if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 					ShowFirstRunDialog();
 			}

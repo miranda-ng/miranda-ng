@@ -725,13 +725,13 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	if(result == pxSuccessExitCodeInvalid)
 	{
 		//mir_free(msg);
-		HistoryLog(hContact, db_event(Translate("failed o encrypt message, GPG returned error, turn on debug log for more details"), 0,0, DBEF_SENT));
+		HistoryLog(hContact, db_event(Translate("failed to encrypt message, GPG returned error, turn on debug log for more details"), 0,0, DBEF_SENT));
 		boost::filesystem::remove(path);
 		return;
 	}
 	if(out.find("usage: ") != string::npos)
 	{
-		MessageBox(0, TranslateT("Something wrong, gpg does not understand us, aborting encryption."), TranslateT("Warning"), MB_OK);
+		MessageBox(0, TranslateT("Something is wrong, GPG does not understand us, aborting encryption."), TranslateT("Warning"), MB_OK);
 		//mir_free(msg);
 		CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
 		boost::filesystem::remove(path);

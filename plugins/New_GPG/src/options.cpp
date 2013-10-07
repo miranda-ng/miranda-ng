@@ -513,10 +513,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  else
 					  {
 						  bad_version = false;
-						  MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+						  MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 					  }
 /*					  if(bad_version) //looks like working fine with gpg2
-						  MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), _T("Warning"), MB_OK); */
+						  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), _T("Warning"), MB_OK); */
 				  }
 			  }
 			  char mir_path[MAX_PATH];
@@ -534,7 +534,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		  break;
 	  case IDC_SET_HOME_DIR:
 		  {
-			  GetFolderPath(TranslateT("Set home diractory"), "szHomePath");
+			  GetFolderPath(TranslateT("Set home directory"), "szHomePath");
 			  tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 			  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 			  char mir_path[MAX_PATH];
@@ -831,14 +831,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							msg += (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, 0);
 							msg += " (Key ID: ";
 							msg += hcontact_data[hcnt].key_in_prescense;
-							msg += Translate(" found in prescense, and exists in keyring.)");
+							msg += Translate(" found in presence, and exists in keyring.)");
 							SetWindowTextA(hwndDlg, msg.c_str());
 						}
 						else
 						{
 							string msg = Translate("Load Public GPG Key (Key ID: ");
 							msg += hcontact_data[hcnt].key_in_prescense;
-							msg += Translate(" found in prescense.)");
+							msg += Translate(" found in presence.)");
 							SetWindowTextA(hwndDlg, msg.c_str());
 							EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT), 1);
 						}
@@ -981,7 +981,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							TCHAR *tmp;
 							if(output.find("already in secret keyring") != string::npos)
 							{
-								MessageBox(0, TranslateT("Key already in scret key ring."), TranslateT("Info"), MB_OK);
+								MessageBox(0, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
 								boost::filesystem::remove(tmp2);
 								break;
 							}
@@ -1290,7 +1290,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					}
 					if(ws2 == wstring::npos || ws1 == wstring::npos)
 					{
-						MessageBox(0, TranslateT("Where is no public or private key."), TranslateT("Info"), MB_OK);
+						MessageBox(0, TranslateT("There is no public or private key."), TranslateT("Info"), MB_OK);
 						break;
 					}
 					ws2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));

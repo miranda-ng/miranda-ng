@@ -79,7 +79,7 @@ BEGIN
     PUSHBUTTON      "Generate and use random key",IDC_GENERATE_RANDOM,143,220,141,14
     LTEXT           "",IDC_GENERATING_KEY,82,207,174,8
     LTEXT           "Account:",IDC_STATIC,15,12,42,8
-    LTEXT           "key id:",IDC_KEY_ID,178,12,99,8
+    LTEXT           "Key id:",IDC_KEY_ID,178,12,99,8
     COMBOBOX        IDC_ACCOUNT,66,9,104,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Copy public key",IDC_COPY_PUBKEY,7,169,101,14
     PUSHBUTTON      "Export private key",IDC_EXPORT_PRIVATE,182,169,102,14
@@ -182,13 +182,13 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "Ignore",IDC_IGNORE,7,42,50,14
     PUSHBUTTON      "Decrypt",IDC_DECRYPT,97,42,50,14
-    LTEXT           "Recieved encrypted file form contact whith disabled encryption.",IDC_STATIC,7,7,215,14
+    LTEXT           "Recieved encrypted file form contact with disabled encryption.",IDC_STATIC,7,7,215,14
     CONTROL         "Remember choice",IDC_REMEMBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,22,157,10
 END
 
 IDD_EXPORT_TYPE DIALOGEX 0, 0, 281, 90
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Choose which  keys to export"
+CAPTION "Choose which keys to export"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Static",IDC_STATIC,7,7,267,63
@@ -253,7 +253,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,65,243,10
     EDITTEXT        IDC_IN_OPEN_TAG,39,20,88,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_IN_CLOSE_TAG,151,20,90,14,ES_AUTOHSCROLL
-    LTEXT           "Incomming message tags:",IDC_STATIC,15,10,84,8
+    LTEXT           "Incoming message tags:",IDC_STATIC,15,10,84,8
     LTEXT           "Outgoing message tags:",IDC_STATIC,13,36,79,8
     RTEXT           "Open:",IDC_STATIC,13,23,26,8
     RTEXT           "Close:",IDC_STATIC,127,23,23,8

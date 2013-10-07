@@ -592,12 +592,12 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		}
 		if(supported_proto && !cap_found)
 		{
-			if(MessageBox(0, TranslateT("Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
+			if(MessageBox(0, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
 				return CallService(MS_PROTO_CHAINSEND, w, l);
 		}
 		if(!supported_proto)
 		{
-			if(MessageBox(0, TranslateT("Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
+			if(MessageBox(0, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
 				return CallService(MS_PROTO_CHAINSEND, w, l);
 		}
 		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));
@@ -1784,7 +1784,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 						{
 							if(output.find("already in secret keyring") != string::npos)
 							{
-								MessageBox(0, TranslateT("Key already in scret key ring."), TranslateT("Info"), MB_OK);
+								MessageBox(0, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
 								boost::filesystem::remove(path);
 								break;
 							}
@@ -2099,7 +2099,7 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, 255);
 			  if(new_pass != toUTF8(buf))
 			  {
-				  MessageBox(hwndDlg, TranslateT("New passwords not match"), TranslateT("Error"), MB_OK);
+				  MessageBox(hwndDlg, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
 				  //key_id_global[0] = 0;
 				  break;
 			  }
@@ -2125,7 +2125,7 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 			  }
 			  if(!old_pass_match)
 			  {
-				  if(MessageBox(hwndDlg, TranslateT("Old password not match, you can continue, but gpg will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
+				  if(MessageBox(hwndDlg, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
 				  {
 					  //key_id_global[0] = 0;
 					  break;
