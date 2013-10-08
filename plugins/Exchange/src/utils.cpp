@@ -87,7 +87,8 @@ char *BinToHex(int size, PBYTE data)
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[ maxSize ];
 	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);
-	return bin2hex(data, size, szresult + HEX_SIZE);
+	bin2hex(data, size, szresult + HEX_SIZE);
+	return szresult;
 }
 
 void HexToBin(TCHAR *inData, ULONG &size, LPBYTE &outData)
