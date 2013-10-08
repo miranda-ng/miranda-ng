@@ -1,4 +1,5 @@
-﻿[Well, I would talk to you if Miranda ICQ supported chat]
+﻿[Xfire protocol support for Miranda NG.]
+[Well, I would talk to you if Miranda ICQ supported chat]
 [XFire is not connected.]
 [ServerIP]
 [My Current ServerIP]

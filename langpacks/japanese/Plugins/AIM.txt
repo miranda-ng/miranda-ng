@@ -123,7 +123,7 @@ Cancel(&C)
 スクリーン名かパスワードが不一致です
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 あなたは非常に頻繁に接続し続けています。10 分待ってから再接続を試みてください
-[Unknown error occured when attempting to connect.]
+[Unknown error occurred when attempting to connect.]
 接続の試行中に不明なエラーが発生しました
 [Invalid SNAC header.]
 無効な SNAC ヘッダー
@@ -209,7 +209,7 @@ AOL 中ではありません
 書込み専用フィールドです
 [Unsupported Type.]
 未サポートのタイプです
-[An Error has occured.]
+[An Error has occurred.]
 エラーが発生しました
 [Invalid Account.]
 無効なアカウントです

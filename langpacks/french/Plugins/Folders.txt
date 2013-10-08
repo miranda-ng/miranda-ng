@@ -19,8 +19,8 @@ Aide sur les variables des répertoires personnalisés
 [Close]
 Fermer
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now ?]
-Certaines modifications n'ont pas été enregistrées. Voulez-vous les enregistrer maintenant ?
+[Some changes weren't saved. Apply the changes now?]
+Certaines modifications n'ont pas été enregistrées. Voulez-vous les enregistrer maintenant?
 [Changes not saved]
 Modifications non sauvegardées
 [Folders]

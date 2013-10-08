@@ -27,7 +27,7 @@
 Авт. имена
 [Export all history]
 Экспорт истории
-[You have unapplyed changes do you wish to apply these first ?]
+[You have unapplyed changes do you wish to apply these first?]
 Есть несохранённые изменения, применить?
 [No contacts found to export]
 Нет контактов для экспорта
@@ -97,7 +97,7 @@ EmailExpress от:
 Внешний
 [Search string was not found !]
 Строка не найдена!
-[File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
+[File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Имя файла для пользователя "%s" изменилось !\n\nстарое имя:\t%s\nновое имя:\t%s\n\nПереименовать файл?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не удалось переименовать файл\n\nстарое имя:\t%s\nновое имя:\t%s\n\nОшибка: %s
@@ -113,8 +113,6 @@ EmailExpress от:
 Запрос на удаление
 [Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
 Не удалось заменить историю в Miranda.\r\nСкорее всего, это вызвано изменениями в Miranda.
-[User has been deleted do you want to delete the file ?]
-Пользователь был удален. Удалить его файл?
 [Syntax highlight]
 Подсветка синтаксиса
 [File viewer]

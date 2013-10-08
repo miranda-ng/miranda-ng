@@ -66,7 +66,7 @@
 我正在隐藏
 [Date and Time]
 日期及时间
-[Disable next occurence]
+[Disable next occurrence]
 禁用下次发生
 [Don't trigger on startup]
 不要在启动时触发

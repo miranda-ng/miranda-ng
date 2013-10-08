@@ -975,7 +975,7 @@ karakter sayısını göster
 Avatar yüksekliğini sınırla
 [Send Error]
 Gönderme Hatası
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Bir hata oldu. Protokol şu hatayı verdi:
 [while sending the following message:]
 şu ileti gönderilirken:
@@ -1718,7 +1718,7 @@ Alınan (Odaklanmamış Pencere)
 [Incoming (New Session)]
 Alınan (Yeni Oturum)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Bilinmeyen bir hata oldu.
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]

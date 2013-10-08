@@ -114,7 +114,7 @@
 显示气球式弹出窗口
 [Send Error]
 发送错误
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 发生错误. 协议已回报了此错误: 
 [while sending the following message:]
 发送下列消息时: 
@@ -126,8 +126,8 @@
 消息会话
 [Send To All Tabs]
 发送到所有标签
-[You are about to send a message to all open tabs.\nAre you sure ?]
-您正准备发送消息至所有已打开标签. \n您确定吗? 
+[You are about to send a message to all open tabs.\nAre you sure?]
+您正准备发送消息至所有已打开标签.\n您确定吗? 
 [Remember my choice for this container]
 记住针对此容器的决定
 [Yes]
@@ -549,7 +549,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 [Outgoing]
 发送
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 发生未知错误
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

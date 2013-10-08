@@ -12,7 +12,7 @@
 无 '%s' 相关帮助.
 [Available commands: ]
 可用命令: 
-[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 Miranda 已被关闭或发生错误正在等待结果, 无法处理请求.
 ;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
 [%s usage:\n]

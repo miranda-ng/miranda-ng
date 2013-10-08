@@ -596,8 +596,8 @@ ICQ принимает максимум 8 символов в пароле.
 
 ;  Всплывающие окна и окна предупреждений
 
-[Are you sure you want to revoke user's authorisation (this will remove you from his/her list on some clients) ?]
-Вы действительно хотите отозвать авторизацию (эта процедура может удалить вас из чужого списка контактов на некоторых клиентах) ?
+[Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)]
+Вы уверены, что хотите отозвать авторизацию? (удалит вас из списка контактов на некоторых клиентах)?
 [Unable to connect to migrated ICQ communication server]
 Невозможно подключиться к мигрированному серверу общения ICQ
 [Unable to connect to ICQ communication server]
@@ -746,8 +746,6 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Контакт "%s" потерял авторизацию в списке на сервере.
 [Contact "%s" was authorized in the server list.]
 Контакт "%s" авторизирован в списке на сервере.
-[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
-Вы уверены, что хотите отозвать авторизацию? (удалит вас из списка контактов на некоторых клиентах)?
 [Failed to Initialize File Transfer. No valid files were specified.]
 Ошибка инициализации передачи файлов. Файл не указан.
 [%s has closed the message window.]

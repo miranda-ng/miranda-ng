@@ -65,7 +65,7 @@ Erfolgreich gesendet
 
 [New incoming file request. Do you want to proceed?]
 
-[Paused, 'coz connection dropped]
+[Paused, because connection dropped]
 
 [Failed on file initialization]
 

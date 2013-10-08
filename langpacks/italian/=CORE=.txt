@@ -833,7 +833,7 @@ Invia messaggio con 'Invio'
 Mostra numero caratteri
 [Show warning when message has not been received after]
 Mostra avviso se il messaggio non è stato ricevuto dopo
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 C'è stato un errore. Il protocollo ha riferito l'errore seguente:
 [Try again]
 Prova di nuovo

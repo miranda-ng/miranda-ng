@@ -945,7 +945,7 @@ Límite de altura avatar
 Número máximo de disparos
 [Send Error]
 Enviar Error
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Ha ocurrido un error. El protocolo reportó el siguiente error:
 [Try again]
 Inténtelo de nuevo
@@ -1710,7 +1710,7 @@ Entrantes (nueva sesión)
 [Message send error]
 Enviar mensaje de error
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Un error desconocido ha ocurrido.
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]

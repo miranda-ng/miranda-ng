@@ -94,8 +94,8 @@
 文件
 [Nick]
 昵称
-[You have unapplyed changes do you wish to apply these first ?]
-您已取消变更套用, 是否想首先套用这些 ?
+[You have unapplyed changes do you wish to apply these first?]
+您已取消变更套用, 是否想首先套用这些?
 [Select Destination Directory]
 选择目标目录
 [Export Protocols]

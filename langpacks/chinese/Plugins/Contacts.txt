@@ -26,7 +26,7 @@
 关闭
 [Contacts send error]
 联系人发送错误
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 发生错误. 协议已回报了此错误: 
 [Try again]
 再试一次

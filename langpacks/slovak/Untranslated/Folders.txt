@@ -6,7 +6,7 @@
 [Refresh preview]
 [Variables help]
 [Custom folders variables help]
-[Some changes weren't saved. Apply the changes now ?]
+[Some changes weren't saved. Apply the changes now?]
 [Changes not saved]
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 [be saved to the database, they will only be valid for this session.]

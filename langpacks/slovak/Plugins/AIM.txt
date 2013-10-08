@@ -159,7 +159,7 @@ Reset
 
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 
-[Unknown error occured when attempting to connect.]
+[Unknown error occurred when attempting to connect.]
 
 [Invalid SNAC header.]
 
@@ -245,7 +245,7 @@ Reset
 
 [Unsupported Type.]
 
-[An Error has occured.]
+[An Error has occurred.]
 
 [Invalid Account.]
 

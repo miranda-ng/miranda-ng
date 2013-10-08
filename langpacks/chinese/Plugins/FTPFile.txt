@@ -168,7 +168,7 @@ FTP 文件 - 选择一个目录
 [UNKNOWN]
 未知
 ;file \plugins\FTPFileYM\src\job_packer.cpp
-[Error occured when zipping the file(s).]
+[Error occurred when zipping the file(s).]
 压缩文件时发生错误.
 [Do you really want to cancel this upload?]
 您真的想取消此上传?

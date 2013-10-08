@@ -66,4 +66,4 @@
 [Plugin list]
 [Plugin Updater HTTP connection]
 [Checking new updates...]
-[An error occured while checking new updates.]
+[An error occurred while checking new updates.]

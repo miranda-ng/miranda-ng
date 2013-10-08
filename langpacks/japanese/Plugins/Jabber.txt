@@ -1007,7 +1007,7 @@ Ready.
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 コマンドは正常に完了しました
-[Error occured during processing command]
+[Error occurred during processing command]
 コマンドの処理中にエラーが発生しました
 [Set status]
 ステータスを設定
@@ -1057,7 +1057,7 @@ Miranda NG を終了
 %d メッセージが転送されました
 [Workstation successfully locked]
 ワークステーションは正常にロックされました
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 ワークステーションをロック中にエラー %d が発生しました
 [Confirmation needed]
 確認が必要です

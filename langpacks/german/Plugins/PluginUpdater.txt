@@ -163,5 +163,5 @@ Pluginliste
 Plugin-Updater-HTTP-Verbindung
 [Checking new updates...]
 Prüfe auf neue Aktualisierungen...
-[An error occured while checking new updates.]
+[An error occurred while checking new updates.]
 Ein Fehler trat bei der Prüfung nach Aktualisierungen auf.

@@ -50,7 +50,7 @@
 Запрос отсутствующих частей
 [Sent successfully]
 Послано успешно
-[Paused, 'coz connection dropped]
+[Paused, because connection dropped]
 Приостановлено из-за обрыва соединения
 [Transfer is in progress. Do you really want to close?]
 Идет передача файла. Прервать?

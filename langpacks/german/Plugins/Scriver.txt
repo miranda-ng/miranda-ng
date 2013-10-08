@@ -144,7 +144,7 @@ Im Systemtray und der Kontaktliste blinken
 Ballonpopup anzeigen
 [Send Error]
 Fehler beim Senden
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 [while sending the following message:]
 Während des Sendens folgender Nachricht:
@@ -166,7 +166,7 @@ Nachrichtensitzung
 &Q
 [Send To All Tabs]
 An alle Tabs senden
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Sie sind dabei, eine Nachricht an alle offenen Tabs zu senden.\nSind Sie sich sicher?
 [Remember my choice for this container]
 Meine Entscheidung für diesen Container merken.
@@ -683,7 +683,7 @@ Kontakt beginnt zu tippen
 [Contact stopped typing]
 Kontakt tippt nicht mehr
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

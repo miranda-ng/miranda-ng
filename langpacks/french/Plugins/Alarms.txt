@@ -58,7 +58,7 @@ En semaine
 j'me cache
 [Date and Time]
 Date et heure
-[Disable next occurence]
+[Disable next occurrence]
 Désactiver la prochaine occurrence
 [Don't trigger on startup]
 Ne pas activer au démarrage

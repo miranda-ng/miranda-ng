@@ -123,7 +123,7 @@ AIM 立即闲置
 不匹配的显示名称或密码.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 您连接过于频繁. 请 10 分钟后再试.
-[Unknown error occured when attempting to connect.]
+[Unknown error occurred when attempting to connect.]
 尝试连接时发生未知错误.
 [Invalid SNAC header.]
 无效 SNAC 头.
@@ -209,7 +209,7 @@ SNAC 格式不正确.
 可写字段.
 [Unsupported Type.]
 尚未支持类型.
-[An Error has occured.]
+[An Error has occurred.]
 发生错误.
 [Invalid Account.]
 账户无效.

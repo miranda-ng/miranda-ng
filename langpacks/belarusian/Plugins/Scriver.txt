@@ -144,7 +144,7 @@
 Паказваць усплываючую падказку
 [Send Error]
 Памылка адпраўкі
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Пратакол вярнуў наступную памылку:
 [while sending the following message:]
 пры пасылцы наступнага паведамлення:
@@ -156,7 +156,7 @@
 Гутарка
 [Send To All Tabs]
 Адправіць усім укладкам
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Вы збіраецеся адправіць паведамленне ўсім адкрытым укладкам. Вы ўпэўнены?
 [Remember my choice for this container]
 Запомніць выбар для гэтага кантэйнера
@@ -657,7 +657,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Outgoing]
 Выходныя
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Невядомая памылка.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

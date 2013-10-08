@@ -38,7 +38,7 @@ Cancelar
 &Adicionar
 [Close]
 Fechar
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Ocorreu um erro. O protocolo reportou o seguinte erro:
 [Try again]
 Tentar novamente

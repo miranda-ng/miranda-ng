@@ -172,8 +172,8 @@ Erreur de lecture du compte de messagerie, compte corrompu.
 Erreur d'allocation de la mémoire en cours d'écriture de données
 [Reading file error. File already in use?]
 Erreur de lecture. Fichier déjà en usage ?
-[Error while copying data to disk occured. File in use?]
-Erreur lors de la copie sur le disque. Fichier déjà en usage ?
+[Error while copying data to disk occurred. Is file in use?]
+Erreur lors de la copie sur le disque. Fichier déjà en usage?
 [POP3 plugin- write file error]
 Erreur d'écriture - plugin POP3
 [Connecting to server]

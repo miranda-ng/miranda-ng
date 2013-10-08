@@ -791,7 +791,7 @@ Convertendo para MetaContato (Movendo)
 Deseja que o contato '%s' seja adicionado ao metacontao '%s'?
 [Adding contact to MetaContact]
 Adicionando contato para MetaContato
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 Você quer que usar o contato '%s' para ser padrão?
 [Set default contact]
 Conjunto de contato padrão

@@ -50,7 +50,7 @@
 Запит відсутніх частин
 [Sent successfully]
 Написано успішно
-[Paused, 'coz connection dropped]
+[Paused, because connection dropped]
 Припинено з-за роз'єднання
 [Transfer is in progress. Do you really want to close?]
 Йде передача файлу. Перервати?

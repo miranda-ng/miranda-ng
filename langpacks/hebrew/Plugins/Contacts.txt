@@ -16,7 +16,7 @@
 &הוסף
 [Close]
 סגור
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
 [Try again]
 נסה שנית

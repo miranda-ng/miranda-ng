@@ -1045,7 +1045,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Максимально миготінь
 [Send Error]
 Помилка надсилання
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Протокол повідомляє про наступну помилку:
 [while sending the following message:]
 при спробі надіслати повідомлення:
@@ -1897,7 +1897,7 @@ Miranda не змогла завантажити вбудований модул
 Вхідні (нова бесіда)
 [Message send error]
 Помилка надсилання
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Невідома помилка.
 [Invalid Message]
 Повідомлення пошкоджене

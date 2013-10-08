@@ -212,7 +212,7 @@ WARTEN...
 [UNKNOWN]
 UNBEKANNT
 ;file \plugins\FTPFileYM\src\job_packer.cpp
-[Error occured when zipping the file(s).]
+[Error occurred when zipping the file(s).]
 Fehler beim Zippen der Datei(en) aufgetreten.
 [%0.1f kB/s]
 %0.1f kB/s

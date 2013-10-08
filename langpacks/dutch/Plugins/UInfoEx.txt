@@ -226,7 +226,7 @@ Houdt uw aangepaste verjaardag up to date.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Als gevolg van een parameter fout kan één van de treeitems niet worden toegevoegd!
-[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 Een fatale fout heeft zich voorgedaan bij het toevoegen van een eigenschappen blad!\nScherm wordt niet gemaakt!
 [Rename Item]
 Item hernoemen

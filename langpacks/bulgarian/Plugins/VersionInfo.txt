@@ -86,8 +86,8 @@
 
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Желаете ли опцията да бъде включена?\nЖелателно е да бъде включена само при условие, че знаете какво правите и какво е предназначението й.
-[Show plugin UUIDs ?]
-Показване на UUIDs на приставките ?
+[Show plugin UUIDs?]
+Показване на UUIDs на приставките?
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]
 

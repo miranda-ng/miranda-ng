@@ -76,7 +76,7 @@ Piscar ícone na barra de tarefas e na lista de contatos
 Mostra popup
 [Send Error]
 Enviar Erro
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Ocorreu um erro. O protocolo reportou o seguinte erro:
 [while sending the following message:]
 enquanto enviando a seguinte mensagem:
@@ -110,7 +110,7 @@ Sessão de Mensagem
 &Q
 [Send To All Tabs]
 Enviar A Todas as Abas
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Você está prestes a enviar uma mensagem para todos as abas abertas.\nTem certeza?
 [Remember my choice for this container]
 Lembrar minha escolha para o recipiente
@@ -571,7 +571,7 @@ Recebendo (Nova Sessão)
 [Outgoing]
 Enviando
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Ocorreu um erro desconhecido.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

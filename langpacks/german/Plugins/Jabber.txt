@@ -1959,7 +1959,7 @@ Protokoll ist offline oder keine JID
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Befehl erfolgreich ausgeführt
-[Error occured during processing command]
+[Error occurred during processing command]
 Ein Fehler ist bei der Verarbeitung des Befehls aufgetreten
 [Set status]
 Status setzen
@@ -2015,7 +2015,7 @@ Nachrichten als gelesen markieren
 %d Nachricht(en) weitergeleitet
 [Workstation successfully locked]
 Arbeitsstation erfolgreich gesperrt!
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 Fehler %d ist beim Sperren der Arbeitsstation aufgetreten.
 [Confirmation needed]
 Bestätigung benötigt

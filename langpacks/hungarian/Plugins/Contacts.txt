@@ -20,7 +20,7 @@ Mégsem
 &Új
 [Close]
 Bezárás
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Hiba történt. A protokol az alábbi hibát jelentette:
 [Try again]
 Újra próbál

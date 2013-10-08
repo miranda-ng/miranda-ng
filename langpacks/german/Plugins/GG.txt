@@ -233,9 +233,9 @@ Popupfenster
 Nachricht mit [img]-BBCode
 [You need to specify your registration e-mail first.]
 Fur die Anmeldung mussen Sie ihre registrierte E-Mail-Adresse erst angeben.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Ihr Passwort wird zur Ihrer Registrierungs-E-Mail gesendet.\nMöchten Sie fortfahren?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Sie sollten die Verbindung trennen bevor sie permanente Änderungen mit ihrem Account vornehmen.\nWollen sie nun die Verbindung trennen?
 [Allow]
 Erlauben
@@ -285,7 +285,7 @@ Gadu-Gadu-Nummer
 Konferenz öffnen...
 [&Clear ignored conferences]
 Ignorierte Konferenzen löschen
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s initiierte eine Konferenz mit %d Teilnehmern (%d Unbekannten).\nMöchten Sie teilnehmen?
 [%s initiated the conference.]
 %s initiierte die Konferenz.

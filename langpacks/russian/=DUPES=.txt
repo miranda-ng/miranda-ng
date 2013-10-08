@@ -1951,8 +1951,6 @@ ID пользователя:
 Не отвечать, если Miranda активна
 [DND mode]
 Не беспокоить
-[Do you really want delete selected rule ?]
-Вы действительно хотите удалить выбранное правило?
 [Free for chat mode]
 Готов болтать
 [NA mode]
@@ -3837,11 +3835,11 @@ xСтатусы
 Старый пароль неправильный!
 [Backup folder name can not be created!]
 Невозможно создать папку для резервирования!
-[An error occured while rotating old backups!]
+[An error occurred while rotating old backups!]
 Ошибка при перегруппировке старых копий!
 [Backup was aborted by user!\nThe incomplete backup file will be deleted!]
 Резервирование отменено пользователем!\nНезаконченная копия будет удалена!
-[An error occured while writing the database backup!]
+[An error occurred while writing the database backup!]
 Ошибка при попытке записи копии базы данных!
 [db3xSA Plugin]
 Плагин db3xSA

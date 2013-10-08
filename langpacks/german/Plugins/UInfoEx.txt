@@ -370,7 +370,7 @@ Hält Geburtsdaten auf dem neuesten Stand.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Wegen eines Parameterfehlers kann eins der Baumeinträge nicht hinzugefügt werden!
-[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 Beim Erstellen der Seite ist ein schwerer Fehler aufgetreten!
 [Rename Item]
 Umbenennen

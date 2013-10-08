@@ -20,7 +20,7 @@
 [Size (HxW) :]
 [Target Tool]
 [GCHAT error]
-[An unknown error has occured.]
+[An unknown error has occurred.]
 [Unable to initiate %s.]
 [MAPI error (%i):\n%s.]
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]

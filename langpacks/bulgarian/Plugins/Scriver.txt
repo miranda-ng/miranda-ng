@@ -144,7 +144,7 @@ Scriver - за изпращане и получаване на съобщени�
 Показване на балонни popup
 [Send Error]
 Грешка при изпращането
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Възникна следната грешка:
 [while sending the following message:]
 при опит за изпращане на следното съобщение:
@@ -166,7 +166,7 @@ Scriver - за изпращане и получаване на съобщени�
 
 [Send To All Tabs]
 Изпращане до всички табове
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Съобщението ще бъде изпратено до всички отворени табове.\nСигурни ли сте?
 [Remember my choice for this container]
 Запис на избора за контейнера
@@ -683,7 +683,7 @@ Latin I
 [Contact stopped typing]
 Контакт спря да пише
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Възникна непозната грешка.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

@@ -211,7 +211,7 @@ SecureIM: Fehler beim Entschlüsseln der Nachricht.
 SecureIM: Fehler beim Entschlüsseln der Nachricht, fehlerhafte Länge.
 [SecureIM: Error while decrypting the message, bad message CRC.]
 SecureIM: Fehler beim Entschlüsseln der Nachricht, fehlerhaftes CRC.
-[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now?]
 Benutzer hat den Schlüsselaustausch nicht beantwortet!\nIhre Nachrichten sind immer noch in der SecureIM-Warteschlange, möchten Sie diese nun unverschlüsselt senden?
 [SecureIM not enabled! You Must Enable SecureIM with this user...]
 SecureIM nicht aktiviert! Sie müssen bei diesem Benutzer SecureIM aktivieren...
@@ -325,11 +325,11 @@ Sitzung aufgrund eines Timeouts unterbrochen.
 Sitzung vom Gegenüber mit Status "deaktiviert" geschlossen
 [Session closed on error: %02x]
 Sitzung geschlossen mit Fehler: %02x
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
 SecureIM hat den öffentlichen RSA-Schlüssel von "%s" erhalten.\n\nSHA1: %s\n\nMöchten Sie diesen Schlüssel akzeptieren?
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
 SecureIM hat öffentlichen RSA-Schlüssel automatisch akzeptiert von: %s, UIN: %s, SHA1: %s
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
 SecureIM hat NEUEN öffentlichen RSA-Schlüssel von "%s" empfangen.\n\nNeues SHA1: %s\n\nAltes SHA1: %s\n\nMöchten Sie diesen Schlüssel ersetzen?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 SecureIM hat NEUEN öffentlichen RSA-Schlüssel automatisch akzeptiert von: %s, UIN: %s, Neues SHA1: %s, Altes SHA1: %s

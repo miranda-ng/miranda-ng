@@ -47,7 +47,7 @@
 [Size (HxW) :]
 大小 (HxW): 
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 发生未知错误
 [Error]
 错误

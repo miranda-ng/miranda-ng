@@ -677,7 +677,7 @@ Modern contact list
 Желаете ли контакта "%s" да бъде добавен към метаконтакта "%s"?
 [Adding contact to MetaContact]
 Добавяне в метаконтакт
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 Желаете ли, стандартният контакт да бъде '%s'?
 [Set default contact]
 Задаване на стандартен контакт

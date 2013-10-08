@@ -46,7 +46,7 @@ Flash en la bandeja del sistema y en la lista de contactos
 Mostrar emergente globo
 [Send Error]
 Enviar Error
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Ha ocurrido un error. El protocolo reportó el siguiente error:
 [Try again]
 Inténtelo de nuevo
@@ -369,7 +369,7 @@ Entrantes (nueva sesión)
 [Outgoing]
 Salientes
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Un error desconocido ha ocurrido.
 ;file \plugins\Scriver\src\msgwindow.cpp
 ;file \plugins\Scriver\src\sendqueue.cpp

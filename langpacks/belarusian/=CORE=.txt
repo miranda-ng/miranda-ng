@@ -1081,7 +1081,7 @@ Miranda
 Мігцець не больш
 [Send Error]
 Памылка адпраўкі
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Пратакол вярнуў наступную памылку:
 [while sending the following message:]
 пры пасылцы наступнага паведамлення:
@@ -1964,7 +1964,7 @@ Miranda
 [Contact stopped typing]
 Кантакт скончыў пісаць
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Невядомая памылка.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]

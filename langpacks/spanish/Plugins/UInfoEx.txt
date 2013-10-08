@@ -292,7 +292,7 @@ Mantiene su cumpleaños personalizada hasta la fecha.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Debido a un error de parámetros, uno de los treeitems no se puede añadir!
-[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 Un error grave en la adición de una página de hoja de propiedades!\nla creación de diálogo abortado!
 [Rename Item]
 Cambie el nombre del artículo

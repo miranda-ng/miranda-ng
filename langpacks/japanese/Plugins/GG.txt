@@ -185,9 +185,9 @@ Gadu-Gadu サーバーは現在ダウンしています。後ほど再試行し�
 システムトレイアイコン
 [You need to specify your registration e-mail first.]
 あなたはまず登録用電子メールを指定する必要があります
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 あなたのパスワードは登録用電子メールに送信されます\n続行しますか?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 あなたのアカウントについて永続的な変更を行う場合一旦切断する必要があります\n今すぐ切断しますか?
 [Allow]
 許可
@@ -217,7 +217,7 @@ Gadu-Gadu 番号
 会議を開く (&c)...
 [&Clear ignored conferences]
 無視する会議をクリア (&C)
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s は参加者 &d 人 ( 不明 %d 人 ) の会議に参加しました\nあなたも参加しますか ?
 [%s initiated the conference.]
 %s は会議に参加した

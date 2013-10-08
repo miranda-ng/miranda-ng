@@ -147,7 +147,7 @@
 [Update custom birthday]
 [Keeps your custom birthday up to date.]
 [Due to a parameter error, one of the treeitems can't be added!]
-[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 [Rename Item]
 [Hide Item]
 [Show Items:]

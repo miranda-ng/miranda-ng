@@ -159,7 +159,7 @@ AIM Усталяваць Instant Idle
 Няправільнае імя AIM ці пароль.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Вы далучаецеся занадта часта. Паспрабуйце паўтарыць праз 10 хвілін.
-[Unknown error occured when attempting to connect.]
+[Unknown error occurred when attempting to connect.]
 Пры спробе падлучэння адбылася невядомая памылка.
 [Invalid SNAC header.]
 Няслушны SNAC загаловак.

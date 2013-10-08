@@ -42,7 +42,7 @@ Chiudi
 Chiudi
 [Close]
 Chiudi
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 C'è stato un errore. Il protocollo ha riferito l'errore seguente:
 [Try again]
 Prova di nuovo

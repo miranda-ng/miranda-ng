@@ -931,7 +931,7 @@ Avatarok az üzenet ablakokban
 Avatár maximális magassága 
 [Send Error]
 Hiba küldése
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Hiba történt. A protokol az alábbi hibát jelentette:
 [while sending the following message:]
 amíg elküldi az alábbi üzenetet:
@@ -1664,7 +1664,7 @@ Bejövõ (kijelöletlen ablak)
 [Incoming (New Session)]
 Bejövõ (új munkamenet)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Ismeretlen hiba történt.
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]

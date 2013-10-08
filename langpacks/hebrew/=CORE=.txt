@@ -767,7 +767,7 @@
 אפשר תמיכה באוואטר בחלון הודעות
 [Limit avatar height to ]
 הגבל גובה אוואטר ל
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
 [Try again]
 נסה שנית

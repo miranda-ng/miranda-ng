@@ -192,7 +192,7 @@ YAMN: збой далучэння
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - памылка злучэння
-[An error occured. Error code: %d]
+[An error occurred. Error code: %d]
 Адбылася памылка. Код памылкі:%d
 [Unknown error]
 Невядомая памылка
@@ -262,7 +262,7 @@ YAMN (унутраны POP3) памылка чытання
 Памылка размеркавання памяці пры чытанні дадзеных.
 [Reading file error. File already in use?]
 Памылка чытання файла. Файл ужо выкарыстоўваецца?
-[Error while copying data to disk occured. File in use?]
+[Error while copying data to disk occurred. Is file in use?]
 Памылка капіявання дадзеных на дыску. Файл ужо выкарыстоўваецца?
 [POP3 plugin- write file error]
 POP3 модуль - памылка пры запісе ў файл

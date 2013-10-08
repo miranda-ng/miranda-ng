@@ -192,7 +192,7 @@ Prezívka
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 
-[An error occured. Error code: %d]
+[An error occurred. Error code: %d]
 
 [Unknown error]
 Neznáma chyba
@@ -262,7 +262,7 @@ Dátum
 
 [Reading file error. File already in use?]
 
-[Error while copying data to disk occured. File in use?]
+[Error while copying data to disk occurred. Is file in use?]
 
 [POP3 plugin- write file error]
 

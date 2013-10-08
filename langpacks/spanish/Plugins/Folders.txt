@@ -19,7 +19,7 @@ carpetas personalizadas variables ayuda
 [Close]
 Cerrar
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now ?]
+[Some changes weren't saved. Apply the changes now?]
 Algunos cambios no se guardaron. Aplicar los cambios ahora?
 [Changes not saved]
 Los cambios no se guardan

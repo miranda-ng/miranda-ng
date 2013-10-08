@@ -230,7 +230,7 @@ GPG-Verzeichnis existiert nicht.\nBitte wählen Sie ein anderes Verzeichnis aus.
 bitte wählen Sie das GPG-Hauptverzeichnis aus
 [please set keyring's home directory]
 bitte setzen Sie den Hauptordner für die Schlüssel
-[There is existing key for contact, would you like to replace with new key ?]
+[There is existing key for contact, would you like to replace with new key?]
 Für diesen Kontakt existiert bereits ein Schlüssel, wollen Sie ihn durch einen neuen Schlüssel ersetzen?
 [New public key was received, do you want to import it?]
 Ein neuer Schlüssel wurde empfangen, wollen Sie ihn importieren?
@@ -276,28 +276,28 @@ GPG-Pluginprobleme
 Ihr geheimer Schlüssel mit ID:
 [ for account ]
  für Konto 
-[ deleted from gpg secret keyring\nDo you want to set another key ?]
+[ deleted from gpg secret keyring\nDo you want to set another key?]
  gelöscht vom GPG-Schlüsselring\nWollen Sie einen anderen Schlüssel setzen?
 [Own secret key warning]
 Eigener geheimer Schlüssen Warnung
-[ expired and will not work\nDo you want to set another key ?]
+[ expired and will not work\nDo you want to set another key?]
 
 [You didn't set a private key.\nWould you like to set it now?]
 
 [Own private key warning]
 Eigener privater Schlüssen Warnung
-[Do you want to load key for all subcontacts ?]
+[Do you want to load key for all subcontacts?]
 Wollen Sie alle Schlüssel für den Unterkontakt laden?
 [Metacontact detected]
 Metakontakt entdeckt
 ;file \plugins\New_GPG\src\messages.cpp
-[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact ?]
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 Sie haben eine verschlüsselte Nachricht von einem Kontakt empfangen der die Verschlüsselung deaktiviert hat.\nWollen Sie die Verschlüsselung für diesen Kontakt deaktivieren?
-[Do you want to try to decrypt encrypted message ?]
+[Do you want to try to decrypt encrypted message?]
 Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
 
-[We're trying to encrypt with untrusted key. Do you want to trust this key permanently ?]
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
 Konnte Nachricht nicht verschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein
@@ -320,7 +320,7 @@ Kontakt
 Schlüssel-ID
 [Protocol]
 Protokoll
-[This key is not used by any contact. Do you want to remove it from public keyring ?]
+[This key is not used by any contact. Do you want to remove it from public keyring?]
 Dieser Schlüssel wird von keinem Kontakt verwendet, wollen Sie ihn entfernen?
 [Key info]
 Schlüssel-Info
@@ -330,7 +330,7 @@ Sie haben einen geheimen Schlüssel, entfernen Sie ihn nicht aus dem GPG-Schlüs
 Info
 [Key removed from GPG keyring]
 Schlüssel aus dem GPG-Schlüsselbund entfernt
-[Do you want to remove key from entire metacontact (all subcontacts) ?]
+[Do you want to remove key from entire metacontact (all subcontacts)?]
 Wollen Sie den Schlüssel für den gesamten Metakontakt (und Unterkontakte) löschen?
 [Export public key]
 Öffentlichen Schlüssel exportieren
@@ -365,9 +365,9 @@ GPG öffentliche Schlüsseldatei
 [Where is no public or private key.]
 Wo ist der öffentliche oder private Schlüssel?
 ;file \plugins\New_GPG\src\utilities.cpp
-[Do you want to toggle encryption for all subcontacts ?]
+[Do you want to toggle encryption for all subcontacts?]
 Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
-[Target file exists, do you want to replace it ?]
+[Target file exists, do you want to replace it?]
 Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
 [Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
 

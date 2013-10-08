@@ -153,11 +153,11 @@ Nur ich
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
-[Error occured when removing contact from server.]
+[Error occurred when removing contact from server.]
 Ein Fehler ist beim Entfernen des Kontaktes vom Server aufgetreten
 [Request for friendship was sent.]
 Freundschaftsanfrage wurde gesendet.
-[Error occured when requesting friendship.]
+[Error occurred when requesting friendship.]
 Fehler bei der Freundschaftsanfrage aufgetreten
 [Request for friendship was canceled.]
 Freundschaftsanfrage wurde zurückgezogen.

@@ -63,7 +63,7 @@ Título :
 [Size (HxW) :]
 Tamanho (AxL) :
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Ocorreu um erro desconhecido.
 [Error]
 Erro

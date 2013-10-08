@@ -19,7 +19,7 @@ Cancel
 [Edit]
 編集
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 不明なエラーが発生しました
 [Error]
 エラー

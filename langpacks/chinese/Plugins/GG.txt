@@ -149,9 +149,9 @@ Gadu-Gadu 号码:
 通信使用 [img] BBCode
 [You need to specify your registration e-mail first.]
 您需要先指定注册邮箱. 
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 您的密码将会发送到注册邮箱. \n要继续吗? 
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 您应该在做出任何帐号永久变更前先断开连接. \n您想立即断开连接吗? 
 [Allow]
 允许
@@ -181,7 +181,7 @@ Gadu-Gadu 号码
 打开会议(&C)...
 [&Clear ignored conferences]
 清除已忽略会议(&C)
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s 已发起会议, 有 %d 名参与者 (其中 %d 已知). \n您要加入吗? 
 [%s initiated the conference.]
 %s 已经开始会议. 

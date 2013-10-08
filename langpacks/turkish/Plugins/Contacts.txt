@@ -24,7 +24,7 @@
 &Ekle
 [Close]
 Kapat
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Bir hata oldu. Protokol şu hatayı verdi:
 [Try again]
 Yeniden dene

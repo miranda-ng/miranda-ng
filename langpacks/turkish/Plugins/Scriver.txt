@@ -68,7 +68,7 @@ Sistem tepsisi ve kişi listesinde yanıp sön
 Balon açılır pencere göster
 [Send Error]
 Gönderme Hatası
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Bir hata oldu. Protokol şu hatayı verdi:
 [while sending the following message:]
 şu ileti gönderilirken:
@@ -94,7 +94,7 @@ Yeniden dene
 &Q
 [Send To All Tabs]
 Tüm Sekmelere Gönder
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Tüm açık sekmelere bir ileti göndermek üzeresiniz.\nEmin misiniz?
 [Remember my choice for this container]
 Bu kutu için seçenekleri hatırla
@@ -467,7 +467,7 @@ Alınan (Yeni Oturum)
 [Outgoing]
 Gönderilen
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Bilinmeyen bir hata oldu.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

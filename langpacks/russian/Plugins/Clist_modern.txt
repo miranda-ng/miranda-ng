@@ -586,7 +586,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него (удалить его из '%s')?
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него?
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 Хотите сделать '%s' контактом по умолчанию?
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Хотите удалить '%s' из метаконтакта '%s' и добавить в '%s'?

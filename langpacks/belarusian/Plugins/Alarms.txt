@@ -94,7 +94,7 @@
 хаваюся
 [Date and Time]
 Дата і час
-[Disable next occurence]
+[Disable next occurrence]
 Адключыць наступны напамінак
 [Don't trigger on startup]
 Не спрацоўваць пры загрузцы

@@ -174,7 +174,7 @@ Errore in lettura file account. File account corrotto.
 Errore di allocazione memoria durante lettura dati
 [Reading file error. File already in use?]
 Errore in lettura file. Il file è già in uso?
-[Error while copying data to disk occured. File in use?]
+[Error while copying data to disk occurred. Is file in use?]
 Errore nella copia dei dati sul disco. Il file è già in uso?
 [POP3 plugin- write file error]
 Plugin POP3 - errore in scrittura file

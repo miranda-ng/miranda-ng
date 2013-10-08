@@ -1463,7 +1463,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Каманда выканана паспяхова
-[Error occured during processing command]
+[Error occurred during processing command]
 Паўстала памылка падчас выкананні каманды
 [Set status]
 Усталяваць статус
@@ -1507,7 +1507,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 Няма паведамленняў для адпраўкі
 [Workstation successfully locked]
 Кампутар паспяхова заблакаваны
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 Памылка %d паўстала падчас працэсу блакавання
 [Please confirm Miranda NG shutdown]
 Пацвердзіце выключэнне праграмы

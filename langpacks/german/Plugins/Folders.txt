@@ -25,7 +25,7 @@ Hilfe zu 'Eigene Ordner' Variablen
 [Close]
 Schließen
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now ?]
+[Some changes weren't saved. Apply the changes now?]
 Einige Änderungen wurden nicht gespeichert. Änderungen speichern?
 [Changes not saved]
 Änderungen nicht gespeichert

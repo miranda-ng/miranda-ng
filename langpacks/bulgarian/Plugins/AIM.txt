@@ -159,7 +159,7 @@ AIM настройки
 
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Свързвате се твърде често. Изчакайте 10 минути и опитайте да се свържете отново.
-[Unknown error occured when attempting to connect.]
+[Unknown error occurred when attempting to connect.]
 Възникна неизвестна грешка при опита за свързване.
 [Invalid SNAC header.]
 
@@ -245,7 +245,7 @@ AIM настройки
 поле само за писане.
 [Unsupported Type.]
 Неподдържан тип.
-[An Error has occured.]
+[An Error has occurred.]
 Възникна грешка.
 [Invalid Account.]
 Невалиден акаунт.

@@ -66,7 +66,7 @@ Signaler dans le systray et dans la liste de contacts
 Afficher un popup
 [Send Error]
 Erreur d'envoi
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 [while sending the following message:]
 tout en envoyant le message suivant :
@@ -78,8 +78,8 @@ Annuler
 Session message
 [Send To All Tabs]
 Envoyer à tous les onglets
-[You are about to send a message to all open tabs.\nAre you sure ?]
-Vous êtes sur le point d'envoyer un mesage à tous les onglets ouverts.\nVoulez-vous vraiment faire cela ?
+[You are about to send a message to all open tabs.\nAre you sure?]
+Vous êtes sur le point d'envoyer un mesage à tous les onglets ouverts.\nVoulez-vous vraiment faire cela?
 [Remember my choice for this container]
 Se rapeller de mon choix pour ce conteneur
 [Yes]
@@ -409,7 +409,7 @@ Entrant (nouvelle session)
 [Outgoing]
 Sortant
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Une erreur inconnue s'est produite.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

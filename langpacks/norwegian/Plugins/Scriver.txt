@@ -62,7 +62,7 @@ Blink i oppgavelinjen og i kontaktlisten
 Vis ballong popup
 [Send Error]
 Sendefeil
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 En feil har inntruffet. Protokollen rapporterte følgende feil:
 [while sending the following message:]
 under sending av følgende melding:
@@ -80,7 +80,7 @@ Meldingsøkt
 &H
 [Send To All Tabs]
 Send Til Alle Faner
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Du er i ferd med å sende en melding til alle åpne faner.\nEr du sikker?
 [Remember my choice for this container]
 Husk mitt valg for denne beholderen
@@ -441,7 +441,7 @@ Innkommende (Ny Samtaleøkt)
 [Outgoing]
 Utgående
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 En ukjent feil har inntruffet
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

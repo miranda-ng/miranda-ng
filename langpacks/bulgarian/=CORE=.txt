@@ -1081,7 +1081,7 @@ Miranda
 Максимален брой мигания
 [Send Error]
 Грешка при изпращането
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Възникна следната грешка:
 [while sending the following message:]
 при опит за изпращане на следното съобщение:
@@ -1966,7 +1966,7 @@ Popups за изобразяване
 [Contact stopped typing]
 Контакт спря да пише
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Възникна непозната грешка.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]

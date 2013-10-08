@@ -140,7 +140,7 @@ UTF8 за нови файлове
 Протокол
 [UIN]
 
-[You have unapplyed changes do you wish to apply these first ?]
+[You have unapplyed changes do you wish to apply these first?]
 
 [Executable files]
 

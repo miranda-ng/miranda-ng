@@ -527,7 +527,7 @@ x100 毫秒
 您想将联系人 '%s' 加至中继联系人 '%s'? 
 [Adding contact to MetaContact]
 添加联系人至中继联系人
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 您想将联系人 '%s' 设为默认值? 
 [Set default contact]
 设置默认联系人

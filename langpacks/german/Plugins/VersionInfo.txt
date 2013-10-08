@@ -86,8 +86,8 @@ Informationen wurden erfolgreich in die Zwischenablage kopiert.
 Unter Customize => Ordner Pfad zum Ausgabeordner einstellen
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Sind Sie sich sicher, dass Sie dies aktivieren wollen?\nBitte aktivieren Sie diese Einstellung nur,\nwenn Sie wirklich wissen, wofür diese gut ist,\noder wenn Sie dazu aufgefordert wurden!
-[Show plugin UUIDs ?]
-UUIDs der Plugins zeigen ?
+[Show plugin UUIDs?]
+UUIDs der Plugins zeigen?
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]
 VersionInfo

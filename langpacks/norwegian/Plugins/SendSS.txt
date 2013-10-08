@@ -19,7 +19,7 @@ Takk >
 [Edit]
 Rediger
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 En ukjent feil har inntruffet
 [Error]
 Feil

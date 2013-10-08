@@ -7,7 +7,7 @@
 ;============================================================
 [GPG Key]
 GPG ключ
-[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now?]
 Пользователь не ответил на обмен ключами!\n\Ваше сообщение находится в очереди SecureIM, хотите отправить его не зашифрованным?
 [Always secured if possible]
 По возможности включать шифрование
@@ -75,8 +75,6 @@ SecureIM выключен! Вы должны включить его для эт
 Не могу установить SecureIM соединение !
 [Error while decrypting the message.]
 Произошли ошибки во время дешифрации файла.
-[User has not answered to key exchange !\r\nYour messages are still in SecureIm queue, do you want to send them Unencrypted now ?]
-Пользователь не ответил на обмен ключами!\r\nВаше сообщение по-прежнему находится в очереди на отправку, желаете послать сообщение незашифрованным?
 [UIN/Email/Jid/Computer Name]
 UIN/E-mail/JID/Компьютер
 [Show a popup on each secure receive]
@@ -359,7 +357,7 @@ SecureIM не может отправить шифрованное сообще�
 Шифрование (PGP)
 [SecureIM mode (GPG)]
 Шифрование (GPG)
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
 Получен публичный ключ RSA от "%s"\n\nSHA1: %s\n\nПринять?
 [SecureIM auto accepted RSA Public key from: %s uin: %s]
 Автоматически принят публичный ключ RSA от: %s UID: %s
@@ -389,7 +387,7 @@ SecureIM не может отправить шифрованное сообще�
 Автоматически принят публичный ключ RSA от: %s UID: %s SHA1: %s
 [Context Menu only for "Miranda" clients]
 Пункт в меню только для Miranda
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
 Получен публичный ключ RSA от "%s"\n\nНовый SHA1: %s\n\Старый SHA1: %s\n\nЗаменить ключ?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Автоматически принят публичный ключ RSA от: %s uin: %s Новый SHA1: %s Старый SHA1: %s

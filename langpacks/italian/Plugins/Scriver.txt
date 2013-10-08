@@ -40,7 +40,7 @@ Mostra notifica digit. quando nessuna finestra messaggi è aperta
 Lampeggia nella tray di sistema e nella lista dei contatti
 [Show balloon popup]
 Mostra popup
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 C'è stato un errore. Il protocollo ha riferito l'errore seguente:
 [Try again]
 Prova di nuovo

@@ -94,8 +94,8 @@ N'a pas trouvé Msg_Export.dll Veuillez localisé Msg_Export.txt manuellement.
 Fichier
 [Nick]
 Pseudo
-[You have unapplyed changes do you wish to apply these first ?]
-Vous avez restauré les changements, voulez-vous d'abord les enregistrer ?
+[You have unapplyed changes do you wish to apply these first?]
+Vous avez restauré les changements, voulez-vous d'abord les enregistrer?
 [Select Destination Directory]
 Choix du répertoire de destination
 [Export Protocols]

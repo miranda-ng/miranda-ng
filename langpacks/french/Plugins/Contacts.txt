@@ -24,7 +24,7 @@ Ajouter au &groupe :
 Fermer
 [Contacts send error]
 Erreur dans l'envoi de contacts
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 [Try again]
 Réessayer

@@ -19,7 +19,7 @@
 Переменные...
 [Changes not saved]
 Изменения не сохранены
-[Some changes weren't saved. Apply the changes now ?]
+[Some changes weren't saved. Apply the changes now?]
 Изменения не сохранены. Применить изменения?
 [Custom folders variables help]
 Помощь по переменным (Папки)

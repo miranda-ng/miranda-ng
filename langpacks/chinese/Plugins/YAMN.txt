@@ -200,7 +200,7 @@ YAMN (内置 POP3) 读取错误
 读取资料时发生内存分配错误
 [Reading file error. File already in use?]
 文件读取时发生错误. 文件已在使用中? 
-[Error while copying data to disk occured. File in use?]
+[Error while copying data to disk occurred. Is file in use?]
 复制资料至磁盘时发生错误. 文件正在使用中? 
 [POP3 plugin- write file error]
 POP3 插件- 读取文件错误

@@ -207,9 +207,9 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Паведамленне з [img] BB-кодам
 [You need to specify your registration e-mail first.]
 Неабходна азначыць ваш e-mail.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
-Ваш пароль будзе высланы на рэгістрацыйны e-mail .\nПрацягнуць ?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Ваш пароль будзе высланы на рэгістрацыйны e-mail.\nПрацягнуць?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
 [Allow]
 Дазволіць
@@ -249,7 +249,7 @@ HTTP невядомая памылка
 Адкрыць канферэнцыю...
 [&Clear ignored conferences]
 Ачысціць ігнаруемыя канферэнцыі
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s пачаў(а) канферэнцыю з %d удзельнікамі (%d невядома).\nПрыняць удзел?
 [%s initiated the conference.]
 %s пачаў(а) канферэнцыю.

@@ -517,7 +517,7 @@ MetaKişiye dönüştürülüyor (taşınıyor)
 '%s' kişisinin '%s' metakişisine eklenmesini istiyor musunuz?
 [Adding contact to MetaContact]
 Kişiler MetaKişilere ekleniyor
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 '%s' kişisinin varsayılan olmasını istiyor musunuz?
 [Set default contact]
 Varsayılan kişiyi ayarla

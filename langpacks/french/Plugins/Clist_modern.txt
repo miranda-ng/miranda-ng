@@ -491,8 +491,8 @@ Conversion en MetaContact (Déplacement)
 Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
 [Adding contact to MetaContact]
 Ajout d'un contact dans MetaContact
-[Do you want contact '%s' to be default ?]
-Voulez-vous que '%s' soir le par défaut ?
+[Do you want contact '%s' to be default?]
+Voulez-vous que '%s' soir le par défaut?
 [Set default contact]
 Ce contact en par défaut
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]

@@ -1,7 +1,7 @@
 ﻿[Default private key id]
 [Failed to alocate memory]
 [found "gpg" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set.]
-[ expired and will not work\nDo you want to set another key ?]
+[ expired and will not work\nDo you want to set another key?]
 [You didn't set a private key.\nWould you like to set it now?]
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
 [Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]

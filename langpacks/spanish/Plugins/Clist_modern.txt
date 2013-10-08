@@ -495,7 +495,7 @@ La conversión a MetaContact (en movimiento)
 ¿Quieres ponerte en contacto con '%s' se añade metacontact '%s'?
 [Adding contact to MetaContact]
 Agregar contacto a MetaContact
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 ¿Quieres ponerte en contacto con '%s' que por defecto?
 [Set default contact]
 Establecer contacto por defecto

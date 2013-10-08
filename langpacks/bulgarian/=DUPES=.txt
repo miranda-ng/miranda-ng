@@ -589,7 +589,7 @@ Copyright:
 Предупреждение, ако съобщение не е получено след
 [Send Error]
 Грешка при изпращането
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Възникна следната грешка:
 [while sending the following message:]
 при опит за изпращане на следното съобщение:

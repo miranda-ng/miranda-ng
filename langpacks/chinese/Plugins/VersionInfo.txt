@@ -76,7 +76,7 @@ Miranda 版本消息
 使用文件夹插件自定义
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 您确定要启用此选项? \n如您知道在做什么, 知道此选项功用或某人让您这样做时, 请启用此项目. 
-[Show plugin UUIDs ?]
+[Show plugin UUIDs?]
 显示插件 UUID? 
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]

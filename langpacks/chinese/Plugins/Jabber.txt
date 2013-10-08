@@ -1235,7 +1235,7 @@ Facebook 聊天
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 命令已成功完成
-[Error occured during processing command]
+[Error occurred during processing command]
 处理命令期间发生错误
 [Set status]
 设置状态
@@ -1285,7 +1285,7 @@ Facebook 聊天
 %d 消息转发
 [Workstation successfully locked]
 工作站成功锁定
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 工作站锁定后发生错误 %d
 [Confirmation needed]
 确认需要

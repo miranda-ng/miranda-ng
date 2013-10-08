@@ -233,7 +233,7 @@
 [Converting to MetaContact (Moving)]
 [Do you want contact '%s' to be added to metacontact '%s'?]
 [Adding contact to MetaContact]
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 [Set default contact]
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 [Changing MetaContacts (Moving)]

@@ -142,11 +142,11 @@
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Кантакт быў выдалены з вашага спісу на серверы.
-[Error occured when removing contact from server.]
+[Error occurred when removing contact from server.]
 Памылка пры выдаленні кантакта з сервера.
 [Request for friendship was sent.]
 Запыт на дружбу адпраўлены.
-[Error occured when requesting friendship.]
+[Error occurred when requesting friendship.]
 Адбылася памылка пры запыце дружбы.
 [Request for friendship was canceled.]
 Запыт на сяброўства быў адменены.

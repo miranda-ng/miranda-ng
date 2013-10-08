@@ -161,5 +161,5 @@
 HTTP падлучэнне Plugin Updater
 [Checking new updates...]
 Праверка абнаўленняў...
-[An error occured while checking new updates.]
+[An error occurred while checking new updates.]
 Пры праверцы абнаўленняў адбылася памылка.

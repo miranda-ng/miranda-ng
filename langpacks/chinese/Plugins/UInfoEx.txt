@@ -268,7 +268,7 @@
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 由于参数错误, 其中一个树项目不能添加!
-[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 添加属性表页时发生一个致命的错误!\n对话框创建中止!
 [Rename Item]
 重命名项目

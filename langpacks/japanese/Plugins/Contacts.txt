@@ -20,7 +20,7 @@ Cancel
 追加 (&A)
 [Close]
 閉じる
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 エラーが発生しました。エラー内容 :
 [Try again]
 再試行

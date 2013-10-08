@@ -36,7 +36,7 @@
 ДатаЧас1
 [Default snooze:]
 Пауза за замовчуванням:
-[Disable next occurence]
+[Disable next occurrence]
 Відключити наступне нагадування
 [Don't steal focus unless idle]
 Якщо не активний, не перехоплювати фокус

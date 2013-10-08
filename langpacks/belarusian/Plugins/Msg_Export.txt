@@ -106,7 +106,7 @@ UTF8 у новых файлах
 Пратакол
 [UIN]
 Нумар
-[You have unapplyed changes do you wish to apply these first ?]
+[You have unapplyed changes do you wish to apply these first?]
 Ёсць незахаваныя змены, ужыць?
 [Executable files]
 Прыкладанні

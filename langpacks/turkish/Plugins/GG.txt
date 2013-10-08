@@ -153,9 +153,9 @@ Gelişmiş
 Sistem tepsisi simgesi
 [You need to specify your registration e-mail first.]
 Öncelikle kayıt için e-posta adresinizi belirtmelisiniz.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Parolanız kayıt e-posta adresinize gönderilecek.\Devam etmek istiyor musunuz?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Hesabınızda kalıcı değişiklikler yapmadan önce bağlantınızı kesmelisiniz.\nŞimdi bağlantınızı kesmek isitiyor musunuz?
 [Allow]
 İzin Ver
@@ -181,7 +181,7 @@ Gadu-Gadu Numarası
 Kon&ferans aç...
 [&Clear ignored conferences]
 Yoksayılan konferansları &sil
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s %d katılımcı ile (%d bilinmeyen) bir konferans açtı.\Katılmak istiyor musunuz?
 [%s initiated the conference.]
 %s konferans açtı.

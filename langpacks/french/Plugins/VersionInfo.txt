@@ -68,8 +68,8 @@ Le presse papier n'est pas dispo, réessayez.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Êtes-vous sur de vouloir activer cette option ?\nVeuillez activer cette option seulement si vous savez ce que vous faites ou si quelqu'un vous l'a demandé !
-[Show plugin UUIDs ?]
-Affichage de l'ID unique des Plugins !
+[Show plugin UUIDs?]
+Affichage de l'ID unique des Plugins!
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp

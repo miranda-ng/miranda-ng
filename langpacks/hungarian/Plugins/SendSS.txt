@@ -19,7 +19,7 @@ Köszönet >
 [Edit]
 Szerkeszt
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Ismeretlen hiba történt.
 [Error]
 Hiba

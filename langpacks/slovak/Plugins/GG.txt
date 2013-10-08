@@ -231,9 +231,9 @@ Ikona v oznamovacej oblasti
 
 [You need to specify your registration e-mail first.]
 
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 
 [Allow]
 
@@ -283,7 +283,7 @@ Ignorovať
 
 [&Clear ignored conferences]
 
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 
 [%s initiated the conference.]
 

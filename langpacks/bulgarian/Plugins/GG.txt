@@ -233,9 +233,9 @@ Gadu-Gadu номер:
 Съобщение съдържащо "[img]" BBCode
 [You need to specify your registration e-mail first.]
 Необходимо е първо да зададете имейл за регистрацията.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Паролата ще бъде изпратена на имейла посочен в регистрацията.\nНаистина ли желаете това?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
 [Allow]
 Позволи
@@ -285,7 +285,7 @@ Gadu-Gadu номер
 Отваряне на конференция...
 [&Clear ignored conferences]
 Изчистване на игнорираните конференции
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s стартира конференция с %d участника (%d непознати).\nЖелаете ли да участвате?
 [%s initiated the conference.]
 Конференцията е стартирана от %s.

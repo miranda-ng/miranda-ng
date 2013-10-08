@@ -94,7 +94,7 @@ Jährlich
 ich verstecke mich
 [Date and Time]
 Datum und Zeit
-[Disable next occurence]
+[Disable next occurrence]
 Nächstes Ereignis deaktivieren
 [Don't trigger on startup]
 Beim Start nicht auslösen

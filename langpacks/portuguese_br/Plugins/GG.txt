@@ -199,7 +199,7 @@ Número Gadu-Gadu
 Abrir &conferência...
 [&Clear ignored conferences]
 &Limpar conferências ignoradas
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s iniciou conferências com participantes %d ( %d desconhecidos).\nVocê quer fazer participar?
 [%s initiated the conference.]
 %s início da conferência.

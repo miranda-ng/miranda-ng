@@ -56,7 +56,7 @@ Sie haben %d ungelesene E-Mails...
 Sie haben eine ungelesene E-Mail...
 [Exchange email]
 Exchange E-Mail
-[Do you want to see the email headers ?]
+[Do you want to see the email headers?]
 Wollen Sie die E-Mail-Header sehen?
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]

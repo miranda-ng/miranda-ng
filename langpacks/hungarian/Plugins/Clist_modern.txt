@@ -507,7 +507,7 @@ Konvertálás meta-partnerré (mozgatás)
 Hozzáadja '%s' partnert '%s' MetaPartnerhez?
 [Adding contact to MetaContact]
 Partner hozzáadása a MetaContact-hoz
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 Legyen '%s' az alapértelmezett?
 [Set default contact]
 Alapértelmezett kapcsolat megadása

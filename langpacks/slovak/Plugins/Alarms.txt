@@ -94,7 +94,7 @@ Mesačne
 
 [Date and Time]
 
-[Disable next occurence]
+[Disable next occurrence]
 
 [Don't trigger on startup]
 

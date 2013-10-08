@@ -189,7 +189,7 @@ SecureIM: Памылка расшыфроўкі паведамлення.
 SecureIM: Памылка пры расшыфроўкі паведамлення, няправільная даўжыня паведамлення.
 [SecureIM: Error while decrypting the message, bad message CRC.]
 SecureIM: Памылка пры расшыфроўкі паведамлення, няправільная кантрольная сума паведамлення.
-[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now?]
 Карыстач не адказаў на абмен ключамі!\n\Ваша паведамленне знаходзіцца ў чэргі SecureIM, жадаеце адправіць яго не зашыфраваным?
 [SecureIM not enabled! You Must Enable SecureIM with this user...]
 SecureIM выключаны! Вы павінны ўключыць яго для гэтага карыстача...
@@ -289,11 +289,11 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 Сесія зачынена другім бокам, статус "адключаны"
 [Session closed on error: %02x]
 Сесія зачынена з памылкай: %02x
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
 Атрыманы публічны ключ RSA ад"%s"\n\nSHA1: %s\n\nПрыняць?
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
 Аўтаматычна прыняты публічны ключ RSA ад: %s UID: %s SHA1: %s
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
 Атрыманы публічны ключ RSA ад"%s"\n\nНовы SHA1: %s\n\Стары SHA1: %s\n\nЗамяніць ключ?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Аўтаматычна прыняты публічны ключ RSA ад: %s uin: %s Новы SHA1: %s Стары SHA1: %s

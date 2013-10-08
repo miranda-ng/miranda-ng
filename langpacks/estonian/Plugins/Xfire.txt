@@ -1,5 +1,4 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
-;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
 Parool:

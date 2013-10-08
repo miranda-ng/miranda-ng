@@ -66,7 +66,7 @@ Villogás a tálcán és a kapcsolati listában
 Buboréksúgó megjelenik
 [Send Error]
 Hiba küldése
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Hiba történt. A protokol az alábbi hibát jelentette:
 [while sending the following message:]
 amíg elküldi az alábbi üzenetet:
@@ -88,7 +88,7 @@ Mégsem
 &Q
 [Send To All Tabs]
 Küldés minden fülön
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Miden nyitott fülre megy az aktuális üzenet.\nBiztosan ezt akarja?
 [Remember my choice for this container]
 Választás megjegyzése ehhez a befoglalóhoz
@@ -455,7 +455,7 @@ Bejövõ (új munkamenet)
 [Outgoing]
 Kimenõ
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Ismeretlen hiba történt.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

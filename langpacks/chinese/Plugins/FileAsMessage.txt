@@ -53,7 +53,7 @@
 已由远程用户取消
 [New incoming file request. Do you want to proceed?]
 新到文件请求. 您是否想继续?
-[Paused, 'coz connection dropped]
+[Paused, because connection dropped]
 暂停, 'coz 连接已断开
 [Failed on file initialization]
 文件初始化失败

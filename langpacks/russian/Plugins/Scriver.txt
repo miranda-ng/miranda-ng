@@ -168,7 +168,7 @@
 Вставить и отправить
 [Send To All Tabs]
 Отправить всем вкладкам
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Вы собираетесь отправить сообщение всем открытым вкладкам. Вы уверены?
 [Remember my choice for this container]
 Запомнить выбор для этого контейнера

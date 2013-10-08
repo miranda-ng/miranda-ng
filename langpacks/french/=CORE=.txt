@@ -1081,7 +1081,7 @@ Limiter la taille de l'avatar à
 Nombre maximum de clignotements
 [Send Error]
 Erreur d'envoi
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 [while sending the following message:]
 tout en envoyant le message suivant :
@@ -1960,7 +1960,7 @@ Entrant (nouvelle session)
 [Message send error]
 
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Une erreur inconnue s'est produite.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]

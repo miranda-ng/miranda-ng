@@ -1045,7 +1045,7 @@ Miranda
 フラッシュの最大数
 [Send Error]
 エラーを送信
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 エラーが発生しました。エラー内容 :
 [while sending the following message:]
 次のメッセージの送信中 :
@@ -1868,7 +1868,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 [Message send error]
 メッセージ送信エラー
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 不明なエラーが発生しました
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]

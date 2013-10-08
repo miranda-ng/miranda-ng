@@ -114,7 +114,7 @@ IEView を有効
 バルーンポップアップを表示
 [Send Error]
 エラーを送信
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 エラーが発生しました。エラー内容 :
 [while sending the following message:]
 次のメッセージの送信中 :
@@ -136,8 +136,8 @@ Cancel
 &Q
 [Send To All Tabs]
 全てのタブに送る
-[You are about to send a message to all open tabs.\nAre you sure ?]
-あなたは全ての開いているタブにメッセージを送信しようとしています。\n実行してよろしいですか ?
+[You are about to send a message to all open tabs.\nAre you sure?]
+あなたは全ての開いているタブにメッセージを送信しようとしています。\n実行してよろしいですか?
 [Remember my choice for this container]
 このコンテナに関する自分の選択を記憶する
 [Yes]
@@ -541,7 +541,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 [Outgoing]
 発信
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 不明なエラーが発生しました
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

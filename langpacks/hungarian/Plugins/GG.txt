@@ -145,9 +145,9 @@ Haladó
 Rendszer tálca ikon
 [You need to specify your registration e-mail first.]
 Elõször határozd meg a regisztrációs e-mail címed.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 A jelszavad elküdjük a regisztrációs e-mail címedre.\nFolytatod?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Bontsd a kapcsolatot, mielõtt a fiókodban végleges változásokat tennél.\nSzeretnéd most bontani a kapcsolatot?
 [Allow]
 Engedélyezés
@@ -173,7 +173,7 @@ Gadu-Gadu szám
 Kon&ferencia indítása...
 [&Clear ignored conferences]
 Elvetett konferenciák tör&lése
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s konferenciát indított %d résztvevõvel (%d ismeretlenek).\nRészt kívánsz venni benne?
 [%s initiated the conference.]
 %s indította a konferenciát.

@@ -677,7 +677,7 @@ Konvertierung in Metakontakt (Verschiebe)
 Soll Kontakt '%s' zu Metakontakt '%s' hinzugefügt werden?
 [Adding contact to MetaContact]
 Zu Metakontakt hinzufügen
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 Soll Kontakt '%s' als Standard gesetzt werden?
 [Set default contact]
 Standardkontakt setzen

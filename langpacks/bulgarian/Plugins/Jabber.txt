@@ -1953,7 +1953,7 @@ Facebook чат
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Успешно завършена команда
-[Error occured during processing command]
+[Error occurred during processing command]
 Възникна грешка при изпълнението на командата
 [Set status]
 Избор на състояние
@@ -2009,7 +2009,7 @@ Facebook чат
 %d съобщения бяха препратени
 [Workstation successfully locked]
 
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 
 [Confirmation needed]
 Необходимо е потвърждаване

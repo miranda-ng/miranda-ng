@@ -1081,7 +1081,7 @@ Uložiť pozíciu a veľkosť okna individuálne pre každý kontakt
 
 [Send Error]
 
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 
 [while sending the following message:]
 
@@ -1960,7 +1960,7 @@ Správa od %s
 [Message send error]
 
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]

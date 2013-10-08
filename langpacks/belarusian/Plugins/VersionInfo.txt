@@ -84,7 +84,7 @@ UUID плагiна
 Налада з дапамогай модуля folders
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Вы ўпэўнены, што жадаеце ўключыць гэту опцыю?\n Калі ласка, выкарыстоўвайце яе, толькі калі разумееце, для чаго яна ці калі хто-небудзь папытаў вас уключыць яе.
-[Show plugin UUIDs ?]
+[Show plugin UUIDs?]
 UUID плагiнаў
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]

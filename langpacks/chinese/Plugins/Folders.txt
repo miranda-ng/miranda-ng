@@ -19,7 +19,7 @@
 [Close]
 关闭
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now ?]
+[Some changes weren't saved. Apply the changes now?]
 某些变更尚未保存. 现在要应用变更吗? 
 [Changes not saved]
 变更尚未保存

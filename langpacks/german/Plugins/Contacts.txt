@@ -36,7 +36,7 @@ Hinzufügen
 Schließen
 [Contacts send error]
 Fehler beim Senden von Kontakten
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 [Try again]
 Erneut versuchen

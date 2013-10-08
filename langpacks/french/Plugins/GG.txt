@@ -153,10 +153,10 @@ Avancé
 Icône de la barre des tâches
 [You need to specify your registration e-mail first.]
 Vous devez spécifier votre e-mail primaire d'enregistrement
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
-Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer ?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
-Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant ?
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant?
 [Allow]
 Autoriser
 [Ignore]
@@ -181,8 +181,8 @@ Numéro Gadu-Gadu :
 Ouvrir un &chat...
 [&Clear ignored conferences]
 &Effacer les conférences ignorées
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
-%s a lancé une conférence avec %d participants (%d inconnus).\nVoulez-vous participez-vous ?
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s a lancé une conférence avec %d participants (%d inconnus).\nVoulez-vous participez-vous?
 [%s initiated the conference.]
 %s a lancé(e) le chat.
 [This is my own conference.]

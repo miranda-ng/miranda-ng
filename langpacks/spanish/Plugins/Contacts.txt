@@ -20,7 +20,7 @@ Agregar al &grupo:
 &Agregar
 [Close]
 Cerrar
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Ha ocurrido un error. El protocolo reportó el siguiente error:
 [Try again]
 Inténtelo de nuevo

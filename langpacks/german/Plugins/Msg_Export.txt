@@ -140,7 +140,7 @@ Nick
 Proto
 [UIN]
 UIN
-[You have unapplyed changes do you wish to apply these first ?]
+[You have unapplyed changes do you wish to apply these first?]
 Es liegen ungespeicherte Änderungen vor. Sollen diese jetzt gespeichert werden?
 [Executable files]
 Ausführbare Dateien

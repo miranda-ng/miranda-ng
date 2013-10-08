@@ -163,5 +163,5 @@ Liste des plugins
 Connection HTTP du plugin de mise à jour
 [Checking new updates...]
 Vérification de mises à jour...
-[An error occured while checking new updates.]
+[An error occurred while checking new updates.]
 Une erreur est survenue lors de la vérification des mises à jour.

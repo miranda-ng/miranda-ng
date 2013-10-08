@@ -144,7 +144,7 @@ Zobraziť mená
 
 [Send Error]
 
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 
 [while sending the following message:]
 
@@ -166,7 +166,7 @@ Rozhovor
 
 [Send To All Tabs]
 
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 
 [Remember my choice for this container]
 
@@ -683,7 +683,7 @@ Správa od %s
 [Outgoing]
 
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

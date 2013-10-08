@@ -90,7 +90,7 @@ Auf Paket-Aktualisierungen prüfen
 [Pack Updater]
 Paket-Updater
 ;file \plugins\PackUpdater\Src\Notifications.cpp
-[An error occured while downloading the update.]
+[An error occurred while downloading the update.]
 Ein Fehler trat beim Herunterladen der Aktualisierung auf.
 [Component Name]
 Komponentenname

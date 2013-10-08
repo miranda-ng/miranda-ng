@@ -39,7 +39,7 @@ Légende :
 [Size (HxW) :]
 Taille (HxW) :
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Une erreur inconnue s'est produite.
 [Error]
 Erreur

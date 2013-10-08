@@ -159,7 +159,7 @@ Ungültiger Anzeigename oder Passwort.
 Falsches Anzeigename oder Passwort.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Sie verbinden sich zu schnell. Bitte warten Sie 10 Minuten.
-[Unknown error occured when attempting to connect.]
+[Unknown error occurred when attempting to connect.]
 Ein unbekannter Fehler ist beim Verbindungsversuch aufgetreten.
 [Invalid SNAC header.]
 Ungültiger SNAC-Header.
@@ -245,7 +245,7 @@ Nur-lesen-Feld.
 Nur-schreiben-Feld.
 [Unsupported Type.]
 Nicht unterstützter Typ.
-[An Error has occured.]
+[An Error has occurred.]
 Ein Fehler ist aufgetreten.
 [Invalid Account.]
 Ungültiges Konto.

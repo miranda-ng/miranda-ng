@@ -63,7 +63,7 @@
 Адменена другім кантактам
 [New incoming file request. Do you want to proceed?]
 Новы уваходны файл. Хочаце пацягнуць?
-[Paused, 'coz connection dropped]
+[Paused, because connection dropped]
 Спынена, з-за абрыва злучэння
 [Failed on file initialization]
 Памылка пры ініцыялізацыі файла

@@ -99,8 +99,8 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Список экспортирован.
 [List import successful.]
 Список импортирован.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
-Ваш пароль будет выслан на регистрационный e-mail .\nПродолжить ?
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Ваш пароль будет выслан на регистрационный e-mail .\nПродолжить?
 [Password could not be reminded because of error:\n\t%s]
 Не возможно получить пароль из-за ошибки:\n\t%s
 [Password was sent to your e-mail.]
@@ -135,7 +135,7 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Пользователь удалён.
 [Password too short.]
 Слишком короткий пароль.
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Имя сервера %s неверно. Использую сервер сети по умолчанию.
@@ -203,7 +203,7 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Список игнорируемых конференций очищен и применяется общая политика конференций.
 [There are no ignored conferences.]
 Игнорируемых конференций нет.
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s начал(а) конференцию с %d участниками (%d неизвестно).\nПринять участие?
 [Conference policy]
 Политика конференций

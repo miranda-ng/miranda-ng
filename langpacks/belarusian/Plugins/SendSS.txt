@@ -51,7 +51,7 @@
 [Size (HxW) :]
 Памер (HxW) :
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Невядомая памылка.
 [Error]
 Памылка

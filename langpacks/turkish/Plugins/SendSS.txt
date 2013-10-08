@@ -23,7 +23,7 @@ Emekçiler >
 [Edit]
 Değiştir
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Bilinmeyen bir hata oldu.
 [Error]
 Hata

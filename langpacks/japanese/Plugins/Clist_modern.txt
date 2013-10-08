@@ -525,7 +525,7 @@ Miranda を非表示
 コンタクト '%s' をメタコンタクト '%s' に追加しますか ?
 [Adding contact to MetaContact]
 コンタクトをメタコンタクトに追加
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 コンタクト '%s' をデフォルトにしますか ?
 [Set default contact]
 デフォルトコンタクトを設定

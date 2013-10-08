@@ -192,7 +192,7 @@ Keine neue E-Mail-Nachricht
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - Verbindungsfehler
-[An error occured. Error code: %d]
+[An error occurred. Error code: %d]
 Ein Fehler ist aufgetreten. Fehlercode: %d
 [Unknown error]
 Unbekannter Fehler
@@ -262,7 +262,7 @@ Fehler beim Lesen der Kontodatei. Kontodatei beschädigt.
 Speicher-Zuordnungsfehler während des Lesens der Daten
 [Reading file error. File already in use?]
 Datei-Lesefehler. Datei bereits in Benutzung?
-[Error while copying data to disk occured. File in use?]
+[Error while copying data to disk occurred. Is file in use?]
 Ein Fehler trat beim Kopieren der Datei auf. Datei in Benutzung?
 [POP3 plugin- write file error]
 POP3-Plugin - Datei-Schreibfehler

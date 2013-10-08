@@ -161,5 +161,5 @@ Plugin Updater
 HTTP връзки на приставката Plugin Updater
 [Checking new updates...]
 Проверка за нови актуализации...
-[An error occured while checking new updates.]
+[An error occurred while checking new updates.]
 Възникна грешка при проверката за актуализации.

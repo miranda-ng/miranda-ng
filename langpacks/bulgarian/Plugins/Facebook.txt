@@ -144,11 +144,11 @@ URL:
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 
-[Error occured when removing contact from server.]
+[Error occurred when removing contact from server.]
 
 [Request for friendship was sent.]
 
-[Error occured when requesting friendship.]
+[Error occurred when requesting friendship.]
 
 [Request for friendship was canceled.]
 

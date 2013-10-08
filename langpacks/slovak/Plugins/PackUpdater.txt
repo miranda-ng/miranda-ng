@@ -90,7 +90,7 @@ Pravým klikom
 [Pack Updater]
 
 ;file \plugins\PackUpdater\Src\Notifications.cpp
-[An error occured while downloading the update.]
+[An error occurred while downloading the update.]
 
 [Component Name]
 
