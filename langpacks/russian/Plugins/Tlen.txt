@@ -1,9 +1,9 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;============================================================
-;  File: tlen.dll
-;  Module: Tlen Protocol
-;  Versions: 1.0.5.8, 1.8.0.0
-;  URL: http://mtlen.berlios.de
+;  File: Tlen.dll
+;  Plugin: Tlen Protocol
+;  Version: 2.1.0.0
+;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
 [Tlen protocol support for Miranda NG.]
 Поддержка протокола Tlen в Miranda NG.

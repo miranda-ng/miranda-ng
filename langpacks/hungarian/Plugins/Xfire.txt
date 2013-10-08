@@ -1,4 +1,10 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+;============================================================
+;  File: Xfire.dll
+;  Plugin: Xfire Protocol
+;  Version: 0.1.8.4
+;  Authors: dufte
+;============================================================
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
 Jelszó:
