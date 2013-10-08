@@ -37,6 +37,27 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, void* hContact)
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 }
 
+INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
+{
+	switch (wParam) {
+	case AF_MAXSIZE:
+		((POINT*)lParam)->x = 100;
+		((POINT*)lParam)->y = 100;
+		return 0;
+
+	case AF_PROPORTION:
+		return PIP_SQUARE;
+
+	case AF_FORMATSUPPORTED:
+	case AF_ENABLED:
+	case AF_DONTNEEDDELAYS:
+	case AF_FETCHALWAYS:
+		return 1;
+	}
+
+	return 0;
+}
+
 INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
@@ -97,3 +118,4 @@ void CVkProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 	ptrA id( getStringA(hContact, "ID"));
 	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), id, szFileType);
 }
+

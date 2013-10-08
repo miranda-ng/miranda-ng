@@ -25,6 +25,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFOT, &CVkProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS,  &CVkProto::SvcGetAvatarCaps);
 
 	TCHAR descr[512];
 	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
