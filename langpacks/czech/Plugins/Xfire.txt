@@ -1,5 +1,12 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
-;langpack template for Xfire
+;============================================================
+;  File: Xfire.dll
+;  Plugin: Xfire Protocol
+;  Version: 0.1.8.4
+;  Authors: dufte
+;============================================================
+[Xfire protocol support for Miranda NG.]
+Xfire protokol pro Mirandu NG.
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
 Heslo:
@@ -67,7 +74,7 @@ Tento seznam obsahuje všechny blokované uživatele Xfire. Chcete jim povolit �
 Kontakty lze jednoduše filtrovat funkcí Blokovat uživatele, kterou naleznete v kontextové nabídce...
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Tento soubor je použit pro vyhledávání her, jejich detekování a zjišťování herních id. Obsahuje všechny xfirem podporované hry.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Tento soubor obsahuje všechny oficiální ikony her. Lze nastavit i stahování chybějích ikon.
 [Be sure you put these files in following folder:]
 Zkopírujte výše uvedené soubory do této složky:
@@ -91,17 +98,17 @@ Pokud možno preferovat stav Nerušit
 Hry
 [Game:]
 Hra:
-[Dont detect this game as running]
+[Don't detect this game as running]
 Nedetekovat tuto hru
 [Apply]
 Použít
-[Dont set status message for other protocols]
+[Don't set status message for other protocols]
 Nenastavovat zprávu stavu pro ostatní protokoly
 [Add new game]
 Přidat novou hru
 [Remove]
 Odebrat
-[Dont show in start menu]
+[Don't show in start menu]
 Nezobrazovat v menu pro spuštění
 [(manual added)]
 (přidáno ručně)
@@ -195,7 +202,7 @@ Zadejte prosím herní ID.
 Zadejte prosím herní ID vyšší než 1.
 [This game id is already in use.]
 Toto herní ID je již použito.
-[Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
+[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 Zvolte prosím spustitelný soubor hry. Pozn.: Pokud nezvolíte soubor pro spouštění, spustitelný soubor hry bude použit pro její spuštění.
 [Supported Games]
 Podporované hry
@@ -322,7 +329,7 @@ Poslední hra: %s čas hraní: %.2d:%.2d:%.2d
 %s právě hraje %s na serveru %d.%d.%d.%d:%d.
 [Playing]
 Hraje
-[Do you really want delete your friend %s?]
+[Do you really want to delete your friend %s?]
 Opravdu si přejete smazat vašeho přítele %s?
 [Confirm Delete]
 Potvrzení smazání
@@ -335,7 +342,7 @@ Potvrzení blokování
 Avatary
 [Disable avatars]
 Vypnout avatary
-[Dont download avatars of clan members]
+[Don't download avatars of clan members]
 Nestahovat avatary členů klanu
 [Use alternate way for Avatar download]
 Použít alternativní způsob stahování avatarů
@@ -359,13 +366,13 @@ Neurčovat zprávu u Na chvíli pryč
 Smazat přátele přátel z databáze
 [Hide yourself in buddylist]
 Skrýt sebe v seznamu kontaktů
-[Dont display game search results]
+[Don't display game search results]
 Nezobrazovat výsledek hledání her
-[Dont display game search status window]
+[Don't display game search status window]
 Nezobrazovat okno s výsledkem hledání her
 [Display popup, if someone start a game]
 Zobrazit oznámení pokud někdo spustí hru
-[Dont automatically create clan groups]
+[Don't automatically create clan groups]
 Nevytvářet klanové skupiny automaticky
 [Enable MBot support]
 Povolit podporu pro MBot

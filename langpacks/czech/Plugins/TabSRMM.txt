@@ -1573,7 +1573,7 @@ Zpráva nemůže být odeslána, protože překračuje maximální povolenou dé
 Zprávu se nepodařilo odeslat.\nKliknutím otevřete komunikační okno.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Nezdařilo se doručení zprávy poté, co kontakt zavřel okno. Pošlete zprávu znovu
-[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Některé neodeslané zprávy čekají na potvrzení.\nPokud nyní zavřete komunikační okno, Miranda se je pokusí poslat, avšak pokud se jí to nepodaří, možná vás nebude moci informovat o chybách.\nOpravdu chcete zavřít toto okno?
 [Message window warning]
 Varování komunikačního okna

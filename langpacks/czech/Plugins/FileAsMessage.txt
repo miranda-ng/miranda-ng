@@ -59,13 +59,13 @@ Příjem dat...
 Přenos dat úspěšně dokončen
 [Unknown command for "File As Message" was received]
 Byl přijat neznámý příkaz pro "Soubor jako zpráva"
-[Incoming file request. Do you want proceed?]
+[Incoming file request. Do you want to proceed?]
 Žádost o přenos souboru. Chcete pokračovat?
 [Cancelled by remote user]
 Přerušeno protistranou
-[New incoming file request. Do you want proceed?]
+[New incoming file request. Do you want to proceed?]
 Nová žádost o přenos souboru. Chcete pokračovat?
-[Paused, 'coz connection dropped]
+[Paused, because connection dropped]
 Spojení přerušeno, přenos byl pozastaven. 
 [Failed on file initialization]
 Chyba při inicializaci přenosu

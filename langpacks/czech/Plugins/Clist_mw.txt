@@ -108,7 +108,7 @@ Ikona v oznamovací oblasti
 Ikona v oznamovací oblasti při použití více protokolů
 [Contact List Sorting]
 Řazení seznamu kontaktů
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Kontakty offline nepřesouvat na konec
 [Pin to desktop]
 Připíchnout na plochu

@@ -30,7 +30,7 @@
 [Example: Petrov_Ivan@mail.ru]
 [Create a new Mail.ru account using the Mail.ru website]
 [Retrieve a lost password]
-[Leave empty if you dont want change password]
+[Leave empty if you don't want to change password]
 [Popup type]
 [Popup settings]
 [Writed:]

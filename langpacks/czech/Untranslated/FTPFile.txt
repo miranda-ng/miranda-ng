@@ -51,7 +51,7 @@
 [PAUSED]
 [WAITING...]
 [UNKNOWN]
-[Error occured when zipping the file(s).]
+[Error occurred when zipping the file(s).]
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]
 [%s (%d kB/%d kB)]

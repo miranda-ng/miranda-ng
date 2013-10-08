@@ -25,7 +25,7 @@ Nápověda k proměnným
 [Close]
 Zavřít
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now ?]
+[Some changes weren't saved. Apply the changes now?]
 Některé ze změn nejsou uloženy. Chcete je uložit?
 [Changes not saved]
 Změny nebyly uloženy

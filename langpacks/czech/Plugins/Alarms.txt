@@ -94,7 +94,7 @@ Co rok
 Nikdo mě nedostane
 [Date and Time]
 Datum a čas
-[Disable next occurence]
+[Disable next occurrence]
 Vypnout příští oznámení
 [Don't trigger on startup]
 Neupozorňovat při spuštění

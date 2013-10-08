@@ -15,7 +15,7 @@
 [YAMN: new mail message]
 [No new mail message]
 [%s - connection error]
-[An error occured. Error code: %d]
+[An error occurred. Error code: %d]
 [%s - %d new mail messages, %d total]
 [- new mail message(s)]
 [%s : %d new mail message(s), %d total]

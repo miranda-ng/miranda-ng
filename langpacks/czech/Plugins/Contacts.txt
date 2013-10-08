@@ -36,7 +36,7 @@ Po&drobnosti
 Zavřít
 [Contacts send error]
 Chyba při odesílání kontaktů
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Došlo k chybě. Příslušný protokol zahlásil následující problém:
 [Try again]
 Opakovat

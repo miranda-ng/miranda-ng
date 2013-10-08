@@ -370,7 +370,7 @@ Udržuje vaše vlastní informace o narozeninách aktuální.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Kvůli chybě parametru nemohla být přidána jedna z položek nabídky!
-[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 Nastalo katastrofální selhání při přidávání záložky detailů!\nAkce zrušena!
 [Rename Item]
 Přejmenovat položku

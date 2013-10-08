@@ -99,7 +99,7 @@ Poslední relace je prázdná
 Neexistují žádné kontakty k otevření
 [This Session already opened]
 Tato relace je již otevřena
-[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Tato relace je již otevřena (ale nejspíše skryta)\nPřejete si zobrazit skryté kontakty?
 [Open Sessions Manager]
 Otevřít správce relací

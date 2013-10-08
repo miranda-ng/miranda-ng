@@ -109,7 +109,7 @@ Staženo.
 Aktualizátor
 [Download complete]
 Stahování dokončeno
-[Download complete. Do you want go to plugins option page?]
+[Download complete. Do you want to go to plugins option page?]
 Stahování dokončeno. Přejete si zobrazit nastavení doplňků?
 [Component Name]
 Název komponenty
@@ -163,5 +163,5 @@ Seznam komponent
 Aktualizátor - Spojení pomocí protokolu HTTP
 [Checking new updates...]
 Zjišťování aktualizací...
-[An error occured while checking new updates.]
+[An error occurred while checking new updates.]
 Nastala chyba při zjišťování aktualizací.

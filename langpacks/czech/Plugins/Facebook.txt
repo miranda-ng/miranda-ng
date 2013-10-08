@@ -153,15 +153,15 @@ Jenom já
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.
-[Error occured when removing contact from server.]
+[Error occurred when removing contact from server.]
 Nastala chyba při odebírání kontaktu z vašeho seznamu přátel.
 [Request for friendship was sent.]
 Požadavek o přátelství byl odeslán.
-[Error occured when requesting friendship.]
+[Error occurred when requesting friendship.]
 Nastala chyba při žádání o přátelství.
 [Request for friendship was canceled.]
 Požadavek o přátelství byl zrušen.
-[Error occured when canceling friendship request.]
+[Error occurred when canceling friendship request.]
 Nastala chyba při rušení požadavku o přátelství.
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]

@@ -233,9 +233,9 @@ Zobrazit text
 Zpráva s obrázkem (pomocí BBCode)
 [You need to specify your registration e-mail first.]
 Nejdříve je nutné zadat registrační e-mail.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Heslo bude odesláno na Váš e-mail.\nChcete pokračovat?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Před změnou nastavení účtu doporučujeme odpojení od sítě.\nChcete se odpojit od sítě Gadu-Gadu?
 [Allow]
 Povolit
@@ -285,7 +285,7 @@ Identifikátor
 Založit novou konferen&ci...
 [&Clear ignored conferences]
 &Vymazat ignorované konference
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s založil konferenci (počet účastníků: %d, z toho neznámých: %s).\nChcete se přidat?
 [%s initiated the conference.]
 %s zahájil konferenci.

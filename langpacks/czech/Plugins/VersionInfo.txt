@@ -86,7 +86,7 @@ Požadované informace byly zkopírovány do schránky.
 Určit pomocí doplňku Folders
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 
-[Show plugin UUIDs ?]
+[Show plugin UUIDs?]
 Zobrazit UUID doplňků
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]

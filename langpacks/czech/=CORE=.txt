@@ -1081,7 +1081,7 @@ Max. výška obrázku avataru
 Max. počet bliknutí
 [Send Error]
 Chyba při odesílání
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Došlo k chybě. Příslušný protokol zahlásil následující problém:
 [while sending the following message:]
 během odesílání následující zprávy:
@@ -1966,7 +1966,7 @@ Kontakt začal psát
 [Contact stopped typing]
 Kontakt přestal psát
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Neznámá chyba.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]

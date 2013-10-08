@@ -56,7 +56,7 @@ Máte %d nepřečtených e-mailů...
 Máte nepřečtený e-mail...
 [Exchange email]
 Exchange e-mail
-[Do you want to see the email headers ?]
+[Do you want to see the email headers?]
 Přejete si zobrazit hlavičky e-mailu?
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]

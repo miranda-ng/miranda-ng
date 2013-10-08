@@ -90,7 +90,7 @@ Oznámení
 [Pack Updater]
 
 ;file \plugins\PackUpdater\Src\Notifications.cpp
-[An error occured while downloading the update.]
+[An error occurred while downloading the update.]
 Nastala chyba při stahování informací.
 [Component Name]
 Název doplňku

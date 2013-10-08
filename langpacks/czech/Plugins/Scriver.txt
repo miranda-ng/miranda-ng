@@ -144,7 +144,7 @@ Blikat v oblasti oznámení a okně s kontakty
 Oznámit pomocí bubliny
 [Send Error]
 Chyba při odesílání
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Došlo k chybě. Příslušný protokol zahlásil následující problém:
 [while sending the following message:]
 během odesílání následující zprávy:
@@ -166,7 +166,7 @@ Rozhovor
 &Q
 [Send To All Tabs]
 Odeslat všem otevřeným
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Zpráva bude odeslána do všech otevřených panelů.\nPřejete si pokračovat?
 [Remember my choice for this container]
 Pamatovat si mou volbu pro tento kontejner
@@ -683,7 +683,7 @@ Kontakt začal psát
 [Contact stopped typing]
 Kontakt přestal psát
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Neznámá chyba.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

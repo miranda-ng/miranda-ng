@@ -1959,7 +1959,7 @@ Editor...
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 
-[Error occured during processing command]
+[Error occurred during processing command]
 Chyba při zpracování příkazu
 [Set status]
 Změnit stav
@@ -2015,7 +2015,7 @@ Počet zpráv k přeposlání: %d
 Počet přeposlaných zpráv: %d
 [Workstation successfully locked]
 Počítač byl zamknut
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 Chyba č.%d při zamykání počítače
 [Confirmation needed]
 

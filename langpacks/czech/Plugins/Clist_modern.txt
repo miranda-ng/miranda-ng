@@ -244,7 +244,7 @@ Skrýt prázdné skupiny
 Vypnout skupiny
 [Ask before deleting contacts]
 Potvrdit smazání kontaktů
-[Dont move offline user to bottom]
+[Don't move offline user to bottom]
 Kontakty offline nepřesouvat na konec
 [Contact List]
 Seznam kontaktů
@@ -665,27 +665,27 @@ Překrytí avataru
 Překrytí stavu
 [Contact List smileys]
 Smajlíky pro kontakty
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
 [Converting to MetaContact]
 Konverze na metakontakt
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 Chcete zkonvertovat kontakt '%s' na metakontakt, '%s' k němu přidat a odstranit jej z '%s'?
 [Converting to MetaContact (Moving)]
 Konverze na metakontakt (přesun)
-[Do you want to contact '%s' be added to metacontact '%s'?]
+[Do you want contact '%s' to be added to metacontact '%s'?]
 Chcete přidat kontakt '%s' k metakontaktu '%s'?
 [Adding contact to MetaContact]
 Přidávání k metakontaktu
-[Do You want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 Chcete, aby kontakt '%s' byl výchozí?
 [Set default contact]
 Nastavení výchozího kontaktu
-[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Chcete odstranit kontakt '%s' z metakontaktu '%s' a přidat jej do '%s'?
 [Changing MetaContacts (Moving)]
 Změna metakontaktu (přesun)
-[Do You want contact '%s' to be added to MetaContact '%s'?]
+[Do you want contact '%s' to be added to MetaContact '%s'?]
 Chcete přidat kontakt '%s' do metakontaktu '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]

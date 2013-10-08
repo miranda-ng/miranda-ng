@@ -200,7 +200,7 @@ Soubor je poškozen
 Tato operace ODSTRANÍ NATRVALO všechnu historii tohoto kontaktu.\nJste si jistí, že chcete pokračovat?
 [Are You sure?]
 Opravdu chcete pokračovat?
-[Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Přejete si smazat všechny importované zprávy tohoto kontaktu?\nUvědomte si, že další naplánovaná úloha naimportuje tyto zprávy znovu.
 [Open in &new window]
 Otevřít v &novém okně
@@ -242,9 +242,9 @@ Dat (mContacts)
 Uložit pozici okna jako výchozí
 [Save window position for all contacts]
 Uložit pozici okna pro všechny kontakty
-[Do you want save imported messages to local profile?]
+[Do you want to save imported messages to local profile?]
 Přejete si uložit importované zprávy do lokálního profilu?
-[File contain history for different contact. Do you want to change contact and import?]
+[File contains history for different contact. Do you want to change contact and import?]
 Soubor obsahuje historii jiného kontaktu. Přejete si změnit kontakt a naimportovat ji?
 [Error]
 Chyba

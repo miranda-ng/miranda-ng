@@ -140,7 +140,7 @@ Přezdívka
 Protokol
 [UIN]
 UIN
-[You have unapplyed changes do you wish to apply these first ?]
+[You have unapplyed changes do you wish to apply these first?]
 Některé ze změn nebyly potvrzeny. Chcete je potvrdit?
 [Executable files]
 
@@ -269,7 +269,7 @@ Chyba při zápisu položky SMS do souboru:\n
 
 [Failed to write Unknown event to the file :\n]
 
-[User has been deleted do you want to delete the file?]
+[User has been deleted. Do you want to delete the file?]
 
 [Failed to delete the file]
 Chyba při mazání souboru

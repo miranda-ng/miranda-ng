@@ -230,7 +230,7 @@ Info
 
 [please set keyring's home directory]
 
-[There is existing key for contact, would you like to replace with new key ?]
+[There is existing key for contact, would you like to replace with new key?]
 
 [New public key was received, do you want to import it?]
 
@@ -276,28 +276,28 @@ Přijmout
 
 [ for account ]
 
-[ deleted from gpg secret keyring\nDo you want to set another key ?]
+[ deleted from gpg secret keyring\nDo you want to set another key?]
 
 [Own secret key warning]
 
-[ expired and will not work\nDo you want to set another key ?]
+[ expired and will not work\nDo you want to set another key?]
 
 [You didn't set a private key.\nWould you like to set it now?]
 
 [Own private key warning]
 
-[Do you want load key for all subcontacts ?]
+[Do you want to load key for all subcontacts?]
 
 [Metacontact detected]
 
 ;file \plugins\New_GPG\src\messages.cpp
-[We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?]
+[We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 
-[Do you want try to decrypt encrypted message ?]
+[Do you want to try to decrypt encrypted message?]
 
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
 
-[We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
+[We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
 
@@ -320,7 +320,7 @@ Kontakt
 ID klíče
 [Protocol]
 Protokol
-[This key not used by any contact, do you want to remove it from public keyring ?]
+[This key is not used by any contact. Do you want to remove it from public keyring?]
 
 [Key info]
 
@@ -330,7 +330,7 @@ Protokol
 
 [Key removed from GPG keyring]
 
-[Do you want to remove key from entire metacontact (all subcontacts) ?]
+[Do you want to remove key from entire metacontact (all subcontacts)?]
 
 [Export public key]
 Exportovat veřejný klíč
@@ -365,9 +365,9 @@ Exportovat veřejný klíč
 [Where is no public or private key.]
 
 ;file \plugins\New_GPG\src\utilities.cpp
-[Do you want to toggle encryption for all subcontacts ?]
+[Do you want to toggle encryption for all subcontacts?]
 
-[Target file exists, do you want to replace it ?]
+[Target file exists, do you want to replace it?]
 
 [Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
 
