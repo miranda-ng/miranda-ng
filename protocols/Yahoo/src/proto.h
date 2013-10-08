@@ -298,10 +298,6 @@ private:
 	HGENMENU mainMenuRoot;
 	HGENMENU hShowProfileMenuItem;
 	HGENMENU menuItemsAll[ 8 ];
-
-	HANDLE hYahooAvatarsFolder;
-	bool   InitCstFldRan;
-	void   InitCustomFolders(void);
 };
 
 extern LIST<CYahooProto> g_instances;

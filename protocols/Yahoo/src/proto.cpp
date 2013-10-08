@@ -39,7 +39,6 @@ CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
 
 	LoadYahooServices();
 	IconsInit();
-	InitCustomFolders();
 }
 
 CYahooProto::~CYahooProto()

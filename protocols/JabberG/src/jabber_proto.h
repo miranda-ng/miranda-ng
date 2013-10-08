@@ -612,7 +612,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   UpdateMirVer(HANDLE hContact, pResourceStatus &resource);
 	void   UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *item);
 	void   SetContactOfflineStatus(HANDLE hContact);
-	void   InitCustomFolders(void);
 	void   InitPopups(void);
 	void   MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *szTitle);
 
@@ -848,9 +847,6 @@ private:
 	DWORD  m_lastTicks;
 
 	HANDLE m_hPopupClass;
-
-	HANDLE m_hJabberAvatarsFolder;
-	BOOL   m_bFoldersInitDone;
 
 	LONG   m_nSerial;
 

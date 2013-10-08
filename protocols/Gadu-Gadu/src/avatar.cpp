@@ -28,15 +28,7 @@
 
 void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 {
-	int tPathLen;
-	TCHAR *path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
-
-	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, cbLen, _T("")))
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
-	else {
-		_tcscpy(pszDest, path);
-		tPathLen = (int)_tcslen(pszDest);
-	}
+	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
 
 	if (_taccess(pszDest, 0)) {
 		int ret = CreateDirectoryTreeT(pszDest);

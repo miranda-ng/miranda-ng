@@ -239,18 +239,6 @@ void CSkypeProto::InitLanguages()
 	result[L"yo"] = L"Yoruba";
 	result[L"za"] = L"Zhuang";
 	result[L"zu"] = L"Zulu";
- }
-
-void CSkypeProto::InitCustomFolders()
-{
-	if (m_bInitDone)
-		return;
-
-	m_bInitDone = true;
-
-	TCHAR AvatarsFolder[MAX_PATH];
-	::mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), this->m_szModuleName);
-	m_hAvatarsFolder = ::FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, AvatarsFolder, m_tszUserName);
 }
 
 // ---

@@ -289,8 +289,6 @@ int CIcqProto::OnModulesLoaded( WPARAM wParam, LPARAM lParam )
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &CIcqProto::OnIdleChanged);
 
-	InitAvatars();
-
 	// Init extra optional modules
 	ModuleLoad(0, 0);
 	InitXStatusItems(FALSE);

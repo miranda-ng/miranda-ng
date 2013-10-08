@@ -24,7 +24,6 @@ struct MRA_AVATARS_QUEUE : public FIFO_MT
 	int    iThreadsCount;
 	HANDLE hThread[MAXIMUM_WAIT_OBJECTS];
 	LONG   lThreadsRunningCount;
-	HANDLE hAvatarsPath;
 };
 
 struct MRA_AVATARS_QUEUE_ITEM : public FIFO_MT_ITEM
@@ -68,17 +67,12 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 		char szBuffer[MAX_PATH];
 		mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s %s", m_szModuleName, Translate("Avatars' plugin connections"));
 
-		NETLIBUSER nlu = {0};
-		nlu.cbSize = sizeof(nlu);
+		NETLIBUSER nlu = { sizeof(nlu) };
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
 		nlu.szSettingsModule = MRA_AVT_SECT_NAME;
 		nlu.szDescriptiveName = szBuffer;
 		pmraaqAvatarsQueue->m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 		if (pmraaqAvatarsQueue->m_hNetlibUser) {
-			TCHAR tszPath[ MAX_PATH ];
-			mir_sntprintf( tszPath, SIZEOF(tszPath), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
-			pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, tszPath, m_tszUserName);
-
 			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
 			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 			pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
@@ -504,13 +498,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 
 	TCHAR tszBase[MAX_PATH];
-	if (pmraaqAvatarsQueue->hAvatarsPath == NULL)
-		// default path
-		mir_sntprintf(tszBase, MAX_PATH, _T("%s\\%s\\"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
-	else {
-		FoldersGetCustomPathT(pmraaqAvatarsQueue->hAvatarsPath, tszBase, MAX_PATH, _T(""));
-		_tcsncat(tszBase, _T("\\"), MAX_PATH);
-	}
+	mir_sntprintf(tszBase, SIZEOF(tszBase), _T("%s\\%s\\"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 	res = tszBase;
 
 	// some path in buff and free space for file name is avaible

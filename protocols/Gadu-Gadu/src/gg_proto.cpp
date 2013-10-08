@@ -69,9 +69,6 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	TCHAR szPath[MAX_PATH];
-	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
-	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, szPath, m_tszUserName);
-
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 

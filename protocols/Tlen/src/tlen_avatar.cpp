@@ -34,9 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* ptszDest, int cbLen)
 {
 	int format = PA_FORMAT_PNG;
-	TCHAR* tmpPath = Utils_ReplaceVarsT( TEXT("%miranda_avatarcache%") );
-	int tPathLen = mir_sntprintf(ptszDest, cbLen, TEXT("%s\\Tlen"), tmpPath );
-	mir_free(tmpPath);
+	int tPathLen = mir_sntprintf(ptszDest, cbLen, TEXT("%s\\Tlen"), VARST( TEXT("%miranda_avatarcache%")));
 	DWORD dwAttributes = GetFileAttributes( ptszDest );
 	if (dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0)
 		CreateDirectoryTreeT(ptszDest);

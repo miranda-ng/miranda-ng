@@ -140,7 +140,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	GlobalMenuInit();
 	WsInit();
 	ConsoleInit();
-	InitCustomFolders();
 
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));

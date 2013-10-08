@@ -184,7 +184,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 	HANDLE		hMSNNudge;
 	HANDLE      hPopupError, hPopupHotmail, hPopupNotify;
 
-	HANDLE		hMSNAvatarsFolder;
 	HANDLE		hCustomSmileyFolder;
 	bool        InitCstFldRan;
 	bool        isConnectSuccess;

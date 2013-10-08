@@ -15,7 +15,6 @@ int CSkypeProto::OnProtoModulesLoaded(WPARAM, LPARAM)
 {
 	this->InitNetLib();
 	this->InitChatModule();
-	this->InitCustomFolders();
 	this->InitInstanceHookList();
 
 	if (::ServiceExists(MS_BB_ADDBUTTON))

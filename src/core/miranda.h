@@ -79,6 +79,10 @@ extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModul
 char* GetPluginNameByInstance(HINSTANCE hInstance);
 int   GetPluginFakeId(const MUUID &uuid, int hLangpack);
 
+/**** path.cpp *************************************************************************/
+
+void InitPathVar(void);
+
 /**** srmm.cpp *************************************************************************/
 
 void KillModuleSrmmIcons(int hLangpack);

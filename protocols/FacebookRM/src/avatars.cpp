@@ -133,8 +133,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 std::tstring FacebookProto::GetAvatarFolder()
 {
 	TCHAR path[MAX_PATH];
-	if (!hAvatarFolder_ || FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), _T("")))
-		mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), (TCHAR*)VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
 	return path;
 }
 

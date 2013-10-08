@@ -160,8 +160,6 @@ private:
 	twitter_id since_id_;
 	twitter_id dm_since_id_;
 
-	HANDLE hAvatarFolder_;
-
 	bool in_chat_;
 
 	int disconnectionCount;

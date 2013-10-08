@@ -161,13 +161,11 @@ struct CAimProto : public PROTO<CAimProto>
 	unsigned short mail_seqno;
 
 	//avatar connection stuff
-	bool init_cst_fld_ran;
 	unsigned short avatar_seqno;
 	unsigned short avatar_id_sm;
 	unsigned short avatar_id_lg;
 	HANDLE hAvatarConn;
 	HANDLE hAvatarEvent;
-	HANDLE hAvatarsFolder;
 
 	ft_list_type ft_list;
 
@@ -218,7 +216,6 @@ struct CAimProto : public PROTO<CAimProto>
 	void   avatar_request_handler(HANDLE hContact, char* hash, unsigned char type);
 	void   avatar_retrieval_handler(const char* sn, const char* hash, const char* data, int data_len);
 	int    get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
-	void   init_custom_folders(void);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// away.cpp

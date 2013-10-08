@@ -29,10 +29,10 @@ extern "C"
 
 void UnloadLangPackModule(void);
 
-int InitialiseModularEngine(void);
+int  InitialiseModularEngine(void);
 void DestroyModularEngine(void);
 
-int InitPathUtils(void);
+int  InitPathUtils(void);
 
 void InitProtocols();
 void UninitProtocols();

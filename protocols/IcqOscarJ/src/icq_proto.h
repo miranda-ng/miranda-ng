@@ -393,16 +393,12 @@ struct CIcqProto : public PROTO<CIcqProto>
 	BOOL   m_avatarsConnectionPending;
 	avatars_server_connection *m_avatarsConnection;
 
-	int    bAvatarsFolderInited;
-	HANDLE hAvatarsFolder;
-
 	void   requestAvatarConnection();
 	void   __cdecl AvatarThread(avatars_server_connection *pInfo);
 
 	void   handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BYTE nDataLen);
 	void   handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContact, BYTE *pHash, int nHashLen, WORD wOldStatus);
 
-	void   InitAvatars();
 	avatars_request *ReleaseAvatarRequestInQueue(avatars_request *request);
 
 	TCHAR* GetOwnAvatarFileName();

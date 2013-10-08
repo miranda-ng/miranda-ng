@@ -169,12 +169,10 @@ static void __cdecl loadFlash_Thread(void *p) {
 		fgd.szPathT = path;
 		fgd.flags = FF_TCHAR;
 		if (!hAvatarsFolder || CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd)) {
-			if(ServiceExists(MS_UTILS_REPLACEVARS)) {
-				TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
-				mir_sntprintf(path, MAX_PATH, _T("%s\\%s"), tmpPath, _T("Flash"));
-				mir_free(tmpPath);
-			}
-			else PathToAbsoluteT( _T("Flash"), path);
+			if(ServiceExists(MS_UTILS_REPLACEVARS))
+				mir_sntprintf(path, MAX_PATH, _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), _T("Flash"));
+			else
+				PathToAbsoluteT( _T("Flash"), path);
 		}
 		else {
 			if(_tcslen(path) && path[_tcslen(path)-1]=='\\')
@@ -592,15 +590,7 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
 
 	TCHAR path[MAX_PATH];
-	if (ServiceExists(MS_UTILS_REPLACEVARS))
-	{ // default Avatar Cache path for MIM 0.8+
-		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
-		mir_sntprintf(path, MAX_PATH, _T("%s\\%s\\"), tmpPath, _T("Flash"));
-		mir_free(tmpPath);
-	}
-	// default for older Mirandas
-	else PathToAbsoluteT( _T("Flash\\"), path);
-
+	mir_sntprintf(path, MAX_PATH, _T("%s\\%s\\"), VARST(_T("%miranda_avatarcache%")), _T("Flash"));
 	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Flash Avatars"), path);
 	return 0;
 }

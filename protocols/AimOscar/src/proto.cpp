@@ -47,7 +47,6 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	HookProtoEvent(ME_CLIST_GROUPCHANGE,         &CAimProto::OnGroupChange);
 	HookProtoEvent(ME_OPT_INITIALISE,            &CAimProto::OnOptionsInit);
 
-	init_custom_folders();
 	offline_contacts();
 
 	TCHAR descr[MAX_PATH];

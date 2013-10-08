@@ -447,11 +447,6 @@ protected:
 	// utils
 	static wchar_t* ValidationReasons[];
 
-	void InitCustomFolders();
-
-	HANDLE m_hAvatarsFolder;
-	bool   m_bInitDone;
-
 	static int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
 	static char *RemoveHtml(const char *data);

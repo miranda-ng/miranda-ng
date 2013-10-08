@@ -151,7 +151,6 @@ public:
    HANDLE  update_loop_lock_;
 
    std::tstring def_avatar_folder_;
-   HANDLE  hAvatarFolder_;
 
    HANDLE m_hNetlibUser;
    WASocketConnection* conn;

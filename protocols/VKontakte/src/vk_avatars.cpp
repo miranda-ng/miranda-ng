@@ -93,13 +93,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 void CVkProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 {
-	size_t tPathLen;
-	TCHAR *path = (TCHAR*)_alloca(cbLen * sizeof(TCHAR));
-
-	if (m_hAvatarFolder == NULL || FoldersGetCustomPathT(m_hAvatarFolder, path, (int)cbLen, _T("")))
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), (TCHAR*)VARST(_T("%miranda_avatarcache%")), m_szModuleName);
-	else
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s"), path);
+	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)

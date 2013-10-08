@@ -123,31 +123,9 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 	ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
 }
 
-void CAimProto::init_custom_folders(void)
-{
-	if (init_cst_fld_ran) return;
-
-	TCHAR AvatarsFolder[MAX_PATH];
-
-	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
-	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, AvatarsFolder, m_tszUserName);
-	init_cst_fld_ran = true;
-}
-
 int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
 {
-	size_t tPathLen;
-	bool found = false;
-
-	init_custom_folders();
-
-	TCHAR* path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
-	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, (int)cbLen, _T("")))
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_szModuleName);
-	else {
-		_tcscpy(pszDest, path);
-		tPathLen = _tcslen(pszDest);
-	}
+	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
 
 	if (ext && _taccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
@@ -159,6 +137,7 @@ int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen
 	tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), dbv.ptszVal);
 	db_free(&dbv);
 
+	bool found = false;
 	if (ext == NULL)
 	{
 		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T(".*"));

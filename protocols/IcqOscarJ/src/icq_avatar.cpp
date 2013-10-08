@@ -83,20 +83,6 @@ avatars_request* CIcqProto::ReleaseAvatarRequestInQueue(avatars_request *request
 }
 
 
-void CIcqProto::InitAvatars()
-{
-	if (bAvatarsFolderInited)
-		return;
-
-	bAvatarsFolderInited = TRUE;
-
-	// check if it does make sense
-	TCHAR tszPath[MAX_PATH * 2];
-	mir_sntprintf(tszPath, MAX_PATH * 2, _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
-	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, tszPath, m_tszUserName);
-}
-
-
 TCHAR* CIcqProto::GetOwnAvatarFileName()
 {
 	DBVARIANT dbvFile = {DBVT_DELETED};
@@ -123,22 +109,13 @@ void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat
 void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, int cbLen)
 {
 	TCHAR szPath[MAX_PATH * 2];
+	mir_sntprintf(szPath, MAX_PATH * 2, _T("%s\\%S\\"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+
 	FOLDERSGETDATA fgd = {0};
-
-	InitAvatars();
-
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH * 2;
 	fgd.szPathT = szPath;
 	fgd.flags = FF_TCHAR;
-	if (CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd))
-	{
-		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
-		mir_sntprintf(szPath, MAX_PATH * 2, _T("%s\\%S\\"), tmpPath, m_szModuleName);
-		mir_free(tmpPath);
-	}
-	else
-		_tcscat(szPath, _T("\\"));
 
 	// fill the destination
 	lstrcpyn(pszDest, szPath, cbLen - 1);

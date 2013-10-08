@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // contains the location of mirandaboot.ini
 extern TCHAR mirandabootini[MAX_PATH];
 bool g_bDbCreated;
-TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH];
+TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_profileRoot[MAX_PATH];
 TCHAR* g_defaultProfile;
 void EnsureCheckerLoaded(bool);
 
@@ -51,6 +51,11 @@ static void fillProfileName(const TCHAR* ptszFileName)
 		p++;
 
 	_tcsncpy(g_profileName, p, SIZEOF(g_profileName));
+
+	TCHAR *szProfile = NEWTSTR_ALLOCA(p);
+	TCHAR *pExt = _tcsstr( _tcslwr(szProfile), _T(".dat"));
+	if (pExt) *pExt = 0;
+	mir_sntprintf(g_profileRoot, SIZEOF(g_profileRoot), _T("%s\\%s"), g_profileDir, szProfile);
 }
 
 bool IsInsideRootDir(TCHAR* profiledir, bool exact)

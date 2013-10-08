@@ -607,34 +607,9 @@ void CYahooProto::request_avatar(const char* who)
 	else LOG(("Avatar Not Available for: %s Last Check: %ld Current: %ld (Flood Check in Effect)", who, last_chk, cur_time));
 }
 
-void CYahooProto::InitCustomFolders(void)
-{
-	if (InitCstFldRan)
-		return;
-
-	InitCstFldRan = true;
-
-	TCHAR AvatarsFolder[MAX_PATH];
-	mir_sntprintf(AvatarsFolder, MAX_PATH, _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
-	hYahooAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, AvatarsFolder, m_tszUserName);
-}
-
 void CYahooProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, int cbLen, int type)
 {
-	size_t tPathLen;
-
-	InitCustomFolders();
-
-	TCHAR* path = ( TCHAR* )alloca( sizeof(TCHAR)*( cbLen+1 ));
-	if ( hYahooAvatarsFolder != NULL && !FoldersGetCustomPathT( hYahooAvatarsFolder, path, (int)cbLen, _T("")))
-	{
-		_tcscpy( pszDest, path );
-		tPathLen = _tcslen( pszDest );
-	} else {
-		TCHAR *tmpPath = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), tmpPath, m_szModuleName);
-		mir_free(tmpPath);
-	}
+	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
 
 	if ( _taccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);

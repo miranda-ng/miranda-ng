@@ -23,15 +23,8 @@ bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, HANDLE hContact)
 
 wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 {
-	wchar_t *path = (wchar_t*)::mir_alloc(MAX_PATH * sizeof(wchar_t));
-
-	this->InitCustomFolders();
-
-	if (m_hAvatarsFolder == NULL || FoldersGetCustomPathT(m_hAvatarsFolder, path, MAX_PATH, _T("")))
-	{
-		ptrW tmpPath( ::Utils_ReplaceVarsT(L"%miranda_avatarcache%"));
-		::mir_sntprintf(path, MAX_PATH, _T("%s\\%S"), tmpPath, this->m_szModuleName);
-	}
+	TCHAR path[MAX_PATH];
+	::mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), this->m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -43,12 +36,9 @@ wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 	else if (sid != NULL)
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.jpg"), path, sid);
 	else
-	{
-		::mir_free(path);
 		return NULL;
-	}
 
-	return path;
+	return mir_wstrdup(path);
 }
 
 INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)

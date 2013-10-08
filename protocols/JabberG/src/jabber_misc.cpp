@@ -178,28 +178,9 @@ BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetAvatarFileName() - gets a file name for the avatar image
 
-void CJabberProto::InitCustomFolders(void)
-{
-	if (m_bFoldersInitDone)
-		return;
-
-	m_bFoldersInitDone = true;
-	TCHAR AvatarsFolder[MAX_PATH];
-	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
-	m_hJabberAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, AvatarsFolder, m_tszUserName);
-}
-
 void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 {
-	size_t tPathLen;
-	TCHAR *path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
-
-	InitCustomFolders();
-
-	if (m_hJabberAvatarsFolder == NULL || FoldersGetCustomPathT(m_hJabberAvatarsFolder, path, (int)cbLen, _T("")))
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), (TCHAR*)VARST(_T("%miranda_avatarcache%")), m_szModuleName);
-	else
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s"), path);
+	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)

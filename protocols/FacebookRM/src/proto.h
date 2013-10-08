@@ -227,7 +227,6 @@ public:
 	std::vector<HANDLE> popupClasses;
 
 	std::string last_status_msg_;
-	HANDLE  hAvatarFolder_;
 	HANDLE	hSmileysFolder_;
 	std::vector<HANDLE> avatar_queue;
 

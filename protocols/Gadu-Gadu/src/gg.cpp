@@ -147,20 +147,16 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 void GGPROTO::cleanuplastplugin(DWORD version)
 {
-
 	// Store current plugin version
 	setDword(GG_PLUGINVERSION, pluginInfo.version);
-
 
 	//1. clean files: %miranda_avatarcache%\GG\*.(null)
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)){
 		netlog("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
 		TCHAR avatarsPath[MAX_PATH];
-		if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, avatarsPath, MAX_PATH, _T(""))) {
-			ptrT tmpPath( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
-			mir_sntprintf(avatarsPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)tmpPath, m_tszUserName);
-		}
+		mir_sntprintf(avatarsPath, MAX_PATH, _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+
 		netlog("cleanuplastplugin() 1: miranda_avatarcache = %S", avatarsPath);
 
 		if (avatarsPath !=  NULL){

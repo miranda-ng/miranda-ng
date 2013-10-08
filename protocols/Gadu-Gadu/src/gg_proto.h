@@ -267,7 +267,6 @@ struct GGPROTO : public PROTO<GGPROTO>
 	HGENMENU hMainMenu[7];
 	HGENMENU hBlockMenuItem, hImageMenuItem, hInstanceMenuItem;
 	HANDLE   hPrebuildMenuHook;
-	HANDLE   hAvatarsFolder;
 	HANDLE   hImagesFolder;
 	HWND     hwndSessionsDlg;
 	HANDLE   hPopupNotify, hPopupError;

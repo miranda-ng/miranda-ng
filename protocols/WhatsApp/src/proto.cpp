@@ -34,10 +34,7 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 
 	WASocketConnection::initNetwork(m_hNetlibUser);
 
-	TCHAR *profile = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
-	def_avatar_folder_ = std::tstring(profile) + _T("\\") + m_tszUserName;
-	mir_free(profile);
-	hAvatarFolder_ = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", def_avatar_folder_.c_str());
+	def_avatar_folder_ = std::tstring( VARST( _T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
 
 	// Register group chat
 	GCREGISTER gcr = {0};
@@ -316,11 +313,7 @@ int WhatsAppProto::RequestFriendship(WPARAM wParam, LPARAM lParam)
 
 std::tstring WhatsAppProto::GetAvatarFolder()
 {
-	TCHAR path[MAX_PATH];
-	if ( hAvatarFolder_ && FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), _T("")) == 0 )
-		return path;
-	else
-		return def_avatar_folder_;
+	return def_avatar_folder_;
 }
 
 int WhatsAppProto::Log(const char* fn, const char *fmt,...)

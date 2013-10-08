@@ -234,6 +234,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		result = 1;
 		goto exit;
 	}
+	InitPathVar();
 	NotifyEventHooks(hModulesLoadedEvent, 0, 0);
 	bModulesLoadedFired = true;
 

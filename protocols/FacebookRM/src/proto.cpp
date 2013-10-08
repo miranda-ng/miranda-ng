@@ -73,9 +73,6 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 	facy.set_handle(m_hNetlibUser);	
 
-	mir_sntprintf(descr, SIZEOF(descr), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
-	hAvatarFolder_ = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, descr, m_tszUserName);
-
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE, true);
 }

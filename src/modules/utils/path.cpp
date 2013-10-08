@@ -24,9 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "../database/profilemanager.h"
 
-extern TCHAR g_profileDir[MAX_PATH];
+#include "..\..\..\plugins\ExternalAPI\m_folders.h"
 
-static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam);
+extern TCHAR g_profileDir[MAX_PATH], g_profileRoot[MAX_PATH];
+
+static HANDLE hAvatarFolder;
 
 static INT_PTR pathToRelative(WPARAM wParam, LPARAM lParam)
 {
@@ -162,22 +164,18 @@ static __forceinline char *GetProfileNameX(char *)
 }
 static __forceinline char *GetPathVarX(char *, int code)
 {
-	TCHAR szFullPath[MAX_PATH], szProfileName[MAX_PATH];
-	_tcscpy(szProfileName, g_profileName);
-	_tcslwr(szProfileName);
-	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if (lstrcmp(pos, _T(".dat")) == 0)
-		*pos = 0;
+	TCHAR szFullPath[MAX_PATH]; 
 
 	switch(code) {
 	case 1:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, szProfileName);
+		if (hAvatarFolder == NULL || FoldersGetCustomPathT(hAvatarFolder, szFullPath, SIZEOF(szFullPath), _T("")))
+			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\AvatarCache"), g_profileRoot);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, szProfileName);
+		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Logs"), g_profileRoot);
 		break;
 	case 3:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, szProfileName);
+		_tcsncpy_s(szFullPath, SIZEOF(szFullPath), g_profileRoot, _TRUNCATE);
 		break;
 	}
 	return makeFileName(szFullPath);
@@ -244,21 +242,18 @@ static __forceinline TCHAR *GetProfileNameX(TCHAR *)
 }
 static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 {
-	TCHAR szFullPath[MAX_PATH], szProfileName[MAX_PATH];
-	_tcscpy(szProfileName, g_profileName);
-	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if (lstrcmp(pos, _T(".dat")) == 0)
-		*pos = 0;
+	TCHAR szFullPath[MAX_PATH];
 
 	switch(code) {
 	case 1:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, szProfileName);
+		if (hAvatarFolder == NULL || FoldersGetCustomPathT(hAvatarFolder, szFullPath, SIZEOF(szFullPath), _T("")))
+			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\AvatarCache"), g_profileRoot);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, szProfileName);
+		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Logs"), g_profileRoot);
 		break;
 	case 3:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, szProfileName);
+		_tcsncpy_s(szFullPath, SIZEOF(szFullPath), g_profileRoot, _TRUNCATE);
 		break;
 	}
 	return mir_tstrdup(szFullPath);
@@ -392,6 +387,13 @@ static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
 		return (INT_PTR)ReplaceVariables<WCHAR>((WCHAR *)wParam, data);
 
 	return (INT_PTR)ReplaceVariables<char>((char *)wParam, data);
+}
+
+void InitPathVar()
+{
+	TCHAR szFullPath[MAX_PATH];
+	mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\AvatarCache"), g_profileRoot);
+	hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), szFullPath);
 }
 
 int InitPathUtils(void)
