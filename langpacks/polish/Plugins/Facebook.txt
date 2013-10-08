@@ -153,11 +153,11 @@ Tylko ja
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt został usunięty z listy serwera.
-[Error occured when removing contact from server.]
+[Error occurred when removing contact from server.]
 Błąd podczas usuwania kontaktu z serwera.
 [Request for friendship was sent.]
 Pytanie o znajomość zostało wysłane.
-[Error occured when requesting friendship.]
+[Error occurred when requesting friendship.]
 Błąd podczas pytania o znajomość.
 [Request for friendship was canceled.]
 Pytanie o znajomość zostało cofnięte.
@@ -212,8 +212,6 @@ Kontakt jest już na liście serwera.
 Połączenie %s
 [Unable to get Netlib connection for Facebook]
 Nie można uzyskać połączenia Netlib Facebook
-[Avatars]
-Awatary
 [Facebook ID must be numeric value.]
 Facebook ID musi być wartością numeryczną.
 [Network]

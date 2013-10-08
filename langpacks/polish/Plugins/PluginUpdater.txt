@@ -163,5 +163,5 @@ Lista wtyczek
 Połączenie HTTP Plugin Updater
 [Checking new updates...]
 Sprawdzanie aktualizacji...
-[An error occured while checking new updates.]
+[An error occurred while checking new updates.]
 Wystąpił błąd podczas sprawdzania aktualizacji.

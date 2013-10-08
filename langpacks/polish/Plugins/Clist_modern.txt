@@ -677,7 +677,7 @@ Konwertowanie do metakontaktu (przesuwanie)
 Chcesz dodać kontakt "%s" do metakontaktu "%s"?
 [Adding contact to MetaContact]
 Dodawanie kontaktu do metakontaktu
-[Do you want contact '%s' to be default ?]
+[Do you want contact '%s' to be default?]
 Chcesz żeby "%s" był domyslnym kontaktem?
 [Set default contact]
 Ustaw domyślny kontakt

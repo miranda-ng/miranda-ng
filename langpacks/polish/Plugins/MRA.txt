@@ -214,8 +214,6 @@ Ryby
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 Połączenia wtyczki Avatars
-[Avatars]
-Awatary
 [Avatars: server return HTTP code: %lu]
 Awatary: serwer zwrócił kod HTTP: %lu
 [Avatars: can't open file %s, error]
@@ -366,6 +364,8 @@ Konto
 Połączenia
 [Files]
 Pliki
+[Avatars]
+Awatary
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 Proszę uzupełnić e-mail w opcjach

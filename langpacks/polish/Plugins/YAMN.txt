@@ -192,7 +192,7 @@ Brak nowych wiadomości e-mail
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - błąd połączenia
-[An error occured. Error code: %d]
+[An error occurred. Error code: %d]
 Błąd. Kod błędu: %d
 [Unknown error]
 Nieznany błąd
@@ -262,8 +262,8 @@ Błąd odczytu pliku konta. Plik konta uszkodzony.
 Błąd alokacji pamięci podczas odczytu danych
 [Reading file error. File already in use?]
 Błąd odczytu pliku. Plik jest obecnie w użyciu?
-[Error while copying data to disk occured. File in use?]
-Błąd podczas kopiowania danych na dysk. Plik w użyciu?
+[Error while copying data to disk occurred. Is file in use?]
+Błąd podczas kopiowania danych na dysk. Czy plik jest w użyciu?
 [POP3 plugin- write file error]
 Wtyczka POP3 - bład zapisu pliku
 [Connecting to server]

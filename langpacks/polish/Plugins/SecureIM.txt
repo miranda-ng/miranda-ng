@@ -211,7 +211,7 @@ SecureIM: Błąd podczas deszyfrowania wiadomości.
 SecureIM: Błąd podczas deszyfrowania wiadomości, zła długość wiadomości.
 [SecureIM: Error while decrypting the message, bad message CRC.]
 SecureIM: błąd podczas deszyfrowania wiadomości, błąd CRC wiadomości.
-[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now?]
 Użytkownik nie odpowiedział na wymianę klucza!\nTwoje wiadomości są nadal w kolejce SecureIM, chcesz wysłaś je nieszyfrowane teraz?
 [SecureIM not enabled! You Must Enable SecureIM with this user...]
 SecureIM nie jest włączony! Musisz włączyć SecureIM z tym użytkownikiem...
@@ -325,11 +325,11 @@ Sezja została zamknięta lub przekroczono czas oczekiwania
 Sesja zamknięta przez drugą stronę, jeśli status "wyłączony"
 [Session closed on error: %02x]
 Sesja zamknięta z powodu błędu: %02x
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
 SecureIM otrzymał klucz publiczny RSA od "%s"\n\nSHA1: %s\n\nZaakceptować klucz?
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
 Automatycznie przyjęty klucz publiczny RSA od: %s uin: %s SHA1: %s
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
 SecureIM otrzymał nowy klucz publiczny RSA od "%s"\n\nNowy SHA1: %s\n\nStary SHA1: %s\n\nZastąpić klucz?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Automatycznie przyjęty klucz publiczny RSA od: %s uin: %s Nowy SHA1: %s Stary SHA1: %s

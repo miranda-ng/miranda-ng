@@ -36,7 +36,7 @@ Szczegóły
 Zamknij
 [Contacts send error]
 Błąd wysyłania kontaktu
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
 [Try again]
 Spróboj ponownie

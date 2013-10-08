@@ -61,7 +61,7 @@ Celownik
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [GCHAT error]
 Błąd GCHAT
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Nieznany błąd.
 [Error]
 Błąd

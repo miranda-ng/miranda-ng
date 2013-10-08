@@ -56,7 +56,7 @@ Masz %d nieprzeczytane wiadomości ...
 Masz jedną nieprzeczytaną wiadomość ...
 [Exchange email]
 email Exchange
-[Do you want to see the email headers ?]
+[Do you want to see the email headers?]
 Czy chcesz widzieć nagłówki wiadomości?
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]

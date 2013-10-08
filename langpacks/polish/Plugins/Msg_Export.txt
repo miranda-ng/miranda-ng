@@ -140,7 +140,7 @@ Nick
 Protokół
 [UIN]
 UIN
-[You have unapplyed changes do you wish to apply these first ?]
+[You have unapplyed changes do you wish to apply these first?]
 Masz niezapisane zmiany, czy chcesz je teraz zapisać?
 [Executable files]
 Pliki wykonywalne

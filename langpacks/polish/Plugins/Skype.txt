@@ -445,7 +445,5 @@ Wartość zawiera niedozwolone słowo
 Hasło jest zbyt proste
 [Value starts with an invalid character]
 Wartość zaczyna się od niepoprawnego znaku
-[Avatars]
-Awatary
 [Command "%s" is unsupported]
 Komenda "%s" nie jest wspierana

@@ -202,8 +202,6 @@ Ostrzeżenia Setup Live
 [&Start Netmeeting]
 Uruchom Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
-[Avatars]
-Awatary
 [Custom Smileys]
 Własne uśmieszki
 [Notify]

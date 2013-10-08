@@ -370,7 +370,7 @@ Utrzymuje twoją własną datę urodzin na bieżąco.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Z powodu błędu parametru, jeden z elementów drzewa nie może zostać dodany!
-[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 Wystąpił krytyczny błąd podczas dodawania strony właściwości!\nAnulowano tworzenie okna!
 [Rename Item]
 Zmień nazwę elementu

@@ -144,7 +144,7 @@ Migaj ikoną w zasobniku systemowym i na liście kontaktów
 Pokaż informację w chmurce
 [Send Error]
 Błąd wysyłania
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
 [while sending the following message:]
 podczas wysyłania wiadomości:
@@ -166,7 +166,7 @@ Sesja rozmowy
 &Q
 [Send To All Tabs]
 Wyślij do wszystkich zakładek
-[You are about to send a message to all open tabs.\nAre you sure ?]
+[You are about to send a message to all open tabs.\nAre you sure?]
 Zamierzasz wysłać wiadomość do wszystkich otwartych zakładek.\nCzy jesteś pewien?
 [Remember my choice for this container]
 Pamiętaj mój wybór dla tego kontenera
@@ -683,7 +683,7 @@ Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
 ;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Nieznany błąd.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]

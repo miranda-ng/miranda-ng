@@ -136,9 +136,6 @@ Odrzuć
 Wiadomość
 [Room]
 Pokój
-;file \protocols\AimOscar\src\avatars.cpp
-[Avatars]
-Awatary
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Ja
@@ -159,7 +156,7 @@ Niepoprawna nazwa okna lub hasło.
 Niezgodność nazwy ekranu lub hasła.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Zbyt dużo prób połączenia. Spróbuj za 10 minut.
-[Unknown error occured when attempting to connect.]
+[Unknown error occurred when attempting to connect.]
 Wystąpił nieznany błąd przy próbie połączenia.
 [Invalid SNAC header.]
 Niepoprawny nagłówek SNAC.
@@ -245,7 +242,7 @@ Pole "tylko do odczytu".
 Pole "tylko do zapisu".
 [Unsupported Type.]
 Nieobsługiwany typ.
-[An Error has occured.]
+[An Error has occurred.]
 Wystąpił błąd.
 [Invalid Account.]
 Niepoprawne konto.

@@ -383,8 +383,8 @@ Błąd bezpiecznego logowania.\nSerwer nie odpowiada.
 [Secure login failed.\nInvalid key length.]
 Błąd bezpiecznego logowania.\nBłędna długość klucza.
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
-Czy na pewno chcesz cofnąć autoryzację?
+[Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)]
+Czy na pewno chcesz cofnąć autoryzację? (na niektórych klientach usunie Cię to z jej/jego listy)
 [Confirmation]
 Potwierdź
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -398,8 +398,6 @@ Potwierdź
 [** Unknown missed message event.]
 ** Nieznana wiaodmość
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-[Avatars]
-Awatary
 [Error uploading avatar to server, server temporarily unavailable.]
 Błąd ładowania awatara na serwer, serwer tymczasowo niedostępny.
 [Error uploading avatar to server, server refused to accept the image.]

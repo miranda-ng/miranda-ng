@@ -5,6 +5,8 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
+[Tlen protocol support for Miranda NG.]
+Wsparcie protokołu Tlen w Mirandzie NG.
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Użytkownik:

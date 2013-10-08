@@ -233,9 +233,9 @@ Wyskakujące okno
 Wiadomość z tagiem [img]
 [You need to specify your registration e-mail first.]
 Musisz najpierw wpisać w konfiguracji swój e-mail rejestracyjny.
-[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Twoje hasło zostanie wysłane na twój e-mail rejestracyjny.\nChcesz kontynuować ?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami Twojego konta.\nCzy chcesz się rozłączyć ?
 [Allow]
 Zezwól
@@ -274,8 +274,6 @@ Lista kontaktów
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 Połączenie %s
-[Avatars]
-Awatary
 [Images]
 Obrazki
 [Gadu-Gadu Number]
@@ -285,7 +283,7 @@ Numer Gadu-Gadu
 Otwórz &konferencję...
 [&Clear ignored conferences]
 &Wyczyść ignorowane
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate ?]
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
 %s zainicjował(a) konferencję z %d uczestnikami - %d nieznany(ch).\nChcesz dołączyć do tej konferencji?
 [%s initiated the conference.]
 %s zainicjował(a) konferencję.

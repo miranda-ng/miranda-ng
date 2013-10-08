@@ -1305,8 +1305,6 @@ Opis
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Żeby móc brać udział w konferencjach musisz zainstalować wtyczkę CHAT
-[Avatars]
-Awatary
 [To]
 Do
 [From]
@@ -1959,7 +1957,7 @@ Protokół jest rozłączony lub brak jid
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Komenda zakończona poprawnie
-[Error occured during processing command]
+[Error occurred during processing command]
 Wystąpił błąd podczas przetwarzania komendy
 [Set status]
 Wybierz status
@@ -2015,7 +2013,7 @@ Oznacz wiadomości jako przeczytane
 %d wiadomości
 [Workstation successfully locked]
 Komputer został pomyślnie zabezpieczony
-[Error %d occured during workstation lock]
+[Error %d occurred during workstation lock]
 Wystąpił błąd %d podczas blokowania stacji roboczej
 [Confirmation needed]
 Potrzebne zatwierdzenie

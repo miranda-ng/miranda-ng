@@ -1081,7 +1081,7 @@ Ogranicz wysokość awataru do
 Maksymalna liczba mignięć
 [Send Error]
 Błąd wysyłania
-[An error has occured. The protocol reported the following error:]
+[An error has occurred. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
 [while sending the following message:]
 podczas wysyłania wiadomości:
@@ -1966,7 +1966,7 @@ Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
 ;file \src\core\stdmsg\src\msgtimedout.cpp
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Nieznany błąd.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
@@ -2545,6 +2545,11 @@ Mapa bitowa JPEG
 Mapa bitowa GIF
 [PNG Bitmaps]
 Mapa bitowa PNG
+;file \src\modules\utils\path.cpp
+[Avatars]
+Awatary
+[Avatars root folder]
+Folder główny awatarów
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <nieokreślony>

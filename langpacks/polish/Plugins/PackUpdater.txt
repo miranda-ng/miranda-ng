@@ -90,7 +90,7 @@ Sprawdź aktualizacje paczki
 [Pack Updater]
 Aktualizator paczek
 ;file \plugins\PackUpdater\Src\Notifications.cpp
-[An error occured while downloading the update.]
+[An error occurred while downloading the update.]
 Wystąpił błąd podczas pobierania aktualizacji
 [Component Name]
 Nazwa wtyczki

@@ -94,7 +94,7 @@ Rocznie
 ukrywam się
 [Date and Time]
 Data i czas
-[Disable next occurence]
+[Disable next occurrence]
 Wyłącz następne wystąpienie
 [Don't trigger on startup]
 Nie włączaj na starcie

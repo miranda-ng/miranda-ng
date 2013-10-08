@@ -12,7 +12,7 @@ Pozwala na kontrolowanie Mirandy poprzez wiersz poleceń.
 Brak pomocy dla "%s".
 [Available commands: ]
 Dostępne komendy:
-[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 Miranda została zamknięta lub wystąpił błąd podczas oczekiwania na wynik, nie udało się przetworzyć zapytania.
 ;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
 [%s usage:\n]

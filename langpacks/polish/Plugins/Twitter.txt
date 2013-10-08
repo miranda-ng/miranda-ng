@@ -80,8 +80,6 @@ Nie udało się uzyskać tokenów dostępu do Twittera, rozłącz się i spróbu
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your twitter account in the miranda account options]
 W bazie danych brakuje klucza Nick. Nie jest to dużym problemem, ale możesz zauważyć pewne problemy (samego siebie na liście, brak wyróżnienia wiadomości wychodzącej w czacie grupowym itp.). Aby to naprawić, dodaj brakujący klucz ręcznie lub zresetuj konto Twittera w opcjach kont Mirandy.
 ;file \protocols\Twitter\src\proto.cpp
-[Avatars]
-Awatary
 [Send Tweet...]
 Wyślij Tweet...
 [Network]
