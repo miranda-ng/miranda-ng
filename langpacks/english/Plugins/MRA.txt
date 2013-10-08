@@ -111,7 +111,6 @@
 [Pisces]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
-[Avatars]
 [Avatars: server return HTTP code: %lu]
 [Avatars: can't open file %s, error]
 ;file \protocols\MRA\src\MraChat.cpp
@@ -191,6 +190,7 @@
 [Account]
 [Connections]
 [Files]
+[Avatars]
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 [Please, setup password in options]

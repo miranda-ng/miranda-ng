@@ -114,7 +114,6 @@
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
-[Avatars]
 [Facebook ID must be numeric value.]
 [Network]
 [Account]

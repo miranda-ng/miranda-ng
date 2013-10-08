@@ -71,8 +71,6 @@
 [&Deny]
 [Message]
 [Room]
-;file \protocols\AimOscar\src\avatars.cpp
-[Avatars]
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 [Others]

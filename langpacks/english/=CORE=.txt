@@ -1315,6 +1315,9 @@
 [JPEG Bitmaps]
 [GIF Bitmaps]
 [PNG Bitmaps]
+;file \src\modules\utils\path.cpp
+[Avatars]
+[Avatars root folder]
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 ;file \src\modules\utils\utils.cpp

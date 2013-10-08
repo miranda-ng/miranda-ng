@@ -234,5 +234,4 @@
 [Value contains invalid word]
 [Password is too simple]
 [Value starts with an invalid character]
-[Avatars]
 [Command "%s" is unsupported]

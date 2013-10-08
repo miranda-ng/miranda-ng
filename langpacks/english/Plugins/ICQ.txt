@@ -206,7 +206,6 @@
 [** This message was blocked by the ICQ server ** You are too evil.]
 [** Unknown missed message event.]
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-[Avatars]
 [Error uploading avatar to server, server temporarily unavailable.]
 [Error uploading avatar to server, server refused to accept the image.]
 ;file \protocols\IcqOscarJ\src\icq_constants.h
