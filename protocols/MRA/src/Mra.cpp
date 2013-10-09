@@ -1,5 +1,7 @@
 #include "Mra.h"
 
+LIST<CMraProto> g_Instances(1, PtrKeySortT);
+
 MRA_SETTINGS masMraSettings;
 int hLangpack;
 
@@ -18,9 +20,6 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 void IconsLoad();
-
-int  OnModulesLoaded(WPARAM, LPARAM);
-int  OnPreShutdown(WPARAM, LPARAM);
 
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
 {
@@ -48,16 +47,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Protocol instances
-
-static int sttCompareProtocols(const CMraProto *p1, const CMraProto *p2)
-{
-	return lstrcmp(p1->m_tszUserName, p2->m_tszUserName);
-}
-
-LIST<CMraProto> g_Instances(1, sttCompareProtocols);
-
-///////////////////////////////////////////////////////////////////////////////
 
 static CMraProto* mraProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
@@ -70,6 +59,20 @@ static int mraProtoUninit(CMraProto *ppro)
 {
 	g_Instances.remove(ppro);
 	delete ppro;
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	masMraSettings.dwGlobalPluginRunning = TRUE;
+	return 0;
+}
+
+static int OnPreShutdown(WPARAM, LPARAM)
+{
+	masMraSettings.dwGlobalPluginRunning = FALSE;
 	return 0;
 }
 
@@ -117,8 +120,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	pd.fnInit = (pfnInitProto)mraProtoInit;
 	pd.fnUninit = (pfnUninitProto)mraProtoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
-	DebugPrintCRLFW(_T("Load - DONE"));
 	return 0;
 }
 
@@ -131,19 +132,5 @@ extern "C" __declspec(dllexport) int Unload(void)
 	}
 
 	g_Instances.destroy();
-	DebugPrintCRLFW(_T("Unload - DONE"));
-	return 0;
-}
-
-
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	masMraSettings.dwGlobalPluginRunning = TRUE;
-	return 0;
-}
-
-int OnPreShutdown(WPARAM, LPARAM)
-{
-	masMraSettings.dwGlobalPluginRunning = FALSE;
 	return 0;
 }

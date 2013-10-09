@@ -329,13 +329,13 @@ DWORD CMraProto::MraNetworkDispatcher()
 									dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
 									dwDataCurrentBuffOffset = 0;
 								}
-								DebugPrintCRLFW(L"Not all packet received, continue receiving");
+								DebugLogW(L"Not all packet received, continue receiving\n");
 								break;
 							}
 						}
 						// bad packet
 						else {
-							DebugPrintCRLFW(L"Bad packet");
+							DebugLogW(L"Bad packet\n");
 							dwDataCurrentBuffOffset = 0;
 							dwRcvBuffSizeUsed = 0;
 							break;
@@ -343,7 +343,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 					}
 					// packet to small, continue receiving
 					else {
-						DebugPrintCRLFW(L"Packet to small, continue receiving");
+						DebugLogW(L"Packet to small, continue receiving\n");
 						memmove(lpbBufferRcv, (lpbBufferRcv+dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
 						dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
 						dwDataCurrentBuffOffset = 0;
@@ -360,8 +360,8 @@ DWORD CMraProto::MraNetworkDispatcher()
 				bContinue = FALSE;
 			}
 			break;
-		}// end switch
-	}// end while
+		}
+	}
 	mir_free(lpbBufferRcv);
 
 	return dwRetErrorCode;
@@ -516,14 +516,14 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 			}
 		}
 		else if (szString == "connect.xml") {
-			DebugPrintA(szString);
+			DebugLogA(szString);
 			buf >> szStringW;
-			DebugPrintCRLFW(szStringW);
+			DebugLogW(szStringW);
 		}
 		else if (szString == "micblog.show_title") {
-			DebugPrintA(szString);
+			DebugLogA(szString);
 			buf >> szStringW;
-			DebugPrintCRLFW(szStringW);
+			DebugLogW(szStringW);
 		}
 		else if (szString == "micblog.status.id") {
 			buf >> szString;
@@ -559,11 +559,7 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		else if (szString == "trusted_update") {
 			buf >> szString;
 		}
-		else {
-			#ifdef _DEBUG
-				DebugBreak();
-			#endif
-		}
+		else _CrtDbgBreak();
 	}
 	MraUpdateEmailStatus("", "", 0, 0);
 	return true;
@@ -649,7 +645,7 @@ bool CMraProto::CmdFileTransfer(BinBuffer &buf)
 		buf >> szFiles >> dwTemp;
 		if (dwTemp) { // LPS DESCRIPTION
 			buf >> dwTemp >> wszFilesW;
-			DebugBreakIf(dwTemp != 1);
+			_ASSERTE(dwTemp != 1);
 		}
 		buf >> szAddresses;
 	}
@@ -770,7 +766,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			break;
 		case CONTACT_OPER_NO_SUCH_USER:// ## добавляемого пользователя не существует в системе
 			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
-			ShowFormattedErrorMessage(_T("User does not registred"), NO_ERROR);
+			ShowFormattedErrorMessage(_T("No such user to add"), NO_ERROR);
 			break;
 		case CONTACT_OPER_INVALID_INFO:// ## некорректное имя пользователя
 			ShowFormattedErrorMessage(_T("Invalid user name"), NO_ERROR);
@@ -828,7 +824,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 		// read headers name
 		for (unsigned i = 0; i < dwFieldsNum; i++) {
 			buf >> pmralpsFields[i];
-			DebugPrintCRLFA(pmralpsFields[i]);
+			DebugLogA("%s ", pmralpsFields[i]);
 		}
 
 		while (!buf.eof()) {
@@ -977,10 +973,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else {// for DEBUG ONLY
 						buf >> val;
-#ifdef _DEBUG
-						DebugPrintCRLFA(fld);
-						DebugPrintCRLFA(val);
-#endif
+						DebugLogA("%s = %s\n", fld, val);
 					}
 				}
 			}
@@ -1110,8 +1103,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 		int iGroupMode = getByte("GroupMode", 100);
 
-		DebugPrintCRLFW(L"Groups:");
-		DebugPrintCRLFA(szGroupMask);
+		DebugLogA("Groups: %s\n", szGroupMask);
 		DWORD dwID = 0;
 		for (DWORD i = 0; i < dwGroupsCount; i++) { //groups handle
 			DWORD dwControlParam = 0, dwGroupFlags;
@@ -1141,31 +1133,24 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 					m_groups.insert( new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
 					Clist_CreateGroup(0, wszGroupName);
 				}
-				#ifdef _DEBUG
-					DebugPrintW(wszGroupName);
 
-					char szBuff[200];
-					mir_snprintf(szBuff, SIZEOF(szBuff), ": flags: %lu (", dwGroupFlags);
-					DebugPrintA(szBuff);
-
-					if (dwGroupFlags & CONTACT_FLAG_REMOVED)      DebugPrintA("CONTACT_FLAG_REMOVED, ");
-					if (dwGroupFlags & CONTACT_FLAG_GROUP)        DebugPrintA("CONTACT_FLAG_GROUP, ");
-					if (dwGroupFlags & CONTACT_FLAG_INVISIBLE)    DebugPrintA("CONTACT_FLAG_INVISIBLE, ");
-					if (dwGroupFlags & CONTACT_FLAG_VISIBLE)      DebugPrintA("CONTACT_FLAG_VISIBLE, ");
-					if (dwGroupFlags & CONTACT_FLAG_IGNORE)       DebugPrintA("CONTACT_FLAG_IGNORE, ");
-					if (dwGroupFlags & CONTACT_FLAG_SHADOW)       DebugPrintA("CONTACT_FLAG_SHADOW, ");
-					if (dwGroupFlags & CONTACT_FLAG_AUTHORIZED)   DebugPrintA("CONTACT_FLAG_AUTHORIZED, ");
-					if (dwGroupFlags & CONTACT_FLAG_MULTICHAT)    DebugPrintA("CONTACT_FLAG_MULTICHAT, ");
-					if (dwGroupFlags & CONTACT_FLAG_UNICODE_NAME) DebugPrintA("CONTACT_FLAG_UNICODE_NAME, ");
-					if (dwGroupFlags & CONTACT_FLAG_PHONE)        DebugPrintA("CONTACT_FLAG_PHONE, ");
-					DebugPrintCRLFA(")");
-				#endif
+				DebugLogW(L"'%s', flags: %lu (", wszGroupName, dwGroupFlags);
+				if (dwGroupFlags & CONTACT_FLAG_REMOVED)      DebugLogA("CONTACT_FLAG_REMOVED, ");
+				if (dwGroupFlags & CONTACT_FLAG_GROUP)        DebugLogA("CONTACT_FLAG_GROUP, ");
+				if (dwGroupFlags & CONTACT_FLAG_INVISIBLE)    DebugLogA("CONTACT_FLAG_INVISIBLE, ");
+				if (dwGroupFlags & CONTACT_FLAG_VISIBLE)      DebugLogA("CONTACT_FLAG_VISIBLE, ");
+				if (dwGroupFlags & CONTACT_FLAG_IGNORE)       DebugLogA("CONTACT_FLAG_IGNORE, ");
+				if (dwGroupFlags & CONTACT_FLAG_SHADOW)       DebugLogA("CONTACT_FLAG_SHADOW, ");
+				if (dwGroupFlags & CONTACT_FLAG_AUTHORIZED)   DebugLogA("CONTACT_FLAG_AUTHORIZED, ");
+				if (dwGroupFlags & CONTACT_FLAG_MULTICHAT)    DebugLogA("CONTACT_FLAG_MULTICHAT, ");
+				if (dwGroupFlags & CONTACT_FLAG_UNICODE_NAME) DebugLogA("CONTACT_FLAG_UNICODE_NAME, ");
+				if (dwGroupFlags & CONTACT_FLAG_PHONE)        DebugLogA("CONTACT_FLAG_PHONE, ");
+				DebugLogA(")");
 			}
 			dwID++;
 		}
 
-		DebugPrintCRLFA("Contacts:");
-		DebugPrintCRLFA(szContactMask);
+		DebugLogA("Contacts: %s\n", szContactMask);
 		dwID = 20;
 		while (!buf.eof()) {
 			DWORD dwControlParam = 0;
@@ -1253,52 +1238,40 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				else if (j == 19 && fieldType == 's') { // ?????? ?
 					buf >> szString;
 					dwControlParam++;
-					DebugBreakIf(szString.GetLength());
+					_ASSERTE(szString.GetLength());
 				}
 				else {
 					if (fieldType == 's') {
 						buf >> szString;
 						if (szString.GetLength()) {
-							DebugPrintCRLFA(szString);
+							DebugLogA("%s ", szString);
 						}
 					}
 					else if (fieldType == 'u') {
 						char szBuff[50];
 						mir_snprintf(szBuff, SIZEOF(szBuff), "%lu, ", dwTemp);//;
-						DebugPrintCRLFA(szBuff);
+						DebugLogA("%s ", szBuff);
 					}
-					else DebugBreak();
+					else _CrtDbgBreak();
 				}
 			}
 
-			#ifdef _DEBUG
-			{
-				char szBuff[200];
-				mir_snprintf(szBuff, SIZEOF(szBuff), "ID: %lu, Group id: %lu, ", dwID, dwGroupID);
-				DebugPrintA(szBuff);
-				DebugPrintA(szEmail);
+			DebugLogA("ID: %lu, Group id: %lu, %s: flags: %lu (", dwID, dwGroupID, szEmail, dwContactFlag);
+				if (dwContactFlag & CONTACT_FLAG_REMOVED)      DebugLogA("CONTACT_FLAG_REMOVED, ");
+				if (dwContactFlag & CONTACT_FLAG_GROUP)        DebugLogA("CONTACT_FLAG_GROUP, ");
+				if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    DebugLogA("CONTACT_FLAG_INVISIBLE, ");
+				if (dwContactFlag & CONTACT_FLAG_VISIBLE)      DebugLogA("CONTACT_FLAG_VISIBLE, ");
+				if (dwContactFlag & CONTACT_FLAG_IGNORE)       DebugLogA("CONTACT_FLAG_IGNORE, ");
+				if (dwContactFlag & CONTACT_FLAG_SHADOW)       DebugLogA("CONTACT_FLAG_SHADOW, ");
+				if (dwContactFlag & CONTACT_FLAG_AUTHORIZED)   DebugLogA("CONTACT_FLAG_AUTHORIZED, ");
+				if (dwContactFlag & CONTACT_FLAG_MULTICHAT)    DebugLogA("CONTACT_FLAG_MULTICHAT, ");
+				if (dwContactFlag & CONTACT_FLAG_UNICODE_NAME) DebugLogA("CONTACT_FLAG_UNICODE_NAME, ");
+				if (dwContactFlag & CONTACT_FLAG_PHONE)        DebugLogA("CONTACT_FLAG_PHONE, ");
+			DebugLogA(")");
 
-				mir_snprintf(szBuff, SIZEOF(szBuff), ": flags: %lu (", dwContactFlag);
-				DebugPrintA(szBuff);
-				if (dwContactFlag & CONTACT_FLAG_REMOVED)      DebugPrintA("CONTACT_FLAG_REMOVED, ");
-				if (dwContactFlag & CONTACT_FLAG_GROUP)        DebugPrintA("CONTACT_FLAG_GROUP, ");
-				if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    DebugPrintA("CONTACT_FLAG_INVISIBLE, ");
-				if (dwContactFlag & CONTACT_FLAG_VISIBLE)      DebugPrintA("CONTACT_FLAG_VISIBLE, ");
-				if (dwContactFlag & CONTACT_FLAG_IGNORE)       DebugPrintA("CONTACT_FLAG_IGNORE, ");
-				if (dwContactFlag & CONTACT_FLAG_SHADOW)       DebugPrintA("CONTACT_FLAG_SHADOW, ");
-				if (dwContactFlag & CONTACT_FLAG_AUTHORIZED)   DebugPrintA("CONTACT_FLAG_AUTHORIZED, ");
-				if (dwContactFlag & CONTACT_FLAG_MULTICHAT)    DebugPrintA("CONTACT_FLAG_MULTICHAT, ");
-				if (dwContactFlag & CONTACT_FLAG_UNICODE_NAME) DebugPrintA("CONTACT_FLAG_UNICODE_NAME, ");
-				if (dwContactFlag & CONTACT_FLAG_PHONE)        DebugPrintA("CONTACT_FLAG_PHONE, ");
-				DebugPrintA(")");
-
-				mir_snprintf(szBuff, SIZEOF(szBuff), ": server flags: %lu (", dwContactSeverFlags);
-				DebugPrintA(szBuff);
-				if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)
-					DebugPrintA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
-				DebugPrintCRLFA(")");
-			}
-			#endif
+			DebugLogA(": server flags: %lu (", dwContactSeverFlags);
+				if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED) DebugLogA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
+			DebugLogA(")");
 
 			// add/modify contact
 			if (dwGroupID != 103)//***deb filtering phone/sms contats
@@ -1311,7 +1284,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 					// already in list, remove the duplicate
 					if (GetContactBasicInfoW(hContact, &dwTemp, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == NO_ERROR && dwTemp != -1) {
 						dwTemp = dwTemp;
-						DebugBreak();
+						_CrtDbgBreak();
 					}
 					else {
 						dwTemp = GetMirandaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
@@ -1436,7 +1409,7 @@ bool CMraProto::CmdProxy(BinBuffer &buf)
 			MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
 		else { // empty/invalid session
 			MraProxyAck(PROXY_STATUS_ERROR, szEmail, dwIDRequest, dwAckType, szString, szAddresses, mguidSessionID);
-			DebugBreak();
+			_CrtDbgBreak();
 		}
 	}
 	return true;
@@ -1473,11 +1446,11 @@ bool CMraProto::CmdProxyAck(BinBuffer &buf)
 			case PROXY_STATUS_MIRROR:
 			case PROXY_STATUS_CLOSED:
 			default:
-				DebugBreak();
+				_CrtDbgBreak();
 				break;
 			}
 		}
-		else DebugBreak();
+		else _CrtDbgBreak();
 	}
 	return true;
 }
@@ -1527,7 +1500,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	HANDLE hContact = NULL;
 	LPBYTE pByte;
 
-	Netlib_Logf(m_hNetlibUser, "Received packet %x\n", pmaHeader->msg);
+	DebugLogA("Received packet %x\n", pmaHeader->msg);
 
 	BinBuffer buf((LPBYTE)pmaHeader + sizeof(mrim_packet_header_t), pmaHeader->dlen);
 
@@ -1600,11 +1573,11 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 		break;
 
 	case MRIM_CS_PROXY_HELLO:
-		DebugBreak();
+		_CrtDbgBreak();
 		break;
 
 	case MRIM_CS_PROXY_HELLO_ACK:
-		DebugBreak();
+		_CrtDbgBreak();
 		break;
 
 	case MRIM_CS_UNKNOWN:
@@ -1613,9 +1586,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 		break;
 
 	default:
-		#ifdef _DEBUG
-			DebugBreak();
-		#endif
+		_CrtDbgBreak();
 		break;
 	}
 	return true;
@@ -1697,24 +1668,24 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 								buf >> szString;
 								wszMessage = ptrW(mir_a2u_cp(szString, MRA_CODE_PAGE));
 							}
-							else DebugBreak();
+							else _CrtDbgBreak();
 						}
 						else { // RTF text
 							if (dwRTFPartsCount > 2) {
 								buf >> szString;
-								DebugBreak();
+								_CrtDbgBreak();
 							}
 
 							lpszMessageExt = lpsRTFString;
 						}
 					}
-					else DebugBreak();
+					else _CrtDbgBreak();
 				}
 			}
 		}
 	}
 
-	Netlib_Logf(m_hNetlibUser, "Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom.c_str(), wszMessage.c_str());
+	DebugLogA("Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom.c_str(), wszMessage.c_str());
 
 	// processing
 	if (dwFlags & (MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT)) {// SMS //if (IsPhone(plpsFrom->lpszData, plpsFrom->dwSize))
@@ -1794,7 +1765,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName);
 					break;
 				default:
-					DebugBreak();
+					_CrtDbgBreak();
 					break;
 				}
 			}

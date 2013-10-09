@@ -174,7 +174,7 @@ DWORD MraSymbolsToRTFTags(DWORD dwFlags, LPSTR lpszMessage, size_t dwMessageSize
 			}
 			else {
 				dwRetErrorCode = ERROR_BUFFER_OVERFLOW;
-				DebugBreak();
+				_CrtDbgBreak();
 				break;
 			}
 		}
@@ -235,7 +235,7 @@ DWORD CMraProto::MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMess
 			memmove(lpszMessageRTFCur, PAR, sizeof(PAR));lpszMessageRTFCur += (sizeof(PAR)-1);
 			memmove(lpszMessageRTFCur, CRLF, sizeof(CRLF));lpszMessageRTFCur += (sizeof(CRLF)-1);
 			memmove(lpszMessageRTFCur, "}", 2);lpszMessageRTFCur += 2;
-			DebugPrintCRLFA(szMessageRTF);
+			DebugLogA("%s\n", szMessageRTF);
 			return NO_ERROR;
 		}
 

@@ -112,7 +112,7 @@ static DWORD MraOfflineMessageGetNextMIMEPart(LPSTR lpszBody, size_t dwBodySize,
 		else if ((*((WORD*)lpszMIMEPart)) == '--')
 			lpszMIMEPart = NULL;
 		else
-			DebugBreak();
+			_CrtDbgBreak();
 
 		if (lpszMIMEPart == NULL)
 			return ERROR_NO_MORE_ITEMS;
@@ -125,7 +125,7 @@ static DWORD MraOfflineMessageGetNextMIMEPart(LPSTR lpszBody, size_t dwBodySize,
 			else if ((*((BYTE*)(lpszTemp-3))) == (*((BYTE*)LF)))
 				dwMIMEPartSize -= 3;
 			else
-				DebugBreak();
+				_CrtDbgBreak();
 
 			if (plpszMIMEPart) (*plpszMIMEPart) = lpszMIMEPart;
 			if (pdwMIMEPartSize) (*pdwMIMEPartSize) = dwMIMEPartSize;
@@ -162,7 +162,7 @@ static DWORD PlainText2message(const CMStringA &szContentType, const CMStringA &
 		}
 		return NO_ERROR;
 	}
-	else DebugBreak();
+	else _CrtDbgBreak();
 
 	return ERROR_INVALID_HANDLE;
 }
@@ -174,12 +174,7 @@ DWORD MraOfflineMessageGet(CMStringA *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, 
 
 	LPSTR lpszHeader, lpszBody, lpszContentTypeLow;
 	size_t dwHeaderSize, dwBodySize, dwContentTypeSize;
-	DWORD dwMultichatType;
 	CMStringA szTemp;
-
-	#ifdef _DEBUG
-		DebugPrintCRLFA(plpsMsg->GetString());
-	#endif
 
 	if ( MraOfflineMessageGetMIMEHeadAndBody(plpsMsg->GetString(), plpsMsg->GetLength(), &lpszHeader, &dwHeaderSize, &lpszBody, &dwBodySize) != NO_ERROR)
 		return ERROR_INVALID_HANDLE;
@@ -202,6 +197,7 @@ DWORD MraOfflineMessageGet(CMStringA *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, 
 	else
 		*pdwFlags = 0;
 
+	DWORD dwMultichatType;
 	if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "x-mrim-multichat-type", 21, szTemp) == NO_ERROR)
 		dwMultichatType = StrHexToUNum32(szTemp, szTemp.GetLength());
 	else
@@ -265,13 +261,13 @@ DWORD MraOfflineMessageGet(CMStringA *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, 
 								return NO_ERROR;
 							}
 						}
-						else DebugBreak();
+						else _CrtDbgBreak();
 					}
 				}
 				i++;
 			}
 
-			DebugBreakIf((i>3 || i == 0));
+			_ASSERTE((i>3 || i == 0));
 		}
 		return ERROR_NOT_FOUND;
 	}

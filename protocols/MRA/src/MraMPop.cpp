@@ -112,15 +112,12 @@ DWORD CMraProto::MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, con
 
 DWORD CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 {
-	DWORD dwRetErrorCode;
-
 	if (!hMPopSessionQueue)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
-	dwRetErrorCode = NO_ERROR;
 	if (pmpsqMPopSessionQueue->bKeyValid == TRUE)
 	if ( FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
 		CMStringA szUrl, szEmail;
@@ -129,8 +126,7 @@ DWORD CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 			szEmail.MakeLower();
 			szUrl.Format(MRA_MPOP_AUTH_URL, szEmail, pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
 			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl.c_str());
-			DebugPrint(_T("Opening URL: "));
-			DebugPrintCRLFA(szUrl);
+			DebugLogA("Opening URL: %s\n", szUrl);
 		}
 		mir_free(pmpsqi);
 	}
@@ -153,9 +149,6 @@ DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hMPopSessionQueue, const CMStringA
 		pmpsqMPopSessionQueue->dwMPOPKeySize = szKey.GetLength();
 		memmove(pmpsqMPopSessionQueue->lpszMPOPKey, szKey, szKey.GetLength());
 		(*(pmpsqMPopSessionQueue->lpszMPOPKey + szKey.GetLength())) = 0;
-
-		DebugPrint(_T("New MPOP session key: "));
-		DebugPrintCRLFA(pmpsqMPopSessionQueue->lpszMPOPKey);
 		return NO_ERROR;
 	}
 

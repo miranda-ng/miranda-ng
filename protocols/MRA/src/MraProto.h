@@ -198,7 +198,10 @@ struct CMraProto : public PROTO<CMraProto>
 
 	CRITICAL_SECTION csCriticalSectionSend;
 
-	HANDLE  AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR plpsFirstName, LPCTSTR plpsLastName, DWORD dwFlags);
+	void   DebugLogA(LPCSTR szFormat, ...);
+	void   DebugLogW(LPCWSTR szFormat, ...);
+
+	HANDLE AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR plpsFirstName, LPCTSTR plpsLastName, DWORD dwFlags);
 
 	DWORD  MraMessage(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize);
 	DWORD  MraMessageAsk(DWORD dwMsgID, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, const CMStringW &wszMessageRTF);
@@ -347,5 +350,4 @@ struct CMraProto : public PROTO<CMraProto>
    DWORD   MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, HANDLE hContact);
 
 	void    __cdecl MraAvatarsThreadProc(LPVOID lpParameter);
-
 };

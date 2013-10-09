@@ -481,7 +481,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 					break;
 				}
 				if (wszGroup.GetLength()) {
-					DWORD dwGroupID = getDword("GroupID", -1);
+					DWORD dwGroupID = getDword(hContact, "GroupID", -1);
 					if (dwGroupID != -1)
 						MraMoveContactToGroup(hContact, dwGroupID, wszGroup);
 				}

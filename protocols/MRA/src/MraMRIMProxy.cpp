@@ -148,7 +148,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 							case 1:
 								if (dwRcvBuffSizeUsed == BUFF_SIZE_RCV_MIN_FREE) { // bad packet
 									bContinue = FALSE;
-									DebugBreak();
+									_CrtDbgBreak();
 								}
 								else {
 									dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv+dwRcvBuffSizeUsed), (dwRcvBuffSize-dwRcvBuffSizeUsed), 0);
@@ -160,21 +160,21 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 													if (((mrim_packet_header_t*)lpbBufferRcv)->msg == MRIM_CS_PROXY_HELLO_ACK) // connect OK!
 														dwRetErrorCode = NO_ERROR;
 													else // bad/wrong
-														DebugBreak();
+														_CrtDbgBreak();
 
 													bContinue = FALSE;
 												}
 												else // not all packet received, continue receiving
-													DebugPrintCRLF(L"Not all packet received, continue receiving");
+													DebugLogA("Not all packet received, continue receiving\n");
 											}
 											else  { // bad packet
-												DebugPrintCRLF(L"Bad packet");
-												DebugBreak();
+												DebugLogA("Bad packet\n");
+												_ASSERT(false);
 												bContinue = FALSE;
 											}
 										}
 										else // packet too small, continue receiving
-											DebugPrintCRLF(L"Packet to small, continue receiving");
+											DebugLogA("Packet to small, continue receiving\n");
 									}
 									else { // disconnected
 										dwRetErrorCode = GetLastError();

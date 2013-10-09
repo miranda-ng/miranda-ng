@@ -310,7 +310,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 									}
 								}
 							}
-							else DebugBreak();
+							else _CrtDbgBreak();
 
 							if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(m_hConnection);
 						}

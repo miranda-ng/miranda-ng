@@ -307,7 +307,6 @@ DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR
 			break;
 		}
 
-	DWORD dwContactFlags = CONTACT_FLAG_UNICODE_NAME | CONTACT_FLAG_GROUP;
 	if (p == NULL) {
 		if (m_groups.getCount() == 20)
 			return 0;
@@ -317,16 +316,15 @@ DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR
 			if (m_groups.find((MraGroupItem*)&id) == NULL)
 				break;
 
-		dwContactFlags |= (id << 24);
+		DWORD dwContactFlags = CONTACT_FLAG_UNICODE_NAME | CONTACT_FLAG_GROUP | (id << 24);
 		p = new MraGroupItem(id, dwContactFlags, ptszName);
 		m_groups.insert(p);
 		MraAddContact(NULL, dwContactFlags, 0, ptszName, p->m_name);
 	}
-	else dwContactFlags |= (p->m_id << 24);
 
 	if (dwGroupID != p->m_id) {
-		setDword("GroupID", p->m_id);
-		MraModifyContact(hContact, 0, &dwContactFlags, &p->m_id);
+		setDword(hContact, "GroupID", p->m_id);
+		MraModifyContact(hContact, 0, 0, &p->m_id);
 	}
 	return p->m_id;
 }
@@ -1463,14 +1461,6 @@ static DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplac
 {
 	DWORD dwRetErrorCode = NO_ERROR;
 	
-	#ifdef _DEBUG //check tables
-		for (size_t i = 0;i<dwReplaceItemsCount;i++)
-		{
-			if (lstrlen((LPTSTR)plpInReplaceItems[i]) != (pdwInReplaceItemsCounts[i]/sizeof(TCHAR))) DebugBreak();
-			if (lstrlen((LPTSTR)plpOutReplaceItems[i]) != (pdwOutReplaceItemsCounts[i]/sizeof(TCHAR))) DebugBreak();
-		}
-	#endif
-
 	LPBYTE *plpbtFounded = (LPBYTE*)mir_calloc((sizeof(LPBYTE)*dwReplaceItemsCount));
 	if (plpbtFounded) {
 		LPBYTE lpbtOutBuffCur, lpbtInBuffCur, lpbtInBuffCurPrev, lpbtOutBuffMax;
@@ -1507,12 +1497,12 @@ static DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplac
 				}
 				else {
 					dwRetErrorCode = ERROR_BUFFER_OVERFLOW;
-					DebugBreak();
+					_CrtDbgBreak();
 					break;
 				}
 			}
 			else {// сюда по идее никогда не попадём, на всякий случай.
-				DebugBreak();
+				_CrtDbgBreak();
 				break;
 			}
 		}
@@ -1548,4 +1538,22 @@ CMStringW EncodeXML(const CMStringW &lptszMessage)
 	CMStringW ret;
 	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(TCHAR), SIZEOF(lpszXMLTags), (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, ret);
 	return ret;
+}
+
+void CMraProto::DebugLogA(LPCSTR szFormat, ...)
+{
+	char buf[4096];
+	va_list args;
+	va_start(args, szFormat);
+	vsprintf_s(buf, sizeof(buf), szFormat, args);
+	CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)buf);
+}
+
+void CMraProto::DebugLogW(LPCWSTR szFormat, ...)
+{
+	WCHAR buf[4096];
+	va_list args;
+	va_start(args, szFormat);
+	vswprintf_s(buf, SIZEOF(buf), szFormat, args);
+	CallService(MS_NETLIB_LOGW, (WPARAM)m_hNetlibUser, (LPARAM)buf);
 }

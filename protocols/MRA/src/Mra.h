@@ -27,6 +27,7 @@
 #pragma comment(lib,"ws2_32.lib")
 #pragma comment(lib,"mswsock.lib")
 
+#include <crtdbg.h>
 #include <malloc.h>
 #include <stdio.h>
 #include <time.h>
@@ -76,7 +77,6 @@
 #include "resource.h"
 #include "..\xstatus_MRA\src\resource.h"
 
-#include "Sdk/DebugFunctions.h"
 #include "Sdk/MemoryFind.h"
 #include "Sdk/MemoryFindByte.h"
 #include "Sdk/BuffToLowerCase.h"

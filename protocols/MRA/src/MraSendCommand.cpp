@@ -73,7 +73,7 @@ public:
 
 DWORD CMraProto::MraMessage(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
 {
-	Netlib_Logf(m_hNetlibUser, "Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, szEmail, lpwszMessage);
+	DebugLogA("Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, szEmail, lpwszMessage);
 
 	DWORD dwRet = 0;
 	LPSTR lpszMessageConverted = (LPSTR)lpwszMessage.GetString();
@@ -508,7 +508,7 @@ DWORD CMraProto::MraSendPacket(HANDLE m_hConnection, DWORD dwCMDNum, DWORD dwTyp
 	pmaHeader->msg = dwType;// Тип пакета
 	pmaHeader->dlen = dwDataSize;// Длина данных
 	
-	Netlib_Logf(m_hNetlibUser, "Sending packet %08x\n", dwType);
+	DebugLogA("Sending packet %08x\n", dwType);
 
 	memcpy(lpbData+sizeof(mrim_packet_header_t), lpData, dwDataSize);
 	return Netlib_Send(m_hConnection, (LPSTR)lpbData, (dwDataSize+sizeof(mrim_packet_header_t)), 0);
