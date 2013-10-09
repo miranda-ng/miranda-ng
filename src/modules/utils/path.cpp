@@ -77,7 +77,8 @@ TCHAR *GetContactID(HANDLE hContact)
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 			return theValue;
-	}	}
+		}
+	}
 	else {
 		CONTACTINFO ci = {0};
 		ci.cbSize = sizeof(ci);
@@ -92,7 +93,9 @@ TCHAR *GetContactID(HANDLE hContact)
 			case CNFT_DWORD:
 				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)*32), 10);
 				break;
-	}	}	}
+			}
+		}
+	}
 	return NULL;
 }
 
@@ -109,10 +112,12 @@ static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return
 static __forceinline char *_xstrselect(char *, char *s1, TCHAR *s2) { return s1; }
 static __forceinline char *_itox(char *, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
 static __forceinline char *mir_a2x(char *, char *s) { return mir_strdup(s); }
+
 static __forceinline char *GetContactNickX(char *, HANDLE hContact)
 {
 	return mir_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
 }
+
 static __forceinline char *GetContactIDX(char *, HANDLE hContact)
 {
 	TCHAR *id = GetContactID(hContact);
@@ -120,6 +125,7 @@ static __forceinline char *GetContactIDX(char *, HANDLE hContact)
 	mir_free(id);
 	return res;
 }
+
 static __forceinline char *GetEnvironmentVariableX(char *variable)
 {
 	char result[512];
@@ -127,10 +133,12 @@ static __forceinline char *GetEnvironmentVariableX(char *variable)
 		return mir_strdup(result);
 	return NULL;
 }
+
 static __forceinline char *GetProfileDirX(char*)
 {
 	return mir_t2a(g_profileDir);
 }
+
 static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char* var)
 {
 	char result[512];
@@ -138,6 +146,7 @@ static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char* var)
 		return mir_strdup(result);
 	return NULL;
 }
+
 static __forceinline char *GetModulePathX(char *, HMODULE hModule)
 {
 	char result[MAX_PATH];
@@ -146,6 +155,7 @@ static __forceinline char *GetModulePathX(char *, HMODULE hModule)
 	if (str) *str = 0;
 	return mir_strdup(result);
 }
+
 static __forceinline char *GetUserNameX(char *)
 {
 	char result[128];
@@ -154,13 +164,15 @@ static __forceinline char *GetUserNameX(char *)
 		return mir_strdup(result);
 	return NULL;
 }
+
 static __forceinline char *GetProfileNameX(char *)
 {
 	return mir_t2a(g_shortProfileName);
 }
+
 static __forceinline char *GetPathVarX(char *, int code)
 {
-	TCHAR szFullPath[MAX_PATH]; 
+	TCHAR szFullPath[MAX_PATH];
 
 	switch(code) {
 	case 1:
@@ -187,14 +199,17 @@ static __forceinline TCHAR *_xcsncpy(TCHAR *s1, const TCHAR *s2, size_t n) { ret
 static __forceinline TCHAR *_xstrselect(TCHAR *, char *s1, TCHAR *s2) { return s2; }
 static __forceinline TCHAR *_itox(TCHAR *, int a) { return _itot(a, (TCHAR *)mir_alloc(sizeof(TCHAR)*20), 10); }
 static __forceinline TCHAR *mir_a2x(TCHAR *, char *s) { return mir_a2t(s); }
+
 static __forceinline TCHAR *GetContactNickX(TCHAR *, HANDLE hContact)
 {
 	return mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 }
+
 static __forceinline TCHAR *GetContactIDX(TCHAR *, HANDLE hContact)
 {
 	return GetContactID(hContact);
 }
+
 static __forceinline TCHAR *GetEnvironmentVariableX(TCHAR *variable)
 {
 	TCHAR result[512];
@@ -202,6 +217,7 @@ static __forceinline TCHAR *GetEnvironmentVariableX(TCHAR *variable)
 		return mir_tstrdup(result);
 	return NULL;
 }
+
 static __forceinline TCHAR *SHGetSpecialFolderPathX(int iCSIDL, TCHAR* var)
 {
 	TCHAR result[512];
@@ -209,10 +225,12 @@ static __forceinline TCHAR *SHGetSpecialFolderPathX(int iCSIDL, TCHAR* var)
 		return mir_tstrdup(result);
 	return NULL;
 }
+
 static __forceinline TCHAR *GetProfileDirX(TCHAR*)
 {
 	return mir_tstrdup(g_profileDir);
 }
+
 static __forceinline TCHAR *GetModulePathX(TCHAR *, HMODULE hModule)
 {
 	TCHAR result[MAX_PATH];
@@ -221,6 +239,7 @@ static __forceinline TCHAR *GetModulePathX(TCHAR *, HMODULE hModule)
 	if (str) *str = 0;
 	return mir_tstrdup(result);
 }
+
 static __forceinline TCHAR *GetUserNameX(TCHAR *)
 {
 	TCHAR result[128];
@@ -229,10 +248,12 @@ static __forceinline TCHAR *GetUserNameX(TCHAR *)
 		return mir_tstrdup(result);
 	return NULL;
 }
+
 static __forceinline TCHAR *GetProfileNameX(TCHAR *)
 {
 	return mir_tstrdup(g_shortProfileName);
 }
+
 static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 {
 	TCHAR szFullPath[MAX_PATH];
