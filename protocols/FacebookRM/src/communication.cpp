@@ -346,7 +346,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/login.php?login_attempt=1";
 
 	case REQUEST_SETUP_MACHINE:
-		return "/checkpoint/";
+		return "/checkpoint/?next";
 
 	case REQUEST_LOGOUT:
 		return "/logout.php";
@@ -685,7 +685,7 @@ bool facebook_client::login(const char *username, const char *password)
 	}
 
 	// Prepare login data
-	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&pass_placeHolder=Password&login=Login&persistent=1";
+	std::string data = "persistent=1";
 	data += "&email=" + utils::url::encode(username);
 	data += "&pass=" + utils::url::encode(password);
 
@@ -730,21 +730,31 @@ bool facebook_client::login(const char *username, const char *password)
 
 			std::string inner_data;
 			if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-				// Multi step with approving last unrecognized device
-				// 1) Continue
-				inner_data = "submit[Continue]=Continue";
-				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
-				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+				
+				// Check if we need to approve also last unapproved device
+				if (resp.data.find("name=\"name_action_selected\"") == std::string::npos) {
+					// 1) Continue
+					inner_data = "submit[Continue]=Continue";
+					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
-				// 2) Approve last unknown login
-				// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
-				inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
-				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
-				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+					// 2) Approve last unknown login
+					// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
+					inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
+					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
-				// 3) Save device
+					// 3) Save last device
+					inner_data = "submit[Continue]=Continue";
+					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+					inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
+					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+				}
+
+				// Save this actual device
 				inner_data = "submit[Continue]=Continue";
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
