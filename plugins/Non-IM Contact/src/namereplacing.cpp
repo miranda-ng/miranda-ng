@@ -613,7 +613,7 @@ void WriteSetting(HANDLE hContact, char* module1, char* setting1 , char* module2
 			error = 1;
 			break;
 		case ERROR_LINE_NOT_READ:
-			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: file couldnt be opened (in %s)"), text, setting1);
+			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: file couldn't be opened (in %s)"), text, setting1);
 			error = 1;
 			break;
 		case ERROR_NO_FILE:
