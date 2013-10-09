@@ -24,6 +24,8 @@ Use default colours
 Use custom colours
 [Minimize to tray]
 Minimise to tray
+[Gray out entire list when:]
+Grey out entire list when:
 [Background color]
 Background colour
 [Selection color]
@@ -34,6 +36,8 @@ Use Windows colours
 Minimise the file transfer window
 [Minimize the message window on send]
 Minimise the message window on send
+[Message window behavior:]
+Message window behaviour:
 [%s requests authorization]
 %s requests authorisation
 [%u requests authorization]
@@ -58,6 +62,10 @@ Make the text italicised (CTRL+I)
 Select a background colour for the text (CTRL+L)
 [Select a foreground color for the text (CTRL+K)]
 Select a foreground colour for the text (CTRL+K)
+[Canceled]
+Cancelled
+[Initializing...]
+Initialising...
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
 [Customize]

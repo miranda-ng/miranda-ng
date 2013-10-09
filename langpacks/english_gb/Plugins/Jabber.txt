@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.3
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
+[Favorites]
+Favourites
 [Authorization Request]
 Authorisation Request
 [HTTP Authorization\nAccept or reject incoming request]

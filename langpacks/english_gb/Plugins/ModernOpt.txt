@@ -7,5 +7,7 @@
 ;============================================================
 [Miranda NG configuration center]
 Miranda NG configuration centre
+[Configure behavior of your contact list.]
+Configure behaviour of your contact list.
 [Customize look&&feel of your chat windows here.]
 Customise look&&feel of your chat windows here.

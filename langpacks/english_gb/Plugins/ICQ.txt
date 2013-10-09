@@ -11,6 +11,8 @@ Enter an authorisation request
 Allow direct connections only when I authorise or initiate them
 [Contact List Authorization]
 Contact List Authorisation
+[Some options are grayed out because they can only be changed when you are online.]
+Some options are greyed out because they can only be changed when you are online.
 [Back Color]
 Back Colour
 [Text Color]
@@ -19,6 +21,8 @@ Text Colour
 &Use Windows colours
 [Use default colors]
 Use default colours
+[Organization:]
+Organisation:
 [Synchronize]
 Synchronise
 [Contact "%s" was authorized in the server list.]

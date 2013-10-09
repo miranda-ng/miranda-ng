@@ -1,0 +1,9 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo Protocol
+;  Version: 0.11.0.1
+;  Authors: Gennady Feldman
+;============================================================
+[Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
+Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.

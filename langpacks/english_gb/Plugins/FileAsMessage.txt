@@ -5,7 +5,11 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
+[Canceled by remote user]
+Cancelled by remote user
 [Failed on file initialization]
 Failed on file initialisation
 [Synchronizing...]
 Synchronising...
+[Canceled by user]
+Cancelled by user

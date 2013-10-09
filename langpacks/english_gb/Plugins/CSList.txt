@@ -5,5 +5,9 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
+[Favorites]
+Favourites
 [Set/unset current item as favorite]
 Set/unset current item as favourite
+[Favorite]
+Favourite

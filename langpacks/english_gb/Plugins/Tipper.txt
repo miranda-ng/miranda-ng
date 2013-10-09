@@ -9,6 +9,10 @@
 Load fonts and colours
 [Enable skin coloring]
 Enable skin colouring
+[Favorite contacts]
+Favourite contacts
+[Center]
+Centre
 [Customize]
 Customise
 [# Solid color fill]

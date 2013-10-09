@@ -5,6 +5,8 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
+[Behavior]
+Behaviour
 [and stay minimized]
 and stay minimised
 [Minimize on send]

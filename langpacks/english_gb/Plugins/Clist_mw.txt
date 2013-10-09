@@ -11,5 +11,7 @@ Background colour:
 Selection colour:
 [Minimize to tray]
 Minimise to tray
+[Gray out entire list when:]
+Grey out entire list when:
 [Customize]
 Customise

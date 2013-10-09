@@ -5,6 +5,8 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Window behavior:]
+Window behaviour:
 [Background color:]
 Background colour:
 [Selection color:]
@@ -13,6 +15,10 @@ Selection colour:
 Use Windows Colours
 [Color]
 Colour
+[Hold [Shift] to inverse [Right Click] behavior]
+Hold [Shift] to inverse [Right Click] behaviour
+[Behavior]
+Behaviour
 [Minimize to tray]
 Minimise to tray
 [Border color:]

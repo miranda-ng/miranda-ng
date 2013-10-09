@@ -9,7 +9,13 @@
 Go to Customise > Fonts && Colours for fonts and colours options
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Colours can be configured in\r\nCustomise > Fonts && Colours
+[With "favorite" overlay]
+With "favourite" overlay
 [Favorite Contact]
 Favourite Contact
 [Use Windows colors]
 Use Windows colours
+[Favorite]
+Favourite
+[Popup Mode: Favorite]
+Popup Mode: Favourite

@@ -1,19 +1,31 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
-;  Plugin: Favourite contacts
+;  Plugin: Favorite contacts
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
+[Favorite contacts menu.]
+Favourite contacts menu.
 [Customize]
 Customise
 [Use system colors and fonts]
 Use system colours and fonts
 [Hotkey shows menu centered on screen]
 Hotkey shows menu centred on screen
+[Favorite Contacts]
+Favourite Contacts
 [Configure fonts and colors...]
 Configure fonts and colours...
+[Favorite Contact]
+Favourite Contact
 [Selected contact name (color)]
 Selected contact name (colour)
 [Selected second line (color)]
 Selected second line (colour)
+[Show favorite contacts]
+Show favourite contacts
+[Favorites]
+Favourites
+[&Favorite Contacts...]
+&Favourite Contacts...

@@ -59,6 +59,8 @@ Select font colour
 Change background colour
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 Session list.\nClick left for a list of open sessions.\nClick right to access favourites and quickly configure message window behaviour
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
+One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favourites.
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
@@ -77,6 +79,8 @@ Background colour
 Semi transparent, custom colours
 [Custom (use own gradient colors)]
 Custom (use own gradient colours)
+[Message window behavior]
+Message window behaviour
 [New windows are minimized (the option above MUST be active)]
 New windows are minimised (the option above MUST be active)
 [Activate a minimized window when a new tab is created inside it]

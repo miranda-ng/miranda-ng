@@ -5,6 +5,8 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
+[Authorization request by %s (%s%d): %s]
+Authorisation request by %s (%s%d): %s
 [Fonts & Colors]
 Fonts & Colours
 [Authorization request]
