@@ -813,7 +813,7 @@ void FILEECHO::perform(char *str)
 			{
 				if(iState & (STATE_PRERECV|STATE_REQSENT|STATE_OPERATE|STATE_ACKREQ|STATE_PAUSED))
 				{
-					char *msg = Translate("Cancelled by remote user");
+					char *msg = Translate("Canceled by remote user");
 					SetDlgItemText(hDlg, IDC_STATUS, msg);
 					MakePopupMsg(hDlg, hContact, msg);
 					destroyTransfer();
@@ -832,7 +832,7 @@ void FILEECHO::perform(char *str)
 			{
 				if(iState & (STATE_PRERECV|STATE_REQSENT|STATE_OPERATE|STATE_ACKREQ|STATE_PAUSED))
 				{
-					char *msg = Translate("Cancelled by remote user");
+					char *msg = Translate("Canceled by remote user");
 					SetDlgItemText(hDlg, IDC_STATUS, msg);
 					MakePopupMsg(hDlg, hContact, msg);
 					destroyTransfer();
@@ -1200,7 +1200,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 				case IDCANCEL:
 					if(dat->iState == STATE_PRERECV)
 					{
-						SetDlgItemText(hDlg, IDC_STATUS, Translate("Cancelled by user"));
+						SetDlgItemText(hDlg, IDC_STATUS, Translate("Canceled by user"));
 						dat->sendCmd(0, CMD_CANCEL, "", NULL);
 						dat->setState(STATE_CANCELLED);
 					}
@@ -1209,7 +1209,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 						if(MessageBox(hDlg, Translate("Transfer is in progress. Do you really want to close?"),
 							Translate(SERVICE_TITLE), MB_ICONWARNING|MB_YESNO|MB_DEFBUTTON2) == IDYES)
 						{
-							SetDlgItemText(hDlg, IDC_STATUS, Translate("Cancelled by user"));
+							SetDlgItemText(hDlg, IDC_STATUS, Translate("Canceled by user"));
 							dat->setState(STATE_CANCELLED);
 							dat->sendCmd(0, CMD_CANCEL, "", NULL);
 							dat->destroyTransfer();

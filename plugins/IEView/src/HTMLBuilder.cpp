@@ -392,7 +392,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			eventData->ptszText = mir_tstrdup(TranslateT(" requested authorisation"));
+			eventData->ptszText = mir_tstrdup(TranslateT(" requested authorization"));
 			eventData->ptszNick = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}

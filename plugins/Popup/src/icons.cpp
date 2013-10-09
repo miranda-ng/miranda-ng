@@ -32,7 +32,7 @@ static IconItem iconList[] =
 	//                               common popup
 	{ LPGEN("Popups are enabled"),          ICO_POPUP_ON,       IDI_POPUP          },
 	{ LPGEN("Popups are disabled"),         ICO_POPUP_OFF,      IDI_NOPOPUP        },
-	{ LPGEN("With \"favourite\" overlay"),  ICO_FAV,            IDI_PU_FAVOURITE   },
+	{ LPGEN("With \"favorite\" overlay"),  ICO_FAV,            IDI_PU_FAVOURITE   },
 	{ LPGEN("With \"fullscreen\" overlay"), ICO_FULLSCREEN,     IDI_PU_FULLSCREEN  },
 	{ LPGEN("Popup History"),               ICO_HISTORY,        IDI_HISTORY        },
 

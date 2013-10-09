@@ -1121,7 +1121,7 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	}
 	
 	if (succ == YAHOO_LOGIN_UNAME) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed."));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 	}
 	else if (succ == YAHOO_LOGIN_PASSWD) {

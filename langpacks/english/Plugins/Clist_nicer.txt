@@ -137,7 +137,7 @@
 [Time:]
 [milliseconds]
 [Hide vertical scroll bar]
-[Grey out entire list when:]
+[Gray out entire list when:]
 [Contact List Background]
 [Use Windows colors]
 [Background color]

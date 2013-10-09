@@ -3,8 +3,8 @@
 wchar_t *CSkypeProto::TransferFailureReasons[] =
 {
 	LPGENW("")															/* ---							*/,
-	LPGENW("SENDER_NOT_AUTHORISED")										/* SENDER_NOT_AUTHORISED		*/,
-	LPGENW("REMOTELY_CANCELLED")										/* REMOTELY_CANCELLED			*/,
+	LPGENW("SENDER_NOT_AUTHORIZED")										/* SENDER_NOT_AUTHORISED		*/,
+	LPGENW("REMOTELY_CANCELED")											/* REMOTELY_CANCELLED			*/,
 	LPGENW("FAILED_READ")												/* FAILED_READ					*/,
 	LPGENW("FAILED_REMOTE_READ")										/* FAILED_REMOTE_READ			*/,
 	LPGENW("FAILED_WRITE")												/* FAILED_WRITE					*/,

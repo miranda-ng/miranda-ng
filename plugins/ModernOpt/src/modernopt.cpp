@@ -71,7 +71,7 @@ struct ModernOptMainPageInfo g_ModernOptPages[MODERNOPT_PAGE_COUNT] =
 	{0,					FALSE,	IDI_MIRANDA,		LPGENT("Home"),			LPGENT("Miranda NG configuration center")},
 	{IDC_BTN_ACCOUNTS,	TRUE,	IDI_BIG_NETWORK,	LPGENT("Accounts"),		LPGENT("Setup your account information to start messaging.")},
 	{IDC_BTN_SKINS,		TRUE,	IDI_BIG_SKINS,		LPGENT("Style"),		LPGENT("Change the look of Miranda NG according to your taste.")},
-	{IDC_BTN_CLIST,		TRUE,	IDI_BIG_BUDDYLIST,	LPGENT("Contacts"),		LPGENT("Configure behaviour of your contact list.")},
+	{IDC_BTN_CLIST,		TRUE,	IDI_BIG_BUDDYLIST,	LPGENT("Contacts"),		LPGENT("Configure behavior of your contact list.")},
 	{IDC_BTN_MESSAGING,	TRUE,	IDI_BIG_MESSAGE,	LPGENT("Chats"),		LPGENT("Customize look&&feel of your chat windows here.")},
 	{IDC_BTN_IGNORE,	TRUE,	IDI_BIG_IGNORE,		LPGENT("Ignore"),		LPGENT("Ban those users and events, you are annoyed with.")},
 	{IDC_BTN_STATUS,	TRUE,	IDI_BIG_STATUS,		LPGENT("Status"),		LPGENT("Set your status messages and idle reporting.")},

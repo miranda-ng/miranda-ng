@@ -83,7 +83,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 		HMENU hMenu = CreatePopupMenu();
 
 		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_AUTO,       TranslateT("Auto"));
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FAVORITE,   TranslateT("Favourite"));
+		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FAVORITE,   TranslateT("Favorite"));
 		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FULLSCREEN, TranslateT("Ignore fullscreen"));
 		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_BLOCK,      TranslateT("Block"));
 
@@ -114,7 +114,7 @@ void SrmmMenu_Load()
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 1;
-	sid.szTooltip = LPGEN("Popup Mode: Favourite");
+	sid.szTooltip = LPGEN("Popup Mode: Favorite");
 	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FAV,0);
 	Srmm_AddIcon(&sid);
 

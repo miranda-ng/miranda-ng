@@ -129,7 +129,7 @@
 #define POPUP_COMMENT_FILE LPGEN("File")
 #define POPUP_COMMENT_CONTACTS LPGEN("Contacts")
 #define POPUP_COMMENT_ADDED LPGEN("You were added!")
-#define POPUP_COMMENT_AUTH LPGEN("Requests your authorisation")
+#define POPUP_COMMENT_AUTH LPGEN("Requests your authorization")
 #define POPUP_COMMENT_WEBPAGER LPGEN("ICQ Web pager")
 #define POPUP_COMMENT_EMAILEXP LPGEN("ICQ Email express")
 #define POPUP_COMMENT_OTHER LPGEN("Unknown Event")

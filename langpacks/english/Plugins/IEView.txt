@@ -45,7 +45,7 @@
 [URL received]
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
-[ requested authorisation]
+[ requested authorization]
 [ was added.]
 ;file \plugins\IEView\src\IEView.cpp
 [IID_IOleObject failed.]

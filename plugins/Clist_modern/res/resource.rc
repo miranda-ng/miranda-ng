@@ -84,7 +84,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Transparency:",IDC_TXT_TITLE2,0,78,184,8
-    LTEXT           "Window behaviour:",IDC_TXT_TITLE1,1,0,182,8
+    LTEXT           "Window behavior:",IDC_TXT_TITLE1,1,0,182,8
     LTEXT           "List sorting:",IDC_TXT_TITLE4,184,88,183,8
     LTEXT           "Status bar:",IDC_TXT_TITLE5,0,39,184,8
     LTEXT           "List content:",IDC_TXT_TITLE3,184,0,183,8
@@ -310,7 +310,7 @@ BEGIN
     EDITTEXT        IDC_MULTI_COUNT,93,148,48,12,ES_NUMBER
     CONTROL         "",IDC_MULTI_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,148,11,12
     LTEXT           "* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.",IDC_STATIC,27,163,123,42,WS_DISABLED
-    LTEXT           "Hold [Shift] to inverse [Right Click] behaviour",IDC_STATIC,27,207,267,8,WS_DISABLED
+    LTEXT           "Hold [Shift] to inverse [Right Click] behavior",IDC_STATIC,27,207,267,8,WS_DISABLED
     LTEXT           "[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all",IDC_STATIC,27,216,267,8,WS_DISABLED
     CONTROL         "Set options per account",IDC_STATUSBAR_PER_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,12,134,10
     COMBOBOX        IDC_STATUSBAR_PROTO_LIST,160,23,134,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
@@ -401,7 +401,7 @@ BEGIN
     CONTROL         "Spin1",IDC_MAXSIZESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,92,125,9,14
     LTEXT           "% of screen",IDC_STATIC22,207,128,47,8
     CONTROL         "Size upwards",IDC_AUTOSIZEUPWARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,143,230,8,WS_EX_TRANSPARENT
-    GROUPBOX        "Behaviour",IDC_STWINDOWGROUP2,0,12,258,142,0,WS_EX_TRANSPARENT
+    GROUPBOX        "Behavior",IDC_STWINDOWGROUP2,0,12,258,142,0,WS_EX_TRANSPARENT
     CONTROL         "Lock manual resize",IDC_LOCKSIZING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,102,240,12
     GROUPBOX        "Drag to",IDC_STATIC,0,158,124,61
     CONTROL         "Easy Scroll",IDC_DRAGTOSCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,181,108,8

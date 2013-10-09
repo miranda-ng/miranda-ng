@@ -700,7 +700,7 @@ begin
     ReasonW := ReasonUTF
   else
     ReasonW := ReasonACP;
-  Hi.Text := Format(TranslateW('Authorisation request by %s (%s%d): %s'),
+  Hi.Text := Format(TranslateW('Authorization request by %s (%s%d): %s'),
     [NickW, AnsiToWideString(Name + Email, hppCodepage), uin, ReasonW]);
 end;
 

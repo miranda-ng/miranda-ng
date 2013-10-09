@@ -218,7 +218,7 @@ bool TwitterProto::NegotiateConnection()
 			db_free(&dbv);
 		}
 		else {
-			ShowPopup(TranslateT("OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)"));
+			ShowPopup(TranslateT("OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)"));
 			LOG( _T("**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline."));
 			resetOAuthKeys();
 

@@ -20,7 +20,7 @@ STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Behaviour",IDC_STATIC,0,0,304,176
+    GROUPBOX        "Behavior",IDC_STATIC,0,0,304,176
     CONTROL         "Automatically pop up the window when",
 					IDC_AUTOPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,12,
 					155,10

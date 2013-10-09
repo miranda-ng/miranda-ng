@@ -92,7 +92,7 @@ TOptionListGroup m_lvGroupsNEN[] = {
 };
 
 TOptionListGroup m_lvGroupsMsg[] = {
-	0, LPGENT("Message window behaviour"),
+	0, LPGENT("Message window behavior"),
 	0, LPGENT("Sending messages"),
 	0, LPGENT("Other options"),
 	0, NULL

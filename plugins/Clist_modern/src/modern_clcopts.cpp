@@ -255,7 +255,7 @@ static clist_opt_items[]  =
 	{ LPGEN("Tray"), IDD_OPT_TRAY, DlgProcTrayOpts, 0 },
 	{ LPGEN("List"), IDD_OPT_CLC, DlgProcClistListOpts, 0 },
 	{ LPGEN("Window"), IDD_OPT_CLUI, DlgProcClistWindowOpts, 0 },
-	{ LPGEN("Behaviour"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts, 0 },
+	{ LPGEN("Behavior"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts, 0 },
 	{ LPGEN("Status Bar"), IDD_OPT_SBAR, DlgProcSBarOpts, 0},
 	{ LPGEN("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts, 0 }
 };

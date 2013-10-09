@@ -529,7 +529,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case ACKRESULT_CONNECTPROXY: SetFtStatus(hwndDlg, LPGENT("Connecting to proxy..."), FTS_TEXT); break;
 				case ACKRESULT_CONNECTED: SetFtStatus(hwndDlg, LPGENT("Connected"), FTS_TEXT); break;
 				case ACKRESULT_LISTENING: SetFtStatus(hwndDlg, LPGENT("Waiting for connection..."), FTS_TEXT); break;
-				case ACKRESULT_INITIALISING: SetFtStatus(hwndDlg, LPGENT("Initialising..."), FTS_TEXT); break;
+				case ACKRESULT_INITIALISING: SetFtStatus(hwndDlg, LPGENT("Initializing..."), FTS_TEXT); break;
 				case ACKRESULT_NEXTFILE:
 					SetFtStatus(hwndDlg, LPGENT("Moving to next file..."), FTS_TEXT);
 					SetDlgItemTextA(hwndDlg, IDC_FILENAME, "");

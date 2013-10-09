@@ -188,7 +188,7 @@
 [Service Discovery]
 [View as tree]
 [View as list]
-[Favourites]
+[Favorites]
 [Refresh]
 [Node:]
 [Change %s Message]

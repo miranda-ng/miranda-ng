@@ -132,7 +132,7 @@
 ;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 [Popups are disabled]
-[With "favourite" overlay]
+[With "favorite" overlay]
 [With "fullscreen" overlay]
 [Refresh skin list]
 [Popup Placement]
@@ -213,9 +213,9 @@
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
-[Favourite]
+[Favorite]
 [Block]
 [Popup Mode: Auto]
-[Popup Mode: Favourite]
+[Popup Mode: Favorite]
 [Popup Mode: Ignore fullscreen]
 [Popup Mode: Block contact]

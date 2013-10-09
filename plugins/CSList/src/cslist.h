@@ -148,7 +148,7 @@ static struct CSForm { // icons + buttons
 	{ IDC_ADD, LPGENT("Add new item"), LPGENT("Add"), "add", IDI_ADD },
 	{ IDC_MODIFY, LPGENT("Modify selected item"), LPGENT("Modify"), "modify", IDI_MODIFY },
 	{ IDC_REMOVE, LPGENT("Delete selected item"), LPGENT("Remove"), "remove", IDI_REMOVE },
-	{ IDC_FAVOURITE, LPGENT("Set/unset current item as favorite"), LPGENT("Favourite"), "favourite", IDI_FAVOURITE },
+	{ IDC_FAVOURITE, LPGENT("Set/unset current item as favorite"), LPGENT("Favorite"), "favourite", IDI_FAVOURITE },
 	{ IDC_UNDO, LPGENT("Undo changes"), LPGENT("Undo changes"), "undo", IDI_UNDO },
 	{ IDC_IMPORT, LPGENT("Import statuses from database"), LPGENT("Import"), "import", IDI_IMPORT },
 	{ IDC_FILTER, LPGENT("Filter list"), LPGENT("Filter"), "filter", IDI_FILTER },

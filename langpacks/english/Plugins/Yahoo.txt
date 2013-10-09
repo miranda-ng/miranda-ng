@@ -119,7 +119,7 @@
 [From: %s\nSubject: %s]
 [Yahoo System Message]
 [Yahoo Ping Error]
-[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]

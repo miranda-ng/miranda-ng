@@ -175,7 +175,7 @@ BEGIN
     CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,236,166,26,10
     EDITTEXT        IDC_AVATARHEIGHT,242,178,12,13,ES_AUTOHSCROLL | NOT WS_VISIBLE
     LTEXT           "pixels",IDC_STATIC,271,177,8,8,NOT WS_VISIBLE
-    LTEXT           "Message window behaviour:",IDC_TXT_TITLE1,1,0,183,8
+    LTEXT           "Message window behavior:",IDC_TXT_TITLE1,1,0,183,8
     LTEXT           "Messaging:",IDC_TXT_TITLE3,1,64,368,8
 END
 

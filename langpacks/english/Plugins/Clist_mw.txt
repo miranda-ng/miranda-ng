@@ -101,7 +101,7 @@
 [Time:]
 [milliseconds]
 [Left margin:]
-[Grey out entire list when:]
+[Gray out entire list when:]
 [Dim idle contacts]
 [Hide vertical scrollbar]
 [Contact List Background]

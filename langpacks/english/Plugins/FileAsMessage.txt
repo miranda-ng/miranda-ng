@@ -34,7 +34,7 @@
 [Sent successfully]
 [Unknown command for "File As Message" was received]
 [Incoming file request. Do you want to proceed?]
-[Cancelled by remote user]
+[Canceled by remote user]
 [New incoming file request. Do you want to proceed?]
 [Paused, because connection dropped]
 [Failed on file initialization]
@@ -43,7 +43,7 @@
 [Select a file]
 [Save as]
 [Can't get a file size]
-[Cancelled by user]
+[Canceled by user]
 [Transfer is in progress. Do you really want to close?]
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]

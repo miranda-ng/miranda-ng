@@ -598,7 +598,7 @@ CSListView::CSListView(HWND hwnd, CSWindow* parent)
 	lg.cbSize = sizeof(LVGROUP);
 	lg.mask = LVGF_HEADER | LVGF_GROUPID;
 
-	lg.pszHeader = TranslateT("Favourites");
+	lg.pszHeader = TranslateT("Favorites");
 	lg.iGroupId = 0;
 	ListView_InsertGroup( m_handle, -1, &lg );
 

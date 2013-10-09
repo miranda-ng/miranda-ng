@@ -46,7 +46,7 @@
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 [You were added!]
-[Requests your authorisation]
+[Requests your authorization]
 [ICQ Web pager]
 [ICQ Email express]
 [Unknown Event]

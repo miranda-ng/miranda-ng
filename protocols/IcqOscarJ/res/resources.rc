@@ -189,7 +189,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,176,281,10
     CONTROL         "Only reply to status message request from visible contacts",IDC_STATUSMSG_VISIBLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,192,269,10
-    CTEXT           "Some options are greyed out because they can only be changed when you are online.",IDC_STATIC_NOTONLINE,4,215,302,8
+    CTEXT           "Some options are grayed out because they can only be changed when you are online.",IDC_STATIC_NOTONLINE,4,215,302,8
 END
 
 IDD_OPT_POPUPS DIALOGEX 0, 0, 314, 251
@@ -291,7 +291,7 @@ BEGIN
     EDITTEXT        IDC_DEPARTMENT,65,177,91,12,ES_AUTOHSCROLL
     LTEXT           "Position:",IDC_STATIC,15,194,50,8
     EDITTEXT        IDC_POSITION,65,192,91,12,ES_AUTOHSCROLL
-    LTEXT           "Organisation:",IDC_STATIC,15,209,50,8
+    LTEXT           "Organization:",IDC_STATIC,15,209,50,8
     COMBOBOX        IDC_ORGANISATION,65,207,91,99,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Keywords:",IDC_STATIC,24,224,41,8
     EDITTEXT        IDC_ORGKEYWORDS,65,222,91,12,ES_AUTOHSCROLL

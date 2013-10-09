@@ -557,7 +557,7 @@ static void GetAuthRequestDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf 
 		allName += _T(", ");
 	}
 
-	mir_sntprintf(buf, cbBuf, TranslateT("Authorisation request by %s (%s%d): %s"),
+	mir_sntprintf(buf, cbBuf, TranslateT("Authorization request by %s (%s%d): %s"),
 		(newNick[0] == 0 ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR) : newNick),
 		allName.c_str(), uin, newReason);
 	mir_free( newNick );

@@ -531,7 +531,7 @@
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 [Incoming file]
 [No description given]
 [Incoming file (invalid format]
@@ -868,7 +868,7 @@
 [Timeout actions (popups only)]
 [Combine notifications for the same contact]
 [Remove popups under following conditions]
-[Message window behaviour]
+[Message window behavior]
 [Sending messages]
 [Send on SHIFT - Enter]
 [Send message on 'Enter']

@@ -24,7 +24,7 @@
 [Style]
 [Change the look of Miranda NG according to your taste.]
 [Contacts]
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 [Chats]
 [Customize look&&feel of your chat windows here.]
 [Ignore]
