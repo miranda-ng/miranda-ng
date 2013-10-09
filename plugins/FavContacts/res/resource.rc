@@ -28,7 +28,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_FAVOURITE           ICON                    "favorite.ico"
+IDI_FAVORITE            ICON                    "favorite.ico"
 IDI_REGULAR             ICON                    "regular.ico"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,151,139,10
     LTEXT           "Menu item preview:",IDC_STATIC,11,176,141,8
     CONTROL         "",IDC_CANVAS,"Static",SS_OWNERDRAW,20,188,132,26
-    GROUPBOX        "Favourite Contacts",IDC_STATIC,161,5,150,241
+    GROUPBOX        "Favorite Contacts",IDC_STATIC,161,5,150,241
     CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,167,17,138,223,WS_EX_CLIENTEDGE
     CONTROL         "Enable groups",IDC_CHK_GROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,17,141,10
     CONTROL         "Multicolumn menu",IDC_CHK_GROUPCOLUMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,30,132,10

@@ -30,7 +30,7 @@ public:
 			group = mir_tstrdup(TranslateT("<no group>"));
 		} else
 		{
-			group = mir_tstrdup(TranslateT("Favourite Contacts"));
+			group = mir_tstrdup(TranslateT("Favorite Contacts"));
 		}
 		status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 	}

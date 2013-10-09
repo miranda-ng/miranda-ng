@@ -2,7 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
-#define IDI_FAVOURITE                   101
+#define IDI_FAVORITE                    101
 #define IDI_REGULAR                     102
 #define IDD_OPTIONS                     107
 #define IDC_CLIST                       1001

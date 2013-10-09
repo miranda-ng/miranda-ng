@@ -5,9 +5,9 @@
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME				"Favourite contacts"
+#define __PLUGIN_NAME				"Favorite contacts"
 #define __FILENAME					"FavContacts.dll"
-#define __DESCRIPTION 				"Favourite contacts menu."
+#define __DESCRIPTION 				"Favorite contacts menu."
 #define __AUTHOR					"Victor Pavlychko"
 #define __AUTHOREMAIL				"nullbie@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/p/FavContacts/"

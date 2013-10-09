@@ -1,5 +1,5 @@
 /*
-Favourite Contacts for Miranda IM
+Favorite Contacts for Miranda IM
 
 Copyright 2007 Victor Pavlychko
 
@@ -42,7 +42,7 @@ PLUGININFOEX pluginInfo = {
 
 static IconItem iconList[] = 
 {
-	{ LPGEN("Favourite Contact"), "favcontacts_favourite", IDI_FAVOURITE },
+	{ LPGEN("Favorite Contact"), "favcontacts_favorite", IDI_FAVORITE },
 	{ LPGEN("Regular Contact"),   "favcontacts_regular",   IDI_REGULAR   },
 };
 
@@ -97,7 +97,7 @@ static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttb = { sizeof(ttb) };
-	ttb.pszTooltipUp = ttb.name = LPGEN("Favourite Contacts");
+	ttb.pszTooltipUp = ttb.name = LPGEN("Favorite Contacts");
 	ttb.pszService = MS_FAVCONTACTS_SHOWMENU;
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	ttb.hIconHandleUp = iconList[0].hIcolib;
@@ -113,7 +113,7 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 	LOGFONT lf = {0};
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	lstrcpy(fontid.group, LPGENT("Favourite Contacts"));
+	lstrcpy(fontid.group, LPGENT("Favorite Contacts"));
 
 	lstrcpy(fontid.name, LPGENT("Contact name"));
 	g_Options.clLine1 = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lf);
@@ -131,7 +131,7 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	lstrcpy(colourid.group, LPGENT("Favourite Contacts"));
+	lstrcpy(colourid.group, LPGENT("Favorite Contacts"));
 
 	lstrcpy(colourid.name, LPGENT("Background"));
 	g_Options.clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, (LPARAM)&lf);
@@ -148,7 +148,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = "FavContacts";
-	sid.szTooltip = LPGEN("Favourite Contacts");
+	sid.szTooltip = LPGEN("Favorite Contacts");
 	sid.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
 	sid.hIconDisabled = Skin_GetIconByHandle(iconList[1].hIcolib);
 	Srmm_AddIcon(&sid);
@@ -160,7 +160,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	lstrcpy(fontid.group, LPGENT("Favourite Contacts"));
+	lstrcpy(fontid.group, LPGENT("Favorite Contacts"));
 	lstrcpyA(fontid.dbSettingsGroup, "FavContacts");
 	lstrcpy(fontid.backgroundGroup, LPGENT("Favourite Contacts"));
 	fontid.flags = FIDF_DEFAULTVALID;
@@ -201,7 +201,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	lstrcpy(colourid.group, LPGENT("Favourite Contacts"));
+	lstrcpy(colourid.group, LPGENT("Favorite Contacts"));
 	lstrcpyA(colourid.dbSettingsGroup, "FavContacts");
 
 	lstrcpy(colourid.name, LPGENT("Background"));
@@ -223,7 +223,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HOTKEYDESC hotkey = {0};
 	hotkey.cbSize = sizeof(hotkey);
 	hotkey.pszName = "FavContacts/ShowMenu";
-	hotkey.pszDescription = LPGEN("Show favourite contacts");
+	hotkey.pszDescription = LPGEN("Show favorite contacts");
 	hotkey.pszSection = "Contacts";
 	hotkey.pszService = MS_FAVCONTACTS_SHOWMENU_CENTERED;
 	hotkey.DefHotKey = MAKEWORD('Q', HOTKEYF_EXT);
@@ -245,7 +245,7 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszGroup = LPGEN("Contacts");
-	odp.pszTitle = LPGEN("Favourites");
+	odp.pszTitle = LPGEN("Favorites");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
@@ -284,7 +284,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	Icon_Register(g_hInst, LPGEN("Favourites"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Favorites"), iconList, SIZEOF(iconList));
 
 	LoadHttpApi();
 
@@ -292,7 +292,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
 		mi.position = 1900000000;
-		mi.pszName = LPGEN("&Favourite Contacts...");
+		mi.pszName = LPGEN("&Favorite Contacts...");
 		mi.pszService = MS_FAVCONTACTS_SHOWMENU;
 		Menu_AddMainMenuItem(&mi);
 	#endif

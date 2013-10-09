@@ -1,13 +1,13 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: favcontacts.dll
-;  Module: Favourite Contacts
+;  Module: Favorite Contacts
 ;  Versions: v.0.0.0.6
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4191
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FavContacts/
 ;  Authors: nullbie
 ;============================================================
-[Favourite contacts menu.]
+[Favorite contacts menu.]
 Меню избранных контактов.
 [px.]
 пикс.
@@ -15,7 +15,7 @@
 Меню по горячей кл. в центре экрана 
 [Hide for transparent avatars]
 Скрыть у прозрачных аватар
-[Favourite Contacts]
+[Favorite Contacts]
 Избранные контакты
 [Draw avatar border]
 Рамка на аватарах
@@ -43,5 +43,5 @@
 Обычный контакт
 [Dim idle contact icons]
 Затемнить контакты в ожидании
-[Show favourite contacts]
+[Show favorite contacts]
 Показать избранные контакты
