@@ -35,7 +35,7 @@ PRESETITEM presetItems[] =
 	"listening", LPGENT("Listening to"), LPGENT("Listening to:"), _T("%raw:/ListeningTo%"), 0, 0, 0,
 	"name", LPGENT("Name"), LPGENT("Name:"), _T("%raw:/FirstName|% %raw:/LastName%"), 0, 0, 0,
 	"received", LPGENT("Number of received messages"), LPGENT("Number of msg [IN]:"), _T("%sys:msg_count_in%"), 0, 0, 0,
-	"sended", LPGENT("Number of sended messages"), LPGENT("Number of msg [OUT]:"), _T("%sys:msg_count_out%"), 0, 0, 0,
+	"sended", LPGENT("Number of sent messages"), LPGENT("Number of msg [OUT]:"), _T("%sys:msg_count_out%"), 0, 0, 0,
 	"status", LPGENT("Status"), LPGENT("Status:"), _T("%Status%"), "status", 0, 0,
 	"statusmsg", LPGENT("Status message"), LPGENT("Status message:"), _T("%sys:status_msg%"), 0, 0, 0,
 	"time", LPGENT("Contact time"), LPGENT("Time:"), _T("%sys:time%"), 0, 0, 0,

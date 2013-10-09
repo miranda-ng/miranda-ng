@@ -341,7 +341,7 @@ int WriteBlobFromString(HANDLE hContact,const char *szModule,const char *szSetti
 
 	if (!(data = (BYTE *)_alloca(2+len/2)))
 	{
-		msg(Translate("Couldnt allocate enough memory!"), modFullname);
+		msg(Translate("Couldn't allocate enough memory!"), modFullname);
 		return 0;
 	}
 

@@ -104,7 +104,7 @@ END
 
 IDD_NEW_KEY DIALOGEX 0, 0, 427, 68
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "The new public key was recieved"
+CAPTION "The new public key was received"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Import key",ID_IMPORT,9,47,46,14
@@ -177,12 +177,12 @@ END
 
 IDD_ENCRYPTED_FILE_MSG_BOX DIALOGEX 0, 0, 229, 63
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Recieved encrypted file"
+CAPTION "Received encrypted file"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "Ignore",IDC_IGNORE,7,42,50,14
     PUSHBUTTON      "Decrypt",IDC_DECRYPT,97,42,50,14
-    LTEXT           "Recieved encrypted file form contact with disabled encryption.",IDC_STATIC,7,7,215,14
+    LTEXT           "Received encrypted file form contact with disabled encryption.",IDC_STATIC,7,7,215,14
     CONTROL         "Remember choice",IDC_REMEMBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,22,157,10
 END
 

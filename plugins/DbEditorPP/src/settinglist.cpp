@@ -125,7 +125,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 			{
 				int j;
 				if (!(data = (char*)mir_realloc(data, 3*(dbv.cpbVal+1)+10)))
-					{msg(Translate("Couldnt allocate enough memory!"), modFullname); return;}
+					{msg(Translate("Couldn't allocate enough memory!"), modFullname); return;}
 				data[0] = '\0';
 				for (j=0; j<dbv.cpbVal; j++)
 				{
@@ -673,7 +673,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 			char tmp[16];
 			char *data = (char*)_alloca(3*(dbv.cpbVal+1)+10);
 
-			if (!data) {msg(Translate("Couldnt allocate enough memory!"), modFullname); return;}
+			if (!data) {msg(Translate("Couldn't allocate enough memory!"), modFullname); return;}
 			data[0] = '\0';
 
 			for(j=0; j<dbv.cpbVal; j++)

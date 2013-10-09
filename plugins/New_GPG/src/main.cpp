@@ -880,7 +880,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if(boost::filesystem::exists(gpg_lang_path))
 				lang_exists = true;
 			if(gpg_exists && !lang_exists)
-				MessageBox(0, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have beed warned."), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned."), TranslateT("Warning"), MB_OK);
 			mir_free(gpg_path);
 			mir_free(gpg_lang_path);
 		}

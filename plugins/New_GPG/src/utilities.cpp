@@ -332,7 +332,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 							return 0;
 						if(file_msg_state < 1)
 							return 0;
-						HistoryLog(ack->hContact, db_event("Recieved encrypted file, trying to decrypt", 0,0, 0));
+						HistoryLog(ack->hContact, db_event("Received encrypted file, trying to decrypt", 0,0, 0));
 						if(!boost::filesystem::exists(f->tszCurrentFile))
 							return 0;
 						string out;

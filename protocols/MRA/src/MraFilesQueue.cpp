@@ -907,7 +907,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 					}
 				}else {// err on send request for file
 					dwRetErrorCode = GetLastError();
-					mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: request for file %s not sended, error"), dat->pmfqfFiles[i].lpwszName);
+					mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: request for file %s not sent, error"), dat->pmfqfFiles[i].lpwszName);
 					ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 					bFailed = TRUE;
 					break;

@@ -68,7 +68,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_UPD_ALL_USERS_INFO               "/UpdateAllUsersInfo"
 #define MRA_UPD_ALL_USERS_INFO_STR           LPGENT("Update all users info")
 #define MRA_CHK_USERS_AVATARS                "/CheckUpdatesUsersAvatars"
-#define MRA_CHK_USERS_AVATARS_STR            LPGENT("Check updates users avatars")
+#define MRA_CHK_USERS_AVATARS_STR            LPGENT("Check users avatars updates")
 #define MRA_REQ_AUTH_FOR_ALL                 "/ReqAuthForAll"
 #define MRA_REQ_AUTH_FOR_ALL_STR             LPGENT("Request authorization for all")
 

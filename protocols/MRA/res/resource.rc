@@ -173,7 +173,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,28,244,8
     CONTROL         "No out connection on receive",IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,39,244,8
-    CONTROL         "Out connections: ignory additional ports (443, 2041)",IDC_FILE_SEND_IGNORYADDITIONALPORTS,
+    CONTROL         "Out connections: ignore additional ports (443, 2041)",IDC_FILE_SEND_IGNORYADDITIONALPORTS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,50,244,8
     CONTROL         "Hide my IP addresses",IDC_FILE_SEND_HIDE_MY_ADDRESSES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,61,244,8
@@ -248,7 +248,7 @@ BEGIN
     EDITTEXT        IDC_USER_BLOG_STATUS_MSG,7,19,242,38,ES_MULTILINE | ES_READONLY
     EDITTEXT        IDC_MSG_TO_SEND,7,61,242,38,ES_MULTILINE
     CONTROL         "Notify",IDC_CHK_NOTIFY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,102,125,9
-    LTEXT           "Writed:",IDC_STATIC_WRITED_TIME,7,7,242,11
+    LTEXT           "Written:",IDC_STATIC_WRITED_TIME,7,7,242,11
     LTEXT           "0/500",IDC_STATIC_CHARS_COUNTER,211,103,38,11,0,WS_EX_RIGHT
 END
 

@@ -1130,7 +1130,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 
 			DWORD dwTime = dat->ppro->getDword(dat->hContact, DBSETTING_BLOGSTATUSTIME, 0);
 			if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &stBlogStatusTime))
-				szBuff.Format(_T("%s: %04ld.%02ld.%02ld %02ld:%02ld"), TranslateT("Writed"),
+				szBuff.Format(_T("%s: %04ld.%02ld.%02ld %02ld:%02ld"), TranslateT("Written"),
 					stBlogStatusTime.wYear, stBlogStatusTime.wMonth, stBlogStatusTime.wDay, stBlogStatusTime.wHour, stBlogStatusTime.wMinute);
 			else
 				szBuff.Empty();

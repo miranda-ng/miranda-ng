@@ -229,7 +229,7 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				if (length>1) {
 					TCHAR *text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 					if (!text) {
-						msg(TranslateT("Couldnt Allocate enough memory"), _T(""));
+						msg(TranslateT("Couldn't allocate enough memory"), _T(""));
 						break;
 					}
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
@@ -295,7 +295,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				if (length>1) {
 					TCHAR *text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 					if (!text) {
-						msg(TranslateT("Couldnt Allocate enough memory"), _T(""));
+						msg(TranslateT("Couldn't allocate enough memory"), _T(""));
 						break;
 					}
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
@@ -421,7 +421,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (length > 1) {
 					TCHAR *text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 					if (!text) {
-						msg(TranslateT("Couldnt Allocate enough memory"), _T(""));
+						msg(TranslateT("Couldn't allocate enough memory"), _T(""));
 						break;
 					}
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);

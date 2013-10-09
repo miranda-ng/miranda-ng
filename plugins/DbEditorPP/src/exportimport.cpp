@@ -572,7 +572,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 					if (length)
 					{
 						string = (char*)_alloca(length+1);
-						if (!string) {msg(Translate("Couldnt allocate enough memory!"), modFullname); DestroyWindow(hwnd); }
+						if (!string) {msg(Translate("Couldn't allocate enough memory!"), modFullname); DestroyWindow(hwnd); }
 						GetDlgItemText(hwnd, IDC_TEXT, string, length+1);
 						importSettings(hContact, string);
 						refreshTree(1);

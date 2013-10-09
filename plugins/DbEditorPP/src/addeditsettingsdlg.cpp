@@ -334,7 +334,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 						if (!setting || !value)
 						{
-							msg(Translate("Couldnt allocate enough memory!"), modFullname);
+							msg(Translate("Couldn't allocate enough memory!"), modFullname);
 							DestroyWindow(hwnd);
 							break;
 						}
