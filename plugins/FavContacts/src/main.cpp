@@ -162,7 +162,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	fontid.cbSize = sizeof(fontid);
 	lstrcpy(fontid.group, LPGENT("Favorite Contacts"));
 	lstrcpyA(fontid.dbSettingsGroup, "FavContacts");
-	lstrcpy(fontid.backgroundGroup, LPGENT("Favourite Contacts"));
+	lstrcpy(fontid.backgroundGroup, LPGENT("Favorite Contacts"));
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.size = -11;
