@@ -26,9 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\..\plugins\ExternalAPI\m_folders.h"
 
-extern TCHAR g_profileDir[MAX_PATH], g_profileRoot[MAX_PATH];
+extern TCHAR g_profileDir[MAX_PATH], g_shortProfileName[MAX_PATH];
 
 static HANDLE hAvatarFolder;
+static TCHAR  tszAvatarRoot[MAX_PATH];
 
 static INT_PTR pathToRelative(WPARAM wParam, LPARAM lParam)
 {
@@ -155,12 +156,7 @@ static __forceinline char *GetUserNameX(char *)
 }
 static __forceinline char *GetProfileNameX(char *)
 {
-	TCHAR szProfileName[MAX_PATH];
-	_tcscpy(szProfileName, g_profileName);
-	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if (lstrcmp(pos, _T(".dat")) == 0)
-		*pos = 0;
-	return mir_t2a(szProfileName);
+	return mir_t2a(g_shortProfileName);
 }
 static __forceinline char *GetPathVarX(char *, int code)
 {
@@ -168,14 +164,16 @@ static __forceinline char *GetPathVarX(char *, int code)
 
 	switch(code) {
 	case 1:
-		if (hAvatarFolder == NULL || FoldersGetCustomPathT(hAvatarFolder, szFullPath, SIZEOF(szFullPath), _T("")))
-			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\AvatarCache"), g_profileRoot);
+		if (hAvatarFolder != NULL)
+			_tcsncpy_s(szFullPath, SIZEOF(szFullPath), tszAvatarRoot, _TRUNCATE);
+		else
+			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Logs"), g_profileRoot);
+		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
 		break;
 	case 3:
-		_tcsncpy_s(szFullPath, SIZEOF(szFullPath), g_profileRoot, _TRUNCATE);
+		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
 		break;
 	}
 	return makeFileName(szFullPath);
@@ -233,12 +231,7 @@ static __forceinline TCHAR *GetUserNameX(TCHAR *)
 }
 static __forceinline TCHAR *GetProfileNameX(TCHAR *)
 {
-	TCHAR szProfileName[MAX_PATH];
-	_tcscpy(szProfileName, g_profileName);
-	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if (lstrcmp(pos, _T(".dat")) == 0)
-		*pos = 0;
-	return mir_tstrdup(szProfileName);
+	return mir_tstrdup(g_shortProfileName);
 }
 static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 {
@@ -246,14 +239,16 @@ static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 
 	switch(code) {
 	case 1:
-		if (hAvatarFolder == NULL || FoldersGetCustomPathT(hAvatarFolder, szFullPath, SIZEOF(szFullPath), _T("")))
-			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\AvatarCache"), g_profileRoot);
+		if (hAvatarFolder != NULL)
+			_tcsncpy_s(szFullPath, SIZEOF(szFullPath), tszAvatarRoot, _TRUNCATE);
+		else
+			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Logs"), g_profileRoot);
+		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
 		break;
 	case 3:
-		_tcsncpy_s(szFullPath, SIZEOF(szFullPath), g_profileRoot, _TRUNCATE);
+		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
 		break;
 	}
 	return mir_tstrdup(szFullPath);
@@ -389,13 +384,6 @@ static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)ReplaceVariables<char>((char *)wParam, data);
 }
 
-void InitPathVar()
-{
-	TCHAR szFullPath[MAX_PATH];
-	mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\AvatarCache"), g_profileRoot);
-	hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), szFullPath);
-}
-
 int InitPathUtils(void)
 {
 	CreateServiceFunction(MS_UTILS_PATHTORELATIVE, pathToRelative);
@@ -409,4 +397,27 @@ int InitPathUtils(void)
 
 	CreateServiceFunction(MS_UTILS_REPLACEVARS, replaceVars);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int OnFoldersChanged(WPARAM, LPARAM)
+{
+	mir_sntprintf(tszAvatarRoot, SIZEOF(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+
+	TCHAR tmpVar[MAX_PATH];
+	if ( !FoldersGetCustomPathT(hAvatarFolder, tmpVar, SIZEOF(tmpVar), tszAvatarRoot))
+		_tcsncpy_s(tszAvatarRoot, SIZEOF(tszAvatarRoot), tmpVar, SIZEOF(tmpVar));
+	return 0;
+}
+
+void InitPathVar()
+{
+	mir_sntprintf(tszAvatarRoot, SIZEOF(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+	if (hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
+		TCHAR tmpVar[MAX_PATH];
+		if ( !FoldersGetCustomPathT(hAvatarFolder, tmpVar, SIZEOF(tmpVar), tszAvatarRoot))
+			_tcsncpy_s(tszAvatarRoot, SIZEOF(tszAvatarRoot), tmpVar, SIZEOF(tmpVar));
+		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
+	}
 }
