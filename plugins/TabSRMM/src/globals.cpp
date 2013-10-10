@@ -661,8 +661,8 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 
 		TCHAR buffer[450];
 
-		TCHAR *szOldStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wOldStatus, GSMDF_TCHAR);
-		TCHAR *szNewStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
+		TCHAR *szOldStatus = pcli->pfnGetStatusModeDescription(wOldStatus, 0);
+		TCHAR *szNewStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 		if (szOldStatus == 0 || szNewStatus == 0)
 			return;
 

@@ -2513,7 +2513,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 				nick = pcli->pfnGetContactDisplayName(hContact, 0);
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", i);
 				WORD wStatus = (WORD)db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
-				szStatusText = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
+				szStatusText = pcli->pfnGetStatusModeDescription(wStatus, 0);
 			}
 			
 			TCHAR szMenuLine[128];

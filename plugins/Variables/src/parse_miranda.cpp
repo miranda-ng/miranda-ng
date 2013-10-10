@@ -19,7 +19,7 @@
 
 #include "variables.h"
 
-static TCHAR *parseCodeToStatus(ARGUMENTSINFO *ai)
+static TCHAR* parseCodeToStatus(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -34,9 +34,8 @@ static TCHAR *parseCodeToStatus(ARGUMENTSINFO *ai)
 
 static int getContactInfoFlags(TCHAR *tszDesc)
 {
-	TCHAR *cur;
 	int flags = 0;
-	for (cur=tszDesc;(cur < (tszDesc+_tcslen(tszDesc)));cur++) {
+	for (TCHAR *cur=tszDesc;(cur < (tszDesc+_tcslen(tszDesc))); cur++) {
 		if (!_tcsnicmp(cur, _T(STR_PROTOID), _tcslen(_T(STR_PROTOID)))) {
 			flags|=CI_PROTOID;
 			cur += _tcslen(_T(STR_PROTOID)) - 1;
@@ -76,7 +75,7 @@ static int getContactInfoFlags(TCHAR *tszDesc)
 	return flags;
 }
 
-static TCHAR *parseContact(ARGUMENTSINFO *ai)
+static TCHAR* parseContact(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3 || ai->argc > 4 )
 		return NULL;
@@ -107,7 +106,7 @@ static TCHAR *parseContact(ARGUMENTSINFO *ai)
 	return encodeContactToString(hContact);
 }
 
-static TCHAR *parseContactCount(ARGUMENTSINFO *ai)
+static TCHAR* parseContactCount(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -123,7 +122,7 @@ static TCHAR *parseContactCount(ARGUMENTSINFO *ai)
 	return itot(count);
 }
 
-static TCHAR *parseContactInfo(ARGUMENTSINFO *ai)
+static TCHAR* parseContactInfo(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -149,7 +148,7 @@ static TCHAR *parseContactInfo(ARGUMENTSINFO *ai)
 	return getContactInfoT(type, hContact);
 }
 
-static TCHAR *parseDBProfileName(ARGUMENTSINFO *ai)
+static TCHAR* parseDBProfileName(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
@@ -161,7 +160,7 @@ static TCHAR *parseDBProfileName(ARGUMENTSINFO *ai)
 	return mir_tstrdup(name);
 }
 
-static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai)
+static TCHAR* parseDBProfilePath(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
@@ -205,7 +204,7 @@ static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* 
 	return var;
 }
 
-static TCHAR *parseDBSetting(ARGUMENTSINFO *ai)
+static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 4)
 		return NULL;
@@ -243,7 +242,7 @@ static TCHAR *parseDBSetting(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
+static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return NULL;
@@ -301,7 +300,7 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
+static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return NULL;
@@ -360,7 +359,7 @@ static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai)
+static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -395,7 +394,7 @@ static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai)
 	return NULL;
 }
 
-static TCHAR *parseMirandaPath(ARGUMENTSINFO *ai)
+static TCHAR* parseMirandaPath(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
@@ -408,13 +407,13 @@ static TCHAR *parseMirandaPath(ARGUMENTSINFO *ai)
 	return mir_tstrdup(path);
 }
 
-static TCHAR *parseMyStatus(ARGUMENTSINFO *ai)
+static TCHAR* parseMyStatus(ARGUMENTSINFO *ai)
 {
 	if (ai->argc > 2)
 		return NULL;
 
 	int status;
-	if (ai->argc == 1 || _tcslen(ai->targv[1]) == 0 )
+	if (ai->argc == 1 || _tcslen(ai->targv[1]) == 0)
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	else
 		status = CallProtoService( _T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
@@ -426,7 +425,7 @@ static TCHAR *parseMyStatus(ARGUMENTSINFO *ai)
 	return NULL;
 }
 
-static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
+static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -467,7 +466,7 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 	return tszRes;
 }
 
-static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
+static TCHAR* parseSpecialContact(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1 || ai->fi->hContact == NULL)
 		return NULL;
@@ -629,7 +628,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 }
 
 // ?message(%subject%,last|first,sent|recv,read|unread)
-static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
+static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return NULL;
@@ -697,16 +696,16 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseTranslate(ARGUMENTSINFO *ai)
+static TCHAR* parseTranslate(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
 
-	TCHAR* res = TranslateTS(ai->targv[1]);
+	TCHAR *res = TranslateTS(ai->targv[1]);
 	return (res == NULL) ? NULL : mir_tstrdup(res);
 }
 
-static TCHAR *parseVersionString(ARGUMENTSINFO *ai)
+static TCHAR* parseVersionString(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;

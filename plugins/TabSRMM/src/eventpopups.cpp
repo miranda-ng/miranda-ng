@@ -761,67 +761,64 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 
 int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, HANDLE hContact, DWORD fromEvent)
 {
-	if (PluginConfig.g_hMenuTrayUnread != 0 && hContact != 0 && szProto != NULL) {
-		if (szProto == NULL)
-			return 0;                                     // should never happen...
+	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
+		return 0;
 
-		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
-		TCHAR *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
-		if (tszFinalProto == 0)
-			return 0;									// should also NOT happen
+	PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
+	TCHAR *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
+	if (tszFinalProto == 0)
+		return 0;
 
-		WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
-		const TCHAR	*szMyStatus = (szStatus == NULL) ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wMyStatus, GSMDF_TCHAR) : szStatus;
+	WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
+	const TCHAR	*szMyStatus = (szStatus == NULL) ? pcli->pfnGetStatusModeDescription(wMyStatus, 0) : szStatus;
 
-		MENUITEMINFO mii = {0};
-		mii.cbSize = sizeof(mii);
-		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_BITMAP;
-		mii.wID = (UINT)hContact;
-		mii.hbmpItem = HBMMENU_CALLBACK;
+	MENUITEMINFO mii = { sizeof(mii) };
+	mii.fMask = MIIM_DATA | MIIM_ID | MIIM_BITMAP;
+	mii.wID = (UINT)hContact;
+	mii.hbmpItem = HBMMENU_CALLBACK;
 
-		TCHAR	szMenuEntry[80];
-		const TCHAR *szNick = NULL;
-		if (dat != 0) {
-			szNick = dat->cache->getNick();
-			GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
-			mii.dwItemData++;
-			if (fromEvent == 2)                         // from chat...
-				mii.dwItemData |= 0x10000000;
-			DeleteMenu(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND);
-			mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
+	TCHAR	szMenuEntry[80];
+	const TCHAR *szNick = NULL;
+	if (dat != 0) {
+		szNick = dat->cache->getNick();
+		GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
+		mii.dwItemData++;
+		if (fromEvent == 2)                         // from chat...
+			mii.dwItemData |= 0x10000000;
+		DeleteMenu(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND);
+		mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
+		AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, (UINT_PTR)hContact, szMenuEntry);
+		PluginConfig.m_UnreadInTray++;
+		if (PluginConfig.m_UnreadInTray)
+			SetEvent(g_hEvent);
+		SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
+	}
+	else {
+		szNick = pcli->pfnGetContactDisplayName(hContact, 0);
+		if (CheckMenuItem(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == -1) {
+			mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, fromEvent ? 1 : 0);
 			AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, (UINT_PTR)hContact, szMenuEntry);
-			PluginConfig.m_UnreadInTray++;
+			mii.dwItemData = fromEvent ? 1 : 0;
+			PluginConfig.m_UnreadInTray += (mii.dwItemData & 0x0000ffff);
 			if (PluginConfig.m_UnreadInTray)
 				SetEvent(g_hEvent);
-			SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
+			if (fromEvent == 2)
+				mii.dwItemData |= 0x10000000;
 		}
 		else {
-			szNick = pcli->pfnGetContactDisplayName(hContact, 0);
-			if (CheckMenuItem(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == -1) {
-				mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, fromEvent ? 1 : 0);
-				AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, (UINT_PTR)hContact, szMenuEntry);
-				mii.dwItemData = fromEvent ? 1 : 0;
-				PluginConfig.m_UnreadInTray += (mii.dwItemData & 0x0000ffff);
-				if (PluginConfig.m_UnreadInTray)
-					SetEvent(g_hEvent);
-				if (fromEvent == 2)
-					mii.dwItemData |= 0x10000000;
-			}
-			else {
-				GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
-				mii.dwItemData += (fromEvent ? 1 : 0);
-				PluginConfig.m_UnreadInTray += (fromEvent ? 1 : 0);
-				if (PluginConfig.m_UnreadInTray)
-					SetEvent(g_hEvent);
-				mii.fMask |= MIIM_STRING;
-				if (fromEvent == 2)
-					mii.dwItemData |= 0x10000000;
-				mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
-				mii.cch = lstrlen(szMenuEntry) + 1;
-				mii.dwTypeData = (LPTSTR)szMenuEntry;
-			}
-			SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
+			GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
+			mii.dwItemData += (fromEvent ? 1 : 0);
+			PluginConfig.m_UnreadInTray += (fromEvent ? 1 : 0);
+			if (PluginConfig.m_UnreadInTray)
+				SetEvent(g_hEvent);
+			mii.fMask |= MIIM_STRING;
+			if (fromEvent == 2)
+				mii.dwItemData |= 0x10000000;
+			mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
+			mii.cch = lstrlen(szMenuEntry) + 1;
+			mii.dwTypeData = (LPTSTR)szMenuEntry;
 		}
+		SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
 	}
 	return 0;
 }

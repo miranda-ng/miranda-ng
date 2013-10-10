@@ -1766,7 +1766,6 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	TCHAR 					newtitle[128];
 	TCHAR*					pszNewTitleEnd;
 	TCHAR 					newcontactname[128];
-	TCITEM 					item;
 	DWORD 					dwOldIdle = dat->idle;
 	const char*				szActProto = 0;
 	HANDLE 					hActContact = 0;
@@ -1784,10 +1783,10 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (dat->iTabID == -1)
 		return;
 
-	ZeroMemory((void*)&item, sizeof(item));
+	TCITEM item = { 0 };
+
 	if (dat->hContact) {
-		TCHAR 			fulluin[256];
-		const TCHAR*	szNick = dat->cache->getNick();
+		const TCHAR *szNick = dat->cache->getNick();
 
 		if (dat->szProto) {
 			szActProto = dat->cache->getActiveProto();
@@ -1798,7 +1797,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			dat->dwFlagsEx =  dat->idle ? dat->dwFlagsEx | MWF_SHOW_ISIDLE : dat->dwFlagsEx & ~MWF_SHOW_ISIDLE;
 
 			dat->wStatus = dat->cache->getStatus();
-			mir_sntprintf(dat->szStatus, SIZEOF(dat->szStatus), _T("%s"), (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, GSMDF_TCHAR));
+			_tcsncpy_s(dat->szStatus, SIZEOF(dat->szStatus), pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
 
 			if (lParam != 0) {
 				if (PluginConfig.m_CutContactNameOnTabs)
@@ -1819,14 +1818,16 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				item.mask |= TCIF_TEXT;
 			}
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
+	
+			TCHAR fulluin[256];
 			if (dat->bIsMeta)
 				mir_sntprintf(fulluin, SIZEOF(fulluin),
-							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites."),
-							  bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
+				  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites."),
+				  bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 			else
 				mir_sntprintf(fulluin, SIZEOF(fulluin),
-							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
-							  bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
+				  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
+				  bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
@@ -1853,10 +1854,11 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		UpdateTrayMenuState(dat, TRUE);
 		if (dat->cache->isFavorite())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
-								  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuFavorites);
+			  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuFavorites);
+
 		if (dat->cache->isRecent())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
-								  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuRecent);
+			  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuRecent);
 
 		dat->Panel->Invalidate();
 		if (dat->pWnd)

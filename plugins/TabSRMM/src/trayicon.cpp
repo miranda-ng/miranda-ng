@@ -250,7 +250,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 		if (wStatus == 0)
 			wStatus = db_get_w((HANDLE)hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (szStatus == NULL)
-			szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
+			szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 	}
 	else
 		return;

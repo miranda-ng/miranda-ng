@@ -2062,11 +2062,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				dat->hTabIcon = dat->hTabStatusIcon;
 
 			if (dat->cache->getStatus() != dat->cache->getOldStatus()) {
+				_tcsncpy_s(dat->szStatus, SIZEOF(dat->szStatus), pcli->pfnGetStatusModeDescription(dat->wStatus, 0), _TRUNCATE);
+
 				TCITEM item = { 0 };
 				item.mask = TCIF_TEXT;
-
-				lstrcpyn(dat->szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)dat->wStatus, GSMDF_TCHAR), 50);
-				dat->szStatus[49] = 0;
 				item.pszText = dat->newtitle;
 				item.cchTextMax = 120;
 				TabCtrl_SetItem(hwndTab, dat->iTabID, &item);
