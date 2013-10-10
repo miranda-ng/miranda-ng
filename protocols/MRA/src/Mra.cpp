@@ -3,6 +3,7 @@
 LIST<CMraProto> g_Instances(1, PtrKeySortT);
 
 MRA_SETTINGS masMraSettings;
+CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx = {
@@ -79,6 +80,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	IconsLoad();
 

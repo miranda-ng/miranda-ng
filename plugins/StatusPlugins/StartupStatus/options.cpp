@@ -128,40 +128,33 @@ static char* GetCMDL(TSettingsList& protoSettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Link processing
 
-static char* GetLinkDescription(TSettingsList& protoSettings)
+static TCHAR* GetLinkDescription(TSettingsList& protoSettings)
 {
 	if ( protoSettings.getCount() == 0 )
 		return NULL;
 
-	char *pnt, *desc;
-	pnt = desc = ( char* )malloc(strlen(SHORTCUT_DESC) + 1);
-	strcpy(desc, SHORTCUT_DESC);
-	pnt = desc + strlen(desc);
-	for ( int i=0; i < protoSettings.getCount(); i++ ) {
-		char szName[128];
-		CallProtoService(protoSettings[i].szName, PS_GETNAME, sizeof(szName), (LPARAM)szName );
+	CMString result( _T(SHORTCUT_DESC));
+	for (int i=0; i < protoSettings.getCount(); i++) {
+		TSSSetting &p = protoSettings[i];
 
-		char* status;
-		if ( protoSettings[i].status == ID_STATUS_LAST )
-			status = Translate("<last>");
-		else if ( protoSettings[i].status == ID_STATUS_CURRENT )
-			status = Translate("<current>");
-		else if ( protoSettings[i].status >= MIN_STATUS && protoSettings[i].status <= MAX_STATUS )
-			status = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)protoSettings[i].status, 0);
+		TCHAR *status;
+		if ( p.status == ID_STATUS_LAST)
+			status = TranslateT("<last>");
+		else if (p.status == ID_STATUS_CURRENT)
+			status = TranslateT("<current>");
+		else if (p.status >= MIN_STATUS && p.status <= MAX_STATUS )
+			status = pcli->pfnGetStatusModeDescription(p.status, 0);
 		if (status == NULL)
-			status = "<unknown>";
+			status = TranslateT("<unknown>");
 
-		desc = ( char* )realloc(desc, strlen(desc) + strlen(szName) + strlen(status) + 4);
-		pnt = desc + strlen(desc);
-		*pnt++ = '\r';
-		strcpy(pnt, szName);
-		pnt += strlen(szName);
-		*pnt++ = ':';
-		*pnt++ = ' ';
-		strcpy(pnt, status);
+		result.AppendChar('\r');
+		result.Append(p.tszAccName);
+		result.AppendChar(':');
+		result.AppendChar(' ');
+		result.Append(status);
 	}
 
-	return desc;
+	return mir_tstrndup(result, result.GetLength());
 }
 
 HRESULT CreateLink(TSettingsList& protoSettings)
@@ -170,7 +163,7 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 	IShellLink* psl;
 	TCHAR savePath[MAX_PATH];
 	char *args = GetCMDLArguments(protoSettings);
-	char *desc = GetLinkDescription(protoSettings);
+	TCHAR *desc = GetLinkDescription(protoSettings);
 
 	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
 		_tcscat(savePath, _T(SHORTCUT_FILENAME));
@@ -185,13 +178,8 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 		TCHAR path[MAX_PATH];
 		GetModuleFileName(NULL, path, SIZEOF(path));
 		psl->SetPath(path);
-
-			TCHAR* p = mir_a2t( desc );
-			psl->SetDescription( p );
-			mir_free( p );
-			p = mir_a2t( args );
-			psl->SetArguments( p );
-			mir_free( p );
+		psl->SetDescription(desc);
+		psl->SetArguments( _A2T(args));
 
 		// Query IShellLink for the IPersistFile interface for saving the
 		// shortcut in persistent storage.
@@ -628,13 +616,12 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_RESETCONTENT, 0, 0);
 				for ( int i=0; i < SIZEOF(statusModeList); i++ ) {
 					if ( (flags&statusModePf2List[i]) || (statusModeList[i] == ID_STATUS_OFFLINE)) {
-						TCHAR* szStatus = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR);
-						if ( szStatus != NULL ) {
-							int item = SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_ADDSTRING, 0, (LPARAM)szStatus);
-							SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETITEMDATA, (WPARAM)item, (LPARAM)statusModeList[i]);
-							if (ps->status == statusModeList[i])
-								SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETCURSEL, (WPARAM)item, 0);
-				}	}	}
+						int item = SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModeList[i], 0));
+						SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETITEMDATA, (WPARAM)item, (LPARAM)statusModeList[i]);
+						if (ps->status == statusModeList[i])
+							SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETCURSEL, (WPARAM)item, 0);
+					}
+				}
 
 				int item = SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_ADDSTRING, 0, (LPARAM)TranslateT("<current>"));
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETITEMDATA, (WPARAM)item, (LPARAM)ID_STATUS_CURRENT);

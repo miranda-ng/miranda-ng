@@ -31,8 +31,8 @@
 
 struct TSSSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 {
-	TSSSetting( PROTOACCOUNT* pa );
-	TSSSetting( int profile, PROTOACCOUNT* pa );
+	TSSSetting(PROTOACCOUNT *pa);
+	TSSSetting(int profile, PROTOACCOUNT *pa);
 	~TSSSetting();
 };
 

@@ -453,8 +453,7 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			time_t tmpTime;
@@ -462,12 +461,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			tmpTime = getLastSeen((HANDLE)lparam);
 			if (tmpTime == -1)
 				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, TranslateT("not detected"));
-			else
-			{
-				/*
-				int status = db_get_w((HANDLE)lparam, MODULE_NAME, "LastStatus", ID_STATUS_OFFLINE);
-				char *strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, 0);
-				*/
+			else {
 				_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));
 				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, tmpBuf);
 			}
@@ -475,8 +469,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			tmpTime = getLastInputMsg((HANDLE)lparam);
 			if (tmpTime == -1)
 				SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, TranslateT("not found"));
-			else
-			{
+			else {
 				_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));
 				SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
 			}
@@ -487,20 +480,15 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			SetDlgItemInt(hdlg, IDC_EDITABSENCE, AbsencePeriod, FALSE);
 
 			if (isContactGoneFor((HANDLE)lparam, options.iAbsencePeriod2))
-			{
 				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, TranslateT("This contact has been absent for an extended period of time."));
-			}
 			else
-			{
 				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, _T(""));
-			}
 
 			SendMessage(GetDlgItem(hdlg, IDC_CHECK_MISSYOU), BM_SETCHECK, db_get_b((HANDLE)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NOTIFYALWAYS), BM_SETCHECK, db_get_b((HANDLE)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NEVERHIDE), BM_SETCHECK, db_get_b((HANDLE)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 
 			TranslateDialogDefault(hdlg);
-
 			return TRUE;
 		}
 

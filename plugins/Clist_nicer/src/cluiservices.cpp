@@ -210,29 +210,27 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 			iIcon = IconFromStatusMode(dbv.pszVal, (int) wStatus, 0, &hIcon);
 		}
 		mir_free(dbv.pszVal);
-	} else {
+	}
+	else {
 		wStatus = maxStatus;
 		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : NULL, (int) wStatus, 0, &hIcon);
 		g_maxStatus = (int)wStatus;
-		if (szMaxProto) {
-			lstrcpynA(g_maxProto, szMaxProto, 100);
-			g_maxProto[99] = 0;
-		}
+		if (szMaxProto)
+			strncpy_s(g_maxProto, SIZEOF(g_maxProto), szMaxProto, _TRUNCATE);
 	}
+
 	/*
 	* this is used globally (actually, by the clist control only) to determine if
 	* any protocol is "in connection" state. If true, then the clist discards redraws
 	* and uses timer based sort and redraw handling. This can improve performance
 	* when connecting multiple protocols significantly.
 	*/
-	//g_isConnecting = (wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE);
-	szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) wStatus, GSMDF_TCHAR);
+	szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 
 	/*
 	* set the global status icon and display the global (most online) status mode on the
 	* status mode button
 	*/
-
 	if (szStatus && pcli->hwndContactList) {
 		HWND hwndClistBtn = GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS);
 		if ( IsWindow(hwndClistBtn)) {

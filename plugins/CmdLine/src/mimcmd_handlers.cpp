@@ -339,70 +339,20 @@ int ParseValueParam(char *param, void *&result)
 
 int ParseStatusParam(char *status)
 {
-	int res = 0;
-	char lower[256];
-	STRNCPY(lower, status, sizeof(lower));
+	char *lower = NEWSTR_ALLOCA(status);
+	_strlwr(lower);
 
-	if (strcmp(lower, "offline") == 0)
-	{
-		res = ID_STATUS_OFFLINE;
-	}
-	else{
-		if (strcmp(lower, "online") == 0)
-		{
-			res = ID_STATUS_ONLINE;
-		}
-		else{
-			if (strcmp(lower, "away") == 0)
-			{
-				res = ID_STATUS_AWAY;
-			}
-			else{
-				if (strcmp(lower, "dnd") == 0)
-				{
-					res = ID_STATUS_DND;
-				}
-				else{
-					if (strcmp(lower, "na") == 0)
-					{
-						res = ID_STATUS_NA;
-					}
-					else{
-						if (strcmp(lower, "occupied") == 0)
-						{
-							res = ID_STATUS_OCCUPIED;
-						}
-						else{
-							if (strcmp(lower, "freechat") == 0)
-							{
-								res = ID_STATUS_FREECHAT;
-							}
-							else{
-								if (strcmp(lower, "invisible") == 0)
-								{
-									res = ID_STATUS_INVISIBLE;
-								}
-								else{
-									if (strcmp(lower, "onthephone") == 0)
-									{
-										res = ID_STATUS_ONTHEPHONE;
-									}
-									else{
-										if (strcmp(lower, "outtolunch") == 0)
-										{
-											res = ID_STATUS_OUTTOLUNCH;
-										}//outtolunch
-									}//onthephone
-								}//invisible
-							}//freechat
-						}//occupied
-					}//na
-				} //dnd
-			} //away
-		} //online
-	}	//offline
-
-	return res;	
+	if ( !strcmp(lower, "offline"))    return ID_STATUS_OFFLINE;
+	if ( !strcmp(lower, "online"))     return ID_STATUS_ONLINE;
+	if ( !strcmp(lower, "away"))       return ID_STATUS_AWAY;
+	if ( !strcmp(lower, "dnd"))        return ID_STATUS_DND;
+	if ( !strcmp(lower, "na"))         return ID_STATUS_NA;
+	if ( !strcmp(lower, "occupied"))   return ID_STATUS_OCCUPIED;
+	if ( !strcmp(lower, "freechat"))   return ID_STATUS_FREECHAT;
+	if ( !strcmp(lower, "invisible"))  return ID_STATUS_INVISIBLE;
+	if ( !strcmp(lower, "onthephone")) return ID_STATUS_ONTHEPHONE;
+	if ( !strcmp(lower, "outtolunch")) return ID_STATUS_OUTTOLUNCH;
+	return 0;	
 }
 
 char *PrettyStatusMode(int status, char *buffer, int size)
@@ -410,9 +360,7 @@ char *PrettyStatusMode(int status, char *buffer, int size)
 	*buffer = 0;
 	char *data = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, 0);
 	if (data)
-	{
 		STRNCPY(buffer, data, size);
-	}
 
 	return buffer;
 }

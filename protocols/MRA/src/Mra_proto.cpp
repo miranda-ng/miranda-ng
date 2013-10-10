@@ -390,7 +390,7 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatusMir);
 		mraGetStringW(NULL, szValueName, wszStatusDesc);
 	}
-	else wszStatusTitle = GetStatusModeDescriptionW(m_iDesiredStatus);
+	else wszStatusTitle = pcli->pfnGetStatusModeDescription(m_iDesiredStatus, 0);
 
 	CMStringA szSelfVersionString = MraGetSelfVersionString();
 	if ( !mraGetStringA(NULL, "MirVerCustom", szUserAgentFormatted))

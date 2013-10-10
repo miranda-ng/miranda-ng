@@ -68,10 +68,8 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam
 
 		{
 			TCHAR desc[ 512 ];
-			mir_sntprintf(desc, SIZEOF(desc),
-				TranslateT("Set %s message for %s."),
-				CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, GetActualStatus(protoSetting), GSMDF_TCHAR ),
-				protoSetting->tszAccName );
+			mir_sntprintf(desc, SIZEOF(desc), TranslateT("Set %s message for %s."), 
+				pcli->pfnGetStatusModeDescription(GetActualStatus(protoSetting), 0), protoSetting->tszAccName);
 			SetDlgItemText(hwndDlg, IDC_DESCRIPTION, desc);
 		}
 		break;
@@ -121,13 +119,13 @@ static int SetStatusList(HWND hwndDlg)
 			ListView_InsertItem(hList,&lvItem);
 
 		int actualStatus;
-		switch( (*confirmSettings)[i].status ) {
+		switch((*confirmSettings)[i].status) {
 			case ID_STATUS_LAST:    actualStatus = (*confirmSettings)[i].lastStatus;   break;
 			case ID_STATUS_CURRENT: actualStatus = CallProtoService((*confirmSettings)[i].szName,PS_GETSTATUS, 0, 0); break;
 			default:                actualStatus = (*confirmSettings)[i].status;
 		}
-		TCHAR* status = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, actualStatus, GSMDF_TCHAR );
-		switch( (*confirmSettings)[i].status ) {
+		TCHAR* status = pcli->pfnGetStatusModeDescription(actualStatus, 0);
+		switch((*confirmSettings)[i].status) {
 		case ID_STATUS_LAST:
 			mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), TranslateT("<last>"), status);
 			ListView_SetItemText(hList, lvItem.iItem, 1, buf);
@@ -271,9 +269,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 					// LAST STATUS
 					if (proto->status == ID_STATUS_LAST) {
 						TCHAR last[80];
-						mir_sntprintf(last, SIZEOF(last), _T("%s (%s)"),
-							TranslateT("<last>"),
-							CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->lastStatus, GSMDF_TCHAR ));
+						mir_sntprintf(last, SIZEOF(last), _T("%s (%s)"), TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
 						ListView_SetItemText(GetDlgItem(hwndDlg,IDC_STARTUPLIST), lvItem.iItem, 1, last);
 						actualStatus = proto->lastStatus;
 					}
@@ -282,14 +278,11 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 					else if (proto->status == ID_STATUS_CURRENT) {
 						int currentStatus = CallProtoService(proto->szName,PS_GETSTATUS, 0, 0);
 						TCHAR current[80];
-						mir_sntprintf(current, SIZEOF(current), _T("%s (%s)"),
-							TranslateT("<current>"),
-							CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, currentStatus, GSMDF_TCHAR ));
+						mir_sntprintf(current, SIZEOF(current), _T("%s (%s)"), TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
 						ListView_SetItemText(GetDlgItem(hwndDlg,IDC_STARTUPLIST), lvItem.iItem, 1, current);
 						actualStatus = currentStatus;
 					}
-					else ListView_SetItemText(GetDlgItem(hwndDlg,IDC_STARTUPLIST), lvItem.iItem, 1,
-						( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR ));
+					else ListView_SetItemText(GetDlgItem(hwndDlg,IDC_STARTUPLIST), lvItem.iItem, 1, pcli->pfnGetStatusModeDescription(proto->status, 0));
 
 					if ((!((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
@@ -351,7 +344,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 
 				// last
 				TCHAR buf[100];
-				mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, GSMDF_TCHAR));
+				mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
 				int item = SendDlgItemMessage( hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)buf );
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, ID_STATUS_LAST);
 				if (proto->status == ID_STATUS_LAST) {
@@ -361,23 +354,21 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 
 				// current
 				int currentStatus = CallProtoService(proto->szName,PS_GETSTATUS, 0, 0);
-				mir_sntprintf( buf, SIZEOF(buf), _T("%s (%s)"),
-					TranslateT("<current>"),
-					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, currentStatus, GSMDF_TCHAR));
-				item = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_ADDSTRING, 0, (LPARAM)buf);
-				SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETITEMDATA, item, ID_STATUS_CURRENT);
+				mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
+				item = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)buf);
+				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, ID_STATUS_CURRENT);
 				if (proto->status == ID_STATUS_CURRENT) {
-					SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETCURSEL, item, 0);
+					SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETCURSEL, item, 0);
 					actualStatus = currentStatus;
 				}
 
 				for (int i=0; i < SIZEOF(statusModeList); i++) {
 					if ( ((flags & statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE)) && (!((!(flags) & Proto_Status2Flag(statusModePf2List[i]))) || ((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0)&Proto_Status2Flag(statusModePf2List[i]))))) {
-						TCHAR* statusMode = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR);
-						item = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_ADDSTRING, 0, (LPARAM)statusMode);
-						SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETITEMDATA, item, statusModeList[i]);
+						TCHAR *statusMode = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
+						item = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
+						SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, statusModeList[i]);
 						if (statusModeList[i] == proto->status)
-							SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETCURSEL, item, 0);
+							SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETCURSEL, item, 0);
 					}
 				}
 

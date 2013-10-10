@@ -950,9 +950,8 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
 			for (int i = 0; i < connectionSettings.getCount(); i++)
 				if (_tcslen(ps[i]->tszAccName) > 0 && strlen(ps[i]->szName) > 0)
-					if ( db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE))
-					{
-						mir_sntprintf(protoInfoLine, SIZEOF(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, GSMDF_TCHAR));
+					if ( db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
+						mir_sntprintf(protoInfoLine, SIZEOF(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, GSMDF_TCHAR));
 						_tcsncat(protoInfo, protoInfoLine, SIZEOF(protoInfo) - _tcslen(protoInfo)-1);
 					}
 

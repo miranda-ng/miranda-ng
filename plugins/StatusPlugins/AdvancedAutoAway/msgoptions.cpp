@@ -70,7 +70,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if ( !( protoModeMsgFlags & Proto_Status2Flag( statusModeList[i] )))
 					continue;
 
-				int j = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_ADDSTRING,0,(LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,statusModeList[i],GSMDF_TCHAR));
+				int j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModeList[i], 0));
 				SendDlgItemMessage( hwndDlg, IDC_STATUS, CB_SETITEMDATA, j, statusModeList[i] );
 				settings = ( AAMSGSETTING** )realloc(settings, (count+1)*sizeof(AAMSGSETTING*));
 				settings[count] = ( AAMSGSETTING* )malloc(sizeof(AAMSGSETTING));

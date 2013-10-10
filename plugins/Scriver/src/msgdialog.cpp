@@ -1111,8 +1111,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					wStatus = db_get_w( dat->windowData.hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
 					// log status change - should be moved to a separate place
 					if (dat->wStatus != wStatus && db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH)) {
-						ptrT szOldStatus( mir_tstrdup((TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) dat->wStatus, GSMDF_TCHAR)));
-						ptrT szNewStatus( mir_tstrdup((TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) wStatus, GSMDF_TCHAR)));
+						ptrT szOldStatus( mir_tstrdup( pcli->pfnGetStatusModeDescription(dat->wStatus, 0)));
+						ptrT szNewStatus( mir_tstrdup( pcli->pfnGetStatusModeDescription(wStatus, 0)));
 
 						int iLen;
 						TCHAR buffer[512];

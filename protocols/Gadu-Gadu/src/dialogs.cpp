@@ -283,11 +283,11 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LEAVESTATUS), IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IMGMETHOD), IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
 			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)TranslateT("<Last Status>"));	// 0
-			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_ONLINE,GSMDF_TCHAR));
-			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_AWAY,GSMDF_TCHAR));
-			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_DND,GSMDF_TCHAR));
-			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_FREECHAT,GSMDF_TCHAR));
-			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_INVISIBLE,GSMDF_TCHAR));
+			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(ID_STATUS_ONLINE, 0));
+			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(ID_STATUS_AWAY, 0));
+			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(ID_STATUS_DND, 0));
+			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(ID_STATUS_FREECHAT, 0));
+			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(ID_STATUS_INVISIBLE, 0));
 			switch(gg->getWord(GG_KEY_LEAVESTATUS, GG_KEYDEF_LEAVESTATUS)) {
 			case ID_STATUS_ONLINE:
 				SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_SETCURSEL, 1, 0);

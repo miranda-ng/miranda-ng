@@ -108,13 +108,8 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 		}
 		return NULL;
 	}
-	if (noPrefixReqd || !(flags & GSMDF_PREFIXONLINE))
-		return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateTS(descr);
 
-	lstrcpy(szMode, TranslateT("Online"));
-	lstrcat(szMode, _T(": "));
-	lstrcat(szMode, (flags & GSMDF_UNTRANSLATED) ? descr : TranslateTS(descr));
-	return szMode;
+	return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateTS(descr);
 }
 
 static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)

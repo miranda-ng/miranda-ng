@@ -880,7 +880,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 		else wszStatusDesc = pwszStatusDesc;
 	}
 	else if (pwszStatusTitle.IsEmpty())
-		wszStatusTitle = GetStatusModeDescriptionW(dwStatusMir);
+		wszStatusTitle = pcli->pfnGetStatusModeDescription(dwStatusMir, 0);
 
 	MraChangeStatus(dwStatus, lpcszStatusUri[dwXStatus], wszStatusTitle, wszStatusDesc, ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
 	return 0;

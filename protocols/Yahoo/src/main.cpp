@@ -24,6 +24,7 @@ HINSTANCE hInstance;
 
 HANDLE g_hNetlibUser;
 
+CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
@@ -96,6 +97,7 @@ static int yahooProtoUninit( CYahooProto* ppro )
 extern "C" int __declspec(dllexport)Load(void)
 {
 	mir_getLP( &pluginInfo );
+	mir_getCLI();
 	
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "YAHOO";

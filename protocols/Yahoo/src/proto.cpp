@@ -420,7 +420,7 @@ int __cdecl CYahooProto::SetApparentMode( HANDLE hContact, int mode )
 
 int __cdecl CYahooProto::SetStatus( int iNewStatus )
 {
-	LOG(("[SetStatus] New status %s", (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iNewStatus, 0)));
+	LOG(("[SetStatus] New status %S", pcli->pfnGetStatusModeDescription(iNewStatus, 0)));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 
@@ -609,7 +609,7 @@ int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 {
 	char *c = msg && msg[0] ? mir_utf8encodeT(msg) : NULL;
 
-	DebugLog("[YahooSetAwayMessage] Status: %s, Msg: %s",(char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, 0), (char*) c);
+	DebugLog("[YahooSetAwayMessage] Status: %S, Msg: %s", pcli->pfnGetStatusModeDescription(status, 0), (char*)c);
 
     if (!m_bLoggedIn) {
 		if (m_iStatus == ID_STATUS_OFFLINE) {

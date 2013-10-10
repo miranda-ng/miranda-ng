@@ -647,20 +647,17 @@ retry:
 							TCHAR strFmt1[64];
 							TCHAR strFmt2[64];
 
-							mir_sntprintf(strFmt2, SIZEOF(strFmt2), _T("%s"), (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status_gg2m(atoi(__status)), GSMDF_TCHAR));
-							if (__city)
-							{
+							_tcsncpy_s(strFmt2, SIZEOF(strFmt2), pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
+							if (__city) {
 								mir_sntprintf(strFmt1, SIZEOF(strFmt1), _T(", %s %s"), TranslateT("City:"), __city);
 								_tcsncat(strFmt2, strFmt1, SIZEOF(strFmt2) - _tcslen(strFmt2));
 							}
-							if (__birthyear)
-							{
+							if (__birthyear) {
 								time_t t = time(NULL);
 								struct tm *lt = localtime(&t);
 								int br = atoi(__birthyear);
 
-								if (br < (lt->tm_year + 1900) && br > 1900)
-								{
+								if (br < (lt->tm_year + 1900) && br > 1900) {
 									mir_sntprintf(strFmt1, SIZEOF(strFmt1), _T(", %s %d"), TranslateT("Age:"), (lt->tm_year + 1900) - br);
 									_tcsncat(strFmt2, strFmt1, SIZEOF(strFmt2) - _tcslen(strFmt2));
 								}

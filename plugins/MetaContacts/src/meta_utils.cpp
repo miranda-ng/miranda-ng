@@ -314,7 +314,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	strcpy(buffer, "StatusString");
 	strcat(buffer, szId);
 
-	TCHAR *szStatus = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 	db_set_ts(dest, META_PROTO, buffer, szStatus);
 
 	// Write the link in the contact

@@ -127,7 +127,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			{
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i))
 				{
-					index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_INSERTSTRING, -1, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, GSMDF_TCHAR));
+					index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(i, 0));
 					if (index != CB_ERR && index != CB_ERRSPACE)
 					{
 						int j;
@@ -389,8 +389,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						int	 index;
 						if (status_modes & Proto_Status2Flag(l))
 						{
-							index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_INSERTSTRING, -1, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, l, GSMDF_TCHAR));
-
+							index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(l, 0));
 							if (index != CB_ERR && index != CB_ERRSPACE)
 							{
 								SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_ONLINE);
@@ -1595,7 +1594,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					{
 						if (status_modes & Proto_Status2Flag(l) || l == ID_STATUS_OFFLINE)
 						{
-							index = SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_INSERTSTRING, -1, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, l, GSMDF_TCHAR));
+							index = SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(l, 0));
 							if (index != LB_ERR && index != LB_ERRSPACE)
 							{
 								SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_OFFLINE);

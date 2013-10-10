@@ -172,7 +172,7 @@ static int FillDialog(HWND hwnd)
 {
 	LVCOLUMN lvc = {0};
 	HWND hwndList = GetDlgItem(hwnd, IDC_PROTOCOLS);
-	LVITEMA item = {0};
+	LVITEM item = {0};
 	int protoCount = 0, i;
 	PROTOACCOUNT **accs = 0;
 
@@ -187,38 +187,32 @@ static int FillDialog(HWND hwnd)
 	ProtoEnumAccounts( &protoCount, &accs );
 	item.mask = LVIF_TEXT;
 	item.iItem = 1000;
-	for (i = 0; i < protoCount; i++) {
-		item.pszText = accs[i]->szModuleName;
-		SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+	for (i=0; i < protoCount; i++) {
+		item.pszText = accs[i]->tszAccountName;
+		ListView_InsertItem(hwndList, &item);
 	}
 
 	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 	ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
 
 	// fill groups
-	{
-		hwndList = GetDlgItem(hwnd, IDC_GROUPS);
+	hwndList = GetDlgItem(hwnd, IDC_GROUPS);
 
-		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
-		lvc.mask = LVCF_FMT;
-		lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
-		ListView_InsertColumn(hwndList, 0, &lvc);
+	ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
+	lvc.mask = LVCF_FMT;
+	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
+	ListView_InsertColumn(hwndList, 0, &lvc);
 
-		LVITEM item = {0};
-		item.mask = LVIF_TEXT;
-		item.iItem = 1000;
+	item.pszText = TranslateT("Ungrouped contacts");
+	SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
-		item.pszText = TranslateT("Ungrouped contacts");
+	TCHAR *grpName;
+	for (i = 1; (grpName = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
+		item.pszText = grpName;
 		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
-
-		TCHAR *grpName;
-		for (i = 1; (grpName = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
-			item.pszText = grpName;
-			SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
-		}
-		ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
-		ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
 	}
+	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
+	ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
 
 	hwndList = GetDlgItem(hwnd, IDC_STATUSMODES);
 	ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
@@ -228,9 +222,9 @@ static int FillDialog(HWND hwnd)
 	ListView_InsertColumn(hwndList, 0, &lvc);
 
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-		item.pszText = Translate((char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, 0));
+		item.pszText = TranslateTS(pcli->pfnGetStatusModeDescription(i, 0));
 		item.iItem = i - ID_STATUS_OFFLINE;
-		SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+		ListView_InsertItem(hwndList, &item);
 	}
 	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 	ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);

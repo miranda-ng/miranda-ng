@@ -152,25 +152,24 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				for (int i = 0; i < nParts; i++) {
 					RECT rc;
 					SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&rc);
-					if (PtInRect(&rc,pt)) {
+					if ( PtInRect(&rc,pt)) {
 						ProtocolData *PD = (ProtocolData *)SendMessageA(hwnd, SB_GETTEXTA, i, 0);
-						if (PD) {
-							if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
-								tooltip_active = TRUE;
-							else if (cfg::getDword("mToolTip", "ShowStatusTip", 0)) {
-								CLCINFOTIP ti = {0};
-								BYTE isLocked = 0;
-								char szTipText[256], *szStatus = NULL;
-								WORD wStatus;
+						if (PD == NULL)
+							continue;
 
-								ti.cbSize = sizeof(ti);
-								ti.isTreeFocused = GetFocus() == pcli->hwndContactList ? 1 : 0;
-								wStatus = (WORD)CallProtoService(PD->RealName, PS_GETSTATUS, 0, 0);
-								isLocked = cfg::getByte(PD->RealName, "LockMainStatus", 0);
-								szStatus = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, 0);
-								mir_snprintf(szTipText, 256, "<b>%s</b>: %s%s", PD->RealName, szStatus, isLocked ? "  (LOCKED)" : "");
-								CallService("mToolTip/ShowTip", (WPARAM)szTipText, (LPARAM)&ti);
-							}
+						if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
+							tooltip_active = TRUE;
+						else if (cfg::getDword("mToolTip", "ShowStatusTip", 0)) {
+							WORD wStatus = (WORD)CallProtoService(PD->RealName, PS_GETSTATUS, 0, 0);
+							BYTE isLocked = cfg::getByte(PD->RealName, "LockMainStatus", 0);
+
+							TCHAR szTipText[256];
+							mir_sntprintf(szTipText, SIZEOF(szTipText), _T("<b>%s</b>: %s%s"),
+								PD->RealName, pcli->pfnGetStatusModeDescription(wStatus, 0), isLocked ? _T("  (LOCKED)") : _T(""));
+
+							CLCINFOTIP ti = { sizeof(ti) };
+							ti.isTreeFocused = (GetFocus() == pcli->hwndContactList);
+							CallService("mToolTip/ShowTipW", (WPARAM)szTipText, (LPARAM)&ti);
 						}
 						break;
 					}

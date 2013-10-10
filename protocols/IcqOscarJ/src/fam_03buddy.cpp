@@ -400,8 +400,8 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 #endif
 		}
 
-		if (capLen)
-		{ // Update the contact's capabilies if present in packet
+		if (capLen) {
+			// Update the contact's capabilies if present in packet
 			SetCapabilitiesFromBuffer(hContact, capBuf, capLen, wOldStatus == ID_STATUS_OFFLINE);
 
 			char *szCurrentClient = wOldStatus == ID_STATUS_OFFLINE ? NULL : getSettingStringUtf(hContact, "MirVer", NULL);
@@ -412,8 +412,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 				szClient = (const char*)-1;
 			SAFE_FREE(&szCurrentClient);
 		}
-		else if (wOldStatus == ID_STATUS_OFFLINE)
-		{
+		else if (wOldStatus == ID_STATUS_OFFLINE) {
 			// Remove the contact's capabilities if coming from offline
 			ClearAllContactCapabilities(hContact);
 
@@ -422,11 +421,8 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 
 			szClient = detectUserClient(hContact, nIsICQ, wClass, dwOnlineSince, NULL, wVersion, dwFT1, dwFT2, dwFT3, nTCPFlag, dwDirectConnCookie, dwWebPort, NULL, capLen, &bClientId, szStrBuf);
 		}
-		else
-		{
-			// Capabilities not present in update packet, do not touch
+		else  // Capabilities not present in update packet, do not touch
 			szClient = (const char*)-1; // we don't want to client be overwritten
-		}
 
 		// handle Xtraz status
 		char *moodData = NULL;
@@ -445,8 +441,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 			ClearContactCapabilities(hContact, CAPF_STATUS_MESSAGES);
 
 #ifdef _DEBUG
-		if (wOldStatus == ID_STATUS_OFFLINE)
-		{
+		if (wOldStatus == ID_STATUS_OFFLINE) {
 			if (CheckContactCapabilities(hContact, CAPF_SRV_RELAY))
 				NetLog_Server("Supports advanced messages");
 			else
@@ -454,8 +449,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		}
 #endif
 
-		if (!nIsICQ)
-		{
+		if (!nIsICQ) {
 			// AIM clients does not advertise these, but do support them
 			SetContactCapabilities(hContact, CAPF_UTF | CAPF_TYPING);
 			// Server relayed messages are only supported by ICQ clients
@@ -465,8 +459,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 				NetLog_Server("Logged in with AIM client");
 		}
 
-		if (nIsICQ && wVersion < 8)
-		{
+		if (nIsICQ && wVersion < 8) {
 			ClearContactCapabilities(hContact, CAPF_SRV_RELAY);
 			if (wOldStatus == ID_STATUS_OFFLINE)
 				NetLog_Server("Forcing simple messages due to compability issues");
@@ -486,8 +479,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	disposeChain(&pChain);
 
 	// Save contacts details in database
-	if (hContact != NULL)
-	{
+	if (hContact != NULL) {
 		setDword(hContact,   "LogonTS",      dwOnlineSince);
 		setDword(hContact,   "AwayTS",       dwAwaySince);
 		setDword(hContact,   "IdleTS", tIdleTS);
@@ -495,39 +487,35 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		if (dwMemberSince)
 			setDword(hContact, "MemberTS",     dwMemberSince);
 
-		if (nIsICQ)
-		{ // on AIM these are not used
+		if (nIsICQ) {
+			// on AIM these are not used
 			setDword(hContact, "DirectCookie", dwDirectConnCookie);
 			setByte(hContact,  "DCType",       (BYTE)nTCPFlag);
 			setWord(hContact,  "UserPort",     (WORD)(dwPort & 0xffff));
 			setWord(hContact,  "Version",      wVersion);
 		}
-		else
-		{
+		else {
 			delSetting(hContact,   "DirectCookie");
 			delSetting(hContact,   "DCType");
 			delSetting(hContact,   "UserPort");
 			delSetting(hContact,   "Version");
 		}
 
+		// if no detection, set uknown
 		if (!szClient)
-		{
-			// if no detection, set uknown
 			szClient = (nIsICQ ? "Unknown" : "Unknown AIM");		
-		}
-		if (szClient != (char*)-1)
-		{
+
+		if (szClient != (char*)-1) {
 			db_set_utf(hContact, m_szModuleName, "MirVer", szClient);
 			setByte(hContact,  "ClientID",     bClientId);
 		}
 
-		if (wOldStatus == ID_STATUS_OFFLINE)
-		{
+		if (wOldStatus == ID_STATUS_OFFLINE) {
 			setDword(hContact, "IP",           dwIP);
 			setDword(hContact, "RealIP",       dwRealIP);
 		}
-		else
-		{ // if not first notification only write significant information
+		else {
+			// if not first notification only write significant information
 			if (dwIP)
 				setDword(hContact, "IP",         dwIP);
 			if (dwRealIP)
@@ -536,34 +524,33 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		setWord(hContact,  "Status", (WORD)IcqStatusToMiranda(wStatus));
 
 		// Update info?
-		if (dwUIN)
-		{ // check if the local copy of user details is up-to-date
+		if (dwUIN) {
+			// check if the local copy of user details is up-to-date
 			if (IsMetaInfoChanged(hContact))
 				icq_QueueUser(hContact);
 		}
 	}
 
-	if (wOldStatus != IcqStatusToMiranda(wStatus))
-	{ // And a small log notice... if status was changed
+	LPCTSTR ptszStatus = pcli->pfnGetStatusModeDescription(IcqStatusToMiranda(wStatus), 0);
+	if (wOldStatus != IcqStatusToMiranda(wStatus)) {
+		// And a small log notice... if status was changed
 		if (nIsICQ)
-			NetLog_Server("%u changed status to %s (v%d).", dwUIN, MirandaStatusToString(IcqStatusToMiranda(wStatus)), wVersion);
+			NetLog_Server("%u changed status to %S (v%d).", dwUIN, ptszStatus, wVersion);
 		else
-			NetLog_Server("%s changed status to %s.", strUID(dwUIN, szUID), MirandaStatusToString(IcqStatusToMiranda(wStatus)));
+			NetLog_Server("%s changed status to %S.", strUID(dwUIN, szUID), ptszStatus);
 	}
 #ifdef _DEBUG
-	else
-	{
+	else {
 		if (nIsICQ)
-			NetLog_Server("%u has status %s (v%d).", dwUIN, MirandaStatusToString(IcqStatusToMiranda(wStatus)), wVersion);
+			NetLog_Server("%u has status %s (v%d).", dwUIN, ptszStatus, wVersion);
 		else
-			NetLog_Server("%s has status %s.", strUID(dwUIN, szUID), MirandaStatusToString(IcqStatusToMiranda(wStatus)));
+			NetLog_Server("%s has status %s.", strUID(dwUIN, szUID), ptszStatus);
 	}
 #endif
 
-	if (szClient == cliSpamBot)
-	{
-		if (getByte("KillSpambots", DEFAULT_KILLSPAM_ENABLED) && db_get_b(hContact, "CList", "NotOnList", 0))
-		{ // kill spammer
+	if (szClient == cliSpamBot) {
+		if (getByte("KillSpambots", DEFAULT_KILLSPAM_ENABLED) && db_get_b(hContact, "CList", "NotOnList", 0)) {
+			// kill spammer
 			icq_DequeueUser(dwUIN);
 			icq_sendRemoveContact(dwUIN, NULL);
 			AddToSpammerList(dwUIN);

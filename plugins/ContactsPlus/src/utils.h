@@ -35,7 +35,6 @@ char* __fastcall null_strdup(const char *string);
 
 char *GetContactUID(HANDLE hContact, int bTchar);
 TCHAR *GetContactDisplayNameT(HANDLE hContact);
-TCHAR* MirandaStatusToStringT(int mirandaStatus);
 
 int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSetting, DBVARIANT *dbv);
 TCHAR* DBGetContactSettingStringT(HANDLE hContact, const char *szModule,const char* szSetting, TCHAR* szDef);

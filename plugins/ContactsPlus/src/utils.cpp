@@ -109,11 +109,6 @@ char *GetContactUID(HANDLE hContact, int bTchar)
     return null_strdup(szUid);
 }
 
-TCHAR* MirandaStatusToStringT(int mirandaStatus)
-{
-	return (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, GSMDF_UNICODE);
-}
-
 int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSetting, DBVARIANT *dbv)
 {
 	return db_get_s(hContact, szModule, szSetting, dbv, 0);
@@ -188,7 +183,7 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, char* pszTitleStart)
       if (strcmpT(uid?uid:contactName, oldTitle))
         SetDlgItemTextT(hwndDlg, IDC_NAME, uid?uid:contactName);
 
-      szStatus = MirandaStatusToStringT(szProto==NULL ? ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE));
+      szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE), 0);
       mir_sntprintf(newtitle, 256, "%s %s (%s)", SRCTranslateT(pszTitleStart, str), contactName, szStatus);
 
       SAFE_FREE((void**)&uid);

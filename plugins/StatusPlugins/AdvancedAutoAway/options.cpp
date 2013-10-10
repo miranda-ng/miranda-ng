@@ -136,8 +136,8 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 		{
 			for ( int i=0; i < optionSettings->getCount(); i++ ) {
 				TAAAProtoSetting& p = (*optionSettings)[i];
-				int item = SendDlgItemMessage( hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, ( LPARAM )p.tszAccName );
-				SendDlgItemMessage( hwndDlg, IDC_PROTOCOL, CB_SETITEMDATA, item, (LPARAM)&p );
+				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)p.tszAccName );
+				SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_SETITEMDATA, item, (LPARAM)&p );
 			}
 		}
 		// set cursor to first protocol
@@ -178,9 +178,9 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 					else
 						flags = 0;
 					for(i=0;i<sizeof(statusModeList)/sizeof(statusModeList[0]);i++) {
-						if ((flags&statusModePf2List[i])  || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame)) {
-							lvItem.pszText = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR );
-							lvItem.lParam = ( LPARAM )statusModePf2List[i];
+						if ((flags&statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame)) {
+							lvItem.pszText = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
+							lvItem.lParam = (LPARAM)statusModePf2List[i];
 							ListView_InsertItem(hList,&lvItem);
 							ListView_SetCheckState(hList, lvItem.iItem, setting->statusFlags&statusModePf2List[i]?TRUE:FALSE);
 							lvItem.iItem++;
@@ -202,11 +202,11 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 					SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_RESETCONTENT, 0, 0);
 					for ( i=0; i < SIZEOF(statusModeList); i++ ) {
 						if ( (flags & statusModePf2List[i]) || statusModePf2List[i] == PF2_OFFLINE || bSettingSame ) {
-							TCHAR *statusMode = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR );
-							item = SendDlgItemMessage(hwndDlg,IDC_LV1STATUS,CB_ADDSTRING,0,(LPARAM)statusMode);
-							item = SendDlgItemMessage(hwndDlg,IDC_LV2STATUS,CB_ADDSTRING,0,(LPARAM)statusMode);
-							SendDlgItemMessage(hwndDlg,IDC_LV1STATUS,CB_SETITEMDATA,item,(LPARAM)statusModeList[i]);
-							SendDlgItemMessage(hwndDlg,IDC_LV2STATUS,CB_SETITEMDATA,item,(LPARAM)statusModeList[i]);
+							TCHAR *statusMode = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
+							item = SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
+							item = SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
+							SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_SETITEMDATA, item, (LPARAM)statusModeList[i]);
+							SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_SETITEMDATA, item, (LPARAM)statusModeList[i]);
 							if (statusModeList[i] == setting->lv1Status) {
 								SendDlgItemMessage(hwndDlg,IDC_LV1STATUS,CB_SETCURSEL,(WPARAM)item,0);
 
@@ -229,9 +229,8 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				setting->lv1Status = (int)SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETCURSEL, 0, 0), 0);
 				{
 					TCHAR setNaStr[256];
-					mir_sntprintf(setNaStr, SIZEOF(setNaStr), TranslateT("minutes of %s mode"),
-						CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, setting->lv1Status, GSMDF_TCHAR ));
-					SetDlgItemText(hwndDlg,IDC_SETNASTR,setNaStr);
+					mir_sntprintf(setNaStr, SIZEOF(setNaStr), TranslateT("minutes of %s mode"), pcli->pfnGetStatusModeDescription(setting->lv1Status, 0));
+					SetDlgItemText(hwndDlg, IDC_SETNASTR, setNaStr);
 				}
 				break;
 

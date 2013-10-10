@@ -210,14 +210,9 @@ default:
 	return nSupportedStatus;
 }
 
-char *MirandaStatusToString(int mirandaStatus)
-{
-	return (char*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, 0);
-}
-
-char *MirandaStatusToStringUtf(int mirandaStatus)
+char* MirandaStatusToStringUtf(int mirandaStatus)
 { // return miranda status description in utf-8, use unicode service is possible
-	return tchar_to_utf8((TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, GSMDF_TCHAR));
+	return tchar_to_utf8( pcli->pfnGetStatusModeDescription(mirandaStatus, 0));
 }
 
 char** CIcqProto::MirandaStatusToAwayMsg(int nStatus)

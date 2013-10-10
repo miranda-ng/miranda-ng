@@ -310,19 +310,16 @@ int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus
 	}
 
 	// Get Status name
-	{
-		TCHAR *tmp = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)nStatus, GSMDF_TCHAR);
-		lstrcpyn(text, tmp, text_size);
-		//CopySkipUnprintableChars(text, dbv.pszVal, text_size-1);
-		if (text[0] != '\0')
-			return 1;
+	TCHAR *tmp = pcli->pfnGetStatusModeDescription(nStatus, 0);
+	if (tmp && *tmp) {
+		_tcsncpy_s(text, text_size, tmp, _TRUNCATE);
+		return 1;
 	}
 
 	// Get XStatusName
 	if ( !noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->hContact && pdnce->m_cache_cszProto) {
 		DBVARIANT dbv = {0};
 		if ( !db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
-			//lstrcpyn(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
 			db_free(&dbv);
 

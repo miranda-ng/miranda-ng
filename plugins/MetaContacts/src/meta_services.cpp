@@ -722,19 +722,17 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 
 			strcpy(buffer, "StatusString");
 			strcat(buffer, _itoa(contact_number, szId, 10));
-			TCHAR *szStatus = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)dcws->value.wVal, GSMDF_TCHAR);
-			db_set_ts(hMeta, META_PROTO, buffer, szStatus);
+			db_set_ts(hMeta, META_PROTO, buffer, pcli->pfnGetStatusModeDescription(dcws->value.wVal, 0));
 
 			// if the contact was forced, unforce it (which updates status)
-			if ((HANDLE)db_get_dw(hMeta, META_PROTO, "ForceSend", 0) == (HANDLE)wParam) {
+			if ((HANDLE)db_get_dw(hMeta, META_PROTO, "ForceSend", 0) == (HANDLE)wParam)
 				MetaAPI_UnforceSendContact((WPARAM)hMeta, 0);
-			} else {
+			else {
 				// set status to that of most online contact
 				most_online = Meta_GetMostOnline(hMeta);
 				Meta_CopyContactNick(hMeta, most_online);
 
 				Meta_FixStatus(hMeta);
-
 				Meta_CopyData(hMeta);
 			}
 

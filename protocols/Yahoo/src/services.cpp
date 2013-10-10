@@ -71,9 +71,9 @@ void CYahooProto::BroadcastStatus(int s)
 		m_iStatus = ID_STATUS_ONLINE;
 	}
 
-	DebugLog("[yahoo_util_broadcaststatus] Old Status: %s (%d), New Status: %s (%d)",
-		NEWSTR_ALLOCA((char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, oldStatus, 0)), oldStatus,
-		NEWSTR_ALLOCA((char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, m_iStatus, 0)), m_iStatus);
+	DebugLog("[yahoo_util_broadcaststatus] Old Status: %S (%d), New Status: %S (%d)",
+		pcli->pfnGetStatusModeDescription(oldStatus, 0), oldStatus,
+		pcli->pfnGetStatusModeDescription(m_iStatus, 0), m_iStatus);
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, (LPARAM)m_iStatus);
 }
 

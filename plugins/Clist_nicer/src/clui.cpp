@@ -802,7 +802,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		ConfigureCLUIGeometry(0);
 
 		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-			statusNames[i - ID_STATUS_OFFLINE] = reinterpret_cast<TCHAR *>(CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR));
+			statusNames[i-ID_STATUS_OFFLINE] = pcli->pfnGetStatusModeDescription(i, 0);
 
 		//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)
 		if (cfg::dat.bLayeredHack) {

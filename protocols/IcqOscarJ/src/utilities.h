@@ -58,7 +58,6 @@ void icq_ShowMultipleControls(HWND hwndDlg, const UINT* controls, int cControls,
 int IcqStatusToMiranda(WORD wStatus);
 WORD MirandaStatusToIcq(int nStatus);
 int MirandaStatusToSupported(int nMirandaStatus);
-char *MirandaStatusToString(int);
 char *MirandaStatusToStringUtf(int);
 
 int AwayMsgTypeToStatus(int nMsgType);

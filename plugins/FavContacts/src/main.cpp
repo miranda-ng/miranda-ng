@@ -389,13 +389,12 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 			DBVARIANT dbv;
 			TCHAR *title;
 			bool bFree = false;
-			if (db_get_ts(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal)
-			{
+			if (db_get_ts(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal) {
 				char *proto = GetContactProto(hContact);
 				int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
-				title = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
-			} else
-			{
+				title = pcli->pfnGetStatusModeDescription(status, 0);
+			}
+			else {
 				title = dbv.ptszVal;
 				bFree = true;
 			}
@@ -639,7 +638,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		bool bFree = false;
 		if (db_get_ts(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal) {
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
-			title = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
+			title = pcli->pfnGetStatusModeDescription(status, 0);
 		}
 		else {
 			title = dbv.ptszVal;

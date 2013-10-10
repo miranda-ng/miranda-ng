@@ -155,7 +155,7 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	{
 		if ((Proto_Status2Flag(ID_STATUS_OFFLINE + i) & data->m_iStatusModes) || i == 0)
 		{
-			status_desc = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_OFFLINE + i, GSMDF_TCHAR);
+			status_desc = pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
 			cbei.iItem = j;
 			cbei.pszText = (LPTSTR)status_desc;
 			cbei.cchTextMax = sizeof(status_desc);
@@ -869,8 +869,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 
 		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), (TCHAR*)buff, szProtoName);
 	}
-	else
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, GSMDF_TCHAR), szProtoName);
+	else mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
 	SetWindowText(hwndDlg, szTitle);
 
 	if (iStatus == ID_STATUS_CURRENT)
@@ -997,8 +996,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				else
 					mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, TranslateT("<current>"), szProtoName);
 			}
-			else
-				mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, init_data->m_iStatus, GSMDF_TCHAR), szProtoName);
+			else mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, pcli->pfnGetStatusModeDescription(init_data->m_iStatus, 0), szProtoName);
 			SetWindowText(hwndDlg, szTitle);
 
 			int icoStatus = ID_STATUS_OFFLINE;

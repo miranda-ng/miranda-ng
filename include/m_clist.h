@@ -60,8 +60,6 @@ extern int hLangpack;
 //lParam = flags, below
 //returns a static buffer of the description of the given status mode
 //returns NULL if the status mode was unknown
-#define GSMDF_PREFIXONLINE   1   //prefix "Online: " to all status modes that
-                                 //imply online, eg "Online: Away"
 #define GSMDF_UNICODE        2   //will return TCHAR* instead of char*
 #if defined(_UNICODE)
 	#define GSMDF_TCHAR       GSMDF_UNICODE      //will return TCHAR* instead of char*
