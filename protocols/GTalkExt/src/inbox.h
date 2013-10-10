@@ -22,6 +22,6 @@
 #pragma once
 
 void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url);
-void OpenContactInbox(HANDLE hContact);
+void OpenContactInbox(LPCSTR);
 
-BOOL InitMenus(BOOL init);
+int InitMenus(WPARAM, LPARAM);

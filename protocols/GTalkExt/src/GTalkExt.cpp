@@ -89,7 +89,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_hPopupIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_POPUP));
 
 	InitAvaUnit(TRUE);
-	InitMenus(TRUE);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
@@ -104,6 +103,5 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	g_accs.destroy();
 	InitAvaUnit(FALSE);
-	InitMenus(FALSE);
 	return 0;
 }

@@ -26,72 +26,32 @@
 #include "inbox.h"
 
 #define MS_GTALKEXT_OPENMAILBOX SHORT_PLUGIN_NAME "/OpenMailbox"
-#define OPEN_MAILBOX_ITEM_CAPTION LPGENT("Open mailbox")
 
 extern HICON g_hPopupIcon;
 
-HANDLE hOpenMailboxService = 0;
-HANDLE hOnPrebuildMenu = 0;
-
-HGENMENU hOpenMailboxMenuItem = 0;
-
-INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam)
+INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	HANDLE hContact = (HANDLE)wParam;
-	if (db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
-		OpenContactInbox(hContact);
+	OpenContactInbox((LPCSTR)param);
 	return 0;
 }
 
-int OnPrebuildMenu(WPARAM wParam, LPARAM lParam)
+int InitMenus(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM cmi = { sizeof(cmi) };
-	cmi.flags = CMIM_FLAGS;
-	if (!db_get_b((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
-		cmi.flags |= CMIF_HIDDEN;
-	Menu_ModifyItem(hOpenMailboxMenuItem, &cmi);
-	return 0;
-}
-
-BOOL InitMenus(BOOL init)
-{
-	if (init) {
-		hOpenMailboxService = (HANDLE)CreateServiceFunction(MS_GTALKEXT_OPENMAILBOX, OpenMailboxMenuHandler);
-		if (!hOpenMailboxService) {
-			InitMenus(FALSE);
-			return FALSE;
-		}
-
-		extern HICON g_hPopupIcon;
+	GoogleTalkAcc* pga = isGoogle(lParam);
+	if (pga != NULL) {
+		LPCSTR szModuleName = pga->m_japi->GetModuleName();
+		char szServiceName[100];
+		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s/%s", szModuleName, MS_GTALKEXT_OPENMAILBOX);
+		CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)szModuleName);
 
 		CLISTMENUITEM cmi = { sizeof(cmi) };
-		cmi.flags = CMIF_TCHAR;
+		cmi.flags = CMIF_CHILDPOPUP;
+		cmi.hParentMenu = HGENMENU(wParam);
 		cmi.hIcon = g_hPopupIcon;
-		cmi.ptszName = OPEN_MAILBOX_ITEM_CAPTION;
-		cmi.pszService = MS_GTALKEXT_OPENMAILBOX;
-		hOpenMailboxMenuItem = Menu_AddContactMenuItem(&cmi);
-
-		if (!hOpenMailboxMenuItem) {
-			InitMenus(FALSE);
-			return FALSE;
-		}
-
-		hOnPrebuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildMenu);
-		if (!hOnPrebuildMenu) {
-			InitMenus(FALSE);
-			return FALSE;
-		}
+		cmi.position = 200101;
+		cmi.pszName = LPGEN("Open mailbox");
+		cmi.pszService = szServiceName;
+		Menu_AddProtoMenuItem(&cmi);
 	}
-	else {
-		if (hOnPrebuildMenu) {
-			UnhookEvent(hOnPrebuildMenu);
-			hOnPrebuildMenu = 0;
-		}
-		if (hOpenMailboxService) {
-			DestroyServiceFunction(hOpenMailboxService);
-			hOpenMailboxService = 0;
-		}
-	}
-
-	return TRUE;
+	return 0;
 }

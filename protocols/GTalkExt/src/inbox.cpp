@@ -226,13 +226,9 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 		mir_forkthread(ShellExecuteThread, mir_tstrdup(url));
 }
 
-void OpenContactInbox(HANDLE hContact)
+void OpenContactInbox(LPCSTR szModuleName)
 {
-	LPSTR acc = GetContactProto(hContact);
-	if (acc == NULL)
-		return;
-
-	ptrT tszJid( db_get_tsa(0, acc, "jid"));
+	ptrT tszJid( db_get_tsa(0, szModuleName, "jid"));
 	if (tszJid == NULL)
 		return;
 
@@ -246,5 +242,5 @@ void OpenContactInbox(HANDLE hContact)
 		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T("a/"), host);   // hosted
 	else
 		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T(""), _T("mail")); // common
-	OpenUrl(acc, tszJid, buf);
+	OpenUrl(szModuleName, tszJid, buf);
 }

@@ -474,6 +474,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	for (int i=0; i < count; i++)
 		sttCreateInstance(protos[i]->szModuleName);
 
+	HookEvent(ME_JABBER_MENUINIT, InitMenus);
 	HookEvent(ME_POPUP_FILTER, OnFilterPopup);
 	HookEvent(ME_JABBER_EXTLISTINIT, OnExtListInit);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialization);
