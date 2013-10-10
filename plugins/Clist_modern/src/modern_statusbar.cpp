@@ -27,24 +27,18 @@ struct ProtoItemData : public MZeroedObject
 {
 	~ProtoItemData()
 	{
-		mir_free(ProtoXStatus);
-		mir_free(ProtoName);
-		mir_free(AccountName);
-		mir_free(ProtoHumanName);
-		mir_free(ProtoEMailCount);
-		mir_free(ProtoStatusText);
 	}
 
 	HICON  icon;
 	HICON  extraIcon;
 	int    iconIndex;
-	char  *ProtoName;
-	char  *AccountName;
+	ptrA   ProtoName;
+	ptrA   AccountName;
 	int    ProtoStatus;
-	TCHAR *ProtoHumanName;
-	char  *ProtoEMailCount;
-	char  *ProtoStatusText;
-	TCHAR *ProtoXStatus;
+	ptrT   ProtoHumanName;
+	ptrA   ProtoEMailCount;
+	ptrT   ProtoStatusText;
+	ptrT   ProtoXStatus;
 	int    ProtoPos;
 	int    fullWidth;
 	RECT   protoRect;
@@ -159,35 +153,25 @@ int ModernDrawStatusBar(HWND hwnd, HDC hDC)
 
 int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 {
-	int line;
 	int iconHeight = GetSystemMetrics(SM_CYSMICON)+2;
-	int protosperline = 0;
-	int SumWidth = 0;
-	int rectwidth = 0;
-	int aligndx = 0;
-	int i,po = 0;
+	int i;
 
-	char servName[40];
-	char protoNameExt[40];
 	// Count visible protos
 	RECT rc;
-	HFONT hOldFont;
-	int maxwidth = 0;
-	int xstatus = 0;
-	SIZE textSize = {0};
-	GetClientRect(hWnd,&rc);
+	GetClientRect(hWnd, &rc);
 	if (g_CluiData.fDisableSkinEngine) {
 		if (g_StatusBarData.bkUseWinColors && xpt_IsThemed(g_StatusBarData.hTheme))
 			xpt_DrawTheme(g_StatusBarData.hTheme, hWnd, hDC, 0, 0, &rc, &rc);           
 		else
-			DrawBackGround(hWnd, hDC,  g_StatusBarData.hBmpBackground, g_StatusBarData.bkColour, g_StatusBarData.backgroundBmpUse );
+			DrawBackGround(hWnd, hDC,  g_StatusBarData.hBmpBackground, g_StatusBarData.bkColour, g_StatusBarData.backgroundBmpUse);
 	}
-	else SkinDrawGlyph(hDC,&rc,&rc,"Main,ID=StatusBar"); //TBD
+	else SkinDrawGlyph(hDC, &rc, &rc, "Main,ID=StatusBar"); //TBD
 
 	g_StatusBarData.nProtosPerLine = db_get_b(NULL,"CLUI","StatusBarProtosPerLine",SETTING_PROTOSPERLINE_DEFAULT);
-	hOldFont = g_clcPainter.ChangeToFont(hDC,NULL,FONTID_STATUSBAR_PROTONAME,NULL);
+	HFONT hOldFont = g_clcPainter.ChangeToFont(hDC,NULL,FONTID_STATUSBAR_PROTONAME,NULL);
 
-	GetTextExtentPoint32A(hDC," ",1,&textSize);
+	SIZE textSize = {0};
+	GetTextExtentPoint32A(hDC, " ", 1, &textSize);
 	int spaceWidth = textSize.cx;
 	int textY = rc.top+((rc.bottom-rc.top-textSize.cy)>>1);
 	int iconY = rc.top+((rc.bottom-rc.top-GetSystemMetrics(SM_CXSMICON))>>1);
@@ -201,20 +185,14 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		return 0;
 
 	for (int j = 0; j < protoCount; j++) {
-		int vis;
-
-		i = pcli->pfnGetAccountIndexByPos(j);
-		if (i == -1) 
-			vis = FALSE;
-		else
-			vis = pcli->pfnGetProtocolVisibility(accs[i]->szModuleName);
-		if ( !vis)
+		int i = pcli->pfnGetAccountIndexByPos(j);
+		if (i == -1 || !pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
 			continue;
 				
 		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", accs[i]->szModuleName);
 
-		ProtoItemData* p = new ProtoItemData;
+		ProtoItemData *p = new ProtoItemData;
 
 		if (g_StatusBarData.perProtoConfig && db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT)) {
 			mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", accs[i]->szModuleName);
@@ -260,20 +238,18 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 		p->ProtoStatus = CallProtoService(accs[i]->szModuleName,PS_GETSTATUS, 0, 0);
 
-		p->ProtoEMailCount = NULL;
 		if (p->ProtoStatus > ID_STATUS_OFFLINE) {
-			// create service name
-			mir_snprintf(servName, SIZEOF(servName), "%s/GetUnreadEmailCount", accs[i]->szModuleName);
-			if (p->showProtoEmails == 1 && ServiceExists(servName)) {
-				mir_snprintf(protoNameExt, SIZEOF(protoNameExt),"[%d]", (int)CallService(servName, 0, 0));
-				p->ProtoEMailCount = mir_strdup(protoNameExt);
+			if (p->showProtoEmails == 1 && ProtoServiceExists(accs[i]->szModuleName, PS_GETUNREADEMAILCOUNT)) {
+				char buf[40];
+				mir_snprintf(buf, SIZEOF(buf),"[%d]", (int)ProtoCallService(accs[i]->szModuleName, PS_GETUNREADEMAILCOUNT, 0, 0));
+				p->ProtoEMailCount = mir_strdup(buf);
 			}
 		}
 
 		p->ProtoHumanName = mir_tstrdup(accs[i]->tszAccountName);
 		p->AccountName = mir_strdup(accs[i]->szModuleName);
 		p->ProtoName = mir_strdup(accs[i]->szProtoName);
-		p->ProtoStatusText = mir_strdup((char*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)p->ProtoStatus,0));
+		p->ProtoStatusText = mir_tstrdup(pcli->pfnGetStatusModeDescription(p->ProtoStatus, 0));
 		p->ProtoPos = ProtosData.getCount();
 
 		p->isDimmed = 0;
@@ -292,6 +268,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	//START MULTILINE HERE 
 	int orig_protoCount = protoCount;
 	int orig_visProtoCount = ProtosData.getCount();
+	int protosperline = 0;
 	
 	if (g_StatusBarData.nProtosPerLine)
 		protosperline = g_StatusBarData.nProtosPerLine;
@@ -308,8 +285,8 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	protosperline = min(protosperline,orig_visProtoCount);
 
 	int linecount = protosperline ? (orig_visProtoCount+(protosperline-1))/protosperline : 1; //divide with rounding to up
-	for (line = 0; line < linecount; line++) {    
-		int rowheight = max(textSize.cy+2,iconHeight);
+	for (int line = 0; line < linecount; line++) {    
+		int rowheight = max(textSize.cy+2, iconHeight);
 		protoCount = min(protosperline,(orig_protoCount-line*protosperline));
 		int visProtoCount = min(protosperline,(orig_visProtoCount-line*protosperline));
 		GetClientRect(hWnd,&rc);
@@ -317,10 +294,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		rc.top += g_StatusBarData.rectBorders.top;
 		rc.bottom -= g_StatusBarData.rectBorders.bottom;
 
-		aligndx = 0;
-		maxwidth = 0;
-		xstatus = 0;
-		SumWidth = 0;
+		int aligndx = 0, maxwidth = 0, xstatus = 0, SumWidth = 0;
 
 		int height = (rowheight*linecount);
 		if (height > (rc.bottom - rc.top)) {
@@ -346,24 +320,22 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			rc.bottom = rc.bottom - (rowheight*(linecount - line - 1)+1);
 		}
 
-		textY = rc.top+(((rc.bottom-rc.top)-textSize.cy)/2);
-		iconY = rc.top+(((rc.bottom-rc.top)-iconHeight)/2);
+		textY = rc.top + (((rc.bottom-rc.top) - textSize.cy)/2);
+		iconY = rc.top + (((rc.bottom-rc.top) - iconHeight)/2);
 
 		//Code for each line
 		DWORD sw;
-		rectwidth = rc.right-rc.left-g_StatusBarData.rectBorders.left-g_StatusBarData.rectBorders.right;
+		int rectwidth = rc.right - rc.left - g_StatusBarData.rectBorders.left - g_StatusBarData.rectBorders.right;
 		if (visProtoCount > 1)
-			sw = (rectwidth-(g_StatusBarData.extraspace*(visProtoCount-1)))/visProtoCount;
+			sw = (rectwidth - (g_StatusBarData.extraspace*(visProtoCount-1))) / visProtoCount;
 		else
 			sw = rectwidth;
 		
 		int *ProtoWidth = (int*)mir_alloc(sizeof(int)*visProtoCount);
 		for (i=0; i < visProtoCount; i++) {
-			ProtoItemData& p = ProtosData[line*protosperline + i];
-			SIZE textSize;
+			ProtoItemData &p = ProtosData[line*protosperline + i];
 
-			DWORD w = 0;
-			w = p.PaddingLeft;
+			DWORD w = p.PaddingLeft;
 			w += p.PaddingRight;
 
 			if (p.showProtoIcon) {
@@ -389,6 +361,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				}
 			}
 
+			SIZE textSize;
 			if (p.showProtoName) {
 				GetTextExtentPoint32(hDC, p.ProtoHumanName, lstrlen(p.ProtoHumanName), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
@@ -400,12 +373,12 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			}
 
 			if (p.showStatusName) {
-				GetTextExtentPoint32A(hDC, p.ProtoStatusText, lstrlenA(p.ProtoStatusText), &textSize);
+				GetTextExtentPoint32(hDC, p.ProtoStatusText, lstrlen(p.ProtoStatusText), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
 			}
 
-			if ((p.xStatusMode&8) && p.ProtoXStatus) {
-				GetTextExtentPoint32(hDC, p.ProtoXStatus, lstrlen(p.ProtoXStatus),&textSize);
+			if ((p.xStatusMode & 8) && p.ProtoXStatus) {
+				GetTextExtentPoint32(hDC, p.ProtoXStatus, lstrlen(p.ProtoXStatus), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
 			}
 
@@ -527,7 +500,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				}
 
 				if (hxIcon || hIcon) { /* TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto*/
-					if ( db_get_b( NULL,p.AccountName,"LockMainStatus",0 )) {
+					if ( db_get_b(NULL, p.AccountName,"LockMainStatus", 0)) {
 						HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hLockOverlay != NULL) {
 							mod_DrawIconEx_helper(hDC, x, iconY, hLockOverlay, GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON), 0, NULL,DI_NORMAL | dim);
@@ -546,9 +519,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x+(spaceWidth>>1);
 				rt.top = textY;
-				ske_DrawText(hDC,p.ProtoHumanName,lstrlen(p.ProtoHumanName),&rt,0);
+				ske_DrawText(hDC, p.ProtoHumanName, lstrlen(p.ProtoHumanName), &rt, 0);
 
-				if ((p.showProtoEmails && p.ProtoEMailCount != NULL) || p.showStatusName || ((p.xStatusMode&8) && p.ProtoXStatus)) {
+				if ((p.showProtoEmails && p.ProtoEMailCount != NULL) || p.showStatusName || ((p.xStatusMode & 8) && p.ProtoXStatus)) {
 					GetTextExtentPoint32(hDC, p.ProtoHumanName, lstrlen(p.ProtoHumanName), &textSize);
 					x += textSize.cx + 3;
 				}
@@ -560,7 +533,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				rt.left = x+(spaceWidth>>1);
 				rt.top = textY;
 				ske_DrawTextA(hDC, p.ProtoEMailCount, lstrlenA(p.ProtoEMailCount), &rt, 0);
-				if (p.showStatusName || ((p.xStatusMode&8) && p.ProtoXStatus)) {
+				if (p.showStatusName || ((p.xStatusMode & 8) && p.ProtoXStatus)) {
 					GetTextExtentPoint32A(hDC,p.ProtoEMailCount,lstrlenA(p.ProtoEMailCount),&textSize);
 					x += textSize.cx+3;
 				}
@@ -571,9 +544,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x+(spaceWidth>>1);
 				rt.top = textY;
-				ske_DrawTextA(hDC, p.ProtoStatusText, lstrlenA(p.ProtoStatusText), &rt, 0);
+				ske_DrawText(hDC, p.ProtoStatusText, lstrlen(p.ProtoStatusText), &rt, 0);
 				if (((p.xStatusMode & 8) && p.ProtoXStatus)) {
-					GetTextExtentPoint32A(hDC, p.ProtoStatusText, lstrlenA(p.ProtoStatusText), &textSize);
+					GetTextExtentPoint32(hDC, p.ProtoStatusText, lstrlen(p.ProtoStatusText), &textSize);
 					x += textSize.cx+3;
 				}
 			}
@@ -582,7 +555,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x+(spaceWidth>>1);
 				rt.top = textY;
-				ske_DrawText(hDC,p.ProtoXStatus,lstrlen(p.ProtoXStatus),&rt,0);
+				ske_DrawText(hDC, p.ProtoXStatus, lstrlen(p.ProtoXStatus), &rt, 0);
 			}
 
 			p.protoRect = r;
@@ -600,8 +573,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 {
-	if ( !mir_strcmpi(ProtosData[protoIndex].ProtoName, "ICQ")) {
-		if (ProtosData[protoIndex].ProtoStatus < ID_STATUS_ONLINE)
+	ProtoItemData &p = ProtosData[protoIndex];
+	if ( !mir_strcmpi(p.ProtoName, "ICQ")) {
+		if (p.ProtoStatus < ID_STATUS_ONLINE)
 			return FALSE;
 
 		HMENU hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
@@ -619,19 +593,18 @@ static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 
 		POINT pt; GetCursorPos( &pt );
 		HWND hWnd = (HWND) CallService(MS_CLUI_GETHWND, 0 ,0 );
-		TrackPopupMenu( hExtraStatusMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, hWnd, NULL );
+		TrackPopupMenu(hExtraStatusMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, hWnd, NULL);
 		return TRUE;
 	} 
 	
-	if ( !mir_strcmpi( ProtosData[protoIndex].ProtoName, "JABBER")) {
-		if ( ProtosData[protoIndex].ProtoStatus < ID_STATUS_ONLINE )
+	if ( !mir_strcmpi(p.ProtoName, "JABBER")) {
+		if (p.ProtoStatus < ID_STATUS_ONLINE)
 			return FALSE;
 
 		// Show Moods
-		char szService[128];
-		mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/Mood", ProtosData[protoIndex].AccountName );
-		if ( ServiceExists(szService)) {
-			CallService(szService, 0, 0);
+		#define PS_JABBER_MOOD "/AdvStatusSet/Mood"
+		if ( ProtoServiceExists(p.AccountName, PS_JABBER_MOOD)) {
+			ProtoCallService(p.AccountName, PS_JABBER_MOOD, 0, 0);
 			return TRUE;
 		}
 	}
@@ -644,7 +617,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
     static POINT ptToolTipShow = {0};
     switch (msg)  {
     case WM_CREATE:
-		g_StatusBarData.hTheme = xpt_AddThemeHandle(hwnd,L"STATUS");
+		g_StatusBarData.hTheme = xpt_AddThemeHandle(hwnd, L"STATUS");
 		break;
 
 	case WM_DESTROY:
@@ -654,7 +627,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 
 	case WM_SIZE:
 		if ( !g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList)
-            InvalidateRect(hwnd,NULL,FALSE);
+			InvalidateRect(hwnd, NULL, FALSE);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_ERASEBKGND:
@@ -665,7 +638,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 			CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE,(WPARAM)hwnd,0);
 		else if (GetParent(hwnd) == pcli->hwndContactList && !g_CluiData.fLayered) {
 			RECT rc = {0};
-			GetClientRect(hwnd,&rc);
+			GetClientRect(hwnd, &rc);
 			rc.right++;
 			rc.bottom++;
 			HDC hdc = GetDC(hwnd);
@@ -781,7 +754,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 		break;
 
 	case WM_SETCURSOR:
-		if (g_CluiData.bBehindEdgeSettings) CLUI_UpdateTimer(0);
+		if (g_CluiData.bBehindEdgeSettings) CLUI_UpdateTimer(0); 
 		{
 			POINT pt;
 			GetCursorPos(&pt);
@@ -947,31 +920,25 @@ HWND StatusBar_Create(HWND parent)
 	WNDCLASS wndclass = {0};
 	TCHAR pluginname[] = _T("ModernStatusBar");
 	int h = GetSystemMetrics(SM_CYSMICON)+2;
-	if ( GetClassInfo(g_hInst,pluginname,&wndclass) == 0) {
-		wndclass.style         = 0;
-		wndclass.lpfnWndProc   = ModernStatusProc;
-		wndclass.cbClsExtra    = 0;
-		wndclass.cbWndExtra    = 0;
-		wndclass.hInstance     = g_hInst;
-		wndclass.hIcon         = NULL;
-		wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
+	if ( GetClassInfo(g_hInst, pluginname, &wndclass) == 0) {
+		wndclass.lpfnWndProc = ModernStatusProc;
+		wndclass.hInstance = g_hInst;
+		wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wndclass.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
-		wndclass.lpszMenuName  = NULL;
 		wndclass.lpszClassName = pluginname;
 		RegisterClass(&wndclass);
 	}
 
-	hModernStatusBar = CreateWindow(pluginname, pluginname, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN,
-		0, 0, 0, h, parent, NULL, g_hInst, NULL);
+	hModernStatusBar = CreateWindow(pluginname, pluginname, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, 0, 0, 0, h, parent, NULL, g_hInst, NULL);
 
 	// register frame
-	CLISTFrame Frame;
-	memset(&Frame, 0, sizeof(Frame));
-	Frame.cbSize = sizeof(CLISTFrame);
+	CLISTFrame Frame = { sizeof(Frame) };
 	Frame.hWnd = hModernStatusBar;
 	Frame.align = alBottom;
 	Frame.hIcon = LoadSkinnedIcon (SKINICON_OTHER_FRAME);
-	Frame.Flags = ( db_get_b(NULL,"CLUI","ShowSBar",SETTING_SHOWSBAR_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
+	Frame.Flags = F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;
+	if ( db_get_b(NULL, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT))
+		Frame.Flags |= F_VISIBLE;
 	Frame.height = h;
 	Frame.tname = _T("Status Bar");
 	Frame.TBtname = TranslateT("Status Bar");

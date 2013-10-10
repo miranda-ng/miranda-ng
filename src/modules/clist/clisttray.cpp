@@ -110,15 +110,15 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 			if ( !szStatus)
 				continue;
 
-			TCHAR *ProtoXStatus = sttGetXStatus(pa->szModuleName);
-
 			if (mToolTipTrayTips) {
 				TCHAR tipline[256];
 				mir_sntprintf(tipline, SIZEOF(tipline), _T("<b>%-12.12s</b>\t%s"), pa->tszAccountName, szStatus);
 				if (cli.szTip[0])
 					_tcsncat(cli.szTip, szSeparator, MAX_TIP_SIZE - _tcslen(cli.szTip));
 				_tcsncat(cli.szTip, tipline, MAX_TIP_SIZE - _tcslen(cli.szTip));
-				if (ProtoXStatus) {
+
+				ptrT ProtoXStatus( sttGetXStatus(pa->szModuleName));
+				if (ProtoXStatus != NULL) {
 					mir_sntprintf(tipline, SIZEOF(tipline), _T("%-24.24s\n"), ProtoXStatus);
 					if (cli.szTip[0])
 						_tcsncat(cli.szTip, szSeparator, MAX_TIP_SIZE - _tcslen(cli.szTip));
@@ -133,18 +133,17 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 				_tcsncat(cli.szTip, _T(" "), MAX_TIP_SIZE - _tcslen(cli.szTip));
 				_tcsncat(cli.szTip, szStatus, MAX_TIP_SIZE - _tcslen(cli.szTip));
 			}
-			mir_free(ProtoXStatus);
 		}
 	}
 	else {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != NULL) {
-			TCHAR *ProtoXStatus = sttGetXStatus(szProto);
+			ptrT ProtoXStatus( sttGetXStatus(szProto));
 			szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0), 0);
 			if (szPrefix && szPrefix[0]) {
 				if (db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (mToolTipTrayTips) {
-						if (ProtoXStatus)
+						if (ProtoXStatus != NULL)
 							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s%s<b>%-12.12s</b>\t%s%s%-24.24s"), szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
 						else
 							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s%s<b>%-12.12s</b>\t%s"), szPrefix, szSeparator, pa->tszAccountName, szStatus);
@@ -155,14 +154,13 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 			}
 			else {
 				if (mToolTipTrayTips) {
-					if (ProtoXStatus)
+					if (ProtoXStatus != NULL)
 						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("<b>%-12.12s</b>\t%s\n%-24.24s"), pa->tszAccountName, szStatus, ProtoXStatus);
 					else
 						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("<b>%-12.12s</b>\t%s"), pa->tszAccountName, szStatus);
 				}
 				else mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s %s"), pa->tszAccountName, szStatus);
 			}
-			mir_free(ProtoXStatus);
 		}
 	}
 
