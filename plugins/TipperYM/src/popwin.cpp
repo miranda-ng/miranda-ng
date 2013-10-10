@@ -112,8 +112,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				// number of unread emails
 				TCHAR swzEmailCount[64];
-				if (ProtoServiceExists(pwd->clcit.szProto, "/GetUnreadEmailCount")) {
-					int iCount = (int)CallProtoService(pwd->clcit.szProto, "/GetUnreadEmailCount", 0, 0);
+				if (ProtoServiceExists(pwd->clcit.szProto, PS_GETUNREADEMAILCOUNT)) {
+					int iCount = (int)ProtoCallService(pwd->clcit.szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 					if (iCount > 0) {
 						_itot(iCount, swzEmailCount, 10);
 						AddRow(pwd, TranslateT("Unread emails:"), swzEmailCount, NULL, false, false, false);
@@ -1554,8 +1554,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 				}
 
-				if (dwItems & TRAYTIP_UNREAD_EMAILS && ProtoServiceExists(pa->szModuleName, "/GetUnreadEmailCount")) {
-					int iCount = (int)CallProtoService(pa->szModuleName, "/GetUnreadEmailCount", 0, 0);
+				if (dwItems & TRAYTIP_UNREAD_EMAILS && ProtoServiceExists(pa->szModuleName, PS_GETUNREADEMAILCOUNT)) {
+					int iCount = (int)ProtoCallService(pa->szModuleName, PS_GETUNREADEMAILCOUNT, 0, 0);
 					if (iCount > 0) {
 						_itot(iCount, buff, 10);
 						AddRow(pwd, TranslateT("Unread emails:"), buff, NULL, false, false, false); 

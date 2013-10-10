@@ -70,7 +70,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	CreateProtoService(PS_SETMYNICKNAME,         &CMsnProto::SetNickName);
 	CreateProtoService(PS_SEND_NUDGE,            &CMsnProto::SendNudge);
 
-	CreateProtoService(MSN_GETUNREAD_EMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT,   &CMsnProto::GetUnreadEmailCount);
 
 	// event hooks
 	HookProtoEvent(ME_MSG_WINDOWPOPUP,           &CMsnProto::OnWindowPopup);

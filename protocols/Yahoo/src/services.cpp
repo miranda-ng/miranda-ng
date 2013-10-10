@@ -530,7 +530,7 @@ void CYahooProto::LoadYahooServices( void )
 	CreateProtoService(PS_GETMYAWAYMSG,   &CYahooProto::GetMyAwayMsg);
 	CreateProtoService(PS_SEND_NUDGE,     &CYahooProto::SendNudge);
 
-	CreateProtoService(YAHOO_GETUNREAD_EMAILCOUNT, &CYahooProto::GetUnreadEmailCount);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CYahooProto::GetUnreadEmailCount);
 
 	//----| Set resident variables |------------------------------------------------------
 

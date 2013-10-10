@@ -549,6 +549,12 @@ typedef struct {
 // Returns the max length
 #define PS_GETMYWAYDMAXLENGTH "/GetMyWAYDMaxLength"
 
+// Get the unread email message count, optional
+// wParam = (WPARAM)0
+// lParam = (LPARAM)0
+// Returns the number of unread emails
+#define PS_GETUNREADEMAILCOUNT "/GetUnreadEmailCount"
+
 /****************************** SENDING SERVICES *************************/
 //these should be called with CallContactService()
 

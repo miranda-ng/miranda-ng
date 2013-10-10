@@ -76,15 +76,14 @@ extern int do_yahoo_debug;
 	YAHOO_DEBUGLOG x; \
 	YAHOO_DEBUGLOG(" ");}
 
-#define YAHOO_SET_CUST_STAT			"/SetCustomStatCommand"
-#define YAHOO_EDIT_MY_PROFILE		"/YahooEditMyProfileCommand"
-#define YAHOO_SHOW_PROFILE			"/YahooShowProfileCommand"
-#define YAHOO_SHOW_MY_PROFILE		"/YahooShowMyProfileCommand"
-#define YAHOO_YAHOO_MAIL			"/YahooGotoMailboxCommand"
-#define YAHOO_REFRESH				"/YahooRefreshCommand"
-#define YAHOO_AB					"/YahooAddressBook"
-#define YAHOO_CALENDAR				"/YahooCalendar"
-#define YAHOO_GETUNREAD_EMAILCOUNT	"/GetUnreadEmailCount"
+#define YAHOO_SET_CUST_STAT    "/SetCustomStatCommand"
+#define YAHOO_EDIT_MY_PROFILE  "/YahooEditMyProfileCommand"
+#define YAHOO_SHOW_PROFILE     "/YahooShowProfileCommand"
+#define YAHOO_SHOW_MY_PROFILE  "/YahooShowMyProfileCommand"
+#define YAHOO_YAHOO_MAIL       "/YahooGotoMailboxCommand"
+#define YAHOO_REFRESH          "/YahooRefreshCommand"
+#define YAHOO_AB               "/YahooAddressBook"
+#define YAHOO_CALENDAR         "/YahooCalendar"
 
 #define STYLE_DEFAULTBGCOLOUR     RGB(173,206,247)
 

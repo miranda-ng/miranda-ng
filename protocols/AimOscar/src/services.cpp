@@ -404,8 +404,7 @@ INT_PTR CAimProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	int res = 0;
 
-	switch (wParam)
-	{
+	switch (wParam) {
 	case AF_MAXSIZE:
 		((POINT*)lParam)->x = 100;
 		((POINT*)lParam)->y = 100;
