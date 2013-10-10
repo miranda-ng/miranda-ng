@@ -1299,8 +1299,6 @@ Osobná karta
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 
-[Avatars]
-
 [To]
 Do
 [From]

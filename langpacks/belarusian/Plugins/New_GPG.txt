@@ -108,7 +108,7 @@
 Капір. свой ключ
 [Add tags to encoded and decoded messages]
 Дадаваць пазнакі да паведамленняў
-[Incomming message tags:]
+[Incoming message tags:]
 Дадаваць пазнакі да ўваходных паведамленьняў:
 [Outgoing message tags:]
 Дадаваць пазнакі выходным паведамленнях:
@@ -138,9 +138,9 @@
 Памылка
 [Warning]
 Папярэджанне
-[This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
+[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
-[Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
 [Info]
 Інфа
@@ -150,7 +150,7 @@
 Вылучыце дырэкторыю з GnuPG
 [please set keyring's home directory]
 Вылучыце дырэкторыю з ключамі GnuPG
-[There is existing key for contact, would you like to replace with new key?]
+[There is existing key for contact, would you like to replace it with new key?]
 Атрыманы ключ, але ў кантакта ўжо ёсць ключ. Вы жадаеце яго замяніць новым?
 [New public key was received, do you want to import it?]
 Атрыманы новы адкрыты ключ. Вы хочаце прыняць яго?

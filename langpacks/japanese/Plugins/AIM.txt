@@ -114,7 +114,6 @@ Cancel(&C)
 メッセージ
 [Room]
 ルーム
-;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]

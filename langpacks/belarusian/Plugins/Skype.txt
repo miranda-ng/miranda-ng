@@ -283,7 +283,5 @@ SkypeKit не запусціўся.
 Значэнне мае недапушчальнае слова
 [Password is too simple]
 Пароль занадта простай
-[Avatars]
-Аватары
 [Command "%s" is unsupported]
 Каманда "%s" не падтрымліваецца

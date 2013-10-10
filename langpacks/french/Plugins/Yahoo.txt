@@ -44,7 +44,6 @@ Re&joindre
 &Annuler
 [Add]
 Ajouter
-;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 {Miranda} Invitation à la conférence ici : %s message : %s

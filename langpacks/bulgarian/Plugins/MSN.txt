@@ -202,8 +202,6 @@ Hotmail от %s
 [&Start Netmeeting]
 Иницииране на Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
-[Avatars]
-Аватари
 [Custom Smileys]
 
 [Notify]

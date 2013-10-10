@@ -202,8 +202,6 @@ MSN Чат
 [&Start Netmeeting]
 Запусціць Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
-[Avatars]
-Аватары
 [Custom Smileys]
 Свае смайлы
 [Notify]

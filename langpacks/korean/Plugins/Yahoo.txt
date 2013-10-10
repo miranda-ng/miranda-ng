@@ -22,7 +22,6 @@
 &D 거부
 [&Cancel]
 &C 취소
-;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 ;file \protocols\Yahoo\src\im.cpp

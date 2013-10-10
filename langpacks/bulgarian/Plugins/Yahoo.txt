@@ -88,9 +88,6 @@ Yahoo списък за игнориране
 Причина за поканата
 [Add]
 Добавяне
-;file \protocols\Yahoo\src\avatar.cpp
-[Avatars]
-Аватари
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 [Съобщение от Miranda NG] Получихте покана за чая стая "%s" с текст: %s

@@ -62,7 +62,6 @@ Re&joindre
 Appliquer
 [&Deny]
 &Refuser
-;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]

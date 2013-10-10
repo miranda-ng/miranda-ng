@@ -199,8 +199,6 @@ URL:
 %s връзка със сървъра
 [Unable to get Netlib connection for Facebook]
 
-[Avatars]
-Аватари
 [Facebook ID must be numeric value.]
 
 [Network]

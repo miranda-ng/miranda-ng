@@ -140,7 +140,6 @@
 [** This message was blocked by the ICQ server ** The sender has flooded the server.]
 [** This message was blocked by the ICQ server ** You are too evil.]
 [** Unknown missed message event.]
-[Avatars]
 [Error uploading avatar to server, server temporarily unavailable.]
 [Error uploading avatar to server, server refused to accept the image.]
 [Afghanistan]

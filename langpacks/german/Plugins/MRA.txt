@@ -214,8 +214,6 @@ Fische
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 Avatar Plugin-Verbindungen
-[Avatars]
-Avatare
 [Avatars: server return HTTP code: %lu]
 Avatare: Server gibt HTTP-Code %lu zurück.
 [Avatars: can't open file %s, error]
@@ -366,6 +364,8 @@ Konto
 Verbindungen
 [Files]
 Dateien
+[Avatars]
+Avatare
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 Bitte E-Mail-Einstellungen unter Optionen einrichten

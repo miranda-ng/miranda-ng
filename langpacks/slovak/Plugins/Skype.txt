@@ -411,7 +411,5 @@ Kontakt
 
 [Value starts with an invalid character]
 
-[Avatars]
-
 [Command "%s" is unsupported]
 

@@ -2537,6 +2537,9 @@ ANSI плагін
 Малюнкі GIF
 [PNG Bitmaps]
 Выявы PNG
+;file \src\modules\utils\path.cpp
+[Avatars]
+Аватары
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <не паказана>

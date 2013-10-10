@@ -88,9 +88,6 @@ Yahoo Японія
 Мэта запрашэння
 [Add]
 Дадаць
-;file \protocols\Yahoo\src\avatar.cpp
-[Avatars]
-Аватары
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 (Miranda NG) Атрымана запрашэнне ў пакой %s:%s

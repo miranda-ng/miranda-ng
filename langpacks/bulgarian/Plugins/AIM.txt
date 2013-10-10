@@ -136,9 +136,6 @@ AIM настройки
 Съобщение
 [Room]
 Стая
-;file \protocols\AimOscar\src\avatars.cpp
-[Avatars]
-Аватари
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Аз

@@ -136,9 +136,6 @@ AIM Усталяваць Instant Idle
 Паведамленне
 [Room]
 Чат-пакой
-;file \protocols\AimOscar\src\avatars.cpp
-[Avatars]
-Аватары
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Я

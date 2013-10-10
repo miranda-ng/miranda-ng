@@ -30,7 +30,6 @@ Weigeren
 Annuleren
 [Add]
 Toevoegen
-;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Profile]

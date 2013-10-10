@@ -46,7 +46,6 @@ Visszautasít
 &Mégse
 [Add]
 Új
-;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 Konferenciameghívást kaptál ebbe a szobába: %s ezzel az üzenettel: %s

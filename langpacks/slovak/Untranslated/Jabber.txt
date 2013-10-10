@@ -561,7 +561,6 @@
 [Highest priority (server's choice)]
 [Status Message]
 [CHAT plugin is required for conferences. Install it before chatting]
-[Avatars]
 [From]
 [Both]
 [Errors]

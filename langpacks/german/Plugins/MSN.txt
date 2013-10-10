@@ -202,8 +202,6 @@ Live &Alerts einstellen
 [&Start Netmeeting]
 NetMeeting &starten
 ;file \protocols\MSN\src\msn_misc.cpp
-[Avatars]
-Avatare
 [Custom Smileys]
 Custom Smileys
 [Notify]

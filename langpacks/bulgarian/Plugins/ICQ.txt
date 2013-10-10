@@ -398,8 +398,6 @@ ICQ бележка
 [** Unknown missed message event.]
 ** Непознато пропуснато събитие.
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-[Avatars]
-Аватари
 [Error uploading avatar to server, server temporarily unavailable.]
 Грешка при качването на аватара на сървъра. Сървъра е временно недостъпен.
 [Error uploading avatar to server, server refused to accept the image.]

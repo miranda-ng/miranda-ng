@@ -100,7 +100,6 @@
 [&Block]
 [Contact list]
 [%s connection]
-[Avatars]
 [Images]
 [Gadu-Gadu Number]
 [Open &conference...]

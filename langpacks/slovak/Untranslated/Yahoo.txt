@@ -29,7 +29,6 @@
 [&Cancel]
 [Invitation reason]
 [Add]
-[Avatars]
 [[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]
 [Me]

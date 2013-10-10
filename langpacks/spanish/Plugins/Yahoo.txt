@@ -52,7 +52,6 @@ Cancelar
 &Cancelar
 [Add]
 Agregar
-;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]

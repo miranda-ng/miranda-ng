@@ -1305,8 +1305,6 @@ Statusnachricht
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 StdChat.dll ist für Mehrbenutzerkonferenzen erforderlich. Bitte installieren Sie diese Datei nach.
-[Avatars]
-Avatare
 [To]
 An
 [From]

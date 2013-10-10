@@ -210,8 +210,6 @@ Neznáma chyba
 
 [Other Event]
 
-[Avatars]
-
 [Network]
 Sieť
 [Account]

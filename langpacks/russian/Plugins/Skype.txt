@@ -331,7 +331,5 @@ SkypeKit не запустился.
 Значение имеет недопустимое слово
 [Password is too simple]
 Пароль слишком простой
-[Avatars]
-Аватары
 [Command "%s" is unsupported]
 Команда "%s" не поддерживается

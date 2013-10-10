@@ -215,8 +215,6 @@ Notifikácia
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
-[Avatars]
-
 [Avatars: server return HTTP code: %lu]
 
 [Avatars: can't open file %s, error]
@@ -366,6 +364,8 @@ Sieť
 [Connections]
 
 [Files]
+
+[Avatars]
 
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]

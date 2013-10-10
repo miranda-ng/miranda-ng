@@ -2377,6 +2377,7 @@ JPEG 位图
 GIF 位图
 [PNG Bitmaps]
 PNG 位图
+;file \src\modules\utils\path.cpp
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <未指定>

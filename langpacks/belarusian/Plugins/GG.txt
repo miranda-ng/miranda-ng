@@ -238,8 +238,6 @@ HTTP невядомая памылка
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 Злучэнне %s
-[Avatars]
-Аватары
 [Images]
 Выявы
 [Gadu-Gadu Number]

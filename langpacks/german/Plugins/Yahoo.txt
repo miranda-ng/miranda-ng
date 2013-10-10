@@ -88,9 +88,6 @@ Abbre&chen
 Grund der Einlad.
 [Add]
 Hinzufügen
-;file \protocols\Yahoo\src\avatar.cpp
-[Avatars]
-Avatare
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 [Miranda] Chateinladung in Raum: %s mit Nachricht: %s

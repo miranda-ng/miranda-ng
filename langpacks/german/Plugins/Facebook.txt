@@ -212,8 +212,6 @@ Kontakt ist nicht mehr in Ihrer Server-Liste.
 %s Serververbindung
 [Unable to get Netlib connection for Facebook]
 Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
-[Avatars]
-Avatare
 [Facebook ID must be numeric value.]
 Facebook-ID muss ein numerischer Wert sein.
 [Network]

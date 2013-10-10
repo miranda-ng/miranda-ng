@@ -62,7 +62,6 @@ Cancel
 Cancel(&C)
 [Add]
 追加
-;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [%s denied invitation with message: %s]
 %s はメッセージによる招待を拒否しました : %s

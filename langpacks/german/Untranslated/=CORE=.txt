@@ -1,1 +1,1 @@
-﻿[LastName FirstName]
+﻿[Avatars root folder]

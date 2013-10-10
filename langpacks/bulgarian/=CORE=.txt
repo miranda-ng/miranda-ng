@@ -2543,6 +2543,11 @@ JPEG изображения
 GIF изображения
 [PNG Bitmaps]
 PNG изображения
+;file \src\modules\utils\path.cpp
+[Avatars]
+Аватари
+[Avatars root folder]
+
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <Неуточнено>

@@ -136,9 +136,6 @@ Reset
 
 [Room]
 
-;file \protocols\AimOscar\src\avatars.cpp
-[Avatars]
-
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 

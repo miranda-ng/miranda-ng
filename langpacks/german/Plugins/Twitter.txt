@@ -80,8 +80,6 @@ Konnte Twitter-Zugriffstoken nicht holen, bitte gehen Sie offline und versuchen 
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your twitter account in the miranda account options]
 Ihnen fehlt der Nick-Schlüssel in der Datenbank. Das ist wirklich keine große Sache, aber Sie werden einige kleinere Probleme bemerken (Selbstkontakt in der Liste, keine Hervorhebung ausgehender Nachrichten im Gruppenchat usw.). Um dies zu beheben, fügen Sie ihn entweder manuell hinzu oder setzen Sie Ihr Twitterkonto in den Kontooptionen zurück
 ;file \protocols\Twitter\src\proto.cpp
-[Avatars]
-Avatare
 [Send Tweet...]
 Tweet senden...
 [Network]

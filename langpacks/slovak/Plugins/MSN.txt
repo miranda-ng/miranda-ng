@@ -198,8 +198,6 @@ Nastav prezívku
 [&Start Netmeeting]
 
 ;file \protocols\MSN\src\msn_misc.cpp
-[Avatars]
-
 [Custom Smileys]
 
 [Notify]

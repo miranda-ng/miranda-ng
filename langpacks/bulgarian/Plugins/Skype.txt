@@ -445,7 +445,5 @@
 
 [Value starts with an invalid character]
 
-[Avatars]
-Аватари
 [Command "%s" is unsupported]
 

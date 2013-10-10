@@ -58,7 +58,6 @@
 [&Deny]
 [Message]
 [Room]
-[Avatars]
 [Me]
 [Others]
 [&Invite user...]

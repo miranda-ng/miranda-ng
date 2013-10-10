@@ -2094,7 +2094,7 @@ Benutzername
 [FirstName LastName]
 Vorname Nachname
 [LastName FirstName]
-
+Nachname Vorname
 ['(Unknown Contact)' (not movable)]
 'Unbekannter Kontakt' (nicht verschiebbar)
 ['(Unknown Contact)']
@@ -2545,6 +2545,11 @@ JPEG-/JPG-Bilder
 GIF-Bilder
 [PNG Bitmaps]
 PNG-Bilder
+;file \src\modules\utils\path.cpp
+[Avatars]
+Avatare
+[Avatars root folder]
+
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <unspezifiziert>

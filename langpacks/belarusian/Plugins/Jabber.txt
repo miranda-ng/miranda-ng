@@ -851,8 +851,6 @@ Jabber Рэсурс
 Статуснае паведамленне
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
-[Avatars]
-Аватары
 [To]
 У
 [From]

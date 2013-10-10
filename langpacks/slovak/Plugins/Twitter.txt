@@ -80,8 +80,6 @@ OK
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your twitter account in the miranda account options]
 
 ;file \protocols\Twitter\src\proto.cpp
-[Avatars]
-
 [Send Tweet...]
 
 [Network]

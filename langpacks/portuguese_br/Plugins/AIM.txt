@@ -88,7 +88,6 @@ E-mail
 Mensagem
 [Room]
 Salão
-;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
 ;file \protocols\AimOscar\src\file.cpp

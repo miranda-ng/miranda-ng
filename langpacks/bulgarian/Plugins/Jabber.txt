@@ -1299,8 +1299,6 @@ Jabber източник
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 За конферентни разговори е необходима приставката CHAT. Инсталирайте я преди да чатите.
-[Avatars]
-Аватари
 [To]
 За
 [From]

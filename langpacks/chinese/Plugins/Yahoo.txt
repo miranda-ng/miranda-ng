@@ -56,7 +56,6 @@ Yahoo 忽略列表
 取消(&C)
 [Add]
 添加
-;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
  [miranda] 已获取房间会议邀请: %s, 消息是: %s

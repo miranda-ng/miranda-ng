@@ -36,7 +36,7 @@ Schlüssel löschen
 Generiere zufälligen Schlüssel
 [Account:]
 Konto:
-[key id:]
+[Key id:]
 Schlüssel-ID:
 [Copy public key]
 Öffentlichen Schlüssen kopieren
@@ -108,11 +108,11 @@ Wählen Sie den Keyserver für die Schlüsselsuche aus:
 Verschlüsselte Datei empfangen
 [Decrypt]
 Entschlüsseln
-[Recieved encrypted file form contact whith disabled encryption.]
+[Recieved encrypted file form contact with disabled encryption.]
 Verschlüsselte Datei von Kontakt mit deaktivierter Verschlüsselung empfangen.
 [Remember choice]
 Auswahl merken
-[Choose which  keys to export]
+[Choose which keys to export]
 Wählen Sie die zu exportierenden Schlüssel aus
 [Export public keys (only set for contacts)]
 Öffentliche Schlüssel exportieren (nur für Kontakte gesetzt)
@@ -146,7 +146,7 @@ Auto Schlüsselaustausch
 Kopiere eig. Schlüssel
 [Add tags to encoded and decoded messages]
 Füge Tags zu ver- und entschlüsselten Nachrichten hinzu
-[Incomming message tags:]
+[Incoming message tags:]
 Eingehende Nachrichten-Tags:
 [Outgoing message tags:]
 Ausgehende Nachrichten-Tags:
@@ -208,29 +208,29 @@ Fehler
 Erstelle neuen zufälligen Schlüssel, bitte warten
 [Failed to alocate memory]
 
-[gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have beed warned.]
 Das GPG-Verzeichnis wurde gefunden, allerdings der Englische Ort davon existiert nicht.\nEs ist sehr wichtig die \\gnupg.nls\\en@quot.mo im GnuPG-Ordner im Miranda NG Verzeichnis zu legen.\nOhne diese Datei haben Sie viele Probleme mit der GPG-Ausgabe auf englischen Systemen.\nEs kann evtl. nicht richtig funktionieren.\nSeien Sie gewarnt!
 [Warning]
 Warnung
-[wrong gpg binary location found in system.\nplease choose another location]
+[Wrong GPG binary location found in system.\nPlease choose another location]
 Ein falsches GPG-Verzeichnis wurde im System gefunden.\nBitte wählen Sie ein anderes Verzeichnis aus.
-[This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
+[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Dies ist kein GnuPG Verzeichnis!\nEs wird empfohlen GnuPG v1.x.x mit diesem Plugin zu verwenden.
-[Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf eigenes Risiko!\nEs wird empfohlen, GnuPG v1.x.x mit diesem Plugin zu benutzen.
-[found "gpg" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set.]
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
 
 [Info]
 Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ihre GPG-Version wird unterstützt. Die Sprachdatei wurde gefunden.\nDas GPG-Plugin sollte funktionieren.\nKlicken Sie auf OK, um fortzufahren.
-[gpg binary does not exists.\nplease choose another location]
+[GPG binary does not exist.\nPlease choose another location]
 GPG-Verzeichnis existiert nicht.\nBitte wählen Sie ein anderes Verzeichnis aus.
 [please choose gpg binary location]
 bitte wählen Sie das GPG-Hauptverzeichnis aus
 [please set keyring's home directory]
 bitte setzen Sie den Hauptordner für die Schlüssel
-[There is existing key for contact, would you like to replace with new key?]
+[There is existing key for contact, would you like to replace it with new key?]
 Für diesen Kontakt existiert bereits ein Schlüssel, wollen Sie ihn durch einen neuen Schlüssel ersetzen?
 [New public key was received, do you want to import it?]
 Ein neuer Schlüssel wurde empfangen, wollen Sie ihn importieren?
@@ -240,7 +240,7 @@ Ersetze
 Akzeptieren
 [Received key from ]
 Schlussel wurde empfangen von
-[You must set encryption algorythm first]
+[You must set encryption algorithm first]
 Sie müssen als Erstes einen Verschlüsselungsalgorithmus setzen
 [Key length must be of length from 1024 to 4096 bits]
 Schlüssellänge muss zwischen 1024 und 4096 Bit betragen.
@@ -256,19 +256,19 @@ Ungültige E-Mail-Adresse
 Erzeuge neuen Schlüssel, bitte warten Sie...
 [Failed to export public key.]
 Konnte öffentlichen Schlüssel nicht exportieren.
-[GPG binary is set and valid (this is good).\n]
-GPG-Programm ist gesetzt und gültig (das ist gut).\n
-[GPG binary unset or invalid (plugin will not work).\n]
+[GPG binary is set and valid (This is good).\n]
+GPG-Programm ist gesetzt und gültig (Das ist gut).\n
+[GPG binary unset or invalid (Plugin will not work).\n]
 GPG-Programm ist nicht gesetzt oder ungültig (Plugin wird nicht funktionieren).\n
-[Home dir write access granted (this is good).\n]
-Schreibzugriff auf Benutzerverzeichnis gewährt (das ist gut).\n
-[Home dir have not write access (plugin most probably will not work).\n]
+[Home dir write access granted (This is good).\n]
+Schreibzugriff auf Benutzerverzeichnis gewährt (Das ist gut).\n
+[Home dir has no write access (Plugin most probably will not work).\n]
 Schreibzugriff auf Benutzerverzeichnis nicht gewährt (Plugin wird höchstwahrscheinlich nicht funktionieren).\n
-[Temp dir write access granted (this is good).\n]
-Schreibzugriff auf temporäres Verzeichnis gewährt (das ist gut).\n
-[Temp dir have not write access (plugin should work, but may have some problems, filetransfers will not work).]
+[Temp dir write access granted (This is good).\n]
+Schreibzugriff auf temporäres Verzeichnis gewährt (Das ist gut).\n
+[Temp dir has no write access (Plugin should work, but may have some problems, file transfers will not work).]
 Schreibzugriff auf temporäres Verzeichnis nicht gewährt (Plugin sollte funktionieren, aber könnte Probleme verursachen, Dateiübertragungen funktionieren nicht).
-[\nGPG will be disabled until you solve this problems]
+[\nGPG will be disabled until you solve these problems]
 \nGPG wird deaktiviert bis Sie dieses Problem beheben.
 [GPG plugin problems]
 GPG-Pluginprobleme
@@ -276,11 +276,11 @@ GPG-Pluginprobleme
 Ihr geheimer Schlüssel mit ID:
 [ for account ]
  für Konto 
-[ deleted from gpg secret keyring\nDo you want to set another key?]
+[ deleted from GPG secret keyring.\nDo you want to set another key?]
  gelöscht vom GPG-Schlüsselring\nWollen Sie einen anderen Schlüssel setzen?
 [Own secret key warning]
 Eigener geheimer Schlüssen Warnung
-[ expired and will not work\nDo you want to set another key?]
+[ expired and will not work.\nDo you want to set another key?]
 
 [You didn't set a private key.\nWould you like to set it now?]
 
@@ -299,9 +299,9 @@ Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
 
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
-[failed o encrypt message, GPG returned error, turn on debug log for more details]
+[failed to encrypt message, GPG returned error, turn on debug log for more details]
 Konnte Nachricht nicht verschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein
-[Something wrong, gpg does not understand us, aborting encryption.]
+[Something is wrong, GPG does not understand us, aborting encryption.]
 Etwas läuft falsch, GPG versteht uns nicht, breche Verschlüsselung ab.
 ;file \plugins\New_GPG\src\options.cpp
 [Services]
@@ -342,38 +342,38 @@ Setze Logdatei
 Logdateien
 [Choose gpg.exe]
 Wählen sie den Pfad zur gpg.exe aus
-[Set home diractory]
+[Set home directory]
 Setze Heimverzeichnis
 [Load Public GPG Key for ]
 Lade offentlichen GPG-Schlussel fur
 [Turn off encryption]
 Verschlüsselung deaktivieren
-[ found in prescense, and exists in keyring.)]
+[ found in presence, and exists in keyring.)]
  gegenwärtig gefunden, er existiert im Hauptverzeichnis.)
 [Load Public GPG Key (Key ID: ]
 Lade offentlichen GPG-Schlussel (Schlussel-ID:
-[ found in prescense.)]
+[ found in presence.)]
 gegenwärtig gefunden.
 [This is not public or private key]
 Dies ist kein öffentlicher oder privater Schlüssel
-[Key already in scret key ring.]
+[Key already in secret keyring.]
 Der Schlüssel ist bereits im geheimen Hauptverzeichnis.
 [Set file containing GPG public key]
 Setzen Sie die Datei, die den GPG-Schlüssel enthält
 [GPG public key file]
 GPG öffentliche Schlüsseldatei
-[Where is no public or private key.]
+[There is no public or private key.]
 Wo ist der öffentliche oder private Schlüssel?
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
 [Target file exists, do you want to replace it?]
 Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
-[Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
+[Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
 
 [Filetransfer warning]
 Dateiübertragungswarnung
-[Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?]
+[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
 
 [encrypting file for transfer]
 
@@ -389,7 +389,7 @@ alle privaten Schlüssel
 
 [Keys import result]
 
-[New passwords not match]
+[New passwords do not match]
 Die neuen Passwörter stimmen nicht überein
-[Old password not match, you can continue, but gpg will reject wrong password.\nDo you want to continue?]
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
 

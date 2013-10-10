@@ -445,7 +445,5 @@ Wert enthält ungültiges Wort
 Passwort ist zu einfach
 [Value starts with an invalid character]
 Wert beginnt mit einem ungültigen Zeichen.
-[Avatars]
-Avatare
 [Command "%s" is unsupported]
 Kommando %s" wird nicht unterstützt

@@ -49,7 +49,7 @@
 Импорт ключа с сервера ключей
 [New public key was received, do you want to import it?]
 Получен новый отрытый ключ. Вы хотите его принять?
-[There is existing key for contact, would you like to replace with new key?]
+[There is existing key for contact, would you like to replace it with new key?]
 Получен ключ, но у контакта уже есть ключ. Вы хотите его заменить новым?
 [The new public key was recieved]
 Получен новый отрытый ключ.
@@ -65,9 +65,9 @@
 Использовать jabber api Miranda NG (Рекомендуется)
 [Current private key id]
 Закрытый ключ
-[This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
+[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Выбранный вами exe не GnuPG!\nРекомендуется использовать GnuPG v1.x.x с этим плагином.
-[Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Ваша версия GnuPG не поддерживается и может работать не правильно!\nРекомендуется использовать GnuPG v1.x.x с этим плагином.
 [Generate key]
 Сгенерировать
@@ -113,7 +113,7 @@
 Лист пользователей:
 [Add tags to encoded and decoded messages]
 Добавлять метки к сообщениям
-[Incomming message tags:]
+[Incoming message tags:]
 Добавлять метки к входящим сообщениям:
 [Outgoing message tags:]
 Добавлять метки исходящим сообщениям:

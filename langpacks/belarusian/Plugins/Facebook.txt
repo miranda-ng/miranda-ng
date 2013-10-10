@@ -181,8 +181,6 @@
 Навіны
 [Other Event]
 Іншая падзея
-[Avatars]
-Аватары
 [Network]
 Сеціва
 [Account]

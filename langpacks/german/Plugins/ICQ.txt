@@ -398,8 +398,6 @@ Bestätigung
 [** Unknown missed message event.]
 ** Unbekanntes verpasstes Nachrichten-Ereignis.
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-[Avatars]
-Avatare
 [Error uploading avatar to server, server temporarily unavailable.]
 Fehler beim Upload des Avatars auf den Server, der Server ist vorübergehend nicht verfügbar.
 [Error uploading avatar to server, server refused to accept the image.]

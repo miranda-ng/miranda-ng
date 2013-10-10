@@ -78,8 +78,6 @@ URL:
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 Не атрымалася атрымаць жэтоны доступу Twitter, выйдзице і паўтарыце спробу. Калі гэта адбываецца ўвесь час, праверце злучэнне з інтэрнэтам.
 ;file \protocols\Twitter\src\proto.cpp
-[Avatars]
-Аватары
 [Send Tweet...]
 Паслаць твіт...
 [Network]
