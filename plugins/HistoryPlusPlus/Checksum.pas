@@ -82,7 +82,6 @@ end;
 
 function BaseToDig(const Str: AnsiString): TDig64;
 var
-  DigStr: AnsiString;
   BufLen: int;
   Buf: PByte;
 begin

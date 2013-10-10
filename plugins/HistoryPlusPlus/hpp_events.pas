@@ -112,7 +112,6 @@ function GetEventRecord(const Hi: THistoryItem): PEventRecord;
 function GetMessageType(EventInfo: TDBEventInfo; var EventIndex: Integer): TMessageTypes;
 // global routines
 function GetEventCoreText(EventInfo: TDBEventInfo; var Hi: THistoryItem): Boolean;
-function GetEventModuleText(EventInfo: TDBEventInfo; var Hi: THistoryItem): Boolean;
 // specific routines
 procedure GetEventTextForMessage(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForFile(EventInfo: TDBEventInfo; var Hi: THistoryItem);
@@ -489,9 +488,7 @@ begin
       Result.RTLMode := hppRTLEnable;
     Result.MessageType := GetMessageType(EventInfo, EventIndex);
     Result.CodePage := UseCP;
-    // Handled := true;
-    // if Handled then Handled := GetEventCoreText(EventInfo,Result);
-    { if Handled then } Handled := GetEventModuleText(EventInfo, Result);
+    Handled := GetEventCoreText(EventInfo,Result);
     if not Handled then
       EventTable[EventIndex].TextFunction(EventInfo, Result);
     Result.Text := AdjustLineBreaks(Result.Text);
@@ -545,37 +542,6 @@ begin
   end;
   if Result then
   begin
-    SetString(hi.Text,PChar(msg),StrLen(PChar(msg)));
-    mir_free(msg);
-  end;
-end;
-
-function GetEventModuleText(EventInfo: TDBEventInfo; var Hi: THistoryItem): Boolean;
-const
-  maxServiceLength = 99;
-var
-  dbegt: TDBEVENTGETTEXT;
-  msg: Pointer;
-  szServiceName: array[0..maxServiceLength] of AnsiChar;
-begin
-  Result := False;
-  dbegt.dbei := @EventInfo;
-  dbegt.datatype := DBVT_WCHAR;
-  dbegt.codepage := hi.Codepage;
-  try
-    StrLFmt(szServiceName,maxServiceLength,'%s/GetEventText%u',[EventInfo.szModule,EventInfo.eventType]);
-    Result := Boolean(ServiceExists(szServiceName));
-  except
-  end;
-  if not Result then exit;
-  msg := nil;
-  try
-    msg := Pointer(CallService(szServiceName,0,LPARAM(@dbegt)));
-    Result := Assigned(msg);
-  except
-    if Assigned(msg) then mir_free(msg);
-  end;
-  if Result then begin
     SetString(hi.Text,PChar(msg),StrLen(PChar(msg)));
     mir_free(msg);
   end;
