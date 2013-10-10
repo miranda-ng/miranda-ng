@@ -181,8 +181,8 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	switch ( msg ) {
 	case WM_INITDIALOG: 
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			for(int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 				strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, (LPARAM)0);
 				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTSTAT);

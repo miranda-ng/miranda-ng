@@ -159,9 +159,8 @@ TCHAR *SecondsToTimeDifference(HANDLE hContact, const char *szModuleName, const 
 TCHAR *WordToStatusDesc(HANDLE hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	WORD wStatus = db_get_w(hContact, szModuleName, szSettingName, ID_STATUS_OFFLINE);
-	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
-	_tcsncpy(buff,szStatus, bufflen);
-	buff[bufflen - 1] = 0;
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+	_tcsncpy_s(buff, bufflen, szStatus, _TRUNCATE);
 	return buff;
 }
 

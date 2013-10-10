@@ -37,6 +37,7 @@ HANDLE hReloadFonts = NULL;
 HANDLE hFolderChanged, hSkinFolder;
 TCHAR SKIN_FOLDER[256];
 
+CLIST_INTERFACE *pcli = NULL;
 FI_INTERFACE *fii = NULL;
 TIME_API tmi;
 int hLangpack;
@@ -59,7 +60,7 @@ PLUGININFOEX pluginInfoEx =
 bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
-    return TRUE;
+	return TRUE;
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -91,7 +92,6 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
-
 
 // hack to hide tip when clist hides from timeout
 int SettingChanged(WPARAM wParam, LPARAM lParam)
@@ -304,8 +304,9 @@ HANDLE hEventPreShutdown, hEventModulesLoaded;
 extern "C" int __declspec(dllexport) Load(void)
 {
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
-	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
+	mir_getTMI(&tmi);
 
 	if (ServiceExists(MS_LANGPACK_GETCODEPAGE))
 		iCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);

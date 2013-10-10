@@ -33,7 +33,6 @@ const
   }
   MS_CLIST_GETSTATUSMODE:PAnsiChar = 'CList/GetStatusMode';
 
-  GSMDF_PREFIXONLINE = 1; // prefix "Online :" for online submodes, e.g. 'away'
   GSMDF_UNICODE      = 2; // will return TCHAR* instead of AnsiChar*
   GSMDF_UNTRANSLATED = 4;
 

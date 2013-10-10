@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_genmenu.h>
 #include "m_mucc.h"
 
-
+CLIST_INTERFACE *pcli;
 int hLangpack;
 HINSTANCE hInst;
 HANDLE hMainThread;
@@ -393,6 +393,7 @@ static int tlenProtoUninit(TlenProtocol* ppro)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfo );
+	mir_getCLI();
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 

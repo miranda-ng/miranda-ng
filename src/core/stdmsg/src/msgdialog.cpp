@@ -1149,7 +1149,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					else
 						SetDlgItemText(hwndDlg, IDC_NAME, contactName);
 
-					szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
+					szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 					if (statusIcon)
 						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateTS(pszNewTitleEnd));
 					else
@@ -1167,8 +1167,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						TCHAR buffer[200];
 						int iLen;
 
-						TCHAR *szOldStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) dat->wOldStatus, GSMDF_TCHAR);
-						TCHAR *szNewStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) dat->wStatus, GSMDF_TCHAR);
+						TCHAR *szOldStatus = pcli->pfnGetStatusModeDescription(dat->wOldStatus, 0);
+						TCHAR *szNewStatus = pcli->pfnGetStatusModeDescription(dat->wStatus, 0);
 
 						if (dat->wStatus == ID_STATUS_OFFLINE) {
 							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed off (was %s)"), szOldStatus);

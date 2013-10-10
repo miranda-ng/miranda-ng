@@ -120,7 +120,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 				}
 
-				TCHAR *swzText = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
+				TCHAR *swzText = pcli->pfnGetStatusModeDescription(wStatus, 0);
 				if (swzText)
 					AddRow(pwd, TranslateT("Status:"), swzText, NULL, false, false, false);
 
@@ -1563,7 +1563,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				if (dwItems & TRAYTIP_STATUS) {
-					TCHAR *swzText = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
+					TCHAR *swzText = pcli->pfnGetStatusModeDescription(wStatus, 0);
 					if (swzText)
 						AddRow(pwd, TranslateT("Status:"), swzText, NULL, false, false, false); 
 				}

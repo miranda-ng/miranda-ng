@@ -177,15 +177,12 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			// items. 
 			lvI.mask = LVIF_TEXT;
 
-			char *strptr;
 			int i = 0;
 			for (; i < 10; i++) {
-				strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_OFFLINE + i), 0);
-				lvI.pszText = mir_a2t(strptr);
+				lvI.pszText = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_OFFLINE + i, GSMDF_TCHAR);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
 				ListView_SetCheckState(hwndList, i, options.disable_status[i]);
-				mir_free(lvI.pszText);
 			}
 			lvI.pszText = TranslateT("Full-screen app running");
 			lvI.iItem = i;

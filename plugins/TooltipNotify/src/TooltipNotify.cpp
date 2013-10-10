@@ -885,7 +885,7 @@ TCHAR *CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize
 {
 	if((iStatus>=ID_STATUS_OFFLINE) && (iStatus<=ID_STATUS_OUTTOLUNCH))
 	{
-			lstrcpyn(szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,iStatus,GSMDF_TCHAR), iBufSize);
+		lstrcpyn(szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,iStatus,GSMDF_TCHAR), iBufSize);
 	}
 	else
 	{

@@ -328,10 +328,10 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
 				EnableWindow(hwnd, FALSE);
 			}
-			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON6),IMAGE_ICON,16,16,0));
-			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON3),IMAGE_ICON,16,16,0));	
-			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON4),IMAGE_ICON,16,16,0));
-			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON5),IMAGE_ICON,16,16,0));
+			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON6),IMAGE_ICON,16,16,0));
+			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON3),IMAGE_ICON,16,16,0));	
+			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON4),IMAGE_ICON,16,16,0));
+			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON5),IMAGE_ICON,16,16,0));
 			// initialise and fill listbox
 			hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
 			ListView_DeleteAllItems(hwndList);
@@ -350,7 +350,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			// items. 
 			lvI.mask = LVIF_TEXT;
 			for(int i = 0; i < STATUS_COUNT; i++) {
-				lvI.pszText= (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_ONLINE + i), GSMDF_TCHAR);
+				lvI.pszText = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_ONLINE+i, GSMDF_TCHAR);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
 				ListView_SetCheckState(hwndList, i, settingStatus[i]);
