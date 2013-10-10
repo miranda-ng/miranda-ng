@@ -69,7 +69,7 @@ void InitLogs()
 {
 	LARGE_INTEGER li;
 	QueryPerformanceFrequency(&li);
-	llIdlePeriod = li.QuadPart * 10; // 10 seconds interval
+	llIdlePeriod = li.QuadPart;
 }
 
 void UninitLogs()

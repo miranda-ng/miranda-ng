@@ -76,7 +76,7 @@ static void LoadCoreModule(void)
 
 	hAPCWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
-	SetTimer(hAPCWindow, 1, 60*1000, NULL);
+	SetTimer(hAPCWindow, 1, 1000, NULL);
 	hStackMutex = CreateMutex(NULL, FALSE, NULL);
 	hThreadQueueEmpty = CreateEvent(NULL, TRUE, TRUE, NULL);
 
