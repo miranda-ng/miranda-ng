@@ -41,15 +41,11 @@ static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 {
 	DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)lParam;
 	if (eventTypes.getIndex(et) == -1) {
-		DBEVENTTYPEDESCR* p = (DBEVENTTYPEDESCR*)mir_alloc(sizeof(DBEVENTTYPEDESCR));
+		DBEVENTTYPEDESCR* p = (DBEVENTTYPEDESCR*)mir_calloc(sizeof(DBEVENTTYPEDESCR));
 		p->cbSize = DBEVENTTYPEDESCR_SIZE;
 		p->module = mir_strdup(et->module);
 		p->eventType = et->eventType; 
 		p->descr = mir_strdup(et->descr);
-		p->textService = NULL;
-		p->iconService = NULL;
-		p->eventIcon = NULL;
-		p->flags = 0;
 		if (et->cbSize == DBEVENTTYPEDESCR_SIZE) {
 			if (et->textService)
 				p->textService = mir_strdup(et->textService);
