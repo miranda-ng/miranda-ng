@@ -1975,12 +1975,13 @@ public:
 		this->ReleaseBufferSetLength(nCurrentLength+nAppendLength);
 	}
 
-	void FormatV(PCXSTR pszFormat, va_list args)
+	PCXSTR FormatV(PCXSTR pszFormat, va_list args)
 	{
 		int nLength = StringTraits::GetFormattedLength(pszFormat, args);
 		PXSTR pszBuffer = this->GetBuffer(nLength);
 		StringTraits::Format(pszBuffer, nLength+1, pszFormat, args);
 		this->ReleaseBufferSetLength(nLength);
+		return GetString();
 	}
 
 	// OLE BSTR support

@@ -48,17 +48,15 @@ void UninitProtocols()
 MIR_CORE_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
 {
 	char buf[4096];
-	_vsnprintf(buf, sizeof(buf), szFormat, args);
-	buf[sizeof(buf)-1] = 0;
-	CallService(MS_NETLIB_LOG, (WPARAM)pThis->m_hNetlibUser, (LPARAM)buf);
+	int res = _vsnprintf_s(buf, sizeof(buf), szFormat, args);
+	CallService(MS_NETLIB_LOG, (WPARAM)pThis->m_hNetlibUser, (LPARAM)((res != -1) ? buf : CMStringA().FormatV(szFormat, args)));
 }
 
 MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
 {
 	WCHAR buf[4096];
-	_vsnwprintf(buf, SIZEOF(buf), wszFormat, args);
-	buf[SIZEOF(buf)-1] = 0;
-	CallService(MS_NETLIB_LOGW, (WPARAM)pThis->m_hNetlibUser, (LPARAM)buf);
+	int res = _vsnwprintf_s(buf, SIZEOF(buf), wszFormat, args);
+	CallService(MS_NETLIB_LOGW, (WPARAM)pThis->m_hNetlibUser, (LPARAM)((res != -1) ? buf : CMStringW().FormatV(wszFormat, args)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
