@@ -10,7 +10,7 @@ TOptions Options = {
 
 int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
 
-	char str[64];
+	TCHAR str[64];
 
 	switch (msg) {
 		case WM_INITDIALOG: {
@@ -20,7 +20,7 @@ int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_SETRANGE, FALSE, MAKELONG(1,32));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_SETPOS, TRUE, Options.SnapWidth);
 			
-			wsprintf(str, Translate("%d pix"), Options.SnapWidth);
+			wsprintf(str, TranslateT("%d pix"), Options.SnapWidth);
 			SetDlgItemText(hwndDlg, IDC_TXT_SNAPWIDTH, str);
 			
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_SNAPWIDTH), Options.DoSnap);
@@ -31,7 +31,7 @@ int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			break;		
 		}
 		case WM_HSCROLL: {		
-			_snprintf(str, 64, Translate("%d pix"), SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0));
+			mir_snwprintf(str, 64, TranslateT("%d pix"), SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0));
 			SetDlgItemText(hwndDlg, IDC_TXT_SNAPWIDTH, str);
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -76,9 +76,9 @@ int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 							Options.SnapWidth = SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0);
 							Options.ScriverWorkAround = (IsDlgButtonChecked(hwndDlg, IDC_CHK_SCRIVERWORKAROUND) == TRUE);
 
-							DBWriteContactSettingByte(NULL, ModuleName, "DoSnap", Options.DoSnap);
-							DBWriteContactSettingByte(NULL, ModuleName, "SnapWidth", Options.SnapWidth);
-							DBWriteContactSettingByte(NULL, ModuleName, "ScriverWorkAround", Options.ScriverWorkAround);
+							db_set_b(NULL, MODULE_NAME, "DoSnap", Options.DoSnap);
+							db_set_b(NULL, MODULE_NAME, "SnapWidth", Options.SnapWidth);
+							db_set_b(NULL, MODULE_NAME, "ScriverWorkAround", Options.ScriverWorkAround);
 							
 							break;
 						} 
@@ -97,17 +97,17 @@ int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 }
 
-int InitOptions(WPARAM wParam, LPARAM lParam) {
+int InitOptions(WPARAM wParam, LPARAM) {
 	OPTIONSDIALOGPAGE Opt = { 0 };
 
 	Opt.cbSize = sizeof(Opt);
 //	Opt.position = 0;
-	Opt.pszTitle = "Magnetic Windows";
-	Opt.pfnDlgProc = &OptionsDlgProc;
-	Opt.pszTemplate = (char *) MAKEINTRESOURCE(IDD_OPT_MAGNETICWINDOWS);
+	Opt.pfnDlgProc = OptionsDlgProc;
+	Opt.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAGNETICWINDOWS);
 	Opt.hInstance = hInst;
 //	Opt.hIcon = 0;
-	Opt.pszGroup = "Customize";
+	Opt.pszGroup = LPGEN("Customize");
+	Opt.pszTitle = LPGEN("Magnetic Windows");
 //	Opt.groupPosition = 0;
 //	Opt.hGroupIcon = 0;
 	Opt.flags = ODPF_BOLDGROUPS;
@@ -116,13 +116,13 @@ int InitOptions(WPARAM wParam, LPARAM lParam) {
 //	Opt.expertOnlyControls = NULL;
 //	Opt.nExpertOnlyControls = 0;
 
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)(&Opt));
+	Options_AddPage(wParam, &Opt);
 	
 	return 0;
 }
 
 void LoadOptions() {
-	Options.DoSnap = DBGetContactSettingByte(NULL, ModuleName, "DoSnap", TRUE);
-	Options.SnapWidth = DBGetContactSettingByte(NULL, ModuleName, "SnapWidth", cDefaultSnapWidth);
-	Options.ScriverWorkAround = DBGetContactSettingByte(NULL, ModuleName, "ScriverWorkAround", FALSE);
+	Options.DoSnap = db_get_b(NULL, MODULE_NAME, "DoSnap", TRUE);
+	Options.SnapWidth = db_get_b(NULL, MODULE_NAME, "SnapWidth", cDefaultSnapWidth);
+	Options.ScriverWorkAround = db_get_b(NULL, MODULE_NAME, "ScriverWorkAround", FALSE);
 }

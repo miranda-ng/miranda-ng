@@ -17,26 +17,25 @@
 // Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFO pluginInfo = {
-	sizeof(PLUGININFO),
-	"Magnetic Windows",
-	PLUGIN_MAKE_VERSION(0,0,3,2),
-	"Makes the main contactlist and the chat windows snapping to the desktop border and to each other.",
-	"Michael Kunz",
-	"Michael.Kunz@s2005.TU-Cemnitz.de",
-	"(c) 2006 Michael Kunz",
-	"http://addons.miranda-im.org/details.php?action=viewfile&id=2871",
-	0,
-	0
+PLUGININFOEX pluginInfo = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {08C01613-24C8-486F-BDAE-2C3DDCAF9347}
+	{0x8c01613, 0x24c8, 0x486f, { 0xbd, 0xae, 0x2c, 0x3d, 0xdc, 0xaf, 0x93, 0x47 }} 
 };
 
-PLUGINLINK * pluginLink;
 
 HANDLE hLoadedHook, hShootDownHook,	hAddService, hRemService, hWindowEventHook;
 
 HINSTANCE hInst;
-//char ModuleName[256];
-char ModuleName[] = "MagneticWindows";
+int hLangpack;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Plugin Functions
@@ -124,14 +123,14 @@ int SnapPluginShootDown(WPARAM wParam, LPARAM lParam) {
 // Exportet Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+	mir_getLP(&pluginInfo);
 	
 	hLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, SnapPluginStart);
 	hShootDownHook = HookEvent(ME_SYSTEM_PRESHUTDOWN, SnapPluginShootDown);
@@ -154,31 +153,9 @@ extern "C" int __declspec(dllexport) Unload(void)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-extern "C" bool APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-					 )
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst = hModule;
+	hInst = hinstDLL;
 	
-
-/*	char * Temp;
-	char * l,i;
-
-	Temp = (char*) malloc(2048);
-	GetModuleFileName(hModule, Temp, 2048);
-
-	l = Temp;
-	i = Temp;
-
-	while (i != 0) {
-		if ((*i) == '\') l = i + 1;
-		i++;
-	}
-
-	memcpy(ModuleName, l, i-l);
-	free(Temp);
-	*/
-
-    return true;
+    return TRUE;
 }

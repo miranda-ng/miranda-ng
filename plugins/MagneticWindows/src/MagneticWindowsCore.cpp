@@ -402,7 +402,7 @@ bool WindowOpen(HWND hWnd) {
 	PDockingWindow i;
 
 	if ((hWnd != 0) && (FindDockingWindow(hWnd) == NULL)) {
-		i = (PDockingWindow)malloc(sizeof(TDockingWindow));
+		i = (PDockingWindow)mir_alloc(sizeof(TDockingWindow));
 		i->Next = Globals.WindowList;	
 		i->hWnd = hWnd;
 		Globals.WindowList = i;
@@ -444,7 +444,7 @@ bool WindowClose(HWND hWnd) {
 			SetWindowLongA(hWnd, GWL_WNDPROC, (LONG) (i->OldWindowProc));
 		}
 		
-		free(i);
+		mir_free(i);
 
 		return true;
 	}
@@ -458,7 +458,7 @@ bool WindowCloseAll() {
 		l = i;
 		WindowClose(i->hWnd);
 		i = i->Next;
-		free(l);
+		mir_free(l);
 	}
 	return true;
 }
