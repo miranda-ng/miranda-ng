@@ -475,9 +475,7 @@ bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
 			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"User does not accept offline flash animation");
 			break;
 		default:
-			CMStringA szMsg;
-			szMsg.Format("Undefined message delivery error, code: %lu", dwTemp);
-			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)szMsg.c_str());
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)CMStringA().Format("Undefined message delivery error, code: %lu", dwTemp));
 			break;
 		}
 		MraSendQueueFree(hSendQueueHandle, seq);
