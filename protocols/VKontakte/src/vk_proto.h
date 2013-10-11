@@ -98,11 +98,14 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveFriends();
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, void*);
 
+	void RetrieveUnreadMessages();
+	void OnReceiveMessages(NETLIBHTTPREQUEST*, void*);
+
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, void*);
 
 	void __cdecl PollingThread(void*);
-	void PollServer();
+	int  PollServer();
 	void OnReceivePolling(NETLIBHTTPREQUEST*, void*);
 
 	int  SetServerStatus(int);
@@ -157,5 +160,5 @@ private:
 	UINT_PTR m_timer;
 
 	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
-	HANDLE m_pollingConn;
+	HANDLE m_hPollingThread;
 };

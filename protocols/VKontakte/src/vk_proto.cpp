@@ -62,6 +62,8 @@ int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	m_bTerminated = true;
 	SetEvent(m_evRequestsQueue);
+	if (m_hPollingThread)
+		TerminateThread(m_hPollingThread, 0);
 	return 0;
 }
 
@@ -94,6 +96,14 @@ DWORD_PTR CVkProto::GetCaps(int type, HANDLE hContact)
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)"ID";
 	}
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+int CVkProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+{ 
+	Proto_RecvMessage(hContact, pre);
 	return 0;
 }
 
@@ -181,11 +191,6 @@ int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
 	//if (!hDbEvent || isOffline())
 	return 1;
-}
-
-int CVkProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
-{ 
-	return 0;
 }
 
 int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)

@@ -319,6 +319,82 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, void*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CVkProto::RetrieveUnreadMessages()
+{
+	Netlib_Logf(m_hNetlibUser, "CVkProto::RetrieveMessages");
+
+	HttpParam params[] = {
+		{ "code", "return{\"msgs\":API.messages.get({\"filters\":1})};" },
+		{ "access_token", m_szAccessToken }
+	};
+	PushAsyncHttpRequest(REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
+}
+
+void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, void*)
+{
+	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveMessages %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+
+	JSONROOT pRoot(reply->pData);
+	if ( !CheckJsonResult(pRoot))
+		return;
+
+	JSONNODE *pResponse = json_get(pRoot, "response");
+	if (pResponse == NULL)
+		return;
+
+	JSONNODE *pMsgs = json_as_array( json_get(pResponse, "msgs"));
+	if (pMsgs == NULL)
+		return;
+
+	CMStringA mids;
+
+	int numMessages = json_as_int( json_at(pMsgs, 0));
+	for (int i=1; i <= numMessages; i++) {
+		JSONNODE *pMsg = json_at(pMsgs, i);
+		if (pMsg == NULL)
+			continue;
+
+		int mid = json_as_int( json_get(pMsg, "mid"));
+		int datetime = json_as_int( json_get(pMsg, "date"));
+		int isOut = json_as_int( json_get(pMsg, "out"));
+		int uid = json_as_int( json_get(pMsg, "uid"));
+		int isRead = json_as_int( json_get(pMsg, "uid"));
+		ptrT ptszBody( json_as_string( json_get(pMsg, "body")));
+
+		char szUserid[40], szMid[40];
+		_itoa(uid, szUserid, 10);
+		_itoa(mid, szMid, 10);
+		HANDLE hContact = FindUser(szUserid, true);
+
+		PROTORECVEVENT recv = { 0 };
+		recv.flags = PREF_TCHAR;
+		if (isRead)
+			recv.flags |= PREF_CREATEREAD;
+		recv.timestamp = datetime;
+		recv.tszMessage = ptszBody;
+		recv.lParam = isOut;
+		recv.pCustomData = szMid;
+		recv.cbCustomDataSize = (int)strlen(szMid);
+		ProtoChainRecvMsg(hContact, &recv);
+
+		if (!mids.IsEmpty())
+			mids.AppendChar(',');
+		mids.Append(szMid);
+	}
+
+	if (!mids.IsEmpty()) {
+		HttpParam params[] = {
+			{ "mids", mids },
+			{ "access_token", m_szAccessToken }
+		};
+		PushAsyncHttpRequest(REQUEST_GET, "/method/messages.markAsRead.json", true, NULL, SIZEOF(params), params);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CVkProto::RetrievePollingInfo()
 {
 	Netlib_Logf(m_hNetlibUser, "CVkProto::RetrievePollingInfo");
@@ -346,53 +422,52 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, void*)
 	m_pollingServer = mir_t2a( ptrT( json_as_string( json_get(pResponse, "server"))));
 	if (m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL)
 		ForkThread(&CVkProto::PollingThread, 0);
+
+	RetrieveUnreadMessages();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::PollServer()
+int CVkProto::PollServer()
 {
 	Netlib_Logf(m_hNetlibUser, "CVkProto::PollServer");
 
-	HttpParam params[] = {
-		{ "act", "a_check" },
-		{ "key", m_pollingKey },
-		{ "ts", m_pollingTs },
-		{ "wait", "25" },
-		{ "access_token", m_szAccessToken }
-	};
-	PushAsyncHttpRequest(REQUEST_GET, m_pollingServer, true, &CVkProto::OnReceivePolling, SIZEOF(params), params);
-}
+	NETLIBHTTPREQUEST req = { sizeof(req) };
+	req.requestType = REQUEST_GET;
+	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
+	req.flags = NLHRF_SSL | NLHRF_PERSISTENT | NLHRF_HTTP11;
+	req.timeout = 30;
 
-void CVkProto::OnReceivePolling(NETLIBHTTPREQUEST *reply, void*)
-{
-	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceivePolling %d", reply->resultCode);
-	if (reply->resultCode != 200)
-		return;
+	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	if (reply == NULL)
+		return 0;
 
-	JSONROOT pRoot(reply->pData);
-	if ( !CheckJsonResult(pRoot))
-		return;
+	RetrieveUnreadMessages();
 
-	JSONNODE *pResponse = json_get(pRoot, "response");
-	if (pResponse != NULL)
-		m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pResponse, "ts"))));
+	int retVal = -1;
+	if (reply->resultCode = 200) {
+		JSONROOT pRoot(reply->pData);
+		if ( CheckJsonResult(pRoot)) {
+			JSONNODE *pResponse = json_get(pRoot, "response");
+			if (pResponse != NULL) { 
+				m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pResponse, "ts"))));
+				retVal = 1;
+			}
+		}
+		else retVal = 0;
+	}
+
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+	return retVal;
 }
 
 void CVkProto::PollingThread(void*)
 {
-	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
-	nloc.flags = NLOCF_SSL | NLOCF_HTTP | NLOCF_V2;
-	nloc.szHost = VK_API_URL;
-	nloc.wPort = 443;
-	nloc.timeout = 60*1000;
-	m_pollingConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
-	if (m_pollingConn == NULL)
-		return;
+	m_hPollingThread = GetCurrentThread();
 
 	while (!m_bTerminated)
-		PollServer();
+		if (PollServer() == -1)
+			break;
 
-	CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)m_pollingConn, 0);
-	m_pollingConn = NULL;
+	m_hPollingThread = NULL;
 }
