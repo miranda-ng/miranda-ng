@@ -387,7 +387,7 @@ static int IdleModernOptInit(WPARAM wParam, LPARAM)
 	obj.pfnDlgProc = IdleOptsDlgProc;
 //	obj.lpzClassicGroup = "Status";
 //	obj.lpzClassicPage = "Messages";
-	obj.lpzHelpUrl = "http://wiki.miranda-im.org/";
+	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 	return 0;
 }

@@ -2246,7 +2246,7 @@ int CJabberProto::OnModernOptInit(WPARAM, LPARAM)
 	obj.pfnDlgProc = JabberWizardDlgProc;
 	obj.lpszClassicGroup = "Network";
 	obj.lpszClassicPage = m_szModuleName;	// title!!!!!!!!!!!
-	obj.lpszHelpUrl = "http://forums.miranda-im.org/showthread.php?t=14294";
+	obj.lpszHelpUrl = "http://miranda-ng.org/p/Jabber";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 	mir_free(obj.lptzSubsection); */
 	return 0;
