@@ -814,9 +814,9 @@ public:
 
 		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Send messages slower, but with full acknowledgement"), m_proto->m_options.MsgAck);
 		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable avatars"), m_proto->m_options.EnableAvatars);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("debugLogA chat state changes"), m_proto->m_options.LogChatstates);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("debugLogA presence subscription state changes"), m_proto->m_options.LogPresence);
-		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("debugLogA presence errors"), m_proto->m_options.LogPresenceErrors);
+		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Log chat state changes"), m_proto->m_options.LogChatstates);
+		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Log presence subscription state changes"), m_proto->m_options.LogPresence);
+		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Log presence errors"), m_proto->m_options.LogPresenceErrors);
 		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable user moods receiving"), m_proto->m_options.EnableUserMood);
 		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable user tunes receiving"), m_proto->m_options.EnableUserTune);
 		m_otvOptions.AddOption(LPGENT("Messaging") _T("/") LPGENT("Enable user activity receiving"), m_proto->m_options.EnableUserActivity);
@@ -928,12 +928,12 @@ public:
 		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Automatically join conferences on login"), m_proto->m_options.AutoJoinConferences);
 		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Hide conference windows at startup"),      m_proto->m_options.AutoJoinHidden);
 		m_otvOptions.AddOption(LPGENT("General") _T("/") LPGENT("Do not show multiuser chat invitations"),  m_proto->m_options.IgnoreMUCInvites);
-		m_otvOptions.AddOption(LPGENT("debugLogA events") _T("/") LPGENT("Ban notifications"),                    m_proto->m_options.GcLogBans);
-		m_otvOptions.AddOption(LPGENT("debugLogA events") _T("/") LPGENT("Room configuration changes"),           m_proto->m_options.GcLogConfig);
-		m_otvOptions.AddOption(LPGENT("debugLogA events") _T("/") LPGENT("Affiliation changes"),                  m_proto->m_options.GcLogAffiliations);
-		m_otvOptions.AddOption(LPGENT("debugLogA events") _T("/") LPGENT("Role changes"),                         m_proto->m_options.GcLogRoles);
-		m_otvOptions.AddOption(LPGENT("debugLogA events") _T("/") LPGENT("Status changes"),                       m_proto->m_options.GcLogStatuses);
-		m_otvOptions.AddOption(LPGENT("debugLogA events") _T("/") LPGENT("Don't notify history messages"),        m_proto->m_options.GcLogChatHistory);
+		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Ban notifications"),                    m_proto->m_options.GcLogBans);
+		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Room configuration changes"),           m_proto->m_options.GcLogConfig);
+		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Affiliation changes"),                  m_proto->m_options.GcLogAffiliations);
+		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Role changes"),                         m_proto->m_options.GcLogRoles);
+		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Status changes"),                       m_proto->m_options.GcLogStatuses);
+		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Don't notify history messages"),        m_proto->m_options.GcLogChatHistory);
 	}
 
 	static CDlgBase *Create(void *param) { return new CDlgOptGc((CJabberProto *)param); }
