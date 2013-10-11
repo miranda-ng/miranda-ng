@@ -126,7 +126,7 @@
 [Edit UNICODE value]
 [New BLOB value]
 [Edit BLOB value]
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]
 ;file \plugins\DbEditorPP\src\deletemodule.cpp

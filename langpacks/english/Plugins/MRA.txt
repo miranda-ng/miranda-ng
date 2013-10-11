@@ -51,7 +51,7 @@
 [Files exchange]
 [No out connection on send]
 [No out connection on receive]
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 [Hide my IP addresses]
 [Add extra address]
 [Your host (or router):]
@@ -80,7 +80,7 @@
 [OK]
 [Cancel]
 [Notify]
-[Writed:]
+[Written:]
 [Select e-mail]
 ;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
@@ -131,7 +131,7 @@
 [Zhuki]
 [Web search]
 [Update all users info]
-[Check updates users avatars]
+[Check users avatars updates]
 [Request authorization for all]
 [Request authorization]
 [Grant authorization]
@@ -153,7 +153,7 @@
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 [Receive files: can't allocate disk space for file, size %lu bytes, error]
 [Receive files: can't open file %s, error]
-[Receive files: request for file %s not sended, error]
+[Receive files: request for file %s not sent, error]
 [Send files: can't open file %s, error]
 [Send files: requested file: %S - not found in send files list.]
 ;file \protocols\MRA\src\MraIcons.cpp
@@ -184,7 +184,7 @@
 [Closing in %ld]
 [Reply to %s blog status]
 [Set my blog status]
-[Writed]
+[Written]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]

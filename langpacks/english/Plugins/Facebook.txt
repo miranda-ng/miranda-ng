@@ -37,7 +37,6 @@
 [Advanced Settings]
 [Force secure (HTTPS) connection]
 [Post Miranda statuses to Wall]
-[Enable logging for debugging purposes]
 [Use secure connection also for channel requests]
 [Also disconnect chat when going to offline]
 [Map non-standard statuses to Invisible (instead of Online)]

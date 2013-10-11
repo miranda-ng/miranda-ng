@@ -138,6 +138,7 @@
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 [<current>]
+[<unknown>]
 [Left]
 [Right]
 [None]

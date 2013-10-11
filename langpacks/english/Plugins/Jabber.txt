@@ -1030,7 +1030,7 @@
 [Choose the groupchats you want to leave]
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 [Error %s %s\r\nTry to specify more detailed]
 [Search error]
 [Select/type search service URL above and press <Go>]
