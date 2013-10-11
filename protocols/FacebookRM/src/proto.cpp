@@ -141,7 +141,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, HANDLE hContact)
 
 int FacebookProto::SetStatus(int new_status)
 {
-	LOG("===== Beginning SetStatus process");
+	debugLogA("===== Beginning SetStatus process");
 
 	// Routing statuses not supported by Facebook
 	switch (new_status)
@@ -163,12 +163,12 @@ int FacebookProto::SetStatus(int new_status)
 	}
 
 	if (new_status != ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_CONNECTING) {
-		LOG("===== Status is already connecting, no change");
+		debugLogA("===== Status is already connecting, no change");
 		return 0;
 	}
 
 	if (m_iStatus == m_iDesiredStatus) {
-		LOG("===== Statuses are same, no change");
+		debugLogA("===== Statuses are same, no change");
 		return 0;
 	}
 

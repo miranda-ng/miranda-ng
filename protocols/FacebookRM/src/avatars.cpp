@@ -97,7 +97,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 {
 	HANDLE nlc = NULL;
 
-	LOG("***** UpdateAvatarWorker");
+	debugLogA("***** UpdateAvatarWorker");
 
 	for (;;)
 	{
@@ -107,13 +107,13 @@ void FacebookProto::UpdateAvatarWorker(void *)
 
 		if (Miranda_Terminated())
 		{
-			LOG("***** Terminating avatar update early: %s", url.c_str());
+			debugLogA("***** Terminating avatar update early: %s", url.c_str());
 			break;
 		} 
 
 		if (GetDbAvatarInfo(ai, &url))
 		{
-			LOG("***** Updating avatar: %s", url.c_str());
+			debugLogA("***** Updating avatar: %s", url.c_str());
 			bool success = facy.save_url(url, ai.filename, nlc);
 
 			if (ai.hContact)
@@ -192,7 +192,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 		if (needLoad)
 		{												
-			LOG("***** Starting avatar request thread for %s", _T2A(AI->filename));
+			debugLogA("***** Starting avatar request thread for %s", _T2A(AI->filename));
 			ScopedLock s(avatar_lock_);
 
 			if (std::find(avatar_queue.begin(), avatar_queue.end(), AI->hContact) == avatar_queue.end())
@@ -213,7 +213,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	LOG("***** GetMyAvatar");
+	debugLogA("***** GetMyAvatar");
 
 	if (!wParam || !lParam)
 		return -3;

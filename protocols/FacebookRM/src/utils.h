@@ -80,11 +80,6 @@ namespace utils
 			return !(iss >> f >> t).fail();				
 		}
 	};
-
-	namespace debug
-	{
-		//int log(std::string file_name, std::string text);
-	};
 };
 
 class ScopedLock

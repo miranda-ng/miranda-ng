@@ -470,24 +470,3 @@ int utils::number::random()
 	srand(::time(NULL));
 	return rand();
 }
-
-/*
-int utils::debug::log(std::string file_name, std::string text)
-{
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(g_hInstance, szFile, SIZEOF(szFile));
-	std::string path = szFile;
-	path = path.substr(0, path.rfind("\\"));
-	path = path.substr(0, path.rfind("\\") + 1);
-	path = path + file_name.c_str() + ".txt";
-
-	SYSTEMTIME time;
-	GetLocalTime(&time);
-
-	std::ofstream out(path.c_str(), std::ios_base::out | std::ios_base::app | std::ios_base::ate);
-	out << "[" << (time.wHour < 10 ? "0" : "") << time.wHour << ":" << (time.wMinute < 10 ? "0" : "") << time.wMinute << ":" << (time.wSecond < 10 ? "0" : "") << time.wSecond << "] " << text << std::endl;
-	out.close();
-
-	return EXIT_SUCCESS;
-}
-*/

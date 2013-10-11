@@ -34,7 +34,7 @@ void FacebookProto::ProcessBuddyList(void* data)
 	if (isOffline())
 		goto exit;
 
-	LOG("***** Starting processing buddy list");
+	debugLogA("***** Starting processing buddy list");
 
 	CODE_BLOCK_TRY
 
@@ -63,7 +63,7 @@ void FacebookProto::ProcessBuddyList(void* data)
 					fbu->status_id = ID_STATUS_OFFLINE;
 				break;
 		}
-		LOG("      Now %s: %s", status, fbu->user_id.c_str());
+		debugLogA("      Now %s: %s", status, fbu->user_id.c_str());
 
 		if (!fbu->deleted)
 		{
@@ -125,11 +125,11 @@ void FacebookProto::ProcessBuddyList(void* data)
 		}
 	}
 
-	LOG("***** Buddy list processed");
+	debugLogA("***** Buddy list processed");
 
 	CODE_BLOCK_CATCH
 
-	LOG("***** Error processing buddy list: %s", e.what());
+	debugLogA("***** Error processing buddy list: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -144,7 +144,7 @@ void FacebookProto::ProcessFriendList(void* data)
 
 	std::string* resp = (std::string*)data;
 
-	LOG("***** Starting processing friend list");
+	debugLogA("***** Starting processing friend list");
 
 	CODE_BLOCK_TRY
 
@@ -252,11 +252,11 @@ void FacebookProto::ProcessFriendList(void* data)
 	
 	friends.clear();
 
-	LOG("***** Friend list processed");
+	debugLogA("***** Friend list processed");
 
 	CODE_BLOCK_CATCH
 
-	LOG("***** Error processing friend list: %s", e.what());
+	debugLogA("***** Error processing friend list: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -291,11 +291,11 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
 
-		LOG("***** Unread threads list processed");
+		debugLogA("***** Unread threads list processed");
 
 		CODE_BLOCK_CATCH
 
-		LOG("***** Error processing unread threads list: %s", e.what());
+		debugLogA("***** Error processing unread threads list: %s", e.what());
 
 		CODE_BLOCK_END
 	
@@ -384,10 +384,10 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 			for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {				
 				if (messages[i]->isChat) {
-					LOG("      Got chat message: %s", messages[i]->message_text.c_str());
+					debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
 					UpdateChat(messages[i]->thread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time);
 				} else if (messages[i]->user_id != facy.self_.user_id) {
-					LOG("      Got message: %s", messages[i]->message_text.c_str());
+					debugLogA("      Got message: %s", messages[i]->message_text.c_str());
 					facebook_user fbu;
 					fbu.user_id = messages[i]->user_id;
 					fbu.real_name = messages[i]->sender_name;
@@ -423,11 +423,11 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			}
 			messages.clear();			
 
-			LOG("***** Unread messages processed");
+			debugLogA("***** Unread messages processed");
 
 			CODE_BLOCK_CATCH
 
-			LOG("***** Error processing unread messages: %s", e.what());
+			debugLogA("***** Error processing unread messages: %s", e.what());
 
 			CODE_BLOCK_END
 	
@@ -453,7 +453,7 @@ void FacebookProto::ProcessMessages(void* data)
 	if (isOffline())
 		goto exit;
 
-	LOG("***** Starting processing messages");
+	debugLogA("***** Starting processing messages");
 
 	CODE_BLOCK_TRY
 
@@ -470,7 +470,7 @@ void FacebookProto::ProcessMessages(void* data)
 	{
 		if (messages[i]->user_id != facy.self_.user_id)
 		{
-			LOG("      Got message: %s", messages[i]->message_text.c_str());
+			debugLogA("      Got message: %s", messages[i]->message_text.c_str());
 			facebook_user fbu;
 			fbu.user_id = messages[i]->user_id;
 			fbu.real_name = messages[i]->sender_name;
@@ -507,7 +507,7 @@ void FacebookProto::ProcessMessages(void* data)
 
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
-		LOG("      Got notification: %s", notifications[i]->text.c_str());
+		debugLogA("      Got notification: %s", notifications[i]->text.c_str());
 		ptrT szTitle( mir_utf8decodeT(this->m_szModuleName));
 		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
 		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
@@ -515,11 +515,11 @@ void FacebookProto::ProcessMessages(void* data)
 	}
 	notifications.clear();
 
-	LOG("***** Messages processed");
+	debugLogA("***** Messages processed");
 
 	CODE_BLOCK_CATCH
 
-	LOG("***** Error processing messages: %s", e.what());
+	debugLogA("***** Error processing messages: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -547,7 +547,7 @@ void FacebookProto::ProcessNotifications(void*)
 
 
 	// Process notifications
-	LOG("***** Starting processing notifications");
+	debugLogA("***** Starting processing notifications");
 
 	CODE_BLOCK_TRY
 
@@ -559,7 +559,7 @@ void FacebookProto::ProcessNotifications(void*)
 
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{
-		LOG("      Got notification: %s", notifications[i]->text.c_str());
+		debugLogA("      Got notification: %s", notifications[i]->text.c_str());
 		ptrT szTitle( mir_utf8decodeT(this->m_szModuleName));
 		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
 		NotifyEvent(szTitle, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
@@ -567,11 +567,11 @@ void FacebookProto::ProcessNotifications(void*)
 	}
 	notifications.clear();
 
-	LOG("***** Notifications processed");
+	debugLogA("***** Notifications processed");
 
 	CODE_BLOCK_CATCH
 
-	LOG("***** Error processing notifications: %s", e.what());
+	debugLogA("***** Error processing notifications: %s", e.what());
 
 	CODE_BLOCK_END
 }
@@ -650,13 +650,13 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 				db_event_add(0, &dbei);				
 
-				LOG("      (New) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
+				debugLogA("      (New) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
 			} else {
-				LOG("      (Old) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
+				debugLogA("      (Old) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
 			}
 		} else {
-			LOG(" !!!  Wrong friendship request");
-			LOG(req.c_str());
+			debugLogA(" !!!  Wrong friendship request");
+			debugLogA(req.c_str());
 		}
 	}
 
@@ -675,7 +675,7 @@ void FacebookProto::ProcessFeeds(void* data)
 
 	CODE_BLOCK_TRY
 
-	LOG("***** Starting processing feeds");
+	debugLogA("***** Starting processing feeds");
 
 	std::vector< facebook_newsfeed* > news;
 
@@ -747,7 +747,7 @@ void FacebookProto::ProcessFeeds(void* data)
 
 	for(std::vector<facebook_newsfeed*>::size_type i=0; i<news.size(); i++)
 	{
-		LOG("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
+		debugLogA("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
 		ptrT szTitle( mir_utf8decodeT(news[i]->title.c_str()));
 		ptrT szText( mir_utf8decodeT(news[i]->text.c_str()));
 		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
@@ -757,11 +757,11 @@ void FacebookProto::ProcessFeeds(void* data)
 
 	this->facy.last_feeds_update_ = ::time(NULL);
 
-	LOG("***** Feeds processed");
+	debugLogA("***** Feeds processed");
 
 	CODE_BLOCK_CATCH
 
-	LOG("***** Error processing feeds: %s", e.what());
+	debugLogA("***** Error processing feeds: %s", e.what());
 
 	CODE_BLOCK_END
 
