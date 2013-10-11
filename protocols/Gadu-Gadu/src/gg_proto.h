@@ -229,9 +229,6 @@ struct GGPROTO : public PROTO<GGPROTO>
 	BOOL sessions_closedlg();
 	void sessions_menus_init(HGENMENU hRoot);
 
-	// Debug functions
-	int netlog(const char *fmt, ...);
-
 	void block_init();
 	void block_uninit();
 
@@ -262,7 +259,7 @@ struct GGPROTO : public PROTO<GGPROTO>
 		TCHAR *invisible;
 		TCHAR *offline;
 	} modemsg;
-	HANDLE netlib;
+	
 	HGENMENU hMenuRoot;
 	HGENMENU hMainMenu[7];
 	HGENMENU hBlockMenuItem, hImageMenuItem, hInstanceMenuItem;
@@ -289,12 +286,12 @@ inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* call
 	extendedLogging = 1;
 	if(logging == 1 && mutex->LockCount != -1) {
 		logAfter = 1;
-		netlog("%s(): %i before EnterCriticalSection %s LockCount=%ld RecursionCount=%ld OwningThread=%ld", callingFunction, sectionNumber, mutexName, mutex->LockCount, mutex->RecursionCount, mutex->OwningThread);
+		debugLogA("%s(): %i before EnterCriticalSection %s LockCount=%ld RecursionCount=%ld OwningThread=%ld", callingFunction, sectionNumber, mutexName, mutex->LockCount, mutex->RecursionCount, mutex->OwningThread);
 	}
 #endif
 	EnterCriticalSection(mutex);
 #ifdef DEBUGMODE
-	if(logging == 1 && logAfter == 1) netlog("%s(): %i after EnterCriticalSection %s LockCount=%ld RecursionCount=%ld OwningThread=%ld", callingFunction, sectionNumber, mutexName, mutex->LockCount, mutex->RecursionCount, mutex->OwningThread);
+	if(logging == 1 && logAfter == 1) debugLogA("%s(): %i after EnterCriticalSection %s LockCount=%ld RecursionCount=%ld OwningThread=%ld", callingFunction, sectionNumber, mutexName, mutex->LockCount, mutex->RecursionCount, mutex->OwningThread);
 	extendedLogging = 0;
 #endif
 
@@ -303,7 +300,7 @@ inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* call
 inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, int returnNumber, char* mutexName, int logging) /*0-never, 1-debug, 2-all*/
 {
 #ifdef DEBUGMODE
-	if(logging == 1 && extendedLogging == 1) netlog("%s(): %i.%i LeaveCriticalSection %s", callingFunction, sectionNumber, returnNumber, mutexName);
+	if(logging == 1 && extendedLogging == 1) debugLogA("%s(): %i.%i LeaveCriticalSection %s", callingFunction, sectionNumber, returnNumber, mutexName);
 #endif
 	LeaveCriticalSection(mutex);
 }
@@ -311,7 +308,7 @@ inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* call
 inline void GGPROTO::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging){
 	SleepEx(miliseconds, alterable);
 #ifdef DEBUGMODE
-	if(logging == 1 && extendedLogging == 1) netlog("%s(): %i after SleepEx(%ld,%u)", callingFunction, sleepNumber, miliseconds, alterable);
+	if(logging == 1 && extendedLogging == 1) debugLogA("%s(): %i after SleepEx(%ld,%u)", callingFunction, sleepNumber, miliseconds, alterable);
 #endif
 }
 

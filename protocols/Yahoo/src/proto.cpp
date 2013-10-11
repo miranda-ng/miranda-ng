@@ -46,7 +46,7 @@ CYahooProto::~CYahooProto()
 	if (m_bLoggedIn)
 		logout();
 
-	DebugLog("Logged out");
+	debugLogA("Logged out");
 
 	DestroyHookableEvent(hYahooNudge);
 
@@ -103,15 +103,15 @@ int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 
 HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 {
-	DebugLog("[YahooAddToList] Flags: %d", flags);
+	debugLogA("[YahooAddToList] Flags: %d", flags);
 
 	if (!m_bLoggedIn) {
-		DebugLog("[YahooAddToList] WARNING: WE ARE OFFLINE!");
+		debugLogA("[YahooAddToList] WARNING: WE ARE OFFLINE!");
 		return 0;
 	}
 
 	if (psr == NULL || psr->cbSize != sizeof( PROTOSEARCHRESULT )) {
-		DebugLog("[YahooAddToList] Empty data passed?");
+		debugLogA("[YahooAddToList] Empty data passed?");
 		return 0;
 	}
 
@@ -119,19 +119,19 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 	HANDLE hContact = getbuddyH(id);
 	if (hContact != NULL) {
 		if (db_get_b(hContact, "CList", "NotOnList", 0)) {
-			DebugLog("[YahooAddToList] Temporary Buddy:%s already on our buddy list", id);
+			debugLogA("[YahooAddToList] Temporary Buddy:%s already on our buddy list", id);
 			//return 0;
 		} else {
-			DebugLog("[YahooAddToList] Buddy:%s already on our buddy list", id);
+			debugLogA("[YahooAddToList] Buddy:%s already on our buddy list", id);
 			mir_free(id);
 			return 0;
 		}
 	} else if (flags & PALF_TEMPORARY) { /* not on our list */
-		DebugLog("[YahooAddToList] Adding Temporary Buddy:%s ", id);
+		debugLogA("[YahooAddToList] Adding Temporary Buddy:%s ", id);
 	}
 
 	int protocol = psr->reserved[0];
-	DebugLog("Adding buddy:%s", id);
+	debugLogA("Adding buddy:%s", id);
 	hContact = add_buddy(id, id, protocol, flags);
 	mir_free(id);
 	return hContact;
@@ -139,38 +139,38 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 
 HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDLE hDbEvent )
 {
-	DebugLog("[YahooAddToListByEvent]");
+	debugLogA("[YahooAddToListByEvent]");
 	if (!m_bLoggedIn)
 		return 0;
 
 	DBEVENTINFO dbei = { sizeof( dbei ) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1 ) {
-		DebugLog("[YahooAddToListByEvent] ERROR: Can't get blob size.");
+		debugLogA("[YahooAddToListByEvent] ERROR: Can't get blob size.");
 		return 0;
 	}
 
-	DebugLog("[YahooAddToListByEvent] Got blob size: %lu", dbei.cbBlob);
+	debugLogA("[YahooAddToListByEvent] Got blob size: %lu", dbei.cbBlob);
 	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
 	if (db_event_get(hDbEvent, &dbei)) {
-		DebugLog("[YahooAddToListByEvent] ERROR: Can't get event.");
+		debugLogA("[YahooAddToListByEvent] ERROR: Can't get event.");
 		return 0;
 	}
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) {
-		DebugLog("[YahooAddToListByEvent] ERROR: Not an authorization request.");
+		debugLogA("[YahooAddToListByEvent] ERROR: Not an authorization request.");
 		return 0;
 	}
 
 	if ( strcmp(dbei.szModule, m_szModuleName)) {
-		DebugLog("[YahooAddToListByEvent] ERROR: Not Yahoo protocol.");
+		debugLogA("[YahooAddToListByEvent] ERROR: Not Yahoo protocol.");
 		return 0;
 	}
 
 	HANDLE hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL)
-		DebugLog("Temp Buddy found at: %p ", hContact);
+		debugLogA("Temp Buddy found at: %p ", hContact);
 	else
-		DebugLog("hContact NULL???");
+		debugLogA("hContact NULL???");
 
 	return hContact;
 }
@@ -180,9 +180,9 @@ HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDL
 
 int CYahooProto::Authorize( HANDLE hdbe )
 {
-	DebugLog("[YahooAuthAllow]");
+	debugLogA("[YahooAuthAllow]");
 	if ( !m_bLoggedIn ) {
-		DebugLog("[YahooAuthAllow] Not Logged In!");
+		debugLogA("[YahooAuthAllow] Not Logged In!");
 		return 1;
 	}
 
@@ -206,7 +206,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 		ptrA who( getStringA(hContact, YAHOO_LOGINID));
 		if (who) {
 			ptrA myid( getStringA(hContact, "MyIdentity"));
-			DebugLog("Accepting buddy:%s", who);
+			debugLogA("Accepting buddy:%s", who);
 			accept(myid, who, getWord(hContact, "yprotoid", 0));
 		}
 	}
@@ -219,29 +219,29 @@ int CYahooProto::Authorize( HANDLE hdbe )
 
 int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 {
-	DebugLog("[YahooAuthDeny]");
+	debugLogA("[YahooAuthDeny]");
 	if ( !m_bLoggedIn )
 		return 1;
 
 	DBEVENTINFO dbei = { sizeof( dbei ) };
 	if (( dbei.cbBlob = db_event_getBlobSize(hdbe)) == -1 ) {
-		DebugLog("[YahooAuthDeny] ERROR: Can't get blob size");
+		debugLogA("[YahooAuthDeny] ERROR: Can't get blob size");
 		return 1;
 	}
 
 	dbei.pBlob = ( PBYTE )alloca( dbei.cbBlob );
 	if (db_event_get(hdbe, &dbei)) {
-		DebugLog("YahooAuthDeny - Can't get db event!");
+		debugLogA("YahooAuthDeny - Can't get db event!");
 		return 1;
 	}
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) {
-		DebugLog("YahooAuthDeny - not Authorization event");
+		debugLogA("YahooAuthDeny - not Authorization event");
 		return 1;
 	}
 
 	if (strcmp( dbei.szModule, m_szModuleName)) {
-		DebugLog("YahooAuthDeny - wrong module?");
+		debugLogA("YahooAuthDeny - wrong module?");
 		return 1;
 	}
 
@@ -253,7 +253,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 			ptrA myid( getStringA(hContact, "MyIdentity"));
 			ptrA u_reason( mir_utf8encodeT(reason));
 
-			DebugLog("Rejecting buddy:%s msg: %s", who, u_reason);
+			debugLogA("Rejecting buddy:%s msg: %s", who, u_reason);
 			reject(myid, who, getWord(hContact, "yprotoid", 0), u_reason);
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		}
@@ -266,7 +266,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 
 int __cdecl CYahooProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	DebugLog("[YahooRecvAuth] ");
+	debugLogA("[YahooRecvAuth] ");
 	db_unset(hContact,"CList","Hidden");
 
 	Proto_AuthRecv(m_szModuleName, pre);
@@ -278,7 +278,7 @@ int __cdecl CYahooProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 
 int __cdecl CYahooProto::AuthRequest( HANDLE hContact, const TCHAR* msg )
 {
-	DebugLog("[YahooSendAuthRequest]");
+	debugLogA("[YahooSendAuthRequest]");
 
 	if (hContact && m_bLoggedIn) {
 		AddBuddy(hContact, "miranda", msg);
@@ -581,7 +581,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 
 HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
 {
-	DebugLog("[YahooGetAwayMessage] ");
+	debugLogA("[YahooGetAwayMessage] ");
 
 	if (hContact && m_bLoggedIn) {
 		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
@@ -609,11 +609,11 @@ int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 {
 	char *c = msg && msg[0] ? mir_utf8encodeT(msg) : NULL;
 
-	DebugLog("[YahooSetAwayMessage] Status: %S, Msg: %s", pcli->pfnGetStatusModeDescription(status, 0), (char*)c);
+	debugLogA("[YahooSetAwayMessage] Status: %S, Msg: %s", pcli->pfnGetStatusModeDescription(status, 0), (char*)c);
 
     if (!m_bLoggedIn) {
 		if (m_iStatus == ID_STATUS_OFFLINE) {
-			DebugLog("[YahooSetAwayMessage] WARNING: WE ARE OFFLINE!");
+			debugLogA("[YahooSetAwayMessage] WARNING: WE ARE OFFLINE!");
 			mir_free(c);
 			return 1;
 		} else {

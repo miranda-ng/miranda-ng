@@ -30,17 +30,6 @@ int CJabberProto::SerialNext(void)
 	return ::InterlockedIncrement(&m_nSerial);
 }
 
-void CJabberProto::Log(const char* fmt, ...)
-{
-	va_list vararg;
-	va_start(vararg, fmt);
-	char* str = (char*)alloca(32000);
-	mir_vsnprintf(str, 32000, fmt, vararg);
-	va_end(vararg);
-
-	CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)str);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // JabberChatRoomHContactFromJID - looks for the char room HCONTACT with required JID
 
@@ -1344,7 +1333,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 							fclose(out);
 							setString(AI.hContact, "AvatarSaved", buffer);
 							ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
-							Log("Broadcast new avatar: %s",AI.filename);
+							debugLogA("Broadcast new avatar: %s",AI.filename);
 						}
 						else ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 					}

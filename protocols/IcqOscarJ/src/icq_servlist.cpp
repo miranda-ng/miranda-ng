@@ -42,7 +42,7 @@ void CIcqProto::servlistBeginOperation(int operationCount, int bImport)
 		// update count of active operations
 		servlistEditCount += operationCount;
 #ifdef _DEBUG
-		NetLog_Server("Server-List: Begin operation processed (%d operations active)", servlistEditCount);
+		debugLogA("Server-List: Begin operation processed (%d operations active)", servlistEditCount);
 #endif
 	}
 }
@@ -53,7 +53,7 @@ void CIcqProto::servlistEndOperation(int operationCount)
 	{
 		if (operationCount > servlistEditCount)
 		{ // sanity check
-			NetLog_Server("Error: Server-List End operation is not paired!");
+			debugLogA("Error: Server-List End operation is not paired!");
 			operationCount = servlistEditCount;
 		}
 		// update count of active operations
@@ -62,7 +62,7 @@ void CIcqProto::servlistEndOperation(int operationCount)
 		if (!servlistEditCount)
 			icq_sendServerEndOperation();
 #ifdef _DEBUG
-		NetLog_Server("Server-List: End operation processed (%d operations active)", servlistEditCount);
+		debugLogA("Server-List: End operation processed (%d operations active)", servlistEditCount);
 #endif
 	}
 }
@@ -72,7 +72,7 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 	int* queueState = ( int* )param;
 
 #ifdef _DEBUG
-	NetLog_Server("Server-List: Starting Update board.");
+	debugLogA("Server-List: Starting Update board.");
 #endif
 
 	SleepEx(50, FALSE);
@@ -118,7 +118,7 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 			continue;
 		}
 #ifdef _DEBUG
-		NetLog_Server("Server-List: %d items in queue.", servlistQueueCount);
+		debugLogA("Server-List: %d items in queue.", servlistQueueCount);
 #endif
 		// take the oldest item (keep the board FIFO)
 		pItem = servlistQueueList[0]; // take first (queue contains at least one item here)
@@ -139,7 +139,7 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 				servlistQueueMutex->Leave();
 				if (nDelay < 10) nDelay = 10;
 #ifdef _DEBUG
-				NetLog_Server("Server-List: Delaying %dms [Rates]", nDelay);
+				debugLogA("Server-List: Delaying %dms [Rates]", nDelay);
 #endif
 				SleepEx(nDelay, FALSE);
 				// check if the rate is now ok
@@ -271,7 +271,7 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 	servlistQueueThreadHandle = NULL;
 	servlistQueueMutex->Leave();
 #ifdef _DEBUG
-	NetLog_Server("Server-List: Update Board ending.");
+	debugLogA("Server-List: Update Board ending.");
 #endif
 }
 
@@ -301,7 +301,7 @@ void CIcqProto::servlistQueueAddGroupItem(servlistgroupitem* pGroupItem, int dwT
 					if (!pItem) continue;
 
 #ifdef _DEBUG
-					NetLog_Server("Server-List: Adding packet to item #%d with operation %x.", i, servlistQueueList[i]->pItems[0]->dwOperation);
+					debugLogA("Server-List: Adding packet to item #%d with operation %x.", i, servlistQueueList[i]->pItems[0]->dwOperation);
 #endif
 					break;
 			}
@@ -320,7 +320,7 @@ void CIcqProto::servlistQueueAddGroupItem(servlistgroupitem* pGroupItem, int dwT
 			// really add to queue
 			servlistQueueList[servlistQueueCount++] = pItem;
 #ifdef _DEBUG
-			NetLog_Server("Server-List: Adding new item to queue.");
+			debugLogA("Server-List: Adding new item to queue.");
 #endif
 		} 
 		else if (pItem->dwTimeout > dwTimeout)
@@ -516,9 +516,9 @@ servlistpendingitem* CIcqProto::servlistPendingRemoveItem(int nType, HANDLE hCon
 			{ // move the remaining operations
 #ifdef _DEBUG
 				if (pItem->nType == ITEM_PENDING_CONTACT)
-					NetLog_Server("Server-List: Resuming contact %x operation.", pItem->hContact);
+					debugLogA("Server-List: Resuming contact %x operation.", pItem->hContact);
 				else
-					NetLog_Server("Server-List: Resuming group \"%s\" operation.", pItem->szGroup);
+					debugLogA("Server-List: Resuming group \"%s\" operation.", pItem->szGroup);
 #endif
 
 				pNewItem->nType = pItem->nType;
@@ -539,7 +539,7 @@ servlistpendingitem* CIcqProto::servlistPendingRemoveItem(int nType, HANDLE hCon
 	}
 #ifdef _DEBUG
 	else
-		NetLog_Server("Server-List Error: Trying to remove non-existing pending %s.", nType == ITEM_PENDING_CONTACT ? "contact" : "group");
+		debugLogA("Server-List Error: Trying to remove non-existing pending %s.", nType == ITEM_PENDING_CONTACT ? "contact" : "group");
 #endif
 
 	return pItem;
@@ -568,7 +568,7 @@ void CIcqProto::servlistPendingAddContactOperation(HANDLE hContact, LPARAM param
 	}
 	else
 	{
-		NetLog_Server("Server-List Error: Trying to add pending operation to a non existing contact.");
+		debugLogA("Server-List Error: Trying to add pending operation to a non existing contact.");
 	}
 }
 
@@ -594,7 +594,7 @@ void CIcqProto::servlistPendingAddGroupOperation(const char *pszGroup, LPARAM pa
 	}
 	else
 	{
-		NetLog_Server("Server-List Error: Trying to add pending operation to a non existing group.");
+		debugLogA("Server-List Error: Trying to add pending operation to a non existing group.");
 	}
 }
 
@@ -612,7 +612,7 @@ int CIcqProto::servlistPendingAddContact(HANDLE hContact, WORD wContactID, WORD 
 	if (pItem)
 	{
 #ifdef _DEBUG
-		NetLog_Server("Server-List: Pending contact %x already in list; adding as operation.", hContact);
+		debugLogA("Server-List: Pending contact %x already in list; adding as operation.", hContact);
 #endif
 		servlistPendingAddContactOperation(hContact, param, callback, SPOF_AUTO_CREATE_ITEM);
 
@@ -625,7 +625,7 @@ int CIcqProto::servlistPendingAddContact(HANDLE hContact, WORD wContactID, WORD 
 	}
 
 #ifdef _DEBUG
-	NetLog_Server("Server-List: Starting contact %x operation.", hContact);
+	debugLogA("Server-List: Starting contact %x operation.", hContact);
 #endif
 
 	pItem = (servlistpendingitem *)SAFE_MALLOC(sizeof(servlistpendingitem));
@@ -663,7 +663,7 @@ int CIcqProto::servlistPendingAddGroup(const char *pszGroup, WORD wGroupID, LPAR
 	if (pItem)
 	{
 #ifdef _DEBUG
-		NetLog_Server("Server-List: Pending group \"%s\" already in list; adding as operation.", pszGroup);
+		debugLogA("Server-List: Pending group \"%s\" already in list; adding as operation.", pszGroup);
 #endif
 		servlistPendingAddGroupOperation(pszGroup, param, callback, SPOF_AUTO_CREATE_ITEM);
 
@@ -676,7 +676,7 @@ int CIcqProto::servlistPendingAddGroup(const char *pszGroup, WORD wGroupID, LPAR
 	}
 
 #ifdef _DEBUG
-	NetLog_Server("Server-List: Starting group \"%s\" operation.", pszGroup);
+	debugLogA("Server-List: Starting group \"%s\" operation.", pszGroup);
 #endif
 
 	pItem = (servlistpendingitem *)SAFE_MALLOC(sizeof(servlistpendingitem));
@@ -703,7 +703,7 @@ int CIcqProto::servlistPendingAddGroup(const char *pszGroup, WORD wGroupID, LPAR
 void CIcqProto::servlistPendingRemoveContact(HANDLE hContact, WORD wContactID, WORD wGroupID, int nResult)
 {
 #ifdef _DEBUG
-	NetLog_Server("Server-List: %s contact %x operation.", (nResult != PENDING_RESULT_PURGE) ? "Ending" : "Purging", hContact);
+	debugLogA("Server-List: %s contact %x operation.", (nResult != PENDING_RESULT_PURGE) ? "Ending" : "Purging", hContact);
 #endif
 
 	servlistpendingitem *pItem = servlistPendingRemoveItem(ITEM_PENDING_CONTACT, hContact, NULL);
@@ -733,14 +733,14 @@ void CIcqProto::servlistPendingRemoveContact(HANDLE hContact, WORD wContactID, W
 		SAFE_FREE((void**)&pItem);
 	}
 	else
-		NetLog_Server("Server-List Error: Trying to remove a non existing pending contact.");
+		debugLogA("Server-List Error: Trying to remove a non existing pending contact.");
 }
 
 
 void CIcqProto::servlistPendingRemoveGroup(const char *pszGroup, WORD wGroupID, int nResult)
 {
 #ifdef _DEBUG
-	NetLog_Server("Server-List: %s group \"%s\" operation.", (nResult != PENDING_RESULT_PURGE) ? "Ending" : "Purging", pszGroup);
+	debugLogA("Server-List: %s group \"%s\" operation.", (nResult != PENDING_RESULT_PURGE) ? "Ending" : "Purging", pszGroup);
 #endif
 
 	servlistpendingitem *pItem = servlistPendingRemoveItem(ITEM_PENDING_GROUP, NULL, pszGroup);
@@ -771,7 +771,7 @@ void CIcqProto::servlistPendingRemoveGroup(const char *pszGroup, WORD wGroupID, 
 		SAFE_FREE((void**)&pItem);
 	}
 	else
-		NetLog_Server("Server-List Error: Trying to remove a non existing pending group.");
+		debugLogA("Server-List Error: Trying to remove a non existing pending group.");
 }
 
 
@@ -954,7 +954,7 @@ static int GroupReserveIdsEnumProc(const char *szSetting,LPARAM lParam)
 		}
 		param->ppro->ReserveServerID((WORD)strtoul(szSetting, NULL, 0x10), SSIT_GROUP, 0);
 #ifdef _DEBUG
-		param->ppro->NetLog_Server("Loaded group %u:'%s'", strtoul(szSetting, NULL, 0x10), val);
+		param->ppro->debugLogA("Loaded group %u:'%s'", strtoul(szSetting, NULL, 0x10), val);
 #endif
 	}
 	return 0;
@@ -1045,7 +1045,7 @@ void CIcqProto::LoadServerIDs()
 		db_free(&dbv);
 	}
 
-	NetLog_Server("Loaded SSI: %d contacts, %d groups, %d permit, %d deny, %d ignore, %d unknown items.", nContacts, nGroups, nPermits, nDenys, nIgnores, nUnhandled);
+	debugLogA("Loaded SSI: %d contacts, %d groups, %d permit, %d deny, %d ignore, %d unknown items.", nContacts, nGroups, nPermits, nDenys, nIgnores, nUnhandled);
 }
 
 
@@ -1180,7 +1180,7 @@ DWORD CIcqProto::icq_sendServerContact(HANDLE hContact, DWORD dwCookie, WORD wAc
 	// Prepare UID
 	if (getContactUid(hContact, &dwUin, &szUid))
 	{
-		NetLog_Server("Buddy upload failed (UID missing).");
+		debugLogA("Buddy upload failed (UID missing).");
 		return 0;
 	}
 
@@ -1285,7 +1285,7 @@ DWORD CIcqProto::icq_sendServerGroup(DWORD dwCookie, WORD wAction, WORD wGroupId
 
 	if (strlennull(szName) == 0 && wGroupId != 0)
 	{
-		NetLog_Server("Group upload failed (GroupName missing).");
+		debugLogA("Group upload failed (GroupName missing).");
 		return 0; // without name we could not change the group
 	}
 
@@ -1496,7 +1496,7 @@ char *CIcqProto::getServListGroupName(WORD wGroupID)
 
 	if (!wGroupID)
 	{
-		NetLog_Server("Warning: Cannot get group name (Group ID missing)!");
+		debugLogA("Warning: Cannot get group name (Group ID missing)!");
 		return NULL;
 	}
 
@@ -1505,7 +1505,7 @@ char *CIcqProto::getServListGroupName(WORD wGroupID)
 
 	if (!CheckServerID(wGroupID, 0))
 	{ // check if valid id, if not give empty and remove
-		NetLog_Server("Removing group %u from cache...", wGroupID);
+		debugLogA("Removing group %u from cache...", wGroupID);
 		db_unset(NULL, szModule, szGroup);
 		return NULL;
 	}
@@ -1521,7 +1521,7 @@ void CIcqProto::setServListGroupName(WORD wGroupID, const char *szGroupName)
 
 	if (!wGroupID)
 	{
-		NetLog_Server("Warning: Cannot set group name (Group ID missing)!");
+		debugLogA("Warning: Cannot set group name (Group ID missing)!");
 		return;
 	}
 
@@ -1550,7 +1550,7 @@ WORD CIcqProto::getServListGroupLinkID(const char *szPath)
 
 	if (wGroupId && !CheckServerID(wGroupId, 0))
 	{ // known, check if still valid, if not remove
-		NetLog_Server("Removing group \"%s\" from cache...", szPath);
+		debugLogA("Removing group \"%s\" from cache...", szPath);
 		db_unset(NULL, szModule, szPath);
 		wGroupId = 0;
 	}
@@ -1872,7 +1872,7 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 			if (ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action)))
 			{ // we have cookie good, go on
 #ifdef _DEBUG
-				NetLog_Server("Server-List: Creating sub-group \"%s\", parent group \"%s\".", szSubGroupItem, szGroup);
+				debugLogA("Server-List: Creating sub-group \"%s\", parent group \"%s\".", szSubGroupItem, szGroup);
 #endif
 				ReserveServerID(wSubGroupID, SSIT_GROUP, 0);
 
@@ -1920,7 +1920,7 @@ int CIcqProto::servlistCreateGroup_Ready(const char *szGroup, WORD groupID, LPAR
 		if (ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action)))
 		{ // we have cookie good, go on
 #ifdef _DEBUG
-			NetLog_Server("Server-List: Creating root group \"%s\".", szGroup);
+			debugLogA("Server-List: Creating root group \"%s\".", szGroup);
 #endif
 			ack->wGroupId = GenerateServerID(SSIT_GROUP, 0);
 			ack->szGroup = null_strdup(szGroup); // we need that name
@@ -2007,7 +2007,7 @@ int CIcqProto::servlistAddContact_gotGroup(const char *szGroup, WORD wGroupID, L
 	if (wItemID) /// TODO: redundant ???
 	{ // Only add the contact if it doesnt already have an ID
 		servlistPendingRemoveContact(ack->hContact, wItemID, wGroupID, PENDING_RESULT_SUCCESS);
-		NetLog_Server("Failed to add contact to server side list (%s)", "already there");
+		debugLogA("Failed to add contact to server side list (%s)", "already there");
 		SAFE_FREE((void**)&ack);
 		return CALLBACK_RESULT_CONTINUE;
 	}
@@ -2043,7 +2043,7 @@ int CIcqProto::servlistAddContact_Ready(HANDLE hContact, WORD wContactID, WORD w
 	if (wItemID)
 	{ // Only add the contact if it doesn't already have an ID
 		servlistPendingRemoveContact(ack->hContact, wItemID, getWord(hContact, DBSETTING_SERVLIST_GROUP, 0), PENDING_RESULT_SUCCESS);
-		NetLog_Server("Failed to add contact to server side list (%s)", "already there");
+		debugLogA("Failed to add contact to server side list (%s)", "already there");
 		SAFE_FREE((void**)&ack->szGroup);
 		SAFE_FREE((void**)&ack);
 		return CALLBACK_RESULT_CONTINUE;
@@ -2066,13 +2066,13 @@ void CIcqProto::servlistAddContact(HANDLE hContact, const char *pszGroup)
 	// Get UID
 	if (getContactUid(hContact, &dwUin, &szUid))
 	{ // Could not do anything without uid
-		NetLog_Server("Failed to add contact to server side list (%s)", "no UID");
+		debugLogA("Failed to add contact to server side list (%s)", "no UID");
 		return;
 	}
 
 	if (!(ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action))))
 	{ // Could not do anything without cookie
-		NetLog_Server("Failed to add contact to server side list (%s)", "malloc failed");
+		debugLogA("Failed to add contact to server side list (%s)", "malloc failed");
 		return;
 	}
 	else
@@ -2104,7 +2104,7 @@ int CIcqProto::servlistRemoveContact_Ready(HANDLE hContact, WORD contactID, WORD
 	{ // Could not find a usable group ID
 		servlistPendingRemoveContact(hContact, contactID, groupID, PENDING_RESULT_FAILED);
 
-		NetLog_Server("Failed to remove contact from server side list (%s)", "no group ID");
+		debugLogA("Failed to remove contact from server side list (%s)", "no group ID");
 		SAFE_FREE((void**)&ack);
 		return CALLBACK_RESULT_CONTINUE;
 	}
@@ -2114,7 +2114,7 @@ int CIcqProto::servlistRemoveContact_Ready(HANDLE hContact, WORD contactID, WORD
 	{ // Could not find usable item ID
 		servlistPendingRemoveContact(hContact, contactID, wGroupID, PENDING_RESULT_FAILED);
 
-		NetLog_Server("Failed to remove contact from server side list (%s)", "no item ID");
+		debugLogA("Failed to remove contact from server side list (%s)", "no item ID");
 		SAFE_FREE((void**)&ack);
 		return CALLBACK_RESULT_CONTINUE;
 	}
@@ -2143,13 +2143,13 @@ void CIcqProto::servlistRemoveContact(HANDLE hContact)
 	if (getContactUid(hContact, &dwUin, &szUid))
 	{
 		// Could not do anything without uid
-		NetLog_Server("Failed to remove contact from server side list (%s)", "no UID");
+		debugLogA("Failed to remove contact from server side list (%s)", "no UID");
 		return;
 	}
 
 	if (!(ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action))))
 	{ // Could not do anything without cookie
-		NetLog_Server("Failed to remove contact from server side list (%s)", "malloc failed");
+		debugLogA("Failed to remove contact from server side list (%s)", "malloc failed");
 		return;
 	}
 	else
@@ -2186,7 +2186,7 @@ int CIcqProto::servlistMoveContact_gotTargetGroup(const char *szGroup, WORD wNew
 
 	if (!wItemID) 
 	{ // We have no ID, so try to simply add the contact to serv-list 
-		NetLog_Server("Unable to move contact (no ItemID) -> trying to add");
+		debugLogA("Unable to move contact (no ItemID) -> trying to add");
 		// we know the GroupID, so directly call add
 		return servlistAddContact_gotGroup(szGroup, wNewGroupID, lParam, nResult);
 	}
@@ -2194,7 +2194,7 @@ int CIcqProto::servlistMoveContact_gotTargetGroup(const char *szGroup, WORD wNew
 	if (wGroupID == wNewGroupID)
 	{ // Only move the contact if it had different GroupID
 		servlistPendingRemoveContact(ack->hContact, wItemID, wNewGroupID, PENDING_RESULT_SUCCESS);
-		NetLog_Server("Contact not moved to group on server side list (same Group)");
+		debugLogA("Contact not moved to group on server side list (same Group)");
 		return CALLBACK_RESULT_CONTINUE;
 	}
 
@@ -2237,7 +2237,7 @@ int CIcqProto::servlistMoveContact_Ready(HANDLE hContact, WORD contactID, WORD g
 	{ // Only move the contact if it had an GroupID
 		servlistPendingRemoveContact(ack->hContact, contactID, groupID, PENDING_RESULT_FAILED);
 
-		NetLog_Server("Failed to move contact to group on server side list (%s)", "no Group");
+		debugLogA("Failed to move contact to group on server side list (%s)", "no Group");
 		SAFE_FREE(&ack->szGroup);
 		SAFE_FREE((void**)&ack);
 		return CALLBACK_RESULT_CONTINUE;
@@ -2261,13 +2261,13 @@ void CIcqProto::servlistMoveContact(HANDLE hContact, const char *pszNewGroup)
 	// Get UID
 	if (getContactUid(hContact, &dwUin, &szUid))
 	{ // Could not do anything without uin
-		NetLog_Server("Failed to move contact to group on server side list (%s)", "no UID");
+		debugLogA("Failed to move contact to group on server side list (%s)", "no UID");
 		return;
 	}
 
 	if ((pszNewGroup != NULL) && (pszNewGroup[0]!='\0') && !getCListGroupExists(pszNewGroup))
 	{ // the contact moved to non existing group, do not do anything: MetaContact hack
-		NetLog_Server("Contact not moved - probably hiding by MetaContacts.");
+		debugLogA("Contact not moved - probably hiding by MetaContacts.");
 		return;
 	}
 
@@ -2281,7 +2281,7 @@ void CIcqProto::servlistMoveContact(HANDLE hContact, const char *pszNewGroup)
 
 	if (!ack)
 	{ // Could not do anything without cookie
-		NetLog_Server("Failed to add contact to server side list (%s)", "malloc failed");
+		debugLogA("Failed to add contact to server side list (%s)", "malloc failed");
 		return;
 	}
 	else
@@ -2312,7 +2312,7 @@ int CIcqProto::servlistUpdateContact_Ready(HANDLE hContact, WORD contactID, WORD
 	{
 		servlistPendingRemoveContact(hContact, contactID, groupID, PENDING_RESULT_FAILED);
 		// Could not find a usable group ID
-		NetLog_Server("Failed to update contact's details on server side list (%s)", "no group ID");
+		debugLogA("Failed to update contact's details on server side list (%s)", "no group ID");
 		SAFE_FREE((void**)&ack);
 		return CALLBACK_RESULT_CONTINUE;
 	}
@@ -2322,7 +2322,7 @@ int CIcqProto::servlistUpdateContact_Ready(HANDLE hContact, WORD contactID, WORD
 	{
 		servlistPendingRemoveContact(hContact, contactID, wGroupID, PENDING_RESULT_FAILED);
 		// Could not find usable item ID
-		NetLog_Server("Failed to update contact's details on server side list (%s)", "no item ID");
+		debugLogA("Failed to update contact's details on server side list (%s)", "no item ID");
 		SAFE_FREE((void**)&ack);
 		return CALLBACK_RESULT_CONTINUE;
 	}
@@ -2353,7 +2353,7 @@ void CIcqProto::servlistUpdateContact(HANDLE hContact)
 	if (getContactUid(hContact, &dwUin, &szUid))
 	{
 		// Could not set nickname on server without uid
-		NetLog_Server("Failed to update contact's details on server side list (%s)", "no UID");
+		debugLogA("Failed to update contact's details on server side list (%s)", "no UID");
 		return;
 	}
 	cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
@@ -2361,7 +2361,7 @@ void CIcqProto::servlistUpdateContact(HANDLE hContact)
 	if (!ack)
 	{
 		// Could not allocate cookie - use old fake
-		NetLog_Server("Failed to update contact's details on server side list (%s)", "malloc failed");
+		debugLogA("Failed to update contact's details on server side list (%s)", "malloc failed");
 		return;
 	}
 	else
@@ -2467,7 +2467,7 @@ void CIcqProto::servlistRenameGroup(char *szGroup, WORD wGroupId, char *szNewGro
 	cookie_servlist_action* ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 	if (!ack)
 	{ // cookie failed
-		NetLog_Server("Error: Failed to allocate cookie");
+		debugLogA("Error: Failed to allocate cookie");
 
 		SAFE_FREE(&szNewGroupName);
 		return;
@@ -2536,7 +2536,7 @@ void CIcqProto::servlistRemoveGroup(const char *szGroup, WORD wGroupId)
 
 	if (!ack)
 	{ // cookie failed
-		NetLog_Server("Error: Failed to allocate cookie");
+		debugLogA("Error: Failed to allocate cookie");
 		return;
 	}
 
@@ -2580,7 +2580,7 @@ void CIcqProto::resetServContactAuthState(HANDLE hContact, DWORD dwUin)
 			}
 		}
 		else
-			NetLog_Server("Error: Failed to allocate cookie");
+			debugLogA("Error: Failed to allocate cookie");
 	}
 }
 
@@ -2600,9 +2600,9 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 
 #ifdef _DEBUG
 	if (cws->value.type == DBVT_DELETED)
-		NetLog_Server("DB-Events: Module \"%s\", setting \"%s\" deleted.", cws->szModule, cws->szSetting);
+		debugLogA("DB-Events: Module \"%s\", setting \"%s\" deleted.", cws->szModule, cws->szSetting);
 	else
-		NetLog_Server("DB-Events: Module \"%s\", setting \"%s\" changed, data type %x.", cws->szModule, cws->szSetting, cws->value.type);
+		debugLogA("DB-Events: Module \"%s\", setting \"%s\" changed, data type %x.", cws->szModule, cws->szSetting, cws->value.type);
 #endif
 
 	if (!strcmpnull(cws->szModule, "CList"))
@@ -2639,7 +2639,7 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 int CIcqProto::ServListDbContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 #ifdef _DEBUG
-	NetLog_Server("DB-Events: Contact %x deleted.", wParam);
+	debugLogA("DB-Events: Contact %x deleted.", wParam);
 #endif
 
 	DeleteFromContactsCache((HANDLE)wParam);
@@ -2720,7 +2720,7 @@ int CIcqProto::ServListCListGroupChange(WPARAM wParam, LPARAM lParam)
 			WORD wGroupId = getServListGroupLinkID(szOldName);
 
 #ifdef _DEBUG
-			NetLog_Server("CList-Events: Group %x:\"%s\" deleted.", wGroupId, szOldName);
+			debugLogA("CList-Events: Group %x:\"%s\" deleted.", wGroupId, szOldName);
 #endif
 			if (wGroupId)
 			{ // the group is known, remove from server
@@ -2736,7 +2736,7 @@ int CIcqProto::ServListCListGroupChange(WPARAM wParam, LPARAM lParam)
 			WORD wGroupId = getServListGroupLinkID(szOldName);
 
 #ifdef _DEBUG
-			NetLog_Server("CList-Events: Group %x:\"%s\" changed to \"%s\".", wGroupId, szOldName, szNewName);
+			debugLogA("CList-Events: Group %x:\"%s\" changed to \"%s\".", wGroupId, szOldName, szNewName);
 #endif
 			if (wGroupId)
 			{ // group is known, rename on server
@@ -2753,7 +2753,7 @@ int CIcqProto::ServListCListGroupChange(WPARAM wParam, LPARAM lParam)
 			char *szNewName = grpchg->pszNewName ? tchar_to_utf8(grpchg->pszNewName) : NULL;
 
 #ifdef _DEBUG
-			NetLog_Server("CList-Events: Contact %x moved to group \"%s\".", hContact, szNewName);
+			debugLogA("CList-Events: Contact %x moved to group \"%s\".", hContact, szNewName);
 #endif
 			servlistMoveContact(hContact, szNewName);
 			SAFE_FREE(&szNewName);

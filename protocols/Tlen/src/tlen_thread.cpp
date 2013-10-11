@@ -113,7 +113,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 	int numRetry;
 	int reconnectTime;
 	int loginErr = 0;
-	TlenLog(info->proto, "Thread started");
+	info->proto->debugLogA("Thread started");
 
 	// Normal server connection, we will fetch all connection parameters
 	// e.g. username, password, etc. from the database.
@@ -124,7 +124,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		// in case it is asleep in the reconnect loop so that it will immediately
 		// reconnect.
 		QueueUserAPC(TlenDummyApcFunc, info->proto->threadData->hThread, 0);
-		TlenLog(info->proto, "Thread ended, another normal thread is running");
+		info->proto->debugLogA("Thread ended, another normal thread is running");
 		mir_free(info);
 		return;
 	}
@@ -139,7 +139,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		db_free(&dbv);
 
 	} else {
-		TlenLog(info->proto, "Thread ended, login name is not configured");
+		info->proto->debugLogA("Thread ended, login name is not configured");
 		loginErr = LOGINERR_BADUSERID;
 	}
 
@@ -151,7 +151,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 			db_set_s(NULL, info->proto->m_szModuleName, "LoginServer", info->server);
 			db_free(&dbv);
 		} else {
-			TlenLog(info->proto, "Thread ended, login server is not configured");
+			info->proto->debugLogA("Thread ended, login server is not configured");
 			loginErr = LOGINERR_NONETWORK;
 		}
 	}
@@ -172,7 +172,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 				strncpy(info->password, onlinePassword, sizeof(info->password));
 				info->password[sizeof(info->password)-1] = '\0';
 			} else {
-				TlenLog(info->proto, "Thread ended, password request dialog was canceled");
+				info->proto->debugLogA("Thread ended, password request dialog was canceled");
 				loginErr = LOGINERR_BADUSERID;
 			}
 		} else {
@@ -182,7 +182,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 				info->password[sizeof(info->password)-1] = '\0';
 				db_free(&dbv);
 			} else {
-				TlenLog(info->proto, "Thread ended, password is not configured");
+				info->proto->debugLogA("Thread ended, password is not configured");
 				loginErr = LOGINERR_BADUSERID;
 			}
 		}
@@ -190,7 +190,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 	tlenNetworkBufferSize = 2048;
 	if ((buffer=(char *) mir_alloc(tlenNetworkBufferSize+1)) == NULL) {	// +1 is for '\0' when debug logging this buffer
-		TlenLog(info->proto, "Thread ended, network buffer cannot be allocated");
+		info->proto->debugLogA("Thread ended, network buffer cannot be allocated");
 		loginErr = LOGINERR_NONETWORK;
 	}
 
@@ -220,7 +220,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 	else
 		connectHost = info->server;
 
-	TlenLog(info->proto, "Thread server='%s' port='%d'", connectHost, info->port);
+	info->proto->debugLogA("Thread server='%s' port='%d'", connectHost, info->port);
 
 
 	if (!db_get(NULL, info->proto->m_szModuleName, "AvatarHash", &dbv)) {
@@ -237,7 +237,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 		info->s = TlenWsConnect(info->proto, connectHost, info->port);
 		if (info->s == NULL) {
-			TlenLog(info->proto, "Connection failed (%d)", WSAGetLastError());
+			info->proto->debugLogA("Connection failed (%d)", WSAGetLastError());
 			if (info->proto->threadData == info) {
 				oldStatus = info->proto->m_iStatus;
 				info->proto->m_iStatus = ID_STATUS_OFFLINE;
@@ -245,12 +245,12 @@ void __cdecl TlenServerThread(ThreadData *info)
 				ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
 				if (info->proto->tlenOptions.reconnect == TRUE) {
 					reconnectTime = rand() % reconnectMaxTime;
-					TlenLog(info->proto, "Sleeping %d seconds before automatic reconnecting...", reconnectTime);
+					info->proto->debugLogA("Sleeping %d seconds before automatic reconnecting...", reconnectTime);
 					SleepEx(reconnectTime * 1000, TRUE);
 					if (reconnectMaxTime < 10*60)	// Maximum is 10 minutes
 						reconnectMaxTime *= 2;
 					if (info->proto->threadData == info) {	// Make sure this is still the active thread for the main Tlen connection
-						TlenLog(info->proto, "Reconnecting to the network...");
+						info->proto->debugLogA("Reconnecting to the network...");
 						if (numRetry < MAX_CONNECT_RETRIES)
 							numRetry++;
 						oldStatus = info->proto->m_iStatus;
@@ -259,7 +259,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 						continue;
 					}
 					else {
-						TlenLog(info->proto, "Thread ended, connection failed");
+						info->proto->debugLogA("Thread ended, connection failed");
 						mir_free(buffer);
 						mir_free(info);
 						return;
@@ -267,7 +267,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 				}
 				info->proto->threadData = NULL;
 			}
-			TlenLog(info->proto, "Thread ended, connection failed");
+			info->proto->debugLogA("Thread ended, connection failed");
 			mir_free(buffer);
 			mir_free(info);
 			return;
@@ -293,7 +293,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 				TlenSend(info->proto, "<s v='3'>");
 			}
 
-			TlenLog(info->proto, "Entering main recv loop");
+			info->proto->debugLogA("Entering main recv loop");
 			datalen = 0;
 
 			for (;;) {
@@ -310,10 +310,10 @@ void __cdecl TlenServerThread(ThreadData *info)
 				datalen += recvResult;
 
 				buffer[datalen] = '\0';
-				TlenLog(info->proto, "RECV:%s", buffer);
+				info->proto->debugLogA("RECV:%s", buffer);
 
 				bytesParsed = TlenXmlParse(&xmlState, buffer, datalen);
-				TlenLog(info->proto, "bytesParsed = %d", bytesParsed);
+				info->proto->debugLogA("bytesParsed = %d", bytesParsed);
 				if (bytesParsed > 0) {
 					if (bytesParsed < datalen)
 						memmove(buffer, buffer+bytesParsed, datalen-bytesParsed);
@@ -321,14 +321,14 @@ void __cdecl TlenServerThread(ThreadData *info)
 				}
 				else if (datalen == tlenNetworkBufferSize) {
 					tlenNetworkBufferSize += 2048;
-					TlenLog(info->proto, "Increasing network buffer size to %d", tlenNetworkBufferSize);
+					info->proto->debugLogA("Increasing network buffer size to %d", tlenNetworkBufferSize);
 					if ((buffer=(char *) mir_realloc(buffer, tlenNetworkBufferSize+1)) == NULL) {
-						TlenLog(info->proto, "Cannot reallocate more network buffer, go offline now");
+						info->proto->debugLogA("Cannot reallocate more network buffer, go offline now");
 						break;
 					}
 				}
 				else {
-					TlenLog(info->proto, "Unknown state: bytesParsed=%d, datalen=%d, tlenNetworkBufferSize=%d", bytesParsed, datalen, tlenNetworkBufferSize);
+					info->proto->debugLogA("Unknown state: bytesParsed=%d, datalen=%d, tlenNetworkBufferSize=%d", bytesParsed, datalen, tlenNetworkBufferSize);
 				}
 			}
 
@@ -370,12 +370,12 @@ void __cdecl TlenServerThread(ThreadData *info)
 		if (info->proto->threadData != info)	// Make sure this is still the main Tlen connection thread
 			break;
 		reconnectTime = rand() % 10;
-		TlenLog(info->proto, "Sleeping %d seconds before automatic reconnecting...", reconnectTime);
+		info->proto->debugLogA("Sleeping %d seconds before automatic reconnecting...", reconnectTime);
 		SleepEx(reconnectTime * 1000, TRUE);
 		reconnectMaxTime = 20;
 		if (info->proto->threadData != info)	// Make sure this is still the main Tlen connection thread
 			break;
-		TlenLog(info->proto, "Reconnecting to the network...");
+		info->proto->debugLogA("Reconnecting to the network...");
 		info->proto->m_iDesiredStatus = oldStatus;	// Reconnect to my last status
 		oldStatus = info->proto->m_iStatus;
 		info->proto->m_iStatus = ID_STATUS_CONNECTING;
@@ -383,7 +383,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
 	}
 
-	TlenLog(info->proto, "Thread ended: server='%s'", info->server);
+	info->proto->debugLogA("Thread ended: server='%s'", info->server);
 
 	if (info->proto->threadData == info) {
 		info->proto->threadData = NULL;
@@ -391,7 +391,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 	mir_free(buffer);
 	if (info->streamId) mir_free(info->streamId);
-	TlenLog(info->proto, "Exiting ServerThread");
+	info->proto->debugLogA("Exiting ServerThread");
 	mir_free(info);
 }
 
@@ -500,7 +500,7 @@ static void TlenProcessProtocol(XmlNode *node, ThreadData *info)
 	else if (!strcmp(node->name, "cipher"))
 		TlenProcessCipher(node, info);
 	else
-		TlenLog(info->proto, "Invalid top-level tag (only <message/> <presence/> <iq/> <f/> <w/> <m/> <n/> <p/> <v/> <cipher/> and <avatar/> allowed)");
+		info->proto->debugLogA("Invalid top-level tag (only <message/> <presence/> <iq/> <f/> <w/> <m/> <n/> <p/> <v/> <cipher/> and <avatar/> allowed)");
 
 }
 
@@ -747,7 +747,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 	// MATCH BY ID
 	/////////////////////////////////////////////////////////////////////////
 	if ((pfunc=TlenIqFetchFunc(info->proto, id)) != NULL) {
-		TlenLog(info->proto, "Handling iq request for id=%d", id);
+		info->proto->debugLogA("Handling iq request for id=%d", id);
 		pfunc(info->proto, node);
 	/////////////////////////////////////////////////////////////////////////
 	// MORE GENERAL ROUTINES, WHEN ID DOES NOT MATCH
@@ -768,7 +768,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 			TLEN_LIST_ITEM *item;
 			char *name;
 
-			TlenLog(info->proto, "<iq/> Got roster push, query has %d children", queryNode->numChild);
+			info->proto->debugLogA("<iq/> Got roster push, query has %d children", queryNode->numChild);
 			for (i=0; i<queryNode->numChild; i++) {
 				itemNode = queryNode->child[i];
 				if (!strcmp(itemNode->name, "item")) {
@@ -816,7 +816,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 								else if (!strcmp(str, "to")) item->subscription = SUB_TO;
 								else if (!strcmp(str, "from")) item->subscription = SUB_FROM;
 								else item->subscription = SUB_NONE;
-								TlenLog(info->proto, "Roster push for jid=%s, set subscription to %s", jid, str);
+								info->proto->debugLogA("Roster push for jid=%s, set subscription to %s", jid, str);
 								// subscription = remove is to remove from roster list
 								// but we will just set the contact to offline and not actually
 								// remove, so that history will be retained.
@@ -1333,9 +1333,9 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 			// FILE_SEND : e='5' : Voice request was accepted
 				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
 					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != NULL) {
-						TlenLog(info->proto, "should start voice 1 ? %s ?? %s", jid, item->ft->jid);
+						info->proto->debugLogA("should start voice 1 ? %s ?? %s", jid, item->ft->jid);
 						if (!strcmp(item->ft->jid, jid)) {
-							TlenLog(info->proto, "starting voice 1");
+							info->proto->debugLogA("starting voice 1");
 							TlenVoiceStart(item->ft, 1);
 						}
 					}
@@ -1400,6 +1400,6 @@ static void __cdecl TlenKeepAliveThread(void *ptr)
 		if (proto->tlenOptions.sendKeepAlive)
 			TlenSend(proto, " \t ");
 	}
-	TlenLog(proto, "Exiting KeepAliveThread");
+	proto->debugLogA("Exiting KeepAliveThread");
 }
 

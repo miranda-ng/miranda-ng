@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CAimProto::broadcast_status(int status)
 {
-	LOG("Broadcast Status: %d",status);
+	debugLogA("Broadcast Status: %d",status);
 	int old_status = m_iStatus;
 	m_iStatus = status;
 	if (m_iStatus == ID_STATUS_OFFLINE)
@@ -139,7 +139,7 @@ bool CAimProto::wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service)
 	EnterCriticalSection(&connMutex);
 	if (hConn == NULL && hServerConn) 
 	{
-		LOG("Starting Connection.");
+		debugLogA("Starting Connection.");
 		hConn = (HANDLE)1;    //set so no additional service request attempts are made while aim is still processing the request
 		aim_new_service_request(hServerConn, seqno, service) ;//general service connection!
 	}
@@ -200,7 +200,7 @@ HANDLE CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempora
 			if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) m_szModuleName) == 0) {
 				setString(hContact, AIM_KEY_SN, norm_sn);
 				setString(hContact, AIM_KEY_NK, sn);
-				LOG("Adding contact %s to client side list.",norm_sn);
+				debugLogA("Adding contact %s to client side list.",norm_sn);
 				if (temporary)
 					db_set_b(hContact, "CList", "NotOnList", 1);
 				return hContact;
@@ -227,7 +227,7 @@ void CAimProto::update_server_group(const char* group, unsigned short group_id)
 			user_id_array[i] = _htons(group_list[i].item_id);
 	}
 
-	LOG("Modifying group %s:%u on the serverside list",group, group_id);
+	debugLogA("Modifying group %s:%u on the serverside list",group, group_id);
 	aim_mod_group(hServerConn, seqno, group, group_id, (char*)user_id_array, 
 		user_id_array_size * sizeof(unsigned short));
 
@@ -262,7 +262,7 @@ void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
 	unsigned short new_group_id = group_list.find_id(new_group);
 
 	if (!item_id)
-		LOG("Contact %u not on list.", hContact);
+		debugLogA("Contact %u not on list.", hContact);
 
 	setGroupId(hContact, 1, new_group_id);
 	if (new_group && strcmp(new_group, AIM_DEFAULT_GROUP))
@@ -275,13 +275,13 @@ void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
 	if (new_group_id == 0)
 	{
 		create_group(new_group);	
-		LOG("Group %s not on list.", new_group);
+		debugLogA("Group %s not on list.", new_group);
 		new_group_id = group_list.add(new_group);
-		LOG("Adding group %s:%u to the serverside list", new_group, new_group_id);
+		debugLogA("Adding group %s:%u to the serverside list", new_group, new_group_id);
 		aim_add_contact(hServerConn, seqno, new_group, 0, new_group_id, 1);//add the group server-side even if it exist
 	}
 
-	LOG("Adding buddy %s:%u %s:%u to the serverside list", dbv.pszVal, new_item_id, new_group, new_group_id);
+	debugLogA("Adding buddy %s:%u %s:%u to the serverside list", dbv.pszVal, new_item_id, new_group, new_group_id);
 	aim_add_contact(hServerConn, seqno, dbv.pszVal, new_item_id, new_group_id, 0, nick);
 	
 	update_server_group(new_group, new_group_id);
@@ -289,7 +289,7 @@ void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
 	if (old_group_id && item_id)
 	{
 		bool is_not_in_list = getBool(hContact, AIM_KEY_NIL, false);
-		LOG("Removing buddy %s:%u %s:%u from the serverside list", dbv.pszVal, item_id, old_group, old_group_id);
+		debugLogA("Removing buddy %s:%u %s:%u from the serverside list", dbv.pszVal, item_id, old_group, old_group_id);
 		aim_delete_contact(hServerConn, seqno, dbv.pszVal, item_id, old_group_id, 0, is_not_in_list);
 		update_server_group(old_group, old_group_id);
 		delSetting(hContact, AIM_KEY_NIL);

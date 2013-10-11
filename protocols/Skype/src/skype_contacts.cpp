@@ -243,7 +243,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact, bool isTemporary)
 
 void __cdecl CSkypeProto::LoadContactList(void* data)
 {
-	this->Log(L"Updating contacts list");
+	this->debugLogW(L"Updating contacts list");
 
 	bool isFirstLoad = data != NULL;
 

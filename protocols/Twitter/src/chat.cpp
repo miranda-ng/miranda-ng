@@ -67,7 +67,7 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 
 	switch(hook->pDest->iType) {
 	case GC_USER_MESSAGE:
-		LOG ( _T("**Chat - Outgoing message: %s"), hook->ptszText);
+		debugLog( _T("**Chat - Outgoing message: %s"), hook->ptszText);
 		{
 			ptrA text( mir_utf8encodeT(hook->ptszText));
 

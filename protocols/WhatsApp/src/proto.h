@@ -152,7 +152,6 @@ public:
 
    std::tstring def_avatar_folder_;
 
-   HANDLE m_hNetlibUser;
    WASocketConnection* conn;
    WAConnection* connection;
    Mutex connMutex;
@@ -171,41 +170,40 @@ public:
    // WhatsApp Events
    virtual void onMessageForMe(FMessage* paramFMessage, bool paramBoolean);
    virtual void onMessageStatusUpdate(FMessage* paramFMessage);
-   virtual void onMessageError(FMessage* message, int paramInt)  { LOG(""); }
+   virtual void onMessageError(FMessage* message, int paramInt)  { debugLogA(""); }
    virtual void onPing(const std::string& id) throw (WAException);
-   virtual void onPingResponseReceived()  { LOG(""); }
+   virtual void onPingResponseReceived()  { debugLogA(""); }
    virtual void onAvailable(const std::string& paramString, bool paramBoolean);
-   virtual void onClientConfigReceived(const std::string& paramString)  { LOG(""); }
+   virtual void onClientConfigReceived(const std::string& paramString)  { debugLogA(""); }
    virtual void onLastSeen(const std::string& paramString1, int paramInt, std::string* paramString2);
    virtual void onIsTyping(const std::string& paramString, bool paramBoolean);
-   virtual void onAccountChange(int paramInt, time_t expire_date)  { LOG(""); }
-   virtual void onPrivacyBlockListAdd(const std::string& paramString)  { LOG(""); }
-   virtual void onPrivacyBlockListClear()  { LOG(""); }
-   virtual void onDirty(const std::map<string,string>& paramHashtable)  { LOG(""); }
-   virtual void onDirtyResponse(int paramHashtable)  { LOG(""); }
-   virtual void onRelayRequest(const std::string& paramString1, int paramInt, const std::string& paramString2)  { LOG(""); }
+   virtual void onAccountChange(int paramInt, time_t expire_date)  { debugLogA(""); }
+   virtual void onPrivacyBlockListAdd(const std::string& paramString)  { debugLogA(""); }
+   virtual void onPrivacyBlockListClear()  { debugLogA(""); }
+   virtual void onDirty(const std::map<string,string>& paramHashtable)  { debugLogA(""); }
+   virtual void onDirtyResponse(int paramHashtable)  { debugLogA(""); }
+   virtual void onRelayRequest(const std::string& paramString1, int paramInt, const std::string& paramString2)  { debugLogA(""); }
    virtual void onSendGetPictureIds(std::map<string,string>* ids);
    virtual void onSendGetPicture(const std::string& jid, const std::vector<unsigned char>& data, const std::string& oldId, const std::string& newId);
    virtual void onPictureChanged(const std::string& from, const std::string& author, bool set);
-   virtual void onDeleteAccount(bool result)  { LOG(""); }
+   virtual void onDeleteAccount(bool result)  { debugLogA(""); }
 
 	virtual void onGroupAddUser(const std::string& paramString1, const std::string& paramString2);
 	virtual void onGroupRemoveUser(const std::string& paramString1, const std::string& paramString2);
 	virtual void onGroupNewSubject(const std::string& from, const std::string& author, const std::string& newSubject, int paramInt);
-	virtual void onServerProperties(std::map<std::string, std::string>* nameValueMap) { LOG(""); }
+	virtual void onServerProperties(std::map<std::string, std::string>* nameValueMap) { debugLogA(""); }
 	virtual void onGroupCreated(const std::string& paramString1, const std::string& paramString2);
 	virtual void onGroupInfo(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2);
 	virtual void onGroupInfoFromList(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2);
 	virtual void onOwningGroups(const std::vector<string>& paramVector);
-	virtual void onSetSubject(const std::string& paramString) { LOG(""); }
-	virtual void onAddGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) { LOG(""); }
-	virtual void onRemoveGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) { LOG(""); }
+	virtual void onSetSubject(const std::string& paramString) { debugLogA(""); }
+	virtual void onAddGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) { debugLogA(""); }
+	virtual void onRemoveGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) { debugLogA(""); }
 	virtual void onGetParticipants(const std::string& gjid, const std::vector<string>& participants);
 	virtual void onParticipatingGroups(const std::vector<string>& paramVector);
 	virtual void onLeaveGroup(const std::string& paramString);
 
 	// Information providing
-	int Log(const char* fn, const char *fmt,...);
    void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, TCHAR* url=NULL);
    void NotifyEvent(const string& title, const string& info, HANDLE contact, DWORD flags, TCHAR* url=NULL);
 

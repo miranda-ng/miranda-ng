@@ -90,14 +90,14 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 
 	if (cws->value.type == DBVT_DELETED) {
 		if (item->group != NULL) {
-			Log("Group set to nothing");
+			debugLogA("Group set to nothing");
 			AddContactToRoster(item->jid, tszNick, NULL);
 		}
 	}
 	else {
 		TCHAR *p = sttSettingToTchar(cws);
 		if (cws->value.pszVal != NULL && lstrcmp(p, item->group)) {
-			Log("Group set to %S", p);
+			debugLogA("Group set to %S", p);
 			if (p)
 				AddContactToRoster(item->jid, tszNick, p);
 		}
@@ -120,7 +120,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hC
 
 	ptrT newNick( sttSettingToTchar(cws));
 	if (newNick && lstrcmp(item->nick, newNick)) {
-		Log("Renaming contact %S: %S -> %S", item->jid, item->nick, newNick);
+		debugLogA("Renaming contact %S: %S -> %S", item->jid, item->nick, newNick);
 		AddContactToRoster(item->jid, newNick, item->group);
 	}
 }
@@ -134,7 +134,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDL
 	if (jid == NULL)
 		return;
 
-	Log("Add %S permanently to list", jid);
+	debugLogA("Add %S permanently to list", jid);
 	ptrT nick( db_get_tsa(hContact, "CList", "MyHandle"));
 	if (nick == NULL)
 		nick = getTStringA(hContact, "Nick");

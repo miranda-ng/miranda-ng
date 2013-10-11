@@ -194,7 +194,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	ncon.cbSize = sizeof(ncon);
 	ncon.szHost = info.sServer.c_str();
 	ncon.wPort = info.iPort;
-	con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlib, (LPARAM)&ncon);
+	con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&ncon);
 	if (con == NULL) {
 		TCHAR szTemp[300];
 		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0035%s \002%s\002 (%S: %u)."),
@@ -373,9 +373,9 @@ void CIrcProto::DoReceive()
 		nb.pfnNewConnectionV2 = DoIdent;
 		nb.pExtra = this;
 		nb.wPort = m_info.iIdentServerPort;
-		hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlib, (LPARAM)&nb);
+		hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nb);
 		if ( !hBindPort || nb.wPort != m_info.iIdentServerPort ) {
-			DoNetlibLog("Error: unable to bind local port %u", m_info.iIdentServerPort);
+			debugLogA("Error: unable to bind local port %u", m_info.iIdentServerPort);
 			KillIdent();
 	}	}
 
@@ -702,7 +702,7 @@ void CIrcProto::OnIrcMessage(const CIrcMessage* pmsg)
 			}
 			__except( EXCEPTION_EXECUTE_HANDLER ) // dedicated to Sava :)
 			{
-				DoNetlibLog( "IRC handler feels sick: %S", pmsg->sCommand.c_str());
+				debugLogA( "IRC handler feels sick: %S", pmsg->sCommand.c_str());
 			}
 		}
 		else // handler not found. call default handler
@@ -1409,7 +1409,7 @@ int CDccSession::Disconnect()
 
 VOID CALLBACK DCCTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 {
-	CIrcProto* ppro = GetTimerOwner( idEvent );
+	CIrcProto *ppro = GetTimerOwner( idEvent );
 	if ( ppro )
 		ppro->CheckDCCTimeout();
 }
@@ -1434,7 +1434,7 @@ void strdel( char* parBuffer, int len )
 
 void DoIdent(HANDLE hConnection, DWORD, void* extra )
 {
-	CIrcProto* ppro = ( CIrcProto* )extra;
+	CIrcProto *ppro = ( CIrcProto* )extra;
 
 	char szBuf[1024];
 	int cbTotal = 0;
@@ -1454,7 +1454,7 @@ LBL_Parse:
 
 		EOLPos[0] = EOLPos[1] = '\0';
 		rtrim( szBuf );
-		ppro->DoNetlibLog("Got Ident request: %s", szBuf);
+		ppro->debugLogA("Got Ident request: %s", szBuf);
 
 		unsigned int PeerPortNrRcvd = 0, LocalPortNrRcvd = 0;
 		int iParamCnt = sscanf( szBuf, "%d , %d", &LocalPortNrRcvd, &PeerPortNrRcvd );
@@ -1481,9 +1481,9 @@ LBL_Parse:
 		}
 
 		if ( Netlib_Send(hConnection, (const char*)buf, cbLen, 0) > 0)
-			ppro->DoNetlibLog("Sent Ident answer: %s", buf);
+			ppro->debugLogA("Sent Ident answer: %s", buf);
 		else
-			ppro->DoNetlibLog("Sending Ident answer failed.");
+			ppro->debugLogA("Sending Ident answer failed.");
 		
 		if ( ppro->m_identTimer )
 			break;

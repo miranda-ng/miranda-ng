@@ -38,7 +38,7 @@ void TwitterProto::AddToListWorker(void *p)
 	catch(const std::exception &e)
 	{
 		ShowPopup((std::string("While adding a friend, an error occurred: ") + e.what()).c_str());
-		LOG( _T("***** Error adding friend: %s"),e.what());
+		debugLogA( _T("***** Error adding friend: %s"),e.what());
 	}
 	mir_free(name);
 }
@@ -127,7 +127,7 @@ void TwitterProto::DoSearch(void *p)
 	catch(const std::exception &e)
 	{
 		ShowPopup( (std::string("While searching for contacts, an error occurred: ") +  e.what()).c_str());
-		LOG( _T("***** Error searching for contacts: %s"), e.what());
+		debugLogA( _T("***** Error searching for contacts: %s"), e.what());
 		found = false;
 	}
 

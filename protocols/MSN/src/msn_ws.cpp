@@ -42,7 +42,7 @@ int ThreadData::send(const char data[], size_t datalen)
 	if (rlen == SOCKET_ERROR)
 	{
 		// should really also check if sendlen is the same as datalen
-		proto->MSN_DebugLog("Send failed: %d", WSAGetLastError());
+		proto->debugLogA("Send failed: %d", WSAGetLastError());
 		return FALSE;
 	}
 
@@ -91,7 +91,7 @@ bool ThreadData::isTimeout(void)
 	{
 		bool sbsess = mType == SERVER_SWITCHBOARD;
 
-		proto->MSN_DebugLog("Dropping the idle %s due to inactivity", sbsess ? "switchboard" : "p2p");
+		proto->debugLogA("Dropping the idle %s due to inactivity", sbsess ? "switchboard" : "p2p");
 		if (!sbsess || termPending) return true;
 
 		if (proto->getByte("EnableSessionPopup", 0))
@@ -132,7 +132,7 @@ int ThreadData::recv(char* data, size_t datalen)
 			int ret = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
 			if (ret < 0)
 			{
-				proto->MSN_DebugLog("Connection abortively closed, error %d", WSAGetLastError());
+				proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
 				return ret;
 			}
 			else if (ret == 0)
@@ -148,13 +148,13 @@ LBL_RecvAgain:
 	int ret = CallService(MS_NETLIB_RECV, (WPARAM)s, (LPARAM)&nlb);
 	if (ret == 0)
 	{
-		proto->MSN_DebugLog("Connection closed gracefully");
+		proto->debugLogA("Connection closed gracefully");
 		return 0;
 	}
 
 	if (ret < 0)
 	{
-		proto->MSN_DebugLog("Connection abortively closed, error %d", WSAGetLastError());
+		proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
 		return ret;
 	}
 

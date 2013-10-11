@@ -557,12 +557,12 @@ JabberCapsBits CJabberClientCapsManager::GetClientCaps(TCHAR *szNode, TCHAR *szV
 	CJabberClientCaps *pClient = FindClient(szNode);
 	if ( !pClient) {
 		Unlock();
-		ppro->Log("CAPS: get no caps for: %S, %S", szNode, szVer);
+		ppro->debugLogA("CAPS: get no caps for: %S, %S", szNode, szVer);
 		return JABBER_RESOURCE_CAPS_UNINIT;
 	}
 	JabberCapsBits jcbCaps = pClient->GetPartialCaps(szVer);
 	Unlock();
-	ppro->Log("CAPS: get caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
+	ppro->debugLogA("CAPS: get caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
 	return jcbCaps;
 }
 
@@ -581,7 +581,7 @@ BOOL CJabberClientCapsManager::SetClientCaps(const TCHAR *szNode, const TCHAR *s
 	}
 	BOOL bOk = pClient->SetPartialCaps(szVer, jcbCaps, nIqId);
 	Unlock();
-	ppro->Log("CAPS: set caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
+	ppro->debugLogA("CAPS: set caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
 	return bOk;
 }
 
@@ -596,7 +596,7 @@ BOOL CJabberClientCapsManager::SetClientCaps(int nIqId, JabberCapsBits jcbCaps)
 	CJabberClientCaps *pClient = m_pClients;
 	while (pClient) {
 		if (pClient->SetPartialCaps(nIqId, jcbCaps)) {
-			ppro->Log("CAPS: set caps %I64x for iq %d", jcbCaps, nIqId);
+			ppro->debugLogA("CAPS: set caps %I64x for iq %d", jcbCaps, nIqId);
 			bOk = TRUE;
 			break;
 		}

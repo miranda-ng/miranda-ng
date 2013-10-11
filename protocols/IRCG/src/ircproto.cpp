@@ -149,7 +149,7 @@ CIrcProto::~CIrcProto()
 		con = NULL;
 	}
 
-	Netlib_CloseHandle(hNetlib); hNetlib = NULL;
+	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = NULL;
 
 	m_dcc_chats.destroy();
@@ -201,7 +201,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	nlu.szSettingsModule = m_szModuleName;
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
-	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	nlu.flags = NUF_OUTGOING|NUF_INCOMING|NUF_HTTPCONNS|NUF_TCHAR;
 	char szTemp2[256];

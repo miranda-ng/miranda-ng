@@ -83,7 +83,7 @@ namespace utils
 
 	namespace debug
 	{
-		int log(std::string file_name, std::string text);
+		//int log(std::string file_name, std::string text);
 	};
 };
 

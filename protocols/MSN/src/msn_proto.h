@@ -179,7 +179,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	clock_t		mStatusMsgTS;
 
 	HANDLE		msnSearchId;
-	HANDLE		hNetlibUser, hNetlibUserHttps;
+	HANDLE		hNetlibUserHttps;
 	HANDLE		hHttpsConnection;
 	HANDLE		hMSNNudge;
 	HANDLE      hPopupError, hPopupHotmail, hPopupNotify;
@@ -190,8 +190,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 	bool        isIdle;
 
 	void        InitCustomFolders(void);
-
-	void        MSN_DebugLog(const char* fmt, ...);
 
 	char*       getSslResult(char** parUrl, const char* parAuthInfo, const char* hdrs, unsigned& status);
 	bool        getMyAvatarFile(char *url, TCHAR *fname);

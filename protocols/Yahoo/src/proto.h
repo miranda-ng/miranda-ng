@@ -233,12 +233,6 @@ struct CYahooProto : public PROTO<CYahooProto>
 	int    ShowPopup( const TCHAR* nickname, const TCHAR* msg, const char *szURL );
 	bool   IsMyContact(HANDLE hContact);
 
-	#ifdef __GNUC__
-		int DebugLog( const char *fmt, ... ) __attribute__ ((format(printf,2,3)));
-	#else
-		int DebugLog( const char *fmt, ... );
-	#endif
-
 	//====| yahoo.cpp |===================================================================
 	HANDLE add_buddy( const char *yahoo_id, const char *yahoo_name, int protocol, DWORD flags );
 	const char *find_buddy( const char *yahoo_id);
@@ -293,7 +287,6 @@ private:
 	long   lLastSend;
 
 	HANDLE hYahooNudge;
-	HANDLE m_hNetlibUser;
 
 	HGENMENU mainMenuRoot;
 	HGENMENU hShowProfileMenuItem;

@@ -124,7 +124,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	ptrA szHashValue( getStringA(AI->hContact, "AvatarHash"));
 	if (szHashValue == NULL) {
-		Log("No avatar");
+		debugLogA("No avatar");
 		return GAIR_NOAVATAR;
 	}
 
@@ -137,7 +137,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (::_taccess(AI->filename, 0) == 0) {
 		ptrA szSavedHash( getStringA(AI->hContact, "AvatarSaved"));
 		if (szSavedHash != NULL && !strcmp(szSavedHash, szHashValue)) {
-			Log("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
+			debugLogA("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
 			return GAIR_SUCCESS;
 		}
 	}
@@ -157,7 +157,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				if (szJid[0] == 0)
 					_tcsncpy_s(szJid, SIZEOF(szJid), tszJid, _TRUNCATE);
 
-				Log("Rereading %s for %S", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
+				debugLogA("Rereading %s for %S", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
 				m_ThreadInfo->send((isXVcard) ?
 					XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP) :
@@ -167,7 +167,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	Log("No avatar");
+	debugLogA("No avatar");
 	return GAIR_NOAVATAR;
 }
 

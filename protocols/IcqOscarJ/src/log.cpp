@@ -67,7 +67,7 @@ void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 
 void CIcqProto::icq_LogMessage(int level, const char *szMsg)
 {
-	NetLog_Server("%s", szMsg);
+	debugLogA("%s", szMsg);
 
 	int displayLevel = getByte("ShowLogLevel", LOG_WARNING);
 	if (level >= displayLevel)

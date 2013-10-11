@@ -195,7 +195,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 							if (!db_get(hContact, proto->m_szModuleName, "AvatarHash", &dbv)) {
 								if (item->avatarHash) mir_free(item->avatarHash);
 								item->avatarHash = mir_strdup(dbv.pszVal);
-								TlenLog(proto, "Setting hash [%s] = %s", nick, item->avatarHash);
+								proto->debugLogA("Setting hash [%s] = %s", nick, item->avatarHash);
 								db_free(&dbv);
 							}
 							item->avatarFormat = db_get_dw(hContact, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
@@ -211,7 +211,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 					ptrA jid( db_get_sa(hContact, proto->m_szModuleName, "jid"));
 					if (jid != NULL) {
 						if (!TlenListExist(proto, LIST_ROSTER, jid)) {
-							TlenLog(proto, "Syncing roster: deleting 0x%x", hContact);
+							proto->debugLogA("Syncing roster: deleting 0x%x", hContact);
 							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 						}
 					}
@@ -226,7 +226,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 				Menu_ModifyItem(proto->hMenuChats, &mi);
 
 			proto->isOnline = TRUE;
-			TlenLog(proto, "Status changed via THREADSTART");
+			proto->debugLogA("Status changed via THREADSTART");
 			oldStatus = proto->m_iStatus;
 			TlenSendPresence(proto, proto->m_iDesiredStatus);
 			ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, proto->m_iStatus);

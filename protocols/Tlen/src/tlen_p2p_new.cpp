@@ -48,7 +48,7 @@ static void logInfo(const char *filename, const char *fmt, ...) {
 
 void __cdecl TlenNewFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 {
-	TlenLog(ft->proto, "P2P receive thread started");
+	ft->proto->debugLogA("P2P receive thread started");
 	ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 //	ft->mode = FT_RECV;
 //	ft->currentFile = 0;
@@ -109,13 +109,13 @@ void __cdecl TlenNewFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 	else {
 		ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 	}
-	TlenLog(ft->proto, "P2P receive thread ended");
+	ft->proto->debugLogA("P2P receive thread ended");
 	TlenP2PFreeFileTransfer(ft);
 }
 
 void __cdecl TlenNewFileSendThread(TLEN_FILE_TRANSFER *ft)
 {
-	TlenLog(ft->proto, "P2P send thread started");
+	ft->proto->debugLogA("P2P send thread started");
 //	ft->mode = FT_RECV;
 //	ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 //	ft->currentFile = 0;
@@ -165,12 +165,12 @@ void __cdecl TlenNewFileSendThread(TLEN_FILE_TRANSFER *ft)
 			SleepEx(1000, TRUE);
 		}
 	}
-	TlenLog(ft->proto, "P2P send thread ended");
+	ft->proto->debugLogA("P2P send thread ended");
 }
 
 void TlenBindUDPSocket(TLEN_FILE_TRANSFER *ft)
 {
-	TlenLog(ft->proto, "Binding UDP socket");
+	ft->proto->debugLogA("Binding UDP socket");
 	ft->udps = socket(PF_INET, SOCK_DGRAM, 0);
 	if (ft->udps != INVALID_SOCKET) {
 		SOCKADDR_IN sin;
@@ -192,7 +192,7 @@ void TlenBindUDPSocket(TLEN_FILE_TRANSFER *ft)
 
 				ft->wLocalPort = ntohs(sin.sin_port);
 				ft->localName= mir_strdup(host_name);
-				TlenLog(ft->proto, "UDP socket bound to %s:%d", ft->localName, ft->wLocalPort);
+				ft->proto->debugLogA("UDP socket bound to %s:%d", ft->localName, ft->wLocalPort);
 			}
 		}
 	}
@@ -269,7 +269,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 						pre.tszDescription = filenameT;
 						pre.ptszFiles = &filenameT;
 						pre.lParam = (LPARAM)ft;
-						TlenLog(ft->proto, "sending chainrecv");
+						ft->proto->debugLogA("sending chainrecv");
 						ProtoChainRecvFile(ft->hContact, &pre);
 						mir_free(filenameT);
 					}
@@ -290,7 +290,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 
 		} else if (dcng != NULL) {
 			char *s, *id, *id2;
-			TlenLog(info->proto, "DCNG");
+			info->proto->debugLogA("DCNG");
 			s = TlenXmlGetAttrValue(dcng, "s");
 			id2 = TlenXmlGetAttrValue(dcng, "i");
 			id = TlenXmlGetAttrValue(dcng, "mi");
@@ -321,9 +321,9 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 					}
 				}
 			}  else if (!strcmp(s, "2")) {
-				TlenLog(info->proto, "step = 2");
-				TlenLog(info->proto, "%s",from);
-				TlenLog(info->proto, "%s",id2);
+				info->proto->debugLogA("step = 2");
+				info->proto->debugLogA("%s",from);
+				info->proto->debugLogA("%s",id2);
 				/* IP and port */
 				if ((item=TlenListFindItemPtrById2(info->proto, LIST_FILE, id2)) != NULL) {
 					item->ft->hostName = mir_strdup(TlenXmlGetAttrValue(dcng, "pa"));
@@ -337,7 +337,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 			} else if (!strcmp(s, "4")) {
 				/* IP and port */
 				if ((item=TlenListFindItemPtrById2(info->proto, LIST_FILE, id2)) != NULL) {
-					TlenLog(info->proto, "step = 4");
+					info->proto->debugLogA("step = 4");
 					item->ft->hostName = mir_strdup(TlenXmlGetAttrValue(dcng, "pa"));
 					item->ft->wPort = atoi(TlenXmlGetAttrValue(dcng, "pp"));
 					forkthread((void (__cdecl *)(void*))TlenNewFileReceiveThread, 0, item->ft);

@@ -27,8 +27,9 @@ class mir_twitter : public twitter
 {
 public:
 	mir_twitter() : twitter(), handle_(NULL), httpPOST_(NULL) {}
-	void set_handle(HANDLE h)
+	void set_handle(PROTO_INTERFACE *ppro, HANDLE h)
 	{
+		ppro_ = ppro;
 		handle_ = h;
 	}
 
@@ -80,11 +81,10 @@ public:
 
 protected:
 	http::response slurp(const std::string &,http::method, OAuthParameters );
-	INT_PTR LOG(const char *fmt,...);
-	INT_PTR WLOG(const char* first, const std::wstring last);
 
 	HANDLE httpPOST_;
 	HANDLE handle_;
+	PROTO_INTERFACE *ppro_;
 };
 
 inline void mbcs_to_tcs(UINT code_page,const char *mbstr,TCHAR *tstr,int tlen)

@@ -68,7 +68,7 @@ filetransfer* CMsnProto::p2p_getSessionByID(unsigned id)
 
 	LeaveCriticalSection(&sessionLock);
 	if (ft == NULL)
-		MSN_DebugLog("Ignoring unknown session id %08x", id);
+		debugLogA("Ignoring unknown session id %08x", id);
 
 	return ft;
 }
@@ -93,7 +93,7 @@ filetransfer* CMsnProto::p2p_getSessionByUniqueID(unsigned id)
 
 	LeaveCriticalSection(&sessionLock);
 	if (ft == NULL)
-		MSN_DebugLog("Ignoring unknown unique id %08x", id);
+		debugLogA("Ignoring unknown unique id %08x", id);
 
 	return ft;
 }
@@ -295,7 +295,7 @@ filetransfer* CMsnProto::p2p_getSessionByCallID(const char* CallID, const char* 
 
 	LeaveCriticalSection(&sessionLock);
 	if (ft == NULL)
-		MSN_DebugLog("Ignoring unknown session call id %s", CallID);
+		debugLogA("Ignoring unknown session call id %s", CallID);
 
 	return ft;
 }

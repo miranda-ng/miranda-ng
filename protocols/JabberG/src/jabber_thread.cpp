@@ -173,7 +173,7 @@ void ThreadData::xmpp_client_query(void)
 			WORD dnsPort = port == 0 || port == 5222 ? dnsList[i]->wPort : port;
 			char* dnsHost = dnsList[i]->pNameTarget;
 
-			proto->Log("%s%s resolved to %s:%d", "_xmpp-client._tcp.", server, dnsHost, dnsPort);
+			proto->debugLogA("%s%s resolved to %s:%d", "_xmpp-client._tcp.", server, dnsHost, dnsPort);
 			s = proto->WsConnect(dnsHost, dnsPort);
 			if (s) {
 				mir_snprintf(manualHost, SIZEOF(manualHost), "%s", dnsHost);
@@ -184,12 +184,12 @@ void ThreadData::xmpp_client_query(void)
 		DnsRecordListFree(results, DnsFreeRecordList);
 	}
 	else
-		proto->Log("%s not resolved", temp);
+		proto->debugLogA("%s not resolved", temp);
 }
 
 void CJabberProto::xmlStreamInitialize(char *szWhich)
 {
-	Log("Stream will be initialized %s", szWhich);
+	debugLogA("Stream will be initialized %s", szWhich);
 	if (m_szXmlStreamToBeInitialized)
 		free(m_szXmlStreamToBeInitialized);
 	m_szXmlStreamToBeInitialized = _strdup(szWhich);
@@ -197,7 +197,7 @@ void CJabberProto::xmlStreamInitialize(char *szWhich)
 
 void CJabberProto::xmlStreamInitializeNow(ThreadData* info)
 {
-	Log("Stream is initializing %s",
+	debugLogA("Stream is initializing %s",
 		m_szXmlStreamToBeInitialized ? m_szXmlStreamToBeInitialized : "after connect");
 	if (m_szXmlStreamToBeInitialized) {
 		free(m_szXmlStreamToBeInitialized);
@@ -237,7 +237,7 @@ void CJabberProto::ServerThread(ThreadData* info)
 	ptrA szValue;
 	ptrT tszValue;
 
-	Log("Thread started: type=%d", info->type);
+	debugLogA("Thread started: type=%d", info->type);
 
 	info->resolveID = -1;
 	info->auth = NULL;
@@ -262,7 +262,7 @@ void CJabberProto::ServerThread(ThreadData* info)
 			// in case it is asleep in the reconnect loop so that it will immediately
 			// reconnect.
 			QueueUserAPC(JabberDummyApcFunc, m_ThreadInfo->hThread, 0);
-			Log("Thread ended, another normal thread is running");
+			debugLogA("Thread ended, another normal thread is running");
 LBL_Exit:
 			delete info;
 			return;
@@ -283,7 +283,7 @@ LBL_Exit:
 		}
 
 		if (*rtrimt(info->username) == '\0') {
-			Log("Thread ended, login name is not configured");
+			debugLogA("Thread ended, login name is not configured");
 			JLoginFailed(LOGINERR_BADUSERID);
 LBL_FatalError:
 			m_ThreadInfo = NULL;
@@ -297,7 +297,7 @@ LBL_FatalError:
 			strncpy_s(info->server, SIZEOF(info->server), szValue, _TRUNCATE);
 		else {
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
-			Log("Thread ended, login server is not configured");
+			debugLogA("Thread ended, login server is not configured");
 			goto LBL_FatalError;
 		}
 
@@ -335,7 +335,7 @@ LBL_FatalError:
 
 				if (param.dlgResult == IDCANCEL) {
 					JLoginFailed(LOGINERR_BADUSERID);
-					Log("Thread ended, password request dialog was canceled");
+					debugLogA("Thread ended, password request dialog was canceled");
 					goto LBL_FatalError;
 				}
 
@@ -350,7 +350,7 @@ LBL_FatalError:
 			TCHAR *passw = JGetStringCrypt(NULL, "LoginPassword");
 			if (passw == NULL) {
 				JLoginFailed(LOGINERR_BADUSERID);
-				Log("Thread ended, password is not configured");
+				debugLogA("Thread ended, password is not configured");
 				goto LBL_FatalError;
 			}
 			_tcsncpy(info->password, passw, SIZEOF(info->password));
@@ -369,20 +369,20 @@ LBL_FatalError:
 		iqIdRegSetReg = -1;
 	}
 	else {
-		Log("Thread ended, invalid session type");
+		debugLogA("Thread ended, invalid session type");
 		goto LBL_FatalError;
 	}
 
 	int jabberNetworkBufferSize = 2048;
 	if ((buffer=(char*)mir_alloc(jabberNetworkBufferSize + 1)) == NULL) {	// +1 is for '\0' when debug logging this buffer
-		Log("Cannot allocate network buffer, thread ended");
+		debugLogA("Cannot allocate network buffer, thread ended");
 		if (info->type == JABBER_SESSION_NORMAL) {
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 		}
 		else if (info->type == JABBER_SESSION_REGISTER) {
 			SendMessage(info->reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Not enough memory"));
 		}
-		Log("Thread ended, network buffer cannot be allocated");
+		debugLogA("Thread ended, network buffer cannot be allocated");
 		goto LBL_FatalError;
 	}
 
@@ -396,9 +396,9 @@ LBL_FatalError:
 	else
 		info->s = WsConnect(info->manualHost, info->port);
 
-	Log("Thread type=%d server='%s' port='%d'", info->type, info->manualHost, info->port);
+	debugLogA("Thread type=%d server='%s' port='%d'", info->type, info->manualHost, info->port);
 	if (info->s == NULL) {
-		Log("Connection failed (%d)", WSAGetLastError());
+		debugLogA("Connection failed (%d)", WSAGetLastError());
 		if (info->type == JABBER_SESSION_NORMAL) {
 			if (m_ThreadInfo == info) {
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
@@ -406,16 +406,16 @@ LBL_FatalError:
 		else if (info->type == JABBER_SESSION_REGISTER)
 			SendMessage(info->reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Cannot connect to the server"));
 
-		Log("Thread ended, connection failed");
+		debugLogA("Thread ended, connection failed");
 		mir_free(buffer);
 		goto LBL_FatalError;
 	}
 
 	// Determine local IP
 	if (info->useSSL) {
-		Log("Intializing SSL connection");
+		debugLogA("Intializing SSL connection");
 		if ( !CallService(MS_NETLIB_STARTSSL, (WPARAM)info->s, 0)) {
-			Log("SSL intialization failed");
+			debugLogA("SSL intialization failed");
 			if (info->type == JABBER_SESSION_NORMAL) {
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 			}
@@ -424,7 +424,7 @@ LBL_FatalError:
 			}
 			mir_free(buffer);
 			info->close();
-			Log("Thread ended, SSL connection failed");
+			debugLogA("Thread ended, SSL connection failed");
 			goto LBL_FatalError;
 	}	}
 
@@ -442,7 +442,7 @@ LBL_FatalError:
 		xmlStreamInitializeNow(info);
 		const TCHAR *tag = _T("stream:stream");
 
-		Log("Entering main recv loop");
+		debugLogA("Entering main recv loop");
 		datalen = 0;
 
 		// cache values
@@ -471,7 +471,7 @@ LBL_FatalError:
 			}	}
 
 			int recvResult = info->recv(buffer + datalen, jabberNetworkBufferSize - datalen);
-			Log("recvResult = %d", recvResult);
+			debugLogA("recvResult = %d", recvResult);
 			if (recvResult <= 0)
 				break;
 			datalen += recvResult;
@@ -504,7 +504,7 @@ recvRest:
 				mir_free(str);
 			}
 
-			Log("bytesParsed = %d", bytesParsed);
+			debugLogA("bytesParsed = %d", bytesParsed);
 			if (root) tag = NULL;
 
 			if (xmlGetName(root) == NULL) {
@@ -525,12 +525,12 @@ recvRest:
 			else if (datalen >= jabberNetworkBufferSize) {
 				//jabberNetworkBufferSize += 65536;
 				jabberNetworkBufferSize *= 2;
-				Log("Increasing network buffer size to %d", jabberNetworkBufferSize);
+				debugLogA("Increasing network buffer size to %d", jabberNetworkBufferSize);
 				if ((buffer=(char*)mir_realloc(buffer, jabberNetworkBufferSize + 1)) == NULL) {
-					Log("Cannot reallocate more network buffer, go offline now");
+					debugLogA("Cannot reallocate more network buffer, go offline now");
 					break;
 			}	}
-			else Log("Unknown state: bytesParsed=%d, datalen=%d, jabberNetworkBufferSize=%d", bytesParsed, datalen, jabberNetworkBufferSize);
+			else debugLogA("Unknown state: bytesParsed=%d, datalen=%d, jabberNetworkBufferSize=%d", bytesParsed, datalen, jabberNetworkBufferSize);
 
 			if (m_szXmlStreamToBeInitialized) {
 				xmlStreamInitializeNow(info);
@@ -587,7 +587,7 @@ recvRest:
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
 
-	Log("Thread ended: type=%d server='%s'", info->type, info->server);
+	debugLogA("Thread ended: type=%d server='%s'", info->type, info->server);
 
 	if (info->type == JABBER_SESSION_NORMAL && m_ThreadInfo == info) {
 		mir_free(m_szStreamId);
@@ -597,7 +597,7 @@ recvRest:
 
 	info->close();
 	mir_free(buffer);
-	Log("Exiting ServerThread");
+	debugLogA("Exiting ServerThread");
 	goto LBL_Exit;
 }
 
@@ -739,13 +739,13 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 
 		if ( !_tcscmp(xmlGetName(n), _T("starttls"))) {
 			if ( !info->useSSL && m_options.UseTLS) {
-				Log("Requesting TLS");
+				debugLogA("Requesting TLS");
 				info->send(XmlNode(xmlGetName(n)) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-tls")));
 				return;
 		}	}
 
 		if ( !_tcscmp(xmlGetName(n), _T("compression")) && m_options.EnableZlib == TRUE) {
-			Log("Server compression available");
+			debugLogA("Server compression available");
 			for (int k=0; ; k++) {
 				HXML c = xmlGetChild(n,k);
 				if ( !c)
@@ -753,7 +753,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 
 				if ( !_tcscmp(xmlGetName(c), _T("method"))) {
 					if ( !_tcscmp(xmlGetText(c), _T("zlib")) && info->zlibInit() == TRUE) {
-						Log("Requesting Zlib compression");
+						debugLogA("Requesting Zlib compression");
 						info->send(XmlNode(_T("compress")) << XATTR(_T("xmlns"), _T("http://jabber.org/protocol/compress"))
 							<< XCHILD(_T("method"), _T("zlib")));
 						return;
@@ -885,20 +885,20 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData* info)
 			return;
 		}
 
-		Log("Success: Logged-in.");
+		debugLogA("Success: Logged-in.");
 		ptrT tszNick( getTStringA("Nick"));
 		if (tszNick == NULL)
 			setTString("Nick", info->username);
 
 		xmlStreamInitialize("after successful sasl");
 	}
-	else Log("Success: unknown action %S.",type);
+	else debugLogA("Success: unknown action %S.",type);
 }
 
 void CJabberProto::OnProcessChallenge(HXML node, ThreadData* info)
 {
 	if (info->auth == NULL) {
-		Log("No previous auth have been made, exiting...");
+		debugLogA("No previous auth have been made, exiting...");
 		return;
 	}
 
@@ -938,13 +938,13 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData* info)
 		else if ( !lstrcmp(xmlGetName(node), _T("iq")))
 			OnProcessIq(node);
 		else
-			Log("Invalid top-level tag (only <message/> <presence/> and <iq/> allowed)");
+			debugLogA("Invalid top-level tag (only <message/> <presence/> and <iq/> allowed)");
 	}
 	else if (info->type == JABBER_SESSION_REGISTER) {
 		if ( !lstrcmp(xmlGetName(node), _T("iq")))
 			OnProcessRegIq(node, info);
 		else
-			Log("Invalid top-level tag (only <iq/> allowed)");
+			debugLogA("Invalid top-level tag (only <iq/> allowed)");
 }	}
 
 void CJabberProto::OnProcessProceed(HXML node, ThreadData* info)
@@ -954,7 +954,7 @@ void CJabberProto::OnProcessProceed(HXML node, ThreadData* info)
 		return;
 
 	if ( !lstrcmp(type, _T("urn:ietf:params:xml:ns:xmpp-tls"))) {
-		Log("Starting TLS...");
+		debugLogA("Starting TLS...");
 
 		char* gtlk = strstr(info->manualHost, "google.com");
 		bool isHosted = gtlk && !gtlk[10] && stricmp(info->server, "gmail.com") &&
@@ -964,7 +964,7 @@ void CJabberProto::OnProcessProceed(HXML node, ThreadData* info)
 		ssl.cbSize = sizeof(ssl);
 		ssl.host = isHosted ? info->manualHost : info->server;
 		if ( !CallService(MS_NETLIB_STARTSSL, (WPARAM)info->s, (LPARAM)&ssl)) {
-			Log("SSL initialization failed");
+			debugLogA("SSL initialization failed");
 			info->send("</stream:stream>");
 			info->shutdown();
 		}
@@ -976,14 +976,14 @@ void CJabberProto::OnProcessCompressed(HXML node, ThreadData* info)
 {
 	const TCHAR *type;
 
-	Log("Compression confirmed");
+	debugLogA("Compression confirmed");
 
 	if ((type = xmlGetAttrValue(node, _T("xmlns"))) != NULL && !lstrcmp(type, _T("error")))
 		return;
 	if (lstrcmp(type, _T("http://jabber.org/protocol/compress")))
 		return;
 
-	Log("Starting Zlib stream compression...");
+	debugLogA("Starting Zlib stream compression...");
 
 	info->useZlib = TRUE;
 	info->zRecvData = (char*)mir_alloc(ZLIB_CHUNK_SIZE);
@@ -1454,7 +1454,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 	if ((from = xmlGetAttrValue(node, _T("from"))) == NULL)
 		return;
 
-	Log("presence: for jid %S", from);
+	debugLogA("presence: for jid %S", from);
 
 	pResourceStatus r( ResourceInfoFromJID(from));
 	if (r == NULL)
@@ -1520,7 +1520,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	item->getTemp()->m_iStatus = status;
 	if (nSelectedResource != -1) {
 		pResourceStatus r(item->arResources[nSelectedResource]);
-		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->m_tszResourceName);
+		debugLogA("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->m_tszResourceName);
 		if (r->m_tszStatusMessage)
 			db_set_ts(hContact, "CList", "StatusMsg", r->m_tszStatusMessage);
 		else
@@ -1578,14 +1578,14 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 		if ((hContact = HContactFromJID(from)) == NULL) {
 			if ( !_tcsicmp(info->fullJID, from) || (!bSelfPresence && !ListGetItemPtr(LIST_ROSTER, from))) {
-				Log("SKIP Receive presence online from %S (who is not in my roster and not in list - skiping)", from);
+				debugLogA("SKIP Receive presence online from %S (who is not in my roster and not in list - skiping)", from);
 				mir_free(nick);
 				return;
 			}
 			hContact = DBCreateContact(from, nick, TRUE, TRUE);
 		}
 		if ( !ListGetItemPtr(LIST_ROSTER, from)) {
-			Log("Receive presence online from %S (who is not in my roster)", from);
+			debugLogA("Receive presence online from %S (who is not in my roster)", from);
 			ListAdd(LIST_ROSTER, from);
 		}
 		DBCheckIsTransportedContact(from, hContact);
@@ -1613,7 +1613,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		if (_tcschr(from, '@') == NULL) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		Log("%S (%S) online, set contact status to %S", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
+		debugLogA("%S (%S) online, set contact status to %S", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
 		mir_free(nick);
 
 		HXML xNode;
@@ -1621,18 +1621,18 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			BOOL hasAvatar = false;
 			BOOL removedAvatar = false;
 
-			Log("Avatar enabled");
+			debugLogA("Avatar enabled");
 			for (int i = 1; (xNode=xmlGetNthChild(node, _T("x"), i)) != NULL; i++) {
 				if ( !lstrcmp(xmlGetAttrValue(xNode, _T("xmlns")), _T("jabber:x:avatar"))) {
 					LPCTSTR ptszHash = xmlGetText( xmlGetChild(xNode , "hash"));
 					if (ptszHash != NULL) {
 						delSetting(hContact,"AvatarXVcard");
-						Log("AvatarXVcard deleted");
+						debugLogA("AvatarXVcard deleted");
 						setTString(hContact, "AvatarHash", ptszHash);
 						hasAvatar = true;
 						ptrT saved( getTStringA(hContact, "AvatarSaved"));
 						if (saved != NULL || lstrcmp(saved, ptszHash)) {
-							Log("Avatar was changed");
+							debugLogA("Avatar was changed");
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
 						}
 					}
@@ -1640,19 +1640,19 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 				}
 			}
 			if ( !hasAvatar) { //no jabber:x:avatar. try vcard-temp:x:update
-				Log("Not hasXAvatar");
+				debugLogA("Not hasXAvatar");
 				for (int i = 1; (xNode=xmlGetNthChild(node, _T("x"), i)) != NULL; i++) {
 					if ( !lstrcmp(xmlGetAttrValue(xNode, _T("xmlns")), _T("vcard-temp:x:update"))) {
 						if ((xNode = xmlGetChild(xNode , "photo")) != NULL) {
 							LPCTSTR txt = xmlGetText(xNode);
 							if (txt != NULL && txt[0] != 0) {
 								setByte(hContact, "AvatarXVcard", 1);
-								Log("AvatarXVcard set");
+								debugLogA("AvatarXVcard set");
 								setTString(hContact, "AvatarHash", txt);
 								hasAvatar = true;
 								ptrT saved( getTStringA(hContact, "AvatarSaved"));
 								if (saved || lstrcmp(saved, txt)) {
-									Log("Avatar was changed. Using vcard-temp:x:update");
+									debugLogA("Avatar was changed. Using vcard-temp:x:update");
 									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
 								}
 							}
@@ -1660,7 +1660,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			}	}	}	}
 
 			if ( !hasAvatar && removedAvatar) {
-				Log("Has no avatar");
+				debugLogA("Has no avatar");
 				delSetting(hContact, "AvatarHash");
 				
 				if ( ptrT( getTStringA(hContact, "AvatarSaved")) != NULL) {
@@ -1689,7 +1689,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 				item->getTemp()->m_tszStatusMessage = mir_tstrdup(xmlGetText( xmlGetChild(node , "status")));
 			}
 		}
-		else Log("SKIP Receive presence offline from %S (who is not in my roster)", from);
+		else debugLogA("SKIP Receive presence offline from %S (who is not in my roster)", from);
 
 		UpdateJidDbSettings(from);
 
@@ -1709,7 +1709,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		if (xNick != NULL) {
 			LPCTSTR xszNick = xmlGetText(xNick);
 			if (xszNick != NULL && *xszNick) {
-				Log("Grabbed nick from presence: %S", xszNick);
+				debugLogA("Grabbed nick from presence: %S", xszNick);
 				tszNick = mir_tstrdup(xszNick);
 			}
 		}
@@ -1721,7 +1721,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 			if (m_options.AutoAdd == TRUE) {
 				if ((item = ListGetItemPtr(LIST_ROSTER, from)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-					Log("Try adding contact automatically jid = %S", from);
+					debugLogA("Try adding contact automatically jid = %S", from);
 					if ((hContact = AddToListByJID(from, 0)) != NULL) {
 						setTString(hContact, "Nick", tszNick);
 						db_unset(hContact, "CList", "NotOnList");
@@ -1731,7 +1731,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			RebuildInfoFrame();
 		}
 		else {
-			Log("%S (%S) requests authorization", tszNick, from);
+			debugLogA("%S (%S) requests authorization", tszNick, from);
 			DBAddAuthRequest(from, tszNick);
 		}
 		return;
@@ -1870,13 +1870,13 @@ void CJabberProto::OnProcessIq(HXML node)
 
 	// RECVED: <iq type='error'> ...
 	if ( !_tcscmp(type, _T("error"))) {
-		Log("XXX on entry");
+		debugLogA("XXX on entry");
 		// Check for file transfer deny by comparing idStr with ft->iqId
 		LISTFOREACH(i, this, LIST_FILE)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 			if (item->ft != NULL && item->ft->state == FT_CONNECTING && id == item->ft->iqId) {
-				Log("Denying file sending request");
+				debugLogA("Denying file sending request");
 				item->ft->state = FT_DENIED;
 				if (item->ft->hFileEvent != NULL)
 					SetEvent(item->ft->hFileEvent);	// Simulate the termination of file server connection

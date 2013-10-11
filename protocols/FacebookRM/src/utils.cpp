@@ -471,6 +471,7 @@ int utils::number::random()
 	return rand();
 }
 
+/*
 int utils::debug::log(std::string file_name, std::string text)
 {
 	char szFile[MAX_PATH];
@@ -489,3 +490,4 @@ int utils::debug::log(std::string file_name, std::string text)
 
 	return EXIT_SUCCESS;
 }
+*/

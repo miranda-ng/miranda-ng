@@ -31,5 +31,5 @@
 
 void CIcqProto::handleErrorChannel(unsigned char* buf, WORD datalen)
 {
-	NetLog_Server("Ignoring server packet on ERROR channel");
+	debugLogA("Ignoring server packet on ERROR channel");
 }

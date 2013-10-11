@@ -22,26 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-int FacebookProto::Log(const char *fmt,...)
-{
-	if (!getByte(FACEBOOK_KEY_LOGGING_ENABLE, 0))
-		return EXIT_SUCCESS;
-
-	va_list va;
-	char text[65535];
-	ScopedLock s(log_lock_);
-
-	va_start(va,fmt);
-	mir_vsnprintf(text,sizeof(text),fmt,va);
-	va_end(va);
-
-	// Write into network log
-	CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)text);
-
-	// Write into log file
-	return utils::debug::log(m_szModuleName, text);
-}
-
 void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url, std::string *notification_id)
 {
 	char name[256];

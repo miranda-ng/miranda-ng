@@ -71,11 +71,11 @@ int AfterSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	//init netlib handle
 	NETLIBUSER nlu = {0};
-    nlu.cbSize = sizeof(nlu);
-    nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_INCOMING;
-    nlu.szSettingsModule = protocolname;
-    nlu.szDescriptiveName = "XFire server connection";
-    hNetlib = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
+	nlu.cbSize = sizeof(nlu);
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_INCOMING;
+	nlu.szSettingsModule = protocolname;
+	nlu.szDescriptiveName = "XFire server connection";
+	hNetlib = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
 
 	//init socet server
 	NETLIBBIND nb = {0};
@@ -84,12 +84,11 @@ int AfterSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	nb.pExtra = NULL;
 	nb.wPort = 25999;
 	hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlib,(LPARAM) &nb);
-
-
 	return 0;
 }
 
-int initXfireProxy() {
+int initXfireProxy()
+{
 	//inits nach dem alle module geladen wurden
 	HookEvent(ME_SYSTEM_MODULESLOADED, AfterSystemModulesLoaded);
 	return 0;

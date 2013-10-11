@@ -139,7 +139,7 @@ struct CAimProto : public PROTO<CAimProto>
 
 	//Some main connection stuff
 	HANDLE hServerConn;//handle to the main connection
-	HANDLE hNetlib;//handle to netlib
+
 	unsigned long internal_ip;  // our ip
 	unsigned long detected_ip;  // our ip
 	unsigned short local_port;  // our port
@@ -318,7 +318,6 @@ struct CAimProto : public PROTO<CAimProto>
 	void   __cdecl aim_chat_negotiation( void* );
 	void   __cdecl aim_admin_negotiation( void* );
 
-	int    LOG(const char *fmt, ...);
 	HANDLE aim_connect(const char* server, unsigned short port, bool use_ssl, const char* host = NULL);
 	HANDLE aim_peer_connect(const char* ip, unsigned short port);
 	HANDLE aim_peer_connect(unsigned long ip, unsigned short port);

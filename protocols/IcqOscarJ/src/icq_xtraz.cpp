@@ -57,8 +57,8 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 		szWork = strstrnull(szQuery, "<PluginID>");
 		szEnd = strstrnull(szQuery, "</PluginID>");
 #ifdef _DEBUG
-		NetLog_Server("Query: %s", szQuery);
-		NetLog_Server("Notify: %s", szNotify);
+		debugLogA("Query: %s", szQuery);
+		debugLogA("Notify: %s", szNotify);
 #endif
 		if (szWork && szEnd)
 		{ // this is our plugin
@@ -154,27 +154,27 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
       				handleRateItem(&rr, RQT_RESPONSE, 0, !bThruDC);
 						}
 						else if (dwXId)
-							NetLog_Server("Privacy: Ignoring XStatus request");
+							debugLogA("Privacy: Ignoring XStatus request");
 						else
-							NetLog_Server("Error: We are not in XStatus, skipping");
+							debugLogA("Error: We are not in XStatus, skipping");
 					}
 					else
-						NetLog_Server("Error: Invalid sender information");
+						debugLogA("Error: Invalid sender information");
 				}
 				else
-					NetLog_Server("Error: Missing sender information");
+					debugLogA("Error: Missing sender information");
 			}
 			else
-				NetLog_Server("Error: Unknown plugin \"%s\" in Xtraz message", szWork);
+				debugLogA("Error: Unknown plugin \"%s\" in Xtraz message", szWork);
 		}
 		else 
-			NetLog_Server("Error: Missing PluginID in Xtraz message");
+			debugLogA("Error: Missing PluginID in Xtraz message");
 
 		SAFE_FREE(&szNotify);
 		SAFE_FREE(&szQuery);
 	}
 	else 
-		NetLog_Server("Error: Invalid Xtraz Notify message");
+		debugLogA("Error: Invalid Xtraz Notify message");
 }
 
 
@@ -184,7 +184,7 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, HANDLE hContact, WORD wCo
 	int nResLen;
 
 #ifdef _DEBUG
-	NetLog_Server("Received Xtraz Notify Response");
+	debugLogA("Received Xtraz Notify Response");
 #endif
 
 	szRes = strstrnull(szMsg, "<RES>");
@@ -200,7 +200,7 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, HANDLE hContact, WORD wCo
 		szMem = szRes = DemangleXml(szRes, nResLen);
 
 #ifdef _DEBUG
-		NetLog_Server("Response: %s", szRes);
+		debugLogA("Response: %s", szRes);
 #endif
 
 		ProtoBroadcastAck(hContact, ICQACKTYPE_XTRAZNOTIFY_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, (LPARAM)szRes);
@@ -228,7 +228,7 @@ NextVal:
 					*szEnd = '\0';
 					if (atoi(szNode) != getContactXStatus(hContact))
 					{ // this is strange - but go on
-						NetLog_Server("Warning: XStatusIds do not match!");
+						debugLogA("Warning: XStatusIds do not match!");
 					}
 					*szEnd = ' ';
 				}
@@ -277,16 +277,16 @@ NextVal:
 					goto NextVal;
 				}
 				// no next val, we were unable to handle packet, write error
-				NetLog_Server("Error: Unknown serverId \"%s\" in Xtraz response", szNode);
+				debugLogA("Error: Unknown serverId \"%s\" in Xtraz response", szNode);
 			}
 		}
 		else
-			NetLog_Server("Error: Missing serverId in Xtraz response");
+			debugLogA("Error: Missing serverId in Xtraz response");
 
 		SAFE_FREE(&szMem);
 	}
 	else
-		NetLog_Server("Error: Invalid Xtraz Notify response");
+		debugLogA("Error: Invalid Xtraz Notify response");
 }
 
 

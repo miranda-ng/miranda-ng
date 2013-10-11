@@ -25,8 +25,7 @@ std::string b64encode(const std::string &s)
 	return std::string( ptrA( mir_base64_encode((BYTE*)s.c_str(), (unsigned)s.length())));
 }
 
-http::response mir_twitter::slurp(const std::string &url,http::method meth,
-	 OAuthParameters postParams)
+http::response mir_twitter::slurp(const std::string &url, http::method meth, OAuthParameters postParams)
 {
 	NETLIBHTTPREQUEST req = {sizeof(req)};
 	req.requestType = (meth == http::get) ? REQUEST_GET:REQUEST_POST;
@@ -40,16 +39,16 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 
 	std::wstring auth;
 	if (meth == http::get) {
-		if (url_WSTR.size()>0) { WLOG("**SLURP::GET - we have a URL: %s", url_WSTR); }
-		if (consumerKey_.size()>0) { LOG("**SLURP::GET - we have a consumerKey"); }
-		if (consumerSecret_.size()>0) { LOG("**SLURP::GET - we have a consumerSecret"); }
-		if (oauthAccessToken_.size()>0) { LOG("**SLURP::GET - we have a oauthAccessToken"); }
-		if (oauthAccessTokenSecret_.size()>0) { LOG("**SLURP::GET - we have a oauthAccessTokenSecret"); }
-		if (pin_.size()>0) { LOG("**SLURP::GET - we have a pin"); }
-		//WLOG("consumerSEcret is %s", consumerSecret_);
-		//WLOG("oauthAccessTok is %s", oauthAccessToken_);
-		//WLOG("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
-		//WLOG("pin is %s", pin_);
+		if (url_WSTR.size()>0) { ppro_->debugLogW(L"**SLURP::GET - we have a URL: %s", url_WSTR); }
+		if (consumerKey_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a consumerKey"); }
+		if (consumerSecret_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a consumerSecret"); }
+		if (oauthAccessToken_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessToken"); }
+		if (oauthAccessTokenSecret_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessTokenSecret"); }
+		if (pin_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a pin"); }
+		//debugLogW("consumerSEcret is %s", consumerSecret_);
+		//debugLogW("oauthAccessTok is %s", oauthAccessToken_);
+		//debugLogW("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
+		//debugLogW("pin is %s", pin_);
 		
 		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", NULL, consumerKey_, consumerSecret_, 
 			oauthAccessToken_, oauthAccessTokenSecret_, pin_);
@@ -57,17 +56,17 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 	else if (meth == http::post) {
 
 		//OAuthParameters postParams;
-		if (url_WSTR.size()>0) { WLOG("**SLURP::POST - we have a URL: %s", url_WSTR); }
-		if (consumerKey_.size()>0) { LOG("**SLURP::POST - we have a consumerKey"); }
-		if (consumerSecret_.size()>0) { LOG("**SLURP::POST - we have a consumerSecret"); }
-		if (oauthAccessToken_.size()>0) { LOG("**SLURP::POST - we have a oauthAccessToken"); }
-		if (oauthAccessTokenSecret_.size()>0) { LOG("**SLURP::POST - we have a oauthAccessTokenSecret"); }
-		if (pin_.size()>0) { LOG("**SLURP::POST - we have a pin"); }
+		if (url_WSTR.size()>0) { ppro_->debugLogW(L"**SLURP::POST - we have a URL: %s", url_WSTR); }
+		if (consumerKey_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a consumerKey"); }
+		if (consumerSecret_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a consumerSecret"); }
+		if (oauthAccessToken_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessToken"); }
+		if (oauthAccessTokenSecret_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessTokenSecret"); }
+		if (pin_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a pin"); }
 
-		//WLOG("consumerKey is %s", consumerKey_);
-		//WLOG("consumerSEcret is %s", consumerSecret_);
-		//WLOG("oauthAccessTok is %s", oauthAccessToken_);
-		//WLOG("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
+		//debugLogW("consumerKey is %s", consumerKey_);
+		//debugLogW("consumerSEcret is %s", consumerSecret_);
+		//debugLogW("oauthAccessTok is %s", oauthAccessToken_);
+		//debugLogW("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
 
 		//std::wstring pdata_WSTR(post_data.length(),L' ');
 		//std::copy(post_data.begin(), post_data.end(), pdata_WSTR.begin());
@@ -77,14 +76,14 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 
 		pdata_WSTR = BuildQueryString(postParams);
 
-		WLOG("**SLURP::POST - post data is: %s", pdata_WSTR); 
+		ppro_->debugLogW(L"**SLURP::POST - post data is: %s", pdata_WSTR); 
 
 		auth = OAuthWebRequestSubmit(url_WSTR, L"POST", &postParams, consumerKey_, consumerSecret_, 
 			oauthAccessToken_, oauthAccessTokenSecret_);
-		//WLOG("**SLURP::POST auth is %s", auth);
+		//debugLogW("**SLURP::POST auth is %s", auth);
 	}
 	else {
-		LOG("**SLURP - There is something really wrong.. the http method was neither get or post.. WHY??");
+		ppro_->debugLogA("**SLURP - There is something really wrong.. the http method was neither get or post.. WHY??");
 	}
 
 	//std::string auth_STR(auth.length(), ' ');
@@ -114,19 +113,19 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 		req.headersCount = 3;
 		req.dataLength = (int)pdata_STR.size();
 		req.pData = const_cast<char*>(pdata_STR.c_str());
-		LOG("**SLURP::POST - req.pdata is %s", req.pData);
+		ppro_->debugLogA("**SLURP::POST - req.pdata is %s", req.pData);
 	}
 
 	req.flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	req.nlc = httpPOST_;
 	http::response resp_data;
-	LOG("**SLURP - just before calling HTTPTRANSACTION");
+	ppro_->debugLogA("**SLURP - just before calling HTTPTRANSACTION");
 	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
-	LOG("**SLURP - HTTPTRANSACTION complete.");
+	ppro_->debugLogA("**SLURP - HTTPTRANSACTION complete.");
 	if(resp)
 	{
-		LOG("**SLURP - the server has responded!");
+		ppro_->debugLogA("**SLURP - the server has responded!");
 		httpPOST_ = resp->nlc;
 		resp_data.code = resp->resultCode;
 		resp_data.data = resp->pData ? resp->pData:"";
@@ -135,32 +134,10 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 	}
 	else { 
 		httpPOST_ = NULL; 
-		LOG("SLURP - there was no response!"); 
+		ppro_->debugLogA("SLURP - there was no response!"); 
 	}
 
 	return resp_data;
-}
-
-INT_PTR mir_twitter::LOG(const char *fmt,...)
-{
-	va_list va;
-	char text[1024];
-	if (!handle_)
-		return 0;
-
-	va_start(va,fmt);
-	mir_vsnprintf(text,sizeof(text),fmt,va);
-	va_end(va);
-
-	return CallService(MS_NETLIB_LOG,(WPARAM)handle_,(LPARAM)text);
-}
-
-INT_PTR mir_twitter::WLOG(const char* first, const std::wstring last)
-{
-	char *str1 = new char[1024*96];
-	mir_snprintf(str1, 1024*96, "%ls", last.c_str());
-
-	return LOG(first, str1); 
 }
 
 bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename)

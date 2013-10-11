@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL ThreadData::zlibInit(void)
 {
-	proto->Log("Zlib init...");
+	proto->debugLogA("Zlib init...");
 	zStreamIn.zalloc = Z_NULL;
 	zStreamIn.zfree = Z_NULL;
 	zStreamIn.opaque = Z_NULL;
@@ -64,16 +64,16 @@ int ThreadData::zlibSend(char* data, int datalen)
 		zStreamOut.next_out = (unsigned char*)send_data;
 
 		switch (deflate(&zStreamOut, Z_SYNC_FLUSH)) {
-			case Z_OK:         proto->Log("Deflate: Z_OK");         break;
-			case Z_BUF_ERROR:  proto->Log("Deflate: Z_BUF_ERROR");  break;
-			case Z_DATA_ERROR: proto->Log("Deflate: Z_DATA_ERROR"); break;
-			case Z_MEM_ERROR:  proto->Log("Deflate: Z_MEM_ERROR");  break;
+			case Z_OK:         proto->debugLogA("Deflate: Z_OK");         break;
+			case Z_BUF_ERROR:  proto->debugLogA("Deflate: Z_BUF_ERROR");  break;
+			case Z_DATA_ERROR: proto->debugLogA("Deflate: Z_DATA_ERROR"); break;
+			case Z_MEM_ERROR:  proto->debugLogA("Deflate: Z_MEM_ERROR");  break;
 		}
 
 		int len, send_datalen = ZLIB_CHUNK_SIZE - zStreamOut.avail_out;
 
 		if ((len = sendws(send_data, send_datalen, MSG_NODUMP)) == SOCKET_ERROR || len != send_datalen) {
-			proto->Log("Netlib_Send() failed, error=%d", WSAGetLastError());
+			proto->debugLogA("Netlib_Send() failed, error=%d", WSAGetLastError());
 			return FALSE;
 		}
 
@@ -82,7 +82,7 @@ int ThreadData::zlibSend(char* data, int datalen)
 		while (zStreamOut.avail_out == 0);
 
 	if (db_get_b(NULL, "Netlib", "DumpSent", TRUE) == TRUE)
-		proto->Log("(ZLIB) Data sent\n%s\n===OUT: %d(%d) bytes", data, datalen, bytesOut);
+		proto->debugLogA("(ZLIB) Data sent\n%s\n===OUT: %d(%d) bytes", data, datalen, bytesOut);
 
 	return TRUE;
 }
@@ -93,7 +93,7 @@ int ThreadData::zlibRecv(char* data, long datalen)
 retry:
 		zRecvDatalen = recvws(zRecvData, ZLIB_CHUNK_SIZE, MSG_NODUMP);
 		if (zRecvDatalen == SOCKET_ERROR) {
-			proto->Log("Netlib_Recv() failed, error=%d", WSAGetLastError());
+			proto->debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 			return SOCKET_ERROR;
 		}
 		if (zRecvDatalen == 0)
@@ -107,10 +107,10 @@ retry:
 	zStreamIn.next_out = (BYTE*)data;
 
 	switch (inflate(&zStreamIn, Z_NO_FLUSH)) {
-		case Z_OK:         proto->Log("Inflate: Z_OK");         break;
-		case Z_BUF_ERROR:  proto->Log("Inflate: Z_BUF_ERROR");  break;
-		case Z_DATA_ERROR: proto->Log("Inflate: Z_DATA_ERROR"); break;
-		case Z_MEM_ERROR:  proto->Log("Inflate: Z_MEM_ERROR");  break;
+		case Z_OK:         proto->debugLogA("Inflate: Z_OK");         break;
+		case Z_BUF_ERROR:  proto->debugLogA("Inflate: Z_BUF_ERROR");  break;
+		case Z_DATA_ERROR: proto->debugLogA("Inflate: Z_DATA_ERROR"); break;
+		case Z_MEM_ERROR:  proto->debugLogA("Inflate: Z_MEM_ERROR");  break;
 	}
 
 	int len = datalen - zStreamIn.avail_out;
@@ -118,7 +118,7 @@ retry:
 		char* szLogBuffer = (char*)alloca(len+32);
 		memcpy(szLogBuffer, data, len);
 		szLogBuffer[ len ]='\0';
-		proto->Log("(ZLIB) Data received\n%s\n===IN: %d(%d) bytes", szLogBuffer, len, zRecvDatalen);
+		proto->debugLogA("(ZLIB) Data received\n%s\n===IN: %d(%d) bytes", szLogBuffer, len, zRecvDatalen);
 	}
 
 	if (len == 0)

@@ -159,7 +159,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	ThreadData* m_ThreadInfo;
 	CJabberOptions m_options;
 
-	HANDLE m_hNetlibUser;
 	PVOID  m_sslCtx;
 
 	HANDLE m_hThreadHandle;
@@ -766,7 +765,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	HANDLE HContactFromJID(const TCHAR *jid , BOOL bStripResource = 3);
 	HANDLE ChatRoomHContactFromJID(const TCHAR *jid);
-	void   Log(const char* fmt, ...);
 	void   SendVisibleInvisiblePresence(BOOL invisible);
 	void   SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR *msg = NULL);
 	void   SendPresence(int m_iStatus, bool bSendToAll);

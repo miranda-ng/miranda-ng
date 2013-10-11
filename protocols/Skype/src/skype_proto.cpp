@@ -150,7 +150,7 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 { 
 	uint oid = (uint)hTransfer;
 
-	this->Log(L"Incoming file transfer is accepted");
+	this->debugLogW(L"Incoming file transfer is accepted");
 
 	bool success;
 	wchar_t fullPath[MAX_PATH] = {0};
@@ -187,7 +187,7 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 		//if ( !ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)oid, (LPARAM)&pfts))
 			if ( !transfer->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
 			{
-				this->Log(L"Cannot accept file transfer");
+				this->debugLogW(L"Cannot accept file transfer");
 				this->transferList.remove_val(transfer);
 			}
 	}
@@ -210,7 +210,7 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 		if (transferStatus <= Transfer::CANCELLED && this->transferList.contains(transfer))
 		{
 			if ( !transfer->Cancel())
-				this->Log(L"Incoming file transfer is cancelled");
+				this->debugLogW(L"Incoming file transfer is cancelled");
 			this->transferList.remove_val(transfer);
 		}
 	}
@@ -234,7 +234,7 @@ int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const T
 		if (transferStatus <= Transfer::CANCELLED && this->transferList.contains(transfer))
 		{
 			if ( !transfer->Cancel())
-				this->Log(L"Incoming file transfer is denied");
+				this->debugLogW(L"Incoming file transfer is denied");
 			this->transferList.remove_val(transfer);
 		}
 	}
@@ -362,7 +362,7 @@ HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
 
 int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* pre) 
 {
-	this->Log(L"Incoming contacts");
+	this->debugLogW(L"Incoming contacts");
 	::db_unset(hContact, "CList", "Hidden");
 
 	return (INT_PTR)this->AddDBEvent(
@@ -376,14 +376,14 @@ int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* pre)
 
 int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* pre) 
 { 
-	this->Log(L"Incoming file transfer");
+	this->debugLogW(L"Incoming file transfer");
 	::db_unset(hContact, "CList", "Hidden");
 	return ::Proto_RecvFile(hContact, pre);
 }
 
 int __cdecl CSkypeProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	this->Log(L"Incoming message");
+	this->debugLogW(L"Incoming message");
 	::db_unset(hContact, "CList", "Hidden");
 
 	ReadMessageParam *param = (ReadMessageParam*)pre->lParam;
@@ -409,7 +409,7 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 {
 	if (this->IsOnline() && hContact && hContactsList)
 	{
-		this->Log(L"Outcoming contacts");
+		this->debugLogW(L"Outcoming contacts");
 
 		ConversationRef conversation;
 		if ( !this->isChatRoom(hContact))
@@ -460,7 +460,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 {
 	if (this->IsOnline() && hContact && ppszFiles)
 	{
-		this->Log(L"Outcoming file transfer");
+		this->debugLogW(L"Outcoming file transfer");
 
 		ConversationRef conversation;
 		if ( !this->isChatRoom(hContact))
@@ -529,7 +529,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 
 int __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
-	this->Log(L"Outcoming message");
+	this->debugLogW(L"Outcoming message");
 	SEStringList targets;
 	targets.append((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
 

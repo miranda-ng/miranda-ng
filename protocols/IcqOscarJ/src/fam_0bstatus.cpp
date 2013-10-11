@@ -38,7 +38,7 @@ void CIcqProto::handleStatusFam(unsigned char *pBuffer, WORD wBufferLength, snac
 		{
 			WORD wInterval;
 			unpackWord(&pBuffer, &wInterval);
-			NetLog_Server("Server sent SNAC(x0B,x02) - SRV_SET_MINREPORTINTERVAL (Value: %u hours)", wInterval);
+			debugLogA("Server sent SNAC(x0B,x02) - SRV_SET_MINREPORTINTERVAL (Value: %u hours)", wInterval);
 		}
 		break;
 
@@ -56,7 +56,7 @@ void CIcqProto::handleStatusFam(unsigned char *pBuffer, WORD wBufferLength, snac
 		}
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_STATS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_STATS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }

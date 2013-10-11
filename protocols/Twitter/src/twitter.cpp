@@ -145,7 +145,7 @@ const std::string & twitter::get_base_url() const
 			// if i will have to parse it myself and add them one by one :(
 			IDs = retrieve<js::array>(friendIDs,"ids");
 			for(js::array::const_iterator i=IDs.begin(); i!=IDs.end(); ++i) {
-				//LOG("friends ID: " + i);
+				//debugLogA("friends ID: " + i);
 				// add array to master array
 				js::object one = boost::any_cast<js::object>(**i);
 				masterIDs.push_back(one); // i don't understand this. how do we push into the array? should i just use C++ arrays (list?) and bail on boost?

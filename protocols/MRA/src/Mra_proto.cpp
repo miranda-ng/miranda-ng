@@ -329,13 +329,13 @@ DWORD CMraProto::MraNetworkDispatcher()
 									dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
 									dwDataCurrentBuffOffset = 0;
 								}
-								DebugLogW(L"Not all packet received, continue receiving\n");
+								debugLogW(L"Not all packet received, continue receiving\n");
 								break;
 							}
 						}
 						// bad packet
 						else {
-							DebugLogW(L"Bad packet\n");
+							debugLogW(L"Bad packet\n");
 							dwDataCurrentBuffOffset = 0;
 							dwRcvBuffSizeUsed = 0;
 							break;
@@ -343,7 +343,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 					}
 					// packet to small, continue receiving
 					else {
-						DebugLogW(L"Packet to small, continue receiving\n");
+						debugLogW(L"Packet to small, continue receiving\n");
 						memmove(lpbBufferRcv, (lpbBufferRcv+dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
 						dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
 						dwDataCurrentBuffOffset = 0;
@@ -514,14 +514,14 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 			}
 		}
 		else if (szString == "connect.xml") {
-			DebugLogA(szString);
+			debugLogA(szString);
 			buf >> szStringW;
-			DebugLogW(szStringW);
+			debugLogW(szStringW);
 		}
 		else if (szString == "micblog.show_title") {
-			DebugLogA(szString);
+			debugLogA(szString);
 			buf >> szStringW;
-			DebugLogW(szStringW);
+			debugLogW(szStringW);
 		}
 		else if (szString == "micblog.status.id") {
 			buf >> szString;
@@ -822,7 +822,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 		// read headers name
 		for (unsigned i = 0; i < dwFieldsNum; i++) {
 			buf >> pmralpsFields[i];
-			DebugLogA("%s ", pmralpsFields[i]);
+			debugLogA("%s ", pmralpsFields[i]);
 		}
 
 		while (!buf.eof()) {
@@ -971,7 +971,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else {// for DEBUG ONLY
 						buf >> val;
-						DebugLogA("%s = %s\n", fld, val);
+						debugLogA("%s = %s\n", fld, val);
 					}
 				}
 			}
@@ -1101,7 +1101,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 		int iGroupMode = getByte("GroupMode", 100);
 
-		DebugLogA("Groups: %s\n", szGroupMask);
+		debugLogA("Groups: %s\n", szGroupMask);
 		DWORD dwID = 0;
 		for (DWORD i = 0; i < dwGroupsCount; i++) { //groups handle
 			DWORD dwControlParam = 0, dwGroupFlags;
@@ -1132,23 +1132,23 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 					Clist_CreateGroup(0, wszGroupName);
 				}
 
-				DebugLogW(L"'%s', flags: %lu (", wszGroupName, dwGroupFlags);
-				if (dwGroupFlags & CONTACT_FLAG_REMOVED)      DebugLogA("CONTACT_FLAG_REMOVED, ");
-				if (dwGroupFlags & CONTACT_FLAG_GROUP)        DebugLogA("CONTACT_FLAG_GROUP, ");
-				if (dwGroupFlags & CONTACT_FLAG_INVISIBLE)    DebugLogA("CONTACT_FLAG_INVISIBLE, ");
-				if (dwGroupFlags & CONTACT_FLAG_VISIBLE)      DebugLogA("CONTACT_FLAG_VISIBLE, ");
-				if (dwGroupFlags & CONTACT_FLAG_IGNORE)       DebugLogA("CONTACT_FLAG_IGNORE, ");
-				if (dwGroupFlags & CONTACT_FLAG_SHADOW)       DebugLogA("CONTACT_FLAG_SHADOW, ");
-				if (dwGroupFlags & CONTACT_FLAG_AUTHORIZED)   DebugLogA("CONTACT_FLAG_AUTHORIZED, ");
-				if (dwGroupFlags & CONTACT_FLAG_MULTICHAT)    DebugLogA("CONTACT_FLAG_MULTICHAT, ");
-				if (dwGroupFlags & CONTACT_FLAG_UNICODE_NAME) DebugLogA("CONTACT_FLAG_UNICODE_NAME, ");
-				if (dwGroupFlags & CONTACT_FLAG_PHONE)        DebugLogA("CONTACT_FLAG_PHONE, ");
-				DebugLogA(")");
+				debugLogW(L"'%s', flags: %lu (", wszGroupName, dwGroupFlags);
+				if (dwGroupFlags & CONTACT_FLAG_REMOVED)      debugLogA("CONTACT_FLAG_REMOVED, ");
+				if (dwGroupFlags & CONTACT_FLAG_GROUP)        debugLogA("CONTACT_FLAG_GROUP, ");
+				if (dwGroupFlags & CONTACT_FLAG_INVISIBLE)    debugLogA("CONTACT_FLAG_INVISIBLE, ");
+				if (dwGroupFlags & CONTACT_FLAG_VISIBLE)      debugLogA("CONTACT_FLAG_VISIBLE, ");
+				if (dwGroupFlags & CONTACT_FLAG_IGNORE)       debugLogA("CONTACT_FLAG_IGNORE, ");
+				if (dwGroupFlags & CONTACT_FLAG_SHADOW)       debugLogA("CONTACT_FLAG_SHADOW, ");
+				if (dwGroupFlags & CONTACT_FLAG_AUTHORIZED)   debugLogA("CONTACT_FLAG_AUTHORIZED, ");
+				if (dwGroupFlags & CONTACT_FLAG_MULTICHAT)    debugLogA("CONTACT_FLAG_MULTICHAT, ");
+				if (dwGroupFlags & CONTACT_FLAG_UNICODE_NAME) debugLogA("CONTACT_FLAG_UNICODE_NAME, ");
+				if (dwGroupFlags & CONTACT_FLAG_PHONE)        debugLogA("CONTACT_FLAG_PHONE, ");
+				debugLogA(")");
 			}
 			dwID++;
 		}
 
-		DebugLogA("Contacts: %s\n", szContactMask);
+		debugLogA("Contacts: %s\n", szContactMask);
 		dwID = 20;
 		while (!buf.eof()) {
 			DWORD dwControlParam = 0;
@@ -1242,34 +1242,34 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 					if (fieldType == 's') {
 						buf >> szString;
 						if (szString.GetLength()) {
-							DebugLogA("%s ", szString);
+							debugLogA("%s ", szString);
 						}
 					}
 					else if (fieldType == 'u') {
 						char szBuff[50];
 						mir_snprintf(szBuff, SIZEOF(szBuff), "%lu, ", dwTemp);//;
-						DebugLogA("%s ", szBuff);
+						debugLogA("%s ", szBuff);
 					}
 					else _CrtDbgBreak();
 				}
 			}
 
-			DebugLogA("ID: %lu, Group id: %lu, %s: flags: %lu (", dwID, dwGroupID, szEmail, dwContactFlag);
-				if (dwContactFlag & CONTACT_FLAG_REMOVED)      DebugLogA("CONTACT_FLAG_REMOVED, ");
-				if (dwContactFlag & CONTACT_FLAG_GROUP)        DebugLogA("CONTACT_FLAG_GROUP, ");
-				if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    DebugLogA("CONTACT_FLAG_INVISIBLE, ");
-				if (dwContactFlag & CONTACT_FLAG_VISIBLE)      DebugLogA("CONTACT_FLAG_VISIBLE, ");
-				if (dwContactFlag & CONTACT_FLAG_IGNORE)       DebugLogA("CONTACT_FLAG_IGNORE, ");
-				if (dwContactFlag & CONTACT_FLAG_SHADOW)       DebugLogA("CONTACT_FLAG_SHADOW, ");
-				if (dwContactFlag & CONTACT_FLAG_AUTHORIZED)   DebugLogA("CONTACT_FLAG_AUTHORIZED, ");
-				if (dwContactFlag & CONTACT_FLAG_MULTICHAT)    DebugLogA("CONTACT_FLAG_MULTICHAT, ");
-				if (dwContactFlag & CONTACT_FLAG_UNICODE_NAME) DebugLogA("CONTACT_FLAG_UNICODE_NAME, ");
-				if (dwContactFlag & CONTACT_FLAG_PHONE)        DebugLogA("CONTACT_FLAG_PHONE, ");
-			DebugLogA(")");
+			debugLogA("ID: %lu, Group id: %lu, %s: flags: %lu (", dwID, dwGroupID, szEmail, dwContactFlag);
+				if (dwContactFlag & CONTACT_FLAG_REMOVED)      debugLogA("CONTACT_FLAG_REMOVED, ");
+				if (dwContactFlag & CONTACT_FLAG_GROUP)        debugLogA("CONTACT_FLAG_GROUP, ");
+				if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    debugLogA("CONTACT_FLAG_INVISIBLE, ");
+				if (dwContactFlag & CONTACT_FLAG_VISIBLE)      debugLogA("CONTACT_FLAG_VISIBLE, ");
+				if (dwContactFlag & CONTACT_FLAG_IGNORE)       debugLogA("CONTACT_FLAG_IGNORE, ");
+				if (dwContactFlag & CONTACT_FLAG_SHADOW)       debugLogA("CONTACT_FLAG_SHADOW, ");
+				if (dwContactFlag & CONTACT_FLAG_AUTHORIZED)   debugLogA("CONTACT_FLAG_AUTHORIZED, ");
+				if (dwContactFlag & CONTACT_FLAG_MULTICHAT)    debugLogA("CONTACT_FLAG_MULTICHAT, ");
+				if (dwContactFlag & CONTACT_FLAG_UNICODE_NAME) debugLogA("CONTACT_FLAG_UNICODE_NAME, ");
+				if (dwContactFlag & CONTACT_FLAG_PHONE)        debugLogA("CONTACT_FLAG_PHONE, ");
+			debugLogA(")");
 
-			DebugLogA(": server flags: %lu (", dwContactSeverFlags);
-				if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED) DebugLogA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
-			DebugLogA(")");
+			debugLogA(": server flags: %lu (", dwContactSeverFlags);
+				if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED) debugLogA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
+			debugLogA(")");
 
 			// add/modify contact
 			if (dwGroupID != 103)//***deb filtering phone/sms contats
@@ -1498,7 +1498,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	HANDLE hContact = NULL;
 	LPBYTE pByte;
 
-	DebugLogA("Received packet %x\n", pmaHeader->msg);
+	debugLogA("Received packet %x\n", pmaHeader->msg);
 
 	BinBuffer buf((LPBYTE)pmaHeader + sizeof(mrim_packet_header_t), pmaHeader->dlen);
 
@@ -1683,7 +1683,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 		}
 	}
 
-	DebugLogA("Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom.c_str(), wszMessage.c_str());
+	debugLogA("Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom.c_str(), wszMessage.c_str());
 
 	// processing
 	if (dwFlags & (MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT)) {// SMS //if (IsPhone(plpsFrom->lpszData, plpsFrom->dwSize))

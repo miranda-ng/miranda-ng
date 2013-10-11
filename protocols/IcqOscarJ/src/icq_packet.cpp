@@ -884,7 +884,7 @@ BOOL CIcqProto::unpackUID(BYTE **ppBuf, WORD *pwLen, DWORD *pdwUIN, uid_str *pps
 		*ppBuf += nUIDLen;
 		*pwLen -= nUIDLen;
 
-		NetLog_Server("Malformed UIN in packet");
+		debugLogA("Malformed UIN in packet");
 		return FALSE;
 	}
 

@@ -105,25 +105,25 @@ static CIrcProto* IrcGetInstanceByHContact(HANDLE hContact)
 
 static INT_PTR IrcMenuChanSettings(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto* ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnMenuChanSettings(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuWhois(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto* ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnMenuWhois(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuDisconnect(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto* ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnMenuDisconnect(wParam, lParam) : 0;
 }
 
 static INT_PTR IrcMenuIgnore(WPARAM wParam, LPARAM lParam)
 {
-	CIrcProto* ppro = IrcGetInstanceByHContact((HANDLE)wParam);
+	CIrcProto *ppro = IrcGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnMenuIgnore(wParam, lParam) : 0;
 }
 
@@ -1197,8 +1197,8 @@ INT_PTR __cdecl CIrcProto::GetMyAwayMsg(WPARAM wParam,LPARAM lParam)
 
 VOID CALLBACK RetryTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 {
-	CIrcProto* ppro = GetTimerOwner( idEvent );
-	if ( !ppro )
+	CIrcProto *ppro = GetTimerOwner( idEvent );
+	if (ppro == NULL)
 		return;
 
 	if ( ppro->m_iRetryCount <= StrToInt( ppro->m_retryCount) && ppro->m_retry ) {
@@ -1221,16 +1221,4 @@ VOID CALLBACK RetryTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 		ppro->m_iRetryCount++;
 	}
 	else ppro->KillChatTimer( ppro->RetryTimer );
-}
-
-// logs text into NetLib (stolen from Jabber ;))
-void CIrcProto::DoNetlibLog( const char* fmt, ... )
-{
-	va_list vararg;
-	va_start( vararg, fmt );
-	char* str = ( char* )alloca( 32000 );
-	mir_vsnprintf( str, 32000, fmt, vararg );
-	va_end( vararg );
-
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)str);
 }

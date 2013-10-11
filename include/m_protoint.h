@@ -53,9 +53,23 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	TCHAR* m_tszUserName;
 	char*  m_szModuleName;
 	HANDLE m_hProtoIcon;
+	HANDLE m_hNetlibUser;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
+
+	__forceinline void debugLogA(LPCSTR szFormat, ...)
+	{
+		va_list args;
+		va_start(args, szFormat);
+		ProtoLogA(this, szFormat, args);
+	}
+	__forceinline void debugLogW(LPCWSTR wszFormat, ...)
+	{
+		va_list args;
+		va_start(args, wszFormat);
+		ProtoLogW(this, wszFormat, args);
+	}
 
 	__forceinline INT_PTR ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam) {
 		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
@@ -121,10 +135,12 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	__forceinline void setWString(HANDLE hContact, const char *name, const WCHAR* value) { db_set_ws(hContact, m_szModuleName, name, value); }
 
 	#if defined(_UNICODE)
+		#define debugLog    debugLogW
 		#define getTString  getWString
 		#define getTStringA getWStringA
 		#define setTString  setWString
 	#else
+		#define debugLog    debugLogA
 		#define getTString  getString
 		#define getTStringA getStringA
 		#define setTString  setString

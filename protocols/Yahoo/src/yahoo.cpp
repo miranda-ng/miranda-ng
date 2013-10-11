@@ -272,7 +272,7 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 
 	SetStringUtf(hContact, "YGroup", group);
 
-	DebugLog("Adding Permanently %s to list. Auth: %s", who, u_msg ? u_msg : "<None>");
+	debugLogA("Adding Permanently %s to list. Auth: %s", who, u_msg ? u_msg : "<None>");
  	yahoo_add_buddy(m_id, ident, fname, lname, who, protocol, group, u_msg);
 
 	free(fname);
@@ -361,7 +361,7 @@ const char* CYahooProto::find_buddy( const char *yahoo_id)
 /* Other handlers */
 void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, const char *msg, int away, int idle, int mobile, int utf8)
 {
-	YAHOO_DEBUGLOG("[ext_status_changed] %s (prot: %d) with msg %s utf8: %d, stat: %s (%d), away: %d, idle: %d seconds", 
+	debugLogA("[ext_status_changed] %s (prot: %d) with msg %s utf8: %d, stat: %s (%d), away: %d, idle: %d seconds", 
 						who, 
 						protocol, 
 						msg, 
@@ -373,7 +373,7 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 	
 	HANDLE hContact = getbuddyH(who);
 	if (hContact == NULL) {
-		YAHOO_DEBUGLOG("Buddy Not Found. Adding...");
+		debugLogA("Buddy Not Found. Adding...");
 		hContact = add_buddy(who, who, protocol, 0);
 	}
 	
@@ -387,7 +387,7 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 	setWord(hContact, "Mobile", mobile);
 
 	if (msg) {
-		YAHOO_DEBUGLOG("[ext_status_changed] %s custom message '%s'", who, msg);
+		debugLogA("[ext_status_changed] %s custom message '%s'", who, msg);
 
 		if (utf8)
 			db_set_utf( hContact, "CList", "StatusMsg", msg);
@@ -407,7 +407,7 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 		if ( (away == 2) || (stat == YAHOO_STATUS_IDLE) || (idle > 0)) {
 			/* TODO: set Idle=-1, because of key 138=1 and don't set idlets then */
 			if (stat > 0) {
-				YAHOO_DEBUGLOG("[ext_status_changed] %s idle for %d:%02d:%02d", who, idle/3600, (idle/60)%60, idle%60);
+				debugLogA("[ext_status_changed] %s idle for %d:%02d:%02d", who, idle/3600, (idle/60)%60, idle%60);
 				
 				time(&idlets);
 				idlets -= idle;
@@ -417,18 +417,18 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 		setDword(hContact, "IdleTS", idlets);
 	}
 
-	YAHOO_DEBUGLOG("[ext_status_changed] exiting");
+	debugLogA("[ext_status_changed] exiting");
 }
 
 void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, const char *msg, int away, int idle, int mobile, int cksum, int buddy_icon, long client_version, int utf8)
 {
-	YAHOO_DEBUGLOG("[ext_status_logon] %s (prot: %d) with msg %s utf8: %d, (stat: %d, away: %d, idle: %d seconds, checksum: %d buddy_icon: %d client_version: %ld)", who, protocol, msg, utf8, stat, away, idle, cksum, buddy_icon, client_version);
+	debugLogA("[ext_status_logon] %s (prot: %d) with msg %s utf8: %d, (stat: %d, away: %d, idle: %d seconds, checksum: %d buddy_icon: %d client_version: %ld)", who, protocol, msg, utf8, stat, away, idle, cksum, buddy_icon, client_version);
 	
 	ext_status_changed(who, protocol, stat, msg, away, idle, mobile, utf8);
 
 	HANDLE hContact = getbuddyH(who);
 	if (hContact == NULL) {
-		YAHOO_DEBUGLOG("[ext_status_logon] Can't find handle for %s??? PANIC!!!", who);
+		debugLogA("[ext_status_logon] Can't find handle for %s??? PANIC!!!", who);
 		return;
 	} 
 
@@ -528,7 +528,7 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 	
 	/* Last thing check the checksum and request new one if we need to */
 	if (buddy_icon == -1) {
-		YAHOO_DEBUGLOG("[ext_status_logon] No avatar information in this packet? Not touching stuff!");
+		debugLogA("[ext_status_logon] No avatar information in this packet? Not touching stuff!");
 	} else {
 		// we got some avatartype info
 		setByte(hContact, "AvatarType", buddy_icon);
@@ -551,7 +551,7 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 		reset_avatar(hContact);
 	}
 	
-	YAHOO_DEBUGLOG("[ext_status_logon] exiting");
+	debugLogA("[ext_status_logon] exiting");
 }
 
 void CYahooProto::ext_got_audible(const char *me, const char *who, const char *aud, const char *msg, const char *aud_hash)
@@ -610,7 +610,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 		for(s = stealth; s && *s; s++) {
 
 			if (lstrcmpiA(*s, dbv.pszVal) == 0) {
-				YAHOO_DEBUGLOG("GOT id = %s", dbv.pszVal);
+				debugLogA("GOT id = %s", dbv.pszVal);
 				found = 1;
 				break;
 			}
@@ -618,7 +618,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 
 		/* Check the stealth list */
 		if (found) { /* we have him on our Stealth List */
-			YAHOO_DEBUGLOG("Setting STEALTH for id = %s", dbv.pszVal);
+			debugLogA("Setting STEALTH for id = %s", dbv.pszVal);
 			/* need to set the ApparentMode thingy */
 			if (ID_STATUS_OFFLINE != getWord(hContact, "ApparentMode", 0))
 				getWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
@@ -643,7 +643,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 		return;
 	}
 
-	YAHOO_DEBUGLOG(("[ext_got_buddies] Walking buddy list..."));
+	debugLogA(("[ext_got_buddies] Walking buddy list..."));
 	for (; buds; buds = buds->next) {
 		HANDLE hContact;
 
@@ -653,7 +653,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 			continue;
 		}
 
-		YAHOO_DEBUGLOG("[ext_got_buddies] id = %s, protocol = %d, group = %s, auth = %d", bud->id, bud->protocol, bud->group, bud->auth);
+		debugLogA("[ext_got_buddies] id = %s, protocol = %d, group = %s, auth = %d", bud->id, bud->protocol, bud->group, bud->auth);
 		
 		hContact = getbuddyH(bud->id);
 		if (hContact == NULL)
@@ -666,7 +666,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 			SetStringUtf(hContact, "YGroup", bud->group);
 
 		if (bud->stealth) { /* we have him on our Stealth List */
-			YAHOO_DEBUGLOG("Setting STEALTH for id = %s", bud->id);
+			debugLogA("Setting STEALTH for id = %s", bud->id);
 			/* need to set the ApparentMode thingy */
 			if (ID_STATUS_OFFLINE != getWord(hContact, "ApparentMode", 0))
 				setWord(hContact, "ApparentMode", (WORD) ID_STATUS_OFFLINE);
@@ -679,11 +679,11 @@ void CYahooProto::ext_got_buddies(YList * buds)
 		}
 
 		//if (bud->auth)
-		//	YAHOO_DEBUGLOG("Auth request waiting for: %s", bud->id );
+		//	debugLogA("Auth request waiting for: %s", bud->id );
 		setByte(hContact, "YAuth", bud->auth);
 
 		if (bud->real_name) {
-			YAHOO_DEBUGLOG("id = %s name = %s", bud->id, bud->real_name);
+			debugLogA("id = %s name = %s", bud->id, bud->real_name);
 			SetStringUtf( hContact, "Nick", bud->real_name);
 		}
 
@@ -712,7 +712,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 		}
 	}
 	
-	YAHOO_DEBUGLOG(("[ext_got_buddies] buddy list Finished."));
+	debugLogA(("[ext_got_buddies] buddy list Finished."));
 }
 
 void CYahooProto::ext_rejected(const char *who, const char *msg)
@@ -1151,7 +1151,7 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 
 	delSetting(YAHOO_PWTOKEN);
 	
-	YAHOO_DEBUGLOG("ERROR: %s", buff);
+	debugLogA("ERROR: %s", buff);
 	
 	/*
 	 * Show Error Message
@@ -1195,11 +1195,11 @@ void CYahooProto::ext_error(const char *err, int fatal, int num)
 		break;
 	case E_CONNECTION:
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Server Connection Error: %s"), (TCHAR*)tszErr);
-		YAHOO_DEBUGLOG("Error: %S", buff);
+		debugLogA("Error: %S", buff);
 		return;
 	}
 	
-	YAHOO_DEBUGLOG("Error: %S", buff);
+	debugLogA("Error: %S", buff);
 	
 	/*
 	 * Show Error Message
@@ -1837,7 +1837,7 @@ void register_callbacks()
 	yc.ext_yahoo_got_search_result = ext_yahoo_got_search_result;
 	yc.ext_yahoo_system_message = ext_yahoo_system_message;
 	yc.ext_yahoo_error = ext_yahoo_error;
-	yc.ext_yahoo_log = YAHOO_DEBUGLOG;
+	yc.ext_yahoo_log = debugLogA;
 	yc.ext_yahoo_add_handler = ext_yahoo_add_handler;
 	yc.ext_yahoo_remove_handler = ext_yahoo_remove_handler;
 	//yc.ext_yahoo_connect = ext_yahoo_connect; not needed in fact

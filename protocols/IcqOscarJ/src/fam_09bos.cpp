@@ -51,7 +51,7 @@ void CIcqProto::handleBosFam(unsigned char *pBuffer, WORD wBufferLength, snac_he
 		}
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_BOS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_BOS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 
 	}
@@ -74,7 +74,7 @@ void CIcqProto::handlePrivacyRightsReply(unsigned char *pBuffer, WORD wBufferLen
 
 			disposeChain(&pChain);
 
-			NetLog_Server("PRIVACY: Max visible %u, max invisible %u, max temporary visible %u items.", wMaxVisibleContacts, wMaxInvisibleContacts, wMaxTemporaryVisibleContacts);
+			debugLogA("PRIVACY: Max visible %u, max invisible %u, max temporary visible %u items.", wMaxVisibleContacts, wMaxInvisibleContacts, wMaxTemporaryVisibleContacts);
 
 			// Success
 			return;
@@ -82,7 +82,7 @@ void CIcqProto::handlePrivacyRightsReply(unsigned char *pBuffer, WORD wBufferLen
 	}
 
 	// Failure
-	NetLog_Server("Warning: Malformed SRV_PRIVACY_RIGHTS_REPLY");
+	debugLogA("Warning: Malformed SRV_PRIVACY_RIGHTS_REPLY");
 }
 
 void CIcqProto::makeContactTemporaryVisible(HANDLE hContact)
@@ -101,6 +101,6 @@ void CIcqProto::makeContactTemporaryVisible(HANDLE hContact)
 	setByte(hContact, "TemporaryVisible", 1);
 
 #ifdef _DEBUG
-	NetLog_Server("Added contact %s to temporary visible list", strUID(dwUin, szUid));
+	debugLogA("Added contact %s to temporary visible list", strUID(dwUin, szUid));
 #endif
 }

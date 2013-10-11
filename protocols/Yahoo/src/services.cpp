@@ -71,7 +71,7 @@ void CYahooProto::BroadcastStatus(int s)
 		m_iStatus = ID_STATUS_ONLINE;
 	}
 
-	DebugLog("[yahoo_util_broadcaststatus] Old Status: %S (%d), New Status: %S (%d)",
+	debugLogA("[yahoo_util_broadcaststatus] Old Status: %S (%d), New Status: %S (%d)",
 		pcli->pfnGetStatusModeDescription(oldStatus, 0), oldStatus,
 		pcli->pfnGetStatusModeDescription(m_iStatus, 0), m_iStatus);
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, (LPARAM)m_iStatus);
@@ -85,26 +85,26 @@ int __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 	DBVARIANT dbv;
 	HANDLE hContact = (HANDLE) wParam;
 
-	DebugLog("[YahooContactDeleted]");
+	debugLogA("[YahooContactDeleted]");
 
 	if ( !m_bLoggedIn )  {//should never happen for Yahoo contacts
-		DebugLog("[YahooContactDeleted] We are not Logged On!!!");
+		debugLogA("[YahooContactDeleted] We are not Logged On!!!");
 		return 0;
 	}
 
 	// he is not a permanent contact!
 	if (db_get_b(hContact, "CList", "NotOnList", 0) != 0) {
-		DebugLog("[YahooContactDeleted] Not a permanent buddy!!!");
+		debugLogA("[YahooContactDeleted] Not a permanent buddy!!!");
 		return 0;
 	}
 
 	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
-		DebugLog("[YahooContactDeleted] Removing %s", dbv.pszVal);
+		debugLogA("[YahooContactDeleted] Removing %s", dbv.pszVal);
 		remove_buddy(dbv.pszVal, getWord(hContact, "yprotoid", 0));
 
 		db_free(&dbv);
 	} else {
-		DebugLog("[YahooContactDeleted] Can't retrieve contact Yahoo ID");
+		debugLogA("[YahooContactDeleted] Can't retrieve contact Yahoo ID");
 	}
 	return 0;
 }
@@ -219,7 +219,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 {
 	char tUrl[ 4096 ];
 
-	DebugLog("[YahooOpenURL] url: %s Auto Login: %d", url, autoLogin);
+	debugLogA("[YahooOpenURL] url: %s Auto Login: %d", url, autoLogin);
 
 	if (autoLogin && getByte("MailAutoLogin", 0) && m_bLoggedIn && m_id > 0) {
 		char  *y, *t, *u;
@@ -238,7 +238,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 		mir_snprintf(tUrl, sizeof(tUrl), url);
 	}
 
-	DebugLog("[YahooOpenURL] url: %s Final URL: %s", url, tUrl);
+	debugLogA("[YahooOpenURL] url: %s Final URL: %s", url, tUrl);
 
 	CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)tUrl);
 }
@@ -337,7 +337,7 @@ int __cdecl CYahooProto::OnIdleEvent(WPARAM wParam, LPARAM lParam)
 {
 	BOOL bIdle = (lParam & IDF_ISIDLE);
 
-	DebugLog("[YAHOO_IDLE_EVENT] Idle: %s", bIdle ?"Yes":"No");
+	debugLogA("[YAHOO_IDLE_EVENT] Idle: %s", bIdle ?"Yes":"No");
 
 	if ( lParam & IDF_PRIVACY )
 		return 0; /* we support Privacy settings */
@@ -345,11 +345,11 @@ int __cdecl CYahooProto::OnIdleEvent(WPARAM wParam, LPARAM lParam)
 	if (m_bLoggedIn) {
 		/* set me to idle or back */
 		if (m_iStatus == ID_STATUS_INVISIBLE)
-			DebugLog("[YAHOO_IDLE_EVENT] WARNING: INVISIBLE! Don't change my status!");
+			debugLogA("[YAHOO_IDLE_EVENT] WARNING: INVISIBLE! Don't change my status!");
 		else
 			set_status(m_iStatus,m_startMsg,(bIdle) ? 2 : (m_iStatus == ID_STATUS_ONLINE) ? 0 : 1);
 	} else {
-		DebugLog("[YAHOO_IDLE_EVENT] WARNING: NOT LOGGED IN???");
+		debugLogA("[YAHOO_IDLE_EVENT] WARNING: NOT LOGGED IN???");
 	}
 
 	return 0;
@@ -499,7 +499,7 @@ int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	const HANDLE hContact = (HANDLE)wParam;
 	if (!IsMyContact(hContact)) {
-		DebugLog("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
+		debugLogA("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
 		return 0;
 	}
 

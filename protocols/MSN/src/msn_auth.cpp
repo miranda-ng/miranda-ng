@@ -255,7 +255,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 				{
 					if (errurl)
 					{
-						MSN_DebugLog("Starting URL: '%s'", errurl);
+						debugLogA("Starting URL: '%s'", errurl);
 						CallService(MS_UTILS_OPENURL, 1, (LPARAM)errurl);
 					}
 
@@ -264,7 +264,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 					if (tokrdr != NULL)
 					{
 						strcpy(szPassportHost, ezxml_txt(tokrdr));
-						MSN_DebugLog("Redirected to '%s'", szPassportHost);
+						debugLogA("Redirected to '%s'", szPassportHost);
 					}
 					else
 					{
@@ -325,7 +325,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 		setString("MsnPassportHost", szPassportHost);
 
 	mir_free(szPassportHost);
-	MSN_DebugLog("MSN_CheckRedirector exited with errorCode = %d", retVal);
+	debugLogA("MSN_CheckRedirector exited with errorCode = %d", retVal);
 	return retVal;
 }
 

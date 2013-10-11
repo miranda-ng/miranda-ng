@@ -299,7 +299,6 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	int __cdecl MUCHandleEvent(WPARAM wParam, LPARAM lParam);
 
 	//====================================================================================
-	HANDLE hNetlibUser;
 	HANDLE hFileNetlibUser;
 
 	TLEN_MODEMSGS modeMsgs;
@@ -452,7 +451,6 @@ void uninitMenuItems(TlenProtocol *proto);
 HICON GetIcolibIcon(int iconId);
 void ReleaseIcolibIcon(HICON hIcon);
 
-void TlenLog(TlenProtocol *proto, const char *fmt, ...);
 void __cdecl TlenServerThread(ThreadData *info);
 // tlen_ws.cpp
 BOOL TlenWsInit(TlenProtocol *proto);

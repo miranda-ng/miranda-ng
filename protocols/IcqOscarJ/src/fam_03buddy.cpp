@@ -66,7 +66,7 @@ void CIcqProto::handleBuddyFam(BYTE *pBuffer, WORD wBufferLength, snac_header *p
 		}
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_BUDDY_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_BUDDY_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }
@@ -82,15 +82,15 @@ void CIcqProto::handleReplyBuddy(BYTE *buf, WORD wPackLen)
 		DWORD wMaxWatchers = pChain->getWord(2, 1);
 		DWORD wMaxTemporary = pChain->getWord(4, 1);
 
-		NetLog_Server("MaxUINs %u", wMaxUins);
-		NetLog_Server("MaxWatchers %u", wMaxWatchers);
-		NetLog_Server("MaxTemporary %u", wMaxTemporary);
+		debugLogA("MaxUINs %u", wMaxUins);
+		debugLogA("MaxWatchers %u", wMaxWatchers);
+		debugLogA("MaxTemporary %u", wMaxTemporary);
 
 		disposeChain(&pChain);
 	}
 	else
 	{
-		NetLog_Server("Error: Malformed BuddyReply");
+		debugLogA("Error: Malformed BuddyReply");
 	}
 }
 
@@ -200,7 +200,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	if (hContact == INVALID_HANDLE_VALUE)
 	{
 #ifdef _DEBUG
-		NetLog_Server("Ignoring user online (%s)", strUID(dwUIN, szUID));
+		debugLogA("Ignoring user online (%s)", strUID(dwUIN, szUID));
 #endif
 		return;
 	}
@@ -295,8 +295,8 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	}
 
 #ifdef _DEBUG
-	NetLog_Server("Flags are %x", wStatusFlags);
-	NetLog_Server("Status is %x", wStatus);
+	debugLogA("Flags are %x", wStatusFlags);
+	debugLogA("Status is %x", wStatus);
 #endif
 
 	// Get IP TLV
@@ -322,10 +322,10 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 
 #ifdef _DEBUG
 	if (wIdleTimer)
-		NetLog_Server("Idle timer is %u.", wIdleTimer);
-	NetLog_Server("Online since %s", time2text(dwOnlineSince));
+		debugLogA("Idle timer is %u.", wIdleTimer);
+	debugLogA("Online since %s", time2text(dwOnlineSince));
 	if (dwAwaySince)
-		NetLog_Server("Status was set on %s", time2text(dwAwaySince));
+		debugLogA("Status was set on %s", time2text(dwAwaySince));
 #endif
 
 	// Check client capabilities
@@ -396,7 +396,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 				}
 			}
 #ifdef _DEBUG
-			NetLog_Server("Detected %d capability items.", capLen / BINARY_CAP_SIZE);
+			debugLogA("Detected %d capability items.", capLen / BINARY_CAP_SIZE);
 #endif
 		}
 
@@ -417,7 +417,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 			ClearAllContactCapabilities(hContact);
 
 			// no capability
-			NetLog_Server("No capability info TLVs");
+			debugLogA("No capability info TLVs");
 
 			szClient = detectUserClient(hContact, nIsICQ, wClass, dwOnlineSince, NULL, wVersion, dwFT1, dwFT2, dwFT3, nTCPFlag, dwDirectConnCookie, dwWebPort, NULL, capLen, &bClientId, szStrBuf);
 		}
@@ -443,9 +443,9 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 #ifdef _DEBUG
 		if (wOldStatus == ID_STATUS_OFFLINE) {
 			if (CheckContactCapabilities(hContact, CAPF_SRV_RELAY))
-				NetLog_Server("Supports advanced messages");
+				debugLogA("Supports advanced messages");
 			else
-				NetLog_Server("Does NOT support advanced messages");
+				debugLogA("Does NOT support advanced messages");
 		}
 #endif
 
@@ -456,13 +456,13 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 			ClearContactCapabilities(hContact, CAPF_SRV_RELAY);
 
 			if (dwUIN && wOldStatus == ID_STATUS_OFFLINE)
-				NetLog_Server("Logged in with AIM client");
+				debugLogA("Logged in with AIM client");
 		}
 
 		if (nIsICQ && wVersion < 8) {
 			ClearContactCapabilities(hContact, CAPF_SRV_RELAY);
 			if (wOldStatus == ID_STATUS_OFFLINE)
-				NetLog_Server("Forcing simple messages due to compability issues");
+				debugLogA("Forcing simple messages due to compability issues");
 		}
 
 		// Process Avatar Hash
@@ -535,16 +535,16 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	if (wOldStatus != IcqStatusToMiranda(wStatus)) {
 		// And a small log notice... if status was changed
 		if (nIsICQ)
-			NetLog_Server("%u changed status to %S (v%d).", dwUIN, ptszStatus, wVersion);
+			debugLogA("%u changed status to %S (v%d).", dwUIN, ptszStatus, wVersion);
 		else
-			NetLog_Server("%s changed status to %S.", strUID(dwUIN, szUID), ptszStatus);
+			debugLogA("%s changed status to %S.", strUID(dwUIN, szUID), ptszStatus);
 	}
 #ifdef _DEBUG
 	else {
 		if (nIsICQ)
-			NetLog_Server("%u has status %s (v%d).", dwUIN, ptszStatus, wVersion);
+			debugLogA("%u has status %s (v%d).", dwUIN, ptszStatus, wVersion);
 		else
-			NetLog_Server("%s has status %s.", strUID(dwUIN, szUID), ptszStatus);
+			debugLogA("%s has status %s.", strUID(dwUIN, szUID), ptszStatus);
 	}
 #endif
 
@@ -558,7 +558,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 				ShowPopupMsg(hContact, LPGEN("Spambot Detected"), LPGEN("Contact deleted & further events blocked."), POPTYPE_SPAM);
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 
-			NetLog_Server("Contact %u deleted", dwUIN);
+			debugLogA("Contact %u deleted", dwUIN);
 		}
 	}
 }
@@ -645,7 +645,7 @@ void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
 
 			if (wOldStatus != ID_STATUS_OFFLINE)
 			{
-				NetLog_Server("%s went offline.", strUID(dwUIN, szUID));
+				debugLogA("%s went offline.", strUID(dwUIN, szUID));
 
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				// close Direct Connections to that user
@@ -655,7 +655,7 @@ void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
 			}
 #ifdef _DEBUG
 			else
-				NetLog_Server("%s is offline.", strUID(dwUIN, szUID));
+				debugLogA("%s is offline.", strUID(dwUIN, szUID));
 #endif
 		}
 
@@ -727,7 +727,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 			DBVARIANT dbv = {DBVT_DELETED};
 
 			if (strlennull(szStatusNote) || (!getString(hContact, DBSETTING_STATUS_NOTE, &dbv) && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && strlennull(dbv.pszVal)))
-				NetLog_Server("%s changed status note to \"%s\"", strUID(dwUin, szUid), szStatusNote ? szStatusNote : "");
+				debugLogA("%s changed status note to \"%s\"", strUID(dwUin, szUid), szStatusNote ? szStatusNote : "");
 
 			db_free(&dbv);
 
@@ -766,5 +766,5 @@ void CIcqProto::handleNotifyRejected(BYTE *buf, WORD wPackLen)
 
 	while (wPackLen)
 		if (unpackUID(&buf, &wPackLen, &dwUIN, &szUID))
-			NetLog_Server("%s status notification rejected.", strUID(dwUIN, szUID));
+			debugLogA("%s status notification rejected.", strUID(dwUIN, szUID));
 }

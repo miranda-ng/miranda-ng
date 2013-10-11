@@ -90,7 +90,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 				unsigned long  ip   = _htonl(*(unsigned long*)&packetRecv.buffer[14]);
 				
 				aim_send_file(hServerConn, seqno, ip, port, true, ft);
-				LOG("Stage %d Proxy ft and we are not the sender.", ft->req_num);
+				debugLogA("Stage %d Proxy ft and we are not the sender.", ft->req_num);
 			}
 			else if (type == 0x0005) 
 			{

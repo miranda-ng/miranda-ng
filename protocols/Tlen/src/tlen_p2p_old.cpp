@@ -158,7 +158,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 	TLEN_FILE_PACKET *packet;
 	TlenProtocol *proto = ft->proto;
 
-	TlenLog(proto, "Establishing outgoing connection.");
+	proto->debugLogA("Establishing outgoing connection.");
 	ft->state = FT_ERROR;
 	if ((packet = TlenP2PPacketCreate(2*sizeof(DWORD) + 20)) != NULL) {
 		TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_CONNECTION_REQUEST);
@@ -263,7 +263,7 @@ static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
 			ft->state = FT_ERROR;
 		}
 	}
-	TlenLog(ft->proto, "Closing connection for this file transfer...");
+	ft->proto->debugLogA("Closing connection for this file transfer...");
 //	Netlib_CloseHandle(ft->s);
 	if (ft->hFileEvent != NULL)
 		SetEvent(ft->hFileEvent);
@@ -360,7 +360,7 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	nloc.wPort = sb->wPort;
 	HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
 	if (s == NULL) {
-		TlenLog(ft->proto, "Connection failed (%d), thread ended", WSAGetLastError());
+		ft->proto->debugLogA("Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
 	}
 	buf[0] = 5;  //yep, socks5
@@ -368,13 +368,13 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	buf[2] = sb->useAuth?2:0; // authorization
 	status = Netlib_Send(s, (char*)buf, 3, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < 3) {
-		TlenLog(ft->proto, "Send failed (%d), thread ended", WSAGetLastError());
+		ft->proto->debugLogA("Send failed (%d), thread ended", WSAGetLastError());
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
 	status = Netlib_Recv(s, (char*)buf, 2, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < 2 || (buf[1] != 0 && buf[1] != 2)) {
-		TlenLog(ft->proto, "SOCKS5 negotiation failed");
+		ft->proto->debugLogA("SOCKS5 negotiation failed");
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
@@ -393,13 +393,13 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		status = Netlib_Send(s, (char*)pAuthBuf, 3+nUserLen+nPassLen, MSG_NODUMP);
 		mir_free(pAuthBuf);
 		if (status == SOCKET_ERROR || status < 3 + nUserLen+nPassLen) {
-			TlenLog(ft->proto, "Send failed (%d), thread ended", WSAGetLastError());
+			ft->proto->debugLogA("Send failed (%d), thread ended", WSAGetLastError());
 			Netlib_CloseHandle(s);
 			return NULL;
 		}
 		status = Netlib_Recv(s, (char*)buf, sizeof(buf), MSG_NODUMP);
 		if (status == SOCKET_ERROR || status < 2 || buf[1] != 0) {
-			TlenLog(ft->proto, "SOCKS5 sub-negotiation failed");
+			ft->proto->debugLogA("SOCKS5 sub-negotiation failed");
 			Netlib_CloseHandle(s);
 			return NULL;
 		}
@@ -503,9 +503,9 @@ HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 		nlb.pfnNewConnectionV2 = ft->pfnNewConnectionV2;
 		nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 		nlb.pExtra = proto;
-		TlenLog(ft->proto, "Calling MS_NETLIB_BINDPORT");
-		s = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nlb);
-		TlenLog(ft->proto, "listening on %d",s);
+		ft->proto->debugLogA("Calling MS_NETLIB_BINDPORT");
+		s = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) ft->proto->m_hNetlibUser, (LPARAM) &nlb);
+		ft->proto->debugLogA("listening on %d",s);
 	}
 	if (useProxy == 0) {
 		in.S_un.S_addr = htonl(nlb.dwExternalIP);

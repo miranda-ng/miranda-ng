@@ -126,7 +126,7 @@ DWORD CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 			szEmail.MakeLower();
 			szUrl.Format(MRA_MPOP_AUTH_URL, szEmail, pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
 			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl.c_str());
-			DebugLogA("Opening URL: %s\n", szUrl);
+			debugLogA("Opening URL: %s\n", szUrl);
 		}
 		mir_free(pmpsqi);
 	}

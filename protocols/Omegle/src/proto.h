@@ -140,8 +140,6 @@ public:
 	HANDLE  log_lock_;
 	HANDLE  events_loop_lock_;
 
-	HANDLE  m_hNetlibUser;
-
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	// Logging

@@ -243,3 +243,5 @@ IsWinVer7Plus                 @240
 IsFullScreen                  @241
 IsWorkstationLocked           @242
 IsScreenSaverRunning          @243
+ProtoLogA                     @244
+ProtoLogW                     @245

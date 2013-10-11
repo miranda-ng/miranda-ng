@@ -49,55 +49,6 @@ unsigned int TlenSerialNext(TlenProtocol *proto)
 	return ret;
 }
 
-
-void TlenLog(TlenProtocol *proto, const char *fmt, ...)
-{
-#ifdef ENABLE_LOGGING
-	char *str;
-	va_list vararg;
-	int strsize;
-	char *text;
-	char *p, *q;
-	int extra;
-
-	va_start(vararg, fmt);
-	str = (char *) mir_alloc(strsize=2048);
-	while (mir_vsnprintf(str, strsize, fmt, vararg) == -1)
-		str = (char *) mir_realloc(str, strsize+=2048);
-	va_end(vararg);
-
-	extra = 0;
-	for (p=str; *p != '\0'; p++)
-		if (*p == '\n' || *p == '\r')
-			extra++;
-	size_t size = strlen("TLEN") + 2 + strlen(str) + 2 + extra;
-	text = (char *) mir_alloc(size);
-	mir_snprintf(text, size, "[%s]", "TLEN");
-	for (p=str,q=text+strlen(text); *p != '\0'; p++,q++) {
-		if (*p == '\r') {
-			*q = '\\';
-			*(q+1) = 'r';
-			q++;
-		}
-		else if (*p == '\n') {
-			*q = '\\';
-			*(q+1) = 'n';
-			q++;
-		}
-		else
-			*q = *p;
-	}
-	*q = '\n';
-	*(q+1) = '\0';
-	if (proto->hNetlibUser != NULL) {
-		CallService(MS_NETLIB_LOG, (WPARAM) proto->hNetlibUser, (LPARAM) text);
-	}
-	//OutputDebugString(text);
-	mir_free(text);
-	mir_free(str);
-#endif
-}
-
 // Caution: DO NOT use TlenSend() to send binary (non-string) data
 
 int TlenSend(TlenProtocol *proto, const char *fmt, ...)
@@ -118,7 +69,7 @@ int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 	}
 	va_end(vararg);
 
-	TlenLog(proto, "SEND:%s", str);
+	proto->debugLogA("SEND:%s", str);
 	size = (int)strlen(str);
 	if (proto->threadData != NULL) {
 		if (proto->threadData->useAES) {

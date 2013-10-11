@@ -213,7 +213,7 @@ int __cdecl CYahooProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre )
 
 	// NUDGES
 	if ( !lstrcmpA(pre->szMessage, "<ding>")  && ServiceExists("NUDGE/Send")) {
-		DebugLog("[YahooRecvMessage] Doing Nudge Service!");
+		debugLogA("[YahooRecvMessage] Doing Nudge Service!");
 		NotifyEventHooks(hYahooNudge, (WPARAM)hContact, pre->timestamp);
 		return 0;
 	} 
@@ -229,7 +229,7 @@ INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
 
-	DebugLog("[YAHOO_SENDNUDGE]");
+	debugLogA("[YAHOO_SENDNUDGE]");
 
 	if (!m_bLoggedIn) {/* don't send nudge if we not connected! */
 		ForkThread( &CYahooProto::im_sendackfail, hContact );

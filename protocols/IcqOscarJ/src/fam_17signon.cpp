@@ -55,7 +55,7 @@ void CIcqProto::handleAuthorizationFam(BYTE *pBuffer, WORD wBufferLength, snac_h
 		break;
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_AUTHORIZATION_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_AUTHORIZATION_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }
@@ -135,12 +135,12 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	BYTE digest[16];
 
 #ifdef _DEBUG
-	NetLog_Server("Received %s", "ICQ_SIGNON_AUTH_KEY");
+	debugLogA("Received %s", "ICQ_SIGNON_AUTH_KEY");
 #endif
 
 	if (wPacketLen < 2) 
 	{
-		NetLog_Server("Malformed %s", "ICQ_SIGNON_AUTH_KEY");
+		debugLogA("Malformed %s", "ICQ_SIGNON_AUTH_KEY");
 		icq_LogMessage(LOG_FATAL, LPGEN("Secure login failed.\nInvalid server response."));
 		SetCurrentStatus(ID_STATUS_OFFLINE);
 		return;
@@ -151,7 +151,7 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 
 	if (!wKeyLen || wKeyLen > wPacketLen || wKeyLen > sizeof(szKey)) 
 	{
-		NetLog_Server("Invalid length in %s: %u", "ICQ_SIGNON_AUTH_KEY", wKeyLen);
+		debugLogA("Invalid length in %s: %u", "ICQ_SIGNON_AUTH_KEY", wKeyLen);
 		icq_LogMessage(LOG_FATAL, LPGEN("Secure login failed.\nInvalid key length."));
 		SetCurrentStatus(ID_STATUS_OFFLINE);
 		return;
@@ -170,7 +170,7 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	mir_md5_finish(&state, digest);
 
 #ifdef _DEBUG
-	NetLog_Server("Sending ICQ_SIGNON_LOGIN_REQUEST to login server");
+	debugLogA("Sending ICQ_SIGNON_LOGIN_REQUEST to login server");
 #endif
 	sendClientAuth((char*)digest, 0x10, TRUE);
 }

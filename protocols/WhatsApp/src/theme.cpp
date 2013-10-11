@@ -106,9 +106,9 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 	if (hContact)
-		LOG(this->GetContactDisplayName(hContact).c_str());
+		debugLogA(this->GetContactDisplayName(hContact).c_str());
 	else
-		LOG("No contact found");
+		debugLogA("No contact found");
 
 	if (g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP] != NULL)
 		CallService("CList/RemoveContactMenuItem", (WPARAM) g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], (LPARAM) 0);
@@ -187,7 +187,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 			map<HANDLE, map<HANDLE, bool>>::iterator groupsIt = this->isMemberByGroupContact.find(hContact);
 			if (groupsIt == this->isMemberByGroupContact.end())
 			{
-				LOG("Group exists only on contact list");
+				debugLogA("Group exists only on contact list");
 			}
 			else
 			{
@@ -227,7 +227,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 {
-	LOG("");
+	debugLogA("");
 	char text[200];
 	strcpy(text,m_szModuleName);
 	char *tDest = text+strlen(text);

@@ -60,7 +60,7 @@ static void TlenPsPostThread(void *ptr) {
 				char fileBuffer[2048];
 				mir_snprintf(header, sizeof(header), "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
 				TlenWsSend(proto, socket, header, (int)strlen(header));
-				TlenLog(proto, "Sending picture data...");
+				proto->debugLogA("Sending picture data...");
 				for (i = item->ft->filesSize[0]; i > 0; ) {
 					int toread = min(2048, i);
 					int readcount = (int)fread(fileBuffer, (size_t)1, (size_t)toread, fp);
@@ -116,7 +116,7 @@ static void TlenPsGetThread(void *ptr) {
 			TlenXmlInitState(&xmlState);
 			mir_snprintf(header, sizeof(header), "<pic auth='%s' t='g' to='%s' pid='1001' idt='%s' rt='%s'/>", proto->threadData->username, item->ft->jid, item->jid, item->ft->id2);
 			TlenWsSend(proto, socket, header, (int)strlen(header));
-			TlenLog(proto, "Reveiving picture data...");
+			proto->debugLogA("Reveiving picture data...");
 			{
 				int totalcount = 0;
 				int size = item->ft->filesSize[0];
@@ -153,7 +153,7 @@ static void TlenPsGetThread(void *ptr) {
 				}
 			}
 			Netlib_CloseHandle(socket);
-			TlenLog(proto, "Picture received...");
+			proto->debugLogA("Picture received...");
 			LogPictureMessage(proto, item->ft->jid, item->ft->files[0], FALSE);
 		} else {
 		  /* cannot connect to ps server */

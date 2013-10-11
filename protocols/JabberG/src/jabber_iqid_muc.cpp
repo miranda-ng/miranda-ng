@@ -43,7 +43,7 @@ void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo *pInfo)
 
 	// RECVED: room config form
 	// ACTION: show the form
-	Log("<iq/> iqIdGetMuc");
+	debugLogA("<iq/> iqIdGetMuc");
 	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 	if ((from = xmlGetAttrValue(iqNode, _T("from"))) == NULL) return;
 
@@ -507,37 +507,37 @@ void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE 
 
 void CJabberProto::OnIqResultMucGetVoiceList(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	Log("<iq/> iqResultMucGetVoiceList");
+	debugLogA("<iq/> iqResultMucGetVoiceList");
 	OnIqResultMucGetJidList(iqNode, MUC_VOICELIST);
 }
 
 void CJabberProto::OnIqResultMucGetMemberList(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	Log("<iq/> iqResultMucGetMemberList");
+	debugLogA("<iq/> iqResultMucGetMemberList");
 	OnIqResultMucGetJidList(iqNode, MUC_MEMBERLIST);
 }
 
 void CJabberProto::OnIqResultMucGetModeratorList(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	Log("<iq/> iqResultMucGetModeratorList");
+	debugLogA("<iq/> iqResultMucGetModeratorList");
 	OnIqResultMucGetJidList(iqNode, MUC_MODERATORLIST);
 }
 
 void CJabberProto::OnIqResultMucGetBanList(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	Log("<iq/> iqResultMucGetBanList");
+	debugLogA("<iq/> iqResultMucGetBanList");
 	OnIqResultMucGetJidList(iqNode, MUC_BANLIST);
 }
 
 void CJabberProto::OnIqResultMucGetAdminList(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	Log("<iq/> iqResultMucGetAdminList");
+	debugLogA("<iq/> iqResultMucGetAdminList");
 	OnIqResultMucGetJidList(iqNode, MUC_ADMINLIST);
 }
 
 void CJabberProto::OnIqResultMucGetOwnerList(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	Log("<iq/> iqResultMucGetOwnerList");
+	debugLogA("<iq/> iqResultMucGetOwnerList");
 	OnIqResultMucGetJidList(iqNode, MUC_OWNERLIST);
 }
 

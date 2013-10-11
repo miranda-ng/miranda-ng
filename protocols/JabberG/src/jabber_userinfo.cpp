@@ -644,7 +644,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 					item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 				if (item != NULL) {
 					if (item->photoFileName) {
-						photoInfo->ppro->Log("Showing picture from %S", item->photoFileName);
+						photoInfo->ppro->debugLogA("Showing picture from %S", item->photoFileName);
 						photoInfo->hBitmap = (HBITMAP) CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)item->photoFileName);
 						FIP->FI_Premultiply(photoInfo->hBitmap);
 						ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_SHOW);
@@ -702,7 +702,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			ofn.nMaxFile = _MAX_PATH;
 			ofn.Flags = OFN_OVERWRITEPROMPT;
 			if ( GetSaveFileName(&ofn)) {
-				photoInfo->ppro->Log("File selected is %s", szFileName);
+				photoInfo->ppro->debugLogA("File selected is %s", szFileName);
 				CopyFile(item->photoFileName, szFileName, FALSE);
 			}
 		}
@@ -782,7 +782,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_DESTROY:
 		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, 0));
 		if (photoInfo->hBitmap) {
-			photoInfo->ppro->Log("Delete bitmap");
+			photoInfo->ppro->debugLogA("Delete bitmap");
 			DeleteObject(photoInfo->hBitmap);
 		}
 		if (photoInfo) mir_free(photoInfo);

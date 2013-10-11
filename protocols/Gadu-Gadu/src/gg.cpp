@@ -152,12 +152,12 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 
 	//1. clean files: %miranda_avatarcache%\GG\*.(null)
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)){
-		netlog("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
+		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
 		TCHAR avatarsPath[MAX_PATH];
 		mir_sntprintf(avatarsPath, MAX_PATH, _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 
-		netlog("cleanuplastplugin() 1: miranda_avatarcache = %S", avatarsPath);
+		debugLogA("cleanuplastplugin() 1: miranda_avatarcache = %S", avatarsPath);
 
 		if (avatarsPath !=  NULL){
 			HANDLE hFind = INVALID_HANDLE_VALUE;
@@ -170,7 +170,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 					TCHAR filePathT [2*MAX_PATH + 10];
 					mir_sntprintf(filePathT, 2*MAX_PATH + 10, _T("%s\\%s"), avatarsPath, ffd.cFileName);
 					if (!_taccess(filePathT, 0)){
-						netlog("cleanuplastplugin() 1: remove file = %S", filePathT);
+						debugLogA("cleanuplastplugin() 1: remove file = %S", filePathT);
 						_tremove(filePathT);
 					}
 				} while (FindNextFile(hFind, &ffd) != 0);
@@ -460,32 +460,10 @@ void gg_debughandler(int level, const char *format, va_list ap)
 	memcpy(szText, prefix, PREFIXLEN);
 
 	mir_vsnprintf(szText + strlen(szText), sizeof(szText) - strlen(szText), szFormat, ap);
-	CallService(MS_NETLIB_LOG, (WPARAM) NULL, (LPARAM) szText);
+	CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
 	free(szFormat);
 }
 #endif
-
-
-int GGPROTO::netlog(const char *fmt, ...)
-{
-	va_list va;
-	char szText[1024];
-	memset(szText, '\0', PREFIXLEN + 1);
-
-#ifdef DEBUGMODE
-	char prefix[6];
-	mir_snprintf(prefix, PREFIXLEN, "%lu", GetCurrentThreadId());
-	size_t prefixLen = strlen(prefix);
-	if (prefixLen < PREFIXLEN) memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
-	memcpy(szText, prefix, PREFIXLEN);
-#endif
-
-	va_start(va, fmt);
-	mir_vsnprintf(szText + strlen(szText), sizeof(szText) - strlen(szText), fmt, va);
-	va_end(va);
-
-	return CallService(MS_NETLIB_LOG, (WPARAM)netlib, (LPARAM) szText);
-}
 
 //////////////////////////////////////////////////////////
 // main DLL function

@@ -143,14 +143,14 @@ bool setup_next_file_send(file_transfer *ft)
 
 int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLIBPACKETRECVER &packetRecv)
 {
-	LOG("P2P: Entered file sending thread.");
+	debugLogA("P2P: Entered file sending thread.");
 
 	bool failed = true;
 	bool failed_conn = false;
 
 	if (!setup_next_file_send(ft)) return 2;
 
-	LOG("Sent file information to buddy.");
+	debugLogA("Sent file information to buddy.");
 	//start listen for packets stuff
 
 	for (;;)
@@ -160,13 +160,13 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 			recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0)
 		{
-			LOG("P2P: File transfer connection Error: 0");
+			debugLogA("P2P: File transfer connection Error: 0");
 			break;
 		}
 		if (recvResult == SOCKET_ERROR)
 		{
 			failed_conn = true;
-			LOG("P2P: File transfer connection Error: -1");
+			debugLogA("P2P: File transfer connection Error: -1");
 			break;
 		}
 		if (recvResult > 0)
@@ -182,7 +182,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 			unsigned short type = _htons(recv_ft->type);
 			if (type == 0x0202 || type == 0x0207)
 			{
-				LOG("P2P: Buddy Accepts our file transfer.");
+				debugLogA("P2P: Buddy Accepts our file transfer.");
 
 				int fid = _topen(ft->pfts.tszCurrentFile, _O_RDONLY | _O_BINARY, _S_IREAD);
 				if (fid < 0)
@@ -219,7 +219,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 					}
 				}
 				ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
-				LOG("P2P: Finished sending file bytes.");
+				debugLogA("P2P: Finished sending file bytes.");
 				_close(fid);
 			}
 			else if (type == 0x0204)
@@ -230,7 +230,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 					ft->pfts.totalProgress += ft->pfts.currentFileSize;
 				}
 
-				LOG("P2P: Buddy says they got the file successfully");
+				debugLogA("P2P: Buddy says they got the file successfully");
 				if ((ft->pfts.currentFileNumber + 1) < ft->pfts.totalFiles)
 				{
 					ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
@@ -260,7 +260,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 					recv_ft->recv_bytes = 0;
 				}
 
-				LOG("P2P: Buddy wants us to start sending at a specified file point. (%I64u)", ft->pfts.currentFileProgress);
+				debugLogA("P2P: Buddy wants us to start sending at a specified file point. (%I64u)", ft->pfts.currentFileProgress);
 				if (Netlib_Send(ft->hConn, (char*)recv_ft, _htons(recv_ft->length), 0) <= 0) break;
 
 				ft->pfts.totalProgress += ft->pfts.currentFileProgress;
@@ -275,7 +275,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 
 int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLIBPACKETRECVER &packetRecv)
 {
-	LOG("P2P: Entered file receiving thread.");
+	debugLogA("P2P: Entered file receiving thread.");
 	bool failed = true;
 	bool failed_conn = false;
 	bool accepted_file = false;
@@ -293,13 +293,13 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 			recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0)
 		{
-			LOG("P2P: File transfer connection Error: 0");
+			debugLogA("P2P: File transfer connection Error: 0");
 			break;
 		}
 		if (recvResult == SOCKET_ERROR)
 		{
 			failed_conn = true;
-			LOG("P2P: File transfer connection Error: -1");
+			debugLogA("P2P: File transfer connection Error: -1");
 			break;
 		}
 		if (recvResult > 0)
@@ -317,7 +317,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 				unsigned short type = _htons(recv_ft->type);
 				if (type == 0x0101)
 				{
-					LOG("P2P: Buddy Ready to begin transfer.");
+					debugLogA("P2P: Buddy Ready to begin transfer.");
 					oft = (oft2*)mir_realloc(oft, pkt_len);
 					memcpy(oft, recv_ft, pkt_len);
 					memcpy(oft->icbm_cookie, ft->icbm_cookie, 8);
@@ -444,7 +444,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 					oft->recv_bytes = _htonl(ft->pfts.currentFileProgress);
 					oft->recv_checksum = _htonl(aim_oft_checksum_file(ft->pfts.tszCurrentFile));
 
-					LOG("P2P: We got the file successfully");
+					debugLogA("P2P: We got the file successfully");
 					Netlib_Send(ft->hConn, (char*)oft, _htons(oft->length), 0);
 					if (_htons(oft->num_files_left) == 1)
 					{

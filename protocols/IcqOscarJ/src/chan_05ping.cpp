@@ -32,7 +32,7 @@
 
 void CIcqProto::handlePingChannel(BYTE *buf, WORD datalen)
 {
-	NetLog_Server("Warning: Ignoring server packet on PING channel");
+	debugLogA("Warning: Ignoring server packet on PING channel");
 }
 
 
@@ -42,7 +42,7 @@ void __cdecl CIcqProto::KeepAliveThread(void *arg)
 	icq_packet packet;
 	DWORD dwInterval = getDword("KeepAliveInterval", KEEPALIVE_INTERVAL);
 
-	NetLog_Server("Keep alive thread starting.");
+	debugLogA("Keep alive thread starting.");
 
 	info->hKeepAliveEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -65,7 +65,7 @@ void __cdecl CIcqProto::KeepAliveThread(void *arg)
 				break;
 	}
 
-	NetLog_Server("Keep alive thread ended.");
+	debugLogA("Keep alive thread ended.");
 
 	CloseHandle(info->hKeepAliveEvent);
 	info->hKeepAliveEvent = NULL;

@@ -772,7 +772,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 						if (CheckContactCapabilities(hContact, CAPF_RTF)) {
 							// most probably Qnext - try to make that shit at least receiving our msgs
 							ClearContactCapabilities(hContact, CAPF_SRV_RELAY);
-							NetLog_Server("Forcing simple messages (QNext client).");
+							debugLogA("Forcing simple messages (QNext client).");
 							szClient = "Qnext";
 						}
 						else if (CheckContactCapabilities(hContact, CAPF_TYPING) && MatchCapability(caps, wLen, &captZers) && MatchCapability(caps, wLen, &capFakeHtml)) {
@@ -818,7 +818,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 				if ( !CheckContactCapabilities(hContact, CAPF_RTF) && !CheckContactCapabilities(hContact, CAPF_UTF)) {
 					// this is bad, but we must do it - try to detect QNext
 					ClearContactCapabilities(hContact, CAPF_SRV_RELAY);
-					NetLog_Server("Forcing simple messages (QNext client).");
+					debugLogA("Forcing simple messages (QNext client).");
 					szClient = "Qnext";
 				}
 				else if (!CheckContactCapabilities(hContact, CAPF_RTF) && CheckContactCapabilities(hContact, CAPF_UTF) && !dwFT1 && !dwFT2 && !dwFT3)
@@ -1003,9 +1003,9 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 	// Log the detection result if it has changed or contact just logged on...
 	if (!szCurrentClient || strcmpnull(szCurrentClient, szClient)) {
 		if (bClientDetected)
-			NetLog_Server("Client identified as %s", szClient);
+			debugLogA("Client identified as %s", szClient);
 		else
-			NetLog_Server("No client identification, put default ICQ client for protocol.");
+			debugLogA("No client identification, put default ICQ client for protocol.");
 	}
 
 	return szClient;

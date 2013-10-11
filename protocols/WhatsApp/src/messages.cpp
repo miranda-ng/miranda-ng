@@ -42,7 +42,7 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 
 int WhatsAppProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
-	LOG("");
+	debugLogA("");
 	int msgId = ++(this->msgId);
 
 	ForkThread( &WhatsAppProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE) msgId, flags & IS_CHAT));
@@ -51,7 +51,7 @@ int WhatsAppProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 
 void WhatsAppProto::SendMsgWorker(void* p)
 {
-	LOG("");
+	debugLogA("");
 	if (p == NULL)
 		return;
 
@@ -60,7 +60,7 @@ void WhatsAppProto::SendMsgWorker(void* p)
 
 	if (getByte(data->hContact, "SimpleChatRoom", 0) > 0 && getByte(data->hContact, "IsGroupMember", 0) == 0)
 	{
-		LOG("not a group member");
+		debugLogA("not a group member");
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 			(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages to groups if you are not a member.");
 	}
@@ -85,20 +85,20 @@ void WhatsAppProto::SendMsgWorker(void* p)
 		}
 		catch (exception &e)
 		{
-			LOG("exception: %s", e.what());
+			debugLogA("exception: %s", e.what());
 			ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
 				(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) e.what());
 		}
 		catch (...)
 		{
-			LOG("unknown exception");
+			debugLogA("unknown exception");
 			ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
 			  (HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "Failed sending message");
 		}
 	}
 	else
 	{
-		LOG("No connection");
+		debugLogA("No connection");
 		ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
 			(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages when you are offline.");
 	}
@@ -163,7 +163,7 @@ void WhatsAppProto::SendTypingWorker(void* p)
 
 void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 {
-	LOG("");
+	debugLogA("");
 
 	HANDLE hContact = this->ContactIDToHContact(fmsg->key->remote_jid);
 	if (hContact == 0)

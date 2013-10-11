@@ -394,7 +394,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				char *pszDescription = NULL;
 				WORD wFilenameLength;
 
-				NetLog_Server("This is a file request");
+				debugLogA("This is a file request");
 
 				// This TLV chain may contain the following TLVs:
 				// TLV(A): Acktype 0x0001 - file request / abort request
@@ -492,7 +492,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 					// sanity check
 					if (!tlv || tlv->wLen < 8)
 					{
-						NetLog_Server("Error: Malformed file request");
+						debugLogA("Error: Malformed file request");
 						// release structures
 						SafeReleaseFileTransfer((void**)&ft);
 						SAFE_FREE(&pszDescription);
@@ -614,7 +614,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 					}
 				}
 				else
-					NetLog_Server("Error: Invalid request, no such transfer");
+					debugLogA("Error: Invalid request, no such transfer");
 			}
 			else if (wAckType == 3)
 			{ // Transfering thru proxy, join tunnel
@@ -642,7 +642,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 					}
 				}
 				else
-					NetLog_Server("Error: Invalid request, no such transfer");
+					debugLogA("Error: Invalid request, no such transfer");
 			}
 			else if (wAckType == 4)
 			{
@@ -662,18 +662,18 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 						OpenOscarConnection(hContact, ft, OCT_PROXY_RECV);
 					}
 					else
-						NetLog_Server("Error: Invalid request, IP missing.");
+						debugLogA("Error: Invalid request, IP missing.");
 				}
 				else
-					NetLog_Server("Error: Invalid request, no such transfer");
+					debugLogA("Error: Invalid request, no such transfer");
 			}
 			else
-				NetLog_Server("Error: Uknown Stage %d request", wAckType);
+				debugLogA("Error: Uknown Stage %d request", wAckType);
 
 			disposeChain(&chain);
 		}
 		else
-			NetLog_Server("Error: Missing TLV chain in OFT request");
+			debugLogA("Error: Missing TLV chain in OFT request");
 	}
 	else if (wCommand == 1)
 	{ // transfer cancelled/aborted
@@ -681,7 +681,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 
 		if (ft)
 		{
-			NetLog_Server("OFT: File transfer cancelled by %s", strUID(dwUin, szUID));
+			debugLogA("OFT: File transfer cancelled by %s", strUID(dwUin, szUID));
 
 			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)ft, 0);
 			// Notify user, that the FT was cancelled // TODO: new ACKRESULT_?
@@ -690,7 +690,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 			SafeReleaseFileTransfer((void**)&ft);
 		}
 		else
-			NetLog_Server("Error: Invalid request, no such transfer");
+			debugLogA("Error: Invalid request, no such transfer");
 	}
 	else if (wCommand == 2)
 	{ // transfer accepted - connection established
@@ -714,14 +714,14 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				ft->flags |= OFTF_INITIALIZED; // accept was received
 			}
 			else
-				NetLog_Server("Warning: Received invalid rendezvous accept");
+				debugLogA("Warning: Received invalid rendezvous accept");
 		}
 		else
-			NetLog_Server("Error: Invalid request, no such transfer");
+			debugLogA("Error: Invalid request, no such transfer");
 	}
 	else
 	{
-		NetLog_Server("Error: Unknown wCommand=0x%x in OFT request", wCommand);
+		debugLogA("Error: Unknown wCommand=0x%x in OFT request", wCommand);
 	}
 }
 
@@ -745,7 +745,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, cha
 		{
 		case 1:
 			{ // FT denied (icq5)
-				NetLog_Server("OFT: File transfer denied by %s", strUID(dwUin, szUID));
+				debugLogA("OFT: File transfer denied by %s", strUID(dwUin, szUID));
 
 				ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)oft, 0);
 				// Release transfer
@@ -785,7 +785,7 @@ void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, cha
 
 		default:
 			{
-				NetLog_Server("OFT: Uknown request response code 0x%x", wStatus);
+				debugLogA("OFT: Uknown request response code 0x%x", wStatus);
 
 				ProtoBroadcastAck(oft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)oft, 0);
 				// Release transfer
@@ -846,7 +846,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 	char ** filesUtf;
 
 	// Initialize filetransfer struct
-	NetLog_Server("Init file send");
+	debugLogA("Init file send");
 
 	ft = CreateOscarTransfer();
 	ft->hContact = hContact;
@@ -865,7 +865,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 	for (i = 0; i < filesCount; i++)
 	{
 		if (_tstati64(files[i], &statbuf))
-			NetLog_Server("IcqSendFile() was passed invalid filename \"%s\"", files[i]);
+			debugLogA("IcqSendFile() was passed invalid filename \"%s\"", files[i]);
 		else
 		{
 			if (!(statbuf.st_mode&_S_IFDIR))
@@ -909,7 +909,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 		return 0; // Failure
 	}
 
-	NetLog_Server("OFT: Found %d files.", ft->wFilesCount);
+	debugLogA("OFT: Found %d files.", ft->wFilesCount);
 
 	ft->szDescription = tchar_to_utf8(pszDesc);
 	ft->flags = OFTF_SENDING;
@@ -1259,7 +1259,7 @@ int CIcqProto::CreateOscarProxyConnection(oscar_connection *oc)
 	if (m_bGatewayMode)
 		nloc.flags |= NLOCF_HTTPGATEWAY;
 
-	oc->hConnection = NetLib_OpenConnection(m_hServerNetlibUser, "Proxy ", &nloc);
+	oc->hConnection = NetLib_OpenConnection(m_hNetlibUser, "Proxy ", &nloc);
 	if (!oc->hConnection)
 	{ // proxy connection failed
 		return 0;
@@ -1433,7 +1433,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 					nloc.wPort = RandRange(1024, 65535);
 				if (m_bGatewayMode)
 					nloc.flags |= NLOCF_HTTPGATEWAY;
-				oc.hConnection = NetLib_OpenConnection(m_hServerNetlibUser, "Proxy ", &nloc);
+				oc.hConnection = NetLib_OpenConnection(m_hNetlibUser, "Proxy ", &nloc);
 				if (!oc.hConnection)
 				{ // proxy connection failed, we are out of possibilities
 					ProtoBroadcastAck(oc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc.ft, 0);
@@ -1715,7 +1715,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 				// Notify peer
 				oft_sendFileResponse(oc->dwUin, oc->szUid, oc->ft, 0x06);
 
-				NetLog_Server("Proxy Error: %s (0x%x)", szError, wError);
+				debugLogA("Proxy Error: %s (0x%x)", szError, wError);
 				// Notify UI
 				ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc->ft, 0);
 				// Release structure
@@ -1743,7 +1743,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 				}
 				else
 				{
-					NetLog_Server("Proxy Tunnel ready, notify peer.");
+					debugLogA("Proxy Tunnel ready, notify peer.");
 					oft_sendFileRedirect(oc->dwUin, oc->szUid, ft, dwIP, wCode, TRUE);
 				}
 			}
@@ -1761,7 +1761,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 					ft->flags |= OFTF_INITIALIZED;
 			}
 
-			NetLog_Server("Proxy Tunnel established");
+			debugLogA("Proxy Tunnel established");
 
 			if ((ft->flags & OFTF_INITIALIZED) && (ft->flags & OFTF_SENDING) && !(ft->flags & OFTF_FILE_REQUEST_SENT))
 			{
@@ -1772,7 +1772,7 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 			break;
 
 		default:
-			NetLog_Server("Unknown proxy command 0x%x", wCommand);
+			debugLogA("Unknown proxy command 0x%x", wCommand);
 		}
 
 		buf += datalen;
@@ -1935,7 +1935,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 				{ // the 32bits does not match, use them as full size
 					ft->qwTotalSize = dwSize;
 
-					NetLog_Server("Warning: Invalid total size.");
+					debugLogA("Warning: Invalid total size.");
 				}
 			}
 			else

@@ -554,7 +554,7 @@ struct TimerPair
 	{}
 
 	UINT_PTR idEvent;
-	CIrcProto* ppro;
+	CIrcProto *ppro;
 };
 
 static int CompareTimers( const TimerPair* p1, const TimerPair* p2 )

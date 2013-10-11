@@ -19,7 +19,7 @@ int YAHOO_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPRE
 {
 	NETLIBHTTPPROXYINFO nlhpi;
 
-	DebugLog("YAHOO_httpGatewayInit!!!");
+	debugLogA("YAHOO_httpGatewayInit!!!");
 	
 	ZeroMemory(&nlhpi, sizeof(nlhpi));
 	nlhpi.cbSize = sizeof(nlhpi);
@@ -30,7 +30,7 @@ int YAHOO_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPRE
 
 int YAHOO_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend)
 {
-	DebugLog("YAHOO_httpGatewayWrapSend!!! Len: %d", len);
+	debugLogA("YAHOO_httpGatewayWrapSend!!! Len: %d", len);
 
 	if (len == 0 && m_id > 0) { // we need to send something!!!
 		int n;
@@ -38,12 +38,12 @@ int YAHOO_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRAN
 		int ret = 0;
 		
 		if (z != NULL) {
-			DebugLog("YAHOO_httpGatewayWrapSend!!! Got Len: %d", n);
+			debugLogA("YAHOO_httpGatewayWrapSend!!! Got Len: %d", n);
 			NETLIBBUFFER tBuf = { ( char* )z, n, flags };
 			ret = pfnNetlibSend((LPARAM)hConn, (WPARAM) &tBuf );
 			FREE(z);
 		} else {
-			DebugLog("YAHOO_httpGatewayWrapSend!!! GOT NULL???");
+			debugLogA("YAHOO_httpGatewayWrapSend!!! GOT NULL???");
 		}
 		
 		return ret;
@@ -56,15 +56,15 @@ int YAHOO_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRAN
 
 PBYTE YAHOO_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void *, size_t))
 {
-    DebugLog("YAHOO_httpGatewayUnwrapRecv!!! Len: %d", len);
+    debugLogA("YAHOO_httpGatewayUnwrapRecv!!! Len: %d", len);
 
-    DebugLog("Got headers: %d", nlhr->headersCount);
+    debugLogA("Got headers: %d", nlhr->headersCount);
     /* we need to get the first 4 bytes! */
 	if (len < 4) 
 		return NULL;
 
 	ylad->rpkts = buf[0] + buf[1] *256;
-	DebugLog("Got packets: %d", ylad->rpkts);
+	debugLogA("Got packets: %d", ylad->rpkts);
 	
     if (len == 4) {
         *outBufLen = 0;

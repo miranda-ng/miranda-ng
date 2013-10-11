@@ -372,7 +372,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 			while (*tParams == ' ') ++tParams;
 
-			MSN_DebugLog("Running mailer \"%s\" with params \"%s\"", tCmd, tParams);
+			debugLogA("Running mailer \"%s\" with params \"%s\"", tCmd, tParams);
 			ShellExecuteA(NULL, "open", tCmd, tParams, NULL, TRUE);
 		}
 	}

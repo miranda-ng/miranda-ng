@@ -23,7 +23,7 @@ void __cdecl CAimProto::avatar_request_thread(void* param)
 	HANDLE hContact = (HANDLE)param;
 
 	char *sn = getStringA(hContact, AIM_KEY_SN);
-	LOG("Starting avatar request thread for %s)", sn);
+	debugLogA("Starting avatar request thread for %s)", sn);
 
 	if (wait_conn(hAvatarConn, hAvatarEvent, 0x10))
 	{
@@ -33,7 +33,7 @@ void __cdecl CAimProto::avatar_request_thread(void* param)
 		size_t len = (strlen(hash_str) + 1) / 2;
 		char* hash = (char*)alloca(len);
 		string_to_bytes(hash_str, hash);
-		LOG("Requesting an Avatar: %s (Hash: %s)", sn, hash_str);
+		debugLogA("Requesting an Avatar: %s (Hash: %s)", sn, hash_str);
 		aim_request_avatar(hAvatarConn, avatar_seqno, sn, type, hash, (unsigned short)len);
 
 		mir_free(hash_str);
@@ -118,7 +118,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 			mir_free(my_sn);
 		}
 	}
-	else LOG("AIM sent avatar of zero length for %s.(Usually caused by repeated request for the same icon)", sn);
+	else debugLogA("AIM sent avatar of zero length for %s.(Usually caused by repeated request for the same icon)", sn);
 
 	ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
 }

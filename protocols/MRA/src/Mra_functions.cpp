@@ -1539,21 +1539,3 @@ CMStringW EncodeXML(const CMStringW &lptszMessage)
 	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(TCHAR), SIZEOF(lpszXMLTags), (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, ret);
 	return ret;
 }
-
-void CMraProto::DebugLogA(LPCSTR szFormat, ...)
-{
-	char buf[4096];
-	va_list args;
-	va_start(args, szFormat);
-	vsprintf_s(buf, sizeof(buf), szFormat, args);
-	CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)buf);
-}
-
-void CMraProto::DebugLogW(LPCWSTR szFormat, ...)
-{
-	WCHAR buf[4096];
-	va_list args;
-	va_start(args, szFormat);
-	vswprintf_s(buf, SIZEOF(buf), szFormat, args);
-	CallService(MS_NETLIB_LOGW, (WPARAM)m_hNetlibUser, (LPARAM)buf);
-}

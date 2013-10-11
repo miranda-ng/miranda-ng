@@ -172,7 +172,7 @@ struct CMraProto : public PROTO<CMraProto>
 
 	HANDLE   hSendQueueHandle, hFilesQueueHandle, hMPopSessionQueue;
 
-	HANDLE   m_hNetlibUser, m_heNudgeReceived;
+	HANDLE   m_heNudgeReceived;
 	HANDLE   m_hThreadWorker;
 	HANDLE   m_hConnection;
 	DWORD    m_dwThreadWorkerLastPingTime, m_dwNextPingSendTickTime, m_dwPingPeriod;
@@ -197,9 +197,6 @@ struct CMraProto : public PROTO<CMraProto>
 	char    szNewMailSound[MAX_PATH];
 
 	CRITICAL_SECTION csCriticalSectionSend;
-
-	void   DebugLogA(LPCSTR szFormat, ...);
-	void   DebugLogW(LPCWSTR szFormat, ...);
 
 	HANDLE AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR plpsFirstName, LPCTSTR plpsLastName, DWORD dwFlags);
 

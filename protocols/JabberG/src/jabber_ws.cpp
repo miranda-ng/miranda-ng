@@ -60,7 +60,7 @@ int CJabberProto::WsSend(JABBER_SOCKET hConn, char* data, int datalen, int flags
 	int len;
 
 	if ((len = Netlib_Send(hConn, data, datalen, flags)) == SOCKET_ERROR || len != datalen) {
-		Log("Netlib_Send() failed, error=%d", WSAGetLastError());
+		debugLogA("Netlib_Send() failed, error=%d", WSAGetLastError());
 		return SOCKET_ERROR;
 	}
 	return len;
@@ -72,11 +72,11 @@ int CJabberProto::WsRecv(JABBER_SOCKET hConn, char* data, long datalen, int flag
 
 	ret = Netlib_Recv(hConn, data, datalen, flags);
 	if (ret == SOCKET_ERROR) {
-		Log("Netlib_Recv() failed, error=%d", WSAGetLastError());
+		debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 		return 0;
 	}
 	if (ret == 0) {
-		Log("Connection closed gracefully");
+		debugLogA("Connection closed gracefully");
 		return 0;
 	}
 	return ret;

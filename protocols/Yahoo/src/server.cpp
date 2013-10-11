@@ -54,7 +54,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 	NETLIBSELECTEX nls = {0};
 	int recvResult, ridx = 0, widx = 0, i;
 
-	DebugLog("Server Thread Starting status: %d", status);
+	debugLogA("Server Thread Starting status: %d", status);
 
 	do_yahoo_debug=YAHOO_LOG_DEBUG;
 	yahoo_set_log_level(( yahoo_log_level )do_yahoo_debug);
@@ -100,13 +100,13 @@ void __cdecl CYahooProto::server_main(void *empty)
 			}
 		}
 
-		//DebugLog("[Yahoo_Server] ridx:%d widx:%d", ridx, widx);
+		//debugLogA("[Yahoo_Server] ridx:%d widx:%d", ridx, widx);
 
 		nls.hReadConns[ridx] = NULL;
 		nls.hWriteConns[widx] = NULL;
 
 		if (m_connections == NULL) {
-			DebugLog("Last connection closed.");
+			debugLogA("Last connection closed.");
 			break;
 		}
 		recvResult = CallService(MS_NETLIB_SELECTEX, (WPARAM) 0, (LPARAM)&nls);
@@ -114,7 +114,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 		/* do the timer check */
 		if (m_id > 0) {
 #ifdef	HTTP_GATEWAY			
-			//DebugLog("HTTPGateway: %d", iHTTPGateway);
+			//debugLogA("HTTPGateway: %d", iHTTPGateway);
 			if	(!iHTTPGateway) {
 #endif					
 				t = time(NULL); 
@@ -135,7 +135,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 
 #ifdef HTTP_GATEWAY					
 			} else {
-				DebugLog("[SERVER] Got packets: %d", ylad->rpkts);
+				debugLogA("[SERVER] Got packets: %d", ylad->rpkts);
 
 				if ( m_bLoggedIn && ( (ylad->rpkts > 0 && (time(NULL) - lLastSend) >=3) ||
 					( (time(NULL) - lLastSend) >= 13)) ) {
@@ -190,11 +190,11 @@ void __cdecl CYahooProto::server_main(void *empty)
 
 		/* Check for Miranda Exit Status */
 		if (Miranda_Terminated()) {
-			DebugLog("Miranda Exiting... stopping the loop.");
+			debugLogA("Miranda Exiting... stopping the loop.");
 			break;
 		}
 	}
-	DebugLog("Exited loop");
+	debugLogA("Exited loop");
 
 	/* cleanup the data stuff and close our connection handles */
 	while(m_connections) {
@@ -217,5 +217,5 @@ void __cdecl CYahooProto::server_main(void *empty)
 	BroadcastStatus(ID_STATUS_OFFLINE);
 	logoff_buddies();	
 
-	DebugLog("Server thread ending");
+	debugLogA("Server thread ending");
 }

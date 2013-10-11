@@ -35,7 +35,7 @@ BOOL TlenWsInit(TlenProtocol *proto)
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), proto->m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	nlu.szSettingsModule = proto->m_szModuleName;
-	proto->hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) &nlu);
+	proto->m_hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) &nlu);
 
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_NOOPTIONS | NUF_TCHAR;
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s SOCKS connection"), proto->m_tszUserName);
@@ -45,14 +45,14 @@ BOOL TlenWsInit(TlenProtocol *proto)
 	nlus.useProxy = 0;
 	CallService(MS_NETLIB_SETUSERSETTINGS, (WPARAM) proto->hFileNetlibUser, (LPARAM) &nlus);
 
-	return (proto->hNetlibUser != NULL)?TRUE:FALSE;
+	return (proto->m_hNetlibUser != NULL)?TRUE:FALSE;
 }
 
 void TlenWsUninit(TlenProtocol *proto)
 {
-	if (proto->hNetlibUser != NULL) Netlib_CloseHandle(proto->hNetlibUser);
+	if (proto->m_hNetlibUser != NULL) Netlib_CloseHandle(proto->m_hNetlibUser);
 	if (proto->hFileNetlibUser != NULL) Netlib_CloseHandle(proto->hFileNetlibUser);
-	proto->hNetlibUser = NULL;
+	proto->m_hNetlibUser = NULL;
 	proto->hFileNetlibUser = NULL;
 }
 
@@ -65,7 +65,7 @@ HANDLE TlenWsConnect(TlenProtocol *proto, char *host, WORD port)
 	nloc.wPort = port;
 	nloc.flags = 0;
 	nloc.timeout = 6;
-	return (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) proto->hNetlibUser, (LPARAM) &nloc);
+	return (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) proto->m_hNetlibUser, (LPARAM) &nloc);
 }
 
 
@@ -73,7 +73,7 @@ int TlenWsSend(TlenProtocol *proto, HANDLE s, char *data, int datalen)
 {
 	int len;
 	if ((len=Netlib_Send(s, data, datalen, /*MSG_NODUMP|*/MSG_DUMPASTEXT)) == SOCKET_ERROR || len != datalen) {
-	TlenLog(proto, "Netlib_Send() failed, error=%d", WSAGetLastError());
+	proto->debugLogA("Netlib_Send() failed, error=%d", WSAGetLastError());
 		return FALSE;
 	}
 	return TRUE;
@@ -84,11 +84,11 @@ int TlenWsRecv(TlenProtocol *proto, HANDLE s, char *data, long datalen)
 	int ret;
 	ret = Netlib_Recv(s, data, datalen, /*MSG_NODUMP|*/MSG_DUMPASTEXT);
 	if (ret == SOCKET_ERROR) {
-		TlenLog(proto, "Netlib_Recv() failed, error=%d", WSAGetLastError());
+		proto->debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 		return 0;
 	}
 	if (ret == 0) {
-		TlenLog(proto, "Connection closed gracefully");
+		proto->debugLogA("Connection closed gracefully");
 		return 0;
 	}
 	return ret;
@@ -115,9 +115,9 @@ int TlenWsSendAES(TlenProtocol *proto, char *data, int datalen, aes_context *aes
 			len += 16;
 		}
 		if (len > 0) {
-			TlenLog(proto, "Sending %d bytes", len);
+			proto->debugLogA("Sending %d bytes", len);
 			if ((sendlen=Netlib_Send(proto->threadData->s, (char *)aes_output, len, MSG_NODUMP)) == SOCKET_ERROR || len != sendlen) {
-				TlenLog(proto, "Netlib_Send() failed, error=%d", WSAGetLastError());
+				proto->debugLogA("Netlib_Send() failed, error=%d", WSAGetLastError());
 				return FALSE;
 			}
 		}
@@ -136,11 +136,11 @@ int TlenWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *ae
 	for (maxlen = maxlen & ~0xF; maxlen != 0; maxlen = maxlen & 0xF) {
 		ret = Netlib_Recv(proto->threadData->s, data, maxlen, MSG_NODUMP);
 		if (ret == SOCKET_ERROR) {
-			TlenLog(proto, "Netlib_Recv() failed, error=%d", WSAGetLastError());
+			proto->debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 			return 0;
 		}
 		if (ret == 0) {
-			TlenLog(proto, "Connection closed gracefully");
+			proto->debugLogA("Connection closed gracefully");
 			return 0;
 		}
 		data += ret;

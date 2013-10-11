@@ -22,24 +22,9 @@
 
 #include "resource.h"
 
-int CYahooProto::DebugLog( const char *fmt, ... )
-{
-	char str[ 4096 ];
-	va_list vararg;
-	va_start( vararg, fmt );
-	
-	int tBytes = mir_vsnprintf(str, sizeof(str), fmt, vararg);
-	if ( tBytes > 0)
-		str[ tBytes ] = 0;
-
-	va_end( vararg );
-	
-	return CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)str);
-}
-
 extern HANDLE g_hNetlibUser;
 
-int DebugLog( const char *fmt, ... )
+int debugLogA( const char *fmt, ... )
 {
 	char str[ 4096 ];
 	va_list vararg;
@@ -89,7 +74,7 @@ static LRESULT CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam,
 {
 	switch(message) {
 	case WM_COMMAND:
-		DebugLog("[PopupWindowProc] WM_COMMAND");
+		debugLogA("[PopupWindowProc] WM_COMMAND");
 		if ( HIWORD(wParam) == STN_CLICKED) {
 			char *szURL = (char*)PUGetPluginData(hWnd);
 			if (szURL != NULL)
@@ -101,12 +86,12 @@ static LRESULT CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam,
 		break;
 
 	case WM_CONTEXTMENU:
-		DebugLog("[PopupWindowProc] WM_CONTEXTMENU");
+		debugLogA("[PopupWindowProc] WM_CONTEXTMENU");
 		PUDeletePopup(hWnd); 
 		return TRUE;
 
 	case UM_FREEPLUGINDATA:
-		DebugLog("[PopupWindowProc] UM_FREEPLUGINDATA");
+		debugLogA("[PopupWindowProc] UM_FREEPLUGINDATA");
 		{
 			char *szURL = (char *)PUGetPluginData(hWnd);
 			if (szURL != NULL) 
@@ -135,7 +120,7 @@ int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *
 	}
 	else ppd.lchIcon = LoadIconEx("yahoo");
 	
-	DebugLog("[MS_POPUP_ADDPOPUP] Generating a popup for [%S] %S", nickname, msg);
+	debugLogA("[MS_POPUP_ADDPOPUP] Generating a popup for [%S] %S", nickname, msg);
 	
 	PUAddPopupT(&ppd);
 	return 1;
@@ -174,7 +159,7 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*) lParam;
 	if ( !strcmp(cws->szSetting, "ApparentMode")) {
-		DebugLog("DB Setting changed.  YAHOO user's visible setting changed.");
+		debugLogA("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;
 		if (!getString((HANDLE)wParam, YAHOO_LOGINID, &dbv)) {
@@ -205,7 +190,7 @@ void CYahooProto::YAHOO_utils_logversion()
     char str[256];
     mir_snprintf(str, sizeof(str), "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
               (pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF);
-    DebugLog(str);
+    debugLogA(str);
 }
 
 void SetButtonCheck(HWND hwndDlg, int CtrlID, BOOL bCheck)

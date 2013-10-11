@@ -42,7 +42,7 @@ void CIcqProto::handleIcqExtensionsFam(BYTE *pBuffer, WORD wBufferLength, snac_h
 		break;
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_EXTENSIONS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_EXTENSIONS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }
@@ -99,25 +99,25 @@ void CIcqProto::handleExtensionError(BYTE *buf, WORD wPackLen)
 								ReleaseCookie(wCookie);  // we do not leak cookie and memory
 							}
 
-							NetLog_Server("Full info request error 0x%02x received", wErrorCode);
+							debugLogA("Full info request error 0x%02x received", wErrorCode);
 						}
 						else if (wSubType == META_SET_PASSWORD_REQ)
 						{
 							// failed to change user password, report to UI
 							ProtoBroadcastAck(NULL, ACKTYPE_SETINFO, ACKRESULT_FAILED, (HANDLE)wCookie, 0);
 
-							NetLog_Server("Meta change password request failed, error 0x%02x", wErrorCode);
+							debugLogA("Meta change password request failed, error 0x%02x", wErrorCode);
 						}
 						else
-							NetLog_Server("Meta request error 0x%02x received", wErrorCode);
+							debugLogA("Meta request error 0x%02x received", wErrorCode);
 					}
 					else 
-						NetLog_Server("Meta request error 0x%02x received", wErrorCode);
+						debugLogA("Meta request error 0x%02x received", wErrorCode);
 
 					break;
 
 				default:
-					NetLog_Server("Unknown request 0x%02x error 0x%02x received", wData, wErrorCode);
+					debugLogA("Unknown request 0x%02x error 0x%02x received", wData, wErrorCode);
 				}
 				disposeChain(&chain);
 				return;
@@ -138,7 +138,7 @@ void CIcqProto::handleExtensionServerInfo(BYTE *buf, WORD wPackLen, WORD wFlags)
 	chain = readIntoTLVChain(&buf, wPackLen, 0);
 	if (chain == NULL)
 	{
-		NetLog_Server("Error: Broken snac 15/3 %d", 1);
+		debugLogA("Error: Broken snac 15/3 %d", 1);
 		return;
 	}
 
@@ -146,7 +146,7 @@ void CIcqProto::handleExtensionServerInfo(BYTE *buf, WORD wPackLen, WORD wFlags)
 	if (dataTlv == NULL)
 	{
 		disposeChain(&chain);
-		NetLog_Server("Error: Broken snac 15/3 %d", 2);
+		debugLogA("Error: Broken snac 15/3 %d", 2);
 		return;
 	}
 	BYTE *databuf = dataTlv->pData;
@@ -178,13 +178,13 @@ void CIcqProto::handleExtensionServerInfo(BYTE *buf, WORD wPackLen, WORD wFlags)
 				break;
 
 			default:
-				NetLog_Server("Warning: Ignoring Meta response - Unknown type %d", wRequestType);
+				debugLogA("Warning: Ignoring Meta response - Unknown type %d", wRequestType);
 				break;
 			}
 		}
 	}
 	else
-		NetLog_Server("Error: Broken snac 15/3 %d", 3);
+		debugLogA("Error: Broken snac 15/3 %d", 3);
 
 	if (chain)
 		disposeChain(&chain);
@@ -271,7 +271,7 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, WORD wPacketLen, WORD
 			}
 
 			// Parsing failure
-			NetLog_Server("Error: Failure parsing META_SMS_DELIVERY_RECEIPT");
+			debugLogA("Error: Failure parsing META_SMS_DELIVERY_RECEIPT");
 			break;
 
 		case META_DIRECTORY_DATA:
@@ -279,14 +279,14 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, WORD wPacketLen, WORD
 			if (bResultCode == 0x0A)
 				handleDirectoryQueryResponse(databuf, wPacketLen, wCookie, wReplySubtype, wFlags);
 			else
-				NetLog_Server("Error: Directory request failed, code %u", bResultCode);
+				debugLogA("Error: Directory request failed, code %u", bResultCode);
 			break;
 
 		case META_DIRECTORY_UPDATE_ACK:
 			if (bResultCode == 0x0A)
 				handleDirectoryUpdateResponse(databuf, wPacketLen, wCookie, wReplySubtype);
 			else
-				NetLog_Server("Error: Directory request failed, code %u", bResultCode);
+				debugLogA("Error: Directory request failed, code %u", bResultCode);
 			break;
 
 		case META_BASIC_USERINFO:
@@ -298,11 +298,11 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, WORD wPacketLen, WORD
 		case META_AFFILATIONS_USERINFO:
 		case META_SHORT_USERINFO:
 		case META_HPAGECAT_USERINFO:
-			NetLog_Server("Warning: Ignored 15/03 (legacy user info) replysubtype x%x", wReplySubtype);
+			debugLogA("Warning: Ignored 15/03 (legacy user info) replysubtype x%x", wReplySubtype);
 			break;
 
 		default:
-			NetLog_Server("Warning: Ignored 15/03 replysubtype x%x", wReplySubtype);
+			debugLogA("Warning: Ignored 15/03 replysubtype x%x", wReplySubtype);
 			//      _ASSERTE(0);
 			break;
 		}
@@ -312,7 +312,7 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, WORD wPacketLen, WORD
 	}
 
 	// Failure
-	NetLog_Server("Warning: Broken 15/03 ExtensionMetaResponse");
+	debugLogA("Warning: Broken 15/03 ExtensionMetaResponse");
 }
 
 
@@ -350,7 +350,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD
 
 	if (!FindCookie(wCookie, NULL, (void**)&pCookie))
 	{
-		NetLog_Server("Warning: Received unexpected search reply");
+		debugLogA("Warning: Received unexpected search reply");
 		pCookie = NULL;
 	}
 
@@ -362,9 +362,9 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD
 
 	case SRV_USER_FOUND:      // Search: user found reply
 		if (bLastUser)
-			NetLog_Server("SNAC(0x15,0x3): Last search reply");
+			debugLogA("SNAC(0x15,0x3): Last search reply");
 		else
-			NetLog_Server("SNAC(0x15,0x3): Search reply");
+			debugLogA("SNAC(0x15,0x3): Search reply");
 
 		if (bResultCode == 0xA)
 		{
@@ -480,7 +480,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD
 					databuf += 5;
 					unpackLEDWord(&databuf, &dwLeft);
 					if (dwLeft)
-						NetLog_Server("Warning: %d search results omitted", dwLeft);
+						debugLogA("Warning: %d search results omitted", dwLeft);
 				}
 				ReleaseSearchCookie(wCookie, pCookie);
 			}
@@ -489,7 +489,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD
 		else 
 		{
 			// Failed search
-			NetLog_Server("SNAC(0x15,0x3): Search error %u", bResultCode);
+			debugLogA("SNAC(0x15,0x3): Search error %u", bResultCode);
 
 			ReleaseSearchCookie(wCookie, pCookie);
 
@@ -507,7 +507,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD
 	// For debugging purposes only
 	if (!bParsingOK)
 	{
-		NetLog_Server("Warning: Parsing error in 15/03 search reply type x%x", wReplySubtype);
+		debugLogA("Warning: Parsing error in 15/03 search reply type x%x", wReplySubtype);
 		_ASSERTE(!bParsingOK);
 	}
 }
@@ -527,7 +527,7 @@ void CIcqProto::parseUserInfoUpdateAck(unsigned char *databuf, WORD wPacketLen, 
 		break;
 
 	default:
-		NetLog_Server("Warning: Ignored 15/03 user info update ack type x%x", wReplySubtype);
+		debugLogA("Warning: Ignored 15/03 user info update ack type x%x", wReplySubtype);
 		break;
 	}
 }
@@ -634,7 +634,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 	BYTE requestResult;
 
 #ifdef _DEBUG
-	NetLog_Server("Received directory query response");
+	debugLogA("Received directory query response");
 #endif
 	if (wPacketLen >= 2)
 		unpackLEWord(&databuf, &wBytesRemaining);
@@ -643,7 +643,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 
 	if (!unpackSnacHeader(&requestSnac, &databuf, &wPacketLen) || !requestSnac.bValid)
 	{
-		NetLog_Server("Error: Failed to parse directory response");
+		debugLogA("Error: Failed to parse directory response");
 		return;
 	}
 
@@ -652,7 +652,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 	// check request cookie
 	if (!FindCookie(wCookie, &hContact, (void**)&pCookieData) || !pCookieData)
 	{
-		NetLog_Server("Warning: Ignoring unrequested directory reply type (x%x, x%x)", requestSnac.wFamily, requestSnac.wSubtype);
+		debugLogA("Warning: Ignoring unrequested directory reply type (x%x, x%x)", requestSnac.wFamily, requestSnac.wSubtype);
 		return;
 	}
 	/// FIXME: we should really check the snac contents according to cookie data here ?? 
@@ -664,14 +664,14 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 		unpackByte(&databuf, &requestResult);
 	else
 	{
-		NetLog_Server("Error: Malformed directory response");
+		debugLogA("Error: Malformed directory response");
 		if (!bMoreDataFollows)
 			ReleaseCookie(wCookie);
 		return;
 	}
 	if (requestResult != 1 && requestResult != 4)
 	{
-		NetLog_Server("Error: Directory request failed, status %u", requestResult);
+		debugLogA("Error: Directory request failed, status %u", requestResult);
 
 		if (!bMoreDataFollows)
 		{
@@ -688,11 +688,11 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 	unpackWord(&databuf, &wLen);
 	wPacketLen -= 3;
 	if (wLen)
-		NetLog_Server("Warning: Data in error message present!");
+		debugLogA("Warning: Data in error message present!");
 
 	if (wPacketLen <= 0x16)
 	{ // sanity check
-		NetLog_Server("Error: Malformed directory response");
+		debugLogA("Error: Malformed directory response");
 
 		if (!bMoreDataFollows)
 		{
@@ -717,11 +717,11 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 	wPacketLen -= 6;
 
 	if (pCookieData->bRequestType == DIRECTORYREQUEST_SEARCH && !bMoreDataFollows)
-		NetLog_Server("Directory Search: %d contacts found (%u pages)", dwItemCount, wPageCount);
+		debugLogA("Directory Search: %d contacts found (%u pages)", dwItemCount, wPageCount);
 
 	if (wPacketLen <= 2)
 	{ // sanity check, block expected
-		NetLog_Server("Error: Malformed directory response");
+		debugLogA("Error: Malformed directory response");
 
 		if (!bMoreDataFollows)
 		{
@@ -745,7 +745,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 
 	if (wData == 0 && pCookieData->bRequestType == DIRECTORYREQUEST_SEARCH)
 	{
-		NetLog_Server("Directory Search: No contacts found");
+		debugLogA("Directory Search: No contacts found");
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
 		ReleaseCookie(wCookie);
 		return;
@@ -754,7 +754,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 	_ASSERTE(wData == 1 && wPacketLen == wLen);
 	if (wData != 1 || wPacketLen != wLen)
 	{
-		NetLog_Server("Error: Malformed directory response (missing data)");
+		debugLogA("Error: Malformed directory response (missing data)");
 
 		if (!bMoreDataFollows)
 		{
@@ -781,7 +781,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 	  	  char *szUid = pDirectoryData->getString(0x32, 1);
 		    if (!szUid) 
 		    {
-			    NetLog_Server("Error: Received unrecognized data from the directory");
+			    debugLogA("Error: Received unrecognized data from the directory");
 			    break;
 		    }
 
@@ -790,7 +790,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 
         if (hContact != HContactFromUID(dwUin, szUid, NULL))
         {
-          NetLog_Server("Error: Received data does not match cookie contact, ignoring.");
+          debugLogA("Error: Received data does not match cookie contact, ignoring.");
           SAFE_FREE(&szUid);
           break;
         }
@@ -807,12 +807,12 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 			break;
 
 		default:
-			NetLog_Server("Error: Unknown cookie type %x for directory response!", pCookieData->bRequestType);
+			debugLogA("Error: Unknown cookie type %x for directory response!", pCookieData->bRequestType);
 		}
 		disposeChain(&pDirectoryData);
 	}
 	else
-		NetLog_Server("Error: Failed parsing directory response");
+		debugLogA("Error: Failed parsing directory response");
 
 	// Release Memory
 	if (!bMoreDataFollows)
@@ -854,7 +854,7 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		char *szUid = cDetails->getString(0x32, 1);
 		if (!szUid) 
 		{
-			NetLog_Server("Error: Received unrecognized data from the directory");
+			debugLogA("Error: Received unrecognized data from the directory");
 			return;
 		}
 
@@ -864,13 +864,13 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		hContact = HContactFromUID(dwUin, szUid, NULL);
 		if (hContact == INVALID_HANDLE_VALUE)
 		{
-			NetLog_Server("Error: Received details for unknown contact \"%s\"", szUid);
+			debugLogA("Error: Received details for unknown contact \"%s\"", szUid);
 			SAFE_FREE(&szUid);
 			return;
 		}
 #ifdef _DEBUG
 		else
-			NetLog_Server("Received user info for %s from directory", szUid);
+			debugLogA("Received user info for %s from directory", szUid);
 #endif
 		SAFE_FREE(&szUid);
 	}
@@ -880,9 +880,9 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		char *szUid = cDetails->getString(0x32, 1);
 
     if (!hContact)
-			NetLog_Server("Received owner user info from directory");
+			debugLogA("Received owner user info from directory");
 		else
-			NetLog_Server("Received user info for %s from directory", szUid);
+			debugLogA("Received user info for %s from directory", szUid);
 		SAFE_FREE(&szUid);
 	}
 #endif
@@ -1050,7 +1050,7 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 	char *szUid = cDetails->getString(0x32, 1); // User ID
 
 #ifdef _DEBUG
-	NetLog_Server("Directory Search: Found user %s", szUid);
+	debugLogA("Directory Search: Found user %s", szUid);
 #endif
 	isr.hdr.cbSize = sizeof(ICQSEARCHRESULT);
 	isr.hdr.flags = PSR_TCHAR;
@@ -1138,7 +1138,7 @@ void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WO
 	BYTE requestResult;
 
 #ifdef _DEBUG
-	NetLog_Server("Received directory update response");
+	debugLogA("Received directory update response");
 #endif
 	if (wPacketLen >= 2)
 		unpackLEWord(&databuf, &wBytesRemaining);
@@ -1147,7 +1147,7 @@ void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WO
 
 	if (!unpackSnacHeader(&requestSnac, &databuf, &wPacketLen) || !requestSnac.bValid)
 	{
-		NetLog_Server("Error: Failed to parse directory response");
+		debugLogA("Error: Failed to parse directory response");
 		return;
 	}
 
@@ -1156,7 +1156,7 @@ void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WO
 	// check request cookie
 	if (!FindCookie(wCookie, &hContact, (void**)&pCookieData) || !pCookieData)
 	{
-		NetLog_Server("Warning: Ignoring unrequested directory reply type (x%x, x%x)", requestSnac.wFamily, requestSnac.wSubtype);
+		debugLogA("Warning: Ignoring unrequested directory reply type (x%x, x%x)", requestSnac.wFamily, requestSnac.wSubtype);
 		return;
 	}
 	/// FIXME: we should really check the snac contents according to cookie data here ?? 
@@ -1165,13 +1165,13 @@ void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WO
 		unpackByte(&databuf, &requestResult);
 	else
 	{
-		NetLog_Server("Error: Malformed directory response");
+		debugLogA("Error: Malformed directory response");
 		ReleaseCookie(wCookie);
 		return;
 	}
 	if (requestResult != 1 && requestResult != 4)
 	{
-		NetLog_Server("Error: Directory request failed, status %u", requestResult);
+		debugLogA("Error: Directory request failed, status %u", requestResult);
 
 		if (pCookieData->bRequestType == DIRECTORYREQUEST_UPDATEOWNER)
 			ProtoBroadcastAck(NULL, ACKTYPE_SETINFO, ACKRESULT_FAILED, (HANDLE)wCookie, 0);
@@ -1184,7 +1184,7 @@ void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WO
 	unpackWord(&databuf, &wLen);
 	wPacketLen -= 3;
 	if (wLen)
-		NetLog_Server("Warning: Data in error message present!");
+		debugLogA("Warning: Data in error message present!");
 
 	if (pCookieData->bRequestType == DIRECTORYREQUEST_UPDATEOWNER)
 		ProtoBroadcastAck(NULL, ACKTYPE_SETINFO, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);

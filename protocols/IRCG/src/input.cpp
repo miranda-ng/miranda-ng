@@ -196,7 +196,7 @@ CMString CIrcProto::DoIdentifiers( CMString text, const TCHAR* )
 
 static void __stdcall sttSetTimerOn( void* _pro )
 {
-	CIrcProto* ppro = ( CIrcProto* )_pro;
+	CIrcProto *ppro = ( CIrcProto* )_pro;
 	ppro->DoEvent( GC_EVENT_INFORMATION, NULL, ppro->m_info.sNick.c_str(), TranslateT(	"The buddy check function is enabled"), NULL, NULL, NULL, true, false);
 	ppro->SetChatTimer( ppro->OnlineNotifTimer, 500, OnlineNotifTimerProc );
 	if ( ppro->m_channelAwayNotification )
@@ -205,7 +205,7 @@ static void __stdcall sttSetTimerOn( void* _pro )
 
 static void __stdcall sttSetTimerOff( void* _pro )
 {
-	CIrcProto* ppro = ( CIrcProto* )_pro;
+	CIrcProto *ppro = ( CIrcProto* )_pro;
 	ppro->DoEvent( GC_EVENT_INFORMATION, NULL, ppro->m_info.sNick.c_str(), TranslateT("The buddy check function is disabled"), NULL, NULL, NULL, true, false);
 	ppro->KillChatTimer( ppro->OnlineNotifTimer );
 	ppro->KillChatTimer( ppro->OnlineNotifTimer3 );
@@ -737,14 +737,14 @@ struct DoInputRequestParam
 		str( mir_tstrdup( _str ))
 	{}
 
-	CIrcProto* ppro;
+	CIrcProto *ppro;
 	TCHAR* str;
 };
 
 static void __stdcall DoInputRequestAliasApcStub( void* _par )
 {
 	DoInputRequestParam* param = ( DoInputRequestParam* )_par;
-	CIrcProto* ppro = param->ppro;
+	CIrcProto *ppro = param->ppro;
 	TCHAR* str = param->str;
 
 	TCHAR* infotext = NULL;

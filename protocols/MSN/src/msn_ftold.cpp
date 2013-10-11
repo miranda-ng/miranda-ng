@@ -154,7 +154,7 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 			char email[130],authcookie[14];
 			if (sscanf(params,"%129s %13s",email,authcookie) < 2)
 			{
-				MSN_DebugLog("Invalid USR OK command, ignoring");
+				debugLogA("Invalid USR OK command, ignoring");
 				break;
 			}
 
@@ -169,7 +169,7 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 			if (sscanf(params, "%6s", protocol1) < 1)
 			{
 LBL_InvalidCommand:
-				MSN_DebugLog("Invalid %.3s command, ignoring", cmdString);
+				debugLogA("Invalid %.3s command, ignoring", cmdString);
 				break;
 			}
 
@@ -179,7 +179,7 @@ LBL_InvalidCommand:
 				int tFieldCount = sscanf(params, "%d %6s", &tempInt, protocol1);
 				if (tFieldCount != 2 || strcmp(protocol1, "MSNFTP") != 0)
 				{
-					MSN_DebugLog("Another side requested the unknown protocol (%s), closing thread", params);
+					debugLogA("Another side requested the unknown protocol (%s), closing thread", params);
 					return 1;
 			    }
             }
@@ -259,13 +259,13 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 {
 	ThreadData* info = (ThreadData*)arg;
 
-	MSN_DebugLog("Waiting for an incoming connection to '%s'...", info->mServer);
+	debugLogA("Waiting for an incoming connection to '%s'...", info->mServer);
 
 	switch(WaitForSingleObject(info->hWaitEvent, 60000))
 	{
 	case WAIT_TIMEOUT:
 	case WAIT_FAILED:
-		MSN_DebugLog("Incoming connection timed out, closing file transfer");
+		debugLogA("Incoming connection timed out, closing file transfer");
 		return;
 	}
 
@@ -299,18 +299,18 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 				char msg[sizeof(info->mData)];
 				memcpy(msg, info->mData, peol - info->mData); msg[peol - info->mData] = 0;
 				if (*++peol != '\n')
-					MSN_DebugLog("Dodgy line ending to command: ignoring");
+					debugLogA("Dodgy line ending to command: ignoring");
 				else
 					peol++;
 
 				info->mBytesInData -= peol - info->mData;
 				memmove(info->mData, peol, info->mBytesInData);
 
-				MSN_DebugLog("RECV:%s", msg);
+				debugLogA("RECV:%s", msg);
 
 				if (!isalnum(msg[0]) || !isalnum(msg[1]) || !isalnum(msg[2]) || (msg[3] && msg[3]!=' '))
 				{
-					MSN_DebugLog("Invalid command name");
+					debugLogA("Invalid command name");
 					continue;
 				}
 
@@ -321,12 +321,12 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 		if (info->mBytesInData == sizeof(info->mData))
         {
-			MSN_DebugLog("sizeof(data) is too small: the longest line won't fit");
+			debugLogA("sizeof(data) is too small: the longest line won't fit");
 			break;
 	    }
     }
 
-	MSN_DebugLog("Closing file transfer thread");
+	debugLogA("Closing file transfer thread");
 }
 
 void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, const char* Invcookie)
@@ -344,9 +344,9 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 		nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
 		nlb.pExtra = this;
 
-		sb = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)&nlb);
+		sb = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
 		if (sb == NULL)
-			MSN_DebugLog("Unable to bind the port for incoming transfers");
+			debugLogA("Unable to bind the port for incoming transfers");
 	}
 
 	char hostname[256] = "";

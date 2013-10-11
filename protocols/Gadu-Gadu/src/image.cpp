@@ -93,7 +93,7 @@ int GGPROTO::img_shutdown()
 {
 	list_t l;
 #ifdef DEBUGMODE
-	netlog("img_shutdown(): Closing all dialogs...");
+	debugLogA("img_shutdown(): Closing all dialogs...");
 #endif
 	// Rather destroy window instead of just removing structures
 	for (l = imagedlgs; l;)
@@ -107,10 +107,10 @@ int GGPROTO::img_shutdown()
 			{
 				// Post message async, since it maybe be different thread
 				if (!PostMessage(dat->hWnd, WM_CLOSE, 0, 0))
-					netlog("img_shutdown(): Image dlg %x cannot be released !!", dat->hWnd);
+					debugLogA("img_shutdown(): Image dlg %x cannot be released !!", dat->hWnd);
 			}
 			else
-				netlog("img_shutdown(): Image dlg %x not exists, but structure does !!", dat->hWnd);
+				debugLogA("img_shutdown(): Image dlg %x not exists, but structure does !!", dat->hWnd);
 		}
 	}
 
@@ -270,11 +270,11 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 		{
 			fwrite(dat->lpData, dat->nSize, 1, fp);
 			fclose(fp);
-			gg->netlog("gg_img_saveimage(): Image saved to %S.", szFileName);
+			gg->debugLogA("gg_img_saveimage(): Image saved to %S.", szFileName);
 		}
 		else
 		{
-			gg->netlog("gg_img_saveimage(): Cannot save image to %S.", szFileName);
+			gg->debugLogA("gg_img_saveimage(): Cannot save image to %S.", szFileName);
 			MessageBox(hwnd, TranslateT("Image cannot be written to disk."), gg->m_tszUserName, MB_OK | MB_ICONERROR);
 		}
 	}
@@ -399,7 +399,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			// Send event if someone's waiting
 			if (dat->hEvent) SetEvent(dat->hEvent);
-			else dat->gg->netlog("gg_img_dlgproc(): WM_INITDIALOG Creation event not found, but someone might be waiting.");
+			else dat->gg->debugLogA("gg_img_dlgproc(): WM_INITDIALOG Creation event not found, but someone might be waiting.");
 
 			// Making buttons flat
 			SendDlgItemMessage(hwndDlg, IDC_IMG_PREV,	BUTTONSETASFLATBTN, TRUE, 0);
@@ -500,7 +500,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			if (!img)
 			{
-				dat->gg->netlog("gg_img_dlgproc(): WM_PAINT Image was not found on the list. Cannot paint the window.");
+				dat->gg->debugLogA("gg_img_dlgproc(): WM_PAINT Image was not found on the list. Cannot paint the window.");
 				return FALSE;
 			}
 
@@ -576,7 +576,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						img = img->lpNext;
 					if (!img)
 					{
-						dat->gg->netlog("gg_img_dlgproc(): IDC_IMG_DELETE Image was not found on the list. Cannot delete it from the list.");
+						dat->gg->debugLogA("gg_img_dlgproc(): IDC_IMG_DELETE Image was not found on the list. Cannot delete it from the list.");
 						return FALSE;
 					}
 					del = img->lpNext;
@@ -602,7 +602,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					img = img->lpNext;
 				if (!img)
 				{
-					dat->gg->netlog("gg_img_dlgproc(): IDC_IMG_SAVE Image was not found on the list. Cannot launch saving.");
+					dat->gg->debugLogA("gg_img_dlgproc(): IDC_IMG_SAVE Image was not found on the list. Cannot launch saving.");
 					return FALSE;
 				}
 				gg_img_saveimage(hwndDlg, img);
@@ -720,12 +720,12 @@ void __cdecl GGPROTO::img_dlgcallthread(void *param)
 {
 	HWND hMIWnd = 0; //(HWND) CallService(MS_CLUI_GETHWND, 0, 0);
 
-	netlog("img_dlgcallthread(): started.");
+	debugLogA("img_dlgcallthread(): started.");
 	GGIMAGEDLGDATA *dat = (GGIMAGEDLGDATA *)param;
 	DialogBoxParam(hInstance, dat->bReceiving ? MAKEINTRESOURCE(IDD_IMAGE_RECV) : MAKEINTRESOURCE(IDD_IMAGE_SEND),
 		hMIWnd, gg_img_dlgproc, (LPARAM) dat);
 #ifdef DEBUGMODE
-	netlog("img_dlgcallthread(): end.");
+	debugLogA("img_dlgcallthread(): end.");
 #endif
 
 }
@@ -742,7 +742,7 @@ GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, HANDLE hContact)
 	dat->gg = gg;
 	ResetEvent(dat->hEvent);
 #ifdef DEBUGMODE
-	gg->netlog("gg_img_recvdlg(): ForkThread 18 GGPROTO::img_dlgcallthread");
+	gg->debugLogA("gg_img_recvdlg(): ForkThread 18 GGPROTO::img_dlgcallthread");
 #endif
 	gg->ForkThread(&GGPROTO::img_dlgcallthread, dat);
 	return dat;
@@ -826,9 +826,9 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 	if ( _taccess(szPath, 0)){
 		int ret = CreateDirectoryTreeT(szPath);
 		if (ret == 0){
-			netlog("img_displayasmsg(): Created new directory for image cache: %S.", szPath);
+			debugLogA("img_displayasmsg(): Created new directory for image cache: %S.", szPath);
 		} else {
-			netlog("img_displayasmsg(): Can not create directory for image cache: %S. errno=%d: %s", szPath, errno, strerror(errno));
+			debugLogA("img_displayasmsg(): Can not create directory for image cache: %S. errno=%d: %s", szPath, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
@@ -852,7 +852,7 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 			res = fwrite(dat->lpData, dat->nSize, 1, fp) > 0;
 			fclose(fp);
 		} else {
-			netlog("img_displayasmsg(): Cannot open file %S for write image. errno=%d: %s", szPath, errno, strerror(errno));
+			debugLogA("img_displayasmsg(): Cannot open file %S for write image. errno=%d: %s", szPath, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot save received image to file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -869,11 +869,11 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 		pre.timestamp = time(NULL);
 		pre.tszMessage = image_msg;
 		ProtoChainRecvMsg(hContact, &pre);
-		netlog("img_displayasmsg(): Image saved to %S.", szPath);
+		debugLogA("img_displayasmsg(): Image saved to %S.", szPath);
 	}
 	else
 	{
-		netlog("img_displayasmsg(): Cannot save image to %S.", szPath);
+		debugLogA("img_displayasmsg(): Cannot save image to %S.", szPath);
 	}
 
 	return 0;
@@ -983,7 +983,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		FILE *fp = _tfopen(szFileName, _T("rb"));
 		if (!fp) {
 			free(dat);
-			netlog("img_loadpicture(): fopen(\"%S\", \"rb\") failed. errno=%d: %s", szFileName, errno, strerror(errno));
+			debugLogA("img_loadpicture(): fopen(\"%S\", \"rb\") failed. errno=%d: %s", szFileName, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -995,7 +995,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			netlog("img_loadpicture(): Zero file size \"%S\" failed.", szFileName);
+			debugLogA("img_loadpicture(): Zero file size \"%S\" failed.", szFileName);
 			return NULL;
 		}
 		// Maximum acceptable image size
@@ -1003,7 +1003,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			netlog("img_loadpicture(): Image size of \"%S\" exceeds 255 KB.", szFileName);
+			debugLogA("img_loadpicture(): Image size of \"%S\" exceeds 255 KB.", szFileName);
 			MessageBox(NULL, TranslateT("Image exceeds maximum allowed size of 255 KB."), m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
 			return NULL;
 		}
@@ -1014,7 +1014,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 			free(dat->lpData);
 			fclose(fp);
 			free(dat);
-			netlog("img_loadpicture(): Reading file \"%S\" failed.", szFileName);
+			debugLogA("img_loadpicture(): Reading file \"%S\" failed.", szFileName);
 			return NULL;
 		}
 		fclose(fp);
@@ -1064,7 +1064,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 	// If everything is fine return the handle
 	if (dat->hBitmap) return dat;
 
-	netlog("img_loadpicture(): MS_IMG_LOAD(MEM) failed.");
+	debugLogA("img_loadpicture(): MS_IMG_LOAD(MEM) failed.");
 	if (dat)
 	{
 		if (dat->lpData)
@@ -1083,7 +1083,7 @@ INT_PTR GGPROTO::img_recvimage(WPARAM wParam, LPARAM lParam)
 	CLISTEVENT *cle = (CLISTEVENT *)lParam;
 	GGIMAGEENTRY *img = (GGIMAGEENTRY *)cle->lParam;
 
-	netlog("img_recvimage(%x, %x): Popup new image.", wParam, lParam);
+	debugLogA("img_recvimage(%x, %x): Popup new image.", wParam, lParam);
 	if (!img) return FALSE;
 
 	img_display(cle->hContact, img);
@@ -1152,7 +1152,7 @@ GGIMAGEDLGDATA* gg_img_find(GGPROTO *gg, uin_t uin, uint32_t crc32)
 	}
 	gg->gg_LeaveCriticalSection(&gg->img_mutex, "gg_img_find", 62, 2, "img_mutex", 1);
 
-	gg->netlog("gg_img_find(): Image not found on the list. It might be released before calling this function.");
+	gg->debugLogA("gg_img_find(): Image not found on the list. It might be released before calling this function.");
 	return NULL;
 }
 
@@ -1196,7 +1196,7 @@ INT_PTR GGPROTO::img_sendimg(WPARAM wParam, LPARAM lParam)
 
 		// Create new dialog
 #ifdef DEBUGMODE
-		netlog("img_sendimg(): ForkThread 19 GGPROTO::img_dlgcallthread");
+		debugLogA("img_sendimg(): ForkThread 19 GGPROTO::img_dlgcallthread");
 #endif
 		ForkThread(&GGPROTO::img_dlgcallthread, dat);
 

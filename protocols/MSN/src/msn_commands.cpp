@@ -30,7 +30,7 @@ void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* ext
 {
 	CMsnProto *proto = (CMsnProto*)extra;
 
-	proto->MSN_DebugLog("File transfer connection accepted");
+	proto->debugLogA("File transfer connection accepted");
 
 	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
@@ -43,7 +43,7 @@ void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* ext
 	}
 	else
 	{
-		proto->MSN_DebugLog("There's no registered file transfers for incoming port #%u, connection closed", connInfo.wPort);
+		proto->debugLogA("There's no registered file transfers for incoming port #%u, connection closed", connInfo.wPort);
 		Netlib_CloseHandle(hNewConnection);
 	}
 }
@@ -317,7 +317,7 @@ void CMsnProto::sttCustomSmiley(const char* msgBody, char* email, char* nick, in
 				delete ft;
 			else
 			{
-				MSN_DebugLog("Custom Smiley p2p invite for object : %s", ft->p2p_object);
+				debugLogA("Custom Smiley p2p invite for object : %s", ft->p2p_object);
 				p2p_invite(iSmileyType, ft, email);
 				Sleep(3000);
 			}
@@ -343,7 +343,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	if (sttDivideWords(params, SIZEOF(tWords), tWords) < 3)
 	{
-		MSN_DebugLog("Invalid %.3s command, ignoring", cmdString);
+		debugLogA("Invalid %.3s command, ignoring", cmdString);
 		return;
 	}
 
@@ -377,7 +377,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	memcpy(msg, msgb, msgBytes);
 	msg[msgBytes] = 0;
 
-	MSN_DebugLog("Message:\n%s", msg);
+	debugLogA("Message:\n%s", msg);
 
 	MimeHeaders tHeader;
 	char* msgBody = tHeader.readFromBuffer(msg);
@@ -1102,7 +1102,7 @@ int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 		}
 		else params = cmdString+4;
 	}
-//	MSN_DebugLog("%s", cmdString);
+//	debugLogA("%s", cmdString);
 
 	switch((*(PDWORD)cmdString & 0x00FFFFFF) | 0x20000000)
 	{
@@ -1117,7 +1117,7 @@ int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 			char* tWords[1];
 			if (sttDivideWords(params, 1, tWords) != 1)
 			{
-				MSN_DebugLog("Invalid %.3s command, ignoring", cmdString);
+				debugLogA("Invalid %.3s command, ignoring", cmdString);
 			}
 			else
 			{
@@ -1132,7 +1132,7 @@ int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 			if (sttDivideWords(params, 1, tWords) != 1)
 			{
 LBL_InvalidCommand:
-				MSN_DebugLog("Invalid %.3s command, ignoring", cmdString);
+				debugLogA("Invalid %.3s command, ignoring", cmdString);
 				break;
 			}
 
@@ -1270,7 +1270,7 @@ LBL_InvalidCommand:
 			{
 				m_iStatus = newStatus;
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, newStatus);
-				MSN_DebugLog("Status change acknowledged: %s", params);
+				debugLogA("Status change acknowledged: %s", params);
 				MSN_RemoveEmptyGroups();
 			}
 			if (newStatus == ID_STATUS_OFFLINE) return 1;
@@ -1509,7 +1509,7 @@ remove:
 
 				if (wlid == NULL) //can happen if both parties send first message at the same time
 				{
-					MSN_DebugLog("USR (SB) internal: thread created for no reason");
+					debugLogA("USR (SB) internal: thread created for no reason");
 					return 1;
 				}
 
@@ -1553,7 +1553,7 @@ remove:
 			}
 
 			mir_utf8decode(data.userNick, NULL);
-			MSN_DebugLog("New contact in channel %s %s", data.userEmail, data.userNick);
+			debugLogA("New contact in channel %s %s", data.userEmail, data.userNick);
 
 			if (info->contactJoined(data.userEmail) <= 1)
 			{
@@ -1603,7 +1603,7 @@ remove:
 				ProtoBroadcastAck(info->getContactHandle(),
 					ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 					(HANDLE)trid, (LPARAM)Translate("Message delivery failed"));
-			MSN_DebugLog("Message send failed (trid=%d)", trid);
+			debugLogA("Message send failed (trid=%d)", trid);
 			break;
 
 		case ' TON':   //********* NOT: notification message
@@ -1622,7 +1622,7 @@ remove:
 			if (!_stricmp(params, "OTH"))
 			{
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
-				MSN_DebugLog("You have been disconnected from the MSN server because you logged on from another location using the same MSN passport.");
+				debugLogA("You have been disconnected from the MSN server because you logged on from another location using the same MSN passport.");
 			}
 
 			if (!_stricmp(params, "MIG")) // ignore it
@@ -1671,7 +1671,7 @@ remove:
 			stripColorCode(data.callerNick);
 
 			if (strcmp(data.security, "CKI")) {
-				MSN_DebugLog("Unknown security package in RNG command: %s", data.security);
+				debugLogA("Unknown security package in RNG command: %s", data.security);
 				break;
 			}
 
@@ -1685,7 +1685,7 @@ remove:
 
 			ReleaseSemaphore(newThread->hWaitEvent, MSN_PACKETS_COMBINE, NULL);
 
-			MSN_DebugLog("Opening caller's switchboard server '%s'...", data.newServer);
+			debugLogA("Opening caller's switchboard server '%s'...", data.newServer);
 			newThread->startThread(&CMsnProto::MSNServerThread, this);
 			break;
 		}
@@ -1746,7 +1746,7 @@ remove:
 				case 4:
 				case 8:
 					ProtoBroadcastAck( NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION );
-					MSN_DebugLog( "You have been disconnected from the MSN server because you logged on from another location using the same MSN passport." );
+					debugLogA( "You have been disconnected from the MSN server because you logged on from another location using the same MSN passport." );
 					break;
 
 				case 6:
@@ -1780,7 +1780,7 @@ remove:
 
 				if (strcmp(data.status, "OK"))
 				{
-					MSN_DebugLog("Unknown status to USR command (SB): '%s'", data.status);
+					debugLogA("Unknown status to USR command (SB): '%s'", data.status);
 					break;
 				}
 
@@ -1817,7 +1817,7 @@ remove:
 				}
 				else
 				{
-					MSN_DebugLog("Unknown security package '%s'", data.security);
+					debugLogA("Unknown security package '%s'", data.security);
 
 					if (info->mType == SERVER_NOTIFICATION)
 					{
@@ -1909,7 +1909,7 @@ remove:
 				usingGateway |= (*data.security == 'G');
 				info->mIsMainThread = false;
 
-				MSN_DebugLog("Switching to notification server '%s'...", data.newServer);
+				debugLogA("Switching to notification server '%s'...", data.newServer);
 				newThread->startThread(&CMsnProto::MSNServerThread, this);
 				return 1;  //kill the old thread
 			}
@@ -1923,7 +1923,7 @@ remove:
 
 				if (strcmp(data.security, "CKI"))
 				{
-					MSN_DebugLog("Unknown XFR SB security package '%s'", data.security);
+					debugLogA("Unknown XFR SB security package '%s'", data.security);
 					break;
 				}
 
@@ -1934,15 +1934,15 @@ remove:
 				newThread->mCaller = 1;
 				strcpy(newThread->mCookie, data.authChallengeInfo);
 
-				MSN_DebugLog("Opening switchboard server '%s'...", data.newServer);
+				debugLogA("Opening switchboard server '%s'...", data.newServer);
 				newThread->startThread(&CMsnProto::MSNServerThread, this);
 			}
-			else MSN_DebugLog("Unknown referral server: %s", data.type);
+			else debugLogA("Unknown referral server: %s", data.type);
 			break;
 		}
 
 		default:
-			MSN_DebugLog("Unrecognised message: %s", cmdString);
+			debugLogA("Unrecognised message: %s", cmdString);
 			break;
 	}
 

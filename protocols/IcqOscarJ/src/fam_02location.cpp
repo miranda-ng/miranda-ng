@@ -37,7 +37,7 @@ void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header
 	switch (pSnacHeader->wSubtype) {
 
 	case ICQ_LOCATION_RIGHTS_REPLY: // Reply to CLI_REQLOCATION
-		NetLog_Server("Server sent SNAC(x02,x03) - SRV_LOCATION_RIGHTS_REPLY");
+		debugLogA("Server sent SNAC(x02,x03) - SRV_LOCATION_RIGHTS_REPLY");
 		break;
 
 	case ICQ_LOCATION_USR_INFO_REPLY: // AIM user info reply
@@ -71,7 +71,7 @@ void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header
 		}
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_LOCATION_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_LOCATION_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }
@@ -132,20 +132,20 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 	if (hContact == INVALID_HANDLE_VALUE)
 	{
 #ifdef _DEBUG
-		NetLog_Server("Ignoring away reply (%s)", strUID(dwUIN, szUID));
+		debugLogA("Ignoring away reply (%s)", strUID(dwUIN, szUID));
 #endif
 		return;
 	}
 
 	if (!FindCookie(dwCookie, &hCookieContact, (void**)&pCookieData))
 	{
-		NetLog_Server("Error: Received unexpected away reply from %s", strUID(dwUIN, szUID));
+		debugLogA("Error: Received unexpected away reply from %s", strUID(dwUIN, szUID));
 		return;
 	}
 
 	if (hContact != hCookieContact)
 	{
-		NetLog_Server("Error: Away reply Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
+		debugLogA("Error: Away reply Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
 
 		ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 		return;
@@ -225,7 +225,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 			status = AwayMsgTypeToStatus(pCookieData->nAckType);
 			if (status == ID_STATUS_OFFLINE)
 			{
-				NetLog_Server("SNAC(2.6) Ignoring unknown status message from %s", strUID(dwUIN, szUID));
+				debugLogA("SNAC(2.6) Ignoring unknown status message from %s", strUID(dwUIN, szUID));
 
 				ReleaseCookie(dwCookie);
 				return;

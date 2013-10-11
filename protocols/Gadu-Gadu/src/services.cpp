@@ -89,12 +89,12 @@ int GGPROTO::refreshstatus(int status)
 		if (exitCode == STILL_ACTIVE)
 			return TRUE;
 #ifdef DEBUGMODE
-		netlog("refreshstatus(): Waiting pth_sess thread. Going to connect...");
+		debugLogA("refreshstatus(): Waiting pth_sess thread. Going to connect...");
 #endif
 		threadwait(&pth_sess);
 #ifdef DEBUGMODE
-		netlog("refreshstatus(): Waiting pth_sess thread - OK");
-		netlog("refreshstatus(): ForkThreadEx 21 GGPROTO::mainthread");
+		debugLogA("refreshstatus(): Waiting pth_sess thread - OK");
+		debugLogA("refreshstatus(): ForkThreadEx 21 GGPROTO::mainthread");
 #endif
 		pth_sess.hThread = ForkThreadEx(&GGPROTO::mainthread, NULL, &pth_sess.dwThreadId);
 	}
@@ -108,14 +108,14 @@ int GGPROTO::refreshstatus(int status)
 		char *szMsg_utf8 = mir_utf8encodeT(szMsg);
 		if (szMsg_utf8)
 		{
-			netlog("refreshstatus(): Setting status and away message.");
+			debugLogA("refreshstatus(): Setting status and away message.");
 			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 70, "sess_mutex", 1);
 			gg_change_status_descr(sess, status_m2gg(status, szMsg_utf8 != NULL), szMsg_utf8);
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 70, 1, "sess_mutex", 1);
 		}
 		else
 		{
-			netlog("refreshstatus(): Setting just status.");
+			debugLogA("refreshstatus(): Setting just status.");
 			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 71, "sess_mutex", 1);
 			gg_change_status(sess, status_m2gg(status, 0));
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 71, 1, "sess_mutex", 1);
@@ -180,12 +180,12 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 
 	uin_t uin = (uin_t)getDword(pai->hContact, GG_KEY_UIN, 0);
 	if (!uin) {
-		netlog("getavatarinfo(): Incoming request for avatar information. No uin found. return GAIR_NOAVATAR");
+		debugLogA("getavatarinfo(): Incoming request for avatar information. No uin found. return GAIR_NOAVATAR");
 		return GAIR_NOAVATAR;
 	}
 
 	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
-		netlog("getavatarinfo(): Incoming request for avatar information. GG_KEY_ENABLEAVATARS == 0. return GAIR_NOAVATAR");
+		debugLogA("getavatarinfo(): Incoming request for avatar information. GG_KEY_ENABLEAVATARS == 0. return GAIR_NOAVATAR");
 		return GAIR_NOAVATAR;
 	}
 
@@ -193,7 +193,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!db_get_ts(pai->hContact, "ContactPhoto", "Backup", &dbv)) {
 		if ((_tcslen(dbv.ptszVal)>0) && db_get_b(pai->hContact, "ContactPhoto", "Locked", 0)){
-			netlog("getavatarinfo(): Incoming request for avatar information. Contact has assigned Locked ContactPhoto. return GAIR_SUCCESS");
+			debugLogA("getavatarinfo(): Incoming request for avatar information. Contact has assigned Locked ContactPhoto. return GAIR_SUCCESS");
 			_tcscpy_s(pai->filename, SIZEOF(pai->filename) ,dbv.ptszVal);
 			pai->format = ProtoGetAvatarFormat(pai->filename);
 			db_free(&dbv);
@@ -205,10 +205,10 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	if (!getByte(pai->hContact, GG_KEY_AVATARREQUESTED, GG_KEYDEF_AVATARREQUESTED)) {
 		requestAvatarInfo(pai->hContact, 1);
 		if ((wParam & GAIF_FORCE) != 0) {
-			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. requestAvatarInfo() fired. return GAIR_WAITFOR", uin);
+			debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. requestAvatarInfo() fired. return GAIR_WAITFOR", uin);
 			return GAIR_WAITFOR;
 		} else {
-			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. requestAvatarInfo() fired. return GAIR_NOAVATAR", uin);
+			debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. requestAvatarInfo() fired. return GAIR_NOAVATAR", uin);
 			return GAIR_NOAVATAR;
 		}
 	}
@@ -231,24 +231,24 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		getAvatarFilename(pai->hContact, pai->filename, SIZEOF(pai->filename));
 		if (!strcmp(AvatarHash, AvatarSavedHash)) {
 			if (_taccess(pai->filename, 0) == 0){
-				netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged. return GAIR_SUCCESS", uin);
+				debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged. return GAIR_SUCCESS", uin);
 				return GAIR_SUCCESS;
 			}
 
 			requestAvatarTransfer(pai->hContact, AvatarURL);
-			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged but file %S does not exist. errno=%d: %s. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin, pai->filename, errno, strerror(errno));
+			debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged but file %S does not exist. errno=%d: %s. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin, pai->filename, errno, strerror(errno));
 			return GAIR_WAITFOR;
 		}
 		if ((wParam & GAIF_FORCE) != 0) {
 			if (_tremove(pai->filename) != 0){
-				netlog("getavatarinfo(): refresh. _tremove 1 file %S error. errno=%d: %s", pai->filename, errno, strerror(errno));
+				debugLogA("getavatarinfo(): refresh. _tremove 1 file %S error. errno=%d: %s", pai->filename, errno, strerror(errno));
 				TCHAR error[512];
 				mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
 			setString(pai->hContact, GG_KEY_AVATARHASH, AvatarHash);
 			requestAvatarTransfer(pai->hContact, AvatarURL);
-			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash changed, requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
+			debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash changed, requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
 			return GAIR_WAITFOR;
 		}
 	}
@@ -256,7 +256,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		if (AvatarHash == NULL && AvatarSavedHash != NULL) {
 			getAvatarFilename(pai->hContact, pai->filename, sizeof(pai->filename));
 			if (_tremove(pai->filename) != 0){
-				netlog("getavatarinfo(): delete. _tremove file %S error. errno=%d: %s", pai->filename, errno, strerror(errno));
+				debugLogA("getavatarinfo(): delete. _tremove file %S error. errno=%d: %s", pai->filename, errno, strerror(errno));
 				TCHAR error[512];
 				mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -264,17 +264,17 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			delSetting(pai->hContact, GG_KEY_AVATARHASH);
 			delSetting(pai->hContact, GG_KEY_AVATARURL);
 			delSetting(pai->hContact, GG_KEY_AVATARTYPE);
-			netlog("getavatarinfo(): Incoming request for avatar information. Contact %d deleted avatar. return GAIR_NOAVATAR", uin);
+			debugLogA("getavatarinfo(): Incoming request for avatar information. Contact %d deleted avatar. return GAIR_NOAVATAR", uin);
 		}
 		else if (AvatarHash != NULL && AvatarSavedHash == NULL) {
 			setString(pai->hContact, GG_KEY_AVATARHASH, AvatarHash);
 			requestAvatarTransfer(pai->hContact, AvatarURL);
-			netlog("getavatarinfo(): Incoming request for avatar information. Contact %d set avatar. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
+			debugLogA("getavatarinfo(): Incoming request for avatar information. Contact %d set avatar. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
 			return GAIR_WAITFOR;
 		}
-		else netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==AvatarSavedHash==NULL, with GAIF_FORCE param. return GAIR_NOAVATAR", uin);
+		else debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==AvatarSavedHash==NULL, with GAIF_FORCE param. return GAIR_NOAVATAR", uin);
 	}
-	else netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==null or AvatarSavedHash==null, but no GAIF_FORCE param. return GAIR_NOAVATAR", uin);
+	else debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. AvatarHash==null or AvatarSavedHash==null, but no GAIF_FORCE param. return GAIR_NOAVATAR", uin);
 
 	return GAIR_NOAVATAR;
 }
@@ -289,21 +289,21 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 	int len = (int)lParam;
 
 	if (szFilename == NULL || len <= 0) {
-		netlog("getmyavatar(): Incoming request for self avatar information. szFilename == NULL. return -1 (error)");
+		debugLogA("getmyavatar(): Incoming request for self avatar information. szFilename == NULL. return -1 (error)");
 		return -1;
 	}
 
 	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
-		netlog("getmyavatar(): Incoming request for self avatar information. GG_KEY_ENABLEAVATARS==0. return -2 (error)");
+		debugLogA("getmyavatar(): Incoming request for self avatar information. GG_KEY_ENABLEAVATARS==0. return -2 (error)");
 		return -2;
 	}
 
 	getAvatarFilename(NULL, szFilename, len);
 	if (_taccess(szFilename, 0) == 0){
-		netlog("getmyavatar(): Incoming request for self avatar information. returned ok.");
+		debugLogA("getmyavatar(): Incoming request for self avatar information. returned ok.");
 		return 0;
 	} else {
-		netlog("getmyavatar(): Incoming request for self avatar information. saved avatar file %S does not exist. return -1 (error)", szFilename);
+		debugLogA("getmyavatar(): Incoming request for self avatar information. saved avatar file %S does not exist. return -1 (error)", szFilename);
 		return -1;
 	}
 
@@ -329,7 +329,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 
 	int iAvType = ProtoGetAvatarFormat(szFilename);
 	if ( iAvType == PA_FORMAT_UNKNOWN) {
-		netlog("setmyavatar(): Failed to set user avatar. File %s has incompatible extension.", szFilename);
+		debugLogA("setmyavatar(): Failed to set user avatar. File %s has incompatible extension.", szFilename);
 		return -1;
 	}
 
@@ -339,7 +339,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 	TCHAR szMyFilename[MAX_PATH];
 	getAvatarFilename(NULL, szMyFilename, SIZEOF(szMyFilename));
 	if ( _tcscmp(szFilename, szMyFilename) && !CopyFile(szFilename, szMyFilename, FALSE)) {
-		netlog("setmyavatar(): Failed to set user avatar. File with type %d could not be created/overwritten.", iAvType);
+		debugLogA("setmyavatar(): Failed to set user avatar. File with type %d could not be created/overwritten.", iAvType);
 		return -1;
 	}
 

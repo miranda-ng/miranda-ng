@@ -78,8 +78,8 @@ TwitterProto::~TwitterProto()
 {
 	twit_.Disconnect();
 
-	if(hNetlib_)
-		Netlib_CloseHandle(hNetlib_);
+	if(m_hNetlibUser)
+		Netlib_CloseHandle(m_hNetlibUser);
 	if(hAvatarNetlib_)
 		Netlib_CloseHandle(hAvatarNetlib_);
 
@@ -358,8 +358,8 @@ int TwitterProto::OnModulesLoaded(WPARAM,LPARAM)
 	// Create standard network connection
 	mir_sntprintf(descr,SIZEOF(descr),TranslateT("%s server connection"),m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
-	hNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
-	if(hNetlib_ == 0)
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
+	if(m_hNetlibUser == 0)
 		MessageBox(0, TranslateT("Unable to get Netlib connection for Twitter"), TranslateT("Twitter"), 0);
 
 	// Create avatar network connection (TODO: probably remove this)
@@ -372,7 +372,7 @@ int TwitterProto::OnModulesLoaded(WPARAM,LPARAM)
 	if(hAvatarNetlib_ == 0)
 		MessageBox(0, TranslateT("Unable to get avatar Netlib connection for Twitter"), TranslateT("Twitter"), 0);
 
-	twit_.set_handle(hNetlib_);
+	twit_.set_handle(this, m_hNetlibUser);
 
 	GCREGISTER gcr = {sizeof(gcr)};
 	gcr.pszModule = m_szModuleName;
@@ -391,7 +391,7 @@ int TwitterProto::OnModulesLoaded(WPARAM,LPARAM)
 
 int TwitterProto::OnPreShutdown(WPARAM,LPARAM)
 {
-	Netlib_Shutdown(hNetlib_);
+	Netlib_Shutdown(m_hNetlibUser);
 	Netlib_Shutdown(hAvatarNetlib_);
 	return 0;
 }
@@ -447,9 +447,9 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }
 
-void TwitterProto::LOG(TCHAR *fmt,...)
+void TwitterProto::debugLogA(TCHAR *fmt,...)
 {
-	if (!hNetlib_)
+	if (!m_hNetlibUser)
 		return;
 
 	va_list va;
@@ -459,7 +459,7 @@ void TwitterProto::LOG(TCHAR *fmt,...)
 	mir_vsntprintf(text,SIZEOF(text),fmt,va);
 	va_end(va);
 
-	CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib_, (LPARAM)text);
+	CallService(MS_NETLIB_LOGW, (WPARAM)m_hNetlibUser, (LPARAM)text);
 }
 
 // TODO: the more I think about it, the more I think all twit.* methods should

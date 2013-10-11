@@ -78,7 +78,7 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	contactsCache(10, CompareContactsCache),
 	cheekySearchId(-1)
 {
-	NetLog_Server( "Setting protocol/module name to '%s'", m_szModuleName );
+	debugLogA( "Setting protocol/module name to '%s'", m_szModuleName );
 
 	oftMutex = new icq_critical_section();
 
@@ -185,7 +185,7 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	nlu.pfnHttpGatewayBegin = icq_httpGatewayBegin;
 	nlu.pfnHttpGatewayWrapSend = icq_httpGatewayWrapSend;
 	nlu.pfnHttpGatewayUnwrapRecv = icq_httpGatewayUnwrapRecv;
-	m_hServerNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	char szP2PModuleName[MAX_PATH];
 	mir_snprintf(szP2PModuleName, SIZEOF(szP2PModuleName), "%sP2P", m_szModuleName);
@@ -208,7 +208,7 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&eventType);
 
 	// Protocol instance is ready
-	NetLog_Server("%s: Protocol instance '%s' created.", ICQ_PROTOCOL_NAME, m_szModuleName);
+	debugLogA("%s: Protocol instance '%s' created.", ICQ_PROTOCOL_NAME, m_szModuleName);
 }
 
 
@@ -230,7 +230,7 @@ CIcqProto::~CIcqProto()
 
 	// NetLib clean-up
 	NetLib_SafeCloseHandle(&m_hDirectNetlibUser);
-	NetLib_SafeCloseHandle(&m_hServerNetlibUser);
+	NetLib_SafeCloseHandle(&m_hNetlibUser);
 
 	// Destroy hookable events
 	if (m_modeMsgsEvent)
@@ -263,7 +263,7 @@ CIcqProto::~CIcqProto()
 	SAFE_FREE(&m_modeMsgs.szDnd);
 	SAFE_FREE(&m_modeMsgs.szFfc);
 
-	NetLog_Server("%s: Protocol instance '%s' destroyed.", ICQ_PROTOCOL_NAME, m_szModuleName);
+	debugLogA("%s: Protocol instance '%s' destroyed.", ICQ_PROTOCOL_NAME, m_szModuleName);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1127,7 +1127,7 @@ int __cdecl CIcqProto::SendContacts( HANDLE hContact, int flags, int nContacts, 
 						icq_packet mData, mNames;
 
 #ifdef _DEBUG
-						NetLog_Server("Sending contacts to %s.", strUID(dwUin, szUid));
+						debugLogA("Sending contacts to %s.", strUID(dwUin, szUid));
 #endif
 						// Do not calculate the exact size of the data packet - only the maximal size (easier)
 						// Sumarize size of group information
@@ -1257,7 +1257,7 @@ int __cdecl CIcqProto::SendContacts( HANDLE hContact, int flags, int nContacts, 
 						char* pBuffer;
 
 #ifdef _DEBUG
-						NetLog_Server("Sending contacts to %d.", dwUin);
+						debugLogA("Sending contacts to %d.", dwUin);
 #endif
 						// Compute count record's length
 						_itoa(nContacts, szCount, 10);
@@ -1387,7 +1387,7 @@ HANDLE __cdecl CIcqProto::SendFile( HANDLE hContact, const TCHAR* szDescription,
 				WORD wClientVersion = getWord(hContact, "Version", 7);
 
 				if (wClientVersion < 7)
-					NetLog_Server("IcqSendFile() can't send to version %u", wClientVersion);
+					debugLogA("IcqSendFile() can't send to version %u", wClientVersion);
 				else
 				{
 					int i;
@@ -1405,7 +1405,7 @@ HANDLE __cdecl CIcqProto::SendFile( HANDLE hContact, const TCHAR* szDescription,
 						ft->pszFiles[i] = (ppszFiles[i]) ? tchar_to_utf8(ppszFiles[i]) : NULL;
 
 						if (_tstat(ppszFiles[i], &statbuf))
-							NetLog_Server("IcqSendFile() was passed invalid filename(s)");
+							debugLogA("IcqSendFile() was passed invalid filename(s)");
 						else
 							ft->dwTotalSize += statbuf.st_size;
 					}
@@ -1423,7 +1423,7 @@ HANDLE __cdecl CIcqProto::SendFile( HANDLE hContact, const TCHAR* szDescription,
 						char *pszFiles;
 
 
-						NetLog_Server("Init file send");
+						debugLogA("Init file send");
 
 						if (ft->dwFileCount == 1)
 						{
@@ -1448,7 +1448,7 @@ HANDLE __cdecl CIcqProto::SendFile( HANDLE hContact, const TCHAR* szDescription,
 									int iRes = icq_sendFileSendDirectv7(ft, pszFiles);
 									if (iRes) return ft; // Success
 								}
-								NetLog_Server("Sending v%u file transfer request through server", 7);
+								debugLogA("Sending v%u file transfer request through server", 7);
 								icq_sendFileSendServv7(ft, pszFiles);
 							}
 							else
@@ -1458,7 +1458,7 @@ HANDLE __cdecl CIcqProto::SendFile( HANDLE hContact, const TCHAR* szDescription,
 									int iRes = icq_sendFileSendDirectv8(ft, pszFiles);
 									if (iRes) return ft; // Success
 								}
-								NetLog_Server("Sending v%u file transfer request through server", 8);
+								debugLogA("Sending v%u file transfer request through server", 8);
 								icq_sendFileSendServv8(ft, pszFiles, ACKTYPE_NONE);
 							}
 						}
@@ -1530,8 +1530,8 @@ int __cdecl CIcqProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 		else
 		{
 #ifdef _DEBUG
-			NetLog_Server("Send %smessage - Message cap is %u", puszText ? "unicode " : "", CheckContactCapabilities(hContact, CAPF_SRV_RELAY));
-			NetLog_Server("Send %smessage - Contact status is %u", puszText ? "unicode " : "", wRecipientStatus);
+			debugLogA("Send %smessage - Message cap is %u", puszText ? "unicode " : "", CheckContactCapabilities(hContact, CAPF_SRV_RELAY));
+			debugLogA("Send %smessage - Contact status is %u", puszText ? "unicode " : "", wRecipientStatus);
 #endif
 			if (dwUin && m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0))
 			{ // send thru direct
@@ -1872,7 +1872,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 	int nNewStatus = MirandaStatusToSupported(iNewStatus);
 
 	// check if netlib handles are ready
-	if (!m_hServerNetlibUser)
+	if (!m_hNetlibUser)
 		return 0;
 
 	if (m_bTempVisListEnabled && icqOnline()) // remove temporary visible users
@@ -1905,7 +1905,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 
 			SetCurrentStatus(ID_STATUS_OFFLINE);
 
-			NetLog_Server("Logged off.");
+			debugLogA("Logged off.");
 		}
 	}
 	else

@@ -56,13 +56,13 @@ void CMsnProto::DecryptEchoPacket(UDPProbePkt& pkt)
 
 
 	IN_ADDR addr;
-	MSN_DebugLog("Echo packet: version: 0x%x  service code: 0x%x  transaction ID: 0x%x",
+	debugLogA("Echo packet: version: 0x%x  service code: 0x%x  transaction ID: 0x%x",
 		pkt.version, pkt.serviceCode, pkt.trId);
 	addr.S_un.S_addr = pkt.clientIP;
-	MSN_DebugLog("Echo packet: client port: %u  client addr: %s",
+	debugLogA("Echo packet: client port: %u  client addr: %s",
 		pkt.clientPort, inet_ntoa(addr));
 	addr.S_un.S_addr = pkt.testIP;
-	MSN_DebugLog("Echo packet: discard port: %u  test port: %u test addr: %s",
+	debugLogA("Echo packet: discard port: %u  test port: %u test addr: %s",
 		pkt.discardPort, pkt.testPort, inet_ntoa(addr));
 }
 
@@ -97,7 +97,7 @@ void CMsnProto::MSNatDetect(void)
 	PHOSTENT host = gethostbyname("echo.edge.messenger.live.com");
 	if (host == NULL)
 	{
-		MSN_DebugLog("P2PNAT could not find echo server \"echo.edge.messenger.live.com\"");
+		debugLogA("P2PNAT could not find echo server \"echo.edge.messenger.live.com\"");
 		return;
 	}
 
@@ -106,7 +106,7 @@ void CMsnProto::MSNatDetect(void)
 	addr.sin_port = _htons(7001);
 	addr.sin_addr = *( PIN_ADDR )host->h_addr_list[0];
 
-	MSN_DebugLog("P2PNAT Detected echo server IP %d.%d.%d.%d",
+	debugLogA("P2PNAT Detected echo server IP %d.%d.%d.%d",
 		addr.sin_addr.S_un.S_un_b.s_b1, addr.sin_addr.S_un.S_un_b.s_b2,
 		addr.sin_addr.S_un.S_un_b.s_b3, addr.sin_addr.S_un.S_un_b.s_b4);
 
@@ -127,7 +127,7 @@ void CMsnProto::MSNatDetect(void)
 	getsockname(s, (SOCKADDR*)&myaddr, &szname);
 
 	MyConnection.intIP = myaddr.sin_addr.S_un.S_addr;
-	MSN_DebugLog("P2PNAT Detected IP facing internet %d.%d.%d.%d",
+	debugLogA("P2PNAT Detected IP facing internet %d.%d.%d.%d",
 		myaddr.sin_addr.S_un.S_un_b.s_b1, myaddr.sin_addr.S_un.S_un_b.s_b2,
 		myaddr.sin_addr.S_un.S_un_b.s_b3, myaddr.sin_addr.S_un.S_un_b.s_b4);
 
@@ -146,7 +146,7 @@ void CMsnProto::MSNatDetect(void)
 		if (Miranda_Terminated()) break;
 
 		// Send echo request to server 1
-		MSN_DebugLog("P2PNAT Request 1 attempt %d sent", i);
+		debugLogA("P2PNAT Request 1 attempt %d sent", i);
 		sendto(s1, (char*)&pkt, sizeof(pkt), 0, (SOCKADDR*)&addr, sizeof(addr));
 
 		fd_set fd;
@@ -156,14 +156,14 @@ void CMsnProto::MSNatDetect(void)
 
 		if (select(1, &fd, NULL, NULL, &tv) == 1)
 		{
-			MSN_DebugLog("P2PNAT Request 1 attempt %d response", i);
+			debugLogA("P2PNAT Request 1 attempt %d response", i);
 			recv(s1, (char*)&rpkt, sizeof(rpkt), 0);
 			pkt2 = rpkt;
 			DecryptEchoPacket(rpkt);
 			break;
 		}
 		else
-			MSN_DebugLog("P2PNAT Request 1 attempt %d timeout", i);
+			debugLogA("P2PNAT Request 1 attempt %d timeout", i);
 	}
 
 	closesocket(s);
@@ -196,7 +196,7 @@ void CMsnProto::MSNatDetect(void)
 	nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
 	nlb.pExtra = this;
 
-	HANDLE sb = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)&nlb);
+	HANDLE sb = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
 	if ( sb != NULL )
 	{
 		MyConnection.upnpNAT = htonl(nlb.dwExternalIP) == MyConnection.extIP;
@@ -216,7 +216,7 @@ void CMsnProto::MSNatDetect(void)
 	{
 		if (Miranda_Terminated()) break;
 
-		MSN_DebugLog("P2PNAT Request 2 attempt %d sent", i);
+		debugLogA("P2PNAT Request 2 attempt %d sent", i);
 		// Remove IP restriction for server 2
 		sendto(s1, NULL, 0, 0, (SOCKADDR*)&addr2, sizeof(addr2));
 		// Send echo request to server 1 for server 2
@@ -229,13 +229,13 @@ void CMsnProto::MSNatDetect(void)
 
 		if (select(1, &fd, NULL, NULL, &tv) == 1)
 		{
-			MSN_DebugLog("P2PNAT Request 2 attempt %d response", i);
+			debugLogA("P2PNAT Request 2 attempt %d response", i);
 			recv(s1, (char*)&rpkt2, sizeof(rpkt2), 0);
 			DecryptEchoPacket(rpkt2);
 			break;
 		}
 		else
-			MSN_DebugLog("P2PNAT Request 2 attempt %d timeout", i);
+			debugLogA("P2PNAT Request 2 attempt %d timeout", i);
 	}
 
 	// Response recieved so it's an IP Restricted NAT (Restricted Cone NAT)
@@ -255,7 +255,7 @@ void CMsnProto::MSNatDetect(void)
 	{
 		if (Miranda_Terminated()) break;
 
-		MSN_DebugLog("P2PNAT Request 3 attempt %d sent", i);
+		debugLogA("P2PNAT Request 3 attempt %d sent", i);
 		// Send echo request to server 1
 		sendto(s1, (char*)&pkt, sizeof(pkt), 0, (SOCKADDR*)&addr2, sizeof(addr2));
 
@@ -266,13 +266,13 @@ void CMsnProto::MSNatDetect(void)
 
 		if ( select(1, &fd, NULL, NULL, &tv) == 1 )
 		{
-			MSN_DebugLog("P2PNAT Request 3 attempt %d response", i);
+			debugLogA("P2PNAT Request 3 attempt %d response", i);
 			recv(s1, (char*)&rpkt2, sizeof(rpkt2), 0);
 			DecryptEchoPacket(rpkt2);
 			break;
 		}
 		else
-			MSN_DebugLog("P2PNAT Request 3 attempt %d timeout", i);
+			debugLogA("P2PNAT Request 3 attempt %d timeout", i);
 	}
 	if (i < 4)
 	{
@@ -380,7 +380,7 @@ void CMsnProto::MSNConnDetectThread( void* )
 	switch (gethst)
 	{
 		case 0:
-			MSN_DebugLog("P2PNAT User overwrote IP connection is guessed by user settings only");
+			debugLogA("P2PNAT User overwrote IP connection is guessed by user settings only");
 
 			// User specified host by himself so check if it matches MSN information
 			// if it does, move to connection type autodetection,
@@ -444,7 +444,7 @@ void CMsnProto::MSNConnDetectThread( void* )
 	// If user mapped incoming ports consider direct connection
 	if (portsMapped)
 	{
-		MSN_DebugLog("P2PNAT User manually mapped ports for incoming connection");
+		debugLogA("P2PNAT User manually mapped ports for incoming connection");
 		switch(MyConnection.udpConType)
 		{
 		case conUnknown:
@@ -462,7 +462,7 @@ void CMsnProto::MSNConnDetectThread( void* )
 		}
 	}
 
-	MSN_DebugLog("P2PNAT Connection %s found UPnP: %d ICF: %d", conStr[MyConnection.udpConType],
+	debugLogA("P2PNAT Connection %s found UPnP: %d ICF: %d", conStr[MyConnection.udpConType],
 		MyConnection.upnpNAT, MyConnection.icf);
 
 	MyConnection.CalculateWeight();

@@ -46,7 +46,7 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 				break;
 			case Transfer::FAILED:				
 				transfer->GetPropFailurereason(reason);
-				this->Log(L"File transfer failed: %s", CSkypeProto::TransferFailureReasons[reason]);
+				this->debugLogW(L"File transfer failed: %s", CSkypeProto::TransferFailureReasons[reason]);
 				this->transferList.remove_val(transfer);
 				this->transferts[oid].files[fOid].isCanceled = true;
 				break;
@@ -58,7 +58,7 @@ void CSkypeProto::OnTransferChanged(const TransferRef &transfer, int prop)
 			case Transfer::CANCELLED:
 			case Transfer::CANCELLED_BY_REMOTE:
 				transfer->GetPropFailurereason(reason);
-				this->Log(L"File transfer cancelled: %s", CSkypeProto::TransferFailureReasons[reason]);
+				this->debugLogW(L"File transfer cancelled: %s", CSkypeProto::TransferFailureReasons[reason]);
 				this->transferList.remove_val(transfer);
 				this->transferts[oid].files[fOid].isCanceled = true;
 				break;

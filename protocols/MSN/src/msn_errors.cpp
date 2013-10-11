@@ -28,7 +28,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	int errorCode, packetID = -1;
 	sscanf(cmdString, "%d %d", &errorCode, &packetID);
 
-	MSN_DebugLog("Server error:%s", cmdString);
+	debugLogA("Server error:%s", cmdString);
 
 	switch(errorCode) {
 	case ERR_INTERNAL_SERVER:
@@ -83,7 +83,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 		return 1;
 
 	default:
-		MSN_DebugLog("Unprocessed error: %s", cmdString);
+		debugLogA("Unprocessed error: %s", cmdString);
 		if (errorCode >= 500) //all these errors look fatal-ish
 			MSN_ShowError("Unrecognised error %d. The server has closed our connection", errorCode);
 

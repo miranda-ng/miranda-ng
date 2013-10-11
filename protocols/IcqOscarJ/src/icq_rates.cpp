@@ -46,7 +46,7 @@ rates::rates(CIcqProto *ppro, BYTE *pBuffer, WORD wLen)
 
 	if (wCount > MAX_RATES_GROUP_COUNT)
 	{ // just sanity check
-		ppro->NetLog_Server("Rates: Error: Data packet contains too many rate groups!");
+		ppro->debugLogA("Rates: Error: Data packet contains too many rate groups!");
 		wCount = MAX_RATES_GROUP_COUNT;
 	}
 
@@ -97,7 +97,7 @@ rates::rates(CIcqProto *ppro, BYTE *pBuffer, WORD wLen)
 			pGroup->pPairs[n] = wItem;
 		}
 #ifdef _DEBUG
-		ppro->NetLog_Server("Rates: %d# %d pairs.", i+1, wNum);
+		ppro->debugLogA("Rates: %d# %d pairs.", i+1, wNum);
 #endif
 		wLen -= wNum*4;
 	}
@@ -210,7 +210,7 @@ void rates::updateLevel(WORD wGroup, int nLevel)
 		pGroup->rCurrentLevel = nLevel;
 		pGroup->tCurrentLevel = GetTickCount();
 #ifdef _DEBUG
-		ppro->NetLog_Server("Rates: New level %d for #%d", nLevel, wGroup);
+		ppro->debugLogA("Rates: New level %d for #%d", nLevel, wGroup);
 #endif
 	}
 }
@@ -304,7 +304,7 @@ rates_queue_item* rates_queue_item::copyItem(rates_queue_item *pDest)
 void rates_queue_item::execute()
 {
 #ifdef _DEBUG
-	ppro->NetLog_Server("Rates: Error executing abstract event.");
+	ppro->debugLogA("Rates: Error executing abstract event.");
 #endif
 }
 
@@ -357,7 +357,7 @@ void __cdecl CIcqProto::rateDelayThread(rate_delay_args *pArgs)
 void rates_queue::initDelay(int nDelay, IcqRateFunc delaycode)
 {
 #ifdef _DEBUG
-	ppro->NetLog_Server("Rates: Delay %dms", nDelay);
+	ppro->debugLogA("Rates: Delay %dms", nDelay);
 #endif
 
 	rate_delay_args *pArgs = (rate_delay_args*)SAFE_MALLOC(sizeof(rate_delay_args)); // This will be freed in the new thread
@@ -374,7 +374,7 @@ void rates_queue::cleanup()
 	icq_lock l(listsMutex);
 
 	if (pendingListSize)
-		ppro->NetLog_Server("Rates: Purging %d %s(s).", pendingListSize, szDescr);
+		ppro->debugLogA("Rates: Purging %d %s(s).", pendingListSize, szDescr);
 
 	for (int i=0; i < pendingListSize; i++)
 		delete pendingList[i];
@@ -423,11 +423,11 @@ void rates_queue::processQueue()
 
 	if (ppro->icqOnline())
 	{
-		ppro->NetLog_Server("Rates: Resuming %s.", szDescr);
+		ppro->debugLogA("Rates: Resuming %s.", szDescr);
 		item->execute();
 	}
 	else
-		ppro->NetLog_Server("Rates: Discarding %s.", szDescr);
+		ppro->debugLogA("Rates: Discarding %s.", szDescr);
 
 	if (bSetupTimer)
 	{
@@ -450,7 +450,7 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 	if (!ppro->icqOnline())
 		return;
 
-	ppro->NetLog_Server("Rates: Delaying %s.", szDescr);
+	ppro->debugLogA("Rates: Delaying %s.", szDescr);
 
 	listsMutex->Enter();
 	if (pendingListSize)

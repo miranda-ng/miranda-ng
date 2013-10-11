@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protomod.h>
 #include <m_protoint.h>
 #include <m_skin.h>
+#include <m_netlib.h>
 
 static HANDLE hAckEvent;
 
@@ -41,6 +42,24 @@ void UninitProtocols()
 		hAckEvent = NULL;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
+{
+	char buf[4096];
+	vsprintf_s(buf, sizeof(buf), szFormat, args);
+	CallService(MS_NETLIB_LOG, (WPARAM)pThis->m_hNetlibUser, (LPARAM)buf);
+}
+
+MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
+{
+	WCHAR buf[4096];
+	vswprintf_s(buf, SIZEOF(buf), wszFormat, args);
+	CallService(MS_NETLIB_LOGW, (WPARAM)pThis->m_hNetlibUser, (LPARAM)buf);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {

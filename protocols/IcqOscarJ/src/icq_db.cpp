@@ -75,7 +75,7 @@ int CIcqProto::getContactUid(HANDLE hContact, DWORD *pdwUin, uid_str *ppszUid)
 				iRes = 0;
 			}
 			else
-				NetLog_Server("AOL screennames not accepted");
+				debugLogA("AOL screennames not accepted");
 		}
 		db_free(&dbv);
 	}

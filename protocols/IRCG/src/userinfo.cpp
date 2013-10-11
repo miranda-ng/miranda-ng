@@ -31,7 +31,7 @@ struct UserDetailsDlgProcParam
 		hContact( _info )
 	{}
 
-	CIrcProto* ppro;
+	CIrcProto *ppro;
 	HANDLE hContact;
 };
 

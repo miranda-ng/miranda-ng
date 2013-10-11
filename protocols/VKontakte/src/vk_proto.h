@@ -98,6 +98,13 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveFriends();
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, void*);
 
+	void RetrievePollingInfo();
+	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, void*);
+
+	void __cdecl PollingThread(void*);
+	void PollServer();
+	void OnReceivePolling(NETLIBHTTPREQUEST*, void*);
+
 	int  SetServerStatus(int);
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
@@ -144,8 +151,11 @@ private:
 
 	bool   m_bOnline;
 
-	HANDLE m_hNetlibUser, m_hNetlibConn;
+	HANDLE m_hNetlibConn;
 	ptrA   m_szAccessToken, m_myUserId;
 	ptrT   m_defaultGroup;
 	UINT_PTR m_timer;
+
+	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
+	HANDLE m_pollingConn;
 };

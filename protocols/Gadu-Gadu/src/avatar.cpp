@@ -33,9 +33,9 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	if (_taccess(pszDest, 0)) {
 		int ret = CreateDirectoryTreeT(pszDest);
 		if (ret == 0)
-			netlog("getAvatarFilename(): Created new directory for avatar cache: %S.", pszDest);
+			debugLogA("getAvatarFilename(): Created new directory for avatar cache: %S.", pszDest);
 		else {
-			netlog("getAvatarFilename(): Can not create directory for avatar cache: %S. errno=%d: %s", pszDest, errno, strerror(errno));
+			debugLogA("getAvatarFilename(): Can not create directory for avatar cache: %S. errno=%d: %s", pszDest, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pszDest);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
@@ -68,14 +68,14 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	req.szUrl = szUrl;
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
-	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
+	NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (resp == NULL) {
-		netlog("getAvatarFileInfo(): No response from HTTP request");
+		debugLogA("getAvatarFileInfo(): No response from HTTP request");
 		return false;
 	}
 
 	if (resp->resultCode != 200 || !resp->dataLength || !resp->pData) {
-		netlog("getAvatarFileInfo(): Invalid response code from HTTP request");
+		debugLogA("getAvatarFileInfo(): Invalid response code from HTTP request");
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		return false;
 	}
@@ -114,7 +114,7 @@ char *gg_avatarhash(char *param)
 void GGPROTO::requestAvatarTransfer(HANDLE hContact, char *szAvatarURL)
 {
 	if (pth_avatar.dwThreadId == NULL) {
-		netlog("requestAvatarTransfer(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
+		debugLogA("requestAvatarTransfer(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
 		return;
 	}
 
@@ -131,7 +131,7 @@ void GGPROTO::requestAvatarTransfer(HANDLE hContact, char *szAvatarURL)
 void GGPROTO::requestAvatarInfo(HANDLE hContact, int iWaitFor)
 {
 	if (pth_avatar.dwThreadId == NULL) {
-		netlog("requestAvatarInfo(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
+		debugLogA("requestAvatarInfo(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
 		return;
 	}
 	
@@ -154,7 +154,7 @@ void GGPROTO::requestAvatarInfo(HANDLE hContact, int iWaitFor)
 
 void __cdecl GGPROTO::avatarrequestthread(void*)
 {
-	netlog("avatarrequestthread() started. Avatar Request Thread Starting");
+	debugLogA("avatarrequestthread() started. Avatar Request Thread Starting");
 	while (pth_avatar.dwThreadId)
 	{
 		gg_EnterCriticalSection(&avatar_mutex, "avatarrequestthread", 3, "avatar_mutex", 1);
@@ -167,7 +167,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);
 			
 			uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
-			netlog("avatarrequestthread() new avatar_requests item for uin=%d.", uin);
+			debugLogA("avatarrequestthread() new avatar_requests item for uin=%d.", uin);
 
 			char *AvatarURL, *AvatarTs;
 			if (!getAvatarFileInfo(uin, &AvatarURL, &AvatarTs)) {
@@ -208,7 +208,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			GGGETAVATARDATA *data = avatar_transfers[0];
 			avatar_transfers.remove(0);
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
-			netlog("avatarrequestthread() new avatar_transfers item for url=%s.", data->szAvatarURL);
+			debugLogA("avatarrequestthread() new avatar_transfers item for url=%s.", data->szAvatarURL);
 
 			int result = 0;
 
@@ -221,7 +221,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			req.szUrl = data->szAvatarURL;
 			req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
-			NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
+			NETLIBHTTPREQUEST *resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 			if (resp) {
 				if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 					int file_fd;
@@ -247,18 +247,18 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						_write(file_fd, resp->pData, resp->dataLength);
 						_close(file_fd);
 						result = 1;
-						netlog("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%S.", data->szAvatarURL, pai.filename);
+						debugLogA("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%S.", data->szAvatarURL, pai.filename);
 					} else {
-						netlog("avatarrequestthread(): _topen file %S error. errno=%d: %s", pai.filename, errno, strerror(errno));
+						debugLogA("avatarrequestthread(): _topen file %S error. errno=%d: %s", pai.filename, errno, strerror(errno));
 						TCHAR error[512];
 						mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai.filename);
 						showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 					}
 				}
-				else netlog("avatarrequestthread(): Invalid response code from HTTP request");
+				else debugLogA("avatarrequestthread(): Invalid response code from HTTP request");
 				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 			}
-			else netlog("avatarrequestthread(): No response from HTTP request");
+			else debugLogA("avatarrequestthread(): No response from HTTP request");
 
 			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&pai, 0);
 
@@ -280,7 +280,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 
 	avatar_requests.destroy();
 	avatar_transfers.destroy();
-	netlog("avatarrequestthread(): end. Avatar Request Thread Ending");
+	debugLogA("avatarrequestthread(): end. Avatar Request Thread Ending");
 }
 
 void GGPROTO::initavatarrequestthread()
@@ -292,7 +292,7 @@ void GGPROTO::initavatarrequestthread()
 		avatar_requests.destroy();
 		avatar_transfers.destroy();
 #ifdef DEBUGMODE
-		netlog("initavatarrequestthread(): ForkThreadEx 1 GGPROTO::avatarrequestthread");
+		debugLogA("initavatarrequestthread(): ForkThreadEx 1 GGPROTO::avatarrequestthread");
 #endif
 		pth_avatar.hThread = ForkThreadEx(&GGPROTO::avatarrequestthread, NULL, &pth_avatar.dwThreadId);
 	}
@@ -300,7 +300,7 @@ void GGPROTO::initavatarrequestthread()
 
 void __cdecl GGPROTO::getOwnAvatarThread(void*)
 {
-	netlog("getOwnAvatarThread() started");
+	debugLogA("getOwnAvatarThread() started");
 
 	char *AvatarURL, *AvatarTs;
 	if (getAvatarFileInfo( getDword(GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
@@ -319,7 +319,7 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 	}
 #ifdef DEBUGMODE
-	netlog("getOwnAvatarThread(): end");
+	debugLogA("getOwnAvatarThread(): end");
 #endif
 }
 
@@ -327,7 +327,7 @@ void GGPROTO::getOwnAvatar()
 {
 	if (getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS) && getDword(GG_KEY_UIN, 0)){
 #ifdef DEBUGMODE
-		netlog("getOwnAvatar(): ForkThread 2 GGPROTO::getOwnAvatarThread");
+		debugLogA("getOwnAvatar(): ForkThread 2 GGPROTO::getOwnAvatarThread");
 #endif
 		ForkThread(&GGPROTO::getOwnAvatarThread, NULL);
 	}
@@ -343,12 +343,12 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	char szUrl[128], uin[32], *authHeader, *data, *avatardata, content[256], image_ext[4], image_type[11];
 	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
-	netlog("setavatarthread(): started. Trying to set user avatar.");
+	debugLogA("setavatarthread(): started. Trying to set user avatar.");
 	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
-		netlog("setavatarthread(): Failed to open avatar file errno=%d: %s.", errno, strerror(errno));
+		debugLogA("setavatarthread(): Failed to open avatar file errno=%d: %s.", errno, strerror(errno));
 		TCHAR error[512];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot open avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFilename);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -359,7 +359,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		delSetting(GG_KEY_AVATARTYPEPREV);
 		getOwnAvatar();
 #ifdef DEBUGMODE
-		netlog("setavatarthread(): end. err1");
+		debugLogA("setavatarthread(): end. err1");
 #endif
 		return;
 	}
@@ -416,20 +416,20 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	req.pData = data;
 	req.dataLength = datalen;
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
+	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 #ifdef DEBUGMODE
-			netlog("setavatarthread(): 1 resp.data= %s", resp->pData);
+			debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
 #endif
 			res = 1;
 		}
-		else netlog("setavatarthread() Invalid response code from HTTP request");
+		else debugLogA("setavatarthread() Invalid response code from HTTP request");
 		if (resp->resultCode == 403 || resp->resultCode == 401)
 			repeat = 1;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else netlog("setavatarthread(): No response from HTTP request");
+	else debugLogA("setavatarthread(): No response from HTTP request");
 
 	if (repeat) { // Access Token expired - we need to obtain new
 		mir_free(authHeader);
@@ -446,18 +446,18 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		req.pData = data;
 		req.dataLength = datalen;
 
-		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
+		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 		if (resp) {
 			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 #ifdef DEBUGMODE
-				netlog("setavatarthread(): 2 resp.data= %s", resp->pData);
+				debugLogA("setavatarthread(): 2 resp.data= %s", resp->pData);
 #endif
 				res = 1;
 			}
-			else netlog("setavatarthread(): Invalid response code from HTTP request");
+			else debugLogA("setavatarthread(): Invalid response code from HTTP request");
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		}
-		else netlog("setavatarthread(): No response from HTTP request");
+		else debugLogA("setavatarthread(): No response from HTTP request");
 	}
 
 	mir_free(authHeader);
@@ -465,26 +465,26 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	mir_free(data);
 
 	if (res) {
-		netlog("setavatarthread(): User avatar set successfully.");
+		debugLogA("setavatarthread(): User avatar set successfully.");
 	} else {
 		int prevType = getByte(GG_KEY_AVATARTYPEPREV, -1);
 		if (prevType != -1)
 			setByte(GG_KEY_AVATARTYPE, prevType);
-		netlog("setavatarthread(): Failed to set user avatar.");
+		debugLogA("setavatarthread(): Failed to set user avatar.");
 	}
 	delSetting(GG_KEY_AVATARTYPEPREV);
 
 	mir_free(szFilename);
 	getOwnAvatar();
 #ifdef DEBUGMODE
-	netlog("setavatarthread(): end.");
+	debugLogA("setavatarthread(): end.");
 #endif
 }
 
 void GGPROTO::setAvatar(const TCHAR *szFilename)
 {
 #ifdef DEBUGMODE
-	netlog("setAvatar(): ForkThread 3 GGPROTO::setavatarthread");
+	debugLogA("setAvatar(): ForkThread 3 GGPROTO::setavatarthread");
 #endif
 	ForkThread(&GGPROTO::setavatarthread, mir_tstrdup(szFilename));
 }

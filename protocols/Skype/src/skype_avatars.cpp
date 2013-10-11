@@ -129,33 +129,33 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		ptrW avatarPath( this->GetContactAvatarFilePath(NULL));
 		if ( !::wcscmp(path, avatarPath))
 		{
-			this->Log(L"New avatar path are same with old.");
+			this->debugLogW(L"New avatar path are same with old.");
 			return -1;
 		}
 
 		SEBinary avatar = this->GetAvatarBinary(path);
 		if (avatar.size() == 0)
 		{
-			this->Log(L"Failed to read avatar file.");
+			this->debugLogW(L"Failed to read avatar file.");
 			return -1;
 		}
 
 		if (this->IsAvatarChanged(avatar))
 		{
-			this->Log(L"New avatar are same with old.");
+			this->debugLogW(L"New avatar are same with old.");
 			return -1;
 		}
 
 		if ( !::CopyFile(path, avatarPath, FALSE))
 		{
-			this->Log(L"Failed to copy new avatar to local storage.");
+			this->debugLogW(L"Failed to copy new avatar to local storage.");
 			return -1;
 		}
 		
 		Skype::VALIDATERESULT result = Skype::NOT_VALIDATED;
 		if (!this->account->SetAvatar(avatar, result))
 		{
-			this->Log(CSkypeProto::ValidationReasons[result]);
+			this->debugLogW(CSkypeProto::ValidationReasons[result]);
 			return -1;
 		}
 

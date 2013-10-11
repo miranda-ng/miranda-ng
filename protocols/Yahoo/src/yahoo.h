@@ -68,13 +68,11 @@ extern "C"
 #define YAHOO_DEFAULT_JAPAN_LOGIN_SERVER	"cs.yahoo.co.jp"
 #define YAHOO_CUSTOM_STATUS					99
 
-#define YAHOO_DEBUGLOG DebugLog
-
 extern int do_yahoo_debug;
 
-#define LOG(x) if (do_yahoo_debug) { YAHOO_DEBUGLOG("%s:%d: ", __FILE__, __LINE__); \
-	YAHOO_DEBUGLOG x; \
-	YAHOO_DEBUGLOG(" ");}
+#define LOG(x) if (do_yahoo_debug) { debugLogA("%s:%d: ", __FILE__, __LINE__); \
+	debugLogA x; \
+	debugLogA(" ");}
 
 #define YAHOO_SET_CUST_STAT    "/SetCustomStatCommand"
 #define YAHOO_EDIT_MY_PROFILE  "/YahooEditMyProfileCommand"
@@ -120,9 +118,9 @@ yahoo_status miranda_to_yahoo(int myyahooStatus);
 void register_callbacks();
 
 #ifdef __GNUC__
-	int DebugLog( const char *fmt, ... ) __attribute__ ((format (printf, 1, 2)));
+	int debugLogA( const char *fmt, ... ) __attribute__ ((format (printf, 1, 2)));
 #else
-	int DebugLog( const char *fmt, ... );
+	int debugLogA( const char *fmt, ... );
 #endif
 
 void SetButtonCheck(HWND hwndDlg, int CtrlID, BOOL bCheck);

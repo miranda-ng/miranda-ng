@@ -118,21 +118,6 @@ void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const ch
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// MSN_DebugLog - writes a line of comments to the network log
-
-void CMsnProto::MSN_DebugLog(const char *fmt, ...)
-{
-	char	str[4096];
-	va_list	vararg;
-
-	va_start(vararg, fmt);
-	if (mir_vsnprintf(str, sizeof(str), fmt, vararg) != 0)
-	{
-		str[sizeof(str)-1] = 0;
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)str);
-	}
-	va_end(vararg);
-}
 
 void CMsnProto::InitCustomFolders(void)
 {
@@ -716,7 +701,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt,...)
 
 void CMsnProto::MSN_SetServerStatus(int newStatus)
 {
-	MSN_DebugLog("Setting MSN server status %d, logged in = %d", newStatus, msnLoggedIn);
+	debugLogA("Setting MSN server status %d, logged in = %d", newStatus, msnLoggedIn);
 
 	if (!msnLoggedIn)
 		return;
@@ -833,7 +818,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 		mir_free(post);
 	}
 
-	MSN_DebugLog("Starting URL: '%s'", hippy);
+	debugLogA("Starting URL: '%s'", hippy);
 	CallService(MS_UTILS_OPENURL, 1, (LPARAM)hippy);
 }
 
@@ -1018,7 +1003,7 @@ filetransfer::filetransfer(CMsnProto* prt)
 filetransfer::~filetransfer(void)
 {
 	if (p2p_sessionid)
-		proto->MSN_DebugLog("Destroying file transfer session %08X", p2p_sessionid);
+		proto->debugLogA("Destroying file transfer session %08X", p2p_sessionid);
 
 	WaitForSingleObject(hLockHandle, 2000);
 	CloseHandle(hLockHandle);

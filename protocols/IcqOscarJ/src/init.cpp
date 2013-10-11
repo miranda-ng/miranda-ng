@@ -151,9 +151,9 @@ void CIcqProto::UpdateGlobalSettings()
 		}
 	}
 
-	if (m_hServerNetlibUser) {
+	if (m_hNetlibUser) {
 		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
-		if ( !m_bSecureConnection && CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hServerNetlibUser, (LPARAM)&nlus)) {
+		if ( !m_bSecureConnection && CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hNetlibUser, (LPARAM)&nlus)) {
 			if (nlus.useProxy && nlus.proxyType == PROXYTYPE_HTTP)
 				m_bGatewayMode = 1;
 			else

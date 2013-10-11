@@ -155,7 +155,7 @@ uint32_t gg_dnslookup(GGPROTO *gg, char *host)
 	if (ip != INADDR_NONE)
 	{
 #ifdef DEBUGMODE
-		gg->netlog("gg_dnslookup(): Parameter \"%s\" is already IP number.", host);
+		gg->debugLogA("gg_dnslookup(): Parameter \"%s\" is already IP number.", host);
 #endif
 		return ip;
 	}
@@ -164,12 +164,12 @@ uint32_t gg_dnslookup(GGPROTO *gg, char *host)
 	{
 		ip = *(uint32_t *) he->h_addr_list[0];
 #ifdef DEBUGMODE
-		gg->netlog("gg_dnslookup(): Parameter \"%s\" was resolved to %d.%d.%d.%d.", host,
+		gg->debugLogA("gg_dnslookup(): Parameter \"%s\" was resolved to %d.%d.%d.%d.", host,
 			LOBYTE(LOWORD(ip)), HIBYTE(LOWORD(ip)), LOBYTE(HIWORD(ip)), HIBYTE(HIWORD(ip)));
 #endif
 		return ip;
 	}
-	gg->netlog("gg_dnslookup(): Cannot resolve hostname \"%s\".", host);
+	gg->debugLogA("gg_dnslookup(): Cannot resolve hostname \"%s\".", host);
 	return 0;
 }
 
@@ -254,7 +254,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	time_t timeDeviation = getWord(GG_KEY_TIMEDEVIATION, GG_KEYDEF_TIMEDEVIATION);
 	int gg_failno = 0;
 
-	netlog("mainthread(): started. (%x) Server Thread Starting", this);
+	debugLogA("mainthread(): started. (%x) Server Thread Starting", this);
 #ifdef DEBUGMODE
 	gg_debug_level = GG_DEBUG_NET | GG_DEBUG_TRAFFIC | GG_DEBUG_FUNCTION | GG_DEBUG_MISC;
 #else
@@ -284,10 +284,10 @@ void __cdecl GGPROTO::mainthread(void *)
 
 	// Setup proxy
 	nlus.cbSize = sizeof(nlus);
-	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)netlib, (LPARAM)&nlus))
+	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hNetlibUser, (LPARAM)&nlus))
 	{
 		if (nlus.useProxy)
-			netlog("mainthread() (%x): Using proxy %s:%d.", this, nlus.szProxyServer, nlus.wProxyPort);
+			debugLogA("mainthread() (%x): Using proxy %s:%d.", this, nlus.szProxyServer, nlus.wProxyPort);
 		gg_proxy_enabled = nlus.useProxy;
 		gg_proxy_host = nlus.szProxyServer;
 		gg_proxy_port = nlus.wProxyPort;
@@ -300,7 +300,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	}
 	else
 	{
-		netlog("mainthread() (%x): Failed loading proxy settings.", this);
+		debugLogA("mainthread() (%x): Failed loading proxy settings.", this);
 		gg_proxy_enabled = 0;
 	}
 
@@ -323,10 +323,10 @@ void __cdecl GGPROTO::mainthread(void *)
 	}
 	else
 	{
-		netlog("mainthread() (%x): No password specified. Exiting.", this);
+		debugLogA("mainthread() (%x): No password specified. Exiting.", this);
 		broadcastnewstatus(ID_STATUS_OFFLINE);
 #ifdef DEBUGMODE
-		netlog("mainthread(): end. err1");
+		debugLogA("mainthread(): end. err1");
 #endif
 		return;
 	}
@@ -334,18 +334,18 @@ void __cdecl GGPROTO::mainthread(void *)
 	// Readup number
 	if (!(p.uin = getDword(GG_KEY_UIN, 0)))
 	{
-		netlog("mainthread() (%x): No Gadu-Gadu number specified. Exiting.", this);
+		debugLogA("mainthread() (%x): No Gadu-Gadu number specified. Exiting.", this);
 		broadcastnewstatus(ID_STATUS_OFFLINE);
 		mir_free(p.password);
 #ifdef DEBUGMODE
-		netlog("mainthread(): end. err2");
+		debugLogA("mainthread(): end. err2");
 #endif
 		return;
 	}
 
 	// Readup SSL/TLS setting
 	if (p.tls = getByte(GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN))
-		netlog("mainthread() (%x): Using TLS/SSL for connections.", this);
+		debugLogA("mainthread() (%x): Using TLS/SSL for connections.", this);
 
 	// Gadu-Gadu accepts image sizes upto 255
 	p.image_size = 255;
@@ -359,7 +359,7 @@ void __cdecl GGPROTO::mainthread(void *)
 
 		// Wait for DCC
 #ifdef DEBUGMODE
-		netlog("mainthread() (%x): Waiting DCC service to start...", this);
+		debugLogA("mainthread() (%x): Waiting DCC service to start...", this);
 #endif
 		while (WaitForSingleObjectEx(hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 		CloseHandle(hEvent); hEvent = NULL;
@@ -378,7 +378,7 @@ void __cdecl GGPROTO::mainthread(void *)
 				showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 			}
 			else
-				netlog("mainthread() (%x): Loading forwarding host %s and port %d.", dbv.pszVal, p.external_port, this);
+				debugLogA("mainthread() (%x): Loading forwarding host %s and port %d.", dbv.pszVal, p.external_port, this);
 			if (p.external_addr)	p.external_port = getWord(GG_KEY_FORWARDPORT, GG_KEYDEF_FORWARDPORT);
 			db_free(&dbv);
 		}
@@ -393,7 +393,7 @@ retry:
 	p.status_descr = mir_utf8encodeT(getstatusmsg(m_iDesiredStatus));
 	p.status = status_m2gg(m_iDesiredStatus, p.status_descr != NULL);
 
-	netlog("mainthread() (%x): Connecting with number %d, status %d and description \"%S\".", this, p.uin, m_iDesiredStatus,
+	debugLogA("mainthread() (%x): Connecting with number %d, status %d and description \"%S\".", this, p.uin, m_iDesiredStatus,
 				p.status_descr ? getstatusmsg(m_iDesiredStatus) : _T("<none>"));
 	gg_LeaveCriticalSection(&modemsg_mutex, "mainthread", 13, 1, "modemsg_mutex", 1);
 
@@ -411,7 +411,7 @@ retry:
 		else
 		{
 			p.server_port = hosts[hostnum].port;
-			netlog("mainthread() (%x): Connecting to manually specified host %s (%d.%d.%d.%d) and port %d.", this,
+			debugLogA("mainthread() (%x): Connecting to manually specified host %s (%d.%d.%d.%d) and port %d.", this,
 				hosts[hostnum].hostname, LOBYTE(LOWORD(p.server_addr)), HIBYTE(LOWORD(p.server_addr)),
 				LOBYTE(HIWORD(p.server_addr)), HIBYTE(HIWORD(p.server_addr)), p.server_port);
 		}
@@ -438,7 +438,7 @@ retry:
 				mir_sntprintf(error, SIZEOF(error), TranslateT("Connection cannot be established. errno=%d: %s"),errno, strerror(errno));
 				perror = error;
 			}
-			netlog("mainthread() (%x): %s", this, perror);
+			debugLogA("mainthread() (%x): %s", this, perror);
 			if (getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS))
 				showpopup(m_tszUserName, perror, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 
@@ -473,7 +473,7 @@ retry:
 			gg_LeaveCriticalSection(&modemsg_mutex, "mainthread", 14, 1, "modemsg_mutex", 1);
 		}
 		else
-			netlog("mainthread() (%x)): Connection attempt cancelled by the user.", this);
+			debugLogA("mainthread() (%x)): Connection attempt cancelled by the user.", this);
 	}
 	else
 	{
@@ -512,14 +512,14 @@ retry:
 	{
 		// Connection broken/closed
 #ifdef DEBUGMODE
-		netlog("mainthread(): waiting for gg_watch_fd");
+		debugLogA("mainthread(): waiting for gg_watch_fd");
 #endif
 		if (!(e = gg_watch_fd(sess)))
 		{
 #ifdef DEBUGMODE
-			netlog("mainthread(): waiting for gg_watch_fd - DONE error");
+			debugLogA("mainthread(): waiting for gg_watch_fd - DONE error");
 #endif
-			netlog("mainthread() (%x): Connection closed.", this);
+			debugLogA("mainthread() (%x): Connection closed.", this);
 			gg_EnterCriticalSection(&sess_mutex, "mainthread", 16, "sess_mutex", 1);
 			gg_free_session(sess);
 			sess = NULL;
@@ -528,9 +528,9 @@ retry:
 		}
 		else {
 #ifdef DEBUGMODE
-			netlog("mainthread(): waiting for gg_watch_fd - DONE");
+			debugLogA("mainthread(): waiting for gg_watch_fd - DONE");
 #endif
-			netlog("mainthread() (%x): Event: %s", this, ggdebug_eventtype(e));
+			debugLogA("mainthread() (%x): Event: %s", this, ggdebug_eventtype(e));
 		}
 
 		switch(e->type)
@@ -607,18 +607,18 @@ retry:
 
 				if (e->type == GG_EVENT_PUBDIR50_SEARCH_REPLY)
 				{
-					netlog("mainthread() (%x): Got user info.", this);
+					debugLogA("mainthread() (%x): Got user info.", this);
 					// Store next search UIN
 					if (res->seq == GG_SEQ_SEARCH)
 						next_uin = gg_pubdir50_next(res);
 				}
 				else if (e->type == GG_EVENT_PUBDIR50_READ)
 				{
-					netlog("mainthread() (%x): Got owner info.", this);
+					debugLogA("mainthread() (%x): Got owner info.", this);
 				}
 				else if (e->type == GG_EVENT_PUBDIR50_WRITE)
 				{
-					netlog("mainthread() (%x): Public directory save succesful.", this);
+					debugLogA("mainthread() (%x): Public directory save succesful.", this);
 					// Update user details
 					GetInfo(NULL, 0);
 				}
@@ -641,7 +641,7 @@ retry:
 						uin_t uin = __fmnumber ? atoi(__fmnumber) : 0;
 
 						HANDLE hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, NULL);
-						netlog("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
+						debugLogA("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
 						if (res->seq == GG_SEQ_SEARCH)
 						{
 							TCHAR strFmt1[64];
@@ -748,7 +748,7 @@ retry:
 								delSetting(GG_KEY_PD_GANDER);
 							}
 
-							netlog("mainthread() (%x): Setting user info for uin %d.", this, uin);
+							debugLogA("mainthread() (%x): Setting user info for uin %d.", this, uin);
 							ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 						}
 
@@ -851,7 +851,7 @@ retry:
 							gcevent.ptszNick = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), GCDNF_TCHAR);
 							gcevent.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-							netlog("mainthread() (%x): Conference message to room %S & id %S.", this, chat, id);
+							debugLogA("mainthread() (%x): Conference message to room %S & id %S.", this, chat, id);
 							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 							mir_free(messageT);
 						}
@@ -885,7 +885,7 @@ retry:
 								gg_image_request(sess, e->event.msg.sender, image->size, image->crc32);
 								gg_LeaveCriticalSection(&sess_mutex, "mainthread", 18, 1, "sess_mutex", 1);
 
-								netlog("mainthread(): image request sent!");
+								debugLogA("mainthread(): image request sent!");
 								add_ptr += sizeof(struct gg_msg_richtext_image);
 							}
 							if (((struct gg_msg_richtext_format*)formats)->font & GG_FONT_COLOR)
@@ -926,7 +926,7 @@ retry:
 						gcevent.time = e->event.multilogon_msg.time;
 						gcevent.bIsMe = 1;
 						gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-						netlog("mainthread() (%x): Sent conference message to room %S.", this, chat);
+						debugLogA("mainthread() (%x): Sent conference message to room %S.", this, chat);
 						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 						mir_free(messageT);
 						mir_free(nickT);
@@ -951,7 +951,7 @@ retry:
 				{
 					list_t l;
 					int* iIndexes = NULL, i;
-					netlog("mainthread(): Concurrent sessions count: %d.", e->event.multilogon_info.count);
+					debugLogA("mainthread(): Concurrent sessions count: %d.", e->event.multilogon_info.count);
 					if (e->event.multilogon_info.count > 0)
 						iIndexes = (int*)mir_calloc(e->event.multilogon_info.count * sizeof(int));
 					gg_EnterCriticalSection(&sessions_mutex, "mainthread", 19, "sess_mutex", 1);
@@ -1051,7 +1051,7 @@ retry:
 			case GG_EVENT_DCC7_NEW:
 				{
 					struct gg_dcc7 *dcc7 = e->event.dcc7_new;
-					netlog("mainthread() (%x): Incoming direct connection.", this);
+					debugLogA("mainthread() (%x): Incoming direct connection.", this);
 					dcc7->contact = getcontact(dcc7->peer_uin, 0, 0, NULL);
 
 					// Check if user is on the list and if it is my uin
@@ -1069,7 +1069,7 @@ retry:
 					//////////////////////////////////////////////////
 					// Add file recv request
 
-					netlog("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
+					debugLogA("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
 						dcc7->filename, dcc7->size);
 
 					TCHAR* filenameT = mir_a2t((char*)dcc7->filename);
@@ -1094,7 +1094,7 @@ retry:
 					struct gg_dcc7 *dcc7 = e->event.dcc7_reject.dcc7;
 					if (dcc7->type == GG_SESSION_DCC7_SEND)
 					{
-						netlog("mainthread() (%x): File transfer denied by client %d (reason = %d).", this, dcc7->peer_uin, e->event.dcc7_reject.reason);
+						debugLogA("mainthread() (%x): File transfer denied by client %d (reason = %d).", this, dcc7->peer_uin, e->event.dcc7_reject.reason);
 						ProtoBroadcastAck(dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
 
 						// Remove from watches and free
@@ -1105,7 +1105,7 @@ retry:
 					}
 					else
 					{
-						netlog("mainthread() (%x): File transfer aborted by client %d.", this, dcc7->peer_uin);
+						debugLogA("mainthread() (%x): File transfer aborted by client %d.", this, dcc7->peer_uin);
 
 						// Remove transfer from waiting list
 						gg_EnterCriticalSection(&ft_mutex, "mainthread", 22, "ft_mutex", 1);
@@ -1123,25 +1123,25 @@ retry:
 					switch (e->event.dcc7_error)
 					{
 						case GG_ERROR_DCC7_HANDSHAKE:
-							netlog("mainthread() (%x): Client: %d, Handshake error.", this, dcc7 ? dcc7->peer_uin : 0);
+							debugLogA("mainthread() (%x): Client: %d, Handshake error.", this, dcc7 ? dcc7->peer_uin : 0);
 							break;
 						case GG_ERROR_DCC7_NET:
-							netlog("mainthread() (%x): Client: %d, Network error.", this, dcc7 ? dcc7->peer_uin : 0);
+							debugLogA("mainthread() (%x): Client: %d, Network error.", this, dcc7 ? dcc7->peer_uin : 0);
 							break;
 						case GG_ERROR_DCC7_FILE:
-							netlog("mainthread() (%x): Client: %d, File read/write error.", this, dcc7 ? dcc7->peer_uin : 0);
+							debugLogA("mainthread() (%x): Client: %d, File read/write error.", this, dcc7 ? dcc7->peer_uin : 0);
 							break;
 						case GG_ERROR_DCC7_EOF:
-							netlog("mainthread() (%x): Client: %d, End of file/connection error.", this, dcc7 ? dcc7->peer_uin : 0);
+							debugLogA("mainthread() (%x): Client: %d, End of file/connection error.", this, dcc7 ? dcc7->peer_uin : 0);
 							break;
 						case GG_ERROR_DCC7_REFUSED:
-							netlog("mainthread() (%x): Client: %d, Connection refused error.", this, dcc7 ? dcc7->peer_uin : 0);
+							debugLogA("mainthread() (%x): Client: %d, Connection refused error.", this, dcc7 ? dcc7->peer_uin : 0);
 							break;
 						case GG_ERROR_DCC7_RELAY:
-							netlog("mainthread() (%x): Client: %d, Relay connection error.", this, dcc7 ? dcc7->peer_uin : 0);
+							debugLogA("mainthread() (%x): Client: %d, Relay connection error.", this, dcc7 ? dcc7->peer_uin : 0);
 							break;
 						default:
-							netlog("mainthread() (%x): Client: %d, Unknown error.", this, dcc7 ? dcc7->peer_uin : 0);
+							debugLogA("mainthread() (%x): Client: %d, Unknown error.", this, dcc7 ? dcc7->peer_uin : 0);
 					}
 					if (!dcc7) break;
 
@@ -1186,10 +1186,10 @@ retry:
 						tag = mir_a2t("event/sender");
 						node = xi.getChildByPath(hXml, tag, 0);
 						sender = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
-						netlog("mainthread() (%x): XML Action type: %s.", this, type != NULL ? type : "unknown");
+						debugLogA("mainthread() (%x): XML Action type: %s.", this, type != NULL ? type : "unknown");
 						// Avatar change notify
 						if (type != NULL && !strcmp(type, "28")) {
-							netlog("mainthread() (%x): Client %s changed his avatar.", this, sender);
+							debugLogA("mainthread() (%x): Client %s changed his avatar.", this, sender);
 							requestAvatarInfo(getcontact(atoi(sender), 0, 0, NULL), 0);
 						}
 						mir_free(type);
@@ -1205,7 +1205,7 @@ retry:
 				{
 					HANDLE hContact = getcontact(e->event.typing_notification.uin, 0, 0, NULL);
 #ifdef DEBUGMODE
-					netlog("mainthread() (%x): Typing notification from %d (%d).", this,
+					debugLogA("mainthread() (%x): Typing notification from %d (%d).", this,
 						e->event.typing_notification.uin, e->event.typing_notification.length);
 #endif
 					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact,
@@ -1225,7 +1225,7 @@ retry:
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE
 		&& getByte(GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT))
 	{
-		netlog("mainthread() (%x): Unintentional disconnection detected. Going to reconnect...", this);
+		debugLogA("mainthread() (%x): Unintentional disconnection detected. Going to reconnect...", this);
 		hostnum = 0;
 		broadcastnewstatus(ID_STATUS_CONNECTING);
 		mir_free(p.status_descr);
@@ -1253,14 +1253,14 @@ retry:
 	// Stop dcc server
 	pth_dcc.dwThreadId = 0;
 #ifdef DEBUGMODE
-	netlog("mainthread() (%x): Waiting pth_dcc thread. Waiting until DCC Server Thread finished, if needed.", this);
+	debugLogA("mainthread() (%x): Waiting pth_dcc thread. Waiting until DCC Server Thread finished, if needed.", this);
 #endif
 	threadwait(&pth_dcc);
 #ifdef DEBUGMODE
-	netlog("mainthread() (%x): Waiting pth_dcc thread - OK", this);
+	debugLogA("mainthread() (%x): Waiting pth_dcc thread - OK", this);
 #endif
 
-	netlog("mainthread(): end. (%x) Server Thread Ending", this);
+	debugLogA("mainthread(): end. (%x) Server Thread Ending", this);
 	return;
 }
 
@@ -1282,7 +1282,7 @@ void GGPROTO::broadcastnewstatus(int newStatus)
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, newStatus);
 
-	netlog("broadcastnewstatus(): Broadcast new status: %d.", newStatus);
+	debugLogA("broadcastnewstatus(): Broadcast new status: %d.", newStatus);
 }
 
 ////////////////////////////////////////////////////////////
@@ -1304,7 +1304,7 @@ int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 		gcevent.dwFlags = GC_TCHAR;
 		GGGC *chat = gc_lookup(dbv.ptszVal);
 
-		netlog("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, dbv.pszVal);
+		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, dbv.pszVal);
 		if (chat)
 		{
 			// Destroy chat entry
@@ -1351,7 +1351,7 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE) wParam;
 	char *szProto = NULL;
 
-	netlog("dbsettingchanged(): fired. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
+	debugLogA("dbsettingchanged(): fired. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
 
 	// Check if the contact is NULL or we are not online
 	if (!isonline())
@@ -1385,7 +1385,7 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 				GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
 				gcevent.dwFlags = GC_TCHAR;
 				gcevent.ptszText = ptszVal;
-				netlog("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
+				debugLogA("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
 				// Mark cascading
 				/* FIXME */ cascade = 1;
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
@@ -1422,7 +1422,7 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 	}
 
 #ifdef DEBUGMODE
-	netlog("dbsettingchanged(): end. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
+	debugLogA("dbsettingchanged(): end. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
 #endif
 
 	return 0;
@@ -1433,7 +1433,7 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 
 void GGPROTO::setalloffline()
 {
-	netlog("setalloffline(): started. Setting buddies offline");
+	debugLogA("setalloffline(): started. Setting buddies offline");
 	setWord(GG_KEY_STATUS, ID_STATUS_OFFLINE);
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -1445,7 +1445,7 @@ void GGPROTO::setalloffline()
 		db_unset(hContact, "CList", GG_KEY_STATUSDESCR);
 	}
 #ifdef DEBUGMODE
-	netlog("setalloffline(): End.");
+	debugLogA("setalloffline(): End.");
 #endif
 }
 
@@ -1499,7 +1499,7 @@ void GGPROTO::notifyall()
 	uin_t *uins;
 	char *types;
 
-	netlog("notifyall(): Subscribing notification to all users");
+	debugLogA("notifyall(): Subscribing notification to all users");
 	// Readup count
 
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
@@ -1550,7 +1550,7 @@ void GGPROTO::notifyall()
 HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 {
 #ifdef DEBUGMODE
-	netlog("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
+	debugLogA("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
 #endif
 	// Look for contact in DB
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -1567,18 +1567,18 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!hContact) {
-		netlog("getcontact(): Failed to create Gadu-Gadu contact %S", szNick);
+		debugLogA("getcontact(): Failed to create Gadu-Gadu contact %S", szNick);
 		return NULL;
 	}
 
 	if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) m_szModuleName) != 0) {
 		// For some reason we failed to register the protocol for this contact
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
-		netlog("getcontact(): Failed to register GG contact %d", uin);
+		debugLogA("getcontact(): Failed to register GG contact %d", uin);
 		return NULL;
 	}
 
-	netlog("getcontact(): Added buddy: %d", uin);
+	debugLogA("getcontact(): Added buddy: %d", uin);
 	if (!inlist) 
 		db_set_b(hContact, "CList", "NotOnList", 1);
 
@@ -1603,7 +1603,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 			TCHAR* uinT = mir_a2t(ditoa(uin));
 			setTString(hContact, GG_KEY_NICK, uinT);
 			mir_free(uinT);
-			netlog("getcontact(): Search for nick on uin: %d", uin);
+			debugLogA("getcontact(): Search for nick on uin: %d", uin);
 		}
 	}
 
@@ -1721,7 +1721,7 @@ int GGPROTO::status_gg2m(int status)
 void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, int time, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
 {
 #ifdef DEBUGMODE
-	netlog("changecontactstatus(): uin=%d status=%d", uin, status);
+	debugLogA("changecontactstatus(): uin=%d status=%d", uin, status);
 #endif
 	HANDLE hContact = getcontact(uin, 0, 0, NULL);
 
@@ -1734,7 +1734,7 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, in
 	// Check if there's description and if it's not empty
 	if (idescr && *idescr)
 	{
-		netlog("changecontactstatus(): Saving for %d status descr \"%S\".", uin, idescr);
+		debugLogA("changecontactstatus(): Saving for %d status descr \"%S\".", uin, idescr);
 		db_set_ts(hContact, "CList", GG_KEY_STATUSDESCR, idescr);
 	} else {
 		// Remove status if there's nothing

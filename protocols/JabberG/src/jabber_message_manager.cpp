@@ -93,7 +93,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 					messageInfo.m_szChildTagName = szTagName;
 					messageInfo.m_szChildTagXmlns = szXmlns;
 					messageInfo.m_pUserData = pInfo->m_pUserData;
-					messageInfo.m_szFrom = xmlGetAttrValue(node, _T("from")); // is necessary for ppro->Log() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
+					messageInfo.m_szFrom = xmlGetAttrValue(node, _T("from")); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
 
 					if (pInfo->m_dwParamsToParse & JABBER_MESSAGE_PARSE_ID_STR)
 						messageInfo.m_szId = xmlGetAttrValue(node, _T("id"));
@@ -105,7 +105,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom, 3);
 
 					if (messageInfo.m_szFrom)
-						ppro->Log("Handling message from %S", messageInfo.m_szFrom);
+						ppro->debugLogA("Handling message from %S", messageInfo.m_szFrom);
 					if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &messageInfo))
 						return TRUE;
 				}

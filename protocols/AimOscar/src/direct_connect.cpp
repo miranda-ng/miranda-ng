@@ -52,7 +52,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 			HANDLE hConn = aim_peer_connect(AIM_PROXY_SERVER, get_default_port());
 			if (hConn) 
 			{
-				LOG("Connected to proxy ip because we want to use a proxy for the file transfer.");
+				debugLogA("Connected to proxy ip because we want to use a proxy for the file transfer.");
 				ft->requester = true;
 				ft->hConn = hConn;
 				ForkThread(&CAimProto::aim_proxy_helper, ft);
@@ -74,7 +74,7 @@ void aim_direct_connection_initiated(HANDLE hNewConnection, DWORD, void* extra)/
 	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
 
-	ppro->LOG("Buddy connected: %s", connInfo.szIpPort);
+	ppro->debugLogA("Buddy connected: %s", connInfo.szIpPort);
 
 	// okay someone connected to us or we initiated the connection- we need to figure out who they are and if they belong
 	ft = ppro->ft_list.find_by_port(connInfo.wPort);

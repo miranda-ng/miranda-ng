@@ -288,7 +288,7 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 {
-	this->Log(L"Updating profile for %p", hContact);
+	this->debugLogW(L"Updating profile for %p", hContact);
 	this->UpdateProfileAvatar(obj, hContact);
 
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_PROFILE_TIMESTAMP) : obj->GetUintProp(Account::P_PROFILE_TIMESTAMP);

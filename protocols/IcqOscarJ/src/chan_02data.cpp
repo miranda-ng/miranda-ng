@@ -36,15 +36,15 @@ void CIcqProto::handleDataChannel(BYTE *pBuffer, WORD wBufferLength, serverthrea
 
 	if (!unpackSnacHeader(&snacHeader, &pBuffer, &wBufferLength) || !snacHeader.bValid)
 	{
-		NetLog_Server("Error: Failed to parse SNAC header");
+		debugLogA("Error: Failed to parse SNAC header");
 	}
 	else
 	{
 #ifdef _DEBUG
 		if (snacHeader.wFlags & 0x8000)
-			NetLog_Server(" Received SNAC(x%02X,x%02X), version %u", snacHeader.wFamily, snacHeader.wSubtype, snacHeader.wVersion);
+			debugLogA(" Received SNAC(x%02X,x%02X), version %u", snacHeader.wFamily, snacHeader.wSubtype, snacHeader.wVersion);
 		else
-			NetLog_Server(" Received SNAC(x%02X,x%02X)", snacHeader.wFamily, snacHeader.wSubtype);
+			debugLogA(" Received SNAC(x%02X,x%02X)", snacHeader.wFamily, snacHeader.wSubtype);
 #endif
 
 		switch (snacHeader.wFamily) {
@@ -90,7 +90,7 @@ void CIcqProto::handleDataChannel(BYTE *pBuffer, WORD wBufferLength, serverthrea
 			break;
 
 		default:
-			NetLog_Server("Ignoring SNAC(x%02X,x%02X) - FAMILYx%02X not implemented", snacHeader.wFamily, snacHeader.wSubtype, snacHeader.wFamily);
+			debugLogA("Ignoring SNAC(x%02X,x%02X) - FAMILYx%02X not implemented", snacHeader.wFamily, snacHeader.wSubtype, snacHeader.wFamily);
 			break;
 
 		}
@@ -218,5 +218,5 @@ void CIcqProto::LogFamilyError(WORD wFamily, WORD wError)
 		default:   msg = ""; break;
 	}
 
-	NetLog_Server("SNAC(x%02X,x01) - Error(%u): %s", wFamily, wError, msg);
+	debugLogA("SNAC(x%02X,x01) - Error(%u): %s", wFamily, wError, msg);
 }

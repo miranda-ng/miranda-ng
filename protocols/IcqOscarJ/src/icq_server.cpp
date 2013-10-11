@@ -50,14 +50,14 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	ResetSettingsOnConnect();
 
 	// Connect to the login server
-	NetLog_Server("Authenticating to server");
+	debugLogA("Authenticating to server");
 	{
 		NETLIBOPENCONNECTION nloc = infoParam->nloc;
 		nloc.timeout = 6;
 		if (m_bGatewayMode)
 			nloc.flags |= NLOCF_HTTPGATEWAY;
 
-		hServerConn = NetLib_OpenConnection(m_hServerNetlibUser, NULL, &nloc);
+		hServerConn = NetLib_OpenConnection(m_hNetlibUser, NULL, &nloc);
 
 		SAFE_FREE((void**)&nloc.szHost);
 		SAFE_FREE((void**)&infoParam);
@@ -131,13 +131,13 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 			if (recvResult == 0)
 			{
-				NetLog_Server("Clean closure of server socket");
+				debugLogA("Clean closure of server socket");
 				break;
 			}
 
 			if (recvResult == SOCKET_ERROR)
 			{
-				NetLog_Server("Abortive closure of server socket, error: %d", GetLastError());
+				debugLogA("Abortive closure of server socket, error: %d", GetLastError());
 				break;
 			}
 
@@ -149,7 +149,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 				m_bConnectionLost = FALSE;
 				SetCurrentStatus(ID_STATUS_OFFLINE);
 
-				NetLog_Server("Logged off.");
+				debugLogA("Logged off.");
 				break;
 			}
 
@@ -228,7 +228,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 	FlushServerIDs();         // clear server IDs list
 
-	NetLog_Server("%s thread ended.", "Server");
+	debugLogA("%s thread ended.", "Server");
 }
 
 
@@ -237,7 +237,7 @@ void CIcqProto::icq_serverDisconnect(BOOL bBlock)
 	if ( !hServerConn)
 		return;
 
-	NetLog_Server("Server shutdown requested");
+	debugLogA("Server shutdown requested");
 	Netlib_Shutdown(hServerConn);
 
 	if (serverThreadHandle) {
@@ -279,7 +279,7 @@ int CIcqProto::handleServerPackets(BYTE *buf, int len, serverthread_info *info)
 
 
 #ifdef _DEBUG
-		NetLog_Server("Server FLAP: Channel %u, Seq %u, Length %u bytes", channel, sequence, datalen);
+		debugLogA("Server FLAP: Channel %u, Seq %u, Length %u bytes", channel, sequence, datalen);
 #endif
 
 		switch (channel) {
@@ -304,7 +304,7 @@ int CIcqProto::handleServerPackets(BYTE *buf, int len, serverthread_info *info)
 			break;
 
 		default:
-			NetLog_Server("Warning: Unhandled Server FLAP Channel: Channel %u, Seq %u, Length %u bytes", channel, sequence, datalen);
+			debugLogA("Warning: Unhandled Server FLAP Channel: Channel %u, Seq %u, Length %u bytes", channel, sequence, datalen);
 			break;
 		}
 
@@ -364,7 +364,7 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 	else
 	{
 		connectionHandleMutex->Leave();
-		NetLog_Server("Error: Failed to send packet (no connection)");
+		debugLogA("Error: Failed to send packet (no connection)");
 	}
 
 	SAFE_FREE((void**)&pPacket->pData);

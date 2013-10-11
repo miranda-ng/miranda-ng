@@ -600,7 +600,7 @@ int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
 		aim_writetlv(0x2712,8,enc,frag_offset,msg_frag);                        // character set used by data
 //        aim_writetlvlong64(0x2713,ft->pfts.totalBytes,frag_offset,msg_frag);    // file length
 
-		LOG("Attempting to Send a file to a buddy.");
+		debugLogA("Attempting to Send a file to a buddy.");
 	}
 	else
 	{
@@ -620,7 +620,7 @@ int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
 
 	char cip[20];
 	long_ip_to_char_ip(ip, cip);
-	LOG("IP for Buddy to connect to: %s:%u", cip, port);
+	debugLogA("IP for Buddy to connect to: %s:%u", cip, port);
 	return aim_sendflap(hServerConn,0x02,offset,buf,seqno)==0;
 }
 
@@ -647,7 +647,7 @@ int CAimProto::aim_file_ad(HANDLE hServerConn,unsigned short &seqno,char* sn, ch
 	aim_writegeneric(sn_length,sn,offset,buf);                      // screen name
 	aim_writetlv(0x05,frag_offset,msg_frag,offset,buf);             // icbm tags
 
-	LOG("%s a file transfer.", deny ? "Denying" : "Accepting");
+	debugLogA("%s a file transfer.", deny ? "Denying" : "Accepting");
 	return aim_sendflap(hServerConn,0x02,offset,buf,seqno)==0;
 }
 

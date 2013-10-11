@@ -72,11 +72,11 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 		if (flags & TCHAR_POPUP)
 		{
 			char* errmsg = mir_t2a((TCHAR*)msg);
-			LOG(errmsg);
+			debugLogA(errmsg);
 			mir_free(errmsg);
 		}
 		else
-			LOG(msg);
+			debugLogA(msg);
 	}
 
 	TCHAR *msgt = (flags & TCHAR_POPUP) ? mir_tstrdup((TCHAR*)msg) : mir_a2t(msg);

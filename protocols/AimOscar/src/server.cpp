@@ -1029,7 +1029,7 @@ void CAimProto::snac_contact_list(SNAC &snac,HANDLE hServerConn,unsigned short &
 {
 	if (snac.subcmp(0x0006))  //contact list
 	{
-		LOG("Contact List Received");
+		debugLogA("Contact List Received");
 //      unsigned char ver = snac.ubyte();
 		int num_obj = snac.ushort(1);
 
@@ -1064,7 +1064,7 @@ void CAimProto::snac_contact_list(SNAC &snac,HANDLE hServerConn,unsigned short &
 
 			avatar_request_handler(NULL, NULL, 0);
 
-			LOG("Connection Negotiation Finished");
+			debugLogA("Connection Negotiation Finished");
 			state = 1;
 		}
 	}
@@ -1356,8 +1356,8 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 		{
 			if (rdz_msg_type == 0 && request_num == 1) //buddy wants to send us a file
 			{
-				LOG("Buddy Wants to Send us a file. Request 1");
-				LOG(force_proxy ? "Forcing a Proxy File transfer." : "Not forcing Proxy File transfer.");
+				debugLogA("Buddy Wants to Send us a file. Request 1");
+				debugLogA(force_proxy ? "Forcing a Proxy File transfer." : "Not forcing Proxy File transfer.");
 
 				file_transfer* ft = new file_transfer(hContact, sn, icbm_cookie);
 
@@ -1394,14 +1394,14 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 				mir_free(filenameT);
 
 				char cip[20];
-				LOG("Local IP: %s:%u", long_ip_to_char_ip(local_ip, cip), port);
-				LOG("Verified IP: %s:%u", long_ip_to_char_ip(verified_ip, cip), port);
-				LOG("Proxy IP: %s:%u", long_ip_to_char_ip(proxy_ip, cip), port);
+				debugLogA("Local IP: %s:%u", long_ip_to_char_ip(local_ip, cip), port);
+				debugLogA("Verified IP: %s:%u", long_ip_to_char_ip(verified_ip, cip), port);
+				debugLogA("Proxy IP: %s:%u", long_ip_to_char_ip(proxy_ip, cip), port);
 			}
 			else if (rdz_msg_type == 0)
 			{
-				LOG("We are sending a file. Buddy wants us to connect to them. Request %d", request_num);
-				LOG(force_proxy ? "Forcing a Proxy File transfer." : "Not forcing Proxy File transfer.");
+				debugLogA("We are sending a file. Buddy wants us to connect to them. Request %d", request_num);
+				debugLogA(force_proxy ? "Forcing a Proxy File transfer." : "Not forcing Proxy File transfer.");
 
 				file_transfer* ft = ft_list.find_by_cookie(icbm_cookie, hContact);
 				if (ft)
@@ -1419,21 +1419,21 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 					ft->max_ver = max_ver;
 
 					char cip[20];
-					LOG("Local IP: %s:%u", long_ip_to_char_ip(local_ip, cip), port);
-					LOG("Verified IP: %s:%u", long_ip_to_char_ip(verified_ip, cip), port);
-					LOG("Proxy IP: %s:%u", long_ip_to_char_ip(proxy_ip, cip), port);
+					debugLogA("Local IP: %s:%u", long_ip_to_char_ip(local_ip, cip), port);
+					debugLogA("Verified IP: %s:%u", long_ip_to_char_ip(verified_ip, cip), port);
+					debugLogA("Proxy IP: %s:%u", long_ip_to_char_ip(proxy_ip, cip), port);
 
 					ForkThread(&CAimProto::accept_file_thread, ft);
 				}
 				else
 				{
-					LOG("Unknown File transfer, thus denied.");
+					debugLogA("Unknown File transfer, thus denied.");
 					aim_file_ad(hServerConn, seqno, sn, icbm_cookie, true, 0);
 				}
 			}
 			else if (rdz_msg_type == 1)//buddy cancelled or denied file transfer
 			{
-				LOG("File transfer cancelled or denied.");
+				debugLogA("File transfer cancelled or denied.");
 
 				file_transfer* ft = ft_list.find_by_cookie(icbm_cookie, hContact);
 				ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
@@ -1441,7 +1441,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 			}
 			else if (rdz_msg_type == 2)//buddy accepts our file transfer request
 			{
-				LOG("File transfer accepted");
+				debugLogA("File transfer accepted");
 				file_transfer* ft = ft_list.find_by_cookie(icbm_cookie, hContact);
 				if (ft) 
 				{
@@ -1495,7 +1495,7 @@ void CAimProto::snac_file_decline(SNAC &snac)//family 0x0004
 				int error = snac.ushort(13 + sn_len);
 				if (error == 0x02)
 				{
-					LOG("File Transfer declied");
+					debugLogA("File Transfer declied");
 					HANDLE hContact = contact_from_sn(sn);
 					file_transfer *ft = ft_list.find_by_cookie(icbm_cookie, hContact);
 					if (ft)
@@ -1733,39 +1733,39 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 			hMailConn = aim_connect(server, get_default_port(), false/*use_ssl != 0*/, host);
 			if (hMailConn)
 			{
-				LOG("Successfully Connected to the Mail Server.");
+				debugLogA("Successfully Connected to the Mail Server.");
 				MAIL_COOKIE=local_cookie;
 				MAIL_COOKIE_LENGTH=local_cookie_length;
 				ForkThread( &CAimProto::aim_mail_negotiation, 0 );
 			}
 			else
-				LOG("Failed to connect to the Mail Server.");
+				debugLogA("Failed to connect to the Mail Server.");
 		}
 		else if (family == 0x0010)
 		{
 			hAvatarConn = aim_connect(server, get_default_port(), false/*use_ssl != 0*/);
 			if (hAvatarConn)
 			{
-				LOG("Successfully Connected to the Avatar Server.");
+				debugLogA("Successfully Connected to the Avatar Server.");
 				AVATAR_COOKIE = local_cookie;
 				AVATAR_COOKIE_LENGTH = local_cookie_length;
 				ForkThread( &CAimProto::aim_avatar_negotiation, 0 );
 			}
 			else
-				LOG("Failed to connect to the Avatar Server.");
+				debugLogA("Failed to connect to the Avatar Server.");
 		}
 		else if (family == 0x000D)
 		{
 			hChatNavConn = aim_connect(server, get_default_port(), use_ssl != 0, host);
 			if (hChatNavConn)
 			{
-				LOG("Successfully Connected to the Chat Navigation Server.");
+				debugLogA("Successfully Connected to the Chat Navigation Server.");
 				CHATNAV_COOKIE = local_cookie;
 				CHATNAV_COOKIE_LENGTH = local_cookie_length;
 				ForkThread( &CAimProto::aim_chatnav_negotiation, 0 );
 			}
 			else
-				LOG("Failed to connect to the Chat Navigation Server.");
+				debugLogA("Failed to connect to the Chat Navigation Server.");
 
 		}
 		else if (family == 0x000E)
@@ -1776,14 +1776,14 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 				item->hconn = aim_connect(server, get_default_port(), use_ssl != 0, host);
 				if (item->hconn)
 				{
-					LOG("Successfully Connected to the Chat Server.");
+					debugLogA("Successfully Connected to the Chat Server.");
 					chat_start(item->id, item->exchange);
 					item->CHAT_COOKIE = local_cookie;
 					item->CHAT_COOKIE_LENGTH = local_cookie_length;
 					ForkThread( &CAimProto::aim_chat_negotiation, item );
 				}
 				else
-					LOG("Failed to connect to the Chat Server.");
+					debugLogA("Failed to connect to the Chat Server.");
 			}
 		}
 		else if (family == 0x0007)
@@ -1791,13 +1791,13 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 			hAdminConn = aim_connect(server, get_default_port(), false /*use_ssl != 0*/);
 			if (hAdminConn)
 			{
-				LOG("Successfully Connected to the Admin Server.");
+				debugLogA("Successfully Connected to the Admin Server.");
 				ADMIN_COOKIE = local_cookie;
 				ADMIN_COOKIE_LENGTH = local_cookie_length;
 				ForkThread( &CAimProto::aim_admin_negotiation, 0 );
 			}
 			else
-				LOG("Failed to connect to the Admin Server.");
+				debugLogA("Failed to connect to the Admin Server.");
 		}
 		mir_free(server);
 		mir_free(host);
@@ -1946,7 +1946,7 @@ void CAimProto::snac_chatnav_info_response(SNAC &snac,HANDLE hServerConn,unsigne
 {
 	if (snac.subcmp(0x0009))
 	{
-		LOG("Chat Info Received");
+		debugLogA("Chat Info Received");
 
 		unsigned short offset_info=0;
 		while (offset_info < snac.len())	// Loop through all the TLVs and pull out the buddy name

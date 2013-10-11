@@ -563,7 +563,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		// if not in our storage, copy
 		if (lstrcmp(tszFile, tszMyFile) && !CopyFile(tszFile, tszMyFile, FALSE))
 		{
-			NetLog_Server("Failed to copy our avatar to local storage.");
+			debugLogA("Failed to copy our avatar to local storage.");
 			return iRet;
 		}
 
@@ -581,7 +581,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 			if (setSettingBlob(NULL, "AvatarHash", ihash, 0x14))
 			{
-				NetLog_Server("Failed to save avatar hash.");
+				debugLogA("Failed to save avatar hash.");
 			}
 
 			TCHAR tmp[MAX_PATH];

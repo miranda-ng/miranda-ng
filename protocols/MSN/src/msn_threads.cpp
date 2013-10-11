@@ -72,7 +72,7 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 	}
 
 	CloseHandle(hKeepAliveThreadEvt); hKeepAliveThreadEvt = NULL;
-	MSN_DebugLog("Closing keep-alive thread");
+	debugLogA("Closing keep-alive thread");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -133,12 +133,12 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 		}
 	}
 
-	MSN_DebugLog("Thread started: server='%s:%d', type=%d", tConn.szHost, tConn.wPort, info->mType);
+	debugLogA("Thread started: server='%s:%d', type=%d", tConn.szHost, tConn.wPort, info->mType);
 
-	info->s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&tConn);
+	info->s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&tConn);
 	if (info->s == NULL)
 	{
-		MSN_DebugLog("Connection Failed (%d) server='%s:%d'", WSAGetLastError(), tConn.szHost, tConn.wPort);
+		debugLogA("Connection Failed (%d) server='%s:%d'", WSAGetLastError(), tConn.szHost, tConn.wPort);
 
 		switch (info->mType)
 		{
@@ -156,7 +156,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 	if (usingGateway)
 		CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(info->s), info->mGatewayTimeout);
 
-	MSN_DebugLog("Connected with handle=%08X", info->s);
+	debugLogA("Connected with handle=%08X", info->s);
 
 	if (info->mType == SERVER_NOTIFICATION)
 	{
@@ -176,20 +176,20 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 		msnNsThread = info;
 	}
 
-	MSN_DebugLog("Entering main recv loop");
+	debugLogA("Entering main recv loop");
 	info->mBytesInData = 0;
 	for (;;)
 	{
 		int recvResult = info->recv(info->mData + info->mBytesInData, sizeof(info->mData) - info->mBytesInData);
 		if (recvResult == SOCKET_ERROR)
 		{
-			MSN_DebugLog("Connection %08p [%08X] was abortively closed", info->s, GetCurrentThreadId());
+			debugLogA("Connection %08p [%08X] was abortively closed", info->s, GetCurrentThreadId());
 			break;
 		}
 
 		if (!recvResult)
 		{
-			MSN_DebugLog("Connection %08p [%08X] was gracefully closed", info->s, GetCurrentThreadId());
+			debugLogA("Connection %08p [%08X] was gracefully closed", info->s, GetCurrentThreadId());
 			break;
 		}
 
@@ -215,17 +215,17 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 				memcpy(msg, info->mData, peol-info->mData); msg[peol-info->mData] = 0;
 
 				if (*++peol != '\n')
-					MSN_DebugLog("Dodgy line ending to command: ignoring");
+					debugLogA("Dodgy line ending to command: ignoring");
 				else
 					peol++;
 
 				info->mBytesInData -= peol - info->mData;
 				memmove(info->mData, peol, info->mBytesInData);
-				MSN_DebugLog("RECV: %s", msg);
+				debugLogA("RECV: %s", msg);
 
 				if (!isalnum(msg[0]) || !isalnum(msg[1]) || !isalnum(msg[2]) || (msg[3] && msg[3] != ' '))
 				{
-					MSN_DebugLog("Invalid command name");
+					debugLogA("Invalid command name");
 					continue;
 				}
 
@@ -251,7 +251,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 		if (info->mBytesInData == sizeof(info->mData))
 		{
-			MSN_DebugLog("sizeof(data) is too small: the longest line won't fit");
+			debugLogA("sizeof(data) is too small: the longest line won't fit");
 			break;
 		}
 	}
@@ -297,7 +297,7 @@ LBL_Exit:
 		}
 	}
 
-	MSN_DebugLog("Thread [%08X] ending now", GetCurrentThreadId());
+	debugLogA("Thread [%08X] ending now", GetCurrentThreadId());
 }
 
 void CMsnProto::MSN_InitThreads(void)
@@ -638,7 +638,7 @@ ThreadData::~ThreadData()
 
 	if (s != NULL)
 	{
-		proto->MSN_DebugLog("Closing connection handle %08X", s);
+		proto->debugLogA("Closing connection handle %08X", s);
 		Netlib_CloseHandle(s);
 	}
 
@@ -693,7 +693,7 @@ void ThreadData::applyGatewayData(HANDLE hConn, bool isPoll)
 	char szHttpPostUrl[300];
 	getGatewayUrl(szHttpPostUrl, sizeof(szHttpPostUrl), isPoll);
 
-	proto->MSN_DebugLog("applying '%s' to %08X [%08X]", szHttpPostUrl, this, GetCurrentThreadId());
+	proto->debugLogA("applying '%s' to %08X [%08X]", szHttpPostUrl, this, GetCurrentThreadId());
 
 	NETLIBHTTPPROXYINFO nlhpi = {0};
 	nlhpi.cbSize = sizeof(nlhpi);
@@ -753,11 +753,11 @@ void __cdecl CMsnProto::ThreadStub(void* arg)
 {
 	ThreadData* info = (ThreadData*)arg;
 
-	MSN_DebugLog("Starting thread %08X (%08X)", GetCurrentThreadId(), info->mFunc);
+	debugLogA("Starting thread %08X (%08X)", GetCurrentThreadId(), info->mFunc);
 
 	(this->*(info->mFunc))(info);
 
-	MSN_DebugLog("Leaving thread %08X (%08X)", GetCurrentThreadId(), info->mFunc);
+	debugLogA("Leaving thread %08X (%08X)", GetCurrentThreadId(), info->mFunc);
 
 	EnterCriticalSection(&sttLock);
 	sttThreads.LIST<ThreadData>::remove(info);
@@ -814,7 +814,7 @@ BYTE* HReadBuffer::surelyRead(size_t parBytes)
 
 		if (parBytes > bufferSize)
 		{
-			owner->proto->MSN_DebugLog("HReadBuffer::surelyRead: not enough memory, %d %d %d", parBytes, bufferSize, startOffset);
+			owner->proto->debugLogA("HReadBuffer::surelyRead: not enough memory, %d %d %d", parBytes, bufferSize, startOffset);
 			return NULL;
 		}
 	}

@@ -511,7 +511,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 		// invalid JID
 		if ( !bRetVal) {
-			Log("<iq/> attempt to hack via roster push from %S", pInfo->GetFrom());
+			debugLogA("<iq/> attempt to hack via roster push from %S", pInfo->GetFrom());
 			return TRUE;
 		}
 	}
@@ -521,7 +521,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 	const TCHAR *jid, *str, *name;
 	TCHAR *nick;
 
-	Log("<iq/> Got roster push, query has %d children", xmlGetChildCount(queryNode));
+	debugLogA("<iq/> Got roster push, query has %d children", xmlGetChildCount(queryNode));
 	for (int i=0; ; i++) {
 		HXML itemNode = xmlGetChild(queryNode ,i);
 		if ( !itemNode)
@@ -584,7 +584,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			else if ( !_tcscmp(str, _T("to"))) item->subscription = SUB_TO;
 			else if ( !_tcscmp(str, _T("from"))) item->subscription = SUB_FROM;
 			else item->subscription = SUB_NONE;
-			Log("Roster push for jid=%S, set subscription to %S", jid, str);
+			debugLogA("Roster push for jid=%S, set subscription to %S", jid, str);
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
@@ -656,12 +656,12 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 	if (ft->httpHostName && ft->httpPath) {
 		TCHAR *desc = NULL;
 
-		Log("Host=%s Port=%d Path=%s", ft->httpHostName, ft->httpPort, ft->httpPath);
+		debugLogA("Host=%s Port=%d Path=%s", ft->httpHostName, ft->httpPort, ft->httpPath);
 		if ((n = xmlGetChild(pInfo->GetChildNode(), "desc")) != NULL)
 			desc = (TCHAR*)xmlGetText(n);
 
 		TCHAR *str2;
-		Log("description = %s", desc);
+		debugLogA("description = %s", desc);
 		if ((str2 = _tcsrchr(ft->httpPath, '/')) != NULL)
 			str2++;
 		else

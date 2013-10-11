@@ -222,8 +222,6 @@ public:
 	HANDLE  log_lock_;
 	HANDLE  update_loop_lock_;
 
-	HANDLE  m_hNetlibUser;
-
 	std::vector<HANDLE> popupClasses;
 
 	std::string last_status_msg_;
@@ -233,6 +231,5 @@ public:
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	// Information providing
-	int Log(const char *fmt,...);
 	void NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD flags, std::string *url = NULL, std::string *notification_id = NULL);
 };

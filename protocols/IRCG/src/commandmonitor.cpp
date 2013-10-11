@@ -28,8 +28,8 @@ using namespace irc;
 
 VOID CALLBACK IdentTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 {
-	CIrcProto* ppro = GetTimerOwner( idEvent );
-	if ( !ppro )
+	CIrcProto *ppro = GetTimerOwner( idEvent );
+	if (ppro == NULL)
 		return;
 
 	ppro->KillChatTimer( ppro->IdentTimer );
@@ -42,8 +42,8 @@ VOID CALLBACK IdentTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 VOID CALLBACK TimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 {
-	CIrcProto* ppro = GetTimerOwner( idEvent );
-	if ( !ppro )
+	CIrcProto *ppro = GetTimerOwner( idEvent );
+	if (ppro == NULL)
 		return;
 
 	ppro->KillChatTimer( ppro->InitTimer );
@@ -59,8 +59,8 @@ VOID CALLBACK TimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 VOID CALLBACK KeepAliveTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 {
-	CIrcProto* ppro = GetTimerOwner( idEvent );
-	if ( !ppro )
+	CIrcProto *ppro = GetTimerOwner( idEvent );
+	if (ppro == NULL)
 		return;
 
 	if ( !ppro->m_sendKeepAlive || ( ppro->m_iStatus == ID_STATUS_OFFLINE || ppro->m_iStatus == ID_STATUS_CONNECTING )) {
@@ -80,8 +80,8 @@ VOID CALLBACK KeepAliveTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 VOID CALLBACK OnlineNotifTimerProc3( HWND, UINT, UINT_PTR idEvent, DWORD )
 {
-	CIrcProto* ppro = GetTimerOwner( idEvent );
-	if ( !ppro )
+	CIrcProto *ppro = GetTimerOwner( idEvent );
+	if (ppro == NULL)
 		return;
 
 	if ( !ppro->m_channelAwayNotification || 
@@ -123,8 +123,8 @@ VOID CALLBACK OnlineNotifTimerProc3( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 {
-	CIrcProto* ppro = GetTimerOwner( idEvent );
-	if ( !ppro )
+	CIrcProto *ppro = GetTimerOwner( idEvent );
+	if (ppro == NULL)
 		return;
 
 	if ( ppro->m_iStatus == ID_STATUS_OFFLINE || ppro->m_iStatus == ID_STATUS_CONNECTING || 
@@ -1484,7 +1484,7 @@ bool CIrcProto::OnIrc_TOPIC(const CIrcMessage* pmsg)
 
 static void __stdcall sttShowDlgList( void* param )
 {
-	CIrcProto* ppro = ( CIrcProto* )param;
+	CIrcProto *ppro = ( CIrcProto* )param;
 	if ( ppro->m_listDlg == NULL ) {
 		ppro->m_listDlg = new CListDlg( ppro );
 		ppro->m_listDlg->Show();
@@ -1640,7 +1640,7 @@ bool CIrcProto::OnIrc_BANLISTEND(const CIrcMessage* pmsg)
 static void __stdcall sttShowWhoisWnd( void* param )
 {
 	CIrcMessage* pmsg = ( CIrcMessage* )param;
-	CIrcProto* ppro = ( CIrcProto* )pmsg->m_proto;
+	CIrcProto *ppro = ( CIrcProto* )pmsg->m_proto;
 	if ( ppro->m_whoisDlg == NULL ) {
 		ppro->m_whoisDlg = new CWhoisDlg( ppro );
 		ppro->m_whoisDlg->Show();
@@ -1805,7 +1805,7 @@ bool CIrcProto::OnIrc_WHOIS_NO_USER(const CIrcMessage* pmsg)
 static void __stdcall sttShowNickWnd( void* param )
 {
 	CIrcMessage* pmsg = ( CIrcMessage* )param;
-	CIrcProto* ppro = pmsg->m_proto;
+	CIrcProto *ppro = pmsg->m_proto;
 	if ( ppro->m_nickDlg == NULL ) {
 		ppro->m_nickDlg = new CNickDlg( ppro );
 		ppro->m_nickDlg->Show();
@@ -2340,7 +2340,7 @@ void CIrcProto::OnIrcDisconnected()
 
 static void __stdcall sttMainThrdOnConnect( void* param )
 {
-	CIrcProto* ppro = ( CIrcProto* )param;
+	CIrcProto *ppro = ( CIrcProto* )param;
 
 	ppro->SetChatTimer( ppro->InitTimer, 1*1000, TimerProc );
 	if ( ppro->m_identTimer )

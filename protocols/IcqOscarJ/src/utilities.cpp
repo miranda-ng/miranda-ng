@@ -354,7 +354,7 @@ void CIcqProto::AddToContactsCache(HANDLE hContact, DWORD dwUin, const char *szU
 		return;
 
 #ifdef _DEBUG
-	NetLog_Server("Adding contact to cache: %u%s%s", dwUin, dwUin ? "" : " - ", dwUin ? "" : szUid);
+	debugLogA("Adding contact to cache: %u%s%s", dwUin, dwUin ? "" : " - ", dwUin ? "" : szUid);
 #endif
 
 	icq_contacts_cache *cache_item = (icq_contacts_cache*)SAFE_MALLOC(sizeof(icq_contacts_cache));
@@ -432,7 +432,7 @@ void CIcqProto::DeleteFromContactsCache(HANDLE hContact)
 		if (cache_item->hContact == hContact)
 		{
 #ifdef _DEBUG
-			NetLog_Server("Removing contact from cache: %u%s%s, position: %u", cache_item->dwUin, cache_item->dwUin ? "" : " - ", cache_item->dwUin ? "" : cache_item->szUid, i);
+			debugLogA("Removing contact from cache: %u%s%s, position: %u", cache_item->dwUin, cache_item->dwUin ? "" : " - ", cache_item->dwUin ? "" : cache_item->szUid, i);
 #endif
 			contactsCache.remove(i);
 			// Release memory
@@ -486,7 +486,7 @@ HANDLE CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		if (!hContact)
 		{
-			NetLog_Server("Failed to create ICQ contact %u", dwUin);
+			debugLogA("Failed to create ICQ contact %u", dwUin);
 			return INVALID_HANDLE_VALUE;
 		}
 
@@ -494,7 +494,7 @@ HANDLE CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 		{
 			// For some reason we failed to register the protocol to this contact
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-			NetLog_Server("Failed to register ICQ contact %u", dwUin);
+			debugLogA("Failed to register ICQ contact %u", dwUin);
 			return INVALID_HANDLE_VALUE;
 		}
 
@@ -1033,9 +1033,9 @@ void __cdecl CIcqProto::ProtocolAckThread(icq_ack_args* pArguments)
 	Sleep(150);
 
 	if (pArguments->nAckResult == ACKRESULT_SUCCESS)
-		NetLog_Server("Sent fake message ack");
+		debugLogA("Sent fake message ack");
 	else if (pArguments->nAckResult == ACKRESULT_FAILED)
-		NetLog_Server("Message delivery failed");
+		debugLogA("Message delivery failed");
 
 	ProtoBroadcastAck(pArguments->hContact, pArguments->nAckType, pArguments->nAckResult, pArguments->hSequence, pArguments->pszMessage);
 
@@ -1141,7 +1141,7 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 					m_ratesMutex->Leave();
 					cookieMutex->Leave();
 #ifdef _DEBUG
-					NetLog_Server("Rates: SetStatusNote delayed %dms", nDelay);
+					debugLogA("Rates: SetStatusNote delayed %dms", nDelay);
 #endif
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
 					cookieMutex->Enter();
@@ -1175,7 +1175,7 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 					m_ratesMutex->Leave();
 					cookieMutex->Leave();
 #ifdef _DEBUG
-					NetLog_Server("Rates: SetStatusNote delayed %dms", nDelay);
+					debugLogA("Rates: SetStatusNote delayed %dms", nDelay);
 #endif
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
 					cookieMutex->Enter();
@@ -1724,17 +1724,6 @@ void NetLib_SafeCloseHandle(HANDLE *hConnection)
 }
 
 
-int CIcqProto::NetLog_Server(const char *fmt,...)
-{
-	va_list va;
-	char szText[1024];
-
-	va_start(va,fmt);
-	mir_vsnprintf(szText,sizeof(szText),fmt,va);
-	va_end(va);
-	return CallService(MS_NETLIB_LOG,(WPARAM)m_hServerNetlibUser,(LPARAM)szText);
-}
-
 int CIcqProto::NetLog_Direct(const char *fmt,...)
 {
 	va_list va;
@@ -1759,7 +1748,7 @@ int CIcqProto::NetLog_Uni(BOOL bDC, const char *fmt,...)
 	if (bDC)
 		hNetlib = m_hDirectNetlibUser;
 	else
-		hNetlib = m_hServerNetlibUser;
+		hNetlib = m_hNetlibUser;
 
 	return CallService(MS_NETLIB_LOG,(WPARAM)hNetlib,(LPARAM)szText);
 }

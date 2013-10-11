@@ -96,7 +96,7 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 		}
 	}
 	// Log the change
-	ppro->NetLog_Server("Capabilities: %s %s", szChange, szBuffer);
+	ppro->debugLogA("Capabilities: %s %s", szChange, szBuffer);
 }
 #endif
 

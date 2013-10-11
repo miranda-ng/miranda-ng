@@ -28,7 +28,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 		hConn = aim_peer_connect(ft->proxy_ip, get_default_port());
 		if (hConn) 
 		{
-			LOG("Connected to proxy ip that buddy specified.");
+			debugLogA("Connected to proxy ip that buddy specified.");
 			ft->hConn = hConn;
 			ForkThread(&CAimProto::aim_proxy_helper, ft);
 			ft->stop_listen();
@@ -39,7 +39,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 		hConn = aim_peer_connect(AIM_PROXY_SERVER, get_default_port());
 		if (hConn) 
 		{
-			LOG("Connected to proxy ip because we want to use a proxy for the file transfer.");
+			debugLogA("Connected to proxy ip because we want to use a proxy for the file transfer.");
 			ft->requester = true;
 			ft->hConn = hConn;
 			ForkThread(&CAimProto::aim_proxy_helper, ft);
@@ -52,7 +52,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 		hConn = aim_peer_connect(verif ? ft->verified_ip : ft->local_ip, ft->port);
 		if (hConn) 
 		{
-			LOG("Connected to buddy over P2P port via %s ip.", verif ? "verified": "local");
+			debugLogA("Connected to buddy over P2P port via %s ip.", verif ? "verified": "local");
 			ft->accepted = true;
 			ft->hConn = hConn;
 			aim_file_ad(hServerConn, seqno, ft->sn, ft->icbm_cookie, false, ft->max_ver);
@@ -72,7 +72,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 		}
 		else
 		{
-			LOG("Failed to connect to buddy- asking buddy to connect to us.");
+			debugLogA("Failed to connect to buddy- asking buddy to connect to us.");
 			ft->listen(this);
 			ft->requester = true;
 			aim_send_file(hServerConn, seqno, detected_ip, ft->local_port, false, ft);

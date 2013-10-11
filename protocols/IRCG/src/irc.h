@@ -372,7 +372,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	DWORD     m_bConnectThreadRunning;
 
 	HGENMENU hMenuRoot, hMenuQuick, hMenuServer, hMenuJoin, hMenuNick, hMenuList;
-	HANDLE   hNetlib, hNetlibDCC;
+	HANDLE   hNetlibDCC;
 
 	bool  bTempDisableCheck, bTempForceCheck, bEcho;
 	bool	nickflag;
@@ -474,7 +474,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	// services.cpp
 	void   ConnectToServer(void);
 	void   DisconnectFromServer(void);
-	void   DoNetlibLog( const char* fmt, ... );
 	void   InitMainMenus(void);
 
 	UINT_PTR  RetryTimer;

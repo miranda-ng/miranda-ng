@@ -165,16 +165,16 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 													bContinue = FALSE;
 												}
 												else // not all packet received, continue receiving
-													DebugLogA("Not all packet received, continue receiving\n");
+													debugLogA("Not all packet received, continue receiving\n");
 											}
 											else  { // bad packet
-												DebugLogA("Bad packet\n");
+												debugLogA("Bad packet\n");
 												_ASSERT(false);
 												bContinue = FALSE;
 											}
 										}
 										else // packet too small, continue receiving
-											DebugLogA("Packet to small, continue receiving\n");
+											debugLogA("Packet to small, continue receiving\n");
 									}
 									else { // disconnected
 										dwRetErrorCode = GetLastError();

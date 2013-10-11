@@ -31,7 +31,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_doregister(): Starting.");
+	gg->debugLogA("gg_doregister(): Starting.");
 #endif
 	if (!newPass || !newEmail) return NULL;
 
@@ -45,7 +45,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 			(h && !s) ? http_error_string(h ? h->error : 0) :
 			(s ? TranslateT("Registration rejected") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->netlog("gg_doregister(): Cannot register. errno=%d: %s", errno, strerror(errno));
+		gg->debugLogA("gg_doregister(): Cannot register. errno=%d: %s", errno, strerror(errno));
 	}
 	else
 	{
@@ -55,14 +55,14 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 		gg->setString(GG_KEY_PASSWORD, newPass);
 		gg->setString(GG_KEY_EMAIL, newEmail);
 		gg_pubdir_free(h);
-		gg->netlog("gg_doregister(): Account registration succesful.");
+		gg->debugLogA("gg_doregister(): Account registration succesful.");
 		MessageBox( NULL, 
 			TranslateT("You have registered new account.\nPlease fill up your personal details in \"M->View/Change My Details...\""),
 			gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_doregister(): End.");
+	gg->debugLogA("gg_doregister(): End.");
 #endif
 
 	return NULL;
@@ -78,7 +78,7 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_dounregister(): Starting.");
+	gg->debugLogA("gg_dounregister(): Starting.");
 #endif
 	if (!uin || !password) return NULL;
 
@@ -92,19 +92,19 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 			(h && !s) ? http_error_string(h ? h->error : 0) :
 			(s ? TranslateT("Bad number or password") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->netlog("gg_dounregister(): Cannot remove account. errno=%d: %s", errno, strerror(errno));
+		gg->debugLogA("gg_dounregister(): Cannot remove account. errno=%d: %s", errno, strerror(errno));
 	}
 	else
 	{
 		gg_pubdir_free(h);
 		gg->delSetting(GG_KEY_PASSWORD);
 		gg->delSetting(GG_KEY_UIN);
-		gg->netlog("gg_dounregister(): Account %d has been removed.", uin);
+		gg->debugLogA("gg_dounregister(): Account %d has been removed.", uin);
 		MessageBox(NULL, TranslateT("Your account has been removed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_dounregister(): End.");
+	gg->debugLogA("gg_dounregister(): End.");
 #endif
 
 	return NULL;
@@ -123,7 +123,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_dochpass(): Starting.");
+	gg->debugLogA("gg_dochpass(): Starting.");
 #endif
 	if (!uin || !password || !newPass) return NULL;
 
@@ -144,19 +144,19 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 			(h && !s) ? http_error_string(h ? h->error : 0) :
 			(s ? TranslateT("Invalid data entered") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->netlog("gg_dochpass(): Cannot change password. errno=%d: %s", errno, strerror(errno));
+		gg->debugLogA("gg_dochpass(): Cannot change password. errno=%d: %s", errno, strerror(errno));
 	}
 	else
 	{
 		gg_pubdir_free(h);
 		CallService(MS_DB_CRYPT_ENCODESTRING, strlen(newPass) + 1, (LPARAM) newPass);
 		gg->setString(GG_KEY_PASSWORD, newPass);
-		gg->netlog("gg_dochpass(): Password change succesful.");
+		gg->debugLogA("gg_dochpass(): Password change succesful.");
 		MessageBox(NULL, TranslateT("Your password has been changed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_dochpass(): End.");
+	gg->debugLogA("gg_dochpass(): End.");
 #endif
 
 	return NULL;
@@ -173,7 +173,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_dochemail(): Starting.");
+	gg->debugLogA("gg_dochemail(): Starting.");
 #endif
 	if (!uin || !email || !newEmail) return NULL;
 
@@ -186,18 +186,18 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Your e-mail cannot be changed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h ? h->error : 0) : (s ? TranslateT("Bad old e-mail or password") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->netlog("gg_dochemail(): Cannot change e-mail. errno=%d: %s", errno, strerror(errno));
+		gg->debugLogA("gg_dochemail(): Cannot change e-mail. errno=%d: %s", errno, strerror(errno));
 	}
 	else
 	{
 		gg_pubdir_free(h);
 		gg->setString(GG_KEY_EMAIL, newEmail);
-		gg->netlog("gg_dochemail(): E-mail change succesful.");
+		gg->debugLogA("gg_dochemail(): E-mail change succesful.");
 		MessageBox(NULL, TranslateT("Your e-mail has been changed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_dochemail(): End.");
+	gg->debugLogA("gg_dochemail(): End.");
 #endif
 
 	return NULL;

@@ -75,7 +75,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 
 	m_szXmlStreamToBeInitialized = NULL;
 
-	Log("Setting protocol/module name to '%s'", m_szModuleName);
+	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
 	// Jabber dialog list
 	m_windowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
@@ -333,12 +333,12 @@ HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 	HANDLE hContact;
 	TCHAR *jid, *nick;
 
-	Log("AddToListByJID jid = %S", newJid);
+	debugLogA("AddToListByJID jid = %S", newJid);
 
 	if ((hContact=HContactFromJID(newJid)) == NULL) {
 		// not already there: add
 		jid = mir_tstrdup(newJid);
-		Log("Add new jid to contact jid = %S", jid);
+		debugLogA("Add new jid to contact jid = %S", jid);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 		setTString(hContact, "jid", jid);
@@ -384,7 +384,7 @@ HANDLE CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 HANDLE __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDLE hDbEvent)
 {
-	Log("AddToListByEvent");
+	debugLogA("AddToListByEvent");
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -442,7 +442,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 	char *lastName = firstName + strlen(firstName) + 1;
 	char *jid = lastName + strlen(lastName) + 1;
 
-	Log("Send 'authorization allowed' to %S", jid);
+	debugLogA("Send 'authorization allowed' to %S", jid);
 
 	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
 
@@ -454,7 +454,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 		JABBER_LIST_ITEM *item;
 
 		if ((item = ListGetItemPtr(LIST_ROSTER, newJid)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			Log("Try adding contact automatically jid = %S", jid);
+			debugLogA("Try adding contact automatically jid = %S", jid);
 			if ((hContact = AddToListByJID(newJid, 0)) != NULL) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
@@ -473,7 +473,7 @@ int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 	if ( !m_bJabberOnline)
 		return 1;
 
-	Log("Entering AuthDeny");
+	debugLogA("Entering AuthDeny");
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -497,7 +497,7 @@ int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 	char *lastName = firstName + strlen(firstName) + 1;
 	char *jid = lastName + strlen(lastName) + 1;
 
-	Log("Send 'authorization denied' to %s", jid);
+	debugLogA("Send 'authorization denied' to %s", jid);
 
 	ptrT newJid(dbei.flags & DBEF_UTF ? mir_utf8decodeT(jid) : mir_a2t(jid));
 	m_ThreadInfo->send( XmlNode(_T("presence")) << XATTR(_T("to"), newJid) << XATTR(_T("type"), _T("unsubscribed")));
@@ -564,11 +564,11 @@ int __cdecl CJabberProto::FileCancel(HANDLE /*hContact*/, HANDLE hTransfer)
 	filetransfer *ft = (filetransfer*)hTransfer;
 	HANDLE hEvent;
 
-	Log("Invoking FileCancel()");
+	debugLogA("Invoking FileCancel()");
 	if (ft->type == FT_OOB) {
 		if (ft->s) {
-			Log("FT canceled");
-			Log("Closing ft->s = %d", ft->s);
+			debugLogA("FT canceled");
+			debugLogA("Closing ft->s = %d", ft->s);
 			ft->state = FT_ERROR;
 			Netlib_CloseHandle(ft->s);
 			ft->s = NULL;
@@ -577,7 +577,7 @@ int __cdecl CJabberProto::FileCancel(HANDLE /*hContact*/, HANDLE hTransfer)
 				ft->hFileEvent = NULL;
 				SetEvent(hEvent);
 			}
-			Log("ft->s is now NULL, ft->state is now FT_ERROR");
+			debugLogA("ft->s is now NULL, ft->state is now FT_ERROR");
 		}
 	}
 	else FtCancel(ft);
@@ -772,7 +772,7 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 
 HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 {
-	Log("JabberBasicSearch called with lParam = '%s'", szJid);
+	debugLogA("JabberBasicSearch called with lParam = '%s'", szJid);
 
 	JABBER_SEARCH_BASIC *jsb;
 	if ( !m_bJabberOnline || (jsb=(JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == NULL)
@@ -801,7 +801,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 	}
 	else _tcsncpy(jsb->jid, szJid, SIZEOF(jsb->jid));
 
-	Log("Adding '%s' without validation", jsb->jid);
+	debugLogA("Adding '%s' without validation", jsb->jid);
 	jsb->hSearch = SerialNext();
 	ForkThread((MyThreadFunc)&CJabberProto::BasicSearchThread, jsb);
 	return (HANDLE)jsb->hSearch;
@@ -997,7 +997,7 @@ HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescriptio
 	ft->fileSize = (unsigned __int64*) mir_calloc(sizeof(unsigned __int64) * ft->std.totalFiles);
 	for (i=j=0; i < ft->std.totalFiles; i++) {
 		if (_tstati64(ppszFiles[i], &statbuf))
-			Log("'%s' is an invalid filename", ppszFiles[i]);
+			debugLogA("'%s' is an invalid filename", ppszFiles[i]);
 		else {
 			ft->std.ptszFiles[j] = mir_tstrdup(ppszFiles[i]);
 			ft->fileSize[j] = statbuf.st_size;
@@ -1038,11 +1038,11 @@ void __cdecl CJabberProto::SendMessageAckThread(void* param)
 {
 	TFakeAckParams *par = (TFakeAckParams*)param;
 	Sleep(100);
-	Log("Broadcast ACK");
+	debugLogA("Broadcast ACK");
 	ProtoBroadcastAck(par->hContact, ACKTYPE_MESSAGE,
 		par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
 		(HANDLE)par->msgid, (LPARAM) par->msg);
-	Log("Returning from thread");
+	debugLogA("Returning from thread");
 	delete par;
 }
 
@@ -1205,7 +1205,7 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 
 	int oldStatus = m_iStatus;
 
-	Log("PS_SETSTATUS(%d)", iNewStatus);
+	debugLogA("PS_SETSTATUS(%d)", iNewStatus);
 	m_iDesiredStatus = iNewStatus;
 
  	if (iNewStatus == ID_STATUS_OFFLINE) {
@@ -1251,7 +1251,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 		if (item != NULL) {
 			if (item->arResources.getCount() > 0) {
-				Log("arResources.getCount() > 0");
+				debugLogA("arResources.getCount() > 0");
 				int msgCount = 0;
 				size_t len = 0;
 				for (int i=0; i < item->arResources.getCount(); i++) {
@@ -1294,7 +1294,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 
 HANDLE __cdecl CJabberProto::GetAwayMsg(HANDLE hContact)
 {
-	Log("GetAwayMsg called, hContact=%08X", hContact);
+	debugLogA("GetAwayMsg called, hContact=%08X", hContact);
 
 	ForkThread(&CJabberProto::GetAwayMsgThread, hContact);
 	return (HANDLE)1;
@@ -1313,7 +1313,7 @@ int __cdecl CJabberProto::RecvAwayMsg(HANDLE /*hContact*/, int /*statusMode*/, P
 
 int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 {
-	Log("SetAwayMsg called, wParam=%d lParam=%S", status, msg);
+	debugLogA("SetAwayMsg called, wParam=%d lParam=%S", status, msg);
 
 	TCHAR **szMsg;
 	mir_cslockfull lck(m_csModeMsgMutex);

@@ -182,7 +182,7 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	::CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	::CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
-	this->ppro->Log(L"Created new chat session %s", this->cid);
+	this->ppro->debugLogW(L"Created new chat session %s", this->cid);
 }
 
 void ChatRoom::SetTopic(const wchar_t *topic)
@@ -343,19 +343,19 @@ void ChatRoom::Join(const wchar_t *joinBlob, CSkypeProto *ppro)
 
 void ChatRoom::SendMessage(const wchar_t *text)
 {
-	this->ppro->Log(L"Sending chat message %s", this->cid);
+	this->ppro->debugLogW(L"Sending chat message %s", this->cid);
 
 	CMessage::Ref message;
 		if (this->conversation->PostText((char *)ptrA(::mir_utf8encodeW(text)), message))
-			this->ppro->Log(L"Chat message sent %s", this->cid);
+			this->ppro->debugLogW(L"Chat message sent %s", this->cid);
 }
 
 void ChatRoom::LeaveChat()
 {
-	this->ppro->Log(L"Leaving chat session %s", this->cid);
+	this->ppro->debugLogW(L"Leaving chat session %s", this->cid);
 
 	if (this->conversation->RetireFrom())
-		this->ppro->Log(L"Retired from conversation %s", this->cid);
+		this->ppro->debugLogW(L"Retired from conversation %s", this->cid);
 
 	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
 	gcd.ptszID = this->cid;
@@ -370,13 +370,13 @@ void ChatRoom::LeaveChat()
 
 void ChatRoom::LeaveChatAndDelete()
 {
-	this->ppro->Log(L"Leaving chat session %s", this->cid);
+	this->ppro->debugLogW(L"Leaving chat session %s", this->cid);
 
 	if (this->conversation->RetireFrom())
-		this->ppro->Log(L"Retired from conversation %s", this->cid);
+		this->ppro->debugLogW(L"Retired from conversation %s", this->cid);
 
 	if (this->conversation->Delete())
-		this->ppro->Log(L"Delete conversation %s", this->cid);
+		this->ppro->debugLogW(L"Delete conversation %s", this->cid);
 
 	GCDEST gcd = { ppro->m_szModuleName, { NULL }, GC_EVENT_CONTROL };
 	gcd.ptszID = this->cid;
@@ -781,7 +781,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			message->GetPropConsumptionStatus(status);
 			if (status != Message::CONSUMED)
 			{
-				this->ppro->Log(L"Retired other event for conversation %s", this->cid);
+				this->ppro->debugLogW(L"Retired other event for conversation %s", this->cid);
 
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
@@ -819,7 +819,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			message->GetPropConsumptionStatus(status);
 			if (status != Message::CONSUMED)
 			{
-				this->ppro->Log(L"Retired event for conversation %s", this->cid);
+				this->ppro->debugLogW(L"Retired event for conversation %s", this->cid);
 
 				uint timestamp;
 				message->GetPropTimestamp(timestamp);
@@ -1634,7 +1634,7 @@ INT_PTR __cdecl CSkypeProto::OnLeaveChat(WPARAM wParam, LPARAM)
 
 void __cdecl CSkypeProto::LoadChatList(void*)
 {
-	this->Log(L"Updating group chats list");
+	this->debugLogW(L"Updating group chats list");
 	CConversation::Refs conversations;
 	this->GetConversationList(conversations);
 

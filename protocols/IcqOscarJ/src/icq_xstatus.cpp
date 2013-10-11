@@ -430,7 +430,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 							db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME, ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							delSetting(hContact, DBSETTING_XSTATUS_MSG);
 
-							NetLog_Server("%s changed mood to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
+							debugLogA("%s changed mood to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							bChanged = TRUE;
 						}
 
@@ -463,7 +463,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 							db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME, ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							delSetting(hContact, DBSETTING_XSTATUS_MSG);
 
-							NetLog_Server("%s changed custom status to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
+							debugLogA("%s changed custom status to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							bChanged = TRUE;
 						}
 
@@ -481,7 +481,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 	}
 
 	if (nCustomStatusID != 0 && nMoodID != 0 && nCustomStatusID != nMoodID)
-		NetLog_Server("Warning: Diverse custom statuses detected, using mood status.");
+		debugLogA("Warning: Diverse custom statuses detected, using mood status.");
 
 	if ((nCustomStatusID == 0 && (caps || !m_bXStatusEnabled)) && (nMoodID == 0 && (moods || !m_bMoodsEnabled))) {
 		if (getByte(hContact, DBSETTING_XSTATUS_ID, -1) != -1)

@@ -49,7 +49,7 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					if ((hContact=TlenHContactFromJID(proto, from)) == NULL)
 						hContact = TlenDBCreateContact(proto, from, nick, FALSE);
 					if (!TlenListExist(proto, LIST_ROSTER, from)) {
-						TlenLog(proto, "Receive presence online from %s (who is not in my roster)", from);
+						proto->debugLogA("Receive presence online from %s (who is not in my roster)", from);
 						TlenListAdd(proto, LIST_ROSTER, from);
 					}
 					status = ID_STATUS_ONLINE;
@@ -100,13 +100,13 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 							}
 						}
 					}
-					TlenLog(proto, "%s (%s) online, set contact status to %d", nick, from, status);
+					proto->debugLogA("%s (%s) online, set contact status to %d", nick, from, status);
 					mir_free(nick);
 				}
 			}
 			else if (!strcmp(type, "unavailable")) {
 				if (!TlenListExist(proto, LIST_ROSTER, from)) {
-					TlenLog(proto, "Receive presence offline from %s (who is not in my roster)", from);
+					proto->debugLogA("Receive presence offline from %s (who is not in my roster)", from);
 					TlenListAdd(proto, LIST_ROSTER, from);
 				}
 				else {
@@ -144,7 +144,7 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						item->isTyping = FALSE;
 						CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, PROTOTYPE_CONTACTTYPING_OFF);
 					}
-					TlenLog(proto, "%s offline, set contact status to %d", from, status);
+					proto->debugLogA("%s offline, set contact status to %d", from, status);
 				}
 			}
 			else if (!strcmp(type, "subscribe")) {
@@ -153,7 +153,7 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					TlenSend(proto, "<presence to='%s' type='subscribed'/>", from);
 				}
 				else if ((nick=TlenNickFromJID(from)) != NULL) {
-					TlenLog(proto, "%s (%s) requests authorization", nick, from);
+					proto->debugLogA("%s (%s) requests authorization", nick, from);
 					TlenDBAddAuthRequest(proto, from, nick);
 					mir_free(nick);
 				}

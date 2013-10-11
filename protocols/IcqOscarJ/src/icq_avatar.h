@@ -49,11 +49,11 @@ protected:
 	WORD   wLocalSequence;
 	icq_critical_section *localSeqMutex;
 
-  BOOL   isLoggedIn;
-  BOOL   isActive;
+	BOOL   isLoggedIn;
+	BOOL   isActive;
 	BOOL   stopThread; // horrible, but simple - signal for thread to stop
 
-  char  *pCookie;     // auth to server
+	char  *pCookie;     // auth to server
 	WORD   wCookieLen;
 
 	int    sendServerPacket(icq_packet *pPacket);
@@ -69,25 +69,24 @@ protected:
 	rates *m_rates;
 	icq_critical_section *m_ratesMutex;
 
-	int    NetLog_Server(const char *fmt,...);
-
 	HANDLE runContact[4];
 	DWORD  runTime[4];
 	int    runCount;
-  void   checkRequestQueue();
+	void   checkRequestQueue();
+
 public:
-  avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, WORD wCookieLen);
-  virtual ~avatars_server_connection();
+	avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, WORD wCookieLen);
+	virtual ~avatars_server_connection();
 
-  void connectionThread();
-  void closeConnection();
-  void shutdownConnection();
+	void connectionThread();
+	void closeConnection();
+	void shutdownConnection();
 
-  __inline BOOL isPending() { return !isLoggedIn; };
-  __inline BOOL isReady() { return isLoggedIn && isActive && !stopThread; };
+	__inline BOOL isPending() { return !isLoggedIn; };
+	__inline BOOL isReady() { return isLoggedIn && isActive && !stopThread; };
 
-  DWORD  sendGetAvatarRequest(HANDLE hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file);
-  DWORD  sendUploadAvatarRequest(HANDLE hContact, WORD wRef, const BYTE *data, unsigned int datalen);
+	DWORD  sendGetAvatarRequest(HANDLE hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file);
+	DWORD  sendUploadAvatarRequest(HANDLE hContact, WORD wRef, const BYTE *data, unsigned int datalen);
 };
 
 __inline static void SAFE_DELETE(avatars_server_connection **p) { SAFE_DELETE((lockable_struct**)p); };
@@ -107,9 +106,10 @@ struct avatars_request : public MZeroedObject
 	WORD   wRef;
 	DWORD  timeOut;
 	avatars_request *pNext;
+
 public:
-  avatars_request(int type);
-  virtual ~avatars_request();
+	avatars_request(int type);
+	virtual ~avatars_request();
 };
 
 __inline static void SAFE_DELETE(avatars_request **p) { SAFE_DELETE((MZeroedObject**)p); };

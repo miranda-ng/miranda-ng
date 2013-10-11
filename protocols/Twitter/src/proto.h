@@ -135,8 +135,8 @@ private:
 	HANDLE AddToClientList(const char *,const char *);
 	void SetAllContactStatuses(int);
 
-	void LOG(TCHAR *fmt,...);
-	__inline void WLOG(TCHAR* first, const tstring& last) { LOG(first, last.c_str()); }
+	void debugLogA(TCHAR *fmt,...);
+	__inline void debugLogW(TCHAR* first, const tstring& last) { debugLogA(first, last.c_str()); }
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	void UpdateChat(const twitter_user &update);
@@ -152,7 +152,6 @@ private:
 	HANDLE avatar_lock_;
 	HANDLE twitter_lock_;
 
-	HANDLE hNetlib_;
 	HANDLE hAvatarNetlib_;
 	HANDLE hMsgLoop_;
 	mir_twitter twit_;

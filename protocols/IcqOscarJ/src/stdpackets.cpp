@@ -982,12 +982,12 @@ void CIcqProto::icq_sendFileAcceptServ(DWORD dwUin, filetransfer *ft, int nAckTy
 	if (ft->nVersion >= 8)
 	{
 		icq_sendFileAcceptServv8(dwUin, ft->pMessage.dwMsgID1, ft->pMessage.dwMsgID2, ft->dwCookie, ft->szFilename, szDesc, ft->dwTotalSize, wListenPort, TRUE, nAckType);
-		NetLog_Server("Sent file accept v%u through server, port %u", 8, wListenPort);
+		debugLogA("Sent file accept v%u through server, port %u", 8, wListenPort);
 	}
 	else
 	{
 		icq_sendFileAcceptServv7(dwUin, ft->pMessage.dwMsgID1, ft->pMessage.dwMsgID2, ft->dwCookie, ft->szFilename, szDesc, ft->dwTotalSize, wListenPort, TRUE, nAckType);
-		NetLog_Server("Sent file accept v%u through server, port %u", 7, wListenPort);
+		debugLogA("Sent file accept v%u through server, port %u", 7, wListenPort);
 	}
 }
 
@@ -997,12 +997,12 @@ void CIcqProto::icq_sendFileDenyServ(DWORD dwUin, filetransfer *ft, const char *
 	if (ft->nVersion >= 8)
 	{
 		icq_sendFileAcceptServv8(dwUin, ft->pMessage.dwMsgID1, ft->pMessage.dwMsgID2, ft->dwCookie, ft->szFilename, szReason, ft->dwTotalSize, wListenPort, FALSE, nAckType);
-		NetLog_Server("Sent file deny v%u through server", 8);
+		debugLogA("Sent file deny v%u through server", 8);
 	}
 	else
 	{
 		icq_sendFileAcceptServv7(dwUin, ft->pMessage.dwMsgID1, ft->pMessage.dwMsgID2, ft->dwCookie, ft->szFilename, szReason, ft->dwTotalSize, wListenPort, FALSE, nAckType);
-		NetLog_Server("Sent file deny v%u through server", 7);
+		debugLogA("Sent file deny v%u through server", 7);
 	}
 }
 

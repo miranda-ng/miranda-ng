@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CJabberProto::FtCancel(filetransfer *ft)
 {
-	Log("Invoking JabberFtCancel()");
+	debugLogA("Invoking JabberFtCancel()");
 
 	// For file sending session that is still in si negotiation phase
 	if (m_iqManager.ExpireByUserData(ft))
@@ -41,7 +41,7 @@ void CJabberProto::FtCancel(filetransfer *ft)
 	{
 		JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 		if (item->ft == ft) {
-			Log("Canceling file receiving session while in si negotiation");
+			debugLogA("Canceling file receiving session while in si negotiation");
 			ListRemoveByIndex(i);
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 			delete ft;
@@ -51,10 +51,10 @@ void CJabberProto::FtCancel(filetransfer *ft)
 	// For file transfer through bytestream
 	JABBER_BYTE_TRANSFER *jbt = ft->jbt;
 	if (jbt != NULL) {
-		Log("Canceling bytestream session");
+		debugLogA("Canceling bytestream session");
 		jbt->state = JBT_ERROR;
 		if (jbt->hConn) {
-			Log("Force closing bytestream session");
+			debugLogA("Force closing bytestream session");
 			Netlib_CloseHandle(jbt->hConn);
 			jbt->hConn = NULL;
 		}
@@ -66,7 +66,7 @@ void CJabberProto::FtCancel(filetransfer *ft)
 	// For file transfer through IBB
 	JABBER_IBB_TRANSFER *jibb = ft->jibb;
 	if (jibb != NULL) {
-		Log("Canceling IBB session");
+		debugLogA("Canceling IBB session");
 		jibb->state = JIBB_ERROR;
 		m_iqManager.ExpireByUserData(jibb);
 	}
@@ -166,7 +166,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 								ForkThread((MyThreadFunc)&CJabberProto::IbbSendThread, jibb);
 	}	}	}	}	}	}	}
 	else {
-		Log("File transfer stream initiation request denied or failed");
+		debugLogA("File transfer stream initiation request denied or failed");
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
 		delete ft;
 	}
@@ -179,10 +179,10 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 	char* buffer;
 	int numRead;
 
-	Log("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	debugLogA("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
 	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 	if ((fd = _topen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY|_O_RDONLY)) < 0) {
-		Log("File cannot be opened");
+		debugLogA("File cannot be opened");
 		return FALSE;
 	}
 
@@ -209,14 +209,14 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 
 BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 {
-	Log("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	debugLogA("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
 
 	struct _stati64 statbuf;
 	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 	
 	int fd = _topen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY|_O_RDONLY);
 	if (fd < 0) {
-		Log("File cannot be opened");
+		debugLogA("File cannot be opened");
 		return FALSE;
 	}
 
@@ -251,7 +251,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			mir_free(encoded);
 
 			if (ft->jibb->state == JIBB_ERROR || ft->jibb->bStreamClosed || m_ThreadInfo->send(msg) == SOCKET_ERROR) {
-				Log("JabberFtIbbSend unsuccessful exit");
+				debugLogA("JabberFtIbbSend unsuccessful exit");
 				_close(fd);
 				return FALSE;
 			}
@@ -270,7 +270,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 {
 	if ( !success) {
-		Log("File transfer complete with error");
+		debugLogA("File transfer complete with error");
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ft->state == FT_DENIED ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
 	}
 	else {
@@ -443,7 +443,7 @@ BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo)
 		return TRUE;
 	}
 
-	Log("File transfer invalid bytestream initiation request received");
+	debugLogA("File transfer invalid bytestream initiation request received");
 	return TRUE;
 }
 
@@ -521,7 +521,7 @@ int CJabberProto::FtReceive(HANDLE, filetransfer *ft, char* buffer, int datalen)
 	if (remainingBytes > 0) {
 		int writeSize = (remainingBytes<datalen) ? remainingBytes : datalen;
 		if (_write(ft->fileId, buffer, writeSize) != writeSize) {
-			Log("_write() error");
+			debugLogA("_write() error");
 			return -1;
 		}
 
@@ -537,10 +537,10 @@ int CJabberProto::FtReceive(HANDLE, filetransfer *ft, char* buffer, int datalen)
 void CJabberProto::FtReceiveFinal(BOOL success, filetransfer *ft)
 {
 	if (success) {
-		Log("File transfer complete successfully");
+		debugLogA("File transfer complete successfully");
 		ft->complete();
 	}
-	else Log("File transfer complete with error");
+	else debugLogA("File transfer complete with error");
 
 	delete ft;
 }

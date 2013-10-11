@@ -99,7 +99,7 @@ BOOL CIcqProto::icq_QueueUser(HANDLE hContact)
 				m_infoUpdateList[nFirstFree].queued = time(NULL);
 				nInfoUserCount++;
 #ifdef _DEBUG
-				NetLog_Server("Queued user %u, place %u, count %u", dwUin, nFirstFree, nInfoUserCount);
+				debugLogA("Queued user %u, place %u, count %u", dwUin, nFirstFree, nInfoUserCount);
 #endif
 				// Notify worker thread
 				if (hInfoQueueEvent && bInfoUpdateEnabled)
@@ -132,7 +132,7 @@ void CIcqProto::icq_DequeueUser(DWORD dwUin)
 				if (m_infoUpdateList[i].dwUin == dwUin) 
 				{
 #ifdef _DEBUG
-					NetLog_Server("Dequeued user %u", m_infoUpdateList[i].dwUin);
+					debugLogA("Dequeued user %u", m_infoUpdateList[i].dwUin);
 #endif
 					m_infoUpdateList[i].dwUin = 0;
 					m_infoUpdateList[i].hContact = NULL;
@@ -188,7 +188,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 	int i;
 	DWORD dwWait = WAIT_OBJECT_0;
 
-	NetLog_Server("%s thread starting.", "Info-Update");
+	debugLogA("%s thread starting.", "Info-Update");
 
 	bInfoUpdateRunning = TRUE;
 
@@ -245,7 +245,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 					SleepEx(1000, TRUE);
 					if (!bInfoUpdateRunning)
 					{ // need to end as fast as possible
-						NetLog_Server("%s thread ended.", "Info-Update");
+						debugLogA("%s thread ended.", "Info-Update");
 						goto LBL_Exit;
 					}
 					continue;
@@ -254,19 +254,19 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 				if (FindCookie(dwInfoActiveRequest, NULL, NULL))
 				{ // only send another request, when the previous is completed
 #ifdef _DEBUG
-					NetLog_Server("Info-Update: Request 0x%x still in progress.", dwInfoActiveRequest);
+					debugLogA("Info-Update: Request 0x%x still in progress.", dwInfoActiveRequest);
 #endif
 					SleepEx(1000, TRUE);
 					if (!bInfoUpdateRunning)
 					{ // need to end as fast as possible
-						NetLog_Server("%s thread ended.", "Info-Update");
+						debugLogA("%s thread ended.", "Info-Update");
 						goto LBL_Exit;
 					}
 					continue;
 				}
 
 #ifdef _DEBUG
-				NetLog_Server("Info-Update: Users %u in queue.", nInfoUserCount);
+				debugLogA("Info-Update: Users %u in queue.", nInfoUserCount);
 #endif
 				// Either some user is waiting long enough, or all users are ready (waited at least the minimum time)
 				m_ratesMutex->Enter();
@@ -282,12 +282,12 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 
 					m_ratesMutex->Leave();
 #ifdef _DEBUG
-					NetLog_Server("Rates: InfoUpdate delayed %dms", nDelay);
+					debugLogA("Rates: InfoUpdate delayed %dms", nDelay);
 #endif
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
 					if (!bInfoUpdateRunning)
 					{ // need to end as fast as possible
-						NetLog_Server("%s thread ended.", "Info-Update");
+						debugLogA("%s thread ended.", "Info-Update");
 						goto LBL_Exit;
 					}
 					m_ratesMutex->Enter();
@@ -339,7 +339,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 						else
 						{
 #ifdef _DEBUG
-							NetLog_Server("Dequeued absolete user %u", m_infoUpdateList[i].dwUin);
+							debugLogA("Dequeued absolete user %u", m_infoUpdateList[i].dwUin);
 #endif
 							// Dequeue user and find another one
 							m_infoUpdateList[i].dwUin = 0;
@@ -351,7 +351,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 				}
 
 #ifdef _DEBUG
-				NetLog_Server("Request info for %u user(s).", nListIndex);
+				debugLogA("Request info for %u user(s).", nListIndex);
 #endif
 				if (!nListIndex)
 				{ // no users to request info for
@@ -384,7 +384,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 		}
 	}
 
-	NetLog_Server("%s thread ended.", "Info-Update");
+	debugLogA("%s thread ended.", "Info-Update");
 
 LBL_Exit:
 	SAFE_DELETE(&infoUpdateMutex);
@@ -394,7 +394,7 @@ LBL_Exit:
 // Clean up before exit
 void CIcqProto::icq_InfoUpdateCleanup(void)
 {
-	NetLog_Server("%s must die.", "Info-Update");
+	debugLogA("%s must die.", "Info-Update");
 	bInfoUpdateRunning = FALSE;
 	if (hInfoQueueEvent)
 		SetEvent(hInfoQueueEvent); // break queue loop

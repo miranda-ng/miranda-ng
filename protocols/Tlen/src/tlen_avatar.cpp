@@ -243,7 +243,7 @@ static void TlenGetAvatarThread(void *ptr) {
 		req.headers = NULL;
 		req.dataLength = 0;
 		req.szUrl = request;
-		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->hNetlibUser, (LPARAM)&req);
+		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->m_hNetlibUser, (LPARAM)&req);
 		if (item != NULL) {
 			item->newAvatarDownloading = FALSE;
 		}
@@ -309,7 +309,7 @@ static void TlenRemoveAvatarRequestThread(void *ptr) {
 	NETLIBHTTPREQUEST *resp;
 	TLENREMOVEAVATARTHREADDATA *data = (TLENREMOVEAVATARTHREADDATA*)ptr;
 	NETLIBHTTPREQUEST *req = (NETLIBHTTPREQUEST *)data->req;
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->hNetlibUser, (LPARAM)req);
+	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->m_hNetlibUser, (LPARAM)req);
 	mir_free(req->szUrl);
 	mir_free(req->headers);
 	mir_free(req->pData);
@@ -333,7 +333,7 @@ static void TlenUploadAvatarRequestThread(void *ptr) {
 	NETLIBHTTPREQUEST *resp;
 	TLENUPLOADAVATARTHREADDATA * data = (TLENUPLOADAVATARTHREADDATA *) ptr;
 	NETLIBHTTPREQUEST *req = data->req;
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->hNetlibUser, (LPARAM)req);
+	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->m_hNetlibUser, (LPARAM)req);
 	if (resp != NULL) {
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		SetAvatar(data->proto, NULL, NULL, data->data, data->length, PA_FORMAT_PNG);

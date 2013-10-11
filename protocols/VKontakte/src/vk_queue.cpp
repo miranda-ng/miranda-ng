@@ -72,20 +72,21 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 		pReq->flags |= NLHRF_SSL;
 
 	CMStringA url;
-	if (nParams > 0) {
+	if (*szUrl == '/') {
 		url = VK_API_URL;
 		url += szUrl;
-		for (int i=0; i < nParams; i++) {
-			url.AppendChar((i == 0) ? '?' : '&');
-			url += pParams[i].szName;
-			url.AppendChar('=');
-			url += ptrA( mir_urlEncode(pParams[i].szValue));
-		}
 		pReq->nlc = m_hNetlibConn;
 	}
 	else {
 		url = szUrl;
 		pReq->flags |= NLHRF_REMOVEHOST | NLHRF_SMARTREMOVEHOST;
+	}
+	
+	for (int i=0; i < nParams; i++) {
+		url.AppendChar((i == 0) ? '?' : '&');
+		url += pParams[i].szName;
+		url.AppendChar('=');
+		url += ptrA( mir_urlEncode(pParams[i].szValue));
 	}
 
 	pReq->requestType = iRequestType;

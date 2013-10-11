@@ -145,7 +145,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int  __cdecl OnPreBuildStatusMenu( WPARAM, LPARAM );
 
 	//====| Data |========================================================================
-	HANDLE m_hServerNetlibUser, m_hDirectNetlibUser;
+	HANDLE m_hDirectNetlibUser;
 
 	BYTE m_bGatewayMode;
 	BYTE m_bSecureLogin;
@@ -875,7 +875,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   __cdecl ProtocolAckThread(icq_ack_args* pArguments);
 	void   SendProtoAck(HANDLE hContact, DWORD dwCookie, int nAckResult, int nAckType, char* pszMessage);
 
-	int    NetLog_Server(const char *fmt,...);
 	int    NetLog_Direct(const char *fmt,...);
 	int    NetLog_Uni(BOOL bDC, const char *fmt,...);
 

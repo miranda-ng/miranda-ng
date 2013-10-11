@@ -400,7 +400,7 @@ int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 
 		if (szEmail[0])
 		{
-			MSN_DebugLog("Deleted Handler Email");
+			debugLogA("Deleted Handler Email");
 
 			if (Lists_IsInList(LIST_FL, szEmail))
 			{

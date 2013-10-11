@@ -33,7 +33,7 @@ void WhatsAppProto::ChangeStatus(void*)
 		{
 			SetEvent(update_loop_lock_);
 			this->conn->forceShutdown();
-			LOG("Forced shutdown");
+			debugLogA("Forced shutdown");
 		}
 	}
 }
@@ -128,7 +128,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		desiredStatus = this->m_iDesiredStatus;
 		if (desiredStatus == ID_STATUS_OFFLINE || error)
 		{
-			LOG("Set status to offline");
+			debugLogA("Set status to offline");
 			SetAllContactStatuses( ID_STATUS_OFFLINE, true );
 			this->ToggleStatusMenuItems(false);
 			int prevStatus = this->m_iStatus;
@@ -137,7 +137,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			break;
 		}
 
-		LOG("Connecting...");
+		debugLogA("Connecting...");
 		this->m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) ID_STATUS_OFFLINE, m_iStatus);
 
@@ -167,7 +167,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 				connection->sendAvailableForChat();
 			}
 
-			LOG("Set status to online");
+			debugLogA("Set status to online");
 			this->m_iStatus = desiredStatus;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE )m_iStatus, ID_STATUS_CONNECTING);
 			this->ToggleStatusMenuItems(true);
@@ -181,7 +181,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 				this->lastPongTime = time(NULL);
 				cont = connection->read();
 			}
-			LOG("Exit from read-loop");
+			debugLogA("Exit from read-loop");
 
 		CODE_BLOCK_CATCH(WAException)
 			error = true;
@@ -191,7 +191,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			error = true;
 		CODE_BLOCK_END
 	}
-	LOG("Break out from loop");
+	debugLogA("Break out from loop");
 }
 
 void WhatsAppProto::sentinelLoop(void*)
@@ -207,7 +207,7 @@ void WhatsAppProto::sentinelLoop(void*)
 			if (quietInterval >= MAX_SILENT_INTERVAL)
 			{
 				CODE_BLOCK_TRY
-					LOG("send ping");
+					debugLogA("send ping");
 					this->lastPongTime = time(NULL);
 					this->connection->sendPing();
 				CODE_BLOCK_CATCH(exception)
@@ -224,14 +224,14 @@ void WhatsAppProto::sentinelLoop(void*)
 		}
 	}
 	ResetEvent(update_loop_lock_);
-	LOG("Exiting sentinel loop");
+	debugLogA("Exiting sentinel loop");
 }
 
 void WhatsAppProto::onPing(const std::string& id)
 {
 	if (this->isOnline()) {
 		CODE_BLOCK_TRY
-			LOG("Sending pong with id %s", id.c_str());
+			debugLogA("Sending pong with id %s", id.c_str());
 			this->connection->sendPong(id);
 		CODE_BLOCK_CATCH_ALL
 	}

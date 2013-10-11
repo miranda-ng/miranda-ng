@@ -298,7 +298,7 @@ int TlenProtocol::Authorize(HANDLE hDbEvent)
 		TLEN_LIST_ITEM *item;
 
 		if ((item=TlenListGetItemPtr(this, LIST_ROSTER, jid)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			TlenLog(this, "Try adding contact automatically jid=%s", jid);
+			debugLogA("Try adding contact automatically jid=%s", jid);
 			if ((hContact=AddToListByJID(this, jid, 0)) != NULL) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and TlenDbSettingChanged().
@@ -421,7 +421,7 @@ int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 	char **szMsg;
 	char *newModeMsg;
 
-	TlenLog(this, "SetAwayMsg called, wParam=%d lParam=%s", iStatus, msg);
+	debugLogA("SetAwayMsg called, wParam=%d lParam=%s", iStatus, msg);
 
 	newModeMsg = TlenTextEncode(mir_t2a(msg)); //TODO TCHAR
 
@@ -763,7 +763,7 @@ int TlenProtocol::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** sz
 int TlenProtocol::FileCancel(HANDLE hContact, HANDLE hTransfer)
 {
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) hTransfer;
-	TlenLog(this, "Invoking FileCancel()");
+	debugLogA("Invoking FileCancel()");
 	if (ft->s != NULL) {
 		ft->state = FT_ERROR;
 		Netlib_CloseHandle(ft->s);
@@ -800,7 +800,7 @@ HANDLE TlenProtocol::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, P
 	for (i=j=0; i<ft->fileCount; i++) {
 		char* ppszFiles_i_A = mir_t2a(ppszFiles[i]);
 		if (_stat(ppszFiles_i_A, &statbuf))
-			TlenLog(this, "'%s' is an invalid filename", ppszFiles[i]);
+			debugLogA("'%s' is an invalid filename", ppszFiles[i]);
 		else {
 			ft->filesSize[j] = statbuf.st_size;
 			ft->files[j++] = mir_strdup(ppszFiles_i_A);
@@ -915,13 +915,13 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 					if (nick != NULL) {
 						// Note: we need to compare with item->group to prevent infinite loop
 						if (cws->value.type == DBVT_DELETED && item->group != NULL) {
-							TlenLog(this, "Group set to nothing");
+							debugLogA("Group set to nothing");
 							TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'></item></query></iq>", nick, item->jid);
 						}
 						else if (cws->value.pszVal != NULL) {
 							char *newGroup = settingToChar(cws);
 							if (item->group == NULL || strcmp(newGroup, item->group)) {
-								TlenLog(this, "Group set to %s", newGroup);
+								debugLogA("Group set to %s", newGroup);
 								if ((group=TlenGroupEncode(newGroup)) != NULL) {
 									TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, item->jid, group);
 									mir_free(group);
@@ -958,7 +958,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 					// Note: we need to compare with item->nick to prevent infinite loop
 					if (newNick != NULL && (item->nick == NULL || (item->nick != NULL && strcmp(item->nick, newNick)))) {
 						if ((nick=TlenTextEncode(newNick)) != NULL) {
-							TlenLog(this, "Nick set to %s", newNick);
+							debugLogA("Nick set to %s", newNick);
 							if (item->group != NULL && (group=TlenGroupEncode(item->group)) != NULL) {
 								TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, jid, group);
 								mir_free(group);
@@ -981,7 +981,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 					jid = mir_strdup(dbv.pszVal);
 					db_free(&dbv);
-					TlenLog(this, "Add %s permanently to list", jid);
+					debugLogA("Add %s permanently to list", jid);
 					if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
 						nick = TlenTextEncode(dbv.pszVal); //Utf8Encode
 						db_free(&dbv);
@@ -990,7 +990,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						nick = TlenNickFromJID(jid);
 					}
 					if (nick != NULL) {
-						TlenLog(this, "jid=%s nick=%s", jid, nick);
+						debugLogA("jid=%s nick=%s", jid, nick);
 						if (!db_get(hContact, "CList", "Group", &dbv)) {
 							if ((pGroup=TlenGroupEncode(dbv.pszVal)) != NULL) {
 								TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, jid, pGroup);

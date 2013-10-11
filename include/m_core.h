@@ -632,6 +632,9 @@ typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM
 MIR_CORE_DLL(void) ProtoCreateServiceParam(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
 #endif
 
+MIR_CORE_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args);
+MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args);
+
 // avatar support functions
 
 // returns image extension by a PA_* constant or empty string for PA_FORMAT_UNKNOWN

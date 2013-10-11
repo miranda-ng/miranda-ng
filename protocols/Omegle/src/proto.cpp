@@ -84,8 +84,7 @@ OmegleProto::~OmegleProto( )
 
 DWORD_PTR OmegleProto::GetCaps( int type, HANDLE hContact )
 {
-	switch(type)
-	{
+	switch(type) {
 	case PFLAGNUM_1:
 		return PF1_CHAT;
 	case PFLAGNUM_2:
@@ -107,8 +106,7 @@ DWORD_PTR OmegleProto::GetCaps( int type, HANDLE hContact )
 int OmegleProto::SetStatus( int new_status )
 {
 	// Routing statuses not supported by Omegle
-	switch ( new_status )
-	{
+	switch ( new_status ) {
 	case ID_STATUS_OFFLINE:
 	case ID_STATUS_CONNECTING:
 		new_status = ID_STATUS_OFFLINE;
@@ -217,23 +215,3 @@ int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 	OnLeaveChat(NULL, NULL);
 	return 0;
 }
-
-
-//////////////////////////////////////////////////////////////////////////////
-// OTHER
-
-/*bool OmegleProto::IsMyContact(HANDLE hContact, bool include_chat)
-{
-	const char *proto = reinterpret_cast<char*>(GetContactProto(
-		reinterpret_cast<WPARAM>(hContact),0));
-
-	if ( proto && strcmp(m_szModuleName,proto) == 0 )
-	{
-		if ( include_chat )
-			return true;
-		else
-			return db_get_b(hContact,m_szModuleName,"ChatRoom",0) == 0;
-	} else {
-		return false;
-	}
-}*/

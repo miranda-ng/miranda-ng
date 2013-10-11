@@ -107,7 +107,7 @@ void __cdecl CYahooProto::send_avt_thread(void *psf)
 {
 	struct yahoo_file_info *sf = ( yahoo_file_info* )psf;
 	if (sf == NULL) {
-		DebugLog("[yahoo_send_avt_thread] SF IS NULL!!!");
+		debugLogA("[yahoo_send_avt_thread] SF IS NULL!!!");
 		return;
 	}
 
@@ -139,7 +139,7 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 	WideCharToMultiByte(CP_ACP, 0, tszFilename, -1, szFilename, MAX_PATH, 0, 0);
 	sf->filename = strdup(szFilename);
 
-	DebugLog("[Uploading avatar] filename: %s size: %ld", sf->filename, sf->filesize);
+	debugLogA("[Uploading avatar] filename: %s size: %ld", sf->filename, sf->filesize);
 
 	ForkThread(&CYahooProto::send_avt_thread, sf);
 }
@@ -159,12 +159,12 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	TCHAR  buf[4096];
 
 	if (avt == NULL) {
-		DebugLog("AVT IS NULL!!!");
+		debugLogA("AVT IS NULL!!!");
 		return;
 	}
 
 	if (!m_bLoggedIn) {
-		DebugLog("We are not logged in!!!");
+		debugLogA("We are not logged in!!!");
 		return;
 	}
 
@@ -358,7 +358,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 
 				if (getDword(hContact, "PictCK", 0) != cksum || _taccess( z, 0) != 0) {
 
-					DebugLog("[ext_yahoo_got_picture] Checksums don't match or avatar file is missing. Current: %d, New: %d", 
+					debugLogA("[ext_yahoo_got_picture] Checksums don't match or avatar file is missing. Current: %d, New: %d", 
 						getDword(hContact, "PictCK", 0), cksum);
 
 					struct avatar_info *avt = ( avatar_info* )malloc(sizeof(struct avatar_info));
@@ -630,24 +630,24 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 	int avtType;
 
 	if (!getString(AI->hContact, YAHOO_LOGINID, &dbv)) {
-		DebugLog("[YAHOO_GETAVATARINFO] For: %s", dbv.pszVal);
+		debugLogA("[YAHOO_GETAVATARINFO] For: %s", dbv.pszVal);
 		db_free(&dbv);
 	}else {
-		DebugLog("[YAHOO_GETAVATARINFO]");
+		debugLogA("[YAHOO_GETAVATARINFO]");
 	}
 
 	if (!getByte("ShowAvatars", 1 ) || !m_bLoggedIn) {
-		DebugLog("[YAHOO_GETAVATARINFO] %s", m_bLoggedIn ? "We are not using/showing avatars!" : "We are not logged in. Can't load avatars now!");
+		debugLogA("[YAHOO_GETAVATARINFO] %s", m_bLoggedIn ? "We are not using/showing avatars!" : "We are not logged in. Can't load avatars now!");
 
 		return GAIR_NOAVATAR;
 	}
 
 	avtType = getByte(AI->hContact, "AvatarType", 0);
-	DebugLog("[YAHOO_GETAVATARINFO] Avatar Type: %d", avtType);
+	debugLogA("[YAHOO_GETAVATARINFO] Avatar Type: %d", avtType);
 
 	if ( avtType != 2) {
 		if (avtType != 0)
-			DebugLog("[YAHOO_GETAVATARINFO] Not handling this type yet!");
+			debugLogA("[YAHOO_GETAVATARINFO] Not handling this type yet!");
 
 		return GAIR_NOAVATAR;
 	}
@@ -657,7 +657,7 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 
 	GetAvatarFileName(AI->hContact, AI->filename, SIZEOF(AI->filename), getByte(AI->hContact, "AvatarType", 0));
 	AI->format = PA_FORMAT_PNG;
-	DebugLog("[YAHOO_GETAVATARINFO] filename: %s", AI->filename);
+	debugLogA("[YAHOO_GETAVATARINFO] filename: %s", AI->filename);
 
 	if (_taccess( AI->filename, 0) == 0)
 		return GAIR_SUCCESS;
@@ -666,25 +666,25 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 		/* need to request it again? */
 		if (getDword(AI->hContact, "PictLoading", 0) != 0 &&
 			(time(NULL) - getDword(AI->hContact, "PictLastCheck", 0) < 500)) {
-				DebugLog("[YAHOO_GETAVATARINFO] Waiting for avatar to load!");
+				debugLogA("[YAHOO_GETAVATARINFO] Waiting for avatar to load!");
 				return GAIR_WAITFOR;
 		} else if ( m_bLoggedIn ) {
 			DBVARIANT dbv;
 
 			if (!getString(AI->hContact, YAHOO_LOGINID, &dbv)) {
-				DebugLog("[YAHOO_GETAVATARINFO] Requesting avatar!");
+				debugLogA("[YAHOO_GETAVATARINFO] Requesting avatar!");
 
 				request_avatar(dbv.pszVal);
 				db_free(&dbv);
 
 				return GAIR_WAITFOR;
 			} else {
-				DebugLog("[YAHOO_GETAVATARINFO] Can't retrieve user id?!");
+				debugLogA("[YAHOO_GETAVATARINFO] Can't retrieve user id?!");
 			}
 		}
 	}
 
-	DebugLog("[YAHOO_GETAVATARINFO] NO AVATAR???");
+	debugLogA("[YAHOO_GETAVATARINFO] NO AVATAR???");
 	return GAIR_NOAVATAR;
 }
 
@@ -751,7 +751,7 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	TCHAR *buffer = ( TCHAR* )wParam;
 	int size = (int)lParam;
 
-	DebugLog("[YahooGetMyAvatar]");
+	debugLogA("[YahooGetMyAvatar]");
 
 	if (buffer == NULL || size <= 0)
 		return -1;
@@ -792,7 +792,7 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	GetAvatarFileName(NULL, tszMyFile, MAX_PATH, 2);
 
 	if (tszFile == NULL) {
-		DebugLog("[Deleting Avatar Info]");
+		debugLogA("[Deleting Avatar Info]");
 
 		/* remove ALL our Avatar Info Keys */
 		delSetting("AvatarFile");

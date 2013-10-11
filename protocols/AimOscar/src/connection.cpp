@@ -18,18 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
 
-int CAimProto::LOG(const char *fmt, ...)
-{
-	va_list va;
-	char szText[1024];
-	if (!hNetlib)
-		return 0;
-	va_start(va, fmt);
-	mir_vsnprintf(szText, sizeof(szText), fmt, va);
-	va_end(va);
-	return CallService(MS_NETLIB_LOG, (WPARAM) hNetlib, (LPARAM) szText);
-}
-
 HANDLE CAimProto::aim_connect(const char* server, unsigned short port, bool use_ssl, const char* host)
 {
 	NETLIBOPENCONNECTION ncon = { 0 };
@@ -38,15 +26,13 @@ HANDLE CAimProto::aim_connect(const char* server, unsigned short port, bool use_
 	ncon.wPort = port;
 	ncon.timeout = 6;
 	ncon.flags = NLOCF_V2;
-	LOG("%s:%u", server, port);
-	HANDLE con = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlib, (LPARAM)&ncon);
-	if (con && use_ssl)
-	{
+	debugLogA("%s:%u", server, port);
+	HANDLE con = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&ncon);
+	if (con && use_ssl) {
 		NETLIBSSL ssl = {0};
 		ssl.cbSize = sizeof(ssl);
 		ssl.host = host;
-		if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)con, (LPARAM)&ssl))
-		{
+		if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)con, (LPARAM)&ssl)) {
 			Netlib_CloseHandle(con);
 			con = NULL;
 		}
@@ -62,8 +48,7 @@ HANDLE CAimProto::aim_peer_connect(const char* ip, unsigned short port)
 	ncon.szHost = ip;
 	ncon.wPort = port;
 	ncon.timeout = 3;
-	HANDLE con = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) hNetlibPeer, (LPARAM) & ncon);
-	return con;
+	return (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibPeer, (LPARAM)&ncon);
 }
 
 HANDLE CAimProto::aim_peer_connect(unsigned long ip, unsigned short port)
@@ -107,12 +92,12 @@ void CAimProto::aim_connection_authorization(void)
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM) & packetRecv);
 		if (recvResult == 0)
 		{
-			LOG("Connection Closed: No Error? during Connection Authorization");
+			debugLogA("Connection Closed: No Error? during Connection Authorization");
 			break;
 		}
 		else if (recvResult < 0)
 		{
-			LOG("Connection Closed: Socket Error during Connection Authorization %d", WSAGetLastError());
+			debugLogA("Connection Closed: Socket Error during Connection Authorization %d", WSAGetLastError());
 			break;
 		}
 		else
@@ -143,7 +128,7 @@ void CAimProto::aim_connection_authorization(void)
 						case 1:
 							mir_free(password);
 							Netlib_CloseHandle(hServerPacketRecver);
-							LOG("Connection Authorization Thread Ending: Negotiation Beginning");
+							debugLogA("Connection Authorization Thread Ending: Negotiation Beginning");
 							return;
 
 						case 2:
@@ -158,7 +143,7 @@ void CAimProto::aim_connection_authorization(void)
 				}
 				else if (flap.cmp(0x04))
 				{
-					LOG("Connection Authorization Thread Ending: Flap 0x04");
+					debugLogA("Connection Authorization Thread Ending: Flap 0x04");
 					goto exit;
 				}
 			}
@@ -170,7 +155,7 @@ exit:
 	if (m_iStatus!=ID_STATUS_OFFLINE) broadcast_status(ID_STATUS_OFFLINE);
 	if (hServerPacketRecver) Netlib_CloseHandle(hServerPacketRecver); 
 	Netlib_CloseHandle(hServerConn); hServerConn=NULL;
-	LOG("Connection Authorization Thread Ending: End of Thread");
+	debugLogA("Connection Authorization Thread Ending: End of Thread");
 }
 
 void __cdecl CAimProto::aim_protocol_negotiation( void* )
@@ -185,7 +170,7 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0)
 		{
-			LOG("Connection Closed: No Error during Connection Negotiation?");
+			debugLogA("Connection Closed: No Error during Connection Negotiation?");
 			break;
 		}
 		else if (recvResult == SOCKET_ERROR)
@@ -197,7 +182,7 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 			}
 			else
 			{
-				LOG("Connection Closed: Socket Error during Connection Negotiation %d", WSAGetLastError());
+				debugLogA("Connection Closed: Socket Error during Connection Negotiation %d", WSAGetLastError());
 				break;
 			}
 		}
@@ -272,7 +257,7 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 				else if (flap.cmp(0x04))
 				{
 					ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
-					LOG("Connection Negotiation Thread Ending: Flap 0x04");
+					debugLogA("Connection Negotiation Thread Ending: Flap 0x04");
 					goto exit;
 				}
 			}
@@ -283,7 +268,7 @@ exit:
 	if (m_iStatus!=ID_STATUS_OFFLINE) broadcast_status(ID_STATUS_OFFLINE);
 	Netlib_CloseHandle(hServerPacketRecver); hServerPacketRecver=NULL; 
 	Netlib_CloseHandle(hServerConn); hServerConn=NULL;
-	LOG("Connection Negotiation Thread Ending: End of Thread");
+	debugLogA("Connection Negotiation Thread Ending: End of Thread");
 	offline_contacts();
 }
 
@@ -351,7 +336,7 @@ void __cdecl CAimProto::aim_mail_negotiation( void* )
 	}
 
 exit:
-	LOG("Mail Server Connection has ended");
+	debugLogA("Mail Server Connection has ended");
 	Netlib_CloseHandle(hServerPacketRecver);
 	Netlib_CloseHandle(hMailConn);
 	hMailConn=NULL;
@@ -418,7 +403,7 @@ exit:
 	Netlib_CloseHandle(hAvatarConn);
 	hAvatarConn=NULL;
 	ResetEvent(hAvatarEvent);
-	LOG("Avatar Server Connection has ended");
+	debugLogA("Avatar Server Connection has ended");
 }
 
 void __cdecl CAimProto::aim_chatnav_negotiation( void* )
@@ -496,7 +481,7 @@ exit:
 	Netlib_CloseHandle(hChatNavConn);
 	hChatNavConn=NULL;
 	ResetEvent(hChatNavEvent);
-	LOG("Chat Navigation Server Connection has ended");
+	debugLogA("Chat Navigation Server Connection has ended");
 }
 
 void __cdecl CAimProto::aim_chat_negotiation( void* param )
@@ -571,7 +556,7 @@ exit:
 	Netlib_CloseHandle(item->hconn);
 	chat_leave(item->id);
 	remove_chat_by_ptr(item);
-	LOG("Chat Server Connection has ended");
+	debugLogA("Chat Server Connection has ended");
 }
 
 void __cdecl CAimProto::aim_admin_negotiation( void* )
@@ -636,5 +621,5 @@ exit:
 	Netlib_CloseHandle(hAdminConn);
 	hAdminConn=NULL;
 	ResetEvent(hAdminEvent);
-	LOG("Admin Server Connection has ended");
+	debugLogA("Admin Server Connection has ended");
 }

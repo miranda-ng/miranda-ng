@@ -67,7 +67,7 @@ void CIcqProto::handleMsgFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSn
 		break;
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_MSG_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_MSG_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }
@@ -117,7 +117,7 @@ void CIcqProto::handleRecvServMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef
 
 	if (wLen < 11)
 	{ // just do some basic packet checking
-		NetLog_Server("Error: Malformed message thru server");
+		debugLogA("Error: Malformed message thru server");
 		return;
 	}
 
@@ -137,13 +137,13 @@ void CIcqProto::handleRecvServMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef
 
 	if (dwUin && IsOnSpammerList(dwUin))
 	{
-		NetLog_Server("Ignored Message from known Spammer");
+		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
 
 	if (wLen < 4)
 	{ // just do some basic packet checking
-		NetLog_Server("Error: Malformed message thru server");
+		debugLogA("Error: Malformed message thru server");
 		return;
 	}
 
@@ -193,7 +193,7 @@ void CIcqProto::handleRecvServMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef
 		break;
 
 	default:
-		NetLog_Server("Unknown format message thru server - Ref %u, Type: %u, UID: %s", dwRef, wMessageFormat, strUID(dwUin, szUID));
+		debugLogA("Unknown format message thru server - Ref %u, Type: %u, UID: %s", dwRef, wMessageFormat, strUID(dwUin, szUID));
 		break;
 
 	}
@@ -220,13 +220,13 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 	if (wLen < 4)
 	{ // just perform basic structure check
-		NetLog_Server("Message (format %u) - Ignoring empty message", 1);
+		debugLogA("Message (format %u) - Ignoring empty message", 1);
 		return;
 	}
 
 	// Unpack the first TLV(2)
 	unpackTypedTLV(buf, wLen, 2, &wTLVType, &wTLVLen, &pMsgTLV);
-	NetLog_Server("Message (format %u) - UID: %s", 1, strUID(dwUin, szUID));
+	debugLogA("Message (format %u) - UID: %s", 1, strUID(dwUin, szUID));
 
 	// It must be TLV(2)
 	if (wTLVType == 2)
@@ -255,10 +255,10 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 				pDataBuf = pCapabilityTLV->pData;
 
 				if (wDataLen > 0)
-					NetLog_Server("Message (format 1) - Message has %d caps.", wDataLen);
+					debugLogA("Message (format 1) - Message has %d caps.", wDataLen);
 			}
 			else
-				NetLog_Server("Message (format 1) - No message cap.");
+				debugLogA("Message (format 1) - No message cap.");
 
 			{ // Parse the message parts, usually only one 0x0101 TLV containing the message,
 				// but in some cases there can be more 0x0101 TLVs containing message parts in
@@ -291,7 +291,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 						unpackWord(&pMsgBuf, &wCodePage);
 
 						wMsgLen = pMessageTLV->wLen - 4;
-						NetLog_Server("Message (format 1) - Part %d: Encoding is 0x%X, page is 0x%X", wMsgPart, wEncoding, wCodePage);
+						debugLogA("Message (format 1) - Part %d: Encoding is 0x%X, page is 0x%X", wMsgPart, wEncoding, wCodePage);
 
 						switch (wEncoding) {
 
@@ -385,7 +385,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 								BYTE *pBuf = pTimeTLV;
 
 								unpackDWord(&pBuf, &dwRecvTime);
-								NetLog_Server("Message (format %u) - Offline timestamp is %s", 1, time2text(dwRecvTime));
+								debugLogA("Message (format %u) - Offline timestamp is %s", 1, time2text(dwRecvTime));
 							}
 							SAFE_FREE((void**)&pTimeTLV);
 						}
@@ -395,12 +395,12 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 					pre.szMessage = (char *)szMsg;
 					ProtoChainRecvMsg(hContact, &pre);
 
-					NetLog_Server("Message (format 1) received");
+					debugLogA("Message (format 1) received");
 
 					// Save tick value
 					setDword(hContact, "TickTS", time(NULL) - (dwMsgID1/1000));
 				}
-				else NetLog_Server("Message (format %u) - Ignoring empty message", 1);
+				else debugLogA("Message (format %u) - Ignoring empty message", 1);
 
 				SAFE_FREE(&szMsg);
 			}
@@ -409,10 +409,10 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 			disposeChain(&pChain);
 		}
 		else
-			NetLog_Server("Failed to read TLV chain in message (format 1)");
+			debugLogA("Failed to read TLV chain in message (format 1)");
 	}
 	else
-		NetLog_Server("Unsupported TLV (%u) in message (format %u)", wTLVType, 1);
+		debugLogA("Unsupported TLV (%u) in message (format %u)", wTLVType, 1);
 
 	SAFE_FREE((void**)&pMsgTLV);
 }
@@ -427,13 +427,13 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 	if (wLen < 4)
 	{
-		NetLog_Server("Message (format %u) - Ignoring empty message", 2);
+		debugLogA("Message (format %u) - Ignoring empty message", 2);
 		return;
 	}
 
 	// Unpack the first TLV(5)
 	unpackTypedTLV(buf, wLen, 5, &wTLVType, &wTLVLen, &pDataBuf);
-	NetLog_Server("Message (format %u) - UID: %s", 2, strUID(dwUin, szUID));
+	debugLogA("Message (format %u) - UID: %s", 2, strUID(dwUin, szUID));
 	pBuf = pDataBuf;
 
 	// It must be TLV(5)
@@ -446,7 +446,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 		if (wTLVLen < 26)
 		{ // just check if all basic data is there
-			NetLog_Server("Message (format %u) - Ignoring empty message", 2);
+			debugLogA("Message (format %u) - Ignoring empty message", 2);
 			SAFE_FREE((void**)&pBuf);
 			return;
 		}
@@ -454,7 +454,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 		unpackWord(&pDataBuf, &wCommand);
 		wTLVLen -= 2;                             // Command 0x0000 - Normal message/file send request
 #ifdef _DEBUG                                 //         0x0001 - Abort request
-		NetLog_Server("Command is %u", wCommand); //         0x0002 - Acknowledge request
+		debugLogA("Command is %u", wCommand); //         0x0002 - Acknowledge request
 #endif
 
 		// Some stuff we don't use
@@ -472,14 +472,14 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 			if (wCommand == 1)
 			{
-				NetLog_Server("Cannot handle abort messages yet... :(");
+				debugLogA("Cannot handle abort messages yet... :(");
 				SAFE_FREE((void**)&pBuf);
 				return;
 			}
 
 			if (wTLVLen < 4)
 			{ // just check if at least one tlv is there
-				NetLog_Server("Message (format %u) - Ignoring empty message", 2);
+				debugLogA("Message (format %u) - Ignoring empty message", 2);
 				SAFE_FREE((void**)&pBuf);
 				return;
 			}
@@ -496,7 +496,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 			chain = readIntoTLVChain(&pDataBuf, wTLVLen, 0);
 			if (!chain)
 			{ // sanity check
-				NetLog_Server("Message (format %u) - Invalid data", 2);
+				debugLogA("Message (format %u) - Invalid data", 2);
 				SAFE_FREE((void**)&pBuf);
 				return;
 			}
@@ -531,7 +531,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 			}
 			else
 			{
-				NetLog_Server("Warning, no 0x2711 TLV in message (format 2)");
+				debugLogA("Warning, no 0x2711 TLV in message (format 2)");
 			}
 			// Clean up
 			disposeChain(&chain);
@@ -540,26 +540,26 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 		{ // Handle reverse DC request
 			if (wCommand == 1)
 			{
-				NetLog_Server("Cannot handle abort messages yet... :(");
+				debugLogA("Cannot handle abort messages yet... :(");
 				SAFE_FREE((void**)&pBuf);
 				return;
 			}
 			if (wTLVLen < 4)
 			{ // just check if at least one tlv is there
-				NetLog_Server("Message (format %u) - Ignoring empty message", 2);
+				debugLogA("Message (format %u) - Ignoring empty message", 2);
 				SAFE_FREE((void**)&pBuf);
 				return;
 			}
 			if (!dwUin)
 			{ // AIM cannot send this, just sanity
-				NetLog_Server("Error: Malformed UIN in packet");
+				debugLogA("Error: Malformed UIN in packet");
 				SAFE_FREE((void**)&pBuf);
 				return;
 			}
 			chain = readIntoTLVChain(&pDataBuf, wTLVLen, 0);
 			if (!chain)
 			{ // Malformed packet
-				NetLog_Server("Error: Malformed data in packet");
+				debugLogA("Error: Malformed data in packet");
 				SAFE_FREE((void**)&pBuf);
 				return;
 			}
@@ -578,7 +578,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 					HANDLE hContact = HContactFromUIN(dwUin, NULL);
 					if (hContact == INVALID_HANDLE_VALUE)
 					{
-						NetLog_Server("Error: %s from unknown contact %u", "Reverse Connect Request", dwUin);
+						debugLogA("Error: %s from unknown contact %u", "Reverse Connect Request", dwUin);
 					}
 					else
 					{
@@ -611,17 +611,17 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 							OpenDirectConnection(hContact, DIRECTCONN_REVERSE, (void*)pCookie);
 						}
 						else
-							NetLog_Server("Warning: Unsupported direct protocol version in %s", "Reverse Connect Request");
+							debugLogA("Warning: Unsupported direct protocol version in %s", "Reverse Connect Request");
 					}
 				}
 				else
 				{
-					NetLog_Server("Malformed %s", "Reverse Connect Request");
+					debugLogA("Malformed %s", "Reverse Connect Request");
 				}
 			}
 			else
 			{
-				NetLog_Server("Warning, no 0x2711 TLV in message (format 2)");
+				debugLogA("Warning, no 0x2711 TLV in message (format 2)");
 			}
 			// Clean up
 			disposeChain(&chain);
@@ -636,12 +636,12 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 		}
 		else // here should be detection of extra data streams (Xtraz)
 		{
-			NetLog_Server("Unknown Message Format Capability");
+			debugLogA("Unknown Message Format Capability");
 		}
 	}
 	else
 	{
-		NetLog_Server("Unsupported TLV (%u) in message (format %u)", wTLVType, 2);
+		debugLogA("Unsupported TLV (%u) in message (format %u)", wTLVType, 2);
 	}
 
 	SAFE_FREE((void**)&pBuf);
@@ -654,7 +654,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 
 	if (wLen < 2)
 	{
-		NetLog_Server("Message (format %u) - Ignoring empty message", 2);
+		debugLogA("Message (format %u) - Ignoring empty message", 2);
 		return;
 	}
 
@@ -670,7 +670,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 
 		if (wLen < 31)
 		{ // just check if we have data to work with
-			NetLog_Server("Message (format %u) - Ignoring empty message", 2);
+			debugLogA("Message (format %u) - Ignoring empty message", 2);
 			return;
 		}
 
@@ -705,7 +705,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 
 			if (wLen < 20)
 			{ // check if there is everything that should be there
-				NetLog_Server("Message (format %u) - Ignoring empty message", 2);
+				debugLogA("Message (format %u) - Ignoring empty message", 2);
 				return;
 			}
 
@@ -723,7 +723,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 			// Priority
 			unpackLEWord(&pDataBuf, &wPritority);
 			wLen -= 2;
-			NetLog_Server("Priority: %u", wPritority);
+			debugLogA("Priority: %u", wPritority);
 
 			// Message
 			unpackLEWord(&pDataBuf, &wMsgLen);
@@ -737,7 +737,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 				{
 					if (!dwUin)
 					{ // AIM cannot send this, just sanity
-						NetLog_Server("Error: Malformed UIN in packet");
+						debugLogA("Error: Malformed UIN in packet");
 						return;
 					}
 
@@ -759,7 +759,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 					}
 					else
 					{
-						NetLog_Server("Ignored strange file message");
+						debugLogA("Ignored strange file message");
 					}
 
 					break;
@@ -776,7 +776,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 				{
 					if (wLen < wMsgLen)
 					{ // sanity check
-						NetLog_Server("Error: Malformed server Greeting message");
+						debugLogA("Error: Malformed server Greeting message");
 						return;
 					}
 
@@ -789,7 +789,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 				{
 					if (!dwUin)
 					{ // AIM cannot send this, just sanity
-						NetLog_Server("Error: Malformed UIN in packet");
+						debugLogA("Error: Malformed UIN in packet");
 						return;
 					}
 					message_ack_params pMsgAck = {0};
@@ -810,7 +810,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 		{ // info manager plugin - obsolete
 			if (!dwUin)
 			{ // AIM cannot send this, just sanity
-				NetLog_Server("Error: Malformed UIN in packet");
+				debugLogA("Error: Malformed UIN in packet");
 				return;
 			}
 
@@ -827,7 +827,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 			unpackByte(&pDataBuf, &bLevel);
 			if (bLevel != 0 || wLen < 16)
 			{
-				NetLog_Server("Invalid %s Manager Plugin message from %u", "Info", dwUin);
+				debugLogA("Invalid %s Manager Plugin message from %u", "Info", dwUin);
 				return;
 			}
 			unpackDWord(&pDataBuf, &dwGuid1); // plugin request GUID
@@ -838,16 +838,16 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 
 			if (CompareGUIDs(dwGuid1, dwGuid2, dwGuid3, dwGuid4, PMSG_QUERY_INFO))
 			{
-				NetLog_Server("User %u requests our %s plugin list. NOT SUPPORTED", dwUin, "info");
+				debugLogA("User %u requests our %s plugin list. NOT SUPPORTED", dwUin, "info");
 			}
 			else
-				NetLog_Server("Unknown %s Manager message from %u", "Info", dwUin);
+				debugLogA("Unknown %s Manager message from %u", "Info", dwUin);
 		}
 		else if (CompareGUIDs(dwGuid1, dwGuid2, dwGuid3, dwGuid4, PSIG_STATUS_PLUGIN))
 		{ // status manager plugin - obsolete
 			if (!dwUin)
 			{ // AIM cannot send this, just sanity
-				NetLog_Server("Error: Malformed UIN in packet");
+				debugLogA("Error: Malformed UIN in packet");
 				return;
 			}
 
@@ -864,7 +864,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 			unpackByte(&pDataBuf, &bLevel);
 			if (bLevel != 0 || wLen < 16)
 			{
-				NetLog_Server("Invalid %s Manager Plugin message from %u", "Status", dwUin);
+				debugLogA("Invalid %s Manager Plugin message from %u", "Status", dwUin);
 				return;
 			}
 			unpackDWord(&pDataBuf, &dwGuid1); // plugin request GUID
@@ -874,15 +874,15 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HANDLE hContact, D
 			wLen -= 16;
 
 			if (CompareGUIDs(dwGuid1, dwGuid2, dwGuid3, dwGuid4, PMSG_QUERY_STATUS))
-				NetLog_Server("User %u requests our %s plugin list. NOT SUPPORTED", dwUin, "status");
+				debugLogA("User %u requests our %s plugin list. NOT SUPPORTED", dwUin, "status");
 			else
-				NetLog_Server("Unknown %s Manager message from %u", "Status", dwUin);
+				debugLogA("Unknown %s Manager message from %u", "Status", dwUin);
 		}
 		else
-			NetLog_Server("Unknown signature (%08x-%08x-%08x-%08x) in message (format 2)", dwGuid1, dwGuid2, dwGuid3, dwGuid4);
+			debugLogA("Unknown signature (%08x-%08x-%08x-%08x) in message (format 2)", dwGuid1, dwGuid2, dwGuid3, dwGuid4);
 	}
 	else
-		NetLog_Server("Unknown wId1 (%u) in message (format 2)", wId);
+		debugLogA("Unknown wId1 (%u) in message (format 2)", wId);
 }
 
 
@@ -891,7 +891,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hCont
 	int nTypeId;
 	WORD wFunction;
 
-	NetLog_Server("Parsing Greeting message through server");
+	debugLogA("Parsing Greeting message through server");
 
 	// Message plugin identification
 	if (!unpackPluginTypeId(&pDataBuf, &wLen, &nTypeId, &wFunction, FALSE)) return;
@@ -915,10 +915,10 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hCont
 		{
 			if (!dwUin)
 			{ // AIM cannot send this, just sanity
-				NetLog_Server("Error: Malformed UIN in packet");
+				debugLogA("Error: Malformed UIN in packet");
 				return;
 			}
-			NetLog_Server("This is file ack");
+			debugLogA("This is file ack");
 
 			char *szMsg = (char *)_alloca(dwDataLen + 1);
 			memcpy(szMsg, pDataBuf, dwDataLen);
@@ -932,10 +932,10 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hCont
 		{
 			if (!dwUin)
 			{ // AIM cannot send this, just sanity
-				NetLog_Server("Error: Malformed UIN in packet");
+				debugLogA("Error: Malformed UIN in packet");
 				return;
 			}
-			NetLog_Server("This is a file request");
+			debugLogA("This is a file request");
 
 			char *szMsg = (char *)_alloca(dwDataLen + 1);
 			memcpy(szMsg, pDataBuf, dwDataLen);
@@ -949,10 +949,10 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hCont
 		{ // TODO: this is deprecated
 			if (!dwUin)
 			{ // AIM cannot send this, just sanity
-				NetLog_Server("Error: Malformed UIN in packet");
+				debugLogA("Error: Malformed UIN in packet");
 				return;
 			}
-			NetLog_Server("This is a chat request");
+			debugLogA("This is a chat request");
 
 			char *szMsg = (char *)_alloca(dwDataLen + 1);
 			memcpy(szMsg, pDataBuf, dwDataLen);
@@ -994,7 +994,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hCont
 		{
 			if (!dwUin)
 			{ // AIM cannot send this, just sanity
-				NetLog_Server("Error: Malformed UIN in packet");
+				debugLogA("Error: Malformed UIN in packet");
 				return;
 			}
 			message_ack_params pMsgAck = {0};
@@ -1010,11 +1010,11 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HANDLE hCont
 		}
 		else
 		{
-			NetLog_Server("Unsupported plugin message type %d", nTypeId);
+			debugLogA("Unsupported plugin message type %d", nTypeId);
 		}
 	}
 	else
-		NetLog_Server("Error: Malformed server plugin message");
+		debugLogA("Error: Malformed server plugin message");
 }
 
 
@@ -1026,13 +1026,13 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 	{ // received contacts
 		if (wLen < 4)
 		{ // just check if at least one tlv is there
-			NetLog_Server("Message (format %u) - Ignoring empty contacts message", 2);
+			debugLogA("Message (format %u) - Ignoring empty contacts message", 2);
 			return;
 		}
 		oscar_tlv_chain *chain = readIntoTLVChain(&buf, wLen, 0);
 		if (!chain)
 		{ // sanity check
-			NetLog_Server("Message (format %u) - Invalid data", 2);
+			debugLogA("Message (format %u) - Invalid data", 2);
 			return;
 		}
 
@@ -1045,7 +1045,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 
 			if (!tlvUins || tlvUins->wLen < 4)
 			{
-				NetLog_Server("Malformed '%s' message", "contacts");
+				debugLogA("Malformed '%s' message", "contacts");
 				disposeChain(&chain);
 				return;
 			}
@@ -1122,7 +1122,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			}
 			if (!iContact || !valid)
 			{
-				NetLog_Server("Malformed '%s' message", "contacts");
+				debugLogA("Malformed '%s' message", "contacts");
 				disposeChain(&chain);
 				for (int i = 0; i < iContact; i++)
 				{
@@ -1192,7 +1192,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 
 			if (!valid)
 			{
-				NetLog_Server("Malformed '%s' message", "contacts");
+				debugLogA("Malformed '%s' message", "contacts");
 			}
 			else
 			{
@@ -1219,13 +1219,13 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			SAFE_FREE((void**)&contacts);
 		}
 		else
-			NetLog_Server("Error: Received unknown contacts message, ignoring.");
+			debugLogA("Error: Received unknown contacts message, ignoring.");
 		// Clean up
 		disposeChain(&chain);
 	}
 	else if (wCommand == 1)
 	{
-		NetLog_Server("Cannot handle abort messages yet... :(");
+		debugLogA("Cannot handle abort messages yet... :(");
 		return;
 	}
 	else if (wCommand == 2)
@@ -1236,14 +1236,14 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 		if (FindMessageCookie(dwID1, dwID2, &dwCookie, &hCookieContact, NULL))
 		{
 			if (hCookieContact != hContact)
-				NetLog_Server("Warning: Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
+				debugLogA("Warning: Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
 
 			ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)dwCookie, 0);
 
 			ReleaseCookie(dwCookie);
 		}
 		else
-			NetLog_Server("Warning: Unexpected Contact Transfer ack from %s", strUID(dwUin, szUID));
+			debugLogA("Warning: Unexpected Contact Transfer ack from %s", strUID(dwUin, szUID));
 	}
 }
 
@@ -1257,13 +1257,13 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 	if (wLen < 2)
 	{
-		NetLog_Server("Message (format %u) - Ignoring empty message", 4);
+		debugLogA("Message (format %u) - Ignoring empty message", 4);
 		return;
 	}
 
 	// Unpack the first TLV(5)
 	unpackTypedTLV(buf, wLen, 5, &wTLVType, &wTLVLen, &pDataBuf);
-	NetLog_Server("Message (format %u) - UID: %s", 4, strUID(dwUin, szUID));
+	debugLogA("Message (format %u) - UID: %s", 4, strUID(dwUin, szUID));
 
 	// It must be TLV(5)
 	if (wTLVType == 5)
@@ -1284,7 +1284,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 			if (bMsgType == 0 && wMsgLen == 1)
 			{
-				NetLog_Server("User %u probably checks his ignore state.", dwUin);
+				debugLogA("User %u probably checks his ignore state.", dwUin);
 			}
 			else
 			{
@@ -1304,7 +1304,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 						BYTE *pBuf = pTimeTLV;
 
 						unpackDWord(&pBuf, &dwRecvTime);
-						NetLog_Server("Message (format %u) - Offline timestamp is %s", 4, time2text(dwRecvTime));
+						debugLogA("Message (format %u) - Offline timestamp is %s", 4, time2text(dwRecvTime));
 					}
 					SAFE_FREE((void**)&pTimeTLV);
 				}
@@ -1314,7 +1314,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 					WORD wLen = wTLVLen - 8;
 					int typeId;
 
-					NetLog_Server("Parsing Greeting message through server");
+					debugLogA("Parsing Greeting message through server");
 
 					pmsg += wMsgLen;
 					wLen -= wMsgLen;
@@ -1341,7 +1341,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 						}
 						else
 						{
-							NetLog_Server("Unsupported plugin message type %d", typeId);
+							debugLogA("Unsupported plugin message type %d", typeId);
 						}
 					}
 				}
@@ -1354,12 +1354,12 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 		}
 		else
 		{
-			NetLog_Server("Ignoring spoofed TYPE4 message thru server from %d", dwUin);
+			debugLogA("Ignoring spoofed TYPE4 message thru server from %d", dwUin);
 		}
 	}
 	else
 	{
-		NetLog_Server("Unsupported TLV (%u) in message (format %u)", wTLVType, 4);
+		debugLogA("Unsupported TLV (%u) in message (format %u)", wTLVType, 4);
 	}
 
 	SAFE_FREE((void**)&pDataBuf);
@@ -1625,13 +1625,13 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 void CIcqProto::handleStatusMsgReply(const char *szPrefix, HANDLE hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags)
 {
 	if (hContact == INVALID_HANDLE_VALUE) {
-		NetLog_Server("%sIgnoring status message from unknown contact %u", szPrefix, dwUin);
+		debugLogA("%sIgnoring status message from unknown contact %u", szPrefix, dwUin);
 		return;
 	}
 
 	int status = AwayMsgTypeToStatus(bMsgType);
 	if (status == ID_STATUS_OFFLINE) {
-		NetLog_Server("%sIgnoring unknown status message from %u", szPrefix, dwUin);
+		debugLogA("%sIgnoring unknown status message from %u", szPrefix, dwUin);
 		return;
 	}
 
@@ -1659,7 +1659,7 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 
 		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
 		{
-			NetLog_Server("%sIgnoring unrequested status message from %u", "handleMessageAck: ", dwUin);
+			debugLogA("%sIgnoring unrequested status message from %u", "handleMessageAck: ", dwUin);
 
 			ReleaseCookie(wCookie);
 			return INVALID_HANDLE_VALUE;
@@ -1667,7 +1667,7 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 
 		if (hContact != hCookieContact)
 		{
-			NetLog_Server("%sAck Contact does not match Cookie Contact(0x%x != 0x%x)", "handleMessageAck: ", hContact, hCookieContact);
+			debugLogA("%sAck Contact does not match Cookie Contact(0x%x != 0x%x)", "handleMessageAck: ", hContact, hCookieContact);
 
 			ReleaseCookie(wCookie);
 			return INVALID_HANDLE_VALUE;
@@ -1679,7 +1679,7 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 	else
 	{
 		// Should not happen
-		NetLog_Server("%sIgnored type %u ack message (this should not happen)", "handleMessageAck: ", type);
+		debugLogA("%sIgnored type %u ack message (this should not happen)", "handleMessageAck: ", type);
 	}
 
 	return INVALID_HANDLE_VALUE;
@@ -1877,7 +1877,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			char* pCurBlob;
 
 			if (nMsgFields < 6) {
-				NetLog_Server("Malformed '%s' message", "auth req");
+				debugLogA("Malformed '%s' message", "auth req");
 				break;
 			}
 
@@ -1908,7 +1908,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 			if (nMsgFields < 4)
 			{
-				NetLog_Server("Malformed '%s' message", "you were added");
+				debugLogA("Malformed '%s' message", "you were added");
 				break;
 			}
 
@@ -2009,7 +2009,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			NetLog_Uni(bThruDC, "Malformed '%s' message", "SMS Mobile");
 			break;
 		}
-		NetLog_Server("Received SMS Mobile message");
+		debugLogA("Received SMS Mobile message");
 
 		ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, NULL, (LPARAM)szMsg);
 		break;
@@ -2018,7 +2018,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 		/* it's either extended StatusMsg reply from icq2003b or a IcqWebMessage */
 		if (dwUin == 1003)
 		{
-			NetLog_Server("Received ICQWebMessage - NOT SUPPORTED");
+			debugLogA("Received ICQWebMessage - NOT SUPPORTED");
 		}
 		break;
 
@@ -2030,7 +2030,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 			if (nMsgFields < 6)
 			{
-				NetLog_Server("Malformed '%s' message", "web pager");
+				debugLogA("Malformed '%s' message", "web pager");
 				break;
 			}
 
@@ -2053,7 +2053,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 			if (nMsgFields < 6)
 			{
-				NetLog_Server("Malformed '%s' message", "e-mail express");
+				debugLogA("Malformed '%s' message", "e-mail express");
 				break;
 			}
 
@@ -2136,7 +2136,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 						else if (dwUin)
 							ppro->icq_sendAwayMsgReplyServ(dwUin, dwMsgID1, dwMsgID2, wCookie, wVersion, (BYTE)nMsgType, pszMsg);
 						else
-							ppro->NetLog_Server("Error: Malformed UIN in packet");
+							ppro->debugLogA("Error: Malformed UIN in packet");
 					};
 
 					BOOL bExtended;
@@ -2203,7 +2203,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 	wLen -= 2;
 	if (wMessageFormat != 2)
 	{
-		NetLog_Server("SNAC(4.B) Unknown type");
+		debugLogA("SNAC(4.B) Unknown type");
 		return;
 	}
 
@@ -2216,7 +2216,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 	if (!FindMessageCookie(dwMsgID1, dwMsgID2, &dwCookie, &hCookieContact, &pCookieData))
 	{
-		NetLog_Server("SNAC(4.B) Received an ack that I did not ask for from (%u)", dwUin);
+		debugLogA("SNAC(4.B) Received an ack that I did not ask for from (%u)", dwUin);
 		return;
 	}
 
@@ -2228,7 +2228,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 	if (!dwUin)
 	{ // AIM cannot send this - just sanity
-		NetLog_Server("Error: Invalid UID in message response.");
+		debugLogA("Error: Invalid UID in message response.");
 		return;
 	}
 
@@ -2272,14 +2272,14 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
 		{ // use old reliable method
-			NetLog_Server("Warning: Invalid cookie in %s from (%u)", "message response", dwUin);
+			debugLogA("Warning: Invalid cookie in %s from (%u)", "message response", dwUin);
 
 			if (pCookieData->bMessageType != MTYPE_AUTOAWAY && bFlags == 3)
 			{ // most probably a broken ack of some kind (e.g. from R&Q), try to fix that
 				bMsgType = pCookieData->bMessageType;
 				bFlags = 0;
 
-				NetLog_Server("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
+				debugLogA("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
 			}
 		}
 		else if (bMsgType != MTYPE_PLUGIN && pCookieData->bMessageType != MTYPE_AUTOAWAY)
@@ -2287,14 +2287,14 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 			dwCookie = wCookie;
 
 			if (bMsgType != pCookieData->bMessageType)
-				NetLog_Server("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
+				debugLogA("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
 
 			bMsgType = pCookieData->bMessageType;
 		}
 		else if (pCookieData->bMessageType == MTYPE_AUTOAWAY && bMsgType != MTYPE_PLUGIN)
 		{
 			if (bMsgType != pCookieData->nAckType)
-				NetLog_Server("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
+				debugLogA("Warning: Invalid message type in %s from (%u)", "message response", dwUin);
 		}
 	}
 	else
@@ -2305,7 +2305,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 	if (hCookieContact != hContact)
 	{
-		NetLog_Server("SNAC(4.B) Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
+		debugLogA("SNAC(4.B) Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
 
 		ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 		return;
@@ -2322,7 +2322,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 		if (hContact == NULL || hContact == INVALID_HANDLE_VALUE)
 		{
-			NetLog_Server("SNAC(4.B) Message from unknown contact (%u)", dwUin);
+			debugLogA("SNAC(4.B) Message from unknown contact (%u)", dwUin);
 
 			ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 			return;
@@ -2363,13 +2363,13 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 				if (wLength != 0x1B)
 				{
-					NetLog_Server("Invalid Greeting %s", "message response");
+					debugLogA("Invalid Greeting %s", "message response");
 
 					ReleaseCookie(dwCookie);
 					return;
 				}
 
-				NetLog_Server("Parsing Greeting %s", "message response");
+				debugLogA("Parsing Greeting %s", "message response");
 
 				// Message
 				unpackLEWord(&buf, &wMsgLen);
@@ -2392,7 +2392,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 				if (wLen < 4)
 				{
-					NetLog_Server("Error: Invalid greeting %s", "message response");
+					debugLogA("Error: Invalid greeting %s", "message response");
 
 					ReleaseCookie(dwCookie);
 					return;
@@ -2437,7 +2437,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 				case MTYPE_FILEREQ:
 					{
-						NetLog_Server("This is file ack");
+						debugLogA("This is file ack");
 
 						char *szMsg = (char *)_alloca(dwDataLen + 1);
 
@@ -2485,7 +2485,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 					return;
 
 				default:
-					NetLog_Server("Error: Unknown plugin message response, type %d.", typeId);
+					debugLogA("Error: Unknown plugin message response, type %d.", typeId);
 					return;
 				}
 			}
@@ -2522,7 +2522,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 					ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 				}
-				NetLog_Server("Reverse Connect request failed");
+				debugLogA("Reverse Connect request failed");
 				// Set DC status to failed
 				setByte(hContact, "DCStatus", 2);
 
@@ -2532,7 +2532,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 		case MTYPE_CHAT:
 		default:
-			NetLog_Server("SNAC(4.B) Unknown message type (%u) in switch", bMsgType);
+			debugLogA("SNAC(4.B) Unknown message type (%u) in switch", bMsgType);
 			return;
 		}
 
@@ -2688,7 +2688,7 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 		}
 		else
 		{
-			NetLog_Server("Error: Message delivery to %u failed: %s", dwUin, pszErrorMessage);
+			debugLogA("Error: Message delivery to %u failed: %s", dwUin, pszErrorMessage);
 		}
 
 		FreeCookie((WORD)dwSequence);
@@ -2715,7 +2715,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 
 	if (wLen < 13)
 	{
-		NetLog_Server("Ignoring SNAC(4,C) Packet to short");
+		debugLogA("Ignoring SNAC(4,C) Packet to short");
 		return;
 	}
 
@@ -2766,7 +2766,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 
 				default:
 					ackType = -1;
-					NetLog_Server("Error: Unknown message type %d in ack", pCookieData->bMessageType);
+					debugLogA("Error: Unknown message type %d in ack", pCookieData->bMessageType);
 					break;
 				}
 				if (ackType != -1)
@@ -2778,9 +2778,9 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 			FreeCookie((WORD)dwSequence);
 		}
 		else if (pCookieData && (pCookieData->nAckType == ACKTYPE_CLIENT))
-			NetLog_Server("Received a server ack, waiting for client ack.");
+			debugLogA("Received a server ack, waiting for client ack.");
 		else
-			NetLog_Server("Ignored a server ack I did not ask for");
+			debugLogA("Ignored a server ack I did not ask for");
 	}
 }
 
@@ -2866,14 +2866,14 @@ void CIcqProto::handleOffineMessagesReply(BYTE *buf, WORD wLen, WORD wFlags, DWO
 
 	if (FindCookie(dwRef, NULL, (void**)&cookie))
 	{
-		NetLog_Server("End of offline msgs, %u received", cookie->nMessages);
+		debugLogA("End of offline msgs, %u received", cookie->nMessages);
 		if (cookie->nMissed)
 		{	// NASTY WORKAROUND!!
 			// The ICQ server has a bug that causes offline messages to be received again and again when some
 			// missed message notification is present (most probably it is not processed correctly and causes
 			// the server to fail the purging process); try to purge them using the old offline messages
 			// protocol.  2008/05/21
-			NetLog_Server("Warning: Received %u missed message notifications, trying to fix the server.", cookie->nMissed);
+			debugLogA("Warning: Received %u missed message notifications, trying to fix the server.", cookie->nMissed);
 
 			icq_packet packet;
 			// This will delete the messages stored on server
@@ -2893,7 +2893,7 @@ void CIcqProto::handleOffineMessagesReply(BYTE *buf, WORD wLen, WORD wFlags, DWO
 		ReleaseCookie(dwRef);
 	}
 	else
-		NetLog_Server("Error: Received unexpected end of offline msgs.");
+		debugLogA("Error: Received unexpected end of offline msgs.");
 }
 
 
@@ -2906,13 +2906,13 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 
 	if (wLen < 14)
 	{
-		NetLog_Server("Ignoring SNAC(4.x11) Packet to short");
+		debugLogA("Ignoring SNAC(4.x11) Packet to short");
 		return;
 	}
 
 #ifndef DBG_CAPMTN
 	{
-		NetLog_Server("Ignoring unexpected typing notification");
+		debugLogA("Ignoring unexpected typing notification");
 		return;
 	}
 #endif
@@ -2944,12 +2944,12 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 	case MTN_FINISHED:
 	case MTN_TYPED:
 		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
-		NetLog_Server("%s has stopped typing (ch %u).", strUID(dwUin, szUid), wChannel);
+		debugLogA("%s has stopped typing (ch %u).", strUID(dwUin, szUid), wChannel);
 		break;
 
 	case MTN_BEGUN:
 		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)60);
-		NetLog_Server("%s is typing a message (ch %u).", strUID(dwUin, szUid), wChannel);
+		debugLogA("%s is typing a message (ch %u).", strUID(dwUin, szUid), wChannel);
 		break;
 
 	case MTN_WINDOW_CLOSED:
@@ -2962,12 +2962,12 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 			ShowPopupMsg(hContact, ICQTranslateUtfStatic(LPGEN("ICQ Note"), szFormat, MAX_PATH), szMsg, LOG_NOTE);
 			SAFE_FREE((void**)&nick);
 
-			NetLog_Server("%s has closed the message window.", strUID(dwUin, szUid));
+			debugLogA("%s has closed the message window.", strUID(dwUin, szUid));
 		}
 		break;
 
 	default:
-		NetLog_Server("Unknown typing notification from %s, type %u (ch %u)", strUID(dwUin, szUid), wNotification, wChannel);
+		debugLogA("Unknown typing notification from %s, type %u (ch %u)", strUID(dwUin, szUid), wNotification, wChannel);
 		break;
 	}
 }

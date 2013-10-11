@@ -85,7 +85,7 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 
 	if (!(chain = readIntoTLVChain(&buf, datalen, 0)))
 	{
-		NetLog_Server("Error: Missing chain on close channel");
+		debugLogA("Error: Missing chain on close channel");
 		NetLib_CloseConnection(&hServerConn, TRUE);
 		return; // Invalid data
 	}
@@ -129,7 +129,7 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 		return; // Failure
 	}
 
-	NetLog_Server("Authenticated.");
+	debugLogA("Authenticated.");
 	info->newServerReady = 1;
 
 	return;
@@ -154,9 +154,9 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 		NetLib_SafeCloseHandle(&info->hPacketRecver);
 		NetLib_CloseConnection(&hServerConn, TRUE);
 
-		NetLog_Server("Closed connection to login server");
+		debugLogA("Closed connection to login server");
 
-		hServerConn = NetLib_OpenConnection(m_hServerNetlibUser, NULL, &nloc);
+		hServerConn = NetLib_OpenConnection(m_hNetlibUser, NULL, &nloc);
 		if (hServerConn && info->newServerSSL)
 		{ /* Start SSL session if requested */
 			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hServerConn, 0))
@@ -169,7 +169,7 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 			info->hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
 			if (!info->hPacketRecver)
 			{
-				NetLog_Server("Error: Failed to create packet receiver.");
+				debugLogA("Error: Failed to create packet receiver.");
 			}
 			else // we need to reset receiving structs
 			{
@@ -180,7 +180,7 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 	}
 	else
 	{ // TODO: We should really do some checks here
-		NetLog_Server("Walking in Gateway to %s", info->newServer);
+		debugLogA("Walking in Gateway to %s", info->newServer);
 		// TODO: This REQUIRES more work (most probably some kind of mid-netlib module)
 		icq_httpGatewayWalkTo(hServerConn, &nloc);
 		res = 1;
@@ -198,7 +198,7 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 void CIcqProto::handleMigration(serverthread_info *info)
 {
 	// Check the data that was saved when the migration was announced
-	NetLog_Server("Migrating to %s", info->newServer);
+	debugLogA("Migrating to %s", info->newServer);
 	if (!info->newServer || !info->cookieData)
 	{
 		icq_LogMessage(LOG_FATAL, LPGEN("You have been disconnected from the ICQ network because the current server shut down."));

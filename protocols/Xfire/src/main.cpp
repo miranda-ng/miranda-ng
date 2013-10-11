@@ -921,18 +921,8 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	strcat(servicefunction, PS_SETAWAYMSG);
 	CreateServiceFunction(servicefunction, SetAwayMsg);
 
-	/*NETLIBUSER nlu;
-	ZeroMemory(&nlu, sizeof(nlu));
-    nlu.cbSize = sizeof(nlu);
-    nlu.flags = NUF_NOHTTPSOPTION;
-    nlu.szSettingsModule = protocolname;
-    nlu.szDescriptiveName = "XFire Gamedetectionthread";
-    hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);*/
-
-
 	// Variables support
-	if (ServiceExists(MS_VARS_REGISTERTOKEN))
-	{
+	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
 		TOKENREGISTER tr = {0};
 		tr.cbSize = sizeof(TOKENREGISTER);
 		tr.memType = TR_MEM_MIRANDA;
@@ -977,7 +967,6 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		tr.parseFunction = Varmyxfirevoiceip;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Voice ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
-
 	}
 
 	//File Association Manager support

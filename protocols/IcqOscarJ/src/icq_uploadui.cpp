@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 									DeleteLastUploadLogLine(hwndDlg);
 									AppendToUploadLog(hwndDlg, "%s%s", szLastLogLine, ICQTranslateUtfStatic(LPGEN("FAILED"), str, MAX_PATH));
 									AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("No upload group available"), str, MAX_PATH));
-									ppro->NetLog_Server("Upload failed, no group");
+									ppro->debugLogA("Upload failed, no group");
 									currentState = STATE_READY;
 								}
 							}

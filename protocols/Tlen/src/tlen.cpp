@@ -211,7 +211,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 		req.pData = form;
 		req.dataLength = (int)strlen(form);
 		req.szUrl = "http://poczta.o2.pl/login.html";
-		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&req);
+		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 		if (resp != NULL) {
 			if (resp->resultCode/100 == 2 || resp->resultCode == 302) {
 				int i;
@@ -264,7 +264,7 @@ int TlenProtocol::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int TlenProtocol::PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	TlenLog(this, "TLEN TlenPreShutdown");
+	debugLogA("TLEN TlenPreShutdown");
 	return 0;
 }
 

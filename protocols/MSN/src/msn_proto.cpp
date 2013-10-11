@@ -142,7 +142,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu.pfnHttpGatewayUnwrapRecv = msn_httpGatewayUnwrapRecv;
 
 	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s plugin connections"), m_tszUserName);
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
 
 CMsnProto::~CMsnProto()
@@ -159,7 +159,7 @@ CMsnProto::~CMsnProto()
 	P2pSessions_Uninit();
 	CachedMsg_Uninit();
 
-	Netlib_CloseHandle(hNetlibUser);
+	Netlib_CloseHandle(m_hNetlibUser);
 	Netlib_CloseHandle(hNetlibUserHttps);
 
 	mir_free(mailsoundname);
@@ -1017,7 +1017,7 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 	if (m_iDesiredStatus == iNewStatus) return 0;
 
 	m_iDesiredStatus = iNewStatus;
-	MSN_DebugLog("PS_SETSTATUS(%d,0)", iNewStatus);
+	debugLogA("PS_SETSTATUS(%d,0)", iNewStatus);
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE)
 	{

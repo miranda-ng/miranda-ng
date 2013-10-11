@@ -43,7 +43,6 @@ using std::min;
 #include <m_clist.h>
 #include <m_clistint.h>
 #include <m_clui.h>
-//#include "m_cluiframes.h"
 #include <m_database.h>
 #include <m_history.h>
 #include <m_langpack.h>
@@ -54,6 +53,7 @@ using std::min;
 #include <m_protocols.h>
 #include <m_protomod.h>
 #include <m_protosvc.h>
+#include <m_protoint.h>
 #include <m_skin.h>
 #include <statusmodes.h>
 #include <m_system.h>

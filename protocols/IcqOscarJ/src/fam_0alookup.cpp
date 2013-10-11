@@ -50,7 +50,7 @@ void CIcqProto::handleLookupFam(BYTE *pBuffer, WORD wBufferLength, snac_header* 
 			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookie))
 			{
 				if (wError == 0x14)
-					NetLog_Server("Lookup: No results");
+					debugLogA("Lookup: No results");
 
 				ReleaseLookupCookie(pSnacHeader->dwRef, pCookie);
 
@@ -62,7 +62,7 @@ void CIcqProto::handleLookupFam(BYTE *pBuffer, WORD wBufferLength, snac_header* 
 		}
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_LOOKUP_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_LOOKUP_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }
@@ -95,11 +95,11 @@ void CIcqProto::handleLookupEmailReply(BYTE* buf, WORD wLen, DWORD dwCookie)
 
 	if (!FindCookie(dwCookie, NULL, (void**)&pCookie))
 	{
-		NetLog_Server("Error: Received unexpected lookup reply");
+		debugLogA("Error: Received unexpected lookup reply");
 		return;
 	}
 
-	NetLog_Server("SNAC(0x0A,0x3): Lookup reply");
+	debugLogA("SNAC(0x0A,0x3): Lookup reply");
 
 	sr.hdr.cbSize = sizeof(sr);
 	sr.hdr.flags = PSR_TCHAR;

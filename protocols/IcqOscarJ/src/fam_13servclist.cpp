@@ -48,7 +48,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc))
 			{ // look for action cookie
 #ifdef _DEBUG
-				NetLog_Server("Received expected server list ack, action: %d, result: %d", sc->dwAction, wError);
+				debugLogA("Received expected server list ack, action: %d, result: %d", sc->dwAction, wError);
 #endif
 				FreeCookie(pSnacHeader->dwRef); // release cookie
 
@@ -57,11 +57,11 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 					int i;
 
 #ifdef _DEBUG
-					NetLog_Server("Server-List: Grouped action contains %d actions.", sc->dwGroupCount);
+					debugLogA("Server-List: Grouped action contains %d actions.", sc->dwGroupCount);
 #endif
 					pBuffer -= 2; // revoke unpack
 					if (wBufferLength != 2*sc->dwGroupCount)
-						NetLog_Server("Error: Server list ack does not contain expected amount of result codes (%u != %u)", wBufferLength/2, sc->dwGroupCount);
+						debugLogA("Error: Server list ack does not contain expected amount of result codes (%u != %u)", wBufferLength/2, sc->dwGroupCount);
 
 					for (i = 0; i < sc->dwGroupCount; i++)
 					{
@@ -74,7 +74,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 							wError = -1;
 
 #ifdef _DEBUG
-						NetLog_Server("Action: %d, ack result: %d", sc->pGroupItems[i]->dwAction, wError);
+						debugLogA("Action: %d, ack result: %d", sc->pGroupItems[i]->dwAction, wError);
 #endif
 						// call normal ack handler
 						handleServerCListAck(sc->pGroupItems[i], wError);
@@ -88,7 +88,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 			}
 			else
 			{
-				NetLog_Server("Received unexpected server list ack %u", wError);
+				debugLogA("Received unexpected server list ack %u", wError);
 			}
 		}
 		break;
@@ -98,7 +98,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 			handleServerCListRightsReply(pBuffer, wBufferLength);
 
 #ifdef _DEBUG
-			NetLog_Server("Server sent SNAC(x13,x03) - SRV_REPLYLISTS");
+			debugLogA("Server sent SNAC(x13,x03) - SRV_REPLYLISTS");
 #endif
 		}
 		break;
@@ -144,13 +144,13 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc))
 			{ // we requested servlist check
 #ifdef _DEBUG
-				NetLog_Server("Server stated roster is ok.");
+				debugLogA("Server stated roster is ok.");
 #endif
 				ReleaseCookie(pSnacHeader->dwRef);
 				LoadServerIDs();
 			}
 			else
-				NetLog_Server("Server sent unexpected SNAC(x13,x0F) - SRV_REPLYROSTEROK");
+				debugLogA("Server sent unexpected SNAC(x13,x0F) - SRV_REPLYROSTEROK");
 
 			// This will activate the server side list
 			sendRosterAck(); // this must be here, cause of failures during cookie alloc
@@ -159,11 +159,11 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 		}
 
 	case ICQ_LISTS_CLI_MODIFYSTART:
-		NetLog_Server("Server sent SNAC(x13,x%02x) - %s", ICQ_LISTS_CLI_MODIFYSTART, "Server is modifying contact list");
+		debugLogA("Server sent SNAC(x13,x%02x) - %s", ICQ_LISTS_CLI_MODIFYSTART, "Server is modifying contact list");
 		break;
 
 	case ICQ_LISTS_CLI_MODIFYEND:
-		NetLog_Server("Server sent SNAC(x13,x%02x) - %s", ICQ_LISTS_CLI_MODIFYEND, "End of server modification");
+		debugLogA("Server sent SNAC(x13,x%02x) - %s", ICQ_LISTS_CLI_MODIFYEND, "End of server modification");
 		break;
 
 	case ICQ_LISTS_ADDTOLIST:
@@ -218,7 +218,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 					szChange = "Server removed %u item(s) from list";
 
 				mir_snprintf(szLogText, MAX_PATH, szChange, nItems);
-				NetLog_Server("Server sent SNAC(x13,x%02x) - %s", pSnacHeader->wSubtype, szLogText);
+				debugLogA("Server sent SNAC(x13,x%02x) - %s", pSnacHeader->wSubtype, szLogText);
 			}
 		}
 		break;
@@ -232,7 +232,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 		break;
 
 	case ICQ_LISTS_AUTHGRANTED:
-		NetLog_Server("Server sent SNAC(x13,x%02x) - %s", ICQ_LISTS_AUTHGRANTED, "User granted us future authorization");
+		debugLogA("Server sent SNAC(x13,x%02x) - %s", ICQ_LISTS_AUTHGRANTED, "User granted us future authorization");
 		break;
 
 	case ICQ_LISTS_YOUWEREADDED:
@@ -250,7 +250,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc))
 			{ // look for action cookie
 #ifdef _DEBUG
-				NetLog_Server("Received server list error, action: %d, result: %d", sc->dwAction, wError);
+				debugLogA("Received server list error, action: %d, result: %d", sc->dwAction, wError);
 #endif
 				FreeCookie(pSnacHeader->dwRef); // release cookie
 
@@ -271,7 +271,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 		break;
 
 	default:
-		NetLog_Server("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_LISTS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
+		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_LISTS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
 	}
 }
@@ -342,7 +342,7 @@ void CIcqProto::handleServerCListRightsReply(BYTE *buf, WORD wLen)
 				if (i + 1 >= SIZEOF(m_wServerListLimits)) break;
 			}
 
-			NetLog_Server("SSI: Max %d contacts (%d per group), %d groups, %d permit, %d deny, %d ignore items.", m_wServerListLimits[SSI_ITEM_BUDDY], m_wServerListGroupMaxContacts, m_wServerListLimits[SSI_ITEM_GROUP], m_wServerListLimits[SSI_ITEM_PERMIT], m_wServerListLimits[SSI_ITEM_DENY], m_wServerListLimits[SSI_ITEM_IGNORE]);
+			debugLogA("SSI: Max %d contacts (%d per group), %d groups, %d permit, %d deny, %d ignore items.", m_wServerListLimits[SSI_ITEM_BUDDY], m_wServerListGroupMaxContacts, m_wServerListLimits[SSI_ITEM_GROUP], m_wServerListLimits[SSI_ITEM_PERMIT], m_wServerListLimits[SSI_ITEM_DENY], m_wServerListLimits[SSI_ITEM_IGNORE]);
 		}
 
 		disposeChain(&chain);
@@ -358,7 +358,7 @@ DWORD CIcqProto::updateServerGroupData(WORD wGroupId, void *groupData, int group
 	ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 	if (!ack)
 	{
-		NetLog_Server("Updating of group on server list failed (malloc error)");
+		debugLogA("Updating of group on server list failed (malloc error)");
 		return 0;
 	}
 	ack->dwAction = SSA_GROUP_UPDATE;
@@ -377,7 +377,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 	case SSA_VISIBILITY:
 		{
 			if (wError)
-				NetLog_Server("Server visibility update failed, error %d", wError);
+				debugLogA("Server visibility update failed, error %d", wError);
 			break;
 		}
 	case SSA_CONTACT_UPDATE:
@@ -385,7 +385,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			servlistPendingRemoveContact(sc->hContact, sc->wContactId, sc->wGroupId, wError ? PENDING_RESULT_FAILED : PENDING_RESULT_SUCCESS);
 			if (wError)
 			{
-				NetLog_Server("Updating of server contact failed, error %d", wError);
+				debugLogA("Updating of server contact failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Updating of server contact failed."));
 			}
 			break;
@@ -394,7 +394,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 		{
 			if (wError)
 			{
-				NetLog_Server("Adding of privacy item to server list failed, error %d", wError);
+				debugLogA("Adding of privacy item to server list failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Adding of privacy item to server list failed."));
 			}
 			break;
@@ -403,7 +403,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 		{
 			if (wError)
 			{
-				NetLog_Server("Removing of privacy item from server list failed, error %d", wError);
+				debugLogA("Removing of privacy item from server list failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Removing of privacy item from server list failed."));
 			}
 			FreeServerID(sc->wContactId, SSIT_ITEM); // release server id
@@ -417,7 +417,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 				{
 					DWORD dwCookie;
 
-					NetLog_Server("Contact could not be added without authorization, add with await auth flag.");
+					debugLogA("Contact could not be added without authorization, add with await auth flag.");
 
 					setByte(sc->hContact, "Auth", 1); // we need auth
 					dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_ADDTOLIST, sc->hContact, sc);
@@ -428,7 +428,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 				}
 				FreeServerID(sc->wContactId, SSIT_ITEM);
 
-				NetLog_Server("Adding of contact to server list failed, error %d", wError);
+				debugLogA("Adding of contact to server list failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Adding of contact to server list failed."));
 
 				servlistPendingRemoveContact(sc->hContact, 0, sc->wGroupId, PENDING_RESULT_FAILED);
@@ -452,7 +452,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 				}
 				else
 				{ // this should never happen
-					NetLog_Server("Group update failed.");
+					debugLogA("Group update failed.");
 					servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100); // end server modifications here
 				}
 			}
@@ -463,7 +463,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			if (wError)
 			{
 				FreeServerID(sc->wGroupId, SSIT_GROUP);
-				NetLog_Server("Adding of group to server list failed, error %d", wError);
+				debugLogA("Adding of group to server list failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Adding of group to server list failed."));
 
 				servlistPendingRemoveGroup(sc->szGroup, 0, PENDING_RESULT_FAILED);
@@ -539,7 +539,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			}
 			else
 			{
-				NetLog_Server("Removing of contact from server list failed, error %d", wError);
+				debugLogA("Removing of contact from server list failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Removing of contact from server list failed."));
 
 				servlistPendingRemoveContact(sc->hContact, sc->wContactId, sc->wGroupId, PENDING_RESULT_FAILED);
@@ -552,7 +552,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 		{
 			if (wError)
 			{
-				NetLog_Server("Updating of group on server list failed, error %d", wError);
+				debugLogA("Updating of group on server list failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Updating of group on server list failed."));
 			}
 			SAFE_FREE((void**)&sc->szGroupName);
@@ -563,7 +563,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			SAFE_FREE((void**)&sc->szGroupName);
 			if (wError)
 			{
-				NetLog_Server("Removing of group from server list failed, error %d", wError);
+				debugLogA("Removing of group from server list failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Removing of group from server list failed."));
 
 				servlistPendingRemoveGroup(sc->szGroup, 0, PENDING_RESULT_FAILED);
@@ -613,13 +613,13 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 
 					if (!getByte(sc->hContact, "Auth", 0))
 					{ // we tried without AWAIT_AUTH, try again with it
-						NetLog_Server("Contact could not be added without authorization, add with await auth flag.");
+						debugLogA("Contact could not be added without authorization, add with await auth flag.");
 
 						setByte(sc->hContact, "Auth", 1); // we need auth
 					}
 					else
 					{ // we tried with AWAIT_AUTH, try again without
-						NetLog_Server("Contact count not be added awaiting authorization, try authorized.");
+						debugLogA("Contact count not be added awaiting authorization, try authorized.");
 
 						setByte(sc->hContact, "Auth", 0);
 					}
@@ -631,7 +631,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 					break;
 				}
 				FreeServerID(sc->wNewContactId, SSIT_ITEM);
-				NetLog_Server("Moving of user to another group on server list failed, error %d", wError);
+				debugLogA("Moving of user to another group on server list failed, error %d", wError);
 				icq_LogMessage(LOG_ERROR, LPGEN("Moving of user to another group on server list failed."));
 
 				servlistPendingRemoveContact(sc->hContact, 0, (WORD)(sc->lParam ? sc->wGroupId : sc->wNewGroupId), PENDING_RESULT_FAILED);
@@ -697,7 +697,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 		{
 			if (wError)
 			{
-				NetLog_Server("Renaming of server group failed, error %d", wError);
+				debugLogA("Renaming of server group failed, error %d", wError);
 				icq_LogMessage(LOG_WARNING, LPGEN("Renaming of server group failed."));
 
 				servlistPendingRemoveGroup(sc->szGroup, sc->wGroupId, PENDING_RESULT_FAILED);
@@ -723,7 +723,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 		{
 			if (wError)
 			{
-				NetLog_Server("Uploading of avatar hash failed.");
+				debugLogA("Uploading of avatar hash failed.");
 				if (sc->wGroupId) // is avatar added or updated?
 				{
 					FreeServerID(sc->wContactId, SSIT_ITEM);
@@ -739,7 +739,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 	case SSA_REMOVEAVATAR:
 		{
 			if (wError)
-				NetLog_Server("Removing of avatar hash failed.");
+				debugLogA("Removing of avatar hash failed.");
 			else
 			{
 				FreeServerID(sc->wContactId, SSIT_ITEM);
@@ -755,7 +755,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 	case SSA_IMPORT:
 		{
 			if (wError)
-				NetLog_Server("Re-starting import sequence failed, error %d", wError);
+				debugLogA("Re-starting import sequence failed, error %d", wError);
 			else
 			{
 				setWord("SrvImportID", 0);
@@ -764,7 +764,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			break;
 		}
 	default:
-		NetLog_Server("Server ack cookie type (%d) not recognized.", sc->dwAction);
+		debugLogA("Server ack cookie type (%d) not recognized.", sc->dwAction);
 	}
 	SAFE_FREE((void**)&sc); // free the memory
 
@@ -857,32 +857,32 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 	// server list.
 	unpackWord(&buf, &wRecordCount);
 	wLen -= 2;
-	NetLog_Server("SSI: number of entries is %u, version is %u", wRecordCount, bySSIVersion);
+	debugLogA("SSI: number of entries is %u, version is %u", wRecordCount, bySSIVersion);
 
 
 	// Loop over all items in the packet
 	for (wRecord = 0; wRecord < wRecordCount; wRecord++)
 	{
-		NetLog_Server("SSI: parsing record %u", wRecord + 1);
+		debugLogA("SSI: parsing record %u", wRecord + 1);
 
 		if (wLen < 10)
 		{ // minimum: name length (zero), group ID, item ID, empty TLV
-			NetLog_Server("Warning: SSI parsing error (%d)", 0);
+			debugLogA("Warning: SSI parsing error (%d)", 0);
 			break;
 		}
 
 		if (!unpackServerListItem(&buf, &wLen, szRecordName, &wGroupId, &wItemId, &wTlvType, &wTlvLength))
 		{ // unpack basic structure
-			NetLog_Server("Warning: SSI parsing error (%d)", 1);
+			debugLogA("Warning: SSI parsing error (%d)", 1);
 			break;
 		}
 
-		NetLog_Server("Name: '%s', GroupID: %u, EntryID: %u, EntryType: %u, TLVlength: %u",
+		debugLogA("Name: '%s', GroupID: %u, EntryID: %u, EntryType: %u, TLVlength: %u",
 			szRecordName, wGroupId, wItemId, wTlvType, wTlvLength);
 
 		if (wLen < wTlvLength)
 		{
-			NetLog_Server("Warning: SSI parsing error (%d)", 2);
+			debugLogA("Warning: SSI parsing error (%d)", 2);
 			break;
 		}
 
@@ -916,7 +916,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 
 					if (bAdded)
 					{ // Not already on list: added
-						NetLog_Server("SSI added new %s contact '%s'", "ICQ", szRecordName);
+						debugLogA("SSI added new %s contact '%s'", "ICQ", szRecordName);
 
 						AddJustAddedContact(hContact);
 					}
@@ -928,7 +928,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 							bAdded = 1; // we want details for new contacts
 						}
 						else
-							NetLog_Server("SSI ignoring existing contact '%s'", szRecordName);
+							debugLogA("SSI ignoring existing contact '%s'", szRecordName);
 						// Contact on server is always on list
 						db_set_b(hContact, "CList", "NotOnList", 0);
 					}
@@ -998,7 +998,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 								memcpy(pszNick, pTLV->pData, wNickLength);
 								pszNick[wNickLength] = 0; // Terminate string
 
-								NetLog_Server("Nickname is '%s'", pszNick);
+								debugLogA("Nickname is '%s'", pszNick);
 
 								bNicked = 1;
 
@@ -1031,7 +1031,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 							}
 							else
 							{
-								NetLog_Server("Invalid nickname");
+								debugLogA("Invalid nickname");
 							}
 						}
 						if (bAdded && !bNicked)
@@ -1053,7 +1053,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 								memcpy(pszComment, pTLV->pData, wCommentLength);
 								pszComment[wCommentLength] = 0; // Terminate string
 
-								NetLog_Server("Comment is '%s'", pszComment);
+								debugLogA("Comment is '%s'", pszComment);
 
 								// Write comment to database
 								if (getByte("LoadServerDetails", DEFAULT_SS_LOAD) || bAdded)
@@ -1080,7 +1080,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 							}
 							else
 							{
-								NetLog_Server("Invalid comment");
+								debugLogA("Invalid comment");
 							}
 						}
 
@@ -1088,7 +1088,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 						if (pChain->getTLV(SSI_TLV_AWAITING_AUTH, 1))
 						{
 							setByte(hContact, "Auth", 1);
-							NetLog_Server("SSI contact need authorization");
+							debugLogA("SSI contact need authorization");
 						}
 						else
 						{
@@ -1100,7 +1100,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 							setSettingBlob(hContact, DBSETTING_METAINFO_TOKEN, pTLV->pData, pTLV->wLen);
 							if (pChain->getTLV(SSI_TLV_METAINFO_TIME, 1))
 								setSettingDouble(hContact, DBSETTING_METAINFO_TIME, pChain->getDouble(SSI_TLV_METAINFO_TIME, 1));
-							NetLog_Server("SSI contact has meta info token");
+							debugLogA("SSI contact has meta info token");
 						}
 						else
 						{
@@ -1123,7 +1123,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				}
 				else
 				{ // failed to add or other error
-					NetLog_Server("SSI failed to handle %s Item '%s'", "Buddy", szRecordName);
+					debugLogA("SSI failed to handle %s Item '%s'", "Buddy", szRecordName);
 				}
 			}
 			break;
@@ -1146,7 +1146,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 
 					setServListGroupName(wGroupId, szRecordName);
 
-					NetLog_Server("Group %s added to known groups.", szRecordName);
+					debugLogA("Group %s added to known groups.", szRecordName);
 
 					/* demangle full grouppath, set it to known */
 					SAFE_FREE(&szActiveSrvGroup);
@@ -1158,12 +1158,12 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				}
 				else
 				{
-					NetLog_Server("Unhandled type 0x01, wItemID != 0");
+					debugLogA("Unhandled type 0x01, wItemID != 0");
 				}
 			}
 			else
 			{
-				NetLog_Server("Unhandled type 0x01");
+				debugLogA("Unhandled type 0x01");
 			}
 			break;
 
@@ -1181,25 +1181,25 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				{
 					if (bAdded)
 					{
-						NetLog_Server("SSI added new %s contact '%s'", "Permit", szRecordName);
+						debugLogA("SSI added new %s contact '%s'", "Permit", szRecordName);
 						// It wasn't previously in the list, we hide it so it only appears in the visible list
 						setContactHidden(hContact, 1);
 						// Add it to the list, so it can be added properly if proper contact
 						AddJustAddedContact(hContact);
 					}
 					else
-						NetLog_Server("SSI %s contact already exists '%s'", "Permit", szRecordName);
+						debugLogA("SSI %s contact already exists '%s'", "Permit", szRecordName);
 
 					// Save permit ID
 					setWord(hContact, DBSETTING_SERVLIST_PERMIT, wItemId);
 					ReserveServerID(wItemId, SSIT_ITEM, 0);
 					// Set apparent mode
 					setWord(hContact, "ApparentMode", ID_STATUS_ONLINE);
-					NetLog_Server("Visible-contact (%s)", szRecordName);
+					debugLogA("Visible-contact (%s)", szRecordName);
 				}
 				else
 				{ // failed to add or other error
-					NetLog_Server("SSI failed to handle %s Item '%s'", "Permit", szRecordName);
+					debugLogA("SSI failed to handle %s Item '%s'", "Permit", szRecordName);
 
 					ReserveServerID(wItemId, SSIT_ITEM, SSIF_UNHANDLED);
 				}
@@ -1221,14 +1221,14 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 					if (bAdded)
 					{
 						/* not already on list: added */
-						NetLog_Server("SSI added new %s contact '%s'", "Deny", szRecordName);
+						debugLogA("SSI added new %s contact '%s'", "Deny", szRecordName);
 						// It wasn't previously in the list, we hide it so it only appears in the visible list
 						setContactHidden(hContact, 1);
 						// Add it to the list, so it can be added properly if proper contact
 						AddJustAddedContact(hContact);
 					}
 					else
-						NetLog_Server("SSI %s contact already exists '%s'", "Deny", szRecordName);
+						debugLogA("SSI %s contact already exists '%s'", "Deny", szRecordName);
 
 					// Save Deny ID
 					setWord(hContact, DBSETTING_SERVLIST_DENY, wItemId);
@@ -1236,11 +1236,11 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 
 					// Set apparent mode
 					setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
-					NetLog_Server("Invisible-contact (%s)", szRecordName);
+					debugLogA("Invisible-contact (%s)", szRecordName);
 				}
 				else
 				{ // failed to add or other error
-					NetLog_Server("SSI failed to handle %s Item '%s'", "Deny", szRecordName);
+					debugLogA("SSI failed to handle %s Item '%s'", "Deny", szRecordName);
 
 					ReserveServerID(wItemId, SSIT_ITEM, SSIF_UNHANDLED);
 				}
@@ -1257,7 +1257,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 					setWord(DBSETTING_SERVLIST_PRIVACY, wItemId);
 					ReserveServerID(wItemId, SSIT_ITEM, 0);
 
-					NetLog_Server("Visibility is %u", bVisibility);
+					debugLogA("Visibility is %u", bVisibility);
 				}
 				else
 					ReserveServerID(wItemId, SSIT_ITEM, SSIF_UNHANDLED);
@@ -1279,14 +1279,14 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 					if (bAdded)
 					{
 						/* not already on list: add */
-						NetLog_Server("SSI added new %s contact '%s'", "Ignore", szRecordName);
+						debugLogA("SSI added new %s contact '%s'", "Ignore", szRecordName);
 						// It wasn't previously in the list, we hide it
 						setContactHidden(hContact, 1);
 						// Add it to the list, so it can be added properly if proper contact
 						AddJustAddedContact(hContact);
 					}
 					else
-						NetLog_Server("SSI %s contact already exists '%s'", "Ignore", szRecordName);
+						debugLogA("SSI %s contact already exists '%s'", "Ignore", szRecordName);
 
 					// Save Ignore ID
 					setWord(hContact, DBSETTING_SERVLIST_IGNORE, wItemId);
@@ -1296,11 +1296,11 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 					setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 					// set ignore all events
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_ALL);
-					NetLog_Server("Ignore-contact (%s)", szRecordName);
+					debugLogA("Ignore-contact (%s)", szRecordName);
 				}
 				else
 				{ // failed to add or other error
-					NetLog_Server("SSI failed to handle %s Item '%s'", "Ignore", szRecordName);
+					debugLogA("SSI failed to handle %s Item '%s'", "Ignore", szRecordName);
 
 					ReserveServerID(wItemId, SSIT_ITEM, SSIF_UNHANDLED);
 				}
@@ -1308,7 +1308,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 			break;
 
 		case SSI_ITEM_UNKNOWN2:
-			NetLog_Server("SSI unknown type 0x11");
+			debugLogA("SSI unknown type 0x11");
 
 			ReserveServerID(wItemId, SSIT_ITEM, SSIF_UNHANDLED);
 			break;
@@ -1322,7 +1322,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				setDword("ImportTS", pChain->getDWord(SSI_TLV_TIMESTAMP, 1));
 				setWord("SrvImportID", wItemId);
 				ReserveServerID(wItemId, SSIT_ITEM, 0);
-				NetLog_Server("SSI %s item recognized", "first import");
+				debugLogA("SSI %s item recognized", "first import");
 			}
 			break;
 
@@ -1337,12 +1337,12 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				if (!strcmpnull(szRecordName, "12"))
 				{ // need to handle Photo Item separately
 					setWord(DBSETTING_SERVLIST_PHOTO, wItemId);
-					NetLog_Server("SSI %s item recognized", "Photo");
+					debugLogA("SSI %s item recognized", "Photo");
 				}
 				else
 				{
 					setWord(DBSETTING_SERVLIST_AVATAR, wItemId);
-					NetLog_Server("SSI %s item recognized", "Avatar");
+					debugLogA("SSI %s item recognized", "Avatar");
 				}
 				ReserveServerID(wItemId, SSIT_ITEM, 0);
 			}
@@ -1364,7 +1364,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				setWord(DBSETTING_SERVLIST_METAINFO, wItemId);
 				ReserveServerID(wItemId, SSIT_ITEM, 0);
 
-				NetLog_Server("SSI %s item recognized", "Meta info");
+				debugLogA("SSI %s item recognized", "Meta info");
 			}
 			break;
 
@@ -1382,7 +1382,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 			break;
 
 		default:
-			NetLog_Server("SSI unhandled item %2x", wTlvType);
+			debugLogA("SSI unhandled item %2x", wTlvType);
 
 			if (wItemId)
 				ReserveServerID(wItemId, SSIT_ITEM, SSIF_UNHANDLED);
@@ -1395,7 +1395,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 	// Release Memory
 	SAFE_FREE(&szActiveSrvGroup);
 
-	NetLog_Server("Bytes left: %u", wLen);
+	debugLogA("Bytes left: %u", wLen);
 
 	setWord("SrvRecordCount", (WORD)(wRecord + getWord("SrvRecordCount", 0)));
 
@@ -1415,7 +1415,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 			/* finally we get a time_t of the last update time */
 			unpackDWord(&buf, &dwLastUpdateTime);
 			setDword("SrvLastUpdate", dwLastUpdateTime);
-			NetLog_Server("Last update of server list was (%u) %s", dwLastUpdateTime, time2text(dwLastUpdateTime));
+			debugLogA("Last update of server list was (%u) %s", dwLastUpdateTime, time2text(dwLastUpdateTime));
 
 			sendRosterAck();
 			handleServUINSettings(wListenPort, info);
@@ -1424,7 +1424,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 		}
 		else
 		{
-			NetLog_Server("Last packet missed update time...");
+			debugLogA("Last packet missed update time...");
 		}
 		if (getWord("SrvRecordCount", 0) == 0)
 		{ // we got empty serv-list, create master group
@@ -1444,7 +1444,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 	}
 	else
 	{
-		NetLog_Server("Waiting for more packets");
+		debugLogA("Waiting for more packets");
 	}
 }
 
@@ -1459,7 +1459,7 @@ void CIcqProto::handleServerCListItemAdd(const char *szRecordName, WORD wGroupId
 			setWord("SrvImportID", wItemId);
 			ReserveServerID(wItemId, SSIT_ITEM, 0);
 
-			NetLog_Server("Server added Import timestamp to list");
+			debugLogA("Server added Import timestamp to list");
 
 			return;
 		}
@@ -1513,9 +1513,9 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 					if (!pToken || dbv.cpbVal != pToken->wLen || memcmp(dbv.pbVal, pToken->pData, dbv.cpbVal))
 					{
 						if (!pToken)
-							NetLog_Server("Contact %s, meta info token removed", szRecordName);
+							debugLogA("Contact %s, meta info token removed", szRecordName);
 						else
-							NetLog_Server("Contact %s, meta info token changed", szRecordName);
+							debugLogA("Contact %s, meta info token changed", szRecordName);
 
 						// user info was changed, refresh
 						if (IsMetaInfoChanged(hContact))
@@ -1526,7 +1526,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 				}
 				else if (pToken)
 				{
-					NetLog_Server("Contact %s, meta info token added", szRecordName);
+					debugLogA("Contact %s, meta info token added", szRecordName);
 
 					// user info was changed, refresh
 					if (IsMetaInfoChanged(hContact))
@@ -1563,9 +1563,9 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 				if (!pToken || dbv.cpbVal != pToken->wLen || memcmp(dbv.pbVal, pToken->pData, dbv.cpbVal))
 				{
 					if (!pToken)
-						NetLog_Server("Owner meta info token removed");
+						debugLogA("Owner meta info token removed");
 					else
-						NetLog_Server("Owner meta info token changed");
+						debugLogA("Owner meta info token changed");
 				}
 
 				db_free(&dbv);
@@ -1579,7 +1579,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 	}
 	else if (wItemType == SSI_ITEM_GROUP)
 	{ // group updated
-		NetLog_Server("Server updated our group \"%s\" on list", szRecordName);
+		debugLogA("Server updated our group \"%s\" on list", szRecordName);
 	}
 }
 
@@ -1622,7 +1622,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 
 	if (dwUin && IsOnSpammerList(dwUin))
 	{
-		NetLog_Server("Ignored Message from known Spammer");
+		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
 
@@ -1716,7 +1716,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 
 	if (dwUin && IsOnSpammerList(dwUin))
 	{
-		NetLog_Server("Ignored Message from known Spammer");
+		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
 
@@ -1778,7 +1778,7 @@ void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
 
 	if (dwUin && IsOnSpammerList(dwUin))
 	{
-		NetLog_Server("Ignored Message from known Spammer");
+		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
 
@@ -1807,18 +1807,18 @@ void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
 	{
 
 	case 0:
-		NetLog_Server("Authorization request %s by %s", "denied", strUID(dwUin, szUid));
+		debugLogA("Authorization request %s by %s", "denied", strUID(dwUin, szUid));
 		// TODO: Add to system history as soon as new auth system is ready
 		break;
 
 	case 1:
 		setByte(hContact, "Auth", 0);
-		NetLog_Server("Authorization request %s by %s", "granted", strUID(dwUin, szUid));
+		debugLogA("Authorization request %s by %s", "granted", strUID(dwUin, szUid));
 		// TODO: Add to system history as soon as new auth system is ready
 		break;
 
 	default:
-		NetLog_Server("Unknown Authorization request response (%u) from %s", bResponse, strUID(dwUin, szUid));
+		debugLogA("Unknown Authorization request response (%u) from %s", bResponse, strUID(dwUin, szUid));
 		break;
 
 	}
@@ -1860,13 +1860,13 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 			setWord(DBSETTING_SERVLIST_PRIVACY, wVisibilityID);
 			wCommand = ICQ_LISTS_ADDTOLIST;
 #ifdef _DEBUG
-			NetLog_Server("Made new srvVisibilityID, id is %u, code is %u", wVisibilityID, bCode);
+			debugLogA("Made new srvVisibilityID, id is %u, code is %u", wVisibilityID, bCode);
 #endif
 		}
 		else
 		{
 #ifdef _DEBUG
-			NetLog_Server("Reused srvVisibilityID, id is %u, code is %u", wVisibilityID, bCode);
+			debugLogA("Reused srvVisibilityID, id is %u, code is %u", wVisibilityID, bCode);
 #endif
 			wCommand = ICQ_LISTS_UPDATEGROUP;
 		}
@@ -1874,7 +1874,7 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 		ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 		if (!ack)
 		{
-			NetLog_Server("Cookie alloc failure.");
+			debugLogA("Cookie alloc failure.");
 			return; // out of memory, go away
 		}
 		ack->dwAction = SSA_VISIBILITY; // update visibility
@@ -1937,7 +1937,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 			ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 			if (!ack)
 			{
-				NetLog_Server("Cookie alloc failure.");
+				debugLogA("Cookie alloc failure.");
 				return; // out of memory, go away
 			}
 			ack->dwAction = SSA_REMOVEAVATAR; // update avatar hash
@@ -1963,13 +1963,13 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 			wAvatarID = GenerateServerID(SSIT_ITEM, 0);
 			wCommand = ICQ_LISTS_ADDTOLIST;
 #ifdef _DEBUG
-			NetLog_Server("Made new srvAvatarID, id is %u", wAvatarID);
+			debugLogA("Made new srvAvatarID, id is %u", wAvatarID);
 #endif
 		}
 		else
 		{
 #ifdef _DEBUG
-			NetLog_Server("Reused srvAvatarID, id is %u", wAvatarID);
+			debugLogA("Reused srvAvatarID, id is %u", wAvatarID);
 #endif
 			wCommand = ICQ_LISTS_UPDATEGROUP;
 		}
@@ -1977,7 +1977,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 		ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 		if (!ack)
 		{
-			NetLog_Server("Cookie alloc failure.");
+			debugLogA("Cookie alloc failure.");
 			return; // out of memory, go away
 		}
 		ack->dwAction = SSA_SETAVATAR; // update avatar hash
@@ -2056,6 +2056,6 @@ void CIcqProto::sendRosterAck(void)
 	sendServPacket(&packet);
 
 #ifdef _DEBUG
-	NetLog_Server("Sent SNAC(x13,x07) - CLI_ROSTERACK");
+	debugLogA("Sent SNAC(x13,x07) - CLI_ROSTERACK");
 #endif
 }

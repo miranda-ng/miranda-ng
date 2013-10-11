@@ -118,7 +118,7 @@ bool CSkypeProto::LogIn()
 
 		this->SetAccountSettings();	
 
-		this->Log(L"Login in an account");
+		this->debugLogW(L"Login in an account");
 		this->account->LoginWithPassword(this->password, false, false);
 	}
 
@@ -130,7 +130,7 @@ void CSkypeProto::LogOut()
 	if	(this->IsOnline() || this->m_iStatus == ID_STATUS_CONNECTING)
 	{
 		this->account->SetAvailability(Contact::OFFLINE);
-		this->Log(L"Logout from account");
+		this->debugLogW(L"Logout from account");
 		this->account->Logout(true);
 	}
 }
@@ -138,19 +138,19 @@ void CSkypeProto::LogOut()
 void CSkypeProto::SetAccountSettings()
 {
 	int port = this->getWord("Port", rand() % 10000 + 10000);
-	this->Log(L"Setting port number to %d", port);
+	this->debugLogW(L"Setting port number to %d", port);
 	this->SetInt(SETUPKEY_PORT, port);
 
 	bool useAlternativePorts = this->getByte("UseAlternativePorts", 1) > 0;
 	if (useAlternativePorts)
-		this->Log(L"Setting listening of alternative ports (80, 443)");
+		this->debugLogW(L"Setting listening of alternative ports (80, 443)");
 	this->SetInt(SETUPKEY_DISABLE_PORT80, (int)!useAlternativePorts);
 
 	// Create default group for new contacts
 	DBVARIANT dbv = {0};
 	if ( !getTString(SKYPE_SETTINGS_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
 	{
-		this->Log(L"Setting default group for new contacts");
+		this->debugLogW(L"Setting default group for new contacts");
 		::Clist_CreateGroup(0, dbv.ptszVal);
 		::db_free(&dbv);
 	}
@@ -158,10 +158,10 @@ void CSkypeProto::SetAccountSettings()
 
 void CSkypeProto::InitProxy()
 {
-	if (this->hNetLibUser)
+	if (this->m_hNetlibUser)
 	{
 		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
-		::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->hNetLibUser, (LPARAM)&nlus);
+		::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->m_hNetlibUser, (LPARAM)&nlus);
 
 		if (nlus.useProxy)
 		{
@@ -172,7 +172,7 @@ void CSkypeProto::InitProxy()
 			{
 			case PROXYTYPE_HTTP:
 			case PROXYTYPE_HTTPS:
-				this->Log(L"Setting https user proxy config");
+				this->debugLogW(L"Setting https user proxy config");
 				this->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
 				this->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
 				this->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
@@ -186,7 +186,7 @@ void CSkypeProto::InitProxy()
 
 			case PROXYTYPE_SOCKS4:
 			case PROXYTYPE_SOCKS5:
-				this->Log(L"Setting socks user proxy config");
+				this->debugLogW(L"Setting socks user proxy config");
 				this->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
 				this->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
 				this->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
@@ -199,7 +199,7 @@ void CSkypeProto::InitProxy()
 				break;
 
 			default:
-				this->Log(L"Setting automatic proxy detection");
+				this->debugLogW(L"Setting automatic proxy detection");
 				this->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
 				this->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
 				this->Delete(SETUPKEY_HTTPS_PROXY_USER);
@@ -251,7 +251,7 @@ void CSkypeProto::SetServerStatus(int iNewStatus)
 	CContact::AVAILABILITY availability = CSkypeProto::MirandaToSkypeStatus(iNewStatus);
 	if (availability != CContact::UNKNOWN)
 	{
-		this->Log(L"Setting status to %d", iNewStatus);
+		this->debugLogW(L"Setting status to %d", iNewStatus);
 		this->account->SetAvailability(availability);
 	}
 
@@ -266,7 +266,7 @@ void CSkypeProto::OnCblUpdated()
 
 void CSkypeProto::OnLoggedOut(CAccount::LOGOUTREASON reason)
 {
-	this->Log(L"Failed to login: %s", CSkypeProto::LogoutReasons[reason]);
+	this->debugLogW(L"Failed to login: %s", CSkypeProto::LogoutReasons[reason]);
 
 	if (this->m_iStatus == ID_STATUS_CONNECTING)
 		this->SendBroadcast(
@@ -327,7 +327,7 @@ void CSkypeProto::OnAccountChanged(int prop)
 			this->account->GetPropPwdchangestatus(status);
 			if (status != CAccount::PWD_CHANGING)
 			{
-				this->Log(L"Failed to chage password: %s", CSkypeProto::PasswordChangeReasons[status]);
+				this->debugLogW(L"Failed to chage password: %s", CSkypeProto::PasswordChangeReasons[status]);
 				this->ShowNotification(CSkypeProto::PasswordChangeReasons[status]);
 			}
 		}

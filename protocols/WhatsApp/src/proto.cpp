@@ -90,7 +90,7 @@ DWORD_PTR WhatsAppProto::GetCaps( int type, HANDLE hContact )
 
 int WhatsAppProto::SetStatus( int new_status )
 {
-	LOG("===== Beginning SetStatus process");
+	debugLogA("===== Beginning SetStatus process");
 
 	// Routing statuses not supported by WhatsApp
 	switch ( new_status )
@@ -119,13 +119,13 @@ int WhatsAppProto::SetStatus( int new_status )
 
 	if (m_iStatus == ID_STATUS_CONNECTING)
 	{
-		LOG("===== Status is connecting, no change");
+		debugLogA("===== Status is connecting, no change");
 		return 0;
 	}
 
 	if (m_iStatus == m_iDesiredStatus)
 	{
-		LOG("===== Statuses are same, no change");
+		debugLogA("===== Statuses are same, no change");
 		return 0;
 	}
 
@@ -227,7 +227,7 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 		return ret;
 	}
 
-	LOG("Server response: %s", pnlhr->pData);
+	debugLogA("Server response: %s", pnlhr->pData);
 	MessageBoxA(NULL, pnlhr->pData, "Debug", MB_OK);
 
 	JSONROOT resp(pnlhr->pData);
@@ -284,7 +284,7 @@ INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 
 int WhatsAppProto::RefreshBuddyList(WPARAM, LPARAM )
 {
-	LOG("");
+	debugLogA("");
 	if (!isOffline())
 	{
 		//ForkThread(
@@ -314,28 +314,6 @@ int WhatsAppProto::RequestFriendship(WPARAM wParam, LPARAM lParam)
 std::tstring WhatsAppProto::GetAvatarFolder()
 {
 	return def_avatar_folder_;
-}
-
-int WhatsAppProto::Log(const char* fn, const char *fmt,...)
-{
-#if !defined(_DEBUG)
-	if (!getByte(WHATSAPP_KEY_LOGGING_ENABLE, 0))
-		return EXIT_SUCCESS;
-#endif
-
-	va_list va;
-	char text[65535];
-	ScopedLock s(log_lock_);
-
-	va_start(va,fmt);
-	mir_vsnprintf(text,sizeof(text),fmt,va);
-	va_end(va);
-
-	// Write into network log
-	//CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)text);
-
-	// Write into log file
-	return utils::debug::log(m_szModuleName, std::string(fn).append(" - ").append(text));
 }
 
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

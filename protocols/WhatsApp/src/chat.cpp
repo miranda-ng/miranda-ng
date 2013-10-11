@@ -38,7 +38,7 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 			HANDLE hContact = this->ContactIDToHContact(chat_id);
 			if (hContact)
 			{
-				LOG("**Chat - Outgoing message: %s", text);
+				debugLogA("**Chat - Outgoing message: %s", text);
 				this->SendMsg(hContact, IS_CHAT, msg.c_str());
 				
 				// #TODO Move to SendMsgWorker, otherwise all messages are "acknowledged" by Miranda

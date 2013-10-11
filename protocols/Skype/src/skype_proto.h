@@ -477,12 +477,8 @@ protected:
 	HANDLE	CreateEvent(const char* szService);
 	
 	// netlib
-	HANDLE	hNetLibUser;
-	
 	void	InitNetLib();
 	void	UninitNetLib();
-
-	void	Log(const wchar_t *fmt, ...);
 
 	// services
 	void InitInstanceServiceList();

@@ -21,7 +21,7 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	PROTO<CAimProto>(aProtoName, aUserName),
 	chat_rooms(5)
 {
-	LOG("Setting protocol/module name to '%s'", m_szModuleName);
+	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
 	//create some events
 	hAvatarEvent  = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -57,7 +57,7 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu.szSettingsModule = m_szModuleName;
 	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
-	hNetlib = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	char szP2P[128];
 	mir_snprintf(szP2P, sizeof(szP2P), "%sP2P", m_szModuleName);
@@ -84,7 +84,7 @@ CAimProto::~CAimProto()
 
 	close_chat_conn();
 
-	Netlib_CloseHandle(hNetlib);
+	Netlib_CloseHandle(m_hNetlibUser);
 	Netlib_CloseHandle(hNetlibPeer);
 
 	DeleteCriticalSection(&SendingMutex);
@@ -231,7 +231,7 @@ int __cdecl CAimProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
 
-	LOG("We are cancelling a file transfer.");
+	debugLogA("We are cancelling a file transfer.");
 
 	aim_chat_deny(hServerConn, seqno, ft->sn, ft->icbm_cookie);
 
@@ -254,7 +254,7 @@ int __cdecl CAimProto::FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCH
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
 
-	LOG("We are denying a file transfer.");
+	debugLogA("We are denying a file transfer.");
 
 	aim_chat_deny(hServerConn, seqno, ft->sn, ft->icbm_cookie);
 	return 0;
@@ -445,10 +445,10 @@ int __cdecl CAimProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	char *bbuf = NULL;
 	if (getByte(AIM_KEY_FI, 1))
 	{
-		LOG("Converting from html to bbcodes then stripping leftover html.");
+		debugLogA("Converting from html to bbcodes then stripping leftover html.");
 		pre->szMessage = bbuf = html_to_bbcodes(pre->szMessage);
 	}
-	LOG("Stripping html.");
+	debugLogA("Stripping html.");
 	html_decode(pre->szMessage);
 
 	INT_PTR res = Proto_RecvMessage(hContact, pre);
@@ -525,7 +525,7 @@ HANDLE __cdecl CAimProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 
 			if (ft->me_force_proxy)
 			{
-				LOG("We are forcing a proxy file transfer.");
+				debugLogA("We are forcing a proxy file transfer.");
 				ForkThread(&CAimProto::accept_file_thread, ft);
 			}
 			else

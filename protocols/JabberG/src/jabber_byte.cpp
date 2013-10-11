@@ -94,10 +94,10 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConn, (LPARAM)&connInfo);
 
 	mir_sntprintf(szPort, SIZEOF(szPort), _T("%u"), connInfo.wPort);
-	ppro->Log("bytestream_send_connection incoming connection accepted: %s", connInfo.szIpPort);
+	ppro->debugLogA("bytestream_send_connection incoming connection accepted: %s", connInfo.szIpPort);
 
 	if ((item = ppro->ListGetItemPtr(LIST_BYTE, szPort)) == NULL) {
-		ppro->Log("No bytestream session is currently active, connection closed.");
+		ppro->debugLogA("No bytestream session is currently active, connection closed.");
 		Netlib_CloseHandle(hConn);
 		return;
 	}
@@ -105,7 +105,7 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 	jbt = item->jbt;
 
 	if ((buffer = (char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE)) == NULL) {
-		ppro->Log("bytestream_send cannot allocate network buffer, connection closed.");
+		ppro->debugLogA("bytestream_send cannot allocate network buffer, connection closed.");
 		jbt->state = JBT_ERROR;
 		Netlib_CloseHandle(hConn);
 		if (jbt->hEvent != NULL) SetEvent(jbt->hEvent);
@@ -131,7 +131,7 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 	if (jbt->hConn)
 		Netlib_CloseHandle(jbt->hConn);
 
-	ppro->Log("bytestream_send_connection closing connection");
+	ppro->debugLogA("bytestream_send_connection closing connection");
 	jbt->hConn = hListen;
 	mir_free(buffer);
 
@@ -146,7 +146,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	CJabberIqInfo *pInfo = NULL;
 	int nIqId = 0;
 
-	Log("Thread started: type=bytestream_send");
+	debugLogA("Thread started: type=bytestream_send");
 
 	BOOL bDirect = m_options.BsDirect;
 
@@ -173,7 +173,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			mir_free(proxyJid);
 
 			if (jbt->state == JBT_ERROR && !bDirect) {
-				Log("Bytestream proxy failure");
+				debugLogA("Bytestream proxy failure");
 				MsgPopup( pInfo->GetHContact(), TranslateT("Bytestream Proxy not available"), pInfo->GetReceiver());
 				jbt->ft->state = FT_DENIED;
 				(this->*jbt->pfnFinal)(FALSE, jbt->ft);
@@ -201,7 +201,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 			jbt->hConn = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
 			if (jbt->hConn == NULL) {
-				Log("Cannot allocate port for bytestream_send thread, thread ended.");
+				debugLogA("Cannot allocate port for bytestream_send thread, thread ended.");
 				delete jbt;
 				return;
 			}
@@ -289,7 +289,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	// stupid fix: wait for listening connection thread exit
 	Sleep(100);
 	delete jbt;
-	Log("Thread ended: type=bytestream_send");
+	debugLogA("Thread ended: type=bytestream_send");
 }
 
 void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo)
@@ -370,7 +370,7 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 			mir_free(szTargetJid);
 
 			char* szAuthString = mir_utf8encodeT(text);
-			Log("Auth: '%s'", szAuthString);
+			debugLogA("Auth: '%s'", szAuthString);
 			if ((str = JabberSha1(szAuthString)) != NULL) {
 				for (i=0; i<40 && buffer[i+5]==str[i]; i++);
 				mir_free(str);
@@ -520,7 +520,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 			mir_free(szTargetJid);
 
 			char* szAuthString = mir_utf8encodeT(text);
-			Log("Auth: '%s'", szAuthString);
+			debugLogA("Auth: '%s'", szAuthString);
 			char* szHash = JabberSha1(szAuthString);
 			strncpy((char*)(data+5), szHash, 40);
 			mir_free(szHash);
@@ -628,7 +628,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 						port = (WORD)_ttoi(szPort);
 						replaceStrT(jbt->streamhostJID, str);
 
-						Log("bytestream_recv connecting to %S:%d", szHost, port);
+						debugLogA("bytestream_recv connecting to %S:%d", szHost, port);
 						NETLIBOPENCONNECTION nloc = { 0 };
 						nloc.cbSize = sizeof(nloc);
 						nloc.szHost = mir_t2a(szHost);
@@ -637,7 +637,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 						mir_free((void*)nloc.szHost);
 
 						if (hConn == NULL) {
-							Log("bytestream_recv_connection connection failed (%d), try next streamhost", WSAGetLastError());
+							debugLogA("bytestream_recv_connection connection failed (%d), try next streamhost", WSAGetLastError());
 							continue;
 						}
 
@@ -661,11 +661,11 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 							if (jbt->state == JBT_RECVING) validStreamhost = TRUE;
 						}
 						Netlib_CloseHandle(hConn);
-						Log("bytestream_recv_connection closing connection");
+						debugLogA("bytestream_recv_connection closing connection");
 				}
 				if (jbt->state==JBT_ERROR || validStreamhost==TRUE)
 					break;
-				Log("bytestream_recv_connection stream cannot be established, try next streamhost");
+				debugLogA("bytestream_recv_connection stream cannot be established, try next streamhost");
 			}
 			mir_free(buffer);
 		}
@@ -674,7 +674,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 	(this->*jbt->pfnFinal)((jbt->state==JBT_DONE)?TRUE:FALSE, jbt->ft);
 	jbt->ft = NULL;
 	if ( !validStreamhost && szId && from) {
-		Log("bytestream_recv_connection session not completed");
+		debugLogA("bytestream_recv_connection session not completed");
 
 		m_ThreadInfo->send( XmlNodeIq(_T("error"), szId, from)
 			<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))
@@ -682,7 +682,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 	}
 
 	delete jbt;
-	Log("Thread ended: type=bytestream_recv");
+	debugLogA("Thread ended: type=bytestream_recv");
 }
 
 int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
@@ -714,7 +714,7 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 			mir_free(szInitiatorJid);
 			mir_free(szTargetJid);
 			char* szAuthString = mir_utf8encodeT(text);
-			Log("Auth: '%s'", szAuthString);
+			debugLogA("Auth: '%s'", szAuthString);
 			char* szHash = JabberSha1(szAuthString);
 			strncpy((char*)(data+5), szHash, 40);
 			mir_free(szHash);

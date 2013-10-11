@@ -236,7 +236,7 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
 	std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.find(mid);
 	if (it != proto->facy.messages_ignore.end()) {
 		std::string msg = "????? Ignoring duplicit/sent message\n" + text;
-		proto->Log(msg.c_str());
+		proto->debugLogA(msg.c_str());
 
 		it->second = true; // mark to delete it at the end
 		return true;
@@ -614,7 +614,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *visibility = json_get(event_data, "visibility");
 				
 				bool isVisible = (visibility != NULL) && json_as_bool(visibility);
-				proto->Log("      Requested chat switch to %s", isVisible ? "Online" : "Offline");
+				proto->debugLogA("      Requested chat switch to %s", isVisible ? "Online" : "Offline");
 				proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
 			}
 		} else if (t == "buddylist_overlay") {
