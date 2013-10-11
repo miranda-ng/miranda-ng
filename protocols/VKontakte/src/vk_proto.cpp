@@ -19,7 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CVkProto>(szModuleName, ptszUserName),
-	m_arRequestsQueue(10)
+	m_arRequestsQueue(10),
+	m_msgId(1)
 {
 	InitQueue();
 
@@ -62,8 +63,6 @@ int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	m_bTerminated = true;
 	SetEvent(m_evRequestsQueue);
-	if (m_hPollingThread)
-		TerminateThread(m_hPollingThread, 0);
 	return 0;
 }
 
@@ -105,6 +104,53 @@ int CVkProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 { 
 	Proto_RecvMessage(hContact, pre);
 	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+struct TFakeAckParams
+{
+	__inline TFakeAckParams(HANDLE _hContact, int _msgid) :
+		hContact(_hContact), msgid(_msgid)
+		{}
+
+	HANDLE hContact;
+	int msgid;
+};
+
+void CVkProto::SendMsgAck(void *param)
+{
+	TFakeAckParams *ack = (TFakeAckParams*)param;
+	Sleep(100);
+	ProtoBroadcastAck(ack->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ack->msgid, 0);
+	delete ack;
+}
+
+int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
+{ 
+	ptrA szID( getStringA(hContact, "ID"));
+	if (szID == NULL)
+		return 0;
+
+	ptrA szMsg;
+	if (flags & PREF_UTF)
+		szMsg = mir_strdup(msg);
+	else if (flags & PREF_UNICODE)
+		msg = mir_utf8encodeW((wchar_t*)&msg[strlen(msg)+1]);
+	else
+		msg = mir_utf8encode(msg);
+
+	HttpParam params[] = {
+		{ "type", "0" },
+		{ "uid",  szID },
+		{ "message", szMsg },
+		{ "access_token", m_szAccessToken }
+	};
+	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.send.json", true, NULL, SIZEOF(params), params);
+
+	ULONG msgId = ::InterlockedIncrement(&m_msgId);
+	ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
+	return msgId;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -191,11 +237,6 @@ int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
 	//if (!hDbEvent || isOffline())
 	return 1;
-}
-
-int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
-{ 
-	return 0;
 }
 
 int CVkProto::UserIsTyping(HANDLE hContact, int type)

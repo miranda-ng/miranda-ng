@@ -152,6 +152,8 @@ private:
 
 	void   SetAllContactStatuses(int status);
 
+	void   __cdecl SendMsgAck(void *param);
+
 	bool   m_bOnline;
 
 	HANDLE m_hNetlibConn;
@@ -161,4 +163,5 @@ private:
 
 	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
 	HANDLE m_hPollingThread;
+	ULONG  m_msgId;
 };
