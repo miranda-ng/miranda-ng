@@ -268,7 +268,7 @@ Czas:
 ms
 [Hide vertical scroll bar]
 Ukryj pionowy pasek przewijania
-[Grey out entire list when:]
+[Gray out entire list when:]
 Przyciemnij całą listę kiedy:
 [Contact List Background]
 Tło listy kontaktów

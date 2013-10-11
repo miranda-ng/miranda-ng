@@ -8,7 +8,7 @@
 [Scriver - send and receive instant messages.]
 Łatwa i lekka wtyczka rozmów.
 ;file \plugins\Scriver\res\resource.rc
-[Behaviour]
+[Behavior]
 Zachowanie
 [Automatically pop up the window when]
 Automatycznie pokaż okno gdy

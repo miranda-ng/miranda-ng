@@ -370,7 +370,7 @@ Przeglądarka usług
 Wyświetl jako drzewo
 [View as list]
 Wyświetl jako listę
-[Favourites]
+[Favorites]
 Ulubione
 [Refresh]
 Odśwież
@@ -2026,7 +2026,7 @@ Wybierz czat który chcesz opuścić
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Błąd %s %s\r\nProszę wybrać inny serwer
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Błąd: otrzymano nieznaną odpowiedź\r\nProszę wybrać inny serwer
 [Error %s %s\r\nTry to specify more detailed]
 Błąd %s %s\r\nSpróbuj podać więcej szczegółów

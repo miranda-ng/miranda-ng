@@ -96,7 +96,7 @@ Wymiana plików
 Brak połączenia wychodzącego podczas wysyłania
 [No out connection on receive]
 Brak połączenia wychodzącego podczas odbierania
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 Połączenia wychodzące: ignoruj dodatkowe porty (443, 2041)
 [Hide my IP addresses]
 Ukryj moje adresy IP
@@ -154,7 +154,7 @@ OK
 Anuluj
 [Notify]
 Powiadomienia
-[Writed:]
+[Written:]
 Napisane:
 [Select e-mail]
 Wybierz e-mail
@@ -252,7 +252,7 @@ Zhuki
 Szukaj w internecie
 [Update all users info]
 Zaktualizuj infromacje wszystkich użytkowników
-[Check updates users avatars]
+[Check users avatars updates]
 Sprawdź aktualizacje awatarów
 [Request authorization for all]
 Poproś wszystkich o autoryzację
@@ -295,7 +295,7 @@ Proszę o autoryzację
 Odbieranie plików: nie można znaleźć miejsca na plik, rozmiar %lu bajtów, błąd
 [Receive files: can't open file %s, error]
 Odbieranie plików: nie można otworzyć pliku %s, błąd
-[Receive files: request for file %s not sended, error]
+[Receive files: request for file %s not sent, error]
 Odbieranie plików: nie wysłano prośby o plik %s, błąd
 [Send files: can't open file %s, error]
 Wysyłanie plików: nie można otworzyć pliku %s, błąd
@@ -353,7 +353,7 @@ Zamykanie w %ld
 Odpowiedz na status %s na blogu
 [Set my blog status]
 Ustaw status na moim blogu
-[Writed]
+[Written]
 Napisano
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]

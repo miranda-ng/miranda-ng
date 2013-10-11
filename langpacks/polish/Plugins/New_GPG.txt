@@ -56,7 +56,7 @@ Plik binarny GnuPG:
 Przeglądaj
 [Turn on key autoexchange]
 Włącz automatyczną wymianę kluczy
-[The new public key was recieved]
+[The new public key was received]
 Nowy klucz publiczny został odebrany
 [Import key]
 Importuj klucz
@@ -104,11 +104,11 @@ Domyślne hasło
 Importuj
 [Select keyserver for key search:]
 Wybierz serwer kluczy, na którym chcesz szukać klucza:
-[Recieved encrypted file]
+[Received encrypted file]
 Otrzymano zaszyfrowany plik
 [Decrypt]
 Odszyfruj
-[Recieved encrypted file form contact with disabled encryption.]
+[Received encrypted file form contact with disabled encryption.]
 Otrzymano zaszyfrowany plik od kontaktu z wyłączonym szyfrowaniem
 [Remember choice]
 Pamiętaj wybór
@@ -208,7 +208,7 @@ Błąd
 Generuj nowy losowy klucz, proszę czekać
 [Failed to alocate memory]
 Nie udało się przydzielić pamięci
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have beed warned.]
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
 [Warning]
 Ostrzeżenie

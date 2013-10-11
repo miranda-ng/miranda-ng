@@ -196,7 +196,7 @@ Czas:
 ms
 [Left margin:]
 Lewy margines:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Przyciemnij całą listę kiedy:
 [Dim idle contacts]
 Przygaś bezczynne kontakty

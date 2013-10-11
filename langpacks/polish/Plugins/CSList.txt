@@ -43,7 +43,7 @@ Edytuj
 Ostrzeżenie
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 To pole nie akceptuje ciągu znaków dłuższego niż %d znaków. Ciąg zostanie obcięty.
-[Favourites]
+[Favorites]
 Ulubione
 [Regular statuses]
 Regularne statusy
@@ -68,7 +68,7 @@ Usuń zaznaczone
 Usuń
 [Set/unset current item as favorite]
 Ulubiony/Regularny
-[Favourite]
+[Favorite]
 Ulubiony
 [Undo changes]
 Cofnij zmiany

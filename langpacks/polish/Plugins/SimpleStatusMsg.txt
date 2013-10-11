@@ -22,7 +22,7 @@ Opis - %s (%s)
 OK
 [Retrieving status message for %s...]
 Pobieranie opisu dla %s...
-[Behaviour on status change]
+[Behavior on status change]
 Zachowanie na zmianę statusu
 [Apply to all]
 Ustaw wszędzie

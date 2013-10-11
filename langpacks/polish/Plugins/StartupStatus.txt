@@ -269,6 +269,8 @@ Status: Status konta został zmieniony do\r\Konto: Konto zmieniło status
 <ostatni>
 [<current>]
 <aktualny>
+[<unknown>]
+<nieznany>
 [Left]
 Lewa
 [Right]

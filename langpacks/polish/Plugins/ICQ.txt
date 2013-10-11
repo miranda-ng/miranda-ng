@@ -148,7 +148,7 @@ Umożliwiaj innym wyświetlenie mojego adresu e-mail
 Pokazuj opis statusu dla użytkowników na Twojej liście
 [Only reply to status message request from visible contacts]
 Pokazuj opis statusu dla użytkowników widocznych
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Niektóre opcje są wyszarzone, ponieważ mogą być zmieniane tylko, gdy jesteś połączony.
 [Options]
 Opcje
@@ -230,7 +230,7 @@ Firma:
 Wydział:
 [Position:]
 Pozycja:
-[Organisation:]
+[Organization:]
 Organizacja:
 [Location]
 Miejsce

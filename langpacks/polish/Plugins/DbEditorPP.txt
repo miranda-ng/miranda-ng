@@ -245,7 +245,7 @@ Edytuj wartość UNICODE
 Nowa wartość BLOB
 [Edit BLOB value]
 Edytuj wartość BLOB
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Nie udało się przydzielić wystarczającej ilości pamięci!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]

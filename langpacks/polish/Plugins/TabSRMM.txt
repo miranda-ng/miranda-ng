@@ -1050,7 +1050,7 @@ Lista sesji.\nLewy klik na liste otwiera sesje.\nPPM otwiera menu Ulubionych i s
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 %d, w trakcie wysyłania. Długość wiadomości: %d bajtów, limit długości wiadomości: %d bajtów\n\n%d wiadomości jest w kolejce do wysłania później
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Jedna z twoich akcji popupów jest ustawiona na ODRZUĆ ZDARZENIE.\nTa opcja może mieć nieporządane efekty uboczne jak USUWANIE zdarzeń z kolejki nieprzeczytanych.\nMoże to doprowadzić do niepokazywania ich jako "nowych". Jeśli nie chcesz takiego zachowania zmień ustawienia w Powiadomieniach o Zdarzeniach.
 [Incoming file]
 Przychodzący plik
@@ -1702,7 +1702,7 @@ Akcje po upłynięciu czasu wyświetlania (tylko popupy)
 Kombinacja notyfikacji dla tego samego użytkownika
 [Remove popups under following conditions]
 Usuń popupy w następujących przypadkach:
-[Message window behaviour]
+[Message window behavior]
 Zachowanie okna rozmowy
 [Sending messages]
 Wysyłanie wiadomości

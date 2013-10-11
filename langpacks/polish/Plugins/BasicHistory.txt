@@ -182,7 +182,7 @@ System
 Ja
 [Invalid Message]
 Nieprawidłowa Wiadomość
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Prośba o autoryzację od %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
@@ -261,7 +261,7 @@ Link
 Pytanie autoryzacji
 [You were added]
 Zostałeś dodany
-[Contacts recieved]
+[Contacts received]
 Pobrane kontakty
 [SMTP Simple Email]
 Prosty email SMTP

@@ -68,8 +68,6 @@ Ustawienia zaawansowane
 Wymuś szyfrowane połączenie (HTTPS)
 [Post Miranda statuses to Wall]
 Pokazuj statusy Mirandy jako posty na Tablicy
-[Enable logging for debugging purposes]
-Włącz logowanie w celu debugowania
 [Use secure connection also for channel requests]
 Również dla kanału pytań o znajomość
 [Also disconnect chat when going to offline]

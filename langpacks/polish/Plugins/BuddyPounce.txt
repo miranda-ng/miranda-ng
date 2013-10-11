@@ -111,7 +111,7 @@ Na Przy telefonie
 Na Na obiedzie
 [The Message    (%d Characters)]
 Wiadomość (%d znaków)
-[Couldnt Allocate enough memory]
+[Couldn't allocate enough memory]
 Nie udało się przydzielić wystarczającej ilości pamięci
 [error......]
 błąd......

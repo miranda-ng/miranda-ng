@@ -172,7 +172,7 @@ Pobierz więcej skórek...
 Włącz podpowiedzi w zasobniku
 [Handle tray tooltips by Tipper]
 Rozszerzona podpowiedź w zasobniku
-[Favourite contacts]
+[Favorite contacts]
 Ulubione kontakty
 [Expand to second level after:]
 Rozszerz podpowiedź po:
@@ -224,7 +224,7 @@ Górny prawy róg
 Górny lewy róg
 [Top]
 Góra
-[Centre]
+[Center]
 Środek
 [Bottom]
 Dół
@@ -367,7 +367,7 @@ Nazwa:
 Liczba otrzymanych wiadomości
 [Number of msg [IN]:]
 Liczba wiad. odebr.:
-[Number of sended messages]
+[Number of sent messages]
 Liczba wysłanych wiadomości
 [Number of msg [OUT]:]
 Liczba wiad. wysł.:

@@ -252,7 +252,7 @@ Historia popupów
 Popupy są włączone
 [Popups are disabled]
 Popupy są wyłączone
-[With "favourite" overlay]
+[With "favorite" overlay]
 Nakładka "ulubione"
 [With "fullscreen" overlay]
 Nakładka w "trybie pełnoekranowym"
@@ -404,14 +404,14 @@ Skórka, którą próbujesz załadować jest zaprojektowana\r\ndla nowszej wersj
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Automatyczny
-[Favourite]
+[Favorite]
 Ulubiony
 [Block]
 Blokuj
 [Popup Mode: Auto]
 Tryb Popup: Auto
-[Popup Mode: Favourite]
-Tryb Popupów: ulubione
+[Popup Mode: Favorite]
+Tryb popupów: ulubione
 [Popup Mode: Ignore fullscreen]
 Tryb Popup: Ignoruj pełny ekran
 [Popup Mode: Block contact]

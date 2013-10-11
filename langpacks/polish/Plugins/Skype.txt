@@ -402,9 +402,9 @@ Połączenie %s
 [Skype name]
 Nazwa użytkownika Skype
 ;file \protocols\Skype\src\skype_transfers.cpp
-[SENDER_NOT_AUTHORISED]
+[SENDER_NOT_AUTHORIZED]
 Nieautoryzowany nadawca
-[REMOTELY_CANCELLED]
+[REMOTELY_CANCELED]
 Zdalnie anulowane
 [FAILED_READ]
 Odczyt nieudany

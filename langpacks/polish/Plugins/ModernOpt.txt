@@ -41,7 +41,7 @@ Styl
 Zmień wygląd Mirandy NG by dopasować ją do swoich preferencji.
 [Contacts]
 Kontakty
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Skonfiguruj zachowanie swojej listy kontaktów.
 [Chats]
 Czaty

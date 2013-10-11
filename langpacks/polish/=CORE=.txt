@@ -807,7 +807,7 @@ Ukryj pionowy pasek przewijania
 Wysokość wiersza:
 [Gamma correction]
 Korekcja Gamma
-[Grey out entire list when:]
+[Gray out entire list when:]
 Przyciemnij całą listę kiedy:
 [Contact List Background]
 Tło listy kontaktów
@@ -1127,7 +1127,7 @@ Migaj ikoną w zasobniku systemowym i na liście kontaktów
 Pokaż informację w chmurce
 [Save the window position for each contact]
 Zapamiętaj pozycję okna dla każdego kontaktu
-[Message window behaviour:]
+[Message window behavior:]
 Zachowanie okna rozmowy:
 [Messaging:]
 Rozmowa:
@@ -1813,7 +1813,7 @@ Moje odebrane  pliki
 Zobacz historię użytkownika
 [User Menu]
 Menu użytkownika
-[Cancelled]
+[Canceled]
 Anulowany
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1845,7 +1845,7 @@ Decyzja wysłana
 Łączenie z proxy...
 [Connected]
 Połączono
-[Initialising...]
+[Initializing...]
 Uruchamianie...
 [Moving to next file...]
 Przechodzenie do następnego pliku...
@@ -2062,7 +2062,6 @@ Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 Niestandardowy status
 [%s (locked)]
 %s (zablokowane)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Nieznany kontakt)

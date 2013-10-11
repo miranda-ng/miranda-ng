@@ -61,7 +61,7 @@ Wysłano pomyślnie
 Otrzymano nieznaną komendę dla usługi "File As Message"
 [Incoming file request. Do you want to proceed?]
 Przychodzący transfer pliku. Czy chcesz kontynuować?
-[Cancelled by remote user]
+[Canceled by remote user]
 Anulowane przez drugą stronę
 [New incoming file request. Do you want to proceed?]
 Nowy przychodzący plik. Czy odebrać?
@@ -79,7 +79,7 @@ Wybierz plik
 Zapisz jako
 [Can't get a file size]
 Nie można pobrać rozmiaru pliku
-[Cancelled by user]
+[Canceled by user]
 Anulowane przez użytkownika
 [Transfer is in progress. Do you really want to close?]
 Transfer w toku. Czy napewno chcesz zamknąć?

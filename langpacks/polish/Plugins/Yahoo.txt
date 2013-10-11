@@ -222,7 +222,7 @@ Od: %s\nTemat: %s
 Wiadomość Systemowa Yahoo
 [Yahoo Ping Error]
 Błąd pingu Yahoo
-[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 Nie można się zalogować do usługi Yahoo - nie rozpoznano nazwy użytkownika. Sprawdź czy poprawnie ją wpisałeś.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Nie można się zalogować do usługi Yahoo - niepoprawne hasło. Sprawdź czy poprawnie wpisałeś nazwę użytkownika i hasło.
