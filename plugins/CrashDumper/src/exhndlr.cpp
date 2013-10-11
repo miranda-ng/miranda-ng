@@ -142,31 +142,8 @@ DWORD MirandaThreadFilter(DWORD code, EXCEPTION_POINTERS* info)
 	return threadfltr(code, info);
 }
 
-void InvalidParameterHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, UINT_PTR)
-{
-	EXCEPTION_RECORD         ExceptionRecord = {0};
-	CONTEXT                  ContextRecord = {0};
-	EXCEPTION_POINTERS info = { &ExceptionRecord, &ContextRecord };
-
-	RtlCaptureContext(&ContextRecord);
-
-#if defined(_AMD64_)
-	ExceptionRecord.ExceptionAddress = (PVOID)ContextRecord.Rip;
-#elif defined(_IA64_)
-	ExceptionRecord.ExceptionAddress = (PVOID)ContextRecord.BrRp;
-#else
-	ExceptionRecord.ExceptionAddress = (PVOID)ContextRecord.Eip;
-#endif
-
-	ExceptionRecord.ExceptionCode  = STATUS_INVALID_CRUNTIME_PARAMETER;
-	ExceptionRecord.ExceptionFlags = EXCEPTION_NONCONTINUABLE;
-
-	myfilterWorker(&info, true);
-}
-
 void InitExceptionHandler(void)
 {
-	_set_invalid_parameter_handler(InvalidParameterHandler);
 	threadfltr = Miranda_SetExceptFilter(MirandaThreadFilter);
 	SetExceptionHandler();
 }
