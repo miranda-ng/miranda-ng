@@ -26,7 +26,7 @@ void LoadOptions()
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_TCHAR;
 	ZeroMemory(&WumfOptions, sizeof(WumfOptions));
-	if (db_get(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
+	if (db_get_ts(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
 	{
 		_tcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
 		db_free(&dbv);
@@ -271,11 +271,11 @@ void ChooseFile(HWND hDlg)
 	ofn.nFilterIndex = 2;
 	ofn.Flags = OFN_CREATEPROMPT;
 	// Display the Open dialog box. 
-	if (GetSaveFileName(&ofn) == TRUE) {
-		HANDLE hf = CreateFile(ofn.lpstrFile,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, NULL);
+	if (GetSaveFileName(&ofn)) {
+		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hf != INVALID_HANDLE_VALUE) {
-			SetDlgItemText(hDlg,IDC_FILE,ofn.lpstrFile);
-			lstrcpyn(WumfOptions.LogFile, ofn.lpstrFile, 255);
+			SetDlgItemText(hDlg,IDC_FILE,szFile);
+			lstrcpyn(WumfOptions.LogFile, szFile, MAX_PATH);
 			CloseHandle(hf);
 		}
 	}
@@ -389,7 +389,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				ShowThePreview();
 				break;
 			case IDC_CONN:
-				CallService(MS_WUMF_CONNECTIONSSHOW, (WPARAM)0, (LPARAM)0);
+				CallService(MS_WUMF_CONNECTIONSSHOW, 0, 0);
 				break;
 			}
 			break;
@@ -413,7 +413,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_FILE:
-				GetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile, sizeof(WumfOptions.LogFile));
+				GetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile, SIZEOF(WumfOptions.LogFile));
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
@@ -453,7 +453,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				db_set_b(NULL, MODULENAME, ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
 				db_set_b(NULL, MODULENAME, LOG_COMP, (BYTE)WumfOptions.LogComp);
 				db_set_b(NULL, MODULENAME, ALERT_COMP, (BYTE)WumfOptions.AlertComp);
-				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, 255);
+				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, SIZEOF(WumfOptions.LogFile));
 				db_set_ts(NULL, MODULENAME, OPT_FILE, WumfOptions.LogFile);
 			}
 		}
