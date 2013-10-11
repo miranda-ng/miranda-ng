@@ -43,7 +43,7 @@ Upravit
 Upozornění
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 Do tohoto pole nemůžou být zadány řetězce delší než %d znaků. Zadaný řetězec bude zkrácen.
-[Favourites]
+[Favorites]
 Oblíbené
 [Regular statuses]
 Běžné stavy
@@ -68,7 +68,7 @@ Smazat označený stav
 Odebrat
 [Set/unset current item as favorite]
 Nastavit/zrušit aktuální stav jako oblíbený
-[Favourite]
+[Favorite]
 Oblíbené
 [Undo changes]
 Vrátit změny

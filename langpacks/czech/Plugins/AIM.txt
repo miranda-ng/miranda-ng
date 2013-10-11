@@ -136,9 +136,6 @@ O&dmítnout
 Zpráva
 [Room]
 Místnost
-;file \protocols\AimOscar\src\avatars.cpp
-[Avatars]
-Avatary
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Já

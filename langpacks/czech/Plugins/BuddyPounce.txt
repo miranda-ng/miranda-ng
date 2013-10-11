@@ -111,7 +111,7 @@ Do 'Mám telefon'
 Do 'Jsem na obědě'
 [The Message    (%d Characters)]
 Zpráva (počet znaků: %d)
-[Couldnt Allocate enough memory]
+[Couldn't allocate enough memory]
 Nelze alokovat dostatek paměti
 [error......]
 chyba......

@@ -269,6 +269,8 @@ Stav: Stav účtu bude změněn na\r\nÚčet: Účet mění svůj stav
 <minulý>
 [<current>]
 <současný>
+[<unknown>]
+<neznámý>
 [Left]
 Vlevo
 [Right]

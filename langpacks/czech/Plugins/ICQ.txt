@@ -148,7 +148,7 @@ Povolit všem zjištění primární elektronické adresy
 Zjištění zprávy stavu povolit pouze lidem v seznamu kontaktů
 [Only reply to status message request from visible contacts]
 Z výše uvedených pouze těm, kteří jsou momentálně viditelní
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Při odpojení od sítě ICQ mohou být některé z možností neaktivní.
 [Options]
 Možnosti
@@ -230,7 +230,7 @@ Společnost:
 Oddělení:
 [Position:]
 Postavení:
-[Organisation:]
+[Organization:]
 Organizace:
 [Location]
 Umístění
@@ -398,8 +398,6 @@ Potvrzení
 [** Unknown missed message event.]
 
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-[Avatars]
-Avatary
 [Error uploading avatar to server, server temporarily unavailable.]
 
 [Error uploading avatar to server, server refused to accept the image.]

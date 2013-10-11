@@ -1050,7 +1050,7 @@ Seznam rozhovorů.\nKlikněte levým pro zobrazení seznamu otevřených rozhovo
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprávy: %d bytů\nPočet zpráv zařazených k pozdějšímu doručení: %d
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Jedna z akcí pro oznámení je nastavena na ZAVŘÍT UDÁLOST.\nToto nastavení může mít nechtěné vedlejší účinky, neboť odstraňuje nepřečtené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Možnosti -> Komunikace -> Oznámení události.
 [Incoming file]
 Příchozí soubor
@@ -1702,7 +1702,7 @@ Vypršení časového limitu oznámení
 Kombinovat oznámení pro jeden kontakt
 [Remove popups under following conditions]
 Zavírat upozornění při těchto podmínkách:
-[Message window behaviour]
+[Message window behavior]
 Chování komunikačního okna
 [Sending messages]
 Odesílání zpráv

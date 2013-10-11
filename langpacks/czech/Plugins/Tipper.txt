@@ -172,7 +172,7 @@ Získat více skinů
 Povolit tipy oznamovací oblasti
 [Handle tray tooltips by Tipper]
 Tipy oznamovací oblasti skrz Tipper
-[Favourite contacts]
+[Favorite contacts]
 Oblíbené kontakty
 [Expand to second level after:]
 Rozšířit na druhou úrověň po:
@@ -224,8 +224,8 @@ Vpravo nahoře
 Vlevo nahoře
 [Top]
 Nahoře
-[Centre]
-Centrovat
+[Center]
+Na střed
 [Bottom]
 Dole
 [Left]
@@ -367,7 +367,7 @@ Název:
 Počet přijatých zpráv
 [Number of msg [IN]:]
 Počet zpráv [přijatých]:
-[Number of sended messages]
+[Number of sent messages]
 Počet odeslaných zpráv
 [Number of msg [OUT]:]
 Počet zpráv [odeslaných]:

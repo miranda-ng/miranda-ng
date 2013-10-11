@@ -1,11 +1,11 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
-;  Plugin: Favourite contacts
+;  Plugin: Favorite contacts
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-[Favourite contacts menu.]
+[Favorite contacts menu.]
 Nabídka s oblíbenými kontakty.
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
@@ -28,7 +28,7 @@ Použít systémové písma a barvy
 Kl. zkratka zobrazí menu uprostřed obrazovky
 [Menu item preview:]
 Náhled položky menu:
-[Favourite Contacts]
+[Favorite Contacts]
 Oblíbené kontakty
 [Enable groups]
 Povolit skupiny
@@ -48,7 +48,7 @@ posledních kontaktů
 [<no group>]
 <žádná skupina>
 ;file \plugins\FavContacts\src\main.cpp
-[Favourite Contact]
+[Favorite Contact]
 Oblíbený kontakt
 [Regular Contact]
 Obyčejný kontakt
@@ -64,11 +64,11 @@ Druhý řádek vybraného kontaktu (barva)
 Pozadí
 [Selected background]
 Vybrané pozadí
-[Show favourite contacts]
+[Show favorite contacts]
 Zobrazit oblíbené kontakty
 [Contacts]
 Kontakty
-[Favourites]
+[Favorites]
 Oblíbené
-[&Favourite Contacts...]
+[&Favorite Contacts...]
 &Oblíbené kontakty...

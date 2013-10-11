@@ -196,7 +196,7 @@ Rolovat seznam kontaktů plynule
 ms
 [Left margin:]
 Levý okraj:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Zešednout seznam v případě:
 [Dim idle contacts]
 Zešednout neaktivní kontakty

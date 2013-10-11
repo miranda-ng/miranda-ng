@@ -10,7 +10,7 @@ Zobrazuje kontakty, upozornění na události, stavy protokolů a umožňuje pok
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Průhlednost:
-[Window behaviour:]
+[Window behavior:]
 Chování okna:
 [List sorting:]
 Řazení seznamu:
@@ -186,7 +186,7 @@ Víceřádková stavová lišta
 Účty na řádku
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Stavový řádek zvýšíte takto:\nHl.nabídka: Rámečky->Stavová lišta->Zobrazit záhlaví a roztáhněte zobrazenou lištu myší.
-[Hold [Shift] to inverse [Right Click] behaviour]
+[Hold [Shift] to inverse [Right Click] behavior]
 Pomocí [Shift] obrátíte funkci [pravého tlačítka].
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 Ctrl+Levé tlačítko pro zobrazení konkrétního protokolu. Klikněte na prázdnou plochu pro zobrazení všech
@@ -274,7 +274,7 @@ max. však
 % obrazovky
 [Size upwards]
 Zvětšovat okno směrem nahoru
-[Behaviour]
+[Behavior]
 Chování
 [Lock manual resize]
 Zamezit ruční změně velikosti

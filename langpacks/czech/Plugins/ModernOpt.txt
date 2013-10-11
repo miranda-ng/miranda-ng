@@ -41,7 +41,7 @@ Vzhled
 V této sekci lze změnit vzhled Mirandy.
 [Contacts]
 Kontakty
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Konfigurace funkcí seznamu kontaktů.
 [Chats]
 Diskuse

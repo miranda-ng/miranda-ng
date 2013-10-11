@@ -252,7 +252,7 @@ Zpráva historie oznámení
 Oznámení jsou zapnuta
 [Popups are disabled]
 Oznámení jsou vypnuta
-[With "favourite" overlay]
+[With "favorite" overlay]
 Překrytí pro oblíbené
 [With "fullscreen" overlay]
 Překrytí pro celoobraz. režim
@@ -404,13 +404,13 @@ Pokoušíte se načíst skin, který je navržen pro\r\nnovější verzi doplňk
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Výchozí
-[Favourite]
-Oblíbený
+[Favorite]
+Oblíbené
 [Block]
 Blokovat
 [Popup Mode: Auto]
 Režim oznámení: Výchozí
-[Popup Mode: Favourite]
+[Popup Mode: Favorite]
 Režim oznámení: Oblíbený kontakt
 [Popup Mode: Ignore fullscreen]
 Režim oznámení: Ignorovat celoobrazovkový režim

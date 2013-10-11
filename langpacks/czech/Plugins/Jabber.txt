@@ -370,7 +370,7 @@ Zjistit nabízené služby
 Zobrazit jako stromovou strukturu
 [View as list]
 Zobrazit jako seznam
-[Favourites]
+[Favorites]
 Oblíbené
 [Refresh]
 Aktualizovat
@@ -1305,8 +1305,6 @@ Zpráva stavu
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
-[Avatars]
-Avatary
 [To]
 Do
 [From]
@@ -2028,7 +2026,7 @@ Potvrďte prosím ukončení Mirandy
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Chyba: %s %s\r\nVyberte prosím jiný server.
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Chyba: Neznámá odpověď\r\nVyberte prosím jiný server.
 [Error %s %s\r\nTry to specify more detailed]
 Chyba: %s %s\r\nZadejte přesnější údaje.

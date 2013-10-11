@@ -402,9 +402,9 @@ Hotovo!
 [Skype name]
 Uživatelské jméno
 ;file \protocols\Skype\src\skype_transfers.cpp
-[SENDER_NOT_AUTHORISED]
+[SENDER_NOT_AUTHORIZED]
 Odesílatel není autorizován
-[REMOTELY_CANCELLED]
+[REMOTELY_CANCELED]
 Vzdáleně zrušeno
 [FAILED_READ]
 Chyba čtení
@@ -445,7 +445,5 @@ Hodnota obsahuje neplatné slovo
 Heslo je příliš jednoduché
 [Value starts with an invalid character]
 Hodnota začíná neplatným znakem
-[Avatars]
-Avatary
 [Command "%s" is unsupported]
 Příkaz "%s" není podporován

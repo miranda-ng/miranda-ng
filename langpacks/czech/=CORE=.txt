@@ -807,7 +807,7 @@ Skrýt svislý posuvník
 Výška řádku:
 [Gamma correction]
 Gama korekce
-[Grey out entire list when:]
+[Gray out entire list when:]
 Zešednout seznam v případě:
 [Contact List Background]
 Pozadí seznamu kontaktů
@@ -1127,8 +1127,8 @@ Blikat v oblasti oznámení a okně s kontakty
 Oznámit pomocí bubliny
 [Save the window position for each contact]
 Uložit pozici okna pro každý kontakt zvlášť
-[Message window behaviour:]
-Chování komunikačního okna
+[Message window behavior:]
+Chování komunikačního okna:
 [Messaging:]
 Rozhovor
 [&Open link]
@@ -1813,7 +1813,7 @@ Moje přijaté soubory
 Zobrazit historii
 [User Menu]
 Uživatelské menu
-[Cancelled]
+[Canceled]
 Přerušeno
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1845,7 +1845,7 @@ Navazování spojení...
 Připojování k proxy...
 [Connected]
 Spojení navázáno
-[Initialising...]
+[Initializing...]
 Inicializace...
 [Moving to next file...]
 Další soubor...
@@ -2062,7 +2062,6 @@ Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 Rozšířený stav
 [%s (locked)]
 %s (uzamčený)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
@@ -2545,6 +2544,11 @@ obrázky typu JPEG
 obrázky typu GIF
 [PNG Bitmaps]
 obrázky typu PNG
+;file \src\modules\utils\path.cpp
+[Avatars]
+Avatary
+[Avatars root folder]
+Kořenová složka pro avatary
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <neurčeno>

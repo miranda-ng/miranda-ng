@@ -182,7 +182,7 @@ Systém
 Já
 [Invalid Message]
 Neplatná zpráva
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Žádost o autorizaci od %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
@@ -261,8 +261,8 @@ Adresa
 Žádost o autorizaci
 [You were added]
 Byli jste přidáni
-[Contacts recieved]
-Přijaté kontakty
+[Contacts received]
+Přijaty kontakty
 [SMTP Simple Email]
 Zpráva SMTP
 [SMS message]

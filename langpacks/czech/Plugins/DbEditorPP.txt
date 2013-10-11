@@ -245,7 +245,7 @@ Upravit hodnotu UNICODE
 Nová hodnota BLOB
 [Edit BLOB value]
 Upravit hodnotu BLOB
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Nelze alokovat dostatek paměti!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]

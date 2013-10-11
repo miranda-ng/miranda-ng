@@ -84,7 +84,7 @@ Oznámení
 Kontakty
 [You were added!]
 Byl jste přidán
-[Requests your authorisation]
+[Requests your authorization]
 Žádost o autorizaci
 [ICQ Web pager]
 ICQ WebPager

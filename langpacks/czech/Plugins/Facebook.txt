@@ -212,8 +212,6 @@ Kontakt již není mezi vašimi přáteli.
 %s - spojení se serverem
 [Unable to get Netlib connection for Facebook]
 Facebook: Chyba při zpracování síťové komunikace.
-[Avatars]
-Avatary
 [Facebook ID must be numeric value.]
 Facebook ID musí být číselná hodnota.
 [Network]

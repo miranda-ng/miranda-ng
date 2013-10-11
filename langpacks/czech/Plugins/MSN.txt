@@ -202,8 +202,6 @@ N&astavit upozornění
 [&Start Netmeeting]
 Spustit Netmeetin&g
 ;file \protocols\MSN\src\msn_misc.cpp
-[Avatars]
-Avatary
 [Custom Smileys]
 Vlastní smajlíky
 [Notify]

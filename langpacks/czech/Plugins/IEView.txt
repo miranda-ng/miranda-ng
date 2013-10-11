@@ -82,7 +82,7 @@ Přijatý odkaz
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
-[ requested authorisation]
+[ requested authorization]
  žádá o autorizaci
 [ was added.]
  byl přidán

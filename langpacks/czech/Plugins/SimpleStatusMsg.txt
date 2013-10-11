@@ -22,7 +22,7 @@ Zpráva stavu %s (%s)
 OK
 [Retrieving status message for %s...]
 Zjišťování zprávy stavu pro '%s'...
-[Behaviour on status change]
+[Behavior on status change]
 Chování při změně stavu
 [Apply to all]
 Použít u všech

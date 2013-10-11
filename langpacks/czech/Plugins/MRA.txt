@@ -96,7 +96,7 @@ Server:
 
 [No out connection on receive]
 
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 
 [Hide my IP addresses]
 
@@ -154,7 +154,7 @@ OK
 Zrušit
 [Notify]
 Oznámení
-[Writed:]
+[Written:]
 
 [Select e-mail]
 
@@ -214,8 +214,6 @@ Ryby
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
-[Avatars]
-Avatary
 [Avatars: server return HTTP code: %lu]
 
 [Avatars: can't open file %s, error]
@@ -254,7 +252,7 @@ Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
 
 [Update all users info]
 
-[Check updates users avatars]
+[Check users avatars updates]
 
 [Request authorization for all]
 
@@ -297,7 +295,7 @@ Nová pošta
 
 [Receive files: can't open file %s, error]
 
-[Receive files: request for file %s not sended, error]
+[Receive files: request for file %s not sent, error]
 
 [Send files: can't open file %s, error]
 
@@ -355,7 +353,7 @@ E-mail
 
 [Set my blog status]
 
-[Writed]
+[Written]
 
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
@@ -366,6 +364,8 @@ Sítě
 Spojení
 [Files]
 Soubory
+[Avatars]
+Avatary
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 

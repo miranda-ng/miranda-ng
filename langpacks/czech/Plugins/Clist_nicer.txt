@@ -268,7 +268,7 @@ Rolovat seznam kontaktů plynule
 ms
 [Hide vertical scroll bar]
 Skrýt svislý posuvník
-[Grey out entire list when:]
+[Gray out entire list when:]
 Zešednout seznam v případě:
 [Contact List Background]
 Pozadí seznamu kontaktů
