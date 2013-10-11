@@ -138,30 +138,28 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,47,121,228,8
 END
 
-IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 210
+IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 155
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,148
-    CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,32,267,10
-    CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,17,56,267,10
-    CONTROL         "Enable logging for debugging purposes",IDC_LOGGING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,20,267,10
+    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,137
+    CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,22,267,10
+    CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,17,46,267,10
     CONTROL         "Use secure connection also for channel requests",IDC_SECURE_CHANNEL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,44,252,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,34,252,10
     CONTROL         "Also disconnect chat when going to offline",IDC_DISCONNECT_CHAT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,68,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,58,267,10
     CONTROL         "Map non-standard statuses to Invisible (instead of Online)",IDC_MAP_STATUSES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,81,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,71,267,10
     CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,95,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,84,267,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,108,267,10
-    COMBOBOX        IDC_URL_SERVER,156,135,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Use this server for opening links:",IDC_STATIC,17,137,135,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,98,267,10
+    COMBOBOX        IDC_URL_SERVER,156,124,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Use this server for opening links:",IDC_STATIC,17,127,135,8
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,122,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,111,267,10
 END
 
 
@@ -229,7 +227,7 @@ BEGIN
         VERTGUIDE, 156
         VERTGUIDE, 284
         TOPMARGIN, 7
-        BOTTOMMARGIN, 203
+        BOTTOMMARGIN, 148
     END
 END
 #endif    // APSTUDIO_INVOKED

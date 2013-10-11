@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Development\Miranda NG\protocols\FacebookRM\res\facebook.rc
+// Used by ..\res\facebook.rc
 //
 #define IDC_EXPAND                      3
 #define IDI_FACEBOOK                    101
