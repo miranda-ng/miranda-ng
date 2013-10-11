@@ -83,11 +83,11 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		pReq->requestType = REQUEST_GET;
 		PushAsyncHttpRequest(pReq);
 
-		Netlib_Logf(m_hNetlibUser, "Requested to read an avatar from '%s'", szUrl);
+		debugLogA("Requested to read an avatar from '%s'", szUrl);
 		return GAIR_WAITFOR;
 	}
 
-	Netlib_Logf(m_hNetlibUser, "No avatar");
+	debugLogA("No avatar");
 	return GAIR_NOAVATAR;
 }
 

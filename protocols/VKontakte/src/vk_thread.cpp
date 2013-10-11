@@ -166,7 +166,7 @@ LBL_NoForm:
 
 void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, void*)
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveMyInfo %d", reply->resultCode);
+	debugLogA("CVkProto::OnReceiveMyInfo %d", reply->resultCode);
 	if (reply->resultCode != 200) {
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
@@ -224,7 +224,7 @@ void CVkProto::RetrieveUserInfo(LPCSTR szUserId)
 
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, void*)
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveUserInfo %d", reply->resultCode);
+	debugLogA("CVkProto::OnReceiveUserInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
@@ -269,7 +269,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, void*)
 
 void CVkProto::RetrieveFriends()
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::RetrieveFriends");
+	debugLogA("CVkProto::RetrieveFriends");
 
 	HttpParam params[] = {
 		{ "fields", "uid,first_name,last_name,photo,contacts" },
@@ -281,7 +281,7 @@ void CVkProto::RetrieveFriends()
 
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, void*)
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveFriends %d", reply->resultCode);
+	debugLogA("CVkProto::OnReceiveFriends %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
@@ -321,7 +321,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, void*)
 
 void CVkProto::RetrieveUnreadMessages()
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::RetrieveMessages");
+	debugLogA("CVkProto::RetrieveMessages");
 
 	HttpParam params[] = {
 		{ "code", "return{\"msgs\":API.messages.get({\"filters\":1})};" },
@@ -332,7 +332,7 @@ void CVkProto::RetrieveUnreadMessages()
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, void*)
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceiveMessages %d", reply->resultCode);
+	debugLogA("CVkProto::OnReceiveMessages %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
@@ -397,7 +397,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, void*)
 
 void CVkProto::RetrievePollingInfo()
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::RetrievePollingInfo");
+	debugLogA("CVkProto::RetrievePollingInfo");
 
 	HttpParam param = { "access_token", m_szAccessToken };
 	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo, 1, &param);
@@ -405,7 +405,7 @@ void CVkProto::RetrievePollingInfo()
 
 void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, void*)
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::OnReceivePollingInfo %d", reply->resultCode);
+	debugLogA("CVkProto::OnReceivePollingInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
@@ -422,27 +422,24 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, void*)
 	m_pollingServer = mir_t2a( ptrT( json_as_string( json_get(pResponse, "server"))));
 	if (m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL)
 		ForkThread(&CVkProto::PollingThread, 0);
-
-	RetrieveUnreadMessages();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CVkProto::PollServer()
 {
-	Netlib_Logf(m_hNetlibUser, "CVkProto::PollServer");
+	debugLogA("CVkProto::PollServer");
+	RetrieveUnreadMessages();
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
-	req.flags = NLHRF_SSL | NLHRF_PERSISTENT | NLHRF_HTTP11;
-	req.timeout = 30;
+	req.flags = NLHRF_SSL | NLHRF_HTTP11;
+	req.timeout = 3600;
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (reply == NULL)
 		return 0;
-
-	RetrieveUnreadMessages();
 
 	int retVal = -1;
 	if (reply->resultCode = 200) {
