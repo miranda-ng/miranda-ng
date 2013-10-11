@@ -48,7 +48,7 @@
 Последнее последним
 [Merge popups from one user]
 Объединять от одного пользователя
-[No popups for readed messages]
+[No popups for read messages]
 Выключить для прочтённых
 [Number of begin shown messages]
 Количество сообщений для начала показа

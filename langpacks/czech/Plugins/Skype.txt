@@ -353,7 +353,7 @@ Smazat
 Protokoly
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
-[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
 Skype protokol dovoluje přihlášení pouze z jednoho účtu v jednu chvíli.\nPřidávání více účtů je zakázáno licenčními a distribučními podmínkami SkypeKitu.
 [Initialization key corrupted or not valid.]
 Inicializační klíč je poškozen nebo není platný.

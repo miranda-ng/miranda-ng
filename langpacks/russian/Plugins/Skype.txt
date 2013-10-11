@@ -138,7 +138,7 @@ Skype протокол для Miranda NG.
 [Report abuse]
 Сообщить о нарушении
 [Did not unpack SkypeKit.exe.]
-Баланс Skype:
+SkypeKit.exe не распакован.
 [HTTPS proxy authentication failed]
 Аутентификация по HTTP прокси не удалась
 [SOCKS proxy authentication failed]
@@ -180,15 +180,15 @@ Skype протокол для Miranda NG.
 [Failed to verify password. No connection to server]
 Невозможно проверить пароль. Нет подключения к серверу
 [Password was set but server didn't like it much]
-Пароль был отвергнут сервером 
+Пароль был отвергнут сервером
 [New password was exactly the same as old one]
-Введенный пароль точно такой же как старый 
+Введенный пароль точно такой же как старый
 [The new password was unacceptable]
-Новый пароль неприемлем 
+Новый пароль неприемлем
 [Account was currently not logged in]
 Учётная запись не в сети
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова. 
+Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова.
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
 Вы действительно хотите блокировать "%s" (%s)? Блокированные пользователи не смогут связаться с вами и не будут показываться в вашем списке контактов.
 [Name]
@@ -277,12 +277,12 @@ Skype протокол для Miranda NG.
 Удалить
 [Protocols]
 Протоколы
-[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
-Отправить контакт
+[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+Поддерживается вход только в одну учётную запись Skype. Одновременное использование нескольких учётных записей запрещено лицензией и условиями распространения SkypeKit.
 [Initialization key corrupted or not valid.]
 Ключ инициализации повреждён или не действителен.
 [SkypeKit did not initialize (%d).]
-SkypeKit did not initialize (%d).
+SkypeKit не инициализирован (%d).
 [SkypeKit did not start.]
 SkypeKit не запустился.
 [Unblock this person...]
