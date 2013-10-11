@@ -301,7 +301,7 @@ void CustomizeToolbar(HWND hwnd)
 
 #define TTB_OPTDIR "TopToolBar"
 
-static char szUrl[] = "http://wiki.miranda-ng.org/index.php?title=Plugin:TopToolBar";
+static char szUrl[] = "http://miranda-ng.org/p/TopToolBar";
 
 static TCHAR szWarning[] = LPGENT("To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue");
 

@@ -73,7 +73,7 @@ const
   ID_NEED_RESTART      = 999; // "Please restart Miranda IM..."
 
 const
-  URL_NEEDOPTIONS = 'http://wiki.miranda-ng.org/index.php?title=Plugin:HistoryPP/en#Hidden_options';
+  URL_NEEDOPTIONS = 'http://miranda-ng.org/p/HistoryPP#Hidden_options';
 
 {
 function GetText(idCtrl: Integer): AnsiString;
