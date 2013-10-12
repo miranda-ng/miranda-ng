@@ -1,0 +1,80 @@
+﻿CPU: AMD C-50 Processor [x86 Family 20 Model 1 Stepping 0] [DEP Enabled] [2 CPUs]
+Installed RAM: 1771 MBytes
+Operating System: Microsoft Windows 7 Ultimate Edition, 32-bit Service Pack 1 (build 7601)
+Internet Explorer: 9.11.9431.0 (build 99431)
+Administrator privileges: Yes
+OS Languages: (UI | Locale (User/System)) : Russian/Russian | Russian/Russian
+Free disk space on Miranda partition: 59256 MBytes
+
+Miranda NG Version: 0.94.5 alpha build #5712
+Build time: 16 Aug 2013 7:24:14
+Profile: D:\My Docs\Dropbox\miranda\Profiles\apollo2k4\apollo2k4.dat
+Profile size: 13107200 Bytes
+Profile creation date: 10 Oct 2012 17:46:02
+Language pack: Russian (RU) [0419]
+Service Mode: No
+
+Active Plugins (28):
+  AddContactPlus.dll v.0.9.9.1 [7 Aug 2013 6:44:26] - Add contact+ 
+  AdvaImg.dll v.0.11.0.1 [13 Aug 2013 6:34:54] - Miranda image services 
+  AuthState.dll v.0.0.2.1 [7 Aug 2013 6:41:54] - Authorization state 
+  AVS.dll v.0.11.1.1 [12 Aug 2013 6:53:10] - Avatar service 
+  ChangeKeyboardLayout.dll v.0.0.1.5 [7 Aug 2013 6:44:44] - Change keyboard layout 
+  Clist_modern.dll v.0.9.0.11 [15 Aug 2013 6:44:38] - Modern contact list 
+  Console.dll v.0.0.7.3 [15 Aug 2013 6:41:24] - Console 
+  CrashDumper.dll v.0.0.4.22 [7 Aug 2013 6:46:16] - Crash dumper 
+  DbEditorPP.dll v.3.2.0.0 [7 Aug 2013 6:46:22] - Database editor++ 
+  Dbx_mmap.dll v.0.11.0.1 [7 Aug 2013 6:40:18] - Miranda NG mmap database driver 
+  Facebook.dll v.0.2.0.0 [16 Aug 2013 7:17:50] - Facebook RM 
+  Fingerprint.dll v.0.1.0.0 [11 Aug 2013 6:47:40] - Fingerprint NG 
+  HistoryPP.dll v.1.5.1.5 [14 Aug 2013 22:05:38] - History++ 
+  ICQ.dll v.0.11.0.1 [16 Aug 2013 7:15:16] - IcqOscarJ Protocol 
+  Import.dll v.0.11.0.1 [7 Aug 2013 6:40:16] - Import contacts and messages 
+  ImportTXT.dll v.0.0.1.10 [7 Aug 2013 6:51:10] - Import TXT 
+  Jabber.dll v.0.11.0.3 [16 Aug 2013 7:15:52] - Jabber Protocol 
+  KeepStatus.dll v.0.8.0.97 [8 Aug 2013 7:00:10] - Keep status 
+  LangMan.dll v.1.0.2.3 [7 Aug 2013 6:44:20] - Language pack manager 
+  NewEventNotify.dll v.0.2.2.3 [16 Aug 2013 7:18:56] - NewEventNotify 
+  NewXstatusNotify.dll v.1.4.0.9 [7 Aug 2013 6:43:02] - xStatus notify 
+  NotesReminders.dll v.0.0.5.1 [7 Aug 2013 6:47:36] - Sticky Notes & Reminders 
+  PluginUpdater.dll v.0.1.1.6 [15 Aug 2013 13:06:38] - Plugin updater 
+  Scriver.dll v.2.10.0.2 [11 Aug 2013 6:39:20] - Scriver 
+  Skype.dll v.0.11.0.2 [14 Aug 2013 22:14:58] - Skype Protocol 
+  SmileyAdd.dll v.0.2.3.17 [7 Aug 2013 6:43:26] - SmileyAdd 
+  SpellChecker.dll v.0.2.6.0 [7 Aug 2013 6:44:20] - Spell checker 
+  YAPP.dll v.0.5.0.11 [7 Aug 2013 6:46:32] - YAPP 
+
+Unloadable Plugins (1):
+  DbChecker.dll v.0.0.0.0 [7 Aug 2013 6:46:34] - <unknown> 
+
+
+Protocols and Accounts:
+-------------------------------------------------------------------------------
+Facebook                 1 - Enabled 0 - Disabled  Loaded
+ICQ                      1 - Enabled 0 - Disabled  Loaded
+JABBER                   4 - Enabled 0 - Disabled  Loaded
+SKYPE                    1 - Enabled 0 - Disabled  Loaded
+
+Icon Packs:
+-------------------------------------------------------------------------------
+ dbe_icons_yg.dll [24 Jul 2005 16:26:16]
+ Flags_icons.dll [7 Aug 2013 6:48:58]
+ Fp_icons.dll [11 Aug 2013 6:48:12]
+ HistoryPP_icons.dll [15 Aug 2013 6:46:34]
+ icons.dll [7 Jan 2013 22:51:09]
+ proto_conn_facebook.dll [10 Dec 2007 9:51:26]
+ proto_conn_icq.dll [26 Mar 2009 18:04:18]
+ proto_conn_jabber.dll [26 Mar 2009 18:04:18]
+ proto_conn_skype.dll [13 Oct 2012 16:00:58]
+ proto_conn_vk.dll [24 Aug 2012 16:40:40]
+ proto_conn_xmppjp.dll [4 Sep 2012 22:41:58]
+ proto_conn_yandex.dll [24 Jul 2012 0:16:52]
+ Proto_Facebook.dll [16 Aug 2013 7:18:22]
+ proto_icq.dll [26 Mar 2009 15:04:18]
+ proto_jabber.dll [2 Nov 2012 19:39:02]
+ proto_skype.dll [6 Jun 2013 0:06:43]
+ proto_vk.dll [2 Nov 2012 19:31:10]
+ proto_xmppjp.dll [2 Nov 2012 19:31:58]
+ proto_yandex.dll [2 Nov 2012 8:06:00]
+ xstatus_icq.dll [2 Mar 2009 4:38:36]
+ xstatus_jabber.dll [2 Mar 2009 7:38:34]

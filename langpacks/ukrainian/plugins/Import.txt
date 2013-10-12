@@ -1,0 +1,153 @@
+﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+[Imports contacts and messages from another Miranda profile or from an external program.]
+Імпортує контакти та повідомлення з інших профілів Miranda NG або сторонніх програм.
+[Choose how you would like to import:]
+Виберіть, звідки необхідно виконати імпорт даних:
+[From a Miranda NG database.]
+З бази Miranda NG.
+[This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
+Цей майстер допоможе вам імпортувати контакти і історію з інших профілів Miranda NG або сторонніх програм.
+[Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
+Натисніть "Далі", щоб вибрати інформацію для імпортування, або "Скасувати", щоб вийти з цього майстра.
+[It is recommended that you create a backup of your current Miranda profile before importing.]
+Рекомендується створити резервну копію поточного профілю перед імпортуванням.
+[If you wish to import more information, натисніть "Next" to return to the start of the wizard, otherwise click "Finish to start using Miranda.]
+Натисніть "Далі", щоб імпортувати ще одну базу, або "Завершити", щоб запустити Miranda NG
+[You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
+Швидше за все, вам більше не знадобиться цей майстер. Ви можете звільнити пам'ять, не завантажуючи його при запуску Miranda NG.
+[Do not load the import plugin at startup again]
+Не завантажувати майстер при наступному запуску
+[Import completed]
+Імпорт завершено
+[If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
+Якщо вам в майбутньому знадобиться цей майстер, відмітьте плагін import.dll в налаштуваннях (розділ "Додатки").
+[Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
+Miranda знайшла наступні профілі. Виберіть профіль зі списку, або натисніть "Інший профіль", якщо Вашого профілю немає у списку, або якщо список порожній.
+[&Other Profile...]
+&Інший профіль..
+[&Filename]
+&Ім'я файлу:
+[Now importing...]
+Імпортується...
+[Import Information Wizard]
+Майстер імпортування
+[&Next >]
+&Далі >
+[Cancel]
+Скасування
+[< &Back]
+< &Назад
+[Import all contacts and all messages]
+Імпортувати контакти та повідомлення
+[Only import contacts]
+Імпортувати контакти
+[Custom import]
+Імпорт вручну
+[Select this if you want to import data as much as possible. This is the recommended option.]
+Виберіть цю опцію, щоб імпортувати якомога більше даних (рекомендується).
+[Select this if you want to import contacts but don't want to import any message history.]
+Виберіть цю опцію, щоб імпортувати контакти (без історії повідомлень).
+[Select this if you want to customize what to import.]
+Виберіть цю опцію, щоб вказати, що саме імпортувати
+[New contacts && groups]
+Нові контакти і групи
+[System history]
+Системна історія
+[Select items to import:]
+Виберіть, що імпортувати:
+[Incoming]
+Вхідні
+[Outgoing]
+Вихідні
+[Only since:]
+Лише з:
+[Messages]
+Повідомлення
+[URLs]
+Посилання
+[File Transfers]
+Передача файлів
+[Other]
+Інше
+[Ignored event from/to self]
+Пропускаю подія від самого себе
+[Added contact %u (found in history)]
+Додано контакт %u (знайдено в історії)
+[Failed to add %S contact %s]
+
+[Added %S contact %s '%s']
+
+[Added %S contact %s]
+
+[Skipping contact with no protocol]
+Пропуск контактів без протоколу
+[Skipping contact %S not installed.]
+
+[Skipping non-IM contact (%S)]
+
+[Skipping %S contact, ID not found]
+
+[Skipping duplicate %S contact %s]
+
+[Unknown error while adding %S contact %s]
+
+[Failed to add message]
+Не вдається додати повідомлення
+[Error retrieving current profile, exiting.]
+
+[There's no database driver to open the input file, exiting.]
+
+[Error loading source file, exiting.]
+
+[Number of contacts in database: %d]
+Кількість контактів в базі: %d
+[Importing groups.]
+Імпорт груп.
+[Group import failed.]
+Помилка імпорту групи
+[Importing contacts.]
+Імпорт контактів.
+[Skipping new contacts import.]
+Пропуск імпорту нових контактів.
+[Importing system history.]
+Імпорт системної історії.
+[Skipping system history import.]
+Пропуск імпорту системної історії.
+[Importing history.]
+Імпорт історії.
+[Skipping history import.]
+Пропуск імпорту історії.
+[Import completed in %d seconds.]
+Імпорт завершено через %d секунд.
+[Added %d contacts and %d groups.]
+Додано %d контактів та %d груп.
+[Added %d contacts, %d groups and %d events.]
+Додано %d контактів, %d груп та %d подій.
+[Skipped %d contacts.]
+Пропущено %d контактів.
+[Skipped %d duplicates and %d filtered events.]
+Пропущено %d дублікатів та %d відфільтрованих подій.
+[Skipped %d duplicates.]
+Пропущено %d дублікатів.
+[Import...]
+Імпорт...
+[&Import...]
+&Імпорт
+[The given file does not exist. Please check that you have entered the name correctly.]
+Даний файл не існує. Перевірте ім'я файлу.
+[Miranda Import]
+Імпорт Miranda NG
+[Miranda NG database]
+База Miranda NG
+[All Files]
+Всі файли
+[Skipping duplicate group %s.]
+Пропуск дубліката групи %s
+[Finish]
+Завершити

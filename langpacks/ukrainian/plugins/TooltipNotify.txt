@@ -1,0 +1,95 @@
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+Показує невелику повідомлення-підказку вище області трею при зміні статусу контакту.
+[Select protocols]
+Протоколи
+[OK]
+Так
+[Choose contacts...]
+Вибрати контакти...
+[Allow tooltip notifications for the following users:]
+Дозволити повідомлення-підказки для наступних категорій користувачів:
+[Cancel]
+Скасування
+[Notify upon the following events]
+Повідомити на наступних подій
+[Online]
+В мережі
+[Offline]
+Не в мережі
+[All other]
+Усі інші
+[Typing]
+Набір тексту
+[Protocols]
+Протоколи
+[Suppress notifications upon connection for]
+Заглушити повідомлення при підключенні до
+[sec]
+с
+[Prefix proto name]
+
+[Duration]
+Тривалість
+[Show tooltip for]
+Показати підказку
+[ms]
+мс
+[Duration x2 upon online event]
+Тривалість х2 на подію онлайн
+[Double click on tooltip]
+Двічі клацніть по підказці
+[Shows/Hides CList]
+Показати/Приховати контактний лист
+[Opens message dialog]
+Відкриває діалогове вікно повідомлень
+[Behavior]
+Поведінка
+[Misc]
+Інше
+[Obey 'Suppress online notification' settings]
+
+[Auto positioning]
+
+[Transparent input]
+
+[Preview]
+Тест
+[Translucency options]
+Налаштування прозорості
+[Transparent tooltip]
+Прозорість повідомлення-підказки
+[Contacts]
+Контакти
+[Idle]
+Очікування
+[Tooltip Notify]
+Повідомлення-підказка
+[Other Status]
+Інші статуси
+[Tooltip Notify: Online]
+Повідомлення-підказка: В мережі
+[Tooltip Notify: Offline]
+Повідомлення-підказка: Не в мережі
+[Tooltip Notify: Other]
+Повідомлення-підказка: Інше
+[Tooltip Notify: Typing]
+Повідомлення-підказка: Набирають
+[Popups]
+Спливаючі вікна
+[** New contacts **]
+** Нові контакти **
+[** Unknown contacts **]
+** Невідомі контакти **
+[Not Idle]
+Не в очікуванні
+[Unknown]
+невідомо
+[is]
+є

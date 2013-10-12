@@ -1,47 +1,135 @@
 ﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;============================================================
-;  File: dbx_mmap_sa.dll
-;  Module: Miranda SecuredMMAP database driver
-;  Versions: 0.7.5.4
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG mmap secure database driver
+;  Version: 0.7.5.4
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
-[Disk is full. Miranda will now shutdown.]
-Диск переповнений. Miranda буде закрита.
-[Database Features]
-Можливості БД
-[Set password]
-Встановити пароль
-[Too many errors!]
-Занадто багато помилок!
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+Підтримка бази даних Miranda NG: глобальні налаштування, контакти, історія, встановлення контактів. Розширена модифікація з підтримкою шифрування.
 [Login to Miranda NG]
 Вхід в Miranda NG
-[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
-Підтримка бази даних Miranda NG: глобальні налаштування, контакти, історія, установки контактів. Розширена модифікація з підтримкою шифрування.
-[DB is already secured!]
-Профіль вже зашифрований!
-[Please enter password for]
-Введіть пароль для
+[EN]
+
+[OK]
+
+[Cancel]
+Скасування
+[New password]
+Новий пароль
+[Change password]
+Змінити пароль
+[Change]
+Змінити
+[Remove]
+Видалити
+[Old password]
+Старий пароль
+[Install Database Settings]
+Встановити налаштування бази даних
+[Yes]
+Так
+[No]
+Ні
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Файл з новими налаштуваннями бази даних був поміщений в каталог Miranda NG.
+[Do you want to import the settings now?]
+Імпортувати налаштування зараз?
+[No to all]
+Ні для всіх
+[&View contents]
+&Вміст
+[Security systems to prevent malicious changes are in place and you will be попереджені before changes that are not known to be safe.]
+Система безпеки для запобігання небажаних змін активна і ви будете попереджені перед небезпечними змінами.
+[Database Setting Change]
+Зміна налаштувань бази даних
+[Database settings are being imported from]
+Налаштування імпортуються з
+[This file wishes to change the setting]
+Цей файл змінює налаштування
+[to the value]
+значення
+[Do you want to allow this change?]
+Дозволити зміну?
+[&Allow all further changes to this section]
+&Дозволити всі зміни в цій секції
+[&Yes]
+&Так
+[&No]
+&Ні
+[Cancel Import]
+Скасувати імпорт
+[Database Import Complete]
+Імпорт бази завершено
+[The import has completed from]
+Імпорт завершено з
+[What do you want to do with the file now?]
+Що ви бажаєте зробити з файлом?
+[&Recycle]
+&Використовувати знову
+[&Delete]
+&Вилучити
+[&Move/Rename]
+Перемістити/перейменувати
+[&Leave]
+&Залишити
 [Database encryption]
 Шифрування профілю
 [Info:]
 Інфо:
-[Old password]
-Старий пароль
-[New password]
-Новий пароль
-[Crypto module hasn't been chosen, using first one found]
-Плагін шифрування не вибрано, використовується перший знайдений
-[Secure alghoritm developed in russian universities]
-Алгоритм шифрування даних, розроблений у російському універсітетах
+[Author:]
+Автор:
+[Site:]
+Сайт:
+[Email:]
+Ел. пошта:
+[Unique ID:]
+Унік. ID:
+[Database is Secured MMAP database]
+
+[You are not authorized for access to Database]
+Ви не авторізовані для доступу к ДБ
+[Secured MMAP: authorization successful]
+Secured MMAP: авторізація підтверджена
+[Database is marked as belonging to an unknown version of Miranda]
+Прифіль позначено як створену невідомою версією Miranda
+[Database Features]
+Можливості БД
+[Database]
+Профіль
+[Change Password]
+Змінити пароль
+[Set password]
+Встановити пароль
 [Dll]
 Алгоритм
-[Notice]
-Повідомлення
-[Miranda MMAP Secured Database]
-Драйвер БД Miranda MMAP з шифруванням
+[Name]
+Ім'я
+[Version]
+Версія
+[Please type in your password for]
+Будь ласка, введіть пароль для
+[Too many errors!]
+Забагато помилок!
+[Password is not correct!]
+Пароль невірний!
+[Please enter your new password]
+Будь ласка, введіть новий пароль
+[Password is too short!]
+Пароль занадто короткий!
+[Passwords do not match!]
+Паролі не збігаються!
+[Wrong password!]
+Невірний пароль!
+[Sorry, but your database encrypted with unknown module]
+
+[Error]
+Помилка
 [Crypto modules not found]
 Плагіни шифрування не знайдено
-[Secure alghoritm developed in russian universities.]
-Алгоритм шифрування, розроблений в російському університетах
-[Old, very easy to crack stream cipher]
-Застарілий, легко взламуемий шифр
+[DB is already secured!]
+Профіль вже зашифрований!
+[current database]
+поточна ДБ
+[Set Password]
+Встановити пароль

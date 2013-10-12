@@ -1,0 +1,183 @@
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+Плагін додає можливість управління вимиканням комп'ютера через Miranda NG.
+[Shutdown]
+Вимикання
+[&Show confirmation dialog before shutdown]
+Діалог підтвердження перед вимиканням
+[&Countdown starts at:]
+Зворотний відлік почнеться:
+[seconds]
+секунд(и)
+[Shutdown Events]
+Події автовимкнення
+[&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
+Знову активувати автовиключення з тими ж налаштуваннями, якщо Miranda NG була закрита з включеним автовыключением.
+[&Ignore hidden or temporary contacts when watching for all contacts being offline]
+Ігнорувати приховані і тимчасові контакти при спостереженні за всіма контактами не в мережі
+[Critical Shutdown Events]
+Критичні події автовимкнення
+[Automatically shutdown the computer and turn the power off when one of the following occurs:]
+Автоматично вимикати комп'ютер при таких подіях:
+[&Thunderstorm warning is issued (Weather)]
+Штормове попередження (плагін Weather)
+[&Harddrive overheats (HDD Info)]
+Перегрів HDD (плагін HDD Info)
+[Automatic Shutdown]
+Автовимкнення
+[Select the automatic shutdown event]
+Вибір подій для автовимкнення
+[Shutdown at &specific time]
+Вимкнути в заданий час
+[Shutdown a&t:]
+Вимкнути в:
+[Shutdown i&n:]
+Вимк. через:
+[Shutdown when a &message is received containing the following text:]
+Вимкнути при отриманні повідомлення, що містить наступний текст:
+[Shutdown when Miranda NG becomes &idle]
+Перехід Miranda NG в режим очікування
+[Configure]
+Налаштувати
+[Shutdown when &prozessor usage drops below:]
+Вимкнути, якщо використання процесора впаде до:
+[(current: 0%)]
+(зараз 0%)
+[Shutdown when all contacts are &offline]
+Вимкнути, якщо всі контакти не в мережі
+[Shutdown when all &file transfers are finished]
+Вимкнути, коли всі передачі файлів завершилися
+[&Action:]
+Дія:
+[Cancel]
+Скасування
+[Unsaved data in open applications except Miranda NG might get lost.]
+Всі несохраренные дані в інших програмах можуть бути втрачені.
+[Please click "Cancel" if you would like to abort the process.]
+Натисніть "Скасувати", якщо хочете перервати процес
+[&Now!]
+Зараз!
+[Shutdown at:]
+Вимкнути в:
+[Time left:]
+Залишилось часу:
+[Progress Bar]
+Рядок стану
+[Background]
+Фон
+[Countdown on Frame]
+Зворотний відлік
+[Paused]
+Пауза
+[&Unpause Countdown]
+Відновити відлік
+[&Pause Countdown]
+Призупинити відлік
+[&Cancel Countdown]
+Скасувати відлік
+[AutoShutdown]
+Автовимикання
+[Header]
+Заголовок
+[Active]
+Активно
+[Inactive]
+Неактивно
+[Events]
+Події
+[(current: %u%%)]
+(поточне %u%%)
+[Second(s)]
+Секунд(и)
+[Minute(s)]
+Хвилин(и)
+[Hour(s)]
+Годин
+[Day(s)]
+Днів
+[Week(s)]
+Тижнів
+[Month(s)]
+Місяць (ів)
+[Start/Stop automatic shutdown]
+Старт/Стоп, автовимкнення
+[Stop automatic shutdown]
+Зупинити автовимкнення
+[Start automatic shutdown]
+Запустити автовимкнення
+[Stop automatic &shutdown]
+Зупинити автовимкнення
+[Automatic &shutdown...]
+Автовимкнення...
+[Automatic Shutdown Error]
+Помилка автовимкнення
+[The shutdown process failed!\nReason: %s]
+Помилка процесу автовимкнення!\nПричина: %s
+[Miranda NG is going to be automatically closed in %u second(s).]
+Miranda NG автоматично закриється через %u секунд(и).
+[All Miranda NG protocols are going to be set to offline in %u second(s).]
+Всі протоколи
+[You will be logged off automatically in %u second(s).]
+Вихід із системи через %u секунд(и).
+[The computer will automatically be restarted in %u second(s).]
+Комп'ютер перезавантажиться через %u секунд(и).
+[The computer will automatically be set to standby mode in %u second(s).]
+Комп'ютер перейде у режим очікування через %u секунд(и).
+[The computer will automatically be set to hibernate mode in %u second(s).]
+Комп'ютер перейде у режим сну через %u секунд(и).
+[The workstation will automatically get locked in %u second(s).]
+Комп'ютер заблокується через %u секунд(и).
+[All dialup connections will be closed in %u second(s).]
+Всі телефонні підключення розриваються через %u секунд(и).
+[The computer will automatically be shut down in %u second(s).]
+Комп'ютер вимкнеться через %u секунд(и).
+[Inititiating the shutdown process failed!\nReason: %s]
+Помилка запуску процесу вимикання!\nПричина: %s
+[Close Miranda NG]
+Закрити Miranda NG
+[Set Miranda NG offline]
+Всі протоколи "Не в мережі"
+[Log off user]
+Вихід з системи
+[Restart computer]
+Перезавантаження комп'ютера
+[Shutdown computer]
+Вимикання комп'ютера
+[Standby mode]
+Режим очікування
+[Hibernate mode]
+Режим гібернації
+[Lock workstation]
+Заблокувати комп'ютер
+[Hang up dialup connections]
+Відключити телефонні з'єднання
+[Sets all Miranda NG protocols to offline and closes Miranda NG.]
+Відключити від мережі всі протоколи і закрити Miranda NG.
+[Sets all Miranda NG protocols to offline.]
+Відключити від мережі всі протоколи Miranda NG.
+[Logs the current Windows user off so that another user can log in.]
+Вийти з облікового запису Windows, щоб зміг увійти інший користувач.
+[Shuts down Windows and then restarts Windows.]
+Відключити і потім перезапустити Windows.
+[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
+Закрити всі запущені програми і завершити роботу Windows, щоб можна було відключити живлення.
+[Saves the current Windows session in memory and sets the system to suspend mode.]
+Зберегти поточний стан Windows в пам'яті і перевести систему в режим очікування.
+[Saves the current session on Windows harddisc, so that the power can be turned off.]
+Зберегти поточний стан Windows на жорсткому диску, так що живлення можна вимкнути.
+[Locks the computer. To unlock the computer you must log in.]
+Заблокувати комп'ютер. Для розблокування необхідно увійти в систему.
+[Sets all protocols to offline and closes all RAS connections.]
+Відключити всі протоколи від мережі і розірвати всі телефонні з'єднання.
+[Alerts]
+Повідомлення
+[Automatic Shutdown Countdown]
+Зворотний відлік автовимкнення
+[Toggle Automatic Shutdown]
+Перемкнути автовимкнення

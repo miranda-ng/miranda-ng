@@ -1,59 +1,68 @@
 ﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
 ;============================================================
-;  File: quickmessages.dll
-;  Module: Quick messages
-;  Versions: 0.0.4.2
-;  URL: http://miranda.radicaled.ru/index.php?plugin=3
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
 ;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
-Позволяет вставлять предварительно заготовленные фразы в окно сообщений.
-[Quick Messages]
-Быстрые сообщения
-[Button Left-Click menu]
-Меню левой кнопки мыши
-[Menu entry value:]
-Наименование меню:
-[Consider as ServiceName]
-Внутренняя команда
+Дозволяє вставляти заздалегідь заготовлені фрази у вікно повідомлень.
 [Button Right-Click value]
-Функция правой кнопки мыши
+Функція правої кнопки миші
+[Button Left-Click menu]
+Меню лівої кнопки миші
+[Buttons]
+Кнопки
+[Menu entry value:]
+Найменування меню:
 [Misc.]
-Разное
+Різне
 [Auto-send on Left-Click]
-Автоотправка по левой клавише
+Автовідправлення по лівій клавіші
 [Auto-send on Right-Click]
-Автоотправка по правой клавише
-[Enable QuickMenu]
-Разрешить контекстное меню
-[Quick Messages Help]
-Помощь по быстрым сообщениям
-[List of variables:]
-Список переменных:
-[- Selected text]
-- Выделенный текст
-[- Text from Clipboard]
-- Текст из буфера обмена
-[- Contact display name]
-- Имя контакта по умолчанию
-[- Contact first name]
-- Имя контакта
-[- Contact last name]
-- Фамилия контакта
-[Tips:]
-Подсказки:
-[*Rename menu item into "---" to insert separator]
-Чтобы вставить разделитель, переименуйте пункт меню в "---"
-[*Use drag'n'drop for arranging menu items]
-Перетаскивайте мышкой пункты меню для сортировки
+Автовідправлення по правій клавіші
 [Add to QuickMenu]
-Добавить в контекстное меню
+Додати в контекстне меню
+[Enable QuickMenu]
+Дозволити контекстне меню
+[Consider as ServiceName]
+Внутрішня команда
 [You have changed the plugin settings via database.\nThis requires restart!]
-Вы изменили настройки плагина через базу данных. Требуется перезапуск Miranda!
+Ви змінили налаштування плагіна через базу даних.\n Потрібен перезапуск Miranda!
+[Quick Messages Help]
+Допомога по швидким повідомленнями
+[- Selected text]
+- Виділений текст
+[List of variables:]
+Список змінних:
+[Text from Clipboard]
+- Текст з буфера обміну
 [- Contacts Protocol name (upper case)]
-- Имя контакта (Заглавные буквы)
+- Ім'я контакту (Великі літери)
+[- Contact display name]
+- Ім'я контакту за замовчуванням
+[Tips:]
+Підказки:
+[*Rename menu item into "---" to insert separator]
+Щоб вставити розділювач, перейменуйте пункт меню у "---"
+[*Use drag'n'drop for arranging menu items]
+*Перетягніть мишкою пункти меню для сортування
+[- Contact first name]
+- Ім'я контакту
+[- Contact last name]
+- Прізвище контакту
+[Quick Messages]
+Миттєві повідомлення
 [Enter Value]
-Введите значение
+Введіть значення
+[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
+
+[You win!]
+
 [New Button]
-Новая кнопка
+Нова кнопка
 [New Menu Entry]
-Новый пункт меню
+Новий пункт меню
+[Message Sessions]
+Бесіди
+[Quick Messages Button %u]

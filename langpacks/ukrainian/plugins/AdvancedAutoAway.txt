@@ -2,68 +2,288 @@
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
-;  Versions: 0.8.0.42
+;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-[Auto Away General]
-AAA: налаштування
-[Ignore caps-lock, num-lock and scroll-lock keys]
-Ігнорувати caps-lock, num-lock і scroll-lock клавіші
+[An Auto Away module with some more options than the original.]
+Плагін управління режимом очікування з розширеним набором функцій.
+[Check connection]
+Перевіряти наявність з'єднання
+[Max. retries]
+Макс. спроб
+[Account Connection]
+Підключення до облікового запису
+[Delay between retries (secs)]
+Затримка між спробами (с)
+[Show popups]
+Показувати спливаючі вікна
+[General]
+Загальна
+[Accounts to check]
+Перевіряти облікові записи
+[Dial-Up]
+Віддалений доступ
+[Don't reconnect if no internet connection seems available]
+Не підключатися, якщо немає з'єднання з Інтернетом
+[Continuously check for internet connection]
+Постійно перевіряти підключення до Інтернету
+[Do so by pinging host]
+Пінговать хост
+[Confirm Status]
+Підтвердіть статус
+[Close]
+Закрити
+[Cancel]
+Скасування
+[Profile]
+Профіль
+[Message]
+Повідомлення
+[after]
+через
+[minutes of inactivity]
+хвилин неактивності
+[minutes of level 1 mode]
+хвилин режиму 1
+[Confirm resetting status]
+Підтвердити скидання статусу
+[Account]
+Обліковий запис
+[Only if set current status is]
+Тільки якщо статус:
+[Monitor miranda's activity only]
+Стежити тільки за Miranda
+[Reset status on return]
+Відновити статус при поверненні
+[when screen saver engages]
+при запуску заставки
+[Set]
+Вибрати
+[only when set inactive]
+тільки при неактивності
+[when workstation is locked]
+при блокуванні комп'ютера
+[Command Line]
+Ком. рядок
+[Copy to Clipboard]
+Копіювати в буфер обміну
+[Command Line:]
+Ком. рядок:
+[Create Shortcut]
+Створити ярлик
+[Add new profile]
+Додати профіль
+[Profile name]
+Ім'я профілю
+[Set window state]
+Стан вікна
+[Show dialog]
+Показувати діалог
+[Set status to offline before exit]
+"Відключений" при виході
+[Show CMDL]
+Ком. рядок
+[Activate status profile]
+Статус-профіль
+[Set docked]
+Паркувати
+[Other]
+Інше
+[Status on startup]
+Статус при запуску
+[ms]
+мс
+[Set after]
+через
+[Timeout]
+Таймаут
+[s]
+з
+[Set window location]
+Позиція вікна
+[Set window size]
+Розмір вікна
+[Allow override]
+Змінювати
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+Статус-профіль можна створити у вкладці "Профілі статусів".
+[Window on startup]
+Вікно при запуску
+[Automatically dial on startup]
+Підключатися при старті
+[Automatically hang up on exit]
+Розривати зв'язок при виході
+[Dial-up (experimental)]
+від. доступ (експериментально)
+[Background color]
+Колір фону
+[Text color]
+Колір тексту
+[Use Windows colors]
+Кольори Windows
+[Use default colors]
+Кольори за замовчанням
+[Delay]
+Затримка
+[On left click]
+Лівий клік
+[On right click]
+Правий клік
+[Do nothing]
+Нічого не робити
+[Close popup]
+Закрити вікно
+[Cancel reconnecting]
+Скасування підключення
+[Colors]
+Кольори
+[Preview]
+Тест
+[Events]
+Події
+[Show when connection is lost]
+Обрив з'єднання
+[Show when a connection attempt is made]
+Спроба підключення
+[Show when reconnection has finished]
+Успішне підключення
+[Show other messages]
+Інші
+[From Popup plugin]
+За замовчанням
+[Custom]
+Налаштувати
+[Permanent]
+Постійно
+[Show additional information in popups]
+Додаткова інформація по всплыв.окнах
+[Use miranda's message setting]
+Використовувати установки Miranda
+[Use this message:]
+Використовувати повідомлення:
+[Use %time% for the current time, %date% for the current date]
+%date% - сьогоднішня дата; %time% - поточний час
+[Variables...]
+Змінні...
+[Specify settings for each account]
+Налаштування для кожного облікового запису
+[Use same settings for all accounts]
+Загальні налаштування для всіх облікових записів
+[Ignore caps-lock, num-scroll lock and-lock keys]
+Ігнорувати клавіші caps-lock, num-lock і scroll-lock
+[Check interval (secs)]
+Інтервал перевірки (с)
+[Confirm dialog timeout (secs)]
+Інтервал підтвердження (с)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Ви увімкнули функцію зміни статусу в розділі налаштувань "Режим очікування", налаштування ААА будуть ігноруватися.
+[Keyboard activity Monitor]
+Стежити за активністю клавіатури
+[Monitor mouse activity]
+Стежити за активністю миші
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Ігнорувати клавіші Ctrl, Alt, Shift, Tab, Esc, Win
 [Ignore any key combination with above keys]
-Ігнор. комбінації із згаданими клавішами
-[Monitor keyboard activity]
-Слідкувати за активністю клавіатури
-[Monitor mouse activity]
-Слідкувати за активністю миші
-[Auto Away Messages]
-AAA: повідомлення
-[Auto Away Rules]
-AAA: правила
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Ви включили функцію зміни статусу в розділі налаштувань "Режим очікування", налаштування ААА будуть ігноруватися.
-[when workstation is locked]
-при блокуванні комп'ютера
-[only set when inactive]
-тільки при неактивності
-[Reset status on return]
-Відновити статус при поверненні
-[Only set if current status is]
-Тільки якщо статус:
-[An Auto Away module with some more options than the original.]
-Плагін управління режимом очікування з розширеним набором функцій.
-[Auto Away]
-Відсутність
+Ігнор. комбінації із зазначеними клавішами
+[Accounts]
+Облікові записи
+[Enable checking]
+Вімкнути перевірку
+[Disable checking]
+Вимкнути перевірку
+[Set status message]
+Встановити повідомлення статусу
+[Status]
+Статус
+[Додати...]
+Додати...
+[Delete]
+Видалити
+[Create a TopToolBar button]
+Створити кнопку на Панелі кнопок
+[Show confirm dialog when loading]
+Підтверджувати при завантаженні
+[Create a main menu item]
+Пункт у головному меню
+[Status Profiles]
+Профілі статусів
+[Hotkey]
+Гаряча клавіша
+[In submenu]
+В підменю
+[Max. delay (secs)]
+Макс. затримка (с)
+[Increase delay exponential]
+Збільшити експоненціально
+[Cancel all if a account connects from another location]
+Скасувати, якщо обліковий запис підключено з іншого місця
+[Reconnect on APM resume]
+Перепідключатися після сплячого режиму
+[Stop trying to reconnect]
+Припинити підключення
+[Set to delay]
+Почекати
+[React on login errors]
+Враховувати помилки входу
+[seconds]
+секунд
+[Set account offline before a connection attempt]
+Відключати обліковий запис перед підключенням
+[Max. account connecting time (secs)]
+Макс. час підключення (с)
+[Timers]
+Таймери
+[Reconnecting]
+Перепідключення
+[Ignore locked status of accounts]
+Ігнорувати блоковані облікові записи
+[Consider connection lost after]
+Зв'язок втрачено після
+[failed pings]
+невдалих пінгів
+[Continuously check interval (secs)]
+Інтервал перевірки (с)
+[Pre-conditions]
+Попередні умови
 [minutes of %s mode]
 хвилин режиму "%s"
-[Auto Away Status Messages]
-AAA: статусні повідомлення
-[Monitor Miranda's activity only]
-Стежити тільки за Miranda
-[when screen saver engages]
-при запуску заставки
-[Confirm resetting status]
-Підтвердити скидання статусу
-[minutes of level 1 mode]
-хвилин режиму 1
-[Only set if status is]
-Тільки, якщо статус
-[Check interval (secs)]
-Інтервал перевірки (сек):
-[Confirm dialog timeout (secs)]
-Інтервал підтвердження (сек)
-[Advanced Auto Away]
-Розширена відсутність
-[Set if status is]
-Змінювати, якщо
-[only when inactive]
-тільки при неактивності
-[Reset status]
-Скидання статусу
-[Specify settings for each protocol]
-Налаштування для кожного протоколу
-[Use same settings for all protocols]
-Загальні параметри для всіх протоколів
-[after]
-за
+[Rules]
+Правила
+[Status Messages]
+Статусні повідомлення
+[Auto Away]
+Відсутність
+[I've been away since %time%.]
+Відійшов у %time%. Скоро повернуся.
+[Give it up, i'm not in!]
+Мене немає.
+[Not right now.]
+Не зараз.
+[Give a some guy peace, would ya?]
+Прошу не турбувати...
+[I'm a chatbot!]
+Вільний
+[Yep, i'm here.]
+Так, я тут.
+[Nope, not here.]
+Ні, мене тут немає.
+[I'm from the hiding mafia.]
+Я ховаюся від мафії.
+[That'll be the phone.]
+Так дайте ж людині поговорити по телефону...
+[Mmm...food.]
+Ммм... поїсти б...
+[idleeeeeeee]
+очікування...
+[Set %s message for %s.]
+Встановити %s повідомлення для %s.
+[<last>]
+<останній>
+[<current>]
+<поточний>
+[<n/a>]
+<невідомо>
+[Protocol]
+Протокол
+[Closing in %d]
+Закрити (%d)

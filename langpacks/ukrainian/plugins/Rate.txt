@@ -1,20 +1,19 @@
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
-;  File: rate.dll
-;  Module: Contact`s Rate
-;  Versions: 0.0.1.5
+;  File: Rate.dll
+;  Plugin: Contact`s rate
+;  Version: 0.0.2.1
+;  Authors: Kildor, Thief
 ;============================================================
-[Contact`s Rate]
-Рейтинг контактів
 [Shows rating of contact in contact list (if presents).]
 Показує рейтинг контакту у списку контактів (якщо є).
-[Warning: your contact list plugin doesn`t have ability to sort contacts by rate.]
-Увага, ваш плагін списку контактів не підтримує сортування контактів за рейтингом.
-[Contact rate]
-Рейтинг контакту
 [Rate high]
 Високий рейтинг
 [Rate medium]
 Середній рейтинг
 [Rate low]
 Низький рейтинг
+[Contact Rate]
+Рейтинг контакта
+[Contact rate]
+Рейтинг контакту

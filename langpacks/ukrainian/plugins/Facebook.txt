@@ -1,0 +1,221 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: facebook.dll
+;  Module: Facebook
+;  Versions: 0.0.5.5
+;  Authors: Robyer
+;============================================================
+[Facebook protocol support for Miranda NG.]
+Підтримка протоколу Facebook в Miranda NG.
+[Default group for newly added contacts:]
+Додавати контакти в групи:
+[User-Agent:]
+Клієнт:
+[Set Facebook status through Miranda status]
+Встановлювати статус Facebook через Miranda
+[Create a new Facebook account]
+Створити новий обліковий запис Facebook
+[Share status...]
+Статус...
+[Set Facebook status through Miranda status (TBD)]
+Встановлювати статус Facebook через Miranda (TBD)
+[Show cookies]
+Показувати cookies
+[No cookies available.]
+Немає cookies.
+[Facebook Protocol]
+Протокол Facebook
+[Enable loggin for debugging purposes]
+Включити відображення помилок
+[Info Dialog]
+Інформація
+[Probably wrong password entered, please try again.]
+Неправильний пароль, спробуйте знову.
+[Enable popup notifications for others minds]
+Включити popup повідомлення
+[Force secure (HTTPS) connection]
+Безпечне з'єднання (HTTPS)
+[Automatically close chat windows on website]
+Автоматично закривати чат в браузері
+[Post Miranda statuses to Wall]
+Публікувати статуси Miranda на стіну
+[Enable logging for debugging purposes]
+Логування для налагодження
+[News feeds]
+Новини
+[Client notifications]
+Повідомлення клієнта
+[Timeout (sec.)]
+Тривалість (сек.)
+[(0 = default, -1 = infinite)]
+(0 = за замовчуванням, -1 = нескінченно)
+[Request following types of News Feed items]
+Запитувати види новин:
+[Use balloon notifications in system tray instead of popups]
+Повідомляти підказкою в треї замість спливаючих вікон
+[Most Recent]
+Останні оновлення
+[Status Updates]
+Оновлення статусу
+[Top News]
+Популярні новини
+[Sample event]
+Приклад події
+[Sample newsfeed]
+Приклад новини
+[Sample notification]
+Приклад повідомлення
+[Please enter a username.]
+Будь ласка, введіть ім'я користувача.
+[Please enter a password.]
+Будь ласка, введіть пароль.
+[Sample request]
+Приклад запиту
+[Visit profile]
+Профіль
+[Visit friendship details]
+Інформація про дружбу
+[Friendship details]
+Інформація про дружбу
+[News Feed]
+Новини
+[News Feed types to notify:]
+Повідомляти про типи новин:
+[Contacts Settings]
+Налаштування контактів
+[Default group:]
+Група:
+[Automatically set 'Ignore change status' flag]
+Автоматично включати ігнорування зміни статусів
+[Use bigger avatars]
+Великі аватари
+[Load contacts with 'On the Mobile' status]
+Завантажувати контакти з мобільного"
+[Use secure connection also for channel requests]
+Безпечне з'єднання також для запитів каналу
+[Also disconnect chat when going to offline]
+Відключати чат на сайті при догляді в оффлайн
+[Automatically close chat windows (on website]
+Автоматично закривати вікно чату (на сайті)
+[Map non-standard statuses to Invisible (instead of Online)]
+Нестандартні статуси, як Невидимий (замість 'мережі')
+[Get unread messages on login (EXPERIMENTAL)]
+Непрочитані повідомлення при вході (Експериментально)
+[Enable groupchats support (EXPERIMENTAL)]
+Підтримка конференцій (Експериментально)
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+Підтримка користувальницьких смайлів (Експериментально!)
+[Use local time for received messages]
+Локальний час для прийнятих повідомлень
+[Allow posting statuses to my pages (may slow down login)]
+Дозволити публікувати статуси на своїх сторінках (уповільнює вхід)
+[Use this server for opening links:]
+Тип сайту для відкриття посилань:
+[Classic website]
+Класичний сайт
+[Mobile website]
+Мобільний сайт
+[Smartphone website]
+Сайт для смартфонів
+[Photos]
+Фотографії
+[Links]
+Посилання
+[Request friendship]
+Запитати додавання в друзі
+[Approve friendship]
+Підтвердити додавання в друзі
+[Cancel friendship]
+Видалити із друзів
+[Do you want to cancel your friendship with '%s'?]
+Ви впевнені, що хочете вилучити '%s' з друзів?
+[Cancel friendship request]
+Відкликати запит дружби
+[Check Friends Requests]
+Перевірити запити дружби
+[Check Newsfeeds]
+Перевірити новини
+[Refresh Buddy List]
+Оновити список друзів
+[Checking friend requests...]
+Перевірка запитів дружби...
+[Loading newsfeeds...]
+Завантаження новин...
+[Refreshing buddy list...]
+Оновлення списку друзів...
+[Services]
+Служби
+[Wall Posts]
+Повідомлення зі стіни
+[Apps and Games]
+Програми та ігри
+[Facebook icon]
+Значок Facebook
+[Mind]
+Думка
+[Other Event]
+Інша подія
+[a sticker]
+стікер
+[files]
+файли
+[a file]
+файл
+[photos]
+фотографії
+[a photo]
+фотографію
+[User sent you %s:]
+Контакт послав вам %s:
+[Read Message: %s]
+Повідомлення прочитано: %s
+[Read Message: %s by %s]
+Повідомлення прочитано: %s користувачем %s
+[Poke]
+Підморгнути
+[What's on your mind, %s?]
+Про що Ви думаєте, %s?
+[Public]
+Всім
+[Friends]
+Друзям
+[Friends of friends]
+Друзям друзів
+[Friends except acquaintances]
+Друзям, крім знайомих
+[Only me]
+Тільки мені
+[Attach contacts:]
+Приєднати контакти:
+[Wall:]
+Стіна:
+[Visibility:]
+Видно:
+[Text:]
+Текст:
+[Place:]
+Місце:
+[Newsfeed]
+Стрічка
+[Cancel]
+Скасування
+[Share]
+Відправити
+[Show 'Share status' window]
+Повідомлення статусу Facebook
+[Own wall]
+Своя стіна
+[Status update was successful.]
+Успішне оновлення статусу.
+[<< Contacts]
+<< Контакти
+[Contacts >>]
+Контакти >>
+[&Invite user...]
+&Запросити користувача...
+[&Leave chat session]
+&Вийти
+[User &details]
+Дані контакту
+[User &history]
+Історія користувача

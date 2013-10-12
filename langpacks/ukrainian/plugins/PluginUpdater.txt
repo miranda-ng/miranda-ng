@@ -1,0 +1,162 @@
+﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin updater
+;  Version: 0.1.1.6
+;  Authors: Mataes, George Hazan
+;============================================================
+Plugin updater for Miranda NG.]
+Оновлення плагінів Miranda NG.
+[Updates found!]
+Знайдені оновлення!
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+Були знайдені оновлені версії плагінів Miranda NG. Натисніть на кнопку "Деталі" для докладної інформації.
+[Update]
+Оновити
+[Details >>]
+Детальніше >>
+[Cancel]
+Скасування
+[Select &all]
+Вибрати все
+[Select &none]
+Зняти вибір
+[Hotkey]
+Гаряча клавіша
+[Go to Customize -> Hotkeys to change the hotkey]
+Налаштування в Тонка настройка -> Гарячі клавіші
+[Plugin updates options]
+Налаштування оновлення плагінів
+[On startup]
+При запуску
+[(but only once a day)]
+(але тільки 1 раз в день)
+[Every]
+Кожні
+[Source Files]
+Джерело оновлення
+[Stable version]
+Стабільна версія
+[Development version (less stable)]
+Версія в розробці (менш стабільна)
+[Development version with debug symbols]
+Версія в розробці з налагоджувальні символами
+[Custom version]
+Задана користувачем версія
+[Notifications]
+Повідомлення
+[Message boxes (*)]
+Діалоги (*)
+[Errors]
+Помилки
+[Info messages]
+Інфо повідомлення
+[Progress dialogs]
+Діалоги прогресу
+[Back]
+Фон
+[Text]
+Текст
+[Colours]
+Кольори
+[Use cus&tom colors]
+Налаштувати кольори
+[Use &Windows colours]
+Кольори Windows
+[Use Pop&up colours]
+Кольори Pop&up
+[Preview]
+Тест
+[Click action]
+Дії по клацанню
+[On left click]
+Лівий клік
+[On right click]
+Правий клік
+[Timeout]
+Таймаут
+[0 = Default]
+0=Умовчання
+[-1 = Infinite]
+-1=Нескінченно
+[Sec]
+с.
+[* Needs popup actions to be enabled]
+* Необхідні включені дії спл. вікон
+[Not sets for "Message boxes"]
+Не встановлює для "Діалоги"
+[Boxes]
+Вікна
+[Popups]
+Спливаючі вікна
+[Component list]
+
+[Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
+
+[Download]
+Завантажити
+[Skipped.]
+Пропущено.
+[Downloading...]
+Завантаження...
+[Failed!]
+Помилка!
+[Succeeded.]
+Завершено.
+[Plugin Updater]
+Оновлення плагінів
+[Download complete]
+
+[Download complete. Do you want go to plugins option page?]
+
+[Component Name]
+Ім'я компонента
+[State]
+Стан
+[Plugins]
+Плагіни
+[Icons]
+Значки
+[Other]
+Інше
+[List is empty.]
+
+[List loading already started!]
+
+[Will be deleted!]
+Видалено!
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Завантаження завершено. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
+[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+Ви відмовилися від негайної установки оновлення плагінів.\пви можете встановити це оновлення вручну звідси:\n\n%s
+[<< Details]
+
+[No updates found.]
+Оновлень немає.
+[Update checking already started!]
+Оновлення вже запущено!
+[hours]
+години(ів)
+[days]
+днів
+[Test]
+Тест
+[Services]
+Служби
+[Check plugin for updates]
+Перевірити оновлення плагінів
+[Show full plugin list]
+
+['Yes' Button]
+Кнопка 'Так'
+['No' Button]
+Кнопка 'Немає'
+[Plugin info]
+
+[Plugin list]
+
+[Plugin HTTP Updater connection]
+HTTP підключення Plugin Updater
+[Checking new updates...]
+
+[An error occured while checking new updates.]

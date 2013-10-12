@@ -1,0 +1,46 @@
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.3
+;  Authors: Bethoven
+;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+Плагін додає панель кнопок для швидкого доступу до функцій Miranda і Ваших програм.
+[Buttons Order && Visibility]
+Порядок і видимість кнопок
+[Button height]
+Висота кнопки
+[Button width]
+Ширина кнопки
+[Interval between buttons]
+Проміжок
+[Use flat mode]
+Кнопки без кордону
+[Auto resize]
+Автоматичний вибір розміру
+[Single line]
+Панель в один рядок
+[Buttons order:]
+Показувати кнопку:
+[Add Separator]
+Додати роздільник
+[Add Launch]
+Додати кнопку
+[Del Sep/Launch Button]
+Видалити роздільник/кнопку
+[Name:]
+Ім'я:
+[Path:]
+Шлях:
+[Set]
+Вибрати
+[Default]
+За замовчуванням
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n - Modern contact list\n - MultiWindow (MW)\n - Nicer+\nYou can get them at http://miranda-ng.org]
+Даний плагін списку контактів не підтримує сервіс фреймів, необхідний для їх роботи, тому плагін панелі кнопок був вимкнений.\nДля роботи панелі кнопок потрібно встановити та / або включити один з таких плагінів списку контактів:\n - Modern contact list\n - MultiWindow (MW)\n - Nicer+\пви можете завантажити їх на http://miranda-ng.org
+[TopToolBar]
+Панель кнопок
+[Contact List]
+Список контактів
+[Toolbar]

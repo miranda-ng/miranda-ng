@@ -1,0 +1,241 @@
+﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.4
+;  Authors: Cristian Libotean
+;============================================================
+[Notifies of you upcoming birthdays.]
+Повідомлення про дні народження.
+[Notify of birthdays:]
+Нагадування про день народження
+[Popups]
+Спливаючі вікна
+[Popup timeout:]
+Тривалість:
+[Preview]
+Тест
+[Don't show popups for subcontacts]
+Не показувати для подконтактов
+[Show popup when no birthdays are near]
+Повідомляти, навіть якщо близьких днів народження немає
+[Popup mouse click]
+Клік кнопкою миші по вікну
+[Left]
+Зліва
+[Right]
+Праворуч
+[Sounds]
+Звуки
+[Play sounds when there are]
+Програти, якщо залишилося
+[days or less birthday to.]
+днів або менше до ІН.
+[Start notifying]
+Почати
+[days in advance and]
+днів до дати
+[Check every]
+Перев. кожні
+[hours]
+годин(и)
+[Only notify once per day.]
+Нагадувати разу в день
+[Use By default]
+Використовувати
+[birthday to save data.]
+для зберігання даних.
+[Show]
+Показати
+[in birthday list window]
+у списку днів народжень
+[Dialog]
+Діалог
+[Timeout:]
+Таймаут:
+[seconds]
+секунд(и)
+[Notify for]
+Повідомлення
+[afterwards]
+після
+[In background]
+У фоні
+[Birthday list]
+Список днів народження
+[Close]
+Закрити
+[Show all contacts]
+Показати всі контакти
+[Set birthday:]
+Вказати день народження:
+[OK]
+
+[Manage anniversaries]
+
+[Title:]
+Заголовок:
+[Description:]
+Опис:
+[Date:]
+Дата:
+[Save]
+Зберегти
+[Delete]
+Видалити
+[Upcoming birthdays]
+Наступають дні народження
+[Upcoming age]
+Майбутній вік
+[Current age]
+Поточний вік
+[UserInfo module]
+Плагін UserInfo
+[Protocol module]
+Плагін протоколу
+[mBirthday module]
+Плагін mBirthday
+[Nothing]
+Нічого
+[Dismiss]
+Прибрати
+[Message window]
+Вікно повідомлення
+[All contacts]
+Всі контакти
+[All contacts except hidden ones]
+Всі, крім прихованих
+[All contacts except ignored ones]
+Всі, крім ігнорованих
+[All contacts except hidden and ignored ones]
+Всі, крім прихованих і ігнорованих
+[Set popup delay when notifying of upcoming дні народження.\nFormat: default delay [ | delay for birthdays occuring today]]
+Встановлює затримку попередження про наближення ін.\nФормат: затримка за замовчуванням [ | затримка ін сьогодні]
+[Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
+Виберіть плагін зберігання днів народжень.\r\n"UserInfo" за замовчуванням.\r\nВик. "Плагін протоколу" щоб бачити дані в даних контакту\n"mBirthday плагін" зберігає також, як і плагін mBirthday
+[Birthday Set for %s:]
+День народження %s
+[%S protocol]
+%S протокол
+[N/A]
+Недоступний
+[Unknown]
+Невідомо
+[Birthday list (%d)]
+Список днів народження (%d)
+[Protocol]
+Протокол
+[Contact]
+Контакт
+[DTB]
+Днів до ІН
+[Birthday]
+День народження
+[Age]
+Вік
+[Module]
+Модуль
+[Closing in %d seconds]
+Автозакриття %d секунд...
+[Closing in %d second]
+Закриття через %d секунд
+[Check for birthdays]
+Перевірити дні народження
+[Birthdays]
+Дні народження
+[Contacts]
+Контакти
+[WhenWasIt]
+Дні народження
+[Birthday near]
+День народження скоро
+[Birthday today]
+День народження сьогодні
+[Birthdays (When Was It)]
+Дні народження
+[Refresh user details]
+Оновити дані контактів
+[Import birthdays]
+Імпорт днів народження
+[Export birthdays]
+Експорт днів народження
+[Add/change user &birthday]
+День народження користувача
+[Check birthdays menu item]
+Перевірити дні народження
+[List birthdays menu item]
+Список днів народження
+[Add/change birthday]
+Правити день народження
+[1 day to birthday]
+1 день до свята
+[%d days to birthday]
+%d днів до свята
+[More than %d days to birthday]
+Більше %d днів до свята
+[WhenWasIt birthday reminder]
+Дні народження
+[No upcoming birthdays.]
+Близьких днів народження немає.
+[%s has birthday in %d days.]
+%s відзначає день народження через %d днів.
+[%s has birthday tomorrow.]
+%s відзначає День народження завтра.
+[%s has birthday today.]
+%s відзначає День народження сьогодні.
+[%s had birthday %d days ago.]
+У %s був день народження %d днів тому.
+[%s had birthday yesterday.]
+У %s вчора був день народження.
+[%s has birthday today (Should not happen, please report).]
+
+[Birthday - %s]
+День народження %s
+[He]
+Йому
+[She]
+Їй
+[He/She]
+Йому/їй
+[%s\n%s will be %d years old.]
+%s\n%s виповниться %d .
+[%s\n%s just turned %d.]
+%s\n%s виповнилося %d
+[Starting to refresh user details]
+Початок оновлення інформації про користувачів
+[Done refreshing user details]
+Оновлення інформації про користувачів завершено
+[Could not create worker thread. Error#%d - threadID %d]
+Не вдалося створити робочий потік. Помилка#%d - threadID %d
+[Error]
+Помилка
+[Birthdays files]
+Файли днів народжень
+[Please select a file to import birthdays from ...]
+Виберіть файл для імпорту днів народження
+[Importing birthdays from file: %s]
+Імпортувати файл %s
+[Done importing birthdays]
+Імпорт завершено
+[All Files]
+Всі файли
+[Please select a file to export birthdays to ...]
+Виберіть файл для експорту днів народження
+[Exporting birthdays to file: %s]
+Йде на експорт у файл %s
+[Done exporting birthdays]
+Експорт завершено
+[Could not open file to import birthdays]
+Не вдалося відкрити файл для імпорту днів народження
+[Warning]
+Попередження
+[Could not open file to export birthdays]
+Не вдалося відкрити файл для експорту днів народження
+[Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
+Будь ласка, не редагуйте цей файл вручну. Використовувати функцію експорту WhenWasIt плагін.\n
+[Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
+Попередження! Будь ласка, не змішуйте Unicode і Ansi експортованих день народження файлів. Ви повинні використовувати ту ж версію (Ansi/Unicode) WhenWasIt, який був використаний, щоб експортувати інформацію.\n
+[This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
+Цей файл був експортований з Unicode-версію WhenWasIt. Будь ласка, використовуйте тільки Unicode версії плагін для імпорту днів народження.\n
+[Could not find UID '%s [%S]' in current database, skipping]
+Не міг знайти UID '%s [%S]' у поточній базі даних, пропуск

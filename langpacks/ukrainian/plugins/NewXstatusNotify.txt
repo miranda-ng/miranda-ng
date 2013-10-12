@@ -1,0 +1,378 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+[Notifies you when a contact changes his/her (X)or status status message.]
+Повідомляє вас про зміни статусів, хСтатусов або статусних повідомлень контактів.
+[Notify when a contact changes to one of these statuses]
+Повідомляти, коли статус контакту змінюється на:
+[Online]
+В мережі
+[Offline]
+Не в мережі
+[Invisible]
+Невидимий
+[Free for chat]
+Готовий базікати
+[Away]
+Відсутній
+[NA]
+Недоступний
+[Occupied]
+Зайнятий
+[DND]
+Не турбувати
+[Out to lunch]
+Обідаю
+[On the phone]
+На телефоні
+[Always when changing from offline]
+Із статусу "Відключений"
+[Plugin activation]
+Активізація модуля
+[Automatically turn off Popups and Sounds on change status]
+Вимикати сплив. вікна і звуки при зміні статусу
+[Configure]
+Налаштувати
+[Notify me for people not in my Contact List]
+Повідомляти мене про контакти не з списку контактів
+[Blink icon in the system tray]
+Миготливий значок в сист. панелі
+[Use status icon]
+Значок статусу
+[Use individual sounds]
+Індивідуальні звуки
+[Log to file]
+Запис у файл
+[Enable]
+Включено
+[Go to Sound to select the sounds]
+Перейдіть у Звуки для вибору звуків
+[Extra status]
+хСтатус
+[Open]
+Відкрити
+[Status message]
+Повідомлення статусу
+[IndSndList]
+
+[Change]
+Змінити
+[Preview]
+Тест
+[Delete]
+Видалити
+[Enable sounds]
+Включити звуки
+[Enable popups]
+Спливаючі вікна
+[Status Notify]
+Зміна статусу
+[Individual sounds are disabled.\n\nTo enable them, go to Options - Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Особисті звуки вимкнені.\n\nЩоб їх включити, підіть до Параметри - Статус - Повідомлення, увімкніть \n"Індивідуальні звуки", і знову відкрийте вікно.
+[Sounds]
+Звуки
+[Popups]
+Спливаючі вікна
+[Extra status notify]
+хСтатус
+[Extra status logging]
+Запис хСтатусов
+[Disable all]
+Вимкнути всі
+[Enable all]
+Включити всі
+[Background]
+Фон
+[Text]
+Текст
+[Colours]
+Кольори
+[Use custom colours]
+Задати кольору
+[Use Windows colours]
+Кольори Windows
+[Use Popup colours]
+Кольори спливаючих вікон
+[Popup text]
+Текст спливаючих вікон
+[Read status message]
+Читати статусне повідомлення
+[Show previous status too]
+Показувати попередній статус
+[Timeout]
+Таймаут
+[Popups when status changes to:]
+Сплив. вікно коли статус змінився на:
+[Click action]
+Дії по кліку
+[Show contact group name]
+Показувати ім'я групи контакту
+[Use alternative description]
+Використовувати альтернативне опис
+[0 = Default]
+0=Замовчання
+[-1 = Infinite]
+-1=Нескінченно
+[Sec]
+с.
+[On left click]
+Лівий клік
+[On right click]
+Правий клік
+[Show status description]
+Показувати опис статусу
+[Ignore empty status and xStatus messages]
+Ігнорувати пистий статус і хСтатус повідомлення
+[Messages]
+Повідомлення
+[Disable for extra status 'Music']
+Вимкнути для хСтатуса "Музика"
+[Truncate message to length:]
+Обрізати повідомлення:
+[characters]
+символів
+[Templates]
+Шаблони
+[Title text delimiter:]
+Заголовок-текст роздільник:
+[Remove:]
+Вилучення:
+[New message:]
+Нове повідомлення:
+[New status:]
+Новий статус:
+[Variables]
+Змінні
+[Reset]
+Скидання
+[Disable notifications]
+Вимкнути повідомлення
+[OK]
+
+[Cancel]
+Скасувати
+[Disable globally]
+Відключити повністю
+[Disable only if I global change status]
+Відключати, тільки при зміні глобального статусу
+[Disable when my status is:]
+Відключати, коли мій статсус:
+[Extra status log]
+Запис хСтатусов
+[Enable logging extra status to message window]
+Включити запис хСтатусов у вікно повідомлень
+[Keep events in history]
+Зберігати події в історію
+[Prevent identical logs]
+Запобігати однакових записів
+[On opening ML:]
+Відкриття вікна:
+[General]
+Загальна
+[Show Popups when I connect]
+
+[Accounts]
+Облікові записи
+[Enable/Disable accounts which you don't wish to be notified for:]
+
+[Sound files]
+Звукові файли
+[All files]
+Усіфайли
+[Wave files]
+WAV файли
+[Status]
+Статус
+[Sound for the status]
+Звук для статусу
+[From offline]
+З оффлайну
+[** All contacts **]
+** Контакти **
+[(default sound)]
+(за замовчанням)
+[<no status message>]
+<немає повідомлення статусу>
+[Contact]
+Контакт
+[connecting]
+підключається
+[aborting]
+відміняється
+[playing]
+грає
+[%s is now %s]
+%s зараз %s
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+%s, %s. %s змінив(ла): %s (був(а): %s).\r\n
+[(M) is back online!]
+знову в мережі!
+[(F) is back online!]
+знову в мережі!
+[(U) is back online!]
+знову в мережі!
+[User: Online]
+Користувач: в мережі
+[(M) went offline! :(]
+пішов з мережі! :(
+[(F) went offline! :(]
+пішла з мережі! :(
+[(U) went offline! :(]
+пішов з мережі! :(
+[User: Offline]
+Користувач: не в мережі
+[(M) hides shadows in...]
+сховався в тіні...
+[(F) hides shadows in...]
+сховалася в тіні...
+[(U) hides shadows in...]
+сховався в тіні...
+[User: Invisible]
+Користувач: невидимий
+[(M) feels talkative!]
+готовий поговорити!
+[(F) feels talkative!]
+готова поговорити!
+[(U) feels talkative!]
+готовий побалакати!
+[User: Free For Chat]
+Користувач: готовий базікати
+[(M) went Away]
+відійшов
+[(F) went Away]
+відійшла
+[(U) went Away]
+відійшов
+[User: Away]
+Користувач: відсутній
+[(M) isn't there anymore!]
+відсутній!
+[(F) isn't there anymore!]
+відсутній!
+[(U) isn't there anymore!]
+відсутній!
+[User: Not Available]
+Користувач: недоступний
+[(M) has something else to do.]
+зайнятий чимось іншим.
+[(F) has something else to do.]
+зайнята чимось іншим.
+[(U) has something else to do.]
+зайнятий чимось іншим.
+[User: Occupied]
+Користувач: зайнятий
+[(M) doesn't want to be disturbed!]
+не хотів би, щоб його турбували!
+[(F) doesn't want to be disturbed!]
+не хотіла б, щоб її турбували!
+[(U) doesn't want to be disturbed!]
+не хотів би, щоб його турбували!
+[User: Do Not Disturb]
+Користувач: не турбувати
+[(M) is eating something]
+щось їсть
+[(F) is eating something]
+щось їсть
+[(U) is eating something]
+щось їсть
+[User: Out To Lunch]
+Користувач: обідає
+[(M) had to answer the phone]
+говорить по телефону
+[(F) had to answer the phone]
+говорить по телефону
+[(U) had to answer the phone]
+говорить по телефону
+[User: On The Phone]
+Користувач: на телефоні
+[Enable status notification]
+Включити повідомлення про зміну статусу
+[Disable status notification]
+Вимкнути сповіщення про зміну статусу
+[Notification enabled]
+Повідомлення включено
+[Notification disabled]
+Повідомлення вимкнено
+[New Status Notify]
+
+[User: from offline (has priority!)]
+Користувач: з оффлайна (має пріоритет!)
+[Extra status changed]
+хСтатус змінено
+[Extra status message changed]
+Змінено повідомлення хСтатуса
+[Extra status removed]
+хСтатус видалений
+[Toggle status notification]
+Вкл/Викл повідомлення про зміну статусу
+[All Files]
+Всі файли
+[Log]
+Журнал
+[This is status message]
+Це повідомлення статусу
+[Do you want to reset all templates to default?]
+Ви хочете скинути всі шаблони на стандартні?
+[Reset templates]
+Скинути шаблони
+[Show available variables]
+Доступні змінні
+[Reset all templates to default]
+Скинути все на стандартні шаблони
+[Protocol]
+Протокол
+[Filtering]
+Фільтрація
+[Message log]
+Журнал
+[Open message window]
+Відкрити вікно бесіди
+[Close popup]
+Закрити вікно
+[Open contact details window]
+Відкрити вікно деталей контакту
+[Open contact menu]
+Відкрити меню контакту
+[Open contact history]
+Відкрити історію контакту
+[Do nothing]
+Нічого не робити
+[You cannot specify a value lower than %d and higher than %d.]
+Значення менше %d або більше %d не допускається.
+[Can't open the log file!]
+Не можу відкрити файл журналу!
+[NewXstatusNotify]
+Повідомлення про зміну статусів
+[Mood]
+Настрій
+[Activity]
+Заняття
+[Xstatus]
+хСтатус
+[<unknown>]
+<невідомо>
+[%s, %s. %s removed %s.\r\n]
+%s, %s. %s видалено %s.\r\n
+[%s, %s. %s changed %s to %s.\r\n]
+%s, %s. %s змінений %s на %s.\r\n]
+[changed %N to: %T%D%I]
+змінив(ла) %N на: %T%D%I
+[changed %N message to:%D%I]
+змінив(ла) повідомлення %N:%D%I
+[removed %N]
+видалив(а) %N
+[changed his/her status message to %n]
+змінив(ла) статусне повідомлення на %n
+[changed %N @ %T%D%I]
+змінив(ла) %N @ %T%D%I
+[changed %N message @ %I]
+змінив(ла) повідомлення %N @ %I
+[has %N @ %T%D%I]
+%N @ %T%D%I
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n""% c\tCustom Nickname\r\n\\n\tline break\r\n\n\t\ttab stop]

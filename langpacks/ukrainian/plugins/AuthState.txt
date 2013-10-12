@@ -1,37 +1,33 @@
 ﻿#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
 ;============================================================
 ;  File: AuthState.dll
-;  Plugin: Shows authorisation state icon
-;  Versions: 0.0.2.0
-;  Authors: Thief
+;  Plugin: Authorization state
+;  Version: 0.0.2.1
+;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you this plugin puts an icon in front of the contact's name.]
 Цей плагін помістить значок навпроти імені, якщо контакт авторизував вас, або ви не авторизовали його.
-[Auth State]
-Стан авторизації
-[Grant]
-Дозволити
-[Auth & Grant]
-Запит & Дозволити
-[Enable Menu Item (*)]
-Додати пункт меню (*)
-[Show icons only for recently added contacts]
-Значки тільки для нещодавно доданих
 [Show Auth icon]
 Показувати значок "Запит"
 [Show Grant icon]
 Показувати значок "Дозволити"
-[* Restart of Miranda required]
-* Потрібен перезапуск програми
-[Enable AuthState Icons]
-Увімкнути значки стану авторизації
-[Disable AuthState Icons]
-Вимкнути значки стану авторизації
-[Enable AuthState icons]
-Увімк. значки стану авторизації
+[Plugin settings]
+Налаштування
+[Enable Menu Item (*)]
+Додати пункт меню (*)
+[Show icons only for recently added contacts]
+Значки тільки для нещодавно доданих
 [Disable AuthState icons]
 Вимк. значки стану авторизації
-[* Show Menu Item]
-* Пункт в меню
-[Authorization State]
+[Enable AuthState icons]
+Увімк. значки стану авторизації
+[Auth]
+Авторизація
+[Grant]
+Дозволити
+[Auth & Grant]
+Запит & Дозволити
+[Auth State]
 Стан авторизації
+[Icons]
+Значки

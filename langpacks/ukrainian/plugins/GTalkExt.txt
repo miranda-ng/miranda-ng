@@ -1,51 +1,65 @@
-﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;============================================================
 ;  File: GTalkExt.dll
-;  Module: GTalk extensions for Jabber protocol
-;  Versions: 0.0.0.18
+;  Plugin: GTalk Extension
+;  Version: 0.0.1.1
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
 Розширення протоколу Jabber для поштових повідомлень GTalk.
-[subject\n    %s\nfrom\n%s\n%s\n]
-тема\n %s\nвід\n%s\n%s\n
-[subject\n    %s\nfrom\n%s]
-тема\n    %s\nвід\n%s
-[Unread threads:]
-Непрочитаних ланцюжків:
-[GMail notifications]
-Повідомлення про пошту у GMail
 [Popup notifications (needs popup plugin)]
 Спливаючі повідомлення (потрібен плагін спливаючих вікон)
-[Notify in contact list]
-Повідомляти в списку контактів
-[Clear pseudocontact history before adding new events]
-Очищати історію псевдоконтакта перед додаванням нових подій
 [Notify in fullscreen mode too]
 Також повідомляти і в повноекранному режимі
-[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
-Господині на замітку\nЦе буде працювати, тільки якщо цей обліковий запис Jabber-це насправді GTalk
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Використовуйте це якщо ваш плагін спливаючих вікон неправильно визначає повноекранний режим. Він забере у вас фокус вводу
-[Supress foreign popups for pseudocontact]
-Приховувати сторонні спливаючі вікна для псевдоконтакта
-[0 means default timeout,\n-1 means no timeout]
-0 = Типове,\n-1 = Безмежно
-[If both colors set to the same value, default colors will be used]
-Якщо обидва кольору однакові, будуть використані кольору за промовчанням
-[Mark history event read when popup closed]
-При закритті спливаючого вікна позначати подію прочитаною
+[Add message snip to notification]
+Додати у повідомлення фрагмент з листа
 [Try to login before open mailbox]
 Намагатися увійти перед переходом в поштову скриньку
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
 Це працює тільки якщо пароль збережений в БД. Не впливає на посилання в журналі повідомлень псевдоконтакта
-[Open mailbox]
-Відкрити поштову скриньку
-[Add message snip to notification]
-Додати у повідомлення фрагмент з листа
 [Choose GMail view you use in web interface]
 Виберіть вигляд GMail, використовуваний у веб-інтерфейсі
 [I don't know]
 Я не знаю
 [Standard view]
 Стандартний
+[Basic HTML]
+Базовий HTML
+[Background color]
+Колір фону
+[Text color]
+Колір тексту
+[Timeout]
+Таймаут
+[If both colors set to the same value, default colors will be used]
+Якщо обидва кольори однакові, будуть використані кольору за промовчанням
+[0 means default timeout\n-1 means no timeout]
+0 = Типове,\n-1 = Безмежно!!!
+[Test]
+Тест
+[Open mailbox]
+Відкрити поштову скриньку
+[You've received an e-mail\n%s unread threads]
+Вам прийшла пошта\nНепрочитаних ланцюжків: %s
+[Popups]
+Спливаючі вікна
+[Network]
+Мережа
+[Why C sucks]
+
+[brickstrace@gmail.com [1]]
+
+[ bems\n]
+
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphіsm, subtyping reuse and code\n* No metaprogramming except preprocessor macros\n* No exceptions]
+
+[GMail notifications]
+Повідомлення про пошту в GMail
+[subject\n %s\nfrom\n%s\n%s\n]
+тема\n %s\пвід\n%s\n%s\n
+[subject\n %s\nfrom\n%s]
+тема\n %s\пвід\n%s
+[Unread threads:]
+Непрочитаних ланцюжків:

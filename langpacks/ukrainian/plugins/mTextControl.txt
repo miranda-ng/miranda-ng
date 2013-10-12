@@ -1,31 +1,9 @@
 ﻿#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
 ;============================================================
-;  File: mtextcontrol.dll
-;  Versions: 0.0.2.1
+;  File: mTextControl.dll
+;  Plugin: Miranda text control
+;  Version: 0.8.0.1
+;  Authors: Merlin_de, Victor Pavlychko
 ;============================================================
 [Provides text render API for different plugins.]
 API обробки тексту для різних модулів.
-[Text Display]
-Текст
-[Display technique]
-Метод відображення
-[Simple text renderer (faster, RTL, no fancy stuff)]
-Простий (швидко, з RTL, без модних фішок)
-[Advanced text renderer (smilies, bbcodes, no RTL)]
-Розширений (Смайлики, ВВкоды, без RTL)
-[Autodetect]
-Автоматичний
-[Left-To-Right]
-Зліва направо
-[Right-To-Left]
-Зправа на ліво (RTL)
-[In-text objects]
-Об'єкти
-[SmileyAdd Smilies]
-Смайлики
-[BBCodes]
-BBCode
-[MathModule Formulas]
-Формули MathModule
-[Text Controls]
-Управління текстом

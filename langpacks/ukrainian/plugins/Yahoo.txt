@@ -1,0 +1,244 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo Protocol
+;  Version: 0.11.0.1
+;  Authors: Gennady Feldman
+;============================================================
+[Yahoo Protocol support for Miranda NG.]
+Підтримка протоколу Yahoo в Miranda NG.
+[Yahoo]
+
+[ID:]
+
+[Password:]
+Пароль:
+[Nick:]
+Нік:
+[Create a new Yahoo account using the Yahoo website]
+Створити обліковий запис на сайті Yahoo
+[Expert]
+Експерт
+[Use Yahoo Address Book (YAB)]
+Використовувати адресну книгу Yahoo! (YAB)
+[Show Avatars]
+Показувати аватари
+[AutoLogin to Yahoo Website(s)]
+Автоматично підключатися до Yahoo сайту(ів)
+[Display Yahoo notifications]
+Показувати повідомлення Yahoo!
+[Show Errors]
+Показувати помилки
+[Yahoo Japan]
+Yahoo! Японія
+[Create a new Yahoo account]
+Створити новий обліковий запис Yahoo!
+[Connection Settings]
+Налаштування з'єднань
+[Login server:]
+Сервер:
+[Port:]
+Порт:
+[Reset]
+Скидання
+[Yahoo Ignore List]
+Ігнорувати на Yahoo!
+[Ignore anyone who is not on my Yahoo buddy list]
+Ігрорувати всіх хто не у моему контакт листі Yahoo!
+[Ignore only the people below:]
+
+[&Add]
+&Додати
+[&Remove]
+&Очистити
+[Set Custom Status]
+Встановлення хСтатуса
+[Show as busy]
+Показати як "зайнятий"
+[OK]
+
+[Cancel]
+Скасувати
+[Protocol:]
+Протокол:
+[Client:]
+Клієнт:
+[Chat Room Invitation Request]
+Запрощення у чат-кімнату
+[&Join]
+%Зайти
+[&Deny]
+&Вимкнути
+[Denial Message]
+
+[Invitation Message]
+
+[Host]
+
+[Invite Buddy To Chat Room]
+Запрошення в чат-кімнату
+[Screen Name]
+Нік
+[&Invite]
+&Запрошення
+[&Cancel]
+&Сказувати
+[Invitation reason]
+Причина запрошення
+[Add]
+Додати
+[Avatars]
+Аватари
+[[miranda] Got conference invite to room: %s with msg: %s]
+(Miranda NG) Отримано запрошення в кімнату %s:%s
+[%s denied invitation with message: %s]
+
+[Me]
+Я
+[Others]
+Інше
+[&Invite user...]
+&Запросити користувача...
+[&Leave chat session]
+&Покинути сеанс
+[User &details]
+Дані &контакту
+[User &history]
+&Історія
+[Join My Conference...]
+Заходь в мою чат-кімнату...
+[No, thank you...]
+Ні, дякую...
+[Main]
+Головний
+[Mail]
+Пошта
+[Profile]
+Профіль
+[Refresh]
+Оновити
+[Address Book]
+Адресна книга
+[Set Status]
+Встановити статус
+[Calendar]
+Календар
+[Yahoo Error]
+Yahoo! помилка
+[The message send timed out.]
+Таймаут відправлення повідомлення
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Повідомлення занадто довге: Yahoo! обмежено 800 UTF8 символів
+[YAHOO Link Protocol]
+Посилання протоколу Yahoo!
+[YAHOO plugin HTTP connections]
+
+[The changes you have made you to require reconnect to the Yahoo network before they take effect]
+Зміни вступлять при наступному вході в мережу Yahoo!.
+[YAHOO Options]
+Налаштування Yahoo!
+[You need to be connected to Yahoo to add to Ignore List.]
+Ви повинні бути в мережі для додавання в список ігнорування.
+[Yahoo Ignore]
+Yahoo! Ігнор
+[Please enter a valid buddy name to ignore.]
+Введіть правильне ім'я контакту для ігнорування.
+[The buddy is already on your ignore list.]
+Це ім'я вже у вашому листі ігнорування.
+[You need to be connected to Yahoo to remove from the ignore list.]
+Ви повинні буди в мережі Yahoo! щоб видяляти з листу ігнорування.
+[Please select a buddy on the ignore list to remove.]
+Виберіть контакт, який потрібно видалити зі списку, ігнору.
+[Network]
+Мережа
+[Account]
+Обліковий запис
+[Connection]
+Підключення
+[Ignore List]
+Чорний список
+[New E-mail available in Inbox]
+Нова пошта в папці "Вхідні"
+[%s plugin connections]
+%s підключення до сервера
+[ID]
+
+[Please enter your yahoo id in Options/Network/Yahoo]
+Введіть ваш Yahoo! ID - Налаштування/Мережа/Yahoo
+[Please enter your yahoo password in Options/Network/Yahoo]
+Введіть ваш Yahoo! пароль - Налаштування/Мережа/Yahoo
+[Yahoo Login Error]
+Помилка підключення Yahoo!
+[You need to be connected to set the custom message]
+Ви повинні бути підключені щоб задати повідомлення
+[You need to be connected to refresh your buddy list]
+Ви повинні бути підключені для оновлення списку
+[Set &Custom Status]
+Встановити хСтатус
+[&Edit My Profile]
+&Редагувати мій профіль
+[&My Profile]
+&Мій &профіль
+[&Yahoo Mail]
+&Пошта &Yahoo!
+[&Address Book]
+&Адресна книга
+[&Calendar]
+&Календар
+[Create Conference]
+Створити чат-кімнату
+[&Show Profile]
+&Профіль
+[[miranda] Got webcam invite. (not currently supported)]
+(Miranda NG) Запрошення в відеоконференцію (поки не підтримується)
+[Calendar Reminder]
+Календар нагадувань
+[%s has rejected your request and sent the following message:]
+%s відхилив запит і послав повідомлення:
+[Invalid Contact]
+
+[The id you tried to add is invalid.]
+
+[Unknown Error??.]
+Невідомиа помилка??.
+[New Mail]
+Нова пошта
+[You Have %i unread msgs]
+У вас %i не прочитаних повідомлень
+[New Mail (%i msgs)]
+Нова пошта (%i листів)
+[From: %s\nSubject: %s]
+Від: %s\nТема: %s
+[Yahoo System Message]
+Системне повідомлення Yahoo!
+[Yahoo Ping Error]
+Yahoo! помилка пінгу
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
+
+[Could not log into Yahoo service - incorrect password. Please verify that your username and password are correctly typed.]
+
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
+
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+Ви були відключені від сервісу Yahoo!, можливо із-за іншого підключення.
+[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
+Не можу підключитися до сервісу Yahoo! Перевірте налаштування сервера/порт проксі.
+[Could not log in, unknown reason: %d.]
+Не можу авторизуватися, причина: %d.
+[Unknown error %s]
+Невідома помилка %s
+[Custom error %s]
+Помилка %s
+[%s is not available for the conference]
+%s недоступний для розмови
+[%s is already ignored]
+%s вже ігнорується
+[%s is not in the ignore list]
+%s не в ігнор-списку
+[%s is in buddy list - cannot ignore]
+
+[System Error: %s]
+Системна помилка: %s
+[Server Connection Error: %s]
+Помилка з'єднання сервера: %s
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]

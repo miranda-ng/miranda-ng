@@ -1,0 +1,265 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Logs when a user was last seen online users and which were online while you were away.]
+Запам'ятовує, коли користувач останній раз з'являвся в мережі і хто був в мережі, поки ви були відсутні.
+[Last seen options]
+Параметри останнього появи
+[Last seen menuitem]
+Пункт меню останнього появи
+[Show icon]
+Показати значок
+[Userinfo tab]
+Закладка в інформації про контакт
+[Log to file]
+Запис у файл
+[Log to history]
+Записувати історію
+[Maximum size]
+Максимальний розмір
+[Variable list]
+Змінні
+[Enable Idle support]
+Вімк. режим очікування
+[Ignore contacts going offline]
+Ігнорувати йдуть з мережі
+[Enable 'Missed Ones' feature]
+Дозволити функцію 'Пропущені'
+[Count times]
+Кількість входів в мережу
+[Protocols to watch:]
+Протоколи для спостереження:
+[Use popups]
+Сплив. вікна
+[Title]
+Заголовок
+[Text]
+Текст
+[Popup Colors]
+
+[Online]
+В мережі
+[Away]
+Відсутній
+[NA]
+Недоступний
+[Occupied]
+Зайнятий
+[DND]
+Не турбувати
+[On the phone]
+На телефоні
+[Out to lunch]
+Обідаю
+[Free for chat]
+Готовий базікати
+[Invisible]
+Невидимий
+[Offline]
+Не в мережі
+[Reset colors]
+Скидання кольорів
+[Last seen plugin]
+Остання поява
+[OK]
+
+[You missed following contacts:]
+Пропущені такі контакти:
+[Test\nTest]
+
+[Alert when user status changes]
+Попереджати при зміні статусу
+[last seen history]
+історія останньої зустрічі
+[View user's Details]
+Інформація про користувача
+[User Menu]
+Меню користувача
+[Send Instant Message]
+Надіслати миттєве повідомлення
+[Date: %d.%m.%y(%Y) \n Date desc: %W %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+
+[LastSeen]
+Остання поява
+[User status change]
+Зміна статусу користувача
+[Changed to Online]
+Зміна: В мережі
+[User Logged Off]
+Користувач Відключений
+[Logged In User]
+Користувач Підключений
+[Last seen]
+Остання поява
+[<unknown>]
+<невідомо>
+[<none>]
+<немає>
+[Last Seen Variables]
+Змінні
+[Contacts]
+Контакти
+[Popups]
+Спливаючі вікна
+[%n is %s (%u)]
+%n %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%bбув %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+Ім'я:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bЧас:%t%H:%M:%S%bПопередній статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутрішній IP:%t%r%bКліент: %t%C%b%bПовідомлення статусу:%t%T
+[-- Date --]
+-- Дата --
+[year (4 digits)]
+рік (4 цифри)
+[year (2 digits)]
+рік (2 цифри)
+[month]
+місяць
+[name of month]
+назва місяця
+[short name of month]
+назв. місяця (скор.)
+[day]
+день
+[weekday (full)]
+день тижня (повн.)
+[weekday (abbreviated)]
+день тижня (скор.)
+[-- Time --]
+-- Час --
+[hours (24)]
+годинник (24)
+[hours (12)]
+годинник (12)
+[AM/PM]
+
+[minutes]
+хвилин(и)
+[seconds]
+секунд(и)
+[----User]
+-- Користувач --
+[username]
+користувач
+[nick]
+нік
+[UIN/handle]
+номер/обробник
+[Group]
+Група
+[Status]
+Статус
+[Status message]
+Повідомлення статусу
+[Old status]
+Старий статус
+[external IP]
+зовнішній IP
+[internal IP]
+внутрішній IP
+[Client info]
+Клієнт
+[Protocol]
+Протокол
+[Account]
+Обліковий запис
+[----Format]
+-- Формат --
+[tabulator]
+табуляція
+[line break]
+з нового рядка
+[Note:]
+Примітка:
+[Use]
+Використовувати
+[for empty string]
+для порожнього рядка
+[instead of]
+замість
+[Sunday]
+Неділя
+[Monday]
+Понеділок
+[Tuesday]
+Вівторок
+[Wednesday]
+Середа
+[Thursday]
+Четвер
+[Friday]
+П'ятниця
+[Субота]
+Субота
+[Sun.]
+Нд.
+[Mon.]
+Пн.
+[Tue.]
+Вт.
+[Wed.]
+Ср.
+[Thu.]
+Чт.
+[Fri.]
+Пт.
+[Сб.]
+Сб.
+[January]
+Січень
+[Лютий]
+Лютий
+[March]
+Березень
+[April]
+Квітень
+[May]
+Травень
+[June]
+Червень
+[July]
+Липень
+[August]
+Серпень
+[September]
+Вересень
+[October]
+Жовтень
+[November]
+Листопад
+[December]
+Грудень
+[Jan.]
+Січ.
+[Feb.]
+Лют.
+[Mar.]
+Бер.
+[Apr.]
+Квіт.
+[Jun.]
+Черв.
+[Jul.]
+Лип.
+[Aug.]
+Серп.
+[Sep.]
+Вер.
+[Oct.]
+Жов.
+[Nov.]
+Лист.
+[Dec.]
+Груд.
+[<never seen>]
+<ніколи не з'являвся>
+[Idle]
+Очікування
+[Unknown]
+Невідомо
+[Not Idle]
+Не очікування

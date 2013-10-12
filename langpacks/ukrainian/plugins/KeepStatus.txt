@@ -1,0 +1,333 @@
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
+Перевіряє наявність підключення до мережі і автоматично переподключає при розриві.
+[Check connection]
+Перевіряти
+[Max. retries]
+Макс. спроб
+[Account Connection]
+
+[Delay between retries (secs)]
+Затримка між спробами (с)
+[Show popups]
+Показувати спливаючі вікна
+[General]
+Загальна
+[Accounts to check]
+
+[Dial-Up]
+Віддалений доступ
+[Don't reconnect if no internet connection seems available]
+Не підключатися, якщо немає з'єднання з Інтернетом
+[Continuously check for internet connection]
+Постійно перевіряти підключення до Інтернету
+[Do so by pinging host]
+Пінговати хост
+[Confirm Status]
+Підтвердити статус
+[Close]
+Закрити
+[Cancel]
+Скасування
+[Profile]
+Профіль
+[Message]
+Повідомлення
+[after]
+після
+[minutes of inactivity]
+хвилин неактивності
+[minutes of level 1 mode]
+
+[Confirm resetting status]
+
+[Account]
+Обліковий запис
+[Only if set current status is]
+
+[Monitor miranda's activity only]
+
+[Reset status on return]
+
+[when screen saver engages]
+
+[Set]
+Вибрати
+[only when set inactive]
+
+[when workstation is locked]
+
+[Command Line]
+Ком. рядок
+[OK]
+
+[Copy to Clipboard]
+Копіювати в буфер
+[Command Line:]
+Ком. рядок:
+[Create Shortcut]
+
+[Add new profile]
+
+[Profile name]
+
+[Set window state]
+
+[Show dialog]
+
+[Set status to offline before exit]
+
+[Show CMDL]
+
+[Activate status profile]
+
+[Set docked]
+
+[Other]
+Інше
+[Status on startup]
+
+[ms]
+мс
+[Set after]
+
+[Timeout]
+Таймаут
+[s]
+з
+[Set window location]
+
+[Set window size]
+
+[x]
+
+[Allow override]
+
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+
+[Window on startup]
+
+[Automatically dial on startup]
+
+[Automatically hang up on exit]
+
+[Dial-up (experimental)]
+
+[Background colour]
+Колір фону
+[Text colour]
+Колір тексту
+[Use Windows colours]
+Кольори Windows
+[Use default colours]
+Кольори за замовчуванням
+[Delay]
+Затримка
+[On left click]
+Лівий клік
+[On right click]
+Правий клік
+[Do nothing]
+Нічого не робити
+[Close popup]
+Закрити вікно
+[Cancel reconnecting]
+Скасування підключення
+[Colours]
+Кольори
+[Preview]
+Тест
+[Events]
+Події
+[Show when connection is lost]
+Обрив з'єднання
+[Show when a connection attempt is made]
+Спроба підключення
+[Show when reconnection has finished]
+Успішне підключення
+[Show other messages]
+Інші
+[From Popup plugin]
+З плагіну спливаючіх вікон
+[Custom]
+Налаштувати
+[Permanent]
+Постійно
+[Show additional information in popups]
+Додаткова інформація
+[Use miranda's message setting]
+
+[Use this message:]
+Використовувати повідомлення:
+[Use %time% for the current time, %date% for the current date]
+%date% - сьогоднішня дата; %time% - поточний час
+[Variables...]
+Змінні...
+[Specify settings for each account]
+
+[Use same settings for all accounts]
+
+[Ignore caps-lock, num-scroll lock and-lock keys]
+Ігнорувати клавіші caps-lock, num-scroll lock та інші lock keys
+[Check interval (secs)]
+
+[Confirm dialog timeout (secs)]
+
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+
+[Keyboard activity Monitor]
+
+[Monitor mouse activity]
+
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ігнорувати клавіші CTRL, ALT, SHIFT, TAB, ESC та Win
+[Ignore any key combination with above keys]
+
+[Accounts]
+Облікові записи
+[Enable checking]
+Вімкнути перевірку
+[Disable checking]
+Вимкнути перевірку
+[Set status message]
+Встановити станусне повідомлення
+[Status]
+Статус
+[Додати...]
+Додати...
+[Delete]
+Видалити
+[Create a TopToolBar button]
+
+[Show confirm dialog when loading]
+
+[Create a main menu item]
+Пункт у головному меню
+[Status Profiles]
+
+[Hotkey]
+Гаряча клавіша
+[In submenu]
+
+[Max. delay (secs)]
+Макс. затримка (с)
+[Increase delay exponential]
+Збільшити експоненціально
+[Cancel all if a account connects from another location]
+
+[Reconnect on APM resume]
+Перепідключатися після сплячого режиму
+[Stop trying to reconnect]
+Припинити підключення
+[Set to delay]
+Почекати
+[React on login errors]
+Враховувати помилки входу
+[seconds]
+секунд(и)
+[Set account offline before a connection attempt]
+
+[Max. account connecting time (secs)]
+
+[Timers]
+Таймери
+[Reconnecting]
+Перепідключення
+[Ignore locked status of accounts]
+Ігнорувати блоковані облікові записи
+[Consider connection lost after]
+Зв'язок втрачено після
+[failed pings]
+невд. пінг.
+[Continuously check interval (secs)]
+Інтервал перевірки (с)
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Leaving second auto-away status]
+
+[Becoming active without change status]
+
+[Pre-conditions]
+
+[TriggerData]
+
+[Status: The status the account will change to\r\nAccount: changing The account state]
+
+[Protocol]
+Протокол
+[%s connected from another location]
+%s підключено з іншого місця
+[%s login error, cancel reconnecting]
+%s помилка входу, відміна перепідключення
+[%s login error (next retry (%d) in %d s)]
+
+[%s status error (next retry (%d) in %d s)]
+
+[Status error (next retry (%d) in %d s)]
+
+[%s\t(will be set to %s)\r\n]
+%s\t (% s)\r\n
+[Resetting status... (last try (%d)%s]
+Скидання статусу.. (остання спроба (%d)%s
+[Resetting status... (next retry (%d) in %d s)%s]
+
+[No internet connection seems available... (last try (%d))]
+Немає доступу до Інтернету (остання спроба (%d))
+[No internet connection seems available... (next retry (%d) in %d s)]
+
+[Status was set ok]
+Статус встановлено
+[Giving up]
+Припиняю
+[KeepStatus]
+Перепідключення
+[Basic]
+Основні
+[Advanced]
+Додатково
+[You broke the Internet!]
+З'єднання з Інтернет розірвано!
+[Popups]
+Спливаючі вікна
+[I've been away since %time%.]
+Відійшов у %time%. Скоро повернуся.
+[Give it up, i'm not in!]
+Мене немає
+[Not right now.]
+Не зараз.
+[Give a some guy peace, would ya?]
+Прошу не турбувати...
+[I'm a chatbot!]
+Вільний
+[Yep, i'm here.]
+Так, я тут.
+[Nope, not here.]
+Ні, мене тут немає.
+[I'm from the hiding mafia.]
+Я ховаюся від мафії.
+[That'll be the phone.]
+Так дайте ж людині поговорити по телефону...
+[Mmm...food.]
+Ммм... поїсти б...
+[idleeeeeeee]
+очікування...
+[Set %s message for %s.]
+
+[<last>]
+<останній>
+[<current>]
+<поточний>
+[<n/a>]
+
+[Closing in %d]
+Закрити (%d)

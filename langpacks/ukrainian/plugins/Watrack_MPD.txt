@@ -1,10 +1,22 @@
 ﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll
-;  Plugin: Music Player Daemon support for Watrack
-;  Versions: 0.0.0.4
-;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:Watrack_MPD
+;  Plugin: Watrack MPD
+;  Version: 0.0.0.4
 ;  Authors: sss
 ;============================================================
 [Music Player Daemon support for Watrack.]
 Підтримка Music Player Daemon для модуля Watrack.
+[MPD Host]
+
+[Port]
+Порт
+[Password]
+Пароль
+[Watrack MPD connection]
+
+[Winamp Track]
+
+[Plugins]
+Плагины
+[Watrack MPD]

@@ -1,0 +1,249 @@
+﻿#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+;============================================================
+;  File: MetaContacts.dll
+;  Plugin: MetaContacts
+;  Version: 0.14.0.13
+;  Authors: J. Schaal & S. Ellis
+;============================================================
+[Merges contacts from the same or different protocols into one.]
+Об'єднує контакти однакових або різних протоколів в один.
+[Add to Existing MetaContact]
+Додати до метаконтакту
+[Please select a MetaContact:]
+Виберіть метаконтакт:
+[&OK]
+
+[&Cancel]
+&Скасувати
+[Sort Alphabetically]
+За алфавітом
+[Editing]
+Редагування
+[Name:]
+Ім'я:
+[Information]
+Інформація
+[Contacts]
+Контакти
+[&Apply]
+&Застосувати
+[&Remove]
+&Очистити
+[&Set as Default]
+&За замовчанням
+[Move &Up]
+&Вгору
+[Move &Down]
+&Вниз
+[Force use of default for sending (even if offline)]
+Завжди використовувати за змовчанням (навіть якщо оффлайн)
+[Send &Offline]
+В оффлайн
+[Set default contact on receipt of message]
+Робити основним контактом по прибутті повідомлення
+[Always send to default contact if not offline]
+Завжди слати субконтакту за замовчанням, якщо не оффлайн
+[Options]
+Налаштування
+[Suppress status notification for subcontacts]
+Заборонити повідомлення про зміну статусу субконтактов
+[Context Menu]
+Контекстне меню
+[Use contact's unique id]
+UIN, E-mail і т.д.
+[Use contact's display name]
+Використовувати ім'я
+[Contact Labels]
+Мітки контактів
+[Function]
+Функція
+[Set default and open message window]
+Відкрити вікно повідомлення
+[Show subcontact context menu]
+Показувати контекстне меню
+[Show user information]
+Показувати інфо користувача
+[Contact List]
+Список контактів
+[Display subcontact nickname]
+Використовувати нік субконтакта
+[Display subcontact display name]
+Використовувати коротке ім'я
+[Use subcontact message windows]
+Вікна повідомлень субконтакта
+[Copy subcontact data]
+Копіювати дані субконтакта
+[Lock name to first contact]
+Фіксувати ім'я
+[but only for the current conversation]
+але тільки для поточної бесіди
+[History Copy]
+Копіювання історії
+[Please wait while the contact's history is copied.]
+Будь ласка, почекайте, поки історія скопіюється
+[History Remove]
+Видалення історії
+[Please wait while the contact's history is removed.]
+Будь ласка, почекайте, поки історія віддалиться
+[Subcontact Priorities]
+Пріоритети субконтактов
+[Rank:]
+Ранг:
+[Status:]
+Статус:
+[Protocol:]
+Протокол:
+[Reset All]
+Скидання
+[Default]
+За замовчанням
+[(Lower ranks are preferred)]
+(Переважні більш низькі ранги)
+[Copy subcontact history to MetaContact when creating or adding]
+Копіювати історію Суб у МетаКонтакт при створенні і додавання
+[Number of days to copy (0=all):]
+Кількість днів (0=всі)
+[Keep MetaContact history synchronized with subcontacts]
+Історія метаконтакту, синхронізована з субконтактом
+[Keep subcontact history synchronized with MetaContact]
+Історія субконтакта, синхронізована з метаконтактом
+[History (** beware - change at your own risk **)]
+Історія (**ОБЕРЕЖНО - ЗМІНЮВАТИ НА СВІЙ РИЗИК")
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none host that can this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+Немає ще жодного метаконтакту в базі (в цьому випадку потрібно спочатку конвертувати один простий контакт в метаконтакт).\nКак варіант перетворіть цей контакт в новий метаконтакт.\n\nПреобразовать цей контакт в метаконтакт?
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+Цей контакт - Метаконтакт.\nВи не можете додати Метаконтакт, у ще один Метаконтакт.\n\nБудь ласка, вибрати інший.
+[MetaContact Conflict]
+Конфлікт метаконтактів
+[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+Цей контакт пов'язаний з Метаконтактои.\nВи не можу додати контакт в декілька Метаконтактів.
+[Multiple MetaContacts]
+Безліч метаконтактів
+[No suitable MetaContact found]
+Не знайдено відповідного метаконтакту
+[a contact]
+контакт
+[Adding %s...]
+Додавання %s...
+[Please select a MetaContact]
+Виберіть метаконтакт
+[No MetaContact selected]
+Метаконтакт не вибрано
+[Assignment to the MetaContact failed.]
+Не вдалося додати до метаконтакту.
+[Assignment failure]
+Невдале призначення
+[(Unknown Contact)]
+(Невідомий контакт)
+[Yes]
+Так
+[No]
+Ні
+[Contact]
+Контакт
+[Id]
+
+[Protocol]
+Протокол
+[Send Offline]
+Відправка в оффлайн
+[Delete MetaContact?]
+Видалити метаконтакт?
+[Toggle Off]
+Вимкнути
+[Toggle On]
+Включити
+[Convert to MetaContact]
+Зробити метаконтактом
+[Add to Existing]
+Додати
+[Edit]
+Змінити
+[Set to Default]
+За замовчанням
+[Remove]
+Видалити
+[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+Видалити метаконтакт?
+[Error - Database corruption.\nPlugin disabled.]
+Помилка - база пошкоджена.\nПлагин відключений.
+[MetaContacts]
+Метаконтакти
+[There was a problem in assigning the contact to the MetaContact]
+Виявлена проблема додавання контакту до метаконтакту
+[Error]
+Помилка
+[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+Видалення метаконтакту.\n\nПродолжить?
+[Are you sure?]
+Ви впевнені?
+[Remove from MetaContact]
+Видалити з метаконтакту
+[<default>]
+<за замовчуванням>
+[Meta ID]
+
+[No online contacts found.]
+Не знайдено контактів у мережі.
+[Message from %s]
+Повідомлення від %s
+[Toggle MetaContacts Off]
+Вимкнути метаконтакти
+[Add to existing MetaContact...]
+Додати до метаконтакту
+[Edit MetaContact...]
+Змінити метаконтакт...
+[Set as MetaContact default]
+Метаконтакт за замовчуванням
+[Delete MetaContact]
+Видалити метаконтакт
+[Context]
+Контекст
+[Toggle MetaContacts On]
+Включити метаконтакти
+[General]
+Загальна
+[Priorities]
+Пріоритети
+[History]
+Історія
+[Sender]
+
+[Could not get MetaContact id]
+Не можу отримати ID метаконтакту
+[Assignment Error]
+Помилка призначення
+[Could not retreive MetaContact contact count]
+Не можу запросити кількість субконтактов метаконтакту
+[Could not retreive contact protocol]
+Не можу запросити протокол контакту
+[Could not get unique id of contact]
+Не можу отримати унікальний ID контакту
+[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+Контакт не в списку. Будь ласка, додайте контакт у списку перед призначенням.
+[MetaContact is full]
+Метаконтакт повний
+[Could not write contact protocol to MetaContact]
+Помилка запису протоколу контакту в метаконтакт
+[Could not write unique id of contact to MetaContact]
+Помилка запису унікального id контакту в метаконтакт
+[Could not write nickname of contact to MetaContact]
+Не можу записати нік контакту в метаконтакт
+[Subcontact contact number < 0 - deleting MetaContact]
+Номер субконтакта < 0 - метаконтакт буде вилучено
+[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+Номер субконтакта (%d) > номери у метаконтакте (%d) - метаконтакт буде вилучено
+[Subcontact's MetaContact not found - deleting MetaContact data]
+Субконтакты в метаконтакте не знайдені - дані метаконтакту будуть видалені
+[MetaContact number of contacts < 0 - deleting MetaContact]
+Кількість контактів в метаконтакте < 0 - метаконтакт буде вилучено
+[MetaContact default contact number out of range - deleting MetaContact]
+Номер контакту за замовчуванням за межами метаконтакту - метаконтакт буде вилучений
+[MetaId: ]
+MetaId:
+[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
+Метаконтакт пошкоджений - неправильна кількість субконтактов.\nВидаляю метаконтакт.
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n - move all contacts out of this group\n - synchronize your contacts with the server\n - re-enable MetaContacts]
+Група 'MetaContacts Hidden Group' додано в ваш список\nЦе через список контактів на сервері. Для виправлення,\nщоб метаконтакти продовжили нормальну роботу, ви повинні:\n - вимкнути метаконтакти використовуючи пункт у головному меню\n - перемістити всі контакти з цієї групи\n - синхронізувати свої контакти з сервером\n - знову включити метаконтакти
+[MetaContacts Warning]
+Попередження метаконтактів

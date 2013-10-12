@@ -1,40 +1,28 @@
 ﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;============================================================
-;  Module: Boltun.dll
+;  File: Boltun.dll
 ;  Plugin: Boltun
-;  Versions: 0.0.3.0
-;  Authors: Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
+[Boltun, the chat bot in the russian language.]
+Базіка, чат-бот для російської мови.
 [Boltun]
 Базіка
-[Boltun/Auto Chat]
-Базіка/Авто розмова
-[Boltun/Not to Chat]
-Базіка/Не розмовляти
 [Boltun Autochat everybody]
 Базіка говорить зі усіма
-[Boltun Autochat anybody not in contact list]
+[Boltun Autochat everybody not in contact list]
 Базіка говорить з усіма, хто не в списку контактів
 [Boltun Autochat everybody while away]
 Базіка говорить з усіма, коли мене немає
 [Warn contacts Boltun is chatting]
 Попереджати про розмові з Базікою
-[Time of pauses before answer]
-Пауза перед відповіддю
-[Warning text]
-Текст попередження
-[Base of remarks]
-База реплік
-[Boltun Error]
-Помилка Базіки
-[Can't load SmartBot.dll]
-Не можу завантажити SmartBot.dll
-[Failed to load base of remarks from %s]
-Помилка при завантаженні бази реплік %s
-[Boltun Autochat everybody not in contact list]
-Базіка говорить з усіма, хто не в списку контактів
 [Mark replied messages as read]
 Відзначати повідомлення як прочитані
+[sec]
+с
+[Warning text]
+Текст попередження
 [Time before the answer]
 Час перед відповіддю
 [Typing time depends on message length (in chars)]
@@ -45,25 +33,39 @@
 Час набору (для 4-х слів):
 [Thinking time:]
 Час обмірковування відповіді:
+[Engine]
+Движок
+[Base of remarks]
+База реплік
+[Reload]
+Перезавантажити
 [Stay silent, if have no good aswers]
 Мовчати, якщо немає хороших відповідей
 [Start answers with a lowercase letter]
 Починати відповіді з маленької літери.
 [Don't use "I don't understand"-like answers]
 Не використовувати відповіді типу "Не зрозумів?"
-[Boltun, the chat bot in the russian language.]
-Базіка, чат-бот для російської мови.
-[Boltun, the chat bot in russian languages, Using SmartBot engine by ProVirus.]
-Базіка, чат-бот для російської мови, використовується движок SmartBot від ProVirus.
 [Message sessions]
-Беседы
-[Engine]
-Движок
-[Engine Settings]
-Настройки движка
+Бесіди
 [Mind Files]
-Mind файлы
+Mind файли
+[All Files]
+Усі файли
+[Boltun/Auto Chat]
+Базіка/Авто розмова
+[Boltun/Not to Chat]
+Базіка/Не розмовляти
 [Boltun/Start Chatting]
-Болтун/Начать разговор
+Базіка/Почати розмову
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
-Привет, я - Болтун! Я с тобой поговорю, пока хозяина нет. Пожалуйста, пиши без ошибок!
+Привіт, я - Базіка! Я з тобою поговорю, поки хазяїна немає. Будь ласка, пиши без помилок!
+[Boltun Error]
+Помилка Базіки
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+Не вдалося завантажити базу реплік. Помилка в рядку %d %s. (Або кілька рядків).
+[Failed to save base of remarks to %s]
+Не вдалося зберегти базу реплік:%s
+[General Settings]
+Основні налаштування
+[Engine Settings]
+Налаштування движку

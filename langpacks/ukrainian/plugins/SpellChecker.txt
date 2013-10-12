@@ -1,0 +1,139 @@
+﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Перевірка орфографії у вікні повідомлень. Використовує Hunspell для перевірки.
+[Replacements]
+Заміни
+[Enable auto-replacements]
+Включити автозаміну
+[Language:]
+Мова:
+[Додати...]
+Додати...
+[Edit...]
+Правка...
+[Remove]
+Видалити
+[Add auto-replace word]
+Додати автозаміни слова
+[Wrong word:]
+Слово з помилкою:
+[No separators and all lowercase chars]
+Не враховувати роздільники і регістр
+[Correction:]
+Виправлення:
+[Use variables in correction]
+Використовувати змінні для заміни
+[OK]
+
+[Cancel]
+Скасування
+[Spell Checker]
+Орфографія
+[Default language:]
+Мова за замовчуванням:
+[Auto-replace words with dictionary suggestions]
+Автоматична заміна словами зі словника
+[Ignore words with numbers]
+Ігнорувати слова з числами
+[Ignore words in UPPER CASE]
+Ігнорувати слова ВЕЛИКИМИ ЛІТЕРАМИ
+[Ask before sending a message with spelling errors]
+Запитувати перед відсиланням повідомлення з помилками
+[Download more dictionaries]
+Завантажити інші словники
+[Advanced]
+Додатково
+[Underline type:]
+Тип підкреслення:
+[Show corrections in submenu]
+Групувати виправлення в підменю
+[Show all corrections in context menu (takes more time to show)]
+Показувати всі виправлення в меню (вимагає більше часу)
+[Show wrong word]
+Показувати слово з помилкою
+[Use flags]
+Відображати прапори
+[Use input language to select dictionary]
+Використовувати мову введення для вибору словника
+[Use dictionaries from other programs]
+Використовувати словники з інших програм
+[Avoid removing underscores (slows down checking of long texts)]
+Не видаляти підкреслення (уповільнює перевірку великих текстів)
+[The wrong word can't be empty!]
+
+[Wrong Correction]
+Невірне виправлення
+[The correction can't be empty!]
+
+[The correction can't be equal to the wrong word!]
+
+[tl_PH]
+
+[Tagalog (Philippines)]
+
+[de_frami_neu]
+
+[German (Germany)]
+
+[Message Sessions]
+Бесіди
+[Auto-replacements]
+Автозаміна
+[Line]
+Лінія
+[Dotted]
+Точками
+[Dash]
+Тире
+[Dash dot]
+Крапка тире
+[Dash dot dot]
+Дві точки тире
+[Wave]
+Хвиля
+[Thick]
+Жирний
+[Wrong word]
+Неправильне слово
+[Correction]
+Виправлення
+[Dictionaries]
+Словники
+[Custom Dictionaries]
+Особисті словники
+[Flags DLL]
+Бібліотека з прапорами (DLL)
+[Enable/disable spell checker]
+Увімкнути/вимкнути перевірку орфографії
+[Enabled]
+Включений
+[Disabled]
+Вимкнено
+[There are %d spelling errors. Are you sure you want to send this message?]
+
+[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
+
+[Other...]
+Інше...
+[Always replace with]
+Завжди заміняти на
+[Ignore all]
+Ігнорувати всі
+[Add to dictionary]
+Додати до словника
+[Corrections]
+Виправлення
+[Wrong word: %s]
+Невірне слово: %s
+[Language]
+Мова
+[Enable spell checking]
+Увімкнути перевірку правопису
+[Wrong words]
+Неправильні слова

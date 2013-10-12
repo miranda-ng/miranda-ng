@@ -1,14 +1,73 @@
 ﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
 ;============================================================
-;  File: NotifyAnything.dll 
-;  Module: NotifyAnything
-;  Versions:  0.0.2.7
+;  File: NotifyAnything.dll
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
 ;============================================================
-[Allow actions to execute programs]
-Разрешить выполнение программ
-[Message debugging]
-Отладка сообщений
+[Displays popups for custom events, triggered by UDP packages.]
+Відображає спливаючі вікна для подій, викликаних UDP пакетами.
+[Property Page]
+Властивості
+[Security]
+Безпека
 [Only listen to localhost]
-Только от этого компьютера
+Тільки від цього комп'ютера
+[Sound]
+Звук
+[Play sounds]
+Програвати звуки
 [Use internal speaker]
-Использовать динамик
+Використовувати динамік
+[Debug]
+Налагодження
+[Log to file]
+Запис у файл
+[Message debugging]
+Налагодження повідомлень
+[Port:]
+Порт:
+[(Default is 12001)]
+(За замовчанням 12001)
+[Allow actions to execute programs]
+Дозволити виконання програм
+[Password:]
+Пароль:
+[NotifyAnything]
+
+[No resource name given.]
+Не ім'я, дане ресурсу.
+[Icon indices start at 1.]
+Значок індекси починаються з 1.
+[Could not find the requested icon.]
+Не міг знайти потрібний значок.
+[Application launching is disabled.]
+Запуск програми відключено.
+[Unterminated option.]
+Незавершений варіант.
+[No argument given to msg option.]
+Не аргумент, якщо прийняти параметр msg.
+[Id is required for replacement.]
+Ідентифікатор необхідний для заміни.
+[Invalid argument for replace option: ]
+Неправильний аргумент для заміни: %s
+[Empty message ignored.]
+Пусте повідомлення ігнорується.
+[Failed to write to log file.]
+Не вдалося записати в файл журналу.
+[Failed to open log file.]
+Не вдалося відкрити файл журналу.
+[N/A: Failed to format error message]
+N/A: Поимлка у форматі повідомлення з помилкою
+[N/A: FormatMessage failed, error code was 0x]
+N/A: Помилка формату повідомлення, код помилки : 0x
+[Error]
+Помилка
+[Services]
+Служби
+[LogService]
+Служба журналів
+[Invalid port number]
+Неправильний номер порту
+[Plugins]
+Плагіни

@@ -1,22 +1,33 @@
 ﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
-;  Module: Recent Contacts
-;  Versions: 0.0.2.0
+;  Plugin: Recent contacts
+;  Version: 0.0.2.0
+;  Authors: ValeraVi, Kildor
 ;============================================================
-[Recent Contacts]
-Останні контакти
-[Main icon]
-Головний значок
-[Format of date and time\n(Look to readme for placeholders help)]
-Формат дати та часу\n(Формат дивіться у readme)
-[Number shown contacts:\n (0 to show all)]
-Кількість відображуваних контактів\n (0 - відображує всі)
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 Додає пункт в головне меню, який відкриває діалог з останніми контактами.
+[Recent Contacts]
+Останні контакти
+[Plugin settings]
+Налаштування
+[Number shown contacts:\n (0 to show all)]
+Кількість відображуваних контактів\n (0 - відображує всі)
+[Format of date and time\n(Look to readme for placeholders help)]
+Формат дати та часу\n(Формат дивіться у readme)
+[Hide offline contacts]
+Приховати відключених
+[Contacts]
+Контакти
+[Main icon]
+Головний значок
+[Contact]
+Контакт
+[Toggle Ignore]
+
+[Ignore Contact]
+Ігнорувати контакт
+[Show Contact]
+Відобразити контакт
 [Show Recent Contacts]
 Показати недавні контакти
-[Ignore Contact] 
-Ігнорувати контакт 
-[Show Contact] 
-Показати контакт 

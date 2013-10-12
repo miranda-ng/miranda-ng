@@ -1,0 +1,703 @@
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
+[Tool Tip notification windows.]
+Плагін спливаючих підказок для списку контактів.
+[Options]
+Налаштування
+[Layout]
+Розміщення
+[Text indent:]
+Відступ тексту:
+[Window]
+Вікно
+[Max width:]
+Макс. ширина:
+[Max height:]
+Макс. висота:
+[Avatar size:]
+Аватар:
+[Show if not list focused]
+Список не в фокусі
+[General padding:]
+Основний відступ:
+[Hover time:]
+Затримка:
+[Status bar tips]
+Підказки в панелі статусу
+[Alignment]
+Вирівнювання
+[Labels:]
+Назви:
+[Values:]
+Значення:
+[Min width:]
+Мін. ширина:
+[Min height:]
+Мін. висота:
+[Sidebar width:]
+Ширина врізки:
+[Text padding:]
+Міжрядковий відступ:
+[Outer avatar padding:]
+Зовнішній відступ аватара:
+[Round corners (avatar)]
+Округляти кути аватар
+[Keep original avatar size]
+Зберігати розмір аватара
+[Avatar border]
+Рамка аватар
+[Title indent:]
+Відступ заголовків:
+[Value indent:]
+Відступ значення:
+[Inner avatar padding:]
+Внут. відступ аватара:
+[Substitution]
+Підстановка
+[Label:]
+Мітка:
+[Contact protocol module]
+Модуль протоколу контакту
+[Module:]
+Модуль:
+[Setting or prefix:]
+Параметр, префікс:
+[Translation:]
+Перетворення:
+[OK]
+
+[Cancel]
+Скасувати
+[Item]
+Елемент
+[Value:]
+Значення:
+[Draw a line above]
+Малювати лінію зверху
+[Value on a new line]
+Значення з нового рядка
+[Preset items:]
+Задані елементи:
+[Variables]
+Змінні
+[Parse Tipper variables first]
+Обробляти змінні підказок першими
+[Items]
+Елементи
+[Substitutions]
+Підстановки
+[Add]
+Додати
+[Remove]
+Видалити
+[Up]
+Вгору
+[Down]
+Вниз
+[Edit]
+Змінити
+[Separator]
+
+[Advanced options]
+Додатково
+[Retrieve XStatus details if auto-retrieve is disabled]
+Запитувати докладний хСтатус, якщо автозапрос вимкнено
+[Extra icons]
+Екстра значки
+[Smileys support]
+Смайлики
+[Enable SmileyAdd support]
+Підтримка смайликів
+[Resize smileys]
+Масштабувати смайли
+[Use protocol smileys]
+Смайлики протоколу
+[Replace only isolated smileys]
+Тільки смайли через пробіл
+[Retrieve new status message]
+Запитувати повідомлення статусу
+[Show tooltip after all content is ready (avatar && status message)]
+Показати підказку тільки після завантаження усього вмісту
+[Status bar and tray tooltip]
+Панель статусу і підказка в треї
+[Limit status messages in status bar and tray tooltips to:]
+Обмежити повідомлення в панелі статусу і в підказці трея до:
+[characters]
+символів
+[Disable in invisible status]
+Вимкнути запит, коли невидимий
+[Skins]
+Скіни
+[Opacity(%):]
+Непрозорість (%):
+[Transparency]
+Прозорість
+[Effects]
+Ефекти
+[Border]
+Рамка
+[Shadow]
+Тінь
+[Round corners (window)]
+Округляти кути вікна
+[Aero Glass (Vista+)]
+Ефект Aero Glass (Vista+)
+[Animation speed:]
+Швидкість анімації:
+[Preview]
+Тест
+[No preview]
+Немає превью
+[Skin option]
+Налаштування скіна
+[Load fonts and colors]
+Завантажувати шрифти і кольори
+[Enable skin coloring]
+Розмальовка скінів
+[Reload skin list]
+Оновити список скінів
+[Apply skin]
+Застосувати скін
+[Load tooltip proportions]
+Завантажувати пропорції підказки
+[Get more skins]
+Скачати скіни
+[Enable tray tooltips]
+Підказки в треї
+[Handle tray tooltips by Tipper]
+Перехоплювати підказки в треї
+[Favourite contacts]
+Обрані контакти
+[Expand to second level after:]
+Другий ур-нь підказки через:
+[ms]
+мс
+[First level tooltip]
+Підказка першого рівня
+[Second level tooltip]
+Підказка другого рівня
+[Hide offline protocols]
+Ховати відключені протоколи
+[Hide offline]
+Приховувати відключених
+[Append protocol name]
+Додати ім'я протоколу
+[Tipper smileys]
+Підказки
+[You must enter a label]
+Ви повинні ввести мітку
+[Invalid Substitution]
+Помилкова заміна
+[<No Label>]
+<Без мітки>
+[Add item]
+Додати
+[Add separator]
+Додати роздільник
+[Move up]
+Вище
+[Move down]
+Нижче
+[Icon on left]
+Значок ліворуч
+[Icon on right]
+Значок праворуч
+[No icon]
+Без піктограми
+[No title]
+Без заголовка
+[Bottom right]
+Внизу праворуч
+[Bottom left]
+Внизу зліва
+[Top right]
+Вгорі праворуч
+[Top left]
+Вгорі зліва
+[Top]
+Верх
+[Centre]
+Центр
+[Bottom]
+Низ
+[Left]
+Зліва
+[Right]
+Праворуч
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар зліва
+[Right avatar]
+Аватар праворуч
+[Max avatar size:]
+Розмір (макс.):
+[None]
+Немає
+[Animation]
+Анімація
+[Fade]
+Загасання
+[Appearance]
+Зовнішній вигляд
+[Tooltips]
+Підказки
+[Customize]
+Тонка налаштування
+[Content]
+Вміст
+[Tray tooltip]
+Підказки в треї
+[Extra]
+Інше
+[Number of contacts]
+Кількість контактів
+[Protocol lock status]
+Заблокований статус
+[Logon time]
+Час входу
+[Unread emails]
+Непрочитані листи
+[Status]
+Статус
+[Status message]
+Повідомлення статусу
+[Extra status]
+хСтатус
+[Listening to]
+Слухаю
+[Miranda uptime]
+Час роботи Miranda NG
+[Clist event]
+Подія списку
+[Jabber activity]
+Заняття Jabber
+[Gender]
+Стать
+[Country flag]
+Прапор країни
+[Client]
+Клієнт
+[%s (locked)]
+%s (заблокований)
+[%s ago]
+%s тому
+[Log on:]
+В мережі:
+[Log off:]
+Не в мережі:
+[Unread emails:]
+Непрочитаних листів:
+[Status:]
+Статус:
+[Status message:]
+Статусне повідомлення:
+[Mood:]
+Настрій:
+[XStatus:]
+хСтатус:
+[Activity:]
+Заняття:
+[Listening to:]
+Слухаю:
+[Copy all items with labels]
+Копіювати всі з мітками
+[Copy all items]
+Копіювати все
+[Copy avatar]
+Копіювати аватар
+[<No Label>: ]
+
+[<No Value>]
+
+[Fav. contacts]
+Обрані
+[Other]
+Інше
+[Miranda uptime:]
+Час роботи Miranda NG:
+[Birthday]
+День народження
+[Birthday:]
+День народження:
+[Client:]
+Клієнт:
+[Email]
+
+[Email:]
+
+[Gender:]
+Стать:
+[Homepage]
+Сайт
+[Homepage:]
+Сайт:
+[Identifier]
+Ідентифікатор
+[Idle]
+Очікування
+[Idle:]
+В очікуванні:
+[IP]
+
+[IP:]
+
+[IP internal]
+Внутрішній IP
+[IP internal:]
+Внутрішній IP:
+[Last message]
+Остан. повідом.
+[Last message: (%sys:last_msg_reltime% ago)]
+Останні повідомлення: (%sys:last_msg_reltime%)
+[Name]
+Ім'я
+[Name:]
+Ім'я:
+[Number of received messages]
+Кількість отриманих повідомлень
+[Number of msg [IN]:]
+Кількість отриманих повідомлень:
+[Number of sended messages]
+Кількість відправлених повідомлень
+[Number of msg [OUT]:]
+Кількість відправлених повідомлень:
+[Contact time]
+Час контакту
+[Time:]
+Час:
+[XStatus title]
+Заголовок хСтатуса
+[XStatus title:]
+Заголовок хСтатуса:
+[XStatus text]
+Текст хСтатуса
+[XStatus text:]
+Текст хСтатуса:
+[[jabber.dll] Activity title]
+(jabber.dll) Заголовок заняття
+[Activity title:]
+Заголовок заняття:
+[[jabber.dll] Activity text]
+(jabber.dll Текст заняття
+[Activity text:]
+Текст заняття:
+[[menuex.dll] Logon time]
+(menuex.dll) Час входу
+[Logon time:]
+В мережі:
+[[menuex.dll] Logoff time]
+(menuex.dll Час виходу
+[Logoff time:]
+Не в мережі:
+[[seenplugin.dll] Last seen time]
+(seenplugin.dll) Остання поява
+[Last seen time:]
+Остання поява:
+[[seenplugin.dll] Last seen status]
+(seenplugin.dll) Останній статус
+[Last seen status:]
+Останній статус:
+[[weather.dll] Condition]
+(weather.dll) Стан
+[Condition:]
+Стан:
+[[weather.dll] Humidity]
+(weather.dll) Вологість
+[Humidity:]
+Вологість:
+[[weather.dll] Max/Min temperature]
+(weather.dll) Макс/хв температура
+[Max/Min:]
+Макс./мін. температура:
+[[weather.dll] Moon]
+(weather.dll) Місяць
+[Moon:]
+Луна:
+[[weather.dll] Pressure]
+(weather.dll) Тиск
+[Pressure:]
+Тиск:
+[[weather.dll] Sunrise]
+(weather.dll) Схід
+[Sunrise:]
+Схід:
+[[weather.dll] Sunset]
+(weather.dll) Захід
+[Sunset:]
+Захід:
+[[weather.dll] Temperature]
+(weather.dll) Температура
+[Temperature:]
+Температура:
+[[weather.dll] Update time]
+(weather.dll) Час оновлення
+[Update time:]
+Час оновлення:
+[[weather.dll] UV Index]
+(weather.dll) Індекс УФ
+[UV Index:]
+Індекс УФ:
+[[weather.dll] Visibility]
+(weather.dll) Видимість
+[Visibility:]
+Видимість:
+[[weather.dll] Wind]
+(weather.dll) Вітер
+[Wind:]
+Вітер:
+[# Solid color fill]
+# заливка кольором
+[Background]
+Фон
+[Dividers]
+Роздільники
+[Sidebar]
+Врізка
+[Title]
+Заголовок
+[Labels]
+Мітки
+[Values]
+Значення
+[Tray title]
+Заголовок в треї
+[Tipper]
+Підказки
+[Female]
+Жіночий
+[Male]
+Чоловічий
+[[No translation]]
+(без перетворення)
+[WORD to status description]
+Слово - опис статусу
+[DWORD timestamp to time]
+Дв. слово - під час
+[DWORD timestamp to time difference]
+Дв. слово - різницю часу
+[BYTE to Yes/No]
+Байт - в значення Так/Немає
+[BYTE to Male/Female (ICQ)]
+Байт - стать (ч/Ж) (ICQ)
+[WORD to country name]
+Слово - назва країни
+[DWORD to ip address]
+Дв. слово - в IP-адресу
+[<prefix>Day|Month|Year to date]
+<префікс>день|місяць|рік - у дату
+[<prefix>Day|Month|Year to age]
+<префікс>день|місяць|рік - у вік
+[<prefix>Hours|Minutes|Seconds to time]
+<префікс>години|хвилини|секунди - під час
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<префікс>день|місяць|рік|години|хв|сек - різницю часу
+[<prefix>Day|Month to days to next birthday]
+<префікс>день|місяць - в днях до наступного дня народження
+[DWORD timestamp to time (no seconds)]
+Дв. слово - в дату (без секунд)
+[<prefix>Hours|Minutes to time]
+<префікс>години|хвилини - під час
+[DWORD timestamp to date (short)]
+Дв. слово - в дату (коротку)
+[DWORD timestamp to date (long)]
+Дв. слово - в дату (довгу)
+[xStatus: empty xStatus name to default name]
+хСтатус: пусте ім'я в ім'я за промовчанням
+[DWORD seconds to time difference]
+Дв. слово секунд у тимчасову різницю
+[BYTE timezone to time]
+Байт зона часу під час
+[WORD to name of a day (0..6, 0 is Sunday)]
+Слово - назву дня тижня (0..6, 0 - неділя)
+[WORD to name of a month (1..12, 1 is January)]
+Слово - назва місяця (1..12, 1 - січень)
+[BYTE to language (ICQ)]
+Байт - в мову (ICQ)
+[Afrikaans]
+Африкаанс
+[Albanian]
+Албанська
+[Arabic]
+Арабська
+[Armenian]
+Вірменський
+[Azerbaijani]
+Азербайджанський
+[Belorussian]
+Білоруський
+[Bhojpuri]
+Хойпурийский
+[Мо]
+Боснійська
+[Bulgarian]
+Болгарська
+[Burmese]
+Бурмезский
+[Cantonese]
+Катонезийский
+[Catalan]
+Каталонська
+[Chamorro]
+Чаморрский
+[Chinese]
+Китайський
+[Croatian]
+Хорватська
+[Czech]
+Чеська
+[Danish]
+Данська
+[Dutch]
+Голландський
+[English]
+Англійська
+[Esperanto]
+Есперанто
+[Estonian]
+Естонська
+[Farsi]
+Фарсі
+[Finnish]
+Фінський
+[French]
+Французька
+[Gaelic]
+Гайський
+[German]
+Німецький
+[Greek]
+Грецька
+[Gujarati]
+Гуджаратский
+[Hebrew]
+Іврит
+[Hindi]
+Гінді
+[Hungarian]
+Угорська
+[Icelandic]
+Ісландська
+[Indonesian]
+Індонезійська
+[Italian]
+Італійська
+[Japanese]
+Японський
+[Khmer]
+Хмерский
+[Korean]
+Корейська
+[Kurdish]
+Курдська
+[Lao]
+Лаоська
+[Latvian]
+Латвійська
+[Lithuanian]
+Литовський
+[Macedonian]
+Македонська
+[Malay]
+Малайська
+[Mandarin]
+Мандарин
+[Mongolian]
+Монгольська
+[Norwegian]
+Норвезька
+[Persian]
+Перська
+[Polish]
+Польський
+[Portuguese]
+Португальська
+[Punjabi]
+Панджабі
+[Romanian]
+Румунська
+[Russian]
+Російська
+[Serbo-Croatian]
+Сербохорватська
+[Sindhi]
+Сінді
+[Slovak]
+Словацька
+[Slovenian]
+Словенська
+[Somali]
+Сомалійський
+[Spanish]
+Іспанська
+[Swahili]
+Суахілі
+[Swedish]
+Шведський
+[Tagalog]
+Тагальська
+[Taiwanese]
+Тайванський
+[Tamil]
+Тамільська
+[Tatar]
+Татарський
+[Thai]
+Тайський
+[Turkish]
+Турецький
+[Ukrainian]
+Український
+[Urdu]
+Урду
+[Vietnamese]
+В'єтнамський
+[Welsh]
+Уельський
+[Yiddish]
+Ідиш
+[Yoruba]
+Ерубский
+[Sunday]
+Неділя
+[Monday]
+Понеділок
+[Tuesday]
+Вівторок
+[Wednesday]
+Середа
+[Thursday]
+Четвер
+[Friday]
+П'ятниця
+[Субота]
+Субота
+[January]
+Січень
+[Лютий]
+Лютий
+[March]
+Березень
+[April]
+Квітень
+[May]
+Травень
+[June]
+Червень
+[July]
+Липень
+[August]
+Серпень
+[September]
+Вересень
+[October]
+Жовтень
+[November]
+Листопад
+[December]
+Грудень

@@ -1,115 +1,159 @@
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
-;  File: mydetails.dll
-;  Module: My Details 
-;  Versions: 0.0.0.40-0.0.1.10
-;============================================================;
-[<no status name>]
-<немає імені статусу>
-[Hide My Details]
-Приховати мої деталі
-[Main Window/Backgrnd]
-Головне вікно/Фон
-;[MyDetails/Backgrnd]
-[Set My Avatar for %s...]
-Змінити мій аватар для %s...
-[Set My Nickname for %s...]
-Змінити мій нік для %s...
-[Set My Status Message for %s...]
-Змінити статусне повідомлення для %s...
-[Show My Details]
-Показати мої деталі
-[Set My Nickname for %s]
-Змінити мій нік для %s
-[Set My Status Message for %s]
-Встановити статус для %s
-[Avatar]
-Аватар
-[Frame Options]
-Опції вікна
-[General]
-Загальні
-[Protocol]
-Протокол
-[&Offline]
-Відключений
-[Align text to right]
-Вирівняти праворуч
-[Allow it to grow]
-Розтягнути аватар
-[Auto-resize frame]
-Вирівнювати фрейм
-[Avatar popup]
-Аватар
-[Background Color:]
-Колір заливки:
-[Bottom:]
-Низ:
-[Context popup]
-Контекст
-[Custom size:]
-Розмір аватара:
-[Cycle through protocols]
-Зміна протоколів
-[Cycle through protocols every:]
-Змінювати протоколи кожні:
-[Don't cycle through protocols]
-Не змінювати протоколи
-[Global on avatar]
-Глобальний аватар
-[Global on nickname]
-Глобальний нік
-[Global on status]
-Глобальний статус
-[Global on status message]
-Глобальне статусне повідомлення
-[Left:]
-Ліво:
-[Nick popup]
-Нік
-[Replace Smileys]
-Замінювати смайли
-[Right:]
-Право:
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Shows and allows you to edit your details for all protocols.]
+Плагін дозволяє показувати і редагувати ваші деталі для всіх протоколів.
 [Set My Nickname]
 Мій нік
-[Set My Status Message for All Status]
-Статусне повідомлення для ycix статусiв
-[Show previous protocol]
-Показати попередній протокол
-[Status message popup]
-Статусне повідомлення
-[Status popup]
-Статус
+[Nickname:]
+Нік:
+[OK]
+
+[Cancel]
+Скасування
+[General]
+Загальні
+[...avatar]
+...аватар
+[RTL]
+
+[Align text to right]
+Вирівняти праворуч
+[...nickname]
+...нік
+[Auto-resize frame]
+Вирівнювати фрейм
+[Use contact list smileys]
+Смайлики у списку контактів
+[...status]
+...статус
+[Replace Smileys]
+Замінювати смайлі
+[Resize Smileys]
+Змінювати розмір смайлів
+[...status message]
+...повідомлення статусу
 [Top:]
 Верх:
-[Use contact list smileys]
-Смайлики списку контактів
+[Bottom:]
+Низ:
+[Left:]
+Ліво:
+[Right:]
+Право:
+[Avatar]
+Аватар
+[Custom size:]
+Розмір аватара:
+[pixels]
+пікс.
+[Allow it to grow]
+Розтягнути аватар
+[Draw border]
+Рисувати рамку
+[Round corners]
+Закруглені кути
+[Custom corner size:]
+
 [Use free space (under avatar) to other texts]
-Викор. вільне місце (під аватарами) для тексту
+Вікор. вільне місце (під аватарами) для тексту
+[Global On...]
+
+[Frame Options]
+Опції фрейму
+[Cycle through accounts every:]
+
+[seconds]
+секунд(и)
+[Account]
+Обліковий запис
+[Show account name]
+Показувати ім'я облікового запису
+[Show account cycle button]
+
+[Set My Status Message for All Status]
+Статусне повідомлення для ycix статусів
+[Status Message:]
+Повідомлення статусу:
+[&Offline]
+&Відключений
+[On&line]
+У м&ережі
+[&Away]
+&Відсутній
+[&NA]
+&Недоступний
+[Occ&upied]
+Зайн&ят
+[&DND]
+&Не турбувати
+[&Free for chat]
+&Готовий базікати
+[&Invisible]
+&Невидимий
+[On the &Phone]
+На &телефоні
+[Out to &Lunch]
+&Обідаю
 [Set My Avatar...]
 Змінити мій аватар...
 [Set My Nickname...]
 Змінити мій нік...
 [Set My Status Message...]
 Змінити статусне повідомлення...
-[Show next protocol]
-Показати наступний протокол
 [Enable Listening To]
 Увімкнути "Зараз слухаю"
+[Show next account]
+
+[Show previous account]
+
+[Cycle through accounts]
+
+[Don't cycle through accounts]
+
+[<no status name>]
+<немає імені статусу>
+[Nickname]
+Нік
+[Status]
+Статус
+[Status Message]
+Статусне повідомлення
+[Listening To]
+"Зараз слухаю"
+[My Details]
+Мої деталі
+[Background]
+Фон
+[Avatar Border]
+
+[Show My Details]
+Показати мої деталі
 [Enable Listening To for %s]
 Увімкнути "Зараз слухаю" для %s
-[Shows and allows you to edit your details for all protocols.]
-Плагін дозволяє показувати і редагувати ваші деталі для всіх протоколів.
-[Show protocol cycle button]
-Кнопка перемикання протоколу
+[Set My Avatar for %s...]
+Змінити мій аватар для %s...
+[Set My Nickname for %s...]
+Змінити мій нік для %s...
+[Set My Status Message for %s...]
+Змінити статусне повідомлення для %s...
+[Hide My Details]
+Приховати мої деталі
+[Listening to]
+Слухаю
 [Previous protocol]
 Попередній протокол
 [Next protocol]
 Наступний протокол
-[Unread Email Count]
-Індикатор непрочитаної пошти
-[MyDetails]
-Мої деталі
-[My Details]
-Мої деталі
+[Set My Nickname for %s]
+Змінити мій нік для %s
+[Set My Status Message for %s]
+Встановити статус для %s
+[Show next protocol]
+Показати наступний протокол
+[Contact List]
+Список контактів

@@ -1,43 +1,74 @@
 ﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
-;  File: yapp.dll
-;  Module: Yet Another Popup Plugin
-;  Versions: 0.5.0.10
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.11
+;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 Надає службу спливаючих повідомлень інших модулів.
-; Налаштування - Спливаючі вікна
-[Set timeout:]
-Тривалість:
+[Popup history]
+Історія спливаючих вікон
+[Close]
+Закрити
+[Case sensitive]
+Регістр
+[Default Timeout]
+Тривалість за замовчуванням 
 [Never timeout]
 Постійно
-[Disable when]
-Вимкнуті коли
-[Full-screen app running]
-Повноекранна програма
-[Global hover]
-Загальна наведення
-[No time]
-Без часу
-[Time on left]
-Час зліву
-[Time on right]
-Час справа
-[Time above avatar]
-Час над аватаром
+[Set timeout:]
+Тривалість:
 [Width:]
 Ширина:
 [Maximum height:]
 Макс. висота:
+[Options]
+Налаштування
+[Opacity(%):]
+Непрозрачность (%):
+[Border]
+Рамка
+[Round corners (window)]
+Закругляти кути вікна
+[Preview]
+Тест
+[Transparent background]
+Прозорий фон
+[Layout]
+Розміщення
+[Avatar size:]
+Аватар:
+[Disable when]
+Вимкнуті коли
+[Global hover]
+Загальна наведення
+[Sidebar width:]
+Ширина врізки:
+[Text indent:]
+Відступ тексту:
 [Padding:]
 Проміжок:
+[Round corners (avatar)]
+Скругляти кути аватару
+[Text colour:]
+Колір тексту:
+[Background colour:]
+Колір фону:
 [Set timeout]
 Встановити таймаут
 [Timeout value (0 = default):]
 Таймаут (0 = за замовчуванням):
-[Vertical indent:]
-Відступ по верт.:
-;  Тестовые сообщения
+[Popups are enabled]
+Спливаючі вікна увімкнені
+[Popups are disabled]
+Спливаючі вікна вимкнені
+[Popup History]
+Історія сплив. вікон
+[YAPP Popups]
+Спливаючі вікна
+[Example]
+Приклад
 [The quick brown fox jumped over the lazy dog.]
 З'їж ж ще цих м'яких французьких булок та випий йаду!
 [Example With a Long Title]
@@ -46,13 +77,73 @@
 З'їжжщецихм'якихфранцузькихбулоктавипиййаду!
 [An avatar.]
 З аватаром
-;  Тонкая настройка — Шрифты и цвета
-[First line]
-Перший рядок
-[Title underline]
-Підкреслення заголовка
-;  Главное меню
-[Popup history]
-Історія спливаючих вікон
+[Bottom right]
+Внизу праворуч
+[Bottom left]
+Внизу зліва
+[Top right]
+Вгорі праворуч
+[Top left]
+Вгорі зліва
+[Icon on left]
+Значок ліворуч
+[Icon on right]
+Значок праворуч
+[No time]
+Без часу
+[Time on left]
+Годину зліву
+[Time on right]
+Годину праворуч
+[Time above avatar]
+Час над аватаром
+[No avatar]
+Без аватару
+[Left avatar]
+Аватар зліва
+[Right avatar]
+Аватар праворуч
+[Status]
+Статус
+[Full-screen app running]
+Повноекранна програма
+[No animate]
+Без анімації
+[Horizontal animate]
+Горизонтальні анімація
+[Vertical animate]
+Вертикальні анімація
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Ви не можете встановити значення часу очікування за замовчуванням 0.\nЗначення скидання.
+[Error]
+Помилка
+[Popups]
+Спливаючі вікна
+[Settings]
+Налаштування
+[Classes]
+Класи
+[Disable Popups]
+Вимкнути спливаючі вікна
 [Enable Popups]
 Вімкнути спливаючі вікна
+[Toggle Popups]
+
+[First line]
+Перший рядок
+[Second line]
+Другий рядок
+[Time]
+Час
+[Background]
+Фон
+[Sidebar]
+Врізка
+[Title underline]
+Підкреслення заголовка
+[Copy title to clipboard]
+Скопіювати заголовок в буфер обміну
+[Copy message to clipboard]
+Скопіювати повідомлення в буфер обміну
+[Copy timestamp to clipboard]
+Скопіювати штамп часу в буфер обміну

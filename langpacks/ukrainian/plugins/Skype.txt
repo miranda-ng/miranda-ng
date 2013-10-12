@@ -1,33 +1,337 @@
 ﻿#muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
 ;============================================================
 ;  File: Skype.dll
-;  Module: Skype Protocol
+;  Plugin: Skype Protocol
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
-[Skype login:]
-Ім'я у Skype:
-[Invite to conference]
-Запросити в конференцію…
-[sid]
-Імя:
-[Invite Contact To Chat]
-Запросити до чату
+[Skype protocol support for Miranda NG.]
+Skype протокол для Miranda NG.
+[Invite contacts to conference]
+Запросити у конференцію
+[Skype name:]
+Логін Skype:
+[&Invite]
+&Запросити
+[&Cancel]
+&Скасувати
+[Add]
+Додати
+[Create conference]
+Створити конференцію
+[Topic:]
+Тема:
+[Guideline:]
+Правила:
+[Enable joining]
+Дозволити вхід у чат
+[New members join with role:]
+Роль для нових учасників:
+[Create with password]
+Створити з паролем
+[Password:]
+Пароль:
+[Confirmation:]
+Підтвердження:
+[Password hint:]
+Підказка пароля:
+[Enter password]
+Введіть пароль
+[Remember this session password]
+Запам'ятати пароль сесії
+[Cancel]
+Скасування
+[Status text:]
+Текст статусу:
+[Online since:]
+Онлайн з:
+[Last event date:]
+Дата останнього події:
+[Last change profile:]
+Дата останнього зміни профілю:
+[Full name:]
+Повне ім'я:
+[Date of birth:]
+Дата народження:
+[Gender:]
+Стать:
+[Homepage:]
+Дом. сторінка:
+[Language:]
+Мова:
+[About:]
+Про:
+[Mood:]
+Настрій:
+[E-mail 1:]
+Пошта 1:
+[E-mail 2:]
+Пошта 2:
+[E-mail 3:]
+Пошта 3:
+[Mobile phone:]
+Моб. телефон:
+[Home phone:]
+Домашній телефон:
+[Office phone:]
+Робочій телефон:
+[City:]
+Місто:
+[State:]
+Штат:
+[Country:]
+Країна:
+[Timezone:]
+Часовий пояс:
+[Skype credit:]
+Баланс Skype:
+[Change password]
+Змінити пароль
+[Old password:]
+Старий пароль:
+[New password:]
+Новий пароль:
+[Register new account]
+Зареєструватися
+[Account]
+Обліковий запис
+[Connection]
+Підключення
 [Use port]
 Порт
 [for incoming connections]
-для вхідніх з'єднань
+для вхідних підключень
 [Use ports 80 and 443 as alternative incoming]
-Використовувати порты 80 и 443 в якості входних альтернативних
-[Register new account]
-Зареїструвати новий аккаунт
-[Chande password]
-Змінити пароль
+Використовувати порти 80 і 443 як вхідні
+[Default group:]
+Група:
+[Block]
+Блокувати
+[Allow IMs from...]
+Дозволити миттєві повідомлення від...
+[Anyone]
+Всіх
+[People in my Contact list only]
+Користувачів з мого контактного листа
+[Allow calls from...]
+Дозволити дзвінки від...
+[Automatically receive video and share screens with...]
+Автоматично показувати екран і приймати відео від...
+[No one]
+Нікого
+[Allow my online status to be shown on the web]
+Дозволити показ мого онлайн статусу в інтернеті
+[Show avatars]
+Показувати аватари
+[Contacts count]
+Лічильник контактів
+[Local time]
+Місцевий час
+[Block this person]
+Блокувати користувача
+[Remove from your Contact List]
+Видалити зі списку контактів
+[Abuse]
+Порушення
+[You can also report abuse from this user.]
+Ви також можете повідомити про порушення правил цим користувачем.
+[Report abuse]
+Повідомити про порушення
+[Did not unpack SkypeKit.exe.]
+Баланс Skype:
+[HTTPS proxy authentication failed]
+Аутентифікація по HTTP-проксі не вдалася
+[SOCKS proxy authentication failed]
+Аутентифікація за SOCKS проксі не вдалася
+[P2P connection failed]
+З'єднання по P2P не вдалося
+[Server is overloaded]
+Сервер перевантажений
+[SkypeKit database already in use]
+База даних SkypeKit вже використовується
+[Invalid Skype name]
+Невірний логін Skype
+[Invalid email]
+Неправильний e-mail
+[Unacceptable password]
+Неправильний пароль
+[Skype name is taken]
+Логін Skype зайнятий
+[Incorrect password]
+Невірний пароль
+[Too many login attempts]
+Занадто багато спроб входу
+[Password has changed]
+Пароль було змінено
+[SkypeKit database is corrupt]
+База даних SkypeKit пошкоджена
+[Invalid application ID]
+Невірний ID додатки
+[Version is unsupported]
+Версія не підтримується
+[Logout from another instance]
+Вихід на інших пристроях
+[Password successfully changed]
+Пароль успішно змінено
+[Password changing]
+Зміна пароля
+[Old password was incorrect]
+Старий пароль не вірний
+[Failed to verify password. No connection to server]
+Неможливо перевірити пароль. Немає підключення до сервера
+[Password was set but server didn't like it much]
+Пароль був відкинутий сервером
+[New password was exactly the same as old one]
+Введений пароль точно такий же, як старий
+[The new password was unacceptable]
+Новий пароль неприйнятний
+[Account was currently not logged in]
+Обліковий запис не в мережі
+[You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
+Ви не ввели Skype ID.\nНастройте це в Налаштування->Мережа->%s і спробуйте знову.
+[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
+Ви дійсно хочете блокувати "%s" (%s)? Блоковані користувачі зможуть зв'язатися з вами і не будуть відображатися у вашому списку контактів.
+[Name]
+Ім'я
+[Conferences]
+Конференції
+[&Request auth]
+&Запитати авторизацію
+[Invite to conference]
+Запросити на конференцію
+[Set &role]
+Встановити &роль
+[&Master]
+&Модератор
+[&Helper]
+&Помічник
+[&User]
+&Користувач
+[&Listener]
+&Слухач
+[&Add]
+&Додати
+[&Kick]
+&Викинути
+[Outlaw (&ban)]
+Забанити
+[Copy &skypename]
+Копіювати &Skype ID
+[Copy room &uri]
+Копіювати URI конференції
+[Creator]
+Творець
+[Incoming group call finished]
+Вхідний груповий дзвінок закінчений
+[The password is incorrect]
+Невірний пароль
+[Your application to join the conference was denied]
+Ваше прохання про присоеденении до конференції відхилено
+[Incoming group call started]
+Вхідний груповий дзвінок
+[You did not select any contact]
+Ви не вибрали контакт
+[Hi! I'd like to add you to my contact list]
+Привіт! Я хотів би додати Вас в свій список контактів
 [Contact already in your contact list]
-Контакт вже у вашому списку контактів
-[You have not entered a Skype name.\n\ Configure this in Options->Network->Skype and try again.]
-Ви не ввели ім'я Skype. \n\ Настройте Налаштування->Мережа->Skype і спробуйте знов.
-[Enter a password for Skype Name %s:]
-Введіть пароль від Skype %s:
-[Skype protocol support for Miranda NG.] 
-Підтримка протоколу Skype для Miranda NG.
+Контакт вже в контакт листі
+[Contacts received]
+Вхідний груповий дзвінок
+[Enter a password for %s:]
+Введіть пароль для %s:
+[New password is same as old password.]
+Новий і старий пароль однакові
+[New and password confirmation must be same.]
+Новий і старий пароль однакові
+[<not specified>]
+<не вказано>
+[Male]
+Чоловічий
+[Female]
+Жіночий
+[You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
+Ви не підключені в даний час. Ви повинні бути онлайн, щоб оновити інформацію на сервері.
+[Spawn conference]
+Створити конференцію
+[Network]
+Мережа
+[Blocked contacts]
+Блоковані контакти
+[Privacy]
+Приватність
+[Архів]
+Контакти
+[Home]
+Будинок
+[General]
+Загальна
+[Call]
+Дзвінок
+[Conference]
+Конференція
+[Send contact]
+Надіслати контакт
+[Contact]
+Контакт
+[Delete]
+Видалити
+[Protocols]
+Протоколи
+[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+
+[Initialization key or corrupted not valid.]
+Ключ ініціалізації пошкоджений або не дійсний.
+[SkypeKit did not initialize (%d).]
+SkypeKit did not initialize (%d).
+[SkypeKit did not start.]
+SkypeKit не запустився.
+[Unblock this person...]
+Розблокувати користувача...
+[Block this person...]
+Блокувати користувача...
+[Request authorization]
+Запросити авторизацію
+[Grant authorization]
+Авторизувати
+[Revoke authorization]
+Відкликати авторизацію
+[View old messages...]
+Переглянути історію...
+[for last day]
+за останній день
+[for last week]
+за останній тиждень
+[for last month]
+за останній місяць
+[for last month 3]
+за останні 3 місяці
+[for last year]
+за останній рік
+[for all time]
+за весь час
+[Incoming call started]
+Вхідний дзвінок
+[Incoming call finished]
+Вхідний дзвінок завершено
+[history synchronization]
+Синхронізація історії
+[Done!]
+Готово!
+[%s connection]
+%s підключення
+[Skype name]
+Логін Skype
+[Validation succeeded]
+Валідація пройдена
+[Password is too short]
+Пароль занадто короткий
+[Value has invalid format]
+Значення має невірний формат
+[Value contains invalid word]
+Значення має неприпустиме слово
+[Password is too simple]
+Пароль надто простий
+[Avatars]
+Аватари
+[Command%s is unsupported]
+Команда "%s" не підтримується

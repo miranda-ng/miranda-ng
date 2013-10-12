@@ -1,17 +1,25 @@
-﻿;============================================================
-; File: EmLanProto.dll
-; Module: E-mage LAN protocol
-; Versions: 0.0.1.2
+﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
 ;============================================================
-[E-mage LAN Protocol]
-Протокол E-mage LAN
-[E-mage LAN protocol]
-Протокол E-mage LAN 
-[LAN Settings]
-Налаштування мережі
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.0.1.2
+;  Authors: kva
+;============================================================
+[E-mage LAN protocol support for Miranda NG.]
+Підтримка протоколу E-mage LAN у Miranda NG.
 [Select your IP address]
 Виберіть вашу IP адресу
-[Select your name]
-Виберіть ваше ім'я
+[LAN Settings]
+Налаштування мережі
 [Use computer name]
 Ім'я комп'ютера
+[Your name]
+Ваше ім'я
+[Select your name]
+Виберіть ваше ім'я
+[User name or '*']
+Ім'я користувача або '*'
+[E-mage LAN protocol]
+Протокол E-mage LAN 
+[Network]
+Мережа

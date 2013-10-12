@@ -1,0 +1,80 @@
+﻿#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: ConnectionNotify
+;  Version: 0.1.0.5
+;  Authors: MaKaR
+;============================================================
+[Notify with popup if some connection established]
+Повідомлення спливаючими про встановлене з'єднання
+[Set popup colours]
+Вибрати колір спливаючих вікон
+[Popup options]
+Налаштування спливаючих вікон
+[Background]
+Фон
+[Text]
+Текст
+[Close after:]
+Закрити після:
+[sec.(0 default, -1 disabled)]
+с.(0 замовчання, -1 вимкнути)
+[Settings]
+Налаштування
+[try resolve addresses]
+намагаються вирішувати адресою
+[Версія:]
+Версія:
+[Show notification if no filter defined]
+Повідомляти, якщо жоден фільтр не визначений
+[Attempt interval (ms.)]
+Інтервалу спроб (мс.)
+[X]
+Х
+[Online mean]
+
+[Filters]
+Фільтри
+[DN]
+Вн
+[UP]
+Вг
+[Rule editor]
+Редактор правил
+[Application name]
+
+[Local IP:Port]
+Локальний IP:Порт
+[Action:]
+
+[OK]
+
+[Cancel]
+Скасування
+[* and ? wildcard characters also available (for port enter number or *)]
+
+[Remote IP:Port]
+
+[Show]
+Показати
+[Hide]
+Приховати
+[Always show popup]
+Завжди показувати сплив. вікно
+[Never show popup]
+Ніколи не показуваті сплив. вікно
+[Status]
+Статус
+[Application]
+Програма
+[Internal socket]
+Внутрішній сокет
+[External socket]
+Зовнішній сокет
+[Action]
+Дія
+[Plugins]
+Плагіни
+[New Connection Notification]
+Повідомлення про нове підключення
+[First close options window]

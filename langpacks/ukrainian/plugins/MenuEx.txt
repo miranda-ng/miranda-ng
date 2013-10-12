@@ -2,52 +2,108 @@
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu item ext
-;  Version: 1.3.0.10
+;  Version: 1.3.0.9
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
 Додає додаткові пункти меню контактів.
+[Enter an authorization request]
+Текст запиту авторизації
+[&Send]
+&Надіслати
+[&Cancel]
+Про&тмена
 [Shown menu items]
 Відображені пункти меню
+[Visibility]
+Видимість
 [Show alpha icons]
 Альфа-значки
-[Show alpha icon]
-Альфа-значок
-[Copy Status Message (SMR needed)]
-Копіювати статус (потрібен SMR)
-[MenuItemEx]
-Дод. пункти меню
-[Set user properties by contact menu]
-Встановлює параметри видимості для користувачів у списку контактів
-[Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
-Додає контекстні меню: "Прийняті файли", "Сайт", "Останній раз в мережі" і "Копіювати адресу IP".
-[Hide menu item if directory does not exist]
-Сховати меню, якщо каталог не існує
-[Last Status]
-Останній статус
-[Copy to Account]
-Копіювати в обліковий запис
+[Hide from list]
+Приховати зі списку
+[Ignore]
+Ігнорувати
 [Copy to Account (Ctrl+click for move to Account)]
 Копіювати в обл. запис (Ctrl+клік переміщення)
-[* Use Ctrl+click to see popup with the copied text]
-* Ctrl+клік для відображення спливаючого вікна з текстом
-[Hide contact on 'Ignore all']
-Приховувати при 'Ignore all'
-[Show in list]
-Показувати у списку 
-[Add message name]
-Заголовок повідомлення
+[Send 'You were added']
+Відправити "Вас додали"
+[Request Authorization]
+Запитати авторизацію
+[Browse Received Files]
+Прийняті файли
+[Copy IP]
+Копіювати IP
+[Copy MirVer]
+Копіювати ID клієнта
+[Copy Status Message]
+Копіювати статус
 [Add item name]
 Додати назву елемента
-[Do you want to send authorization request\nto new contact?]
-Чи хочете ви надіслати запит авторизації\nновому контакту?
-[Open ignore settings]
-Відкрити налаштування ігнорування
-[Copy xStatus Message]
-Копіювати повідомлення xStatus
+[Copy ID]
+Копіювати ID
+[Add protocol name]
+Додати протокол
 [Show ID in menu item]
 Показати ID у контекстному меню
 [Trim too long ID]
 Обрізати довгий ID
+[* Use Ctrl+click to see popup with the copied text]
+* Ctrl+клік для відображення спливаючого вікна з текстом
+[Hide contact on 'Ignore all']
+Приховувати при 'Ignore all'
+[Other options]
+Інші налаштування
 [Automatically refresh contact's details after they come online]
 Автоматично оновлювати деталі контактів при появі в мережі
+[Status message]
+Повідомлення статусу
+[XStatus title]
+Заголовок хСтатуса
+[XStatus message]
+Повідомлення хСтатуса
+[Listening to]
+Слухаю
+[Activity title]
+Закоговок "активності"
+[Activity text]
+Повідомлення "активності"
+[Show in list]
+Показувати у списку
+[Always visible]
+Завжди видимий
+[Never visible]
+Завжди невидимий
+[Copy to Account]
+Копіювати в обліковий запис
+[Copy xStatus Message]
+Копіювати повідомлення xStatus
+[All]
+Всі
+[Messages]
+Повідомлення
+[URL]
+Посилання (URL)
+[Files]
+Файли
+[User Online]
+Користувач у мережі
+[Authorization]
+Авторизація
+[You Were Added]
+Вас додали
+[Typing Notify]
+Набирає текст
+[Please authorize me to add you to my contact list.]
+Будь ласка авторезуйте мене щоб я додав Вас у свій КЛ
+[Do you want to send authorization request\nto new contact?]
+Чи хочете ви надіслати запит авторизації\nновому контакту?
+[Miranda NG]
+
+[MenuItemEx]
+Дод. пункти меню
+[Open ignore settings]
+Відкрити налаштування ігнорування
+[Request authorization]
+Запитати авторизацію
+[Customize]
+Тонкі налаштування

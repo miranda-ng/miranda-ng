@@ -7,9 +7,9 @@
 [Tooltip Notify]
 Повідомлення
 [Shows a small tooltip above system tray area when a contact status is changed.]
-Повідомлення в треї при зміні статусу контакту.
+Повідомлення в треї, при зміні статусу контакту.
 [Notify upon the following contact status changes]
-Повідомляти про зміни статусів наступних контактів
+Повідомляти про зміни статусів подальших контактів
 [All other]
 Інше
 [Duration]
@@ -17,13 +17,13 @@
 [Show tooltip for]
 Показати:
 [Duration x2 upon online event]
-В 2 рази довше для "В мережі"
+В 2 рази довша для "У мережі"
 [Work in conjunction with 'Suppress online notification']
-Працювати разом з "Забороною повідомлень про вихід у мережу"
+Працювати разом із "Забороною повідомлень про вихід у мережу"
 [Default positioning]
 Позиція за замовчуванням
 [[Hint: right-click on the tooltip to move it when in custom placement mode]]
-Порада: Вікно повідомлення можна перетягувати правою кнопкою миші
+Порада: Вікно повідомлення можна перетягнути правою кнопкою миші
 [Transparent tooltip]
 Прозорість
 [%s is %s]
@@ -38,7 +38,7 @@
 Прозорий вхід
 [Double click on tooltip]
 Подвійний клік:
-[Shows/Hides contact list]
+[Shows/Hides CList]
 Список контактів
 [Opens message dialog]
 Вікно повідомлень
@@ -47,7 +47,7 @@
 [Suppress notifications upon connection for]
 Не повідомляти при підключенні
 [Obey 'Suppress online notification' settings]
-Увімкнути тимчасову заборону повідомлень
+Включити тимчасовий заборона повідомлень
 [Tooltip Notify: Offline]
 Повідомлення: Оффлайн
 [Tooltip Notify: Online]
@@ -60,7 +60,7 @@
 Інший статус
 [is]
 тепер
-[Choose contacts]
+[Choose contacts...]
 Виберіть контакти
 [Allow tooltip notifications for the following users:]
-Увімкнути сповіщення для зазначених контактів:
+Включити повідомлення для зазначених контактів:

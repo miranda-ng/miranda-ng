@@ -1,96 +1,123 @@
 ﻿#muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;============================================================
-;  File: Sessions
-;  Module: Sessions.dll
-;  Versions: 0.1.3.0
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.1.3.0
+;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
 Менеджер сесій Miranda NG.
-[Sessions]
-Сесії
 [Action on Startup]
 Дія при старті
 [Open Sessions Manager dialog]
 Відкрити менеджер сесій
-[User Sessions Management]
-Керування сесіями
-[Action on Exit]
-Дія при виході
-[Save Session]
-Зберегти сесію
-[adv.]
-доп.
-[Enter session name:]
-Введіть назву сесії:
-[Save and Close]
-Зберегти та закрити
-[&Save Session]	
-Зберегти
-[Load last session]
-Завантажити останню сесію
-[Save session...]
-Зберегти сесію...
-[Load session...]
-Завантажити сесію...
-[Save your current session?]
-Зберегти поточну сесію?
-[Choose session to restore from the list:]
-Виберіть сесію для відновлення:
-[&Restore Session]
-&Відновити
-[Restore Session]
-Відновити сесію
-[Open Sessions Manager]
-Відкрити менеджер сесій
-[Restore last Session]
-Відновити останню сесію
-[Save Current Session]
-Зберігати поточну сесію
-[Only if last session present]
-Тільки якщо доступна остання сесія
 [Restore Last Session]
 Відновити останню сесію
+[Do nothing]
+Нічого не робити
+[Only if last session present]
+Тільки якщо доступна остання сесія
 [Startup delay]
 Затримка відкриття
+[ms]
+мс
+[User Sessions Management]
+Керування сесіями
+[Edit]
+Змінити
+[Delete]
+Видалити
+[Save]
+Зберегти
+[Action on Exit]
+Дія при виході
+[Ask]
+Запитати
+[Save Current Session]
+Зберігати поточну сесію
 [Save only last]
 Зберегти тільки останню
+[Sessions]
+Сесії
+[Misc]
+Інше
 [Exclude hidden contacts from session on exit]
 Виключити приховані контакти з сесії при виході
 [Warn, when some of LastSession contacts are hidden]
 Показати, якщо остання сесія має приховані контакти
-[Show other warnings ("session already opened" etc.)]
-Показувати додаткові попередження
+[Show other warnings ("session already opened" etc...)]
+Коказувати додаткові попередження
 [Crash Recovery mode]
 Відновлення після збоїв
-[Session Before Last Crash]
-Сесія до останнього збою
+[Restore Session]
+Відновити сесію
+[&Restore Session]
+&Відновити
+[&Cancel]
+&Скасувати
+[Choose session to restore from the list:]
+Виберіть сесію для відновлення:
+[Del]
+Вид.
+[Save Session]
+Зберегти сесію
+[&Save Session]
+&Зберегти сесію
+[Enter session name:]
+Введіть назву сесії:
+[Save and Close]
+Зберегти та закрити
+[adv.]
+дод.
 [Sessions Manager]
 Менеджер сесій
-[Last Sessions is empty]
-Остання сесія порожня
-[No sessions to open]
-Немає сесій для відкриття
-[Current session is empty!]
-Поточна сесія порожня!
-[Session name is empty, enter the name and try again]
-Ім'я сесії порожньо, введіть назву та спробуйте ще раз
-[No contacts to open]
-Немає контактів для відкриття
-[This Session already opened]
-Сесія вже відкрита
-[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
-Сесія вже відкрита(але можливо прихована)\nВи хочете показувати приховані контакти?
-[Close Session]
-Закрити сесію
+[OK]
+
+[Cancel]
+Скасувати
+[Save your current session?]
+Зберегти поточну сесію?
 [Favorite Session]
-Обрана сесія
+Обібрана сесія
 [Not favorite Session]
-Неизбранная сесія
+Не обрана сесія
 [Load Session]
 Завантажити сесію
 [Load last Session]
 Завантажити останню сесію
-[Close session]
-Закрити сесію
+[Current session is empty!]
+Поточна сесія порожня!
+[Session name is empty, enter the name and try again]
+Ім'я сесії порожньо, введіть назву та спробуйте ще раз
+[No sessions to open]
+Немає сесій для відкриття
+[Last Sessions is empty]
+Остання сесія порожня
+[No contacts to open]
+Немає контактів для відкриття
+[This Session already opened]
+Сесія вже відкрита
+[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+Сесія вже відкрита(але можливо прихована)\nВи хочете показати приховані контакти?
+[Open Sessions Manager]
+Відкрити менеджер сесій
 [Show Favorite Sessions Menu]
 Відкрити меню обраних сесій
+[Restore last Session]
+Відновити останню сесію
+[Close Session]
+Закрити сесію
+[Save session...]
+Зберегти сесію...
+[Load session...]
+Завантажити сесію...
+[Close session]
+Закрити сесію
+[Load last session]
+Завантажити останню сесію
+[View]
+Вид
+[Message Sessions]
+Бесіди
+[Last Session Before Crash]
+Сесія до останнього збою

@@ -1,27 +1,136 @@
-﻿#muuid {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
+﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
 ;============================================================
 ;  File: PasteIt.dll
-;  Module: Paste It
-;  Versions: 1.0.0.0
+;  Plugin: Paste it
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
 ;============================================================
-
-;Main
-[Paste It]
-Розміщення на сайті
 [Uploads the text to web page and sends the URL to your friends.]
 Завантажує текст на веб-сторінку і відправляє URL друзям.
+[Settings]
+Налаштування
+[Default web page]
+Стандартна web-сторінка
+[Default file encoding]
+Стандартний кодування файлу
+[Auto-detect UTF-8]
+Автовизначення UTF-8
+[Show confirmation dialog box]
+Показати діалогове вікно підтвердження
+[Autosend download link to contact]
+Відіслати посилання автоматично
+[Web page settings]
+Налаштування веб сторінки
+[Web page to configure]
+Web-сторінка для налаштування
+[Configure]
+Налаштувати
+[Default formatting]
+Форматування за замовчанням
+[Auto-detect format from file extension]
+Автоматичне визначення формату з розширення файлу
+[Public paste]
+Розмістити публічно
+[Login as guest]
+Увійти як гість
+[User key]
+Ключ користувача
+[Get user key]
+Отримати ключ користувача
+[Configure formatting]
+Налаштувати форматування
+[OK]
+
+[Cancel]
+Скасувати
+[Up]
+Вгору
+[Down]
+Вниз
+[Delete]
+Видалити
+[Restore defaults]
+Скинути
+[Download more]
+Скачати більше
+[Login to pastebin.com]
+Увійти на pastebin.com
+[User name]
+Логін
+[Password]
+Пароль
+[Paste It]
+Розміщення на сайті
+[Format]
+Формат
+[Encoding]
+Кодування
+[Recode]
+Запис
+[Use default codepage]
+Кодування за замовчанням
+[Thai]
+Тайський
+[Japanese]
+Японський
+[Simplified Chinese]
+Китайський (спрощений)
+[Korean]
+Корейська
+[Traditional Chinese]
+Китайський (традиційний)
+[Central European]
+Центральноєвропейський
+[Cyrillic]
+Кирилиця
+[Cyrillic KOI8-R]
+Кирилиця KOI8-R
+[Latin I]
+Західноєвропейський
+[Greek]
+Грецька
+[Turkish]
+Турецький
+[Hebrew]
+Іврит
+[Arabic]
+Арабська
+[Baltic]
+Балтійський
+[Vietnamese]
+В'єтнамський
+[Korean (Johab)]
+Корейська (Johab)
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Ви ввели невірну кодову сторінку. Виберіть кодову сторінку з випадаючого списку або введіть правильне ім'я.
+[Invalid codepage]
+Невірна кодова сторінка
+[Services]
+Служби
+[Main]
+Головний
+[Web page]
+Web сторінка
+[All Files (*.*)]
+Усі файли (*.*)
 [Paste It - Select file]
 Розміщення на сайті - Вибрати файл
+[Error]
+Помилка
+[Paste from clipboard]
+Розмістити з буфера обміну
+[Paste from file]
+Розмістити з файлу
 [Paste It HTTP connections]
 HTTP підключення Paste It
-
-;Error messages
 [You can only paste 1 file]
 Ви можете розмістити тільки 1 файл
 [Cannot get data from clipboard]
 Неможливо отримати дані з буфера обміну
 [File size is %dKB, do you realy want to paste such large file?]
 Розмір файлу %dKB, ви дійсно хочете розмістити такий великий файл?
+[Are You sure?]
+Ви впевнені?
 [Cannot read file '%s']
 Неможливо прочитати файл '%s'
 [File size is larger then 10MB, cannot be send]
@@ -36,49 +145,15 @@ HTTP підключення Paste It
 Помилка при надсиланні тексту на web-сторінку
 [Error during getting user key from web page: %s]
 Помилка при отриманні ключа користувача від web-сторінки: %s
-
-;Options and Menus
-[Paste from clipboard]
-Розмістити з буфера обміну
-[Paste from file]
-Розмістити з файлу
-[Default web page]
-Стандартна web-сторінка
-[Default file encoding]
-Стандартне кодування файлу
-[Auto-detect UTF-8]
-Автовизначення UTF-8
-[Show confirmation dialog box]
-Показати діалогове вікно підтвердження
-[Web page settings]
-Налаштування веб сторінки
-[Web page to configure]
-Web-сторінка для налаштування
-[Default formatting]
-Форматування за замовчуванням
-[Auto-detect format from file extension]
-Автоматичне визначення формату з розширення файлу
-[Public paste]
-Розмістити публічно
 [Paste expire date]
-розмістити на строк
-[Login as guest]
-Увійти як гість
-[User key]
-Ключ користувача
-[Get user key]
-Отримати ключ користувача
-[Configure formatting]
-Налаштувати форматування
-[Download more]
-Завантажити більше
-[Login to pastebin.com]
-Увійти на pastebin.com
-[Encoding]
-Кодування
-[Recode]
-Запис
+
+[Never]
+Ніколи
 [10 minutes]
 10 хвилин
+[1 hour]
+1 година
+[1 day]
+1 день
 [1 month]
 1 місяць

@@ -8,7 +8,7 @@
 [IEView]
 Журнал IEView
 [IE Based Chat Log.]
-Журнал на движці IE.
+Журнал на движку IE.
 [Currently the following BBCodes are supported: [b][i][u][img][size][color]]
 Підтримуються [b][i][u][img][size][color] ВВкоды
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color]]
@@ -16,9 +16,9 @@
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 Підтримуються [b][i][u][s][img][size][color][url] ВВкоды
 [Enable support for Flash files in smileys and BBCodes]
-Підтримка flash (*.swf) файлів у смайлах і ВВкодах
+Підтримка flash (*. swf) файлів в смайли і ВВкодах
 [Enable workaround for PNG transparency]
-Включити прозорість для PNG
+Вімкнути прозорість для PNG
 [Replace smileys in user names]
 Смайли в іменах
 [Hide window border]
@@ -26,7 +26,7 @@
 [Compatibility Mode]
 Режим сумісності
 [Use External CSS]
-Зовнішній файл CSS
+Зовнішній CSS файл
 [Use Templates]
 Шаблон
 [Template Options]
@@ -38,17 +38,17 @@
 [RTL]
 RTL
 [Copy Link]
-Копіювати посилання
+Скопіювати посилання
 [Save Image As...]
 Зберегти зображення...
 [Print]
 Друк
 [Show source]
-Исходник шаблону
+Джерело шаблону
 [External CSS file]
-Зовнішній файл CSS
+Зовнішній CSS файл
 [Events To Show]
-Відображаються події
+Відображаються подій
 [Animated Smiley Libraries]
 Бібліотеки анімованих смайлів
 [Enable smiley replacement]
@@ -66,7 +66,7 @@ RTL
 [%s has left.]
 %s вийшов.
 [Message Log Background]
-Фон журналу повідомлень
+Фон повідомлень журналу
 [RTL CSS file]
 RTL CSS файл
 [RTL templates]
@@ -76,11 +76,11 @@ RTL шаблони
 [The topic is %s.]
 Тема %s
 [Use external CSS file]
-Використовувати зовнішній файл CSS
+Використовувати зовнішній CSS файл
 [Use template-based HTML builder]
 Використовувати компонування по HTML шаблону
 [HTML Log Options]
-Настройка журналу HTML
+Налаштування журналу HTML
 [RTL template file]
 RTL шаблон
 [All Images]
@@ -88,4 +88,4 @@ RTL шаблон
 [Style Sheet]
 Таблиця стилів
 [Embed YouTube videos]
-Вбудувати відео з YouTube
+Вставити відео з YouTube

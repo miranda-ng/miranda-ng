@@ -1,0 +1,233 @@
+﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Module: RSS/Atom news aggregator
+;  Versions: 0.0.3.5 - 0.0.3.23
+;  URL: http://nightly.miranda.im/x32/newsaggregator.zip
+;============================================================
+[RSS/Atom news aggregator.]
+Канали новин RSS/Atom.
+[News Aggregator]
+Канали новин
+[Adding new feed]
+Додати канал
+[Manage feed]
+Редагувати канал
+[Auto &discovery]
+&Перевірити
+[Use &authentication]
+&Використовувати аутентифікацію
+[Maximum displayed items]
+Максимум новин
+[Visualization]
+Відображення
+[Display news using the following format:]
+Відображати новини, використовуючи формат:
+[All item's tags are valid. Put between them #. Example: #<author>#]
+Всі теги новин дійсні. Помістіть їх між #, наприклад: #<author>#
+[Feed]
+Канал
+[Retrieve news at &startup]
+&Вживати при новини старт
+[E&xport...]
+&Експорт
+[Import from:]
+Імпорт з:
+[&Go]
+&Старт
+[Available feeds:]
+Наявні канали:
+[Feeds to be imported:]
+Канали для імпорту:
+[Feeds to be exported:]
+Канали для експорту:
+[Export to file:]
+Експорт у файл:
+[Enter a value in URL field.]
+Заповніть поле "Адреса"
+[Enter a value greater than zero in Minutes field.]
+Введіть значення більше нуля у полі "Хвилини"
+[Enter a value in Username field.]
+Заповніть поле "Ім'я"
+[Enter a value in Password field.]
+Заповніть поле "Пароль"
+[Enter a value equal or greater than zero in Maximum items displayed field.]
+Введіть значення рівне або більша нуля у полі "Максимальне кількість полів"
+[Select a feed to manage.]
+Виберіть канал для редагування.
+[Select a feed to delete.]
+Виберіть канал для видалення.
+[Invalid path and/or filename.]
+Неправильний шлях і/або ім'я.
+[Exporting sucessfully completed.]
+Експорт завершено успішно.
+[There are no items to be exported.]
+Немає новин для експорту.
+[Importing sucessfully completed.]
+Імпорт завершено успішно.
+[There are no items to be imported.]
+Немає новин для імпорту.
+[Wait...]
+Чекайте...
+[%s\nis a valid feed's address.]
+%s\nдействительно існує.
+[Do you want to use it?]
+Хочете використовувати його?
+[is no longer available at the server and no forwarding address is known.]
+більше не доступний на сервері і адресу переадресації не відомий.
+[This condition is expected to be considered permanent.]
+Це стан очікувалося як постійне......
+[Would you like to delete this feed?]
+Ви хочете видалити це джерело?
+[Forbidden address]
+Заборонена адреса
+[Authorization will not help and the request should not be repeated.]
+Авторизація не допоможе і запит не буде повторений.
+[Feed sucessfully added.]
+Канал успішно додано.
+[Retrieve &news]
+Прийняти &новини
+[&Check all feeds]
+&Перевірити всі
+[&Add new feed...]
+&Додати...
+[&Export...]
+&Експорт
+[MyFeeds]
+Мої Канали
+[OPML File]
+OPML Файл
+[Feed ID]
+ID каналу
+[Avaliable feeds:]
+Наявні канали:
+[Check &all feeds]
+Перевірити &всі канали
+[There are no new items for this feed for a long period of time.]
+Цей канал не оновлюється тривалий період часу.
+[What do you want to do?]
+Що ви хочете зробити?
+[&Continue checking this feed for new items]
+&Продовжити перевірку цього каналу
+[&Delete this feed]
+&Видалити цей канал
+[RSS/Atom reader.]
+Плагін для читання RSS/Atom.
+[&Do not ask again for this feed]
+Не запитувати знову для цього каналу
+[Authentication]
+Аутентифікація
+[Feed options]
+Налаштування каналу
+[Maximum news displayed]
+Максимум новин
+[&Store only unread news]
+&Зберігати тільки непрочитані новини
+[Real URL :]
+URL :
+[goes to]
+записується як
+[&Manage feed...]
+&Редагувати
+[&Delete feed]
+&Видалити канал
+[Feed enabled]
+Канал включений
+[Feed disabled]
+Канал вимкнено
+[Do not show warning, help and &error messages]
+Не показувати попередження та помилки
+[Enter a value in Title field.]
+Заповніть поле "Назва"
+[Enter a value in Server field.]
+Заповніть поле "Сервер"
+[Enter a value in Location field.]
+Заповніть поле "Шлях"
+[RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
+Плагін RSS не може з'єднатися з сервером %s, можливо, він відключений. Спробуйте пізніше.
+[RSS plugin is unable to resolve the name of the server %s.]
+RSS не зміг знайти IP-адресу, яка відповідає імені сервера %s.
+[All item's tags are valid. Put between them #.]
+Всі значення вірні. Поділ через #
+[Do not show warning and &error messages]
+Не показувати попередження та помилки
+[Example: #<author>#, #<pubDate>#, etc.]
+Приклад: #<автор>#, #<Дата>#, і т.д.
+[Examples: #<author>#, #<pubDate>#, etc.]
+Приклади: #<автор>#, #<дата>#, і т.д.
+[Maximum items displayed]
+Максимум новин:
+[Store news using the following format:]
+Зберігати новини у форматі:
+[Do not &warn me again for this feed]
+Не &попереджати мене більше для цього каналу
+[Check All Feeds]
+Перевірити всі канали
+[Add Feed]
+Додати канал
+[Import Feeds]
+Імпорт каналів
+[Export Feeds]
+Експорт каналів
+[Check Feed]
+Перевірити
+[Check feed]
+Перевірити канал
+[Change feed]
+Змінити канал
+[Change Feed]
+Змінити канал
+[0 - check manually]
+0 - вручну
+[Feed Tag Help]
+Допомога по тегам каналу
+[The title of the item.]
+Заголовок новини.
+[The item synopsis.]
+Текст новости.
+[The URL of the item.]
+URL новини.
+[URL]
+Посилання
+[Email address of the author of the item.]
+E-mail автора новини.
+[URL of a page for comments relating to the item.]
+URL сторінки з коментарями до новини.
+[A string that uniquely identifies the item.]
+Ідентифікатор новини.
+[Specify one or more categories that the item belongs to.]
+Категорії новини.
+[Retrieve news at startup]
+Отримувати новини при запуску
+[%s\nis not a valid feed's address.]
+%s\nнеправильный адресу каналу
+[Tags Mask Reset]
+Скидання тегів
+[Enter Feed name]
+Введіть ім'я каналу
+[Contact deleting]
+Видалення контакту
+[Enter Feed URL]
+Введіть URL каналу
+[Enter checking interval]
+Введіть інтервал перевірки
+[Enter message format]
+Введіть формат повідомлення
+[NewsAggregator HTTP connection]
+HTTP підключення каналів новин
+[OPML files]
+Файли OPML
+[Not valid import file.]
+Невірний файл для імпорту
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Імпортовано каналів: %d \r\nНе імпортовано дублікатів: %d
+[Imported %d feed(s).]
+Імпортовано каналів: %d.
+[This feed seems to need authentication. Please fill username and password fields:]
+Каналу потрібна аутентифікація. Будь ласка, введіть ім'я користувача та пароль:
+[Username]
+Ім'я
+[Enter your username]
+Введіть ім'я користувача
+[Enter your password]
+Введіть пароль

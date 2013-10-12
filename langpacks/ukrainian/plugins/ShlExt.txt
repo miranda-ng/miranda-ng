@@ -2,38 +2,46 @@
 ;============================================================
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
-;  Version: 2.2.0.3
+;  Version: 2.2.0.1
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Інтеграція Miranda NG в контекстне меню оболонки ОС.
+[Display contacts in their assigned groups (if any)]
+Відображати контакти по групах (якщо є)
+[Only if/when the contact list is using them]
+Тільки якщо їх використовує список контактів
+[Display hidden, ignored or temporary contacts]
+Показувати приховані, ігноруються і тимчасові контакти
+[Menus]
+Меню
+[Shell Status]
+Інтеграція
+[Shell context menus]
+Контекстне меню оболонки
+[Do not display the profile name in use]
+Не показувати в меню назва поточного профілю
+[Show contacts that you have set privacy rules for]
+Показувати контакти, для яких встановлено правила конфіденційності
+[Remove]
+Видалити
+[Do not show status icons in menus]
+Не показувати в меню піктограми статусу
+[Do not show contacts that are offline, even if my contact list does]
+Не показувати контакти, не знаходяться у мережі
 [Problem, registration missing/deleted.]
 Проблема! Інтеграція в оболонку відсутня!
 [Successfully created shell registration.]
 Інтеграція в оболонку проведена успішно.
 [Not Approved]
 Не дозволено
-[Approved]	
+[Approved]
 Дозволено
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Ви впевнені? Це видалить всі налаштування даного модуля в вашої БД і всі ключі реєстру, які відповідають за його інтеграцію в Провідник.
+Ви впевнені? Це видалить всі налаштування даного плагін у вашому профілі і всі ключі реєстру, що відповідають за його інтеграцію в оболонку ОС.
 [Disable/Remove shlext]
-Вимкнути/Видалити shlext
-[Shell context menus]
-Контекстне меню оболонки
-[Display contacts in their assigned groups (if any)]
-Відображати контакти по групах (якщо є)
-[Only if/when the contact list is using them]
-Тільки якщо їх використовує список контактів
-[Display hidden, ignored or temporary contacts]
-Показувати приховані, зігноровані і тимчасові контакти
-[Shell Status]
-Інтегрування
-[Do not display the profile name in use]
-Не показувати меню назва поточного профілю
-[Show contacts that you have set privacy rules for]
-Показувати контакти, для яких встановлені правила конфіденційності
-[Do not show status icons in menus]
-Не показувати значки в меню статусу
-[Do not show contacts that are offline, even if my contact list does]
-Не показувати контакти, що знаходяться не в мережі
+Відключити/Видалити shlext
+[Recently]
+Останні
+[Clear entries]
+Очистити історію

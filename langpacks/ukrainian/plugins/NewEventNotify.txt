@@ -4,22 +4,22 @@
 ;  Module: NewEventNotify
 ;  Versions: 0.1.9.2 - 0.2.1.0
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
-Повідомляє про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію в спливаючих вікнах. Для роботи необхідний PopUp від Luca Santarelli або аналогічний.
+[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the Popup-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
+Повідомляє про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію у спливаючих вікнах. Для роботи необхідний Popup від Luca Santarelli або аналогічний.
 [You were added!]
 Вас додали
 [Requests your authorization]
-Запит вашої авторизації
+Запит авторизації
 [Unknown Event]
-Невідома подія
+Невідоме подія
 [Notify of new events]
-Сповіщати про нові події
-[Event Notify]	
+Повідомляти про нові події
+[Event Notify]
 Події
 [Popup Colors]
-Колір вікна
+Колір сплив. вікна
 [Notify me of ...]
-Сповіщати мене...
+Сповіщати мене про ...
 [Show entry in the main menu]
 Пункт у головному меню
 [Temporarily disable Event Popups]
@@ -27,31 +27,31 @@
 [Show Preview of Event in Popup]
 Перегляд події у вікні
 [Open Event]
-Відкрити подію
+Відкрити подія
 [Dismiss Event]
-Приховати подію
-[Don't show Popup when Message-Dialog is already open]
+Приховати подія
+[Don't show Popup Message when-Dialog is already open]
 Не показувати, якщо відкрито вікно
 [Open Reply-Dialog instead of reading the Message]
 Діалог відповіді замість читання повідомлення
 [No popups for RSS contacts]
-Вимкнути для RSS новин
+Вимкнути RSS для новин
 [Use OSD plugin instead of popups]
-Використовувати плагін OSD замість PopUp
+Використовувати плагін OSD замість Popup
 [Hide Popup when sending new message]
-Приховувати при отриманні нового повідомлення
+Приховувати при надсиланні нового повідомлення
 [Last message display first]
-Останнє першим
+Останнім першим
 [Last message display last]
-Останнє останнім
+Останнім останнім
 [Merge popups from one user]
 Об'єднувати від одного користувача
 [No popups for read messages]
 Вимкнути для прочитаних
 [Number of begin shown messages]
 Кількість повідомлень для початку показу
-[Show entry in the PopUps menu]
-Пункт у меню "Спл. вікна"
+[Show entry in the Popups menu]
+Пункт меню "Сплив. вікна"
 [Show Headers]
 Заголовки
 [Show newer messeges]
@@ -65,10 +65,30 @@
 [Time to expires]
 Час затримки
 [Disable new event notification]
-Вимк. повідомлення про події
+Видкл. повідомлення про події
 [Enable new event notification]
-Увім. сповіщення про події
+Вкл. повідомлення про події
 [No popups for read messages]
 Не показувати для прочитаних повідомлень
 [NewEventNotify]
-Повідомлення
+Події
+[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+Повідомляє про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію у спливаючих вікнах.
+[Received %d contacts.]
+Отримано %d контактів.
+[ added you to the contact list]
+ додав вас в свій список
+[ requested authorization]
+ надіслав(а) авторизацію
+[This is a sample message event :-)]
+Це приклад повідомлення :-)
+[This is a sample URL event ;-)]
+Це приклад URL ;-)
+[This is a sample file event :-D]
+Це приклад вхідного файлу :-D
+[This is a sample other event ;-D]
+Це приклад інших подій ;-D
+[Plugin Test]
+Тест плагіна
+[[b]Number of new message(s): %d[/b]\n]
+[b]Кількість нових повідомлень: %d[/b]\n

@@ -1,99 +1,73 @@
 ﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
-;  File: assocmgr.dll
-;  Plugin: File Association Manager
-;  Versions: 0.1.1.3
-;  Authors: HeikoH Herkenrath
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
 Асоціація розширень файлів і URL-посилань з протоколами: AIM, Yahoo, Jabber, Gadu-Gadu, Tlen.
-[Associations]
-Асоціації
-[Feed protocol]
-Новинні стрічки
-[Associations for Miranda NG]
-Асоціації для Miranda NG
-[Miranda NG and its plugins are capable to handle the following\nfile types and website links:]
-Miranda NG і її модулі можуть обробляти такі типи файлів, а також гіперпосилань:
-[&Enable]
-&Вімкнути
-[&Disable]
-&Вимкнути
-[Extensions]
-Розширення
-[Autostart]
-Автозапуск
-[Miranda NG is not run automatically when the computer is started.]
-Miranda NG не запуститься автоматично після завантаження ОС
-[Miranda NG is run automatically when the computer is started.]
-Miranda NG запуститься автоматично після завантаження ОС
-[ files]
- файли
-[&Defaults]
-&Скасування
-[Only associate with Miranda NG while it is &running]
-Асоціювати тільки під час &роботи програми
-[Associations are available]
-Доступні асоціації
-[The settings can be modified later on again in Options > Services > Associations]
-Налаштування асоціювання також доступні за адресою\nНалаштування -> Служби -> Асоціації
-[There was an error writing to the registry to modify the autostart list.%n%n%1]
-Помилка при спробі запису до реєстру значення автозапуску%.n%n%1
-[Hyperlink]
-Посилання
 [Registered associations for Miranda NG:]
 Зареєстровані асоціації для Miranda NG:
+[Miscellaneous]
+Інше
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 &Завантажувати програму при запуску комп'ютера (використовуючи поточний профіль)
-[File Types]
-Типи файлів
+[Only associate with Miranda NG while it is &running]
+Асоціювати тільки під час &роботи програми
+[%hs files]
+%hs файли
+[Type]
+Тип
+[Description]
+Опис
 [URLs on Websites]
 Посилання і сайти
+[File Types]
+Типи файлів
 [File Association Error]
 Помилка асоціації файлів
-[Gadu-Gadu Link Protocol]
-Протокол Gadu-Gadu
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+Сталася помилка запису для модифікації асоціацій файлів/посилань.\n\nПричина: %s
+[Unknown]
+Невідомо
+[Autostart Error]
+Помилка автозавантаження
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+Помилка запису для модифікації списку автозапуску.\n\nПричина: %s
+[Services]
+Службы
+[Associations]
+Асоціації
+[Miranda NG Database]
+База даних Miranda NG
+[Miranda NG could not open file]
+Miranda NG не може відкрити файл
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+Miranda NG не в змозі відкрити "%S".\n\nВідсутній зареєстрований обробник для цього типу файлів.
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+Miranda NG не в змозі відкрити "%S".\n\nФайл не може бути оброблений.
+[Miranda NG could not open URL]
+Miranda NG не може відкрити посилання
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+Miranda NG не в змозі відкрити "%S".\n\nВідсутній зареєстрований обробник для даного URL.
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+Miranda NG не в змозі відкрити "%S".\n\nЦей URL, є недійсним і не може бути проаналізовано.
+[Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
+Доступ заборонений:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
+[Registry Warning]
+Попередження
+[AIM Link Protocol]
+Протокол AIM
+[ICQ Link Shortcut]
+Протокол ICQ
+[&Add to Contact List...]
+&Додати в список контактів...
 [Yahoo Link Protocol]
 Протокол Yahoo
 [MSN Link Protocol]
 Протокол MSN
-[ICQ Link Shortcut]
-Протокол ICQ
+[Gadu-Gadu Link Protocol]
+Протокол Gadu-Gadu
 [Jabber Link Protocol]
 Протокол Jabber
-[URL Protocol]
-Посилання
-[DefaultIcon]
-Стандартний значок
-[Extension]
-Розширення
-[&Add to Contact List...]
-&Додати в список контактів...
-[Miranda NG could not open file]
-Miranda NG не може відкрити файл
-[Miranda NG could not open URL]
-Miranda NG не може відкрити посилання
-[Miranda NG Database]
-База даних Miranda NG
-[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-Помилка запису для модифікації списку автозапуску.\n\nПричина: %s
-[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
-Произошла ошибка записи для модификации ассоциаций файлов/ссылок.\n\nПричина: %s
-[%hs files]
-%hs файли
-[Autostart Error]
-Помилка автозавантаження
-[EditFlags]
-Редагувати мітки
-[File Types Extension]
-Розширення типів файлів
-[File Types Section Info]
-Інформація про типи файлів
-[Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
-Доступ заборонений:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-[SupportedTypes]
-Підтримувані типи
-[Trusted Protocols]
-Перевірені протоколи
-[File Association Manager]
-Асоціації

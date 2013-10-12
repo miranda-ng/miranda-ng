@@ -1,0 +1,107 @@
+﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: buddyexpectator.dll
+;  Module: Buddyexpectator plugin
+;  Versions: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Reacts to the return of contacts, or the extended absence of contacts, with notifications and other actions.]
+Плагін повідомляє про повернення контакту або його тривалої відсутності.
+[Buddy Expectator]
+Чекаю тебе
+[has gone online for the first time.]
+вийшов в мережу в перший раз.
+[has returned after a long absence.]
+повернувся після тривалої відсутності.
+[has returned after being absent since %#x]
+повернувся після відсутності %#x
+[has not returned after being absent since %#x]
+не повернувся після відсутності %#x
+[has not returned after a long absence.]
+не повернувся після тривалої відсутності.
+[not detected]
+не визначено
+[This contact has been absent for an extended period of time.]
+Контакт був відсутній довгий проміжок часу.
+[has returned after being absent since %d days]
+повернувся після відсутності %d днів
+[Contact returned]
+Контакт повернувся
+[Contact still absent]
+Контакт все ще відсутній
+[Miss you event]
+Подія "Чекаю тебе"
+[Hide contact event]
+Сховати подія контакту
+[You awaited this contact!]
+Ви чекали цей контакт!
+[Enable Miss You]
+Включити "Чекаю тебе"
+[Disable Miss You]
+Вимкнути "Чекаю тебе"
+[Tray/popup icon]
+Значок в треї/спливаючому вікні
+[Last seen online:]
+Останнє поява:
+[Last input message:]
+Останнє повідомлення:
+[Custom absence period:]
+Період відсутності:
+[Never hide this contact]
+Ніколи не приховувати цей контакт
+[Return notification]
+Повідомлення повернення
+[When a contact returns after]
+При появі після контакту
+[or comes online for the first time]
+чи виходить у мережу в перший раз
+[Show a popup]
+Показувати спливаюче вікно
+[Add an event (flashing icon) to the contact]
+Додати подію (миготливий значок) до контакту
+[On event action (double click) or popup click:]
+На дії події (дв. клік) або клік по всп. вікна
+[Open User Details]
+Відкрити деталі користувача
+[Long time no see]
+Давно не бачив
+[When a contact is absent for]
+Коли контакт відсутній
+[Hide when no messages for]
+Приховати, якщо немає повідомлень
+[Delete the contact]
+Видалити контакт
+[Enable "Miss you" feature]
+Включити функцію "Чекаю тебе"
+[Use Popups colors]
+Кольори Popup
+[weeks]
+тижнів
+[months]
+місяців
+[years]
+років
+[BuddyExpectator]
+Очікування контактів
+[NeverHide]
+Ніколи не ховати
+[Absence period]
+Період відсутності
+[Last input message]
+Останнє введене повідомлення
+[Last seen online]
+Останній раз в мережі
+[Notify after an absence of ]
+Нагадувати після\s
+[On event action (double click):]
+По події (подвійний клік):
+[This plugin notifies when you any contact comes online after an absence of long period.]
+Плагін повідомляє вас, коли контакт виходить в мережу після довгої відсутності.
+[BuddyExpectator: contact returned]
+Інспектор контактів: контакт повернувся
+[has returned after an absence of long period.]
+[has returned after an absence since %#x]
+[It's already necessary to notify of this contact - an absence has been detected.]
+[monthes]
+[Buddy Expectator+]
+Очікування контактів+

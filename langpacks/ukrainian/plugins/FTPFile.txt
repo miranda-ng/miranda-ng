@@ -1,0 +1,223 @@
+﻿#muuid {863bfce7-31ed-4a81-af95-da2685ce1bc2}
+;============================================================
+;  File: FTPFile.dll
+;  Module: FTPFile, FTP File YM
+;  Versions: 0.5.0.0
+;  Authors: yaho
+;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+Плагін дозволяє завантажити файл на FTP сервер з допомогою Miranda NG і надіслати посилання своїм контактам.
+[FTP File]
+Файл на FTP
+[FTP File - Select files]
+Файл на FTP - Вибір файлу
+[FTP File Error]
+Файл на FTP Помилка
+[You must change the settings before you FTP a file.]
+Ви повинні змінити налаштування перед відправкою файлу.
+[Error calling function InternetOpen]
+Помилка виклику функції InternetOpen
+[Error connecting to server]
+Помилка з'єднання з сервером
+[Aborting all files...]
+Скасування всіх передач ...
+[Could not change remote directory to %s (%d, %d)\n\nMore info:\n%s\n\nRetry will try to create the directory]
+Неможливо змінити віддалену папку на %s (%d, %d)\n\nРасширенная інформація:\n%s\n\nПовтор для спроби створити папку
+[Could not change remote directory to %s (%d)\n\nRetry will try to create the directory]
+Неможливо змінити віддалену папку на %s (%d)\n\nПовтор для спроби створити папку
+[Could not create directory]
+Неможливо створити папку
+[Error opening local file %s]
+Помилка відкриття локального файлу %s
+[Ignoring this file: %s]
+Ігнорувати цей файл: %s
+[Error opening file on server]
+Помилка відкриття файлу на сервері
+[Error writing remote file file %s]
+Помилка запису віддаленого файлу %s
+[Error reading local file %s (%d)\nIgnoring this file...]
+Помилка читання локального файлу %s (%d)\nФайл проігноровано...
+[%s\nsent bytes (%d) didn't match filesize (%d)]
+%s\nотправлено біт (%d) не відповідає розміру файлу (%d)
+[FtpCommand error]
+Помилка команди FTP
+[Ignoring error.]
+Ігнорувати помилку.
+[%s (%d, %d)\n\nMore info:\n%s\n\n%s]
+%s (%d, %d)\n\nРасширенная інформація:\n%s\n\n%s
+[Do you want to delete a partially uploaded file?]
+Видалити частково закачаный файл?
+[Could not delete file from server]
+Неможливо видалити файл з сервера
+[FTP File (uploading file)]
+Файл на FTP (завантажити файл)
+[FTP File (призупинено)]
+Файл на FTP (пауза)
+[Upload info]
+Інформація завантаження
+[Upload speed:]
+Швидкість завантаження:
+[Cancel all]
+Відмінити все
+[File upload complete]
+Завантаження файлу завершено
+[Upload canceled]
+Завантаження скасовано
+[FTP Server %d]
+Сервер FTP %d
+[FTP server]
+Сервер FTP
+[Host name]
+Ім'я хоста
+[Directory on server]
+Папка на сервері
+[Command after upload]
+Команда після завантаження
+[Use Passive mode]
+Використовувати пасивний режим
+[File URL options]
+Налаштування URL файлу
+[Automatically send URL to the contact]
+Відіслати посилання автоматично
+[Copy URL to message log]
+Копіювати посилання в лог повідомлень
+[Remove national characters from filename]
+Видалити національні символи з імені файлу
+[FTP accounts]
+Облікові записи FTP
+[Account name]
+Ім'я облікового запису
+[Menu items options]
+Налаштування меню
+[Use submenu in contact menu:]
+Використовувати підменю у меню контакту:
+[Always (use submenu in any situation)]
+Завжди підменю використовується в будь-якій ситуації)
+[When more than one account is set]
+Тільки коли встановлено більше одного облікового запису FTP
+[Never (place items directly into contact menu)]
+Ніколи (пункт безпосередньо в меню контакту)
+[Hide inactive accounts]
+Ховати неактивні облікові записи FTP
+[FTP File YM]
+Файл на FTP
+[File download link]
+Посилання на завантажений файл
+[Copy download link to message log]
+Копіювати посилання в лог повідомлень
+[Menu items]
+Пункти у меню
+[Use submenu (restart required)]
+Використовувати підменю (потрібне перезавантаження)
+[Close dialog after upload finishes]
+Закрити вікно після закінчення завантаження
+[Upload manager - %d file(s)]
+Менеджер завантажень - %d файл(ів)
+[Sending for:]
+Відправлено для:
+[Download link for uploaded file:]
+Посилання на завантажений файл:
+[Copy link to clipboard]
+Копіювати посилання в буфер обміну
+[Could not change remote directory.\nDo you want to upload file?]
+Неможливо змінити вказану директорію.\nВи дійсно хочете завантажити файл?
+[FTPFile]
+Файл на FTP
+[Completed:]
+Завершено:
+[Remaining:]
+Залишилося:
+[Do you really want to cancel all running uploads?]
+Ви дійсно хочете відмінити всі завантаження?
+[FTP File manager]
+FTP файл менеджер
+[FTPFile manager]
+FTP файл менеджер
+[Delete from list]
+Видалити зі списку
+[Deselect all]
+Зняти вибір
+[No files...]
+Немає файлів...
+[Delete from FTP]
+Видалити з FTP
+[OUT]
+Закінчено
+[Copy link]
+Скопіювати посилання
+[Do you really want to cancel running upload?]
+Ви дійсно хочете скасувати завантаження?
+[Show FTPFile manager]
+Показати FTP файл менеджер
+[Download link:]
+Посилання:
+[You have to fill and enable at least one FTP server in setting.]
+Ви повинні додати хоча б один FTP сервер в налаштуваннях.
+[Automatically delete file from FTP server after (experimental):]
+Автоматично видаляти файли з FTP сервера після (эксперим.):
+[Error occurred when connecting to server.]
+Помилка при встановленні з'єднання з сервером.
+[Aborting file upload...]
+Завантаження файлу скасовано...
+[Upload file manager]
+Менеджер завантажень
+[Automatically delete file after...]
+Автоматично видалити файл через...
+[%d days]
+%d днів
+[FTP Server 1]
+FTP сервер 1
+[FTP Server 2]
+FTP сервер 2
+[FTP Server 3]
+FTP сервер 3
+[FTP Server 4]
+FTP сервер 4
+[FTP Server 5]
+FTP сервер 5
+[ZIP support]
+Підтримка ZIP-архівації
+[Enter archive name manually]
+Введіть своє ім'я архіву
+[Compression level:]
+Рівень стиснення:
+[Close dialog after upload is completed]
+Закрити діалог після успішного завантаження
+[Default FTP server]
+Використовувати за замовчанням
+[Use passive mode]
+Пасивний режим
+[Speed:]
+Швидкість:
+[Do you really want to cancel all running jobs?]
+Відмінити всі запущені завдання?
+[CANCELED]
+Скасування
+[COMPLETED]
+Закінчено
+[CONNECTING...]
+Підключення...
+[CREATED]
+Створено
+[PACKING...]
+Архівація...
+[PAUSED]
+Пауза
+[WAITING...]
+Очікування...
+[UNKNOWN]
+Невідомо
+[Zip and upload folder]
+Запакувати та відправити папку
+[Upload file]
+Відправити файл
+[Zip and upload file]
+Запакувати та відправити файл
+[Clear All]
+Очистити все
+[Delete from List]
+Видалити зі списку
+[Upload file(s)]
+Відправити файл(и)
+[Zip and upload file(s)]
+Запакувати та відправити файл(и)

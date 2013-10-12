@@ -5,8 +5,8 @@
 ;  Versions: 0.0.0.8
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
 ;============================================================
-[DB Autobackuper plugin.]
-Плагін авторезервирования профілю.
+[Db autobackuper plugin.]
+Плагін авторезервування профілю.
 [Save Profile As...]
 Зберегти профіль як...
 [Database AutoBackups]
@@ -16,7 +16,7 @@
 [Backup Folder]
 Папка резервування
 [Go to the "Customize -> Folders" to change settings]
-Відкрийте "Тонке налаштування -> Папки" для зміни налаштувань
+Відкрийте "Тонка настройка -> Папки" для зміни налаштувань
 [path to root miranda folder]
 шлях до папки програми
 [path to current miranda profile]
@@ -25,9 +25,11 @@
 ім'я поточного профілю (тільки ім'я, без розширення)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 поверне рядок виду %miranda_profile%\\Profiles\\%miranda_profilename%
-[same as environment variable %APPDATA% for currently logged-on Windows user]
-замінник змінної середовища %APPDATA% для поточного користувача системи
-[username for currently logged-on Windows user]
+[same as environment variable %APPDATA% for currently logged on Windows user]
+аналог змінну середовища %APPDATA% для поточного користувача системи
+[username for currently logged on Windows user]
 ім'я поточного користувача системи
 [Miranda Databases]
 Бази даних Miranda NG
+[Error creating backup folder]
+Помилка при створенні папки для резервного копіювання

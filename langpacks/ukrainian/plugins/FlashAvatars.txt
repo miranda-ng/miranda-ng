@@ -1,13 +1,21 @@
-﻿#muuid {72765A6F-B017-42f1-B30F-5E0941273A3F}
+﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
 ;============================================================
 ;  File: FlashAvatars.dll
-;  Module: Flash avatars service
-;  Versions: 0.0.1.14
-;  Authors: Joe Kucera, BigMuscle
+;  Plugin: Flash avatars
+;  Version: 0.0.1.14
+;  Authors: Big Muscle
 ;============================================================
-[Load and manage flash avatars]
-Завантажує і показує Flash аватари
 [Loads and displays flash avatars.]
 Завантажує і показує Flash аватари.
+[Flash.ocx not registered!]
+Flash.ocx не зареестрованно!
+[You don't have installed ShockwaveFlash interface in your system.]
+Не встановленний Shockwave Flash плагін.
+[Bugged Flash detected!]
+
+[You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
+У вас встановлений Flash 8.\r\nЦя версію Flash містить помилки, яка можуть викликати збої.\r\nРекомендуємо оновити вашу версію Flash.
 [Flash Avatars]
 Підключення Flash Avatars
+[Avatars]
+Аватари

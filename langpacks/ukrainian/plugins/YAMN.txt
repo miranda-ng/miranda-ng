@@ -1,0 +1,367 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Повідомлення і перегляд нової пошти для Miranda NG. Вбудований протокол POP3.
+[OK]
+
+[Installed plugins]
+Встановлені додаткові плагіни
+[Version:]
+Версія:
+[Description:]
+Опис:
+[Copyright:]
+Права:
+[Contact:]
+Контакт:
+[WWW:]
+Сторінка:
+[Check this account]
+Перевіряти цей обліковий запис
+[Check interval [min]:]
+Інтервал перевірки (хвил):
+[Повідомлення]
+Повідомлення
+[Sound]
+Звук
+[Message]
+Повідомлення
+[Tray Icon]
+Значок в треї
+[Keyboard Flash]
+Блимання клавіатури
+[Execute Application]
+Запуск програми
+[Use contact notification for this account]
+Нотифікація контактом
+[Replace nick name]
+Замінити псевдонім
+[Disable Events]
+Вимкнути новини
+[Server:]
+Сервер:
+[User Name:]
+Логін:
+[Password:]
+Пароль:
+[Codepage:]
+Кодування:
+[Port:]
+Порт:
+[SSL]
+SSL
+[Disable STLS]
+Вимкнути STLS
+[Startup check]
+під час завантаження
+[Auto retrieve body]
+Завантажувати тіло
+[Check from menu]
+З меню
+[Only check when ...]
+Перевіряти, якщо...
+[Sound notification if failed]
+Звукове сповіщення про помилку
+[Notification Message if failed]
+Вікно з повідомленням про помилку
+[Tray icon notification if failed]
+Повідомлення в треї про помилку
+[Reset counter]
+Скасування лічильника
+[Default]
+За замовчанням
+[Status:]
+Статус:
+[Account]
+Обліковий запис
+[APOP]
+
+[Name:]
+Ім'я:
+[Options]
+Налаштування
+[New Mail]
+Нова пошта
+[Errors]
+Помилки
+[Check while ...]
+Перевіряти, якщо...
+[Cancel]
+Скасувати
+[Choose modes]
+Обрати режим
+[Offline]
+Не в мережі
+[Online]
+В мережі
+[Away]
+Відсутній
+[N/A]
+Недоступний
+[Occupied]
+Зайнятий
+[DND]
+Не турбувати
+[Free for chat]
+Готовий базікати
+[Invisible]
+Невидимий
+[On the phone]
+На телефоні
+[Out to lunch]
+Обідаю
+[YAMN General Options]
+Основні налаштування
+[TopToolBar button "Check mail]
+Кнопка "Перевірити пошту" в Панелі кнопок
+[Enable YAMN Main Menu]
+Включити пункт YAMN у головне меню
+[Show YAMN as a Protocol (Require Restart)]
+Показувати YAMN як протокол (Потрібен перезапуск)
+[MailBrowser Options]
+Налаштування перегляду листів
+[Enable Close Button on Delete]
+Закривати якщо натиснуто "Видалити"
+[Show long localised date]
+Показувати повну дату
+[Don't show today's date]
+Не показувати сьогоднішню дату
+[Date/Time Representation]
+Дата/година
+[Don't show seconds]
+Не показувати секунди
+[Mail Notifications]
+Повідомлення про пошту
+[Popup]
+Спливаючі вікна
+[Single popup]
+Одне вікно
+[Multi popup]
+Багато вікон
+[Use custom colour]
+Свої кольори
+[No new mail notifications]
+При відсутності нової пошти
+[Popup if no mail]
+Спливаюче вікно
+[Persistant message]
+Тривалість
+[Connection failure notifications]
+При помилках підключення
+[Popup notification if failed]
+Спливати при помилці
+[..s Popup duration]
+с (тривалість)
+[Preview]
+Тест
+[Background colour]
+Колір фону
+[Text colour]
+Колір тексту
+[Check &mail (All Account)]
+Перевірити пошту (Всі)
+[Check &mail (This Account)]
+Перевірити пошту (Цей)
+[Launch application]
+Запустити програму
+[YAMN]
+Пошта
+[YAMN Account Folder]
+Папка облікових записів YAMN
+[Check mail]
+Перевірити пошту
+[Connect Fail]
+Втрата з'єднання єднання
+[YAMN: new mail message]
+YAMN: новий лист
+[YAMN: connect failed]
+YAMN: помилка підключення
+[Nick]
+Нік
+[No new mail message]
+Немає нових листів
+[%s - connection error]
+%s - помилка підключення
+[An error occured. Error code: %d]
+
+[Unknown error]
+Невідома помилка
+[ - connection error]
+- помилка підключення
+[%s - %d new mail messages, %d total]
+%s - %d нових листів (%d всього)
+[- new mail message(s)]
+- нових лист(ів)
+[%s : %d new mail message(s), %d total]
+%s : %d нових листів, %d всього
+[%d new mail message(s), %d total]
+%d нових листів (%d всього)
+[No new mail message, %d spam(s)]
+Немає нових листів, %d спам(у)
+[Invalid]
+Невірно
+[Header]
+Заголовок
+[Value]
+Значення
+[Copy Selected]
+Копіювати вибранє
+[Copy All]
+Копіювати все
+[Run application]
+Запустити програму
+[Delete selected]
+Видалити вибране
+[Select All]
+Виділити все
+[From]
+Від
+[Subject]
+Тема
+[Size]
+Розмір
+[Date]
+Дата
+[Do you really want to delete %d selected mails?]
+Видалити %d листів?
+[Delete confirmation]
+Підтвердження видалення
+[Translate header error]
+
+[Part]
+Частина
+[%s connection]
+Підключення %s
+[Disconnected]
+Вимкнено
+[POP3 protocol (internal)]
+Протокол POP3 (вбудований)
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Повідомлення і перегляд нової пошти для Miranda NG. Вбудований протокол POP3.
+[Found new version of account book, not compatible with this version of YAMN.]
+Знайдена нова версія файлу з обліковими записами - вона несумісна з цією версією YAMN.
+[YAMN (internal POP3) read error]
+YAMN (внутрішній POP3) помилка зчитування
+[Error reading account file. Account file corrupted.]
+Помилка при читанні файлу з обліковими записами. Файл з обліковими записами зіпсований.
+[Memory allocation error while reading data]
+Помилка розподілу пам'яті при зчитуванні даних.
+[Reading file error. File already in use?]
+Помилка зчитування файлу. Файл вже використовується?
+[Error while copying data to disk occured. File in use?]
+Помилка копіювання даних на диск. Файл вже використовується?
+[POP3 plugin - write file error]
+POP3 плагін - помилка при записі у файл
+[Connecting to server]
+З'єднання єднання з сервером
+[Entering POP3 account]
+Авторизація...
+[Searching for new mail message]
+Пошук нової пошти
+[Reading body %s]
+
+[Reading new mail messages (%d%% done)]
+Считування нових повідомлень (%d%% готово)
+[Deleting requested mails]
+Видалення листів запитуваних
+[Deleting spam]
+Видалення спаму
+[Memory allocation error.]
+Помилка пам'яті.
+[Account is about to be stopped.]
+Обліковий запис скоро буде зупинена.
+[Cannot connect to POP3 server.]
+Не можу з'єднання єднатися з поштовим сервером.
+[Cannot allocate memory for received data.]
+Не можу виділити пам'ять для отримання даних.
+[Cannot login to POP3 server.]
+Не можу увійти на POP3 сервер.
+[Bad user or password.]
+Не вірні логін або пароль
+[Server does not support APOP authorization.]
+Сервер не підтримує APOP аутентифікацію
+[Error while executing POP3 command.]
+Помилка виконання команди POP3
+[Cannot connect to server with NetLib.]
+Не можу підключитися до сервера з NetLib.
+[Cannot send data.]
+Не можу відправити дані.
+[Cannot receive data.]
+Не можу отримати дані.
+[OpenSSL not loaded.]
+OpenSSL не завантажений.
+[Windows socket 2.0 init failed.]
+Ініціалізація Windows Socket 2.0 не вдалася.
+[DNS lookup error.]
+Помилка DNS.
+[Error while creating base socket.]
+Помилка створення основного сокета.
+[Error connecting to server with socket.]
+Помилка з'єднання єднання з сервером через сокет.
+[Error while creating SSL structure.]
+Помилка створення структури SSL.
+[Error connecting socket with SSL.]
+Помилка з'єднання з сокетом SSL.
+[Server rejected connection with SSL.]
+Сервер відмовив у SSL-з'єднання.
+[Cannot write SSL data.]
+Не можу записати SSL дані.
+[Cannot read SSL data.]
+Не можу прочитати SSL дані.
+[Error %d-%d-%d-%d:]
+Помилка %d-%d-%d-%d:
+[Network]
+Мережа
+[Accounts]
+Облікові записи
+[General]
+Загальна
+[Plugins]
+Плагіни
+[Popups]
+Спливаючі вікна
+[No account selected]
+Не вибрано акаунт
+[Time left to next check [s]: %d]
+Годину до наступної перевірки: %d с.
+[New Account]
+Новий Запис
+[Executables]
+Виконуємі файли
+[All Files]
+Всі файли
+[Select executable used for notification]
+Вибір програми для сповіщення
+[Dialog box error]
+
+[Failed]
+Не вдалося
+[Do you really want to delete this account?]
+Ви дійсно бажаєте видалити цей обліковий запис?
+[Delete account confirmation]
+Підтвердження видалення облікового запису
+[Please wait while no account is in use.]
+Будь ласка, почекайте, жоден обліковий запис не використовується.
+[This is not a valid number value]
+Неправильне числове значення
+[Input error]
+Помилка вводу
+[Please select application to run]
+Виберіть програму для запуску
+[Cannot allocate memory space for new account]
+Неможливо виділити пам'ять для нового запису
+[Memory error]
+Помилка пам'яті
+[Account Test]
+Перевірка
+[Account Test (failed)]
+Перевірка (помилка)
+[You have N new mail messages]
+У вас N нових повідомлень
+[Connection failed message]
+Повідомлення про невдалий підключення

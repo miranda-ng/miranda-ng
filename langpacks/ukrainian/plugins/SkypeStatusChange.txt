@@ -1,0 +1,19 @@
+﻿#muuid {2925520b-6677-4658-8bad-5661d13e4692}
+;============================================================
+;  File: SkypeStatusChange.dll
+;  Plugin: SkypeStatusChange
+;  Version: 0.0.0.18
+;  Authors: Dioksin
+;============================================================
+[Skype Status Change according to Miranda-Status.]
+Зміна статусу Skype згідно статусу Miranda
+[Synchronize status message]
+Синхронізувати статусні повідомлення
+[&Check any protocol or any status to exclude it from synchronization:]
+&Перевірте протокол або статус, щоб виключити з синхронізації:
+[Synchronize if current status differs from previous one]
+Синхронізацію, якщо стан відрізняється від попереднього
+[Change Skype Status]
+Зміна статусу Skype
+[Plugins]
+Плагини

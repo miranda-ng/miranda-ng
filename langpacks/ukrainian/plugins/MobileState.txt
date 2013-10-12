@@ -1,11 +1,11 @@
-﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+﻿#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
-;  Module: Plugin shows mobile icon in contact list next to contacts which are using mobile client
-;  Versions: 0.0.1.0
-;  URL: http://miranda-ng.org/
-;  Source: http://svn.miranda-ng.org/main/trunk/plugins/MobileState/
+;  Plugin: Mobile state
+;  Version: 0.0.1.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
 Плагін показує іконку в списку контактів, відображаючи, що контакт використовує мобільний клієнт.
+[Mobile State]
+Мобільність

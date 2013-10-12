@@ -1,0 +1,414 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: userinfoex.dll
+;  Module: UserInfoEx
+;  Versions: 0.8.4.2
+;============================================================
+
+; налаштування - плагіни - опис
+[UserInfoEx]
+Особисті дані
+[Gives extended ability to edit information about your contacts locally. It does not matter what your information contact gives about himself. If you know more you can add more.]
+Розширене відображення інформації користувача. Замінює відображення особистої інформації як для вас, так і для ваших контактів.
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
+Плагін розширеної інформації про користувача. Дозволяє редагувати всю інформацію про контакт.
+
+; налаштування - плагіни - особисті дані - загальні
+[AccountMenu]
+Меню облік. записів
+[Cascade:]
+Каскадний:
+[Ex-/Import items]
+Експорт/Імпорт
+[This options require a contact list which supports extra icons.]
+Потрібен плагін контакт-листа з підтримкою додаткових значків.
+[Replace the following default icons:]
+Замінити такі піктограми:
+
+; налаштування - плагіни - особисті дані - додатково
+[Check file version of default IconPack to prevent wrong icon display]
+Перевіряти версію файлу значків для правильного відображення
+[Display icons on each button dialog]
+Показувати значки на кожній кнопці
+[Scan SubContacts for missing information]
+Пошук відсутньої інформації в субконтактах
+[Enable extended 'GetContactInfo' module (*)]
+Включити розширений 'GetContactInfo' модуль (*)
+[Enable extended 'send/receive email' service (*)]
+Включити розширений сервіс електронної пошти (*)
+[Use Windows Timezone]
+Часовий пояс Windows
+[(*) Requires Miranda to be restarted.]
+(*) Потрібен перезапуск Miranda NG.
+[Factory Reset defaults]
+Налаштування за замовчанням
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+Ця функція видалить всі налаштування, які ви зробили \nВсе налаштування дерева, позицій вікна, та ін.!\n\nВи дійсно хочете продовжити?
+[All settings are reset to default values now!]
+Всі налаштування зараз будуть скинуті!
+
+; налаштування - плагіни - особисті дані - діалоги
+[Details Dialog]
+Діалоги
+[Enable colors to give information about information's status.]
+Включити кольори для показу статусу інформації
+[Protocol's information]
+Дані протоколу
+[Custom information]
+Локальні дані
+[Overwritten information]
+Перезаписанная інформація
+[Changed information]
+Змінені дані
+[Info of a MetaContact's SubContact]
+Інформація субконтакта Метаконтакту
+[Adapt propertysheet pages to aero mode.]
+Адаптувати налаштування до стилю Aero.
+[Make protocol based contact information readonly.]
+Заборонити зміну інформації, що базується на протоколі
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+Змінювати мої особисті дані через UserInfoEx (недоступно, якщо ICQ не підтримує)
+[TreeView]
+Дерево
+[Enable groups in details dialog's treeview.]
+Вкладені пункти меню
+[Sort all tree items alphabetically.]
+Відсортувати всі пункти в алфавітному порядку
+
+; налаштування - плагіни - особисті дані - нагадування
+[Reminder disabled]
+Нагадування відключені
+[Anniversaries only]
+Тільки свята
+[Bithdays only]
+Тільки дні народження
+[everything]
+Всі нагадування
+[Time of last check:]
+Посл. перевірка:
+[Icon flashing on event]
+Блимати значка при події
+[Show menu items]
+Показати пункти меню
+[Use ignore list]
+Використовувати список ігнорування
+[Perform check on each startup]
+Перевіряти при запуску
+[Automatically backup and keep protocol based дні народження up to date]
+Автоматично зберігати і резервувати дні народження з протоколу
+[Remind me]
+Нагадати
+[Birthday compatibility mode:]
+Режим сумісності:
+[UserInfo (default)]
+Особисті дані (за замовчанням)
+[CList extra icon:]
+Значок списку:
+[days before.]
+днів.
+
+; налаштування - спливаючі вікна - особисті дані
+[Replace message boxes with popups]
+Замінити діалоги спливаючими вікнами
+[Replace progress dialogs with popups]
+Замінити діалоги прогресу спливаючими вікнами
+[Show reminder messages as popups (if reminder is enabled)]
+Нагадування у спливаючих вікнах (якщо можна)
+[Birthday popup colors]
+Налаштування днів народження
+[Anniversary popup colors]
+Налаштування свят
+[This is the reminder message]
+Повідомлення нагадування
+
+; настроювання - точне настроювання
+[Check anniversaries]
+Перевірити свята
+[Popup Anniversary list]
+Показати список свят
+[Refresh Contact Details]
+Оновити дані контактів
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[b]%s (%S)...[/b]\n%d контактів залишилося
+[Anniversary Reminder]
+Нагадування про свято
+
+; настроювання - точне настроювання - значки
+[IM Naming]
+Ім'я в IM
+[Marital status]
+Сімейний стан
+[Aries]
+Овен
+[Taurus]
+Телець
+[Gemini]
+Близнюки
+[Cancer]
+Рак
+[Leo]
+Лев
+[Virgo]
+Діва
+[Libra]
+Ваги
+[Scorpio]
+Скорпіон
+[Стрілець]
+Стрілець
+[Capricorn]
+Козеріг
+[Aquarius]
+Водолій
+[Риби]
+Риби
+[Export: Modules]
+Експорт: Модулі
+[Export: Folder]
+Експорт: Папка
+[Contact (private)]
+Контакт (особистий)
+[Origin]
+Походження
+[Anniversaries]
+Свята
+[Contact (Work)]
+Контакт (робочий)
+[Details Infobar]
+Деталі
+[Phone Infobar]
+Телефон
+[E-Mail Infobar]
+Пошта
+[Export VCard]
+Експорт VCard
+[Import VCard]
+Імпорт VCard
+[Anniversary Infobar]
+Ювілей
+[Goto]
+Зайти на сайт
+[Custom Phone]
+Вибраний телефон
+[Down arrow]
+Стрілка вниз
+[Ex-/Import]
+Експорт/Імпорт
+[Backup Birthday]
+Резервувати Д.Р.
+[Birthday tomorrow]
+Завтра День народження
+[Birthday 2 days in]
+День народження через 2 дні
+[Birthday in 3 days]
+День народження через 3 дні
+[Birthday in 4 days]
+День народження через 4 дні
+[Birthday in 5 days]
+День народження через 5 днів
+[Birthday in 6 days]
+День народження через 6 днів
+[Birthday in 7 days]
+День народження через 7 днів
+[Birthday in 8 days]
+День народження через 8 днів
+[Birthday in 9 days]
+День народження через 9 днів
+[Birthday later]
+День народження пізніше
+[Anniversary today]
+Сьогодні свято
+[Anniversary tomorrow]
+Завтра свято
+[Anniversary 2 days in]
+Свято через 2 дні
+[Anniversary in 3 days]
+Свято через 3 дні
+[Anniversary in 4 days]
+Свято через 4 дні
+[Anniversary in 5 days]
+Свято через 5 днів
+[Anniversary in 6 days]
+Свято через 6 днів
+[Anniversary in 7 days]
+Свято через 7 днів
+[Anniversary in 8 days]
+Свято через 8 днів
+[Anniversary in 9 days]
+Свято через 9 днів
+[Anniversary later]
+Свято пізніше
+[Extended UserInfo]
+Особисті дані
+[Export all contacts]
+Експортувати всі контакти
+[Import all contacts]
+Імпортувати всі контакти
+[Backup birthdays]
+Резервувати дні народження
+[Update custom birthday]
+Оновлення налаштованих днів народжень
+[Backing up and syncing all дні народження complete!]
+Резервування і синхронізація всіх Днів народжень завершені!
+[Anniversary list]
+Список свят
+[Ex-/Import contact]
+Експорт/Імпорт контакту
+[&Homepage]
+Сайт
+[CheckAnniv]
+Перевірити свята
+[AnnivList]
+Список свят
+
+; меню контакту - інформація про контакті + особисті дані
+[Edit Contact Information]
+Редагувати дані контакту
+[Second name:]
+По батькові:
+[jun.]
+мл.
+[sen.]
+сен.
+[Partner:]
+Партнер:
+[Language skills]
+Володіння мовами
+[County/State:]
+Округ/Штат:
+[Edit the currently displayed item.]
+Змінити запис.
+[Choose the item to display.]
+Вибрати запис.
+[Add a new custom item.]
+Додати новий запис.
+[Delete the selected item.]
+Видалити цей запис.
+[Enter your phone number\nand don't worry about formating.]
+Введіть номер телефону\nВ будь-якому форматі.
+[Enter a category for this number:]
+Введіть категорію для номера:
+[Add E-Mail]
+Додати E-mail
+[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+Введіть e-mail адресу.\n(наприклад: john.doe@provider.com)
+[Enter a representitive name for the e-mail address here.]
+Введіть ім'я для електронного адреси
+[Enter the e-mail address here.]
+Введіть електронну адресу.
+[Open in Browser]
+Відкрити в браузері
+[Added to Contact ContactList:]
+Додано в контакт-лист:
+[Just from the beginning.]
+З самого початку.
+[Your contact's local time is:]
+Локальний час контакту:
+[Anniversary Editor\nAdd/Edit your anniversary here.]
+Редактор свята\nДобавьте/Редагуйте свято тут.
+[Enter a name for the anniversary here please:]
+Введіть назву свята:
+[Anniversary Editor]
+Редактор свята
+[Add a new anniversary]
+Додати новий свято
+[Delete an existing anniversary]
+Видалити існуючий свято
+[Do you really want to delete the %s?]
+Ви дійсно хочете видалити %s?
+[Use global reminder settings.]
+Глобальні налаштування нагадувань.
+[Don't remind me of this anniversary.]
+Не нагадувати мені про це свято.
+[Zodiac:]
+Зодіак:
+[Office:]
+Офіс:
+[Superior:]
+Начальник:
+[Assistant:]
+Асистент:
+[Add Affiliation]
+Приналежність
+[Add Past]
+Минуле
+[Add Interest]
+Інтереси
+[Interest]
+Інтереси
+[Do you really want to delete this entry?]
+Ви дійсно хочете видалити це?
+
+; імпорт/експорт
+[Import User Details from vCard]
+Імпорт деталей користувача з vCard
+[Import complete]
+Імпорт завершено
+[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
+Додано контактів: %u / %u\nДодано налаштувань: %u / %u\nДодано подій: %u / %u\nДублюючіх подій: %u
+[Select a destination file...]
+Виберіть ім'я файлу для експорту
+[What do you want to export?]
+Що ви хочете експортувати?
+[Contact History]
+Історія контакту
+[Select Modules]
+Виберіть модулі
+[Check all]
+Вибрати все
+[Uncheck all]
+Очистити всі
+[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+Відзначте в списку ті модулі, які ви хочете експортувати для контактів. Для додавання контакту з файлу у вигляді нового запису, необхідно експортувати хоча б модуль протоколу.
+[Required modules]
+Обов'язкові модулі
+[Optional modules]
+Додаткові модулі
+[&Export Group]
+&Експортувати групу
+[&Import Group]
+&Імпортувати групу
+
+; список свят та днів народження
+[No anniversaries to remind of]
+Немає свят, про які слід повідомляти
+[\n%s becomes %d years old.]
+\n%s виповниться %d.
+[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+Майбутні свята\nСписок містить всі свята Ваших контактів.
+[Statistics:]
+Статистика:
+[number of contacts:]
+кількість контактів:
+[with birthday:]
+з днем народження:
+[female:]
+жінок:
+[male:]
+чоловіків:
+[average age:]
+середній вік:
+[Proto]
+Протокол
+[Age/Nr.]
+Вік
+[Birthdays only]
+Тільки дні народження
+[Disabled reminder]
+Вимкнути нагадування
+[Popup this dialog on a contact's anniversary]
+Показувати цей діалог, коли свято
+[Keeps your custom birthday up to date.]
+Резервує налаштовані дні народження.
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s вказує новий день народження за протоколом.\пНовая дата %s. Стара %s.\n\nБажаєте використовувати нову дату народження для цього контакту?
+
+; Екстра значки
+[Gender (uinfoex)]
+Стать (uinfoex)
+[Homepage (uinfoex)]
+Сайт (uinfoex)
+[Reminder (uinfoex)]
+Нагадування (uinfoex)
+[Flags (uinfoex)]
+Прапори (uinfoex)

@@ -1,0 +1,269 @@
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Exports every message, URL or File you receive to a text file.]
+
+[Browse]
+Огляд
+[Internal Use viewer]
+Внутр. перегляд
+[Replace miranda history]
+Замінити історію
+[Use UTF8 in new files]
+UTF8 в нових файлах
+[Append new line extra]
+Доl. переклад рядка
+[Use << and >>]
+Знаки << і >>
+[Auto filename]
+Авт. імена
+[Clear all]
+Очистити
+[Help]
+Довідка
+[Export all history]
+Експорт історії
+[Export directory]
+Каталог експорту
+[Max column width]
+Макс. ширина рядка
+[Time format]
+Формат часу
+[Export format]
+Формат експорту
+[Default file]
+Ім'я файлу
+[File viewer]
+Перегляд файлів
+[Exporting old messages]
+Експорт старих повідомлень
+[History file for %s (%s format %s)]
+Файл історії для %s (%s формат %s)
+[&Find...]
+&Знайти
+[&External]
+&Зовнішнє
+[&Close]
+&Закрити
+[When filename changes]
+При перейменуванні файлу
+[Prompt for action]
+Запитати
+[Rename file]
+Перейменувати файл
+[Do nothing]
+Нічого не робити
+[When user is deleted]
+При видаленні користувача
+[Delete file]
+Видалити файл
+[Debug]
+Налагодження
+[User &Details]
+&Інформація
+[Export selected]
+Експорт вибраного
+[Set to default filename]
+Ім'я файлу за замовчуванням
+[Copy]
+Копіювати
+[Failed to write to the RichEdit the buffer was to small.]
+
+[Error: Optimal buffer size decrecied to a to low size !!]
+
+[Internal error !! (lExtraRead >= 0)]
+
+[Faile to execute external file view]
+
+[Failed to load Rich Edit ( RICHED32.DLL )]
+
+[Failed to get handle to RichEdit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact is invalid handle]
+
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+
+[With scroll to bottom %d\n]
+
+[Search string was not found !]
+Рядок не знайдено!
+[Save as RTF]
+
+[Color...]
+Колір...
+[Font...]
+Шрифт
+[Syntax highlight]
+Підсвічування синтаксису
+[Failed to create file]
+Помилка створення файлу
+[Failed to save file]
+Помилка збереження файлу
+[History was saved successfully in file\r\n]
+
+[Failed to create history dialog]
+
+[Miranda NG (Message Export Plugin)]
+
+[Open E&xported History]
+&Експортована історія
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+
+[No contacts found to export]
+Немає контактів для експорту
+[Reading information database (Phase 1 of 2)]
+
+[Failed to export at least one contact]
+Не вдалося експортувати як мінімум 1 контакт
+[Sorting and writing information database ( Phase 2 of 2 )]
+Крок 2: Сортування і запис інформації
+[Max line width must be at least %d]
+Макс ширина рядка повинна бути не менше %d
+[You need to restart miranda to change the history function]
+Зміни функції історії набудуть чинності після перезапуску Miranda
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+Не вдалося отримати шлях до Msg_Export.dll\пбудь ласка знайдіть Msg_Export.txt самостійно
+[File]
+Файл
+[Nick]
+Нік
+[Proto]
+
+[UIN]
+Номер
+[You have unapplyed changes do you wish to apply these first ?]
+Є незбережені зміни, застосувати?
+[Executable files]
+Виконувані файли
+[All files]
+Всі файли
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+
+[Select Destination Directory]
+Вибрати папку для запису
+[Export Protocols]
+Експорт протоколів
+[Message export]
+Експорт повідомлень
+[History]
+Історія
+[General]
+Загальна
+[Additional]
+Додатково
+[No_Nick]
+
+[No_Group]
+
+[DB: Attempt to get wrong type of value, string]
+
+[(Unknown Contact)]
+(Невідомий контакт)
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Не вдалося перейменувати файл\n\пстарое ім'я:\t%s\пновое ім'я:\t%s\n\пОшибка: %s
+[\nError: ]
+\nПомилка: 
+[\nMessage has not been saved!\n]
+
+[Do you wish to save debug information?]
+
+[All\0*.*\0Text\0*.TXT\0\0]
+
+[Failed to open or create file :\n]
+Не вдалося відкрити або створити файл :\n
+[Failed to move to the end of the file :\n]
+Не вдалося перейти до кінця файлу:\n
+[Failed to UTF8 byte order code to file :\n]
+
+[ History for\r\n]
+
+[User : %User%\r\n]
+
+[Protocol : %Proto%\r\n]
+
+[UIN : %UIN%\r\n]
+
+[FirstName : %FirstName%\r\n]
+
+[LastName : %LastName%\r\n]
+
+[Age : %Age%\r\n]
+
+[Gender : %Gender%\r\n]
+
+[e-mail : %e-mail%\r\n]
+
+[Nick : %Nick%\r\n]
+
+[City : %City%\r\n]
+
+[State : %State%\r\n]
+
+[Phone : %Phone%\r\n]
+
+[Homepage : %Homepage%\r\n]
+
+[- About -\r\n%About%\r\n]
+
+[Failed to write user details to file :\n]
+
+[Failed to write timestamp and username to file :\n]
+
+[Failed to write message to the file :\n]
+Не вдалося записати повідомлення у файл:\n
+[URL: ]
+URL:
+[File: ]
+Файл:
+[Description: ]
+Опис :
+[Failed to write URL/File to the file :\n]
+Не вдалося записати передачу файлу або URL файл:\n
+[Nick :]
+Псевдонім :
+[FirstName :]
+Ім'я :
+[LastName :]
+Прізвище :
+[e-mail :]
+e-mail :
+[Reason :]
+Причина :
+[Invalid Database event received. Type %d, size %d]
+
+[Failed to write Invalid Database event the file :\n]
+
+[The following user made an authorization request:]
+Наступний користувач запросив авторизацію:
+[The following user added you to their contact list:]
+Користувач додав вас в свій список контактів:
+[UIN :]
+
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+
+[EmailExpress from:]
+EmailExpress від:
+[WebPager from:]
+WebPager від:
+[No from address]
+без адреси
+[Failed to write EmailExpress to the file :\n]
+Не вдалося записати EmailExpress в файл:\n
+[Failed to write SMS to the file :\n]
+Не вдалося записати SMS в файл:\n
+[Unknown event type %d, size %d]
+
+[Failed to write Unknown to the event file :\n]
+
+[User has been deleted do you want to delete the file?]
+
+[Failed to delete the file]
+Не вдалося видалити файл

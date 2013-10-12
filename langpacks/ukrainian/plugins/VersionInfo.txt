@@ -1,0 +1,96 @@
+﻿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+;============================================================
+;  File: VersionInfo.dll
+;  Plugin: Version information
+;  Version: 1.5.0.3
+;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
+;============================================================
+[Collects prints and information related to Miranda, the plugins and the OS.]
+Збирає і виводить інформацію про Miranda NG, плагінах і операційній системі.
+[Output to:]
+Вивести в:
+[OK]
+
+[Cancel]
+Скасування
+[Text file]
+Текстовий файл
+[MessageBox]
+Вікно повідомлення
+[DialogBox]
+Діалогове вікно
+[Debug Output String]
+Висновок налагоджувальних рядків
+[Clipboard]
+Буфер обміну
+[Select output:]
+Вивести в:
+[Upload to site]
+Закачати на сайт
+[Forum style formatting]
+Форматувати для форуму
+[Aditional options:]
+Додадкові налаштування:
+[Do it now]
+Зробити
+[Show window in taskbar]
+Показати вікно панелі завдань
+[Ask every time]
+Завжди питати
+[Also copy info to clipboard]
+Скопіювати в буфер обміну
+[Upload site settings]
+Налаштування сайту
+[Username]
+Ім'я користувача
+[Password]
+Пароль
+[Highlight version number using]
+Виділити номер версії
+[Show disabled plugins too]
+Показати відключені плагіни
+[Attempt to find unloadable plugins]
+
+[Suppress header information]
+Не включати заголовок
+[Enable debug messages]
+Налагоджувальні повідомлення
+[Show plugin UUIDs]
+UUID плагіна
+[Show installed languages]
+Показувати встановлені мови
+[Miranda Version Information]
+Версії плагінів Miranda
+[Close]
+Закрити
+[&Copy text]
+&Копіювати
+[Upload]
+Завантажити
+[&Save to file]
+&Файл
+[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+
+[Information successfully written to file:% s.]
+Інформація успішно записана у файл:\"% s\".
+[Error during the creation of file "%s". Disk may be full or write protected.]
+Помилка створення файлу %s. Можливо диск повний або захищений.
+[The clipboard is not available, retry.]
+
+[Information successfully copied clipboard into.]
+Інформація успішно скопійовано в буфер обміну.
+[Customize using folders plugin]
+Налаштування за допомогою плагіна folders
+[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone you asked to do it.]
+Ви впевнені, що хочете включити цю опцію?\nБудь ласка, використовуйте його, лише якщо розумієте, для чого вона або якщо хто-небудь попросив вас включити її.
+[Show plugin UUIDs ?]
+UUID плагінів
+[VersionInfo]
+Версії
+[Output folder]
+Папка збереження
+[Version Information]
+Версії
+[Services]
+Служби
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]

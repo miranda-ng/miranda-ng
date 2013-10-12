@@ -1,24 +1,39 @@
 ﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
 ;============================================================
 ;  File: NoHistory.dll
-;  Module: No history
-;  Versions: 0.0.3.4
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
 ;============================================================
-[Prevent miranda from storing any history]
-Забороняє зберігати історію у Miranda NG.
-[Disable History]
-Вимкнути історію
-[Disable history for this contact]
-Не зберігати історію контакту
+[Prevent miranda from storing any history.]
+Упереджує Міранди від зберігання історії.
 [Keep history for this contact]
 Зберігати історію контакту
-[Enable History]
-Ввімкнути історію
+[Disable history for this contact]
+Не зберігати історію контакту
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Ця операція ПОВНІСТЮ ВИДАЛИТЬ історію цього контакту.\nВи впевнені?
 [Clear History]
 Очистити історію
+[Enable History]
+Ввімкнути історію
+[Disable History]
+Вимкнути історію
 [History Enabled]
 Історія увімкнена
-[NoHistory]
-Без історії
+[History Disabled]
+Історія відключений
+[Disable]
+Вимкнути
+[Enable]
+Увімкнути
+[Clear]
+Очистити
 [No History]
 Без історії
+[** All contacts **]
+** Усі контакти **
+[History]
+Історія
+[Logging]
+Історія

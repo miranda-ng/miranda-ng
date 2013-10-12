@@ -1,0 +1,209 @@
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
+;============================================================
+;  File: Tlen.dll
+;  Plugin: Tlen Protocol
+;  Version: 2.1.0.0
+;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
+;============================================================
+[Tlen protocol support for Miranda NG.]
+Підтримка протоколу Tlen в Miranda NG.
+[%s Web Messages]
+%s Web повідомлень
+[...Connecting...]
+...Підключення...
+[...Denied...]
+...Заборонено...
+[...Error...]
+...Помилка...
+[...Finished...]
+...Завершено...
+[...Waiting for connection...]
+...Очікування з'єднання...
+[<Ask me>]
+<Запитай мене>
+[<Last message>]
+(Останнє повідомлення)
+[Accept all alerts]
+Приймати всі повідомлення
+[Accept all invitations]
+Приймати всі запрошення
+[Accept invitations from authorized contacts]
+Приймати запрошення від авторизованих контактів
+[Alert]
+Попередження
+[Ignore advertisements]
+Ігнорувати рекламу
+[Plan:]
+План:
+[Looking for:]
+Шукаю:
+[Clerk]
+Клерк
+[Enable incoming mail notification]
+Вімк. повідомлення про вхідну пошту
+[Friendship]
+Дружба
+[Connection Host:]
+Вузол підключення:
+[Tlen login:]
+Вхід Tlen:
+[Unemployed]
+Безробітний
+[You cannot create more than %s chat rooms.]
+Ви не можете створити більше ніж %s кімнат.
+[Nickname '%s' is already registered.]
+Псевдонім '%s' вже зареєстрований.
+[You cannot send any message unless you join this chat room.]
+Ви не можете посилати повідомлення, поки Ви не ввійшли в кімнату.
+[Ignore all invitation]
+Ігнорувати всі запрошення
+[Subscription:]
+Підписка:
+[Tlen Voice Chat Invitation]
+Tlen запрошення до голосового чату
+[Expert Options]
+Налаштування Експерта
+[Ignore all alerts]
+Ігнорувати всі повідомлення
+[You cannot register more than %s nicknames.]
+Ви не можете зареєструвати більше ніж %s псевдонімів.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+Псевдонім вже використовується, виберіть інший. Підказка: '%s' вільний.
+[Manager]
+Менеджер
+[Send and receive client version information]
+Відправляти і отримувати версії клієнтів
+[Teacher]
+Вчитель
+[Voice chat policy]
+Політика групових чатів
+[Group chat policy]
+Політика чатів
+[Ignore invitations from unauthorized contacts]
+Ігнорувати запрошення від неавторизованих контактів
+[Pensioner]
+Пенсіонер
+[School:]
+Школа:
+[Tlen Protocol Option]
+Налаштування протоколу Tlen
+[Alert policy]
+Політика повідомлення
+[These changes will take effect the next time you connect to the Tlen network.]
+Зміни вступлять в силу, після того як Ви переподключитесь до мережі Tlen.
+[Voice Chat]
+Голосовий чат
+[Voice chat]
+Голосовий чат
+[Voice Chats]
+Голосові чати
+[Voice chats]
+Голосові чати
+[Always ask me]
+Завжди питати
+[Show offline users with status messages as invisible in contact list]
+Показувати відключених користувачів з повідомленнями статусу як невидимі
+[Use Nudge plugin]
+Вик. Тряску
+[Somebody to talk]
+Поговорити з будь-яким
+[Housekeeper]
+Домработница
+[Chat room with already created.]
+Кімната вже створена.
+[Log alerts messages as]
+Зберегти поперед. як повід.
+[Ignore alerts from unauthorized contacts]
+Ігнорувати повідомлення від неавторизованих контактів
+[You have been kicked. Reason: %s ]
+Вас викинули. Причина: %s\s
+[P2P Connections]
+P2P Підключення
+[Enable Always Visible and Never Visible]
+Вімк. Завжди бачимо і Завжди невидимий
+[Incoming mail]
+Вхідна пошта
+[You cannot join more than %s chat rooms.]
+Ви не можете увійти в більше ніж %s кімнат.
+[This is a private chat room and you are not one of the members.]
+Це приватна чат-кімната, і ви не її член.
+[Playback device:]
+Пристрій відтворення:
+[Flirt/romance]
+Флірт/Романтика
+[Private conference]
+Особиста конференція
+[You cannot join this chat room, because you are banned.]
+Ви не можете увійти в кімнату, тому що Ви заблоковані.
+[Use proxy for incoming connections]
+Вик. проксі для вхідних підключень
+[Specialist]
+Спеціаліст
+[Chat room not found.]
+Кімната чату не знайдено.
+[The following invitation to join a voice chat is received.]
+Отримано запрошення увійти в голосовий чат.
+[Student]
+Студент
+[Recording device:]
+Пристрій запису:
+[An alert has been received.]
+Повідомлення прийнято.
+[Forwarding]
+Перенаправлення
+[Farmer]
+Фермер
+[Doctor]
+Доктор
+[Year of birth:]
+Рік народження:
+[Personal Information]
+Персональні дані
+[Unknown error code : %d]
+Невідома помилка: %d
+[Extra Search Criterias]
+Дод. критерії пошуку
+[Leave status message after disconnection]
+Залишити повідомлення статусу після відключення
+[Anonymous nicknames are not allowed in this chat room.]
+Анонімні псевдоніми заборонені в цій кімнаті.
+
+;no translation
+[I'd like to go downtown]
+[I'd like to go on a blind date]
+[I'd like to go to the cinema]
+[I'd like to go to the disco]
+[I'd like to take a walk]
+[Mail Notification]
+[Public avatar]
+[Publicly visible status]
+[Tlen Chats]
+[Tlen Inbox]
+[Tlen login]
+[Tlen Protocol Plugin]
+[Tlen Voice Chat]
+[Waiting for suggestion]
+[Web message]
+[Available]
+[College student]
+[Send picture]
+[%s mail]
+
+[...Status...]
+...Статус...
+[Event Filter]
+Фільтр подій
+[Topic:]
+Тема:
+[User JID:]
+Користувач:
+[Tlen inbox]
+Tlen вхідні
+[Tlen chats]
+Tlen чати
+[Microphone]
+Мікрофон
+[Speaker]
+Динамік
+[Tlen Password]
+Пароль Tlen

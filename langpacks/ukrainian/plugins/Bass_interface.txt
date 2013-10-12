@@ -1,37 +1,69 @@
 ﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
-;  File: Bass_interface.dll
-;  Plugin: Bass interface
-;  Versions: 0.0.0.13
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
 Підтримка бібліотеки BASS для Miranda NG.
-[un4seen's bass version: %d.%d.%d.%d]
-Версія бібліотеки BASS: %d.%d.%d.%d
-[Volume:]
-Рівень гучності:
-[Current bass.dll path:]
-Поточний шлях до bass.dll:
-[bass.dll loading error]
-Помилка завантаження бібліотеки bass.dll
 [un4seen's bass interface]
 Підтримка бібліотеки BASS
+[bass.dll loading error]
+Помилка завантаження бібліотеки bass.dll
+[Current bass.dll path:]
+Поточний шлях до bass.dll:
 [Maximum number of bass internal channels:]
 Максимальна кількість каналів:
-[Bass Interface]
-Бібліотека BASS
 [Output device:]
 Пристрій виводу:
+[Volume:]
+Рівень гучності:
 [Quiet time:]
 Тиха година:
 [download bass library]
 завантажити бібліотеку BASS
-[--default device--]
---типовий прилад--
-[No sound]
-Немає звуку
 [Play only if]
 Грати, якщо
-[Disable sounds] 
-Вимкнути звуки 
+[Offline]
+Не в мережі
+[Online]
+В мережі
+[Away]
+Відсутній
+[NA]
+Недоступний
+[Occupied]
+Зайнятий
+[DND]
+Не турбувати
+[Free for chat]
+Готовий базікати
+[Invisible]
+Невидимий
+[On the phone]
+На телефоні
+[Out to lunch]
+Обідаю
+[Preview]
+Тест
+[Bass Interface]
+Бібліотека BASS
+[un4seen's bass version: %d.%d.%d.%d]
+Версія бібліотеки BASS: %d.%d.%d.%d
+[--default device--]
+--типовий прилад--
+[Sounds]
+Звуки
+[Disable sounds]
+Вимкнути звуки
+[Enable sounds]
+Ввімкнути звуки
+[Frame Background]
+Фон
+[Bass library]
+Бібліотека BASS
+[Sounds enabled]
+Звук ввімкнено
+[Sounds disabled]
+Звук вимкнено

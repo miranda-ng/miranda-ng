@@ -1,43 +1,73 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
-;  File: favcontacts.dll
-;  Module: Favourite Contacts
-;  Versions: v.0.0.0.6
-;  Authors: nullbie
+;  File: FavContacts.dll
+;  Plugin: Favorite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
 Меню обраних контактів.
-[px.]
-пікс.
-[Hotkey shows menu centered on screen]
-Меню по гарячій кл. в центрі екрану 
-[Hide for transparent avatars]
-Приховати для прозорих аватар
-[Favorite Contacts]
-Обрані контакти
+[Customize]
+Тонкі налаштування
+[Show second line]
+Відображати другу лінію
+[Show avatars]
+Аватари
 [Draw avatar border]
 Границя на аватарах
+[Round corners by]
+Округлити кути
+[px.]
+пікс.
+[Hide for transparent avatars]
+Приховати для прозорих аватар
 [Use system colors and fonts]
 Системні кольори і шрифти
+[Hotkey shows menu centered on screen]
+Меню по гарячій кл. в центрі екрану
 [Menu item preview:]
 Перегляд меню:
+[Favorite Contacts]
+Обрані контакти
+[Enable groups]
+Вимкнути групи
 [Multicolumn menu]
 Декілька стовпців
-[Set up menu hotkey...]
-Налаштувати гор. клавіші...
-[Enable groups]
-Увимкнути групи
 [Configure fonts and colors...]
 Налаштувати шрифти і кольори...
+[Align to the right]
+Вирівнювання по правому краю
+[Dim idle contact icons]
+Затемнити контакти в очікуванні
+[Show]
+Показати
+[recent contacts]
+недавніх контактів
+[<no group>]
+Немає груп
+[Favorite Contact]
+Обрані контакти
+[Regular Contact]
+Звичайний контакт
+[Contact name]
+Ім'я контакту
+[Second line]
+Друга рядок
 [Selected contact name (color)]
 Ім'я контакту під курсором
 [Selected second line (color)]
-Відображення другого рядка під курсором
-[Align to the right]
-Вирівнювання по правому краю
-[recent contacts]
-недавніх контактів
-[Regular Contact]
-Звичайний контакт
-[Dim idle contact icons]
-Затемнити контакти в очікуванні
+Відображення іншого рядка під курсором
+[Background]
+Фон
+[Selected background]
+Обрати фон
+[Show favorite contacts]
+Показати обрані контакти
+[Архів]
+Контакти
+[Обране]
+Обрані
+[&Favorite Contacts...]
+&Обрані контакти
+[<No group>]
+Немає груп

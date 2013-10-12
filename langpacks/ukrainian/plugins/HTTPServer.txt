@@ -1,103 +1,167 @@
 ﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
 ;============================================================
 ;  File: HTTPServer.dll
-;  Module: HTTP Web Server plugin for Miranda
-;  Versions: 0.1.2.2
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
-[%ExternalIP% variable]
-%ExternalIP% змінна
-[&Edit share]
-Зм. загальне
-[&New share]
-Нове загальне
-[&Remove share]
-Видалити загальне
-[Agent]
-Агент
+[HTTP Web Server plugin for Miranda.]
+[HTTP Web Server модуль для Miranda NG.]
+[IPAddress1]
+IP адреса 1
+[IPAddress2]
+IP адреса 2
+[Max downloads]
+Макс. завантажень
+[Address]
+Адреса
+[Mask]
+Маска
+[Share name]
+"Ім'я шари"
 [Allowed IP]
 Дозволені IP
-[Allowed Mask]
-Дозволена маска
-[Completed]
-Завершено
-[Disable HTTP server]
-Вимкнути HTTP сервер
-[Enable / Disable HTTP server]
-Уімк/Вимк HTTP Сервер
-[Enable HTTP server]
-Увім. HTTP Сервер
-[External server name]
-Зовнішнє ім'я сервера
 [HTTP Server statistics view]
 Статистика переглядів HTTP сервера
-[HTTP Server]
-HTTP Сервер
-[HTTP Share new file]
-HTTP Новий загальний файл
-[IPAddress1]
-IP адрес 1
-[IPAddress2]
-IP адрес 2
-[Main menu items]
-Елементи головного меню
-[Max ( bytes / sec )]
-Макс (байт/сек)
-[Max downloads]
-Макс. завантаження
-[Max Downloads]
-Макс. завантаження
-[No control when Away/NA]
-Вимк. якщо недоступний/зайнятий
-[No share selected]
-Папка не вибрана
-[Open log]
-Відкрити журнал
-[Page keyword]
-Ключові слова
-[Real path]
-Реальний шлях
-[Set to default]
-За замовчуванням
-[Share name]
-Ім'я шари
-[Share removed]
-Загальне видалено
+[Display hidden shares]
+Показувати "скриті шари"
+[New share]
+Нова "шара"
 [Show HTTP server statistics]
 Статистика сервера НТТР
-[Specify a file to share]
-Файл для доступу
-[Speed control]
-Контроль швидкості
-[Speed]
-Швидкість
-[This is the link pasted to the message window]
+[Set to default]
+За замовчанням
+[External server name]
+Зовнішнє ім'я сервера
+[This is the link to the pasted message window]
 Це посилання, вставлена у вікно повідомлень
-[URL address]
-Адрес URL
 [Write log file]
 Записувати журнал
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
-Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\пс: %s
-[You need to restart miranda to change the main menu]
-Зміни в меню набудуть чинності після перезапуску програми.
-[&Open in Browser]
-Відкрити в браузері
-[Connection control]
-Контроль з'єднань
-[Default download limit]
-Ліміт завантажень за замов.
+[Enable / Disable HTTP server]
+Вімк/Вимк HTTP сервер
+[Main menu items]
+Елементи головного меню
+[Open log]
+Відкрити журнал
+[Show popups]
+Показувати спливаючі вікна
+[Page keyword]
+Ключові слова
+[URL address]
+Адреса URL
+[%ExternalIP% variable]
+%ExternalIP% змінна
+[Test]
+Тест
 [Transfer limit (kb/sec)]
 Ліміт швидкості (kb/sec)
-[Total connection limit]
-Максимально з'єднань
-[Connections per user limit]
-Ліміт на користувача
+[No control when Away/NA]
+Вимк. якщо недосяжний/зайнятий
+[Connection control]
+Контроль з'єднання
 [Index creation]
 Створення індексу
+[Disable]
+Вимкнути
 [Create HTML (compatibility)]
 Створити HTML (сумісно)
 [Create XML]
 Створити XML
-[HTTPServer]
+[Повідомлення]
+Повідомлення
+[Total connection limit]
+Максимально з'єднань
+[Connections per user limit]
+Ліміт на користувача
+[Default download limit]
+Ліміт завантажень.
+[&Edit share]
+&Редаг. шару
+[&Remove share]
+&Видалити шару
+[&Open in Browser]
+Відкрити в браузері
+[&Copy link]
+&Копіювати посилання
+[Miranda NG HTTP Server]
+Miranda NG HTTP Server
+[Share Current Directory]
+Розшарити поточку папку
+[All files]
+Всі файли
+[Specify a file to share]
+Файл для доступу
+[Failed to share new file]
+Помилка шари нового файлу
+[Max Downloads]
+Макс. завантажень
+[Allowed Mask]
+Дозволена маска
+[Real path]
+Реальний шлях
+[User]
+Користувач
+[Agent]
+Агент
+[Completed]
+Завершено
+[Speed]
+Швидкість
+[Selected link size is 0]
+
+[Failed to get access to clipboard]
+
+[Failed to get close the clipboard]
+
+[Failed to set clipboard data]
+
+[ListView_GetItem failed]
+
+[No share selected]
+Папка не вибрана
+[Current IP Address: ]
+Поточниа IP адреса:
+[Current Address: ]
+Поточна адреса:
+[IP Adress: ]
+IP адреса
+[You are browsing from]
+
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\пс: %s
+[You need to restart miranda to change the main menu]
+Зміни в меню набудуть чинності після перезапуску програми.
+[HTTP Server]
 HTTP Сервер
+[Network]
+Мережа
+[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
+
+[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
+
+[HTTP Share new file]
+HTTP Новий розшарений файл
+[Failed to add contact menu item]
+Помилка додавання у головне меню
+[Share removed]
+Шару видалено
+[Failed to open or create log file]
+Помилка відкриття або створення журналу
+[Failed to move to the end of the log file]
+Помилка переміщення в кінець журналу
+[Failed to write some part of the log file]
+
+[Failed to open or create file ]
+Помилка відкриття або створення файлу
+[Failed to write xml header to file ]
+Помилка запису в заголовок XML файлу
+[Failed to write xml data to file ]
+Помилка запису у XML файл
+[Failed to write xml tail to file ]
+
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+
+[Disable HTTP server]
+Вимкнути HTTP сервер
+[Enable HTTP server]
+Вімкнути HTTP Сервер

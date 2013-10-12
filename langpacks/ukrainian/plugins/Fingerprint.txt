@@ -1,42 +1,32 @@
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
-;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+, FingerprintNG
-;  Versions: 0.1.0.0
-;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS, Mataes
+;  Plugin: Fingerprint NG
+;  Version: 0.1.0.0
+;  Authors: faith_healer, ghazan, mataes
 ;============================================================
-[Show Miranda version]
-Показувати версію Miranda
-[Pack overlays]
-Оверлеї зборок
-[Fingerprint]
-Значки клієнтів
-[Undetected client]
-Невизначений клієнт
-[Unknown client]
-Невідомий клієнт
-[Platform]
-Операційна система
 [Fingerprint NG (client version) icons module for Miranda NG.]
 Fingerprint NG відображаються значки клієнтів, використовуваних вашими співрозмовниками.
 [Fingerprint overlays icons]
 Оверлеї значків клієнтів
-[Client icons]
-Клієнти
 [Miranda clients]
 Клієнти Miranda
 [Miranda packs overlays]
 Оверлеї зборок Miranda
 [Show Miranda version at Overlay#2]
-Значок версії на оверлее #2
+Значок версії на накладанні #2
 [Resource overlays]
 Оверлеї ресурсів
 [Platform overlays]
 Оверлеї платформи
 [Protocols overlays]
 Оверлеї протоколів
+[Unicode overlay]
+Оверлей Unicode
 [Secure overlays]
 Оверлеї шифрування
+[Select protocols]
+Протоколи
 [AIM clients]
 Клієнти AIM
 [Gadu-Gadu clients]
@@ -58,47 +48,71 @@ Fingerprint NG відображаються значки клієнтів, ви�
 [Tlen clients]
 Клієнти Tlen
 [Weather clients]
-Клієнти погоды
+Клієнти погоди
 [Yahoo clients]
 Клієнти Yahoo
 [Multi-protocol clients]
 Мульти-протокольні клієнти
-[Multi-proto clients]
-Мульти-протокол
 [Other (rare) protocols]
 Клієнти рідкісних протоколів
 [Other icons]
 Інші значки
+[Show client icon in message window status bar]
+
+[Fingerprint]
+Значки клієнтів
+[Client icons]
+Клієнти
+[Pack overlays]
+Оверлеї зборок
+[Multi-proto clients]
+Мульти-протокол
 [Other protocols]
 Інші протоколи
-[Overlays]
+[overlays]
 Оверлеї
-[Windows overlay]
-Оверлей Windows
-[iOS overlay (iPhone/iPad)]
-Оверлей iOS (iPhone/iPad)
-[MacOS overlay]
-Оверлей MacOS
-[Linux overlay]
-Оверлей Linux
-[Flash overlay]
-Оверлей Flash
-[Java overlay]
-Оверлей Java
-[Symbian overlay]
-Оверлей Symbian
-[Amiga overlay]
-Оверлей Amiga
-[Android overlay]
-Оверлей Android
-[SecureIM overlay]
-Оверлей SecureIM
-[x64 overlay]
-Оверлей x64
-[x32 overlay]
-Оверлей x32
-[Unicode overlay]
-Оверлей Unicode
+[Resource]
+
+[Platform]
+Операційна система
+[Security]
+Безпека
+[Protocol]
+Протокол
+[MirandaNG stable]
+
+[MirandaIM (old versions)]
+
+[Miranda (unknown)]
+
+[spam client]
+
+[PHP Jabber Client]
+
+[MP3 Script for mIRC]
+
+[Mail.Ru Agent (official)]
+
+[Mail.Ru (unknown client)]
+
+[TM 2008 and >]
+
+[Gadu-Gadu client]
+
+[Tlen.pl client]
+
+[Python-based clients]
+
+[Jabber client]
+
+[XMPP client]
+
+[Client not found]
+Незнайдений клієнт
+[Unknown client]
+Невідомий клієнт
+[Undetected client]
+Невизначений клієнт
 [AIM overlay]
 Оверлей AIM
 [ICQJ Plus Mod overlay]
@@ -123,6 +137,82 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Оверлей Yahoo
 [Mail.Ru Agent overlay]
 Оверлей Mail.Ru Agent
+[ICQ 2003 overlay]
+
+[ICQ Lite 4 overlay]
+
+[ICQ v5.x overlay]
+
+[ICQ v6.x overlay]
+
+[ICQ v7.x overlay]
+
+[ICQ v8.x overlay]
+
+[Yahoo v11.x overlay]
+
+[Yahoo v10.x overlay]
+
+[Yahoo v9.x overlay]
+
+[Gadu-Gadu v11 client]
+
+[Gadu-Gadu v10 client]
+
+[Gadu-Gadu v9 client]
+
+[Gadu-Gadu v8 client]
+
+[Tlen 7.x overlay]
+
+[Tlen 6.x overlay]
+
+[Tlen 5.x overlay]
+
+[TM/QQ 2012 overlay]
+
+[TM/QQ 2011 overlay]
+
+[TM/QQ 2010 overlay]
+
+[TM/QQ 2009 overlay]
+
+[TM/QQ 2008 overlay]
+
+[TM/QQ 2007 overlay]
+
+[TM/QQ 2006 overlay]
+
+[TM/QQ 2005 overlay]
+
+[QQ 2004 overlay]
+
+[TM 3.x / QQ 2003 overlay]
+
+[TM 2.x overlay]
+
+[TM 1.x overlay]
+
+[QQ 2000 overlay]
+
+[Windows overlay]
+Оверлей Windows
+[iOS overlay (iPhone/iPad)]
+Оверлей iOS (iPhone/iPad)
+[MacOS overlay]
+Оверлей MacOS
+[Linux overlay]
+Оверлей Linux
+[Flash overlay]
+Оверлей Flash
+[Java overlay]
+Оверлей Java
+[Symbian overlay]
+Оверлей Symbian
+[Amiga overlay]
+Оверлей Amiga
+[Android overlay]
+Оверлей Android
 [debug overlay]
 Оверлей debug
 [office overlay]
@@ -135,5 +225,41 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Оверлей work
 [notebook overlay]
 Оверлей notebook
-[Client not found]
-Незнайдений клієнт
+[MirandaNG v0.6 #2 overlay]
+
+[MirandaNG v0.5 #2 overlay]
+
+[MirandaNG v0.4 #2 overlay]
+
+[MirandaNG v0.3 #2 overlay]
+
+[MirandaNG v0.2 #2 overlay]
+
+[MirandaNG v0.1 #2 overlay]
+
+[MirandaIM v0.10 #2 overlay]
+
+[MirandaIM v0.9 #2 overlay]
+
+[MirandaIM v0.8 #2 overlay]
+
+[MirandaIM v0.7 #2 overlay]
+
+[MirandaIM v0.6 #2 overlay]
+
+[MirandaIM v0.5 #2 overlay]
+
+[MirandaIM v0.4 #2 overlay]
+
+[x64 overlay]
+Оверлей x64
+[x32 overlay]
+Оверлей x32
+[NewGPG overlay]
+Оверлей NewGPG
+[MirOTR overlay]
+Оверлей MirOTR
+[SecureIM overlay]
+Оверлей SecureIM
+[Icons]
+Значки

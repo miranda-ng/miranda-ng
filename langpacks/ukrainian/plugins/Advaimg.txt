@@ -1,9 +1,9 @@
 ﻿#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}
 ;============================================================
-;  File: advaimg.dll
-;  Plugin: Provides generic image services for Miranda NG
-;  Versions: 0.10.0.2
-;  Authors: Nightwish, The FreeImage project
+;  File: AdvaImg.dll
+;  Plugin: Miranda image services
+;  Version: 0.11.0.1
+;  Authors: Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)
 ;============================================================
 [Generic image services for Miranda NG.]
 Загальна служба зображень у Miranda NG.

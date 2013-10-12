@@ -1,51 +1,65 @@
-﻿#muuid {0324785e-74ce-4600-b781-851773b3efc5}
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
-;  File: contacts.dll
-;  Module: Contacts
-;  Versions: 1.5.2.0
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
+[Allows you to send and receive contacts.]
+Дозволяє надсилати та отримувати контакти.
+[Send contacts]
+Відправити контакти
+[&A]
+
+[&D]
+
+[&H]
+
+[Choose contacts to be send:]
+Вибрати контакти для відправки:
+[&Send]
+&Відправити
+[Cancel]
+Сказувати
+[&Select All]
+&Вибрати все
+[Received contacts]
+Прийняті контакти
+[Add to &group:]
+Додати в групу:
+[&Add]
+&Додати
 [&Details]
 Деталі
+[Close]
+Закрити
+[Contacts send error]
+Помилка відправлення контактів
+[An error has occured. The protocol reported the following error:]
+Протокол повернув наступну помилку:
+[Try again]
+Ще раз
+[Popup]
+Спливаюче вікно
+[Add to List]
+Додати
+[User Details]
+О користуваче
+[Send Message]
+Відправити
+[Contacts received from]
+Отримані контакти від
+[Contacts]
+Контакти
 [Incoming Contacts]
 Вхідні контакти
 [Outgoing Contacts]
 Вихідні контакти
-[Contacts received from %s]
-Контакти отримані від %s
-[Send contacts to %s]
-Надіслати контакти до %s
-[Send contacts...]
-Надіслати контакти...
-[Mailformed Receive Contacts Packet.]
-Некоректний пакет отримання контактів.
-[Add to &group:]
-Додати в групу:
-[&Add selected]
-&Додати
-[Choose contacts to be send:]
-Вибрати контакти для відправки:
-[Allows you to send and receive contacts.]
-Дозволяє надсилати та отримувати контакти.
-[Send Contacts to]
-Надіслати контакти
-[Contacts from]
-Контакти від
-[Add to List]
-Додати
-[The contacts send timed out.]
-Тайм-аут відправлення.
-[Contacts received from]
-Отримані контакти від
-[Contacts transfer failed!]
-Помилка передачі контактів
-[The selected contact does not support receiving contacts.]
-Вибраний контакт не підтримує прийом контактів.
-[Contacts send error]
-Помилка відправлення контактів
-[Received contacts]
-Прийняті контакти
-[Send contacts]
-Відправити контакти
-[Send/Receive Contacts+]
-Відправлення/Отримання контактів+
+[Add Contact Permanently to List]
+Додати у список
+[View User's Details]
+Інформація о користуваче
+[View User's History]
+Історя повідомлень
+[User Menu]
+Меню користувача

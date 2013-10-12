@@ -1,12 +1,36 @@
 ﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;============================================================
 ;  File: Console.dll
-;  Module: Console log window for Miranda
-;  Versions: 0.0.7.2
+;  Plugin: Console
+;  Version: 0.0.7.3
 ;  Authors: Bio
 ;============================================================
 [Console log window for Miranda.]
 Плагін вікна консолі журналу Miranda NG.
+[Console]
+Консоль
+[Single window mode*]
+Простий режим вікна*
+[Show icons in log*]
+Показувати значки в журналі*
+[New lines between events*]
+Нові рядки між подіями*
+[Always show at start]
+Завжди показувати при запуску
+[Lines wrap length [25-255]]
+Довжина рядка що переноситься [25-255]
+[Log size limit [1 000 - 1 000 000 lines]]
+Обмеження журналу за кількістю рядків [1 000 - 1 000 000]
+[* Restart needed]
+* Потрібен перезапуск
+[Save settings and restart console]
+Зберегти налаштування і перезапустити консоль
+[Show/Hide Console]
+Показати/приховати консоль
+[Hide Console]
+Приховати консоль
+[Show Console]
+Показать консоль
 [Scrolling (Ctrl+Q)]
 Прокручувати (Ctrl+Q)
 [Pause logging(Ctrl+P)]
@@ -25,51 +49,27 @@
 Пауза журналювання у всіх вкладках
 [Close tab (Ctrl+W)]
 Закрити вкладку (Ctrl+W)
-[Single window mode (Restart needed)]
-Простий режим вікна (необхідний рестарт)
-[Text wrap length (25-255)]
-Довжина рядка що переноситься [25-255]
-[Show Hide Console]
-Сховати/Показати консоль
-[Clear console]
-Очистити консоль
-[Console]
-Консоль
-[Hide console]
-Приховати консоль
-[Hide Console]
-Приховати консоль
-[Remember last state]
-Запоминать состояние
-[Show console on load]
-Открыть консоль при запуске
-[Show console]
-Показать консоль
-[Show Console]
-Показать консоль                                  
-[Miranda Netlib Log]
-Журнал Miranda Netlib
-[Save log to file]
-Зберегти журнал в файл
+[*** Console started ***]
+*** Консоль запущена ***
+[*** Console paused ***]
+*** Консоль зупинина ***
+[*** Console resumed ***]
+*** Консоль відновлена ***
+[*** Console cleared ***]
+*** Консоль очищена ***
+[Miranda Console]
+Консоль Miranda NG
+[Services]
+Службы
+[Text]
+Текст
+[&Help]
+&Довідка
+[Text Files (*.txt)]
+Текстові файли (*.txt)
+[All Files]
+Усі файли
 [Save selection to file]
 Зберегти вибране
-[Show/Hide Console]
-Показати/приховати консоль
-[Open outgoing connections with delay (can be useful on XP SP2)]
-Відкривати вихідні з'єднання з затримкою (може допомогти в XP SP2)
-[* Restart needed]
-* Потрібен перезапуск
-[Show icons in log*]
-Показувати значки в журналі*
-[Single window mode*]
-Простий режим вікна*
-[Lines wrap length [25-255]]
-Довжина рядка що переноситься [25-255]
-[Log size limit [1 000 - 1 000 000 lines]]
-Обмеження журналу за кількістю рядків [1 000 - 1 000 000]
-[New lines between events*]
-Нові рядки між подіями*
-[Always show at start]
-Завжди показувати при запуску
-[Save settings and restart console]
-Зберегти налаштування і перезапустити консоль
+[Save log to file]
+Зберегти журнал в файл

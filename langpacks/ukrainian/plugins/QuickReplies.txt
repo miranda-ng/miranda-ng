@@ -1,26 +1,30 @@
 ﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
-;  File: quickreplies.dll
-;  Module: Quick Replies
-;  Versions: 0.8.1.0
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
+;  Version: 0.8.1.0
+;  Authors: Unsane
 ;============================================================
-[Quick Replies]
-Швидкі відповіді
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 Плагін для швидкої вставки (або відправлення) певних повідомлень у вікно відправлення.
-[Hints:]
-Підказки:
+[Quick Replies]
+Швидкі відповіді
+[Send replies immediately]
+Надсилати відповіді негайно
 [- Add your replies, one per line.]
 - Додайте Ваші відповіді по одному в кожному рядку.
+[Variables]
+Змінні
+[Hints:]
+Підказки:
 [- Add "---" for separator.]
 - Додайте "---" для розділення.
 [- Press [v] button for variable's help.]
 - Натисніть [v] для допомоги по змінним.
-[Send replies immediately]
-Надсилати відповіді негайно
-[Button %x]
-Кнопка %x
-[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
-Швидкі відповіді\r\nЛіва кнопка меню\r\nПрава кнопка - налаштування
 [Button]
 Кнопка
+[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
+Швидкі відповіді\r\nЛіва кнопка меню\r\nПрава кнопка - налаштування
+;file \plugins\QuickReplies\src\options.cpp
+[Message Sessions]
+Бесіди

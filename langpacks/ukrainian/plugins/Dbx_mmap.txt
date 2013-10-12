@@ -1,13 +1,151 @@
 ﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
-;  File: db3x_mmap.dll
-;  Module: Miranda mmap database driver
-;  Versions: 0.10.0.2
-;  Authors: Miranda-IM project
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda-NG project
 ;============================================================
-[db3x_mmap Plugin]
-Плагін db3x_mmap
-[Disk is full. Miranda will now shutdown.]
-Диск сповнений. Miranda завершує роботу.
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів і т.і.
+[Install Database Settings]
+Встановити налаштування бази даних
+[Yes]
+Так
+[No]
+Ні
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Файл з новими налаштуваннями бази даних був поміщений в каталог Miranda NG.
+[Do you want to import the settings now?]
+Імпортувати налаштування зараз?
+[No to all]
+Ні для всіх
+[&View contents]
+&Вміст
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Система безпеки для запобігання небажаних змін активна і ви будете попереджені перед небезпечними змінами.
+[Database Setting Change]
+Зміна налаштувань бази даних
+[Database settings are being imported from]
+Налаштування імпортуються з
+[This file wishes to change the setting]
+Цей файл змінює налаштування
+[to the value]
+на величину
+[Do you want to allow this change?]
+Дозволити зміну?
+[&Allow all further changes to this section]
+&Дозволити всі зміни в цій секції
+[&Yes]
+&Так
+[&No]
+&Ні
+[Cancel Import]
+Скасувати імпорт
+[Database Import Complete]
+Імпорт бази завершено
+[The import has completed from]
+Імпорт завершено з
+[What do you want to do with the file now?]
+Що ви бажаєте зробити з файлом?
+[&Recycle]
+&Використовувати знову
+[&Delete]
+&Видалити
+[&Move/Rename]
+&Перемістити/перейменувати
+[&Leave]
+&Залишити
+[Disk is full. Miranda will now shutdown.]
+Диск сповнений. Miranda завершує роботу.
+[Database failure. Miranda will now shutdown.]
+Помилка бази. Miranda NG буде закрита.
+[Database Error]
+Помилка бази
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+Miranda NG виявила пошкодження вашої базі даних. Це пошкодження може бути виправлене плагіном DbChecker. Будь ласка, завантажте його з http://miranda-ng.org/p/DbChecker/. Miranda NG буде закрита.
+[Database Panic]
+Проблема з базою
+[Performing aggressive pass]
+Виконання агресивних пропуск
+[Aggressive: random junk at %08X: skipping]
+Агресивний: випадкове сміття у %08X: пропуск
+[Aggressive: unlinked data at %08X: can't automatically place]
+Агресивний: незв'язані дані в %08X: не може автоматично встановлювати
+[Processing contact chain]
+Обробка ланцюжку контакта
+[Contact count marked wrongly: correcting]
+Кількість контактів помилково позначено: виправлення
+[Contact chain corrupted, further entries ignored]
+Ланцюжок контакта пошкоджений, подальші записи ігноруються
+[Invalid offset found (database truncated?)]
+Знайдене пошкоджених зміщення (базу даних спотворено?)
+[Invalid offset found]
+Знайдене пошкоджених зміщення
+[Error reading, database truncated? (%u)]
+Помилка при читанні, бази даних спотворена? (%u)
+[Can't write to working file, aggressive mode may be too aggressive now]
+Не можу писати у робочий файл, агресивний режим може бути занабно агресивним
+[Can't write to output file - disk full? (%u)]
+Не можу записати у вихідний файл - диск заповнений? (%u)
+[Event count marked wrongly: correcting]
+Число подій помилково позначено: виправлення
+[Event chain corrupted, trying to recover...]
+Події ланцужку пошкоджені, намагаючись відновити...
+[Event chain corrupted, further entries ignored]
+Події ланцюжку пошкоджені, подальші записи ігноруються
+[First event not marked as such: correcting]
+Перша подія не позначені як така: виправлення
+[Event marked as first which is not: correcting]
+Подія відзначається як перший, якою не є: виправлення
+[Extra flags found in event: removing]
+Додаткові прапори знайдені у події: видалення
+[First unread event marked wrong: fixing]
+Першу непрочитану подію позначено неправильно: виправлення
+[Infeasibly large event blob: skipping]
+Нез'ясовно великий BLOB події: пропускаю
+[Event not backlinked correctly: fixing]
+Подія з не правильним зворотнім посиланням: виправлення
+[Duplicate event was found: skipping]
+Знайдений дубль події: пропускаю
+[Event position in chain is not correct]
+Позиція події в ланцюжку некоректна
+[Event position in chain is not correct: fixing]
+Позиція події в ланцюжку: виправляємо
+[Event position in chain is not correct: unable to fix]
+Позиція події в ланцюжку не є коректною: не в змозі виправити
+[Processing final tasks]
+Виконання завершальних робіт
+[Database signature is corrupted, automatic repair is impossible]
+Бази даних пошкоджена, автоматичне виправлення неможливо
+[Database is marked as belonging to an unknown version of Miranda]
+База даних позначаєна як належна до невідомої версії Miranda
+[Database is newly created and has no data to process]
+База даних нова, і не має ніяких даних для обробки
+[Processing completed successfully]
+Обробка завершена успішно
+[Can't create file mapping (%u)]
+Не можу створити файл зіставлення (%u)
+[Can't create map view of file (%u)]
+Не можу створити карту вигляду файлу (%u)
+[Processing module name chain]
+Модуль обробки імені ланцюжка
+[Module chain corrupted, further entries ignored]
+Ланцюг модуля пошкоджено, подальші записи ігноруються
+[Unreasonably long module name, skipping]
+Невиправдано довго ім'я модуля, пропускаю
+[Module name '%s' is not unique: %d duplicates found]
+Ім'я модуля '%s' не є унікальним: %d знайдених дублікатів
+[Invalid module name offset, skipping data]
+Неправильне зміщення імені модуля, пропускаємо
+[Settings chain corrupted, further entries ignored]
+Ланцюжок налаштувань пошкоджений, дані після ігноровані
+[Infeasibly large settings blob: skipping]
+Нез'ясовно великий BLOB налаштувань: пропускаю
+[Empty settings group at %08X: skipping]
+Пусті параметри групи у %08X: пропуск
+[Processing user data]
+Обробка даних користувача
+[User corrupted, this could cause major problems]
+Користувачі пошкоджені, це може викликати серйозні проблеми
+[More than one user contact: keeping only first]
+Якщо більш ніж один користувач: інформування тільки перший

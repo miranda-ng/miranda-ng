@@ -3,8 +3,9 @@
 ;  File: twitter.dll
 ;  Module: Provides basic support for Twitter protocol.
 ;  Versions: 0.0.7.0
+;  URL: http://miranda-twitter.googlecode.com/files/twitter-0.0.7.0.zip
 ;============================================================
-[Twitter protocol plugin for Miranda NG.]
+[Twitter protocol support for Miranda NG.]
 Підтримка протоколу Twitter в Miranda NG.
 [Base URL:]
 URL:
@@ -27,22 +28,28 @@ URL:
 [Tweet...]
 Написати твіт...
 [Please cycle your connection for these changes to take effect]
-Будь ласка, переподключитесь щоб зміни набули чинності
+Будь ласка, переподключитесь що б зміни набрали чинності з
 [%s avatar connection]
-Підключення аватарів %s
+%s підключення аватарів
 [Send Tweet]
-Надіслати твіт
+Надіслати Tweet
 [Send Tweet...]
 Надіслати твіт...
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Введіть PIN-код, наданий Twitter-ом, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не перестворите ваш обліковий запис Twitter у Miranda.
-[Treat tweets as messages]
+Введіть PIN-код, наданий Twitter, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не перестворите ваш обліковий запис Miranda Twitter.
+[Treat tweets messages as]
 Твіти як повідомлення
 [Enter Twitter PIN]
 Введіть PIN-код з Twitter-у
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Змінні OAuth втратили послідовність і були скинуті. Будь ласка, під'єднайтеся знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
+Змінні OAuth втратили послідовність і були обнулені. Будь ласка, подсоединитесь знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
 [Reply...]
-Видповідь...
+Відповідь...
 [Visit Homepage]
 Сайт
+[Twitter Icon]
+Значок Twitter
+[Reply to Tweet]
+Відповісти на твіт
+[[Sign in to your link twitter account]]
+Увійдіть, щоб підключити обліковий запис twitter

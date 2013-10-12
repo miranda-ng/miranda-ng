@@ -1,0 +1,47 @@
+﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.1.3
+;  Authors: StDenis
+;============================================================
+[Plugin replaces MessageBoxes [whose have only OK button] into Popups.]
+Плагін замінює Вікно повідомленнь [у якого є тільки кнопка OK] у спливаючіх вікнах.
+[ASTERISK style]
+Стил ЗІРОЧКИ
+[Background]
+Фон
+[Foreground]
+На передньому плані
+[ERROR style]
+Стись ПОМИЛОК
+[EXCLAMATION style]
+Стиль ЗНАКІВ
+[QUESTION style]
+Стиль ПИТАНЬ
+[Preview]
+Тест
+[Timeout]
+Таймаут
+[Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
+Спеціальні значення "Тайм-аут":\n -1 - нескінченність, 0 - використовувати значення часу очікування за замовчуванням
+[Emit a sound]
+Використовувати звук
+[VirtualProtect failed. Code %d\nTry to call the author]
+VirtualProtect не вдалося. Код %d\nСпробуйте зв'язатися з автором
+[MsgBox]
+Вікно повідомлення
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
+Хм. Щось не ладиться. Я не можу писати в пам'ять.\nІ, як бачите, немає ніяких винятків...\nСпробуйте зв'язатися з автором
+[MessagePopup]
+Попередження
+[Popups]
+Спливаючі вікна
+[Message with question]
+Повідомлення з питанням
+[Message with exclamation]
+Повідомлення з оклику
+[Message with error]
+Повідомлення з помилкою
+[Message with asterisk]
+Повідомлення з зірочкою

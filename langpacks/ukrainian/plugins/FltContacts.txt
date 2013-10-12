@@ -1,65 +1,103 @@
 ﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
-;  File: fltcontacts.dll
-;  Module: Floating Сontacts
-;  Versions: 1.0.2.2
-;  Authors: iavorv
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.0
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
 Плагін плаваючих контактів для Miranda NG.
-[Floating Contacts]
-Плаваючі контакти
-[Remove thumb]
-Прибрати плаваючий контакт
-[Hide all thumbs]
-Приховати плаваючі контакти
-[Show all thumbs]
-Показати плаваючі контакти
-[Show/Hide all thumbs]
-Показати/Приховати всі контакти
 [Hiding contacts]
 Приховування контактів
-[Hide all contacts]
-Сховати всі контакти
-[Hide when a fulscreen app is active]
-Сховати коли програму розгорнуто
-[Hide when contact list is shown]
-Ховати коли список контактів видно
+[Hide offline contacts]
+Приховати відключених
 [Stick together]
 Склеювати контакти
 [Use fixed width]
 Ширина
+[pixels]
+пікс.
+[Hide all contacts]
+Сховати всі контакти
+[Hide when a fulscreen app is active]
+Сховати коли розгорнуто програму
+[Show tooltips*]
+Показувати підказки
+[ms]
+мс
+[Tooltips]
+Підказки
+[Miscellaneous]
+Інше
+[0 = Default]
+0=Умовчання
 [*requires Tipper plugin]
-*потрібен плагін Tipper
+*потребуе Tipper
 [Bring to front]
 На передній план
 [Bring to front every]
 Перемістити вгору на кожні
-[<Contact List Text>]
-Шрифт у списку контактів
-[Opacity:]
-Непрозорість:
-[Floating Contacts Background]
-Плаваючі контакти: фон
+[seconds]
+секунд(и)
+[Hide when contact list is shown]
+Ховати колі список контактів видно
+[Single click interface]
+Один клацання
+[Dim idle contacts]
+Затемнити неактивних користувачів
+[Idle contacts]
+
+[Border]
+Рамка
 [Draw border]
-Показувати рамку
-[Left-top edges color:]
-Колір зліва-зверху:
-[Right-bottom eges color:]
-Колір справа-знизу:
-[Hide if offline]
-Ховати, якщо відключений
-[Show thumbs]
+Коказувати рамку
+[Left-top edge's color:]
+
+[Right-bottom edge's color:]
+
+[Background]
+Фон
+[Background colour:]
+Колір фону:
+[Use background bitmap]
+Фонове зображення
+[Stretch to width]
+Розтягнути по ширині
+[Stretch to height]
+Розтягнути по висоті
+[Tile horizontally]
+Горизонтальна мозаїка
+[Tile vertically]
+Вертикальна мозаїка
+[Stretch proportionally]
+Розтягнути
+[Opacity:]
+Прозорість:
+[Standard contacts]
+Стандартні контакти
+[Online contacts to whom you have a different visibility]
+Контакти із зміненою видимістю (в мережі)
+[Offline contacts]
+Відключені контакти
+[Offline contacts to whom you have a different visibility]
+Контакти із зміненою видимістю (відключені)
+[Contacts which are 'not on list']
+Контакти 'не в списку'
+[Floating contacts]
+Плаваючі контакти
+[Show all thumbs]
 Показати плаваючі контакти
-[Hide thumbs/Remove thumb]
-Сховати/Прибрати плаваючі контакти
-[Show offline]
-Показувати відключених
-[Hide when a fullscreen app is active]
-Ховати в повноекранному режимі
-[same]
-ті ж
-[as:]
-Як:
-[Typeface]
-Гарнітура
+[Hide all thumbs]
+Приховати плаваючі контакти
+[Remove thumb]
+Прибрати плаваючих контакт
+[Show/Hide all thumbs]
+Показати/Приховати всі контакти
+[Floating Contacts]
+Плаваючі контакти
+[Contact List]
+Список контактів
+[Main Features]
+Головне
+[Appearance]
+Зовнішній вигляд

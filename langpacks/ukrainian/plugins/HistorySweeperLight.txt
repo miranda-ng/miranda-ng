@@ -1,0 +1,65 @@
+﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.0.0.7
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+
+[History Sweeper Light]
+
+[Sweep history for this contacts:]
+
+[Action 1]
+Дія 1
+[Action 2]
+Дія 2
+[Sweep on closing message window]
+
+[Clicking on the icon in the status bar will change settings]
+
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+
+[Keep all events]
+
+[Delete all events]
+Видалити всі 
+[Delete older than 1 day]
+Видалити усе старіше 1 дня
+[Delete older than 3 days]
+Видалити усе старіше 3 днів
+[Delete older than 7 days]
+Видалити усе старіше 7 днів
+[Delete older than 2 weeks (14 days)]
+Видалити усе старіше 2 тижнів (14 днів)
+[Delete older than 1 month (30 days)]
+Видалити усе старіше 1 місяця (30 днів)
+[Delete older than 3 months (90 days)]
+Видалити усе старіше 3 місяців (90 днів)
+[Delete older than 6 months (180 days)]
+Видалити усе старіше 6 місяців (180 днів)
+[Delete older than 1 year (365 days)]
+Видалити усе старіше 1 року (365 днів)
+[Keep 1 last event]
+
+[Keep 2 last events]
+
+[Keep 5 last events]
+
+[Keep 10 last events]
+
+[Keep 20 last events]
+
+[Keep 50 last events]
+
+[Default Action]
+Дія за замовчанням
+[Delete All]
+Видалити все
+[*** Defaut Action ***]
+*** Дія за замовчанням ***
+[*** System History ***]
+*** Системна історя ***
+[History]
+Історія

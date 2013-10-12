@@ -1,37 +1,23 @@
 ﻿#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
-;  File: flags.dll
-;  Module: Country Flags
-;  Versions: 0.1.0.3
-;  Authors: HeikoH Herkenrath
+;  File: Flags.dll
+;  Plugin: Country flags
+;  Version: 0.1.0.4
+;  Authors: H. Herkenrath
 ;============================================================
-[Docs]
-Документація
-[Country Flags Plugin]
-Плагін національних прапорів
+[Service offering misc country utilities as flag icons and a IP-to-Country database.]
+Служба, додаюча національні прапори як значки, з бази даних IP = країну.
+[Country Flags]
+Прапори країн
+[Show country flag as &status icon on message window]
+Показувати прапор, як значок статусу у вікні розмови
 [Show country flag as &extra image on contact list]
 Показувати прапор, як дод. значок в контакт-листі
 [Use &IP-to-country database for country detection]
 Використовувати базу IP для визначення країни
-[Include &IP-to-country lookup in country detection]
-Використовувати базу IP для визначення країни
-[In following contact list &column:]
-У наступному слоті:
 [Use &unknown flag if the country cannot be determined]
 Показати невід. прапор, якщо країну не можна визначити
-[Faroe Islands]
-Фарерські О-ви
-[Saipan Island (Northern Mariana Islands)]
-Сайпанские острови (Північно Маріанські Острови)
-[Service offering misc country utilities as flag icons and a IP-to-Country database.]
-Служба, додаюча національні прапори як значки, і IP-в країну базу даних.
-[Guantanamo Bay]
-Бухта Гуантанамо
-[Australian Antarctic Territory]
-Автралийско Антарктична Територія
-[Advanced #%u]
-Розширений #%u
-[Falkland Islands (Malvinas)]
-Острови Фалклэнд (Малвинас)
-[Service offering misc country utilities and especially flag icons.]
-Сервіс для відображення прапорів контактів, виходячи з їх IP-адреси.
+[Country flag]
+Прапор країни
+[Icons]
+Значки

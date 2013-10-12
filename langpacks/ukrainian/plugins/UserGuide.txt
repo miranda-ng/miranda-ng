@@ -1,9 +1,9 @@
 ﻿#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
 ;============================================================
 ;  File: UserGuide.dll
-;  Module: This plug-in adds the main menu item used to view miranda-im pack user guide
-;  Versions: 0.0.0.1
-;  URL:http://code.google.com/p/alfamar/
+;  Plugin: User guide
+;  Version: 0.0.0.1
+;  Authors: Yasnovidyashii
 ;============================================================
 [This plug-in adds the main menu item used to view miranda-im pack user guide.]
 Цей плагін додає пункт в головне меню для перегляду посібнику користувача по збірці Miranda NG.

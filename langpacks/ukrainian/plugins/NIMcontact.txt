@@ -1,0 +1,104 @@
+﻿#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+;============================================================
+;  File: nimcontact.dll
+;  Module: Non-IM Contact
+;  Versions: 0.5.0.1
+;============================================================
+[Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII-файл).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
+Не-IM контакт дозволяє додавати посилання на інші програми і веб-сторінки в якості «контактів». Імена цих контактів можуть братися з текстового файлу (файлів ASCII).\r\n Цей плагін є комбінацією планинов Favorites і Text Reader, також написаних мною.
+[&String Maker]
+&Створити рядок
+[Contact is always visible]
+Контакт завжди бачимо
+[Returns....]
+Повернення...
+[Away as another status]
+Неприсутні, як інший статус
+[Contacts Tooltip]
+Підказка
+[E&dit Contact Settings]
+З&мінити налаштування контакту
+[Co&py Non-IM Contact]
+Ко&піювати не-IM контакт
+[View/Edit Files]
+Перегляд/Редагування файлів
+[Remove Selected File]
+Видалити вибраний
+[Timer Options]
+Опції таймера
+[Program parameters:]
+Аргументи програми:
+[New Non-IM Contact]
+Новий не-IM контакт
+[Disable timer]
+Вимкнути таймер
+[Use Timer]
+Використовувати таймер
+[Update URL every]
+Оновлювати URL через
+[Group\\Sub-Group]
+Група\\Підгрупа
+[Timer Settings]
+Налаштування таймера
+[CList Settings]
+Налаштування списку
+[O&pen File]
+&Відкрити файл
+[String to test]
+Рядок для перегляду
+[Type one replace string per line in the format "original text,new text"]
+Один рядок заміни на кожну сходинку в форматі "оригінал,новий"
+[Ignore global change status]
+Ігнорувати глобальну зміну статусу
+[String Maker]
+Створити рядок
+[Contacts display name]
+Коротке ім'я
+[EXAMPLE: %fn1,%fn2]
+ПРИКЛАД: %fn1,%fn2
+[O&pen Folder]
+Від&крити папку
+[&Add Non-IM Contact]
+&Додати не-IM контакт
+[&Export all Non-IM Contacts]
+&Експорт всіх не-IM контактів
+[&Export Non-IM Contact]
+&Експорт-IM контакту
+[&Import Non-IM Contacts]
+&Імпорт не-IM контактів
+[&Non-IM Contact]
+&Не-IM контакт
+[&Test String]
+&Перевірка
+[&View/Edit Files]
+&Перегляд/редагування файлів
+[Add File]
+Додати файл
+[Add URL]
+Додати URL
+[Non-IM Contacts]
+Не-IM контакти
+[Non-IM Contact]
+Не-IM контакт
+[Interval Timer (in seconds)]
+Інтервал у секундах)
+[This will take affect after Non-IM Contacts' status is changed]
+Зміни вступлять в силу після зміни статусу контактів
+[Link and CList Settings]
+Посилання та налаштування списку
+[Status Icon]
+Значок статусу
+[Unless Non-IM Contacts protocol is OFFLINE]
+приховати, якщо не-IM протокол не в мережі
+[Non-IM Contact protocol timer is Disabled]
+Вимикати протокол по таймеру
+[&Files]
+&Файли
+[file(#)]
+файл(#)
+[Intervals]
+періодів
+[If the protocol timer is disabled web pages won't be updated]
+При вимкненому таймері посилання не оновлюються
+[NIM_Contact]
+Не-IM контакт

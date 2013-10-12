@@ -1,0 +1,513 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Retrieves weather information and displays it in your contact list.]
+Запит та відображення інформації про погоду у вашому списку контактів.
+[Update]
+Оновити
+[Brief Info]
+Коротко
+[Webpage]
+Сайт
+[Close]
+Закрити
+[Options]
+Налаштування
+[Update weather information on startup]
+Оновлювати погоду при запуску Miranda NG
+[Update weather information every]
+Оновлювати кожні
+[minutes]
+хвилин(и)
+[Consider weather info updated only when condition and temperature are changed]
+Повідомляти про оновлення погоди тільки при зміні температури
+[Remove old data when updating]
+Перезаписати дані після оновлення
+[Make the contact italic when weather alert is issued]
+Робити контакт нахилиним при отриманні оновлення
+[Modes]
+Режими
+[Use weather condition as status protocol]
+Стан погоди як статус протоколу
+[Avatar only mode]
+Тільки аватар
+[Units]
+Одиниці
+[Temperature]
+Температура
+[Celsius]
+Цельсій
+[Fahrenheit]
+Фаренгейт
+[Degree sign:]
+Одиниці температури
+[Wind]
+Вітер
+[km/h]
+км/год
+[m/s]
+м/с
+[mph]
+м/ч
+[knots]
+вузли
+[Visibility]
+Видимість
+[km]
+км
+[miles]
+милі
+[Pressure]
+Тиск
+[kPa]
+кПа
+[mb (hPa)]
+мілібар
+[inches]
+дюйми
+[mm Hg (torr)]
+мм рт. стовпа
+[Day/Month]
+День/Місяць
+[No change]
+без зм.
+[2 chars]
+2 символа
+[3 chars]
+3 символи
+[Elevation]
+
+[ft]
+фут
+[m]
+м
+[Do not append units to values]
+Не додавати одиниці до значень
+[Do not display fractional values]
+Не показувати дробові величини
+[Frame]
+Кадр
+[Avatar size]
+Розмір аватара
+[Edit Weather Station]
+Редагувати станцію
+[Weather Station]
+Прогноз погоди
+[City name]
+місто
+[ID]
+
+[Log Information]
+Збереження інформації
+[Internal Use history]
+Вбудована історія
+[Use external file]
+Зовнішній файл
+[Overwrite file upon update]
+Перезапис при оновленні
+[Path:]
+Шлях:
+[Link Settings]
+Налаштування посилань
+[More Info URL]
+URL додаткової інформації
+[Weather Map]
+Карта погоди
+[Other Options]
+Інші налаштування
+[Set as default station]
+За замовчанням
+[Disable automatic update for this station]
+Відключити автооновлення з цієї станції
+[Disable Popup for this station]
+Відключити сплив. відка для цієї станції
+[Change]
+Змінити
+[Cancel]
+Скасування
+[Popup Options]
+Налаштування спливаючих вікон
+[Enable popups]
+Спливаючі вікна
+[Popup only when condition changes]
+Тільки при зміні погоди
+[Colours]
+Кольори
+[Background colour]
+Колір фону
+[Text colour]
+Колір тексту
+[Use Windows colours]
+Кольори Windows
+[Popup Actions]
+Кнопки миші
+[Left Click]
+Ліва
+[Right Click]
+Права
+[Popup Delay]
+Затримка вікна
+[Delay]
+Затримка
+[seconds]
+секунд(и)
+[From Popup plugin]
+
+[Permanent]
+Постійно
+[Popup Text]
+Текст вікна
+[Popup Title]
+Заголовок вікна
+[Variables]
+Змінні
+[Default]
+За замовчанням
+[Preview]
+Тест
+[Updates]
+Оновлення
+[Alerts]
+Повідомлення
+[Errors]
+Помилки
+[Contact List]
+Список контактів
+[Brief Info Title]
+Заголовок
+[Note Text]
+Текст
+[Extra Text]
+Дод. текст
+[External Log]
+Зовнішня історія
+[History Log]
+Перегляд історії
+[Variable List]
+Змінні
+[More Variables]
+Ще змінні
+[Reset]
+Скидання
+[Status Message]
+Статусне повідомлення
+[Sunset]
+Захід
+[Feel like]
+Відчуття
+[Today's Low]
+Мінімум
+[Today's High]
+Максимум
+[Sunrise]
+Схід
+[Dewpoint]
+Точка роси
+[Humidity]
+Вологість
+[More...]
+Ще...
+[Weather Protocol INI Setup]
+Налаштування INI файл плагіну "Погода"
+[Weather Protocol INI Setup\nInstall and load your weather ini-file here]
+Установка INI погоди\nВстановлення і завантаження вашого INI погоди тут
+[Weather Protocol cannot find any weather INI-file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
+
+[Click here to download a weather ini-file from Miranda file listing]
+Натисніть тут для завантаження INI погоди списку файлів Miranda NG
+[Extract the weather ini-file from archive to this directory]
+Вийміть INI погоди з архіву в цю директорію
+[Click here to load the data from the new ini-file into memory]
+Натисніть для завантаження даних з INI файлу в пам'ять
+[Add new weather station and close this dialog]
+Додайте нове місто і закрийте це вікно
+[Total INI files]
+Всього ini файлів
+[Total memory used]
+Використано пам'яті
+[Reload INI]
+Перезавантажити
+[City:]
+Місто:
+[Menu]
+Меню
+[Dismiss Popup]
+Прибрати вікно
+[Open brief information]
+Коротка інформація
+[Open complete forecast]
+Повний прогноз
+[Open weather map]
+Карта погоди
+[View history]
+Історія
+[Open log file]
+Відкрити журнал
+[Show user menu]
+Меню користувача
+[Show user detail]
+Показати деталі
+[To old setting]
+До старих
+[To default]
+За замовчанням
+[Enable/disable auto update]
+Вкл/Викл автооновлення
+[Auto Update Enabled]
+Автооновлення включено
+[Auto Update Disabled]
+Оновлення вимкнено
+[Weather Condition Changed]
+Weather: Погода змінилася
+[Weather Alert Issued]
+Weather: Погодне попередження
+[N/A]
+Недоступний
+[Invalid ID format, missing "/" (10)]
+Неправильний формат ID, немає "/" (10)
+[Invalid service (11)]
+Неправильний сервіс (11)
+[Invalid station (12)]
+Неправильний місто (12)
+[Weather service ini for this station is not found (20)]
+INI файл погоди для цієї станції не знайдений (20)
+[Netlib error - check your internet connection (30)]
+Помилка netlib - перевірте з'єднання з інтернетом (30)
+[Empty data is retrieved (40)]
+Отримані порожні дані (40)
+[Document not found (42)]
+Документ не знайдений (42)
+[Document too short to contain any weather data (43)]
+Документ, занадто короткий для і-ції про погоду (43)
+[Unknown error (99)]
+Невідома помилка (99)
+[HTTP Error: No content (204)]
+Помилка HTTP: Немає вмісту (204)
+[HTTP Error: Data moved (301)]
+Помилка HTTP: Дані переміщені (301)
+[HTTP Error: Use proxy (305)]
+Помилка HTTP: Використовуйте проксі (305)
+[HTTP Error: Temporary redirect (307)]
+Помилка HTTP: Тимчасовий редирект (307)
+[HTTP Error: Bad request (400)]
+Помилка HTTP: Неправильний запит (400)
+[HTTP Error: Unauthorized (401)]
+Помилка HTTP: Не дозволено (401)
+[HTTP Error: Payment required (402)]
+Помилка HTTP: Вимагається оплата (402)
+[HTTP Error: Forbidden (403)]
+Помилка HTTP: Заборонено (403)
+[HTTP Error: Not found (404)]
+Помилка HTTP: Не знайдено (404)
+[HTTP Error: Method not allowed (405)]
+Помилка HTTP: Метод недопустимий (405)
+[HTTP Error: Proxy authentication required (407)]
+Помилка HTTP: Потрібна авторизація на проксі (407)
+[HTTP Error: Gone (410)]
+Помилка HTTP: Зник (410)
+[HTTP Error: Internal server error (500)]
+Помилка HTTP: Внутрішня помилка сервера (500)
+[HTTP Error: Bad gateway (502)]
+Помилка HTTP: Неправильний шлюз (502)
+[HTTP Error: Service unavailable (503)]
+Помилка HTTP: Сервіс недоступний (503)
+[HTTP Error: Gateway timeout (504)]
+Помилка HTTP: Таймаут шлюзу (504)
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\nТемпература: %t\nОщущение: %f\nДавление: %p\nВетер: %i %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 днів:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Feel Like: %f\nPressure: %p\nWind: %i %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+Відчуття: %f\nДавление: %p\nВетер: %i %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 днів:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Weather Condition for %n as of %u]
+Стан погоди для %n %u
+[%c, %t (feel like %f) Wind: %i %w Humidity: %m]
+%c, %t (відчувається %f) Вітер: %i %w Вологість: %m
+[%n at %u: %c, %t (feel like %f) Wind: %i %w Humidity: %m]
+%n %u: %c, %t (відчувається %f) Вітер: %i %w Вологість: %m
+[%c, %t\nToday: High %h, Low %l]
+%c, %t\nСегодня: макс. %h, хв. %l
+[Temperature: %[Temperature]]
+
+[Current weather information for %s.]
+Поточна інформація про погоду для %s.
+[%s is now the default weather station]
+%s станція погоди за замовчанням
+[Weather Protocol]
+Протокол погоди
+[Please try again after weather update is completed.]
+Спробуйте після завершення оновлення інформації про погоду.
+[<Enter station name here>]
+<Введіть назву міста>
+[<Enter station ID here>]
+<Введіть ID міста>
+[Weather condition was not logged.]
+Журнал погоди не ведеться.
+[URL for The complete forcast have not been set. You can set it from the Edit Settings dialog.]
+URL повного прогнозу погоди не встановлено. Ви можете встановити його в налаштуваннях.
+[URL for The weather map have not been set. You can set it from the Edit Settings dialog.]
+
+[Get city name from ID]
+Отримати назва міста, ID
+[Weather INI information]
+Інформація про INI файлі погоди
+[Огляд]
+Огляд
+[View webpage]
+На сайт
+[Reset to default]
+За замовчанням
+[Text Files]
+Текстові файли
+[All Files]
+Всі файли
+[mb]
+мбар
+[in]
+дюйм
+[mm]
+мм
+[<unknown time>]
+<час не визначено>
+[<Error>]
+<Помилка>
+[HTTP Error %i]
+Помилка HTTP %i
+[<Enter city name here>]
+<Введіть назву міста>
+[Error when obtaining data: %s]
+Помилка при отриманні даних: %s
+[Weather HTTP connections]
+HTTP підключення Weather
+[Protocol icon]
+Значок протоколу
+[Update Disabled]
+Оновлення вимкнено
+[View Log]
+Журнал
+[Update with Clear]
+Видалити і оновити
+[View Brief]
+Короткий прогноз
+[View Complete]
+Повний прогноз
+[Weather Update]
+Оновлення прогнозу
+[Popup]
+Спливаючі вікна
+[No Popup]
+Без вікон
+[Edit Settings]
+Змінити налаштування
+[Name]
+Ім'я
+[Author]
+Автор
+[File Version]
+Версія файлу
+[INI Version]
+Версія ini
+[Items]
+Елементи
+[Display Name]
+Ім'я
+[File Name]
+Ім'я файлу
+[The corresponding INI-file for "%s \ " is not found.]
+Відповідний INI файл "%s" не знайдено.
+[Weather INI information for "%s":]
+Інформація про INI файлі погоди для "%s":
+[Name:]
+Ім'я:
+[Internal Name:]
+Внутрішнє ім'я:
+[Author:]
+Автор:
+[Версія:]
+Версія:
+[INI Version:]
+Версія INI:
+[File Name:]
+Ім'я файлу:
+[Item Count:]
+Пунктів:
+[Memory Used:]
+Розмір:
+[bytes]
+байт
+[Description:]
+Опис:
+[Here is a list of custom variables that are currently available]
+Список додаткових змінних, доступних на даний момент
+[No update data file is found. Please check your Plugins\\Weather directory.]
+
+[Invalid ini format for: %s]
+Власний формат ini для: %s
+[Update All data has been reloaded.]
+Всі оновлені дані перезавантажити.
+[Frame Font]
+Шрифт фрейму
+[Frame Title Font]
+Шрифт заголовка фрейму
+[Frame Background]
+Фон фрейму
+[Network]
+Мережа
+[General]
+Загальна
+[Display]
+Показувати
+[Popups]
+Спливаючі вікна
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c прогноз на сьогодні\n%d поточна дата\n%e роса\n%f відчуття\n%h максимум\n%i напрямок вітру\n%l мінімум\n%m вологість\n%n місто\n%p тиск\n%r схід\n%s ID міста\n%температура t\n%u оновлення\n%v видимість\n%w швидкість вітру\n%y захід сонця
+[Weather Protocol Preview Text]
+Перегляд протоколу погоди
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tпрогноз на сьогодні\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление вітру\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID міста\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость вітру\n%y\tзакат
+[%[..]\tcustom variables]
+%[..]\tсвои змінні
+[Station ID]
+ID міста
+[Disable &weather notification]
+Вимкнути сповіщення про зміну погоди
+[Enable &weather notification]
+Включити повідомлення про зміну погоди
+[Update Weather]
+Оновити погоду
+[Remove Old Data then Update]
+Видалити дані та оновити
+[Brief Information]
+Коротка інформація
+[Read Complete Forecast]
+Читати повний прогноз
+[Weather]
+Погода
+[Enable/Disable Weather Update]
+Вкл/Викл оновлення погоди
+[Update All Weather]
+Оновити погоду
+[Remove Old Data then Update All]
+Видалити дані і оновити всі
+[Weather Notification]
+Нагадування про погоду
+[Display in a frame]
+Показувати у фреймі
+[Unable to retrieve weather information for %s]
+Неможливо знайти інформацію про погоду для %s
+[Current condition for %n]
+Поточний стан для %n
+[Last update on: %u]
+Останнє оновлення: %u
+[Variable]
+Змінна
+[Information]
+Інформація
+[Retrieving new data, please wait...]
+Отримую нові дані. Зачекайте...
+[More Info]
+Детальніше
+[No information available.\r\nPlease update weather condition first.]
+Інформація недоступна.\r\nПопередньо оновіть дані про погоду.

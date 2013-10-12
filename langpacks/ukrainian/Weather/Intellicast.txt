@@ -1,0 +1,146 @@
+﻿;============================================================
+;  File: Intellicast.ini
+;  Module: weather
+;============================================================
+[Ceiling]
+Висота хмар
+[Mon]
+ПН
+[Tue]
+ВТ
+[Wed]
+СР
+[Thu]
+ЧТ
+[Fri]
+ПТ
+[Sat]
+СБ
+[Sun]
+НД
+[Full]
+Повнолуння
+[Sunny]
+Соняшно
+[Waning Crescent]
+Щербатий Місяць
+[Waning Gibbous]
+Щербатий Місяць
+[Waxing Crescent]
+Зростаючий Місяць
+[Waxing Gibbous]
+Зростаючий Місяць
+[Last Quarter]
+Остання чверть Місяця
+[First Quarter]
+Перша чверть Місяця
+[Partly Sunny]
+Місцями сонячно
+[Mostly Sunny]
+Переважно сонячно
+[Partly Cloudy]
+Місцями хмарно
+[Mostly Cloudy]
+Переважно хмарно
+[Mostly Clear]
+Переважно ясно
+[Scattered Thunderstorms]
+Рідкісні грози
+[Feel]
+Відчуття
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 2]
+Прогноз: День 2
+[Forecast Day 3]
+Прогноз: День 3
+[Forecast Day 4]
+Прогноз: День 4
+[Forecast Day 5]
+Прогноз: День 5
+[Forecast Day 6]
+Прогноз: День 6
+[Forecast Day 7]
+Прогноз: День 7
+[Forecast Day 8]
+Прогноз: День 8
+[Forecast Day 9]
+Прогноз: День 9
+[Forecast Day 10]
+Прогноз: День 10
+[Forecast today]
+Прогноз: сьогодні
+[Heat Index]
+Індекс спеки
+[Moon]
+Місяць
+[MoonRise]
+Місяць: схід
+[MoonSet]
+Місяць: захід
+[Update1]
+Оновити 1
+[Update2]
+Оновити 2
+[Wind Chill]
+З урахуванням вітру
+[Wind Direction]
+Вітер: напрям
+[Wind Speed]
+Вітер: швидкість
+[N]
+Пів.
+[W]
+Зах.
+[S]
+Півд.
+[E]
+Сх.
+[NW]
+Пів-Зах
+[NE]
+Пів-Сх
+[SW]
+Півд-Зах
+[SE]
+Півд-Сх
+[NNW]
+Пів-Пів-Зах
+[NNE]
+Пів-Пів-Сх
+[SSW]
+Півд-Півд-Зах
+[SSE]
+Півд-Півд-Сх
+[ENE]
+Сх-Пів-Сх
+[WSW]
+Зах-Півд-Зах
+[WNW]
+Зах-Пів-Зах
+[ESE]
+Сх-Півд-Сх
+[WindDir1]
+Вітер: напрям 1
+[WindDir2]
+Вітер: напрям 2
+[Broken Clouds]
+Малохмарно
+[Scattered Clouds]
+Змінна хмарність
+[North]
+Північ
+[East]
+Схід
+[South]
+Південь
+[West]
+Захід
+[Northwest]
+Північно-захід
+[Northeast]
+Північно-схід
+[Southwest]
+Південно-захід
+[Southeast]
+Південно-схід

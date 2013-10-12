@@ -1,11 +1,71 @@
 ﻿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
 ;============================================================
 ;  File: Cln_skinedit.dll
-;  Plugin: Allow inline skin item editing for clist nicer+
-;  Versions: 0.0.0.1
-;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:Cln_skinedit
-;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/Clist_nicer/skineditor/
+;  Plugin: Skin editor for clist nicer
+;  Version: 0.0.0.4
 ;  Authors: Nightwish, Pixel
 ;============================================================
-[Allows inline skin item editing for clist nicer+.]
-Редактор скінів для CList Nicer+.
+[Allows inline skin item editing for clist nicer.]
+Дозволяє inline редагування скинів для clist nicer.
+[Skin items]
+Елементи скіна
+[General]
+Загальна
+[Gradient]
+Градієнт
+[Left to right]
+Зліва направо
+[Right to left]
+Справа наліво
+[Top to bottom]
+Зверху вниз
+[Bottom to top]
+Знизу вгору
+[Round corners]
+Округлені кути
+[Top-Left]
+Вгорі зліва
+[Top-Right]
+Вгорі праворуч
+[Bottom-Right]
+Внизу праворуч
+[Bottom-Left]
+Внизу ліворуч
+[Item colors]
+Пункт кольорів
+[First color]
+Перший колір
+[Textcolor]
+Колір тексту
+[Second color]
+Другий колір
+[Transparent]
+Прозорий
+[Alpha (percent)]
+Альфа (%)
+[Item margins]
+Елемент поля
+[Item borders]
+Межі елемента
+[Border style]
+Стиль елементу
+[3D border (bright / dark)]
+3D стиль (світлий / темний)
+[Item ignored]
+Елемент ігнорується
+[Dialog]
+Діалог
+[Not yet supported]
+Не підтримується
+[Copy from]
+Копіювати від
+[<None>]
+Нічого
+[Raised]
+Підведений
+[Sunken]
+Втоплений
+[Bumped]
+Наткнувся
+[Etched]
+Гравірований

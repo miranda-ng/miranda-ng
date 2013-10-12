@@ -1,0 +1,141 @@
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Simple updater for Miranda NG premodified packs.]
+Простий плагін для оновлень зборок Miranda NG.
+[Updates found!]
+Знайдені оновлення!
+[Update]
+Оновити
+[View info]
+Подивитися інфо
+[Cancel]
+Скасувати
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+Були знайдені оновлені версії наступних компонентів:
+[Description]
+Опис
+[Downloading...]
+Завантаження...
+[Pack update options]
+Налаштування оновлення збірки
+[On startup]
+При запуску
+[Remind about not installed pack update]
+Нагадувати про невстановленому оновлення
+[Hotkey]
+Гаряча клавіша
+[Go to Customize -> Hotkeys to change the hotkey]
+Перейти у Тонкі налаштування -> Горячі клавіші для зміни
+[Notifications]
+Повідомлення
+[Message boxes]
+Діалоги
+[Errors]
+Помилки
+[Info messages]
+Інфо повідомлення
+[Progress dialogs]
+Діалоги прогресу
+[Every]
+Кожні
+[(but only once a day)]
+(але тільки 1 раз в день)
+[Message boxes (*)]
+Діалоги (*)
+[Back]
+Фон
+[Text]
+Текст
+[Colours]
+Кольори
+[Use cus&tom colors]
+Налаштувати кольору
+[Use &Windows colours]
+Кольори Windows
+[Use Pop&up colours]
+Кольори Pop&up
+[Preview]
+Тест
+[Click action]
+Дії по клацанню
+[On left click]
+Лівий клік
+[On right click]
+Правий клік
+[Timeout]
+Таймаут
+[0 = Default]
+0=Змовчання
+[-1 = Infinite]
+-1=Нескінченно
+[Sec]
+с.
+[* Needs popup actions to be enabled]
+* Необхідні включені дії вспл. вікон
+[Not sets for "Message boxes"]
+Не встановлює для "Діалоги"
+[Boxes]
+Вікна
+[Popups]
+Спливаючі вікна
+[Check pack for updates]
+Перевірити оновлення збірки
+[Pack Updater]
+Оновлення збірки
+[An error occured while downloading the update.]
+Під час завантаження оновлення сталася помилка.
+[Component Name]
+Ім'я компонента
+[Current Version]
+Поточна версія
+[New Version]
+Нова версія
+[Downloading pack updates...]
+Завантаження оновленої сборки...
+[Downloading update...]
+Завантаження оновлення...
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Оновлення завершені. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Оновлення завершено. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+Ви відмовилися від негайної установки оновлення збірки.\nВи можете встановити це оновлення вручну звідси:\n\n%s
+[Close popup]
+Закрити вікно
+[Do nothing]
+Нічого не робити
+[hours]
+годин(и)
+[days]
+днів
+[Test]
+Тест
+[Services]
+Служби
+[Clear pack updates folder]
+Очистити папку з оновленнями складання
+['Yes' Button]
+Кнопка 'Так'
+['No' Button]
+Кнопка 'Ні'
+[Pack Updater HTTP connection]
+HTTP підключення Pack Updater
+[URL for checking updates not found.]
+Посилання для перевірки оновлень не знайдено.
+[Downloading version info...]
+Завантаження інформації про версіях...
+[Name of Update s file is not supported.]
+Ім'я файлу оновлення не підтримується.
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Оновлення не можливо!\nВи не маєте адміністраторських прав.\nБудь ласка, запустіть Miranda NG з правами адміністратора.
+[No updates found.]
+Оновлень немає.
+[No files for update.]
+Немає файлів для оновлення.
+[Update checking already started!]
+Оновлення вже запущено!
