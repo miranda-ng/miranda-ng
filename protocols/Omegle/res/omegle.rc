@@ -53,45 +53,42 @@ END
 // remains consistent on all systems.
 IDI_OMEGLE              ICON                    "omegle.ico"
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_OPTIONS DIALOGEX 0, 0, 316, 248
+IDD_OPTIONS DIALOGEX 0, 0, 316, 235
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Server:",IDC_STATIC,24,9,56,8,0,WS_EX_RIGHT
-    COMBOBOX        IDC_SERVER,84,7,74,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Language:",IDC_STATIC,162,9,56,8,0,WS_EX_RIGHT
-	COMBOBOX        IDC_LANGUAGE,222,7,74,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Visible name:",IDC_STATIC,24,25,56,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_NAME,84,22,74,14,ES_AUTOHSCROLL
+    LTEXT           "Server:",IDC_STATIC,14,9,64,8,0,WS_EX_RIGHT
+    COMBOBOX        IDC_SERVER,84,7,79,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Language:",IDC_STATIC,172,9,50,8,0,WS_EX_RIGHT
+    COMBOBOX        IDC_LANGUAGE,228,7,74,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Visible name:",IDC_STATIC,14,25,64,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_NAME,84,22,79,14,ES_AUTOHSCROLL
     CONTROL         "Meet strangers with common interests (separated by commas):",IDC_MEET_COMMON,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,39,272,10
-    EDITTEXT        IDC_INTERESTS,24,49,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,39,288,10
+    EDITTEXT        IDC_INTERESTS,14,49,288,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
     CONTROL         "Automatically send this message to stranger after connection:",IDC_HI_ENABLED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,72,272,10
-    EDITTEXT        IDC_HI_MESSAGE,24,82,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
-    LTEXT           "This text will be sent when you use ""/asl"" message:",IDC_STATIC,24,105,272,8
-    EDITTEXT        IDC_ASL_MESSAGE,24,114,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
-    LTEXT           "Last used question (Question mode):",IDC_STATIC,24,136,272,8
-    EDITTEXT        IDC_LAST_QUESTION,24,145,272,20,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,72,288,10
+    EDITTEXT        IDC_HI_MESSAGE,14,82,288,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "This text will be sent when you use ""/asl"" message:",IDC_STATIC,14,105,288,8
+    EDITTEXT        IDC_ASL_MESSAGE,14,114,288,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Last used question (Question mode):",IDC_STATIC,14,136,288,8
+    EDITTEXT        IDC_LAST_QUESTION,14,145,288,20,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
     CONTROL         "I want Omegle to reuse my questions if they are good enough (Question mode)",IDC_REUSE_QUESTIONS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,167,272,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,167,288,10
     CONTROL         "Automatically connect to stranger when protocol is turned online",IDC_AUTO_CONNECT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,180,272,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,180,288,10
     CONTROL         "Automatically connect to another stranger when current disconnects",IDC_DONTSTOP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,192,272,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,192,288,10
     CONTROL         "Don't clear chat before connecting to new stranger",IDC_NOCLEAR,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,204,272,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,204,288,10
     CONTROL         "Load count of users on actual server after connection",IDC_SERVER_INFO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,216,272,10
-    CONTROL         "Enable logging for debugging purposes",IDC_LOGGING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,228,272,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,216,288,10
 END
 
 IDD_OmegleACCOUNT DIALOGEX 0, 0, 186, 134
@@ -120,22 +117,25 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OmegleACCOUNT, DIALOG
-    BEGIN
-        VERTGUIDE, 60
-        VERTGUIDE, 185
-    END
-
     IDD_OPTIONS, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 309
-        VERTGUIDE, 24
+        VERTGUIDE, 14
+        VERTGUIDE, 78
         VERTGUIDE, 84
+        VERTGUIDE, 163
+        VERTGUIDE, 172
         VERTGUIDE, 214
-        VERTGUIDE, 296
+        VERTGUIDE, 302
         TOPMARGIN, 7
-        BOTTOMMARGIN, 241
+        BOTTOMMARGIN, 228
+    END
+
+    IDD_OmegleACCOUNT, DIALOG
+    BEGIN
+        VERTGUIDE, 60
+        VERTGUIDE, 185
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -150,7 +150,8 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
+
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

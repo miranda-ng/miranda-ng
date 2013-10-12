@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Development\Miranda NG\protocols\Omegle\res\omegle.rc
+// Used by ..\res\omegle.rc
 //
 #define IDI_OMEGLE                      101
 #define IDD_OmegleACCOUNT               111
@@ -18,7 +18,6 @@
 #define IDC_NOCLEAR                     1213
 #define IDC_DONTSTOP                    1214
 #define IDC_REUSE_QUESTIONS             1215
-#define IDC_LOGGING                     1216
 #define IDC_SERVER_INFO                 1217
 #define IDC_AUTO_CONNECT                1219
 

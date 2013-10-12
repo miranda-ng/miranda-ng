@@ -37,7 +37,7 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 		nlhr.dataLength = (int)request_data->length( );
 	}
 
-	parent->Log("@@@@@ Sending request to '%s'", nlhr.szUrl);
+	parent->debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
 
 	switch ( request_type )
 	{
@@ -78,16 +78,16 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 
 	if ( pnlhr != NULL )
 	{
-		parent->Log("@@@@@ Got response with code %d", pnlhr->resultCode);
+		parent->debugLogA("@@@@@ Got response with code %d", pnlhr->resultCode);
 		store_headers( &resp, pnlhr->headers, pnlhr->headersCount );
 		resp.code = pnlhr->resultCode;
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
 
-		parent->Log("&&&&& Got response: %s", resp.data.c_str());
+		parent->debugLogA("&&&&& Got response: %s", resp.data.c_str());
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
 	} else {
-		parent->Log("!!!!! No response from server (time-out)");
+		parent->debugLogA("!!!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;
 		// Better to have something set explicitely as this value
 	    // is compaired in all communication requests
@@ -98,13 +98,13 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 
 bool Omegle_client::handle_entry( std::string method )
 {
-	parent->Log("   >> Entering %s()", method.c_str());
+	parent->debugLogA("   >> Entering %s()", method.c_str());
 	return true;
 }
 
 bool Omegle_client::handle_success( std::string method )
 {
-	parent->Log("   << Quitting %s()", method.c_str());
+	parent->debugLogA("   << Quitting %s()", method.c_str());
 	reset_error();
 	return true;
 }
@@ -113,7 +113,7 @@ bool Omegle_client::handle_error( std::string method, bool force_disconnect )
 {
 	bool result;
 	increment_error();
-	parent->Log("!!!!! %s(): Something with Omegle went wrong", method.c_str());
+	parent->debugLogA("!!!!! %s(): Something with Omegle went wrong", method.c_str());
 
 	if ( force_disconnect )
 		result = false;
@@ -310,7 +310,7 @@ void Omegle_client::store_headers( http::response* resp, NETLIBHTTPHEADER* heade
 		std::string header_value = headers[i].szValue;
 
 		// TODO RM: (un)comment
-		//parent->Log("----- Got header '%s': %s", header_name.c_str(), header_value.c_str());
+		//parent->debugLogA("----- Got header '%s': %s", header_name.c_str(), header_value.c_str());
 		resp->headers[header_name] = header_value;
 	}
 }
@@ -322,7 +322,7 @@ bool Omegle_client::start()
 	handle_entry( "start" );
 
 	this->server_ = get_server();
-	//parent->Log("Chosing server %s", this->server_.c_str());
+	//parent->debugLogA("Chosing server %s", this->server_.c_str());
 	//std::string log = Translate("Chosing server: ") + this->server_;
 	//parent->UpdateChat(NULL, log.c_str());
 
@@ -374,7 +374,7 @@ bool Omegle_client::start()
 				data += "\"" + topic + "\"";			
 			}
 
-			parent->Log("TOPICS: %s", data.c_str());
+			parent->debugLogA("TOPICS: %s", data.c_str());
 
 			if (!data.empty()) {
 				data = "[" + data + "]";
@@ -548,7 +548,7 @@ bool Omegle_client::events( )
 			std::string like = resp.data.substr(pos, resp.data.find("\"]", pos) - pos);
 			utils::text::replace_all(&like, "\", \"", ", ");
 
-			parent->Log("Got common likes: '%s'", like.c_str());
+			parent->debugLogA("Got common likes: '%s'", like.c_str());
 
 			like = Translate("You and the Stranger both like: ") + like;
 
@@ -700,10 +700,10 @@ bool Omegle_client::events( )
 					std::string *message = new std::string(dbv.pszVal);
 					db_free(&dbv);
 	
-					parent->Log("**Chat - saying Hi! message");
+					parent->debugLogA("**Chat - saying Hi! message");
 					parent->ForkThread(&OmegleProto::SendMsgWorker, message);
 				}
-				else parent->Log("**Chat - Hi message is enabled but not used");
+				else parent->debugLogA("**Chat - Hi message is enabled but not used");
 			}
 		}
 

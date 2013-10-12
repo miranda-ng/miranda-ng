@@ -141,7 +141,4 @@ public:
 	HANDLE  events_loop_lock_;
 
 	static void CALLBACK APC_callback(ULONG_PTR p);
-
-	// Logging
-	int Log(const char *fmt,...);
 };

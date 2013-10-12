@@ -54,7 +54,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
-#include <m_protomod.h>
 #include <m_skin.h>
 #include <statusmodes.h>
 #include <m_icolib.h>
@@ -66,8 +65,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 class OmegleProto;
-
-#define LOG Log
 
 #include "http.h"
 #include "utils.h"

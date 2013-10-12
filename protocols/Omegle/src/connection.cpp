@@ -26,7 +26,7 @@ void OmegleProto::SignOn(void*)
 {
 	SYSTEMTIME t;
 	GetLocalTime( &t );
-	Log("[%d.%d.%d] Using Omegle Protocol %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING);
+	debugLogA("[%d.%d.%d] Using Omegle Protocol %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING);
 	
 	ScopedLock s(signon_lock_);
 
@@ -80,9 +80,9 @@ void OmegleProto::StopChat(bool disconnect)
 			UpdateChat(NULL, TranslateT("Disconnecting..."), true);
 
 			if (facy.stop())
-				LOG("***** Disconnected from stranger %s", facy.chat_id_.c_str());
+				debugLogA("***** Disconnected from stranger %s", facy.chat_id_.c_str());
 			else
-				LOG("***** Error in disconnecting from stranger %s", facy.chat_id_.c_str());			
+				debugLogA("***** Error in disconnecting from stranger %s", facy.chat_id_.c_str());			
 		}		
 
 		if (spy) {
@@ -115,9 +115,9 @@ void OmegleProto::NewChat()
 		UpdateChat(NULL, TranslateT("Disconnecting..."), true);
 
 		if (facy.stop())
-			LOG("***** Disconnected from stranger %s", facy.chat_id_.c_str());
+			debugLogA("***** Disconnected from stranger %s", facy.chat_id_.c_str());
 		else
-			LOG("***** Error in disconnecting from stranger %s", facy.chat_id_.c_str());
+			debugLogA("***** Error in disconnecting from stranger %s", facy.chat_id_.c_str());
 
 		if (facy.state_ == STATE_SPY) {
 			DeleteChatContact(TranslateT("Stranger 1"));
@@ -137,7 +137,7 @@ void OmegleProto::NewChat()
 		if (facy.start())
 		{		
 			UpdateChat(NULL, TranslateT("Waiting for Stranger..."), true);
-			LOG("***** Waiting for stranger %s", facy.chat_id_.c_str());
+			debugLogA("***** Waiting for stranger %s", facy.chat_id_.c_str());
 		}
 	}
 	else if (facy.state_ == STATE_DISCONNECTING)
@@ -155,7 +155,7 @@ void OmegleProto::NewChat()
 		if (facy.start())
 		{		
 			UpdateChat(NULL, TranslateT("Waiting for Stranger..."), true);
-			LOG("***** Waiting for stranger %s", facy.chat_id_.c_str());
+			debugLogA("***** Waiting for stranger %s", facy.chat_id_.c_str());
 
 			ForkThread( &OmegleProto::EventsLoop, this );
 		}
@@ -168,15 +168,15 @@ void OmegleProto::EventsLoop(void *)
 	ScopedLock s(events_loop_lock_);
 
 	time_t tim = ::time(NULL);
-	LOG( ">>>>> Entering Omegle::EventsLoop[%d]", tim );
+	debugLogA( ">>>>> Entering Omegle::EventsLoop[%d]", tim );
 
 	while ( facy.events())
 	{
 		if ( facy.state_ == STATE_INACTIVE || facy.state_ == STATE_DISCONNECTING || !isOnline())
 			break;
-		LOG( "***** OmegleProto::EventsLoop[%d] refreshing...", tim );
+		debugLogA( "***** OmegleProto::EventsLoop[%d] refreshing...", tim );
 	}
 
 	ResetEvent(events_loop_lock_);
-	LOG( "<<<<< Exiting OmegleProto::EventsLoop[%d]", tim );
+	debugLogA( "<<<<< Exiting OmegleProto::EventsLoop[%d]", tim );
 }

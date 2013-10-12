@@ -176,7 +176,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 			// Outgoing message
 
 			case STATE_ACTIVE:
-				LOG("**Chat - Outgoing message: %s", text.c_str());
+				debugLogA("**Chat - Outgoing message: %s", text.c_str());
 				ForkThread(&OmegleProto::SendMsgWorker, new std::string(text));
 				break;
 
