@@ -8,10 +8,7 @@ TOptions Options = {
 };
 
 
-int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
-
-	TCHAR str[64];
-
+INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 		case WM_INITDIALOG: {
 			TranslateDialogDefault(hwndDlg);
@@ -20,7 +17,8 @@ int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_SETRANGE, FALSE, MAKELONG(1,32));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_SETPOS, TRUE, Options.SnapWidth);
 			
-			wsprintf(str, TranslateT("%d pix"), Options.SnapWidth);
+			TCHAR str[64];
+			mir_sntprintf(str, SIZEOF(str),TranslateT("%d pix"), Options.SnapWidth);
 			SetDlgItemText(hwndDlg, IDC_TXT_SNAPWIDTH, str);
 			
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_SNAPWIDTH), Options.DoSnap);
@@ -30,8 +28,9 @@ int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			
 			break;		
 		}
-		case WM_HSCROLL: {		
-			mir_snwprintf(str, 64, TranslateT("%d pix"), SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0));
+		case WM_HSCROLL: {
+			TCHAR str[64];		
+			mir_sntprintf(str, SIZEOF(str), TranslateT("%d pix"), SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0));
 			SetDlgItemText(hwndDlg, IDC_TXT_SNAPWIDTH, str);
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -44,8 +43,6 @@ int CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			switch(idCtrl) {
 				case IDC_CHK_SNAP: {
 					if (wNotifyCode == BN_CLICKED) {
-						
-					
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_SNAPWIDTH), IsDlgButtonChecked(hwndDlg, IDC_CHK_SNAP));
 						EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_SNAPWIDTH), IsDlgButtonChecked(hwndDlg, IDC_CHK_SNAP));
 	
@@ -101,20 +98,12 @@ int InitOptions(WPARAM wParam, LPARAM) {
 	OPTIONSDIALOGPAGE Opt = { 0 };
 
 	Opt.cbSize = sizeof(Opt);
-//	Opt.position = 0;
 	Opt.pfnDlgProc = OptionsDlgProc;
 	Opt.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAGNETICWINDOWS);
 	Opt.hInstance = hInst;
-//	Opt.hIcon = 0;
 	Opt.pszGroup = LPGEN("Customize");
 	Opt.pszTitle = LPGEN("Magnetic Windows");
-//	Opt.groupPosition = 0;
-//	Opt.hGroupIcon = 0;
 	Opt.flags = ODPF_BOLDGROUPS;
-//	Opt.nIDBottomSimpleControl = 0;
-//	Opt.nIDRightSimpleControl = 0;
-//	Opt.expertOnlyControls = NULL;
-//	Opt.nExpertOnlyControls = 0;
 
 	Options_AddPage(wParam, &Opt);
 	
@@ -122,7 +111,7 @@ int InitOptions(WPARAM wParam, LPARAM) {
 }
 
 void LoadOptions() {
-	Options.DoSnap = db_get_b(NULL, MODULE_NAME, "DoSnap", TRUE);
+	Options.DoSnap = db_get_b(NULL, MODULE_NAME, "DoSnap", 1) != 0;
 	Options.SnapWidth = db_get_b(NULL, MODULE_NAME, "SnapWidth", cDefaultSnapWidth);
-	Options.ScriverWorkAround = db_get_b(NULL, MODULE_NAME, "ScriverWorkAround", FALSE);
+	Options.ScriverWorkAround = db_get_b(NULL, MODULE_NAME, "ScriverWorkAround", 0) != 0;
 }

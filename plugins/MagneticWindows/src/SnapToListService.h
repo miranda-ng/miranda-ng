@@ -2,4 +2,4 @@
 
 extern HANDLE hSnapToListService;
 
-int SnapToList(WPARAM, LPARAM);
+INT_PTR SnapToList(WPARAM, LPARAM);

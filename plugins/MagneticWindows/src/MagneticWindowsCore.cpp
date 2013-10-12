@@ -16,22 +16,18 @@ TWorkingVariables Globals = {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 int Abs(int a) {
-	if (a < 0) return (-a);
-	return a;
+	return (a<0) ? -a : a;
 }
 
 
 PDockingWindow FindDockingWindow(HWND hWnd) {
-	PDockingWindow i;
-
-	i = Globals.WindowList;
+	PDockingWindow i = Globals.WindowList;
 	
 	while (i != NULL) {
-	
 		if (i->hWnd == hWnd) return i;
 
 		i = i->Next;
-	};
+	}
 
 	return NULL;
 }
@@ -39,24 +35,19 @@ PDockingWindow FindDockingWindow(HWND hWnd) {
 
 void DockWindowRect(HWND hWnd, bool Sizing, RECT& GivenRect, int SizingEdge, int MouseX = 0, int MouseY = 0) {
 	POINT p;
-	int diffX, diffY;
-	RECT tmpRect, frmRect;
 	int W, H; 
 	int XPos, YPos;
 	int tmpXPos, tmpYPos;
 	int tmpMouseX, tmpMouseY;
-	bool FoundX, FoundY;
 
 	PRectList ActRect;
 
-	diffX = Options.SnapWidth;
-	diffY = Options.SnapWidth;
+	int diffX = Options.SnapWidth, diffY = Options.SnapWidth;
 
-	tmpRect = GivenRect;
-	frmRect = GivenRect;
+	RECT tmpRect = GivenRect;
+	RECT frmRect = GivenRect;
 
-	FoundX = false;
-	FoundY = false;
+	bool FoundX = false, FoundY = false;
 
 	if (!Sizing) {
 		GetCursorPos(&p);
@@ -290,8 +281,8 @@ void DockWindowRect(HWND hWnd, bool Sizing, RECT& GivenRect, int SizingEdge, int
 
 
 void GetFrmRects(HWND ForWindow) {
-PDockingWindow i;
-PRectList Rect, l;
+	PDockingWindow i;
+	PRectList Rect, l;
 
 	Rect = Globals.Rects;
 	while (Rect != NULL) {
@@ -326,16 +317,12 @@ PRectList Rect, l;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {
-	PDockingWindow i;
-
 	RECT r;
 	POINT p;
 
-	WNDPROC OldRun;
-
-	i = FindDockingWindow(hWnd);
+	PDockingWindow i = FindDockingWindow(hWnd);
 	
-	OldRun = NULL;
+	WNDPROC OldRun = NULL;
 
 	if (i != NULL) {  //else we have a problem
 		OldRun = i->OldWindowProc;
@@ -408,11 +395,11 @@ bool WindowOpen(HWND hWnd) {
 		Globals.WindowList = i;
 
 		if (IsWindowUnicode(hWnd)) {
-			i->OldWindowProc = (WNDPROC) GetWindowLongW(hWnd, GWL_WNDPROC);
-			SetWindowLongW(hWnd, GWL_WNDPROC, (LONG)(&WindowProc));
+			i->OldWindowProc = (WNDPROC) GetWindowLongPtrW(hWnd, GWLP_WNDPROC);
+			SetWindowLongPtrW(hWnd, GWLP_WNDPROC, (LONG_PTR)(&WindowProc));
 		} else {
-			i->OldWindowProc = (WNDPROC) GetWindowLongA(hWnd, GWL_WNDPROC);
-			SetWindowLongA(hWnd, GWL_WNDPROC, (LONG)(&WindowProc));
+			i->OldWindowProc = (WNDPROC) GetWindowLongPtrA(hWnd, GWLP_WNDPROC);
+			SetWindowLongPtrA(hWnd, GWLP_WNDPROC, (LONG_PTR)(&WindowProc));
 		}
 
 		return true;
@@ -439,9 +426,9 @@ bool WindowClose(HWND hWnd) {
 		}
 
 		if (IsWindowUnicode(hWnd)) {
-			SetWindowLongW(hWnd, GWL_WNDPROC, (LONG) (i->OldWindowProc));
+			SetWindowLongPtrW(hWnd, GWLP_WNDPROC, (LONG_PTR) (i->OldWindowProc));
 		} else  {
-			SetWindowLongA(hWnd, GWL_WNDPROC, (LONG) (i->OldWindowProc));
+			SetWindowLongPtrA(hWnd, GWLP_WNDPROC, (LONG_PTR) (i->OldWindowProc));
 		}
 		
 		mir_free(i);

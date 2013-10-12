@@ -12,7 +12,7 @@ extern HANDLE hInitOptionsHook;
 extern TOptions Options;
 
 
-int CALLBACK OptionsDlgProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK OptionsDlgProc(HWND, UINT, WPARAM, LPARAM);
 
 int InitOptions(WPARAM, LPARAM);
 void LoadOptions();

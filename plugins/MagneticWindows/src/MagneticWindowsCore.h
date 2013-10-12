@@ -8,7 +8,6 @@
 #include <m_message.h>
 #include <m_system.h>
 #include <m_options.h>
-// #include "../include/m_plugins.h"
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_MagneticWindows.h>

@@ -43,25 +43,22 @@ int hLangpack;
 
 
 //For other Plugins to start snapping for other Windows
-int SnapPluginWindowStart(WPARAM wParam, LPARAM lParam) {
-
+INT_PTR SnapPluginWindowStart(WPARAM wParam, LPARAM) {
 	if (!WindowOpen((HWND)wParam)) return 1;
 
 	return 0;
 }
 //For other Plugins to stop snapping for other Windows
-int SnapPluginWindowStop(WPARAM wParam, LPARAM lParam) {
-
+INT_PTR SnapPluginWindowStop(WPARAM wParam, LPARAM) {
 	if (!WindowClose((HWND)wParam)) return 1;
 
 	return 0;
 }
 
-int PluginMessageWindowEvent(WPARAM wParam, LPARAM lParam) {
-	MessageWindowEventData* Data;
+int PluginMessageWindowEvent(WPARAM, LPARAM lParam) {
 	HWND hWndParent, hWnd;
 
-	Data = (MessageWindowEventData*)(lParam);
+	MessageWindowEventData *Data = (MessageWindowEventData*) lParam;
 	
 	switch (Data->uType) {
 		case MSG_WINDOW_EVT_OPEN: 
@@ -93,8 +90,7 @@ int PluginMessageWindowEvent(WPARAM wParam, LPARAM lParam) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int SnapPluginStart(WPARAM wParam, LPARAM lParam) {
-
+int SnapPluginStart(WPARAM, LPARAM) {
 	LoadOptions();
 
 	hWindowEventHook = HookEvent(ME_MSG_WINDOWEVENT, PluginMessageWindowEvent);
@@ -103,7 +99,7 @@ int SnapPluginStart(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int SnapPluginShootDown(WPARAM wParam, LPARAM lParam) {
+int SnapPluginShootDown(WPARAM, LPARAM) {
 	UnhookEvent(hWindowEventHook);
 	UnhookEvent(hLoadedHook);
 	UnhookEvent(hShootDownHook);
@@ -128,7 +124,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 	
@@ -143,7 +139,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload()
 {
 	return 0;
 }
