@@ -67,7 +67,7 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 		return false;
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
-	pReq->flags = NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (bSecure)
 		pReq->flags |= NLHRF_SSL;
 
