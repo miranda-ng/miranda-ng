@@ -64,7 +64,7 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 
 			if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE)
 			{
-				if (MessageBox(NULL, TranslateT("An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneousley!\nContinue?"),
+				if (MessageBox(NULL, TranslateT("An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?"),
 					PRODUCT_NAME, MB_YESNO) == IDYES)
 				{
 					proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string());
