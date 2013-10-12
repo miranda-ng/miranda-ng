@@ -127,7 +127,7 @@
 [Service Discovery]
 [View as tree]
 [View as list]
-[Favourites]
+[Favorites]
 [Refresh]
 [Node:]
 [Account type:]

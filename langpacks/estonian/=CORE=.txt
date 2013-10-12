@@ -811,7 +811,7 @@ Sündmused
 ;file \src\core\stdfile\filerecvdlg.cpp
 [View User's History]
 Vaata kasutaja ajalugu
-[Cancelled]
+[Canceled]
 Tühistatud
 ;file \src\core\stdfile\filesenddlg.cpp
 ;file \src\core\stdfile\filexferdlg.cpp

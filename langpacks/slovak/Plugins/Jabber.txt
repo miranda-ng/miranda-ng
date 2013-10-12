@@ -368,7 +368,7 @@ Prezívka:
 
 [View as list]
 
-[Favourites]
+[Favorites]
 
 [Refresh]
 

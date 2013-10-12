@@ -62,7 +62,7 @@ Pas de popup pour les contacts RSS
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [You were added!]
 Vous avez été ajouté !
-[Requests your authorisation]
+[Requests your authorization]
 Demande votre autorisation
 [ICQ Email express]
 e-mail express ICQ

@@ -232,7 +232,7 @@ Idõ:
 századmásodperc
 [Hide vertical scroll bar]
 Függõleges görgõ elrejtése
-[Grey out entire list when:]
+[Gray out entire list when:]
 Teljes lista kiszürkítése, ha:
 [Contact List Background]
 Kapcsolati lista háttér

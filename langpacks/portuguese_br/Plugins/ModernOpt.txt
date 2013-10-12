@@ -59,7 +59,7 @@ Mude o visual do Miranda NG BR de acordo com seu gosto.
 Contatos
 [Contacts]
 Contatos
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Configure o comportamente de sua lista de contatos
 [Customize look&&feel of your chat windows here.]
 Personalize o visual de sua janela de mensagens aqui

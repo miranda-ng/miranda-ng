@@ -10,7 +10,7 @@
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Прозрачност:
-[Window behaviour:]
+[Window behavior:]
 Поведение на прозореца:
 [List sorting:]
 Сортиране на списъка:
@@ -186,7 +186,7 @@
 Акаунти на ред
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * За увеличаване височината на лентата: Главно меню>Рамки >Лента за състояние>Показване на името, след което влачете появилото се име нагоре/надолу.
-[Hold [Shift] to inverse [Right Click] behaviour]
+[Hold [Shift] to inverse [Right Click] behavior]
 "Shift"+"Десен бутон" = Главно меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 "Ctrl"+"Ляв бутон" филтрира протоkола. За отмяна натиснете в/у празно място
@@ -274,7 +274,7 @@
 % от екрана
 [Size upwards]
 Оразмеряване нагоре
-[Behaviour]
+[Behavior]
 Поведение
 [Lock manual resize]
 Без ръчно оразмеряване

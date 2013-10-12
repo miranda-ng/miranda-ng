@@ -1,11 +1,11 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
-;  Plugin: Favourite contacts
+;  Plugin: Favorite contacts
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-[Favourite contacts menu.]
+[Favorite contacts menu.]
 Меню абраных кантактаў.
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
@@ -28,7 +28,7 @@
 Меню па гарачай кн. у цэнтры экрана 
 [Menu item preview:]
 Прадпрагляд меню:
-[Favourite Contacts]
+[Favorite Contacts]
 Абраныя кантакты
 [Enable groups]
 Уключыць групы
@@ -48,7 +48,7 @@
 [<no group>]
 <няма групы>
 ;file \plugins\FavContacts\src\main.cpp
-[Favourite Contact]
+[Favorite Contact]
 Абраны кантакт
 [Regular Contact]
 Звычайны кантакт
@@ -64,11 +64,11 @@
 Фон
 [Selected background]
 Фон вылучэння
-[Show favourite contacts]
+[Show favorite contacts]
 Паказаць абраныя кантакты
 [Contacts]
 Кантакты
-[Favourites]
+[Favorites]
 Абраныя
-[&Favourite Contacts...]
+[&Favorite Contacts...]
 Абраныя кантакты

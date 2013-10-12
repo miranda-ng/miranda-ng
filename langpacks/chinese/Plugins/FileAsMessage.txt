@@ -49,7 +49,7 @@
 发送成功
 [Incoming file request. Do you want to proceed?]
 收到文件请求. 您是否想继续?
-[Cancelled by remote user]
+[Canceled by remote user]
 已由远程用户取消
 [New incoming file request. Do you want to proceed?]
 新到文件请求. 您是否想继续?
@@ -67,7 +67,7 @@
 另存为
 [Can't get a file size]
 无法获得文件大小
-[Cancelled by user]
+[Canceled by user]
 用户已取消
 [Transfer is in progress. Do you really want to close?]
 正在传输中. 您真想关闭?

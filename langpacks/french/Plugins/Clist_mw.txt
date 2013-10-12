@@ -170,7 +170,7 @@ Durée :
 millisecondes
 [Left margin:]
 Marge gauche :
-[Grey out entire list when:]
+[Gray out entire list when:]
 Griser toute la liste quand :
 [Dim idle contacts]
 Estomper les contacts inactifs

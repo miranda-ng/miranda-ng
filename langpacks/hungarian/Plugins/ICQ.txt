@@ -120,7 +120,7 @@ Elsõdleges e-mail címem megtekintésének engedélyezése
 Válasz csak a kapcsolati listámon szereplõ felhasználók állapotüzenet kéréseire
 [Only reply to status message request from visible contacts]
 Válasz csak látható partnerek állapotüzenet kéréseire
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Néhány beállítás szürke, mert azokat csak online módban tudod módosítani.
 [Options]
 Beállítások
@@ -180,7 +180,7 @@ Cég:
 Részleg:
 [Position:]
 Pozíció:
-[Organisation:]
+[Organization:]
 Szervezet:
 [Location]
 Helyzet

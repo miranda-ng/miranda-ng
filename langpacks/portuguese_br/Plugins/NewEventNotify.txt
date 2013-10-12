@@ -30,7 +30,7 @@ Editar
 Contatos
 [Contacts]
 Contatos
-[Requests your authorisation]
+[Requests your authorization]
 Seus pedidos de autorização
 [ICQ Web pager]
 ICQ Web pager

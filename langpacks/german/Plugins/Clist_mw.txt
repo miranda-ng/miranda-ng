@@ -196,7 +196,7 @@ Zeit:
 Millisekunden
 [Left margin:]
 Linker Rand:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Liste grau färben, wenn:
 [Dim idle contacts]
 Inaktive Kontakte abblenden

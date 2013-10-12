@@ -268,7 +268,7 @@ Zeit:
 Millisekunden
 [Hide vertical scroll bar]
 Vertikale Bildlaufleiste ausblenden
-[Grey out entire list when:]
+[Gray out entire list when:]
 Liste grau färben, wenn:
 [Contact List Background]
 Hintergrund der Kontaktliste

@@ -176,7 +176,7 @@ Tid:
 millisekunder
 [Left margin:]
 Venstremargin
-[Grey out entire list when:]
+[Gray out entire list when:]
 Grå ut hele listen når:
 [Dim idle contacts]
 Utydeliggjør inaktive kontakter

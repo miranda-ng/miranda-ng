@@ -236,7 +236,7 @@ Clist Nicer+
 ミリ秒
 [Hide vertical scroll bar]
 垂直方向のスクロールバーを非表示
-[Grey out entire list when:]
+[Gray out entire list when:]
 リスト全体を灰色表示する :
 [Contact List Background]
 コンタクトリストの背景

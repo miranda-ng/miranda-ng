@@ -748,7 +748,7 @@ Høyreklikkvalg (kun popups)
 Timeout handlinger (kun popups)
 [Remove popups under following conditions]
 Fjern popups under følgende forhold
-[Message window behaviour]
+[Message window behavior]
 Meldingsvindu oppførsel
 [Sending messages]
 Sende meldinger

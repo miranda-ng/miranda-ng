@@ -232,7 +232,7 @@ Tid:
 millisekunder
 [Hide vertical scroll bar]
 Skjul vertikal scroll bar
-[Grey out entire list when:]
+[Gray out entire list when:]
 Grå ut hele listen når:
 [Contact List Background]
 Kontaktliste bakgrunn

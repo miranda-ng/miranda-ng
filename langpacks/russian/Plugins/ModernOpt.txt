@@ -16,7 +16,7 @@
 Настройте учётные записи для начала общения.
 [Change the look of Miranda NG according to your taste.]
 Изменяйте внешний вид программы на свой вкус.
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Настройте поведение вашего списка контактов.
 [Customize look&&feel of your chat windows here.]
 Настройте внешний вид вашего окна беседы.
@@ -30,7 +30,7 @@
 У вас есть не сохранённые изменения.\n Хотите ли вы их применить перед переключением?
 [Addons]
 Плагины
-[Window behaviour:]
+[Window behavior:]
 Поведение списка:
 [Status bar:]
 Панель статуса:

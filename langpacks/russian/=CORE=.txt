@@ -349,7 +349,7 @@ ANSI плагин
 Отмена
 [Cancel]
 Отмена
-[Cancelled]
+[Canceled]
 Отменённые
 [Change %s Message]
 Изменить сообщение "%s"
@@ -727,7 +727,7 @@ URL:
 Входящий URL
 [Incoming]
 Входящие
-[Initialising...]
+[Initializing...]
 Инициализация...
 [Insert separator]
 Вставить разделитель
@@ -2425,7 +2425,7 @@ Miranda не смогла загрузить встроенную систему
 Показывать форматирование
 [Save the window position for each contact]
 Сохранять позицию окна для каждого контакта
-[Message window behaviour:]
+[Message window behavior:]
 Поведение окна сообщений:
 [Messaging:]
 Сообщения:

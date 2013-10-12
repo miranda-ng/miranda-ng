@@ -172,7 +172,7 @@
 מילישניות:
 [Left margin:]
 לשמאל:
-[Grey out entire list when:]
+[Gray out entire list when:]
 האפר את כל הרשימה כש:
 [Dim idle contacts]
 הקהה אנשי קשר בלתי פעילים

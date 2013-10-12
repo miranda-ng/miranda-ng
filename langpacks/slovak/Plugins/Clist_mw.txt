@@ -196,7 +196,7 @@ Plynule posúvať zoznam
 milisekúnd
 [Left margin:]
 јavý okraj
-[Grey out entire list when:]
+[Gray out entire list when:]
 Potlačiť intenzitu u týchto položiek:
 [Dim idle contacts]
 

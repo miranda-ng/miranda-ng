@@ -11,7 +11,7 @@
 Быстрая смена статусов и предустановленных сообщений статуса.
 [Simple Status Message]
 Сообщение статуса
-[Behaviour on status change]
+[Behavior on status change]
 Поведение при изменении статуса
 [Global status change]
 Глобальный статус

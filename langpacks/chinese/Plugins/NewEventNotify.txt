@@ -68,7 +68,7 @@ RSS 联系人不使用弹出窗口
 联系人
 [You were added!]
 您已被添加! 
-[Requests your authorisation]
+[Requests your authorization]
 请求您的授权
 [ICQ Web pager]
 ICQ 网上传呼

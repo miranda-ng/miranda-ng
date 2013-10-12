@@ -8,7 +8,7 @@
 [Scriver - send and receive instant messages.]
 Scriver - Sofortnachrichten senden und empfangen.
 ;file \plugins\Scriver\res\resource.rc
-[Behaviour]
+[Behavior]
 Verhalten
 [Automatically pop up the window when]
 Automatisch das Fenster öffnen bei

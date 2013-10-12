@@ -148,7 +148,7 @@ ICQ аватари
 Споделяне на текста за състояние само с потребители от списъка с контакти
 [Only reply to status message request from visible contacts]
 Споделяне на текста за състояние само с видимите контакти
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Сивите настройки могат да бъдат променяни само когато сте на линия.
 [Options]
 Настройки
@@ -230,7 +230,7 @@ ICQ аватари
 Отдел:
 [Position:]
 Позиция:
-[Organisation:]
+[Organization:]
 Организация:
 [Location]
 Местоположение

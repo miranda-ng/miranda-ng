@@ -786,7 +786,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Висота рядків:
 [Gamma correction]
 Корекція гамми
-[Grey out entire list when:]
+[Gray out entire list when:]
 Зробити сірим, якщо:
 [Contact List Background]
 Фон списку контактів
@@ -1091,7 +1091,7 @@ Cповіщати про друк, коли вікно повідомлень з
 Підказкою у треї
 [Save the window position for each contact]
 Зберігати позицію вікна для кожного контакту
-[Message window behaviour:]
+[Message window behavior:]
 Поведінка вікна повідомлень:
 [Messaging:]
 Повідомлення:
@@ -1761,7 +1761,7 @@ Cписок неактивний
 Історія
 [User Menu]
 Меню користувача
-[Cancelled]
+[Canceled]
 Скасовані
 [%d files]
 %d файлів
@@ -1791,7 +1791,7 @@ Cписок неактивний
 З'єднання з проксі...
 [Connected]
 Під'єднаний
-[Initialising...]
+[Initializing...]
 Ініціалізація...
 [Moving to next file...]
 Наступний файл...

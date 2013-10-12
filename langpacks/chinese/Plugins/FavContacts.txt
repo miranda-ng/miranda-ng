@@ -1,7 +1,7 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
-;  Plugin: Favourite contacts
+;  Plugin: Favorite contacts
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
@@ -18,7 +18,7 @@
 热键呼出时显示菜单于屏幕中心
 [Menu item preview:]
 菜单项预览:
-[Favourite Contacts]
+[Favorite Contacts]
 我的最爱
 [Enable groups]
 启用群组
@@ -36,7 +36,7 @@
 最近联系人
 ;file \plugins\FavContacts\src\favlist.h
 ;file \plugins\FavContacts\src\main.cpp
-[Favourite Contact]
+[Favorite Contact]
 我的最爱
 [Regular Contact]
 常用联系人
@@ -46,7 +46,7 @@
 选定联系人第二行 (颜色)
 [Background]
 背景
-[Show favourite contacts]
+[Show favorite contacts]
 显示我的最爱
 [Contacts]
 联系人

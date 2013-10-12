@@ -10,7 +10,7 @@ Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderu
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Transparent:
-[Window behaviour:]
+[Window behavior:]
 Verhalten:
 [List sorting:]
 Sortierung:
@@ -186,7 +186,7 @@ Mehrzeilige Statusleiste
 Konten pro Zeile
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Änderung der Statusleistenhöhe:\nHauptmenü->Frames->Statusl.->Titell. anzeigen, auf Titelleiste drücken und Höhe ändern.
-[Hold [Shift] to inverse [Right Click] behaviour]
+[Hold [Shift] to inverse [Right Click] behavior]
 Shift gedrückt halten, um Rechtsklick-Verhalten umzukehren
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 Strg+Linksklick filtert Protokolle. Auf freie Stelle klicken, um alle zu zeigen.
@@ -274,7 +274,7 @@ Maximal
 % des Bildschirms
 [Size upwards]
 Größenanpassung nach oben
-[Behaviour]
+[Behavior]
 Verhalten
 [Lock manual resize]
 Manuelle Größenänderung deaktivieren

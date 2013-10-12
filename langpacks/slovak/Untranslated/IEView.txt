@@ -31,7 +31,7 @@
 [Outgoing File Transfer]
 [URL sent]
 [URL received]
-[ requested authorisation]
+[ requested authorization]
 [ was added.]
 [IID_IOleObject failed.]
 [RESULT]

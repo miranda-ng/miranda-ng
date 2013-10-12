@@ -134,7 +134,7 @@ AIM コンタクトサポートを有効
 自分のコンタクトリストにあるユーザーからのステータスメッセージリクエストにのみ返信
 [Only reply to status message request from visible contacts]
 可視コンタクトからのステータスメッセージリクエストにのみ返信
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 オンライン時にのみ変更可能なオプション類は灰色表示されています
 [Options]
 オプション
@@ -194,7 +194,7 @@ UIN :
 部門 :
 [Position:]
 位置 :
-[Organisation:]
+[Organization:]
 組織 :
 [Location]
 場所

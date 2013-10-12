@@ -54,9 +54,9 @@
 Припинено з-за роз'єднання
 [Transfer is in progress. Do you really want to close?]
 Йде передача файлу. Перервати?
-[Cancelled by user]
+[Canceled by user]
 Скасовано користувачем
-[Cancelled by remote user]
+[Canceled by remote user]
 Скасовано віддаленим користувачем
 [Recv file]
 Прийом файлу

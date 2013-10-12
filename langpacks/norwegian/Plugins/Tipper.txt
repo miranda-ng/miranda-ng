@@ -72,9 +72,7 @@ Aktiver SmileyAdd støtte
 Endre smiley strl
 [Effects]
 Effekter
-[Favourite contacts]
-Favorittkontakter
-[Favourite contacts]
+[Favorite contacts]
 Favorittkontakter
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
@@ -82,7 +80,7 @@ Favorittkontakter
 Ingen ikon
 [No title]
 Ingen tittel
-[Centre]
+[Center]
 Midten
 [None]
 Ingen

@@ -527,7 +527,7 @@ Linker marge:
 Rij hoogte:
 [Gamma correction]
 Gamma correctie
-[Grey out entire list when:]
+[Gray out entire list when:]
 Gehele lijst grijs maken wanneer:
 [Contact List Background]
 Persoon lijst achtergrond
@@ -1227,7 +1227,7 @@ Gebeurtenissen
 Geschiedenis van de gebruiker bekijken
 [User Menu]
 Gebruikersmenu
-[Cancelled]
+[Canceled]
 Geannuleerd
 ;file \src\core\stdfile\filesenddlg.cpp
 ;file \src\core\stdfile\filexferdlg.cpp

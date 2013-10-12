@@ -236,7 +236,7 @@ Zaman:
 milisaniye
 [Hide vertical scroll bar]
 Dikey kaydırma çubuğunu gizle
-[Grey out entire list when:]
+[Gray out entire list when:]
 Şu olduğunda tüm listeyi karart:
 [Contact List Background]
 Kişi Listesi Art Alanı

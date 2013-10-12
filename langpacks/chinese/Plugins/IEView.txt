@@ -62,7 +62,7 @@
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (未知联系人)
-[ requested authorisation]
+[ requested authorization]
  已请求授权
 [ was added.]
  已被添加. 

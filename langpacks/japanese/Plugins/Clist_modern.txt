@@ -8,7 +8,7 @@
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 透明度 :
-[Window behaviour:]
+[Window behavior:]
 ウィンドウの動作 :
 [List sorting:]
 リストの並べ替え :

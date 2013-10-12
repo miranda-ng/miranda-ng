@@ -22,7 +22,7 @@ Nachricht kopieren
 OK
 [Retrieving status message for %s...]
 Statusnachricht für %s ermitteln...
-[Behaviour on status change]
+[Behavior on status change]
 Verhalten beim Statuswechsel
 [Apply to all]
 Übern. für alle

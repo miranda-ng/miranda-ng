@@ -188,7 +188,7 @@ Cernía Acción
 Reloj
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
-[With "favourite" overlay]
+[With "favorite" overlay]
 Con el "favorito" de superposición
 [With "fullscreen" overlay]
 Con "pantalla completa" superposición

@@ -10,7 +10,7 @@
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Празрыстасць:
-[Window behaviour:]
+[Window behavior:]
 Паводзіны спісу:
 [List sorting:]
 Сартаванне спісу:
@@ -186,7 +186,7 @@
 Контаў у радку
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
-[Hold [Shift] to inverse [Right Click] behaviour]
+[Hold [Shift] to inverse [Right Click] behavior]
 Shift + Правы клік - Галоўнае меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 Ctrl + Левы клік укл. фільтр па пратаколу, клік па пустым месцы адкл.
@@ -274,7 +274,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 % ад экрана
 [Size upwards]
 Расцягваць угару
-[Behaviour]
+[Behavior]
 Паводзіны
 [Lock manual resize]
 Забараніць змену памеру

@@ -156,7 +156,7 @@
 밀리초
 [Left margin:]
 왼쪽 여백:
-[Grey out entire list when:]
+[Gray out entire list when:]
 전체 목록이 회색으로 됐을 때:
 [Dim idle contacts]
 희미한 무작업 상태의 대화 상대

@@ -765,7 +765,7 @@ Miranda NG 正准备重启. \n请稍候...
 列高: 
 [Gamma correction]
 伽玛亮度校正
-[Grey out entire list when:]
+[Gray out entire list when:]
 下列清况将整个列表变灰: 
 [Contact List Background]
 联系人列表背景
@@ -1071,7 +1071,7 @@ Miranda NG 正准备重启. \n请稍候...
 显示气球式弹出窗口
 [Save the window position for each contact]
 每联系人独立保存自有窗口位置
-[Message window behaviour:]
+[Message window behavior:]
 消息窗口行为:
 [Messaging:]
 消息:
@@ -1727,7 +1727,7 @@ Miranda NG 正准备重启. \n请稍候...
 查看用户历史
 [User Menu]
 用户菜单
-[Cancelled]
+[Canceled]
 已取消
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1759,7 +1759,7 @@ Miranda NG 正准备重启. \n请稍候...
 正在连接至代理服务器...
 [Connected]
 已连接
-[Initialising...]
+[Initializing...]
 初始化中...
 [Moving to next file...]
 移至下一个文件...

@@ -132,7 +132,7 @@ Obtenga más pieles
 Habilitar tooltips bandeja
 [Handle tray tooltips by Tipper]
 Manejar información sobre herramientas bandeja Volquete
-[Favourite contacts]
+[Favorite contacts]
 Favorito contactos
 [Expand to second level after:]
 Ampliar el nivel de segundo después:
@@ -160,7 +160,7 @@ Agregar separador
 No aparece el icono
 [No title]
 Sin título
-[Centre]
+[Center]
 Centro
 [Max avatar size:]
 Tamaño máximo del avatar:

@@ -8,7 +8,7 @@
 Повідомляє про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію в спливаючих вікнах. Для роботи необхідний PopUp від Luca Santarelli або аналогічний.
 [You were added!]
 Вас додали
-[Requests your authorisation]
+[Requests your authorization]
 Запит вашої авторизації
 [Unknown Event]
 Невідома подія

@@ -196,7 +196,7 @@ Cлужба:
 мс
 [Left margin:]
 Левае поле:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Зрабіць шэрым, калі:
 [Dim idle contacts]
 Прыцьміць неактыўных карыстачоў

@@ -1,11 +1,11 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
-;  Plugin: Favourite contacts
+;  Plugin: Favorite contacts
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-[Favourite contacts menu.]
+[Favorite contacts menu.]
 Favorisierte Kontakte in einem Menu.
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
@@ -28,7 +28,7 @@ System-Farben und -Schriften verwenden
 Hotkeys zeigen das Menu zentriert auf dem Bildschirm
 [Menu item preview:]
 Menueintrag Voorschau:
-[Favourite Contacts]
+[Favorite Contacts]
 Favourite Contacts
 [Enable groups]
 Gruppen aktivieren
@@ -48,7 +48,7 @@ letzte Kontakte
 [<no group>]
 <keine Gruppe>
 ;file \plugins\FavContacts\src\main.cpp
-[Favourite Contact]
+[Favorite Contact]
 Favorisierte Kontakte
 [Regular Contact]
 Reguläre Kontakte
@@ -64,11 +64,11 @@ Ausgewählte zweite zeile (Farbe)
 Hintergrund
 [Selected background]
 Markierter Hintergrund
-[Show favourite contacts]
+[Show favorite contacts]
 Favorisierte Kontakte anzeigen
 [Contacts]
 Kontakte
-[Favourites]
+[Favorites]
 Favoriten
-[&Favourite Contacts...]
+[&Favorite Contacts...]
 &Favorisierte Kontakte...

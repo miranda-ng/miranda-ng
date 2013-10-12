@@ -232,7 +232,7 @@ Tempo:
 milisegundos
 [Hide vertical scroll bar]
 Ocultar barra de rolagem vertical
-[Grey out entire list when:]
+[Gray out entire list when:]
 Acinzentar lista quando
 [Contact List Background]
 Fundo dos Contatos

@@ -182,7 +182,7 @@ Zaman:
 milisaniye
 [Left margin:]
 Sol boşluk:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Şu olduğunda tüm listeyi karart:
 [Dim idle contacts]
 Boştaki kişileri kıs

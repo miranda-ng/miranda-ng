@@ -31,7 +31,7 @@ la instalación de información de la cuenta para iniciar la mensajería.
 Estilo
 [Contacts]
 Contactos
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Configurar el comportamiento de su lista de contactos.
 [Customize look&&feel of your chat windows here.]
 Personaliza el aspecto y la sensación de su y ventanas de chat aquí.

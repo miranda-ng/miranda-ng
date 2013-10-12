@@ -6,7 +6,7 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
-[Window behaviour:]
+[Window behavior:]
 Comportamiento de la ventana:
 [List sorting:]
 Lista de clasificación:

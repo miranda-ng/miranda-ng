@@ -15,7 +15,7 @@
 
 [Message window options]
 Настройки окна сообщений
-[Message window behaviour]
+[Message window behavior]
 Поведение окна сообщений
 [Always flash contact list and tray icon for new messages]
 Мигать значком в трее и списке контактов при новом сообщении
@@ -399,7 +399,7 @@ RTL шаблоны
 Использовать цвета журнала сообщений для вспл. окон чатов
 [New messages: ]
 Новые сообщения:\s
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Одно из действий всплывающих окон настроено на "Отклонить событие".\nЭто может оказать нежеланный эфект, так как помечает событие прочитанным.\nКак следствие события не будут показаны "новыми". Если это не то, что вы хотели, пересмотрите настройки в разделе "Уведомления".
 
 ;-СКИН ОКНА БЕСЕД-

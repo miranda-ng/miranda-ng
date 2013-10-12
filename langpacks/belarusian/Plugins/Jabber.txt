@@ -302,7 +302,7 @@ JID / URL:
 Як дрэва
 [View as list]
 Як спіс
-[Favourites]
+[Favorites]
 Абраныя
 [Refresh]
 Абнавіць

@@ -43,7 +43,7 @@ Eintrag bearbeiten
 Warnung
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 Dieses Feld akzeptiert keine Strings mit mehr als %d Zeichen. Der String wird gekürzt.
-[Favourites]
+[Favorites]
 Favoriten
 [Regular statuses]
 Reguläre Status
@@ -68,7 +68,7 @@ Eintrag löschen
 Entfernen
 [Set/unset current item as favorite]
 Ausgewählten Eintrag als Favorit setzen
-[Favourite]
+[Favorite]
 Favorit
 [Undo changes]
 Änderungen rückgängig machen

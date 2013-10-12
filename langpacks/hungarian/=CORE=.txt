@@ -693,7 +693,7 @@ Függõleges görgõ elrejtése
 Sormagasság:
 [Gamma correction]
 Gamma javítás
-[Grey out entire list when:]
+[Gray out entire list when:]
 Teljes lista kiszürkítése, ha:
 [Contact List Background]
 Kapcsolati lista háttér
@@ -1561,7 +1561,7 @@ Események
 Felhasználó elõzményeinek megtekintése
 [User Menu]
 Felhasználó menü
-[Cancelled]
+[Canceled]
 Törölve
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]

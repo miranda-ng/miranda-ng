@@ -268,7 +268,7 @@ ms
 милисекунди
 [Hide vertical scroll bar]
 Без вертикална лента за придвижване
-[Grey out entire list when:]
+[Gray out entire list when:]
 Посивяване на списъка с контакти, при състояние:
 [Contact List Background]
 Фон на списъка с контакти

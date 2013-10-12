@@ -421,7 +421,7 @@ Netlib 로그 옵션
 행 높이:
 [Gamma correction]
 감마 수정
-[Grey out entire list when:]
+[Gray out entire list when:]
 전체 목록이 회색으로 됐을 때:
 [Contact List Background]
 대화 상대 목록 배경
@@ -827,7 +827,7 @@ Netlib 로그 옵션
 유저 히스토리 보기
 [User Menu]
 유저 메뉴
-[Cancelled]
+[Canceled]
 취소됨
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -855,7 +855,7 @@ Netlib 로그 옵션
 접속중...
 [Connected]
 접속됨
-[Initialising...]
+[Initializing...]
 초기화중...
 [Moving to next file...]
 다음 파일로 이동중...

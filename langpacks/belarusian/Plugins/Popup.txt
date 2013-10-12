@@ -248,7 +248,7 @@ History++ для гісторыі вокнаў
 Вокны ўключаны
 [Popups are disabled]
 Вокны выключаны
-[With "favourite" overlay]
+[With "favorite" overlay]
 З накладаннем "Абраны"
 [With "fullscreen" overlay]
 З накладаннем "Поўны экран"
@@ -366,7 +366,7 @@ History++ для гісторыі вокнаў
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Аўта
-[Favourite]
+[Favorite]
 Абранае
 [Block]
 Заблакаваць

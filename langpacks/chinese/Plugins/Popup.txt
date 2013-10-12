@@ -186,7 +186,7 @@ Miranda 窗口屏幕
 [Popup History message]
 弹出历史信息
 ;file \plugins\Popup\src\icons.cpp
-[With "favourite" overlay]
+[With "favorite" overlay]
 "我的最爱" 覆盖图标
 [With "fullscreen" overlay]
 "全屏" 覆盖图标

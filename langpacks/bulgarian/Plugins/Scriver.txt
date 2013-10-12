@@ -8,7 +8,7 @@
 [Scriver - send and receive instant messages.]
 Scriver - за изпращане и получаване на съобщения.
 ;file \plugins\Scriver\res\resource.rc
-[Behaviour]
+[Behavior]
 Поведение
 [Automatically pop up the window when]
 Изскачане на прозореца при състояние:

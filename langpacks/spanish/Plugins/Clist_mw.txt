@@ -180,7 +180,7 @@ Fecha y hora:
 milisegundos
 [Left margin:]
 Margen izquierdo:
-[Grey out entire list when:]
+[Gray out entire list when:]
 lista gris de todo cuando:
 [Dim idle contacts]
 Dim inactivo contactos

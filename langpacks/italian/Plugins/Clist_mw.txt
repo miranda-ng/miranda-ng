@@ -182,7 +182,7 @@ millisecondi
 millisecondi
 [Left margin:]
 Margine sinistro
-[Grey out entire list when:]
+[Gray out entire list when:]
 L'intera lista diventa grigia quando:
 [Dim idle contacts]
 Abbassa i contatti inattivi

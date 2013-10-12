@@ -82,7 +82,7 @@
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Непознат контакт)
-[ requested authorisation]
+[ requested authorization]
  заявено упълномощаване
 [ was added.]
  беше добавен.

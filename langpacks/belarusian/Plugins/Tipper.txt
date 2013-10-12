@@ -172,7 +172,7 @@
 Падказкі ў трэі
 [Handle tray tooltips by Tipper]
 Перахапляць падказкі ў трэі
-[Favourite contacts]
+[Favorite contacts]
 Абраныя кантакты
 [Expand to second level after:]
 Другі ўзровень падказкі праз:
@@ -224,7 +224,7 @@
 Наверсе злева
 [Top]
 Угару
-[Centre]
+[Center]
 Цэнтр
 [Bottom]
 Ніз

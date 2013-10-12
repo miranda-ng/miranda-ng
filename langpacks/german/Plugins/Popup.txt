@@ -252,7 +252,7 @@ Popupverlaufsnachricht
 Popups aktiviert
 [Popups are disabled]
 Popups deaktiviert
-[With "favourite" overlay]
+[With "favorite" overlay]
 Mit "bevorzugter" Überlagerung
 [With "fullscreen" overlay]
 Mit "Vollbild"-Überlagerung
@@ -404,13 +404,13 @@ Der Skin, den Sie zu laden versuchen, wurde für\r\neine neuere Popup+-Version e
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Auto
-[Favourite]
+[Favorite]
 Favorit
 [Block]
 Blockieren
 [Popup Mode: Auto]
 Popup-Modus: Auto
-[Popup Mode: Favourite]
+[Popup Mode: Favorite]
 Popup-Modus: Favorit
 [Popup Mode: Ignore fullscreen]
 Popup-Modus: Vollbildschirm ignorieren

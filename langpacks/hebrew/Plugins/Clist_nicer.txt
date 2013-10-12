@@ -180,7 +180,7 @@
 מילישניות:
 [Hide vertical scroll bar]
 הסתר פס גלילה
-[Grey out entire list when:]
+[Gray out entire list when:]
 האפר את כל הרשימה כש:
 [Contact List Background]
 רקע רשימת אנשי קשר

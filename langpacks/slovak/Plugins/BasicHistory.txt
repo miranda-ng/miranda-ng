@@ -182,7 +182,7 @@ História pre %s
 
 [Invalid Message]
 
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]

@@ -146,7 +146,7 @@ ICQ
 Адказваць на запыт статуснага паведамлення толькі карыстачам са спісу
 [Only reply to status message request from visible contacts]
 Адказваць на запыт статуснага паведамлення толькі бачным кантактам
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Некаторыя налады можна змяняць толькі пасля далучэння да ICQ.
 [Options]
 Налады
@@ -228,7 +228,7 @@ ICQ
 Аддзел:
 [Position:]
 Пасада:
-[Organisation:]
+[Organization:]
 Арганізацыя:
 [Location]
 Месца

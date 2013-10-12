@@ -130,7 +130,7 @@
 ;file \plugins\Popup\src\font.cpp
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
-[With "favourite" overlay]
+[With "favorite" overlay]
 עם "מועדף" כיסוי
 [With "fullscreen" overlay]
 עם "מסך מלא" פרישת

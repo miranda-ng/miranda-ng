@@ -43,7 +43,7 @@
 Предупреждение
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 
-[Favourites]
+[Favorites]
 Любими
 [Regular statuses]
 
@@ -68,7 +68,7 @@
 Премахване
 [Set/unset current item as favorite]
 
-[Favourite]
+[Favorite]
 Любим
 [Undo changes]
 

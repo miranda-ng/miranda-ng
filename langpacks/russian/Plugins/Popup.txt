@@ -15,7 +15,7 @@
 Режим всплывающих окон: игнорировать полноэкранные приложения
 [Popup Mode: Block contact]
 Режим всплывающих окон: блокировать
-[Favourite]
+[Favorite]
 Избранное
 [Block]
 Заблокировать
@@ -461,7 +461,7 @@ BBCode ([b]..[/b] - жирный)
 Уведомление (только цвета)
 [Warning (colors only)]
 Предупреждение (только цвета)
-[With "favourite" overlay]
+[With "favorite" overlay]
 С наложением "Избранный"
 [With "fullscreen" overlay]
 С наложением "Полный экран"

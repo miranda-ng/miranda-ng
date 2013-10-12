@@ -25,7 +25,7 @@
 Межстрочный отступ:
 [Avatar padding:]
 Отступ аватара:
-[Centre]
+[Center]
 Центр
 [Max height:]
 Макс. высота:
@@ -185,7 +185,7 @@ xСтатус
 Время входа
 [Unread emails]
 Непрочитанные письма
-[Favourite contacts]
+[Favorite contacts]
 Избранные контакты
 [Clist event]
 Событие списка

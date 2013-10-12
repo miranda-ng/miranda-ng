@@ -59,7 +59,7 @@
 Паслана паспяхова
 [Incoming file request. Do you want to proceed?]
 Уваходны файл. Хочаце працягнуць?
-[Cancelled by remote user]
+[Canceled by remote user]
 Адменена другім кантактам
 [New incoming file request. Do you want to proceed?]
 Новы уваходны файл. Хочаце пацягнуць?
@@ -77,7 +77,7 @@
 Захаваць як
 [Can't get a file size]
 Не магу атрымаць памер файла
-[Cancelled by user]
+[Canceled by user]
 Адменена
 [Transfer is in progress. Do you really want to close?]
 Ідзе перадача файла. Спыніць?

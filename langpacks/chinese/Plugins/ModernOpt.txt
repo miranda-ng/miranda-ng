@@ -39,7 +39,7 @@ Miranda NG 配置中心
 更改 Miranda NG 外观以适合您的口味.
 [Contacts]
 联系人
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 配置您的联系人列表行为.
 [Chats]
 聊天

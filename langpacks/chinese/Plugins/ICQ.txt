@@ -132,7 +132,7 @@ P2P 通信
 仅答复我方联系人列表中用户状态消息请求
 [Only reply to status message request from visible contacts]
 仅答复可见联系人的状态消息请求
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 一些选项已被禁用, 因为它们只能在您在线时才能变更. 
 [Options]
 选项
@@ -190,7 +190,7 @@ P2P 通信
 部门: 
 [Position:]
 职务: 
-[Organisation:]
+[Organization:]
 组织: 
 [Location]
 位置

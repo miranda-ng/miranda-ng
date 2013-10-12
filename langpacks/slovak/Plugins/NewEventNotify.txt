@@ -84,7 +84,7 @@ Pozadie
 Kontakty
 [You were added!]
 
-[Requests your authorisation]
+[Requests your authorization]
 
 [ICQ Web pager]
 

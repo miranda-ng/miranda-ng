@@ -8,7 +8,7 @@
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Transparência:
-[Window behaviour:]
+[Window behavior:]
 Comportamento da janela:
 [List sorting:]
 Lista de classificação:

@@ -84,7 +84,7 @@ Popups
 Kontakte
 [You were added!]
 Sie wurden hinzugefügt!
-[Requests your authorisation]
+[Requests your authorization]
 Erbittet deine Autorisation
 [ICQ Web pager]
 ICQ Web pager

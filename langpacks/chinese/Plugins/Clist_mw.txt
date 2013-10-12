@@ -176,7 +176,7 @@
 毫秒
 [Left margin:]
 左边界: 
-[Grey out entire list when:]
+[Gray out entire list when:]
 下列清况将整个列表变灰: 
 [Dim idle contacts]
 暗淡化闲置联系人

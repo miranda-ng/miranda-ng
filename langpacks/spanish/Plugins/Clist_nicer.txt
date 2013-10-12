@@ -134,7 +134,7 @@ Fecha y hora:
 milisegundos
 [Hide vertical scroll bar]
 Ocultar barra de desplazamiento vertical
-[Grey out entire list when:]
+[Gray out entire list when:]
 lista gris de todo cuando:
 [Contact List Background]
 Contacto Lista de fondo

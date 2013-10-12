@@ -176,7 +176,7 @@ Idõ:
 századmásodperc
 [Left margin:]
 Bal margó:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Teljes lista kiszürkítése, ha:
 [Dim idle contacts]
 Inaktív partnerek halványítása

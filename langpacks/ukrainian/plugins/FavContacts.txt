@@ -5,7 +5,7 @@
 ;  Versions: v.0.0.0.6
 ;  Authors: nullbie
 ;============================================================
-[Favourite contacts menu.]
+[Favorite contacts menu.]
 Меню обраних контактів.
 [px.]
 пікс.
@@ -13,7 +13,7 @@
 Меню по гарячій кл. в центрі екрану 
 [Hide for transparent avatars]
 Приховати для прозорих аватар
-[Favourite Contacts]
+[Favorite Contacts]
 Обрані контакти
 [Draw avatar border]
 Границя на аватарах

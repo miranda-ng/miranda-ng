@@ -268,7 +268,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 мс
 [Hide vertical scroll bar]
 Схаваць паласу прагорткі
-[Grey out entire list when:]
+[Gray out entire list when:]
 Зрабіць шэрым, калі:
 [Contact List Background]
 Фон спісу

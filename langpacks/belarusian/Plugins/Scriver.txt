@@ -8,7 +8,7 @@
 [Scriver - send and receive instant messages.]
 Модуль асабістых і групавых чатаў для Miranda NG.
 ;file \plugins\Scriver\res\resource.rc
-[Behaviour]
+[Behavior]
 Паводзіны
 [Automatically pop up the window when]
 Аўтаматычна паказваць акно калі 

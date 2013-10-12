@@ -8,7 +8,7 @@
 [Accounts]
 [Setup your account information to start messaging.]
 [Change the look of Miranda NG according to your taste.]
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 [Chats]
 [Customize look&&feel of your chat windows here.]
 [Ban those users and events, you are annoyed with.]

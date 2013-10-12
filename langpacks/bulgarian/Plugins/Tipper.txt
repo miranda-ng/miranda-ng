@@ -172,7 +172,7 @@
 Подсказки в трея
 [Handle tray tooltips by Tipper]
 
-[Favourite contacts]
+[Favorite contacts]
 Любими контакти
 [Expand to second level after:]
 Подсказка второ ниво след:
@@ -224,7 +224,7 @@ Tipper усмивки
 Горе вляво
 [Top]
 Горе
-[Centre]
+[Center]
 Център
 [Bottom]
 Долу

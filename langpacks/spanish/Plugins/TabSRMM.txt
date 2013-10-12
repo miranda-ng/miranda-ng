@@ -1368,7 +1368,7 @@ Tiempo de espera de las acciones (pop-ups solamente)
 Combine las notificaciones para el mismo contacto
 [Remove popups under following conditions]
 Eliminar pop-ups en las condiciones siguientes
-[Message window behaviour]
+[Message window behavior]
 Mensaje comportamiento de la ventana
 [Sending messages]
 El envío de mensajes

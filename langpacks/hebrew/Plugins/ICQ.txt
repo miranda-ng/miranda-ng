@@ -116,7 +116,7 @@
 הגב לבקשת הודעת מצב רק ממשתמשים ברשימה שלי
 [Only reply to status message request from visible contacts]
 הגב רק לבקשת הודעות מצב ממשתמשים נראים
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 .חלק מהאפשרויות נחסמו לשינוי כיוון שאתה צריך להיות מחובר על מנת לשנות אותן
 [Options]
 אפשרוית

@@ -176,7 +176,7 @@
 ミリ秒
 [Left margin:]
 左マージン :
-[Grey out entire list when:]
+[Gray out entire list when:]
 リスト全体を灰色表示する :
 [Dim idle contacts]
 不要のコンタクトを暗くする

@@ -124,7 +124,7 @@ Kişiler asıl e-posta adresimi görebilsin
 Yalnız kişi listemdekilerin durum iletisi isteklerini yanıtla
 [Only reply to status message request from visible contacts]
 Yalnız göründüğüm kişilerin durum iletisi isteklerini yanıtla
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Bazı seçenekler yalnız çevrim içi olduğunuzda değiştirilebileceğinden dolayı devre dışı 
 [Options]
 Seçenekler
@@ -186,7 +186,7 @@ Firma:
 Bölüm:
 [Position:]
 Konum:
-[Organisation:]
+[Organization:]
 Kurum:
 [Location]
 Yerleşim

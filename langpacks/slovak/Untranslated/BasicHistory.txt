@@ -77,7 +77,7 @@
 [System]
 [Me]
 [Invalid Message]
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 [%s Files (*.%s)]
 [Import]
 [Export]

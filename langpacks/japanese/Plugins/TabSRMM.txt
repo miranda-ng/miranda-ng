@@ -1324,7 +1324,7 @@ RSS プロトコルからのイベントを通知しない
 同じコンタクトに対する通知をまとめる
 [Remove popups under following conditions]
 以下の条件の時ポップアップを削除
-[Message window behaviour]
+[Message window behavior]
 メッセージウィンドウの動作
 [Sending messages]
 メッセージの送信中

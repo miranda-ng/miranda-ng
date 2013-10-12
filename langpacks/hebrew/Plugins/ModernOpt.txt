@@ -31,7 +31,7 @@
 שנה את המראה של מירנדה בהתאם לטעם האישי שלך.
 [Contacts]
 אנשי קשר
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 הגדר התנהגות של רשימת המשתמשים שלך.
 [Ignore]
 התעלם

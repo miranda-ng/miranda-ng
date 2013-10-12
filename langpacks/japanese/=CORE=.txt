@@ -777,7 +777,7 @@ Wikipedia
 行の高さ :
 [Gamma correction]
 ガンマ補正
-[Grey out entire list when:]
+[Gray out entire list when:]
 リスト全体を灰色表示する :
 [Contact List Background]
 コンタクトリストの背景
@@ -1091,7 +1091,7 @@ Miranda
 バルーンポップアップを表示
 [Save the window position for each contact]
 コンタクト毎にウィンドウ位置を保存
-[Message window behaviour:]
+[Message window behavior:]
 メッセージウィンドウの動作 :
 [Messaging:]
 メッセージング :
@@ -1719,7 +1719,7 @@ SMS テキストメッセージを受信できる電話
 ユーザーの履歴を表示
 [User Menu]
 ユーザーメニュー
-[Cancelled]
+[Canceled]
 キャンセルしました
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1751,7 +1751,7 @@ SMS テキストメッセージを受信できる電話
 プロキシに接続中...
 [Connected]
 接続済
-[Initialising...]
+[Initializing...]
 初期化中...
 [Moving to next file...]
 次のファイルに移動中...

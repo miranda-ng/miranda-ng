@@ -164,7 +164,7 @@ Esta é uma mensagem de erro
 Ação Flutuante
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
-[With "favourite" overlay]
+[With "favorite" overlay]
 Com sobreposição de favoritos
 [With "fullscreen" overlay]
 Com sobre posição de tela cheia

@@ -54,9 +54,9 @@
 Приостановлено из-за обрыва соединения
 [Transfer is in progress. Do you really want to close?]
 Идет передача файла. Прервать?
-[Cancelled by user]
+[Canceled by user]
 Отменено пользователем
-[Cancelled by remote user]
+[Canceled by remote user]
 Отменено удалённым пользователем
 [Recv file]
 Прием файла

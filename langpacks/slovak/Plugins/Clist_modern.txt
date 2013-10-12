@@ -10,7 +10,7 @@
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 
-[Window behaviour:]
+[Window behavior:]
 
 [List sorting:]
 
@@ -186,7 +186,7 @@ Rovnaká šírka oddielov
 
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 
-[Hold [Shift] to inverse [Right Click] behaviour]
+[Hold [Shift] to inverse [Right Click] behavior]
 
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 
@@ -276,7 +276,7 @@ maximálne
 % z obrazovky
 [Size upwards]
 Zväčšovať smerom hore
-[Behaviour]
+[Behavior]
 
 [Lock manual resize]
 

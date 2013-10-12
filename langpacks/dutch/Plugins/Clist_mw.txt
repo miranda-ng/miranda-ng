@@ -160,7 +160,7 @@ Tijd:
 milliseconden
 [Left margin:]
 Linker marge:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Gehele lijst grijs maken wanneer:
 [Dim idle contacts]
 Rustige personen donker maken

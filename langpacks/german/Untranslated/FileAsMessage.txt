@@ -3,7 +3,7 @@
 [Requesting of missing chunks]
 [Unknown command for "File As Message" was received]
 [Incoming file request. Do you want to proceed?]
-[Cancelled by remote user]
+[Canceled by remote user]
 [New incoming file request. Do you want to proceed?]
 [Paused, because connection dropped]
 [Failed on file initialization]

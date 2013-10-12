@@ -172,7 +172,7 @@ Efekty
 
 [Handle tray tooltips by Tipper]
 
-[Favourite contacts]
+[Favorite contacts]
 
 [Expand to second level after:]
 
@@ -224,7 +224,7 @@ Efekty
 
 [Top]
 
-[Centre]
+[Center]
 
 [Bottom]
 

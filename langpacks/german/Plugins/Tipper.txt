@@ -172,7 +172,7 @@ Weitere Skins herunterladen
 Tray-Tooltips aktivieren
 [Handle tray tooltips by Tipper]
 Tray-Tooltips durch Tipper anzeigen
-[Favourite contacts]
+[Favorite contacts]
 Favorisierte Kontakte
 [Expand to second level after:]
 Erweiterte Anzeige nach:
@@ -224,7 +224,7 @@ Oben rechts
 Oben links
 [Top]
 Oben
-[Centre]
+[Center]
 Mitte
 [Bottom]
 Unten

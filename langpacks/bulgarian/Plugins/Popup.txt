@@ -252,7 +252,7 @@ Popup действията са малките бутони под текста.
 Popups са включени
 [Popups are disabled]
 Popups са изключени
-[With "favourite" overlay]
+[With "favorite" overlay]
 
 [With "fullscreen" overlay]
 
@@ -404,13 +404,13 @@ Popup Plus Предупреждение
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Авто
-[Favourite]
+[Favorite]
 Любим
 [Block]
 Блокиране
 [Popup Mode: Auto]
 Popup режим: Автоматичен
-[Popup Mode: Favourite]
+[Popup Mode: Favorite]
 
 [Popup Mode: Ignore fullscreen]
 

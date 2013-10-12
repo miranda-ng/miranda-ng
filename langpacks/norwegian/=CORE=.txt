@@ -677,7 +677,7 @@ Skjul vertikal scroll bar
 Radhøyde:
 [Gamma correction]
 Gammakorreksjon
-[Grey out entire list when:]
+[Gray out entire list when:]
 Grå ut hele listen når:
 [Contact List Background]
 Kontaktliste bakgrunn
@@ -1525,7 +1525,7 @@ Hendelser
 Se Brukerens Historikk
 [User Menu]
 Brukermeny
-[Cancelled]
+[Canceled]
 Avbrutt
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1555,7 +1555,7 @@ Kobler til...
 Kobler til proxy...
 [Connected]
 Tilkoblet
-[Initialising...]
+[Initializing...]
 Igangsetter...
 [Moving to next file...]
 Begynner på neste fil...

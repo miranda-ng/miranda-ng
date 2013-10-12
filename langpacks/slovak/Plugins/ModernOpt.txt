@@ -41,7 +41,7 @@ Domov
 
 [Contacts]
 Kontakty
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 
 [Chats]
 

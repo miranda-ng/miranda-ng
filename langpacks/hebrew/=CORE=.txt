@@ -547,7 +547,7 @@
 גודל גובה:
 [Gamma correction]
 תיקון גמא:
-[Grey out entire list when:]
+[Gray out entire list when:]
 האפר את כל הרשימה כש:
 [Contact List Background]
 רקע רשימת אנשי קשר
@@ -1233,7 +1233,7 @@
 הצג היסטוריה עם משתמש
 [User Menu]
 תפריט משתמש
-[Cancelled]
+[Canceled]
 בוטל
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1259,7 +1259,7 @@
 ...מתחבר
 [Connected]
 מחובר
-[Initialising...]
+[Initializing...]
 ...מאתחל
 [Moving to next file...]
 ...עובר לקובץ הבא

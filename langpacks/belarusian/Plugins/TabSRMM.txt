@@ -1040,7 +1040,7 @@ Esc зачыняе сесію (інакш - згортвае)
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Адпраўляецца %d паведамленняў. Даўжыня паведамлення: %d байт, абмежаванне даўжыні: %d байт\n\n%d паведамленняў у чэргі для наступнай дастаўкі
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Адно з дзеянняў усплываючых вокнаў наладжана на "Адмовіць падзею".\nГэта можа зрабіць нежаданы эфект, так як пазначае падзею прачытанай.\nЯк вынік, падзеі не будуць паказаны "новымі". Калі гэта не тое, што вы хацелі, перагледзьце налады ў раздзеле "Паведамленьні".
 [Incoming file]
 Уваходны файл
@@ -1642,7 +1642,7 @@ TabSRMM: Набірае
 Злучаць апавяшчэнні аднаго кантакту
 [Remove popups under following conditions]
 Прыбіраць усплывальныя вокны пры ўмовах
-[Message window behaviour]
+[Message window behavior]
 Паводзіны вакна паведамленняў
 [Sending messages]
 Адпраўка паведамленняў

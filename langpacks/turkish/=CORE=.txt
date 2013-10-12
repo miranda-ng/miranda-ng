@@ -733,7 +733,7 @@ Dikey kaydırma çubuğunu gizle
 Satır yüksekliği:
 [Gamma correction]
 Gamma düzeltmesi
-[Grey out entire list when:]
+[Gray out entire list when:]
 Şu olduğunda tüm listeyi karart:
 [Contact List Background]
 Kişi Listesi Art Alanı
@@ -1613,7 +1613,7 @@ Etkinlikler
 Kullanıcı Geçmişini Göster
 [User Menu]
 Kullanıcı Menüsü
-[Cancelled]
+[Canceled]
 İptal Edilen
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]

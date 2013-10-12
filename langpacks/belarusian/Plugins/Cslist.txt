@@ -37,7 +37,7 @@
 Змяніць
 [Warning]
 Папярэджанне
-[Favourites]
+[Favorites]
 Абраныя
 [Regular statuses]
 Частыя статуты
@@ -62,7 +62,7 @@
 Выдаліць
 [Set/unset current item as favorite]
 Усталяваць/прыбраць абраны пункт як абраны
-[Favourite]
+[Favorite]
 Абранае
 [Undo changes]
 Адмяніць змены

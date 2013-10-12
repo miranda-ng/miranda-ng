@@ -492,7 +492,7 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 פעולות זמן השהייה
 [Remove popups under following conditions]
 הסר פופאפים בתנאים הבאים
-[Message window behaviour]
+[Message window behavior]
 התנהגות חלון הודעה
 [Sending messages]
 שליחת הודעות

@@ -22,7 +22,7 @@
 ОК
 [Retrieving status message for %s...]
 Атрыманне паведамлення статусу для %s...
-[Behaviour on status change]
+[Behavior on status change]
 Паводзіны пры змяненні статуса
 [Apply to all]
 Для ўсіх

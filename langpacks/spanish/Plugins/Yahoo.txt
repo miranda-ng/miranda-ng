@@ -140,7 +140,7 @@ Correo nuevo (%i msgs)
 De: %s\nSubject: %s
 [Yahoo Ping Error]
 Yahoo error Ping
-[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 No se pudo entrar en servicio Yahoo - nombre de usuario no reconocido. Por favor, verifique que su nombre de usuario está correctamente escrito.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 No se pudo acceder a servicios de Yahoo - contraseña incorrecta. Por favor, verifique que su nombre de usuario y contraseña están correctamente escritos.

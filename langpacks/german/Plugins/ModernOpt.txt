@@ -41,7 +41,7 @@ Stil
 Passen Sie hier das Aussehen von Miranda NG Ihren Wünschen an.
 [Contacts]
 Kontakte
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Ändern Sie hier das Verhalten der Kontaktliste.
 [Chats]
 Chats

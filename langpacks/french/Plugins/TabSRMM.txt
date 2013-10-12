@@ -594,7 +594,7 @@ désactivé
 [Sending typing notifications is %s.]
 L'envoi de notification d'écriture est %s.
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Une des actions de popup a été désactivée.\nNotez que ces options peuvent avoir un effet non désiré, cela supprime l'évènement de la liste non-lue.\nDu coup, l'évènement peut être affiché comme "nouveau". Si cela ne vous convient pas, vérifiez la page des options de Notification d'évènement.
 [New messages: ]
 Nouveaux messages : 
@@ -832,7 +832,7 @@ Actions du clic droit (popups uniquement)
 Actions après le délai (popups uniquement)
 [Remove popups under following conditions]
 Désactiver les popups pour les conditions suivantes
-[Message window behaviour]
+[Message window behavior]
 Comportement de la fenêtre des messages
 [Sending messages]
 Envoi de messages

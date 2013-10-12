@@ -134,7 +134,7 @@ Scorri lista in modo continuo
 Tempo:
 [milliseconds]
 millisecondi
-[Grey out entire list when:]
+[Gray out entire list when:]
 L'intera lista diventa grigia quando:
 [Contact List Background]
 Sfondo lista contatti

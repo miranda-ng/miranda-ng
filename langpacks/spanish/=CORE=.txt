@@ -713,7 +713,7 @@ Ocultar barra de desplazamiento vertical
 Alto de fila:
 [Gamma correction]
 Corrección de gamma
-[Grey out entire list when:]
+[Gray out entire list when:]
 lista gris de todo cuando:
 [Contact List Background]
 Contacto Lista de fondo
@@ -1573,7 +1573,7 @@ Mis archivos recibidos
 Usuario Ver la Historia de
 [User Menu]
 Menú del Usuario
-[Cancelled]
+[Canceled]
 Cancelado
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1603,7 +1603,7 @@ Conectando ...
 Conexión con proxy...
 [Connected]
 Conectados
-[Initialising...]
+[Initializing...]
 Iniciando ...
 [Moving to next file...]
 Traslado al siguiente archivo ...

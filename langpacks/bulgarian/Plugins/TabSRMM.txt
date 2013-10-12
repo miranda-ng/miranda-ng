@@ -1050,7 +1050,7 @@ Popups за събития
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Едно от зададените popup действия е затваряне на събитието.\nТази настройка може да има нежелан ефект - събитието се премахва от опашката непрочетени.\nВъзможно последствие е непоказване на новите събития като такива. Ако не желаете подобно действие, можете да го промените от таб Уведомявания.
 [Incoming file]
 Входящи файлове
@@ -1702,7 +1702,7 @@ TabSRMM съобщение (%s)
 Обединяване на уведомявания за един и същ потребител
 [Remove popups under following conditions]
 Премахване на popup за събитие при:
-[Message window behaviour]
+[Message window behavior]
 Поведение на прозореца за съобщения
 [Sending messages]
 Изпращане на съобщения

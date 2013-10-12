@@ -82,7 +82,7 @@ URL атрыманы
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)
-[ requested authorisation]
+[ requested authorization]
  запрасіў аўтарызацыю
 [ was added.]
  быў дададзены.

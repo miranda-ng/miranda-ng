@@ -8,7 +8,7 @@
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 שקיפות:
-[Window behaviour:]
+[Window behavior:]
 התנהגות חלון:
 [List sorting:]
 סידור רשימה:

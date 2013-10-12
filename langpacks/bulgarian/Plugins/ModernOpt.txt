@@ -41,7 +41,7 @@ Miranda NG настройки
 Променете външният вид на Miranda NG според вашия вкус.
 [Contacts]
 Контакти
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Настройте списъка с контакти.
 [Chats]
 Разговори

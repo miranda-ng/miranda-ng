@@ -154,7 +154,7 @@ Permitir que outras pessoas possam ver o meu e-mail principal
 Só responder a solicitações de status de mensagens de usuários na minha lista de contatos
 [Only reply to status message request from visible contacts]
 Só responder à solicitação de status de mensagem de contatos visíveis
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Algumas opções estão acinzentadas, porque eles só podem ser alterados quando você está online.
 [Options]
 Opções
@@ -226,7 +226,7 @@ Companhia:
 Departamento:
 [Position:]
 Posição:
-[Organisation:]
+[Organization:]
 Organização:
 [Location]
 Localidade

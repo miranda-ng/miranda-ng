@@ -370,7 +370,7 @@ Diensterkennung
 Baumansicht
 [View as list]
 Listenansicht
-[Favourites]
+[Favorites]
 Favoriten
 [Refresh]
 Aktualisieren

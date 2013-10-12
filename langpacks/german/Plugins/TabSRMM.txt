@@ -1050,7 +1050,7 @@ Sitzungsliste:\nKlicke links für eine Liste der offenen Sitzungen.\Klick rechts
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begrenzt auf: %d Byte\n\n%d Nachrichten werden für den späteren Versand in die Zwischenablage kopiert.
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Eine Ihrer Popupaktionen ist auf "Ereignis verwerfen" gesetzt.\nBeachten Sie, dass diese Option unerwünschte Nebeneffekte haben könnte, da sie das Ereignis aus der Ungelesen-Warteschlange ENTFERNT.\nDies kann dazu führen, dass Ereignisse nicht als "neu" angezeigt werden. Wenn Sie dieses Verhalten nicht wollen, überprüfen Sie bitte die Ereignisbenachrichtigungen-Einstellungen.
 [Incoming file]
 Eingehende Datei
@@ -1702,7 +1702,7 @@ Zeitlimit-Aktionen (nur für Popups)
 Kombiniere Benachrichtigungen für die gleichen Kontakte
 [Remove popups under following conditions]
 Entferne Popups unter den folgenden Bedingungen
-[Message window behaviour]
+[Message window behavior]
 Verhalten des Nachrichtenfensters
 [Sending messages]
 Nachrichten senden

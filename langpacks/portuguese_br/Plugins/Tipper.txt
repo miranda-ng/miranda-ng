@@ -112,7 +112,7 @@ Efeitos
 Sem ícone
 [No title]
 Sem título
-[Centre]
+[Center]
 Centro
 [None]
 Nenhum

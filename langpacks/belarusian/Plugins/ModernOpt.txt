@@ -41,7 +41,7 @@
 Змяняйце вонкавы выгляд праграмы на свой густ.
 [Contacts]
 Кантакты
-[Configure behaviour of your contact list.]
+[Configure behavior of your contact list.]
 Наладзьце паводзіны вашага спісу кантактаў.
 [Chats]
 Чаты

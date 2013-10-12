@@ -631,7 +631,7 @@ Margine sinistro
 Altezza righe:
 [Gamma correction]
 Correggi la gamma dei colori
-[Grey out entire list when:]
+[Gray out entire list when:]
 L'intera lista diventa grigia quando:
 [Contact List Background]
 Sfondo lista contatti
@@ -1189,7 +1189,7 @@ Visualizza storico utente
 Menu utente
 [User Menu]
 Menu utente
-[Cancelled]
+[Canceled]
 Cancellato
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
@@ -1219,7 +1219,7 @@ Decisione inviata
 Connessione...
 [Connected]
 Connesso
-[Initialising...]
+[Initializing...]
 Inizializzazione...
 [Moving to next file...]
 Spostamento al file successivo...

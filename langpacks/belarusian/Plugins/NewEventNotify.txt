@@ -82,7 +82,7 @@
 Кантакты
 [You were added!]
 Вас дадалі
-[Requests your authorisation]
+[Requests your authorization]
 Запыт вашай аўтарызацыі
 [Unknown Event]
 Невядомая падзея

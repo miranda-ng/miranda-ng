@@ -148,7 +148,7 @@ Erlaube anderen meine erste E-Mail-Adresse zu sehen
 Nur Statusnachrichtenanfragen von Kontakten aus meiner Kontaktliste beantworten
 [Only reply to status message request from visible contacts]
 Nur Statusnachrichtenanfragen von sichtbaren Kontakten beantworten
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Ausgegraute Einstellungen können nur geändert werden, wenn Sie online sind.
 [Options]
 Einstellungen
@@ -230,7 +230,7 @@ Firma:
 Abteilung:
 [Position:]
 Position:
-[Organisation:]
+[Organization:]
 Organisation:
 [Location]
 Ort

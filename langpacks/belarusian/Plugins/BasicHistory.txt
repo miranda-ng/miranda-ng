@@ -182,7 +182,7 @@
 Я
 [Invalid Message]
 Паведамленне пашкоджана
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Запыт аўтарызацыі ад %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [Import]

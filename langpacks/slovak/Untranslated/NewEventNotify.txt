@@ -30,7 +30,7 @@
 [No popups for read messages]
 [Popups]
 [You were added!]
-[Requests your authorisation]
+[Requests your authorization]
 [ICQ Web pager]
 [ICQ Email express]
 [Unknown Event]

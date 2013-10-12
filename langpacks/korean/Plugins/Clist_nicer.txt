@@ -124,7 +124,7 @@
 시간:
 [milliseconds]
 밀리초
-[Grey out entire list when:]
+[Gray out entire list when:]
 전체 목록이 회색으로 됐을 때:
 [Contact List Background]
 대화 상대 목록 배경

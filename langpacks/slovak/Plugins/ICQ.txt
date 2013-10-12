@@ -146,7 +146,7 @@ Rozhovor
 
 [Only reply to status message request from visible contacts]
 
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 
 [Options]
 
@@ -228,7 +228,7 @@ Firma:
 Oddelenie:
 [Position:]
 Pozícia:
-[Organisation:]
+[Organization:]
 Organizácia:
 [Location]
 Miesto

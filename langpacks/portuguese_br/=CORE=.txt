@@ -843,7 +843,7 @@ Ocultar barra de rolagem vertical
 Altura da linha:
 [Gamma correction]
 Correção de gama
-[Grey out entire list when:]
+[Gray out entire list when:]
 Acinzentar lista quando
 [Contact List Background]
 Fundo dos Contatos
@@ -1897,7 +1897,7 @@ Exibir Histórico do Usuário
 Menu do Usuário
 [User Menu]
 Menu do Usuário
-[Cancelled]
+[Canceled]
 Cancelado
 ;file \src\core\stdfile\filesenddlg.cpp
 [%d files]

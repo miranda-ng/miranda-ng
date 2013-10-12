@@ -906,7 +906,7 @@ Ctrl+Enter 发送消息 (总是启用)
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 有 %d 个待发送作业. 消息长度: %d 字节, 消息长度限制: %d 字节\n\n%d 消息已加入稍后发送队列
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 您的其中一个弹视窗口操作已设为 "关闭事件". \n注意此选项可能会有副作用, 因为它会从未读事件队列中 "移除" 事件. \n可能会导致事件无法显示为 "新". 如果您不想有类似行为, 请查看事件通知设置页. 
 [Incoming file]
 传入文件
@@ -1394,7 +1394,7 @@ TabSRMM 消息 (%s)
 合并同一联系人通知
 [Remove popups under following conditions]
 以下情况移除弹出窗口
-[Message window behaviour]
+[Message window behavior]
 消息窗口行为
 [Sending messages]
 发送消息

@@ -208,7 +208,7 @@ Milisegundos
 milissegundos
 [Left margin:]
 Margem esquerda:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Acinzentar lista quando
 [Dim idle contacts]
 Desvanecer contatos inativos

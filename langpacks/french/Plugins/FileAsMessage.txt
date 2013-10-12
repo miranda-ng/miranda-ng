@@ -47,7 +47,7 @@ Réception...
 Envoi réussi
 [Incoming file request. Do you want to proceed?]
 Requête de fichier entrant. Voulez-vous continuer ?
-[Cancelled by remote user]
+[Canceled by remote user]
 Annulé par l'utilisateur à distance
 [New incoming file request. Do you want to proceed?]
 Nouvelle requête de fichier entrant. Voulez-vous continuer ?
@@ -65,7 +65,7 @@ Sélectionnez un fichier
 Sauver sous
 [Can't get a file size]
 N'a pu obtenir la taille du fichier
-[Cancelled by user]
+[Canceled by user]
 Annulé par l'usager
 [Transfer is in progress. Do you really want to close?]
 Transfert en cours. Voulez-vous vraiment annuler ?

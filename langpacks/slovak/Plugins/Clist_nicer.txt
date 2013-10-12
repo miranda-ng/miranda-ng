@@ -268,7 +268,7 @@ Plynule posúvať zoznam
 milisekúnd
 [Hide vertical scroll bar]
 
-[Grey out entire list when:]
+[Gray out entire list when:]
 Potlačiť intenzitu u týchto položiek:
 [Contact List Background]
 Pozadie zoznamu kontaktov

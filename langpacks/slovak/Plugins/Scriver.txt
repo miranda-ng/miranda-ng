@@ -8,7 +8,7 @@
 [Scriver - send and receive instant messages.]
 
 ;file \plugins\Scriver\res\resource.rc
-[Behaviour]
+[Behavior]
 
 [Automatically pop up the window when]
 

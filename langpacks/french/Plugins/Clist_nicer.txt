@@ -216,7 +216,7 @@ Durée :
 millisecondes
 [Hide vertical scroll bar]
 Cacher l'ascenseur vertical
-[Grey out entire list when:]
+[Gray out entire list when:]
 Griser toute la liste quand :
 [Contact List Background]
 Arrière-plan de la liste

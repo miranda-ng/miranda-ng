@@ -43,7 +43,7 @@ Stav
 Varovanie
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 
-[Favourites]
+[Favorites]
 
 [Regular statuses]
 
@@ -68,7 +68,7 @@ Varovanie
 
 [Set/unset current item as favorite]
 
-[Favourite]
+[Favorite]
 
 [Undo changes]
 

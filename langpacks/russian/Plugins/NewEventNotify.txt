@@ -10,7 +10,7 @@
 Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах. Для работы необходим Popup от Luca Santarelli или аналогичный.
 [You were added!]
 Вас добавили
-[Requests your authorisation]
+[Requests your authorization]
 Запрос вашей авторизации
 [Unknown Event]
 Неизвестное событие

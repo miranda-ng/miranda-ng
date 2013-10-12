@@ -437,7 +437,7 @@ ICQ-помощь
 
 [Keywords:]
 Кл. слова:
-[Organisation:]
+[Organization:]
 Организация:
 [Language:]
 Язык:
@@ -720,7 +720,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Разрешите, пожалуйста, добавить Вас в список.
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
 Изменения вступят в силу при следующем входе в сеть ICQ.
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Некоторые настройки можно изменять только после подключения к сети ICQ.
 [Your connection with the ICQ server was abortively closed]
 Подключение к ICQ серверу закрыто.

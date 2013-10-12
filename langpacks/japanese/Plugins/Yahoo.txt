@@ -156,7 +156,7 @@ Yahoo メール (&Y)
 差出人 : %s\n件名 : %s
 [Yahoo Ping Error]
 Yahoo Ping エラー
-[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 Yahoo サービスにログインできません - ユーザー名が認識できません。ユーザー名が正しく入力されているか確認してください
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Yahoo サービスにログインできません - パスワードが違います。ユーザー名とパスワードが正しく入力されているか確認してください

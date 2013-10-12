@@ -61,7 +61,7 @@ Erfolgreich gesendet
 
 [Incoming file request. Do you want to proceed?]
 
-[Cancelled by remote user]
+[Canceled by remote user]
 
 [New incoming file request. Do you want to proceed?]
 
@@ -79,7 +79,7 @@ Datei auswählen
 Speichern als
 [Can't get a file size]
 Kann Dateigröße nicht erhalten
-[Cancelled by user]
+[Canceled by user]
 Durch Benutzer abgebrochen
 [Transfer is in progress. Do you really want to close?]
 Übertragung dauert an. Möchten Sie wirklich abbrechen?

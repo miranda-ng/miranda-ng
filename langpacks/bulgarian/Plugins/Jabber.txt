@@ -370,7 +370,7 @@ JID на стаята/URL:
 Преглед като дърво
 [View as list]
 Преглед като списък
-[Favourites]
+[Favorites]
 Любими
 [Refresh]
 Обновяване

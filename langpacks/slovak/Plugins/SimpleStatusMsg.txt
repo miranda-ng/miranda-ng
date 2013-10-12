@@ -22,7 +22,7 @@ Prijímam %s správu
 OK
 [Retrieving status message for %s...]
 
-[Behaviour on status change]
+[Behavior on status change]
 
 [Apply to all]
 

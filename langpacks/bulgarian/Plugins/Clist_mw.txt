@@ -196,7 +196,7 @@ ms между две мигания
 милисекунди
 [Left margin:]
 Ляв ръб:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Посивяване на списъка, когато:
 [Dim idle contacts]
 Потъмняване на бездействащите контакти

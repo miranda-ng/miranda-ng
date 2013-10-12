@@ -118,7 +118,7 @@ Permettre que l'on voit mon adresse e-mail primaire
 Répondre aux demandes de message d'état seulement à ma liste de contacts
 [Only reply to status message request from visible contacts]
 Répondre aux demandes de message d'état seulement aux contacts visibles
-[Some options are greyed out because they can only be changed when you are online.]
+[Some options are grayed out because they can only be changed when you are online.]
 Certaines options sont grisées car elles ne peuvent être modifiées que si vous êtes connecté.
 [Enable popup support]
 Activer le support des popups
@@ -176,7 +176,7 @@ Entreprise :
 Département :
 [Position:]
 Position :
-[Organisation:]
+[Organization:]
 Organisation :
 [Location]
 Lieu

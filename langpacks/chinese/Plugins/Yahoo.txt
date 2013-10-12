@@ -144,7 +144,7 @@ Yahoo 邮箱(&Y)
 从: %s\n主题: %s
 [Yahoo Ping Error]
 Yahoo Ping 错误
-[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 无法登录到 Yahoo 服务 - 用户名无效. 请确认您的用户名填写正确. 
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 无法登录到 Yahoo 服务 - 密码错误. 请确认您的用户名和密码填写正确. 

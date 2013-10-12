@@ -252,7 +252,7 @@ Preradiť popups
 
 [Popups are disabled]
 
-[With "favourite" overlay]
+[With "favorite" overlay]
 
 [With "fullscreen" overlay]
 
@@ -404,13 +404,13 @@ Notifikácia
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 
-[Favourite]
+[Favorite]
 
 [Block]
 
 [Popup Mode: Auto]
 
-[Popup Mode: Favourite]
+[Popup Mode: Favorite]
 
 [Popup Mode: Ignore fullscreen]
 

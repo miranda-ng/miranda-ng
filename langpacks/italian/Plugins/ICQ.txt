@@ -154,7 +154,7 @@ Compagnia:
 Dipartimento:
 [Position:]
 Posizione:
-[Organisation:]
+[Organization:]
 Organizzazione:
 [Location]
 Provenienza

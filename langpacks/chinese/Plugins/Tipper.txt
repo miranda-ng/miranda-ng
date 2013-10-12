@@ -92,7 +92,7 @@
 无图标
 [No title]
 无标题
-[Centre]
+[Center]
 中间
 [Max avatar size:]
 最大头像大小: 

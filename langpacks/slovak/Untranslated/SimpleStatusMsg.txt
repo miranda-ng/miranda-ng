@@ -3,7 +3,7 @@
 [Co&py to Clipboard]
 [%s Message (%s)]
 [Retrieving status message for %s...]
-[Behaviour on status change]
+[Behavior on status change]
 [Apply to all]
 [Max length:]
 [Pop up dialog box]

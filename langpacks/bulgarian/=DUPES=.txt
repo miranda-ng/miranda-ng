@@ -485,7 +485,7 @@ Copyright:
 Ред (височина):
 [Gamma correction]
 Корекция на гамата
-[Grey out entire list when:]
+[Gray out entire list when:]
 Посивяване на списъка, когато:
 [Contact List Background]
 Фон на списъка с контакти

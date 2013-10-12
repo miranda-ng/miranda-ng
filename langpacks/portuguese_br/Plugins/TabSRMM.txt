@@ -1160,7 +1160,7 @@ Envio de notificações de digitação está %s.
 [Sending typing notifications is %s.]
 Envio de notificação de escrita está %s.
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Uma de suas ações popup está definido para descartar EVENTO.\nNote que esta opção pode ter efeitos colaterais indesejados, pois elimina o evento da fila não lidas.\nIsto pode levar a acontecimentos não aparecendo como "novo". Se você não quer esse comportamento, consulte as notificações de eventos na página de configurações.
 [Incoming file]
 Arquivo Chegando
@@ -1582,10 +1582,8 @@ Clique com o direito (somente popups)
 Ações de pausa (só Popups)
 [Remove popups under following conditions]
 Remover popups sob as seguintes condições
-[Message window behaviour]
+[Message window behavior]
 Comportamento da janela de mensagem
-[Message window behaviour]
-Comportamento da janela de mensagens
 [Sending messages]
 Envio de mensagens
 [Send on SHIFT - Enter]
