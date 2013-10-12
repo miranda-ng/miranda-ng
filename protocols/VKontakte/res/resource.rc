@@ -35,6 +35,31 @@ BEGIN
     CONTROL         "Open VK site",IDC_URL,"Hyperlink",WS_TABSTOP,7,49,174,12
 END
 
+IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Bots Challenge Test"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_VALUE,4,203,137,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_WHITERECT,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,0,0,258,25
+    LTEXT           "Instruction:",IDC_TITLE,7,7,243,8,NOT WS_GROUP
+    EDITTEXT        IDC_INSTRUCTION,17,16,233,8,ES_MULTILINE | ES_READONLY | NOT WS_BORDER
+    CONTROL         "",IDC_FRAME1,"Static",SS_ETCHEDHORZ,0,26,258,1
+    CONTROL         "",IDC_FRAME2,"Static",SS_ETCHEDHORZ,0,197,258,1
+    DEFPUSHBUTTON   "Submit",IDOK,146,203,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,200,203,50,14
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+
+IDI_KEYS                ICON                    "key.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

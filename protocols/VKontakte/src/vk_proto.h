@@ -139,7 +139,9 @@ private:
 	int    SetupConnection(void);
 	void   __cdecl WorkerThread(void*);
 
+	CMStringA RunCaptchaForm(LPCSTR szUrl);
 	CMStringA AutoFillForm(char*, CMStringA&);
+
 	void   ConnectionFailed(int iReason);
 	bool   CheckJsonResult(JSONNODE*);
 	void   OnLoggedIn();

@@ -78,6 +78,8 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 
+	InitIcons();
+
 	// Register protocol module
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "VKontakte";

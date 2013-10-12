@@ -28,3 +28,5 @@ struct HttpParam
 extern HINSTANCE hInst;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
+
+void InitIcons(void);
