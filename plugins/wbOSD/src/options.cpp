@@ -17,7 +17,7 @@ void FillCheckBoxTree(HWND hwndTree,DWORD style)
 {
 	logmsg("FillCheckBoxTree");
 
-	TVINSERTSTRUCT tvis;
+	TVINSERTSTRUCT tvis = {0};
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_STATE;
@@ -36,7 +36,7 @@ DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 
 	logmsg("MakeCheckBoxTreeFlags");
 
-	TVITEM tvi;
+	TVITEM tvi = {0};
 	tvi.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_STATE;
 	tvi.hItem=TreeView_GetRoot(hwndTree);
 	while(tvi.hItem) {
@@ -51,7 +51,7 @@ int selectColor(HWND hwnd, COLORREF *clr)
 {
 	logmsg("SelectColor");
 
-	CHOOSECOLOR cc;
+	CHOOSECOLOR cc = {0};
 	cc.lStructSize = sizeof(cc);
 	cc.hwndOwner = hwnd;
 	cc.hInstance = (HWND)hI;
@@ -289,10 +289,10 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			ps=(plgsettings*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 			switch (LOWORD(wparam)) {
 			case IDC_BUTTON7:
-				MessageBox(hDlg, _T("Variables:\n  %n : Nick\n  %m : Message\n  %l : New line"), _T("Help"), MB_ICONINFORMATION|MB_OK);
+				MessageBox(hDlg, TranslateT("Variables:\n  %n : Nick\n  %m : Message\n  %l : New line"), TranslateT("Help"), MB_ICONINFORMATION|MB_OK);
 				return 0;
 			case IDC_BUTTON5:
-				SendMessage(hwnd, WM_USER+1, (WPARAM)_T("miranda is gr8 and this is a long message ;-)"), 0);
+				SendMessage(hwnd, WM_USER+1, (WPARAM)TranslateT("Miranda NG is great and this is a long message."), 0);
 				break;
 			case IDC_BUTTON1:
 				selectFont(hDlg, &(ps->lf));

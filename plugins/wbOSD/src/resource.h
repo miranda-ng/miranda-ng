@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by wbOSD.rc
+// Used by ..\res\wbOSD.rc
 //
 #define IDD_DIALOG1                     101
 #define IDC_BUTTON1                     1001
