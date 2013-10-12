@@ -59,6 +59,17 @@ HANDLE CVkProto::FindUser(LPCSTR pUserid, bool bCreate)
 	return hNewContact;
 }
 
+bool CVkProto::CheckMid(int msgid)
+{
+	for (int i=m_sendIds.getCount()-1; i >= 0; i--)
+		if (m_sendIds[i] == (HANDLE)msgid) {
+			m_sendIds.remove(i);
+			return true;
+		}
+
+	return false;
+}
+
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 {
 	for (int i=0; i < pReq->headersCount; i++)

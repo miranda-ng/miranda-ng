@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CVkProto>(szModuleName, ptszUserName),
 	m_arRequestsQueue(10),
+	m_sendIds(3, PtrKeySortT),
 	m_msgId(1)
 {
 	InitQueue();
@@ -146,11 +147,26 @@ int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 		{ "message", szMsg },
 		{ "access_token", m_szAccessToken }
 	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.send.json", true, NULL, SIZEOF(params), params);
+	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendMessage, SIZEOF(params), params);
 
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
 	ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
 	return msgId;
+}
+
+void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, void*)
+{
+	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+
+	JSONROOT pRoot(reply->pData);
+	if ( !CheckJsonResult(pRoot))
+		return;
+
+	JSONNODE *pResponse = json_get(pRoot, "response");
+	if (pResponse != NULL)
+		m_sendIds.insert((HANDLE)json_as_int(pResponse));
 }
 
 //////////////////////////////////////////////////////////////////////////////

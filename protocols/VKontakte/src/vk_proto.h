@@ -100,12 +100,14 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, void*);
+	void OnSendMessage(NETLIBHTTPREQUEST*, void*);
 
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, void*);
 
 	void __cdecl PollingThread(void*);
 	int  PollServer();
+	void PollUpdates(JSONNODE*);
 	void OnReceivePolling(NETLIBHTTPREQUEST*, void*);
 
 	int  SetServerStatus(int);
@@ -164,6 +166,9 @@ private:
 	UINT_PTR m_timer;
 
 	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
-	HANDLE m_hPollingThread;
+	HANDLE m_pollingConn;
 	ULONG  m_msgId;
+
+	LIST<void> m_sendIds;
+	bool   CheckMid(int msgid);
 };
