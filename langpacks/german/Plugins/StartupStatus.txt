@@ -269,6 +269,8 @@ Status: Der Status, in den das Konto wechselt\r\nKonto: Das Konto, dessen Status
 <letzter>
 [<current>]
 <aktueller>
+[<unknown>]
+
 [Left]
 Links
 [Right]

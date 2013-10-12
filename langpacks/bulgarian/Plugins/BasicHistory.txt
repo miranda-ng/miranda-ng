@@ -261,7 +261,7 @@
 Молба за упълномощаване
 [You were added]
 
-[Contacts recieved]
+[Contacts received]
 
 [SMTP Simple Email]
 

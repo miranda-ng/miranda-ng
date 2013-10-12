@@ -1964,7 +1964,6 @@ Fax
 カスタムステータス
 [%s (locked)]
 %s ( ロック中 )
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 ( 不明なコンタクト )

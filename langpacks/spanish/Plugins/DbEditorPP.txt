@@ -217,7 +217,7 @@ Editar valor UNICODE
 Nuevo valor BLOB
 [Edit BLOB value]
 Editar valor BLOB
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 No podía asignar memoria suficiente!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp

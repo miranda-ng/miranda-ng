@@ -269,6 +269,8 @@ sekúnd
 
 [<current>]
 
+[<unknown>]
+
 [Left]
 
 [Right]

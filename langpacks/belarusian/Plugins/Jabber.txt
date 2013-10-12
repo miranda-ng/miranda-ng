@@ -1514,7 +1514,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Памылка %s %s\r\n Калі ласка абярыце іншы сервер
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Памылка, прыняты невядомы адказ\r\n Калі ласка, абярыце іншы сервер
 [Error %s %s\r\nTry to specify more detailed]
 Памылка %s %s\r\n Паспрабуйце паказаць больш дэталяў

@@ -239,7 +239,7 @@ Nombre
 Número de mensajes recibidos
 [Number of msg [IN]:]
 Número de msg [EN]:
-[Number of sended messages]
+[Number of sent messages]
 Número de mensajes enviada
 [Number of msg [OUT]:]
 Número de msg [OUT]:

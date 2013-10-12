@@ -890,7 +890,7 @@ Kilépett
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 %s %s hiba\r\nKérlek válassz másik szervert
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Hiba Ismeretlen válasz érkezett\r\nKérlek válassz másik szervert
 [Error %s %s\r\nTry to specify more detailed]
 %s %s hiba\r\nPróbálj részletesebben meghatározni

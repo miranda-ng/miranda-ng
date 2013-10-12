@@ -51,7 +51,7 @@
 Получен новый отрытый ключ. Вы хотите его принять?
 [There is existing key for contact, would you like to replace it with new key?]
 Получен ключ, но у контакта уже есть ключ. Вы хотите его заменить новым?
-[The new public key was recieved]
+[The new public key was received]
 Получен новый отрытый ключ.
 [Received key from]
 Получен ключ от

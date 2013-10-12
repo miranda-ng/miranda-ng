@@ -1424,7 +1424,6 @@
 אנא אשר את בקשתי להוסיף אותך לרשימה שלי.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (איש קשר לא מוכר)

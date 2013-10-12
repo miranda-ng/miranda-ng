@@ -2062,7 +2062,6 @@ Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 Custom Status
 [%s (locked)]
 %s (gesperrt)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Unbekannter Kontakt)

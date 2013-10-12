@@ -952,7 +952,7 @@ Invisível
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Erro %s %s\r\nPor favor escolha outro servidor
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Erro Desconhecido \r\nPor favor escolha outro servidor
 [Error %s %s\r\nTry to specify more detailed]
 Erro %s %s\r\nTente especificar mais detalhadamente

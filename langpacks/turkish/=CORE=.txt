@@ -1808,7 +1808,6 @@ Lütfen isteğimi yanıtlayıp beni kişi listenize ekleyin.
 Kişisel durum
 [%s (locked)]
 %s (kilitli)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Bilinmmeyen Kişi)

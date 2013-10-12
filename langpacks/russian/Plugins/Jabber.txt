@@ -1410,7 +1410,7 @@ Cлужба недоступна
 Ошибка %s %s\r\nПожалуйста выберите другой сервер
 [Error %s %s\r\nTry to specify more detailed]
 Ошибка %s %s\r\nПопытайтесь указать больше деталей
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Ошибка, принят неизвестный ответ\r\nПожалуйта выберите другой сервер
 [Please wait...\r\nConnecting search server...]
 Подождите...\r\nПодключение к серверу поиска...

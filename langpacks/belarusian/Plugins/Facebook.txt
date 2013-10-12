@@ -72,8 +72,6 @@
 Бяспечнае злучэнне (HTTPS)
 [Post Miranda statuses to Wall]
 Публікаваць статусы Miranda на сцяну
-[Enable logging for debugging purposes]
-Журналяванне для адладкі
 [Use secure connection also for channel requests]
 Бяспечнае злучэнне таксама для запытаў канала
 [Also disconnect chat when going to offline]

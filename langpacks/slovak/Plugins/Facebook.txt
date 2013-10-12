@@ -72,8 +72,6 @@ Prednastavené
 
 [Post Miranda statuses to Wall]
 
-[Enable logging for debugging purposes]
-
 [Use secure connection also for channel requests]
 
 [Also disconnect chat when going to offline]

@@ -1070,7 +1070,7 @@ Miranda NG のシャットダウンを確認してください
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 エラー %s %s\r\n他のサーバーを選択してください
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 エラー 不明な応答を受信\r\n他のサーバーを選択してください
 [Error %s %s\r\nTry to specify more detailed]
 エラー %s %s\r\nより詳しく指定してください

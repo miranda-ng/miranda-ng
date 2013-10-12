@@ -33,7 +33,7 @@
 Поиск в вебе
 [Update all users info]
 Обновить информацию всех пользователей
-[Check updates users avatars]
+[Check users avatars updates]
 Проверить обновления образов пользователей
 [Request authorization for all]
 Запросить авторизацию у всех
@@ -295,7 +295,7 @@ Receive files: can't open file %s, error]
 Запретить исходящие подключения при отправке
 [No out connection on receive]
 Запретить исходящие подключения при получении
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 Исходящие подключения: игнорировать доп. порты (443, 2041)
 [Hide my IP addresses]
 Скрывать мои IP адреса

@@ -367,7 +367,7 @@ Name:
 Anzahl empfangener Nachrichten
 [Number of msg [IN]:]
 Anzahl eingehender Nachrichten:
-[Number of sended messages]
+[Number of sent messages]
 Anzahl gesendeter Nachrichten
 [Number of msg [OUT]:]
 Anzahl ausgehender Nachrichten:

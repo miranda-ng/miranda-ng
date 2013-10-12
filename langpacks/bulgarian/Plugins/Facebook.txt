@@ -68,8 +68,6 @@ URL:
 Задължително ползване на сигурна (HTTPS) връзка
 [Post Miranda statuses to Wall]
 Публикуване на състоянията от Miranda на стената
-[Enable logging for debugging purposes]
-
 [Use secure connection also for channel requests]
 
 [Also disconnect chat when going to offline]

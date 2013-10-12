@@ -1330,7 +1330,6 @@ Mijn &details bekijken/wijzigen...
 ;file \src\modules\addcontact\addcontact.cpp
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Onbekend Persoon)

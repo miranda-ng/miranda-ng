@@ -257,7 +257,7 @@ NULL меню кантакту
 Стварыць BLOB
 [Edit BLOB value]
 Рэдагаваць BLOB
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Немагчыма вылучыць памяць!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]

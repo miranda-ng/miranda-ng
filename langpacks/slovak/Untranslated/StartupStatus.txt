@@ -115,6 +115,7 @@
 [Status: The status the account will change to\r\nAccount: The account changing state]
 [<last>]
 [<current>]
+[<unknown>]
 [Left]
 [Right]
 [size: %d x %d]

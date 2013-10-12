@@ -111,7 +111,7 @@ Neviditelný
 
 [The Message    (%d Characters)]
 
-[Couldnt Allocate enough memory]
+[Couldn't allocate enough memory]
 
 [error......]
 

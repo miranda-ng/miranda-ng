@@ -2056,7 +2056,6 @@ Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 États personnalisés
 [%s (locked)]
 %s (verrouillé)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Contact inconnu)

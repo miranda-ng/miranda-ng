@@ -111,7 +111,7 @@ Zu Am Telefon
 Zu Zum Essen
 [The Message    (%d Characters)]
 Die Nachricht   (%d Zeichen)
-[Couldnt Allocate enough memory]
+[Couldn't allocate enough memory]
 Konnte nicht genig Speicher allokieren.
 [error......]
 fehler...

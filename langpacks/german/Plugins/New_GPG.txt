@@ -56,7 +56,7 @@ GnuPG-Verzeichnis:
 Durchsuchen
 [Turn on key autoexchange]
 Automatischer Schlüsselaustausch aktivieren
-[The new public key was recieved]
+[The new public key was received]
 Der neue öffentl. Schlüssel wurde empfangen
 [Import key]
 Schlüssel importieren
@@ -104,7 +104,7 @@ Standardpasswort
 Importieren
 [Select keyserver for key search:]
 Wählen Sie den Keyserver für die Schlüsselsuche aus:
-[Recieved encrypted file]
+[Received encrypted file]
 Verschlüsselte Datei empfangen
 [Decrypt]
 Entschlüsseln
@@ -208,7 +208,7 @@ Fehler
 Erstelle neuen zufälligen Schlüssel, bitte warten
 [Failed to alocate memory]
 
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have beed warned.]
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 Das GPG-Verzeichnis wurde gefunden, allerdings der Englische Ort davon existiert nicht.\nEs ist sehr wichtig die \\gnupg.nls\\en@quot.mo im GnuPG-Ordner im Miranda NG Verzeichnis zu legen.\nOhne diese Datei haben Sie viele Probleme mit der GPG-Ausgabe auf englischen Systemen.\nEs kann evtl. nicht richtig funktionieren.\nSeien Sie gewarnt!
 [Warning]
 Warnung

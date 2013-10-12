@@ -56,7 +56,7 @@ OK
 Listovať
 [Turn on key autoexchange]
 
-[The new public key was recieved]
+[The new public key was received]
 
 [Import key]
 
@@ -104,7 +104,7 @@ Heslo:
 
 [Select keyserver for key search:]
 
-[Recieved encrypted file]
+[Received encrypted file]
 
 [Decrypt]
 
@@ -208,7 +208,7 @@ Chyba
 
 [Failed to alocate memory]
 
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have beed warned.]
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 
 [Warning]
 Varovanie

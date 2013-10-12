@@ -1744,7 +1744,6 @@ Vennligst godta min forespørsel og legg meg til i din kontaktliste.
 Selvvalgt status
 [%s (locked)]
 %s (låst)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Ukjent Kontakt)

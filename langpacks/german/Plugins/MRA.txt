@@ -96,7 +96,7 @@ Dateien austauschen
 Keine ausgehende Verbindung beim Senden
 [No out connection on receive]
 Keine ausgehende Verbindung beim Empfangen
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 Ausgehende Verbindungen: Zusätzliche Ports (443, 2041) ignorieren
 [Hide my IP addresses]
 Meine IP-Adresse verstecken
@@ -154,7 +154,7 @@ OK
 Abbrechen
 [Notify]
 Benachrichtigung
-[Writed:]
+[Written:]
 Geschrieben:
 [Select e-mail]
 E-Mail auswählen
@@ -252,7 +252,7 @@ Zhuki
 Web-Suche
 [Update all users info]
 Alle Benutzerinfos aktualisieren
-[Check updates users avatars]
+[Check users avatars updates]
 Alle Benutzerbilder aktualisieren
 [Request authorization for all]
 Autorisierung für alle anfragen
@@ -295,7 +295,7 @@ Bitte autorisieren Sie mich
 Dateien empfangen: Kann nicht genug Speicherplatz für die Datei belegen, Größe %lu Bytes, Fehler
 [Receive files: can't open file %s, error]
 Dateien empfangen: Kann Datei %s nicht öffnen, Fehler
-[Receive files: request for file %s not sended, error]
+[Receive files: request for file %s not sent, error]
 Dateien empfangen: Anfrage für Datei %s nicht gesendet, Fehler
 [Send files: can't open file %s, error]
 Dateien senden: Kann Datei %s nicht öffnen, Fehler
@@ -353,7 +353,7 @@ In %ld schließen
 Auf %s Blog-Status antworten
 [Set my blog status]
 Meinen Blog-Status setzen
-[Writed]
+[Written]
 Geschrieben
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]

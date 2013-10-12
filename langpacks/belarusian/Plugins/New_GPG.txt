@@ -46,7 +46,7 @@
 Агляд
 [Turn on key autoexchange]
 Ўключыць автообмен ключамі
-[The new public key was recieved]
+[The new public key was received]
 Атрыманы новы адкрыты ключ.
 [Import key]
 Імпартаваць ключ

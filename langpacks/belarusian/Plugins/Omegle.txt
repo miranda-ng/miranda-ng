@@ -14,8 +14,6 @@
 Мова:
 [Visible name:]
 Бачнае імя:
-[Enable logging for debugging purposes]
-Журналяванне для адладкі
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
 Сервер

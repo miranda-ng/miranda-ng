@@ -40,7 +40,7 @@
 [To On The Phone]
 [To Out To Lunch]
 [The Message    (%d Characters)]
-[Couldnt Allocate enough memory]
+[Couldn't allocate enough memory]
 [error......]
 [The Message    (0 Characters)]
 [Reuse this message? (0 to use it once)]

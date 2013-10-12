@@ -259,7 +259,7 @@ xСтатус
 Идентификатор
 [XStatus text]
 Текст хСтатуса
-[Number of sended messages]
+[Number of sent messages]
 Количество отправленных сообщений
 [Number of received messages]
 Количество полученных сообщений

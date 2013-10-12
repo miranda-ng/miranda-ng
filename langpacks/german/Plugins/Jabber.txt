@@ -2026,7 +2026,7 @@ Wählen Sie aus, welche Gruppenchats Sie verlassen wollen.
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Fehler %s %s\r\nBitte den Server wechseln!
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Fehler: Unbekannte Antwort erhalten.\r\nBitte den Server wechseln!
 [Error %s %s\r\nTry to specify more detailed]
 Fehler %s %s\r\nBitte gehen Sie ins Detail

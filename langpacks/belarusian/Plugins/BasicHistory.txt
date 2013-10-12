@@ -249,7 +249,7 @@ Dat (мКантакты)
 Запыт аўтарызацыі
 [You were added]
 Вас дадалі
-[Contacts recieved]
+[Contacts received]
 Атрыманне кантактаў
 [SMTP Simple Email]
 Паведамленне e-mail (SMTP Simple)

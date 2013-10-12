@@ -94,7 +94,7 @@
 Забараніць выходныя далучэнні пры адпраўцы
 [No out connection on receive]
 Забараніць выходныя далучэнні пры атрыманні
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 Выходныя далучэнні: ігнараваць дап. порты (443, 2041)
 [Hide my IP addresses]
 Хаваць мае IP адрасы
@@ -152,7 +152,7 @@ xСтатус "%s"
 Скасаваць
 [Notify]
 Апавяшчэнне
-[Writed:]
+[Written:]
 Напісаў:
 [Select e-mail]
 Выбар электроннай пошты
@@ -199,7 +199,7 @@ xСтатус "%s"
 Пошук у вэбе
 [Update all users info]
 Абнавіць інфармацыю ўсіх карыстачоў
-[Check updates users avatars]
+[Check users avatars updates]
 Праверыць абнаўленні выяў карыстачоў
 [Request authorization for all]
 Запытаць аўтарызацыю ва ўсіх
@@ -240,7 +240,7 @@ xСтатус "%s"
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 [Receive files: can't open file %s, error]
 Атрыманне файлаў: немагчыма адкрыць файл %s, памылка
-[Receive files: request for file %s not sended, error]
+[Receive files: request for file %s not sent, error]
 Атрыманне файлаў:запыт для файла %sне адпраўлены, памылка
 [Send files: can't open file %s, error]
 Адпраўка файла: немагчыма адкрыць файл %s, памылка
@@ -294,7 +294,7 @@ Mail.ru дадаткова
 Адказаць на статус блога %s
 [Set my blog status]
 Мой блог статус
-[Writed]
+[Written]
 Напісаў
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]

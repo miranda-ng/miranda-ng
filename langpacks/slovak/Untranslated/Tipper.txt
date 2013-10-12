@@ -164,7 +164,7 @@
 [Name:]
 [Number of received messages]
 [Number of msg [IN]:]
-[Number of sended messages]
+[Number of sent messages]
 [Number of msg [OUT]:]
 [Contact time]
 [XStatus title]

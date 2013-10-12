@@ -245,7 +245,7 @@ BLOB
 Нова BLOB стойност
 [Edit BLOB value]
 Редактиране на BLOB стойност
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Не е възможно заделянето на достатъчно памет!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]

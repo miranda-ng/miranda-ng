@@ -1800,7 +1800,6 @@ Por favor, autorizo mi petición y me agregue a su lista de contactos.
 De estado personalizados
 [%s (locked)]
 %s (Cerrado)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (contacto desconocido)

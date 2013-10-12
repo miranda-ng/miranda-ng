@@ -64,7 +64,7 @@
 发送时无可用连接
 [No out connection on receive]
 接收时无可用连接
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 输出连接: 忽略附加端口(443, 2041)
 [Hide my IP addresses]
 隐藏我的 IP 地址

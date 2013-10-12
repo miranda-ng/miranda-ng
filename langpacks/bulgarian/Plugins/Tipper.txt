@@ -367,7 +367,7 @@ Miranda работи от:
 Брой получени съобщения
 [Number of msg [IN]:]
 Брой съобщения (входящи):
-[Number of sended messages]
+[Number of sent messages]
 Брой изпратени съобщения
 [Number of msg [OUT]:]
 Брой съобщения (изходящи):

@@ -354,7 +354,7 @@ HANDLE
 Во все контакты (включая "настройки")
 [Couldn't open file for writing]
 Не удается открыть файл на запись
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Невозможно выделить память!
 [Find and Replace]
 Найти и заменить

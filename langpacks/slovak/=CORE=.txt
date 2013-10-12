@@ -2056,7 +2056,6 @@ Zobraziť/Zmeniť moje informácie...
 
 [%s (locked)]
 
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (neznámý kontakt)

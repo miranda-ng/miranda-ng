@@ -2060,7 +2060,6 @@ URL ад %s
 хстатус
 [%s (locked)]
 %s (заблакаваны)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)

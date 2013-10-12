@@ -106,7 +106,7 @@
 [File transfer]
 [Link]
 [Authorization request]
-[Contacts recieved]
+[Contacts received]
 [SMTP Simple Email]
 [SMS message]
 [Group list]

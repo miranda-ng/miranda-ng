@@ -2020,7 +2020,7 @@ Facebook чат
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Грешка %s %s\r\nМоля, изберете друг сървър
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Грешка: Получен е непознат отговор\r\nМоля, изберете друг сървър
 [Error %s %s\r\nTry to specify more detailed]
 

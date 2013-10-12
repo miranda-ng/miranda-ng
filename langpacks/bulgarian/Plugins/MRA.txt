@@ -94,7 +94,7 @@
 
 [No out connection on receive]
 
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 
 [Hide my IP addresses]
 
@@ -152,7 +152,7 @@ E-поща:
 Отказ
 [Notify]
 Уведомяване
-[Writed:]
+[Written:]
 
 [Select e-mail]
 
@@ -199,7 +199,7 @@ E-поща:
 
 [Update all users info]
 
-[Check updates users avatars]
+[Check users avatars updates]
 
 [Request authorization for all]
 
@@ -242,7 +242,7 @@ E-поща:
 
 [Receive files: can't open file %s, error]
 
-[Receive files: request for file %s not sended, error]
+[Receive files: request for file %s not sent, error]
 
 [Send files: can't open file %s, error]
 
@@ -296,7 +296,7 @@ Popups
 
 [Set my blog status]
 
-[Writed]
+[Written]
 
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]

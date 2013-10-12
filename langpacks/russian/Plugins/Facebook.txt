@@ -41,8 +41,6 @@
 Автоматически закрывать чат в браузере
 [Post Miranda statuses to Wall]
 Публиковать статусы Miranda на стену
-[Enable logging for debugging purposes]
-Логирование для отладки
 [News feeds]
 Новости
 [Client notifications]

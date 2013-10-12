@@ -896,7 +896,7 @@ Görünmez
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Hata %s %s\r\nBaşka bir sunucu seçin
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 Hata bilinmeyen yanıt alındı\r\nBaşka bir sunucu seçin
 [Error %s %s\r\nTry to specify more detailed]
 Hata %s %s\r\nDaha detaylı belirtmeyi deneyin

@@ -1298,7 +1298,7 @@ Facebook 聊天
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 错误 %s %s\r\n请选择其它服务器
-[Error Unknown reply recieved\r\nPlease select other server]
+[Error Unknown reply received\r\nPlease select other server]
 错误收到未知回复\r\n请选择其它服务器
 [Error %s %s\r\nTry to specify more detailed]
 错误 %s %s\r\n尝试指定更多详细资料

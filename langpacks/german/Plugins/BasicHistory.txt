@@ -261,7 +261,7 @@ Link
 Eingehende Autorisierungsanfrage
 [You were added]
 Sie wurden hinzugefügt.
-[Contacts recieved]
+[Contacts received]
 Kontakt empfangen
 [SMTP Simple Email]
 SMTP einfache E-Mail

@@ -1390,7 +1390,6 @@ Aggiungi contatto
 Per favore dammi l'autorizzazione e aggiungimi alla tua lista dei contatti.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Contatto sconosciuto)

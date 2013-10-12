@@ -68,8 +68,6 @@ Erweiterte Einstellungen
 Sichere Verbindung (HTTPS) erzwingen
 [Post Miranda statuses to Wall]
 Miranda Status auf die Pinnwand setzen
-[Enable logging for debugging purposes]
-Debug-Loggen aktivieren
 [Use secure connection also for channel requests]
 Sichere Verbindung auch für Channel-Zugriffe verwenden
 [Also disconnect chat when going to offline]

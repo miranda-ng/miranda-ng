@@ -199,7 +199,7 @@ Modifier valeur CHAÎNE
 Nouvelle valeur Unicode
 [Edit UNICODE value]
 Éditer une valeur Unicode
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Impossible d'allouer assez de mémoire !
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp

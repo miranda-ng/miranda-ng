@@ -2062,7 +2062,6 @@ URL
 Персонално състояние
 [%s (locked)]
 %s (заключен)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Непознат контакт)

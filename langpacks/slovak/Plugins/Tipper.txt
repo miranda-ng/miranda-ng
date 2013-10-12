@@ -367,7 +367,7 @@ Meno
 
 [Number of msg [IN]:]
 
-[Number of sended messages]
+[Number of sent messages]
 
 [Number of msg [OUT]:]
 

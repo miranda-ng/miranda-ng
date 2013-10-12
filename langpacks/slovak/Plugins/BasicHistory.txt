@@ -261,7 +261,7 @@ Chyba
 
 [You were added]
 Boli ste pridaný
-[Contacts recieved]
+[Contacts received]
 
 [SMTP Simple Email]
 

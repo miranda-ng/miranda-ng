@@ -227,7 +227,7 @@
 新 BLOB 值
 [Edit BLOB value]
 编辑 BLOB 值
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 无法分配足够内存! 
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp

@@ -245,7 +245,7 @@ UNICODE-Wert bearbeiten
 Neuer BLOB-Wert
 [Edit BLOB value]
 BLOB-Wert bearbeiten
-[Couldnt allocate enough memory!]
+[Couldn't allocate enough memory!]
 Nicht genug freier Speicher!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]

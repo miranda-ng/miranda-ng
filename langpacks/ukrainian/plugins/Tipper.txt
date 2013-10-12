@@ -363,7 +363,7 @@
 Кількість отриманих повідомлень
 [Number of msg [IN]:]
 Кількість отриманих повідомлень:
-[Number of sended messages]
+[Number of sent messages]
 Кількість відправлених повідомлень
 [Number of msg [OUT]:]
 Кількість відправлених повідомлень:

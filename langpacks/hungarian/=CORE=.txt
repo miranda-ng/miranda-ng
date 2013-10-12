@@ -1754,7 +1754,6 @@ Kérlek engedélyezd a kérelmemet és adj hozzá a kapcsolati listádhoz.
 Egyéni állapot
 [%s (locked)]
 %s (kizárva)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (ismeretlen partner)

@@ -2110,7 +2110,6 @@ Por favor, autorizar o meu pedido e me adicionar à sua lista de contatos.
 Status personalizada
 [%s (locked)]
 %s (travado)
-;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)
