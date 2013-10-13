@@ -191,7 +191,8 @@ int CVkProto::SetStatus(int iNewStatus)
 	else if ( !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
+		if (m_hWorkerThread == NULL)
+			m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
 	}
 	else if ( IsOnline())
 		SetServerStatus(iNewStatus);

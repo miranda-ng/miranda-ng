@@ -55,19 +55,20 @@ void CVkProto::OnLoggedIn()
 
 	HttpParam param = { "access_token", m_szAccessToken };
 	PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
-
-	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
 void CVkProto::OnLoggedOut()
 {
-	m_hWorkerThread = 0;
 	m_bOnline = false;
+
+	if (m_pollingConn)
+		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConn, 0);
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	KillTimer(NULL, m_timer);
+	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
 int CVkProto::SetServerStatus(int iStatus)
@@ -509,13 +510,20 @@ int CVkProto::PollServer()
 		else retVal = 0;
 	}
 
+	m_pollingConn = reply->nlc;
+
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
 	return retVal;
 }
 
 void CVkProto::PollingThread(void*)
 {
+	debugLogA("CVkProto::PollingThread: entering");
+
 	while (!m_bTerminated)
 		if (PollServer() == -1)
 			break;
+
+	m_pollingConn = 0;
+	debugLogA("CVkProto::PollingThread: leaving");
 }

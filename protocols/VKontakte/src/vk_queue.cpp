@@ -87,6 +87,7 @@ bool CVkProto::PushAsyncHttpRequest(AsyncHttpRequest *pReq, int iTimeout)
 
 void CVkProto::WorkerThread(void*)
 {
+	debugLogA("CVkProto::WorkerThread: entering");
 	m_bTerminated = false;
 	m_szAccessToken = getStringA("AccessToken");
 	if (m_szAccessToken != NULL)
@@ -121,5 +122,6 @@ void CVkProto::WorkerThread(void*)
 		}
 	}
 
-	OnLoggedOut();
+	m_hWorkerThread = 0;
+	debugLogA("CVkProto::WorkerThread: leaving");
 }
