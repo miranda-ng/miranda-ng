@@ -616,7 +616,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 
 	// Set protocols to show frame
 	mi.position = 200001;
-	mi.ptszName = LPGENT("Show next protocol");
+	mi.ptszName = LPGENT("Show next account");
 	mi.pszService = MS_MYDETAILS_SHOWNEXTPROTOCOL;
 	Menu_AddMainMenuItem(&mi);
 
