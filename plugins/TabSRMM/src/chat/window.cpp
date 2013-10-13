@@ -1665,7 +1665,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					hti.pt.y += height - 4;
 				ClientToScreen(hwnd, &hti.pt);
 				
-				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, parentdat, uinew.pszUID, NULL);
+				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, parentdat, uinew.pszUID, uinew.pszNick);
 				switch (uID) {
 				case 0:
 					break;
@@ -2844,7 +2844,7 @@ LABEL_SHOWWINDOW:
 									pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 									ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
 									CopyMemory(&uiNew, ui, sizeof(USERINFO));
-									UINT uID = CreateGCMenu(hwndDlg, &hMenu, 0, pt, si, uiNew.pszUID, NULL);
+									UINT uID = CreateGCMenu(hwndDlg, &hMenu, 0, pt, si, uiNew.pszUID, uiNew.pszNick);
 									switch (uID) {
 									case 0:
 										break;

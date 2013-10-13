@@ -688,8 +688,8 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 	else if (iIndex == 0)
 	{
 		TCHAR szTemp[30];
-		if (pszUID)
-			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("&Message %s"), pszUID);
+		if (pszWordText)
+			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("&Message %s"), pszWordText);
 		else
 			lstrcpyn(szTemp, TranslateT("&Message"), 24);
 
