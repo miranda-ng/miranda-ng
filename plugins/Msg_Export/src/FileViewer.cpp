@@ -240,7 +240,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 
 	if (nOptimalReadLen < 500 )
 	{
-		MessageBox(NULL, TranslateT("Error: Optimal buffer size decrecied to a to low size !!"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Error: Optimal buffer size decrecied to a to low size!"), MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
@@ -330,7 +330,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 
 					LONG lExtraRead = (n+1) - dwRead;
 					if (lExtraRead >= 0 )
-						MessageBox(NULL, TranslateT("Internal error !! (lExtraRead >= 0)"), MSG_BOX_TITEL, MB_OK);
+						MessageBox(NULL, TranslateT("Internal error! (lExtraRead >= 0)"), MSG_BOX_TITEL, MB_OK);
 					SetFilePointer( hFile, lExtraRead, NULL, FILE_CURRENT);
 					bCheckFirstForNick = true;
 					return dwCurrent;
@@ -865,7 +865,7 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				ft.chrg.cpMin = 0;
 				res = (int)SendMessage(hwnd, EM_FINDTEXTW, (WPARAM)fr->Flags,(LPARAM)&ft);
 				if(res == -1) {
-					MessageBox(hwnd, TranslateT("Search string was not found !"), MSG_BOX_TITEL, MB_OK);
+					MessageBox(hwnd, TranslateT("Search string was not found!"), MSG_BOX_TITEL, MB_OK);
 					return 0;
 				}
 			}

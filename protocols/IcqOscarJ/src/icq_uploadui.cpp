@@ -876,7 +876,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 			if (!ppro->icqOnline())
 			{
 				char str[MAX_PATH];
-				AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("You have to be online to sychronize the server-list !"), str, MAX_PATH));
+				AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("You have to be online to sychronize the server-list!"), str, MAX_PATH));
 				break;
 			}
 			working = 1;
