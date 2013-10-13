@@ -165,7 +165,7 @@ private:
 	UINT_PTR m_timer;
 
 	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
-	HANDLE m_pollingConn;
+	HANDLE m_pollingConn, m_hPollingThread;
 	ULONG  m_msgId;
 
 	LIST<void> m_sendIds;

@@ -422,8 +422,8 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, void*)
 	m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pResponse, "ts"))));
 	m_pollingKey = mir_t2a( ptrT( json_as_string( json_get(pResponse, "key"))));
 	m_pollingServer = mir_t2a( ptrT( json_as_string( json_get(pResponse, "server"))));
-	if (m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL)
-		ForkThread(&CVkProto::PollingThread, 0);
+	if (!m_hPollingThread && m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL)
+		m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -524,6 +524,7 @@ void CVkProto::PollingThread(void*)
 		if (PollServer() == -1)
 			break;
 
-	m_pollingConn = 0;
+	m_hPollingThread = NULL;
+	m_pollingConn = NULL;
 	debugLogA("CVkProto::PollingThread: leaving");
 }
