@@ -298,7 +298,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, void*)
 		if (szValue == NULL)
 			continue;
 
-		HANDLE hContact = FindUser(_T2A(szValue), true);
+		HANDLE hContact = FindUser( _ttoi(szValue), true);
 		szValue = json_as_string( json_get(pInfo, "first_name"));
 		if (szValue) setTString(hContact, "FirstName", szValue);
 
@@ -363,10 +363,9 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, void*)
 		int isRead = json_as_int( json_get(pMsg, "read_state"));
 		ptrT ptszBody( json_as_string( json_get(pMsg, "body")));
 
-		char szUserid[40], szMid[40];
-		_itoa(uid, szUserid, 10);
+		char szMid[40];
 		_itoa(mid, szMid, 10);
-		HANDLE hContact = FindUser(szUserid, true);
+		HANDLE hContact = FindUser(uid, true);
 
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_TCHAR;
@@ -431,7 +430,8 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 	debugLogA("CVkProto::PollUpdates");
 
 	CMStringA mids;
-	int msgid;
+	int msgid, uid;
+	HANDLE hContact;
 
 	JSONNODE *pChild;
 	for (int i=0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
@@ -440,13 +440,33 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			continue;
 
 		switch (json_as_int( json_at(pArray, 0))) {
-		case 4: // new message
+		case VKPOLL_MSG_ADDED: // new message
 			msgid = json_as_int( json_at(pArray, 1));
 			if ( !CheckMid(msgid)) {
 				if ( !mids.IsEmpty())
 					mids.AppendChar(',');
 				mids.AppendFormat("%d", msgid);
 			}
+			break;
+
+		case VKPOLL_USR_ONLINE:
+			uid = -json_as_int( json_at(pArray, 1));
+			if ((hContact = FindUser(uid)) != NULL)
+				setWord(hContact, "Status", ID_STATUS_ONLINE);
+			break;
+
+		case VKPOLL_USR_OFFLINE:
+			uid = -json_as_int( json_at(pArray, 1));
+			if ((hContact = FindUser(uid)) != NULL) {
+				int flags = json_as_int( json_at(pArray, 2));
+				setWord(hContact, "Status", (flags == 0) ? ID_STATUS_OFFLINE : ID_STATUS_AWAY);
+			}
+			break;
+
+		case VKPOLL_USR_UTN:
+			uid = json_as_int( json_at(pArray, 1));
+			if ((hContact = FindUser(uid)) != NULL)
+				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 5);
 			break;
 		}
 	}
@@ -467,7 +487,7 @@ int CVkProto::PollServer()
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
-	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+	req.flags = NLHRF_NODUMPHEADERS | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	req.nlc = m_pollingConn;
 	req.timeout = 30000;
 

@@ -38,14 +38,14 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 	}
 }
 
-HANDLE CVkProto::FindUser(LPCSTR pUserid, bool bCreate)
+HANDLE CVkProto::FindUser(LONG dwUserid, bool bCreate)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrA dbUserid(getStringA(hContact, "ID"));
-		if (dbUserid == NULL)
+		LONG dbUserid = getDword(hContact, "ID", -1);
+		if (dbUserid == -1)
 			continue;
 
-		if ( !strcmp(dbUserid, pUserid))
+		if (dbUserid == dwUserid)
 			return hContact;
 	}
 
@@ -54,7 +54,7 @@ HANDLE CVkProto::FindUser(LPCSTR pUserid, bool bCreate)
 
 	HANDLE hNewContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
-	setString(hNewContact, "ID", pUserid);
+	setDword(hNewContact, "ID", dwUserid);
 	db_set_ts(hNewContact, "CList", "Group", m_defaultGroup);
 	return hNewContact;
 }
@@ -193,7 +193,7 @@ CMStringA CVkProto::RunCaptchaForm(LPCSTR szUrl)
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = (LPSTR)szUrl;
-	req.flags = NLHRF_HTTP11;
+	req.flags = NLHRF_HTTP11 | NLHRF_NODUMPHEADERS;
 	req.timeout = 60;
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);

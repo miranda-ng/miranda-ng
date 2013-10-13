@@ -67,7 +67,7 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 		return false;
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
-	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	pReq->flags = NLHRF_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (bSecure)
 		pReq->flags |= NLHRF_SSL;
 
@@ -77,10 +77,7 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 		url += szUrl;
 		pReq->nlc = m_hNetlibConn;
 	}
-	else {
-		url = szUrl;
-		pReq->flags |= NLHRF_REMOVEHOST | NLHRF_SMARTREMOVEHOST;
-	}
+	else url = szUrl;
 	
 	for (int i=0; i < nParams; i++) {
 		url.AppendChar((i == 0) ? '?' : '&');

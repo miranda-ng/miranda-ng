@@ -152,7 +152,7 @@ private:
 
 	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen);
 
-	HANDLE FindUser(LPCSTR userid, bool bCreate = false);
+	HANDLE FindUser(LONG userid, bool bCreate = false);
 
 	void   SetAllContactStatuses(int status);
 
