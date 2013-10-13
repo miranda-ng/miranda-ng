@@ -175,7 +175,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, void*)
 
 int CVkProto::SetStatus(int iNewStatus)
 {
-	if (m_iDesiredStatus == iNewStatus)
+	if (m_iDesiredStatus == iNewStatus || iNewStatus == ID_STATUS_IDLE)
 		return 0;
 
 	int oldStatus = m_iStatus;
@@ -188,16 +188,18 @@ int CVkProto::SetStatus(int iNewStatus)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if ( !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+	else if (m_hWorkerThread == NULL && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		if (m_hWorkerThread == NULL)
-			m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
+		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
 	}
-	else if ( IsOnline())
-		SetServerStatus(iNewStatus);
-	else
+	else {
+		if ( IsOnline())
+			SetServerStatus(iNewStatus);
+		m_iStatus = iNewStatus;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	}
+
 	return 0;
 }
 
