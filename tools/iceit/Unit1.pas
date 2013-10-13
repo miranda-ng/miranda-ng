@@ -443,8 +443,8 @@ begin
           xFilePath := MirandaPath + '\' + S + '.exe';
            //in order not to duplicate existing packages of icons (miranda32) for miranda 64
           // will not work if there are two files  (miranda32.exe and miranda64.exe)
-          if not FileExists(mirandapath+'\miranda32.exe') then
-              xFilePath := MirandaPath + '\Miranda64.exe';
+          if not FileExists(MirandaPath + '\miranda32.exe') then
+              xFilePath := MirandaPath + '\miranda64.exe';
           xIcoPath := IcePath + F + '\' + S + '\' + S;
         end
         else
