@@ -135,7 +135,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,51,270,10
     CONTROL         "Match Whole Word",IDC_MATCHWHOLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,65,270,10
-    CONTROL         "Only Incomming Messages",IDC_ONLYIN,
+    CONTROL         "Only Incoming Messages",IDC_ONLYIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,79,270,10
     CONTROL         "Only Outgoing Messages",IDC_ONLYOUT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,270,10

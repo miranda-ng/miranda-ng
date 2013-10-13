@@ -1020,7 +1020,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		  }
 		  else
 		  {
-			  MessageBox(0, TranslateT("please choose gpg binary location"), TranslateT("Warning"), MB_OK);
+			  MessageBox(0, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
 			  break;
 		  }
 		  {
@@ -1098,7 +1098,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			else
 			{
-				MessageBox(0, TranslateT("please choose gpg binary location"), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
 				break;
 			}
 			{

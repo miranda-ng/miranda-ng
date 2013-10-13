@@ -1565,7 +1565,7 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 
 			if(db_get(NULL,protocolname,"login",&dbv))
 			{
-				MSGBOXE(Translate("No Loginname is set!"));
+				MSGBOXE(Translate("No Login name is set!"));
 				wParam=ID_STATUS_OFFLINE;
 			}
 			else if(db_get(NULL,protocolname,"password",&dbv2))

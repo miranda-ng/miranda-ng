@@ -211,7 +211,7 @@ static HotkeyOptionsList g_HotkeyOptionsList[] = {
 	{ "basichistory_hot_matchcase", LPGENT("Switch Match Case"), LPGENT("History"), 0, 0, HISTORY_HK_MATCHCASE },
 	{ "basichistory_hot_matchwhole", LPGENT("Switch Match Whole Word"), LPGENT("History"), 0, 0, HISTORY_HK_MATCHWHOLE },
 	{ "basichistory_hot_showcontacts", LPGENT("Show/Hide Contacts"), LPGENT("History"), 0, 0, HISTORY_HK_SHOWCONTACTS },
-	{ "basichistory_hot_onlyin", LPGENT("Switch Only Incomming Messages"), LPGENT("History"), 0, 0, HISTORY_HK_ONLYIN },
+	{ "basichistory_hot_onlyin", LPGENT("Switch Only Incoming Messages"), LPGENT("History"), 0, 0, HISTORY_HK_ONLYIN },
 	{ "basichistory_hot_onlyout", LPGENT("Switch Only Outgoing Messages"), LPGENT("History"), 0, 0, HISTORY_HK_ONLYOUT },
 	{ "basichistory_hot_onlygroup", LPGENT("Switch Only Selected Group"), LPGENT("History"), 0, 0, HISTORY_HK_ONLYGROUP },
 	{ "basichistory_hot_allcontacts", LPGENT("Switch All Contacts"), LPGENT("History"), 0, 0, HISTORY_HK_ALLCONTACTS },
