@@ -82,12 +82,12 @@ int CVkProto::SetServerStatus(int iStatus)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern CMStringA loginCookie;
-
 static char VK_TOKEN_BEG[] = "access_token=";
 
 void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, void*)
 {
+	GrabCookies(reply);
+
 	if (reply->resultCode == 302) { // manual redirect
 		LPCSTR pszLocation = findHeader(reply, "Location");
 		if (pszLocation) {
@@ -118,10 +118,10 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, void*)
 				pReq->AddHeader("Referer", m_prevUrl);
 				pReq->Redirect(reply);
 				if (pReq->szUrl) {
-					if ( strstr(pReq->szUrl, "login.vk.com"))
-						pReq->AddHeader("Cookie", loginCookie);
+					ApplyCookies(pReq);
 					m_prevUrl = pReq->szUrl;
 				}
+
 				PushAsyncHttpRequest(pReq);
 			}
 		}
@@ -148,8 +148,11 @@ LBL_NoForm:
 
 	CMStringA szAction;
 	CMStringA szBody = AutoFillForm(reply->pData, szAction);
-	if (szAction.IsEmpty() || szBody.IsEmpty())
-		goto LBL_NoForm;
+	if (szAction.IsEmpty() || szBody.IsEmpty()) {
+		if (m_prevError)
+			goto LBL_NoForm;
+		m_prevError = true;
+	}
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
 	pReq->requestType = REQUEST_POST;
@@ -160,6 +163,7 @@ LBL_NoForm:
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pReq->Redirect(reply);
+	ApplyCookies(pReq);
 	PushAsyncHttpRequest(pReq);
 }
 

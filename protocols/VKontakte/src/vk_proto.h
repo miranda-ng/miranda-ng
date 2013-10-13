@@ -128,10 +128,24 @@ private:
 	};
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
 	CRITICAL_SECTION m_csRequestsQueue;
-	CMStringA m_prevUrl, m_savedCookie;
+	CMStringA m_prevUrl;
 	HANDLE m_evRequestsQueue;
 	HANDLE m_hWorkerThread;
 	bool   m_bTerminated;
+
+	struct Cookie
+	{
+		Cookie(const CMStringA& name, const CMStringA& value, const CMStringA& domain) :
+			m_name(name),
+			m_value(value),
+			m_domain(domain)
+		{}
+
+		CMStringA m_name, m_value, m_domain;
+	};
+	OBJLIST<Cookie> m_cookies;
+	void   GrabCookies(NETLIBHTTPREQUEST *nhr);
+	void   ApplyCookies(AsyncHttpRequest*);
 
 	void   InitQueue();
 	void   UninitQueue();
@@ -142,8 +156,8 @@ private:
 
 	CMStringA RunCaptchaForm(LPCSTR szUrl);
 	CMStringA AutoFillForm(char*, CMStringA&);
-
-	void   ConnectionFailed(int iReason);
+	
+		void   ConnectionFailed(int iReason);
 	bool   CheckJsonResult(JSONNODE*);
 	void   OnLoggedIn();
 	void   OnLoggedOut();
@@ -167,6 +181,7 @@ private:
 	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
 	HANDLE m_pollingConn, m_hPollingThread;
 	ULONG  m_msgId;
+	bool   m_prevError;
 
 	LIST<void> m_sendIds;
 	bool   CheckMid(int msgid);

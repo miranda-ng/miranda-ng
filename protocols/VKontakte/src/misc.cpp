@@ -298,13 +298,12 @@ CMStringA CVkProto::AutoFillForm(char *pBody, CMStringA &szAction)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringA loginCookie;
-
 CVkProto::AsyncHttpRequest::AsyncHttpRequest()
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 
 	AddHeader("Connection", "keep-alive");
+	AddHeader("Accept-Encoding", "booo");
 }
 
 CVkProto::AsyncHttpRequest::~AsyncHttpRequest()
@@ -328,26 +327,65 @@ void CVkProto::AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
 
 void CVkProto::AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 {
-	CMStringA szCookie;
-
 	for (int i=0; i < nhr->headersCount; i++) {
 		LPCSTR szValue = nhr->headers[i].szValue;
 		if (!_stricmp(nhr->headers[i].szName, "Location"))
 			replaceStr(szUrl, szValue);
-		else if (!_stricmp(nhr->headers[i].szName, "Set-cookie")) {
-			if ( strstr(szValue, "login.vk.com")) {
-				if (!szCookie.IsEmpty())
-					szCookie.Append("; ");
+	}
+}
 
-				LPCSTR p = strchr(szValue, ';');
-				if (p == NULL)
-					szCookie += szValue;
-				else
-					szCookie.Append(szValue, p-szValue);
+void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
+{
+	for (int i=0; i < nhr->headersCount; i++) {
+		if ( _stricmp(nhr->headers[i].szName, "Set-cookie"))
+			continue;
+
+		CMStringA szValue = nhr->headers[i].szValue, szCookieName, szCookieVal, szDomain;
+		int iStart = 0;
+		while (true) {
+			bool bFirstToken = iStart == 0;
+			CMStringA szToken = szValue.Tokenize(";", iStart).Trim();
+			if (iStart == -1)
+				break;
+
+			if (bFirstToken) {
+				int iStart2 = 0;
+				szCookieName = szToken.Tokenize("=", iStart2);
+				szCookieVal  = szToken.Tokenize("=", iStart2);
 			}
+			else if ( !strncmp(szToken, "domain=", 7))
+				szDomain = szToken.Mid(7);
+		}
+
+		if ( !szCookieName.IsEmpty() && !szDomain.IsEmpty()) {
+			int k;
+			for (k=0; k < m_cookies.getCount(); k++) {
+				if (m_cookies[k].m_name == szCookieName) {
+					m_cookies[k].m_value = szCookieVal;
+					break;
+				}
+			}
+			if (k == m_cookies.getCount())
+				m_cookies.insert( new Cookie(szCookieName, szCookieVal, szDomain));
 		}
 	}
+}
 
-	if (!szCookie.IsEmpty())
-		loginCookie = szCookie;
+void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
+{
+	CMStringA szCookie;
+
+	for (int i=0; i < m_cookies.getCount(); i++) {
+		if ( !strstr(pReq->szUrl, m_cookies[i].m_domain))
+			continue;
+
+		if (!szCookie.IsEmpty())
+			szCookie.Append("; ");
+		szCookie.Append(m_cookies[i].m_name);
+		szCookie.AppendChar('=');
+		szCookie.Append(m_cookies[i].m_value);
+	}
+
+	if ( !szCookie.IsEmpty())
+		pReq->AddHeader("Cookie", szCookie);
 }
