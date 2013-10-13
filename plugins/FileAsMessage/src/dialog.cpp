@@ -1071,7 +1071,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 						{
 							if(dat->iState & (STATE_OPERATE|STATE_ACKREQ))
 							{
-								char *msg = Translate("Paused, because connection dropped");
+								char *msg = Translate("File transfer is paused because of dropped connection");
 								SetDlgItemText(hDlg, IDC_STATUS, msg);
 								MakePopupMsg(dat->hDlg, dat->hContact, msg);
 								dat->setState(STATE_PAUSED);

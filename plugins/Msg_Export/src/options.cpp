@@ -809,7 +809,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				{
 					if (bUnaplyedChanges )
 					{
-						DWORD res = MessageBox(hwndDlg, TranslateT("You have unapplyed changes do you wish to apply these first?"), MSG_BOX_TITEL, MB_YESNOCANCEL);
+						DWORD res = MessageBox(hwndDlg, TranslateT("You have not applied the changes, do you wish to apply them first?"), MSG_BOX_TITEL, MB_YESNOCANCEL);
 						if (res == IDCANCEL )
 							return TRUE;
 						if (res == IDYES )
