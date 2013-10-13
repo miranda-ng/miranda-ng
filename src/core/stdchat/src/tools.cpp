@@ -716,14 +716,14 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	}
 	else if (iIndex == 0)
 	{
-		TCHAR szTemp[30];
+		TCHAR szTemp[50];
 		if (pszWordText)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("&Message %s"), pszWordText);
 		else
-			lstrcpyn(szTemp, TranslateT("&Message"), SIZEOF(szTemp));
+			lstrcpyn(szTemp, TranslateT("&Message"), SIZEOF(szTemp) - 1);
 
-		if (lstrlen(szTemp) > 22)
-			lstrcpy(szTemp+22, _T("..."));
+		if (lstrlen(szTemp) > 40)
+			lstrcpy(szTemp + 40, _T("..."));
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING|MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}
