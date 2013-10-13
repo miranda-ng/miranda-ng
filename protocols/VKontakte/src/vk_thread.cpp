@@ -184,9 +184,8 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, void*)
 		JSONNODE *it = json_at(pResponse, i);
 		LPCSTR id = json_name(it);
 		if ( !_stricmp(id, "user_id")) {
-			ptrT userid( json_as_string(it));
-			m_myUserId = mir_t2a(userid);
-			setTString("ID", userid);
+			m_myUserId = json_as_int(it);
+			setDword("ID", m_myUserId);
 		}
 		else if ( !_stricmp(id, "user_name"))
 			setTString("Nick", ptrT( json_as_string(it)));
@@ -212,8 +211,11 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, void*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::RetrieveUserInfo(LPCSTR szUserId)
+void CVkProto::RetrieveUserInfo(LONG userID)
 {
+	char szUserId[40];
+	_itoa(userID, szUserId, 10);
+
 	HttpParam params[] = {
 		{ "fields", "uid,first_name,last_name,photo,sex,bdate,city,relation" },
 		{ "uids", szUserId },
@@ -241,8 +243,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, void*)
 		JSONNODE *it = json_at(pResponse, i);
 		LPCSTR id = json_name(it);
 		if ( !_stricmp(id, "user_id")) {
-			ptrA userid( _T2A( json_as_string(it)));
-			if ( !lstrcmpA(userid, m_myUserId))
+			LONG userid = json_as_int(it);
+			if (userid == m_myUserId)
 				hContact = NULL;
 			else if ((hContact = FindUser(userid, false)) == NULL)
 				return;

@@ -92,7 +92,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	TCHAR* GetUserStoredPassword(void);
 
-	void RetrieveUserInfo(LPCSTR szUserId);
+	void RetrieveUserInfo(LONG userId);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, void*);
 
 	void RetrieveFriends();
@@ -138,7 +138,6 @@ private:
 	void   ExecuteRequest(AsyncHttpRequest*);
 	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, HttpParam *pParams = 0, int iTimeout = 10000);
 	bool   PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
-	int    SetupConnection(void);
 	void   __cdecl WorkerThread(void*);
 
 	CMStringA RunCaptchaForm(LPCSTR szUrl);
@@ -160,8 +159,8 @@ private:
 
 	bool   m_bOnline;
 
-	HANDLE m_hNetlibConn;
-	ptrA   m_szAccessToken, m_myUserId;
+	LONG   m_myUserId;
+	ptrA   m_szAccessToken;
 	ptrT   m_defaultGroup;
 	UINT_PTR m_timer;
 

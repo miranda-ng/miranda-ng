@@ -129,8 +129,8 @@ void CVkProto::SendMsgAck(void *param)
 
 int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 { 
-	ptrA szID( getStringA(hContact, "ID"));
-	if (szID == NULL)
+	LONG userID = getDword(hContact, "ID", -1);
+	if (userID == -1)
 		return 0;
 
 	ptrA szMsg;
@@ -141,6 +141,8 @@ int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 	else
 		msg = mir_utf8encode(msg);
 
+	char szID[40];
+	_itoa(userID, szID, 10);
 	HttpParam params[] = {
 		{ "type", "0" },
 		{ "uid",  szID },

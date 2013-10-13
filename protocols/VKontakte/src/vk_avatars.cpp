@@ -109,7 +109,7 @@ void CVkProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 			szFileType = p;
 	}
 
-	ptrA id( getStringA(hContact, "ID"));
-	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), id, szFileType);
+	LONG id = getDword(hContact, "ID", -1);
+	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%d%s"), id, szFileType);
 }
 

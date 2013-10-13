@@ -32,22 +32,6 @@ void CVkProto::UninitQueue()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::SetupConnection()
-{
-	if (m_hNetlibConn != NULL)
-		return TRUE;
-
-	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
-	nloc.flags = NLOCF_SSL | NLOCF_HTTP | NLOCF_V2;
-	nloc.szHost = VK_API_URL;
-	nloc.wPort = 443;
-	nloc.timeout = 5000;
-	m_hNetlibConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
-	return m_hNetlibConn != NULL;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
@@ -63,9 +47,6 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams, HttpParam *pParams, int iTimeout)
 {
-	if ( !SetupConnection())
-		return false;
-
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
 	pReq->flags = NLHRF_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (bSecure)
@@ -75,7 +56,6 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 	if (*szUrl == '/') {
 		url = VK_API_URL;
 		url += szUrl;
-		pReq->nlc = m_hNetlibConn;
 	}
 	else url = szUrl;
 	
