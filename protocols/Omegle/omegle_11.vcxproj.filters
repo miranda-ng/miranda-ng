@@ -24,9 +24,6 @@
     <ClCompile Include="src\connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\events.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\http.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -86,12 +83,15 @@
     <ClInclude Include="src\dialogs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\omegle.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-	<ResourceCompile Include="res\version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
