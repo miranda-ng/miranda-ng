@@ -396,6 +396,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				_T("%miranda_profile%"),		TranslateT("path to current miranda profile"),
 				_T("%miranda_profilename%"),	TranslateT("name of current miranda profile (filename, without extension)"),
 				_T("%miranda_userdata%"),		TranslateT("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"),
+				_T("%miranda_logpath%"),		TranslateT("will return parsed string %miranda_userdata%\\Logs"),
 				_T("%appdata%"),				TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
 				_T("%username%"),				TranslateT("username for currently logged-on Windows user"),
 				_T("%mydocuments%"),			TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
