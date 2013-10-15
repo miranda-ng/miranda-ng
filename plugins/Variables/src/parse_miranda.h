@@ -43,7 +43,6 @@
 #define STR_PIUIDTEXT		"uidtext"
 #define STR_PIUIDSETTING	"uidsetting"
 
-#define CEX_MODULE			"ContactsEx"
 #define SEEN_MODULE			"SeenModule"
 
 #define STR_PROTOID			"protoid"

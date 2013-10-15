@@ -270,11 +270,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 		szFormat = ai->targv[2];
 
 	SYSTEMTIME lsTime = { 0 };
-	char *szModule = CEX_MODULE;
-	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
-	if (lsTime.wYear == 0)
-		szModule = SEEN_MODULE;
-
+	char *szModule = SEEN_MODULE;
 	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		return NULL;
@@ -328,11 +324,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 		szFormat = ai->targv[2];
 
 	SYSTEMTIME lsTime = { 0 };
-	char *szModule = CEX_MODULE;
-	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
-	if (lsTime.wYear == 0)
-		szModule = SEEN_MODULE;
-
+	char *szModule = SEEN_MODULE;
 	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		return NULL;
@@ -378,12 +370,8 @@ static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 		mir_free(ci.hContacts);
 		return NULL;
 	}
-	char *szModule = CEX_MODULE;
+	char *szModule = SEEN_MODULE;
 	int status = db_get_w(hContact, szModule, "Status", 0);
-	if (status == 0)
-		szModule = SEEN_MODULE;
-
-	status = db_get_w(hContact, szModule, "Status", 0);
 	if (status == 0)
 		return NULL;
 
