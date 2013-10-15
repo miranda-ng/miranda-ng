@@ -76,11 +76,6 @@ int MainInit(WPARAM,LPARAM)
 	SkinAddNewSoundExT("LastSeenTrackedStatusOffline", LPGENT("LastSeen"), LPGENT("User Logged Off"));
 	SkinAddNewSoundExT("LastSeenTrackedStatusFromOffline", LPGENT("LastSeen"), LPGENT("User Logged In"));
 	
-	// known modules list
-	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)S_MOD, 0);
-	db_set_s(NULL,"Uninstall",Translate("Last seen"),S_MOD);
-
 	if ( ServiceExists(MS_TIPPER_ADDTRANSLATION))
 		for (int i=0; i < TRANSNUMBER; i++)
 			CallService(MS_TIPPER_ADDTRANSLATION, 0, (LPARAM)&idleTr[i]);

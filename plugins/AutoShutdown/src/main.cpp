@@ -52,9 +52,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, VOID *pReserved)
 
 static int ShutdownModulesLoaded(WPARAM,LPARAM)
 {
-	if ( ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)"AutoShutdown",0);
-	
 	/* Toolbar Item */
 	HookEvent(ME_TTB_MODULELOADED,ToolbarLoaded); /* no service to check for */
 

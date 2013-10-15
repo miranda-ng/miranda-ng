@@ -978,10 +978,6 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			meta_group_hack_disabled = TRUE;
 	}
 
-	// for database editor++ ver 3+
-	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)META_PROTO, 0);
-
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
 	HookEvent(ME_CLIST_DOUBLECLICKED, Meta_ClistDoubleClicked );
 

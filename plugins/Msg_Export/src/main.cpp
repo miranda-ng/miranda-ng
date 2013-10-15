@@ -213,9 +213,6 @@ extern "C" __declspec(dllexport) int Load()
 	enRenameAction = (ENDialogAction)db_get_b(NULL, MODULE, "RenameAction", enRenameAction);
 	enDeleteAction = (ENDialogAction)db_get_b(NULL, MODULE, "DeleteAction", enDeleteAction);
 
-	// Plugin sweeper support
-	db_set_ts(NULL, "Uninstall", "Message Export", _T(MODULE));
-
 	HANDLE hServiceFunñ = 0;
 	if (bReplaceHistory)
 		hServiceFunñ = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code

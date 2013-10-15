@@ -639,8 +639,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		mir_sntprintf(path, SIZEOF(path), TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
 		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
 	}
-	/*record for Uninstall plugin*/
-	db_set_s(NULL, "Uninstall", BOLTUN_NAME, BOLTUN_KEY);
 	return 0;
 }
 

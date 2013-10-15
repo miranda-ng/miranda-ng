@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 
-static HANDLE hHookModulesLoaded;
 int hLangpack;
 
 static PLUGININFOEX pluginInfo = {
@@ -88,13 +87,6 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int LangManModulesLoaded(WPARAM, LPARAM)
-{
-	if ( ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"LangMan", 0);
-	return 0;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 
@@ -124,7 +116,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	InstallFile(_T("LangMan-Readme.txt"), _T("Docs\\"));
 	InstallFile(_T("LangMan-License.txt"), _T("Docs\\"));
 	InstallFile(_T("LangMan-SDK.zip"), _T("Docs\\"));
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, LangManModulesLoaded);
 	return 0;
 }
 
@@ -133,6 +124,5 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	UninitOptions();
-	UnhookEvent(hHookModulesLoaded);
 	return 0;
 }

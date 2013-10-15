@@ -98,16 +98,9 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 					lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));
 					lParam->hContact = hContact;
 
-					if (!module->known) {
-						tvi.item.iImage = 5;
-						tvi.item.iSelectedImage = 6;
-						lParam->type = UNKNOWN_MODULE;
-					}
-					else {
-						tvi.item.iImage = 1;
-						tvi.item.iSelectedImage = 2;
-						lParam->type = KNOWN_MODULE;
-					}
+					tvi.item.iImage = 1;
+					tvi.item.iSelectedImage = 2;
+					lParam->type = KNOWN_MODULE;
 
 					tvi.item.lParam = (LPARAM)lParam;
 					TreeView_InsertItem(hwnd2Tree, &tvi);
@@ -177,16 +170,9 @@ void doItems(HWND hwnd2Tree,ModuleSettingLL *modlist, int count)
 				lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));
 				lParam->hContact = hContact;
 
-				if (!module->known) {
-					tvi.item.iImage = 5;
-					tvi.item.iSelectedImage = 6;
-					lParam->type = UNKNOWN_MODULE;
-				}
-				else {
-					tvi.item.iImage = 1;
-					tvi.item.iSelectedImage = 2;
-					lParam->type = KNOWN_MODULE;
-				}
+				tvi.item.iImage = 1;
+				tvi.item.iSelectedImage = 2;
+				lParam->type = KNOWN_MODULE;
 
 				tvi.item.lParam = (LPARAM)lParam;
 				TreeView_InsertItem(hwnd2Tree, &tvi);
@@ -352,17 +338,9 @@ void replaceTreeItem(HWND hwnd, HANDLE hContact, const char *module, const char 
 
 		lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));
 		lParam->hContact = hContact;
-		lParam->type = IsModuleKnown((char*)newModule)?KNOWN_MODULE:UNKNOWN_MODULE;
-		if (lParam->type == UNKNOWN_MODULE)
-		{
-			tvi.item.iImage = 5;
-			tvi.item.iSelectedImage = 6;
-		}
-		else
-		{
-			tvi.item.iImage = 1;
-			tvi.item.iSelectedImage = 2;
-		}
+		lParam->type = KNOWN_MODULE;
+		tvi.item.iImage = 1;
+		tvi.item.iSelectedImage = 2;
 
 		tvi.item.lParam = (LPARAM)lParam;
 
@@ -372,7 +350,6 @@ void replaceTreeItem(HWND hwnd, HANDLE hContact, const char *module, const char 
 
 void refreshTree(int restore)
 {
-	UseKnownModList = db_get_b(NULL,modname,"UseKnownModList",0);
 	if (populating) return;
 	populating = 1;
 	forkthread(PopulateModuleTreeThreadFunc,0,(HWND)restore);
@@ -488,9 +465,6 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 		module = modlist.first;
 		while (module)
 		{
-			// set the module status type for the icon
-			module->known = IsModuleKnown(module->name);
-
 			if (!IsModuleEmpty(hContact,module->name))
 			{
 				tvi.hParent = contact;
@@ -500,18 +474,9 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 				lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));
 				lParam->hContact = hContact;
-				if (!module->known)
-				{
-					tvi.item.iImage = 5;
-					tvi.item.iSelectedImage = 6;
-					lParam->type = UNKNOWN_MODULE;
-				}
-				else
-				{
-					tvi.item.iImage = 1;
-					tvi.item.iSelectedImage = 2;
-					lParam->type = KNOWN_MODULE;
-				}
+				tvi.item.iImage = 1;
+				tvi.item.iSelectedImage = 2;
+				lParam->type = KNOWN_MODULE;
 
 				tvi.item.lParam = (LPARAM)lParam;
 
@@ -612,18 +577,9 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 						_lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));
 						_lParam->hContact = hContact;
 
-						if (IsModuleKnown(module->name))
-						{
-							tvi.item.iImage = 5;
-							tvi.item.iSelectedImage = 6;
-							_lParam->type = KNOWN_MODULE;
-						}
-						else
-						{
-							tvi.item.iImage = 1;
-							tvi.item.iSelectedImage = 2;
-							_lParam->type = UNKNOWN_MODULE;
-						}
+						tvi.item.iImage = 5;
+						tvi.item.iSelectedImage = 6;
+						_lParam->type = KNOWN_MODULE;
 
 						tvi.item.lParam = (LPARAM)_lParam;
 						TreeView_InsertItem(hwnd2Tree, &tvi);
@@ -659,7 +615,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 
 				if (populating) Select = 0;
 
-				if (mtis->type == MODULE || mtis->type == UNKNOWN_MODULE) {
+				if (mtis->type == MODULE) {
 					SettingListInfo *info = (SettingListInfo*)GetWindowLongPtr(hwnd2Settings,GWLP_USERDATA);
 					BOOL refresh = 1;
 
@@ -776,14 +732,8 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 
 					if (TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi)) {
 						tvi.mask = TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-						if (!IsModuleKnown(newtext)) {
-							tvi.iImage = 5;
-							tvi.iSelectedImage = 6;
-						}
-						else {
-							tvi.iImage = 1;
-							tvi.iSelectedImage = 2;
-						}
+						tvi.iImage = 1;
+						tvi.iSelectedImage = 2;
 						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 
 						PopulateSettings(GetDlgItem(hwnd, IDC_SETTINGS), mtis->hContact, newtext);
@@ -823,10 +773,10 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 				hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
 				TranslateMenu(hMenu);
 				if (mtis->type == CONTACT && hContact) menuNumber = 2;
-				else if ((mtis->type == MODULE || mtis->type == UNKNOWN_MODULE) && !hContact) menuNumber = 1;
+				else if ((mtis->type == MODULE) && !hContact) menuNumber = 1;
 				else if (mtis->type == CONTACT && !hContact) menuNumber = 3;
 				else if (mtis->type == CONTACT_ROOT_ITEM && !hContact) menuNumber = 4;
-				else if ((mtis->type == MODULE || mtis->type == UNKNOWN_MODULE) && hContact) menuNumber = 5;
+				else if ((mtis->type == MODULE) && hContact) menuNumber = 5;
 				else return;
 				hSubMenu = GetSubMenu(hMenu, menuNumber);
 
@@ -881,30 +831,6 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 
 						case MENU_EXPORTDB:
 							exportDB(INVALID_HANDLE_VALUE, module);
-							break;
-
-						case MENU_ADDKNOWN:
-							{
-								DBVARIANT dbv;
-								char *moduletemp = (char*)_alloca(strlen(module)*3);
-								unsigned int i;
-								moduletemp[0] = '\0';
-								for(i=0; i < strlen(module); i++) {
-									if (module[i]==' ')
-										strcat(moduletemp,"\\ ");
-									else strncat(moduletemp,&module[i],1);
-								}
-									
-								if ( !db_get(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ) {
-									int len = (int)strlen(dbv.pszVal) + 10 + (int)strlen(moduletemp);
-									char* temp = (char*)_alloca(len);
-									mir_snprintf(temp, len, "%s, %s", dbv.pszVal, moduletemp);
-									db_set_s(NULL,modname,"CoreModules",temp);
-									db_free(&dbv);
-								}
-								else db_set_s(NULL,modname,"CoreModules",moduletemp);
-								RegisterSingleModule((WPARAM)module,0);
-							}
 							break;
 						}
 					}

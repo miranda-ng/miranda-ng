@@ -920,9 +920,6 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			MessageBox(NULL, "Failed to read configuration file : " szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
 		}
 
-		// Plugin sweeper support
-		db_set_s(NULL, "Uninstall", "HTTPServer", MODULE);
-
 		nMaxUploadSpeed = db_get_dw(NULL, MODULE, "MaxUploadSpeed", nMaxUploadSpeed);
 		nMaxConnectionsTotal = db_get_dw(NULL, MODULE, "MaxConnectionsTotal", nMaxConnectionsTotal);
 		nMaxConnectionsPerUser = db_get_dw(NULL, MODULE, "MaxConnectionsPerUser", nMaxConnectionsPerUser);

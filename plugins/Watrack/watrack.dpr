@@ -535,8 +535,6 @@ function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   p:PAnsiChar;
 begin
-  CallService(MS_DBEDIT_REGISTERSINGLEMODULE,twparam(PluginShort),0);
-
   hTimer:=0;
 
   OleInitialize(nil);

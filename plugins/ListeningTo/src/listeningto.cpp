@@ -282,9 +282,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
-	// add our modules to the KnownModules list
-	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
-
 	// icons
 	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, SIZEOF(iconList));
 

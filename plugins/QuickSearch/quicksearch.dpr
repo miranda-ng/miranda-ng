@@ -185,8 +185,6 @@ function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 begin
   UnhookEvent(onloadhook);
 
-  CallService(MS_DBEDIT_REGISTERSINGLEMODULE,twparam(qs_module),0);
-
   RegisterIcons;
   RegisterColors;
 

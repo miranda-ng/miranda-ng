@@ -46,7 +46,7 @@
 #include "Version.h"
 #include "modsettingenum.h"
 
-#define DEF_ICON    7
+#define DEF_ICON    5
 #define crlf_string "\r\n\0"
 
 /////// icons support
@@ -103,7 +103,6 @@ extern HGENMENU hUserMenu;
 #define CONTACT 1
 #define MODULE 0x2
 #define KNOWN_MODULE 2
-#define UNKNOWN_MODULE 3
 #define STUB 4
 #define EMPTY 8
 
@@ -227,14 +226,6 @@ void ImportSettingsFromFileMenuItem(HANDLE hContact, char* FilePath);
 
 // find window.c
 INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-// knownmodules.c
-extern BYTE UseKnownModList;
-INT_PTR RegisterModule(WPARAM wParam, LPARAM lParam);
-INT_PTR RegisterSingleModule(WPARAM wParam, LPARAM lParam);
-void FreeKnownModuleList();
-int IsModuleKnown(char* moduleName);
-void doOldKnownModulesList();
 
 // copymodule.c
 void copyModuleMenuItem(char* module, HANDLE hContact);

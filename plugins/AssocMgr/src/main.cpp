@@ -80,8 +80,6 @@ static int AssocMgrModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
-	if(ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)"AssocMgr",0);
 	InitTest();
 	return 0;
 }

@@ -133,7 +133,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 						TreeView_DeleteItem(hwnd,tvi.hItem);
 					}
 				}
-				else if (wParam == VK_F2 && (mtis->type == MODULE || mtis->type == UNKNOWN_MODULE))
+				else if (wParam == VK_F2 && mtis->type == MODULE)
 					TreeView_EditLabel(hwnd,tvi.hItem);
 				else if (wParam == VK_F5) {
 					refreshTree(1);
@@ -252,10 +252,6 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (AddIconToList(himl, LoadSkinnedDBEIcon(ICO_CONTACTS)))
 					numberOfIcons++;
 				if (AddIconToList(himl, LoadSkinnedDBEIcon(ICO_OFFLINE)))
-					numberOfIcons++;
-				if (AddIconToList(himl, LoadSkinnedDBEIcon(ICO_UNKNOWN)))
-					numberOfIcons++;
-				if (AddIconToList(himl, LoadSkinnedDBEIcon(ICO_UNKNOWNOPEN)))
 					numberOfIcons++;
 				if (AddIconToList(himl, LoadSkinnedDBEIcon(ICO_ONLINE)))
 					numberOfIcons++;
@@ -457,7 +453,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (tvi.lParam)
 				{
 					mtis = (ModuleTreeInfoStruct *)tvi.lParam;
-					if (mtis->type  == MODULE || mtis->type == UNKNOWN_MODULE)
+					if (mtis->type  == MODULE)
 						PopulateSettings(GetDlgItem(hwnd, IDC_SETTINGS), mtis->hContact, module);
 					else ClearListview(GetDlgItem(hwnd, IDC_SETTINGS));
 				}

@@ -23,27 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_DBEDITOR
 
 /*
-Register single module as 'known'
-wParam=(char*)Module name
-lParam=0
-always returns 0
-Note: must be used after or in ME_SYSTEM_MODULESLOADED
-*/
-#define MS_DBEDIT_REGISTERSINGLEMODULE "DBEditorpp/RegisterSingleModule"
-
-/*
-Register modules as 'known'
-wParam=(char**)array with module names
-lParam=(int)count of module names
-always returns 0
-Note: must be used after or in ME_SYSTEM_MODULESLOADED
-Example:
-	char * mods[3] = {"Module1", "Module2", "Module3"};
-	CallService(MS_DBEDIT_REGISTERMODULE, (WPARAM)mods, (LPARAM)3);
-*/
-#define MS_DBEDIT_REGISTERMODULE "DBEditorpp/RegisterModule"
-
-/*
 Open user tree in DBE++
 wParam=(HANDLE)hContact
 lParam=0

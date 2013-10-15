@@ -186,7 +186,6 @@
   <ItemGroup>
     <ClCompile Include="src\exportimport.cpp" />
     <ClCompile Include="src\icons.cpp" />
-    <ClCompile Include="src\knownmodules.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

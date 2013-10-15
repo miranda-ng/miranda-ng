@@ -140,9 +140,6 @@ begin
   hHookShutdown:=HookEvent(ME_SYSTEM_SHUTDOWN{ME_SYSTEM_OKTOEXIT},@PreShutdown);
   NotifyEventHooks(hHookChanged,twparam(ACTM_LOADED),0);
 
-  //----- DBEDITOR support -----
-//  CallService('DBEditorpp/RegisterSingleModule',dword(PluginShort),0);
-
   IsMultiThread:=true;
   // Load additional modules
   ptr:=ActionLink;

@@ -314,9 +314,6 @@ begin
   HookFSChanged := HookEvent(ME_FONT_RELOAD,OnFSChanged);
   if MetaContactsEnabled then HookMetaDefaultChanged := HookEvent(ME_MC_DEFAULTTCHANGED,OnMetaDefaultChanged);
 
-  // Register in dbeditor
-  CallService(MS_DBEDIT_REGISTERSINGLEMODULE, WPARAM(PAnsiChar(hppDBName)), 0);
-
   // return successfully
   Result:=0;
 end;

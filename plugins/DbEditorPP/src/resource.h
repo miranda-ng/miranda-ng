@@ -29,8 +29,6 @@
 #define IDD_OPTIONS                     122
 #define ICO_KNOWN                       124
 #define ICO_KNOWNOPEN                   125
-#define ICO_UNKNOWNOPEN                 126
-#define ICO_UNKNOWN                     127
 #define ICO_SETTINGS                    128
 #define ICO_ONLINE                      129
 #define IDC_MODULES                     1000
@@ -72,7 +70,6 @@
 #define IDC_SEARCH                      1042
 #define IDC_EXACT                       1043
 #define IDC_EXPANDSETTINGS              1044
-#define IDC_USEKNOWNMODS                1045
 #define IDC_WARNONDEL                   1047
 #define IDC_POPUPS                      1048
 #define IDC_POPUPTIMEOUT                1049
@@ -138,7 +135,6 @@
 #define MENU_OPTIONS                    40056
 #define MENU_DELETE                     40057
 #define MENU_REFRESH                    40058
-#define MENU_ADDKNOWN                   40059
 #define MENU_FILTER_ALL                 40060
 #define MENU_FILTER_LOADED              40061
 #define MENU_FILTER_UNLOADED            40062

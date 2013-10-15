@@ -114,9 +114,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitOptions();
 
-	// add our modules to the KnownModules list
-	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
-
 	// Get number of protocols
 	int pcount = 0;
 	PROTOACCOUNT** pdesc;

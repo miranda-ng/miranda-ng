@@ -1,7 +1,6 @@
 struct ModSetLinkLinkItem {
 	char *name;
 	BYTE *next; //struct ModSetLinkLinkItem
-	int known;
 };
 
 typedef struct {

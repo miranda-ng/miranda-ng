@@ -107,9 +107,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	variables_enabled = ServiceExists(MS_VARS_FORMATSTRING);
 
-	// add our modules to the KnownModules list
-	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
-
 	// Folders plugin support
 	if (hDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER)) {
 		dictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);

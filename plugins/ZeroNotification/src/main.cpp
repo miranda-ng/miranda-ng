@@ -254,9 +254,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	hEventSoundSettingChange = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SoundSettingChanged);
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
-	//Uninstall info
-	db_set_s(NULL, "Uninstall", MODNAME, MODNAME);
-
 	return 0;
 }
 

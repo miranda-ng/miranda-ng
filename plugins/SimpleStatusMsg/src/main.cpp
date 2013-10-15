@@ -1839,10 +1839,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 #ifdef _DEBUG
 	log2file("### Session started ###");
 #endif
-	// known modules list
-	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"SimpleStatusMsg", 0);
-
 	IconsInit();
 	OnAccListChanged(0, 0);
 

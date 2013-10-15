@@ -6,8 +6,6 @@ static IconItem iconList[] =
 {
 	{ LPGENT("Closed Known Module"),   "DBE++_1", ICO_KNOWN },
 	{ LPGENT("Open Known Module"),     "DBE++_2", ICO_KNOWNOPEN },
-	{ LPGENT("Closed Unknown Module"), "DBE++_3", ICO_UNKNOWN },
-	{ LPGENT("Open Unknown Module"),   "DBE++_4", ICO_UNKNOWNOPEN },
 	{ LPGENT("Settings"),              "DBE++_5", ICO_SETTINGS },
 	{ LPGENT("Contacts Group"),        "DBE++_6", ICO_CONTACTS },
 	{ LPGENT("Unknown Contact"),       "DBE++_7", ICO_OFFLINE },

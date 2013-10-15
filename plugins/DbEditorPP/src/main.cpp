@@ -11,7 +11,7 @@ BYTE nameOrder[NAMEORDERCOUNT];
 HGENMENU hUserMenu;
 WatchListArrayStruct WatchListArray;
 HANDLE hRestore;
-HANDLE sMenuCommand, sRegisterModule, sRegisterSingleModule, sImport, sServicemodeLaunch;
+HANDLE sMenuCommand, sImport, sServicemodeLaunch;
 HANDLE hModulesLoadedHook = NULL, hSettingsChangedHook=NULL, hOptInitHook=NULL, hPreShutdownHook=NULL;
 
 //========================
@@ -181,52 +181,20 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
 
-	DBVARIANT dbv;
-	char *coreMods = "";
-	char *mods;
-	char mod[64] = "";
-	TCHAR szModuleFileName[MAX_PATH];
-	int i=0, len;
-	if (!db_get(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ)
-		mods = dbv.pszVal;
-	else {
-		db_set_s(NULL,modname,"CoreModules",coreMods);
-		mods = coreMods;
-	}
-
-	len = (int)strlen(mods);
-	while (i < len) {
-		if (mods[i] == '\\' && mods[i+1] == ' ') {
-			strcat(mod," ");
-			i++;
-		}
-		else if (mods[i] == ' ' || mods[i] == ',' || mods[i] == '\r' || mods[i] == '\n'|| mods[i] == '\0') {
-			if (mod[0])
-				CallService("DBEditorpp/RegisterSingleModule",(WPARAM)mod,0);
-			mod[0] = '\0';
-		}
-		else strncat(mod,&mods[i],1);
-		i++;
-	}
-
-	if (mod[0])
-		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)mod,0);
-
-	doOldKnownModulesList(); // add the old plugins which havnt been changed over yet..
-
 	// icons
+	TCHAR szModuleFileName[MAX_PATH];
 	if (GetModuleFileName(hInst, szModuleFileName, MAX_PATH))
 		addIcons(szModuleFileName);
 
-	db_free(&dbv);
 	UnhookEvent(hModulesLoadedHook);
 
 	usePopups = db_get_b(NULL,modname,"UsePopUps",0);
 
 	// Load the name order
-	for(i=0; i < NAMEORDERCOUNT; i++)
+	for(int i=0; i < NAMEORDERCOUNT; i++)
 		nameOrder[i] = i;
 
+	DBVARIANT dbv;
 	if (!db_get(NULL,"Contact","NameOrder",&dbv)) {
 		CopyMemory(nameOrder,dbv.pbVal,dbv.cpbVal);
 		db_free(&dbv);
@@ -252,8 +220,6 @@ int PreShutdown(WPARAM wParam,LPARAM lParam)
 
 	DestroyServiceFunction(sServicemodeLaunch);
 	DestroyServiceFunction(sMenuCommand);
-	DestroyServiceFunction(sRegisterModule);
-	DestroyServiceFunction(sRegisterSingleModule);
 	DestroyServiceFunction(sImport);
 	return 0;
 }
@@ -283,13 +249,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	hPreShutdownHook = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	hModulesLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
 	sMenuCommand = CreateServiceFunction("DBEditorpp/MenuCommand", DBEditorppMenuCommand);
-	sRegisterModule = CreateServiceFunction("DBEditorpp/RegisterModule", RegisterModule);
-	sRegisterSingleModule = CreateServiceFunction("DBEditorpp/RegisterSingleModule", RegisterSingleModule);
 	sImport = CreateServiceFunction("DBEditorpp/Import", ImportFromFile);
 	
 	sServicemodeLaunch = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
-
-	CallService("DBEditorpp/RegisterSingleModule",(WPARAM)modname,0);
 
 	// Ensure that the common control DLL is loaded.
 	INITCOMMONCONTROLSEX icex;
@@ -303,7 +265,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	FreeKnownModuleList();
 	freeAllWatches();
 	return 0;
 }

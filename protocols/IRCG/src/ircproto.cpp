@@ -190,7 +190,6 @@ static int sttCheckPerform( const char *szSetting, LPARAM lParam )
 
 int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 {
-	char szTemp3[256];
 	NETLIBUSER nlu = {0};
 	TCHAR name[128];
 
@@ -210,11 +209,6 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-
-	//add as a known module in DB Editor ++
-	CallService("DBEditorpp/RegisterSingleModule", (WPARAM)m_szModuleName, 0);
-	mir_snprintf(szTemp3, sizeof(szTemp3), "%s DCC", m_szModuleName);
-	CallService("DBEditorpp/RegisterSingleModule", (WPARAM)szTemp3, 0);
 
 	if ( ServiceExists("MBot/GetFcnTable")) {
 		CallService(MS_MBOT_REGISTERIRC, 0, (LPARAM)m_szModuleName);

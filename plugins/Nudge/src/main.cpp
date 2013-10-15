@@ -225,13 +225,6 @@ void LoadProtocols(void)
 	shake.Load();
 }
 
-void RegisterToDbeditorpp(void)
-{
-	// known modules list
-	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"Nudge", 0);
-}
-
 static IconItem iconList[] =
 {
 	{ LPGEN("Nudge as Default"), "Nudge_Default", IDI_NUDGE }
@@ -292,7 +285,6 @@ static int ContactWindowOpen(WPARAM wparam,LPARAM lParam)
 
 int ModulesLoaded(WPARAM,LPARAM)
 {
-	RegisterToDbeditorpp();
 	LoadProtocols();
 	LoadIcons();
 	LoadPopupClass();

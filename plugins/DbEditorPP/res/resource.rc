@@ -62,20 +62,14 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,13,283,10
     CONTROL         "Automatically expand ""settings"" when Database Editor ++ starts",IDC_EXPANDSETTINGS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,283,10
-    CONTROL         "Use known modules list",IDC_USEKNOWNMODS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,39,253,10
-    CONTROL         "Warn when deleting modules",IDC_WARNONDEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,280,10
-    CONTROL         """Open user tree in DBE++"" menu item",IDC_MENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,65,280,10
+    CONTROL         "Warn when deleting modules",IDC_WARNONDEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,39,280,10
+    CONTROL         """Open user tree in DBE++"" menu item",IDC_MENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,280,10
     CONTROL         "Use popups when watched settings change values",IDC_POPUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,78,275,10
-    EDITTEXT        IDC_POPUPTIMEOUT,144,89,20,12,ES_NUMBER
-    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,257,89,26,12
-    EDITTEXT        IDC_MODULES,12,140,288,46,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
-    GROUPBOX        "Modules to ALWAYS mark as known (e.g core modules)",IDC_STATIC,7,105,300,96
-    LTEXT           "Put a space or comma between each module name",IDC_STATIC,12,116,286,8
-    LTEXT           "Changes to this list will take effect next time miranda starts",IDC_STATIC,12,189,284,8
-    RTEXT           "Popup timeout (0 for infinite)",IDC_STATIC,35,91,103,8
-    RTEXT           "Background color",IDC_STATIC,177,91,77,8
-    LTEXT           "If the module name has a space in it, put a \\ before the space. eg ""aaa\\ bbb""",IDC_STATIC,12,127,286,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,65,275,10
+    EDITTEXT        IDC_POPUPTIMEOUT,144,76,20,12,ES_NUMBER
+    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,257,76,26,12
+    RTEXT           "Popup timeout (0 for infinite)",IDC_STATIC,35,78,103,8
+    RTEXT           "Background color",IDC_STATIC,177,78,77,8
 END
 
 IDD_ADD_MODULE DIALOGEX 0, 0, 186, 67
@@ -253,8 +247,6 @@ END
 // remains consistent on all systems.
 ICO_KNOWN               ICON                    "Yellow.ico"
 ICO_KNOWNOPEN           ICON                    "Yellow_open.ico"
-ICO_UNKNOWNOPEN         ICON                    "Red_open.ico"
-ICO_UNKNOWN             ICON                    "Red.ico"
 ICO_SETTINGS            ICON                    "Icon_4.ico"
 ICO_ONLINE              ICON                    "online2.ico"
 ICO_REGEDIT             ICON                    "Icon_1.ico"
@@ -393,7 +385,6 @@ BEGIN
         MENUITEM "Copy To Contact",             MENU_COPY_MOD
         MENUITEM SEPARATOR
         MENUITEM "Export Module",               MENU_EXPORTMODULE
-        MENUITEM "Add To Known Modules",        MENU_ADDKNOWN
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
         MENUITEM "&Delete",                     MENU_DELETE_MOD
@@ -438,7 +429,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Export Module",               MENU_EXPORTMODULE
         MENUITEM "Export Module from all contacts", MENU_EXPORTDB
-        MENUITEM "Add To Known Modules",        MENU_ADDKNOWN
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
         MENUITEM "&Delete",                     MENU_DELETE_MOD

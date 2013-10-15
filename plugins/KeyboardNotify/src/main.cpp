@@ -782,9 +782,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hFlashingEventService = CreateServiceFunction(MS_KBDNOTIFY_FLASHINGACTIVE, IsFlashingActiveService);
 	hNormalizeSequenceService = CreateServiceFunction(MS_KBDNOTIFY_NORMALSEQUENCE, NormalizeSequenceService);
 
-	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
-		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)KEYBDMODULE, 0);
-	
 	return 0;
 }
 

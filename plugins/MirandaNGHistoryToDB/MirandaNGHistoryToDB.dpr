@@ -676,8 +676,6 @@ begin
     IMUPD.szBetaChangelogURL := htdChangelogURL;
     CallService(MS_UPDATE_REGISTER, 0, LPARAM(@IMUPD));
   end;}
-  // Регистрируемся в dbeditor
-  CallService(MS_DBEDIT_REGISTERSINGLEMODULE, WPARAM(PAnsiChar(htdDBName)), 0);
   { Запускаем контроль файла конфигурации
   FILE_NOTIFY_CHANGE_FILE_NAME        = $00000001;//Изменение имени файла
   FILE_NOTIFY_CHANGE_DIR_NAME         = $00000002;//Изменение имени папки
