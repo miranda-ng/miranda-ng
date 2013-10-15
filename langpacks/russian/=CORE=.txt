@@ -2475,7 +2475,7 @@ Miranda не смогла загрузить встроенную систему
 [\nStyles and effects are disabled for this font.]
 Для этого шрифта настройка стилей и эффектов отключена.
 [Max Number of Flashes]
-Максимально миганий
+Максимальное количество миганий
 [&Offline\tCtrl+0]
 Не в с&ети\tCtrl+0
 [On&line\tCtrl+1]
