@@ -34,11 +34,15 @@ void CVkProto::UninitQueue()
 
 void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
+LBL_Restart:
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 	if (reply != NULL) {
 		if (pReq->m_pFunc != NULL)
-			(this->*(pReq->m_pFunc))(reply, pReq->pUserInfo);
+			(this->*(pReq->m_pFunc))(reply, pReq);
+		
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+		if (pReq->bNeedsRestart)
+			goto LBL_Restart;
 	}
 	delete pReq;
 }

@@ -124,10 +124,13 @@ class JSONROOT
 	JSONNODE *m_node;
 
 public:
-	__forceinline JSONROOT(LPCSTR text) { m_node = json_parse(text); }
+	__forceinline JSONROOT() { m_node = NULL; }
+	__forceinline JSONROOT(LPCSTR text) { Parse(text); }
 	__forceinline ~JSONROOT() { json_delete(m_node); }
 
 	__forceinline operator JSONNODE*() const { return m_node; }
+
+	__forceinline JSONNODE* Parse(LPCSTR text) { return (m_node = json_parse(text)); }
 };
 
 #ifdef _XSTRING_

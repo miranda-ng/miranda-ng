@@ -75,7 +75,7 @@ int CVkProto::SetServerStatus(int iStatus)
 {
 	if (iStatus != ID_STATUS_OFFLINE && iStatus != ID_STATUS_INVISIBLE) {
 		HttpParam param = { "access_token", m_szAccessToken };
-		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOnline.json", true, NULL, 1, &param);
+		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth, 1, &param);
 	}
 	return 0;
 }
@@ -84,7 +84,7 @@ int CVkProto::SetServerStatus(int iStatus)
 
 static char VK_TOKEN_BEG[] = "access_token=";
 
-void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, void*)
+void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	GrabCookies(reply);
 
@@ -154,7 +154,7 @@ LBL_NoForm:
 		m_prevError = true;
 	}
 
-	AsyncHttpRequest *pReq = new AsyncHttpRequest();
+	pReq = new AsyncHttpRequest();
 	pReq->requestType = REQUEST_POST;
 	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11;
 	pReq->pData = mir_strdup(szBody);
@@ -169,7 +169,7 @@ LBL_NoForm:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, void*)
+void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveMyInfo %d", reply->resultCode);
 	if (reply->resultCode != 200) {
@@ -177,11 +177,8 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, void*)
 		return;
 	}
 
-	JSONROOT pRoot(reply->pData);
-	if ( !CheckJsonResult(pRoot))
-		return;
-
-	JSONNODE *pResponse = json_get(pRoot, "response");
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
 
@@ -229,17 +226,14 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	PushAsyncHttpRequest(REQUEST_GET, "/method/getProfiles.json", true, &CVkProto::OnReceiveUserInfo, SIZEOF(params), params);
 }
 
-void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, void*)
+void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUserInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot(reply->pData);
-	if ( !CheckJsonResult(pRoot))
-		return;
-
-	JSONNODE *pResponse = json_get(pRoot, "response");
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
 
@@ -286,17 +280,14 @@ void CVkProto::RetrieveFriends()
 	PushAsyncHttpRequest(REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends, SIZEOF(params), params);
 }
 
-void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, void*)
+void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveFriends %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot(reply->pData);
-	if ( !CheckJsonResult(pRoot))
-		return;
-
-	JSONNODE *pResponse = json_get(pRoot, "response"), *pInfo;
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot), *pInfo;
 	if (pResponse == NULL)
 		return;
 
@@ -305,12 +296,24 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, void*)
 		if (szValue == NULL)
 			continue;
 
+		CMString tszNick;
 		HANDLE hContact = FindUser( _ttoi(szValue), true);
 		szValue = json_as_string( json_get(pInfo, "first_name"));
-		if (szValue) setTString(hContact, "FirstName", szValue);
+		if (szValue) {
+			setTString(hContact, "FirstName", szValue);
+
+			tszNick.Append(szValue);
+			tszNick.AppendChar(' ');
+		}
 
 		szValue = json_as_string( json_get(pInfo, "last_name"));
-		if (szValue) setTString(hContact, "LastName", szValue);
+		if (szValue) {
+			setTString(hContact, "LastName", szValue);
+			tszNick.Append(szValue);
+		}
+
+		if ( !tszNick.IsEmpty())
+			setTString(hContact, "Nick", tszNick);
 
 		szValue = json_as_string( json_get(pInfo, "photo"));
 		if (szValue) setTString(hContact, "AvatarUrl", szValue);
@@ -337,17 +340,14 @@ void CVkProto::RetrieveUnreadMessages()
 	PushAsyncHttpRequest(REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
 }
 
-void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, void*)
+void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveMessages %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot(reply->pData);
-	if ( !CheckJsonResult(pRoot))
-		return;
-
-	JSONNODE *pResponse = json_get(pRoot, "response");
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
 
@@ -395,7 +395,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, void*)
 			{ "mids", mids },
 			{ "access_token", m_szAccessToken }
 		};
-		PushAsyncHttpRequest(REQUEST_GET, "/method/messages.markAsRead.json", true, NULL, SIZEOF(params), params);
+		PushAsyncHttpRequest(REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, SIZEOF(params), params);
 	}
 }
 
@@ -409,17 +409,14 @@ void CVkProto::RetrievePollingInfo()
 	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo, 1, &param);
 }
 
-void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, void*)
+void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceivePollingInfo %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot(reply->pData);
-	if ( !CheckJsonResult(pRoot))
-		return;
-
-	JSONNODE *pResponse = json_get(pRoot, "response");
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
 
@@ -504,7 +501,7 @@ int CVkProto::PollServer()
 	int retVal = 0;
 	if (reply->resultCode = 200) {
 		JSONROOT pRoot(reply->pData);
-		if ( CheckJsonResult(pRoot)) {
+		if ( CheckJsonResult(NULL, reply, pRoot)) {
 			m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pRoot, "ts"))));
 			JSONNODE *pUpdates = json_get(pRoot, "updates");
 			if (pUpdates != NULL)

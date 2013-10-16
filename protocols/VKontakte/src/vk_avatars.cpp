@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, void* hContact)
+void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* hContact)
 {
 	if (reply->resultCode != 200)
 		return;

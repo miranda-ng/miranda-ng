@@ -79,7 +79,19 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 	return NULL;
 }
 
-bool CVkProto::CheckJsonResult(JSONNODE *pNode)
+JSONNODE* CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT &pRoot)
+{
+	pRoot.Parse(reply->pData);
+	if (pRoot == NULL)
+		return NULL;
+
+	if ( !CheckJsonResult(pReq, reply, pRoot))
+		return NULL;
+
+	return json_get(pRoot, "response");
+}
+
+bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNODE *pNode)
 {
 	if (pNode == NULL)
 		return false;
@@ -91,7 +103,15 @@ bool CVkProto::CheckJsonResult(JSONNODE *pNode)
 	int iErrorCode = json_as_int(pErrorCode);
 	if (iErrorCode == ERROR_ACCESS_DENIED)
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+	else if (iErrorCode == 14) // captcha
+		ApplyCaptcha(pReq, pError);
 	return iErrorCode == 0;
+}
+
+void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	JSONROOT pRoot;
+	CheckJsonResponse(pReq, reply, pRoot);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -106,123 +126,13 @@ void InitIcons()
 	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("VKontakte"), iconList, SIZEOF(iconList), "VKontakte");
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Captcha form
-
-struct CAPTCHA_FORM_PARAMS
+HANDLE GetIconHandle(int iCommand)
 {
-	HBITMAP bmp;
-	int w,h;
-	char Result[100];
-};
+	for (int i=0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iCommand)
+			return iconList[i].hIcolib;
 
-static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CAPTCHA_FORM_PARAMS *params = (CAPTCHA_FORM_PARAMS*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch (msg) {
-	case WM_INITDIALOG: {
-		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib, TRUE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib));
-		params = (CAPTCHA_FORM_PARAMS*)lParam;
-
-		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)params);
-
-		return TRUE;
-	}
-	case WM_CTLCOLORSTATIC:
-		switch(GetWindowLongPtr((HWND)lParam, GWL_ID)) {
-		case IDC_WHITERECT:
-		case IDC_INSTRUCTION:
-		case IDC_TITLE:
-			return (BOOL)GetStockObject(WHITE_BRUSH);
-		}
-		return NULL;
-
-	case WM_PAINT:
-		if (params) {
-			PAINTSTRUCT ps;
-			HDC hdc, hdcMem;
-			RECT rc;
-
-			GetClientRect(hwndDlg, &rc);
-			hdc = BeginPaint(hwndDlg, &ps);
-			hdcMem = CreateCompatibleDC(hdc);
-			HGDIOBJ hOld = SelectObject(hdcMem, params->bmp);
-
-			int y = (rc.bottom + rc.top - params->h) / 2;
-			int x = (rc.right + rc.left - params->w) / 2;
-			BitBlt(hdc, x, y, params->w, params->h, hdcMem, 0,0, SRCCOPY);
-			SelectObject(hdcMem, hOld);
-			DeleteDC(hdcMem);
-
-			EndPaint(hwndDlg, &ps);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-
-		case IDOK:
-			GetDlgItemTextA(hwndDlg, IDC_VALUE, params->Result, SIZEOF(params->Result));
-			EndDialog(hwndDlg, 1);
-			return TRUE;
-		}
-		break;
-
-	case WM_CLOSE:
-		EndDialog(hwndDlg, 0);
-		break;
-
-	case WM_DESTROY:
-		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
-		break;
-	}
-	return FALSE;
-}
-
-CMStringA CVkProto::RunCaptchaForm(LPCSTR szUrl)
-{
-	debugLogA("CVkProto::RunCaptchaForm: reading picture from %s", szUrl);
-
-	NETLIBHTTPREQUEST req = { sizeof(req) };
-	req.requestType = REQUEST_GET;
-	req.szUrl = (LPSTR)szUrl;
-	req.flags = NLHRF_HTTP11 | NLHRF_NODUMPHEADERS;
-	req.timeout = 60;
-
-	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-	if (reply == NULL)
-		return "";
-
-	if (reply->resultCode != 200) {
-		debugLogA("CVkProto::RunCaptchaForm: failed with code %d", reply->resultCode);
-		return "";
-	}
-
-	CAPTCHA_FORM_PARAMS param = { 0 };
-
-	IMGSRVC_MEMIO memio = { 0 };
-	memio.iLen = reply->dataLength;
-	memio.pBuf = reply->pData;
-	memio.fif = FIF_UNKNOWN; /* detect */
-	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
-	
-	BITMAP bmp = {0};
-	GetObject(param.bmp, sizeof(bmp), &bmp);
-	param.w = bmp.bmWidth;
-	param.h = bmp.bmHeight;
-	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, CaptchaFormDlgProc, (LPARAM)&param);
-	if (res == 0)
-		return "";
-	
-	debugLogA("CVkProto::RunCaptchaForm: user entered text %s", param.Result);
-	return param.Result;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -283,7 +193,7 @@ CMStringA CVkProto::AutoFillForm(char *pBody, CMStringA &szAction)
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
 				if (pCaptchaBeg != NULL)
-					value = RunCaptchaForm( getAttr(pCaptchaBeg, "src"));
+					RunCaptchaForm( getAttr(pCaptchaBeg, "src"), value);
 			}
 
 			if ( !result.IsEmpty())
@@ -298,7 +208,7 @@ CMStringA CVkProto::AutoFillForm(char *pBody, CMStringA &szAction)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CVkProto::AsyncHttpRequest::AsyncHttpRequest()
+AsyncHttpRequest::AsyncHttpRequest()
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 
@@ -306,7 +216,7 @@ CVkProto::AsyncHttpRequest::AsyncHttpRequest()
 	AddHeader("Accept-Encoding", "booo");
 }
 
-CVkProto::AsyncHttpRequest::~AsyncHttpRequest()
+AsyncHttpRequest::~AsyncHttpRequest()
 {
 	for (int i=0; i < headersCount; i++) {
 		mir_free(headers[i].szName);
@@ -317,7 +227,7 @@ CVkProto::AsyncHttpRequest::~AsyncHttpRequest()
 	mir_free(pData);
 }
 
-void CVkProto::AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
+void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
 {
 	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
 	headers[headersCount].szName = mir_strdup(szName);
@@ -325,7 +235,7 @@ void CVkProto::AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
 	headersCount++;
 }
 
-void CVkProto::AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
+void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 {
 	for (int i=0; i < nhr->headersCount; i++) {
 		LPCSTR szValue = nhr->headers[i].szValue;

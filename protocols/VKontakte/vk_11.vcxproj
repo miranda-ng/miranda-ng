@@ -184,6 +184,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vk_avatars.cpp" />
+    <ClCompile Include="src\vk_captcha.cpp" />
     <ClCompile Include="src\vk_options.cpp" />
     <ClCompile Include="src\vk_proto.cpp" />
     <ClCompile Include="src\vk_queue.cpp" />

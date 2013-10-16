@@ -16,7 +16,20 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 struct CVkProto;
-typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, void*);
+typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest *pReq);
+
+struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+{
+	AsyncHttpRequest();
+	~AsyncHttpRequest();
+
+	void AddHeader(LPCSTR, LPCSTR);
+	void Redirect(NETLIBHTTPREQUEST*);
+
+	BOOL bNeedsRestart;
+	VK_REQUEST_HANDLER m_pFunc;
+	void *pUserInfo;
+};
 
 struct CVkProto : public PROTO<CVkProto>
 {
@@ -78,9 +91,10 @@ struct CVkProto : public PROTO<CVkProto>
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 
-	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, void*);
-	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, void*);
-	void OnReceiveAvatar(NETLIBHTTPREQUEST*, void*);
+	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
+	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
+	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
+	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
 
 	//==== Services ======================================================================
 
@@ -93,39 +107,28 @@ struct CVkProto : public PROTO<CVkProto>
 	TCHAR* GetUserStoredPassword(void);
 
 	void RetrieveUserInfo(LONG userId);
-	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, void*);
+	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
 
 	void RetrieveFriends();
-	void OnReceiveFriends(NETLIBHTTPREQUEST*, void*);
+	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
 
 	void RetrieveUnreadMessages();
-	void OnReceiveMessages(NETLIBHTTPREQUEST*, void*);
-	void OnSendMessage(NETLIBHTTPREQUEST*, void*);
+	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
+	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
 
 	void RetrievePollingInfo();
-	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, void*);
+	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
 
 	void __cdecl PollingThread(void*);
 	int  PollServer();
 	void PollUpdates(JSONNODE*);
-	void OnReceivePolling(NETLIBHTTPREQUEST*, void*);
+	void OnReceivePolling(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
 
 	int  SetServerStatus(int);
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
 
 private:
-	struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
-	{
-		AsyncHttpRequest();
-		~AsyncHttpRequest();
-
-		void AddHeader(LPCSTR, LPCSTR);
-		void Redirect(NETLIBHTTPREQUEST*);
-
-		VK_REQUEST_HANDLER m_pFunc;
-		void *pUserInfo;
-	};
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
 	CRITICAL_SECTION m_csRequestsQueue;
 	CMStringA m_prevUrl;
@@ -145,20 +148,23 @@ private:
 	};
 	OBJLIST<Cookie> m_cookies;
 	void   GrabCookies(NETLIBHTTPREQUEST *nhr);
-	void   ApplyCookies(AsyncHttpRequest*);
+	void   ApplyCookies(AsyncHttpRequest *pReq);
 
 	void   InitQueue();
 	void   UninitQueue();
-	void   ExecuteRequest(AsyncHttpRequest*);
+	void   ExecuteRequest(AsyncHttpRequest *pReq);
 	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, HttpParam *pParams = 0, int iTimeout = 10000);
 	bool   PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
 	void   __cdecl WorkerThread(void*);
 
-	CMStringA RunCaptchaForm(LPCSTR szUrl);
+	bool      RunCaptchaForm(LPCSTR szUrl, CMStringA&);
 	CMStringA AutoFillForm(char*, CMStringA&);
-	
-		void   ConnectionFailed(int iReason);
-	bool   CheckJsonResult(JSONNODE*);
+
+	bool      CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNODE*);
+	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);
+	bool      ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE*);
+
+	void   ConnectionFailed(int iReason);
 	void   OnLoggedIn();
 	void   OnLoggedOut();
 	void   ShutdownSession();

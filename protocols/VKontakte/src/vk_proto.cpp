@@ -157,17 +157,14 @@ int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 	return msgId;
 }
 
-void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, void*)
+void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot(reply->pData);
-	if ( !CheckJsonResult(pRoot))
-		return;
-
-	JSONNODE *pResponse = json_get(pRoot, "response");
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse != NULL)
 		m_sendIds.insert((HANDLE)json_as_int(pResponse));
 }

@@ -53,3 +53,4 @@ extern HINSTANCE hInst;
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
 
 void InitIcons(void);
+HANDLE GetIconHandle(int iCommand);
