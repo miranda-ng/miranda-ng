@@ -504,7 +504,6 @@ Miranda NG перезапускається.\nЗачекайте...
 Скинути на стандартне
 [Ungroup]
 Розгрупувати
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 Дозволити
 [&Deny]
@@ -521,7 +520,6 @@ Miranda NG перезапускається.\nЗачекайте...
 Вас додали
 [&Close]
 Закрити
-;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s (%s)
 [Retrieving %s message...]
@@ -971,12 +969,10 @@ Miranda NG перезапускається.\nЗачекайте...
 Перейменувати: додати "(1)"
 [You will always be asked about files from people not on your contact list]
 Запит буде показано завжди, якщо відправник поза списком
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Про Miranda NG
 [Credits >]
 Автори >
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Перейти до режиму очікування, якщо неактивні:
 [Become idle if the screen saver is active]
@@ -1042,7 +1038,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [Limit avatar height to]
 Обмежити висоту аватарів
 [Max Number of Flashes]
-Максимально миготінь
+Максимальна кількість блимань
 [Send Error]
 Помилка надсилання
 [An error has occurred. The protocol reported the following error:]
@@ -1105,7 +1101,6 @@ Cповіщати про друк, коли вікно повідомлень з
 Контакт почав друкувати повідомлення
 [Contact stopped typing]
 Контакт закінчив друкувати повідомлення
-;file \src\core\stduihist\resource.rc
 [Find]
 Пошук
 [&Find Next]
@@ -1186,7 +1181,6 @@ Iндекс:
 Посада:
 [Website:]
 Сайт:
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s запитує авторизацію
 [%u requests authorization]
@@ -1229,7 +1223,6 @@ Iндекс:
 Читати повідомлення "%s"
 [Re&ad Status Message]
 Читати статусне повідомлення
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Відійшов о %time%. Скоро повернуся.
 [Give it up, I'm not in!]
@@ -1646,7 +1639,6 @@ Iндекс:
 Нічого шукати
 [&Message %s]
 &Написати %s
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Вставити смайл
 [Make the text bold (CTRL+B)]
@@ -2061,7 +2053,6 @@ Miranda не може зрозуміти цей профіль
 Miranda не може відкрити "%s".\nДо нього немає доступу або він використовується іншою програмою чи іншою копією Miranda NG.
 [Miranda can't open that profile]
 Miranda не може відкрити цей профіль
-;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Захист від небезпечних змін увімкнено, вас попередять про будь-які зміни налаштувань.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2132,7 +2123,6 @@ Miranda не може відкрити цей профіль
 Назва
 [&Find/Add Contacts...]
 Зн&айти/додати контакти
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не можу запустити пошук у мережі %s. Перевірте з'єднання з %s.
 [Could not search on any of the protocols, are you online?]
