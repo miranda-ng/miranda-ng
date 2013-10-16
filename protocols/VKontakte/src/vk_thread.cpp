@@ -461,10 +461,8 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 
 		case VKPOLL_USR_OFFLINE:
 			uid = -json_as_int( json_at(pArray, 1));
-			if ((hContact = FindUser(uid)) != NULL) {
-				int flags = json_as_int( json_at(pArray, 2));
-				setWord(hContact, "Status", (flags == 0) ? ID_STATUS_OFFLINE : ID_STATUS_AWAY);
-			}
+			if ((hContact = FindUser(uid)) != NULL)
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		case VKPOLL_USR_UTN:
