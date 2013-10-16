@@ -17,24 +17,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* hContact)
+void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 {
 	if (reply->resultCode != 200)
 		return;
 
 	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
-	GetAvatarFileName(hContact, AI.filename, SIZEOF(AI.filename));
+	GetAvatarFileName(pReq->pUserInfo, AI.filename, SIZEOF(AI.filename));
 	AI.format = ProtoGetBufferFormat(reply->pData);
 
 	FILE *out = _tfopen(AI.filename, _T("wb"));
 	if (out == NULL) {
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
+		ProtoBroadcastAck(pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 		return;
 	}
 
 	fwrite(reply->pData, 1, reply->dataLength, out);
 	fclose(out);
-	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+	ProtoBroadcastAck(pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 }
 
 INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
