@@ -181,14 +181,14 @@ int Doubleclick(WPARAM wParam, LPARAM lParam)
 	if ( lstrcmpA(MODULENAME, szProto))
 		return 0;
 
-	if ( db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1)) {
+	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
+	if (action == 0) {
 		ptrT url( db_get_tsa(hContact, MODULENAME, "URL"));
 		CallService(MS_UTILS_OPENURL, OUF_TCHAR, (WPARAM)url);
 
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);     
 	}
-
-	if ( db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1)) {
+	else if (action == 1) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 		if (hwndDlg) {
 			SetForegroundWindow(hwndDlg);
