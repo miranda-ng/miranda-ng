@@ -35,7 +35,7 @@
 [Use MCI to play alert sounds]
 Использовать драйвер MCI
 [Add Contact list menu items]
-Пункт в главном меню
+Пункты в меню контакта
 [Note Transparency (Minimum Win 2k/XP)]
 Прозрачность заметок (требуется Win 2000 и выше)
 [Send Reminders through E-mail / SMS :]
@@ -213,9 +213,9 @@
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Указанное время недействительно из-за перехода на «летнее время»
 [The specified time is invalid.]
-Указанное время недействительно
+Указанное время неверно.
 [The specified time offset is invalid.]
-
+Указанное смещение времени неверно.
 [&Update Reminder]
 &Обновить напоминание
 [Every]
