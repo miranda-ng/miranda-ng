@@ -180,6 +180,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	RegisterFontServiceFonts();
 	RegisterKeyBindings();
 
+	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
 	// register menus
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = NULL;
