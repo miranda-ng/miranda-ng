@@ -5,52 +5,262 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+Transférer un fichier sur un serveur FTP et envoyer l'URL de téléchargement à votre contact. Supporte la compression zip avant l'envoi et le chiffrement via SFTP et FTPS.
 ;file \plugins\FTPFileYM\res\ftpfile.rc
+[FTP accounts]
+Comptes FTP
 [Host name]
 Hôte
+[User]
+Utilisateur
+[Password]
+Mot de passe
 [URL]
 Lien
+[Directory on server]
+Dossier sur le serveur
+[Port]
+Port
+[Command after upload]
+Commande après l'envoi
 [Use passive mode]
 Utiliser le mode passif
+[Account name]
+Nom de compte
 [Protocol]
 Protocole
+[Default FTP server]
+Serveur FTP par défaut
+[File download link]
+URL de téléchargement du fichier
+[Close dialog after upload is completed]
+Fermer la fenêtre lorsque le transfert est complété
+[Copy download link to message log]
+Copier l'URL de téléchargement dans la fenêtre de messages
+[Autosend download link to contact]
+Envoyer automatiquement l'URL au contact
+[Menu items]
+
+[Use submenu (restart required)]
+Utiliser sous-menu
+[Hide inactive accounts]
+Cacher les comptes inactifs
 [Other]
-Autre
+Autres
+[Automatically delete file from FTP server after (experimental):]
+Effacer le fichier sur le FTP automatiquement après (expérimental):
+[ZIP support]
+
+[Enter archive name manually]
+Entrer le nom de l'archive manuellement
+[Compression level:]
+Niveau de compression:
+[Upload File Manager]
+
+[File:]
+Fichier:
+[Completed:]
+Complété:
 [Speed:]
-Vitesse :
+Vitesse:
+[Remaining:]
+Restant:
 [Summary]
 Résumé
 [To:]
-À :
+À:
 [Nick]
 Pseudo
 [Close]
 Fermer
+[Clipboard]
+Presse-papiers
+[Options]
+Paramètres
+[Pause]
+Pause
+[File Manager]
+
+[Server:]
+Serveur:
+[User info]
+
+[UPLOADING...]
+
+[Open in Browser]
+Ouvrir dans le navigateur
+[FTP File Manager]
+
 [Select All]
 Tout sélectionner
+[Deselect All]
+Sélectionner aucun
+[Delete from list]
+Effacer de la liste
+[Delete from FTP]
+Effacer du FTP
+[Enter file name]
+Entrer un nom de fichier
+[OK]
+OK
 [Cancel]
 Annuler
+[File exists]
+Fichier existant
 [Rename]
 Renommer
 [Overwrite]
 Écraser
+[File with the same name already exists on the server.]
+Un fichier avec le même nom existe déjà sur le serveur.
+[How to proceed?]
+Que faire?
+[Copy URL]
+Copier l'URL
+[Close dialog after upload finishes]
+Fermer la fenêtre lorsque le transfert est complété
+[Automatically delete file after...]
+Effacer le fichier automatiquement après...
+[Disabled]
+Désactivé
+[Delete from List]
+Effacer de la liste
+[Copy Link]
+Copier URL
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Voir les détails du contact
+[Copy Link to Clipboard]
+Copier l'URL vers le presse-papier
+[%d minutes]
+%d minutes
 [%d hours]
 %d heures
+[%d days]
+%d jours
+[Do you really want to cancel all running jobs?]
+Voulez-vous vraiment annuler les tâches en cours?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+Serveur FTP 1
+[FTP Server 2]
+Serveur FTP 2
+[FTP Server 3]
+Serveur FTP 3
+[FTP Server 4]
+Serveur FTP 4
+[FTP Server 5]
+Serveur FTP 5
+[Send file]
+Envoyer un fichier
 [Resume]
 Reprendre
+[FTP File]
+
+[FTP Server %d]
+Serveur FTP %d
+[Upload file(s)]
+Envoyer un(des) fichier(s)
+[Zip and upload file(s)]
+Compresser et envoyer un(des) fichier(s)
+[Zip and upload folder]
+Compresser et envoyer un dossier
+[FTP File manager]
+
+[Show FTPFile manager]
+
+[FTP_ShowManager]
+
+[Upload file]
+
+[Zip and upload file]
+
+[You have to fill FTP server setting before upload a file.]
+Vous devez compléter les informations du serveur FTP avant d'envoyer un fichier.
+[Error has occurred while trying to create a dialog!]
+Une erreur est survenue lors de la création d'une fenêtre!
+[File upload complete]
+Transfert du fichier complété
+[Upload canceled]
+Transfert annulé
 ;file \plugins\FTPFileYM\src\job_generic.cpp
+[All Files (*.*)]
+Tous les fichiers (*.*)
+[FTP File - Select files]
+FTP File - Choisir un(les) fichier(s)
+[FTP File - Select a folder]
+FTP File - Choisir un dossier
+[Folder not found!]
+Dossier introuvable!
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+Le dossier sélectionné ne contient aucun fichier.\nFTP File transfert les fichiers du dossier sélectionné seulement, pas les sous-dossiers.
+[CANCELED]
+ANNULÉ
+[COMPLETED]
+COMPLÉTÉ
+[CONNECTING...]
+CONNEXION...
+[CREATED]
+CRÉE
+[PACKING...]
+COMPRESSION...
+[PAUSED]
+EN PAUSE
+[WAITING...]
+EN ATTENTE...
+[UNKNOWN]
+INCONNU
 ;file \plugins\FTPFileYM\src\job_packer.cpp
+[Error occured when zipping the file(s).]
+Erreur lors de la compression du(des) fichier(s).
+[%0.1f kB/s]
+%0.1f kB/s
+[%0.1f%% (%d kB/%d kB)]
+%0.1f%% (%d kB/%d kB)
+[%s (%d kB/%d kB)]
+%s (%d kB/%d kB)
+[Do you really want to cancel this upload?]
+Voulez-vous vraiment annuler ce transfert?
+[Status: %s\r\nFile: %s\r\nServer: %s]
+État: %s\r\nFichier: %s\r\nServeur: %s
 ;file \plugins\FTPFileYM\src\job_upload.cpp
+[File exists - %s]
+Fichier existant - %s
+[Error occurred when opening local file.\nAborting file upload...]
+Une erreur est survenue lors de l'ouverture du fichier local.\nTransfert annulé...
+[Error occurred when initializing libcurl.\nAborting file upload...]
+Une erreur est survenue lors de l'initialisation libcurl.\nTransfert annulé...
+[FTP error occurred.\n%s]
+Erreur FTP.\n%s
+[Download link:]
+Lien de téléchargement:
+[Do you really want to cancel running upload?]
+Voulez-vous vraiment annuler les transfert en cours?
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+%s\r\nVitesse: %s\r\nCompleté: %s\r\nRestant: %s]
 ;file \plugins\FTPFileYM\src\manager.cpp
+[You have to fill and enable at least one FTP server in setting.]
+Vous devez remplir et activer au moins un serveur FTP dans les paramètres.
 [Clear All]
-Tout effacer
+Sélectionner aucun
 ;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+
+[FTP+SSL (Explicit)]
+
+[FTP+SSL (Implicit)]
+
+[SFTP (Secure FTP over SSH)]
+
+[minutes]
+minutes
 [hours]
 heures
+[days]
+jours
+[Services]
+Services
 [Accounts]
 Comptes
 [Advanced]
