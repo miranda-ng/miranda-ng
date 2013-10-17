@@ -5,8 +5,8 @@
 ;  Versions: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-[Reacts to the return of contacts, or the extended absence of contacts, with notifications and other actions.]
-Плагін повідомляє про повернення контакту або його тривалої відсутності.
+[Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
+Плагін повідомляє про повернення контакту або його тривалу відсутність.
 [Buddy Expectator]
 Чекаю тебе
 [has gone online for the first time.]

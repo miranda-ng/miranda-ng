@@ -83,5 +83,5 @@ ETA'
 NOMECOGNOME
 [UNIQUEID]
 ID UNICO
-[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
-Questo plugin ti permette di cercare rapidamente nick, nomi, cognomi, email, UIN nella tua lista dei contatti. E ora puoi anche aggiungere qualsiasi impostazioni da visualizzare - ad esempio le versioni di Miranda utilizzate, il gruppo o la città. Premi F3 per attivarlo...
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+Questo plugin ti permette di cercare rapidamente nick, nomi, cognomi, email, UIN nella tua lista dei contatti. E ora puoi anche aggiungere qualsiasi impostazioni da visualizzare - ad esempio le versioni di Miranda utilizzate, il gruppo o la città.

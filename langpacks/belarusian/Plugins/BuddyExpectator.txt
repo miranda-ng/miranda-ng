@@ -5,7 +5,7 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
+[Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
 Плагiн апавяшчае пра вяртанне кантакту ці яго працяглай адсутнасці.
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]

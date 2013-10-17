@@ -5,7 +5,7 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
-[File tranfer by using the messaging services - as plain text.]
+[File transfer by using the messaging services - as plain text.]
 Přenos souborů použitím komunikačních služeb - jako čistý text.
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]

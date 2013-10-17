@@ -7,7 +7,7 @@
 [Start position]
 Начальная позиция
 [Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
-Плагин позволяет установить начальную позицию контактного листа относительно панели задач и краёв экрана.
+Плагин позволяет установить начальную позицию списка контактов относительно панели задач и краёв экрана.
 [Always start...]
 При запуске...
 [Contact List Window Start Position]

@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"File as message"
 #define __FILENAME					"FileAsMessage.dll"
-#define __DESCRIPTION 				"File tranfer by using the messaging services - as plain text."
+#define __DESCRIPTION 				"File transfer by using the messaging services - as plain text."
 #define __AUTHOR					"Denis Stanishevskiy"
 #define __AUTHOREMAIL				"stdenformiranda@fromru.com"
 #define __AUTHORWEB					"http://miranda-ng.org/p/FileAsMessage/"

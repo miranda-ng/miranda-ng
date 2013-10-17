@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"Buddy expectator"
 #define __FILENAME					"BuddyExpectator.dll"
-#define __DESCRIPTION 				"Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions."
+#define __DESCRIPTION 				"Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions."
 #define __AUTHOR					"Anar Ibragimoff, sje, Thief"
 #define __AUTHOREMAIL				"thief@miranda.im"
 #define __AUTHORWEB					"http://miranda-ng.org/p/BuddyExpectator/"

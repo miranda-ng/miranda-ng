@@ -6,7 +6,7 @@
 ;============================================================
 [File As Message]
 Файл через сообщения
-[File tranfer by using the messaging services - as plain text.]
+[File transfer by using the messaging services - as plain text.]
 Передача файлов на основе сервиса сообщений - через простой текст.
 [fileAsMessage]
 Файл через сообщения

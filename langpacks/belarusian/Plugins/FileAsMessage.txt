@@ -5,7 +5,7 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
-[File tranfer by using the messaging services - as plain text.]
+[File transfer by using the messaging services - as plain text.]
 Перадача файлаў праз паведамленні - просты тэкст.
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
