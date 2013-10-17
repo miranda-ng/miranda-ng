@@ -6,9 +6,9 @@
 ;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
-[Loginname:]
+[Login name:]
 [XFire]
 [Nick:]
 [Current Protocolversion:]
@@ -27,8 +27,6 @@
 [Show friends of my friends]
 [Options]
 [More options]
-[Gameicon:]
-[Voiceicon:]
 [Display Error and Infomessage:]
 [Main group for clan groups:]
 [Automatically scan for games:]
@@ -65,11 +63,9 @@
 [Game]
 [Voicechat]
 [Name:]
-[Unreal Tournament 2004]
 [IP:]
 [Port:]
 [Userdetails]
-[dufte]
 [Copy]
 [Enter Password]
 [Join]
@@ -93,7 +89,6 @@
 [Parameter:]
 [Add a new game]
 [Searching games ...]
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 [Please wait, gameini will be currently parsed ...]
@@ -164,7 +159,7 @@
 [XFire does not support offline messaging!]
 [Username]
 [Unable to connect to XFire.]
-[No Loginname is set!]
+[No Login name is set!]
 [No Password is set!]
 [Last game: %s playtime: %.2d:%.2d:%.2d]
 [%s is playing %s.]

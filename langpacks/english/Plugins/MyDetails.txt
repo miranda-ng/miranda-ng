@@ -83,6 +83,5 @@
 [Next protocol]
 [Set My Nickname for %s]
 [Set My Status Message for %s]
-[Show next protocol]
 [Contact List]
 ;file \plugins\MyDetails\src\options.cpp

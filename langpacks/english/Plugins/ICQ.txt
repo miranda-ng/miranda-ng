@@ -737,7 +737,7 @@
 [Deleting group "%s"...]
 [All operations complete]
 [Close]
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 [** All contacts **]
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Angry]

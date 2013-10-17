@@ -52,13 +52,13 @@
 [Changed to Online]
 [User Logged Off]
 [User Logged In]
-[Last seen]
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 [<none>]
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 [Contacts]
+[Last seen]
 [Popups]
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
