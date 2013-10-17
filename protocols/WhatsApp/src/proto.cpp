@@ -22,7 +22,7 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	// Create standard network connection
 	TCHAR descr[512];
 	NETLIBUSER nlu = {sizeof(nlu)};
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	char module[512];
 	mir_snprintf(module, SIZEOF(module), "%s", m_szModuleName);
 	nlu.szSettingsModule = module;
