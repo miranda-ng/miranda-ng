@@ -1,0 +1,15 @@
+﻿ ;============================================================
+;  File: magneticwindows.dll
+;  Module: Magnetic Windows
+;  Versions: 0.0.4.1
+;============================================================
+[%d pix]
+%d пікс
+[Magnetic Windows]
+Липкі вікна
+[Snap windows]
+Прикріпіть
+[Alternate behauvior of shift key: move windows together by default]
+Чередувати режим клавішею SHIFT: рухати вікна, за замовчанням
+[For Scriver users: automatically hold down the CTRL key while moving/sizing. (make sure you use Scriver!)]
+Для плагіна Scriver: автоматично утримувати CTRL поки переміщаєте/калібруєте. (переконайтеся, що ви використовуєте Scriver!)
