@@ -212,7 +212,7 @@ public:
 	void Append(PCXSTR pszSrc, int nLength)
 	{
 		// See comment in SetString() about why we do this
-		int nOffset = pszSrc - GetString();
+		UINT_PTR nOffset = UINT_PTR(pszSrc - GetString());
 
 		int nOldLength = GetLength();
 		if (nOldLength < 0) {
