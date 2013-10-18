@@ -166,18 +166,18 @@ void Message(LPVOID msg)
 		return;
 	}
 
-	MSGBOXPARAMS mbp;
+	MSGBOXPARAMSA mbp;
 	mbp.cbSize=sizeof(mbp);
 	mbp.hwndOwner=NULL;
 	mbp.hInstance=hinstance;
 	mbp.lpszText=(char*)msg;
 	mbp.lpszCaption="Miranda XFire Protocol Plugin";
 	mbp.dwStyle=MB_USERICON;
-	mbp.lpszIcon=MAKEINTRESOURCE(IDI_TM);
+	mbp.lpszIcon=MAKEINTRESOURCEA(IDI_TM);
 	mbp.dwContextHelpId=NULL;
 	mbp.lpfnMsgBoxCallback=NULL;
 	mbp.dwLanguageId=LANG_ENGLISH;
-	MessageBoxIndirect(&mbp);
+	MessageBoxIndirectA(&mbp);
 	//MessageBoxA(0,(char*)msg,"Miranda XFire Protocol Plugin",MB_OK|MB_ICONINFORMATION);
 }
 
@@ -270,7 +270,7 @@ BOOL FindTeamSpeak(DWORD*pid,int*vid) {
 	while ( Process32Next ( hSnapShot,processInfo ) != FALSE)
 	{
 		if(processInfo->th32ProcessID!=0) {
-			int size=strlen(processInfo->szExeFile);
+			int size=_tcslen(processInfo->szExeFile);
 
 			if(size==13)
 			{
@@ -774,7 +774,7 @@ BOOL checkCommandLine(HANDLE hProcess,char * mustcontain,char * mustnotcontain)
 	//prüfe und lade nötige funktionen
 	if(_ZwQueryInformationProcess==NULL)
 	{
-		_ZwQueryInformationProcess = (pZwQueryInformationProcess)GetProcAddress(GetModuleHandle( "ntdll.dll"), "ZwQueryInformationProcess");
+		_ZwQueryInformationProcess = (pZwQueryInformationProcess)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "ZwQueryInformationProcess");
 		if(_ZwQueryInformationProcess==NULL)
 		{
 			return TRUE;
@@ -782,7 +782,7 @@ BOOL checkCommandLine(HANDLE hProcess,char * mustcontain,char * mustnotcontain)
 	}
 	if(_ZwReadVirtualMemory==NULL)
 	{
-		_ZwReadVirtualMemory = (pZwReadVirtualMemory)GetProcAddress(GetModuleHandle( "ntdll.dll"), "ZwReadVirtualMemory");
+		_ZwReadVirtualMemory = (pZwReadVirtualMemory)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "ZwReadVirtualMemory");
 		if(_ZwReadVirtualMemory==NULL)
 		{
 			return TRUE;
@@ -923,7 +923,7 @@ BOOL CheckWWWContent(char*address) {
 BOOL GetWWWContent2(char*address,char*filename,BOOL dontoverwrite,char**tobuf,unsigned int* size) {
 	if(dontoverwrite==TRUE)
 	{
-		if(GetFileAttributes(filename)!=0xFFFFFFFF)
+		if(GetFileAttributesA(filename)!=0xFFFFFFFF)
 		{
 			Netlib_Logf(hNetlib,"%s already exists, no overwrite.",filename);
 			return TRUE;
@@ -1013,7 +1013,7 @@ unsigned int getfilesize(char*path)
 }
 
 //funktion soll erst in der userini suchen, danach in der xfire_games.ini
-DWORD xfire_GetPrivateProfileString(__in   LPCTSTR lpAppName, __in   LPCTSTR lpKeyName, __in   LPCTSTR lpDefault, __out  LPTSTR lpReturnedString, __in   DWORD nSize, __in   LPCTSTR lpFileName) {
+DWORD xfire_GetPrivateProfileString(__in   LPCSTR lpAppName, __in   LPCSTR lpKeyName, __in   LPCSTR lpDefault, __out  LPSTR lpReturnedString, __in   DWORD nSize, __in   LPCSTR lpFileName) {
 	//xfire_games.ini
 	int size=strlen(lpFileName);
 	if(size>15)
@@ -1024,7 +1024,7 @@ DWORD xfire_GetPrivateProfileString(__in   LPCTSTR lpAppName, __in   LPCTSTR lpK
 		*(file+size-13)='s';
 		*(file+size-12)='e';
 		*(file+size-11)='r';
-		ret = GetPrivateProfileString(	lpAppName,lpKeyName,lpDefault,lpReturnedString,nSize,lpFileName);
+		ret = GetPrivateProfileStringA(	lpAppName,lpKeyName,lpDefault,lpReturnedString,nSize,lpFileName);
 		if(ret)
 		{
 			return ret;
@@ -1035,10 +1035,10 @@ DWORD xfire_GetPrivateProfileString(__in   LPCTSTR lpAppName, __in   LPCTSTR lpK
 			*(file+size-13)='i';
 			*(file+size-12)='r';
 			*(file+size-11)='e';
-			return GetPrivateProfileString(	lpAppName,lpKeyName,lpDefault,lpReturnedString,nSize,lpFileName);
+			return GetPrivateProfileStringA(	lpAppName,lpKeyName,lpDefault,lpReturnedString,nSize,lpFileName);
 		}
 	}
-	return GetPrivateProfileString(	lpAppName,lpKeyName,lpDefault,lpReturnedString,nSize,lpFileName);
+	return GetPrivateProfileStringA(	lpAppName,lpKeyName,lpDefault,lpReturnedString,nSize,lpFileName);
 }
 
 
@@ -1048,7 +1048,7 @@ BOOL mySleep(int ms,HANDLE evt) {
 		case WAIT_TIMEOUT:
 			return FALSE;
 		case WAIT_ABANDONED:
-			//MessageBox(NULL,"Abbruch","Abbruch",0);
+			//MessageBoxA(NULL,"Abbruch","Abbruch",0);
 			return TRUE;
 		default:
 			return TRUE;

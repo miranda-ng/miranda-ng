@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 			DBVARIANT dbv;
 			if(!db_get(NULL,protocolname,"Nick",&dbv)) {
-				SetDlgItemText(hwndDlg,IDC_NICKNAME,dbv.pszVal);
+				SetDlgItemTextA(hwndDlg,IDC_NICKNAME,dbv.pszVal);
 				db_free(&dbv);
 			}
 			return TRUE;
@@ -24,7 +24,7 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			if(LOWORD(wParam) == IDOK)
 			{
 				char nick[255];
-				GetDlgItemText(hwndDlg,IDC_NICKNAME,nick,sizeof(nick));
+				GetDlgItemTextA(hwndDlg,IDC_NICKNAME,nick,sizeof(nick));
 
 				CallService(XFIRE_SET_NICK,0,(LPARAM)nick);
 

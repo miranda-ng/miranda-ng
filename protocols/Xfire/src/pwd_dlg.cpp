@@ -11,7 +11,7 @@ INT_PTR CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_INITDIALOG:
 		{
-			SetWindowText(hwndDlg, "Please enter server password ...");
+			SetWindowText(hwndDlg, LPGENT("Please enter server password ..."));
 			TranslateDialogDefault(hwndDlg);
 			SendMessage(hwndDlg,WM_SETICON, (WPARAM)false, (LPARAM)LoadIcon(hinstance, MAKEINTRESOURCE(IDI_TM)));
 			return TRUE;
@@ -20,7 +20,7 @@ INT_PTR CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			if(LOWORD(wParam) == IDOK)
 			{
-				GetDlgItemText(hwndDlg,IDC_NICKNAME,password,sizeof(password));
+				GetDlgItemTextA(hwndDlg,IDC_NICKNAME,password,sizeof(password));
 				EndDialog(hwndDlg,TRUE);
 				return TRUE;
 			}

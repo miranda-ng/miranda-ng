@@ -22,7 +22,7 @@ INT_PTR CALLBACK DlgUpdateDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			if(buf!=NULL)
 			{
-				SetDlgItemText(hwndDlg,IDC_UPDATEGAMES,buf);
+				SetDlgItemTextA(hwndDlg,IDC_UPDATEGAMES,buf);
 				delete[] buf;
 			}
 
@@ -105,7 +105,7 @@ void UpdateMyIcons(LPVOID dummy) {
 
 	if(CheckWWWContent(request))
 	{
-		if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||MessageBox(NULL,Translate("There is a new Icons.dll online, do you want to update now?"),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||MessageBoxA(NULL,Translate("There is a new Icons.dll online, do you want to update now?"),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			if(GetWWWContent2(request,file,FALSE)) {
 				//altes backup löschen

@@ -133,13 +133,13 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 		str_replace(temp,"%UA_LAUNCHER_EXTRA_ARGS%","");
 
 	//auf createprocess umgebaut
-	STARTUPINFO          si = { sizeof(si) };
+	STARTUPINFOA         si = { sizeof(si) };
 	PROCESS_INFORMATION  pi;
 
-	// MessageBox(NULL,temp,temp,0);
+	// MessageBoxA(NULL,temp,temp,0);
 
 	//starten
-	if(CreateProcess(0, temp, 0, 0, FALSE, 0, 0, GetLaunchPath(temp) , &si, &pi)==0)
+	if(CreateProcessA(0, temp, 0, 0, FALSE, 0, 0, GetLaunchPath(temp) , &si, &pi)==0)
 	{
 		//schlug fehl, dann runas methode verwenden
 		char*exe=strrchr(temp,'\\');
@@ -162,7 +162,7 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 		}
 
 
-		SHELLEXECUTEINFO sei = {0};
+		SHELLEXECUTEINFOA sei = {0};
 		sei.cbSize = sizeof(sei);
 		sei.hwnd = NULL;
 		sei.lpVerb = "runas";
@@ -170,7 +170,7 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 		sei.lpParameters = params;
 		sei.lpDirectory = temp;
 		sei.nShow = SW_SHOWNORMAL;
-		ShellExecuteEx(&sei);
+		ShellExecuteExA(&sei);
 	}	
 	delete[] temp;
 	return TRUE;
@@ -189,19 +189,19 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 	if(op)
 	{
 		//varaibele wohin der pfad eingelesen wird
-		char fpath[MAX_PATH]="";
+		TCHAR fpath[MAX_PATH]=_T("");
 
 		//lese den pfad des spiels aus
 		GetModuleFileNameEx(op,NULL,fpath,sizeof(fpath));
 
 		//8.3 pfade umwandeln, nur wenn sich eine tilde im string befindet
-		if(strchr(fpath,'~'))
-			GetLongPathNameA(fpath,fpath,sizeof(fpath));
+		if(_tcschr(fpath,'~'))
+			GetLongPathName(fpath,fpath,sizeof(fpath));
 
 		//alles in kelinbuchstaben umwandeln
-		this->strtolower(fpath);
+		this->strtolowerT(fpath);
 
-		if(this->wildcmp(this->path,fpath))
+		if(this->wildcmp(_A2T(this->path),fpath))
 		//if(strcmp(this->path,fpath)==0)
 		{
 			//pfad stimmt überein, commandline prüfen
@@ -218,7 +218,7 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 			int size=mpath.size();
 			for(int j=0;j<size;j++)
 			{
-				if(strcmp(mpath.at(j),fpath)==0)
+				if(_tcsicmp(_A2T(mpath.at(j)),fpath)==0)
 				{
 					//pfad stimmt überein, commandline prüfen
 					if(checkCommandLine(op,this->mustcontain,this->notcontain))
@@ -242,11 +242,8 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		if((unsigned int)exename==0x1)
 			return FALSE;
 
-		//exenamen des process kleinschreiben
-		this->strtolower(processInfo->szExeFile);
-
 		//vergleich die exenamen
-		if(strcmp(exename,processInfo->szExeFile)==0)
+		if(_stricmp(exename,_T2A(processInfo->szExeFile))==0)
 		{
 			return TRUE;
 		}
@@ -263,7 +260,7 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 					continue;
 
 				//exe vergleichen
-				if(strcmp(exename,processInfo->szExeFile)==0)
+				if(_stricmp(exename,_T2A(processInfo->szExeFile))==0)
 				{
 					//positive antwort an die gamedetection
 					return TRUE;

@@ -130,7 +130,7 @@ Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid) {
 			return entry;
 		strcat_s(path,MAX_PATH,IconsdllName);
 
-		hIconDll = LoadLibrary(path);
+		hIconDll = LoadLibraryA(path);
 	}
 
 	//dll konnte geladen werden
@@ -141,7 +141,7 @@ Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid) {
 		Xfire_base::strtoupper(resourcename);
 
 		//versuche die resource zufinden
-		HRSRC hrsrc = FindResource(hIconDll,resourcename,"ICONS");
+		HRSRC hrsrc = FindResourceA(hIconDll,resourcename,"ICONS");
 		if(hrsrc) {
 			//aus der resource ein HICON erstellen
 			int size=SizeofResource(hIconDll,hrsrc);

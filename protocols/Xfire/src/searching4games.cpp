@@ -47,7 +47,7 @@ BOOL CheckPath(char*ppath,char*pathwildcard=NULL)
 	if(pos)
 	{	
 		HANDLE fHandle;
-		WIN32_FIND_DATA wfd; 
+		WIN32_FIND_DATAA wfd; 
 		BOOL weiter=TRUE;
 
 		if(pathwildcard)
@@ -60,10 +60,10 @@ BOOL CheckPath(char*ppath,char*pathwildcard=NULL)
 		pos++;
 	
 		//versuch die exe zu finden
-		fHandle=FindFirstFile(ppath,&wfd);  // . skippen
-		FindNextFile(fHandle,&wfd); // .. auch skippen
+		fHandle=FindFirstFileA(ppath,&wfd);  // . skippen
+		FindNextFileA(fHandle,&wfd); // .. auch skippen
 
-		while ((FindNextFile(fHandle,&wfd)&&weiter==TRUE)) // erstes file
+		while ((FindNextFileA(fHandle,&wfd)&&weiter==TRUE)) // erstes file
 		{
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) // nur verzeichnisse sind interessant
 			{
@@ -75,7 +75,7 @@ BOOL CheckPath(char*ppath,char*pathwildcard=NULL)
 				strcat(temp,"\\");
 				strcat(temp,pos);
 
-				if(GetFileAttributes(temp)!=0xFFFFFFFF) { //exe vorhanden???? unt hint?
+				if(GetFileAttributesA(temp)!=0xFFFFFFFF) { //exe vorhanden???? unt hint?
 					//gefundenes in path kopieren
 					FindClose(fHandle);
 					strcpy(ppath,temp);
@@ -87,7 +87,7 @@ BOOL CheckPath(char*ppath,char*pathwildcard=NULL)
 	}
 	else
 	{
-		if(GetFileAttributes(ppath)!=0xFFFFFFFF) { //exe vorhanden???? unt hint?
+		if(GetFileAttributesA(ppath)!=0xFFFFFFFF) { //exe vorhanden???? unt hint?
 		//gefundenes in path kopieren
 			return TRUE;
 		}
@@ -324,7 +324,7 @@ void Scan4Games( LPVOID lparam  )
 						DWORD size=sizeof(path);
 						
 						//key lesen
-						if(RegQueryValueEx(hsubk,pos2,NULL,NULL,(LPBYTE)path,&size)== ERROR_SUCCESS)
+						if(RegQueryValueExA(hsubk,pos2,NULL,NULL,(LPBYTE)path,&size)== ERROR_SUCCESS)
 						{
 							//zusätzlichen pfad anhängen
 							if(xfire_GetPrivateProfileString(temp, "LauncherDirAppend", "", ret2, 255, inipath))
@@ -440,7 +440,7 @@ void Scan4Games( LPVOID lparam  )
 
 
 							//prüfe ob existent, dann ist das spiel installiert
-							if(path[0]!=0 && GetFileAttributes(path)!=0xFFFFFFFF)
+							if(path[0]!=0 && GetFileAttributesA(path)!=0xFFFFFFFF)
 							{
 								Xfire_game* newgame=new Xfire_game();
 								newgame->id=i;
@@ -598,7 +598,7 @@ void Scan4Games( LPVOID lparam  )
 				str_replace(ret2,"%ProgramFiles%",getenv("ProgramFiles"));
 
 				//prüfe ob existent, dann ist das spiel installiert
-				if(GetFileAttributes(ret2)!=0xFFFFFFFF)
+				if(GetFileAttributesA(ret2)!=0xFFFFFFFF)
 				{
 					
 					Xfire_game* newgame=new Xfire_game();
@@ -711,7 +711,7 @@ void Scan4Games( LPVOID lparam  )
 		}
 	}
 
-	if(hwnd)SetDlgItemText(hwnd,IDC_CURRENTGAME,Translate("Write to database ..."));
+	if(hwnd)SetDlgItemTextA(hwnd,IDC_CURRENTGAME,Translate("Write to database ..."));
 	
 	//gefundene games in db eintragen
 	xgamelist.writeDatabase();

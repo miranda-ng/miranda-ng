@@ -184,7 +184,7 @@ INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam); //GAIR_NOAVATAR
 INT_PTR SearchAddtoList(WPARAM wParam,LPARAM lParam);
 INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam);
 INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam);
-INT_PTR GetAwayMsg(WPARAM /*wParam*/, LPARAM lParam);
+//INT_PTR GetAwayMsg(WPARAM wParam, LPARAM lParam);
 INT_PTR GetXStatusIcon(WPARAM wParam, LPARAM lParam);
 
 static INT_PTR GotoProfile2(WPARAM wParam,LPARAM lParam);
@@ -393,15 +393,16 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  PROTOSEARCHRESULT psr;
 			  ZeroMemory(&psr, sizeof(psr));
 			  psr.cbSize = sizeof(psr);
+			  psr.flags = PSR_TCHAR;
 
 			  XFireFoundBuddys *fb = (XFireFoundBuddys*)content;
 			  for(uint i = 0 ; i < fb->usernames->size() ; i++) {
 				  if((char*)fb->usernames->at(i).c_str()!=NULL)
-					psr.nick = (char*)fb->usernames->at(i).c_str();
+					psr.nick = _A2T((char*)fb->usernames->at(i).c_str());
 				  if((char*)fb->fname->at(i).c_str()!=NULL)
-					  psr.firstName = (char*)fb->fname->at(i).c_str();
+					  psr.firstName = _A2T((char*)fb->fname->at(i).c_str());
 				  if((char*)fb->lname->at(i).c_str()!=NULL)
-					  psr.lastName = (char*)fb->lname->at(i).c_str();
+					  psr.lastName = _A2T((char*)fb->lname->at(i).c_str());
 				  ProtoBroadcastAck(protocolname, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
 			  }
 
@@ -899,8 +900,6 @@ INT_PTR UrlCall(WPARAM wparam,LPARAM lparam) {
 //wenn alle module geladen sind
 static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	char servicefunction[100];
-
 	/*NETLIB***********************************/
 	NETLIBUSER nlu;
 	ZeroMemory(&nlu, sizeof(nlu));
@@ -917,9 +916,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	//hook das queryplugin
 	HookEvent("GameServerQuery/doneQuery" , doneQuery);
 
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_SETAWAYMSG);
-	CreateServiceFunction(servicefunction, SetAwayMsg);
+	CreateProtoServiceFunction(protocolname, PS_SETAWAYMSG, SetAwayMsg);
 
 	// Variables support
 	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
@@ -928,42 +925,42 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		tr.memType = TR_MEM_MIRANDA;
 		tr.flags = TRF_FREEMEM | TRF_PARSEFUNC | TRF_FIELD;
 
-		tr.tszTokenString = _T("xfiregame");
+		tr.szTokenString = "xfiregame";
 		tr.parseFunction = Varxfiregame;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Current Game");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
-		tr.tszTokenString = _T("myxfiregame");
+		tr.szTokenString = "myxfiregame";
 		tr.parseFunction = Varmyxfiregame;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current Game");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
-		tr.tszTokenString = _T("xfireserverip");
+		tr.szTokenString = "xfireserverip";
 		tr.parseFunction = Varxfireserverip;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
-		tr.tszTokenString = _T("myxfireserverip");
+		tr.szTokenString = "myxfireserverip";
 		tr.parseFunction = Varmyxfireserverip;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
-		tr.tszTokenString = _T("xfirevoice");
+		tr.szTokenString = "xfirevoice";
 		tr.parseFunction = Varxfirevoice;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Voice");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
-		tr.tszTokenString = _T("myxfirevoice");
+		tr.szTokenString = "myxfirevoice";
 		tr.parseFunction = Varmyxfirevoice;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current Voice");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
-		tr.tszTokenString = _T("xfirevoiceip");
+		tr.szTokenString = "xfirevoiceip";
 		tr.parseFunction = Varxfirevoiceip;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Voice ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
-		tr.tszTokenString = _T("myxfirevoiceip");
+		tr.szTokenString = "myxfirevoiceip";
 		tr.parseFunction = Varmyxfirevoiceip;
 		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Voice ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
@@ -1079,8 +1076,6 @@ extern "C" __declspec(dllexport) int  Load(void)
 	strcpy(statusmessage[0],"");
 	mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 	
-	char servicefunction[100];
-	
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 
@@ -1094,33 +1089,15 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	CList_MakeAllOffline();
 	
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_GETCAPS);
-	CreateServiceFunction(servicefunction, GetCaps);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_GETNAME);
-	CreateServiceFunction(servicefunction, GetName);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_LOADICON);
-	CreateServiceFunction(servicefunction, TMLoadIcon);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_SETSTATUS);
-	CreateServiceFunction(servicefunction, SetStatus);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_GETSTATUS);
-	CreateServiceFunction(servicefunction, GetStatus);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PSS_ADDED);
-	CreateServiceFunction(servicefunction, AddtoList);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_ADDTOLIST);
-	CreateServiceFunction(servicefunction, SearchAddtoList);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_GETAVATARINFO);
-	CreateServiceFunction(servicefunction, GetAvatarInfo);
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_GETMYAVATAR);
-	CreateServiceFunction(servicefunction, GetMyAvatar);
+	CreateProtoServiceFunction(protocolname, PS_GETCAPS, GetCaps);
+	CreateProtoServiceFunction(protocolname, PS_GETNAME, GetName);
+	CreateProtoServiceFunction(protocolname, PS_LOADICON, TMLoadIcon);
+	CreateProtoServiceFunction(protocolname, PS_SETSTATUS, SetStatus);
+	CreateProtoServiceFunction(protocolname, PS_GETSTATUS, GetStatus);
+	CreateProtoServiceFunction(protocolname, PSS_ADDED, AddtoList);
+	CreateProtoServiceFunction(protocolname, PS_ADDTOLIST, SearchAddtoList);
+	CreateProtoServiceFunction(protocolname, PS_GETAVATARINFO, GetAvatarInfo);
+	CreateProtoServiceFunction(protocolname, PS_GETMYAVATAR, GetMyAvatar);
 
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraImageApply);
 	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ExtraListRebuild);
@@ -1128,39 +1105,17 @@ extern "C" __declspec(dllexport) int  Load(void)
 	//erstell eine hook für andere plugins damit diese nachprüfen können, ab wann jemand ingame ist oer nicht
 	hookgamestart = CreateHookableEvent(XFIRE_INGAMESTATUSHOOK);
 
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_BASICSEARCH);
-	CreateServiceFunction(servicefunction, BasicSearch);
-
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PSS_MESSAGE);
-	CreateServiceFunction( servicefunction, SendMessage );
-
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PSS_USERISTYPING);
-	CreateServiceFunction( servicefunction, UserIsTyping );
-
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PSR_MESSAGE);
-	CreateServiceFunction( servicefunction, RecvMessage );
-
-	strcpy(servicefunction, XFIRE_URLCALL);
-	CreateServiceFunction( servicefunction, UrlCall );
-
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PSS_GETAWAYMSG);
-	CreateServiceFunction( servicefunction, GetAwayMsg );
-
-	strcpy(servicefunction, XFIRE_SET_NICK);
-	CreateServiceFunction( servicefunction, SetNickName );
-
-	strcpy(servicefunction, XFIRE_SEND_PREFS);
-	CreateServiceFunction( servicefunction, SendPrefs );
+	CreateProtoServiceFunction(protocolname, PS_BASICSEARCH, BasicSearch);
+	CreateProtoServiceFunction( protocolname, PSS_MESSAGE, SendMessage );
+	CreateProtoServiceFunction( protocolname, PSS_USERISTYPING, UserIsTyping );
+	CreateProtoServiceFunction( protocolname, PSR_MESSAGE, RecvMessage );
+	CreateProtoServiceFunction( protocolname, XFIRE_URLCALL, UrlCall );
+	///CreateProtoServiceFunction( protocolname, PSS_GETAWAYMSG, GetAwayMsg );
+	CreateProtoServiceFunction( protocolname, XFIRE_SET_NICK, SetNickName );
+	CreateProtoServiceFunction( protocolname, XFIRE_SEND_PREFS, SendPrefs );
 
 	//für mtipper, damit man das statusico übertragen kann
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, PS_GETCUSTOMSTATUSICON);
-	CreateServiceFunction( servicefunction, GetXStatusIcon );
+	CreateProtoServiceFunction( protocolname, PS_GETCUSTOMSTATUSICON, GetXStatusIcon );
 
 	char AvatarsFolder[MAX_PATH]= "";
 	char CurProfileF[MAX_PATH] = "";
@@ -1183,15 +1138,18 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	XFireWorkingFolder = FoldersRegisterCustomPath(protocolname, "Working Folder", AvatarsFolder);
 	if ( !(XFireIconFolder = FoldersRegisterCustomPath(protocolname, "Game Icon Folder", AvatarsFolder)))
-		CreateDirectory(AvatarsFolder, NULL);
+		CreateDirectoryA(AvatarsFolder, NULL);
 
 	strcat(AvatarsFolder, "\\Avatars");
 	if ( !(XFireAvatarFolder = FoldersRegisterCustomPath(protocolname, "Avatars", AvatarsFolder)))
-		CreateDirectory(AvatarsFolder,NULL);
+		CreateDirectoryA(AvatarsFolder,NULL);
 
 	//erweiterte Kontextmenüpunkte
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.pszPopupName = protocolname;
+	mi.ptszPopupName = _T(protocolname);
+	mi.flags = CMIF_TCHAR;
+
+	char servicefunction[100];
 
 	//gotoprofilemenüpunkt
 	strcpy(servicefunction, protocolname);
@@ -1333,7 +1291,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		XFireLog("Wasn't able to get GetExtendedUdpTable function");
 	}
 
-	Icon_Register(hinstance, LPGENT("Protocols/XFire"), &icon, 1);
+	Icon_Register(hinstance, LPGEN("Protocols/XFire"), &icon, 1);
 
 	hExtraIcon1 = ExtraIcon_Register("xfire_game", LPGEN("XFire game icon"), "", ExtraListRebuild, ExtraImageApply);
 	hExtraIcon2 = ExtraIcon_Register("xfire_voice", LPGEN("XFire voice icon"), "", ExtraListRebuild, ExtraImageApply);
@@ -1458,7 +1416,7 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 {
 	if(wParam==PFLAGNUM_1)
-		return PF1_BASICSEARCH|PF1_MODEMSG|PF1_IM;
+		return PF1_BASICSEARCH|PF1_MODEMSG|PF1_IM/*|PF1_SERVERCLIST*/;
 	else if(wParam==PFLAGNUM_2)
 		return PF2_ONLINE|PF2_SHORTAWAY; // add the possible statuses here.
 	else if(wParam==PFLAGNUM_3)
@@ -1479,7 +1437,7 @@ INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 //=======================================================
 INT_PTR GetName(WPARAM wParam,LPARAM lParam)
 {
-	lstrcpyn((char*)lParam,"XFire",wParam);
+	lstrcpynA((char*)lParam,"XFire",wParam);
 	return 0;
 }
 
@@ -1914,11 +1872,11 @@ void SetAvatar(LPVOID lparam)
 
 		if(GetAvatar(xsa->username,&av))
 		{
-			PROTO_AVATAR_INFORMATION AI;
+			PROTO_AVATAR_INFORMATIONT AI;
 			AI.cbSize = sizeof(AI);
 			AI.format = av.type;
 			AI.hContact = xsa->hContact;
-			lstrcpy(AI.filename,av.file);
+			lstrcpy(AI.filename, _A2T(av.file));
 			ProtoBroadcastAck(protocolname, xsa->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS,(HANDLE) &AI, 0);
 		}
 
@@ -3066,6 +3024,13 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 
 				SetIcon(hContact,(HANDLE)-1);
 				SetIcon(hContact,(HANDLE)-1,2);
+
+				// RM: test fix to remove xstatus when finished playing...
+				db_unset(hContact, protocolname, "XStatusMsg");
+				db_unset(hContact, protocolname, "XStatusId");
+				db_unset(hContact, protocolname, "XStatusName");
+				// ---
+
 				db_unset(hContact, protocolname, "ServerIP");
 				db_unset(hContact, protocolname, "Port");
 				db_unset(hContact, protocolname, "VServerIP");
@@ -3237,7 +3202,7 @@ INT_PTR SearchAddtoList(WPARAM wParam,LPARAM lParam)
 			if(myClient->client->connected)
 			{
 				InviteBuddyPacket invite;
-				invite.addInviteName( psr->nick, Translate("Add me to your friends list."));
+				invite.addInviteName( std::string(_T2A(psr->nick)), Translate("Add me to your friends list."));
 				myClient->client->send(&invite );
 			}
 
@@ -3285,7 +3250,7 @@ void CreateGroup(char*grpn,char*field) {
 			i--;
 			break;
 		}
-		if (dbv.pszVal[0] != '\0' && !lstrcmp(dbv.pszVal + 1, (char*)grp))	{
+		if (dbv.pszVal[0] != '\0' && !lstrcmpA(dbv.pszVal + 1, (char*)grp))	{
 			db_free(&dbv);
 			return;
 		}
@@ -3342,17 +3307,11 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-static void SendAMAck( LPVOID param )
+/*static void SendAMAck( LPVOID param )
 {
-	DBVARIANT dbv;
-
-	if(!db_get_utf((HANDLE)param, protocolname, "XStatusMsg",&dbv))
-	{
-		ProtoBroadcastAck(protocolname, (HANDLE)param, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, LPARAM(dbv.pszVal));
-	}
-	else
-		ProtoBroadcastAck(protocolname, (HANDLE)param, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, LPARAM(""));
-}
+	ptrT statusMsg( db_get_tsa((HANDLE)param, protocolname, "XStatusMsg"));
+	ProtoBroadcastAck(protocolname, (HANDLE)param, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)statusMsg);
+}*/
 
 INT_PTR SetNickName(WPARAM newnick, LPARAM lparam)
 {
@@ -3389,13 +3348,13 @@ INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam)
 }
 
 
-INT_PTR GetAwayMsg(WPARAM /*wParam*/, LPARAM lParam)
+/*INT_PTR GetAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA* ccs = (CCSDATA*)lParam;
 
 	mir_forkthread(SendAMAck,ccs->hContact);
 	return 1;
-}
+}*/
 
 int ContactDeleted(WPARAM wParam,LPARAM lParam)
 {

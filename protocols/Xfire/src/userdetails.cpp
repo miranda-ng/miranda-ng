@@ -69,18 +69,18 @@ void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HANDLE hcontact,int type)
 		{
 			char temp[255];
 			mir_snprintf(temp, SIZEOF(temp), "%i", dbv.wVal);
-			SetDlgItemText(hwndDlg,feldid,temp);
+			SetDlgItemTextA(hwndDlg,feldid,temp);
 		}
 		else
 		{
-			SetDlgItemText(hwndDlg,feldid,dbv.pszVal);
+			SetDlgItemTextA(hwndDlg,feldid,dbv.pszVal);
 		}
 		db_free(&dbv);
 		EnableDlgItem(hwndDlg,feldid,TRUE);
 	}
 	else
 	{
-		SetDlgItemText(hwndDlg,feldid,Translate("<not specified>"));
+		SetDlgItemTextA(hwndDlg,feldid,Translate("<not specified>"));
 		EnableDlgItem(hwndDlg,feldid,FALSE);
 	}
 }
@@ -123,7 +123,7 @@ void addToList(HWND listbox,HANDLE hContact,char*key,char*val)
 	DBVARIANT dbv;
 	if(!db_get(hContact,protocolname,val,&dbv))
 	{
-		LVITEM lvitem;
+		LVITEMA lvitem;
 		memset(&lvitem,0,sizeof(lvitem));
 		lvitem.mask=LVIF_TEXT;
 		lvitem.cchTextMax=255;
@@ -145,7 +145,7 @@ void setGameInfo(HWND listbox,char *mbuf)
 	char mod=0;
 	char item=0;
 	char *mbuf2=(char*)mbuf;
-	LVITEM lvitem;
+	LVITEMA lvitem;
 	memset(&lvitem,0,sizeof(lvitem));
 	lvitem.mask=LVIF_TEXT;
 	lvitem.cchTextMax=255;
@@ -187,7 +187,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 	static HICON voiceicon=0;
 	static HANDLE uhandle=0;
 	static HWND listbox;
-	LVCOLUMN pcol;
+	LVCOLUMNA pcol;
 
 	switch (msg)
 	{
@@ -436,8 +436,8 @@ int OnDetailsInit(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hinstance;
 	odp.pfnDlgProc = DlgProcUserDetails;
 	odp.position = -1900000000;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_UD);
-	odp.ptszTitle = TranslateT("XFire");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_UD);
+	odp.pszTitle = Translate("XFire");
 	UserInfo_AddPage(wParam, &odp);
 	return 0;
 }

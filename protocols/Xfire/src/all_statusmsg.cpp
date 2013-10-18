@@ -78,72 +78,38 @@ BOOL BackupStatusMsg() {
 			continue;
 		}
 
-		int dummystatusid=statusid;
-
 		if(statustype)
 		{
-			if(statusid!=0)
-			{
-				int caps=CallProtoService(temp[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0);
+			int dummystatusid = -1;
+			
+			if (statusid != 0)
+			{				
+				int caps = CallProtoService(temp[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+				bool dndFirst = db_get_b(NULL,protocolname,"dndfirst",0) > 0;				
 
-				//normale statusreihenfolge
-				if(db_get_b(NULL,protocolname,"dndfirst",0)==0)
-				{
-					if(caps&PF2_LIGHTDND)
-					{
-						oltostatus->push_back(ID_STATUS_OCCUPIED);
-						dummystatusid=ID_STATUS_OCCUPIED;
-						XFireLog("%s supports OCCUPIED.",temp[i]->szModuleName);
-					}
-					else if(caps&PF2_HEAVYDND)
-					{
-						oltostatus->push_back(ID_STATUS_DND);
-						dummystatusid=ID_STATUS_DND;
-						XFireLog("%s supports DND.",temp[i]->szModuleName);
-					}
-					else if(caps&PF2_SHORTAWAY)
-					{
-						oltostatus->push_back(ID_STATUS_AWAY);
-						dummystatusid=ID_STATUS_AWAY;
-						XFireLog("%s supports AWAY.",temp[i]->szModuleName);
-					}
-					else
-					{
-						XFireLog("%s no Away???.",temp[i]->szModuleName);
-						oltostatus->push_back(statusid);
-						dummystatusid=statusid;
-					}
+				if (dndFirst ? caps&PF2_HEAVYDND : caps&PF2_LIGHTDND)
+				{						
+					dummystatusid = dndFirst ? ID_STATUS_DND : ID_STATUS_OCCUPIED;
+					XFireLog("%s supports %s.",temp[i]->szModuleName, dndFirst ? "DND" : "OCCUPIED");
 				}
-				else //dnd bevorzugt
+				else if (dndFirst ? caps&PF2_LIGHTDND : caps&PF2_HEAVYDND)
 				{
-					if(caps&PF2_HEAVYDND)
-					{
-						oltostatus->push_back(ID_STATUS_DND);
-						dummystatusid=ID_STATUS_DND;
-						XFireLog("%s supports DND.",temp[i]->szModuleName);
-					}
-					else if(caps&PF2_LIGHTDND)
-					{
-						oltostatus->push_back(ID_STATUS_OCCUPIED);
-						dummystatusid=ID_STATUS_OCCUPIED;
-						XFireLog("%s supports OCCUPIED.",temp[i]->szModuleName);
-					}
-					else if(caps&PF2_SHORTAWAY)
-					{
-						oltostatus->push_back(ID_STATUS_AWAY);
-						dummystatusid=ID_STATUS_AWAY;
-						XFireLog("%s supports AWAY.",temp[i]->szModuleName);
-					}
-					else
-					{
-						XFireLog("%s no Away???.",temp[i]->szModuleName);
-						oltostatus->push_back(statusid);
-						dummystatusid=statusid;
-					}
+					dummystatusid = dndFirst ? ID_STATUS_OCCUPIED : ID_STATUS_DND;
+					XFireLog("%s supports %s.",temp[i]->szModuleName, dndFirst ? "OCCUPIED" : "DND");
 				}
+				else if (caps&PF2_SHORTAWAY)
+				{
+					dummystatusid = ID_STATUS_AWAY;
+					XFireLog("%s supports AWAY.",temp[i]->szModuleName);
+				}
+				else
+				{						
+					dummystatusid = statusid;
+					XFireLog("%s no Away???.",temp[i]->szModuleName);
+				}				
 			}
-			else
-				oltostatus->push_back(-1);
+			
+			oltostatus->push_back(dummystatusid);
 		}
 
 		switch(statusid)
@@ -206,78 +172,57 @@ BOOL BackupStatusMsg() {
 
 BOOL SetGameStatusMsg()
 {
-	char* statusmsg=NULL;
-
 	//prüfe ob vector leer
-	if(olstatusmsg==NULL)
+	if (olstatusmsg == NULL)
+	{
 		return FALSE;
+	}
+
+	ptrA statusMsg;
 
 	//zusetzende statusmsg erstellen
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 	{
-		DBVARIANT dbv;
-		if(!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
-			//direkte funktionen verwenden
-			statusmsg = variables_parse(dbv.pszVal,NULL,0);
-			if (statusmsg == NULL)
-			{
-				db_free(&dbv);
-				return FALSE;
-			}
-
-			db_free(&dbv);
-		}
+		ptrT statusMsgT( db_get_tsa(NULL, protocolname, "setstatusmsg"));		
+		//direkte funktionen verwenden
+		statusMsgT = variables_parse(statusMsgT, NULL, 0);
+		if (statusMsgT == NULL)
+			return FALSE;
+		
+		statusMsg = _T2A(statusMsgT);
 	}
 	else
 	{
 		//alternativ zweig ohne variables
-		DBVARIANT dbv;
-		if(!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
+		ptrA statusMsg( db_get_sa(NULL, protocolname, "setstatusmsg"));
+		if (statusMsg == NULL)
+			return FALSE;
 
-			DBVARIANT dbv3;
+		char *statusmsg;
 
-			//statusmsg rein
-			xgamelist.setString(dbv.pszVal,&statusmsg);
+		//statusmsg rein
+		xgamelist.setString(statusMsg, &statusmsg);
 
-			//mit den vars ersetzen beginnen
+		//mit den vars ersetzen beginnen
+		ptrA tmp;
 
-			//derzeitiges spiel
-			if(!db_get(NULL,protocolname, "currentgamename",&dbv3))
-			{
-				xgamelist.strreplace("%myxfiregame%",dbv3.pszVal,&statusmsg);
-				db_free(&dbv3);
-			}
-			else
-				xgamelist.strreplace("%myxfiregame%","",&statusmsg);
+		//derzeitiges spiel
+		tmp = db_get_sa(NULL, protocolname, "currentgamename");
+		xgamelist.strreplace("%myxfiregame%", tmp, &statusmsg);		
 
-			//derzeitiges voiceprogram
-			if(!db_get(NULL,protocolname, "currentvoicename",&dbv3))
-			{
-				xgamelist.strreplace("%myxfirevoice%",dbv3.pszVal,&statusmsg);
-				db_free(&dbv3);
-			}
-			else
-				xgamelist.strreplace("%myxfirevoice%","",&statusmsg);
+		//derzeitiges voiceprogram
+		tmp = db_get_sa(NULL, protocolname, "currentvoicename");
+		xgamelist.strreplace("%myxfirevoice%", tmp, &statusmsg);
 
-			//derzeitige voiceip
-			if(!db_get(NULL,protocolname, "VServerIP",&dbv3))
-			{
-				xgamelist.strreplace("%myxfirevoiceip%",dbv3.pszVal,&statusmsg);
-				db_free(&dbv3);
-			}
-			else
-				xgamelist.strreplace("%myxfirevoiceip%","",&statusmsg);
+		//derzeitige voiceip
+		tmp = db_get_sa(NULL, protocolname, "VServerIP");
+		xgamelist.strreplace("%myxfirevoiceip%", tmp, &statusmsg);
 
-			//derzeitige gameip
-			if(!db_get(NULL,protocolname, "ServerIP",&dbv3))
-			{
-				xgamelist.strreplace("%myxfireserverip%",dbv3.pszVal,&statusmsg);
-				db_free(&dbv3);
-			}
-			else
-				xgamelist.strreplace("%myxfireserverip%","",&statusmsg);
+		//derzeitige gameip
+		tmp = db_get_sa(NULL, protocolname, "ServerIP");
+		xgamelist.strreplace("%myxfireserverip%", tmp, &statusmsg);
 
-		}
+		statusMsg = statusmsg;
 	}
 
 	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&anz,(LPARAM)&temp);
@@ -296,7 +241,7 @@ BOOL SetGameStatusMsg()
 					npi.cbSize=sizeof(NAS_PROTOINFO);
 					npi.szProto=(char*)protoname->at(i).c_str();
 					npi.status=oltostatus->at(i);
-					npi.szMsg=mir_strdup(statusmsg);
+					npi.szMsg=mir_strdup(statusMsg);
 					CallService("NewAwaySystem/SetStateA", (WPARAM)&npi, (LPARAM)1);
 				}
 				else if(ServiceExists("NewAwaySystem/SetStateW")) {
@@ -306,7 +251,7 @@ BOOL SetGameStatusMsg()
 					npi.cbSize=sizeof(NAS_PROTOINFO);
 					npi.szProto=(char*)protoname->at(i).c_str();
 					npi.status=oltostatus->at(i);
-					npi.szMsg=mir_strdup(statusmsg);
+					npi.szMsg=mir_strdup(statusMsg);
 					CallService("NewAwaySystem/SetStateW", (WPARAM)&npi, (LPARAM)1);
 				}
 				else
@@ -314,14 +259,14 @@ BOOL SetGameStatusMsg()
 					XFireLog("-> SetStatusMsg of %s with Miranda with occupied status.",protoname->at(i).c_str());
 
 					//statusmsg für beschäftigt setzen
-					CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusmsg);
+					CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusMsg);
 					//status auf beschäftigt wechseln
 					CallProtoService(temp[i]->szModuleName,PS_SETSTATUS,oltostatus->at(i),0);
 					//statusmsg für beschäftigt setzen
 					if(CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0)!=oltostatus->at(i))
 					{
 						XFireLog("Set StatusMsg again, Status was not succesfully set.");
-						CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusmsg);
+						CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusMsg);
 					}
 				}
 			}
@@ -329,15 +274,10 @@ BOOL SetGameStatusMsg()
 			{
 				XFireLog("-> SetStatusMsg of %s.",protoname->at(i).c_str());
 
-				CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)statusmsg);
+				CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)statusMsg);
 			}
 		}
 	}
-
-	if (ServiceExists(MS_VARS_FORMATSTRING))
-		mir_free(statusmsg);
-	else
-		if(statusmsg) delete[] statusmsg;
 
 	return TRUE;
 }

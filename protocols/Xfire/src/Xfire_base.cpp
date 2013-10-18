@@ -33,6 +33,19 @@ void Xfire_base::strtolower(char*str)
 	}
 }
 
+void Xfire_base::strtolowerT(TCHAR*str)
+{
+	//keins tirng? bye bye
+	if(str==NULL)
+		return;
+
+	//lowercase it :)
+	for(unsigned int i=0;i<(int)_tcslen(str);i++)
+	{
+		str[i]=tolower(str[i]);
+	}
+}
+
 //uppercased einen string
 void Xfire_base::strtoupper(char*str)
 {
@@ -355,8 +368,11 @@ BOOL Xfire_base::inString(char*str,char*search,char**pos) {
 }
 
 void Xfire_base::strreplace(char*search,char*replace,char**data) {
+	if (replace == NULL)
+		replace = "";
+
 	//leere pointer?, dann zurück
-	if(replace==NULL||search==NULL||data==NULL||*data==NULL)
+	if (search == NULL || data == NULL || *data == NULL)
 	{
 		return;
 	}
@@ -387,7 +403,7 @@ void Xfire_base::strreplace(char*search,char*replace,char**data) {
 }
 
 //stringvergleich mit wildcards
-BOOL Xfire_base::wildcmp(const char*search,const char *text) {
+BOOL Xfire_base::wildcmp(const TCHAR *search,const TCHAR *text) {
 	//keine gültigen strings, dann abbruch
 	if(search==NULL || text==NULL || *text==0 || *search==0)
 		return FALSE;
@@ -600,7 +616,7 @@ BOOL Xfire_base::isValidPid(DWORD pid) {
 }
 
 //sucht nach einen process und liefert die pid
-BOOL Xfire_base::getPidByProcessName(char*name,DWORD*pid) {
+BOOL Xfire_base::getPidByProcessName(TCHAR *name, DWORD *pid) {
 	if(pid==NULL||name==NULL)
 		return FALSE;
 
@@ -611,14 +627,14 @@ BOOL Xfire_base::getPidByProcessName(char*name,DWORD*pid) {
 	while ( Process32Next ( hSnapShot,processInfo ) != FALSE)
 	{
 		if(processInfo->th32ProcessID!=0) {
-			if(_stricmp(processInfo->szExeFile,name)==0)
+			if(_tcsicmp(processInfo->szExeFile,name)==0)
 			{
 				*pid=processInfo->th32ProcessID;
-				CloseHandle ( hSnapShot);
+				CloseHandle(hSnapShot);
 				return TRUE;
 			}
 		}
 	}
-	CloseHandle ( hSnapShot);
+	CloseHandle(hSnapShot);
 	return FALSE;
 }

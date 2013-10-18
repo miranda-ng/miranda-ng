@@ -62,11 +62,12 @@ public:
 	void writeBytetoDB(char*name,unsigned int dbid,int val);
 	void writeWordtoDB(char*name,unsigned int dbid,int val);
 	void strtolower(char*);
+	void strtolowerT(TCHAR*);
 	void strtoupper(char*);
 	void strreplace(char*search,char*replace,char**data);
 	BYTE accStringByte(char*);
 	BOOL inString(char*str,char*search,char**pos=NULL);
-	BOOL wildcmp(const char*search,const char *text);
+	BOOL wildcmp(const TCHAR *search,const TCHAR *text);
 	// ini funktionen
 	BOOL getIniValue(unsigned int gameid,const char* valname,char*out,int sizeofout=255);
 	BOOL getIniValue(unsigned int gameid,unsigned int subid,const char* valname,char*out,int sizeofout=255);
@@ -79,7 +80,7 @@ public:
 	HBITMAP createHBITMAPfromdata(LPVOID data,unsigned int size);
 	//processzeugs
 	BOOL isValidPid(DWORD pid);
-	BOOL getPidByProcessName(char*name,DWORD*pid);
+	BOOL getPidByProcessName(TCHAR *name,DWORD *pid);
 };
 
 #endif

@@ -212,7 +212,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 						//nur eintragen, wenn kein doppelter gefunden wurde
 						if(addtolist) {
 							//eintrag einfügen
-							int idx=SendDlgItemMessage( (HWND)hwndDlg, IDC_GAMELIST, LB_ADDSTRING, 0, (LPARAM)listentry.name);
+							int idx=SendDlgItemMessageA( (HWND)hwndDlg, IDC_GAMELIST, LB_ADDSTRING, 0, (LPARAM)listentry.name);
 							SendDlgItemMessage( (HWND)hwndDlg, IDC_GAMELIST, LB_SETITEMDATA, idx, listentry.gameid);
 							//eintrag in den buffer für die dublikateprüfung
 							dublBuffer.push_back(uniqid);
@@ -235,7 +235,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 			if(!xgamelist.Gameinlist(LOWORD(Inicache.at(i).gameid)))
 			{
 				//eintrag in die listeeinfügen
-				int idx=SendDlgItemMessage( (HWND)hwndDlg, IDC_GAMELIST, LB_ADDSTRING, 0, (LPARAM)Inicache.at(i).name);
+				int idx=SendDlgItemMessageA( (HWND)hwndDlg, IDC_GAMELIST, LB_ADDSTRING, 0, (LPARAM)Inicache.at(i).name);
 				//gameid zuweisen
 				SendDlgItemMessage( (HWND)hwndDlg, IDC_GAMELIST, LB_SETITEMDATA, idx, Inicache.at(i).gameid);
 			}
@@ -253,7 +253,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 	dontClose=FALSE;
 }
 
-BOOL OpenFileDialog(HWND hwndDlg,OPENFILENAME*ofn,char*exe) {
+BOOL OpenFileDialog(HWND hwndDlg,OPENFILENAMEA*ofn,char*exe) {
 	//pointer zum exenamen
 	char* exename=NULL;
 	//buffer vom pfad
@@ -271,8 +271,8 @@ BOOL OpenFileDialog(HWND hwndDlg,OPENFILENAME*ofn,char*exe) {
 	for(unsigned int i=0;i<sizeFilter;i++)
 		if(szFilter[i]=='|') szFilter[i]=0;
 	//openfiledia vorbereiten
-	ZeroMemory(ofn, sizeof(OPENFILENAME));
-	ofn->lStructSize = sizeof(OPENFILENAME);
+	ZeroMemory(ofn, sizeof(OPENFILENAMEA));
+	ofn->lStructSize = sizeof(OPENFILENAMEA);
 	ofn->hwndOwner = hwndDlg;
 	ofn->lpstrFile = szFile;
 	ofn->nMaxFile = sizeof(szFile);
@@ -283,7 +283,7 @@ BOOL OpenFileDialog(HWND hwndDlg,OPENFILENAME*ofn,char*exe) {
 	ofn->lpstrInitialDir = NULL;
 	ofn->Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-	return GetOpenFileName(ofn);
+	return GetOpenFileNameA(ofn);
 }
 
 INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
@@ -308,9 +308,9 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 			{
 				char temp[256];
 				//eingabe bei der suche auslesen
-				GetDlgItemText(hwndDlg,IDC_SEARCH,temp,256);
+				GetDlgItemTextA(hwndDlg,IDC_SEARCH,temp,256);
 				//eingabe in der liste suchen
-				int idx=SendDlgItemMessage(hwndDlg, IDC_GAMELIST, LB_FINDSTRING, 0, (LPARAM)temp);
+				int idx=SendDlgItemMessageA(hwndDlg, IDC_GAMELIST, LB_FINDSTRING, 0, (LPARAM)temp);
 				//gefunden?
 				if(idx!=LB_ERR)
 				{
@@ -354,13 +354,13 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 						mir_snprintf(gameidtemp,10,"%d",gameid1);
 
 						//einige felder vorbelegen
-						SetDlgItemText(hPage,IDC_ADD_NAME,ret);
-						SetDlgItemText(hPage,IDC_ADD_DETECTEXE,"");
-						SetDlgItemText(hPage,IDC_ADD_LAUNCHEREXE,"");
-						SetDlgItemText(hPage,IDC_ADD_ID,gameidtemp);
-						SetDlgItemText(hPage,IDC_ADD_STATUSMSG,"");
-						SetDlgItemText(hPage,IDC_ADD_CUSTOMPARAMS,"");
-						SetDlgItemText(hPage,IDC_ADD_SENDID,gameidtemp);
+						SetDlgItemTextA(hPage,IDC_ADD_NAME,ret);
+						SetDlgItemTextA(hPage,IDC_ADD_DETECTEXE,"");
+						SetDlgItemTextA(hPage,IDC_ADD_LAUNCHEREXE,"");
+						SetDlgItemTextA(hPage,IDC_ADD_ID,gameidtemp);
+						SetDlgItemTextA(hPage,IDC_ADD_STATUSMSG,"");
+						SetDlgItemTextA(hPage,IDC_ADD_CUSTOMPARAMS,"");
+						SetDlgItemTextA(hPage,IDC_ADD_SENDID,gameidtemp);
 
 						//auf customeintrag edit tab wechseln
 						TabCtrl_SetCurSel(hwndTab, 1);
@@ -379,7 +379,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 				else
 				{
 					//datei öffnen dialog
-					OPENFILENAME ofn;
+					OPENFILENAMEA ofn;
 					//listdata auslesen, wo die gameid gespeihcert ist
 					int gameids=SendDlgItemMessage( (HWND)hwndDlg, IDC_GAMELIST, LB_GETITEMDATA, idx, 0);
 					//gameid splitten
@@ -590,18 +590,18 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 			}
 			else if(LOWORD(wParam) == IDC_ADD_BROWSEDETECT) 
 			{
-				OPENFILENAME ofn;
+				OPENFILENAMEA ofn;
 				if(OpenFileDialog(hwndDlg,&ofn,"*.exe"))
 				{
-					SetDlgItemText(hwndDlg,IDC_ADD_DETECTEXE,ofn.lpstrFile);
+					SetDlgItemTextA(hwndDlg,IDC_ADD_DETECTEXE,ofn.lpstrFile);
 				}
 			}
 			else if(LOWORD(wParam) == IDC_ADD_BROWSELAUNCHER) 
 			{
-				OPENFILENAME ofn;
+				OPENFILENAMEA ofn;
 				if(OpenFileDialog(hwndDlg,&ofn,"*.exe"))
 				{
-					SetDlgItemText(hwndDlg,IDC_ADD_LAUNCHEREXE,ofn.lpstrFile);
+					SetDlgItemTextA(hwndDlg,IDC_ADD_LAUNCHEREXE,ofn.lpstrFile);
 				}
 			}
 			else if(LOWORD(wParam) == IDCANCEL)
@@ -632,7 +632,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 					newgame=new Xfire_game();
 
 				//Spielname
-				GetDlgItemText(hwndDlg,IDC_ADD_NAME,temp,256);
+				GetDlgItemTextA(hwndDlg,IDC_ADD_NAME,temp,256);
 				if(!strlen(temp))
 				{
 					if(!editgame) delete newgame;
@@ -647,7 +647,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				}
 				//spielid nur setzen/prüfen, wenn kein editgame
 				if(!editgame) {
-					GetDlgItemText(hwndDlg,IDC_ADD_ID,temp,256);
+					GetDlgItemTextA(hwndDlg,IDC_ADD_ID,temp,256);
 					if(!strlen(temp))
 					{
 						if(!editgame) delete newgame;
@@ -675,7 +675,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 					}
 				}
 				//zu sendene spielid
-				GetDlgItemText(hwndDlg,IDC_ADD_SENDID,temp,256);
+				GetDlgItemTextA(hwndDlg,IDC_ADD_SENDID,temp,256);
 				if(strlen(temp))
 				{
 					//standardmäßig wird bei einem customeintrag keine id versendet
@@ -685,7 +685,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 				}
 
 				//launcher exe
-				GetDlgItemText(hwndDlg,IDC_ADD_LAUNCHEREXE,temp,256);
+				GetDlgItemTextA(hwndDlg,IDC_ADD_LAUNCHEREXE,temp,256);
 				if(strlen(temp))
 				{
 					//lowercase pfad
@@ -694,7 +694,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 					newgame->setString(temp,&newgame->launchparams);
 				}
 				//detectexe
-				GetDlgItemText(hwndDlg,IDC_ADD_DETECTEXE,temp,256);
+				GetDlgItemTextA(hwndDlg,IDC_ADD_DETECTEXE,temp,256);
 				if(!strlen(temp))
 				{
 					if(!editgame) delete newgame;
@@ -712,13 +712,13 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 
 				}
 				//mustcontain parameter
-				GetDlgItemText(hwndDlg,IDC_ADD_CUSTOMPARAMS,temp,256);
+				GetDlgItemTextA(hwndDlg,IDC_ADD_CUSTOMPARAMS,temp,256);
 				if(strlen(temp))
 				{
 					newgame->setString(temp,&newgame->mustcontain);
 				}
 				//statusmsg speichern
-				GetDlgItemText(hwndDlg,IDC_ADD_STATUSMSG,temp,256);
+				GetDlgItemTextA(hwndDlg,IDC_ADD_STATUSMSG,temp,256);
 				if(strlen(temp))
 				{
 					newgame->setString(temp,&newgame->statusmsg);

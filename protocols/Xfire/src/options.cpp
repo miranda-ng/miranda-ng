@@ -41,7 +41,7 @@ extern xfire_prefitem xfireconfig[XFIRE_RECVPREFSPACKET_MAXCONFIGS];
 extern Xfire_gamelist xgamelist;
 
 struct mytreeitem {
-	char name[256];
+	TCHAR name[256];
 	char dbentry[256];
 	int parent;
 	int icon;
@@ -66,40 +66,40 @@ xfireconfigitem xfireconfigitems[XFIRE_RECVPREFSPACKET_SUPPORTEDONFIGS] = {
 #define NUM_ICONS 4
 
 static mytreeitem mytree[] = {
-	{LPGEN("Avatars"),"",1,0},
-	{LPGEN("Disable avatars"),"noavatars",0,0},
-	{LPGEN("Don't download avatars of clan members"),"noclanavatars",0,0},
-	{LPGEN("Use alternate way for Avatar download"),"specialavatarload",0,0},
-	{LPGEN("General"),"",1,0},
-	{LPGEN("Use UTF8 for messaging and nick's (beta)"),"useutf8",0,0},
-	{LPGEN("Automatically reconnect on protocol version changes"),"recprotoverchg",0,0},
-	{LPGEN("No Ip/Port in StatusMsg"),"noipportinstatus",0,0},
-	{LPGEN("Use Online status for unsupported global statuses"),"oninsteadafk",0,0},
-	{LPGEN("Don't move friends to clan groups"),"skipfriendsgroups",0,0},
-	{LPGEN("GameServerQuery support"),"gsqsupport",0,0},
-	{LPGEN("No custom away message"),"nocustomaway",0,0},
-	{LPGEN("Remove friend of friend buddies from database"),"fofdbremove",0,0},
+	{LPGENT("Avatars"),"",1,0},
+	{LPGENT("Disable avatars"),"noavatars",0,0},
+	{LPGENT("Don't download avatars of clan members"),"noclanavatars",0,0},
+	{LPGENT("Use alternate way for Avatar download"),"specialavatarload",0,0},
+	{LPGENT("General"),"",1,0},
+	{LPGENT("Use UTF8 for messaging and nick's (beta)"),"useutf8",0,0},
+	{LPGENT("Automatically reconnect on protocol version changes"),"recprotoverchg",0,0},
+	{LPGENT("No Ip/Port in StatusMsg"),"noipportinstatus",0,0},
+	{LPGENT("Use Online status for unsupported global statuses"),"oninsteadafk",0,0},
+	{LPGENT("Don't move friends to clan groups"),"skipfriendsgroups",0,0},
+	{LPGENT("GameServerQuery support"),"gsqsupport",0,0},
+	{LPGENT("No custom away message"),"nocustomaway",0,0},
+	{LPGENT("Remove friend of friend buddies from database"),"fofdbremove",0,0},
 	/*{"Show usernames only","onlyusername",0},*/
-	{LPGEN("Hide yourself in buddylist"),"skipmyself",0,0},
-	{LPGEN("Don't display game search results"),"dontdisresults",0,0},
-	{LPGEN("Don't display game search status window"),"dontdissstatus",0,0},
-	{LPGEN("Display popup, if someone start a game"),"gamepopup",0,0},
-	{LPGEN("Don't automatically create clan groups"),"noclangroups",0,0},
-	{LPGEN("Enable MBot support"),"mbotsupport",0,0},
-	{LPGEN("Gamedetection"),"",1,0},
+	{LPGENT("Hide yourself in buddylist"),"skipmyself",0,0},
+	{LPGENT("Don't display game search results"),"dontdisresults",0,0},
+	{LPGENT("Don't display game search status window"),"dontdissstatus",0,0},
+	{LPGENT("Display popup, if someone start a game"),"gamepopup",0,0},
+	{LPGENT("Don't automatically create clan groups"),"noclangroups",0,0},
+	{LPGENT("Enable MBot support"),"mbotsupport",0,0},
+	{LPGENT("Gamedetection"),"",1,0},
 	/*{"Scan for games on every Miranda start","scanalways",0},*/
-	{LPGEN("Disable game detection"),"nogamedetect",0,0},
+	{LPGENT("Disable game detection"),"nogamedetect",0,0},
 	/*{"Enable server IP/Port detection","ipportdetec",0},*/
 	/*{"Enable TeamSpeak2/Ventrilo detection","",0},*/
-	{LPGEN("Use TSRemote.dll to get teamspeak server info"),"ts2useremote",0,0},
-	{LPGEN("Disable popups when ingame"),"nopopups",0,0},
-	{LPGEN("Disable sound events when ingame"),"nosoundev",0,0},
-	{LPGEN("Files"),"",1,0},
-	{LPGEN("Automatically update xfire_games.ini (pro-laming.de)"),"autoiniupdate",0,0},
-	{LPGEN("Automatically update icons.dll (pro-laming.de)"),"autoicodllupdate",0,0},
-	{LPGEN("Download missing game icons from Xfire website"),"xfiresitegameico",0,0},
-	{LPGEN("No backup on update"),"nobackupini",0,0},
-	{LPGEN("Background updating"),"dontaskforupdate",0,0},
+	{LPGENT("Use TSRemote.dll to get teamspeak server info"),"ts2useremote",0,0},
+	{LPGENT("Disable popups when ingame"),"nopopups",0,0},
+	{LPGENT("Disable sound events when ingame"),"nosoundev",0,0},
+	{LPGENT("Files"),"",1,0},
+	{LPGENT("Automatically update xfire_games.ini (pro-laming.de)"),"autoiniupdate",0,0},
+	{LPGENT("Automatically update icons.dll (pro-laming.de)"),"autoicodllupdate",0,0},
+	{LPGENT("Download missing game icons from Xfire website"),"xfiresitegameico",0,0},
+	{LPGENT("No backup on update"),"nobackupini",0,0},
+	{LPGENT("Background updating"),"dontaskforupdate",0,0},
 };
 
 //funktion zum auslesen aller einträge unter XFireBlock
@@ -107,7 +107,7 @@ static int enumSettingsProc(const char *szSetting,LPARAM lParam)
 { 
 	if(strlen(szSetting)>0)
 	{
-		SendDlgItemMessage( (HWND)lParam, IDC_BLOCKUSER, LB_ADDSTRING, 0, (LPARAM)szSetting);
+		SendDlgItemMessageA( (HWND)lParam, IDC_BLOCKUSER, LB_ADDSTRING, 0, (LPARAM)szSetting);
 	}
 	EnableDlgItem((HWND)lParam, IDC_REMUSER, TRUE);
 	return 0;
@@ -170,28 +170,28 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				dllfound = FALSE;
 
 			if(!db_get(NULL,protocolname,"login",&dbv)) {
-				SetDlgItemText(hwndDlg,IDC_LOGIN,dbv.pszVal);
+				SetDlgItemTextA(hwndDlg,IDC_LOGIN,dbv.pszVal);
 
 				db_free(&dbv);
 			}
 			if(!db_get(NULL,protocolname,"Nick",&dbv)) {
-				SetDlgItemText(hwndDlg,IDC_NICK,dbv.pszVal);
+				SetDlgItemTextA(hwndDlg,IDC_NICK,dbv.pszVal);
 				db_free(&dbv);
 			}
 			if(!db_get(NULL,protocolname,"password",&dbv)) {
 				//bit of a security hole here, since it's easy to extract a password from an edit box
 				CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,(LPARAM)dbv.pszVal);
-				SetDlgItemText(hwndDlg,IDC_PASSWORD,dbv.pszVal);
+				SetDlgItemTextA(hwndDlg,IDC_PASSWORD,dbv.pszVal);
 				db_free(&dbv);
 			}
 
 			char temp[255]="";
 			mir_snprintf(temp, SIZEOF(temp), "%d", db_get_b(NULL, protocolname, "protover", 0x5b));
-			SetDlgItemText(hwndDlg,IDC_PVER,temp);
+			SetDlgItemTextA(hwndDlg,IDC_PVER,temp);
 
 			EnableWindow(GetDlgItem(hwndDlg,IDC_LASTGAME),FALSE);
 			if(!db_get(NULL,protocolname,"LastGame",&dbv)) {
-				SetDlgItemText(hwndDlg,IDC_LASTGAME,dbv.pszVal);
+				SetDlgItemTextA(hwndDlg,IDC_LASTGAME,dbv.pszVal);
 				db_free(&dbv);
 			}
 
@@ -265,7 +265,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					char str[128];
 					DBVARIANT dbv;
 
-					GetDlgItemText(hwndDlg,IDC_LOGIN,login,sizeof(login));
+					GetDlgItemTextA(hwndDlg,IDC_LOGIN,login,sizeof(login));
 					dbv.pszVal=NULL;
 					if(db_get(NULL,protocolname,"login",&dbv) || strcmp(login,dbv.pszVal))
 						reconnectRequired=1;
@@ -282,14 +282,14 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 					if(mustlowercase) {
 						MessageBoxA(NULL,Translate("The username must be lowercase, so it will be lowercased saved."),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
-						SetDlgItemText(hwndDlg,IDC_LOGIN,login);
+						SetDlgItemTextA(hwndDlg,IDC_LOGIN,login);
 					}
 
 					db_set_s(NULL,protocolname,"login",login);
 					db_set_s(NULL,protocolname,"Username",login);
 
 					//nur wenn der nick erfolgreich übertragen wurde
-					GetDlgItemText(hwndDlg,IDC_NICK,login,sizeof(login));
+					GetDlgItemTextA(hwndDlg,IDC_NICK,login,sizeof(login));
 					dbv.pszVal=NULL;
 					if(db_get(NULL,protocolname,"Nick",&dbv) || strcmp(login,dbv.pszVal))
 					{
@@ -298,14 +298,14 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 					if(dbv.pszVal!=NULL) db_free(&dbv);
 
-					GetDlgItemText(hwndDlg,IDC_PASSWORD,str,sizeof(str));
+					GetDlgItemTextA(hwndDlg,IDC_PASSWORD,str,sizeof(str));
 					CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),(LPARAM)str);
 					dbv.pszVal=NULL;
 					if(db_get(NULL,protocolname,"password",&dbv) || strcmp(str,dbv.pszVal))
 						reconnectRequired=1;
 					if(dbv.pszVal!=NULL) db_free(&dbv);
 					db_set_s(NULL,protocolname,"password",str);
-					GetDlgItemText(hwndDlg,IDC_SERVER,str,sizeof(str));
+					GetDlgItemTextA(hwndDlg,IDC_SERVER,str,sizeof(str));
 
 					//neue preferencen sichern
 					if(bpStatus!=ID_STATUS_OFFLINE&&bpStatus!=ID_STATUS_CONNECTING)
@@ -332,10 +332,10 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 
 					//protocolversion wird autoamtisch vergeben
-					//GetDlgItemText(hwndDlg,IDC_PVER,str,sizeof(str));
+					//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
 					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
-					if(reconnectRequired) MessageBox(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
+					if(reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
 				}
 
@@ -395,8 +395,8 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					mir_snprintf(temp, SIZEOF(temp), "%d", gruppen_id);
 					
 					if(dbv.pszVal!=NULL) {
-						SendDlgItemMessage( hwndDlg, IDC_CLANGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
-						SendDlgItemMessage( hwndDlg, IDC_FOFGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
+						SendDlgItemMessageA( hwndDlg, IDC_CLANGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
+						SendDlgItemMessageA( hwndDlg, IDC_FOFGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
 						db_free(&dbv);
 					}
 				}
@@ -435,7 +435,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if ( mytree[i].parent ) {
 					tvis.hParent = NULL;
 					tvis.item.lParam = -1;
-					tvis.item.pszText = Translate(mytree[i].name);
+					tvis.item.pszText = TranslateTS(mytree[i].name);
 					tvis.hParent = tvis.item.hItem = TreeView_InsertItem( hwndTree, &tvis );
 					lastSec=tvis.hParent;
 					tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -447,7 +447,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 					tvis.item.state = INDEXTOSTATEIMAGEMASK(db_get_b(NULL,protocolname,mytree[i].dbentry,0)==1?2:1);
 					tvis.item.lParam = 0;
-					tvis.item.pszText = Translate(mytree[i].name);
+					tvis.item.pszText = TranslateTS(mytree[i].name);
 					mytree[i].hitem=TreeView_InsertItem( hwndTree, &tvis );
 				}
 			}
@@ -558,10 +558,10 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					db_set_b(NULL,protocolname,"scanalways",(BYTE)ccc);
 
 					//protocolversion wird autoamtisch vergeben
-					//GetDlgItemText(hwndDlg,IDC_PVER,str,sizeof(str));
+					//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
 					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
-					if(reconnectRequired) MessageBox(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
+					if(reconnectRequired) MessageBoxA(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
 				}
 
@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(GetDlgItem(hwndDlg,IDC_REMUSER),BM_SETIMAGE,IMAGE_ICON,(WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
 
 			strcpy(inipath, XFireGetFoldersPath ("IniFile"));
-			SetDlgItemText(hwndDlg,IDC_FILESSHOULDBE,inipath);
+			SetDlgItemTextA(hwndDlg,IDC_FILESSHOULDBE,inipath);
 
 			EnableDlgItem(hwndDlg, IDC_REMUSER, FALSE);
 
@@ -649,7 +649,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				int sel=SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCURSEL, 0, 0);
 				if(sel!=LB_ERR) //nur wenn was ausgewählt wurde
 				{
-					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETTEXT, sel, (LPARAM)temp); 
+					SendDlgItemMessageA(hwndDlg, IDC_BLOCKUSER, LB_GETTEXT, sel, (LPARAM)temp); 
 					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_DELETESTRING, sel, 0);
 					db_unset(NULL,"XFireBlock",temp);
 					if(SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCOUNT, 0, 0)==0)
@@ -693,7 +693,7 @@ static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CheckDlgButton(hwndDlg,IDC_CHGSTATUS,db_get_b(NULL,protocolname,"statuschgtype",0));
 			CheckDlgButton(hwndDlg,IDC_DNDFIRST,db_get_b(NULL,protocolname,"dndfirst",0));
 			if(!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
-				SetDlgItemText(hwndDlg,IDC_STATUSMSG,dbv.pszVal);
+				SetDlgItemTextA(hwndDlg,IDC_STATUSMSG,dbv.pszVal);
 				db_free(&dbv);
 			}
 			if(!IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG))
@@ -739,8 +739,8 @@ static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					int reconnectRequired=0;
 					char str[512];
 
-					GetDlgItemText(hwndDlg,IDC_STATUSMSG,str,sizeof(str));
-					db_set_s(NULL,protocolname,"setstatusmsg",str);
+					GetDlgItemTextA(hwndDlg,IDC_STATUSMSG,str,sizeof(str));
+					db_set_s(NULL,protocolname, "setstatusmsg", str);
 
 					db_set_b(NULL,protocolname, "autosetstatusmsg", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG));
 					db_set_b(NULL,protocolname, "statuschgtype", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHGSTATUS));
@@ -796,7 +796,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				//spielnamen auslesen
 				xgamelist.getGamename(gameid,temp,XFIRE_MAXSIZEOFGAMENAME);
 				//eintrag einfügen
-				int idx=SendDlgItemMessage( (HWND)hwndDlg, IDC_LGAMELIST, LB_ADDSTRING, 0, (LPARAM)temp);
+				int idx=SendDlgItemMessageA( (HWND)hwndDlg, IDC_LGAMELIST, LB_ADDSTRING, 0, (LPARAM)temp);
 				//id an das element übergeben
 				SendDlgItemMessage( (HWND)hwndDlg, IDC_LGAMELIST, LB_SETITEMDATA, idx, gameid);
 			}
@@ -811,7 +811,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				//was ausgewählt in der liste?
 				if(idx!=LB_ERR) {
 					//user fragen ob er das game wirklich löschen will
-					if(MessageBox(hwndDlg,Translate("Are you sure you want to remove this game?"),Translate("XFire Options"),MB_YESNO|MB_ICONQUESTION)==IDYES) {
+					if(MessageBoxA(hwndDlg,Translate("Are you sure you want to remove this game?"),Translate("XFire Options"),MB_YESNO|MB_ICONQUESTION)==IDYES) {
 						//gameliste blocken
 						xgamelist.Block(TRUE);
 						//spielid auslesen
@@ -837,7 +837,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 				else
-					MessageBox(hwndDlg,Translate("Please select a game."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+					MessageBoxA(hwndDlg,Translate("Please select a game."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 
 			}
 			else
@@ -942,14 +942,14 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						ShowWindow(GetDlgItem(hwndDlg, IDC_EDITGAME), SW_HIDE);
 					}
 					else
-						MessageBox(hwndDlg,Translate("Error unknown game id."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+						MessageBoxA(hwndDlg,Translate("Error unknown game id."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 					//gameliste unblocken
 					xgamelist.Block(FALSE);
 					//gamelist neu füllen
 					SendMessage(hwndDlg,WM_FILLGAMELIST,0,0);
 				}
 				else
-					MessageBox(hwndDlg,Translate("Please select a game."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+					MessageBoxA(hwndDlg,Translate("Please select a game."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 			}else //wurde ein spiel aus der liste gewählt?
 			if(HIWORD(wParam)==LBN_SELCHANGE && LOWORD(wParam)==IDC_LGAMELIST)
 			{
@@ -961,8 +961,8 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					int size=SendDlgItemMessage(hwndDlg, IDC_LGAMELIST, LB_GETTEXTLEN, idx, 0);
 					//textbuffer anlegen
 					char* text=new char[size+1];
-					SendDlgItemMessage(hwndDlg, IDC_LGAMELIST, LB_GETTEXT, idx, (LPARAM)text);
-					SetDlgItemText(hwndDlg,IDC_GAMENAME,text);
+					SendDlgItemMessageA(hwndDlg, IDC_LGAMELIST, LB_GETTEXT, idx, (LPARAM)text);
+					SetDlgItemTextA(hwndDlg,IDC_GAMENAME,text);
 					//textbuffer löschen
 					if(text!=NULL)
 					{
@@ -1015,16 +1015,16 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						DBVARIANT dbv;
 						if(!db_get(NULL,protocolname,temp,&dbv))
 						{
-							SetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,dbv.pszVal);	
+							SetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,dbv.pszVal);	
 							db_free(&dbv);
 						}
 						else
-							SetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,"");	
+							SetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,"");	
 					}
 					else
 					{
 						EnableDlgItem(hwndDlg, IDC_EXTRAPARAMS, FALSE);
-						SetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,Translate("Not supported"));	
+						SetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,Translate("Not supported"));	
 					}
 				}
 			}
@@ -1052,7 +1052,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 							//extra parameter auslesen und das gameobj schreiben
 							char str[128]="";
-							GetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,str,sizeof(str));
+							GetDlgItemTextA(hwndDlg,IDC_EXTRAPARAMS,str,sizeof(str));
 							if(str[0]!=0)
 							{
 								//extra parameter sind gesetzt, zuweisen
@@ -1072,16 +1072,16 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							game->refreshMenuitem();
 							game->writeToDB(dbid);
 
-							SetDlgItemText(hwndDlg,IDC_TEXTSTATUS,Translate("Configuration saved!"));
+							SetDlgItemTextA(hwndDlg,IDC_TEXTSTATUS,Translate("Configuration saved!"));
 						}
 						else
 						{
-							SetDlgItemText(hwndDlg,IDC_TEXTSTATUS,Translate("Game not found?!"));
+							SetDlgItemTextA(hwndDlg,IDC_TEXTSTATUS,Translate("Game not found?!"));
 						}
 					}
 					else
 					{
-						SetDlgItemText(hwndDlg,IDC_TEXTSTATUS,Translate("Game not found?!"));
+						SetDlgItemTextA(hwndDlg,IDC_TEXTSTATUS,Translate("Game not found?!"));
 					}
 
 					//gamelist unblocken

@@ -172,11 +172,11 @@ void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
 
 //versucht die TSR zuladen
 HMODULE Xfire_voicechat::loadTSR(char* path,BOOL nolocaltest) {
-	char pathtotsr[MAX_PATH]="";
+	TCHAR pathtotsr[MAX_PATH] = _T("");
 
 	/*if(path)
 		; was tun*/
-	strcat_s(pathtotsr,MAX_PATH,"TSRemote.dll");
+	_tcscat_s(pathtotsr,MAX_PATH,_T("TSRemote.dll"));
 	
 	//versuche dll zuladen
 	HMODULE tsrDLL = LoadLibrary(pathtotsr);
@@ -189,13 +189,13 @@ HMODULE Xfire_voicechat::loadTSR(char* path,BOOL nolocaltest) {
 		if(nolocaltest) return NULL;
 
 		//nochmal engl. lokal versuchen
-		tsrDLL = LoadLibrary("C:\\Program Files\\Teamspeak2_RC2\\client_sdk\\TSRemote.dll");
+		tsrDLL = LoadLibrary(_T("C:\\Program Files\\Teamspeak2_RC2\\client_sdk\\TSRemote.dll"));
 
 		if(!tsrDLL) {
 			XFireLog("TSRemote.dll load faild (using standard installationpath)!");
 	
 			//deutsches sys?
-			tsrDLL = LoadLibrary("C:\\Programme\\Teamspeak2_RC2\\client_sdk\\TSRemote.dll");
+			tsrDLL = LoadLibrary(_T("C:\\Programme\\Teamspeak2_RC2\\client_sdk\\TSRemote.dll"));
 
 			if(!tsrDLL)
 				XFireLog("TSRemote.dll load failed (using standard installationpath2)!");
@@ -321,7 +321,7 @@ BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet) {
 		return FALSE;
 	}
 	else {
-		if(!this->getPidByProcessName("mumble.exe",&this->pid)) {
+		if(!this->getPidByProcessName(_T("mumble.exe"),&this->pid)) {
 			return FALSE;
 		}
 	}

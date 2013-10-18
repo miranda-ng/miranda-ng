@@ -124,7 +124,7 @@ unsigned int getfilesize(char*path);
 void UpdateMyXFireIni(LPVOID dummy);
 void UpdateMyIcons(LPVOID dummy);
 BOOL IsContactMySelf(std::string buddyusername);
-DWORD xfire_GetPrivateProfileString(__in   LPCTSTR lpAppName, __in   LPCTSTR lpKeyName, __in   LPCTSTR lpDefault, __out  LPTSTR lpReturnedString, __in   DWORD nSize, __in   LPCTSTR lpFileName);
+DWORD xfire_GetPrivateProfileString(__in   LPCSTR lpAppName, __in   LPCSTR lpKeyName, __in   LPCSTR lpDefault, __out  LPSTR lpReturnedString, __in   DWORD nSize, __in   LPCSTR lpFileName);
 BOOL mySleep(int ms,HANDLE evt);
 void __stdcall XFireLog( const char* fmt, ... );
 
