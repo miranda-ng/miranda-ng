@@ -214,7 +214,7 @@ public:
 		// See comment in SetString() about why we do this
 		UINT_PTR nOffset = pszSrc - GetString();
 
-		UINT nOldLength = GetLength();
+		int nOldLength = GetLength();
 		if (nOldLength < 0) {
 			// protects from underflow
 			nOldLength = 0;

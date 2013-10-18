@@ -58,19 +58,15 @@ int CDb3Base::WorkModuleChain(int firstTime)
 				phase++;
 				return ERROR_SUCCESS;
 			}
-			if (moduleName.cbName>256)
-				cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Unreasonably long module name, skipping"));
-			else {
-				modChain = (ModChainEntry*)realloc(modChain,sizeof(ModChainEntry)*++modChainCount);
+			modChain = (ModChainEntry*)realloc(modChain,sizeof(ModChainEntry)*++modChainCount);
 
-				modChain[modChainCount-1].ofsOld = ofsCurrent;
-				modChain[modChainCount-1].size = offsetof(DBModuleName,name)+moduleName.cbName;
-				modChain[modChainCount-1].ofsNew = 0;
+			modChain[modChainCount-1].ofsOld = ofsCurrent;
+			modChain[modChainCount-1].size = offsetof(DBModuleName,name)+moduleName.cbName;
+			modChain[modChainCount-1].ofsNew = 0;
 
-				if (moduleName.cbName)
-					PeekSegment(ofsCurrent+offsetof(DBModuleName,name),&modChain[modChainCount-1].name,moduleName.cbName);
-				modChain[modChainCount-1].name[moduleName.cbName] = 0;
-			}
+			if (moduleName.cbName)
+				PeekSegment(ofsCurrent+offsetof(DBModuleName,name),&modChain[modChainCount-1].name,moduleName.cbName);
+			modChain[modChainCount-1].name[moduleName.cbName] = 0;
 			ofsCurrent = moduleName.ofsNext;
 			break;
 		case 1:

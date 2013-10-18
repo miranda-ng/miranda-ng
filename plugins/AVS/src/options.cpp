@@ -297,7 +297,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			LVITEM item = {0};
 			LVCOLUMN lvc = {0};
-			UINT64 newItem = 0;
+			int newItem = 0;
 
 			dialoginit = TRUE;
 			TranslateDialogDefault(hwndDlg);

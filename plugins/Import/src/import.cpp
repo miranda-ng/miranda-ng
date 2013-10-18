@@ -64,13 +64,13 @@ static void mySet(HANDLE hContact, const char *module, const char *var, DBVARIAN
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HANDLE HContactFromNumericID(char* szProto, char* pszSetting, DWORD dwID)
+static HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID)
 {
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
-		if ( db_get_dw(hContact, szProto, pszSetting, 0) == dwID) {
+		if ( db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID) {
 			char* szProto = GetContactProto(hContact);
-			if (szProto != NULL && !lstrcmpA(szProto, szProto))
+			if (szProto != NULL && !lstrcmpA(szProto, pszProtoName))
 				return hContact;
 		}
 		hContact = dstDb->FindNextContact(hContact);
@@ -78,13 +78,13 @@ static HANDLE HContactFromNumericID(char* szProto, char* pszSetting, DWORD dwID)
 	return INVALID_HANDLE_VALUE;
 }
 
-static HANDLE HContactFromID(char* szProto, char* pszSetting, TCHAR* pwszID)
+static HANDLE HContactFromID(char* pszProtoName, char* pszSetting, TCHAR* pwszID)
 {
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
 		char* szProto = GetContactProto(hContact);
-		if ( !lstrcmpA(szProto, szProto)) {
-			ptrW id( db_get_tsa(hContact, szProto, pszSetting));
+		if ( !lstrcmpA(szProto, pszProtoName)) {
+			ptrW id( db_get_tsa(hContact, pszProtoName, pszSetting));
 			if ( !lstrcmp(pwszID, id))
 				return hContact;
 		}
