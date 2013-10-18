@@ -113,7 +113,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			else {
 				AsyncHttpRequest *pReq = new AsyncHttpRequest();
 				pReq->requestType = REQUEST_GET;
-				pReq->flags = NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11;
+				pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 				pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 				pReq->AddHeader("Referer", m_prevUrl);
 				pReq->Redirect(reply);
@@ -156,7 +156,7 @@ LBL_NoForm:
 
 	pReq = new AsyncHttpRequest();
 	pReq->requestType = REQUEST_POST;
-	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11;
+	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	pReq->pData = mir_strdup(szBody);
 	pReq->dataLength = szBody.GetLength();
 	pReq->szUrl = mir_strdup(szAction); m_prevUrl = pReq->szUrl;
@@ -491,6 +491,7 @@ int CVkProto::PollServer()
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
 	req.flags = NLHRF_NODUMPHEADERS | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+	req.nlc = m_pollingConn;
 	req.timeout = 30000;
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);

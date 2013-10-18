@@ -52,7 +52,7 @@ LBL_Restart:
 bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams, HttpParam *pParams, int iTimeout)
 {
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
-	pReq->flags = NLHRF_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	pReq->flags = NLHRF_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (bSecure)
 		pReq->flags |= NLHRF_SSL;
 

@@ -53,6 +53,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 CVkProto::~CVkProto()
 {
+	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	UninitQueue();
 }
 
