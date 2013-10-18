@@ -211,7 +211,6 @@ class XFireClient : public PacketListener {
   public:
     Client* client;
 	Xfire_avatar_loader* avatarloader;
-	BOOL useutf8;
 
     XFireClient(string username, string password,char protover,int useproxy=0,string proxyip="",int proxyport=0);
     ~XFireClient();
@@ -278,12 +277,9 @@ void XFireClient::handlingBuddy(HANDLE handle){
 void XFireClient::setNick(char*nnick) {
 	/*if(strlen(nnick)==0)
 		return;*/
-	  SendNickChangePacket nick;
-	  if(this->useutf8)
-		nick.nick = ( char* )nnick;
-	  else
-		nick.nick = mir_utf8encode(( char* )nnick);
-	  client->send( &nick );
+	SendNickChangePacket nick;
+	nick.nick = nnick;
+	client->send( &nick );
 }
 
 
@@ -305,7 +301,6 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 	this->useproxy=useproxy;
 	this->proxyip=proxyip;
 	this->proxyport=proxyport;
-	useutf8=FALSE;
 
 	avatarloader=new Xfire_avatar_loader(client);
 
@@ -339,11 +334,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 	  SendStatusMessagePacket *packet = new SendStatusMessagePacket();
 
-	  if(myClient->useutf8)
-		  packet->awaymsg = s.c_str();
-	  else
-		  packet->awaymsg = mir_utf8encode(s.c_str());
-
+	  packet->awaymsg = s.c_str();
 	  client->send( packet );
 	  delete packet;
   }
@@ -728,11 +719,8 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 					PROTORECVEVENT pre = { 0 };
 					pre.timestamp = time(NULL);
-					if (this->useutf8) {
-						pre.szMessage = (char*)str.c_str();
-						pre.flags = PREF_UTF;
-					}
-					else pre.szMessage = (char*)mir_utf8decode((char*)str.c_str(),NULL);
+					pre.szMessage = (char*)str.c_str();
+					pre.flags = PREF_UTF;
 
 					CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)entry->hcontact,PROTOTYPE_CONTACTTYPING_OFF);
 					ProtoChainRecvMsg(entry->hcontact, &pre);
@@ -1392,11 +1380,7 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 	if(myClient!=NULL)
 		if(myClient->client->connected&&db_get_w(ccs->hContact, protocolname, "Status", -1)!=ID_STATUS_OFFLINE)
 		{
-			/*if(myClient->useutf8)
-				myClient->sendmsg(dbv.pszVal, ( char* )ccs->lParam);
-			else*/
-				myClient->sendmsg(dbv.pszVal, mir_utf8encode(( char* )ccs->lParam));
-
+			myClient->sendmsg(dbv.pszVal, ( char* )ccs->lParam);
 			mir_forkthread(SendAck,ccs->hContact);
 			sended=1;
 		}
@@ -1557,13 +1541,6 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 				else */
 					myClient = new XFireClient(dbv.pszVal,dbv2.pszVal,db_get_b(NULL,protocolname,"protover",0));
 
-				//prüfe ob utf8 option aktiv, dann schlater auf true
-				if(db_get_b(NULL,protocolname,"useutf8",0))
-				{
-					myClient->useutf8=TRUE;
-				}
-
-
 				//verbindung als thread
 				bpStatus = ID_STATUS_CONNECTING;
 				ProtoBroadcastAck(protocolname,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)oldStatus,ID_STATUS_CONNECTING);
@@ -1678,15 +1655,11 @@ HANDLE CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan)
 			db_set_b(hContact, "CList", "NotOnList", 1);
 		db_unset(hContact, "CList", "Hidden");
 
-		if(strlen(xfc.nick)>0)
-		{
-			if(myClient->useutf8)
-				db_set_utf(hContact, protocolname, "Nick", xfc.nick);
-			else
-				db_set_s(hContact, protocolname, "Nick", mir_utf8decode(( char* )xfc.nick,NULL));
-		}
-		else if(strlen(xfc.username)>0)
+		if(strlen(xfc.nick)>0) {
+			db_set_utf(hContact, protocolname, "Nick", xfc.nick);
+		} else if(strlen(xfc.username)>0) {
 			db_set_s(hContact, protocolname, "Nick", xfc.username);
+		}
 
 		db_set_s(hContact, protocolname, "Username", xfc.username);
 
@@ -2802,27 +2775,10 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 		if (hContact!=0)
 		{
 			if (!entry->nick.empty() && db_get_b(NULL, protocolname, "shownicks", 1)) {
-				char*nick=NULL;
-
-				if (myClient->useutf8)
-					nick = ( char* )entry->nick.c_str();
-				else
-					nick = mir_utf8decode(( char* )entry->nick.c_str(),NULL);
-
-				if(nick)
-				{
-					if(myClient->useutf8)
-						db_set_utf(hContact, protocolname, "Nick", nick);
-					else
-						db_set_s(hContact, protocolname, "Nick", nick);
-				}
-				else
-					db_set_s(hContact, protocolname, "Nick", entry->username.c_str());
-
-				//db_set_utf(hContact, protocolname, "Nick", entry->nick.c_str());
-				//db_set_utf(hContact, protocolname, "Nick", ( char* )entry->nick.c_str());
-			} else
+				db_set_utf(hContact, protocolname, "Nick", entry->nick.c_str());
+			} else {
 				db_set_s(hContact, protocolname, "Nick", entry->username.c_str());
+			}
 
 			if(!entry->isOnline())
 			{

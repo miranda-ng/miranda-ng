@@ -71,7 +71,6 @@ static mytreeitem mytree[] = {
 	{LPGENT("Don't download avatars of clan members"),"noclanavatars",0,0},
 	{LPGENT("Use alternate way for Avatar download"),"specialavatarload",0,0},
 	{LPGENT("General"),"",1,0},
-	{LPGENT("Use UTF8 for messaging and nick's (beta)"),"useutf8",0,0},
 	{LPGENT("Automatically reconnect on protocol version changes"),"recprotoverchg",0,0},
 	{LPGENT("No Ip/Port in StatusMsg"),"noipportinstatus",0,0},
 	{LPGENT("Use Online status for unsupported global statuses"),"oninsteadafk",0,0},
