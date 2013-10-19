@@ -413,7 +413,7 @@ BOOL checkNotesIniFile(BOOL bInfo)
 			return FALSE;
 
 		if(!settingIniAnswer || bInfo){
-			switch(MessageBox(NULL, TranslateT("This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin build-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding \"EXTMGR_ADDINS=PLUGINNAME\")?"), TranslateT("LotusNotify plugin configuration"), MB_YESNO))
+			switch(MessageBox(NULL, TranslateT("This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding \"EXTMGR_ADDINS=PLUGINNAME\")?"), TranslateT("LotusNotify plugin configuration"), MB_YESNO))
 			{
 				case IDYES:
 				{
