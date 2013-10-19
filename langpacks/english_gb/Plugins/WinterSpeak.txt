@@ -1,0 +1,11 @@
+#muuid {81E189DC-C251-45F6-9EDF-A0F3A05C4248}
+;============================================================
+;  File: Speak.dll
+;  Plugin: Winter speak
+;  Version: 0.9.8.0
+;  Authors: Ryan Winter
+;============================================================
+[%u requests your authorization]
+%u requests your authorisation
+[Authorization Request]
+Authorisation Request

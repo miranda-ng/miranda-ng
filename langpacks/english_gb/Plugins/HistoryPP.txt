@@ -13,6 +13,8 @@ Customise Filters
 Customise Toolbar
 [&Customize...]
 &Customise...
+[Authorization request by %s (%s%d): %s]
+Authorisation request by %s (%s%d): %s
 [Authorization request granted by %s (%d): %s]
 Authorisation request granted by %s (%d): %s
 [Authorization request denied by %s (%d): %s]
@@ -23,6 +25,10 @@ Authorisation future request by %s (%d): %s
 FontService is installed. Go to Customise -> Fonts to change settings.
 [IcoLib is installed. Go to Customize -> Icons to change icons.]
 IcoLib is installed. Go to Customise -> Icons to change icons.
+[Authorization Request by %s (%s%s%d): %s]
+Authorisation Request by %s (%s%s%d): %s
+[Authorization Request Sample]
+Authorisation Request Sample
 [Customize %s]
 Customise %s
 [Customize the look of %s Event. Select it's font, font color and background color.]
@@ -31,3 +37,5 @@ Customise the look of %s Event. Select it's font, font colour and background col
 Date Font Colour
 [Nick Font Color]
 Nick Font Colour
+[Authorization request]
+Authorisation request
