@@ -89,7 +89,7 @@ BEGIN
                     WS_TABSTOP,15,142,85,10
     CONTROL         "Incoming File",IDC_EVENT_FILE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,15,153,85,10
-    CONTROL         "Authorisation Request",IDC_EVENT_AUTHREQUEST,"Button",
+    CONTROL         "Authorization Request",IDC_EVENT_AUTHREQUEST,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,164,85,10
     CONTROL         "Added to Contact List",IDC_EVENT_ADDED,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,175,85,10
