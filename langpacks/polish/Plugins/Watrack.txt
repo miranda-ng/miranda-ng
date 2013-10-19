@@ -15,7 +15,7 @@ xStatus zostanie wyczyszczony przed zmianą tekstu i ustawiony na nowo później
 Wklej informacje o odtwarzanych multimediach w oknie rozmowy lub statusie
 [Use XStatus]
 Użyj xStatusu
-[If this option is "ON", XStatus doesn't depend of protocol status.]
+[If this option is "ON", XStatus doesn't depend on protocol status.]
 Jeśli ta opcja zostanie włączona, xStatus nie bedzie zależny od zmiany statusu protokołu.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Jeśli użyjesz wtyczki "Variables", możesz zmienić zawartość tekstu o nowe funkcje. Jeśli wtyczka nie zostanie użyta, wtyczka będzie pracowała szybciej.

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Xfire.dll
 ;  Plugin: Xfire Protocol
-;  Version: 0.1.8.4
+;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
@@ -348,8 +348,6 @@ Nastav prezívku
 
 [General]
 
-[Use UTF8 for messaging and nick's (beta)]
-
 [Automatically reconnect on protocol version changes]
 
 [No Ip/Port in StatusMsg]
@@ -435,6 +433,9 @@ Sieť
 [Blocklist / Games]
 
 [StatusMsg]
+
+;file \protocols\Xfire\src\pwd_dlg.cpp
+[Please enter server password ...]
 
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Xfire.dll
 ;  Plugin: Xfire Protocol
-;  Version: 0.1.8.4
+;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
 ;file \protocols\Xfire\res\Kopie von resource.rc
@@ -246,8 +246,6 @@ XFireне падтрымлівае паведамленні адключаным
 Выкарыстоўваць альтэрнатыўны шлях спампоўкі аватараў
 [General]
 Агульнае
-[Use UTF8 for messaging and nick's (beta)]
-Выкарыстоўвайць UTF8 для абмену паведамленнямі і нікаў (тэстава)
 [Automatically reconnect on protocol version changes]
 Аўтаматычна пяры далучацца пры змене версіі пратаколу
 [No Ip/Port in StatusMsg]

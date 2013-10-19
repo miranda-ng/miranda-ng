@@ -15,7 +15,7 @@ Der XStatus wird kurzzeitig zurückgesetzt, um bestimmte ICQ-Clients dazu zu zwi
 Fügt die abgespielte Musikinfos zum Nachrichtenfenster oder im Statustext ein.
 [Use XStatus]
 XStatus verwenden
-[If this option is "ON", XStatus doesn't depend of protocol status.]
+[If this option is "ON", XStatus doesn't depend on protocol status.]
 Wenn diese Einstellung aktiv ist, wird der XStatus "Musik" immer und unabhängig vom normalen Status des Protokolls gesetzt.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 "Variables"-Plugin verwenden oder nicht. Mit diesem Plugin können erweiterte Funktionen verwendet werden, ohne dieses Plugin arbeitet WATrack schneller.

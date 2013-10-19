@@ -178,7 +178,7 @@
 Я
 [Invalid Message]
 Пошкоджене повідомлення
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Запит авторизації від %s (%s%d): %s
 [%s Files (*.%s)]
 %s Файли (*.%s)

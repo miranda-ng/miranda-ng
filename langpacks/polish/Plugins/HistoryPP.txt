@@ -377,7 +377,7 @@ Nieznany id
 Wychodzący transfer pliku: %s
 [Incoming file transfer: %s]
 Przychodzący transfer pliku: %s
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Prośba o autoryzację od %s (%s%d): %s
 [You were added by %s (%s%d)]
 Zostałeś dodany przez %s (%s%d)
@@ -617,9 +617,9 @@ Ochrona hasłem...
 Wszystkie elementy
 [and]
 i
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 Prośba o autoryzację od %s (%s%s%d): %s
-[Authorisation Request Sample]
+[Authorization Request Sample]
 Przykładowa prośba o autoryzację
 [Change nick and date font for %s.]
 Zmień czcionkę nicka i daty dla %s.
@@ -709,7 +709,7 @@ Użyj domyślnych ustawień Mirandy
 Zostałeś dodany przez %s (%s%s%d)
 [You Were Added Message Sample]
 Przykładowa wiadomość "Zostałeś dodany"
-[Authorisation request]
+[Authorization request]
 Prośba o autoryzację
 [Your were added message]
 Wiadomość "Zostałeś dodany"

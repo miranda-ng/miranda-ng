@@ -134,8 +134,6 @@ Miranda NG 目录下有包含新数据库设置的文件.
 正在处理模块名称链
 [Module chain corrupted, further entries ignored]
 模块链已损坏, 后续项目被忽略
-[Unreasonably long module name, skipping]
-模块名称不合理地长, 正在跳过
 [Module name '%s' is not unique: %d duplicates found)]
 模块名称 '%s' 并非独有: 找到 %d 个重复项目
 [Invalid module name offset, skipping data]

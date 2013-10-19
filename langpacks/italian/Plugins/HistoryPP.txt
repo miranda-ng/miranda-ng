@@ -131,9 +131,9 @@ Intestazione %s
 &Protezione Password...
 [(time and date)]
 (ora e data)
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 Richiesta di autorizzazione di %s (%s%s%d): %s
-[Authorisation Request Sample]
+[Authorization Request Sample]
 Esempio Richiesta di Autorizzazione
 [Change nick and date font for %s.]
 Cambia il carattere del nick e della data per %s.

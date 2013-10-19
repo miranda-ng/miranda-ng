@@ -8,3 +8,4 @@
 [My Voice ServerIP]
 [Protocols/XFire]
 [The changes you have made require you to reconnect to the XFire network before they take effect]
+[Please enter server password ...]

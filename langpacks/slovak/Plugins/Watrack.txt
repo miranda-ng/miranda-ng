@@ -15,7 +15,7 @@
 
 [Use XStatus]
 
-[If this option is "ON", XStatus doesn't depend of protocol status.]
+[If this option is "ON", XStatus doesn't depend on protocol status.]
 
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 

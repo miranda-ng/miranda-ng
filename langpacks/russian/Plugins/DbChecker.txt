@@ -198,8 +198,6 @@
 Невозможно переименовать оригинальный файл
 [Unable to rename output file]
 Невозможно переименовать файл на выходе
-[Unreasonably long module name, skipping]
-Слишком длинное имя модуля, пропускаем
 [User corrupted, this could cause major problems]
 Пользователь повреждён, это может быть серьезной проблемой
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]

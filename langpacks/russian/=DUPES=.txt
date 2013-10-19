@@ -155,7 +155,7 @@ xСтатус %s
 Август
 [Author]
 Автор
-[Authorisation Request]
+[Authorization Request]
 Запрос авторизации
 [Authorization request]
 Запрос авторизации

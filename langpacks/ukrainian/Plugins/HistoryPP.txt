@@ -375,7 +375,7 @@ id невідомий
 Передача файлу: %s
 [Incoming file transfer: %s]
 Прийом файлу: %s
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Запит авторизації від %s (%s%d): %s
 [You were added by %s (%s%d)]
 Вас додав(а) %s (%s%d)
@@ -601,9 +601,9 @@ HTML файл
 Всі події
 [and]
 і
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 Запит на авторизацію від %s (%s%s%d): %s
-[Authorisation Request Sample]
+[Authorization Request Sample]
 Це запит на авторизацію
 [Change nick and date font for %s.]
 Змінити шрифт для %s.
@@ -693,7 +693,7 @@ HTML файл
 Вас додав(ла) %s (%s%s%d)
 [You Were Added Message Sample]
 Це повідомлення "Вас додали"
-[Authorisation request]
+[Authorization request]
 Запит авторизації
 [Your were added message]
 Ви були додані

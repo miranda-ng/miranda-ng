@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Xfire.dll
 ;  Plugin: Xfire Protocol
-;  Version: 0.1.8.4
+;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
 ;file \protocols\Xfire\res\Kopie von resource.rc

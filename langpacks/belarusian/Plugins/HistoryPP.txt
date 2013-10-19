@@ -377,7 +377,7 @@ id невядомы
 Перадача файла: %s
 [Incoming file transfer: %s]
 Прыём файла: %s
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Запыт аўтарызацыі ад %s (%s%d): %s
 [You were added by %s (%s%d)]
 Вас дадаў(а) %s (%s%d)
@@ -617,9 +617,9 @@ HTML файл
 Усе падзеі
 [and]
 і
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 Запыт на аўтарызацыю ад %s (%s%s%d): %s
-[Authorisation Request Sample]
+[Authorization Request Sample]
 Гэта запыт на аўтарызацыю
 [Change nick and date font for %s.]
 Змяніць шрыфт для %s.
@@ -709,7 +709,7 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Вас дадаў(а) %s (%s%s%d)
 [You Were Added Message Sample]
 Гэта паведамленне "Вас дадалі"
-[Authorisation request]
+[Authorization request]
 Запыт аўтарызацыі
 [Your were added message]
 Вы былі дададзены

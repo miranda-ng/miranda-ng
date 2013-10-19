@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Xfire.dll
 ;  Plugin: Xfire Protocol
-;  Version: 0.1.8.4
+;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
@@ -348,8 +348,6 @@ Nie pobieraj awatarów od członków klanu
 Użyj alteranatywnego sposobu pobierania awatarów
 [General]
 Ogólne
-[Use UTF8 for messaging and nick's (beta)]
-Użyj kodowania UTF-8 dla wiadomości i nicków
 [Automatically reconnect on protocol version changes]
 Automatycznie połącz po zmianie wersji protokołu
 [No Ip/Port in StatusMsg]
@@ -436,6 +434,9 @@ Cechy
 Lista zablokowanych/Gry
 [StatusMsg]
 Opis
+;file \protocols\Xfire\src\pwd_dlg.cpp
+[Please enter server password ...]
+
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 Zapisz w bazie danych

@@ -247,7 +247,7 @@ HTML קובץ
 הגנה עם סיסמה
 [(time and date)]
 (זמן ותאריך)
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 בקשת הרשאה ע"י %s (%s%s%d) : %s
 [Date Font Color]
 צבע תאריך
@@ -301,7 +301,7 @@ HTML קובץ
 השתמש בהגדרות ברירת מחדל של המירנדה
 [You were added by %s (%s%s%d)]
 נוספת לרשימה ע"י %s (%s%s%d)
-[Authorisation request]
+[Authorization request]
 בקשת אישור
 [Your were added message]
 הוספת הודעה

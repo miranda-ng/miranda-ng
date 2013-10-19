@@ -15,7 +15,7 @@
 Вставляет информацию о проигрываемой музыке в окно сообщения или в статусное сообщение.
 [Use XStatus]
 Использовать хСтатус
-[If this option is "ON", XStatus doesn't depend of protocol status.]
+[If this option is "ON", XStatus doesn't depend on protocol status.]
 Если включена эта опция, xСтатус не будет зависеть от статуса протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Использовать плагин "Variables" или нет. Этот плагин позволяет вам преобразовывать строки, использовать математические функции и функции даты. Без этого плагина WATrack будет работать быстрее.

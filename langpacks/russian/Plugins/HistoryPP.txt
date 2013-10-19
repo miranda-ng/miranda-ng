@@ -379,7 +379,7 @@ id неизвестен
 Передача файла: %s
 [Incoming file transfer: %s]
 Прием файла: %s
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Запрос авторизации от %s (%s%d): %s
 [You were added by %s (%s%d)]
 Вас добавил %s (%s%d)
@@ -619,9 +619,9 @@ HTML файл
 Все события
 [and]
 и
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 Запрос на авторизацию от %s (%s%s%d): %s
-[Authorisation Request Sample]
+[Authorization Request Sample]
 Это запрос на авторизацию
 [Change nick and date font for %s.]
 Сменить шрифт для %s.
@@ -711,7 +711,7 @@ HTML файл
 Вас добавил %s (%s%s%d)
 [You Were Added Message Sample]
 Это сообщение "Вас добавили"
-[Authorisation request]
+[Authorization request]
 Запрос авторизации
 [Your were added message]
 Вы были добавлены

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Xfire.dll
 ;  Plugin: Xfire Protocol
-;  Version: 0.1.8.4
+;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
@@ -348,8 +348,6 @@ Avatare von Clan-Mitgliedern nicht herunterladen
 Alternative Avatar-Download-Variante verwenden
 [General]
 Allgemein
-[Use UTF8 for messaging and nick's (beta)]
-UTF-8 für Nachrichten und Benutzernamen verwenden (Beta)
 [Automatically reconnect on protocol version changes]
 Automatisch nach Protokoll-Versionsänderungen neu verbinden
 [No Ip/Port in StatusMsg]
@@ -436,6 +434,9 @@ Funktionen
 Ignorieren / Spiele
 [StatusMsg]
 Statusnachricht
+;file \protocols\Xfire\src\pwd_dlg.cpp
+[Please enter server password ...]
+
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 Daten werden geschrieben ...

@@ -377,7 +377,7 @@ Unbekannte ID
 Ausgehender Dateitransfer: %s
 [Incoming file transfer: %s]
 Eingehender Dateitransfer: %s
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Autorisierungsanfrage von %s (%s%d): %s
 [You were added by %s (%s%d)]
 Hinzugefügt von %s (%s%d)
@@ -617,9 +617,9 @@ Alles l&öschen
 Alle Elemente
 [and]
 und
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 Autorisierungsanfrage von %s (%s%s%d): %s
-[Authorisation Request Sample]
+[Authorization Request Sample]
 
 [Change nick and date font for %s.]
 
@@ -709,7 +709,7 @@ Systemnachricht
 
 [You Were Added Message Sample]
 
-[Authorisation request]
+[Authorization request]
 
 [Your were added message]
 

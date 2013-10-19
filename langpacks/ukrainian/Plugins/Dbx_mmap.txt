@@ -131,8 +131,6 @@ Miranda NG виявила пошкодження вашої базі даних.
 Модуль обробки імені ланцюжка
 [Module chain corrupted, further entries ignored]
 Ланцюг модуля пошкоджено, подальші записи ігноруються
-[Unreasonably long module name, skipping]
-Невиправдано довго ім'я модуля, пропускаю
 [Module name '%s' is not unique: %d duplicates found]
 Ім'я модуля '%s' не є унікальним: %d знайдених дублікатів
 [Invalid module name offset, skipping data]

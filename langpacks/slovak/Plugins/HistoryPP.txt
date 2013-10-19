@@ -377,7 +377,7 @@ História systému
 
 [Incoming file transfer: %s]
 
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 
 [You were added by %s (%s%d)]
 
@@ -617,9 +617,9 @@ História systému
 
 [and]
 
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 
-[Authorisation Request Sample]
+[Authorization Request Sample]
 
 [Change nick and date font for %s.]
 
@@ -709,7 +709,7 @@ História systému
 
 [You Were Added Message Sample]
 
-[Authorisation request]
+[Authorization request]
 
 [Your were added message]
 

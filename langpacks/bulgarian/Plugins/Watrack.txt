@@ -15,7 +15,7 @@
 Поставя информация за възпроизвеждания аудио/видео файл в съобщението или съобщението за състояние. Предлага и водене на статистика.
 [Use XStatus]
 Ползване на хСъстояние
-[If this option is "ON", XStatus doesn't depend of protocol status.]
+[If this option is "ON", XStatus doesn't depend on protocol status.]
 Опцията прави хСъстоянието независимо от състоянието на протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 

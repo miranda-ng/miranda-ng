@@ -118,8 +118,6 @@ Procesamiento completado con éxito
 Procesamiento de la cadena de nombre del módulo
 [Module chain corrupted, further entries ignored]
 Módulo de la cadena de corruptos, de las entradas más ignorados
-[Unreasonably long module name, skipping]
-Excesivamente largo el nombre del módulo, saltando
 [Module name '%s' is not unique: %d duplicates found]
 Nombre de módulo '%s' no es único: %d duplicados encontrados
 [Invalid module name offset, skipping data]
