@@ -1,0 +1,82 @@
+#muuid {81E189DC-C251-45F6-9EDF-A0F3A05C4248}
+;============================================================
+;  File: Speak.dll
+;  Plugin: Winter speak
+;  Version: 0.9.8.0
+;  Authors: Ryan Winter
+;============================================================
+; Status changes
+[%u is now offline]
+[%u is now online]
+[%u is away]
+[%u is invisible]
+[%u is not available]
+[%u does not want to be disturbed]
+[%u is occupied]
+[%u is free for chat]
+
+; Events
+[incoming message from %u]
+[incoming U R L from %u]
+[you have been added to %u's contact list]
+[%u requests your authorization]
+[there is an incoming file from %u]
+[%u says]
+
+; Options Title
+[Engine/Voice]
+[Announce]
+[Active Modes]
+
+; Optionpage Engine/Voice
+[Engine Settings]
+[Engine]
+[Voice]
+[Volume]
+[Rate]
+[Pitch]
+[testing testing 1 2 3]
+[Welcome Message]
+
+; Optionpage Announce
+[Status Changes]
+[Offline]
+[Online]
+[Away]
+[Do not Disturb]
+[Not Available]
+[Occupied]
+[Free for Chat]
+[Invisible]
+
+[Occuring Events]
+[Incoming Message]
+[Incoming URL]
+[Incoming File]
+[Authorisation Request]
+[Added to Contact List]
+
+[Status Messages]
+[Announce status changes on connect]
+
+[Message Events]
+[Read message if less characters than]
+[Ignore event if message dialog is open]
+[Ignore event if message dialog is focused]
+
+; Optionpage Active Mode
+[Active Modes]
+[Online]
+[Away]
+[Do not Disturb]
+[Not Available]
+[Occupied]
+[Free for Chat]
+[Invisible]
+
+[Active Users]
+[The following events are being ignored:]
+[Messages]
+[Online Notification]
+[All Events]
+[None]

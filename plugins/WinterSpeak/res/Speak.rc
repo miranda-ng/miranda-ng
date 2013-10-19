@@ -1,0 +1,192 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONFIG DIALOGEX 0, 0, 314, 240
+STYLE DS_3DLOOK | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Engine Settings",IDC_STATIC,64,45,185,113
+    COMBOBOX        IDC_SELECT_VOICE,122,71,120,71,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Slider1",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_TOP | 
+                    TBS_NOTICKS | WS_TABSTOP,118,87,126,14
+    CONTROL         "Slider1",IDC_SLIDER_RATE,"msctls_trackbar32",TBS_TOP | 
+                    TBS_NOTICKS | WS_TABSTOP,118,103,126,14
+    CONTROL         "Slider1",IDC_SLIDER_PITCH,"msctls_trackbar32",TBS_TOP | 
+                    TBS_NOTICKS | WS_TABSTOP,118,120,126,14
+    LTEXT           "Rate",IDC_STATIC,70,108,46,8
+    LTEXT           "Volume",IDC_STATIC,70,92,47,8
+    LTEXT           "Voice",IDC_STATIC,70,74,47,8
+    LTEXT           "Pitch",IDC_STATIC,70,124,47,8
+    PUSHBUTTON      "Test",IDC_BUTTON_TEST,141,139,47,14
+    LTEXT           "Engine",IDC_STATIC,70,60,47,8
+    COMBOBOX        IDC_SELECT_ENGINE,122,56,120,71,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_WELCOME_MSG,72,170,170,14,ES_AUTOHSCROLL
+    GROUPBOX        "Welcome Message",IDC_STATIC,64,160,185,30
+    PUSHBUTTON      "Lexicon",IDC_CONFIG_LEXICON,193,139,50,14
+END
+
+IDD_ANNOUNCE DIALOG DISCARDABLE  0, 0, 314, 240
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Message Events",IDC_STATIC,112,117,195,116
+    CONTROL         "Read message if less characters than",
+                    IDC_READ_MSG_LENGTH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,120,131,150,10
+    EDITTEXT        IDC_MAX_MSG,274,128,25,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Ignore event if message dialog is open",IDC_DIALOG_OPEN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,142,181,10
+    GROUPBOX        "Status Changes",IDC_STATIC,7,7,99,107
+    CONTROL         "Offline",IDC_STATUS_OFFLINE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,19,85,10
+    CONTROL         "Online",IDC_STATUS_ONLINE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,30,85,10
+    CONTROL         "Away",IDC_STATUS_AWAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,41,85,10
+    CONTROL         "Do not Disturb",IDC_STATUS_DND,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,52,85,10
+    CONTROL         "Not Available",IDC_STATUS_NA,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,63,85,10
+    CONTROL         "Occupied",IDC_STATUS_OCCUPIED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,74,85,10
+    CONTROL         "Free for Chat",IDC_STATUS_FREEFORCHAT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,85,85,10
+    CONTROL         "Invisible",IDC_STATUS_INVISIBLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,96,84,10
+    GROUPBOX        "Occuring Events",IDC_STATIC,7,117,99,116
+    CONTROL         "Incoming Message",IDC_EVENT_MESSAGE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,131,85,10
+    CONTROL         "Incoming URL",IDC_EVENT_URL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,142,85,10
+    CONTROL         "Incoming File",IDC_EVENT_FILE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,153,85,10
+    CONTROL         "Authorisation Request",IDC_EVENT_AUTHREQUEST,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,164,85,10
+    CONTROL         "Added to Contact List",IDC_EVENT_ADDED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,175,85,10
+    CONTROL         "Ignore event if message dialog is focused",
+                    IDC_DIALOG_FOCUSED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    120,153,181,10
+    GROUPBOX        "Status Messages",IDC_STATIC,112,7,195,107
+    CONTROL         "Announce status changes on connect",
+                    IDC_SUPPRESS_CONNECT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,120,19,181,10
+END
+
+IDD_ACTIVEMODES DIALOG DISCARDABLE  0, 0, 314, 240
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Active Modes",   IDC_STATIC,                                                     0,  0, 85, 240
+    CONTROL         "Online",         IDC_ACTIVE_ONLINE,      "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 5, 13, 75, 10
+    CONTROL         "Away",           IDC_ACTIVE_AWAY,        "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 5, 24, 75, 10
+    CONTROL         "Do not Disturb", IDC_ACTIVE_DND,         "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 5, 35, 75, 10
+    CONTROL         "Not Available",  IDC_ACTIVE_NA,          "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 5, 46, 75, 10
+    CONTROL         "Occupied",       IDC_ACTIVE_OCCUPIED,    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 5, 57, 75, 10
+    CONTROL         "Free for Chat",  IDC_ACTIVE_FREEFORCHAT, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 5, 68, 75, 10
+    CONTROL         "Invisible",      IDC_ACTIVE_INVISIBLE,   "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 5, 79, 75, 10
+    
+	GROUPBOX        "Active Users",        IDC_STATIC,                                             95,   0, 210, 240
+	LTEXT           "The following events are being ignored:", IDC_STATIC,                        100,  10, 200,   8
+	CONTROL         "",                    IDC_ACTIVE_USERS, "CListControl",  WS_TABSTOP | 0x3da, 100,  20, 200, 175, WS_EX_CLIENTEDGE
+    ICON            IDI_RECVMSG,           IDC_MSGICON,                                           100, 215,  20,  20, SS_CENTERIMAGE
+    LTEXT           "Messages",            IDC_STATIC,                                            120, 221,  70,   8, SS_NOPREFIX | SS_CENTERIMAGE
+	ICON            IDI_USERONLINE,        IDC_ONLINEICON,                                        200, 215,  20,  20, SS_CENTERIMAGE
+    LTEXT           "Online Notification", IDC_STATIC,                                            220, 221, 107,   8, SS_NOPREFIX | SS_CENTERIMAGE
+	ICON            IDI_FILLEDBLOB,        IDC_ALLICON,                                           100, 195,  20,  20, SS_CENTERIMAGE
+    LTEXT           "All Events",          IDC_STATIC,                                            120, 201,  66,   8, SS_NOPREFIX | SS_CENTERIMAGE
+    ICON            IDI_EMPTYBLOB,         IDC_NONEICON,                                          200, 195,  20,  20, SS_CENTERIMAGE
+    LTEXT           "None",                IDC_STATIC,                                            220, 201,  66,   8, SS_NOPREFIX | SS_CENTERIMAGE
+END
+
+IDD_TTS_LEXICON DIALOG DISCARDABLE  0, 0, 262, 186
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "List2",IDC_TTS_LEXICON_LIST,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,7,7,247,135
+    EDITTEXT        IDC_TTS_LEXICON_ORIGINAL,7,147,118,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TTS_LEXICON_FINAL,131,147,123,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Add",IDC_TTS_LEXICON_ADD,61,164,50,15
+    PUSHBUTTON      "Remove",IDC_TTS_LEXICON_REMOVE,116,164,50,15
+    PUSHBUTTON      "Test",IDC_TTS_LEXICON_TEST,7,164,50,15
+END
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+	"..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+	"#include ""afxres.h""\r\n"
+	"\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+	"\r\n"
+	"\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_RESTARTICON         ICON         "restart.ico"
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
