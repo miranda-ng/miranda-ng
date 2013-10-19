@@ -24,10 +24,10 @@ Pokaż rozłączone kontakty dla tych protokołów:
 Ale ukryj, jeśli protokół jest rozłączony
 [Append group name to contact name]
 Dołącz nazwę grupy do nazwy kontaktu
-[But show it as a column ...]
-Ale pokaż z prawej strony kolumny ...
-[... on left side of name]
-... z lewej strony od nazwy
+[But show it as a column...]
+Ale pokaż z prawej strony kolumny...
+[...on left side of name]
+...z lewej strony od nazwy
 [Hide subcontacts]
 Ukryj subkontakty
 [But keep subcontacts of protocols in above list if meta is hidden]

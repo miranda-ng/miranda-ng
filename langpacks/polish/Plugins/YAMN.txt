@@ -64,8 +64,8 @@ Sprawdź przy starcie
 Automatycznie pobierz treść
 [Check from menu]
 Sprawdź z menu
-[Only check when ...]
-Sprawdź, gdy ...
+[Only check when...]
+Sprawdź wyłącznie, gdy...
 [Sound notification if failed]
 Powiadomienie dźwiękiem, gdy niepowodzenie
 [Message notification if failed]
@@ -90,7 +90,7 @@ Opcje
 Nowy mail
 [Errors]
 Błędy
-[Check while ...]
+[Check while...]
 Sprawdź, gdy...
 [Cancel]
 Anuluj

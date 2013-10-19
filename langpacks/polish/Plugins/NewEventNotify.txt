@@ -32,7 +32,7 @@ Tekst
 Tło
 [Time to expires]
 Wyświetlaj
-[Notify me of ...]
+[Notify me of...]
 Powiadom mnie o...
 [Left Click Actions]
 Akcja LPM

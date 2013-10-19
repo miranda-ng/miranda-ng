@@ -8,94 +8,90 @@
 [Anti-spam plugin with captcha and Bayes filtering.]
 Antyspam dla ICQ w Mirandzie NG, z captcha i filtrowaniem Bayesa.
 ;file \plugins\Spamotron\res\spamotron.rc
-[Do not send challenge request if message score above]
-Nie wysyłaj prośby o rozwiązanie zadania, jeśli wynik wiadomości powyżej
-[Auto-learn messages from approved contacts as ham]
-Automatycznie ucz się wiadomości od zatwierdzonych kontaktów jako wysyłanych przez człowieka
-[Filtering options]
-Opcje filtrowania
-[Learning options]
-Opcje uczenia się
-[Auto-learn outgoing messages as ham]
-Automatycznie ucz się wiadomości wychodzących jako wysyłanych przez człowieka
-[Spam]
-Spam
-[Ham]
-Wysłane przez człowieka
-[Learn message:]
-Naucz się wiadomości:
-[Auto approve contact if message score below]
-Automatycznie zatwierdź kontakt, gdy wynik wiadomości poniżej
-[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
-Nie włączaj żadnej z tych opcji dopóki Spam-o-tron nie nauczy się przynajmniej 20 wiadomości wysyłanych przez człowieka oraz 50 wiadomości spam.
+[Enabled]
+Włączony
 [Learned ham messages:]
 Wiadomośći przyswojone jako wysyłane przez człowieka:
 [Learned spam messages:]
 Wiadomości przyswojone jako spam:
-[Analyze]
-Analizuj
+[Filtering options]
+Opcje filtrowania
+[Do not send challenge request if message score above]
+Nie wysyłaj prośby o rozwiązanie zadania, jeśli wynik wiadomości powyżej
+[Auto approve contact if message score below]
+Automatycznie zatwierdź kontakt, gdy wynik wiadomości poniżej
+[and learn as ham]
+i ucz się jako wysyłanych przez człowieka
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
+Nie włączaj żadnej z tych opcji dopóki Spam-o-tron nie nauczy się przynajmniej 20 wiadomości wysyłanych przez człowieka oraz 50 wiadomości spam.
+[Learning options]
+Opcje uczenia się
+[Auto-learn messages from approved contacts as ham]
+Automatycznie ucz się wiadomości od zatwierdzonych kontaktów jako wysyłanych przez człowieka
 [Auto-learn messages from contacts if not approved in]
 Automatycznie ucz się wiadomości od kontaktów, jeżeli niezatwierdzone w
 [days as spam]
 dni jako spam
-[Enabled]
-Włączony
-[and learn as ham]
-i ucz się jako wysyłanych przez człowieka
-[Enabled accounts:]
-Włączone konta:
-[Do not reply to messages with words in this list:]
-Nie odpowiadaj na wiadomości zawierające słowa z tej listy:
-[Do not reply to the same message more than]
-Nie odpowiadaj na tę samą wiadomość więcej niż
-[Flood protection]
-Ochrona przed floodem
-[Do not send more than]
-Nie wysyłaj więcej niż
-[messages to one contact per day]
-wiadomości do jednego kontaktu dziennie
-[times a day]
-razy dziennie
+[Auto-learn outgoing messages as ham]
+Automatycznie ucz się wiadomości wychodzących jako wysyłanych przez człowieka
+[Learn message:]
+Naucz się wiadomości:
+[Spam]
+Spam
+[Ham]
+Wysłane przez człowieka
+[Analyze]
+Analizuj
 [Settings]
 Ustawienia
+[Enabled accounts:]
+Włączone konta:
+[Auto approve on:]
+Zatwierdzaj automatycznie, gdy:
 [Outgoing message]
 Wychodząca wiadomość
 [Incoming message with any word from list:]
 Wiadomość przychodząca z jakimkolwiek słowem z listy:
-[Auto approve on:]
-Zatwierdzaj automatycznie, gdy:
 [Hide contact until verified]
 Ukryj kontakt dopóki nie zostanie zweryfikowany
 [Add permanently to list on verified]
 Dodaj na stałe do listy po zweryfikowaniu
 [Log actions to system history]
 Loguj akcje do historii systemowej
+[Flood protection]
+Ochrona przed floodem
+[Do not send more than]
+Nie wysyłaj więcej niż
+[messages to one contact per day]
+wiadomości do jednego kontaktu dziennie
+[Do not reply to the same message more than]
+Nie odpowiadaj na tę samą wiadomość więcej niż
+[times a day]
+razy dziennie
+[Do not reply to messages with words in this list:]
+Nie odpowiadaj na wiadomości zawierające słowa z tej listy:
 [Mode:]
 Tryb:
-[Responses: (saved in %response%, %response-n% variables)]
-Odpowiedzi: (zapisane w zmiennych %response%, %response-n)
+[Case-sensitive]
+Wielkość liter ma znaczenie
 [will be saved in %mathexpr%]
 zostaną zapisane w %mathexpr%
-[Reset to defaults]
-Ustaw domyślnie
+[Send challenge on incoming message:]
+Wyślij zadanie w odpowiedzi na przychodzącą wiadomość:
+[Responses: (saved in %response%, %response-n% variables)]
+Odpowiedzi: (zapisane w zmiennych %response%, %response-n)
 [Reply on success:]
 Odpowiedz po osiągnięciu sukcesu:
 [Send challenge on authorization request:]
 Wyślij zadanie przy prośbie o autoryzację:
 [Keep blocked messages in contact history]
 Przechowuj zablokowane wiadomości w historii kontaktu
-[Case-sensitive]
-Wielkość liter ma znaczenie
-[Send challenge on incoming message:]
-Wyślij zadanie w odpowiedzi na przychodzącą wiadomość:
 [and mark them unread after approval]
 i oznacz ją jako nieprzeczytaną po zatwierdzeniu
+[Reset to defaults]
+Ustaw domyślnie
 [Enable popup notifications]
 Włącz popupy
-[Contact blocked]
-Kontakt zablokowany
-[Contact approved]
-Kontakt zatwierdzony
 [Appearance]
 Personalizacja
 [Foreground]
@@ -104,16 +100,20 @@ Pierwszy Plan
 Tło
 [Timeout]
 Wyświetlaj
+[Contact blocked]
+Kontakt zablokowany
+[Contact approved]
+Kontakt zatwierdzony
+[Challenge sent]
+Zadanie wysłane
 [Default colors]
 Domyślne kolory
+[Windows colors]
+Kolory Windows
 [Default timeout]
 Domyślny czas oczekiwania
 [Preview]
 Podgląd
-[Windows colors]
-Kolory Windows
-[Challenge sent]
-Zadanie wysłane
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Ścieżka do bazy danych Bayes

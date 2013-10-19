@@ -96,8 +96,6 @@ Zmiana na Dostępny
 Użytkownik wylogowany
 [User Logged In]
 Użytkownik zalogowany
-[Last seen]
-Ostatnio widziany
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <nieznany>
@@ -108,6 +106,8 @@ Ostatnio widziany
 Zmienne
 [Contacts]
 Kontakty
+[Last seen]
+Ostatnio widziany
 [Popups]
 Popupy
 ;file \plugins\SeenPlugin\src\seen.h

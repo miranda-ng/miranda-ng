@@ -24,8 +24,8 @@ Pozostałe
 Powiadomienia o wiadomościach
 [Blink if message window is open]
 Migaj, jeśli okno rozmowy jest otwarte
-[     ... and not in foreground]
-     ... i nie na pierwszym planie
+[and not in foreground]
+i nie na pierwszym planie
 [Only if last is]
 Tylko, jeśli ostatnie to
 [sec. old]

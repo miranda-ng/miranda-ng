@@ -66,8 +66,8 @@ icons.dll
 Lista zablokowanych
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąc osobe z listy aby móc z nim porozmawiać.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
-Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liscie i wybierając opcje Zablokuj Kontakt ...
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
+Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liscie i wybierając opcje Zablokuj Kontakt...
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier. 
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
@@ -110,8 +110,8 @@ Nie pokazuj w menu startu
 (dodano ręcznie)
 [Extra Command Line Parameters:]
 Parametry komend:
-[Edit ...]
-Edytuj ...
+[Edit...]
+Edytuj...
 [Username:]
 Użytkownik:
 [Game]
@@ -426,8 +426,8 @@ Lista zablokowanych/Gry
 [StatusMsg]
 Opis
 ;file \protocols\Xfire\src\pwd_dlg.cpp
-[Please enter server password ...]
-Proszę wprowadzić hasło serwera ...
+[Please enter server password...]
+Proszę wprowadzić hasło serwera...
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 Zapisz w bazie danych

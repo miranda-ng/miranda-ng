@@ -50,10 +50,10 @@ Temat
 [Sender]
 Nadawca
 ;file \plugins\Exchange\src\emails.cpp
-[You have %d unread emails ...]
-Masz %d nieprzeczytane wiadomości ...
-[You have one unread email ...]
-Masz jedną nieprzeczytaną wiadomość ...
+[You have %d unread emails...]
+Masz %d nieprzeczytane wiadomości...
+[You have one unread email...]
+Masz jedną nieprzeczytaną wiadomość...
 [Exchange email]
 email Exchange
 [Do you want to see the email headers?]

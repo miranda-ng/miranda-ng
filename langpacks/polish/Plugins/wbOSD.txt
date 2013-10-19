@@ -8,60 +8,64 @@
 [Shows new message/status change info using on-screen display.]
 Wyświetla na ekranie informacje o nowej wiadomości lub zmianie statusu wykorzystując wyświetlanie na ekranie (OSD).
 ;file \plugins\wbOSD\res\wbOSD.rc
-[Dialog]
-Okno
+[General]
+Ogólne
+[Align]
+Wyrównaj
 [Select font]
 Wybierz czcionkę
-[Text color]
-Kolor tekstu
-[Background color]
-Kolor tła
-[Transparent]
-Przeźroczysty
+[Shadow]
+Cień
+[Show drop shadow]
+Pokaż cień
+[Shadow align]
+Wyrównanie cienia
 [Shadow color]
 Kolor cienia
 [Alternative shadow]
 Alternatywny cień
-[Shadow align]
-Wyrównanie cienia
-[General]
-Ogólne
-[Shadow]
-Cień
-[Align]
-Wyrównaj
 [Shadow distance:]
 Odległość cienia:
 [Other]
 Inne
+[Background color]
+Kolor tła
+[Transparent]
+Przeźroczysty
 [Alpha:]
 Alpha:
-[Announce]
-Oznajmiaj
-[Timeout (ms):]
-Czas oczekiwania (ms):
-[Show]
-Pokaż
-[Show events]
-Pokazuj wydarzenia
-[Status changes]
-Zmiany statusu
-[Show testing OSD]
-Pokaż testowe OSD
-[Show my status changes]
-Pokazuj moje zmiany statusu
-[Show message window after click]
-Pokaż okno rozmowy po kliknięciu
 [Static]
 Statyczne
+[Timeout (ms):]
+Czas oczekiwania (ms):
+[Show testing OSD]
+Pokaż testowe OSD
+[Announce]
+Oznajmiaj
+[Status changes]
+Zmiany statusu
+[Show my status changes]
+Pokazuj moje zmiany statusu
+[Text color]
+Kolor tekstu
+[Show events]
+Pokazuj wydarzenia
 [Format:]
 Format:
+[Show message window after click]
+Pokaż okno rozmowy po kliknięciu
 [Show when my status is:]
 Pokaż, gdy mój status to:
 ;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s jest %s
 ;file \plugins\wbOSD\src\options.cpp
+[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
+Zmienne:\n  %n : Nick\n  %m : Wiadomość\n  %l : Nowa linia
+[Help]
+Pomoc
+[Miranda NG is great and this is a long message.]
+Miranda NG jest świetna, a to jest długa wiadomość.
 [Plugins]
 Wtyczki
 [OSD]

@@ -42,26 +42,16 @@ Całkiem
 Przywróć ostatnią otwartą pozycję
 [Automatically expand "settings" when Database Editor ++ starts]
 Automatycznie rozwiń "ustawienia" podczas włączania edytora profilu
-[Use known modules list]
-Użyj listy znanych modułów
 [Warn when deleting modules]
 Ostrzeż przed usuwaniem modułów
 ["Open user tree in DBE++" menu item]
 Dodaj do menu kontaktu element "Otwórz w edytorze profilu"
 [Use popups when watched settings change values]
 Użyj popupów kiedy oglądane ustawienia zmieniają wartość.
-[Modules to ALWAYS mark as known (e.g core modules)]
-Moduły ZAWSZE oznaczane jako znane (np. moduły rdzenia)
-[Put a space or comma between each module name]
-Umieść spację lub przecinek między nazwami modułów
-[Changes to this list will take effect next time miranda starts]
-Zmiany na tej liście przyniosą efekt po ponownym uruchomieniu Mirandy
 [Popup timeout (0 for infinite)]
 Wyświetlania (0 = Nie chowaj)
 [Background color]
 Kolor tła
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Jeśli moduł ma w nazwie spację, umieść \\ przed spacją, np. "aaa\\ bbb"
 [Add a module to contact]
 Dodaj moduł do kontaktu
 [Add a module named]
@@ -192,8 +182,6 @@ Zmień nazwę
 Kopiuj do kontaktu
 [Export Module]
 Eksportuj moduł
-[Add To Known Modules]
-Dodaj do znanych modułów
 [&Clone]
 Klon
 [Export Contact]
@@ -306,10 +294,6 @@ Zakończono. Znaleziono %d rzeczy.
 Zamknięto Znane Moduły
 [Open Known Module]
 Otworzono Znane Moduły
-[Closed Unknown Module]
-Zamknięto Nieznane Moduły
-[Open Unknown Module]
-Otworzono Nieznane Moduły
 [Contacts Group]
 Grupa kontaktów
 [Unknown Contact]

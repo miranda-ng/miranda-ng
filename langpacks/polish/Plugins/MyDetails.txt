@@ -157,8 +157,6 @@ Następny protokół
 Ustaw mój nick dla %s
 [Set My Status Message for %s]
 Ustaw mój opis dla %s
-[Show next protocol]
-Pokaż następny protokół
 [Contact List]
 Lista kontaktów
 ;file \plugins\MyDetails\src\options.cpp

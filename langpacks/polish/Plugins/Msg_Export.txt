@@ -75,10 +75,10 @@ Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]
 Nie udało się zapisać do pola edycji z formatowaniem, zbyt mały bufor.
-[Error: Optimal buffer size decrecied to a to low size !!]
+[Error: Optimal buffer size decrecied to a to low size!]
 Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
-[Internal error !! (lExtraRead >= 0)]
-Błąd wewnętrzny !! (lExtraRead >= 0)
+[Internal error! (lExtraRead >= 0)]
+Błąd wewnętrzny! (lExtraRead >= 0)
 [Faile to execute external file view]
 Nie udało się wykonać zewnętrznego widoku pliku
 [Failed to load Rich Edit ( RICHED32.DLL )]
@@ -91,7 +91,7 @@ Nie udało się otworzyć pliku\r\n%s\r\n\r\nIdentyfikator kontaktu jest niepraw
 Nie udało się otworzyć pliku\r\n%s\r\n\r\nBaza danych Mirandy zawiera %d zdarzeń
 [With scroll to bottom %d\n]
 Z przewijaniem w dół %d\n
-[Search string was not found !]
+[Search string was not found!]
 Szukana fraza nie została znaleziona!
 [Save as RTF]
 Zapisz jako RTF
@@ -140,7 +140,7 @@ Nick
 Protokół
 [UIN]
 UIN
-[You have unapplyed changes do you wish to apply these first?]
+[You have not applied the changes, do you wish to apply them first?]
 Masz niezapisane zmiany, czy chcesz je teraz zapisać?
 [Executable files]
 Pliki wykonywalne

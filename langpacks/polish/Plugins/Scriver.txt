@@ -859,7 +859,9 @@ folder docelowy bieżącego profilu mirandy
 [name of current miranda profile (filename, without extension)]
 nazwa aktualnego profilu mirandy (nazwa pliku bez rozszerzenia)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
+zwróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_userdata%\\Logs]
+zwróci analizowany ciąg %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]

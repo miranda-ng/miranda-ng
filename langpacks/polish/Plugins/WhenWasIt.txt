@@ -217,7 +217,7 @@ Nie udało się stworzyć wątku roboczego. Error#%d - threadID %d
 Błąd
 [Birthdays files]
 Urodzinowe pliki
-[Please select a file to import birthdays from ...]
+[Please select a file to import birthdays from...]
 Proszę wybrać plik, z którego mają zostać zaimportowane urodziny...
 [Importing birthdays from file: %s]
 Importowanie urodzin z pliku: %s
@@ -225,7 +225,7 @@ Importowanie urodzin z pliku: %s
 Importowanie urodzin zakończone
 [All Files]
 Wszystkie pliki
-[Please select a file to export birthdays to ...]
+[Please select a file to export birthdays to...]
 Proszę wybrać plik, do którego mają zostać wyeksportowane urodziny...
 [Exporting birthdays to file: %s]
 Eksportowanie urodzin do pliku: %s

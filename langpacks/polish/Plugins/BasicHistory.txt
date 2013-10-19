@@ -66,7 +66,7 @@ Wyszukuj do przodu w oknie rozmowy
 Po wielkości liter
 [Match Whole Word]
 Po całych wyrazach
-[Only Incomming Messages]
+[Only Incoming Messages]
 Tylko przychodzące wiadomości
 [Only Outgoing Messages]
 Tylko wychodzące wiadomości
@@ -313,7 +313,7 @@ Przełącz wielkość liter
 Przełącz całe wyrazy
 [Show/Hide Contacts]
 Pokaż/ukryj kontakty
-[Switch Only Incomming Messages]
+[Switch Only Incoming Messages]
 Przełącz na przychodzące wiadomości
 [Switch Only Outgoing Messages]
 Przełącz na wychodzące wiadomości

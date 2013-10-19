@@ -65,8 +65,8 @@ Przychodzący transfer pliku. Czy chcesz kontynuować?
 Anulowane przez drugą stronę
 [New incoming file request. Do you want to proceed?]
 Nowy przychodzący plik. Czy odebrać?
-[Paused, because connection dropped]
-Wstrzymane, z powodu utraconego połączenia
+[File transfer is paused because of dropped connection]
+Transfer plików wstrzymany z powodu utraconego połączenia
 [Failed on file initialization]
 Błąd inicializacji pliku
 [Paused...]

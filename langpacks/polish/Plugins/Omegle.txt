@@ -32,8 +32,6 @@ Automatycznie łącz z innym obcym, gdy obecny się rozłączy
 Nie czyść czatu przed połączeniem z nowym obcym
 [Load count of users on actual server after connection]
 Ładuj liczbę użytkowników obecnego serwera po połączeniu
-[Enable logging for debugging purposes]
-Włącz logowanie w celu debugowania
 [Meet strangers with common interests]
 Spotykaj obcych o wspólnych zainteresowaniach
 [Your interests (separated by commas):]
