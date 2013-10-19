@@ -64,7 +64,7 @@ BEGIN
     LTEXT           "URL",-1,73,46,85,8,NOT WS_GROUP
     LTEXT           "File transfer",-1,73,64,85,8,NOT WS_GROUP
     GROUPBOX        "...change status to...",-1,45,86,220,68,WS_GROUP
-    GROUPBOX        "... if status is...",-1,45,163,220,68,WS_GROUP
+    GROUPBOX        "...if status is...",-1,45,163,220,68,WS_GROUP
     ICON            "",IDC_MSGICON,51,20,21,20,SS_CENTERIMAGE
     ICON            "",IDC_URLICON,51,40,21,20,SS_CENTERIMAGE
     ICON            "",IDC_FILEICON,51,59,21,20,SS_CENTERIMAGE

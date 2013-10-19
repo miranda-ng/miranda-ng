@@ -86,7 +86,7 @@ int CExchangeServer::Connect(int bForceConnect)
 				return DoConnect(user, password, server, port);			
 			}
 			else {
-				_popupUtil("Server is not configured ...");
+				_popupUtil("Server is not configured...");
 			}
 		}
 	return -1; //0 on success, != 0 otherwise
@@ -335,10 +335,10 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 		TCHAR buffer[1024];
 		if (count != 1)
 		{
-			mir_sntprintf(buffer,_countof(buffer), TranslateT("You have %d unread emails ..."), count);
+			mir_sntprintf(buffer,_countof(buffer), TranslateT("You have %d unread emails..."), count);
 		}
 		else {
-			mir_sntprintf(buffer, _countof(buffer),TranslateT("You have one unread email ..."));
+			mir_sntprintf(buffer, _countof(buffer),TranslateT("You have one unread email..."));
 		}
 
 		ShowMessage(buffer, count);
@@ -361,7 +361,7 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 
 	if (count==-1)
 	{
-		_popupUtil("Cannot connect to Exchange server ...");
+		_popupUtil("Cannot connect to Exchange server...");
 	}
 
 	return count;

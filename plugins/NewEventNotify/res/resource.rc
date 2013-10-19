@@ -81,7 +81,7 @@ BEGIN
                     WS_TABSTOP,185,91,11,10
     CONTROL         "",IDC_CHKINFINITE_OTHERS,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,185,103,11,10
-    GROUPBOX        "Notify me of ...",IDC_STATIC,208,2,100,56
+    GROUPBOX        "Notify me of...",IDC_STATIC,208,2,100,56
     CONTROL         "Message",IDC_CHKNOTIFY_MESSAGE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,212,11,90,10
     CONTROL         "URL",IDC_CHKNOTIFY_URL,"Button",BS_AUTOCHECKBOX | 

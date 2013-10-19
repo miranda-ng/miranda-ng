@@ -232,7 +232,7 @@ INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = 1024;
-	of.lpstrTitle = TranslateT("Please select a file to import birthdays from ...");
+	of.lpstrTitle = TranslateT("Please select a file to import birthdays from...");
 	of.Flags = OFN_FILEMUSTEXIST;
 
 	if ( GetOpenFileName(&of)) {
@@ -257,7 +257,7 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = 1024;
-	of.lpstrTitle = TranslateT("Please select a file to export birthdays to ...");
+	of.lpstrTitle = TranslateT("Please select a file to export birthdays to...");
 
 	if ( GetSaveFileName(&of)) {
 		TCHAR buffer[2048];

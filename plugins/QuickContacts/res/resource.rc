@@ -48,9 +48,9 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,159,214,8
     CONTROL         "Append group name to contact name",IDC_APPEND_GROUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,225,8
-    CONTROL         "But show it as a column ...",IDC_GROUP_COLUMN,"Button",
+    CONTROL         "But show it as a column...",IDC_GROUP_COLUMN,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,27,183,214,8
-    CONTROL         "... on left side of name",IDC_GROUP_LEFT,"Button",
+    CONTROL         "...on left side of name",IDC_GROUP_LEFT,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,27,195,214,8
     CONTROL         "Hide subcontacts",IDC_SUBCONTACTS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,16,207,225,8
