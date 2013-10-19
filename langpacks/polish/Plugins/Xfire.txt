@@ -7,11 +7,11 @@
 ;============================================================
 [Xfire protocol support for Miranda NG.]
 Wsparcie dla protokołu xFire.
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 Hasło:
-[Loginname:]
-Login:
+[Login name:]
+Nazwa użytkownika:
 [XFire]
 XFire
 [Nick:]
@@ -48,10 +48,6 @@ Pokazuj znajmomym moich znajomych
 Opcje
 [More options]
 Więcej opcji
-[Gameicon:]
-Ikona Gry:
-[Voiceicon:]
-Głosowa Ikona
 [Display Error and Infomessage:]
 Pokaż błąd i informacje:
 [Main group for clan groups:]
@@ -124,16 +120,12 @@ Gra
 Głosowy chat
 [Name:]
 Nazwa:
-[Unreal Tournament 2004]
-Unreal Tournament 2004
 [IP:]
 IP:
 [Port:]
 Port:
 [Userdetails]
 Dane kontaktu
-[dufte]
-niesamowite
 [Copy]
 Kopiuj
 [Enter Password]
@@ -180,7 +172,6 @@ Parametr:
 Dodaj nową grę
 [Searching games ...]
 Poszukiwanie gier...
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Wszystkie pliki
@@ -317,8 +308,8 @@ xFire nie wspiera pisania offline
 Użytkownik
 [Unable to connect to XFire.]
 Nie można podłączyć się do xFire
-[No Loginname is set!]
-Nie ustawiono loginu!
+[No Login name is set!]
+Nie ustawiono nazwy użytkownika!
 [No Password is set!]
 Nie ustawiono hasła!
 [Last game: %s playtime: %.2d:%.2d:%.2d]
@@ -436,7 +427,7 @@ Lista zablokowanych/Gry
 Opis
 ;file \protocols\Xfire\src\pwd_dlg.cpp
 [Please enter server password ...]
-
+Proszę wprowadzić hasło serwera ...
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 Zapisz w bazie danych
