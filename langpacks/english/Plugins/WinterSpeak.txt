@@ -1,44 +1,24 @@
-#muuid {81E189DC-C251-45F6-9EDF-A0F3A05C4248}
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
-;  File: Speak.dll
-;  Plugin: Winter speak
+;  File: speak.dll
+;  Plugin: Speak
 ;  Version: 0.9.8.0
-;  Authors: Ryan Winter
+;  Authors: Ryan Winter, BlubbFish
 ;============================================================
-; Status changes
-[%u is now offline]
-[%u is now online]
-[%u is away]
-[%u is invisible]
-[%u is not available]
-[%u does not want to be disturbed]
-[%u is occupied]
-[%u is free for chat]
-
-; Events
-[incoming message from %u]
-[incoming U R L from %u]
-[you have been added to %u's contact list]
-[%u requests your authorization]
-[there is an incoming file from %u]
-[%u says]
-
-; Options Title
-[Engine/Voice]
-[Announce]
-[Active Modes]
-
-; Optionpage Engine/Voice
+[Miranda interface to the Microsoft Speech API]
+;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
-[Engine]
-[Voice]
-[Volume]
 [Rate]
+[Volume]
+[Voice]
 [Pitch]
-[testing testing 1 2 3]
+[Test]
+[Engine]
 [Welcome Message]
-
-; Optionpage Announce
+[Lexicon]
+[Message Events]
+[Read message if less characters than]
+[Ignore event if message dialog is open]
 [Status Changes]
 [Offline]
 [Online]
@@ -48,35 +28,40 @@
 [Occupied]
 [Free for Chat]
 [Invisible]
-
-[Occuring Events]
+[Occurring Events]
 [Incoming Message]
 [Incoming URL]
 [Incoming File]
-[Authorisation Request]
+[Authorization Request]
 [Added to Contact List]
-
+[Ignore event if message dialog is focused]
 [Status Messages]
 [Announce status changes on connect]
-
-[Message Events]
-[Read message if less characters than]
-[Ignore event if message dialog is open]
-[Ignore event if message dialog is focused]
-
-; Optionpage Active Mode
 [Active Modes]
-[Online]
-[Away]
-[Do not Disturb]
-[Not Available]
-[Occupied]
-[Free for Chat]
-[Invisible]
-
 [Active Users]
 [The following events are being ignored:]
 [Messages]
 [Online Notification]
 [All Events]
 [None]
+[Add]
+[Remove]
+;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
+[** All contacts **]
+[** Unknown contacts **]
+;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
+[testing testing 1 2 3]
+;file \plugins\WinterSpeak\src\EventInformation.cpp
+[incoming message from %u]
+[incoming U R L from %u]
+[you have been added to %u's contact list]
+[%u requests your authorization]
+[there is an incoming file from %u]
+[%u says]
+;file \plugins\WinterSpeak\src\main.cpp
+[Speak]
+[Engine/Voice]
+[Announce]
+;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
+[Message Session]
+[Message Received]

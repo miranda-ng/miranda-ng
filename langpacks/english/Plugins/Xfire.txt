@@ -36,7 +36,7 @@
 [icons.dll]
 [Blocked User List]
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 [Be sure you put these files in following folder:]
@@ -58,7 +58,7 @@
 [Don't show in start menu]
 [(manual added)]
 [Extra Command Line Parameters:]
-[Edit ...]
+[Edit...]
 [Username:]
 [Game]
 [Voicechat]
@@ -219,7 +219,7 @@
 [Blocklist / Games]
 [StatusMsg]
 ;file \protocols\Xfire\src\pwd_dlg.cpp
-[Please enter server password ...]
+[Please enter server password...]
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 [Games found:%s%s]

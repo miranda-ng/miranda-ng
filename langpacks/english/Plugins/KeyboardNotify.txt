@@ -15,7 +15,7 @@
 [Everything else]
 [Message-Event only]
 [Blink if message window is open]
-[     ... and not in foreground]
+[and not in foreground]
 [Only if last is]
 [sec. old]
 [Flash until]
