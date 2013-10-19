@@ -41,7 +41,7 @@ Copier l'URL de téléchargement dans la fenêtre de messages
 [Autosend download link to contact]
 Envoyer automatiquement l'URL au contact
 [Menu items]
-
+Arrangement du menu
 [Use submenu (restart required)]
 Utiliser sous-menu
 [Hide inactive accounts]
@@ -51,13 +51,13 @@ Autres
 [Automatically delete file from FTP server after (experimental):]
 Effacer le fichier sur le FTP automatiquement après (expérimental):
 [ZIP support]
-
+Compression Zip
 [Enter archive name manually]
 Entrer le nom de l'archive manuellement
 [Compression level:]
 Niveau de compression:
 [Upload File Manager]
-
+Gestionnaire de transfert de fichiers
 [File:]
 Fichier:
 [Completed:]
@@ -81,17 +81,17 @@ Paramètres
 [Pause]
 Pause
 [File Manager]
-
+Gestionnaire de fichiers
 [Server:]
 Serveur:
 [User info]
-
+Informations Utilisateur
 [UPLOADING...]
 
 [Open in Browser]
 Ouvrir dans le navigateur
 [FTP File Manager]
-
+Gestionnaire de fichiers FTP
 [Select All]
 Tout sélectionner
 [Deselect All]
@@ -167,15 +167,15 @@ Compresser et envoyer un(des) fichier(s)
 [Zip and upload folder]
 Compresser et envoyer un dossier
 [FTP File manager]
-
+Gestionnaire de fichiers FTP
 [Show FTPFile manager]
-
+Afficher le Gestionnaire de fichiers FTP
 [FTP_ShowManager]
 
 [Upload file]
-
+Envoyer un(des) fichier(s)
 [Zip and upload file]
-
+Compresser et envoyer un(des) fichier(s)
 [You have to fill FTP server setting before upload a file.]
 Vous devez compléter les informations du serveur FTP avant d'envoyer un fichier.
 [Error has occurred while trying to create a dialog!]
