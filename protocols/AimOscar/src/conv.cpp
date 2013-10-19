@@ -26,6 +26,7 @@ char* process_status_msg (const char *str, const char* sn)
 	size_t size = strlen(src) + 1;
 	char* res = (char*)mir_alloc(size);
 	char* dest = res;
+	size_t len = strlen(sn);
 
 	for (; *src; ++src)
 	{
@@ -39,7 +40,6 @@ char* process_status_msg (const char *str, const char* sn)
 		}
 		else if (src[0] == '%' && src[1] == 'n')
 		{
-			size_t len = strlen(sn);
 			int off = dest - res;
 			res = (char*)mir_realloc(res, size + len);
 			dest = res + off;

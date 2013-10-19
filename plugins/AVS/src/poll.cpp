@@ -136,11 +136,9 @@ static void QueueAdd(HANDLE hContact, int waitTime)
 			return;
 
 	QueueItem *item = new QueueItem;
-	if (item != NULL) {
-		item->hContact = hContact;
-		item->check_time = GetTickCount() + waitTime;
-		queue.insert(item);
-	}
+	item->hContact = hContact;
+	item->check_time = GetTickCount() + waitTime;
+	queue.insert(item);
 }
 
 // Add an contact to a queue

@@ -1223,10 +1223,10 @@ TCHAR* UM_FindUserAutoComplete(USERINFO* pUserList, const TCHAR* pszOriginal, co
 
 BOOL UM_RemoveUser(USERINFO** ppUserList, const TCHAR* pszUID)
 {
-	USERINFO *pTemp = *ppUserList, *pLast = NULL;
-
 	if (!ppUserList || !pszUID)
 		return FALSE;
+
+	USERINFO *pTemp = *ppUserList, *pLast = NULL;
 
 	while (pTemp != NULL) {
 		if (!lstrcmpi(pTemp->pszUID, pszUID)) {

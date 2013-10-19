@@ -538,7 +538,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemText(hwndDlg, IDC_DESC, buff, MAX_PATH);
 					replaceStrT(add_edit_alarm->szDesc, buff);
 
-					if (add_edit_alarm->szTitle == 0 || _tcslen(add_edit_alarm->szTitle) == 0) {
+					if (add_edit_alarm->szTitle == 0 || add_edit_alarm->szTitle[0] == '\0') {
 						MessageBox(hwndDlg, TranslateT("Please enter a title for this alarm."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						return TRUE;
 					}

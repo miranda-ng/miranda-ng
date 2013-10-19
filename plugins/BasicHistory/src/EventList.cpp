@@ -643,7 +643,7 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, buf, dbei.cbBlob, NULL, NULL);
 			dbei.pBlob = (PBYTE)buf;
 			db_event_add(hContact, &dbei);
-			delete buf;
+			delete [] buf;
 		}
 	}
 
@@ -728,7 +728,6 @@ void EventList::AddImporter(HANDLE hContact, IImport::ImportType type, const std
 	EnterCriticalSection(&criticalSection);
 	TCHAR buf[32];
 	mir_sntprintf(buf, SIZEOF(buf), _T("%016llx"), (unsigned long long int)hContact);
-	std::wstring internalFile = contactFileDir;
 	ImportDiscData data;
 	data.file = contactFileDir + buf;
 	data.type = type;

@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendMessage(hwndDlg,WM_COMMAND,MAKEWPARAM(IDC_STATUS,CBN_SELCHANGE),0);
 			for (int i=0; i < count; i++ ) {
 				db_set_b(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
-				if ( (settings[i]->useCustom) && (settings[i]->msg != NULL) && (strlen(settings[i]->msg) > 0))
+				if ( (settings[i]->useCustom) && (settings[i]->msg != NULL) && (settings[i]->msg[0] != '\0'))
 					db_set_s(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_STATUSMSG), settings[i]->msg);
 			}
 			break;

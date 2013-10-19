@@ -984,7 +984,6 @@ bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::stri
 
 bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::string& password)
 {
-	std::list<std::wstring> files;
 	bool error = false;
 	zlib_filefunc_def pzlib_filefunc_def;
 	fill_win32_filefunc(&pzlib_filefunc_def);
@@ -1195,7 +1194,6 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 
 bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, const std::wstring& ftpName)
 {
-	std::map<std::wstring, bool> existingContacts;
 	std::wstring script = dir + _T("\\script.sc");
 	std::wofstream stream (script.c_str());
 	if (stream.is_open()) {

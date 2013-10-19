@@ -35,8 +35,8 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			ewd = (ErrorWindowData *) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) ewd);
 			TranslateDialogDefault(hwndDlg);
-			ShowWindow(GetParent(ewd->hwndParent), SW_RESTORE);
 			if (ewd != NULL) {
+				ShowWindow(GetParent(ewd->hwndParent), SW_RESTORE);
 				if (ewd->szDescription) {
 					SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ewd->szDescription);
 				} else {

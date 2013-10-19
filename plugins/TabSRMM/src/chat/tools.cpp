@@ -297,7 +297,6 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, TWindowData *dat)
 {
 	int iEvent = gce->pDest->iType;
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
-	char *szProto = dat ? dat->szProto : si->pszModule;
 
 	TCHAR *bbStart, *bbEnd;
 	if (g_Settings.bBBCodeInPopups) {
@@ -313,6 +312,7 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, TWindowData *dat)
 		* check the status mode against the status mask
 		*/
 
+		char *szProto = dat ? dat->szProto : si->pszModule;
 		if (nen_options.dwStatusMask != -1) {
 			DWORD dwStatus = 0;
 			if (szProto != NULL) {
@@ -505,7 +505,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 		}
 
 		if (p->bMustFlash && p->bInactive)
-			UpdateTrayMenu(dat, si->wStatus, si->pszModule, dat ? dat->szStatus : NULL, si->hContact, p->bHighlight ? 1 : 1);
+			UpdateTrayMenu(dat, si->wStatus, si->pszModule, dat->szStatus, si->hContact, p->bHighlight ? 1 : 1);
 	}
 
 	mir_free(p);

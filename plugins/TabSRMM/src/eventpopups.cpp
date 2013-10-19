@@ -614,7 +614,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 	}
 	i = (available > 0) ? i + 1 : i + 2;
 	for (; i <= pdata->nrMerged; i++)
-		_tcsncat(lpzText, pdata->eventData[i].tszText, MAX_SECONDLINE);
+		_tcsncat(lpzText, pdata->eventData[i].tszText, SIZEOF(lpzText));
 
 	pdata->eventData[pdata->nrMerged].hEvent = hEvent;
 	pdata->eventData[pdata->nrMerged].timestamp = dbe.timestamp;

@@ -759,7 +759,7 @@ extern "C" BOOL __declspec(dllexport) dib2mempng( BITMAPINFO* pbmi, png_byte* pD
 				}	}
 			else {
 				for ( j = 0; j < pbmi->bmiHeader.biWidth; j++ ) {
-					DWORD point;
+					DWORD point = 0;
 					if ( ciChannels == 1 ) {
 						*d++ = ( BYTE )( point & 0x03 ) << 6;
 						*d++ = ( BYTE )(( point & 0x0C ) >> 2 ) << 6;
@@ -772,7 +772,7 @@ extern "C" BOOL __declspec(dllexport) dib2mempng( BITMAPINFO* pbmi, png_byte* pD
 						*d++ = ( BYTE )(( point & 0x001F ) << 3 );
 						*d++ = ( BYTE )((( point & 0x07e0 ) >> 6 ) << 3 );
 						*d++ = ( BYTE )((( point & 0xF800 ) >> 11 ) << 3 );
-					}	}	}	}
+		}	}	}	}
 
 		png_write_image (png_ptr, ppbRowPointers);
 		png_write_end(png_ptr, info_ptr);

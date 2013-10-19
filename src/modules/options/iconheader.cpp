@@ -517,7 +517,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		return itc->nSelectedIdx;
 
 	case ITCM_GETITEMDATA:
-		if ((int)wParam < itc->pList.getCount())
+		if ((int)wParam >= 0 && (int)wParam < itc->pList.getCount())
 			return ((MIcoTab *)itc->pList[wParam])->data;
 		return 0;
 

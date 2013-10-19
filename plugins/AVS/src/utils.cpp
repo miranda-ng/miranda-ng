@@ -125,7 +125,7 @@ void MakePathRelative(HANDLE hContact, TCHAR *path)
 	szFinalPath[0] = '\0';
 
 	size_t result = AVS_pathToRelative(path, szFinalPath);
-	if (result && lstrlen(szFinalPath) > 0) {
+	if (result && szFinalPath[0] != '\0') {
 		db_set_ts(hContact, "ContactPhoto", "RFile", szFinalPath);
 		if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
 			db_set_ts(hContact, "ContactPhoto", "Backup", szFinalPath);

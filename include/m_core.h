@@ -534,10 +534,6 @@ MIR_CORE_DLL(int) mir_writeLogVW(HANDLE logger, const WCHAR *format, va_list arg
 ///////////////////////////////////////////////////////////////////////////////
 // md5 functions
 
-/* Define the state of the MD5 Algorithm. */
-typedef unsigned char BYTE; /* 8-bit byte */
-typedef unsigned int UINT32; /* 32-bit word */
-
 typedef struct mir_md5_state_s {
 	UINT32 count[2];  /* message length in bits, lsw first */
 	UINT32 abcd[4];    /* digest buffer */
