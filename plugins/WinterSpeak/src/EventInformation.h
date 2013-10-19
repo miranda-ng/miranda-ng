@@ -39,7 +39,7 @@ class EventInformation
 	// Description : get the size of the message from the last event
 	// Return      : the size of the message
 	//--------------------------------------------------------------------------
-	unsigned int getMessageSize();
+	size_t getMessageSize();
 
 	//--------------------------------------------------------------------------
 	// Description : get the event string

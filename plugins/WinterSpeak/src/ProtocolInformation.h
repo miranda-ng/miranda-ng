@@ -16,8 +16,7 @@ class ProtocolInformation
 	typedef std::pair<std::string, unsigned int> ProtocolTimeout;
 	typedef std::deque<ProtocolTimeout>          ProtocolTimeoutQueue;
 
-	static void CALLBACK timeout(HWND hwnd, UINT uMsg, UINT idEvent, 
-		DWORD dwTime);
+	static void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 	static ProtocolInformation *m_instance;
 

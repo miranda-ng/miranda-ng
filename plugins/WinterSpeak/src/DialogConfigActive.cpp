@@ -19,7 +19,7 @@ DialogConfigActive::~DialogConfigActive()
 }
 
 //------------------------------------------------------------------------------
-int CALLBACK DialogConfigActive::process(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+INT_PTR CALLBACK DialogConfigActive::process(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	if (!m_instance)
 	{

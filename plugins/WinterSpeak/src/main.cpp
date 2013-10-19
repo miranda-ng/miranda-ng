@@ -29,11 +29,12 @@ PLUGININFOEX pluginInfo={
 //-----------------------------------------------------------------------------
 // Description : External hook
 //-----------------------------------------------------------------------------
-int status(WPARAM wParam, LPARAM lParam)
+INT_PTR status(WPARAM wParam, LPARAM lParam)
 {
 	return g_speak_config->status(reinterpret_cast<WCHAR *>(lParam), reinterpret_cast<HANDLE>(wParam));
 }
-int message(WPARAM wParam, LPARAM lParam)
+
+INT_PTR message(WPARAM wParam, LPARAM lParam)
 {
 	return g_speak_config->message(reinterpret_cast<WCHAR *>(lParam), reinterpret_cast<HANDLE>(wParam));
 }

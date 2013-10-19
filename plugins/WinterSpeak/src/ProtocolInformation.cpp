@@ -27,6 +27,15 @@ ProtocolInformation::~ProtocolInformation()
 	}
 }
 
+void CALLBACK ProtocolInformation::TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+	ProtocolTimeout pt = m_instance->m_protocol_timeout.front();    
+	
+	KillTimer(NULL, pt.second);
+
+	m_instance->m_protocol_timeout.pop_front();
+}
+
 //------------------------------------------------------------------------------
 void ProtocolInformation::disable(const char *protocol)
 {
@@ -37,7 +46,7 @@ void ProtocolInformation::disable(const char *protocol)
 
 	const unsigned int TIMEOUT = 10000;
 
-	unsigned int t  = SetTimer(NULL, NULL, TIMEOUT, ProtocolInformation::timeout);
+	unsigned int t  = SetTimer(NULL, (UINT_PTR)this, TIMEOUT, (TIMERPROC)TimerProc);
 	m_protocol_timeout.push_back(std::make_pair(protocol, t));
 }
 
@@ -61,18 +70,6 @@ bool ProtocolInformation::isDisabled(const char *protocol) const
 	}
 
 	return false;
-}
-
-//------------------------------------------------------------------------------
-// private:
-//------------------------------------------------------------------------------
-void CALLBACK ProtocolInformation::timeout(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
-{
-	ProtocolTimeout pt = m_instance->m_protocol_timeout.front();    
-	
-	KillTimer(NULL, pt.second);
-
-	m_instance->m_protocol_timeout.pop_front();
 }
 
 //==============================================================================
