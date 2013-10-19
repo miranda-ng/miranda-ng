@@ -552,7 +552,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case MENU_OPEN_OPTIONS:
 			OPENOPTIONSDIALOG odp = {0};
 			odp.cbSize = sizeof(odp);
-			odp.pszGroup = "Services";
+			odp.pszGroup = "Database";
 			odp.pszPage = modFullname;
 			odp.pszTab = 0;
 			Options_Open(&odp);
