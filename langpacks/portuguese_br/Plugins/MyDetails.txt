@@ -177,10 +177,8 @@ Configurar Meu Apelido para %s
 Configurar Meu Apelido para %s
 [Set My Status Message for %s]
 Você pode configurar imagens para serem usados como avatar padrão para contatos que não tenham os seus. Essas imagens NÃo são seus próprios avatares.
-[Show next protocol]
-Mostrar próximo protocolo
-[Show next protocol]
-Exibir próximo protocolo
+[Show next account]
+
 [Contact List]
 Lista de Contatos
 ;file \plugins\MyDetails\src\options.cpp

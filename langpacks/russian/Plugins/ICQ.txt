@@ -229,7 +229,7 @@
 Удаляю %s из списка невидимости...
 [All operations complete]
 Все операции завершены
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Вы должны быть подключены для синхронизации списка на сервере
 [NOT FOUND]
 НЕ НАЙДЕНО

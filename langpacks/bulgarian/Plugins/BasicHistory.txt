@@ -66,7 +66,7 @@
 
 [Match Whole Word]
 
-[Only Incomming Messages]
+[Only Incoming Messages]
 
 [Only Outgoing Messages]
 
@@ -313,7 +313,7 @@ SMS съобщение
 
 [Show/Hide Contacts]
 Показване/Скриване на контактите
-[Switch Only Incomming Messages]
+[Switch Only Incoming Messages]
 
 [Switch Only Outgoing Messages]
 

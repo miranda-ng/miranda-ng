@@ -32,26 +32,16 @@ Enteramente
 Restaurar la última posición abierta
 [Automatically expand "settings" when Database Editor ++ starts]
 Expandir automáticamente "configuración" cuando la base de datos Editor ++ comienza
-[Use known modules list]
-Utilice la lista de módulos conocidos
 [Warn when deleting modules]
 Avisar al eliminar módulos
 ["Open user tree in DBE++" menu item]
 "Abrir árbol de usuario en DBE++" elemento de menú
 [Use popups when watched settings change values]
 Utilice ventanas emergentes Cuando vio cambiar los valores de configuración
-[Modules to ALWAYS mark as known (e.g core modules)]
-Módulos para SIEMPRE marca como es conocido (por ejemplo, módulos básicos)
-[Put a space or comma between each module name]
-Ponga un espacio o una coma entre cada nombre del módulo
-[Changes to this list will take effect next time miranda starts]
-Los cambios en esta lista tendrá efecto la próxima vez miranda comienza
 [Popup timeout (0 for infinite)]
 tiempo de espera de pop-ups (0 para infinito)
 [Background color]
 Color de fondo
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Si el nombre del módulo tiene un espacio en él, poner un \\ antes de que el espacio. por ejemplo, "aaa\\ bbb"
 [Add a module to contact]
 Agregue un módulo al contacto
 [Add a module named]
@@ -164,8 +154,6 @@ Cifrar String
 Copiar en contacto
 [Export Module]
 Módulo de Exportación
-[Add To Known Modules]
-Añadir a los módulos conocidos
 [&Clone]
 &Clon
 [Export Contact]
@@ -260,10 +248,6 @@ Terminado. %d fueron encontradas.
 Módulo conocidos cerrado
 [Open Known Module]
 Abrir conocidos Módulo
-[Closed Unknown Module]
-Módulo cerrado Desconocida
-[Open Unknown Module]
-Abra el módulo desconocido
 [Contacts Group]
 Contactos Grupo
 [Known Contact]

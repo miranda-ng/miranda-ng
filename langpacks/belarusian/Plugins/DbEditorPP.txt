@@ -42,26 +42,16 @@
 Аднавіць апошняе становішча
 [Automatically expand "settings" when Database Editor ++ starts]
 Адкрываць галінку "налады" пры запуску
-[Use known modules list]
-Выкарыстоўваць спіс вядомых плагінаў
 [Warn when deleting modules]
 Папярэджваць пры выдаленні плагінаў
 ["Open user tree in DBE++" menu item]
 Пункт меню "адкрыць у рэдактары базы" ў кожнага кантакту
 [Use popups when watched settings change values]
 Усплывальныя вокны пры змене назіраных значэнняў
-[Modules to ALWAYS mark as known (e.g core modules)]
-Плагіны, ЗАЎСЁДЫ адзначаныя як вядомыя
-[Put a space or comma between each module name]
-плагіны падзяляць прабеламі ці коскамі
-[Changes to this list will take effect next time miranda starts]
-Змены ў гэтым спісе набудуць моц пры наступным запуску Miranda NG
 [Popup timeout (0 for infinite)]
 Працягласць (0 = пакінуць)
 [Background color]
 Колер фону
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Калі ў назве плагіна ёсць прабел, змесціце \\ перад ім, напр. "aaa\\ bbb"
 [Add a module to contact]
 Дадаць плагін у кантакт
 [Add a module named]
@@ -196,8 +186,6 @@ Null Mod кантэкст
 Капіяваць у кантакт...
 [Export Module]
 Экспартаваць плагін...
-[Add To Known Modules]
-Дадаць у вядомыя плагіны
 [Contact menu]
 Меню кантакту
 [&Clone]
@@ -318,10 +306,6 @@ INI файлы
 Вядомы плагін (зачынены)
 [Open Known Module]
 Вядомы плагін (адкрыты)
-[Closed Unknown Module]
-Невядомы плагін (зачынены)
-[Open Unknown Module]
-Невядомы плагін (адкрыты)
 [Contacts Group]
 Група кантактаў
 [Unknown Contact]

@@ -91,7 +91,7 @@
 Одобрять контакт при спам-рейтинге ниже
 [and learn as ham]
 и считать не спамом
-[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
 Не включайте эти опции, пока в базе не будет как минимум 20 не спам и 50 спам сообщений.
 [Learning options]
 Опции обучения

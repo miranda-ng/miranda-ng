@@ -5,7 +5,7 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 Wachtwoord:
 [Nick:]
@@ -32,7 +32,6 @@ OK
 Annuleren
 [Search:]
 Zoeken:
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Alle bestanden

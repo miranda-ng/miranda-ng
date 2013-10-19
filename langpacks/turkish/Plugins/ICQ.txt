@@ -889,7 +889,7 @@ Gruplar temizleniyor
 Tüm işlemler tamamlandı
 [Close]
 Kapat
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Sunucu listesini eşleştirmek için çevrim içi olmalısınız!
 [** All contacts **]
 ** Tüm kişiler **

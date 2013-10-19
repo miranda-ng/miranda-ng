@@ -157,8 +157,6 @@ Pozadie
 
 [Set My Status Message for %s]
 
-[Show next protocol]
-
 [Contact List]
 Zoznam kontaktov
 ;file \plugins\MyDetails\src\options.cpp

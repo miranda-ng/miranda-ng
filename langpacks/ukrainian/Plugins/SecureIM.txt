@@ -189,40 +189,40 @@ Secure IM Вимкнено
 Відправка зворотного повідомлення...
 [SecureIM disabled...]
 SecureIM вимкнений...
-[Sending Key...]
+[Sending key...]
 Відправка ключа...
-[Key Received...]
+[Key received...]
 Ключ прийнятий...
-[Sending Message...]
+[Sending message...]
 Відправка повідомлення...
-[Message Received...]
+[Message received...]
 Повідомлення прийнято...
-[Encrypting File:]
+[Encrypting file:]
 Шифрування файлу:
-[Decrypting File:]
+[Decrypting file:]
 Розшифровка файлу:
 [Bad key received...]
 Прийнятий поганий ключ...
 [SecureIM: Error while decrypting the message.]
 SecureIM: Помилка розшифрування повідомлення.
 [SecureIM: Error while decrypting the message, bad message length.]
-SecureIM: Помилка при розшифровки повідомлення, неправильна довжина повідомлення.
+SecureIM: Помилка при розшифровці повідомлення, неправильна довжина повідомлення.
 [SecureIM: Error while decrypting the message, bad message CRC.]
-SecureIM: Помилка при розшифровки повідомлення, неправильна контрольна сума повідомлення.
-[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
-Користувач не відповів на обмін ключами!\n\Ваше повідомлення знаходиться в черзі SecureIM, хочете відправити його не зашифрованим?
-[SecureIM not enabled! You Must Enable SecureIM with this user...]
+SecureIM: Помилка при розшифровці повідомлення, неправильна контрольна сума повідомлення.
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
+Користувач не відповів на обмін ключами!\nВаше повідомлення знаходиться в черзі SecureIM, хочете відправити його незашифрованим?
+[SecureIM not enabled! You must enable SecureIM with this user...]
 SecureIM вимкнений! Ви повинні включити його для цього користувача...
-[Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
-Неможливо надіслати зашифроване повідомлення !\пПользователь зараз не в мережі, і ключ шифрування застарів, ви хочете відправити повідомлення?\пОно буде відправлено незашифрованим!
-[SecureIM won't be loaded because cryptopp.dll is missing or wrong версія !]
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
+Неможливо надіслати зашифроване повідомлення!\nКористувач зараз не в мережі, і ключ шифрування застарів, ви хочете відправити повідомлення?\nВоно буде відправлено незашифрованим!
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 Плагін SecureIM не може бути завантажений, тому що бібліотека cryptopp.dll не знайдена або неправильної версії!
 [SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
 
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM не може надіслати зашифроване повідомлення! Перевірте довіру до PGP/GPG ключа!
-[Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
-Неможливо надіслати зашифроване повідомлення!\пви хочете відправити його?\пОно буде відправлено незашифрованим!
+[Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
+Неможливо надіслати зашифроване повідомлення!\nВи хочете відправити його?\nВоно буде відправлено незашифрованим!
 [Can't change mode! Secure connection established!]
 Не можу змінити режим! Захищене з'єднання встановлено!
 [Can't export RSA private key!]
@@ -261,7 +261,7 @@ PGP SDK не знайдено!
 Секретний ключ завантажений.
 [Private key not loaded!]
 Секретний ключ не завантажений!
-[The new settings will become valid when you restart MirandaNG!]
+[The new settings will become valid when you restart Miranda NG!]
 Зміни набудуть чинності після перезавантаження Miranda NG!
 [Keyrings disabled!]
 Keyrings відключені!

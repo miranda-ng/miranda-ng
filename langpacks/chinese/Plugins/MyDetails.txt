@@ -115,8 +115,8 @@
 设置我的 %s 昵称
 [Set My Status Message for %s]
 设置我的 %s 状态消息
-[Show next protocol]
-显示下一个协议
+[Show next account]
+
 [Contact List]
 联系人列表
 ;file \plugins\MyDetails\src\options.cpp

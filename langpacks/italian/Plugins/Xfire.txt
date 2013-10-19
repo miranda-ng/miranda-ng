@@ -5,19 +5,13 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 Password:
-[Password:]
-Password:
-[Nick:]
-Nick:
 [Nick:]
 Nick:
 [Lost Password?]
 Password persa?
-[Options]
-Opzioni
 [Options]
 Opzioni
 [More options]
@@ -30,18 +24,6 @@ Applica
 Nome utente:
 [Name:]
 Nome:
-[Name:]
-Nome:
-[Name:]
-Nome:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
 [Port:]
 Porta:
 [Copy]
@@ -54,25 +36,10 @@ Unisciti
 Unisciti
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Search:]
 Cerca:
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Tutti i file

@@ -42,26 +42,16 @@ Komplett
 Zuletzt geöffnete Position wiederherstellen
 [Automatically expand "settings" when Database Editor ++ starts]
 Einstellungszweig beim Starten automatisch öffnen
-[Use known modules list]
-Liste bekannter Module verwenden
 [Warn when deleting modules]
 Beim Löschen von Modulen warnen
 ["Open user tree in DBE++" menu item]
 "Benutzerzweig in DBE++ öffnen"-Eintrag im Kontaktmenü
 [Use popups when watched settings change values]
 Popups verwenden, wenn beobachtete Einstellungen den Wert ändern
-[Modules to ALWAYS mark as known (e.g core modules)]
-Plugins, die IMMER als bekannt markiert werden, z. B. Core
-[Put a space or comma between each module name]
-Trennen Sie die einzelnen Einträge durch ein Leerzeichen oder Komma
-[Changes to this list will take effect next time miranda starts]
-Änderungen in dieser Liste werden erst beim nächsten Start von Miranda wirksam.
 [Popup timeout (0 for infinite)]
 Anzeigedauer (0 für endlos)
 [Background color]
 Hintergrundfarbe
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Wenn Modulname Leerzeichen enthält, vor das Leerzeichen ein \\ setzen, z. B. "aaa\\ bbb"
 [Add a module to contact]
 Modul zum Kontakt hinzufügen
 [Add a module named]
@@ -192,8 +182,6 @@ Umbenennen
 Zu Kontakt kopieren
 [Export Module]
 Modul exportieren
-[Add To Known Modules]
-Zu bekannten Modulen hinzufügen
 [&Clone]
 Kopie erstellen
 [Export Contact]
@@ -306,10 +294,6 @@ Beendet. %d Einträge wurden gefunden.
 Geschlossenes bekanntes Modul
 [Open Known Module]
 Offenes bekanntes Modul
-[Closed Unknown Module]
-Geschlossenes unbekanntes Modul
-[Open Unknown Module]
-Offenes unbekanntes Modul
 [Contacts Group]
 Kontaktgruppe
 [Unknown Contact]

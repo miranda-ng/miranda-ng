@@ -146,7 +146,7 @@
 Інфа
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
-[please choose gpg binary location]
+[Please choose GPG binary location]
 Вылучыце дырэкторыю з GnuPG
 [please set keyring's home directory]
 Вылучыце дырэкторыю з ключамі GnuPG

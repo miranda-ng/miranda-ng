@@ -32,8 +32,6 @@ Automatisch zu einem neuen Fremden verbinden falls aktuelle Verbindung verloren 
 Den Chat nicht löschen bevor sie zu einem neuen Fremden verbinden
 [Load count of users on actual server after connection]
 Aktuelle Benutzerzahl des Severs nach dem Verbinden laden
-[Enable logging for debugging purposes]
-Debug-Loggen aktivieren
 [Meet strangers with common interests]
 Treffe neue Fremde mit gemeinsamen Interessen
 [Your interests (separated by commas):]

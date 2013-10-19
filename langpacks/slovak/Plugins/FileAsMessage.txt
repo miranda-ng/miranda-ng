@@ -65,7 +65,7 @@ Prijímam...
 
 [New incoming file request. Do you want to proceed?]
 
-[Paused, because connection dropped]
+[File transfer is paused because of dropped connection]
 
 [Failed on file initialization]
 

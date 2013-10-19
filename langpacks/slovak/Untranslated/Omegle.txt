@@ -10,7 +10,6 @@
 [Automatically connect to another stranger when current disconnects]
 [Don't clear chat before connecting to new stranger]
 [Load count of users on actual server after connection]
-[Enable logging for debugging purposes]
 [Meet strangers with common interests]
 [Your interests (separated by commas):]
 [Server]

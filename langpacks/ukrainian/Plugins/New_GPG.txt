@@ -9,7 +9,7 @@
 Плагін шифрування GPG, заснований на вихідних кодах старого GPG плагіна і SecureIM.
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG підтримується. Мовні файли знайдені.\nGPG Повинен працювати нормально.\nНатисніть ОК.
-[please choose gpg binary location]
+[Please choose GPG binary location]
 Виберіть директорію c GnuPG
 [please set keyring's home directory]
 Виберіть директорію з ключами GnuPG

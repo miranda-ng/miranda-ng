@@ -1039,7 +1039,7 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 所有操作已完成
 [Close]
 关闭
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 您需要在线才能同步服务器列表! 
 [** All contacts **]
 ** 所有联系人 **

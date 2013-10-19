@@ -1018,6 +1018,7 @@
 [path to current miranda profile]
 [name of current miranda profile (filename, without extension)]
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+[will return parsed string %miranda_userdata%\\Logs]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 [username for currently logged-on Windows user]
 ["My Documents" folder for currently logged-on Windows user]

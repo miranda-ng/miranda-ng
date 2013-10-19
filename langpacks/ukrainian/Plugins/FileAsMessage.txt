@@ -63,7 +63,7 @@
 Скасовано віддаленим користувачем
 [New incoming file request. Do you want proceed?]
 Новий вхідний файл. Хочете продовжити?
-[Paused, because connection dropped]
+[File transfer is paused because of dropped connection]
 Припинено через роз'єднання
 [Initialization Failed on file]
 Помилка при ініціалізації файлу

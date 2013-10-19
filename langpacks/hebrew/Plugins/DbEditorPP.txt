@@ -12,20 +12,12 @@
 שחזר מצב פתוח אחרון
 [Automatically expand "settings" when Database Editor ++ starts]
 אוטומטית הרחב אפשרויות כאשר עורך בסיס נתונים ++ מתחיל
-[Use known modules list]
-השתמש ברשימת מודולים ידועים
 [Warn when deleting modules]
 הזהר כשמוחקים מודול
 ["Open user tree in DBE++" menu item]
 פתח עץ משתמש ב DBE++ פריט תפריט  
 [Use popups when watched settings change values]
 השתמש בפופאפים כאשר הגדרות נצפות משנות ערכים
-[Modules to ALWAYS mark as known (e.g core modules)]
-מודולים שתמיד לסמן כידועים לדוגמא מודלי ליבה
-[Put a space or comma between each module name]
-שם רווח או מקף בין כל שם מודול
-[Changes to this list will take effect next time miranda starts]
-שינויים לרשימה זאת יופעלו בפעם הבאה שמירנדה תופעל
 [Popup timeout (0 for infinite)]
 פסק זמן פופאפ 0 ללא הגבלה
 [Background color]
@@ -54,10 +46,6 @@
 סגור מודול לא ידוע
 [Open Known Module]
 פתח מודול ידוע
-[Closed Unknown Module]
-מודולים לא ידועים סגורים
-[Open Unknown Module]
-פתח מודול לא ידוע
 [Contacts Group]
 קבוצת משתמשים
 [Known Contact]

@@ -12,18 +12,10 @@
 &Avbryt
 [Restore last opened position]
 Gjenopprett sist brukte posisjon
-[Use known modules list]
-Bruk liste over kjente moduler
 [Warn when deleting modules]
 Advar ved sletting av moduler
 [Use popups when watched settings change values]
 Bruk popups når overvåkede innstillinger endrer verdier
-[Modules to ALWAYS mark as known (e.g core modules)]
-Moduler som ALLTID merkes som gjenkjent (eks. kjernemoduler)
-[Put a space or comma between each module name]
-Sett et mellomrom eller komma mellom hvert modulnavn
-[Changes to this list will take effect next time miranda starts]
-Endringer i denne listen vil synes neste gang Miranda starter
 [Background color]
 Bakgrunnsfarge
 [OK]

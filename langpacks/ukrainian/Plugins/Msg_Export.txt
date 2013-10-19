@@ -73,9 +73,9 @@ UTF8 в нових файлах
 Копіювати
 [Failed to write to the RichEdit the buffer was to small.]
 
-[Error: Optimal buffer size decrecied to a to low size !!]
+[Error: Optimal buffer size decrecied to a to low size!]
 
-[Internal error !! (lExtraRead >= 0)]
+[Internal error! (lExtraRead >= 0)]
 
 [Faile to execute external file view]
 
@@ -89,7 +89,7 @@ UTF8 в нових файлах
 
 [With scroll to bottom %d\n]
 
-[Search string was not found !]
+[Search string was not found!]
 Рядок не знайдено!
 [Save as RTF]
 

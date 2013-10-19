@@ -26,7 +26,7 @@ ham
 Заучени съобщения:
 [Auto approve contact if message score below]
 Автоматично одобрение при оценка под
-[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
 Без включване на опциите преди заучаването на поне 20 ham и 50 SPAM съобщения
 [Learned ham messages:]
 Заучени ham съобщения:

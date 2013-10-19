@@ -2175,6 +2175,8 @@ Pfad zum aktuellen Miranda-Profil
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück
+[will return parsed string %miranda_userdata%\\Logs]
+
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]

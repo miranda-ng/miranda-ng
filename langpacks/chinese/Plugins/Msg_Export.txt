@@ -63,7 +63,7 @@
 [Copy]
 复制
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Search string was not found !]
+[Search string was not found!]
 搜索字符串未找到 !
 [Color...]
 颜色...
@@ -94,7 +94,7 @@
 文件
 [Nick]
 昵称
-[You have unapplyed changes do you wish to apply these first?]
+[You have not applied the changes, do you wish to apply them first?]
 您已取消变更套用, 是否想首先套用这些?
 [Select Destination Directory]
 选择目标目录

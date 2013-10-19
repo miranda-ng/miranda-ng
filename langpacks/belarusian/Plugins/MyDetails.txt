@@ -167,8 +167,6 @@ RTL
 Змяніць мой нік для %s
 [Set My Status Message for %s]
 Усталяваць статус для %s
-[Show next protocol]
-Паказаць наступны пратакол
 [Contact List]
 Спіс кантактаў
 ;file \plugins\MyDetails\src\options.cpp

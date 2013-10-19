@@ -157,8 +157,6 @@ Nächstes Protokoll
 Nickname für %s setzen
 [Set My Status Message for %s]
 Statusnachricht für %s setzen
-[Show next protocol]
-Nächstes Protokoll anzeigen
 [Contact List]
 Kontaktliste
 ;file \plugins\MyDetails\src\options.cpp

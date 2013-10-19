@@ -26,7 +26,7 @@
 Дадаць паведамленне ў базу:
 [Auto approve contact if message score below]
 Ухваляць кантакт пры спам-рэйтынгу ніжэй
-[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
 Не ўключайце гэтыя опцыі, пакуль у базе не будзе прынамсі 20 не спам і 50 спам паведамленняў.
 [Learned ham messages:]
 Не спам паведамленняў у базе:

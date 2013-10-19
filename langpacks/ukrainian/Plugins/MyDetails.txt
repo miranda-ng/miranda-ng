@@ -108,7 +108,7 @@
 [Enable Listening To]
 Увімкнути "Зараз слухаю"
 [Show next account]
-
+Наступний обліковий запис
 [Show previous account]
 
 [Cycle through accounts]
@@ -153,7 +153,5 @@
 Змінити мій нік для %s
 [Set My Status Message for %s]
 Встановити статус для %s
-[Show next protocol]
-Показати наступний протокол
 [Contact List]
 Список контактів

@@ -84,8 +84,6 @@ BL&OB
 Копировать в контакт...
 [Export Module]
 Экспортировать модуль...
-[Add To Known Modules]
-Добавить в известные модули
 [&Clone]
 Клонировать
 [Export Contact]
@@ -176,20 +174,12 @@ BL&OB
 Восстановить последнее положение
 [Automatically expand "settings" when Database Editor ++ starts]
 Автоматически раскрывать "настройки" при запуске
-[Use known modules list]
-Использовать список известных модулей
 [Warn when deleting modules]
 Предупреждать при удалении модулей
 ["Open user tree in DBE++" menu item]
 Пункт меню "открыть в редакторе базы" у каждого контакта
 [Use popups when watched settings change values]
 Всплывающие окна при изменении наблюдаемых значений
-[Modules to ALWAYS mark as known (e.g core modules)]
-Модули, ВСЕГДА отмеченные как известные
-[Put a space or comma between each module name]
-Модули разделять пробелами или запятыми
-[Changes to this list will take effect next time miranda starts]
-Изменения в этом списке вступят в силу при следующем запуске Miranda NG
 [Popup timeout (0 for infinite)]
 Длительность (0 = оставить)
 [Database Editor++]
@@ -252,10 +242,6 @@ BL&OB
 Известный модуль (закрыт)
 [Open Known Module]
 Известный модуль (открыт)
-[Closed Unknown Module]
-Неизвестный модуль (закрыт)
-[Open Unknown Module]
-Неизвестный модуль (открыт)
 [Contacts Group]
 Группа контактов
 [Unknown Contact]
@@ -292,10 +278,6 @@ BL&OB
 Редактор базы (режим ANSI)
 [Open user tree in DBE++]
 Открыть в редакторе базы
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Если имя модуля содержит пробел, вставьте \\ перед пробелом. напр "ааа\\ ббб"
-[If the module name has a space in it, put a \ before the space. eg "aaa\ bbb"]
-Если в имени модуля есть пробел, поместите \ перед ним, напр. "aaa\ bbb"
 [Loading contacts...]
 Загрузка контактов...
 [Loading modules...]

@@ -885,7 +885,7 @@ Csoportok ürítése
 Minden mûvelet befejezve
 [Close]
 Bezárás
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Csatlakozva kell lenned hogy szinkronizálhasd a szerverlistát.
 [** All contacts **]
 ** Minden új partner **

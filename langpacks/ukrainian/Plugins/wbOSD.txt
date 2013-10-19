@@ -5,61 +5,66 @@
 ;  Version: 0.2.1.0
 ;  Authors: Andrej Krutak
 ;============================================================
-[Shows new message/status change info using onscreen display.]
+[Shows new message/status change info using on-screen display.]
 Показ нових повідомлень, змін статусу з допомогою повідомлень на екрані.
-[Dialog]
-Діалог
+;file \plugins\wbOSD\res\wbOSD.rc
+[General]
+Загальна
+[Align]
+Вирівнювання
 [Select font]
 Вибір шрифту
-[Text color]
-Колір тексту
-[Background color]
-Колір фону
-[Transparent]
-Прозорість
+[Shadow]
+Тінь
+[Show drop shadow]
+
+[Shadow align]
+Вирівнювання тіні
 [Shadow color]
 Колір тіні
 [Alternative shadow]
 Альтернативні тіні
-[Shadow align]
-Вирівнювання тіні
-[General]
-Загальна
-[Shadow]
-Тінь
-[Align]
-Вирівнювання
 [Shadow distance:]
 Тінь відстань:
 [Other]
 Інше
+[Background color]
+Колір фону
+[Transparent]
+Прозорість
 [Alpha:]
 
-[Announce]
-Оголошення
-[Timeout (ms):]
-Тайм-аут (мс):
-[Show]
-Показати
-[Show events]
-Показати події
-[Status changes]
-Зміни статусу
-[Show testing OSD]
-Показати тестове OSD
-[Show my status changes]
-Показувати зміни мого статусу
-[Show message window after click]
-Показати вікно з повідомленням, після натисніть кнопки
 [Static]
 Статичний
+[Timeout (ms):]
+Тайм-аут (мс):
+[Show testing OSD]
+Показати тестове OSD
+[Announce]
+Оголошення
+[Status changes]
+Зміни статусу
+[Show my status changes]
+Показувати зміни мого статусу
+[Text color]
+Колір тексту
+[Show events]
+Показати події
 [Format:]
 Формат:
+[Show message window after click]
+Показати вікно з повідомленням, після натисніть кнопки
 [Show when my status is:]
 Показувати, коли мій статус:
+;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s - %s
+;file \plugins\wbOSD\src\options.cpp
+[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
+
+[Help]
+
+[Miranda NG is great and this is a long message.]
+
 [Plugins]
 Плагіни
-[OSD]
-OSD

@@ -8,8 +8,6 @@
 [Shows new message/status change info using on-screen display.]
 
 ;file \plugins\wbOSD\res\wbOSD.rc
-[Dialog]
-
 [Select font]
 
 [Text color]
@@ -28,6 +26,8 @@
 
 [Shadow]
 
+[Show drop shadow]
+
 [Align]
 
 [Shadow distance:]
@@ -40,8 +40,6 @@
 
 [Timeout (ms):]
 
-[Show]
-Zobraziť
 [Show events]
 
 [Status changes]
@@ -62,6 +60,12 @@ Zobraziť
 [%s is %s]
 
 ;file \plugins\wbOSD\src\options.cpp
+[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
+
+[Help]
+
+[Miranda NG is great and this is a long message.]
+
 [Plugins]
 
 [OSD]

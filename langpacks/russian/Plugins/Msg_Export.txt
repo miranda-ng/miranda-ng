@@ -27,7 +27,7 @@
 Авт. имена
 [Export all history]
 Экспорт истории
-[You have unapplyed changes do you wish to apply these first?]
+[You have not applied the changes, do you wish to apply them first?]
 Есть несохранённые изменения, применить?
 [No contacts found to export]
 Нет контактов для экспорта
@@ -95,7 +95,7 @@ EmailExpress от:
 Найти...
 [External]
 Внешний
-[Search string was not found !]
+[Search string was not found!]
 Строка не найдена!
 [File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Имя файла для пользователя "%s" изменилось !\n\nстарое имя:\t%s\nновое имя:\t%s\n\nПереименовать файл?

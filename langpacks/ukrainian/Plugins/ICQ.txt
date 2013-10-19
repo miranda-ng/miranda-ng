@@ -1431,7 +1431,7 @@ ID користувача
 Всі операції завершені
 [Close]
 Закрити
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Ви повинні бути підключені для синхронізації списку на сервері
 [** All contacts **]
 ** Контакти **

@@ -7,10 +7,10 @@
 ;============================================================
 [Xfire protocol support for Miranda NG.]
 
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 Парола:
-[Loginname:]
+[Login name:]
 
 [XFire]
 
@@ -48,10 +48,6 @@
 Настройки
 [More options]
 Още опции
-[Gameicon:]
-
-[Voiceicon:]
-
 [Display Error and Infomessage:]
 
 [Main group for clan groups:]
@@ -70,7 +66,7 @@
 
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 
@@ -114,7 +110,7 @@
 
 [Extra Command Line Parameters:]
 
-[Edit ...]
+[Edit...]
 
 [Username:]
 Потребител:
@@ -124,15 +120,11 @@
 
 [Name:]
 Име:
-[Unreal Tournament 2004]
-
 [IP:]
 
 [Port:]
 Порт:
 [Userdetails]
-
-[dufte]
 
 [Copy]
 Копиране
@@ -180,7 +172,6 @@
 
 [Searching games ...]
 
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Всички файлове
@@ -317,7 +308,7 @@
 Потребител
 [Unable to connect to XFire.]
 
-[No Loginname is set!]
+[No Login name is set!]
 
 [No Password is set!]
 
@@ -435,7 +426,7 @@
 [StatusMsg]
 
 ;file \protocols\Xfire\src\pwd_dlg.cpp
-[Please enter server password ...]
+[Please enter server password...]
 
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]

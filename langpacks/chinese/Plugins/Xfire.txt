@@ -5,10 +5,10 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 密码: 
-[Loginname:]
+[Login name:]
 登录名:
 [Nick:]
 昵称: 
@@ -44,10 +44,6 @@
 选项
 [More options]
 更多选项
-[Gameicon:]
-游戏图标:
-[Voiceicon:]
-语音图标:
 [Display Error and Infomessage:]
 显示错误及相关信息:
 [Main group for clan groups:]
@@ -62,7 +58,7 @@
 封锁用户列表
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 此列表包含您的所有 Xfire 封锁用户. 如果您想允许其发送好友邀请可于此移除.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 如您右键好友列表中的联系人并选择封锁用户, 可非常简单的封锁某人 ...
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 此文件用于游戏搜索, 游戏检测及游戏解析. 它包含所有 Xfire 支持的游戏.
@@ -122,7 +118,6 @@
 添加一个新游戏
 [Searching games ...]
 搜索游戏 ...
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 所有文件
@@ -183,7 +178,7 @@ XFire 不支持离线消息!
 用户名
 [Unable to connect to XFire.]
 无法连接至 XFire.
-[No Loginname is set!]
+[No Login name is set!]
 未设置登录名!
 [No Password is set!]
 未设置密码!
@@ -254,6 +249,9 @@ XFire 不支持离线消息!
 黑名单 / 游戏
 [StatusMsg]
 状态信息
+;file \protocols\Xfire\src\pwd_dlg.cpp
+[Please enter server password...]
+
 ;file \protocols\Xfire\src\searching4games.cpp
 [Games found:%s%s]
 游戏已找到:%s%s

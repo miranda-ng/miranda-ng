@@ -99,8 +99,8 @@ Cacher mes détails
 Changer mon pseudo pour %s
 [Set My Status Message for %s]
 Changer mon message d'état pour %s
-[Show next protocol]
-Protocole suivant
+[Show next account]
+
 [Contact List]
 Liste de contacts
 ;file \plugins\MyDetails\src\options.cpp

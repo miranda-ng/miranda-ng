@@ -43,8 +43,8 @@ Request authorisation
 Grant authorisation
 [Revoke authorization]
 Revoke authorisation
-[You have to be online to sychronize the server-list !]
-You have to be online to sychronise the server-list !
+[You have to be online to sychronize the server-list!]
+You have to be online to sychronise the server-list!
 [Failed to Initialize File Transfer. No valid files were specified.]
 Failed to Initialise File Transfer. No valid files were specified.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]

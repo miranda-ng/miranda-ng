@@ -629,7 +629,7 @@
 [Updating group "%s"...]
 [Deleting group "%s"...]
 [All operations complete]
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 [Angry]
 [Taking a bath]
 [Tired]

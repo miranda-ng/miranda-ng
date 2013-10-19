@@ -929,7 +929,7 @@ Limpeza de grupos
 Todas as operações completas
 [Close]
 Fechar
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Você tem que estar online para sincronizar o servidor-lista!
 [** All contacts **]
 ** Todos os contatos **

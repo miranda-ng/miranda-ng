@@ -101,8 +101,8 @@ Skjul Mine Detaljer
 Sett Mitt Kallenavn for %s
 [Set My Status Message for %s]
 Sett Min Statusmelding for %s
-[Show next protocol]
-Vis neste protokoll
+[Show next account]
+
 [Contact List]
 Kontaktliste
 ;file \plugins\MyDetails\src\options.cpp

@@ -26,7 +26,7 @@ Ham
 Lerne Nachricht:
 [Auto approve contact if message score below]
 Autom. verifizieren, wenn Wertung kleiner als
-[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
 Aktivieren Sie keine dieser Einstellungen, bis Spam-o-tron nicht mindestens 20 Ham- und 50 Spam-Nachrichten antrainiert wurden!
 [Learned ham messages:]
 Trainierte Hams:

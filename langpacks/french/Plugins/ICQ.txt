@@ -831,7 +831,7 @@ Suppression du groupe "%s" ...
 Opérations terminées !
 [Close]
 Fermer
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Vous devez être En ligne pour synchroniser le serveur !
 [** All contacts **]
 ** Tous les contacts **

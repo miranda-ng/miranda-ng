@@ -66,7 +66,7 @@ Vorwärtssuche im Nachrichtenfenster
 Groß-/Kleinschreibung
 [Match Whole Word]
 Ganzes Wort berücksichtigen
-[Only Incomming Messages]
+[Only Incoming Messages]
 Nur eingehende Nachrichten
 [Only Outgoing Messages]
 Nur ausgehende Nachrichten
@@ -313,7 +313,7 @@ Wechsel zu Groß-/Kleinschreibung
 Wechsel zu ganzes Wort
 [Show/Hide Contacts]
 Zeige/Verstecke Kontakte
-[Switch Only Incomming Messages]
+[Switch Only Incoming Messages]
 Wechsel zu eingehende Nachrichten
 [Switch Only Outgoing Messages]
 Wechsel zu ausgehende Nachrichten

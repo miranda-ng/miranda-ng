@@ -1031,7 +1031,7 @@ ICQ サーバーへの接続が失敗したため終了しました
 全ての作業は完了しました
 [Close]
 閉じる
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 サーバーリストを同期するにはオンラインになる必要があります
 [** All contacts **]
 ** 全てのコンタクト **

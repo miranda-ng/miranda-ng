@@ -65,7 +65,7 @@
 Враховувати регістр
 [Match Whole Word]
 Слово цілком
-[Only Incomming Messages]
+[Only Incoming Messages]
 Тільки вхідні повідомлення
 [Only Outgoing Messages]
 Тільки вихідні повідомлення
@@ -306,7 +306,7 @@ dat (mContacts)
 Слово цілком
 [Show/Hide Contacts]
 Показати/приховати контакти
-[Switch Only Incomming Messages]
+[Switch Only Incoming Messages]
 Тільки вхідні повідомлення
 [Switch Only Outgoing Messages]
 Тільки вихідні повідомлення

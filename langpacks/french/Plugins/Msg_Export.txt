@@ -63,7 +63,7 @@ Remettre le nom de fichier par défaut
 [Copy]
 Copier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Search string was not found !]
+[Search string was not found!]
 Ligne recherchée non trouvée !
 [Color...]
 Couleur...
@@ -94,7 +94,7 @@ N'a pas trouvé Msg_Export.dll Veuillez localisé Msg_Export.txt manuellement.
 Fichier
 [Nick]
 Pseudo
-[You have unapplyed changes do you wish to apply these first?]
+[You have not applied the changes, do you wish to apply them first?]
 Vous avez restauré les changements, voulez-vous d'abord les enregistrer?
 [Select Destination Directory]
 Choix du répertoire de destination

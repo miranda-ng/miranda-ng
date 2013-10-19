@@ -107,8 +107,8 @@ Ddetaylarımı Gizle
 %s için kısa adımı ayarla
 [Set My Status Message for %s]
 %s için durum iletimi ayarla
-[Show next protocol]
-Sonraki protokolü göster
+[Show next account]
+
 [Contact List]
 Kişi Listesi
 [Contact List]

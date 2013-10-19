@@ -42,25 +42,16 @@ Hľadať
 
 [Automatically expand "settings" when Database Editor ++ starts]
 
-[Use known modules list]
-
 [Warn when deleting modules]
 
 ["Open user tree in DBE++" menu item]
 
 [Use popups when watched settings change values]
 
-[Modules to ALWAYS mark as known (e.g core modules)]
-
-[Put a space or comma between each module name]
-
-[Changes to this list will take effect next time miranda starts]
-
 [Popup timeout (0 for infinite)]
 
 [Background color]
 Farba pozadia
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 
 [Add a module to contact]
 
@@ -192,8 +183,6 @@ Vymazať
 
 [Export Module]
 
-[Add To Known Modules]
-
 [&Clone]
 
 [Export Contact]
@@ -305,10 +294,6 @@ Všetky súbory
 [Closed Known Module]
 
 [Open Known Module]
-
-[Closed Unknown Module]
-
-[Open Unknown Module]
 
 [Contacts Group]
 

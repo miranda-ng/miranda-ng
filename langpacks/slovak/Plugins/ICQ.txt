@@ -1447,7 +1447,7 @@ Vaše pripojenie na ICQ server bolo nečakane ukončené
 
 [Close]
 Zavrieť
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 
 [** All contacts **]
 ** Všetky kontakty **

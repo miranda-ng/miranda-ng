@@ -111,8 +111,8 @@ protocolo Siguiente
 Establecer mi apodo para %s
 [Set My Status Message for %s]
 Establecer el estado de mi Mensaje para la %s
-[Show next protocol]
-Mostrar el próximo protocolo de
+[Show next account]
+
 [Contact List]
 Lista de contactos
 ;file \plugins\MyDetails\src\options.cpp

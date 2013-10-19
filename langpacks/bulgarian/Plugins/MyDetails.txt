@@ -157,8 +157,6 @@
 Задаване на прякор за %s
 [Set My Status Message for %s]
 Текст за състояние "%s"
-[Show next protocol]
-Показване на следващия протокол
 [Contact List]
 Списък с контакти
 ;file \plugins\MyDetails\src\options.cpp

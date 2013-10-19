@@ -834,6 +834,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_userdata%\\Logs]
+
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
 [username for currently logged-on Windows user]

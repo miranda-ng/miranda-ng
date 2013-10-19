@@ -103,8 +103,8 @@ Részleteim elrejtése
 Becenevem beállítása %s részére
 [Set My Status Message for %s]
 Állapot üzenetem beállítása %s részére
-[Show next protocol]
-Következõ protokoll mutatása
+[Show next account]
+
 [Contact List]
 Kapcsolati lista
 ;file \plugins\MyDetails\src\options.cpp

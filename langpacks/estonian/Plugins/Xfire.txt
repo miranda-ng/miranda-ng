@@ -5,7 +5,7 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 Parool:
 [Options]
@@ -32,7 +32,6 @@ OK
 Tühista
 [Search:]
 Otsi:
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Kõik failid

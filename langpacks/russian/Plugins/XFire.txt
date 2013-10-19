@@ -10,7 +10,7 @@
 Поддержка протокола XFire в Miranda NG.
 [XFire Protocol]
 Протокол XFire
-[Loginname:]
+[Login name:]
 Логин
 [You can only change your nick, if you are connected to Xfire.]
 Вы можете изменить ник, только если Xfire подключён.
@@ -74,7 +74,7 @@
 Заблокированный список пользователей
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Этот список содержит заблокированных пользователей. Вы можете удалить одного, что позволит ему посылать вам сообщения.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Вы можете просто заблокировать кого-нибудь, щелчком правой кнопки по пользователю в контакт листе.
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Этот файл используется для поиска и обнаружения игры. Файл содержит поддерживаемые игры Xfire.
@@ -86,6 +86,8 @@
 Установка ваших игр...
 [StatusMsg]
 Статусные сообщения
+[Please enter server password...]
+
 [Change the status to occupied]
 Изменять статус на "занят"
 [With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
@@ -142,10 +144,6 @@
 Скрыть себя в списке друзей
 [Don't display game search results]
 Не показывать результаты поиска игр
-[Gameicon:]
-Значок игры:
-[Voiceicon:]
-Значок голосового чата:
 [Unable to connect to XFire.]
 Не могу подключится к XFire.
 [Start game]
@@ -222,7 +220,7 @@
 Пожалуйста, выберите игру из списка!
 [Please wait ...]
 Пожалуйста подождите
-[No Loginname is set!]
+[No Login name is set!]
 Логин не установлен!
 [Working Folder]
 Рабочая папка

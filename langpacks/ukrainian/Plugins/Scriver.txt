@@ -845,6 +845,8 @@ Miranda не змогла завантажити вбудовану систем
 
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
+[will return parsed string %miranda_userdata%\\Logs]
+
 [same as environment variable %APPDATA% for currently logged on Windows user]
 
 [username for currently logged on Windows user]

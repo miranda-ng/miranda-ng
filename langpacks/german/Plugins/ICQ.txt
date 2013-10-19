@@ -1449,7 +1449,7 @@ Gruppe "%s" löschen...
 Alle Operationen beendet
 [Close]
 Schließen
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Sie müssen für das Synchronisieren der Serverliste online sein!
 [** All contacts **]
 ** Alle Kontakte **

@@ -191,17 +191,17 @@ Zurückgesendete Nachricht erhalten.
 Sende sichere Nachricht zurück...
 [SecureIM disabled...]
 SecureIM deaktiviert.
-[Sending Key...]
+[Sending key...]
 Sende Schlüssel...
-[Key Received...]
+[Key received...]
 Schlüssel erhalten...
-[Sending Message...]
+[Sending message...]
 Sende Nachricht...
-[Message Received...]
+[Message received...]
 Nachricht erhalten.
-[Encrypting File:]
+[Encrypting file:]
 Verschlüssele Datei:
-[Decrypting File:]
+[Decrypting file:]
 Entschlüssele Datei:
 [Bad key received...]
 Falschen Schlüssel erhalten...
@@ -211,19 +211,19 @@ SecureIM: Fehler beim Entschlüsseln der Nachricht.
 SecureIM: Fehler beim Entschlüsseln der Nachricht, fehlerhafte Länge.
 [SecureIM: Error while decrypting the message, bad message CRC.]
 SecureIM: Fehler beim Entschlüsseln der Nachricht, fehlerhaftes CRC.
-[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now?]
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
 Benutzer hat den Schlüsselaustausch nicht beantwortet!\nIhre Nachrichten sind immer noch in der SecureIM-Warteschlange, möchten Sie diese nun unverschlüsselt senden?
-[SecureIM not enabled! You Must Enable SecureIM with this user...]
+[SecureIM not enabled! You must enable SecureIM with this user...]
 SecureIM nicht aktiviert! Sie müssen bei diesem Benutzer SecureIM aktivieren...
-[Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
 Kann keine verschlüsselte nachricht senden!\nDer Benutzer ist jetzt offline und sein geheimer Schlüssel ist ausgelaufen,\nmöchten Sie Ihre Nachricht nun unverschlüsselt senden?
-[SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 SecureIM wird nicht geladen weil cryptopp.dll fehlt oder in einer falschen Version vorliegt!
 [SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
 SecureIM kann PGP-/GPG-Schlüssel nicht laden. Prüfen Sie Ihre PGP-/GPG-Einstellungen!
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM kann die Nachricht nicht verschlüsseln! Prüfen Sie die Vertrauenswürdigkeit Ihrer PGP-/GPG-Schlüssel.
-[Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
+[Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
 Kann Nachricht nicht verschlüsselt senden.\nMöchten Sie die Nachricht unverschlüsselt senden?
 [Can't change mode! Secure connection established!]
 Kann Modus nicht ändern! Sichere Verbindung aufgebaut.
@@ -263,7 +263,7 @@ Diese Version wird nicht unterstützt!
 Privater Schlüssel geladen.
 [Private key not loaded!]
 Privater Schlüssel nicht geladen!
-[The new settings will become valid when you restart MirandaNG!]
+[The new settings will become valid when you restart Miranda NG!]
 Die neuen Einstellungen werden nach einem Neustart von Miranda NG wirksam!
 [Keyrings disabled!]
 Schlüsselringe deaktiviert!

@@ -32,8 +32,6 @@
 
 [Load count of users on actual server after connection]
 
-[Enable logging for debugging purposes]
-
 [Meet strangers with common interests]
 
 [Your interests (separated by commas):]

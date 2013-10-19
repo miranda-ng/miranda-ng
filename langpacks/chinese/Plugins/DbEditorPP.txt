@@ -36,26 +36,16 @@
 还原最后打开位置
 [Automatically expand "settings" when Database Editor ++ starts]
 数据库编辑器启动时自动扩展 "设置"
-[Use known modules list]
-使用已知模块列表
 [Warn when deleting modules]
 删除模块时警告
 ["Open user tree in DBE++" menu item]
 "在数据库编辑器中打开用户树" 菜单项
 [Use popups when watched settings change values]
 当被监视设置值变更时使用弹出窗口提示
-[Modules to ALWAYS mark as known (e.g core modules)]
-永远标记为已知模块 (例如核心模块)
-[Put a space or comma between each module name]
-模块名称间以空格或逗号间隔
-[Changes to this list will take effect next time miranda starts]
-对此列表变更将于下次 Miranda 启动时生效
 [Popup timeout (0 for infinite)]
 弹出窗口超时 (0 代表无限)
 [Background color]
 背景颜色
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-如模块名称含空格, 请在空格前放置 \\. 例如 "aaa\\ bbb"
 [Add a module to contact]
 添加模块至联系人
 [Add a module named]
@@ -174,8 +164,6 @@
 复制到联系人
 [Export Module]
 导出模块
-[Add To Known Modules]
-加至已知模块
 [&Clone]
 复制(&C)
 [Export Contact]
@@ -280,10 +268,6 @@ INI 文件
 关闭的已知模块
 [Open Known Module]
 打开的已知模块
-[Closed Unknown Module]
-关闭的未知模块
-[Open Unknown Module]
-打开的未知模块
 [Contacts Group]
 联系人群组
 [Known Contact]

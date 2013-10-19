@@ -71,7 +71,7 @@ UTF8 у новых файлах
 [Copy]
 Капіяваць
 ;file \plugins\Msg_Export\src\FileViewer.cpp
-[Search string was not found !]
+[Search string was not found!]
 Радок не знойдзена!
 [Color...]
 Колер...
@@ -106,7 +106,7 @@ UTF8 у новых файлах
 Пратакол
 [UIN]
 Нумар
-[You have unapplyed changes do you wish to apply these first?]
+[You have not applied the changes, do you wish to apply them first?]
 Ёсць незахаваныя змены, ужыць?
 [Executable files]
 Прыкладанні

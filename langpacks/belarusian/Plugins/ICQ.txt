@@ -1393,7 +1393,7 @@ ID карыстача
 Усе аперацыі завершаны
 [Close]
 Зачыніць
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Вы павінны быць далучаны для сінхранізацыі спісу на серверы
 [** All contacts **]
 ** Усе кантакты **

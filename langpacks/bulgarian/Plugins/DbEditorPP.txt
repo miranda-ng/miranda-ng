@@ -42,26 +42,16 @@ Database Editor++ Търсене и заместване
 Възстановяване на последната позиция
 [Automatically expand "settings" when Database Editor ++ starts]
 Автоматично разгръщане на настройките при стартиране на Database Editor++
-[Use known modules list]
-Ползване на списъка с познати модули
 [Warn when deleting modules]
 Предупреждение при изтриване на модул
 ["Open user tree in DBE++" menu item]
 Елемент "Отваряне на контакта в DBE++" в менюто на контактите
 [Use popups when watched settings change values]
 Уведомяване с Popup при промяна на наблюдавана стойност
-[Modules to ALWAYS mark as known (e.g core modules)]
-Модули, които ВИНАГИ ще бъдат маркирани като познати
-[Put a space or comma between each module name]
-Поставете запетая и интервал между имената на модулите
-[Changes to this list will take effect next time miranda starts]
-Промените в списъка ще бъдат приложени след рестартиране
 [Popup timeout (0 for infinite)]
 Popup времетраене (0=безкрайност)
 [Background color]
 Фонов цвят
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Поставете \\ преди интервал в името на модул, напр. "ааа\\ ббб"
 [Add a module to contact]
 Добавяне на модул към контакта
 [Add a module named]
@@ -192,8 +182,6 @@ BLOB
 Копиране в контакт
 [Export Module]
 Износ на модула
-[Add To Known Modules]
-Добавяне в познатите модули
 [&Clone]
 Клониране
 [Export Contact]
@@ -306,10 +294,6 @@ INI файлове
 Затворен познат модул
 [Open Known Module]
 Отворен познат модул
-[Closed Unknown Module]
-Непознат затворен модул
-[Open Unknown Module]
-Непознат отворен модул
 [Contacts Group]
 Група с контакти
 [Unknown Contact]

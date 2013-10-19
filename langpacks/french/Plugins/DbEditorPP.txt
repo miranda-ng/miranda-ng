@@ -36,24 +36,14 @@ Entièrement
 Sauver la position de la fenêtre
 [Automatically expand "settings" when Database Editor ++ starts]
 Étendre automatiquement les réglages quand Database Editor++ démarre
-[Use known modules list]
-Utiliser les modules connus
 [Warn when deleting modules]
 Avertir avant la suppression d'un ou plusieurs modules
 [Use popups when watched settings change values]
 Afficher un popup quand les réglages sous surveillance sont modifiés
-[Modules to ALWAYS mark as known (e.g core modules)]
-Toujours marquer ses modules comme connu (ex : modules noyaux)
-[Put a space or comma between each module name]
-Mettre un espace ou une virgule entre chaque nom de module
-[Changes to this list will take effect next time miranda starts]
-Les changements ne prendront effet qu'après un redémarrage de Miranda
 [Popup timeout (0 for infinite)]
 Délai du Popup (0 pour infini) :
 [Background color]
 Couleur de fond
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Si le nom du module contient un espace, insérer \\ avant l'espace (ex "aaa\\ bbb")
 [Add a module to contact]
 Ajouter un module au contact
 [Add a module named]
@@ -150,8 +140,6 @@ Encoder chaîne
 Copier vers le contact
 [Export Module]
 Exporter le module
-[Add To Known Modules]
-Ajouter un module connu
 [&Clone]
 &Dupliquer
 [Export Contact]
@@ -250,10 +238,6 @@ Terminée. %d entrées trouvées.
 Fermer les modules connus
 [Open Known Module]
 Ouvrir les modules connus
-[Closed Unknown Module]
-Fermer les modules inconnus
-[Open Unknown Module]
-Ouvrir les modules inconnus
 [Contacts Group]
 Groupe
 [Known Contact]

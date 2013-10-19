@@ -1,5 +1,4 @@
 ﻿[Shows new message/status change info using on-screen display.]
-[Dialog]
 [Select font]
 [Text color]
 [Background color]
@@ -9,6 +8,7 @@
 [Shadow align]
 [General]
 [Shadow]
+[Show drop shadow]
 [Align]
 [Shadow distance:]
 [Other]

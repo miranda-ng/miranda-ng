@@ -51,7 +51,7 @@ Requête de fichier entrant. Voulez-vous continuer ?
 Annulé par l'utilisateur à distance
 [New incoming file request. Do you want to proceed?]
 Nouvelle requête de fichier entrant. Voulez-vous continuer ?
-[Paused, because connection dropped]
+[File transfer is paused because of dropped connection]
 Suspendu, due à la perte de connexion
 [Failed on file initialization]
 Échec d'initialisation du fichier

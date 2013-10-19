@@ -7,10 +7,10 @@
 ;============================================================
 [Xfire protocol support for Miranda NG.]
 
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 Passwort:
-[Loginname:]
+[Login name:]
 Benutzername:
 [XFire]
 XFire
@@ -48,10 +48,6 @@ Den Freunden meiner Freunde anzeigen
 Einstellungen
 [More options]
 Weitere Einstellungen
-[Gameicon:]
-Spielicon:
-[Voiceicon:]
-Sprachicon:
 [Display Error and Infomessage:]
 Fehler- und Informationsanzeige:
 [Main group for clan groups:]
@@ -70,7 +66,7 @@ icons.dll
 Gesperrte Benutzer
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Die Liste enthält all Ihre blockierten XFire-Nutzer. Sie können einen entfernen, wenn Sie ihm erlauben möchten, Ihnen eine Freundeseinladung zu schicken.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Sie können einen Nutzer zu der Liste hinzufügen, indem Sie in Ihrer Kontaktliste einen Rechtsklick auf ihn machen und "Benutzer ignorieren" auswählen.
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle Spiele, die von XFire unterstützt werden.
@@ -114,7 +110,7 @@ Nicht im Spiel-starten-Menü anzeigen
 (manuell hinzugefügt)
 [Extra Command Line Parameters:]
 Zus. Kommandozeilen-Parameter:
-[Edit ...]
+[Edit...]
 Bearbeiten
 [Username:]
 Benutzername:
@@ -124,16 +120,12 @@ Spiel
 Sprachkonferenzsoftware
 [Name:]
 Name:
-[Unreal Tournament 2004]
-Unreal Tournament 2004
 [IP:]
 IP:
 [Port:]
 Port:
 [Userdetails]
 Benutzerdetails
-[dufte]
-dufte
 [Copy]
 Kopieren
 [Enter Password]
@@ -180,7 +172,6 @@ Parameter:
 Neues Spiel hinzufügen
 [Searching games ...]
 Spiele werden gesucht ...
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Alle Dateien
@@ -317,7 +308,7 @@ XFire unterstützt keine Offline-Nachrichten!
 Benutzername
 [Unable to connect to XFire.]
 Es ist zurzeit nicht möglich, eine Verbindung mit XFire herzustellen.
-[No Loginname is set!]
+[No Login name is set!]
 Es wurde kein Benutzername angegeben.
 [No Password is set!]
 Es wurde kein Passwort eingegeben.
@@ -435,7 +426,7 @@ Ignorieren / Spiele
 [StatusMsg]
 Statusnachricht
 ;file \protocols\Xfire\src\pwd_dlg.cpp
-[Please enter server password ...]
+[Please enter server password...]
 
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]

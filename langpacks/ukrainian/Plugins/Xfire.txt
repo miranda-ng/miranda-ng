@@ -8,7 +8,7 @@
 Підтримка протоколу XFire в Miranda NG.
 [XFire Protocol]
 Протокол XFire
-[Loginname:]
+[Login name:]
 Логін
 [You can only change your nick, if you are connected to Xfire.]
 Ви можете змінити нік, тільки якщо Xfire підключений.
@@ -72,8 +72,8 @@
 Заблокований список користувачів
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Цей список містить заблокованих користувачів. Ви можете видалити одного, що дозволить йому посилати вам повідомлення.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
-Ви можете просто заблокувати кого-небудь, клацанням правої кнопки по користувачеві в контакт листі.
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
+Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві у списку контактів.
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
 Цей файл використовується для пошуку і виявлення ігри. Файл містить підтримувані гри Xfire.
 [This file contains all original game icons. You can also activate the option icon for downloading, if you don't have it.]
@@ -84,6 +84,8 @@
 Установка ваших ігор...
 [StatusMsg]
 Статусні повідомлення
+[Please enter server password...]
+
 [Change the status to occupied]
 Змінювати статус на "зайнятий"
 [With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
@@ -140,10 +142,6 @@
 Сховати себе в списку друзів
 [Don't display game search results]
 Не показувати результати пошуку ігор
-[Gameicon:]
-Значок ігри:
-[Voiceicon:]
-Значок голосового чату:
 [Unable to connect to XFire.]
 Не можу під'єднатися до XFire.
 [Start game]
@@ -220,7 +218,7 @@
 Будь ласка, виберіть гру зі списку!
 [Please wait ...]
 Будь ласка, зачекайте...
-[No Loginname is set!]
+[No Login name is set!]
 Логін не встановлений!
 [Working Folder]
 Робоча папка

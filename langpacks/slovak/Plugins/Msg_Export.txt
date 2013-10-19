@@ -75,9 +75,9 @@ Prednastaviť meno súboru
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]
 
-[Error: Optimal buffer size decrecied to a to low size !!]
+[Error: Optimal buffer size decrecied to a to low size!]
 
-[Internal error !! (lExtraRead >= 0)]
+[Internal error! (lExtraRead >= 0)]
 
 [Faile to execute external file view]
 
@@ -91,7 +91,7 @@ Prednastaviť meno súboru
 
 [With scroll to bottom %d\n]
 
-[Search string was not found !]
+[Search string was not found!]
 Hľadaný reťazec nebol nájdený!
 [Save as RTF]
 
@@ -140,7 +140,7 @@ Prezívka
 
 [UIN]
 
-[You have unapplyed changes do you wish to apply these first?]
+[You have not applied the changes, do you wish to apply them first?]
 Neaplikované zmeny sa majú aplikovať ako prvé?
 [Executable files]
 
