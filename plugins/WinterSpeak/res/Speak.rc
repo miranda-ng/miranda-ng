@@ -82,7 +82,7 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,85,85,10
     CONTROL         "Invisible",IDC_STATUS_INVISIBLE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,96,84,10
-    GROUPBOX        "Occuring Events",IDC_STATIC,7,117,99,116
+    GROUPBOX        "Occurring Events",IDC_STATIC,7,117,99,116
     CONTROL         "Incoming Message",IDC_EVENT_MESSAGE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,131,85,10
     CONTROL         "Incoming URL",IDC_EVENT_URL,"Button",BS_AUTOCHECKBOX | 
