@@ -189,21 +189,6 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			m_myUserId = json_as_int(it);
 			setDword("ID", m_myUserId);
 		}
-		else if ( !_stricmp(id, "user_name"))
-			setTString("Nick", ptrT( json_as_string(it)));
-		else if ( !_stricmp(id, "user_sex"))
-			setByte("Gender", json_as_int(it) == 2 ? 'M' : 'F');
-		else if ( !_stricmp(id, "user_bdate")) {
-			ptrT date( json_as_string(it));
-			int d, m, y;
-			if ( _stscanf(date, _T("%d.%d.%d"), &d, &m, &y) == 3) {
-				setByte("BirthDay", d);
-				setByte("BirthMonth", m);
-				setWord("BirthYear", y);
-			}
-		}
-		else if ( !_stricmp(id, "user_photo"))
-			setTString("Photo", ptrT( json_as_string(it)));
 	}
 
 	RetrieveUserInfo(m_myUserId);
@@ -220,7 +205,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	_itoa(userID, szUserId, 10);
 
 	HttpParam params[] = {
-		{ "fields", "uid,first_name,last_name,photo,sex,bdate,city,relation" },
+		{ "fields", "uid,first_name,last_name,photo_medium,sex,bdate,city,relation" },
 		{ "uids", szUserId },
 		{ "access_token", m_szAccessToken }
 	};
@@ -238,32 +223,49 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (pResponse == NULL)
 		return;
 
-	HANDLE hContact;
-	for (size_t i = 0; i < json_size(pResponse); i++) {
-		JSONNODE *it = json_at(pResponse, i);
-		LPCSTR id = json_name(it);
-		if ( !_stricmp(id, "user_id")) {
-			LONG userid = json_as_int(it);
-			if (userid == m_myUserId)
-				hContact = NULL;
-			else if ((hContact = FindUser(userid, false)) == NULL)
-				return;
+	for (size_t i=0; ; i++) {
+		JSONNODE *pRecord = json_at(pResponse, i);
+		if (pRecord == NULL) break;
+
+		LONG userid = json_as_int( json_get(pRecord, "uid"));
+		if (userid == 0)
+			return;
+
+		HANDLE hContact;
+		if (userid == m_myUserId)
+			hContact = NULL;
+		else if ((hContact = FindUser(userid, false)) == NULL)
+			return;
+
+		CMString tszNick;
+		ptrT szValue( json_as_string( json_get(pRecord, "first_name")));
+		if (szValue) {
+			setTString(hContact, "FirstName", szValue);
+			tszNick.Append(szValue);
+			tszNick.AppendChar(' ');
+		}		
+
+		if (szValue = json_as_string( json_get(pRecord, "last_name"))) {
+			setTString(hContact, "LastName", szValue);
+			tszNick.Append(szValue);
 		}
-		else if ( !_stricmp(id, "user_name"))
-			setTString(hContact, "Nick", ptrT( json_as_string(it)));
-		else if ( !_stricmp(id, "user_sex"))
-			setByte(hContact, "Gender", json_as_int(it) == 2 ? 'M' : 'F');
-		else if ( !_stricmp(id, "user_bdate")) {
-			ptrT date( json_as_string(it));
+
+		if ( !tszNick.IsEmpty())
+			setTString(hContact, "Nick", tszNick);
+	
+		setByte(hContact, "Gender", json_as_int( json_get(pRecord, "sex")) == 2 ? 'M' : 'F');
+	
+		if (szValue = json_as_string( json_get(pRecord, "bdate"))) {
 			int d, m, y;
-			if ( _stscanf(date, _T("%d.%d.%d"), &d, &m, &y) == 3) {
+			if ( _stscanf(szValue, _T("%d.%d.%d"), &d, &m, &y) == 3) {
 				setByte(hContact, "BirthDay", d);
 				setByte(hContact, "BirthMonth", m);
 				setWord(hContact, "BirthYear", y);
 			}
 		}
-		else if ( !_stricmp(id, "user_photo"))
-			setTString(hContact, "Photo", ptrT( json_as_string(it)));
+	
+		if (szValue = json_as_string( json_get(pRecord, "photo_medium")))
+			setTString(hContact, "AvatarUrl", szValue);
 	}
 }
 
@@ -274,7 +276,7 @@ void CVkProto::RetrieveFriends()
 	debugLogA("CVkProto::RetrieveFriends");
 
 	HttpParam params[] = {
-		{ "fields", "uid,first_name,last_name,photo,contacts" },
+		{ "fields", "uid,first_name,last_name,photo_medium,contacts" },
 		{ "count", "1000" },
 		{ "access_token", m_szAccessToken }
 	};
@@ -307,8 +309,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			tszNick.AppendChar(' ');
 		}
 
-		szValue = json_as_string( json_get(pInfo, "last_name"));
-		if (szValue) {
+		if (szValue = json_as_string( json_get(pInfo, "last_name"))) {
 			setTString(hContact, "LastName", szValue);
 			tszNick.Append(szValue);
 		}
@@ -316,8 +317,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		if ( !tszNick.IsEmpty())
 			setTString(hContact, "Nick", tszNick);
 
-		szValue = json_as_string( json_get(pInfo, "photo"));
-		if (szValue) setTString(hContact, "AvatarUrl", szValue);
+		if (szValue = json_as_string( json_get(pInfo, "photo_medium")))
+			setTString(hContact, "AvatarUrl", szValue);
 
 		setWord(hContact, "Status", (json_as_int( json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE); 
 
