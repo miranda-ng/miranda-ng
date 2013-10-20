@@ -109,8 +109,8 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.position    = 1;
 	odp.ptszGroup   = LPGENT("Network");
 	odp.ptszTab     = LPGENT("Account");
-	odp.pszTemplate = 0; // MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pfnDlgProc  = 0; // OptionsProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
+	odp.pfnDlgProc  = VKAccountProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
