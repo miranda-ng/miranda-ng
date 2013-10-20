@@ -47,7 +47,7 @@
 [Use Windows colors]
 Цветове от Windows
 [Use Popup colors]
-Цветове от PopUp приставката
+Цветове от Popup приставката
 [Use custom colors]
 Избор на цветове
 [Back]

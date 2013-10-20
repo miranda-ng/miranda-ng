@@ -214,7 +214,7 @@ TabSRMM грешка
 [Only show event notifications when my status is...]
 Уведомяване само когато състоянието ми е...
 [Popup Options]
-PopUp настройки
+Popup настройки
 [Text]
 Текст
 [Background]

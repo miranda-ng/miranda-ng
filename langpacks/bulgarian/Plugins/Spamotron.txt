@@ -91,7 +91,7 @@ Flood защита
 [and mark them unread after approval]
 и маркиране като непрочетени след потвърждаване
 [Enable popup notifications]
-Уведомяване с PopUp
+Уведомяване с Popup
 [Contact blocked]
 Блокиран контакт
 [Contact approved]

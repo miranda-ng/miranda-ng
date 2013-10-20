@@ -131,7 +131,7 @@ URL за още инф.
 [Cancel]
 Отказ
 [Popup Options]
-PopUp настройки
+Popup настройки
 [Enable popups]
 Включване на popups
 [Popup only when condition changes]
