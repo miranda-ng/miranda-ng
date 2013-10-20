@@ -16,7 +16,7 @@ Nazwa użytkownika:
 XFire
 [Nick:]
 Nick:
-[Current Protocolversion:]
+[Current protocol version:]
 Wersja protokołu:
 [Note: You can only change these settings, if you are connected to Xfire.]
 Info. Aby zmienić ustawienia protokołu musisz się połączyć.
@@ -78,7 +78,7 @@ Upewnij się że pliki znajdują się w folderze:
 Opis
 [Enable]
 Włącz
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 Kiedy grasz w jakąś grę i chcesz pokazać komuś w co grasz, zaznacz tą opcję, ustawi ona w opisie dane na temat w co w tej chwili grasz. Możesz również zmienić automatycznie status kiedy grasz.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Dostępne zmienne: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -240,7 +240,7 @@ Logowanie nieudane.
 Wersja protokołu jest za stara. Zmieniono aktualną wersję z %d do %d. Możesz ponownie się połączyć. 
 [The protocol version is too old. Cannot detect a new version number.]
 Wersja protokołu jest za stara. Nie można wykryć numeru nowszej wersji.
-[Someone loged in with your account.disconnect.]
+[Someone logged in with your account. Disconnect.]
 Ktoś zalogował się na twoje konto. Rozłączono.
 [Do you really want to add %s to your friend list?]
 Czy na pewno chcesz dodać %s do listy przyjaciół?

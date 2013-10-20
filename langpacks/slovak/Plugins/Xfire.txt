@@ -16,7 +16,7 @@ Heslo:
 
 [Nick:]
 Prezívka:
-[Current Protocolversion:]
+[Current protocol version:]
 
 [Note: You can only change these settings, if you are connected to Xfire.]
 
@@ -78,7 +78,7 @@ Prezívka:
 
 [Enable]
 
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 
@@ -240,7 +240,7 @@ Mmm...obed.
 
 [The protocol version is too old. Cannot detect a new version number.]
 
-[Someone loged in with your account.disconnect.]
+[Someone logged in with your account. Disconnect.]
 
 [Do you really want to add %s to your friend list?]
 

@@ -12,7 +12,7 @@
 登录名:
 [Nick:]
 昵称: 
-[Current Protocolversion:]
+[Current protocol version:]
 当前协议版本:
 [Note: You can only change these settings, if you are connected to Xfire.]
 提示: 如果您想连接至 Xfire, 仅能修改以下设置.
@@ -66,7 +66,7 @@
 此文件包含所有原版游戏图标. 如您没有此文件, 可启用选项下载图标.
 [Be sure you put these files in following folder:]
 请确认您已把这些文件放至以下目录:
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 有了此功能, 如您在游戏中, 下列状态消息将设置于您的其它协议插件. 所以您的好友可以看到您在玩什么. 如启用此选项, 将更改状态为忙碌.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 支持以下变量: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -146,7 +146,7 @@ XFire 选项
 登录失败.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 协议版本过旧. 更改当前版本从 %d 至 %d. 您可立即重连.
-[Someone loged in with your account.disconnect.]
+[Someone logged in with your account. Disconnect.]
 有人使用您的账号登录.已断开连接.
 [Add me to your friends list.]
 请加我至您的好友列表.

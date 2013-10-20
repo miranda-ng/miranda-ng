@@ -24,7 +24,7 @@
 Использовать прокси
 [Enter your HTTP Proxy here. SOCKS4/5 are currently not supported.]
 Введите здесь ваш HTTP прокси. SOCKS4/5 на данный момент не поддерживается.
-[Current Protocolversion:]
+[Current protocol version:]
 Текущая версия протокола
 [Gamedetection]
 Обнаружение игры
@@ -90,7 +90,7 @@
 Введите пароль сервера.
 [Change the status to occupied]
 Изменять статус на "занят"
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 С этой возможностью, следующее статусное сообщение будет установлено на другой протокол, если вы в игре. Так ваши друзья будут видеть, что вы играете. Это так же изменит ваш статус на "занят", если вы включили эту функцию.
 [The status message and status will be reset, if you close the game.]
 Статусное сообщение и статус будут сброшены, если вы закроете игру.

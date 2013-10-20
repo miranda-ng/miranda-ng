@@ -344,7 +344,7 @@ Zoznam kontaktov
 
 [Disable Secure Connection]
 
-[Establishe Secure Connection]
+[Establish Secure Connection]
 
 [Message Window]
 

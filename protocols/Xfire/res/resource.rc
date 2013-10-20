@@ -83,7 +83,7 @@ BEGIN
     GROUPBOX        "XFire",IDC_GROUPMAIN,2,1,300,46,WS_GROUP
     RTEXT           "Nick:",IDC_STC1,8,88,58,9
     EDITTEXT        IDC_NICK,68,86,100,13,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE
-    RTEXT           "Current Protocolversion:",IDC_STC16,178,206,94,11,SS_CENTERIMAGE | SS_REALSIZEIMAGE | NOT WS_GROUP
+    RTEXT           "Current protocol version:",IDC_STC16,178,206,94,11,SS_CENTERIMAGE | SS_REALSIZEIMAGE | NOT WS_GROUP
     EDITTEXT        IDC_PVER,274,207,24,12,ES_READONLY | NOT WS_BORDER,WS_EX_CLIENTEDGE
     EDITTEXT        IDC_LASTGAME,2,51,298,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Note: You can only change these settings, if you are connected to Xfire.",IDC_STC22,6,73,290,11,NOT WS_GROUP
@@ -147,7 +147,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Status Message",IDC_GRP1,2,1,300,214
     CONTROL         "Enable",IDC_ENABLESTSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,14,132,9
-    LTEXT           "With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.",IDC_STC28,10,38,286,24,NOT WS_GROUP
+    LTEXT           "With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.",IDC_STC28,10,38,286,24,NOT WS_GROUP
     LTEXT           "Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%",IDC_STC29,10,96,286,19,NOT WS_GROUP
     EDITTEXT        IDC_STATUSMSG,8,131,286,70,ES_MULTILINE | NOT WS_BORDER,WS_EX_CLIENTEDGE
     LTEXT           "Status message:",IDC_STC30,10,118,94,9,NOT WS_GROUP

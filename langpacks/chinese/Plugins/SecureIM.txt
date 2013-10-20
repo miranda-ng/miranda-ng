@@ -154,7 +154,7 @@ SecureIM 状态 (禁用)
 连接已创建
 [Disable Secure Connection]
 显示安全连接
-[Establishe Secure Connection]
+[Establish Secure Connection]
 建立安全连接
 [Message Window]
 消息窗口

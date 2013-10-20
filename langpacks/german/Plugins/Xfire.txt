@@ -16,7 +16,7 @@ Benutzername:
 XFire
 [Nick:]
 Nick:
-[Current Protocolversion:]
+[Current protocol version:]
 Derzeitige Protokollversion:
 [Note: You can only change these settings, if you are connected to Xfire.]
 Info: Diese Einstellungen können nur geändert werden, wenn Sie mit XFire verbunden sind.
@@ -78,7 +78,7 @@ Die Dateien müssen in folgendem Ordner sein:
 Statusnachricht
 [Enable]
 Aktivieren
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 Die Einstellung ermöglicht es, dass eine Statusnachricht bei anderen aktiven Protokollen gesetzt wird, wenn man im Spiel ist. Ihre anderen Kontakte können sehen, was Sie spielen. Es wird auch der Onlinestatus auf Beschäftigt gestellt, wenn die Option dafür aktiviert wurde.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Folgende Variablen sind verfügbar: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -240,7 +240,7 @@ Login fehlgeschlagen.
 Die Protokollversion ist zu alt. Sie wurde von der Version %d auf die aktuelle Version %d aktualisiert. Sie können sich nun mit XFire neu verbinden.
 [The protocol version is too old. Cannot detect a new version number.]
 Die Protokollversion ist zu alt. Es konnte keine neue Versionsnummer entdeckt werden.
-[Someone loged in with your account.disconnect.]
+[Someone logged in with your account. Disconnect.]
 Jemand hat sich mit Ihren Zugangsdaten angemeldet. Verbindung wurde getrennt.
 [Do you really want to add %s to your friend list?]
 Möchten Sie wirklich %s zu Ihrer Freundesliste hinzufügen?

@@ -703,7 +703,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		}
 
 		case XFIRE_OTHER_LOGIN:
-			MSGBOXE(Translate("Someone loged in with your account.disconnect."));
+			MSGBOXE(Translate("Someone logged in with your account. Disconnect."));
 			SetStatus(ID_STATUS_OFFLINE,NULL);
 			break;
 

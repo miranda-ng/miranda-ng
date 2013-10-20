@@ -344,7 +344,7 @@ Ustawione połączenie
 Menu kontaktu
 [Disable Secure Connection]
 Wyłączone bezpieczne połączenie
-[Establishe Secure Connection]
+[Establish Secure Connection]
 Ustawione bezpieczne połączenie
 [Message Window]
 Okno rozmowy

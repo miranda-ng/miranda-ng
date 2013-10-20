@@ -308,7 +308,7 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 Меню кантакту
 [Disable Secure Connection]
 Выключыць абароненае злучэнне
-[Establishe Secure Connection]
+[Establish Secure Connection]
 Ініцыяваць абароненае злучэнне
 [Message Window]
 Вакно паведамленняў

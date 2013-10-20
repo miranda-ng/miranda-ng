@@ -15,7 +15,7 @@ GPG ключ
 Нет соединения
 [Connection Established (new)]
 Новое соединение
-[Establishe Secure Connection]
+[Establish Secure Connection]
 Инициировать защищённое соединение
 [Key Exchange]
 Обмен ключами

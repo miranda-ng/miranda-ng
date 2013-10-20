@@ -17,7 +17,7 @@ static icons[] =
 
 	// Contact Menu
 	{IDI_CM_DIS,	TBL_ICO, ICO_CM_DIS,	MODULENAME"/"LPGEN("Contact Menu"), "sim_cm_dis", LPGEN("Disable Secure Connection")},
-	{IDI_CM_EST,	TBL_ICO, ICO_CM_EST,	MODULENAME"/"LPGEN("Contact Menu"), "sim_cm_est", LPGEN("Establishe Secure Connection")},
+	{IDI_CM_EST,	TBL_ICO, ICO_CM_EST,	MODULENAME"/"LPGEN("Contact Menu"), "sim_cm_est", LPGEN("Establish Secure Connection")},
 
 	// Message Window
 	{IDI_MW_DIS,	TBL_ICO, ICO_MW_DIS,	MODULENAME"/"LPGEN("Message Window"), "sim_mw_dis", LPGEN("Connection Disabled")},

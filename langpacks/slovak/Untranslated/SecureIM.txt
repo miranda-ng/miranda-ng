@@ -154,7 +154,7 @@
 [Connection Established]
 [Contact Menu]
 [Disable Secure Connection]
-[Establishe Secure Connection]
+[Establish Secure Connection]
 [Message Window]
 [Popups]
 [Secure Connection Disabled]

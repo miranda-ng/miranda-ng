@@ -344,7 +344,7 @@ Verbindung hergestellt
 Kontaktmenü
 [Disable Secure Connection]
 Sichere Verbindung trennen
-[Establishe Secure Connection]
+[Establish Secure Connection]
 Sichere Verbindung herstellen
 [Message Window]
 Nachrichtenfenster

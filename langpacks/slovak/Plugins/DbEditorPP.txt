@@ -52,7 +52,6 @@ Hľadať
 
 [Background color]
 Farba pozadia
-
 [Add a module to contact]
 
 [Add a module named]

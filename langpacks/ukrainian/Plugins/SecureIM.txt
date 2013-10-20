@@ -341,7 +341,7 @@ SecureIM: отримано зашифроване повідомлення:\n
 Меню контакту
 [Disable Secure Connection]
 Вимкнути захищене з'єднання
-[Establishe Secure Connection]
+[Establish Secure Connection]
 Ініціювати захищене з'єднання
 [Message Window]
 Вікно повідомлень
