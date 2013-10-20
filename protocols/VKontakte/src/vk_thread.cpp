@@ -243,7 +243,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			setTString(hContact, "FirstName", szValue);
 			tszNick.Append(szValue);
 			tszNick.AppendChar(' ');
-		}		
+		}
 
 		if (szValue = json_as_string( json_get(pRecord, "last_name"))) {
 			setTString(hContact, "LastName", szValue);
@@ -263,7 +263,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				setWord(hContact, "BirthYear", y);
 			}
 		}
-	
+
 		if (szValue = json_as_string( json_get(pRecord, "photo_medium")))
 			setTString(hContact, "AvatarUrl", szValue);
 	}
@@ -323,9 +323,9 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		setWord(hContact, "Status", (json_as_int( json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE); 
 
 		szValue = json_as_string( json_get(pInfo, "mobile_phone"));
-		if (szValue && *szValue) setTString(hContact, "Phone0", szValue);
+		if (szValue && *szValue) setTString(hContact, "Cellular", szValue);
 		szValue = json_as_string( json_get(pInfo, "home_phone"));
-		if (szValue && *szValue) setTString(hContact, "Phone1", szValue);
+		if (szValue && *szValue) setTString(hContact, "Phone", szValue);
 	}
 }
 
