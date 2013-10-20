@@ -763,8 +763,6 @@ Wiki-старонка дадатковых параметраў
 Ваша імя
 [Incoming contacts]
 Уваходныя кантакты
-[Outgoing contacts]
-Выходныя кантакты
 [System message]
 Сістэмнае паведамленне
 [Incoming timestamp]

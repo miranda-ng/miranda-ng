@@ -250,8 +250,6 @@ YAMN: збой далучэння
 Адключаны
 [POP3 protocol (internal)]
 Пратакол POP3 (убудаваны)
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Апавяшчэнне і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
 [Found new version of account book, not compatible with this version of YAMN.]
 Знойдзена новая версія файла з контамі - яна несумяшчальная з бягучай версіяй YAMN.
 [YAMN (internal POP3) read error]
