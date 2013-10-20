@@ -22,7 +22,7 @@ Tło
 Tekst
 [Close after:]
 Zamknij po:
-[sek.(0 default,\n -1 disabled)]
+[sec.(0 default,\n -1 disabled)]
 sek.(0 domyślne,\n -1 wyłączone)
 [...but only if popup not clicked]
 ...ale tylko te niekliknięte
@@ -69,15 +69,15 @@ Zarejestruj
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Załadowanie wymaganych funkcji API biblioteki Lotus nie powiodło się.
-[Lotus Notes Client not detected. Check plugin configuration descripted on install.txt]
+[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
 Nie znalazłem zainstalowanego klienta Lotus Notes. Sprawdź w pliku install.txt poprawność konfiguracji pluginu.
 [Unable to initialize Notes.]
 Zainicjowanie interfejsu Lotus Notes nie powiodło się.
-[Lotus Notes Extension Manager was not registered. Authentication function will not work propertly]
+[Lotus Notes Extension Manager was not registered. Authentication function will not work properly]
 Nie udało się prawidłowo zarejestrować w Managerze Rozszerzeń Lotus Notes. Autoryzacja z wykorzystaniem mechanizmów LotusNotify nie będą działały poprawnie.
 [In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
 W pliku notes.ini nie ma wymaganego wpisu EXTMGR_ADDINS=plugindllnamewithout".dll"
-[This utility check your notes.ini file if it's set to autenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin buildin authentication will not work propertly. Do you want to add Plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]
+[This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]
 To narzędzie pozwala sprawdzić twój plik notes.ini, czy został prawidłowo ustawiony, aby ten plugin był użyty jako bezpieczny. Wygląda na to, że wtyczka nie została dodana jako rozszerzenie, dlatego wbudowana autentykacja nie będzie funkcjonowała prawidłowo. Czy chces dodać ten plugin jako rozszerzenie Lotusa (modyfikacja pliku notes.ini przez dodanie wpisu "EXTMGR_ADDINS=PLUGINNAME")?
 [LotusNotify plugin configuration]
 Konfiguracja pluginu LotusNotify

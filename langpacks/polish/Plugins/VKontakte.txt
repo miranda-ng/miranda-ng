@@ -1,0 +1,42 @@
+﻿#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte
+;  Version: 0.1.0.2
+;  Authors: Miranda NG Team
+;============================================================
+[VKontakte protocol support for Miranda NG.]
+Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
+;file \protocols\VKontakte\res\resource.rc
+[Your login or phone number:]
+Twój login lub numer telefonu:
+[Password:]
+Hasło:
+[Open VK site]
+Otwórz stronę VK
+[Bots Challenge Test]
+Test Sprawdzający Obecność Botów
+[Instruction:]
+Instrukcja:
+[Submit]
+Wyślij
+[Cancel]
+Anuluj
+;file \protocols\VKontakte\src\misc.cpp
+[Captcha form icon]
+
+[Protocols]
+Protokoły
+[VKontakte]
+VKontakte
+;file \protocols\VKontakte\src\vk_captcha.cpp
+[Enter the text you see]
+Wprowadź tekst, który widzisz
+;file \protocols\VKontakte\src\vk_options.cpp
+[Network]
+Protokoły
+[Account]
+Konto
+;file \protocols\VKontakte\src\vk_proto.cpp
+[%s server connection]
+Połączenie %s

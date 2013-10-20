@@ -17,7 +17,7 @@ XFire
 [Nick:]
 Nick:
 [Current Protocolversion:]
-Wersja protokolu:
+Wersja protokołu:
 [Note: You can only change these settings, if you are connected to Xfire.]
 Info. Aby zmienić ustawienia protokołu musisz się połączyć.
 [Create a new Xfire account on website]
