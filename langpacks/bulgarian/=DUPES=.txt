@@ -1,4 +1,3 @@
-
 [Cancel]
 Отказ
 [&Add]
@@ -950,9 +949,7 @@ Copyright:
 [General]
 Основни
 [Popups]
-РopUps
-[Popups]
-РopUps
+Рopups
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]

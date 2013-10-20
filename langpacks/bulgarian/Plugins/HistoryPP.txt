@@ -763,8 +763,6 @@ URL връзки
 Изходящ прякор
 [Incoming contacts]
 Входящи контакти
-[Outgoing contacts]
-Изходящи контакти
 [System message]
 Системни съобщения
 [Incoming timestamp]

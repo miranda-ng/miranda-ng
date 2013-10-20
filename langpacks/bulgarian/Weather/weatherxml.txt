@@ -222,8 +222,6 @@
 
 [Pm Light Rain]
 Слаб дъжд следобед
-[Mostly Cloudy]
-Предимно облачно
 [Mostly Cloudy / Wind]
 
 [Rain]
