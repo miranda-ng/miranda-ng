@@ -16,6 +16,7 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 
 	HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::OnChatOutgoing);
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
+	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
 	this->InitContactMenus();
 
@@ -280,6 +281,23 @@ INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_WHATSAPPACCOUNT),
 		 (HWND)lParam, WhatsAppAccountProc, (LPARAM)this );
+}
+
+int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
+	odp.hInstance   = g_hInstance;
+	odp.ptszTitle   = m_tszUserName;
+	odp.dwInitParam = LPARAM(this);
+	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+
+	odp.position    = 1;
+	odp.ptszGroup   = LPGENT("Network");
+	odp.ptszTab     = LPGENT("Account");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_WHATSAPOPTIONS);
+	odp.pfnDlgProc  = WhatsAppAccountProc;
+	Options_AddPage(wParam, &odp);
+	return 0;
 }
 
 int WhatsAppProto::RefreshBuddyList(WPARAM, LPARAM )

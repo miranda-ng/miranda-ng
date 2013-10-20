@@ -5,6 +5,7 @@
 #define IDD_WHATSAPPACCOUNT             101
 #define IDD_INPUTBOX                    102
 #define IDR_REGISTERUTILITY             103
+#define IDD_WHATSAPOPTIONS              104
 #define IDI_WHATSAPP                    203
 #define IDI_ADD_GROUP                   206
 #define IDI_ADD_USER_TO_GROUP           207
@@ -32,7 +33,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        112
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1019
 #define _APS_NEXT_SYMED_VALUE           101

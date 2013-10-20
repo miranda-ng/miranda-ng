@@ -81,10 +81,11 @@ public:
 	////////////////////////
 
    // Services
-   INT_PTR __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM);
+	INT_PTR __cdecl SvcCreateAccMgrUI( WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnCreateGroup(WPARAM,LPARAM);
+	int __cdecl OnOptionsInit(WPARAM, LPARAM);
    
 	int __cdecl RefreshBuddyList(WPARAM, LPARAM);
    int __cdecl RequestFriendship(WPARAM, LPARAM);
