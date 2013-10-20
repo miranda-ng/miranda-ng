@@ -1,0 +1,121 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: speak.dll
+;  Plugin: Speak
+;  Version: 0.9.8.0
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Miranda interface to the Microsoft Speech API]
+
+;file \plugins\WinterSpeak\res\Speak.rc
+[Engine Settings]
+
+[Rate]
+
+[Volume]
+
+[Voice]
+
+[Pitch]
+
+[Test]
+
+[Engine]
+
+[Welcome Message]
+
+[Lexicon]
+
+[Message Events]
+
+[Read message if less characters than]
+
+[Ignore event if message dialog is open]
+
+[Status Changes]
+
+[Offline]
+
+[Online]
+
+[Away]
+
+[Do not Disturb]
+
+[Not Available]
+
+[Occupied]
+
+[Free for Chat]
+
+[Invisible]
+
+[Occurring Events]
+
+[Incoming Message]
+
+[Incoming URL]
+
+[Incoming File]
+
+[Authorization Request]
+
+[Added to Contact List]
+
+[Ignore event if message dialog is focused]
+
+[Status Messages]
+
+[Announce status changes on connect]
+
+[Active Modes]
+
+[Active Users]
+
+[The following events are being ignored:]
+
+[Messages]
+
+[Online Notification]
+
+[All Events]
+
+[None]
+
+[Add]
+
+[Remove]
+
+;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
+[** All contacts **]
+
+[** Unknown contacts **]
+
+;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
+[testing testing 1 2 3]
+
+;file \plugins\WinterSpeak\src\EventInformation.cpp
+[incoming message from %u]
+
+[incoming U R L from %u]
+
+[you have been added to %u's contact list]
+
+[%u requests your authorization]
+
+[there is an incoming file from %u]
+
+[%u says]
+
+;file \plugins\WinterSpeak\src\main.cpp
+[Speak]
+
+[Engine/Voice]
+
+[Announce]
+
+;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
+[Message Session]
+
+[Message Received]
+

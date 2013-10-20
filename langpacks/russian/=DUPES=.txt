@@ -2685,9 +2685,9 @@ Miranda нашла повреждения в Вашей базе. Они мог�
 Избранные
 [Events to react on]
 События
-[Incomming files]
+[Incoming files]
 Входящие файлы
-[Incomming URLs]
+[Incoming URLs]
 Входящие ссылки
 [Everything else]
 Все другие

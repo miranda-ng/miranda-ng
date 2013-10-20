@@ -111,7 +111,7 @@
 Лист користувачів:
 [Add tags to encoded and decoded messages]
 Додавати мітки повідомлень
-[Incomming message tags:]
+[Incoming message tags:]
 Додавати мітки до вхідних повідомлень:
 [Outgoing message tags:]
 Додавати мітки вихідних повідомлень:

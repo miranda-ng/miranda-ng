@@ -11,7 +11,7 @@
 Добавляет мигание светодиодов клавиатуры при прибывших сообщениях.
 [Keyboard Notify]
 Уведомление клавиатуры
-[Incomming messages]
+[Incoming messages]
 Входящие сообщения
 [Keys to flash]
 Чем моргать

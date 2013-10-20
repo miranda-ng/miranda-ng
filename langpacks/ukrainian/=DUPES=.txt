@@ -2686,9 +2686,9 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 Обрані
 [Events to react on]
 Події
-[Incomming files]
+[Incoming files]
 Вхідні файли
-[Incomming URLs]
+[Incoming URLs]
 Вхідні посилання
 [Everything else]
 Всі інші
