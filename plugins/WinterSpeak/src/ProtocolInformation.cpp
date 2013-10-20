@@ -27,7 +27,7 @@ ProtocolInformation::~ProtocolInformation()
 	}
 }
 
-void CALLBACK ProtocolInformation::TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK ProtocolInformation::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	ProtocolTimeout pt = m_instance->m_protocol_timeout.front();    
 	
@@ -46,7 +46,7 @@ void ProtocolInformation::disable(const char *protocol)
 
 	const unsigned int TIMEOUT = 10000;
 
-	unsigned int t  = SetTimer(NULL, (UINT_PTR)this, TIMEOUT, (TIMERPROC)TimerProc);
+	unsigned int t  = SetTimer(NULL, (UINT_PTR)this, TIMEOUT, TimerProc);
 	m_protocol_timeout.push_back(std::make_pair(protocol, t));
 }
 

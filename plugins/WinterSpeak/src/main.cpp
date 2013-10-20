@@ -63,7 +63,7 @@ int eventMessageAdded(WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 // Description : a messaging protocol changed state
 //-----------------------------------------------------------------------------
-int protocolAck(WPARAM wParam, LPARAM lParam)
+int protocolAck(WPARAM, LPARAM lParam)
 {
 	g_speak_announce->protocolAck(reinterpret_cast<ACKDATA *>(lParam));
 	

@@ -1,12 +1,13 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by Restart.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\Speak.rc
 //
 #define IDD_CONFIG                      101
 #define IDD_ANNOUNCE                    102
 #define IDD_ACTIVEMODES                 103
 #define IDI_RECVMSG                     136
 #define IDI_USERONLINE                  201
+#define IDD_TTS_LEXICON                 201
 #define IDI_FILLEDBLOB                  212
 #define IDI_EMPTYBLOB                   213
 #define IDC_SELECT_ENGINE               1001
@@ -44,14 +45,12 @@
 #define IDC_DIALOG_OPEN                 1116
 #define IDC_DIALOG_FOCUSED              1117
 #define IDC_ACTIVE_USERS                1118
-#define IDC_ONLINEICON                  1207
-#define IDC_MSGICON                     1375
-#define IDC_ALLICON                     1208
-#define IDC_NONEICON                    1209
 #define IDC_SUPPRESS_CONNECT            1121
 #define IDC_CONFIG_LEXICON              1122
-
-#define IDD_TTS_LEXICON                 201
+#define IDC_ONLINEICON                  1207
+#define IDC_ALLICON                     1208
+#define IDC_NONEICON                    1209
+#define IDC_MSGICON                     1375
 #define IDC_TTS_LEXICON_LIST            2001
 #define IDC_TTS_LEXICON_ORIGINAL        2002
 #define IDC_TTS_LEXICON_FINAL           2003
