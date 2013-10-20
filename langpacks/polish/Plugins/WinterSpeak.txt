@@ -6,7 +6,7 @@
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
 [Miranda interface to the Microsoft Speech API]
-
+Interfejs Mirandy dla API mowy Microsoft(SAPI)
 ;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
 Ustawienia Silnika
@@ -25,7 +25,7 @@ Silnik
 [Welcome Message]
 Wiadomość powitalna
 [Lexicon]
-
+Słownik
 [Message Events]
 Zdarzenia wiadomości
 [Read message if less characters than]

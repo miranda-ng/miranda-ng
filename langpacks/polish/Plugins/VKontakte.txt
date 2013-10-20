@@ -24,7 +24,7 @@ Wyślij
 Anuluj
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
-
+Ikona formularza Captcha
 [Protocols]
 Protokoły
 [VKontakte]
