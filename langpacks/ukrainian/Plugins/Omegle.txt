@@ -1,11 +1,121 @@
 ﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;============================================================
 ;  File: Omegle.dll
-;  Plugin: Provides basic support for Omegle Chat protocol
-;  Versions: 0.1.0.1
-;  URL: http://www.robyer.cz/en/miranda-im/omegle/
-;  Source: http://robyer.googlecode.com/svn/trunk/omegle/
-;  Authors: Robert Posel
+;  Plugin: Omegle Protocol
+;  Version: 0.1.2.0
+;  Authors: Robert Pösel
 ;============================================================
-[Provides basic support for Omegle Chat protocol.]
+[Omegle protocol support for Miranda NG.]
 Підтримка протоколу Omegle в Miranda NG.
+[Server:]
+Сервер:
+[Language:]
+Мова:
+[Visible name:]
+Видиме ім'я
+[Meet strangers with common interests (separated by commas):]
+Зустрічатися з незнайомцями, з загальними інтересами (розділених комами):
+[Automatically send this message to stranger after connection:]
+Автоматично відправити повідомлення незнайомець після підключення:
+[This text will be sent when you use "/asl" message:]
+Цей текст буде відправлений, коли ви використовуєте "/asl" повідомлення:
+[Last used question (Question mode):]
+Останні використані питання (Режим питань):
+[I want Omegle to reuse my questions if they are good enough (Question mode)]
+Я хочу, щоб Omegle використовував мої запитання, якщо вони достатньо хороші (Режим питань)
+[Automatically connect to stranger when protocol is turned online]
+Автоматично підключатися до незнайомої людині, коли протокол повернеться онлайн
+[Automatically connect to another stranger when current disconnects]
+Автоматичне підключення до іншого незнайомеця коли поточні відключається
+[Don't clear chat before connecting to new stranger]
+Не очищати чат перед підключенням до нового незнайомця
+[Load count of users on actual server after connection]
+Завантаження числа користувачів на серверах після підключення
+[Enable logging for debugging purposes]
+Увімкнути журналювання для цілей налагодження
+[Meet strangers with common interests]
+Зустрічатися з незнайомцями, з загальними інтересами
+[Your interests (separated by commas):]
+Ваші інтереси (розділяйте комами):
+[Server]
+Сервер
+[Last question is empty.]
+Останнє питання порожнє.
+[Your question is too short.]
+Ваше питання завелике.
+[Your '/asl' setting is empty.]
+Ваші налаштування '/asl' порожнє.
+[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
+Існує три різних режима у чаті:\n1) Стандартний режим\t - Ви поспілкуватися з незнайомцем наодинці\n2) Режим питань\t - Ви запитаєте двох незнайомців питання і бачити, як вони обговорюють його (ви не можете приєднатися до їх розмови, тільки дивитися)\n3) Шпигун режим\t - Ви і незнайомець, є питання для обговорення з третіми незнайомець (він не може приєднатися до вашої бесіді, тільки дивитися)\n\nSend  '/commands' доступних команд.
+[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+Ви можете використовувати різні команди:\n/help\t - показати інформацію про режими чатів\n/new\t - запустіть стандартний режим\n/ask <питання> - початок режиму питання, ваше питання\n/ask\t - починати режим питань з ваш останні питання\n/spy\t - початку шпигун режиму\n/quit\t - відключитися від незнайомця або зупинити підключення\n/asl\t - відправити заздалегідь визначені ASL повідомлення\n\nУвага: Ви можете підключити до інших незнайомеців без відключення від поточного.
+[Unknown command. Send '/commands' for list.]
+Невідома команда. Відправте '/commands' щоб показати список.
+[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
+Ви не з'єднані з незнайомцем. Відправити '/help' або ''/commands' для довідки.
+[You can't send messages in question mode.]
+Ви не можете відправляти повідомлення в режимі питань.
+[Omegle is a great way of meeting new friends!]
+Omegle це відмінний спосіб зустрічі з новими друзями!
+[You]
+Ви
+[Connection error.]
+Помилка підключення.
+[Connected to server %s. There are %s users online now.]
+Підключений до сервера %s. Там зараз %s онлайн користувачів.
+[Connected to server %s.]
+Підключення до серверу %s.
+[Stranger 1]
+Незнайомець 1
+[Stranger 2]
+Незнайомець 2
+[Stranger]
+Незнайомець
+[You and the Stranger both like: ]
+Ви подобається одне одному:
+[Stranger is typing.]
+Незнайомець набирає.
+[Stranger stopped typing.]
+Незнайомець припинив набирати.
+[%s disconnected.]
+%s відключився.
+[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
+Потрібна капча.\nПерейдіть на http://omegle.com, введіть капчу і спробуйте знов.
+[Error: ]
+Помилка:\s
+[We are still waiting...]
+Ми досі чекаємо...
+[Connecting canceled.]
+Підключення скасовано.
+[Disconnecting...]
+Відключення...
+[We are already waiting for new stranger...]
+Ми вже чекаемо нового незнайомця...
+[Connecting...]
+Підключення...
+[Waiting for Stranger...]
+Очікування незнайомця...
+[Random]
+Випадково
+[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
+Незнайомець використовує мобільну сторінку Omegle (з телефону або планшету)
+[You both speak the same language.]
+Ви обидва говорите на одній мові.
+[%s server connection]
+Підключення до серверу %s
+[Unable to get Netlib connection for Omegle]
+Не вдається отримати Netlib з'єднання для Omegle
+[Stranger typing]
+Незнайомець набирає
+[Stranger stopped typing]
+Незнайомець припинив набирати
+[Changing stranger]
+Зміна незнайомця
+[Visible name]
+Видиме ім'я
+[Network]
+Мережа
+[Account]
+Обліковий запис
+[Omegle Icon]
+Іконка

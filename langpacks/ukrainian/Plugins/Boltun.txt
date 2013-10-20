@@ -34,7 +34,7 @@
 [Thinking time:]
 Час обмірковування відповіді:
 [Engine]
-Движок
+Знаряддя
 [Base of remarks]
 База реплік
 [Reload]
@@ -68,4 +68,4 @@ Mind файли
 [General Settings]
 Основні налаштування
 [Engine Settings]
-Налаштування движку
+Налаштування знаряддя

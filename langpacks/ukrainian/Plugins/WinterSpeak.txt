@@ -1,0 +1,139 @@
+#muuid {C810C799-197C-4F6C-A047-3F1814CC364B}
+;============================================================
+;  File: Speak.dll
+;  Plugin: Winter speak
+;  Version: 0.9.8.0
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+; Зміни статусу
+[%u is now offline]
+%u не в мережі
+[%u is now online]
+%u в мережі
+[%u is away]
+%u відсутній
+[%u is invisible]
+%u невидимий
+[%u is not available]
+%u не доступний
+[%u does not want to be disturbed]
+%u не хочете, щоб вас турбували
+[%u is occupied]
+%u зайнятий
+[%u is free for chat]
+%u готовий базікати
+
+; Події
+[incoming message from %u]
+Вхідне повідомлення від %u
+[incoming U R L from %u]
+Вхідне посилання (URL) від %u
+[you have been added to %u's contact list]
+Ви були додані до списку контактів %u
+[%u requests your authorization]
+%u запитує авторизацію
+[there is an incoming file from %u]
+там вхідний файл від %u
+[%u says]
+%u сказав
+
+; Налаштування заголовку
+[Engine/Voice]
+Знаряддя/Голос
+[Announce]
+Анонс
+[Active Modes]
+Активні режими
+
+; Сторінка налаштувань Знаряддя/голосу
+[Engine Settings]
+Налаштування знаряддя
+[Engine]
+Знаряддя
+[Voice]
+Голос
+[Volume]
+Гучність
+[Rate]
+Нормалізація
+[Pitch]
+Cтупінь
+[testing testing 1 2 3]
+Переірка перевірка 1 2 3
+[Welcome Message]
+Вітальне повідомлення
+
+; Налаштування сповіщення
+[Status Changes]
+Зміна статусу
+[Offline]
+Не в мережі
+[Online]
+В мережі
+[Away]
+Відсутній
+[Do not Disturb]
+Не турбувати
+[Not Available]
+Недоступний
+[Occupied]
+Зайнятий
+[Free for Chat]
+Готовий базікати
+[Invisible]
+Невидимий
+
+[Occurring Events]
+Подій, що відбуваються
+[Incoming Message]
+Вхідне повідомлення
+[Incoming URL]
+Вхідне посилання
+[Incoming File]
+Вхідний файл
+[Authorization Request]
+Запит авторизації
+[Added to Contact List]
+Додавання у контакт лист
+[Status Messages]
+Статусне повідомлення
+[Announce status changes on connect]
+Сповіщати про зміни статусу
+[Message Events]
+Події повідомлення
+[Read message if less characters than]
+Читати повідомлення, якщо символів менш ніж
+[Ignore event if message dialog is open]
+Ігнорувати події, якщо повідомлення відкриті у діалоговому вікні
+[Ignore event if message dialog is focused]
+Ігнорувати події, якщо діалогове вікно повідомлень у фокусі
+
+; Налаштування активного режиму
+[Active Modes]
+Активні режими
+[Online]
+В мережі
+[Away]
+Відсутній
+[Do not Disturb]
+Не турбувати
+[Not Available]
+Недоступний
+[Occupied]
+Зайнятий
+[Free for Chat]
+Готовий базікати
+[Invisible]
+Невидимий
+[Active Users]
+Активні користувачі
+[The following events are being ignored:]
+Наступні події будуть ігноруватися:
+[Messages]
+Повідомлення
+[Online Notification]
+Повідомлення
+[All Events]
+Всі події
+[None]
+Нічого
