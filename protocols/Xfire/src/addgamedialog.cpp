@@ -619,7 +619,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 
 				//fillgames sucht noch
 				if(dontClose) {
-					MessageBoxA(hwndDlg, Translate("Please wait, gameþini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				
