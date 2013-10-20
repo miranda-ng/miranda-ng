@@ -525,8 +525,10 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 	} else {
 		// No homepage link, create and save it
 		val = getStringA(hContact, FACEBOOK_KEY_ID);
-		url += val;
-		setString(hContact, "Homepage", url.c_str());
+		if (val != NULL) {
+			url += val;
+			setString(hContact, "Homepage", url.c_str());
+		}
 	}
 
 	OpenUrl(url);
