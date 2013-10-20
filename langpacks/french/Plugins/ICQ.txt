@@ -19,7 +19,7 @@ Entrez un mot de passe pour l'UIN %d :
 [Cancel]
 Annuler
 [ICQ number:]
-Identifiant :
+Identifiant:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
 Note : Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
 [Retrieve a lost password or ICQ number]
@@ -828,11 +828,11 @@ Mise à jour du groupe "%s" ...
 [Deleting group "%s"...]
 Suppression du groupe "%s" ...
 [All operations complete]
-Opérations terminées !
+Opérations terminées!
 [Close]
 Fermer
 [You have to be online to sychronize the server-list!]
-Vous devez être En ligne pour synchroniser le serveur !
+Vous devez être En ligne pour synchroniser le serveur!
 [** All contacts **]
 ** Tous les contacts **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp

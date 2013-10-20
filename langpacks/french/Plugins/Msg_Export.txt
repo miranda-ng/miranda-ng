@@ -64,7 +64,7 @@ Remettre le nom de fichier par défaut
 Copier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Search string was not found!]
-Ligne recherchée non trouvée !
+Ligne recherchée non trouvée!
 [Color...]
 Couleur...
 [Font...]

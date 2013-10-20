@@ -1450,7 +1450,7 @@ Popup заглавие
 [Close]
 Затваряне
 [You have to be online to sychronize the server-list!]
-Трябва да сте на линия за синхронизиране на списъка на сървъра !
+Трябва да сте на линия за синхронизиране на списъка на сървъра!
 [** All contacts **]
 ** Всички контакти **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp

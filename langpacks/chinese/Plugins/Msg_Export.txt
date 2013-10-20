@@ -64,7 +64,7 @@
 复制
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Search string was not found!]
-搜索字符串未找到 !
+搜索字符串未找到!
 [Color...]
 颜色...
 [Font...]

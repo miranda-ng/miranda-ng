@@ -9,15 +9,15 @@
 Отображает новые сообщения/изменения статуса, используя OSD.
 ;file \plugins\wbOSD\res\wbOSD.rc
 [General]
-
+Общие
 [Align]
 Положение
 [Select font]
-
+Выбор шрифта
 [Shadow]
 Тень
 [Show drop shadow]
-
+Отбрасывать тень
 [Shadow align]
 Положение
 [Shadow color]
@@ -27,7 +27,7 @@
 [Shadow distance:]
 Сдвиг тени:
 [Other]
-
+Прочие
 [Background color]
 Цвет фона
 [Transparent]
@@ -41,9 +41,9 @@
 [Show testing OSD]
 Предпросмотр
 [Announce]
-
+Оповещение
 [Status changes]
-
+Изменения статуса
 [Show my status changes]
 Показывать смены моего статуса
 [Text color]
@@ -51,7 +51,7 @@
 [Show events]
 Показывать события
 [Format:]
-
+Формат:
 [Show message window after click]
 Нажатие открывает окно сообщения
 [Show when my status is:]
@@ -61,10 +61,10 @@
 
 ;file \plugins\wbOSD\src\options.cpp
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
-
+Переменные:\n  %n : Имя\n  %m : Сообщение\n  %l : Новая строка
 [Help]
-
+Помощь
 [Miranda NG is great and this is a long message.]
-
+Miranda NG прекрасна, а это - пример длинного сообщения.
 [Plugins]
 Плагины

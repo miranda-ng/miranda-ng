@@ -194,7 +194,7 @@ SecureIM: Памылка пры расшыфроўкі паведамлення,
 [SecureIM not enabled! You must enable SecureIM with this user...]
 SecureIM выключаны! Вы павінны ўключыць яго для гэтага карыстача...
 [Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
-Немагчыма адправіць шыфраванае паведамленне !\n Карыстач зараз адключаны, і яго ключ шыфравання састарэлы, вы жадаеце адправіць паведамленне?\n Яно будзе адпраўлена незашыфраваным!
+Немагчыма адправіць шыфраванае паведамленне!\nКарыстач зараз адключаны, і яго ключ шыфравання састарэлы, вы жадаеце адправіць паведамленне?\nЯно будзе адпраўлена незашыфраваным!
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 Модуль SecureIM не можа быць загружаны, таму што бібліятэка cryptopp.dll не знойдзена ці няправільнай версіі!
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]

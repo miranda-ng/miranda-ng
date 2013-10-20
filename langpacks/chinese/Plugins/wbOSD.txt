@@ -25,7 +25,7 @@
 [Alternative shadow]
 互换阴影
 [Shadow distance:]
-阴影距离:\s
+阴影距离:
 [Other]
 其它
 [Background color]
@@ -33,11 +33,11 @@
 [Transparent]
 
 [Alpha:]
-亮度:\s
+亮度:
 [Static]
 
 [Timeout (ms):]
-超时 (毫秒):\s
+超时 (毫秒):
 [Show testing OSD]
 显示测试 OSD
 [Announce]
@@ -51,11 +51,11 @@
 [Show events]
 显示事件
 [Format:]
-格式:\s
+格式:
 [Show message window after click]
 点击后显示消息窗口
 [Show when my status is:]
-显示当我的状态为:\s
+显示当我的状态为:
 ;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s 现为 %s
