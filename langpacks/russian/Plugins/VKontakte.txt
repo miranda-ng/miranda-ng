@@ -1,0 +1,36 @@
+﻿#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: Vkontakte.dll
+;  Module: Vkontakte protocol
+;  Versions: 0.1.0.2
+;  Authors: George Hazan
+;============================================================
+[VKontakte protocol support for Miranda NG.]
+Поддержка протокола Вконтакте в Miranda NG.
+[Your login or phone number:]
+Почта или номер тел.:
+[Password:]
+Пароль:
+[Open VK site]
+Открыть страницу ВК
+[Bots Challenge Test]
+[Instruction:]
+Инструкция
+[Submit]
+Принять
+[Cancel]
+Отмена
+[Captcha form icon]
+Иконка формы с капчей
+[Protocols]
+Протоколы
+[VKontakte]
+ВКонтакте
+[Enter the text you see]
+Введите текст который видите
+[Network]
+Сеть
+[Account]
+Учетная запись
+[%s server connection]
+Подключение к серверу %s
