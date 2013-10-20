@@ -700,7 +700,7 @@ END
 
 IDD_HTTP_AUTH DIALOGEX 0, 0, 217, 188
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Authorization Request"
+CAPTION "Authorization request"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "HTTP Authorization\nAccept or reject incoming request",IDC_HEADERBAR,

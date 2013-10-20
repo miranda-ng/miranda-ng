@@ -1060,7 +1060,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  tmp[_tcslen(tmp)-1] = '\0';
 		  if(!tmp[0])
 		  {
-			  MessageBox(0, TranslateT("please set keyring's home directory"), TranslateT("Warning"), MB_OK);
+			  MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 			  break;
 		  }
 		  db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
@@ -1138,7 +1138,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				tmp[_tcslen(tmp)-1] = '\0';
 			if(!tmp[0])
 			{
-				MessageBox(0, TranslateT("please set keyring's home directory"), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 				break;
 			}
 			db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);

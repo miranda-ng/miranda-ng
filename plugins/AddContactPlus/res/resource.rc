@@ -92,7 +92,7 @@ BEGIN
     CONTROL         "Add temporarily",IDC_ADDTEMP,"Button", BS_AUTOCHECKBOX | WS_TABSTOP,11,100,204,10
     CONTROL         "Send ""You were added""",IDC_ADDED,"Button", BS_AUTOCHECKBOX | WS_TABSTOP,11,114,204,10
     CONTROL         "Send authorization request",IDC_AUTH,"Button", BS_AUTOCHECKBOX | WS_TABSTOP,11,128,204,10
-    GROUPBOX        "Authorization Request",IDC_AUTHGB,7,147,216,45
+    GROUPBOX        "Authorization request",IDC_AUTHGB,7,147,216,45
     EDITTEXT        IDC_AUTHREQ,13,157,204,29,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
     DEFPUSHBUTTON   "&Add",IDOK,20,198,72,14
     PUSHBUTTON      "&Cancel",IDCANCEL,139,198,71,14

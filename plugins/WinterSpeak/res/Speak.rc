@@ -64,7 +64,7 @@ BEGIN
     CONTROL         "Incoming Message",IDC_EVENT_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,131,85,10
     CONTROL         "Incoming URL",IDC_EVENT_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,142,85,10
     CONTROL         "Incoming File",IDC_EVENT_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,153,85,10
-    CONTROL         "Authorization Request",IDC_EVENT_AUTHREQUEST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,164,85,10
+    CONTROL         "Authorization request",IDC_EVENT_AUTHREQUEST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,164,85,10
     CONTROL         "Added to Contact List",IDC_EVENT_ADDED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,175,85,10
     GROUPBOX        "Status Messages",IDC_STATIC,112,7,195,107
     CONTROL         "Announce status changes on connect",IDC_SUPPRESS_CONNECT,
