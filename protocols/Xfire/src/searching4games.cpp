@@ -263,7 +263,7 @@ void Scan4Games( LPVOID lparam  )
 		//letztes ergeniss sichern
 		last_gpps=gpps;
 
-		//las ma mal suchen ....
+		//las ma mal suchen...
 		gpps=xfire_GetPrivateProfileString(temp, "LongName", "", gamename, 255, inipath);
 
 		char entrytype[100]="";
@@ -711,7 +711,7 @@ void Scan4Games( LPVOID lparam  )
 		}
 	}
 
-	if(hwnd)SetDlgItemTextA(hwnd,IDC_CURRENTGAME,Translate("Write to database ..."));
+	if(hwnd)SetDlgItemTextA(hwnd,IDC_CURRENTGAME,Translate("Write to database..."));
 	
 	//gefundene games in db eintragen
 	xgamelist.writeDatabase();

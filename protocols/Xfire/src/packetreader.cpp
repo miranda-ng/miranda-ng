@@ -122,12 +122,12 @@ namespace xfirelib {
 
   void PacketReader::run() {
     // start receiving on socket...
-    XDEBUG(("Starting run() method .... \n"));
+    XDEBUG(("Starting run() method... \n"));
     while(socket != NULL) {
       string str;
       //int b = socket->recv(str);
       XFirePacket *packet = new XFirePacket(this);
-      XDEBUG(("Waiting for next packet ... \n"));
+      XDEBUG(("Waiting for next packet... \n"));
 	  if(packet==NULL) continue;
       packet->recvPacket( socket );
       XINFO(("Received packet\n"));

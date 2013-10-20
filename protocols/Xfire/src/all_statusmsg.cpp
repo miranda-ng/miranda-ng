@@ -28,7 +28,7 @@ BOOL BackupStatusMsg() {
 
 	statustype=db_get_b(NULL,protocolname,"statuschgtype",0);
 
-	XFireLog("Backup Status Message ...");
+	XFireLog("Backup Status Message...");
 
 	//alten vector löschen
 	if(olstatusmsg!=NULL)

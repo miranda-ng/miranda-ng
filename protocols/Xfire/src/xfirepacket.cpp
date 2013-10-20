@@ -65,7 +65,7 @@ namespace xfirelib {
       XERROR2("Returned less than 5 ?!: %d\n",r);
       throw SocketException("Connection Closed ?");
     }
-    XDEBUG2("Read %d bytes ...\n", r );
+    XDEBUG2("Read %d bytes...\n", r );
     unsigned int len = ((unsigned char)buf[0]) + (((unsigned char)buf[1]) * 256);
 
     int packetid = buf[2];    

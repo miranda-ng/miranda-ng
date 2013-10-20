@@ -214,10 +214,10 @@ namespace xfirelib {
 	  entry->game2 = buddiesGames->gameids->at(i);
 	  delete entry->game2Obj; entry->game2Obj = NULL;
 	}
-	XDEBUG(( "Resolving Game ... \n" ));
+	XDEBUG(( "Resolving Game... \n" ));
 	XFireGameResolver *resolver = client->getGameResolver();
 	if(resolver) {
-	  XDEBUG(( "Resolving Game ... \n" ));
+	  XDEBUG(( "Resolving Game... \n" ));
 	  if(isFirst)
 	    entry->gameObj = resolver->resolveGame( entry->game, i, buddiesGames );
 	  else

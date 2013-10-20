@@ -1191,7 +1191,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.ptszName = LPGENT("Join &Game ...");
+	mi.ptszName = LPGENT("Join &Game...");
 	joingame=Menu_AddContactMenuItem(&mi);
 
 	//joinmenüpunkt
@@ -1202,7 +1202,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.ptszName = LPGENT("Play this Game ...");
+	mi.ptszName = LPGENT("Play this game...");
 	startthisgame=Menu_AddContactMenuItem(&mi);
 
 	//remove friend
@@ -1213,7 +1213,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 2000070000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.ptszName = LPGENT("Remove F&riend ...");
+	mi.ptszName = LPGENT("Remove F&riend...");
 	removefriend=Menu_AddContactMenuItem(&mi);
 
 	//block user
@@ -1224,7 +1224,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 2000070000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.ptszName = LPGENT("Block U&ser ...");
+	mi.ptszName = LPGENT("Block U&ser...");
 	blockfriend=Menu_AddContactMenuItem(&mi);
 
 	//my fire profile
@@ -1257,7 +1257,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.ptszName = LPGENT("&Rescan my Games ...");
+	mi.ptszName = LPGENT("&Rescan my games...");
 	Menu_AddMainMenuItem(&mi);
 
 	strcpy(servicefunction, protocolname);
@@ -2243,12 +2243,12 @@ void gamedetectiont(LPVOID lparam)
 
 	DWORD lowpids=db_get_b(NULL,protocolname,"skiplowpid",100);
 
-	//XFireLog("XFire Gamedetectionthread started ...","");
+	//XFireLog("XFire Gamedetectionthread started...","");
 
 	while(1)
 	{
 		//Sleep(12000);
-		//XFireLog("12 Sek warten ...","");
+		//XFireLog("12 Sek warten...","");
 		if(mySleep(12000,hGameDetection))
 		{
 #ifndef NO_PTHREAD
@@ -2268,7 +2268,7 @@ void gamedetectiont(LPVOID lparam)
 		if(myClient!=NULL)
 			if(!myClient->client->connected)
 			{
-				//XFireLog("PID und TSPID resett ...","");
+				//XFireLog("PID und TSPID resett...","");
 				ts2pid=pid=0;
 				//voicechat internen status zurücksetzen
 				voicechat.resetCurrentvoicestatus();
@@ -2277,14 +2277,14 @@ void gamedetectiont(LPVOID lparam)
 			else*/
 			{
 				//erstmal nach TS2 suchen
-				//XFireLog("Teamspeak detection ...","");
+				//XFireLog("Teamspeak detection...","");
 				if(db_get_b(NULL,protocolname,"ts2detection",0))
 				{
 					SendGameStatus2Packet *packet = new SendGameStatus2Packet();
 					if(voicechat.checkVoicechat(packet)) {
 						if(myClient!=NULL)
 						{
-							XFireLog("Send voicechat infos ...");
+							XFireLog("Send voicechat infos...");
 							myClient->client->send( packet );
 						}
 					}
@@ -2402,7 +2402,7 @@ void gamedetectiont(LPVOID lparam)
 				if(currentgame!=NULL)
 				{
 
-					//XFireLog("XFire Gamedetection - Game still running ...","");
+					//XFireLog("XFire Gamedetection - Game still running...","");
 
 					//prüf ob das spiel noch offen
 					ec=0;
@@ -2484,7 +2484,7 @@ void gamedetectiont(LPVOID lparam)
 					}
 					else //noch offen
 					{
-						//XFireLog("Spiel noch offen ...","");
+						//XFireLog("Spiel noch offen...","");
 						//nur nwspiele nach ip/port scannen
 						if(db_get_b(NULL,protocolname,"ipportdetec",0))
 							if(currentgame->networkparams!=NULL&&currentgame->send_gameid>0)
@@ -2492,7 +2492,7 @@ void gamedetectiont(LPVOID lparam)
 								SendGameStatusPacket *packet = new SendGameStatusPacket();
 								//verscueh serverip und port zu scannen
 
-								XFireLog("IPPort detection ...","");
+								XFireLog("IPPort detection...","");
 								if(GetServerIPPort(pid,myClient->client->localaddr,myClient->client->llocaladdr,&packet->ip[3],&packet->ip[2],&packet->ip[1],&packet->ip[0],&packet->port))
 								{
 
@@ -2519,7 +2519,7 @@ void gamedetectiont(LPVOID lparam)
 								}
 								delete packet;
 							}
-						//XFireLog("fertig ...","");
+						//XFireLog("fertig...","");
 						//packet->=xf[currentgame].gameid2;
 					}
 
@@ -2527,13 +2527,13 @@ void gamedetectiont(LPVOID lparam)
 				}
 				else
 				{
-					//XFireLog("nach spiel suchen ...","");
+					//XFireLog("nach spiel suchen...","");
 					//hardcoded game detection
 					HANDLE hSnapShot = CreateToolhelp32Snapshot ( TH32CS_SNAPALL, 0);
 					PROCESSENTRY32* processInfo = new PROCESSENTRY32;
 					processInfo->dwSize = sizeof ( PROCESSENTRY32);
 
-					XFireLog("XFire Gamedetection - Suche laufende Spiele ...");
+					XFireLog("XFire Gamedetection - Suche laufende Spiele...");
 
 					//gamelist blocken
 					xgamelist.Block(TRUE);

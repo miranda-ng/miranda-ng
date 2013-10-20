@@ -60,7 +60,7 @@ namespace xfirelib {
 using namespace std; 
 
   Client::Client() {
-    XDEBUG(("Client constructor ...\n"));
+    XDEBUG(("Client constructor...\n"));
     gameResolver = NULL;
     packetReader = new PacketReader(NULL);
     packetReader->addPacketListener( this );
@@ -73,7 +73,7 @@ using namespace std;
   }
   
   Client::~Client(){
-    XDEBUG(("Client destructor ...\n"));
+    XDEBUG(("Client destructor...\n"));
     delete username;
     delete password;
     delete buddyList;
@@ -212,17 +212,17 @@ using namespace std;
 	if(this->packetReader!=NULL)
 		this->packetReader->setSocket(NULL);
 
-	XDEBUG( "cancelling readthread ... \n");
+	XDEBUG( "cancelling readthread... \n");
 #ifndef NO_PTHREAD
 	if(readthread.p!=NULL) pthread_cancel (readthread);
 	readthread.p=NULL;
 
-	XDEBUG( "cancelling sendpingthread ... \n");
+	XDEBUG( "cancelling sendpingthread... \n");
 	if(sendpingthread.p!=NULL) pthread_cancel (sendpingthread);
 	sendpingthread.p=NULL;
 #endif
 
-    XDEBUG( "deleting socket ...\n" );
+    XDEBUG( "deleting socket...\n" );
     if(socket){
         delete socket;
         socket = NULL;
@@ -288,7 +288,7 @@ using namespace std;
     }
 
     default:
-      //cout << "Nothing here ... " << endl;
+      //cout << "Nothing here... " << endl;
       break;
     }
 

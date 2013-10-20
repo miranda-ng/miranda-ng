@@ -248,7 +248,7 @@ void Xfire_gamelist::createDummyMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500090001;
-	mi.pszName = Translate("Please wait ...");
+	mi.pszName = Translate("Please wait...");
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.popupPosition = 500084000;
 	mi.pszPopupName = Translate("Start game");

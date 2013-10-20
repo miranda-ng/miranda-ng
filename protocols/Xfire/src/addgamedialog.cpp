@@ -322,7 +322,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 			{
 				//nicht schlieﬂen, wenn noch der thread l‰uft
 				if(dontClose) {
-					MessageBoxA(hwndDlg, Translate("Please wait, gameini will be currently parsed ..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				return SendMessage(GetParent(hwndDlg),WM_CLOSE,0,0);
@@ -509,7 +509,7 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 		case WM_CLOSE:
 			//nicht schlieﬂen, wenn noch der thread l‰uft
 			if(dontClose) {
-				MessageBoxA(hwndDlg, Translate("Please wait, gameini will be currently parsed ..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+				MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 				return FALSE;
 			}
 			//hauptfenster schlieﬂen
@@ -608,7 +608,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 			{
 				//nicht schlieﬂen, wenn noch der thread l‰uft
 				if(dontClose) {
-					MessageBoxA(hwndDlg, Translate("Please wait, gameini will be currently parsed ..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					MessageBoxA(hwndDlg, Translate("Please wait, game.ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				return SendMessage(GetParent(hwndDlg),WM_CLOSE,0,0);
@@ -619,7 +619,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 
 				//fillgames sucht noch
 				if(dontClose) {
-					MessageBoxA(hwndDlg, Translate("Please wait, gameini will be currently parsed ..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+					MessageBoxA(hwndDlg, Translate("Please wait, game˛ini will be currently parsed..."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					return FALSE;
 				}
 				

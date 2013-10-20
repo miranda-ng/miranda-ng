@@ -264,7 +264,7 @@ BOOL FindTeamSpeak(DWORD*pid,int*vid) {
 	PROCESSENTRY32* processInfo = new PROCESSENTRY32;
 	processInfo->dwSize = sizeof ( PROCESSENTRY32);
 
-//	XFireLog("Scanning for voiceprograms ...");
+//	XFireLog("Scanning for voiceprograms...");
 
 
 	while ( Process32Next ( hSnapShot,processInfo ) != FALSE)

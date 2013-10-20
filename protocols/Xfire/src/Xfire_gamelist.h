@@ -26,7 +26,7 @@
 
 /*
 	Klasse soll die Gameliste verwalten. Dazu gehört das dynamische Einfügen/Löschen/Verändern von Games.
-	Erstellen/Sortieren der Menüpunkte ...
+	Erstellen/Sortieren der Menüpunkte...
 */
 
 #ifndef _XFIRE_GAMELIST
