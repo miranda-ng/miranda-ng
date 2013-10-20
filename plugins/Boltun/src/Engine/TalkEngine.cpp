@@ -98,7 +98,6 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 	tstring sentence = message;
 	tstring result;
 	int len = (int)sentence.length();
-	vector<tstring> words;
 	map<int, tstring> sm;
 	//Find smiles
 	for (size_t i = 0; i < sentence.length() - 1; i++)
@@ -280,7 +279,7 @@ TalkBot::MessageInfo* TalkBot::Reply(void* contact, tstring incomingMessage, boo
 	_tcscpy(str, incomingMessage.c_str());
 	CharLower(str);
 	incomingMessage = str;
-	delete str;
+	delete [] str;
 	ContactData* contactData = contactDatas->GetData(contact);
 
 	if (incomingMessage == contactData->lastMessage && GetTickCount() < contactData->lastMessageTime + 30*60*1000)
@@ -366,7 +365,7 @@ bool TalkBot::FindExact(ContactData* contactData, const tstring &incomingMessage
 		return false;
 	}
 	pair<mm_cit, mm_cit> range = map.equal_range(incomingMessage);
-	for (mm_cit it = range.first; it != range.second; it++)
+	for (mm_cit it = range.first; it != range.second; ++it)
 		contactData->chooser.AddChoice((*it).second);
 	res = contactData->chooser.Choose();
 	return true;
@@ -461,7 +460,7 @@ tstring TalkBot::ChooseResult(ContactData* contactData, Level maxValue, const mu
 	}*/
 	typedef multimap<Level, tstring>::const_iterator lt_cit;
 	pair<lt_cit,lt_cit> range = mm.equal_range(target);
-	for (lt_cit it = range.first; it != range.second; it++)
+	for (lt_cit it = range.first; it != range.second; ++it)
 		contactData->chooser.AddChoice((*it).second);
 #ifdef DEBUG_SHOW_LEVEL
 	tstring lev = LevelToStr(target);
@@ -478,7 +477,7 @@ void TalkBot::FindByKeywords(ContactData* contactData, const vector<tstring> &ke
 		return;
 	const multimap<WordsList, tstring> &keys = isQuestion ? mind.GetData()->qkeywords : 
 		mind.GetData()->keywords;
-	for (multimap<WordsList, tstring>::const_iterator it = keys.begin(); it != keys.end(); it++)
+	for (multimap<WordsList, tstring>::const_iterator it = keys.begin(); it != keys.end(); ++it)
 	{
 		float prio;
 		if ((*it).first.MatchesAll(keywords/*, strict*/, prio))
@@ -497,7 +496,7 @@ bool TalkBot::FindByOthers(ContactData* contactData, const vector<tstring> &othe
 	const multimap<WordsList, tstring> &specs = isQuestion ? mind.GetData()->qspecialEscapes : 
 		mind.GetData()->specialEscapes;
 	for (multimap<WordsList, tstring>::const_iterator it = specs.begin(); 
-		it != specs.end(); it++)
+		it != specs.end(); ++it)
 		if ((*it).first.MatchesAny(otherwords))
 		{
 #ifdef DEBUG_SHOW_SOLUTION_REASON
@@ -575,7 +574,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 		words.push_back(str);
 	}
 	isQuestion = hadQuestionSigns;
-	for (vector<tstring>::iterator it = words.begin(); it != words.end(); it++)
+	for (vector<tstring>::iterator it = words.begin(); it != words.end(); ++it)
 	{
 		if (!isQuestion)
 		{

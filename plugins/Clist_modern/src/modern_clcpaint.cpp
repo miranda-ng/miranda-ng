@@ -1006,11 +1006,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 			{
 				ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS, NULL );
 				if ( dat->text_rtl != 0 ) _RTLRect( &counts_rc, free_row_rc.right, dx );
-				if ( InClistWindow && g_CluiData.fLayered )
-					ske_DrawTextA( hdcMem, szCounts, lstrlenA( szCounts ), &counts_rc, uTextFormat );
-				else
-					//88
-					ske_DrawTextA( hdcMem, szCounts, lstrlenA( szCounts ), &counts_rc, uTextFormat );
+				ske_DrawTextA( hdcMem, szCounts, lstrlenA( szCounts ), &counts_rc, uTextFormat );
 				if ( dat->text_rtl == 0 )
 					text_rect.right = counts_rc.right;
 				else
@@ -3186,8 +3182,6 @@ void CLCPaint::_DrawContactLine( HDC hdcMem, ClcData *dat, ClcContact *Drawing, 
 
 void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *row_rc, RECT *free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )
 {
-	int i;
-	RECT text_rc = {0};
 	UINT uTextFormat = DT_NOPREFIX |
 		/*DT_VCENTER |*/ 
 		DT_SINGLELINE | 
@@ -3196,12 +3190,12 @@ void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContac
 		( gl_TrimText?DT_END_ELLIPSIS:0 )|
 		(( dat->force_in_dialog || dat->bkChanged ) ? DT_FORCENATIVERENDER:0 );
 
-	text_rc = *row_rc;
+	RECT text_rc = *row_rc;
 
 	text_rc.right = row_rc->left;
 	text_rc.left = row_rc->right;
 
-	for ( i=0; i < Drawing->ext_nItemsNum; i++ )
+	for (int i=0; i < Drawing->ext_nItemsNum; i++ )
 	{
 		RECT *prcItem = &( Drawing->ext_mpItemsDesc[i].itemRect );
 		if ( __IsVisible( rcPaint, prcItem ) || ( Drawing->ext_mpItemsDesc[i].itemType == CIT_AVATAR && Drawing->avatar_pos == AVATAR_POS_ANIMATED ))

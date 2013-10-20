@@ -714,7 +714,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			GetDlgItemTextA(hwndDlg, IDC_CPW, cpw, sizeof(cpw));
 			GetDlgItemTextA(hwndDlg, IDC_NPW1, npw1, sizeof(npw1));
 			GetDlgItemTextA(hwndDlg, IDC_NPW2, npw2, sizeof(npw2));
-			if (strlen(cpw) > 0 && strlen(npw1) > 0 && strlen(npw2) > 0)
+			if (cpw[0] != 0 && npw1[0] != 0 && npw2[0] != 0)
 			{
 				// AOL only requires that you send the current password and a (single) new password.
 				// Let's allow the client to type (two) new passwords incase they make a mistake so we
@@ -873,7 +873,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				char str[128];
 				//SN
 				GetDlgItemTextA(hwndDlg, IDC_SN, str, sizeof(str));
-				if (strlen(str)>0)
+				if (str[0] != 0)
 					ppro->setString(AIM_KEY_SN, str);
 				else
 					ppro->delSetting(AIM_KEY_SN);
@@ -891,7 +891,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//PW
 				GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
-				if (strlen(str)>0)
+				if (str[0] != 0)
 				{
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					ppro->setString(AIM_KEY_PW, str);
@@ -901,7 +901,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//HN
 				GetDlgItemTextA(hwndDlg, IDC_HN, str, sizeof(str));
-				if (strlen(str)>0 && strcmp(str, AIM_DEFAULT_SERVER))
+				if (str[0] != 0 && strcmp(str, AIM_DEFAULT_SERVER))
 					ppro->setString(AIM_KEY_HN, str);
 				else
 					ppro->delSetting(AIM_KEY_HN);
@@ -1329,7 +1329,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case IDOK:
 				char room[128];
 				GetDlgItemTextA(hwndDlg, IDC_ROOM, room, sizeof(room));
-				if (ppro->state==1 && strlen(room) > 0)
+				if (ppro->state == 1 && room[0] != 0)
 				{
 					chatnav_param* par = new chatnav_param(room, 4);
 					ppro->ForkThread(&CAimProto::chatnav_request_thread, par);

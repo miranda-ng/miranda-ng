@@ -163,8 +163,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 		delete mind;
 		return false;
 	}
-	if (bot)
-		delete bot;
+	delete bot;
 	bot = new TalkBot(*mind);
 	delete mind;
 	UpdateEngine();
@@ -408,7 +407,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 						ofn.lpstrInitialDir = path;
 						if (!GetOpenFileName(&ofn))
 						{
-							delete filename;
+							delete[] filename;
 							delete[] filt;
 							break;
 						}
@@ -427,7 +426,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 							filename = f;
 						Config.MindFileName = filename;
 						SetDlgItemText(hwndDlg, IDC_MINDFILE, filename);
-						delete origf;
+						delete[] origf;
 					}
 				case IDC_BTNRELOAD:
 				{

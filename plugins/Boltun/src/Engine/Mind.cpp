@@ -266,7 +266,7 @@ void Mind::Load(tstring filename)
 					delete c;
 					vector<tstring> strs = Parse(s1);
 					data->raliases.insert(make_pair(sc, strs));
-					for (vector<tstring>::const_iterator it = strs.begin(); it != strs.end(); it++)
+					for (vector<tstring>::const_iterator it = strs.begin(); it != strs.end(); ++it)
 						data->aliases.insert(make_pair(*it, sc));
 					}
 					break;
@@ -316,72 +316,72 @@ void Mind::Save(tstring filename) const
 	if (fileTypeMark)
 		file << TCHAR(65279);
 
-	for (string_mmap::iterator it = data->study.begin(); it != data->study.end(); it++)
+	for (string_mmap::iterator it = data->study.begin(); it != data->study.end(); ++it)
 	{
 		file << (*it).first << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
-	for (multimap<WordsList, tstring>::iterator it = data->keywords.begin(); it != data->keywords.end(); it++)
+	for (multimap<WordsList, tstring>::iterator it = data->keywords.begin(); it != data->keywords.end(); ++it)
 	{
 		file << _T(" (") << (tstring)(*it).first << _T(")") << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
-	for (multimap<WordsList, tstring>::iterator it = data->qkeywords.begin(); it != data->qkeywords.end(); it++)
+	for (multimap<WordsList, tstring>::iterator it = data->qkeywords.begin(); it != data->qkeywords.end(); ++it)
 	{
 		file << _T(" (") << (tstring)(*it).first << _T(")") << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
-	for (multimap<WordsList, tstring>::iterator it = data->specialEscapes.begin(); it != data->specialEscapes.end(); it++)
+	for (multimap<WordsList, tstring>::iterator it = data->specialEscapes.begin(); it != data->specialEscapes.end(); ++it)
 	{
 		file << _T(" {") << (tstring)(*it).first << _T("}") << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
-	for (multimap<WordsList, tstring>::iterator it = data->qspecialEscapes.begin(); it != data->qspecialEscapes.end(); it++)
+	for (multimap<WordsList, tstring>::iterator it = data->qspecialEscapes.begin(); it != data->qspecialEscapes.end(); ++it)
 	{
 		file << _T(" {") << (tstring)(*it).first << _T("}") << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
-	for (string_mmap::iterator it = data->widelyUsed.begin(); it != data->widelyUsed.end(); it++)
+	for (string_mmap::iterator it = data->widelyUsed.begin(); it != data->widelyUsed.end(); ++it)
 	{
 		file << _T(" [") << (*it).first << _T("]") << _T('\r') << endl;
 		file << (*it).second << _T('\r') << endl;
 	}
-	for (set<tstring>::iterator it = data->question.begin(); it != data->question.end(); it++)
+	for (set<tstring>::iterator it = data->question.begin(); it != data->question.end(); ++it)
 	{
 		file << _T(" <QUESTION>") << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
-	for (set<tstring>::iterator it = data->special.begin(); it != data->special.end(); it++)
+	for (set<tstring>::iterator it = data->special.begin(); it != data->special.end(); ++it)
 	{
 		file << _T(" <IGNORED>") << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
-	for (string_vec::iterator it = data->escape.begin(); it != data->escape.end(); it++)
+	for (string_vec::iterator it = data->escape.begin(); it != data->escape.end(); ++it)
 	{
 		file << _T(" <ESCAPE>") << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
-	for (string_vec::iterator it = data->initial.begin(); it != data->initial.end(); it++)
+	for (string_vec::iterator it = data->initial.begin(); it != data->initial.end(); ++it)
 	{
 		file << _T(" <INITIAL>") << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
-	for (string_vec::iterator it = data->failure.begin(); it != data->failure.end(); it++)
+	for (string_vec::iterator it = data->failure.begin(); it != data->failure.end(); ++it)
 	{
 		file << _T(" <FAILURE>") << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
-	for (string_vec::iterator it = data->repeats.begin(); it != data->repeats.end(); it++)
+	for (string_vec::iterator it = data->repeats.begin(); it != data->repeats.end(); ++it)
 	{
 		file << _T(" <REPEAT>") << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
-	for (map<tstring,vector<tstring>>::const_iterator it = data->raliases.begin(); it != data->raliases.end(); it++)
+	for (map<tstring,vector<tstring>>::const_iterator it = data->raliases.begin(); it != data->raliases.end(); ++it)
 	{
 		tstring s;
 		const vector<tstring>& v = (*it).second;
 		bool first = true;
-		for (vector<tstring>::const_iterator it1 = v.begin(); it1 != v.end(); it1++)
+		for (vector<tstring>::const_iterator it1 = v.begin(); it1 != v.end(); ++it1)
 		{
 			if (first)
 			{

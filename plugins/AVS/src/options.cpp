@@ -903,8 +903,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 
 	case WM_NCDESTROY:
-		if (dat)
-			free(dat);
+		free(dat);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}

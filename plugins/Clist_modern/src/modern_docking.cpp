@@ -231,18 +231,6 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 
 		case WM_MOVE:
 			{
-
-				if (g_CluiData.fDocked && 0) {
-					RECT rc, rcMonitor;
-					Docking_GetMonitorRectFromWindow(msg->hwnd,&rcMonitor);
-					GetWindowRect(msg->hwnd,&rc);
-					Docking_AdjustPosition(msg->hwnd,&rcMonitor,&rc);
-					MoveWindow(msg->hwnd,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,TRUE);
-					Sync(CLUIFrames_OnMoving,msg->hwnd,&rc); 
-					ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, NULL);// -= -=  -= 
-
-					return 1;
-				}
 				ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_ALT_DRAW, NULL);
 				return 0;
 			}

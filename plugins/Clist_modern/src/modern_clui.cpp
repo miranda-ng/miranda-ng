@@ -447,9 +447,9 @@ HRESULT CLUI::CreateCLC()
 		else
 			CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 		if (bOldUseGroups != (BYTE)-1)
-			CallService(MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
+			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)bOldUseGroups, 0);
 		else
-			CallService(MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
+			CallService(MS_CLIST_SETUSEGROUPS, 0, 0);
 	}
 	nLastRequiredHeight = 0;
 	mutex_bDisableAutoUpdate = 0;
@@ -1537,15 +1537,6 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 		}
 		return 0;
 	}
-	if (g_CluiData.bCurrentAlpha == GoalAlpha  && 0)
-	{
-		if (mutex_bAnimationInProgress)
-		{
-			KillTimer(hwnd,TM_SMOTHALPHATRANSITION);
-			mutex_bAnimationInProgress = 0;
-		}
-		return 0;
-	}
 	if (mutex_bShowHideCalledFromAnimation)
 		return 0;
 
@@ -2160,7 +2151,6 @@ LRESULT CLUI::OnAutoAlphaTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 		POINT pt = UNPACK_POINT(GetMessagePos());
 		HWND hwndPt = WindowFromPoint(pt);
 
-		inwnd = FALSE;
 		inwnd = CLUI_CheckOwnedByClui(hwndPt);
 		if ( ! inwnd )
 			inwnd = ( GetCapture() == pcli->hwndContactList );
@@ -2262,11 +2252,10 @@ LRESULT CLUI::OnTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BOOL IsOption = FALSE;
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
 	SendMessage(pcli->hwndContactTree, WM_ACTIVATE, wParam, lParam);
 	if ( db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT)) {
-		if (wParam == WA_INACTIVE && ((HWND)lParam != m_hWnd) && GetParent((HWND)lParam) != m_hWnd && !IsOption)
+		if (wParam == WA_INACTIVE && ((HWND)lParam != m_hWnd) && GetParent((HWND)lParam) != m_hWnd)
 		{
 			if ( !g_bCalledFromShowHide) CLUI_UpdateTimer(0);
 		}
@@ -2279,7 +2268,7 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	if (wParam == WA_INACTIVE && ((HWND)lParam != m_hWnd) && !CLUI_CheckOwnedByClui((HWND)lParam) && !IsOption) {
+	if (wParam == WA_INACTIVE && ((HWND)lParam != m_hWnd) && !CLUI_CheckOwnedByClui((HWND)lParam)) {
 		if (g_bTransparentFlag && bTransparentFocus)
 			CLUI_SafeSetTimer(m_hWnd, TM_AUTOALPHA,250, NULL);
 	}
@@ -2295,13 +2284,12 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 	RedrawWindow(m_hWnd,NULL,NULL,RDW_INVALIDATE|RDW_ALLCHILDREN);
 	if (g_bTransparentFlag) {
 		BYTE alpha;
-		if (wParam != WA_INACTIVE || CLUI_CheckOwnedByClui((HWND)lParam) ||  IsOption || ((HWND)lParam == m_hWnd) || GetParent((HWND)lParam) == m_hWnd)
+		if (wParam != WA_INACTIVE || CLUI_CheckOwnedByClui((HWND)lParam) || ((HWND)lParam == m_hWnd) || GetParent((HWND)lParam) == m_hWnd)
 			alpha = db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT);
 		else
 			alpha = g_bTransparentFlag ? db_get_b(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT) : 255;
 		CLUI_SmoothAlphaTransition(m_hWnd, alpha, 1);
-		if (IsOption) DefWindowProc(m_hWnd,msg,wParam,lParam);
-		else return 1;
+		return 1;
 	}
 	return DefWindowProc(m_hWnd,msg,wParam,lParam);
 }
@@ -2672,7 +2660,7 @@ LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)
 		CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 3, dis->itemState);
 		mir_snprintf(buf,SIZEOF(buf),"Main,ID=MainMenu,Selected=%s,Hot=%s",(dis->itemState&ODS_SELECTED)?"True":"False",(dis->itemState&ODS_HOTLIGHT)?"True":"False");
 		SkinDrawGlyph(dis->hDC,&dis->rcItem,&dis->rcItem,buf);
-		DrawState(dis->hDC,NULL,NULL,(LPARAM)hIcon, 0, (dis->rcItem.right+dis->rcItem.left-GetSystemMetrics(SM_CXSMICON))/2+dx,(dis->rcItem.bottom+dis->rcItem.top-GetSystemMetrics(SM_CYSMICON))/2+dx, 0, 0, DST_ICON|(dis->itemState&ODS_INACTIVE && FALSE?DSS_DISABLED:DSS_NORMAL));
+		DrawState(dis->hDC, NULL, NULL, (LPARAM)hIcon, 0, (dis->rcItem.right + dis->rcItem.left - GetSystemMetrics(SM_CXSMICON)) / 2 + dx, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + dx, 0, 0, DST_ICON);
 		Skin_ReleaseIcon(hIcon);
 		nMirMenuState = dis->itemState;
 	}

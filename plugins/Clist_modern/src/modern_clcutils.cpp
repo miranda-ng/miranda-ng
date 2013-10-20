@@ -181,11 +181,8 @@ void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
 		}
 	}
 	dat->yScroll = desty;
-	if ((dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL) && FALSE)
-		ScrollWindowEx(hwnd, 0, previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
-	else
-		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-	SetScrollPos(hwnd,SB_VERT,dat->yScroll,TRUE);
+	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+	SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
 }
 
 
@@ -400,11 +397,8 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 			{
 				if (bottomItem == -1 && contact->type != CLCIT_GROUP && contact->groupId == 0)
 				{
-					if (contact->type != CLCIT_GROUP && contact->groupId == 0)
-					{
-						bottomItem = topItem;
-						cliGetRowByIndex(dat,bottomItem,&bottomcontact,&bottomgroup);
-					}
+					bottomItem = topItem;
+					cliGetRowByIndex(dat,bottomItem,&bottomcontact,&bottomgroup);
 				}
 				if (bottomItem != -1 && bottomcontact->type != CLCIT_GROUP)
 				{

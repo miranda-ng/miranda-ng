@@ -37,7 +37,7 @@ WordsList::operator tstring() const
 		while (true)
 		{
 			res += *it;
-			it++;
+			++it;
 			if (it != words.end())
 				res += _T(" ");
 			else
@@ -92,7 +92,7 @@ bool WordsList::MatchesAll(const vector<tstring>& s/*, bool& WasStrict*/, float&
 {
 	std::set<tstring> temp;
 	//WasStrict = true;
-	for (vector<tstring>::const_iterator it = s.begin(); it != s.end(); it++)
+	for (vector<tstring>::const_iterator it = s.begin(); it != s.end(); ++it)
 	{
 /*		if (words.find(*it) == words.end())
 			if (unstrict)
@@ -114,7 +114,7 @@ bool WordsList::MatchesAll(const vector<tstring>& s/*, bool& WasStrict*/, float&
 
 bool WordsList::MatchesAny(const vector<tstring>& s) const
 {
-	for (vector<tstring>::const_iterator it = s.begin(); it != s.end(); it++)
+	for (vector<tstring>::const_iterator it = s.begin(); it != s.end(); ++it)
 		if (words.find(*it) != words.end())
 			return true;
 	return false;
@@ -123,7 +123,7 @@ bool WordsList::MatchesAny(const vector<tstring>& s) const
 vector<tstring> WordsList::ConsistsOf(const set<tstring>& list) const
 {
 	vector<tstring> res;
-	for (set<tstring>::const_iterator it = words.begin(); it != words.end(); it++)
+	for (set<tstring>::const_iterator it = words.begin(); it != words.end(); ++it)
 		if (list.find(*it) == list.end())
 			res.push_back(*it);
 	return res;
@@ -132,7 +132,7 @@ vector<tstring> WordsList::ConsistsOf(const set<tstring>& list) const
 vector<tstring> WordsList::DoesntIncludeAny(const set<tstring>& list) const
 {
 	vector<tstring> res;
-	for (set<tstring>::const_iterator it = words.begin(); it != words.end(); it++)
+	for (set<tstring>::const_iterator it = words.begin(); it != words.end(); ++it)
 		if (list.find(*it) != list.end())
 			res.push_back(*it);
 	return res;

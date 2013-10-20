@@ -455,7 +455,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				}
 
 				if (hIcon == NULL && (hxIcon == NULL || ((p.xStatusMode & 3) == 3))) {
-					if (hIcon == NULL && (p.connectingIcon == 1) && p.ProtoStatus >= ID_STATUS_CONNECTING && p.ProtoStatus <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
+					if ((p.connectingIcon == 1) && p.ProtoStatus >= ID_STATUS_CONNECTING && p.ProtoStatus <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)p.AccountName,0);
 						if (hIcon)
 							NeedDestroy = TRUE;

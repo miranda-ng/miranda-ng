@@ -228,8 +228,6 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		pdnce->m_cache_cszProto = GetProtoForContact(pdnce->hContact);
 		if (pdnce->m_cache_cszProto == NULL) 
 			pdnce->m_cache_bProtoNotExists = FALSE;
-		else if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pdnce->m_cache_cszProto) == (int)NULL  && 0)
-			pdnce->m_cache_bProtoNotExists = TRUE;
 		else if (pdnce->m_cache_cszProto && pdnce->tszName)
 			pdnce->freeName();
 	}

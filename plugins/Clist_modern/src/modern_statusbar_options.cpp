@@ -475,7 +475,6 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				db_set_b(NULL, "CLUI", "SBarPerProto", IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO));
 
 				for (int i=0; i < count; i++) {
-					HWND hwndComboBox = GetDlgItem( hwndDlg, IDC_STATUSBAR_PROTO_LIST );
 					StatusBarProtocolOptions sbpo = dat[i];
 					char *defProto = sbpo.szName;
 

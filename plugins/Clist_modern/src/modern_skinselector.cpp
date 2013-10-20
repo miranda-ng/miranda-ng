@@ -166,16 +166,17 @@ int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 	mmTemplateList->dwMaskCnt = 0;
 	return 0;
 }
-int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
+
+int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 {
 	if ( !mmTemplateList) return -1;
-	if (mID < 0 ||  mID >= mmTemplateList->dwMaskCnt) return -1;
+	if (mID >= mmTemplateList->dwMaskCnt) return -1;
 	if (mmTemplateList->dwMaskCnt == 1)
 	{
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[0]));
 		mir_free_and_nil(mmTemplateList->pl_Masks);
 		mmTemplateList->pl_Masks = NULL;
-		mmTemplateList->dwMaskCnt;
+		mmTemplateList->dwMaskCnt--;
 	}
 	else
 	{
@@ -200,8 +201,8 @@ int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
 int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList)
 {
 	if ( !mmTemplateList) return 0;
-	if (mID1 < 0 ||  mID1 >= mmTemplateList->dwMaskCnt) return 0;
-	if (mID2 < 0 ||  mID2 >= mmTemplateList->dwMaskCnt) return 0;
+	if (mID1 >= mmTemplateList->dwMaskCnt) return 0;
+	if (mID2 >= mmTemplateList->dwMaskCnt) return 0;
 	if (mID1 == mID2) return 0;
 	{
 		MODERNMASK mm;
@@ -211,6 +212,7 @@ int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList)
 	}
 	return 1;
 }
+
 int SortMaskList(LISTMODERNMASK * mmList)
 {
 	DWORD pos = 1;
@@ -394,13 +396,12 @@ int ParseToModernMask(MODERNMASK *mm, char * szText)
 	return 0;
 };
 
-BOOL CompareModernMask(MODERNMASK *mmValue,MODERNMASK *mmTemplate)
+BOOL CompareModernMask(MODERNMASK *mmValue, MODERNMASK *mmTemplate)
 {
 	//TODO
 	BOOL res = TRUE;
-	BOOL exit = FALSE;
 	BYTE pVal = 0, pTemp = 0;
-	while (pTemp < mmTemplate->dwParamCnt && pVal < mmValue->dwParamCnt && !exit)
+	while (pTemp < mmTemplate->dwParamCnt && pVal < mmValue->dwParamCnt)
 	{
 		// find pTemp parameter in mValue
 		DWORD vh, ph;

@@ -306,8 +306,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 		Options::instance = NULL;
 	}
 
-	if (hEventIcons != NULL)
-		delete [] hEventIcons;
+	delete [] hEventIcons;
 
 	return 0;
 }

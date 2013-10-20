@@ -212,7 +212,7 @@ int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolder
 	*b3 = _T('\0');
 
 	GetPrivateProfileString(_T("Skin_Description_Section"),_T("SkinFolder"),_T(""),cus,SIZEOF(custom_folder),szFileName);
-	if ( cus && _tcslen(cus)>0)
+	if (cus[0] != 0)
 		mir_sntprintf(pszFolderName, MAX_PATH, _T("%s\\%s"), custom_folder, cus);
 
 	mir_free(szBuff);
@@ -1662,7 +1662,7 @@ void ske_PreMultiplyChanells(HBITMAP hbmp,BYTE Mult)
 	return;
 }
 
-int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder,BOOL madeAbsolute)
+int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL madeAbsolute)
 {
 	TCHAR *SkinPlace = db_get_tsa(NULL,SKIN,"SkinFolder");
 	if (SkinPlace == NULL)
@@ -1680,7 +1680,7 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder,BOOL ma
 		else
 			PathToAbsoluteT(b2, buf);
 	}
-	else _tcsncpy(buf, b2, SIZEOF(buf));
+	else _tcsncpy(buf, b2, MAX_PATH);
 
 	mir_free(SkinPlace);
 	return 0;
@@ -1877,7 +1877,7 @@ static HBITMAP ske_LoadGlyphImage_Png2Dib(const TCHAR *tszFilename)
 	}
 	else {
 		BYTE *ptPixels = pt;
-		HBITMAP hBitmap = CreateDIBSection(NULL,bi, DIB_RGB_COLORS, (void **)&ptPixels,  NULL, 0);
+		hBitmap = CreateDIBSection(NULL,bi, DIB_RGB_COLORS, (void **)&ptPixels,  NULL, 0);
 		memcpy(ptPixels,pt,bi->bmiHeader.biSizeImage);
 	}
 	GlobalFree( pDib );
@@ -2478,9 +2478,6 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 	rl = GetRValue(effect->EffectColor1);
 	gl = GetGValue(effect->EffectColor1);
 	bl = GetBValue(effect->EffectColor1);
-	rd = GetRValue(effect->EffectColor2);
-	gd = GetGValue(effect->EffectColor2);
-	bd = GetBValue(effect->EffectColor2);
 	ad = 255-((BYTE)(effect->EffectColor2>>24));
 	rd = GetRValue(effect->EffectColor2);
 	gd = GetGValue(effect->EffectColor2);
@@ -2534,9 +2531,8 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 
 					for (matrixHor = mcLeftStart; matrixHor < mcRightEnd;matrixHor++)
 					{
-						int a = as;
 						buflineTop = buflineTopS;
-						a = x+matrixHor-2;
+						int a = x+matrixHor-2;
 						if (buflineTop && a >= 0 && (DWORD)a < width) buflineTop += matrixHor-2;
 						else buflineTop = NULL;
 						if (buflineTop)
@@ -3079,21 +3075,6 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 		SelectObject(tempDC1,otBmp);
 		DeleteDC(tempDC1);
 	}
-	/*
-	if (imbt.bmBitsPixel != 32)
-	{
-	HDC tempDC1;
-	HBITMAP otBmp;
-	no32bit = TRUE;
-	tempDC1 = ske_RequestBufferDC(hdcDst,BUFFER_DRAWICON,imbt.bmWidth,imbt.bmHeight);
-	if (tempDC1)
-	{
-	DrawIconEx(tempDC1, 0, 0, hIcon,imbt.bmWidth,imbt.bmHeight,istepIfAniCur,hbrFlickerFreeDraw,DI_IMAGE);
-	noMirrorMask = TRUE;
-	ske_ReleaseBufferDC(tempDC1,2000); //keep buffer for 2 seconds
-	}
-	}
-	*/
 	if (imbt.bmBits == NULL)
 	{
 		NoDIBImage = TRUE;

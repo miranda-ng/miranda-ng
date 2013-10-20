@@ -244,13 +244,10 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 	{
 	case 1:
 		{
-			int r,g,b,a;
-			r = g = b = 200;
-			a = 255;
-			r = _ttoi(GetParamN(str,buf,SIZEOF(buf),2,',',TRUE));
-			g = _ttoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
-			b = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
-			a = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
+			int r = _ttoi(GetParamN(str,buf,SIZEOF(buf),2,',',TRUE));
+			int g = _ttoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
+			int b = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
+			int a = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
 			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETCOLOUR, 0, (LPARAM)RGB(r,g,b));
 			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETDEFAULTCOLOUR, 0, (LPARAM)RGB(r,g,b));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
@@ -258,17 +255,13 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 		break;
 	 case 2:
 		{
-			int a;
-			int l,t,r,b;
 			int fitmode = 0;
-			l = t = r = b = 0;
-			a = 255;
 			
-			l = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
-			t = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
-			r = _ttoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
-			b = _ttoi(GetParamN(str,buf,SIZEOF(buf),7,',',TRUE));
-			a = _ttoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
+			int l = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
+			int t = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
+			int r = _ttoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
+			int b = _ttoi(GetParamN(str,buf,SIZEOF(buf),7,',',TRUE));
+			int a = _ttoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
 			
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
@@ -290,24 +283,18 @@ void SetControls(HWND hwndDlg, TCHAR *str)
 		break;
 	 case 3:
 		{
-			int a;
-			int l,t,r,b;
-			int x,y,w,h;
 			int fitmode = 0;
-			l = t = r = b = 0;
-			x = y = w = h = 0;
-			a = 255;
 			
-			x = _ttoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
-			y = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
-			w = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
-			h = _ttoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
+			int x = _ttoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
+			int y = _ttoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
+			int w = _ttoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
+			int h = _ttoi(GetParamN(str,buf,SIZEOF(buf),6,',',TRUE));
 
-			l = _ttoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
-			t = _ttoi(GetParamN(str,buf,SIZEOF(buf),9,',',TRUE));
-			r = _ttoi(GetParamN(str,buf,SIZEOF(buf),10, ',',TRUE));
-			b = _ttoi(GetParamN(str,buf,SIZEOF(buf),11,',',TRUE));
-			a = _ttoi(GetParamN(str,buf,SIZEOF(buf),12,',',TRUE));
+			int l = _ttoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
+			int t = _ttoi(GetParamN(str,buf,SIZEOF(buf),9,',',TRUE));
+			int r = _ttoi(GetParamN(str,buf,SIZEOF(buf),10, ',',TRUE));
+			int b = _ttoi(GetParamN(str,buf,SIZEOF(buf),11,',',TRUE));
+			int a = _ttoi(GetParamN(str,buf,SIZEOF(buf),12,',',TRUE));
 			
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
@@ -631,7 +618,6 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if (HIWORD(wParam) == BN_CLICKED) {
 					TCHAR str[MAX_PATH] = {0};
 					OPENFILENAME ofn = {0};
-					TCHAR filter[512] = {0};
 					int res = 0;
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;

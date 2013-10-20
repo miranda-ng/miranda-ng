@@ -49,7 +49,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 		return 0;
 
 	case CLM_SETFONT:
-		if (HIWORD(lParam) < 0 || HIWORD(lParam)>FONTID_MODERN_MAX) return 0;
+		if (HIWORD(lParam)>FONTID_MODERN_MAX) return 0;
 
 		dat->fontModernInfo[HIWORD(lParam)].hFont = (HFONT)wParam;
 		dat->fontModernInfo[HIWORD(lParam)].changed = 1;
@@ -62,18 +62,19 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 
 	case CLM_SETHIDEEMPTYGROUPS:
 		{
-			BOOL old = ((GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_HIDEEMPTYGROUPS) != 0);
-			BOOL newval = old;
-			if (wParam) SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)|CLS_HIDEEMPTYGROUPS);
-			else SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)&~CLS_HIDEEMPTYGROUPS);
-			newval = ((GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_HIDEEMPTYGROUPS) != 0);
+			BOOL old = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
+			if (wParam)
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
+			else
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) &~ CLS_HIDEEMPTYGROUPS);
+			BOOL newval = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
 			if (newval != old)
 				SendMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
 		}
 		return 0;
 
 	case CLM_SETTEXTCOLOR:
-		if (wParam < 0 || wParam>FONTID_MODERN_MAX) break;
+		if (wParam > FONTID_MODERN_MAX) break;
 
 		dat->fontModernInfo[wParam].colour = lParam;
 		dat->force_in_dialog = TRUE;

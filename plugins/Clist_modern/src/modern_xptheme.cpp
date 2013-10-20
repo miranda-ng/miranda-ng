@@ -153,9 +153,10 @@ HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int sta
 	xptlock();
 	if (xpt_IsThemed(xptHandle))
 	{
-		if (IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state))
-			res = DrawThemeParentBackground(hwnd,hdc,sizeRect);
+		if (IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state)) {
+			DrawThemeParentBackground(hwnd,hdc,sizeRect);
 			res = DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
+		}
 	}
 	xptunlock();
 	return res;

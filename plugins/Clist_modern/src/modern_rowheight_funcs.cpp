@@ -229,7 +229,6 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 					contact->type == CLCIT_CONTACT && 
 					(hasAvatar || (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)))
 				{
-					SIZE sz = {0};
 					int iW = 0, iH = 0;
 					if (dat->use_avatar_service) {
 						if (contact->avatar_data) {
@@ -241,7 +240,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 						iW = dat->avatar_cache.nodes[contact->avatar_pos].width;
 						iH = dat->avatar_cache.nodes[contact->avatar_pos].height;
 					}					
-					sz = GetAvatarSize(iW,iH,dat->avatars_maxwidth_size,dat->avatars_maxheight_size);
+					SIZE sz = GetAvatarSize(iW,iH,dat->avatars_maxwidth_size,dat->avatars_maxheight_size);
 					if ((sz.cx == 0 || sz.cy == 0) &&  dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)
 						sz.cx = ICON_HEIGHT, sz.cy = ICON_HEIGHT;
 

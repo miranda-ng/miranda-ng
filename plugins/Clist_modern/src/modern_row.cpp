@@ -668,33 +668,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 				w -= size;
 				if (curchild->sizing)
 				{
-					if ((0&!curchild->fitwidth) || r>1)  //пока отключено -проблемы с выравниванием
-					{
-						if (curchild->hasfixed)
-							fixedsized -= curchild->fixed_width;
-						switch (cell->halign)
-						{
-						case TC_RIGHT:
-							size = (w-fixedsized)-(autosized-max(curchild->full_width,curchild->w));
-							break;
-						case TC_LEFT:
-							size = min(w-fixedsized,max(curchild->full_width,curchild->w));
-							break;
-						case TC_HCENTER:
-							if (autosized) {size = max(curchild->full_width,curchild->w)*w/autosized; break;}
-						default:
-							size = w / r;
-						}
-						autosized -= (max(curchild->full_width,curchild->w));
-						if (autosized < 0) autosized = 0;
-						if (size < 0) size = 0;
-					}
-					else size = w;
-					/*  пока отключено ибо параметр влияет на выравнивание включается по левому краю
-					if (0  && !curchild->fitwidth)
-					if (size>max(curchild->full_width,curchild->w))
-					size = max(curchild->full_width,curchild->w);
-					*/
+					size = w;
 					r--;
 				}
 				else

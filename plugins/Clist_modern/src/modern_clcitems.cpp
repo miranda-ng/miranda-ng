@@ -57,7 +57,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 
 			p.iImage = corecli.pfnGetContactIcon(cacheEntry->hContact);
 			memset(p.iExtraImage, 0xFF, sizeof(p.iExtraImage));
-			p.proto = cacheEntry->m_cache_cszProto;		
+			p.proto = cacheEntry->m_cache_cszProto;
 			p.type = CLCIT_CONTACT;
 			p.flags = 0;//CONTACTF_ONLINE;
 			p.isSubcontact = i+1;
@@ -71,8 +71,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 			char *szProto = cacheEntry->m_cache_cszProto;
 			if (szProto != NULL && !pcli->pfnIsHiddenMode(dat,wStatus))
 				p.flags |= CONTACTF_ONLINE;
-			int apparentMode = szProto != NULL?cacheEntry->ApparentMode:0;
-			apparentMode = szProto != NULL?cacheEntry->ApparentMode:0;
+			int apparentMode = szProto != NULL ? cacheEntry->ApparentMode : 0;
 			if (apparentMode == ID_STATUS_OFFLINE)	p.flags |= CONTACTF_INVISTO;
 			else if (apparentMode == ID_STATUS_ONLINE) p.flags |= CONTACTF_VISTO;
 			else if (apparentMode) p.flags |= CONTACTF_VISTO|CONTACTF_INVISTO;
@@ -565,7 +564,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 					group->expanded = savedGroup[i].expanded;
 					break;
 				}
-				continue;
+			continue;
 		}
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
 			for (i=0; i < savedContact.getCount(); i++)

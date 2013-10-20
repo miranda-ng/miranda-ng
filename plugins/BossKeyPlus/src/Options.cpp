@@ -105,7 +105,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 						{
 							TCHAR tszMsg[1025];
 							GetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,tszMsg,1024);
-							if (lstrlen(tszMsg) != 0)
+							if (tszMsg[0] != 0)
 								db_set_ts(NULL,MOD_NAME,"statmsg",tszMsg);
 							else // delete current setting
 								db_unset(NULL,MOD_NAME,"statmsg");
@@ -118,7 +118,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 					{
 						char szPass[MAXPASSLEN+1];
 						GetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,szPass,MAXPASSLEN+1);
-						if (strlen(szPass) != 0){
+						if (szPass[0] != 0){
 							CallService(MS_DB_CRYPT_ENCODESTRING, MAXPASSLEN+1, ( LPARAM )szPass );
 							db_set_s(NULL,MOD_NAME,"password",szPass);
 							wMask |= OPT_REQPASS;

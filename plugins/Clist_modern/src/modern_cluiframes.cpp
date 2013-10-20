@@ -188,8 +188,6 @@ int CLUIFrames_ActivateSubContainers( BOOL active)
 	for (i=0;i < g_nFramesCount;i++)
 		if (active && !g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0  && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide )
 		{
-			HWND hwnd = g_pfwFrames[i].OwnerWindow;
-			hwnd = g_pfwFrames[i].hWnd;//OwnerWindow;
 			if ( db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT))
 			{
 				SetWindowPos(g_pfwFrames[i].OwnerWindow,HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
@@ -2201,7 +2199,6 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 
 	g_CluiData.nGapBetweenTitlebar = (int)db_get_dw(NULL,"CLUIFrames","GapBetweenTitleBar",SETTING_GAPTITLEBAR_DEFAULT);
 	GapBetweenFrames = db_get_dw(NULL,"CLUIFrames","GapBetweenFrames",SETTING_GAPFRAMES_DEFAULT);
-	sepw = GapBetweenFrames;
 
 	if (g_nFramesCount < 1) return 0;
 	newheight = newsize.bottom-newsize.top;

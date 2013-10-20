@@ -83,7 +83,7 @@ void UnRecentChooser::SaveChoice(tstring choice)
 	//Add answer
 	if (items.find(choice) != items.end())
 	{
-		for (vector<tstring>::iterator it = itemsList.begin(); it != itemsList.end(); it++)
+		for (vector<tstring>::iterator it = itemsList.begin(); it != itemsList.end(); ++it)
 			if (*it == choice)
 			{
 				itemsList.erase(it);

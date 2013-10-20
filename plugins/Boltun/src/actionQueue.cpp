@@ -111,7 +111,7 @@ static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 	bot->AnswerGiven(hContact, *info);
 	delete info;
 
-	delete msg;
+	delete [] msg;
 
 	typingContactsLock.Enter();
 	typingContacts.erase(hContact);
@@ -169,7 +169,7 @@ void DoAnswer(HANDLE hContact, const TalkBot::MessageInfo *info, bool sticky = f
 	if (!actionQueue.empty())
 	{
 		list<QueueElement>::iterator it = actionQueue.end();
-		it--;
+		--it;
 		while (true)
 		{
 			if ((*it).hContact == hContact)
@@ -178,7 +178,7 @@ void DoAnswer(HANDLE hContact, const TalkBot::MessageInfo *info, bool sticky = f
 					break;
 				list<QueueElement>::iterator tmp = it;
 				if (tmp != actionQueue.begin())
-					tmp--;
+					--tmp;
 				actionQueue.erase(it);
 				it = tmp;
 				if (actionQueue.empty())
@@ -186,7 +186,7 @@ void DoAnswer(HANDLE hContact, const TalkBot::MessageInfo *info, bool sticky = f
 			}
 			if (it == actionQueue.begin())
 				break;
-			it--;
+			--it;
 		}
 	}
 	typingContactsLock.Enter();

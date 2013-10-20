@@ -208,7 +208,6 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		{
 			//TODO:Draw hPreviewBitmap here
 			int mWidth, mHeight;
-			RECT workRect = {0};
 			HBRUSH hbr = CreateSolidBrush( GetSysColor( COLOR_3DFACE ));
 			DRAWITEMSTRUCT *dis = ( DRAWITEMSTRUCT * )lParam;
 			mWidth = dis->rcItem.right-dis->rcItem.left;
@@ -216,7 +215,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			HDC memDC = CreateCompatibleDC( dis->hDC );
 			HBITMAP hbmp = ske_CreateDIB32( mWidth, mHeight );
 			HBITMAP holdbmp = ( HBITMAP )SelectObject( memDC, hbmp );
-			workRect = dis->rcItem;
+			RECT workRect = dis->rcItem;
 			OffsetRect( &workRect, -workRect.left, -workRect.top );
 			FillRect( memDC, &workRect, hbr );
 			DeleteObject( hbr );
@@ -540,12 +539,9 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 {
 	DRAWITEMSTRUCT *dis = ( DRAWITEMSTRUCT * )wParam;
-
-	int mWidth, mHeight;
-	RECT workRect = {0};
-	mWidth = dis->rcItem.right-dis->rcItem.left;
-	mHeight = dis->rcItem.bottom-dis->rcItem.top;
-	workRect = dis->rcItem;
+	int mWidth = dis->rcItem.right-dis->rcItem.left;
+	int mHeight = dis->rcItem.bottom-dis->rcItem.top;
+	RECT workRect = dis->rcItem;
 	OffsetRect( &workRect, -workRect.left, -workRect.top );
 
 	if (lParam) {
