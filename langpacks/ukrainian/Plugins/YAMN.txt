@@ -63,7 +63,7 @@ SSL
 Завантажувати тіло
 [Check from menu]
 З меню
-[Only check when ...]
+[Only check when...]
 Перевіряти, якщо...
 [Sound notification if failed]
 Звукове сповіщення про помилку
@@ -89,7 +89,7 @@ SSL
 Нова пошта
 [Errors]
 Помилки
-[Check while ...]
+[Check while...]
 Перевіряти, якщо...
 [Cancel]
 Скасувати

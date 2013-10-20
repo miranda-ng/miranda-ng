@@ -18,8 +18,8 @@ Liens reçus
 Tous les autres
 [Blink if message window is open]
 Si fenêtre de message ouverte
-[     ... and not in foreground]
-     ... et pas au premier plan
+[and not in foreground]
+et pas au premier plan
 [Only if last is]
 si le dernier à
 [sec. old]

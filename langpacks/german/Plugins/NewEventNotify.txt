@@ -32,7 +32,7 @@ Text
 Hintergrund
 [Time to expires]
 Anzeigedauer
-[Notify me of ...]
+[Notify me of...]
 Diese Ereignisse zeigen...
 [Left Click Actions]
 Aktion bei Linksklick

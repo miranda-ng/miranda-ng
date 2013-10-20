@@ -1,7 +1,7 @@
-#muuid {C810C799-197C-4F6C-A047-3F1814CC364B}
+#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
-;  File: Speak.dll
-;  Plugin: Winter speak
+;  File: speak.dll
+;  Plugin: Speak
 ;  Version: 0.9.8.0
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================

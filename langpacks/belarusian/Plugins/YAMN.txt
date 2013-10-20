@@ -64,7 +64,7 @@ SSL
 Загружаць цела
 [Check from menu]
 З меню IM
-[Only check when ...]
+[Only check when...]
 Правяраць, калі...
 [Sound notification if failed]
 Гукавое апавяшчэнне пры памылцы
@@ -90,7 +90,7 @@ APOP
 Новая пошта
 [Errors]
 Памылкі
-[Check while ...]
+[Check while...]
 Правяраць, калі...
 [Cancel]
 Скасаваць

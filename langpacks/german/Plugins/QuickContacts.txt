@@ -24,10 +24,10 @@ Zeige Offline-Kontakte von folgenden Protokollen an:
 Aber blende sie aus, falls Protokoll offline
 [Append group name to contact name]
 Gruppennamen an Kontakt anhängen
-[But show it as a column ...]
-aber als Spalte anzeigen ...
-[... on left side of name]
-... auf der linken Seite des Namens
+[But show it as a column...]
+aber als Spalte anzeigen...
+[...on left side of name]
+...auf der linken Seite des Namens
 [Hide subcontacts]
 Unterkontakte verstecken
 [But keep subcontacts of protocols in above list if meta is hidden]

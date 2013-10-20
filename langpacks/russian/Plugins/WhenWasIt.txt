@@ -29,9 +29,9 @@
 Импорт дней рождения
 [Export birthdays]
 Экспорт дней рождения
-[Please select a file to import birthdays from ...]
+[Please select a file to import birthdays from...]
 Выберите файл для импорта дней рождения
-[Please select a file to export birthdays to ...]
+[Please select a file to export birthdays to...]
 Выберите файл для экспорта дней рождения
 [Exporting birthdays to file: %s]
 Идет экспорт в файл %s

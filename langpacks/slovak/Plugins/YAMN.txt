@@ -64,7 +64,7 @@ Port:
 
 [Check from menu]
 
-[Only check when ...]
+[Only check when...]
 
 [Sound notification if failed]
 
@@ -90,7 +90,7 @@ Stav:
 
 [Errors]
 
-[Check while ...]
+[Check while...]
 
 [Cancel]
 Storno

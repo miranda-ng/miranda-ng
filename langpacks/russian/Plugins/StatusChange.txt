@@ -11,7 +11,7 @@
 Получение
 [...change status to...]
 ...сменить статус на...
-[... if status is...]
+[...if status is...]
 ...если статус...
 [Change status when you send/receive an event.]
 Меняет статус при получении или отправки события.

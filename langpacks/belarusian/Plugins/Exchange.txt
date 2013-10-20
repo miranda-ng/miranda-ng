@@ -48,10 +48,10 @@
 [Sender]
 Адпраўшчык
 ;file \plugins\Exchange\src\emails.cpp
-[You have %d unread emails ...]
-У вас %d непрачытаных лістоў ...
-[You have one unread email ...]
-У вас непрачытаныя паведамленніl ...
+[You have %d unread emails...]
+У вас %d непрачытаных лістоў...
+[You have one unread email...]
+У вас непрачытаныя паведамленніl...
 [Exchange email]
 Пошта Exchange
 [Do you want to see the email headers?]

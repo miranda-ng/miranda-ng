@@ -46,8 +46,8 @@
 自动检索正文
 [Check from menu]
 从菜单检查
-[Only check when ...]
-仅检查当 ...
+[Only check when...]
+仅检查当...
 [Sound notification if failed]
 失败时发出声音通知
 [Message notification if failed]
@@ -62,7 +62,7 @@
 名称: 
 [Options]
 选项
-[Check while ...]
+[Check while...]
 检查当...
 [Cancel]
 取消

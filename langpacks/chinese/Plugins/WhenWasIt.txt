@@ -159,7 +159,7 @@ WhenWasIt 生日提醒
 刷新用户详细资料完成
 [Error]
 错误
-[Please select a file to import birthdays from ...]
+[Please select a file to import birthdays from...]
 请选择从何文件导入生日 ...
 [Importing birthdays from file: %s]
 导入生日于文件: %s
@@ -167,7 +167,7 @@ WhenWasIt 生日提醒
 导入生日完成
 [All Files]
 所有文件
-[Please select a file to export birthdays to ...]
+[Please select a file to export birthdays to...]
 请选择导出生日至何文件 ...
 [Exporting birthdays to file: %s]
 导出生日至文件: %s

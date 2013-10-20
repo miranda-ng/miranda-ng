@@ -50,9 +50,9 @@ sekúnd
 [Sender]
 
 ;file \plugins\Exchange\src\emails.cpp
-[You have %d unread emails ...]
+[You have %d unread emails...]
 
-[You have one unread email ...]
+[You have one unread email...]
 
 [Exchange email]
 

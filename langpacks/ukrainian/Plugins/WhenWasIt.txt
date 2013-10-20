@@ -211,7 +211,7 @@
 Помилка
 [Birthdays files]
 Файли днів народжень
-[Please select a file to import birthdays from ...]
+[Please select a file to import birthdays from...]
 Виберіть файл для імпорту днів народження
 [Importing birthdays from file: %s]
 Імпортувати файл %s
@@ -219,7 +219,7 @@
 Імпорт завершено
 [All Files]
 Всі файли
-[Please select a file to export birthdays to ...]
+[Please select a file to export birthdays to...]
 Виберіть файл для експорту днів народження
 [Exporting birthdays to file: %s]
 Йде на експорт у файл %s

@@ -22,7 +22,7 @@
 背景
 [Time to expires]
 截止时间
-[Notify me of ...]
+[Notify me of...]
 通知我关于...
 [Left Click Actions]
 点击左键操作

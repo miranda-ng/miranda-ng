@@ -42,7 +42,7 @@
 Перадача файла
 [...change status to...]
 ...змяніць статус на...
-[... if status is...]
+[...if status is...]
 ...калі статус...
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]

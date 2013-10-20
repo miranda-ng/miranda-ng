@@ -34,8 +34,8 @@
 消息
 [...change status to...]
 ...更改状态为...
-[... if status is...]
-... 如状态为...
+[...if status is...]
+...如状态为...
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 状态变更

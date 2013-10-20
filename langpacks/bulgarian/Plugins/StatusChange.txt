@@ -42,7 +42,7 @@ URL
 Прехвърляне на файл
 [...change status to...]
 
-[... if status is...]
+[...if status is...]
 
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]

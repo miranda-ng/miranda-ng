@@ -6,5 +6,5 @@
 [URL]
 [File transfer]
 [...change status to...]
-[... if status is...]
+[...if status is...]
 [Status Change]

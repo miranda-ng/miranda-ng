@@ -24,7 +24,7 @@
 Толькі для паведамленняў
 [Blink if message window is open]
 Мігаць, калі вакно гутаркі ачынена
-[     ... and not in foreground]
+[and not in foreground]
 і не змешчана на пярэдні план
 [Only if last is]
 Калі апошн.

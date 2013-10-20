@@ -47,10 +47,10 @@
 Тема
 [Sender]
 Відправник
-[You have %d unread emails ...]
-У вас є %d непрочитаних листів ...
-[You have one unread email ...]
-У вас є один непрочитаний лист ...
+[You have %d unread emails...]
+У вас є %d непрочитаних листів...
+[You have one unread email...]
+У вас є один непрочитаний лист...
 [Exchange email]
 Ел. пошта Exchange
 [Do you want to see the email headers ?]

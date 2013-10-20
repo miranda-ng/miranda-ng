@@ -30,8 +30,8 @@
 Фон
 [Time to expires]
 Час затрымкі
-[Notify me of ...]
-Паведамляць мяне о ...
+[Notify me of...]
+Паведамляць мяне о...
 [Left Click Actions]
 Па левай пстрычцы
 [Dismiss Popup]

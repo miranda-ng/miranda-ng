@@ -42,7 +42,7 @@ URL
 Dateiübertragung
 [...change status to...]
 ...wechsel Status zu...
-[... if status is...]
+[...if status is...]
 ...wenn Status ist...
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]

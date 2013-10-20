@@ -24,8 +24,8 @@ Der ganze Rest
 Nur Textnachrichten
 [Blink if message window is open]
 Blinken, wenn Fenster geöffnet
-[     ... and not in foreground]
-     ...und nicht im Vordergrund ist
+[and not in foreground]
+und nicht im Vordergrund ist
 [Only if last is]
 Nur wenn letzte
 [sec. old]

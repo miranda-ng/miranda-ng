@@ -18,8 +18,8 @@
 一切
 [Blink if message window is open]
 如消息窗口已打开则闪烁
-[     ... and not in foreground]
-     ... 且非前台
+[and not in foreground]
+且非前台
 [Only if last is]
 仅当最后为
 [sec. old]

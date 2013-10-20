@@ -64,7 +64,7 @@ Prüfe beim Start
 Automatisch den E-Mail-Text abfragen
 [Check from menu]
 Prüfe vom Menü
-[Only check when ...]
+[Only check when...]
 Nur prüfen, wenn...
 [Sound notification if failed]
 Tonhinweis bei Fehlern
@@ -90,7 +90,7 @@ Einstellungen
 Neue E-Mail
 [Errors]
 Fehler
-[Check while ...]
+[Check while...]
 Prüfe, während
 [Cancel]
 Abbrechen

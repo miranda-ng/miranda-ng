@@ -9,9 +9,9 @@
 [Installed plugins]
 Plugins installés
 [Description:]
-Description :
+Description:
 [Copyright:]
-Copyright :
+Copyright:
 [Check this account]
 Vérifier ce compte
 [Check interval [min]:]
@@ -23,13 +23,13 @@ Remplacer le pseudo
 [Disable Events]
 Désactiver les évènements
 [User Name:]
-Votre nom :
+Votre nom:
 [Password:]
-Passe :
+Passe:
 [Codepage:]
-Codepage :
+Codepage:
 [Port:]
-Port :
+Port:
 [Disable STLS]
 Désactiver STLS
 [Startup check]
@@ -50,7 +50,7 @@ Reset du compteur
 Défaut
 [Name:]
 Nom :
-[Check while ...]
+[Check while...]
 Vérification pendant...
 [Cancel]
 Annuler

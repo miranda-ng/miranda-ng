@@ -217,7 +217,7 @@ Konnte Arbeitsthread nicht erzeugen. Fehler#%d - Thread-ID %d
 Fehler
 [Birthdays files]
 Geburtstags-Dateien
-[Please select a file to import birthdays from ...]
+[Please select a file to import birthdays from...]
 Bitte Datei für den Import der Geburtstage wählen...
 [Importing birthdays from file: %s]
 Importiere Geburtstage aus Datei: %s
@@ -225,7 +225,7 @@ Importiere Geburtstage aus Datei: %s
 Import der Geburtstage abgeschlossen
 [All Files]
 Alle Dateien
-[Please select a file to export birthdays to ...]
+[Please select a file to export birthdays to...]
 Bitte Datei für den Export der Geburtstage wählen...
 [Exporting birthdays to file: %s]
 Exportiere Geburtstage in Datei: %s

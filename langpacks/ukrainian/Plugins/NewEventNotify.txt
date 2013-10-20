@@ -18,8 +18,8 @@
 Події
 [Popup Colors]
 Колір сплив. вікна
-[Notify me of ...]
-Сповіщати мене про ...
+[Notify me of...]
+Сповіщати мене про...
 [Show entry in the main menu]
 Пункт у головному меню
 [Temporarily disable Event Popups]

@@ -22,7 +22,7 @@
 טקסט
 [Background]
 רקע
-[Notify me of ...]
+[Notify me of...]
 הודע לי על...
 [Left Click Actions]
 לחיצה שמאלית...

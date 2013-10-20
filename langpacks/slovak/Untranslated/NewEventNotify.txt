@@ -6,7 +6,7 @@
 [URL]
 [Others]
 [Time to expires]
-[Notify me of ...]
+[Notify me of...]
 [Left Click Actions]
 [Dismiss Popup]
 [Open Event]

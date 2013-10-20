@@ -217,7 +217,7 @@ Kontakty
 Chyba
 [Birthdays files]
 
-[Please select a file to import birthdays from ...]
+[Please select a file to import birthdays from...]
 
 [Importing birthdays from file: %s]
 
@@ -225,7 +225,7 @@ Chyba
 
 [All Files]
 Všetky súbory
-[Please select a file to export birthdays to ...]
+[Please select a file to export birthdays to...]
 
 [Exporting birthdays to file: %s]
 

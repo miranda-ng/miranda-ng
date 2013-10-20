@@ -22,8 +22,8 @@ Texte
 Arrière-plan
 [Time to expires]
 Délai
-[Notify me of ...]
-Me notifier si : 
+[Notify me of...]
+Me notifier si...
 [Left Click Actions]
 Clic gauche
 [Open Event]

@@ -24,10 +24,10 @@
 Але хаваць іх, калі пратакол адключаны
 [Append group name to contact name]
 Дадаваць групу для імя кантакту
-[But show it as a column ...]
+[But show it as a column...]
 Але паказваць яе, як калонку...
-[... on left side of name]
-... злева ад імя
+[...on left side of name]
+...злева ад імя
 [Hide subcontacts]
 Хаваць суб-кантакты
 [But keep subcontacts of protocols in above list if meta is hidden]

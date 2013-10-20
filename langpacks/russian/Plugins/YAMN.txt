@@ -159,7 +159,7 @@ APOP
 Неверно
 [Show YAMN as a Protocol (Require Restart)]
 Показывать YAMN как протокол (нужен перезапуск)
-[Only check when ...]
+[Only check when...]
 Проверять, если...
 [Codepage:]
 Кодировка:
@@ -215,7 +215,7 @@ YAMN: новое письмо
 %s : %d новых, %d всего
 [Check mail]
 Проверить почту
-[Check while ...]
+[Check while...]
 Проверять, если...
 [Delete account confirmation]
 Подтверждение удаления учётной записи

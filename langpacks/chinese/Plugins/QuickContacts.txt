@@ -22,10 +22,10 @@
 如协议离线则隐藏
 [Append group name to contact name]
 附加群组名称至联系人名称
-[But show it as a column ...]
-但显示为列 ...
-[... on left side of name]
-... 名称左对齐
+[But show it as a column...]
+但显示为列...
+[...on left side of name]
+...名称左对齐
 [Hide subcontacts]
 隐藏子联系人
 [But keep subcontacts of protocols in above list if meta is hidden]

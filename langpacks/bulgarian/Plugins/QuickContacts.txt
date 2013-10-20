@@ -24,9 +24,9 @@
 
 [Append group name to contact name]
 
-[But show it as a column ...]
+[But show it as a column...]
 
-[... on left side of name]
+[...on left side of name]
 
 [Hide subcontacts]
 

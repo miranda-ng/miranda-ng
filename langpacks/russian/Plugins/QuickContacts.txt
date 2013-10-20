@@ -37,10 +37,10 @@
 Но прятать их, если протокол отключён
 [Append group name to contact name]
 Добавлять группу для имени контакта
-[But show it as a column ...]
+[But show it as a column...]
 Но показывать её, как колонку...
-[... on left side of name]
-... слева от имени
+[...on left side of name]
+...слева от имени
 [Hide subcontacts]
 Прятать суб-контакты
 [But keep subcontacts of protocols in above list if meta is hidden]

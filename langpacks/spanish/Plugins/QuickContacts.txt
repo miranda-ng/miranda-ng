@@ -22,10 +22,10 @@ Mostrar los contactos fuera de línea en estos protocolos:
 Pero ocultarlos si el protocolo no está en línea
 [Append group name to contact name]
 Anexar nombre del grupo de contacto Nombre
-[But show it as a column ...]
-Pero lo muestran como una columna ...
-[... on left side of name]
-... en el lado izquierdo del nombre del
+[But show it as a column...]
+Pero lo muestran como una columna...
+[...on left side of name]
+...en el lado izquierdo del nombre del
 [Hide subcontacts]
 Ocultar subcontacts
 [But keep subcontacts of protocols in above list if meta is hidden]

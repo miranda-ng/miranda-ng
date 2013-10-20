@@ -50,9 +50,9 @@ Betreff
 [Sender]
 Sender
 ;file \plugins\Exchange\src\emails.cpp
-[You have %d unread emails ...]
+[You have %d unread emails...]
 Sie haben %d ungelesene E-Mails...
-[You have one unread email ...]
+[You have one unread email...]
 Sie haben eine ungelesene E-Mail...
 [Exchange email]
 Exchange E-Mail

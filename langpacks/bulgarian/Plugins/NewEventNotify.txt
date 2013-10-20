@@ -32,7 +32,7 @@ URL
 Фон
 [Time to expires]
 
-[Notify me of ...]
+[Notify me of...]
 
 [Left Click Actions]
 

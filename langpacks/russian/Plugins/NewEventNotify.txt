@@ -20,8 +20,8 @@
 События
 [Popup Colors]
 Цвет окна
-[Notify me of ...]
-Извещать меня о ...
+[Notify me of...]
+Извещать меня о...
 [Show entry in the main menu]
 Пункт в главном меню
 [Temporarily disable Event Popups]
