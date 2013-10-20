@@ -407,6 +407,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebView", "..\plugins\WebVi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShlExt", "..\plugins\ShellExt\shellext_10.vcxproj", "{B27B85B5-0EF1-496D-99D7-0702A98A342A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinterSpeak", "..\plugins\WinterSpeak\WinterSpeak_10.vcxproj", "{A44F96D0-A850-4A67-9570-0E9298A16E40}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\VKontakte\vk_10.vcxproj", "{BF6E1942-7E42-4564-9DF5-FD0A00D71173}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1823,6 +1827,22 @@ Global
 		{B27B85B5-0EF1-496D-99D7-0702A98A342A}.Release|Win32.Build.0 = Release|Win32
 		{B27B85B5-0EF1-496D-99D7-0702A98A342A}.Release|x64.ActiveCfg = Release|x64
 		{B27B85B5-0EF1-496D-99D7-0702A98A342A}.Release|x64.Build.0 = Release|x64
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Debug|Win32.Build.0 = Debug|Win32
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Debug|x64.ActiveCfg = Debug|x64
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Debug|x64.Build.0 = Debug|x64
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Release|Win32.ActiveCfg = Release|Win32
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Release|Win32.Build.0 = Release|Win32
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Release|x64.ActiveCfg = Release|x64
+		{A44F96D0-A850-4A67-9570-0E9298A16E40}.Release|x64.Build.0 = Release|x64
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Debug|Win32.Build.0 = Debug|Win32
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Debug|x64.ActiveCfg = Debug|x64
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Debug|x64.Build.0 = Debug|x64
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Release|Win32.ActiveCfg = Release|Win32
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Release|Win32.Build.0 = Release|Win32
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Release|x64.ActiveCfg = Release|x64
+		{BF6E1942-7E42-4564-9DF5-FD0A00D71173}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
