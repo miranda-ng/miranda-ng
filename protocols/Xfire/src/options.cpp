@@ -941,7 +941,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						ShowWindow(GetDlgItem(hwndDlg, IDC_EDITGAME), SW_HIDE);
 					}
 					else
-						MessageBoxA(hwndDlg,Translate("Error unknown game id."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
+						MessageBoxA(hwndDlg,Translate("Error: unknown game ID."),Translate("XFire Options"),MB_OK|MB_ICONEXCLAMATION);
 					//gameliste unblocken
 					xgamelist.Block(FALSE);
 					//gamelist neu füllen

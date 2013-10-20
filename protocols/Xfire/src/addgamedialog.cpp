@@ -582,7 +582,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 		{
 			if(LOWORD(wParam) == IDC_SENDIDHELP)
 			{
-				MessageBoxA(hwndDlg, Translate("If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
+				MessageBoxA(hwndDlg, Translate("If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
 			}
 			else if(LOWORD(wParam) == IDC_GAMEIDHELP)
 			{
@@ -651,7 +651,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 					if(!strlen(temp))
 					{
 						if(!editgame) delete newgame;
-						return MessageBoxA(hwndDlg, Translate("Please enter a game id."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+						return MessageBoxA(hwndDlg, Translate("Please enter a game ID."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 					}
 					else
 					{
@@ -660,13 +660,13 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 						if(gameid<1)
 						{
 							if(!editgame) delete newgame;
-							return MessageBoxA(hwndDlg, Translate("Please enter a game id above 1."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+							return MessageBoxA(hwndDlg, Translate("Please enter a game ID above 1."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 						}
 						//gameid auf uniq prüfen
 						else if(xgamelist.getGamebyGameid(gameid))
 						{
 							if(!editgame) delete newgame;
-							return MessageBoxA(hwndDlg, Translate("This game id is already in use."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
+							return MessageBoxA(hwndDlg, Translate("This game ID is already in use."), Translate("XFire Options"), MB_OK|MB_ICONEXCLAMATION);
 						}
 						//gameid zuordnen
 						newgame->id=gameid;
