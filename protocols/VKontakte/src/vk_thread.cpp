@@ -488,19 +488,27 @@ int CVkProto::PollServer()
 {
 	debugLogA("CVkProto::PollServer");
 
-	NETLIBHTTPREQUEST req = { sizeof(req) };
+	NETLIBHTTPREQUEST req = { sizeof(req) }, *reply;
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
 	req.flags = NLHRF_NODUMPHEADERS | NLHRF_HTTP11 | NLHRF_PERSISTENT;
-	req.nlc = m_pollingConn;
 	req.timeout = 30000;
 
-	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-	if (reply == NULL)
-		return 0;
+	while (true) {
+		req.nlc = m_pollingConn;
+		__try {
+			reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+			if (reply == NULL)
+				return 0;
+			break;
+		}
+		__except(EXCEPTION_EXECUTE_HANDLER) {
+			m_pollingConn = NULL;
+		}
+	}
 
 	int retVal = 0;
-	if (reply->resultCode = 200) {
+	if (reply->resultCode == 200) {
 		JSONROOT pRoot(reply->pData);
 		if ( CheckJsonResult(NULL, reply, pRoot)) {
 			m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pRoot, "ts"))));
@@ -509,7 +517,6 @@ int CVkProto::PollServer()
 				PollUpdates(pUpdates);
 			retVal = 1;
 		}
-		else retVal = 0;
 	}
 
 	m_pollingConn = reply->nlc;
