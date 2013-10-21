@@ -11,7 +11,7 @@ Interfejs Mirandy dla API mowy Microsoft(SAPI)
 [Engine Settings]
 Ustawienia Silnika
 [Rate]
-Ocena
+Prędkość
 [Volume]
 Głośność
 [Voice]
