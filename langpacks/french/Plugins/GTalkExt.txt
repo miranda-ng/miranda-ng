@@ -5,10 +5,70 @@
 ;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
+[GTalk extensions for Jabber protocol]
+Extension GTalk pour le protocole Jabber
 ;file \protocols\GTalkExt\res\settings.rc
+[Popup notifications (needs popup plugin)]
+Popup de notifications (plugin popup requis)
+[Notify in fullscreen mode too]
+Afficher aussi en mode plein-écran
+[Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
+Utiliser si le plugin popup ne détecte pas correctement le mode plein-écran. Cela enlèvera le focus du clavier
+[Notify in contact list]
+Notifications dans la liste de contacts
+[Clear pseudocontact history before adding new events]
+Effacer l'historique du pseudo-contact avant d'ajouter de nouveaux évènements
+[Mark history event read when popup closed]
+Marquer l'évènement comme lu lorsque le popup est fermé
+[Add message snip to notification]
+
+[Try to login before open mailbox]
+Essayer de s'authentifier avant d'ouvrir la boite mail
+[This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
+Ceci ne marche que si vous avez sauvé votre mot de passe dans la base de données. N'as aucun effet sur les liens dans la fenêtre de message du pseudo-contact
+[Choose GMail view you use in web interface]
+Choisir l'affichage GMail que vous utilisez dans l'interface web
+[I don't know]
+Je ne sais pas
+[Standard view]
+Affichage standard
+[Basic HTML]
+HTML basique
+[Background color]
+Couleur de fond
+[Text color]
+Couleur du texte
+[Timeout]
+Délai du popup
+[If both colors set to the same value, default colors will be used]
+Si toutes les couleurs sont réglées sur la même valeur, le réglage défaut sera utilisé
+[0 means default timeout,\n-1 means no timeout]
+0 pour le délai par défaut,\n-1 pour un délai infini
+[Test]
+Test
 ;file \protocols\GTalkExt\src\menu.cpp
+[Open mailbox]
+Ouvrir la boite mail
 ;file \protocols\GTalkExt\src\options.cpp
+[Popups]
+Popups
 [Network]
 Réseau
+[Why C sucks]
+
+[brickstrace@gmail.com [1]]
+
+[    bems\n]
+
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
+
 ;file \protocols\GTalkExt\src\options.h
+[GMail notifications]
+Notifications GMail
+[subject\n    %s\nfrom\n%s\n%s\n]
+Sujet\n    %s\nDe\n%s\n%s\n
+[subject\n    %s\nfrom\n%s]
+Sujet\n    %s\nDe\n%s
 ;file \protocols\GTalkExt\src\tipper_items.cpp
+[Unread threads:]
+Courriers non lus:
