@@ -95,6 +95,22 @@ Usuń
 [testing testing 1 2 3]
 test test 1 2 3
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
+[%u is now offline]
+%u rozłączony
+[%u is now online]
+%u dostępny
+[%u is away]
+%u zaraz wracam
+[%u is invisible]
+%u niewidoczny
+[%u is not available]
+%u niedostępny
+[%u does not want to be disturbed]
+%u nie przeszkadzać
+[%u is occupied]
+%u zajęty
+[%u is free for chat]
+%u porozmawiajmy
 [incoming message from %u]
 %u
 [incoming U R L from %u]
