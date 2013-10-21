@@ -44,7 +44,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	m_defaultGroup = getTStringA("ProtoGroup");
 	if (m_defaultGroup == NULL)
-		m_defaultGroup = mir_tstrdup( TranslateT("VKontakte"));
+		m_defaultGroup = mir_tstrdup(_T("VKontakte"));
 	Clist_CreateGroup(NULL, m_defaultGroup);
 
 	db_set_resident(m_szModuleName, "Status");
