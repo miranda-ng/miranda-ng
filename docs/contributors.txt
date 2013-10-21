@@ -13,7 +13,6 @@ Dmitry Kuzkin aka Bio
 Alexander Lantsev aka Unsane
 Eugene Lishnevsky aka elishnevsky
 Vlad Mironov aka mironych
-Alexey Oblezov aka faith_healer
 Victor Pavlychko aka nullbie
 Robert Pösel aka Robyer
 Konstantin Romanov aka Kildor
@@ -23,9 +22,11 @@ Artem Shpynov aka FYR
 Kirill Volinsky aka Mataes
 Tobias Weimer aka Wishmaster / Freak_TheMighty
 
+Sound pack is developed by Andre Louis aka onj
 
 People that previously used to develop Miranda IM Project:
 
+Alexey Oblezov aka faith_healer
 Ricardo Domenecci aka pescuma
 Gennady Feldman aka gena01
 Martin Öberg aka Strickz
