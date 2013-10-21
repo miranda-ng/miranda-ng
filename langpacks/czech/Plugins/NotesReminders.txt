@@ -119,7 +119,7 @@ Vzhled
 [Background Color]
 Barva pozadí
 [Custom...]
-
+Vlastní...
 [Reset]
 Reset
 [Text Color]

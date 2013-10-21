@@ -32,7 +32,7 @@ Text
 Pozadí
 [Time to expires]
 Expirace
-[Notify me of ...]
+[Notify me of...]
 Upozornění
 [Left Click Actions]
 Levé tlačítko myši

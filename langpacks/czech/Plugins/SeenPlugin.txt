@@ -96,8 +96,6 @@ Změna stavu na Online
 Uživatel se odhlásil
 [User Logged In]
 Uživatel se přihlásil
-[Last seen]
-Naposledy spatřen
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <neznámý>
@@ -108,6 +106,8 @@ Naposledy spatřen
 Last Seen - seznam proměnných
 [Contacts]
 Kontakty
+[Last seen]
+Naposledy spatřen
 [Popups]
 Oznámení
 ;file \plugins\SeenPlugin\src\seen.h

@@ -8,94 +8,90 @@
 [Anti-spam plugin with captcha and Bayes filtering.]
 
 ;file \plugins\Spamotron\res\spamotron.rc
-[Do not send challenge request if message score above]
-Neodesílat výzvu pokud má zpráva index nad
-[Auto-learn messages from approved contacts as ham]
-Automaticky určovat zprávy od schválených kontaktů jako ham
-[Filtering options]
-Možnosti filtrování
-[Learning options]
-Nastavení učení
-[Auto-learn outgoing messages as ham]
-Automaticky určovat odchozí zprávy jako ham
-[Spam]
-Spam
-[Ham]
-
-[Learn message:]
-Learn message:
-[Auto approve contact if message score below]
-Schválit kontakt pokud má zpráva index pod
-[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
-Nezapínejte žádnou z těchto voleb dokud Spam-o-tron nepozná alespoň 20 zpráv jako ham a 50 zpráv jako spam.
+[Enabled]
+Zapnuto
 [Learned ham messages:]
 Naučených ham zpráv:
 [Learned spam messages:]
 Naučených spam zpráv:
-[Analyze]
-Analyzovat
+[Filtering options]
+Možnosti filtrování
+[Do not send challenge request if message score above]
+Neodesílat výzvu pokud má zpráva index nad
+[Auto approve contact if message score below]
+Schválit kontakt pokud má zpráva index pod
+[and learn as ham]
+a určit jako ham
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
+
+[Learning options]
+Nastavení učení
+[Auto-learn messages from approved contacts as ham]
+Automaticky určovat zprávy od schválených kontaktů jako ham
 [Auto-learn messages from contacts if not approved in]
 Automaticky brát zprávy od kontaktů nepotvrzených do
 [days as spam]
 dnů jako spam
-[Enabled]
-Zapnuto
-[and learn as ham]
-a určit jako ham
-[Enabled accounts:]
-Povolené účty:
-[Do not reply to messages with words in this list:]
-Neodpovídat na zprávy obsahující slova z tohoto seznamu:
-[Do not reply to the same message more than]
-Neodpovídat na stejnou zprávu více než
-[Flood protection]
-Ochrana proti zahlcení
-[Do not send more than]
-Neposílat více než
-[messages to one contact per day]
-zpráv jednomu kontaktu za den
-[times a day]
-krát denně
+[Auto-learn outgoing messages as ham]
+Automaticky určovat odchozí zprávy jako ham
+[Learn message:]
+Learn message:
+[Spam]
+Spam
+[Ham]
+
+[Analyze]
+Analyzovat
 [Settings]
 Nastavení
+[Enabled accounts:]
+Povolené účty:
+[Auto approve on:]
+Automaticky schválit při:
 [Outgoing message]
 Odchozí zpráva
 [Incoming message with any word from list:]
 Příchozí zpráva obsahující slovo z tohoto seznamu:
-[Auto approve on:]
-Automaticky schválit při:
 [Hide contact until verified]
 Skrýt kontakt dokud není schválen
 [Add permanently to list on verified]
 Po schválení přidat do seznamu na trvalo
 [Log actions to system history]
 Zaznamenat události do historie systému
+[Flood protection]
+Ochrana proti zahlcení
+[Do not send more than]
+Neposílat více než
+[messages to one contact per day]
+zpráv jednomu kontaktu za den
+[Do not reply to the same message more than]
+Neodpovídat na stejnou zprávu více než
+[times a day]
+krát denně
+[Do not reply to messages with words in this list:]
+Neodpovídat na zprávy obsahující slova z tohoto seznamu:
 [Mode:]
 Mód:
-[Responses: (saved in %response%, %response-n% variables)]
-
+[Case-sensitive]
+Rozlišovat velikost písmen
 [will be saved in %mathexpr%]
 bude uložen v %mathexpr%
-[Reset to defaults]
-Obnovit výchozí
+[Send challenge on incoming message:]
+Odeslat výzvu při příchozí zprávě:
+[Responses: (saved in %response%, %response-n% variables)]
+
 [Reply on success:]
 Odpověď při schválení:
 [Send challenge on authorization request:]
 Odeslat výzvu při požadavku o autorizaci:
 [Keep blocked messages in contact history]
 Ponechat blokované zprávy v historii kontaktu
-[Case-sensitive]
-Rozlišovat velikost písmen
-[Send challenge on incoming message:]
-Odeslat výzvu při příchozí zprávě:
 [and mark them unread after approval]
 a po schválení je označit jako nepřečtené
+[Reset to defaults]
+Obnovit výchozí
 [Enable popup notifications]
 Povolit oznámení
-[Contact blocked]
-Kontakt zablokován
-[Contact approved]
-Kontakt schválen
 [Appearance]
 Vzhled
 [Foreground]
@@ -104,16 +100,20 @@ Popředí
 Pozadí
 [Timeout]
 Doba zobrazení
+[Contact blocked]
+Kontakt zablokován
+[Contact approved]
+Kontakt schválen
+[Challenge sent]
+Výzva odeslána
 [Default colors]
 Výchozí barvy
+[Windows colors]
+Barvy Windows
 [Default timeout]
 Výchozí doba zobrazení
 [Preview]
 Náhled
-[Windows colors]
-Barvy Windows
-[Challenge sent]
-Výzva odeslána
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 

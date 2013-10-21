@@ -27,7 +27,7 @@ Vlastní jméno:
 Skupina:
 [Options]
 Možnosti
-[Authorization Request]
+[Authorization request]
 Žádost o autorizaci
 [Delete Contact]
 Smazání kontaktu
@@ -1230,8 +1230,6 @@ WWW:
 %u si vás přidal mezi své kontakty
 [Alerts]
 Upozornění
-[Authorization request]
-Žádost o autorizaci
 [Added event]
 Nová událost
 ;file \src\core\stdauth\authdialogs.cpp

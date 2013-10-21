@@ -1,4 +1,5 @@
 ﻿[Anti-spam plugin with captcha and Bayes filtering.]
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
 [Ham]
 [Responses: (saved in %response%, %response-n% variables)]
 [Bayes database path]

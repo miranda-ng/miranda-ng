@@ -32,8 +32,6 @@ Automaticky se připojit k dalšímu cizinci, pokud se aktuální odpojí
 Nemazat obsah chatu před připojením k dalšímu cizinci
 [Load count of users on actual server after connection]
 Po připojení zobrazit počet uživatelů na aktuálním serveru
-[Enable logging for debugging purposes]
-Povolit záznam pro účely ladění
 [Meet strangers with common interests]
 Hledat cizince se společnými zájmy
 [Your interests (separated by commas):]

@@ -50,9 +50,9 @@ Předmět
 [Sender]
 Odesílatel
 ;file \plugins\Exchange\src\emails.cpp
-[You have %d unread emails ...]
+[You have %d unread emails...]
 Máte %d nepřečtených e-mailů...
-[You have one unread email ...]
+[You have one unread email...]
 Máte nepřečtený e-mail...
 [Exchange email]
 Exchange e-mail

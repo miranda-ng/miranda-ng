@@ -15,7 +15,7 @@ Rozšířený stav bude na chvilku změněn na běžný a poté se zpět změní
 
 [Use XStatus]
 Použít rozšířený stav
-[If this option is "ON", XStatus doesn't depend of protocol status.]
+[If this option is "ON", XStatus doesn't depend on protocol status.]
 Jestliže je tato možnost zapnuta, nezávisí rozšířený stav na stavu protokolu.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Jestliže je tato možnost zapnuta, je možné používat transformační, datové a matematické funkce. Je-li podpora neaktivní, bude pracovat WATrack rychleji.

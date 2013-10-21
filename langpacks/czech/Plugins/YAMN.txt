@@ -64,8 +64,8 @@ Vybrat při spuštění
 Stáhnout celý text
 [Check from menu]
 Vybrat poštu z menu
-[Only check when ...]
-
+[Only check when...]
+Vybírat pouze když...
 [Sound notification if failed]
 Upozornit zvukem
 [Message notification if failed]
@@ -90,7 +90,7 @@ Možnosti
 Nová pošta
 [Errors]
 Chyby
-[Check while ...]
+[Check while...]
 Vybírat během...
 [Cancel]
 Zrušit

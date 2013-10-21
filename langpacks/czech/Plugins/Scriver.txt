@@ -860,6 +860,8 @@ cesta k aktuálnímu profilu Mirandy
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_userdata%\\Logs]
+navrátí řetězec %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 stejné jako systémová proměnná %APPDATA% pro aktuálně přihlášeného uživatele Windows
 [username for currently logged-on Windows user]

@@ -68,8 +68,6 @@ Pokročilé nastavení
 Použít zabezpečené spojení (HTTPS)
 [Post Miranda statuses to Wall]
 Odesílat stav Mirandy na zeď Facebooku
-[Enable logging for debugging purposes]
-Povolit záznam pro účely ladění
 [Use secure connection also for channel requests]
 Zabezpečit i servisní spojení
 [Also disconnect chat when going to offline]

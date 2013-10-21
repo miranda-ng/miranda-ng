@@ -66,7 +66,7 @@ Vyhledávat dopředu v okně se zprávami
 Rozlišovat velikost písmen
 [Match Whole Word]
 Pouze celá slova
-[Only Incomming Messages]
+[Only Incoming Messages]
 Pouze příchozí zprávy
 [Only Outgoing Messages]
 Pouze odchozí zprávy
@@ -313,7 +313,7 @@ Přepnout rozlišování velikosti písmen
 Přepnout vyhledávání pouze celých slov
 [Show/Hide Contacts]
 Zobrazit/Skrýt kontakty
-[Switch Only Incomming Messages]
+[Switch Only Incoming Messages]
 Přepnout vyhledávání pouze příchozích zpráv
 [Switch Only Outgoing Messages]
 Přepnout vyhledávání pouze odchozích zpráv

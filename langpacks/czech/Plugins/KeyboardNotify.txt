@@ -24,8 +24,8 @@ Všechno ostatní
 Pouze pro zprávy
 [Blink if message window is open]
 Blikat při otevřeném kom. okně
-[     ... and not in foreground]
-      ... které není v popředí
+[and not in foreground]
+které není v popředí
 [Only if last is]
 Jen starší
 [sec. old]

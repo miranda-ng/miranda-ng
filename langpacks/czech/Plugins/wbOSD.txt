@@ -8,60 +8,62 @@
 [Shows new message/status change info using on-screen display.]
 Zobrazuje informace o nových zprávách/změnách stavu přímo na obrazovce.
 ;file \plugins\wbOSD\res\wbOSD.rc
-[Dialog]
-Dialog
+[General]
+Obecné
+[Align]
+Zarovnání
 [Select font]
 Zvolit písmo
-[Text color]
-Barva textu
-[Background color]
-Barva pozadí
-[Transparent]
-Průhlednost
+[Shadow]
+Stín
+[Show drop shadow]
+Zobrazit vržený stín
+[Shadow align]
+Zarovnání stínu
 [Shadow color]
 Barva stínu
 [Alternative shadow]
 Alternativní stín
-[Shadow align]
-Zarovnání stínu
-[General]
-Obecné
-[Shadow]
-Stín
-[Align]
-Zarovnání
 [Shadow distance:]
 Vzdálenost stínu:
 [Other]
 Ostatní
+[Background color]
+Barva pozadí
+[Transparent]
+Průhlednost
 [Alpha:]
 Průhlednost:
-[Announce]
-Oznámení
 [Timeout (ms):]
 Časový limit (ms):
-[Show]
-Zobrazit
-[Show events]
-Zobrazit události
-[Status changes]
-Změny stavu
 [Show testing OSD]
 Zobrazit testovací OSD
+[Announce]
+Oznámení
+[Status changes]
+Změny stavu
 [Show my status changes]
 Zobrazit změny mého stavu
-[Show message window after click]
-Po kliknutí zobrazit komunikační okno
-[Static]
-Statický
+[Text color]
+Barva textu
+[Show events]
+Zobrazit události
 [Format:]
 Formát:
+[Show message window after click]
+Po kliknutí zobrazit komunikační okno
 [Show when my status is:]
 Zobrazit když je můj stav:
 ;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s je %s
 ;file \plugins\wbOSD\src\options.cpp
+[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
+Proměnné:\n  %n : Přezdívka\n  %m : Zpráva\n  %1 : Nový řádek
+[Help]
+Nápověda
+[Miranda NG is great and this is a long message.]
+Miranda NG je skvělá a toto je dostatečně dlouhá zpráva.
 [Plugins]
 Doplňky
 [OSD]

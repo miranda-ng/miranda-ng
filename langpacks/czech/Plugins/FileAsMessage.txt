@@ -65,7 +65,7 @@ Byl přijat neznámý příkaz pro "Soubor jako zpráva"
 Přerušeno protistranou
 [New incoming file request. Do you want to proceed?]
 Nová žádost o přenos souboru. Chcete pokračovat?
-[Paused, because connection dropped]
+[File transfer is paused because of dropped connection]
 Spojení přerušeno, přenos byl pozastaven. 
 [Failed on file initialization]
 Chyba při inicializaci přenosu

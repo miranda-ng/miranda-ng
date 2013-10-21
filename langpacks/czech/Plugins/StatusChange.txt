@@ -42,7 +42,7 @@ Odkaz
 Přenos souboru
 [...change status to...]
 ...změnit stav na...
-[... if status is...]
+[...if status is...]
 ...pokud je aktuální stav...
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]

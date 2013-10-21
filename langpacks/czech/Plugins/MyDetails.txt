@@ -157,8 +157,6 @@ Další protokol
 Nastavit přezdívku pro %s
 [Set My Status Message for %s]
 Zadat stavovou zprávu pro %s
-[Show next protocol]
-Zobrazit další protokol
 [Contact List]
 Seznam kontaktů
 ;file \plugins\MyDetails\src\options.cpp

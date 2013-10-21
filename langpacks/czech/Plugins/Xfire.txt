@@ -2,27 +2,27 @@
 ;============================================================
 ;  File: Xfire.dll
 ;  Plugin: Xfire Protocol
-;  Version: 0.1.8.4
+;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
 Xfire protokol pro Mirandu NG.
-;file \protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\resource.rc
 [Password:]
 Heslo:
-[Loginname:]
+[Login name:]
 Přihlaš. jméno:
 [XFire]
 XFire
 [Nick:]
 Přezdívka:
-[Current Protocolversion:]
+[Current protocol version:]
 Aktuální verze protokolu:
 [Note: You can only change these settings, if you are connected to Xfire.]
 Pozn.: Toto nastavení můžete měnit pouze pokud jste připojeni k Xfire.
 [Create a new Xfire account on website]
 Zřídit nový účet Xfire
-[Lost Password?]
+[Lost password?]
 Zapomenuté heslo?
 [Account options]
 Nastavení účtu
@@ -48,10 +48,6 @@ Zobrazit přátele mých přátel
 Možnosti
 [More options]
 Další možnosti
-[Gameicon:]
-Ikona hry:
-[Voiceicon:]
-Ikona hlasu:
 [Display Error and Infomessage:]
 Zobrazovat chyby a informační zprávy:
 [Main group for clan groups:]
@@ -70,9 +66,9 @@ icons.dll
 Seznam blokovaných uživatelů
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Tento seznam obsahuje všechny blokované uživatele Xfire. Chcete jim povolit žádost o autorizaci, odeberte je z tohoto seznamu.
-[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+[You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Kontakty lze jednoduše filtrovat funkcí Blokovat uživatele, kterou naleznete v kontextové nabídce...
-[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
 Tento soubor je použit pro vyhledávání her, jejich detekování a zjišťování herních id. Obsahuje všechny xfirem podporované hry.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Tento soubor obsahuje všechny oficiální ikony her. Lze nastavit i stahování chybějích ikon.
@@ -82,7 +78,7 @@ Zkopírujte výše uvedené soubory do této složky:
 Zpráva stavu
 [Enable]
 Aktivovat
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 Během hry použije uvedenou stavovou zprávu pro všechny ostatní protokoly. Tímto způsobem informujete ostatní o tom, co zrovna hrajete. Je-li to povoleno, zároveň dojde ke změně stavu 'Nerušit'.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Jsou dostupné následující proměné: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -114,8 +110,8 @@ Nezobrazovat v menu pro spuštění
 (přidáno ručně)
 [Extra Command Line Parameters:]
 Parametry příkazové řádky:
-[Edit ...]
-Upravit ...
+[Edit...]
+Upravit...
 [Username:]
 Uživatel:
 [Game]
@@ -124,16 +120,12 @@ Hra
 Hlasový chat
 [Name:]
 Název:
-[Unreal Tournament 2004]
-Unreal Tournament 2004
 [IP:]
 IP:
 [Port:]
 Port:
-[Userdetails]
-Informace o kontaktu
-[dufte]
-dufte
+[User details]
+Informace o uživateli
 [Copy]
 Zkopírovat
 [Enter Password]
@@ -148,59 +140,60 @@ OK
 Zrušit
 [New xfire_games.ini]
 Nový xfire_games.ini
-[There is a new XFire Gamelist online, do you want to update now?]
+[There is a new XFire gamelist online, do you want to update now?]
 Byla nalezena nová verze seznamu podporovaných her. Chcete ho zaktualizovat?
-[New supported Games:]
+[New supported games:]
 Nové podporované hry:
 [Update]
 Aktualizovat
-[Add Game]
-Přidat
+[Add game]
+Přidat hru
 [Search:]
 Prohledat:
-[Custom ...]
-Vlastní ...
+[Custom...]
+Vlastní...
+[Add Game]
+Přidat
 [Game name:]
 Název hry:
 [Game exe:]
 Spustitelný soubor hry:
-[Browse ...]
-Procházet ...
+[Browse...]
+Procházet...
 [Launcher exe (optional):]
 Soubor pro spouštění (volitelné):
 [Game id:]
 Herní ID:
-[Send game id:]
+[Send game ID:]
 Odesílané herní ID:
-[Statusmessage for Xfire, if this game will be started:]
-Zpráva stavu  pro Xfire, když bude tato hra spuštěna:
+[Status message for Xfire, if this game will be started:]
+Zpráva stavu pro Xfire, když bude tato hra spuštěna:
 [Parameter:]
 Parametr:
 [Add a new game]
 Přidat novou hru
-[Searching games ...]
+[Searching games...]
 Vyhledávání her ...
-;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Všechny soubory
-[Please wait, gameini will be currently parsed ...]
+[Please wait, game.ini will be currently parsed...]
 Prosím čekejte, soubor s definicí her se načítá ...
 [XFire Options]
 Možnosti XFire
 [Please choose one game in the list!]
 Vyberte ze seznamu požadovanou hru.
-[If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Pokud přidáte modifikaci již podporované hry, můžete zvolit které herní ID bude odesláno do XFire. Takže pokud přidáte Half-Life mod, můžete nastavit herní ID hry Half-Life a pokud spustíte hru, vaši XFire přátelé uvidí ikonu Half-Life vedle vašeho jména a tato hra bude také zaznamenána.
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
 Každá hra v XFire potřebuje ID. Použijte číslo vyšší než poslední použité ID pro vyhnutí se problémům s použitými ID. Každé číslo vyšší než 10000 by mělo být bezpečné. Toto ID nebude odesláno do XFire při spuštění hry.
 [Please enter a game name.]
 Zadejte prosím název hry.
-[Please enter a game id.]
+[Please enter a game ID.]
 Zadejte prosím herní ID.
-[Please enter a game id above 1.]
+[Please enter a game ID above 1.]
 Zadejte prosím herní ID vyšší než 1.
-[This game id is already in use.]
+[This game ID is already in use.]
 Toto herní ID je již použito.
 [Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 Zvolte prosím spustitelný soubor hry. Pozn.: Pokud nezvolíte soubor pro spouštění, spustitelný soubor hry bude použit pro její spuštění.
@@ -249,7 +242,7 @@ Přihlášení se nezdařilo.
 Verze protokolu je příliš stará. Změna stávající verze z %d na %d. Můžete se nyní připojit znovu.
 [The protocol version is too old. Cannot detect a new version number.]
 Verze protokolu je příliš stará. Nelze detekovat novou verzi.
-[Someone loged in with your account.disconnect.]
+[Someone logged in with your account. Disconnect.]
 Někdo jiný se přihlásil s vaším účtem.
 [Do you really want to add %s to your friend list?]
 Opravdu si přejete přidat %s do seznamu vašich přátel?
@@ -289,20 +282,20 @@ XFire stránka klanu
 Zkopírovat adresu a port serveru
 [Cop&y Voice Server Address and Port]
 Zkopírovat adresu a port hlasového serveru
-[Join &Game ...]
-Přidat se ke &hře ...
-[Play this Game ...]
-Hrát tuto hru ...
-[Remove F&riend ...]
-O&debrat přítele ...
-[Block U&ser ...]
-Za&blokovat uživatele ...
+[Join &Game...]
+Přidat se ke &hře...
+[Play this game...]
+Hrát tuto hru...
+[Remove F&riend...]
+O&debrat přítele...
+[Block U&ser...]
+Za&blokovat uživatele...
 [&My XFire Online Profile]
 &Můj XFire profil online
 [&Activity Report]
 &Report aktivity
-[&Rescan my Games ...]
-&Znovu vyhledat mé hry ...
+[&Rescan my games...]
+&Znovu vyhledat mé hry...
 [Set &Nickname]
 &Nastavit přezdívku...
 [Protocols/XFire]
@@ -317,7 +310,7 @@ XFire nepodporuje odesílání zpráv ve stavu offline!
 Uživatel
 [Unable to connect to XFire.]
 Nemohu se připojit k XFire.
-[No Loginname is set!]
+[No Login name is set!]
 Nebylo zadáno přihlašovací jméno!
 [No Password is set!]
 Nebylo zadáno heslo!
@@ -348,8 +341,6 @@ Nestahovat avatary členů klanu
 Použít alternativní způsob stahování avatarů
 [General]
 Obecné
-[Use UTF8 for messaging and nick's (beta)]
-Použít UTF8 pro zprávy a přezdívky (beta)
 [Automatically reconnect on protocol version changes]
 Automaticky připojit při změně verze protokolu
 [No Ip/Port in StatusMsg]
@@ -418,8 +409,8 @@ Každý den
 Opravdu si přejete odebrat tuto hru?
 [Please select a game.]
 Zvolte prosím hru.
-[Error unknown game id.]
-Neznámé herní ID.
+[Error: unknown game ID.]
+Chyba: Neznámé herní ID.
 [Not supported]
 Není podporováno
 [Configuration saved!]
@@ -436,9 +427,12 @@ Možnosti
 Seznam blokovaných / Hry
 [StatusMsg]
 Zpráva stavu
+;file \protocols\Xfire\src\pwd_dlg.cpp
+[Please enter server password...]
+Zadejte prosím vaše heslo...
 ;file \protocols\Xfire\src\searching4games.cpp
-[Write to database ...]
-Zápis do databáze ...
+[Write to database...]
+Zápis do databáze...
 [Games found:%s%s]
 Her nalezeno:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp
@@ -448,5 +442,5 @@ Her nalezeno:%s%s
 [Start game]
 Spustit hru
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
-[Please wait ...]
-Prosím čekejte ...
+[Please wait...]
+Počkejte prosím...

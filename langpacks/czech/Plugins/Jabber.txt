@@ -412,7 +412,7 @@ Vlastní zprávy
 Odchod:
 [Slap:]
 Pohlavek:
-[Authorization Request]
+[Authorization request]
 Žádost o autorizaci
 [HTTP Authorization\nAccept or reject incoming request]
 

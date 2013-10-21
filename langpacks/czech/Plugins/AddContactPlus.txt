@@ -28,7 +28,7 @@ Přidat dočasně
 Odeslat zprávu o zařazení
 [Send authorization request]
 Odeslat žádost o autorizaci
-[Authorization Request]
+[Authorization request]
 Žádost o autorizaci
 [&Add]
 &Přidat

@@ -42,26 +42,16 @@ Kompletně
 Zapamatovat pozici okna
 [Automatically expand "settings" when Database Editor ++ starts]
 Při spuštění automaticky rozbalit větev 'Nastavení'
-[Use known modules list]
-Použít seznam známých modulů
 [Warn when deleting modules]
 Upozornit před smazáním modulu
 ["Open user tree in DBE++" menu item]
 Přidat do menu 'Upravit položky v DBE++'
 [Use popups when watched settings change values]
 Oznámit změnu sledované hodnoty
-[Modules to ALWAYS mark as known (e.g core modules)]
-Známé moduly (např. moduly jádra)
-[Put a space or comma between each module name]
-- názvy modulů oddělte čárkou či mezerou
-[Changes to this list will take effect next time miranda starts]
-Pozn.: Provedené změny se projeví až po restartu Mirandy
 [Popup timeout (0 for infinite)]
 Doba zobrazení (0 = stále)
 [Background color]
 Barva pozadí
-[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-- je-li v názvu modulu mezera, před mezeru zadejte znak '\\' (např. 'aaa\\ bbb')
 [Add a module to contact]
 Přidat modul ke kontaktu
 [Add a module named]
@@ -192,8 +182,6 @@ Př&ejmenovat
 &Zkopírovat do kontaktu...
 [Export Module]
 &Exportovat modul...
-[Add To Known Modules]
-Přidat mezi známé moduly
 [&Clone]
 Dup&likovat
 [Export Contact]
@@ -306,10 +294,6 @@ Dokončeno. Počet nalezených položek: %d
 Známý modul (zavřený)
 [Open Known Module]
 Známý modul (otevřený)
-[Closed Unknown Module]
-Neznámý modul (zavřený)
-[Open Unknown Module]
-Neznámý modul (otevřený)
 [Contacts Group]
 Skupina kontaktů
 [Unknown Contact]

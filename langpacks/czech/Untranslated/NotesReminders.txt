@@ -27,7 +27,6 @@
 [&Hide Note]
 [&Always On Top]
 [&Delete Note]
-[Custom...]
 [Paste Title]
 [Reset Title]
 [&View Notes]

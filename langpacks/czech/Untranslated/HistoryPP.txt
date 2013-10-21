@@ -51,7 +51,6 @@
 [(time and date)]
 [All Items]
 [and]
-[Authorisation Request Sample]
 [Change nick and date font for %s.]
 [Customize %s]
 [Customize the look of %s Event. Select it's font, font color and background color.]

@@ -377,7 +377,7 @@ Text zadaný do pole Heslo a Potvrzení musí být stejný
 Odchozí soubory: %s
 [Incoming file transfer: %s]
 Příchozí soubory: %s
-[Authorisation request by %s (%s%d): %s]
+[Authorization request by %s (%s%d): %s]
 Žádost o autorizaci od %s (%s%d): %s
 [You were added by %s (%s%d)]
 %s (%s%d) si vás přidal
@@ -617,10 +617,10 @@ Vaše verze doplňku Emoticons není podporována
 
 [and]
 
-[Authorisation Request by %s (%s%s%d): %s]
+[Authorization Request by %s (%s%s%d): %s]
 Žádost o autorizaci: %s (%s%s%d): %s
-[Authorisation Request Sample]
-
+[Authorization Request Sample]
+Ukázková žádost o autorizaci
 [Change nick and date font for %s.]
 
 [Customize %s]
@@ -709,7 +709,7 @@ Vaše verze doplňku Emoticons není podporována
 %s (%s%s%d) si vás zařadil mezi kontakty
 [You Were Added Message Sample]
 
-[Authorisation request]
+[Authorization request]
 Žádost o autorizaci
 [Your were added message]
 Zpráva o zařazení mezi kontakty

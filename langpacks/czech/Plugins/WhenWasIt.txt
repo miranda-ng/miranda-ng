@@ -217,7 +217,7 @@ Konec aktualizace informací o kontaktech
 Chyba
 [Birthdays files]
 
-[Please select a file to import birthdays from ...]
+[Please select a file to import birthdays from...]
 Vyberte prosím soubor obsahující seznam narozenin
 [Importing birthdays from file: %s]
 Import seznamu narozenin ze souboru %s.
@@ -225,7 +225,7 @@ Import seznamu narozenin ze souboru %s.
 Import seznamu narozenin úspěšně dokončen.
 [All Files]
 Všechny soubory
-[Please select a file to export birthdays to ...]
+[Please select a file to export birthdays to...]
 Vyberte prosím soubor k uložení seznamu narozenin
 [Exporting birthdays to file: %s]
 Export seznamu narozenin do souboru %s.

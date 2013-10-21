@@ -1449,7 +1449,7 @@ Aktualizace seznamu skupin
 Všechny akce dokončeny
 [Close]
 Zavřít
-[You have to be online to sychronize the server-list !]
+[You have to be online to sychronize the server-list!]
 Seznam kontaktů lze synchronizovat pouze ve stavu online!
 [** All contacts **]
 ** všechny kontakty **
