@@ -72,7 +72,7 @@ std::wstring UserInformation::nameString(HANDLE user) const
     {
         return L"";
     }
-    return TranslateW(mir_a2t(ret));
+    return TranslateW(mir_a2t_cp(ret, CP_UTF8));
 }
 
 //==============================================================================

@@ -19,17 +19,13 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE us
 	// if the user is myself (NULL) then return
 	// if it's not a status change then return
 	// check and update the user's status, if status didn't change the return
-	if ((NULL == user)
-		|| (STATUS != write_setting->szSetting)
-		|| (!m_user_info.updateStatus(user, write_setting->value.wVal)))
+	if ((NULL == user) || (STATUS != write_setting->szSetting) || (!m_user_info.updateStatus(user, write_setting->value.wVal)))
 	{
 		return;
 	}
 	
 	// check if we just connected, and want to suppress status changes
-	if (!m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) 
-		&& m_protocol_info.isDisabled(
-		(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)user, 0)))
+	if (!m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) && m_protocol_info.isDisabled((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)user, 0)))
 	{
 		return;
 	}

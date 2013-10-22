@@ -1,6 +1,7 @@
 #include "Common.h"
 #include "SpeechInterface.h"
 #include "SpeechApi51.h"
+#include "SpeechApi40a.h"
 
 
 SpeechInterface::SpeechInterface()
@@ -17,11 +18,11 @@ TextToSpeech * SpeechInterface::createTts(std::wstring &engine) const
 {
 	TextToSpeech *tts = 0;
 
-	/*if (SpeechApi40a::getDescription() == engine)
+	if (SpeechApi40a::getDescription() == engine)
 	{
 		tts = new SpeechApi40a();
 	}
-	else*/ 
+	else
 	if (SpeechApi51::getDescription() == engine)
 	{
 		tts = new SpeechApi51();
@@ -50,11 +51,11 @@ std::vector<std::wstring> SpeechInterface::getAvailableEngines()
 {
 	std::vector<std::wstring> engines;
     
-    /*SpeechApi40a sapi40a;
+    SpeechApi40a sapi40a;
     if (sapi40a.isAvailable())
     {
         engines.push_back(SpeechApi40a::getDescription());
-    }*/
+    }
 
     SpeechApi51 sapi51;
     if (sapi51.isAvailable())

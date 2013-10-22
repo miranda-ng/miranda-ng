@@ -67,7 +67,7 @@ std::wstring EventInformation::getMessage()
 {
 	const std::wstring intro = TranslateW(L"%u says");
 
-	return intro + L" " + mir_a2t_cp((char*)m_event_info.pBlob,CP_UTF8);
+	return intro + L" " + mir_a2t_cp((char*)m_event_info.pBlob, CP_UTF8);
 }
 
 //------------------------------------------------------------------------------

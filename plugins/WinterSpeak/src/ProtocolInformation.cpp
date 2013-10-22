@@ -19,9 +19,7 @@ ProtocolInformation::~ProtocolInformation()
 	m_instance = 0;
 
 	// kill all the timers
-	for (ProtocolTimeoutQueue::const_iterator iter = m_protocol_timeout.begin();
-		iter != m_protocol_timeout.end();
-		++iter)
+	for (ProtocolTimeoutQueue::const_iterator iter = m_protocol_timeout.begin(); iter != m_protocol_timeout.end(); ++iter)
 	{
 		KillTimer(NULL, (*iter).second);
 	}
@@ -59,9 +57,7 @@ bool ProtocolInformation::isDisabled(const char *protocol) const
 	}
 
 	// iterate through the list and see if the protocol has a timer callback
-	for (ProtocolTimeoutQueue::const_iterator iter = m_protocol_timeout.begin();
-		iter != m_protocol_timeout.end();
-		++iter)
+	for (ProtocolTimeoutQueue::const_iterator iter = m_protocol_timeout.begin(); iter != m_protocol_timeout.end(); ++iter)
 	{
 		if (0 == (*iter).first.compare(protocol))
 		{
