@@ -23,7 +23,7 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE us
 	{
 		return;
 	}
-	
+
 	// check if we just connected, and want to suppress status changes
 	if (!m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) && m_protocol_info.isDisabled((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)user, 0)))
 	{
@@ -150,11 +150,11 @@ void SpeakAnnounce::protocolAck(ACKDATA *ack)
 //------------------------------------------------------------------------------
 void SpeakAnnounce::message(const std::wstring &sentence, HANDLE user)
 {
-	CallService(ME_SPEAK_MESSAGE, reinterpret_cast<LPARAM>(user), reinterpret_cast<WPARAM>(sentence.c_str()));
+	CallService(MS_SPEAK_MESSAGE, reinterpret_cast<LPARAM>(user), reinterpret_cast<WPARAM>(sentence.c_str()));
 }
 void SpeakAnnounce::status(const std::wstring &sentence, HANDLE user)
 {
-	CallService(ME_SPEAK_STATUS, reinterpret_cast<LPARAM>(user), reinterpret_cast<WPARAM>(sentence.c_str()));
+	CallService(MS_SPEAK_STATUS, reinterpret_cast<LPARAM>(user), reinterpret_cast<WPARAM>(sentence.c_str()));
 }
 
 //------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ bool SpeakAnnounce::readMessage(HANDLE contact)
 	std::wstring title = m_user_info.nameString(contact) + L" (" + m_user_info.statusModeString(contact) + L"): ";
 
 	HWND window = NULL;
-		
+
 	window = FindWindow(L"#32770", (title + TranslateW(L"Message Session")).c_str());
 	if (window)
 	{

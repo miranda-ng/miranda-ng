@@ -66,7 +66,7 @@ int eventMessageAdded(WPARAM wParam, LPARAM lParam)
 int protocolAck(WPARAM, LPARAM lParam)
 {
 	g_speak_announce->protocolAck(reinterpret_cast<ACKDATA *>(lParam));
-	
+
 	return 0;
 }
 
@@ -117,8 +117,8 @@ extern "C" __declspec(dllexport) int Load(void)
 		g_speak_config = new SpeakConfig(g_hInst);
 
 		// expose to allow miranda + plugins to access my speak routines
-		CreateServiceFunction(ME_SPEAK_STATUS, status);
-		CreateServiceFunction(ME_SPEAK_MESSAGE, message);
+		CreateServiceFunction(MS_SPEAK_STATUS, status);
+		CreateServiceFunction(MS_SPEAK_MESSAGE, message);
 	}
 
 	if (!g_speak_announce)
