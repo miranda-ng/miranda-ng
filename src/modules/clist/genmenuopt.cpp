@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern bool bIconsDisabled;
 extern int DefaultImageListColorDepth;
-long handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD);
 void RebuildProtoMenus(int);
 
 struct OrderData
@@ -40,14 +39,13 @@ struct OrderData
 
 typedef struct tagMenuItemOptData
 {
-	TCHAR* name;
-	TCHAR* defname;
-	char*  uniqname;
+	TCHAR *name;
+	TCHAR *defname;
+	char  *uniqname;
 
-	int pos;
-	boolean show;
-	DWORD isSelected;
-	int id;
+	int    pos;
+	bool   bShow, bIsSelected;
+	int    id;
 
 	PMO_IntMenuItem pimi;
 }
@@ -55,12 +53,12 @@ typedef struct tagMenuItemOptData
 
 static BOOL GetCurrentMenuObjectID(HWND hwndDlg, int* result)
 {
-	TVITEM tvi;
 	HWND hTree = GetDlgItem(hwndDlg, IDC_MENUOBJECTS);
 	HTREEITEM hti = TreeView_GetSelection(hTree);
 	if (hti == NULL)
 		return FALSE;
 
+	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hti;
 	TreeView_GetItem(hTree, &tvi);
@@ -70,42 +68,39 @@ static BOOL GetCurrentMenuObjectID(HWND hwndDlg, int* result)
 
 static int SaveTree(HWND hwndDlg)
 {
-	TVITEM tvi;
-	int count;
-	TCHAR idstr[100];
-	char menuItemName[256], DBString[256], MenuNameItems[256];
-	int menupos;
-	int MenuObjectId, runtimepos;
-	TIntMenuObject* pimo;
-	MenuItemOptData* iod;
-	HWND hTree = GetDlgItem(hwndDlg, IDC_MENUITEMS);
-
+	int MenuObjectId;
 	if ( !GetCurrentMenuObjectID(hwndDlg, &MenuObjectId))
 		return 0;
 
+	HWND hTree = GetDlgItem(hwndDlg, IDC_MENUITEMS);
+	TCHAR idstr[100];
+
+	TVITEM tvi;
 	tvi.hItem = TreeView_GetRoot(hTree);
 	tvi.cchTextMax = 99;
 	tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
 	tvi.pszText = idstr;
-	count = 0;
 
-	menupos = GetMenuObjbyId(MenuObjectId);
+	int count = 0;
+	int menupos = GetMenuObjbyId(MenuObjectId);
 	if (menupos == -1)
 		return -1;
 
-	pimo = g_menus[menupos];
+	TIntMenuObject *pimo = g_menus[menupos];
 
+	char MenuNameItems[256];
 	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->Name);
-	runtimepos = 100;
+	int runtimepos = 100;
 
 	while (tvi.hItem != NULL) {
 		TreeView_GetItem(hTree, &tvi);
-		iod = (MenuItemOptData*)tvi.lParam;
+		MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
 		if (iod->pimi) {
+			char menuItemName[256], DBString[300];
 			GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
-			db_set_b(NULL, MenuNameItems, DBString, iod->show);
+			db_set_b(NULL, MenuNameItems, DBString, iod->bShow);
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
 			db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
@@ -119,7 +114,7 @@ static int SaveTree(HWND hwndDlg)
 			runtimepos += 100;
 		}
 
-		if (iod->name && !_tcscmp(iod->name, STR_SEPARATOR) && iod->show)
+		if (iod->name && !_tcscmp(iod->name, STR_SEPARATOR) && iod->bShow)
 			runtimepos += SEPARATORPOSITIONINTERVAL;
 
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
@@ -170,32 +165,27 @@ static int sortfunc(const void *a, const void *b)
 
 static int InsertSeparator(HWND hwndDlg)
 {
-	MenuItemOptData *PD;
-	TVINSERTSTRUCT tvis = {0};
-	TVITEM tvi = {0};
-	HTREEITEM hti = {0};
 	HWND hMenuTree = GetDlgItem(hwndDlg, IDC_MENUITEMS);
-
-	hti = TreeView_GetSelection(hMenuTree);
+	HTREEITEM hti = TreeView_GetSelection(hMenuTree);
 	if (hti == NULL)
 		return 1;
 
+	TVITEM tvi = {0};
 	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_TEXT;
 	tvi.hItem = hti;
 	if (TreeView_GetItem(hMenuTree, &tvi) == FALSE)
 		return 1;
 
-	PD = (MenuItemOptData*)mir_alloc(sizeof(MenuItemOptData));
-	ZeroMemory(PD, sizeof(MenuItemOptData));
+	MenuItemOptData *PD = (MenuItemOptData*)mir_calloc(sizeof(MenuItemOptData));
 	PD->id = -1;
 	PD->name = mir_tstrdup(STR_SEPARATOR);
-	PD->show = TRUE;
+	PD->bShow = true;
 	PD->pos = ((MenuItemOptData *)tvi.lParam)->pos-1;
 
+	TVINSERTSTRUCT tvis = {0};
 	tvis.item.lParam = (LPARAM)(PD);
 	tvis.item.pszText = PD->name;
-	tvis.item.iImage = tvis.item.iSelectedImage = PD->show;
-	tvis.hParent = NULL;
+	tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
 	tvis.hInsertAfter = hti;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 	TreeView_InsertItem(hMenuTree, &tvis);
@@ -275,7 +265,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
 
 			mir_snprintf(buf, SIZEOF(buf), "%s_visible", menuItemName);
-			PD->show = db_get_b(NULL, MenuNameItems, buf, 1);
+			PD->bShow = db_get_b(NULL, MenuNameItems, buf, 1) != 0;
 
 			if (bReread) {
 				mir_snprintf(buf, SIZEOF(buf), "%s_pos", menuItemName);
@@ -309,17 +299,17 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 			PD->id = -1;
 			PD->name = mir_tstrdup(STR_SEPARATOR);
 			PD->pos = PDar[i]->pos - 1;
-			PD->show = TRUE;
+			PD->bShow = true;
 
 			tvis.item.lParam = (LPARAM)PD;
 			tvis.item.pszText = PD->name;
-			tvis.item.iImage = tvis.item.iSelectedImage = PD->show;
+			tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
 			SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, TVM_INSERTITEM, 0, (LPARAM)&tvis);
 		}
 
 		tvis.item.lParam = (LPARAM)PDar[i];
 		tvis.item.pszText = PDar[i]->name;
-		tvis.item.iImage = tvis.item.iSelectedImage = PDar[i]->show;
+		tvis.item.iImage = tvis.item.iSelectedImage = PDar[i]->bShow;
 
 		HTREEITEM hti = (HTREEITEM)SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, TVM_INSERTITEM, 0, (LPARAM)&tvis);
 		if (first) {
@@ -370,7 +360,7 @@ static HTREEITEM MoveItemAbove(HWND hTreeWnd, HTREEITEM hItem, HTREEITEM hInsert
 		tvis.item.pszText = name;
 		tvis.item.cchTextMax = sizeof(name);
 		tvis.item.hItem = hItem;
-		tvis.item.iImage = tvis.item.iSelectedImage = ((MenuItemOptData*)tvi.lParam)->show;
+		tvis.item.iImage = tvis.item.iSelectedImage = ((MenuItemOptData*)tvi.lParam)->bShow;
 		if ( !SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvis.item))
 			return NULL;
 		if ( !TreeView_DeleteItem(hTreeWnd, hItem))
@@ -400,7 +390,7 @@ LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			tvi.hItem = hti.hItem;
 			TreeView_GetItem(tvw, &tvi);
 
-			if ( !((MenuItemOptData *)tvi.lParam)->isSelected) { /* is not Selected*/
+			if ( !((MenuItemOptData *)tvi.lParam)->bIsSelected) { /* is not Selected*/
 				// reset all selection except current
 				HTREEITEM hit;
 				hit = TreeView_GetRoot(tvw);
@@ -412,9 +402,9 @@ LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 						TreeView_GetItem(tvw, &tvi);
 
 						if (hti.hItem != hit)
-							((MenuItemOptData *)tvi.lParam)->isSelected = 0;
+							((MenuItemOptData *)tvi.lParam)->bIsSelected = false;
 						else
-							((MenuItemOptData *)tvi.lParam)->isSelected = 1;
+							((MenuItemOptData *)tvi.lParam)->bIsSelected = true;
 						TreeView_SetItem(tvw, &tvi);
 					}
 						while (hit = TreeView_GetNextSibling(tvw, hit));
@@ -423,6 +413,67 @@ LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	}
 
 	return mir_callNextSubclass(hwnd, LBTNDOWNProc, uMsg, wParam, lParam);
+}
+
+static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
+{
+	if (pNMTVCD == NULL)
+		return -1;
+
+	switch (pNMTVCD->nmcd.dwDrawStage) {
+	case CDDS_PREPAINT:
+		return CDRF_NOTIFYITEMDRAW;
+
+	case CDDS_ITEMPREPAINT:
+		{
+			HTREEITEM hItem = (HTREEITEM) pNMTVCD->nmcd.dwItemSpec;
+			TCHAR buf[255];
+			
+			TVITEM tvi = {0};
+			tvi.mask = TVIF_HANDLE |TVIF_PARAM|TVIS_SELECTED|TVIF_TEXT|TVIF_IMAGE;
+			tvi.stateMask = TVIS_SELECTED;
+			tvi.hItem = hItem;
+			tvi.pszText = buf;
+			tvi.cchTextMax = SIZEOF(buf);
+			TreeView_GetItem(hWndTreeView, &tvi);
+			if (((MenuItemOptData *)tvi.lParam)->bIsSelected) {
+				pNMTVCD->clrTextBk = GetSysColor(COLOR_HIGHLIGHT);
+				pNMTVCD->clrText = GetSysColor(COLOR_HIGHLIGHTTEXT);
+			}
+			else {
+				pNMTVCD->clrTextBk = GetSysColor(COLOR_WINDOW);
+				pNMTVCD->clrText = GetSysColor(COLOR_WINDOWTEXT);
+			}
+
+			/* At this point, you can change the background colors for the item
+			and any subitems and return CDRF_NEWFONT. If the list-view control
+			is in report mode, you can simply return CDRF_NOTIFYSUBITEMREDRAW
+			to customize the item's subitems individually */
+			int retVal = CDRF_NEWFONT;
+			if (tvi.iImage == -1) {
+				SIZE sz;
+				GetTextExtentPoint32(pNMTVCD->nmcd.hdc, tvi.pszText, lstrlen(tvi.pszText), &sz);
+
+				RECT rc;
+				if (sz.cx+3 > pNMTVCD->nmcd.rc.right - pNMTVCD->nmcd.rc.left)
+					rc = pNMTVCD->nmcd.rc;
+				else
+					SetRect(&rc, pNMTVCD->nmcd.rc.left, pNMTVCD->nmcd.rc.top, pNMTVCD->nmcd.rc.left+sz.cx+3, pNMTVCD->nmcd.rc.bottom);
+
+				HBRUSH br = CreateSolidBrush(pNMTVCD->clrTextBk);
+				SetTextColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrText);
+				SetBkColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrTextBk);
+				FillRect(pNMTVCD->nmcd.hdc, &rc, br);
+				DeleteObject(br);
+				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, lstrlen(tvi.pszText), &pNMTVCD->nmcd.rc, DT_LEFT|DT_VCENTER|DT_NOPREFIX);
+
+				retVal |= CDRF_SKIPDEFAULT;
+			}
+
+			return retVal;
+		}
+	}
+	return 0;
 }
 
 static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -586,7 +637,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							TreeView_GetItem(hdr->hwndFrom, &tvi);
 
 							tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
-							((MenuItemOptData *)tvi.lParam)->show = tvi.iImage;
+							((MenuItemOptData *)tvi.lParam)->bShow = tvi.iImage != 0;
 							TreeView_SetItem(hdr->hwndFrom, &tvi);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
@@ -601,11 +652,9 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 							tvi.hItem = hti.hItem;
 							TreeView_GetItem(tvw, &tvi);
-							if (GetKeyState(VK_CONTROL)&0x8000) {
-								if (((MenuItemOptData *)tvi.lParam)->isSelected)
-									((MenuItemOptData *)tvi.lParam)->isSelected = 0;
-								else
-									((MenuItemOptData *)tvi.lParam)->isSelected = 1;  //current selection order++.
+							if (GetKeyState(VK_CONTROL) & 0x8000) {
+								MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
+								iod->bIsSelected = !iod->bIsSelected;
 								TreeView_SetItem(tvw, &tvi);
 							}
 							else if (GetKeyState(VK_SHIFT)&0x8000) {
@@ -622,10 +671,8 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 										tvi.hItem = hit;
 										TreeView_GetItem(tvw, &tvi);
 
-										if (hti.hItem != hit)
-											((MenuItemOptData *)tvi.lParam)->isSelected = 0;
-										else
-											((MenuItemOptData *)tvi.lParam)->isSelected = 1;
+										MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
+										iod->bIsSelected = (hti.hItem == hit);
 										TreeView_SetItem(tvw, &tvi);
 									}
 										while (hit = TreeView_GetNextSibling(tvw, hit));
@@ -753,9 +800,8 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 								tvi.hItem = hit;
 								TreeView_GetItem(tvw, &tvi);
-								if (((MenuItemOptData *)tvi.lParam)->isSelected) {
+								if (((MenuItemOptData *)tvi.lParam)->bIsSelected) {
 									pSIT[uSic] = tvi.hItem;
-
 									uSic++;
 								}
 							}while (hit = TreeView_GetNextSibling(tvw, hit));
@@ -792,65 +838,6 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	}
 	return FALSE;
-}
-
-long handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
-{
-	if (pNMTVCD == NULL)
-		return -1;
-
-	switch (pNMTVCD->nmcd.dwDrawStage) {
-	case CDDS_PREPAINT:
-		return CDRF_NOTIFYITEMDRAW;
-
-	case CDDS_ITEMPREPAINT:
-		{
-			HTREEITEM hItem = (HTREEITEM) pNMTVCD->nmcd.dwItemSpec;
-			TCHAR buf[255];
-			TVITEM tvi = {0};
-			int k = 0;
-			tvi.mask = TVIF_HANDLE |TVIF_PARAM|TVIS_SELECTED|TVIF_TEXT|TVIF_IMAGE;
-			tvi.stateMask = TVIS_SELECTED;
-			tvi.hItem = hItem;
-			tvi.pszText = (LPTSTR)(&buf);
-			tvi.cchTextMax = 254;
-			TreeView_GetItem(hWndTreeView, &tvi);
-			if (((MenuItemOptData *)tvi.lParam)->isSelected) {
-				pNMTVCD->clrTextBk = GetSysColor(COLOR_HIGHLIGHT);
-				pNMTVCD->clrText = GetSysColor(COLOR_HIGHLIGHTTEXT);
-			}
-			else {
-				pNMTVCD->clrTextBk = GetSysColor(COLOR_WINDOW);
-				pNMTVCD->clrText = GetSysColor(COLOR_WINDOWTEXT);
-			}
-
-			/* At this point, you can change the background colors for the item
-			and any subitems and return CDRF_NEWFONT. If the list-view control
-			is in report mode, you can simply return CDRF_NOTIFYSUBITEMREDRAW
-			to customize the item's subitems individually */
-			if (tvi.iImage == -1) {
-				HBRUSH br;
-				SIZE sz;
-				RECT rc;
-				k = 1;
-
-				GetTextExtentPoint32(pNMTVCD->nmcd.hdc, tvi.pszText, lstrlen(tvi.pszText), &sz);
-
-				if (sz.cx+3>pNMTVCD->nmcd.rc.right-pNMTVCD->nmcd.rc.left) rc = pNMTVCD->nmcd.rc;
-				else SetRect(&rc, pNMTVCD->nmcd.rc.left, pNMTVCD->nmcd.rc.top, pNMTVCD->nmcd.rc.left+sz.cx+3, pNMTVCD->nmcd.rc.bottom);
-
-				br = CreateSolidBrush(pNMTVCD->clrTextBk);
-				SetTextColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrText);
-				SetBkColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrTextBk);
-				FillRect(pNMTVCD->nmcd.hdc, &rc, br);
-				DeleteObject(br);
-				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, lstrlen(tvi.pszText), &pNMTVCD->nmcd.rc, DT_LEFT|DT_VCENTER|DT_NOPREFIX);
-			}
-
-			return CDRF_NEWFONT|(k?CDRF_SKIPDEFAULT:0);
-		}
-	}
-	return 0;
 }
 
 INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
