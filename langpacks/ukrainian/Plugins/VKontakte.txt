@@ -8,13 +8,13 @@
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
 [Your login or phone number:]
-Пошта або номер тел.:
+Пошта або номер телефону:
 [Password:]
 Пароль:
 [Open VK site]
 Відкрити сторінку ВК
 [Bots Challenge Test]
-Перевірка
+Захист від ботів
 [Instruction:]
 Інструкція:
 [Submit]
