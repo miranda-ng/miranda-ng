@@ -57,11 +57,10 @@ LPSTR __cdecl cpp_init_keya(HANDLE context, int features) {
 	}
 	memcpy((PVOID)&publ1[KEYSIZE],(PVOID)&send_features,2);
 
-	SAFE_FREE(ptr->tmp);
 	if (ptr->mode & MODE_BASE64 || features & FEATURES_NEWPG)
-		ptr->tmp = mir_base64_encode(publ1,KEYSIZE+2);
+		replaceStr(ptr->tmp, mir_base64_encode(publ1,KEYSIZE+2));
 	else
-		ptr->tmp = base16encode((LPSTR)&publ1,KEYSIZE+2);
+		replaceStr(ptr->tmp, base16encode((LPSTR)&publ1,KEYSIZE+2));
 
 	return ptr->tmp;
 }
@@ -79,7 +78,7 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 	LPSTR pub_binary;
 	if ((clen==KEYSIZE*2) || (clen==(KEYSIZE+2)*2))
 		pub_binary = base16decode(key,&clen);
-	else 
+	else
 		pub_binary = (LPSTR)mir_base64_decode(key,&clen);
 
 	if ( !pub_binary || (clen!=KEYSIZE && clen!=KEYSIZE+2) ) {
@@ -87,7 +86,7 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 		Sent_NetLog("cpp_init_keyb: error bad_keyb");
 #endif
 		ptr->error = ERROR_BAD_KEYB;
-		SAFE_FREE(pub_binary);
+		mir_free(pub_binary);
 		return 0;
 	}
 
@@ -121,14 +120,14 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 		}
 	}
 
-	SAFE_FREE(p->KeyB);
+	mir_free(p->KeyB);
 	p->KeyB = (PBYTE) pub_binary;
 
 	if (p->PubA && memcmp(p->PubA,p->KeyB,KEYSIZE)==0) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("cpp_init_keyb: error bad_keyb keya==keyb");
 #endif
-		SAFE_FREE(p->KeyB);
+		mir_free(p->KeyB);
 		ptr->error = ERROR_BAD_KEYB;
 		return 0;
 	}
@@ -156,8 +155,7 @@ int __cdecl cpp_calc_keyx(HANDLE context) {
 		// not needed anymore
 		SAFE_FREE(p->PubA);
 		SAFE_FREE(p->KeyA);
-		SAFE_FREE(p->KeyB);
-//		SAFE_DELETE(p->dh);
+		mir_free(p->KeyB); p->KeyB = 0;
 
 		BYTE buffer[Tiger::DIGESTSIZE]; // buffer for hash
 		memset(buffer,0,sizeof(buffer));

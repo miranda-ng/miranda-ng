@@ -20,8 +20,8 @@ char *base16encode(const char *inBuffer, int count) {
 
 char *base16decode(const char *inBuffer, unsigned int *count) {
 
-	char *outBuffer = (char *) malloc(*count);
-	BYTE *outBufferPtr = (BYTE *) outBuffer;
+	char *outBuffer = (char *)mir_alloc(*count);
+	BYTE *outBufferPtr = (BYTE *)outBuffer;
 	bool big_endian = false;
 
 	if (*inBuffer == '0' && *(inBuffer+1) == 'x') {

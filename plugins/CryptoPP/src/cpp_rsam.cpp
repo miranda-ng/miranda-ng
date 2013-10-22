@@ -139,8 +139,8 @@ int __cdecl rsa_get_keypair(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 	pCNTX ptr = get_context_on_id(hRSA4096); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
-	*privKeyLen = r->priv_k.length(); if ( privKey ) r->priv_k.copy((char*)privKey, *privKeyLen);
-	*pubKeyLen = r->pub_k.length(); if ( pubKey ) r->pub_k.copy((char*)pubKey, *pubKeyLen);
+	*privKeyLen = (int)r->priv_k.length(); if ( privKey ) r->priv_k.copy((char*)privKey, *privKeyLen);
+	*pubKeyLen = (int)r->pub_k.length(); if ( pubKey ) r->pub_k.copy((char*)pubKey, *pubKeyLen);
 
 	return 1;
 }
@@ -153,8 +153,8 @@ int __cdecl rsa_get_keyhash(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 	pCNTX ptr = get_context_on_id(hRSA4096); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
-	if ( privKey ) { *privKeyLen = r->priv_s.length(); r->priv_s.copy((char*)privKey, *privKeyLen); }
-	if ( pubKey ) { *pubKeyLen = r->pub_s.length(); r->pub_s.copy((char*)pubKey, *pubKeyLen); }
+	if ( privKey ) { *privKeyLen = (int)r->priv_s.length(); r->priv_s.copy((char*)privKey, *privKeyLen); }
+	if ( pubKey ) { *pubKeyLen = (int)r->pub_s.length(); r->pub_s.copy((char*)pubKey, *pubKeyLen); }
 
 	return 1;
 }
@@ -202,7 +202,7 @@ int __cdecl rsa_get_pubkey(HANDLE context, PBYTE pubKey, int* pubKeyLen) {
 	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 
-	*pubKeyLen = p->pub_k.length(); if ( pubKey ) p->pub_k.copy((char*)pubKey, *pubKeyLen);
+	*pubKeyLen = (int)p->pub_k.length(); if ( pubKey ) p->pub_k.copy((char*)pubKey, *pubKeyLen);
 
 	return 1;
 }
@@ -249,8 +249,9 @@ int __cdecl rsa_get_hash(PBYTE pubKey, int pubKeyLen, PBYTE pubHash, int* pubHas
 	string sig;
 	sig = ::hash(pubKey, pubKeyLen);
 
-	*pubHashLen = sig.length();
-	if ( pubHash ) sig.copy((char*)pubHash, *pubHashLen);
+	*pubHashLen = (int)sig.length();
+	if (pubHash)
+		sig.copy((char*)pubHash, *pubHashLen);
 
 	return 1;
 }
@@ -413,26 +414,24 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 
 	case 0x70: // получили AES сообщение, декодируем
 	{
-		SAFE_FREE(ptr->tmp);
 		string msg = decode_msg(p,data);
-		if ( msg.length() ) {
-			ptr->tmp = (LPSTR) _strdup(msg.c_str());
-		}
+		if ( msg.length() )
+			replaceStr(ptr->tmp, mir_strdup(msg.c_str()));
 		else {
 			imp->rsa_notify(context,-5); // ошибка декодирования AES сообщения
+			replaceStr(ptr->tmp, NULL);
 		}
 		return ptr->tmp;
 	} break;
 
 	case 0xE0: // получили RSA сообщение, декодируем
 	{
-		SAFE_FREE(ptr->tmp);
 		string msg = decode_rsa(p,r,data);
-		if ( msg.length() ) {
-			ptr->tmp = (LPSTR) _strdup(msg.c_str());
-		}
+		if ( msg.length() )
+			replaceStr(ptr->tmp, mir_strdup(msg.c_str()));
 		else {
 			imp->rsa_notify(context,-6); // ошибка декодирования RSA сообщения
+			replaceStr(ptr->tmp, NULL);
 		}
 		return ptr->tmp;
 	} break;
@@ -743,7 +742,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		int features; string pub;
 		un_tlv(un_tlv(data,t[0],features),t[1],pub);
 		string sig = ::hash(pub);
-		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(), (int)pub.length(),(PBYTE)sig.data(), (int)sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
@@ -770,7 +769,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		int features; string pub;
 		un_tlv(un_tlv(data,t[0],features),t[1],pub);
 		string sig = ::hash(pub);
-		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(), (int)pub.length(),(PBYTE)sig.data(), (int)sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
@@ -790,7 +789,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		string pub;
 		un_tlv(data,t[0],pub);
 		string sig = ::hash(pub);
-		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
@@ -829,7 +828,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		un_tlv(un_tlv(un_tlv(data,t[0],features),t[1],pub),t[2],sha);
 		if ( p->pub_k!=pub ) { // пришел новый паблик
 			string sig = ::hash(pub);
-			if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+			if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(), (int)pub.length(),(PBYTE)sig.data(), (int)sig.length()) ) {
 				p->state=0; p->time=0;
 				null_msg(context,0x00,-type); // сессия разорвана по ошибке
 				return 0;
@@ -993,42 +992,40 @@ int __cdecl rsa_import_keypair(short mode, LPSTR privKey, LPSTR passPhrase) {
 	if ( !passPhrase ) return 0;
 
 	string priv;
-	u_int found;
-
 	priv.assign(privKey);
 	del_delim(priv,crlf);
 
-	found = priv.find(priv_beg);
+	size_t found = priv.find(priv_beg);
 	if ( found != string::npos ) {
-	    priv = priv.substr(found+priv_beg.length());
-	    found = priv.find(priv_end);
-	    if ( found != string::npos ) {
-		priv = base64decode(priv.substr(0,found));
-		TLV k(priv);
-		if ( k.exist(1) && k.exist(2) && ::hash(k.get(1)) == k.get(2) ) {
-		    priv = k.get(1);
-		    
-		    string key = hash256(passPhrase);
-		    string iv = hash256(key);
+		priv = priv.substr(found+priv_beg.length());
+		found = priv.find(priv_end);
+		if ( found != string::npos ) {
+			priv = base64decode(priv.substr(0,found));
+			TLV k(priv);
+			if ( k.exist(1) && k.exist(2) && ::hash(k.get(1)) == k.get(2) ) {
+				priv = k.get(1);
 
-		    string unciphered;
-		    try {
-			CBC_Mode<AES>::Decryption dec((PBYTE)key.data(),key.length(),(PBYTE)iv.data());
-			StreamTransformationFilter cbcDecryptor(dec,new StringSink(unciphered));
-			cbcDecryptor.Put((PBYTE)priv.data(),priv.length());
-			cbcDecryptor.MessageEnd();
-		    }
-		    catch (...)	{
+				string key = hash256(passPhrase);
+				string iv = hash256(key);
+
+				string unciphered;
+				try {
+					CBC_Mode<AES>::Decryption dec((PBYTE)key.data(),key.length(),(PBYTE)iv.data());
+					StreamTransformationFilter cbcDecryptor(dec,new StringSink(unciphered));
+					cbcDecryptor.Put((PBYTE)priv.data(),priv.length());
+					cbcDecryptor.MessageEnd();
+				}
+				catch (...)	{
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-			Sent_NetLog("rsa_import_keypair: error bad_passphrase");
+					Sent_NetLog("rsa_import_keypair: error bad_passphrase");
 #endif
-			return 0;
-		    }
+					return 0;
+				}
 
-		    init_priv(r,unciphered);
-		    return 1;
+				init_priv(r,unciphered);
+				return 1;
+			}
 		}
-	    }
 	}
 
 	return 0;
@@ -1063,23 +1060,21 @@ int __cdecl rsa_import_pubkey(HANDLE context, LPSTR pubKey) {
 	if ( !pubKey ) return 0;
 
 	string pub;
-	u_int found;
-
 	pub.assign(pubKey);
 	del_delim(pub,crlf);
 
-	found = pub.find(pub_beg);
+	size_t found = pub.find(pub_beg);
 	if ( found != string::npos ) {
-	    pub = pub.substr(found+pub_beg.length());
-	    found = pub.find(pub_end);
-	    if ( found != string::npos ) {
-		pub = base64decode(pub.substr(0,found));
-		TLV k(pub);
-		if ( k.exist(3) && k.exist(4) && ::hash(k.get(3)) == k.get(4) ) {
-		    init_pub(p,k.get(3));
-		    return 1;
-		}
-	    }	
+		pub = pub.substr(found+pub_beg.length());
+		found = pub.find(pub_end);
+		if ( found != string::npos ) {
+			pub = base64decode(pub.substr(0,found));
+			TLV k(pub);
+			if ( k.exist(3) && k.exist(4) && ::hash(k.get(3)) == k.get(4) ) {
+				init_pub(p,k.get(3));
+				return 1;
+			}
+		}	
 	}	
 	return 0;
 }

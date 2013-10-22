@@ -68,17 +68,18 @@ LPSTR __cdecl gpg_get_error()
 
 LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 {
-   	ptr->error = ERROR_NONE;
+	ptr->error = ERROR_NONE;
 	pGPGDATA p = (pGPGDATA) ptr->pdata;
-	SAFE_FREE(ptr->tmp);
 
 	LPSTR szEncMsg;
 	szEncMsg = _gpg_encrypt(szPlainMsg,(LPCSTR)p->gpgKeyID);
-	if (!szEncMsg) return 0;
+	if (!szEncMsg) {
+		replaceStr(ptr->tmp, 0);
+		return 0;
+	}
 
-	ptr->tmp = (LPSTR)_strdup(szEncMsg);
+	replaceStr(ptr->tmp, mir_strdup(szEncMsg));
 	LocalFree((LPVOID)szEncMsg);
-
 	return ptr->tmp;
 }
 
@@ -86,17 +87,9 @@ LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 {
     ptr->error = ERROR_NONE;
-    SAFE_FREE(ptr->tmp);
 
     LPSTR szPlainMsg = _gpg_decrypt(szEncMsg);
-/*	if (!szPlainMsg) {
-	    ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
-    	if (ptr && ptr->pgpKey)
-			szPlainMsg = _gpg_decrypt_key(szEncMsg,(LPCSTR)ptr->pgpKey);
-		if (!szPlainMsg) return NULL;
-    }*/
-
-    ptr->tmp = (LPSTR)_strdup(szPlainMsg);
+    replaceStr(ptr->tmp, mir_strdup(szPlainMsg));
     LocalFree((LPVOID)szPlainMsg);
 
     return ptr->tmp;
@@ -143,8 +136,7 @@ LPSTR __cdecl gpg_decode(HANDLE context, LPCSTR szEncMsg)
 			szNewMsg = _strdup(szOldMsg);
 		}
 	}
-	SAFE_FREE(ptr->tmp);
-	ptr->tmp = szNewMsg;
+	replaceStr(ptr->tmp, szNewMsg);
 	return szNewMsg;
 }
 

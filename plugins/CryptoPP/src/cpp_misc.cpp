@@ -43,7 +43,7 @@ void __cdecl cpp_set_keyx(HANDLE context, BYTE *key) {
     pCNTX ptr; pSIMDATA p; if (!cpp_get_simdata(context,&ptr,&p)) return;
     SAFE_FREE(p->PubA);
     SAFE_FREE(p->KeyA);
-    SAFE_FREE(p->KeyB);
+	 mir_free(p->KeyB); p->KeyB = 0;
     SAFE_FREE(p->KeyX);
     p->KeyX = (PBYTE) malloc(Tiger::DIGESTSIZE+2);
     memcpy(p->KeyX,key,Tiger::DIGESTSIZE);

@@ -70,7 +70,7 @@ PBYTE cpp_alloc_pdata(pCNTX ptr) {
 // free memory from keys
 void cpp_free_keys(pCNTX ptr) {
 
-	SAFE_FREE(ptr->tmp);
+	replaceStr(ptr->tmp, 0);
 	cpp_alloc_pdata(ptr);
 	if ( ptr->mode & MODE_PGP ) {
 		pPGPDATA p = (pPGPDATA) ptr->pdata;
@@ -93,7 +93,7 @@ void cpp_free_keys(pCNTX ptr) {
 		pSIMDATA p = (pSIMDATA) ptr->pdata;
 		SAFE_FREE(p->PubA);
 		SAFE_FREE(p->KeyA);
-		SAFE_FREE(p->KeyB);
+		mir_free(p->KeyB);
 		SAFE_FREE(p->KeyX);
 		SAFE_FREE(p->KeyP);
 		SAFE_DELETE(p->dh);
