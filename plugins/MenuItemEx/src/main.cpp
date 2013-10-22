@@ -1,18 +1,17 @@
 #include "menuex.h"
 
-#define MS_SETINVIS		"MenuEx/SetInvis"
-#define MS_SETVIS		"MenuEx/SetVis"
-#define MS_HIDE			"MenuEx/Hide"
-#define MS_IGNORE		"MenuEx/Ignore"
-#define MS_PROTO		"MenuEx/ChangeProto"
-#define MS_ADDED		"MenuEx/SendAdded"
-#define MS_AUTHREQ		"MenuEx/SendAuthReq"
-#define MS_COPYID		"MenuEx/CopyID"
-#define MS_RECVFILES	"MenuEx/RecvFiles"
-#define MS_STATUSMSG	"MenuEx/CopyStatusMsg"
-#define MS_COPYIP		"MenuEx/CopyIP"
-#define MS_COPYMIRVER	"MenuEx/CopyMirVer"
-
+#define MS_SETINVIS   "MenuEx/SetInvis"
+#define MS_SETVIS     "MenuEx/SetVis"
+#define MS_HIDE       "MenuEx/Hide"
+#define MS_IGNORE     "MenuEx/Ignore"
+#define MS_PROTO      "MenuEx/ChangeProto"
+#define MS_ADDED      "MenuEx/SendAdded"
+#define MS_AUTHREQ    "MenuEx/SendAuthReq"
+#define MS_COPYID     "MenuEx/CopyID"
+#define MS_RECVFILES  "MenuEx/RecvFiles"
+#define MS_STATUSMSG  "MenuEx/CopyStatusMsg"
+#define MS_COPYIP     "MenuEx/CopyIP"
+#define MS_COPYMIRVER "MenuEx/CopyMirVer"
 
 const int vf_default = VF_VS|VF_HFL|VF_IGN|VF_CID|VF_SHOWID|VF_RECV|VF_STAT|VF_SMNAME|VF_CIDN|VF_CIP;
 
@@ -1025,7 +1024,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hmenuOff = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
-	mi.ptszName = NULL;
+	mi.ptszName = LPGENT("Hide from list");
 	mi.pszService = MS_HIDE;
 	hmenuHide = Menu_AddContactMenuItem(&mi);
 

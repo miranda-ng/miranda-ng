@@ -192,7 +192,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 	if (RichEditOle == NULL)
 		return;
 
-	ITextDocument* TextDocument;
+	ITextDocument* TextDocument = NULL;
 	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK) {
 		RichEditOle->Release();
 		return;

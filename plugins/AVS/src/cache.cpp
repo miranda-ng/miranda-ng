@@ -270,12 +270,11 @@ void PicLoader(LPVOID param)
 				ace_temp.hbmPic = 0;
 
 				int result = CreateAvatarInCache(node->ace.hContact, &ace_temp, NULL);
-
 				if (result == -2) {
 					char *szProto = GetContactProto(node->ace.hContact);
 					if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
 						QueueAdd(node->ace.hContact);
-					else if (FetchAvatarFor(node->ace.hContact, szProto) == GAIR_SUCCESS) // Try yo create again
+					else if (FetchAvatarFor(node->ace.hContact, szProto) == GAIR_SUCCESS) // Try to create again
 						result = CreateAvatarInCache(node->ace.hContact, &ace_temp, NULL);
 				}
 
