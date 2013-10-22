@@ -3,8 +3,8 @@
 
 #include <windows.h>
 #include <Winsock2.h>
-
 #include <CommCtrl.h>
+
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_genmenu.h>
@@ -19,10 +19,10 @@
 #include <m_netlib.h>
 #include <m_extraicons.h>
 
+#include "m_winterspeak.h"
 
 #include "resource.h"
 #include "Version.h"
-#include "m_speak.h"
 
 #include "DialogConfigEngine.h"
 #include "DialogConfigActive.h"

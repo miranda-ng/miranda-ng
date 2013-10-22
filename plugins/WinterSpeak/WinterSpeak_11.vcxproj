@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>WinterSpeak</ProjectName>
-    <ProjectGuid>{18195F68-A747-8643-050C-C5101DA658FD}</ProjectGuid>
+    <ProjectGuid>{A44F96D0-A850-4A67-9570-0E9298A16E40}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <MinimalRebuild>true</MinimalRebuild>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\include;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -108,7 +108,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\include;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -125,7 +125,7 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files (x86)\Microsoft Speech SDK\Lib\spchwrap.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,7 +135,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>Full</Optimization>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\include;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -154,7 +154,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files (x86)\Microsoft Speech SDK\Lib\spchwrap.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,7 +164,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>Full</Optimization>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\include;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;C:\Program Files (x86)\Microsoft Speech SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -183,7 +183,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files (x86)\Microsoft Speech SDK\Lib\spchwrap.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -195,7 +195,6 @@
     <ClInclude Include="src\DialogConfigEngine.h" />
     <ClInclude Include="src\EventInformation.h" />
     <ClInclude Include="src\MirandaDialog.h" />
-    <ClInclude Include="src\m_speak.h" />
     <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\ProtocolInformation.h" />
     <ClInclude Include="src\resource.h" />

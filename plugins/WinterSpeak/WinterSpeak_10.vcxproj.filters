@@ -34,6 +34,9 @@
     <Filter Include="Source Files\text_to_speech\speech_api_51">
       <UniqueIdentifier>{79aaf01a-24a8-425a-a166-75f9a925b5a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\text_to_speech\speech_api_40a">
+      <UniqueIdentifier>{bc35ee8c-e94f-4d06-8e83-77d143ead7bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -99,8 +102,11 @@
     <ClInclude Include="src\TextToSpeech.h">
       <Filter>Source Files\text_to_speech</Filter>
     </ClInclude>
-    <ClInclude Include="src\m_speak.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\SpeechApi40a.h">
+      <Filter>Source Files\text_to_speech\speech_api_40a</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpeechApi40aLexicon.h">
+      <Filter>Source Files\text_to_speech\speech_api_40a</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +174,12 @@
     </ClCompile>
     <ClCompile Include="src\TextToSpeech.cpp">
       <Filter>Source Files\text_to_speech</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpeechApi40a.cpp">
+      <Filter>Source Files\text_to_speech\speech_api_40a</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpeechApi40aLexicon.cpp">
+      <Filter>Source Files\text_to_speech\speech_api_40a</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

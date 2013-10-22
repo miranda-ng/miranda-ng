@@ -102,9 +102,6 @@
     <ClInclude Include="src\TextToSpeech.h">
       <Filter>Source Files\text_to_speech</Filter>
     </ClInclude>
-    <ClInclude Include="src\m_speak.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SpeechApi40a.h">
       <Filter>Source Files\text_to_speech\speech_api_40a</Filter>
     </ClInclude>
