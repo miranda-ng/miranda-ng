@@ -967,7 +967,7 @@ Příjem souborů
 [Received files folder:]
 Složka pro soubory:
 [Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-Proměnné: %userid%, %nick%, %proto%, %miranda_pach%, %userprofile%
+Proměnné: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
 Automaticky přijímat soubory od lidí v seznamu
 [Minimize the file transfer window]
