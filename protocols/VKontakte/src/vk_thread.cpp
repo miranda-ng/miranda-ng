@@ -264,8 +264,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			}
 		}
 
-		if (szValue = json_as_string( json_get(pRecord, "photo_medium")))
-			setTString(hContact, "AvatarUrl", szValue);
+		szValue = json_as_string( json_get(pRecord, "photo_medium"));
+		SetAvatarUrl(hContact, szValue);
 	}
 }
 
@@ -317,8 +317,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		if ( !tszNick.IsEmpty())
 			setTString(hContact, "Nick", tszNick);
 
-		if (szValue = json_as_string( json_get(pInfo, "photo_medium")))
-			setTString(hContact, "AvatarUrl", szValue);
+		szValue = json_as_string( json_get(pInfo, "photo_medium"));
+		SetAvatarUrl(hContact, szValue);
 
 		setWord(hContact, "Status", (json_as_int( json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE); 
 

@@ -169,6 +169,7 @@ private:
 	void   OnLoggedOut();
 	void   ShutdownSession();
 
+	void   SetAvatarUrl(HANDLE hContact, LPCTSTR ptszUrl);
 	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen);
 
 	HANDLE FindUser(LONG userid, bool bCreate = false);

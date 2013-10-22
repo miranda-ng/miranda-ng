@@ -113,3 +113,23 @@ void CVkProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%d%s"), id, szFileType);
 }
 
+void CVkProto::SetAvatarUrl(HANDLE hContact, LPCTSTR ptszUrl)
+{
+	ptrT oldUrl( getTStringA(hContact, "AvatarUrl"));
+	if ( !lstrcmp(ptszUrl, oldUrl))
+		return;
+
+	if (ptszUrl == NULL) {
+		delSetting(hContact, "AvatarUrl");
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+	}
+	else {
+		setTString(hContact, "AvatarUrl", ptszUrl);
+
+		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+		AI.hContact = hContact;
+		GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename));
+		AI.format = ProtoGetAvatarFormat(AI.filename);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
+	}
+}
