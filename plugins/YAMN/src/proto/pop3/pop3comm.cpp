@@ -227,7 +227,7 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 	//First, we register this plugin
 	//it is quite impossible this function returns zero (failure) as YAMN and internal plugin structre versions are the same
 	POP3ProtocolRegistration.Name = Translate("POP3 protocol (internal)");
-	POP3ProtocolRegistration.Description = Translate("Mail notifier and browser for Miranda NG. Included POP3 protocol.");
+	POP3ProtocolRegistration.Description = Translate(__DESCRIPTION);
 	if (NULL==(POP3Plugin=(HYAMNPROTOPLUGIN)CallService(MS_YAMN_REGISTERPROTOPLUGIN,(WPARAM)&POP3ProtocolRegistration,(LPARAM)YAMN_PROTOREGISTRATIONVERSION)))
 		return 0;
 
