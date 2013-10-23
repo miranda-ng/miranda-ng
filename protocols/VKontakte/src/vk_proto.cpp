@@ -183,8 +183,10 @@ int CVkProto::SetStatus(int iNewStatus)
 	m_iDesiredStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if ( IsOnline())
+		if ( IsOnline()) {
+			SetServerStatus(ID_STATUS_OFFLINE);
 			ShutdownSession();
+		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);

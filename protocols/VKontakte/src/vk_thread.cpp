@@ -73,7 +73,11 @@ void CVkProto::OnLoggedOut()
 
 int CVkProto::SetServerStatus(int iStatus)
 {
-	if (iStatus != ID_STATUS_OFFLINE && iStatus != ID_STATUS_INVISIBLE) {
+	if (iStatus == ID_STATUS_OFFLINE) {
+		HttpParam param = { "access_token", m_szAccessToken };
+		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth, 1, &param);
+	}
+	else if (iStatus != ID_STATUS_INVISIBLE) {
 		HttpParam param = { "access_token", m_szAccessToken };
 		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth, 1, &param);
 	}
