@@ -57,7 +57,6 @@ bool SpeechApi40a::load()
 	{
 		return true;
 	}
-
 	return loadWithVoice(std::wstring(m_voice));
 }
 
@@ -77,7 +76,6 @@ bool SpeechApi40a::unload()
 	}
 
 	m_state = TextToSpeech::State_Unloaded;
-
 	return true;
 }
 
@@ -90,7 +88,8 @@ bool SpeechApi40a::isLoaded() const
 //------------------------------------------------------------------------------
 bool SpeechApi40a::say(const std::wstring &sentence)
 {
-	std::string text = mir_t2a_cp(sentence.c_str(), CP_UTF8);
+	//std::string text = mir_t2a_cp(sentence.c_str(), CP_ACP);
+	//MessageBoxA(NULL, text.c_str(), "TTS4", MB_OK);
 	bool ret = true;
 
 	if (!isLoaded())
@@ -100,8 +99,8 @@ bool SpeechApi40a::say(const std::wstring &sentence)
 	else
 	{
 		SDATA data;
-		data.dwSize = (DWORD)text.size();
-		data.pData = (char *)text.c_str();
+		data.dwSize = (DWORD)(sentence.size() * sizeof(WCHAR));
+		data.pData = (WCHAR *)sentence.c_str();
 		m_tts_central->TextData(CHARSET_TEXT, 0, data, NULL, IID_ITTSBufNotifySinkA);
 	}
 
@@ -175,7 +174,7 @@ bool  SpeechApi40a::setVoice(const std::wstring &voice)
 std::vector<std::wstring> SpeechApi40a::getVoices() const
 {
 	std::vector<std::wstring> ret;
-
+	
 	PITTSENUM pITTSEnum = NULL;
 	TTSMODEINFO inf;
 
@@ -222,7 +221,7 @@ std::wstring SpeechApi40a::getDescription()
 bool SpeechApi40a::loadWithVoice(std::wstring &voice)
 {
 	CoInitialize(NULL);
-
+	
 	PITTSENUM    pITTSEnum;
 	TTSMODEINFO  inf;
 	LPUNKNOWN    pAudioDest;

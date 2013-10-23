@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>WinterSpeak</ProjectName>
-    <ProjectGuid>{A44F96D0-A850-4A67-9570-0E9298A16E40}</ProjectGuid>
+    <ProjectGuid>{18195F68-A747-8643-050C-C5101DA658FD}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
