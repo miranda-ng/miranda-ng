@@ -112,7 +112,6 @@
 [Few Showers]
 [Few Showers / Wind]
 [Pm Light Rain]
-[Mostly Cloudy]
 [Mostly Cloudy / Wind]
 [Rain]
 [Light Rain Shower And Windy]
