@@ -44,6 +44,12 @@ LBL_Restart:
 		if (pReq->bNeedsRestart)
 			goto LBL_Restart;
 	}
+	else if (pReq->bIsMainConn) {
+		if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+			ConnectionFailed(LOGINERR_NONETWORK);
+		else
+			ShutdownSession();
+	}
 	delete pReq;
 }
 
@@ -57,9 +63,10 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 		pReq->flags |= NLHRF_SSL;
 
 	CMStringA url;
-	if (*szUrl == '/') {
+	if (*szUrl == '/') {	// relative url leads to a site
 		url = VK_API_URL;
 		url += szUrl;
+		pReq->bIsMainConn = true;
 	}
 	else url = szUrl;
 	
@@ -94,8 +101,11 @@ void CVkProto::WorkerThread(void*)
 	debugLogA("CVkProto::WorkerThread: entering");
 	m_bTerminated = m_prevError = false;
 	m_szAccessToken = getStringA("AccessToken");
-	if (m_szAccessToken != NULL)
-		OnLoggedIn();
+	if (m_szAccessToken != NULL) {
+		// try to receive a response from server
+		HttpParam param = { "access_token", m_szAccessToken };
+		PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
+	}
 	else { // Initialize new OAuth session
 		HttpParam params[] = {
 			{ "client_id", VK_APP_ID },

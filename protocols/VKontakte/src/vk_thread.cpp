@@ -45,16 +45,10 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR pObject, DWORD)
 void CVkProto::OnLoggedIn()
 {
 	m_bOnline = true;
-
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
-	m_iStatus = m_iDesiredStatus;
+	SetServerStatus(m_iDesiredStatus);
 
 	// initialize online timer
-	SetServerStatus(m_iStatus);
 	m_timer = SetTimer(NULL, (UINT_PTR)this, 870000, TimerProc);
-
-	HttpParam param = { "access_token", m_szAccessToken };
-	PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
 }
 
 void CVkProto::OnLoggedOut()
@@ -71,17 +65,24 @@ void CVkProto::OnLoggedOut()
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
-int CVkProto::SetServerStatus(int iStatus)
+void CVkProto::SetServerStatus(int iNewStatus)
 {
-	if (iStatus == ID_STATUS_OFFLINE) {
+	if ( !IsOnline() || iNewStatus < ID_STATUS_OFFLINE || m_iStatus == iNewStatus)
+		return;
+
+	int iOldStatus = m_iStatus;
+
+	if (iNewStatus == ID_STATUS_OFFLINE) {
 		HttpParam param = { "access_token", m_szAccessToken };
 		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth, 1, &param);
 	}
-	else if (iStatus != ID_STATUS_INVISIBLE) {
+	else if (iNewStatus != ID_STATUS_INVISIBLE) {
 		HttpParam param = { "access_token", m_szAccessToken };
 		PushAsyncHttpRequest(REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth, 1, &param);
 	}
-	return 0;
+
+	m_iStatus = iNewStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -195,6 +196,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 	}
 
+	OnLoggedIn();
 	RetrieveUserInfo(m_myUserId);
 	RetrieveFriends();
 	RetrieveUnreadMessages();

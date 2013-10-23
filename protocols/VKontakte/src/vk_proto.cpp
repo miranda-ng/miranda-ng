@@ -196,12 +196,10 @@ int CVkProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
 	}
-	else {
-		if ( IsOnline())
-			SetServerStatus(iNewStatus);
-		m_iStatus = iNewStatus;
+	else if ( IsOnline())
+		SetServerStatus(iNewStatus);
+	else 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-	}
 
 	return 0;
 }

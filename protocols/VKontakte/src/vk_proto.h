@@ -26,7 +26,7 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	void AddHeader(LPCSTR, LPCSTR);
 	void Redirect(NETLIBHTTPREQUEST*);
 
-	BOOL bNeedsRestart;
+	bool bNeedsRestart, bIsMainConn;
 	VK_REQUEST_HANDLER m_pFunc;
 	void *pUserInfo;
 };
@@ -124,7 +124,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void PollUpdates(JSONNODE*);
 	void OnReceivePolling(NETLIBHTTPREQUEST*, AsyncHttpRequest *pReq);
 
-	int  SetServerStatus(int);
+	void SetServerStatus(int);
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
 
