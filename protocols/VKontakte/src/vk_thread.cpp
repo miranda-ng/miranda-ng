@@ -488,23 +488,17 @@ int CVkProto::PollServer()
 {
 	debugLogA("CVkProto::PollServer");
 
-	NETLIBHTTPREQUEST req = { sizeof(req) }, *reply;
+	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
 	req.flags = NLHRF_NODUMPHEADERS | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	req.timeout = 30000;
+	req.nlc = m_pollingConn;
 
-	while (true) {
-		req.nlc = m_pollingConn;
-		__try {
-			reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-			if (reply == NULL)
-				return 0;
-			break;
-		}
-		__except(EXCEPTION_EXECUTE_HANDLER) {
-			m_pollingConn = NULL;
-		}
+	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	if (reply == NULL) {
+		m_pollingConn = NULL;
+		return 0;
 	}
 
 	int retVal = 0;
