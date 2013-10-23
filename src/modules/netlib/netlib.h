@@ -21,12 +21,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define GetNetlibHandleType(h)  (h?*(int*)h:NLH_INVALID)
 #define NLH_INVALID      0
 #define NLH_USER         'USER'
 #define NLH_CONNECTION   'CONN'
 #define NLH_BOUNDPORT    'BIND'
 #define NLH_PACKETRECVER 'PCKT'
+int GetNetlibHandleType(void*);
 
 struct NetlibUser
 {

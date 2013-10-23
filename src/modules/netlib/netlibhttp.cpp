@@ -839,6 +839,9 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
+	if (nlhr->nlc != NULL && GetNetlibHandleType(nlhr->nlc) != NLH_CONNECTION)
+		nlhr->nlc = NULL;
+
 	NetlibConnection* nlc = NetlibHttpProcessUrl(nlhr, nlu, (NetlibConnection*)nlhr->nlc);
 	if (nlc == NULL)
 		return 0;
