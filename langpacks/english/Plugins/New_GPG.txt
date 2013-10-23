@@ -118,7 +118,7 @@
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 [GPG binary does not exist.\nPlease choose another location]
 [Please choose GPG binary location]
-[please set keyring's home directory]
+[Please set keyring's home directory]
 [There is existing key for contact, would you like to replace it with new key?]
 [New public key was received, do you want to import it?]
 [Replace]

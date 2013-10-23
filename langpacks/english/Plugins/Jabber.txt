@@ -209,7 +209,7 @@
 [Custom messages]
 [Quit:]
 [Slap:]
-[Authorization Request]
+[Authorization request]
 [HTTP Authorization\nAccept or reject incoming request]
 [Someone (maybe you) has requested the following file:]
 [Request was sent from JID:]

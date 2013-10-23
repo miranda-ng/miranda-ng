@@ -17,7 +17,7 @@
 [Add temporarily]
 [Send "You were added"]
 [Send authorization request]
-[Authorization Request]
+[Authorization request]
 [&Add]
 [&Cancel]
 ;file \plugins\AddContactPlus\src\addcontact.cpp

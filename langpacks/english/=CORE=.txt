@@ -13,7 +13,7 @@
 [Custom name:]
 [Group:]
 [Options]
-[Authorization Request]
+[Authorization request]
 [Delete Contact]
 [&Yes]
 [&No]
@@ -620,7 +620,6 @@
 [%s added you to their contact list]
 [%u added you to their contact list]
 [Alerts]
-[Authorization request]
 [Added event]
 ;file \src\core\stdauth\authdialogs.cpp
 [View User's Details]

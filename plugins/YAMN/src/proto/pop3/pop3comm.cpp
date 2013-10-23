@@ -124,10 +124,10 @@ YAMN_PROTOREGISTRATION POP3ProtocolRegistration =
 {
 	"POP3 protocol (internal)",
 	__VERSION_STRING,
-	"© 2002-2004 majvan | 2005-2007 tweety, yb",
-	"Mail notifier and browser for Miranda NG. Included POP3 protocol.",
-	"francois.mean@skynet.be",
-	"http://miranda-ng.org/",
+	__COPYRIGHT,
+	__DESCRIPTION,
+	__AUTHOREMAIL,
+	__AUTHORWEB,
 };
 
 static TCHAR *FileName = NULL;

@@ -20,7 +20,6 @@
 [Background color]
 [Transparent]
 [Alpha:]
-[Static]
 [Timeout (ms):]
 [Show testing OSD]
 [Announce]
