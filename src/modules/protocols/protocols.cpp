@@ -178,6 +178,8 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 		dbei.flags |= DBEF_READ;
 	if (pre->flags & PREF_UTF)
 		dbei.flags |= DBEF_UTF;
+	if (pre->flags & PREF_SENT)
+		dbei.flags |= DBEF_SENT;
 
 	return (INT_PTR)db_event_add(ccs->hContact, &dbei);
 }

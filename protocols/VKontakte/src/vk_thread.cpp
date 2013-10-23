@@ -380,6 +380,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		recv.flags = PREF_TCHAR;
 		if (isRead)
 			recv.flags |= PREF_CREATEREAD;
+		if (isOut)
+			recv.flags |= PREF_SENT;
 		recv.timestamp = datetime;
 		recv.tszMessage = ptszBody;
 		recv.lParam = isOut;
