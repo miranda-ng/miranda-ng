@@ -112,10 +112,12 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 					if (m_szAccessToken == NULL)
 						m_szAccessToken = mir_strdup(p);
 					setString("AccessToken", m_szAccessToken);
+					RetrieveMyInfo();
 				}
-				else delSetting("AccessToken");
-
-				OnLoggedIn();
+				else {
+					delSetting("AccessToken");
+					ConnectionFailed(LOGINERR_NOSERVER);
+				}
 			}
 			else {
 				AsyncHttpRequest *pReq = new AsyncHttpRequest();
@@ -175,6 +177,12 @@ LBL_NoForm:
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::RetrieveMyInfo()
+{
+	HttpParam param = { "access_token", m_szAccessToken };
+	PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
+}
 
 void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {

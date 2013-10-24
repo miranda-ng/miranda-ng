@@ -101,12 +101,11 @@ void CVkProto::WorkerThread(void*)
 	debugLogA("CVkProto::WorkerThread: entering");
 	m_bTerminated = m_prevError = false;
 	m_szAccessToken = getStringA("AccessToken");
-	if (m_szAccessToken != NULL) {
+	if (m_szAccessToken != NULL)
 		// try to receive a response from server
-		HttpParam param = { "access_token", m_szAccessToken };
-		PushAsyncHttpRequest(REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo, 1, &param);
-	}
-	else { // Initialize new OAuth session
+		RetrieveMyInfo();
+	else {
+		// Initialize new OAuth session
 		HttpParam params[] = {
 			{ "client_id", VK_APP_ID },
 			{ "scope", "friends,photos,audio,video,wall,messages,offline" },
