@@ -17,7 +17,7 @@ Odpowiedź:
 [Congratulation:]
 Gratulacje:
 [Auth. request reply:]
-Odpowiedź na pytanie o autoryzację:
+Odpowiedź na prośbę o autoryzację:
 [Vars]
 Zmienne
 [Available accounts:]
@@ -33,7 +33,7 @@ Włącz ochronę nieskończonej rozmowy StopSpam-StopSpam
 [Add contact permanently]
 Dodaj kontakt na stałe
 [Enable auth. requests blocking]
-Włącz blokowanie pytań o autoryzację
+Włącz blokowanie próśb o autoryzację
 [Hide unanswered contacts and spammers from contact list]
 Ukryj spamerów oraz kontakty, które nie odpowiedziały z listy
 [Ignore spammers (do not write messages to history)]
@@ -53,7 +53,7 @@ Usuń wykluczone kontakty po restarcie
 [Add contacts to specified group:]
 Dodaj kontakty do specjalnej grupy
 [Ignore URL in messages and auth requests]
-Ignoruj linki w wiadomościach i pytaniach o autoryzację
+Ignoruj linki w wiadomościach i prośbach o autoryzację
 [Add contact to server list]
 Dodaj kontakt do listy na serwerze
 [After congratulation (ICQ only)]
@@ -61,7 +61,7 @@ Po potwierdzeniu (tyko ICQ)
 [Automatically grant authorization]
 Automatycznie udzielaj autoryzacji
 [Request authorization from contacts which pass stopspam test]
-Pytanie o autoryzację od kontaktów, które przechodzą test stopspam
+Prośba o autoryzację od kontaktów, które przechodzą test stopspam
 [Remove all tempory contacts after restart]
 Usuń wszystkie tymczasowe kontakty po restarcie
 [Use regex for answers checking]

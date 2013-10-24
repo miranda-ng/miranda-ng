@@ -33,7 +33,7 @@ Włącz ochronę nieskończonej rozmowy StopSpam-StopSpam
 [Add contact permanently]
 Dodaj kontakt na stałe
 [Enable auth. requests blocking]
-Włącz blokowanie pytań o autoryzację
+Włącz blokowanie próśb o autoryzację
 [Answer is not case sensitive]
 Nie sprawdzaj wielkości liter
 [Remove all tempory contacts after restart]

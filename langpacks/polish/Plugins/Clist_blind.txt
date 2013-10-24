@@ -163,9 +163,9 @@ PPM otwiera menu Mirandy NG
 [Make sections equal width]
 Sekcje tej samej szerokości
 [Show bevels on panels]
-Pokaz separatory na panelach
+Pokaż separatory na panelach
 [Show resize grip indicator]
-Pokaż wskaznik rozmiaru uchwytu
+Pokaż wskaźnik rozmiaru uchwytu
 [E&xit]
 Wyjdź
 [&Status]
@@ -257,6 +257,6 @@ Globalne
 [Unknown Protocol]
 Nieznany protokół
 [Expanded]
-Rozszerzony
+Rozwinięta
 [Colapsed]
-Zwinięty
+Zwinięta

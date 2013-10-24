@@ -133,7 +133,7 @@ Wyślij powiadomienie o pisaniu do następujących użytkowników, kiedy piszesz
 [Show typing notification switch in the status bar]
 Pokaż powiadomienie o pisaniu w pasku stanu
 [Show typing notifications when a user is typing a message]
-Pokaż powiadomienie o pisanie, kiedy użytkownik pisze wiadomość
+Pokaż powiadomienie o pisaniu, kiedy użytkownik pisze wiadomość
 [Update message window icons when a user is typing]
 Aktualizuj ikonę okna rozmowy, gdy użytkownik pisze
 [Show typing notification when no message dialog is open]
@@ -149,7 +149,7 @@ Wystąpił błąd. Protokół zwrócił następujący błąd:
 [while sending the following message:]
 podczas wysyłania wiadomości:
 [Try again]
-Spróboj ponownie
+Spróbuj ponownie
 [Cancel]
 Anuluj
 [Message Session]
@@ -658,7 +658,7 @@ Pokaż podpowiedzi w chmurce (nieobsługiwany system)
 [Message Sessions]
 Okno rozmowy
 [Typing Notify]
-Pisanie
+Kontakt
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Wiadomość od %s

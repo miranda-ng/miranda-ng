@@ -258,7 +258,7 @@ Transfer pliku
 [Link]
 Link
 [Authorization request]
-Pytanie autoryzacji
+Prośba o autoryzację
 [You were added]
 Zostałeś dodany
 [Contacts received]

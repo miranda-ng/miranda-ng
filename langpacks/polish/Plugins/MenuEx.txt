@@ -94,7 +94,7 @@ Pisanie
 [Please authorize me to add you to my contact list.]
 Proszę autoryzuj mnie, bym mógł dodać Cię do swoich kontaktów.
 [Do you want to send authorization request\nto new contact?]
-Czy chcesz wysłać pytanie o autoryzacje?\ndo nowego kontaktu?
+Czy chcesz wysłać prośbę o autoryzacje?\ndo nowego kontaktu?
 [Miranda NG]
 Miranda NG
 [MenuItemEx]

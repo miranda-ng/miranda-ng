@@ -45,21 +45,21 @@ Eksportowanie starych wiadomości
 [History file for %s (%s format %s)]
 Historia użytkownika %s (%s format %s)
 [&Find...]
-Szukaj...
+Znajdź...
 [&External]
 Zewnętrzna
 [&Close]
 Zamknij
 [When filename changes]
-Zmiany w plikach
+Gdy zmienia się nazwa pliku
 [Prompt for action]
 Pytaj o akcję
 [Rename file]
-Nadpisz plik
+Zmień jego nazwę
 [Do nothing]
 Nic nie rób
 [When user is deleted]
-Usuwanie kontaktu
+Gdy kontakt zostaje usunięty
 [Delete file]
 Usuń plik
 [Debug]
@@ -69,7 +69,7 @@ Dane kontaktu
 [Export selected]
 Eksportuj zaznaczony
 [Set to default filename]
-Ustaw domyślna nazwę pliku
+Ustaw domyślną nazwę pliku
 [Copy]
 Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
@@ -149,9 +149,9 @@ Wszystkie pliki
 [Failed to get the shells allocator!]
 Nie udało się pobrać allokatora powłok!
 [Failed to Allocate buffer space]
-Nie można przydzielic miejsca w buforze
+Nie można przydzielić miejsca w buforze
 [Select Destination Directory]
-Wybierz folder przeznaczenia
+Wybierz folder docelowy
 [Export Protocols]
 Eksportuj protokoły
 [Message export]
@@ -174,7 +174,7 @@ Baza danych: próba pobrania złego typu wartości, ciąg
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Nazwa pliku dla kontaktu "%s" zmieniła się!\n\nz:\t%s\nna:\t%s\n\nCzy chcesz zmienić nazwę pliku?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Nie można zmienic nazwy pliku\n\nz:\t%s\nna:\t%s\n\nBłąd: %s
+Nie można zmienić nazwy pliku\n\nz:\t%s\nna:\t%s\n\nBłąd: %s
 [\nError: ]
 \nBłąd: 
 [\nMessage has not been saved!\n]
@@ -248,7 +248,7 @@ Otrzymano nieprawidłowe zdarzenie. Typ %d, rozmiar %d
 [Failed to write Invalid Database event the file :\n]
 Nie udało się zapisać nieprawidlowego zdarzenia do pliku:\n
 [The following user made an authorization request:]
-Następujący użytkownik wysłał pytanie o autoryzację:
+Następujący użytkownik wysłał prośbę o autoryzację:
 [The following user added you to their contact list:]
 Następujący użytkownik dodał cię do swojej listy kontaktów:
 [UIN       :]
@@ -262,14 +262,14 @@ Link z:
 [No from address]
 Nie z adresu
 [Failed to write EmailExpress to the file :\n]
-Nie udało się zapisać e-mailu do pliku:\n
+Nie udało się zapisać e-maila do pliku:\n
 [Failed to write SMS to the file :\n]
 Nie można zapisać wiadomości SMS do pliku:\n
 [Unknown event type %d, size %d]
-Typ nieznanego zdarzenia %d, rozmiar %d
+Zdarzenie nieznanego typu %d, rozmiar %d
 [Failed to write Unknown event to the file :\n]
 Nie udało się zapisać nieznanego zdarzenia do pliku:\n
 [User has been deleted. Do you want to delete the file?]
-Użytkownik został usnięty. Czy chcesz usunąć plik?
+Użytkownik został usunięty. Czy chcesz usunąć plik?
 [Failed to delete the file]
 Błąd usuwania pliku

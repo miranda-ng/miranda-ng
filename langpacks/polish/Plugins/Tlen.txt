@@ -45,9 +45,9 @@ Polityka czatów grupowych
 [Image transfer policy]
 Polityka przesyłania obrazków
 [Voice Chats]
-Czaty głosowe
+Rozmowy głosowe
 [Voice chat policy]
-Polityka czatów głosowych
+Polityka rozmów głosowych
 [Recording device:]
 Urządzenie nagrywania:
 [Playback device:]
@@ -123,7 +123,7 @@ Zawód:
 [Looking for:]
 Szukam:
 [Voice chats]
-Czaty głosowe
+Rozmowy głosowe
 [Publicly visible status]
 Publicznie widoczny status
 [Save changes]
@@ -159,7 +159,7 @@ Status:
 [Plan:]
 Plan:
 [Tlen Voice Chat]
-Czat głosowy Tlen
+Rozmowa głosowa Tlen
 [Quality]
 Jakość
 [In]

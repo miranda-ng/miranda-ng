@@ -417,7 +417,7 @@ Prośba o autoryzację
 [HTTP Authorization\nAccept or reject incoming request]
 Autoryzacja HTTP\nZaakceptuj lub odrzuć przychodzące zapytanie
 [Someone (maybe you) has requested the following file:]
-Ktoś (może Ty) wysłał pytanie o następujący plik:
+Ktoś (może Ty) wysłał prośbę o następujący plik:
 [Request was sent from JID:]
 Wysłano zapytanie z JID:
 [The transaction identifier is:]
@@ -425,7 +425,7 @@ Identyfikator transakcji to:
 [Request method is:]
 Metoda zapytania:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
-Jeśli chcesz zaakceptować zapytanie, kliknij autoryzuj.
+Jeśli chcesz zaakceptować prośbę, kliknij autoryzuj. W przeciwnym razie,naciśnij"Odrzuć", aby ją odrzucić.
 [Authorize]
 Autoryzacja
 [Deny]
@@ -1239,7 +1239,7 @@ Powód bana
 Usunąć %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
-Pytanie autoryzacji http przyjęte
+Żądanie autoryzacji http przyjęte
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 Poproś o autoryzację
@@ -2042,11 +2042,11 @@ Musisz być połączony z serwerem
 [closed chat session]
 rozmóca zakończył sesję rozmowy
 [sent subscription request]
-Pytanie autoryzacji
+Wyślij żądanie subskrypcji
 [approved subscription request]
-Przyjęto autoryzację
+Przyjęto subskrypcję
 [declined subscription]
-Cofnięto autoryzację
+Odrzucono żądanie subskrypcji
 [sent error presence]
 Informacja: Odnotowano obecność błędów
 [sent unknown presence type]

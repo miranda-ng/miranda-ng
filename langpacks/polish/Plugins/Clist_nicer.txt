@@ -407,7 +407,7 @@ Przychodzące transfery
 [URL events]
 Linki
 [Suppress auth requests]
-Pytanie o autoryzację
+Prośby o autoryzację
 [Suppress added notifications]
 Powiadomienie o dodaniu
 [Suppress online notifications]

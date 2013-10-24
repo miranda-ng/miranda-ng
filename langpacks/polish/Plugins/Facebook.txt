@@ -15,7 +15,7 @@ Hasło:
 [Create a new Facebook account]
 Stwórz nowe konto na Facebooku
 [What's on your mind?]
-Co masz na myśli?
+O czym teraz myślisz?
 [Wall:]
 Tablica:
 [Visibility:]
@@ -51,9 +51,9 @@ Zdarzenia
 [Notifications]
 Powiadomienia
 [News feeds]
-Nowe kanały
+Aktualności
 [News Feed types to notify:]
-Kanał powiadomień:
+Typy aktualności, o których chcesz być informowany
 [Other events]
 Inne zdarzenia
 [Client notifications]
@@ -69,7 +69,7 @@ Wymuś szyfrowane połączenie (HTTPS)
 [Post Miranda statuses to Wall]
 Pokazuj statusy Mirandy jako posty na Tablicy
 [Use secure connection also for channel requests]
-Również dla kanału pytań o znajomość
+Również dla kanału próśb o dodanie do znajomych
 [Also disconnect chat when going to offline]
 Rozłączaj również 'Czat' przechodząc w status rozłączony
 [Map non-standard statuses to Invisible (instead of Online)]
@@ -125,7 +125,7 @@ Najnowsze
 [Wall Posts]
 Posty
 [Top News]
-Nowości
+Najpopularniejsze
 [Photos]
 Zdjęcia
 [Links]
@@ -137,7 +137,7 @@ Klasyczna strona
 [Mobile website]
 Strona mobilna
 [Smartphone website]
-Strona smartphone
+Strona dla ekranów dotykowych
 [Public]
 Publiczny
 [Friends of friends]
@@ -154,11 +154,11 @@ Kontakt został usunięty z listy serwera.
 [Error occurred when removing contact from server.]
 Błąd podczas usuwania kontaktu z serwera.
 [Request for friendship was sent.]
-Pytanie o znajomość zostało wysłane.
+Zaproszenie zostało wysłane.
 [Error occurred when requesting friendship.]
-Błąd podczas pytania o znajomość.
+Błąd podczas zapraszania do grona znajomych.
 [Request for friendship was canceled.]
-Pytanie o znajomość zostało cofnięte.
+Zaproszenie zostało cofnięte.
 [Error occurred when canceling friendship request.]
 Wystąpił błąd podczas anulowania zaproszenia do grona znajomych
 ;file \protocols\FacebookRM\src\dialogs.cpp
@@ -167,15 +167,15 @@ Domyślny
 [<< Contacts]
 << Kontakty
 [What's on your mind, %s?]
-Co masz na myśli, %s?
+O czym teraz myślisz, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Uwaga: Upewnij się, że wyłączyłeś 'Validate SSL certificates' option in Network options to work properly.
+Uwaga: Upewnij się, że wyłączyłeś opcję 'Potwierdzaj ważność certyfikatów SSL' w opcjach sieci, aby zapewnić poprawne działanie.
 [Sample event]
 Próbne zdarzenie
 [Sample request]
-Próbne zapytanie
+Próbne zaproszenie
 [Sample newsfeed]
-Próbny kanał
+Próbne aktualności
 [Sample notification]
 Próbne powiadomienie
 ;file \protocols\FacebookRM\src\json.cpp
@@ -225,9 +225,9 @@ Udostępnij status
 [Own wall]
 Własna tablica
 [Loading newsfeeds...]
-Sprawdzanie subskrypcji...
+Ładowanie aktualności...
 [Checking friend requests...]
-Sprawdzanie zaproszeń od znajomych...
+Sprawdzanie zaproszeń do grona znajomych...
 [Refreshing buddy list...]
 Odświeżanie listy kontaktów...
 [Do you want to cancel your friendship with '%s'?]
@@ -237,30 +237,30 @@ Pokaż okno "Udostępnij status"
 [Notification]
 Powiadomienie
 [News Feed]
-Nowe kanały
+Aktualności
 [Other Event]
 Inne zdarzenie
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Facebook
 [Mind]
-Udostępnij
+Status
 [Poke]
 Zaczep
 [Newsfeed]
-Newsfeed
+Aktualności
 [Friendship details]
-Dane znajmości
+Dane znajomości
 [Visit profile]
 Odwiedź profil
 [Visit friendship details]
-Sprawdź dane znajmości
+Sprawdź dane znajomości
 [Cancel friendship]
 Cofnij znajomość
 [Cancel friendship request]
-Cofnij pytanie o znajomość
+Cofnij zaproszenie
 [Request friendship]
-Pytanie o znajomość
+Wyślij zaproszenie do grona znajomych
 [Approve friendship]
 Zatwierdź znajomość
 [Services...]
@@ -270,6 +270,6 @@ Odśwież listę kontaktów
 [Services]
 Usługi
 [Check Friends Requests]
-Sprawdź zaproszenia od znajomych
+Sprawdź zaproszenia do grona znajomych
 [Check Newsfeeds]
-Sprawdź subskrypcje
+Sprawdź aktualności

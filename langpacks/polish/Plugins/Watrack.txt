@@ -388,7 +388,7 @@ wysokość wideo
 [video width]
 szerokość wideo
 [Show by request only]
-Pokaż wg. pytania
+Pokaż tylko na prośbę
 [second line]
 drugi gatunek
 [Cover filenames]

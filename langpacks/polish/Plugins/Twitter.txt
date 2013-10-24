@@ -27,7 +27,7 @@ Anuluj
 [Misc. Options]
 Opcje
 [Use group chat for Twitter feed]
-Użyj pokoju czatowego dla wiadomości Twittera
+Użyj pokoju czatowego dla osi czasu Twitter
 [Base URL:]
 URL:
 [Polling rate:]
@@ -71,7 +71,7 @@ Wpisz kod PIN
 [OK]
 OK
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Wpisz kod PIN doststarczony przez Twittera aby się zalogować. Proces jest jednorazowy dla każdego konta.
+Wpisz kod PIN dostarczony przez Twittera aby się zalogować. Proces jest jednorazowy dla każdego konta.
 ;file \protocols\Twitter\src\connection.cpp
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 Zmienne OAuth są poza sekwencją, ale zostały przywrócone. Proszę ponownie połączyć się i powtórnie autoryzować Mirandę na Twitter.com (kod PIN)

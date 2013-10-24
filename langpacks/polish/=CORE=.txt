@@ -1231,7 +1231,7 @@ Strona WEB:
 [Alerts]
 Alarmy
 [Authorization request]
-Pytanie autoryzacji
+Prośba o autoryzację
 [Added event]
 Dodano akcję
 ;file \src\core\stdauth\authdialogs.cpp
@@ -1252,11 +1252,11 @@ Dodaj kontakt na stałe do listy
 [View User Details]
 Pokaż dane kontaktu
 [%s requested authorization\n%u (%s) on %s]
-%s otrzymał(a) pytanie autoryzaji od\n%u (%s) na koncie %s
+%s poprosił(a) o autoryzację\n%u (%s) na koncie %s
 [%s requested authorization\n%u on %s]
-%s otrzymał(a) pytanie autoryzacji od\n%u na koncie %s
+%s poprosił(a) o autoryzację \n%u na koncie %s
 [%s requested authorization\n%s on %s]
-%s otrzymał(a) pytanie autoryzacji od\n%s na koncie %s
+%s poprosił(a) o autoryzację\n%s na koncie %s
 [Feature is not supported by protocol]
 Funkcja nie wspierana przez protokół
 ;file \src\core\stdaway\awaymsg.cpp
