@@ -8,39 +8,13 @@
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 OK
-[OK]
-OK
-[None]
-Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
 [None]
 Nessuno
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[&Close]
-&Chiudi
-[&Close]
-&Chiudi
 [&Close]
 &Chiudi
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[Error]
-Errore
 [Error]
 Errore
 ;file \plugins\SendScreenshotPlus\src\CSend.h
@@ -57,13 +31,9 @@ No
 Annulla
 [Ignore]
 Ignora
-[Ignore]
-Ignora
 ;file \plugins\SendScreenshotPlus\src\global.h
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Default]
-Predefinito
 [Default]
 Predefinito
 [Help]
@@ -75,11 +45,7 @@ Applica
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Window]
 Finestra
-[Window]
-Finestra
 [E-mail]
 Email
-[Information]
-Informazione
 [Information]
 Informazione

@@ -100,8 +100,6 @@
 行の高さ :
 [pixels]
 ピクセル
-[pixels]
-ピクセル
 [Gamma correction]
 ガンマ補正
 [Window]

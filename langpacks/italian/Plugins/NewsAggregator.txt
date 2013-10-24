@@ -8,20 +8,6 @@
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [URL]
@@ -30,23 +16,11 @@ URL
 minuti
 [Reset]
 Reimposta
-[Reset]
-Reimposta
-[Reset]
-Resetta
-[Reset]
-Reimposta
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Error]
 Errore
-[Error]
-Errore
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 ;file \plugins\NewsAggregator\Src\Services.cpp

@@ -8,22 +8,8 @@
 ;file \plugins\YAPP\res\yapp.rc
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Width:]
 Dimen.:
-[Options]
-Opzioni
 [Options]
 Opzioni
 ;file \plugins\YAPP\src\icons.cpp
@@ -33,32 +19,12 @@ Opzioni
 Esempio
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Error]
-Errore
 [Error]
 Errore
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp

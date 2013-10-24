@@ -10,8 +10,6 @@
 Legg til
 [Remove]
 Fjern
-[Remove]
-Fjern
 [OK]
 OK
 [Cancel]

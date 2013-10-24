@@ -266,8 +266,6 @@ Prednastavené
 
 [Bring to front if covered]
 
-[Hide contact list after]
-
 [Automatically resize window to height of list]
 Prispôsobiť veľkosť okna dlžke zoznamu
 [maximum]

@@ -9,9 +9,3 @@
 ;file \plugins\SkypeStatusChange\src\options.cpp
 [Plugins]
 Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin

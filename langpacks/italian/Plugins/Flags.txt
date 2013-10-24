@@ -10,5 +10,3 @@
 ;file \plugins\CountryFlags\src\options.cpp
 [Icons]
 Icone
-[Icons]
-Icone

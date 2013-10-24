@@ -8,8 +8,6 @@
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Popups]
 Popups
-[Popups]
-Popups
 [Sounds]
 Lyder
 [Show]

@@ -12,8 +12,6 @@ Avbryt
 Tekst
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Plugins]
 Tillegg

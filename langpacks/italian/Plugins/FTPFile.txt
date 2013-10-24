@@ -10,18 +10,6 @@
 URL
 [Protocol]
 Protocollo
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 [Speed:]
@@ -34,52 +22,20 @@ A:
 Nick
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Options]
-Opzioni
 [Options]
 Opzioni
 [Select All]
 Seleziona Tutto
 [OK]
 OK
-[OK]
-OK
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Overwrite]
-Sovrascrivi
 [Overwrite]
 Sovrascrivi
 ;file \plugins\FTPFileYM\src\dialog.cpp
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [Resume]
 Riprendi
-[Resume]
-Ripristina
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 ;file \plugins\FTPFileYM\src\job_upload.cpp

@@ -40,8 +40,6 @@
 自定义大小: 
 [pixels]
 像素
-[pixels]
-像素
 [Allow it to grow]
 允许扩张
 [Use free space (under avatar) to other texts]

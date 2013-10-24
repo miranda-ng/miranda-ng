@@ -14,8 +14,6 @@ Nome personalizzato:
 Gruppo:
 [Options]
 Opzioni
-[Options]
-Opzioni
 [Send "You were added"]
 Invia "Sei stato aggiunto"
 [Send authorization request]
@@ -24,19 +22,11 @@ Invia richiesta di autorizzazione
 Richiesta di autorizzazione
 [&Add]
 &Aggiungi
-[&Add]
-&Aggiungi
 [&Cancel]
 &Annulla
 ;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Per favore dammi l'autorizzazione e aggiungimi alla tua lista dei contatti.
-[None]
-Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
 [None]
 Nessuno
 ;file \plugins\AddContactPlus\src\main.cpp

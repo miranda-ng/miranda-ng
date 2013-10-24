@@ -12,24 +12,10 @@ Effetti
 Storico
 [pixels]
 pixel
-[pixels]
-pixel
 [Miranda's window]
 la finestra di Miranda
 [the active window]
 la finestra attiva
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Close]
 Chiudi
 [General]
@@ -50,20 +36,6 @@ Dettagli utente
 ;file \plugins\Popup\src\icons.cpp
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [User Details]
@@ -84,8 +56,6 @@ Utilizza colori di Windows
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
-[Error]
-Errore
 [Error]
 Errore
 ;file \plugins\Popup\src\skin.cpp

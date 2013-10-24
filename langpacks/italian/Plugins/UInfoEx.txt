@@ -10,26 +10,10 @@
 in aggiornamento
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Apply]
 Applica
-[Nick:]
-Nick:
 [Nick:]
 Nick:
 [First name:]
@@ -38,10 +22,6 @@ Nome:
 Cognome:
 [Female]
 Femmina
-[Female]
-Femmina
-[Male]
-Maschio
 [Male]
 Maschio
 [Street:]
@@ -76,16 +56,8 @@ Colore del testo
 Utilizza colori di Windows
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
 [Homepage:]
 Pagina web:
-[Delete]
-Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
 [Delete]
 Elimina
 [Show &during the next]
@@ -94,14 +66,6 @@ Mostra quelli nei prossimi
 giorno(i)
 [Icons]
 Icone
-[Icons]
-Icone
-[None]
-Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
 [None]
 Nessuno
 [Gender:]
@@ -114,27 +78,15 @@ Età:
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Unspecified]
 Non specificato
-[Unspecified]
-Non specificato
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit Phone Number]
 Modifica numero di telefono
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 Contatto
-[Contact]
-Contatti
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 Sì
@@ -142,10 +94,6 @@ Sì
 No
 [Ignore]
 Ignora
-[Ignore]
-Ignora
-[Error]
-Errore
 [Error]
 Errore
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
@@ -153,12 +101,6 @@ Errore
 Generale
 [Work]
 Lavoro
-[Work]
-Lavoro
-[Profile]
-Profilo
-[Profile]
-Profilo
 [Profile]
 Profilo
 [Notes]
@@ -169,16 +111,12 @@ Proprietario
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Default]
 Predefinito
-[Default]
-Predefinito
 [Fax]
 Fax
 [Search]
 Ricerca
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
-&Dettagli utente
 [User &Details]
 &Dettagli utente
 [View/Change My &Details...]
@@ -195,8 +133,6 @@ Contatti
 Avanzate
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]

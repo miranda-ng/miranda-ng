@@ -34,8 +34,6 @@ Av
 Kontaktliste
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \plugins\SecureIM\src\main.cpp
 [Icons]
 Ikoner

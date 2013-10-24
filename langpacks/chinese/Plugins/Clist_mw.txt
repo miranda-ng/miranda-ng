@@ -100,8 +100,6 @@
 列高: 
 [pixels]
 像素
-[pixels]
-像素
 [Gamma correction]
 伽玛亮度校正
 [Window]

@@ -10,22 +10,10 @@
 Nome utente:
 [Password:]
 Password:
-[Password:]
-Password:
 [Create new account]
 Crea nuovo account
 [Options]
 Opzioni
-[Options]
-Opzioni
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
 [Port:]
 Porta:
 [Proxy type:]
@@ -34,26 +22,8 @@ Tipo di proxy:
 Server proxy:
 [Proxy requires authorization]
 I proxy richiedono un'autorizzazione
-[Proxy requires authorization]
-I Proxy richiedono un'autorizzazzione
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Text]
 Testo
 [&Custom]
@@ -62,20 +32,6 @@ Personalizzato
 Permanente
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [First name:]
@@ -104,10 +60,6 @@ Generale
 Avanzate
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 ;file \protocols\Tlen\src\tlen_svc.cpp
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Tlen Connection Error]
@@ -125,7 +77,5 @@ Richiesta di autorizzazione
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
-[Default]
-Predefinito
 [Default]
 Predefinito

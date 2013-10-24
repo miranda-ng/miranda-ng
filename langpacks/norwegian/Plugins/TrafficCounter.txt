@@ -8,8 +8,6 @@
 ;file \plugins\TrafficCounter\res\resource.rc
 [Custom]
 Selvvalgt
-[Custom]
-Selvvalgt
 ;file \plugins\TrafficCounter\src\options.cpp
 [General]
 Generelt

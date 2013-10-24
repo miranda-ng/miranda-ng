@@ -10,14 +10,10 @@
 Nettverk
 [Popups]
 Popups
-[Popups]
-Popups
 [Row height:]
 Radhøyde:
 [Add]
 Legg til
-[Remove]
-Fjern
 [Remove]
 Fjern
 [Edit]

@@ -44,10 +44,6 @@ Mostra sempre lo stato in tooltip
 Icona nella tray utilizzando protocolli multipli
 [Show]
 Mostra
-[Show]
-Mostra
-[Show]
-Mostra
 [icon when statuses differ]
 come icona se stati diversi
 [Cycle icons every]
@@ -72,16 +68,10 @@ Rientra gruppi di:
 Ordinamento lista contatti
 [Icons]
 Icone
-[Icons]
-Icone
 [Dim idle contacts]
 Abbassa i contatti inattivi
 [Window]
 Finestra
-[Window]
-Finestra
-[Always on top]
-Sempre in primo piano
 [Always on top]
 Sempre in primo piano
 [Show menu bar]
@@ -172,38 +162,14 @@ Il click destro apre il menu di Miranda
 Rendi le sezioni larghe uguali
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Apply]
 Applica
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 [Suppress auth requests]
 Ignora richieste autorizzazione
 [Visibility]
 Visibilità
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 [E&xit]
@@ -260,34 +226,18 @@ Generale
 Non in primo piano
 [Offline]
 Offline
-[Offline]
-Offline
-[Online]
-Online
 [Online]
 Online
 [Away]
 Altrove
-[Away]
-Altrove
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[DND]
-Non disturbare
 [DND]
 Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [Out to lunch]
@@ -296,32 +246,10 @@ Fuori a pranzo
 Al telefono
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Status]
 Stato
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 [Contacts]
 Contatti
 [Advanced]
@@ -358,7 +286,5 @@ Frame
 &Trova/Aggiungi contatti...
 [&Main Menu]
 &Menu principale
-[&Options...]
-&Opzioni...
 [&Options...]
 &Opzioni...

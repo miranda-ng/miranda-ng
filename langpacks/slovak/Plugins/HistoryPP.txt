@@ -763,8 +763,6 @@ História systému
 
 [Incoming contacts]
 
-[Outgoing contacts]
-
 [System message]
 
 [Incoming timestamp]

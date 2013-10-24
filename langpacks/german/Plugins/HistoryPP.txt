@@ -763,8 +763,6 @@ Eingehender Nick
 Ausgehender Nick
 [Incoming contacts]
 Eingehende Kontakte
-[Outgoing contacts]
-Ausgehende Kontakte
 [System message]
 Systemnachricht
 [Incoming timestamp]

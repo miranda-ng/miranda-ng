@@ -8,33 +8,15 @@
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Scorciatoie
-[Hotkeys]
-Scorciatoie
-[Options]
-Opzioni
 [Options]
 Opzioni
 [Default]
 Predefinito
-[Default]
-Predefinito
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Text]
 Testo
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
-[Popups]
-Popup
 [Popups]
 Popups

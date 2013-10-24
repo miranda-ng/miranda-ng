@@ -46,8 +46,6 @@ Slett
 Lyder
 [Popups]
 Popups
-[Popups]
-Popups
 [Background]
 Bakgrunn
 [Text]

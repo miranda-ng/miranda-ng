@@ -215,8 +215,6 @@ YAMN: новое письмо
 %s : %d новых, %d всего
 [Check mail]
 Проверить почту
-[Check while...]
-Проверять, если...
 [Delete account confirmation]
 Подтверждение удаления учётной записи
 [Do you also want to remove native YAMN plugins settings?]

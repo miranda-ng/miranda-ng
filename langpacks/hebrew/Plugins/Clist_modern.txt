@@ -184,8 +184,6 @@ x100 מילי שניות
 שיטות החבאה
 [pixels]
 פיקסלים
-[pixels]
-פיקסלים
 [keep on screen]
 שמור על מסך
 [Snap to edges]
@@ -490,10 +488,6 @@ XStatus יש עדיפות
 אוכל ארוחת צהריים
 [On the phone]
 מדבר בטלפון
-[On the phone]
-מדבר בטלפון
-[On the phone]
-מדברת בטלפון
 [Name]
 שם
 [Name (use locale settings)]

@@ -529,8 +529,6 @@
 הרווח בין הקבוצות:
 [pixels]
 פיקסלים
-[pixels]
-פיקסלים
 [Visual]
 ויזואלי
 [Scroll list smoothly]
@@ -1188,10 +1186,6 @@
 אוכל ארוחת צהריים
 [On the phone]
 מדבר בטלפון
-[On the phone]
-מדבר בטלפון
-[On the phone]
-מדברת בטלפון
 [List Background]
 רקע הרשימה
 ;file \src\core\stdclist\src\clistopts.cpp

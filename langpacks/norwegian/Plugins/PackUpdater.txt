@@ -12,8 +12,6 @@ Avbryt
 Tekst
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \plugins\PackUpdater\Src\Events.cpp
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 ;file \plugins\PackUpdater\Src\Notifications.h

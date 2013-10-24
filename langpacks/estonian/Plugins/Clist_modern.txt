@@ -84,8 +84,6 @@ Gamma parandus
 maksimum
 [pixels]
 pikselit
-[pixels]
-pikselit
 [Show automaticaly]
 Kuva automaatselt
 [Always Visible]

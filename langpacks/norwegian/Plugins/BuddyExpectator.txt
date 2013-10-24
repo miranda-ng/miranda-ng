@@ -14,8 +14,6 @@ Tekst
 Standard
 [Custom]
 Selvvalgt
-[Custom]
-Selvvalgt
 [sec]
 sek
 [Notify always]
@@ -24,7 +22,5 @@ Varsle alltid
 ;file \plugins\BuddyExpectator\src\options.cpp
 [Contacts]
 Kontakter
-[Popups]
-Popups
 [Popups]
 Popups

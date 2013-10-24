@@ -178,8 +178,6 @@ Cancel
 ユーザーリストの行の高さ
 [pixels]
 ピクセル
-[pixels]
-ピクセル
 [Log Options]
 ログオプション
 [Your name]

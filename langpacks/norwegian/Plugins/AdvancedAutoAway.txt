@@ -16,8 +16,6 @@ Avbryt
 Profil
 [Message]
 Melding
-[Message]
-Melding
 [Set]
 Åpne
 [OK]
@@ -34,8 +32,6 @@ Bruk Windowsfarger
 Bruk standardfarger
 [Events]
 Hendelser
-[Custom]
-Selvvalgt
 [Custom]
 Selvvalgt
 [Use %time% for the current time, %date% for the current date]

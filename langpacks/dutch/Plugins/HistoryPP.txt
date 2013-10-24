@@ -215,8 +215,6 @@ Exporteren als &Text...
 Geschiedenis leegmaken...
 [Text direction]
 Tekst richting
-[Text direction]
-Tekstrichting
 [ANSI Encoding]
 ANSI Encoding
 [Password protection...]

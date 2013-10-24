@@ -10,8 +10,6 @@
 ;file \plugins\CmdLine\src\CmdLine.cpp
 [Error]
 Errore
-[Error]
-Errore
 ;file \plugins\CmdLine\src\mimcmd_data.h
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 ;file \plugins\CmdLine\src\services.cpp

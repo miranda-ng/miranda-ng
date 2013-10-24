@@ -10,8 +10,6 @@
 URL
 [Link]
 Collegamento
-[Link]
-Collegamento
 [Group:]
 Gruppo:
 [&Exit]
@@ -20,23 +18,13 @@ Gruppo:
 Aiuto
 [OK]
 OK
-[OK]
-OK
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
-[Select Folder]
-Seleziona cartella
 [Select Folder]
 Seleziona cartella
 ;file \plugins\Non-IM Contact\src\dialog.cpp
 ;file \plugins\Non-IM Contact\src\files.cpp
 ;file \plugins\Non-IM Contact\src\http.cpp
 ;file \plugins\Non-IM Contact\src\main.cpp
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
 [Plugins]
 Plugin
 ;file \plugins\Non-IM Contact\src\namereplacing.cpp

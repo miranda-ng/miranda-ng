@@ -36,18 +36,6 @@ Importazione...
 Procedura guidata di importazione
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Import all contacts and all messages]
 Importa tutti i contatti e tutti i messaggi
 [Only import contacts]
@@ -58,22 +46,10 @@ Seleziona questa opzione per importare più dati possibili (raccomandato).
 Seleziona questa opzione se vuoi importare i contatti ma non gli storici dei messaggi.
 [Incoming]
 In entrata
-[Incoming]
-In arrivo
-[Outgoing]
-In uscita
 [Outgoing]
 In uscita
 [File Transfers]
 Trasferimenti file
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 ;file \plugins\Import\src\import.cpp
@@ -83,10 +59,6 @@ Altro
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Il file fornito non esiste. Controlla per favore di aver inserito il nome corretto.
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 ;file \plugins\Import\src\utils.cpp

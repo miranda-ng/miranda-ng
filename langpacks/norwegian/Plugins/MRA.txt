@@ -68,8 +68,6 @@ Informasjon
 Feil
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 E-post adresse

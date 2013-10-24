@@ -76,8 +76,6 @@ Bruk Windowsfarger
 Bruk standardfarger
 [Custom]
 Selvvalgt
-[Custom]
-Selvvalgt
 [Show reminder messages as popups (if reminder is enabled)]
 Vis påminnelser som popups (om påminnelser er aktivert)
 [Anniversary popup colors]
@@ -215,8 +213,6 @@ Kontakter
 Avansert
 [Details Dialog]
 Detaljer Dialog
-[Popups]
-Popups
 [Popups]
 Popups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp

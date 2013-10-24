@@ -46,8 +46,6 @@ Brukermeny
 Kontakter
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 sekunder

@@ -15,7 +15,5 @@ Tekst
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \plugins\ClientChangeNotify\src\Misc.h
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp

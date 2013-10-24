@@ -8,23 +8,7 @@
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 ;file \plugins\Db_autobackups\src\backup.cpp
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 ;file \plugins\Db_autobackups\src\main.cpp

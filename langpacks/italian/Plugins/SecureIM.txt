@@ -16,16 +16,6 @@ Attiva trasferimento file protetto
 Timeout scambio chiave:
 [sec]
 sec
-[sec]
-Sec
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Text]
 Testo
 [Key agreement colors]
@@ -34,10 +24,6 @@ Colori scambio chiave
 Colori connessione protetta
 [Send/Receive encrypted colors]
 Colori invio/ricezione protetta
-[Events]
-Eventi
-[Events]
-Eventi
 [Events]
 Eventi
 [Time in Seconds]
@@ -54,34 +40,10 @@ Mostra un popup ad ogni ricezione protetta
 Nome utente:
 [Password:]
 Password:
-[Password:]
-Password:
-[OK]
-OK
 [OK]
 OK
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Status]
 Stato
 [Always Try to Establish Secure IM]
@@ -111,18 +73,10 @@ Messaggio ricevuto...
 Generale
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
 [Always try]
 Prova sempre
 [Create SecureIM connection]
 Crea connessione SecureIM
-[Disable SecureIM connection]
-Disattiva connessione SecureIM
 [Disable SecureIM connection]
 Disattiva connessione SecureIM
 ;file \plugins\SecureIM\src\loadicons.cpp
@@ -130,11 +84,7 @@ Disattiva connessione SecureIM
 Lista dei contatti
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \plugins\SecureIM\src\main.cpp
-[Icons]
-Icone
 [Icons]
 Icone
 ;file \plugins\SecureIM\src\options.cpp

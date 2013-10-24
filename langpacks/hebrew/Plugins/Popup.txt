@@ -26,8 +26,6 @@
 צייר גבולות גם בשביל אוואטרים חצי שקופים
 [pixels]
 פיקסלים
-[pixels]
-פיקסלים
 [Enable avatar updates]
 אפשר עדכוני אוואטרים
 [Start the popups in the monitor with]

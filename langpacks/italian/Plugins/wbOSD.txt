@@ -28,8 +28,6 @@ Generale
 
 [Other]
 Altro
-[Other]
-Varie
 [Background color]
 
 [Transparent]

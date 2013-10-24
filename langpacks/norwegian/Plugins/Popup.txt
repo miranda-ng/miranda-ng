@@ -24,8 +24,6 @@ Tegn avatar rammer
 Tegn rammer for delvis gjennomsiktige avatarer
 [pixels]
 pixler
-[pixels]
-piksler
 [Enable avatar updates]
 Aktiver avataroppdateringer
 [Miranda's window]

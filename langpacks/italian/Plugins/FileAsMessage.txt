@@ -10,20 +10,12 @@
 Dimensioni:
 [bytes]
 byte
-[bytes]
-byte
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [Sending...]
 Invio...
 [Receiving...]
 Ricezione...
 ;file \plugins\FileAsMessage\src\main.cpp
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
 [Plugins]
 Plugin
 ;file \plugins\FileAsMessage\src\main.h

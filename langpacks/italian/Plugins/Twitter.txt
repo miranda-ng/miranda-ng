@@ -10,50 +10,18 @@
 Nome utente:
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [sec]
 sec
-[sec]
-Sec
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Text]
 Testo
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
-[OK]
-OK
 [OK]
 OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \protocols\Twitter\src\theme.cpp

@@ -140,8 +140,6 @@
 גובה שורת רשימת משתמש\n
 [pixels]
 פיקסלים
-[pixels]
-פיקסלים
 [Log Options]
 אפשרויות יומן
 [Your name]
@@ -391,10 +389,6 @@
 אוכל ארוחת צהריים
 [On the phone]
 מדבר בטלפון
-[On the phone]
-מדבר בטלפון
-[On the phone]
-מדברת בטלפון
 [** New contacts **]
 **אנשי קשר חדשים**
 [** Unknown contacts **]

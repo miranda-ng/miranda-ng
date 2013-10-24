@@ -68,8 +68,6 @@
 Видкл. повідомлення про події
 [Enable new event notification]
 Вкл. повідомлення про події
-[No popups for read messages]
-Не показувати для прочитаних повідомлень
 [NewEventNotify]
 Події
 [Notifies you when you receive a message, url, file or any other event by displaying a popup.]

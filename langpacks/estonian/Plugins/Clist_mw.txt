@@ -48,8 +48,6 @@ Read
 Rea kõrgus:
 [pixels]
 pikselit
-[pixels]
-pikselit
 [Gamma correction]
 Gamma parandus
 [Window]

@@ -222,8 +222,6 @@ geringe Schauer
 geringe Schauer/Wind
 [Pm Light Rain]
 nachmittags leichter Regen
-[Mostly Cloudy]
-Meist wolkig
 [Mostly Cloudy / Wind]
 Meist wolkig/windig
 [Rain]

@@ -12,26 +12,16 @@
 &Annulla
 [Name:]
 Nome:
-[Name:]
-Nome:
-[Name:]
-Nome:
-[Information]
-Informazione
 [Information]
 Informazione
 [Contacts]
 Contatti
 [Options]
 Opzioni
-[Options]
-Opzioni
 [Function]
 Funzione
 [Contact List]
 Lista dei contatti
-[Default]
-Predefinito
 [Default]
 Predefinito
 ;file \plugins\MetaContacts\src\addto.cpp
@@ -44,12 +34,6 @@ Sì
 No
 [Contact]
 Contatto
-[Contact]
-Contatti
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 ;file \plugins\MetaContacts\src\icons.cpp
@@ -58,12 +42,8 @@ Protocollo
 ;file \plugins\MetaContacts\src\meta_menu.cpp
 [Error]
 Errore
-[Error]
-Errore
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
-[Message from %s]
-Messaggio da %s
 [Message from %s]
 Messaggio da %s
 [General]

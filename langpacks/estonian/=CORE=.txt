@@ -395,8 +395,6 @@ Grupid
 Sorteeri grupid tähestikuliselt
 [pixels]
 pikselit
-[pixels]
-pikselit
 [Time:]
 Aeg:
 [milliseconds]

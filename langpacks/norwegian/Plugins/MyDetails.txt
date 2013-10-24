@@ -38,8 +38,6 @@ Høyre:
 Selvvalgt størrelse:
 [pixels]
 pixler
-[pixels]
-piksler
 [Allow it to grow]
 Tillat den å øke
 [Use free space (under avatar) to other texts]

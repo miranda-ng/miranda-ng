@@ -18,16 +18,12 @@ Bruk egne farger
 Tekst
 [Custom]
 Selvvalgt
-[Custom]
-Selvvalgt
 [OK]
 OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
 [Network]
 Nettverk
-[Popups]
-Popups
 [Popups]
 Popups
 ;file \protocols\Twitter\src\theme.cpp

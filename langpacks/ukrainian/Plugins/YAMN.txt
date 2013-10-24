@@ -241,8 +241,6 @@ YAMN: помилка підключення
 Вимкнено
 [POP3 protocol (internal)]
 Протокол POP3 (вбудований)
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Повідомлення і перегляд нової пошти для Miranda NG. Вбудований протокол POP3.
 [Found new version of account book, not compatible with this version of YAMN.]
 Знайдена нова версія файлу з обліковими записами - вона несумісна з цією версією YAMN.
 [YAMN (internal POP3) read error]

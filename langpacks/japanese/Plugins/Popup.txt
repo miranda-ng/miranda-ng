@@ -30,8 +30,6 @@
 半透明アバターに対する枠線も描画
 [pixels]
 ピクセル
-[pixels]
-ピクセル
 [Enable avatar updates]
 アバター更新を有効
 [Start the popups in the monitor with]

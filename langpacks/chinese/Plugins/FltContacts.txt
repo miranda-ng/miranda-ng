@@ -14,8 +14,6 @@
 使用固定宽度
 [pixels]
 像素
-[pixels]
-像素
 [Hide all contacts]
 隐藏所有联系人
 [Hide when a fulscreen app is active]

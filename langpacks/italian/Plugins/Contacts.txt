@@ -8,38 +8,10 @@
 ;file \plugins\ContactsPlus\res\contacts.rc
 [&Send]
 &Invia
-[&Send]
-&Invia
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [&Add]
 &Aggiungi
-[&Add]
-&Aggiungi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Close]
 Chiudi
 [An error has occurred. The protocol reported the following error:]
@@ -56,14 +28,8 @@ Contatti
 Aggiungi contatto definitivamente alla lista
 [View User's Details]
 Visualizza dettagli utente
-[View User's Details]
-Visualizza dettagli utente
 [View User's History]
 Visualizza storico utente
-[View User's History]
-Visualizza storico utente
-[User Menu]
-Menu utente
 [User Menu]
 Menu utente
 ;file \plugins\ContactsPlus\src\send.cpp

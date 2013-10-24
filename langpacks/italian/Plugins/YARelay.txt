@@ -8,46 +8,22 @@
 ;file \plugins\YARelay\res\yaRelay.rc
 [Contact]
 Contatto
-[Contact]
-Contatti
-[Offline]
-Offline
 [Offline]
 Offline
 [Online]
 Online
-[Online]
-Online
-[Away]
-Altrove
 [Away]
 Altrove
 [NA]
 Non disponibile
-[NA]
-Non disponibile
-[Occupied]
-Occupato
 [Occupied]
 Occupato
 [DND]
 Non disturbare
-[DND]
-Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 ;file \plugins\YARelay\src\options.cpp
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
 [Plugins]
 Plugin

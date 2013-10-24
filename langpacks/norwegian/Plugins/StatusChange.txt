@@ -28,8 +28,6 @@ I Telefonen
 Ute til lunsj
 [Message]
 Melding
-[Message]
-Melding
 [URL]
 URL
 ;file \plugins\StatusChange\src\main.cpp

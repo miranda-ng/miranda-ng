@@ -16,11 +16,7 @@ Agg. separatore
 Aggiungi pulsante
 [Set]
 Imposta
-[Set]
-Imposta
 ;file \plugins\TopToolBar\src\toolbar.cpp
-[Default]
-Predefinito
 [Default]
 Predefinito
 ;file \plugins\TopToolBar\src\ttbopt.cpp

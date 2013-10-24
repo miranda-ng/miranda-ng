@@ -10,26 +10,10 @@
 Nick:
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [General]
 Generale
-[pixels]
-pixel
 [pixels]
 pixel
 [seconds]
@@ -38,24 +22,8 @@ secondi
 ;file \plugins\MyDetails\src\frame.cpp
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Contact List]
 Lista dei contatti

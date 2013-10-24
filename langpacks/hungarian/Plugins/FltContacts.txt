@@ -8,8 +8,6 @@
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [pixels]
 képpont
-[pixels]
-pixel
 [seconds]
 mp.
 [Single click interface]

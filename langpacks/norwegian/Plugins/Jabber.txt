@@ -68,8 +68,6 @@ Legg til
 Kallenavn:
 [Remove]
 Fjern
-[Remove]
-Fjern
 [Edit]
 Rediger
 [URL]
@@ -183,8 +181,6 @@ Frakoblet
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Melding
-[Message]
-Melding
 [<not specified>]
 <ikke spesifisert>
 [Version]
@@ -195,8 +191,6 @@ System
 Ja
 [No]
 Nei
-[Copy]
-Kopier
 [Copy]
 Kopier
 [Photo]

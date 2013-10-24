@@ -8,31 +8,11 @@
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [OK]
 OK
-[OK]
-OK
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Text]
 Testo
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
-[Popups]
-Popup
 [Popups]
 Popups
 ;file \plugins\ClientChangeNotify\src\Misc.h

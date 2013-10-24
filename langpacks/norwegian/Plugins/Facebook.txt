@@ -33,8 +33,6 @@ Nettverk
 Avansert
 [Popups]
 Popups
-[Popups]
-Popups
 [Events]
 Hendelser
 ;file \protocols\FacebookRM\src\theme.cpp

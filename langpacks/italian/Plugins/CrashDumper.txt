@@ -8,41 +8,17 @@
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Username]
 Nome utente
 [General]
 Generale
 [&Copy]
 &Copy
-[&Copy]
-&Copia
-[&Copy]
-&Copia
-[Co&py All]
-Co&pia tutto
 [Co&py All]
 Co&pia tutto
 [Select &All]
 Seleziona &tutto
-[Select &All]
-Selezion&a tutto
 ;file \plugins\CrashDumper\src\crshdmp.cpp
-[Show]
-Mostra
-[Show]
-Mostra
 [Show]
 Mostra
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp

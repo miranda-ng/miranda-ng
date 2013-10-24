@@ -8,14 +8,10 @@
 ;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
 &Invia
-[&Send]
-&Invia
 [&Cancel]
 &Annulla
 [Visibility]
 Visibilità
-[Ignore]
-Ignora
 [Ignore]
 Ignora
 ;file \plugins\MenuItemEx\src\main.cpp

@@ -375,7 +375,6 @@
 [Incoming nick]
 [Outgoing nick]
 [Incoming contacts]
-[Outgoing contacts]
 [System message]
 [Incoming timestamp]
 [Outgoing timestamp]

@@ -8,8 +8,6 @@
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Aggiungi
-[&Add]
-&Aggiungi
 [&Edit]
 &Modifica
 [only while connecting]
@@ -46,14 +44,6 @@ Rete predefinita
 Informazioni utente - Richieste
 [Other]
 Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
-[Other]
-Altro
 [Reconnect]
 Riconnetti
 [Wait (s)]
@@ -62,28 +52,12 @@ Attesa
 Numero tentativi
 [User information]
 Informazioni utente
-[User information]
-Informazioni utente
-[Version]
-Versione
 [Version]
 Versione
 [&Refresh]
 &Aggiorna
-[&Refresh]
-&Aggiorna
 [&Close]
 &Chiudi
-[&Close]
-&Chiudi
-[&Close]
-&Chiudi
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
 [Name]
 Nome
 [Channels]
@@ -98,10 +72,6 @@ Info Altrove
 &Imposta
 [Add server]
 Aggiungi server
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 [Channels on server]
@@ -144,8 +114,6 @@ Utilizza le opzioni per impostare le modalità per questo canale. Di solito dovr
 &Nega
 [Password:]
 Password:
-[Password:]
-Password:
 ;file \protocols\IRCG\src\clist.cpp
 ;file \protocols\IRCG\src\commandmonitor.cpp
 [Downloading list (%u%%) - %u channels]
@@ -160,10 +128,6 @@ Completato - %u canali
 Cambia nick
 [Unknown]
 Sconosciuta
-[Unknown]
-Sconosciuto
-[Ignore]
-Ignora
 [Ignore]
 Ignora
 ;file \protocols\IRCG\src\input.cpp
@@ -193,8 +157,6 @@ Inserisci per favore la risposta
 ;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Informazione
-[Information]
-Informazione
 [The protocol is not online]
 Il protocollo non è online
 ;file \protocols\IRCG\src\options.cpp
@@ -202,22 +164,8 @@ Il protocollo non è online
 Applica
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Channel list]
 Lista canali
-[Quick connect]
-Connessione veloce
 [Quick connect]
 Connessione veloce
 [Show channel]
@@ -251,8 +199,6 @@ Espulsione
 [&Control]
 &Controllo
 ;file \protocols\IRCG\src\tools.cpp
-[Offline]
-Offline
 [Offline]
 Offline
 ;file \protocols\IRCG\src\userinfo.cpp

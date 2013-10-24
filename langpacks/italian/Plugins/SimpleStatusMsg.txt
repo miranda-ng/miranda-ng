@@ -14,39 +14,19 @@ Messaggio di '%s' per %s
 Recupero messaggio di %s...
 [OK]
 OK
-[OK]
-OK
 [Status Messages]
 Messaggi di stato
 [seconds]
 secondi
 [Other]
 Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
-[Other]
-Altro
 [Copy]
 Copia
-[Delete]
-Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
 [Delete]
 Elimina
 [Select All]
 Seleziona Tutto
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
-[&Close]
-&Chiudi
-[&Close]
-&Chiudi
 [&Close]
 &Chiudi
 [Re&ad %s Message]
@@ -58,20 +38,8 @@ Leggi mess&aggio di Altrove
 [Global]
 Globale
 [Closing in %d]
-Chiusura in %d sec
-[Closing in %d]
-Chiusura in %d
-[Closing in %d]
 Chiusura in %d
 ;file \plugins\SimpleStatusMsg\src\options.cpp
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Status]
 Stato
 [General]

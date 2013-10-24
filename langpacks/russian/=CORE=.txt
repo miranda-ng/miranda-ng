@@ -1177,8 +1177,6 @@ Cлужба:
 Запуск в служебном режиме с
 [State:]
 Штат:
-[Status Icons]
-Статус
 [Status messages:]
 Сообщения статуса:
 [Status Messages]

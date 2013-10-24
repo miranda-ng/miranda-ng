@@ -16,8 +16,6 @@ Hjelp
 Bruker &Detaljer
 [Copy]
 Kopier
-[Copy]
-Kopier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp

@@ -1459,8 +1459,6 @@ Web-сторінка
 Помістити вікно на передній план, якщо воно прикрите іншими вікнами
 [Contact List Background]
 Фон списку
-[Use Windows colors]
-Кольори Windows
 [&Use Windows colors]
 Кольори Windows
 [Stretch to height]
@@ -2062,8 +2060,6 @@ ID користувача:
 у спливаючих вікнах
 [Load &skin...]
 Завантажити &скін...
-[Filename]
-Ім'я файлу
 [Check birthdays]
 Перевірити дні народження
 [Birthday reminder]
@@ -2676,8 +2672,6 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 Але не під час входу
 [Use Popup colors]
 Кольори вспл. вікон
-[Use custom colors]
-Вик. інші кольори
 [Timeouts]
 Перерви
 [Round corners by]
@@ -3360,8 +3354,6 @@ Web Дизайн
 всіх контактів
 [Open String Formatting Help]
 Допомога по формату рядків
-[Dismiss Popup]
-Прибрати вікно
 [Reminder]
 Нагадування
 [(M) is back online!]
@@ -3798,8 +3790,6 @@ Web Дизайн
 Відступ другий рядки повідомлення
 [Show Date]
 Дата
-[Popup Options]
-Налаштування спливаючих вікон
 [Close Tab]
 Закрити вкладку
 [Open chat window]

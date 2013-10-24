@@ -128,8 +128,6 @@ Egyéb
 Új szobák hozzáadása a csoporthoz:
 [pixels]
 képpont
-[pixels]
-pixel
 [Log Options]
 Napló beállítások
 [Your name]

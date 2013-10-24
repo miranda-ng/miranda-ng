@@ -222,8 +222,6 @@ nieliczne, przelotne opady
 nieliczne przelotne opady / Wiatr
 [Pm Light Rain]
 Popołudniu delikatne opady
-[Mostly Cloudy]
-W większości pochmurnie
 [Mostly Cloudy / Wind]
 Przeważnie pochmurno / Wiatr
 [Rain]

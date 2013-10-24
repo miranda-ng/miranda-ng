@@ -65,8 +65,6 @@ Flere innstillinger
 Legg til i listen
 [Custom]
 Selvvalgt
-[Custom]
-Selvvalgt
 [Apply]
 Lagre
 [Please select a subentry from the list]
@@ -151,8 +149,6 @@ Last ned flere lyder
 Lydinformasjon
 [Location:]
 Plassering:
-[Name:]
-Navn:
 [Name:]
 Navn:
 [Enable sound events]
@@ -323,8 +319,6 @@ Standard
 Merk: Miranda NG må restartes for at endringene skal aktiveres.
 [Add]
 Legg til
-[Remove]
-Fjern
 [Remove]
 Fjern
 [Hotkeys]
@@ -518,12 +512,8 @@ Link
 &Åpne i nåværende nettleservindu
 [Message]
 Melding
-[Message]
-Melding
 [Redo]
 Gjør om
-[Copy]
-Kopier
 [Copy]
 Kopier
 [Cut]
@@ -659,8 +649,6 @@ Hurtigsøk kun i åpne grupper
 Rykk inn grupper:
 [pixels]
 pixler
-[pixels]
-piksler
 [Visual]
 Visuell
 [Scroll list smoothly]
@@ -1355,8 +1343,6 @@ Generelt
 Samtalelogg
 [Chat]
 Chat
-[Popups]
-Popups
 [Popups]
 Popups
 [Message is highlighted]

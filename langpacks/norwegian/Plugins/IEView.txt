@@ -8,8 +8,6 @@
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
 Kopier
-[Copy]
-Kopier
 [Select All]
 Velg Alt
 [Options]

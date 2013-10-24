@@ -102,8 +102,6 @@ Nettverk
 Kontakter
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 ;file \protocols\IcqOscarJ\src\icq_server.cpp

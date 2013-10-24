@@ -78,14 +78,10 @@ Link
 &Kopier link
 [Message]
 Melding
-[Message]
-Melding
 [Undo]
 Omgjør
 [Redo]
 Gjør om
-[Copy]
-Kopier
 [Copy]
 Kopier
 [Cut]
@@ -257,16 +253,12 @@ Blinkeintervall
 millisekunder
 [Popups]
 Popups
-[Popups]
-Popups
 [&Use Windows colors]
 &Bruk Windowsfarger
 [...is typing]
 ...skriver
 [From protocol]
 Fra protokoll
-[Custom]
-Selvvalgt
 [Custom]
 Selvvalgt
 [...stopped typing]
@@ -730,12 +722,6 @@ Aktiver systemoppgavelinje ikonet
 Vis overskrifter
 [Open event]
 Åpne hendelse
-[Open event]
-Åpne hendelse
-[Open event]
-Åpne hendelse
-[Dismiss event]
-Avvis hendelse
 [Dismiss event]
 Avvis hendelse
 [System tray icon]

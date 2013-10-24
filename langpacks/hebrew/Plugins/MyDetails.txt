@@ -16,8 +16,6 @@
 כללי
 [pixels]
 פיקסלים
-[pixels]
-פיקסלים
 [seconds]
 שניות
 ;file \plugins\MyDetails\src\data.cpp

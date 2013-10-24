@@ -12,8 +12,6 @@ Mostra conteggio del numero dei contatti in un gruppo
 Nascondi conteggio del gruppo se nessuno è online
 [Always on top]
 Sempre in primo piano
-[Always on top]
-Sempre in primo piano
 [seconds]
 secondi
 [Fade contact list in/out]
@@ -54,26 +52,8 @@ Posizione:
 Dimensioni:
 [OK]
 OK
-[OK]
-OK
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 [Status Bar]
@@ -114,8 +94,6 @@ Ordinamento lista contatti
 Correggi la gamma dei colori
 [Default]
 Predefinito
-[Default]
-Predefinito
 [Automatically resize window to height of list]
 Ridimensiona automaticamente altezza lista
 [maximum]
@@ -126,8 +104,6 @@ al massimo
 Ridimensiona verso l'alto
 [Easy move]
 Spostamento facilitato
-[pixels]
-pixel
 [pixels]
 pixel
 [Items]
@@ -166,18 +142,12 @@ Scorri lista in modo continuo
 Tempo:
 [milliseconds]
 millisecondi
-[milliseconds]
-millisecondi
 [Single click interface]
 Usa un singolo click
 [Always show status in tooltip]
 Mostra sempre lo stato in tooltip
 [Disable icon blinking]
 Disattiva lamp. icona
-[Show]
-Mostra
-[Show]
-Mostra
 [Show]
 Mostra
 [Cycle icons every]
@@ -208,16 +178,6 @@ Margine sinistro
 Larg. max
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Options]
-Opzioni
 [Options]
 Opzioni
 [E&xit]
@@ -278,20 +238,10 @@ Contatti offline per cui hai una visibilità differente
 Divisori
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 [General]
 Generale
 [List]
 Lista
-[Window]
-Finestra
 [Window]
 Finestra
 [List Background]
@@ -300,34 +250,18 @@ Lista - Sfondo
 Non in primo piano
 [Offline]
 Offline
-[Offline]
-Offline
-[Online]
-Online
 [Online]
 Online
 [Away]
 Altrove
-[Away]
-Altrove
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[DND]
-Non disturbare
 [DND]
 Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [Out to lunch]
@@ -336,33 +270,13 @@ Fuori a pranzo
 Al telefono
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
 [Global]
 Globale
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
-[None]
-Nessuno
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Text]
 Testo
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
@@ -375,8 +289,6 @@ Testo
 &Menu principale
 [&Options...]
 &Opzioni...
-[&Options...]
-&Opzioni...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
@@ -384,8 +296,6 @@ Testo
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[Error]
-Errore
 [Error]
 Errore
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp

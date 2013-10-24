@@ -16,8 +16,6 @@ Avbryt
 Profil
 [Message]
 Melding
-[Message]
-Melding
 [Set]
 Åpne
 [OK]
@@ -36,8 +34,6 @@ Bruk standardfarger
 Hendelser
 [Custom]
 Selvvalgt
-[Custom]
-Selvvalgt
 [Use %time% for the current time, %date% for the current date]
 Bruk %time% for nåværende tid, %date% for nåværende dato
 [Status]
@@ -52,8 +48,6 @@ sekunder
 Protokoll
 [Advanced]
 Avansert
-[Popups]
-Popups
 [Popups]
 Popups
 ;file \Plugins\StatusPlugins\commonstatus.cpp

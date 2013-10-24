@@ -50,14 +50,6 @@ Cosa vuoi fare con il file ora?
 &Cestina
 [&Delete]
 &Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Cancella
-[&Delete]
-Elimina
 [&Move/Rename]
 &Sposta/Rinomina
 [&Leave]

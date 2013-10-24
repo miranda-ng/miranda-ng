@@ -8,34 +8,12 @@
 ;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
-[OK]
-OK
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Type:]
-Tipo:
-[Type:]
-Tipo:
 [Type:]
 Tipo:
 [User:]
 Utente:
-[User:]
-Utente:
-[Password:]
-Password:
 [Password:]
 Password:
 [Resource:]
@@ -48,14 +26,6 @@ Nome utente:
 Priorità:
 [List of public servers]
 Lista di server pubblici
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
 [Port:]
 Porta:
 [Use SSL]
@@ -82,18 +52,6 @@ Login
 Logoff
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Command]
 Comando
 [Instruction:]
@@ -118,8 +76,6 @@ Secondo nome:
 Cognome:
 [Date of birth:]
 Data nascita:
-[Date of birth:]
-Data di nascita:
 [YYYY-MM-DD]
 AAAA-MM-GG (1991-10-31)
 [Gender:]
@@ -140,8 +96,6 @@ vCard Jabber: Aggiungi indirizzo email
 Indirizzo email:
 [Work]
 Lavoro
-[Work]
-Lavoro
 [Jabber vCard: Add Phone Number]
 vCard Jabber: Aggiungi numero di telefono
 [Phone number:]
@@ -150,14 +104,6 @@ Num. telefono:
 Fax
 [Delete]
 Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
-[Delete]
-Elimina
-[Description:]
-Descrizione:
 [Description:]
 Descrizione:
 [New Password:]
@@ -175,10 +121,6 @@ URL
 [Change %s Message]
 Modifica messaggio di %s
 [Closing in %d]
-Chiusura in %d sec
-[Closing in %d]
-Chiusura in %d
-[Closing in %d]
 Chiusura in %d
 [Authorization Request]
 Richiesta di autorizzazione
@@ -195,32 +137,16 @@ Nessun messaggio
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
-[None]
-Nessuno
 [Owner]
 Proprietario
 [Online]
 Online
-[Online]
-Online
-[Away]
-Altrove
 [Away]
 Altrove
 [NA]
 Non disponibile
-[NA]
-Non disponibile
 [DND]
 Non disturbare
-[DND]
-Non disturbare
-[Free for chat]
-Disponibile per chat
 [Free for chat]
 Disponibile per chat
 ;file \protocols\JabberG\src\jabber_console.cpp
@@ -247,8 +173,6 @@ Richiesta di autorizzazione
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 A
-[To]
-A
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [These changes will take effect the next time you connect to the Jabber network.]
@@ -257,14 +181,6 @@ Queste modifiche avranno effetto a partire dalla prossima connessione alla rete 
 Opzioni del protocollo Jabber
 [Messaging]
 Scambio messaggi
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 [Show transport agents on contact list]
@@ -277,10 +193,6 @@ Generale
 Connessione...
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 [Advanced]
 Avanzate
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -291,20 +203,8 @@ Avanzate
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Invisible]
 Invisibile
-[Invisible]
-Invisibile
-[Offline]
-Offline
 [Offline]
 Offline
 ;file \protocols\JabberG\src\jabber_search.cpp
@@ -323,14 +223,8 @@ Invio informazioni sulla registrazione...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Messaggio
-[Message]
-Messaggio
-[Message]
-Messaggio
 [<not specified>]
 <non specificato>
-[Version]
-Versione
 [Version]
 Versione
 [System]
@@ -341,8 +235,6 @@ Sì
 No
 [Copy]
 Copia
-[Photo]
-Foto
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -380,15 +272,9 @@ Servizio non disponibile
 Nessuna risposta dal server remoto
 [Error]
 Errore
-[Error]
-Errore
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Maschio
-[Male]
-Maschio
-[Female]
-Femmina
 [Female]
 Femmina
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]

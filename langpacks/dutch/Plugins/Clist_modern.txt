@@ -92,8 +92,6 @@ xStatus icoon weergeven
 Beide iconen weergeven
 [Show normal status as overlay]
 Normale status als overlay weergeven
-[Show normal status as overlay]
-Normale status als overlay weergeven
 [Right click opens status menu]
 Rechts klikken opent status menu
 [Delete Contact]

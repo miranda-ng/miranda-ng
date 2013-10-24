@@ -10,8 +10,6 @@
 Persoon informatie bewerken
 [Origin]
 Oorsprong
-[Origin]
-Oorsprong
 [&Update]
 &Bijwerken
 [Updating]

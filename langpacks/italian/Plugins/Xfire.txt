@@ -30,10 +30,6 @@ Porta:
 Copia
 [Join]
 Unione
-[Join]
-Unisciti
-[Join]
-Unisciti
 [OK]
 OK
 [Cancel]
@@ -41,10 +37,6 @@ Annulla
 [Search:]
 Cerca:
 ;file \protocols\Xfire\src\addgamedialog.cpp
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 ;file \protocols\Xfire\src\all_statusmsg.cpp
@@ -73,10 +65,6 @@ Conferma eliminazione
 Generale
 [No]
 No
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 ;file \protocols\Xfire\src\searching4games.cpp

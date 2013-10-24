@@ -49,18 +49,10 @@ Cerca:
 Indirizzo email
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
-[Nick:]
-Nick:
 [Nick:]
 Nick:
 [First:]
-Nome
+Nome:
 [Last:]
 Cognome:
 [Advanced]
@@ -75,8 +67,6 @@ Altre opzioni
 Aggiungi alla lista
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
 [Apply]
 Applica
 [Please select a subentry from the list]
@@ -121,24 +111,12 @@ Cosa vuoi fare con il file ora?
 &Cestina
 [&Delete]
 &Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Cancella
-[&Delete]
-Elimina
 [&Move/Rename]
 &Sposta/Rinomina
 [&Leave]
 &Lascia
 [Netlib Log Options]
 Opzioni di log di NetLib
-[Show]
-Mostra
-[Show]
-Mostra
 [Show]
 Mostra
 [Received bytes]
@@ -165,26 +143,14 @@ Mostra questa finestra all'avvio di Miranda NG
 Salva come predefinito
 [Sounds]
 Suoni
-[Sounds]
-Suoni
-[Sounds]
-Suoni
 [&Change...]
 &Cambia...
 [&Preview]
 An&teprima
-[&Preview]
-Anteprima
 [Download more sounds]
 Scarica altri suoni
 [Name:]
 Nome:
-[Name:]
-Nome:
-[Name:]
-Nome:
-[Icons]
-Icone
 [Icons]
 Icone
 [Show category:]
@@ -203,16 +169,8 @@ File
 Tutti gli eventi
 [None]
 Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
-[None]
-Nessuno
 [Only the ticked contacts will be shown on the main contact list]
 Solo i contatti spuntati verranno mostrati nella lista dei contatti
-[Ignore]
-Ignora
 [Ignore]
 Ignora
 [Visibility]
@@ -233,34 +191,18 @@ Importazione multipla
 Alle icone principali
 [To]
 A
-[To]
-A
 [<< &Import]
 << &Importa
 [Use proxy server]
 Utilizza server proxy
 [Type:]
 Tipo:
-[Type:]
-Tipo:
-[Type:]
-Tipo:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
 [Port:]
 Porta:
 [(often %d)]
 (spesso %d)
 [Username:]
 Nome utente:
-[Password:]
-Password:
 [Password:]
 Password:
 [Resolve hostnames through proxy]
@@ -273,16 +215,10 @@ Dovrai ricollegarti per rendere effettive le modifiche che hai fatto in questa p
 Completate i campi seguenti per creare un nuovo profilo utente
 [Profile]
 Profilo
-[Profile]
-Profilo
-[Profile]
-Profilo
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 E' possibile selezionare un differente driver per la gestione dei profili che offra un maggior numero di funzionalità. Se in dubbio, usate quello predefinito.
 [Driver]
 Driver
-[Description:]
-Descrizione:
 [Description:]
 Descrizione:
 [E-mail:]
@@ -295,14 +231,6 @@ Copyright:
 Ripristina
 [Reset]
 Reimposta
-[Reset]
-Reimposta
-[Reset]
-Resetta
-[Reset]
-Reimposta
-[Font]
-Carattere
 [Font]
 Carattere
 [Effects]
@@ -313,16 +241,10 @@ Esempio
 &Aiuto
 [Default]
 Predefinito
-[Default]
-Predefinito
-[Set]
-Imposta
 [Set]
 Imposta
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Nota: Miranda NG dovrà venire riavviato per applicare i cambiamenti.
-[Hotkeys]
-Scorciatoie
 [Hotkeys]
 Scorciatoie
 [&Add...]
@@ -357,42 +279,24 @@ Nascondi utenti &offline qui dentro
 &Aggiungi alla lista
 [User &Details]
 &Dettagli utente
-[User &Details]
-&Dettagli utente
 [Send &Message]
 Invia &messaggio
 [Log]
 Registro (Log file)
 [&Copy]
-&Copy
-[&Copy]
 &Copia
-[&Copy]
-&Copia
-[Co&py All]
-Co&pia tutto
 [Co&py All]
 Co&pia tutto
 [Select &All]
 Seleziona &tutto
-[Select &All]
-Selezion&a tutto
-[C&lear Log]
-Pu&lisci log
 [C&lear Log]
 Pu&lisci log
 [Open in &new window]
 Apri in una nuova &finestra
-[Open in &new window]
-Apri in una &nuova finestra
-[&Open in existing window]
-&Apri in una finestra esistente
 [&Open in existing window]
 &Apri in una finestra esistente
 [&Copy link]
 &Copia collegamento
-[&Copy link]
-&Copia link
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autorizza
@@ -402,10 +306,6 @@ Apri in una &nuova finestra
 Motivo:
 [You Were Added]
 Sei stato aggiunto
-[&Close]
-&Chiudi
-[&Close]
-&Chiudi
 [&Close]
 &Chiudi
 ;file \src\core\stdaway\resource.rc
@@ -428,68 +328,26 @@ Utilizza %time% per l'ora e %date% per la data corrente
 [Change %s Message]
 Modifica messaggio di %s
 [Closing in %d]
-Chiusura in %d sec
-[Closing in %d]
-Chiusura in %d
-[Closing in %d]
 Chiusura in %d
 ;file \src\core\stdchat\res\chat.rc
-[&Send]
-&Invia
 [&Send]
 &Invia
 [Actions]
 Azioni
 [Information]
 Informazione
-[Information]
-Informazione
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 [Text]
 Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 [List]
 Lista
 [&Message]
 &Messaggio
-[&Message]
-&Messaggio
-[&Message]
-&Messaggio
 [Link]
 Collegamento
-[Link]
-Collegamento
-[Message]
-Messaggio
-[Message]
-Messaggio
 [Message]
 Messaggio
 [Copy]
@@ -539,10 +397,6 @@ Icona nella tray utilizzando protocolli multipli
 Ordinamento lista contatti
 [Window]
 Finestra
-[Window]
-Finestra
-[Always on top]
-Sempre in primo piano
 [Always on top]
 Sempre in primo piano
 [Tool style main window]
@@ -613,16 +467,12 @@ Ricerca veloce solo nei gruppi aperti
 Rientra gruppi di:
 [pixels]
 pixel
-[pixels]
-pixel
 [Visual]
 Visualizzazione
 [Scroll list smoothly]
 Scorri lista in modo continuo
 [Time:]
 Tempo:
-[milliseconds]
-millisecondi
 [milliseconds]
 millisecondi
 [Left margin:]
@@ -710,8 +560,6 @@ A&ccetta
 Da:
 [Date:]
 Data:
-[Date:]
-Data:
 [Files:]
 File
 [Save to:]
@@ -722,12 +570,8 @@ Apri cartella
 Il file esiste già
 [Resume]
 Riprendi
-[Resume]
-Ripristina
 [Resume all]
 Riprendi tutto
-[Overwrite]
-Sovrascrivi
 [Overwrite]
 Sovrascrivi
 [Overwrite all]
@@ -754,18 +598,6 @@ Proprietà
 File in ricezione
 [File Transfers]
 Trasferimenti file
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Close]
 Chiudi
 [Receiving files]
@@ -869,12 +701,6 @@ Lampeggia nella tray di sistema e nella lista dei contatti
 Mostra popup
 [Delete]
 Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
-[Delete]
-Elimina
 ;file \src\core\stduihist\resource.rc
 [Find]
 Trova
@@ -913,8 +739,6 @@ Cognome:
 Età:
 [Date of birth:]
 Data nascita:
-[Date of birth:]
-Data di nascita:
 [Phone:]
 Telefono:
 [Web page:]
@@ -957,8 +781,6 @@ Sito Web:
 ;file \src\core\stdauth\authdialogs.cpp
 [View User's Details]
 Visualizza dettagli utente
-[View User's Details]
-Visualizza dettagli utente
 [Add Contact Permanently to List]
 Aggiungi contatto definitivamente alla lista
 ;file \src\core\stdaway\awaymsg.cpp
@@ -985,14 +807,6 @@ Mi sto nascondendo dalla mafia... shhh...
 Telefono.
 [Mmm...food.]
 Mmm... cibo...
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Status]
 Stato
 ;file \src\core\stdchat\src\clist.cpp
@@ -1061,12 +875,8 @@ Scambio messaggi
 Aspetto e funzionalità delle finestre chat room
 [Select Folder]
 Seleziona cartella
-[Select Folder]
-Seleziona cartella
 [General]
 Generale
-[Popups]
-Popup
 [Popups]
 Popups
 ;file \src\core\stdchat\src\services.cpp
@@ -1100,34 +910,18 @@ Contatti offline per cui hai una visibilità differente
 Non in primo piano
 [Offline]
 Offline
-[Offline]
-Offline
-[Online]
-Online
 [Online]
 Online
 [Away]
 Altrove
-[Away]
-Altrove
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[DND]
-Non disturbare
 [DND]
 Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [Out to lunch]
@@ -1152,23 +946,13 @@ Invia email
 File da %s
 [bytes]
 byte
-[bytes]
-byte
 [&File]
 &File
 [Incoming]
 In entrata
-[Incoming]
-In arrivo
-[Error]
-Errore
 [Error]
 Errore
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 ;file \src\core\stdfile\fileopts.cpp
@@ -1176,17 +960,9 @@ Tutti i file
 File eseguibili
 [Events]
 Eventi
-[Events]
-Eventi
-[Events]
-Eventi
 ;file \src\core\stdfile\filerecvdlg.cpp
 [View User's History]
 Visualizza storico utente
-[View User's History]
-Visualizza storico utente
-[User Menu]
-Menu utente
 [User Menu]
 Menu utente
 [Canceled]
@@ -1209,8 +985,6 @@ In attesa di connessione...
 Impossibile avviare il trasferimento.
 [sec]
 sec
-[sec]
-Sec
 [remaining]
 rimanenti
 [Decision sent]
@@ -1240,8 +1014,6 @@ Trasferimento e scansione antivirus completati
 ;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 In uscita
-[Outgoing]
-In uscita
 ;file \src\core\stdhelp\about.cpp
 ;file \src\core\stdhelp\help.cpp
 [&About...]
@@ -1249,8 +1021,6 @@ In uscita
 [&Report Bug]
 Segnala un &bug
 ;file \src\core\stdidle\idle.cpp
-[Idle]
-Inattivo
 [Idle]
 Inattivo
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1293,8 +1063,6 @@ Notifica digitazione
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Messaggio da %s
-[Message from %s]
-Messaggio da %s
 [%s is typing a message]
 %s sta digitando un messaggio
 [Typing Notification]
@@ -1325,8 +1093,6 @@ Sei sicuro di voler eliminare questo elemento dello storico?
 Elimina storico
 [View &History]
 &Visualizza storico
-[View &History]
-Guarda &Storico
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL da %s
@@ -1353,10 +1119,6 @@ Cellulare
 ;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Maschio
-[Male]
-Maschio
-[Female]
-Femmina
 [Female]
 Femmina
 [<not specified>]
@@ -1365,12 +1127,8 @@ Femmina
 Sommario
 [Contact]
 Contatto
-[Contact]
-Contatti
 [Location]
 Provenienza
-[Work]
-Lavoro
 [Work]
 Lavoro
 [Notes]
@@ -1456,12 +1214,6 @@ Questa modifica non è riconosciuta come sicura.
 &Crea
 [Size]
 Dimensioni
-[Size]
-Dimensioni
-[Size]
-Dimensioni
-[Size]
-Dimensione
 [My Profiles]
 I miei profili
 [New Profile]
@@ -1498,8 +1250,6 @@ Nessun utente trovato
 <nessuno>
 [Text Files]
 File di testo
-[Text Files]
-Files di Testo
 [Fonts]
 Caratteri
 ;file \src\modules\fonts\FontService.cpp
@@ -1525,39 +1275,21 @@ Tempo in microsecondi
 <Tutte le connessioni>
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
 [Miranda NG Options]
 Opzioni di Miranda NG
 [&Options...]
 &Opzioni...
-[&Options...]
-&Opzioni...
 ;file \src\modules\plugins\newplugins.cpp
 ;file \src\modules\plugins\pluginopts.cpp
 [Version]
 Versione
-[Version]
-Versione
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
 [Plugins]
 Plugin
 ;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Crea nuovo account
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 [<unknown>]
@@ -1600,26 +1332,16 @@ Icone principali
 Tutti i tipi di bitmap
 [Windows Bitmaps]
 Bitmap di Windows
-[Windows Bitmaps]
-Bitmap di Windows
 [JPEG Bitmaps]
 Immagini JPEG
-[JPEG Bitmaps]
-Bitmap JPEG
 [GIF Bitmaps]
 Immagini GIF
-[GIF Bitmaps]
-Bitmap GIF
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Non specificato
-[Unspecified]
-Non specificato
 [Unknown]
 Sconosciuta
-[Unknown]
-Sconosciuto
 [American Samoa]
 Samoa Americane
 [Antigua and Barbuda]

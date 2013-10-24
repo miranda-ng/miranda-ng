@@ -14,14 +14,6 @@ secondi
 ;file \plugins\ListeningTo\src\options.cpp
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [General]
 Generale
 ;file \plugins\ListeningTo\src\players\generic.cpp

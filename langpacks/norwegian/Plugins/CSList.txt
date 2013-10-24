@@ -15,13 +15,9 @@ Status
 Legg til
 [Message]
 Melding
-[Message]
-Melding
 ;file \plugins\CSList\src\cslist.h
 [Main Menu]
 Hovedmeny
-[Remove]
-Fjern
 [Remove]
 Fjern
 [Clear]

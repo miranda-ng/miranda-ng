@@ -222,8 +222,6 @@ x100 毫秒
 隐藏方法
 [pixels]
 像素
-[pixels]
-像素
 [keep on screen]
 保持在屏幕上
 [Snap to edges]

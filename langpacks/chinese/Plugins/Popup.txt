@@ -32,8 +32,6 @@
 半透明头像也绘制边框
 [pixels]
 像素
-[pixels]
-像素
 [Enable avatar updates]
 启用头像更新
 [Start the popups in the monitor with]

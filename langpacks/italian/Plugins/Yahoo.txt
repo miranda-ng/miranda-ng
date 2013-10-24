@@ -8,34 +8,14 @@
 ;file \protocols\Yahoo\res\Yahoo.rc
 [Password:]
 Password:
-[Password:]
-Password:
-[Nick:]
-Nick:
 [Nick:]
 Nick:
 [Create a new Yahoo account using the Yahoo website]
 Creare una nuova registrazione a Yahoo usando il sito web
 [Port:]
 Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
 [Reset]
 Reimposta
-[Reset]
-Reimposta
-[Reset]
-Resetta
-[Reset]
-Reimposta
-[&Add]
-&Aggiungi
 [&Add]
 &Aggiungi
 [Set Custom Status]
@@ -44,20 +24,6 @@ Imposta Stati Personalizzati
 Mostra come 'Occupato'
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [&Join]
@@ -70,10 +36,6 @@ Annulla
 ;file \protocols\Yahoo\src\icolib.cpp
 [Profile]
 Profilo
-[Profile]
-Profilo
-[Profile]
-Profilo
 ;file \protocols\Yahoo\src\im.cpp
 [The message send timed out.]
 Il tempo per l'invio del messaggio è scaduto.
@@ -84,10 +46,6 @@ Il tempo per l'invio del messaggio è scaduto.
 Queste modifiche avranno effetto a partire dalla prossima connessione alla rete di Yahoo.
 [YAHOO Options]
 Impostazioni Yahoo
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 ;file \protocols\Yahoo\src\proto.cpp

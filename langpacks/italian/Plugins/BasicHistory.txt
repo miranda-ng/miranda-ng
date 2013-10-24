@@ -21,8 +21,6 @@ Annulla
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 &Visualizza storico
-[View &History]
-Guarda &Storico
 [Incoming message]
 Messaggio in arrivo
 [Outgoing message]
@@ -40,51 +38,25 @@ Sistema
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 Apri in una nuova &finestra
-[Open in &new window]
-Apri in una &nuova finestra
-[&Open in existing window]
-&Apri in una finestra esistente
 [&Open in existing window]
 &Apri in una finestra esistente
 [&Copy link]
 &Copia collegamento
-[&Copy link]
-&Copia link
 [Copy]
 Copia
 [Delete]
 Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
-[Delete]
-Elimina
-[Options]
-Opzioni
 [Options]
 Opzioni
 [Icons]
 Icone
-[Icons]
-Icone
 [Hotkeys]
 Scorciatoie
-[Hotkeys]
-Scorciatoie
-[Error]
-Errore
 [Error]
 Errore
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Messaggio
-[Message]
-Messaggio
-[Message]
-Messaggio
-[Link]
-Collegamento
 [Link]
 Collegamento
 [Searching]

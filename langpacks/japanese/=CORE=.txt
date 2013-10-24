@@ -759,8 +759,6 @@ Wikipedia
 グループのインデント ：
 [pixels]
 ピクセル
-[pixels]
-ピクセル
 [Visual]
 ビジュアル
 [Scroll list smoothly]

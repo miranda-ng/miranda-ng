@@ -8,12 +8,6 @@
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 Opzioni generali
-[General Options]
-Opzioni generali
-[Message]
-Messaggio
-[Message]
-Messaggio
 [Message]
 Messaggio
 [URL]
@@ -22,29 +16,11 @@ URL
 File
 [Text]
 Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Contatti

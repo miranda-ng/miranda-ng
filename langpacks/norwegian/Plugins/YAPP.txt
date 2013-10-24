@@ -21,8 +21,6 @@ Status
 Feil
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
 [Background]

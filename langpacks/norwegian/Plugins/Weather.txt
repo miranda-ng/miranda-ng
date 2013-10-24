@@ -45,8 +45,6 @@ Alle Filer
 ;file \plugins\Weather\src\weather_info.cpp
 [Name:]
 Navn:
-[Name:]
-Navn:
 [bytes]
 bytes
 [Description:]
@@ -58,8 +56,6 @@ Beskrivelse:
 Nettverk
 [General]
 Generelt
-[Popups]
-Popups
 [Popups]
 Popups
 ;file \plugins\Weather\src\weather_popup.cpp

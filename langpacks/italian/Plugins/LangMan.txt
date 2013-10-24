@@ -10,13 +10,9 @@
 Email:
 [Date:]
 Data:
-[Date:]
-Data:
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
 [Unknown]
 Sconosciuta
-[Unknown]
-Sconosciuto
 [File]
 File

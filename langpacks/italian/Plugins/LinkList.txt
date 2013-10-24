@@ -10,18 +10,6 @@
 Ricerca
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Incoming messages]
 Messaggi in entrata
 [Outgoing messages]
@@ -30,15 +18,9 @@ Messaggi in uscita
 &File
 [&Close]
 &Chiudi
-[&Close]
-&Chiudi
-[&Close]
-&Chiudi
 [&Search]
 &Cerca
 ;file \plugins\HistoryLinkListPlus\src\language.h
-[Error]
-Errore
 [Error]
 Errore
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp

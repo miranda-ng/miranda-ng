@@ -10,20 +10,6 @@
 Opzioni di Miranda NG
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Apply]
@@ -37,15 +23,5 @@ Stile
 Contatti
 [Ignore]
 Ignora
-[Ignore]
-Ignora
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Status]
 Stato

@@ -12,8 +12,6 @@ Copia
 Seleziona Tutto
 [Options]
 Opzioni
-[Options]
-Opzioni
 [Size:]
 Dimensioni:
 [Scroll with text]
@@ -28,8 +26,6 @@ Trasferimento file in entrata
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [Error]
 Errore
-[Error]
-Errore
 ;file \plugins\IEView\src\Options.cpp
 [General]
 Generale
@@ -37,12 +33,6 @@ Generale
 Storico
 [Default]
 Predefinito
-[Default]
-Predefinito
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp

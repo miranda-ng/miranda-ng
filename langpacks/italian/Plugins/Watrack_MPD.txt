@@ -10,9 +10,3 @@
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Plugins]
 Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin

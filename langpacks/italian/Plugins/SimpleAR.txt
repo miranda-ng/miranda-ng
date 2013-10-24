@@ -10,9 +10,3 @@
 ;file \plugins\SimpleAR\src\Options.cpp
 [Plugins]
 Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin

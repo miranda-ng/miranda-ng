@@ -16,8 +16,6 @@ Cancel
 全般
 [pixels]
 ピクセル
-[pixels]
-ピクセル
 [seconds]
 秒
 ;file \plugins\MyDetails\src\data.cpp

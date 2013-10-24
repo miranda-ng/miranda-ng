@@ -204,8 +204,6 @@ eltüntetés késleltetése
 Elrejtés módja
 [pixels]
 képpont
-[pixels]
-pixel
 [keep on screen]
 képenyõn tartás
 [Snap to edges]

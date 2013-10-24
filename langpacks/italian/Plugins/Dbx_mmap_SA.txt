@@ -8,20 +8,6 @@
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Install Database Settings]
@@ -68,14 +54,6 @@ Cosa vuoi fare con il file ora?
 &Cestina
 [&Delete]
 &Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Elimina
-[&Delete]
-&Cancella
-[&Delete]
-Elimina
 [&Move/Rename]
 &Sposta/Rinomina
 [&Leave]
@@ -84,18 +62,8 @@ Elimina
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
-[Version]
-Versione
 [Version]
 Versione
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
-[Error]
-Errore
 [Error]
 Errore

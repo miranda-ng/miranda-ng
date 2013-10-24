@@ -10,8 +10,6 @@
 &Avbryt
 [Name:]
 Navn:
-[Name:]
-Navn:
 [Information]
 Informasjon
 [Contacts]
@@ -39,8 +37,6 @@ Protokoll
 ;file \plugins\MetaContacts\src\icons.cpp
 [Edit]
 Rediger
-[Remove]
-Fjern
 [Remove]
 Fjern
 ;file \plugins\MetaContacts\src\metacontacts.h

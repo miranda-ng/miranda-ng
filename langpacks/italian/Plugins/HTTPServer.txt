@@ -8,14 +8,8 @@
 ;file \plugins\HTTPServer\res\resource.rc
 [&Copy link]
 &Copia collegamento
-[&Copy link]
-&Copia link
 ;file \plugins\HTTPServer\src\Glob.h
 ;file \plugins\HTTPServer\src\GuiElements.cpp
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 ;file \plugins\HTTPServer\src\HttpUser.cpp

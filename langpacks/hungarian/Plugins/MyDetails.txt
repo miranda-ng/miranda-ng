@@ -40,8 +40,6 @@ Jobb:
 Egyedi méret:
 [pixels]
 képpont
-[pixels]
-pixel
 [Allow it to grow]
 Növekedhet
 [Use free space (under avatar) to other texts]

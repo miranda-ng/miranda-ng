@@ -40,8 +40,6 @@ Avbryt
 &Lag
 [Remove]
 Fjern
-[Remove]
-Fjern
 [&Close]
 &Lukk
 [&Send]

@@ -8,50 +8,20 @@
 ;file \plugins\Ping\res\ping.rc
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 [Popups]
 Popup
-[Popups]
-Popups
 [Interface]
 Interfaccia
 [Row height:]
 Altezza righe:
 [OK]
 OK
-[OK]
-OK
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
 [Port:]
 Porta:
 [Contact]
 Contatto
-[Contact]
-Contatti
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
 [<none>]
@@ -61,7 +31,5 @@ Contatti
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
-[Unknown]
-Sconosciuta
 [Unknown]
 Sconosciuto

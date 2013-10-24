@@ -8,10 +8,6 @@
 ;file \protocols\IcqOscarJ\res\resources.rc
 [Password:]
 Password:
-[Password:]
-Password:
-[&Send]
-&Invia
 [&Send]
 &Invia
 [&Cancel]
@@ -20,20 +16,6 @@ Password:
 Inserisci la Password di ICQ
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [ICQ number:]
@@ -46,16 +28,6 @@ Recupera la password o un numero ICQ perso
 Crea un nuovo account ICQ utilizzando il sito di ICQ
 [Port:]
 Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Default]
-Predefinito
 [Default]
 Predefinito
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
@@ -116,10 +88,6 @@ Replica solo a richieste sullo stato da parte di utenti sulla mia lista contatti
 Replica solo a richieste sullo stato da parte di contatti visibili
 [Options]
 Opzioni
-[Options]
-Opzioni
-[Error]
-Errore
 [Error]
 Errore
 [UIN:]
@@ -146,8 +114,6 @@ Età:
 Keyword:
 [Work]
 Lavoro
-[Work]
-Lavoro
 [Company:]
 Compagnia:
 [Department:]
@@ -170,22 +136,10 @@ Interessi
 Categoria:
 [Other]
 Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
-[Other]
-Altro
 [Manage ICQ Server Contacts]
 Amministra contatti del server di ICQ
 [Select contacts to store:]
 Seleziona contatti da memorizzare
-[Closing in %d]
-Chiusura in %d sec
-[Closing in %d]
-Chiusura in %d
 [Closing in %d]
 Chiusura in %d
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
@@ -444,10 +398,6 @@ Precedente occupazione
 Precedente organizzazione
 [Female]
 Femmina
-[Female]
-Femmina
-[Male]
-Maschio
 [Male]
 Maschio
 [60-above]
@@ -472,16 +422,10 @@ Mostra spiegazioni per disconnessione
 Mostra problemi richiedenti l'intervento dell'utente
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 [Contacts]
 Contatti
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
@@ -503,29 +447,11 @@ Eliminazione %s in corso...
 Tutte le operazioni completate
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [** All contacts **]
 ** Tutti i contatti **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [On the phone]
 Al telefono
-[None]
-Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
 [None]
 Nessuno
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
@@ -560,8 +486,6 @@ Nome
 Cognome
 [Contact]
 Contatto
-[Contact]
-Contatti
 [Street]
 Via
 [City]

@@ -21,24 +21,14 @@ Sì
 No
 [Unknown]
 Sconosciuta
-[Unknown]
-Sconosciuto
 [General]
 Generale
 [Contacts]
 Contatti
 [Contact]
 Contatto
-[Contact]
-Contatti
 [Protocol]
 Protocollo
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
-[Default]
-Predefinito
 [Default]
 Predefinito
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp

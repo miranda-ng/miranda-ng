@@ -66,8 +66,6 @@ ADVARSEL: \tSkins kan endre din nåværende profil. Gjenoppretting er ikke mulig
 Tilgjengelige objekter
 [Copy]
 Kopier
-[Copy]
-Kopier
 [Paste]
 Lim inn
 [Object properties]
@@ -184,8 +182,6 @@ skjul forsinkelse
 Skjul metode
 [pixels]
 pixler
-[pixels]
-piksler
 [keep on screen]
 behold på skjerm
 [Snap to edges]

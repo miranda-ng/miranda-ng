@@ -44,8 +44,6 @@ System
 &Kopier link
 [Copy]
 Kopier
-[Copy]
-Kopier
 [Delete]
 Slett
 [Delete Group]
@@ -59,8 +57,6 @@ Snarveier
 [Error]
 Feil
 ;file \plugins\BasicHistory\src\Options.cpp
-[Message]
-Melding
 [Message]
 Melding
 [Link]

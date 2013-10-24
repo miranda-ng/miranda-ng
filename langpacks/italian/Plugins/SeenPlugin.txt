@@ -30,32 +30,14 @@ Conta le volte
 Protocolli da analizzare:
 [Text]
 Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Online]
-Online
 [Online]
 Online
 [Away]
 Altrove
-[Away]
-Altrove
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[DND]
-Non disturbare
 [DND]
 Non disturbare
 [On the phone]
@@ -64,18 +46,10 @@ Al telefono
 Fuori a pranzo
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [Offline]
 Offline
-[Offline]
-Offline
-[OK]
-OK
 [OK]
 OK
 [You missed following contacts:]
@@ -87,10 +61,6 @@ Allerta quando lo stato dell'utente cambia
 storico ultimo avvistamento
 [View User's Details]
 Visualizza dettagli utente
-[View User's Details]
-Visualizza dettagli utente
-[User Menu]
-Menu utente
 [User Menu]
 Menu utente
 [Send Instant Message]
@@ -108,8 +78,6 @@ Ultimo Avvistamento
 Contatti
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \plugins\SeenPlugin\src\seen.h
 [-- Date --]
 -- Data --
@@ -123,10 +91,6 @@ mese
 nome del mese
 [short name of month]
 abbreviazione del mese
-[day]
-giorno
-[day]
-giorno
 [day]
 giorno
 [weekday (full)]
@@ -151,22 +115,10 @@ nome
 UIN
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [external IP]
 IP esterno
 [internal IP]
 IP interno
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 [-- Format --]
@@ -207,9 +159,5 @@ Ott.
 Dic.
 [Idle]
 Inattivo
-[Idle]
-Inattivo
-[Unknown]
-Sconosciuta
 [Unknown]
 Sconosciuto

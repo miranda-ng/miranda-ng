@@ -8,54 +8,24 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Actions]
 Azioni
 [Information]
 Informazione
-[Information]
-Informazione
-[Options]
-Opzioni
 [Options]
 Opzioni
 [List]
 Lista
 [&Message]
 &Messaggio
-[&Message]
-&Messaggio
-[&Message]
-&Messaggio
 [Log]
 Registro (Log file)
 [Link]
 Collegamento
-[Link]
-Collegamento
 [&Copy link]
 &Copia collegamento
-[&Copy link]
-&Copia link
-[Message]
-Messaggio
-[Message]
-Messaggio
 [Message]
 Messaggio
 [Copy]
@@ -69,28 +39,8 @@ Terso
 secondi
 [Text]
 Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
-[Events]
-Eventi
-[Events]
-Eventi
 [Events]
 Eventi
 [Apply]
@@ -115,52 +65,20 @@ Invia le notifiche di digitazione agli utenti seguenti quando sto digitando un m
 Mostra notifica digit. quando nessuna finestra messaggi è aperta
 [Delete]
 Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
-[Delete]
-Elimina
 [Reset]
 Reimposta
-[Reset]
-Reimposta
-[Reset]
-Resetta
-[Reset]
-Reimposta
-[milliseconds]
-millisecondi
 [milliseconds]
 millisecondi
 [Popups]
 Popup
-[Popups]
-Popups
 [U&se Popup colors]
 Utilizza plugin Popup
 [&Use Windows colors]
 &Utilizza i colori di Windows
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Icons]
-Icone
 [Icons]
 Icone
 [Yes]
@@ -173,34 +91,18 @@ Invia messaggio con Invio
 Minimizza la finestra del messaggio all'invio
 [&Copy]
 &Copy
-[&Copy]
-&Copia
-[&Copy]
-&Copia
-[Co&py All]
-Co&pia tutto
 [Co&py All]
 Co&pia tutto
 [Select &All]
 Seleziona &tutto
-[Select &All]
-Selezion&a tutto
 [Open in &new window]
 Apri in una nuova &finestra
-[Open in &new window]
-Apri in una &nuova finestra
 [&Open in existing window]
 &Apri in una finestra esistente
-[&Open in existing window]
-&Apri in una finestra esistente
-[Default]
-Predefinito
 [Default]
 Predefinito
 [Global]
 Globale
-[Font]
-Carattere
 [Font]
 Carattere
 [&File]
@@ -208,8 +110,6 @@ Carattere
 [Help]
 Aiuto
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
-[View User's History]
-Visualizza storico utente
 [View User's History]
 Visualizza storico utente
 ;file \plugins\TabSRMM\src\container.cpp
@@ -220,22 +120,10 @@ Visualizza storico utente
 ;file \plugins\TabSRMM\src\globals.cpp
 [Outgoing]
 In uscita
-[Outgoing]
-In uscita
 [Message send error]
 Errore nell'invio del messaggio
 [Other]
 Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
-[Other]
-Altro
-[Message from %s]
-Messaggio da %s
 [Message from %s]
 Messaggio da %s
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
@@ -271,21 +159,9 @@ Messaggio in uscita
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Error]
 Errore
-[Error]
-Errore
 ;file \plugins\TabSRMM\src\sendlater.cpp
 [Contact]
 Contatto
-[Contact]
-Contatti
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Status]
 Stato
 ;file \plugins\TabSRMM\src\sendqueue.cpp
@@ -335,10 +211,6 @@ Abilitare stato dell'utente per ...
 Disabilitare stato dell'utente per ...
 [Protocol]
 Protocollo
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Flash window when someone speaks]
 Animare la finestra quando qualcuno parla
 [Show list of users in the chat room]
@@ -355,12 +227,6 @@ Indenta la seconda linea di un messaggio
 Aspetto e funzionalità delle finestre chat room
 [All Files]
 Tutti i file
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
-[Select Folder]
-Seleziona cartella
 [Select Folder]
 Seleziona cartella
 ;file \plugins\TabSRMM\src\chat\services.cpp

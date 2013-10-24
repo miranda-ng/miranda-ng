@@ -8,57 +8,23 @@
 ;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[OK]
-OK
 [OK]
 OK
 [Advanced >>]
 Avanzate >>
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 ;file \plugins\BuddyPounce\src\dialog.cpp
 [Online]
 Online
-[Online]
-Online
-[Away]
-Altrove
 [Away]
 Altrove
 [NA]
 Non disponibile
-[NA]
-Non disponibile
-[Occupied]
-Occupato
 [Occupied]
 Occupato
 [DND]
 Non disturbare
-[DND]
-Non disturbare
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 ;file \plugins\BuddyPounce\src\main.cpp

@@ -8,20 +8,6 @@
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[OK]
-OK
 [OK]
 OK
 ;file \protocols\WhatsApp\src\connection.cpp

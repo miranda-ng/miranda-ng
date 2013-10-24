@@ -8,44 +8,20 @@
 ;file \plugins\Nudge\res\resource.rc
 [Text]
 Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Offline]
-Offline
 [Offline]
 Offline
 [Online]
 Online
-[Online]
-Online
-[Away]
-Altrove
 [Away]
 Altrove
 [NA]
 Non disponibile
-[NA]
-Non disponibile
-[Occupied]
-Occupato
 [Occupied]
 Occupato
 [DND]
 Non disturbare
-[DND]
-Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [On the phone]
@@ -55,9 +31,5 @@ Fuori a pranzo
 ;file \plugins\Nudge\src\main.cpp
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
-[Events]
-Eventi
-[Events]
-Eventi
 [Events]
 Eventi

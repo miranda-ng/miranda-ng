@@ -10,36 +10,14 @@
 Dettagli utente AIM
 [Password:]
 Password:
-[Password:]
-Password:
-[Advanced Options]
-Opzioni avanzate
-[Advanced Options]
-Opzioni avanzate
 [Advanced Options]
 Opzioni avanzate
 [Port:]
 Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Reset]
-Reimposta
-[Reset]
-Reimposta
-[Reset]
-Resetta
 [Reset]
 Reimposta
 [Save Profile]
 Salva profilo
-[Idle]
-Inattivo
 [Idle]
 Inattivo
 [&Join]
@@ -54,10 +32,6 @@ Salva modifiche
 &Nega
 [Message]
 Messaggio
-[Message]
-Messaggio
-[Message]
-Messaggio
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
 ;file \protocols\AimOscar\src\file.cpp
@@ -68,17 +42,9 @@ Messaggio
 ;file \protocols\AimOscar\src\theme.cpp
 [Profile]
 Profilo
-[Profile]
-Profilo
-[Profile]
-Profilo
 [Bold]
 Grassetto
 ;file \protocols\AimOscar\src\ui.cpp
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 ;file \protocols\AimOscar\src\utility.cpp

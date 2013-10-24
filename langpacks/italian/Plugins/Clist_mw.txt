@@ -20,16 +20,8 @@ Scorri assieme al testo
 Mantieni le proporzioni
 [Name:]
 Nome:
-[Name:]
-Nome:
-[Name:]
-Nome:
 [Set]
 Imposta
-[Set]
-Imposta
-[Default]
-Predefinito
 [Default]
 Predefinito
 [Delete Contact]
@@ -54,8 +46,6 @@ Disattiva gruppi
 Chiedi conferma per cancellazione
 [Always on top]
 Sempre in primo piano
-[Always on top]
-Sempre in primo piano
 [Hide contact list after it has been idle for]
 Nascondi lista dei contatti se inattiva per
 [seconds]
@@ -72,10 +62,6 @@ Usa un singolo click
 Mostra sempre lo stato in tooltip
 [Disable icon blinking]
 Disattiva lamp. icona
-[Show]
-Mostra
-[Show]
-Mostra
 [Show]
 Mostra
 [icon when statuses differ]
@@ -102,12 +88,8 @@ Righe
 Altezza righe:
 [pixels]
 pixel
-[pixels]
-pixel
 [Gamma correction]
 Correggi la gamma dei colori
-[Window]
-Finestra
 [Window]
 Finestra
 [Tool style main window]
@@ -176,8 +158,6 @@ Visualizzazione
 Scorri lista in modo continuo
 [Time:]
 Tempo:
-[milliseconds]
-millisecondi
 [milliseconds]
 millisecondi
 [Left margin:]
@@ -266,14 +246,6 @@ Divisori
 Contatti offline per cui hai una visibilità differente
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Lista
@@ -283,34 +255,18 @@ Lista - Sfondo
 Non in primo piano
 [Offline]
 Offline
-[Offline]
-Offline
-[Online]
-Online
 [Online]
 Online
 [Away]
 Altrove
-[Away]
-Altrove
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[DND]
-Non disturbare
 [DND]
 Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [Out to lunch]
@@ -328,8 +284,6 @@ Globale
 &Trova/Aggiungi contatti...
 [&Main Menu]
 &Menu principale
-[&Options...]
-&Opzioni...
 [&Options...]
 &Opzioni...
 ;file \plugins\Clist_mw\src\clui.cpp

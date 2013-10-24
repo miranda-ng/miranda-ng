@@ -8,46 +8,18 @@
 ;file \plugins\New_GPG\res\new_gpg.rc
 [OK]
 OK
-[OK]
-OK
-[Ignore]
-Ignora
 [Ignore]
 Ignora
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Password:]
-Password:
 [Password:]
 Password:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
 [Default]
 Predefinito
-[Default]
-Predefinito
-[Error]
-Errore
 [Error]
 Errore
 [Accept]
@@ -58,12 +30,6 @@ Accetto
 Avanzate
 [Contact]
 Contatto
-[Contact]
-Contatti
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 ;file \plugins\New_GPG\src\utilities.cpp

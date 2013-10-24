@@ -10,19 +10,9 @@
 Messaggio in uscita
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 ;file \plugins\Spamotron\src\bayes.cpp
 ;file \plugins\Spamotron\src\common.h
 ;file \plugins\Spamotron\src\options.cpp
-[Popups]
-Popup
 [Popups]
 Popups
 ;file \plugins\Spamotron\src\spamotron.cpp

@@ -8,16 +8,4 @@
 ;file \plugins\Folders\res\folders.rc
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 ;file \plugins\Folders\src\dlg_handlers.cpp

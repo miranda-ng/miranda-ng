@@ -8,8 +8,6 @@
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [pixels]
 pikselit
-[pixels]
-pikselit
 [seconds]
 sekundit
 [Background]

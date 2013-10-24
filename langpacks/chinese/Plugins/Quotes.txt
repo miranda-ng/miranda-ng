@@ -54,8 +54,6 @@
 使用默认颜色
 [Background color]
 背景颜色
-[Background color]
-背景颜色
 [Text color]
 文本颜色
 [Custom]

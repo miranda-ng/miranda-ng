@@ -56,8 +56,6 @@ Bytter
 Legg til
 [Remove]
 Fjern
-[Remove]
-Fjern
 [Edit]
 Rediger
 [Advanced options]
@@ -127,8 +125,6 @@ Tomgang:
 Siste melding: (%sys: last_msg_reltime% siden)
 [Name]
 Navn
-[Name:]
-Navn:
 [Name:]
 Navn:
 [Time:]

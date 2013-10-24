@@ -675,8 +675,6 @@ Gyorskeresés a nyitott csoportokban
 Csoportok behúzása:
 [pixels]
 képpont
-[pixels]
-pixel
 [Visual]
 Látási
 [Scroll list smoothly]

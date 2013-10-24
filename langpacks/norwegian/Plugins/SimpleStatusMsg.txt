@@ -56,8 +56,6 @@ Tøm Forh.def.
 Klipp ut
 [Copy]
 Kopier
-[Copy]
-Kopier
 [Paste]
 Lim inn
 [Delete]

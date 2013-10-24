@@ -8,10 +8,6 @@
 ;file \plugins\YAMN\res\YAMN.rc
 [OK]
 OK
-[OK]
-OK
-[Description:]
-Descrizione:
 [Description:]
 Descrizione:
 [Copyright:]
@@ -22,22 +18,8 @@ Controlla questo account
 Intervallo controllo [min]:
 [Message]
 Messaggio
-[Message]
-Messaggio
-[Message]
-Messaggio
 [Password:]
 Password:
-[Password:]
-Password:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
 [Port:]
 Porta:
 [Startup check]
@@ -54,58 +36,24 @@ Notifica nell'icona della tray se errore
 Reimposta contatore
 [Default]
 Predefinito
-[Default]
-Predefinito
-[Name:]
-Nome:
-[Name:]
-Nome:
 [Name:]
 Nome:
 [Options]
 Opzioni
-[Options]
-Opzioni
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Offline]
 Offline
-[Offline]
-Offline
-[Online]
-Online
 [Online]
 Online
 [Away]
 Altrove
-[Away]
-Altrove
-[Occupied]
-Occupato
 [Occupied]
 Occupato
 [DND]
 Non disturbare
-[DND]
-Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [On the phone]
@@ -147,12 +95,6 @@ Elimina selezionato
 Seleziona Tutto
 [Size]
 Dimensioni
-[Size]
-Dimensioni
-[Size]
-Dimensioni
-[Size]
-Dimensione
 [Do you really want to delete %d selected mails?]
 Sei sicuro di voler eliminare %d messaggi selezionati?
 [Delete confirmation]
@@ -191,32 +133,16 @@ Il server non supporta l'autorizzazione APOP.
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 [General]
 Generale
 [Plugins]
 Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
 [Popups]
 Popup
-[Popups]
-Popups
 [No account selected]
 Nessun account selezionato
 [Time left to next check [s]: %d]
 Tempo prima del prossimo controllo: %d
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 [Select executable used for notification]

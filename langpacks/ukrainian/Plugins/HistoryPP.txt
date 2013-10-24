@@ -431,8 +431,6 @@ Email express від %s (%s): %s
 Enter для подробиць події
 [Search panel]
 Панель пошуку
-[Search History]
-Пошук в історії
 [Search All Results]
 Всі результати
 [Bookmark enabled]
@@ -747,10 +745,6 @@ Wiki-сторінка додаткових параметрів
 Ваше ім'я
 [Incoming contacts]
 Вхідні контакти
-[Outgoing contacts]
-Вихідні контакти
-[Message System]
-Системне повідомлення
 [Incoming timestamp]
 Вхідне час
 [Outgoing timestamp]

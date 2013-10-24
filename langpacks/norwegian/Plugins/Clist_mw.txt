@@ -28,8 +28,6 @@ MenyElementer
 Tjeneste:
 [Name:]
 Navn:
-[Name:]
-Navn:
 [Set]
 Åpne
 [Default]
@@ -100,8 +98,6 @@ Rader
 Radhøyde:
 [pixels]
 pixler
-[pixels]
-piksler
 [Gamma correction]
 Gammakorreksjon
 [Window]

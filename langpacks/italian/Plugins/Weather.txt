@@ -12,20 +12,6 @@ Info rapide
 Pagina web
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Options]
-Opzioni
 [Options]
 Opzioni
 [Update weather information every]
@@ -70,26 +56,12 @@ Sovrascrivi file sopra aggiorn.
 URL ulteriori info
 [Weather Map]
 Mappa meteo
-[Weather Map]
-Mappa meteorologica
 [Other Options]
 Altre opzioni
 [Set as default station]
 Imposta come stazione predefinita
 [Disable automatic update for this station]
 Disattiva aggiornamento automatico per questa stazione
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Popup only when condition changes]
@@ -114,8 +86,6 @@ secondi
 Testo popup
 [Default]
 Predefinito
-[Default]
-Predefinito
 [Contact List]
 Lista dei contatti
 [Brief Info Title]
@@ -128,12 +98,6 @@ Testo extra
 Log esterno
 [More Variables]
 Variabili aggiuntive
-[Reset]
-Reimposta
-[Reset]
-Reimposta
-[Reset]
-Resetta
 [Reset]
 Reimposta
 [Sunset]
@@ -173,8 +137,6 @@ Condizioni meteo per %n alle %u
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Condizioni meteo attuali a %s.
-[Current weather information for %s.]
-Condizioni meteo attuali a %s.
 [%s is now the default weather station]
 %s è ora la stazione meteo predefinita
 [Weather Protocol]
@@ -198,12 +160,6 @@ Informazioni su INI meteorologici
 Visualizza pagina web
 [Text Files]
 File di testo
-[Text Files]
-Files di Testo
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [All Files]
 Tutti i file
 ;file \plugins\Weather\src\weather_conv.cpp
@@ -223,10 +179,6 @@ Connessioni HTTP per il meteo
 ;file \plugins\Weather\src\weather_info.cpp
 [Name:]
 Nome:
-[Name:]
-Nome:
-[Name:]
-Nome:
 [Internal Name:]
 Nome interno:
 [INI Version:]
@@ -239,10 +191,6 @@ Numero voci:
 Memoria utilizzata:
 [bytes]
 byte
-[bytes]
-byte
-[Description:]
-Descrizione:
 [Description:]
 Descrizione:
 [Here is a list of custom variables that are currently available]
@@ -258,16 +206,10 @@ Tutti i file dati aggiornati sono stati ricaricati.
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Rete
-[Network]
-Rete
-[Network]
-Rete
 [General]
 Generale
 [Popups]
 Popup
-[Popups]
-Popups
 [Weather Protocol Text Preview]
 Anteprima del testo del protocollo meteo
 ;file \plugins\Weather\src\weather_popup.cpp
@@ -304,8 +246,6 @@ Impossibile recuperare informazioni meteo per %s
 ;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 Condizione attuali a %n
-[Information]
-Informazione
 [Information]
 Informazione
 [More Info]

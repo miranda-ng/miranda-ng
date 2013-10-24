@@ -350,10 +350,6 @@
 אוכל ארוחת צהריים
 [On the phone]
 מדבר בטלפון
-[On the phone]
-מדבר בטלפון
-[On the phone]
-מדברת בטלפון
 [Name]
 שם
 [Status]

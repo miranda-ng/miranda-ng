@@ -86,7 +86,6 @@
 [No selection]
 [Selection Mode]
 [Bring to front if covered]
-[Hide contact list after]
 [Behavior]
 [Lock manual resize]
 [Drag to]

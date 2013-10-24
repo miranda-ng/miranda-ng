@@ -250,8 +250,6 @@ Połączenie %s
 Rozłączony
 [POP3 protocol (internal)]
 Protokół POP3 (wewnętrzny)
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołaczona obsługa POP3
 [Found new version of account book, not compatible with this version of YAMN.]
 Znaleziono nową wersję książki kont, niekompatybilną z tą wersją YAMN.
 [YAMN (internal POP3) read error]

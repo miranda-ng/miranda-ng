@@ -10,34 +10,18 @@
 Avvertimi quando un contatto si mette in uno di questi stati:
 [Online]
 Online
-[Online]
-Online
-[Offline]
-Offline
 [Offline]
 Offline
 [Invisible]
 Invisibile
-[Invisible]
-Invisibile
-[Free for chat]
-Disponibile per chat
 [Free for chat]
 Disponibile per chat
 [Away]
 Altrove
-[Away]
-Altrove
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[DND]
-Non disturbare
 [DND]
 Non disturbare
 [Out to lunch]
@@ -56,83 +40,27 @@ Icona lampeggiante nella SysTray
 Utilizza icona di stato
 [Delete]
 Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
-[Delete]
-Elimina
 [Status Notify]
 Notifica stato
 [Sounds]
 Suoni
-[Sounds]
-Suoni
-[Sounds]
-Suoni
 [Popups]
 Popup
-[Popups]
-Popups
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
-[Text]
-Testo
 [Text]
 Testo
 [Use Windows colors]
 Utilizza colori di Windows
 [Reset]
 Reimposta
-[Reset]
-Reimposta
-[Reset]
-Resetta
-[Reset]
-Reimposta
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [General]
 Generale
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 [Status]
 Stato
 [Sound for the status]
@@ -145,8 +73,6 @@ Suono associato allo stato
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 Contatto
-[Contact]
-Contatti
 [(M) is back online!]
 è tornato online!
 [(F) is back online!]
@@ -224,16 +150,8 @@ Contatto: Al telefono
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Tutti i file
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
 [Log]
 Registro (Log file)
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 ;file \plugins\NewXstatusNotify\src\popup.h

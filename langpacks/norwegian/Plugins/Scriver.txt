@@ -120,8 +120,6 @@ Annet
 Legg til nye rom til gruppen
 [pixels]
 pixler
-[pixels]
-piksler
 [Log Options]
 Loggvalg
 [Your name]
@@ -172,16 +170,12 @@ K&larer Logg
 &Kopier link
 [Message]
 Melding
-[Message]
-Melding
 [Undo]
 Omgjør
 [Redo]
 Gjør om
 [Cut]
 Klipp ut
-[Copy]
-Kopier
 [Copy]
 Kopier
 [Paste]
@@ -534,8 +528,6 @@ Vis ikon i oppgavelinje for statusforandringer
 Ikoner å vise i oppgavelinjen
 [Select Folder]
 Velg Mapper
-[Popups]
-Popups
 [Popups]
 Popups
 [Group chats]

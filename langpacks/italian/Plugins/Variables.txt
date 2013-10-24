@@ -8,37 +8,11 @@
 ;file \plugins\Variables\res\Variables.rc
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[OK]
-OK
 [OK]
 OK
 [Notes]
 Note
 ;file \plugins\Variables\src\help.cpp
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Help]

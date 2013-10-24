@@ -10,26 +10,12 @@
 Email:
 [Password:]
 Password:
-[Password:]
-Password:
 [Port:]
 Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Port:]
-Porta:
-[Default]
-Predefinito
 [Default]
 Predefinito
 [Background color]
 Colore di sfondo
-[Font]
-Carattere
 [Font]
 Carattere
 [Summary]
@@ -55,27 +41,9 @@ Città:
 [Full e-mail:]
 Email completa:
 [Closing in %d]
-Chiusura in %d sec
-[Closing in %d]
-Chiusura in %d
-[Closing in %d]
 Chiusura in %d
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 ;file \protocols\MRA\src\MraAvatars.cpp
@@ -88,33 +56,17 @@ Richiesta di autorizzazione
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
-[None]
-Nessuno
 [Information]
 Informazione
-[Information]
-Informazione
-[Error]
-Errore
 [Error]
 Errore
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 Indirizzo email
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 [Files]

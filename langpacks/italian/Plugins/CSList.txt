@@ -8,39 +8,13 @@
 ;file \plugins\CSList\res\cslist.rc
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Message]
-Messaggio
-[Message]
-Messaggio
 [Message]
 Messaggio
 ;file \plugins\CSList\src\cslist.h
 [Clear]
 Terso
-[Set]
-Imposta
 [Set]
 Imposta

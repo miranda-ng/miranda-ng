@@ -10,10 +10,6 @@
 &Rispondi
 [&Close]
 &Chiudi
-[&Close]
-&Chiudi
-[&Close]
-&Chiudi
 [From:]
 Da:
 [Send SMS]
@@ -28,8 +24,6 @@ Salva numero
 Multiplo >>
 [Chars:]
 Carat.:
-[&Send]
-&Invia
 [&Send]
 &Invia
 [&Cancel]
@@ -48,8 +42,6 @@ Metti la firma:
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
-[View User's History]
-Visualizza storico utente
 [View User's History]
 Visualizza storico utente
 [Invalid Phone Number]

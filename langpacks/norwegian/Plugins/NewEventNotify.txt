@@ -8,8 +8,6 @@
 ;file \plugins\NewEventNotify\res\resource.rc
 [Message]
 Melding
-[Message]
-Melding
 [URL]
 URL
 [File]
@@ -23,8 +21,6 @@ Vis Dato
 [Edit]
 Rediger
 ;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Popups
 [Popups]
 Popups
 ;file \plugins\NewEventNotify\src\neweventnotify.h

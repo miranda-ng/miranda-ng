@@ -10,60 +10,16 @@
 Generale
 [Close]
 Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Profile]
 Profilo
-[Profile]
-Profilo
-[Profile]
-Profilo
-[Message]
-Messaggio
-[Message]
-Messaggio
 [Message]
 Messaggio
 [Set]
 Imposta
-[Set]
-Imposta
 [OK]
 OK
-[OK]
-OK
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 [Background color]
@@ -74,32 +30,12 @@ Colore del testo
 Utilizza colori di Windows
 [Events]
 Eventi
-[Events]
-Eventi
-[Events]
-Eventi
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
 [Use %time% for the current time, %date% for the current date]
 Utilizza %time% per l'ora e %date% per la data corrente
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Delete]
-Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
 [Delete]
 Elimina
 [seconds]
@@ -108,16 +44,10 @@ secondi
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protocollo
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Advanced]
 Avanzate
 [Popups]
 Popup
-[Popups]
-Popups
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Sono via dalle %time%
@@ -140,9 +70,5 @@ Telefono.
 [Mmm...food.]
 Mmm... cibo...
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
-[Closing in %d]
-Chiusura in %d sec
-[Closing in %d]
-Chiusura in %d
 [Closing in %d]
 Chiusura in %d

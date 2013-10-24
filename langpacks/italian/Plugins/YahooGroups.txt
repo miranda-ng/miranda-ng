@@ -9,10 +9,4 @@
 ;file \plugins\YahooGroups\src\hooked_events.cpp
 [Plugins]
 Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
-[Plugins]
-Plugin
 ;file \plugins\YahooGroups\src\utils.cpp

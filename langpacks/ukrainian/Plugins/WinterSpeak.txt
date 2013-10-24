@@ -109,22 +109,6 @@ Cтупінь
 Ігнорувати події, якщо діалогове вікно повідомлень у фокусі
 
 ; Налаштування активного режиму
-[Active Modes]
-Активні режими
-[Online]
-В мережі
-[Away]
-Відсутній
-[Do not Disturb]
-Не турбувати
-[Not Available]
-Недоступний
-[Occupied]
-Зайнятий
-[Free for Chat]
-Готовий базікати
-[Invisible]
-Невидимий
 [Active Users]
 Активні користувачі
 [The following events are being ignored:]

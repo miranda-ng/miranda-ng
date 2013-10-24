@@ -20,8 +20,6 @@ No
 Nascondi solo dalla lista, così da mantenere storico e impostazioni sulla visibilità
 [Hotkeys]
 Scorciatoie
-[Hotkeys]
-Scorciatoie
 [Show/Hide:]
 Mostra/Nascondi:
 [URL:]
@@ -52,10 +50,6 @@ Mostra sempre lo stato in tooltip
 Disattiva lamp. icona
 [Show]
 Mostra
-[Show]
-Mostra
-[Show]
-Mostra
 [icon when statuses differ]
 come icona se stati diversi
 [Cycle icons every]
@@ -76,10 +70,6 @@ Icona nella tray utilizzando protocolli multipli
 Ordinamento lista contatti
 [Window]
 Finestra
-[Window]
-Finestra
-[Always on top]
-Sempre in primo piano
 [Always on top]
 Sempre in primo piano
 [Tool style main window]
@@ -197,34 +187,18 @@ Nascondi utenti &offline qui dentro
 Non in primo piano
 [Offline]
 Offline
-[Offline]
-Offline
-[Online]
-Online
 [Online]
 Online
 [Away]
 Altrove
-[Away]
-Altrove
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[DND]
-Non disturbare
 [DND]
 Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [Out to lunch]

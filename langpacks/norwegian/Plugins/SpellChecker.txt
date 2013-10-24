@@ -10,8 +10,6 @@
 Rediger...
 [Remove]
 Fjern
-[Remove]
-Fjern
 [OK]
 OK
 [Cancel]

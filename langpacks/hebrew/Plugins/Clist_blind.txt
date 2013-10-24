@@ -217,10 +217,6 @@
 אוכל ארוחת צהריים
 [On the phone]
 מדבר בטלפון
-[On the phone]
-מדבר בטלפון
-[On the phone]
-מדברת בטלפון
 [List]
 רשימה
 ;file \plugins\Clist_blind\src\clistopts.cpp

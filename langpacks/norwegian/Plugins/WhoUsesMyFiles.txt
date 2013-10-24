@@ -16,5 +16,3 @@ Fil
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Popups]
 Popups
-[Popups]
-Popups

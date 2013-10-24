@@ -8,36 +8,10 @@
 ;file \plugins\Quotes\res\Forex.rc
 [OK]
 OK
-[OK]
-OK
 [Log]
 Registro (Log file)
 [Cancel]
 Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
-[Close]
-Chiudi
 [Close]
 Chiudi
 [Background color]
@@ -46,20 +20,12 @@ Colore di sfondo
 Colore del testo
 [Custom]
 Personalizzato
-[Custom]
-Ad hoc
-[&Add]
-&Aggiungi
 [&Add]
 &Aggiungi
 ;file \plugins\Quotes\src\Chart.h
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 ;file \plugins\Quotes\src\Forex.cpp
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 ;file \plugins\Quotes\src\HTTPSession.cpp

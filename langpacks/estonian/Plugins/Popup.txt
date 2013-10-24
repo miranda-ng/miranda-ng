@@ -12,8 +12,6 @@ Efektid
 Ajalugu
 [pixels]
 pikselit
-[pixels]
-pikselit
 [Close]
 Sulge
 [General]

@@ -747,8 +747,6 @@ Miranda NG 正准备重启. \n请稍候...
 缩排群组: 
 [pixels]
 像素
-[pixels]
-像素
 [Visual]
 视觉
 [Scroll list smoothly]

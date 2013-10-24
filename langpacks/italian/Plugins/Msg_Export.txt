@@ -12,12 +12,6 @@ Aiuto
 &Trova
 [&Close]
 &Chiudi
-[&Close]
-&Chiudi
-[&Close]
-&Chiudi
-[User &Details]
-&Dettagli utente
 [User &Details]
 &Dettagli utente
 [Copy]

@@ -220,8 +220,6 @@ x100 ミリ秒
 非表示方法
 [pixels]
 ピクセル
-[pixels]
-ピクセル
 [keep on screen]
 スクリーン上に維持
 [Snap to edges]

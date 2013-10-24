@@ -58,10 +58,6 @@
 בלתי נראה
 [On the phone]
 מדבר בטלפון
-[On the phone]
-מדבר בטלפון
-[On the phone]
-מדברת בטלפון
 [Out to lunch]
 אוכל ארוחת צהריים
 [TopToolBar button "Check mail"]

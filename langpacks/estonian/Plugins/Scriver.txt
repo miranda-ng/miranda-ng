@@ -56,8 +56,6 @@ Valikud
 Muu
 [pixels]
 pikselit
-[pixels]
-pikselit
 [Log Options]
 Logimise valikud
 [Your name]

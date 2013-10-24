@@ -22,8 +22,6 @@ Vasak:
 Parem:
 [pixels]
 pikselit
-[pixels]
-pikselit
 [seconds]
 sekundit
 [Status Message:]

@@ -168,8 +168,6 @@
 用户列表行高
 [pixels]
 像素
-[pixels]
-像素
 [Log Options]
 记录选项
 [Your name]

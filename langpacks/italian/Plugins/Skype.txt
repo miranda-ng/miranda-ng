@@ -12,34 +12,16 @@
 &Crea
 [Password:]
 Password:
-[Password:]
-Password:
 [&OK]
 &OK
 [Enter password]
 Inserisci la password
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Date of birth:]
 Data nascita:
-[Date of birth:]
-Data di nascita:
 [Gender:]
 Sesso:
 [Homepage:]
@@ -59,16 +41,8 @@ Fuso orario:
 ;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
 ;file \protocols\Skype\src\skype_bookmarks.cpp
 ;file \protocols\Skype\src\skype_chat.cpp
-[&Add]
-&Aggiungi
 [&Add]
 &Aggiungi
 ;file \protocols\Skype\src\skype_contacts.cpp
@@ -77,17 +51,9 @@ Nome
 <non specificato>
 [Male]
 Maschio
-[Male]
-Maschio
-[Female]
-Femmina
 [Female]
 Femmina
 ;file \protocols\Skype\src\skype_events.cpp
-[Network]
-Rete
-[Network]
-Rete
 [Network]
 Rete
 [Contacts]
@@ -97,14 +63,6 @@ Generale
 ;file \protocols\Skype\src\skype_icons.cpp
 [Contact]
 Contatto
-[Contact]
-Contatti
-[Delete]
-Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
 [Delete]
 Elimina
 ;file \protocols\Skype\src\skype_ignore_list.cpp

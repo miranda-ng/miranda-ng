@@ -16,8 +16,6 @@ Nullstill
 Legg til
 [Remove]
 Fjern
-[Remove]
-Fjern
 [Idle]
 Inaktivitet
 [&Join]
@@ -28,8 +26,6 @@ Inaktivitet
 E-post
 [&Deny]
 &Avslå
-[Message]
-Melding
 [Message]
 Melding
 ;file \protocols\AimOscar\src\chat.cpp

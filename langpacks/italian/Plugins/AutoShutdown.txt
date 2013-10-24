@@ -12,45 +12,17 @@ secondi
 Configura
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 ;file \plugins\AutoShutdown\src\main.cpp
 ;file \plugins\AutoShutdown\src\options.cpp
-[Events]
-Eventi
-[Events]
-Eventi
 [Events]
 Eventi
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Unknown]
 Sconosciuta
-[Unknown]
-Sconosciuto
 ;file \plugins\AutoShutdown\src\utils.cpp

@@ -12,8 +12,6 @@ Smilefjes kategorier
 Angi Smilefjes pakke for hver kategori
 [Name:]
 Navn:
-[Name:]
-Navn:
 [Scale smiley to textheight]
 Endre smilefjes til teksthøyde
 [Disable custom smileys]

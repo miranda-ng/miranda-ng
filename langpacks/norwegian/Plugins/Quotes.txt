@@ -22,8 +22,6 @@ Bakgrunnsfarge
 Tekstfarge
 [Custom]
 Selvvalgt
-[Custom]
-Selvvalgt
 [&Add]
 &Legg til
 ;file \plugins\Quotes\src\Chart.h

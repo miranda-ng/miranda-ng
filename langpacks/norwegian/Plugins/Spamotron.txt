@@ -19,7 +19,5 @@ Meldingsøkter
 Meldinger
 [Popups]
 Popups
-[Popups]
-Popups
 ;file \plugins\Spamotron\src\spamotron.cpp
 ;file \plugins\Spamotron\src\utils.cpp

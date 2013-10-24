@@ -100,8 +100,6 @@ Sorok
 Sormagasság:
 [pixels]
 képpont
-[pixels]
-pixel
 [Gamma correction]
 Gamma javítás
 [Window]

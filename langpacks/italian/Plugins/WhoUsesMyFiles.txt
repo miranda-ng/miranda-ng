@@ -8,13 +8,9 @@
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 OK
-[OK]
-OK
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [File]
 File
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
-[Popups]
-Popup
 [Popups]
 Popups

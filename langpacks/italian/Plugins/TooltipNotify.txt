@@ -8,50 +8,24 @@
 ;file \plugins\TooltipNotify\res\main.rc
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Online]
 Online
-[Online]
-Online
-[Offline]
-Offline
 [Offline]
 Offline
 [sec]
 sec
-[sec]
-Sec
 [Contacts]
 Contatti
-[Idle]
-Inattivo
 [Idle]
 Inattivo
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Popups]
 Popup
-[Popups]
-Popups
 [** New contacts **]
 ** Nuovi contatti **
 [** Unknown contacts **]
 ** Contatti sconosciuti **
-[Unknown]
-Sconosciuta
 [Unknown]
 Sconosciuto

@@ -12,8 +12,6 @@ OK
 Avbryt
 [Remove]
 Fjern
-[Remove]
-Fjern
 [Install Database Settings]
 Installere Database Innstillinger
 [Yes]

@@ -18,30 +18,16 @@ secondi
 Notifica solo quando sono
 [Online]
 Online
-[Online]
-Online
-[Away]
-Altrove
 [Away]
 Altrove
 [Occupied]
 Occupato
-[Occupied]
-Occupato
-[NA]
-Non disponibile
 [NA]
 Non disponibile
 [DND]
 Non disturbare
-[DND]
-Non disturbare
 [Free for chat]
 Disponibile per chat
-[Free for chat]
-Disponibile per chat
-[Invisible]
-Invisibile
 [Invisible]
 Invisibile
 [On the phone]
@@ -52,38 +38,14 @@ Fuori a pranzo
 minuti
 [Offline]
 Offline
-[Offline]
-Offline
 [Slow]
 Lento
 [&Preview]
 An&teprima
-[&Preview]
-Anteprima
-[Delete]
-Elimina
-[Delete]
-Elimina
-[Delete]
-Cancella
 [Delete]
 Elimina
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [The following events are being ignored:]
@@ -96,8 +58,6 @@ Ignora URL
 Ignora file
 [Ignore]
 Ignora
-[Ignore]
-Ignora
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Tutti i contatti **
@@ -106,27 +66,9 @@ Ignora
 ;file \plugins\KeyboardNotify\src\options.cpp
 [Events]
 Eventi
-[Events]
-Eventi
-[Events]
-Eventi
-[Protocol]
-Protocollo
-[Protocol]
-Protocollo
 [Protocol]
 Protocollo
 [All Files]
 Tutti i file
-[All Files]
-Tutti i file
-[All Files]
-Tutti i file
-[None]
-Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
 [None]
 Nessuno

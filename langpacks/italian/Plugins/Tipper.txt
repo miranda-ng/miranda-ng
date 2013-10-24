@@ -8,30 +8,12 @@
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Opzioni
-[Options]
-Opzioni
-[Window]
-Finestra
 [Window]
 Finestra
 [Module:]
 Modulo:
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Items]
@@ -44,34 +26,12 @@ Effetti
 ;file \plugins\TipperYM\src\options.cpp
 [None]
 Nessuno
-[None]
-Nessuna
-[None]
-Nessuno
-[None]
-Nessuno
 [Content]
 Contenuto
 ;file \plugins\TipperYM\src\options.h
 [Status]
 Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
-[Status]
-Stato
 ;file \plugins\TipperYM\src\popwin.cpp
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Altro
-[Other]
-Varie
 [Other]
 Altro
 ;file \plugins\TipperYM\src\preset_items.cpp
@@ -81,22 +41,10 @@ Sesso:
 Pagina web:
 [Idle]
 Inattivo
-[Idle]
-Inattivo
 [Idle:]
 Inattivo:
 [Name]
 Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name]
-Nome
-[Name:]
-Nome:
-[Name:]
-Nome:
 [Name:]
 Nome:
 [Time:]
@@ -105,23 +53,11 @@ Tempo:
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Altro
-[Background]
-Sfondo
-[Background]
-Sfondo
-[Background]
-Altro
-[Background]
-Sfondo
 [Dividers]
 Divisori
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Femmina
-[Female]
-Femmina
-[Male]
-Maschio
 [Male]
 Maschio
 ;file \plugins\TipperYM\src\translations.h

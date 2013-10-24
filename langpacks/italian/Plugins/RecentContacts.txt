@@ -12,6 +12,4 @@ Contatti
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Contact]
 Contatto
-[Contact]
-Contatti
 ;file \plugins\RecentContacts\src\RecentContacts.h
