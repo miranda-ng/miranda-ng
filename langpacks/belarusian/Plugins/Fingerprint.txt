@@ -93,14 +93,20 @@ Miranda (невядома)
 спам кліент
 [PHP Jabber Client]
 PHP Jabber кліент
+[MP3 Script for mIRC]
+MP3 скрыпт для mIRC
 [Mail.Ru Agent (official)]
 Mail.Ru Агент (афіцыйны)
 [Mail.Ru (unknown client)]
 Mail.Ru (невядомы)
+[TM 2008 and >]
+TM 2008 і вышэй
 [Gadu-Gadu client]
 Gadu-Gadu
 [Tlen.pl client]
 Tlen.pl
+[Python-based clients]
+Кліенты на Python
 [Jabber client]
 Jabber
 [XMPP client]

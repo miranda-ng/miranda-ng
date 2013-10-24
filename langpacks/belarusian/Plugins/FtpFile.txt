@@ -108,6 +108,8 @@ FTP-конты
 Аўтаматычна выдаліць файл праз...
 [Disabled]
 Выключаны
+[Delete from List]
+Вызаліць з спісу
 [Copy Link]
 Капіяваць спасылку
 ;file \plugins\FTPFileYM\src\dialog.cpp
@@ -142,10 +144,16 @@ FTP сервер 5
 Сервер FTP %d
 [Upload file(s)]
 Загрузіць файл(ы)
+[Zip and upload file(s)]
+Запакаваць і адправіць файл(ы)
+[Zip and upload folder]
+Запакаваць і адправіць тэчку
 [FTP File manager]
 FTP файл мэнэджар
 [Show FTPFile manager]
 Паказаць FTP файл мэнэджар
+[Upload file]
+Адправіць файл
 [Zip and upload file]
 Запакаваць і загрузіць файл
 [File upload complete]

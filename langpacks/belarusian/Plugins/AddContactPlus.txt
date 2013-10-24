@@ -28,8 +28,8 @@ ID Кантакта:
 Адправіць "Вас дадалі"
 [Send authorization request]
 Адправіць запыт на аўтарызацыю
-[Authorization Request]
-Запыт на аўтарызацыю
+[Authorization request]
+Запыт аўтарызацыі
 [&Add]
 &Дадаць
 [&Cancel]

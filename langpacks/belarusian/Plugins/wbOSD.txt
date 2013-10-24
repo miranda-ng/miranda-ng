@@ -8,52 +8,50 @@
 [Shows new message/status change info using on-screen display.]
 Адлюстроўвае новыя паведамленні/змены статусу, выкарыстоўваючы OSD.
 ;file \plugins\wbOSD\res\wbOSD.rc
+[General]
+Агульнае
+[Align]
+Выраўноўванне
 [Select font]
 Шрыфт
-[Text color]
-Колер тэксту
-[Background color]
-Колер фону
-[Transparent]
-Празрыста
+[Shadow]
+Цень
+[Show drop shadow]
+Маляваць цень
+[Shadow align]
+Становішча
 [Shadow color]
 Колер ценю
 [Alternative shadow]
 Альтэрнатыўны цень
-[Shadow align]
-Становішча
-[General]
-Агульнае
-[Shadow]
-Цень
-[Show drop shadow]
-
-[Align]
-Выраўноўванне
 [Shadow distance:]
 Зрух ценю:
 [Other]
 Іншае
+[Background color]
+Колер фону
+[Transparent]
+Празрыста
 [Alpha:]
 Альфа:
-[Announce]
-Аб'яўленьне
 [Timeout (ms):]
 Працягласць (мс):
-[Show events]
-Паказваць падзеі
-[Status changes]
-Змены статусу
 [Show testing OSD]
 Прадпрагляд
+[Announce]
+Аб'яўленьне
+[Status changes]
+Змены статусу
 [Show my status changes]
 Паказваць змены майго статусу
-[Show message window after click]
-Націск адкрывае акно паведамлення
-[Static]
-Статычны
+[Text color]
+Колер тэксту
+[Show events]
+Паказваць падзеі
 [Format:]
 Фармат:
+[Show message window after click]
+Націск адкрывае акно паведамлення
 [Show when my status is:]
 Паказваць OSD, калі мой статус:
 ;file \plugins\wbOSD\src\events.cpp
@@ -61,11 +59,9 @@
 %s гэта %s
 ;file \plugins\wbOSD\src\options.cpp
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
-
+Зменныя:\n  %n : Імя\n  %m : Паведамленне\n  %l : Новы радок
 [Help]
-
-[Miranda NG is great and this is a long message.]
-
+Дапамога
 [Plugins]
 Плагіны
 [OSD]

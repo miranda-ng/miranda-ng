@@ -12,6 +12,10 @@
 Карыстацкі спіс статусаў
 [No items available in the database.\nClick the Add button to define some.]
 Няма запісаў у базе дадзеных.\n Націсніце на кнопку "Дадаць новы пункт" для запаўнення спісу.
+[Add/Modify Custom Status]
+Дадаць/Змяніць хстатус
+[Add/Modify]
+Дадаць/Змяніць 
 [Cancel]
 Скасаваць
 [List settings]
@@ -37,6 +41,8 @@
 Змяніць
 [Warning]
 Папярэджанне
+[This field doesn't accept string longer than %d characters. The string will be truncated.]
+Гэта поле не прымае радок даўжэй, чым% D знакаў. Радок будзе ссечаны.
 [Favorites]
 Абраныя
 [Regular statuses]

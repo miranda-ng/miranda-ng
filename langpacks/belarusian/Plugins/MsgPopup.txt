@@ -1,0 +1,31 @@
+﻿#muuid CF25D645-4DAB-4B0A-B9F1-DE1E86231F9B}
+;============================================================
+;  File: MsgPopup.dll, messagepopup.dll
+;  Module: Message Popup. Replace a mesaage boxes to Popups
+;  Versions: 0.0.0.1
+;  URL: http://miranda-im.org/download/feed.php?dlfile=1228
+;============================================================
+[ASTERISK style]
+Зорачка
+[Foreground]
+Тэкст
+[ERROR style]
+Памылка
+[QUESTION style]
+Пытанне
+[EXCLAMATION style]
+Усклік
+[Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
+Адмысловыя значэнні "таймаўту":\n -1 - увесь час, 0 - значэнне па змаўчанні
+[Emit a sound]
+Граць гук
+[MessagePopup - demo]
+MessagePopup - Дэма
+[This stuff will replace MessageBox'es [whose have only OK button] into Popups]
+Замяняе дыялогавыя вокны з папярэджаннямі на ўсплывальныя вокны. Працуе сумесна з Popup. Пераклад: Wattman.
+[Message with error]
+Папярэджанне пра памылку
+[Message with exclamation]
+Усклік
+[Message with asterisk]
+Паведамленне *з зорачкай*

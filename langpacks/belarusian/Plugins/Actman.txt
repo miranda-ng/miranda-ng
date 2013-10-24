@@ -9,8 +9,6 @@
 ;============================================================
 [Contact window]
 Вакно кантакту
-[Text insert]
-Устаўка тэксту
 [vars]
 змен.
 [DWord]
@@ -27,8 +25,6 @@
 wParam
 [lParam]
 lParam
-[Structure]
-Структура
 [Result action]
 Вынік дзеяння
 [Window option]
@@ -69,6 +65,8 @@ lParam
 апошні вынік
 [structure]
 структура
+[Structure]
+Структура
 [Link to action]
 Спасылка на дзеянне
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
@@ -167,6 +165,8 @@ lParam
 Толькі дзейсныя конты
 [Dropdown list format]
 Выгляд выпадальнага спісу
+[Apply]
+Ужыць
 [Apply format]
 Ужыць фармат
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
@@ -286,18 +286,20 @@ lParam
 бягучы кантакт
 [Choose Contact]
 Абраць кантакт
+[Miranda service help]
+Дапамога па сэрвісам
 [Return]
 Якое вяртаецца
 [Effect]
 Эффект
 [Start]
 Пачаць
-[action group list was changed: some was added or deleted]
-спіс дзеянняў быў зменены: былі выдалены ці дабаўнены
-[the context menu for a contact is about to be built]
-будзе зроблены ў кантэкстным меню кантакта
-[double click on the CList]
-падвойная пстрычка па спісе
+[Action group list was changed: some was added or deleted]
+Спіс гуртоў дзеянняў змяніўся: некаторыя былі дададзены ці прыбраныя
+[The context menu for a contact is about to be built]
+Пабудова кантэкстнага меню для кантакту
+[Double click on the CList]
+Падвойная пстрычка па спісу кантактаў
 [New contact added to database]
 Новы кантакт дададзены ў базу
 [Contact deleting]

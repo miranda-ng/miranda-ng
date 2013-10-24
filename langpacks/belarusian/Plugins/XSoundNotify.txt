@@ -24,20 +24,26 @@
 Скід
 [Ignore sound for this contact]
 Ігнараваць гук для гэтага кантакту
+[XSoundNotify]
+XSoundNotify
 [OK]
 ОК
 [Cancel]
 Скасаваць
-;file \plugins\XSoundNotify\src\xsn_main.cpp
+;file \plugins\XSoundNotify\src\dialog.cpp
+[Custom sound for %s (%s)]
+Карыстацкі гук для %s (%s)
 [Sound files]
 Гукавыя файлы
 [WAV files]
 Файлы WAV
+;file \plugins\XSoundNotify\src\options.cpp
 [Sounds]
 Гукі
 [XSound Notify]
 Карыстацкія гукі
-[Custom sound for %s (%s)]
-Карыстацкі гук для %s (%s)
+;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Self status]
+Свой статус
 [Custom contact sound]
 Карыстацкі гук кантакту

@@ -95,6 +95,8 @@
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<ID кантакту>\\<час> (аднолькавыя аватары могуць быць захаваны некалькі разоў)
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
+[Avatar History for %s]
+Гісторыя аватараў %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Вы ўпэўнены, што жадаеце выдаліць гэты запіс з гісторыі?\n Будзе выдалена толькі сам запіс, файл малюнка застанецца!
 [Delete avatar log?]
@@ -107,8 +109,16 @@
 Выдаліць аватар?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Вы ўпэўнены, што жадаеце выдаліць гэты захаваны аватар?\n Будуць выдалены цэтлік і файл малюнка.\n УВАГА: Гэта можа закрануць некалькі цэтлікаў!
+[Avatar History is empty!]
+Гісторыя аватараў пустая!
+[avatar path is null.]
+шлях да аватара пусты.
 [View Avatar History]
 Паказаць гісторыю аватараў
+[Save Avatar for %s]
+Захаваць аватар %s
+[Save Avatar]
+Захаваць аватар
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [Avatars]
 Аватары

@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.8
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
+[Db autobackuper plugin.]
+Плагін стварэння рэзервовых копій профілю.
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 Ход працэсу рэзервавання
@@ -87,5 +89,7 @@
 Хвілін
 [Select Backup Folder]
 Абярыце тэчку для рэзервовых копій
+[Error creating backup folder]
+Памылка пры стварэнні тэчкі для рэзервовага капіравання
 [Database AutoBackups]
 Аўтарэзервіраванне профіля

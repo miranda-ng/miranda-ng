@@ -57,6 +57,8 @@
 Атрыманне...
 [Sent successfully]
 Паслана паспяхова
+[Unknown command for "File As Message" was received]
+Невядомая каманда для "File As Message" была атрыманая
 [Incoming file request. Do you want to proceed?]
 Уваходны файл. Хочаце працягнуць?
 [Canceled by remote user]

@@ -63,3 +63,5 @@
 !НЕ ПЕРАСЫЛАЦЬ!
 [Plugins]
 Плагіны
+[yaRelay]
+yaRelay

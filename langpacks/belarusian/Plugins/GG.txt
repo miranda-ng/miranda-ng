@@ -290,6 +290,10 @@ HTTP невядомая памылка
 Захаваць
 [Delete image]
 Выдаліць малюнак
+[Clear ignored conferences]
+Выдаліць ігнаруемыя канферэнцыі
+[Concurrent sessions]
+Паралельныя сесіі
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 Малюнак

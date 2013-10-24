@@ -391,11 +391,19 @@ Dat (мКантакты)
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [History Log]
 Прагляд гісторыі
+[Filter:]
+Фільтр:
 [Conversation started at %s]
 Гутарка пачата ў %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+[_files]
+_файлы
 [Menu]
 Меню
+[Open all]
+Адчыніць усе
+[Close all]
+Зачыніць усе
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 Гісторыя

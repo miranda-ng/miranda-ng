@@ -85,6 +85,8 @@
 Апавяшчэнне пра змену кліента: Кліент змяніўся
 [ClientChangeNotify]
 Апавяшчэнне пра змену кліента
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Памылка #%d

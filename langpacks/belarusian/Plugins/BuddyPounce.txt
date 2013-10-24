@@ -32,6 +32,8 @@
 Налады тэксту.....
 [Settings]
 Налады
+[Contact To Send Pounce To]
+Кантакт для адпраўкі з затрымкай
 [<< Simple]
 << Менш
 [Advanced >>]
@@ -42,9 +44,31 @@
 Гутарка
 [Status]
 Статус
+[Use Advanced Dialog]
+Пашыраны дыялог
+[The Message (characters: )]
+Паведамленне (сімв.):
 [Default Settings]
 Змаўчанні
+[Show Delivery Messages]
+Паказаць адпраўл. паведамленні
+[These settings are also used when sending a "Simple" pounce]
+Гэтыя налады таксама вык. для "простых" пведамленняў з затрымкай
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+Адсылаць, калі мой статус...
+[Send If They Change Status to...]
+Адсылаць, калі яны змяняюць статус на...
+[Reuse Pounce]
+Ужыць затрыманае
+[Give Up delay]
+Затрымка скасавання
+[Confirmation Window]
+Вакно пацверджання
+[Send If My Status Is]
+Адправіць, калі мой статус
+[Any]
+Заўсёды
 [Online]
 Далучаны
 [Away]
@@ -63,14 +87,40 @@
 На тэлефоне
 [Out To Lunch]
 За абедам
+[Send If Their Status changes]
+Адправіць калі яны змяняюць статус
+[From Offline]
+Пры далучэнні
+[To Online]
+На "Далучаны"
+[The Message    (%d Characters)]
+Паведамленне (%d сімвалаў)
+[Couldn't allocate enough memory]
+Не атрымалася вылучыць дастаткова памяці
 [error......]
 памылка...
+[The Message    (0 Characters)]
+Паведамленне (0 сімвалаў)
+[Reuse this message? (0 to use it once)]
+Паўтарыць паведамленне? (0, каб выкарыстоўваць адзін раз)
 [Times]
 Час
+[Giveup after.. (0 to not giveup)]
+Здавацца пасля .. (пры 0 не здавацца)
 [Days]
 Дзён
+[Show confirmation window? (0 to not Show)]
+Паказаць акно пацверджання? (0, каб не паказваць)
+[Seconds to wait before sending]
+Чаканне ў секундах перад адпраўкай
+[Pounce being sent to %s in %d seconds]
+Pounce адпраўлены %s за %d секунд
 [Retry]
 Яшчэ раз
+[Message successfully sent to %s]
+Паведамленне %s паспяхова адпраўлена
+[Message failed to send to %s]
+Памылка адпраўкі паведамлення %s
 ;file \plugins\BuddyPounce\src\main.cpp
 [Message Sessions]
 Гутаркі

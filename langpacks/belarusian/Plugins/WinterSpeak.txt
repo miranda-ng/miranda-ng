@@ -1,0 +1,13 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+;file \plugins\WinterSpeak\res\Speak.rc
+;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
+;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
+;file \plugins\WinterSpeak\src\EventInformation.cpp
+;file \plugins\WinterSpeak\src\main.cpp
+;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp

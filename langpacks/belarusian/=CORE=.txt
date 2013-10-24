@@ -27,8 +27,8 @@
 Група:
 [Options]
 Налады
-[Authorization Request]
-Запыт на аўтарызацыю
+[Authorization request]
+Запыт аўтарызацыі
 [Delete Contact]
 Выдаліць кантакт
 [&Yes]
@@ -1230,8 +1230,6 @@ Miranda
 %u дадаў(ла) вас у свой спіс
 [Alerts]
 Апавяшчэнні
-[Authorization request]
-Запыт аўтарызацыі
 [Added event]
 Падзея дадання
 ;file \src\core\stdauth\authdialogs.cpp
@@ -1949,6 +1947,8 @@ Miranda
 %s набірае тэкст
 [Typing Notification]
 Апавяшчэнне пра набор тэксту
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае riched20.dll. націсніце "Да" для працягу загрузкі праграмы.
 [Instant messages]
 Паведамленні IM
 [Incoming (Focused Window)]
@@ -2090,6 +2090,8 @@ URL ад %s
 Імя карыстача
 [FirstName LastName]
 Імя Прозвішча
+[LastName FirstName]
+Прозвішча Імя
 ['(Unknown Contact)' (not movable)]
 '(Невядомы)' (заўсёды апошняе)
 ['(Unknown Contact)']
@@ -2188,14 +2190,16 @@ Miranda NG не можа адкрыць гэты профіль
 Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
 [Size]
 Памер
-[Created]
-Створаны
-[Modified]
-Зменены
 [Run]
 Запусціць
 [Check database]
 Праверыць базу
+[Created]
+Створаны
+[Modified]
+Зменены
+[Manage your Miranda NG profile]
+Кіраванне профілямі Miranda NG
 [My Profiles]
 Мае профілі
 [New Profile]
@@ -2302,6 +2306,8 @@ Miranda NG не можа адкрыць гэты профіль
 Абраць шлях ды файла лога
 [Select program to be run]
 Абраць праграму для запуску
+[Standard netlib log]
+Стандартны журнал netlib
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Усе далучэнні>
@@ -2539,6 +2545,8 @@ ANSI плагін
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Аватары
+[Avatars root folder]
+Каранёвая тэчка аватараў
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <не паказана>

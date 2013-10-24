@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.1.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -16,16 +16,24 @@
 Стварыць новы конт Facebook
 [What's on your mind?]
 Пра што вы думаеце?
-[Text:]
-Тэкст:
-[Place:]
-Месца:
+[Wall:]
+Сцяна:
 [Visibility:]
 Бачнасць:
+[Text:]
+Тэкст:
+[URL:]
+URL:
+[Place:]
+Месца:
 [Share]
 Падзяліцца
 [Cancel]
 Скасаваць
+[Contacts >>]
+Кантакты >>
+[Attach contacts:]
+Далучыць кантакты:
 [User Details]
 Пра карыстача
 [Default group:]
@@ -40,32 +48,20 @@
 Загружаць кантакты "з мабільнага"
 [Event notifications]
 Апавяшчэнні
-[Colors]
-Колеры
-[Back]
-Фон
-[Text]
-Тэкст
 [Notifications]
 Апавяшчэнні
-[Default]
-Змаўчанні
 [News feeds]
 Навіны
+[News Feed types to notify:]
+Апавяшчаць пра тыпы навін:
 [Other events]
 Іншыя падзеі
 [Client notifications]
 Апавяшчэнні кліента
-[Timeout (sec.)]
-Працягласць (сек.)
-[(0 = default, -1 = infinite)]
-(0 = змаўчанне, -1 = бясконца)
 [Preview]
 Тэст
 [Use balloon notifications in system tray instead of popups]
 Апавяшчаць падказкай у трэі замест усплывальных вокнаў
-[News Feed types to notify:]
-Апавяшчаць пра тыпы навін:
 [Advanced Settings]
 Пашыраныя параметры
 [Force secure (HTTPS) connection]
@@ -82,10 +78,19 @@
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
 [Use local time for received messages]
 Выкарыстоўваць мясцовы час для прынятых паведамленняў
-[Send "Seen" info when marking messages as read]
-"Заўважаны", калі пазначаць паведамленні як прачытаныя
 [Use this server for opening links:]
 Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
+[Allow posting statuses to my pages (may slow down login)]
+Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+&Запрасіць карыстальніка ...
+[&Leave chat session]
+&Пакінуць чат
+[User &details]
+Дадзеныя карыстача
+[User &history]
+Гісторыя карыстача
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Памылка далучэння: %s
@@ -93,18 +98,22 @@
 Невядомая памылка
 [Login error: Invalid request.]
 Памылка далучэння: Памылковы запрос.
-[Your account requires HTTPS connection. Activating.]
-Ваш конт патрабуе HTTPS злучэння. Актывацыя.
 [Login error: Some Facebook things are required.]
 Памылка далучэння: Неабходны некаторыя рэчы Facebook.
+[Login error: Captcha code is required. Bad login credentials?]
+Памылка: Патрабуецца ўвесці код абароны. Няслушныя дадзеныя конта?
 [Login error, probably bad login credentials.]
 Памылка далучэння, верагодна, няслушныя дадзеныя для ўваходу.
+[Your account requires HTTPS connection. Activating.]
+Ваш конт патрабуе HTTPS злучэння. Актывацыя.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Нешта здарылася з Facebook. Можа быць, было сур'ёзнае абнаўленне, таму чакайце абнаўлення плагіна.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
 Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\n  Адкрыйце сайт facebook і паспрабуйце адправіць паведамленне гэтаму кантакту зноў!
 [Timeout when sending message.]
 Затрымка пры адпраўцы паведамлення.
+[Status update was successful.]
+Паспяховае абнаўленне статуса.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Калі ласка, увядзіце імя карыстача.
@@ -129,14 +138,16 @@
 Мабільны сайт
 [Smartphone website]
 Для смартфонаў
-[For everyone]
-Усе
-[For friends of friends]
-Сябры сяброў
-[For friends]
-Сябры
-[Only for me]
-Толькі я
+[Public]
+Усім
+[Friends of friends]
+сябрам сяброў
+[Friends]
+Сябрам
+[Friends except acquaintances]
+ябрам, акрамя знаёмых
+[Only me]
+Толькі мне
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Кантакт быў выдалены з вашага спісу на серверы.
@@ -151,6 +162,10 @@
 [Error occurred when canceling friendship request.]
 Адбылася памылка пры скасаванні запыта сяброўства.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
+Змаўчанні
+[<< Contacts]
+<< Кантакты
 [What's on your mind, %s?]
 Што ў цябе ў галаве, %s?
 [Sample event]
@@ -162,33 +177,39 @@
 [Sample notification]
 Прыклад апавяшчэння
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+сцікер
+[files]
+файлы
+[a file]
+файл
+[photos]
+фатаграфіі
+[a photo]
+фатаграфію
+[User sent you %s:]
+Кантакт паслаў вам %s:
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 ;file \protocols\FacebookRM\src\process.cpp
 ;file \protocols\FacebookRM\src\proto.cpp
-[Show Mind Window]
-Статус Facebook
 [%s server connection]
 Далучэнне да сервера %s
 [Unable to get Netlib connection for Facebook]
 Не атрымалася Netlib злучэнне да Facebook
-[Notification]
-Апавяшчэнне
-[News Feed]
-Навіны
-[Other Event]
-Іншая падзея
 [Network]
 Сеціва
 [Account]
 Конт
-[Advanced]
-Дадаткова
-[Popups]
-Усплывальныя вокны
 [Events]
 Падзеі
+[Advanced]
+Дадаткова
+[Share status...]
+Статус...
+[Own wall]
+Свая сцяна
 [Loading newsfeeds...]
 Загрузка навін...
 [Checking friend requests...]
@@ -197,6 +218,14 @@
 Абнаўленне спісу сяброў...
 [Do you want to cancel your friendship with '%s'?]
 Хочаце адмяніць сяброўства з '%s'?
+[Show 'Share status' window]
+Паведамленне статуса Facebook 
+[Notification]
+Апавяшчэнне
+[News Feed]
+Навіны
+[Other Event]
+Іншая падзея
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Абразок Facebook
@@ -220,8 +249,6 @@
 Дадаць ў сябры
 [Approve friendship]
 Дадаць ў сябры
-[Mind...]
-Думаю...
 [Services...]
 Службы...
 [Refresh Buddy List]

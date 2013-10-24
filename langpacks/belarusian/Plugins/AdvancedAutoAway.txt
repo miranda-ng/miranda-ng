@@ -252,6 +252,8 @@ Dial-up (эксперыментальна)
 Не змяняць статус пры вяртанні
 [Pre-conditions]
 Перадумовы
+[TriggerData]
+Дадзеныя трыгера
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
