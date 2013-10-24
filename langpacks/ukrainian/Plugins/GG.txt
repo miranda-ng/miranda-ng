@@ -1,0 +1,357 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: Gadu-Gadu Protocol
+;  Version: 0.11.0.3
+;  Authors: Bartosz Bialek, Adam Strzelecki
+;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+Підтримка протоколу Gadu-Gadu в Miranda NG.
+[Gadu-Gadu User Details]
+Інформація про користувача Gadu-Gadu
+[Gadu-Gadu Number:]
+Номер Gadu-Gadu:
+[Password:]
+Пароль:
+[E-mail:]
+Пошта:
+[Create new account]
+Створити обліковий запис
+[Remove account]
+Видалити
+[Change password]
+Змінити пароль
+[Retrieve password]
+Відновити пароль
+[Options]
+Налаштування
+[Friends only]
+Лише друзі
+[Show offline users with status message as invisible in contact list]
+Відключені зі статусним повідомленням = невидимі
+[After disconnection leave away message of status:]
+Після завершення залишити статусне повідомлення:
+[Receive image and after image is received use:]
+Після отримання зображення:
+[Show links from unknown contacts]
+Показувати посилання від невідомих контактів
+[Enable avatars]
+Включити аватари
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Зміни вступлять в силу при наступному вході в мережу.
+[Conference policy]
+Політика конференцій
+[if total participant count greater than:]
+якщо загальна кількість учасників більше:
+[if unknown participant count greater than:]
+якщо число невідомих учасників більше:
+[in other case]
+в інших випадках
+[Advanced Configuration]
+Додаткова настройка
+[Keep connection alive]
+Підтримувати з'єднання
+[Show connection errors]
+Показувати помилки з'єднання
+[Automatically reconnect after unintentional disconnection]
+Перепідключитися після несподіваного розриву
+[Send messages slower, but with full acknowledgement]
+Відсилати повідомлення повільніше, але з підтвердженням
+[Manually specify connection servers' hosts]
+Вказати сервери вручну
+[* new line is separator\n** hostname:port format]
+* переклад рядка роздільник\n** хост:порт
+[Use SSL secure connection]
+Безпечне з'єднання (SSL)
+[File Transfer]
+Передача файлу
+[Direct Use connections]
+Використовувати пряме з'єднання
+[Port:]
+Порт:
+[Use forwarding]
+Використовувати перенаправлення
+[Host:]
+Хост:
+[Number:]
+Номер:
+[Internal IP:]
+Внутрішній IP:
+[First name:]
+Ім'я:
+[Last name:]
+Прізвище:
+[Family name:]
+Прізвище:
+[Nickname:]
+Нік:
+[Gender:]
+Стать:
+[City:]
+Місто:
+[Origin city:]
+Місце проживання:
+[Birth year:]
+Рік народження:
+[Description:]
+Опис:
+[&Save changes]
+&Зберегти зміни
+[Enter token to continue]
+Введіть маркер для продовження
+[OK]
+
+[Cancel]
+Скасувати
+[Create Gadu-Gadu account]
+Створити номер Gadu-Gadu
+[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
+Обліковий запис Gadu-Gadu\nСтворення нового облікового запису Gadu-Gadu
+[New password:]
+Новий пароль:
+[Confirm password:]
+Підтвердити пароль:
+[New e-mail:]
+Новий e-mail:
+[&Create]
+&Створити
+[Remove Gadu-Gadu account]
+Видалити номер Gadu-Gadu
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+Видалити номер Gadu-Gadu \nЦе видалить Ваш Gadu-Gadu обліковий запис
+[Yes, I want to remove my account]
+Так, видаліть мій обліковий запис
+[Remove]
+Видалити
+[Change Gadu-Gadu password]
+Змінити пароль Gadu-Gadu
+[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+Змінити пароль Gadu-Gadu\nЗміна поточного Gadu-Gadu паролю
+[Change Gadu-Gadu e-mail]
+Змінити e-mail Gadu-Gadu
+[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+Змінити e-mail Gadu-Gadu\nЗміна поточного e-mail Gadu-Gadu
+[Age from:]
+Вік:
+[to:]
+до:
+[Search online users only]
+Тільки підключених користувачів
+[&Close]
+&Закрити
+[&Send]
+&Надіслати
+[Open new conference]
+Почати конференцію
+[Open new conference\nSelect conference participants]
+Відкрити нову Конференцію\nОберіть учасників конференції
+[Open]
+Відкрити
+[Concurrent Sessions]
+Одночасні сесії
+[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+Одночасні сесії %s\nІнформація про активні одночасні сесії
+[Sign out all sessions]
+Вийти з усіх сесій
+[Can not create avatars cache directory. ERROR: %d: %s\n%s]
+Неможливо створити папку кешу аватарів. ПОМИЛКА: %d: %s\n%s
+[Can not create avatar file. ERROR: %d: %s\n%s]
+Неможливо створити файл аватару. ПОМИЛКА: %d: %s\n%s
+[Can not open avatar file. ERROR: %d: %s\n%s]
+Неможливо відкрити файл аватару. ПОМИЛКА: %d: %s\n%s
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Miranda не може розпізнати ім'я сервера Gadu-Gadu за IP-адресою.
+[Miranda was unable to make a connection with a server. It is likely that the server is down in which case you should wait for a while and try again later.]
+Miranda NG не в змозі встановити з'єднання з сервером. Цілком ймовірно, що сервер не працює, в такому випадку ви повинні почекати деякий час, і повторіть спробу пізніше.
+[Received invalid server response.]
+Отримано неправильний відповідь сервера.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check at login details M->Options->Network->Gadu-Gadu and try again.]
+Ваш логін або пароль не прийнятий сервером Gadu-Gadu. Будь ласка, перевірте їх правильність Меню->Налаштування->Мережа->Gadu-Gadu і спробуйте ще раз.
+[Connecting to Gadu-Gadu hub failed.]
+З'єднання з Gadu-Gadu розірвано.
+[Cannot establish secure connection.]
+Неможливо встановити SSL з'єднання.
+[Server disconnected asking you for changing your e-mail.]
+Сервер відключений прошу поміняти свій e-mail.
+[Too many login attempts with invalid password.]
+Занадто багато спроб входу з невірним паролем.
+[Gadu-Gadu servers are now down. Try again later.]
+Gadu-Gadu сервери, відключені. Спробуйте ще раз пізніше.
+[Unknown]
+Невідомо
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+Зовнішній хост для прямих підключень %s невірний. 
+[Avatars]
+Аватари
+[Images]
+Зображення
+[Gadu-Gadu Number]
+Номер Gadu-Gadu
+[Open &conference...]
+&Відкрити конференцію...
+[&Clear ignored conferences]
+&Очистити ігноровані конференції
+[%s has ініціював conference with %d participants (%d unknowns).\nDo do you want participate ?]
+%s почав(а) конференцію з %d учасниками (%d невідомо).\nПринять участь?
+[%s ініціював the conference.]
+%s почав(ла) конференцію.
+[This is my own conference.]
+Це моя конференція.
+[Participants]
+Учасники
+['Unknown']
+'Невідомо'
+[You have to be connected to open new conference.]
+Ви повинні бути підключені щоб починати конференції.
+[All ignored conferences are now unignored and the policy conference will act again.]
+Список ігнорованих конференцій очищений і застосовується загальна політика конференцій.
+[There are no ignored conferences.]
+Ігнорованих конференцій немає.
+[Protocol icon]
+Значок протоколу
+[Import list from server]
+Імпорт з сервера
+[Import list from text file]
+Імпорт з файлу
+[Remove list from server]
+Видалити з сервера
+[Export list to server]
+Експорт на сервер
+[Export list to text file]
+Експорт у файл
+[Account settings]
+Налаштування
+[Block user]
+Заблоковані користувачі
+[Previous image]
+Попередня картинка
+[Next image]
+Наступна картинка
+[Send image]
+Відправити
+[Save image]
+Зберегти
+[Delete image]
+Видалити картинку
+[Clear ignored conferences]
+Очистити ігноровані конференції
+[Concurrent sessions]
+Поточні сесії
+[&Image]
+Зображення
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+Файли зображень (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
+[Image cannot be written to disk.]
+Зображення не може бути записано на диск.
+[Delete image from the list]
+Видалити зображення зі списку
+[Save image to disk]
+Зберегти зображення на диск
+[Image from %s]
+Зображення від %s
+[Image for %s]
+Зображення для %s
+[Select picture to send]
+Виберіть зображення для надсилання
+[Can not create image cache directory. ERROR: %d: %s\n%s]
+Неможливо створити папку кешу аватарів. ПОМИЛКА: %d: %s\n%s
+[Cannot save received image to file. ERROR: %d: %s\n%s]
+Неможливо зберегди присланє зображення у файл. ПОМИЛКА: %d: %s\n%s
+[Can not open image file. ERROR: %d: %s\n%s]
+Неможливо відкрити файл зображення. ПОМИЛКА: %d: %s\n%s
+[Image exceeds maximum allowed size of 255 KB.]
+Допустимий розмір в 255Кб перевищено
+[You have to be connected before you can import/export contacts from/to server.]
+Встановіть з'єднання перед імпортом/експортом контактів з/на сервер.
+[List cannot be imported because of error:\n\t%s (Error: %d)]
+
+[List cannot be removed because of error: %s (Error: %d)]
+
+[Text files]
+Текстовий файл
+[All Files]
+Всі файли
+[List cannot be imported from file "%s \ " because of error:\n\t%s (Error: %d)]
+
+[Contacts]
+контакту(ів)
+[List cannot be exported to file\"% s \ " because of error:\n\t%s (Error: %d)]
+
+[List cannot be exported because of error:\n\t%s (Error: %d)]
+
+[Import List From &Server]
+Імпорт списку з &сервера
+[Import List From &Text File...]
+Імпорт списку з &файла...
+[&Remove List From Server]
+&Очистити список з сервера
+[List To Export &Server]
+Експортувати список на &сервер
+[List To Export &Text File...]
+Експортувати список у &файл...
+[Gadu-Gadu Link Protocol]
+Посилання протоколу Gadu-Gadu
+[Password could not be reminded because of error:\n\t%s (Error: %d)]
+
+[Password was sent to your e-mail.]
+Пароль надіслано на ваш e-mail.
+[Notify]
+Повідомлення
+[Error]
+Помилка
+[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+
+[Can not remove old avatar file. ERROR: %d: %s\n%s]
+
+[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
+Для видалення вашого аватару, ви повинні використовувати вебсайт gg.pl 
+[Client Name]
+Ім'я клієнта
+[IP Address]
+IP адреса
+[Login Time]
+Час входу
+[Action]
+Дія
+[sign out]
+вийти
+[There are no active concurrent sessions for this account.]
+Немає активних одночасних сесій для цього облікового запису.
+[You have to be logged in to view concurrent sessions.]
+Ви повинні бути підключені для перегляду одночасних сесій.
+[Copy Text]
+Копіювати
+[Whois]
+Інформація
+[Concurrent &sessions]
+Одночасні сесії
+[Token retrieval failed because of error:\n\t%s]
+Маркер не отриманий з-за помилки\n\t%s
+[Could not load token image.]
+Не можу завантажити маркер.
+[Cannot register new account because of error:\n\t%s]
+Неможливо зареєструвати користувача через помилку:\n\t%s
+[Registration rejected]
+У реєстрації відмовлено
+[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+Ви зареєстрували новий обліковий запис.\nБудь ласка заповніть ваші персональні дані в "Меню > Показати/Змінити свої дані..."
+[Your account cannot be removed because of error:\n\t%s]
+Неможливо видалити користувача через помилку:\n\t%s
+[Bad number or password]
+Невірний номер або пароль
+[Your account has been removed.]
+Користувач вилучений.
+[Your password cannot be changed because of error:\n\t%s]
+Неможливо змінити пароль через помилку:\n\t%s
+[Invalid data entered]
+Невірні дані
+[Your password has been changed.]
+Ваш пароль змінено.
+[Your e-mail cannot be changed because of error:\n\t%s]
+Неможливо змінити e-mail через помилку:\n\t%s
+[Bad old e-mail or password]
+Невірний старий e-mail або пароль
+[Your e-mail has been changed.]
+Ваш e-mail змінено.

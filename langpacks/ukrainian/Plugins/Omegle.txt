@@ -32,7 +32,7 @@
 [Load count of users on actual server after connection]
 Завантаження числа користувачів на серверах після підключення
 [Enable logging for debugging purposes]
-Увімкнути журналювання для цілей налагодження
+Ввімкнути журналювання для цілей налагодження
 [Meet strangers with common interests]
 Зустрічатися з незнайомцями, з загальними інтересами
 [Your interests (separated by commas):]

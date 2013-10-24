@@ -110,15 +110,15 @@
 [Flags DLL]
 Бібліотека з прапорами (DLL)
 [Enable/disable spell checker]
-Увімкнути/вимкнути перевірку орфографії
+Ввімкнути/вимкнути перевірку орфографії
 [Enabled]
-Включений
+Ввімкнений
 [Disabled]
 Вимкнено
 [There are %d spelling errors. Are you sure you want to send this message?]
-
+Є %d орфографічних помилк. Ви впевнені, що хочете відправити це повідомлення?
 [Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
-
+Ваше вікно повідомлень не підтримує плагін перевірки орфографії.\nЯкщо ви використовуєте SRMM, tabSRMM або Scriver, будь ласка, оновити їх до останньої версії,\nВ іншому випадку запитайте у автора плагіну вікна повідомлень додавання підтримки Перевірки Орфографії.
 [Other...]
 Інше...
 [Always replace with]
@@ -134,6 +134,6 @@
 [Language]
 Мова
 [Enable spell checking]
-Увімкнути перевірку правопису
+Ввімкнути перевірку правопису
 [Wrong words]
 Неправильні слова

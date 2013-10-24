@@ -1222,7 +1222,7 @@ XML для MS Excel (кодування UTF-8)
 [Transport]
 Транспорт
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
-Авто-вхід (Необхідно увімкнути автоматичний вхід в налаштуваннях)
+Авто-вхід (Необхідно ввімкнути автоматичний вхід в налаштуваннях)
 [Room JID/ URL:]
 JID / URL:
 [Bookmark Name:]

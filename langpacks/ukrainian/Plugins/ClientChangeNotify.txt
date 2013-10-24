@@ -18,7 +18,7 @@
 [Don't remind me anymore]
 Більше не нагадувати
 [Enable notification]
-Вімкнути повідомлення
+Ввімкнути повідомлення
 [Show previous client name]
 Показувати попереднє ім'я клієнта
 [Notify also when just client version changes]
@@ -76,7 +76,7 @@
 [Disable c&lient change notification]
 Вимкнути сповіщення про зміну клієнта
 [Enable c&lient change notification]
-Вімкнути повідомлення про зміну клієнта
+Ввімкнути повідомлення про зміну клієнта
 [Popups]
 Спливаючі вікна
 [ClientChangeNotify: Client changed]

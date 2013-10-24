@@ -448,13 +448,13 @@ Unicode вимкнено
 [Navigate: Tab %d]
 Навігація: Вкладка %d
 [Window: Toggle Statusbar]
-Вікно: вімк./вимк. панелі статусу
+Вікно: ввімк./вимк. панелі статусу
 [Window: Toggle Titlebar]
-Вікно: вімк./вимк. панелі заголовка
+Вікно: ввімк./вимк. панелі заголовка
 [Window: Toggle Toolbar]
-Вікно: вімк./вимк. панелі кнопок
+Вікно: ввімк./вимк. панелі кнопок
 [Window: Toggle Infobar]
-Вікно: вімк./вимк. панелі інформації
+Вікно: ввімк./вимк. панелі інформації
 [Window: Clear Log]
 Вікно: Очистити лог
 [Window: Minimize]
@@ -972,7 +972,7 @@ Miranda не змогла завантажити вбудовану систем
 [Control this room (CTRL+O)]
 Контролювати цю чат-кімнату (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
-Увімкнути/вимкнути фільтр подій (CTRL+F)
+Ввімкнути/вимкнути фільтр подій (CTRL+F)
 [Nick name]
 Нік
 [Unique id]

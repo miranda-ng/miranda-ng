@@ -2,6 +2,6 @@
 Locale: 0422
 Last-Modified-Using: Miranda NG 0.94.5
 Authors: apollo2k4, RMN
-Author-email: apollo2k4@narod.ru?title=Miranda NG Ukraine langpack
+Author-email: 
 
 ; Based on translation for Miranda IM by Vitaliy Stopchans'kyy, SLV, Ivan Blazhko

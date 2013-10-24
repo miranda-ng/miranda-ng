@@ -154,7 +154,7 @@
 [If window is partially covered, bring to front instead of hiding]
 Помістити вікно на передній план, якщо воно прикрите іншими вікнами
 [Enable drop shadow (restart required)]
-Вімкнути тінь (потрібен перезапуск)
+Ввімкнути тінь (потрібен перезапуск)
 [Items]
 Елементи
 [Show divider between online and offline contacts]

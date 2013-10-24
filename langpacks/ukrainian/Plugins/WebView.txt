@@ -1,0 +1,353 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
+Додає веб-сторінку, як контакт до списку контактів і може відображати текст і/або видавати попередження про зміни цих сторінок у вікно.
+[Webview]
+WebView
+[Update data every]
+Оновлювати данні кожні
+[minutes]
+хвилин(и)
+[Delay update on start]
+Затримка оновлення на старті
+[seconds]
+секунд(и)
+[Hide icon on status bar]
+Приховувати іконку у статус барі
+[Disable main menu items]
+Відключити елементи у головному меню
+[Load Page on Window Open]
+Завантажити сторінку, у відкритому вікні
+[Update data on start-up]
+Оновлювати данні при старті
+[Only Update Window on Alert]
+Тільки попередження оновлення вікна
+[Window Appearance]
+Зовнішній вигляд вікна
+[Background Color:]
+Колір фону: 
+[Text Color:]
+Колір тексту:
+[Bold]
+Напівжирний
+[Italic]
+Курсив
+[Underline]
+Підкреслений
+[Save Individual Window Positions]
+Зберігати позицію для кожного вікна
+[Error Messages]
+Повідомлення помилки
+[Suppress error messages]
+Ігнорувати повідомлення про помилки
+[Display using Popup or OSD plugin]
+Показати використовуючи модуль сплив. вікон або OSD
+[Expert Options]
+Режим експерту
+[Disable Download Protection]
+Відключити захист завантаження
+[(Not Recommended)]
+(Не рекомендовано)
+[Display Data in Popup on Alert]
+Попередження відображення даних у сплив. вікні 
+[Display Data in Popup]
+Показувати данні у сплив. вікні
+[You may need to restart Miranda NG for this change to take effect.]
+Потрібно перезапустити Miranda NG щоб цей ефект вступив у силу.
+[Contact name:]
+Ім'я контакту:
+[URL:]
+Посилання:
+[Display]
+Показувати
+[Between Start and End strings]
+Між початком і кінцем рядка
+[Whole web page]
+Всю веб-сторінку
+[Start:]
+Початок:
+[End:]
+Кінець:
+[Copy Strings to Alerts]
+Копіювати рядок в сповіщення
+[Double click action]
+Дія при подвійному кліку
+[Opens Web page]
+Відкрити веб-сторінку
+[Opens Data Window]
+Відкрити вікно з данними
+[Display Clean-up]
+Очистити дісплей
+[Remove HTML]
+Видалити HTML
+[OK]
+
+[Cancel]
+Скасувати
+[Apply]
+Застосувати
+[Find]
+Знайти
+[&Find Next]
+&Наступне
+[Find What:]
+Знайти:
+[Search was completed.]
+Пошук закінчено.
+[Alert Options]
+Налаштування сповіщення
+[Events And Alerts]
+Події та сповіщяння
+[Enable Alerts]
+Ввімкнути сповіщення
+[Always Log To File]
+Завжди записувати в файл
+[Add Time And Date Of Alert To Contact Name]
+Занесення часу і дати попередження в ім'я контакту
+[Use 24 hour time format instead of 12 hour]
+Використовувати 24-годинний формат часу замість 12-годинного
+[Add As Prefix]
+Додавати префікс
+[Add As Suffix]
+Додавати суфікс
+[Alert When:]
+Попередження якщо:
+[Alert Type:]
+Тип попередження:
+[Test Conditions]
+Умови випробування
+[Alert When String Is Present On Web Page]
+Попередження, якщо рядок присутній на веб-сторінці
+[String:]
+Рядок:
+[Alert When Specific Area Of Web Page Changes]
+Попередження при зміни конкретної області на веб-сторінці
+[Log To file]
+Журнал у файл
+[Log File:]
+Файл журналу:
+[Append data to file]
+Додавання даних в файл
+[Save as raw data]
+Зберігати "сирі" данні
+[Popup Delay]
+Затримка сплив. вікна
+[Delay]
+Затримка
+[From Popup Plugin]
+З плагіну сплив. вікон
+[Permanent]
+Постійно
+[Preview]
+Тест
+[Colors]
+Кольори
+[Use Custom Colors]
+Користувальницькі кольори
+[Background]
+Фон
+[Text]
+Текст
+[Use Windows Colors]
+Використовувати кольори Windows
+[Use Same Colors As Data Window]
+Використовувати тіж кольори у вікні данних
+[Left Click Action]
+Дія лівого кліку
+[Open Data Display Window]
+Відкрити вікно відображення данних
+[Open Web Page]
+Відкрити веб-сторінку
+[Dismiss Popup]
+Прибрати сплив. вікно
+[Right Click Action]
+Дія правого кліку
+[Log]
+Журнал
+[&Copy]
+&Копіювати
+[C&ut]
+Ви&різати
+[&Delete]
+&Видалити
+[&Paste]
+&Вставити
+[Co&py All]
+Ко&піювати все
+[&Select All]
+&Вибрати все
+[C&lear All]
+&Очистити все
+[Alert Event]
+Сповіщення
+[Auto Update Disabled]
+Автооновлення вимкнено
+[Auto Update Enabled]
+Автооновлення ввімкнено
+[Update All Webview Sites]
+Оновити всі сторінки WebView
+[Mark All Webview Sites Read]
+Позначити всі сторінки як прочитані
+[Open Cache Folder]
+Відкрити папку кешу
+[%d Minutes to Update]
+%d хвилин до оновлення
+[Open web page]
+Відкрити веб-сторінку
+[Open/Close window]
+Відкрити/Закрити вікно
+[Update Data]
+Оновити данні
+[Contact Options]
+Налаштування контакту
+[Contact Alert Options]
+Налаштування сповіщення контакту
+[Ping Web Site]
+Пінгувати веб-сторінку
+[Stop Data Processing]
+Припинити розбір інформації
+[All Webview sites have been updated.]
+Усі сайти WebView були оновлені.
+[Network]
+Мережа
+[Popups]
+Спливаючі вікна
+[Cannot write to file]
+Неможливо записати у файл
+[Last updated on]
+Останнє оновлення
+[Start/end strings not found or strings not set.]
+Початок/кінець рядка не знайдені або рядка не встановлено.
+[Alert start/end strings not found or strings not set.]
+Попередження початоку/кінеця рядка не знайдені або рядка не встановлено.
+[The string]
+Рядок
+[has been found on the web page]
+була знайдена на веб-сторінці
+[Download successful; about to process data...]
+Завантаження завершено; обробка данних...
+[Unknown Alert Type.]
+Невідомий тип сповіщення.
+[Cannot read from file]
+Неможливо прочитати з файлу
+[Cannot write to file 1]
+Неможливо записати у файл 1
+[The Web Page Has Changed.]
+Веб-сторінка змінена.
+[Cannot write to file 2]
+Неможливо записати у файл 2
+[Specific Part Of The Web Page Has Changed.]
+Окремі частини веб-сторінки змінилися.
+[Cannot read from cache file]
+Неможливо прочитати з файлу кешу
+[Loaded From Cache]
+Завантажено з кешу
+[ERROR: You have two or more Webview contacts with the same URL and contact name.]
+ПОМИЛКА: У Вас є два або більше WebView контакти з тим же URL-адресою та ім'ям контакту.
+[Stop Processing]
+Зупинити обробку
+[Click here to open this URL in a browser window.]
+Клікніть тут для видкриття цого посилання у вікні браузеру.
+[Stick to the front]
+Прилипати попереду
+[Disable Stick to the Front]
+Вимкнути прилипання попереду
+[Disable Stick to the front]
+Вимкнути прилипання попереду
+[URL not supplied]
+URL-адреса не поставляється
+[Download in progress, please wait...]
+Завантаження, будь ласка зачекайте...
+[Updating...]
+Оновлення...
+[The server replied with a failure code]
+Сервер відповів код помилки
+[The server is down or lagging.]
+Сервер не працює.
+[Invalid search parameters.]
+Не вірні параметри пошуку.
+[Both search strings not found or strings not set.]
+Обидві рядки пошуку не знайдено або рядка не встановлено.
+[at the time]
+на момент
+[Processing data (Stage 1)]
+Обробка данних (Крок 1)
+[Processing data stopped by user.]
+Обробка данних зупинена користувачем.
+[Processing data (Stage 2)]
+Обробка данних (Крок 2)
+[Processing data (Stage 3)]
+Обробка данних (Крок 3)
+[Processing data (Stage 4)]
+Обробка данних (Крок 4)
+[Processing data (Stage 5)]
+Обробка данних (Крок 5)
+[Processing data (Stage 6)]
+Обробка данних (Крок 6)
+[Processing data (Stage 7)]
+Обробка данних (Крок 7)
+[Processing data (Stage 8)]
+Обробка данних (Крок 8)
+[Alert!]
+Повідомлення!
+[Online]
+В мережі
+[A site is already downloading, try again in a moment.]
+Сайт вже завантаження, спробуйте ще раз в хвилину.
+[Bytes in display]
+
+[Bytes downloaded]
+Скачано байтів
+[Alert test conditions not met; press the refresh button to view content.]
+Тест умов сповещення не виконано, натисніть кнопку "оновити", щоб переглядати вміст.
+[No whitespace removal]
+Не видяляти вільне місце
+[Minimal level of whitespace removal]
+Мінімально видяляти вільне місце
+[Medium level of whitespace removal]
+Середне видяляти вільне місце
+[Large level of whitespace removal]
+Максимально видяляти вільне місце
+[Remove all whitespace]
+Видяляти все вільне місце
+[Popup Plugin]
+Модуль сплив. вікон
+[Log To File]
+Журнал у файл
+[Use OSD Plugin]
+Використовувати OSD модуль
+[A String Is Present]
+Присутній рядок
+[The Web Page Changes]
+Веб-сторінка змінилася
+[A Specific Part of Web Page Changes]
+Змінилися певні частині веб-сторінки
+[This is a preview popup.]
+Це сплив. вікно попереднього перегляду.
+[You need to supply a search string.]
+Вам необхідно ввести в пошуковий рядок.
+[You need to supply a start string.]
+Ви повинні вказати початок рядка.
+[You need to supply an end string.]
+Ви повинні вказати кінець рядка.
+[You need to supply a file name and path.]
+Ви повинні вказати ім'я файлу і шлях до нього.
+[You need to supply a URL.]
+Вам необхідно ввести URL-адресу.
+[You need to supply a name for the contact.]
+Необхідно вказати ім'я контакту.
+[Invalid symbol present in contact name.]
+В імені контакту присутній неприпустимий символ.
+[Cache folder does not exist.]
+Папки кешу не існує.
+[Missing "psite.bat" file.]
+Відсутній файл "psite.bat"
+[Site URL]
+Посилання на сайт
+[Please select site in Find/Add Contacts...]
+Будь ласка виберіть сайт у Знайти/Додати контакт...

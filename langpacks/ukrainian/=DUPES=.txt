@@ -1736,7 +1736,7 @@ GMT-09:00 Аляска
 [Control this room (CTRL+O)]
 Контролювати цю чат-кімнату (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
-Увімкнути/вимкнути фільтр подій (CTRL+F)
+Ввімкнути/вимкнути фільтр подій (CTRL+F)
 [Insert a smiley]
 Вставити смайл
 [Insert Emoticon]
@@ -3301,13 +3301,13 @@ Web Дизайн
 [Popup Disabled]
 Сплв. вікна відключені
 [Enable/Disable external logging for this contact]
-Увімкнути/вимкнути запис у зовнішній журнал для цього контакту
+Ввімкнути/вимкнути запис у зовнішній журнал для цього контакту
 [Maximum entries]
 Записів
 [Popup text]
 Текст вікна
 [Enable/Disable internal logging for this contact]
-Увімкнути/вимкнути запис у внутрішній журнал для цього контакту
+Ввімкнути/вимкнути запис у внутрішній журнал для цього контакту
 [Enable/Disable popups for this contact]
 Включити/відключити спливаючі вікна для цього контакту
 [Left Click Actions]

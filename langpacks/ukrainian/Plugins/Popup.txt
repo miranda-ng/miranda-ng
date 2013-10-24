@@ -100,7 +100,7 @@ History++ для історії вікон
 [General]
 Загальна
 [Enable popup actions]
-Вімкнути дії
+Ввімкнути дії
 [Popup Actions are those tiny buttons below notification text.]
 Дії - це маленькі кнопки під текстом вікна.
 [Common Actions]

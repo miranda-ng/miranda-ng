@@ -192,7 +192,7 @@
 [Accounts]
 Облікові записи
 [Enable checking]
-Вімкнути перевірку
+Ввімкнути перевірку
 [Disable checking]
 Вимкнути перевірку
 [Set status message]

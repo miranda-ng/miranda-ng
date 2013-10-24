@@ -138,7 +138,7 @@ foobar2000 (встановіть плагін руками)
 [Disable ListeningTo (to all protocols)]
 Вимкнути "Слухаю" (для всіх протоколів)
 [Enable ListeningTo (to all protocols)]
-Вімкнути "Слухаю" (для всіх протоколів)
+Ввімкнути "Слухаю" (для всіх протоколів)
 [<Unknown>]
 <Невідомо>
 [<Nothing is now playing>]

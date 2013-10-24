@@ -158,15 +158,15 @@ FTPFile передача
 [description off]
 опис вимк.
 [description on]
-опис вімк.
+опис ввімк.
 [delete off]
 видалення вимк.
 [delete on]
-виладення вімк.
+виладення ввімк.
 [Prev]
-Тому
+Поперед.
 [Next]
-Вперед
+Насупне
 [Update]
 Оновити
 [Apply]

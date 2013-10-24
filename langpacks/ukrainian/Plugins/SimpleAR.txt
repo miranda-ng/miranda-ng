@@ -8,7 +8,7 @@
 [Simple Auto Replier.]
 Простий автовідповідач.
 [Enable Auto Replier]
-Автовідповідь вімкнена
+Автовідповідь ввімкнена
 [Reply Message Heading:]
 Заголовок автовідповіді:
 [Reply Message when]
@@ -38,7 +38,7 @@
 [Turn off Autoanswer]
 Отключить автоответ
 [Turn on Autoanswer]
-Увімкнути автоматичну відповідь
+Ввімкнути автоматичну відповідь
 [Dear %user%, the owner left the following message:]
 Вітаю %user%, %username% залишив Вам повідомлення:
 [Simple Auto Replier]

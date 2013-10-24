@@ -24,7 +24,7 @@
 [Variable list]
 Змінні
 [Enable Idle support]
-Вімк. режим очікування
+Ввімк. режим очікування
 [Ignore contacts going offline]
 Ігнорувати йдуть з мережі
 [Enable 'Missed Ones' feature]

@@ -40,7 +40,7 @@
 [Clerk]
 Клерк
 [Enable incoming mail notification]
-Вімк. повідомлення про вхідну пошту
+Ввімк. повідомлення про вхідну пошту
 [Friendship]
 Дружба
 [Connection Host:]
@@ -118,9 +118,9 @@ Tlen запрошення до голосового чату
 [You have been kicked. Reason: %s ]
 Вас викинули. Причина: %s\s
 [P2P Connections]
-P2P Підключення
+P2P з'єднання
 [Enable Always Visible and Never Visible]
-Вімк. Завжди бачимо і Завжди невидимий
+Ввімк. Завжди бачимо і Завжди невидимий
 [Incoming mail]
 Вхідна пошта
 [You cannot join more than %s chat rooms.]

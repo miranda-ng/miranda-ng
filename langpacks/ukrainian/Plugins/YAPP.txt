@@ -60,7 +60,7 @@
 [Timeout value (0 = default):]
 Таймаут (0 = за замовчуванням):
 [Popups are enabled]
-Спливаючі вікна увімкнені
+Спливаючі вікна ввімкнені
 [Popups are disabled]
 Спливаючі вікна вимкнені
 [Popup History]
@@ -126,7 +126,7 @@
 [Disable Popups]
 Вимкнути спливаючі вікна
 [Enable Popups]
-Вімкнути спливаючі вікна
+Ввімкнути спливаючі вікна
 [Toggle Popups]
 
 [First line]

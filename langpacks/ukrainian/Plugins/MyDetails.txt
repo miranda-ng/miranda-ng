@@ -106,7 +106,7 @@
 [Set My Status Message...]
 Змінити статусне повідомлення...
 [Enable Listening To]
-Увімкнути "Зараз слухаю"
+Ввімкнути "Зараз слухаю"
 [Show next account]
 Наступний обліковий запис
 [Show previous account]
@@ -134,7 +134,7 @@
 [Show My Details]
 Показати мої деталі
 [Enable Listening To for %s]
-Увімкнути "Зараз слухаю" для %s
+Ввімкнути "Зараз слухаю" для %s
 [Set My Avatar for %s...]
 Змінити мій аватар для %s...
 [Set My Nickname for %s...]

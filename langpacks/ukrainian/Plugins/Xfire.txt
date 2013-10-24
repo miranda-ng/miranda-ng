@@ -35,7 +35,7 @@
 [Enable server IP/Port detection]
 Включити виявлення сервера IP/Port
 [Enable TeamSpeak2/Ventrilo detection]
-Вімкнути виявлення TeamSpeak2/Ventrilo
+Ввімкнути виявлення TeamSpeak2/Ventrilo
 [Scan for games on every Miranda start]
 Шукати гри при запуску Miranda
 [Use TSRemote.dll to get teamspeak server info]

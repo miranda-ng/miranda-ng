@@ -38,7 +38,7 @@ IP адреса 2
 [Write log file]
 Записувати журнал
 [Enable / Disable HTTP server]
-Вімк/Вимк HTTP сервер
+Ввімк./Вимк. HTTP сервер
 [Main menu items]
 Елементи головного меню
 [Open log]
@@ -164,4 +164,4 @@ HTTP Новий розшарений файл
 [Disable HTTP server]
 Вимкнути HTTP сервер
 [Enable HTTP server]
-Вімкнути HTTP Сервер
+Ввімкнути HTTP Сервер

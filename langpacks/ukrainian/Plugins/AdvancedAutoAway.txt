@@ -176,7 +176,7 @@
 [Confirm dialog timeout (secs)]
 Інтервал підтвердження (с)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Ви увімкнули функцію зміни статусу в розділі налаштувань "Режим очікування", налаштування ААА будуть ігноруватися.
+Ви ввімкнули функцію зміни статусу в розділі налаштувань "Режим очікування", налаштування ААА будуть ігноруватися.
 [Keyboard activity Monitor]
 Стежити за активністю клавіатури
 [Monitor mouse activity]
@@ -188,7 +188,7 @@
 [Accounts]
 Облікові записи
 [Enable checking]
-Вімкнути перевірку
+Ввімкнути перевірку
 [Disable checking]
 Вимкнути перевірку
 [Set status message]

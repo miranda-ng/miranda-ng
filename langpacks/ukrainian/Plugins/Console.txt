@@ -44,7 +44,7 @@
 [Log options (Ctrl+O)]
 Налаштування журналювання (Ctrl+O)
 [Start logging in all tabs]
-Увімкнути журнал роботи у всіх вкладках
+Ввімкнути журнал роботи у всіх вкладках
 [Pause logging in all tabs]
 Пауза журналювання у всіх вкладках
 [Close tab (Ctrl+W)]

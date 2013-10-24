@@ -56,7 +56,7 @@
 [Show in seconds timestamps]
 Показувати секунди
 [Enable Smileys]
-Вімкнути смайли
+Ввімкнути смайли
 [Search forward in group list]
 Шукати далі в групі
 [Search forward in message window]

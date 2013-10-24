@@ -20,13 +20,13 @@
 [Disable History]
 Вимкнути історію
 [History Enabled]
-Історія увімкнена
+Історія ввімкнена
 [History Disabled]
 Історія відключений
 [Disable]
 Вимкнути
 [Enable]
-Увімкнути
+Ввімкнути
 [Clear]
 Очистити
 [No History]

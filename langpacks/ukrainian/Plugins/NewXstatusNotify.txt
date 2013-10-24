@@ -72,7 +72,7 @@
 [Status Notify]
 Зміна статусу
 [Individual sounds are disabled.\n\nTo enable them, go to Options - Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Особисті звуки вимкнені.\n\nЩоб їх включити, підіть до Параметри - Статус - Повідомлення, увімкніть \n"Індивідуальні звуки", і знову відкрийте вікно.
+Особисті звуки вимкнені.\n\nЩоб їх включити, підіть до Параметри - Статус - Повідомлення, ввімкніть \n"Індивідуальні звуки", і знову відкрийте вікно.
 [Sounds]
 Звуки
 [Popups]
