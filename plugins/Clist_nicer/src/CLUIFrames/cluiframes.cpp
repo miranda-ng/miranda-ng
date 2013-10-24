@@ -584,9 +584,6 @@ int CLUIFramesGetalClientFrame(void)
 	if (FramesSysNotStarted)
 		return -1;
 
-	if (alclientFrame != -1)
-		return alclientFrame;
-
 	if (alclientFrame != -1) {
 		/* this value could become invalid if RemoveItemFromList was called,
 		 * so we double-check */
@@ -2822,7 +2819,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				}
 				ulockfrm();
 			}
-			if (wParam & MK_LBUTTON) {
+			if (wParam & MK_RBUTTON) {
 				int newh = -1, prevold;
 
 				if (GetCapture() != hwnd)
@@ -3141,7 +3138,7 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam)
 
 	lockfrm();
 	wParam = id2pos((INT_PTR)wParam);
-	if (wParam >= 0 && (int)wParam < nFramescount) {
+	if ((int)wParam >= 0 && (int)wParam < nFramescount) {
 		if (Frames[wParam].floating) {
 			SetParent(Frames[wParam].hWnd, pcli->hwndContactList);
 			SetParent(Frames[wParam].TitleBar.hwnd, pcli->hwndContactList);
@@ -3370,8 +3367,7 @@ int UnLoadCLUIFramesModule(void)
 		if (Frames[i].TitleBar.tbname != NULL)
 			mir_free(Frames[i].TitleBar.tbname);
 	}
-	if (Frames)
-		free(Frames);
+	free(Frames);
 	Frames = NULL;
 	nFramescount = 0;
 	UnregisterClass(CLUIFrameTitleBarClassName, g_hInst);

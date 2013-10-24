@@ -420,7 +420,7 @@ void CSWindow::toggleFilter()
 	{
 		TCHAR filterText[255];
 		GetDlgItemText(m_handle, IDC_FILTER_FIELD, filterText, SIZEOF(filterText));
-		if ( lstrlen( filterText ) > 0 )
+		if (filterText[0] != 0)
 			SetDlgItemText( m_handle, IDC_FILTER_FIELD, TEXT( ""));
 	}
 }
@@ -635,9 +635,7 @@ void CSListView::addItem( StatusItem* item, int itemNumber )
 	lvi.cchTextMax = 256;
 	lvi.iItem = ListView_GetItemCount( m_handle );
 	lvi.lParam = itemNumber;
-#if ( WINVER >= 0x501 )
-	lvi.iGroupId = ( item->m_bFavourite == TRUE ) ? 0 : 1;
-#endif
+	lvi.iGroupId = item->m_bFavourite ? 0 : 1;
 
 	// first column
 	lvi.iSubItem = 0;

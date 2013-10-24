@@ -48,8 +48,7 @@ TDBTSettingHandle CSettingsTree::_FindSetting(const uint32_t Hash, const char * 
 		}
 	}
 
-	if (str)
-		free(str);
+	free(str);
 
 	return res;
 }
@@ -119,8 +118,7 @@ CSettings::~CSettings()
 	TModulesMap::iterator it2 = m_Modules.begin();
 	while (it2 != m_Modules.end())
 	{
-		if (it2->second)
-			delete [] it2->second;
+		delete [] it2->second;
 		++it2;
 	}
 }
@@ -1419,8 +1417,7 @@ unsigned int CSettings::IterationClose(TDBTSettingIterationHandle Iteration)
 		delete iter->Heap; // only this needs synchronization
 	}
 
-	if (iter->Filter.NameStart)
-		delete [] iter->Filter.NameStart;
+	delete [] iter->Filter.NameStart;
 
 	if (iter->Filter.Descriptor && iter->Filter.Descriptor->pszSettingName)
 	{
@@ -1444,8 +1441,7 @@ unsigned int CSettings::IterationClose(TDBTSettingIterationHandle Iteration)
 
 	while (!iter->Frame->empty())
 	{
-		if (iter->Frame->front().Name)
-			free(iter->Frame->front().Name);
+		free(iter->Frame->front().Name);
 
 		iter->Frame->pop();
 	}

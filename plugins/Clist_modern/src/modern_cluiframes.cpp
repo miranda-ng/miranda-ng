@@ -1479,8 +1479,7 @@ static int _us_DoMoveFrame(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		if (sd != NULL)
-			free(sd);
+		free(sd);
 		CLUIFramesStoreFrameSettings(pos);
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	}
@@ -3224,7 +3223,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 				//return 0;
 			};
 
-			if (wParam&MK_LBUTTON) {
+			if (wParam&MK_RBUTTON) {
 				int newh = -1,prevold;
 
 				if (GetCapture() != hwnd){break;};
@@ -4029,7 +4028,7 @@ int UnLoadCLUIFramesModule(void)
 		mir_free_and_nil(g_pfwFrames[i].TitleBar.sztooltip);
 
 	}
-	if (g_pfwFrames) free(g_pfwFrames);
+	free(g_pfwFrames);
 	g_pfwFrames = NULL;
 	g_nFramesCount = 0;
 	UnregisterClass(CLUIFrameTitleBarClassName,g_hInst);

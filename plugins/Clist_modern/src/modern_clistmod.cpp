@@ -378,7 +378,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		return 0;
 	}
 
-	if ((bShow == TRUE || lParam == 1)) {
+	if (bShow || lParam == 1) {
 		Sync( CLUIFrames_ActivateSubContainers, TRUE );
 		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
 

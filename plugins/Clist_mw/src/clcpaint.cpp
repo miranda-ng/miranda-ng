@@ -154,7 +154,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 	RECT testrc;		
 
 	// yes I know about GetSysColorBrush()
-	COLORREF tmpbkcolour = style&CLS_CONTACTLIST ? ( /*dat->useWindowsColours ? GetSysColor(COLOR_3DFACE) :*/ dat->bkColour ) : dat->bkColour;
+	COLORREF tmpbkcolour = dat->bkColour;
 
 	if (dat->greyoutFlags & pcli->pfnClcStatusToPf2(status) || style&WS_DISABLED) grey = 1;
 	else if (GetFocus() != hwnd && dat->greyoutFlags&GREYF_UNFOCUS) grey = 1;
@@ -373,7 +373,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 				SetHotTrackColour(hdcMem,dat);
 
 			//checkboxes
-			if (checkboxWidth && (subindex == -1 ||1)) {
+			if (checkboxWidth) {
 				RECT rc;
 				HANDLE hTheme = OpenThemeData(hwnd,L"BUTTON");
 
@@ -473,7 +473,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 				rc.top = y+((dat->rowHeight-fontHeight)>>1);
 				rc.bottom = rc.top+dat->rowHeight;
 				rc.right = clRect.right;
-				if (Drawing->type = CLCIT_CONTACT)
+				if (Drawing->type == CLCIT_CONTACT)
 					if (hottrack)
 						ChangeToFont(hdcMem,dat,FONTID_CONTACTSHOVER,&fontHeight);
 

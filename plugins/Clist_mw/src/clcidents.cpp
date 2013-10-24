@@ -160,7 +160,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 				void *z = {0};
 				int ret;
 				ret = FindItem(hwnd,dat,hItem,(struct ClcContact ** )&z,(struct  ClcGroup** )&isv,NULL);
-				if (ret = 0) {return 0;}
+				if (ret == 0) {return 0;}
 				cacheEntry->ClcContact = (void *)z;
 			}
 			

@@ -354,8 +354,8 @@ void SaveState()
 				item.cchTextMax = 255;
 				item.iItem = i;
 				SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-				strncat(newProtoFilter, szTemp, 2048);
-				strncat(newProtoFilter, "|", 2048);
+				strncat(newProtoFilter, szTemp, SIZEOF(newProtoFilter));
+				strncat(newProtoFilter, "|", SIZEOF(newProtoFilter));
 				newProtoFilter[2047] = 0;
 			}
 		}
@@ -376,8 +376,8 @@ void SaveState()
 				item.cchTextMax = 255;
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-				_tcsncat(newGroupFilter, szTemp, 2048);
-				_tcsncat(newGroupFilter, _T("|"), 2048);
+				_tcsncat(newGroupFilter, szTemp, SIZEOF(newGroupFilter));
+				_tcsncat(newGroupFilter, _T("|"), SIZEOF(newGroupFilter));
 				newGroupFilter[2047] = 0;
 			}
 		}

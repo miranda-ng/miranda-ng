@@ -56,8 +56,8 @@ int SkinSelector_DeleteMask(MODERNMASK *mm)
 	if ( !mm->pl_Params) return 0;
 	for (i=0;i < (int)mm->dwParamCnt;i++)
 	{
-		if (mm->pl_Params[i].szName) free(mm->pl_Params[i].szName);
-		if (mm->pl_Params[i].szValue) free(mm->pl_Params[i].szValue);
+		free(mm->pl_Params[i].szName);
+		free(mm->pl_Params[i].szValue);
 	}
 	free(mm->pl_Params);
 	return 1;

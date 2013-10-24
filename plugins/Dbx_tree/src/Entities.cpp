@@ -736,7 +736,6 @@ TDBTEntityHandle CEntities::IterationNext(TDBTEntityIterationHandle Iteration)
 		item = iter->q->front();
 		iter->q->pop_front();
 
-		std::deque<TEntityIterationItem> tmp;
 		TEntityIterationItem newitem;
 
 		// children
@@ -879,7 +878,7 @@ TDBTEntityHandle CEntities::IterationNext(TDBTEntityIterationHandle Iteration)
 				{
 					if (acci->Handle == acc)
 						acc = 0;
-					acci++;
+					++acci;
 				}
 				if (acc != 0)
 				{

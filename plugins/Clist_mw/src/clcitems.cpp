@@ -172,7 +172,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 				}
 			}
 			db_free(&dbv);
-			if (_tcslen(group->cl.items[i]->szStatusMsg)>0) {
+			if (group->cl.items[i]->szStatusMsg[0] != 0) {
 				group->cl.items[i]->flags |= CONTACTF_STATUSMSG;
 			}
 		}	

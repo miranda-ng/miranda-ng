@@ -124,7 +124,7 @@ INT_PTR SetDrawer(WPARAM wParam,LPARAM lParam)
 	pDrawerServiceStruct DSS = (pDrawerServiceStruct)wParam;
 	if (DSS->cbSize != sizeof(*DSS)) return -1;
 	if (DSS->PluginName == NULL) return -1;
-	if (DSS->PluginName == NULL) return -1;
+	if (DSS->GetDrawFuncsServiceName == NULL) return -1;
 	if ( !ServiceExists(DSS->GetDrawFuncsServiceName)) return -1;
 
 

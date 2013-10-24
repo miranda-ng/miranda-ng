@@ -47,38 +47,36 @@ DWORD __forceinline argb_from_cola(COLORREF col, UINT32 alpha)
 
 void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 {
-    if (BORDERSTYLE >= 0) {
-        HPEN hPenOld = 0;
-        POINT pt;
+    HPEN hPenOld = 0;
+    POINT pt;
         
-        switch(BORDERSTYLE) {
-            case BDR_RAISEDOUTER:                 // raised
-                MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
-                hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DBright));
-                LineTo(hdcwnd, rc->left, rc->top);
-                LineTo(hdcwnd, rc->right, rc->top);
-                SelectObject(hdcwnd, cfg::dat.hPen3DDark);
-                MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
-                LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
-                LineTo(hdcwnd, rc->left - 1, rc->bottom - 1);
-                break;
-            case BDR_SUNKENINNER:
-                MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
-                hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DDark));
-                LineTo(hdcwnd, rc->left, rc->top);
-                LineTo(hdcwnd, rc->right, rc->top);
-                MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
-                SelectObject(hdcwnd, cfg::dat.hPen3DBright);
-                LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
-                LineTo(hdcwnd, rc->left, rc->bottom - 1);
-                break;
-            default:
-                DrawEdge(hdcwnd, rc, BORDERSTYLE, BF_RECT | BF_SOFT);
-                break;
-        }
-        if (hPenOld)
-            SelectObject(hdcwnd, hPenOld);
+    switch(BORDERSTYLE) {
+        case BDR_RAISEDOUTER:                 // raised
+            MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
+            hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DBright));
+            LineTo(hdcwnd, rc->left, rc->top);
+            LineTo(hdcwnd, rc->right, rc->top);
+            SelectObject(hdcwnd, cfg::dat.hPen3DDark);
+            MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
+            LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
+            LineTo(hdcwnd, rc->left - 1, rc->bottom - 1);
+            break;
+        case BDR_SUNKENINNER:
+            MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
+            hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DDark));
+            LineTo(hdcwnd, rc->left, rc->top);
+            LineTo(hdcwnd, rc->right, rc->top);
+            MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
+            SelectObject(hdcwnd, cfg::dat.hPen3DBright);
+            LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
+            LineTo(hdcwnd, rc->left, rc->bottom - 1);
+            break;
+        default:
+            DrawEdge(hdcwnd, rc, BORDERSTYLE, BF_RECT | BF_SOFT);
+            break;
     }
+    if (hPenOld)
+        SelectObject(hdcwnd, hPenOld);
 }
 void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, ImageItem *imageItem)
 {

@@ -608,11 +608,11 @@ set_bg_l:
 				rc.bottom = y + rowHeight - ssingleitem->MARGIN_BOTTOM;
 
 				// draw odd/even contact underlay
-				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
+				if (!sevencontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, ssingleitem->CORNER, ssingleitem->BORDERSTYLE, sevencontact_pos->imageItem);
 				}
-				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+				else if (!soddcontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, ssingleitem->CORNER, ssingleitem->BORDERSTYLE, soddcontact_pos->imageItem);
 				}
@@ -632,11 +632,11 @@ set_bg_l:
 				rc.bottom = y + rowHeight - sfirstitem->MARGIN_BOTTOM;
 
 				// draw odd/even contact underlay
-				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
+				if (!sevencontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, sfirstitem->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
 				}
-				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+				else if (!soddcontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, sfirstitem->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
 				}
@@ -654,7 +654,6 @@ set_bg_l:
 				rc.left = slastitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + slastitem->MARGIN_TOP;
 				rc.right = clRect->right - slastitem->MARGIN_RIGHT - bg_indent_r;
-				rc.bottom = y + rowHeight - slastitem->MARGIN_BOTTOM;
 				rc.bottom = y + rowHeight - slastitem->MARGIN_BOTTOM;
 
 				// draw odd/even contact underlay
@@ -1240,7 +1239,6 @@ nodisplay:
 			if (type == CLCIT_CONTACT) {
 				rc.left = rcContent.left;
 				rc.top = y + ((rowHeight - fontHeight) >> 1);
-				rc.right = clRect->right - rightOffset;
 				rc.right = rcContent.right;
 				rc.bottom = rc.top;
 				if (twoRows)

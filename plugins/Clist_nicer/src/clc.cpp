@@ -168,18 +168,18 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 				pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, wParam, lParam);
 		}
 	}
-	else if (wParam == 0 && !__strcmp(cws->szModule, cfg::dat.szMetaName)) {
+	else if (!__strcmp(cws->szModule, cfg::dat.szMetaName)) {
 		BYTE bMetaEnabled = cfg::getByte(cfg::dat.szMetaName, "Enabled", 1);
 		if (bMetaEnabled != (BYTE)cfg::dat.bMetaEnabled) {
 			cfg::dat.bMetaEnabled = bMetaEnabled;
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}
-	else if (wParam == 0 && !__strcmp(cws->szModule, "Skin")) {
+	else if (!__strcmp(cws->szModule, "Skin")) {
 		cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED);
 	}
-	else if (szProto == NULL && wParam == 0) {
+	else if (szProto == NULL) {
 		if ( !__strcmp(cws->szSetting, "XStatusId"))
 			CluiProtocolStatusChanged(0, cws->szModule);
 	}

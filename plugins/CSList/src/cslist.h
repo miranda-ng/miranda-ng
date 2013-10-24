@@ -257,10 +257,10 @@ public:
 		return position;
 	}
 
-	int remove( const unsigned int item )
+	int remove(const unsigned int item)
 	{
 		int position = 0;
-		if ( item < 0 || item >= m_count )
+		if (item >= m_count)
 			return -1;
 
 		ListItem< T >* help = m_items;

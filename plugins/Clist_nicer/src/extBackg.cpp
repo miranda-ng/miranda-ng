@@ -1411,7 +1411,7 @@ void extbk_import(char *file, HWND hwndDlg)
 			i++;
 		}
 		GetPrivateProfileStringA("Global", "BkBitmap", "", szString, MAX_PATH, file);
-		if (lstrlenA(szString) > 0)
+		if (szString[0] != 0)
 			cfg::writeString(NULL, "CLC", "BkBitmap", szString);
 	}
 

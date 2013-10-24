@@ -1045,10 +1045,10 @@ void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PRepl
 					reply->code = MIMRES_FAILURE;
 					mir_snprintf(reply->message, reply->cMessage, Translate("Invalid parameter '%s' passed to CallService command."), (wParam) ? argv[4] : argv[3]);
 				}
-				
-				if (wParam) { free(wParam); }
-				if (lParam) { free(lParam); }
-				
+
+				free(wParam);
+				free(lParam);
+
 			}
 			else{
 				reply->code = MIMRES_FAILURE;
@@ -1330,11 +1330,8 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 						reply->code = MIMRES_SUCCESS;
 						mir_snprintf(reply->message, reply->cMessage, Translate("Wrote '%s:%s' to database entry '%s/%s'."), wrote, argv[5] + 1, module, key);
 					}
-					
-					if (value)
-					{
-						free(value);
-					}
+
+					free(value);
 				}
 				else{
 					HandleWrongParametersCount(command, reply);
@@ -1613,7 +1610,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 	
 	if (ok)
 	{
-		if (strlen(reply->message) > 0)
+		if (reply->message[0] != 0)
 		{
 			strncat(reply->message, "\n", reply->cMessage);
 			strncat(reply->message, buffer, reply->cMessage);
@@ -1882,7 +1879,7 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 	mir_snprintf(buffer, sizeof(buffer), "[%s] %15s: %s", timestamp, sender, message);
 	
 	
-	if (strlen(reply->message) > 0)
+	if (reply->message[0] != 0)
 	{
 		strncat(reply->message, "\n", reply->cMessage);
 		strncat(reply->message, buffer, reply->cMessage);

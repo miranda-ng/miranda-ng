@@ -119,7 +119,6 @@ void CLogger::MessageBoxAsync(void * MsgBoxParams)
 {
 	MSGBOXPARAMS* p = reinterpret_cast<MSGBOXPARAMS*>(MsgBoxParams);
 	MessageBoxIndirect(p);
-	if (p->lpszText)	
-		delete [] p->lpszText;
+	delete [] p->lpszText;
 	delete p;
 }

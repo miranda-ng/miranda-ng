@@ -186,7 +186,7 @@ CBTree<TKey, SizeParam>::~CBTree()
 	while (i != m_ManagedIterators.end())
 	{
 		i->second->m_Tree = NULL;
-		i++;
+		++i;
 	}
 
 	if (m_DestroyTree)
@@ -910,8 +910,7 @@ void CBTree<TKey, SizeParam>::DestroyTree()
 		DeleteNode(node);
 	}
 
-	if (m_Alloc)
-		free(m_Alloc);
+	free(m_Alloc);
 	m_Alloc = NULL;
 	m_AllocCount = 0;
 	m_Count = 0;

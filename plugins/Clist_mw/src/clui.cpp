@@ -183,7 +183,7 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 			sid.pszSection = SectName;
 			sid.pszName = IconName;
 			sid.pszDescription = Description;
-			if (strlen(szMyPath) != 0)
+			if (szMyPath[0] != 0)
 				sid.pszDefaultFile = szMyPath;
 
 			sid.iDefaultIndex = internalidx;

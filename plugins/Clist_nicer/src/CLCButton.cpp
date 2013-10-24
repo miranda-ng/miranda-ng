@@ -308,7 +308,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			int ix = (rcClient.right - rcClient.left) / 2 - (g_cxsmIcon / 2);
 			int iy = (rcClient.bottom - rcClient.top) / 2 - (g_cxsmIcon / 2);
 			HICON hIconNew = ctl->hIconPrivate != 0 ? ctl->hIconPrivate : ctl->hIcon;
-			if (lstrlen(ctl->szText) == 0) {
+			if (ctl->szText[0] == 0) {
 				if (ctl->iIcon)
 					ImageList_DrawEx(ctl->hIml, ctl->iIcon, hdcMem, ix, iy, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 				else

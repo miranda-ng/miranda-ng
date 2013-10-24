@@ -580,13 +580,15 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat)
 	}
 	if (cfg::getByte("CLCExt", "EXBK_FillWallpaper", 0)) {
 		char wpbuf[MAX_PATH];
-		if (dat->hBmpBackground)
-			DeleteObject(dat->hBmpBackground); dat->hBmpBackground = NULL;
+		if (dat->hBmpBackground) {
+			DeleteObject(dat->hBmpBackground);
+			dat->hBmpBackground = NULL;
+		}
 
 		SystemParametersInfoA(SPI_GETDESKWALLPAPER, MAX_PATH, wpbuf, 0);
 
 		// we have a wallpaper string
-		if (strlen(wpbuf) > 0) {
+		if (wpbuf[0] != 0) {
 			dat->hBmpBackground = reinterpret_cast<HBITMAP>(LoadImageA(NULL, wpbuf, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
 		}
 		cfg::dat.bmpBackground = dat->hBmpBackground;

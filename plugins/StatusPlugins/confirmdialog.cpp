@@ -38,8 +38,7 @@ struct TConfirmSetting : public PROTOCOLSETTINGEX
 
 	~TConfirmSetting()
 	{
-		if ( szMsg )
-			free( szMsg );
+		free(szMsg);
 	}
 };
 

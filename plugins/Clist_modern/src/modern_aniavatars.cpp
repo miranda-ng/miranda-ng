@@ -250,7 +250,7 @@ int AniAva_UnloadModule()
 		for (i=0; i < s_AniAvatarList.getCount(); i++) {
 			ANIAVA_INFO *aai = s_AniAvatarList[i];
 			mir_free(aai->tcsFilename);
-			if (aai->pFrameDelays) free(aai->pFrameDelays);
+			free(aai->pFrameDelays);
 			mir_free(aai);
 		}
 		s_AniAvatarList.destroy();
@@ -529,7 +529,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 				_AniAva_PausePainting();
 
 				mir_free(aai->tcsFilename);
-				if (aai->pFrameDelays) free(aai->pFrameDelays);
+				free(aai->pFrameDelays);
 				_AniAva_ReduceAvatarImages(aai->nStripTop,aai->FrameSize.cx*aai->nFrameCount, FALSE);
 				for (int k = 0; k < s_AniAvatarList.getCount(); k++)
 					if (k != j)	{

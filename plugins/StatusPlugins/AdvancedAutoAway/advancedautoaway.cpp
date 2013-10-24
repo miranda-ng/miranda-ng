@@ -52,8 +52,7 @@ TAAAProtoSetting::TAAAProtoSetting( PROTOACCOUNT* pa )
 
 TAAAProtoSetting::~TAAAProtoSetting()
 {
-	if ( szMsg )
-		free( szMsg );
+	free(szMsg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

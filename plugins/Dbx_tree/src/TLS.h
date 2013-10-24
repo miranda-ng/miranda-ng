@@ -73,8 +73,7 @@ CThreadLocalStorage<TAdministrator, TData>::CThreadLocalStorage()
 template <typename TAdministrator, typename TData>
 CThreadLocalStorage<TAdministrator, TData>::~CThreadLocalStorage()
 {
-	if (m_LockfreeList)
-		delete m_LockfreeList;
+	delete m_LockfreeList;
 }
 
 

@@ -414,7 +414,7 @@ int	WINAPI CoolSB_SetScrollInfo (HWND hwnd, int fnBar, LPSCROLLINFO lpsi, BOOL f
 	if (lpsi->fMask & SIF_PAGE)
 	{
 		UINT t = (UINT)(mysi->nMax - mysi->nMin + 1);
-		mysi->nPage = min(max(0, lpsi->nPage), t);
+		mysi->nPage = min(lpsi->nPage, t);
 	}
 
 	//The nPos member must specify a value between nMin and nMax - max(nPage - 1, 0).
@@ -527,7 +527,7 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 	   (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
 	{
 		sbar->fScrollFlags  =  sbar->fScrollFlags & ~CSBS_VISIBLE;
-		sbar->fScrollFlags |= (fShow == TRUE ? CSBS_VISIBLE : 0);
+		sbar->fScrollFlags |= fShow ? CSBS_VISIBLE : 0;
 		//bFailed = TRUE;
 
 		if (fShow)	SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle | WS_HSCROLL);
@@ -538,7 +538,7 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 	   (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
 	{
 		sbar->fScrollFlags  =  sbar->fScrollFlags & ~CSBS_VISIBLE;
-		sbar->fScrollFlags |= (fShow == TRUE ? CSBS_VISIBLE : 0);
+		sbar->fScrollFlags |= fShow ? CSBS_VISIBLE : 0;
 		//bFailed = TRUE;
 
 		if (fShow)	SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle | WS_VSCROLL);

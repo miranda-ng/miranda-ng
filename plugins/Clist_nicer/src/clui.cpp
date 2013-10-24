@@ -242,7 +242,6 @@ static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 	static const char *szPrefix = "clist_nicer_plus ";
 
 	static char *component = "CList Nicer+";
-	static char szCurrentVersion[30];
 	static char *szVersionUrl = "http://download.miranda.or.at/clist_nicer/0.9/versionW.txt";
 	static char *szUpdateUrl = "http://download.miranda.or.at/clist_nicer/0.9/clist_nicer_plusW.zip";
 
@@ -682,7 +681,6 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 				SelectClipRgn(hdcScroll, rgn);
 				break;
 			case HTSCROLL_THUMB:
-				uItemID = nmcsbcd->uState == CDIS_HOT ? ID_EXTBKSCROLLTHUMBHOVER : ID_EXTBKSCROLLTHUMB;
 				uItemID = nmcsbcd->uState == CDIS_SELECTED ? ID_EXTBKSCROLLTHUMBPRESSED : ID_EXTBKSCROLLTHUMB;
 				break;
 			default:

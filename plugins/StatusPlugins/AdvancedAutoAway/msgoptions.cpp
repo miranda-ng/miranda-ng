@@ -176,8 +176,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	
 	case WM_DESTROY:
 		for (int i=0; i < count; i++ ) {
-			if (settings[i]->msg != NULL)
-				free(settings[i]->msg);
+			free(settings[i]->msg);
 			free(settings[i]);
 		}
 		free(settings);

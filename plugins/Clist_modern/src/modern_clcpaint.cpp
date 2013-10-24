@@ -2025,8 +2025,7 @@ void CLCPaint::_DrawLines( HWND hWnd, ClcData *dat, HDC hdc, int paintMode, RECT
 				_PaintRowItems( hWnd, pc.hdcMem, dat, Drawing, row_rc, free_row_rc, left_pos, right_pos, selected, hottrack, rcPaint );
 				if ( mpRequest && !dat->force_in_dialog )
 				{
-					if ( mpRequest->pl_Params[1].szValue )
-						free( mpRequest->pl_Params[1].szValue );
+					free(mpRequest->pl_Params[1].szValue);
 					mpRequest->pl_Params[1].szValue = strdupn("Ovl", 3 );
 					mpRequest->pl_Params[1].dwValueHash = mod_CalcHash("Ovl");
 					{

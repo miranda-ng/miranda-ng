@@ -207,7 +207,7 @@ void GetOSDisplayString(bkstring& buffer)
 			}
 		}
 
-		if (_tcslen(osvi.szCSDVersion) > 0) {
+		if (osvi.szCSDVersion[0] != 0) {
 			buffer.append(TEXT(" "));
 			buffer.append(osvi.szCSDVersion);
 		}

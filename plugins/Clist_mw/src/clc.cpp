@@ -229,7 +229,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					}
 				}
 				db_free(&dbv);
-				if (_tcslen(contact->szStatusMsg)>0) {
+				if (contact->szStatusMsg[0] != 0) {
 					contact->flags |= CONTACTF_STATUSMSG;
 					dat->needsResort = TRUE;
 				}

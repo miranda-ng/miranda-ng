@@ -424,31 +424,31 @@ static void UpdateStatusStructSettingsFromOptDlg(HWND hwndDlg, int index)
 
 	if (ChangedSItems.bALPHA) {
 		GetWindowTextA(GetDlgItem(hwndDlg, IDC_ALPHA), buf, 10);		// can be removed now
-		if (lstrlenA(buf) > 0)
+		if (buf[0] != 0)
 			p->ALPHA = (BYTE) SendDlgItemMessage(hwndDlg, IDC_ALPHASPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_LEFT) {
 		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_LEFT), buf, 10);		
-		if (lstrlenA(buf) > 0)
+		if (buf[0] != 0)
 			p->MARGIN_LEFT = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_LEFT_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_TOP) {
 		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_TOP), buf, 10);	
-		if (lstrlenA(buf) > 0)
+		if (buf[0] != 0)
 			p->MARGIN_TOP = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_TOP_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_RIGHT) {
 		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_RIGHT), buf, 10);
-		if (lstrlenA(buf) > 0)
+		if (buf[0] != 0)
 			p->MARGIN_RIGHT = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_RIGHT_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_BOTTOM) {
 		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_BOTTOM), buf, 10);	 
-		if (lstrlenA(buf) > 0)
+		if (buf[0] != 0)
 			p->MARGIN_BOTTOM = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_BOTTOM_SPIN, UDM_GETPOS, 0, 0);
 	}
 	if (ChangedSItems.bBORDERSTYLE) {
@@ -727,7 +727,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				SelectObject(dis->hDC, hPenOld);
 				DeleteObject((HGDIOBJ)hPen);
 			}
-			else if (dis->itemID >= 0 && item) {
+			else if (item) {
 				char *szName = item->szName[0] == '{' ? &item->szName[3] : item->szName;
 
 				TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, szName, lstrlenA(szName));

@@ -98,7 +98,6 @@ int MyPUShowMessage(char *lpzText, BYTE kind)
 char *BinToHex(int size, PBYTE data)
 {
 	char *szresult = NULL;
-	char buffer[32] = {0}; //should be more than enough
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[ maxSize ];
 	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);
@@ -344,7 +343,7 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 		if ((szHandle) && ((_tcsicmp(szHandle, szID) == 0) || (_tcsicmp(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;
 
-		if (szHandle) free(szHandle);
+		free(szHandle);
 
 		if (found) return hContact;
 	}

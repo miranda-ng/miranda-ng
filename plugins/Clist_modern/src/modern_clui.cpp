@@ -2110,7 +2110,7 @@ LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	for (int i=0; i < 64; i++) {
 		pt = &CycleStartTick[i];
-		if (pt->szProto != NULL && pt->bTimerCreated == 1) {
+		if (pt->szProto != NULL && pt->bTimerCreated) {
 			if (pt->bGlobal)
 				status = g_bMultiConnectionMode?ID_STATUS_CONNECTING:0;
 			else
@@ -2434,7 +2434,7 @@ LRESULT CLUI::OnListSizeChangeNotify( NMCLISTCONTROL * pnmc )
 	static RECT rcWindow,rcTree,rcTree2,rcWorkArea,rcOld;
 	int maxHeight, minHeight,newHeight;
 	int winstyle;
-	if (mutex_bDisableAutoUpdate == 1)
+	if (mutex_bDisableAutoUpdate)
 		return FALSE;
 	if (mutex_bDuringSizing)
 		rcWindow = rcSizingRect;

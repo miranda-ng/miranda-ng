@@ -93,11 +93,9 @@ CEncryptionManager::CEncryptionManager()
 }
 CEncryptionManager::~CEncryptionManager()
 {
-	if (m_Ciphers[CURRENT].Cipher)
-		delete m_Ciphers[CURRENT].Cipher;
+	delete m_Ciphers[CURRENT].Cipher;
 	m_Ciphers[CURRENT].Cipher = NULL;
-	if (m_Ciphers[OLD].Cipher)
-		delete m_Ciphers[OLD].Cipher;
+	delete m_Ciphers[OLD].Cipher;
 	m_Ciphers[OLD].Cipher = NULL;
 
 	CipherListRefCount--;

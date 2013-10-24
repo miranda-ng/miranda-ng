@@ -252,8 +252,7 @@ inline void CBlockManager::_PendingRemove(TPendingOperation * Pending, bool Free
 	else
 		m_PendingTail = Pending->Prev;
 
-	if (Pending->EncryptionBuffer)
-		free(Pending->EncryptionBuffer);
+	free(Pending->EncryptionBuffer);
 
 	if (m_PendingLast == Pending)
 		m_PendingLast = Pending->Prev;
@@ -340,8 +339,7 @@ inline void CBlockManager::_PendingFlush(bool FullFlush)
 		i = m_PendingHead;
 		while (i)
 		{
-			if (i->EncryptionBuffer)
-				free(i->EncryptionBuffer);
+			free(i->EncryptionBuffer);
 
 			if (i->CacheEntry)
 				i->CacheEntry->Pending = NULL;
@@ -430,8 +428,7 @@ inline void CBlockManager::_CacheErase(uint32_t Idx)
 	}
 	*l = i->Next;
 		
-	if (i->Cache)
-		free(i->Cache);
+	free(i->Cache);
 	free(i);
 }
 

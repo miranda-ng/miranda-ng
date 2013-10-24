@@ -188,8 +188,7 @@ int LoadFavoriteContactMenu()
 
 int UnloadFavoriteContactMenu()
 {
-	if (hFavoriteContactMenuItems)
-		free (hFavoriteContactMenuItems);
+	free(hFavoriteContactMenuItems);
 	hFavoriteContactMenuItems = NULL;
 
 	if (hFavoriteContactMenu)

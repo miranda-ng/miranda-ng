@@ -82,7 +82,7 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 				case ID_OK:
 					{
 					TCHAR tmpPort[6];
-					if (bOptionsOpen==TRUE)
+					if (bOptionsOpen)
 					{
 						MessageBox(hWnd,TranslateT("First close options window"),_T("ConnectionNotify"),MB_OK | MB_ICONSTOP);
 						break;

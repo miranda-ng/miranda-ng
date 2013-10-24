@@ -351,7 +351,7 @@ public:
 
 	~HashStringKeyNoCase()
 	{
-		if (_strKey) free (_strKey);
+		free(_strKey);
 		_strKey = NULL;
 		_dwKey=0;
 	}

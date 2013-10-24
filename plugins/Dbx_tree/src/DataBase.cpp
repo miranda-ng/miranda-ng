@@ -66,9 +66,9 @@ CDataBase::CDataBase(const TCHAR *FileName)
 }
 CDataBase::~CDataBase()
 {
-	if (m_Events)   delete m_Events;
-	if (m_Settings) delete m_Settings;
-	if (m_Entities) delete m_Entities;
+	delete m_Events;
+	delete m_Settings;
+	delete m_Entities;
 
 	m_Entities = NULL;
 	m_Settings = NULL;
@@ -76,9 +76,9 @@ CDataBase::~CDataBase()
 
 	for (int i = DBFileMax - 1; i >= 0; --i)
 	{
-		if (m_BlockManager[i])      delete m_BlockManager[i];
-		if (m_FileAccess[i])        delete m_FileAccess[i];
-		if (m_EncryptionManager[i]) delete m_EncryptionManager[i];
+		delete m_BlockManager[i];
+		delete m_FileAccess[i];
+		delete m_EncryptionManager[i];
 
 		m_BlockManager[i]      = NULL;
 		m_FileAccess[i]        = NULL;

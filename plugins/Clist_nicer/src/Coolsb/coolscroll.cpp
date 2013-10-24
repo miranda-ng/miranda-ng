@@ -1412,21 +1412,15 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 {
 	SCROLLBAR *sb;
 	HDC hdc;
-	HRGN hrgn;
 	RECT winrect, rect;
 	HRGN clip = 0;
-	BOOL fUpdateAll = ((LONG)wParam == 1);
 	BOOL fCustomDraw = FALSE;
 	LRESULT ret;
 	DWORD dwStyle;
 
 	GetWindowRect(hwnd, &winrect);
 	
-	//if entire region needs painting, then make a region to cover the entire window
-	if (fUpdateAll)
-		hrgn = (HRGN)wParam;
-	else
-		hrgn = (HRGN)wParam;
+	HRGN hrgn = (HRGN)wParam;
 	
 	//hdc = GetWindowDC(hwnd);
 	hdc = CoolSB_GetDC(hwnd, wParam);
@@ -1444,40 +1438,6 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 
 		//make the coordinates relative to the window for drawing
 		OffsetRect(&rect, -winrect.left, -winrect.top);
-
-#ifdef INCLUDE_BUTTONS
-
-		//work out the size of any inserted buttons so we can dra them
-		sb->nButSizeBefore  = GetButtonSize(sb, hwnd, SBBP_LEFT);
-		sb->nButSizeAfter   = GetButtonSize(sb, hwnd, SBBP_RIGHT);
-
-		//make sure there is room for the buttons
-		hbarwidth = rect.right - rect.left;
-
-		//check that we can fit any left/right buttons in the available space
-		if (sb->nButSizeAfter < (hbarwidth - MIN_COOLSB_SIZE))
-		{
-			//adjust the scrollbar rectangle to fit the buttons into
-			sb->fButVisibleAfter = TRUE;
-			rect.right -= sb->nButSizeAfter;
-			leftright |= SBBP_RIGHT;
-			
-			//check that there is enough space for the right buttons
-			if (sb->nButSizeBefore + sb->nButSizeAfter < (hbarwidth - MIN_COOLSB_SIZE))
-			{
-				sb->fButVisibleBefore = TRUE;
-				rect.left += sb->nButSizeBefore;
-				leftright |= SBBP_LEFT;
-			}
-			else
-				sb->fButVisibleBefore = FALSE;
-		}	
-		else
-			sb->fButVisibleAfter = FALSE;
-		
-		
-		DrawHorzButtons(sb, hdc, &rect, leftright);
-#endif// INCLUDE_BUTTONS		
 
 		if (uCurrentScrollbar == SB_HORZ)
 			fCustomDraw |= NCDrawHScrollbar(sb, hwnd, hdc, &rect, uScrollTimerPortion);
@@ -1498,40 +1458,6 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 
 		//make the coordinates relative to the window for drawing
 		OffsetRect(&rect, -winrect.left, -winrect.top);
-
-#ifdef INCLUDE_BUTTONS
-
-		//work out the size of any inserted buttons so we can dra them
-		sb->nButSizeBefore  = GetButtonSize(sb, hwnd, SBBP_LEFT);
-		sb->nButSizeAfter   = GetButtonSize(sb, hwnd, SBBP_RIGHT);
-
-		//make sure there is room for the buttons
-		vbarheight = rect.bottom - rect.top;
-
-		//check that we can fit any left/right buttons in the available space
-		if (sb->nButSizeAfter < (vbarheight - MIN_COOLSB_SIZE))
-		{
-			//adjust the scrollbar rectangle to fit the buttons into
-			sb->fButVisibleAfter = TRUE;
-			rect.bottom -= sb->nButSizeAfter;
-			updown |= SBBP_BOTTOM;
-			
-			//check that there is enough space for the right buttons
-			if (sb->nButSizeBefore + sb->nButSizeAfter < (vbarheight - MIN_COOLSB_SIZE))
-			{
-				sb->fButVisibleBefore = TRUE;
-				rect.top += sb->nButSizeBefore;
-				updown |= SBBP_TOP;
-			}
-			else
-				sb->fButVisibleBefore = FALSE;
-		}	
-		else
-			sb->fButVisibleAfter = FALSE;
-		
-	
-		DrawVertButtons(sb, hdc, &rect, updown);
-#endif // INCLUDE_BUTTONS
 
 		if (uCurrentScrollbar == SB_VERT)
 			fCustomDraw |= NCDrawVScrollbar(sb, hwnd, hdc, &rect, uScrollTimerPortion);

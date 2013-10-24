@@ -609,9 +609,6 @@ int CLUIFramesStoreAllFrames()
 // Get client frame
 int CLUIFramesGetalClientFrame(void)
 {
-	if (alclientFrame != -1)
-		return alclientFrame;
-
 	if (alclientFrame != -1) {
 		/* this value could become invalid if RemoveItemFromList was called,
 		* so we double-check */
@@ -1209,8 +1206,7 @@ INT_PTR CLUIFramesMoveUpDown(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		if (sd != NULL)
-			free(sd);
+		free(sd);
 		CLUIFramesStoreFrameSettings(pos);
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	}
@@ -1515,7 +1511,6 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 	Frames[nFramescount].hWnd = clfrm->hWnd;
 	Frames[nFramescount].height = clfrm->height;
 	Frames[nFramescount].TitleBar.hicon = clfrm->hIcon;
-	Frames[nFramescount].TitleBar.BackColour;
 	Frames[nFramescount].floating = FALSE;
 
 	//override tbbtip
@@ -1742,7 +1737,6 @@ int CLUIFramesResize(const RECT newsize)
 	GapBetweenFrames = db_get_dw(NULL,"CLUIFrames","GapBetweenFrames",1);
 	TitleBarH = db_get_dw(NULL,"CLUIFrames","TitleBarH",DEFAULT_TITLEBAR_HEIGHT);
 
-	sepw = GapBetweenFrames;
 	if (nFramescount < 1)
 		return 0;
 
@@ -1873,11 +1867,10 @@ INT_PTR CLUIFramesUpdateFrame(WPARAM wParam,LPARAM lParam)
 	if (wParam == -1) { CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0); return 0;}
 	if (lParam&FU_FMPOS)	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,1);
 	lockfrm();
-	wParam = id2pos(wParam);
-	if (wParam<0||(int)wParam>=nFramescount) { ulockfrm(); return -1;}
-	if (lParam&FU_TBREDRAW)	CLUIFramesForceUpdateTB(&Frames[wParam]);
-	if (lParam&FU_FMREDRAW)	CLUIFramesForceUpdateFrame(&Frames[wParam]);
-	//if () {}
+	int pos = id2pos(wParam);
+	if (pos < 0 || pos >= nFramescount) { ulockfrm(); return -1;}
+	if (lParam & FU_TBREDRAW)	CLUIFramesForceUpdateTB(&Frames[pos]);
+	if (lParam & FU_FMREDRAW)	CLUIFramesForceUpdateFrame(&Frames[pos]);
 	ulockfrm();
 
 	return 0;
@@ -2412,7 +2405,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				ulockfrm();
 			}
 
-			if (wParam & MK_LBUTTON) {
+			if (wParam & MK_RBUTTON) {
 				int newh = -1,prevold;
 
 				if (GetCapture() != hwnd){break;}
@@ -2933,8 +2926,7 @@ int UnLoadCLUIFramesModule(void)
 		mir_free(Frames[i].TitleBar.tooltip);
 	}
 
-	if (Frames)
-		free(Frames);
+	free(Frames);
 	Frames = NULL;
 	nFramescount = 0;
 	UnregisterClass(CLUIFrameTitleBarClassName,g_hInst);

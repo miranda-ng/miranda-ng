@@ -38,7 +38,7 @@ int CDb3Base::WorkModuleChain(int firstTime)
 		cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Processing module name chain"));
 		modChainCount = 0;
 		last_mod = 0;
-		if (modChain != NULL) free(modChain);
+		free(modChain);
 		modChain = (ModChainEntry*)malloc(sizeof(ModChainEntry));
 		phase = 0;
 		ofsCurrent = m_dbHeader.ofsFirstModuleName;

@@ -33,8 +33,7 @@ CDb3Mmap::CDb3Mmap(const TCHAR* tszFileName) :
 
 CDb3Mmap::~CDb3Mmap()
 {
-	if (m_pNull)
-		free(m_pNull);
+	free(m_pNull);
 }
 
 DWORD CDb3Mmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName)

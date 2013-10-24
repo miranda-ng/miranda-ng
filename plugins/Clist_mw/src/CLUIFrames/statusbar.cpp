@@ -221,7 +221,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc)
 		ds.hDC = hdcMem;
 
 		int startoffset = db_get_dw(NULL,"StatusBar","FirstIconOffset",0);
-		int extraspace = db_get_dw(NULL,"StatusBar","BkExtraSpace",0);
+		extraspace = db_get_dw(NULL,"StatusBar","BkExtraSpace",0);
 		int nParts = SendMessage(hwnd,SB_GETPARTS,0,0);
 
 		RECT rc = { 0 }, clrc;
