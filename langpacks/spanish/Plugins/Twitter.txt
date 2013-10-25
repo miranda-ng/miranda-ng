@@ -49,7 +49,7 @@ OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
-Enviar Tweet ...
+Enviar Tweet...
 [Network]
 Red
 [Network]
@@ -58,4 +58,4 @@ red
 [Visit Homepage]
 Visita la Página de inicio
 [Reply...]
-Responder ...
+Responder...

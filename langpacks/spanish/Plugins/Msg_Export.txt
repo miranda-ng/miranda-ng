@@ -9,7 +9,7 @@
 [Help]
 Ayuda
 [&Find...]
-Buscar ...
+Buscar...
 [&Close]
 &Cerrar
 [User &Details]

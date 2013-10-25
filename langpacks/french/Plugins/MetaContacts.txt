@@ -112,7 +112,7 @@ Aucun MetaContact approprié trouvé
 [a contact]
 un contact
 [Adding %s...]
-Ajout de %s ...
+Ajout de %s...
 [Please select a MetaContact]
 Veuillez choisir un MetaContact
 [No MetaContact selected]

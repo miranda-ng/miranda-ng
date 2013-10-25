@@ -291,11 +291,11 @@ Global
 (contacto desconocido)
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
-&Buscar/Agregar contactos ...
+&Buscar/Agregar contactos...
 [&Main Menu]
 &Menú Principal
 [&Options...]
-&Opciones ...
+&Opciones...
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp

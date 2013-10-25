@@ -2029,7 +2029,7 @@ Facebook чат
 [Select/type search service URL above and press <Go>]
 
 [Please wait...\r\nConnecting search server...]
-Моля, изчакайте...\r\nСвързване ...
+Моля, изчакайте...\r\nСвързване...
 [You have to be connected to server]
 Трябва да сте свързан към сървър
 ;file \protocols\JabberG\src\jabber_svc.cpp

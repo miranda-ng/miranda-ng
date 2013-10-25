@@ -94,7 +94,7 @@ Jazyk:
 [We are already waiting for new stranger...]
 
 [Connecting...]
-Pripájam ...
+Pripájam...
 [Waiting for Stranger...]
 
 ;file \protocols\Omegle\src\constants.h

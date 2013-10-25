@@ -7,11 +7,11 @@
 ;============================================================
 ;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
-Envoyer le message à ...
+Envoyer le message à...
 [Everyone]
 Tous le monde
 [Forward when your status is...]
-Envoyer si vous êtes ...
+Envoyer si vous êtes...
 [Offline]
 Hors ligne
 [Online]

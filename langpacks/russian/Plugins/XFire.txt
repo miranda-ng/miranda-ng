@@ -108,8 +108,6 @@
 Найдены игры:%s%s
 [Block U&ser...]
 Заблокировать пользователя...
-[Join &Voice ...]
-Начать общение...
 [Play this game...]
 Играть в эту игру...
 [Join &Game...]
@@ -129,7 +127,7 @@
 [&XFire Online Profile]
 Онлайн профиль XFire
 [Remove F&riend...]
-Удалить из друзей ...
+Удалить из друзей...
 [Do you really want to delete your friend %s?]
 Вы действительно хотите удалить %s?
 [Automatically Detect]
@@ -148,8 +146,6 @@
 Не могу подключится к XFire.
 [Start game]
 Начать игру
-[Setup your Games ...]
-Установка ваших игр ...
 [Voicechat]
 Голосовой чат
 [User details]

@@ -11,11 +11,11 @@ Message %s pour %s
 [&Cancel]
 &Annuler
 [Retrieving %s message...]
-Récupération du message %s ...
+Récupération du message %s...
 [Co&py to Clipboard]
 Co&pier dans le presse-papier
 [Retrieving status message for %s...]
-Récupération du message d'état de %s ...
+Récupération du message d'état de %s...
 [Max length:]
 Taille maxi :
 [Status Messages]

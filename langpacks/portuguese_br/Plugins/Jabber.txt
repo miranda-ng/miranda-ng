@@ -8,26 +8,6 @@
 ;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Type:]
@@ -386,7 +366,7 @@ Em andamento. Por favor aguarde...
 [Execute]
 Execute
 [Requesting command list. Please wait...]
-Lista de comandos requerente. Aguarde ...
+Lista de comandos requerente. Aguarde...
 [Jabber Ad-Hoc commands at %s]
 Jabber Ad-Hoc comandos at %s
 [Sending Ad-Hoc command to %s]

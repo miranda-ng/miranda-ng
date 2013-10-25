@@ -14,7 +14,7 @@ Color
 [Output]
 Salida
 [Choose font...]
-Elija la fuente ...
+Elija la fuente...
 ;file \plugins\Watrack\myshows\myshows.rc
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 ;file \plugins\Watrack\lastfm\i_last_dlg.inc

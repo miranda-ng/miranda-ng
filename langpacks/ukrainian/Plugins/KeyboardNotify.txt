@@ -23,7 +23,7 @@
 Тільки для повідомлень
 [Blink if message window is open]
 Мигати, якщо діал. вікно відкрито
-[ ... and not in foreground]
+[and not in foreground]
 і не поміщено на передній план
 [Only if last is]
 Якщо посл.

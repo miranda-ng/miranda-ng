@@ -263,13 +263,13 @@ contatos
 [Import List From &Server]
 Lista de Importação De & Server
 [Import List From &Text File...]
-Importar Lista do Arquivo de Rexto ...
+Importar Lista do Arquivo de Rexto...
 [&Remove List From Server]
 &Remover Lista do Servidor
 [Export List To &Server]
 Exportar Lista Para &Servidor
 [Export List To &Text File...]
-List & Export To Text File ...
+List & Export To Text File...
 ;file \protocols\Gadu-Gadu\src\links.cpp
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password was sent to your e-mail.]

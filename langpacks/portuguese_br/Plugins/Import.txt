@@ -149,8 +149,6 @@ Ignorado %d duplicados e  %d eventos filtrados.
 Ignorado %d duplicados.
 ;file \plugins\Import\src\main.cpp
 [&Import...]
-&Importar ...
-[&Import...]
 &Importar...
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]

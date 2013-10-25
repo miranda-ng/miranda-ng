@@ -748,7 +748,7 @@ Odpojený
 
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
-Prosím čakaj ...
+Prosím čakaj...
 [Channel]
 
 [Mode]

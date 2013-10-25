@@ -576,7 +576,7 @@ Quando necessário, por mensagem de status
 [Contact list display and ignore options for %s]
 Exibição de lista de contatos e ignorar as opções para %s
 [&Contact list settings...]
-&Lista de configurações de Contato ...
+&Lista de configurações de Contato...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Global

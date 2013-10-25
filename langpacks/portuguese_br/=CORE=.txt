@@ -917,7 +917,7 @@ Para:
 [File(s):]
 Arquivo(s):
 [&Choose Again...]
-Escolha Again & ...
+&Escolha Again...
 [Total size:]
 Tamanho total:
 [&D]
@@ -2091,7 +2091,7 @@ Notas
 [Owner]
 Proprietário
 [View/Change My &Details...]
-Ver/Mudar Meus &Detalhes ...
+Ver/Mudar Meus &Detalhes...
 [View/Change My &Details...]
 Exibir/Alterar Meus &Detalhes...
 ;file \src\core\stduseronline\useronline.cpp

@@ -39,7 +39,7 @@ Agregar
 [Delete]
 Eliminar
 [Export...]
-Exportar ...
+Exportar...
 [OK]
 OK
 [Cancel]

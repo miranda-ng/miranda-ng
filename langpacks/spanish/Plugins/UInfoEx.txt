@@ -205,7 +205,7 @@ TreeView
 [Adapt propertysheet pages to aero mode.]
 Adaptar las páginas propertysheet a modo de aerodinámica.
 [Importing...\nPlease wait!]
-Importación de ...\nPor favor, espere!
+Importación de...\nPor favor, espere!
 [None]
 ninguno
 [MainMenu]
@@ -243,7 +243,7 @@ No me lo recuerdes de este aniversario.
 [Refresh Contact Details]
 Actualizar datos de contacto
 [Preparing...]
-Preparación ...
+Preparación...
 [What do you want to export?]
 ¿Qué es lo que desea exportar?
 [Contact Information]
@@ -498,7 +498,7 @@ Usuario &detalles
 [&Import User Details]
 &Datos de importación de usuario
 [View/Change My &Details...]
-Ver/Cambiar mi &Detalles ...
+Ver/Cambiar mi &Detalles...
 [Export all contacts]
 Exportar todos los contactos
 [Import all contacts]
@@ -637,7 +637,7 @@ La ini-archivo "%s"\npara leer la información de contacto no se pudo abrir.
 [all Contacts]
 todos los contactos
 [Select a destination file...]
-Seleccione un archivo de destino ...
+Seleccione un archivo de destino...
 [Import User Details from VCard]
 Importar los detalles del usuario de VCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp

@@ -81,7 +81,7 @@ Mostrar mensagens de erro de conexão:
 [ICQ contacts stored on server]
 Sem contatos armazenados no servidor
 [Manage server's list...]
-Gerenciar lista de servidor ...
+Gerenciar lista de servidor...
 [Enable server-side contact lists *]
 Habilitar do lado do servidor listas de contato *
 [Add contacts to the server's list when I add them to mine]

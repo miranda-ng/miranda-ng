@@ -111,9 +111,9 @@ Izquierda haga clic en la acción:
 [Right click action:]
 Haga clic en la acción:
 [Disable when global status is...]
-Desactivar cuando la situación mundial es ...
+Desactivar cuando la situación mundial es...
 [Disable when relevant protocol's status is...]
-Deshabilitar el protocolo pertinente cuando el estado es ...
+Deshabilitar el protocolo pertinente cuando el estado es...
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Los colores pueden ser configurados en\r\nPersonalizar > Fuentes && Colores
 [Per-contact settings]
@@ -169,7 +169,7 @@ El Jabberwocky
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
 `Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
-un fragmento de ensayo para la emergente configuración de plug-in. Esto se supone que es el tiempo suficiente para no caber en una sola línea ...
+un fragmento de ensayo para la emergente configuración de plug-in. Esto se supone que es el tiempo suficiente para no caber en una sola línea...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
 Esta es una vista previa de prueba especial para la emergente configuración de plug-in. El texto y el título son bastante largas para que pueda ajustar su piel y el plugin de configuración para adaptarse mejor a sus necesidades:)
 [This is a notification message]
@@ -262,7 +262,7 @@ Además emergente de advertencia
 [Skin preview]
 Vista previa de la piel
 [Just take a look at this skin... ;)]
-Basta con echar un vistazo a esta piel ... ;)
+Basta con echar un vistazo a esta piel... ;)
 [Show clock]
 Mostrar reloj
 [non rectangular]

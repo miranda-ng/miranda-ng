@@ -170,7 +170,7 @@ Traffic SSL
 [Sounds]
 Sons
 [&Change...]
-&Changer ...
+&Changer...
 [&Preview]
 &Aperçu
 [Download more sounds]
@@ -188,7 +188,7 @@ Icônes
 [Show category:]
 Afficher la catégorie
 [&Load icon set...]
-&Charger un pack d'icônes ...
+&Charger un pack d'icônes...
 [&Import icons >>]
 &Importer des icônes >>
 [Download more icons]
@@ -540,7 +540,7 @@ Vous avez été ajouté
 [%s Message for %s]
 Message %s pour %s
 [Retrieving %s message...]
-Récupération du message %s ...
+Récupération du message %s...
 [Status Messages]
 Messages d'état
 [Do not reply to requests for this message]
@@ -935,7 +935,7 @@ Reprendre tous
 [Overwrite all]
 Écraser tous
 [Save as...]
-Enregistrer sous ...
+Enregistrer sous...
 [Auto rename]
 
 [Skip]
@@ -1147,7 +1147,7 @@ Chercher :
 [Message History]
 Historique des messages
 [&Find...]
-&Chercher ...
+&Chercher...
 ;file \src\core\stduserinfo\resource.rc
 [Add Phone Number]
 Ajouter le téléphone
@@ -1336,7 +1336,7 @@ Usager sortant
 [User has disconnected]
 Usager s'est déconnecté
 [User kicked ...]
-Usager exclu...
+Usager exclu ...
 [User is now known as ...]
 L'usager est devenu ...
 [Notice from user]
@@ -1346,7 +1346,7 @@ Message reçu
 [Outgoing message]
 Message envoyé
 [The topic is ...]
-Le sujet est...
+Le sujet est ...
 [Information messages]
 Messages d'info
 [User enables status for ...]

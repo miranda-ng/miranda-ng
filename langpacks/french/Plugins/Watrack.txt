@@ -300,7 +300,7 @@ Sortie
 [Check]
 Vérifier
 [Choose font...]
-Police ...
+Police...
 [[X]Status Title / Text]
 Titre xStatus / Texte
 ;file \plugins\Watrack\myshows\myshows.rc

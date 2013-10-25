@@ -22,7 +22,7 @@
 [Error connecting to server]
 Ошибка соединения с сервером
 [Aborting all files...]
-Отмена всех передач ...
+Отмена всех передач...
 [Could not change remote directory to %s (%d, %d)\n\nMore info:\n%s\n\nRetry will try to create the directory]
 Невозможно сменить удалённую папку на %s (%d, %d)\n\nРасширенная информация:\n%s\n\nПовтор для попытки создать папку
 [Could not change remote directory to %s (%d)\n\nRetry will try to create the directory]

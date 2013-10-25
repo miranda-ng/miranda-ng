@@ -1836,7 +1836,7 @@ prijímam
 [Decision sent]
 Rozhodnutie odoslané
 [Connecting...]
-Pripájam ...
+Pripájam...
 [Connecting to proxy...]
 
 [Connected]
@@ -1844,7 +1844,7 @@ Pripojený
 [Initializing...]
 Inicializujem...
 [Moving to next file...]
-presuň do ďalšieho suboru ...
+presuň do ďalšieho suboru...
 [File already exists]
 Súbor už existuje
 [Sending...]

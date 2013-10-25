@@ -33,6 +33,6 @@ Instalado Idiomas
 [File]
 Archivo
 [&Remove...]
-&Eliminar ...
+&Eliminar...
 [Languages]
 Idioma

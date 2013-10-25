@@ -216,7 +216,7 @@ Confirmar la eliminación del módulo
 [Delete module from Database]
 Eliminar del módulo de base de datos
 [Delete module from Database... Loading]
-Eliminar del módulo de base de datos ... Cargando]
+Eliminar del módulo de base de datos... Cargando]
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [All Files]
 Todos los archivos
@@ -265,9 +265,9 @@ Confirmar Eliminar contacto
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
-contactos Cargando ...
+contactos Cargando...
 [Loading modules...]
-módulos de carga ...
+módulos de carga...
 [Contacts]
 Contactos
 [Add module to contact "%s"]

@@ -84,7 +84,7 @@ URL:
 Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
-&Запрасіць карыстальніка ...
+&Запрасіць карыстальніка...
 [&Leave chat session]
 &Пакінуць чат
 [User &details]

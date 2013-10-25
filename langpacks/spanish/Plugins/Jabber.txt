@@ -79,9 +79,9 @@ Registro de Agentes de la búsqueda Jabber
 [Jabber server:]
 Jabber servidor:
 [Register...]
-Registro de ...
+Registro de...
 [Browse/Join chat room...]
-Explorar / Únete a sala de chat ...
+Explorar / Únete a sala de chat...
 [Registered Jabber Transports]
 Jabber registrados Transportes
 [Log on]
@@ -89,7 +89,7 @@ Entrar en
 [Log off]
 Cierre la sesión
 [Register with a new service...]
-Registro con un nuevo servicio ...
+Registro con un nuevo servicio...
 [Close]
 Cerrar
 [Instruction:]
@@ -292,7 +292,7 @@ Hecho
 [Execute]
 Ejecutar
 [Requesting command list. Please wait...]
-Solicitud de lista de comandos. Por favor espere ...
+Solicitud de lista de comandos. Por favor espere...
 [Jabber Ad-Hoc commands at %s]
 Jabber Ad-Hoc comandos en %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
@@ -448,7 +448,7 @@ Examinar los transportes locales
 [Browse chatrooms]
 Echar un salas de chat
 [Contact Menu...]
-Contacto Menú ...
+Contacto Menú...
 [View vCard]
 Ver vCard
 [Join chatroom]
@@ -468,7 +468,7 @@ Adicionar el directorio de búsqueda
 [Use this proxy]
 Utilizar el proxy
 [Commands...]
-Comandos ...
+Comandos...
 [Logoff]
 Cierre de sesión
 [Copy JID]
@@ -489,15 +489,15 @@ solicitud de habitación lista ha agotado el tiempo.
 [<no nick>]
 <no nick>
 [Loading...]
-Cargando ...
+Cargando...
 [Loading...]
-Cargando ...
+Cargando...
 [Please wait for room list to download.]
 Por favor, espere a que la sala de lista para descargar.
 [Please specify groupchat directory first.]
 Por favor especificar el directorio grupo de charla en primer lugar.
 [Bookmarks...]
-Marcadores ...
+Marcadores...
 [Incoming groupchat invitation.]
 Entrantes invitación grupo de charla.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -586,7 +586,7 @@ Lista de miembros
 [Moderator List]
 Moderador lista
 [Ban List]
-Prohibición de la lista ...
+Prohibición de la lista...
 [Admin List]
 Administrador de la lista
 [Owner List]
@@ -756,7 +756,7 @@ Suscripción
 [XML for MS Excel (UTF-8 encoded)]
 XML for MS Excel (UTF-8 encoded)
 [Connecting...]
-Conectando ...
+Conectando...
 [Network]
 Red
 [Network]
@@ -818,7 +818,7 @@ Mueva la regla de hasta
 [Move rule down]
 Mueva la regla hacia abajo
 [Add list...]
-Agregar a lista ...
+Agregar a lista...
 [Remove list]
 Borrar lista
 [** Default **]
@@ -876,7 +876,7 @@ Por favor, guarde la lista antes de hacer la lista por defecto
 [Unable to save list because you are currently offline.]
 No se puede guardar la lista, ya que actualmente están fuera de línea.
 [List Editor...]
-Editor de listas ...
+Editor de listas...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Set status]
@@ -931,9 +931,9 @@ Error: No se puede conectar al servidor
 [Error: Connection lost]
 Error: ha perdido la conexión
 [Requesting registration instruction...]
-Solicitud de registro de instrucciones ...
+Solicitud de registro de instrucciones...
 [Sending registration information...]
-registro de envío de la información ...]
+registro de envío de la información...]
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Mensaje
@@ -1017,9 +1017,9 @@ Error
 [Advanced Status]
 Estado avanzado
 [Set mood...]
-Establecer el estado de ánimo ...
+Establecer el estado de ánimo...
 [Set activity...]
-Establecer la actividad ...
+Establecer la actividad...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 masculino
@@ -1099,4 +1099,4 @@ Los estados de ánimo
 Actividades
 ;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
-Conjunto de filtros ...
+Conjunto de filtros...

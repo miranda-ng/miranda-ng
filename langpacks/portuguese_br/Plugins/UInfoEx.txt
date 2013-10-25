@@ -200,9 +200,7 @@ Pesquisar
 [User &Details]
 &Detalhes do Usuário
 [View/Change My &Details...]
-Ver/Mudar Meus &Detalhes ...
-[View/Change My &Details...]
-Exibir/Alterar Meus &Detalhes...
+Ver/Mudar Meus &Detalhes...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [About:]
 Sobre:

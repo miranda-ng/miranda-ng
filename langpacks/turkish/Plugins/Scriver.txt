@@ -394,7 +394,7 @@ Alınan ileti
 [Outgoing message]
 Gönderilen ileti
 [The topic is ...]
-Başlık şudur...
+Başlık şudur ...
 [Information messages]
 Bilgi iletileri
 [User enables status for ...]

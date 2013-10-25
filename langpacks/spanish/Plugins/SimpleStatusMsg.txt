@@ -11,7 +11,7 @@
 [&Cancel]
 &Cancelar
 [Retrieving %s message...]
-Recuperar %s mensaje ...
+Recuperar %s mensaje...
 [OK]
 OK
 [Status Messages]
@@ -74,7 +74,7 @@ Me estoy escondiendo de la mafia.
 [That'll be the phone.]
 Eso va a ser el teléfono.
 [Mmm...food.]
-Mmm ... la comida.
+Mmm... la comida.
 [idleeeeeeee]
 idleeeeeeee
 [idleeeeeeee]

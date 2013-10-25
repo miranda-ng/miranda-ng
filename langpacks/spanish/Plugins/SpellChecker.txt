@@ -110,7 +110,7 @@ Banderas DLL
 Activar / desactivar el corrector ortográfico
 ;file \plugins\SpellChecker\src\utils.cpp
 [Other...]
-Otros ...
+Otros...
 [Always replace with]
 Siempre reemplace con
 [Add to dictionary]

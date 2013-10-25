@@ -49,7 +49,7 @@ Mostrar todo el mensaje sobre "el mouse encima de" evento
 [Save window position individually for each contact]
 Guardar posición de la ventana de forma individual para cada contacto
 [Show...]
-Mostrar ...
+Mostrar...
 [Parting line]
 Partiendo de línea
 [Timestamp]
@@ -99,7 +99,7 @@ salientes
 [History]
 Historia
 [Processing history...]
-Procesamiento de la historia ...
+Procesamiento de la historia...
 [Could not create window!]
 No se pudo crear la ventana!
 [Could not allocate memory!]
@@ -111,6 +111,6 @@ Linklist Plugin
 [Matches for searchtext]
 Coincidencias para searchtext
 [Processing list...]
-Procesamiento de la lista ...
+Procesamiento de la lista...
 [No messages found!\nPlease change current filter options.]
 No hay mensajes encontrado!\nPor favor, cambie las actuales opciones de filtro.

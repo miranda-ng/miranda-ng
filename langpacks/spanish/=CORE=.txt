@@ -170,7 +170,7 @@ Habilitar eventos de sonido
 [Icons]
 Iconos
 [&Load icon set...]
-&Cargar el icono ...
+&Cargar el icono...
 [&Import icons >>]
 &Importación iconos>>
 [Download more icons]
@@ -216,7 +216,7 @@ Para
 [To default status icons]
 A los valores de los iconos de estado
 [Logging...]
-Registro de ...
+Registro de...
 [Outgoing Connections]
 Conexiones de salida
 [Use proxy server]
@@ -278,7 +278,7 @@ Deshacer
 [Reset]
 Restablecer
 [Export...]
-Exportar ...
+Exportar...
 [Color/Background]
 Color / Antecedentes
 [Text Effect]
@@ -348,17 +348,17 @@ Información de la cuenta:
 [Additional:]
 Adicionales:
 [Configure network...]
-Configurar la red ...
+Configurar la red...
 [Get more protocols...]
-Obtenga más protocolos ...
+Obtenga más protocolos...
 [&Add...]
-&Añadir ...
+&Añadir...
 [&Edit]
 &Editar
 [&Options]
 &Opciones
 [&Remove...]
-&Eliminar ...
+&Eliminar...
 [Headers:]
 Encabezados:
 [This font is used to display main section titles or text elements.]
@@ -460,7 +460,7 @@ Añadir a la lista de contactos si así lo autoriza
 [%s Message for %s]
 %s Mensaje para %s
 [Retrieving %s message...]
-Recuperar %s mensaje ...
+Recuperar %s mensaje...
 [Status Messages]
 Mensaje de estado
 [Do not reply to requests for this message]
@@ -775,7 +775,7 @@ Para
 [File(s):]
 Archivo (s):
 [&Choose Again...]
-&Elija Una vez más ...
+&Elija Una vez más...
 [Total size:]
 Tamaño total:
 [Incoming File Transfer]
@@ -795,7 +795,7 @@ Guardar en:
 [Contact menu]
 contacto menú
 [Open...]
-Abrir ...
+Abrir...
 [Open folder]
 Abrir la carpeta
 [No data transferred]
@@ -811,7 +811,7 @@ Sobrescribir
 [Overwrite all]
 Sobrescribir todos
 [Save as...]
-Guardar como ...
+Guardar como...
 [Skip]
 Saltar
 [Cancel transfer]
@@ -1001,7 +1001,7 @@ Buscar:
 [Message History]
 Historial de mensajes
 [&Find...]
-Buscar ...
+Buscar...
 ;file \src\core\stduserinfo\resource.rc
 [Add Phone Number]
 Agregar Número de teléfono
@@ -1126,7 +1126,7 @@ Me estoy escondiendo de la mafia.
 [That'll be the phone.]
 Eso va a ser el teléfono.
 [Mmm...food.]
-Mmm ... la comida.
+Mmm... la comida.
 [idleeeeeeee]
 idleeeeeeee
 [idleeeeeeee]
@@ -1543,7 +1543,7 @@ Bytes
 [&File]
 &Archivo
 [File &Transfers...]
-Archivo &Transferencias ...
+Archivo &Transferencias...
 [Incoming]
 Entrantes
 [Complete]
@@ -1584,9 +1584,9 @@ Este archivo aún no ha sido verificado contra virus. ¿Está seguro que desea a
 [File Received]
 Recibido Archivo
 [Request sent, waiting for acceptance...]
-Solicitud enviada, a la espera de la aceptación ...
+Solicitud enviada, a la espera de la aceptación...
 [Waiting for connection...]
-Espera para una conexión ...
+Espera para una conexión...
 [Unable to initiate transfer.]
 No se puede iniciar la transferencia.
 [sec]
@@ -1596,21 +1596,21 @@ restantes
 [Decision sent]
 Decisión enviado
 [Connecting...]
-Conectando ...
+Conectando...
 [Connecting to proxy...]
 Conexión con proxy...
 [Connected]
 Conectados
 [Initializing...]
-Iniciando ...
+Iniciando...
 [Moving to next file...]
-Traslado al siguiente archivo ...
+Traslado al siguiente archivo...
 [File already exists]
 El archivo ya existe
 [Sending...]
-El envío de ...
+El envío de...
 [Receiving...]
-Recepción de ...
+Recepción de...
 [File transfer denied]
 Transferencia de archivos negado
 [File transfer failed]
@@ -1620,7 +1620,7 @@ Transferencia finalizada.
 [Transfer completed, open file.]
 Transferencia finalizada, archivo abierto.
 [Scanning for viruses...]
-La búsqueda de virus ...
+La búsqueda de virus...
 [Transfer and virus scan complete]
 Transferencia y análisis de virus completos
 ;file \src\core\stdfile\ftmanager.cpp
@@ -1631,7 +1631,7 @@ Salientes
 < Copyright
 ;file \src\core\stdhelp\help.cpp
 [&About...]
-&Acerca de ...
+&Acerca de...
 [&Report Bug]
 &Informe de errores
 ;file \src\core\stdidle\idle.cpp
@@ -1783,7 +1783,7 @@ Notas
 [Owner]
 Propietario
 [View/Change My &Details...]
-Ver/Cambiar mi &Detalles ...
+Ver/Cambiar mi &Detalles...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s está en línea
@@ -1937,7 +1937,7 @@ Todas las redes
 [Handle]
 Manejar
 [&Find/Add Contacts...]
-&Buscar/Agregar contactos ...
+&Buscar/Agregar contactos...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', había un problema - es %s conectado?
@@ -2028,11 +2028,11 @@ Host que se conecta a no es el certificado fue emitido por un
 [<core modules>]
 <>
 [Loading... %d%%]
-Cargando ... %d%%
+Cargando... %d%%
 [%s options]
 %s opciones
 [&Options...]
-&Opciones ...
+&Opciones...
 ;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' está desactivado, volver a habilitar?
@@ -2087,7 +2087,7 @@ Cuenta %s está siendo eliminado
 [You need to disable plugin to delete this account]
 Tienes que deshabilitar el plugin para borrar esta cuenta
 [&Accounts...]
-&Cuentas ...
+&Cuentas...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Scope:]
 Ámbito de aplicación:

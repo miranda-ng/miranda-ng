@@ -86,7 +86,7 @@ Effacer l'avatar ?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'un raccourci !
 [View Avatar History]
-Historique des avatars ...
+Historique des avatars...
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]

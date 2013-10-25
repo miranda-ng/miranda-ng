@@ -334,7 +334,7 @@ Usager sortant
 [User has disconnected]
 Usager s'est déconnecté
 [User kicked ...]
-Usager exclu...
+Usager exclu ...
 [User is now known as ...]
 L'usager est devenu ...
 [Notice from user]
@@ -344,7 +344,7 @@ Message reçu
 [Outgoing message]
 Message envoyé
 [The topic is ...]
-Le sujet est...
+Le sujet est ...
 [Information messages]
 Messages d'info
 [User enables status for ...]

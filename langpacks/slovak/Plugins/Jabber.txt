@@ -483,7 +483,7 @@ Požiadavka na autorizáciu
 [No message]
 Žiadna správa
 [Please wait...]
-Prosím čakaj ...
+Prosím čakaj...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 
@@ -1808,7 +1808,7 @@ Jabber ID
 [XML for MS Excel (UTF-8 encoded)]
 
 [Connecting...]
-Pripájam ...
+Pripájam...
 [Network]
 Sieť
 [Account]

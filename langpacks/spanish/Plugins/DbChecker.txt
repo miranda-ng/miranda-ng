@@ -29,7 +29,7 @@ Seleccione la base de datos y el perfil de la lista a continuación. Si la base 
 [&File:]
 &Archivo:
 [&Other...]
-&Otros ...
+&Otros...
 [Error Opening Database]
 Error al abrir la base de datos
 [There was an error opening the profile database given.]
@@ -71,7 +71,7 @@ Convertir mensajes antiguos Unicode a UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
 Convierte los mensajes de la historia en formato de pre-0.7 (ANSI   UCS2) al formato UTF8 nuevo con el apoyo de 0,7. Guarda el espacio de base de datos en la mayoría de los casos (recomendado).
 [Working...]
-Trabajo ...
+Trabajo...
 [Please wait while the requested operations are being performed.]
 Por favor, espere mientras que las operaciones solicitadas están llevando a cabo.
 [Finished!]

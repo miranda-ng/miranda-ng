@@ -11,7 +11,7 @@ Copier
 [Select All]
 Tout sélectionner
 [Save Image As...]
-Sauver l'image sous ...
+Sauver l'image sous...
 [Print]
 Imprimer
 [Show source]

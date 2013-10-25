@@ -398,7 +398,7 @@ Paramètres de l'avatar du contact
 [Always keep the button bar at full width]
 Largeur maximum de la barre de boutons
 [Save this Picture As...]
-Sauver cette image sous ...
+Sauver cette image sous...
 [Send &Default]
 Envoi &normal
 [Send to &multiple Users]
@@ -954,13 +954,13 @@ Usager sortant
 [User has disconnected]
 Usager s'est déconnecté
 [User kicked ...]
-Usager exclu...
+Usager exclu ...
 [User is now known as ...]
 L'usager est devenu ...
 [Notice from user]
 Notice de l'usager
 [The topic is ...]
-Le sujet est...
+Le sujet est ...
 [Information messages]
 Messages d'info
 [User enables status for ...]

@@ -80,7 +80,7 @@ No se puede escribir en el archivo de salida - el disco completo? (%u)
 [Event count marked wrongly: correcting]
 Recuento de eventos marcados erróneamente: corregir
 [Event chain corrupted, trying to recover...]
-cadena de sucesos dañado, tratando de recuperar ...]
+cadena de sucesos dañado, tratando de recuperar...]
 [Event chain corrupted, further entries ignored]
 Evento de la cadena dañada, de las entradas más ignorados
 [First event not marked as such: correcting]

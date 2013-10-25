@@ -31,7 +31,7 @@ Una vez
 [&Delete]
 &Eliminar
 [&Options...]
-&Opciones ...
+&Opciones...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp

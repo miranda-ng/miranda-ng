@@ -511,7 +511,7 @@ IRC-стиль (текстовый) индикаторов ролей участ
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
 Приват при двойном щелчке в списке ников (иначе вставлять ник)
 [Use IRC style status indicators in the log]
-IRC-стиль(текстовый) индикаторов ролей в журнале чата
+IRC-стиль (текстовый) индикаторов ролей в журнале чата
 [Allow clickable user names in the message log]
 Ники кликабельны как гиперссылки
 [Colorize user names in message log]
@@ -1222,7 +1222,7 @@ ID пользователя в панели статуса
 [Use button tabs (*)]
 Вкладки - кнопки (*)
 [Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them.]
-Выберите параметры для пользовательского интерфейса с вкладками. Не все параметры могут быть применены к открытому окну. Вам может потребоваться закрыть и снова открыть их.
+Выберите параметры для пользовательского интерфейса со вкладками. Не все параметры можно применить к открытому окну. Может потребоваться закрыть и снова открыть их.
 
 ;Уведомления
 

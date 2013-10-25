@@ -2686,7 +2686,7 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 Всі інші
 [Blink if message window is open]
 Блимати, якщо діал. вікно відкрито
-[ ... and not in foreground]
+[and not in foreground]
 і не поміщено на передній план
 [Only if last is]
 Якщо ост.

@@ -15,7 +15,7 @@ Píxeles de fondo
 [Pixels from Side]
 Píxeles de lado
 [Always start...]
-Comience siempre ...
+Comience siempre...
 [Minimized to System Tray]
 Minimiza en la bandeja del sistema
 [Opened]

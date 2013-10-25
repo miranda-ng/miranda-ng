@@ -25,11 +25,11 @@ Si en el futuro que desea utilizar de nuevo el asistente, puede hacer que la car
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
 Miranda ha encontrado perfiles de Miranda con los siguientes nombres. Por favor, seleccione la que desea importar o haga clic en "Otro perfil" si su perfil no aparece en la lista, o si la lista está vacía.
 [&Other Profile...]
-&Perfil de ...
+&Perfil de...
 [&Filename:]
 &Nombre del archivo:
 [Now importing...]
-Ahora la importación de ...
+Ahora la importación de...
 [Import Information Wizard]
 Asistente para importación de la Información
 [Cancel]

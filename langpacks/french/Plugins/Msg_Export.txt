@@ -39,7 +39,7 @@ Exportation des anciens messages
 [History file for %s (%s format %s)]
 Fichier d'historique de %s (%s format %s)
 [&Find...]
-&Chercher ...
+&Chercher...
 [&External]
 &Externe
 [&Close]

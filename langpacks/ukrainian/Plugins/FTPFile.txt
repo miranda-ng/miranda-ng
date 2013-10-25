@@ -20,7 +20,7 @@
 [Error connecting to server]
 Помилка з'єднання з сервером
 [Aborting all files...]
-Скасування всіх передач ...
+Скасування всіх передач...
 [Could not change remote directory to %s (%d, %d)\n\nMore info:\n%s\n\nRetry will try to create the directory]
 Неможливо змінити віддалену папку на %s (%d, %d)\n\nРасширенная інформація:\n%s\n\nПовтор для спроби створити папку
 [Could not change remote directory to %s (%d)\n\nRetry will try to create the directory]
