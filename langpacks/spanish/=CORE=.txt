@@ -29,8 +29,8 @@ Grupo:
 Opciones
 [Options]
 Opciones
-[Authorization Request]
-Solicitud de Autorización
+[Authorization request]
+Solicitud de autorización
 [Delete Contact]
 Eliminar contacto
 [&Yes]
@@ -1084,8 +1084,6 @@ Webseite:
 %u agregó a su lista de contactos
 [Alerts]
 Alertas
-[Authorization request]
-Solicitud de autorización
 [Added event]
 Añadido evento
 ;file \src\core\stdauth\authdialogs.cpp

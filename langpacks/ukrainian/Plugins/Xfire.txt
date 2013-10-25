@@ -74,7 +74,7 @@
 Цей список містить заблокованих користувачів. Ви можете видалити одного, що дозволить йому посилати вам повідомлення.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві у списку контактів.
-[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
 Цей файл використовується для пошуку і виявлення ігри. Файл містить підтримувані гри Xfire.
 [This file contains all original game icons. You can also activate the option icon for downloading, if you don't have it.]
 Цей файл містить оригінальні значки ігор. Ви можете так само активувати автоматичне завантаження, якщо цього файлу у вас немає.
@@ -104,13 +104,13 @@
 Стара версія протоколу. Змініть поточну версію %d на %d. Ви повинні перепідключитися.
 [Games found:%s%s]
 Знайдені гри:%s%s
-[Block U&ser ...]
+[Block U&ser...]
 &Заблокувати користувача.
 [Join &Voice ...]
 Почати &спілкування...
-[Play this Game ...]
+[Play this game...]
 Грати в цю гру...
-[Join &Game ...]
+[Join &Game...]
 Зайти в &гру...
 [Cop&y Voice Server Address and Port]
 Копіювати адресу і порт сервера спілкування
@@ -120,14 +120,14 @@
 Копіювати адресу і порт сервера
 [&My XFire Online Profile]
 &Мій профіль XFire
-[&Rescan my Games ...]
+[&Rescan my games...]
 &Пересканувати мої ігри...
-[&Setup my Games ...]
+[&Setup my Games...]
 &Налаштування моєї гри
 [&XFire Online Profile]
 &Онлайн профіль XFire
-[Remove F&riend ...]
-Видалити з &друзів ...
+[Remove F&riend...]
+Видалити з &друзів...
 [Do you really want to delete your friend %s?]
 Ви дійсно хочете видалити %s?
 [Automatically Detect]
@@ -136,7 +136,7 @@
 Ніколи не виявляти
 [Manuel Setup]
 Ручне налаштування
-[Browse ...]
+[Browse...]
 Огляд...
 [Hide yourself in buddylist]
 Сховати себе в списку друзів
@@ -150,12 +150,12 @@
 Установка ваших ігор ...
 [Voicechat]
 Голосовий чат
-[Userdetails]
+[User details]
 Деталі користувача
 [Don't display game search status window]
 Не показувати вікно пошуку ігор
-[Searching games ...]
-Пошук ігор ...
+[Searching games...]
+Пошук ігор...
 [Display popup, if someone start a game]
 Спливаючі вікна, якщо хто-небудь починає гру
 [Automatically update icons.dll (pro-laming.de)]
@@ -208,15 +208,13 @@
 Змінювати статус на Зайнятий або Не турбувати
 [Don't move friends to clan groups]
 Не переміщати друзів в групу клану
-[Add a new game ...]
-Додати нову гру
 [Add a new game]
 Додати нову гру
-[Add Game]
+[Add game]
 Додати
 [Please choose one game in the list!]
 Будь ласка, виберіть гру зі списку!
-[Please wait ...]
+[Please wait...]
 Будь ласка, зачекайте...
 [No Login name is set!]
 Логін не встановлений!

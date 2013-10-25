@@ -304,7 +304,7 @@ Egyéni üzenetek
 Kilépés:
 [Slap:]
 Csapás:
-[Authorization Request]
+[Authorization request]
 Engedélyezési kérés
 [Someone (maybe you) has requested the following file:]
 Valaki (talán te) a következõ fájlt kérte:

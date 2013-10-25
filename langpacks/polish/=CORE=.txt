@@ -27,7 +27,7 @@ Niestandardowa nazwa:
 Grupa:
 [Options]
 Opcje
-[Authorization Request]
+[Authorization request]
 Prośba o autoryzację
 [Delete Contact]
 Usuń kontakt
@@ -1230,8 +1230,6 @@ Strona WEB:
 %u dodał(a) Cię do swojej listy kontaktów 
 [Alerts]
 Alarmy
-[Authorization request]
-Prośba o autoryzację
 [Added event]
 Dodano akcję
 ;file \src\core\stdauth\authdialogs.cpp

@@ -228,7 +228,7 @@ Twoja wersja GPG jest wspierana. Znaleziono plik językowy.\nWtyczka GPG powinna
 Plik binarny gpg nie istnieje.\nProszę wybrać inną lokalizację.
 [Please choose GPG binary location]
 Proszę wybrać lokalizację pliku binarnego GPG
-[please set keyring's home directory]
+[Please set keyring's home directory]
 Proszę ustawić katalog domowy breloka
 [There is existing key for contact, would you like to replace it with new key?]
 Istnieje już klucz dla tego kontaktu. Czy chcesz zastąpić go nowym?

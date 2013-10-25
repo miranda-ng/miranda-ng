@@ -228,8 +228,8 @@ Ihre GPG-Version wird unterstützt. Die Sprachdatei wurde gefunden.\nDas GPG-Plu
 GPG-Verzeichnis existiert nicht.\nBitte wählen Sie ein anderes Verzeichnis aus.
 [Please choose GPG binary location]
 Bitte wählen Sie das GPG-Hauptverzeichnis aus.
-[please set keyring's home directory]
-bitte setzen Sie den Hauptordner für die Schlüssel
+[Please set keyring's home directory]
+Bitte setzen Sie den Hauptordner für die Schlüssel
 [There is existing key for contact, would you like to replace it with new key?]
 Für diesen Kontakt existiert bereits ein Schlüssel, wollen Sie ihn durch einen neuen Schlüssel ersetzen?
 [New public key was received, do you want to import it?]

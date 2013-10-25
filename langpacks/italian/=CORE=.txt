@@ -19,7 +19,7 @@ Nome personalizzato:
 Gruppo:
 [Options]
 Opzioni
-[Authorization Request]
+[Authorization request]
 Richiesta di autorizzazione
 [Delete Contact]
 Elimina contatto

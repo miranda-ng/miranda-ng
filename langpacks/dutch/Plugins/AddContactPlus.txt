@@ -14,7 +14,7 @@ Groep:
 Opties
 [Send authorization request]
 Autorisatie verzoek versturen
-[Authorization Request]
+[Authorization request]
 Autorisatie verzoek
 [&Add]
 Toevoegen

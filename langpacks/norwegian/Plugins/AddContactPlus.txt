@@ -16,7 +16,7 @@ Gruppe:
 Valg
 [Send authorization request]
 Send autorisasjons forespørsel
-[Authorization Request]
+[Authorization request]
 Godkjenningsforespørsel
 [&Add]
 &Legg til

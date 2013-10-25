@@ -24,7 +24,7 @@
 Група:
 [Options]
 Налаштування
-[Authorization Request]
+[Authorization request]
 Запит на авторизацію
 [Delete Contact]
 Видалити контакт
@@ -1191,8 +1191,6 @@ Iндекс:
 %u додав вас до свого списку контактів
 [Alerts]
 Сповіщення
-[Authorization request]
-Запит на авторизацію
 [Added event]
 Подія "Вас додали"
 [View User's Details]

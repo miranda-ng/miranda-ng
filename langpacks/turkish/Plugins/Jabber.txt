@@ -310,7 +310,7 @@ Sohbet seçenekleri
 Çık:
 [Slap:]
 Tokat:
-[Authorization Request]
+[Authorization request]
 Yetkilendirme İsteği
 [Someone (maybe you) has requested the following file:]
 Biri (belki siz) şu dosyayı istedi:

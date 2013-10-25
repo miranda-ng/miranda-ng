@@ -122,7 +122,7 @@ URL
 Modifica messaggio di %s
 [Closing in %d]
 Chiusura in %d
-[Authorization Request]
+[Authorization request]
 Richiesta di autorizzazione
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h

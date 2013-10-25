@@ -1,3 +1,0 @@
-﻿[Miranda interface to the Microsoft Speech API]
-[Lexicon]
-[Occurring Events]

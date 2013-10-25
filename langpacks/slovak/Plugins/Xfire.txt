@@ -22,7 +22,7 @@ Prezívka:
 
 [Create a new Xfire account on website]
 
-[Lost Password?]
+[Lost password?]
 
 [Account options]
 
@@ -68,7 +68,7 @@ Prezívka:
 
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 
-[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
 
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 
@@ -124,7 +124,7 @@ Užív. meno:
 
 [Port:]
 Port:
-[Userdetails]
+[User details]
 
 [Copy]
 
@@ -140,58 +140,58 @@ OK
 Storno
 [New xfire_games.ini]
 
-[There is a new XFire Gamelist online, do you want to update now?]
+[There is a new XFire gamelist online, do you want to update now?]
 
-[New supported Games:]
+[New supported games:]
 
 [Update]
 
-[Add Game]
+[Add game]
 
 [Search:]
 
-[Custom ...]
+[Custom...]
 
 [Game name:]
 
 [Game exe:]
 
-[Browse ...]
+[Browse...]
 
 [Launcher exe (optional):]
 
 [Game id:]
 
-[Send game id:]
+[Send game ID:]
 
-[Statusmessage for Xfire, if this game will be started:]
+[Status message for Xfire, if this game will be started:]
 
 [Parameter:]
 
 [Add a new game]
 
-[Searching games ...]
+[Searching games...]
 
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Všetky súbory
-[Please wait, gameini will be currently parsed ...]
+[Please wait, game.ini will be currently parsed...]
 
 [XFire Options]
 
 [Please choose one game in the list!]
 
-[If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
 
 [Please enter a game name.]
 
-[Please enter a game id.]
+[Please enter a game ID.]
 
-[Please enter a game id above 1.]
+[Please enter a game ID above 1.]
 
-[This game id is already in use.]
+[This game ID is already in use.]
 
 [Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 
@@ -280,19 +280,19 @@ Mmm...obed.
 
 [Cop&y Voice Server Address and Port]
 
-[Join &Game ...]
+[Join &Game...]
 
-[Play this Game ...]
+[Play this game...]
 
-[Remove F&riend ...]
+[Remove F&riend...]
 
-[Block U&ser ...]
+[Block U&ser...]
 
 [&My XFire Online Profile]
 
 [&Activity Report]
 
-[&Rescan my Games ...]
+[&Rescan my games...]
 
 [Set &Nickname]
 Nastav prezívku 
@@ -407,7 +407,7 @@ Denne
 
 [Please select a game.]
 
-[Error unknown game id.]
+[Error: unknown game ID.]
 
 [Not supported]
 
@@ -429,7 +429,7 @@ Sieť
 [Please enter server password...]
 
 ;file \protocols\Xfire\src\searching4games.cpp
-[Write to database ...]
+[Write to database...]
 
 [Games found:%s%s]
 
@@ -440,5 +440,5 @@ Sieť
 [Start game]
 
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
-[Please wait ...]
+[Please wait...]
 

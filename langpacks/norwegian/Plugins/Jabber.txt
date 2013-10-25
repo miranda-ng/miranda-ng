@@ -82,7 +82,7 @@ Tjeneste Oppdagelse
 Forandre %s Melding
 [Closing in %d]
 Lukker om %d
-[Authorization Request]
+[Authorization request]
 Godkjenningsforespørsel
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h

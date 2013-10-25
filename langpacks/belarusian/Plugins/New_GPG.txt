@@ -148,7 +148,7 @@
 Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
 [Please choose GPG binary location]
 Вылучыце дырэкторыю з GnuPG
-[please set keyring's home directory]
+[Please set keyring's home directory]
 Вылучыце дырэкторыю з ключамі GnuPG
 [There is existing key for contact, would you like to replace it with new key?]
 Атрыманы ключ, але ў кантакта ўжо ёсць ключ. Вы жадаеце яго замяніць новым?

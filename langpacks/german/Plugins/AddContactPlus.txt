@@ -28,7 +28,7 @@ Vorübergehend hinzufügen
 Kontakt benachrichtigen
 [Send authorization request]
 Autorisierungsanfrage senden
-[Authorization Request]
+[Authorization request]
 Autorisierungsanfrage
 [&Add]
 Hinzufügen

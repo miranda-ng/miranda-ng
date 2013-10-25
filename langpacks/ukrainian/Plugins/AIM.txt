@@ -241,7 +241,7 @@ AOL® Логін
 Записувати діалоги чату
 [Lost AIM Password?]
 Забули пароль на AIM?
-[Lost Password?]
+[Lost password?]
 Забули пароль?
 [Minimize chats to system tray icon]
 Мінімізувати чати в трей

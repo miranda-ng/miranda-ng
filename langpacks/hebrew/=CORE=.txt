@@ -19,7 +19,7 @@
 קבוצה:
 [Options]
 אפשרוית
-[Authorization Request]
+[Authorization request]
 בקשת אישור
 [Delete Contact]
 מחיקת איש קשר

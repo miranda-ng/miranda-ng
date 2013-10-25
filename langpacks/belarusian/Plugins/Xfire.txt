@@ -136,7 +136,7 @@ IP:
 Абнавіць
 [Search:]
 Шукаць:
-[Add Game]
+[Add game]
 Дадаць
 [Game name:]
 Назва гульні:

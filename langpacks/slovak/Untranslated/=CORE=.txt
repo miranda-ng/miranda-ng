@@ -308,7 +308,6 @@
 [%s added you to their contact list]
 [%u added you to their contact list]
 [Alerts]
-[Authorization request]
 [Added event]
 [<Unknown>]
 [%s added you to the contact list\n%u (%s) on %s]

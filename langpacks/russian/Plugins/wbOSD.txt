@@ -34,8 +34,6 @@
 Прозрачный
 [Alpha:]
 Альфа:
-[Static]
-
 [Timeout (ms):]
 Длительность (мс):
 [Show testing OSD]

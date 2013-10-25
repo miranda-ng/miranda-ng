@@ -27,7 +27,7 @@ Nom à afficher :
 Groupe :
 [Options]
 Paramètres
-[Authorization Request]
+[Authorization request]
 Demande d'autorisation
 [Delete Contact]
 Supprimer un contact
@@ -1230,8 +1230,6 @@ Site Web :
 %u vous a ajouté à sa liste de contacts
 [Alerts]
 Notifications
-[Authorization request]
-
 [Added event]
 
 ;file \src\core\stdauth\authdialogs.cpp

@@ -58,7 +58,7 @@
 %s 메세지 변경
 [Closing in %d]
 %d 에서 닫는중
-[Authorization Request]
+[Authorization request]
 권한 요청
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h

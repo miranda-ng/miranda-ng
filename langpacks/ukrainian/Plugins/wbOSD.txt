@@ -33,8 +33,6 @@
 Прозорість
 [Alpha:]
 
-[Static]
-Статичний
 [Timeout (ms):]
 Тайм-аут (мс):
 [Show testing OSD]

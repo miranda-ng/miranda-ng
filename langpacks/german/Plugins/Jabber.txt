@@ -412,7 +412,7 @@ Benutzerdefinierte Nachrichten
 Verlassen:
 [Slap:]
 Schlagen:
-[Authorization Request]
+[Authorization request]
 Autorisierungsanfrage
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP-Authentifizierung\nEingehende Anfragen akzeptieren oder ablehnen.

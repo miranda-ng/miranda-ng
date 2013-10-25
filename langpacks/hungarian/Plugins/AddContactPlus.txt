@@ -16,7 +16,7 @@ Csoport:
 Beállítások
 [Send authorization request]
 Meghatalmazási kérelem küldése
-[Authorization Request]
+[Authorization request]
 Engedélyezési kérés
 [&Add]
 &Új

@@ -27,7 +27,7 @@ Eigener Name:
 Gruppe:
 [Options]
 Einstellungen
-[Authorization Request]
+[Authorization request]
 Autorisierungsanfrage
 [Delete Contact]
 Kontakt löschen
@@ -1230,8 +1230,6 @@ Webseite:
 %u fügte Sie zu seiner Kontaktliste hinzu
 [Alerts]
 Hinweis
-[Authorization request]
-Eingehende Autorisierungsanfrage
 [Added event]
 Sie wurden von jemandem hinzugefügt
 ;file \src\core\stdauth\authdialogs.cpp

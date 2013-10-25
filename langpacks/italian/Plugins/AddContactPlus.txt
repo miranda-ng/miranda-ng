@@ -18,7 +18,7 @@ Opzioni
 Invia "Sei stato aggiunto"
 [Send authorization request]
 Invia richiesta di autorizzazione
-[Authorization Request]
+[Authorization request]
 Richiesta di autorizzazione
 [&Add]
 &Aggiungi

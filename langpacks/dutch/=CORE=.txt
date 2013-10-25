@@ -17,7 +17,7 @@ Eigen naam:
 Groep:
 [Options]
 Opties
-[Authorization Request]
+[Authorization request]
 Autorisatie verzoek
 [Delete Contact]
 Contact verwijderen

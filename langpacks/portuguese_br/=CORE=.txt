@@ -23,8 +23,8 @@ Nome personalizado:
 Grupo:
 [Options]
 Opções
-[Authorization Request]
-Pedido de Autorização
+[Authorization request]
+Pedido de autorização
 [Delete Contact]
 Excluir Contato
 [&Yes]
@@ -1274,8 +1274,6 @@ u% adicionou-lhe a sua lista de contatos
 Alertas
 [Alerts]
 Alertas
-[Authorization request]
-Autorização requerida
 [Added event]
 Evento adicionado
 ;file \src\core\stdauth\authdialogs.cpp

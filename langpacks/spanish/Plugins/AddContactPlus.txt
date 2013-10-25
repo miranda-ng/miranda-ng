@@ -20,8 +20,8 @@ Opciones
 Enviar "Usted se agregaron"
 [Send authorization request]
 Enviar solicitud de autorización
-[Authorization Request]
-Solicitud de Autorización
+[Authorization request]
+Solicitud de autorización
 [&Add]
 &Agregar
 [&Cancel]

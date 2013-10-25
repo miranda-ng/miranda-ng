@@ -20,7 +20,6 @@
 [Show testing OSD]
 [Show my status changes]
 [Show message window after click]
-[Static]
 [Format:]
 [Show when my status is:]
 [%s is %s]

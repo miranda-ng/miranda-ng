@@ -1,37 +1,31 @@
 ﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
-;  File: speak.dll
-;  Plugin: Speak
-;  Version: 0.9.8.0
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
-[Miranda interface to the Microsoft Speech API]
-Interfejs Mirandy dla API mowy Microsoft(SAPI)
+[Miranda interface to the Microsoft Speech API.]
+Interfejs Mirandy dla API mowy Microsoft(SAPI).
 ;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
 Ustawienia Silnika
-[Rate]
-Prędkość
-[Volume]
-Głośność
+[Engine]
+Silnik
 [Voice]
 Głos
+[Volume]
+Głośność
+[Rate]
+Prędkość
 [Pitch]
 Wysokość
 [Test]
 Test
-[Engine]
-Silnik
-[Welcome Message]
-Wiadomość powitalna
 [Lexicon]
 Słownik
-[Message Events]
-Zdarzenia wiadomości
-[Read message if less characters than]
-Odczytaj wiadomość jeśli składa się z mniej niż znaków
-[Ignore event if message dialog is open]
-Ignoruj zdarzenie, gdy okno rozmowy jest otwarte
+[Welcome Message]
+Wiadomość powitalna
 [Status Changes]
 Zmiany statusu
 [Offline]
@@ -58,16 +52,22 @@ Przychodząca wiadomość
 Przychodzący link
 [Incoming File]
 Przychodzący plik
-[Authorization Request]
+[Authorization request]
 Prośba o autoryzację
 [Added to Contact List]
 Dodanie do listy kontaktów
-[Ignore event if message dialog is focused]
-Ignoruj zdarzenie, gdy okno rozmowy ma fokus
 [Status Messages]
 Opisy
 [Announce status changes on connect]
 Oznajmiaj zmiany statusu przy łączeniu
+[Message Events]
+Zdarzenia wiadomości
+[Read message if less characters than]
+Odczytaj wiadomość jeśli składa się z mniej niż znaków
+[Ignore event if message dialog is open]
+Ignoruj zdarzenie, gdy okno rozmowy jest otwarte
+[Ignore event if message dialog is focused]
+Ignoruj zdarzenie, gdy okno rozmowy ma fokus
 [Active Modes]
 Aktywne tryby
 [Active Users]
@@ -95,22 +95,6 @@ Usuń
 [testing testing 1 2 3]
 test test 1 2 3
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
-[%u is now offline]
-%u rozłączony
-[%u is now online]
-%u dostępny
-[%u is away]
-%u zaraz wracam
-[%u is invisible]
-%u niewidoczny
-[%u is not available]
-%u niedostępny
-[%u does not want to be disturbed]
-%u nie przeszkadzać
-[%u is occupied]
-%u zajęty
-[%u is free for chat]
-%u porozmawiajmy
 [incoming message from %u]
 %u
 [incoming U R L from %u]

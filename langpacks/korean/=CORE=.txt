@@ -17,7 +17,7 @@
 그룹:
 [Options]
 옵션
-[Authorization Request]
+[Authorization request]
 권한 요청
 [Delete Contact]
 대화 상대 삭제

@@ -28,7 +28,7 @@
 
 [Send authorization request]
 
-[Authorization Request]
+[Authorization request]
 Požiadavka na autorizáciu
 [&Add]
 

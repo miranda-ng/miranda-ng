@@ -22,7 +22,7 @@ Opções
 Opções
 [Send authorization request]
 Enviar pedido de autorização
-[Authorization Request]
+[Authorization request]
 Pedido de Autorização
 [&Add]
 &Adicionar

@@ -28,7 +28,7 @@ Dodaj tymczasowo
 Wyślij "Zostałeś dodany"
 [Send authorization request]
 Wyślij prośbę o autoryzację
-[Authorization Request]
+[Authorization request]
 Prośba o autoryzację
 [&Add]
 Dodaj

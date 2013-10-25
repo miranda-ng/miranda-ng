@@ -1,14 +1,14 @@
 ﻿#muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
 ;  File: VKontakte.dll
-;  Plugin: VKontakte
-;  Version: 0.1.0.2
+;  Plugin: VKontakte protocol
+;  Version: 0.1.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 
 ;file \protocols\VKontakte\res\resource.rc
-[Your login or phone number:]
+[Login or phone number:]
 
 [Password:]
 

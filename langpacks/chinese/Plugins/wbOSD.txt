@@ -34,8 +34,6 @@
 
 [Alpha:]
 亮度:
-[Static]
-
 [Timeout (ms):]
 超时 (毫秒):
 [Show testing OSD]

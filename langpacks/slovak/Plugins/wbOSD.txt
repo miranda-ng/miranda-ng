@@ -50,8 +50,6 @@
 
 [Show message window after click]
 
-[Static]
-
 [Format:]
 
 [Show when my status is:]

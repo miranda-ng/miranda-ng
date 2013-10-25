@@ -29,7 +29,7 @@ Grup:
 Seçenekler
 [Options]
 Seçenekler
-[Authorization Request]
+[Authorization request]
 Yetkilendirme İsteği
 [Delete Contact]
 Kişiyi sil

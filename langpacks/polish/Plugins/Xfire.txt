@@ -22,7 +22,7 @@ Wersja protokołu:
 Info. Aby zmienić ustawienia protokołu musisz się połączyć.
 [Create a new Xfire account on website]
 Utwórz nowe koto xFire na stronie www
-[Lost Password?]
+[Lost password?]
 Przypomnij hasło
 [Account options]
 Opcje konta
@@ -68,7 +68,7 @@ Lista zablokowanych
 Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąc osobe z listy aby móc z nim porozmawiać.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liscie i wybierając opcje Zablokuj Kontakt...
-[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier. 
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Ten plik posiada wszystkie orginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
@@ -124,7 +124,7 @@ Nazwa:
 IP:
 [Port:]
 Port:
-[Userdetails]
+[User details]
 Dane kontaktu
 [Copy]
 Kopiuj
@@ -140,58 +140,58 @@ OK
 Anuluj
 [New xfire_games.ini]
 Nowy xfire_games.ini
-[There is a new XFire Gamelist online, do you want to update now?]
+[There is a new XFire gamelist online, do you want to update now?]
 Znaleziono nową liste gier xFire, czy chcesz ją zaktualizować?
-[New supported Games:]
+[New supported games:]
 Nowe wsparcie gier:
 [Update]
 Aktualizacja
-[Add Game]
+[Add game]
 Dodaj grę
 [Search:]
 Szukaj:
-[Custom ...]
+[Custom...]
 Niestandardowe ...
 [Game name:]
 Nazwa gry:
 [Game exe:]
 Plik exe gry:
-[Browse ...]
+[Browse...]
 Przeglądaj...
 [Launcher exe (optional):]
 Plik exe wczytujący grę (opcjonalnie):
 [Game id:]
 ID gry:
-[Send game id:]
+[Send game ID:]
 Wyślij ID gry:
-[Statusmessage for Xfire, if this game will be started:]
+[Status message for Xfire, if this game will be started:]
 Opis statusu dla xFire, jeśli gra będzie uruchomiona:
 [Parameter:]
 Parametr:
 [Add a new game]
 Dodaj nową grę
-[Searching games ...]
+[Searching games...]
 Poszukiwanie gier...
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Wszystkie pliki
-[Please wait, gameini will be currently parsed ...]
-Proszę czekać, gameini zostanie poprawnie utworzony ...
+[Please wait, game.ini will be currently parsed...]
+Proszę czekać, game.ini zostanie poprawnie utworzony...
 [XFire Options]
 Opcje xFire
 [Please choose one game in the list!]
 Proszę wybrać jedną grę z listy!
-[If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Jeśli wybierzesz moda gry wspieranej przez Xfire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, Twoi znajomi zobaczą ikonę Half-Life obok Twojego kontaktu, a czas gry będzie mierzony.
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
 Każda gra w Xfire musi mieć swoje ID. Używaj liczb większych niż ostatnio użyte ID, by uniknąć problemów z używanymi ID. Każda liczba powyżej 10000 powinna być bezpieczna. To ID nie zostanie wysłane do  Xfire, gdy rozpoczniesz grę.
 [Please enter a game name.]
 Proszę podać nazwę gry.
-[Please enter a game id.]
+[Please enter a game ID.]
 Proszę podać ID gry.
-[Please enter a game id above 1.]
+[Please enter a game ID above 1.]
 Proszę podać ID gry większe niż 1.
-[This game id is already in use.]
+[This game ID is already in use.]
 To ID gry jest już w użyciu.
 [Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 Proszę wybrać plik wykonywalny gry. Uwaga: jeśli nie wybierzesz pliku wykonywalnego uruchamiającego grę, plik wykonywalny gry zostanie użyty w menu startowym gry.
@@ -280,19 +280,19 @@ Strona Klanu xFire
 Kopiuj Adres/Port Serwera
 [Cop&y Voice Server Address and Port]
 Kopiuj Adres/Port serwera głosowego
-[Join &Game ...]
+[Join &Game...]
 Dołącz do Gry...
-[Play this Game ...]
+[Play this game...]
 Graj...
-[Remove F&riend ...]
+[Remove F&riend...]
 Usuń znajomego
-[Block U&ser ...]
+[Block U&ser...]
 Zablokowani...
 [&My XFire Online Profile]
 Mój profil xFire
 [&Activity Report]
 Raporty aktywności
-[&Rescan my Games ...]
+[&Rescan my games...]
 Przeskanuj ponownie moje Gry
 [Set &Nickname]
 Edytuj &nick
@@ -407,7 +407,7 @@ Dziennie
 Czy na pewno chcesz usunąć tą grę?
 [Please select a game.]
 Proszę wybrać grę.
-[Error unknown game id.]
+[Error: unknown game ID.]
 Błąd, nieznane ID gry.
 [Not supported]
 Nie obsługiwane
@@ -429,7 +429,7 @@ Opis
 [Please enter server password...]
 Proszę wprowadzić hasło serwera...
 ;file \protocols\Xfire\src\searching4games.cpp
-[Write to database ...]
+[Write to database...]
 Zapisz w bazie danych
 [Games found:%s%s]
 Znalezione gry:%s%s
@@ -440,5 +440,5 @@ Znalezione gry:%s%s
 [Start game]
 Zacznij grę
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
-[Please wait ...]
-Proszę czekać ...
+[Please wait...]
+Proszę czekać...

@@ -410,7 +410,7 @@ Prihlasovací server
 
 [Slap:]
 
-[Authorization Request]
+[Authorization request]
 Požiadavka na autorizáciu
 [HTTP Authorization\nAccept or reject incoming request]
 

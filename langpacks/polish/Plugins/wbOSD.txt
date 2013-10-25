@@ -34,8 +34,6 @@ Kolor tła
 Przeźroczysty
 [Alpha:]
 Alpha:
-[Static]
-Statyczne
 [Timeout (ms):]
 Czas oczekiwania (ms):
 [Show testing OSD]

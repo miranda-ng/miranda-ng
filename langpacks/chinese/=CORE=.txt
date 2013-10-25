@@ -25,7 +25,7 @@
 群组: 
 [Options]
 选项
-[Authorization Request]
+[Authorization request]
 授权请求
 [Delete Contact]
 删除联系人
@@ -1172,8 +1172,6 @@ Miranda NG 正准备重启. \n请稍候...
 %u 已将您加至联系人列表中
 [Alerts]
 提醒
-[Authorization request]
-授权请求
 [Added event]
 添加事件
 ;file \src\core\stdauth\authdialogs.cpp

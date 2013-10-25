@@ -17,7 +17,7 @@ Selvvalgt navn:
 Gruppe:
 [Options]
 Valg
-[Authorization Request]
+[Authorization request]
 Godkjenningsforespørsel
 [Delete Contact]
 Slett Kontakt

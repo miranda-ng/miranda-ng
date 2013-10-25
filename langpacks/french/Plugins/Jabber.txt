@@ -192,7 +192,7 @@ Fermeture dans %d
 Type de compte :
 [Register account now]
 Enregistrer le compte
-[Authorization Request]
+[Authorization request]
 Demande d'autorisation
 [Authorize]
 Autoriser

@@ -50,8 +50,6 @@ Test-OSD anzeigen
 Meine Statusänderungen anzeigen
 [Show message window after click]
 Nachrichtenfenster nach Klick anzeigen
-[Static]
-Statisch
 [Format:]
 Format:
 [Show when my status is:]

@@ -1,35 +1,29 @@
 ﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
-;  File: speak.dll
-;  Plugin: Speak
-;  Version: 0.9.8.0
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
-[Miranda interface to the Microsoft Speech API]
+[Miranda interface to the Microsoft Speech API.]
 
 [Engine Settings]
 
-[Rate]
+[Engine]
+
+[Voice]
 
 [Volume]
 
-[Voice]
+[Rate]
 
 [Pitch]
 
 [Test]
 
-[Engine]
-
-[Welcome Message]
-
 [Lexicon]
 
-[Message Events]
-
-[Read message if less characters than]
-
-[Ignore event if message dialog is open]
+[Welcome Message]
 
 [Status Changes]
 
@@ -57,15 +51,21 @@
 
 [Incoming File]
 
-[Authorization Request]
+[Authorization request]
 
 [Added to Contact List]
-
-[Ignore event if message dialog is focused]
 
 [Status Messages]
 
 [Announce status changes on connect]
+
+[Message Events]
+
+[Read message if less characters than]
+
+[Ignore event if message dialog is open]
+
+[Ignore event if message dialog is focused]
 
 [Active Modes]
 

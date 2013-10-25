@@ -10,7 +10,7 @@
 Password:
 [Nick:]
 Nick:
-[Lost Password?]
+[Lost password?]
 Password persa?
 [Options]
 Opzioni

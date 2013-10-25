@@ -252,7 +252,7 @@ Afiliación:
 Opciones de chat
 [Custom messages]
 Benutzerdefinierte Nachrichten
-[Authorization Request]
+[Authorization request]
 Solicitud de Autorización
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP de autorización\nAceptar o rechazar la solicitud de entrada

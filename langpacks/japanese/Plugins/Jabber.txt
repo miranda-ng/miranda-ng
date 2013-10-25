@@ -338,7 +338,7 @@ Jabber アカウント情報 :
 終了 :
 [Slap:]
 叩く :
-[Authorization Request]
+[Authorization request]
 認証リクエスト
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP 認証\n着信リクエストの承諾もしくは拒否

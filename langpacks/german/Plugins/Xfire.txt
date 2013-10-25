@@ -22,7 +22,7 @@ Derzeitige Protokollversion:
 Info: Diese Einstellungen können nur geändert werden, wenn Sie mit XFire verbunden sind.
 [Create a new Xfire account on website]
 Ein neues XFire-Konto erstellen ...
-[Lost Password?]
+[Lost password?]
 Passwort vergessen?
 [Account options]
 Account-Einstellungen
@@ -68,7 +68,7 @@ Gesperrte Benutzer
 Die Liste enthält all Ihre blockierten XFire-Nutzer. Sie können einen entfernen, wenn Sie ihm erlauben möchten, Ihnen eine Freundeseinladung zu schicken.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Sie können einen Nutzer zu der Liste hinzufügen, indem Sie in Ihrer Kontaktliste einen Rechtsklick auf ihn machen und "Benutzer ignorieren" auswählen.
-[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
 Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle Spiele, die von XFire unterstützt werden.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Diese Datei beinhaltet alle Spielicons. Man kann die Einstellung aktivieren, dass die Icons heruntergeladen werden, wenn sie nicht vorhanden sind.
@@ -124,7 +124,7 @@ Name:
 IP:
 [Port:]
 Port:
-[Userdetails]
+[User details]
 Benutzerdetails
 [Copy]
 Kopieren
@@ -140,58 +140,58 @@ OK
 Abbrechen
 [New xfire_games.ini]
 Neue xfire_games.ini
-[There is a new XFire Gamelist online, do you want to update now?]
+[There is a new XFire gamelist online, do you want to update now?]
 Es ist eine neue Version der XFire-Spielliste verfügbar, möchten Sie jetzt aktualisieren?
-[New supported Games:]
+[New supported games:]
 Neue unterstützte Spiele:
 [Update]
 Aktualisieren
-[Add Game]
+[Add game]
 Spiel hinzufügen
 [Search:]
 Suche:
-[Custom ...]
+[Custom...]
 Eigenes...
 [Game name:]
 Spielname:
 [Game exe:]
 Spiel-exe:
-[Browse ...]
-Suchen ...
+[Browse...]
+Suchen...
 [Launcher exe (optional):]
 Launcher-exe (optional):
 [Game id:]
 Spiel-ID:
-[Send game id:]
+[Send game ID:]
 Sende Spiel-ID:
-[Statusmessage for Xfire, if this game will be started:]
+[Status message for Xfire, if this game will be started:]
 Statusnachricht für XFire, wenn dieses Spiel läuft:
 [Parameter:]
 Parameter:
 [Add a new game]
 Neues Spiel hinzufügen
-[Searching games ...]
-Spiele werden gesucht ...
+[Searching games...]
+Spiele werden gesucht...
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Alle Dateien
-[Please wait, gameini will be currently parsed ...]
-Bitte warten, gameini wird derzeit geparst ...
+[Please wait, game.ini will be currently parsed...]
+Bitte warten, game.ini wird derzeit geparst...
 [XFire Options]
 XFire-Optionen
 [Please choose one game in the list!]
 Bitte wählen Sie ein Spiel aus der Liste!
-[If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Um eine Mod eines von XFire unterstützten Spiels hinzuzufügen, kann hier die ID des Spiels angegeben. Wird auf diese Art z.B. eine Half-Life-Mod hinzugefügt, kann hier die ID von Half-Life angegeben werden, wodurch Half-Life als Spiel angezeigt und aufgezeichnet wird.
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
 Jedes Spiel braucht eine eindeutige ID. Um Probleme mit bereits verwendeten IDs zu vermeiden, sollten IDs über 10000 verwendet werden. Diese ID wird nicht zu XFire übertragen.
 [Please enter a game name.]
 Bitte geben Sie einen Spielnamen ein.
-[Please enter a game id.]
+[Please enter a game ID.]
 Bitte geben Sie eine Spiel-ID ein.
-[Please enter a game id above 1.]
+[Please enter a game ID above 1.]
 Bitte geben Sie eine Spiel-ID über 1 ein.
-[This game id is already in use.]
+[This game ID is already in use.]
 Diese Spiel-ID wird bereits verwendet.
 [Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
 Bitte wählen Sie die ausführbare Spieldatei aus. Achtung: Wenn Sie keine Launcher-.exe angeben, wird die Spiel-.exe im Spiel-starten-Menü verwendet.
@@ -280,19 +280,19 @@ XFire &Clan Seite
 Spielserver-IP und -Port k&opieren
 [Cop&y Voice Server Address and Port]
 Sprachserver-IP und -Port kopieren
-[Join &Game ...]
-Dem Spiel beitreten ...
-[Play this Game ...]
-Das Spiel spielen ...
-[Remove F&riend ...]
-F&reund entfernen ...
-[Block U&ser ...]
+[Join &Game...]
+Dem Spiel beitreten...
+[Play this game...]
+Das Spiel spielen...
+[Remove F&riend...]
+F&reund entfernen...
+[Block U&ser...]
 Benutzer ignorieren ...
 [&My XFire Online Profile]
 &Mein XFire-Profil
 [&Activity Report]
 &Aktivitätsbericht
-[&Rescan my Games ...]
+[&Rescan my games...]
 E&rneute Suche nach Spielen
 [Set &Nickname]
 &Nickname setzen
@@ -407,7 +407,7 @@ Hauptgruppe
 Sind Sie sicher, dass Sie dieses Spiel entfernen wollen?
 [Please select a game.]
 Bitte wählen Sie ein Spiel.
-[Error unknown game id.]
+[Error: unknown game ID.]
 Fehler: Unbekannte Spiele-ID.
 [Not supported]
 Wird nicht unterstützt
@@ -429,8 +429,8 @@ Statusnachricht
 [Please enter server password...]
 
 ;file \protocols\Xfire\src\searching4games.cpp
-[Write to database ...]
-Daten werden geschrieben ...
+[Write to database...]
+Daten werden geschrieben...
 [Games found:%s%s]
 Folgende Spiele wurden gefunden:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp
@@ -440,5 +440,5 @@ Folgende Spiele wurden gefunden:%s%s
 [Start game]
 Starte Spiel
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
-[Please wait ...]
-Bitte warten ...
+[Please wait...]
+Bitte warten...

@@ -27,7 +27,7 @@ Storno
 
 [Options]
 
-[Authorization Request]
+[Authorization request]
 Požiadavka na autorizáciu
 [Delete Contact]
 Zmazať kontakt
@@ -1229,8 +1229,6 @@ WWW stránky:
 [%u added you to their contact list]
 
 [Alerts]
-
-[Authorization request]
 
 [Added event]
 

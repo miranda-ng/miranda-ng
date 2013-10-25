@@ -27,7 +27,7 @@
 Група:
 [Options]
 Настройки
-[Authorization Request]
+[Authorization request]
 Молба за упълномощаване
 [Delete Contact]
 Изтриване на контакта
@@ -1230,8 +1230,6 @@ Miranda
 %u ви добави в списъка си с контакти
 [Alerts]
 Уведомявания
-[Authorization request]
-Молба за упълномощаване
 [Added event]
 Добавяне на събитие
 ;file \src\core\stdauth\authdialogs.cpp

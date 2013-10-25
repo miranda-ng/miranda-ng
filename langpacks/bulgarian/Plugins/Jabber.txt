@@ -412,7 +412,7 @@ JID на стаята/URL:
 Изход:
 [Slap:]
 Шамар:
-[Authorization Request]
+[Authorization request]
 Молба за упълномощаване
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP упълномощаване\nПриемете или отхвърлете запитването

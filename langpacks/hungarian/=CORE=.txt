@@ -23,7 +23,7 @@ Egyéni név:
 Csoport:
 [Options]
 Beállítások
-[Authorization Request]
+[Authorization request]
 Engedélyezési kérés
 [Delete Contact]
 Partner törlése

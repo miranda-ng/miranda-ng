@@ -249,7 +249,7 @@ AOL® Логин
 Записывать диалоги чата
 [Lost AIM Password?]
 Забыли пароль на AIM?
-[Lost Password?]
+[Lost password?]
 Забыли пароль?
 [Minimize chats to system tray icon]
 Минимизировать чаты в трей

@@ -11,7 +11,7 @@
 Ваша версія GPG підтримується. Мовні файли знайдені.\nGPG Повинен працювати нормально.\nНатисніть ОК.
 [Please choose GPG binary location]
 Виберіть директорію c GnuPG
-[please set keyring's home directory]
+[Please set keyring's home directory]
 Виберіть директорію з ключами GnuPG
 [Set GPG bin path and keyring home dir.]
 Вкажіть шлях до виконуваного файлу GnuPG і директорії з ключами

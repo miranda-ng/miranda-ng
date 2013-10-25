@@ -23,7 +23,7 @@ Cancel(&C)
 グループ :
 [Options]
 オプション
-[Authorization Request]
+[Authorization request]
 認証リクエスト
 [Delete Contact]
 コンタクトの削除

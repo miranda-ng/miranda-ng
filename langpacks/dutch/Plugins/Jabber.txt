@@ -64,7 +64,7 @@ Berichten
 %s bericht wijzigen
 [Closing in %d]
 Sluiten in %d
-[Authorization Request]
+[Authorization request]
 Autorisatie verzoek
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h

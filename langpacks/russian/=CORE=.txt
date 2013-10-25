@@ -303,7 +303,7 @@ ANSI плагин
 Запросы авторизации
 [Author(s):]
 Автор(ы):
-[Authorization Request]
+[Authorization request]
 Запрос на авторизацию
 [Auto-accept incoming files from people on my contact list]
 Автоматически принимать файлы от людей в списке контактов

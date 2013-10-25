@@ -316,7 +316,7 @@ Jabber 帐号信息:
 离开: 
 [Slap:]
 掌击: 
-[Authorization Request]
+[Authorization request]
 授权请求
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP 授权\n同意或拒绝收到的请求

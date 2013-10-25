@@ -336,7 +336,7 @@ JID / URL:
 Выйсце:
 [Slap:]
 Шлёпнуць:
-[Authorization Request]
+[Authorization request]
 Запыт на аўтарызацыю
 [Deny]
 Забараніць

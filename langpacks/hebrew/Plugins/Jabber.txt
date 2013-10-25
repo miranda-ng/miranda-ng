@@ -56,7 +56,7 @@
 שנה הודעת %s
 [Closing in %d]
 סוגר תוך %d
-[Authorization Request]
+[Authorization request]
 בקשת אישור
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h

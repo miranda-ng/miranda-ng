@@ -28,7 +28,7 @@
 Изпращане на съобщение "Вие бяхте добавен(а)"
 [Send authorization request]
 Изпрати молба за упълномощаване
-[Authorization Request]
+[Authorization request]
 Молба за упълномощаване
 [&Add]
 Добавяне

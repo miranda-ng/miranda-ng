@@ -1,8 +1,8 @@
 #muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
-;  File: speak.dll
-;  Plugin: Speak
-;  Version: 0.9.8.0
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
 ; Зміни статусу
@@ -91,7 +91,7 @@ Cтупінь
 Вхідне посилання
 [Incoming File]
 Вхідний файл
-[Authorization Request]
+[Authorization request]
 Запит авторизації
 [Added to Contact List]
 Додавання у контакт лист

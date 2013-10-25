@@ -16,7 +16,7 @@
 옵션
 [Send authorization request]
 권한 요청 보내기
-[Authorization Request]
+[Authorization request]
 권한 요청
 [&Add]
 &A 추가

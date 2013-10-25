@@ -155,8 +155,6 @@
 Серпень
 [Author]
 Автор
-[Authorization Request]
-Запит авторизації
 [Authorization request]
 Запит авторизації
 [Authorization]

@@ -228,7 +228,7 @@ Varovanie
 
 [Please choose GPG binary location]
 
-[please set keyring's home directory]
+[Please set keyring's home directory]
 
 [There is existing key for contact, would you like to replace it with new key?]
 

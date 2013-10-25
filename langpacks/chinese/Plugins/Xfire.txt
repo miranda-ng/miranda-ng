@@ -18,7 +18,7 @@
 提示: 如果您想连接至 Xfire, 仅能修改以下设置.
 [Create a new Xfire account on website]
 在网站中新建 Xfire 账号
-[Lost Password?]
+[Lost password?]
 密码丢失?
 [Account options]
 账号选项
@@ -60,7 +60,7 @@
 此列表包含您的所有 Xfire 封锁用户. 如果您想允许其发送好友邀请可于此移除.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 如您右键好友列表中的联系人并选择封锁用户, 可非常简单的封锁某人...
-[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+[This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
 此文件用于游戏搜索, 游戏检测及游戏解析. 它包含所有 Xfire 支持的游戏.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 此文件包含所有原版游戏图标. 如您没有此文件, 可启用选项下载图标.
@@ -94,7 +94,7 @@
 名称: 
 [Port:]
 端口:
-[Userdetails]
+[User details]
 用户详细资料
 [Copy]
 复制
@@ -106,18 +106,18 @@
 确定
 [Cancel]
 取消
-[Add Game]
+[Add game]
 添加游戏
 [Search:]
 搜索: 
 [Game exe:]
 游戏 exe:
-[Browse ...]
-浏览 ...
+[Browse...]
+浏览...
 [Add a new game]
 添加一个新游戏
-[Searching games ...]
-搜索游戏 ...
+[Searching games...]
+搜索游戏...
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 所有文件
@@ -160,18 +160,18 @@ XFire 官方网站(&C)
 复制服务器地址及端口(&O)
 [Cop&y Voice Server Address and Port]
 复制语音服务器地址及端口(&Y)
-[Join &Game ...]
-加入游戏(&G) ...
-[Play this Game ...]
-玩此游戏 ...
-[Remove F&riend ...]
-移除好友(&R) ...
-[Block U&ser ...]
-封锁用户(&S) ...
+[Join &Game...]
+加入游戏(&G)...
+[Play this game...]
+玩此游戏...
+[Remove F&riend...]
+移除好友(&R)...
+[Block U&ser...]
+封锁用户(&S)...
 [&My XFire Online Profile]
 我的 XFire 在线配置文件(&M)
-[&Rescan my Games ...]
-重新扫描我的游戏(&R) ...
+[&Rescan my games...]
+重新扫描我的游戏(&R)...
 [XFire does not support offline messaging!]
 XFire 不支持离线消息!
 [Username]
@@ -262,5 +262,5 @@ XFire 不支持离线消息!
 [Start game]
 开始游戏
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
-[Please wait ...]
-请稍等 ...
+[Please wait...]
+请稍等...

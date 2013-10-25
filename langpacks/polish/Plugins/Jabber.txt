@@ -412,7 +412,7 @@ Niestandardowa wiadomość
 Opuść:
 [Slap:]
 Klaps:
-[Authorization Request]
+[Authorization request]
 Prośba o autoryzację
 [HTTP Authorization\nAccept or reject incoming request]
 Autoryzacja HTTP\nZaakceptuj lub odrzuć przychodzące zapytanie

@@ -14,7 +14,7 @@
 Група:
 [Options]
 Настройки
-[Authorization Request]
+[Authorization request]
 Молба за упълномощаване
 [Delete Contact]
 Изтриване на контакта
@@ -682,8 +682,6 @@ Copyright:
 Позиция:
 [Alerts]
 Уведомявания
-[Authorization request]
-Молба за упълномощаване
 [View User's Details]
 Подробности за потребителя
 [Add Contact Permanently to List]

@@ -350,7 +350,7 @@ Mensagens personalizadas
 Sair:
 [Slap:]
 Lançar:
-[Authorization Request]
+[Authorization request]
 Pedido de Autorização
 [Someone (maybe you) has requested the following file:]
 Alguém (talvez você) pediu o seguinte arquivo:

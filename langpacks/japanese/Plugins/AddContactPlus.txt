@@ -16,7 +16,7 @@
 オプション
 [Send authorization request]
 認証リクエストを送信
-[Authorization Request]
+[Authorization request]
 認証リクエスト
 [&Add]
 追加 (&A)

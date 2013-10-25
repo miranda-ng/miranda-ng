@@ -18,7 +18,7 @@
 "שלח "הוסיפו אותך לרשימה
 [Send authorization request]
 שלח בקשת אישור
-[Authorization Request]
+[Authorization request]
 בקשת אישור
 [&Add]
 &הוסף

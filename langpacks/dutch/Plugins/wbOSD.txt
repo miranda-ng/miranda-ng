@@ -34,8 +34,6 @@ Ander
 
 [Alpha:]
 
-[Static]
-
 [Timeout (ms):]
 
 [Show testing OSD]

@@ -29,7 +29,7 @@ Custom name:
 Отправить "Вас добавили"
 [Send authorization request]
 Отправить запрос авторизации
-[Authorization Request]
+[Authorization request]
 Запрос авторизации
 [&Add]
 &Добавить

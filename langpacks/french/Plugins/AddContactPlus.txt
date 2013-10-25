@@ -16,7 +16,7 @@ Groupe :
 Envoyer "Vous êtes ajouté"
 [Send authorization request]
 Demande d'autorisation
-[Authorization Request]
+[Authorization request]
 Demande d'autorisation
 [&Add]
 &Ajouter
