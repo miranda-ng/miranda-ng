@@ -658,14 +658,14 @@ Pokaż podpowiedzi w chmurce (nieobsługiwany system)
 [Message Sessions]
 Okno rozmowy
 [Typing Notify]
-Kontakt
+Powiadomienie o pisaniu
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Wiadomość od %s
 [%s is typing a message]
 %s pisze wiadomość
 [Typing Notification]
-Pisanie
+Kontakt
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeżęli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
