@@ -160,26 +160,9 @@ BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszVal
 #include "MraConstans.h"
 #include "MraProto.h"
 
-// структура содержащая информацию по построению меню или расширеных иконок
-struct GUI_DISPLAY_ITEM
-{
-	LPSTR         lpszName;    // имя сервиса, оно же имя в иколибе
-	LPWSTR        lpwszDescr;  // текстовое описание отображаемое юзеру
-	LONG          defIcon;     // иконка из ресурсов
-	CMraProto::MyServiceFunc lpFunc;      // функция вызываемая меню
-	HANDLE        hIconHandle;
-};
-
-// структура содержащая информацию о сервисах/функциях
-struct SERVICE_ITEM
-{
-	LPSTR         lpszName;		// имя сервиса, оно же имя в иколибе
-	CMraProto::MyServiceFunc lpFunc;			// функция вызываемая
-};
-
-extern GUI_DISPLAY_ITEM gdiMenuItems[];
-extern GUI_DISPLAY_ITEM gdiContactMenuItems[];
-extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
+extern IconItem gdiMenuItems[];
+extern IconItem gdiContactMenuItems[];
+extern IconItem gdiExtraStatusIconsItems[];
 
 #include "proto.h"
 #include "MraMRIMProxy.h"
@@ -194,20 +177,16 @@ extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 /////////////////////////////////////////////////////////////////////////////////////////
 //	plugin options
 
-struct MRA_SETTINGS
-{
-	HANDLE    hHeap;
-	HINSTANCE hInstance;
-	HMODULE   hDLLXStatusIcons;
+extern HANDLE    g_hHeap;
+extern HINSTANCE g_hInstance;
+extern HMODULE   g_hDLLXStatusIcons;
+extern HICON     g_hMainIcon;
 
-	DWORD     dwGlobalPluginRunning;
-	bool      bChatExist;
+extern DWORD     g_dwGlobalPluginRunning;
+extern bool      g_bChatExist;
 
-	size_t    dwMirWorkDirPathLen;
-	WCHAR     szMirWorkDirPath[MAX_FILEPATH];
-};
-
-extern MRA_SETTINGS masMraSettings;
+extern size_t    g_dwMirWorkDirPathLen;
+extern WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	External variables

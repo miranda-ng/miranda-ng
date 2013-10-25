@@ -131,7 +131,7 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM lParam)
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.dwInitParam = (LPARAM)this;
 		odp.position = 100000000;
-		odp.hInstance = masMraSettings.hInstance;
+		odp.hInstance = g_hInstance;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.pszTitle = m_szModuleName;
 		odp.pszGroup = LPGEN("Popups");
@@ -246,7 +246,7 @@ void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWS
 		// load icon
 		switch (dwType) {
 		case MRA_POPUP_TYPE_NONE:// proto icon
-			ppd->lchIcon = (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(IDI_MRA), IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd->lchIcon = g_hMainIcon;
 			break;
 		case MRA_POPUP_TYPE_DEBUG:// IDI_APPLICATION
 			ppd->lchIcon = (HICON)LoadImage(NULL, IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_SHARED);
@@ -264,7 +264,7 @@ void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWS
 			ppd->lchIcon = (HICON)LoadImage(NULL, IDI_ERROR, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_EMAIL_STATUS:
-			ppd->lchIcon = (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(IDI_MAIL_NOTIFY), IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd->lchIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_MAIL_NOTIFY), IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		}
 

@@ -218,7 +218,7 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.dwInitParam = (LPARAM)this;
-	odp.hInstance = masMraSettings.hInstance;
+	odp.hInstance = g_hInstance;
 	odp.ptszTitle = m_tszUserName;
 	odp.ptszGroup = LPGENT("Network");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;

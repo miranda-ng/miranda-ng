@@ -10,7 +10,7 @@
 #define SCBIF_NICK			64
 #define SCBIF_PHONES		128
 
-#define MAIN_MENU_ITEMS_COUNT		15
+#define MAIN_MENU_ITEMS_COUNT		14
 #define CONTACT_MENU_ITEMS_COUNT	10
 #define ADV_ICON_MAX             5
 
@@ -183,8 +183,8 @@ struct CMraProto : public PROTO<CMraProto>
 
 	HANDLE   hAvatarsQueueHandle;
 
-	HGENMENU hMainMenuItems[MAIN_MENU_ITEMS_COUNT+4];
-	HGENMENU hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+4];
+	HGENMENU hMainMenuItems[MAIN_MENU_ITEMS_COUNT];
+	HGENMENU hContactMenuItems[CONTACT_MENU_ITEMS_COUNT];
 
 	HWND     hWndEMailPopupStatus;
 	DWORD    dwEmailMessagesTotal, m_dwEmailMessagesUnread;
@@ -283,9 +283,8 @@ struct CMraProto : public PROTO<CMraProto>
 
 	void   SetExtraIcons(HANDLE hContact);
 
-	void   InitMainMenu();
-	void   InitContactMenu();
-	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HGENMENU *hResult);
+	void   InitMenus(void);
+	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsStatus, const IconItem *pgdiItems, size_t dwCount, HGENMENU *hResult);
 
 	DWORD  ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
 	CMStringA CreateBlobFromContact(HANDLE hContact, const CMStringW &wszRequestReason);

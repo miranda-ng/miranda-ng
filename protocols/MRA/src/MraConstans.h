@@ -44,33 +44,27 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_ALARM_MESSAGE                    LPGENT("Your contact wakes you")
 
 #define MRA_GOTO_INBOX                       "/GotoInbox"
-#define MRA_GOTO_INBOX_STR                   LPGENT("Display &Inbox")
+#define MRA_GOTO_INBOX_STR                   LPGEN("Display &Inbox")
 #define MRA_SHOW_INBOX_STATUS                "/ShowInboxStatus"
-#define MRA_SHOW_INBOX_STATUS_STR            LPGENT("Display &Inbox status")
+#define MRA_SHOW_INBOX_STATUS_STR            LPGEN("Display &Inbox status")
 #define MRA_EDIT_PROFILE                     "/EditProfile"
-#define MRA_EDIT_PROFILE_STR                 LPGENT("Edit &Profile")
-#define MRA_MY_ALBUM                         "/MyAlbum"
-#define MRA_MY_ALBUM_STR                     LPGENT("My Album")
-#define MRA_MY_BLOG                          "/MyBlog"
-#define MRA_MY_BLOG_STR                      LPGENT("My Blog")
-#define MRA_MY_BLOGSTATUS                    "/MyBlogStatus"
-#define MRA_MY_BLOGSTATUS_STR                LPGENT("My Blog Status")
-#define MRA_MY_VIDEO                         "/MyVideo"
-#define MRA_MY_VIDEO_STR                     LPGENT("My Video")
-#define MRA_MY_ANSWERS                       "/MyAnswers"
-#define MRA_MY_ANSWERS_STR                   LPGENT("My Answers")
-#define MRA_MY_WORLD                         "/MyWorld"
-#define MRA_MY_WORLD_STR                     LPGENT("My World")
+#define MRA_EDIT_PROFILE_STR                 LPGEN("Edit &Profile")
+#define MRA_MY_ALBUM_STR                     LPGEN("My Album")
+#define MRA_MY_BLOG_STR                      LPGEN("My Blog")
+#define MRA_MY_BLOGSTATUS_STR                LPGEN("My Blog Status")
+#define MRA_MY_VIDEO_STR                     LPGEN("My Video")
+#define MRA_MY_ANSWERS_STR                   LPGEN("My Answers")
+#define MRA_MY_WORLD_STR                     LPGEN("My World")
 #define MRA_ZHUKI                            "/Zhuki"
-#define MRA_ZHUKI_STR                        LPGENT("Zhuki")
+#define MRA_ZHUKI_STR                        LPGEN("Zhuki")
 #define MRA_WEB_SEARCH                       "/WebSearch"
-#define MRA_WEB_SEARCH_STR                   LPGENT("Web search")
+#define MRA_WEB_SEARCH_STR                   LPGEN("Web search")
 #define MRA_UPD_ALL_USERS_INFO               "/UpdateAllUsersInfo"
-#define MRA_UPD_ALL_USERS_INFO_STR           LPGENT("Update all users info")
+#define MRA_UPD_ALL_USERS_INFO_STR           LPGEN("Update all users info")
 #define MRA_CHK_USERS_AVATARS                "/CheckUpdatesUsersAvatars"
-#define MRA_CHK_USERS_AVATARS_STR            LPGENT("Check users avatars updates")
+#define MRA_CHK_USERS_AVATARS_STR            LPGEN("Check users avatars updates")
 #define MRA_REQ_AUTH_FOR_ALL                 "/ReqAuthForAll"
-#define MRA_REQ_AUTH_FOR_ALL_STR             LPGENT("Request authorization for all")
+#define MRA_REQ_AUTH_FOR_ALL_STR             LPGEN("Request authorization for all")
 
 #define MRA_MPOP_AUTH_URL                    "http://swa.mail.ru/cgi-bin/auth?Login=%s&agent=%s&page=%s"
 
@@ -95,40 +89,40 @@ static const LPSTR lpcszMailRuDomains[] =
 
 // wParam = (WPARAM)hContact
 #define MRA_REQ_AUTH                         "/ReqAuth"
-#define MRA_REQ_AUTH_STR                     LPGENT("Request authorization")
+#define MRA_REQ_AUTH_STR                     LPGEN("Request authorization")
 #define MRA_GRANT_AUTH                       "/GrantAuth"
-#define MRA_GRANT_AUTH_STR                   LPGENT("Grant authorization")
+#define MRA_GRANT_AUTH_STR                   LPGEN("Grant authorization")
 #define MRA_SEND_POSTCARD                    "/SendPostcard"
-#define MRA_SEND_POSTCARD_STR                LPGENT("&Send postcard")
+#define MRA_SEND_POSTCARD_STR                LPGEN("&Send postcard")
 #define MRA_VIEW_ALBUM                       "/ViewAlbum"
-#define MRA_VIEW_ALBUM_STR                   LPGENT("&View Album")
+#define MRA_VIEW_ALBUM_STR                   LPGEN("&View Album")
 #define MRA_READ_BLOG                        "/ReadBlog"
-#define MRA_READ_BLOG_STR                    LPGENT("&Read Blog")
+#define MRA_READ_BLOG_STR                    LPGEN("&Read Blog")
 #define MRA_REPLY_BLOG_STATUS                "/ReplyBlogStatus"
-#define MRA_REPLY_BLOG_STATUS_STR            LPGENT("Reply Blog Status")
+#define MRA_REPLY_BLOG_STATUS_STR            LPGEN("Reply Blog Status")
 #define MRA_VIEW_VIDEO                       "/ViewVideo"
-#define MRA_VIEW_VIDEO_STR                   LPGENT("View Video")
+#define MRA_VIEW_VIDEO_STR                   LPGEN("View Video")
 #define MRA_ANSWERS                          "/Answers"
-#define MRA_ANSWERS_STR                      LPGENT("Answers")
+#define MRA_ANSWERS_STR                      LPGEN("Answers")
 #define MRA_WORLD                            "/World"
-#define MRA_WORLD_STR                        LPGENT("World")
-#define MRA_SENDNUDGE_STR                    LPGENT("Send &Nudge")
+#define MRA_WORLD_STR                        LPGEN("World")
+#define MRA_SENDNUDGE_STR                    LPGEN("Send &Nudge")
 
 #define ADV_ICON_DELETED                     0
 #define ADV_ICON_DELETED_ID                  "ADV_ICON_DELETED"
-#define ADV_ICON_DELETED_STR                 LPGENT("Mail box deleted")
+#define ADV_ICON_DELETED_STR                 LPGEN("Mail box deleted")
 #define ADV_ICON_NOT_ON_SERVER               1
 #define ADV_ICON_NOT_ON_SERVER_ID            "ADV_ICON_NOT_ON_SERVER"
-#define ADV_ICON_NOT_ON_SERVER_STR           LPGENT("Contact not on server")
+#define ADV_ICON_NOT_ON_SERVER_STR           LPGEN("Contact not on server")
 #define ADV_ICON_NOT_AUTHORIZED              2
 #define ADV_ICON_NOT_AUTHORIZED_ID           "ADV_ICON_NOT_AUTHORIZED"
-#define ADV_ICON_NOT_AUTHORIZED_STR          LPGENT("Not authorized")
+#define ADV_ICON_NOT_AUTHORIZED_STR          LPGEN("Not authorized")
 #define ADV_ICON_PHONE                       3
 #define ADV_ICON_PHONE_ID                    "ADV_ICON_PHONE"
-#define ADV_ICON_PHONE_STR                   LPGENT("Phone/SMS only contact")
+#define ADV_ICON_PHONE_STR                   LPGEN("Phone/SMS only contact")
 #define ADV_ICON_BLOGSTATUS                  4
 #define ADV_ICON_BLOGSTATUS_ID               "ADV_ICON_BLOGSTATUS"
-#define ADV_ICON_BLOGSTATUS_STR              LPGENT("Blog status message")
+#define ADV_ICON_BLOGSTATUS_STR              LPGEN("Blog status message")
 
 #define MRA_SOUND_NEW_EMAIL                   LPGEN("New E-mail available in Inbox")
 

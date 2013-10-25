@@ -5,7 +5,7 @@
 
 DWORD CMraProto::StartConnect()
 {
-	if (!masMraSettings.dwGlobalPluginRunning)
+	if (!g_dwGlobalPluginRunning)
 		return ERROR_OPERATION_ABORTED;
 
 	// поток ещё/уже не работал, поставили статус что работает и запускаем

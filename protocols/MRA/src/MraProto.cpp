@@ -46,14 +46,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	HookProtoEvent(ME_SYSTEM_PRESHUTDOWN, &CMraProto::OnPreShutdown);
 
-	InitContactMenu();
-
-	// xstatus menu
-	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++) {
-		char szServiceName[100];
-		mir_snprintf(szServiceName, SIZEOF(szServiceName), "/menuXStatus%ld", i);
-		CreateProtoServiceParam(szServiceName, &CMraProto::MraXStatusMenu, i);
-	}
+	InitMenus();
 
 	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s: %s", m_szModuleName, MRA_SOUND_NEW_EMAIL);
 	SkinAddNewSoundEx(szNewMailSound, m_szModuleName, MRA_SOUND_NEW_EMAIL);
@@ -86,7 +79,7 @@ CMraProto::~CMraProto()
 
 INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
-	return (int)CreateDialogParam(masMraSettings.hInstance, MAKEINTRESOURCE(IDD_MRAACCOUNT),
+	return (int)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MRAACCOUNT),
 		 (HWND)lParam, DlgProcAccount, LPARAM(this));
 }
 
@@ -626,7 +619,7 @@ int CMraProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	case EV_PROTO_ONOPTIONS: return OnOptionsInit( wParam, lParam );
 
 	case EV_PROTO_ONMENU:
-		InitMainMenu();
+		CListCreateMenu(2000060000, 500085000, TRUE, gdiMenuItems, MAIN_MENU_ITEMS_COUNT, hMainMenuItems);
 		break;
 	}
 	return 1;

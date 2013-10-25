@@ -659,7 +659,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 			//cle.hContact;
 			//cle.hDbEvent;
 			cle.lpszProtocol = m_szModuleName;
-			cle.hIcon = IconLibGetIcon( gdiMenuItems[0].hIconHandle );
+			cle.hIcon = IconLibGetIcon(gdiMenuItems[0].hIcolib);
 			cle.flags = (CLEF_UNICODE|CLEF_PROTOCOLGLOBAL);
 			cle.pszService = "";
 			cle.ptszTooltip = szStatusText;
@@ -1086,7 +1086,7 @@ bool CMraProto::MraRequestXStatusDetails(DWORD dwXStatus)
 		SetXStatusData *dat = (SetXStatusData*)mir_calloc(sizeof(SetXStatusData));
 		dat->dwXStatus = dwXStatus;
 		dat->ppro = this;
-		return DialogBoxParam(masMraSettings.hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)dat) != -1;
+		return DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)dat) != -1;
 	}
 
 	return false;
@@ -1114,7 +1114,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, (LONG_PTR)OldMessageEditProc);
 			SendMessage(hWndEdit, EM_LIMITTEXT, MICBLOG_STATUS_MAX, 0);
 
-			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)IconLibGetIcon(gdiMenuItems[5].hIconHandle));
+			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)IconLibGetIcon(gdiMenuItems[5].hIcolib));
 
 			// blog status message
 			CMStringW szBuff;
@@ -1208,7 +1208,7 @@ bool CMraProto::MraSendReplyBlogStatus(HANDLE hContact)
 	SetBlogStatusData* dat = (SetBlogStatusData*)mir_calloc( sizeof(SetBlogStatusData));
 	dat->ppro = this;
 	dat->hContact = hContact;
-	return CreateDialogParam(masMraSettings.hInstance, MAKEINTRESOURCE(IDD_MINIBLOG), NULL, SendReplyBlogStatusDlgProc, (LPARAM)dat) != NULL;
+	return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MINIBLOG), NULL, SendReplyBlogStatusDlgProc, (LPARAM)dat) != NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
