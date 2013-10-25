@@ -40,8 +40,7 @@ void InitDisplayNameCache(void)
 void FreeDisplayNameCache(void)
 {
 	if (clistCache != NULL) {
-		int i;
-		for (i=0; i < clistCache->realCount; i++) {
+		for (int i=0; i < clistCache->realCount; i++) {
 			cli.pfnFreeCacheItem((ClcCacheEntry*)clistCache->items[i]);
 			mir_free(clistCache->items[i]);
 		}

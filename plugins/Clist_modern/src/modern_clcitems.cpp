@@ -641,11 +641,14 @@ ClcCacheEntry* cliCreateCacheItem( HANDLE hContact )
 }
 
 void cliInvalidateDisplayNameCacheEntry(HANDLE hContact)
-{	
-	ClcCacheEntry *p = pcli->pfnGetCacheEntry(hContact);
-	if (p)
-		InvalidateDNCEbyPointer(hContact,p,0);
-	return;
+{
+	if (hContact == INVALID_HANDLE_VALUE)
+		corecli.pfnInvalidateDisplayNameCacheEntry(INVALID_HANDLE_VALUE);
+	else {
+		ClcCacheEntry *p = pcli->pfnGetCacheEntry(hContact);
+		if (p)
+			InvalidateDNCEbyPointer(hContact,p,0);
+	}
 }
 
 char* cli_GetGroupCountsText(ClcData *dat, ClcContact *contact)

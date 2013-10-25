@@ -140,7 +140,7 @@ static HRESULT SubclassClistInterface()
 
 	pcli->pfnCheckCacheItem	= cliCheckCacheItem;
 	pcli->pfnFreeCacheItem = cliFreeCacheItem;
-	pcli->pfnInvalidateDisplayNameCacheEntry	 = cliInvalidateDisplayNameCacheEntry;
+	pcli->pfnInvalidateDisplayNameCacheEntry = cliInvalidateDisplayNameCacheEntry;
 
 	pcli->pfnTrayIconPauseAutoHide = cliTrayIconPauseAutoHide;
 	pcli->pfnTrayCalcChanged       = cliTrayCalcChanged;
