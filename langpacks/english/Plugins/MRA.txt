@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.5
+;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
@@ -157,11 +157,11 @@
 [Send files: can't open file %s, error]
 [Send files: requested file: %S - not found in send files list.]
 ;file \protocols\MRA\src\MraIcons.cpp
+[Protocols]
+[MRA]
 [Main Menu]
 [Contact Menu]
 [Extra status]
-[Protocols]
-[MRA]
 [Custom Status]
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
@@ -185,6 +185,9 @@
 [Reply to %s blog status]
 [Set my blog status]
 [Written]
+;file \protocols\MRA\src\Mra_menus.cpp
+[Are you sure?]
+[Services...]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]
@@ -256,4 +259,3 @@
 [Star]
 [Music]
 [Dating]
-[Are you sure?]
