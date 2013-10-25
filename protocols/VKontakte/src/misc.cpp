@@ -164,13 +164,15 @@ LBL_NotFound:
 	return CMStringA(p1, (int)(p2-p1));
 }
 
-CMStringA CVkProto::AutoFillForm(char *pBody, CMStringA &szAction)
+bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResult)
 {
+	szResult.Empty();
+
 	char *pFormBeg = strstr(pBody, "<form ");
-	if (pFormBeg == NULL) return "";
+	if (pFormBeg == NULL) return false;
 
 	char *pFormEnd = strstr(pFormBeg, "</form>");
-	if (pFormEnd == NULL) return "";
+	if (pFormEnd == NULL) return false;
 
 	*pFormEnd = 0;
 
@@ -193,7 +195,8 @@ CMStringA CVkProto::AutoFillForm(char *pBody, CMStringA &szAction)
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
 				if (pCaptchaBeg != NULL)
-					RunCaptchaForm( getAttr(pCaptchaBeg, "src"), value);
+					if ( !RunCaptchaForm( getAttr(pCaptchaBeg, "src"), value))
+						return false;
 			}
 
 			if ( !result.IsEmpty())
@@ -203,7 +206,8 @@ CMStringA CVkProto::AutoFillForm(char *pBody, CMStringA &szAction)
 		}
 	}
 
-	return result;
+	szResult = result;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

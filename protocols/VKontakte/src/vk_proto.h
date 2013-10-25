@@ -159,8 +159,8 @@ private:
 	bool   PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
 	void   __cdecl WorkerThread(void*);
 
-	bool      RunCaptchaForm(LPCSTR szUrl, CMStringA&);
-	CMStringA AutoFillForm(char*, CMStringA&);
+	bool   RunCaptchaForm(LPCSTR szUrl, CMStringA&);
+	bool   AutoFillForm(char*, CMStringA&, CMStringA&);
 
 	bool      CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNODE*);
 	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);

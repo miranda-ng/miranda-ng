@@ -155,9 +155,9 @@ LBL_NoForm:
 	if ( !strstr(reply->pData, "form method=\"post\""))
 		goto LBL_NoForm;
 
-	CMStringA szAction;
-	CMStringA szBody = AutoFillForm(reply->pData, szAction);
-	if (szAction.IsEmpty() || szBody.IsEmpty()) {
+	CMStringA szAction, szBody;
+	bool bSuccess = AutoFillForm(reply->pData, szAction, szBody);
+	if (!bSuccess || szAction.IsEmpty() || szBody.IsEmpty()) {
 		if (m_prevError)
 			goto LBL_NoForm;
 		m_prevError = true;

@@ -33,8 +33,6 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon, true));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon));
-
-		SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 30, 0);
 		{
 			ptrT tszLogin( ppro->getTStringA("Login"));
 			if (tszLogin != NULL)
