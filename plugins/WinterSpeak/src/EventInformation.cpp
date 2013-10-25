@@ -9,7 +9,7 @@ EventInformation::EventInformation() : m_event_strings(), m_event_info()
 {
 	// insert the event strings into a map for easy access
 	m_event_strings[EVENTTYPE_MESSAGE]	    = TranslateW(L"incoming message from %u");
-	m_event_strings[EVENTTYPE_URL]          = TranslateW(L"incoming U R L from %u");
+	m_event_strings[EVENTTYPE_URL]          = TranslateW(L"incoming URL from %u");
 	m_event_strings[EVENTTYPE_ADDED]        = TranslateW(L"you have been added to %u's contact list");
 	m_event_strings[EVENTTYPE_AUTHREQUEST]  = TranslateW(L"%u requests your authorization");
 	m_event_strings[EVENTTYPE_FILE]         = TranslateW(L"there is an incoming file from %u");
