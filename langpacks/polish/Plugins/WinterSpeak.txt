@@ -119,3 +119,20 @@ Oznajmiaj
 Sesja rozmowy
 [Message Received]
 Otrzymano wiadomość
+;file \plugins\WinterSpeak\src\EventInformation.cpp
+[%u is now offline]
+%u rozłączony
+[%u is now online]
+%u dostępny
+[%u is away]
+%u zaraz wracam
+[%u is invisible]
+%u niewidoczny
+[%u is not available]
+%u niedostępny
+[%u does not want to be disturbed]
+%u nie przeszkadzać
+[%u is occupied]
+%u zajęty
+[%u is free for chat]
+%u porozmawiajmy
