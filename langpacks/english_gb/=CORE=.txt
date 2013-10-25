@@ -1,7 +1,7 @@
 ﻿[Send authorization request]
 Send authorisation request
-[Authorization Request]
-Authorisation Request
+[Authorization request]
+Authorisation request
 [Fonts and Colors]
 Fonts and Colours
 [Color/Background]
@@ -42,8 +42,6 @@ Message window behaviour:
 %s requests authorisation
 [%u requests authorization]
 %u requests authorisation
-[Authorization request]
-Authorisation request
 [%s requested authorization\n%u (%s) on %s]
 %s requested authorisation\n%u (%s) on %s
 [%s requested authorization\n%u on %s]

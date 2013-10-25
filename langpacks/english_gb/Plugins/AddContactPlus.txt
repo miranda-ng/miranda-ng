@@ -7,7 +7,7 @@
 ;============================================================
 [Send authorization request]
 Send authorisation request
-[Authorization Request]
-Authorisation Request
+[Authorization request]
+Authorisation request
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
