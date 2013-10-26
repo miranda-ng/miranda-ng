@@ -188,8 +188,6 @@ extern "C" __declspec(dllexport) int Load()
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
-	// known modules list
-	db_set_s(NULL, "KnownModules","Non-IM Contact", MODNAME);
 	return 0;
 }
 

@@ -1468,7 +1468,7 @@ static int _us_DoMoveFrame(WPARAM wParam,LPARAM lParam)
 					g_pfwFrames[pos].order = tmpval;
 					break;
 				}
-				
+
 				if (lParam == 1) {
 					if (i < 1) break;
 					tmpval = g_pfwFrames[sd[i-1].realpos].order;
@@ -4018,7 +4018,7 @@ int UnLoadCLUIFramesModule(void)
 		if (g_pfwFrames[i].OwnerWindow && g_pfwFrames[i].OwnerWindow != (HWND)(-2) &&  g_pfwFrames[i].OwnerWindow != (HWND)(-1))
 			DestroyWindow(g_pfwFrames[i].OwnerWindow );
 		g_pfwFrames[i].OwnerWindow = (HWND)-2;
-        if (g_pfwFrames[i].UpdateRgn) DeleteObject(g_pfwFrames[i].UpdateRgn);
+		if (g_pfwFrames[i].UpdateRgn) DeleteObject(g_pfwFrames[i].UpdateRgn);
 
 		mir_free_and_nil(g_pfwFrames[i].Name);
 		mir_free_and_nil(g_pfwFrames[i].szName);

@@ -182,13 +182,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	db_unset(0, META_PROTO, "DisabledMessageShown");
 
-	// add our modules to the KnownModules list 
-	DBVARIANT dbv; 
-	if ( db_get(NULL, "KnownModules", META_PROTO, &dbv))
-		db_set_s(NULL, "KnownModules", META_PROTO, META_PROTO); 
-	else
-		db_free(&dbv);
-
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = META_FILTER;
 	pd.type = PROTOTYPE_FILTER;

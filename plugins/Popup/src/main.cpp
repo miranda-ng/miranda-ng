@@ -368,7 +368,6 @@ MIRAPI int Load(void)
 
 	// Register in DBEditor++
 	UpgradeDb();
-	db_set_s(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);

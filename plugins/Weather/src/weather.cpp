@@ -221,9 +221,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	// initialize weather protocol services
 	InitServices();
 
-	// add our modules to the KnownModules list 
-	db_set_s(NULL, "KnownModules", "Weather Protocol", "Weather,WeatherCondition,Current");
-
 	// add sound event
 	SkinAddNewSoundExT("weatherupdated", _T(WEATHERPROTONAME), LPGENT("Weather Condition Changed"));
 	SkinAddNewSoundExT("weatheralert", _T(WEATHERPROTONAME), LPGENT("Weather Alert Issued"));

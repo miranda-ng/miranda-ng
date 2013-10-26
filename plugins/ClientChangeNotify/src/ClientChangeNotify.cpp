@@ -421,8 +421,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, THREAD_SET_CONTEXT, false, 0);
 	InitOptions();
-	if (db_get_s(NULL, "KnownModules", MOD_NAME, (char*)NULL) == NULL)
-		db_set_s(NULL, "KnownModules", MOD_NAME, MOD_NAME);
 
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) {
 		TCString Str;
