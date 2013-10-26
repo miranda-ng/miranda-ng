@@ -36,17 +36,17 @@ BEGIN
     EDITTEXT        IDC_SSTIME,47,59,34,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "spin1",IDC_SSSPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,77,59,12,15
     RTEXT           "for",IDC_STATIC,13,61,25,9
-    LTEXT           "(10-300) seconds (Default 20).",IDC_STATIC,84,61,161,9
-    CONTROL         "Show PopUp notification",IDC_DELAY2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,81,259,9
+    LTEXT           "10-300 seconds (Default 20)",IDC_STATIC,84,61,161,9
+    CONTROL         "Show Popup notification",IDC_DELAY2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,81,259,9
     EDITTEXT        IDC_SSPOPUPTIME,47,95,34,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "spin2",IDC_SSSPIN2,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,77,95,12,15
-    LTEXT           "PopUp time (1-30) seconds (Default 5).",IDC_STATIC,83,97,161,9
-    CONTROL         "Main Menu Item (plugin reload or miranda restart required).",IDC_MENU,
+    LTEXT           "Popup time 1-30 seconds (Default 5)",IDC_STATIC,83,97,161,9
+    CONTROL         "Main Menu Item (plugin reload or Miranda restart required)",IDC_MENU,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,115,259,9
-    CONTROL         "TopToolBar button (restart miranda required).",IDC_TTB,
+    CONTROL         "TopToolBar button (Miranda restart required)",IDC_TTB,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,134,259,9
     PUSHBUTTON      "Reset to default\r\n(for this computer)",IDC_RESETDEFAULT,202,183,100,23,BS_CENTER | BS_VCENTER | BS_MULTILINE | NOT WS_TABSTOP
-    CTEXT           "You need configure it once for each computer, where you run your Maranda NG.",IDC_STATIC,11,152,286,28
+    CTEXT           "You need configure it once for each computer, where you run your Miranda NG.",IDC_STATIC,11,152,286,28
     LTEXT           "No Apply button required.",IDC_STATIC,12,196,184,8
 END
 

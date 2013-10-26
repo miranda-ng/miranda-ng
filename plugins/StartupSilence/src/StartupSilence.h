@@ -42,16 +42,16 @@ INT_PTR SturtupSilenceEnabled(WPARAM wParam, LPARAM lParam);
 #define ENABLE_SILENCE		LPGEN("Toggle Silence ON")
 #define DISABLE_SILENCETTB	LPGEN("Toggle Silence OFF TTB")
 #define ENABLE_SILENCETTB	LPGEN("Toggle Silence ON TTB")
-#define ALL_ENABLED		TranslateT("Sounds and Popups are enabled")
-#define ALL_DISABLED	TranslateT("Sounds and Popups are disabled temporary")
+#define ALL_ENABLED		TranslateT("Sounds and popups are enabled")
+#define ALL_DISABLED	TranslateT("Sounds and popups are disabled temporarily")
 #define S_MODE_CHANGEDON	TranslateT("Silent Startup mode changed to ON")
 #define S_MODE_CHANGEDOFF	TranslateT("Silent Startup mode changed to OFF")
 #define SS_IS_ON Translate("Silence At Startup is ON")
 #define SS_IS_OFF Translate("Silence At Startup is OFF")
 #define TTBNAME Translate("Toggle Silence At Startup")
 #define NOTICE TranslateT(MENU_NAME)
-#define NEEDTTBMOD TranslateT("For use this option need TopToolBar module installed.")
-#define NEEDPOPUP TranslateT("For use this option need \"YAPP\" or \"PopUp+\" module installed.")
+#define NEEDTTBMOD TranslateT("You have to install TopToolBar to use this option.")
+#define NEEDPOPUP TranslateT("You have to install \"YAPP\" or \"Popup+\" to use this option.")
 
 static IconItem iconList[] = {
 	{MENU_NAME, MENU_NAME, IDI_SSICON},
