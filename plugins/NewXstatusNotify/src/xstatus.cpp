@@ -334,10 +334,10 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if (opt.PDisableForMusic && xsc->type == TYPE_ICQ_XSTATUS && xstatusID == XSTATUS_MUSIC)
 		bEnableSound = bEnablePopup = false;
 
-	if (bEnablePopup && db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1) && db_get_b(0, MODULE, xsc->szProto, 1)) 
+	if (bEnablePopup && db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1))
 		ShowPopup(xsc);
 
-	if (bEnableSound && db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1)) 
+	if (bEnableSound && db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1))
 		PlayXStatusSound(xsc->action);
 
 	BYTE enableLog = opt.EnableLogging;

@@ -142,8 +142,6 @@ Cast them to (int) if you need them that way.
 
 #define MS_STATUSCHANGE_MENUCOMMAND "NewStatusNotify/EnableDisableMenuCommand"
 
-#define TMR_CONNECTIONTIMEOUT		10000
-
 extern OPTIONS opt;
 extern LIST<DBEVENT> eventList;
 extern TEMPLATES templates;
