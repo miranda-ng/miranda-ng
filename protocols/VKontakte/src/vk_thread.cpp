@@ -522,7 +522,13 @@ int CVkProto::PollServer()
 	int retVal = 0;
 	if (reply->resultCode == 200) {
 		JSONROOT pRoot(reply->pData);
-		if ( CheckJsonResult(NULL, reply, pRoot)) {
+		JSONNODE *pFailed = json_get(pRoot, "failed");
+		if (pFailed != NULL && json_as_int(pFailed) == 2) {
+			RetrievePollingInfo();
+			retVal = -1;
+			debugLogA("Polling key expired, restarting polling thread");
+		}
+		else if ( CheckJsonResult(NULL, reply, pRoot)) {
 			m_pollingTs = mir_t2a( ptrT( json_as_string( json_get(pRoot, "ts"))));
 			JSONNODE *pUpdates = json_get(pRoot, "updates");
 			if (pUpdates != NULL)
