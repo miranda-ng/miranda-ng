@@ -459,13 +459,9 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 
 	JSONNODE *pChild;
 	for (int i=0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
-		JSONNODE *pArray = json_as_array(pChild);
-		if (pArray == NULL)
-			continue;
-
-		switch (json_as_int( json_at(pArray, 0))) {
+		switch (json_as_int( json_at(pChild, 0))) {
 		case VKPOLL_MSG_ADDED: // new message
-			msgid = json_as_int( json_at(pArray, 1));
+			msgid = json_as_int( json_at(pChild, 1));
 			if ( !CheckMid(msgid)) {
 				if ( !mids.IsEmpty())
 					mids.AppendChar(',');
@@ -474,19 +470,19 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_USR_ONLINE:
-			uid = -json_as_int( json_at(pArray, 1));
+			uid = -json_as_int( json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
 			break;
 
 		case VKPOLL_USR_OFFLINE:
-			uid = -json_as_int( json_at(pArray, 1));
+			uid = -json_as_int( json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		case VKPOLL_USR_UTN:
-			uid = json_as_int( json_at(pArray, 1));
+			uid = json_as_int( json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 5);
 			break;
