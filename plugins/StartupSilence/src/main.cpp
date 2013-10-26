@@ -31,10 +31,12 @@ HANDLE GetIconHandle(char *szIcon);
 HANDLE hOptionsInitialize;
 HANDLE hTTBarloaded = NULL;
 HANDLE Buttons = NULL;
+HANDLE hPopups = NULL;
 static HANDLE hSturtupSilenceEnabled;
 
 INT_PTR CALLBACK DlgProcOptions(HWND, UINT, WPARAM, LPARAM);
 int InitializeOptions(WPARAM wParam,LPARAM lParam);
+int DisablePopup(WPARAM wParam, LPARAM lParam);
 static int CreateTTButtons(WPARAM wParam, LPARAM lParam);
 void RemoveTTButtons();
 BYTE Enabled;
@@ -43,6 +45,7 @@ BYTE PopUp;
 DWORD PopUpTime;
 BYTE MenuItem;
 BYTE TTBButtons;
+BYTE timer;
 char hostname[MAX_PATH] = "";
 char EnabledComp[MAX_PATH] = "";
 char DelayComp[MAX_PATH] = "";
@@ -80,6 +83,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 INT_PTR StartupSilence()
 {
 	InitSettings();
+	hPopups = HookEvent(ME_POPUP_FILTER, DisablePopup);
 	mir_forkthread((pThreadFunc)AdvSt, NULL);
 	hSturtupSilenceEnabled = CreateServiceFunction(SS_SERVICE_NAME, SturtupSilenceEnabled);
 	IsMenu();
@@ -101,7 +105,15 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (hTTBarloaded != NULL){
 		UnhookEvent(ME_TTB_MODULELOADED);
 	}
+	UnhookEvent(hPopups);
 	DestroyServiceFunction(hSturtupSilenceEnabled);
+	return 0;
+}
+
+int DisablePopup(WPARAM wParam, LPARAM lParam)
+{
+	if (timer == 2)
+		return 1;
 	return 0;
 }
 
@@ -188,17 +200,10 @@ static INT_PTR AdvSt()
 				wcsncpy_s(ppd.lptzContactName, lptzText, size_t(lptzText));
 				PUAddPopupT(&ppd);
 			}
-			if (ServiceExists(POPUPONOFF))
-				db_set_b(NULL, "YAPP", "Enabled", 0);
-			if (ServiceExists(POPUPONOFFPP))
-				db_set_b(NULL, "PopUp", "ModuleIsEnabled", 0);
 
+			timer = 2;
 			Sleep(delay * 1000);
-
-			if (ServiceExists(POPUPONOFF))
-				db_set_b(NULL, "YAPP", "Enabled", 1);
-			if (ServiceExists(POPUPONOFFPP))
-				db_set_b(NULL, "PopUp", "ModuleIsEnabled", 1);
+			timer = 0;
 
 			db_set_b(NULL, "Skin", "UseSound", 1);
 			if (PopUp == 1) {
