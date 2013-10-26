@@ -54,6 +54,8 @@ char PopUpTimeComp[MAX_PATH] = "";
 char MenuitemComp[MAX_PATH] = "";
 char TTBButtonsComp[MAX_PATH] = "";
 
+int ModulesLoaded(WPARAM wParam, LPARAM lParam);
+
 static LIST<void> ttbButtons(1);
 
 PLUGININFOEX pluginInfo={
@@ -83,7 +85,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 INT_PTR StartupSilence()
 {
 	InitSettings();
-	hPopups = HookEvent(ME_POPUP_FILTER, DisablePopup);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	mir_forkthread((pThreadFunc)AdvSt, NULL);
 	hSturtupSilenceEnabled = CreateServiceFunction(SS_SERVICE_NAME, SturtupSilenceEnabled);
 	IsMenu();
@@ -107,6 +109,12 @@ extern "C" __declspec(dllexport) int Unload(void)
 	}
 	UnhookEvent(hPopups);
 	DestroyServiceFunction(hSturtupSilenceEnabled);
+	return 0;
+}
+
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
+	hPopups = HookEvent(ME_POPUP_FILTER, DisablePopup);
 	return 0;
 }
 
