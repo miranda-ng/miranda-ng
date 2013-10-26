@@ -93,7 +93,7 @@
 
 [incoming message from %u]
 
-[incoming U R L from %u]
+[incoming URL from %u]
 
 [you have been added to %u's contact list]
 
@@ -112,4 +112,20 @@
 [Message Session]
 
 [Message Received]
+
+[%u is now offline]
+
+[%u is now online]
+
+[%u is away]
+
+[%u is invisible]
+
+[%u is not available]
+
+[%u does not want to be disturbed]
+
+[%u is occupied]
+
+[%u is free for chat]
 

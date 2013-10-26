@@ -97,7 +97,7 @@ test test 1 2 3
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
 %u
-[incoming U R L from %u]
+[incoming URL from %u]
 Link od %u
 [you have been added to %u's contact list]
 Zostałeś dodany do listy kontaktów %u

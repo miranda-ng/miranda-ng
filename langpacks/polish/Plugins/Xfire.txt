@@ -160,7 +160,7 @@ Plik exe gry:
 Przeglądaj...
 [Launcher exe (optional):]
 Plik exe wczytujący grę (opcjonalnie):
-[Game id:]
+[Game ID:]
 ID gry:
 [Send game ID:]
 Wyślij ID gry:
@@ -183,7 +183,7 @@ Opcje xFire
 Proszę wybrać jedną grę z listy!
 [If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Jeśli wybierzesz moda gry wspieranej przez Xfire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, Twoi znajomi zobaczą ikonę Half-Life obok Twojego kontaktu, a czas gry będzie mierzony.
-[Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
+[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used ids. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
 Każda gra w Xfire musi mieć swoje ID. Używaj liczb większych niż ostatnio użyte ID, by uniknąć problemów z używanymi ID. Każda liczba powyżej 10000 powinna być bezpieczna. To ID nie zostanie wysłane do  Xfire, gdy rozpoczniesz grę.
 [Please enter a game name.]
 Proszę podać nazwę gry.

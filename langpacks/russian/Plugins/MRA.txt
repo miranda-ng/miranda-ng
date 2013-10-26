@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.5
+;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
@@ -396,3 +396,9 @@ MRA подключение
 Ответ на статус в блоге
 [Avatars' plugin connections]
 Подключение аватаров
+[Set my blog status]
+Статус моего блога
+[Are you sure?]
+Вы уверены?
+[Services...]
+Службы...

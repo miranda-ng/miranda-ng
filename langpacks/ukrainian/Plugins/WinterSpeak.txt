@@ -26,7 +26,7 @@
 ; Події
 [incoming message from %u]
 Вхідне повідомлення від %u
-[incoming U R L from %u]
+[incoming URL from %u]
 Вхідне посилання (URL) від %u
 [you have been added to %u's contact list]
 Ви були додані до списку контактів %u

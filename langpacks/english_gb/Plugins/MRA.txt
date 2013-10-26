@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.5
+;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Automatically request authorization on logon]

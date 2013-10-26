@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.5
+;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
@@ -302,16 +302,16 @@ Wysyłanie plików: nie można otworzyć pliku %s, błąd
 [Send files: requested file: %S - not found in send files list.]
 Wysyłanie plików: żądany plik: %S - nie został znaleziony na liście wysyłanych plików.
 ;file \protocols\MRA\src\MraIcons.cpp
+[Protocols]
+Protokoły
+[MRA]
+MRA
 [Main Menu]
 Menu główne
 [Contact Menu]
 Menu kontaktu
 [Extra status]
 xStatus
-[Protocols]
-Protokoły
-[MRA]
-MRA[Custom Status]
 [Custom Status]
 Niestandardowy status
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -355,6 +355,11 @@ Odpowiedz na status %s na blogu
 Ustaw status na moim blogu
 [Written]
 Napisano
+;file \protocols\MRA\src\Mra_menus.cpp
+[Are you sure?]
+Jesteś pewien?
+[Services...]
+
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Protokoły
@@ -494,5 +499,3 @@ Gwiazda
 Muzyka
 [Dating]
 Randkowanie
-[Are you sure?]
-Jesteś pewien?
