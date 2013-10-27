@@ -119,7 +119,7 @@ Oznajmiaj
 Sesja rozmowy
 [Message Received]
 Otrzymano wiadomość
-;file \plugins\WinterSpeak\src\EventInformation.cpp
+;file \plugins\WinterSpeak\src\UserInformation.cpp
 [%u is now offline]
 %u rozłączony
 [%u is now online]

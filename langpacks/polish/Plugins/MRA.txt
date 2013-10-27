@@ -359,7 +359,7 @@ Napisano
 [Are you sure?]
 Jesteś pewien?
 [Services...]
-Usługi
+Usługi...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Protokoły
