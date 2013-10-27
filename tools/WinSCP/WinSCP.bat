@@ -1,1 +1,0 @@
-start /b WinSCP.exe /ini="E:\Dropbox\Docs\watcher\WinSCP_dsk6500.ini"
