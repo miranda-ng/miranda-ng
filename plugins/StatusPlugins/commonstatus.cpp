@@ -106,7 +106,7 @@ static TCHAR *GetDefaultMessage(int status)
 		case ID_STATUS_OFFLINE:    return TranslateT("Nope, not here.");
 		case ID_STATUS_INVISIBLE:  return TranslateT("I'm hiding from the mafia.");
 		case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
-		case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm...food.");
+		case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
 		case ID_STATUS_IDLE:       return TranslateT("idleeeeeeee");
 	}
 	return NULL;

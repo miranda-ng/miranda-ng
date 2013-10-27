@@ -586,7 +586,7 @@ INT_PTR CALLBACK DlgAddGameProc2 (HWND hwndDlg,
 			}
 			else if(LOWORD(wParam) == IDC_GAMEIDHELP)
 			{
-				MessageBoxA(hwndDlg, Translate("Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used ids. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
+				MessageBoxA(hwndDlg, Translate("Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game."), Translate("XFire Options"), MB_OK|MB_ICONASTERISK);
 			}
 			else if(LOWORD(wParam) == IDC_ADD_BROWSEDETECT) 
 			{

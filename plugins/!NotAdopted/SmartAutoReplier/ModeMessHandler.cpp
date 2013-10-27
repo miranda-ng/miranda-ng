@@ -72,7 +72,7 @@ LPTSTR CModeMessHandler::GetDefaultMessage(INT status)
 		case ID_STATUS_OFFLINE: return TranslateTS(TEXT("Nope, not here."));
 		case ID_STATUS_INVISIBLE: return TranslateTS(TEXT("I'm hiding from the mafia."));
 		case ID_STATUS_ONTHEPHONE: return TranslateTS(TEXT("That'll be the phone."));
-		case ID_STATUS_OUTTOLUNCH: return TranslateTS(TEXT("Mmm...food."));
+		case ID_STATUS_OUTTOLUNCH: return TranslateTS(TEXT("Mmm... food."));
 	}
 	return NULL;
 }

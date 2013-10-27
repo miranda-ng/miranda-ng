@@ -144,7 +144,7 @@ BOOL BackupStatusMsg() {
 			break;
 		case ID_STATUS_OUTTOLUNCH:
 			if(db_get(NULL,"SRAway","OtlMsg",&dbv))
-				olstatusmsg->push_back(Translate("Mmm...food."));
+				olstatusmsg->push_back(Translate("Mmm... food."));
 			break;
 		default:
 			//nix zumachn, kenn den status nicht

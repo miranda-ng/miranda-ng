@@ -75,10 +75,10 @@ BEGIN
     LTEXT           "Receiving text",IDC_STATIC,174,172,120,8
     EDITTEXT        IDC_RECVTEXT,174,183,120,12,ES_AUTOHSCROLL
     GROUPBOX        "Privacy",IDC_STATIC,12,97,290,36
-    RTEXT           "Allow sending* one nudge to the same contact every :",IDC_STATIC,18,106,247,8
+    RTEXT           "Allow sending* one nudge to the same contact every:",IDC_STATIC,18,106,247,8
     EDITTEXT        IDC_SENDTIME,270,104,21,12,ES_AUTOHSCROLL | ES_READONLY | WS_DISABLED
     LTEXT           "s",IDC_STATIC,293,106,8,8
-    RTEXT           "Allow receiving one nudge from the same contact every :",IDC_STATIC,18,120,246,8
+    RTEXT           "Allow receiving one nudge from the same contact every:",IDC_STATIC,18,120,246,8
     EDITTEXT        IDC_RECVTIME,270,118,22,12,ES_AUTOHSCROLL
     LTEXT           "s",IDC_STATIC,293,120,8,8
     CTEXT           "* Nudge sending delay is hardcoded and cannot be changed.",IDC_STATIC,18,204,138,17,NOT WS_GROUP

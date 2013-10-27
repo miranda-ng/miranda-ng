@@ -208,7 +208,7 @@ BEGIN
     GROUPBOX        "Highlight user names",IDC_STATIC,3,6,300,104
     CONTROL         "Enable highlighting for user names",IDC_HIGHLIGHTNICKENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,278,11
-    CONTROL         "Also look in user ids",IDC_HIGHLIGHTNICKUID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,278,11
+    CONTROL         "Also look in user IDs",IDC_HIGHLIGHTNICKUID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,278,11
     EDITTEXT        IDC_HIGHLIGHTNICKPATTERN,11,69,283,35,ES_AUTOHSCROLL
     LTEXT           "Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces",IDC_STATIC,10,49,284,19
     GROUPBOX        "Highlight message text",IDC_STATIC,3,113,300,115

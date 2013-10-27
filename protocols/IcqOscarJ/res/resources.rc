@@ -136,7 +136,7 @@ BEGIN
     CONTROL         "Enable unicode messaging support",IDC_UTFENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,12,288,10
     CONTROL         "Send all messages in unicode if possible",IDC_UTFALL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,24,288,10
-    RTEXT           "Use this codepage for Ansi <-> Unicode translation :",IDC_UTFSTATIC,12,38,174,10
+    RTEXT           "Use this codepage for Ansi <-> Unicode translation:",IDC_UTFSTATIC,12,38,174,10
     COMBOBOX        IDC_UTFCODEPAGE,190,36,107,51,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Make me temporarily visible to contacts I send message to",IDC_TEMPVISIBLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,288,10

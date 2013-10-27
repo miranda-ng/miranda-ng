@@ -490,7 +490,7 @@ int TlenMUCRecvError(TlenProtocol *proto, const char *from, XmlNode *errorNode)
 			mir_snprintf(str, SIZEOF(str), Translate("Anonymous nicknames are not allowed in this chat room."));
 			break;
 		default:
-			mir_snprintf(str, SIZEOF(str), Translate("Unknown error code : %d"), errCode);
+			mir_snprintf(str, SIZEOF(str), Translate("Unknown error code: %d"), errCode);
 			break;
 	}
 	mucce.pszText = str;
