@@ -27,15 +27,15 @@ Tools\wget.exe -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft
 rem end
 
 rem Extract
-Tools\7z.exe x tmp\InnoSetup5.7z -y -oTools
-Tools\7z.exe x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
-Tools\7z.exe x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
-Tools\7z.exe x tmp\scriver_x32.zip -y -oInnoNG_32\Files
-Tools\7z.exe x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
-Tools\7z.exe x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
-Tools\7z.exe x tmp\scriver_x64.zip -y -oInnoNG_64\Files
-Tools\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
-Tools\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
-Tools\7z.exe x tmp\lang*.zip -y -oInnoNG_32\Files
-Tools\7z.exe x tmp\lang*.zip -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\InnoSetup5.7z -y -oTools
+..\7-zip\7z.exe x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\scriver_x32.zip -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\scriver_x64.zip -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\lang*.zip -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\lang*.zip -y -oInnoNG_64\Files
 rem end
