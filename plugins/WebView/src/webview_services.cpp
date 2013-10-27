@@ -359,7 +359,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (psr->nick == NULL) {
-		WErrorPopup("ERROR", TranslateT("Please select site in Find/Add Contacts..."));
+		WErrorPopup("ERROR", TranslateT("Please select site in Find/Add contacts..."));
 		return 0;
 	}   
 

@@ -55,9 +55,9 @@ void ChangeMenuItem1()
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	if (!db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
-		mi.ptszName = LPGENT("Auto Update Enabled");
+		mi.ptszName = LPGENT("Auto update enabled");
 	else
-		mi.ptszName = LPGENT("Auto Update Disabled");
+		mi.ptszName = LPGENT("Auto update disabled");
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem1, (LPARAM)&mi);
 }
@@ -73,7 +73,7 @@ void ChangeMenuItemCountdown()
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 
 	TCHAR countername[100]; 
-	mir_sntprintf(countername,SIZEOF(countername), TranslateT("%d Minutes to Update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+	mir_sntprintf(countername,SIZEOF(countername), TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 	mi.ptszName = countername;
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemCountdown, (LPARAM)&mi);

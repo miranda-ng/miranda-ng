@@ -32,8 +32,8 @@ const TCHAR *szTrackerBarDescr[] = {
 };
 
 static char  *fontSizes[] = {"8", "10", "14", "16", "18", "20", "24", "28"};
-static TCHAR *AlertTypes[] = { LPGENT("Popup Plugin"), LPGENT("Log To File"), LPGENT("Open Data Display Window"), LPGENT("Use OSD Plugin") };
-static TCHAR *EventTypes[] = { LPGENT("A String Is Present"), LPGENT("The Web Page Changes"), LPGENT("A Specific Part of Web Page Changes") };
+static TCHAR *AlertTypes[] = { LPGENT("Popup plugin"), LPGENT("Log to file"), LPGENT("Open data display window"), LPGENT("Use OSD plugin") };
+static TCHAR *EventTypes[] = { LPGENT("A string is present"), LPGENT("The web page changes"), LPGENT("A specific part of web page changes") };
 
 #define M_FILLSCRIPTCOMBO    (WM_USER+16)
 
@@ -289,7 +289,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) hContact);
 
-		SetWindowText(hwndDlg, TranslateT("Alert Options"));
+		SetWindowText(hwndDlg, TranslateT("Alert options"));
 
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(hInst, MAKEINTRESOURCE(IDI_ALERT)));
 
@@ -829,7 +829,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) hContact);
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 
-		SetWindowText(hwndDlg, TranslateT("Contact Options"));
+		SetWindowText(hwndDlg, TranslateT("Contact options"));
 
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(hInst, MAKEINTRESOURCE(IDI_OPTIONS)));
 

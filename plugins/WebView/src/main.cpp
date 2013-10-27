@@ -188,7 +188,7 @@ extern "C" int __declspec(dllexport) Load()
 	InitServices();
 
 	//add sound event to options
-	SkinAddNewSoundExT("webviewalert", _T(MODULENAME), LPGENT("Alert Event"));
+	SkinAddNewSoundExT("webviewalert", _T(MODULENAME), LPGENT("Alert event"));
 
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
@@ -206,9 +206,9 @@ extern "C" int __declspec(dllexport) Load()
 		mi.ptszPopupName = _T(MODULENAME);
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 		if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
-			mi.ptszName = LPGENT("Auto Update Disabled");
+			mi.ptszName = LPGENT("Auto update disabled");
 		else
-			mi.ptszName = LPGENT("Auto Update Enabled"); 
+			mi.ptszName = LPGENT("Auto update enabled"); 
 
 		mi.pszService = "DisableWebview";
 		hMenuItem1 = Menu_AddMainMenuItem(&mi);
@@ -221,7 +221,7 @@ extern "C" int __declspec(dllexport) Load()
 
 		mi.position = 500090002;
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
-		mi.ptszName = LPGENT("Update All Webview Sites");
+		mi.ptszName = LPGENT("Update all Webview sites");
 		mi.pszService = "UpdateAll";
 		Menu_AddMainMenuItem(&mi);
 
@@ -233,7 +233,7 @@ extern "C" int __declspec(dllexport) Load()
 
 		mi.position = 500090099;
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MARKALLREAD));
-		mi.ptszName = LPGENT("Mark All Webview Sites Read");
+		mi.ptszName = LPGENT("Mark all Webview sites read");
 		mi.pszService = "MarkAllSitesRead";
 		Menu_AddMainMenuItem(&mi);
 
@@ -243,7 +243,7 @@ extern "C" int __declspec(dllexport) Load()
 		CreateServiceFunction("OpenCacheFolder", OpenCacheDir);
 		mi.position = 500090099;
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_FOLDER));
-		mi.ptszName = LPGENT("Open Cache Folder");
+		mi.ptszName = LPGENT("Open cache folder");
 		mi.pszService = "OpenCacheFolder";
 		Menu_AddMainMenuItem(&mi);
 
@@ -255,7 +255,7 @@ extern "C" int __declspec(dllexport) Load()
 
 		mi.flags |= CMIF_KEEPUNTRANSLATED;
 		TCHAR countername[100];
-		mir_sntprintf(countername, SIZEOF(countername), TranslateT("%d Minutes to Update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+		mir_sntprintf(countername, SIZEOF(countername), TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 		mi.position = 600090099;
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.pszContactOwner = NULL;
@@ -286,31 +286,31 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position = 2222220;
 	mi.pszService = "UpdateData";
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATE));
-	mi.ptszName = LPGENT("Update Data");
+	mi.ptszName = LPGENT("Update data");
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction("ContactOptions", CntOptionsMenuCommand);
 	mi.pszService = "ContactOptions";
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_OPTIONS));
-	mi.ptszName = LPGENT("Contact Options");
+	mi.ptszName = LPGENT("Contact options");
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction("ContactAlertOpts", CntAlertMenuCommand);
 	mi.pszService = "ContactAlertOpts";
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ALERT));
-	mi.ptszName = LPGENT("Contact Alert Options");
+	mi.ptszName = LPGENT("Contact alert options");
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction("PingWebsite", PingWebsiteMenuCommand);
 	mi.pszService = "PingWebsite";
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_PING));
-	mi.ptszName = LPGENT("Ping Web Site");
+	mi.ptszName = LPGENT("Ping web site");
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction("StopDataProcessing", StpPrcssMenuCommand);
 	mi.pszService = "StopDataProcessing";
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_STOP));
-	mi.ptszName = LPGENT("Stop Data Processing");
+	mi.ptszName = LPGENT("Stop data processing");
 	Menu_AddContactMenuItem(&mi);
 
 	hWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);

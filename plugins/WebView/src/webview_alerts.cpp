@@ -460,7 +460,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 							HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 							SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));
 						}
-						else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
+						else MessageBox(NULL, TranslateT("Unknown alert type."), _T(MODULENAME), MB_OK);
 					}
 				}
 			}
@@ -504,13 +504,13 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 
 				if (!notpresent) {
 					if (alertIndex == 0) { // popup
-						WAlertPopup(hContact, TranslateT("The Web Page Has Changed."));
+						WAlertPopup(hContact, TranslateT("The web page has changed."));
 						// contactlist name//
 						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
 					}
 					else if (alertIndex == 3) { // osd
-						WAlertOSD(hContact, TranslateT("The Web Page Has Changed."));
+						WAlertOSD(hContact, TranslateT("The web page has changed."));
 						// contactlist name//
 						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
@@ -555,7 +555,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
 					}
-					else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
+					else MessageBox(NULL, TranslateT("Unknown alert type."), _T(MODULENAME), MB_OK);
 				}
 			}
 		}
@@ -715,13 +715,13 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 
 					if (!notpresent) {
 						if (alertIndex == 0) { // popup
-							WAlertPopup(hContact, TranslateT("Specific Part Of The Web Page Has Changed."));
+							WAlertPopup(hContact, TranslateT("Specific part of the web page has changed."));
 							// contactlist name//
 							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
 						else if (alertIndex == 3) { // osd
-							WAlertOSD(hContact, TranslateT("Specific Part Of The Web Page Has Changed."));
+							WAlertOSD(hContact, TranslateT("Specific part of the web page has changed."));
 							// contactlist name//
 							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
@@ -765,7 +765,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
-						else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
+						else MessageBox(NULL, TranslateT("Unknown alert type."), _T(MODULENAME), MB_OK);
 					}
 				}
 			}
@@ -890,6 +890,6 @@ void ReadFromFile(HANDLE hContact)
 		Removewhitespace(truncated);
 
 		SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
-		SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Loaded From Cache")); 
+		SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Loaded from cache")); 
 	}
 }
