@@ -58,7 +58,7 @@
 [With Nickname - right]
 Праворуч від ніка
 [&Contact list settings...]
-Налаштування контакт-листа...
+Налаштування списку...
 [Contact list display and ignore options for %s]
 Налаштування відображення та ігнорування для %s
 [Default (global setting)]
@@ -116,7 +116,7 @@
 [< Reload]
 < Перезавантажити
 [About CList Nicer+]
-Про плагіні Nicer+
+Про плагін Nicer+
 [Always align icons and text for missing avatars]
 Завжди вирівнювати значки і текст, якщо відсутня аватар
 [Appear always offline (block contact)]
@@ -142,7 +142,7 @@
 [Center groupnames horizontally]
 Вирівнювати назви груп по центру
 [Centered when possible]
-Центрувати(якщо можл.)
+Центрувати (якщо можл.)
 [Client margins]
 Поля списку
 [Clip border by]
@@ -165,6 +165,8 @@
 Не запитувати аватари для відключених контактів
 [Double click on avatar opens userinfo]
 Подвійний клік по аватару відкриває інформацію про контакт
+[Use background image]
+Фонове зображення
 [Draw a border around avatars]
 Рамка навколо аватарів
 [Draw background skin]
@@ -232,7 +234,7 @@
 [Move marked Contacts to this Group]
 Перемістити зазначені контакти в цю групу
 [NOTE: This is work in progress. Most options here do NOT yet work as they should, because the code is not yet implemented. Please don't report these issues as bugs, because they aren't bugs, just unfinished stuff.]
-ПРИМІТКА: Робота ще не закінчені. Багато опції тут не працюють, так як потрібно, тому що код ще не написаний.
+ПРИМІТКА: Роботу ще не закінчено. Багато опцій тут не працюють так як потрібно, тому що код ще не написаний.
 [No expand/collapse icon]
 Не показувати значок згортання/розгортання
 [Only show contact floaters when contact list is hidden or minimized]

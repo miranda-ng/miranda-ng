@@ -17,7 +17,7 @@
 [Send authorization request]
 Надіслати запит на авторизацію
 [Open contact's chat window]
-
+Відкрити вікно повідомлень з контактом
 [Custom name:]
 Вказане ім'я:
 [Group:]
@@ -792,6 +792,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Колір фону
 [Selection color]
 Колір виділення
+[Use background image]
 Фонове зображення
 [Stretch to width]
 Розтягнути у ширину
@@ -1097,10 +1098,6 @@ Cповіщати про друк, коли вікно повідомлень з
 Вставити й надіслати
 [Delete]
 Видалити
-[Contact started typing]
-Контакт почав друкувати повідомлення
-[Contact stopped typing]
-Контакт закінчив друкувати повідомлення
 [Find]
 Пошук
 [&Find Next]
@@ -1887,6 +1884,10 @@ Miranda не змогла завантажити вбудований модул
 Вхідні (нова бесіда)
 [Message send error]
 Помилка надсилання
+[Contact started typing]
+Контакт почав друкувати повідомлення
+[Contact stopped typing]
+Контакт закінчив друкувати повідомлення
 [An unknown error has occurred.]
 Невідома помилка.
 [Invalid Message]
@@ -1995,6 +1996,8 @@ xСтатус
 Ім'я користувача
 [FirstName LastName]
 Ім'я Прізвище
+[LastName FirstName]
+Прізвище Ім'я
 ['(Unknown Contact)' (not movable)]
 '(Невідомий)' (завжди останнє)
 ['(Unknown Contact)']
@@ -2085,14 +2088,14 @@ Miranda не може відкрити цей профіль
 Справді видалити профіль "%s"?
 [Size]
 Розмір
-[Created]
-Створено
-[Modified]
-Змінено
 [Run]
 Запуск
 [Check database]
 Перевірити базу
+[Created]
+Створено
+[Modified]
+Змінено
 [Manage your Miranda NG profile]
 Виберіть aбо створіть профіль користувача
 [My Profiles]
@@ -2191,6 +2194,8 @@ Miranda не може відкрити цей профіль
 Вказати шлях до файлу журналу
 [Select program to be run]
 Вибрати програму для запуску
+[Standard netlib log]
+Стандартний журнал netlib
 [<All connections>]
 <Усі з'єднання>
 [Network]
@@ -2405,6 +2410,10 @@ ANSI-плагін
 Зображення GIF
 [PNG Bitmaps]
 Зображення PNG
+[Avatars]
+Аватари
+[Avatars root folder]
+Коренева папка аватарів
 [<unspecified>]
 <не вказано>
 [Unspecified]
