@@ -9,22 +9,38 @@ set Mirver=%ver1%.%ver2%
 popd
 rem end
 
-rem Download and extract compiler
-Tools\wget.exe -O tmp\InnoSetup5.7z http://miranda-ng.org/distr/installer/InnoSetup5.7z
-..\7-zip\7z.exe x tmp\InnoSetup5.7z -y -oTools
-rem end
-
 rem Set compiler variables
-set Compile32=Tools\InnoSetup5\ISCC.exe /Dptx86 /DAppVer=%MirVer% "InnoNG_32\MirandaNG.iss"
-set Compile64=Tools\InnoSetup5\ISCC.exe /DAppVer=%MirVer% "InnoNG_64\MirandaNG.iss"
+set Compile32=Tools\InnoSetup5\ISCC.exe /Dptx86 /DAppVer=%MirVer% /O"Output" "InnoNG_32\MirandaNG.iss"
+set Compile64=Tools\InnoSetup5\ISCC.exe /DAppVer=%MirVer% /O"Output" "InnoNG_64\MirandaNG.iss"
 rem end
 
-rem Get archives if needed
-if not exist InnoNG_32 call createstructure.bat
-if not exist InnoNG_64 call createstructure.bat
-rem end
+:check32
+if not exist InnoNG_32 (goto compileerror) else (goto check64)
+:check64
+if not exist InnoNG_64 (goto compileerror) else (goto compile)
 
 rem Make
+:compile
 %Compile32%
 %Compile64%
+rem end
+
+rem Error handling
+if errorlevel 1 goto :compileerror
+goto end
+:compileerror
+rem Get archives if needed
+cls
+:again3
+set /p ans1=Something went wrong... Do you want to re-create folder structure and re-download components? (Y/N):
+if /i "%ans1:~,1%" EQU "Y" goto download
+if /i "%ans1:~,1%" EQU "N" goto end
+echo Please type Y for Yes or N for No
+goto again3
+:download
+echo Creating folders and downloading components!
+call createstructure.bat
+goto check32
+pause
+:end
 rem end

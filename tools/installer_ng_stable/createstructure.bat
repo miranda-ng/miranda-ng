@@ -22,6 +22,7 @@ xcopy Common\* InnoNG_64 /I /S /V /Y
 rem end
 
 rem Download
+Tools\wget.exe -O tmp\InnoSetup5.7z http://miranda-ng.org/distr/installer/InnoSetup5.7z
 Tools\wget.exe -O tmp\miranda-ng-v%MirVer%.7z http://miranda-ng.org/distr/stable/miranda-ng-v%MirVer%.7z
 Tools\wget.exe -O tmp\miranda-ng-v%MirVer%_x64.7z http://miranda-ng.org/distr/stable/miranda-ng-v%MirVer%_x64.7z
 Tools\wget.exe -O tmp\MNG_Sounds.7z http://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
@@ -38,6 +39,7 @@ Tools\wget.exe -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft
 rem end
 
 rem Extract
+..\7-zip\7z.exe x tmp\InnoSetup5.7z -y -oTools
 ..\7-zip\7z.exe x tmp\miranda-ng-v%MirVer%.7z -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\scriver_x32.zip -y -oInnoNG_32\Files
