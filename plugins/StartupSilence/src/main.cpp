@@ -31,14 +31,13 @@ HANDLE GetIconHandle(char *szIcon);
 HANDLE hOptionsInitialize;
 HANDLE hTTBarloaded = NULL;
 HANDLE Buttons = NULL;
-HANDLE hPopups = NULL;
-static HANDLE hSturtupSilenceEnabled;
-
 INT_PTR CALLBACK DlgProcOptions(HWND, UINT, WPARAM, LPARAM);
 int InitializeOptions(WPARAM wParam,LPARAM lParam);
 int DisablePopup(WPARAM wParam, LPARAM lParam);
+int ModulesLoaded(WPARAM wParam, LPARAM lParam);
 static int CreateTTButtons(WPARAM wParam, LPARAM lParam);
 void RemoveTTButtons();
+void EnablePopupModule();
 BYTE Enabled;
 DWORD delay;
 BYTE PopUp;
@@ -54,8 +53,6 @@ char PopUpTimeComp[MAX_PATH] = "";
 char MenuitemComp[MAX_PATH] = "";
 char TTBButtonsComp[MAX_PATH] = "";
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam);
-
 static LIST<void> ttbButtons(1);
 
 PLUGININFOEX pluginInfo={
@@ -68,7 +65,8 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	0x7b856b6a, 0xd48f, 0x4f54, { 0xb8, 0xd6, 0xc8, 0xd8, 0x6d, 0x2, 0xff, 0xc2 } // {7B856B6A-D48F-4f54-B8D6-C8D86D02FFC2}
+	// {7B856B6A-D48F-4f54-B8D6-C8D86D02FFC2}
+	0x7b856b6a, 0xd48f, 0x4f54, {0xb8, 0xd6, 0xc8, 0xd8, 0x6d, 0x2, 0xff, 0xc2}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -87,9 +85,8 @@ INT_PTR StartupSilence()
 	InitSettings();
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	mir_forkthread((pThreadFunc)AdvSt, NULL);
-	hSturtupSilenceEnabled = CreateServiceFunction(SS_SERVICE_NAME, SturtupSilenceEnabled);
+	CreateServiceFunction(SS_SERVICE_NAME, SturtupSilenceEnabled);
 	IsMenu();
-	mir_forkthread((pThreadFunc)initttb, NULL);
 	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
 	return 0;
 }
@@ -103,18 +100,21 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(ME_OPT_INITIALISE);
 	if (hTTBarloaded != NULL){
-		UnhookEvent(ME_TTB_MODULELOADED);
+		UnhookEvent(hTTBarloaded);
 	}
-	UnhookEvent(hPopups);
-	DestroyServiceFunction(hSturtupSilenceEnabled);
 	return 0;
 }
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	hPopups = HookEvent(ME_POPUP_FILTER, DisablePopup);
+	HookEvent(ME_POPUP_FILTER, DisablePopup);
+	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
+	if (TTBButtons == 1 && hTTBarloaded != NULL) {
+		Icon_Register(hInst, "Toolbar/"MENU_NAME, iconttbList, SIZEOF(iconttbList), MENU_NAME);
+		RemoveTTButtons();
+		CreateTTButtons(0,0);
+	}
 	return 0;
 }
 
@@ -123,6 +123,16 @@ int DisablePopup(WPARAM wParam, LPARAM lParam)
 	if (timer == 2)
 		return 1;
 	return 0;
+}
+
+void EnablePopupModule()
+{
+	if (ServiceExists(POPUPONOFFPP) && db_get_b(NULL,"Popup", "ModuleIsEnabled", 0) == 0) {
+		CallService(POPUPONOFFPP, NULL, NULL);
+	}
+	if (ServiceExists(POPUPONOFF) && db_get_b(NULL, "YAPP", "Enabled", 0) == 0) {
+		CallService(POPUPONOFF, NULL, NULL);
+	}
 }
 
 void InitSettings()
@@ -179,24 +189,13 @@ void IsMenu()
 	}
 }
 
-static INT_PTR initttb()
-{
-	Sleep(7000);
-	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
-	if (TTBButtons == 1 && hTTBarloaded != NULL){
-		Icon_Register(hInst, "Toolbar/"MENU_NAME, iconttbList, SIZEOF(iconttbList), MENU_NAME);
-		RemoveTTButtons();
-		CreateTTButtons(0,0);
-	}
-	return 0;
-}
-
 static INT_PTR AdvSt()
 {
 		if ((Enabled == 1)){
 			POPUPDATAT ppd = {0};
 			TCHAR * lptzText =L"";
 			db_set_b(NULL, "Skin", "UseSound", 0);
+			EnablePopupModule();
 
 			if (PopUp == 1) {
 				lptzText = ALL_DISABLED;
@@ -270,7 +269,6 @@ void UpdateTTB()
 {
 	if (hTTBarloaded != NULL && TTBButtons == 1)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)Buttons, (Enabled == 1 ?  TTBST_RELEASED : TTBST_PUSHED));
-
 }
 
 static int CreateTTButtons(WPARAM wParam, LPARAM lParam)

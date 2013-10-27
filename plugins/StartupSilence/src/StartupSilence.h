@@ -1,4 +1,7 @@
 #include <windows.h>
+#include <CommCtrl.h>
+#include <WinSock.h>
+
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_clist.h>
@@ -10,16 +13,14 @@
 #include <m_options.h>
 #include <m_system.h>
 #include <m_system_cpp.h>
+#include "win2k.h"
+
 #include <m_toptoolbar.h>
+
 #include "version.h"
 #include "resource.h"
-#include "win2k.h"
-#include "CommCtrl.h"
-#include "WinSock.h"
 
-#if MIRANDA_VER >= 0x0A00
 static INT_PTR AdvSt();
-static INT_PTR initttb();
 static INT_PTR InitMenu();
 void InitSettings();
 void LoadSettings();
@@ -63,5 +64,3 @@ static IconItem iconttbList[] = {
 	{DISABLE_SILENCETTB, DISABLE_SILENCETTB, IDI_SSDISABLETTB},
 	{ENABLE_SILENCETTB, ENABLE_SILENCETTB, IDI_SSENABLETTB}
 };
-#endif
-
