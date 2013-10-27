@@ -1,0 +1,1 @@
+start /B Miranda64.exe /svc:dbchecker
