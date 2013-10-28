@@ -1,4 +1,4 @@
-﻿#muuid {cb5d6b27-b8e0-484c-87b0-4d4691a94dee}
+﻿#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
 ;============================================================
 ;  File: MirFox.dll
 ;  Plugin: MirFox
@@ -7,73 +7,73 @@
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Миранда NG) - часть интеграции Миранда-Firefox - http://wsx22.3.xpdev-hosted.com
-[mirfox.popup.notify.description]
-MirFox/Уведомление
-[mirfox.popup.error.description]
-MirFox/Ошибка
-[mirfox.options.tab1.sendtocontacts]
+[Send to contact action]
 Действие при отправке контакту
-[mirfox.options.tab1.left]
+[on left mouse button click]
 при нажатии левой кнопки мыши
-[mirfox.options.onlysend]
-просто отправить сообщение
-[mirfox.options.sendandshow]
-отправить и открыть окно сообщений
-[mirfox.options.onlyshow]
-показать окно сообщения с вставленным сообщением
-[mirfox.options.tab1.right]
+[on right mouse button click]
 при нажатии правой кнопки мыши
-[mirfox.options.tab1.middle]
+[on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 при нажатии средней кнопки мыши\n(примечание: используйте среднюю кнопку мыши, чтобы отправить несколько сообщений из Firefox)
-[mirfox.options.tab1.profiles]
+[Firefox profiles]
+Профили Firefox
+[Show Miranda menu only in these Firefox profiles (comma delimited)]
 Отображать меню Миранды только для указанных профилей (разделение запятой)
-[mirfox.options.tab2.contacts]
+[Show these contacts in 'Send ... to' option in Firefox]
 Эти контакты будут отображаться в меню Firefox "Отправить..."
-[mirfox.options.tab2.allcontacts]
-** Все контакты **
-[mirfox.options.tab3.accounts]
+[Show these accounts in 'Set status message' option in Firefox]
 Отображать эти учётные записи в опции Firefox 'Установить сообщение статуса'
-[mirfox.options.tab1]
+[MirFox/Notification]
+MirFox/Уведомление
+[MirFox/Error]
+MirFox/Ошибка
+[just send message]
+просто отправить сообщение
+[send message and open message window]
+отправить и открыть окно сообщений
+[show message window with pasted message]
+показать окно сообщения с вставленным сообщением
+[** All contacts **]
+** Все контакты **
+[Protocol]
+Протокол
+[Services]
+Службы
+[Options]
 Настройки
-[mirfox.options.tab2]
+[Contacts]
 Контакты
-[mirfox.options.tab3]
+[Accounts]
 Учётные записи
-[mirfox.netlib.name]
+[MirFox log]
 Лог MirFox
-[mirfox.message.sent]
+[Message sent to %s (%s)]
 Сообщение для %s (%s) отправлено
-[mirfox.message.sent.unknown]
+[Message sent]
 Сообщение отправлено
-[mirfox.popup.notify.title]
+[MirFox]
 MirFox
-[mirfox.message.badack.errordesc]
+[Cannot send message to %s (%s) - %S]
 Не удалось отправить сообщение для %s (%s) - %S
-[mirfox.message.badack.errordesc.unknown]
+[Cannot send message - %S]
 Не удалось отправить сообщение - %S
-[mirfox.message.badack]
+[Cannot send message to %s (%s)]
 Не удалось отправить сообщение для %s (%s)
-[mirfox.message.badack.unknown]
+[Cannot send message]
 Не удалось отправить сообщение
-[mirfox.message.noack]
-Не удалось отправить сообщение для %s (%s)
-[mirfox.message.noack.unknown]
-Не удалось отправить сообщение
-[mirfox.popup.error.title]
+[MirFox error]
 Ошибка MirFox
-[mirfox.statusmsg.set]
+[Status message set on %s]
 Сообщение статуса установлено для %s
-[mirfox.statusmsg.set.unknown]
+[Status message set]
 Сообщение статуса установлено
-[mirfox.statusmsg.error]
+[Cannot set status message on %s]
 Не удалось установить сообщение статуса для %s
-[mirfox.statusmsg.error.unknown]
+[Cannot set status message]
 Не удалось установить сообщение статуса
-[mirfox.msgbox.csmtooold.message]
+[This MirFox (Miranda) plugin is too old. Please update it.]
 Дополнение MirFox (Firefox) устарело. Пожалуйста, обновите его.
-[mirfox.msgbox.csmtooold.title]
+[MirFox (Miranda) - Error]
 MirFox (Миранда) - Ошибка
-[mirfox.msgbox.csmtoonew.message]
+[This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
 Плагин MirFox (Миранда) не работает - устарели другие компоненты MirFox. Пожалуйста, проверьте и обновите ваше дополнение MirFox.
-[mirfox.msgbox.csmtoonew.title]
-MirFox (Миранда) - Ошибка

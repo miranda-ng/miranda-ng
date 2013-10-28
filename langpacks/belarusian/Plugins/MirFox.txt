@@ -1,85 +1,84 @@
-﻿#muuid {cb5d6b27-b8e0-484c-87b0-4d4691a94dee}
+﻿#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
 ;============================================================
 ;  File: MirFox.dll
 ;  Plugin: MirFox
 ;  Version: 0.5.0.0
-;  Authors: Jerbifor
-;  Authors-email: jerbifor@tut.by
-;  Language: Belarussian
+;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Міранда NG) - частка Міранда-Firefox інтэграцыі - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\res\resource.rc
+[Send to contact action]
+Для таго каб адправіць
+[on left mouse button click]
+пры націску левай кнопкі мышы
+[on right mouse button click]
+пры націску правай кнопкі мышы
+[on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
+пры націску сярэдняй кнопкі мышы\n(нататка: выкарыстоўвайце, каб адправіць некалькі паведамленняў з Firefox)
+[Firefox profiles]
+
+[Show Miranda menu only in these Firefox profiles (comma delimited)]
+Паказаць Міранда меню толькі для гэтых профіляў (падзельнік коска)
+[Show these contacts in 'Send ... to' option in Firefox]
+Паказаць гэтыя кантакты ў меню Firefox "Адправіць ... "
+[Show these accounts in 'Set status message' option in Firefox]
+Паказаць конт у опцыі Firefox 'Статус паведамленне'
 ;file \plugins\MirFox\src\MirandaInterface.cpp
-[mirfox.popup.notify.description]
+[MirFox/Notification]
 MirFox/Notification
-[mirfox.popup.error.description]
+[MirFox/Error]
 MirFox/Error
 ;file \plugins\MirFox\src\MirandaOptions.cpp
-[mirfox.options.tab1.sendtocontacts]
-Для таго каб адправіць
-[mirfox.options.tab1.left]
-пры націску левай кнопкі мышы
-[mirfox.options.onlysend]
+[just send message]
 проста адправіць паведамленне
-[mirfox.options.sendandshow]
+[send message and open message window]
 адправіць і адчыніць акно гутаркі
-[mirfox.options.onlyshow]
+[show message window with pasted message]
 паказаць акно гутаркі з устаўленым паведамленнем
-[mirfox.options.tab1.right]
-пры націску правай кнопкі мышы
-[mirfox.options.tab1.middle]
-пры націску сярэдняй кнопкі мышы\n(нататка: выкарыстоўвайце, каб адправіць некалькі паведамленняў з Firefox)
-[mirfox.options.tab1.profiles]
-Паказаць Міранда меню толькі для гэтых профіляў (падзельнік коска)
-[mirfox.options.tab2.contacts]
-Паказаць гэтыя кантакты ў меню Firefox "Адправіць ... "
-[mirfox.options.tab2.allcontacts]
+[** All contacts **]
 ** Усе кантакты **
-[mirfox.options.tab3.accounts]
-Паказаць конт у опцыі Firefox 'Статус паведамленне'
-[mirfox.options.tab1]
+[Protocol]
+
+[Services]
+
+[Options]
 Опцыі
-[mirfox.options.tab2]
+[Contacts]
 Кантакты
-[mirfox.options.tab3]
+[Accounts]
 Конты
 ;file \plugins\MirFox\src\MirandaUtils.cpp
-[mirfox.netlib.name]
+[MirFox log]
 MirFox log
-[mirfox.message.sent]
+[Message sent to %s (%s)]
 паведамленне адпраўлена для %s (%s)
-[mirfox.message.sent.unknown]
+[Message sent]
 паведамленне адпраўлена
-[mirfox.popup.notify.title]
+[MirFox]
 MirFox
-[mirfox.message.badack.errordesc]
+[Cannot send message to %s (%s) - %S]
 не магу адправіць паведамленне для %s (%s) - %S
-[mirfox.message.badack.errordesc.unknown]
+[Cannot send message - %S]
 не магу адправіць паведамленне - %S
-[mirfox.message.badack]
+[Cannot send message to %s (%s)]
 не магу адправіць паведамленне для %s (%s)
-[mirfox.message.badack.unknown]
+[Cannot send message]
 не магу адправіць паведамленне
-[mirfox.message.noack]
-не магу адправіць паведамленне для %s (%s)
-[mirfox.message.noack.unknown]
-не магу адправіць паведамленне
-[mirfox.popup.error.title]
+[MirFox error]
 MirFox Памылка
-[mirfox.statusmsg.set]
+[Status message set on %s]
 Усталёўка статусу на %s
-[mirfox.statusmsg.set.unknown]
+[Status message set]
 Усталёўка статусу
-[mirfox.statusmsg.error]
+[Cannot set status message on %s]
 не магу ўсталяваць статус на %s
-[mirfox.statusmsg.error.unknown]
+[Cannot set status message]
 не магу ўсталяваць статус
 ;file \plugins\MirFox\src\MirfoxMiranda.cpp
-[mirfox.msgbox.csmtooold.message]
+[This MirFox (Miranda) plugin is too old. Please update it.]
 Гэта старая версія MirFox убудовы. Калі ласка, абновіце яго.
-[mirfox.msgbox.csmtooold.title]
+[MirFox (Miranda) - Error]
 MirFox (Міранда) - Памылка
-[mirfox.msgbox.csmtoonew.message]
+[This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
 Гэты MirFox (Міранда) плагін не можа працаваць - іншыя кампаненты MirFox  састарэлі. Калі ласка, праверце і абнавіце ваша MirFox дапаўненне.
-[mirfox.msgbox.csmtoonew.title]
-MirFox (Міранда) - Памылка
