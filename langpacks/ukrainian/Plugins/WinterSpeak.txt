@@ -5,6 +5,9 @@
 ;  Version: 0.9.8.3
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
+[Miranda interface to the Microsoft Speech API.] 
+Інтерфейс розпізнавання мови Microsoft. 
+
 ; Зміни статусу
 [%u is now offline]
 %u не в мережі

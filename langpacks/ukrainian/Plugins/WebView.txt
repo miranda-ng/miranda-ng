@@ -21,17 +21,17 @@ WebView
 Приховувати іконку у статус барі
 [Disable main menu items]
 Відключити елементи у головному меню
-[Load Page on Window Open]
+[Load page on window open]
 Завантажити сторінку, у відкритому вікні
 [Update data on start-up]
 Оновлювати данні при старті
-[Only Update Window on Alert]
+[Only update window on alert]
 Тільки попередження оновлення вікна
-[Window Appearance]
+[Window appearance]
 Зовнішній вигляд вікна
-[Background Color:]
+[Background color:]
 Колір фону: 
-[Text Color:]
+[Text color:]
 Колір тексту:
 [Bold]
 Напівжирний
@@ -39,23 +39,23 @@ WebView
 Курсив
 [Underline]
 Підкреслений
-[Save Individual Window Positions]
+[Save individual window positions]
 Зберігати позицію для кожного вікна
-[Error Messages]
+[Error messages]
 Повідомлення помилки
 [Suppress error messages]
 Ігнорувати повідомлення про помилки
-[Display using Popup or OSD plugin]
+[Display using popup or OSD plugin]
 Показати використовуючи модуль сплив. вікон або OSD
-[Expert Options]
+[Expert options]
 Режим експерту
-[Disable Download Protection]
+[Disable download protection]
 Відключити захист завантаження
-[(Not Recommended)]
+[(Not recommended)]
 (Не рекомендовано)
-[Display Data in Popup on Alert]
+[Display data in popup on alert]
 Попередження відображення даних у сплив. вікні 
-[Display Data in Popup]
+[Display data in popup]
 Показувати данні у сплив. вікні
 [You may need to restart Miranda NG for this change to take effect.]
 Потрібно перезапустити Miranda NG щоб цей ефект вступив у силу.
@@ -65,7 +65,7 @@ WebView
 Посилання:
 [Display]
 Показувати
-[Between Start and End strings]
+[Between start and end strings]
 Між початком і кінцем рядка
 [Whole web page]
 Всю веб-сторінку
@@ -73,15 +73,15 @@ WebView
 Початок:
 [End:]
 Кінець:
-[Copy Strings to Alerts]
+[Copy strings to alerts]
 Копіювати рядок в сповіщення
 [Double click action]
 Дія при подвійному кліку
-[Opens Web page]
+[Opens web page]
 Відкрити веб-сторінку
-[Opens Data Window]
+[Opens data window]
 Відкрити вікно з данними
-[Display Clean-up]
+[Display clean-up]
 Очистити дісплей
 [Remove HTML]
 Видалити HTML
@@ -93,53 +93,53 @@ WebView
 Застосувати
 [Find]
 Знайти
-[&Find Next]
+[&Find next]
 &Наступне
-[Find What:]
+[Find what:]
 Знайти:
 [Search was completed.]
 Пошук закінчено.
-[Alert Options]
+[Alert options]
 Налаштування сповіщення
-[Events And Alerts]
+[Events and alerts]
 Події та сповіщяння
-[Enable Alerts]
+[Enable alerts]
 Ввімкнути сповіщення
-[Always Log To File]
+[Always log to file]
 Завжди записувати в файл
-[Add Time And Date Of Alert To Contact Name]
+[Add time and date of alert to contact name]
 Занесення часу і дати попередження в ім'я контакту
 [Use 24 hour time format instead of 12 hour]
 Використовувати 24-годинний формат часу замість 12-годинного
-[Add As Prefix]
+[Add as prefix]
 Додавати префікс
-[Add As Suffix]
+[Add as suffix]
 Додавати суфікс
-[Alert When:]
+[Alert when:]
 Попередження якщо:
-[Alert Type:]
+[Alert type:]
 Тип попередження:
-[Test Conditions]
+[Test conditions]
 Умови випробування
-[Alert When String Is Present On Web Page]
+[Alert when string is present on web page]
 Попередження, якщо рядок присутній на веб-сторінці
 [String:]
 Рядок:
-[Alert When Specific Area Of Web Page Changes]
+[Alert when specific area of web page changes]
 Попередження при зміни конкретної області на веб-сторінці
-[Log To file]
+[Log to file]
 Журнал у файл
-[Log File:]
+[Log file:]
 Файл журналу:
 [Append data to file]
 Додавання даних в файл
 [Save as raw data]
 Зберігати "сирі" данні
-[Popup Delay]
+[Popup delay]
 Затримка сплив. вікна
 [Delay]
 Затримка
-[From Popup Plugin]
+[From popup plugin]
 З плагіну сплив. вікон
 [Permanent]
 Постійно
@@ -147,25 +147,25 @@ WebView
 Тест
 [Colors]
 Кольори
-[Use Custom Colors]
+[Use custom colors]
 Користувальницькі кольори
 [Background]
 Фон
 [Text]
 Текст
-[Use Windows Colors]
+[Use windows colors]
 Використовувати кольори Windows
-[Use Same Colors As Data Window]
+[Use same colors as data window]
 Використовувати тіж кольори у вікні данних
-[Left Click Action]
+[Left click action]
 Дія лівого кліку
-[Open Data Display Window]
+[Open data display window]
 Відкрити вікно відображення данних
-[Open Web Page]
+[Open web page]
 Відкрити веб-сторінку
-[Dismiss Popup]
+[Dismiss popup]
 Прибрати сплив. вікно
-[Right Click Action]
+[Right click action]
 Дія правого кліку
 [Log]
 Журнал
@@ -177,41 +177,41 @@ WebView
 &Видалити
 [&Paste]
 &Вставити
-[Co&py All]
+[Co&py all]
 Ко&піювати все
-[&Select All]
+[&Select all]
 &Вибрати все
-[C&lear All]
+[C&lear all]
 &Очистити все
-[Alert Event]
+[Alert event]
 Сповіщення
-[Auto Update Disabled]
+[Auto update disabled]
 Автооновлення вимкнено
-[Auto Update Enabled]
+[Auto update enabled]
 Автооновлення ввімкнено
-[Update All Webview Sites]
+[Update all webview sites]
 Оновити всі сторінки WebView
-[Mark All Webview Sites Read]
+[Mark all webview sites read]
 Позначити всі сторінки як прочитані
-[Open Cache Folder]
+[Open cache folder]
 Відкрити папку кешу
-[%d Minutes to Update]
+[%d minutes to update]
 %d хвилин до оновлення
 [Open web page]
 Відкрити веб-сторінку
 [Open/Close window]
 Відкрити/Закрити вікно
-[Update Data]
+[Update data]
 Оновити данні
-[Contact Options]
+[Contact options]
 Налаштування контакту
-[Contact Alert Options]
+[Contact alert options]
 Налаштування сповіщення контакту
-[Ping Web Site]
+[Ping web site]
 Пінгувати веб-сторінку
-[Stop Data Processing]
+[Stop data processing]
 Припинити розбір інформації
-[All Webview sites have been updated.]
+[All webview sites have been updated.]
 Усі сайти WebView були оновлені.
 [Network]
 Мережа
@@ -231,17 +231,17 @@ WebView
 була знайдена на веб-сторінці
 [Download successful; about to process data...]
 Завантаження завершено; обробка данних...
-[Unknown Alert Type.]
+[Unknown alert type.]
 Невідомий тип сповіщення.
 [Cannot read from file]
 Неможливо прочитати з файлу
 [Cannot write to file 1]
 Неможливо записати у файл 1
-[The Web Page Has Changed.]
+[The web page has changed.]
 Веб-сторінка змінена.
 [Cannot write to file 2]
 Неможливо записати у файл 2
-[Specific Part Of The Web Page Has Changed.]
+[Specific part of the web page has changed.]
 Окремі частини веб-сторінки змінилися.
 [Cannot read from cache file]
 Неможливо прочитати з файлу кешу
@@ -255,9 +255,9 @@ WebView
 Клікніть тут для видкриття цого посилання у вікні браузеру.
 [Stick to the front]
 Прилипати попереду
-[Disable Stick to the Front]
+[Disable stick to the front]
 Вимкнути прилипання попереду
-[Disable Stick to the front]
+[Disable stick to the front]
 Вимкнути прилипання попереду
 [URL not supplied]
 URL-адреса не поставляється
@@ -315,17 +315,17 @@ URL-адреса не поставляється
 Максимально видяляти вільне місце
 [Remove all whitespace]
 Видяляти все вільне місце
-[Popup Plugin]
+[Popup plugin]
 Модуль сплив. вікон
-[Log To File]
+[Log to file]
 Журнал у файл
-[Use OSD Plugin]
+[Use OSD plugin]
 Використовувати OSD модуль
-[A String Is Present]
+[A string is present]
 Присутній рядок
-[The Web Page Changes]
+[The web page changes]
 Веб-сторінка змінилася
-[A Specific Part of Web Page Changes]
+[A specific part of web page changes]
 Змінилися певні частині веб-сторінки
 [This is a preview popup.]
 Це сплив. вікно попереднього перегляду.
