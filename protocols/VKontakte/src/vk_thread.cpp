@@ -67,7 +67,7 @@ void CVkProto::OnLoggedOut()
 
 void CVkProto::SetServerStatus(int iNewStatus)
 {
-	if ( !IsOnline() || iNewStatus < ID_STATUS_OFFLINE || m_iStatus == iNewStatus)
+	if ( !IsOnline() || iNewStatus < ID_STATUS_OFFLINE)
 		return;
 
 	int iOldStatus = m_iStatus;
