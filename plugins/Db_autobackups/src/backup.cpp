@@ -130,15 +130,13 @@ int Backup(TCHAR* backup_filename)
 
 	if (backup_filename == NULL)
 	{
-		int err = 0;
-
 		SYSTEMTIME st;
 		TCHAR buffer[MAX_COMPUTERNAME_LENGTH+1];
 		DWORD size = sizeof(buffer);
 
 		TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
-		err = CreateDirectoryTree(backupfolder);
+		int err = CreateDirectoryTreeT(backupfolder);
 		if(err != ERROR_ALREADY_EXISTS && err != 0) {
 			return 1;
 		}

@@ -32,7 +32,6 @@
 void ShowPopup(TCHAR* text, TCHAR* header);
 INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam);
 INT_PTR ABService(WPARAM wParam, LPARAM lParam);
-int CreateDirectoryTree(TCHAR *szDir);
 int Backup(TCHAR* backup_filename);
 int SetBackupTimer(void);
 int OptionsInit(WPARAM wParam, LPARAM lParam);

@@ -67,9 +67,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 
 	FoldersInit();
 	LoadOptions();
-	MenuInit();
 
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	if(options.backup_types & BT_START)
 		mir_forkthread(BackupThread, NULL);
 	return 0;
@@ -94,7 +92,9 @@ void SysInit()
 
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
-
+	MenuInit();
+	
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
 }
@@ -131,21 +131,6 @@ void ShowPopup(TCHAR* text, TCHAR* header)
 	ppd.lchIcon = Skin_GetIcon("backup");
 
 	PUAddPopupT(&ppd);
-}
-
-int CreateDirectoryTree(TCHAR *szDir)
-{
-	TCHAR szTestDir[MAX_PATH];
-
-	lstrcpyn(szTestDir, szDir, SIZEOF(szTestDir));
-	TCHAR *pszLastBackslash = _tcsrchr( szTestDir, '\\' );
-	if ( pszLastBackslash == NULL )
-		return 0;
-
-	*pszLastBackslash = '\0';
-	CreateDirectoryTree( szTestDir );
-	*pszLastBackslash = '\\';
-	return ( CreateDirectory( szTestDir, NULL ) == 0 ) ? GetLastError() : 0;
 }
 
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)

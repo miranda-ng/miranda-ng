@@ -299,8 +299,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				TCHAR backupfolder[MAX_PATH] = {0};
 				BOOL folder_ok = TRUE;
-				int err = 0;
-					TCHAR *tmp = Utils_ReplaceVarsT(folder_buff);
+				TCHAR *tmp = Utils_ReplaceVarsT(folder_buff);
 
 				if(_tcslen(tmp) >= 2 && tmp[1] == ':')
 					_tcsncpy(backupfolder, tmp, MAX_PATH-1);
@@ -308,7 +307,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					mir_sntprintf(backupfolder, MAX_PATH, _T("%s\\%s"), profilePath, tmp);
 				mir_free(tmp);
 
-				err = CreateDirectoryTree(backupfolder);
+				int err = CreateDirectoryTreeT(backupfolder);
 				if(err != ERROR_ALREADY_EXISTS && err != 0) {
 					TCHAR msg_buff[512];
 					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg_buff, 512, 0);
