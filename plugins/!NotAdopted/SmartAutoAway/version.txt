@@ -1,7 +1,0 @@
-    PLUGIN_MAKE_VERSION(0, 0, 3, 3),
-    "",
-    "YB",
-    "y_b" /* these */ "@" /* fucking spammers */ "saaplugin.no-ip.info" /* gather everything */,
-    "© 2005-2009 YB; 2000-2006 Miranda-IM",
-    "http://saaplugin.no-ip.info/",
-
