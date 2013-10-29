@@ -5,15 +5,15 @@
 ;  Version: 0.1.3.0
 ;  Authors: Vincent Joyce
 ;============================================================
-[Background Color:]
-Background Colour:
-[Text Color:]
-Text Colour:
+[Background color:]
+Background colour:
+[Text color:]
+Text colour:
 [Colors]
 Colours
-[Use Custom Colors]
-Use Custom Colours
-[Use Windows Colors]
-Use Windows Colours
-[Use Same Colors As Data Window]
-Use Same Colours As Data Window
+[Use custom colors]
+Use custom colours
+[Use Windows colors]
+Use Windows colours
+[Use same colors as data window]
+Use same colours as data window
