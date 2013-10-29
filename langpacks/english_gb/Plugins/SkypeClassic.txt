@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.54
 ;  Authors: leecher - tweety - jls17
 ;============================================================
+[/MINIMIZED - Start Skype minimized]
+/MINIMIZED - Start Skype minimised
 [/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
 /NOTRAY - Skype tray icon becomes grey and is therefore "invisible"
 [Use Windows colors]
