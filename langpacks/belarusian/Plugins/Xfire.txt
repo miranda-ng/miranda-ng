@@ -164,7 +164,7 @@ IP:
 Не чапайце пакуль, га?
 [That'll be the phone.]
 Гавару па тэлефоне...
-[Mmm...food.]
+[Mmm... food.]
 Ммм... е-е-ежа...
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

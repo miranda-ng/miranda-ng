@@ -240,8 +240,8 @@ Tlen 聊天
 您无法加入超过 %s 个聊天室.
 [Anonymous nicknames are not allowed in this chat room.]
 聊天室中不允许匿名.
-[Unknown error code : %d]
-未知错误代码 : %d
+[Unknown error code: %d]
+未知错误代码: %d
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp

@@ -52,7 +52,7 @@ Non ora.
 Datemi un po' di pace, per favore!
 [That'll be the phone.]
 Telefono.
-[Mmm...food.]
+[Mmm... food.]
 Mmm... cibo...
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

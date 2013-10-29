@@ -28,11 +28,11 @@
 自动接受 RSA 密钥 (非安全)
 [Mode in Context Menu]
 在环境菜单中显示模式
-[Key Exchange Timeout :]
+[Key Exchange Timeout:]
 密钥交换超时: 
 [sec]
 秒
-[Offline Key Timeout :]
+[Offline Key Timeout:]
 离线密钥超时: 
 [Split Messages]
 拆分信息

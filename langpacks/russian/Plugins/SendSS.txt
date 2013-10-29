@@ -30,18 +30,18 @@
 Откр. снова
 [&Emulate Send button click.]
 Посылать автоматически
-[Send B&y :]
+[Send B&y:]
 Через:
 [Single &Window]
 Одно окно
-[Time (secs) :]
-Секунд :
+[Time (secs):]
+Секунд:
 [&Desktop]
 Рабочий стол
-[Size (HxW) :]
-Размер (ВxШ) :
-[Caption :]
-Заголовок :
+[Size (HxW):]
+Размер (ВxШ):
+[Caption:]
+Заголовок:
 [E&xplore]
 Обзор
 [&Capture]
@@ -54,8 +54,8 @@
 Редактор
 [&Fill description textbox.]
 Заполнить строки описания.
-[&Format :]
-Формат :
+[&Format:]
+Формат:
 [Delete &after send]
 Удалить после отправки
 [Send screenshot to <Unknow Contact> - Capture Options]

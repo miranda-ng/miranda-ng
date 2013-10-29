@@ -50,8 +50,8 @@ Cancel
 邪魔しないでください
 [That'll be the phone.]
 電話中です
-[Mmm...food.]
-おいしいね...これ
+[Mmm... food.]
+おいしいね... これ
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 ;file \protocols\Xfire\src\options.cpp

@@ -176,7 +176,7 @@ Temat: %s
 Hotmail od %s (%S)
 [Hotmail from %s]
 Hotmail od %s
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 Dostępna jest nieprzeczytana poczta (%d w skrzynce odbiorczej oraz %d w innych folderach)
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]

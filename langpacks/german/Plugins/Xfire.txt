@@ -183,7 +183,7 @@ XFire-Optionen
 Bitte wählen Sie ein Spiel aus der Liste!
 [If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Um eine Mod eines von XFire unterstützten Spiels hinzuzufügen, kann hier die ID des Spiels angegeben. Wird auf diese Art z.B. eine Half-Life-Mod hinzugefügt, kann hier die ID von Half-Life angegeben werden, wodurch Half-Life als Spiel angezeigt und aufgezeichnet wird.
-[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used ids. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
+[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
 Jedes Spiel braucht eine eindeutige ID. Um Probleme mit bereits verwendeten IDs zu vermeiden, sollten IDs über 10000 verwendet werden. Diese ID wird nicht zu XFire übertragen.
 [Please enter a game name.]
 Bitte geben Sie einen Spielnamen ein.
@@ -214,7 +214,7 @@ Lass mich im Moment mal in Ruhe!
 
 [That'll be the phone.]
 Bin gerade am Telefon
-[Mmm...food.]
+[Mmm... food.]
 Hmmh... lecker
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]

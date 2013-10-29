@@ -41,8 +41,8 @@
 Використовувати драйвер MCI
 [Note Transparency (Minimum Win 2k/XP)]
 Прозорість нотаток потрібно Win 2000 і вище)
-[Send Reminders through E-mail / SMS :]
-Нагадування на e-mail / SMS:
+[Send Reminders through E-mail/SMS:]
+Нагадування на e-mail/SMS:
 [Open links with this program instead:]
 Відкривати посилання:
 [Reset to defaults]

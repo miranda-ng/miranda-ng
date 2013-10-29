@@ -224,7 +224,7 @@ MSN Чат
 Удалить из адресной книги Hotmail
 [Send &Hotmail E-mail]
 Отправить почту Hotmail
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 Имеется непрочитанная почта: %d входящих писем и %d в других папках.
 [Message delivery failed]
 Доставка сообщения не удалась

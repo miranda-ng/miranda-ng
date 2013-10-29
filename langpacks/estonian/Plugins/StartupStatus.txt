@@ -48,8 +48,8 @@ Pole
 Mitte praegu
 [Yep, I'm here.]
 Jah, ma olen siin.
-[Mmm...food.]
-Mmm...söök
+[Mmm... food.]
+Mmm... söök
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protokoll

@@ -88,7 +88,7 @@
 突出显示用户名
 [Enable highlighting for user names]
 启用突出显示用户名
-[Also look in user ids]
+[Also look in user IDs]
 同时查看用户 ID
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 突出显示名字, 允许使用通配符 * 及 ?, 多条目以空格分隔

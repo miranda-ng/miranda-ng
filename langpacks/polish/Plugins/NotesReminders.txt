@@ -42,8 +42,8 @@ Dodanie przypomnienia zamyka okno
 Używaj MCI do odtwarzania dźwięków powiadomień
 [Note Transparency (Minimum Win 2k/XP)]
 Przezroczystość Notatki (minimum Windows 2000/XP)
-[Send Reminders through E-mail / SMS :]
-Wysyłaj przypomnienia przez E-mail / SMS
+[Send Reminders through E-mail/SMS:]
+Wysyłaj przypomnienia przez E-mail/SMS
 [Open links with this program instead:]
 Otwórz link programem:
 [Reset to defaults]

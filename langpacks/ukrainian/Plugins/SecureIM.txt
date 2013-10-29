@@ -29,12 +29,12 @@
 Авт. схвалення RSA (не захищений)
 [Mode in Context Menu]
 Режим через контекстне меню
-[Key Exchange Timeout :]
-Час обміну ключами :
+[Key Exchange Timeout:]
+Час обміну ключами:
 [sec]
 с
-[Offline Key Timeout :]
-Зберігати ключ :
+[Offline Key Timeout:]
+Зберігати ключ:
 [days]
 днів
 [PGP]

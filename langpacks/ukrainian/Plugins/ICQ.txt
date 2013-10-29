@@ -93,8 +93,8 @@
 Включити підтримку Unicode
 [Send all messages in unicode if possible]
 Відсилати в Unicode (якщо можливо)
-[Use this codepage for Ansi <-> Unicode translation :]
-Перекодування ANSI <-> Unicode :
+[Use this codepage for Ansi <-> Unicode translation:]
+Перекодування ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Ставати видимим для контакту, якому посилаєте повідомлення
 [Notify me when a message has delivery failed (recommended)]

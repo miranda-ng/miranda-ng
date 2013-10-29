@@ -825,7 +825,7 @@ Miranda NG не может открыть '%s', профиль в неизвес
 Miranda NG не может открыть '%s'\nОн недоступен или занят другим приложением, или другой копией Miranda NG
 [Miranda Website]
 Сайт Miranda NG
-[Mmm...food.]
+[Mmm... food.]
 Ммм... поесть бы...
 [Mobile]
 Мобильный

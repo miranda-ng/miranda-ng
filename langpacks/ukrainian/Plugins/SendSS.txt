@@ -23,11 +23,11 @@
 Відправити знімок екрану \n<невідомо>
 [Ti&med capture]
 &Затримка захоплення
-[Time (secs) :]
-Секунд :
-[&Format :]
-&Формат :
-[Send B&y :]
+[Time (secs):]
+Секунд:
+[&Format:]
+&Формат:
+[Send B&y:]
 &Через:
 [E&xplore]
 &Огляд
@@ -51,10 +51,10 @@
 Змінити
 [C&lient Area]
 В&міст
-[Caption :]
-Заголовок :
-[Size (HxW) :]
-Розмір (ВхШ) :
+[Caption:]
+Заголовок:
+[Size (HxW):]
+Розмір (ВхШ):
 [Target Tool]
 
 [GCHAT error]

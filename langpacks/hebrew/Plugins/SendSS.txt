@@ -12,10 +12,10 @@
 ללא
 [Cancel]
 ביטול
-[Time (secs) :]
-זמן (בשניות) :
-[Send B&y :]
-שלח B&y :
+[Time (secs):]
+זמן (בשניות):
+[Send B&y:]
+שלח B&y:
 [E&xplore]
 חקור
 [&Fill description textbox.]
@@ -30,10 +30,10 @@
 סגור
 [Edit]
 ערוך
-[Caption :]
-איזור לכידה :
-[Size (HxW) :]
-גודל (HxW) :
+[Caption:]
+איזור לכידה:
+[Size (HxW):]
+גודל (HxW):
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Error]
 שגיאה

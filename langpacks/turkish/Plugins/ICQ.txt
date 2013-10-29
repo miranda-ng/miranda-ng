@@ -78,7 +78,7 @@ Not: Yıldız ile işaretlenmiş seçeneklerin henüz belgelenmemiş önemli yan
 Unikod ileti desteğini aç
 [Send all messages in unicode if possible]
 Olabildiğinde tüm iletileri unikod olarak gönder
-[Use this codepage for Ansi <-> Unicode translation :]
+[Use this codepage for Ansi <-> Unicode translation:]
 ANSI / unikod dönüşümü için bu kod sayfasını kullan
 [Make me temporarily visible to contacts I send message to]
 İleti gönderdiğim kişilere geçici olarak görün

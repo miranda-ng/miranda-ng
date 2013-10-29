@@ -114,8 +114,8 @@
 Включить поддержку Unicode
 [Send all messages in unicode if possible]
 Отсылать в Unicode (если возможно)
-[Use this codepage for Ansi <-> Unicode translation :]
-Перекодировка ANSI <-> Unicode :
+[Use this codepage for Ansi <-> Unicode translation:]
+Перекодировка ANSI <-> Unicode:
 [System default codepage]
 Системная кодировка
 [Make me temporarily visible to contacts I send message to]

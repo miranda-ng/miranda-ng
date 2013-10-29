@@ -246,7 +246,7 @@ Nie możesz stworzyć więcej niż %s pokoi.
 Nie możesz dołączyć do więcej niż %s pokoi.
 [Anonymous nicknames are not allowed in this chat room.]
 Anonimowe nicki nie są dozwolone w tym pokoju.
-[Unknown error code : %d]
+[Unknown error code: %d]
 Kod nieznanego błędu: %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]

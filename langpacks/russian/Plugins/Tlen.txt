@@ -159,7 +159,7 @@ P2P Подключения
 Год рождения:
 [Personal Information]
 Персональные данные
-[Unknown error code : %d]
+[Unknown error code: %d]
 Неизвестная ошибка: %d
 [Extra Search Criterias]
 Доп. критерии поиска

@@ -74,7 +74,7 @@ Megjegyzés: A csillaggal jelölt beállításoknak fontos mellékhatásaik vagy
 Unicode üzenet támogatás bekapcsolása
 [Send all messages in unicode if possible]
 Összes üzenet küldése unicode-ban, ha lehetséges
-[Use this codepage for Ansi <-> Unicode translation :]
+[Use this codepage for Ansi <-> Unicode translation:]
 Használd ezt a kódlapot ANSI <-> Unicode fordításhoz:
 [Make me temporarily visible to contacts I send message to]
 Átmenetileg látható vagyok azoknak, akiknek üzenetet küldök

@@ -138,8 +138,8 @@ XFire 选项
 给我一点安宁, 好吗? 
 [That'll be the phone.]
 电话联系吧. 
-[Mmm...food.]
-嗯...食物. 
+[Mmm... food.]
+嗯... 食物. 
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 [Login failed.]

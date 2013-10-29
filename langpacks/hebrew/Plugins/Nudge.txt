@@ -20,10 +20,10 @@
 שולח טקסט
 [Receiving text]
 טקסט מתקבל
-[Allow sending* one nudge to the same contact every :]
-אפשר לשלוח* נדנוד אחד לאותו משתמש כל :
-[Allow receiving one nudge from the same contact every :]
-הרשה לשלוח נדנוד אחד לאותו משתמש כל :\n
+[Allow sending* one nudge to the same contact every:]
+אפשר לשלוח* נדנוד אחד לאותו משתמש כל:
+[Allow receiving one nudge from the same contact every:]
+הרשה לשלוח נדנוד אחד לאותו משתמש כל:\n
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * זמן שליחת נדנוד הוא גורם קבוע ולא ניתן לשינוי.
 [Text]

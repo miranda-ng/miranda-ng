@@ -60,7 +60,7 @@ No en este momento.
 Dar un tipo un poco de paz, ya que?
 [That'll be the phone.]
 Eso va a ser el teléfono.
-[Mmm...food.]
+[Mmm... food.]
 Mmm... la comida.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

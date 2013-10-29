@@ -88,8 +88,8 @@ Línea de marcadores en el registro de mensajes
 Destacar los nombres de usuario
 [Enable highlighting for user names]
 Activar resaltado de los nombres de usuario
-[Also look in user ids]
-Activar resaltado de los ids de usuario
+[Also look in user IDs]
+Activar resaltado de los IDs de usuario
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Nombres para destacar, como comodines * y ? se permite, aparte de las entradas múltiples con espacios
 [Highlight message text]

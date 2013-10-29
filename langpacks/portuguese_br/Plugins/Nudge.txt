@@ -18,9 +18,9 @@ Mostrar como mudança de status
 Texto para envio
 [Receiving text]
 Texto de recebimento
-[Allow sending* one nudge to the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 Permitir chamar a atenção do mesmo contato a cada:
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Permitir 'ser chamado a atenção' do mesmo contato a cada:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 *Chamar a atenção está inserido no código e não pode ser mudado.

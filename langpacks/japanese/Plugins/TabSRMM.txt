@@ -88,7 +88,7 @@ Cancel
 ユーザー名を強調表示
 [Enable highlighting for user names]
 ユーザー名の強調表示を有効
-[Also look in user ids]
+[Also look in user IDs]
 ユーザー ID も検索
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 名前に強調表示と , * や ? のようなワイルドカードが許可されている時 , 複数のエントリーは空白で分割します

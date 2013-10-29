@@ -20,26 +20,14 @@ OK
 Nenhum
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Ti&med capture]
 Captura temporizada
-[Time (secs) :]
-Tempo (segs) :
-[&Format :]
+[Time (secs):]
+Tempo (segs):
+[&Format:]
 Formato: 
-[Send B&y :]
-Enviar por :
+[Send B&y:]
+Enviar por:
 [E&xplore]
 Explorar
 [&Fill description textbox.]
@@ -58,10 +46,10 @@ Editar
 Editar
 [C&lient Area]
 Área cliente
-[Caption :]
-Título :
-[Size (HxW) :]
-Tamanho (AxL) :
+[Caption:]
+Título:
+[Size (HxW):]
+Tamanho (AxL):
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [An unknown error has occurred.]
 Ocorreu um erro desconhecido.

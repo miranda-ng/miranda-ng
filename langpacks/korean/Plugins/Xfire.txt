@@ -42,7 +42,7 @@
 조금만 기다려 주세요, 그러실꺼죠?
 [That'll be the phone.]
 전화중이예요.
-[Mmm...food.]
+[Mmm... food.]
 냠냠.. 식사중이예요.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

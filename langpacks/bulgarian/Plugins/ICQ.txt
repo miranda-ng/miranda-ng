@@ -94,8 +94,8 @@ ICQ аватари
 Включване на поддръжката на Unicode съобщения
 [Send all messages in unicode if possible]
 Изпращане на всички съобщения като Unicode, ако е възможно
-[Use this codepage for Ansi <-> Unicode translation :]
-За Ansi<->Unicode превод ще бъде използвана:
+[Use this codepage for Ansi <-> Unicode translation:]
+За Ansi <-> Unicode превод ще бъде използвана:
 [Make me temporarily visible to contacts I send message to]
 Желая да бъда временно видим за контактите до които изпращам съобщения
 [Notify me when a message delivery has failed (recommended)]

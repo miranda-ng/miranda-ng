@@ -94,7 +94,7 @@
 Падсвятленне імёнаў карыстачоў
 [Enable highlighting for user names]
 Уключыць падсвятленне для імёнаў карыстачоў
-[Also look in user ids]
+[Also look in user IDs]
 Правяраць у ID карыстачоў
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Імёны для падсвятлення, дапушчаюцца маскі выгляду * і ?, некалькі слоў для падсвятлення падзяляюцца прабеламі

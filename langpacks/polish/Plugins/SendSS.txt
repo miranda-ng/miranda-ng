@@ -24,12 +24,12 @@ Wyślij zrzut ekranu
 Wyślij zrzut ekranu do\n<nieznany>
 [Ti&med capture]
 Czas uchwycenia
-[Time (secs) :]
-Czas (s) :
-[&Format :]
-Format :
-[Send B&y :]
-Wyślij przez :
+[Time (secs):]
+Czas (s):
+[&Format:]
+Format:
+[Send B&y:]
+Wyślij przez:
 [E&xplore]
 Przeglądaj
 [&Fill description textbox.]
@@ -52,10 +52,10 @@ Zamknij
 Edytuj
 [C&lient Area]
 Obszar klienta
-[Caption :]
-Uchwyć :
-[Size (HxW) :]
-Rozmiar (HxW) :
+[Caption:]
+Uchwyć:
+[Size (HxW):]
+Rozmiar (HxW):
 [Target Tool]
 Celownik
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp

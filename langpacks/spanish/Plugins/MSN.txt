@@ -96,7 +96,7 @@ Asunto: %s
 Hotmail desde %s (%S)
 [Hotmail from %s]
 Hotmail desde %s 
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 correo no leído está disponible: %d en la Bandeja de entrada y %d en otras carpetas).
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]

@@ -3077,8 +3077,6 @@ Web Дизайн
 Дата
 [Use relative timestamp]
 Относительное время
-[Warning: classic contact list plugin doesn`t have ability to use extraicons]
-Внимание: классический список контактов не поддерживает экстра значки
 [Contact Rate]
 Рейтинг контакта
 [Check3]

@@ -88,8 +88,8 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 我现在正在躲仇家. 
 [That'll be the phone.]
 电话联系吧. 
-[Mmm...food.]
-嗯...食物. 
+[Mmm... food.]
+嗯... 食物. 
 [idleeeeeeee]
 闲置
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

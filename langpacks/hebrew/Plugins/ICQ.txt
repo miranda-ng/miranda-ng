@@ -70,8 +70,8 @@
 אפשר תמיכה בשליחת הודעות יוניקוד
 [Send all messages in unicode if possible]
 שלח את כל ההודעות במצב יוניקוד אם אפשר
-[Use this codepage for Ansi <-> Unicode translation :]
-השתמש בקוד או זה בשביל  Ansi <-> Unicode תרגום :
+[Use this codepage for Ansi <-> Unicode translation:]
+השתמש בקוד או זה בשביל  Ansi <-> Unicode תרגום:
 [Make me temporarily visible to contacts I send message to]
 עשה אותי נראה זמנית למשתמשים שאני שולח להם הודעה
 [Notify me when a message delivery has failed (recommended)]

@@ -244,7 +244,7 @@
 
 [Anonymous nicknames are not allowed in this chat room.]
 
-[Unknown error code : %d]
+[Unknown error code: %d]
 
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]

@@ -40,8 +40,8 @@
 Выкарыстоўваць драйвер MCI
 [Note Transparency (Minimum Win 2k/XP)]
 Празрыстасць нататак (патрабуецца Win 2000 і вышэй)
-[Send Reminders through E-mail / SMS :]
-Напамінкі на e-mail / SMS:
+[Send Reminders through E-mail/SMS:]
+Напамінкі на e-mail/SMS:
 [Open links with this program instead:]
 Адкрываць спасылкі ў:
 [Reset to defaults]

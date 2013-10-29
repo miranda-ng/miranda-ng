@@ -1241,8 +1241,8 @@ SMS テキストメッセージを受信できる電話
 マフィアから隠れてるところだ
 [That'll be the phone.]
 電話中です
-[Mmm...food.]
-おいしいね...これ
+[Mmm... food.]
+おいしいね... これ
 [idleeeeeeee]
 暇だよ
 [Status]

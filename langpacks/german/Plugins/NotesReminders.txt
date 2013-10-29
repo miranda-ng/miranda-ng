@@ -42,8 +42,8 @@ Hinzufügen einer Erinnerung schließt Dialog
 Verwende MCI um Sounds zu spielen
 [Note Transparency (Minimum Win 2k/XP)]
 Notiz-Transparenz (Minimum Windows 2000/XP)
-[Send Reminders through E-mail / SMS :]
-Erinnerungen durch E-Mail / SMS senden:
+[Send Reminders through E-mail/SMS:]
+Erinnerungen durch E-Mail/SMS senden:
 [Open links with this program instead:]
 Links mit diesem Programm öffnen:
 [Reset to defaults]

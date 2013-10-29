@@ -12,10 +12,10 @@ Aucun
 Annuler
 [Ti&med capture]
 Retardateur
-[Time (secs) :]
-temps (sec) :
-[Send B&y :]
-Envoyer par :
+[Time (secs):]
+Temps (sec):
+[Send B&y:]
+Envoyer par:
 [E&xplore]
 Explorer
 [&Fill description textbox.]
@@ -34,10 +34,10 @@ Crédits >
 Éditer
 [C&lient Area]
 Zone du client
-[Caption :]
-Légende :
-[Size (HxW) :]
-Taille (HxW) :
+[Caption:]
+Légende:
+[Size (HxW):]
+Taille (HxW):
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.

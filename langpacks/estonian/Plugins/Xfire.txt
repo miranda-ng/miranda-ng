@@ -40,8 +40,8 @@ Kõik failid
 Jah, ma olen siin.
 [Not right now.]
 Mitte praegu
-[Mmm...food.]
-Mmm...söök
+[Mmm... food.]
+Mmm... söök
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 ;file \protocols\Xfire\src\options.cpp

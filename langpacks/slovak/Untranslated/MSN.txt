@@ -64,7 +64,7 @@
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 [%s protocol]
 [Hotmail from %s (%S)]
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 [Open &Hotmail Inbox]
 [Send &Hotmail E-mail]
 [You must be talking to start Netmeeting]

@@ -94,7 +94,7 @@ Nachrichten
 Unicode für Nachrichten aktivieren
 [Send all messages in unicode if possible]
 Alle Nachrichten in Unicode senden, wenn möglich
-[Use this codepage for Ansi <-> Unicode translation :]
+[Use this codepage for Ansi <-> Unicode translation:]
 Verwende diese Codetabelle für ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Temporär für Kontakte sichtbar machen beim Nachrichtenversand

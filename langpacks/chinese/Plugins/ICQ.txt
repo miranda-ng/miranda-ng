@@ -80,7 +80,7 @@ ICQ 头像
 启用 Unicode 通信支持
 [Send all messages in unicode if possible]
 如果可能的话以 Unicode 发送所有消息
-[Use this codepage for Ansi <-> Unicode translation :]
+[Use this codepage for Ansi <-> Unicode translation:]
 使用此代码页做 Ansi <-> Unicode 转换: 
 [Make me temporarily visible to contacts I send message to]
 让我暂时可见发送消息联系人

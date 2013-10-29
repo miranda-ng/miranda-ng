@@ -18,7 +18,7 @@ Barre di scorrimento
 Opzioni di avvio
 [Add Contact list menu items]
 Oggetto nel menu contatti
-[Send Reminders through E-mail / SMS :]
+[Send Reminders through E-mail/SMS:]
 Invia promemoria attraverso Email/SMS:
 [Add Reminder]
 Aggiungi Promemoria

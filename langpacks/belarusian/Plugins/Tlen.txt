@@ -242,7 +242,7 @@ Tlen запрашэнне галасавога чата
 Вы не можаце ўвайсці ў больш чым %s пакояў.
 [Anonymous nicknames are not allowed in this chat room.]
 Ананімныя псеўданімы забаронены ў гэтым пакоі.
-[Unknown error code : %d]
+[Unknown error code: %d]
 Невядомая памылка: %d
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp

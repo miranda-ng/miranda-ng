@@ -35,9 +35,9 @@
 Текст прийому
 [Privacy]
 Приватність
-[Allow sending* one to nudge the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 Трясти той же контакт один раз кожні:
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Прийом трясіння від одного контакту кожні:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Це число не можна змінювати, воно забито в коді плагіна.

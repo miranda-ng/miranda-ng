@@ -176,7 +176,7 @@ MSN Чат
 Пошта ад %s (%S)
 [Hotmail from %s]
 Пошта Hotmail ад %s
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 Маецца непрачытаная пошта: %d уваходных пісьмаў і %d у іншых тэчках.
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]

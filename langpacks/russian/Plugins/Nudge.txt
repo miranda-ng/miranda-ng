@@ -32,9 +32,9 @@
 Текст отправки
 [Receiving text]
 Текст приема
-[Allow sending one nudge to the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 Отправка тряски одному и тому же контакту каждые:
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Прием тряски от одного контакта каждые:
 [Show as status change]
 Показывать как смену статуса
@@ -56,8 +56,6 @@
 Вы встряхнули
 [Nudge for MRA]
 Встряска для Mail.ru агента
-[Allow sending* one nudge to the same contact every :]
-Трясти тот же контакт один раз каждые:
 [Auto resend nudge after]
 Повторять тряску каждые
 [* Nudge sending delay is hardcoded and cannot be changed.]

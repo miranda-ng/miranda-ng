@@ -18,7 +18,7 @@ Afficher si changement d'état
 Message envoyé
 [Receiving text]
 Message reçu
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Autoriser la réception d'un wizz du même contact toutes les 
 [Text]
 Texte

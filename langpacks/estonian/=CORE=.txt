@@ -669,8 +669,8 @@ Vaata kasutaja detaile
 Mitte praegu
 [Yep, I'm here.]
 Jah, ma olen siin.
-[Mmm...food.]
-Mmm...söök
+[Mmm... food.]
+Mmm... söök
 [Status]
 Staatus
 ;file \src\core\stdchat\src\clist.cpp

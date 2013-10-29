@@ -92,7 +92,7 @@ Rozhovor
 
 [Send all messages in unicode if possible]
 
-[Use this codepage for Ansi <-> Unicode translation :]
+[Use this codepage for Ansi <-> Unicode translation:]
 
 [Make me temporarily visible to contacts I send message to]
 

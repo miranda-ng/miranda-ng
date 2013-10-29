@@ -80,8 +80,8 @@ ICQ ネットワークに接続している間はサーバー側のコンタク�
 unicodeメッセージサポートを有効
 [Send all messages in unicode if possible]
 可能であれば全てのメッセージを unicode で送信
-[Use this codepage for Ansi <-> Unicode translation :]
-Ansi <-> Unicode 変換に使用するコードページ :
+[Use this codepage for Ansi <-> Unicode translation:]
+Ansi <-> Unicode 変換に使用するコードページ:
 [Make me temporarily visible to contacts I send message to]
 メッセージを送るときは一時的に可視になる
 [Notify me when a message delivery has failed (recommended)]

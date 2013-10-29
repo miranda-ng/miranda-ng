@@ -18,11 +18,11 @@
 发送屏幕截图
 [Ti&med capture]
 定时抓取(&M)
-[Time (secs) :]
+[Time (secs):]
 时间 (秒): 
-[&Format :]
+[&Format:]
 格式(&F): 
-[Send B&y :]
+[Send B&y:]
 发送方法(&Y): 
 [E&xplore]
 探索(&X)
@@ -42,9 +42,9 @@
 编辑
 [C&lient Area]
 客户端区域(&L)
-[Caption :]
+[Caption:]
 标题: 
-[Size (HxW) :]
+[Size (HxW):]
 大小 (HxW): 
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [An unknown error has occurred.]

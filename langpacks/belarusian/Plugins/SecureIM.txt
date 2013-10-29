@@ -30,12 +30,12 @@
 Аўта ўхвала RSA (не абаронены)
 [Mode in Context Menu]
 Рэжым праз кантэкстнае меню
-[Key Exchange Timeout :]
-Час абмену ключамі :
+[Key Exchange Timeout:]
+Час абмену ключамі:
 [sec]
 сек
-[Offline Key Timeout :]
-Захоўваць ключ :
+[Offline Key Timeout:]
+Захоўваць ключ:
 [days]
 дзён
 [Reset All]

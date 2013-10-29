@@ -94,7 +94,7 @@ Vaše meno
 
 [Enable highlighting for user names]
 
-[Also look in user ids]
+[Also look in user IDs]
 
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 

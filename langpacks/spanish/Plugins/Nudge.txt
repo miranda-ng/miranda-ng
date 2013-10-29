@@ -20,14 +20,12 @@ Auto enviar codazo después
 Envío de texto
 [Receiving text]
 Recepción de texto
-[Allow sending* one nudge to the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 Permitir el envío de* un empujón para el mismo contacto cada:
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Deje de recibir un codazo del mismo contacto cada:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Empujar demora el envío está codificado y no se puede cambiar.
-[Text]
-Texto
 [Text]
 Texto
 [Allow nudges when you're:]

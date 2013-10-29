@@ -24,11 +24,11 @@ Screenshot senden
 Sende Screenshot an\n unbekannt
 [Ti&med capture]
 Verzögerte Aufnahme
-[Time (secs) :]
-Zeit (Sek.) :
-[&Format :]
+[Time (secs):]
+Zeit (Sek.):
+[&Format:]
 &Format:
-[Send B&y :]
+[Send B&y:]
 Senden per:
 [E&xplore]
 Öffnen
@@ -52,9 +52,9 @@ S&chließen
 Bearbeiten
 [C&lient Area]
 Fensterinha&lt
-[Caption :]
+[Caption:]
 Fenstertitel:
-[Size (HxW) :]
+[Size (HxW):]
 Größe (HxB):
 [Target Tool]
 Zielscheibe

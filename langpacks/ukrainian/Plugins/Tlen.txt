@@ -159,7 +159,7 @@ P2P з'єднання
 Рік народження:
 [Personal Information]
 Персональні дані
-[Unknown error code : %d]
+[Unknown error code: %d]
 Невідома помилка: %d
 [Extra Search Criterias]
 Дод. критерії пошуку

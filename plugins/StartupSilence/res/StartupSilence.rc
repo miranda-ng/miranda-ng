@@ -46,7 +46,7 @@ BEGIN
     CONTROL         "TopToolBar button (Miranda restart required)",IDC_TTB,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,134,259,9
     PUSHBUTTON      "Reset to default\r\n(for this computer)",IDC_RESETDEFAULT,202,183,100,23,BS_CENTER | BS_VCENTER | BS_MULTILINE | NOT WS_TABSTOP
-    CTEXT           "You need configure it once for each computer, where you run your Miranda NG.",IDC_STATIC,11,152,286,28
+    CTEXT           "You need to configure it once for each computer, where you run your Miranda NG.",IDC_STATIC,11,152,286,28
     LTEXT           "No Apply button required.",IDC_STATIC,12,196,184,8
 END
 

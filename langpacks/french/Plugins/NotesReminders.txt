@@ -18,8 +18,8 @@ Voir les ascenseur
 Options démarrage
 [Add Contact list menu items]
 Ajouter au menu de la liste de contacts
-[Send Reminders through E-mail / SMS :]
-Envoyer les Rappels par e-mail / SMS :
+[Send Reminders through E-mail/SMS:]
+Envoyer les Rappels par e-mail/SMS:
 [Add Reminder]
 Ajout d'un Rappel
 [Trigger On Time && Date:]

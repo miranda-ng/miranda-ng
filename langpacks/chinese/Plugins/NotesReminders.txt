@@ -20,7 +20,7 @@
 启动选项
 [Add Contact list menu items]
 添加联系人列表菜单项目
-[Send Reminders through E-mail / SMS :]
+[Send Reminders through E-mail/SMS:]
 使用邮件/SMS 发送提醒: 
 [Add Reminder]
 添加提醒

@@ -94,7 +94,7 @@ Znaki w dzienniku wiadomości
 Podświetlenie nicku użytkownika
 [Enable highlighting for user names]
 Włącz podświetlanie dla nicków użytkownika
-[Also look in user ids]
+[Also look in user IDs]
 Podświetl również ID
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Podświetlone nazwy, znak * oraz ? jest dozwolony. Oddzielaj wpisy spacjami.

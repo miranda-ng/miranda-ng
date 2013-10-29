@@ -50,7 +50,7 @@ Ikke akkurat nå.
 Gi en kar litt fred da, gidder du?
 [That'll be the phone.]
 Det må være telefonen.
-[Mmm...food.]
+[Mmm... food.]
 Mmm... mat.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

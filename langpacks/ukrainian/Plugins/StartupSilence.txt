@@ -1,9 +1,38 @@
 ﻿#muuid {7b856b6a-d48f-4f54-b8d6-c8d86d02ffc2}
 ;============================================================
-; File: StartupSilence.dll
-; Plugin: Silence At Startup
-; Versions: 0.1.0.0
+;  File: StartupSilence.dll
+;  Plugin: StartupSilence
+;  Version: 0.1.0.0
+;  Authors: Vladimir Lyubimov
 ;============================================================
+[Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
+Відключає ВСІ звуки і спливаючі вікна при старті Miranda на 10-300 секунд і вмикає їх завжди для Miranda NG (Автоматично запам'ятовує налаштування для кожного комп'ютера).
+[Silence at Startup]
+Тихий запуск
+[Settings for the next Computer Name:]
+Налаштування для комп'ютера:
+[Enable silence at startup]
+Ввімкнути легкий запуск
+[for]
+на
+[10-300 seconds (Default 20)]
+10-300 секунд (Замовчання 20)
+[Show Popup notification]
+Повідомляти у спливаючих вікнах
+[Popup time 1-30 seconds (Default 5)]
+Час показу 1-30 секунд (Замовчання 5)
+[Main Menu Item (plugin reload or Miranda restart required)]
+Пункт у головному меню (потрібен перезапуск Miranda).
+[TopToolBar button (Miranda restart required)]
+Кнопка в TopToolBar (потрібен перезапуск Miranda).
+[Reset to default\r\n(for this computer)]
+Скинути налаштування\r\n(для цього комп'ютера)
+[You need to configure it once for each computer, where you run your Miranda NG.]
+Необхідно один раз налаштовувати для нового комп'ютера, де Ви запускаєте Miranda NG.
+[No Apply button required.]
+Налаштування зберігаються автоматично.
+[Events]
+Події
 [Silence at startup]
 Тихий запуск
 [Toggle Silence OFF]
@@ -30,33 +59,5 @@
 Тихий запуск Ввімк/Вимк
 [You have to install TopToolBar to use this option.]
 Для використання цієї функції потрібен встановлений модуль TopToolBar
-[You have to install \"YAPP\" or \"Popup+\" to use this option.]
-Для використання цієї функції потрібен встановлений \"YAPP\" або \"PopUp+\" модуль спливаючих вікон.
-[Silence at Startup]
-Тихий запуск
-[Settings for the next Computer Name:]
-Налаштування для комп'ютера:
-[Enable silence at startup]
-Ввімкнути легкий запуск
-[for]
-на
-[10-300 seconds (Default 20).]
-10-300 секунд (Замовчання 20).
-[Show Popup notification]
-Повідомляти у спливаючих вікнах
-[Popup time 1-30 seconds (Default 5)]
-Час показу 1-30 секунд (Замовчання 5).
-[Main Menu Item (plugin reload or Miranda restart required)]
-Пункт у головному меню (потрібен перезапуск Miranda).
-[TopToolBar button (Miranda restart required)]
-Кнопка в TopToolBar (потрібен перезапуск Miranda).
-[Reset to default\r\n(for this computer)]
-Скинути налаштування\r\n(для цього комп'ютера)
-[You need configure it once for each computer, where you run your Miranda NG.]
-Необхідно один раз налаштовувати для нового комп'ютера, де Ви запускаєте Miranda NG.
-[No Apply button needed.]
-Налаштування зберігаються автоматично.
-[StartupSilence]
-Тихий запуск
-[Disables ALL PopUps and Sounds for 10-300 sec at Miranda startup Enabled and it always for Miranda NG (Automatically per computer settings).]
-Відключає ВСІ звуки і спливаючі вікна при старті Miranda на 10-300 секунд і вмикає їх завжди для Miranda NG (Автоматично запам'ятовує налаштування для кожного комп'ютера).
+[You have to install "YAPP" or "Popup+" to use this option.]
+Для використання цієї функції потрібен встановлений \"YAPP\" або \"Popup+\" модуль спливаючих вікон.

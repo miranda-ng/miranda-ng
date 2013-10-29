@@ -50,7 +50,7 @@
 ?אפשר לתת לבן אדם קצת אויר
 [That'll be the phone.]
 בטלפון
-[Mmm...food.]
+[Mmm... food.]
 הממ... אוכל.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

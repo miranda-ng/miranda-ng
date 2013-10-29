@@ -94,7 +94,7 @@
 Отличаване на потребителски имена
 [Enable highlighting for user names]
 Включване
-[Also look in user ids]
+[Also look in user IDs]
 
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Имена за отличаване, wildcards like * and ? are allowed, разделете записите с интервал

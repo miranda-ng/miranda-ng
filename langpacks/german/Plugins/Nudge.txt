@@ -36,9 +36,9 @@ beim Senden
 beim Empfangen
 [Privacy]
 Privatsphäre
-[Allow sending* one nudge to the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 Zeitlimit zum Senden* von Nudges zum selben Kontakt:
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Zeitlimit zum Empfangen von Nudges vom selben Kontakt:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Diese Beschränkung kann nicht durch den Benutzer geändert werden.

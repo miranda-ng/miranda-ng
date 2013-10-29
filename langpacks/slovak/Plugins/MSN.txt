@@ -174,7 +174,7 @@ Predmet: %s
 
 [Hotmail from %s]
 Hotmail od %s
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]

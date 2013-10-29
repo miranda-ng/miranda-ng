@@ -20,11 +20,11 @@
 Скасаваць
 [Ti&med capture]
 Затрымка захопу
-[Time (secs) :]
-Секунд :
-[&Format :]
-Фармат :
-[Send B&y :]
+[Time (secs):]
+Секунд:
+[&Format:]
+Фармат:
+[Send B&y:]
 Праз:
 [E&xplore]
 Агляд
@@ -46,10 +46,10 @@
 Змяніць
 [C&lient Area]
 Змесціва
-[Caption :]
-Загаловак :
-[Size (HxW) :]
-Памер (HxW) :
+[Caption:]
+Загаловак:
+[Size (HxW):]
+Памер (HxW):
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [An unknown error has occurred.]
 Невядомая памылка.

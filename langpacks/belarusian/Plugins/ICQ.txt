@@ -92,8 +92,8 @@ ICQ
 Уключыць падтрымку Unicode
 [Send all messages in unicode if possible]
 Адсылаць у Unicode (калі магчыма)
-[Use this codepage for Ansi <-> Unicode translation :]
-Перакадоўка ANSI <-> Unicode :
+[Use this codepage for Ansi <-> Unicode translation:]
+Перакадоўка ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Станавіцца бачным для кантакту, якому пасылаеце паведамленне
 [Notify me when a message delivery has failed (recommended)]

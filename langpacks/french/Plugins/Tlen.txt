@@ -212,8 +212,8 @@ Vous ne pouvez créer plus de %s salon.
 Vous ne pouvez rejoindre plus de %s salon.
 [Anonymous nicknames are not allowed in this chat room.]
 les pseudos anonymes ne sont pas permis dans ce salon.
-[Unknown error code : %d]
-Code erreur inconnu : %d
+[Unknown error code: %d]
+Code erreur inconnu: %d
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp

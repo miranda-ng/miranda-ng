@@ -99,8 +99,8 @@ KeepStatus, 一个连接检查插件, 可与 (或不与) StartupStatus 及/或 A
 我现在正在躲仇家. 
 [That'll be the phone.]
 电话联系吧. 
-[Mmm...food.]
-嗯...食物. 
+[Mmm... food.]
+嗯... 食物. 
 [idleeeeeeee]
 闲置
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

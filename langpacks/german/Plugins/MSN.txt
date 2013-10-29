@@ -176,7 +176,7 @@ Betreff: %s
 Hotmail von %s (%S)
 [Hotmail from %s]
 Hotmail von %s
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 Ungelesene E-Mails sind verfügbar: %d im Posteingang und %d in anderen Verzeichnissen.
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]

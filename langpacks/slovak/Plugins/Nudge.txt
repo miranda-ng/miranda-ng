@@ -36,9 +36,9 @@
 
 [Privacy]
 
-[Allow sending* one nudge to the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 
 [* Nudge sending delay is hardcoded and cannot be changed.]
 

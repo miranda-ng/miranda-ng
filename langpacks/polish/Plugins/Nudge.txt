@@ -36,9 +36,9 @@ Wysyłany tekst
 Odbierany tekst
 [Privacy]
 Prywatność
-[Allow sending* one nudge to the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 Zezwól na wysyłanie* nudge'ów do tego samego kontaktu co:
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Zezwól na odbieranie nudge'ów od jednego kontaktu co:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Opóźnienie wysyłania nudge'ów jest stałe i nie można go zmienić.

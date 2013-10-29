@@ -700,7 +700,7 @@ Copyright:
 Не, не съм тук.
 [I'm hiding from the mafia.]
 Крия се от мафията.
-[Mmm...food.]
+[Mmm... food.]
 Ммм... храна.
 [Status]
 Състояние

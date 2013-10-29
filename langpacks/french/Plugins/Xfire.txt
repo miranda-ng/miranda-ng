@@ -50,7 +50,7 @@ Pas maintenant, merci.
 Tu veux bien me laisser en paix ?
 [That'll be the phone.]
 Ce sera le téléphone.
-[Mmm...food.]
+[Mmm... food.]
 Mmm... Manger.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

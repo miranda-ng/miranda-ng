@@ -12,7 +12,7 @@ Lista utenti
 Attiva messaggi offline protetti
 [Enable Secure File Transfer]
 Attiva trasferimento file protetto
-[Key Exchange Timeout :]
+[Key Exchange Timeout:]
 Timeout scambio chiave:
 [sec]
 sec

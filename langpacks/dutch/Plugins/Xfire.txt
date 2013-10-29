@@ -48,8 +48,8 @@ Nu even niet.
 Gun een man zijn rust, wil je?
 [That'll be the phone.]
 Dat zal de telefoon zijn.
-[Mmm...food.]
-Mmm...eten.
+[Mmm... food.]
+Mmm... eten.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 [Username]

@@ -78,7 +78,7 @@
 מסתתר מהמאפיה.
 [That'll be the phone.]
 בטלפון
-[Mmm...food.]
+[Mmm... food.]
 הממ... אוכל.
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]

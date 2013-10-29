@@ -30,11 +30,11 @@ Nie chroń od kontaktów spoza listy
 Automatycznie akceptuj klucz RSA
 [Mode in Context Menu]
 Tryb w menu kontekstowym
-[Key Exchange Timeout :]
+[Key Exchange Timeout:]
 Zmiana klucza po:
 [sec]
 s
-[Offline Key Timeout :]
+[Offline Key Timeout:]
 Wyłączenie klucza po:
 [days]
 dni

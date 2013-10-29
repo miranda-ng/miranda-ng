@@ -60,8 +60,8 @@ Boşver ben yokum
 Bana biraz huzur ver
 [That'll be the phone.]
 Telefondayım
-[Mmm...food.]
-Mmm...yemek.
+[Mmm... food.]
+Mmm... yemek.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 ;file \protocols\Xfire\src\options.cpp

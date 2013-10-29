@@ -104,7 +104,7 @@ Agora não.
 Dê ao cara um pouco de paz, certo?
 [That'll be the phone.]
 É...utilize antes o telefone.
-[Mmm...food.]
+[Mmm... food.]
 Mmm... comida.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp

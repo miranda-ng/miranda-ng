@@ -109,8 +109,8 @@ UIN/E-mail/JID/Компьютер
 Включить оффлайн сообщения
 [Always try]
 Всегда пытаться
-[Key Exchange Timeout :]
-Время обмена ключами :
+[Key Exchange Timeout:]
+Время обмена ключами:
 [Popup Timeout]
 Длительность
 [Time in Seconds]
@@ -179,8 +179,8 @@ SecureIM (выключен)
 Откл. шифрование для "игровых" плагинов
 [Contact List Icon]
 Значки списка контактов
-[Offline Key Timeout :]
-Хранить ключ :
+[Offline Key Timeout:]
+Хранить ключ:
 [Key received...]
 Ключ принят...
 [SecureIM]

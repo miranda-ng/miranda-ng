@@ -70,8 +70,8 @@ OK
 マフィアから隠れてるところだ
 [That'll be the phone.]
 電話中です
-[Mmm...food.]
-おいしいね...これ
+[Mmm... food.]
+おいしいね... これ
 [idleeeeeeee]
 暇だよ
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

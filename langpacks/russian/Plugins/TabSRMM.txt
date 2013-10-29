@@ -605,7 +605,7 @@ ID текущего контакта (если определен). Наприм
 Подсветка имён пользователей
 [Enable highlighting for user names]
 Включить подсветку для имён пользователей
-[Also look in user ids]
+[Also look in user IDs]
 Проверять в ID пользователей
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Имена для подсветки, допускаются маски вида * и ?, несколько слов для подсветки разделяются пробелами

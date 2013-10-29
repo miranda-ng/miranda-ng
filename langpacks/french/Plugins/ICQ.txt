@@ -72,8 +72,8 @@ Envoi de message
 Activer le support des messages unicode
 [Send all messages in unicode if possible]
 Envoyer tous les messages en unicode si possible
-[Use this codepage for Ansi <-> Unicode translation :]
-Traduire de Ansi vers Unicode avec l'encodage :
+[Use this codepage for Ansi <-> Unicode translation:]
+Traduire de Ansi vers Unicode avec l'encodage:
 [Make me temporarily visible to contacts I send message to]
 Devenir temporairement visible lorsque j'envoi des messages
 [Notify me when a message delivery has failed (recommended)]

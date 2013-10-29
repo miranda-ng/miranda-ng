@@ -94,7 +94,7 @@ Wiadomości
 Włącz obsługę komunikacji unicode
 [Send all messages in unicode if possible]
 Wyślij wszystkie wiadomości w unicode, jeśli możliwe
-[Use this codepage for Ansi <-> Unicode translation :]
+[Use this codepage for Ansi <-> Unicode translation:]
 Użyj tego kodowania dla tłumaczenia Ansi <-> Unicode
 [Make me temporarily visible to contacts I send message to]
 Uczyń mnie tymczasowo widocznym dla kontaktów, którym wysyłam wiadomość

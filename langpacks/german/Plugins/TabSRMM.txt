@@ -94,7 +94,7 @@ Markierungen im Nachrichtenverlauf
 Hervorherbungen für Benutzernamen
 [Enable highlighting for user names]
 Hervorhebungen für Benutzernamen aktivieren
-[Also look in user ids]
+[Also look in user IDs]
 Berucksichtige auch Nutzer-IDs
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Namen, die hervorgeoben werden sollen, Platzhalter wie * und ? sind erlaubt, mehrere Einträge durch Leerzeichen trennen
