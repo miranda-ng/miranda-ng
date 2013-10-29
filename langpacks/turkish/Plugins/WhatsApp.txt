@@ -8,10 +8,6 @@
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [OK]
 Tamam
 ;file \protocols\WhatsApp\src\connection.cpp

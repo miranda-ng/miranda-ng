@@ -7,7 +7,5 @@
 ;============================================================
 [Advanced]
 Avanzada
-[Advanced]
-Avanzada
 [Volume]
 Volumen

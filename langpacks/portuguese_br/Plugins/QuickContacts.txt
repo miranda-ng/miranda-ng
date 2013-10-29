@@ -8,7 +8,5 @@
 ;file \plugins\QuickContacts\res\resource.rc
 [Contacts]
 Contatos
-[Contacts]
-Contatos
 ;file \plugins\QuickContacts\src\options.cpp
 ;file \plugins\QuickContacts\src\quickcontacts.cpp

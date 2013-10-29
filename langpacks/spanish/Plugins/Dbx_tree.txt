@@ -8,6 +8,4 @@
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 ;file \plugins\Dbx_tree\src\FileAccess.cpp

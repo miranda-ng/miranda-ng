@@ -12,7 +12,5 @@
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Network]
 Rede
-[Network]
-Rede
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 ;file \plugins\HTTPServer\src\main.cpp

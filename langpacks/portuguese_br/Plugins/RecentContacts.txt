@@ -9,8 +9,6 @@
 ;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Contatos
-[Contacts]
-Contatos
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Contact]
 Contato

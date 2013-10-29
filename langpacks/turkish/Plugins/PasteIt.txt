@@ -10,10 +10,6 @@
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Delete]
 Sil
 ;file \plugins\PasteIt\src\Options.cpp

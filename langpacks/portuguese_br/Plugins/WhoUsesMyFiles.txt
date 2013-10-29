@@ -8,23 +8,9 @@
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Use windows colors]
-Usar cores do Windows
 [Use windows colors]
 Usar cores do Windows
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[File]
-Arquivo
-[File]
-Arquivo
 [File]
 Arquivo
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

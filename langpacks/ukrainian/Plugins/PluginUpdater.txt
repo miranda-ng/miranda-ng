@@ -160,3 +160,4 @@ HTTP підключення Plugin Updater
 [Checking new updates...]
 
 [An error occured while checking new updates.]
+

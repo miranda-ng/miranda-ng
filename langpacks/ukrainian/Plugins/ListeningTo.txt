@@ -154,3 +154,4 @@ foobar2000 (встановіть плагін руками)
 [Miranda ListeningTo receiver]
 
 [Miranda ListeningTo WMP receiver]
+

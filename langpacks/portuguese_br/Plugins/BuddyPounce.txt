@@ -8,26 +8,6 @@
 ;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 [Status]
@@ -37,18 +17,10 @@ Status
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 ;file \plugins\BuddyPounce\src\main.cpp

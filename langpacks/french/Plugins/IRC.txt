@@ -782,12 +782,12 @@ Veuillez entre le masque d'hôte (pseudo@hôte)
 [Edit ban]
 Modifier le ban
 [Edit invite?]
-Modifier l'invitation ?
+Modifier l'invitation?
 [Edit exception?]
-Modifier l'exception ?
+Modifier l'exception?
 [Remove ban?]
-Retirer le ban ?
+Retirer le ban?
 [Remove invite?]
-Retirer l'invitation ?
+Retirer l'invitation?
 [Remove exception?]
-Retirer l'exception ?
+Retirer l'exception?

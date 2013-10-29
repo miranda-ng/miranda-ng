@@ -10,7 +10,7 @@
 [Output to:]
 Вивести в:
 [OK]
-
+OK
 [Cancel]
 Скасування
 [Text file]
@@ -94,3 +94,4 @@ UUID плагінів
 [Services]
 Служби
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+

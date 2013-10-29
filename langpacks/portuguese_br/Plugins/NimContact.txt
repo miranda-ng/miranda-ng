@@ -12,18 +12,8 @@ Atalho
 Grupo:
 [&Exit]
 &Sair
-[&Exit]
-&Sair
 [Help]
 Ajuda
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
@@ -33,8 +23,6 @@ Selecionar Pasta
 ;file \plugins\Non-IM Contact\src\files.cpp
 ;file \plugins\Non-IM Contact\src\http.cpp
 ;file \plugins\Non-IM Contact\src\main.cpp
-[Plugins]
-Plugins
 [Plugins]
 Plugins
 ;file \plugins\Non-IM Contact\src\namereplacing.cpp

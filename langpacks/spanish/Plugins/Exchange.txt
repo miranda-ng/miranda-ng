@@ -12,8 +12,6 @@ Sin leer mensajes de correo electrónico
 Cerrar
 [Username:]
 Nombre de usuario:
-[Username:]
-Username:
 [Password:]
 Contraseña:
 [seconds]

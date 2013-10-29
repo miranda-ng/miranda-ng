@@ -9,5 +9,3 @@
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
 Kişi Listesi
-[Contact List]
-Kişi Listesi

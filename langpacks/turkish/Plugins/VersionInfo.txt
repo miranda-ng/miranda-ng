@@ -10,10 +10,6 @@
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Close]
 Kapat
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp

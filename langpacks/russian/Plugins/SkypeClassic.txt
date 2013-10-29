@@ -16,7 +16,7 @@
 [Import Skype history]
 Импортировать историю из Skype
 [Start Skype with Miranda NG if not running using the following command line options:]
-Запускать Skype вместе с Miranda, если еще не запущен со следующими ключами:
+Запускать Skype вместе с Miranda, если еще не запущен, со следующими ключами:
 [/NOTRAY - Skype tray icon becomes grey and is therefore "invisible"]
 /NOTRAY - Значок Skype в трее становится серым - "Невидимый"
 [/NOSPLASH - Don't show splash screen on startup]
@@ -56,13 +56,13 @@ Skype дополнительно
 [Use group chat interface for conversations (requires group chat module)]
 Использовать интерфейс для чата (требуется плагин с поддержкой чатов)
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
-Выключить все сообщения об ошибках. (Не рекомендуется.)
+Выключить все сообщения об ошибках (не рекомендуется)
 [Suppress call summary chat message]
 Выключить итоговый отчет о звонках
 [Disable support for N/A and SkypeMe status (for Skype 4+)]
 Отключить поддержку "Недоступен" и "SkypeMe" (для Skype 4+)
 [Show full name in contact list instead of nickname]
-Показывать в контакт листе полное имя вместо ника
+Показывать в списке контактов полное имя вместо ника
 [SkypeOut contacts are in status:]
 SkypeOut контакты в статусе:
 [Keep requested online status on startup under every circumstance]
@@ -73,8 +73,6 @@ SkypeOut контакты в статусе:
 Использовать часовой пояс
 [Ignore time zones]
 Игнорировать часовые пояса
-[Skypeproxy]
-Skype Прокси
 [Use Skype proxy connection over network instead of local Skype API]
 Использовать сетевой прокси вместо локального Skype API
 [* You must restart Miranda NG in order to let the settings take effect]
@@ -89,7 +87,7 @@ Skype Прокси
 Отмечать групповые сообщения как прочтённые без уведомления
 [Wheee, Skype won't let me use the API. :(]
 У... Skype не разрешает мне использовать API :(
-[Phonecall]
+[Phone call]
 Звонок
 [Incoming Skype Call]
 Входящий Skype звонок
@@ -121,9 +119,9 @@ Skype аватары контактов
 Добавить контакт Skype
 [Answer call; set call to %s on hold]
 Ответить, поставить звонок %s на паузу
-[Birthday :]
+[Birthday:]
 День рождения:
-[City :]
+[City:]
 Город:
 [Do a SkypeOut-call]
 Позвонить по SkypeOut
@@ -135,25 +133,25 @@ Skype аватары контактов
 Отбить звонок (SkypeOut)
 [Hang up]
 Отбить звонок
-[Home phone :]
+[Home phone:]
 Домашний:
-[Homepage :]
+[Homepage:]
 Ссылка:
 [Join conference with %s]
 Подключиться к разговору с %s
 [MALE]
 Мужчина
-[Name :]
+[Name:]
 Имя:
 [No Topic]
 Нет темы
 [Office phone :]
 Офисный:
-[Province :]
+[Province:]
 Провинция:
 [Resume call]
 Восстановить звонок
-[Sex :]
+[Sex:]
 Пол:
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later.]
 Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? (Если вы откажетесь, всегда можно включить его в настройках).

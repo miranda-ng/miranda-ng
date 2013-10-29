@@ -12,10 +12,6 @@ Sil
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Advanced]
 Gelişmiş
 ;file \plugins\SpellChecker\src\ardialog.cpp

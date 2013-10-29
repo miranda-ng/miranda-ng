@@ -11,5 +11,3 @@ Su nombre
 ;file \protocols\EmLanProto\src\amdproto.cpp
 [Network]
 Red
-[Network]
-red

@@ -18,7 +18,5 @@ Plantilla:
 estado
 [General]
 General
-[General]
-General
 ;file \plugins\ListeningTo\src\players\generic.cpp
 ;file \plugins\ListeningTo\src\players\wmp.cpp

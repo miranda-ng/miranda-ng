@@ -212,4 +212,4 @@ Meta ID :
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 MetaContact corrompu - le nombre de sous-contact est erroné.\nSuppression en cours du MetaContact.
 [MetaContacts Warning]
-MetaContacts : avertissement
+MetaContacts: avertissement

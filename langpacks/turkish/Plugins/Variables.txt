@@ -15,10 +15,6 @@ Notlar
 ;file \plugins\Variables\src\help.cpp
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Help]
 Yardım
 ;file \plugins\Variables\src\options.cpp

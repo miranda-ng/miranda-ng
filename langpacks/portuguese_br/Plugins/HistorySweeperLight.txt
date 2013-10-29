@@ -10,7 +10,3 @@
 ;file \plugins\HistorySweeperLight\src\options.cpp
 [History]
 Histórico
-[History]
-Histórico
-[History]
-Histórico

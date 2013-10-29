@@ -1,3 +1,2 @@
-﻿;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+﻿[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 [Host we are connecting to is not the one certificate was issued for]

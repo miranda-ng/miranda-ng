@@ -376,3 +376,4 @@ WAV файли
 [These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
 
 [These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n""% c\tCustom Nickname\r\n\\n\tline break\r\n\n\t\ttab stop]
+

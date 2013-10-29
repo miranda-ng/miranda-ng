@@ -9,15 +9,15 @@
 Vous permet de choisir entre différents packs de traduction (LangPack).
 ;file \plugins\LangMan\res\resource.rc
 [Author(s):]
-Auteur(s) :
+Auteur(s):
 [E-mail:]
-e-mail :
+e-mail:
 [Last modified using:]
-Pour :
+Pour:
 [Date:]
-Date :
+Date:
 [Locale:]
-Locale :
+Locale:
 [Download more Language Packs]
 Télécharger plus de pack de traduction
 [Please restart Miranda NG for your changes to take effect.]

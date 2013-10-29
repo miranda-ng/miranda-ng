@@ -8,16 +8,6 @@
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Background]
-Fundo
 [Background]
 Fundo
 [Text]

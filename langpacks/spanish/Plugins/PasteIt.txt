@@ -12,8 +12,6 @@ Configurar
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Delete]
 Eliminar
 ;file \plugins\PasteIt\src\Options.cpp

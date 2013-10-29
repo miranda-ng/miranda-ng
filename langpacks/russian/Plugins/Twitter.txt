@@ -52,4 +52,4 @@ URL:
 [Reply to Tweet]
 Ответить на твит
 [[Sign in to link your twitter account]]
-Войдите, чтобы подключить учётную запись twitter
+Войдите, чтобы подключить учётную запись Twitter

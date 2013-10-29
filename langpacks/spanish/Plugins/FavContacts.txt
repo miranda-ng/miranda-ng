@@ -12,7 +12,5 @@ mostrar
 ;file \plugins\FavContacts\src\main.cpp
 [Background]
 Fondo
-[Background]
-Background
 [Contacts]
 Contactos

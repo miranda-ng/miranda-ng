@@ -27,9 +27,9 @@ Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive :
+Opacité si inactive:
 [Active opacity:]
-   Opacité si active :
+Opacité si active:
 [Animate Avatars]
 Avatars animés
 [Show protocol names]
@@ -728,4 +728,4 @@ Activer/désactiver les sons
 Minimiser
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
-Configurer le mode d'affichage : %s
+Configurer le mode d'affichage: %s

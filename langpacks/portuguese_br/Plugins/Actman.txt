@@ -10,5 +10,3 @@
 ;other strings
 [Effect]
 Efeito
-[Effect]
-Efeito

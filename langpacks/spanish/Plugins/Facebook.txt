@@ -18,8 +18,6 @@ Crear una nueva cuenta de Facebook
 Compartir
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [User Details]
 Información del usuario
 [User Details]

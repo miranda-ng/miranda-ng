@@ -8,44 +8,16 @@
 ;file \Plugins\StatusPlugins\resource.rc
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
 [Close]
 Fechar
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Profile]
-Perfil
 [Profile]
 Perfil
 [Message]
 Mensagem
 [Set]
 Configurar
-[Set]
-Configurar
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 [Other]
@@ -60,14 +32,6 @@ Usar Janelas coloridas
 Usar cores padrão
 [Events]
 Eventos
-[Events]
-Eventos
-[Events]
-Eventos
-[Events]
-Eventos
-[Events]
-Eventos
 [Custom]
 Padrão
 [Use %time% for the current time, %date% for the current date]
@@ -80,26 +44,12 @@ Contas
 Status
 [Delete]
 Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
-[Delete]
-Excluir
 [seconds]
 segundos
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protocolo
-[Protocol]
-Protocolo
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 ;file \Plugins\StatusPlugins\commonstatus.cpp

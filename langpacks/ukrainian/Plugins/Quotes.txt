@@ -274,3 +274,4 @@ XML файли
 [Enter history format.]
 
 [Enter popup window format.]
+

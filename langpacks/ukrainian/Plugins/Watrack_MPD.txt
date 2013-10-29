@@ -20,3 +20,4 @@
 [Plugins]
 Плагины
 [Watrack MPD]
+Watrack MPD

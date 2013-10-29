@@ -242,3 +242,4 @@ Yahoo! помилка пінгу
 [Server Connection Error: %s]
 Помилка з'єднання сервера: %s
 [Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
+

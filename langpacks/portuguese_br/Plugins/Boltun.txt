@@ -10,8 +10,4 @@
 seg
 ;file \plugins\Boltun\src\boltun.h
 [All Files]
-Todos os Arquivos
-[All Files]
 Todos os arquivos
-[All Files]
-Todos os Arquivos

@@ -8,39 +8,15 @@
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Background]
 Fundo
-[Background]
-Fundo
 [Text]
 Texto
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Status]
 Status
-[Plugins]
-Plugins
 [Plugins]
 Plugins
 ;file \plugins\ConnectionNotify\src\filter.cpp

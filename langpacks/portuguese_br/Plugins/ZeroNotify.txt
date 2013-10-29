@@ -10,5 +10,3 @@
 ;file \plugins\ZeroNotification\src\main.cpp
 [Plugins]
 Plugins
-[Plugins]
-Plugins

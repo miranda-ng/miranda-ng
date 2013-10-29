@@ -8,8 +8,4 @@
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 ;file \plugins\Dbx_tree\src\FileAccess.cpp
