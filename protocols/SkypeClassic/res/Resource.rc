@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -356,71 +356,26 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SKYPE               ICON    DISCARDABLE     "res\\skype.ico"
-IDI_INVITE              ICON    DISCARDABLE     "res\\Invite.ico"
-IDI_ADD                 ICON    DISCARDABLE     "res\\add.ico"
-IDI_IMPORT              ICON    DISCARDABLE     "res\\import.ico"
-IDI_ERRORS              ICON    DISCARDABLE     "res\\error.ico"
-IDI_MESSAGE             ICON    DISCARDABLE     "res\\message.ico"
-IDI_CALL                ICON    DISCARDABLE     "res\\call.ico"
-IDI_CALLSKYPEOUT        ICON    DISCARDABLE     "res\\skypeout.ico"
-IDI_HOLD                ICON    DISCARDABLE     "res\\hold.ico"
-IDI_RESUME              ICON    DISCARDABLE     "res\\resume.ico"
-IDI_HANGUP              ICON    DISCARDABLE     "res\\hang_up.ico"
-IDI_ONLINE              ICON    DISCARDABLE     "res\\online.ico"
-IDI_CHAT                ICON    DISCARDABLE     "res\\chat.ico"
-IDI_AWAY                ICON    DISCARDABLE     "res\\away.ico"
-IDI_NA                  ICON    DISCARDABLE     "res\\na.ico"
-IDI_OCCUPIED            ICON    DISCARDABLE     "res\\occupied.ico"
-IDI_DND                 ICON    DISCARDABLE     "res\\dnd.ico"
-IDI_INVISIBLE           ICON    DISCARDABLE     "res\\invisible.ico"
-IDI_OFFLINE             ICON    DISCARDABLE     "res\\offline.ico"
-IDI_PHONE               ICON    DISCARDABLE     "res\\phone.ico"
-
-#ifndef _MAC
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,0,54
- PRODUCTVERSION 0,0,0,54
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "Miranda IM community\0"
-            VALUE "FileDescription", "Skype\0"
-            VALUE "FileVersion", "0, 0, 0, 54\0"
-            VALUE "InternalName", "Skype\0"
-            VALUE "LegalCopyright", "Copyright © 2007-2012 leecher - tweety - jls17\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "Skype.dll\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Skype Protocol for Miranda IM\0"
-            VALUE "ProductVersion", "0, 0, 0, 54\0"
-            VALUE "SpecialBuild", "\0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // !_MAC
+IDI_SKYPE               ICON    DISCARDABLE     "skype.ico"
+IDI_INVITE              ICON    DISCARDABLE     "Invite.ico"
+IDI_ADD                 ICON    DISCARDABLE     "add.ico"
+IDI_IMPORT              ICON    DISCARDABLE     "import.ico"
+IDI_ERRORS              ICON    DISCARDABLE     "error.ico"
+IDI_MESSAGE             ICON    DISCARDABLE     "message.ico"
+IDI_CALL                ICON    DISCARDABLE     "call.ico"
+IDI_CALLSKYPEOUT        ICON    DISCARDABLE     "skypeout.ico"
+IDI_HOLD                ICON    DISCARDABLE     "hold.ico"
+IDI_RESUME              ICON    DISCARDABLE     "resume.ico"
+IDI_HANGUP              ICON    DISCARDABLE     "hang_up.ico"
+IDI_ONLINE              ICON    DISCARDABLE     "online.ico"
+IDI_CHAT                ICON    DISCARDABLE     "chat.ico"
+IDI_AWAY                ICON    DISCARDABLE     "away.ico"
+IDI_NA                  ICON    DISCARDABLE     "na.ico"
+IDI_OCCUPIED            ICON    DISCARDABLE     "occupied.ico"
+IDI_DND                 ICON    DISCARDABLE     "dnd.ico"
+IDI_INVISIBLE           ICON    DISCARDABLE     "invisible.ico"
+IDI_OFFLINE             ICON    DISCARDABLE     "offline.ico"
+IDI_PHONE               ICON    DISCARDABLE     "phone.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -448,18 +403,18 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE MOVEABLE PURE 
+1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE MOVEABLE PURE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE MOVEABLE PURE 
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"

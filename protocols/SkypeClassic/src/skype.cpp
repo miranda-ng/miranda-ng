@@ -164,15 +164,16 @@ int FreeVSApi()
 // Plugin Info
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Skype Protocol",
-	PLUGIN_MAKE_VERSION(0,0,0,54),
-	"Support for Skype network",
-	"leecher - tweety - jls17",
-	"leecher@dose.0wnz.at - tweety@user.berlios.de",
-	"© 2004-2012 leecher - tweety",
-	"http://developer.berlios.de/projects/mgoodies/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0xa71f8335, 0x7b87, 0x4432, { 0xb8, 0xa3, 0x81, 0x47, 0x94, 0x31, 0xc6, 0xf5 } } // {A71F8335-7B87-4432-B8A3-81479431C6F5}
+	// {A71F8335-7B87-4432-B8A3-81479431C6F5}
+	{0xa71f8335, 0x7b87, 0x4432, {0xb8, 0xa3, 0x81, 0x47, 0x94, 0x31, 0xc6, 0xf5}}
 };
 
 #define MAPDND	1	// Map Occupied to DND status and say that you support it

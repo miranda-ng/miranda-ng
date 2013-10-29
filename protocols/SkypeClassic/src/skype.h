@@ -14,11 +14,13 @@
 #include <commctrl.h>
 #include <process.h>
 #include <time.h>
-#include "resource.h"
 #include <stdlib.h>
 #include <stddef.h>
 #include <shlobj.h>
 #include <time.h>
+
+#include "resource.h"
+#include "version.h"
 #include "util.h"
 
 #pragma warning (push)
