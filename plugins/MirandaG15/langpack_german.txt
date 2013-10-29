@@ -1,0 +1,262 @@
+; MirandaG15 0.1.1.2
+; Dateiname: mirandag15.dll
+; Autor: Tharit
+; http://addons.miranda-im.org/details.php?action=viewfile&id=2610
+; Übersetzung: Tharit 09.07.06
+; Aktualisierung: Dober 09.07.06
+
+; /CAppletManager.cpp
+[Timeout: No response from contact/server]
+Timeout: Keine Antwort von Kontakt/Server
+[New message from %s]
+Neue Nachricht von %s
+[Incoming URL from %s]
+Neue URL von %s
+[Incoming contacts from %s]
+Neue Kontakte von %s
+[You were added by %s]
+%s hat dich hinzugefügt!
+[Authrequest from %s]
+Autorisationsanfrage von %s
+[Incoming file from %s]
+Neuer Dateitransfer von %s
+[%s has joined the channel]
+%s hat den Channel betreten
+[%s has left]
+%s hat den Channel verlassen
+[%s has left: %s]
+%s hat den Channel verlassen: %s
+[%s has disconnected]
+%s hat die Verbindung beendet
+[%s has disconnected: %s]
+%s hat die Verbindung beendet: %s
+[%s has kicked %s: %s]
+%s hat %s gekickt: %s
+[%s is now known as %s]
+%s heißt jetzt %s
+[Notice from %s: %s]
+Hinweis von %s: %s
+[Topic is now '%s' (set by %s)]
+Neues Thema: '%s' (geändert von %s)
+[%s enables '%s' for %s]
+%s aktiviert '%s' für %s
+[%s disables '%s' for %s]
+%s deaktiviert '%s' für %s
+[Joined %s]
+%s beigetreten
+[%s signed on (%s)]
+%s hat sich angemeldet (%s)
+[Left %s]
+%s verlassen
+[%s signed off]
+%s hat sich abgemeldet
+[%s is now %s]
+%s ist jetzt %s
+[Contactlist event]
+Kontaktlisten-Ereignis
+[You are now %s]
+Du bist jetzt %s
+[Protocol status change]
+Verbindungsstatus geändert
+[%s was deleted from contactlist!]
+%s wurde von der Kontaktliste entfernt
+
+; /CChatScreen.cpp
+[typing..]
+tippt..
+[IRC-Chatroom support is disabled!\nYou need to install the patched IRC.dll (see the readme) to use IRC-Chatrooms on the LCD]
+IRC-Chatraum Unterstützung ist deaktiviert!\nDu benötigst die gepatchte IRC.dll (siehe Readme) um sie zu aktivieren!
+[Sending message...]
+Nachricht wird gesendet...
+[Could not send the message!]
+Nachricht konnte nicht gesendet werden!
+
+; /MirandaG15.rc:IDD_FONTS
+[Appearance]
+Darstellung
+[Fonts]
+Schriftarten
+[General settings]
+Generelle Einstellungen
+[Show softkey labels]
+Softkeybeschreibungen anzeigen
+[Event log:]
+Ereignisverlauf:
+[Sample]
+Beispiel
+[Message log:]
+Nachrichten
+[Contactlist:]
+Kontaktliste
+[Titles:]
+Titel
+[Notifications:]
+Benachrichtigungen
+[Turn off backlights while screensaver is active]
+Hintergrundbeleuchtung ausschalten wenn Bildschirmschoner aktiviert wird
+[If the applet is active:]
+Wenn das Applet aktiv ist:
+[Use the VolumeWheel to scroll up and down]
+Lautstärkerad zum Blättern benutzen
+[Show seconds in timestamps]
+Sekunden in Uhrzeiten anzeigen
+[Use transition effects when changing screens]
+Übergangseffekte für Bildschirmwechsel
+[Credits]
+Credits
+[About]
+Über
+[For updates and news check the thread on http://www.g15forums.com]
+Für Neuigkeiten und Aktualisierungen, siehe den Thread auf http://www.g15forums.com
+[Or visit http://www.mkleinhans.de]
+Oder besuche http://www.mkleinhans.de
+
+; /MirandaG15.rc:IDD_NOTIFICATIONS
+[Notifications]
+Benachrichtigungen
+[Notification screen title]
+Benachrichtigungstitel
+[Hide it]
+Ausblenden
+[Show the plugin name]
+Pluginname anzeigen
+[Show a short event summary]
+Ereignisbeschreibung anzeigen
+[Size of the log]
+Einträge im Verlauf
+[Notification duration]
+Benachrichtigungsdauer
+[Edit]
+Bearbeiten
+[events]
+Ereignisse
+[seconds]
+Sekunden
+[Notification types]
+Benachrichtigungstypen
+[Incoming messages]
+Eingehende Nachrichten
+[Contact signs off]
+Kontakt meldet sich ab
+[Contact changes status]
+Kontakt wechselt Status
+[Incoming URL]
+Eingehende URL
+[Contactlist events]
+Kontaktlisten Ereignisse
+[Incoming file transfers]
+Eingehende Filetransfers
+[Protocol disconnected]
+Verbindung getrennt
+[Protocol connected]
+Verbindung hergestellt
+[Protocol status changes]
+Verbindungsstatus geändert
+[Show only events from the following protocols:]
+Nur Ereignisse der folgenden Protokolle zeigen:
+[Contact signs on]
+Kontakt meldet sich an
+[When a chatsession is active, skip the following notifications for that contact:]
+Wenn ein Chatfenster aktiv ist, ignoriere folgende Ereignisse dieses Kontakts:
+[Chatsession specific]
+Einstellungen für das Chatfenster
+[Show timestamps]
+Uhrzeit anzeigen
+[Messages]
+Nachrichten
+[User events]
+Benutzer Ereignisse
+[Emotes]
+Emotes
+[Status changes]
+Statusänderungen
+[Special IRC events:]
+IRC-spezifische Ereignisse
+[Notices]
+Hinweise
+[Channel events]
+Channel Ereignisse
+[Cutoff nicknames after]
+Nicks abschneiden nach
+[chars]
+Zeichen
+[Show protocol labels]
+Protkoll anzeigen
+
+; /MirandaG15.rc:IDD_CLIST
+[Contactlist]
+Kontaktliste
+[Show the contacts protocols]
+Protokoll anzeigen
+[Hide offline users]
+Abgemeldete Benutzer ausblenden
+[Use ignore settings]
+"Ignorieren"-Einstellungen benutzen
+[Use groups/subgroups]
+Gruppen/Untergruppen benutzen
+[Grouped mode]
+Gruppenmodus
+[Draw tree lines]
+Baumlinien anzeigen
+[Show counters behind group names]
+Zähler hinter Gruppe anzeigen
+[Reset selection]
+Auswahl zurücksetzen
+[When opening the contactlist screen:]
+Wenn die Kontaktliste aktiviert wird:
+[Don't change group states]
+Gruppenzustände nicht ändern
+[Collapse all groups]
+Alle Gruppen schließen
+[Show only contacts from the following protocols:]
+Nur Kontakte der folgenden Protokolle anzeigen
+[Protocol filter]
+Protkollfilter
+[Expand all groups]
+Alle Gruppen öffnen
+[Use two columns]
+Zwei Spalten verwenden
+
+; /MirandaG15.rc:IDD_CHAT
+[Chat]
+Chat
+[Typing notifications]
+Tipp-Benachrichtigungen
+[Show typing notifications]
+Tipp-Benachrichtigungen anzeigen
+[Send typing notifications]
+Tipp-Benachrichtigungen senden
+[Maximizing]
+Maximieren
+[When maximized]
+Wenn maximiert:
+[Hide title]
+Titel ausblenden
+[Hide labels]
+Softkeybeschreibungen ausblenden
+[Message log]
+Nachrichtenverlauf
+[Load only unread messages]
+Nur ungelesene Nachrichten laden
+[Mark incoming messages as read]
+Eingehende Nachrichten als gelesen markieren
+[Maximized scrolling]
+Maximiertes Blättern
+[Size of the log:]
+Größe des Verlaufs:
+[On incoming messages:]
+Bei eingehenden Nachrichten:
+[Do nothing]
+Position nicht ändern
+[Scroll to the first line]
+Zur ersten Zeile blättern
+[Scroll to the last line]
+Zur letzten Zeile blättern
+[Replying]
+Antworten
+[Show linebreak indicators]
+Zeilenumbrüche anzeigen
+[Send messages with return, insert linebreaks with ctrl+return]
+Nachrichten mit Enter senden (Zeilenumbruch mit STRG+Enter)
+[Maximized replying]
+Maximiertes Antworten
