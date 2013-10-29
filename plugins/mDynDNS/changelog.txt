@@ -1,0 +1,34 @@
+ToDo:
+
+Done: (with the next version available)
+
+mDynDNS: 0.8.1.2
+*** special thanks to Protogenes for his help and tips ***
++ delay for IP check on Miranda start if last check < 10min (requirement by DynDns)
+! fix memory leak
+! rework for MS_NETLIB_REGISTERUSER (Netlib-Log "mDynDNS HTTP connections" is possible) 
++ backmx - Non-supporting clients must send NOCHG. (requirement by DynDns)
++ mx - Non-supporting clients must send NOCHG. (requirement by DynDns)
++ wildcard - Non-supporting clients must send NOCHG. (requirement by DynDns)
++ offline - Non-supporting clients must send nothing. (requirement by DynDns)
++ Store IP in DB (Client must not use a DNS query to check a hostname - requirement by DynDns)
+! fix User-Agent string to new pluginName and version
++ updater support for Miranda addon
+
+mDynDNS: 0.8.1.1
++ added mDynDNS as 'KnownModules' in database
++ updater support for http://merlins-miranda.googlecode.com
+! minor option page changes
+! move option page from 'Network' to 'Services'
++ added UUID for Miranda 0.8
+! convert Project from Dev-C++ IDE to vc2008 (.cpp)
++ SVN added http://merlins-miranda.googlecode.com
+
+http://addons.miranda-im.org/details.php?action=viewfile&id=3157
+mDynDNS: 0.0.1.1
++ Langpack added
++ Source added
+! Some code cleaning
+
+mDynDNS: 0.0.1.0
++ Initial release
