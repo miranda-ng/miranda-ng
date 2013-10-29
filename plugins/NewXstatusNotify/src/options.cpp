@@ -55,6 +55,7 @@ void LoadOptions()
 	opt.ShowPreviousStatus = db_get_b(0, MODULE, "ShowPreviousStatus", 0);
 	opt.ReadAwayMsg = db_get_b(0, MODULE, "ReadAwayMsg", 0);
 	opt.PopupTimeout = db_get_dw(0, MODULE, "PopupTimeout", 0);
+	opt.PopupConnectionTimeout = db_get_dw(0, MODULE, "PopupConnectionTimeout", 15);
 	opt.LeftClickAction= db_get_b(0, MODULE, "LeftClickAction", 5);
 	opt.RightClickAction = db_get_b(0, MODULE, "RightClickAction", 1);
 	opt.IgnoreEmpty = db_get_b(0, MODULE, "IgnoreEmpty", 1);
@@ -125,6 +126,7 @@ void SaveOptions()
 	db_set_b(0, MODULE, "ShowPreviousStatus", opt.ShowPreviousStatus);
 	db_set_b(0, MODULE, "ReadAwayMsg", opt.ReadAwayMsg);
 	db_set_dw(0, MODULE, "PopupTimeout", opt.PopupTimeout);
+	db_set_dw(0, MODULE, "PopupConnectionTimeout", opt.PopupConnectionTimeout);
 	db_set_b(0, MODULE, "LeftClickAction", opt.LeftClickAction);
 	db_set_b(0, MODULE, "RightClickAction", opt.RightClickAction);
 	db_set_b(0, MODULE, "IgnoreEmpty", opt.IgnoreEmpty);
@@ -318,6 +320,10 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 999);
 			SetDlgItemInt(hwndDlg, IDC_TIMEOUT_VALUE, opt.PopupTimeout, TRUE);
 
+			SendDlgItemMessage(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE, EM_LIMITTEXT, 3, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
+			SetDlgItemInt(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE, opt.PopupConnectionTimeout, TRUE);
+
 			//Mouse actions
 			for (int i = 0; i < SIZEOF(PopupActions); i++)
 			{
@@ -464,6 +470,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				opt.ShowPreviousStatus = IsDlgButtonChecked(hwndDlg, IDC_SHOWPREVIOUSSTATUS);
 				opt.ShowGroup = IsDlgButtonChecked(hwndDlg, IDC_SHOWGROUP);
 				opt.PopupTimeout = GetDlgItemInt(hwndDlg, IDC_TIMEOUT_VALUE, 0, TRUE);
+				opt.PopupConnectionTimeout = GetDlgItemInt(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE, 0, TRUE);
 				opt.LeftClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_GETCURSEL, 0, 0);
 				opt.RightClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_GETCURSEL, 0, 0);
 				opt.IgnoreEmpty = IsDlgButtonChecked(hwndDlg, IDC_PUIGNOREREMOVE);

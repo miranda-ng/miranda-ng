@@ -41,7 +41,7 @@ void FreeXSC(XSTATUSCHANGE *xsc)
 	}
 }
 
-void RemoveLoggedEvents(HANDLE hContact) 
+void RemoveLoggedEvents(HANDLE hContact)
 {
 	for (int i = eventList.getCount()-1; i >= 0; i--) {
 		DBEVENT *dbevent = eventList[i];
@@ -49,7 +49,7 @@ void RemoveLoggedEvents(HANDLE hContact)
 			db_event_delete(dbevent->hContact, dbevent->hDBEvent);
 			eventList.remove(i);
 			mir_free(dbevent);
-		}	
+		}
 	}
 }
 
@@ -84,7 +84,7 @@ void ReplaceVars(XSTATUSCHANGE *xsc , TCHAR *Template, TCHAR *delimiter, TCHAR *
 				{
 					TCHAR stzType[32];
 					_tcscat(buff, GetStatusTypeAsString(xsc->type, stzType));
-				}	
+				}
 				break;
 			case _T('T'):
 				if (xsc->stzTitle)
@@ -118,7 +118,7 @@ void ReplaceVars(XSTATUSCHANGE *xsc , TCHAR *Template, TCHAR *delimiter, TCHAR *
 	}
 
 	// append rest of the text
-	if (Template != NULL) 
+	if (Template != NULL)
 		_tcscat(buff, Template);
 }
 
@@ -164,8 +164,8 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 		break;
 	}
 
-	TCHAR *ptszGroup = NULL, 
-		   *ptszNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GSMDF_TCHAR);
+	TCHAR *ptszGroup = NULL;
+	TCHAR *ptszNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GSMDF_TCHAR);
 	if (opt.ShowGroup) { //add group name to popup title
 		if (!db_get_ts(xsc->hContact, "CList", "Group", &dbv)) {
 			ptszGroup = NEWTSTR_ALLOCA(dbv.ptszVal);
@@ -200,13 +200,13 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 		Template = templates.LogOpening; break;
 	}
 
-	TCHAR stzPopupText[2*MAX_TEXT_LEN]; 
+	TCHAR stzPopupText[2*MAX_TEXT_LEN];
 	ReplaceVars(xsc, Template, templates.PopupDelimiter, stzPopupText);
 	_tcsncpy(ppd.lptzText, stzPopupText, SIZEOF(ppd.lptzText));
 	ppd.lptzText[SIZEOF(ppd.lptzText) - 1] = 0;
 
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
-	ppd.iSeconds = opt.PopupTimeout; 
+	ppd.iSeconds = opt.PopupTimeout;
 	PUAddPopupT(&ppd);
 }
 
@@ -246,8 +246,8 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 		Template = templates.LogOpening; break;
 	}
 
-	TCHAR stzLogText[2*MAX_TEXT_LEN]; 
-	TCHAR stzLastLog[2*MAX_TEXT_LEN]; 
+	TCHAR stzLogText[2*MAX_TEXT_LEN];
+	TCHAR stzLastLog[2*MAX_TEXT_LEN];
 	ReplaceVars(xsc, Template, templates.LogDelimiter, stzLogText);
 	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, SIZEOF(stzLastLog), _T(""));
 
@@ -273,7 +273,7 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 		if (!opt.KeepInHistory) {
 			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
 			dbevent->hContact = xsc->hContact;
-			dbevent->hDBEvent = hDBEvent;	
+			dbevent->hDBEvent = hDBEvent;
 			eventList.insert(dbevent);
 		}
 	}
@@ -299,7 +299,7 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 	LogToFile(stzText);
 }
 
-void ExtraStatusChanged(XSTATUSCHANGE *xsc) 
+void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 {
 	if (xsc == NULL)
 		return;
@@ -307,7 +307,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	BOOL bEnablePopup = true, bEnableSound = true;
 	char buff[12] = {0};
 
-	mir_snprintf(buff, SIZEOF(buff), "%d", ID_STATUS_EXTRASTATUS); 
+	mir_snprintf(buff, SIZEOF(buff), "%d", ID_STATUS_EXTRASTATUS);
 
 	if (( db_get_b(0, MODULE, buff, 1) == 0)
 		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
@@ -320,7 +320,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 
 	char statusIDs[12], statusIDp[12];
 	if (opt.AutoDisable) {
-		WORD myStatus = (WORD)CallProtoService(xsc->szProto, PS_GETSTATUS, 0, 0); 
+		WORD myStatus = (WORD)CallProtoService(xsc->szProto, PS_GETSTATUS, 0, 0);
 		mir_snprintf(statusIDs, SIZEOF(statusIDs), "s%d", myStatus);
 		mir_snprintf(statusIDp, SIZEOF(statusIDp), "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
@@ -334,7 +334,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if (opt.PDisableForMusic && xsc->type == TYPE_ICQ_XSTATUS && xstatusID == XSTATUS_MUSIC)
 		bEnableSound = bEnablePopup = false;
 
-	if (bEnablePopup && db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1))
+	if (bEnablePopup && db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1) && db_get_b(0, MODULE, xsc->szProto, 1))
 		ShowPopup(xsc);
 
 	if (bEnableSound && db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1))
@@ -351,7 +351,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 		 && CallService(MS_MSG_MOD_MESSAGEDIALOGOPENED, (WPARAM)xsc->hContact, 0))
 		LogToMessageWindow(xsc, FALSE);
 
-	if (opt.Log) 
+	if (opt.Log)
 		LogChangeToFile(xsc);
 
 	FreeXSC(xsc);
@@ -392,11 +392,11 @@ TCHAR *GetIcqXStatus(HANDLE hContact, char *szProto, char *szValue, TCHAR *buff,
 			db_free(&dbv);
 		}
 	}
-	
+
 	return buff;
 }
 
-TCHAR *GetJabberAdvStatusText(HANDLE hContact, char *szProto, char *szSlot, char *szValue, TCHAR *buff, int bufflen) 
+TCHAR *GetJabberAdvStatusText(HANDLE hContact, char *szProto, char *szSlot, char *szValue, TCHAR *buff, int bufflen)
 {
 	DBVARIANT dbv;
 	char szSetting[128];
@@ -424,11 +424,11 @@ void LogXstatusChange(HANDLE hContact, char *szProto, int xstatusType, TCHAR *st
 			stzText[0] ? mir_tstrdup(stzText) : NULL
 		);
 
-	LogToMessageWindow(xsc, TRUE);		
+	LogToMessageWindow(xsc, TRUE);
 	FreeXSC(xsc);
 }
 
-void AddEventThread(void *arg) 
+void AddEventThread(void *arg)
 {
 	HANDLE hContact = (HANDLE)arg;
 	TCHAR stzTitle[MAX_TITLE_LEN], stzText[MAX_TEXT_LEN];
@@ -459,7 +459,7 @@ void AddEventThread(void *arg)
 	}
 }
 
-int OnWindowEvent(WPARAM wParam, LPARAM lParam) 
+int OnWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
 
@@ -471,7 +471,7 @@ int OnWindowEvent(WPARAM wParam, LPARAM lParam)
 	if (opt.EnableLogging &&
 	   (mwed->uType == MSG_WINDOW_EVT_OPEN) && 
 	   (templates.LogFlags & NOTIFY_OPENING_ML) &&
-	   (db_get_b(mwed->hContact, MODULE, "EnableLogging", 1) == 1)) 
+	   (db_get_b(mwed->hContact, MODULE, "EnableLogging", 1) == 1))
 	{
 		mir_forkthread(AddEventThread, mwed->hContact);
 	}

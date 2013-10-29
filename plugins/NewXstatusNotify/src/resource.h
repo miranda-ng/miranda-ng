@@ -28,6 +28,8 @@
 #define IDC_STATUS_LC                   1006
 #define IDC_USEWINCOLORS                1007
 #define IDC_STATUS_RC                   1008
+#define IDC_CONNECTIONTIMEOUT_VALUE_SPIN 1009
+#define IDC_STATUS_STATIC_SEC2          1010
 #define IDC_READAWAYMSG                 1011
 #define IDC_CHK_DISABLEMUSIC            1011
 #define IDC_SHOWPREVIOUSSTATUS          1012
@@ -63,6 +65,7 @@
 #define IDC_LOG                         1061
 #define IDC_TIMEOUT_VALUE               1066
 #define IDC_BLINKICON                   1067
+#define IDC_CONNECTIONTIMEOUT_VALUE     1067
 #define IDC_BLINKICON_STATUS            1068
 #define IDC_SOUNDICON                   1069
 #define IDC_POPUPICON                   1070

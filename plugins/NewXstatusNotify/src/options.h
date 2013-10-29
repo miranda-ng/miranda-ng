@@ -33,6 +33,7 @@ typedef struct tagOPTIONS {
 	BYTE ShowPreviousStatus;
 	BYTE ReadAwayMsg;
 	int PopupTimeout;
+	UINT PopupConnectionTimeout;
 	BYTE LeftClickAction;
 	BYTE RightClickAction;
 	// IDD_OPT_XPOPUP

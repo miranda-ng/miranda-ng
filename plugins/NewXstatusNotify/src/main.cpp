@@ -485,7 +485,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 
 			if (opt.IgnoreEmpty && (smi.compare == 2))
 				retem = FALSE;
-			else if (!opt.PopupOnConnect)
+			else if (!db_get_b(0, MODULE, smi.proto, 1) && !opt.PopupOnConnect)
 				rettime = FALSE;
 
 			char status[8];
@@ -781,10 +781,13 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		}
 		else db_set_s(hContact, szProto, "LastOnline", szSubProto);
 
+		if (!db_get_b(0, MODULE, szSubProto, 1))
+			return 0;
+
 		strcpy(szProto, szSubProto);
 	}
 	else {
-		if (myStatus == ID_STATUS_OFFLINE) 
+		if (myStatus == ID_STATUS_OFFLINE || !db_get_b(0, MODULE, szProto, 1)) 
 			return 0;
 	}
 
@@ -987,6 +990,48 @@ void InitStatusList()
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40081tx", COLOR_TX_DEFAULT);
 }
 
+VOID CALLBACK ConnectionTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
+{
+	if (uMsg == WM_TIMER) {
+		KillTimer(hwnd, idEvent);
+
+		//We've received a timer message: enable the popups for a specified protocol.
+		char szProto[256];
+		if ( GetAtomNameA((ATOM)idEvent, szProto, sizeof(szProto)) > 0) {
+			db_set_b(0, MODULE, szProto, 1);
+			DeleteAtom((ATOM)idEvent);
+		}
+	}
+}
+
+int ProtoAck(WPARAM wParam,LPARAM lParam)
+{
+	ACKDATA *ack = (ACKDATA *)lParam;
+
+	if (ack->type == ACKTYPE_STATUS) {
+		WORD newStatus = (WORD)ack->lParam;
+		WORD oldStatus = (WORD)ack->hProcess;
+		char *szProto = (char *)ack->szModule;
+
+		if (oldStatus == newStatus)
+			return 0;
+
+		if (newStatus == ID_STATUS_OFFLINE) {
+			//The protocol switched to offline. Disable the popups for this protocol
+			db_set_b(NULL, MODULE, szProto, 0);
+		}
+		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE) {
+			//The protocol changed from a disconnected status to a connected status.
+			//Enable the popups for this protocol.
+			int idTimer = AddAtomA(szProto);
+			if (idTimer)
+				SetTimer(NULL, idTimer, (UINT)opt.PopupConnectionTimeout*1000, ConnectionTimerProc);
+		}
+	}
+
+	return 0;
+}
+
 INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	opt.TempDisabled = !opt.TempDisabled;
@@ -1068,6 +1113,13 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
 
+	int count = 0;
+	PROTOACCOUNT **accounts = NULL;
+	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
+	for (int i = 0; i < count; i++)
+		if (IsAccountEnabled(accounts[i]))
+			db_set_b(NULL, MODULE, accounts[i]->szModuleName, 0);
+
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		strcpy(szMetaModuleName, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
 
@@ -1087,6 +1139,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	//This is needed for "NoSound"-like routines.
 	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChanged);
+	HookEvent(ME_PROTO_ACK, ProtoAck);
 
 	LoadOptions();
 	InitStatusList();
