@@ -30,7 +30,7 @@ void init_debug(void) {
 	p=logfile+GetModuleFileNameA(NULL, logfile, sizeof(logfile));
 	if (!(p=strrchr (logfile, '\\'))) p=logfile; else p++;
 	sprintf (p, "%s_log.txt", SKYPE_PROTONAME);
-	m_szLogBuf = calloc (1, (m_iBufSize = INITBUF));
+	m_szLogBuf = (char*)calloc (1, (m_iBufSize = INITBUF));
 	m_fpLogFile = fopen(logfile, "a");
 	InitializeCriticalSection(&m_WriteFileMutex);
 }
