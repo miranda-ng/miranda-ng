@@ -152,8 +152,6 @@ Přidat hru
 Prohledat:
 [Custom...]
 Vlastní...
-[Add Game]
-Přidat
 [Game name:]
 Název hry:
 [Game exe:]
@@ -162,7 +160,7 @@ Spustitelný soubor hry:
 Procházet...
 [Launcher exe (optional):]
 Soubor pro spouštění (volitelné):
-[Game id:]
+[Game ID:]
 Herní ID:
 [Send game ID:]
 Odesílané herní ID:
@@ -185,7 +183,7 @@ Možnosti XFire
 Vyberte ze seznamu požadovanou hru.
 [If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Pokud přidáte modifikaci již podporované hry, můžete zvolit které herní ID bude odesláno do XFire. Takže pokud přidáte Half-Life mod, můžete nastavit herní ID hry Half-Life a pokud spustíte hru, vaši XFire přátelé uvidí ikonu Half-Life vedle vašeho jména a tato hra bude také zaznamenána.
-[Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
+[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
 Každá hra v XFire potřebuje ID. Použijte číslo vyšší než poslední použité ID pro vyhnutí se problémům s použitými ID. Každé číslo vyšší než 10000 by mělo být bezpečné. Toto ID nebude odesláno do XFire při spuštění hry.
 [Please enter a game name.]
 Zadejte prosím název hry.
@@ -216,7 +214,7 @@ Nechte mě prosím chvíli o samotě, ano?
 Mluvil bych s vámi, kdyby Miranda ICQ podporovala chat
 [That'll be the phone.]
 Právě telefonuji
-[Mmm...food.]
+[Mmm... food.]
 Mňam... jídlo
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]

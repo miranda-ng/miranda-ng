@@ -30,11 +30,11 @@ Pokud lze, šifrovat vždy
 
 [Mode in Context Menu]
 
-[Key Exchange Timeout :]
+[Key Exchange Timeout:]
 Doba pro výměnu klíče:
 [sec]
 sek.
-[Offline Key Timeout :]
+[Offline Key Timeout:]
 Offline klíč vyprší za:
 [days]
 dnů

@@ -7,6 +7,21 @@
 ;============================================================
 [RSS/Atom news aggregator.]
 Čtečka novinek RSS/Atom.
+;file \plugins\NewsAggregator\proto_newsaggregator\res\Proto_NewsAggregator.rc
+[Load Public GPG key]
+
+[OK]
+OK
+[Load from file]
+
+[Select existing]
+
+[Turn on encryption]
+
+[Import key from keyserver]
+
+[Set own key]
+
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Přidat
@@ -20,8 +35,6 @@ Importovat
 Exportovat
 [Retrieve news at startup]
 Získat novinky při spuštění
-[OK]
-OK
 [Cancel]
 Zrušit
 [General Settings]

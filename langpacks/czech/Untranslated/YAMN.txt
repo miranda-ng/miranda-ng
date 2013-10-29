@@ -25,7 +25,6 @@
 [Translate header error]
 [Part]
 [POP3 protocol (internal)]
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 [Searching for new mail message]
 [Reading body %s]
 [Reading new mail messages (%d%% done)]

@@ -1,0 +1,213 @@
+﻿#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
+;============================================================
+;  File: SkypeClassic.dll
+;  Plugin: Skype Protocol (Classic)
+;  Version: 0.0.0.54
+;  Authors: leecher - tweety - jls17
+;============================================================
+[Skype protocol support for Miranda NG. Classic implemetation which requires running original Skype client.]
+Skype protokol pro Mirandu NG. Klasická implementace, která vyžaduje spuštěný originální Skype klient.
+;file \protocols\SkypeClassic\res\Resource.rc
+[Set]
+Nastavit
+[Delete]
+Smazat
+[Start Skype with Miranda IM if not running using the following command line options:]
+
+[/NOSPLASH - Don't show splash screen on startup]
+
+[/MINIMIZED - Start Skype minimized]
+/MINIMIZED - spustí program minimalizovaný
+[/NOTRAY - Skype tray icon becomes grey and is therefore "invisible"]
+/NOTRAY - ikona v oblasti oznámení zašedne (= prázdné místo)
+[/REMOVEABLE - For running portable skype]
+/REMOVEABLE - pro Skype na přenosném disku
+[/SECONDARY - This is the second instance]
+
+[/DATAPATH - Specify Skype data folder*]
+
+[Use custom Skype executable*]
+
+[* Relative path root is Miranda IM folder]
+
+[Shutdown Skype when you close Miranda IM]
+
+[Unload Skype when you change to Offline status]
+
+[Try at least]
+Pokusit se
+[times to connect to Skype API before giving up]
+krát o připojení pomocí API Skype, pak přestat
+[User name:]
+Uživatel:
+[Password:]
+Heslo:
+[Dial]
+Vytočit
+[Number:]
+Číslo:
+[Cancel]
+Zrušit
+[%s is calling]
+Volá: %s
+[Join conference with %s]
+
+[Answer call; set call to %s on hold]
+Zvednout telefon; současný hovor (%s) přidržet
+[Hang up]
+Zavěsit
+[OK]
+OK
+[Dialog]
+Dialog
+[Use Skype proxy connection over network instead of local Skype API]
+
+[Host:]
+Hostitel:
+[Port:]
+Port:
+[* You must restart Miranda IM in order to let the settings take effect]
+
+[This Skype proxy requires password authentication:]
+
+[Name:]
+Název:
+[Birthday:]
+Narozeniny:
+[Sex:]
+Pohlaví:
+[City:]
+Město:
+[Country:]
+Země:
+[Province:]
+
+[Home phone:]
+Domácí telefon:
+[Office phone:]
+Pracovní telefon:
+[Homepage:]
+WWW:
+[Save]
+Uložit
+[Enable Skype menu options (currently: Find/Add user)]
+
+[Use popup plugin for displaying messages ]
+
+[Suppress all error messages (not recommended, but if it annoys you... ;)]
+
+[Use group chat interface for conversations (requires group chat module)]
+
+[Mark group chat message as read to avoid notification]
+
+[Keep requested online status on startup under every circumstance]
+Za všech okolností zajistit při spuštění stav 'Online'
+[Use time zone patch]
+Použít opravu časového pásma
+[Ignore time zones]
+
+[Show default skype avatar for contacts]
+
+[Suppress call summary chat message]
+
+[Disable support for N/A and SkypeMe status (for Skype 4+)]
+
+[Show full name in contact list instead of nickname]
+
+[SkypeOut contacts are in status:]
+
+[Cleanup Nicknames]
+Promazat přezdívky
+[Skype Popups]
+Oznámení Skype
+[Incoming Calls]
+Příchozí hovory
+[Show incoming calls]
+
+[seconds]
+sek.
+[Background]
+Pozadí
+[Use Windows colors]
+Použít barvy Windows
+[Text]
+Text
+[Preview]
+Náhled
+[Error Messages]
+
+[Display error messages]
+
+;file \protocols\SkypeClassic\src\contacts.cpp
+[Call (Skype)]
+Zavolat (Skype)
+[Call using SkypeOut]
+Zavolat (SkypeOut)
+[Hang up call (Skype)]
+Zavěsit (Skype)
+[Hang up SkypeOut call]
+Zavěsit (SkypeOut)
+[Hold call]
+Přidržet hovor
+[Resume call]
+Pokračovat v hovoru
+[&File]
+&Soubor
+[&Open groupchat]
+
+[Import Skype history]
+Importovat historii (Skype)
+[Add Skype contact]
+Přidat kontakt Skype
+;file \protocols\SkypeClassic\src\gchat.cpp
+[Unknown]
+neznámý
+[&Invite user...]
+Pozvat k d&iskusi...
+[Me]
+Já
+[&Leave chat session]
+&Opustit diskusi
+[Set &Topic...]
+Stanovit &téma...
+[User &details]
+&Detaily uživatele
+[User &history]
+Zobrazit &historii
+[&Kick user]
+
+;file \protocols\SkypeClassic\src\skype.cpp
+[Do a SkypeOut-call]
+Zavolat přes SkypeOut
+[invited ]
+
+[Phonecall]
+Hovor
+[Incoming Skype Call]
+Příchozí hovor ze Skype
+[Incoming call from %s]
+Příchozí hovor (%s)
+[Connection to Skype lost]
+
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later.]
+Chcete aktivovat podporu protokolu Skype pro vybraný profil v Mirandě?
+;file \protocols\SkypeClassic\src\skypeopt.cpp
+[Preview Error Message]
+Náhled chybového hlášení
+[Skype default]
+Možnosti
+[Skype advanced]
+Pro experty
+[Skype proxy]
+Proxy
+[Avatar]
+Avatar
+[Details]
+Podrobnosti
+[MALE]
+MUŽ
+[FEMALE]
+ŽENA
+;file \protocols\SkypeClassic\src\skypesvc.cpp
+[Skype ID]
+Identifikátor

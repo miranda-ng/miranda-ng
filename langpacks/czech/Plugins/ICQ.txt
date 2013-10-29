@@ -94,7 +94,7 @@ Rozhovor
 Aktivovat podporu pro zprávy ve formátu Unicode
 [Send all messages in unicode if possible]
 Odesílat zprávy ve formátu Unicode (pokud to jde)
-[Use this codepage for Ansi <-> Unicode translation :]
+[Use this codepage for Ansi <-> Unicode translation:]
 Definice kódování pro převod znaků z a do Unicode:
 [Make me temporarily visible to contacts I send message to]
 Dočasně se zviditelnit osobám, kterým píšete zprávu

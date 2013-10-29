@@ -42,7 +42,7 @@ Přidat položky menu do seznamu kontaktů
 
 [Note Transparency (Minimum Win 2k/XP)]
 
-[Send Reminders through E-mail / SMS :]
+[Send Reminders through E-mail/SMS:]
 Odeslat přípomínky e-mailem nebo sms:
 [Open links with this program instead:]
 

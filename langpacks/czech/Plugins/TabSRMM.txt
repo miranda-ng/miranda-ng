@@ -94,7 +94,7 @@ Oddělovače řádků v záznamu komunikace
 Zvýraznění uživatelských jmen
 [Enable highlighting for user names]
 Povolit zvýraznění uživatelských jmen
-[Also look in user ids]
+[Also look in user IDs]
 Hledat také v identifikátoru uživatele
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Jména ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé položky se oddělují mezerami

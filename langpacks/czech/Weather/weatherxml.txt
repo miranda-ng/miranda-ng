@@ -222,8 +222,6 @@ několik přeháněk
 několik přeháněk / vítr
 [Pm Light Rain]
 slabý déšť (odp.)
-[Mostly Cloudy]
-převážně oblačno
 [Mostly Cloudy / Wind]
 převážně oblačno / vítr
 [Rain]

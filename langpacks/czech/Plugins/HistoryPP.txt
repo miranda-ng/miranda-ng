@@ -763,8 +763,6 @@ Příchozí přezdívka
 Odchozí přezdívka
 [Incoming contacts]
 Odchozí kontakty
-[Outgoing contacts]
-Odchozí kontakty
 [System message]
 Zpráva systému
 [Incoming timestamp]

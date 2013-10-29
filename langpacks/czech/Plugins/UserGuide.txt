@@ -5,7 +5,7 @@
 ;  Version: 0.0.0.1
 ;  Authors: Yasnovidyashii
 ;============================================================
-[This plug-in adds the main menu item used to view miranda-im pack user guide.]
+[This plugin adds the main menu item used to view Miranda NG pack user guide.]
 Tento doplněk přidá položku do hlavního menu pro zobrazní uživatelské příručky.
 ;file \plugins\UserGuide\src\main.cpp
 [User Guide]

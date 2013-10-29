@@ -18,7 +18,7 @@
 [You cannot create more than %s chat rooms.]
 [You cannot join more than %s chat rooms.]
 [Anonymous nicknames are not allowed in this chat room.]
-[Unknown error code : %d]
+[Unknown error code: %d]
 [These changes will take effect the next time you connect to the Tlen network.]
 [Tlen Protocol Option]
 [SOCKS4]

@@ -176,7 +176,7 @@ Předmět: %s
 Zpráva od %s (%S)
 [Hotmail from %s]
 Zpráva od: %s
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 Máte neprečtenou poštu. Příchozí: %d, ostatní: %d.
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]

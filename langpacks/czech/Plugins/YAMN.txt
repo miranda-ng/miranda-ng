@@ -250,8 +250,6 @@ Potvrzení smazání
 Odpojen od serveru
 [POP3 protocol (internal)]
 
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-
 [Found new version of account book, not compatible with this version of YAMN.]
 Vybraný uživatelský účet není kompatibilní s touto verzí doplňku YAMN.
 [YAMN (internal POP3) read error]

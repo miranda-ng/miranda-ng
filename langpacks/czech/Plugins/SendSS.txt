@@ -24,11 +24,11 @@ Zrušit
 
 [Ti&med capture]
 Časované snímání
-[Time (secs) :]
+[Time (secs):]
 Zpoždění (sec.):
-[&Format :]
+[&Format:]
 &Formát:
-[Send B&y :]
+[Send B&y:]
 &Metoda:
 [E&xplore]
 &Procházet
@@ -52,9 +52,9 @@ Poděkování >
 Upravit
 [C&lient Area]
 Bez okraje okna
-[Caption :]
+[Caption:]
 Záhlaví okna:
-[Size (HxW) :]
+[Size (HxW):]
 Velikost (v×š):
 [Target Tool]
 

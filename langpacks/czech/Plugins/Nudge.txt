@@ -36,9 +36,9 @@ Text při odeslání
 Text při přijetí 
 [Privacy]
 Soukromí
-[Allow sending* one nudge to the same contact every :]
+[Allow sending* one nudge to the same contact every:]
 Drcnout* do jednoho a téhož kontaktu max. jednou za:
-[Allow receiving one nudge from the same contact every :]
+[Allow receiving one nudge from the same contact every:]
 Umožnit drcnutí jednomu a témuž kontaktu max. jednou za:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Prodleva pro drcnutí je pevně určena a nemůže být změněna.
