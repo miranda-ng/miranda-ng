@@ -1414,7 +1414,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 						return -1;
 				}
 				if (!reply) {
-					OUTPUT(_T("Authentication is not supported/needed for this Skypeproxy server. It will be disabled."));
+					OUTPUT(_T("Authentication is not supported/needed for this Skype proxy server. It will be disabled."));
 					db_set_b(NULL, SKYPE_PROTONAME, "RequiresPassword", 0);
 				} else {
 					unsigned int length=(unsigned int)strlen(dbv.pszVal);
