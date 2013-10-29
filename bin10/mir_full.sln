@@ -413,6 +413,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\V
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugins\StartupSilence\StartupSilence_10.vcxproj", "{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeClassic", "..\protocols\SkypeClassic\SkypeClassic_10.vcxproj", "{5F9243AE-C6C9-4F42-B670-67A97767A50B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1853,6 +1855,14 @@ Global
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|Win32.Build.0 = Release|Win32
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|x64.ActiveCfg = Release|x64
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|x64.Build.0 = Release|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|Win32.Build.0 = Debug|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|x64.ActiveCfg = Debug|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|x64.Build.0 = Debug|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|Win32.ActiveCfg = Release|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|Win32.Build.0 = Release|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|x64.ActiveCfg = Release|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

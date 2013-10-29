@@ -94,7 +94,7 @@
 [Subject: %s]
 [Hotmail from %s (%S)]
 [Hotmail from %s]
-[Unread mail is available: %d in Inbox and %d in other folders).]
+[Unread mail is available: %d in Inbox and %d in other folders.]
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 [&Block]

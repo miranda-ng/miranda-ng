@@ -165,7 +165,7 @@
 [Nope, not here.]
 [I'm hiding from the mafia.]
 [That'll be the phone.]
-[Mmm...food.]
+[Mmm... food.]
 [idleeeeeeee]
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]

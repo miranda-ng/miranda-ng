@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop 
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_11.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
@@ -412,6 +412,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\VKontakte\vk_11.vcxproj", "{BF6E1942-7E42-4564-9DF5-FD0A00D71173}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugins\StartupSilence\StartupSilence_11.vcxproj", "{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeClassic", "..\protocols\SkypeClassic\SkypeClassic_11.vcxproj", "{5F9243AE-C6C9-4F42-B670-67A97767A50B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1853,6 +1855,14 @@ Global
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|Win32.Build.0 = Release|Win32
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|x64.ActiveCfg = Release|x64
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|x64.Build.0 = Release|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|Win32.Build.0 = Debug|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|x64.ActiveCfg = Debug|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|x64.Build.0 = Debug|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|Win32.ActiveCfg = Release|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|Win32.Build.0 = Release|Win32
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|x64.ActiveCfg = Release|x64
+		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -50,7 +50,7 @@
 [Line markers in the message log]
 [Highlight user names]
 [Enable highlighting for user names]
-[Also look in user ids]
+[Also look in user IDs]
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 [Highlight message text]
 [Enable highlighting for message text]
