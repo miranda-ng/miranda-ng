@@ -144,14 +144,13 @@ INT_PTR SkypeGetCaps(WPARAM wParam, LPARAM lParam) {
 			if (mirandaVersion >= 0x070000) ret |= PF4_IMSENDUTF;
             break;
         case PFLAG_UNIQUEIDTEXT:
-            ret = (INT_PTR) "NAME";
+            ret = (INT_PTR)Translate("Skype name");
             break;
         case PFLAG_UNIQUEIDSETTING:
             ret = (INT_PTR) SKYPE_NAME;
             break;
     }
-    return ret;
-		
+    return ret;	
 }
 
 INT_PTR SkypeGetName(WPARAM wParam, LPARAM lParam)
