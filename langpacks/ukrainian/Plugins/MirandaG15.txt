@@ -1,0 +1,220 @@
+﻿;============================================================
+;  File: MirandaG15.dll
+;  Module: Use Miranda with your Logitech G15
+;  Versions: 1.1.14
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2610
+;============================================================
+[Timeout: No response from contact/server]
+Таймаут: Немає відповіді від контакту/серверу
+[New message from %s]
+Нове повідомлення від %s
+[Incoming URL from %s]
+Нова посилання від %s
+[Incoming contacts from %s]
+Новий контакт від %s
+[You were added by %s]
+%s додав вас!
+[Authrequest from %s]
+Запит авторизації від %s
+[Incoming file from %s]
+Вхідний файл від %s
+[%s has joined the channel]
+%s приєднався до каналу.
+[%s has left: %s]
+%s вийшов: %s
+[%s has disconnected: %s]
+%s від'єднався: %s
+[%s has kicked %s: %s]
+%s викинув %s: %s
+[Topic is now '%s' (set by %s)]
+Тема: "%s" (встановив %s)
+[%s enables '%s' for %s]
+%s містить "%s"% s
+[%s disables '%s' for %s]
+%s відключає "%s"% s
+[Joined %s]
+Приєдналися до %s
+[%s signed on (%s)]
+%s приходить (%s)
+[Left %s]
+Покинули %s
+[%s signed off]
+%s йде
+[Contactlist event]
+Подія списку контактів
+[You are now %s]
+Тепер ви %s
+[Status Protocol change]
+Зміна статусу протоколу
+[%s was deleted from contactlist!]
+%s було видалено зі списку контактів!
+[typing..]
+набирає текст..
+[IRC-Chatroom support is disabled!\nYou need to install the патч IRC.dll (see the readme) to use IRC-Chatrooms on the LCD]
+Підтримка чатів IRC відключена!\nВам потрібно встановити IRC.dll (дивіться Readme) для активації цієї функції!
+[Sending message...]
+Відправка повідомлення...
+[Could not send the message!]
+Помилка надсилання повідомлення!
+[Device:]
+Клавіатура:
+[No device attached]
+Не приєднано
+[Show softkey labels]
+Показувати підписи кнопок
+[Event log:]
+Журнал подій:
+[Message log:]
+Журнал повідомлень
+[Contactlist:]
+Список контактів:
+[Titles:]
+Заголовки:
+[If the screensaver is active:]
+Якщо активна заставка:
+[Turn off backlights]
+Вимкнути підсвічування
+[Lock the Screen]
+Заблокувати екран
+[If the applet is active:]
+Якщо аплет активний:
+[Use the VolumeWheel to scroll up and down (might affect system performance)]
+Використовувати колесо регулювання гучності для прокручування списків
+[Use transition effects when changing screens]
+Використовувати ефекти при зміні екранів
+[For updates and news check on the thread http://www.g15forums.com]
+Оновлення та новини шукайте в темі http://www.g15forums.com
+[Or visit http://www.mkleinhans.de]
+Або відвідайте http://www.mkleinhans.de
+[Chatsessions]
+Бесіди
+[Exceptions:]
+Винятки:
+[Don't skip when repyling]
+Не пропускати під час відповіді
+[Notification screen title]
+Заголовок вікна повідомлення
+[Hide it]
+Без заголовку
+[Show the plugin name]
+Показувати ім'я плагіна
+[Show a short event summary]
+Короткий зміст події
+[Size of the log]
+Розмір журналу
+[Notification duration]
+Тривале повідомлення
+[Notification types]
+Типи повідомлень
+[Contact signs off]
+Контакт виходить з мережі
+[Contact changes status]
+Контакт змінює статус
+[Contactlist events]
+Події сп. контактів
+[Protocol disconnected]
+Протокол від'єднано
+[Protocol connected]
+Протокол при'єднано
+[Status Protocol changes]
+Змінено статус протоколу
+[Show only events from the following protocols:]
+Показувати події тільки наступних протоколів:
+[Contact signs on]
+Контакт входить в мережу
+[When a chatsession is active, skip the following notifications for that contact:]
+Пропускати такі повідомлення для контакту, з яким активна розмова:
+[Chatsession specific]
+Тільки для сесії
+[User events]
+Події корист.
+[Emotes]
+Емоції
+[Special IRC events:]
+Тільки для IRC
+[Channel events]
+Події каналу
+[Cutoff nicknames after]
+Обмежити імена до
+[Cutoff channelnames after]
+Обмежити канали до
+[chars]
+символів
+[Show protocol labels]
+Показувати протоколи
+[Contactlist]
+Список контактів
+[Show the contacts protocols]
+Показувати протоколи контактів
+[Use ignore settings]
+Враховувати ігнорування контактів
+[Use groups/subgroups]
+Враховувати ігнорування груп
+[Grouped mode]
+Режим груп
+[Draw tree lines]
+Малювати лінії дерева
+[Show counters behind group names]
+Показувати лічильники після назв груп
+[Reset selection]
+Зняти виділення
+[When opening the contactlist screen:]
+При відкритті екрану списку контактів:
+[Don't change group states]
+Не змінювати стану груп
+[Collapse all groups]
+Згорнути всі групи
+[Show only contacts from the following protocols:]
+Показувати лише контакти наступних протоколів:
+[Protocol filter]
+Фільтр протоколів
+[Expand all groups]
+Розкрити всі групи
+[Use two columns]
+Використовувати дві колонки
+[Fade out selection rectangle]
+Поступово затемнювати виділення
+[Typing notifications]
+Повідомлення про набір тексту
+[Show typing notifications]
+Відображати
+[Send typing notifications]
+Відсилати
+[When in background]
+Коли у фоні
+[Close chat after]
+Закривати чат після
+[Maximizing]
+Повний екран
+[When maximized:]
+При макс. розмірі:
+[Hide title]
+Приховувати заголовок
+[Hide labels]
+Приховувати мітки
+[Load only unread messages]
+Завантажувати тільки непрочитані повідомлення
+[Show only new messages]
+Показувати тільки нові повідомлення
+[Mark incoming messages as read]
+Відзначати входять як прочитані
+[Maximized scrolling]
+Прокрутка в режимі повного екрану
+[Size of the log:]
+Розмір журналу:
+[On incoming messages:]
+При вхідних повідомленнях:
+[Scroll to the first line]
+До першого рядка
+[Scroll to the last line]
+До останнього рядка
+[Replying]
+Відповідь
+[Show linebreak indicators]
+Показувати символи переносу рядка
+[Send messages with return, insert linebreaks with ctrl+return]
+Відправлення повідомлень Enter, перехід рядка по CTRL+Enter
+[Maximized replying]
+Відповідь в режимі повного екрану
+[Provides an interface to use Miranda from the G15's LCD]
+Плагін додає можливість використання Miranda NG на РК-екрані клавіатури Logitech G15

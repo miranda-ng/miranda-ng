@@ -1,0 +1,167 @@
+﻿#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
+;============================================================
+;  File: SkypeClassic.dll
+;  Plugin: Skype Protocol (Classic)
+;  Version: 0.0.0.54
+;  Authors: leecher - tweety - jls17
+;============================================================
+[Support for Skype network]
+Підтримка мережі Skype
+[Call (Skype)]
+Подзвонити по Skype
+[Call using SkypeOut]
+Зателефонувати за SkypeOut
+[&Open groupchat]
+&Відкрити чат
+[Import Skype history]
+Імпортувати історію з Skype
+[Start Skype with Miranda NG if not running using the following command line options:]
+Запускати Skype разом з Miranda NG, якщо ще не запущений з наступними ключами:
+[/NOTRAY - Skype tray icon becomes grey and is therefore "invisible"]
+/NOTRAY - Значок Skype в треї стає сірим - "Невидимий"
+[/NOSPLASH - don't show splash screen on startup]
+/NOSPLASH - Не показувати заставку при старт
+[/MINIMIZED - Start Skype minimized]
+/MINIMIZED - Запустити Skype мінімізованим в трей
+[Shutdown Skype when you close Miranda NG]
+Закрити Skype при виході з Miranda NG
+[Unload Skype when you change to Offline status]
+Вивантажувати Skype, коли статус "Не в мережі"
+[Try at least]
+Намагатися як мінімум
+[times to connect to Skype API before giving up]
+один раз з'єднатися з Skype API перед видачею помилки
+[Skype]
+Skype
+[Use custom Skype executable*]
+Свій шлях до Skype.exe*
+[/REMOVEABLE - For running skype portable]
+/REMOVEABLE - Для запуску Skype Portable
+[/SECONDARY - This is the second instance]
+/SECONDARY - Запуск другої копії Skype
+[/DATAPATH - Specify Skype data folder*]
+/DATAPATH - Шлях до профілю Skype*
+[* Relative path root is Miranda NG folder]
+* Шлях щодо кореню Miranda NG
+[Skype default]
+Skype замовчання
+[Skype Advanced]
+Skype додатково
+[Skype advanced]
+Skype додатково
+[Enable Skype menu options (currently: Find/Add user)]
+Ввімкнути опції меню (зараз тільки: Знайти/Додати контакти)
+[Use popup plugin for displaying messages ]
+Використовувати спливаючі вікна для повідомлень
+[Use group chat interface for conversations (requires group chat module)]
+Використовувати інтерфейс для чату (потрібно плагін з підтримкою чатів)
+[Suppress all error messages (not recommended, but if it annoys you... ;)]
+Вимкнути всі повідомлення про помилки. (Не рекомендується.)
+[Suppress call summary chat message]
+Вимкнути підсумковий звіт про дзвінки
+[Disable support for N/A and SkypeMe status for Skype 4+)]
+Відключити підтримку "Недоступний" і "SkypeMe" (для Skype 4+)
+[Show full name in contact list instead of nickname]
+Показувати в контакт листі повне ім'я замість ніка
+[SkypeOut contacts are in status:]
+SkypeOut контакти статус:
+[Keep requested online status on startup under every circumstance]
+Підтримувати статус "В мережі" при запуску в будь-якому випадку
+[Cleanup Nicknames]
+Очистити ніки
+[Use time zone patch]
+Використовувати часовий пояс
+[Ignore time zones]
+Ігнорувати часові пояси
+[Skypeproxy]
+Skype Проксі
+[Use Skype proxy connection over network instead of local Skype API]
+Використовувати мережевий проксі замість локального Skype API
+[* You must restart Miranda NG in order to let the settings take effect]
+* Зміни вступлять в силу після перезапуску Miranda NG.
+[This Skype proxy requires password authentication:]
+Проксі вимагає аутентифікацію по паролю:
+[Skype proxy]
+Skype Проксі
+[ERROR: Skype not running / too old / working!]
+Помилка: Skype не запущено
+[Mark group chat message as read to avoid notification]
+Відзначати групові повідомлення як прочитані без попередження
+[Wheee, Skype won't let me use the API. :(]
+... Skype не дозволяє мені використовувати API :(
+[Phonecall]
+Дзвінок
+[Incoming Skype Call]
+Вхідний дзвінок Skype
+[Incoming call from %s]
+Вхідний дзвінок Skype від %s
+[Skype Popups]
+Спливаючі вікна Skype
+[Incoming Calls]
+Вхідні дзвінки
+[Show incoming calls popup]
+Показувати сплив. вікно при вхідному дзвінку
+[Error Message]
+Помилки
+[Display Error Message]
+Показувати сплив. вікно з помилкою
+[History import complete!]
+Імпорт історії завершено!
+[Cleanup finished.]
+Очищення завершено.
+[Error Message Preview]
+Попередній перегляд помилки
+[Skype was not found installed :(]
+Skype не встановлено :(
+[Show default skype avatar for contacts]
+Skype аватари контактів
+[%s is calling]
+%s дзвонить
+[Add Skype contact]
+Додати контакт Skype
+[Answer call set call to %s on hold]
+Відповісти, поставити дзвінок %s на паузу
+[Birthday :]
+День народження:
+[City :]
+Місто:
+[Do a SkypeOut-call]
+Зателефонувати через SkypeOut
+[FEMALE]
+Жінка
+[Hang up call (Skype)]
+Відбити дзвінок (Skype)
+[Hang up SkypeOut call]
+Відбити дзвінок (SkypeOut)
+[Hang up]
+Відбити дзвінок
+[Home phone :]
+Домашній:
+[Homepage :]
+Посилання:
+[Join conference with %s]
+Підключитися до розмови з %s
+[MALE]
+Чоловік
+[Name :]
+Ім'я:
+[No Topic]
+Немає теми
+[Office phone :]
+Офісний:
+[Province :]
+Провінція:
+[Resume call]
+Відновити дзвінок
+[Sex :]
+Стать:
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later.]
+Ви вперше запустили протокол Skype. Хочете включити його для цього профілю Miranda NG? (Якщо ви відмовитеся, завжди можна включити його в налаштуваннях).
+[Skype protocol]
+Протокол Skype
+[Show incoming calls]
+Показати вхідні дзвінки
+[Error Messages]
+Помилки
+[Display error messages]
+Показувати помилки
