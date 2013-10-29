@@ -1570,7 +1570,7 @@ void RingThread(char *szSkypeMsg) {
 	dbei.eventType=EVENTTYPE_CALL;
 	dbei.szModule=SKYPE_PROTONAME;
 	dbei.timestamp=(DWORD)SkypeTime(NULL);
-	dbei.pBlob=(unsigned char*)Translate("Phonecall");
+	dbei.pBlob=(unsigned char*)Translate("Phone call");
 	dbei.cbBlob=strlen((const char*)dbei.pBlob)+1;
 	if (!strncmp(ptr, "INCOMING", 8)) 
 	{
@@ -3238,7 +3238,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!db_get_b(NULL, SKYPE_PROTONAME, "FirstRun", 0)) {
 		db_set_b(NULL, SKYPE_PROTONAME, "FirstRun", 1);
 		if (AnySkypeusers()==0) // First run, it seems :)
-			if (MessageBox(NULL, TranslateT("This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later."), _T("Welcome!"), MB_ICONQUESTION|MB_YESNO)==IDNO) {
+			if (MessageBox(NULL, TranslateT("This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? (If you chose NO, you can always enable it in the plugin options later."), _T("Welcome!"), MB_ICONQUESTION|MB_YESNO)==IDNO) {
 				char path[MAX_PATH], *filename;
 				GetModuleFileNameA(hInst, path, sizeof(path));
 				if (filename = strrchr(path,'\\')+1)
@@ -3267,7 +3267,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		
 		if (SkypeInstalled==FALSE || RegQueryValueExA(MyKey, "SkypePath", NULL, NULL, (unsigned char *)skype_path,  &Buffsize)!=ERROR_SUCCESS) 
 		{
-			    //OUTPUT("Skype was not found installed :( \nMaybe you are using portable skype.");
+			    //OUTPUT("Skype was not found installed :( \nMaybe you are using portable Skype.");
 				RegCloseKey(MyKey);
 				skype_path[0]=0;
 				//return 0;

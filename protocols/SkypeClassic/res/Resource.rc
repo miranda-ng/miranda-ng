@@ -42,7 +42,7 @@ STYLE DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Start Skype with Miranda IM if not running using the following command line options:",
+    CONTROL         "Start Skype with Miranda NG if not running using the following command line options:",
                     IDC_STARTSKYPE,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
                     WS_TABSTOP,10,4,290,10
     CONTROL         "/NOSPLASH - Don't show splash screen on startup",
@@ -50,10 +50,10 @@ BEGIN
                     264,12
     CONTROL         "/MINIMIZED - Start Skype minimized",IDC_MINIMIZED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,36,28,264,12
-    CONTROL         "/NOTRAY - Skype tray icon becomes grey and is therefore ""invisible""",
+    CONTROL         "/NOTRAY - Skype tray icon becomes gray and is therefore ""invisible""",
                     IDC_NOTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,36,40,
                     264,12
-    CONTROL         "/REMOVEABLE - For running portable skype",
+    CONTROL         "/REMOVEABLE - For running portable Skype",
                     IDC_REMOVEABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,36,
                     51,264,12
     CONTROL         "/SECONDARY - This is the second instance",IDC_SECONDARY,
@@ -66,9 +66,9 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,36,103,264,10
     EDITTEXT        IDC_COMMANDLINE,47,116,236,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BROWSECMDL,285,115,16,15
-    CTEXT           "* Relative path root is Miranda IM folder",
+    CTEXT           "* Relative path root is Miranda NG folder",
                     IDC_STATIC_PATHINFO,10,136,290,8,NOT WS_GROUP
-    CONTROL         "Shutdown Skype when you close Miranda IM",IDC_SHUTDOWN,
+    CONTROL         "Shutdown Skype when you close Miranda NG",IDC_SHUTDOWN,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,10,151,
                     290,10
     CONTROL         "Unload Skype when you change to Offline status",
@@ -141,7 +141,7 @@ BEGIN
     EDITTEXT        IDC_HOST,41,19,133,12,ES_AUTOHSCROLL
     LTEXT           "Port:",IDC_STATIC_PORT,180,21,16,10,0,WS_EX_RIGHT
     EDITTEXT        IDC_PORT,200,19,29,12,ES_AUTOHSCROLL | ES_NUMBER
-    CTEXT           "* You must restart Miranda IM in order to let the settings take effect",
+    CTEXT           "* You must restart Miranda NG in order to let the settings take effect",
                     IDC_STATIC_RESTART,10,54,290,8,NOT WS_GROUP
     CONTROL         "This Skype proxy requires password authentication:",
                     IDC_REQPASS,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
@@ -204,7 +204,7 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,10,94,290,9
     CONTROL         "Ignore time zones",IDC_IGNTZ,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,10,109,290,9
-    CONTROL         "Show default skype avatar for contacts",
+    CONTROL         "Show default Skype avatar for contacts",
                     IDC_SHOWDEFAULTAVATAR,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,10,124,290,9
     CONTROL         "Suppress call summary chat message",
