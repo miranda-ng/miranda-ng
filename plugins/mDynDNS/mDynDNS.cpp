@@ -532,7 +532,7 @@ static int PrintError(int err_num)
 		err = "The username or password specified in options are incorrect. Please check your account details.";
 		break;
 	case 6:
-		err = "The domain alias specified in options has incorect format. Should be 'yourdomain.dyndns.org'.";
+		err = "The domain alias specified in options has incorrect format. Should be 'yourdomain.dyndns.org'.";
 		break;
 	case 7:
 		err = "The domain alias specified in options does not exist. Please check your account details.";
@@ -550,7 +550,7 @@ static int PrintError(int err_num)
 		err = "There was a serious problem with updating domain alias to it's previous IP. In order not to get abuse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.";
 		break;
 	case 12:
-		err = "The specified hostname has been blocked becouse of update abuse. In order not to get situation worse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.";
+		err = "The specified hostname has been blocked becouce of update abuse. In order not to get situation worse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.";
 		break;
 	case 13:
 		err = "Due to some errors mDynDNS plugin has been turned off to prevent blocking on server.";

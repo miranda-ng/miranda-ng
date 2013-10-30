@@ -1,0 +1,67 @@
+﻿#muuid {95014A8F-7652-471B-BB5E-8EB4B8779B42}
+;============================================================
+;  File: mDynDNS.dll
+;  Plugin: mDynDNS
+;  Version: 0.0.1.1
+;  Authors:	Jędrzej Paszkowski
+;============================================================
+[Username:]
+Ім'я:
+[Password:]
+Пароль
+[Domain alias:]
+Альтернативне ім'я домену:
+[Register new account on dyndns.org]
+Зерееструвати новій обліковий запис на dyndns.org
+[Delay]
+Затримка
+[Popup Text]
+
+[Preview]
+Перегляд
+[Timeout]
+Тайм-аут
+[&From PopUp plugin]
+
+[&Custom]
+&Користувальницькі
+[P&ermanent]
+&Постійно
+[General Options]
+Налаштування
+[Colors]
+Кольори
+[Enable updating notification]
+Ввімкнути оновлення повідомленнями
+[Enable error popups]
+Ввімкнути помилки у спливаючіх вікнах
+[Your IP on dyndns.org account, has been updated.]
+Ваша IP адреса у обликовому запису dyndns.org, оновлена.
+[Unknown Error.]
+Невідома попилка.
+[Netlib Error.]
+Помилка Netlib.
+[Netlib Connection Error.]
+Помилка пыдключення Netlib.
+[Error in parsing server respose.]
+Помилка розбору выдповыды сервера.
+[Miranda mDynDns plugin has been blocked on server for not following specifications - it won't work anymore :(]
+Міранда mDynDNS плагін був заблокований на сервері не дотримуючись специфікації - це вже не працює :(
+[The username or password specified in options are incorrect. Please check your account details.]
+Ім'я користувача або пароль невірні. Будь ласка, перевірте інформацію про ваш обліковий запис.
+[The domain alias specified in options has incorrect format. Should be 'yourdomain.dyndns.org'.]
+Альтернативне ім'я домену, вказане в опції має некоректний формат. Повинно бути " yourdomain.dyndns.org'.
+[The domain alias specified in options does not exist. Please check your account details.]
+Альтернативне ім'я домену, вказане в опції не існує. Будь ласка, перевірте інформацію вашого облікового запису.
+[The domain alias specified in options exists, but you are not it's owner.]
+Альтернативне ім'я домену, вказане в опції існує, але ви не є його власником.
+[DNS error encountered.]
+Помилка DNS.
+[There is a serious problem with the dyndns.org server.]
+Існує серйозна проблема, пов'язана з серверами dyndns.org.
+[There was a serious problem with updating domain alias to it's previous IP. In order not to get abuse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.]
+Виникла серйозна проблема з оновленням домену імені з попередніх IP. Щоб не зловживати mDynDNS плагін буде перестати працювати. Для отримання додаткової інформації, будь ласка, зверніться до readme.txt.
+[The specified hostname has been blocked becouсe of update abuse. In order not to get situation worse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.]
+Вказане ім'я хоста було заблоковано через оновлення зловживань. Якщо ситуація стане гірше mDynDNS плагін перестанє працювати. Для отримання додаткової інформації, будь ласка, зверніться до readme.txt.
+[Due to some errors mDynDNS plugin has been turned off to prevent blocking on server.]
+Із-за деяких помилок mDynDNS плагін вимкнений для запобігання блокування на сервері.

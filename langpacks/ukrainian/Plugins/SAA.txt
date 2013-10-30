@@ -1,0 +1,111 @@
+﻿
+;============================================================
+;  File: saa.dll
+;  Module: Smart Auto Away
+;  Versions: 0.0.3.0
+;  URL: http://saaplugin.no-ip.info/
+;============================================================
+[Smart Auto Away]
+Розширене очікування
+[&Idle]
+&Простой
+[Apply to all protocols]
+Застосувати до всіх протоколів
+[Requested Status:]
+Запитаний статус:
+[Current Status:]
+Поточний статус:
+[Not Idle]
+Немає простою
+[Short Idle]
+Короткий простий
+[Long Idle]
+Довгий простий
+[Only if my status is requested:]
+Тільки якщо мій статус
+[If Windows is inactive]
+Якщо Windows неактивна
+[Use GetLastInputInfo()]
+Вик. GetLastInputInfo()
+[If Miranda is inactive]
+Якщо Miranda неактивна
+[Force short idle if:]
+Короткий простий, якщо:
+[Workstation is Locked (2K/XP)]
+Система блокована (2K/XP)
+[Inactivity times:]
+Неактивно після:
+[Short idle after]
+Кор. простий
+[Long idle after]
+Тривал. простий
+[Do not share my idle info.]
+Не ділитися інформацію про простій
+[Do not set "Not Idle" automaticaly]
+Не встановлювати "Немає простою" автомат.
+[Set "Not Idle" manual on change status]
+"Немає простою" при ручномій зміні
+[Simulate Idle]
+Симуляція простою
+[Be Not Idle]
+Немає простою
+[Be Short Idle]
+Кор. простий
+[Be Long Idle]
+Тривал. простий
+[Disable Idle menu. (restart is required)]
+Вимкнути меню (потрібен перезапуск)
+[Use:]
+Вик.:
+[Too Fast!]
+Занадто швидко!
+[If my current status is:]
+Якщо мій поточний статус:
+[Do not reconnect after fatal error]
+Не перепідключати після помилки
+[Keep main status offline*]
+Зберігати головний статус не в мережі*
+[* Setting this option may confuse other plugins]
+* Може конфліктувати з іншими плагінами
+[-- Time Zone --]
+-- Часовий пояс --
+[total bias]
+абсолютна зміщення
+[time zone name]
+часовий пояс
+[reconnect after]
+перепідключитися через
+[Smart Auto Away Module]
+Розширений режим очікування
+[%s cannot set status messages]
+%s не використовує статусних повідомлень
+[I am here]
+Я тут
+[I am back]
+Я повернувся
+[I am distracted]
+Я відвернений
+[I am sleeping]
+Я сплю
+[I came back on %H:%M:%S%b%Z (%z)]
+Я повернувся до %H:%M:%S%b%Z (%z)
+[I am distracted since %H:%M:%S%b%Z (%z)]
+Я відвернений з %H:%M:%S%b%Z (%z)
+[I fell asleep on %H:%M:%S %d %E %Y (%W)%b%Z (%z)]
+Я сплю з %H:%M:%S %d %E %Y (%W)%b%Z (%z)
+[Set the default status message after ]
+Встановити стандартне статусне повідомлення:
+[Variables to use]
+Використовувані змінні
+[Time Zone]
+Часовий пояс
+[Reconnect after]
+Перепідключитися після
+[Localized Date (Long)]
+Локальна дата (розширено)
+[Localized Date (Short)]
+Локальна дата (скорочено)
+[Localized Time (Long)]
+Локальний час (розширено)
+[Localized Time (no Seconds)]
+Локальний час (скорочено)
