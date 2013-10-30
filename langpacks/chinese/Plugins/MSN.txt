@@ -121,7 +121,7 @@ MSN 聊天
 [Hotmail from %s]
 %s 的 Hotmail 邮件
 [Unread mail is available: %d in Inbox and %d in other folders.]
-未读邮件: %d 于收信箱 %d 于其它目录).
+未读邮件: %d 于收信箱 %d 于其它目录.
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
 打开 &Hotmail 收信箱

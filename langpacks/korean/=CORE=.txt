@@ -738,7 +738,7 @@ Netlib 로그 옵션
 [That'll be the phone.]
 전화중이예요.
 [Mmm... food.]
-냠냠.. 식사중이예요.
+냠냠... 식사중이예요.
 [idleeeeeeee]
 무작업 상태
 [Status]

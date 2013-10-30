@@ -22,17 +22,17 @@
 
 [Disable main menu items]
 
-[Load Page on Window Open]
+[Load page on window open]
 
-[Update data on start-up]
+[Update data on startup]
 
-[Only Update Window on Alert]
+[Only update window on alert]
 
-[Window Appearance]
+[Window appearance]
 
-[Background Color:]
+[Background color:]
 Цвят на фона:
-[Text Color:]
+[Text color:]
 Цвят на текста:
 [Bold]
 Удебеляване
@@ -40,23 +40,23 @@
 Наклоняване
 [Underline]
 Подчертаване
-[Save Individual Window Positions]
+[Save individual window positions]
 
-[Error Messages]
+[Error messages]
 
 [Suppress error messages]
 
 [Display using Popup or OSD plugin]
 
-[Expert Options]
+[Expert options]
 
-[Disable Download Protection]
+[Disable download protection]
 
-[(Not Recommended)]
+[(not recommended)]
 
-[Display Data in Popup on Alert]
+[Display data in popup on alert]
 
-[Display Data in Popup]
+[Display data in popup]
 
 [You may need to restart Miranda NG for this change to take effect.]
 
@@ -66,7 +66,7 @@
 URL:
 [Display]
 Изобразяване
-[Between Start and End strings]
+[Between start and end strings]
 
 [Whole web page]
 
@@ -74,15 +74,15 @@ URL:
 
 [End:]
 
-[Copy Strings to Alerts]
+[Copy strings to alerts]
 
 [Double click action]
 
-[Opens Web page]
+[Opens web page]
 
-[Opens Data Window]
+[Opens data window]
 
-[Display Clean-up]
+[Display clean-up]
 
 [Remove HTML]
 
@@ -94,53 +94,53 @@ URL:
 Прилагане
 [Find]
 Намери
-[&Find Next]
+[&Find next]
 Намери >>
-[Find What:]
+[Find what:]
 Намери какво:
 [Search was completed.]
 
-[Alert Options]
+[Alert options]
 
-[Events And Alerts]
+[Events and alerts]
 
-[Enable Alerts]
+[Enable alerts]
 
-[Always Log To File]
+[Always log to file]
 
-[Add Time And Date Of Alert To Contact Name]
+[Add time and date of alert to contact name]
 
 [Use 24 hour time format instead of 12 hour]
 
-[Add As Prefix]
+[Add as prefix]
 
-[Add As Suffix]
+[Add as suffix]
 
-[Alert When:]
+[Alert when:]
 
-[Alert Type:]
+[Alert type:]
 
-[Test Conditions]
+[Test conditions]
 
-[Alert When String Is Present On Web Page]
+[Alert when string is present on web page]
 
 [String:]
 
-[Alert When Specific Area Of Web Page Changes]
+[Alert when specific area of web page changes]
 
-[Log To file]
+[Log to file]
 
-[Log File:]
+[Log file:]
 
 [Append data to file]
 
 [Save as raw data]
 
-[Popup Delay]
+[Popup delay]
 Popup времетраене
 [Delay]
 Закъснение
-[From Popup Plugin]
+[From Popup plugin]
 
 [Permanent]
 Постоянно
@@ -148,25 +148,25 @@ Popup времетраене
 Образец
 [Colors]
 Цветове
-[Use Custom Colors]
+[Use custom colors]
 
 [Background]
 Фон
 [Text]
 Текст
-[Use Windows Colors]
+[Use Windows colors]
 Цветове от Windows
-[Use Same Colors As Data Window]
+[Use same colors as data window]
 
-[Left Click Action]
+[Left click action]
 
-[Open Data Display Window]
+[Open data display window]
 
-[Open Web Page]
+[Open web page]
 
-[Dismiss Popup]
-Затваряне на Popup
-[Right Click Action]
+[Dismiss popup]
+Затваряне на popup
+[Right click action]
 
 [Log]
 Дневник
@@ -178,36 +178,34 @@ Popup времетраене
 Изтриване
 [&Paste]
 
-[Co&py All]
+[Co&py all]
 Копиране на всичко
-[&Select All]
+[&Select all]
 
-[C&lear All]
+[C&lear all]
 
 ;file \plugins\WebView\src\main.cpp
-[Alert Event]
+[Alert event]
 
-[Auto Update Disabled]
+[Auto update disabled]
 Автообновяването е изключено
-[Auto Update Enabled]
+[Auto update enabled]
 Автообновяването е включено
-[Update All Webview Sites]
+[Update all Webview sites]
 
-[Mark All Webview Sites Read]
+[Mark all Webview sites read]
 
-[Open Cache Folder]
+[Open cache folder]
 
-[%d Minutes to Update]
-
-[Open web page]
+[%d minutes to update]
 
 [Open/Close window]
 
-[Update Data]
+[Update data]
 
-[Contact Options]
+[Contact options]
 
-[Contact Alert Options]
+[Contact alert options]
 
 [Ping Web Site]
 
@@ -235,34 +233,32 @@ Popups
 
 [Download successful; about to process data...]
 
-[Unknown Alert Type.]
+[Unknown alert type.]
 
 [Cannot read from file]
 
 [Cannot write to file 1]
 
-[The Web Page Has Changed.]
+[The web page has changed.]
 
 [Cannot write to file 2]
 
-[Specific Part Of The Web Page Has Changed.]
+[Specific part of the web page has changed.]
 
 [Cannot read from cache file]
 
-[Loaded From Cache]
+[Loaded from cache]
 
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 
-[Stop Processing]
+[Stop processing]
 
 [Click here to open this URL in a browser window.]
 
 [Stick to the front]
 
-[Disable Stick to the Front]
-
-[Disable Stick to the front]
+[Disable stick to the front]
 
 ;file \plugins\WebView\src\webview_getdata.cpp
 [URL not supplied]
@@ -322,17 +318,15 @@ Popups
 
 [Remove all whitespace]
 
-[Popup Plugin]
+[Popup plugin]
 
-[Log To File]
+[Use OSD plugin]
 
-[Use OSD Plugin]
+[A string is present]
 
-[A String Is Present]
+[The web page changes]
 
-[The Web Page Changes]
-
-[A Specific Part of Web Page Changes]
+[A specific part of web page changes]
 
 [This is a preview popup.]
 
@@ -357,5 +351,5 @@ Popups
 
 [Site URL]
 
-[Please select site in Find/Add Contacts...]
+[Please select site in Find/Add contacts...]
 

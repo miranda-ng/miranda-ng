@@ -127,7 +127,7 @@ Hotmai 送信者 %s(%S)
 [Hotmail from %s]
 Hotmai 送信者 %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
-未読メールがあります : 受信トレイ %d 通 ( その他のフォルダー %d 通 )
+未読メールがあります : 受信トレイ %d 通 ( その他のフォルダー %d 通
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
 Hotmail の受信箱を開く (&H)

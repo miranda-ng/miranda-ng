@@ -43,7 +43,7 @@
 Аватар
 [Draw border]
 Рамки на аватарах
-[Background Color:]
+[Background color:]
 Цвет заливки:
 [Bottom:]
 Низ:

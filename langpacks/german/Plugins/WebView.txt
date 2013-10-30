@@ -22,17 +22,17 @@ Sekunden
 Icon auf der Statusleiste verbergen
 [Disable main menu items]
 Hauptmenüelemente deaktivieren
-[Load Page on Window Open]
+[Load page on window open]
 Seite beim Öffnen des Fensters laden
-[Update data on start-up]
+[Update data on startup]
 Beim Starten Daten updaten
-[Only Update Window on Alert]
+[Only update window on alert]
 Fenster nur beim Alarm updaten
-[Window Appearance]
+[Window appearance]
 Fenster-Erscheinungsbild
-[Background Color:]
+[Background color:]
 Hintergrundfarbe:
-[Text Color:]
+[Text color:]
 Textfarbe:
 [Bold]
 Fett
@@ -40,23 +40,23 @@ Fett
 Kursiv
 [Underline]
 Unterstrichen
-[Save Individual Window Positions]
+[Save individual window positions]
 Individuelle Fensterposition speichern
-[Error Messages]
+[Error messages]
 Fehlermeldungen
 [Suppress error messages]
 Fehlermeldungen unterdrücken
 [Display using Popup or OSD plugin]
 Via Popup- oder OSD-Plugin
-[Expert Options]
+[Expert options]
 Experten-Optionen
-[Disable Download Protection]
+[Disable download protection]
 Download-Schutz deaktivieren
-[(Not Recommended)]
-(Nicht empfehlenswert)
-[Display Data in Popup on Alert]
+[(not recommended)]
+(nicht empfehlenswert)
+[Display data in popup on alert]
 Daten in Popup bei Alarm anzeigen
-[Display Data in Popup]
+[Display data in popup]
 Daten in Popups anzeigen
 [You may need to restart Miranda NG for this change to take effect.]
 Sie müssen Miranda NG neu starten, damit die Änderungen übernommen werden.
@@ -66,7 +66,7 @@ Kontaktname:
 URL:
 [Display]
 Anzeige
-[Between Start and End strings]
+[Between start and end strings]
 Zwischen Start- und Ende-Strings
 [Whole web page]
 Gesamte Webseite
@@ -74,15 +74,15 @@ Gesamte Webseite
 Anfang:
 [End:]
 Ende:
-[Copy Strings to Alerts]
+[Copy strings to alerts]
 Kop. Strings für Alarm
 [Double click action]
 Doppelklick-Aktion
-[Opens Web page]
+[Opens web page]
 Webseite öffnen
-[Opens Data Window]
+[Opens data window]
 Datenfenster öffnen
-[Display Clean-up]
+[Display clean-up]
 Bildschirmsäuberung
 [Remove HTML]
 HTML entfernen
@@ -94,53 +94,53 @@ Abbrechen
 Übernehmen
 [Find]
 Suchen
-[&Find Next]
+[&Find next]
 Weitersuchen
-[Find What:]
+[Find what:]
 Suchen nach:
 [Search was completed.]
 Suche wurde beendet.
-[Alert Options]
+[Alert options]
 Alarmoptionen
-[Events And Alerts]
+[Events and alerts]
 Ereignisse and Alarm
-[Enable Alerts]
+[Enable alerts]
 Alarm aktivieren
-[Always Log To File]
+[Always log to file]
 Immer in Datei loggen
-[Add Time And Date Of Alert To Contact Name]
+[Add time and date of alert to contact name]
 Zeit und Datum des Alarms zum Kontaktnamen hinzufügen
 [Use 24 hour time format instead of 12 hour]
 24-Stunden- anstelle von 12-Stunden-Zeitformat benutzen
-[Add As Prefix]
+[Add as prefix]
 Als Prefix einfügen
-[Add As Suffix]
+[Add as suffix]
 Als Suffix einfügen
-[Alert When:]
+[Alert when:]
 Alarm, wenn:
-[Alert Type:]
+[Alert type:]
 Alarmtyp:
-[Test Conditions]
+[Test conditions]
 Testbedingungen
-[Alert When String Is Present On Web Page]
+[Alert when string is present on web page]
 Alarmiere bei neuem String auf der Webseite
 [String:]
 String:
-[Alert When Specific Area Of Web Page Changes]
+[Alert when specific area of Web page changes]
 Alarm, falls bestimmter Teil der Webseite sich ändert
-[Log To file]
+[Log to file]
 In Datei loggen
-[Log File:]
+[Log file:]
 Logdatei:
 [Append data to file]
 Daten zu Datei hinzufügen
 [Save as raw data]
 Als Rohdaten speichern
-[Popup Delay]
+[Popup delay]
 Popup-Verzögerung
 [Delay]
 Verzögerung
-[From Popup Plugin]
+[From Popup plugin]
 Vom Popup-Plugin
 [Permanent]
 Dauerhaft
@@ -148,25 +148,25 @@ Dauerhaft
 Vorschau
 [Colors]
 Farben
-[Use Custom Colors]
+[Use custom colors]
 Benutzerdefinierte Farben
 [Background]
 Hintergrund
 [Text]
 Text
-[Use Windows Colors]
+[Use Windows colors]
 Windowsfarben verwenden
-[Use Same Colors As Data Window]
+[Use same colors as data window]
 Selbe Farben wie Ausgabefenster
-[Left Click Action]
+[Left click action]
 Linksklick-Aktion
-[Open Data Display Window]
+[Open data display window]
 Offne Datenfenster
-[Open Web Page]
+[Open web page]
 Webseite öffnen
-[Dismiss Popup]
+[Dismiss popup]
 Popup schließen
-[Right Click Action]
+[Right click action]
 Rechtsklick-Aktion
 [Log]
 Verlauf
@@ -178,36 +178,34 @@ A&usschneiden
 Löschen
 [&Paste]
 Einfügen
-[Co&py All]
+[Co&py all]
 Alles ko&pieren
-[&Select All]
+[&Select all]
 Alles au&swählen
-[C&lear All]
+[C&lear all]
 Alles löschen
 ;file \plugins\WebView\src\main.cpp
-[Alert Event]
+[Alert event]
 Alarm bei Ereignis
-[Auto Update Disabled]
+[Auto update disabled]
 Autom. Aktualisierung deaktiviert
-[Auto Update Enabled]
+[Auto update enabled]
 Autom. Aktualisierung aktiviert
-[Update All Webview Sites]
+[Update all Webview sites]
 Alle Webview-Seiten aktualisieren
-[Mark All Webview Sites Read]
+[Mark all Webview sites read]
 Alle Webview-Seiten als gelesen markieren
-[Open Cache Folder]
+[Open cache folder]
 Cache-Ordner öffnen
-[%d Minutes to Update]
+[%d minutes to update]
 %d Minuten bis zur Aktualisierung
-[Open web page]
-Webseite öffnen
 [Open/Close window]
 Fenster öffnen/schließen
-[Update Data]
+[Update data]
 Daten erneuern
-[Contact Options]
+[Contact options]
 Kontakteinstellungen
-[Contact Alert Options]
+[Contact alert options]
 Kontakt-Alarmeinstellungen
 [Ping Web Site]
 Webseite anpingen
@@ -235,34 +233,32 @@ Der String
 wurde auf der Webseite gefunden
 [Download successful; about to process data...]
 Download erfolgreich; Daten werden nun verarbeitet...
-[Unknown Alert Type.]
+[Unknown alert type.]
 Unbekannter Alarmtyp.
 [Cannot read from file]
 Kann nicht aus Datei lesen
 [Cannot write to file 1]
 Kann nicht in Datei 1 schreiben
-[The Web Page Has Changed.]
+[The web page has changed.]
 Die Webseite wurde geändert.
 [Cannot write to file 2]
 Kann nicht in Datei 2 schreiben
-[Specific Part Of The Web Page Has Changed.]
+[Specific part of the web page has changed.]
 Bestimmter Teil der Webseite wurde geändert.
 [Cannot read from cache file]
 Kann nicht aus Zwischenspeicher lesen
-[Loaded From Cache]
+[Loaded from cache]
 Aus Zwischenspeicher
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 FEHLER: Sie haben zwei oder mehr Webview-Kontakte mit demselben URL und Kontaktnamen.
-[Stop Processing]
+[Stop processing]
 Verarbeitung stoppen
 [Click here to open this URL in a browser window.]
 Klicken Sie hier, um die URL im Browserfenster zu öffnen.
 [Stick to the front]
 Zum Vordergrund anheften
-[Disable Stick to the Front]
-'Zum Vordergrund anheften' deaktivieren
-[Disable Stick to the front]
+[Disable stick to the front]
 'Zum Vordergrund anheften' deaktivieren
 ;file \plugins\WebView\src\webview_getdata.cpp
 [URL not supplied]
@@ -322,17 +318,15 @@ Mittleres Level für Leerzeichenentfernung
 Hohes Level für Leerzeichenentfernung
 [Remove all whitespace]
 Entferne alle Leerzeichen
-[Popup Plugin]
+[Popup plugin]
 Popup-Plugin
-[Log To File]
-In Datei speichern
-[Use OSD Plugin]
+[Use OSD plugin]
 OSD-Plugin nutzen
-[A String Is Present]
+[A string is present]
 Ein neuer String vorhanden ist
-[The Web Page Changes]
+[The web page changes]
 Die Webseite sich verändert
-[A Specific Part of Web Page Changes]
+[A specific part of web page changes]
 Ein bestimmter Teil der Webseite sich verändert
 [This is a preview popup.]
 Dies ist ein Vorschau-Popup.
@@ -357,5 +351,5 @@ Zwischenspeicherordner existiert nicht.
 Fehlende Datei "psite.bat".
 [Site URL]
 Site-URL
-[Please select site in Find/Add Contacts...]
+[Please select site in Find/Add contacts...]
 Bitte wählen Sie eine Site in "Kontakte finden/hinzufügen" aus.

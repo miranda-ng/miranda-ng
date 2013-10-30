@@ -23,7 +23,7 @@ WebView
 Відключити елементи у головному меню
 [Load page on window open]
 Завантажити сторінку, у відкритому вікні
-[Update data on start-up]
+[Update data on startup]
 Оновлювати данні при старті
 [Only update window on alert]
 Тільки попередження оновлення вікна
@@ -51,8 +51,8 @@ WebView
 Режим експерту
 [Disable download protection]
 Відключити захист завантаження
-[(Not recommended)]
-(Не рекомендовано)
+[(not recommended)]
+(не рекомендовано)
 [Display data in popup on alert]
 Попередження відображення даних у сплив. вікні 
 [Display data in popup]
@@ -197,8 +197,6 @@ WebView
 Відкрити папку кешу
 [%d minutes to update]
 %d хвилин до оновлення
-[Open web page]
-Відкрити веб-сторінку
 [Open/Close window]
 Відкрити/Закрити вікно
 [Update data]
@@ -245,18 +243,16 @@ WebView
 Окремі частини веб-сторінки змінилися.
 [Cannot read from cache file]
 Неможливо прочитати з файлу кешу
-[Loaded From Cache]
+[Loaded from cache]
 Завантажено з кешу
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 ПОМИЛКА: У Вас є два або більше WebView контакти з тим же URL-адресою та ім'ям контакту.
-[Stop Processing]
+[Stop processing]
 Зупинити обробку
 [Click here to open this URL in a browser window.]
 Клікніть тут для видкриття цого посилання у вікні браузеру.
 [Stick to the front]
 Прилипати попереду
-[Disable stick to the front]
-Вимкнути прилипання попереду
 [Disable stick to the front]
 Вимкнути прилипання попереду
 [URL not supplied]
@@ -317,8 +313,6 @@ URL-адреса не поставляється
 Видяляти все вільне місце
 [Popup plugin]
 Модуль сплив. вікон
-[Log to file]
-Журнал у файл
 [Use OSD plugin]
 Використовувати OSD модуль
 [A string is present]
@@ -349,5 +343,5 @@ URL-адреса не поставляється
 Відсутній файл "psite.bat"
 [Site URL]
 Посилання на сайт
-[Please select site in Find/Add Contacts...]
+[Please select site in Find/Add contacts...]
 Будь ласка виберіть сайт у Знайти/Додати контакт...

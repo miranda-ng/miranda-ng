@@ -75,7 +75,7 @@
 ;file \protocols\MSN\src\msn_lists.cpp
 ;file \protocols\MSN\src\msn_mail.cpp
 [Unread mail is available: %d in Inbox and %d in other folders.]
-אימייל שלא נקרא זמין: %d בדואר נכנס וב %d תיקיות אחרות).
+אימייל שלא נקרא זמין: %d בדואר נכנס וב %d תיקיות אחרות.
 ;file \protocols\MSN\src\msn_menu.cpp
 ;file \protocols\MSN\src\msn_misc.cpp
 [Error]

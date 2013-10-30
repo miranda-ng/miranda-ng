@@ -43,7 +43,7 @@
 [That'll be the phone.]
 전화중이예요.
 [Mmm... food.]
-냠냠.. 식사중이예요.
+냠냠... 식사중이예요.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 [Username]
