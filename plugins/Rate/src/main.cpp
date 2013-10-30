@@ -100,7 +100,7 @@ static IconItem iconList[] =
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
    // IcoLib support
-	Icon_Register(g_hInst, LPGEN("Contact Rate"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Contact rate"), iconList, SIZEOF(iconList));
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");
