@@ -612,5 +612,5 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Фон меню
 [ToolBar Background]
 Фон панели кнопок
-[Frames TitleBar BackGround]
+[Frames TitleBar Background]
 Фон заголовка фреймов
