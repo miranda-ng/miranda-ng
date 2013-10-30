@@ -361,7 +361,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 								dbsetting += "_Password";
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
 								if(_tcslen(pass) > 0 && bDebugLog)
-									debuglog<<std::string(time_str()+": info: found password in database for key id: "+keyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
+									debuglog<<std::string(time_str()+": info: found password in database for key ID: "+keyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
 							}
 							else
 							{
@@ -807,7 +807,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 							dbsetting += "_Password";
 							pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
 							if(pass[0] && bDebugLog)
-								debuglog<<std::string(time_str()+": info: found password in database for key id: "+inkeyid+", trying to encrypt message from self with password");
+								debuglog<<std::string(time_str()+": info: found password in database for key ID: "+inkeyid+", trying to encrypt message from self with password");
 						}
 						else
 						{

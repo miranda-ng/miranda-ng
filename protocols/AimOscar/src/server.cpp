@@ -1644,7 +1644,7 @@ void CAimProto::snac_list_modification_ack(SNAC &snac)//family 0x0013
 				break;
 
 			case 0x000a:
-				ShowPopup(LPGEN("Error adding buddy(invalid id?, already in list?)"), ERROR_POPUP);
+				ShowPopup(LPGEN("Error adding buddy(invalid ID or already in list?)"), ERROR_POPUP);
 				break;
 
 			case 0x000c:

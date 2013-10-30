@@ -987,7 +987,7 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 		TCHAR szTypeValue[ 512 ];
 		switch (pRule->GetType()) {
 		case Jid:
-			mir_sntprintf(szTypeValue, SIZEOF(szTypeValue), _T("If jabber id is '%s' then"), pRule->GetValue());
+			mir_sntprintf(szTypeValue, SIZEOF(szTypeValue), _T("If Jabber ID is '%s' then"), pRule->GetValue());
 			break;
 		case Group:
 			mir_sntprintf(szTypeValue, SIZEOF(szTypeValue), _T("If group is '%s' then"), pRule->GetValue());
@@ -1149,7 +1149,7 @@ void CJabberDlgPrivacyLists::DrawRulesList(LPDRAWITEMSTRUCT lpdis)
 		switch (pRule->GetType()) {
 		case Jid:
 			{
-				DrawNextRulePart(lpdis->hDC, clLine2, TranslateT("If jabber id is '"), &rc);
+				DrawNextRulePart(lpdis->hDC, clLine2, TranslateT("If Jabber ID is '"), &rc);
 				DrawNextRulePart(lpdis->hDC, clLine1, pRule->GetValue(), &rc);
 				DrawNextRulePart(lpdis->hDC, clLine2, TranslateT("'"), &rc);
 

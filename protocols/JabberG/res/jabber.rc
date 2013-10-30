@@ -667,7 +667,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Member Information"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Member Information\n<user id>",IDC_HEADERBAR,
+    CONTROL         "Member Information\n<user ID>",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,183,25
     ICON            IDI_JABBER,IDC_ICO_STATUS,5,38,16,17,SS_CENTERIMAGE | SS_REALSIZEIMAGE
     EDITTEXT        IDC_TXT_NICK,26,38,152,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER

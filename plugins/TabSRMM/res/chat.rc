@@ -43,7 +43,7 @@ BEGIN
     LTEXT           "",IDC_STATIC,0,0,211,97
     LTEXT           "",IDC_ADDHIGHLIGHTTITLE,7,3,201,12,SS_CENTERIMAGE
     COMBOBOX        IDC_ADDHIGHLIGHTNAME,17,24,178,17,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "You can add the user by user name or his id. Wildcards are allowed and recommended.",IDC_ADDHIGHLIGHTEXPLAIN,15,49,179,21
+    LTEXT           "You can add the user by user name or his ID. Wildcards are allowed and recommended.",IDC_ADDHIGHLIGHTEXPLAIN,15,49,179,21
     DEFPUSHBUTTON   "OK",IDOK,152,76,55,14
     DEFPUSHBUTTON   "Cancel",IDCANCEL,91,76,55,14
     EDITTEXT        IDC_ADDHIGHLIGHTEDITLIST,9,18,192,47,ES_AUTOHSCROLL

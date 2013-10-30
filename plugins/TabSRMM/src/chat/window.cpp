@@ -1430,7 +1430,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 		if (tszBuf[0] == 0)
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 				TranslateT("Nick name"), ui1->pszNick,
-				TranslateT("Unique Id"), ui1->pszUID,
+				TranslateT("Unique ID"), ui1->pszUID,
 				TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status));
 		ti.lpszText = tszBuf;
 	}
@@ -1793,7 +1793,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				if (tszBuf[0] == 0)
 					mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
 						TranslateT("Nick"), ui1->pszNick,
-						TranslateT("Unique id"), ui1->pszUID,
+						TranslateT("Unique ID"), ui1->pszUID,
 						TranslateT("Status"), TM_WordToString(parentdat->pStatuses, ui1->Status));
 
 				CLCINFOTIP ti = { sizeof(ti) };

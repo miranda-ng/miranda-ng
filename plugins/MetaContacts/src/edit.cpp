@@ -248,7 +248,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			LvCol.cx = 100;
 			ListView_InsertColumn(hwnd, 0, &LvCol);
 
-			LvCol.pszText = TranslateT("Id");
+			LvCol.pszText = TranslateT("ID");
 			LvCol.cx = 130;
 			ListView_InsertColumn(hwnd, 1, &LvCol);
 

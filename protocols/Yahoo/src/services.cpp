@@ -282,7 +282,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand( WPARAM wParam, LPARAM lPara
 	DBVARIANT dbv;
 
 	if ( getString( YAHOO_LOGINID, &dbv) != 0)	{
-		ShowError( TranslateT("Yahoo Error"), TranslateT("Please enter your yahoo id in Options/Network/Yahoo"));
+		ShowError( TranslateT("Yahoo Error"), TranslateT("Please enter your Yahoo ID in Options/Network/Yahoo"));
 		return 0;
 	}
 

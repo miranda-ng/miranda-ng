@@ -189,7 +189,6 @@
 [Leave this fields blank to disable password]
 [Pay attention to CAPS LOCK button state]
 [Password and Confirm fields should be similar]
-[Unknown id]
 [Outgoing file transfer: %s]
 [Incoming file transfer: %s]
 [Authorization request by %s (%s%d): %s]

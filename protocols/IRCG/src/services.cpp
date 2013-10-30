@@ -657,7 +657,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 						break;
 					case 11:		// nickserv set language
 						PostIrcMessage( _T("/nickserv SET LANGUAGE %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter desired languageID (numeric value, depends on server)"), TranslateT("Change language of NickServ messages"));
+							TranslateT("Please enter desired language ID (numeric value, depends on server)"), TranslateT("Change language of NickServ messages"));
 						break;
 					case 12:		// nickserv set homepage
 						PostIrcMessage( _T("/nickserv SET URL %%question=\"%s\",\"%s\""),

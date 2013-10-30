@@ -754,7 +754,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 	case 1:  /* invalid ID? */
 	case 3:  /* invalid ID  */
 		if (hContact != NULL) {
-			ShowPopup( TranslateT("Invalid Contact"), TranslateT("The id you tried to add is invalid."), NULL);
+			ShowPopup( TranslateT("Invalid Contact"), TranslateT("The ID you tried to add is invalid."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			db_set_b( hContact, "CList", "NotOnList", 1 );
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
@@ -764,7 +764,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 	default:
 		/* ??? */
 		if (hContact != NULL) {
-			ShowPopup( TranslateT("Invalid Contact"), TranslateT("Unknown Error??."), NULL);
+			ShowPopup( TranslateT("Invalid Contact"), TranslateT("Unknown Error."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			db_set_b( hContact, "CList", "NotOnList", 1 );
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);

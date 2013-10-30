@@ -267,7 +267,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_ADDSTRING, 0, (LPARAM)acc.c_str());
 			}
 			SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_SELECTSTRING, 0, (LPARAM)Translate("Default"));
-			string keyinfo = Translate("key id");
+			string keyinfo = Translate("key ID");
 			keyinfo += ": ";
 			char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 			keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  }
 				  if(!strcmp(buf, Translate("Default")))
 				  {
-					  wstring keyinfo = TranslateT("Default private key id");
+					  wstring keyinfo = TranslateT("Default private key ID");
 					  keyinfo += _T(": ");
 					  keyinfo += (fp[0])?fp:_T("not set");
 					  extern HWND hwndCurKey_p;
@@ -654,7 +654,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, 63);
 				if(!strcmp(buf, Translate("Default")))
 				{
-					string keyinfo = Translate("key id");
+					string keyinfo = Translate("key ID");
 					keyinfo += ": ";
 					char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 					keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
@@ -663,7 +663,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				}
 				else
 				{
-					string keyinfo = Translate("key id");
+					string keyinfo = Translate("key ID");
 					keyinfo += ": ";
 					std::string acc_str= buf;
 					acc_str += "_KeyID";
@@ -2091,9 +2091,9 @@ void InitCheck()
 		if(!home_dir_access || !temp_access || !gpg_valid)
 		{
 			char buf[4096];
-			strcpy(buf, gpg_valid?Translate("GPG binary is set and valid (This is good).\n"):Translate("GPG binary unset or invalid (Plugin will not work).\n"));
-			strcat(buf, home_dir_access?Translate("Home dir write access granted (This is good).\n"):Translate("Home dir has no write access (Plugin most probably will not work).\n"));
-			strcat(buf, temp_access?Translate("Temp dir write access granted (This is good).\n"):Translate("Temp dir has no write access (Plugin should work, but may have some problems, file transfers will not work)."));
+			strcpy(buf, gpg_valid?Translate("GPG binary is set and valid (this is good).\n"):Translate("GPG binary unset or invalid (plugin will not work).\n"));
+			strcat(buf, home_dir_access?Translate("Home dir write access granted (this is good).\n"):Translate("Home dir has no write access (plugin most probably will not work).\n"));
+			strcat(buf, temp_access?Translate("Temp dir write access granted (this is good).\n"):Translate("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."));
 			if(!gpg_valid)
 				strcat(buf, Translate("\nGPG will be disabled until you solve these problems"));
 			MessageBoxA(0, buf, Translate("GPG plugin problems"), MB_OK);
@@ -2142,7 +2142,7 @@ void InitCheck()
 			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc.c_str(), "");
 			if(keyid[0])
 			{
-				question = Translate("Your secret key with id: ");
+				question = Translate("Your secret key with ID: ");
 				mir_free(keyid);
 				keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 				key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
@@ -2207,7 +2207,7 @@ void InitCheck()
 				keyid = nullptr;
 			}
 		}
-		question = Translate("Your secret key with id: ");
+		question = Translate("Your secret key with ID: ");
 		keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 		key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 		void ShowFirstRunDialog();

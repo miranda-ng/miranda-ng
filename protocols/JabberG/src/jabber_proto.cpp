@@ -1053,7 +1053,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 {
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
 	if ( !m_bJabberOnline || !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
-		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no jid"));
+		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no JID"));
 		ForkThread(&CJabberProto::SendMessageAckThread, param);
 		return 1;
 	}

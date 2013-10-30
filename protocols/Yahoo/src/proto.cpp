@@ -451,7 +451,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		}
 
 		if (err) {
-			lstrcpynA(errmsg, Translate("Please enter your yahoo id in Options/Network/Yahoo"), 80);
+			lstrcpynA(errmsg, Translate("Please enter your Yahoo ID in Options/Network/Yahoo"), 80);
 		} else {
 			if (!getString(YAHOO_PASSWORD, &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, lstrlenA(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);

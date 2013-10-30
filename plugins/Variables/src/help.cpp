@@ -833,11 +833,11 @@ This will not parse the given string, any function, field or special character i
 This will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n\
 --- Contacts ---\r\n\r\n\
 Whenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n\
-(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n\
+(1) Using a unique ID (UIN for ICQ, email for MSN) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n\
 (2) Using the contact function:\r\n\
 ?contact(x,y)\r\n\
 A contact will be searched which will have value x for its property y, y can be one of the following:\r\n\
-first, last, nick, email, id or display\r\n\r\n\
+first, last, nick, email, ID or display\r\n\r\n\
 For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.\
 "));
 		TranslateDialogDefault(hwndDlg);

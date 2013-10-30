@@ -79,7 +79,7 @@ WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting
 #define DEFAULT_MENUSTAMP          _T("%d.%m.%Y - %H:%M [%s]")
 #define DEFAULT_POPUPSTAMP         TranslateT("%n is %s (%u)")
 #define DEFAULT_POPUPSTAMPTEXT     TranslateT("%i(%r)%bWas %o")
-#define DEFAULT_USERSTAMP          TranslateT("Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T")
+#define DEFAULT_USERSTAMP          TranslateT("Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T")
 #define DEFAULT_FILESTAMP          _T("%d.%m.%Y %H:%M:%S%t%n%t%s%t%u%t%r | %i%t%N")
 #define DEFAULT_FILENAME           _T("logs\\%P.txt")
 #define DEFAULT_HISTORYSTAMP       _T("%d.%m.%Y - %H:%M [%s]")

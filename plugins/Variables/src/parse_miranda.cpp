@@ -789,7 +789,7 @@ int registerMirandaTokens() {
 	registerIntToken(_T(LSSTATUS), parseLastSeenStatus, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("get last seen status of contact x"));
 	registerIntToken(_T(MIRANDAPATH), parseMirandaPath, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("path to the Miranda NG executable"));
 	registerIntToken(_T(MYSTATUS), parseMyStatus, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("current status description of protocol x (without x, the global status is retrieved)"));
-	registerIntToken(_T(PROTOINFO), parseProtoInfo, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("info property y of protocol id x"));
+	registerIntToken(_T(PROTOINFO), parseProtoInfo, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("info property y of protocol ID x"));
 	registerIntToken(_T(SUBJECT), parseSpecialContact, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("retrieves the subject, depending on situation"));
 	registerIntToken(_T(TRANSLATE), parseTranslate, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("translates x"));
 	registerIntToken(_T(VERSIONSTRING), parseVersionString, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("get the version of Miranda"));

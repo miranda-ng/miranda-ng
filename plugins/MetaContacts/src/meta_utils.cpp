@@ -217,18 +217,18 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	HANDLE most_online;
 		
 	if ((metaID = db_get_dw(dest, META_PROTO, META_ID,(DWORD)-1))==-1) {
-		MessageBox(0, TranslateT("Could not get MetaContact id"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not get MetaContact ID"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	if ((num_contacts = db_get_dw(dest, META_PROTO, "NumContacts",(DWORD)-1))==-1) {
-		MessageBox(0, TranslateT("Could not retreive MetaContact contact count"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not retreive MetaContact contact count"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	char *szProto = GetContactProto(src);
 	if (szProto == NULL) {
-		MessageBox(0, TranslateT("Could not retreive contact protocol"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not retreive contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
@@ -236,20 +236,20 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	char *field = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	DBVARIANT dbv;
 	if ( db_get(src,szProto, field, &dbv)) {
-		MessageBox(0, TranslateT("Could not get unique id of contact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not get unique ID of contact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// Check that is is 'on the list'
 	if ( db_get_b(src, "CList", "NotOnList", 0) == 1) {
-		MessageBox(0, TranslateT("Contact is 'Not on List' - please add the contact to your contact list before assigning."), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Contact is 'Not on List' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
 
 	num_contacts++;
 	if (num_contacts >= MAX_CONTACTS) {
-		MessageBox(0, TranslateT("MetaContact is full"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("MetaContact is full"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -259,7 +259,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	strcat(buffer, _itoa(num_contacts-1, szId, 10));
 
 	if ( db_set_s(dest, META_PROTO, buffer, szProto)) {
-		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -269,7 +269,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	strcat(buffer, szId);
 
 	if ( db_set(dest, META_PROTO, buffer, &dbv)) {
-		MessageBox(0, TranslateT("Could not write unique id of contact to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not write unique ID of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -282,7 +282,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 		strcpy(buffer, "Nick");
 		strcat(buffer, szId);
 		if (db_set(dest, META_PROTO, buffer, &dbv)) {
-			MessageBox(0, TranslateT("Could not write nickname of contact to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
+			MessageBox(0, TranslateT("Could not write nickname of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 			return FALSE;
 		}
 
@@ -837,7 +837,7 @@ int Meta_SetHandles(void)
 			if (num_contacts != (DWORD)db_get_dw(hContact, META_PROTO, "NumContacts", (DWORD)-1)) {
 				hNextContact = db_find_next(hContact);
 
-				_tcscpy(nick_buffer, TranslateT("MetaId: "));
+				_tcscpy(nick_buffer, TranslateT("Meta ID: "));
 				_tcscat(nick_buffer, _itot(meta_id, buffer2, 10));
 				MessageBox(0, TranslateT("MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact."), nick_buffer, MB_OK | MB_ICONERROR);
 				

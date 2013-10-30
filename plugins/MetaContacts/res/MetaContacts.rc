@@ -140,7 +140,7 @@ BEGIN
     GROUPBOX        "Options",IDC_STATIC,0,0,297,178
     CONTROL         "Suppress status notification for subcontacts",IDC_CHK_SUPPRESSSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,42,290,10
     GROUPBOX        "Context Menu",IDC_STATIC,4,79,289,58
-    CONTROL         "Use contact's unique id",IDC_RAD_UID,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,100,112,10
+    CONTROL         "Use contact's unique ID",IDC_RAD_UID,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,100,112,10
     CONTROL         "Use contact's display name",IDC_RAD_DID,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,114,112,10
     GROUPBOX        "Contact Labels",IDC_STATIC,9,87,120,45,WS_GROUP
     GROUPBOX        "Function",IDC_STATIC,133,87,155,45,WS_GROUP

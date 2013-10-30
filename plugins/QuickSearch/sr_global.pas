@@ -437,7 +437,7 @@ begin
  //miranda version
   with qsopt.columns[9] do
   begin
-    MakeTitle(title,'ClientID');
+    MakeTitle(title,'Client ID');
     StrDup(wparam.a,'MirVer');
     width       :=60;
     setting_type:=ST_STRING;

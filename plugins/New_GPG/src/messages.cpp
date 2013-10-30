@@ -109,7 +109,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 						dbsetting += "_Password";
 						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
 						if(pass[0] && bDebugLog)
-							debuglog<<std::string(time_str()+": info: found password in database for key id: "+inkeyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with password");
+							debuglog<<std::string(time_str()+": info: found password in database for key ID: "+inkeyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with password");
 					}
 					else
 					{

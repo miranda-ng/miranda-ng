@@ -173,7 +173,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		EnableWindow(GetDlgItem(hwndDlg, IDC_JABBER_API), bIsMiranda09);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), (bIsMiranda09 && bJabberAPI));
 		{
-			string keyinfo = Translate("Default private key id");
+			string keyinfo = Translate("Default private key ID");
 			keyinfo += ": ";
 			char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 			keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");

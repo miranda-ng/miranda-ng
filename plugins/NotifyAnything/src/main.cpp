@@ -715,7 +715,7 @@ bool parseComplexMessage(const std::string &buf, popup_t &msg, char sep)
 				dbg_msg(Translate("No argument given to msg option."), SM_WARNING);
 				return false;
 			} else if (msg.replace != xno && msg.id.empty()) {
-				dbg_msg(Translate("Id is required for replacement."), SM_WARNING);
+				dbg_msg(Translate("ID is required for replacement."), SM_WARNING);
 				return false;
 			}
 			msg.message = arg;

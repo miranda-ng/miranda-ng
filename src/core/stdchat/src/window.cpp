@@ -2392,7 +2392,7 @@ LABEL_SHOWWINDOW:
 						static TCHAR ptszBuf[ 1024 ];
 						mir_sntprintf( ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 							TranslateT( "Nick name" ), ui->pszNick,
-							TranslateT( "Unique id" ), ui->pszUID,
+							TranslateT( "Unique ID" ), ui->pszUID,
 							TranslateT( "Status" ), TM_WordToString( parentdat->pStatuses, ui->Status ));
 						lpttd->lpszText = ptszBuf;
 				}	}
