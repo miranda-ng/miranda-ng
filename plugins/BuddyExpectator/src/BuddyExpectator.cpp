@@ -58,7 +58,7 @@ static IconItem iconList[] =
 	{ LPGEN("Enabled"),         "enabled_icon",   IDI_ENABLED   },
 	{ LPGEN("Disabled"),        "disabled_icon",  IDI_DISABLED  },
 	{ LPGEN("Hide"),            "hide_icon",      IDI_HIDE      },
-	{ LPGEN("NeverHide"),       "neverhide_icon", IDI_NEVERHIDE }
+	{ LPGEN("Never hide"),       "neverhide_icon", IDI_NEVERHIDE }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
