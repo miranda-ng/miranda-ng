@@ -371,8 +371,6 @@ História systému
 
 [Password and Confirm fields should be similar]
 
-[Unknown id]
-
 [Outgoing file transfer: %s]
 
 [Incoming file transfer: %s]

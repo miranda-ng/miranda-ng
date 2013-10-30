@@ -371,8 +371,6 @@ Feld leer lassen um das Passwort zu löschen
 Auf Feststelltasteneinstellung achten
 [Password and Confirm fields should be similar]
 Passwort- und Vergleichsfeld müssen gleich sein
-[Unknown id]
-Unbekannte ID
 [Outgoing file transfer: %s]
 Ausgehender Dateitransfer: %s
 [Incoming file transfer: %s]

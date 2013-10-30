@@ -371,8 +371,6 @@ Pozostaw puste pola, aby wyłączyć hasło
 Zwracaj uwagę na stan przycisku CAPS LOCK
 [Password and Confirm fields should be similar]
 Pole hasło i potwierdzenie powinny być takie same
-[Unknown id]
-Nieznany id
 [Outgoing file transfer: %s]
 Wychodzący transfer pliku: %s
 [Incoming file transfer: %s]

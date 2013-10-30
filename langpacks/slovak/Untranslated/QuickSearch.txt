@@ -11,7 +11,7 @@
 [Draw Grid]
 [integer value]
 [Save Item]
-[ClientID]
+[Client ID]
 [Quick Search]
 [Quick search]
 [Search on:]

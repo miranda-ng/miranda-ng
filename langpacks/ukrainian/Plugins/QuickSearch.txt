@@ -30,7 +30,7 @@ lParam тип:
 ціле число
 [Save Item]
 Зберегти значення
-[ClientID]
+[Client ID]
 Клієнт
 [Quick Search]
 Пошук за списком

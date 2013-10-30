@@ -299,8 +299,6 @@ Laat dit veld leeg om wachtwoorden uit te schakelen
 Denk aan de Caps Lock
 [Password and Confirm fields should be similar]
 Wachtwoord en Bevestig velden moeten gelijk zijn
-[Unknown id]
-Onbekend id
 [Outgoing file transfer: %s]
 Uitgaande bestandsoverdracht: %s
 [Incoming file transfer: %s]

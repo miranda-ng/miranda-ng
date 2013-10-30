@@ -31,7 +31,7 @@ lParam тып:
 цэлы лік
 [Save Item]
 Захаваць значэнне
-[ClientID]
+[Client ID]
 Кліент
 [Quick Search]
 Пошук па спісе

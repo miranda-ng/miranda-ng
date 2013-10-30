@@ -371,8 +371,6 @@ Unicode (*.txt)|*.txt
 Улічвайце стан клавішы CAPS LOCK
 [Password and Confirm fields should be similar]
 Палі "Пароль" і "Паўтор" павінны быць аднолькавыя
-[Unknown id]
-id невядомы
 [Outgoing file transfer: %s]
 Перадача файла: %s
 [Incoming file transfer: %s]

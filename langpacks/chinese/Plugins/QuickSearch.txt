@@ -31,8 +31,8 @@ lParam 类型:
 整形数值
 [Save Item]
 保存项目
-[ClientID]
-客户端ID
+[Client ID]
+客户端 ID
 [Quick Search]
 快速搜索
 [Quick search]

@@ -371,8 +371,6 @@ ANSI кодиране
 Обърнете внимание на състоянието на клавиша\n"CAPS LOCK"
 [Password and Confirm fields should be similar]
 Полетата "Парола" и "Потвърждение" трябва да съдържат еднаква информация
-[Unknown id]
-
 [Outgoing file transfer: %s]
 Изходящо прехвърляне на файл: %s
 [Incoming file transfer: %s]

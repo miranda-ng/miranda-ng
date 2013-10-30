@@ -31,7 +31,7 @@ Gitter zeichnen
 Integerwert
 [Save Item]
 Eintrag speichern
-[ClientID]
+[Client ID]
 Client-ID
 [Quick Search]
 Schnellsuche

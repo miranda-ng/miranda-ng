@@ -31,7 +31,7 @@
 целочислена стойност
 [Save Item]
 Запис на елемента
-[ClientID]
+[Client ID]
 
 [Quick Search]
 

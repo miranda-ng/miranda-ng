@@ -369,8 +369,6 @@ EMail Express
 Враховуйте стан клавіші CAPS LOCK
 [Confirm Password and fields should be similar]
 Поля "Пароль" і "Повтор" повинні бути однакові
-[Unknown id]
-id невідомий
 [Outgoing file transfer: %s]
 Передача файлу: %s
 [Incoming file transfer: %s]

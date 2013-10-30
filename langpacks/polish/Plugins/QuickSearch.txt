@@ -31,7 +31,7 @@ Rysuj kratkę
 wartość całkowita
 [Save Item]
 Zapisz
-[ClientID]
+[Client ID]
 Klient
 [Quick Search]
 Szybkie szukanie
