@@ -47,7 +47,7 @@ Ceci effacera tout l'historique et réglages de ce contact!
 [Contact List]
 Liste de contacts
 [Hide offline users]
-Cacher les contacts hors-ligne
+Cacher les contacts hors ligne
 [Hide empty groups]
 Cacher les groupes vides
 [Disable groups]
@@ -101,7 +101,7 @@ Ligne à coté des groupes
 [Show number of contacts in a group]
 Voir le nombre de contact par groupe
 [Hide numbers when all offline]
-Cacher si tous hors-ligne
+Cacher si tous hors ligne
 [Sort groups alphabetically]
 Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
@@ -135,11 +135,11 @@ Puis par
 [Finally by]
 Finalement par
 [Move events to the top of list\nor group]
-Déplacer les évènements au début de la liste\ou groupe
+Déplacer les évènements au début de la liste/groupe
 [Do not separate offline contacts]
-Ne pas séparer les contacts hors-ligne
+Ne pas séparer les contacts hors ligne
 [Hide as offline]
-Considérer hors-ligne
+Considérer hors ligne
 [Right align contacts]
 Contacts sur la droite
 [Avatars]
@@ -159,7 +159,7 @@ Toujours aligner icônes et texte si avatars absents
 [Avatar alignment]
 Aligner l'avatar
 [Don't request avatars for offline contacts]
-Pas d'avatars pour les contacts hors-ligne
+Pas d'avatars pour les contacts hors ligne
 [Second text line]
 Seconde ligne
 [Display status message when available]
@@ -243,7 +243,7 @@ Complètement transparent (comme TweakUI)
 [Items]
 Objets
 [Show divider between online and offline contacts]
-Séparateur entre contacts En ligne et Hors-ligne
+Séparateur entre contacts En ligne et Hors ligne
 [Hot track items as mouse passes over]
 Colorer les éléments survolés par la souris
 [Disable drag and drop of items]
@@ -445,7 +445,7 @@ Afficher l'heure locale
 [&Status]
 &État
 [&Offline\tCtrl+0]
-&Hors-ligne\tCtrl+0
+&Hors ligne\tCtrl+0
 [On&line\tCtrl+1]
 En &ligne\tCtrl+1
 [&Away\tCtrl+2]
@@ -473,9 +473,9 @@ Autre
 [&New Group]
 &Nouveau groupe
 [&Hide Offline Users]
-&Cacher les contacts hors-ligne
+&Cacher les contacts hors ligne
 [Hide &Offline Users out here]
-Cacher les &Hors-ligne hors de ce groupe
+Cacher les &Hors ligne hors de ce groupe
 [Hide &Empty Groups]
 Cacher les groupes &vides
 [Disable &Groups]
@@ -485,7 +485,7 @@ Cacher Miranda
 [&New Subgroup]
 &Nouveau sous-groupe
 [&Hide Offline Users in here]
-&Cacher les Hors-ligne de ce groupe
+&Cacher les Hors ligne de ce groupe
 [&Rename Group]
 &Renommer le groupe
 [&Delete Group]
@@ -568,7 +568,7 @@ Pas encore supporté
 [Show menu]
 Afficher le menu
 [Show / hide offline contacts]
-Afficher/cacher les contacts Hors-ligne
+Afficher/cacher les contacts Hors ligne
 [Toggle group mode]
 Basculer le mode de groupage
 [Find and add contacts]
@@ -593,7 +593,7 @@ Réinitialiser le mode d'affichage
 [Not focused]
 Fenêtre inactive
 [Offline]
-Hors-ligne
+Hors ligne
 [Online]
 En ligne
 [Away]
@@ -686,7 +686,7 @@ Options de la liste de &contacts...
 Général
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
-Afficher En ligne/Hors-ligne
+Afficher En ligne/Hors ligne
 [Toggle groups]
 Ouvrir les groupes
 [Find contacts]
@@ -732,9 +732,9 @@ Contacts standards
 [Online contacts to whom you have a different visibility]
 Contacts En ligne pour lesquels vous avez une visibilité différente
 [Offline contacts]
-Contacts Hors-ligne
+Contacts Hors ligne
 [Offline contacts to whom you have a different visibility]
-Contacts Hors-ligne pour lesquels vous avez une visibilité différente
+Contacts Hors ligne pour lesquels vous avez une visibilité différente
 [Contacts which are 'not on list']
 Contacts qui ne sont pas dans la liste
 [Group member counts]
