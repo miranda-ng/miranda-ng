@@ -82,7 +82,7 @@ int InitClistHotKeys(void)
 
 	HOTKEYDESC shk = { sizeof(shk) };
 	shk.dwFlags = HKD_TCHAR;
-	shk.ptszDescription = LPGENT("Show Hide Contact List");
+	shk.ptszDescription = LPGENT("Show/Hide Contact List");
 	shk.pszName = "ShowHide";
 	shk.ptszSection = _T("Main");
 	shk.pszService = "CLIST/HK/SHOWHIDE";

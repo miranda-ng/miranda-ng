@@ -70,7 +70,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_WINDOW,          LPGEN("Window"),                -IDI_WINDOW         }, // 32
 	{ SKINICON_OTHER_WINDOWS,         LPGEN("System"),                -IDI_WINDOWS        }, // 33
 	{ SKINICON_OTHER_ACCMGR,          LPGEN("Accounts"),              -IDI_ACCMGR         }, // 34
-	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("ShowHide"),              -IDI_SHOWHIDE       }, // 35
+	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("Show/Hide"),              -IDI_SHOWHIDE       }, // 35
 	{ SKINICON_OTHER_EXIT,            LPGEN("Exit"),                  -IDI_EXIT           }, // 36
 	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main Menu"),             -IDI_MAINMENU       }, // 37
 	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),                -IDI_ONLINE         }, // 38
