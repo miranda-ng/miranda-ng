@@ -90,8 +90,23 @@ static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 	return RGB(
 				(GetRValue(clLine1) * 66UL + GetRValue(clBack) * 34UL) / 100,
 				(GetGValue(clLine1) * 66UL + GetGValue(clBack) * 34UL) / 100,
-				(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100
-			);
+				(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100);
+}
+
+static bool sttIsGroup(int id)
+{
+	return (id == 1) ? true : (pcli->pfnGetGroupName(id-1, NULL) != NULL);
+}
+
+static TCHAR* sttGetGroupName(int id)
+{
+	if (id == 1) {
+		if (g_Options.bUseGroups)
+			return TranslateT("<No group>");
+		return TranslateT("Favourite Contacts");
+	}
+
+	return pcli->pfnGetGroupName(id-1, NULL);
 }
 
 int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
@@ -350,7 +365,7 @@ static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	{
 		HDC hdc = GetDC(g_hwndMenuHost);
 		HFONT hfntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-		TCHAR *name = pcli->pfnGetGroupName(lpmis->itemData-1, NULL);
+		TCHAR *name = sttGetGroupName(lpmis->itemData);
 		SIZE sz;
 		if (!options->bSysColors)
 			SelectObject(hdc, g_Options.hfntName);
@@ -445,7 +460,7 @@ static BOOL sttMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options=NULL)
 		return FALSE;
 
 	BOOL res = FALSE;
-	if ( pcli->pfnGetGroupName(lpmis->itemData-1, 0))
+	if (sttIsGroup(lpmis->itemData))
 		res = sttMeasureItem_Group(lpmis, options);
 	else if (CallService(MS_DB_CONTACT_IS, lpmis->itemData, 0))
 		res = sttMeasureItem_Contact(lpmis, options);
@@ -474,12 +489,10 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		SetTextColor(lpdis->hDC, g_Options.clLine1Sel);
 	}
 
-	if (true) {
-		TCHAR *name = pcli->pfnGetGroupName(lpdis->itemData-1, NULL);
-		if (!options->bSysColors)
-			SelectObject(lpdis->hDC, g_Options.hfntName);
-		DrawText(lpdis->hDC, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_CENTER);
-	}
+	TCHAR *name = sttGetGroupName(lpdis->itemData);
+	if (!options->bSysColors)
+		SelectObject(lpdis->hDC, g_Options.hfntName);
+	DrawText(lpdis->hDC, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_CENTER);
 
 	SelectObject(lpdis->hDC, hfntSave);
 
@@ -673,7 +686,7 @@ static BOOL sttDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options=NULL)
 	if (!lpdis->itemData)
 		return FALSE;
 
-	if ( pcli->pfnGetGroupName(lpdis->itemData-1, NULL))
+	if (sttIsGroup(lpdis->itemData))
 		return sttDrawItem_Group(lpdis, options);
 
 	if (CallService(MS_DB_CONTACT_IS, lpdis->itemData, 0))
