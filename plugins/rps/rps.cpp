@@ -105,12 +105,7 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 }
 
 
-static const MUUID interfaces[] = { MIID_REMOVEPERSONALSETTINGS, MIID_LAST };
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_REMOVEPERSONALSETTINGS, MIID_LAST };
 
 int __declspec(dllexport) Load()
 {

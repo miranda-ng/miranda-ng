@@ -64,11 +64,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = { MIID_MDYNDNS, MIID_LAST };
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_MDYNDNS, MIID_LAST };
 
 /** Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
@@ -550,7 +546,7 @@ static int PrintError(int err_num)
 		err = "There was a serious problem with updating domain alias to it's previous IP. In order not to get abuse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.";
 		break;
 	case 12:
-		err = "The specified hostname has been blocked becouce of update abuse. In order not to get situation worse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.";
+		err = "The specified hostname has been blocked because of update abuse. In order not to get situation worse the mDynDns plugin will stop working. To get additional information please refer to the readme.txt.";
 		break;
 	case 13:
 		err = "Due to some errors mDynDNS plugin has been turned off to prevent blocking on server.";
