@@ -226,14 +226,14 @@ extern "C" int __declspec(dllexport) Load()
 		Menu_AddMainMenuItem(&mi);
 
 		/*
-		* Mark All Webview Sites Read
+		* Mark All Webview Sites As Read
 		*/
 
 		CreateServiceFunction("MarkAllSitesRead", MarkAllReadMenuCommand);
 
 		mi.position = 500090099;
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MARKALLREAD));
-		mi.ptszName = LPGENT("Mark all Webview sites read");
+		mi.ptszName = LPGENT("Mark all Webview sites as read");
 		mi.pszService = "MarkAllSitesRead";
 		Menu_AddMainMenuItem(&mi);
 
