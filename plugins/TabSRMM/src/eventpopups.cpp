@@ -92,9 +92,9 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 	options->maskActR = (UINT)M.GetByte(MODULE, OPT_MASKACTR, DEFAULT_MASKACTR);
 	options->maskActTE = (UINT)M.GetByte(MODULE, OPT_MASKACTTE, DEFAULT_MASKACTR) & (MASK_OPEN | MASK_DISMISS);
 	options->bMergePopup = (BOOL)M.GetByte(MODULE, OPT_MERGEPOPUP, 0);
-	options->iDelayMsg = (int)M.GetDword(MODULE, OPT_DELAY_MESSAGE, (DWORD)DEFAULT_DELAY);
-	options->iDelayOthers = (int)M.GetDword(MODULE, OPT_DELAY_OTHERS, (DWORD)DEFAULT_DELAY);
-	options->iDelayErr = (int)M.GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
+	options->iDelayMsg = (int)M.GetDword(MODULE, OPT_DELAY_MESSAGE, DEFAULT_DELAY);
+	options->iDelayOthers = (int)M.GetDword(MODULE, OPT_DELAY_OTHERS, DEFAULT_DELAY);
+	options->iDelayErr = (int)M.GetDword(MODULE, OPT_DELAY_ERR, DEFAULT_DELAY);
 	options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
 	options->bShowHeaders = (BYTE)M.GetByte(MODULE, OPT_SHOW_HEADERS, FALSE);
 	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, FALSE);
@@ -150,11 +150,10 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
 		{
-			TVINSERTSTRUCT tvi = {0};
 			int i;
 			SetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
-			TranslateDialogDefault(hWnd);
 			HIMAGELIST himl = (HIMAGELIST)SendDlgItemMessage(hWnd, IDC_EVENTOPTIONS, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
 			ImageList_Destroy(himl);
 
@@ -166,15 +165,15 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				}
 				Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_SHOW);
 			}
-			else
-				Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_HIDE);
+			else Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_HIDE);
+
 			/*
 			* fill the tree view
 			*/
 
 			TOptionListGroup *lGroups = CTranslator::getGroupTree(CTranslator::TREE_NEN);
 			for (i=0; lGroups[i].szName != NULL; i++) {
-				tvi.hParent = 0;
+				TVINSERTSTRUCT tvi = { 0 };
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 				tvi.item.pszText = TranslateTS(lGroups[i].szName);
@@ -185,6 +184,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 			TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_NEN);
 			for (i=0; defaultItems[i].szName != 0; i++) {
+				TVINSERTSTRUCT tvi = { 0 };
 				tvi.hParent = (HTREEITEM)lGroups[defaultItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.pszText = TranslateTS(defaultItems[i].szName);

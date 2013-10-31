@@ -50,7 +50,7 @@ int tabSRMM_ShowPopup(HANDLE hContact, HANDLE hDbEvent, WORD eventType, int wind
 #define DEFAULT_MASKNOTIFY (MASK_MESSAGE|MASK_URL|MASK_FILE|MASK_OTHER)
 #define DEFAULT_MASKACTL (MASK_OPEN|MASK_DISMISS)
 #define DEFAULT_MASKACTR (MASK_DISMISS)
-#define DEFAULT_DELAY -1
+#define DEFAULT_DELAY 0
 
 #define MASK_MESSAGE    0x0001
 #define MASK_URL        0x0002
@@ -98,39 +98,40 @@ int tabSRMM_ShowPopup(HANDLE hContact, HANDLE hDbEvent, WORD eventType, int wind
 
 struct NEN_OPTIONS
 {
-	BOOL bPreview;
-	BOOL bDefaultColorMsg;
-	BOOL bDefaultColorOthers;
-	BOOL bDefaultColorErr;
-	BOOL bDisableNonMessage;
+	BOOL   bPreview;
+	BOOL   bDefaultColorMsg;
+	BOOL   bDefaultColorOthers;
+	BOOL   bDefaultColorErr;
+	BOOL   bDisableNonMessage;
+	UINT   maskActL;
+	UINT   maskActR;
+	UINT   maskActTE;
+	int    iDelayMsg;
+	int    iDelayOthers;
+	int    iDelayErr;
+	int    iDelayDefault;
+	BOOL   bMergePopup;
+	BOOL   bShowHeaders;
+	BOOL   bNoRSS;
+	int    iDisable;
+	int    iMUCDisable;
+	int    dwStatusMask;
+	BOOL   bTraySupport;
+	BOOL   bTrayExist;
+	BOOL   iNoSounds;
+	BOOL   iNoAutoPopup;
+	BOOL   bWindowCheck;
+	int    iLimitPreview;
+	WORD   wMaxRecent;
+	WORD   wMaxFavorites;
+	DWORD  dwRemoveMask;
+
 	COLORREF colBackMsg;
 	COLORREF colTextMsg;
 	COLORREF colBackOthers;
 	COLORREF colTextOthers;
 	COLORREF colBackErr;
 	COLORREF colTextErr;
-	UINT maskActL;
-	UINT maskActR;
-	UINT maskActTE;
-	int iDelayMsg;
-	int iDelayOthers;
-	int iDelayErr;
-	int iDelayDefault;
-	BOOL bMergePopup;
-	BOOL bShowHeaders;
-	BOOL bNoRSS;
-	int  iDisable;
-	int	 iMUCDisable;
-	int  dwStatusMask;
-	BOOL bTraySupport;
-	BOOL bTrayExist;
-	BOOL iNoSounds;
-	BOOL iNoAutoPopup;
-	BOOL bWindowCheck;
-	int  iLimitPreview;
-	WORD wMaxRecent;
-	WORD wMaxFavorites;
-	DWORD dwRemoveMask;
 };
 
 struct EVENT_DATAT
