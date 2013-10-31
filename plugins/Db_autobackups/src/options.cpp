@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					bi.hwndOwner = hwndDlg;
 					bi.pidlRoot = 0;
 					bi.pszDisplayName = folder_buff;
-					bi.lpszTitle = TranslateT("Select Backup Folder");
+					bi.lpszTitle = TranslateT("Select backup folder");
 					bi.ulFlags = BIF_NEWDIALOGSTYLE;
 					bi.lpfn = BrowseProc;
 					bi.lParam = 0;
@@ -349,7 +349,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = LPGEN("Database AutoBackups");
+	odp.pszTitle = LPGEN("Automatic Backups");
 	odp.pszGroup = LPGEN("Database");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
