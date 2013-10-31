@@ -821,9 +821,9 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				if (PluginConfig.m_visualMessageSizeIndicator && i == 0) {
 
 					if (dat && dat->bType == SESSIONTYPE_IM) {
-						HBRUSH 	br = CreateSolidBrush(RGB(0, 255, 0));
-						HBRUSH 	brOld = (HBRUSH)SelectObject(hdcMem, br);
-						RECT	rc = itemRect;
+						HBRUSH br = CreateSolidBrush(RGB(0, 255, 0));
+						HBRUSH brOld = (HBRUSH)SelectObject(hdcMem, br);
+						RECT rc = itemRect;
 
 						rc.top = rc.bottom - 3;
 						rc.left = 0;
@@ -859,6 +859,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 								FillRect(hdcMem, &rc, br);
 							}
 						}
+						SelectObject(hdcMem, brOld);
 						DeleteObject(br);
 					}
 				}

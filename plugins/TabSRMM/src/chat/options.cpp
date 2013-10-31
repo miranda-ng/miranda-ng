@@ -1131,23 +1131,23 @@ static UINT _eventorder[] =
 
 #define GC_EVENT_ALL (GC_EVENT_ACTION | GC_EVENT_MESSAGE | GC_EVENT_NICK | GC_EVENT_JOIN | \
 	GC_EVENT_PART | GC_EVENT_TOPIC | GC_EVENT_ADDSTATUS | GC_EVENT_INFORMATION | GC_EVENT_QUIT | \
-	GC_EVENT_KICK |	GC_EVENT_NOTICE)
+	GC_EVENT_KICK | GC_EVENT_NOTICE)
 
 /**
  * Dialog procedure for group chat options tab #3 (event filter configuration)
  *
  * @return
  */
+
 INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-
 		{
 			DWORD dwFilterFlags = M.GetDword("Chat", "FilterFlags", GC_EVENT_ALL);
-			DWORD dwTrayFlags = M.GetDword("Chat", "TrayIconFlags", GC_EVENT_ALL);
-			DWORD dwPopupFlags = M.GetDword("Chat", "PopupFlags", GC_EVENT_ALL);
+			DWORD dwTrayFlags = M.GetDword("Chat", "TrayIconFlags", GC_EVENT_HIGHLIGHT);
+			DWORD dwPopupFlags = M.GetDword("Chat", "PopupFlags", GC_EVENT_HIGHLIGHT);
 			DWORD dwLogFlags = M.GetDword("Chat", "DiskLogFlags", GC_EVENT_ALL);
 
 			for (int i=0; i < SIZEOF(_eventorder); i++) {
@@ -1158,15 +1158,15 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				CheckDlgButton(hwndDlg, IDC_P1 + i, dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_T1 + i, dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 			}
-			SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("No markers"));
-			SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as icons"));
-			SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as text symbols"));
-
-			SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
-
-			CheckDlgButton(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS, M.GetByte("Chat", "SkipWhenNoWindow", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TRAYONLYFORINACTIVE, M.GetByte("Chat", "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
+		SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("No markers"));
+		SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as icons"));
+		SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as text symbols"));
+
+		SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
+
+		CheckDlgButton(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS, M.GetByte("Chat", "SkipWhenNoWindow", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TRAYONLYFORINACTIVE, M.GetByte("Chat", "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
 	case WM_COMMAND:
