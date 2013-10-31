@@ -15,7 +15,7 @@ int LoadOptions(void)
 		if (!db_get_ts(0, "AutoBackups", "Folder", &dbv)) {
 			TCHAR *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
 
-			if(_tcslen(tmp) >= 2 && tmp[1] == ':')
+			if (_tcslen(tmp) >= 2 && tmp[1] == ':')
 				_tcsncpy(options.folder, dbv.ptszVal, MAX_PATH-1);
 			else
 				mir_sntprintf(options.folder, MAX_PATH, _T("%s\\%s"), profilePath, dbv.ptszVal);
@@ -47,13 +47,13 @@ int SaveOptions(void)
 	size_t prof_len = _tcslen(prof_dir);
 	size_t opt_len = _tcslen(options.folder);
 
-	if(opt_len > prof_len && _tcsncmp(options.folder, prof_dir, prof_len) == 0) {
+	if (opt_len > prof_len && _tcsncmp(options.folder, prof_dir, prof_len) == 0) {
 		db_set_ts(0, "AutoBackups", "Folder", (options.folder + prof_len));
 	} else
 		db_set_ts(0, "AutoBackups", "Folder", options.folder);
 
 	TCHAR *tmp = Utils_ReplaceVarsT(options.folder);
-	if(_tcslen(tmp) < 2 || tmp[1] != ':')
+	if (_tcslen(tmp) < 2 || tmp[1] != ':')
 	{
 		TCHAR *buf = mir_tstrdup(options.folder);
 		mir_sntprintf(options.folder, MAX_PATH, _T("%s\\%s"), profilePath, buf);
@@ -74,7 +74,7 @@ int SetDlgState(HWND hwndDlg)
 {
 	TCHAR buff[10];
 
-	if(new_options.backup_types == BT_DISABLED) {
+	if (new_options.backup_types == BT_DISABLED) {
 		CheckDlgButton(hwndDlg, IDC_RAD_DISABLED, BST_CHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_DISABLED), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_NUMBACKUPS), FALSE);
@@ -144,17 +144,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 		memcpy(&new_options, &options, sizeof(Options));
 
-		if (ServiceExists(MS_FOLDERS_GET_PATH))
-		{
+		if ( ServiceExists(MS_FOLDERS_GET_PATH)) {
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ED_FOLDER), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_BUT_BROWSE), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), SW_SHOW);
 		}
-		else
-		{
+		else {
 			TCHAR tszTooltipText[1024];
 			mir_sntprintf(tszTooltipText, SIZEOF(tszTooltipText), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-				_T("%miranda_path%"),			TranslateT("path to root miranda folder"),
+				_T("%miranda_path%"),			TranslateT("path to Miranda root folder"),
 				_T("%miranda_profile%"),		TranslateT("path to current miranda profile"),
 				_T("%miranda_profilename%"),	TranslateT("name of current miranda profile (filename, without extension)"),
 				_T("%miranda_userdata%"),		TranslateT("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"),
@@ -177,9 +175,11 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			case PT_HOURS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 1, 0); break;
 			case PT_MINUTES: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 2, 0); break;
 		}
+
 		if (hPathTip)
 			SetTimer(hwndDlg, 0, 3000, NULL);
 		return TRUE;
+
 	case WM_COMMAND:
 		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
 			switch( LOWORD( wParam )) {
@@ -189,36 +189,39 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
-		if ( HIWORD( wParam ) == CBN_SELCHANGE) {
+		if ( HIWORD( wParam ) == CBN_SELCHANGE)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
+
 		if ( HIWORD( wParam ) == BN_CLICKED ) {
 			switch( LOWORD( wParam )) {
 			case IDC_RAD_DISABLED:
-				if(IsDlgButtonChecked(hwndDlg, IDC_RAD_DISABLED)) {
+				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_DISABLED))
 					new_options.backup_types = BT_DISABLED;
-				}
+
 				SetDlgState(hwndDlg);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
+
 			case IDC_RAD_START:
-				if(IsDlgButtonChecked(hwndDlg, IDC_RAD_START))
+				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_START))
 					new_options.backup_types |= BT_START;
 				else
 					new_options.backup_types &= ~BT_START;
 				SetDlgState(hwndDlg);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
+
 			case IDC_RAD_EXIT:
-				if(IsDlgButtonChecked(hwndDlg, IDC_RAD_EXIT))
+				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_EXIT))
 					new_options.backup_types |= BT_EXIT;
 				else
 					new_options.backup_types &= ~BT_EXIT;
 				SetDlgState(hwndDlg);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
+
 			case IDC_RAD_PERIODIC:
-				if(IsDlgButtonChecked(hwndDlg, IDC_RAD_PERIODIC))
+				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_PERIODIC))
 					new_options.backup_types |= BT_PERIODIC;
 				else
 					new_options.backup_types &= ~BT_PERIODIC;
@@ -227,30 +230,29 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 
 			case IDC_BUT_BROWSE:
-			{
-				BROWSEINFO bi;
-				LPCITEMIDLIST pidl;
+				{
+					BROWSEINFO bi;
+					bi.hwndOwner = hwndDlg;
+					bi.pidlRoot = 0;
+					bi.pszDisplayName = folder_buff;
+					bi.lpszTitle = TranslateT("Select Backup Folder");
+					bi.ulFlags = BIF_NEWDIALOGSTYLE;
+					bi.lpfn = BrowseProc;
+					bi.lParam = 0;
+					bi.iImage = 0;
 
-				bi.hwndOwner = hwndDlg;
-				bi.pidlRoot = 0;
-				bi.pszDisplayName = folder_buff;
-				bi.lpszTitle = TranslateT("Select Backup Folder");
-				bi.ulFlags = BIF_NEWDIALOGSTYLE;
-				bi.lpfn = BrowseProc;
-				bi.lParam = 0;
-				bi.iImage = 0;
+					LPCITEMIDLIST pidl = SHBrowseForFolder(&bi);
+					if (pidl != 0) {
+						SHGetPathFromIDList(pidl, folder_buff);
 
-				if ((pidl = SHBrowseForFolder(&bi)) != 0) {
-					SHGetPathFromIDList(pidl, folder_buff);
+						SetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff);
 
-					SetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff);
+						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
-
-					CoTaskMemFree((void *)pidl);
+						CoTaskMemFree((void *)pidl);
+					}
+					break;
 				}
-				break;
-			}
 			case IDC_BUT_NOW:
 				mir_forkthread(BackupThread, NULL);
 				break;
@@ -263,21 +265,20 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_LNK_FOLDERS:
-			{
-				OPENOPTIONSDIALOG ood = {0};
-				ood.cbSize = sizeof(ood);
-				ood.pszGroup = "Customize";
-				ood.pszPage = "Folders";
-				Options_Open(&ood);
-				break;
-			}
+				{
+					OPENOPTIONSDIALOG ood = {0};
+					ood.cbSize = sizeof(ood);
+					ood.pszGroup = "Customize";
+					ood.pszPage = "Folders";
+					Options_Open(&ood);
+					break;
+				}
 			}
 		}
-
 		break;
 
 	case WM_TIMER:
-		if(IsWindow(hPathTip))
+		if (IsWindow(hPathTip))
 			KillTimer(hPathTip, 4); // It will prevent tooltip autoclosing
 		break;
 
@@ -301,25 +302,26 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				BOOL folder_ok = TRUE;
 				TCHAR *tmp = Utils_ReplaceVarsT(folder_buff);
 
-				if(_tcslen(tmp) >= 2 && tmp[1] == ':')
+				if (_tcslen(tmp) >= 2 && tmp[1] == ':')
 					_tcsncpy(backupfolder, tmp, MAX_PATH-1);
 				else
 					mir_sntprintf(backupfolder, MAX_PATH, _T("%s\\%s"), profilePath, tmp);
 				mir_free(tmp);
 
 				int err = CreateDirectoryTreeT(backupfolder);
-				if(err != ERROR_ALREADY_EXISTS && err != 0) {
+				if (err != ERROR_ALREADY_EXISTS && err != 0) {
 					TCHAR msg_buff[512];
 					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg_buff, 512, 0);
 					MessageBox(0, msg_buff, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
 					folder_ok = FALSE;
 				}
 
-				if(folder_ok) {
+				if (folder_ok) {
 					_tcsncpy(new_options.folder, folder_buff, MAX_PATH-1);
 					memcpy(&options, &new_options, sizeof(Options));
 					SaveOptions();
-				} else {
+				}
+				else {
 					memcpy(&new_options, &options, sizeof(Options));
 					SetDlgState(hwndDlg);
 				}
@@ -329,14 +331,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		break;
 
-		case WM_DESTROY:
-			if (hPathTip)
-			{
-				KillTimer(hwndDlg, 0);
-				DestroyWindow(hPathTip);
-				hPathTip = 0;
-			}
-			return FALSE;
+	case WM_DESTROY:
+		if (hPathTip) {
+			KillTimer(hwndDlg, 0);
+			DestroyWindow(hPathTip);
+			hPathTip = 0;
+		}
+		return FALSE;
 	}
 
 	return FALSE;

@@ -22,8 +22,8 @@ PLUGININFOEX pluginInfo={
 };
 
 static IconItem iconList[] = {
-	{LPGEN("Backup Profile"),     "backup", IDI_ICON1 },
-	{LPGEN("Save Profile As..."), "saveas", IDI_ICON1 }
+	{ LPGEN("Backup profile"),     "backup", IDI_ICON1 },
+	{ LPGEN("Save profile as..."), "saveas", IDI_ICON1 }
 };
 
 static int FoldersGetBackupPath(WPARAM, LPARAM)
@@ -34,7 +34,7 @@ static int FoldersGetBackupPath(WPARAM, LPARAM)
 
 static void FoldersInit(void)
 {
-	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database Backups"), LPGEN("Backup Folder"), DIR SUB_DIR)) {
+	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 		FoldersGetBackupPath(0, 0);
 	}
@@ -43,17 +43,17 @@ static void FoldersInit(void)
 static void MenuInit(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.hIcon = Skin_GetIcon("backup");
 	mi.pszPopupName = LPGEN("Database");
 
 	mi.pszName = LPGEN("Backup Profile");
 	mi.pszService = MS_AB_BACKUP;
+	mi.icolibItem = iconList[0].hIcolib;
 	mi.position = 500100000;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.hIcon = Skin_GetIcon("saveas");
 	mi.pszName = LPGEN("Save Profile As...");
 	mi.pszService = MS_AB_SAVEAS;
+	mi.icolibItem = iconList[1].hIcolib;
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
 }
@@ -62,12 +62,12 @@ static int ModulesLoad(WPARAM, LPARAM)
 {
 	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
-	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database Backups"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
 
 	FoldersInit();
 	LoadOptions();
 
-	if(options.backup_types & BT_START)
+	if (options.backup_types & BT_START)
 		mir_forkthread(BackupThread, NULL);
 	return 0;
 }
@@ -76,8 +76,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 // for setting changed event not cleared. the backup on exit function will write to the db, calling those hooks.
 int PreShutdown(WPARAM, LPARAM)
 {
-	if(options.backup_types & BT_EXIT)
-	{
+	if (options.backup_types & BT_EXIT) {
 		options.disable_popups = 1; // Don't try to show popups on exit
 		mir_forkthread(BackupThread, NULL);
 	}
@@ -92,7 +91,7 @@ void SysInit()
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 	MenuInit();
-	
+
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
@@ -127,7 +126,7 @@ void ShowPopup(TCHAR* text, TCHAR* header)
 
 	lstrcpy(ppd.lptzText, text);
 	lstrcpy(ppd.lptzContactName, header);
-	ppd.lchIcon = Skin_GetIcon("backup");
+	ppd.lchIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
 
 	PUAddPopupT(&ppd);
 }

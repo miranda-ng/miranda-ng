@@ -31,7 +31,7 @@ INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
 	OPENFILENAME ofn = {0};
 	CallService(MS_DB_GETPROFILENAMET,MAX_PATH,(LPARAM)fname_buff);
 
-	int i = mir_sntprintf(szFilter, 64, _T("%s (*.dat)"), TranslateT("Miranda Databases")) + 1;
+	int i = mir_sntprintf(szFilter, 64, _T("%s (*.dat)"), TranslateT("Miranda databases")) + 1;
 	_tcscpy(szFilter + i, _T("*.dat")); 
 	i += 6;
 	i += mir_sntprintf(szFilter + i, 48, _T("%s (*.*)"), TranslateT("All Files")) + 1;
@@ -137,7 +137,7 @@ int Backup(TCHAR* backup_filename)
 		TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
 		int err = CreateDirectoryTreeT(backupfolder);
-		if(err != ERROR_ALREADY_EXISTS && err != 0) {
+		if (err != ERROR_ALREADY_EXISTS && err != 0) {
 			return 1;
 		}
 
@@ -150,7 +150,7 @@ int Backup(TCHAR* backup_filename)
 		lstrcpyn(dest_file, backup_filename, MAX_PATH);
 
 	if (!options.disable_popups)
-		ShowPopup(dbname, TranslateT("Backup in Progress"));
+		ShowPopup(dbname, TranslateT("Backup in progress"));
 
 	if (!options.disable_progress) {
 		progress_dialog = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, DlgProcProgress);
@@ -174,7 +174,7 @@ int Backup(TCHAR* backup_filename)
 		{
 			size_t dest_file_len = lstrlen(dest_file);
 			TCHAR *puText;
-			if(dest_file_len > 50)
+			if (dest_file_len > 50)
 			{
 				int i;
 				puText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
@@ -187,7 +187,7 @@ int Backup(TCHAR* backup_filename)
 			else
 				puText = mir_tstrdup(dest_file);
 
-			ShowPopup(puText, TranslateT("Database backuped"));
+			ShowPopup(puText, TranslateT("Database backed up"));
 			mir_free(puText);
 		}
 	}
@@ -203,18 +203,18 @@ VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	time_t t = time(NULL);
 	time_t diff = t - (time_t)db_get_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)t);
-	if(diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? 60 * 60 : 60 * 60 * 24 ))))
+	if (diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? 60 * 60 : 60 * 60 * 24 ))))
 		mir_forkthread(BackupThread, NULL);
 }
 
 int SetBackupTimer(void)
 {
-	if(options.backup_types & BT_PERIODIC)
+	if (options.backup_types & BT_PERIODIC)
 	{
-		if(timer_id == 0)
+		if (timer_id == 0)
 			timer_id = SetTimer(0, timer_id, 1000 * 60, TimerProc);
 	} 
-	else if(timer_id != 0) 
+	else if (timer_id != 0) 
 	{
 		KillTimer(0, timer_id);
 		timer_id = 0;
