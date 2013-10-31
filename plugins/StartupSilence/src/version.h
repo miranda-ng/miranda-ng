@@ -6,7 +6,7 @@
 
 // plugin version part
 #define __MAJOR_VERSION				0
-#define __MINOR_VERSION				1
+#define __MINOR_VERSION				2
 #define __RELEASE_NUM				0
 #define __BUILD_NUM					0
 

@@ -11,6 +11,7 @@
 #include <m_database.h>
 #include <m_icolib.h>
 #include <m_options.h>
+#include <m_protocols.h>
 #include <m_system.h>
 #include <m_system_cpp.h>
 #include "win2k.h"

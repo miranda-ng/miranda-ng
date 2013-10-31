@@ -44,6 +44,10 @@ BYTE PopUp;
 DWORD PopUpTime;
 BYTE MenuItem;
 BYTE TTBButtons;
+BYTE DefSound;
+BYTE DefPopup;
+BYTE DefEnabled;
+BYTE NonStatusAllow;
 BYTE timer;
 char hostname[MAX_PATH] = "";
 char EnabledComp[MAX_PATH] = "";
@@ -52,6 +56,10 @@ char PopUpComp[MAX_PATH] = "";
 char PopUpTimeComp[MAX_PATH] = "";
 char MenuitemComp[MAX_PATH] = "";
 char TTBButtonsComp[MAX_PATH] = "";
+char DefSoundComp[MAX_PATH] = "";
+char DefPopupComp[MAX_PATH] = "";
+char DefEnabledComp[MAX_PATH] = "";
+char NonStatusAllowComp[MAX_PATH] = "";
 
 static LIST<void> ttbButtons(1);
 
@@ -120,9 +128,22 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int DisablePopup(WPARAM wParam, LPARAM lParam)
 {
-	if (timer == 2)
+	if (DefEnabled == 1 && DefPopup == 0)      //All popups are blocked
 		return 1;
-	return 0;
+
+	if ((timer == 2 && NonStatusAllow == 1)    //filtering while timer
+		|| (DefPopup == 1 && DefEnabled == 1)) //also filtered only: We do not run next lines every time
+		                                       //if "Filtered only..." is unchecked --->
+		{
+		HANDLE hContact = (HANDLE)wParam;
+		if (hContact != NULL) {
+			char* cp = GetContactProto(hContact);
+			if ( !strcmp(cp, "Weather") || !strcmp(cp, "mRadio") )
+				return 0;
+		}
+		return 1; //filtering while timer
+	}
+	return 0; //---> just allow all popups with this return
 }
 
 void EnablePopupModule()
@@ -144,6 +165,10 @@ void InitSettings()
 		mir_snprintf(PopUpTimeComp, SIZEOF(PopUpTimeComp), "%s_PopUpTime", hostname);
 		mir_snprintf(MenuitemComp, SIZEOF(MenuitemComp), "%s_MenuItem", hostname);
 		mir_snprintf(TTBButtonsComp, SIZEOF(TTBButtonsComp), "%s_TTBButtons", hostname);
+		mir_snprintf(DefSoundComp, SIZEOF(DefSoundComp), "%s_DefSound", hostname);
+		mir_snprintf(DefPopupComp, SIZEOF(DefPopupComp), "%s_DefPopup", hostname);
+		mir_snprintf(DefEnabledComp, SIZEOF(DefEnabledComp), "%s_DefEnabled", hostname);
+		mir_snprintf(NonStatusAllowComp, SIZEOF(NonStatusAllowComp), "%s_NonStatusAllow", hostname);
 	}
 	//first run on the host, initial setting
 	if (!(delay = db_get_dw(NULL, MODULE_NAME, DelayComp, 0)))
@@ -159,6 +184,10 @@ void DefSettings()
 	db_set_dw(NULL, MODULE_NAME, PopUpTimeComp, 5);
 	db_set_b(NULL, MODULE_NAME, MenuitemComp, 1);
 	db_set_b(NULL, MODULE_NAME, TTBButtonsComp, 0);
+	db_set_b(NULL, MODULE_NAME, DefSoundComp, 1);
+	db_set_b(NULL, MODULE_NAME, DefPopupComp, 0);
+	db_set_b(NULL, MODULE_NAME, DefEnabledComp, 0);
+	db_set_b(NULL, MODULE_NAME, NonStatusAllowComp, 1);
 	LoadSettings();
 }
 void LoadSettings()
@@ -169,6 +198,10 @@ void LoadSettings()
 	PopUpTime = db_get_dw(NULL, MODULE_NAME, PopUpTimeComp, 0);
 	MenuItem = db_get_b(NULL, MODULE_NAME, MenuitemComp, 0);
 	TTBButtons = db_get_b(NULL, MODULE_NAME, TTBButtonsComp, 0);
+	DefSound = db_get_b(NULL, MODULE_NAME, DefSoundComp, 0);
+	DefPopup = db_get_b(NULL, MODULE_NAME, DefPopupComp, 0);
+	DefEnabled = db_get_b(NULL, MODULE_NAME, DefEnabledComp, 0);
+	NonStatusAllow = db_get_b(NULL, MODULE_NAME, NonStatusAllowComp, 0);
 	if (PopUpTime < 1)
 		PopUpTime = (DWORD)1;
 	if (PopUpTime > 30)
@@ -212,12 +245,15 @@ static INT_PTR AdvSt()
 			Sleep(delay * 1000);
 			timer = 0;
 
-			db_set_b(NULL, "Skin", "UseSound", 1);
 			if (PopUp == 1) {
 				lptzText = ALL_ENABLED;
 				wcsncpy_s(ppd.lptzText, lptzText, size_t(lptzText));
 				PUAddPopupT(&ppd);
 			}
+			if (DefEnabled == 1) { //predefined sound setting
+				db_set_b(NULL, "Skin", "UseSound", DefSound);
+			}
+			else db_set_b(NULL, "Skin", "UseSound", 1); //or enable sounds every starts
 		}
 	return 0;
 }
@@ -339,6 +375,11 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED:BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED:BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_DEFPOPUP, (DefPopup == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RESTORE, (DefEnabled == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NONSTATUSES, (NonStatusAllow == 1) ? BST_CHECKED:BST_UNCHECKED);
 		}
 		break;
 
@@ -386,6 +427,27 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			else TTBButtons = (BYTE)db_set_b(NULL, MODULE_NAME, TTBButtonsComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_TTB) == BST_CHECKED ? 1 : 0));
 			break;
+
+		case IDC_DEFPOPUP:
+			db_set_b(NULL, MODULE_NAME, DefPopupComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DEFPOPUP) == BST_CHECKED ? 1 : 0));
+			DefPopup = db_get_b(NULL, MODULE_NAME, DefPopupComp, 0);
+			break;
+
+		case IDC_DEFSOUNDS:
+			db_set_b(NULL, MODULE_NAME, DefSoundComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DEFSOUNDS) == BST_CHECKED ? 1 : 0));
+			DefSound = db_get_b(NULL, MODULE_NAME, DefSoundComp, 0);
+			break;
+
+		case IDC_RESTORE:
+			db_set_b(NULL, MODULE_NAME, DefEnabledComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RESTORE) == BST_CHECKED ? 1 : 0));
+			DefEnabled = db_get_b(NULL, MODULE_NAME, DefEnabledComp, 0);
+			break;
+
+		case IDC_NONSTATUSES:
+			db_set_b(NULL, MODULE_NAME, NonStatusAllowComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NONSTATUSES) == BST_CHECKED ? 1 : 0));
+			NonStatusAllow = db_get_b(NULL, MODULE_NAME, NonStatusAllowComp, 0);
+			break;
+
 		case IDC_RESETDEFAULT:
 			DefSettings();
 			CheckDlgButton(hwndDlg, IDC_DELAY, (Enabled == 1) ? BST_CHECKED:BST_UNCHECKED);
@@ -394,6 +456,10 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((PopUpTime), 0));
 			CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DEFPOPUP, (DefPopup == 1) ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_RESTORE, (DefEnabled == 1) ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NONSTATUSES, (NonStatusAllow == 1) ? BST_CHECKED:BST_UNCHECKED);
 			break;
 		}
 		break;

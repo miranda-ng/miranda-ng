@@ -19,13 +19,20 @@
 #define IDC_RESETDEFAULT                40009
 #define IDC_HST                         40010
 #define IDC_HOSTNAME                    40011
+#define IDC_NONSTATUSES                 40012
+#define IDC_NONSTATUSES                 40012
+#define IDC_RESTORE                     40013
+#define IDC_DEFSOUNDS                   40014
+#define IDC_DEFPOPUP                    40015
+
+
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
-#define _APS_NEXT_COMMAND_VALUE         40012
+#define _APS_NEXT_COMMAND_VALUE         40016
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
