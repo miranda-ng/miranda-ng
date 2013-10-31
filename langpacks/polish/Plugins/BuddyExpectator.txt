@@ -77,7 +77,7 @@ Włączony
 Wyłączone
 [Hide]
 Ukryj
-[NeverHide]
+[Never hide]
 Nie ukrywaj
 [Hiding %s (%S)]
 Ukrywanie %s (%S)

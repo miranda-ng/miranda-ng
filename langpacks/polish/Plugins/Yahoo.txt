@@ -169,7 +169,7 @@ Nowy e-mail w skrzynce
 Połączenie %s
 [ID]
 ID
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Podaj swój Yahoo ID w Opcje -> Protokoły -> Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Podaj swoje hasło Yahoo w Opcje -> Protokoły -> Yahoo
@@ -206,10 +206,10 @@ Przypomnienie o wydarzeniach
 %s odrzucił(-a) twoją prośbę i wysłał(-a) tę wiadomość:
 [Invalid Contact]
 Nieprawidłowy Kontakt
-[The id you tried to add is invalid.]
-Id, które próbowałeś dodać jest niepoprawne.
-[Unknown Error??.]
-Nieznany błąd??.
+[The ID you tried to add is invalid.]
+ID, które próbowałeś dodać jest niepoprawne.
+[Unknown Error.]
+Nieznany błąd.
 [New Mail]
 Nowy mail
 [You Have %i unread msgs]

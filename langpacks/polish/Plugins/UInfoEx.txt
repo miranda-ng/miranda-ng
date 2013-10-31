@@ -1159,7 +1159,7 @@ Przypominanie o rocznicach
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
 identyfikacja kontaktu
-[The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
 Kontakt %s (%s) nie posiada unikalnego ID w wizytówce,\nistnieje natomiast kontakt o tym samym nicku i protokole.\nCzy chcesz użyć tego kontaktu?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]

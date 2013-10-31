@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.8
+;  Version: 0.0.0.9
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
@@ -37,36 +37,36 @@ Wyłącz okienko ze wskaźnikiem postępu kopiowania
 [Disable Popups]
 Wyłącz popupy
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda Databases]
+[Miranda databases]
 Bazy danych Mirandy
 [All Files]
 Wszystkie pliki
-[Backup in Progress]
+[Backup in progress]
 Tworzenie kopii zapasowej...
 [Rotating backup files...]
 Przygotowanie plików do skopiowania...
 [Copying database file...]
 Kopiowanie pliku profilu...
-[Database backuped]
+[Database backed up]
 Kopia zapasowa utworzona
 ;file \plugins\Db_autobackups\src\main.cpp
-[Backup Profile]
+[Backup profile]
 Kopia zapasowa profilu
-[Save Profile As...]
+[Save profile as...]
 Zapisz profil w...
-[Database Backups]
+[Database backups]
 Kopia zapasowa
-[Backup Folder]
+[Backup folder]
 Folder kopii zapasowych
 [Database]
 Profil
 ;file \plugins\Db_autobackups\src\options.cpp
-[path to root miranda folder]
+[path to Miranda root folder]
 folder docelowy Mirandy
-[path to current miranda profile]
-folder docelowy bieżącego profilu mirandy
-[name of current miranda profile (filename, without extension)]
-nazwa aktualnego profilu mirandy (nazwa pliku bez rozszerzenia)
+[path to current Miranda profile]
+folder docelowy bieżącego profilu Mirandy
+[name of current Miranda profile (filename, without extension)]
+nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]

@@ -5,8 +5,8 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-[Anti-Boss plugin.]
-Wtyczka Anti-Boss
+[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
+Wtyczka Anti-Boss. Ukrywa Mirandę lub blokuje hasłem.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 BossKey

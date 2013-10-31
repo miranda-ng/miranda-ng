@@ -50,8 +50,8 @@ Uruchamianie programów jest wyłączone.
 Niezakończona opcja.
 [No argument given to msg option.]
 Nie podano argumentu dla opcji msg.
-[Id is required for replacement.]
-Jest on wymagany w celu zamiany.
+[ID is required for replacement.]
+ID jest wymagany w celu zamiany.
 [Invalid argument for replace option: ]
 Niepoprawny argument dla opcji replace:
 [Empty message ignored.]

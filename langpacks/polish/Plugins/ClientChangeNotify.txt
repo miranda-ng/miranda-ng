@@ -85,8 +85,8 @@ Popupy
 Zmiana klienta
 [ClientChangeNotify]
 Powiadomienie o zmianie klienta
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) zmienił(a) klienta na %extratext%
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) zmienił(a) klienta na %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Błąd #%d

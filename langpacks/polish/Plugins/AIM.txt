@@ -301,8 +301,8 @@ Kontakt próbował utworzyć konferencję audio/wideo (obecnie nie obsługiwane)
 Elementu wybranego do skasowania nie ma na liście.
 [Failed to add buddy to list: Item already exist.]
 Dodanie znajomego nie powiodło się: Kontakt już istnieje.
-[Error adding buddy(invalid id?, already in list?)]
-Błąd przy dodawaniu znajomego (błędne id?, już na liście?)
+[Error adding buddy (invalid ID or already in list?)]
+Błąd przy dodawaniu znajomego (błędne ID lub już na liście?)
 [Cannot add buddy. Limit for this type of item exceeded.]
 Nie można dodać znajomego. Przekroczono limit.
 [Error? Attempting to add ICQ contact to an AIM list.]

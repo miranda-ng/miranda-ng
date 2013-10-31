@@ -36,7 +36,7 @@ Usuń klucz
 Generuj i użyj losowego klucza
 [Account:]
 Konto:
-[Key id:]
+[Key ID:]
 Id klucza:
 [Copy public key]
 Kopiuj klucz publiczny
@@ -194,12 +194,12 @@ Długość klucza
 Konta
 [Default]
 Domyślny
-[key id]
-id klucza
+[key ID]
+ID klucza
 [not set]
 nie ustawiono
-[Default private key id]
-Domyślny prywatny id klucza
+[Default private key ID]
+Domyślny prywatny ID klucza
 [Failed to open file]
 Błąd otwierania pliku
 [Error]
@@ -256,24 +256,24 @@ Niepoprawny adres Email
 Generuj nowy klucz, proszę czekać...
 [Failed to export public key.]
 Błąd eksportu kluczu publicznego.
-[GPG binary is set and valid (This is good).\n]
+[GPG binary is set and valid (this is good).\n]
 Plik binarny GPG został ustawiony i jest poprawny (to dobrze).\n
-[GPG binary unset or invalid (Plugin will not work).\n]
+[GPG binary unset or invalid (plugin will not work).\n]
 Nie ustawiono pliku binarnego GPG lub jest on niepoprawny (wtyczka nie będzie działać).\n
-[Home dir write access granted (This is good).\n]
+[Home dir write access granted (this is good).\n]
 Udzielono prawa zapisu w katalogu domowym (to dobrze).\n
-[Home dir has no write access (Plugin most probably will not work).\n]
+[Home dir has no write access (plugin most probably will not work).\n]
 Nie udzielono prawa zapisu w katalogu domowym (najprawdopodobniej wtyczka nie będzie działać).\n
-[Temp dir write access granted (This is good).\n]
+[Temp dir write access granted (this is good).\n]
 Udzielono prawa zapisu w katalogu tymczasowym (to dobrze).\n
-[Temp dir has no write access (Plugin should work, but may have some problems, file transfers will not work).]
+[Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
 Nie udzielono prawa zapisu w katalogu tymczasowym (wtyczka powinna działać, ale możesz napotkać na pewne problemy. Transfery plików nie będą działać).
 [\nGPG will be disabled until you solve these problems]
 \nGPG będzie wyłączone dopóki nie rozwiążesz tych problemów
 [GPG plugin problems]
 Problemy wtyczki GPG
-[Your secret key with id: ]
-Twój tajny klucz z id:
+[Your secret key with ID: ]
+Twój tajny klucz z ID:\s
 [ for account ]
  dla konta\s
 [ deleted from GPG secret keyring.\nDo you want to set another key?]

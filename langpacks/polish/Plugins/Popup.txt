@@ -126,11 +126,11 @@ Ikony przesunięte w prawo
 Pokaż akcje (wymaga zaakceptowania):
 [Mouse Actions Overwrite]
 Akcje myszy
-[LeftButton]
+[Left Button]
 Lewy
-[MiddleButton]
+[Middle Button]
 Środkowy
-[RightButton]
+[Right Button]
 Prawy
 [Notifications]
 Powiadomienia

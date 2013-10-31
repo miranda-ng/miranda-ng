@@ -26,7 +26,7 @@ Szerokość:
 Wysokość:
 [Options]
 Opcje
-[Opacity(%):]
+[Opacity (%):]
 Krycie (%):
 [Border]
 Obramowanie

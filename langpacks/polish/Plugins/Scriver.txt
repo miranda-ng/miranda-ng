@@ -850,7 +850,7 @@ Ikony wyświetlane w zasobniku
 Nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wspiera wiele kont, użyta zostanie nazwa konta.
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to root miranda folder]
 folder docelowy Mirandy
@@ -989,8 +989,8 @@ Kontroluj ten pokój (Ctrl + O)
 Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 [Nick name]
 Nazwa
-[Unique id]
-ID
+[Unique ID]
+
 [Status]
 Status
 [%s: Chat Room (%u user)]

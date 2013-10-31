@@ -390,8 +390,8 @@ Zarejestruj konto
 Informacje o koncie Jabber:
 [Member Information]
 Informacje o użytkowniku
-[Member Information\n<user id>]
-Informacje o członkach\n<user id>
+[Member Information\n<user ID>]
+Informacje o członkach\n<user ID>
 [Role:]
 Rola:
 [Set role]
@@ -1919,8 +1919,8 @@ wiadomości
 zapytania
 [Else ]
 W przeciwnym razie
-[If jabber id is ']
-Jeśli Jabber ID jest '
+[If Jabber ID is ']
+
 [ (nickname: ]
  ( pseudonim: 
 [If group is ']
@@ -1952,8 +1952,8 @@ Edytuj listy...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 Nie istnieje żaden kompatybilny mechanizm transferu plików
-[Protocol is offline or no jid]
-Protokół jest rozłączony lub brak jid
+[Protocol is offline or no JID]
+
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Komenda zakończona poprawnie

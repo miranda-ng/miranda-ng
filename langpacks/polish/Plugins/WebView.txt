@@ -193,7 +193,7 @@ Autoaktualizacja wyłączona
 Autoaktualizacja włączona
 [Update all Webview sites]
 Zaktualizuj wszystkie strony w Webview
-[Mark all Webview sites read]
+[Mark all Webview sites as read]
 Zaznacz wszystkie strony w Webview jako przeczytane
 [Open cache folder]
 Otwórz folder Cache

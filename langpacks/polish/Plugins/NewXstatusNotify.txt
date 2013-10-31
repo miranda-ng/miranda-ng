@@ -109,7 +109,7 @@ Popupy, gdy status zmienia się na:
 [Click action]
 Akcje przycisku
 [Show contact group name]
-Pokaż nawę grupy kontaktu
+Pokaż nazwę grupy kontaktu
 [Use alternative descriptions]
 Użyj alternatywnych określeń
 [0 = Default]
@@ -126,6 +126,8 @@ PPM
 Pokaż opis statusu
 [Ignore empty status and xStatus messages]
 Ignoruj puste opisy stanu oraz XStatus
+[Connection timeout]
+Limit czasu połączenia
 [Notification]
 Powiadomienie
 [Disable for extra status 'Music']

@@ -1718,8 +1718,8 @@ Zamknij bieżącą kartę (Ctrl+F4)
 %s: Rozmowa (%u użytkowników)
 [Nick name]
 Nazwa
-[Unique id]
-ID
+[Unique ID]
+Unikalne ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standardowe kontakty
@@ -2120,8 +2120,8 @@ Zmień nazwę grupy
 [This group]
 Ta grupa
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
-Pokaż ukrytą listę kontaktów
+[Show/Hide Contact List]
+Pokaż/ukryj listę kontaktów
 [Read Message]
 Przeczytaj wiadomość
 [Open Options Page]
@@ -2486,8 +2486,8 @@ Wtyczka ANSI
 Uruchomione wtyczki 
 [Unloaded plugin]
 Niezaładowane wtyczki
-[ShowHide]
-Ukryj/pokaż
+[Show/Hide]
+Pokaż/ukryj
 [Exit]
 Wyłącz
 [Main Menu]
