@@ -45,13 +45,13 @@ static void MenuInit(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = LPGEN("Database");
 
-	mi.pszName = LPGEN("Backup Profile");
+	mi.pszName = LPGEN("Backup profile");
 	mi.pszService = MS_AB_BACKUP;
 	mi.icolibItem = iconList[0].hIcolib;
 	mi.position = 500100000;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.pszName = LPGEN("Save Profile As...");
+	mi.pszName = LPGEN("Save profile as...");
 	mi.pszService = MS_AB_SAVEAS;
 	mi.icolibItem = iconList[1].hIcolib;
 	mi.position = 500100001;
