@@ -763,7 +763,7 @@ static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 int registerMirandaTokens() {
 	if (ServiceExists(MS_UTILS_REPLACEVARS)) {
 		// global vars
-		registerIntToken(_T("miranda_path"),		parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to root miranda folder"));
+		registerIntToken(_T("miranda_path"),		parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to Miranda root folder"));
 		registerIntToken(_T("miranda_profile"),		parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to current miranda profile"));
 		registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("name of current miranda profile (filename, without extension)"));
 		registerIntToken(_T("miranda_userdata"),	parseMirandaCoreVar	, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"));
