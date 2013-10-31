@@ -42,6 +42,8 @@ static void FoldersInit(void)
 
 static void MenuInit(void)
 {
+	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
+
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = LPGEN("Database");
 
@@ -61,8 +63,6 @@ static void MenuInit(void)
 static int ModulesLoad(WPARAM, LPARAM)
 {
 	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-
-	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
 
 	FoldersInit();
 	LoadOptions();
