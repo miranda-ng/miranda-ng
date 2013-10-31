@@ -1,10 +1,7 @@
 #include "MagneticWindowsCore.h"
 
-
-HANDLE hSnapToListService;
-
-
-INT_PTR SnapToList(WPARAM wParam, LPARAM Align) {
+INT_PTR SnapToList(WPARAM wParam, LPARAM Align)
+{
 	HWND hWnd, hWndList;
 	RECT WndRect, ListRect;
 	RECT AlignRect;

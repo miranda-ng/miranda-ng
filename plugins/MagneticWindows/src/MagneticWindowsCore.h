@@ -18,21 +18,8 @@
 #include "resource.h"
 #include "Version.h"
 
-typedef 
-	struct TDockingWindow {
-		HWND hWnd;
-		WNDPROC OldWindowProc;
-		TDockingWindow* Next;
-	} TDockingWindow, *PDockingWindow;
-typedef 
-	struct TRectList {
-		RECT Rect;
-		TRectList* Next;
-	} TRectList, *PRectList;
 typedef
 	struct {
-		PDockingWindow WindowList;
-		PRectList Rects;		
 		int MouseX, MouseY;
 		bool SnappedX, SnappedY;
 	} TWorkingVariables;
@@ -42,6 +29,7 @@ typedef
 #define MODULE_NAME "MagneticWindows"
 extern HINSTANCE hInst;
 
+void WindowStart();
 bool WindowOpen(HWND);
 bool WindowClose(HWND);
-bool WindowCloseAll();
+void WindowCloseAll();

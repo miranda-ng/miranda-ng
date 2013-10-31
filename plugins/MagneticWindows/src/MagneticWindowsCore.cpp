@@ -4,11 +4,17 @@
 // Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+struct TWindowData
+{
+	HWND hWnd;
+	RECT Rect;
+};
+
+static LIST<TWindowData> arWindows(10, HandleKeySortT);
+
 TWorkingVariables Globals = {
-	NULL,
-	NULL,
-	0,0,
-	false,false
+	0, 0,
+	false, false
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,28 +25,12 @@ int Abs(int a) {
 	return (a<0) ? -a : a;
 }
 
-
-PDockingWindow FindDockingWindow(HWND hWnd) {
-	PDockingWindow i = Globals.WindowList;
-	
-	while (i != NULL) {
-		if (i->hWnd == hWnd) return i;
-
-		i = i->Next;
-	}
-
-	return NULL;
-}
-
-
-void DockWindowRect(HWND hWnd, bool Sizing, RECT& GivenRect, int SizingEdge, int MouseX = 0, int MouseY = 0) {
+void DockWindowRect(HWND hWnd, bool Sizing, RECT& GivenRect, int SizingEdge, int MouseX = 0, int MouseY = 0)
+{
 	POINT p;
-	int W, H; 
 	int XPos, YPos;
 	int tmpXPos, tmpYPos;
 	int tmpMouseX, tmpMouseY;
-
-	PRectList ActRect;
 
 	int diffX = Options.SnapWidth, diffY = Options.SnapWidth;
 
@@ -55,260 +45,219 @@ void DockWindowRect(HWND hWnd, bool Sizing, RECT& GivenRect, int SizingEdge, int
 			tmpMouseX = p.x - tmpRect.left;
 			OffsetRect(&tmpRect, tmpMouseX - MouseX, 0);
 			OffsetRect(&GivenRect, tmpMouseX - MouseX, 0);
-		} else {
-			MouseX = p.x - tmpRect.left;
 		}
+		else MouseX = p.x - tmpRect.left;
+
 		if (Globals.SnappedY) {
 			tmpMouseY = p.y - tmpRect.top;
 			OffsetRect(&tmpRect, 0, tmpMouseY - MouseY);
 			OffsetRect(&GivenRect, 0, tmpMouseY - MouseY);
-		} else {		
-			MouseY = p.y - tmpRect.top;
 		}
+		else MouseY = p.y - tmpRect.top;
 	}
 
-	W = tmpRect.right - tmpRect.left;
-	H = tmpRect.bottom - tmpRect.top;
+	int W = tmpRect.right - tmpRect.left;
+	int H = tmpRect.bottom - tmpRect.top;
 
 	if (!Sizing) {
-		ActRect = Globals.Rects;
-		while (ActRect != NULL) {
-			if ((tmpRect.left >= (ActRect->Rect.left - Options.SnapWidth)) &&
-				(tmpRect.left <= (ActRect->Rect.left + Options.SnapWidth)) &&
-				((tmpRect.top - Options.SnapWidth) < ActRect->Rect.bottom) &
-				((tmpRect.bottom + Options.SnapWidth) > ActRect->Rect.top) &&
-				(Abs(tmpRect.left - ActRect->Rect.left) < diffX))
+		for (int i=0; i < arWindows.getCount(); i++) {
+			TWindowData *p = arWindows[i];
+			if (p->hWnd == hWnd)
+				continue;
+
+			if ((tmpRect.left >= (p->Rect.left - Options.SnapWidth)) &&
+				(tmpRect.left <= (p->Rect.left + Options.SnapWidth)) &&
+				((tmpRect.top - Options.SnapWidth) < p->Rect.bottom) &
+				((tmpRect.bottom + Options.SnapWidth) > p->Rect.top) &&
+				(Abs(tmpRect.left - p->Rect.left) < diffX))
 			{			
-				GivenRect.left = ActRect->Rect.left;
+				GivenRect.left = p->Rect.left;
 				GivenRect.right = GivenRect.left + W;
 
-				diffX = Abs(tmpRect.left - ActRect->Rect.left);
+				diffX = Abs(tmpRect.left - p->Rect.left);
 
 				FoundX = true;
-			} else 
-				if ((ActRect != Globals.Rects) &&
-				(tmpRect.left >= (ActRect->Rect.right - Options.SnapWidth)) &&
-				(tmpRect.left <= (ActRect->Rect.right + Options.SnapWidth)) &&
-				((tmpRect.top - Options.SnapWidth) < ActRect->Rect.bottom) &&
-				((tmpRect.bottom + Options.SnapWidth) > ActRect->Rect.top) &&
-				(Abs(tmpRect.left - ActRect->Rect.right) < diffX))
+			}
+			else if (i != 0 &&
+				(tmpRect.left >= (p->Rect.right - Options.SnapWidth)) &&
+				(tmpRect.left <= (p->Rect.right + Options.SnapWidth)) &&
+				((tmpRect.top - Options.SnapWidth) < p->Rect.bottom) &&
+				((tmpRect.bottom + Options.SnapWidth) > p->Rect.top) &&
+				(Abs(tmpRect.left - p->Rect.right) < diffX))
 			{			
-				GivenRect.left = ActRect->Rect.right;
+				GivenRect.left = p->Rect.right;
 				GivenRect.right = GivenRect.left + W;
 
-				diffX = Abs(tmpRect.left - ActRect->Rect.right);
+				diffX = Abs(tmpRect.left - p->Rect.right);
 
 				FoundX = true;
-			} else
-			if ((ActRect != Globals.Rects) &&
-				(tmpRect.right >= (ActRect->Rect.left - Options.SnapWidth)) &&
-				(tmpRect.right <= (ActRect->Rect.left + Options.SnapWidth)) &&
-				((tmpRect.top - Options.SnapWidth) < ActRect->Rect.bottom) &&
-				((tmpRect.bottom + Options.SnapWidth) > ActRect->Rect.top) &&
-				(Abs(tmpRect.right - ActRect->Rect.left) < diffX))
+			}
+			else if (i != 0 &&
+				(tmpRect.right >= (p->Rect.left - Options.SnapWidth)) &&
+				(tmpRect.right <= (p->Rect.left + Options.SnapWidth)) &&
+				((tmpRect.top - Options.SnapWidth) < p->Rect.bottom) &&
+				((tmpRect.bottom + Options.SnapWidth) > p->Rect.top) &&
+				(Abs(tmpRect.right - p->Rect.left) < diffX))
 			{
-				GivenRect.right = ActRect->Rect.left;
+				GivenRect.right = p->Rect.left;
 				GivenRect.left = GivenRect.right - W;
 
-				diffX = Abs(tmpRect.right - ActRect->Rect.left);
+				diffX = Abs(tmpRect.right - p->Rect.left);
 
 				FoundX = true;
-			} else
-			if ((tmpRect.right >= (ActRect->Rect.right - Options.SnapWidth)) &&
-				(tmpRect.right <= (ActRect->Rect.right + Options.SnapWidth)) &&
-				((tmpRect.top - Options.SnapWidth) < ActRect->Rect.bottom) &&
-				((tmpRect.bottom + Options.SnapWidth) > ActRect->Rect.top) &&
-				(Abs(tmpRect.right - ActRect->Rect.right) < diffX))
+			}
+			else if ((tmpRect.right >= (p->Rect.right - Options.SnapWidth)) &&
+				(tmpRect.right <= (p->Rect.right + Options.SnapWidth)) &&
+				((tmpRect.top - Options.SnapWidth) < p->Rect.bottom) &&
+				((tmpRect.bottom + Options.SnapWidth) > p->Rect.top) &&
+				(Abs(tmpRect.right - p->Rect.right) < diffX))
 			{
-				GivenRect.right = ActRect->Rect.right;
+				GivenRect.right = p->Rect.right;
 				GivenRect.left = GivenRect.right - W;
 
-				diffX = Abs(tmpRect.right - ActRect->Rect.right);
+				diffX = Abs(tmpRect.right - p->Rect.right);
 
 				FoundX = true;
 			}
 
-
-			if ((tmpRect.top >= (ActRect->Rect.top - Options.SnapWidth)) &&
-				(tmpRect.top <= (ActRect->Rect.top + Options.SnapWidth)) &&
-				((tmpRect.left - Options.SnapWidth) < ActRect->Rect.right) &&
-				((tmpRect.right + Options.SnapWidth) > ActRect->Rect.left) &&
-				(Abs(tmpRect.top - ActRect->Rect.top) < diffY))
+			if ((tmpRect.top >= (p->Rect.top - Options.SnapWidth)) &&
+				(tmpRect.top <= (p->Rect.top + Options.SnapWidth)) &&
+				((tmpRect.left - Options.SnapWidth) < p->Rect.right) &&
+				((tmpRect.right + Options.SnapWidth) > p->Rect.left) &&
+				(Abs(tmpRect.top - p->Rect.top) < diffY))
 			{
-				GivenRect.top = ActRect->Rect.top;
+				GivenRect.top = p->Rect.top;
 				GivenRect.bottom = GivenRect.top + H;
 
-				diffY = Abs(tmpRect.top - ActRect->Rect.top);
-
-				FoundY = true;
-			} else
-			if ((ActRect != Globals.Rects) &&
-				(tmpRect.top >= (ActRect->Rect.bottom - Options.SnapWidth)) &&
-				(tmpRect.top <= (ActRect->Rect.bottom + Options.SnapWidth)) &&
-				((tmpRect.left - Options.SnapWidth) < ActRect->Rect.right) &&
-				((tmpRect.right + Options.SnapWidth) > ActRect->Rect.left) &&
-				(Abs(tmpRect.top - ActRect->Rect.bottom) < diffY))
-			{
-				GivenRect.top = ActRect->Rect.bottom;
-				GivenRect.bottom = GivenRect.top + H;
-
-				diffY = Abs(tmpRect.top - ActRect->Rect.bottom);
-
-				FoundY = true;
-			} else
-			if ((ActRect != Globals.Rects) &&
-				(tmpRect.bottom >= (ActRect->Rect.top - Options.SnapWidth)) &&
-				(tmpRect.bottom <= (ActRect->Rect.top + Options.SnapWidth)) &&
-				((tmpRect.left - Options.SnapWidth) < ActRect->Rect.right) &&
-				((tmpRect.right + Options.SnapWidth) > ActRect->Rect.left) &&
-				(Abs(tmpRect.bottom - ActRect->Rect.top) < diffY))
-			{
-				GivenRect.bottom = ActRect->Rect.top;
-				GivenRect.top = GivenRect.bottom - H;
-
-				diffY = Abs(tmpRect.bottom - ActRect->Rect.top);
-
-				FoundY = true;
-			} else
-			if ((tmpRect.bottom >= (ActRect->Rect.bottom - Options.SnapWidth)) &&
-				(tmpRect.bottom <= (ActRect->Rect.bottom + Options.SnapWidth)) &&
-				((tmpRect.left - Options.SnapWidth) < ActRect->Rect.right) &&
-				((tmpRect.right + Options.SnapWidth) > ActRect->Rect.left) &&
-				(Abs(tmpRect.bottom - ActRect->Rect.bottom) < diffY))
-			{
-				GivenRect.bottom = ActRect->Rect.bottom;
-				GivenRect.top = GivenRect.bottom - H;
-
-				diffY = Abs(tmpRect.bottom - ActRect->Rect.bottom);
+				diffY = Abs(tmpRect.top - p->Rect.top);
 
 				FoundY = true;
 			}
+			else if (i != 0 &&
+				(tmpRect.top >= (p->Rect.bottom - Options.SnapWidth)) &&
+				(tmpRect.top <= (p->Rect.bottom + Options.SnapWidth)) &&
+				((tmpRect.left - Options.SnapWidth) < p->Rect.right) &&
+				((tmpRect.right + Options.SnapWidth) > p->Rect.left) &&
+				(Abs(tmpRect.top - p->Rect.bottom) < diffY))
+			{
+				GivenRect.top = p->Rect.bottom;
+				GivenRect.bottom = GivenRect.top + H;
 
-			ActRect = ActRect->Next;
-		} //next rect
+				diffY = Abs(tmpRect.top - p->Rect.bottom);
+
+				FoundY = true;
+			}
+			else if (i != 0 &&
+				(tmpRect.bottom >= (p->Rect.top - Options.SnapWidth)) &&
+				(tmpRect.bottom <= (p->Rect.top + Options.SnapWidth)) &&
+				((tmpRect.left - Options.SnapWidth) < p->Rect.right) &&
+				((tmpRect.right + Options.SnapWidth) > p->Rect.left) &&
+				(Abs(tmpRect.bottom - p->Rect.top) < diffY))
+			{
+				GivenRect.bottom = p->Rect.top;
+				GivenRect.top = GivenRect.bottom - H;
+
+				diffY = Abs(tmpRect.bottom - p->Rect.top);
+
+				FoundY = true;
+			}
+			else if ((tmpRect.bottom >= (p->Rect.bottom - Options.SnapWidth)) &&
+				(tmpRect.bottom <= (p->Rect.bottom + Options.SnapWidth)) &&
+				((tmpRect.left - Options.SnapWidth) < p->Rect.right) &&
+				((tmpRect.right + Options.SnapWidth) > p->Rect.left) &&
+				(Abs(tmpRect.bottom - p->Rect.bottom) < diffY))
+			{
+				GivenRect.bottom = p->Rect.bottom;
+				GivenRect.top = GivenRect.bottom - H;
+
+				diffY = Abs(tmpRect.bottom - p->Rect.bottom);
+
+				FoundY = true;
+			}
+		}
 
 		Globals.SnappedX = FoundX;
 		Globals.SnappedY = FoundY;
 	}
 	else //Sizing
 	{
-		if ((SizingEdge == WMSZ_LEFT) ||
-			(SizingEdge == WMSZ_TOPLEFT) ||
-			(SizingEdge == WMSZ_BOTTOMLEFT))
-		{
+		if (SizingEdge == WMSZ_LEFT || SizingEdge == WMSZ_TOPLEFT || SizingEdge == WMSZ_BOTTOMLEFT)
 			XPos = GivenRect.left;
-		} else {
+		else
 			XPos = GivenRect.right;
-		}
 
-		if ((SizingEdge == WMSZ_TOP) ||
-			(SizingEdge == WMSZ_TOPLEFT) ||
-			(SizingEdge == WMSZ_TOPRIGHT))
-		{
+		if (SizingEdge == WMSZ_TOP || SizingEdge == WMSZ_TOPLEFT || SizingEdge == WMSZ_TOPRIGHT)
 			YPos = GivenRect.top;
-		} else {
+		else
 			YPos = GivenRect.bottom;
-		}
 
 		tmpXPos = XPos;
 		tmpYPos = YPos;
 
-		ActRect = Globals.Rects;
-		while (ActRect != NULL) {
-			if ((tmpXPos >= (ActRect->Rect.left - Options.SnapWidth)) &&
-				(tmpXPos <= (ActRect->Rect.left + Options.SnapWidth)) &&
-				((tmpRect.top - Options.SnapWidth) < ActRect->Rect.bottom) &&
-				((tmpRect.bottom + Options.SnapWidth) > ActRect->Rect.top) &&
-				(Abs(tmpXPos - ActRect->Rect.left) < diffX))
+		for (int i=0; i < arWindows.getCount(); i++) {
+			TWindowData *p = arWindows[i];
+			if (p->hWnd == hWnd)
+				continue;
+
+			if ((tmpXPos >= (p->Rect.left - Options.SnapWidth)) &&
+				(tmpXPos <= (p->Rect.left + Options.SnapWidth)) &&
+				((tmpRect.top - Options.SnapWidth) < p->Rect.bottom) &&
+				((tmpRect.bottom + Options.SnapWidth) > p->Rect.top) &&
+				(Abs(tmpXPos - p->Rect.left) < diffX))
 			{			
-				XPos = ActRect->Rect.left;
-
-				diffX = Abs(tmpXPos - ActRect->Rect.left);
-			} else
-			if ((tmpXPos >= (ActRect->Rect.right - Options.SnapWidth)) &&
-				(tmpXPos <= (ActRect->Rect.right + Options.SnapWidth)) &&
-				((tmpRect.top - Options.SnapWidth) < ActRect->Rect.bottom) &&
-				((tmpRect.bottom + Options.SnapWidth) > ActRect->Rect.top) &&
-				(Abs(tmpXPos - ActRect->Rect.right) < diffX))
+				XPos = p->Rect.left;
+				diffX = Abs(tmpXPos - p->Rect.left);
+			}
+			else if ((tmpXPos >= (p->Rect.right - Options.SnapWidth)) &&
+				(tmpXPos <= (p->Rect.right + Options.SnapWidth)) &&
+				((tmpRect.top - Options.SnapWidth) < p->Rect.bottom) &&
+				((tmpRect.bottom + Options.SnapWidth) > p->Rect.top) &&
+				(Abs(tmpXPos - p->Rect.right) < diffX))
 			{
-				XPos = ActRect->Rect.right;
-
-				diffX = Abs(tmpXPos - ActRect->Rect.right);
+				XPos = p->Rect.right;
+				diffX = Abs(tmpXPos - p->Rect.right);
 			}
 
-			if ((tmpYPos >= (ActRect->Rect.top - Options.SnapWidth)) &&
-				(tmpYPos <= (ActRect->Rect.top + Options.SnapWidth)) &&
-				((tmpRect.left - Options.SnapWidth) < ActRect->Rect.right) &&
-				((tmpRect.right + Options.SnapWidth) > ActRect->Rect.left) &&
-				(Abs(tmpYPos - ActRect->Rect.top) < diffY))
+			if ((tmpYPos >= (p->Rect.top - Options.SnapWidth)) &&
+				(tmpYPos <= (p->Rect.top + Options.SnapWidth)) &&
+				((tmpRect.left - Options.SnapWidth) < p->Rect.right) &&
+				((tmpRect.right + Options.SnapWidth) > p->Rect.left) &&
+				(Abs(tmpYPos - p->Rect.top) < diffY))
 			{
-				YPos = ActRect->Rect.top;
-
-				diffY = Abs(tmpYPos - ActRect->Rect.top);
-			} else 
-			if ((tmpYPos >= (ActRect->Rect.bottom - Options.SnapWidth)) &&
-				(tmpYPos <= (ActRect->Rect.bottom + Options.SnapWidth)) &&
-				((tmpRect.left - Options.SnapWidth) < ActRect->Rect.right) &&
-				((tmpRect.right + Options.SnapWidth) > ActRect->Rect.left) &&
-				(Abs(tmpYPos - ActRect->Rect.bottom) < diffY))
-			{
-				YPos = ActRect->Rect.bottom;
-
-				diffY = Abs(tmpYPos - ActRect->Rect.bottom);
+				YPos = p->Rect.top;
+				diffY = Abs(tmpYPos - p->Rect.top);
 			}
+			else if ((tmpYPos >= (p->Rect.bottom - Options.SnapWidth)) &&
+				(tmpYPos <= (p->Rect.bottom + Options.SnapWidth)) &&
+				((tmpRect.left - Options.SnapWidth) < p->Rect.right) &&
+				((tmpRect.right + Options.SnapWidth) > p->Rect.left) &&
+				(Abs(tmpYPos - p->Rect.bottom) < diffY))
+			{
+				YPos = p->Rect.bottom;
+				diffY = Abs(tmpYPos - p->Rect.bottom);
+			}
+		}
 
-			ActRect = ActRect->Next;
-		} //Next rect
-
-		if ((SizingEdge == WMSZ_LEFT) ||
-			(SizingEdge == WMSZ_TOPLEFT) ||
-			(SizingEdge == WMSZ_BOTTOMLEFT))
-		{
+		if (SizingEdge == WMSZ_LEFT || SizingEdge == WMSZ_TOPLEFT || SizingEdge == WMSZ_BOTTOMLEFT)
 			GivenRect.left = XPos;
-		} else {
+		else
 			GivenRect.right = XPos;
-		}
-		if ((SizingEdge == WMSZ_TOP) ||
-			(SizingEdge == WMSZ_TOPLEFT) ||
-			(SizingEdge == WMSZ_TOPRIGHT))
-		{
+
+		if (SizingEdge == WMSZ_TOP || SizingEdge == WMSZ_TOPLEFT || SizingEdge == WMSZ_TOPRIGHT)
 			GivenRect.top = YPos;
-		} else {
+		else
 			GivenRect.bottom = YPos;
-		}
 	}
 }
 
+void GetFrmRects(HWND ForWindow)
+{
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &arWindows[0]->Rect, 0);
 
-void GetFrmRects(HWND ForWindow) {
-	PDockingWindow i;
-	PRectList Rect, l;
-
-	Rect = Globals.Rects;
-	while (Rect != NULL) {
-		l = Rect;
-		Rect = Rect->Next;
-		free(l);
-	}
-	
-	Rect = (PRectList)malloc(sizeof(TRectList));
-	Rect->Next = NULL;
-	Globals.Rects = Rect;
-
-	SystemParametersInfo(SPI_GETWORKAREA, 0, &(Rect->Rect), 0);
-	i = Globals.WindowList;
-
-	while (i != NULL) {
-		if ((i->hWnd != ForWindow) && IsWindowVisible(i->hWnd)) {
-			l = Rect;
-			Rect = (PRectList)malloc(sizeof(TRectList));
-			Rect->Next = NULL;
-			l->Next = Rect;
-
-			GetWindowRect(i->hWnd, &(Rect->Rect));			
-		}
-
-		i = i->Next;
+	for (int i=1; i < arWindows.getCount(); i++) {
+		TWindowData *p = arWindows[i];
+		if (p->hWnd != ForWindow && IsWindowVisible(p->hWnd))
+			GetWindowRect(p->hWnd, &p->Rect);			
 	}
 }
 
@@ -316,136 +265,91 @@ void GetFrmRects(HWND ForWindow) {
 // Subclass Window Proc
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+{
 	RECT r;
 	POINT p;
 
-	PDockingWindow i = FindDockingWindow(hWnd);
-	
-	WNDPROC OldRun = NULL;
+	if (Options.DoSnap) {
+		switch (Msg) {
+		case WM_ENTERSIZEMOVE:
+			if (Options.ScriverWorkAround)
+				keybd_event(VK_CONTROL, 0, 0, 0);
 
-	if (i != NULL) {  //else we have a problem
-		OldRun = i->OldWindowProc;
+			GetWindowRect(hWnd, &r);
+			GetCursorPos(&p);
+			Globals.MouseX = p.x - r.left;
+			Globals.MouseY = p.y - r.top;
+			GetFrmRects(hWnd);
+			break;
 
-		if (Options.DoSnap) {
-			switch (Msg) {
-				case WM_ENTERSIZEMOVE: {
-					if (Options.ScriverWorkAround)
-						keybd_event(VK_CONTROL, 0, 0, 0);
-	
-					GetWindowRect(hWnd, &r);
-					GetCursorPos(&p);
-					Globals.MouseX = p.x - r.left;
-					Globals.MouseY = p.y - r.top;
-	
-					GetFrmRects(hWnd);
+		case WM_EXITSIZEMOVE:
+			if (Options.ScriverWorkAround)
+				keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
+			break;
 
-					break;
-				}
-				case WM_EXITSIZEMOVE: {
-					if (Options.ScriverWorkAround)
-						keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
+		case WM_SIZING:
+		case WM_MOVING:
+			r = *((PRECT)lParam);
+			if (Msg == WM_SIZING)
+				DockWindowRect(hWnd, true, r, wParam);
+			else
+				DockWindowRect(hWnd, false, r, wParam, Globals.MouseX, Globals.MouseY);
 
-					break;
-				}
-				case WM_SIZING:
-				case WM_MOVING: {	
-					r = *((PRECT)lParam);
-					if (Msg == WM_SIZING) {
-						DockWindowRect(hWnd, true, r, wParam);
-					} else {
-						DockWindowRect(hWnd, false, r, wParam, Globals.MouseX, Globals.MouseY);
-					}
-	
-					(*(PRECT)lParam) = r;
+			(*(PRECT)lParam) = r;
 
-					if (Msg == WM_SIZING) {							
-						return 1;
-					}
-	
-					break;
-				}
-			} //switch
-		} //if dosnap
-			
-		if (OldRun != NULL) {
-			if (IsWindowUnicode(hWnd))  {
-				return CallWindowProcW(OldRun, hWnd, Msg, wParam, lParam);
-			} else {
-				return CallWindowProcA(OldRun, hWnd, Msg, wParam, lParam);
-			}
-		}
+			if (Msg == WM_SIZING)
+				return 1;
+
+			break;
+		} 
 	}
 
-	return 0;
+	return mir_callNextSubclass(hWnd, WindowProc, Msg, wParam, lParam);
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // exportet Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool WindowOpen(HWND hWnd) {
-	PDockingWindow i;
-
-	if ((hWnd != 0) && (FindDockingWindow(hWnd) == NULL)) {
-		i = (PDockingWindow)mir_alloc(sizeof(TDockingWindow));
-		i->Next = Globals.WindowList;	
-		i->hWnd = hWnd;
-		Globals.WindowList = i;
-
-		if (IsWindowUnicode(hWnd)) {
-			i->OldWindowProc = (WNDPROC) GetWindowLongPtrW(hWnd, GWLP_WNDPROC);
-			SetWindowLongPtrW(hWnd, GWLP_WNDPROC, (LONG_PTR)(&WindowProc));
-		} else {
-			i->OldWindowProc = (WNDPROC) GetWindowLongPtrA(hWnd, GWLP_WNDPROC);
-			SetWindowLongPtrA(hWnd, GWLP_WNDPROC, (LONG_PTR)(&WindowProc));
-		}
-
-		return true;
-	}
-	return false;
+void WindowStart()
+{
+	TWindowData *p = (TWindowData*)mir_calloc(sizeof(TWindowData));
+	arWindows.insert(p);
 }
 
-bool WindowClose(HWND hWnd) {
-	PDockingWindow i, l;
+bool WindowOpen(HWND hWnd)
+{
+	if (hWnd == 0)
+		return false;
 
-	l = NULL;
-	i = Globals.WindowList;
+	TWindowData *p = (TWindowData*)mir_alloc(sizeof(TWindowData));
+	p->hWnd = hWnd;
+	GetWindowRect(hWnd, &p->Rect);
+	arWindows.insert(p);
 
-	while ((i != NULL) && (i->hWnd != hWnd)) {
-		l = i;
-		i = i->Next;
-	}
-	
-	if (i != NULL) {
-		if (l == NULL) {
-			Globals.WindowList = i->Next;
-		} else {
-			l->Next = i->Next;
-		}
-
-		if (IsWindowUnicode(hWnd)) {
-			SetWindowLongPtrW(hWnd, GWLP_WNDPROC, (LONG_PTR) (i->OldWindowProc));
-		} else  {
-			SetWindowLongPtrA(hWnd, GWLP_WNDPROC, (LONG_PTR) (i->OldWindowProc));
-		}
-		
-		mir_free(i);
-
-		return true;
-	}
-
-	return false;
+	mir_subclassWindow(hWnd, WindowProc);
+	return true;
 }
-bool WindowCloseAll() {
-	PDockingWindow i, l;
-	i = Globals.WindowList;
-	while (i != NULL) {	
-		l = i;
-		WindowClose(i->hWnd);
-		i = i->Next;
-		mir_free(l);
+
+bool WindowClose(HWND hWnd)
+{
+	if (hWnd == 0)
+		return false;
+
+	mir_unsubclassWindow(hWnd, WindowProc);
+	int idx = arWindows.indexOf((TWindowData*)&hWnd);
+	if (idx != -1) {
+		TWindowData *p = arWindows[idx];
+		arWindows.remove(idx);
+		mir_free(p);
 	}
 	return true;
+}
+
+void WindowCloseAll()
+{
+	for (int i=0; i < arWindows.getCount(); i++)
+		mir_free(arWindows[i]);
+	arWindows.destroy();
 }

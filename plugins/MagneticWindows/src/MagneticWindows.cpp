@@ -31,9 +31,6 @@ PLUGININFOEX pluginInfo = {
 	{0x8c01613, 0x24c8, 0x486f, { 0xbd, 0xae, 0x2c, 0x3d, 0xdc, 0xaf, 0x93, 0x47 }} 
 };
 
-
-HANDLE hLoadedHook, hShootDownHook,	hAddService, hRemService, hWindowEventHook;
-
 HINSTANCE hInst;
 int hLangpack;
 
@@ -43,42 +40,40 @@ int hLangpack;
 
 
 //For other Plugins to start snapping for other Windows
-INT_PTR SnapPluginWindowStart(WPARAM wParam, LPARAM) {
+INT_PTR SnapPluginWindowStart(WPARAM wParam, LPARAM)
+{
 	if (!WindowOpen((HWND)wParam)) return 1;
-
 	return 0;
 }
+
 //For other Plugins to stop snapping for other Windows
-INT_PTR SnapPluginWindowStop(WPARAM wParam, LPARAM) {
+INT_PTR SnapPluginWindowStop(WPARAM wParam, LPARAM)
+{
 	if (!WindowClose((HWND)wParam)) return 1;
-
 	return 0;
 }
 
-int PluginMessageWindowEvent(WPARAM, LPARAM lParam) {
-	HWND hWndParent, hWnd;
-
+int PluginMessageWindowEvent(WPARAM, LPARAM lParam)
+{
 	MessageWindowEventData *Data = (MessageWindowEventData*) lParam;
 	
 	switch (Data->uType) {
-		case MSG_WINDOW_EVT_OPEN: 
-			hWnd = Data->hwndWindow;
-			//WindowOpen(hWnd);
-			hWndParent = GetParent(hWnd);
+	case MSG_WINDOW_EVT_OPEN: 
+		{
+			HWND hWnd = Data->hwndWindow;
+			HWND hWndParent = GetParent(hWnd);
 			while ((hWndParent != 0) && (hWndParent != GetDesktopWindow()) && (IsWindowVisible(hWndParent))) {			
 				hWnd = hWndParent;
 				hWndParent = GetParent(hWnd);			
 			}
 
 			WindowOpen(hWnd);
-			break;
-		
-		case MSG_WINDOW_EVT_CLOSING:
-			WindowClose(Data->hwndWindow);
-			break;
+		}
+		break;
 
-		default:
-			break;
+	case MSG_WINDOW_EVT_CLOSING:
+		WindowClose(Data->hwndWindow);
+		break;
 	}
 
 	return 0;
@@ -89,28 +84,19 @@ int PluginMessageWindowEvent(WPARAM, LPARAM lParam) {
 // Main Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-int SnapPluginStart(WPARAM, LPARAM) {
+int SnapPluginStart(WPARAM, LPARAM)
+{
 	LoadOptions();
 
-	hWindowEventHook = HookEvent(ME_MSG_WINDOWEVENT, PluginMessageWindowEvent);
+	HookEvent(ME_MSG_WINDOWEVENT, PluginMessageWindowEvent);
 
 	WindowOpen((HWND)CallService(MS_CLUI_GETHWND,0,0));
 	return 0;
 }
 
-int SnapPluginShootDown(WPARAM, LPARAM) {
-	UnhookEvent(hWindowEventHook);
-	UnhookEvent(hLoadedHook);
-	UnhookEvent(hShootDownHook);
-	UnhookEvent(hInitOptionsHook);
-
+int SnapPluginShutDown(WPARAM, LPARAM)
+{
 	WindowCloseAll();
-
-	DestroyServiceFunction(hAddService);
-	DestroyServiceFunction(hRemService);
-	DestroyServiceFunction(hSnapToListService);
-
 	return 0;
 }
 
@@ -128,14 +114,15 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 	
-	hLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, SnapPluginStart);
-	hShootDownHook = HookEvent(ME_SYSTEM_PRESHUTDOWN, SnapPluginShootDown);
-	hInitOptionsHook = HookEvent(ME_OPT_INITIALISE, InitOptions);
+	HookEvent(ME_SYSTEM_MODULESLOADED, SnapPluginStart);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, SnapPluginShutDown);
+	HookEvent(ME_OPT_INITIALISE, InitOptions);
 
-	hAddService = CreateServiceFunction(MS_MW_ADDWINDOW, SnapPluginWindowStart);
-	hRemService = CreateServiceFunction(MS_MW_REMWINDOW, SnapPluginWindowStop);
-	hSnapToListService = CreateServiceFunction(MS_MW_SNAPTOLIST, SnapToList);
+	CreateServiceFunction(MS_MW_ADDWINDOW, SnapPluginWindowStart);
+	CreateServiceFunction(MS_MW_REMWINDOW, SnapPluginWindowStop);
+	CreateServiceFunction(MS_MW_SNAPTOLIST, SnapToList);
 
+	WindowStart();
 	return 0;
 }
 
@@ -152,6 +139,5 @@ extern "C" int __declspec(dllexport) Unload()
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
-	
-    return TRUE;
+	return TRUE;
 }

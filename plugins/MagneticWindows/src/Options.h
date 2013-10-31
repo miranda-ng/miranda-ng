@@ -8,9 +8,7 @@ typedef
 		bool ScriverWorkAround;
 } TOptions;
 
-extern HANDLE hInitOptionsHook;
 extern TOptions Options;
-
 
 INT_PTR CALLBACK OptionsDlgProc(HWND, UINT, WPARAM, LPARAM);
 
