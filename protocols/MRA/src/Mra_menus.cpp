@@ -261,6 +261,9 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	// non proto contact
 	else bHasEMail = bHasEMailMR = bChatAgent = FALSE;
 
+	// menu root;
+	Menu_ShowItem(hContactMenuRoot, bIsContactMRA);
+
 	//"Request authorization"
 	Menu_ShowItem(hContactMenuItems[0], (m_bLoggedIn && bIsContactMRA));// && (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
 
@@ -336,10 +339,10 @@ int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsMain, const IconItem *pgdiItems, size_t dwCount, HGENMENU *hResult)
+HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsMain, const IconItem *pgdiItems, size_t dwCount, HGENMENU *hResult)
 {
 	if (!pgdiItems || !dwCount || !hResult)
-		return;
+		return NULL;
 
 	char szServiceFunction[MAX_PATH];
 	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
@@ -386,6 +389,8 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsMai
 		mi.pszName = pgdiItems[i].szDescr;
 		hResult[i] = fnAddFunc(&mi);
 	}
+
+	return hRootMenu;
 }
 
 void CMraProto::InitMenus()
@@ -405,7 +410,7 @@ void CMraProto::InitMenus()
 	CreateProtoService(MRA_CHK_USERS_AVATARS,  &CMraProto::MraCheckUpdatesUsersAvt);
 	CreateProtoService(MRA_REQ_AUTH_FOR_ALL,   &CMraProto::MraRequestAuthForAll);
 
-	CListCreateMenu(-2000001001, -500050000, FALSE, gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, hContactMenuItems);
+	hContactMenuRoot = CListCreateMenu(-2000001001, -500050000, FALSE, gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, hContactMenuItems);
 
 	// xstatus menu
 	for (int i = 0; i < MRA_XSTATUS_COUNT; i++) {

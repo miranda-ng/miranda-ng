@@ -190,11 +190,11 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD    dwEmailMessagesTotal, m_dwEmailMessagesUnread;
 
 	bool     bHideXStatusUI;
-	HGENMENU hXStatusMenuItems[MRA_XSTATUS_COUNT+4];
+	HGENMENU hXStatusMenuItems[MRA_XSTATUS_COUNT+4], hContactMenuRoot;
 	HANDLE   hExtraXstatusIcon;
 	HANDLE   hExtraInfo;
 
-	char    szNewMailSound[MAX_PATH];
+	char     szNewMailSound[MAX_PATH];
 
 	CRITICAL_SECTION csCriticalSectionSend;
 
@@ -284,7 +284,7 @@ struct CMraProto : public PROTO<CMraProto>
 	void   SetExtraIcons(HANDLE hContact);
 
 	void   InitMenus(void);
-	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsStatus, const IconItem *pgdiItems, size_t dwCount, HGENMENU *hResult);
+	HGENMENU CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsStatus, const IconItem *pgdiItems, size_t dwCount, HGENMENU *hResult);
 
 	DWORD  ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
 	CMStringA CreateBlobFromContact(HANDLE hContact, const CMStringW &wszRequestReason);
