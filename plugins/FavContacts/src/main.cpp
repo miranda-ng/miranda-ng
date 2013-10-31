@@ -103,7 +103,7 @@ static TCHAR* sttGetGroupName(int id)
 	if (id == 1) {
 		if (g_Options.bUseGroups)
 			return TranslateT("<No group>");
-		return TranslateT("Favourite Contacts");
+		return TranslateT("Favorite Contacts");
 	}
 
 	return pcli->pfnGetGroupName(id-1, NULL);
