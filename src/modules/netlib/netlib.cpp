@@ -248,6 +248,9 @@ void NetlibDoClose(NetlibConnection *nlc, bool noShutdown)
 
 INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 {
+	if (wParam == NULL)
+		return 0;
+
 	switch(GetNetlibHandleType((void*)wParam)) {
 	case NLH_USER:
 		{

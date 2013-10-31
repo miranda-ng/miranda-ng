@@ -142,13 +142,9 @@ typedef struct _MenuItemHandles
 
 void FreeMenuProtos(void)
 {
-	int i;
-
 	if (cli.menuProtos) {
-		for (i=0; i < cli.menuProtoCount; i++)
-			if (cli.menuProtos[i].szProto)
-				mir_free(cli.menuProtos[i].szProto);
-
+		for (int i=0; i < cli.menuProtoCount; i++)
+			mir_free(cli.menuProtos[i].szProto);
 		mir_free(cli.menuProtos);
 		cli.menuProtos = NULL;
 	}
