@@ -42,7 +42,7 @@
 [Enabled]
 [Disabled]
 [Hide]
-[NeverHide]
+[Never hide]
 [Hiding %s (%S)]
 [%d days since last message]
 [Disable Miss You]

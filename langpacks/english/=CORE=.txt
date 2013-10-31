@@ -869,7 +869,7 @@
 [%s: Message Session]
 [%s: Message Session (%u users)]
 [Nick name]
-[Unique id]
+[Unique ID]
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 [Online contacts to whom you have a different visibility]
@@ -1090,7 +1090,7 @@
 [Rename Group]
 [This group]
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 [Read Message]
 [Open Options Page]
 [Open Logging Options]
@@ -1284,7 +1284,7 @@
 [ANSI plugin]
 [Running plugin]
 [Unloaded plugin]
-[ShowHide]
+[Show/Hide]
 [Exit]
 [Main Menu]
 [Leave chat]

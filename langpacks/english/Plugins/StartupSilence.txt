@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.1.0.0
+;  Version: 0.2.0.0
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
@@ -19,8 +19,13 @@
 [Main Menu Item (plugin reload or Miranda restart required)]
 [TopToolBar button (Miranda restart required)]
 [Reset to default\r\n(for this computer)]
-[You need configure it once for each computer, where you run your Miranda NG.]
+[You need to configure it once for each computer, where you run your Miranda NG.]
 [No Apply button required.]
+[After startup set:]
+[Filtered popups only (leave uncheck to no popups)]
+[Enable sounds]
+[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
+[Allow mRadio or Weather popups, etc...]
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
 ;file \plugins\StartupSilence\src\StartupSilence.h

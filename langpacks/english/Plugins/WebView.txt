@@ -100,7 +100,7 @@
 [Auto update disabled]
 [Auto update enabled]
 [Update all Webview sites]
-[Mark all Webview sites read]
+[Mark all Webview sites as read]
 [Open cache folder]
 [%d minutes to update]
 [Open/Close window]

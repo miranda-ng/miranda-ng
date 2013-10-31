@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.8
+;  Version: 0.0.0.9
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
@@ -22,20 +22,22 @@
 [Disable progress bar]
 [Disable Popups]
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda Databases]
+[Miranda databases]
 [All Files]
-[Backup in Progress]
+[Backup in progress]
 [Rotating backup files...]
 [Copying database file...]
-[Database backuped]
+[Database backed up]
 ;file \plugins\Db_autobackups\src\main.cpp
+[Backup profile]
+[Save profile as...]
+[Database backups]
+[Backup folder]
+[Database]
 [Backup Profile]
 [Save Profile As...]
-[Database Backups]
-[Backup Folder]
-[Database]
 ;file \plugins\Db_autobackups\src\options.cpp
-[path to root miranda folder]
+[path to Miranda root folder]
 [path to current miranda profile]
 [name of current miranda profile (filename, without extension)]
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]

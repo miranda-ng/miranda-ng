@@ -198,7 +198,7 @@
 [Register account now]
 [Jabber Account Information:]
 [Member Information]
-[Member Information\n<user id>]
+[Member Information\n<user ID>]
 [Role:]
 [Set role]
 [Affiliation:]
@@ -975,7 +975,7 @@
 [outgoing presences]
 [queries]
 [Else ]
-[If jabber id is ']
+[If Jabber ID is ']
 [ (nickname: ]
 [If group is ']
 [If subscription is ']
@@ -992,7 +992,7 @@
 [List Editor...]
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 [Error occurred during processing command]

@@ -16,7 +16,7 @@
 [Width:]
 [Maximum height:]
 [Options]
-[Opacity(%):]
+[Opacity (%):]
 [Border]
 [Round corners (window)]
 [Preview]

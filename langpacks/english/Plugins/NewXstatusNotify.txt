@@ -66,6 +66,7 @@
 [On right click]
 [Show status description]
 [Ignore empty status and xStatus messages]
+[Connection timeout]
 [Notification]
 [Disable for extra status 'Music']
 [Truncate message length to:]
