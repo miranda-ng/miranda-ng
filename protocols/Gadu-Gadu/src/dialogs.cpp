@@ -906,26 +906,33 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)lParam;
-	char* szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return 0;
+	char* pszTemplate;
 
-	if (hContact && (strcmp(szProto, m_szModuleName) || isChatRoom(hContact)))
-		return 0;
+	if (hContact == NULL){
+		// View/Change My Details
+		pszTemplate = MAKEINTRESOURCEA(IDD_CHINFO_GG);
+	} else {
+		// Other user details
+		char* szProto = GetContactProto(hContact);
+		if (szProto == NULL)
+			return 0;
+		if (strcmp(szProto, m_szModuleName) || isChatRoom(hContact))
+			return 0;
+		pszTemplate = MAKEINTRESOURCEA(IDD_INFO_GG);
+	}
 
-	// Here goes init
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.flags = ODPF_DONTTRANSLATE | ODPF_TCHAR;
 	odp.hInstance = hInstance;
 	odp.pfnDlgProc = gg_detailsdlgproc;
 	odp.position = -1900000000;
-	odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCEA(IDD_INFO_GG) : MAKEINTRESOURCEA(IDD_CHINFO_GG);
+	odp.pszTemplate = pszTemplate;
 	odp.ptszTitle = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
 	UserInfo_AddPage(wParam, &odp);
 
 	// Start search for user data
-	if ((HANDLE)lParam == NULL)
+	if (hContact == NULL)
 		GetInfo(NULL, 0);
 
 	return 0;
