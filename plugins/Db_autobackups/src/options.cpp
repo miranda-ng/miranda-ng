@@ -153,8 +153,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TCHAR tszTooltipText[1024];
 			mir_sntprintf(tszTooltipText, SIZEOF(tszTooltipText), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("%miranda_path%"),			TranslateT("path to Miranda root folder"),
-				_T("%miranda_profile%"),		TranslateT("path to current miranda profile"),
-				_T("%miranda_profilename%"),	TranslateT("name of current miranda profile (filename, without extension)"),
+				_T("%miranda_profile%"),		TranslateT("path to current Miranda profile"),
+				_T("%miranda_profilename%"),	TranslateT("name of current Miranda profile (filename, without extension)"),
 				_T("%miranda_userdata%"),		TranslateT("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"),
 				_T("%appdata%"),				TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
 				_T("%username%"),				TranslateT("username for currently logged-on Windows user"),
