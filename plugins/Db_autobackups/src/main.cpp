@@ -43,17 +43,16 @@ static void FoldersInit(void)
 static void MenuInit(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_TCHAR;
 	mi.hIcon = Skin_GetIcon("backup");
-	mi.ptszPopupName = LPGENT("Database");
+	mi.pszPopupName = LPGEN("Database");
 
-	mi.ptszName = LPGENT("Backup Profile");
+	mi.pszName = LPGEN("Backup Profile");
 	mi.pszService = MS_AB_BACKUP;
 	mi.position = 500100000;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.hIcon = Skin_GetIcon("saveas");
-	mi.ptszName = LPGENT("Save Profile As...");
+	mi.pszName = LPGEN("Save Profile As...");
 	mi.pszService = MS_AB_SAVEAS;
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
