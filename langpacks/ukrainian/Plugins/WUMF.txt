@@ -37,7 +37,7 @@ WUMF: Показати підключення
 [Disabled options will be available in the next version]
 Будуть доступні в наступній версії
 [Alerts folders on access]
-Оповіщення доступу до папок
+Сповіщення доступу до папок
 [Show current connections]
 Показати з'єднання
 [Popup plugin not found!]

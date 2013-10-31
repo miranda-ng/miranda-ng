@@ -12,7 +12,7 @@
 [Skinned frame]
 Застосовувати скін до фрейму
 [&About the contact list...]
-Про списку контактів...
+Про список контактів...
 [Clist docking]
 Парковка
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
@@ -20,7 +20,7 @@
 [Add New...]
 Додати...
 [Always Left]
-Завжди зліва
+Завжди ліворуч
 [Always Right]
 Завжди праворуч
 [Apply this profile]
@@ -118,13 +118,13 @@
 [About CList Nicer+]
 Про плагін Nicer+
 [Always align icons and text for missing avatars]
-Завжди вирівнювати значки і текст, якщо відсутня аватар
+Завжди вирівнювати значки і текст, якщо відсутній аватар
 [Appear always offline (block contact)]
 Завжди невидимий (блокувати контакт)
 [Appear always online]
-Завжди бачимо для контакту
+Завжди видимий для контакту
 [Apply group indent values to background drawing]
-Застосувати налаштування відступу групи до фонового рисунку
+Застосувати налаштування відступу групи до фонового зображення
 [Apply last active view mode]
 Застосувати останній активний режим
 [Auto mode]
@@ -134,7 +134,7 @@
 [Automatically fill background with wallpaper (tiled wallpaper only)]
 Автоматично заповнювати фон шпалерами (для замощених шпалер)
 [Avatar alignment]
-Вирівнювання аватар
+Вирівнювання аватарів
 [Blend selection background with]
 Змішувати виділення з фоном
 [Buttonbar]
@@ -172,7 +172,7 @@
 [Draw background skin]
 Використовувати скін для фону
 [Draw overlay icon on avatar]
-Значок поверх аватар
+Значок поверх аватарів
 [Draw sunken Frame]
 Втоплений фрейм
 [Draw sunken edge]
@@ -184,7 +184,7 @@
 [Extra icons (drag items to reorder them)]
 Дод. значки (перетягніть для зміни порядку)
 [Finally by]
-останнє
+Нарешті
 [First by]
 Спочатку
 [Flat Toolbar Buttons]
@@ -220,7 +220,7 @@
 [Inner Row vertical padding]
 Вертикальний відступ між рядками
 [Make selection shape equal to selected item]
-Виділяється область дорівнює обраному ел-ту
+Область виділення дорівнює обраному ел-ту
 [Margins (left/right)]
 Поля (праворуч/ліворуч)
 [Margins and spacing]
@@ -280,7 +280,7 @@
 [Event Show Area in Floater]
 Показувати панель подій в Status Floater
 [Show ICQ extended status icons]
-Показувати значки хСтатуса
+Показувати значки хСтатусу
 [Show Metacontact proto Icons]
 Показувати значки метаконтактів
 [Show Status Icons]
@@ -326,9 +326,9 @@
 [Synchronzie floater visibility with contact list]
 Синхронізувати видимість зі списком контактів
 [Then by]
-потім
+Потім
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name]
-Щоб показати раніше захований контакт, відкрийте Опції->Події->Ігнорувати, знайдіть контакт, і поставте галочку перед його ім'ям.
+Щоб показати раніше захований контакт, відкрийте Опції->Події->Ігнорувати, знайдіть контакт і поставте галочку перед його ім'ям.
 [Use Overlay icons on avatars]
 Використовувати накладення значків на аватари
 [Use Status Floater]
@@ -480,7 +480,7 @@
 [Show client icons]
 Показувати значки клієнтів
 [Show extended status icons]
-Показувати значки хСтатуса
+Показувати значки хСтатусу
 [Show MetaContact protocol icons]
 Значки метаконтактів
 [Show multiple rows:]
@@ -526,7 +526,7 @@
 [Show TV overview]
 Показати попередній перегляд ТБ
 [Listening to Display when available (has priority)]
-Показувати "слухаю" коли доступно (має пріоритет)
+Показувати "Слухаю" коли доступно (має пріоритет)
 [Contact rows]
 Рядки контактів
 [Allows inline skin item for editing clist nicer.]

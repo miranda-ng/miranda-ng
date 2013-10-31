@@ -552,7 +552,7 @@ HTML файл
 [Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
 Не можу завантажити набір значків (%s)\\r\\n%s\\r\\nЗначки не будуть відображатися.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
-У вас старий набір значків:\\r\\n%s\\r\\nВозможны проблеми зі значками, поновіть набір.
+У вас старий набір значків:\\r\\n%s\\r\\nМожливі проблеми зі значками, поновіть набір.
 [Speak Message]
 Вимовити повідомлення голосом
 [Next message]

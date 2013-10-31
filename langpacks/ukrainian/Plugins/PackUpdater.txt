@@ -116,7 +116,7 @@
 [Services]
 Служби
 [Clear pack updates folder]
-Очистити папку з оновленнями складання
+Очистити папку з оновленнями
 ['Yes' Button]
 Кнопка 'Так'
 ['No' Button]

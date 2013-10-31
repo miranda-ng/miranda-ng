@@ -186,7 +186,7 @@ Wildcard пошук по мережі
 [Invite only]
 За запрошеннями
 [Moderated]
-Модерируемый
+Модерований
 [Key]
 Ключ:
 [User limit:]
@@ -374,7 +374,7 @@ Jerk
 [The time interval for the buddy check function is now %u seconds]
 Інтервал перевірки приятелів дорівнює %u секунд(ам)
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage around for %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Ця команда не рекомендована для мережі такого розміру!\r\nЭто може зайняти ресурси системи приблизно від %u до %u хвилин.\r\nви впевнені що хочете продовжити?
+Ця команда не рекомендована для мережі такого розміру!\r\nЦе може зайняти ресурси системи приблизно від %u до %u хвилин.\r\nВи впевнені, що хочете продовжити?
 [IRC warning]
 Попередження IRC
 [Aborted]

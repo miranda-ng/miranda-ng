@@ -46,7 +46,7 @@
 [Warn, when some of LastSession contacts are hidden]
 Показати, якщо остання сесія має приховані контакти
 [Show other warnings ("session already opened" etc...)]
-Коказувати додаткові попередження
+Показувати додаткові попередження
 [Crash Recovery mode]
 Відновлення після збоїв
 [Restore Session]

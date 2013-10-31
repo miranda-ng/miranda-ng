@@ -696,7 +696,7 @@ Unicode зборка
 [Server side bookmarks\nStore conference rooms and web links on server.]
 Закладки на сервері\nХранить чат-кімнати та посилання на сервері.
 [Privacy Lists\nFlexible way to configure visibility and more.]
-Списки приватності\nУдобный спосіб налаштувати видимість і не тільки.
+Списки приватності\nЗручний спосіб налаштувати видимість і не тільки.
 [Jabber Multi-User Conference\nCreate join or existing conference room.]
 Чат-кімнати Jabber\nСоздание або вхід у чат-кімнати.
 [Roster editor\nView and modify your server-side contact list.]
@@ -704,9 +704,9 @@ Unicode зборка
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 Записна книжка\nХранение заміток на сервері і доступ до них звідусіль.
 [<room jid>\nSend groupchat invitation.]
-<room jid>\nПригласить в чат-кімнати.
+<room jid>\nЗапросити до чат-кімнати.
 [<room jid>\nIncoming groupchat invitation.]
-<room jid>\nПриглашение в чат-кімнати.
+<room jid>\nЗапрошення до чат-кімнати.
 [Member Information\n<user id>]
 Інформація про користувача\n<user id>
 [Member Information\n%s from %s]
@@ -1086,7 +1086,7 @@ XML для MS Excel (кодування UTF-8)
 [Ashamed]
 Присоромлений
 [Humbled]
-Приниженный
+Принижений
 [Aroused]
 Збуджений
 [In awe]
@@ -1103,8 +1103,8 @@ XML для MS Excel (кодування UTF-8)
 Задоволений
 [Sarcastic]
 Саркастичний
-[Огидно]
-Отвращенный
+[Disgusted]
+Огидно
 [Playful]
 Грайливий
 [Cranky]
@@ -1156,8 +1156,8 @@ XML для MS Excel (кодування UTF-8)
 [Relieved]
 Допомагає
 [Remorseful]
-Раскаянный
-[Неспокійний]
+Каюсь
+[Restless]
 Неспокійний
 [Serious]
 Серйозний
@@ -1167,7 +1167,7 @@ XML для MS Excel (кодування UTF-8)
 Здивований
 [Thirsty]
 Спраглий
-[Любовних]
+[Amorous]
 Влюбливий
 [Cautious]
 Обачний
@@ -1406,7 +1406,7 @@ Jabber помилка
 [Error %s %s\r\nPlease select other server]
 Помилка %s %s\r\nбудь ласка виберіть інший сервер
 [Error %s %s\r\nTry to specify more detailed]
-Помилка %s %s\r\nПопытайтесь вказати більше деталей
+Помилка %s %s\r\nСпробуйте вказати більше деталей
 [Unknown Error reply recieved\r\nPlease select other server]
 Помилка, прийнятий невідомий відповідь\r\nПожалуйта виберіть інший сервер
 [Please wait...\r\nConnecting search server...]

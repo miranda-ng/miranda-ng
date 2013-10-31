@@ -36,7 +36,7 @@
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Помилка запису для модифікації списку автозапуску.\n\nПричина: %s
 [Services]
-Службы
+Служби
 [Associations]
 Асоціації
 [Miranda NG Database]
@@ -52,7 +52,7 @@ Miranda NG не може відкрити посилання
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
 Miranda NG не в змозі відкрити "%S".\n\nВідсутній зареєстрований обробник для даного URL.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
-Miranda NG не в змозі відкрити "%S".\n\nЦей URL, є недійсним і не може бути проаналізовано.
+Miranda NG не в змозі відкрити "%S".\n\nЦей URL є недійсним і не може бути проаналізований.
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Доступ заборонений:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry Warning]

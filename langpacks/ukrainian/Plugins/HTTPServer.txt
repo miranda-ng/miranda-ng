@@ -128,7 +128,7 @@ IP адреса
 [You are browsing from]
 
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
-Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\пс: %s
+Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nс: %s
 [You need to restart miranda to change the main menu]
 Зміни в меню набудуть чинності після перезапуску програми.
 [HTTP Server]

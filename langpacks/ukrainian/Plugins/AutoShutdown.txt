@@ -18,7 +18,7 @@
 [Shutdown Events]
 Події автовимкнення
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
-Знову активувати автовиключення з тими ж налаштуваннями, якщо Miranda NG була закрита з включеним автовыключением.
+Знову активувати автовиключення з тими ж налаштуваннями, якщо Miranda NG була закрита з включеним автовиключенням.
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 Ігнорувати приховані і тимчасові контакти при спостереженні за всіма контактами не в мережі
 [Critical Shutdown Events]
@@ -58,7 +58,7 @@
 [Cancel]
 Скасування
 [Unsaved data in open applications except Miranda NG might get lost.]
-Всі несохраренные дані в інших програмах можуть бути втрачені.
+Всі незбережені дані в інших програмах можуть бути втрачені.
 [Please click "Cancel" if you would like to abort the process.]
 Натисніть "Скасувати", якщо хочете перервати процес
 [&Now!]
@@ -104,9 +104,9 @@
 [Week(s)]
 Тижнів
 [Month(s)]
-Місяць (ів)
+Місяць(ів)
 [Start/Stop automatic shutdown]
-Старт/Стоп, автовимкнення
+Старт/Стоп автовимкнення
 [Stop automatic shutdown]
 Зупинити автовимкнення
 [Start automatic shutdown]

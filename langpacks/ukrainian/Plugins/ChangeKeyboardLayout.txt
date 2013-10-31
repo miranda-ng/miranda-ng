@@ -6,11 +6,11 @@
 ;  Authors: yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
-Плагін управління зміною розкладки по гарячих клавіш.
+Плагін управління зміною розкладки по гарячих клавішах.
 [Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
-Встановіть конфігураційні рядка для невідомих розкладок(Плагіни->ChangeKeyboardLayout)!
+Встановіть конфігураційні рядки для невідомих розкладок (Плагіни -> ChangeKeyboardLayout)!
 [Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]
-Конфігураційні рядки відомих розкладок замінені. Відредагуйте, будь ласка, рядки для невідомих рядків, якщо такі є.
+Конфігураційні рядки відомих розкладок замінені. Відредагуйте, будь ласка, рядки для невідомих розкладок, якщо такі є.
 [Options:]
 Налаштування:
 [Hotkey for changing layout of text:]
@@ -26,7 +26,7 @@
 [Show result in MessageBox()]
 Показати результат в MessageBox()
 [Strings for keyboard layouts:]
-Рядки для роскладок клавіатури:
+Рядки для розкладок клавіатури:
 [ChangeKeyboardLayout]
 Зміна розкладки
 [HotKey for changing layout of text:]
@@ -46,23 +46,23 @@
 [Layout of text is the current layout]
 Розкладка тексту це поточна розкладка
 [Two-way changing layout (experimental)]
-Двостороннє змінення розкладки
+Двостороння зміна розкладки
 [Strings for keyboard layouts]
-Рядки для роскладок клавіатури
+Рядки для розкладок клавіатури
 [Changing Case]
 Інвертувати регістр
 [Changing Layout]
 Зміна розкладки
 [Popup colors]
-Кольори спл.окон
+Кольори спл. вікон
 [Windows colors]
 Кольори Windows
 [Custom colors]
-Налаштувати кольорів
+Налаштувати кольори
 [Inverting lettercase:]
 Інвертувати регістр:
 [Set Caps Lock state when inverting lettercase:]
-Встановити стан Caps Lock при инвертировании реєстру:
+Стан Caps Lock при інвертуванні регістру:
 [Invert current state]
 Інвертувати поточний стан
 [Switch off]

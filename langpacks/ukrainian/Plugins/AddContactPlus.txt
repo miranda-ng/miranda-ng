@@ -1,9 +1,9 @@
 ﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
-;  File: addcontactplus.dll
-;  Plugin: AddContact+
-;  Versions: 0.9.9.0
-;  Authors: Dezeath
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.1
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 [Add contact\nAdd a contact to your contact list]
 Додати контакт\nДодати контакт у список контактів
@@ -12,8 +12,8 @@
 [Provides the ability to quickly add new contacts.]
 Надає можливість швидко додати контакт.
 [The contact cannot be added to your contact list. If you are not connected to that network, try to connect. Also, make sure the User ID is entered properly.]
-Контакт не може бути додано до вашого списку контактів. Якщо ви не підключені до цієї мережі, спробуйте підключитися. Також, переконайтеся, що ви використовуєте правильний ID користувача.
+Контакт не може бути додано до вашого списку контактів. Якщо ви не підключені до цієї мережі, спробуйте підключитися. Також переконайтеся, що ви використовуєте правильний ID користувача.
 [Add temporarily]
-Дадати тимчасово
+Додати тимчасово
 [Open add contact dialog]
 Відкрити діалог додавання контакту

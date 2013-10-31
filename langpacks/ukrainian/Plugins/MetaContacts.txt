@@ -234,9 +234,9 @@ UIN, E-mail і т.д.
 [Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
 Номер субконтакта (%d) > номери у метаконтакте (%d) - метаконтакт буде вилучено
 [Subcontact's MetaContact not found - deleting MetaContact data]
-Субконтакты в метаконтакте не знайдені - дані метаконтакту будуть видалені
+Субконтакти в метаконтакті не знайдені - дані метаконтакту будуть видалені
 [MetaContact number of contacts < 0 - deleting MetaContact]
-Кількість контактів в метаконтакте < 0 - метаконтакт буде вилучено
+Кількість контактів в метаконтакті < 0 - метаконтакт буде видалено
 [MetaContact default contact number out of range - deleting MetaContact]
 Номер контакту за замовчуванням за межами метаконтакту - метаконтакт буде вилучений
 [MetaId: ]

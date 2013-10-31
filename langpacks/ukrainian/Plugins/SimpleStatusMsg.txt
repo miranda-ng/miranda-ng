@@ -230,7 +230,7 @@
 [Show in message list]
 Показати у списку повідомлень
 [Are you sure you want to clear predefined status messages?]
-Ви впевнені, що хочете видалити насроенные повідомлення статусу?
+Ви впевнені, що хочете видалити стандартні повідомлення статусу?
 [Confirm clearing predefined]
 Підтвердження видалення налаштованих повідомлень
 [<Last status>]

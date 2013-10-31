@@ -30,15 +30,15 @@
 [Keep all in same folder]
 Зберігати в одній папці
 [Avatar Change]
-Зміна аватар
+Зміна аватарів
 [Show popup when a contact change his avatar]
-Спливаюче вікно при зміні аватар
+Спливаюче вікно при зміні аватару
 [Show avatar history]
 Показати історію аватарів
 [Show contact history]
 Показати історію контакту
 [Avatar change\n%contact% changed his/her avatar]
-Зміна аватар\n%contact% змінив свій аватар
+Зміна аватарів\n%contact% змінив свій аватар
 [Avatar removal\n%contact% removed his/her avatar]
 Видалення аватара\n%contact% видалив свій аватар
 [changed his/her avatar]
@@ -46,9 +46,9 @@
 [removed his/her avatar]
 видалив свій аватар
 [Avatar History: Select how to store history avatars]
-Історія аватарів виберіть, як зберігати історію аватарів
+Історія аватарів: виберіть, як зберігати історію аватарів
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
-Виберіть, яким чином зберігати історію аватарів контактів. Це налаштування не МОЖНА буде змінити в майбутньому, тому що всі попередні події історії будуть втрачені.
+Виберіть, яким чином зберігати історію аватарів контактів. Це налаштування НЕ можна буде змінити в майбутньому, тому що всі попередні події історії будуть втрачені.
 [Store history in miranda history and all history avatars in same folder]
 Зберігати історію в історії Miranda і всі аватари в одній папці
 [History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
@@ -78,7 +78,7 @@
 [Log this user's avatars changes to history]
 Зберігати зміну аватарів в історії
 [Show popups for this user]
-Вспл. вікна для цього користувача
+Спл. вікна для цього користувача
 [Save As...]
 Зберегти як...
 [Delete this entry]
@@ -92,21 +92,21 @@
 [Delete avatar log?]
 Видалити записи змін аватарів?
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
-Ви впевнені, що хочете видалити цей запис з історії?\nБудет видалена тільки сама запис, файл зображення залишиться!
+Ви впевнені, що хочете видалити цей запис з історії?\nБуде видалено тільки сам запис, файл зображення залишиться!
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
-Ви впевнені, що хочете видалити цей ярлик аватара?\nБудет вилучений тільки ярлик, файл зображення залишиться!
+Ви впевнені, що хочете видалити цей ярлик аватара?\nБуде видалено тільки ярлик, файл зображення залишиться!
 [Delete avatar?]
 Видалити аватар?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
-Ви впевнені, що хочете видалити цей збережений аватар?\nБудуть видалені записи з історії та файл зображення.\nУВАГА: Це може торкнутися кілька записів у історії!
+Ви впевнені, що хочете видалити цей збережений аватар?\nБуде видалено запис з історії та файл зображення.\nУВАГА: Це може стосуватися кількох записів у історії!
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
-Ви впевнені, що хочете видалити цей збережений аватар?\nБудуть видалені ярлик файлу зображення.\nУвага: Це може торкнутися кілька ярликів!
+Ви впевнені, що хочете видалити цей збережений аватар?\nБуде видалено ярлик та файл зображення.\nУвага: Це може стосуватися кількох ярликів!
 [Unknown Protocol]
 Невідомий протокол
 [Unknown UIN]
 Невідомий номер
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
-Метаконтакти обробляються особливо: інформація завжди копіюється з субконтактов (повідомлення від метаконтактів ігноруються)
+Метаконтакти обробляються особливо: інформація завжди копіюється з субконтактів (повідомлення від метаконтактів ігноруються)
 [Avatar history...]
 Історія аватарів
 [Log avatar changes to disk]

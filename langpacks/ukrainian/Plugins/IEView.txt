@@ -10,11 +10,11 @@
 [IE Based Chat Log.]
 Журнал на движку IE.
 [Currently the following BBCodes are supported: [b][i][u][img][size][color]]
-Підтримуються [b][i][u][img][size][color] ВВкоды
+Підтримуються [b][i][u][img][size][color] ВВкоди
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color]]
-Підтримуються [b][i][u][s][img][size][color] ВВкоды
+Підтримуються [b][i][u][s][img][size][color] ВВкоди
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Підтримуються [b][i][u][s][img][size][color][url] ВВкоды
+Підтримуються [b][i][u][s][img][size][color][url] ВВкоди
 [Enable support for Flash files in smileys and BBCodes]
 Підтримка flash (*. swf) файлів в смайли і ВВкодах
 [Enable workaround for PNG transparency]

@@ -75,7 +75,7 @@
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві у списку контактів.
 [This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
-Цей файл використовується для пошуку і виявлення ігри. Файл містить підтримувані гри Xfire.
+Цей файл використовується для пошуку і виявлення ігор. Файл містить підтримувані ігри Xfire.
 [This file contains all original game icons. You can also activate the option icon for downloading, if you don't have it.]
 Цей файл містить оригінальні значки ігор. Ви можете так само активувати автоматичне завантаження, якщо цього файлу у вас немає.
 [Be sure you put these files in following folder:]
@@ -171,13 +171,13 @@
 [Show my friends]
 Показувати моїх друзів
 [Show on my profile and miniprofile]
-Показувати мій профіль і минипрофиль
+Показувати мій профіль і мініпрофиль
 [Show my game server data]
 Показувати дані сервера моєї гри
 [Show my voice chat server to my friends]
 Показувати мій сервер голосового чату моїм друзям
 [Show people when I type to them]
-Показувати повідомлення про моєму наборі тексту
+Показувати повідомлення про набір тексту мною
 [Automatically reconnect on protocol version changes]
 Автоматично перепідключатися при зміні версії протоколу
 [Background updating]

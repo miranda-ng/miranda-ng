@@ -18,7 +18,7 @@
 [Contacts]
 Контакти
 [Show offline contacts on these protocols:]
-Показувати откл.контакты для цих протоколів:
+Показувати відкл. контакти для цих протоколів:
 [But hide them if protocol is offline]
 Але ховати їх, якщо протокол відключений
 [Append group name to contact name]

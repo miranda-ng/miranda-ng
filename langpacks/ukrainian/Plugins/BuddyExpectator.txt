@@ -10,7 +10,7 @@
 [Buddy Expectator]
 Чекаю тебе
 [has gone online for the first time.]
-вийшов в мережу в перший раз.
+вийшов в мережу вперше.
 [has returned after a long absence.]
 повернувся після тривалої відсутності.
 [has returned after being absent since %#x]
@@ -32,7 +32,7 @@
 [Miss you event]
 Подія "Чекаю тебе"
 [Hide contact event]
-Сховати подія контакту
+Сховати подію контакту
 [You awaited this contact!]
 Ви чекали цей контакт!
 [Enable Miss You]
@@ -42,7 +42,7 @@
 [Tray/popup icon]
 Значок в треї/спливаючому вікні
 [Last seen online:]
-Останнє поява:
+Остання поява:
 [Last input message:]
 Останнє повідомлення:
 [Custom absence period:]
@@ -54,13 +54,13 @@
 [When a contact returns after]
 При появі після контакту
 [or comes online for the first time]
-чи виходить у мережу в перший раз
+чи виходить у мережу вперше
 [Show a popup]
 Показувати спливаюче вікно
 [Add an event (flashing icon) to the contact]
-Додати подію (миготливий значок) до контакту
+Додати подію до контакту (блимання значка)
 [On event action (double click) or popup click:]
-На дії події (дв. клік) або клік по всп. вікна
+По події (подв. клік) або кліку на спл. вікні
 [Open User Details]
 Відкрити деталі користувача
 [Long time no see]

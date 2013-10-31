@@ -19,9 +19,9 @@
 [Sun]
 НД
 [Full]
-Повнолуння
+Повний Місяць
 [Sunny]
-Соняшно
+Сонячно
 [Waning Crescent]
 Щербатий Місяць
 [Waning Gibbous]

@@ -7,10 +7,10 @@
 ;============================================================
 [Scriver - send and receive instant messages.]
 Плагін особистих та групових чатів для Miranda NG.
-[Behaviour]
+[Behavior]
 Поведінка
 [Automatically pop up the window when]
-Автоматично коказувати вікно колі
+Автоматично показувати вікно коли
 [and stay minimized]
 і залишатися згорнутим
 [Cascade new windows]

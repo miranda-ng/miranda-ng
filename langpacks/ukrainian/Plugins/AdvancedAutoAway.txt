@@ -28,13 +28,13 @@
 [Continuously check for internet connection]
 Постійно перевіряти підключення до Інтернету
 [Do so by pinging host]
-Пінговать хост
+Пінгувати хост
 [Confirm Status]
 Підтвердіть статус
 [Close]
 Закрити
 [Cancel]
-Скасування
+Скасувати
 [Profile]
 Профіль
 [Message]
@@ -98,7 +98,7 @@
 [Timeout]
 Таймаут
 [s]
-з
+с
 [Set window location]
 Позиція вікна
 [Set window size]
@@ -114,7 +114,7 @@
 [Automatically hang up on exit]
 Розривати зв'язок при виході
 [Dial-up (experimental)]
-від. доступ (експериментально)
+Від. доступ (експериментально)
 [Background color]
 Колір фону
 [Text color]
@@ -156,7 +156,7 @@
 [Permanent]
 Постійно
 [Show additional information in popups]
-Додаткова інформація по всплыв.окнах
+Додаткова інформація у спл. вікнах
 [Use miranda's message setting]
 Використовувати установки Miranda
 [Use this message:]
@@ -169,8 +169,8 @@
 Налаштування для кожного облікового запису
 [Use same settings for all accounts]
 Загальні налаштування для всіх облікових записів
-[Ignore caps-lock, num-scroll lock and-lock keys]
-Ігнорувати клавіші caps-lock, num-lock і scroll-lock
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Ігнорувати клавіші Caps Lock, Num Lock і Scroll Lock
 [Check interval (secs)]
 Інтервал перевірки (с)
 [Confirm dialog timeout (secs)]

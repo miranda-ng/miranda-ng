@@ -10,7 +10,7 @@
 [The Message]
 Повідомлення
 [Send when contact (MSN status)]
-Надіслати коли контакт
+Надіслати, коли контакт
 [Changes from OFFLINE]
 Переходить з "Відключений"
 [Changes to ONLINE]
@@ -26,7 +26,7 @@
 [Changes to 'Free For Chat']
 Змінюється на "Готовий чатитися"
 [Changes to 'On The Phone']
-Змінюється на "На телефоні"
+Змінюється на "Телефоную"
 [Changes to 'Out To Lunch']
 Змінюється на "Обідаю"
 [ONLINE]
@@ -60,7 +60,7 @@ Pounce надіслано %s за %d секунд
 [Buddy Pounce setup for %s]
 Установка Buddy Pounce для %s
 [Allows you to send a message to contacts if they change status and your not there to say hi. Bassically offline messaging protocols for that dont have it.]
-Дозволяє відсилати повідомлення коли контакт змінює статус, а вас немає на місці. Зазвичай використовується для протоколів, у яких немає можливості відсилання оффлайнових повідомлень.
+Дозволяє надсилати повідомлення, коли контакт змінює статус, а вас немає на місці. Зазвичай використовується для протоколів, у яких немає можливості надсилання оффлайнових повідомлень.
 [To NA]
 -> Недоступний
 [Give Up delay]
@@ -78,7 +78,7 @@ Pounce надіслано %s за %d секунд
 [Confirmation Window]
 Вікно підтвердження
 [Show Delivery Messages]
-Показ. доставл. повідомлення
+Повідомл. про доставку
 [Default Settings]
 Стандартні налаштування
 [These settings are also used when sending a "Simple" pounce]
@@ -106,7 +106,7 @@ Pounce надіслано %s за %d секунд
 [To Online]
 -> В мережі
 [Pounce being sent to]
-Отлож. повідом. надіслано для
+Відкл. повідом. надіслано для
 [To Free For Chat]
 -> Готовий базікати
 [Delete Pounce]
@@ -128,12 +128,12 @@ Pounce надіслано %s за %d секунд
 [<< Simple]
 << Простий
 [Use Advanced Dialog]
-Вик. розш. діалог
+Розширений діалог
 [Out To Lunch]
 Обідаю
 [The Message (%d Characters)]
 Повідомлення (%d символів)
 [On The Phone]
-На телефоні
+Телефоную
 [&Buddy Pounce]
 Відкладене повідомлення

@@ -9,8 +9,6 @@
 Сповіщає, якщо хтось із вашого списку контактів змінив свій клієнт.
 [ClientChangeNotify error]
 Помилка ClientChangeNotify
-[OK]
-Так
 [Fingerprint plugin not found.]
 Плагін Fingerprint не знайдено.
 [ClientChangeNotify requires it to work properly.]
@@ -36,7 +34,7 @@
 [Delay]
 Затримка
 [Sec]
-сек.
+с
 [0 = Default]
 0=Умовчання
 [-1 = Infinite]
@@ -84,7 +82,7 @@
 [ClientChangeNotify]
 Повідомлення про зміну клієнта
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) що зміненив клієнт  %extratext%
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) що змінив клієнт  %extratext%
 [Error #%d]
 Помилка #%d
 [Can't open log file ]

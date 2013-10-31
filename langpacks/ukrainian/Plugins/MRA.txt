@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.0.0.1
-;  Authors: 
+;  Version: 2.1.0.6
+;  Authors: Ivan Rozhuk
 ;============================================================
-[E-mail:]
-
+[Miranda Mail.ru Agent protocol plugin.]
+Підтримка протоколу Mail.ru Агент (MRA) в Miranda NG.
 [Password:]
 Пароль:
 [Create a new Mail.ru account]
@@ -14,7 +14,7 @@
 [Configuration]
 Конфігурація
 [Login Server:]
-
+Сервер:
 [Port:]
 Порт:
 [Default]
@@ -24,11 +24,9 @@
 [Automatically add contacts to server list on logon]
 Автоматично додавати контакти на сервер при підключенні
 [Automatically grant authorization to users in contact list]
-Автоматично авторизовывать користувачів зі списку
+Автоматично авторизувати користувачів зі списку
 [Automatically grant authorization to new users]
-Автоматично авторизовывать нових користувачів
-[Disable spam check]
-Не перевіряти на спам
+Автоматично авторизувати нових користувачів
 [Notify me when a message delivery has failed]
 Повідомити мене, якщо повідомлення не вдалося доставити
 [Notify about new mail if increment]
@@ -40,8 +38,8 @@
 [Show received formatted text (receive RTF)]
 Показувати прийнятий форматований текст
 [Send formatted text (send RTF)]
-Відправляти Форматований текст
-[Background colour]
+Відправляти форматований текст
+[Background color]
 Колір фону
 [Font]
 Шрифт
@@ -65,7 +63,7 @@
 День народження:
 [Zodiak:]
 
-[Locatіon]
+[Location]
 Місце
 [Country:]
 Країна:
@@ -78,7 +76,7 @@
 [Remember]
 
 [Enable avatars support (loading)]
-Включити підтримку образів (завантажувати)
+Включити підтримку аватарів (завантажувати)
 [Server:]
 Сервер:
 [Updates check interval, min]
@@ -86,7 +84,7 @@
 [Return absolute path]
 Повертати абсолютний шлях
 [Delete avatar file with contact]
-Видаляти файл образу разом з контактом
+Видаляти файл аватару разом з контактом
 [Use keep-alive connections]
 Використовувати постійні з'єднання (keep alive)
 [Files exchange]
@@ -95,17 +93,17 @@
 Заборонити вихідні підключення при відправленні
 [No out connection on receive]
 Заборонити вихідні підключення при отриманні
-[Out connections: ignory additional ports (443, 2041)]
+[Out connections: ignore additional ports (443, 2041)]
 Вихідні підключення: ігнорувати дод. порти (443, 2041)
 [Hide my IP addresses]
-Приховувати мої IP адреси
+Приховувати мої IP-адреси
 [Add extra address]
 Додати додаткові адреси
 [Your host (or router):]
 Ваш хост (або роутер):
 [File send block size:]
 Розмір блоку при відправленні:
-[512 - 65536 байт]
+[512 - 65536 bytes]
 512 - 65536 байт
 [Enable direct connections]
 Дозволити прямі підключення
@@ -117,16 +115,16 @@
 Повний e-mail:
 [Example: Petrov_Ivan@mail.ru]
 Приклад: Petrov_Ivan@mail.ru
-[Create a new Mail.ru using the account Mail.ru website]
-Зареєструватися Mail.ru
+[Create a new Mail.ru account using the Mail.ru website]
+Зареєструватися в Mail.ru
 [Retrieve a lost password]
 Забули пароль?
-[Leave empty if you dont want change password]
-Залиште порожнім якщо не бажаєте змінювати пароль
+[Leave empty if you don't want to change password]
+Залиште порожнім, якщо не бажаєте змінювати пароль
 [Popup type]
-
+Тип вікна
 [Popup settings]
-Налаштування спливаючого вікна
+Налаштування спливаючих вікон
 [Enable]
 Включено
 [&Use Windows colors]
@@ -147,60 +145,78 @@
 Заголовок:
 [Message:]
 Діалог:
-[Enable Anti Spam]
-Включити антиспам
-[Check temp contacts]
-Перевіряти тимчасові контакти зі списку
-[Delete spam bot contacts]
-Видаляти контакти спам ботів зі списку
-[Max. language changes in message (0 - disabled)]
-Макс. кількість зміни мов у повідомленні (0 - викл)
-[Show pop up]
-Показувати спливаючі вікна
-[Write to system history]
-Записувати в системну історію
-[Send spam report to server]
-Поскаржитися на спам
-[Bad words list]
-Список поганих слів
-[Add]
-Додати
-[Remove]
-Видалити
-[Ignory non AlphaNumeric characters]
-Ігнорувати символи не явлющиеся буквою/цифрою при перевірці
-[OK]
-
 [Cancel]
 Скасування
 [Notify]
 Повідомлення
-[Writed:]
+[Written:]
 
 [Select e-mail]
 Вибір електронної пошти
-;file \protocols\MRA\src\MraAntiSpam.cpp
-[Spam bot blocked]
-Спам бот заблокований
-[Spam bot contact deleted]
-Контакт спам бота видалений зі списку
-;file \protocols\MRA\src\MraAvatars.cpp
+[Male]
+Чоловіча
+[Female]
+Жіноча
+[January]
+Січень
+[February]
+Лютий
+[March]
+Березень
+[April]
+Квітень
+[May]
+Травень
+[June]
+Червень
+[July]
+Липень
+[August]
+Серпень
+[September]
+Вересень
+[October]
+Жовтень
+[November]
+Листопад
+[December]
+Грудень
+[Aries]
+Овен
+[Taurus]
+Телець
+[Gemini]
+Близнюки
+[Cancer]
+Рак
+[Leo]
+Лев
+[Virgo]
+Діва
+[Libra]
+Терези
+[Scorpio]
+Скорпіон
+[Sagittarius]
+Стрілець
+[Capricorn]
+Козеріг
+[Aquarius]
+Водолій
+[Pisces]
+Риби
 [Avatars' plugin connections]
 
-[Avatars]
-Аватари
 [Avatars: server return HTTP code: %lu]
 Аватари: сервер повернув HTTP код: %lu
 [Avatars: can't open file %s, error]
-
-;file \protocols\MRA\src\MraChat.cpp
+Аватари: неможливо відкрити файл %s, помилка
 [CHAT plugin is required for conferences. Install it before chatting]
 
 [invite sender]
 
 [invite new members]
 
-;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
 Ваш співрозмовник будить вас
 [Display &Inbox]
@@ -214,7 +230,7 @@
 [My Blog]
 Мій блог
 [My Blog Status]
-
+Статус у блозі
 [My Video]
 Моє відео
 [My Answers]
@@ -227,8 +243,8 @@
 Пошук в інтернеті
 [Update all users info]
 Оновити інформацію всіх користувачів
-[Check updates users avatars]
-Перевірити оновлення образів користувачів
+[Check users avatars updates]
+Перевірити оновлення аватарів користувачів
 [Request authorization for all]
 Запитати авторизацію у всіх
 [Request authorization]
@@ -242,7 +258,7 @@
 [&Read Blog]
 Блог
 [Reply Blog Status]
-
+Відповідь на статус у блозі
 [View Video]
 Подивитися відео
 [Answers]
@@ -252,7 +268,7 @@
 [Send &Nudge]
 
 [Mail box deleted]
-Поштова скринька видалений
+Поштова скринька видалена
 [Contact not on server]
 Контакт відсутній на сервері
 [Not authorized]
@@ -260,35 +276,31 @@
 [Phone/SMS only contact]
 Телефонний/SMS контакт
 [Blog status message]
-
+Повідомлення статусу в блозі
 [New E-mail available in Inbox]
 Нова пошта в папці "Вхідні"
 [Please authorize me]
 
-;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: cant allocate disk space for file, size %lu bytes, error]
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
 
 [Receive files: can't open file %s, error]
 
-[Receive files: request for file %s not sended, error]
+[Receive files: request for file %s not sent, error]
 
 [Send files: can't open file %s, error]
-
-[Send files: requested file: %S not found in send files list.]
-Відправка файлів: запитаний файл: %S не знайдений серед файлів підготовлених до відправлення
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
-[No description given]
-Без опису
-;file \protocols\MRA\src\MraIcons.cpp
+Відправка файлів: неможливо відкрити файл %s, помилка
+[Send files: requested file: %S - not found in send files list.]
+Відправка файлів: запитаний файл: %S не знайдений серед файлів, підготовлених до відправлення
+[Protocols]
+Протоколи
 [Main Menu]
 Головне меню
 [Contact Menu]
 Меню контакту
 [Extra status]
-
+Додатковий статус
 [Custom Status]
 хСтатус
-;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Немає
 [Debug]
@@ -305,7 +317,6 @@
 Нова пошта
 [Popups]
 Спливаючі вікна
-;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 Підключення %s
 [Mail.ru Xstatus]
@@ -314,50 +325,49 @@
 
 [E-mail address]
 Адреса e-mail
-;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Непрочитана пошта: %lu/%lu повідомлень
-[From: %s\r\nSubject: %s\r\n%s]
-Від: %s\r\пТема: %s\r\n%s
+[From: %S\r\nSubject: %S\r\n%s]
+Від: %S\r\nТема: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
-Непрочитаної пошти немає\r\пВсего повідомлень: %lu
-[Closing in]
+Непрочитаної пошти немає\r\nВсього повідомлень: %lu
+[Closing in %ld]
 
 [Reply to %s blog status]
 
 [Set my blog status]
 
-[Writed]
+[Written]
 
-[Your password expired. Please reenter password in the Options dialog]
-
-;file \protocols\MRA\src\Mra_options.cpp
+[Are you sure?]
+Ви впевнені?
+[Services...]
+Служби...
 [Network]
 Мережа
 [Account]
 Обліковий запис
 [Connections]
 З'єднання
-[Anti spam]
-Антиспам
 [Files]
 Файли
-;file \protocols\MRA\src\Mra_proto.cpp
+[Avatars]
+Аватари
 [Please, setup e-mail in options]
 Будь ласка, введіть e-mail в налаштуваннях
 [Please, setup password in options]
 Будь ласка, введіть пароль в налаштуваннях
 [Logon error: invalid login/password]
-Помилка при перевірки імені користувача та пароля
+Помилка при перевірці імені користувача та пароля
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
 MRIM_CS_MESSAGE_STATUS: не знайдений в черзі
-[Server error: cant get MPOP key for web authorize]
-Помилка сервера: не можливо отримати MPOP ключ для веб авторизації
-[MRIM_CS_FILE_TRANSFER_ACK: unknown error code: %lu]
+[Server error: can't get MPOP key for web authorize]
+Помилка сервера: неможливо отримати MPOP-ключ для веб-авторизації
+[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
 MRIM_CS_FILE_TRANSFER_ACK: невідома помилка, код: %lu
 [invisible status changed]
 статус невидимості змінився
-[MRIM_CS_*_CONTACT_ACK: server unknown error code: %lu]
+[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
 MRIM_CS_*_CONTACT_ACK: невідома помилка сервера, код: %lu
 [MRIM_CS_*_CONTACT_ACK: not found in queue]
 MRIM_CS_*_CONTACT_ACK: не знайдений в черзі
@@ -365,20 +375,19 @@ MRIM_CS_*_CONTACT_ACK: не знайдений в черзі
 MRIM_ANKETA_INFO: не знайдено в черзі
 [MRIM_CS_GAME: unknown internal game message code: %lu]
 MRIM_CS_GAME: невідомий внутрішній код ігрового повідомлення: %lu
-[MRIM_CS_CONTACT_LIST2: server unknown error code: %lu]
+[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
 MRIM_CS_CONTACT_LIST2: невідома помилка сервера, код: %lu
 [MRIM_CS_SMS_ACK: not found in queue]
 MRIM_CS_SMS_ACK: не знайдений в черзі
 [Mail.ru System notify]
 Системне повідомлення від адміністрації Mail.ru
-;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
 Хворий
 [Home]
 Будинок
 [Eating]
 Їм
-[Компас]
+[Compass]
 Компас
 [On WC]
 У туалеті
@@ -448,10 +457,10 @@ MRIM_CS_SMS_ACK: не знайдений в черзі
 Клас!
 [Peace!]
 Миру-мир!
-[A Cock snook]
-Фіга
+[Cock a snook]
+Дуля
 [Get out]
-Отвалите
+Відчепіться
 [Death]
 Смерть
 [Rocket]
@@ -469,6 +478,4 @@ MRIM_CS_SMS_ACK: не знайдений в черзі
 [Music]
 Музика
 [Dating]
-
-[Are you sure?]
-Ви впевнені?
+Побачення

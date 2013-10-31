@@ -328,7 +328,7 @@ SecureIM: отримано зашифроване повідомлення:\n
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
 Автоматично прийнятий публічний ключ RSA від: %s UID: %s SHA1: %s
 [SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
-Отримано публічний ключ RSA від "%s"\n\nНовый SHA1: %s\n\Старий SHA1: %s\n\nЗаменить ключ?
+Отримано публічний ключ RSA від "%s"\n\nНовий SHA1: %s\n\Старий SHA1: %s\n\nЗамінити ключ?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Автоматично прийнятий публічний ключ RSA від: %s uin: %s Новий SHA1: %s Старий SHA1: %s
 [Contact List]

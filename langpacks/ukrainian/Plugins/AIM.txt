@@ -104,7 +104,7 @@ AIM Помилка
 [AIM Group Chat]
 AIM Чат
 [AIM MetaContact corrupted - the number of subcontacts is incorrect.]
-Метаконтакт пошкоджений - неправильна кількість подконтактов.
+Метаконтакт пошкоджений - неправильна кількість субконтактів.
 [AIM Network Error]
 AIM Помилка мережі
 [AIM Password Change]
@@ -124,7 +124,7 @@ AIM Рівень попереджень
 [AIM Warning]
 AIM Попередження
 [Handle aim: links on websites]
-Обробка: Посилання на вебсайти
+Обробка: Посилання на веб-сайти
 [Screenname]
 Ім'я AIM
 [AOL® Instant Messenger server connection]
@@ -152,17 +152,17 @@ AIM Попередження
 [*** %s has %s %s]
 *** %s є %s %s
 [[%s] *** Chat session ended]
-(%s) *** Чат сесія завершена
+(%s) *** Чат-сесію завершено
 [[%s] *** Chat session started]
-(%s) *** Чат сесія розпочато
+(%s) *** Чат-сесію розпочато
 [[%s] Cancelling file receive request from %s]
 (%s) Скасування запиту на отримання файлу від %s
 [[%s] Denying file receive request from %s]
 (%s) Заборона одержання файлів від %s
 [[%s] File transfer complete]
-(%s) Передача файлу завершено
+(%s) Передачу файлу завершено
 [[%s] Receieved file receive request from %s]
-(%s) Отримано запит прийому файл %s
+(%s) Отримано запит прийому файлу %s
 [[%s] Received file %d of %d]
 (%s) Отримано файл %d з %d
 [[%s] Receiving %s]
@@ -177,7 +177,7 @@ AIM Попередження
 Невідома помилка.
 [Anonymous]
 Анонімно
-[AOL has reported that you have been попереджені by another user.]
+[AOL has reported that you have been warned by another user.]
 AOL повідомляє, що ви були попереджені іншим користувачем.
 [AOL Instant Messenger client-to-client connections]
 AIM з'єднання між користувачами
@@ -214,7 +214,7 @@ AOL® Логін
 [Exchange]
 Обмін:
 [Flash window on activity in chat]
-Блимати вікно при активністі
+Блимати вікном при активності
 [Formatted screenname does not match your screenname.]
 Ім'я не відповідає вашому імені.
 [Group Chat Invitatation]
@@ -258,7 +258,7 @@ AOL® Логін
 [Normal User]
 Нормальний
 [Note: Use port 0 to connect on a random port]
-Використовуйте порт 0 для з'єднання за випадковим порту
+Використовуйте порт 0 для з'єднання через випадковий порт
 [Notify me when I have been попереджені by another user]
 Повідомляти мене про отримання попередження
 [Only reply to users in your contact list]
@@ -278,7 +278,7 @@ AOL® Логін
 [Register Account]
 Зареєструвати обліковий запис
 [Send a chat invitation to the following user:]
-Надіслати запрошення початиться:
+Надіслати запрошення до чату:
 [Send Area]
 Поле відправлення
 [Send message on Ctrl+Enter]
@@ -310,7 +310,7 @@ AOL® Логін
 [Unable to add buddy or group. You may have the max allowed buddies or or groups are trying to add a buddy to a group that doesn't exist and cannot be created.]
 Неможливо додати контакт або групу. Можливо, ви досягли максимуму контактів або груп, або ви намагаєтеся додати контакт в неіснуючу групу, яку не можна створити.
 [Unconfirmed AOL User]
-Неперевірений AOL користувач
+Неперевірений користувач AOL
 [Unconfirmed User]
 Неперевірений користувач
 [Unknown AOL User]
@@ -356,7 +356,7 @@ AOL® Логін
 [AIM Group Chats (%d)]
 AIM Групові чати (%d)
 [Would you like to warn %s?\r\n\r\nYou must have exchanged messages with this user recently in order for this to work.]
-Ви хочете попередити %s?\r\n\r\nви повинні були обмінятися повідомленнями з цим користувачем, щоб ця функція працювала.
+Ви хочете попередити %s?\r\n\r\nВи повинні були обмінятися повідомленнями з цим користувачем, щоб ця функція працювала.
 [AIM Chat Logs]
 AIM Журнали
 [AIM OSCAR Plugin]
@@ -410,9 +410,9 @@ AIM Журнали
 [Not Underline]
 Не підкреслений
 [Subscript]
-Подскрипт
+Субскрипт
 [Not Subscript]
-Не подскрипт
+Не субскрипт
 [Superscript]
 Суперскрипт
 [Not Superscript]

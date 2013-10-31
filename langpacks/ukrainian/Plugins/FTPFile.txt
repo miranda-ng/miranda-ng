@@ -46,7 +46,7 @@
 [%s (%d, %d)\n\nMore info:\n%s\n\n%s]
 %s (%d, %d)\n\nРасширенная інформація:\n%s\n\n%s
 [Do you want to delete a partially uploaded file?]
-Видалити частково закачаный файл?
+Видалити частково закачаний файл?
 [Could not delete file from server]
 Неможливо видалити файл з сервера
 [FTP File (uploading file)]
@@ -152,9 +152,9 @@ FTP файл менеджер
 [Download link:]
 Посилання:
 [You have to fill and enable at least one FTP server in setting.]
-Ви повинні додати хоча б один FTP сервер в налаштуваннях.
+Ви повинні додати хоча б один FTP-сервер в налаштуваннях.
 [Automatically delete file from FTP server after (experimental):]
-Автоматично видаляти файли з FTP сервера після (эксперим.):
+Автоматично видаляти файли з FTP-сервера після (експерим.):
 [Error occurred when connecting to server.]
 Помилка при встановленні з'єднання з сервером.
 [Aborting file upload...]

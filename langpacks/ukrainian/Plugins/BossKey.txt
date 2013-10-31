@@ -8,7 +8,7 @@
 [Anti-Boss plugin.]
 Дозволяє по натисканню "гарячої клавіші" ховати Miranda NG від сторонніх очей.
 [BossKey]
-АнтіБосс
+Антибосс
 [Go to Customize -> Hotkeys to change the hotkey]
 Налаштування в Тонкі налаштування -> Гарячі клавіші
 [When I press the hotkey:]
@@ -16,7 +16,7 @@
 [Change status to]
 Змінити статус на
 [Change only if current status is Online]
-Змінювати тільки при статусі ' В мережі'
+Змінювати тільки при статусі "В мережі"
 [Use default status message]
 Статусне повідомлення за замовчуванням
 [Disable Sounds]
@@ -30,15 +30,11 @@
 [Change status back]
 Повернути попередній статус
 [Hotkey]
-Горячая клавиша
+Гаряча клавіша
 [Password:]
 Пароль:
-[OK]
-Так
 [Cancel]
 Скасувати
-[EN]
-EN
 [Workstation is Locked]
 Робоча станція заблокована
 [Screen Saver is running]
@@ -46,11 +42,11 @@ EN
 [Windows is inactive]
 Windows не активна
 [Hide Miranda when:]
-Сховати програму коли:
+Сховати програму, коли:
 [Miranda is inactive]
 Програма неактивна
 [min]
-мін.
+хв.
 [Miranda is started]
 Програма запускається
 [Others]
@@ -62,7 +58,7 @@ Windows не активна
 [Miranda NG is locked.\nEnter password to unlock it.]
 Miranda NG заблокована.\nВведіть пароль для розблокування.
 [Password is not correct!\nPlease, enter correct password.]
-Неправильный пароль!\nВведите правильный пароль.
+Неправильний пароль!\nВведіть правильний пароль.
 [Hide Miranda NG]
 Сховати Miranda NG
 [Hide]

@@ -58,8 +58,8 @@
 [GMail notifications]
 Повідомлення про пошту в GMail
 [subject\n %s\nfrom\n%s\n%s\n]
-тема\n %s\пвід\n%s\n%s\n
+тема\n %s\nвід\n%s\n%s\n
 [subject\n %s\nfrom\n%s]
-тема\n %s\пвід\n%s
+тема\n %s\nвід\n%s
 [Unread threads:]
 Непрочитаних ланцюжків:

@@ -12,7 +12,7 @@
 [Settings]
 Налаштування
 [Always show contact list]
-Завжди коказувати список контактів
+Завжди показувати список контактів
 [Show groups in contact list]
 Показувати групи у списку контактів
 [Do not show Find control border]
@@ -100,7 +100,7 @@
 [Name]
 Ім'я
 [Active]
-Активно
+Активне
 [Action type]
 Тип дії
 [Filter]
@@ -137,7 +137,7 @@
 [OK]
 
 [Cancel]
-Скасування
+Скасувати
 [Open History]
 
 [View &History]
@@ -209,7 +209,7 @@
 [Send Message]
 Відправити
 [Reply &Quoted]
-Відповісти в &цитатою
+Відповісти з &цитатою
 [Delete Group]
 Видалення групи
 [Options]
@@ -243,7 +243,7 @@ dat (mContacts)
 [Error]
 Помилка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
-Кількість видаляються пунктів історії: %d.\пві дійсно цього хочете?
+Кількість записів історії, які буде видалено: %d.\nВи дійсно цього хочете?
 [Message]
 Повідомлення
 [File transfer]
@@ -271,11 +271,11 @@ dat (mContacts)
 [Advanced]
 Додатково
 [>> Outgoing timestamp]
->> Вихідне час
+>> Вихідний час
 [Outgoing background]
 Вихідний фон
 [<< Incoming timestamp]
-<< Входить час
+<< Вхідний час
 [Incoming background]
 Вхідний фон
 [>> Outgoing name]
@@ -295,7 +295,7 @@ dat (mContacts)
 [Window background]
 Фон вікна
 [Contact list background]
-Фон контакт листа
+Фон списку контактів
 [Open global history]
 Відкрити глобальну історію
 [Find]
@@ -329,7 +329,7 @@ dat (mContacts)
 [Outgoing events]
 Вихідні події
 [File do not exist. Enter correct file path.]
-Файл відсутній. Введи вірний шлях до файлу.
+Файл відсутній. Введіть вірний шлях до файлу.
 [Invalid file]
 Неправильний файл
 [All Files (*.*)]

@@ -36,7 +36,7 @@
 [MenuItems]
 
 [InsertSeparator]
-Роздільник
+Розділювач
 [Service:]
 Служба:
 [Name:]
@@ -142,9 +142,9 @@
 [Transparent contact list]
 Прозорий список контактів
 [Inactive opacity:]
-Вікно неактивно:
+Вікно неактивне:
 [Active opacity:]
-Вікно активно:
+Вікно активне:
 [Show menu bar]
 Показувати меню
 [Easy move]
@@ -204,17 +204,17 @@
 [Contact List Background]
 Фон списку
 [Use 'Meta' protocol icons for Metacontacts]
-Використовувати іконку Meta протокулу для метаконтактів
+Використовувати значок Meta протоколу для метаконтактів
 [Avoid doubleclick expand]
 
 [Hide all 'Extra icons' for subcontacts]
-Ховати всі екстраіконки у субконтактах
+Ховати всі екстра значки субконтактів
 [MetaContacts supporting]
 Підтримка метаконтактів
 [Ignore Empty Extra icons places (arrange to right).]
 
 [Hide offline subcontacts.]
-Приховуівти відключені субконтакти.
+Приховувати відключені субконтакти.
 [Status Bar]
 Панель статусу
 [Show status bar]
@@ -230,7 +230,7 @@
 [Right click opens Miranda menu]
 Правий клік - головне меню
 [Make sections equal width]
-Розділи рівної ширини
+Розділи однакової ширини
 [Show size grip]
 Індикатор зміни розміру
 [Show bevel effect on panels]
@@ -244,7 +244,7 @@
 [&Status]
 Статус
 [&Offline\tCtrl+0]
-Не з&ети\tCtrl+0
+Не в м&ережі\tCtrl+0
 [On&line\tCtrl+1]
 У &мережі\tCtrl+1
 [&Away\tCtrl+2]
@@ -294,7 +294,7 @@
 [Customize]
 Тонка настройка
 [Backgrounds]
-Фоні
+Фон
 [Standard contacts]
 Стандартні контакти
 [Online contacts to whom you have a different visibility]
@@ -306,7 +306,7 @@
 [Group member counts]
 Лічильники груп
 [Dividers]
-Роздільники
+Розділювачі
 [Offline contacts to whom you have a different visibility]
 Контакти із зміненою видимістю (відключені)
 [Status messages]
@@ -414,7 +414,7 @@ _БезПротоколу_
 [Lock Frame]
 Закріпити фрейм
 [Visible]
-Мабуть
+Видимий
 [Show TitleBar]
 Показати заголовок
 [Floating]

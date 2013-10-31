@@ -56,7 +56,7 @@
 [Legacy fix (for ICQ Groupware or IServerD only)]
 Альтернативні сервера (лише ICQ Groupware і IServerD)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
-Підтримувати підключення (якщо ви використовуєте проксі-сервер і часто разъединяетесь)
+Підтримувати підключення (якщо ви використовуєте проксі-сервер і часто роз'єднуєтесь)
 [Ignore concurrent error messages]
 Не показувати вікно помилки, поки не закрито попереднє
 [Show connection error messages:]
@@ -118,7 +118,7 @@
 [Auto-retrieve Custom status details]
 Автозавантаження хСтатусов
 [Block known Spam Bots]
-Блок. відомі спамботы
+Блок. відомі спам-боти
 [Enable AIM contacts support]
 Включити підтримку контактів AIM
 [Direct connections]
@@ -300,11 +300,11 @@
 [The server-sent warning, this version is getting old.\nTry to look for a new one.]
 Сервер надіслав попередження, ця версія клієнта стара.\nПоищите нову версію.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
-Невдале з'єднання.\nСервер вас не прийняв за невідому причини.\nЭто може статися, якщо ваш номер вже підключено.
+Невдале з'єднання.\nСервер не прийняв вас з невідомої причини.\nЦе може статися, якщо ваш номер вже підключено.
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
-Невдале з'єднання.\nБезопасный вхід (MD5) не підтримується на цій облікового запису.
+Невдале з'єднання.\nБезпечний вхід (MD5) не підтримується для цього облікового запису.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-Невдале з'єднання.\nНеизвестная помилка при вході: 0x%02x
+Невдале з'єднання.\nНевідома помилка при вході: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 Сервер закрив з'єднання, так як ви увійшли з іншого місця використовуючи той же номер ICQ.
 [Unknown runtime error: 0x%02x]
@@ -538,7 +538,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Europe]
 Європа
 [Faeroe Islands]
-о-ви Фаэро
+Фарерські о-ви
 [Falkland Islands]
 Фолклендські о-ви
 [Fiji]
@@ -1654,7 +1654,7 @@ ID користувача
 [<invalid>]
 <невірно>
 [GMT-12:00 Eniwetok; Kwajalein]
-GMT-12:00 Эневеток, Кваджалейн
+GMT-12:00 Еніветок, Кваджалейн
 [GMT-11:30]
 
 [GMT-11:00 Midway Island; Samoa]

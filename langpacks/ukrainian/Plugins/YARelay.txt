@@ -46,7 +46,7 @@
 [Max size of split part (chars)]
 Максимальний розмір поділу частина (знаків)
 [Mark received messages as 'read']
-Маркувати отримане повідомлення як 'прочитанє'
+Маркувати отримане повідомлення як 'прочитане'
 [Save sent messages in recipient's history]
 Зберігати надіслані повідомлення у історії
 [split parts (0 = all)]

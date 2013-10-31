@@ -50,7 +50,7 @@
 [Border]
 Рамка
 [Draw border]
-Коказувати рамку
+Показувати рамку
 [Left-top edge's color:]
 
 [Right-bottom edge's color:]

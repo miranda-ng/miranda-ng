@@ -86,9 +86,9 @@ HTTP підключення SmileyAdd
 [Protocol specific]
 Згідно з протоколом
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Набір смайлів %s не знайдений.\nВыберите набір смайлів: Налаштування -> Тонка настройка -> Смайли.
+Набір смайлів %s не знайдено.\nВиберіть набір смайлів: Налаштування -> Тонка настройка -> Смайли.
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
-Проблеми з завантаженням набору смайлів (необхідно виправити).\nДля подробиці дивіться мережевий журнал.
+Проблеми з завантаженням набору смайлів (необхідно виправити).\nДля подробиць дивіться мережевий журнал.
 [Smiley #%u in file %s for Smiley Pack %s not found.]
 Смайл #%u у файлі %s для набору смайликів %s не знайдено.
 [Standard]

@@ -18,6 +18,6 @@
 [Winamp Track]
 
 [Plugins]
-Плагины
+Плагіни
 [Watrack MPD]
 Watrack MPD

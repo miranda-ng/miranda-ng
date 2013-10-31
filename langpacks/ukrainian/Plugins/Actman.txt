@@ -22,20 +22,16 @@
 Тип lParam
 [Service name]
 Ім'я служби
-[wParam]
-
-[lParam]
-
 [Result action]
 Результат дії
 [Window option]
 Налаштування вікна
 [Show in popup]
-Коказувати у спливаючому вікні
+Показувати у спливаючому вікні
 [Start hidden]
 Запускати прихованим
 [Show in messagebox]
-Коказувати у звичайному вікні
+Показувати у звичайному вікні
 [Start maximized]
 Запуск розгорнутим
 [Continued]
@@ -49,7 +45,7 @@
 [параметр]
 параметр
 [Process time, ms]
-Час процесу, мсек
+Час процесу, мс
 [No Description]
 Немає опису
 [Signed value]
@@ -57,7 +53,7 @@
 [Process options]
 Налаштування процесу
 [Do not show]
-Не коказувати
+Не показувати
 [Current path]
 Поточний шлях
 [Start normal]
@@ -123,7 +119,7 @@
 [Result structure as]
 Як Результат структура
 [Byte Array]
-Масив байт
+Масив байтів
 [Word Array]
 Масив слів
 [Pointer to bytes]
@@ -131,7 +127,7 @@
 [Pointer to words]
 Вказівник на слова
 [Data length]
-довжина
+Довжина
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' в назві служби буде замінятися ім'ям протоколу з параметрів контакту
 [Paste from]
@@ -139,7 +135,7 @@
 [Service result]
 Результат виклику служби
 [Free memory]
-очищати пам'ять
+Очищати пам'ять
 [Integer]
 Ціле
 [Append]
@@ -151,13 +147,13 @@
 [A&ppend]
 Д&одати
 [Action "$" exists, do you want to rewrite it?]
-Дія "$" вже існує, чи ви бажаєте переписати її?
-[Text <last> replacing\r\nby last result\r\n\r\n-текст <param> replacing\r\nby parameter]
+Дія "$" вже існує, бажаєте її переписати?
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
 Текст <last> замінюється\r\nостаннім результатом\r\n\r\nТекст <param> замінюється\r\nпараметром
-[^s - елементів (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last as result unicode\r\n^h - replaced by last as result hex\r\n^a - in the end: autosend\r\n^f(name\[,str\]\r\n paste line text from file.\r\n brackets contents must be w/o spaces]
-^s - виділювана (і заміняє) частину\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^a - в кінці: автоотправка\r\n^f(name\[,str\]\r\n вставка рядка з текстового файлу.\r\n зміст дужок має бути без пробілів
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^a - в кінці: автовідправка\r\n^f(name\[,str\])\r\n вставка рядка з текстового файлу.\r\n вміст дужок має бути без пробілів
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Текст <last> замінюється\r\n останнім результатом\r\n\r\nВозвращаемое:\r\n--------\r\nOK\t\t= 1\r\nОтмена\t\t= 2\r\nПрервать\t= 3\r\nПовтор\t\t= 4\r\nПропустить\t= 5\r\nДа\t\t= 6\r\nне\t\t= 7\r\nЗакрыть\t\t= 8
+Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовернуте:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
 [Don't use Variables]
 Вимкнути змінні
 [Contact list format]
@@ -168,8 +164,8 @@
 Вигляд списку
 [Apply format]
 Застосувати формат
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value#### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Використовувати масив байт/вказівник на байти для рядків у ANSI\nИспользовать масив слів/вказівник на слова для рядків на Unicode\n\$## замінюється байтом з шістнадцяткове значення ##\n\$#### замінено словом з шістнадцяткове значення#### (тільки для рядків на Unicode)\nВся довжина даних обчислюється в байтах
+[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
+Використовуйте масив байтів/вказівник на байти для рядків у ANSI\nВикористовуйте масив слів/вказівник на слова для рядків у Unicode\n\$## замінюється байтом з шістнадцятковим значенням ##\n\$#### замінюється словом з шістнадцятковим значенням #### (тільки для рядків у Unicode)\nВся довжина даних обчислюється в байтах
 [New]
 Новий
 [Hooks]
@@ -193,11 +189,11 @@
 [Since/after]
 з/після
 [Repeat, times]
-Кіл-ть повторів
+К-ть повторів
 [Interval]
 Інтервал
 [Break on non-zero result]
-Зупинити при ненульовому результати
+Зупинити при ненульовому результаті
 [Task sample]
 Приклад завдання
 [Send event on start time]
@@ -233,7 +229,7 @@
 [Menu item name:]
 Назва пункту меню:
 [Show only if variables return 1]
-Коказувати тільки при поверненні 1
+Показувати тільки при поверненні 1
 [Contact related]
 Поконтактно
 [Registered actions]
@@ -243,7 +239,7 @@
 [Data align]
 Вирівнювання даних
 [Native]
-стандартно
+Стандартно
 [Packed]
 Запаковані
 [2 bytes]
@@ -285,7 +281,7 @@
 [Choose Contact]
 Вибрати контакт
 [Miranda service help]
-
+Допомога по сервісам
 [Return]
 Повернуте
 [Effect]
@@ -293,12 +289,12 @@
 [Start]
 Почати
 [Action group list was changed: some was added or deleted]
-
+Список груп подій змінився: є додані або видалені події
 [The context menu for a contact is about to be built]
-
+Побудова контекстного меню для контакту
 [Double click on the CList]
 Подвійний клік у КЛ
 [New contact added to database]
-Новий контакт додадо до бази
+Новий контакт додано до бази
 [Contact deleting]
 Контакт видалено

@@ -48,7 +48,7 @@
 [Graphic files]
 Графічні файли
 [Sound Files]
-Звуковіе файлы
+Звукові файли
 [Skins]
 Скіни
 [Splash Screen]

@@ -28,7 +28,7 @@
 [Remove old data when updating]
 Перезаписати дані після оновлення
 [Make the contact italic when weather alert is issued]
-Робити контакт нахилиним при отриманні оновлення
+Виділяти контакт курсивом при отриманні оновлення
 [Modes]
 Режими
 [Use weather condition as status protocol]

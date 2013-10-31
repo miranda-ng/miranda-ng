@@ -126,7 +126,7 @@ UTF8 в нових файлах
 [You need to restart miranda to change the history function]
 Зміни функції історії набудуть чинності після перезапуску Miranda
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
-Не вдалося отримати шлях до Msg_Export.dll\пбудь ласка знайдіть Msg_Export.txt самостійно
+Не вдалося отримати шлях до Msg_Export.dll\nБудь ласка, знайдіть Msg_Export.txt самостійно
 [File]
 Файл
 [Nick]
@@ -168,7 +168,7 @@ UTF8 в нових файлах
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Не вдалося перейменувати файл\n\пстарое ім'я:\t%s\пновое ім'я:\t%s\n\пОшибка: %s
+Не вдалося перейменувати файл\n\nстаре ім'я:\t%s\nнове ім'я:\t%s\n\nПомилка: %s
 [\nError: ]
 \nПомилка: 
 [\nMessage has not been saved!\n]

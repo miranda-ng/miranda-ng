@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
-Дозволяє inline редагування скинів для clist nicer.
+Дозволяє inline-редагування скінів для Clist nicer.
 [Skin items]
 Елементи скіна
 [General]
@@ -46,11 +46,11 @@
 [Item margins]
 Елемент поля
 [Item borders]
-Межі елемента
+Межі елементу
 [Border style]
 Стиль елементу
 [3D border (bright / dark)]
-3D стиль (світлий / темний)
+3D стиль (світлий/темний)
 [Item ignored]
 Елемент ігнорується
 [Dialog]

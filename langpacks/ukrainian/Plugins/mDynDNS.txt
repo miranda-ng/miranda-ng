@@ -42,9 +42,9 @@
 [Netlib Error.]
 Помилка Netlib.
 [Netlib Connection Error.]
-Помилка пыдключення Netlib.
+Помилка підключення Netlib.
 [Error in parsing server respose.]
-Помилка розбору выдповыды сервера.
+Помилка розбору відповіді сервера.
 [Miranda mDynDns plugin has been blocked on server for not following specifications - it won't work anymore :(]
 Міранда mDynDNS плагін був заблокований на сервері не дотримуючись специфікації - це вже не працює :(
 [The username or password specified in options are incorrect. Please check your account details.]

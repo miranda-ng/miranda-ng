@@ -128,9 +128,9 @@ Plugin updater for Miranda NG.]
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 Завантаження завершено. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Ви відмовилися від негайної установки оновлення плагінів.\пви можете встановити це оновлення вручну звідси:\n\n%s
+Ви відмовилися від негайної установки оновлення плагінів.\nВи можете встановити це оновлення вручну звідси:\n\n%s
 [<< Details]
-
+<< Деталі
 [No updates found.]
 Оновлень немає.
 [Update checking already started!]

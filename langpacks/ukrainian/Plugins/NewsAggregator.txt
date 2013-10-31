@@ -200,7 +200,7 @@ URL сторінки з коментарями до новини.
 [Retrieve news at startup]
 Отримувати новини при запуску
 [%s\nis not a valid feed's address.]
-%s\nнеправильный адресу каналу
+%s\nнеправильна адреса каналу
 [Tags Mask Reset]
 Скидання тегів
 [Enter Feed name]

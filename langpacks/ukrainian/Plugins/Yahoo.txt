@@ -52,7 +52,7 @@ Yahoo! Японія
 [&Remove]
 &Очистити
 [Set Custom Status]
-Встановлення хСтатуса
+Встановлення хСтатусу
 [Show as busy]
 Показати як "зайнятий"
 [OK]
@@ -146,7 +146,7 @@ Yahoo! Ігнор
 [The buddy is already on your ignore list.]
 Це ім'я вже у вашому листі ігнорування.
 [You need to be connected to Yahoo to remove from the ignore list.]
-Ви повинні буди в мережі Yahoo! щоб видяляти з листу ігнорування.
+Ви повинні буди в мережі Yahoo! щоб видяляти зі списку ігнорування.
 [Please select a buddy on the ignore list to remove.]
 Виберіть контакт, який потрібно видалити зі списку, ігнору.
 [Network]
@@ -170,7 +170,7 @@ Yahoo! Ігнор
 [Yahoo Login Error]
 Помилка підключення Yahoo!
 [You need to be connected to set the custom message]
-Ви повинні бути підключені щоб задати повідомлення
+Ви повинні бути підключені, щоб задати повідомлення
 [You need to be connected to refresh your buddy list]
 Ви повинні бути підключені для оновлення списку
 [Set &Custom Status]

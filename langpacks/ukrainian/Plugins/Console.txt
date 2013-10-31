@@ -60,7 +60,7 @@
 [Miranda Console]
 Консоль Miranda NG
 [Services]
-Службы
+Служби
 [Text]
 Текст
 [&Help]

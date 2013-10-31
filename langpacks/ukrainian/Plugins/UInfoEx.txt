@@ -401,7 +401,7 @@
 [Keeps your custom birthday up to date.]
 Резервує налаштовані дні народження.
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
-%s вказує новий день народження за протоколом.\пНовая дата %s. Стара %s.\n\nБажаєте використовувати нову дату народження для цього контакту?
+%s вказує новий день народження за протоколом.\nНова дата %s. Стара %s.\n\nБажаєте використовувати нову дату народження для цього контакту?
 
 ; Екстра значки
 [Gender (uinfoex)]

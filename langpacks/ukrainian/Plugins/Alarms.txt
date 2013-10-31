@@ -32,7 +32,7 @@
 [Loop sound]
 Повторювати звук
 [Period (hours):]
-Період (годін):
+Період (годин):
 [Hide/show with clist]
 Пок./приховати зі списком
 [Auto size vertically]
@@ -98,7 +98,7 @@
 [Don't trigger on startup]
 Не спрацьовувати при завантаженні
 [No reminder]
-Не коказувати у списку
+Не показувати у списку
 [Dismiss]
 Прибрати
 [Snooze]
@@ -152,7 +152,7 @@
 [Alarm Reminders]
 Нагадування
 [Menu Set Alarm]
-Меню: Даті нагадування
+Меню: Дані нагадування
 [Reminder: Soon]
 Нагадування: скоро
 [Reminder: Very Soon]
@@ -180,6 +180,6 @@
 [Error]
 Помилка
 [The alarm time you have selected is in the past.]
-Обраний вами годину - у минулому.
+Обраний вами час - у минулому.
 [Events]
 Події

@@ -486,11 +486,11 @@ VBR чи ні
 [Use listening info]
 Використовувати "Listening To"
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
-Якщо опція включена, то поле "Listening To" буде заповнений інформацією про музику.
+Якщо опція включена, то поле "Listening To" буде заповнене інформацією про музику.
 [Enable Status message]
 Додати повідомлення статусу
 [Enable XStatus message]
-Додати повідомлення ХСтатуса
+Додати повідомлення xСтатусу
 [Enable Tunes message]
 Додати повідомлення мелодії
 [Tunes]
@@ -548,7 +548,7 @@ VBR чи ні
 ['Music' status is set]
 встановлено хСтатус "Музика"
 [any XStatus is set]
-встановлено будь хСтатус
+встановлено будь-який хСтатус
 [Players list\n(F1 for note)]
 Список плеєрів\n(Натисніть F1 для дод. інф-ії)
 [Chat Template]

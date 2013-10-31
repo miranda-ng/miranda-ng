@@ -264,7 +264,7 @@ POP3 плагін - помилка при записі у файл
 [Reading body %s]
 
 [Reading new mail messages (%d%% done)]
-Считування нових повідомлень (%d%% готово)
+Зчитування нових повідомлень (%d%% готово)
 [Deleting requested mails]
 Видалення листів запитуваних
 [Deleting spam]
@@ -272,9 +272,9 @@ POP3 плагін - помилка при записі у файл
 [Memory allocation error.]
 Помилка пам'яті.
 [Account is about to be stopped.]
-Обліковий запис скоро буде зупинена.
+Обліковий запис скоро буде зупинено.
 [Cannot connect to POP3 server.]
-Не можу з'єднання єднатися з поштовим сервером.
+Не можу з'єднатися з поштовим сервером.
 [Cannot allocate memory for received data.]
 Не можу виділити пам'ять для отримання даних.
 [Cannot login to POP3 server.]
@@ -306,7 +306,7 @@ OpenSSL не завантажений.
 [Error connecting socket with SSL.]
 Помилка з'єднання з сокетом SSL.
 [Server rejected connection with SSL.]
-Сервер відмовив у SSL-з'єднання.
+Сервер відмовив у SSL-з'єднанні.
 [Cannot write SSL data.]
 Не можу записати SSL дані.
 [Cannot read SSL data.]
@@ -328,9 +328,9 @@ OpenSSL не завантажений.
 [Time left to next check [s]: %d]
 Годину до наступної перевірки: %d с.
 [New Account]
-Новий Запис
+Новий запис
 [Executables]
-Виконуємі файли
+Виконувані файли
 [All Files]
 Всі файли
 [Select executable used for notification]
@@ -362,4 +362,4 @@ OpenSSL не завантажений.
 [You have N new mail messages]
 У вас N нових повідомлень
 [Connection failed message]
-Повідомлення про невдалий підключення
+Повідомлення про невдале підключення

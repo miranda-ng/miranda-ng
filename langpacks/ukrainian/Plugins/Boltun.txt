@@ -18,7 +18,7 @@
 [Warn contacts Boltun is chatting]
 Попереджати про розмові з Базікою
 [Mark replied messages as read]
-Відзначати повідомлення як прочитані
+Позначати повідомлення як прочитані
 [sec]
 с
 [Warning text]
@@ -52,7 +52,7 @@ Mind файли
 [All Files]
 Усі файли
 [Boltun/Auto Chat]
-Базіка/Авто розмова
+Базіка/Авторозмова
 [Boltun/Not to Chat]
 Базіка/Не розмовляти
 [Boltun/Start Chatting]
@@ -64,7 +64,7 @@ Mind файли
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
 Не вдалося завантажити базу реплік. Помилка в рядку %d %s. (Або кілька рядків).
 [Failed to save base of remarks to %s]
-Не вдалося зберегти базу реплік:%s
+Не вдалося зберегти базу реплік: %s
 [General Settings]
 Основні налаштування
 [Engine Settings]

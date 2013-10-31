@@ -965,9 +965,9 @@ TabSRMM: Набирає
 [Do not add this contact permanently]
 Не додавати цей контакт до списку
 [UID: %s (SHIFT-click -> copy to clipboard)\nClick for user's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (SHIFT+клік -> копіювати в буфер)\nКлик - Інформація про користувача\nПравой кнопкою - управління метаконтактом\nСтрелка вниз - додавання/видалення користувача із вибраного.
+UID: %s (SHIFT+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - управління метаконтактом\nСтрілка вниз - додавання/видалення користувача із вибраного.
 [UID: %s (SHIFT-click -> copy to clipboard)\nClick for user's Details\nClick dropdown to change this contact's favorite status.]
-UID: %s (SHIFT+клік -> копіювати в буфер)\nКлик - Інформація про користувача\пСтрелка вниз - додавання/видалення користувача із вибраного.
+UID: %s (SHIFT+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача із вибраного.
 [Default Color]
 Типовий колір
 [Blue]
@@ -1451,7 +1451,7 @@ ID користувача в панелі статусу
 [TabSRMM Warning Message]
 Попередження вікна повідомлень
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
-Попередження Aero peek|Ви включили використання особливостей Aero Peek і використовуєте скін вікна діалогів\n\nЭто може призвести до незначних візуальних спотворень в швидкому перегляді.
+Попередження Aero peek|Ви включили використання особливостей Aero Peek і використовуєте скін вікна діалогів\n\nЦе може призвести до незначних візуальних спотворень в швидкому перегляді.
 [Do not show this message again]
 Не показувати знову
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
@@ -1471,7 +1471,7 @@ ID користувача в панелі статусу
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing або неправильно icons are possible issues with the currently installed icon pack.\\b0]
 Перевірка версії набору піктограм|Установлений набір значків застарів і може бути несумісний з плагіном TabSRMM версії 3.\n\n \\b1 Відсутні або недоречні значки можуть викликати проблеми з встановленим набором.\\b0
 [Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
-Проблема передачі файлу|Невдала пересилання зображення.\n\nВозможные причини: передача файлів не підтримується контакт не в мережі, ви знаходитесь у стаусе "Невидимий контакт, якому надсилається файл у списку видимих.
+Проблема передачі файлу|Невдале пересилання зображення.\n\nМожливі причини: передача файлів не підтримується, контакт не в мережі, або ваш статус "Невидимий", а контакт, якому надсилається файл, - поза списком видимих.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Не вдалося передати повідомлення після закриття вікна бесіди. Можливо, вам потрібно відправити його ще раз
 [A message delivery has failed.\nClick to open the message window.]

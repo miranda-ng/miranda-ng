@@ -166,7 +166,7 @@ History++ для історії вікон
 [Always Show]
 Завжди
 [Ignore fullscreen]
-Ігнор. повноэкр.
+Ігнор. повноекр.
 [Never show]
 Ніколи
 [Show default]

@@ -10,7 +10,7 @@
 [Webview]
 WebView
 [Update data every]
-Оновлювати данні кожні
+Оновлювати дані кожні
 [minutes]
 хвилин(и)
 [Delay update on start]
@@ -24,7 +24,7 @@ WebView
 [Load page on window open]
 Завантажити сторінку, у відкритому вікні
 [Update data on startup]
-Оновлювати данні при старті
+Оновлювати дані при старті
 [Only update window on alert]
 Тільки попередження оновлення вікна
 [Window appearance]
@@ -46,7 +46,7 @@ WebView
 [Suppress error messages]
 Ігнорувати повідомлення про помилки
 [Display using popup or OSD plugin]
-Показати використовуючи модуль сплив. вікон або OSD
+Показати, використовуючи модуль сплив. вікон або OSD
 [Expert options]
 Режим експерту
 [Disable download protection]
@@ -56,7 +56,7 @@ WebView
 [Display data in popup on alert]
 Попередження відображення даних у сплив. вікні 
 [Display data in popup]
-Показувати данні у сплив. вікні
+Показувати дані у спл. вікні
 [You may need to restart Miranda NG for this change to take effect.]
 Потрібно перезапустити Miranda NG щоб цей ефект вступив у силу.
 [Contact name:]
@@ -80,9 +80,9 @@ WebView
 [Opens web page]
 Відкрити веб-сторінку
 [Opens data window]
-Відкрити вікно з данними
+Відкрити вікно з даними
 [Display clean-up]
-Очистити дісплей
+Очистити дисплей
 [Remove HTML]
 Видалити HTML
 [OK]
@@ -102,7 +102,7 @@ WebView
 [Alert options]
 Налаштування сповіщення
 [Events and alerts]
-Події та сповіщяння
+Події та сповіщення
 [Enable alerts]
 Ввімкнути сповіщення
 [Always log to file]
@@ -134,7 +134,7 @@ WebView
 [Append data to file]
 Додавання даних в файл
 [Save as raw data]
-Зберігати "сирі" данні
+Зберігати "сирі" дані
 [Popup delay]
 Затримка сплив. вікна
 [Delay]
@@ -156,11 +156,11 @@ WebView
 [Use windows colors]
 Використовувати кольори Windows
 [Use same colors as data window]
-Використовувати тіж кольори у вікні данних
+Використовувати ті ж кольори у вікні даних
 [Left click action]
 Дія лівого кліку
 [Open data display window]
-Відкрити вікно відображення данних
+Відкрити вікно відображення даних
 [Open web page]
 Відкрити веб-сторінку
 [Dismiss popup]
@@ -200,7 +200,7 @@ WebView
 [Open/Close window]
 Відкрити/Закрити вікно
 [Update data]
-Оновити данні
+Оновити дані
 [Contact options]
 Налаштування контакту
 [Contact alert options]
@@ -222,13 +222,13 @@ WebView
 [Start/end strings not found or strings not set.]
 Початок/кінець рядка не знайдені або рядка не встановлено.
 [Alert start/end strings not found or strings not set.]
-Попередження початоку/кінеця рядка не знайдені або рядка не встановлено.
+Попередження початку/кінця рядка не знайдені або рядка не встановлено.
 [The string]
 Рядок
 [has been found on the web page]
 була знайдена на веб-сторінці
 [Download successful; about to process data...]
-Завантаження завершено; обробка данних...
+Завантаження завершено; обробка даних...
 [Unknown alert type.]
 Невідомий тип сповіщення.
 [Cannot read from file]
@@ -246,7 +246,7 @@ WebView
 [Loaded from cache]
 Завантажено з кешу
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
-ПОМИЛКА: У Вас є два або більше WebView контакти з тим же URL-адресою та ім'ям контакту.
+ПОМИЛКА: У Вас є два або більше контактів WebView з однаковою URL-адресою та ім'ям контакту.
 [Stop processing]
 Зупинити обробку
 [Click here to open this URL in a browser window.]
@@ -266,29 +266,29 @@ URL-адреса не поставляється
 [The server is down or lagging.]
 Сервер не працює.
 [Invalid search parameters.]
-Не вірні параметри пошуку.
+Невірні параметри пошуку.
 [Both search strings not found or strings not set.]
-Обидві рядки пошуку не знайдено або рядка не встановлено.
+Обидва рядки пошуку не знайдено або рядка не встановлено.
 [at the time]
 на момент
 [Processing data (Stage 1)]
-Обробка данних (Крок 1)
+Обробка даних (Крок 1)
 [Processing data stopped by user.]
-Обробка данних зупинена користувачем.
+Обробка даних зупинена користувачем.
 [Processing data (Stage 2)]
-Обробка данних (Крок 2)
+Обробка даних (Крок 2)
 [Processing data (Stage 3)]
-Обробка данних (Крок 3)
+Обробка даних (Крок 3)
 [Processing data (Stage 4)]
-Обробка данних (Крок 4)
+Обробка даних (Крок 4)
 [Processing data (Stage 5)]
-Обробка данних (Крок 5)
+Обробка даних (Крок 5)
 [Processing data (Stage 6)]
-Обробка данних (Крок 6)
+Обробка даних (Крок 6)
 [Processing data (Stage 7)]
-Обробка данних (Крок 7)
+Обробка даних (Крок 7)
 [Processing data (Stage 8)]
-Обробка данних (Крок 8)
+Обробка даних (Крок 8)
 [Alert!]
 Повідомлення!
 [Online]
@@ -300,7 +300,7 @@ URL-адреса не поставляється
 [Bytes downloaded]
 Скачано байтів
 [Alert test conditions not met; press the refresh button to view content.]
-Тест умов сповещення не виконано, натисніть кнопку "оновити", щоб переглядати вміст.
+Тест умов сповіщення не виконано, натисніть кнопку "Оновити", щоб переглянути вміст.
 [No whitespace removal]
 Не видяляти вільне місце
 [Minimal level of whitespace removal]
