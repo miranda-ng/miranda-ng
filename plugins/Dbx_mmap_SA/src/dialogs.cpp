@@ -101,7 +101,7 @@ int InitMenus(void *obj, WPARAM, LPARAM)
 	mi.ptszName = (p->m_bEncoding) ? LPGENT("Change password") : LPGENT("Set password");
 	mi.ptszPopupName = LPGENT("Database");
 	mi.pszService = MS_DB_CHANGEPASSWORD;
-	mi.position = 500100000;
+	mi.position = 500000000;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;
 }
