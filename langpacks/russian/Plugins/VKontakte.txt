@@ -7,8 +7,8 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Поддержка протокола ВКонтакте в Miranda NG.
-[Login or phone number:]
-Почта или номер телефона:
+[Email or phone number:]
+Email или номер телефона:
 [Password:]
 Пароль:
 [Open VK site]
