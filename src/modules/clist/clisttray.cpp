@@ -184,7 +184,7 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 	NOTIFYICONDATA nid = { SIZEOFNID };
 	nid.hWnd = hwnd;
 	nid.uID = cli.trayIcon[i].id;
-	nid.uFlags = NIF_ICON | NIF_MESSAGE | (mToolTipTrayTips ? 0 : NIF_TIP);
+	nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	nid.uCallbackMessage = TIM_CALLBACK;
 	nid.hIcon = cli.trayIcon[i].hBaseIcon;
 
@@ -337,7 +337,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 
 	NOTIFYICONDATA nid = { SIZEOFNID };
 	nid.hWnd = cli.hwndContactList;
-	nid.uFlags = NIF_ICON | (mToolTipTrayTips ? 0 : NIF_TIP);
+	nid.uFlags = NIF_ICON | NIF_TIP;
 	nid.hIcon = hNewIcon;
 	if ( !hNewIcon)
 		return -1;
@@ -799,8 +799,6 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 {
-	UINT iconId = 0;
-
 	if (msn == NULL)
 		return 1;
 
@@ -810,9 +808,9 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 	if (cli.trayIcon == NULL)
 		return 2;
 
+	UINT iconId = 0;
 	if (msn->szProto) {
-		int j;
-		for (j = 0; j < cli.trayIconCount; j++) {
+		for (int j = 0; j < cli.trayIconCount; j++) {
 			if (cli.trayIcon[j].szProto != NULL) {
 				if ( !strcmp(msn->szProto, cli.trayIcon[j].szProto)) {
 					iconId = cli.trayIcon[j].id;
