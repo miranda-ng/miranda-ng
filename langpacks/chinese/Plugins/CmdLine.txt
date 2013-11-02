@@ -7,31 +7,26 @@
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
 此插件可让您由命令行控制 Miranda.
-;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 无 '%s' 相关帮助.
 [Available commands: ]
-可用命令: 
+可用命令:\s
 [Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 Miranda 已被关闭或发生错误正在等待结果, 无法处理请求.
-;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
 [%s usage:\n]
 %s 用法:\n
-[%s <command> [<param> [, <param> ..]]\n]
-%s <命令> [<参数> [, <参数> ..]]\n
+[%s <command> [<param> [<param> [...]]].\n]
+%s <命令> [<参数> [<参数> [...]]].\n
 [This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
 此操作将告诉 Miranda 运行指定命令. 命令可以有0, 1 或更多个参数. 使用 '%s help' 可获取可用命令列表.\n
-[No command can have more than %d parameters\n]
-无命令超过 %d 个参数\n
+[No command can have more than %d parameters.\n]
+无命令超过 %d 个参数.\n
 [%s version %s]
 %s 版本 %s
 [Unknown command '%s'.\n]
 未知命令 '%s'.\n
-;file \plugins\CmdLine\src\CmdLine.cpp
 [Error]
 错误
-;file \plugins\CmdLine\src\mimcmd_data.h
-;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Command '%s' is not currently supported.]
 命令 '%s' 当前不支持.
 [Wrong number of parameters for command '%s'.]
@@ -88,9 +83,7 @@ YAMN 插件未运行.
 %s:%s - %d 未读事件.
 [Contact '%s' has '%d' events in history.]
 联系人 '%s' 有 '%d' 个事件在历史中.
-;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 无法创建命令行监听服务器!
 [You can only run one instance of CmdLine plugin.]
 您只能运行一个命令行插件实例.
-;file \plugins\CmdLine\src\utils.cpp

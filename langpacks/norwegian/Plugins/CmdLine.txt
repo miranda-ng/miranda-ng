@@ -5,12 +5,5 @@
 ;  Version: 0.0.4.1
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\CmdLine\MimCmd\src\commands.cpp
-;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
-;file \plugins\CmdLine\src\CmdLine.cpp
 [Error]
 Feil
-;file \plugins\CmdLine\src\mimcmd_data.h
-;file \plugins\CmdLine\src\mimcmd_handlers.cpp
-;file \plugins\CmdLine\src\services.cpp
-;file \plugins\CmdLine\src\utils.cpp
