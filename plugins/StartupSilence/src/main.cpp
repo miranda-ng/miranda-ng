@@ -132,22 +132,24 @@ int DisablePopup(WPARAM wParam, LPARAM lParam)
 	if (DefEnabled == 1 && DefPopup == 0)      //All popups are blocked
 		return 1;
 
-	if ((timer == 2 && NonStatusAllow == 1)    //filtering while timer
-		|| (DefPopup == 1 && DefEnabled == 1)) //also filtered only: We do not run next lines every time
-		                                       //if "Filtered only..." is unchecked --->
-	{
-		HANDLE hContact = (HANDLE)wParam;
-		if (hContact != NULL)
+	if ( (NonStatusAllow == 1) // while startup allow popups for unread mail notification from MRA, keepstatus ... other services?
+		|| ((DefPopup == 1 && DefEnabled == 1) && timer !=2) ) //also filtered only: We do not run next lines every time
+		                                                     //if "Filtered only..." is unchecked --->
 		{
-			char* cp = GetContactProto(hContact);
-			if ( !strcmp(cp, "Weather") || !strcmp(cp, "mRadio") )
-				return 0;
+			HANDLE hContact = (HANDLE)wParam;
+			if (hContact != NULL)
+			{
+				char* cp = GetContactProto(hContact);
+				if ( !strcmp(cp, "Weather") || !strcmp(cp, "mRadio") )
+					return 0;
+				return 1;
+			}
+			else return 0;
 		}
-		else return 0; //allow popups for unread mail notification from MRA, keepstatus ... other services?
-
-		return 1; //filtering while timer
-	}
-	return 0; //---> just allow all popups with this return
+	else if (timer == 2)
+			return 1;	//block all popups at startup
+	return 0;	//---> just allow all popups with this return
+				//or allow popups for unread mail notification from MRA, keepstatus ... other services?
 }
 
 void EnablePopupModule()
