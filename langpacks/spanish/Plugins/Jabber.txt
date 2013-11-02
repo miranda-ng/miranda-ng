@@ -242,8 +242,8 @@ Cambiar %s Mensaje
 Cierre en %d
 [Member Information]
 Información de los miembros
-[Member Information\n<user id>]
-Información de los miembros\n<usuario id>
+[Member Information\n<user ID>]
+Información de los miembros\n<usuario ID>
 [Role:]
 Papel:
 [Affiliation:]
@@ -851,7 +851,7 @@ presencias salientes
 consultas
 [Else ]
 Más 
-[If jabber id is ']
+[If Jabber ID is ']
 Si Jabber ID "es"
 [ (nickname: ]
 (Apodo:

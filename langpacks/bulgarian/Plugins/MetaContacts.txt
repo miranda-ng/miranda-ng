@@ -50,7 +50,7 @@
 
 [Context Menu]
 Контекстно меню
-[Use contact's unique id]
+[Use contact's unique ID]
 
 [Use contact's display name]
 
@@ -144,7 +144,7 @@
 Не
 [Contact]
 Контакт
-[Id]
+[ID]
 
 [Protocol]
 Протокол
@@ -219,15 +219,15 @@
 ;file \plugins\MetaContacts\src\meta_utils.cpp
 [Sender]
 
-[Could not get MetaContact id]
+[Could not get MetaContact ID]
 
-[Assignment Error]
+[Assignment error]
 
 [Could not retreive MetaContact contact count]
 
 [Could not retreive contact protocol]
 
-[Could not get unique id of contact]
+[Could not get unique ID of contact]
 
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
 
@@ -235,7 +235,7 @@
 
 [Could not write contact protocol to MetaContact]
 
-[Could not write unique id of contact to MetaContact]
+[Could not write unique ID of contact to MetaContact]
 
 [Could not write nickname of contact to MetaContact]
 
@@ -249,7 +249,7 @@
 
 [MetaContact default contact number out of range - deleting MetaContact]
 
-[MetaId: ]
+[Meta ID: ]
 
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 

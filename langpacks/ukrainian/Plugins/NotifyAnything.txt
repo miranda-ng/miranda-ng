@@ -47,7 +47,7 @@
 Незавершений варіант.
 [No argument given to msg option.]
 Не аргумент, якщо прийняти параметр msg.
-[Id is required for replacement.]
+[ID is required for replacement.]
 Ідентифікатор необхідний для заміни.
 [Invalid argument for replace option: ]
 Неправильний аргумент для заміни: %s

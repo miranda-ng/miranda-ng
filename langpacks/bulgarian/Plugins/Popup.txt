@@ -126,11 +126,11 @@ Popup действията са малките бутони под текста.
 Действия:(натиснете "Прилагане")
 [Mouse Actions Overwrite]
 
-[LeftButton]
+[Left Button]
 Ляв бутон
-[MiddleButton]
+[Middle Button]
 Среден бутон
-[RightButton]
+[Right Button]
 Десен бутон
 [Notifications]
 Уведомявания

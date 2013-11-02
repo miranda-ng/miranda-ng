@@ -127,11 +127,11 @@ History++ для історії вікон
 Дії: (вимагає "Застосувати")
 [Mouse Actions Overwrite]
 Дії за натисканням мишки
-[LeftButton]
+[Left Button]
 Ліва кнопка
-[MiddleButton]
+[Middle Button]
 Середня кнопка
-[RightButton]
+[Right Button]
 Права кнопка
 [Повідомлення]
 Повідомлення

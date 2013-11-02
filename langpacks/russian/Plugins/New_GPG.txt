@@ -137,7 +137,7 @@
 Выбор собственного ключа
 [Automatic key exchange]
 Автообмен ключами
-[Default private key id]
+[Default private key ID]
 Основной приватный ключ
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений

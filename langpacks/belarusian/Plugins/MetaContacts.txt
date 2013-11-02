@@ -48,7 +48,7 @@
 Забараніць апавяшчэнне пра змену статуту субкантактаў
 [Context Menu]
 Кантэкстнае меню
-[Use contact's unique id]
+[Use contact's unique ID]
 UIN, E-mail і г.д.
 [Use contact's display name]
 Выкарыстоўваць імя
@@ -142,8 +142,8 @@ UIN, E-mail і г.д.
 Не
 [Contact]
 Кантакт
-[Id]
-Id
+[ID]
+ID
 [Protocol]
 Пратакол
 [Send Offline]
@@ -217,15 +217,15 @@ Meta ID
 ;file \plugins\MetaContacts\src\meta_utils.cpp
 [Sender]
 Адпраўшчык
-[Could not get MetaContact id]
+[Could not get MetaContact ID]
 Не магу атрымаць ID метакантакту
-[Assignment Error]
+[Assignment error]
 Памылка прызначэння
 [Could not retreive MetaContact contact count]
 Не магу запытаць колькасць субкантактаў метакантакту
 [Could not retreive contact protocol]
 Не магу запытаць пратакол кантакту
-[Could not get unique id of contact]
+[Could not get unique ID of contact]
 Не магу атрымаць унікальны ID кантакту
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
 Кантакт не ў спісе. Калі ласка, дадайце кантакт у спіс перад прызначэннем.
@@ -233,8 +233,8 @@ Meta ID
 Метакантакт поўны
 [Could not write contact protocol to MetaContact]
 Памылка запісу пратаколу кантакту ў метакантакт
-[Could not write unique id of contact to MetaContact]
-Памылка запісу ўнікальнага id кантакту ў метакантакт
+[Could not write unique ID of contact to MetaContact]
+Памылка запісу ўнікальнага ID кантакту ў метакантакт
 [Could not write nickname of contact to MetaContact]
 Не магу запісаць нік кантакту ў метакантакт
 [Subcontact contact number < 0 - deleting MetaContact]
@@ -247,8 +247,8 @@ Meta ID
 Колькасць кантактаў у метакантакце < 0 - метакантакт будзе выдалены
 [MetaContact default contact number out of range - deleting MetaContact]
 Нумар кантакту па змаўчанні за межамі метакантакта - метакантакт будзе выдалены
-[MetaId: ]
-MetaId: 
+[Meta ID: ]
+Meta ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Метакантакт пашкоджаны - няслушная колькасць субкантактаў.\n Выдаляю метакантакт.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]

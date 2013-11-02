@@ -169,8 +169,8 @@ Yahoo Ігнор
 %s злучэнне з серверам
 [ID]
 ID
-[Please enter your yahoo id in Options/Network/Yahoo]
-Увядзіце ваш yahoo ID - Налады/Сеціва/Yahoo
+[Please enter your Yahoo ID in Options/Network/Yahoo]
+Увядзіце ваш Yahoo ID - Налады/Сеціва/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Увядзіце ваш yahoo пароль - Налады/Сеціва/Yahoo
 [Yahoo Login Error]
@@ -206,10 +206,10 @@ ID
 %s адхіліў запыт і паслаў паведамленне:
 [Invalid Contact]
 Несапраўдны Кантакт
-[The id you tried to add is invalid.]
+[The ID you tried to add is invalid.]
 ID, якога вы сабраліся дадаць, несапраўдны.
-[Unknown Error??.]
-Невядомая памылка??.
+[Unknown Error.]
+Невядомая памылка.
 [New Mail]
 Новая пошта
 [You Have %i unread msgs]

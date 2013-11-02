@@ -2008,7 +2008,7 @@ Apelido
 Apelido
 [Nick]
 Apelido
-[Unique id]
+[Unique ID]
 ID único
 [%s: Chat Room (%u user%s)]
 Sala %s: (%u usuários%s)

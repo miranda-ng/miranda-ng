@@ -77,7 +77,7 @@
 Изключено
 [Hide]
 Скриване
-[NeverHide]
+[Never hide]
 
 [Hiding %s (%S)]
 

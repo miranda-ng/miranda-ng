@@ -1144,7 +1144,7 @@ Aucun mot à chercher
 Pseudo
 [Nick]
 Pseudo
-[Unique id]
+[Unique ID]
 ID unique
 [%s: Chat Room (%u user%s)]
 %s : Salon de Chat (%u contact%s)

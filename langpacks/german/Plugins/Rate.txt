@@ -14,7 +14,5 @@ Kontaktpriorität: Hoch
 Kontaktpriorität: Mittel
 [Rate low]
 Kontaktpriorität: Gering
-[Contact Rate]
-Kontakt Bewertung
 [Contact rate]
 Kontakt Bewertung

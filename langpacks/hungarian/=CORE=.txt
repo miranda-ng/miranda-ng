@@ -1470,7 +1470,7 @@ Aktuális fül bezárása (CTRL+F4)
 %s: üzenet kezelés (%u felhasználó)
 [Nick name]
 Becenév
-[Unique id]
+[Unique ID]
 Egyedi azonosító
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -1992,8 +1992,8 @@ ANSI beépülõ
 Futó beépülõ
 [Unloaded plugin]
 Üres beépülõ
-[ShowHide]
-MutatRejt
+[Show/Hide]
+Mutat/Rejt
 [Exit]
 Kilépés
 [Main Menu]

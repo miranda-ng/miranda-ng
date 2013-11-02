@@ -1,4 +1,4 @@
-﻿[Anti-Boss plugin.]
+﻿[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 [BossKey]
 [Go to Customize -> Hotkeys to change the hotkey]
 [When I press the hotkey:]

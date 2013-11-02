@@ -596,7 +596,7 @@ Bitte geben Sie Ihr Passwort ein
 Bitte geben Sie ein neues Passwort ein
 [Set new password]
 Neues Passwort setzen
-[Please enter desired languageID (numeric value, depends on server)]
+[Please enter desired language ID (numeric value, depends on server)]
 Bitte gewünschte Sprachkennung eingeben (nummerischer Wert, serverabhängig)
 [Change language of NickServ messages]
 Sprache von NickServ-Nachrichten ändern

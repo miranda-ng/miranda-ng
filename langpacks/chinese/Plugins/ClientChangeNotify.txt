@@ -49,8 +49,8 @@ ClientChangeNotify 错误
 ClientChangeNotify: 客户端已变更
 [ClientChangeNotify]
 客户端变更通知
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) 更换客户端为 %extratext%
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) 更换客户端为 %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 错误 #%d

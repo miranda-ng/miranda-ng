@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.8
+;  Version: 0.0.0.9
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
@@ -27,24 +27,24 @@
 [Disable progress bar]
 禁用进度条
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda Databases]
+[Miranda databases]
 Miranda 数据库
 [All Files]
 所有文件
-[Backup in Progress]
+[Backup in progress]
 备份进行中
 [Rotating backup files...]
 轮流备份文件...
 [Copying database file...]
 复制数据库文件中...
-[Database backuped]
+[Database backed up]
 数据库已备份
 ;file \plugins\Db_autobackups\src\main.cpp
-[Backup Profile]
+[Backup profile]
 备份配置文件
-[Save Profile As...]
+[Save profile as...]
 配置文件另存为...
-[Database Backups]
+[Database backups]
 数据库备份
 ;file \plugins\Db_autobackups\src\options.cpp
 [Select Backup Folder]

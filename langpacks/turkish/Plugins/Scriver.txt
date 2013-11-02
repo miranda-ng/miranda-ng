@@ -633,7 +633,7 @@ Bu odayı denetle (CTRL+O)
 Etkinlik süzgecini aç/kapa (CTRL+F)
 [Nick name]
 Kısa ad
-[Unique id]
+[Unique ID]
 Tekil kod
 [Status]
 Durum

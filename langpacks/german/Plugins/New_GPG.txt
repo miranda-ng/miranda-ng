@@ -36,7 +36,7 @@ Schlüssel löschen
 Generiere zufälligen Schlüssel
 [Account:]
 Konto:
-[Key id:]
+[Key ID:]
 Schlüssel-ID:
 [Copy public key]
 Öffentlichen Schlüssen kopieren
@@ -194,11 +194,11 @@ Schlüssellänge
 Konten
 [Default]
 Standard
-[key id]
+[key ID]
 Schlüssel-ID
 [not set]
 nicht gesetzt
-[Default private key id]
+[Default private key ID]
 
 [Failed to open file]
 Konnte die Datei nicht öffnen
@@ -256,23 +256,23 @@ Ungültige E-Mail-Adresse
 Erzeuge neuen Schlüssel, bitte warten Sie...
 [Failed to export public key.]
 Konnte öffentlichen Schlüssel nicht exportieren.
-[GPG binary is set and valid (This is good).\n]
-GPG-Programm ist gesetzt und gültig (Das ist gut).\n
-[GPG binary unset or invalid (Plugin will not work).\n]
-GPG-Programm ist nicht gesetzt oder ungültig (Plugin wird nicht funktionieren).\n
-[Home dir write access granted (This is good).\n]
-Schreibzugriff auf Benutzerverzeichnis gewährt (Das ist gut).\n
-[Home dir has no write access (Plugin most probably will not work).\n]
-Schreibzugriff auf Benutzerverzeichnis nicht gewährt (Plugin wird höchstwahrscheinlich nicht funktionieren).\n
-[Temp dir write access granted (This is good).\n]
-Schreibzugriff auf temporäres Verzeichnis gewährt (Das ist gut).\n
-[Temp dir has no write access (Plugin should work, but may have some problems, file transfers will not work).]
-Schreibzugriff auf temporäres Verzeichnis nicht gewährt (Plugin sollte funktionieren, aber könnte Probleme verursachen, Dateiübertragungen funktionieren nicht).
+[GPG binary is set and valid (this is good).\n]
+GPG-Programm ist gesetzt und gültig (das ist gut).\n
+[GPG binary unset or invalid (plugin will not work).\n]
+GPG-Programm ist nicht gesetzt oder ungültig (plugin wird nicht funktionieren).\n
+[Home dir write access granted (this is good).\n]
+Schreibzugriff auf Benutzerverzeichnis gewährt (das ist gut).\n
+[Home dir has no write access (plugin most probably will not work).\n]
+Schreibzugriff auf Benutzerverzeichnis nicht gewährt (plugin wird höchstwahrscheinlich nicht funktionieren).\n
+[Temp dir write access granted (this is good).\n]
+Schreibzugriff auf temporäres Verzeichnis gewährt (das ist gut).\n
+[Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
+Schreibzugriff auf temporäres Verzeichnis nicht gewährt (plugin sollte funktionieren, aber könnte Probleme verursachen, Dateiübertragungen funktionieren nicht).
 [\nGPG will be disabled until you solve these problems]
 \nGPG wird deaktiviert bis Sie dieses Problem beheben.
 [GPG plugin problems]
 GPG-Pluginprobleme
-[Your secret key whith id: ]
+[Your secret key whith ID: ]
 Ihr geheimer Schlüssel mit ID:
 [ for account ]
  für Konto 

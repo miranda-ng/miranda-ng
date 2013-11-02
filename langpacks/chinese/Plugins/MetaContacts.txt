@@ -46,7 +46,7 @@
 阻止子联系人状态通知
 [Context Menu]
 环境菜单
-[Use contact's unique id]
+[Use contact's unique ID]
 使用联系人独有 ID
 [Use contact's display name]
 使用联系人显示名称
@@ -199,15 +199,15 @@
 [History]
 历史
 ;file \plugins\MetaContacts\src\meta_utils.cpp
-[Could not get MetaContact id]
+[Could not get MetaContact ID]
 无法获取中继联系人 ID
-[Assignment Error]
+[Assignment error]
 指派错误
 [Could not retreive MetaContact contact count]
 无法获取中继联系人数量
 [Could not retreive contact protocol]
 无法获取联系人协议
-[Could not get unique id of contact]
+[Could not get unique ID of contact]
 无法获取联系人独有 ID
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
 联系人 '不在列表中' - 请在指派前先将该联系人加至您的联系人列表中. 
@@ -215,7 +215,7 @@
 中继联系人已满员
 [Could not write contact protocol to MetaContact]
 联系人协议无法写入中继联系人
-[Could not write unique id of contact to MetaContact]
+[Could not write unique ID of contact to MetaContact]
 联系人独有 ID 无法写入中继联系人
 [Could not write nickname of contact to MetaContact]
 联系人昵称无法写入中继联系人

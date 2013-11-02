@@ -89,8 +89,8 @@ Válassz egy havert az elvetési listán az eltávolításhoz.
 [Network]
 Hálózat
 ;file \protocols\Yahoo\src\proto.cpp
-[Please enter your yahoo id in Options/Network/Yahoo]
-Kérlek add meg a yahoo azonosítód a Beállítások/Hálózat/Yahoo menüben
+[Please enter your Yahoo ID in Options/Network/Yahoo]
+Kérlek add meg a Yahoo azonosítód a Beállítások/Hálózat/Yahoo menüben
 [Please enter your yahoo password in Options/Network/Yahoo]
 Kérlek add meg a yahoo jelszavad a Beállítások/Hálózat/Yahoo menüben
 [Yahoo Login Error]

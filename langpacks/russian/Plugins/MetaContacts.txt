@@ -34,7 +34,7 @@
 Запретить уведомление о смене статуса субконтактов
 [Context Menu]
 Контекстное меню
-[Use contact's unique id]
+[Use contact's unique ID]
 UIN, E-mail и т.д.
 [Use contact's display name]
 Использовать имя
@@ -80,14 +80,14 @@ UIN, E-mail и т.д.
 Всегда использовать по умолчанию (даже если оффлайн)
 [Send &Offline]
 В оффлайн
-[Id]
-Id
+[ID]
+ID
 [Send Offline]
 Отправка в оффлайн
 [Remove from MetaContact]
 Удалить из метаконтакта
-[MetaId: ]
-MetaId:\s
+[Meta ID: ]
+Meta ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Метаконтакт поврежден - неверное количество субконтактов.\nУдаляю метаконтакт.
 [Context]
@@ -140,9 +140,9 @@ MetaId:\s
 Ранг:
 [(Lower ranks are preferred)]
 (Предпочтительны более низкие ранги)
-[Could not get MetaContact id]
+[Could not get MetaContact ID]
 Не могу получить ID метаконтакта
-[Could not get unique id of contact]
+[Could not get unique ID of contact]
 Не могу получить уникальный ID контакта
 [Could not retreive contact protocol]
 Не могу запросить протокол контакта
@@ -158,7 +158,7 @@ MetaId:\s
 Добавить к метаконтакту
 [Toggle MetaContacts On]
 Включить метаконтакты
-[Assignment Error]
+[Assignment error]
 Ошибка назначения
 [Assignment failure]
 Неудачное назначение
@@ -166,8 +166,8 @@ MetaId:\s
 Контакт не в списке. Пожалуйста, добавьте контакт в список перед назначением.
 [Could not write contact protocol to MetaContact]
 Ошибка записи протокола контакта в метаконтакт
-[Could not write unique id of contact to MetaContact]
-Ошибка записи уникального id контакта в метаконтакт
+[Could not write unique ID of contact to MetaContact]
+Ошибка записи уникального ID контакта в метаконтакт
 [Error - Database corruption.\nPlugin disabled.]
 Ошибка - база повреждена.\nПлагин отключён.
 [Free to Chat]

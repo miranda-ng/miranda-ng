@@ -390,8 +390,8 @@ Konto jetzt registrieren
 Jabber-Kontoinformationen:
 [Member Information]
 Information über Mitglied:
-[Member Information\n<user id>]
-Information über Mitglied:\n<user id>
+[Member Information\n<user ID>]
+Information über Mitglied:\n<user ID>
 [Role:]
 Rolle:
 [Set role]
@@ -1919,7 +1919,7 @@ ausgehenden Status
 Querys
 [Else ]
 SONST\s
-[If jabber id is ']
+[If Jabber ID is ']
 WENN JID ist gleich '
 [ (nickname: ]
  (Nickname:
@@ -1952,7 +1952,7 @@ Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 Kein kompatibler Dateiübertragungsmechanismus vorhanden
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 Protokoll ist offline oder keine JID
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

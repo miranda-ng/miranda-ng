@@ -12,7 +12,5 @@
 中级
 [Rate low]
 低级
-[Contact Rate]
-联系人等级
 [Contact rate]
 联系人等级

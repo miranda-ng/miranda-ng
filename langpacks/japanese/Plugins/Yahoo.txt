@@ -115,7 +115,7 @@ Yahoo 無視
 [Ignore List]
 無視リスト
 ;file \protocols\Yahoo\src\proto.cpp
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Yahoo IDをオプション / ネットワーク / Yahoo に入力してください
 [Please enter your yahoo password in Options/Network/Yahoo]
 オプション / ネットワーク / Yahoo であなたの Yahoo パスワードを入力して下さい

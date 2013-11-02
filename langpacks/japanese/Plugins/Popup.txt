@@ -92,11 +92,11 @@ IM コンタクトのみに情報とメニューを追加
 操作を表示 : (要適用)
 [Mouse Actions Overwrite]
 マウス操作を上書き
-[LeftButton]
+[Left Button]
 左ボタン
-[MiddleButton]
+[Middle Button]
 中ボタン
-[RightButton]
+[Right Button]
 右ボタン
 [Enable this notification]
 この通知を有効

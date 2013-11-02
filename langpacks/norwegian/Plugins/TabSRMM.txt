@@ -1012,8 +1012,8 @@ Ingen ord å slå opp
 Kallenavn
 [Nick]
 Kallenavn
-[Unique id]
-Unik id
+[Unique ID]
+Unik ID
 [%s: Chat Room (%u user%s)]
 %s: Samtalerom (%u bruker%s
 [%s: Chat Room (%u users%s)]

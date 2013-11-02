@@ -1666,7 +1666,7 @@ Iндекс:
 %s - Бесіда (%u)
 [Nick name]
 Нік
-[Unique id]
+[Unique ID]
 Унікальний ID
 [Standard contacts]
 Звичайні контакти
@@ -2022,7 +2022,7 @@ xСтатус
 Перейменувати групу
 [This group]
 Ця група
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Показати/сховати список контактів
 [Read Message]
 Читати повідомлення
@@ -2356,7 +2356,7 @@ ANSI-плагін
 Запущений плагін
 [Unloaded plugin]
 Незапущений плагін
-[ShowHide]
+[Show/Hide]
 Показати/сховати
 [Exit]
 Вихід

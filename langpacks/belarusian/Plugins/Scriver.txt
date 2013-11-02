@@ -824,7 +824,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 нік бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to root miranda folder]
 шлях да тэчкі праграмы
@@ -963,7 +963,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Уключыць/выключыць фільтр падзей (CTRL+F)
 [Nick name]
 Мянушка
-[Unique id]
+[Unique ID]
 Асабісты конт
 [Status]
 Статус

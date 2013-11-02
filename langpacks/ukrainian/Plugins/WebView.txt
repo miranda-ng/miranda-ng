@@ -191,7 +191,7 @@ WebView
 Автооновлення ввімкнено
 [Update all webview sites]
 Оновити всі сторінки WebView
-[Mark all webview sites read]
+[Mark all Webview sites as read]
 Позначити всі сторінки як прочитані
 [Open cache folder]
 Відкрити папку кешу

@@ -737,7 +737,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 イベントフィルターの有効 / 無効 (CTRL+F)
 [Nick name]
 ニックネーム
-[Unique id]
+[Unique ID]
 固有 ID
 [Status]
 ステータス

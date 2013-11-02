@@ -573,7 +573,7 @@ Contrôler ce salon (CTRL+O)
 Activer/désactiver les filtres d'évènement (CTRL+F)
 [Nick name]
 Pseudo
-[Unique id]
+[Unique ID]
 ID unique
 [Status]
 État

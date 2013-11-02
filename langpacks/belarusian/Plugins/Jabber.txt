@@ -318,8 +318,8 @@ JID / URL:
 Сервер:
 [Member Information]
 Правы доступу
-[Member Information\n<user id>]
-Інфармацыя пра карыстача\n<user id>
+[Member Information\n<user ID>]
+Інфармацыя пра карыстача\n<user ID>
 [Role:]
 Роля:
 [Affiliation:]
@@ -1425,7 +1425,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 выходная прысутнаст
 [queries]
 запыты
-[If jabber id is ']
+[If Jabber ID is ']
 Калі JID  '
 [ (nickname: ]
  (нік:
@@ -1456,7 +1456,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 Конт не далучаны ці няма JID.
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

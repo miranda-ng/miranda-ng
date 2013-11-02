@@ -169,7 +169,7 @@ Neue E-Mail im Posteingang
 %s Pluginverbindungen
 [ID]
 ID
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Bitte die Yahoo-ID unter 'Einstellungen -> Netzwerk -> Yahoo' eintragen!
 [Please enter your yahoo password in Options/Network/Yahoo]
 Bitte das Yahoo-Passwort unter 'Einstellungen -> Netzwerk -> Yahoo' eintragen!
@@ -206,10 +206,10 @@ Kalendererinnerung
 %s hat Ihre Anfrage mit der folgenden Nachricht abgelehnt:
 [Invalid Contact]
 Ungültiger Kontakt
-[The id you tried to add is invalid.]
+[The ID you tried to add is invalid.]
 Die ID, die Sie versuchen hinzuzufügen, ist ungültig.
-[Unknown Error??.]
-Unbekannter Fehler??.
+[Unknown Error.]
+Unbekannter Fehler.
 [New Mail]
 Neue E-Mail
 [You Have %i unread msgs]

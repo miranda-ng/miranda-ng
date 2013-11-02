@@ -103,7 +103,7 @@ Yahoo 忽略
 [Ignore List]
 忽略列表
 ;file \protocols\Yahoo\src\proto.cpp
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 请到 "选项 - 网络 - Yahoo" 输入您的 Yahoo ID
 [Please enter your yahoo password in Options/Network/Yahoo]
 请到 "选项 - 网络 - Yahoo" 输入您的 Yahoo 密码

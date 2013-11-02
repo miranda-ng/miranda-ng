@@ -8,7 +8,7 @@
 [IM and group chat module for Miranda NG.]
 
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 
 [OK]
 OK
@@ -2165,7 +2165,7 @@ Prezívka
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 
 [path to root miranda folder]
 
@@ -2284,12 +2284,10 @@ Opustiť
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 
-[Unique Id]
+[Unique ID]
 
 [Nick]
 Prezívka
-[Unique id]
-
 [%s: Chat Room (%u user%s)]
 
 [%s: Chat Room (%u users%s)]

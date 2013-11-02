@@ -8,7 +8,7 @@
 [IM and group chat module for Miranda NG.]
 Instant-Messaging- und Gruppenchat-Modul für Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Sie können den Nutzer nach Benutzernamen oder seiner ID hinzufügen. Platzhalter sind erlaubt und empfohlen.
 [OK]
 OK
@@ -2165,7 +2165,7 @@ Hintergrund Benutzerliste
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to root miranda folder]
 Pfad zum Miranda-Hauptverzeichnis
@@ -2286,12 +2286,10 @@ Editiere "Highlight" Liste ...
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 Nick
-[Unique Id]
+[Unique ID]
 Eindeutige ID
 [Nick]
 Nick
-[Unique id]
-Eindeutige ID
 [%s: Chat Room (%u user%s)]
 %s: Chatraum (%u Benutzer%s)
 [%s: Chat Room (%u users%s)]

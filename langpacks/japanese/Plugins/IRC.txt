@@ -500,7 +500,7 @@ IRC ネットワークを選択して , 必要であればパスワードを入�
 パスワードを入力してください
 [Set new password]
 新規パスワードを設定
-[Please enter desired languageID (numeric value, depends on server)]
+[Please enter desired language ID (numeric value, depends on server)]
 要求される言語 ID を入力してください ( 数値 , サーバーに依存 )
 [Change language of NickServ messages]
 NickServ メッセージの言語を変更

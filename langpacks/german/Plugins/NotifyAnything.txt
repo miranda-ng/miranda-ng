@@ -50,7 +50,7 @@ Anwendungsausführung ist deaktiviert.
 Nicht terminierte Option.
 [No argument given to msg option.]
 
-[Id is required for replacement.]
+[ID is required for replacement.]
 
 [Invalid argument for replace option: ]
 

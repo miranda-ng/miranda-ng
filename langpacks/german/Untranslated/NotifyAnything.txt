@@ -1,5 +1,5 @@
 ﻿[No argument given to msg option.]
-[Id is required for replacement.]
+[ID is required for replacement.]
 [Invalid argument for replace option: ]
 [Empty message ignored.]
 [N/A: Failed to format error message]

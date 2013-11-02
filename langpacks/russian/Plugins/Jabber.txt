@@ -710,8 +710,8 @@ Unicode сборка
 <room jid>\nПригласить в чат-комнату.
 [<room jid>\nIncoming groupchat invitation.]
 <room jid>\nПриглашение в чат-комнату.
-[Member Information\n<user id>]
-Информация о пользователе\n<user id>
+[Member Information\n<user ID>]
+Информация о пользователе\n<user ID>
 [Member Information\n%s from %s]
 Информация о пользователе\n%s из %s
 [Member Info: %s]
@@ -808,10 +808,10 @@ Nсход. присутствие
 Невозможно удалить активный или стандартный список
 [If group is ']
 Если группа '
-[If jabber id is ']
-Если JID  '
+[If Jabber ID is ']
+Если JID '
 [If subscription is ']
-Если подписка  '
+Если подписка '
 [ and ]
  и\s
 [Other JID:]
@@ -1431,7 +1431,7 @@ Cлужба недоступна
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 Не найдено ни одного совместимого механизма передачи файлов
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 Протокол не в сети или нет JID
 [<Photo not available while offline>]
 <Фото недоступно без подключения к сети>

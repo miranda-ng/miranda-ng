@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.8
+;  Version: 0.0.0.9
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
@@ -27,16 +27,16 @@ Désactiver la barre de progression
 ;file \plugins\Db_autobackups\src\backup.cpp
 [All Files]
 Tous les fichiers
-[Backup in Progress]
+[Backup in progress]
 Sauvegarde en cours
 [Rotating backup files...]
 Inversion des fichiers de sauvegardes...
 [Copying database file...]
 Copie de la base de données...
 ;file \plugins\Db_autobackups\src\main.cpp
-[Backup Profile]
+[Backup profile]
 Sauvegarder votre profil
-[Database Backups]
+[Database backups]
 Profil sauvegardé
 ;file \plugins\Db_autobackups\src\options.cpp
 [Select Backup Folder]

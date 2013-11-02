@@ -795,7 +795,7 @@ Controlar esta sala (CTRL+O)
 Ativar/desativar o filtro de eventos (CTRL+F)
 [Nick name]
 Apelido
-[Unique id]
+[Unique ID]
 ID único
 [Status]
 Status

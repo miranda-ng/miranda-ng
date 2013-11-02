@@ -169,7 +169,7 @@ Yahoo игнориране
 Връзки на приставката "%s"
 [ID]
 Идентификатор
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Въведете Yahoo ID в Настройки/Мрежа/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Моля, въведете паролата си в Настройки>Мрежа>Yahoo
@@ -206,10 +206,10 @@ Yahoo поща
 %s отхвърли запитването и изпрати следния отговор:
 [Invalid Contact]
 Невалиден контакт
-[The id you tried to add is invalid.]
+[The ID you tried to add is invalid.]
 Въведеният идентификатор е невалиден.
-[Unknown Error??.]
-Непозната грешка??.
+[Unknown Error.]
+Непозната грешка.
 [New Mail]
 Нов имейл
 [You Have %i unread msgs]

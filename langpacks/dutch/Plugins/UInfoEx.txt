@@ -511,8 +511,8 @@ Verjaardag herinnering: het komt eraan
 [Anniversary Reminder]
 Feest Herinnering
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
-De persoon %s(%s) heeft geen uniek id in de vCard,\nmaar er is een persoon in uw clist met dezelfde bijnaam en protocol.\nWilt u deze persoon gebruiken?
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+De persoon %s(%s) heeft geen uniek ID in de vCard,\nmaar er is een persoon in uw clist met dezelfde bijnaam en protocol.\nWilt u deze persoon gebruiken?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [Required modules]

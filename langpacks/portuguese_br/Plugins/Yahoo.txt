@@ -139,7 +139,7 @@ Rede
 [Ignore List]
 Ignorar lista
 ;file \protocols\Yahoo\src\proto.cpp
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Introduza a sua identificação em Opções/Rede/yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Introduza a sua senha em Opções/Rede/yahoo

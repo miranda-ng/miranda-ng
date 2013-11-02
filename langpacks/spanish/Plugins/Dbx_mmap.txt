@@ -13,7 +13,7 @@ Si
 [No]
 No
 [Do you want to import the settings now?]
-Un archivo que contiene la nueva configuración de base de datos se ha colocado en el directorio de Miranda IM.
+Un archivo que contiene la nueva configuración de base de datos se ha colocado en el directorio de Miranda NG.
 [No to all]
 No a todos los
 [&View contents]

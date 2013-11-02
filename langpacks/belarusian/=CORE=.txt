@@ -1718,7 +1718,7 @@ Miranda
 %s: гутарка (%u карыстачоў)
 [Nick name]
 Мянушка
-[Unique id]
+[Unique ID]
 Асабісты конт
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2120,7 +2120,7 @@ URL ад %s
 [This group]
 Гэта група
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Паказаць/Схаваць спіс кантактаў
 [Read Message]
 Прачытаць паведамленне
@@ -2486,7 +2486,7 @@ ANSI плагін
 Запушчаны плагін
 [Unloaded plugin]
 Выгружаны плагін
-[ShowHide]
+[Show/Hide]
 Схаваць/паказаць
 [Exit]
 Выйсце

@@ -12,8 +12,8 @@
 Новая почта (99 писем)
 [From: Sample User\nSubject: Testing123.]
 От: Простой пользователь\nТема: ТЕСТ.
-[Please enter your yahoo id in Options/Network/Yahoo]
-Введите ваш yahoo ID - Настройки/Сеть/Yahoo
+[Please enter your Yahoo ID in Options/Network/Yahoo]
+Введите ваш Yahoo ID - Настройки/Сеть/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Введите ваш yahoo пароль - Настройки/Сеть/Yahoo
 [Yahoo Login Error]

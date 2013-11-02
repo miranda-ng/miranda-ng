@@ -850,7 +850,7 @@ Opustiť
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 
 [path to root miranda folder]
 
@@ -987,7 +987,7 @@ Podtrhnuté
 
 [Nick name]
 
-[Unique id]
+[Unique ID]
 
 [Status]
 Stav

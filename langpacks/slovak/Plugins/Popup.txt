@@ -126,11 +126,11 @@ Zavrieť
 
 [Mouse Actions Overwrite]
 
-[LeftButton]
+[Left Button]
 
-[MiddleButton]
+[Middle Button]
 
-[RightButton]
+[Right Button]
 
 [Notifications]
 

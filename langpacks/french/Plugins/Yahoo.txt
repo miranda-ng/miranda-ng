@@ -85,7 +85,7 @@ Vous devez sélectionner un contact dans la liste des ignorés afin de l'y retir
 [Network]
 Réseau
 ;file \protocols\Yahoo\src\proto.cpp
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Veuillez entrer votre ID Yahoo dans Options/Réseaux/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Veuillez entrer votre passe Yahoo dans Options/Réseaux/Yahoo

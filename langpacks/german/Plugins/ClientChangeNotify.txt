@@ -85,8 +85,8 @@ Popups
 ClientChangeNotify: Client geändert
 [ClientChangeNotify]
 ClientChangeNotify
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) ändert Client zu %extratext%
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) ändert Client zu %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Fehler #%d

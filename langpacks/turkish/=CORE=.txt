@@ -1518,7 +1518,7 @@ Geçerli sekmeyi kapat (CTRL+F4)
 %s: İleti Oturumu (%u kullanıcı)
 [Nick name]
 Kısa ad
-[Unique id]
+[Unique ID]
 Tekil kod
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2054,8 +2054,8 @@ ANSI eklentisi
 Çalışan eklenti
 [Unloaded plugin]
 Kaldırılan eklenti
-[ShowHide]
-GösterGizle
+[Show/Hide]
+Göster/Gizle
 [Exit]
 Çıkış
 [Main Menu]

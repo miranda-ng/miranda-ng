@@ -115,8 +115,8 @@ Popups
 %n ist %s (%u)
 [%i(%r)%bWas %o]
 %i(%r)%bwar %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
-Name:%t%N%bStatus:%t%s%bTag:%t%d.%m.%Y%bZeit:%t%H:%M:%S%bVorheriger Status:%t%o%b%b%P ID:%t%u%bExterne IP:%t%i%bInterne IP:%t%r%bClientID: %t%C%b%bStatusnachricht:%t%T
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Name:%t%N%bStatus:%t%s%bTag:%t%d.%m.%Y%bZeit:%t%H:%M:%S%bVorheriger Status:%t%o%b%b%P ID:%t%u%bExterne IP:%t%i%bInterne IP:%t%r%bClient ID: %t%C%b%bStatusnachricht:%t%T
 [-- Date --]
 -- Datum --
 [year (4 digits)]

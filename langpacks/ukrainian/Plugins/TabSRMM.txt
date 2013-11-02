@@ -545,7 +545,7 @@ IRC-стиль(текстовий) індикаторів ролей в журн
 нік поточного контакту (якщо він визначений)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 назва протоколу поточного контакту (якщо зазначено). Ім'я облікового запису використовується коли протокол підтримує кілька облікових записів
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID поточного контакту (якщо він визначений). Наприклад, для ICQ UIN, JID для Jabber і т.д.
 [any environment variable defined in current Windows session (like %systemroot%% allusersprofile%, etc.)]
 будь-яка змінна середовища, визначена в поточній Windows сесії (наприклад, %systemroot%% allusersprofile% і т.д.)
@@ -1609,8 +1609,8 @@ ID користувача в панелі статусу
 Метаконтакт
 [Autoselect]
 Автовибір
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
-Додайте користувача по його імені або по id. Рекомендується використовувати маски.
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
+Додайте користувача по його імені або по ID. Рекомендується використовувати маски.
 [TabSRMM exception]
 Помилка TabSRMM
 [Exit Miranda]

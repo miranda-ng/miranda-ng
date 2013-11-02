@@ -55,7 +55,7 @@
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
 托盘/弹出提示图标
-[NeverHide]
+[Never hide]
 从未隐藏
 [%d days since last message]
 %d 天距最后消息

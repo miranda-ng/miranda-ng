@@ -14,7 +14,5 @@
 Сярэдні
 [Rate low]
 Нізкі
-[Contact Rate]
-Адзнака
 [Contact rate]
 Рэйтынг кантакту

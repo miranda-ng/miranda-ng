@@ -17,7 +17,7 @@
 [Application launching is disabled.]
 [Unterminated option.]
 [No argument given to msg option.]
-[Id is required for replacement.]
+[ID is required for replacement.]
 [Invalid argument for replace option: ]
 [Empty message ignored.]
 [Failed to write to log file.]

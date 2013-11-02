@@ -132,7 +132,7 @@
 Конты
 [Default]
 Змаўчанні
-[Default private key id]
+[Default private key ID]
 Асноўны прыватны ключ
 [Error]
 Памылка

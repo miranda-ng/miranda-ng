@@ -619,7 +619,7 @@ Szoba vezérlése (CTRL+O)
 Esemény szûrõ be/kikapcsolása
 [Nick name]
 Becenév
-[Unique id]
+[Unique ID]
 Egyedi azonosító
 [Status]
 Állpot

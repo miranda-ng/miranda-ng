@@ -1718,7 +1718,7 @@ Popups за изобразяване
 %s: Разговор (%u потребителя)
 [Nick name]
 Прякор
-[Unique id]
+[Unique ID]
 
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2118,7 +2118,7 @@ URL
 [This group]
 Тази група
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Показва/Скрива списъка с контакти
 [Read Message]
 Прочитане на съобщение
@@ -2484,7 +2484,7 @@ ANSI приставка
 Стартирана приставка
 [Unloaded plugin]
 Незаредена приставка
-[ShowHide]
+[Show/Hide]
 Показване/Скриване
 [Exit]
 Изход

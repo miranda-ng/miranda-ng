@@ -6,7 +6,7 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Usted puede agregar el usuario por su nombre de usuario o su identificación. Los comodines son permitidos y recomendados.
 [OK]
 OK

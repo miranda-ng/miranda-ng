@@ -6,7 +6,7 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 ユーザー名もしくはユーザー ID でユーザーの追加が可能です。ワイルドカードは許可及び推奨されています
 [OK]
 OK
@@ -1788,12 +1788,10 @@ Voiced
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 ニックネーム
-[Unique Id]
+[Unique ID]
 固有 ID
 [Nick]
 ニックネーム
-[Unique id]
-固有 ID
 [%s: Chat Room (%u user%s)]
 %s : チャットルーム (%u ユーザー %s )
 [%s: Chat Room (%u users%s)]

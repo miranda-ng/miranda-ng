@@ -111,7 +111,7 @@
 %n %s (%u)
 [%i(%r)%bWas %o]
 %i(%r)%b быў %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 Імя:%t%N%b Статус:%t%s%b Дата:%t%d.%m.%Y%b Час:%t%H:%M:%S%b Папярэдні статус:%t%o%b%b%P ID:%t%u%b Вонкавы IP:%t%i%b Унутраны IP:%t%r%b Кліент: %t%C%b%b Паведамленне статусу:%t%T
 [-- Date --]
 -- Дата --

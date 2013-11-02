@@ -707,8 +707,8 @@ Unicode зборка
 <room jid>\nЗапросити до чат-кімнати.
 [<room jid>\nIncoming groupchat invitation.]
 <room jid>\nЗапрошення до чат-кімнати.
-[Member Information\n<user id>]
-Інформація про користувача\n<user id>
+[Member Information\n<user ID>]
+Інформація про користувача\n<user ID>
 [Member Information\n%s from %s]
 Інформація про користувача\n%s з %s
 [Member Info: %s]
@@ -805,7 +805,7 @@ Unicode зборка
 Неможливо вилучити активний або стандартний список
 [If group is ']
 Якщо група '
-[If jabber id is ']
+[If Jabber ID is ']
 Якщо JID '
 [If subscription is ']
 Якщо підписка '
@@ -1427,7 +1427,7 @@ Jabber помилка
 Неможливо зберегти список, тому що ви не в мережі.
 [No compatible file transfer machanism exist]
 Не знайдено жодного сумісного механізму передачі файлів
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 Протокол не в мережі чи ні JID
 [<Photo not available while offline>]
 <Фото недоступне без підключення до мережі>

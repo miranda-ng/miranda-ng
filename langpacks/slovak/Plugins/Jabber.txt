@@ -388,7 +388,7 @@ Prihlasovací server
 
 [Member Information]
 
-[Member Information\n<user id>]
+[Member Information\n<user ID>]
 
 [Role:]
 
@@ -1913,7 +1913,7 @@ Podrobne
 
 [Else ]
 
-[If jabber id is ']
+[If Jabber ID is ']
 
 [ (nickname: ]
 
@@ -1946,7 +1946,7 @@ Podrobne
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

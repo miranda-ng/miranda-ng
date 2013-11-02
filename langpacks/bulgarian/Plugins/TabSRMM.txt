@@ -8,7 +8,7 @@
 [IM and group chat module for Miranda NG.]
 Изпращане и получаване на съобщения плюс модул за чат стаи за Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 
 [OK]
 ОК
@@ -2165,7 +2165,7 @@ TabSRMM предупреждение
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 
 [path to root miranda folder]
 път до главната папка на miranda
@@ -2286,12 +2286,10 @@ TabSRMM предупреждение
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 Прякор
-[Unique Id]
+[Unique ID]
 
 [Nick]
 Прякор
-[Unique id]
-
 [%s: Chat Room (%u user%s)]
 %s: Чат стая (%u потребител%s)
 [%s: Chat Room (%u users%s)]

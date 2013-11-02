@@ -75,7 +75,7 @@ sek
 
 [Hide]
 
-[NeverHide]
+[Never hide]
 
 [Hiding %s (%S)]
 

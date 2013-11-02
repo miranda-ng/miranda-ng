@@ -259,7 +259,7 @@ DNS エラー
 あなたが削除したい項目がリストにありません
 [Failed to add buddy to list: Item already exist.]
 メンバーをリストに追加することに失敗 : 項目は既に存在します
-[Error adding buddy(invalid id?, already in list?)]
+[Error adding buddy(invalid ID or already in list?)]
 メンバー追加エラー( 不正な ID ?, 既に追加済み ? ) 
 [Cannot add buddy. Limit for this type of item exceeded.]
 メンバーを追加できません。この項目タイプの上限を超えました

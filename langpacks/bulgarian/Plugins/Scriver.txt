@@ -850,7 +850,7 @@ Latin I
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 
 [path to root miranda folder]
 път до главната папка на miranda
@@ -989,7 +989,7 @@ Popups
 Включване/Изключване на филтъра за събития (CTRL+F)
 [Nick name]
 Прякор
-[Unique id]
+[Unique ID]
 
 [Status]
 Състояние

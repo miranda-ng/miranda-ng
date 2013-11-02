@@ -98,12 +98,12 @@ Iconos alineados a la derecha
 Mostrar acciones: (se requiere aplicar)
 [Mouse Actions Overwrite]
 Acciones del ratón Sobrescribir
-[LeftButton]
-LeftButton
-[MiddleButton]
-MiddleButton
-[RightButton]
-RightButton
+[Left Button]
+
+[Middle Button]
+
+[Right Button]
+
 [Enable this notification]
 Habilitar esta notificación
 [Left click action:]

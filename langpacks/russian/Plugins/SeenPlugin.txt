@@ -128,7 +128,7 @@ LastSeen: Изменение статуса пользователя
 <никогда не появлялся>
 [Last seen plugin mod (NSNCompat)]
 Последнее появление (mod NSNCompat)
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 Имя:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bВремя:%t%H:%M:%S%bПредыдущий статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутренний IP:%t%r%bКлиент: %t%C%b%bСообщение статуса:%t%T
 [Last Seen Variables]
 Переменные

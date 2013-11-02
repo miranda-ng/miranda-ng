@@ -8,7 +8,7 @@
 [IM and group chat module for Miranda NG.]
 Модуль асабістых і групавых чатаў для Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Дадайце карыстача па яго імені ці id. Можна выкарыстоўваць маскі.
 [OK]
 ОК
@@ -2083,7 +2083,7 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 нік бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to root miranda folder]
 шлях да тэчкі праграмы
@@ -2204,7 +2204,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Мянушка
 [Nick]
 Нік
-[Unique id]
+[Unique ID]
 Асабісты конт
 [%s: Chat Room (%u user%s)]
 %s: Чат-пакой (%u карыстачоў)

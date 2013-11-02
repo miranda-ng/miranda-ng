@@ -1,4 +1,4 @@
-﻿[Default private key id]
+﻿[Default private key ID]
 [Failed to alocate memory]
 ["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
 [ expired and will not work.\nDo you want to set another key?]

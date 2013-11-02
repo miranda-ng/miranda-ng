@@ -6,7 +6,7 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 您可使用用户名或 ID 添加新用户. 允许并推荐使用通配符.
 [OK]
 确定
@@ -1884,12 +1884,10 @@ Aero 发光效果
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 昵称
-[Unique Id]
-唯一 Id
+[Unique ID]
+独有 ID
 [Nick]
 昵称
-[Unique id]
-独有 ID
 [%s: Chat Room (%u user%s)]
 %s: 聊天室 (%u 用户%s)
 [%s: Chat Room (%u users%s)]

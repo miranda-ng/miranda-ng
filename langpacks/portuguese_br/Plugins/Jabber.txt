@@ -897,7 +897,7 @@ presenças de saída
 consultas
 [Else ]
 Diferente
-[If jabber id is ']
+[If Jabber ID is ']
 Se Jabber ID é '
 [ (nickname: ]
 (apelidoe:

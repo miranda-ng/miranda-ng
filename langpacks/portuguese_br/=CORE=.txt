@@ -1774,7 +1774,7 @@ Fechar aba atual (CTRL+F4)
 %s: Sessões de Mensagens (%u usuários)
 [Nick name]
 Apelido
-[Unique id]
+[Unique ID]
 ID único
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2178,7 +2178,7 @@ Renomear Grupo
 [This group]
 Este grupo
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Exibir/Ocultar Lista de Contatos
 [Read Message]
 Ler Mensagem
@@ -2442,7 +2442,7 @@ Plugin ANSI
 Plugin ativado
 [Unloaded plugin]
 Plugin desativado
-[ShowHide]
+[Show/Hide]
 Exibir/Ocultar
 [Exit]
 Sair

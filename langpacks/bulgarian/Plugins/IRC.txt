@@ -596,8 +596,8 @@ Latin I
 Моля, въведете новата парола
 [Set new password]
 Задаване на нова парола
-[Please enter desired languageID (numeric value, depends on server)]
-Моля, въведете желаният languageID (числова стойност зависеща от сървъра)
+[Please enter desired language ID (numeric value, depends on server)]
+Моля, въведете желаният language ID (числова стойност зависеща от сървъра)
 [Change language of NickServ messages]
 Промяна на езика на съобщенията от NickServ
 [Please enter URL that will be linked to your nick]

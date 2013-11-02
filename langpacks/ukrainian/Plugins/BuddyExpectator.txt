@@ -83,7 +83,7 @@
 років
 [BuddyExpectator]
 Очікування контактів
-[NeverHide]
+[Never hide]
 Ніколи не ховати
 [Absence period]
 Період відсутності

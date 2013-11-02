@@ -163,7 +163,7 @@ Yahoo! Ігнор
 %s підключення до сервера
 [ID]
 
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Введіть ваш Yahoo! ID - Налаштування/Мережа/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Введіть ваш Yahoo! пароль - Налаштування/Мережа/Yahoo
@@ -197,10 +197,10 @@ Yahoo! Ігнор
 %s відхилив запит і послав повідомлення:
 [Invalid Contact]
 
-[The id you tried to add is invalid.]
+[The ID you tried to add is invalid.]
 
-[Unknown Error??.]
-Невідомиа помилка??.
+[Unknown Error.]
+Невідомиа помилка.
 [New Mail]
 Нова пошта
 [You Have %i unread msgs]

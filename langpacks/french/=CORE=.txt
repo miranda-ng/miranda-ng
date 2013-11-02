@@ -1716,7 +1716,7 @@ Fermer l'onglet courant (CTRL+F4)
 %s: Session de message (%u usagers)
 [Nick name]
 Pseudo
-[Unique id]
+[Unique ID]
 ID unique
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2112,7 +2112,7 @@ Renommer le groupe
 [This group]
 Ce groupe
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Voir/Cacher la liste de contact
 [Read Message]
 Lire un message
@@ -2474,7 +2474,7 @@ Plugin ANSI
 Plugin actif
 [Unloaded plugin]
 Plugin non chargé
-[ShowHide]
+[Show/Hide]
 
 [Exit]
 Quitter

@@ -126,6 +126,8 @@ Bei Rechtsklick
 Statusbeschreibung anzeigen
 [Ignore empty status and xStatus messages]
 Leere (x)Statusnachrichten ignorieren
+[Connection timeout]
+
 [Notification]
 Benachrichtigung
 [Disable for extra status 'Music']

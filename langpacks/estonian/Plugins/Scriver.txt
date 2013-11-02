@@ -251,8 +251,8 @@ Tee tekst alla kriipsutatuks (CTRL+U)
 Kuva ajalugu (CTRL+H)
 [Nick name]
 Hüüdnimi
-[Unique id]
-Unikaalne id
+[Unique ID]
+Unikaalne ID
 [Status]
 Staatus
 [%s: Chat Room (%u user)]

@@ -50,7 +50,7 @@ Einstellungen
 Statusmeldung für Unterkontakte unterdrücken
 [Context Menu]
 Kontextmenü
-[Use contact's unique id]
+[Use contact's unique ID]
 Verwende ID des Kontakts
 [Use contact's display name]
 Verwende Kontaktanzeigename
@@ -144,7 +144,7 @@ Ja
 Nein
 [Contact]
 Kontakt
-[Id]
+[ID]
 ID
 [Protocol]
 Protokoll
@@ -219,15 +219,15 @@ Verlauf
 ;file \plugins\MetaContacts\src\meta_utils.cpp
 [Sender]
 Sender
-[Could not get MetaContact id]
+[Could not get MetaContact ID]
 Konnte Metakontakt-ID nicht erhalten
-[Assignment Error]
+[Assignment error]
 Zuweisungsfehler
 [Could not retreive MetaContact contact count]
 Konnte Metakontakt-Kontaktzahl nicht abrufen
 [Could not retreive contact protocol]
 Konnte Kontaktprotokoll nicht abrufen
-[Could not get unique id of contact]
+[Could not get unique ID of contact]
 Konnte keine eindeutige ID vom Kontakt erhalten
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
 Kontakt ist 'nicht in der Liste' - bitte den Kontakt vor der Zuweisung zur Liste hinzufügen.
@@ -235,7 +235,7 @@ Kontakt ist 'nicht in der Liste' - bitte den Kontakt vor der Zuweisung zur Liste
 Metakontakt ist voll
 [Could not write contact protocol to MetaContact]
 Konnte Kontaktprotokoll nicht in Metakontakt schreiben
-[Could not write unique id of contact to MetaContact]
+[Could not write unique ID of contact to MetaContact]
 Konnte keine eindeutige ID in Metakontakt schreiben
 [Could not write nickname of contact to MetaContact]
 Konnte Nicknamen des Kontakts nicht in Metakontakt schreiben
@@ -249,7 +249,7 @@ Konnte Nicknamen des Kontakts nicht in Metakontakt schreiben
 
 [MetaContact default contact number out of range - deleting MetaContact]
 
-[MetaId: ]
+[Meta ID: ]
 Meta-ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Metakontakt defekt - die Zahl der Unterkontakte ist fehlerhaft.\nLösche Metakontakt.

@@ -1718,7 +1718,7 @@ Aktuellen Tab schließen (Strg+F4)
 %s: Nachrichtensitzung (%u Benutzer)
 [Nick name]
 Nickname
-[Unique id]
+[Unique ID]
 Unique ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2120,7 +2120,7 @@ Gruppe umbenennen
 [This group]
 Diese Gruppe
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Kontaktliste ein/ausblenden
 [Read Message]
 Nachricht lesen
@@ -2486,7 +2486,7 @@ ANSI-Plugin
 Plugin läuft
 [Unloaded plugin]
 Plugin deaktiviert
-[ShowHide]
+[Show/Hide]
 Anzeigen/Verstecken
 [Exit]
 Beenden

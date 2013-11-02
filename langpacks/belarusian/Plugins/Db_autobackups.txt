@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.8
+;  Version: 0.0.0.9
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
@@ -37,31 +37,31 @@
 [Disable Popups]
 Адключыць усплывальныя вокны
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda Databases]
+[Miranda databases]
 Базы данных Miranda NG
 [All Files]
 Усе файлы
-[Backup in Progress]
+[Backup in progress]
 Рэзерваванне падчас
 [Rotating backup files...]
 Ратацыя папярэдніх копіяў...
 [Copying database file...]
 Капіяванне файла базы...
-[Database backuped]
+[Database backed up]
 Профіль зарэзерваваны
 ;file \plugins\Db_autobackups\src\main.cpp
-[Backup Profile]
+[Backup profile]
 Рэзерваваць профіль
-[Save Profile As...]
+[Save profile as...]
 Захаваць профіль як...
-[Database Backups]
+[Database backups]
 Рэзерваванне профіля
-[Backup Folder]
+[Backup folder]
 Тэчка рэзервавання
 [Database]
 Профіль
 ;file \plugins\Db_autobackups\src\options.cpp
-[path to root miranda folder]
+[path to Miranda root folder]
 шлях да тэчкі праграмы
 [path to current miranda profile]
 шлях да тэчкі бягучага профіля

@@ -2630,11 +2630,11 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 Невірний пароль!
 [Rotating backup files...]
 Ротація попередніх копій...
-[Backup Profile]
+[Backup profile]
 Резервувати профіль
-[Database Backups]
+[Database backups]
 Резервування профілю
-[Automatic Backups]
+[Automatic backups]
 Автоматичне резервування
 [Backup to folder:]
 Зберігати в папку:
@@ -3078,7 +3078,7 @@ Web-дизайн
 Відносний час
 [Warning: classic contact list plugin doesn't have ability to use extraicons]
 Увага: класичний список контактів не підтримує екстра значки
-[Contact Rate]
+[Contact rate]
 Рейтинг контакту
 [Check3]
 Перевірка3
@@ -3700,7 +3700,7 @@ Web-дизайн
 Округляти кути вікна
 [Round corners (avatar)]
 Округляти кути аватар
-[Opacity(%):]
+[Opacity (%):]
 Непрозорість (%):
 [Bottom right]
 Внизу праворуч
@@ -3864,7 +3864,7 @@ Web-дизайн
 Зберегти ЗАРАЗ
 [Disable progress bar]
 Відключити індикатор виконання
-[Backup in Progress]
+[Backup in progress]
 Резервування у процесі
 [Error code: %d]
 Помилка код: %d

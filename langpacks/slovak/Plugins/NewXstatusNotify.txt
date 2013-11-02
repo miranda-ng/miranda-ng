@@ -126,6 +126,8 @@ Pravým klikom
 
 [Ignore empty status and xStatus messages]
 
+[Connection timeout]
+
 [Notification]
 
 [Disable for extra status 'Music']

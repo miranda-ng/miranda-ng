@@ -126,11 +126,11 @@ Icons rechts ausgerichtet
 Zeige Aktionen: (Übernehmen nötig)
 [Mouse Actions Overwrite]
 Maus Aktionen überschreiben
-[LeftButton]
+[Left Button]
 Linksklick:
-[MiddleButton]
+[Middle Button]
 Mittelklick:
-[RightButton]
+[Right Button]
 Rechtsklick:
 [Notifications]
 Benachrichtigung

@@ -613,7 +613,7 @@ recordatorio de cumpleaños: lo que viene
 [Anniversary Reminder]
 Aniversario Recordatorio
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
 El contacto %s(%s) no tiene identificación única en el vCard,\npero hay un contacto en su CList con el mismo nick y el protocolo.\n¿Desea utilizar este contacto?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp

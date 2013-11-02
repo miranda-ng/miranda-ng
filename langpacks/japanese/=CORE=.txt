@@ -1626,7 +1626,7 @@ SMS テキストメッセージを受信できる電話
 %s : メッセージセッション (%u ユーザー )
 [Nick name]
 ニックネーム
-[Unique id]
+[Unique ID]
 固有 ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2282,7 +2282,7 @@ ANSI プラグイン
 プラグインの実行中
 [Unloaded plugin]
 未読み込みのプラグイン
-[ShowHide]
+[Show/Hide]
 ハイド表示
 [Exit]
 終了

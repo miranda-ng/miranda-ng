@@ -282,5 +282,5 @@ Lahku
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 Hüüdnimi
-[Unique id]
-Unikaalne id
+[Unique ID]
+Unikaalne ID

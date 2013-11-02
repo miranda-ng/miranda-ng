@@ -861,7 +861,7 @@ giden varlıklar
 sorgular
 [Else ]
 Değilse
-[If jabber id is ']
+[If Jabber ID is ']
 Eğer Jabber kimliği '
 [ (nickname: ]
  (kısa ad:

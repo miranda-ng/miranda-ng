@@ -126,11 +126,11 @@ History++ для гісторыі вокнаў
 Дзеянні: (патрабуе "Ўжыць")
 [Mouse Actions Overwrite]
 Дзеянні па націску мышкі
-[LeftButton]
+[Left Button]
 Левая кнопка
-[MiddleButton]
+[Middle Button]
 Сярэдняя кнопка
-[RightButton]
+[Right Button]
 Правая кнопка
 [Notifications]
 Апавяшчэнні

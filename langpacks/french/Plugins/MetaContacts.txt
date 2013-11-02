@@ -42,7 +42,7 @@ Toujours envoyer au contact par défaut s'il n'est pas déconnecté
 Supprimer la notification d'état pour les sous-contacts
 [Context Menu]
 Menu Contextuel
-[Use contact's unique id]
+[Use contact's unique ID]
 Voir l'ID du contact
 [Use contact's display name]
 Voir son nom défini
@@ -128,7 +128,7 @@ Assignement raté
 Oui
 [No]
 Non
-[Id]
+[ID]
 ID
 [Protocol]
 Protocole
@@ -187,15 +187,15 @@ Priorités
 [History]
 Historique
 ;file \plugins\MetaContacts\src\meta_utils.cpp
-[Could not get MetaContact id]
+[Could not get MetaContact ID]
 N'a pas pu obtenir l'ID du MetaContact
-[Assignment Error]
+[Assignment error]
 Erreur d'assignement
 [Could not retreive MetaContact contact count]
 N'a pas pu rechercher le compte du contact MetaContact
 [Could not retreive contact protocol]
 N'a pas pu rechercher le protocole du contact
-[Could not get unique id of contact]
+[Could not get unique ID of contact]
 N'a pas pu obtenir l'ID du contact
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
 Le contact n'est pas dans votre liste. Veuillez l'ajoutez à votre liste avant de l'assigner.
@@ -203,12 +203,12 @@ Le contact n'est pas dans votre liste. Veuillez l'ajoutez à votre liste avant d
 MetaContact est plein
 [Could not write contact protocol to MetaContact]
 Impossible d'écrire le protocole du contact au MetaContact
-[Could not write unique id of contact to MetaContact]
+[Could not write unique ID of contact to MetaContact]
 Impossible d'écrire l'ID du contact au MetaContact
 [Could not write nickname of contact to MetaContact]
 Impossible d'écrire le pseudo du contact au MetaContact
-[MetaId: ]
-Meta ID :
+[Meta ID: ]
+Meta ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 MetaContact corrompu - le nombre de sous-contact est erroné.\nSuppression en cours du MetaContact.
 [MetaContacts Warning]

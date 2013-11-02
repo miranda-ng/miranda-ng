@@ -754,8 +754,8 @@ Sulge praegune sakk (CTRL+F4)
 %s: Jututuba (%u kasutajat)
 [Nick name]
 Hüüdnimi
-[Unique id]
-Unikaalne id
+[Unique ID]
+Unikaalne ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Offline contacts]
 Väljas olevad kontaktid
@@ -1100,8 +1100,8 @@ Otsi kõiki
 Spikker
 [Miranda Website]
 Miranda veebisait
-[ShowHide]
-KuvaPeida
+[Show/Hide]
+Kuva/Peida
 [Exit]
 Välju
 [Main Menu]

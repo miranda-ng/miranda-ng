@@ -1096,7 +1096,7 @@ Nincs feloldandó szó
 Becenév
 [Nick]
 Becenév
-[Unique id]
+[Unique ID]
 Egyedi azonosító
 [%s: Chat Room (%u user%s)]
 %s: csevegõszoba (%u felhasználó%s)

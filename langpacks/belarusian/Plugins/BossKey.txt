@@ -5,7 +5,7 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-[Anti-Boss plugin.]
+[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Дазваляе па націску "гарачай клавішы" хаваць Міранду ад старонніх вачэй.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]

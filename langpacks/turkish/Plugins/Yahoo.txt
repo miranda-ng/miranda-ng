@@ -93,7 +93,7 @@ Lütfen yoksayma listesinden çıkarılacak bir ahbap seçin.
 [Network]
 Ağ
 ;file \protocols\Yahoo\src\proto.cpp
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Lütfen Seçenekler/Ağ/Yahoo bölümüne Yahoo kimliğinizi yazın
 [Please enter your yahoo password in Options/Network/Yahoo]
 Lütfen Seçenekler/Ağ/Yahoo bölümüne Yahoo parolanızı yazın

@@ -81,8 +81,8 @@
 Повідомлення про зміну клієнта: Клієнт змінився
 [ClientChangeNotify]
 Повідомлення про зміну клієнта
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) що змінив клієнт  %extratext%
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) що змінив клієнт  %extratext%
 [Error #%d]
 Помилка #%d
 [Can't open log file ]

@@ -496,8 +496,8 @@ WhoIs 信息(&W)
 请输入您的密码
 [Set new password]
 设置新密码
-[Please enter desired languageID (numeric value, depends on server)]
-请输入您想用的 languageID (数值, 视乎服务器而定)
+[Please enter desired language ID (numeric value, depends on server)]
+请输入您想用的 language ID (数值, 视乎服务器而定)
 [Change language of NickServ messages]
 变更 NickServ 消息语言
 [Please enter URL that will be linked to your nick]

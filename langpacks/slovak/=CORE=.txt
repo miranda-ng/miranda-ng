@@ -1716,7 +1716,7 @@ Vyber zložku
 
 [Nick name]
 
-[Unique id]
+[Unique ID]
 
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2114,7 +2114,7 @@ Premenovať skupinu
 [This group]
 Táto skupina
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 
 [Read Message]
 
@@ -2470,7 +2470,7 @@ Pomoc
 
 [Unloaded plugin]
 
-[ShowHide]
+[Show/Hide]
 
 [Exit]
 

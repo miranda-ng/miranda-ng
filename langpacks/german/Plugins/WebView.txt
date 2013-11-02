@@ -193,7 +193,7 @@ Autom. Aktualisierung deaktiviert
 Autom. Aktualisierung aktiviert
 [Update all Webview sites]
 Alle Webview-Seiten aktualisieren
-[Mark all Webview sites read]
+[Mark all Webview sites as read]
 Alle Webview-Seiten als gelesen markieren
 [Open cache folder]
 Cache-Ordner öffnen

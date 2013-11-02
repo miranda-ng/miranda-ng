@@ -855,7 +855,7 @@ kimenõ jelenlétek
 kérdõívek
 [Else ]
 Más 
-[If jabber id is ']
+[If Jabber ID is ']
 Ha a Jabber azonosító '
 [ (nickname: ]
  (becenév: )

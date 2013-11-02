@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.1.0.0
+;  Version: 0.2.0.0
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]

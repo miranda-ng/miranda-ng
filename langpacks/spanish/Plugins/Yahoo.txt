@@ -99,7 +99,7 @@ red
 [Ignore List]
 La lista de ignorados
 ;file \protocols\Yahoo\src\proto.cpp
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Por favor, introduzca su ID de Yahoo en Opciones/Red/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Por favor, introduzca su contraseña de yahoo en Opciones/Red/Yahoo
@@ -130,7 +130,7 @@ Calendario Recordatorio
 %s ha rechazado su petición y envió el siguiente mensaje:
 [Invalid Contact]
 No válido Contacto
-[The id you tried to add is invalid.]
+[The ID you tried to add is invalid.]
 La Identificación ha intentado agregar no es válido.
 [You Have %i unread msgs]
 Tiene usted %i Mens sin leer

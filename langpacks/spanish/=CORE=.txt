@@ -1850,8 +1850,8 @@ Cambiar el nombre de Grupo
 [This group]
 Este grupo
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
-Mostrar Ocultar la lista de contactos
+[Show/Hide Contact List]
+Mostrar/Ocultar la lista de contactos
 [Read Message]
 Leer mensaje
 [Open Options Page]
@@ -2144,8 +2144,8 @@ ANSI plugin
 Ejecutar plugin
 [Unloaded plugin]
 Descargado el plugin
-[ShowHide]
-MostrarEsconder
+[Show/Hide]
+Mostrar/Esconder
 [Exit]
 Salir
 [Main Menu]

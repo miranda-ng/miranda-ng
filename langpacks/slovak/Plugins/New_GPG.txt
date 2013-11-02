@@ -36,7 +36,7 @@ OK
 
 [Account:]
 
-[Key id:]
+[Key ID:]
 
 [Copy public key]
 
@@ -194,11 +194,11 @@ Meno
 
 [Default]
 Prednastavené
-[key id]
+[key ID]
 
 [not set]
 
-[Default private key id]
+[Default private key ID]
 
 [Failed to open file]
 
@@ -256,23 +256,23 @@ Súhlas
 
 [Failed to export public key.]
 
-[GPG binary is set and valid (This is good).\n]
+[GPG binary is set and valid (this is good).\n]
 
-[GPG binary unset or invalid (Plugin will not work).\n]
+[GPG binary unset or invalid (plugin will not work).\n]
 
-[Home dir write access granted (This is good).\n]
+[Home dir write access granted (Phis is good).\n]
 
-[Home dir has no write access (Plugin most probably will not work).\n]
+[Home dir has no write access (plugin most probably will not work).\n]
 
-[Temp dir write access granted (This is good).\n]
+[Temp dir write access granted (this is good).\n]
 
-[Temp dir has no write access (Plugin should work, but may have some problems, file transfers will not work).]
+[Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
 
 [\nGPG will be disabled until you solve these problems]
 
 [GPG plugin problems]
 
-[Your secret key whith id: ]
+[Your secret key whith ID: ]
 
 [ for account ]
 

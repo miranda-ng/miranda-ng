@@ -3,9 +3,9 @@
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype Protocol (Classic)
 ;  Version: 0.0.0.54
-;  Authors: leecher - tweety - jls17
+;  Authors: leecher, tweety, jls17
 ;============================================================
-[Support for Skype network]
+[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
 Підтримка мережі Skype
 [Call (Skype)]
 Подзвонити по Skype
@@ -17,7 +17,7 @@
 Імпортувати історію з Skype
 [Start Skype with Miranda NG if not running using the following command line options:]
 Запускати Skype разом з Miranda NG, якщо ще не запущений з наступними ключами:
-[/NOTRAY - Skype tray icon becomes grey and is therefore "invisible"]
+[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
 /NOTRAY - Значок Skype в треї стає сірим - "Невидимий"
 [/NOSPLASH - don't show splash screen on startup]
 /NOSPLASH - Не показувати заставку при старт
@@ -89,7 +89,7 @@ Skype Проксі
 Відзначати групові повідомлення як прочитані без попередження
 [Wheee, Skype won't let me use the API. :(]
 ... Skype не дозволяє мені використовувати API :(
-[Phonecall]
+[Phone call]
 Дзвінок
 [Incoming Skype Call]
 Вхідний дзвінок Skype
@@ -113,7 +113,7 @@ Skype Проксі
 Попередній перегляд помилки
 [Skype was not found installed :(]
 Skype не встановлено :(
-[Show default skype avatar for contacts]
+[Show default Skype avatar for contacts]
 Skype аватари контактів
 [%s is calling]
 %s дзвонить
@@ -155,7 +155,7 @@ Skype аватари контактів
 Відновити дзвінок
 [Sex :]
 Стать:
-[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later.]
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? (If you chose NO, you can always enable it in the plugin options later.]
 Ви вперше запустили протокол Skype. Хочете включити його для цього профілю Miranda NG? (Якщо ви відмовитеся, завжди можна включити його в налаштуваннях).
 [Skype protocol]
 Протокол Skype

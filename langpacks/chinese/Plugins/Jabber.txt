@@ -298,7 +298,7 @@ Jabber 书签
 Jabber 帐号信息: 
 [Member Information]
 会员信息
-[Member Information\n<user id>]
+[Member Information\n<user ID>]
 成员信息\n<用户 ID>
 [Role:]
 角色: 
@@ -1201,8 +1201,8 @@ Facebook 聊天
 查询
 [Else ]
 否则
-[If jabber id is ']
-如果 jabber id 为 '
+[If Jabber ID is ']
+如果 Jabber ID 为 '
 [ (nickname: ]
  (昵称: 
 [If group is ']

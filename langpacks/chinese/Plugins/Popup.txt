@@ -94,11 +94,11 @@ Miranda 窗口屏幕
 显示操作: (需要应用)
 [Mouse Actions Overwrite]
 鼠标操作覆盖
-[LeftButton]
+[Left Button]
 左键
-[MiddleButton]
+[Middle Button]
 中键
-[RightButton]
+[Right Button]
 右键
 [Enable this notification]
 启用此通知

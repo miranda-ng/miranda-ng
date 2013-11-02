@@ -77,8 +77,8 @@ Aktiviert
 Deaktiviert
 [Hide]
 Verstecken
-[NeverHide]
-NeverHide
+[Never hide]
+
 [Hiding %s (%S)]
 Verstecke %s (%S)
 [%d days since last message]

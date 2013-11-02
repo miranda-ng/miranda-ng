@@ -545,7 +545,7 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 ник текущего контакта (если определен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID текущего контакта (если определен). Например, UIN для ICQ, JID для Jabber и т.д.
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 любая переменная среды, определённая в текущей Windows сессии (например, %systemroot%, %allusersprofile% и т.д.)
@@ -1610,8 +1610,8 @@ ID пользователя в панели статуса
 [Autoselect]
 Автовыбор
 ;missed strings, got by lpgen.js
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
-Добавьте пользователя по его имени или по id. Рекомендуется использовать маски.
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
+Добавьте пользователя по его имени или по ID. Рекомендуется использовать маски.
 [TabSRMM exception]
 Ошибка TabSRMM
 [Exit Miranda]

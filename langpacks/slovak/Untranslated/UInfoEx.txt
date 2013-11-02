@@ -483,7 +483,7 @@
 [Birthday reminder: it's coming]
 [Anniversary Reminder]
 [contact identificaion]
-[The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
 [Importing a new contact was aborted!]
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
 [Importing a new meta subcontact failed!]

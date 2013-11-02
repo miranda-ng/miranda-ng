@@ -153,8 +153,8 @@ Miranda 相关
 获取联系人 x 最后看到状态
 [current status description of protocol x (without x, the global status is retrieved)]
 协议 x 当前状态描述 (无 x, 则获取公共状态)
-[info property y of protocol id x]
-协议 id x 信息属性 y 
+[info property y of protocol ID x]
+协议 ID x 信息属性 y 
 [retrieves the subject, depending on situation]
 检索主题, 视环境而定
 [translates x]

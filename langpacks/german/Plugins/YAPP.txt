@@ -26,7 +26,7 @@ Breite:
 Maximale Höhe:
 [Options]
 Einstellungen
-[Opacity(%):]
+[Opacity (%):]
 Deckkraft (%):
 [Border]
 Rand

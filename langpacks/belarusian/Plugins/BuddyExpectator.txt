@@ -77,7 +77,7 @@
 Выключаны
 [Hide]
 Схаваць
-[NeverHide]
+[Never hide]
 Ніколі не хаваць
 [Hiding %s (%S)]
 Утойванне %s (%S)

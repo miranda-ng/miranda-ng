@@ -596,8 +596,8 @@ Veuillez entrer votre mot de passe
 Veuillez entrer votre nouveau mot de passe
 [Set new password]
 Créer nouveau mot de passe
-[Please enter desired languageID (numeric value, depends on server)]
-Veuillez entrer votre IDlangue désiré (valeur numérique, dépend du serveur)
+[Please enter desired language ID (numeric value, depends on server)]
+Veuillez entrer votre ID langue désiré (valeur numérique, dépend du serveur)
 [Change language of NickServ messages]
 Changer la langue des messages NickServ
 [Please enter URL that will be linked to your nick]

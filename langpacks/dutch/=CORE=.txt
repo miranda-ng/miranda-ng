@@ -1364,7 +1364,7 @@ Voornaam achternaam
 Aanpassen
 ;file \src\modules\clist\groups.cpp
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Lijst weergeven verbergen
 [Read Message]
 Bericht lezen

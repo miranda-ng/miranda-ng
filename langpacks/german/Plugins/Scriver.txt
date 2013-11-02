@@ -850,7 +850,7 @@ Folgende Icons im Tray anzeigen
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to root miranda folder]
 Pfad zum Miranda-Hauptverzeichnis
@@ -989,7 +989,7 @@ Raumeinstellungen (Strg+O)
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Nick name]
 Nickname
-[Unique id]
+[Unique ID]
 Unique ID
 [Status]
 Status

@@ -595,8 +595,8 @@ Kontroller dette rommet (CTRL+O)
 Aktiver/deaktiver hendelsesfilteret (CTRL+F)
 [Nick name]
 Kallenavn
-[Unique id]
-Unik id
+[Unique ID]
+Unik ID
 [Status]
 Status
 [%s: Chat Room (%u user)]

@@ -318,7 +318,7 @@ URL
 Jabber アカウント情報 :
 [Member Information]
 メンバー情報
-[Member Information\n<user id>]
+[Member Information\n<user ID>]
 メンバー情報\n< ユーザー ID>
 [Role:]
 役割 :
@@ -969,7 +969,7 @@ all.
 クエリー
 [Else ]
 もしくは
-[If jabber id is ']
+[If Jabber ID is ']
 Jabber ID が次の時 '
 [ (nickname: ]
  ( ニックネーム : 
@@ -1002,7 +1002,7 @@ Ready.
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 互換性のあるファイル転送メカニズムが存在しません
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 プロトコルはオフラインか JID がありません
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

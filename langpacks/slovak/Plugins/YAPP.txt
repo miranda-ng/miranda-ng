@@ -26,7 +26,7 @@ Zavrieť
 
 [Options]
 
-[Opacity(%):]
+[Opacity (%):]
 
 [Border]
 

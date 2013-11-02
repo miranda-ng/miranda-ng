@@ -596,7 +596,7 @@ Podrobne
 
 [Set new password]
 
-[Please enter desired languageID (numeric value, depends on server)]
+[Please enter desired language ID (numeric value, depends on server)]
 
 [Change language of NickServ messages]
 

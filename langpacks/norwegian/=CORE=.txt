@@ -1424,8 +1424,8 @@ Lukk denne fanen (CTRL+F4)
 %s: Meldingsøkt (%u brukere)
 [Nick name]
 Kallenavn
-[Unique id]
-Unik id
+[Unique ID]
+Unik ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standard kontakter

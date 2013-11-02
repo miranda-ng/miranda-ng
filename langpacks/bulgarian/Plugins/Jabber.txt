@@ -390,8 +390,8 @@ JID на стаята/URL:
 Информация за Jabber акаунт:
 [Member Information]
 Информация за потребителя
-[Member Information\n<user id>]
-Информация за потребителя\n<user id>
+[Member Information\n<user ID>]
+Информация за потребителя\n<user ID>
 [Role:]
 Роля:
 [Set role]
@@ -1913,8 +1913,8 @@ Facebook чат
 запитвания
 [Else ]
 Или\s
-[If jabber id is ']
-Ако jabber id е '
+[If Jabber ID is ']
+Ако Jabber ID е '
 [ (nickname: ]
  (прякор:\s
 [If group is ']
@@ -1946,7 +1946,7 @@ Facebook чат
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 Не съществува съвместим механизъм за обмен на файлове
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 Протоколът е "Извън линия" или няма JID
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

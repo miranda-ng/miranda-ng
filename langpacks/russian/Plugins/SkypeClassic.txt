@@ -3,10 +3,10 @@
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype Protocol (Classic)
 ;  Version: 0.0.0.54
-;  Authors: leecher - tweety - jls17
+;  Authors: leecher, tweety, jls17
 ;============================================================
-[Support for Skype network]
-Поддержка сети Skype
+[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
+Поддержка протокола Skype в Miranda NG. Классическая реализация, требующая запущенный клиент Skype.
 [Call (Skype)]
 Позвонить по Skype
 [Call using SkypeOut]
@@ -17,7 +17,7 @@
 Импортировать историю из Skype
 [Start Skype with Miranda NG if not running using the following command line options:]
 Запускать Skype вместе с Miranda, если еще не запущен, со следующими ключами:
-[/NOTRAY - Skype tray icon becomes grey and is therefore "invisible"]
+[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
 /NOTRAY - Значок Skype в трее становится серым - "Невидимый"
 [/NOSPLASH - Don't show splash screen on startup]
 /NOSPLASH - Не показывать заставку при старте
@@ -35,8 +35,8 @@
 Skype
 [Use custom Skype executable*]
 Свой путь к Skype.exe*
-[/REMOVEABLE - For running portable skype]
-/REMOVEABLE - Для запуска portable skype
+[/REMOVEABLE - For running portable Skype]
+/REMOVEABLE - Для запуска портативного Skype
 [/SECONDARY - This is the second instance]
 /SECONDARY - Запуск второй копии Skype
 [/DATAPATH - Specify Skype data folder*]
@@ -111,8 +111,8 @@ Skype Прокси
 Предпросмотр ошибки
 [Skype was not found installed :(]
 Skype не установлен :(
-[Show default skype avatar for contacts]
-Skype аватары контактов
+[Show default Skype avatar for contacts]
+Показывать аватары по умолчанию
 [%s is calling]
 %s звонит
 [Add Skype contact]
@@ -153,7 +153,7 @@ Skype аватары контактов
 Восстановить звонок
 [Sex:]
 Пол:
-[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later.]
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? (If you chose NO, you can always enable it in the plugin options later.]
 Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? (Если вы откажетесь, всегда можно включить его в настройках).
 [Skype protocol]
 Протокол Skype

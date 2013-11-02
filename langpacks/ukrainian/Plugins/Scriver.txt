@@ -835,8 +835,8 @@ Miranda не змогла завантажити вбудовану систем
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+ID поточного контакту (якщо він визначений). Наприклад, для ICQ UIN, JID для Jabber і т.д.
 [path to root miranda folder]
 
 [path to current miranda profile]
@@ -975,7 +975,7 @@ Miranda не змогла завантажити вбудовану систем
 Ввімкнути/вимкнути фільтр подій (CTRL+F)
 [Nick name]
 Нік
-[Unique id]
+[Unique ID]
 Унік. ID
 [Status]
 Статус

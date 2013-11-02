@@ -607,8 +607,8 @@ Nickserv убить фантома
 зарегистрированный ник
 [is an identified user]
 идентифицированный пользователь
-[Please enter desired languageID (numeric value, depends on server)]
-Введите выбранный languageID (цифровое значение, зависит от сервера)
+[Please enter desired language ID (numeric value, depends on server)]
+Введите выбранный language ID (цифровое значение, зависит от сервера)
 [Please enter nick you want to link to your current nick]
 Введите ник, который нужно закрепить за текущим ником
 [Please enter nick you want to set as your main nick]
