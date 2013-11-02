@@ -7,5 +7,6 @@
 ;============================================================
 [This plugin adds the main menu item used to view Miranda NG pack user guide.]
 Dodaje do menu głównego pozycję pozwalającą na wyświetlenie instrukcji obsługi używanej paczki.
+;file \plugins\UserGuide\src\main.cpp
 [User Guide]
 Podręcznik użytkownika

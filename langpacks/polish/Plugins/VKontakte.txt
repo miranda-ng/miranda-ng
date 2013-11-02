@@ -8,8 +8,8 @@
 [VKontakte protocol support for Miranda NG.]
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 ;file \protocols\VKontakte\res\resource.rc
-[Login or phone number:]
-Login lub numer telefonu:
+[E-mail or phone number:]
+E-mail lub numer telefonu:
 [Password:]
 Hasło:
 [Open VK site]

@@ -52,10 +52,6 @@ ostatnich kontaktów
 Ulubione kontakty
 [Regular Contact]
 Regularne kontakty
-[<No group>]
-<Brak grupy>
-[Favourite Contacts]
-Ulubione kontakty
 [Contact name]
 Nazwa kontaktu
 [Second line]

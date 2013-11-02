@@ -173,7 +173,7 @@ pobiera 'najczęściej połączone' subkontakty "x"
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Globalne
-[path to root miranda folder]
+[path to Miranda root folder]
 folder docelowy Mirandy
 [path to current miranda profile]
 folder docelowy bieżącego profilu mirandy
