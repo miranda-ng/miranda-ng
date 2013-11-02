@@ -59,9 +59,9 @@ void PrintUsage()
 	GetProgramName(name, sizeof(name));
 
 	lpprintf(Translate("%s usage:\n"), name);
-	lpprintf(Translate("%s <command> [<param> [, <param> ..]]\n"), name);
+	lpprintf(Translate("%s <command> [<param> [<param> [...]]].\n"), name);
 	lpprintf(Translate("This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n"), name);
-	lpprintf(Translate("No command can have more than %d parameters\n"), MAX_ARGUMENTS - 1);
+	lpprintf(Translate("No command can have more than %d parameters.\n"), MAX_ARGUMENTS - 1);
 }
 
 void ShowVersion()
