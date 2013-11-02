@@ -94,7 +94,7 @@
 [get the 'most online' subcontact x]
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
-[path to root miranda folder]
+[path to Miranda root folder]
 [path to current miranda profile]
 [name of current miranda profile (filename, without extension)]
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]

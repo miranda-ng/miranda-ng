@@ -30,8 +30,6 @@
 ;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
 [Regular Contact]
-[<No group>]
-[Favourite Contacts]
 [Contact name]
 [Second line]
 [Selected contact name (color)]

@@ -7,7 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 ;file \protocols\VKontakte\res\resource.rc
-[Login or phone number:]
+[E-mail or phone number:]
 [Password:]
 [Open VK site]
 [Bots Challenge Test]
