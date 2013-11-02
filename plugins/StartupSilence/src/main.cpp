@@ -94,6 +94,7 @@ INT_PTR StartupSilence()
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	mir_forkthread((pThreadFunc)AdvSt, NULL);
 	CreateServiceFunction(SS_SERVICE_NAME, SturtupSilenceEnabled);
+	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
 	IsMenu();
 	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
 	return 0;
@@ -134,13 +135,16 @@ int DisablePopup(WPARAM wParam, LPARAM lParam)
 	if ((timer == 2 && NonStatusAllow == 1)    //filtering while timer
 		|| (DefPopup == 1 && DefEnabled == 1)) //also filtered only: We do not run next lines every time
 		                                       //if "Filtered only..." is unchecked --->
-		{
+	{
 		HANDLE hContact = (HANDLE)wParam;
-		if (hContact != NULL) {
+		if (hContact != NULL)
+		{
 			char* cp = GetContactProto(hContact);
 			if ( !strcmp(cp, "Weather") || !strcmp(cp, "mRadio") )
 				return 0;
 		}
+		else return 0; //allow popups for unread mail notification from MRA, keepstatus ... other services?
+
 		return 1; //filtering while timer
 	}
 	return 0; //---> just allow all popups with this return
@@ -275,6 +279,15 @@ static INT_PTR SturtupSilenceEnabled(WPARAM wParam, LPARAM lParam)
 		wcsncpy_s(ppd.lptzContactName, lptzText, size_t(lptzText));
 		PUAddPopupT(&ppd);
 	}
+	return 0;
+}
+
+static INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam)
+{
+	timer = (BYTE)wParam;
+//	if (timer == 2) //commented for now
+//		db_set_b(NULL, "Skin", "UseSound", 0);
+//	else db_set_b(NULL, "Skin", "UseSound", 1);
 	return 0;
 }
 
