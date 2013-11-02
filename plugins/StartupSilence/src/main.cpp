@@ -235,8 +235,8 @@ static INT_PTR AdvSt()
 			EnablePopupModule();
 
 			if (PopUp == 1) {
-				lptzText = ALL_DISABLED;
-				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)GetIconHandle(MENU_NAME));
+				lptzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
+				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)(NonStatusAllow == 1 ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME)));
 				ppd.lchContact = NULL;
 				ppd.iSeconds = PopUpTime;
 				wcsncpy_s(ppd.lptzText, lptzText, size_t(lptzText));
@@ -250,7 +250,8 @@ static INT_PTR AdvSt()
 			timer = 0;
 
 			if (PopUp == 1) {
-				lptzText = ALL_ENABLED;
+				lptzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
+				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME)));
 				wcsncpy_s(ppd.lptzText, lptzText, size_t(lptzText));
 				PUAddPopupT(&ppd);
 			}

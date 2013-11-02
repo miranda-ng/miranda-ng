@@ -92,7 +92,7 @@ IDI_SSENABLE            ICON                    "enable.ico"
 IDI_SSDISABLE           ICON                    "disable.ico"
 IDI_SSENABLETTB         ICON                    "enablettb.ico"
 IDI_SSDISABLETTB        ICON                    "disablettb.ico"
-
+IDI_SSFILTEREDON        ICON                    "filteredon.ico"
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO

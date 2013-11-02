@@ -8,6 +8,7 @@
 #define IDD_SSOPT                       104
 #define IDI_SSENABLETTB                 105
 #define IDI_SSDISABLETTB                106
+#define IDI_SSFILTEREDON                107
 #define IDC_SSTIME                      40001
 #define IDC_DELAY                       40002
 #define IDC_SSSPIN                      40003
