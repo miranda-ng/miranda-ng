@@ -87,6 +87,7 @@ void LoadOptions()
 	opt.PopupOnConnect = db_get_b(0, MODULE, "PopupOnConnect", 0);
 	// OTHER
 	opt.TempDisabled = db_get_b(0, MODULE, "TempDisable", 0);
+	opt.EnableLastSeen = db_get_b(0, MODULE, "EnableLastSeen", 0);
 
 	LoadTemplates();
 

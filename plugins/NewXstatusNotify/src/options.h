@@ -67,6 +67,7 @@ typedef struct tagOPTIONS {
 	BYTE TempDisabled;
 	BYTE PopupAutoDisabled;
 	BYTE SoundAutoDisabled;
+	BYTE EnableLastSeen;
 } OPTIONS;
 
 typedef struct tagTEMPLATES {

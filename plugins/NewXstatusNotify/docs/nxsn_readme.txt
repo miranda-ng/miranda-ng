@@ -8,6 +8,10 @@ This plugin is modified NewStatusNotify plugin by Vasilich with added extra stat
 notification and many other features. Plugin shows a popup and logs to a message window 
 when someone in your contact list changes status, ICQ XStatus or Jabber mood/activity.
 
+Hidden option: add "EnableLastSeen" byte value to "NewStatusNotify" module and set it
+to 1 to store information about the recent appearance of contacts. The information will
+be stored in the "SeenModule" in contact and can be displayed using the Tipper plugin.
+
 
 changelog
 **********

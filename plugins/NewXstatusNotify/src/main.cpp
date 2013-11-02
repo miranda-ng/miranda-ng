@@ -762,6 +762,20 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	strcpy(szProto, hlpProto);
 	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 
+	if (opt.EnableLastSeen && newStatus == ID_STATUS_OFFLINE && oldStatus > ID_STATUS_OFFLINE) {
+		// A simple implementation of Last Seen module, please don't touch this.
+		SYSTEMTIME systime;
+		GetLocalTime(&systime);
+
+		db_set_w(hContact, "SeenModule", "Year", systime.wYear);
+		db_set_w(hContact, "SeenModule", "Month", systime.wMonth);
+		db_set_w(hContact, "SeenModule", "Day", systime.wDay);
+		db_set_w(hContact, "SeenModule", "Hours", systime.wHour);
+		db_set_w(hContact, "SeenModule", "Minutes", systime.wMinute);
+		db_set_w(hContact, "SeenModule", "Seconds", systime.wSecond);
+		db_set_w(hContact, "SeenModule", "Status", oldStatus);
+	}
+
 	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		hlpProto = GetContactProto(hSubContact);
