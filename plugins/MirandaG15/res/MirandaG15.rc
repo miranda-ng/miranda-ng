@@ -209,7 +209,7 @@ BEGIN
   CONTROL "Message log:",IDC_STATIC15,"Static",0x50020000,10,147,72,9
   CONTROL "Sample",IDC_SAMPLE2,"Static",0x50820201,10,156,72,13
   CONTROL "...",IDC_CHOOSEFONT2,"Button",0x50010000,88,156,18,13
-  CONTROL "Contactlist:",IDC_STATIC17,"Static",0x50020000,10,171,72,9
+  CONTROL "Contact list:",IDC_STATIC17,"Static",0x50020000,10,171,72,9
   CONTROL "Sample",IDC_SAMPLE3,"Static",0x50820201,10,180,72,13
   CONTROL "...",IDC_CHOOSEFONT3,"Button",0x50010000,88,180,18,13
   CONTROL "Titles:",IDC_STATIC14,"Static",0x50020000,130,121,72,9
@@ -233,7 +233,7 @@ BEGIN
   CONTROL "",IDC_DEVICE,"ComboBox",0x50010003,42,9,80,11
   CONTROL "Device:",IDC_DEVICE_STATIC,"Static",0x50000000,8,11,32,9
   CONTROL "If the screensaver is active:",IDC_STC14,"Static",0x50000000,6,51,124,9
-  CONTROL "Lock the Screen",IDC_SCREENSAVER_LOCK,"Button",0x50010003,14,70,126,9
+  CONTROL "Lock the screen",IDC_SCREENSAVER_LOCK,"Button",0x50010003,14,70,126,9
   CONTROL "Skip driver missing notification",IDC_SKIP_DRIVER_ERROR,"Button",0x50010003,6,42,112,9
 END
 IDD_NOTIFICATIONS DIALOGEX 0,0,304,240
@@ -257,7 +257,7 @@ BEGIN
   CONTROL "Contact signs off",IDC_NOTIFY_SIGNOFF,"Button",0x50010003,194,166,100,13
   CONTROL "Contact changes status",IDC_NOTIFY_STATUS,"Button",0x50010003,194,177,100,13
   CONTROL "Incoming URL",IDC_NOTIFY_URL,"Button",0x50010003,194,132,100,13
-  CONTROL "Contactlist events",IDC_NOTIFY_CONTACTS,"Button",0x50010003,194,188,100,13
+  CONTROL "Contact list events",IDC_NOTIFY_CONTACTS,"Button",0x50010003,194,188,100,13
   CONTROL "Incoming file transfers",IDC_NOTIFY_FILE,"Button",0x50010003,194,144,100,13
   CONTROL "Protocol disconnected",IDC_NOTIFY_PROTO_SIGNOFF,"Button",0x50010003,194,199,102,13
   CONTROL "Protocol connected",IDC_NOTIFY_PROTO_SIGNON,"Button",0x50010003,194,210,102,13
@@ -266,9 +266,9 @@ BEGIN
   CONTROL "Contact signs on",IDC_NOTIFY_SIGNON,"Button",0x50010003,194,155,98,13
   CONTROL "",IDC_PROTOCOLS,"SysTreeView32",0x50810001,6,162,84,70
   CONTROL "Incoming messages",IDC_NOTIFY_SKIP_MESSAGES,"Button",0x50010003,174,38,122,9
-  CONTROL "When a chatsession is active, skip the following notifications for that contact:",IDC_STC3,"Static",0x50000000,168,9,128,28
+  CONTROL "When a chat session is active, skip the following notifications for that contact:",IDC_STC3,"Static",0x50000000,168,9,128,28
   CONTROL "Contact changes status",IDC_NOTIFY_SKIP_STATUS,"Button",0x50010003,174,48,122,9
-  CONTROL "Chatsession specific",IDC_GRP1,"Button",0x50000007,164,0,136,124
+  CONTROL "Chat session specific",IDC_GRP1,"Button",0x50000007,164,0,136,124
   CONTROL "Contact signs on",IDC_NOTIFY_SKIP_SIGNON,"Button",0x50010003,174,59,102,9
   CONTROL "Contact signs off",IDC_NOTIFY_SKIP_SIGNOFF,"Button",0x50010003,174,70,102,9
   CONTROL "Show timestamps",IDC_NOTIFY_TIMESTAMPS,"Button",0x50010003,6,9,102,9
@@ -279,18 +279,18 @@ BEGIN
   CONTROL "Special IRC events:",IDC_STC4,"Static",0x50000000,110,151,64,9
   CONTROL "Notices",IDC_NOTIFY_IRC_NOTICES,"Button",0x50010003,110,173,74,9
   CONTROL "Channel events",IDC_NOTIFY_IRC_CHANNEL,"Button",0x50010003,110,217,76,9
-  CONTROL "Cutoff nicknames after",IDC_NOTIFY_NICKCUTOFF,"Button",0x50010003,4,46,90,9
+  CONTROL "Cut off nicknames after",IDC_NOTIFY_NICKCUTOFF,"Button",0x50010003,4,46,90,9
   CONTROL "",IDC_NOTIFY_NICKCUTOFF_OFFSET,"Edit",0x50012080,102,46,22,11,0x00000200
   CONTROL "chars",IDC_STC11,"Static",0x50020000,126,48,30,9
   CONTROL "Show protocol labels",IDC_NOTIFY_SHOWPROTO,"Button",0x50010003,4,68,92,9
-  CONTROL "Don't skip when repyling",IDC_NOTIFY_NO_SKIP_REPLY,"Button",0x50010003,174,99,122,11
+  CONTROL "Don't skip when replying",IDC_NOTIFY_NO_SKIP_REPLY,"Button",0x50010003,174,99,122,11
   CONTROL "Exceptions:",IDC_STC12,"Static",0x50000000,170,88,88,9
   CONTROL "chars",IDC_STC13,"Static",0x50020000,126,59,30,9
-  CONTROL "Cutoff channelnames after",IDC_NOTIFY_CHANNELCUTOFF,"Button",0x50010003,4,57,90,9
+  CONTROL "Cut off channel names after",IDC_NOTIFY_CHANNELCUTOFF,"Button",0x50010003,4,57,90,9
   CONTROL "",IDC_NOTIFY_CHANNELCUTOFF_OFFSET,"Edit",0x50012080,102,57,22,11,0x00000200
 END
 IDD_CLIST DIALOGEX 0,0,304,179
-CAPTION "Contactlist"
+CAPTION "Contact list"
 FONT 8,"MS Shell Dlg",400,0,1
 STYLE 0x80C80048
 BEGIN
@@ -303,7 +303,7 @@ BEGIN
   CONTROL "Draw tree lines",IDC_CLIST_DRAWLINES,"Button",0x50010003,4,145,162,13
   CONTROL "Show counters behind group names",IDC_CLIST_COUNTERS,"Button",0x50010003,4,158,168,13
   CONTROL "Reset selection",IDC_CLIST_POSITION,"Button",0x50010003,14,90,146,11
-  CONTROL "When opening the contactlist screen:",IDC_STC1,"Static",0x50000000,6,81,156,9
+  CONTROL "When opening the contact list screen:",IDC_STC1,"Static",0x50000000,6,81,156,9
   CONTROL "Don't change group states",IDC_CLIST_GA_NONE,"Button",0x50010009,14,101,146,9
   CONTROL "Collapse all groups",IDC_CLIST_GA_COLLAPSE,"Button",0x50010009,14,112,152,9
   CONTROL "Show only contacts from the following protocols:",IDC_STC5,"Static",0x50020000,192,9,94,24
@@ -337,8 +337,8 @@ BEGIN
   CONTROL "Scroll to the first line",IDC_SESSION_SCROLLFIRST,"Button",0x50010009,168,31,108,13
   CONTROL "Scroll to the last line",IDC_SESSION_SCROLLLAST,"Button",0x50010009,168,42,90,13
   CONTROL "Replying",IDC_STATIC7,"Button",0x50000007,0,142,300,48
-  CONTROL "Show linebreak indicators",IDC_SESSION_SYMBOLS,"Button",0x50010003,6,151,264,13
-  CONTROL "Send messages with return, insert linebreaks with ctrl+return",IDC_SESSION_SENDRETURN,"Button",0x50010003,6,162,284,13
+  CONTROL "Show line break indicators",IDC_SESSION_SYMBOLS,"Button",0x50010003,6,151,264,13
+  CONTROL "Send messages with return, insert line breaks with ctrl+return",IDC_SESSION_SENDRETURN,"Button",0x50010003,6,162,284,13
   CONTROL "Maximized replying",IDC_SESSION_REPLY_MAXIMIZED,"Button",0x50010003,6,173,274,13
   CONTROL "Show timestamps",IDC_SESSION_TIMESTAMPS,"Button",0x50010003,6,31,148,11
   CONTROL "Close chat after",IDC_SESSION_CLOSE,"Button",0x50010003,8,84,98,8
