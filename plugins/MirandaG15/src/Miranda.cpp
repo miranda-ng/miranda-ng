@@ -66,18 +66,18 @@ int hLangpack;
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_G15APPLET, MIID_LAST};
 	
-static PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	APP_NAME,
-	PLUGIN_MAKE_VERSION(0,1,2,0),
-	"Provides an interface to use Miranda from the LCD of various Logitech devices",
-	"Martin Kleinhans",
-	"mail@mkleinhans.de",
-	"© 2009 Martin Kleinhans",
-	"http://www.mkleinhans.de",
-	UNICODE_AWARE,		// not transient
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
 	// {798221E1-E47A-4dc8-9077-1E576F9C4307}
-	{ 0x798221e1, 0xe47a, 0x4dc8, { 0x90, 0x77, 0x1e, 0x57, 0x6f, 0x9c, 0x43, 0x7 } }
+	{0x798221e1, 0xe47a, 0x4dc8, {0x90, 0x77, 0x1e, 0x57, 0x6f, 0x9c, 0x43, 0x7}}
 };
 
 // Function Prototypes
@@ -90,7 +90,7 @@ void UnInit();
 extern "C" {
 	__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	{
-		return &pluginInfo;
+		return &pluginInfoEx;
 	}
 	
 	// Called by Miranda to load the plugin.

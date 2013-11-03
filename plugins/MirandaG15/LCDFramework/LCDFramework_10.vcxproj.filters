@@ -138,8 +138,4 @@
       <Filter>Header Files\LCDObjects</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="changelog.txt" />
-    <None Include="todo.txt" />
-  </ItemGroup>
 </Project>

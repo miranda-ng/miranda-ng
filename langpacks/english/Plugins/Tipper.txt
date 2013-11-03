@@ -70,7 +70,7 @@
 [characters]
 [Disable in invisible status]
 [Skins]
-[Opacity(%):]
+[Opacity (%):]
 [Transparency]
 [Effects]
 [Border]

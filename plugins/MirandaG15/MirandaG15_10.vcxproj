@@ -245,6 +245,7 @@
     <ClInclude Include="src\CScreensaverScreen.h" />
     <ClInclude Include="src\CContactList.h" />
     <ClInclude Include="src\CEventLog.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\status\away.bmp" />
@@ -282,6 +283,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\MirandaG15.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="LCDFramework\LCDFramework_10.vcxproj">

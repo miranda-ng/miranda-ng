@@ -175,10 +175,6 @@
     <ClInclude Include="src\CLCDTextLog.h" />
     <ClInclude Include="src\CLCDTextObject.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="changelog.txt" />
-    <None Include="todo.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,8 +1,9 @@
-﻿;============================================================
+﻿#muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
+;============================================================
 ;  File: MirandaG15.dll
-;  Module: Use Miranda with your Logitech G15
-;  Versions: 1.1.14
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2610
+;  Plugin: MirandaG15
+;  Version: 0.1.2.0
+;  Authors: Martin Kleinhans
 ;============================================================
 [Timeout: No response from contact/server]
 Таймаут: Нет ответа от контакта/сервера
@@ -227,5 +228,5 @@
 Отправка сообщений по Enter, перевод строки по CTRL+Enter)
 [Maximized replying]
 Ответ в режиме полного экрана
-[Provides an interface to use Miranda from the G15's LCD]
-Плагин добавляет возможность использования Miranda IM на ЖК-экране клавиатуры Logitech G15
+[Provides an interface to use Miranda from the LCD of various Logitech devices.]
+Плагин добавляет возможность использования Miranda NG на ЖК-экране различных устройств Logitech.

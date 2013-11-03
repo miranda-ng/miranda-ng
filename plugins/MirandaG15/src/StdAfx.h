@@ -1,8 +1,7 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
-#define APP_NAME	"MirandaG15"
-#define APP_SHORTNAME "MirandaG15"
+#define APP_SHORTNAME __PLUGIN_NAME
 
 /* Common header files */
 #include <assert.h>
@@ -49,5 +48,6 @@ using namespace std;
 #include "CEvent.h"
 
 #include "resource.h"
+#include "version.h"
 
 #endif
