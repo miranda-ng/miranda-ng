@@ -205,7 +205,7 @@ bool CAppletManager::Shutdown()
 	
 	// delete the protocol information
 	CProtocolData *pProtoData;
-	for(int i=0;i<m_vProtocolData.size();i++)
+	for(vector<CProtocolData*>::size_type i = 0; i < m_vProtocolData.size(); i++)
 	{
 		pProtoData = m_vProtocolData[i];
 		delete pProtoData;
@@ -248,9 +248,8 @@ bool CAppletManager::IsIRCHookEnabled()
 //************************************************************************
 CProtocolData* CAppletManager::GetProtocolData(tstring strProtocol)
 {
-	for(int i=0;i<m_vProtocolData.size();i++)
-	{
-		if(m_vProtocolData[i]->strProtocol == strProtocol)
+	for (vector<CProtocolData*>::size_type i = 0; i < m_vProtocolData.size(); i++) {
+		if (m_vProtocolData[i]->strProtocol == strProtocol)
 			return m_vProtocolData[i];
 	}
 	return NULL;
@@ -468,7 +467,7 @@ tstring CAppletManager::GetContactDisplayname(HANDLE hContact,bool bShortened)
 		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 	
 	tstring strNick = GetContactDisplayname(hContact,false);
-	if(strNick.length() > CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
+	if(strNick.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 		return strNick.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + _T("...");
 	
 	return strNick;
@@ -1100,22 +1099,21 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lPara
 //************************************************************************
 tstring CAppletManager::StripIRCFormatting(tstring strText)
 {
-	tstring::size_type End=0,Start=0;
+	tstring::size_type end = 0, start = 0, i = 0;
 	tstring strEntity = _T("");
 	tstring strReplace = _T("");
 	tstring::size_type len = strText.length();
 
-	int i = 0;
 	while(i < strText.length())
 	{
-		Start = strText.find(_T("%"),i);
-		if(Start != string::npos && Start < strText.length() - 1)
+		start = strText.find(_T("%"),i);
+		if(start != string::npos && start < strText.length() - 1)
 		{
-			strEntity = strText[Start+1];
+			strEntity = strText[start+1];
 			if(strEntity == _T("%"))
 			{
-				strText.replace(Start,2,_T("%"));
-				i = Start +1;
+				strText.replace(start,2,_T("%"));
+				i = start + 1;
 			}
 			/*
 			else if(strEntity == _T("b") || strEntity == _T("B") || 
@@ -1123,19 +1121,19 @@ tstring CAppletManager::StripIRCFormatting(tstring strText)
 				strEntity ==_T("u") || strEntity == _T("U") ||
 				strEntity == _T("C") ||strEntity == _T("F"))
 			{
-				strText.erase(Start,2);
-				i = Start;
+				strText.erase(start,2);
+				i = start;
 			}
 			*/
 			else if(strEntity == _T("c") || strEntity == _T("f"))
 			{
-				strText.erase(Start,4);			
-				i = Start;
+				strText.erase(start,4);			
+				i = start;
 			}
 			else
 			{
-				strText.erase(Start,2);
-				i = Start;
+				strText.erase(start,2);
+				i = start;
 			}
 		}
 		else
@@ -1370,7 +1368,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	tstring strNick = toTstring(gce->ptszNick);
 	tstring strStatus = toTstring(gce->ptszStatus);
 
-	if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick.length() > CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
+	if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 		strNick = strNick.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + _T("...");
 	
 	TRACE(_T("\t Handling event...\t"));
@@ -1447,7 +1445,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 				Event.bNotification = true;
 			tstring strFullNick = toTstring(gce->ptszNick);
 			
-			if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strText.length() > CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
+			if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strText.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 				strText = strText.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + _T("...");
 	
 			Event.strValue =  TranslateString(_T("%s is now known as %s"),strNick.c_str(),strText.c_str());
@@ -1479,7 +1477,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 		if(CConfig::GetBoolSetting(NOTIFY_IRC_STATUS))
 			Event.bNotification = true;
 		tstring strNick2 = toTstring(gce->ptszStatus);
-		if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick2.length() > CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
+		if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick2.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 			strNick2 = strNick2.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + _T("...");
 
 		Event.strValue = TranslateString(_T("%s enables '%s' for %s"),strText.c_str(),strNick2.c_str(),strNick.c_str());
@@ -1490,7 +1488,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 		if(CConfig::GetBoolSetting(NOTIFY_IRC_STATUS))
 		Event.bNotification = true;
 		tstring strNick2 = toTstring(gce->ptszStatus);
-		if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick2.length() > CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
+		if(CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick2.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 			strNick2 = strNick2.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + _T("...");
 
 		Event.strValue = TranslateString(_T("%s disables '%s' for %s"),strText.c_str(),strNick2.c_str(),strNick.c_str());

@@ -206,7 +206,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 			DWORD dwNumContacts = (DWORD)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)pEntry->hHandle,0);
 			HANDLE hSubContact = NULL;
 			char *szProto;
-			for(int i=0;i<dwNumContacts;i++) {
+			for(DWORD i = 0; i < dwNumContacts; i++) {
 				hSubContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)pEntry->hHandle,i);
 				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hSubContact,0);
 				if(db_get_w(hSubContact,szProto,"Status",ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
