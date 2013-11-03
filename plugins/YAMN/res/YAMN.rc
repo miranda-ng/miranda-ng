@@ -25,18 +25,18 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -175,55 +175,55 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_COMBOACCOUNT,4,6,106,65,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Check this account",IDC_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,167,32,118,10,WS_EX_TRANSPARENT
-    LTEXT           "Check interval [min]:",IDC_STINTERVAL,168,56,94,8
-    EDITTEXT        IDC_EDITINTERVAL,259,53,20,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_TRANSPARENT
-    GROUPBOX        "Notifications",IDC_GBNEWMAIL,4,143,304,87
-    CONTROL         "Sound",IDC_CHECKSND,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,12,162,60,10
-    CONTROL         "Message",IDC_CHECKMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,174,135,10
-    CONTROL         "Tray Icon",IDC_CHECKICO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,85,163,65,10
-    CONTROL         "Keyboard Flash",IDC_CHECKKBN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,186,132,9
-    CONTROL         "Execute Application",IDC_CHECKAPP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,198,135,8
-    PUSHBUTTON      "...",IDC_BTNAPP,19,209,16,12
-    EDITTEXT        IDC_EDITAPP,41,209,65,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_EDITAPPPARAM,111,209,40,12,ES_AUTOHSCROLL
-    CONTROL         "Use contact notification for this account",IDC_CHECKCONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,107,138,10,WS_EX_TRANSPARENT
-    CONTROL         "Replace nick name",IDC_CHECKCONTACTNICK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,117,117,10,WS_EX_TRANSPARENT
-    CONTROL         "Disable Events",IDC_CHECKCONTACTNOEVENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,128,115,10,WS_EX_TRANSPARENT
-    LTEXT           "",IDC_STSTATUS,218,9,88,8
+    PUSHBUTTON      "+",IDC_BTNADD,118,6,15,13
+    PUSHBUTTON      "-",IDC_BTNDEL,140,6,15,13
+    GROUPBOX        "Account",IDC_STATIC,4,22,151,120
+    LTEXT           "Name:",IDC_STATIC,10,34,44,10
+    EDITTEXT        IDC_EDITNAME,56,32,92,12,ES_AUTOHSCROLL
     LTEXT           "Server:",IDC_STSERVER,10,50,44,8
     EDITTEXT        IDC_EDITSERVER,56,48,92,12,ES_AUTOHSCROLL | WS_GROUP
+    LTEXT           "Port:",IDC_STPORT,10,65,44,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDITPORT,57,64,27,12,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP
+    CONTROL         "SSL",IDC_CHECKSSL,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,87,66,27,10
+    CONTROL         "APOP",IDC_CHECKAPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,119,66,34,10
     LTEXT           "User Name:",IDC_STLOGIN,10,82,44,8
     EDITTEXT        IDC_EDITLOGIN,57,80,92,12,ES_AUTOHSCROLL | WS_GROUP
     LTEXT           "Password:",IDC_STPASS,10,96,44,8
     EDITTEXT        IDC_EDITPASS,57,94,92,12,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP
     LTEXT           "Codepage:",IDC_STCP,10,111,44,8
     COMBOBOX        IDC_COMBOCP,57,108,92,130,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Port:",IDC_STPORT,10,65,44,8,SS_CENTERIMAGE
-    EDITTEXT        IDC_EDITPORT,57,64,27,12,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP
-    CONTROL         "SSL",IDC_CHECKSSL,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,87,66,27,10
+    PUSHBUTTON      "Default",IDC_BTNDEFAULT,9,124,54,13
     CONTROL         "Disable STLS",IDC_CHECKNOTLS,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,83,125,69,10
+    LTEXT           "Status:",IDC_STATIC,164,2,80,8
+    LTEXT           "",IDC_STSTATUS,164,13,143,8,SS_CENTERIMAGE
+    GROUPBOX        "Options",IDC_STATIC,161,22,147,120
+    CONTROL         "Check this account",IDC_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,167,32,118,10,WS_EX_TRANSPARENT
     CONTROL         "Startup check",IDC_CHECKSTART,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,167,43,78,10
+    LTEXT           "Check interval [min]:",IDC_STINTERVAL,168,56,94,8
+    EDITTEXT        IDC_EDITINTERVAL,259,53,20,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Only check when...",IDC_BTNSTATUS,195,69,81,13
     CONTROL         "Auto retrieve body",IDC_AUTOBODY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,166,86,137,10
     CONTROL         "Check from menu",IDC_CHECKFORCE,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,166,97,137,8
-    PUSHBUTTON      "Only check when...",IDC_BTNSTATUS,195,69,81,13
+    CONTROL         "Use contact notification for this account",IDC_CHECKCONTACT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,107,138,10,WS_EX_TRANSPARENT
+    CONTROL         "Replace nick name",IDC_CHECKCONTACTNICK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,117,117,10,WS_EX_TRANSPARENT
+    CONTROL         "Disable Events",IDC_CHECKCONTACTNOEVENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,128,115,10,WS_EX_TRANSPARENT
+    GROUPBOX        "Notifications",IDC_GBNEWMAIL,4,143,304,87
+    GROUPBOX        "New Mail",IDC_STATIC,7,153,149,73
+    CONTROL         "Sound",IDC_CHECKSND,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,12,162,60,10
+    CONTROL         "Message",IDC_CHECKMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,174,135,10
+    CONTROL         "Keyboard Flash",IDC_CHECKKBN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,186,132,9
+    CONTROL         "Tray Icon",IDC_CHECKICO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,85,163,65,10
+    CONTROL         "Execute Application",IDC_CHECKAPP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,198,135,8
+    PUSHBUTTON      "...",IDC_BTNAPP,19,209,16,12
+    EDITTEXT        IDC_EDITAPP,41,209,65,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDITAPPPARAM,111,209,40,12,ES_AUTOHSCROLL
+    GROUPBOX        "Errors",IDC_STATIC,161,153,143,44
     CONTROL         "Sound notification if failed",IDC_CHECKFSND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,163,135,10
     CONTROL         "Message notification if failed",IDC_CHECKFMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,174,135,10
     CONTROL         "Tray icon notification if failed",IDC_CHECKFICO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,186,135,10
     PUSHBUTTON      "Reset counter",IDC_BTNRESET,161,200,75,13
-    PUSHBUTTON      "-",IDC_BTNDEL,140,6,15,13
-    PUSHBUTTON      "Default",IDC_BTNDEFAULT,9,124,54,13
     LTEXT           "",IDC_STTIMELEFT,163,216,141,8
-    LTEXT           "Status:",IDC_STATIC,175,9,34,9
-    PUSHBUTTON      "+",IDC_BTNADD,118,6,15,13
-    GROUPBOX        "Account",IDC_STATIC,4,22,151,120
-    CONTROL         "APOP",IDC_CHECKAPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,119,66,34,10
-    LTEXT           "Name:",IDC_STATIC,10,34,44,10
-    EDITTEXT        IDC_EDITNAME,56,32,92,12,ES_AUTOHSCROLL
-    GROUPBOX        "Options",IDC_STATIC,161,22,147,120
-    GROUPBOX        "New Mail",IDC_STATIC,7,153,149,73
-    GROUPBOX        "Errors",IDC_STATIC,161,153,143,44
 END
 
 IDD_CHOOSESTATUSMODES DIALOG 0, 0, 226, 154
@@ -256,12 +256,10 @@ BEGIN
     CONTROL         "Enable YAMN Main Menu",IDC_MAINMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,33,293,9
     CONTROL         "Show YAMN as a Protocol (Require Restart)",IDC_YAMNASPROTO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,293,9
-
     GROUPBOX        "MailBrowser Options",IDC_STATIC,3,68,151,47
     CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,80,143,11
     CONTROL         "Show long localised date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,77,130,10
     CONTROL         "Don't show today's date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,89,131,10
-
     GROUPBOX        "Date/Time Representation",IDC_STATIC,166,68,141,47
     CONTROL         "Don't show seconds",IDC_NOSECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,101,129,8
 END
@@ -313,11 +311,10 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_CHECKMAIL              ICON                    "checkmail.ico"
-IDI_LAUNCHAPP              ICON                    "launchapp.ico"
-IDI_BADCONNECT             ICON                    "badconnect.ico"
-IDI_NEWMAIL                ICON                    "newmail.ico"
-
+IDI_CHECKMAIL           ICON                    "checkmail.ico"
+IDI_LAUNCHAPP           ICON                    "launchapp.ico"
+IDI_BADCONNECT          ICON                    "badconnect.ico"
+IDI_NEWMAIL             ICON                    "newmail.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -332,3 +329,4 @@ IDI_NEWMAIL                ICON                    "newmail.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

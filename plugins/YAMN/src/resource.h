@@ -14,7 +14,7 @@
 #define IDI_BADCONNECT                  131
 #define IDI_ICOTTBUP                    138
 #define IDD_PLUGINOPT                   141
-#define IDI_NEWMAIL                    159
+#define IDI_NEWMAIL                     159
 #define IDD_CHOOSESTATUSMODES           310
 #define IDD_OPTIONS                     311
 #define IDD_POP3ACCOUNTPOPUP            312
