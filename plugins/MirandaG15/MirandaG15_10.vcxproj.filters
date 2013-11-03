@@ -124,100 +124,100 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\status\away.bmp">
+    <None Include="res\status\away.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\back.bmp">
+    <None Include="res\back.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\chat.bmp">
+    <None Include="res\chat.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\clist.bmp">
+    <None Include="res\clist.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\conn.bmp">
+    <None Include="res\events\conn.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\conn_large.bmp">
+    <None Include="res\events\conn_large.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\status\dnd.bmp">
+    <None Include="res\status\dnd.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\down.bmp">
+    <None Include="res\down.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\edit.bmp">
+    <None Include="res\edit.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\status\ffc.bmp">
+    <None Include="res\status\ffc.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\hist.bmp">
+    <None Include="res\hist.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\info.bmp">
+    <None Include="res\events\info.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\info_large.bmp">
+    <None Include="res\events\info_large.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\status\invis.bmp">
+    <None Include="res\status\invis.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\minus.bmp">
+    <None Include="res\minus.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\msg.bmp">
+    <None Include="res\events\msg.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\msg_large.bmp">
+    <None Include="res\events\msg_large.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\status\na.bmp">
+    <None Include="res\status\na.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\next.bmp">
+    <None Include="res\next.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\notick.ico">
+    <None Include="res\notick.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\status\occ.bmp">
+    <None Include="res\status\occ.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\status\off.bmp">
+    <None Include="res\status\off.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\status\on.bmp">
+    <None Include="res\status\on.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\open.bmp">
+    <None Include="res\open.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\plus.bmp">
+    <None Include="res\plus.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\prev.bmp">
+    <None Include="res\prev.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\reply.bmp">
+    <None Include="res\reply.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\send.bmp">
+    <None Include="res\send.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\tick.ico">
+    <None Include="res\tick.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\up.bmp">
+    <None Include="res\up.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\user.bmp">
+    <None Include="res\events\user.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="data\events\user_large.bmp">
+    <None Include="res\events\user_large.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="changelog.txt" />
