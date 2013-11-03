@@ -748,7 +748,7 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s\nSend groupchat invitation."), m_room);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s\nSend group chat invitation."), m_room);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 		WindowSetIcon(m_hwnd, m_proto, "group");
 

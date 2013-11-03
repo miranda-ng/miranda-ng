@@ -47,7 +47,7 @@ BEGIN
     CTEXT           "You need to configure it once for each computer, where you run your Miranda NG.",IDC_STATIC,7,195,295,20
     LTEXT           "No Apply button required.",IDC_STATIC,11,220,184,8
     GROUPBOX        "After startup set:",IDC_STATIC,3,136,303,57
-    CONTROL         "Filtered popups only (leave uncheck to no popups)",IDC_DEFPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,167,274,9
+    CONTROL         "Filtered popups only (leave uncheck for no popups)",IDC_DEFPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,167,274,9
     CONTROL         "Enable sounds",IDC_DEFSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,181,287,9
     CONTROL         "Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)",IDC_RESTORE,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,11,147,290,19
     CONTROL         "Allow mRadio or Weather popups, etc...",IDC_NONSTATUSES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,118,259,9

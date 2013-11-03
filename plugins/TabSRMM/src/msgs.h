@@ -997,7 +997,7 @@ typedef struct {
 
 #define TABSRMM_HK_SECTION_IM LPGEN("Message windows - IM")
 #define TABSRMM_HK_SECTION_GENERIC LPGEN("Message windows - all")
-#define TABSRMM_HK_SECTION_GC LPGEN("Message windows - groupchats")
+#define TABSRMM_HK_SECTION_GC LPGEN("Message windows - group chats")
 
 /*
  * encryption status bar indicator

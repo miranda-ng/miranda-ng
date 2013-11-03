@@ -145,7 +145,7 @@ CLISTMENUITEM ChatInitItem(void) {
 	mi.position=-2000020000;
 	mi.flags=CMIF_HIDDEN|CMIF_NOTOFFLINE|CMIF_TCHAR;
 	mi.hIcon=LoadIcon( hInst, MAKEINTRESOURCE( IDI_INVITE ));
-	mi.ptszName=LPGENT("&Open groupchat");
+	mi.ptszName=LPGENT("&Open group chat");
 	mi.pszContactOwner=SKYPE_PROTONAME;
 	mi.pszService=SKYPE_CHATNEW;
 	return mi;

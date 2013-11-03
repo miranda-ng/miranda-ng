@@ -417,7 +417,7 @@ END
 IDD_GROUPCHAT_JOIN DIALOGEX 0, 0, 258, 211
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Create or Join Groupchat"
+CAPTION "Create or Join group chat"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Jabber Multi-User Conference\nCreate or join existing conference room.",IDC_HEADERBAR,
@@ -469,7 +469,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "Invite Users"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "<room jid>\nSend groupchat invitation.",IDC_HEADERBAR,
+    CONTROL         "<room jid>\nSend group chat invitation.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,215,25
     CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,7,40,201,116,WS_EX_CLIENTEDGE
     LTEXT           "Other JID:",IDC_STATIC,7,162,46,8
@@ -484,10 +484,10 @@ END
 
 IDD_GROUPCHAT_INVITE_ACCEPT DIALOGEX 0, 0, 216, 174
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Groupchat Invitation"
+CAPTION "Group chat invitation"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "<room jid>\nIncoming groupchat invitation.",IDC_HEADERBAR,
+    CONTROL         "<room jid>\nIncoming group chat invitation.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,216,25
     LTEXT           "You are invited to conference room by",IDC_STATIC,7,40,202,8
     EDITTEXT        IDC_FROM,17,51,192,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER

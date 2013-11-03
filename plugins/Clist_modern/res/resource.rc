@@ -530,7 +530,7 @@ BEGIN
     LTEXT           "Subcontacts indent:",IDC_SUBIDENTCAPT,26,164,126,10
     CONTROL         "Remove status message if contact became offline",IDC_REMOVE_OFFLINE_AWAYMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,50,201,10
-    CONTROL         "Use improved search method in contactlist",IDC_FILTER_SEARCH,
+    CONTROL         "Use improved search method in contact list",IDC_FILTER_SEARCH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,62,201,10
 END
 

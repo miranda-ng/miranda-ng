@@ -221,7 +221,7 @@ BOOL CJabberAdhocManager::FillDefaultNodes()
 	AddNode(NULL, JABBER_FEAT_RC_SET_STATUS,       TranslateT("Set status"),              &CJabberProto::AdhocSetStatusHandler);
 	AddNode(NULL, JABBER_FEAT_RC_SET_OPTIONS,      TranslateT("Set options"),             &CJabberProto::AdhocOptionsHandler);
 	AddNode(NULL, JABBER_FEAT_RC_FORWARD,          TranslateT("Forward unread messages"), &CJabberProto::AdhocForwardHandler);
-	AddNode(NULL, JABBER_FEAT_RC_LEAVE_GROUPCHATS, TranslateT("Leave groupchats"),        &CJabberProto::AdhocLeaveGroupchatsHandler);
+	AddNode(NULL, JABBER_FEAT_RC_LEAVE_GROUPCHATS, TranslateT("Leave group chats"),        &CJabberProto::AdhocLeaveGroupchatsHandler);
 	AddNode(NULL, JABBER_FEAT_RC_WS_LOCK,          TranslateT("Lock workstation"),        &CJabberProto::AdhocLockWSHandler);
 	AddNode(NULL, JABBER_FEAT_RC_QUIT_MIRANDA,     TranslateT("Quit Miranda NG"),         &CJabberProto::AdhocQuitMirandaHandler);
 	return TRUE;
@@ -710,7 +710,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo *pInfo, CJabbe
 
 		if ( !nChatsCount) {
 			TCHAR szMsg[ 1024 ];
-			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("There is no groupchats to leave"));
+			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("There is no group chats to leave"));
 
 			m_ThreadInfo->send(
 				XmlNodeIq(_T("result"), pInfo)
@@ -729,8 +729,8 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo *pInfo, CJabbe
 				<< XATTR(_T("sessionid"), pSession->GetSessionId()) << XATTR(_T("status"), _T("executing"))
 			<< XCHILDNS(_T("x"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("form"));
 
-		xNode << XCHILD(_T("title"), TranslateT("Leave groupchats"));
-		xNode << XCHILD(_T("instructions"), TranslateT("Choose the groupchats you want to leave"));
+		xNode << XCHILD(_T("title"), TranslateT("Leave group chats"));
+		xNode << XCHILD(_T("instructions"), TranslateT("Choose the group chats you want to leave"));
 
 		xNode << XCHILD(_T("field")) << XATTR(_T("type"), _T("hidden")) << XATTR(_T("var"), _T("FORM_TYPE"))
 			<< XATTR(_T("value"), JABBER_FEAT_RC);

@@ -194,7 +194,7 @@ namespace NSJabberRegistry
 		{ _T("auto-offline"),		JDFT_BOOLEAN,		LPGENT("Whether to automatically go offline when idle") },
 		{ _T("sounds"),				JDFT_BOOLEAN,		LPGENT("Whether to play sounds") },
 		{ _T("files"),				JDFT_LIST_MULTI,	LPGENT("A list of pending file transfers") },
-		{ _T("groupchats"),			JDFT_LIST_MULTI,	LPGENT("A list of joined groupchat rooms") },
+		{ _T("groupchats"),			JDFT_LIST_MULTI,	LPGENT("A list of joined group chat rooms") },
 		{ _T("status"),				JDFT_LIST_SINGLE,	LPGENT("A presence or availability status") },
 		{ _T("status-message"),		JDFT_TEXT_MULTI,	LPGENT("The status message text") },
 		{ _T("status-priority"),	JDFT_TEXT_SINGLE,	LPGENT("The new priority for the client") },

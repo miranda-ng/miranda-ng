@@ -684,7 +684,7 @@ void CJabberProto::MenuInit()
 
 	CreateProtoService("/Groupchat", &CJabberProto::OnMenuHandleJoinGroupchat);
 	strcpy(tDest, "/Groupchat");
-	mi.pszName = LPGEN("Create/Join groupchat");
+	mi.pszName = LPGEN("Create/Join group chat");
 	mi.position = 2000050006;
 	mi.icolibItem = GetIconHandle(IDI_GROUP);
 	m_hMenuGroupchat = Menu_AddProtoMenuItem(&mi);

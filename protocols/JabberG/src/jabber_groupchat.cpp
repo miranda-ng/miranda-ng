@@ -642,7 +642,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					{
 						sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_FAIL,
 							TranslateT("Jabber Error"),
-							TranslateT("Please specify groupchat directory first."),
+							TranslateT("Please specify group chat directory first."),
 							_T(""));
 					}
 				}
@@ -1196,7 +1196,7 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s\nIncoming groupchat invitation."), m_info->roomJid);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s\nIncoming group chat invitation."), m_info->roomJid);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(m_hwnd, IDC_FROM, m_info->from);
