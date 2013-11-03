@@ -26,23 +26,6 @@
  * Miranda.cpp: Miranda plugin initialisation
  */
 
-/*
- * TODO:
-
-*/
-/*
- * CHANGES:
- */
-/*
- * KNOWN BUGS:
- *
- */
-
-/*
- * IDEAS:
- *
- */
-
 #ifdef _DEBUG
 	#include <crtdbg.h>
 	#define _CRTDBG_MAP_ALLOC

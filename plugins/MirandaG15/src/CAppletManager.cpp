@@ -893,12 +893,7 @@ HANDLE CAppletManager::SendMessageToContact(HANDLE hContact,tstring strMessage)
 		if(CAppletManager::IsUtfSendAvailable(pJob->hContact)) {
 			pref = PREF_UTF;
 			char* szMsgUtf = NULL;
-			#if defined( _UNICODE )
-				szMsgUtf = mir_utf8encodeW( strMessage.c_str());
-			#else
-				int codepage = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
-				szMsgUtf = mir_utf8encodecp(strMessage.c_str(), codepage);
-			#endif
+			szMsgUtf = mir_utf8encodeW( strMessage.c_str());
 
 			pJob->iBufferSize = strlen(szMsgUtf)+1;
 			pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
@@ -907,10 +902,7 @@ HANDLE CAppletManager::SendMessageToContact(HANDLE hContact,tstring strMessage)
 			memcpy(pJob->pcBuffer,szMsgUtf,pJob->iBufferSize);
 			mir_free(szMsgUtf);
 		} else {
-			
-#ifdef _UNICODE			
 			bIsUnicode = !IsUnicodeAscii(strMessage.c_str(),lstrlen(strMessage.c_str()));
-#endif
 			if(bIsUnicode) {
 				pref = PREF_UNICODE;
 				pJob->iBufferSize = bufSize * (sizeof(TCHAR) + 1);
@@ -1021,7 +1013,6 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lPara
 	{
 	case EVENTTYPE_MESSAGE:
 		msglen = strlen((char *) dbevent.pBlob) + 1;
-#ifdef _UNICODE
 		if (dbevent.flags & DBEF_UTF) {
 			pEvent->strValue = Utf8_Decode((char*)dbevent.pBlob);
 		} else if ((int) dbevent.cbBlob == msglen*3){
@@ -1029,9 +1020,6 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lPara
 		} else {
 			pEvent->strValue = toTstring((char*)dbevent.pBlob);
 		}
-#else
-		pEvent->strValue = toTstring((char*)dbevent.pBlob);
-#endif
 		pEvent->eType = (dbevent.flags & DBEF_SENT) ? EVENT_MSG_SENT:EVENT_MSG_RECEIVED;
 		if(pEvent->eType == EVENT_MSG_RECEIVED)
 		{	
@@ -1914,11 +1902,9 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 		Event.eType = EVENT_CONTACT_NICK;
 		if(dbcws->value.type != DBVT_DELETED && dbcws->value.pszVal && strlen(dbcws->value.pszVal)>0)
 		{
-#ifdef _UNICODE
 			if(dbcws->value.type == DBVT_UTF8)
 				Event.strValue = Utf8_Decode(dbcws->value.pszVal);
 			else
-#endif
 				Event.strValue = toTstring(dbcws->value.pszVal);
 		}
 		else
