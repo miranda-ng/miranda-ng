@@ -663,22 +663,20 @@ bool CAppletManager::IsUtfSendAvailable(HANDLE hContact) {
 //************************************************************************
 char *CAppletManager::GetMessageServiceName(HANDLE hContact,bool bIsUnicode)
 {
-	if(g_bUnicode) {
-		char szServiceName[100];
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char szServiceName[100];
+	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		
-		if(szProto == NULL)
-			return NULL;
+	if(szProto == NULL)
+		return NULL;
 
-		if (!bIsUnicode)
-			return PSS_MESSAGE;
-
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-		if (ServiceExists(szServiceName))
-			return PSS_MESSAGE "W";
-	} else {
+	if (!bIsUnicode)
 		return PSS_MESSAGE;
-	}
+
+	_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
+	if (ServiceExists(szServiceName))
+		return PSS_MESSAGE "W";
+
+	return NULL;
 }
 
 //************************************************************************

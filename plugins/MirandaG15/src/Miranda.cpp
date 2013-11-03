@@ -62,7 +62,6 @@
 // Variables
 //************************************************************************
 bool g_bInitialized;
-bool g_bUnicode;
 // AppletManager object
  CAppletManager* g_AppletManager;
 
@@ -71,13 +70,10 @@ bool g_bUnicode;
 HINSTANCE hInstance;
 int hLangpack;
 
-// Initialization Hook
-static HANDLE hMIHookModulesLoaded;
-
 // {58D63981-14C1-4099-A3F7-F4FAA4C8FC59}
 #define MIID_G15APPLET	{ 0x58d63981, 0x14c1, 0x4099, { 0xa3, 0xf7, 0xf4, 0xfa, 0xa4, 0xc8, 0xfc, 0x59 } }
 
-static const MUUID interfaces[] = {MIID_G15APPLET, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_G15APPLET, MIID_LAST};
 	
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -88,7 +84,7 @@ static PLUGININFOEX pluginInfo = {
 	"mail@mkleinhans.de",
 	"© 2009 Martin Kleinhans",
 	"http://www.mkleinhans.de",
-	0,		// not transient
+	UNICODE_AWARE,		// not transient
 	// {798221E1-E47A-4dc8-9077-1E576F9C4307}
 	{ 0x798221e1, 0xe47a, 0x4dc8, { 0x90, 0x77, 0x1e, 0x57, 0x6f, 0x9c, 0x43, 0x7 } }
 };
@@ -97,27 +93,14 @@ static PLUGININFOEX pluginInfo = {
 int Init(WPARAM,LPARAM);
 void UnInit();
 
-
-
 //************************************************************************
 // Exported Functions
 //************************************************************************
 extern "C" {
-	__declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-	{
-		return interfaces;
-	}
-
 	__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	{
-		// Are we running under Unicode Windows version ?
-		g_bUnicode = (GetVersion() & 0x80000000) == 0;
-		if (g_bUnicode) {
-		  pluginInfo.flags = 1; // UNICODE_AWARE
-		}
 		return &pluginInfo;
 	}
-	
 	
 	// Called by Miranda to load the plugin.
 	// We defer initialization until Miranda's module loading process completed and return 0 to
@@ -128,15 +111,7 @@ extern "C" {
 		InitDebug();
 		TRACE(_T("Plugin loaded\n"));
 		// Schedule actual initialization for later
-		// (We don't really need the handle but want to be able to release it properly later ...)
-		hMIHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, Init);
-		if(hMIHookModulesLoaded == 0)
-		{
-			tstring text = _T("Failed to initialize the Applet.\nThe plugin will not be loaded. ");
-			tstring title = _T(APP_SHORTNAME);
-			MessageBox(NULL, text.c_str(), title.c_str(), MB_OK | MB_ICONEXCLAMATION);
-			return 1;
-		}
+		HookEvent(ME_SYSTEM_MODULESLOADED, Init);
 		return 0;
 	}
 
@@ -151,7 +126,6 @@ extern "C" {
 		UnInit();
 		TRACE(_T("Unloading successful\n"));
 		TRACE(_T("Cleaning up: "));
-		UnhookEvent(hMIHookModulesLoaded);			// just to be really correct ...
 		UnInitDebug();
 		TRACE(_T("OK!\n"));
 		return 0;
@@ -165,7 +139,6 @@ extern "C" {
 //************************************************************************
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	
 	hInstance = hinstDLL;
 	return TRUE;
 }
@@ -190,14 +163,14 @@ int Init(WPARAM wParam,LPARAM lParam)
 	CConfig::Initialize();
 
 	// Initialize the output object
-    if(!g_AppletManager->Initialize(toTstring(APP_SHORTNAME)))
+	if(!g_AppletManager->Initialize(toTstring(APP_SHORTNAME)))
 	{
 		if(CConfig::GetBoolSetting(SKIP_DRIVER_ERROR)) {
 			tstring text = _T("Failed to initialize the LCD connection\n Make sure you have the newest Logitech drivers installed (>=1.03).\n");
 			tstring title = _T(APP_SHORTNAME);
 			MessageBox(NULL, text.c_str(), title.c_str(), MB_OK | MB_ICONEXCLAMATION);
 		}
-		
+
 		TRACE(_T("Initialization failed!.\n"));
 		return 0;
 	}
@@ -215,7 +188,6 @@ void UnInit(void)
 {
 	g_AppletManager->Shutdown();	
 	delete g_AppletManager;
-	UnhookEvent(hMIHookModulesLoaded);
 	
 //#ifdef _DEBUG
 //	_CrtDumpMemoryLeaks();

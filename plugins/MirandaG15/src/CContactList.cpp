@@ -535,6 +535,8 @@ bool CContactList::CompareEntries(CListEntry<CContactListEntry*,CContactListGrou
 		else
 			return _tcsicmp(pGroup1->strName.c_str(),pGroup2->strName.c_str())<0;
 	}
+
+	return false;
 }
 
 //************************************************************************

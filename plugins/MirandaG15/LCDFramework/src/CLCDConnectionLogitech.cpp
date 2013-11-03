@@ -244,7 +244,7 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 	// check if the specified device exists
 	m_pConnectedDevice = GetAttachedDevice(iIndex);
 	if(m_pConnectedDevice == NULL) {
-		iIndex = (!iIndex || iIndex == LGLCD_DEVICE_BW) ? LGLCD_DEVICE_QVGA : LGLCD_DEVICE_BW; 
+		iIndex = (!iIndex || iIndex == LGLCD_DEVICE_BW) ? LGLCD_DEVICE_BW : LGLCD_DEVICE_QVGA;
 		m_pConnectedDevice = GetAttachedDevice(iIndex);
 		if(m_pConnectedDevice == NULL) {
 			return false;
@@ -259,8 +259,8 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 	// Now lets open the LCD. We must initialize the g_OpenContext structure.
     ZeroMemory(&OpenContext, sizeof(OpenContext));
     OpenContext.connection = m_hConnection;
-    OpenContext.deviceType = LGLCD_DEVICE_QVGA;
-    OpenContext.device = LGLCD_INVALID_DEVICE;
+	OpenContext.deviceType = m_pConnectedDevice->GetIndex();//LGLCD_DEVICE_QVGA;
+	OpenContext.device = LGLCD_INVALID_DEVICE;
 
     // softbutton callbacks are not needed
     OpenContext.onSoftbuttonsChanged.softbuttonsChangedCallback = softButtonCallback;
@@ -364,13 +364,13 @@ void CLCDConnectionLogitech::OnNotificationCB( DWORD notificationCode, DWORD not
 			int *counter = notifyParm1 == LGLCD_DEVICE_QVGA ? &m_iNumQVGADevices : &m_iNumBWDevices;
 			if(*counter == 0) {
 				SIZE size;
-				if(LGLCD_DEVICE_QVGA) {
+				if(notifyParm1 == LGLCD_DEVICE_QVGA) {
 					size.cx = 320;
 					size.cy = 240;
 					device = new CLgLCDDevice(notifyParm1,size,7,4);
 				} else {
-					size.cx = 320;
-					size.cy = 240;
+					size.cx = 160;
+					size.cy = 43;
 					device = new CLgLCDDevice(notifyParm1,size,4,1);
 				}
 				m_lcdDevices.push_back(device);

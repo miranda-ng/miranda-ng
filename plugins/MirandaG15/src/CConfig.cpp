@@ -380,8 +380,6 @@ int CConfig::GetSampleField(int iFont)
 
 INT_PTR CALLBACK CConfig::AppearanceDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	char buf[128];
-
 	switch (uMsg)
 	{
 		case WM_INITDIALOG:
@@ -759,8 +757,6 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 INT_PTR CALLBACK CConfig::ContactlistDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	char buf[128];
-
 	switch (uMsg)
 	{
 		case WM_INITDIALOG:
@@ -919,23 +915,26 @@ void CConfig::ClearTree(HWND hTree)
 
 void CConfig::FillDeviceBox(HWND hBox) {
 	CLCDConnection *connection = CAppletManager::GetInstance()->GetLCDConnection();
-	CLCDDevice *device = NULL;
-	int i = 0;
 	SendMessage(hBox,CB_RESETCONTENT,0,0);
 
-	while((device = connection->GetAttachedDevice(i++)) != NULL) {
-		SendMessage(hBox,CB_ADDSTRING,0,(LPARAM)device->GetDisplayName().c_str());
+	int count = 0;
+	for (int i = 0; i < 10; i++) {
+		CLCDDevice *device = connection->GetAttachedDevice(i);
+		if (device != NULL) {
+			SendMessage(hBox,CB_ADDSTRING,0,(LPARAM)device->GetDisplayName().c_str());
+			count++;
+		}
 	}
-	
-	if(i == 1) {
-		SendMessage(hBox,CB_ADDSTRING,0,(LPARAM)_T("No device attached"));
+
+	if (!count) {
+		SendMessage(hBox,CB_ADDSTRING,0,(LPARAM)TranslateT("No device attached"));
 	}
 
 	int iDevice = CConfig::GetIntSetting(DEVICE);
-	if( iDevice >= i)
+	if (iDevice >= count)
 		iDevice = 0;
 
-	SendMessage(hBox,CB_SETCURSEL ,iDevice,0);
+	SendMessage(hBox, CB_SETCURSEL, iDevice, 0);
 }
 
 void CConfig::FillTree(HWND hTree,bool bCList)

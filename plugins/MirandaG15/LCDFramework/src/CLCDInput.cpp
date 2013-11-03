@@ -689,7 +689,7 @@ void CLCDInput::UpdateOffsets(int iModified)
 				}
 			}
 		
-			iChar += iMaxChars;
+			//iChar += iMaxChars;
 
 			if(m_strText[iChar] == '\n' || sizeLine.cx > GetWidth())
 			{
@@ -755,11 +755,13 @@ void CLCDInput::UpdateOffsets(int iModified)
 				}
 				break;
 			}
+
+			iChar += iMaxChars;
 		}
 		// Update line's width
 		if(iMaxChars > 0)
 		{
-			if(m_strText[iChar] == '\n' && iMaxChars >= 2)
+			if(m_strText[iChar-1] == '\n' && iMaxChars >= 2)
 				m_vLineOffsets[iLine].iWidth = piWidths[iMaxChars-2];
 			else
 				m_vLineOffsets[iLine].iWidth = piWidths[iMaxChars-1];
