@@ -287,9 +287,6 @@
     <None Include="res\up.bmp" />
     <None Include="res\events\user.bmp" />
     <None Include="res\events\user_large.bmp" />
-    <None Include="changelog.txt" />
-    <None Include="readme.txt" />
-    <None Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\MirandaG15.rc" />
