@@ -162,7 +162,7 @@
 #define IDC_SESSION_CLOSETIMER 1052
 #define IDC_STC16 1053
 #define IDC_GRP4 1050
-#include "resource.h"
+#include "..\src\resource.h"
 IDB_BACK BITMAP DISCARDABLE "data/back.bmp"
 IDB_CHAT BITMAP DISCARDABLE "data/chat.bmp"
 IDB_CLIST BITMAP DISCARDABLE "data/clist.bmp"

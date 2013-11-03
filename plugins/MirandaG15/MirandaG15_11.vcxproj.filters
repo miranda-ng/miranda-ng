@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Screens">
+      <UniqueIdentifier>{da23f7ae-a558-4f9c-a10b-acaf09ad33b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{646e30dc-4ba4-489e-8aa3-b99f397e0963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Screens">
+      <UniqueIdentifier>{68ea4916-17a8-4272-b715-f6810cc42684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{15a59424-ddac-499b-b802-aca213f69f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\CAppletManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Miranda.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CChatScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CContactlistScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CCreditsScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEventScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CNotificationScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CScreensaverScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CContactList.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEventLog.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\CAppletManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CIRCConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CIRCHistory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CProtocolData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Miranda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CChatScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CContactlistScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CCreditsScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEventScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CNotificationScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CScreensaverScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CContactList.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEventLog.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\status\away.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\back.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\chat.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\clist.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\conn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\conn_large.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\status\dnd.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\down.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\edit.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\status\ffc.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\hist.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\info.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\info_large.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\status\invis.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\minus.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\msg.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\msg_large.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\status\na.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\next.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\notick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\status\occ.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\status\off.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\status\on.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\open.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\plus.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\prev.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\reply.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\send.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\tick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\up.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\user.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\events\user_large.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="changelog.txt" />
+    <None Include="readme.txt" />
+    <None Include="todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\MirandaG15.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

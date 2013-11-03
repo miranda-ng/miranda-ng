@@ -48,6 +48,6 @@ using namespace std;
 #include "Miranda.h"
 #include "CEvent.h"
 
-#include "../resource.h"
+#include "resource.h"
 
 #endif

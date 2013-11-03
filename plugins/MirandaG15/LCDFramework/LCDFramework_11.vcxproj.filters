@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\LCDConnections">
+      <UniqueIdentifier>{b5136e30-be62-43f3-b14b-feb34b84fc74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\debug">
+      <UniqueIdentifier>{67510d21-eb00-49ae-a049-8dedd1561324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LCDObjects">
+      <UniqueIdentifier>{510e0b20-a701-4058-b1e2-2e3949eeb56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\LCDConnections">
+      <UniqueIdentifier>{fad292fa-e001-4c46-931d-d2cdcd274c21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\debug">
+      <UniqueIdentifier>{65812f3e-00a5-4a8b-a420-f1db867ba16c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LCDObjects">
+      <UniqueIdentifier>{438192d8-3f4c-42d7-9351-dbdbb6305977}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\CLCDGfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDOutputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDConnection.cpp">
+      <Filter>Source Files\LCDConnections</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDConnectionLogitech.cpp">
+      <Filter>Source Files\LCDConnections</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConStream.cpp">
+      <Filter>Source Files\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\debug.cpp">
+      <Filter>Source Files\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDBar.cpp">
+      <Filter>Source Files\LCDObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDBitmap.cpp">
+      <Filter>Source Files\LCDObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDInput.cpp">
+      <Filter>Source Files\LCDObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDLabel.cpp">
+      <Filter>Source Files\LCDObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDTextLog.cpp">
+      <Filter>Source Files\LCDObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLCDTextObject.cpp">
+      <Filter>Source Files\LCDObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDObject.cpp">
+      <Filter>Source Files\LCDObjects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\CLCDGfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDOutputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDConnection.h">
+      <Filter>Header Files\LCDConnections</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDConnectionLogitech.h">
+      <Filter>Header Files\LCDConnections</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDDevice.h">
+      <Filter>Header Files\LCDConnections</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConStream.h">
+      <Filter>Header Files\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\debug.h">
+      <Filter>Header Files\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDBar.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDBitmap.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDInput.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDLabel.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDList.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDObject.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDTextLog.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CLCDTextObject.h">
+      <Filter>Header Files\LCDObjects</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="changelog.txt" />
+    <None Include="todo.txt" />
+  </ItemGroup>
+</Project>

@@ -63,6 +63,9 @@
     <ClCompile Include="src\CEventLog.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CAppletManager.h">
@@ -84,9 +87,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Miranda.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\StdAfx.h">
@@ -118,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="src\CEventLog.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,7 +225,7 @@
     <None Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MirandaG15.rc">
+    <ResourceCompile Include="res\MirandaG15.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
