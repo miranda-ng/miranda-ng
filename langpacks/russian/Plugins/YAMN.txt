@@ -329,3 +329,5 @@ OpenSSL не загружен
 Копировать выделенное
 [Executables]
 Запускаемые
+[Reading new mail messages (%d%% done)]
+Чтение новых писем (%d%% выполнено)
