@@ -63,9 +63,9 @@
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 път до главната папка на Miranda
-[path to current miranda profile]
+[path to current Miranda profile]
 път до текущия профил на Miranda
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 име на текущия профил на Miranda (име без окончание)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
@@ -87,9 +87,7 @@
 Часове
 [Minutes]
 Минути
-[Select Backup Folder]
+[Select backup folder]
 Избор на папка за резервните копия
 [Error creating backup folder]
 Грешка при създаването на папка за резервните копия
-[Database AutoBackups]
-Резервни копия на БД

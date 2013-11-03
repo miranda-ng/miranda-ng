@@ -1,5 +1,5 @@
 ﻿[VKontakte protocol support for Miranda NG.]
-[Login or phone number:]
+[E-mail or phone number:]
 [Password:]
 [Open VK site]
 [Bots Challenge Test]

@@ -852,7 +852,7 @@ Nick des aktuellen Kontaktes (falls definiert)
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
-[path to root miranda folder]
+[path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to current miranda profile]
 Pfad zum aktuellen Miranda-Profil

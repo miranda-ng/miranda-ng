@@ -7,7 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Падтрымка пратаколу Вконтакте ў Miranda NG.
-[Login or phone number:]
+[E-mail or phone number:]
 Пошта ці нумар тэлефона:
 [Password:]
 Пароль:

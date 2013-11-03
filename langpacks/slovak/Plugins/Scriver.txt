@@ -852,7 +852,7 @@ Opustiť
 
 [User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 
-[path to root miranda folder]
+[path to Miranda root folder]
 
 [path to current miranda profile]
 

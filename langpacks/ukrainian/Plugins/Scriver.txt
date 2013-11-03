@@ -837,7 +837,7 @@ Miranda не змогла завантажити вбудовану систем
 
 [User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID поточного контакту (якщо він визначений). Наприклад, для ICQ UIN, JID для Jabber і т.д.
-[path to root miranda folder]
+[path to Miranda root folder]
 
 [path to current miranda profile]
 

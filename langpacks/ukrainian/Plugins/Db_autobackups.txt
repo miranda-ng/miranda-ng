@@ -9,7 +9,7 @@
 Плагін авторезервування профілю.
 [Save profile as...]
 Зберегти профіль як...
-[Database AutoBackups]
+[Automatic Backups]
 Авторезервирование профілю
 [Database backed up]
 Профіль зарезервований
@@ -19,9 +19,9 @@
 Відкрийте "Тонка настройка -> Папки" для зміни налаштувань
 [path to Miranda root folder]
 шлях до папки програми
-[path to current miranda profile]
+[path to current Miranda profile]
 шлях до папки поточного профілю
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 ім'я поточного профілю (тільки ім'я, без розширення)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 поверне рядок виду %miranda_profile%\\Profiles\\%miranda_profilename%

@@ -173,7 +173,7 @@ x - y - ...
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Зменныя ядра Miranda
-[path to root miranda folder]
+[path to Miranda root folder]
 шлях да тэчкі праграмы
 [path to current miranda profile]
 шлях да тэчкі бягучага профіля

@@ -301,7 +301,7 @@ AIM настройки
 Елементът, който желаете да изтриете не е в списъка.
 [Failed to add buddy to list: Item already exist.]
 
-[Error adding buddy(invalid ID or already in list?)]
+[Error adding buddy (invalid ID or already in list?)]
 
 [Cannot add buddy. Limit for this type of item exceeded.]
 

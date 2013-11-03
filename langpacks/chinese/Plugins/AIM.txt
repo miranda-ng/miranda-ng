@@ -261,8 +261,8 @@ DNS 故障.
 您想要删除项目不在列表中.
 [Failed to add buddy to list: Item already exist.]
 添加好友至列表失败: 项目已经存在.
-[Error adding buddy(invalid ID or already in list?)]
-添加好友错误(无效 id?, 已在列表?)
+[Error adding buddy (invalid ID or already in list?)]
+添加好友错误 (无效 id?, 已在列表?)
 [Cannot add buddy. Limit for this type of item exceeded.]
 无法添加好友. 限制此类项通过.
 [Error? Attempting to add ICQ contact to an AIM list.]

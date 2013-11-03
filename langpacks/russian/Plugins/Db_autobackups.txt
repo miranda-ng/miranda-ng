@@ -13,7 +13,7 @@
 Сохранить профиль как...
 [Database backups]
 Резервирование профиля
-[Database AutoBackups]
+[Automatic Backups]
 Авторезервирование профиля
 [Database backed up]
 Профиль зарезервирован

@@ -173,7 +173,7 @@ Standard-Unterkontakt von x
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Miranda Core Global
-[path to root miranda folder]
+[path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to current miranda profile]
 Pfad zum aktuellen Miranda-Profil

@@ -173,7 +173,7 @@ Pomoc
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 
-[path to root miranda folder]
+[path to Miranda root folder]
 
 [path to current miranda profile]
 

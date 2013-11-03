@@ -63,9 +63,9 @@ Datenbank
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
-[path to current miranda profile]
+[path to current Miranda profile]
 Pfad zum aktuellen Miranda-Profil
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück
@@ -87,9 +87,7 @@ Tage
 Stunden
 [Minutes]
 Minuten
-[Select Backup Folder]
+[Select backup folder]
 Backup-Verzeichnis auswählen
 [Error creating backup folder]
 Fehler beim Erstellen des Backup-Verzeichnisses.
-[Database AutoBackups]
-Datenbank-AutoBackups

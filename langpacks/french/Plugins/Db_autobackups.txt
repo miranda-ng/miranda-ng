@@ -39,7 +39,7 @@ Sauvegarder votre profil
 [Database backups]
 Profil sauvegardé
 ;file \plugins\Db_autobackups\src\options.cpp
-[Select Backup Folder]
+[Select backup folder]
 Sélectionner le répertoire de sauvegarde
 [Error creating backup folder]
 Erreur à la création du répertoire de sauvegarde

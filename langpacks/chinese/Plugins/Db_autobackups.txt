@@ -47,9 +47,7 @@ Miranda 数据库
 [Database backups]
 数据库备份
 ;file \plugins\Db_autobackups\src\options.cpp
-[Select Backup Folder]
+[Select backup folder]
 选定备份目录
 [Error creating backup folder]
 创建备份目录错误
-[Database AutoBackups]
-数据库自动备份
