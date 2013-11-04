@@ -42,7 +42,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 		}
 	}
 
-	const TCHAR *avatartype = ProtoGetAvatarExtension( getByte(hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE));
+	const TCHAR *avatartype = ProtoGetAvatarExtension(getByte(hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE));
 
 	if (hContact != NULL) {
 		DBVARIANT dbv;
@@ -80,21 +80,50 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 		return false;
 	}
 
-	TCHAR *xmlAction = mir_a2t(resp->pData);
-	HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
-	if (hXml != NULL) {
-		HXML node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar"), 0);
-		const TCHAR *blank = (node != NULL) ? xi.getAttrValue(node, _T("blank")) : NULL;
-		if (blank != NULL && _tcscmp(blank, _T("1"))) {
-			node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/originBigAvatar"), 0);
-			*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+	if (strncmp(resp->pData, "<?xml", 5) == 0){
 
-			node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/timestamp"), 0);
-			*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+		//before 11.2013 this url returned xml data
+		TCHAR *xmlAction = mir_a2t(resp->pData);
+		HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
+		if (hXml != NULL) {
+			HXML node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar"), 0);
+			const TCHAR *blank = (node != NULL) ? xi.getAttrValue(node, _T("blank")) : NULL;
+			if (blank != NULL && _tcscmp(blank, _T("1"))) {
+				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/originBigAvatar"), 0);
+				*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+
+				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/timestamp"), 0);
+				*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			}
+			xi.destroyNode(hXml);
 		}
-		xi.destroyNode(hXml);
+		mir_free(xmlAction);
+
+	} else if (strncmp(resp->pData, "{\"result\":", 10) == 0){
+
+		//after 11.2013 this url returns json data
+		JSONNODE *respJSON = json_parse(resp->pData);
+		if (respJSON != NULL) {
+			JSONNODE* respJSONavatars = json_get(json_get(json_get(json_get(respJSON, "result"), "users"), "user"), "avatars");
+			if (respJSONavatars != NULL) {
+				JSONNODE *respJSONavatar = json_at(respJSONavatars, 0);
+				ptrT respJSON_blank(json_as_string(json_get(respJSONavatar, "_blank")));
+				ptrT respJSONoriginBigAvatar(json_as_string(json_get(respJSONavatar, "originBigAvatar")));
+				ptrT respJSONtimestamp(json_as_string(json_get(respJSONavatar, "timestamp")));
+				if (respJSON_blank && _tcscmp(respJSON_blank, TEXT("1")) && respJSONoriginBigAvatar && respJSONtimestamp){
+					*avatarurl = mir_t2a(respJSONoriginBigAvatar);
+					*avatarts = mir_t2a(respJSONtimestamp);
+				}
+			}
+			json_delete(respJSON);
+		}
+
+	} else {
+		debugLogA("getAvatarFileInfo(): Invalid response code from HTTP request, unknown format");
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
+		return false;
 	}
-	mir_free(xmlAction);
+
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	return true;
 }
@@ -227,18 +256,9 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					int file_fd;
 
 					int avatarType = PA_FORMAT_UNKNOWN;
-					for (int i=0; i < resp->headersCount; i++)
-					{
-						NETLIBHTTPHEADER& tHeader = resp->headers[i];
-						if (!_stricmp(tHeader.szName, "Content-Type")) {
-							if (!_stricmp(tHeader.szValue, "image/jpeg"))
-								avatarType = PA_FORMAT_JPEG;
-							else if (!_stricmp(tHeader.szValue, "image/gif"))
-								avatarType = PA_FORMAT_GIF;
-							else if (!_stricmp(tHeader.szValue, "image/png"))
-								avatarType = PA_FORMAT_PNG;
-						}
-					}
+					if (strncmp(resp->pData,"\xFF\xD8",2) == 0) avatarType = PA_FORMAT_JPEG;
+					if (strncmp(resp->pData,"\x47\x49\x46\x38",4) == 0) avatarType = PA_FORMAT_GIF;
+					if (strncmp(resp->pData,"\x89\x50\x4E\x47\x0D\x0A\x1A\x0A",8) == 0) avatarType = PA_FORMAT_PNG;
 					setByte(data->hContact, GG_KEY_AVATARTYPE, (BYTE)avatarType);
 
 					getAvatarFilename(pai.hContact, pai.filename, sizeof(pai.filename));
@@ -303,7 +323,7 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 	debugLogA("getOwnAvatarThread() started");
 
 	char *AvatarURL, *AvatarTs;
-	if (getAvatarFileInfo( getDword(GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
+	if (getAvatarFileInfo(getDword(GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
 		if (AvatarURL != NULL && AvatarTs != NULL > 0) {
 			setString(GG_KEY_AVATARURL, AvatarURL);
 			setString(GG_KEY_AVATARTS, AvatarTs);
@@ -344,7 +364,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
 	debugLogA("setavatarthread(): started. Trying to set user avatar.");
-	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
+	UIN2IDA(getDword(GG_KEY_UIN, 0), uin);
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
