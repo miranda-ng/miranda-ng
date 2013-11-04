@@ -134,7 +134,7 @@ Položky
 
 [Skins]
 
-[Opacity(%):]
+[Opacity (%):]
 
 [Transparency]
 

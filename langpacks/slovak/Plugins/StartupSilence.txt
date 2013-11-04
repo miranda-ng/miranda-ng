@@ -62,7 +62,11 @@
 
 [Sounds and popups are enabled]
 
+[Filtered mode On]
+
 [Sounds and popups are disabled temporarily]
+
+[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc...]
 
 [Silent Startup mode changed to ON]
 

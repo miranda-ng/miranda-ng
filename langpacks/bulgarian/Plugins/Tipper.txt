@@ -134,7 +134,7 @@
 
 [Skins]
 Облици
-[Opacity(%):]
+[Opacity (%):]
 Плътност (%):
 [Transparency]
 Прозрачност

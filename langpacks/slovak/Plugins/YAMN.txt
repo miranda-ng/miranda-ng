@@ -22,29 +22,17 @@ Copyright:
 
 [WWW:]
 
-[Check this account]
+[Account]
 
-[Check interval [min]:]
-
-[Notifications]
-
-[Sound]
-
-[Message]
-
-[Tray Icon]
-
-[Keyboard Flash]
-
-[Execute Application]
-
-[Use contact notification for this account]
-
-[Replace nick name]
-
-[Disable Events]
+[Name:]
 
 [Server:]
+
+[Port:]
+Port:
+[SSL]
+SSL
+[APOP]
 
 [User Name:]
 
@@ -52,19 +40,47 @@ Copyright:
 Heslo:
 [Codepage:]
 
-[Port:]
-Port:
-[SSL]
-
+[Default]
+Prednastavené
 [Disable STLS]
 
+[Status:]
+Stav:
+[Options]
+
+[Check this account]
+
 [Startup check]
+
+[Check interval [min]:]
+
+[Only check when...]
 
 [Auto retrieve body]
 
 [Check from menu]
 
-[Only check when...]
+[Use contact notification for this account]
+
+[Replace nick name]
+
+[Disable Events]
+
+[Notifications]
+
+[New Mail]
+
+[Sound]
+
+[Message]
+
+[Keyboard Flash]
+
+[Tray Icon]
+
+[Execute Application]
+
+[Errors]
 
 [Sound notification if failed]
 
@@ -73,22 +89,6 @@ Port:
 [Tray icon notification if failed]
 
 [Reset counter]
-
-[Default]
-Prednastavené
-[Status:]
-Stav:
-[Account]
-
-[APOP]
-
-[Name:]
-
-[Options]
-
-[New Mail]
-
-[Errors]
 
 [Check while...]
 

@@ -22,50 +22,66 @@ Własność:
 Kontakt:
 [WWW:]
 WWW:
-[Check this account]
-Sprawdź to konto
-[Check interval [min]:]
-Odstęp sprawdzania [min]:
-[Notifications]
-Powiadomienia
-[Sound]
-Dźwięk
-[Message]
-Wiadomość
-[Tray Icon]
-Ikona w zasobniku
-[Keyboard Flash]
-Miganie klawiatury
-[Execute Application]
-Uruchom program
-[Use contact notification for this account]
-Użyj powiadomienia kontaktu dla tego konta
-[Replace nick name]
-Zastąp przydomek
-[Disable Events]
-Wyłącz zdarzenia
+[Account]
+Konto
+[Name:]
+Nazwa:
 [Server:]
 Serwer:
+[Port:]
+Port:
+[SSL]
+SSL
+[APOP]
+APOP
 [User Name:]
 Login:
 [Password:]
 Hasło:
 [Codepage:]
 Kodowanie:
-[Port:]
-Port:
-[SSL]
-SSL
+[Default]
+Domyślny
 [Disable STLS]
 Wyłącz STLS
+[Status:]
+Status:
+[Options]
+Opcje
+[Check this account]
+Sprawdź to konto
 [Startup check]
 Sprawdź przy starcie
+[Check interval [min]:]
+Odstęp sprawdzania [min]:
+[Only check when...]
+Sprawdź wyłącznie, gdy...
 [Auto retrieve body]
 Automatycznie pobierz treść
 [Check from menu]
 Sprawdź z menu
-[Only check when...]
-Sprawdź wyłącznie, gdy...
+[Use contact notification for this account]
+Użyj powiadomienia kontaktu dla tego konta
+[Replace nick name]
+Zastąp przydomek
+[Disable Events]
+Wyłącz zdarzenia
+[Notifications]
+Powiadomienia
+[New Mail]
+Nowy mail
+[Sound]
+Dźwięk
+[Message]
+Wiadomość
+[Keyboard Flash]
+Miganie klawiatury
+[Tray Icon]
+Ikona w zasobniku
+[Execute Application]
+Uruchom program
+[Errors]
+Błędy
 [Sound notification if failed]
 Powiadomienie dźwiękiem, gdy niepowodzenie
 [Message notification if failed]
@@ -74,22 +90,6 @@ Powiadomienie wiadomością, jeśli niepowodzenie
 Powiadomienie ikoną w zasobniku, jeśli niepowodzenie
 [Reset counter]
 Resetuj licznik
-[Default]
-Domyślny
-[Status:]
-Status:
-[Account]
-Konto
-[APOP]
-APOP
-[Name:]
-Nazwa:
-[Options]
-Opcje
-[New Mail]
-Nowy mail
-[Errors]
-Błędy
 [Check while...]
 Sprawdź, gdy...
 [Cancel]

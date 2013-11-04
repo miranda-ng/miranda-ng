@@ -22,50 +22,66 @@ Copyright:
 Kontakt:
 [WWW:]
 Website:
-[Check this account]
-Dieses Konto prüfen
-[Check interval [min]:]
-Prüfintervall (min):
-[Notifications]
-Benachrichtigung
-[Sound]
-Klanghinweis
-[Message]
-Nachricht
-[Tray Icon]
-Trayicon
-[Keyboard Flash]
-Tastaturblinken
-[Execute Application]
-Programm ausführen
-[Use contact notification for this account]
-Kontaktlistenhinweis für dieses Konto
-[Replace nick name]
-Ersetze Nickname
-[Disable Events]
-Deakt. Ereign.
+[Account]
+Konto
+[Name:]
+Name:
 [Server:]
 Server:
+[Port:]
+Port:
+[SSL]
+SSL
+[APOP]
+APOP
 [User Name:]
 Benutzer:
 [Password:]
 Passwort:
 [Codepage:]
 Zeichensatz:
-[Port:]
-Port:
-[SSL]
-SSL
+[Default]
+Standard
 [Disable STLS]
 STLS deaktivieren
+[Status:]
+Status:
+[Options]
+Einstellungen
+[Check this account]
+Dieses Konto prüfen
 [Startup check]
 Prüfe beim Start
+[Check interval [min]:]
+Prüfintervall (min):
+[Only check when...]
+Nur prüfen, wenn...
 [Auto retrieve body]
 Automatisch den E-Mail-Text abfragen
 [Check from menu]
 Prüfe vom Menü
-[Only check when...]
-Nur prüfen, wenn...
+[Use contact notification for this account]
+Kontaktlistenhinweis für dieses Konto
+[Replace nick name]
+Ersetze Nickname
+[Disable Events]
+Deakt. Ereign.
+[Notifications]
+Benachrichtigung
+[New Mail]
+Neue E-Mail
+[Sound]
+Klanghinweis
+[Message]
+Nachricht
+[Keyboard Flash]
+Tastaturblinken
+[Tray Icon]
+Trayicon
+[Execute Application]
+Programm ausführen
+[Errors]
+Fehler
 [Sound notification if failed]
 Tonhinweis bei Fehlern
 [Message notification if failed]
@@ -74,22 +90,6 @@ Nachrichthinweis bei Fehlern
 Trayiconhinweis bei Fehlern
 [Reset counter]
 Zähler zurücksetzen
-[Default]
-Standard
-[Status:]
-Status:
-[Account]
-Konto
-[APOP]
-APOP
-[Name:]
-Name:
-[Options]
-Einstellungen
-[New Mail]
-Neue E-Mail
-[Errors]
-Fehler
 [Check while...]
 Prüfe, während
 [Cancel]

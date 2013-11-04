@@ -134,7 +134,7 @@ znaków
 Wyłącz pobieranie opisu przy statusie "Niewidoczny"
 [Skins]
 Skórki
-[Opacity(%):]
+[Opacity (%):]
 Krycie (%):
 [Transparency]
 Przeźroczystość

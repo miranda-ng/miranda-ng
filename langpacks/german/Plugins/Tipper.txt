@@ -134,7 +134,7 @@ Zeichen
 Im Unsichtbar-Status deaktivieren
 [Skins]
 Skins
-[Opacity(%):]
+[Opacity (%):]
 Deckkraft (%):
 [Transparency]
 Transparenz
