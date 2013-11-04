@@ -109,9 +109,9 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,152,168,10
     CONTROL         "Reset status on return",IDC_RESETSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,166,168,10
     CONTROL         "when screen saver engages",IDC_SCREENSAVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,55,152,10
-    LTEXT           "Set",IDC_STATIC,12,42,22,8
+    LTEXT           "Set",IDC_STATIC,11,41,27,8
     CONTROL         "after",IDC_SETNA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,116,32,8
-    LTEXT           "Set",IDC_STATIC,12,100,22,8
+    LTEXT           "Set",IDC_STATIC,11,100,27,8
     CONTROL         "only set when inactive",IDC_LV2ONINACTIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,129,151,10
     CONTROL         "when workstation is locked",IDC_ONLOCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,153,10
     COMBOBOX        IDC_PROTOCOL,177,9,100,138,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
