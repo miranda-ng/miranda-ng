@@ -6,79 +6,77 @@
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
-
+Wyłącza popupy i dźwięki na 10-300 sekund od startu Mirandy i włącza ponownie zawsze (według ustawień komputera)
 ;file \plugins\StartupSilence\res\StartupSilence.rc
 [Silence at Startup]
-
+Cisza przy starcie
 [Settings for the next Computer Name:]
-
+Ustawienia dla następnej nazwy komputera:
 [Enable silence at startup]
-
+Włącz ciszę przy starcie
 [spin1]
-
+spin1
 [for]
 przez
 [10-300 seconds (Default 20)]
-
+10-300 sekund (domyślnie 20
 [Show Popup notification]
-
+Pokaż powiadomienie popup
 [spin2]
-
+spin2
 [Popup time 1-30 seconds (Default 5)]
-
+Czas popupa 1-30 sekund (domyślnie 5)
 [Main Menu Item (plugin reload or Miranda restart required)]
-
+Opcja w menu głównym (wymagane przeładowanie wtyczki lub restart Mirandy)
 [TopToolBar button (Miranda restart required)]
-
+Przycisk TopToolbar (wymagany restart Mirandy)
 [Reset to default\r\n(for this computer)]
-
+dla tego komputera
 [You need to configure it once for each computer, where you run your Miranda NG.]
-
+Musisz skonfigurować raz dla każdego komputera, na którym uruchamiasz Mirandę.
 [No Apply button required.]
-
+Przycisk Zastosuj nie jest wymagany
 [After startup set:]
-
+Po starcie ustaw:
 [Filtered popups only (leave uncheck to no popups)]
-
+Tylko filtrowane popupy (pozostaw odznaczone, by nie były wyświetlane żadne popupy)
 [Enable sounds]
 Włącz dźwięki
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
-
+Pozwól na ustawiene dźwięków i filtrowanych popupów dopiero po starcie (odhacz dla wszystkich dźwięków i popupów)
 [Allow mRadio or Weather popups, etc...]
-
+Zezwól na popupy MRadio, pogody, itd.
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Zdarzenia
 ;file \plugins\StartupSilence\src\StartupSilence.h
 [Silence at startup]
-
+Cisza przy starcie
 [Toggle Silence OFF]
-
+Wyłącz ciszę
 [Toggle Silence ON]
-
+Włącz ciszę
 [Toggle Silence OFF TTB]
-
+Wyłącz ciszę TTB
 [Toggle Silence ON TTB]
-
+Włącz ciszę TTB
 [Sounds and popups are enabled]
-
+Dźwięki i popupy są włączone
 [Filtered mode On]
-
+Tryb filtrowania włączony
 [Sounds and popups are disabled temporarily]
-
+Dźwięki i popupy są tymczasowo wyłączone
 [Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc...]
-
+Zezwól na popupy MRadio, pogody itd.
 [Silent Startup mode changed to ON]
-
+Tryb cichego startu zmieniony na włączony
 [Silent Startup mode changed to OFF]
-
+Tryb cichego startu zmieniony na wyłączony
 [Silence At Startup is ON]
-
+Cisza przy starcie jest włączona
 [Silence At Startup is OFF]
-
+Cisza przy starcie jest wyłączona
 [Toggle Silence At Startup]
-
+Przełącz ciszę przy starcie
 [You have to install TopToolBar to use this option.]
-
-[You have to install "YAPP" or "Popup+" to use this option.]
-
+Musisz zainstalować TopToolbar, aby używać tej opcji.
