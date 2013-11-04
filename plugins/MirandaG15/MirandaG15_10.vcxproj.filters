@@ -25,6 +25,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Source Files\LCDframework">
+      <UniqueIdentifier>{00d79f18-bb9f-4b49-a3ac-0e053d0c958d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LCDframework">
+      <UniqueIdentifier>{e90eb6ae-328d-4e9f-9b67-7c3237f9789b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CAppletManager.cpp">
@@ -65,6 +71,51 @@
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDBar.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDBitmap.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDConnection.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDConnectionLogitech.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDGfx.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDInput.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDLabel.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDOutputManager.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDScreen.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDTextLog.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\CLCDTextObject.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\ConStream.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\debug.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\LCDObject.cpp">
+      <Filter>Source Files\LCDframework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LCDFramework\misc.cpp">
+      <Filter>Source Files\LCDframework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +175,63 @@
     </ClInclude>
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDBar.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDBitmap.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDConnection.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDConnectionLogitech.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDDevice.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDGfx.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDInput.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDLabel.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDList.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDObject.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDOutputManager.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDScreen.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDTextLog.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\CLCDTextObject.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\ConStream.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\debug.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\LCDFramework.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\misc.h">
+      <Filter>Header Files\LCDframework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LCDFramework\stdafx.h">
+      <Filter>Header Files\LCDframework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

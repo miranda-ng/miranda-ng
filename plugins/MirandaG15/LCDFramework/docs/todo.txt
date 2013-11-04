@@ -1,8 +1,0 @@
-wordwrapping rewrite mit gettextextentextpoint
-
-Icon
-
-Kommentare für CLCDInput und CLCDOutputManager
-
-kommentarsystem ändern
-Outputmanager ggf umbenennen?

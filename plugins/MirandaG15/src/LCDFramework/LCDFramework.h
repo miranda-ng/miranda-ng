@@ -5,7 +5,7 @@
 #include <setupapi.h>
 extern "C"
 {
-#include "../hid/hidsdi.h"
+#include "hid/hidsdi.h"
 }
 
 #ifdef _UNICODE

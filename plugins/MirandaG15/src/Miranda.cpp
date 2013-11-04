@@ -42,11 +42,11 @@
 #define LCD_FPS 10
 
 #ifdef _WIN64
-	#pragma comment(lib, "LCDFramework\\hid\\x64\\hid.lib")
-	#pragma comment(lib, "LCDFramework\\g15sdk\\lib\\x64\\lgLcd.lib")
+	#pragma comment(lib, "src\\LCDFramework\\hid\\x64\\hid.lib")
+	#pragma comment(lib, "src\\LCDFramework\\g15sdk\\lib\\x64\\lgLcd.lib")
 #else
-	#pragma comment(lib, "LCDFramework\\hid\\hid.lib")
-	#pragma comment(lib, "LCDFramework\\g15sdk\\lib\\x86\\lgLcd.lib")
+	#pragma comment(lib, "src\\LCDFramework\\hid\\hid.lib")
+	#pragma comment(lib, "src\\LCDFramework\\g15sdk\\lib\\x86\\lgLcd.lib")
 #endif
 
 //************************************************************************

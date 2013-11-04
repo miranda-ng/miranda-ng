@@ -3,7 +3,7 @@
 
 #include "CLCDDevice.h"
 #include "CLCDConnection.h"
-#include "../g15sdk/lglcd.h"
+#include "g15sdk/lglcd.h"
 
 #define G15_M1_LIGHT 0x01
 #define G15_M2_LIGHT 0x02

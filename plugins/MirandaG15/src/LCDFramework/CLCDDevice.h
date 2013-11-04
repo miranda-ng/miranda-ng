@@ -1,7 +1,7 @@
 #ifndef _CLCDDEVICE_H_
 #define _CLCDDEVICE_H_
 
-#include "../g15sdk/lglcd.h"
+#include "g15sdk/lglcd.h"
 
 class CLCDDevice {
 private:
