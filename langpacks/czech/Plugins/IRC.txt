@@ -258,7 +258,7 @@ Ignorovat žádosti o privátní diskusi
 Ignorovat žádosti o privátní diskusi od neznámých
 [Ignore users]
 Ignorování účastníků
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Žádosti od uživatelů ze seznamu kontaktů ignorovány nejsou
 [Queries]
 Soukr. zprávy
@@ -596,7 +596,7 @@ Vyberte jinou přezdívku
 Prosím zadejte nové heslo
 [Set new password]
 
-[Please enter desired languageID (numeric value, depends on server)]
+[Please enter desired language ID (numeric value, depends on server)]
 
 [Change language of NickServ messages]
 

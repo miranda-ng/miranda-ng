@@ -24,7 +24,7 @@
 [Animated Tray]
 [Message windows - IM]
 [Message windows - all]
-[Message windows - groupchats]
+[Message windows - group chats]
 [This version of TabSRMM requires Windows 2000 or later.]
 [Show skinnable tooltip in chat (tipper plugin required)]
 [Show client description in info panel]

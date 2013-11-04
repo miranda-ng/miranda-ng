@@ -1,5 +1,4 @@
 ﻿[VKontakte protocol support for Miranda NG.]
-[Login or phone number:]
 [Open VK site]
 [Captcha form icon]
 [VKontakte]

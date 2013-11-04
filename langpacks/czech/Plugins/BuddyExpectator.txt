@@ -31,7 +31,7 @@ nebo se objeví poprvé online
 [Enable "Miss you" feature]
 
 [Hide when no messages for]
-
+Skrýt pokud nepřijde zpráva během
 [Colors]
 Barvy
 [Background]
@@ -55,7 +55,7 @@ sek.
 [Preview]
 Náhled
 [Last seen online:]
-
+Naposledy spatřen:
 [Last input message:]
 
 [Custom absence period:]
@@ -63,7 +63,7 @@ Náhled
 [days]
 dnů
 [Never hide this contact]
-
+Nikdy neskrývat tento kontakt
 [Enable Miss You]
 
 [Notify always]
@@ -77,16 +77,16 @@ Zapnuto
 Vypnuto
 [Hide]
 Skrýt
-[NeverHide]
-
+[Never hide]
+Nikdy neskrývat
 [Hiding %s (%S)]
-
+Skrývání %s (%S)
 [%d days since last message]
-
+%d dní od poslední zprávy
 [Disable Miss You]
 
 [You awaited this contact!]
-
+Čekali jste na tento kontakt!
 [has gone online for the first time.]
 je poprvé online!
 [has returned after a long absence.]
@@ -131,7 +131,7 @@ Kontakty
 [Popups]
 Oznámení
 [not detected]
-
+nedekováno
 [not found]
 nenalezeno
 [This contact has been absent for an extended period of time.]

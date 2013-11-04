@@ -301,8 +301,8 @@ Server nedodal požadované informace.
 Položka, kterou si přejete smazat, nebyla v seznamu nalezena.
 [Failed to add buddy to list: Item already exist.]
 Nepodařilo se přidat přítele do seznamu: Položka již existuje.
-[Error adding buddy(invalid id?, already in list?)]
-Chyba při přidávání přítele (neplatný identifikátor? již je v seznamu?)
+[Error adding buddy (invalid ID or already in list?)]
+Chyba při přidávání přítele (neplatný identifikátor nebo je již v seznamu?)
 [Cannot add buddy. Limit for this type of item exceeded.]
 Nelze přidat přítele. Byl překročen limit pro tento typ položek.
 [Error? Attempting to add ICQ contact to an AIM list.]

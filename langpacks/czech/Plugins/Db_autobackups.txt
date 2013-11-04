@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.8
+;  Version: 0.0.0.9
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
@@ -37,35 +37,35 @@ Vypnout ukazatel průběhu
 [Disable Popups]
 Vypnout oznámení
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda Databases]
+[Miranda databases]
 Databáze Mirandy
 [All Files]
 Všechny soubory
-[Backup in Progress]
-Stav zálohování
+[Backup in progress]
+Probíhá zálohování
 [Rotating backup files...]
 Rotování zálohovaných souborů...
 [Copying database file...]
 Kopírování souborů s profilem...
-[Database backuped]
+[Database backed up]
 Databáze zálohována
 ;file \plugins\Db_autobackups\src\main.cpp
-[Backup Profile]
+[Backup profile]
 Zazálohovat profil
-[Save Profile As...]
+[Save profile as...]
 Uložit profil jako...
-[Database Backups]
+[Database backups]
 Zálohování databáze
-[Backup Folder]
+[Backup folder]
 Složka pro zálohování profilů
 [Database]
 Databáze
 ;file \plugins\Db_autobackups\src\options.cpp
-[path to root miranda folder]
+[path to Miranda root folder]
 cesta ke kořenové složce Mirandy
-[path to current miranda profile]
+[path to current Miranda profile]
 cesta k aktuálnímu profilu Mirandy
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%
@@ -87,9 +87,7 @@ Dnů
 hodin
 [Minutes]
 minut
-[Select Backup Folder]
-Vyberte složku pro zálohování profilů:
+[Select backup folder]
+Vyberte složku pro zálohování profilů
 [Error creating backup folder]
 Chyba při vytváření složky pro zálohování
-[Database AutoBackups]
-Záloha databáze

@@ -398,7 +398,7 @@ Povolit interní požadavky o text zprávy stavu
 Odsazení podkontaktů:
 [Remove status message if contact became offline]
 Odstranit stavovou zprávu při odpojení kontaktu
-[Use improved search method in contactlist]
+[Use improved search method in contact list]
 Použít vylepšené vyhledávání v seznamu kontaktů
 [Show time only if it is different from current time]
 Zobrazit čas pouze když se liší od místního

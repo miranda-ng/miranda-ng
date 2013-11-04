@@ -31,8 +31,8 @@ Vykreslit mřížku
 integer hodnota
 [Save Item]
 Uložit položku
-[ClientID]
-
+[Client ID]
+Identifikace klienta
 [Quick Search]
 Rychlé hledání
 [Quick search]

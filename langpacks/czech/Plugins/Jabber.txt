@@ -244,7 +244,7 @@ Nové heslo znovu:
 Diskusní skupina
 [Conference server:]
 Diskusní server:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Založit nebo se připojit do diskuse
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Diskusní skupina\nZaložit nebo se připojit do existující diskusní skupiny.
@@ -268,7 +268,7 @@ Identifikátor:
 Registrovat
 [Invite Users]
 Pozvat uživatele
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <room jid>\nOdeslat pozvánku k diskusi.
 [Other JID:]
 Ostatní JID:
@@ -278,9 +278,9 @@ Přidat
 Důvod pozvánky:
 [&Invite]
 &Pozvat
-[Groupchat Invitation]
+[Group chat invitation]
 Pozvánka k diskusi
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <room jid>\nPříchozí pozvánka k diskusi.
 [You are invited to conference room by]
 Pozvánka do diskusní místnosti od
@@ -390,8 +390,8 @@ Zřídit účet nyní
 Informace o Jabber účtu:
 [Member Information]
 Členské informace
-[Member Information\n<user id>]
-Členské informace\n<user id>
+[Member Information\n<user ID>]
+Členské informace\n<user ID>
 [Role:]
 Role:
 [Set role]
@@ -725,7 +725,7 @@ Zkopírovat &JID
 Zkopírovat JID z místnosti
 [Real &JID: %s]
 Skutečné &JID: %s
-[%s\nSend groupchat invitation.]
+[%s\nSend group chat invitation.]
 %s\nOdeslat pozvánku k diskusi.
 [%s (not on roster)]
 %s (není v seznamu)
@@ -1045,7 +1045,7 @@ E-mailová adresa
 
 [A list of pending file transfers]
 
-[A list of joined groupchat rooms]
+[A list of joined group chat rooms]
 
 [A presence or availability status]
 
@@ -1112,7 +1112,7 @@ E-mailová adresa
 Načítání...
 [Please wait for room list to download.]
 
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 
 [Bookmarks...]
 Záložky...
@@ -1120,7 +1120,7 @@ Záložky...
 
 [has set the subject to:]
 nastavil téma na:
-[%s\nIncoming groupchat invitation.]
+[%s\nIncoming group chat invitation.]
 %s\nPříchozí pozvánka k diskusi.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
@@ -1277,7 +1277,7 @@ Registrované služby
 Zjistit lokální služby
 [Browse Chatrooms]
 Procházet diskuse
-[Create/Join groupchat]
+[Create/Join group chat]
 Založit/připojit k diskusi
 [Roster editor]
 Seznamy na serveru
@@ -1919,8 +1919,8 @@ odchozí stavy
 
 [Else ]
 Jinak 
-[If jabber id is ']
-Pokud je jabber id '
+[If Jabber ID is ']
+Pokud je jabber ID '
 [ (nickname: ]
  (přezdívka: 
 [If group is ']
@@ -1952,7 +1952,7 @@ Editor...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 
-[Protocol is offline or no jid]
+[Protocol is offline or no JID]
 
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
@@ -1965,7 +1965,7 @@ Změnit stav
 Změnit nastavení
 [Forward unread messages]
 Přeposlat nepřečtené zprávy
-[Leave groupchats]
+[Leave group chats]
 
 [Lock workstation]
 Zamknout počítač
@@ -2019,9 +2019,9 @@ Chyba č.%d při zamykání počítače
 
 [Please confirm Miranda NG shutdown]
 Potvrďte prosím ukončení Mirandy
-[There is no groupchats to leave]
+[There is no group chats to leave]
 
-[Choose the groupchats you want to leave]
+[Choose the group chats you want to leave]
 
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]

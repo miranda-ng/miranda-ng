@@ -85,7 +85,7 @@ Stránka:
 [Email:]
 E-mail:
 [Unique ID:]
-Unikátní ID:
+Identifikátor:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
 Databáze je typu Secured MMAP

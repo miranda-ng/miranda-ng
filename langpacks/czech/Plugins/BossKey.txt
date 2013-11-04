@@ -5,8 +5,8 @@
 ;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-[Anti-Boss plugin.]
-Anti-šéf doplněk. Umožňuje přepnout Mirandu NG jedinou klávesou do předem nastaveného módu.
+[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
+Anti-šéf doplněk. Umožní skrýt nebo chránit heslem vaši Mirandu NG.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 BossKey

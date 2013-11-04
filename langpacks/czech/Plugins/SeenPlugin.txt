@@ -115,7 +115,7 @@ Oznámení
 %n je %s (%u)
 [%i(%r)%bWas %o]
 %i (%r) %b byl %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 Jméno:%t%N%bStav:%t%s%bDen:%t%d.%m.%Y%bČas:%t%H:%M:%S%bPředchozí stav:%t%o%b%b%P ID:%t%u%bExterní IP:%t%i%bInterní IP:%t%r%bKlient ID: %t%C%b%bZpráva stavu:%t%T
 [-- Date --]
 -- Datum --

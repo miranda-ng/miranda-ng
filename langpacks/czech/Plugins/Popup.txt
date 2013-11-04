@@ -126,11 +126,11 @@ Ikony vpravo
 Zobrazit akce: (vyžaduje tlačítko Použít)
 [Mouse Actions Overwrite]
 Vlastní nastavení myši
-[LeftButton]
+[Left Button]
 Levé tlačítko
-[MiddleButton]
-Střední tlačítko
-[RightButton]
+[Middle Button]
+Prostřední tlačítko
+[Right Button]
 Pravé tlačítko
 [Notifications]
 Upozornění

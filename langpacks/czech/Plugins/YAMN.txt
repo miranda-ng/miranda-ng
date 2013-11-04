@@ -22,50 +22,66 @@ Copyright:
 Kontakt:
 [WWW:]
 WWW:
+[Account]
+Účet
+[Name:]
+Název:
+[Server:]
+Server:
+[Port:]
+Port:
+[SSL]
+SSL
+[APOP]
+APOP
+[User Name:]
+Uživatelské jméno:
+[Password:]
+Heslo:
+[Codepage:]
+Kódování:
+[Default]
+Výchozí
+[Disable STLS]
+Vypnout STLS
+[Status:]
+Stav:
+[Options]
+Možnosti
 [Check this account]
 Aktivovat vybraný účet
+[Startup check]
+Vybrat při spuštění
 [Check interval [min]:]
 Interval vybírání pošty (min):
-[Notifications]
-Upozornění
-[Sound]
-
-[Message]
-Zpráva
-[Tray Icon]
-
-[Keyboard Flash]
-Blikání klávesnicí
-[Execute Application]
-
+[Only check when...]
+Vybírat pouze když...
+[Auto retrieve body]
+Stáhnout celý text
+[Check from menu]
+Vybrat poštu z menu
 [Use contact notification for this account]
 Použít nastavení z filtrování kontaktů
 [Replace nick name]
 Nahradit přezdívku
 [Disable Events]
 Vypnout události
-[Server:]
-Server:
-[User Name:]
-
-[Password:]
-Heslo:
-[Codepage:]
-
-[Port:]
-Port:
-[SSL]
-SSL
-[Disable STLS]
-Vypnout STLS
-[Startup check]
-Vybrat při spuštění
-[Auto retrieve body]
-Stáhnout celý text
-[Check from menu]
-Vybrat poštu z menu
-[Only check when...]
-Vybírat pouze když...
+[Notifications]
+Upozornění
+[New Mail]
+Nová pošta
+[Sound]
+Zvuk
+[Message]
+Zpráva
+[Keyboard Flash]
+Blikání klávesnicí
+[Tray Icon]
+Ikona v oznamovací oblasti
+[Execute Application]
+Spuštění aplikace
+[Errors]
+Chyby
 [Sound notification if failed]
 Upozornit zvukem
 [Message notification if failed]
@@ -74,22 +90,6 @@ Upozornit zprávou
 Zobrazit ikonu v oblasti oznámení
 [Reset counter]
 Vynulovat čítač
-[Default]
-Výchozí
-[Status:]
-Stav:
-[Account]
-Účet
-[APOP]
-
-[Name:]
-Název:
-[Options]
-Možnosti
-[New Mail]
-Nová pošta
-[Errors]
-Chyby
 [Check while...]
 Vybírat během...
 [Cancel]
@@ -168,9 +168,9 @@ Barva textu
 [Check &mail (All Account)]
 Vybrat &poštu ze všech účtů
 [Check &mail (This Account)]
-
+Vybrat &poštu z tohoto účtu
 [Launch application]
-
+Spustit aplikaci
 [YAMN]
 YAMN
 [YAMN Account Folder]

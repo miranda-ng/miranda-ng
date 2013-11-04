@@ -28,5 +28,5 @@
 [%d. %s today\0]
 [%d. %s tomorrow\0]
 [%d. %s in %d days\0]
-[The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
 [Flags (uinfoex)]

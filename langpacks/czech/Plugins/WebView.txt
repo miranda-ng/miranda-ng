@@ -193,7 +193,7 @@ Aktivovat automatickou aktualizaci
 Deaktivovat automatickou aktualizaci
 [Update all Webview sites]
 
-[Mark all Webview sites read]
+[Mark all Webview sites as read]
 
 [Open cache folder]
 

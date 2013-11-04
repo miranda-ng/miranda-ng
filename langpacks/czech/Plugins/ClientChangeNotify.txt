@@ -85,8 +85,8 @@ Oznámení
 Změna klienta
 [ClientChangeNotify]
 Změna klienta
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) změnil klienta na %extratext%
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) změnil klienta na %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Chyba č.%d

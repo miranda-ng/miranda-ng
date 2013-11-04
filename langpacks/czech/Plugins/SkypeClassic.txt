@@ -3,24 +3,24 @@
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype Protocol (Classic)
 ;  Version: 0.0.0.54
-;  Authors: leecher - tweety - jls17
+;  Authors: leecher, tweety, jls17
 ;============================================================
-[Skype protocol support for Miranda NG. Classic implemetation which requires running original Skype client.]
+[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
 Skype protokol pro Mirandu NG. Klasická implementace, která vyžaduje spuštěný originální Skype klient.
 ;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
 Nastavit
 [Delete]
 Smazat
-[Start Skype with Miranda IM if not running using the following command line options:]
+[Start Skype with Miranda NG if not running using the following command line options:]
 
 [/NOSPLASH - Don't show splash screen on startup]
 
 [/MINIMIZED - Start Skype minimized]
 /MINIMIZED - spustí program minimalizovaný
-[/NOTRAY - Skype tray icon becomes grey and is therefore "invisible"]
+[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
 /NOTRAY - ikona v oblasti oznámení zašedne (= prázdné místo)
-[/REMOVEABLE - For running portable skype]
+[/REMOVEABLE - For running portable Skype]
 /REMOVEABLE - pro Skype na přenosném disku
 [/SECONDARY - This is the second instance]
 
@@ -28,9 +28,9 @@ Smazat
 
 [Use custom Skype executable*]
 
-[* Relative path root is Miranda IM folder]
+[* Relative path root is Miranda NG folder]
 
-[Shutdown Skype when you close Miranda IM]
+[Shutdown Skype when you close Miranda NG]
 
 [Unload Skype when you change to Offline status]
 
@@ -66,7 +66,7 @@ Dialog
 Hostitel:
 [Port:]
 Port:
-[* You must restart Miranda IM in order to let the settings take effect]
+[* You must restart Miranda NG in order to let the settings take effect]
 
 [This Skype proxy requires password authentication:]
 
@@ -106,7 +106,7 @@ Za všech okolností zajistit při spuštění stav 'Online'
 Použít opravu časového pásma
 [Ignore time zones]
 
-[Show default skype avatar for contacts]
+[Show default Skype avatar for contacts]
 
 [Suppress call summary chat message]
 
@@ -153,7 +153,7 @@ Přidržet hovor
 Pokračovat v hovoru
 [&File]
 &Soubor
-[&Open groupchat]
+[&Open group chat]
 
 [Import Skype history]
 Importovat historii (Skype)
@@ -181,7 +181,7 @@ Zobrazit &historii
 Zavolat přes SkypeOut
 [invited ]
 
-[Phonecall]
+[Phone call]
 Hovor
 [Incoming Skype Call]
 Příchozí hovor ze Skype
@@ -189,7 +189,7 @@ Příchozí hovor ze Skype
 Příchozí hovor (%s)
 [Connection to Skype lost]
 
-[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later.]
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? (If you chose NO, you can always enable it in the plugin options later.]
 Chcete aktivovat podporu protokolu Skype pro vybraný profil v Mirandě?
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]

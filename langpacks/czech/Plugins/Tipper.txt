@@ -134,7 +134,7 @@ znaků
 Zakázat ve stavu Neviditelný
 [Skins]
 Skiny
-[Opacity(%):]
+[Opacity (%):]
 Průhlednost (%):
 [Transparency]
 Průhlednost

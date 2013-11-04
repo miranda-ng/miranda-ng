@@ -371,8 +371,6 @@ Nezadáte-li žádný text, heslo odstraníte.
 Dejte pozor na stav klávesy CAPS LOCK.
 [Password and Confirm fields should be similar]
 Text zadaný do pole Heslo a Potvrzení musí být stejný
-[Unknown id]
-
 [Outgoing file transfer: %s]
 Odchozí soubory: %s
 [Incoming file transfer: %s]

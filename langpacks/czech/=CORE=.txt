@@ -1718,7 +1718,7 @@ Zavře vybranou záložku (CTRL+F4)
 %s: rozhovor (účastníků: %u)
 [Nick name]
 Přezdívka
-[Unique id]
+[Unique ID]
 Identifikátor
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -2120,7 +2120,7 @@ Přejmenovat skupinu
 [This group]
 Tato skupina
 ;file \src\modules\clist\keyboard.cpp
-[Show Hide Contact List]
+[Show/Hide Contact List]
 Zobrazit nebo skrýt kontakty
 [Read Message]
 Přečíst zprávu
@@ -2486,7 +2486,7 @@ Doplněk ANSI
 Spuštěný doplněk
 [Unloaded plugin]
 Nespuštěný doplněk
-[ShowHide]
+[Show/Hide]
 Zobrazit nebo skrýt
 [Exit]
 Ukončit

@@ -50,7 +50,7 @@ Možnosti
 Potlačit oznámení stavu u podkontaktů
 [Context Menu]
 Kontextová nabídka
-[Use contact's unique id]
+[Use contact's unique ID]
 Použít identifikátor kontaktu
 [Use contact's display name]
 Použít zobrazené jméno
@@ -144,7 +144,7 @@ Ano
 Ne
 [Contact]
 Kontakt
-[Id]
+[ID]
 ID
 [Protocol]
 Protokol
@@ -219,15 +219,15 @@ Historie
 ;file \plugins\MetaContacts\src\meta_utils.cpp
 [Sender]
 Odesílatel
-[Could not get MetaContact id]
+[Could not get MetaContact ID]
 Nelze zjistit identifikátor metakontaktu
-[Assignment Error]
+[Assignment error]
 Chyba přiřazování
 [Could not retreive MetaContact contact count]
 Nelze zjistit počet kontaktů v metakontaktu
 [Could not retreive contact protocol]
 Nelze zjistit protokol kontaktu 
-[Could not get unique id of contact]
+[Could not get unique ID of contact]
 Nelze zjistit identifikátor kontaktu
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
 Kontakt není v seznamu - před přiřazením přidejte prosím kontakt do seznamu.
@@ -235,7 +235,7 @@ Kontakt není v seznamu - před přiřazením přidejte prosím kontakt do sezna
 Metakontakt je plný
 [Could not write contact protocol to MetaContact]
 Nelze zapsat protokol kontaktu do metakontaktu
-[Could not write unique id of contact to MetaContact]
+[Could not write unique ID of contact to MetaContact]
 Nelze zapsat identifikátor kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nelze zapsat přezdívku kontaktu do metakontaktu
@@ -249,7 +249,7 @@ Nelze zapsat přezdívku kontaktu do metakontaktu
 
 [MetaContact default contact number out of range - deleting MetaContact]
 
-[MetaId: ]
+[Meta ID: ]
 Meta ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Metakontakt je poškozen - počet podkontaktů nesouhlasí.\nMazání metakontaktu.

@@ -3,7 +3,6 @@
 [New column]
 [Set Item]
 [Don't Use Tool Window Style]
-[ClientID]
 [Quick search]
 [Quick Search:]
 [UID:]

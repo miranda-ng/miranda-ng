@@ -8,8 +8,8 @@
 [IM and group chat module for Miranda NG.]
 Komunikační modul pro rozhovory a chaty pro Mirandu NG.
 ;file \plugins\TabSRMM\res\chat.rc
-[You can add the user by user name or his id. Wildcards are allowed and recommended.]
-Můžete přidat uživatelské jméno nebo ID. Zástupné znaky jsou povoleny a doporučeny.
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
+Můžete přidat uživatelské jméno nebo identifikátor. Zástupné znaky jsou povoleny a doporučeny.
 [OK]
 OK
 [Cancel]
@@ -68,7 +68,7 @@ Ost. jména
 Časový údaj (záznam)
 [Maximum number of events in the message window]
 Maximální počet událostí v záznamu komunikačního okna
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Výška seznamu uživatelů skupinového rozhovoru (px)
 [Open log file base folder]
 Otevřít kořenovou složku záznamů
@@ -1522,7 +1522,7 @@ Funkce povolena (použito jako překrytí)
 
 [Message windows - all]
 
-[Message windows - groupchats]
+[Message windows - group chats]
 
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
@@ -2165,9 +2165,9 @@ Pozadí seznamu kontaktů
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
-[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-UID stávajícího kontaktu (pokud je definováno). To je jako UIN pro ICQ, JID pro Jabber atd.
-[path to root miranda folder]
+[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
+[path to Miranda root folder]
 cesta ke kořenové složce Mirandy
 [path to current miranda profile]
 cesta k aktuálnímu profilu Mirandy
@@ -2286,12 +2286,10 @@ Upravit seznam označených uživatelů...
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 Přezdívka
-[Unique Id]
-Inikátní Id
+[Unique ID]
+Identifikátor
 [Nick]
 Přezdívka
-[Unique id]
-Identifikátor
 [%s: Chat Room (%u user%s)]
 %s: místnost (účastníků: %u)
 [%s: Chat Room (%u users%s)]

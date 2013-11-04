@@ -29,7 +29,6 @@
 [Text file (*.txt)|*.txt]
 [All files (*.*)|*.*]
 [Remove bookmark]
-[Unknown id]
 [All except status]
 [Grid options]
 [Additional processing support]

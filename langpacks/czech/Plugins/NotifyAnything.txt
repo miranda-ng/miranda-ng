@@ -15,7 +15,7 @@ Zabezpečení
 [Only listen to localhost]
 
 [Sound]
-
+Zvuk
 [Play sounds]
 Přehrát zvuky
 [Use internal speaker]
@@ -50,7 +50,7 @@ Heslo:
 
 [No argument given to msg option.]
 
-[Id is required for replacement.]
+[ID is required for replacement.]
 
 [Invalid argument for replace option: ]
 

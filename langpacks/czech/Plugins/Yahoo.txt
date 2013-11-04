@@ -169,7 +169,7 @@ Nová pošta
 %s - spojení se serverem
 [ID]
 ID
-[Please enter your yahoo id in Options/Network/Yahoo]
+[Please enter your Yahoo ID in Options/Network/Yahoo]
 Zadejte prosím svůj identifikátor v nastavení protokolu.
 [Please enter your yahoo password in Options/Network/Yahoo]
 Zadejte prosím své heslo v nastavení protokolu.
@@ -206,9 +206,9 @@ Připomínka
 %s odmítl/odmítla žádost. Text zprávy:
 [Invalid Contact]
 Neplatný kontakt
-[The id you tried to add is invalid.]
+[The ID you tried to add is invalid.]
 Zadané ID je neplatné.
-[Unknown Error??.]
+[Unknown Error.]
 Neznámá chyba.
 [New Mail]
 Nová pošta

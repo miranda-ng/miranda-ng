@@ -126,6 +126,8 @@ Pravé tlačítko
 Zobrazit popis stavu
 [Ignore empty status and xStatus messages]
 Ignorovat prázdné stavové zprávy a rozšířené stavy
+[Connection timeout]
+Prodleva pro připojení
 [Notification]
 Oznámení
 [Disable for extra status 'Music']
