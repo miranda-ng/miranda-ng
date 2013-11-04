@@ -49,7 +49,7 @@
 
 [Process time, ms]
 
-[No Description]
+[No description]
 Няма описание
 [Signed value]
 
@@ -109,7 +109,7 @@
 
 [Result as integer]
 
-[Keep Last Result]
+[Keep last result]
 Запазване на последния резултат
 [Keep handle only]
 
@@ -117,7 +117,7 @@
 
 [C&ancel]
 Отказ
-[Structure Editor]
+[Structure editor]
 Редактор на структурата
 [Result as structure]
 
@@ -284,7 +284,7 @@ ANSI низ
 Unicode низ
 [current contact]
 текущ контакт
-[Choose Contact]
+[Choose contact]
 Изберете контакт
 [Miranda service help]
 
@@ -298,7 +298,7 @@ Unicode низ
 
 [The context menu for a contact is about to be built]
 
-[Double click on the CList]
+[Double click on the contact list]
 
 [New contact added to database]
 

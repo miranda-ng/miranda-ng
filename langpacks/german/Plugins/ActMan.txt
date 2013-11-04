@@ -49,7 +49,7 @@ In Nachricht einfügen
 Parameter
 [Process time, ms]
 Prozesszeit, ms
-[No Description]
+[No description]
 Keine Beschreibung
 [Signed value]
 Positive und negative Werte
@@ -109,7 +109,7 @@ Wiederholen, Abbrechen
 Nicht definiert
 [Result as integer]
 Ergebnis als Integer
-[Keep Last Result]
+[Keep last result]
 Letztes Ergebnis speichern
 [Keep handle only]
 Nur Handle speichern
@@ -117,7 +117,7 @@ Nur Handle speichern
 Variablen-Markierung
 [C&ancel]
 &Abbrechen
-[Structure Editor]
+[Structure editor]
 Struktureditor
 [Result as structure]
 Ergebnis als Struktur
@@ -284,7 +284,7 @@ ANSI-String
 Unicodestring
 [current contact]
 Aktueller Kontakt
-[Choose Contact]
+[Choose contact]
 Kontakt wählen
 [Miranda service help]
 Mirandadiensthilfe
@@ -298,7 +298,7 @@ Starten
 Aktionsgruppenliste wurde geändert: Etwas wurde hinzugefügt oder gelöscht
 [The context menu for a contact is about to be built]
 Das Kontextmenu für einen Kontakt wird gerade gebaut
-[Double click on the CList]
+[Double click on the contact list]
 Doppelklick auf die Kontaktliste
 [New contact added to database]
 Neuer Kontakt zur Datenbank hinzugefügt

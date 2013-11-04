@@ -46,7 +46,7 @@
 параметр
 [Process time, ms]
 Час процесу, мс
-[No Description]
+[No description]
 Немає опису
 [Signed value]
 Значення зі знаком
@@ -106,7 +106,7 @@
 не визначена
 [Result as integer]
 Результат як ціле
-[Keep Last Result]
+[Keep last result]
 Зберігати останній результат
 [Keep only handle]
 Зберігати handle, не відкриваючи вікна
@@ -114,7 +114,7 @@
 Змінні
 [C&ancel]
 С&касувати
-[Structure Editor]
+[Structure editor]
 Редактор структур
 [Result structure as]
 Як Результат структура
@@ -278,7 +278,7 @@
 рядок Unicode
 [current contact]
 поточний контакт
-[Choose Contact]
+[Choose contact]
 Вибрати контакт
 [Miranda service help]
 Допомога по сервісам
@@ -292,7 +292,7 @@
 Список груп подій змінився: є додані або видалені події
 [The context menu for a contact is about to be built]
 Побудова контекстного меню для контакту
-[Double click on the CList]
+[Double click on the contact list]
 Подвійний клік у КЛ
 [New contact added to database]
 Новий контакт додано до бази

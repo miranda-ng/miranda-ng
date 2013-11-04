@@ -45,7 +45,7 @@ lParam 类型
 参数
 [Process time, ms]
 处理时间, 毫秒
-[No Description]
+[No description]
 无说明
 [Signed value]
 符号值
@@ -101,7 +101,7 @@ lParam 类型
 未定义
 [Result as integer]
 整数结果
-[Keep Last Result]
+[Keep last result]
 保持最后结果
 [Keep handle only]
 仅保持处理
@@ -109,7 +109,7 @@ lParam 类型
 变量标记
 [C&ancel]
 取消(&A)
-[Structure Editor]
+[Structure editor]
 结构编辑器
 [Result as structure]
 结果为结构
@@ -182,7 +182,7 @@ ANSI 字符串
 Unicode 字符串
 [current contact]
 当前联系人
-[Choose Contact]
+[Choose contact]
 选择联系人
 [Return]
 返回

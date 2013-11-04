@@ -53,7 +53,7 @@
 
 [Process time, ms]
 
-[No Description]
+[No description]
 
 [Signed value]
 
@@ -111,7 +111,7 @@
 
 [Result as integer]
 
-[Keep Last Result]
+[Keep last result]
 
 [Keep handle only]
 
@@ -119,7 +119,7 @@
 
 [C&ancel]
 
-[Structure Editor]
+[Structure editor]
 
 [Result as structure]
 
@@ -284,7 +284,7 @@
 
 [current contact]
 
-[Choose Contact]
+[Choose contact]
 
 [Miranda service help]
 

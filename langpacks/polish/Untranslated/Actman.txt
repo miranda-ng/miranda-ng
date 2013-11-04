@@ -15,5 +15,5 @@
 [Start]
 [Action group list was changed: some was added or deleted]
 [The context menu for a contact is about to be built]
-[Double click on the CList]
+[Double click on the contact list]
 [New contact added to database]

@@ -49,7 +49,7 @@ lParam
 параметр
 [Process time, ms]
 Час працэсу, мсек
-[No Description]
+[No description]
 Няма апісання
 [Signed value]
 Значэнне са знакам
@@ -109,7 +109,7 @@ lParam
 не вызначана
 [Result as integer]
 Вынік як цэлае
-[Keep Last Result]
+[Keep last result]
 Захоўваць апошні вынік
 [Keep handle only]
 Захоўваць handle, не адкрываючы вокны
@@ -117,7 +117,7 @@ lParam
 Зменныя
 [C&ancel]
 Скасаваць
-[Structure Editor]
+[Structure editor]
 Рэдактар структур
 [Result as structure]
 Вынік як структура
@@ -284,7 +284,7 @@ lParam
 радок Unicode
 [current contact]
 бягучы кантакт
-[Choose Contact]
+[Choose contact]
 Абраць кантакт
 [Miranda service help]
 Дапамога па сэрвісам
@@ -298,7 +298,7 @@ lParam
 Спіс гуртоў дзеянняў змяніўся: некаторыя былі дададзены ці прыбраныя
 [The context menu for a contact is about to be built]
 Пабудова кантэкстнага меню для кантакту
-[Double click on the CList]
+[Double click on the contact list]
 Падвойная пстрычка па спісу кантактаў
 [New contact added to database]
 Новы кантакт дададзены ў базу
