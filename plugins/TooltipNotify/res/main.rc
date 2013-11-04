@@ -102,8 +102,8 @@ BEGIN
                     UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
                     UDS_ARROWKEYS | UDS_NOTHOUSANDS,280,86,11,14
     LTEXT           "sec",IDC_STATIC,290,93,12,10
-    CONTROL         "Prefix proto name",IDC_PREFIX_PROTO,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,15,163,70,11
+    CONTROL         "Prefix protocol name",IDC_PREFIX_PROTO,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,163,85,11
     GROUPBOX        "Duration",IDC_GB_DURATION,5,43,304,30
     LTEXT           "Show tooltip for",IDC_STATIC,15,55,51,10
     EDITTEXT        IDC_DURATION,69,53,36,12,ES_RIGHT | ES_NUMBER
