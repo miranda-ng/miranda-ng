@@ -370,8 +370,8 @@ static int IcqFilesModulesLoaded(WPARAM wParam,LPARAM lParam)
 	UNREFERENCED_PARAMETER(lParam);
 	strcat(strcpy(szService,gpszICQProtoName),"OpenFile");
 	/* .icq files are not used, just by the ProtoLink plugin */
-    //AssocMgr_AddNewFileTypeT(".icq","application/x-icq",TranslateT("ICQ Link Shortcut"),TranslateT("&Add to Contact List..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT|FTDF_DEFAULTDISABLED);
-    AssocMgr_AddNewFileTypeT(".uin","application/x-icq",TranslateT("ICQ Link Shortcut"),TranslateT("&Add to Contact List..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT);
+    //AssocMgr_AddNewFileTypeT(".icq","application/x-icq",TranslateT("ICQ Link Shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT|FTDF_DEFAULTDISABLED);
+    AssocMgr_AddNewFileTypeT(".uin","application/x-icq",TranslateT("ICQ Link Shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT);
     return 0;
 }
 

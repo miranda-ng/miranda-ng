@@ -739,12 +739,12 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				lvg.cbSize = sizeof(lvg);
 				lvg.mask = LVGF_HEADER|LVGF_GROUPID;
 				lvg.iGroupId = 2;
-				lvg.pszHeader = TranslateT("URLs on Websites");
+				lvg.pszHeader = TranslateT("URLs on websites");
 				lvi.iItem = ListView_InsertItem(hwndList, &lvi);
 				if(lvi.iItem!= -1) {
 					ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
 					lvg.iGroupId = 1;
-					lvg.pszHeader = TranslateT("File Types");
+					lvg.pszHeader = TranslateT("File types");
 					iItem = lvi.iItem = ListView_InsertItem(hwndList, &lvi);
 					if(lvi.iItem!= -1)
 						ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
@@ -914,7 +914,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 								if(fEnabled?!EnsureAssocRegistered(assoc):!UnregisterAssoc(assoc)) {
 									char *pszErr;
 									pszErr = GetWinErrorDescription(GetLastError());
-									ShowInfoMessage(NIIF_ERROR, Translate("File Association Error"), Translate("There was an error writing to the registry to modify the file/url associations.\nReason: %s"), (pszErr!= NULL)?pszErr:Translate("Unknown"));
+									ShowInfoMessage(NIIF_ERROR, Translate("File association error"), Translate("There was an error writing to the registry to modify the file/url associations.\nReason: %s"), (pszErr!= NULL)?pszErr:Translate("Unknown"));
 									mir_free(pszErr); /* does NULL check */
 									fRegFailed = TRUE; /* just show one time */
 								}
@@ -933,7 +933,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 									if(fEnabled?!AddRegRunEntry(_T("MirandaNG"), pszRunCmd):!RemoveRegRunEntry(_T("MirandaNG"), pszRunCmd)) {
 										char *pszErr;
 										pszErr = GetWinErrorDescription(GetLastError());
-										ShowInfoMessage(NIIF_ERROR, Translate("Autostart Error"), Translate("There was an error writing to the registry to modify the autostart list.\n\nReason: %s"), (pszErr!= NULL)?pszErr:Translate("Unknown"));
+										ShowInfoMessage(NIIF_ERROR, Translate("Autostart error"), Translate("There was an error writing to the registry to modify the autostart list.\n\nReason: %s"), (pszErr!= NULL)?pszErr:Translate("Unknown"));
 										mir_free(pszErr); /* does NULL check */
 										fRegFailed = TRUE; /* just show one time */
 									}
@@ -1018,7 +1018,7 @@ void InitAssocList(void)
 		ftd.cbSize = sizeof(FILETYPEDESC);
 		ftd.pszFileExt = ".dat";
 		ftd.pszMimeType = NULL;
-		ftd.ptszDescription = TranslateT("Miranda NG Database");
+		ftd.ptszDescription = TranslateT("Miranda NG database");
 		ftd.hInstance = hInst;
 		ftd.nIconResID = IDI_MIRANDAFILE;
 		ftd.ptszVerbDesc = NULL;

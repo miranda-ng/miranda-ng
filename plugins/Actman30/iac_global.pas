@@ -12,7 +12,7 @@ var
 const
   IcoLibPrefix = 'action_type_';
 const
-  NoDescription:PWideChar='No Description';
+  NoDescription:PWideChar='No description';
 const
   protostr = '<proto>';
 const

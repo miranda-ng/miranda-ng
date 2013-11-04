@@ -444,7 +444,7 @@ begin
         StrCopy(p,opt_id   ); id   :=DBReadDWord  (0,DBBranch,section);
         StrCopy(p,opt_descr); descr:=DBReadUnicode(0,DBBranch,section,nil);
         if descr=nil then
-          StrDupW(descr,TranslateW('No Description'));
+          StrDupW(descr,TranslateW('No description'));
 
         StrCopy(p,opt_numacts); num:=DBReadWord(0,DBBranch,section);
         p^:=#0;

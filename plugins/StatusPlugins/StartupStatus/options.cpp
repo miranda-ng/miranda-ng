@@ -904,7 +904,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.pfnDlgProc = StartupStatusOptDlgProc;
 	Options_AddPage(wparam,&odp);
 
-	odp.pszTab = LPGEN("Status Profiles");
+	odp.pszTab = LPGEN("Status profiles");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUSPROFILES);
 	odp.pfnDlgProc = StatusProfilesOptDlgProc;
 	Options_AddPage(wparam,&odp);

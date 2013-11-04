@@ -34,7 +34,7 @@ static __inline LONG regchk(LONG res, const char *pszFunc, const void *pszInfo, 
 		pszErr = GetWinErrorDescription(res);
 		pszInfo2 = s2t(pszInfo, fInfoUnicode, FALSE);  /* does NULL check */
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)"), pszFunc, pszInfo2, pszFile, nLine, pszErr, res);
-		MessageBox(NULL, szMsg, TranslateT("Registry Warning"), MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL);
+		MessageBox(NULL, szMsg, TranslateT("Registry warning"), MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL);
 		if (pszErr != NULL) LocalFree(pszErr);
 		mir_free(pszInfo2);  /* does NULL check */
 	}

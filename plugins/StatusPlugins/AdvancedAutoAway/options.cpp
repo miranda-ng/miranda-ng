@@ -462,7 +462,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 			TabCtrl_InsertItem(hTab, tabCount++, &tci);
 			// messages tab
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
-			tci.pszText = TranslateT("Status Messages");
+			tci.pszText = TranslateT("Status messages");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_AUTOAWAYMSG), hwndDlg, DlgProcAutoAwayMsgOpts, (LPARAM)GetParent(hwndDlg));
 			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 

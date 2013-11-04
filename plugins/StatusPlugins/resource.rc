@@ -58,7 +58,7 @@ BEGIN
     CONTROL         "Check connection",IDC_CHECKCONNECTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,51,162,10
     EDITTEXT        IDC_MAXRETRIES,21,70,22,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Max. retries",IDC_STATIC,47,73,129,14
-    GROUPBOX        "Account Connection",IDC_STATIC,3,32,286,116
+    GROUPBOX        "Account connection",IDC_STATIC,3,32,286,116
     EDITTEXT        IDC_INITDELAY,21,92,22,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Delay between retries (secs)",IDC_STATIC,47,95,130,17
     CONTROL         "Show popups",IDC_SHOWCONNECTIONPOPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,12,269,10
@@ -77,7 +77,7 @@ END
 IDD_CONFIRMDIALOG DIALOGEX 0, 0, 257, 121
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Confirm Status"
+CAPTION "Confirm status"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Close",IDC_CLOSE,7,100,59,14
@@ -120,14 +120,14 @@ END
 IDD_CMDLOPTIONS DIALOGEX 0, 0, 315, 82
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Command Line"
+CAPTION "Command line"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDC_OK,257,61,51,14
-    PUSHBUTTON      "Copy to Clipboard",IDC_COPY,132,61,120,14
+    PUSHBUTTON      "Copy to clipboard",IDC_COPY,132,61,120,14
     EDITTEXT        IDC_CMDL,7,19,301,35,ES_MULTILINE | ES_READONLY
-    LTEXT           "Command Line:",IDC_STATIC,7,7,301,8
-    PUSHBUTTON      "Create Shortcut",IDC_SHORTCUT,7,61,120,14
+    LTEXT           "Command line:",IDC_STATIC,7,7,301,8
+    PUSHBUTTON      "Create shortcut",IDC_SHORTCUT,7,61,120,14
 END
 
 IDD_ADDPROFILE DIALOGEX 0, 0, 131, 60
@@ -173,7 +173,7 @@ BEGIN
     CTEXT           "x",IDC_STATIC,245,135,8,8
     COMBOBOX        IDC_PROFILE,105,19,78,92,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Allow override",IDC_OVERRIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,53,76,10
-    LTEXT           "Note: status profiles can be created in the 'Status Profiles' options screen",IDC_STATIC,105,37,77,34
+    LTEXT           "Note: status profiles can be created in the 'Status profiles' options screen",IDC_STATIC,105,37,77,34
     LTEXT           "",IDC_CURWINLOC,209,110,80,8
     LTEXT           "",IDC_CURWINSIZE,209,150,80,8
     GROUPBOX        "Window on startup",IDC_STATIC,194,7,104,155
@@ -241,7 +241,7 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON,20,20,220,10
     CONTROL         "Use same settings for all accounts",IDC_SAMESETTINGS,
                     "Button",BS_AUTORADIOBUTTON,20,31,220,10
-    CONTROL         "Ignore caps-lock, num-lock and scroll-lock keys",IDC_IGNLOCK,
+    CONTROL         "Ignore Caps Lock, Num Lock and Scroll Lock keys",IDC_IGNLOCK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,44,220,10
     LTEXT           "Check interval (secs)",IDC_STATIC,21,125,133,8
     EDITTEXT        IDC_AWAYCHECKTIMEINSECS,159,122,22,14,ES_AUTOHSCROLL
@@ -295,7 +295,7 @@ BEGIN
     COMBOBOX        IDC_PROFILE,16,27,133,106,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Create a main menu item",IDC_CREATEMMI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,37,135,10
     EDITTEXT        IDC_STATUSMSG,16,174,273,46,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-    GROUPBOX        "Status Profiles",IDC_STATIC,7,7,291,220
+    GROUPBOX        "Status profiles",IDC_STATIC,7,7,291,220
     CONTROL         "Use Miranda's message setting",IDC_MIRANDAMSG,"Button",BS_AUTORADIOBUTTON,16,150,195,10
     CONTROL         "Use this message:",IDC_CUSTOMMSG,"Button",BS_AUTORADIOBUTTON,16,161,192,10
     CONTROL         "HotKey1",IDC_HOTKEY,"msctls_hotkey32",WS_BORDER | WS_TABSTOP,105,63,111,14

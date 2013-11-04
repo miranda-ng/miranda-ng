@@ -102,7 +102,7 @@ INT_PTR CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			theDialogIdleMessages = CreateDialog(GetModuleHandle(NULL),MAKEINTRESOURCE(IDD_OPT_SAA_IDLEMESSAGES), hwndDlg, DlgProcOptsIdleMessages);
 #endif
 			tci.lParam = (LPARAM)theDialogIdleMessages;
-			tci.pszText = TranslateT("Status Messages");
+			tci.pszText = TranslateT("Status messages");
 			GetClientRect(theDialogIdleMessages,&rcClient);
 			SendMessage(GetDlgItem(hwndDlg, IDC_OPT_SAA_TAB), TCM_INSERTITEM, (WPARAM)2, (LPARAM)&tci);
 			MoveWindow((HWND)theDialogIdleMessages,theTabSpace.left+(theTabSpace.right-rcClient.right)/2,

@@ -23,7 +23,7 @@ static const int ID_TTNTF_STATUS_NOT_IDLE = ID_STATUS_INVISIBLE+12;
 #define FONTSERV_GROUP   LPGENT("Tooltip Notify")
 #define FONTSERV_ONLINE  LPGENT("Online")
 #define FONTSERV_OFFLINE LPGENT("Offline")
-#define FONTSERV_OTHER   LPGENT("Other Status")
+#define FONTSERV_OTHER   LPGENT("Other status")
 #define FONTSERV_TYPING  LPGENT("Typing")
 #define FONTSERV_IDLE    LPGENT("Idle")
 

@@ -102,7 +102,7 @@ BEGIN
     CONTROL         "Do not change status message",IDC_ROPTPROTO2,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,26,43,128,8
     CONTROL         "Always set the same message",IDC_ROPTPROTO3,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,155,31,144,8
     CONTROL         "Do not set status message",IDC_ROPTPROTO4,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,155,43,144,8
-    GROUPBOX        "Status Messages",IDC_STATIC,4,62,300,148,WS_GROUP
+    GROUPBOX        "Status messages",IDC_STATIC,4,62,300,148,WS_GROUP
     COMBOBOX        IDC_CBOPTSTATUS,35,73,240,97,CBS_DROPDOWNLIST | WS_TABSTOP
     PUSHBUTTON      "Apply to all",IDC_BOPTSTATUS,215,90,60,13
     CONTROL         "Pop up dialog asking for new message",IDC_COPTMSG1,

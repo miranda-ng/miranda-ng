@@ -1687,7 +1687,7 @@ int InitOptions(WPARAM wParam, LPARAM lParam)
 
 	odp.position = 870000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
-	odp.pszTitle = LPGEN("Status Messages");
+	odp.pszTitle = LPGEN("Status messages");
 	odp.pszGroup = LPGEN("Status");
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = DlgOptionsProc;
