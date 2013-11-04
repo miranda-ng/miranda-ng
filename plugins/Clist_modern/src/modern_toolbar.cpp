@@ -109,7 +109,7 @@ struct
 	WORD     mtb_backgroundBmpUse;
 	BOOL     mtb_useWinColors; 
 }
-static tbdat = { 0 };
+static tbdat = { NULL, CLCDEFAULT_BKCOLOUR, CLCDEFAULT_BKBMPUSE, CLCDEFAULT_USEWINDOWSCOLOURS };
 
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
 
@@ -130,28 +130,6 @@ static int ehhToolBarSettingsChanged(WPARAM wParam, LPARAM lParam)
 			SetButtonPressed(7, cws->value.bVal);
 	}
 	
-	return 0;
-}
-
-static int ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
-{
-	if ( tbdat.mtb_hBmpBackground) {
-		DeleteObject(tbdat.mtb_hBmpBackground);
-		tbdat.mtb_hBmpBackground = NULL;
-	}
-	if (g_CluiData.fDisableSkinEngine) {
-		DBVARIANT dbv;
-		tbdat.mtb_bkColour = sttGetColor("ToolBar","BkColour",CLCDEFAULT_BKCOLOUR);
-		if ( db_get_b(NULL,"ToolBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if ( !db_get_s(NULL, "ToolBar", "BkBitmap", &dbv, DBVT_TCHAR)) {
-				tbdat.mtb_hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.ptszVal);
-				db_free(&dbv);
-			}
-		}
-		tbdat.mtb_useWinColors = db_get_b(NULL, "ToolBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		tbdat.mtb_backgroundBmpUse = db_get_b(NULL, "ToolBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
-	}
-	PostMessage(pcli->hwndContactList,WM_SIZE, 0, 0);
 	return 0;
 }
 
@@ -328,7 +306,6 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)"ToolBar Background/ToolBar",0);
 	
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhToolBarBackgroundSettingsChanged);
 
 	TopToolbar_SetCustomProc(CustomizeButton, 0);
 
@@ -359,8 +336,6 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 
 HRESULT ToolbarLoadModule()
 {
-	ehhToolBarBackgroundSettingsChanged(0, 0);
-
 	HookEvent(ME_SYSTEM_MODULELOAD, Toolbar_ModuleReloaded);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Toolbar_ModulesLoaded);
 	return S_OK;
