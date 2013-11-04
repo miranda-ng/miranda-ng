@@ -18,7 +18,7 @@
 [Contact ID:]
 ID контакта:
 [Custom name:]
-Custom name:
+Заданное имя:
 [Group:]
 Группа:
 [Options]
