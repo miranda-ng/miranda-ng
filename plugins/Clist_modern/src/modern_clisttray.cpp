@@ -120,28 +120,6 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam)
 	return curstatus?curstatus:ID_STATUS_OFFLINE;
 }
 
-int GetAverageMode()
-{
-	int count,netProtoCount,i;
-	int averageMode = 0;
-	PROTOACCOUNT **accs;
-	ProtoEnumAccounts( &count, &accs );
-	for (i=0, netProtoCount = 0;i < count;i++) {
-		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0)
-			continue;
-
-		pcli->cycleStep = i;
-		netProtoCount++;
-		if (averageMode == 0)
-			averageMode = CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0);
-		else if (averageMode != CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0)) {
-			averageMode = -1;
-			break;
-		}
-	}
-	return averageMode;
-}
-
 ////////////////////////////////////////////////////////////
 ///// Need to refresh trays icon  after timely changing/////
 ////////////////////////////////////////////////////////////
@@ -257,7 +235,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 						return pcli->pfnTrayIconSetBaseInfo(hIcon,szChangedProto);
 				}
 				else if (pcli->pfnGetProtocolVisibility(szChangedProto)) {
-					int avg = GetAverageMode();
+					int avg = pcli->pfnGetAverageMode(NULL);
 					int i = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szChangedProto,CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0)),szChangedProto);
 					if (i < 0) {
 						pcli->pfnTrayIconDestroy(hwnd);

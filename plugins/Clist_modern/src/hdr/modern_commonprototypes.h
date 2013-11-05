@@ -216,7 +216,6 @@ int     __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szStatus, 
 int     BgStatusBarChange(WPARAM wParam,LPARAM lParam);                              //clcopts.c
 int     ClcDoProtoAck(HANDLE wParam,ACKDATA * ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
-int     GetAverageMode( void );                                                   //clisttray.c
 int     GetContactCachedStatus(HANDLE hContact);                                 //clistsettings.c
 int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c
 int     GetContactIndex(ClcGroup *group,ClcContact *contact);               //clcidents.c

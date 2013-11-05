@@ -477,6 +477,8 @@ typedef struct
 	 *************************************************************************************/
 	int    (*pfnGetContactIcon)(HANDLE hContact);
 	int    (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
+	int    (*pfnGetAverageMode)(int *pNetProtoCount);
+
 }
 	CLIST_INTERFACE;
 

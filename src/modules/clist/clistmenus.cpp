@@ -153,7 +153,7 @@ void FreeMenuProtos(void)
 
 //////////////////////////////////////////////////////////////////////////
 
-int GetAverageMode(int* pNetProtoCount = NULL)
+int fnGetAverageMode(int *pNetProtoCount)
 {
 	int netProtoCount = 0;
 	int averageMode = 0;
@@ -501,7 +501,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		}
 	}
 	else if (smep && smep->status && !smep->custom) {
-		int curProtoStatus = (smep->proto) ? CallProtoServiceInt(NULL,smep->proto, PS_GETSTATUS, 0, 0) : GetAverageMode();
+		int curProtoStatus = (smep->proto) ? CallProtoServiceInt(NULL,smep->proto, PS_GETSTATUS, 0, 0) : cli.pfnGetAverageMode(NULL);
 		if (smep->status == curProtoStatus)
 			timi->mi.flags |= CMIF_CHECKED;
 		else
@@ -1064,7 +1064,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	if (hStatusMainMenuHandles == NULL) return 0;
 	if (cli.pfnGetProtocolVisibility(ack->szModule) == 0) return 0;
 
-	int overallStatus = GetAverageMode();
+	int overallStatus = cli.pfnGetAverageMode(NULL);
 
 	TMO_MenuItem tmi = { sizeof(tmi) };
 	if (overallStatus >= ID_STATUS_OFFLINE) {

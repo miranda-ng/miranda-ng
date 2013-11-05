@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HIMAGELIST hCListImages;
 
-int GetAverageMode(int* pNetProtoCount = NULL);
-
 static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
 static BOOL mToolTipTrayTips = FALSE;
@@ -235,7 +233,7 @@ int fnTrayIconInit(HWND hwnd)
 	mir_cslock lck(trayLockCS);
 
 	int netProtoCount = 0;
-	int averageMode = GetAverageMode(&netProtoCount);
+	int averageMode = cli.pfnGetAverageMode(&netProtoCount);
 	mToolTipTrayTips = ServiceExists("mToolTip/ShowTip") != 0;
 
 	if (cli.cycleTimerId) {
@@ -420,7 +418,7 @@ LBL_Error:
 			return i;
 		}
 		if ((cli.pfnGetProtocolVisibility(szPreferredProto)) &&
-			 (GetAverageMode() == -1) &&
+			 (cli.pfnGetAverageMode(NULL) == -1) &&
 			 (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
 			 !(db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;
@@ -475,7 +473,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 
 	int netProtoCount;
 	mir_cslock lck(trayLockCS);
-	int averageMode = GetAverageMode(&netProtoCount);
+	int averageMode = cli.pfnGetAverageMode(&netProtoCount);
 
 	if (cli.cycleTimerId) {
 		KillTimer(NULL, cli.cycleTimerId);

@@ -110,6 +110,7 @@ void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 HGENMENU fnGetProtocolMenu(const char*);
 int      fnGetProtocolVisibility(const char* accName);
 int      fnConvertMenu(CLISTMENUITEM*, TMO_MenuItem*);
+int      fnGetAverageMode(int *pNetProtoCount);
 
 int      fnGetAccountIndexByPos(int Pos);
 int      fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
