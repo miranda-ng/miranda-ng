@@ -159,8 +159,8 @@ int fnGetAverageMode(int *pNetProtoCount)
 	int averageMode = 0;
 
 	for (int i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT* pa = accounts[i];
-		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0)
+		PROTOACCOUNT *pa = accounts[i];
+		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0 || Proto_IsAccountLocked(pa))
 			continue;
 
 		netProtoCount++;
@@ -562,16 +562,16 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				PMO_IntMenuItem pimi;
 				char *prot = smep->proto;
 				char szHumanName[64] = {0};
-				PROTOACCOUNT * acc = Proto_GetAccount(smep->proto);
-				int i = (db_get_b(NULL, prot, "LockMainStatus", 0)?0:1);
-				db_set_b(NULL, prot, "LockMainStatus", (BYTE)i);
+				PROTOACCOUNT *acc = Proto_GetAccount(smep->proto);
+				bool bIsLocked = !Proto_IsAccountLocked(acc);
+				db_set_b(NULL, prot, "LockMainStatus", bIsLocked);
 
 				CallProtoServiceInt(NULL,smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
 				pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
 				PMO_IntMenuItem root = (PMO_IntMenuItem)pimi->mi.root;
 				mir_free(pimi->mi.pszName);
 				mir_free(root->mi.pszName);
-				if (i) {
+				if (bIsLocked) {
 					TCHAR buf[256];
 					pimi->mi.flags |= CMIF_CHECKED;
 					if (cli.bDisplayLocked) {
