@@ -26,13 +26,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "global.h"
 
+#include <list>
+void TfrmMain::Unload(){
+	std::list<TfrmMain*> lst;
+	for(CHandleMapping::iterator iter=_HandleMapping.begin(); iter!=_HandleMapping.end(); ++iter){
+		lst.push_back(iter->second);//we can't delete inside loop.. not MT compatible
+	}
+	while(!lst.empty()){
+		DestroyWindow(lst.front()->m_hWnd);//deletes class
+		lst.pop_front();
+	}
+}
+
 //---------------------------------------------------------------------------
 INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 // main message handling is done inside TfrmMain::DlgTfrmMain
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), IcoLib_GetIcon(ICO_PLUG_SSTARGET));
-		SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&&Drop the target on the desired window."));
+		SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&Drop the target on the desired window."));
 		TranslateDialogDefault(hDlg);
 		break;
 	case WM_CTLCOLOREDIT:		//ctrl is NOT read-only or disabled 

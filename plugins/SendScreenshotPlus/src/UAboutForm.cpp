@@ -7,7 +7,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 SÃ©rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,6 +25,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "global.h"
+
+#include <list>
+void TfrmAbout::Unload(){
+	std::list<TfrmAbout*> lst;
+	for(CHandleMapping::iterator iter=_HandleMapping.begin(); iter!=_HandleMapping.end(); ++iter){
+		lst.push_back(iter->second);//we can't delete inside loop.. not MT compatible
+	}
+	while(!lst.empty()){
+		DestroyWindow(lst.front()->m_hWnd);//deletes class
+		lst.pop_front();
+	}
+}
 
 //---------------------------------------------------------------------------
 TfrmAbout::CHandleMapping TfrmAbout::_HandleMapping;

@@ -66,7 +66,7 @@ HANDLE hFolderScreenshot=0;
 */
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst = hinstDLL;
+	hInst=hinstDLL;
 	return TRUE;
 }
 
@@ -85,7 +85,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 * Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
 */
-extern "C" int __declspec(dllexport) Load(void)
+HANDLE g_hookModulesLoaded=0;
+HANDLE g_hookSystemPreShutdown=0;
+extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
@@ -98,8 +100,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	// load icon library (use UserInfoEx icon Pack)
 	IcoLib_LoadModule();
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPShutdown);
+	g_hookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
+	g_hookSystemPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
 
 	AddMenuItems();
 	RegisterServices();
@@ -133,13 +135,19 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 * Called by Miranda when it will exit or when the plugin gets deselected
 */
 
-extern "C" int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
+	UnRegisterServices();
+	if(g_hookModulesLoaded) UnhookEvent(g_hookModulesLoaded),g_hookModulesLoaded=0;
+	if(g_hookSystemPreShutdown) UnhookEvent(g_hookSystemPreShutdown),g_hookSystemPreShutdown=0;
 	return 0;
 }
 
-int hook_SystemPShutdown(WPARAM wParam, LPARAM lParam)
+int hook_SystemPreShutdown(WPARAM wParam, LPARAM lParam)
 {
+	TfrmAbout::Unload();//crashes if done from "Unload" because of dependencies
+	TfrmMain::Unload();// "
+	
 	// Netlib unregister
 	NetlibClose();
 	
@@ -283,21 +291,21 @@ void AddMenuItems(void)
 	// Add item to contact menu
 	mi.position		= 1000001;
 	mi.ptszName		= LPGENT("Send desktop screenshot");
-	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
+//	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_SENDDESKTOP;
 	Menu_AddContactMenuItem(&mi);
 
 	// Add item to main menu
 	mi.position		= 1000001;
 	mi.ptszName		= LPGENT("Take a screenshot");
-	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
+//	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_OPENDIALOG;
 	Menu_AddMainMenuItem(&mi);
 }
 
 //---------------------------------------------------------------------------
 // Register Send screenshot services
-int RegisterServices(void) {
+int RegisterServices(){
 	hsvc_SendScreenshot = CreateServiceFunction(MS_SENDSS_OPENDIALOG, service_OpenCaptureDialog);
 	if (!hsvc_SendScreenshot)
 		MessageBoxEx(NULL, TranslateT("Could not register miranda service."), _T("MS_SENDSS_OPENDIALOG"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
@@ -314,6 +322,15 @@ int RegisterServices(void) {
 	if (!hsvc_Send2ImageShack)
 		MessageBoxEx(NULL, TranslateT("Could not register miranda service."), _T("MS_SENDSS_SEND2IMAGESHACK"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 
+	return 0;
+}
+//---------------------------------------------------------------------------
+// UnRegister Send screenshot services
+int UnRegisterServices(){
+	if(hsvc_SendScreenshot) DestroyServiceFunction(hsvc_SendScreenshot),hsvc_SendScreenshot=0;
+	if(hsvc_SendDesktop) DestroyServiceFunction(hsvc_SendDesktop),hsvc_SendDesktop=0;
+	if(hsvc_EditBitmap) DestroyServiceFunction(hsvc_EditBitmap),hsvc_EditBitmap=0;
+	if(hsvc_Send2ImageShack) DestroyServiceFunction(hsvc_Send2ImageShack),hsvc_Send2ImageShack=0;
 	return 0;
 }
 

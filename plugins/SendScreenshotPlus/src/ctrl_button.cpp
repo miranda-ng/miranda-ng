@@ -387,7 +387,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 					ti.cbSize = sizeof(ti);
 					ti.uFlags = TTF_IDISHWND;
 					ti.hwnd = bct->hwnd;
-					ti.uId = (UINT)bct->hwnd;
+					ti.uId = (UINT_PTR)bct->hwnd;
 					if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
 						SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 					}
@@ -523,28 +523,27 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				ti.cbSize = sizeof(TOOLINFOW);
 				ti.uFlags = TTF_IDISHWND;
 				ti.hwnd = bct->hwnd;
-				ti.uId = (UINT)bct->hwnd;
+				ti.uId = (UINT_PTR)bct->hwnd;
 				if (SendMessage(hwndToolTips, TTM_GETTOOLINFOW, 0, (LPARAM)&ti)) {
 					SendMessage(hwndToolTips, TTM_DELTOOLW, 0, (LPARAM)&ti);
 				}
 				ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
-				ti.uId = (UINT)bct->hwnd;
+				ti.uId = (UINT_PTR)bct->hwnd;
 				ti.lpszText=(LPWSTR)wParam;
 				SendMessage(hwndToolTips, TTM_ADDTOOLW, 0, (LPARAM)&ti);
-			}
-			else {
+			} else {
 				TOOLINFOA ti;
 
 				ZeroMemory(&ti, sizeof(TOOLINFOA));
 				ti.cbSize = sizeof(TOOLINFOA);
 				ti.uFlags = TTF_IDISHWND;
 				ti.hwnd = bct->hwnd;
-				ti.uId = (UINT)bct->hwnd;
+				ti.uId = (UINT_PTR)bct->hwnd;
 				if (SendMessage(hwndToolTips, TTM_GETTOOLINFOA, 0, (LPARAM)&ti)) {
 					SendMessage(hwndToolTips, TTM_DELTOOLA, 0, (LPARAM)&ti);
 				}
 				ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
-				ti.uId = (UINT)bct->hwnd;
+				ti.uId = (UINT_PTR)bct->hwnd;
 				ti.lpszText=(LPSTR)wParam;
 				SendMessage(hwndToolTips, TTM_ADDTOOLA, 0, (LPARAM)&ti);
 			}
@@ -610,8 +609,8 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			SetTimer(hwndBtn, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
 			break;
 		case WM_TIMER: // use a timer to check if they have did a mouseout
-						if (wParam == BUTTON_POLLID) {
-					RECT rc;
+			if (wParam == BUTTON_POLLID) {
+				RECT rc;
 					POINT pt;
 
 					GetWindowRect(hwndBtn, &rc);
@@ -620,7 +619,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 						PostMessage(hwndBtn, WM_MOUSELEAVE, 0, 0L);
 						KillTimer(hwndBtn, BUTTON_POLLID);
 					}
-						}
+			}
 			break;
 		case WM_ERASEBKGND:
 			return 1;

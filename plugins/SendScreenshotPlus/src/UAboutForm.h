@@ -36,6 +36,8 @@ class TfrmAbout{
 		~TfrmAbout();
 
 		HWND	m_hWndOwner;
+
+		static void Unload();
 		void	Show(){ShowWindow(m_hWnd,SW_SHOW);}
 		void	Hide(){ShowWindow(m_hWnd,SW_HIDE);}
 		void	Close(){SendMessage(m_hWnd,WM_CLOSE,0,0);}

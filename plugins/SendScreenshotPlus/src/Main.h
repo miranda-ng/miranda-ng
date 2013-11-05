@@ -33,15 +33,16 @@ extern HANDLE			hNetlibUser;
 
 //---------------------------------------------------------------------------
 
-HANDLE	NetlibInit(void);
-void	NetlibClose(void);
+HANDLE	NetlibInit();
+void	NetlibClose();
 
-void	IcoLib_LoadModule(void);
-void	AddMenuItems(void);
-int		RegisterServices(void);
+void	IcoLib_LoadModule();
+void	AddMenuItems();
+int		RegisterServices();
+int		UnRegisterServices();
 
 int		hook_ModulesLoaded(WPARAM, LPARAM);
-int		hook_SystemPShutdown(WPARAM wParam, LPARAM lParam);
+int		hook_SystemPreShutdown(WPARAM wParam, LPARAM lParam);
 
 INT_PTR	service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam);
 INT_PTR	service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam);

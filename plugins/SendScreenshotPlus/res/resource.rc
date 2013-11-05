@@ -7,19 +7,14 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include <WinResrc.h>
+#define IDC_STATIC -1
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Deutsch (Deutschland) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-#ifdef _WIN32
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
-#endif //_WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -86,8 +81,8 @@ BEGIN
     CONTROL         "Credits >",IDA_CONTRIBLINK,"UInfoButtonClass",WS_GROUP | WS_TABSTOP,5,166,61,14,WS_EX_NOACTIVATE | 0x10000000L
     PUSHBUTTON      "&Close",IDA_btnClose,149,166,60,14
     LTEXT           "",IDC_WHITERECT,0,25,213,135,NOT WS_GROUP
-    EDITTEXT        IDC_LICENSE,5,37,204,95,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
-    EDITTEXT        IDC_CREDIT,5,37,204,95,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
+    EDITTEXT        IDC_LICENSE,5,27,204,131,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
+    EDITTEXT        IDC_CREDIT,5,27,204,131,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,160,213,1
 END
 
@@ -262,8 +257,6 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
-
-#endif    // Deutsch (Deutschland) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
