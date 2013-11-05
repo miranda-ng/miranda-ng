@@ -104,8 +104,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	g_hookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
 	g_hookSystemPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
 
-	AddMenuItems();
 	RegisterServices();
+	AddMenuItems();
+
 	HBRUSH brush=CreateSolidBrush(0x0000FF00);//owned by class
 	WNDCLASS wndclass={CS_HREDRAW|CS_VREDRAW,DefWindowProc,0,0,hInst,NULL,NULL,brush,NULL,L"SendSSHighlighter"};
 	g_clsTargetHighlighter=RegisterClass(&wndclass);
@@ -122,9 +123,8 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	// Netlib register
 	NetlibInit();
 
-	// load my button class
-	if(!ServiceExists("UserInfo/vCard/Export"))
-		CtrlButtonLoadModule();
+	// load my button class / or use UInfoEx
+	CtrlButtonLoadModule();
 
 	// Folders plugin support
 	hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
@@ -139,7 +139,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 */
 
 extern "C" __declspec(dllexport) int Unload(void)
-{
+{//as "ghazan" says, it's useless to unregister services or unhook events, let's still do it for now :P
 	UnRegisterServices();
 	if(g_hookModulesLoaded) UnhookEvent(g_hookModulesLoaded),g_hookModulesLoaded=0;
 	if(g_hookSystemPreShutdown) UnhookEvent(g_hookSystemPreShutdown),g_hookSystemPreShutdown=0;
@@ -185,26 +185,27 @@ void NetlibClose(void) {
 // wParam = 0
 // lParam = anything but 0
 INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
-	TfrmMain *frmMain=new TfrmMain();
-	if (!frmMain) {
+	TfrmMain* frmMain=new TfrmMain();
+	if(!frmMain) {
 		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return -1;
 	}
-	LPTSTR pszPath = GetCustomPath();
-	if(pszPath)
-	{
-		HANDLE hContact = (HANDLE) wParam;
-		LPSTR  pszProto = GetContactProto(hContact);
-		bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
-		frmMain->m_opt_chkTimed			= false;
-		frmMain->m_opt_tabCapture		= 1;
-		frmMain->m_opt_cboxDesktop		= 0;
-		frmMain->m_opt_chkEditor		= false;
-		frmMain->m_opt_cboxSendBy		= bChatRoom ? SS_IMAGESHACK:SS_FILESEND;
-		frmMain->Init(pszPath, hContact);		// this method create the window hidden.
-		frmMain->btnCaptureClick();					// this method will call Close()
-		mir_free(pszPath);
+	LPTSTR pszPath=GetCustomPath();
+	if(!pszPath){
+		delete frmMain;
+		return -1;
 	}
+	HANDLE hContact = (HANDLE) wParam;
+	LPSTR  pszProto = GetContactProto(hContact);
+	bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
+	frmMain->m_opt_chkTimed			= false;
+	frmMain->m_opt_tabCapture		= 1;
+	frmMain->m_opt_cboxDesktop		= 0;
+	frmMain->m_opt_chkEditor		= false;
+	frmMain->m_opt_cboxSendBy		= bChatRoom ? SS_IMAGESHACK:SS_FILESEND;
+	frmMain->Init(pszPath,hContact);		// this method create the window hidden.
+	mir_free(pszPath);
+	frmMain->btnCaptureClick();				// this method will call Close()
 	return 0;
 }
 
@@ -212,19 +213,19 @@ INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
 // Callback function of service for contact menu and main menu
 // wParam = contact handle
 // lParam = 0
-INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam) {
-	TfrmMain *frmMain=new TfrmMain();
-	if (!frmMain) {
+INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam){
+	TfrmMain* frmMain=new TfrmMain();
+	if(!frmMain) {
 		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return -1;
 	}
-
-	LPTSTR pszPath = GetCustomPath();
-	if(pszPath)
-	{
-		frmMain->Init(pszPath, (HANDLE)wParam);
-		mir_free(pszPath);
+	LPTSTR pszPath=GetCustomPath();
+	if(!pszPath){
+		delete frmMain;
+		return -1;
 	}
+	frmMain->Init(pszPath,(HANDLE)wParam);
+	mir_free(pszPath);
 	frmMain->Show();
 	return 0;
 }
@@ -341,21 +342,19 @@ int UnRegisterServices(){
 //---------------------------------------------------------------------------
 LPTSTR GetCustomPath() {
 	LPTSTR pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\Screenshots"));
-	if (hFolderScreenshot) {
-		TCHAR szPath[1024] = {'\0'};
+	if(hFolderScreenshot){
+		TCHAR szPath[1024]={0};
 		FoldersGetCustomPathT(hFolderScreenshot, szPath, 1024, pszPath);
 		mir_freeAndNil(pszPath);
 		pszPath = mir_tstrdup(szPath);
 	}
-	if(pszPath == NULL)
-	{
+	if(!pszPath){
 		MessageBox(NULL, _T("Can not retrieve Screenshot path."), _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 0;
 	}
 
 	int result = CreateDirectoryTreeT(pszPath);
-	if(result != NULL)
-	{
+	if(result){
 		TCHAR szError[MAX_PATH];
 		mir_sntprintf(szError,MAX_PATH,TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
 		MessageBox(NULL, szError, _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);

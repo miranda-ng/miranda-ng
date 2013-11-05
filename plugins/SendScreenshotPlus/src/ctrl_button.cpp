@@ -440,8 +440,8 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			HDC hdcPaint;
-			if (hdcPaint = BeginPaint(hwndBtn, &ps)) {
+			HDC hdcPaint = BeginPaint(hwndBtn, &ps);
+			if (hdcPaint) {
 				RECT rcClient; GetClientRect(bct->hwnd, &rcClient);
 				HDC hdcMem = CreateCompatibleDC(hdcPaint);
 				HBITMAP hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
@@ -616,24 +616,28 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	}
 	return DefWindowProc(hwndBtn, uMsg, wParam, lParam);
 }
-
-VOID CtrlButtonUnloadModule() 
+static bool g_init=false;
+void CtrlButtonUnloadModule() 
 {
+	if(!g_init) return;
+	g_init=false;
 	DeleteCriticalSection(&csTips);
 	UnregisterClass(UINFOBUTTONCLASS, hInst);
 }
 
-VOID CtrlButtonLoadModule()
+void CtrlButtonLoadModule()/// @fixme : compatibility with UInfoEx is everything but perfect... we get a huge problem if UInfoEx is unloaded...
 {
+	if(ServiceExists("UserInfo/vCard/Export")) return;
 	WNDCLASSEX wc;
+	g_init=true;
 	
 	ZeroMemory(&wc, sizeof(wc));
-	wc.cbSize				 = sizeof(wc);
+	wc.cbSize			= sizeof(wc);
 	wc.lpszClassName	= UINFOBUTTONCLASS;
 	wc.lpfnWndProc		= Button_WndProc;
-	wc.hCursor				= LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra		 = sizeof(LPBTNCTRL);
-	wc.style					= CS_GLOBALCLASS;
+	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra		= sizeof(LPBTNCTRL);
+	wc.style			= CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	InitializeCriticalSection(&csTips);
 }

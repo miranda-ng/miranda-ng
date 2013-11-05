@@ -119,7 +119,7 @@ class TfrmMain{
 
 		typedef std::map<HWND, TfrmMain *> CHandleMapping;
 		static CHandleMapping _HandleMapping;
-		static LRESULT CALLBACK DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		static INT_PTR CALLBACK DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 		void		wmInitdialog(WPARAM wParam, LPARAM lParam);
 		void		wmCommand(WPARAM wParam, LPARAM lParam);

@@ -90,7 +90,7 @@ typedef struct _MSGBOX
 
 INT_PTR CALLBACK	MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK	MsgBoxPop (HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK	PopupProc (HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK	PopupProc (HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT_PTR			MsgBoxService(WPARAM wParam, LPARAM lParam);
 INT_PTR 		MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR pszFormat, ...);

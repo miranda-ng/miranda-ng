@@ -557,7 +557,7 @@ INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				mir_tcsncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
 
 				// CALLBAC Proc
-				pd.PluginWindowProc = (WNDPROC)PopupProc;
+				pd.PluginWindowProc = PopupProc;
 				pd.PluginData = pmpd;
 
 				pd.iSeconds = -1;
@@ -648,7 +648,7 @@ INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 *
 * @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
 **/
-INT_PTR CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case UM_POPUPACTION:
@@ -712,11 +712,11 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 				db_get_b(NULL, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX)	// user likes popups?
 			)
 		{
-			rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, (DLGPROC)MsgBoxPop, lParam);
+			rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 		}
 		else
 		{
-			rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, (DLGPROC)MsgBoxProc, lParam);
+			rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
 		}
 	}
 	return rc;

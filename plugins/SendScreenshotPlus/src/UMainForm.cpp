@@ -126,7 +126,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureDesktop(HWND hDlg, UINT uMsg, WPARAM w
 
 TfrmMain::CHandleMapping TfrmMain::_HandleMapping;
 
-LRESULT CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CTLCOLOREDIT || msg == WM_CTLCOLORSTATIC) {
 		switch ( GetWindowLongPtr(( HWND )lParam, GWL_ID )) {
@@ -753,20 +753,17 @@ void TfrmMain::SaveOptions(void) {
 
 //---------------------------------------------------------------------------
 void TfrmMain::Init(LPTSTR DestFolder, HANDLE Contact) {
-	if(DestFolder)
-	{
-		m_FDestFolder = mir_tstrdup(DestFolder);
-		m_hContact = Contact;
-		if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;
+	m_FDestFolder = mir_tstrdup(DestFolder);
+	m_hContact = Contact;
+	if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;
 
-		// create window
-		m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UMainForm),0, (DLGPROC)DlgTfrmMain,(LPARAM)this);
-		//register object
-		_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
+	// create window
+	m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UMainForm),0,DlgTfrmMain,(LPARAM)this);
+	//register object
+	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 
-		//check Contact
-		if(m_cSend) m_cSend->SetContact(Contact);
-	}
+	//check Contact
+	if(m_cSend) m_cSend->SetContact(Contact);
 }
 
 //---------------------------------------------------------------------------

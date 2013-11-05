@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 #ifndef _UINFOEX_BOTTONS_H_INCLUDED_
 #define _UINFOEX_BOTTONS_H_INCLUDED_ 1
 
-VOID CtrlButtonLoadModule();
-VOID CtrlButtonUnloadModule();
+void CtrlButtonLoadModule();
+void CtrlButtonUnloadModule();
 
 #endif /* _UINFOEX_BOTTONS_H_INCLUDED_ */
