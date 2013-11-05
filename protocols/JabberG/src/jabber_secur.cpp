@@ -325,14 +325,14 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 char* TScramAuth::getInitialRequest()
 {
-	ptrA uname( mir_utf8encodeT(info->username)), serv( mir_utf8encode(info->server));
+	ptrA uname( mir_utf8encodeT(info->username));
 
 	unsigned char nonce[24];
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
 	cnonce = mir_base64_encode((PBYTE)nonce, sizeof(nonce));
 
 	char buf[4096];
-	int cbLen = mir_snprintf(buf, sizeof(buf), "n,,n=%s@%s,r=%s", uname, serv, cnonce);
+	int cbLen = mir_snprintf(buf, sizeof(buf), "n,,n=%s,r=%s", uname, cnonce);
 	msg1 = mir_strdup(buf + 3);
 	return mir_base64_encode((PBYTE)buf, cbLen);
 }
