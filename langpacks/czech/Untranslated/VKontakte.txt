@@ -1,4 +1,4 @@
 ﻿[VKontakte protocol support for Miranda NG.]
-[Open VK site]
+[Open VKontakte site]
 [Captcha form icon]
 [VKontakte]

@@ -14,7 +14,7 @@ Zobrazit ikonu
 Zobrazit ikony udělení
 [Plugin settings]
 Nastavení doplňku
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 Zobrazit položku v nabídce (*)
 [Show icons only for recently added contacts]
 Zobrazit ikony jen pro nedávno přidané kontakty

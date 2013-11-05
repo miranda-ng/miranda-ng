@@ -2026,7 +2026,7 @@ Potvrďte prosím ukončení Mirandy
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Chyba: %s %s\r\nVyberte prosím jiný server.
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 Chyba: Neznámá odpověď\r\nVyberte prosím jiný server.
 [Error %s %s\r\nTry to specify more detailed]
 Chyba: %s %s\r\nZadejte přesnější údaje.

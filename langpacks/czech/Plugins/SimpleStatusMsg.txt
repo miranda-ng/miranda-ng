@@ -36,7 +36,7 @@ Neměnit zprávu stavu
 Vždy použít stejnou zprávu
 [Do not set status message]
 Nedefinovat zprávu stavu
-[Status Messages]
+[Status messages]
 Stavové zprávy
 [Pop up dialog asking for new message]
 Zobrazit dialog a zadat novou zprávu

@@ -383,8 +383,8 @@ Kontakt "%s" byl autorizován v seznamu na serveru.
 [Secure login failed.\nInvalid key length.]
 
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)]
-Opravdu chcete odvolat udělenou autorizaci? Miranda se následně pokusí odstranit váš záznam ze seznamu vybraného uživatele.
+[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
+Opravdu chcete odvolat udělenou autorizaci? To může způsobit vaše odstranění ze seznamu kontaktů vybraného uživatele.
 [Confirmation]
 Potvrzení
 [** This message was blocked by the ICQ server ** The message was invalid.]

@@ -49,7 +49,7 @@ Vložit do zprávy
 parametr
 [Process time, ms]
 
-[No Description]
+[No description]
 Bez popisu
 [Signed value]
 
@@ -109,7 +109,7 @@ Opakova, Zrušit
 nedefinováno
 [Result as integer]
 
-[Keep Last Result]
+[Keep last result]
 Zachovat poslední výsledek
 [Keep handle only]
 Zachovat pouze ukazatel
@@ -117,7 +117,7 @@ Zachovat pouze ukazatel
 
 [C&ancel]
 Z&rušit
-[Structure Editor]
+[Structure editor]
 
 [Result as structure]
 
@@ -284,7 +284,7 @@ ANSI řetězec
 Unicode řetězec
 [current contact]
 současný kontakt
-[Choose Contact]
+[Choose contact]
 Zvolit kontakt
 [Miranda service help]
 
@@ -298,7 +298,7 @@ Začít
 
 [The context menu for a contact is about to be built]
 
-[Double click on the CList]
+[Double click on the contact list]
 
 [New contact added to database]
 

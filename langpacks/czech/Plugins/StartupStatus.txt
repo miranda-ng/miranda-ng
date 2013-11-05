@@ -12,7 +12,7 @@ Definuje stav protokolů při spuštění Mirandy.
 Zajistit spojení
 [Max. retries]
 Max. opak.
-[Account Connection]
+[Account connection]
 Připojování účtu
 [Delay between retries (secs)]
 Prodleva mezi obnovením (sek.)
@@ -30,7 +30,7 @@ Neobnovovat stav při odpojení od internetu
 Periodicky ověřovat připojení k internetu
 [Do so by pinging host]
 Pomocí příkazu ping
-[Confirm Status]
+[Confirm status]
 Potvrzení stavu
 [Close]
 Zavřít
@@ -64,15 +64,15 @@ Nastavit
 pouze tehdy, je-li neaktivní
 [when workstation is locked]
 při zamknutí počítače
-[Command Line]
+[Command line]
 Příkazový řádek
 [OK]
 OK
-[Copy to Clipboard]
-Zkopírovat
-[Command Line:]
+[Copy to clipboard]
+Zkopírovat do schránky
+[Command line:]
 Příkazový řádek:
-[Create Shortcut]
+[Create shortcut]
 Vytvořit zástupce
 [Add new profile]
 Přidat nový profil
@@ -110,7 +110,7 @@ Velikost okna
 x
 [Allow override]
 Povolit potlačení
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Pozn.: Profily lze vytvořit v sekci Startovní profily.
 [Window on startup]
 Okno po startu
@@ -174,8 +174,8 @@ Proměnné...
 Určit nastavení pro každý účet zvlášť
 [Use same settings for all accounts]
 Použít stejné nastavení pro všechny účty
-[Ignore caps-lock, num-lock and scroll-lock keys]
-Ignorovat klávesy CAPS-, NUM- a SCROLL-LOCK
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Ignorovat klávesy Caps Lock, Num Lock a Scroll Lock
 [Check interval (secs)]
 Interval zjišťování stavu (v sek.)
 [Confirm dialog timeout (secs)]
@@ -210,8 +210,8 @@ Přidat tlačítko do horní lišty
 Po spuštění potvrzovat stav
 [Create a main menu item]
 Přidat položku do hlavní nabídky
-[Status Profiles]
-Startovní profily
+[Status profiles]
+Stavové profily
 [Hotkey]
 Klávesy
 [In submenu]
@@ -300,8 +300,6 @@ Stav při spuštění
 [Your default profile will be changed]
 Výchozí profil bude změněn.
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
-[Status profiles]
-Stavové profily
 [There is a maximum of 6 menu items]
 Max. počet položek menu je 6.
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp

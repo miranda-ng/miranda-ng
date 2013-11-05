@@ -12,9 +12,9 @@
 E-mail nebo telefonní číslo:
 [Password:]
 Heslo:
-[Open VK site]
+[Open VKontakte site]
 
-[Bots Challenge Test]
+[Bots challenge test]
 Kontrola robotů
 [Instruction:]
 Instrukce:

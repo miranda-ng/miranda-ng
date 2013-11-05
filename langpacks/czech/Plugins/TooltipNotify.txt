@@ -34,8 +34,8 @@ Protokoly
 Zpozdit upozornění na připojení o
 [sec]
 sek.
-[Prefix proto name]
-Indik. protokol
+[Prefix protocol name]
+Indikovat protokol
 [Duration]
 Doba trvání
 [Show tooltip for]
@@ -73,7 +73,7 @@ Nečinnost
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Změna stavu
-[Other Status]
+[Other status]
 Ostatní stavy
 [Tooltip Notify: Online]
 Změna stavu (přechod online)
