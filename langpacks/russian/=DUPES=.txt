@@ -3767,8 +3767,6 @@ xСтатусы
 исполнитель
 [Enable &XStatus notification]
 Включить уведомление о смене хСтатусов
-[Text to log :]
-Текст журнала:
 [New Mail]
 Новая почта
 [List]

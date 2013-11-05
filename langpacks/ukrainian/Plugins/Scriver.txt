@@ -217,8 +217,6 @@
 Час
 [Log timestamp]
 Записувати час
-[Limit text to log (events):]
-Обмежити журнал до (подій):
 [Enable highlighting]
 Включити виділення
 [Words to highlight (wildcards allowed)]

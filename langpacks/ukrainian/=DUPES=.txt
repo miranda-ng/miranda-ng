@@ -609,8 +609,6 @@ E-Mail
 Лівий клік
 [Limburgan; Limburger; Limburgish]
 Лімбурзька
-[Limit text to log (events):]
-Обмежити журнал до (подій):
 [Line]
 Лінія
 [Lingala]
@@ -3768,8 +3766,6 @@ Web-дизайн
 виконавець
 [Enable &XStatus notification]
 Включити повідомлення про зміну хСтатусів
-[Text to log :]
-Текст журналу:
 [New Mail]
 Нова пошта
 [List]
