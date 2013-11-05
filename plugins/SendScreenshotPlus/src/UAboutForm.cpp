@@ -63,10 +63,8 @@ INT_PTR CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		reinterpret_cast<TfrmAbout*>(lParam)->m_hWnd = hWnd;
 		return wnd->second->wmInitdialog(wParam, lParam);
 	}
-	else {
-		wnd = _HandleMapping.find(hWnd);
-	}
-	if (wnd == _HandleMapping.end()) {	// something screwed up
+	wnd=_HandleMapping.find(hWnd);
+	if (wnd==_HandleMapping.end()) {	// something screwed up
 		return FALSE;					//dialog! do not use ::DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
@@ -148,9 +146,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 LRESULT TfrmAbout::wmCommand(WPARAM wParam, LPARAM lParam) {
 	//---------------------------------------------------------------------------
 	if (HIWORD(wParam) == BN_CLICKED) {
-		int IDControl = LOWORD(wParam);
-		HWND hCtrl = (HWND)lParam;
-		switch(IDControl) {
+		switch(LOWORD(wParam)) {
 			case IDCANCEL:
 			case IDCLOSE:
 				break;

@@ -43,7 +43,6 @@ class CSendImageShack : public CSend {
 		LPSTR					m_pszFileName;
 		NETLIBHTTPREQUEST		m_nlhr;
 		NETLIBHTTPREQUEST*		m_nlreply;
-		NETLIBHTTPHEADER*		m_nlheader;
 		char					m_nlheader_ContentType[64];
 		LPSTR					m_Url;
 

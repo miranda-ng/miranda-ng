@@ -84,8 +84,8 @@ class TfrmMain{
 		LPTSTR		m_FDestFolder;
 		LPTSTR		m_pszFile;
 		LPTSTR		m_pszFileDesc;
-		FIBITMAP*	m_Screenshot;				//Graphics::TBitmap *Screenshot;
-		RGBQUAD		m_AlphaColor;				//
+		FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
+		RGBQUAD		m_AlphaColor;
 		HCURSOR		m_hCursor;
 		CSend*		m_cSend;
 
@@ -114,24 +114,24 @@ class TfrmMain{
 		BYTE			m_opt_cboxFormat;			//TComboBox *cboxFormat;
 		BYTE			m_opt_edtTimed;				//TLabeledEdit *edtTimed;
 		bool			m_bCapture;					//is capture activ
+		HWND			m_hwndTab;					//TabControl handle
+		HWND			m_hwndTabPage;				//TabControl activ page handle
+		HIMAGELIST		m_himlTab;					//TabControl imagelist
 
 		typedef std::map<HWND, TfrmMain *> CHandleMapping;
 		static CHandleMapping _HandleMapping;
 		static LRESULT CALLBACK DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-		LRESULT		wmInitdialog(WPARAM wParam, LPARAM lParam);
-		LRESULT		wmCommand(WPARAM wParam, LPARAM lParam);
-		LRESULT		wmClose(WPARAM wParam, LPARAM lParam);
-		LRESULT		wmNotify(WPARAM wParam, LPARAM lParam);
-		LRESULT		wmTimer(WPARAM wParam, LPARAM lParam);
+		void		wmInitdialog(WPARAM wParam, LPARAM lParam);
+		void		wmCommand(WPARAM wParam, LPARAM lParam);
+		void		wmClose(WPARAM wParam, LPARAM lParam);
+		void		wmNotify(WPARAM wParam, LPARAM lParam);
+		void		wmTimer(WPARAM wParam, LPARAM lParam);
 
-		LRESULT		UMevent(WPARAM wParam, LPARAM lParam);
-		LRESULT		UMClosing(WPARAM wParam, LPARAM lParam);
+		void		UMevent(WPARAM wParam, LPARAM lParam);
+		void		UMClosing(WPARAM wParam, LPARAM lParam);
 		LRESULT		UMTab1(WPARAM wParam, LPARAM lParam);
 
-		HWND		m_hwndTab;		//TabControl handle
-		HWND		m_hwndTabPage;	//TabControl activ page handle
-		HIMAGELIST	m_himlTab;		//TabControl imagelist
 		static INT_PTR CALLBACK DlgProc_CaptureWindow (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static INT_PTR CALLBACK DlgProc_CaptureDesktop(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //		LRESULT CALLBACK DlgProc_UseLastFile   (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

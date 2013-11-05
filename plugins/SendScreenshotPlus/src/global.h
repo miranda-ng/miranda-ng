@@ -6,7 +6,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 SÃ©rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -22,7 +22,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
-
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
@@ -128,8 +127,6 @@ std::basic_string<_Elem> replace(const std::basic_string<_Elem> & Origninal, con
 {
 	std::basic_string<_Elem> res;
 	size_t l = 0;
-	size_t p = 0;
-
 	for (size_t p = Origninal.find(What.c_str(), 0); p != std::basic_string<_Elem>::npos; p = Origninal.find(What.c_str(), l))
 	{
 		if (l != p)

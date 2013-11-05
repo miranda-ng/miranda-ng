@@ -189,7 +189,6 @@ void CSendImageShack::SendThread() {
 		if( m_nlreply->resultCode >= 200 && m_nlreply->resultCode < 300 ){
 			m_nlreply->pData[m_nlreply->dataLength] = 0;// make sure its null terminated
 			const char* URL = NULL;
-			LPTSTR err = NULL;
 			URL = GetTagContent(m_nlreply->pData, "<image_link>", "</image_link>");
 			if (URL && URL[0]!= NULL) {
 				m_Url = mir_strdup(URL);
@@ -199,16 +198,13 @@ void CSendImageShack::SendThread() {
 				}
 				m_ChatRoom ? svcSendChat(URL) : svcSendMsg(URL);
 				return;
-			}
-			else{	//check error mess from server
-				err = mir_a2t(GetTagContent(m_nlreply->pData, "<error ", "</error>"));
-				if (err && err[0]!= NULL) {		//parsed err messege
-					Error(NULL, err);
-				}
-				else{							//fallback to server response mess
+			}else{//check error mess from server
+				LPTSTR err = mir_a2t(GetTagContent(m_nlreply->pData, "<error ", "</error>"));
+				if (!err || !*err){//fallback to server response mess
 					mir_freeAndNil(err);
 					err = mir_a2t(m_nlreply->pData);
 				}
+				Error(NULL, err);
 				mir_free(err);
 			}
 		}

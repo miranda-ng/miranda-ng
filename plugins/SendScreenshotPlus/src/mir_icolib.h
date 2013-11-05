@@ -55,12 +55,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 
 #define ICO_DLG_DETAILS			MODNAME"_dlg_details"
 
-typedef struct TIconCtrl 
+/*typedef struct TIconCtrl 
 {
 	LPCSTR	pszIcon;
 	UINT	Message;
 	WORD	idCtrl;
-} ICONCTRL, *LPICONCTRL;
+} ICONCTRL, *LPICONCTRL;*/
 
 HICON	IcoLib_GetIcon(LPCSTR pszIcon, bool big = false);
 

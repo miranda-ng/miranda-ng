@@ -48,7 +48,7 @@ class CSendHTTPServer : public CSend {
 		typedef std::map<HANDLE, CSendHTTPServer *> CContactMapping;
 		static CContactMapping _CContactMapping;
 
-		static INT_PTR			MyCallService(const char *name, WPARAM wParam, LPARAM lParam);
+//		static INT_PTR			MyCallService(const char *name, WPARAM wParam, LPARAM lParam);
 
 };
 

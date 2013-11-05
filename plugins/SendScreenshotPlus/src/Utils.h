@@ -7,7 +7,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 SÃ©rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -50,7 +50,7 @@ BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprc
 FIBITMAP*		CaptureWindow(HWND hCapture, BOOL ClientArea);
 FIBITMAP*		CaptureMonitor(LPTSTR szDevice);
 FIBITMAP*		CaptureScreen(HDC hDC, SIZE size, HWND hCapture=0);
-FIBITMAP*		CaptureDesktop();	/*emulate print screen (not used)*/
+//FIBITMAP*		CaptureDesktop();	/*emulate print screen (not used)*/
 LPTSTR			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTSTR pszExt, int flag=0);
 
 void			DrawBorderInverted(HWND hWindow);
@@ -59,7 +59,7 @@ INT_PTR			GetFileName(LPTSTR pszPath, UINT typ);
 INT_PTR			GetFileExt (LPTSTR pszPath, UINT typ);
 
 BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder);
-INT_PTR SavePNG(HBITMAP hBmp, LPTSTR szFilename);
+//INT_PTR SavePNG(HBITMAP hBmp, LPTSTR szFilename);
 INT_PTR SaveGIF(HBITMAP hBmp, LPTSTR szFilename);
 INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename);
 

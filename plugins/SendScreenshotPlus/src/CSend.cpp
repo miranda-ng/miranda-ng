@@ -7,7 +7,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 SÃ©rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -100,7 +100,7 @@ void	CSend::svcSendMsg(const char* szMessage) {
 		Exit(ACKRESULT_FAILED);
 	}
 }
-
+/*
 void	CSend::svcSendUrl(const char* url) {
 //szMessage should be encoded as the URL followed by the description, the
 //separator being a single nul (\0). If there is no description, do not forget
@@ -132,7 +132,7 @@ void	CSend::svcSendUrl(const char* url) {
 		//dat->waitingForAcceptance=0;
 		Unhook();
 	}
-}
+}*/
 
 void	CSend::svcSendChat() {
 	GC_INFO gci = {0};

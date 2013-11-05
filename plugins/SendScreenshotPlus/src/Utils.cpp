@@ -7,7 +7,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 SÃ©rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ size_t MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen) {
 // MonitorInfoEnumProc - CALLBACK for MonitorInfoEnum
 BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData) {
 	MONITORS* monitors = (MONITORS*)dwData;
-	monitors->count++;
+	++monitors->count;
 	monitors->info = (MONITORINFOEX*)mir_realloc(monitors->info, sizeof(MONITORINFOEX)*monitors->count);
 	monitors->info[monitors->count-1].cbSize = sizeof(MONITORINFOEX);
 	if(!GetMonitorInfo(hMonitor, (LPMONITORINFO)(monitors->info + monitors->count-1))) {
@@ -72,10 +72,10 @@ BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprc
 //---------------------------------------------------------------------------
 // capture window as FIBITMAP - caller must FIP->FI_Unload(dib)
 FIBITMAP* CaptureWindow  (HWND hCapture, BOOL ClientArea) {
-	FIBITMAP *dib = NULL;
-	HWND	hForegroundWin = NULL;
+	FIBITMAP *dib;
+	HWND	hForegroundWin;
 	HDC		hScrDC;						// screen DC
-	RECT	rect= {0};					// screen RECT
+	RECT	rect;					// screen RECT
 	SIZE	size;						// DIB width and height = window resolution
 
 	if (!hCapture || !IsWindow(hCapture)) return 0;
@@ -89,12 +89,11 @@ FIBITMAP* CaptureWindow  (HWND hCapture, BOOL ClientArea) {
 
 	// get window resolution
 	GetWindowRect(hCapture, &rect);
-	size.cx = ABS(rect.right - rect.left);
-	size.cy = ABS(rect.bottom - rect.top);
-
+	size.cx=ABS(rect.right-rect.left);
+	size.cy=ABS(rect.bottom-rect.top);
 	//capture window and get FIBITMAP
-	dib = CaptureScreen(hScrDC, size, hCapture);
-
+	dib = CaptureScreen(hScrDC,size,hCapture);
+	ReleaseDC(hCapture,hScrDC);
 	if(ClientArea) {
 		RECT rectCA	= {0};
 		POINT pt	= {0};
@@ -104,19 +103,15 @@ FIBITMAP* CaptureWindow  (HWND hCapture, BOOL ClientArea) {
 		FIBITMAP* dibClient	= FIP->FI_Copy(dib,
 					pt.x - rect.left,
 					pt.y - rect.top,
-					pt.x - rect.left + rectCA.right -1,
-					pt.y - rect.top + rectCA.bottom -1);
+					pt.x - rect.left + rectCA.right,
+					pt.y - rect.top + rectCA.bottom);
 		FIP->FI_Unload(dib);
 		dib = dibClient;
 	}
-
-	ReleaseDC(NULL, hScrDC);
-
 	// Restoring foreground window
-	if (hForegroundWin) {
+	if(hForegroundWin){
 		SetForegroundWindow(hForegroundWin);
 	}
-
 	return dib;
 }
 
@@ -140,9 +135,9 @@ FIBITMAP* CaptureMonitor (LPTSTR szDevice) {
 	return dib;
 }
 
-FIBITMAP* CaptureScreen  (HDC hDC, SIZE size, HWND hCapture) {
+FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 //HDC GetDC			(NULL)		entire desktp
-//HDC GetDC			(HWND hWnd)	client area of the specified window.
+//HDC GetDC			(HWND hWnd)	client area of the specified window. (may include artifacts)
 //HDC GetWindowDC	(HWND hWnd)	entire window.
 	FIBITMAP *dib = NULL;
 	HBITMAP hBitmap;					// handles to device-dependent bitmaps
@@ -150,22 +145,18 @@ FIBITMAP* CaptureScreen  (HDC hDC, SIZE size, HWND hCapture) {
 
 	// create a DC for the screen and create
 	// a memory DC compatible to screen DC
-	hScrDC = hDC ? hDC : GetDC(NULL/*Get full screen*/);
+	if(!(hScrDC=hDC)) hScrDC=GetDC(hCapture);
 	hMemDC = CreateCompatibleDC(hScrDC);
 	// create a bitmap compatible with the screen DC
-	hBitmap = CreateCompatibleBitmap(hScrDC, size.cx, size.cy);
-
+	hBitmap = CreateCompatibleBitmap(hScrDC,size.cx,size.cy);
 	// select new bitmap into memory DC
-	HBITMAP hOld = (HBITMAP) SelectObject(hMemDC, hBitmap);
+	SelectObject(hMemDC, hBitmap);
 
 	if(hCapture) {
-		PrintWindow(hCapture, hMemDC, 0/*PW_CLIENTONLY is buggy*/);
+		PrintWindow(hCapture,hMemDC,0);
+	}else{// bitblt screen DC to memory DC
+		BitBlt(hMemDC,0,0,size.cx,size.cy,hScrDC,0,0,CAPTUREBLT|SRCCOPY);
 	}
-	else {
-		// bitblt screen DC to memory DC
-		BitBlt(hMemDC, 0, 0, size.cx, size.cy, hScrDC, 0, 0, CAPTUREBLT|SRCCOPY);
-	}
-
 	dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
 
 	//alpha channel from window is always wrong,
@@ -283,7 +274,7 @@ FIBITMAP* CaptureScreen  (HDC hDC, SIZE size, HWND hCapture) {
 			OutputDebugStringA("FIBITMAP Typ: FIT_RGBAF\r\n" );
 			break;
 		default:
-			OutputDebugStringA("FIBITMAP Typ: nicht feststellbar\r\n" );
+			OutputDebugStringA("FIBITMAP Typ: non detectable image type (error)\r\n" );
 			break;
 	}
 	BOOL inf = FIP->FI_IsTransparent(dib);
@@ -292,8 +283,8 @@ FIBITMAP* CaptureScreen  (HDC hDC, SIZE size, HWND hCapture) {
 
 	return dib;
 }
-
-FIBITMAP* CaptureDesktop/*emulate print screen*/()  {
+/*
+FIBITMAP* CaptureDesktop()  {//emulate print screen
 	FIBITMAP *dib = NULL;
 	HBITMAP hBitmap;				// handles to device-dependent bitmaps
 	BOOL bBitmap = false;
@@ -321,7 +312,7 @@ FIBITMAP* CaptureDesktop/*emulate print screen*/()  {
 	CloseClipboard();
 
 	return dib;
-}
+}*/
 
 LPTSTR SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTSTR pszExt, int flag) {
 	int ret=0;
@@ -339,9 +330,6 @@ LPTSTR SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTST
 
 	if(fif==FIF_UNKNOWN) {
 		fif = FIP->FI_GetFIFFromFilenameU(pszFile);
-	}
-	if(FIP->FI_FIFSupportsICCProfiles(fif)) {
-		bool bDummy = true;
 	}
 
 	ret = FIP->FI_SaveU(fif, dib, pszFile, flag);
@@ -437,65 +425,64 @@ INT_PTR GetFileExt (LPTSTR pszPath, UINT typ) {
 
 //---------------------------------------------------------------------------
 BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder) {
-    UINT uiNum   = 0;
-    UINT uiSize  = 0;
-    BOOL bOk     = FALSE;
-    Gdiplus::ImageCodecInfo* pImageCodecInfo = NULL;
-    Gdiplus::GetImageEncodersSize(&uiNum, &uiSize);
-    if( uiSize > 0 ) {
-        pImageCodecInfo = (Gdiplus::ImageCodecInfo *)new char[uiSize];
-        if( pImageCodecInfo ) {
-            Gdiplus::GetImageEncoders(uiNum, uiSize, pImageCodecInfo);
-            for( UINT i = 0; i < uiNum; i++ ) {
-                if( wcscmp(pImageCodecInfo[i].MimeType, wchMimeType) == 0 ) {
-                    clsidEncoder = pImageCodecInfo[i].Clsid;
-                    bOk = TRUE;
-                }
-            }
-         }
-         delete pImageCodecInfo;
-     }
-     return bOk;
+	UINT uiNum=0;
+	UINT uiSize=0;
+	BOOL bOk=FALSE;
+	Gdiplus::GetImageEncodersSize(&uiNum,&uiSize);
+	if(uiSize>0){
+		Gdiplus::ImageCodecInfo* pImageCodecInfo=(Gdiplus::ImageCodecInfo *)new char[uiSize];
+		if(pImageCodecInfo){
+			Gdiplus::GetImageEncoders(uiNum,uiSize,pImageCodecInfo);
+			for( UINT i=0; i<uiNum; ++i){
+				if(!wcscmp(pImageCodecInfo[i].MimeType,wchMimeType)){
+					clsidEncoder=pImageCodecInfo[i].Clsid;
+					bOk=TRUE;
+				}
+			}
+		}
+		delete pImageCodecInfo;
+	}
+	return bOk;
 }
-
+/*
 INT_PTR SavePNG(HBITMAP hBmp, LPTSTR szFilename) {
-    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-    ULONG_PTR                    gdiplusToken;
-    Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR                    gdiplusToken;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-    Gdiplus::Bitmap *pBitmap = Gdiplus::Bitmap::FromHBITMAP(hBmp, (HPALETTE)GetStockObject(DEFAULT_PALETTE) );
-    if( pBitmap ) {
-        // Get the CLSID of the PNG encoder.
-        CLSID clsidEncoder;
-        if( GetEncoderClsid(L"image/png", clsidEncoder)) {
+	Gdiplus::Bitmap *pBitmap = Gdiplus::Bitmap::FromHBITMAP(hBmp, (HPALETTE)GetStockObject(DEFAULT_PALETTE) );
+	if( pBitmap ) {
+		// Get the CLSID of the PNG encoder.
+		CLSID clsidEncoder;
+		if( GetEncoderClsid(L"image/png", clsidEncoder)) {
 			LPWSTR pswFile = mir_t2u(szFilename);
 			pBitmap->Save((const WCHAR*)pswFile, &clsidEncoder, NULL);
 			mir_free(pswFile);
-        }
-        delete pBitmap;
-     }
-     Gdiplus::GdiplusShutdown(gdiplusToken);
-     return 0;
-}
+		}
+		delete pBitmap;
+	}
+	Gdiplus::GdiplusShutdown(gdiplusToken);
+	return 0;
+}*/
 
 INT_PTR SaveGIF(HBITMAP hBmp, LPTSTR szFilename) {
-    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-    ULONG_PTR                    gdiplusToken;
-    Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR                    gdiplusToken;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-    Gdiplus::Bitmap *pBitmap = Gdiplus::Bitmap::FromHBITMAP(hBmp, (HPALETTE)GetStockObject(DEFAULT_PALETTE) );
-    if( pBitmap ) {
-        // Get the CLSID of the GIF encoder.
-        CLSID clsidEncoder;
-        if( GetEncoderClsid(L"image/gif", clsidEncoder)) {
+	Gdiplus::Bitmap *pBitmap = Gdiplus::Bitmap::FromHBITMAP(hBmp, (HPALETTE)GetStockObject(DEFAULT_PALETTE) );
+	if( pBitmap ) {
+		// Get the CLSID of the GIF encoder.
+		CLSID clsidEncoder;
+		if( GetEncoderClsid(L"image/gif", clsidEncoder)) {
 			LPWSTR pswFile = mir_t2u(szFilename);
 			pBitmap->Save((const WCHAR*)pswFile, &clsidEncoder, NULL);
 			mir_free(pswFile);
-        }
-        delete pBitmap;
-     }
-     Gdiplus::GdiplusShutdown(gdiplusToken);
-     return 0;
+		}
+		delete pBitmap;
+	}
+	Gdiplus::GdiplusShutdown(gdiplusToken);
+	return 0;
 }
 
 INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename) {

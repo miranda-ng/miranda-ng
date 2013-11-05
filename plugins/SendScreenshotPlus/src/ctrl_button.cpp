@@ -189,13 +189,11 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 	
 	// calculate text rect
 	{
-		RECT	sizeText;
-		HFONT	hOldFont;
 
 		ccText = GetWindowTextW(ctl->hwnd, wszText, sizeof(wszText) / sizeof(WCHAR));
-
 		if (ccText > 0) {
-			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
+			RECT sizeText;
+			HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 			
 			GetThemeTextExtent(
 				ctl->hThemeButton,
@@ -298,13 +296,11 @@ static VOID __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 	}
 	// calculate text rect
 	{
-		SIZE	sizeText;
-		HFONT	hOldFont;
 
 		ccText = GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
-
 		if (ccText > 0) {
-			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
+			SIZE sizeText;
+			HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 			GetTextExtentPoint32(hdcMem, szText, ccText, &sizeText);
 			if (ctl->cHot) {
 				SIZE sizeHot;
@@ -445,16 +441,11 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		{
 			PAINTSTRUCT ps;
 			HDC hdcPaint;
-			HDC hdcMem;
-			HBITMAP hbmMem;
-			HDC hOld;
-			RECT rcClient;
-			
 			if (hdcPaint = BeginPaint(hwndBtn, &ps)) {
-				GetClientRect(bct->hwnd, &rcClient);
-				hdcMem = CreateCompatibleDC(hdcPaint);
-				hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
-				hOld = (HDC)SelectObject(hdcMem, hbmMem);
+				RECT rcClient; GetClientRect(bct->hwnd, &rcClient);
+				HDC hdcMem = CreateCompatibleDC(hdcPaint);
+				HBITMAP hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+				HDC hOld = (HDC)SelectObject(hdcMem, hbmMem);
 
 				// If its a push button, check to see if it should stay pressed
 				if ((bct->dwStyle & MBS_PUSHBUTTON) && bct->pbState) bct->stateId = PBS_PRESSED;
@@ -611,14 +602,13 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		case WM_TIMER: // use a timer to check if they have did a mouseout
 			if (wParam == BUTTON_POLLID) {
 				RECT rc;
-					POINT pt;
-
-					GetWindowRect(hwndBtn, &rc);
-					GetCursorPos(&pt);
-					if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
-						PostMessage(hwndBtn, WM_MOUSELEAVE, 0, 0L);
-						KillTimer(hwndBtn, BUTTON_POLLID);
-					}
+				POINT pt;
+				GetWindowRect(hwndBtn,&rc);
+				GetCursorPos(&pt);
+				if(!PtInRect(&rc,pt)){ // mouse must be gone, trigger mouse leave
+					PostMessage(hwndBtn,WM_MOUSELEAVE,0,0L);
+					KillTimer(hwndBtn,BUTTON_POLLID);
+				}
 			}
 			break;
 		case WM_ERASEBKGND:

@@ -7,7 +7,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 SÃ©rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -118,18 +118,18 @@ void	CSendHTTPServer::SendThreadWrapper(void * Obj) {
 }
 
 //---------------------------------------------------------------------------
-CSendHTTPServer::CContactMapping CSendHTTPServer::_CContactMapping;
-
-INT_PTR CSendHTTPServer::MyCallService(const char *name, WPARAM wParam, LPARAM lParam) {
-	CContactMapping::iterator Contact(_CContactMapping.end());
 /*
+CSendHTTPServer::CContactMapping CSendHTTPServer::_CContactMapping;
+INT_PTR CSendHTTPServer::MyCallService(const char *name, WPARAM wParam, LPARAM lParam) {
+/ *
+	CContactMapping::iterator Contact(_CContactMapping.end());
 	if ( wParam == m_hContact && (
 		(strcmp(name, MS_MSG_SENDMESSAGE)== 0) ||
 		(strcmp(name, "SRMsg/LaunchMessageWindow")== 0) ))
 	{
 		m_URL= mir_strdup((char*)lParam);
 		return 0;
-	}*/
+	}* /
 	return g_MirCallService(name, wParam, lParam);
-}
+}*/
 

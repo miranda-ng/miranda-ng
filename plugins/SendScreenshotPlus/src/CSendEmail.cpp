@@ -88,7 +88,6 @@ void CSendEmail::SendThread() {
 	//The default mail client for Simple MAPI or MAPI calls is defined by the
 	//HKLM\Software\Clients\Mail::(default) registry value. 
 
-	LPTSTR err = NULL;
 	MapiFileDesc arrfileDesc[1];
 
 	typedef ULONG (FAR PASCAL *MAPIFUNC)(LHANDLE,ULONG,lpMapiMessage,FLAGS,ULONG);
@@ -145,6 +144,7 @@ void CSendEmail::SendThread() {
 		int res = lpMAPISendMail(NULL, NULL, &Msg, MAPI_LOGON_UI|MAPI_DIALOG, 0);
 		::FreeLibrary(hMAPILib);
 
+		LPTSTR err;
 		switch (res) {
 			case SUCCESS_SUCCESS:
 				//The call succeeded and the message was sent.

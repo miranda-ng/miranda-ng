@@ -66,11 +66,9 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wP
 				//SetBkMode((HDC)wParam,OPAQUE);
 				//return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
 				return (LRESULT)GetStockObject(WHITE_BRUSH);
-				break;
 			default:
 				SetBkMode((HDC)wParam, TRANSPARENT);
 				return (LRESULT)GetStockObject(NULL_BRUSH);
-				break;
 		}
 		break;	//this return false
 	case WM_COMMAND:
@@ -110,11 +108,9 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureDesktop(HWND hDlg, UINT uMsg, WPARAM w
 				SetBkColor((HDC)wParam,GetSysColor(COLOR_WINDOW));
 				SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
 				return (LRESULT)GetStockObject(WHITE_BRUSH);
-				break;
 			default:
 				SetBkMode((HDC)wParam, TRANSPARENT);
 				return (LRESULT)GetStockObject(NULL_BRUSH);
-				break;
 		}
 		break;
 	case WM_COMMAND:
@@ -142,59 +138,53 @@ LRESULT CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 				SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
 				break;
 			default:
-				return FALSE;
+				return 0;
 		}
 		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
 		return (LRESULT)GetStockObject(WHITE_BRUSH); 	//GetSysColorBrush(COLOR_WINDOW);
 	}
 
-	CHandleMapping::iterator wnd(_HandleMapping.end());
-	if (msg == WM_INITDIALOG) {
+	CHandleMapping::iterator wnd;
+	if(msg==WM_INITDIALOG) {
 		wnd = _HandleMapping.insert(CHandleMapping::value_type(hWnd, reinterpret_cast<TfrmMain*>(lParam))).first;
-		reinterpret_cast<TfrmMain*>(lParam)->m_hWnd = hWnd;
-		return wnd->second->wmInitdialog(wParam, lParam);
+		wnd->second->m_hWnd = hWnd;
+		wnd->second->wmInitdialog(wParam, lParam);
+		return 0;
 	}
-	else {
-		wnd = _HandleMapping.find(hWnd);
-	}
-	if (wnd == _HandleMapping.end()) {	// something screwed up
-		return FALSE;					//dialog! do not use ::DefWindowProc(hWnd, msg, wParam, lParam);
+	wnd=_HandleMapping.find(hWnd);
+	if(wnd==_HandleMapping.end()) {	//something screwed up dialog!
+		return 0;					//do not use ::DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	switch (msg)
-	{
-		// case WM_INITDIALOG:	done on top
+	switch (msg){
 		case WM_COMMAND:
-			return wnd->second->wmCommand(wParam, lParam);
+			wnd->second->wmCommand(wParam, lParam);
 			break;
 		case WM_CLOSE:
-			return wnd->second->wmClose(wParam, lParam);
+			wnd->second->wmClose(wParam, lParam);
 			break;
 		case WM_DESTROY:
 			delete wnd->second;
 			break;
-		case UM_TAB1:
-			return wnd->second->UMTab1(wParam, lParam);
-			break;
 		case WM_NOTIFY:
-			return wnd->second->wmNotify(wParam, lParam);
+			wnd->second->wmNotify(wParam, lParam);
 			break;
 		case WM_TIMER:
-			return wnd->second->wmTimer(wParam, lParam);
+			wnd->second->wmTimer(wParam, lParam);
 			break;
 		case UM_CLOSING:
-			return wnd->second->UMClosing(wParam, lParam);
+			wnd->second->UMClosing(wParam, lParam);
 			break;
 		case UM_EVENT:
-			return wnd->second->UMevent(wParam, lParam);
+			wnd->second->UMevent(wParam, lParam);
 			break;
 	}
-	return FALSE;
+	return 0;
 }
 
 //---------------------------------------------------------------------------
 //WM_INITDIALOG:
-LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
+void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	HWND hCtrl;
 	//Taskbar and Window icon
 	SendMessage(m_hWnd, WM_SETICON, ICON_BIG,	(LPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW1, true));
@@ -372,11 +362,10 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 //	CheckDlgButton(m_hWnd,ID_chkEditor, m_opt_chkEditor ? BST_CHECKED : BST_UNCHECKED);
 	TranslateDialogDefault(m_hWnd);
-	return FALSE;
 }
 
 //WM_COMMAND:
-LRESULT TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
+void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 	//---------------------------------------------------------------------------
 	int IDControl = LOWORD(wParam);
 	switch (HIWORD(wParam)) {
@@ -385,7 +374,6 @@ LRESULT TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 				case IDCANCEL:
 				case IDCLOSE:
 					break;
-
 				case ID_chkTimed:
 					m_opt_chkTimed = (BYTE)Button_GetCheck((HWND)lParam);
 					TfrmMain::chkTimedClick();
@@ -408,13 +396,11 @@ LRESULT TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 				case ID_btnExplore:
 					TfrmMain::btnExploreClick();
 					break;
-				case ID_btnDesc:
-					{
+				case ID_btnDesc:{
 					m_opt_btnDesc = (m_opt_btnDesc == 0);
 					HICON hIcon = IcoLib_GetIcon(m_opt_btnDesc ? ICO_PLUG_SSDESKON : ICO_PLUG_SSDESKOFF);
 					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-					}
-					break;
+					break;}
 				case ID_btnDeleteAfterSend:
 					{
 					m_opt_btnDeleteAfterSend = (m_opt_btnDeleteAfterSend == 0);
@@ -470,23 +456,22 @@ LRESULT TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 		default:
 			break;
 	}
-	return FALSE;
 }
 
 //WM_CLOSE:
-LRESULT TfrmMain::wmClose(WPARAM wParam, LPARAM lParam) {
+void TfrmMain::wmClose(WPARAM wParam, LPARAM lParam) {
 	DestroyWindow(m_hWnd);
-	return FALSE;
+	return;
 }
 
 //WM_TIMER:
-LRESULT TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {
+void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {// @todo : improve this
 	if (wParam == ID_bvlTarget) {		// Timer for Target selector
 		if (m_hCursor) {			//imgTarget is activ
 			//LmouseButton = false
 			if (!GetLmouse()) {
 				TfrmMain::imgTargetMouseUp();
-				return FALSE;
+				return;
 			}
 			//Timer action if LmouseButton = true
 			m_hLastWin = m_hTargetWindow;
@@ -517,7 +502,7 @@ LRESULT TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {
 				DrawBorderInverted(hCurrentWin);
 				m_hTargetWindow = hCurrentWin;
 			}
-			return FALSE;
+			return;
 		}
 		//imgTarget is not activ (check if cursor is over ID_bvlTarget control)
 		RECT rc;
@@ -545,23 +530,23 @@ LRESULT TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {
 			m_bCapture = true;
 			switch (m_opt_tabCapture) {
 				case 0:
-					m_Screenshot = CaptureWindow(m_hTargetWindow, (BOOL)m_opt_chkClientArea);
+					m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea);
 					break;
 				case 1:
 					m_Screenshot = CaptureMonitor((m_opt_cboxDesktop > 0) ? m_Monitors[m_opt_cboxDesktop-1].szDevice : NULL);
 					break;
 				default:
-					KillTimer(m_hWnd,wParam);
+					KillTimer(m_hWnd,ID_chkTimed);
 					m_bCapture = false;
 					#ifdef _DEBUG
 						OutputDebugStringA("SS Bitmap Timer Stop (no tabCapture)\r\n" );
 					#endif
-					return FALSE;
+					return;
 			}
 			if (!m_Screenshot) m_bCapture = false;
 		}
 		if (m_Screenshot) {
-			KillTimer(m_hWnd,wParam);
+			KillTimer(m_hWnd,ID_chkTimed);
 			m_bCapture = false;
 			#ifdef _DEBUG
 				OutputDebugStringA("SS Bitmap Timer Stop (CaptureDone)\r\n" );
@@ -569,11 +554,10 @@ LRESULT TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {
 			SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 		}
 	}
-	return FALSE;
 }
 
 //WM_NOTIFY:
-LRESULT TfrmMain::wmNotify(WPARAM wParam, LPARAM lParam) {
+void TfrmMain::wmNotify(WPARAM wParam, LPARAM lParam) {
 	switch(((LPNMHDR)lParam)->idFrom) {
 		case IDC_CAPTURETAB:				//TabControl IDC_CAPTURETAB
 			switch (((LPNMHDR)lParam)->code) {
@@ -609,11 +593,10 @@ LRESULT TfrmMain::wmNotify(WPARAM wParam, LPARAM lParam) {
 		default:
 			break;
 	}
-	return FALSE;
 }
 
 //UM_CLOSING:
-LRESULT TfrmMain::UMClosing(WPARAM wParam, LPARAM lParam) {
+void TfrmMain::UMClosing(WPARAM wParam, LPARAM lParam) {
 	HWND hWnd = (HWND)wParam;
 	switch (lParam) {
 		case IDD_UAboutForm:
@@ -625,7 +608,6 @@ LRESULT TfrmMain::UMClosing(WPARAM wParam, LPARAM lParam) {
 		default:
 			break;
 	}
-	return FALSE;
 }
 
 //UM_TAB1:
@@ -644,7 +626,7 @@ LRESULT TfrmMain::UMTab1(WPARAM wParam, LPARAM lParam) {
 }
 
 //UM_EVENT:
-LRESULT TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
+void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 	//HWND hWnd = (HWND)wParam;
 	switch (lParam) {
 		case EVT_CaptureDone:
@@ -652,7 +634,7 @@ LRESULT TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 				TCHAR *err = TranslateT("Can't create a Screenshot");
 				MessageBox(m_hWnd,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
 				Show();
-				return FALSE;
+				return;
 			}
 			if (m_opt_chkEditor) {
 			/*	TfrmEdit *frmEdit=new TfrmEdit(this);
@@ -666,7 +648,7 @@ LRESULT TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 				delete Screenshot; // This way we can delete it after the method returns
 				Screenshot = NULL;
 			*/
-				return FALSE;
+				return;
 			}
 			else {
 				FormClose();
@@ -682,8 +664,7 @@ LRESULT TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 				}
 				m_hTargetWindow = m_hLastWin = NULL;
 				Show();
-			}
-			else {
+			}else{
 				// Saving Options and close
 				SaveOptions();
 				Close();
@@ -692,7 +673,6 @@ LRESULT TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 		default:
 			break;
 	}
-	return FALSE;
 }
 
 //---------------------------------------------------------------------------
@@ -798,14 +778,14 @@ void TfrmMain::Init(LPTSTR DestFolder, HANDLE Contact) {
 void TfrmMain::btnCaptureClick() {
 	m_bFormEdit = false;					//until UEditForm is includet
 
-	if (m_opt_tabCapture == 0 && m_hTargetWindow == 0) {
+	if(m_opt_tabCapture==1) m_hTargetWindow=GetDesktopWindow();
+	else if(!m_hTargetWindow) {
 		TCHAR *err = TranslateT("Select a target window.");
 		MessageBox(m_hWnd,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
 		return;
 	}
 	TfrmMain::Hide();
 
-	if (!m_hTargetWindow) m_hTargetWindow = GetDesktopWindow();
 
 	if (m_opt_chkTimed) {
 		SetTimer(m_hWnd, ID_chkTimed, m_opt_edtTimed ? m_opt_edtTimed*1000 : 500, NULL);
@@ -815,7 +795,7 @@ void TfrmMain::btnCaptureClick() {
 		SetTimer(m_hWnd, ID_chkTimed, 500, NULL);
 	}
 	else {
-		m_Screenshot = CaptureWindow(m_hTargetWindow, (BOOL)(m_opt_chkClientArea));
+		m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea);
 		SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 	}
 }
@@ -887,12 +867,12 @@ void TfrmMain::cboxSendByChange() {
 		itemFlag = m_cSend->GetEnableItem();
 		m_cSend->m_bDeleteAfterSend = m_opt_btnDeleteAfterSend;
 	}
-	bState = ((itemFlag & SS_DLG_DELETEAFTERSSEND) == SS_DLG_DELETEAFTERSSEND);
+	bState = (itemFlag & SS_DLG_DELETEAFTERSSEND);
 	hIcon = IcoLib_GetIcon(m_opt_btnDeleteAfterSend ? ICO_PLUG_SSDELON : ICO_PLUG_SSDELOFF);
 	SendMessage(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), bState);
 
-	bState = ((itemFlag & SS_DLG_DESCRIPTION) == SS_DLG_DESCRIPTION);
+	bState = (itemFlag & SS_DLG_DESCRIPTION);
 	hIcon = IcoLib_GetIcon(m_opt_btnDesc ? ICO_PLUG_SSDESKON : ICO_PLUG_SSDESKOFF);
 	SendMessage(GetDlgItem(m_hWnd, ID_btnDesc), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDesc), bState);
@@ -959,7 +939,7 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl) {
 INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	//generate File name
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	LPTSTR ret = NULL;
+	LPTSTR ret;
 	LPTSTR path = NULL;
 	LPTSTR pszFilename = NULL;
 	LPTSTR pszFileDesc = NULL;
@@ -968,8 +948,8 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	//Generate FileName
 	mir_tcsadd(path, m_FDestFolder);
 	if (path[_tcslen(path)-1] != _T('\\')) mir_tcsadd(path, _T("\\"));
-	mir_tcsadd(path, _T("shot%.5ld"));
-	int FileNumber=db_get_dw(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
+	mir_tcsadd(path, _T("shot%.5u"));
+	unsigned FileNumber=db_get_dw(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
 	// '00000'-'%.5ld'=0 (add more or less len if differ from 5
 	size_t len = (_tcslen(path)+0+1);
 	pszFilename = (LPTSTR)mir_alloc(sizeof(TCHAR)*(len));
@@ -1013,18 +993,9 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			break;
 	}
 
-	
-	if ((FIP->FI_GetICCProfile(dib_new)->flags & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) {
-		// we are in CMYK colour space
-		bool bDummy = false;
-	}
-	else {
-		// we are in RGB colour space
-		bool bDummy = true;
-	}
+//	bool bDummy = !(FIP->FI_GetICCProfile(dib_new)->flags & FIICC_COLOR_IS_CMYK);
 
-	FIBITMAP *dib32 = NULL;
-	FIBITMAP *dib24 = NULL;
+	FIBITMAP *dib32,*dib24;
 	HWND hwndCombo = GetDlgItem(m_hWnd, ID_cboxFormat);
 	switch (ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo))) {
 		case 0: //PNG
@@ -1042,18 +1013,18 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			*/
 			dib32 = FIP->FI_Composite(dib_new,FALSE,&m_AlphaColor,NULL);
 			dib24 = FIP->FI_ConvertTo24Bits(dib32);
-			FIP->FI_Unload(dib32); dib32 = NULL;
+			FIP->FI_Unload(dib32);
 			ret = SaveImage(fif,dib24, pszFilename, _T("jpg"));
-			FIP->FI_Unload(dib24); dib24 = NULL;
+			FIP->FI_Unload(dib24);
 			break;
 
 		case 2: //BMP
 		//	ret = SaveImage(FIF_BMP,dib_new, pszFilename, _T("bmp")); //32bit alpha BMP
 			dib32 = FIP->FI_Composite(dib_new,FALSE,&m_AlphaColor,NULL);
 			dib24 = FIP->FI_ConvertTo24Bits(dib32);
-			FIP->FI_Unload(dib32); dib32 = NULL;
+			FIP->FI_Unload(dib32);
 			ret = SaveImage(FIF_BMP,dib24, pszFilename, _T("bmp"));
-			FIP->FI_Unload(dib24); dib24 = NULL;
+			FIP->FI_Unload(dib24);
 			break;
 
 		case 3: //TIFF (miranda freeimage interface do not support save tiff, we udse GDI+)
@@ -1064,11 +1035,12 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 
 			dib32 = FIP->FI_Composite(dib_new,FALSE,&m_AlphaColor,NULL);
 			dib24 = FIP->FI_ConvertTo24Bits(dib32);
-			FIP->FI_Unload(dib32); dib32 = NULL;
+			FIP->FI_Unload(dib32);
 
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib24);
-			FIP->FI_Unload(dib24); dib24 = NULL;
-			ret = SaveTIF(hBmp, pszFile) ? NULL : pszFile;
+			FIP->FI_Unload(dib24);
+			SaveTIF(hBmp, pszFile);
+			ret=pszFile;
 			DeleteObject(hBmp);
 			}
 			break;
@@ -1077,13 +1049,13 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			{
 			//dib24 = FIP->FI_ConvertTo8Bits(dib_new);
 			//ret = SaveImage(FIF_GIF,dib24, pszFilename, _T("gif"));
-			//FIP->FI_Unload(dib24); dib24 = NULL;
+			//FIP->FI_Unload(dib24);
 			LPTSTR pszFile = NULL;
 			mir_tcsadd(pszFile, pszFilename);
 			mir_tcsadd(pszFile, _T(".gif"));
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib_new);
 			SaveGIF(hBmp, pszFile);
-			ret = pszFile;
+			ret=pszFile;
 			DeleteObject(hBmp);
 			}
 			break;
@@ -1111,18 +1083,17 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			FIP->FI_Unload(dib_save); dib_save = NULL;
 		}
 	}*/
-	FIP->FI_Unload(dib_new); dib_new = NULL;
+	FIP->FI_Unload(dib_new);
 	mir_freeAndNil(pszFilename);
 
 	if (ret) {
-		db_set_dw(NULL, SZ_SENDSS, "FileNumber", (DWORD)FileNumber);
+		db_set_dw(NULL, SZ_SENDSS, "FileNumber", FileNumber);
 		mir_freeAndNil(m_pszFile);
 		mir_freeAndNil(m_pszFileDesc);
 		m_pszFile = ret;
 		if (IsWindowEnabled(GetDlgItem(m_hWnd, ID_btnDesc)) && m_opt_btnDesc) {
 			m_pszFileDesc = pszFileDesc;
-		}
-		else {
+		}else{
 			mir_tcsadd(m_pszFileDesc, _T(""));
 		}
 		
@@ -1132,10 +1103,10 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			m_cSend->m_pszFile = mir_tstrdup(m_pszFile);
 			m_cSend->m_pszFileDesc = mir_tstrdup(m_pszFileDesc);
 		}
+		mir_free(ret);
 		return 0;	//OK
 	}
-	mir_freeAndNil(ret);
-	mir_freeAndNil(pszFileDesc);
+	mir_free(pszFileDesc);
 	return 1;		//error
 }
 

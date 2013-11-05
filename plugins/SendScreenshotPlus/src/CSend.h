@@ -50,7 +50,7 @@ class CSend {
 		virtual ~CSend();
 
 		virtual void	Send() = 0;
-		void			SendSync(bool Sync) {m_SendSync = Sync;};
+//		void			SendSync(bool Sync) {m_SendSync = Sync;};
 		bool			m_bFreeOnExit;		// need to "delete object;" on exit ?
 		void			SetContact(HANDLE hContact);
 		BYTE			GetEnableItem() {return m_EnableItem;};
@@ -71,7 +71,7 @@ class CSend {
 		BYTE			m_EnableItem;		//hold flag for send type
 		void			AfterSendDelete();
 		BYTE			m_ChatRoom;			//is Contact chatroom
-		bool			m_SendSync;			//send sync / async
+//		bool			m_SendSync;			//send sync / async
 
 		bool			hasCap(unsigned int Flag);
 		unsigned int	m_PFflag;
