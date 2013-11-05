@@ -9,9 +9,9 @@
 [Close]
 閉じる
 [Username:]
-ユーザー名 :
+ユーザー名:
 [Password:]
-パスワード :
+パスワード:
 [seconds]
 秒
 ;file \plugins\Exchange\src\dlg_handlers.cpp

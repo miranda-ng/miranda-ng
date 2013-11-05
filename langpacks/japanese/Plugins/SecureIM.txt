@@ -13,9 +13,9 @@
 [Events]
 イベント
 [Username:]
-ユーザー名 :
+ユーザー名:
 [Password:]
-パスワード :
+パスワード:
 [OK]
 OK
 [Cancel]

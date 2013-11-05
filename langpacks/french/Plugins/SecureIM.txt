@@ -29,9 +29,9 @@ Clef hors-ligne expir.:
 [Load &Private key]
 Charger une clef privée
 [Executable:]
-Programme :
+Programme:
 [Home Directory:]
-Page web :
+Page web:
 [Text]
 Texte
 [Key agreement colors]
@@ -59,9 +59,9 @@ Afficher un popup dés réception sécurisée
 [Please type in your password]
 VEuillez taper un mot de passe
 [Username:]
-Identifiant :
+Identifiant:
 [Password:]
-Passe :
+Passe:
 [Cancel]
 Annuler
 [Status]

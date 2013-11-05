@@ -224,7 +224,7 @@ URL:
 [File: ]
 Файл:
 [Description: ]
-Опис :
+Опис:\s
 [Failed to write URL/File to the file :\n]
 Не вдалося записати передачу файлу або URL файл:\n
 [Nick :]

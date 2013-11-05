@@ -13,9 +13,9 @@ Cancel(&C)
 [&Create]
 作成 (&C)
 [Password:]
-パスワード :
+パスワード:
 [Hint:]
-ヒント :
+ヒント:
 [Enter password]
 パスワードを入力してください
 [OK]
@@ -23,23 +23,23 @@ OK
 [Cancel]
 Cancel
 [Date of birth:]
-誕生日 :
+誕生日:
 [Gender:]
-性別 :
+性別:
 [Homepage:]
 Homepage:
 [About:]
-バージョン情報 :
+バージョン情報:
 [City:]
-市 :
+市:
 [State:]
-州 :
+州:
 [Country:]
-国 :
+国:
 [Timezone:]
-タイムゾーン :
+タイムゾーン:
 [New password:]
-新規パスワード :
+新規パスワード:
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
 ;file \protocols\Skype\src\skype_blocked.cpp

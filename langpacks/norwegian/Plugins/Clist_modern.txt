@@ -15,7 +15,7 @@ Skjul telling av grupper når ingen er påkoblet
 [2nd:]
 2.:
 [3rd:]
-3. :
+3.:
 [Always on top]
 Alltid øverst
 [Hide contact list after]

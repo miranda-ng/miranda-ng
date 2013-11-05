@@ -15,37 +15,37 @@ Cancel
 [Apply]
 適用
 [Nick:]
-ニック :
+ニック:
 [First name:]
-名 :
+名:
 [Last name:]
-名字 :
+名字:
 [Female]
 女性
 [Male]
 男性
 [Marital status:]
-結婚歴 :
+結婚歴:
 [Street:]
-通り :
+通り:
 [Postal code:]
-郵便番号 :
+郵便番号:
 [City:]
-市 :
+市:
 [Country:]
-国 :
+国:
 [Timezone:]
-タイムゾーン :
+タイムゾーン:
 [Company:]
-会社 :
+会社:
 [Department:]
-部門 :
+部門:
 [Position:]
-位置 :
+位置:
 [Add Phone Number]
 電話番号を追加
 [Enter country, area code and phone number:]
-国 , 地域コード , 電話番号を入力 :
+国 , 地域コード , 電話番号を入力:
 [Or enter a full international number:]
 もしくは , 国際番号を全て入力
 [Phone can receive SMS text messages]
@@ -73,13 +73,13 @@ Homepage:
 [Extra Icons]
 その他アイコン
 [Gender:]
-性別 :
+性別:
 [E-Mail]
 電子メール
 [Show 'Restart' menu item]
 メニュー項目に ' 再起動 ' を表示
 [Age:]
-年齢 :
+年齢:
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
@@ -135,7 +135,7 @@ Fax
 詳細情報の表示 / 変更 (&D)...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [About:]
-バージョン情報 :
+バージョン情報:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp

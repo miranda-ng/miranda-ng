@@ -43,11 +43,11 @@
 [Switch to active tab]
 アクティブタブの切り替え
 [Limit number of tabs per window to]
-ウィンドウ毎のタブの数を以下に制限 :
+ウィンドウ毎のタブの数を以下に制限:
 [Use separate windows for group chats]
 グループチャットに個別のウィンドウを使用
 [Limit number of group chats tabs per window to]
-ウィンドウ毎のグループチャットタブの数を以下に制限 :
+ウィンドウ毎のグループチャットタブの数を以下に制限:
 [Show titlebar]
 タイトルバーを表示
 [Show status bar]
@@ -99,7 +99,7 @@ IEView を有効
 [Typing Notification Options]
 入力中通知オプション
 [Send typing notifications to the following users when you are typing a message to them:]
-メッセージを入力中に , 入力中通知を送信するユーザー :
+メッセージを入力中に , 入力中通知を送信するユーザー:
 [Show typing notification switch in the status bar]
 ステータスバーに入力中通知の切り替えを表示
 [Show typing notifications when a user is typing a message]
@@ -115,9 +115,9 @@ IEView を有効
 [Send Error]
 エラーを送信
 [An error has occurred. The protocol reported the following error:]
-エラーが発生しました。エラー内容 :
+エラーが発生しました。エラー内容:
 [while sending the following message:]
-次のメッセージの送信中 :
+次のメッセージの送信中:
 [Try again]
 再試行
 [Cancel]
@@ -145,7 +145,7 @@ Cancel
 [No]
 いいえ
 [Show these events only:]
-以下のイベントのみ表示 :
+以下のイベントのみ表示:
 [Actions]
 アクション
 [Messages]
@@ -173,7 +173,7 @@ Cancel
 [Other]
 その他
 [Add new rooms to group:]
-新しいルームをグループに追加 :
+新しいルームをグループに追加:
 [User list row height]
 ユーザーリストの行の高さ
 [pixels]
@@ -189,7 +189,7 @@ Cancel
 [Log timestamp]
 ログタイムスタンプ
 [Limit log text to (events):]
-ログテキストの制限 (イベント) :
+ログテキストの制限 (イベント):
 [Enable highlighting]
 強調表示を有効
 [Words to highlight (wildcards allowed)]
@@ -705,7 +705,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 [Information in %s]
 %s についての情報
 [%s says: %s]
-%s の発言 : %s
+%s の発言: %s
 [%s has left (%s)]
 %s は離席しました ( %s )
 [%s has disconnected (%s)]
@@ -713,7 +713,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 [%s kicked %s (%s)]
 %s は %s を排除しました ( %s )
 [Notice from %s: %s]
-%s からの通知 :%s
+%s からの通知:%s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 顔文字を挿入
@@ -742,10 +742,10 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 [Status]
 ステータス
 [%s: Chat Room (%u user)]
-%s : チャットルーム (%u ユーザー )
+%s: チャットルーム (%u ユーザー )
 [%s: Chat Room (%u users)]
-%s : チャットルーム (%u ユーザー )
+%s: チャットルーム (%u ユーザー )
 [%s: Message Session]
-%s : メッセージセッション
+%s: メッセージセッション
 [%s: Message Session (%u users)]
-%s : メッセージセッション (%u ユーザー )
+%s: メッセージセッション (%u ユーザー )

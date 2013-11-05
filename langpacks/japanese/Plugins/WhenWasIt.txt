@@ -13,7 +13,7 @@
 [Show]
 表示
 [Timeout:]
-タイムアウト :
+タイムアウト:
 [seconds]
 秒
 [In background]
@@ -23,9 +23,9 @@
 [OK]
 OK
 [Description:]
-説明 :
+説明:
 [Date:]
-日付 :
+日付:
 [Delete]
 削除
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp

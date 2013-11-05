@@ -7,13 +7,13 @@
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
-電子メール :
+電子メール:
 [Password:]
-パスワード :
+パスワード:
 [Create a new Facebook account]
 新規 Facebook アカウントを作成
 [What's on your mind?]
-今なにしてる ?
+今なにしてる?
 [Share]
 シェア
 [Cancel]

@@ -9,7 +9,7 @@
 [Choose contacts]
 Choix des contacts
 [Allow tooltip notifications for the following users:]
-Autoriser les bulle d'info pour les contacts suivants :
+Autoriser les bulle d'info pour les contacts suivants:
 [Cancel]
 Annuler
 [Notify upon the following events]
@@ -23,7 +23,7 @@ Les autres
 [Typing]
 Écrit
 [Suppress notifications upon connection for]
-Ne pas notifier à la connexion pendant :
+Ne pas notifier à la connexion pendant:
 [sec]
 secondes
 [Duration]

@@ -9,11 +9,11 @@
 [Gadu-Gadu User Details]
 Gadu-Gadu のユーザー詳細
 [Gadu-Gadu Number:]
-Gadu-Gadu 番号 :
+Gadu-Gadu 番号:
 [Password:]
-パスワード :
+パスワード:
 [E-mail:]
-電子メール :
+電子メール:
 [Create new account]
 新規アカウントを作成する
 [Remove account]
@@ -27,9 +27,9 @@ Gadu-Gadu 番号 :
 [Show offline users with status message as invisible in contact list]
 コンタクトリストに不可視のステータスメッセージのあるオフラインユーザーを表示
 [After disconnection leave away message of status:]
-切断後に離席ステータスメッセージを残す :
+切断後に離席ステータスメッセージを残す:
 [Receive image and after image is received use:]
-受信画像と受信後の画像を使用 :
+受信画像と受信後の画像を使用:
 [Show links from unknown contacts]
 不明なコンタクトからのリンクを表示
 [You will need to reconnect for the changes you have made on this page to take effect.]
@@ -37,9 +37,9 @@ Gadu-Gadu 番号 :
 [Conference policy]
 会議のポリシー
 [if total participant count greater than:]
-全参加者の数が次よりも多い場合 :
+全参加者の数が次よりも多い場合:
 [if unknown participant count greater than:]
-不明な参加者の数が次よりも多い場合 :
+不明な参加者の数が次よりも多い場合:
 [in other case]
 以外の場合
 [Advanced Configuration]
@@ -49,35 +49,35 @@ Gadu-Gadu 番号 :
 [Manually specify connection servers' hosts]
 手動指定してサ－バーのホストと接続する
 [* new line is separator\n** hostname:port format]
-* 新しい線はセパレーターです\n** ホスト名 : ポートの初期化
+* 新しい線はセパレーターです\n** ホスト名: ポートの初期化
 [Use SSL secure connection]
 SSL セキュア接続を使用
 [Use direct connections]
 直接接続を使用
 [Port:]
-ポート :
+ポート:
 [Use forwarding]
 転送を使用
 [Host:]
-ホスト :
+ホスト:
 [First name:]
-名 :
+名:
 [Last name:]
-名字 :
+名字:
 [Family name:]
-名字 :
+名字:
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [Gender:]
-性別 :
+性別:
 [City:]
-市 :
+市:
 [Origin city:]
-出生地 :
+出生地:
 [Birth year:]
-誕生年 :
+誕生年:
 [Description:]
-説明 :
+説明:
 [Enter token to continue]
 継続するにはトークンを入力してください
 [OK]
@@ -89,11 +89,11 @@ Gadu-Gadu アカウントの作成
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
 Gadu-Gadu アカウントの作成\n新規Gadu-Gadu アカウントを作成します
 [New password:]
-新規パスワード :
+新規パスワード:
 [Confirm password:]
-パスワードの確認 :
+パスワードの確認:
 [New e-mail:]
-新規電子メール :
+新規電子メール:
 [&Create]
 作成 (&C)
 [Remove Gadu-Gadu account]
@@ -113,7 +113,7 @@ Gadu-Gadu 電子メールを変更
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
 Gadu-Gadu 電子メールを変更\n現在のGadu-Gadu ユーザーの電子メールを変更します
 [Age from:]
-次の年齢から :
+次の年齢から:
 [&Close]
 閉じる (&C)
 [&Send]
@@ -153,7 +153,7 @@ Gadu-Gadu サーバーは現在ダウンしています。後ほど再試行し�
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 サーバーのホスト名%sは不正です。ネットワークから提供されるデフォルトホスト名を使用します
 [Age:]
-年齢 :
+年齢:
 [List import successful.]
 リストのインポートに成功
 [List remove successful.]
@@ -323,30 +323,30 @@ Whois
 同時セッション (&s)
 ;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
-エラーによりトークンの復旧に失敗しました :\n\t%s
+エラーによりトークンの復旧に失敗しました:\n\t%s
 [Could not load token image.]
 トークン画像が読み込みできません
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
-新規アカウントの登録が次のエラーのためできませんでした :\n\t%s
+新規アカウントの登録が次のエラーのためできませんでした:\n\t%s
 [Registration rejected]
 登録が拒否されました
 [You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
 新規アカウントの登録が完了しました\n" メニュー -> 詳細情報の表示 / 変更..." で個人詳細情報を入力してください
 [Your account cannot be removed because of error:\n\t%s]
-アカウントは次のエラーのため削除できませんでした :\n\t%s
+アカウントは次のエラーのため削除できませんでした:\n\t%s
 [Bad number or password]
 番号もしくはパスワードが不正
 [Your account has been removed.]
 アカウントは削除されました
 [Your password cannot be changed because of error:\n\t%s]
-パスワードは次のエラーのため変更できませんでした :\n\t%s
+パスワードは次のエラーのため変更できませんでした:\n\t%s
 [Invalid data entered]
 入力データが正しくありません
 [Your password has been changed.]
 パスワードは変更されました
 [Your e-mail cannot be changed because of error:\n\t%s]
-電子メールは次のエラーのため変更できませんでした :\n\t%s
+電子メールは次のエラーのため変更できませんでした:\n\t%s
 [Bad old e-mail or password]
 旧電子メールもしくはパスワードが不正
 [Your e-mail has been changed.]

@@ -13,7 +13,7 @@ OK
 [Cancel]
 Cancel
 [Password:]
-パスワード :
+パスワード:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
 [Name]

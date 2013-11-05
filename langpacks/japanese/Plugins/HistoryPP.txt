@@ -72,9 +72,9 @@ WATrack: リクエストは拒否されました
 [Customize Toolbar]
 ツールバーをカスタマイズ
 [A&vailable buttons:]
-利用可能なボタン (&v) :
+利用可能なボタン (&v):
 [Buttons on &toolbar:]
-ツールバー上のボタン :
+ツールバー上のボタン:
 [&Add >>]
 追加 (&A) >>
 [<< &Remove]
@@ -88,7 +88,7 @@ WATrack: リクエストは拒否されました
 [Event Info]
 イベント情報
 [Date/Time:]
-日付 / 時間 :
+日付 / 時間:
 [Global History Search]
 グローバル履歴検索
 [Search for]
@@ -224,7 +224,7 @@ ANSI エンコード
 [Continued from the bottom]
 一番下から続行
 [Search: %s (F3 to find next)]
-検索 : %s ( F3 で次を検索 )
+検索: %s ( F3 で次を検索 )
 [You have entered the wrong password]
 入力したパスワードに誤りがあります
 [%d event]
@@ -272,31 +272,31 @@ CAPS LOCK ボタンの状態に注意してください
 [Password and Confirm fields should be similar]
 パスワードと確認フィールドを同様にする
 [Outgoing file transfer: %s]
-発信ファイル転送 : %s
+発信ファイル転送: %s
 [Incoming file transfer: %s]
-着信ファイル転送 : %s
+着信ファイル転送: %s
 [You were added by %s (%s%d)]
 あなたは %s に追加されました (%s%d)
 [Outgoing contacts: %s]
-発信コンタクト : %s
+発信コンタクト: %s
 [Incoming contacts: %s]
-着信コンタクト : %s
+着信コンタクト: %s
 [Webpager message from %s (%s): %s]
-%s (%s) からの Webpager メッセージ : %s
+%s (%s) からの Webpager メッセージ: %s
 [Email express from %s (%s): %s]
-%s (%s)　からの Email Express : %s
+%s (%s)　からの Email Express: %s
 [Status change: %s]
-ステータス変更 : %s
+ステータス変更: %s
 [Authorization request granted by %s (%d): %s]
-%s (%d) からの承認リクエスト許可 : %s
+%s (%d) からの承認リクエスト許可: %s
 [Authorization request denied by %s (%d): %s]
-%s (%d) からの承認リクエスト拒否 : %s
+%s (%d) からの承認リクエスト拒否: %s
 [User %s (%d) removed himself from your contact list: %s]
-ユーザー  %s (%d) はあなたのコンタクトリストから自分を削除しました : %s
+ユーザー  %s (%d) はあなたのコンタクトリストから自分を削除しました: %s
 [Authorization future request by %s (%d): %s]
-%s (%d) からの今後の承認リクエスト : %s
+%s (%d) からの今後の承認リクエスト: %s
 [Broadcast message from %s (%s): %s]
-%s (%s) からのブロードキャストメッセージ : %s
+%s (%s) からのブロードキャストメッセージ: %s
 [Show all events]
 イベントを全て表示
 [Avatar changes]
@@ -318,13 +318,13 @@ RTL をデフォルトで使用
 [To change fonts you need to install FontService plugin.]
 フォントを変更するには FontService プラグインをインストールする必要があります
 [FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService はインストール済みです。設定変更 : カスタマイズ -> フォント
+FontService はインストール済みです。設定変更: カスタマイズ -> フォント
 [Download FontService plugin]
 FontService プラグインをダウンロード
 [To change icons you need to install IcoLib plugin.]
 アイコンを変更するには IcoLib プラグインをインストールする必要があります
 [IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib はインストール済みです。設定変更 : カスタマイズ -> アイコン
+IcoLib はインストール済みです。設定変更: カスタマイズ -> アイコン
 [Download IcoLib plugin]
 IcoLib プラグインをダウンロード
 [More info on these plugins]
@@ -368,11 +368,11 @@ IcoLib プラグインをダウンロード
 [Unknown codepage %u]
 不明なコードページ %u
 [User %s (%d) changed icq client: %s]
-ユーザー  %s (%d) は ICQ クライアントを変更しました : %s
+ユーザー  %s (%d) は ICQ クライアントを変更しました: %s
 [Status request by %s (%d):%s]
-%s (%d) によるステータスリクエスト : %s
+%s (%d) によるステータスリクエスト: %s
 [Ignored status request by %s (%d):%s]
-%s (%d) により無視されたステータスリクエスト :%s
+%s (%d) により無視されたステータスリクエスト:%s
 [No "%s" items]
 "%s" 項目はありません
 [Speak Message]
@@ -382,7 +382,7 @@ IcoLib プラグインをダウンロード
 [Do you really want to delete ALL items for this contact?]
 本当にこのコンタクトの全ての項目を削除しますか ?
 [Note: It can take several minutes for large histories]
-メモ : 大きい履歴の場合は数分かかります
+メモ: 大きい履歴の場合は数分かかります
 [Empty history of subcontacts also]
 サブコンタクトの履歴も空にする
 [History of this contact is password protected]

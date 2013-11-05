@@ -46,7 +46,7 @@ SmileyAdd サポートを有効
 その他
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Gender:]
-性別 :
+性別:
 [Homepage:]
 Homepage:
 [Idle]
@@ -54,9 +54,9 @@ Homepage:
 [Name]
 名前
 [Name:]
-名前 :
+名前:
 [Time:]
-時間 :
+時間:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]

@@ -21,7 +21,7 @@
 [Hotkeys]
 ホットキー
 [Show/Hide:]
-表示 / 非表示 :
+表示 / 非表示:
 [URL:]
 URL:
 [Open in new browser window]
@@ -97,9 +97,9 @@ URL:
 [Transparent contact list]
 コンタクトリストを透過表示にする
 [Inactive opacity:]
-非アクティブ不透明度 ：
+非アクティブ不透明度：
 [Active opacity:]
-アクティブ不透明度 :
+アクティブ不透明度:
 [Show menu bar]
 メニューバーを表示
 [Easy move]
@@ -115,7 +115,7 @@ URL:
 [Items]
 アイテム
 ['Hide Offline' means to hide:]
-' オフラインの非表示 ' で非表示にする対象 :
+' オフラインの非表示 ' で非表示にする対象:
 [Groups]
 グループ
 [Show counts of number of contacts in a group]
@@ -127,7 +127,7 @@ URL:
 [Quicksearch in open groups only]
 オープングループのみのクイック検索
 [Group:]
-グループ :
+グループ:
 [Status Bar]
 ステータスバー
 [Show status bar]

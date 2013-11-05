@@ -9,7 +9,7 @@
 Permet de gérer les associations de fichier et d'ULR comme AIM, Yahoo messenger, xmpp, MSN messenger, Gadu-Gadu et Tlen.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
-Associations enregistrées pour Miranda-IM :
+Associations enregistrées pour Miranda-NG:
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 &Lancer Miranda-IM avec Windows (en utilisant le profil en cours)
 [Only associate with Miranda NG while it is &running]
@@ -24,13 +24,13 @@ Types de fichier
 [File Association Error]
 Erreur d'association de fichier
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
-Il s'est produit une erreur lors de la modification de l'association du type fichier/URL dans la base de registre.\nMotif : %s
+Il s'est produit une erreur lors de la modification de l'association du type fichier/URL dans la base de registre.\nMotif: %s
 [Unknown]
 Inconnu
 [Autostart Error]
 Erreur de lancement automatique
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-Il s'est produit une erreur lors de la modification de la liste des lancements automatiques.\n\nMotif : %s
+Il s'est produit une erreur lors de la modification de la liste des lancements automatiques.\n\nMotif: %s
 [Miranda NG Database]
 Profil Miranda-IM
 ;file \plugins\AssocMgr\src\dde.cpp

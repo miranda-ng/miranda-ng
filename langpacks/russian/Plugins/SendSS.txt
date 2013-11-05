@@ -62,8 +62,6 @@
 Отправить скриншот: <Неизвестный контакт> - Настройки захвата
 [Ti&med capture]
 Задержка захвата
-[JPG &Quality :]
-Качество JPG :
 [C&lient Area]
 Содержимое
 [&Just save it]
@@ -118,8 +116,6 @@ HTTP Server не загружен!
 Закрыть&&Послать
 [Close&&Sa&ve]
 Закрыть&&Сохранить
-[Des&tination Folder :]
-Папка назначения:
 [Destination for the image file(s):]
 Назначение изображений:
 [Fille&d]

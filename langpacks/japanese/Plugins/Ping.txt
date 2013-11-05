@@ -11,7 +11,7 @@
 [Popups]
 ポップアップ
 [Row height:]
-行の高さ :
+行の高さ:
 [Add]
 追加
 [Remove]
@@ -23,7 +23,7 @@ OK
 [Cancel]
 Cancel
 [Port:]
-ポート :
+ポート:
 [Contact]
 コンタクト
 ;file \plugins\Ping\src\menu.cpp

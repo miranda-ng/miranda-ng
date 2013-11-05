@@ -15,21 +15,21 @@ SMS reçu
 [Read Next]
 Suivant
 [From:]
-De :
+De:
 [Message received:]
-Message reçu :
+Message reçu:
 [Send SMS]
 Envoyer SMS
 [To:]
-À :
+À:
 [Add number to list]
 Ajouter à la Liste
 [Save number]
 Enregistrer
 [Enter message:]
-Tapez un message :
+Tapez un message:
 [Chars:]
-Lettres :
+Lettres:
 [&Send]
 &Envoyer
 [SMS Message Didn't Send]
@@ -47,17 +47,17 @@ au début
 [End]
 à la fin
 [Put signature at the:]
-Où mettre la signature :
+Où mettre la signature:
 [SMS Message Sent]
 Envoi d'un message SMS
 [&OK]
 OK
 [Message ID:]
-ID du message :
+ID du message:
 [Source:]
-Source :
+Source:
 [Network:]
-Réseau :
+Réseau:
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 [SMS Message from %s]

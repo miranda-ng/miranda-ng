@@ -21,7 +21,7 @@ Une seule fois par jour.
 [Show]
 Afficher
 [Timeout:]
-Délai :
+Délai:
 [seconds]
 secondes
 [Birthday list]
@@ -31,9 +31,9 @@ Fermer
 [Manage anniversaries]
 Gestion des fêtes
 [Description:]
-Description :
+Description:
 [Date:]
-Date :
+Date:
 [Delete]
 Effacer
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp

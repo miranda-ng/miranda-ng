@@ -49,7 +49,7 @@ Cancel
 [Database Import Complete]
 データベースのインポートが完了しました
 [The import has completed from]
-以下からのインポートは完了しました :
+以下からのインポートは完了しました:
 [What do you want to do with the file now?]
 このファイルに何をしますか？
 [&Recycle]

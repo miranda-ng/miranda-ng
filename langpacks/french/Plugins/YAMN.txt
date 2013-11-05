@@ -15,7 +15,7 @@ Copyright:
 [Check this account]
 Vérifier ce compte
 [Check interval [min]:]
-Intervalle de vérification [min] :
+Intervalle de vérification [min]:
 [Use contact notification for this account]
 Afficher un contact dans la liste
 [Replace nick name]
@@ -49,7 +49,7 @@ Reset du compteur
 [Default]
 Défaut
 [Name:]
-Nom :
+Nom:
 [Check while...]
 Vérification pendant...
 [Cancel]
@@ -119,9 +119,9 @@ Vérif. des messages
 Échec de la connexion
 ;file \plugins\YAMN\src\main.h
 [YAMN: new mail message]
-YAMN : nouvel e-mail
+YAMN: nouvel e-mail
 [YAMN: connect failed]
-YAMN : échec connexion
+YAMN: échec connexion
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Pseudo
@@ -233,7 +233,7 @@ Le serveur rejette la connexion SSL.
 [Cannot read SSL data.]
 Lecture de données SSL impossible.
 [Error %d-%d-%d-%d:]
-Erreur %d-%d-%d-%d :
+Erreur %d-%d-%d-%d:
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Réseau
@@ -244,7 +244,7 @@ Général
 [No account selected]
 Aucun compte sélectionné
 [Time left to next check [s]: %d]
-Prochaine vérification : [s]: %d
+Prochaine vérification: [s]: %d
 [All Files]
 Tous les fichiers
 [Select executable used for notification]

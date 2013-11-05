@@ -27,9 +27,9 @@ Boutons
 [InsertSeparator]
 Séparateur
 [Service:]
-Service :
+Service:
 [Name:]
-Nom :
+Nom:
 [Set]
 OK
 [Default]
@@ -57,7 +57,7 @@ Demander avant de supprimer
 [Always on top]
 Toujours visible
 [Hide contact list after it has been idle for]
-Cacher la liste de contacts après :
+Cacher la liste de contacts après:
 [seconds]
 secondes
 [Sort contacts by name]
@@ -97,7 +97,7 @@ Tri des contacts dans la liste
 [Rows]
 Lignes
 [Row height:]
-Hauteur de ligne :
+Hauteur de ligne:
 [Gamma correction]
 Correction gamma
 [Window]
@@ -113,15 +113,15 @@ Redimensionnement automatique de la fenêtre
 [Size upwards]
 Agrandir vers le haut
 [Title bar text:]
-Texte du titre :
+Texte du titre:
 [Fade contact list in/out]
 Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive :
+Opacité si inactive:
 [Active opacity:]
-   Opacité si active :
+Opacité si active:
 [Show menu bar]
 Afficher la barre de menu
 [Easy move]
@@ -145,7 +145,7 @@ Afficher la sélection même si la liste n'est pas visible
 [Make selection highlight translucent]
 Activer la sélection translucide
 ['Hide Offline' means to hide:]
-"Cacher les Hors ligne" masque :
+"Cacher les Hors ligne" masque:
 [Groups]
 Groupes
 [Draw a line alongside group names]
@@ -159,19 +159,19 @@ Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [Indent groups by:]
-Décaler les contacts de :
+Décaler les contacts de:
 [Visual]
 Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée :
+Durée:
 [milliseconds]
 millisecondes
 [Left margin:]
-Marge gauche :
+Marge gauche:
 [Gray out entire list when:]
-Griser toute la liste quand :
+Griser toute la liste quand:
 [Dim idle contacts]
 Estomper les contacts inactifs
 [Contact List Background]

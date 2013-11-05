@@ -7,9 +7,9 @@
 ;============================================================
 ;file \protocols\Xfire\res\resource.rc
 [Password:]
-Passe :
+Passe:
 [Nick:]
-Pseudo :
+Pseudo:
 [More options]
 Plus d'options
 [Files]
@@ -19,13 +19,13 @@ Appliquer
 [Remove]
 Retirer
 [Username:]
-Identifiant :
+Identifiant:
 [Game]
 Jeu
 [Name:]
-Nom :
+Nom:
 [Port:]
-Port :
+Port:
 [Copy]
 Copier
 [Join]
@@ -33,7 +33,7 @@ Rejoindre
 [Cancel]
 Annuler
 [Search:]
-Chercher :
+Chercher:
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Tous les fichiers

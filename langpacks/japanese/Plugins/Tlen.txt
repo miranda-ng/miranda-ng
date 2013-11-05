@@ -7,15 +7,15 @@
 ;============================================================
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
-ユーザー名 :
+ユーザー名:
 [Password:]
-パスワード :
+パスワード:
 [Create new account]
 新規アカウントを作成する
 [Options]
 オプション
 [Port:]
-ポート :
+ポート:
 [Background]
 背景
 [Text]
@@ -25,27 +25,27 @@ OK
 [Cancel]
 Cancel
 [First name:]
-名 :
+名:
 [Last name:]
-名字 :
+名字:
 [E-mail:]
-電子メール :
+電子メール:
 [Gender:]
-性別 :
+性別:
 [City:]
-市 :
+市:
 [Save changes]
 変更を保存
 [Software:]
-ソフトウェア :
+ソフトウェア:
 [System:]
-システム :
+システム:
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [Age:]
-年齢 :
+年齢:
 [From:]
-送信者 :
+送信者:
 ;file \protocols\Tlen\src\tlen_iqid.cpp
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]

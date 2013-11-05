@@ -7,13 +7,13 @@
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
-e-mail :
+e-mail:
 [Password:]
-Passe :
+Passe:
 [Configuration]
 Configuration
 [Port:]
-Port :
+Port:
 [Default]
 Défaut
 [Background color]
@@ -23,25 +23,25 @@ Police
 [Summary]
 Résumé
 [Nickname:]
-Pseudo :
+Pseudo:
 [First name:]
-Prénom :
+Prénom:
 [Last name:]
-Nom :
+Nom:
 [Gender:]
-Sexe :
+Sexe:
 [Age:]
-Age :
+Age:
 [Location]
 Lieu
 [Country:]
-Pays :
+Pays:
 [State:]
-État :
+État:
 [City:]
-Ville :
+Ville:
 [Full e-mail:]
-e-mail :
+e-mail:
 [Text Color]
 Texte
 [Closing in %d]

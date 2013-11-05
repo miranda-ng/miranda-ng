@@ -9,7 +9,7 @@
 [AIM User Details]
 AIM
 [Password:]
-Passe :
+Passe:
 [Message Delivery Confirmation]
 Demander un accusé de réception
 [Do Not Autoreply When Away]
@@ -33,7 +33,7 @@ Transfert de fichier par Proxy
 [*Aim must be reconnected for some option to take effect]
 *AIM doit être reconnecter pour valider certaines options
 [Port:]
-Port :
+Port:
 [Reset]
 RAZ
 [Save Profile]
@@ -41,9 +41,9 @@ Enregistrer
 [AIM Instant Idler]
 AIM - configuration de l'inactivité
 [Number of Hours:]
-Nombre d'heure :
+Nombre d'heure:
 [Number of Minutes:]
-Nombre de minutes :
+Nombre de minutes:
 [Set Idle]
 Être inactif
 [Unset Idle]
@@ -116,7 +116,7 @@ File du serveur pleine.
 ;file \protocols\AimOscar\src\proto.cpp
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-{Auto-Response} :
+{Auto-Response}:
 [No information has been provided by the server.]
 Aucune information n'a été fournie par le serveur.
 [Item you want to delete not found in list.]

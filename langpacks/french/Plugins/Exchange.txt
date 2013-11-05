@@ -9,9 +9,9 @@
 [Close]
 Fermer
 [Username:]
-Identifiant :
+Identifiant:
 [Password:]
-Passe :
+Passe:
 [seconds]
 secondes
 ;file \plugins\Exchange\src\dlg_handlers.cpp

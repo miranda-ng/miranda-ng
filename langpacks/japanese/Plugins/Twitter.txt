@@ -9,7 +9,7 @@
 [Create a new Twitter account]
 新規 Twitter アカウントを作成
 [Username:]
-ユーザー名 :
+ユーザー名:
 [Send Tweet]
 ツイートする
 [Cancel]
@@ -19,7 +19,7 @@ Cancel
 [Use group chat for Twitter feed]
 Twitter フィードにグループチャットを使用
 [Base URL:]
-基本 URL :
+基本 URL:
 [Polling rate:]
 ポーリング率:
 [Once every]

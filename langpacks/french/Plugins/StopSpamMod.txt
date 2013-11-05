@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\StopSpamMod\res\stopspam.rc
 [Answer:]
-Réponse :
+Réponse:
 ;file \plugins\StopSpamMod\src\init.cpp
 ;file \plugins\StopSpamMod\src\options.cpp
 [Message Sessions]

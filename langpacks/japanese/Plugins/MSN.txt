@@ -11,9 +11,9 @@ MSN
 [Live ID:]
 Live ID:
 [Password:]
-パスワード :
+パスワード:
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [Create a new Windows Live account]
 新規 Windows Live アカウントを作成
 [Send message font color/size info inside messages]
@@ -27,9 +27,9 @@ Live ID:
 [Allow people on my contact list send messages to mobile device]
 コンタクトリストに登録済の人にはモバイルデバイスを使用したメッセージ送信を許可
 [Direct:]
-直接 :
+直接:
 [Gateway:]
-ゲートウェイ :
+ゲートウェイ:
 [Reset]
 リセット
 [Server List Manager]
@@ -121,13 +121,13 @@ MSN チャット
 %s プロトコル
 ;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
-件名 : %s
+件名: %s
 [Hotmail from %s (%S)]
 Hotmai 送信者 %s(%S)
 [Hotmail from %s]
 Hotmai 送信者 %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
-未読メールがあります : 受信トレイ %d 通 ( その他のフォルダー %d 通
+未読メールがあります: 受信トレイ %d 通 ( その他のフォルダー %d 通
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
 Hotmail の受信箱を開く (&H)
@@ -201,9 +201,9 @@ Live アラート
 [You cannot send message to yourself]
 自分自身にはメッセージを送信できません
 [Message is too long: SMS page limited to 133 UTF8 chars]
-メッセージが長すぎます : SMS ページは UTF8 で 133 文字までに制限されています
+メッセージが長すぎます: SMS ページは UTF8 で 133 文字までに制限されています
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
-メッセージが長すぎます : MSN メッセンジャーは UTF8 で 1202 文字までに制限されています
+メッセージが長すぎます: MSN メッセンジャーは UTF8 で 1202 文字までに制限されています
 [Offline messaging is not allowed for LCS contacts]
 オフラインメッセージは LCS コンタクトには許可されていません
 ;file \protocols\MSN\src\msn_svcs.cpp

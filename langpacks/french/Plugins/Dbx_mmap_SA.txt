@@ -59,7 +59,7 @@ Que voulez-vous désormais faire avec le fichier ?
 [&Leave]
 &Quitter
 [Unique ID:]
-ID unique :
+ID unique:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Name]

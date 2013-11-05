@@ -53,7 +53,7 @@ Décalage du texte
 [Typing Notification Options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
-Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
+Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné:
 [Show typing notifications when a user is typing a message]
 Afficher des notifications quand un contact tape un message
 [Update message window icons when a user is typing]
@@ -67,9 +67,9 @@ Afficher un popup
 [Send Error]
 Erreur d'envoi
 [An error has occurred. The protocol reported the following error:]
-Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
 [while sending the following message:]
-tout en envoyant le message suivant :
+tout en envoyant le message suivant:
 [Try again]
 Réessayer
 [Cancel]
@@ -87,7 +87,7 @@ Oui
 [No]
 Non
 [Show these events only:]
-Voir ces évènements si :
+Voir ces évènements si:
 [Nick changes]
 Changements de pseudo
 [Users joining]
@@ -109,7 +109,7 @@ Notifications
 [Other]
 Autre
 [Add new rooms to group:]
-Ajouter salons au groupe :
+Ajouter salons au groupe:
 [Log Options]
 Options du journal
 [Your name]
@@ -121,7 +121,7 @@ Heure
 [Log timestamp]
 Format heure
 [Limit log text to (events):]
-Limite texte (évènements) :
+Limite texte (évènements):
 [Enable highlighting]
 Autoriser surlignage
 [Words to highlight (wildcards allowed)]
@@ -288,7 +288,7 @@ est arrivé (%s)
 [is now %s (was %s)]
 est %s (était %s)
 [Sending in progress: %d message(s) left...]
-Envoi en cours : il reste %d message(s)...
+Envoi en cours: il reste %d message(s)...
 [%s is typing a message...]
 %s vous écrit un message...
 [Last message received on %s at %s.]
@@ -524,7 +524,7 @@ Usager a envoyé une notice
 Le sujet a été changé
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
-Serveur : %s
+Serveur: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s demande votre attention dans %s
@@ -541,7 +541,7 @@ Changement de sujet dans %s
 [Information in %s]
 Informations dans %s
 [%s says: %s]
-%s dit : %s
+%s dit: %s
 [%s has left (%s)]
 %s est parti (%s)
 [%s has disconnected (%s)]
@@ -549,7 +549,7 @@ Informations dans %s
 [%s kicked %s (%s)]
 %s a kické %s (%s)
 [Notice from %s: %s]
-Notice de %s : %s
+Notice de %s: %s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 Insérer un smiley

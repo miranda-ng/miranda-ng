@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Nick:]
-ニック :
+ニック:
 [Reset]
 リセット
 [OK]

@@ -20,9 +20,9 @@ Besoin de plus de fonctions ?
 [WATrack notify]
 Notifications de WATrack
 [WATrack: %s]
-WATrack : %s
+WATrack: %s
 [WATrack: request denied]
-WATrack : requête refusée
+WATrack: requête refusée
 [Imitate IEView API]
 Comme IEView
 [Enable raw RTF support]
@@ -44,7 +44,7 @@ Filtres personnalisables
 [Filter Properties]
 Options du filtre
 [&Name:]
-&Nom :
+&Nom:
 [Show all except selected events]
 Afficher tous les évènements sauf ceux sélectionnés
 [Show only selected events]
@@ -58,9 +58,9 @@ Entrant & sortant
 [Customize Toolbar]
 Barre d'outils personnalisable
 [A&vailable buttons:]
-Boutons disponibles :
+Boutons disponibles:
 [Buttons on &toolbar:]
-Boutons en barre d'outils :
+Boutons en barre d'outils:
 [&Add >>]
 &Ajouter >>
 [<< &Remove]
@@ -72,7 +72,7 @@ Détails d'évènement
 [&Reply Quoted]
 &Répondre en citant
 [Date/Time:]
-Date/Heure :
+Date/Heure:
 [Global History Search]
 Recherche dans l'historique système
 [Search for]
@@ -150,7 +150,7 @@ De %s
 [To %s]
 Vers %s
 [HotSearch: %s (F3 to find next)]
-Rechercher rapide : %s (F3 pour le suivant)
+Rechercher rapide: %s (F3 pour le suivant)
 [Do you want to continue searching at the beginning?]
 Voulez-vous reprendre la recherche depuis le début ?
 [History++ Search]
@@ -206,7 +206,7 @@ Continuer depuis le haut
 [Continued from the bottom]
 Continuer depuis le bas
 [Search: %s (F3 to find next)]
-Résultat : %s (F3 = suivant)
+Résultat: %s (F3 = suivant)
 [You have entered the wrong password]
 Vous avez entrée un mauvais mot de passe
 [%d event]
@@ -250,31 +250,31 @@ Prenez garde au 'CAPS LOCK' (verrouillage majuscule)
 [Password and Confirm fields should be similar]
 Le mot de passe et sa confirmation doivent être identique (à la casse prête)
 [Outgoing file transfer: %s]
-Envoi de fichier : %s
+Envoi de fichier: %s
 [Incoming file transfer: %s]
-Réception de fichier : %s
+Réception de fichier: %s
 [You were added by %s (%s%d)]
 Vous avez été ajouté par %s (%s%d)
 [Outgoing contacts: %s]
-Contacts sortants : %s
+Contacts sortants: %s
 [Incoming contacts: %s]
-Contacts entrants : %s
+Contacts entrants: %s
 [Webpager message from %s (%s): %s]
-Message Webpager de %s (%s) : %s
+Message Webpager de %s (%s): %s
 [Email express from %s (%s): %s]
-e-mail express de %s (%s) : %s
+e-mail express de %s (%s): %s
 [Status change: %s]
-État changé : %s
+État changé: %s
 [Authorization request granted by %s (%d): %s]
-Autorisation acceptée par %s (%d) : %s
+Autorisation acceptée par %s (%d): %s
 [Authorization request denied by %s (%d): %s]
-Autorisation refusée par %s (%d) : %s
+Autorisation refusée par %s (%d): %s
 [User %s (%d) removed himself from your contact list: %s]
-%s (%d) s'est retiré de votre liste de contacts : %s
+%s (%d) s'est retiré de votre liste de contacts: %s
 [Authorization future request by %s (%d): %s]
-Demande d'autorisation par %s (%d) : %s
+Demande d'autorisation par %s (%d): %s
 [Broadcast message from %s (%s): %s]
-Modèle de message de %s (%s) : %s
+Modèle de message de %s (%s): %s
 [Show all events]
 Afficher tous les évènements
 [Avatar changes]
@@ -332,11 +332,11 @@ Mot de passe erroné
 [Unknown codepage %u]
 Codepage inconnu %u
 [User %s (%d) changed icq client: %s]
-%s (%d) a changé de client ICQ : %s
+%s (%d) a changé de client ICQ: %s
 [Status request by %s (%d):%s]
-Demande d'état par %s (%d) : %s
+Demande d'état par %s (%d): %s
 [Ignored status request by %s (%d):%s]
-Demande d'état ignoré par %s (%d) : %s
+Demande d'état ignoré par %s (%d): %s
 [No "%s" items]
 "%s" non trouvé
 [Next message]
@@ -348,7 +348,7 @@ Mess. suivant
 [Do you really want to delete ALL items for this contact?]
 Voulez-vous vraiment effacer TOUS l'historique de ce contact ?
 [Note: It can take several minutes for large histories]
-Note : Ceci peut prendre du temps sur de longs historiques
+Note: Ceci peut prendre du temps sur de longs historiques
 [Empty history of subcontacts also]
 Effacer également celui des sous-contacts.
 [History of this contact is password protected]
@@ -368,7 +368,7 @@ Désactiver les bordures
 [(Unknown Contact)']
 (Contact inconnu)'
 [Database:]
-Base de données :
+Base de données:
 [Contact history]
 Historique du contact
 [System message]

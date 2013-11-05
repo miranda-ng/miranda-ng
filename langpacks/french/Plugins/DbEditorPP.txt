@@ -41,7 +41,7 @@ Avertir avant la suppression d'un ou plusieurs modules
 [Use popups when watched settings change values]
 Afficher un popup quand les réglages sous surveillance sont modifiés
 [Popup timeout (0 for infinite)]
-Délai du Popup (0 pour infini) :
+Délai du Popup (0 pour infini):
 [Background color]
 Couleur de fond
 [Add a module to contact]
@@ -53,11 +53,11 @@ Annuler
 [Edit Setting]
 Modifier réglage
 [Value Name:]
-Nom de valeur :
+Nom de valeur:
 [Value Data:]
-Données de valeur :
+Données de valeur:
 [Save Value as:]
-Enregistrer valeur sous :
+Enregistrer valeur sous:
 [Watched Database Variables]
 Variables de la base surveillées
 [Copy module to contact]
@@ -274,12 +274,12 @@ Taille
 <inconnu>
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (BYTE) %d
+Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (WORD) %d
+Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (WORD) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (DWORD) %d
+Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (DWORD) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : "%s"
+Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Réglages changés dans la base de données : \nModule : "%s" , Réglages : "%s"\nNouvelle valeur (UTF8) : "%s"
+Réglages changés dans la base de données: \nModule: "%s" , Réglages: "%s"\nNouvelle valeur (UTF8): "%s"

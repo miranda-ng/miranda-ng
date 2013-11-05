@@ -11,7 +11,7 @@ Catégories de smileys
 [Specify Smiley Pack for each category]
 Spécifier un pack de smileys par catégorie
 [Name:]
-Nom :
+Nom:
 [Replace only smileys surrounded by spaces]
 Ne remplacer que les smileys entouré d'espace
 [Scale smiley to textheight]

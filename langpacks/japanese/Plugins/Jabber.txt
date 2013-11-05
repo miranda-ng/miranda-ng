@@ -9,25 +9,25 @@
 [Edit Note]
 メモの編集
 [Tags:]
-タグ :
+タグ:
 [OK]
 OK
 [Cancel]
 Cancel
 [Type:]
-タイプ :
+タイプ:
 [User:]
-ユーザー :
+ユーザー:
 [Domain/Server:]
-ドメイン / サーバー :
+ドメイン / サーバー:
 [Password:]
-パスワード :
+パスワード:
 [Resource:]
-リソース :
+リソース:
 [Register new user]
 新規ユーザーを登録
 [Use custom connection host and port:]
-ホストとカスタム接続を次のポートで使用 :
+ホストとカスタム接続を次のポートで使用:
 [Use Domain Login]
 ドメインログインを使用
 [Go]
@@ -41,15 +41,15 @@ Cancel
 [Jabber]
 Jabber
 [Username:]
-ユーザー名 :
+ユーザー名:
 [Priority:]
-優先度 :
+優先度:
 [Use hostname as resource]
 リソースとしてホスト名を使用
 [List of public servers]
 パブリックサーバーのリスト
 [Port:]
-ポート :
+ポート:
 [Use SSL]
 SSL を使用
 [Use TLS]
@@ -59,19 +59,19 @@ TLS を使用
 [Manually specify connection host]
 手動で接続ホストを指定
 [Host:]
-ホスト :
+ホスト:
 [User directory:]
-ユーザーディレクトリー :
+ユーザーディレクトリー:
 [Language for human-readable resources:]
-読むことが可能な言語 :
+読むことが可能な言語:
 [Allow file sending through direct peer-to-peer connection]
 直接 P2P 接続でのファイル送信を許可
 [Specify external address:]
-外部アドレスを指定 :
+外部アドレスを指定:
 [Allow file sending through bytestream proxy server:]
 バイトストリームプロキシサーバー経由ファイル送信許可
 [Hint:]
-ヒント :
+ヒント:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 ファイル送信のトラブルに悩んだら上のチェックマークを全て外してみてください\nただし大きいファイルの転送に問題が発生する原因になります
 [Jabber Account Registration]
@@ -81,7 +81,7 @@ Jabber エージェント
 [Register/Search Jabber Agents]
 Jabber エージェントの登録 / 検索
 [Jabber server:]
-Jabber サーバー :
+Jabber サーバー:
 [Register...]
 登録...
 [Browse/Join chat room...]
@@ -103,7 +103,7 @@ Jabber 転送の登録
 [Jabber Form]
 Jabber フォーム
 [Instruction:]
-インストラクション :
+インストラクション:
 [Submit]
 送信
 [Complete]
@@ -115,35 +115,35 @@ Jabber フォーム
 [Address2:]
 アドレス 2:
 [City:]
-市 :
+市:
 [State:]
-州 :
+州:
 [ZIP:]
-郵便番号 :
+郵便番号:
 [Country:]
-国 :
+国:
 [First name:]
-名 :
+名:
 [Middle:]
-中 :
+中:
 [Last name:]
-名字 :
+名字:
 [Date of birth:]
-誕生日 :
+誕生日:
 [YYYY-MM-DD]
 YYYY-MM-DD
 [Gender:]
-性別 :
+性別:
 [Homepage:]
 Homepage:
 [Company:]
-会社 :
+会社:
 [Department:]
-部門 :
+部門:
 [E-mail:]
-電子メール :
+電子メール:
 [Phone:]
-電話 :
+電話:
 [Jabber vCard: Add Email Address]
 Jabber vCard: 電子メールアドレスを追加
 [Email address:]
@@ -155,7 +155,7 @@ X400
 [Jabber vCard: Add Phone Number]
 Jabber vCard: 電話番号を追加
 [Phone number:]
-電話番号 :
+電話番号:
 [Fax]
 Fax
 [Pager]
@@ -175,25 +175,25 @@ PCS
 [Delete]
 削除
 [Description:]
-説明 :
+説明:
 [Current Password:]
-現在のパスワード :
+現在のパスワード:
 [New Password:]
-新規パスワード :
+新規パスワード:
 [Confirm New Password:]
-新規パスワードの確認 :
+新規パスワードの確認:
 [Jabber Multi-User Conference]
 Jabber マルチユーザー会議
 [Conference server:]
-会議サーバー :
+会議サーバー:
 [Create or Join Groupchat]
 グループチャットの作成もしくは参加
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber マルチユーザー会議\n新規作成もしくは既存の会議室に参加します
 [Room:]
-ルーム :
+ルーム:
 [Recently visited chatrooms:]
-最近訪問したチャットルーム :
+最近訪問したチャットルーム:
 [Bookmarks]
 ブックマーク
 [JID List]
@@ -217,17 +217,17 @@ JID:
 [Add]
 追加
 [Invitation reason:]
-招待の理由 :
+招待の理由:
 [Groupchat Invitation]
 グループチャットの招待
 [<room jid>\nIncoming groupchat invitation.]
 < ルーム JID >\n着信グループチャット招待
 [You are invited to conference room by]
-あなたは以下から会議室に招待されました :
+あなたは以下から会議室に招待されました:
 [with following reason:]
-次の理由により :
+次の理由により:
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [Jabber Bookmarks]
 Jabber ブックマーク
 [Server side bookmarks\nStore conference rooms and web links on server.]
@@ -249,15 +249,15 @@ URL
 [Room JID/ URL:]
 ルーム JID / URL:
 [Bookmark Name:]
-ブックマーク名 :
+ブックマーク名:
 [Privacy Lists]
 プライバシーリスト
 [Privacy Lists\nFlexible way to configure visibility and more.]
 プライバシーリスト\n可視状態などの設定をフレキシブルに行う
 [Lists:]
-リスト :
+リスト:
 [Rules:]
-ルール :
+ルール:
 [Simple Mode]
 シンプルモード
 [Advanced Mode]
@@ -283,11 +283,11 @@ URL
 [Privacy rule]
 プライバシールール
 [If:]
-もし :
+もし:
 [Then:]
-それなら :
+それなら:
 [following stanza types:]
-次の区切り型 :
+次の区切り型:
 [Messages]
 メッセージ
 [Incoming presence]
@@ -295,9 +295,9 @@ URL
 [Outgoing presence]
 発信出席通知
 [New privacy list name:]
-新規プライバシーリスト名 :
+新規プライバシーリスト名:
 [Enter the name of the new list:]
-新規リストの名前を入力 :
+新規リストの名前を入力:
 [Service Discovery]
 サービス検出
 [View as tree]
@@ -305,51 +305,51 @@ URL
 [View as list]
 リスト表示
 [Node:]
-ノード :
+ノード:
 [Change %s Message]
 %s メッセージを変更する
 [Closing in %d]
 %d 秒後に閉じる
 [Account type:]
-アカウント型 :
+アカウント型:
 [Register account now]
 今すぐアカウントを登録
 [Jabber Account Information:]
-Jabber アカウント情報 :
+Jabber アカウント情報:
 [Member Information]
 メンバー情報
 [Member Information\n<user ID>]
 メンバー情報\n< ユーザー ID>
 [Role:]
-役割 :
+役割:
 [Set role]
 役割を設定
 [Affiliation:]
-所属 :
+所属:
 [Set affiliation]
 所属の設定
 [Chat options]
 チャットオプション
 [Alternate nick:]
-代替ニック :
+代替ニック:
 [Custom messages]
 カスタムメッセージ
 [Quit:]
-終了 :
+終了:
 [Slap:]
-叩く :
+叩く:
 [Authorization request]
 認証リクエスト
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP 認証\n着信リクエストの承諾もしくは拒否
 [Someone (maybe you) has requested the following file:]
-誰か ( 多分あなたが ) 次のファイルをリクエスト :
+誰か ( 多分あなたが ) 次のファイルをリクエスト:
 [Request was sent from JID:]
 リクエスト送信元 JID:
 [The transaction identifier is:]
-トランザクション識別子 :
+トランザクション識別子:
 [Request method is:]
-リクエストメソッド :
+リクエストメソッド:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 このリクエストを確認したい場合は , 認証をクリックしてください。拒否を押せば拒絶します
 [Authorize]
@@ -384,9 +384,9 @@ XML コンソール
 [Requesting command list. Please wait...]
 コマンドリストのリクエスト中です。お待ちください...
 [Jabber Ad-Hoc commands at %s]
-Jabber アドホックコマンド :
+Jabber アドホックコマンド:
 [Sending Ad-Hoc command to %s]
-アドホックコマンドを送信 :
+アドホックコマンドを送信:
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 メッセージなし
@@ -420,7 +420,7 @@ Jabber アドホックコマンド :
 [User %s is now banned.]
 ユーザー %s は現在排除されています
 [User %s changed status to %s with message: %s]
-ユーザー %s はステータスを %s に変更 メッセージ : %s
+ユーザー %s はステータスを %s に変更 メッセージ: %s
 [User %s changed status to %s]
 ユーザー %s はステータスを %s に変更
 [Room configuration was changed.]
@@ -520,11 +520,11 @@ Jabber アドホックコマンド :
 [Copy in-room JID]
 入室中ルームの JID コピー
 [Real &JID: %s]
-実 JID(&J) : %s
+実 JID(&J): %s
 [Send groupchat invitation.]
 グループチャットの招待を送信
 [Member Info:]
-メンバー情報 :
+メンバー情報:
 [Real JID not available]
 実 JID は利用できません
 [Reason to kick]
@@ -534,9 +534,9 @@ Jabber アドホックコマンド :
 [Invite %s to %s]
 %s を %s に招待
 [Set topic for]
-トピックを設定 :
+トピックを設定:
 [Change nickname in]
-ニックネームを変更 :
+ニックネームを変更:
 [Reason to destroy]
 破壊の理由
 ;file \protocols\JabberG\src\jabber_console.cpp
@@ -599,7 +599,7 @@ Jabber エラー
 [Bookmarks...]
 ブックマーク...
 [has set the subject to:]
-は目的を以下に設定 :
+は目的を以下に設定:
 [Incoming groupchat invitation.]
 グループチャットの招待を着信しています
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -757,7 +757,7 @@ Jabber リソース
 [Send note to %s]
 %s にメモを送信
 [From: %s]
-送信人 : %s
+送信人: %s
 [All tags]
 全てのタグ
 [Notes are not saved, close this window without uploading data to server?]
@@ -898,7 +898,7 @@ Facebook チャット
 現在のパスワードは不正です
 ;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
-警告 : サーバー上のプライバシーリストは変更されました
+警告: サーバー上のプライバシーリストは変更されました
 [Error occurred while applying changes]
 変更の適用中にエラーが発生
 [Privacy lists successfully saved]
@@ -942,11 +942,11 @@ JID の追加
 [** Default **]
 ** デフォルト **
 [** Subsription: both **]
-** 予約 : 両方 **
+** 予約: 両方 **
 [** Subsription: to **]
-** 予約 : 送信 **
+** 予約: 送信 **
 [** Subsription: from **]
-** 予約 : 受信 **
+** 予約: 受信 **
 [** Subsription: none **]
 ** 予約: なし **
 [<none>]
@@ -972,7 +972,7 @@ all.
 [If Jabber ID is ']
 Jabber ID が次の時 '
 [ (nickname: ]
- ( ニックネーム : 
+ ( ニックネーム:\s
 [If group is ']
 グループが次の時 '
 [If subscription is ']
@@ -1097,15 +1097,15 @@ Miranda NG のシャットダウンを確認してください
 不明な出席通知形式を送信
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
-エラー : メモリー不足
+エラー: メモリー不足
 [Error: Cannot connect to the server]
-エラー : サーバーに接続できません
+エラー: サーバーに接続できません
 [Error: Connection lost]
-エラー : 接続が切断
+エラー: 接続が切断
 [Requesting registration instruction...]
 登録方法指示のリクエスト中...
 [Message redirected from: %s\r\n%s]
-メッセージが以下からリダイレクトされました :%s\r\n%s
+メッセージが以下からリダイレクトされました:%s\r\n%s
 [Sending registration information...]
 登録情報を送信...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
@@ -1224,9 +1224,9 @@ Unicode ビルド
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]
-Jabber vCard : 電子メールアドレスの編集
+Jabber vCard: 電子メールアドレスの編集
 [Jabber vCard: Edit Phone Number]
-Jabber vCard : 電話番号の編集
+Jabber vCard: 電話番号の編集
 [Contacts]
 コンタクト
 ;file \protocols\JabberG\src\jabber_ws.cpp
@@ -1388,11 +1388,11 @@ Jabber vCard : 電話番号の編集
 [Worried]
 悩み
 [Mood: %s]
-気分 : %s
+気分: %s
 [Set Mood]
 気分を設定
 [Activity: %s]
-アクティビティ : %s
+アクティビティ: %s
 [Set Activity]
 アクティビティを設定
 ;file \protocols\JabberG\src\ui_utils.cpp

@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
-インポートするものを選んでください :
+インポートするものを選んでください:
 [From a Miranda NG database.]
 Miranda NG データベースから
 [It is recommended that you create a backup of your current Miranda profile before importing.]
@@ -45,13 +45,13 @@ Cancel
 [System history]
 システム履歴
 [Select items to import:]
-インポートする項目を選択 :
+インポートする項目を選択:
 [Incoming]
 着信
 [Outgoing]
 発信
 [Only since:]
-時期のみ :
+時期のみ:
 [Messages]
 メッセージ
 [URLs]
@@ -70,7 +70,7 @@ URL
 [Failed to add message]
 メッセージの追加に失敗
 [Number of contacts in database: %d]
-データベース中のコンタクトの数 : %d
+データベース中のコンタクトの数: %d
 [Importing groups.]
 グループをインポート中
 [Group import failed.]

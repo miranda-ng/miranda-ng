@@ -13,33 +13,33 @@ Ajouter
 [&Create]
 &Créer
 [Password:]
-Passe :
+Passe:
 [&OK]
 OK
 [Hint:]
-Info :
+Info:
 [Enter password]
 Entrez le passe
 [Cancel]
 Annuler
 [Date of birth:]
-Anniversaire :
+Anniversaire:
 [Gender:]
-Sexe :
+Sexe:
 [Homepage:]
-Page web :
+Page web:
 [About:]
-À propos :
+À propos:
 [City:]
-Ville :
+Ville:
 [State:]
-État :
+État:
 [Country:]
-Pays :
+Pays:
 [Timezone:]
-Fuseau horaire :
+Fuseau horaire:
 [New password:]
-Nouveau mot de passe :
+Nouveau mot de passe:
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
 ;file \protocols\Skype\src\skype_blocked.cpp

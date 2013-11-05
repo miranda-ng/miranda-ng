@@ -15,17 +15,17 @@ Respecter la casse
 [Never timeout]
 Sans durée
 [Set timeout:]
-Délai :
+Délai:
 [Width:]
-Largeur :
+Largeur:
 [Maximum height:]
-Hauteur maximum :
+Hauteur maximum:
 [Transparent background]
 Arrière-plan transparent
 [Disable when]
 Désactivé si
 [Timeout value (0 = default):]
-Délai   (0 = par défaut)  :
+Délai (0 = par défaut):
 ;file \plugins\YAPP\src\icons.cpp
 ;file \plugins\YAPP\src\notify_imp.cpp
 ;file \plugins\YAPP\src\options.cpp

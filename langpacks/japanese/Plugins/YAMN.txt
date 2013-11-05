@@ -9,21 +9,21 @@
 [OK]
 OK
 [Description:]
-説明 :
+説明:
 [Copyright:]
-著作権 :
+著作権:
 [Message]
 メッセージ
 [User Name:]
-ユーザー名 :
+ユーザー名:
 [Password:]
-パスワード :
+パスワード:
 [Port:]
-ポート :
+ポート:
 [Default]
 デフォルト
 [Name:]
-名前 :
+名前:
 [Options]
 オプション
 [Cancel]

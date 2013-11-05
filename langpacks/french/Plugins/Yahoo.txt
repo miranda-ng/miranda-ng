@@ -7,11 +7,11 @@
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
-ID :
+ID:
 [Password:]
-Passe :
+Passe:
 [Nick:]
-Pseudo :
+Pseudo:
 [Create a new Yahoo account using the Yahoo website]
 Créer un nouveau compte depuis le site de Yahoo
 [Use Yahoo Address Book (YAB)]
@@ -23,7 +23,7 @@ Voir les erreurs
 [Yahoo Japan]
 Yahoo Japon
 [Port:]
-Port :
+Port:
 [Reset]
 RAZ
 [Yahoo Ignore List]
@@ -46,7 +46,7 @@ Re&joindre
 Ajouter
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-{Miranda} Invitation à la conférence ici : %s message : %s
+{Miranda} Invitation à la conférence ici: %s message: %s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 e-mail
@@ -62,7 +62,7 @@ Erreur Yahoo
 [The message send timed out.]
 Délai d'envoi du message expiré
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-Message trop grand : Les messages de Yahoo sont limités à 800 caractères de type UTF8
+Message trop grand: Les messages de Yahoo sont limités à 800 caractères de type UTF8
 ;file \protocols\Yahoo\src\links.cpp
 ;file \protocols\Yahoo\src\main.cpp
 ;file \protocols\Yahoo\src\options.cpp
@@ -109,13 +109,13 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 (miranda) réception d'une demande de webcam. (non actuellement supporté)
 ;file \protocols\Yahoo\src\yahoo.cpp
 [%s has rejected your request and sent the following message:]
-%s a rejeté votre requête et vous envoie le message suivant :
+%s a rejeté votre requête et vous envoie le message suivant:
 [You Have %i unread msgs]
 Vous avez %i msg non lus
 [New Mail (%i msgs)]
 Nouveau e-mail (%i msgs)
 [From: %s\nSubject: %s]
-De : %s\nsujet : %s
+De: %s\nsujet: %s
 [Yahoo Ping Error]
 Erreur Ping Yahoo
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
@@ -129,7 +129,7 @@ Vous avez été déconnecté de Yahoo. Probablement à cause d'un double login.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Impossible de se connecter à Yahoo. Vérifier l'adresse, le port du serveur + param proxy
 [Could not log in, unknown reason: %d.]
-Pas de connexion à Yahoo, raison inconnue : %d
+Pas de connexion à Yahoo, raison inconnue: %d
 [Unknown error %s]
 Erreur inconnue %s
 [Custom error %s]
@@ -143,7 +143,7 @@ Erreur connue %s
 [%s is in buddy list - cannot ignore]
 %s est dans votre liste - il ne peut être ignoré
 [System Error: %s]
-Erreur Sytème : %s
+Erreur Sytème: %s
 [Server Connection Error: %s]
 Erreur de connexion au serveur %s
 [Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]

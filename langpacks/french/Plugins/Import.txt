@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
-Choisissez comment vous aimeriez importer :
+Choisissez comment vous aimeriez importer:
 [From a Miranda NG database.]
 Depuis une base de données IM Miranda (Profil).
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
@@ -57,7 +57,7 @@ Entrant
 [Outgoing]
 Sortant
 [Only since:]
-Seulement depuis :
+Seulement depuis:
 [File Transfers]
 Transferts de fichiers
 [Other]

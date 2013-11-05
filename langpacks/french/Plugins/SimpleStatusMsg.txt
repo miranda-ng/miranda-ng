@@ -17,7 +17,7 @@ Co&pier dans le presse-papier
 [Retrieving status message for %s...]
 Récupération du message d'état de %s...
 [Max length:]
-Taille maxi :
+Taille maxi:
 [Status Messages]
 Messages d'état
 [Use last message]
@@ -29,7 +29,7 @@ secondes
 [Show status list]
 Afficher les états
 [Buttons:]
-Boutons :
+Boutons:
 [Other]
 Autre
 [miliseconds]

@@ -248,7 +248,7 @@ HTML קובץ
 [(time and date)]
 (זמן ותאריך)
 [Authorization Request by %s (%s%s%d): %s]
-בקשת הרשאה ע"י %s (%s%s%d) : %s
+בקשת הרשאה ע"י %s (%s%s%d): %s
 [Date Font Color]
 צבע תאריך
 [Date Font]

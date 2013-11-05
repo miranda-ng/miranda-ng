@@ -9,9 +9,9 @@
 [Add contact]
 Ajouter le contact
 [Custom name:]
-Nom à afficher :
+Nom à afficher:
 [Group:]
-Groupe :
+Groupe:
 [Send "You were added"]
 Envoyer "Vous êtes ajouté"
 [Send authorization request]

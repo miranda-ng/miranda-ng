@@ -11,11 +11,11 @@ Afficher le nombre de contacts dans un groupe
 [Hide group counts when there are none online]
 Cacher le nombre de contacts quand aucun n'est en ligne
 [1st:]
-1ier :
+1ier:
 [2nd:]
-2nd :
+2nd:
 [3rd:]
-3ème :
+3ème:
 [Always on top]
 Toujours visible
 [Hide contact list after]
@@ -83,11 +83,11 @@ Position
 [Fragment location]
 Position
 [Position:]
-Position :
+Position:
 [Size:]
-Taille :
+Taille:
 [W x H: 0 x 0 pixels]
-L x H : 0 x 0 pixels
+L x H: 0 x 0 pixels
 [Cancel]
 Annuler
 [Protocol]
@@ -223,7 +223,7 @@ Activer la sélection translucide
 [Dim idle contacts]
 Estomper les contacts inactifs
 ['Hide Offline' means to hide:]
-"Cacher les Hors ligne" masque :
+"Cacher les Hors ligne" masque:
 [Groups]
 Groupes
 [Draw a line alongside group names]
@@ -233,17 +233,17 @@ Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [Indent groups by:]
-Décaler les contacts de :
+Décaler les contacts de:
 [Visual]
 Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée :
+Durée:
 [milliseconds]
 millisecondes
 [Fade out entire list when:]
-Assombrir complètement la liste si :
+Assombrir complètement la liste si:
 [Single click interface]
 Clic simple
 [Always show status in tooltip]
@@ -273,7 +273,7 @@ Paramètres pour les MetaContacts
 [Additional stuff]
 Paramètres avancés
 [Subcontacts indent:]
-Décalage des sous-contacts :
+Décalage des sous-contacts:
 [Show time only if it is different from current time]
 Afficher l'heure uniquement si elle diffère de la mienne
 [Show contact time as row item]
@@ -291,7 +291,7 @@ Afficher la barre de menu
 [Show title bar]
 Afficher la barre de titre
 [Title bar text:]
-Texte du titre :
+Texte du titre:
 [Tool style main window]
 Fenêtre principale style 'Outil'
 [Minimize to tray]
@@ -299,9 +299,9 @@ Minimiser dans barre système
 [Frames]
 Cadres
 [Between frames:]
-Entre les cadres :
+Entre les cadres:
 [After captions:]
-Après les légendes :
+Après les légendes:
 [Gaps]
 transparence
 [Use Non-Layered mode]
@@ -313,11 +313,11 @@ Désactiver les skins
 [Enable Aero Glass (Vista+)]
 Activer Aero Glass (Vista+)
 [Order of items:]
-Ordre des éléments :
+Ordre des éléments:
 [Min row height:]
-Taille mini rangée :
+Taille mini rangée:
 [Row border:]
-Bord rangée :
+Bord rangée:
 [Variable row height]
 Rangées à taille variable
 [Align left items to left]
@@ -325,9 +325,9 @@ Aligner les éléments à gauche
 [Align right items to right]
 Aligner les éléments à droite
 [Left margin:]
-Marge gauche :
+Marge gauche:
 [Right margin:]
-Marge droite :
+Marge droite:
 [Draw border on avatar]
 Cadre sur les avatars
 [Draw overlay icons]
@@ -337,7 +337,7 @@ Arrondir les coins des avatars
 [Ignore size for row height calcs]
 Ignorer cette dimension pour la hauteur des lignes
 [Border color:]
-Coul. bordures :
+Coul. bordures:
 [Normal overlay icon]
 Icône normal overlay
 [Protocol status icon]
@@ -375,7 +375,7 @@ Afficher le pseudo si différent du nom personnalisé
 [Trim long text with ellipsis]
 Terminer les longs textes par des points de suspensions
 [Top space:]
-Séparation :
+Séparation:
 [Draw smileys on second line]
 Afficher les smileys
 [Status]
@@ -383,7 +383,7 @@ Afficher les smileys
 [XStatus has priority]
 Préférer XStatus
 [Use 'XStatus: XMessage']
-Utiliser 'XStatus : XMessage'
+Utiliser 'XStatus: XMessage'
 [(Variables will be replaced)]
 (Utilisé des variables)
 [Show third line]
@@ -411,15 +411,15 @@ Ajouter conteneur
 [Remove container]
 Retirer conteneur
 [Vertical align:]
-Align. vertical :
+Align. vertical:
 [Horizontal align:]
-Align. horizontal :
+Align. horizontal:
 [Container type:]
-Type :
+Type:
 [Container width:]
-Largeur :
+Largeur:
 [Container height:]
-Hauteur :
+Hauteur:
 [Layered]
 Surcouchage
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
@@ -680,9 +680,9 @@ Charger/Sauver
 [Object Editor]
 Éditeur de skin
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nAuteur(s) :\t %s\nContact :\t %s\nPage Web :\t %s\n\nFichier :\t %s
+%s\n\n%s\n\nAuteur(s):\t %s\nContact:\t %s\nPage Web:\t %s\n\nFichier:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nAuteur(s) : %s\nContact :\t %s\nWeb :\t %s\n\nFichier :\t %s
+%s\n\n%s\n\nAuteur(s): %s\nContact:\t %s\nWeb:\t %s\n\nFichier:\t %s
 [This is second default Modern Contact list skin in Vista Aero style]
 Voici le second skin Aero Vista pour Modern CList
 [Inside library]
@@ -694,9 +694,9 @@ Attention !
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 Le skin actuel n'a pas été sauvegardé.\n\nTous les changements vont être perdus.\n\n Voulez-vous quand même charger un autre skin ?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S) :\n%s\n\nCONTACT :\n%s\n\nPAGE WEB :\n%s
+Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S):\n%s\n\nCONTACT:\n%s\n\nPAGE WEB:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-%s\n\n%s\n\nAUTEURS :\n%s\n\nCONTACT :\n%s\n\nWEB :\n%s\n\n\n
+%s\n\n%s\n\nAUTEURS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n
 [Select skin from list]
 Sélectionnez un des skins de la liste
 [Please select skin to apply]

@@ -11,7 +11,7 @@ Annuler
 [Automatic Backups]
 Sauvegardes automatiques
 [Number of backups to keep:]
-Nombre de sauvegarde à conserver :
+Nombre de sauvegarde à conserver:
 [Backup NOW]
 Sauvegarder
 [When Miranda starts]
@@ -19,9 +19,9 @@ Au démarrage de Miranda
 [When Miranda exits]
 À la fermeture de Miranda
 [Every:]
-Tous les :
+Tous les:
 [Backup to folder:]
-Dossier de sauvegarde :
+Dossier de sauvegarde:
 [Disable progress bar]
 Désactiver la barre de progression
 ;file \plugins\Db_autobackups\src\backup.cpp

@@ -11,7 +11,7 @@
 [Specify Smiley Pack for each category]
 カテゴリー毎に顔文字パックを指定
 [Name:]
-名前 :
+名前:
 [Replace only smileys surrounded by spaces]
 空白で囲まれた顔文字のみ置換
 [Scale smiley to textheight]

@@ -9,9 +9,9 @@
 [Add contact]
 コンタクトを追加
 [Custom name:]
-カスタム名 :
+カスタム名:
 [Group:]
-グループ :
+グループ:
 [Options]
 オプション
 [Send authorization request]

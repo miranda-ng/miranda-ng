@@ -21,9 +21,9 @@ Utiliser authentification
 [Visualization]
 Visualisation
 [Display news using the following format:]
-Afficher les nouveaux au format suivant :
+Afficher les nouveaux au format suivant:
 [All item's tags are valid. Put them between #. Example: #<author>#]
-Tous les tags sont valides. Mettez les entre #. Exemple : #<author>#
+Tous les tags sont valides. Mettez les entre #. Exemple: #<author>#
 [Reset]
 RAZ
 ;file \plugins\NewsAggregator\Src\Icons.cpp

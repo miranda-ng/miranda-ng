@@ -7,9 +7,9 @@
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
-ICQ 番号 :
+ICQ 番号:
 [Password:]
-パスワード :
+パスワード:
 [Create a new ICQ account]
 新規 ICQ アカウントを作成
 [&Send]
@@ -19,25 +19,25 @@ Cancel(&C)
 [Enter ICQ Password]
 ICQ パスワードを入力
 [Enter a password for UIN %d:]
-UIN %d のパスワードを入力 :
+UIN %d のパスワードを入力:
 [OK]
 OK
 [Cancel]
 Cancel
 [ICQ number:]
-ICQ 番号 :
+ICQ 番号:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-ヒント : ここでパスワードを入力しない場合 , Miranda はあなたがオンラインになろうとする際に毎回パスワードを確認します
+ヒント: ここでパスワードを入力しない場合 , Miranda はあなたがオンラインになろうとする際に毎回パスワードを確認します
 [Retrieve a lost password or ICQ number]
 忘れたパスワードもしくは ICQ 番号を回復する
 [Create a new ICQ account using the ICQ website]
 ICQ のウェブサイトを使用して新規 ICQ アカウントを作成
 [Port:]
-ポート :
+ポート:
 [Default]
 デフォルト
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
-ヒント : ポート 0 を使用するとランダムなポートに接続します。もし http プロキシサーバーを経由して接続する際に問題が生じる場合は , ポート 80 もしくはポート 443 で試してみてください
+ヒント: ポート 0 を使用するとランダムなポートに接続します。もし http プロキシサーバーを経由して接続する際に問題が生じる場合は , ポート 80 もしくはポート 443 で試してみてください
 [Secure Connection (SSL)]
 セキュア接続 ( SSL )
 [Secure (MD5) login]
@@ -47,7 +47,7 @@ ICQ のウェブサイトを使用して新規 ICQ アカウントを作成
 [Ignore concurrent error messages]
 同時に発生するエラーメッセージを無視
 [Show connection error messages:]
-接続エラーメッセージを表示 :
+接続エラーメッセージを表示:
 [ICQ contacts stored on server]
 ICQ コンタクトをサーバーに保存
 [Manage server's list...]
@@ -73,7 +73,7 @@ ICQ アバター
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 ICQ ネットワークに接続している間はサーバー側のコンタクトリストの有効 / 無効の切り替えができません
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
-注意 : アスタリスクで印がついているオプションには , 重要な副作用もしくはヘルプの最初に明記されていない注意事項があります
+注意: アスタリスクで印がついているオプションには , 重要な副作用もしくはヘルプの最初に明記されていない注意事項があります
 [Messaging]
 メッセージング
 [Enable unicode messaging support]
@@ -157,65 +157,65 @@ AIM コンタクトサポートを有効
 [Use default colors]
 デフォルト色を使用
 [UIN:]
-UIN :
+UIN:
 [External IP:]
 外部 IP:
 [Protocol Version:]
-プロトコルバージョン :
+プロトコルバージョン:
 [User Client:]
-クライアント :
+クライアント:
 [System up since:]
-システム起動時期 :
+システム起動時期:
 [Idle since:]
-アイドル時期 :
+アイドル時期:
 [Summary]
 要約
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [First name:]
-名 :
+名:
 [Last name:]
-名字 :
+名字:
 [E-mail:]
-電子メール :
+電子メール:
 [Gender:]
-性別 :
+性別:
 [Age:]
-年齢 :
+年齢:
 [Marital status:]
-結婚歴 :
+結婚歴:
 [Keywords:]
-キーワード :
+キーワード:
 [Work]
 仕事
 [Company:]
-会社 :
+会社:
 [Department:]
-部門 :
+部門:
 [Position:]
-位置 :
+位置:
 [Organization:]
-組織 :
+組織:
 [Location]
 場所
 [Country:]
-国 :
+国:
 [State:]
-州 :
+州:
 [City:]
-市 :
+市:
 [Background info]
 背景情報
 [Interests]
 興味
 [Category:]
-カテゴリー :
+カテゴリー:
 [Other]
 その他
 [Manage ICQ Server Contacts]
 ICQ サーバーのコンタクトを管理
 [Select contacts to store:]
-保存するコンタクトを選択 :
+保存するコンタクトを選択:
 [Synchronize]
 同期
 [Closing in %d]
@@ -225,9 +225,9 @@ ICQ サーバーのコンタクトを管理
 [Confirm Password Change]
 パスワードの変更を確認
 [Please re-type your new password:]
-新規パスワードをもう一度入力してください :
+新規パスワードをもう一度入力してください:
 [Enter your current password:]
-現在のパスワードを入力 :
+現在のパスワードを入力:
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 移行後の ICQ コミュニケーションサーバーに接続できません
@@ -254,11 +254,11 @@ ICQ コミュニケーションサーバーに接続できません
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
 接続に失敗しました\nセキュア (MD5) ログインはこのアカウントではサポートされていません
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-接続に失敗しました\nサインオン中の不明なエラー : 0x%02x
+接続に失敗しました\nサインオン中の不明なエラー: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 同じICQ 番号を使用して別の場所からログオンしたため , ICQ ネットワークから切断されました
 [Unknown runtime error: 0x%02x]
-不明なランタイムエラー : 0x%02x
+不明なランタイムエラー: 0x%02x
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 サーバーが不正なデータを返したため , サーバーの移行に失敗しました。再接続は手動で行って下さい
@@ -1174,7 +1174,7 @@ ICQ サーバーへの接続が失敗したため終了しました
 なし
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
-グリーティングカード :
+グリーティングカード:
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
@@ -1197,11 +1197,11 @@ Miranda はサーバー名から IP アドレスへの解決ができません�
 [The file transfer was aborted by the other user.]
 ファイル転送は他のユーザーによって中断されました
 [The file transfer failed: Proxy error]
-ファイル転送に失敗 : プロキシエラー
+ファイル転送に失敗: プロキシエラー
 [The file transfer failed: Invalid request]
-ファイル転送に失敗 : 無効なリクエスト
+ファイル転送に失敗: 無効なリクエスト
 [The file transfer failed: Proxy unavailable]
-ファイル転送に失敗 : プロキシが利用できません
+ファイル転送に失敗: プロキシが利用できません
 [Failed to Initialize File Transfer. No valid files were specified.]
 ファイル転送の初期化に失敗しました。有効なファイルが特定されませんでした
 [The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
@@ -1432,15 +1432,15 @@ ICQ サーバーは 8 文字以上の長さのパスワードをサポートし�
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
-UIN %u のパスワードを入力 :
+UIN %u のパスワードを入力:
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
 ( DC 接続確立 )
 [ScreenName:]
-スクリーン名 :
+スクリーン名:
 [<not specified>]
 < 指定なし >
 [Member since:]
-加入時期 :
+加入時期:
 [%s Details]
 %s の詳細情報

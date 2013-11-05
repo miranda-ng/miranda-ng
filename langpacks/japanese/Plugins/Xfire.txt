@@ -7,9 +7,9 @@
 ;============================================================
 ;file \protocols\Xfire\res\resource.rc
 [Password:]
-パスワード :
+パスワード:
 [Nick:]
-ニック :
+ニック:
 [Options]
 オプション
 [More options]
@@ -21,11 +21,11 @@
 [Remove]
 削除
 [Username:]
-ユーザー名 :
+ユーザー名:
 [Name:]
-名前 :
+名前:
 [Port:]
-ポート :
+ポート:
 [Copy]
 コピー
 [OK]
@@ -33,7 +33,7 @@ OK
 [Cancel]
 Cancel
 [Search:]
-検索 :
+検索:
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 全てのファイル

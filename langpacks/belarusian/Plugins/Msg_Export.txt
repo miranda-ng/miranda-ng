@@ -140,7 +140,7 @@ URL:
 [File: ]
 Файл: 
 [Description: ]
-Апісанне :
+Апісанне:\s
 [Failed to write URL/File to the file :\n]
 Не атрымалася запісаць перадачу файла ці URL у файл:\n
 [Nick      :]

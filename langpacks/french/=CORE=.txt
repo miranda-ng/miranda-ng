@@ -1,6 +1,6 @@
 ﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
-Entrez le nom du compte (ex : My Google)
+Entrez le nom du compte (ex: My Google)
 [Choose the protocol type]
 Choisissez le type de protocole
 [Specify the internal account name (optional)]
@@ -22,9 +22,9 @@ Demande d'autorisation
 [Open contact's chat window]
 Ouvrir la fenêtre de discussion du contact
 [Custom name:]
-Nom à afficher :
+Nom à afficher:
 [Group:]
-Groupe :
+Groupe:
 [Options]
 Paramètres
 [Authorization request]
@@ -46,7 +46,7 @@ Ceci effacera tout l'historique et réglages de ce contact !
 [Contact Display Options]
 Options d'affichage des contacts
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Plutôt que d'afficher les contacts par ordre alphabétique,\ncliquer/glisser pour choisir un autre ordre : 
+Plutôt que d'afficher les contacts par ordre alphabétique,\ncliquer/glisser pour choisir un autre ordre: 
 [Miranda NG Profile Manager]
 Gestionnaire de profil Miranda NG
 [&Run]
@@ -58,17 +58,17 @@ Démarrer en mode service avec
 [Find/Add Contacts]
 Chercher/Ajouter des contacts
 [Search:]
-Chercher :
+Chercher:
 [E-mail address]
 e-mail 
 [Name]
 Nom
 [Nick:]
-Pseudo :
+Pseudo:
 [First:]
-Prénom :
+Prénom:
 [Last:]
-Nom :
+Nom:
 [Advanced]
 Avancé
 [Advanced >>]
@@ -178,9 +178,9 @@ Télécharger plus de sons
 [Sound Information]
 Infos sur le fichier son
 [Location:]
-Lieu :
+Lieu:
 [Name:]
-Nom :
+Nom:
 [Enable sound events]
 Activer les évènements sonore
 [Icons]
@@ -194,7 +194,7 @@ Afficher la catégorie
 [Download more icons]
 Télécharger plus d'icônes
 [The following events are being ignored:]
-Les évènements suivants sont ignorés :
+Les évènements suivants sont ignorés:
 [Messages]
 Messages
 [URLs]
@@ -226,7 +226,7 @@ Vous n'êtes jamais visible pour cette personne.
 [Icon Index]
 Index de l'icône
 [Icon library:]
-Bibliothèque :
+Bibliothèque:
 [Drag icons to main list to assign them:]
 Déplacer les icônes jusqu'à la liste principale pour les assigner:
 [Import multiple]
@@ -246,25 +246,25 @@ Connexions sortante
 [Use proxy server]
 Utiliser serveur proxy
 [Type:]
-Type :
+Type:
 [Host:]
-Hôte :
+Hôte:
 [Port:]
-Port :
+Port:
 [(often %d)]
 (Ex. %d)
 [Use Custom Login (Domain login picked up automatically)]
 
 [Username:]
-Identifiant :
+Identifiant:
 [Password:]
-Passe :
+Passe:
 [Resolve hostnames through proxy]
 Résoudre les noms à travers le proxy
 [Port Range:]
-Ports :
+Ports:
 [Example: 1050-1070, 2000-2010, 2500]
-Exemple : 1050-1070, 2000-2010, 2500
+Exemple: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
 Valider les certificats SSL
 [Incoming Connections]
@@ -278,11 +278,11 @@ Veuillez remplir le formulaire suivant pour créer un nouveau profil
 [Profile]
 Profil
 [e.g. Workplace]
-ex : Lieu de travail
+ex: Lieu de travail
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
 [e.g. Miranda Database]
-ex : Miranda Database
+ex: Miranda Database
 [Driver]
 Pilote
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
@@ -290,17 +290,17 @@ Pilote
 [Download more plugins]
 Télécharger plus de plugins
 [Description:]
-Description :
+Description:
 [Author(s):]
-Auteur(s) :
+Auteur(s):
 [E-mail:]
-e-mail :
+e-mail:
 [Homepage:]
-Page web :
+Page web:
 [Unique ID:]
-ID unique :
+ID unique:
 [Copyright:]
-Copyright :
+Copyright:
 [Please restart Miranda NG for your changes to take effect.]
 Relancer Miranda NG pour que vos changements prennent effets.
 [Fonts and Colors]
@@ -322,13 +322,13 @@ Autre police
 [Font]
 Police
 [&Font:]
-&Police :
+&Police:
 [Font st&yle:]
-St&yle :
+St&yle:
 [\nStyles and effects are disabled for this font.]
 \nStyles et effets sont désactivés pour cette police.
 [&Size:]
-&Taille :
+&Taille:
 [Effects]
 Effets
 [Stri&keout]
@@ -336,13 +336,13 @@ Effets
 [&Underline]
 &Souligné
 [&Color:]
-&Couleur :
+&Couleur:
 [Sample]
 Simple
 [AaBbYyZz]
 AaBbYyZz
 [Sc&ript:]
-Sc&ript :
+Sc&ript:
 [&Apply]
 &Appliquer
 [&Help]
@@ -362,7 +362,7 @@ Déplacer dans la barre de status
 [Insert separator]
 Insérer un séparateur
 [Service:]
-Service :
+Service:
 [Default]
 Défaut
 [Set]
@@ -374,7 +374,7 @@ Afficher les comptes dans cet ordre,\ncliquer/glisser pour choisir un autre ordr
 [Account Order && Visibility]
 Organisation et visibilité des Comptes
 [Note: Miranda NG will have to be restarted for changes to take effect.]
-Note : Miranda devra être relancé pour prendre en compte les changements.
+Note: Miranda devra être relancé pour prendre en compte les changements.
 [Key Bindings]
 Raccourcis clavier
 [Shortcut:]
@@ -394,9 +394,9 @@ Comptes
 [Accounts\nConfigure your IM accounts]
 Comptes\nConfigurer vos comptes de messagerie instantanée
 [Account information:]
-Informations sur le compte :
+Informations sur le compte:
 [Additional:]
-Extra :
+Extra:
 [Configure network...]
 Configurer le réseau...
 [Get more protocols...]
@@ -424,7 +424,7 @@ En-têtes
 [This font is used to display main section titles or text elements.]
 
 [Normal text:]
-Texte normal :
+Texte normal:
 [This font is used to display most text element or section bodies.]
 
 [Minor notes:]
@@ -436,17 +436,17 @@ Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez conf
 [Event icon legend:]
 
 [Choose events you wish to ignore:]
-Choisir l'évènement que vous voulez ignorer :
+Choisir l'évènement que vous voulez ignorer:
 [Font Effect]
 
 [Effect:]
-Effet :
+Effet:
 [Base color:]
-Couleur de base :
+Couleur de base:
 [opacity:]
-opacité :
+opacité:
 [Secondary color:]
-Couleur secondaire :
+Couleur secondaire:
 [Select the extra icons to be shown in the contact list:]
 
 [* only the first %d icons will be shown]
@@ -525,7 +525,7 @@ Décider plus &Tard
 [&I]
 
 [Reason:]
-Motif :
+Motif:
 [Denial Reason:]
 Raison du refus
 [Add to contact list if authorized]
@@ -550,7 +550,7 @@ Ne pas modifier le message d'état lors du changement d'état
 [By default, use the same message as last time]
 Par défaut, utiliser le même message que la dernière fois
 [By default, use this message:]
-Par défaut, utiliser ce message :
+Par défaut, utiliser ce message:
 [Use %time% for the current time, %date% for the current date]
 Utiliser %time% et %date% pour l'heure et la date actuelles.
 [Status messages:]
@@ -563,7 +563,7 @@ Fermeture dans %d
 [&Send]
 &Envoyer
 [Show these events only:]
-Voir ces évènements si :
+Voir ces évènements si:
 [Actions]
 
 [Nick changes]
@@ -597,7 +597,7 @@ Votre nom
 [Enable highlighting]
 Autoriser surlignage
 [Limit log text to (events):]
-Limite texte (évènements) :
+Limite texte (évènements):
 [Trim to (kB)]
 Limite (ko)
 [Words to highlight (wildcards allowed)]
@@ -605,13 +605,13 @@ Mots à surligner (joker * autorisés)
 [Enable logging to disk]
 Sauvegarde du journal
 [Log directory]
-Répertoire :
+Répertoire:
 [Other]
 Autre
 [Add new rooms to group:]
-Ajouter salons au groupe :
+Ajouter salons au groupe:
 [Userlist row distance (pixels):]
-Écart entre rangs (pixels) :
+Écart entre rangs (pixels):
 [Use same style as in the message log]
 Utiliser même style que la fenêtre
 [Use default colors]
@@ -726,13 +726,13 @@ Déplacement facile
 [Show title bar]
 Afficher la barre de titre
 [Title bar text:]
-Texte du titre :
+Texte du titre:
 [Show drop shadow (restart required)]
 Afficher l'ombre (redémarr. nécessaire)
 [Pin to desktop]
 Épingler au bureau
 [Hide contact list after it has been idle for]
-Cacher la liste de contacts après :
+Cacher la liste de contacts après:
 [seconds]
 secondes
 [Automatically resize window to height of list]
@@ -754,9 +754,9 @@ Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive :
+Opacité si inactive:
 [Active opacity:]
-   Opacité si active :
+Opacité si active:
 [Items]
 Objets
 [Show divider between online and offline contacts]
@@ -774,7 +774,7 @@ Activer la sélection translucide
 [Dim idle contacts]
 Estomper les contacts inactifs
 ['Hide Offline' means to hide:]
-"Cacher les Hors ligne" masque :
+"Cacher les Hors ligne" masque:
 [Groups]
 Groupes
 [Draw a line alongside group names]
@@ -788,7 +788,7 @@ Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [Indent groups by:]
-Décaler les contacts de :
+Décaler les contacts de:
 [pixels]
 pixels
 [Visual]
@@ -796,19 +796,19 @@ Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée :
+Durée:
 [milliseconds]
 millisecondes
 [Left margin:]
-Marge gauche :
+Marge gauche:
 [Hide vertical scroll bar]
 Cacher l'ascenseur vertical
 [Row height:]
-Hauteur de ligne :
+Hauteur de ligne:
 [Gamma correction]
 Correction gamma
 [Gray out entire list when:]
-Griser toute la liste quand :
+Griser toute la liste quand:
 [Contact List Background]
 Arrière-plan de la liste
 [Background color]
@@ -854,11 +854,11 @@ Poignée de redimension
 [Ordering:]
 
 [Contact list:]
-Liste de contacts :
+Liste de contacts:
 [If window is partially covered, bring it to front]
 
 [Window:]
-Fenètre :
+Fenètre:
 [Contact list background:]
 Arrière-plan de la liste de contacts
 [&Status]
@@ -887,13 +887,13 @@ Parti &manger\tCtrl+9
 [Send File(s)]
 Envoi de fichier(s)
 [To:]
-À :
+À:
 [File(s):]
-Fichier(s) :
+Fichier(s):
 [&Choose Again...]
 &Sélectionner...
 [Total size:]
-Taille totale :
+Taille totale:
 [&D]
 
 [&H]
@@ -905,11 +905,11 @@ Transfert de fichier entrant
 [&Decline]
 &Refuser
 [From:]
-De :
+De:
 [Date:]
-Date :
+Date:
 [Files:]
-Fichiers :
+Fichiers:
 [Save to:]
 Enregistrer sous:
 [&A]
@@ -947,9 +947,9 @@ Vous êtes sur le point de recevoir le fichier
 [Existing file]
 Fichier existant
 [Size:]
-Taille :
+Taille:
 [Last modified:]
-Dernière modification :
+Dernière modification:
 [Open file]
 Ouvrir fichier
 [File properties]
@@ -965,7 +965,7 @@ Fermer
 [Receiving files]
 Réception des fichiers
 [Received files folder:]
-Dossier de réception :
+Dossier de réception:
 [Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 
 [Auto-accept incoming files from people on my contact list]
@@ -979,7 +979,7 @@ Fermer la fenêtre quand le transfert est achevé
 [Virus scanner]
 Analyse antivirus
 [Scan files:]
-Analyser :
+Analyser:
 [Never, do not use virus scanning]
 Ne jamais faire d'analyse antivirus
 [When all files have been downloaded]
@@ -987,7 +987,7 @@ Quand tous les fichiers ont été reçus
 [As each file finishes downloading]
 À chaque fichier reçu
 [Command line:]
-Commande :
+Commande:
 [%f will be replaced by the file or folder name to be scanned]
 %f sera remplacé par le nom de fichier ou dossier à analyser
 [Warn me before opening a file that has not been scanned]
@@ -1009,7 +1009,7 @@ Miranda NG\n%s
 Crédits >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
-Devient "Inactif" si inactivité de :
+Devient "Inactif" si inactivité de:
 [Windows]
 Windows
 [Miranda]
@@ -1027,7 +1027,7 @@ minute(s)
 [for]
 pendant
 [Change my status mode to:]
-Changer mon état en :
+Changer mon état en:
 [Do not set status back to online when returning from idle]
 Ne pas mettre l'état "En ligne" quand vous revenez d'inactif.
 [Idle Options]
@@ -1042,7 +1042,7 @@ Désactiver les sons quand inactif
 
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
-Fenêtre en popup quand :
+Fenêtre en popup quand:
 [In background]
 En arrière-plan
 [Close the message window on send]
@@ -1082,9 +1082,9 @@ Nombre maximum de clignotements
 [Send Error]
 Erreur d'envoi
 [An error has occurred. The protocol reported the following error:]
-Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
 [while sending the following message:]
-tout en envoyant le message suivant :
+tout en envoyant le message suivant:
 [Try again]
 Réessayer
 [Message Session]
@@ -1114,7 +1114,7 @@ Derniers échanges
 [Show Formatting]
 
 [Send typing notifications to the following users when you are typing a message to them:]
-Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
+Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné:
 [Show typing notifications when a user is typing a message]
 Afficher des notifications quand un contact tape un message
 [Update inactive message window icons when a user is typing]
@@ -1143,7 +1143,7 @@ Chercher
 [&Find Next]
 &Suivant
 [Find What:]
-Chercher :
+Chercher:
 [Message History]
 Historique des messages
 [&Find...]
@@ -1152,9 +1152,9 @@ Historique des messages
 [Add Phone Number]
 Ajouter le téléphone
 [Enter country, area code and phone number:]
-Entrer le pays, le code de la zone et le numéro de téléphone :
+Entrer le pays, le code de la zone et le numéro de téléphone:
 [Or enter a full international number:]
-Ou entrer un numéro international entier :
+Ou entrer un numéro international entier:
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add E-Mail Address]
@@ -1168,57 +1168,57 @@ Mettre à jour
 [Updating]
 Mise à jour
 [Nickname:]
-Pseudo :
+Pseudo:
 [First name:]
-Prénom :
+Prénom:
 [Gender:]
-Sexe :
+Sexe:
 [Last name:]
-Nom :
+Nom:
 [Age:]
-Age :
+Age:
 [Date of birth:]
-Anniversaire :
+Anniversaire:
 [Marital status:]
-Situation :
+Situation:
 [Phone:]
-Téléphone :
+Téléphone:
 [Web page:]
-Page Web :
+Page Web:
 [Past background:]
-Passé :
+Passé:
 [Interests:]
-Centres d'intérêt :
+Centres d'intérêt:
 [About:]
-À propos :
+À propos:
 [My notes:]
-Mes notes :
+Mes notes:
 [Street:]
-Rue :
+Rue:
 [City:]
-Ville :
+Ville:
 [State:]
-État :
+État:
 [Postal code:]
-Code postal :
+Code postal:
 [Country:]
-Pays :
+Pays:
 [Spoken languages:]
-Langues parlées :
+Langues parlées:
 [Timezone:]
-Fuseau horaire :
+Fuseau horaire:
 [Local time:]
-Heure locale :
+Heure locale:
 [Set custom time zone]
 
 [Company:]
-Entreprise :
+Entreprise:
 [Department:]
-Département :
+Département:
 [Position:]
-Position :
+Position:
 [Website:]
-Site Web :
+Site Web:
 ;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s demande une autorisation
@@ -1311,7 +1311,7 @@ Vous êtes connu en tant que %s
 [%s kicked %s]
 %s a exclu %s
 [Notice from %s: ]
-Notice de %s : 
+Notice de %s:\s
 [The topic is '%s%s']
 
 [ (set by %s on %s)]
@@ -1666,7 +1666,7 @@ Informations dans %s
 [%s disables '%s' status for %s in %s]
 
 [%s says: %s]
-%s dit : %s
+%s dit: %s
 [%s has left (%s)]
 %s est parti (%s)
 [%s has disconnected (%s)]
@@ -1674,7 +1674,7 @@ Informations dans %s
 [%s kicked %s (%s)]
 %s a kické %s (%s)
 [Notice from %s: %s]
-Notice de %s : %s
+Notice de %s: %s
 [The topic is '%s']
 
 [The topic is '%s' (set by %s)]

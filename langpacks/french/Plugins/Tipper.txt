@@ -9,35 +9,35 @@
 [Window]
 Fenêtre
 [Max width:]
-Largeur max :
+Largeur max:
 [Max height:]
-Hauteur max :
+Hauteur max:
 [Show if list not focused]
 Afficher si liste couverte
 [General padding:]
-Remplissage général :
+Remplissage général:
 [Status bar tips]
 Barre de popup d'états
 [Labels:]
-Nom :
+Nom:
 [Values:]
-Valeur :
+Valeur:
 [Min width:]
-Largeur mini :
+Largeur mini:
 [Min height:]
-Hauteur mini :
+Hauteur mini:
 [Keep original avatar size]
 Conserver la taille de l'avatar
 [Module:]
-Module :
+Module:
 [Translation:]
-Traduction :
+Traduction:
 [Cancel]
 Annuler
 [Item]
 Évènement
 [Value:]
-Valeur :
+Valeur:
 [Draw a line above]
 Mettre une ligne en dessous
 [Value on a new line]
@@ -94,27 +94,27 @@ Contenu
 Autre
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Gender:]
-Sexe :
+Sexe:
 [Homepage:]
-Page web :
+Page web:
 [Idle]
 Inactif
 [Idle:]
-Inactivité :
+Inactivité:
 [Last message]
 Dernier message
 [Last message: (%sys:last_msg_reltime% ago)]
-Dernier message : il y a %sys:last_msg_reltime%
+Dernier message: il y a %sys:last_msg_reltime%
 [Name]
 Nom
 [Name:]
-Nom :
+Nom:
 [Time:]
-Durée :
+Durée:
 [Sunrise:]
-Aube :
+Aube:
 [Sunset:]
-Aurore :
+Aurore:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]

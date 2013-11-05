@@ -35,11 +35,11 @@ la fenêtre de Miranda
 [the active window]
 la fenêtre active
 [opacity:]
-opacité :
+opacité:
 [Opaque popups under cursor]
 Rendre opaques popups survolés
 [Limit window amount to:]
-Nombre maximum de popups :
+Nombre maximum de popups:
 [* - built-in skins]
 * skins inclut
 [Popup Area]
@@ -57,7 +57,7 @@ Ces actions sont des petits boutons sous le texte des popups.
 [Common Actions]
 Actions communes
 [Please choose in what cases default actions should be added:]
-Dans quels cas doit-on avoir les actions par défaut :
+Dans quels cas doit-on avoir les actions par défaut:
 [Add info && menu for IM contacts only]
 Seulement pour les contacts IM
 [Add default actions for contacts only]
@@ -67,7 +67,7 @@ Ne pas fermer les popups
 [Use large icons]
 Utiliser de larges icônes
 [Popup actions will be displayed as:]
-Affichage des actions :
+Affichage des actions:
 [Icons and labels below text]
 Icônes et nom sous le texte
 [Icons on the left]
@@ -75,17 +75,17 @@ Icônes alignés à gauche
 [Icons aligned to the right]
 Icônes alignés à droite
 [Show Actions: (requires apply)]
-Actions : (appliquer avant aperçu)
+Actions: (appliquer avant aperçu)
 [Enable this notification]
 Activer
 [Left click action:]
-Clic droit :
+Clic droit:
 [Right click action:]
-Clic gauche :
+Clic gauche:
 [Disable when global status is...]
-Désactiver si l'état général est :
+Désactiver si l'état général est:
 [Disable when relevant protocol's status is...]
-Désactiver si l'état du protocole est :
+Désactiver si l'état du protocole est:
 [Disable if message window is open]
 Désactiver si la fenêtre de message est ouverte
 [Show always]
@@ -97,7 +97,7 @@ Ne plus afficher
 [Infinite popup delay]
 Affichage permanent
 [Popup delay:]
-Délai des popups :
+Délai des popups:
 [seconds]
 secondes
 [Do not close hovered popups]
@@ -109,13 +109,13 @@ Largeur minimum
 [Maximum width]
 Largeur maximum
 [Position:]
-Position :
+Position:
 [Layout:]
 Disposition
 [Reorder Popups]
 Réordonner les popups
 [Disable when:]
-Désactivé quand :
+Désactivé quand:
 [Always (has priority)]
 Toujours (en priorité)
 ;file \plugins\Popup\src\actions.cpp

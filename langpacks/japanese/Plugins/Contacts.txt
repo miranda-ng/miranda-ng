@@ -21,7 +21,7 @@ Cancel
 [Close]
 閉じる
 [An error has occurred. The protocol reported the following error:]
-エラーが発生しました。エラー内容 :
+エラーが発生しました。エラー内容:
 [Try again]
 再試行
 [User Details]

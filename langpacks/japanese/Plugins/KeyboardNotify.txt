@@ -43,7 +43,7 @@ OK
 [Cancel]
 Cancel
 [The following events are being ignored:]
-無視するイベントを選択 :
+無視するイベントを選択:
 [Ignore]
 無視
 ;file \plugins\KeyboardNotify\src\ignore.cpp

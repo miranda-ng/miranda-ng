@@ -395,7 +395,7 @@ MRIM_ANKETA_INFO: Nicht in der Warteschlange gefunden
 [MRIM_CS_GAME: unknown internal game message code: %lu]
 MRIM_CS_GAME:  Unbekannter interner Spiele-Nachricht-Code: %lu
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
-MRIM_CS_CONTACT_LIST2: Unbekannter Serverfehler. Code : %lu
+MRIM_CS_CONTACT_LIST2: Unbekannter Serverfehler. Code: %lu
 [MRIM_CS_SMS_ACK: not found in queue]
 MRIM_CS_SMS_ACK: Nicht in der Warteschlange gefunden
 [Mail.ru System notify]

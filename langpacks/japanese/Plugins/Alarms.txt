@@ -15,7 +15,7 @@ OK
 [Cancel]
 Cancel
 [Description:]
-説明 :
+説明:
 [Actions]
 アクション
 [&Delete]

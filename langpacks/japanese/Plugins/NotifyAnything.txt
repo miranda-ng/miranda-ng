@@ -7,9 +7,9 @@
 ;============================================================
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Port:]
-ポート :
+ポート:
 [Password:]
-パスワード :
+パスワード:
 ;file \plugins\NotifyAnything\src\common.h
 ;file \plugins\NotifyAnything\src\main.cpp
 [Error]

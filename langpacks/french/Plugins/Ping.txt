@@ -7,11 +7,11 @@
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
-Délai entre chaque requêtes (secs) :
+Délai entre chaque requêtes (secs):
 [Ping timeout (secs):]
-Délai d'échec (secs) :
+Délai d'échec (secs):
 [Log Filename:]
-Sauver dans :
+Sauver dans:
 [Network]
 Réseau
 [Reply]
@@ -23,7 +23,7 @@ Ne pas changer d'icône pendant le test
 [Use the Customize/Fonts options to change text size and color.]
 Aller dans Apparence => Polices pour changer la taille et la couleur de la police de caractères.
 [Row height:]
-Hauteur de ligne :
+Hauteur de ligne:
 [Repeats for success/failure:]
 Répéter si succès/échec:
 [Attach to contact list]
@@ -39,21 +39,21 @@ Retirer
 [Cancel]
 Annuler
 [Address:]
-Adresse :
+Adresse:
 [TCP Connect]
 Connexion TCP
 [Port:]
-Port :
+Port:
 [Control Protocol:]
-Protocole :
+Protocole:
 [Set my status to:]
-Régler mon état en :
+Régler mon état en:
 [On success, if my status is:]
-Réussi, si mon état est :
+Réussi, si mon état est:
 [Execute the following command on double-click:]
-Exécuter les commandes suivantes suite à un double-clique :
+Exécuter les commandes suivantes suite à un double-clique:
 [(Optional) Command Parameters:]
-Lignes de commandes (facultatif) :
+Lignes de commandes (facultatif):
 [Graph]
 Graphe
 [Disable all pings]

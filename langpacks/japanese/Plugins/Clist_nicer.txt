@@ -95,11 +95,11 @@ Clist Nicer+
 [Row gap]
 行間隔
 [Minimum row height:]
-行の高さの最小値 :
+行の高さの最小値:
 [Group row height]
 グループの行の高さ
 [Indent groups by:]
-グループのインデント ：
+グループのインデント：
 [Inner Row vertical padding]
 行の内側の垂直間隔
 [Margins and spacing]
@@ -137,7 +137,7 @@ Clist Nicer+
 [Display status message when available]
 可能な時 , ステータスメッセージを表示
 [Show second text line:]
-テキストの 2 行目を表示 :
+テキストの 2 行目を表示:
 [Show contacts local time]
 現地時間でコンタクトを表示
 [Only when timezone differs]
@@ -195,7 +195,7 @@ Clist Nicer+
 [Embedded frames border]
 埋め込みフレームの枠線
 [Clip border by]
-枠線で切り抜く :
+枠線で切り抜く:
 [Gap between frames]
 フレームの間隔
 [Transparent contact list]
@@ -203,7 +203,7 @@ Clist Nicer+
 [Inactive opacity:]
 非アクティブ不透明度 ：
 [Active opacity:]
-アクティブ不透明度 :
+アクティブ不透明度:
 [Fade contact list in/out]
 コンタクトリストをフェードイン/フェードアウト
 [Fully transparent (like TweakUI)]
@@ -231,13 +231,13 @@ Clist Nicer+
 [Scroll list smoothly]
 リストをなめらかにスクロール
 [Time:]
-時間 :
+時間:
 [milliseconds]
 ミリ秒
 [Hide vertical scroll bar]
 垂直方向のスクロールバーを非表示
 [Gray out entire list when:]
-リスト全体を灰色表示する :
+リスト全体を灰色表示する:
 [Contact List Background]
 コンタクトリストの背景
 [Use Windows colors]
@@ -297,7 +297,7 @@ Cancel
 [Group]
 グループ
 [Per contact skins:]
-コンタクト毎のスキン :
+コンタクト毎のスキン:
 [< Reload]
 < 再読み込み
 [Contact list skin]
@@ -361,9 +361,9 @@ Cancel
 [Show contact with priority]
 優先順位でコンタクトを表示
 [Show Avatar:]
-アバターを表示 :
+アバターを表示:
 [Show 2nd line:]
-2 行目を表示 :
+2 行目を表示:
 [Draw overlay icon on avatar]
 アバターにオーバーレイアイコンを描画
 [Show local time]
@@ -601,7 +601,7 @@ Clist ドッキング
 ;file \plugins\Clist_nicer\src\init.cpp
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Current view mode: %s]
-現在の表示モード : %s
+現在の表示モード: %s
 [No view mode]
 表示モードなし
 [Clear current View Mode]

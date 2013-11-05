@@ -12,7 +12,7 @@
 [Text]
 テキスト
 [Password:]
-パスワード :
+パスワード:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Status]
 ステータス

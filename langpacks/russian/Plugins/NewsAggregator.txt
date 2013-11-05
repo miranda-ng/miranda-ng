@@ -123,8 +123,6 @@ ID канала
 Максимум новостей
 [&Store only unread news]
 Сохранять только непрочитанные новости
-[Real URL :]
-URL :
 [goes to]
 Записывается как
 [&Manage feed...]

@@ -72,8 +72,6 @@
 послал встряску
 [Allow nudges when you're:]
 Разрешать тряску когда Вы:
-[Nudge : Default]
-Тряска
 [Nudge for IRC]
 Встряхнуть (IRC)
 [Nudge for YAHOO]

@@ -69,7 +69,7 @@
 [Check every (s):]
 必ずチェック (s):
 [Don't check if more than (users):]
-ユーザー数の超過をチェックしない :
+ユーザー数の超過をチェックしない:
 [User information]
 ユーザー情報
 [Version]
@@ -99,13 +99,13 @@ Cancel(&C)
 [&Set]
 設定 (&S)
 [Perform on event:]
-イベントで実行 :
+イベントで実行:
 [Scripting support]
 スクリプト作成サポート
 [Quit message:]
-終了メッセージ :
+終了メッセージ:
 [Server code page:]
-サーバーコードページ :
+サーバーコードページ:
 [Enable UTF8 autodetection]
 UTF8 自動検知を有効
 [Add server]
@@ -125,7 +125,7 @@ UTF8 自動検知を有効
 [&Join]
 参加する (&J)
 [Filter by]
-以下でフィルター :
+以下でフィルター:
 [C&onnect]
 接続 (&o)
 [Hostmask]
@@ -151,9 +151,9 @@ Op のみがトピックを設定
 [Moderated]
 管理
 [Key:]
-キー :
+キー:
 [User limit:]
-ユーザー制限 :
+ユーザー制限:
 [Secret]
 秘密
 [Topic]
@@ -185,13 +185,13 @@ Op のみがトピックを設定
 [Client-to-Client Chats]
 クライアント対クライアントチャット
 [Send mode:]
-送信モード :
+送信モード:
 [Packet size (b):]
 パケットサイズ (b):
 [Get IP address from server]
 サーバーから IP アドレスを取得
 [Auto-accept from:]
-自動受信 差出人 :
+自動受信 差出人:
 [Send notice]
 通知を送信
 [CTCP Chat Request]
@@ -229,7 +229,7 @@ DCC
 [(*) blank to set this mask for all networks]
 (*) このマスクに空白を設定すると全ネットワークが対象
 [Password:]
-パスワード :
+パスワード:
 [Alternate nick]
 代替ニック
 ;file \protocols\IRCG\src\clist.cpp
@@ -241,7 +241,7 @@ DCC
 [%s sets mode %s%s]
 %s は %s%s モードを設定
 [CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
-CTCP エラー : %s!%s@%s から悪意のある CTCP コマンドを受信しました。登録済みの IRC クライアントのコントロールを制御されないよう , 可能な限り注意してください
+CTCP エラー: %s!%s@%s から悪意のある CTCP コマンドを受信しました。登録済みの IRC クライアントのコントロールを制御されないよう , 可能な限り注意してください
 [CTCP FINGER requested by %s]
 CTCP FINGER %s のリクエスト
 [CTCP VERSION requested by %s]
@@ -255,27 +255,27 @@ CTCP PING %s のリクエスト
 [CTCP TIME requested by %s]
 CTCP TIME %s のリクエスト
 [DCC: Chat request from %s denied]
-DCC : %s からのチャットリクエストを拒否
+DCC: %s からのチャットリクエストを拒否
 [DCC: File transfer request from %s denied]
-DCC : %s からのファイル転送リクエストを拒否
+DCC: %s からのファイル転送リクエストを拒否
 [DCC: Reverse file transfer request from %s denied [No local IP]]
-DCC : %s からの逆向きファイル転送リクエストを拒否 [ ローカル IP なし ]
+DCC: %s からの逆向きファイル転送リクエストを拒否 [ ローカル IP なし ]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
-DCC エラー : %s [ %s ] からの悪意のある CTCP リクエスト
+DCC エラー: %s [ %s ] からの悪意のある CTCP リクエスト
 [DCC: File transfer resume request from %s denied]
-DCC : %s からのファイル転送再開リクエストを拒否
+DCC: %s からのファイル転送再開リクエストを拒否
 [CTCP %s requested by %s]
 CTCP %s %s からのリクエスト
 [CTCP PING reply from %s: %u sec(s)]
-CTCP PING %s からのリプライ : %u 秒
+CTCP PING %s からのリプライ: %u 秒
 [CTCP %s reply from %s: %s]
-CTCP %s %s からの返信 : %s
+CTCP %s %s からの返信: %s
 [Downloading list (%u%%) - %u channels]
 ダウンロード中のリスト(%u%%) - %u チャンネル
 [Downloading list - %u channels]
 ダウンロード中のリスト - %u チャンネル
 [Done: %u channels]
-終了 : %u チャンネル
+終了: %u チャンネル
 [(probably truncated by server)]
 ( 恐らくサーバーにより省略 )
 [Change nickname]
@@ -306,13 +306,13 @@ IRC エラー
 [The buddy check function is disabled]
 メンバーチェック機能を無効
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-不正なパラメーターです。使用法 : /sleep [ms], ms は 0 以上 4000 未満
+不正なパラメーターです。使用法: /sleep [ms], ms は 0 以上 4000 未満
 [Ignore system is enabled]
 無視システムを有効
 [Ignore system is disabled]
 無視システムは無効
 [%s on %s is now ignored (+%s)]
-%s : %s は現在無視しています (+%s)
+%s: %s は現在無視しています (+%s)
 [%s is not ignored now]
 %s は現在無視されていません
 [%s was not ignored]
@@ -334,31 +334,31 @@ IRC 警告
 [CTCP %s request sent to %s]
 CTCP %s リクエストを %s に送信
 [DCC ERROR: Unable to automatically resolve external IP]
-DCC エラー : 外部 IP の自動解決ができませんでした
+DCC エラー: 外部 IP の自動解決ができませんでした
 [DCC CHAT request sent to %s]
 DCC CHAT リクエストを %s に送信
 [DCC ERROR: Unable to bind port]
-DCC エラー : ポートをバインドできませんでした
+DCC エラー: ポートをバインドできませんでした
 [Input command]
 コマンド入力
 [Please enter the reply]
 返信を入力してください
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
-接続に失敗しました :
+接続に失敗しました:
 [DCC ERROR: Unable to bind local port for passive filetransfer]
-DCC エラー : パッシブモードファイル転送用ローカルポートをバインドできませんでした
+DCC エラー: パッシブモードファイル転送用ローカルポートをバインドできませんでした
 ;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 情報
 [DCC ERROR: No valid files specified]
-DCC エラー : 有効なファイルが指定されていません
+DCC エラー: 有効なファイルが指定されていません
 [DCC reversed file transfer request sent to %s [%s]]
 DCC 逆向きファイル転送リクエストを%s [%s]に送信
 [DCC file transfer request sent to %s [%s]]
 DCC ファイル転送リクエストを%s [%s]に送信
 [DCC ERROR: Unable to bind local port]
-DCC エラー : ローカルポートをバインドできませんでした
+DCC エラー: ローカルポートをバインドできませんでした
 [The protocol is not online]
 プロトコルはオンラインではありません
 [The dcc chat connection is not active]
@@ -440,19 +440,19 @@ DCC と CTCP
 詳細
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
-%s からの WallOps :
+%s からの WallOps:
 [%s invites you to %s]
 %s があなたを %s に招待しています
 [%s is away]
 %s は離席中です
 [These are online: ]
-オンライン :
+オンライン:
 [CTCP %s reply sent to %s]
 CTCP %s は &s に返信を送信
 [CTCP %s reply sent to %s: %s]
-CTCP %s は &s に返信を送信 : %s
+CTCP %s は &s に返信を送信: %s
 [Notice to %s: ]
-%s に通知 :
+%s に通知:\s
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 クイック接続 (&Q)
@@ -569,11 +569,11 @@ NickServ
 [List your channels]
 自分のチャンネルをリスト
 [Kill unauthorized: off]
-未認証者を消す : オフ
+未認証者を消す: オフ
 [Kill unauthorized: on]
-未認証者を消す : オン
+未認証者を消す: オン
 [Kill unauthorized: quick]
-未認証者を消す : クイック
+未認証者を消す: クイック
 [Hide nick from list]
 リストからニックを隠す
 [Show nick to list]
@@ -631,9 +631,9 @@ Voice を取得 (&o)
 [&Add User]
 ユーザーを追加 (&A)
 [Connecting to]
-接続中 :
+接続中:
 [Reconnecting to]
-再接続中 :
+再接続中:
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 オフライン

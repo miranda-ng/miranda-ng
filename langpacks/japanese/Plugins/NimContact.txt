@@ -11,7 +11,7 @@ URL
 [Link]
 リンク
 [Group:]
-グループ :
+グループ:
 [&Exit]
 終了 (&E)
 [Help]

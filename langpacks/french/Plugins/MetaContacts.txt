@@ -9,7 +9,7 @@
 [Add to Existing MetaContact]
 Ajouter à un MetaContact existant
 [Please select a MetaContact:]
-Veuillez choisir un MetaContact :
+Veuillez choisir un MetaContact:
 [&OK]
 OK
 [&Cancel]
@@ -19,7 +19,7 @@ Trier alphabétiquement
 [Editing]
 Édition de la fiche MetaContact
 [Name:]
-Nom :
+Nom:
 [Information]
 Informations
 [&Apply]
@@ -81,7 +81,7 @@ Patienter pendant la suppression de l'historique.
 [Subcontact Priorities]
 Priorités des sous-contacts
 [Rank:]
-Rang :
+Rang:
 [Default]
 Défaut
 [(Lower ranks are preferred)]
@@ -89,7 +89,7 @@ Défaut
 [Copy subcontact history to MetaContact when creating or adding]
 Copier l'historique du sous-contact dans le MetaContact, dés la création ou l'ajout
 [Number of days to copy (0=all):]
-  Nombre de jour à copier (0=tous) :
+  Nombre de jour à copier (0=tous):
 [Keep MetaContact history synchronized with subcontacts]
 Synchroniser l'historique du MetaContact avec celui du sous-contact
 [Keep subcontact history synchronized with MetaContact]

@@ -7,19 +7,19 @@
 ;============================================================
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [When I press the hotkey:]
-Quand je presse le raccourci suivant :
+Quand je presse le raccourci suivant:
 [Change only if current status is Online]
 Changer seulement si je suis En ligne.
 [Disable Sounds]
 Sons désactivés
 [When I return:]
-Quand je reviens :
+Quand je reviens:
 [Request password:]
-Mot de passe :
+Mot de passe:
 [Change status back]
 Remettre l'état précédent
 [Password:]
-Passe :
+Passe:
 [Cancel]
 Annuler
 ;file \plugins\BossKeyPlus\src\BossKey.cpp

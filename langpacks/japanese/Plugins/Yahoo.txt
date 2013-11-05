@@ -9,9 +9,9 @@
 [ID:]
 ID:
 [Password:]
-パスワード :
+パスワード:
 [Nick:]
-ニック :
+ニック:
 [Create a new Yahoo account using the Yahoo website]
 Yahoo ウェブサイトを使用して新規 Yahoo アカウントを作成
 [Use Yahoo Address Book (YAB)]
@@ -29,7 +29,7 @@ Yahoo Japan
 [Connection Settings]
 接続設定
 [Port:]
-ポート :
+ポート:
 [Reset]
 リセット
 [Yahoo Ignore List]
@@ -37,7 +37,7 @@ Yahoo 無視リスト
 [Ignore anyone who is not on my Yahoo buddy list]
 自分の Yahoo メンバーリストにない人は全て無視する
 [Ignore only the people below:]
-以下の人々のみ無視 :
+以下の人々のみ無視:
 [&Add]
 追加 (&A)
 [Set Custom Status]
@@ -64,7 +64,7 @@ Cancel(&C)
 追加
 ;file \protocols\Yahoo\src\chat.cpp
 [%s denied invitation with message: %s]
-%s はメッセージによる招待を拒否しました : %s
+%s はメッセージによる招待を拒否しました: %s
 [Join My Conference...]
 自分の会議に参加...
 [No, thank you...]
@@ -86,7 +86,7 @@ Yahoo エラー
 [The message send timed out.]
 メッセージの送信はタイムアウトしました
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-メッセージが長すぎます : Yahoo メッセージは UTF8 で 800 文字に制限されています
+メッセージが長すぎます: Yahoo メッセージは UTF8 で 800 文字に制限されています
 ;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
 Yahoo リンクプロトコル
@@ -147,13 +147,13 @@ Yahoo メール (&Y)
 [Calendar Reminder]
 カレンダーリマインダー
 [%s has rejected your request and sent the following message:]
-%s はあなたのリクエストを拒否し , 次のメッセージを送信 :
+%s はあなたのリクエストを拒否し , 次のメッセージを送信:
 [You Have %i unread msgs]
 %i 通の未読メッセージ
 [New Mail (%i msgs)]
 新着メール ( %i 通 )
 [From: %s\nSubject: %s]
-差出人 : %s\n件名 : %s
+差出人: %s\n件名: %s
 [Yahoo Ping Error]
 Yahoo Ping エラー
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
@@ -167,7 +167,7 @@ Yahoo サービスからログアウト済です。重複ログインの可能�
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Yahoo サービスに接続できません。サーバー / ポートとプロキシの設定を確認してください
 [Could not log in, unknown reason: %d.]
-不明な理由でログインできません : %d
+不明な理由でログインできません: %d
 [Unknown error %s]
 不明なエラー %s
 [Custom error %s]
@@ -183,6 +183,6 @@ Yahoo サービスに接続できません。サーバー / ポートとプロ�
 [System Error: %s]
 システムエラー: %s
 [Server Connection Error: %s]
-サーバー接続エラー : %s
+サーバー接続エラー: %s
 [Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Yahoo サーバーに接続できません。ネットに接続してページャホストとポートが正しく入力されているか確認してください

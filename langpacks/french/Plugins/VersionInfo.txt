@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
-Enregistrer vers :
+Enregistrer vers:
 [Cancel]
 Annuler
 [Text file]
@@ -15,13 +15,13 @@ Fichier texte
 [DialogBox]
 Boîte de dialogue
 [Select output:]
-Fichier de sortie :
+Fichier de sortie:
 [Upload to site]
 Stocker sur un serveur
 [Forum style formatting]
-Formatage du texte avec BBCodes :
+Formatage du texte avec BBCodes:
 [Aditional options:]
-Options :
+Options:
 [Do it now]
 Générer
 [Show window in taskbar]
@@ -58,7 +58,7 @@ Fermer
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 Si vous compter utiliser ce rapport pour soumettre un bug, pensez à vérifier sur le site Web des questions ou aides que les réalisateurs pourraient avoir besoin.\r\nIf you don't check your bug report and give feedback, it will not be fixed !
 [Information successfully written to file: "%s".]
-Écriture réussie dans le fichier : "%s"
+Écriture réussie dans le fichier: "%s"
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Erreur à la création du fichier "%s".  Le disque peut être plein ou protégé.
 [The clipboard is not available, retry.]
@@ -74,4 +74,4 @@ Affichage de l'ID unique des Plugins!
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-OK, un truc est entré mal dans "%s". Faites un rapport avec ces valeurs :\nFacility: %X\nError code: %X\nLine number: %d
+OK, un truc est entré mal dans "%s". Faites un rapport avec ces valeurs:\nFacility: %X\nError code: %X\nLine number: %d

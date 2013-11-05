@@ -8,9 +8,9 @@
 [Show Offline contacts]
 Montrer les contacts hors ligne
 [wParam type:]
-wParam type :
+wParam type:
 [lParam type:]
-lParam type :
+lParam type:
 [Sort by Status]
 Trier par état
 [Draw Grid]
@@ -22,11 +22,11 @@ Sauver
 [Quick Search]
 Recherche rapide
 [Setting:]
-Paramètre :
+Paramètre:
 [Additional Options]
 Options supplémentaires
 [InfoType:]
-InfoType :
+InfoType:
 [New Column]
 Nouvelle colonne
 [Save Column]

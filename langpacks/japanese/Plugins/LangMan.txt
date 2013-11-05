@@ -7,11 +7,11 @@
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
 [Author(s):]
-作成者 :
+作成者:
 [E-mail:]
-電子メール :
+電子メール:
 [Date:]
-日付 :
+日付:
 [Please restart Miranda NG for your changes to take effect.]
 変更を反映するには , Miranda NG を再起動してください
 ;file \plugins\LangMan\src\main.cpp

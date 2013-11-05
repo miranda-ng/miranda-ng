@@ -49,7 +49,7 @@ Tiempo de espera (seg.)
 [Use balloon notifications in system tray instead of popups]
 Usar las notificaciones de globo en la bandeja del sistema en lugar de ventanas emergentes
 [News Feed types to notify:]
-Tipos News Feed para notificar a :
+Tipos News Feed para notificar a:
 [Advanced Settings]
 Configuración avanzada
 [Advanced Settings]
@@ -70,7 +70,7 @@ Su cuenta requiere una conexión HTTPS. Activación.
 [Login error: Some Facebook things are required.]
 Error de inicio de sesión: Algunas cosas de Facebook son obligatorios.
 [Login error: Captcha code is required. Bad login credentials?]
-Inicio de sesión de error : Código Captcha es necesario. Las credenciales de inicio de sesión Bad ?
+Inicio de sesión de error: Código Captcha es necesario. Las credenciales de inicio de sesión Bad ?
 [Login error, probably bad login credentials.]
 Error de inicio de sesión, las credenciales de acceso, probablemente malos.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]

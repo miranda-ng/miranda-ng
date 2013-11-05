@@ -433,9 +433,9 @@ Options d'affichage
 [Show contact with priority]
 Afficher le contact avec sa priorité
 [Show Avatar:]
-Afficher l'avatar :
+Afficher l'avatar:
 [Show 2nd line:]
-Afficher une seconde ligne :
+Afficher une seconde ligne:
 [Draw overlay icon on avatar]
 Icônes de sur-couche sur les avatars
 [Show local time]
@@ -789,7 +789,7 @@ Heures
 [Days]
 Jours
 [Current view mode: %s]
-Mode actuel : %s
+Mode actuel: %s
 [Filtering]
 Filtre
 [*** All contacts ***]

@@ -9,11 +9,11 @@
 [Gadu-Gadu User Details]
 Identifiants Gadu-Gadu
 [Gadu-Gadu Number:]
-Numéro Gadu-Gadu :
+Numéro Gadu-Gadu:
 [Password:]
-Passe :
+Passe:
 [E-mail:]
-e-mail :
+e-mail:
 [Create new account]
 Créer un compte
 [Remove account]
@@ -25,17 +25,17 @@ Seulement les amis
 [Show offline users with status message as invisible in contact list]
 Voir les contacts Hors ligne avec le motif d'invisibilité dans la liste
 [After disconnection leave away message of status:]
-Après déconnexion, se remettre dans l'état :
+Après déconnexion, se remettre dans l'état:
 [Receive image and after image is received use:]
-Receptionner les image, puis utiliser :
+Receptionner les image, puis utiliser:
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Vous devrez vous reconnecter afin de valider les modifications de cette page.
 [Conference policy]
 Police
 [if total participant count greater than:]
-s'y il la plus de participants que :
+s'y il la plus de participants que:
 [if unknown participant count greater than:]
-s'y il la plus de participants inconnus que :
+s'y il la plus de participants inconnus que:
 [in other case]
 dans une autre case
 [Advanced Configuration]
@@ -51,29 +51,29 @@ Utiliser une connexion sécurisée SSL
 [Use direct connections]
 Utiliser une connexion directe
 [Port:]
-Port :
+Port:
 [Use forwarding]
 Utiliser le \'forwarding\'
 [Host:]
-Hôte :
+Hôte:
 [First name:]
-Prénom :
+Prénom:
 [Last name:]
-Nom :
+Nom:
 [Family name:]
-Nom de Famille :
+Nom de Famille:
 [Nickname:]
-Pseudo :
+Pseudo:
 [Gender:]
-Sexe :
+Sexe:
 [City:]
-Ville :
+Ville:
 [Origin city:]
-Ville d'origine :
+Ville d'origine:
 [Birth year:]
-Né en :
+Né en:
 [Description:]
-Description :
+Description:
 [Enter token to continue]
 Entrer quelquechose pour continuer
 [Cancel]
@@ -81,11 +81,11 @@ Annuler
 [Create Gadu-Gadu account]
 Créer un compte Gadu-Gadu.
 [New password:]
-Nouveau mot de passe :
+Nouveau mot de passe:
 [Confirm password:]
-Confirmer le passe :
+Confirmer le passe:
 [New e-mail:]
-Nouvel e-mail :
+Nouvel e-mail:
 [&Create]
 &Créer
 [Remove Gadu-Gadu account]
@@ -99,7 +99,7 @@ Changer le mot de passe Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Changer l'e-mail Gadu-Gadu
 [Age from:]
-Agé de :
+Agé de:
 [&Close]
 &Fermer
 [&Send]
@@ -127,7 +127,7 @@ Inconnu
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Nom d'Hôte du serveur %s invalide. Utilisez celui par défaut par le réseau.
 [Age:]
-Age :
+Age:
 [List import successful.]
 Liste importée avec succès.
 [List remove successful.]
@@ -164,18 +164,18 @@ Ignorer
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
-Erreur HTTP : mémoire
+Erreur HTTP: mémoire
 [HTTP failed connecting]
-Erreur HTTP : connexion
+Erreur HTTP: connexion
 [HTTP failed reading]
-Erreur HTTP : lecture
+Erreur HTTP: lecture
 [HTTP failed writing]
-Erreur HTTP : écriture
+Erreur HTTP: écriture
 [Unknown HTTP error]
 Erreur HTTP inconnue
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [Gadu-Gadu Number]
-Numéro Gadu-Gadu :
+Numéro Gadu-Gadu:
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Ouvrir un &chat...
@@ -255,26 +255,26 @@ Erreur
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
-Une récupération a échoué. Erreur :\n\t%s
+Une récupération a échoué. Erreur:\n\t%s
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
-Enregistrement du nouveau compte impossible Erreur :\n\t%s
+Enregistrement du nouveau compte impossible Erreur:\n\t%s
 [Registration rejected]
 Enregistrement refusé
 [Your account cannot be removed because of error:\n\t%s]
-Votre compte n'a pu être effacé. Erreur :\n\t%s
+Votre compte n'a pu être effacé. Erreur:\n\t%s
 [Bad number or password]
 Numéro ou mot de passe erroné
 [Your account has been removed.]
 Votre compte a bien été effacé.
 [Your password cannot be changed because of error:\n\t%s]
-Votre mot de passe n'a pu être changé. Erreur :\n\t%s
+Votre mot de passe n'a pu être changé. Erreur:\n\t%s
 [Invalid data entered]
 Données entrées invalides
 [Your password has been changed.]
 Votre mot de passe a bien été changé.
 [Your e-mail cannot be changed because of error:\n\t%s]
-Votre e-mail n'a pu être changé. Erreur :\n\t%s
+Votre e-mail n'a pu être changé. Erreur:\n\t%s
 [Bad old e-mail or password]
 Ancien e-mail ou mot de passe erroné
 [Your e-mail has been changed.]

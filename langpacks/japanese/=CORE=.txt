@@ -1,6 +1,6 @@
 ﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
-アカウント名を入力 ( 例 : My Google )
+アカウント名を入力 ( 例: My Google )
 [Choose the protocol type]
 プロトコルタイプを選択
 [Specify the internal account name (optional)]
@@ -18,9 +18,9 @@ Cancel(&C)
 [Send authorization request]
 認証リクエストを送信
 [Custom name:]
-カスタム名 :
+カスタム名:
 [Group:]
-グループ :
+グループ:
 [Options]
 オプション
 [Authorization request]
@@ -50,17 +50,17 @@ Miranda NG プロファイルマネージャー
 [Find/Add Contacts]
 コンタクトを検索 / 追加
 [Search:]
-検索 :
+検索:
 [E-mail address]
 電子メールアドレス
 [Name]
 名前
 [Nick:]
-ニック :
+ニック:
 [First:]
-名前 :
+名前:
 [Last:]
-名字 :
+名字:
 [Advanced]
 詳細
 [Advanced >>]
@@ -112,7 +112,7 @@ Miranda NG プロファイルマネージャー
 [Database Import Complete]
 データベースのインポートが完了しました
 [The import has completed from]
-以下からのインポートは完了しました :
+以下からのインポートは完了しました:
 [What do you want to do with the file now?]
 このファイルに何をしますか？
 [&Recycle]
@@ -164,15 +164,15 @@ SSL トラフィック
 [Sound Information]
 音声情報
 [Location:]
-場所 :
+場所:
 [Name:]
-名前 :
+名前:
 [Enable sound events]
 音声イベントを有効
 [Icons]
 アイコン
 [Show category:]
-カテゴリーを表示 :
+カテゴリーを表示:
 [&Load icon set...]
 アイコンセット読込 (&L)...
 [&Import icons >>]
@@ -180,7 +180,7 @@ SSL トラフィック
 [Download more icons]
 追加アイコンをダウンロード
 [The following events are being ignored:]
-無視するイベントを選択 :
+無視するイベントを選択:
 [Messages]
 メッセージ
 [URLs]
@@ -212,9 +212,9 @@ URL
 [Icon Index]
 アイコンインデックス
 [Icon library:]
-アイコンライブラリー :
+アイコンライブラリー:
 [Drag icons to main list to assign them:]
-メインリストに割り当てるアイコンをドラッグ :
+メインリストに割り当てるアイコンをドラッグ:
 [Import multiple]
 並列インポート
 [To main icons]
@@ -232,25 +232,25 @@ URL
 [Use proxy server]
 プロキシサーバーを使用
 [Type:]
-タイプ :
+タイプ:
 [Host:]
-ホスト :
+ホスト:
 [Port:]
-ポート :
+ポート:
 [(often %d)]
 ( 通常 %d)
 [Use Custom Login (Domain login picked up automatically)]
 カスタムログインを使用 ( ドメインログインが自動的に選択 )
 [Username:]
-ユーザー名 :
+ユーザー名:
 [Password:]
-パスワード :
+パスワード:
 [Resolve hostnames through proxy]
 プロキシを経由してホスト名を解決
 [Port Range:]
-ポートの範囲 :
+ポートの範囲:
 [Example: 1050-1070, 2000-2010, 2500]
-記入例 : 1050-1070, 2000-2010, 2500
+記入例: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
 SSL 証明書を有効
 [Incoming Connections]
@@ -274,17 +274,17 @@ UPnP ポートマッピングを有効
 [Download more plugins]
 追加プラグインをダウンロード
 [Description:]
-説明 :
+説明:
 [Author(s):]
-作成者 :
+作成者:
 [E-mail:]
-電子メール :
+電子メール:
 [Homepage:]
 Homepage:
 [Unique ID:]
 固有 ID:
 [Copyright:]
-著作権 :
+著作権:
 [Please restart Miranda NG for your changes to take effect.]
 変更を反映するには , Miranda NG を再起動してください
 [Fonts and Colors]
@@ -346,7 +346,7 @@ AaBbYyZz
 [Insert separator]
 セパレーターを挿入
 [Service:]
-サービス :
+サービス:
 [Default]
 デフォルト
 [Set]
@@ -356,11 +356,11 @@ AaBbYyZz
 [Account Order && Visibility]
 アカウントの並び順と可視状態
 [Note: Miranda NG will have to be restarted for changes to take effect.]
-注意 : Miranda NG に変更を反映するには再起動が必要です
+注意: Miranda NG に変更を反映するには再起動が必要です
 [Key Bindings]
 キーバインディング
 [Shortcut:]
-ショートカット :
+ショートカット:
 [Add]
 追加
 [Remove]
@@ -376,9 +376,9 @@ AaBbYyZz
 [Accounts\nConfigure your IM accounts]
 アカウント\nIM アカウントの設定
 [Account information:]
-アカウント情報 :
+アカウント情報:
 [Additional:]
-追加 :
+追加:
 [Configure network...]
 ネットワークの設定...
 [Get more protocols...]
@@ -402,31 +402,31 @@ Miranda NG は再起動中です\nお待ちください...
 [Error notifications]
 エラー通知
 [Headers:]
-ヘッダー :
+ヘッダー:
 [This font is used to display main section titles or text elements.]
 このフォントはメインセクションのタイトルやテキスト要素の表示に使用されています
 [Normal text:]
-標準テキスト :
+標準テキスト:
 [This font is used to display most text element or section bodies.]
 このフォントは大部分のテキスト要素や本文のセクションの本文に使用されています
 [Minor notes:]
-マイナーメモ :
+マイナーメモ:
 [This font is used to display various addtional notes.]
 このフォントは各種の追加メモの表示に使用されています
 [Event icon legend:]
-イベントアイコン凡例 :
+イベントアイコン凡例:
 [Choose events you wish to ingonre:]
-無視するイベントを選択 :
+無視するイベントを選択:
 [Font Effect]
 フォント効果
 [Effect:]
-効果 :
+効果:
 [Base color:]
-基本色 :
+基本色:
 [opacity:]
-不透明度 :
+不透明度:
 [Secondary color:]
-第 2 色 :
+第 2 色:
 [Tray]
 トレイ
 [&Hide/Show]
@@ -497,9 +497,9 @@ Miranda を非表示
 [&I]
 &I
 [Reason:]
-理由 :
+理由:
 [Denial Reason:]
-拒否の理由 :
+拒否の理由:
 [Add to contact list if authorized]
 認証済みならコンタクトリストに追加
 [You Were Added]
@@ -522,11 +522,11 @@ Miranda を非表示
 [By default, use the same message as last time]
 デフォルトで , 終了時に同じメッセージを使用
 [By default, use this message:]
-デフォルトで , このメッセージを使用 :
+デフォルトで , このメッセージを使用:
 [Use %time% for the current time, %date% for the current date]
 現在の時間として %time%, 現在の日付として %date% を使用
 [Status messages:]
-ステータスメッセージ :
+ステータスメッセージ:
 [Change %s Message]
 %s メッセージを変更する
 [Closing in %d]
@@ -535,7 +535,7 @@ Miranda を非表示
 [&Send]
 送信 (&S)
 [Show these events only:]
-以下のイベントのみ表示 :
+以下のイベントのみ表示:
 [Actions]
 アクション
 [Nick changes]
@@ -569,7 +569,7 @@ Miranda を非表示
 [Enable highlighting]
 強調表示を有効
 [Limit log text to (events):]
-ログテキストの制限 (イベント) :
+ログテキストの制限 (イベント):
 [Trim to (kB)]
 トリムする (kB):
 [Words to highlight (wildcards allowed)]
@@ -581,7 +581,7 @@ Miranda を非表示
 [Other]
 その他
 [Add new rooms to group:]
-新しいルームをグループに追加 :
+新しいルームをグループに追加:
 [Userlist row distance (pixels):]
 ユーザーリストの行間隔 ( ピクセル ):
 [Use same style as in the message log]
@@ -722,9 +722,9 @@ Wikipedia
 [Transparent contact list]
 コンタクトリストを透過表示にする
 [Inactive opacity:]
-非アクティブ不透明度 ：
+非アクティブ不透明度：
 [Active opacity:]
-アクティブ不透明度 :
+アクティブ不透明度:
 [Items]
 アイテム
 [Show divider between online and offline contacts]
@@ -742,7 +742,7 @@ Wikipedia
 [Dim idle contacts]
 不要のコンタクトを暗くする
 ['Hide Offline' means to hide:]
-' オフラインの非表示 ' で非表示にする対象 :
+' オフラインの非表示 ' で非表示にする対象:
 [Groups]
 グループ
 [Draw a line alongside group names]
@@ -764,19 +764,19 @@ Wikipedia
 [Scroll list smoothly]
 リストをなめらかにスクロール
 [Time:]
-時間 :
+時間:
 [milliseconds]
 ミリ秒
 [Left margin:]
-左マージン :
+左マージン:
 [Hide vertical scroll bar]
 垂直方向のスクロールバーを非表示
 [Row height:]
-行の高さ :
+行の高さ:
 [Gamma correction]
 ガンマ補正
 [Gray out entire list when:]
-リスト全体を灰色表示する :
+リスト全体を灰色表示する:
 [Contact List Background]
 コンタクトリストの背景
 [Background color]
@@ -820,15 +820,15 @@ Wikipedia
 [Show resize grip indicator]
 サイズ変更グリップインジケータを表示
 [Ordering:]
-並び順 :
+並び順:
 [Contact list:]
-コンタクトリスト :
+コンタクトリスト:
 [If window is partially covered, bring it to front]
 ウィンドウが一部隠れている場合 , 後方から前面に移動する
 [Window:]
-ウィンドウ :
+ウィンドウ:
 [Contact list background:]
-コンタクトリストの背景 :
+コンタクトリストの背景:
 [&Status]
 ステータス (&S)
 [&Offline\tCtrl+0]
@@ -855,13 +855,13 @@ Wikipedia
 [Send File(s)]
 送信ファイル
 [To:]
-送信者 :
+送信者:
 [File(s):]
-ファイル :
+ファイル:
 [&Choose Again...]
 再選択 (&C)...
 [Total size:]
-合計サイズ :
+合計サイズ:
 [&D]
 &D
 [&H]
@@ -873,13 +873,13 @@ Wikipedia
 [&Decline]
 減少 (&D)
 [From:]
-送信者 :
+送信者:
 [Date:]
-日付 :
+日付:
 [Files:]
-ファイル :
+ファイル:
 [Save to:]
-以下として保存 :
+以下として保存:
 [&A]
 &A
 [Contact menu]
@@ -915,9 +915,9 @@ Wikipedia
 [Existing file]
 存在するファイル
 [Size:]
-サイズ :
+サイズ:
 [Last modified:]
-最終変更 :
+最終変更:
 [Open file]
 ファイルを開く
 [File properties]
@@ -933,9 +933,9 @@ Wikipedia
 [Receiving files]
 受信ファイル
 [Received files folder:]
-受信ファイルフォルダー :
+受信ファイルフォルダー:
 [Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-許可する変数 : %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+許可する変数: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
 コンタクトリストに登録済の人からの着信ファイルを自動受信
 [Minimize the file transfer window]
@@ -955,7 +955,7 @@ Wikipedia
 [As each file finishes downloading]
 ダウンロードが終了したファイル毎
 [Command line:]
-コマンドライン :
+コマンドライン:
 [%f will be replaced by the file or folder name to be scanned]
 %f はスキャン済のファイル名もしくはフォルダー名で置き換えられます
 [Warn me before opening a file that has not been scanned]
@@ -975,7 +975,7 @@ Miranda NG\n%s
 クレジット >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
-以下が無人状態になったらアイドルになる :
+以下が無人状態になったらアイドルになる:
 [Windows]
 Windows
 [Miranda]
@@ -991,7 +991,7 @@ Miranda
 [for]
 連続
 [Change my status mode to:]
-自分のステータスモードを変更する :
+自分のステータスモードを変更する:
 [Do not set status back to online when returning from idle]
 アイドル状態から戻った際に , ステータスをオンラインに戻さない
 [Idle Options]
@@ -999,12 +999,12 @@ Miranda
 [Become idle if application full screen]
 アプリケーションがフルスクリーンになったらアイドルになる
 [Become idle if computer is left unattended for:]
-コンピューターが以下に対して無人状態になったらアイドルになる :
+コンピューターが以下に対して無人状態になったらアイドルになる:
 [Idle (auto-away):]
 アイドル ( 自動離席中 )
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
-自動的にポップアップウィンドウを開く場合 :
+自動的にポップアップウィンドウを開く場合:
 [In background]
 背景で
 [Close the message window on send]
@@ -1038,15 +1038,15 @@ Miranda
 [Enable avatar support in the message window]
 メッセージウィンドウ内でのアバターサポートを有効
 [Limit avatar height to ]
-アバターの高さを以下に制限 :
+アバターの高さを以下に制限:
 [Max Number of Flashes]
 フラッシュの最大数
 [Send Error]
 エラーを送信
 [An error has occurred. The protocol reported the following error:]
-エラーが発生しました。エラー内容 :
+エラーが発生しました。エラー内容:
 [while sending the following message:]
-次のメッセージの送信中 :
+次のメッセージの送信中:
 [Try again]
 再試行
 [Message Session]
@@ -1076,7 +1076,7 @@ Miranda
 [Show Formatting]
 書式設定を表示
 [Send typing notifications to the following users when you are typing a message to them:]
-メッセージを入力中に , 入力中通知を送信するユーザー :
+メッセージを入力中に , 入力中通知を送信するユーザー:
 [Show typing notifications when a user is typing a message]
 ユーザーがメッセージを入力中に入力通知を表示
 [Update inactive message window icons when a user is typing]
@@ -1090,9 +1090,9 @@ Miranda
 [Save the window position for each contact]
 コンタクト毎にウィンドウ位置を保存
 [Message window behavior:]
-メッセージウィンドウの動作 :
+メッセージウィンドウの動作:
 [Messaging:]
-メッセージング :
+メッセージング:
 [&Open link]
 リンクを開く (&O)
 [Paste && Send]
@@ -1105,7 +1105,7 @@ Miranda
 [&Find Next]
 次を検索 (&F)
 [Find What:]
-検索項目 :
+検索項目:
 [Message History]
 メッセージ履歴
 [&Find...]
@@ -1114,7 +1114,7 @@ Miranda
 [Add Phone Number]
 電話番号を追加
 [Enter country, area code and phone number:]
-国 , 地域コード , 電話番号を入力 :
+国 , 地域コード , 電話番号を入力:
 [Or enter a full international number:]
 もしくは , 国際番号を全て入力
 [Phone can receive SMS text messages]
@@ -1122,7 +1122,7 @@ SMS テキストメッセージを受信できる電話
 [Add E-Mail Address]
 電子メールアドレスを追加
 [%s: User Details]
-%s : ユーザーの詳細情報
+%s: ユーザーの詳細情報
 [%s\nView personal user details and more]
 %s\nユーザーの個人詳細情報等を表示
 [Update Now]
@@ -1130,57 +1130,57 @@ SMS テキストメッセージを受信できる電話
 [Updating]
 更新中
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [First name:]
-名 :
+名:
 [Gender:]
-性別 :
+性別:
 [Last name:]
-名字 :
+名字:
 [Age:]
-年齢 :
+年齢:
 [Date of birth:]
-誕生日 :
+誕生日:
 [Marital status:]
-結婚歴 :
+結婚歴:
 [Phone:]
-電話 :
+電話:
 [Web page:]
-ウェブページ :
+ウェブページ:
 [Past background:]
-過去の経緯 :
+過去の経緯:
 [Interests:]
-興味あるもの :
+興味あるもの:
 [About:]
-バージョン情報 :
+バージョン情報:
 [My notes:]
-マイメモ :
+マイメモ:
 [Street:]
-通り :
+通り:
 [City:]
-市 :
+市:
 [State:]
-州 :
+州:
 [Postal code:]
-郵便番号 :
+郵便番号:
 [Country:]
-国 :
+国:
 [Spoken languages:]
-話す言語 :
+話す言語:
 [Timezone:]
-タイムゾーン :
+タイムゾーン:
 [Local time:]
-現地時間 :
+現地時間:
 [Set custom time zone]
 カスタムタイムゾーンを設定
 [Company:]
-会社 :
+会社:
 [Department:]
-部門 :
+部門:
 [Position:]
-位置 :
+位置:
 [Website:]
-ウェブサイト :
+ウェブサイト:
 ;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s は認証をリクエストしました
@@ -1200,21 +1200,21 @@ SMS テキストメッセージを受信できる電話
 [<Unknown>]
 < 不明 >
 [%s added you to the contact list\n%u (%s) on %s]
-%sはあなたをコンタクトリストに追加しました\n%u ( %s ) : %s
+%sはあなたをコンタクトリストに追加しました\n%u ( %s ): %s
 [%s added you to the contact list\n%u on %s]
-%sはあなたをコンタクトリストに追加しました\n%u : %s
+%sはあなたをコンタクトリストに追加しました\n%u: %s
 [%s added you to the contact list\n%s on %s]
-%sはあなたをコンタクトリストに追加しました\n%s : %s
+%sはあなたをコンタクトリストに追加しました\n%s: %s
 [(Unknown)]
 ( 不明 )
 [View User Details]
 ユーザーの詳細情報を表示
 [%s requested authorization\n%u (%s) on %s]
-%s は認証リクエストしました\n%u (%s) : %s
+%s は認証リクエストしました\n%u (%s): %s
 [%s requested authorization\n%u on %s]
-%s は認証リクエストしました\n%u : %s
+%s は認証リクエストしました\n%u: %s
 [%s requested authorization\n%s on %s]
-%s は認証リクエストしました\n%s : %s
+%s は認証リクエストしました\n%s: %s
 [Feature is not supported by protocol]
 機能はプロトコルにサポートされていません
 ;file \src\core\stdaway\awaymsg.cpp
@@ -1271,7 +1271,7 @@ SMS テキストメッセージを受信できる電話
 [%s kicked %s]
 %s は %s を排除しました
 [Notice from %s: ]
-%s からの通知 :
+%s からの通知:
 [ (set by %s on %s)]
 ( %s を %s に設定)
 [ (set by %s)]
@@ -1582,7 +1582,7 @@ SMS テキストメッセージを受信できる電話
 [Information in %s]
 %s についての情報
 [%s says: %s]
-%s の発言 : %s
+%s の発言: %s
 [%s has left (%s)]
 %s は離席しました ( %s )
 [%s has disconnected (%s)]
@@ -1590,7 +1590,7 @@ SMS テキストメッセージを受信できる電話
 [%s kicked %s (%s)]
 %s は %s を排除しました ( %s )
 [Notice from %s: %s]
-%s からの通知 :%s
+%s からの通知:%s
 [No word to look up]
 検索語なし
 ;file \src\core\stdchat\src\window.cpp
@@ -1617,13 +1617,13 @@ SMS テキストメッセージを受信できる電話
 [Close current tab (CTRL+F4)]
 現在のタブを閉じる (CTRL+F4)
 [%s: Chat Room (%u user)]
-%s : チャットルーム (%u ユーザー )
+%s: チャットルーム (%u ユーザー )
 [%s: Chat Room (%u users)]
-%s : チャットルーム (%u ユーザー )
+%s: チャットルーム (%u ユーザー )
 [%s: Message Session]
-%s : メッセージセッション
+%s: メッセージセッション
 [%s: Message Session (%u users)]
-%s : メッセージセッション (%u ユーザー )
+%s: メッセージセッション (%u ユーザー )
 [Nick name]
 ニックネーム
 [Unique ID]
@@ -1900,7 +1900,7 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 URL
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
-URL を送信 :
+URL を送信:
 [Send timed out]
 タイムアウトを送信
 ;file \src\core\stduserinfo\contactinfo.cpp
@@ -2041,7 +2041,7 @@ Miranda はプロファイルを開けませんでした
 [Problem moving profile]
 プロファイル移動時の不具合
 [Unable to create the profile '%s', the error was %x]
-プロファイル ' %s ' は作成できません。エラー : %x
+プロファイル ' %s ' は作成できません。エラー: %x
 [Problem creating profile]
 プロファイル作成時の不具合
 [&Create]
@@ -2139,9 +2139,9 @@ Miranda はプロファイルを開けませんでした
 ネットワーク
 ;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
-クライアントはホストメッセージをでコードできませんでした。考えられる原因 : ホストは SSL をサポートしていない , もしくは存在していないセキュリティパッケージを要求している
+クライアントはホストメッセージをでコードできませんでした。考えられる原因: ホストは SSL をサポートしていない , もしくは存在していないセキュリティパッケージを要求している
 [Host we are connecting to is not the one certificate was issued for]
-接続中のホストには発行済み証明書がありません :
+接続中のホストには発行済み証明書がありません:
 ;file \src\modules\options\options.cpp
 [Loading... %d%%]
 読み込み中... %d%%
@@ -2224,11 +2224,11 @@ Miranda NG のアカウントマネージャーにようこそ !\nここで IM �
 [Add another shortcut]
 他のショートカットを追加
 [Scope:]
-適用範囲 :
+適用範囲:
 [System]
 システム
 [Actions:]
-操作 :
+操作:
 [Add binding]
 バインドを追加
 [Modify]

@@ -23,9 +23,9 @@ Envoyer les Rappels par e-mail/SMS:
 [Add Reminder]
 Ajout d'un Rappel
 [Trigger On Time && Date:]
-Heure && Date d'alerte :
+Heure && Date d'alerte:
 [Reminder Note:]
-Note de Rappel :
+Note de Rappel:
 [None]
 Aucun
 [&Add Reminder]

@@ -41,7 +41,7 @@ Cancel
 [Options]
 オプション
 [Add new rooms to group:]
-新しいルームをグループに追加 :
+新しいルームをグループに追加:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 チャット統合は無効です。ここで有効にできます。変更後にMirandaを「再起動する必要があります」\n\nここでグループチャットサポートを有効にする場合は , 標準チャットプラグインは「必ず」無効にしてください。そうしなければ全てのグループチャットは機能しません
 [Log files]
@@ -158,7 +158,7 @@ TabSRMM の例外
 [Use global or private panel height]
 グローバルもしくはプライベートパネルの高さを使用
 [Set size to]
-大きさを以下に設定 :
+大きさを以下に設定:
 [Compact (1 Line)]
 コンパクト ( 1 行 )
 [Normal (2 Lines)]
@@ -166,9 +166,9 @@ TabSRMM の例外
 [Large]
 大
 [Tip: To use a custom size you can always drag the bottom edge of the panel]
-ヒント : カスタムサイズを使うと , 常にパネルの一番下の端にドラッグできます
+ヒント: カスタムサイズを使うと , 常にパネルの一番下の端にドラッグできます
 [Note: All settings are applied immediately]
-注意 : 全ての設定はすぐに適用されます
+注意: 全ての設定はすぐに適用されます
 [The container is using private settings. The panel height will not be shared with other containers.]
 コンテナはプライベート設定を使用しています。パネルの高さはその他のコンテナと共有されません
 [Show picture for this contact]
@@ -192,7 +192,7 @@ TabSRMM の例外
 [Event notify options]
 イベント通知オプション
 [Limit message preview to]
-メッセージのプレビューを以下に限定 :
+メッセージのプレビューを以下に限定:
 [Only show event notifications when my status is...]
 自分のステータスが以下の時のみイベント通知を表示...
 [Text]
@@ -234,7 +234,7 @@ ANSI に強制して送信 / 受信
 [Load only actual history]
 現在の履歴のみ読み込む
 [Always trim message log to]
-常にメッセージログを以下に切り詰める :
+常にメッセージログを以下に切り詰める:
 [Events]
 イベント
 [Only show tab bar when it's needed]
@@ -244,7 +244,7 @@ ANSI に強制して送信 / 受信
 [Vertical maximize]
 垂直方向に最大化
 [Close or hide inactive container after]
-非アクティブのコンテナを次の後に閉じるか非表示 :
+非アクティブのコンテナを次の後に閉じるか非表示:
 [sec. (0=never)]
 秒 ( 0 = 実行しない )
 [Automatically size input area (*)]
@@ -366,7 +366,7 @@ RTL テンプレート...
 [Typing Notification]
 入力中通知
 [Send typing notifications to the following users when you are typing a message to the them:]
-以下のユーザーに対するメッセージを入力中の時 , 入力中通知を送信 :
+以下のユーザーに対するメッセージを入力中の時 , 入力中通知を送信:
 [        Show typing notifications in the message window]
           メッセージウィンドウに入力中通知を表示
 [Flash window once on typing events (only if flashing enabled)]
@@ -390,7 +390,7 @@ RTL テンプレート...
 [Setup status modes for automatic tab creation...]
 自動タブ生成のステータスモードセットアップ...
 [Limit nicknames on tabs to]
-タブのニックネームをいかに限定 :
+タブのニックネームをいかに限定:
 [ESC key behavior]
 ESC キーの動作
 [Select container]
@@ -410,7 +410,7 @@ IM チャットに表示
 [Show in chat rooms]
 チャットルームに表示
 [Gap between buttons:]
-ボタン間隔 :
+ボタン間隔:
 [Hide if there isn't enough space]
 十分な空間がない場合隠す
 [Reset]
@@ -422,7 +422,7 @@ IM チャットに表示
 [Use contact list groups for organizing tabs (one window per group)]
 整理タブ用コンタクトリストグループを使用 ( グループ毎に1つのウィンドウ ) 
 [Tabbed interface, limit the maximum number of tabs per window to:]
-タブインターフェース , ウィンドウ毎のタブの数の最大数を次の数に制限 :
+タブインターフェース , ウィンドウ毎のタブの数の最大数を次の数に制限:
 [No tabs at all, each session has its own top level window]
 タブが全くない場合 , 全てのセッションにトップレベルウインドウがあります
 [Default mode (tabbed interface, manual assignments)]
@@ -484,15 +484,15 @@ Windows 7 タスクバー拡張機能を使用 ( 要再起動 )
 [Tab text label padding vertical]
 タブテキストラベルの垂直間隔
 [Tab page padding:]
-タブページの間隔 :
+タブページの間隔:
 [inner]
 内側
 [outer]
 外側
 [Bottom tabs vertical adjustment:]
-一番下のタブの垂直調整 :
+一番下のタブの垂直調整:
 [NOTE: some settings will not affect open containers.]
-注意 : いくつかの設定は開いたコンテナでは機能しません
+注意: いくつかの設定は開いたコンテナでは機能しません
 [Tab layout tweaks]
 タブレイアウトの調整
 [About TabSRMM]
@@ -556,7 +556,7 @@ BBCODE をサポート
 [Queued jobs]
 キューにあるジョブ
 [Filter by contact:]
-コンタクトによるフィルター :
+コンタクトによるフィルター:
 [Display popups for failed jobs]
 ジョブに失敗したらポップアップを表示
 [Display popups for completed jobs]
@@ -568,9 +568,9 @@ BBCODE をサポート
 [No]
 いいえ
 [Message sending:]
-メッセージ送信 :
+メッセージ送信:
 [Window:]
-ウィンドウ :
+ウィンドウ:
 [Esc closes sessions (minimizes window, if disabled)]
 Esc キーでセッションを終了 ( 無効な場合はウィンドウを最小化 )
 [Always pop up and activate new windows]
@@ -586,7 +586,7 @@ Enter 2 回でメッセージを送信
 [Minimize the message window on send]
 送信用メッセージウィンドウを最小化
 [Tabs:]
-タブ :
+タブ:
 [Use tabbed interface]
 タブインターフェースを使用
 [Create new tabs without activating them]
@@ -596,9 +596,9 @@ Enter 2 回でメッセージを送信
 [Automatically switch tabs in minimized windows]
 ウィンドウ最小化で自動的にタブを切り替える
 [History:]
-履歴 :
+履歴:
 [Notifications:]
-通知 :
+通知:
 [Don't announce when dialog is open]
 ダイアログが開いている時アナウンスしない
 [Send message on Ctrl+Enter (always enabled)]
@@ -888,7 +888,7 @@ TabSRMM バージョン情報...
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 セッションリスト\nオープンセッションのリストは左クリック\nお気に入りへのアクセスとメッセージウィンドウの動作の簡易設定をするには右クリック
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
-保留中の送信ジョブ : %d　個　メッセージ長 : %d バイト　メッセージ長制限 : %d バイト\n\n後で配信キューにあるメッセージ : %d 個
+保留中の送信ジョブ: %d　個　メッセージ長: %d バイト　メッセージ長制限: %d バイト\n\n後で配信キューにあるメッセージ: %d 個
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [Incoming file]
 着信ファイル
@@ -897,7 +897,7 @@ TabSRMM バージョン情報...
 [Unknown event]
 不明なイベント
 [New messages: ]
-新規メッセージ :
+新規メッセージ:\s
 [Unknown module or contact]
 不明なモジュールもしくはコンタクトです
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
@@ -910,7 +910,7 @@ TabSRMM バージョン情報...
 [%s is typing a message.]
 %s はメッセージを入力中です
 [Last received: %s at %s]
-最終受信 :  %s %s
+最終受信:  %s %s
 [%s has entered text.]
 %s はテキストを入力しました
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
@@ -953,9 +953,9 @@ UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
-%s    アイドル : %d 時間 ,%02d 分
+%s    アイドル: %d 時間 ,%02d 分
 [Topic is: %s]
-トピック : %s
+トピック: %s
 [no topic set.]
 トピックの設定なし
 [Open User Details...]
@@ -967,13 +967,13 @@ UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳
 [Room Settings...]
 ルーム設定...
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b ステータスメッセージ :\\ul0\\b0 \\par %s
+\\tab \\ul\\b ステータスメッセージ:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b 拡張ステータス情報 :\\ul0\\b0 \\par 
+\\par\\par\\tab \\ul\\b 拡張ステータス情報:\\ul0\\b0 \\par 
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
-\\par\\par\\tab \\ul\\b リッスン中 :\\ul0\\b0 \\par %s
+\\par\\par\\tab \\ul\\b リッスン中:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
-\\par\\par\\ul\\b クライアント :\\ul0\\b0  %s
+\\par\\par\\ul\\b クライアント:\\ul0\\b0  %s
 [TabSRMM Information]
 TabSRMM 情報
 [Set panel visibility for this %s]
@@ -1020,7 +1020,7 @@ TabSRMM
 [A message failed to send successfully.]
 メッセージの正常な送信に失敗しました
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
-警告 : あなたがペーストしようとしているメッセージはアクティブプロトコルのメッセージサイズの上限を超えました。最大 %d 文字のチャンクが送信されます
+警告: あなたがペーストしようとしているメッセージはアクティブプロトコルのメッセージサイズの上限を超えました。最大 %d 文字のチャンクが送信されます
 [The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
 あなたがペーストしようとしているメッセージはアクティブプロトコルのメッセージサイズの制限を超えています。初めの %d 文字のみが送信されます
 [Save and close session]
@@ -1034,17 +1034,17 @@ TabSRMM
 [Selection copied to clipboard]
 選択してクリップボードにコピー
 [Delivery failure: %s]
-配信に失敗しました : %s
+配信に失敗しました: %s
 [The message send timed out]
 メッセージ送信はタイムアウトしました
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-あなたはユーザーメモの編集中です。もう一度ボタンをクリックするかホットキー ( デフォルト : Alt-N ) を使用すると , メモを保存して通常メッセージングモードに戻ります
+あなたはユーザーメモの編集中です。もう一度ボタンをクリックするかホットキー ( デフォルト: Alt-N ) を使用すると , メモを保存して通常メッセージングモードに戻ります
 [Unforce failed]
 強制解除に失敗しました
 [The selected protocol cannot be forced at this time]
 選択されたプロトコルは現時点では強制できません
 [Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-警告 : あなたはメッセージの送信用に現在オフラインのサブプロトコルを選択しました
+警告: あなたはメッセージの送信用に現在オフラインのサブプロトコルを選択しました
 [Contact is offline and this protocol does not support sending files to offline users.]
 コンタクトはオフラインです。このプロトコルはオフラインユーザーへのファイル送信はサポートされていません
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
@@ -1071,7 +1071,7 @@ JPEG 圧縮画像
 [<no skin>]
 < スキンなし >
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
-テーマからメッセージテンプレートも読み込みしますか ?\n警告 : この操作は保存されているテンプレートセットを上書きし , メッセージウィンドウの外観に著しく影響を与えます\n読み込みしない場合はキャンセルを選択してください
+テーマからメッセージテンプレートも読み込みしますか ?\n警告: この操作は保存されているテンプレートセットを上書きし , メッセージウィンドウの外観に著しく影響を与えます\n読み込みしない場合はキャンセルを選択してください
 [Load theme]
 テーマの読み込み
 [IEView plugin]
@@ -1193,9 +1193,9 @@ History++ プラグイン
 この名前は既に使用中です
 ;file \plugins\TabSRMM\src\sendlater.cpp
 [A send later job completed successfully.\nThe original message: %s]
-後で送信ジョブは正常に完了しました\nオリジナルメッセージ : %s
+後で送信ジョブは正常に完了しました\nオリジナルメッセージ: %s
 [A send later job failed to complete.\nThe original message: %s]
-後で送信ジョブは完了に失敗しました\nオリジナルメッセージ : %s
+後で送信ジョブは完了に失敗しました\nオリジナルメッセージ: %s
 [<All contacts>]
 < 全てのコンタクト >
 [Removed]
@@ -1281,7 +1281,7 @@ TabSRMM テーマ
 [Disable error popups on sending failures]
 送信失敗のエラーポップアップを無効
 [Automatic keyboard layout: Do not load the system default for new contacts]
-自動キーボードレイアウト : 新規コンタクト用にシステムの既定値を読み込まない
+自動キーボードレイアウト: 新規コンタクト用にシステムの既定値を読み込まない
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 無人送信を有効 ( 実験的機能 , 複数送信と後で送信が必要です ) (*)
 [Show a preview of the event]
@@ -1351,7 +1351,7 @@ SHIFT - Enter で送信
 [Support for external plugins]
 外部プラグインをサポート
 [Timestamp settings (note: timstamps also depend on your templates)]
-タイムスタンプ設定 ( 注意 : タイムスタンプもあなたのテンプレートに依存 )
+タイムスタンプ設定 ( 注意: タイムスタンプもあなたのテンプレートに依存 )
 [Message log icons]
 メッセージログアイコン
 [Show dates in timestamps]
@@ -1433,7 +1433,7 @@ IEView を強制
 [Important release notes|A test warning message]
 重要なリリースノート | テスト警告メッセージ
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-ユーザーメモの編集 | あなたはユーザーメモを編集しています。メモを保存して通常メッセージングモードに戻るには , もう一度ボタンをクリックするかホットキー ( デフォルト : Alt-N ) を使用して下さい
+ユーザーメモの編集 | あなたはユーザーメモを編集しています。メモを保存して通常メッセージングモードに戻るには , もう一度ボタンをクリックするかホットキー ( デフォルト: Alt-N ) を使用して下さい
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Aero プレビュー警告 | あなたは Aero プレビュー機能が有効な状態でカスタムコンテナウインドウスキンを読み込んでいます\n\nそのため live プレビュー機能とは多少視覚的に異なる結果になります
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
@@ -1468,7 +1468,7 @@ TabSRMM 警告メッセージ
 [%s kicked %s]
 %s は %s を排除しました
 [Notice from %s: ]
-%s からの通知 :
+%s からの通知:
 [ (set by %s on %s)]
 ( %s を %s に設定)
 [ (set by %s)]
@@ -1770,7 +1770,7 @@ Voiced
 [Information in %s]
 %s についての情報
 [%s%s says:%s %s]
-%s%s の発言 : %s %s
+%s%s の発言: %s %s
 [%s has left (%s)]
 %s は離席しました ( %s )
 [%s has disconnected (%s)]
@@ -1778,7 +1778,7 @@ Voiced
 [%s kicked %s (%s)]
 %s は %s を排除しました ( %s )
 [Notice from %s: %s]
-%s からの通知 :%s
+%s からの通知:%s
 [No word to look up]
 検索語なし
 [Highlight User...]
@@ -1793,15 +1793,15 @@ Voiced
 [Nick]
 ニックネーム
 [%s: Chat Room (%u user%s)]
-%s : チャットルーム (%u ユーザー %s )
+%s: チャットルーム (%u ユーザー %s )
 [%s: Chat Room (%u users%s)]
-%s : チャットルーム (%u ユーザー %s )
+%s: チャットルーム (%u ユーザー %s )
 [, event filter active]
 , イベントフィルターはアクティブ
 [%s: Message Session]
-%s : メッセージセッション
+%s: メッセージセッション
 [%s: Message Session (%u users)]
-%s : メッセージセッション (%u ユーザー )
+%s: メッセージセッション (%u ユーザー )
 [, %d %s, %d %s idle]
 , %d %s, %d %s アイドル
 [hour]

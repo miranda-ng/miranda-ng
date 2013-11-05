@@ -112,7 +112,7 @@ Classer dans le journal
 [Statistic log file]
 Fichier de sauvegarde des statistiques
 [Autosort period, days]
-Générer tout les (jours) :
+Générer tout les (jours):
 [Template file]
 Ficher modèle 
 [Export default]
@@ -120,7 +120,7 @@ Export. défaut
 [by Length]
 par durée
 [Unicode to Ansi translation codepage:]
-Conversion de l'encodage Unicode vers Ansi :
+Conversion de l'encodage Unicode vers Ansi:
 [Insert in messages]
 Insérer dans les messages
 [Use status messages]
@@ -152,7 +152,7 @@ Pas de musique
 [Protocol list]
 Protocoles
 [Use Status:]
-Utiliser l'état :
+Utiliser l'état:
 [Text+Graph]
 Texte + graphique
 [Use external style]

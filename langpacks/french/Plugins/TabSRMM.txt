@@ -31,13 +31,13 @@ Notifications
 [Tray]
 Tray
 [Add new rooms to group:]
-Ajouter salons au groupe :
+Ajouter salons au groupe:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 L'intégration du Chat est désactivée. Vous pouvez l'activer d'ici, ensuite vous DEVREZ RELANCER MIRANDA pour valider ce changement.\n\nVous DEVEZ également désactiver le plugin standard de Chat. Sinon, aucuns Chat ne fonctionnera.
 [Enable logging to disk]
 Sauvegarde du journal
 [Log directory]
-Répertoire :
+Répertoire:
 [Maximum size for log files (in kB)]
 Taille maxi du journal (en kb)
 [Your name]
@@ -216,7 +216,7 @@ Plugin pour l'historique
 [Typing Notification]
 Notification de frappe
 [Send typing notifications to the following users when you are typing a message to the them:]
-Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
+Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message:
 [        Show typing notifications in the message window]
           Afficher la notification de frappe dans la fenêtre de message
 [Flash window once on typing events (only if flashing enabled)]
@@ -258,7 +258,7 @@ RAZ
 [Insert Separator]
 Insérer un séparateur
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
-Pour régler les options d'un conteneur, veuillez faire comme suit :\n1. Choisissez "Options du Conteneur" depuis le menu du conteneur.\n2. En cliquant droit sur l'onglet ou barre d'outils d'une fenêtre de message.
+Pour régler les options d'un conteneur, veuillez faire comme suit:\n1. Choisissez "Options du Conteneur" depuis le menu du conteneur.\n2. En cliquant droit sur l'onglet ou barre d'outils d'une fenêtre de message.
 [Container flashing]
 Clignotement du conteneur
 [Flash containers]
@@ -308,9 +308,9 @@ entrant
 [outer]
 sortant
 [Bottom tabs vertical adjustment:]
-Ajustement vertical du bas de l'onglet :
+Ajustement vertical du bas de l'onglet:
 [NOTE: some settings will not affect open containers.]
-Note : certains paramètres n'affecteront pas les conteneurs ouverts.
+Note: certains paramètres n'affecteront pas les conteneurs ouverts.
 [About TabSRMM]
 À propos de TabSRMM
 [Load fonts and colors provided by skin]
@@ -346,7 +346,7 @@ Créer les nouvelles fenêtres mais minimisées
 [Minimize the message window on send]
 Réduire la fenêtre à l'envoi
 [Notifications:]
-Notifications :
+Notifications:
 [&Copy]
 &Copier
 [&Quote]
@@ -597,10 +597,10 @@ L'envoi de notification d'écriture est %s.
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Une des actions de popup a été désactivée.\nNotez que ces options peuvent avoir un effet non désiré, cela supprime l'évènement de la liste non-lue.\nDu coup, l'évènement peut être affiché comme "nouveau". Si cela ne vous convient pas, vérifiez la page des options de Notification d'évènement.
 [New messages: ]
-Nouveaux messages : 
+Nouveaux messages: 
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Last received: %s at %s]
-Dernière réception : le %s à %s
+Dernière réception: le %s à %s
 ;file \plugins\TabSRMM\src\globals.cpp
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
@@ -617,7 +617,7 @@ Message de %s
 [signed off.]
 déconnecté.
 [signed on and is now %s.]
-connecté. État : "%s"
+connecté. État: "%s"
 [changed status from %s to %s.]
 est %s (était %s)
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
@@ -640,7 +640,7 @@ Page de code
 [A message failed to send successfully.]
 Un message n'a pas été envoyé avec succès.
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
-ATTENTION : Votre message exède le nombre miximum de caractères du protocole. Il sera envoyé en morceaux de %d caractères.
+ATTENTION: Votre message exède le nombre miximum de caractères du protocole. Il sera envoyé en morceaux de %d caractères.
 [The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
 Votre message exède le nombre miximum de caractères du protocole. Seul les %d premiers caractères seront envoyés.
 [Save and close session]
@@ -652,7 +652,7 @@ Différer l'envoi
 [Selection copied to clipboard]
 Sélection mise dans le presse-papier
 [Delivery failure: %s]
-Échec d'envoi : %s
+Échec d'envoi: %s
 [The message send timed out]
 Délai d'envoi du message expiré
 [Unforce failed]
@@ -660,7 +660,7 @@ Délai d'envoi du message expiré
 [The selected protocol cannot be forced at this time]
 Le protocole sélectionné ne peut pas être forcé pour le moment
 [Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Attention : vous avez choisi un sous-protocole actuellement hors ligne pour envoyer les messages suivants
+Attention: vous avez choisi un sous-protocole actuellement hors ligne pour envoyer les messages suivants
 [Contact is offline and this protocol does not support sending files to offline users.]
 Contact non connecté. Ce protocole ne supporte pas les envois hors-ligne.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
@@ -677,7 +677,7 @@ La fonction "coller et envoyer" est désactivée. Vous pouvez l'activer dans les
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
-Voulez-vous également lire les modèles de message du thème ?\nAttention : Ceci recouvrira le modèle stocké et peut affecter l'apparence de votre fenêtre de message de manière significative.\nAnnuler pour ne pas charger n'importe quoi.
+Voulez-vous également lire les modèles de message du thème ?\nAttention: Ceci recouvrira le modèle stocké et peut affecter l'apparence de votre fenêtre de message de manière significative.\nAnnuler pour ne pas charger n'importe quoi.
 [Load theme]
 Charger un thème
 [IEView plugin]
@@ -932,7 +932,7 @@ Vous êtes connu en tant que %s
 [%s kicked %s]
 %s a exclu %s
 [Notice from %s: ]
-Notice de %s : 
+Notice de %s: 
 [ (set by %s)]
  (réglé par %s)
 [<invalid>]
@@ -1136,7 +1136,7 @@ Informations dans %s
 [%s kicked %s (%s)]
 %s a kické %s (%s)
 [Notice from %s: %s]
-Notice de %s : %s
+Notice de %s: %s
 [No word to look up]
 Aucun mot à chercher
 ;file \plugins\TabSRMM\src\chat\window.cpp
@@ -1147,7 +1147,7 @@ Pseudo
 [Unique ID]
 ID unique
 [%s: Chat Room (%u user%s)]
-%s : Salon de Chat (%u contact%s)
+%s: Salon de Chat (%u contact%s)
 [%s: Chat Room (%u users%s)]
 %s: Salon de Chat (%u contact%s)
 [, event filter active]

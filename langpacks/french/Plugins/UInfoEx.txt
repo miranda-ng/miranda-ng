@@ -19,59 +19,59 @@ Annuler
 [Apply]
 Appliquer
 [Nick:]
-Pseudo :
+Pseudo:
 [First name:]
-Prénom :
+Prénom:
 [Second name:]
-Second prénom :
+Second prénom:
 [Last name:]
-Nom :
+Nom:
 [Female]
 Femme
 [Male]
 Homme
 [Marital status:]
-Situation :
+Situation:
 [Partner:]
-Concubin :
+Concubin:
 [Language skills]
 Langues parlées
 [Street:]
-Rue :
+Rue:
 [Postal code:]
-Code postal :
+Code postal:
 [City:]
-Ville :
+Ville:
 [County/State:]
-Pays/État :
+Pays/État:
 [Country:]
-Pays :
+Pays:
 [Contact added to ContactList:]
-Contact ajouté :
+Contact ajouté:
 [Your contact's local time is:]
-Heure locale de votre contact :
+Heure locale de votre contact:
 [Timezone:]
-Fuseau horaire :
+Fuseau horaire:
 [Company:]
-Entreprise :
+Entreprise:
 [Department:]
-Département :
+Département:
 [Office:]
-Bureau :
+Bureau:
 [Position:]
-Position :
+Position:
 [Superior:]
-Supérieur :
+Supérieur:
 [Assistant:]
-Assistant :
+Assistant:
 [Add Phone Number]
 Ajouter le téléphone
 [Enter a category for this number:]
-Entrer une catégorie pour ce numéro :
+Entrer une catégorie pour ce numéro:
 [Enter country, area code and phone number:]
-Entrer le pays, le code de la zone et le numéro de téléphone :
+Entrer le pays, le code de la zone et le numéro de téléphone:
 [Or enter a full international number:]
-Ou entrer un numéro international entier :
+Ou entrer un numéro international entier:
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add E-Mail]
@@ -93,9 +93,9 @@ Faire clignoter l'icône
 [Perform check on each startup]
 Lancer la vérification à chaque démarrage
 [Time of last check:]
-Dernière vérif :
+Dernière vérif:
 [Birthday compatibility mode:]
-Compatibilité des anniversaires :
+Compatibilité des anniversaires:
 [Use ignore list]
 Utiliser la liste des ignorés
 [Birthday popup colors]
@@ -115,7 +115,7 @@ Montrer les messages de rappel dans des popups (si rappel activé)
 [Anniversary popup colors]
 Couleurs des popup d'anniversaire
 [Homepage:]
-Page web :
+Page web:
 [Add Affiliation]
 Ajouter organisation
 [Add Past]
@@ -125,19 +125,19 @@ Ajouter un intérêt
 [Delete]
 Effacer
 [Enter a name for the anniversary here please:]
-veuillez indiquer un nom d'anniversaire :
+veuillez indiquer un nom d'anniversaire:
 [Anniversary list]
 Liste des anniv.
 [Statistics:]
-Statistiques :
+Statistiques:
 [female:]
-femme :
+femme:
 [male:]
-homme :
+homme:
 [number of contacts:]
-nombre de contacts :
+nombre de contacts:
 [average age:]
-moyenne d'age :
+moyenne d'age:
 [Show &during the next]
 Afficher &le(s) prochain(s)
 [day(s)]
@@ -191,9 +191,9 @@ Menu du contact
 [Extra Icons]
 Icônes d'accès rapide
 [Gender:]
-Sexe :
+Sexe:
 [Replace the following default icons:]
-Remplacer les icônes par défaut suivants :
+Remplacer les icônes par défaut suivants:
 [Phone]
 Téléphone
 [E-Mail]
@@ -201,9 +201,9 @@ e-mail
 [Show 'Restart' menu item]
 Ajouter 'Relancer' dans le menu
 [Age:]
-Age :
+Age:
 [Zodiac:]
-Zodiaque :
+Zodiaque:
 [What do you want to export?]
 Que voulez-vous exporter ?
 [Contact Information]
@@ -247,7 +247,7 @@ Renommer l'élément
 [Hide Item]
 Cacher  l'élément
 [Show Items:]
-Voir les éléments :
+Voir les éléments:
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
@@ -340,7 +340,7 @@ Ajouter
 [Search]
 Recherche
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Attention : La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
+Attention: La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &Details]
@@ -357,9 +357,9 @@ Vérifier les anniversaires
 Informations avancées
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
-Mes notes :
+Mes notes:
 [About:]
-À propos :
+À propos:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 Veuillez commencer par entrer une description valide !
@@ -461,13 +461,13 @@ Aucun anniversaire pour
 [Birthday reminder]
 Rappel d'anniversaire
 [Birthday reminder: it's coming]
-Rappel d'anniversaire : c'est bientôt
+Rappel d'anniversaire: c'est bientôt
 [Anniversary Reminder]
 Rappel d'anniversaire
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Settings: %S]
-Options : %S
+Options: %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [Required modules]
 Modules requis
@@ -488,7 +488,7 @@ Destination du fichier...
 Importer les détails depuis un vCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Contact: %s (%S)]
-Contact : %s (%S)
+Contact: %s (%S)
 [Complete]
 Terminé
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp

@@ -9,7 +9,7 @@
 [Set My Nickname]
 Changer mon pseudo
 [Nickname:]
-Pseudo :
+Pseudo:
 [Cancel]
 Annuler
 [General]
@@ -27,15 +27,15 @@ Remplacer les smileys
 [Resize Smileys]
 Retailler les smileys
 [Top:]
-Haut :
+Haut:
 [Bottom:]
-Bas :
+Bas:
 [Left:]
-Gauche :
+Gauche:
 [Right:]
-Droite :
+Droite:
 [Custom size:]
-Taille :
+Taille:
 [Allow it to grow]
 Permettre l'agrandissement
 [Use free space (under avatar) to other texts]
@@ -45,7 +45,7 @@ secondes
 [Set My Status Message for All Status]
 Changer le message pour tous les états
 [Status Message:]
-Message d'état :
+Message d'état:
 [&Offline]
 &Hors ligne
 [On&line]

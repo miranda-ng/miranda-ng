@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [OK]
 OK
 [Cancel]

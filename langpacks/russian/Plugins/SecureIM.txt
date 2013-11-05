@@ -87,8 +87,6 @@ UIN/E-mail/JID/Компьютер
 Получение ключа
 [Show Indicator in Nick]
 Индикатор в имени
-[Indicator :]
-Индикатор :
 [SecureIM Popup Colors]
 Цвета всплывающих сообщений SecureIM
 [Key agreement colors]

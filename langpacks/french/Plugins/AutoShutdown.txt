@@ -13,7 +13,7 @@ Arrêt Système
 [&Show confirmation dialog before shutdown]
 &Demander confirmation avant de fermer
 [&Countdown starts at:]
-&Compte à rebours à :
+&Compte à rebours à:
 [seconds]
 secondes
 [Shutdown Events]
@@ -25,7 +25,7 @@ secondes
 [Critical Shutdown Events]
 Évènements d'extinction critque
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
-Éteindre automatiquement l'ordinateur si :
+Éteindre automatiquement l'ordinateur si:
 [&Thunderstorm warning is issued (Weather)]
 Un &orage est annoncé (plugin Weather)
 [&Harddrive overheats (HDD Info)]
@@ -37,25 +37,25 @@ Sélectionner l'évènement qui fermera Miranda-IM
 [Shutdown at &specific time]
 À une heure précise
 [Shutdown a&t:]
-Extinction à :
+Extinction à:
 [Shutdown i&n:]
-Extinction dans :
+Extinction dans:
 [Shutdown when a &message is received containing the following text:]
-À la réception d'un message contenant le texte suivant :
+À la réception d'un message contenant le texte suivant:
 [Shutdown when Miranda NG becomes &idle]
 Quand Miranda NG devient inactif
 [Configure]
 Configurer
 [Shutdown when &prozessor usage drops below:]
-Extinction si la charge processeur descend à :
+Extinction si la charge processeur descend à:
 [(current: 0%)]
-(actuel : 0%)
+(actuel: 0%)
 [Shutdown when all contacts are &offline]
 Quand tous vos contacts sont déconnectés
 [Shutdown when all &file transfers are finished]
 Éteindre quand tous les fichiers auront été transféré
 [&Action:]
-&Action :
+&Action:
 [Cancel]
 Annuler
 [Unsaved data in open applications except Miranda NG might get lost.]
@@ -66,9 +66,9 @@ Cliquer sur "Annuler" pour annuler cette action, ou sur "Maintenant" pour ne pas
 &Maintenant !
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
-Heure d'extinction :
+Heure d'extinction:
 [Time left:]
-Temps restant :
+Temps restant:
 [&Unpause Countdown]
 &Relancer le comte à rebours
 [&Pause Countdown]
@@ -87,7 +87,7 @@ Progression
 Évènements
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [(current: %u%%)]
-(actuel : %u%%)
+(actuel: %u%%)
 [Second(s)]
 Seconde(s)
 [Hour(s)]
@@ -112,7 +112,7 @@ Extinction Automatique...
 [Automatic Shutdown Error]
 Erreur de Automatic Shutdown
 [The shutdown process failed!\nReason: %s]
-La procédure d'extinction a échouée !\nMotif :%s
+La procédure d'extinction a échouée !\nMotif:%s
 [Unknown]
 Inconnu
 [Miranda NG is going to be automatically closed in %u second(s).]
@@ -134,7 +134,7 @@ Toutes les connexions seront désactivées dans %u seconde(s).
 [The computer will automatically be shut down in %u second(s).]
 L'ordinateur s'éteindra automatiquement dans %u seconde(s).
 [Inititiating the shutdown process failed!\nReason: %s]
-Échec de l'initialisation d'extinction !\nMotif : %s
+Échec de l'initialisation d'extinction !\nMotif: %s
 [Close Miranda NG]
 Fermer Miranda NG
 [Set Miranda NG offline]

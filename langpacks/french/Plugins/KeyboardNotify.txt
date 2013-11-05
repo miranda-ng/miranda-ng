@@ -93,7 +93,7 @@ Annuler
 [Use custom theme]
 Thème personnalisé
 [The following events are being ignored:]
-Les évènements suivants sont ignorés :
+Les évènements suivants sont ignorés:
 [Ignore messages]
 Ignorer les messages
 [Ignore URLs]

@@ -110,7 +110,7 @@ Général
 [(Unknown Contact)]
 (Contact inconnu)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Échec du renommage/déplacement du fichier\n\nde:\t%s\n en :\t%s\n\nErreur : %s
+Échec du renommage/déplacement du fichier\n\nde:\t%s\n en:\t%s\n\nErreur: %s
 [Failed to open or create file :\n]
 Échec d'ouverture ou de création du fichier :\n
 [Failed to move to the end of the file :\n]
@@ -138,11 +138,11 @@ Page web  : %Homepage%\r\n
 [Failed to write message to the file :\n]
 Échec d'écriture du message dans le fichier :\n
 [URL: ]
-Lien :
+Lien:
 [File: ]
-Fichier :
+Fichier:\s
 [Description: ]
-Description : 
+Description:\s
 [Failed to write URL/File to the file :\n]
 Échec d'écriture du lien/fichier dans le fichier :\n
 [Nick      :]
@@ -156,11 +156,11 @@ Motif     :
 [Invalid Database event received. Type %d, size %d]
 Évènement de base de données reçu invalide. Type %d, taille %d
 [The following user made an authorization request:]
-Le contact suivant vous fait une demande d'autorisation :
+Le contact suivant vous fait une demande d'autorisation:
 [The following user added you to their contact list:]
-Le contact suivant vous a ajouté à sa liste :
+Le contact suivant vous a ajouté à sa liste:
 [EmailExpress from:]
-EmailExpress de :
+EmailExpress de:
 [Failed to write EmailExpress to the file :\n]
 Échec d'écriture de l'EmailExpress dans le fichier :\n
 [Failed to write SMS to the file :\n]

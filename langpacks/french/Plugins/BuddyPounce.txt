@@ -13,7 +13,7 @@ Annuler
 [Pounce being sent to]
 Pounce a envoyé à
 [The Message:]
-Le message :
+Le message:
 [Delete Pounce]
 Effacer Pounce
 [Load default Settings]
@@ -21,7 +21,7 @@ Paramètres par défaut
 [Setting text...........]
 Paramétrages du texte.....
 [Contact To Send Pounce To]
-Envoyer Pounce au contact :
+Envoyer Pounce au contact:
 [Advanced >>]
 Avancé >>
 [The Message]
@@ -31,7 +31,7 @@ Le Message
 [Use Advanced Dialog]
 Fonctions avancées
 [The Message (characters: )]
-Message (caractères : )
+Message (caractères: )
 [Show Delivery Messages]
 Afficher les msg. envoyés
 ;file \plugins\BuddyPounce\src\dialog.cpp
@@ -90,15 +90,15 @@ Au téléphone
 [To Out To Lunch]
 Parti manger
 [The Message    (%d Characters)]
-Message  :     (%d caractères)
+Message:     (%d caractères)
 [The Message    (0 Characters)]
-Message  :     (0 caractère)
+Message:     (0 caractère)
 [Reuse this message? (0 to use it once)]
 Réutiliser ce message ?  (0 = une seule fois)
 [Times]
 Heures
 [Giveup after.. (0 to not giveup)]
-Réitérer après (0=désactivé) :
+Réitérer après (0=désactivé):
 [Show confirmation window? (0 to not Show)]
 Voir la confirmation ? (0 pour ne pas voir)
 [Seconds to wait before sending]

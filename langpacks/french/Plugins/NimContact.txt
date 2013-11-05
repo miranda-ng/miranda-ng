@@ -29,7 +29,7 @@ Autres réglages
 [Link]
 Lien
 [Program parameters:]
-Paramètres :
+Paramètres:
 [O&pen File]
 Ouvrir &fichier
 [O&pen Folder]
@@ -37,7 +37,7 @@ Ouvrir &répertoire
 [CList Settings]
 Options de la liste de contacts
 [Group:]
-Groupe :
+Groupe:
 [Status Icon]
 Icône d'état
 [Group\\Sub-Group]
@@ -61,7 +61,7 @@ Copier/Exporter le contact
 [Co&py Non-IM Contact]
 &Copier un Non-IM
 [EXAMPLE: %fn1,%fn2]
-EXEMPLE : %fn1,%fn2
+EXEMPLE: %fn1,%fn2
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
 [Select Folder]
 Sélectionnez un répertoire

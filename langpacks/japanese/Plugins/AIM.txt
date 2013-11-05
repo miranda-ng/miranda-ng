@@ -9,9 +9,9 @@
 [AIM User Details]
 AIM ユーザー詳細
 [Screen Name:]
-スクリーン名 :
+スクリーン名:
 [Password:]
-パスワード :
+パスワード:
 [AIM Options]
 AIM オプション
 [Message Delivery Confirmation]
@@ -41,7 +41,7 @@ Sidekick / Hiptop ユーザーを装う
 [*Aim must be reconnected for some option to take effect]
 * Aim にいくつかのオプションを反映させるには再接続が必要です
 [Port:]
-ポート :
+ポート:
 [Reset]
 リセット
 [Disable SSL]
@@ -57,15 +57,15 @@ SSL を無効
 [AIM Instant Idler]
 AIM インスタントアイドラー
 [Number of Hours:]
-時間数 :
+時間数:
 [Number of Minutes:]
-分数 :
+分数:
 [Set Idle]
 アイドルを設定
 [Unset Idle]
 アイドルを解除
 [Users who can contact me:]
-自分にコンタクト可能なユーザー :
+自分にコンタクト可能なユーザー:
 [Allow all users]
 全てのユーザーを許可
 [Allow only users on contact list]
@@ -83,7 +83,7 @@ AIM インスタントアイドラー
 [Idle]
 アイドル
 [Allow contacts to be notified of:]
-以下で通知されるコンタクトを許可 :
+以下で通知されるコンタクトを許可:
 [Join Chat Room]
 チャットルームに参加
 [Chat Room]
@@ -258,7 +258,7 @@ DNS エラー
 [Item you want to delete not found in list.]
 あなたが削除したい項目がリストにありません
 [Failed to add buddy to list: Item already exist.]
-メンバーをリストに追加することに失敗 : 項目は既に存在します
+メンバーをリストに追加することに失敗: 項目は既に存在します
 [Error adding buddy (invalid ID or already in list?)]
 メンバー追加エラー ( 不正な ID ?, 既に追加済み ? ) 
 [Cannot add buddy. Limit for this type of item exceeded.]
@@ -268,11 +268,11 @@ DNS エラー
 [Cannot add this buddy because it requires authorization.]
 認証が必要なため , このメンバーを追加できません
 [Unknown error when adding buddy to list. Error code %#x]
-メンバーをリストに追加時の不明なエラー : エラーコード %#x
+メンバーをリストに追加時の不明なエラー: エラーコード %#x
 [Item you want to modify not found in list.]
 あなたが変更したい項目がリストにありません
 [Unknown error when attempting to modify a group. Error code %#x]
-グループの変更を試行中の不明なエラー : Error code %#x
+グループの変更を試行中の不明なエラー: Error code %#x
 [You've got mail! Checked at]
 メールが届きました ! 確認してください
 [Error uploading avatar. (Too small)]
@@ -361,4 +361,4 @@ HTML を削除してメッセージを読む (&H)
 [Please, enter a password in the options dialog.]
 オプションダイアログにパスワードを入力してください
 [Failed to open file: %s %s]
-ファイルを開けませんでした : %s %s
+ファイルを開けませんでした: %s %s

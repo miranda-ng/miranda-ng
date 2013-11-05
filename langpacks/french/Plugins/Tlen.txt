@@ -7,9 +7,9 @@
 ;============================================================
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
-Identifiant :
+Identifiant:
 [Password:]
-Passe :
+Passe:
 [Create new account]
 Créer un compte
 [Leave status message after disconnection]
@@ -27,15 +27,15 @@ Utiliser le plugin Nudge
 [Voice Chats]
 Chats vocaux
 [Recording device:]
-Enregistreur : 
+Enregistreur: 
 [Playback device:]
-Lecteur :
+Lecteur:
 [Expert Options]
 Options expert
 [Connection Host:]
-Connexion sur l'hôte :
+Connexion sur l'hôte:
 [Port:]
-Port :
+Port:
 [Enable encryption]
 Activer le cryptage
 [Enable Always Visible and Never Visible]
@@ -45,9 +45,9 @@ Connexions p2p
 [Use proxy for incoming connections]
 Utiliser un Proxy pour les connexions entrantes
 [Proxy type:]
-Type de proxy :
+Type de proxy:
 [Proxy server:]
-Serveur Proxy :
+Serveur Proxy:
 [Proxy requires authorization]
 Proxy demandant une identification
 [Enable incoming mail notification]
@@ -61,21 +61,21 @@ Texte
 [Cancel]
 Annuler
 [First name:]
-Prénom :
+Prénom:
 [Last name:]
-Nom :
+Nom:
 [E-mail:]
-e-mail :
+e-mail:
 [Gender:]
-Sexe :
+Sexe:
 [Year of birth:]
-Année de naiss. :
+Année de naiss.:
 [City:]
-Ville :
+Ville:
 [School:]
-École :
+École:
 [Looking for:]
-Recherche :
+Recherche:
 [Voice chats]
 Chats vocaux
 [Publicly visible status]
@@ -85,23 +85,23 @@ Sauver les modifs
 [Avatar Options]
 Avatar
 [Tlen login:]
-Login Tlen :
+Login Tlen:
 [Subscription:]
-Inscription :
+Inscription:
 [Software:]
-Client :
+Client:
 [System:]
-Système :
+Système:
 [Personal Information]
 Infos personnelles
 [Nickname:]
-Pseudo :
+Pseudo:
 [Age:]
-Age :
+Age:
 [Extra Search Criterias]
 Recherche Supplémentaire
 [Plan:]
-Plan :
+Plan:
 [Tlen Voice Chat]
 Chat Vocal Tlen
 [Quality]
@@ -113,7 +113,7 @@ Sortie
 [Tlen Voice Chat Invitation]
 Invitation à un chat vocal Tlen
 [From:]
-De :
+De:
 [The following invitation to join a voice chat is received.]
 L'invitation suivante à un chat vocal, a été reçue.
 ;file \protocols\Tlen\src\tlen_iqid.cpp
@@ -189,7 +189,7 @@ Accorder l'autorisation
 1 fichier
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
-Vous avez été kické. Motif : %s 
+Vous avez été kické. Motif: %s 
 [You cannot join this chat room, because you are banned.]
 Vous ne pouvez rejoindre ce salon, car vous avez été banni.
 [Chat room not found.]
@@ -203,7 +203,7 @@ Salon de Chat déjà créé.
 [Nickname '%s' is already registered.]
 Le pseudo '%s' est déjà utilisé.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
-Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' .
+Ce pseudo est déjà utilisé, choisissez en un autre. Conseil: '%s' .
 [You cannot register more than %s nicknames.]
 Vous ne pouvez enregistrer plus de %s pseudo.
 [You cannot create more than %s chat rooms.]

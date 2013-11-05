@@ -39,17 +39,17 @@ Miranda のウィンドウ
 [the active window]
 アクティブウィンドウ
 [opacity:]
-不透明度 :
+不透明度:
 [Opaque popups under cursor]
 カーソル下のポップアップを不透明
 [Slide Popup]
 スライドポップアップ
 [Effect:]
-効果 :
+効果:
 [Time (out):]
 時間(アウト)
 [Limit window amount to:]
-ウィンドウの値を制限 :
+ウィンドウの値を制限:
 [* - built-in skins]
 * - 組み込みスキン
 [Popup Area]
@@ -71,7 +71,7 @@ Miranda のウィンドウ
 [Common Actions]
 一般的な操作
 [Please choose in what cases default actions should be added:]
-どのような場合にデフォルト操作を追加するのか選択して下さい :
+どのような場合にデフォルト操作を追加するのか選択して下さい:
 [Add info && menu for IM contacts only]
 IM コンタクトのみに情報とメニューを追加
 [Add default actions for contacts only]
@@ -81,7 +81,7 @@ IM コンタクトのみに情報とメニューを追加
 [Use large icons]
 大きいアイコンを使用
 [Popup actions will be displayed as:]
-ポップアップ操作を次のように表示 :
+ポップアップ操作を次のように表示:
 [Icons and labels below text]
 アイコンとラベルをテキストの下
 [Icons on the left]
@@ -89,7 +89,7 @@ IM コンタクトのみに情報とメニューを追加
 [Icons aligned to the right]
 アイコンを右に配置
 [Show Actions: (requires apply)]
-操作を表示 : (要適用)
+操作を表示: (要適用)
 [Mouse Actions Overwrite]
 マウス操作を上書き
 [Left Button]
@@ -101,9 +101,9 @@ IM コンタクトのみに情報とメニューを追加
 [Enable this notification]
 この通知を有効
 [Left click action:]
-左クリック操作 :
+左クリック操作:
 [Right click action:]
-右クリック操作 :
+右クリック操作:
 [Disable when global status is...]
 グローバルステータスが以下の時無効...
 [Disable when relevant protocol's status is...]
@@ -125,7 +125,7 @@ IM コンタクトのみに情報とメニューを追加
 [Infinite popup delay]
 ポップアップ遅延を無制限
 [Popup delay:]
-ポップアップ遅延 :
+ポップアップ遅延:
 [seconds]
 秒
 [Do not close hovered popups]
@@ -137,13 +137,13 @@ IM コンタクトのみに情報とメニューを追加
 [Maximum width]
 最大幅
 [Position:]
-位置 :
+位置:
 [Layout:]
-レイアウト :
+レイアウト:
 [Reorder Popups]
 ポップアップの並び替え
 [Disable when:]
-無効な場合 :
+無効な場合:
 [Always (has priority)]
 常に ( 優先度あり )
 [Fullscreen mode]
@@ -227,8 +227,8 @@ Popup Plus 警告
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
-ポップアップモード : 自動
+ポップアップモード: 自動
 [Popup Mode: Ignore fullscreen]
-ポップアップモード : 全画面表示を無視
+ポップアップモード: 全画面表示を無視
 [Popup Mode: Block contact]
-ポップアップモード : コンタクトをブロック
+ポップアップモード: コンタクトをブロック

@@ -77,11 +77,11 @@ Attente (s)
 [Retry count]
 Nb d'essais
 [Check every (s):]
-Vérifier toutes les (secondes) :
+Vérifier toutes les (secondes):
 [SSL]
 SSL
 [Don't check if more than (users):]
-Ne pas vérifier si plus de (usagers) :
+Ne pas vérifier si plus de (usagers):
 [User information]
 Information usager
 [Ping]
@@ -129,13 +129,13 @@ Action
 [Alias]
 
 [Perform on event:]
-Action sur l'évènement :
+Action sur l'évènement:
 [Scripting support]
 Support des scripts
 [Quit message:]
-Message de départ :
+Message de départ:
 [Server code page:]
-Page de code du serveur :
+Page de code du serveur:
 [Enable UTF8 autodetection]
 Auto-détection de l'UTF8
 [Add server]
@@ -189,9 +189,9 @@ Sur invitation
 [Moderated]
 Modéré
 [Key:]
-Code :
+Code:
 [User limit:]
-Nb max usager :
+Nb max usager:
 [Private]
 Privé
 [Secret]
@@ -231,13 +231,13 @@ Protocole client-à-client (CTCP)
 [Client-to-Client Chats]
 Chats client à client
 [Send mode:]
-Mode d'envoi :
+Mode d'envoi:
 [Packet size (b):]
-Taille du paquet :
+Taille du paquet:
 [Get IP address from server]
 Adresse IP du serveur
 [Auto-accept from:]
-Accepter automatiq. de :
+Accepter automatiq. de:
 [Send notice]
 Envoyer une notice
 [CTCP Chat Request]
@@ -281,7 +281,7 @@ Ignorer les évènements
 [Server:]
 Serveur:
 [Password:]
-Passe :
+Passe:
 [Alternate nick]
 Pseudo alternatif
 ;file \protocols\IRCG\src\clist.cpp
@@ -307,27 +307,27 @@ PING CTCP requis par %s
 [CTCP TIME requested by %s]
 HEURE CTCP requis par %s
 [DCC: Chat request from %s denied]
-DCC : Rejet de la requête de chat de %s
+DCC: Rejet de la requête de chat de %s
 [DCC: File transfer request from %s denied]
-DCC : Rejet de la requête de transfert de fichier DCC de %s
+DCC: Rejet de la requête de transfert de fichier DCC de %s
 [DCC: Reverse file transfer request from %s denied [No local IP]]
-DCC : Rejet de la requête de transfert inversé de fichier de %s [pas d'IP locale]
+DCC: Rejet de la requête de transfert inversé de fichier de %s [pas d'IP locale]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
-Erreur DCC : Requête CTCP de s% mal formulée
+Erreur DCC: Requête CTCP de s% mal formulée
 [DCC: File transfer resume request from %s denied]
-DCC : Rejet de la requête de reprise de transfert de s%
+DCC: Rejet de la requête de reprise de transfert de s%
 [CTCP %s requested by %s]
 %s CTCP requis par %s
 [CTCP PING reply from %s: %u sec(s)]
-Réponse PING CTCP de %s : %u sec (s)
+Réponse PING CTCP de %s: %u sec (s)
 [CTCP %s reply from %s: %s]
-Réponse %s CTCP de %s : %s
+Réponse %s CTCP de %s: %s
 [Downloading list (%u%%) - %u channels]
 Chargement de la liste (%u%%) - %u canaux
 [Downloading list - %u channels]
 Chargement de la liste - u canaux
 [Done: %u channels]
-Terminé : %u canaux
+Terminé: %u canaux
 [(probably truncated by server)]
 (probablement tronqué par le serveur)
 [Change nickname]
@@ -337,7 +337,7 @@ Erreur IRC
 [Unknown]
 Inconnu
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Entrer le masque d'hôte nick!user@host)\nNote : les contacts de votre liste ne seront jamais ignorés
+Entrer le masque d'hôte nick!user@host)\nNote: les contacts de votre liste ne seront jamais ignorés
 [Ignore]
 Ignorer
 [Please enter the reason]
@@ -386,11 +386,11 @@ Abandon
 [CTCP %s request sent to %s]
 Requête CTCP %s envoyée à %s
 [DCC ERROR: Unable to automatically resolve external IP]
-Erreur DCC : Impossible de déterminer automatiquement l'IP externe
+Erreur DCC: Impossible de déterminer automatiquement l'IP externe
 [DCC CHAT request sent to %s]
 Requête de chat DCC envoyée à %s
 [DCC ERROR: Unable to bind port]
-Erreur DCC : Impossible de joindre le port
+Erreur DCC: Impossible de joindre le port
 [Input command]
 Saisir commande
 [Please enter the reply]
@@ -412,13 +412,13 @@ Informations
 [Nickname]
 
 [DCC ERROR: No valid files specified]
-Erreur DCC : Fichiers spécifiés invalide
+Erreur DCC: Fichiers spécifiés invalide
 [DCC reversed file transfer request sent to %s [%s]]
 Requête de transfert de fichier DCC inversé à %s [%s]
 [DCC file transfer request sent to %s [%s]]
 Requête de transfert DCC envoyée à %s [%s]
 [DCC ERROR: Unable to bind local port]
-Erreur DCC : Impossible de joindre le port local
+Erreur DCC: Impossible de joindre le port local
 [The protocol is not online]
 Le protocole n'est pas en ligne
 [The dcc chat connection is not active]
@@ -501,11 +501,11 @@ Effacer le serveur
 [Edit server]
 Éditer le serveur
 [<Resolved IP: ]
-<IP trouvé : 
+<IP trouvé:\s
 [<Automatic>]
 <Automatique>
 [<Local IP: ]
-<IP Local :
+<IP Local:\s
 [Click to set commands that will be performed for this event]
 Cliquez pour définir la commande pour cet évènement
 [Click to delete the commands for this event]
@@ -540,13 +540,13 @@ WallOps de %stify
 [%s is away]
 %s est sorti
 [These are online: ]
-Ils sont en ligne :
+Ils sont en ligne:\s
 [CTCP %s reply sent to %s]
 Réponse CTCP %s envoyée à %s
 [CTCP %s reply sent to %s: %s]
-Réponse CTCP %s envoyée à %s : %s
+Réponse CTCP %s envoyée à %s: %s
 [Notice to %s: ]
-Notice à %s : 
+Notice à %s: 
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Connexion &rapide

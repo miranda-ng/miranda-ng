@@ -9,7 +9,7 @@
 [Enable Auto Replier]
 Activer l'autoréponse
 [Reply Message Heading:]
-En-tête de la réponse :
+En-tête de la réponse:
 [Reply Message when]
 Réponse quand je suis
 [No-repeat Interval:]
@@ -34,5 +34,5 @@ Désactiver la réponse automatique
 [Enable Auto&reply]
 Activer la réponse automatique
 [Dear %user%, the owner left the following message:]
-Salut %user%, le message suivant vous a été laissé :
+Salut %user%, le message suivant vous a été laissé:
 ;file \plugins\SimpleAR\src\Options.cpp

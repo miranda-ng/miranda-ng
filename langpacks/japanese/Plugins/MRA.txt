@@ -7,11 +7,11 @@
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
-電子メール :
+電子メール:
 [Password:]
-パスワード :
+パスワード:
 [Port:]
-ポート :
+ポート:
 [Default]
 デフォルト
 [Background color]
@@ -21,23 +21,23 @@
 [Summary]
 要約
 [Nickname:]
-ニックネーム :
+ニックネーム:
 [First name:]
-名 :
+名:
 [Last name:]
-名字 :
+名字:
 [Gender:]
-性別 :
+性別:
 [Age:]
-年齢 :
+年齢:
 [Location]
 場所
 [Country:]
-国 :
+国:
 [State:]
-州 :
+州:
 [City:]
-市 :
+市:
 [Full e-mail:]
 完全な電子メール:
 [Text Color]

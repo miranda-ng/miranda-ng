@@ -7,7 +7,7 @@
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
 [Password:]
-Passe :
+Passe:
 [&Send]
 &Envoyer
 [&Cancel]
@@ -15,23 +15,23 @@ Passe :
 [Enter ICQ Password]
 Entrer le passe ICQ
 [Enter a password for UIN %d:]
-Entrez un mot de passe pour l'UIN %d :
+Entrez un mot de passe pour l'UIN %d:
 [Cancel]
 Annuler
 [ICQ number:]
 Identifiant:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-Note : Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
+Note: Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
 [Retrieve a lost password or ICQ number]
 Retrouver un mot de passe perdu ou un numéro ICQ
 [Create a new ICQ account using the ICQ website]
 Créer un nouveau compte ICQ sur le site web ICQ
 [Port:]
-Port :
+Port:
 [Default]
 Défaut
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
-Note : Saisir 0 pour utiliser un port aléatoire. Mettez 80 ou 433 si vous avez des problèmes pour vous connecter au travers d'un serveur Proxy.
+Note: Saisir 0 pour utiliser un port aléatoire. Mettez 80 ou 433 si vous avez des problèmes pour vous connecter au travers d'un serveur Proxy.
 [Secure (MD5) login]
 Identifiant sécurisé (MD5)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
@@ -39,7 +39,7 @@ Garder la connexion active (activez cette option si vous utilisez un serveur pro
 [Ignore concurrent error messages]
 Ignorer les messsages d'erreur concourant
 [Show connection error messages:]
-Afficher les erreurs de connexion :
+Afficher les erreurs de connexion:
 [ICQ contacts stored on server]
 Contacts ICQ sauvegardés sur le serveur
 [Manage server's list...]
@@ -139,63 +139,63 @@ Utiliser les icônes du système
 [Use default colors]
 Couleurs par défaut
 [UIN:]
-UIN :
+UIN:
 [External IP:]
-IP externe :
+IP externe:
 [Protocol Version:]
-Protocole version :
+Protocole version:
 [User Client:]
-Client :
+Client:
 [System up since:]
-Démarré depuis :
+Démarré depuis:
 [Idle since:]
-Inactif depuis :
+Inactif depuis:
 [Summary]
 Résumé
 [Nickname:]
-Pseudo :
+Pseudo:
 [First name:]
-Prénom :
+Prénom:
 [Last name:]
-Nom :
+Nom:
 [E-mail:]
-e-mail :
+e-mail:
 [Gender:]
-Sexe :
+Sexe:
 [Age:]
-Age :
+Age:
 [Marital status:]
-Situation :
+Situation:
 [Keywords:]
-Mots-clés :
+Mots-clés:
 [Work]
 Travail
 [Company:]
-Entreprise :
+Entreprise:
 [Department:]
-Département :
+Département:
 [Position:]
-Position :
+Position:
 [Organization:]
-Organisation :
+Organisation:
 [Location]
 Lieu
 [Country:]
-Pays :
+Pays:
 [State:]
-État :
+État:
 [City:]
-Ville :
+Ville:
 [Interests]
 Intérêts
 [Category:]
-Catégorie :
+Catégorie:
 [Other]
 Autre
 [Manage ICQ Server Contacts]
 Gestion des contacts du serveur ICQ
 [Select contacts to store:]
-Contacts à sauvegarder :
+Contacts à sauvegarder:
 [Synchronize]
 Synchroniser
 [Closing in %d]
@@ -205,9 +205,9 @@ Récupération de l'état personnalisé...
 [Confirm Password Change]
 Confirmer le mot de passe
 [Please re-type your new password:]
-Veuillez retaper votre mot de passe :
+Veuillez retaper votre mot de passe:
 [Enter your current password:]
-Entrez le mot de passe actuel :
+Entrez le mot de passe actuel:
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to ICQ communication server]
 Connexion impossible au serveur de communication ICQ
@@ -224,15 +224,15 @@ Connexion échouée.\nVous vous êtes reconnecté trop rapidement,\nveuillez ré
 [Connection failed.\nThe server did not accept this client version.]
 Connexion échouée.\nLe serveur n'a pas accepté votre version de client.
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
-Le serveur a envoyé un avertissement : version trop vieille.\nEssayez de trouver une plus récente.
+Le serveur a envoyé un avertissement: version trop vieille.\nEssayez de trouver une plus récente.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
 Connexion échouée.\nVous avez été rejeté du serveur pour une raison inconnue.\nCeci peut arriver si votre ID est déjà connecté.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-Connexion échouée.\nErreur inconnue lors de l'authentification : 0x%02x
+Connexion échouée.\nErreur inconnue lors de l'authentification: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 Vous avez été déconnecté du réseau ICQ parce que vous vous êtes authentifié avec un autre client et le même numéro ICQ.
 [Unknown runtime error: 0x%02x]
-Erreur d'exécution inconnue : 0x%02x
+Erreur d'exécution inconnue: 0x%02x
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Une migration de serveur a échoué car le serveur a envoyé des données invalides. Vous devez vous reconnecter manuellement.
@@ -888,7 +888,7 @@ Erreur fatale ICQ
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 Le serveur n'a pas répondu à la tentative de connexion dans un délai raisonnable, il peut être temporairement inaccessible. Réessayez plus tard.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Miranda n'a pas pu résoudre le nom du serveur en adresse IP numérique. Cela est sûrement dû par une perte brutale de votre connexion réseau (par exemple : votre modem a été déconnecté), mais si vous êtes derrière un proxy, vous pouvez avoir besoin d'utiliser l'option 'Résoudre les noms à travers un proxy' dans M->Options->ICQ->Réseau.
+Miranda n'a pas pu résoudre le nom du serveur en adresse IP numérique. Cela est sûrement dû par une perte brutale de votre connexion réseau (par exemple: votre modem a été déconnecté), mais si vous êtes derrière un proxy, vous pouvez avoir besoin d'utiliser l'option 'Résoudre les noms à travers un proxy' dans M->Options->ICQ->Réseau.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
 Le mot de passe ou nom d'utilisateur que vous avez fourni a été rejeté par le proxy. Veuillez les vérifier dans M->Options->Réseau.
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
@@ -1062,13 +1062,13 @@ Vous n'êtes plus connecté au réseau ICQ. Vous devez être en ligne afin de me
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
-Entrez un mot de passe pour UIN %u :
+Entrez un mot de passe pour UIN %u:
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ScreenName:]
-Nom affiché :
+Nom affiché:
 [<not specified>]
 <non spécifié>
 [Member since:]
-Inscrit depuis :
+Inscrit depuis:
 [%s Details]
 %s détails

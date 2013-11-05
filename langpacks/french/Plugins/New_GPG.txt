@@ -11,7 +11,7 @@ Ignorer
 [Cancel]
 Annuler
 [Password:]
-Passe :
+Passe:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
 [Name]
@@ -23,7 +23,7 @@ Défaut
 [Error]
 Erreur
 [Replace]
-Remplacer :
+Remplacer:
 [Accept]
 Accepter
 ;file \plugins\New_GPG\src\messages.cpp

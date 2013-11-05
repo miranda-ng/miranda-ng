@@ -9,7 +9,7 @@
 [Send contacts]
 Envoi des contacts
 [Choose contacts to be send:]
-Choisir contacts à envoyer :
+Choisir contacts à envoyer:
 [&Send]
 &Envoyer
 [Cancel]
@@ -17,7 +17,7 @@ Annuler
 [Received contacts]
 Réception de contacts
 [Add to &group:]
-Ajouter au &groupe :
+Ajouter au &groupe:
 [&Add]
 &Ajouter
 [Close]
@@ -25,7 +25,7 @@ Fermer
 [Contacts send error]
 Erreur dans l'envoi de contacts
 [An error has occurred. The protocol reported the following error:]
-Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
 [Try again]
 Réessayer
 [Add to List]

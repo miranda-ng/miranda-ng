@@ -27,9 +27,9 @@
 [InsertSeparator]
 セパレーターを挿入
 [Service:]
-サービス :
+サービス:
 [Name:]
-名前 :
+名前:
 [Set]
 設定
 [Default]
@@ -97,7 +97,7 @@
 [Rows]
 行
 [Row height:]
-行の高さ :
+行の高さ:
 [pixels]
 ピクセル
 [Gamma correction]
@@ -123,9 +123,9 @@
 [Transparent contact list]
 コンタクトリストを透過表示にする
 [Inactive opacity:]
-非アクティブ不透明度 ：
+非アクティブ不透明度：
 [Active opacity:]
-アクティブ不透明度 :
+アクティブ不透明度:
 [Show menu bar]
 メニューバーを表示
 [Easy move]
@@ -149,7 +149,7 @@
 [Make selection highlight translucent]
 選択したものを半透明で強調表示
 ['Hide Offline' means to hide:]
-' オフラインの非表示 ' で非表示にする対象 :
+' オフラインの非表示 ' で非表示にする対象:
 [Groups]
 グループ
 [Draw a line alongside group names]
@@ -169,13 +169,13 @@
 [Scroll list smoothly]
 リストをなめらかにスクロール
 [Time:]
-時間 :
+時間:
 [milliseconds]
 ミリ秒
 [Left margin:]
-左マージン :
+左マージン:
 [Gray out entire list when:]
-リスト全体を灰色表示する :
+リスト全体を灰色表示する:
 [Dim idle contacts]
 不要のコンタクトを暗くする
 [Contact List Background]

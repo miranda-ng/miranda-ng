@@ -9,7 +9,7 @@
 [&Cancel]
 Cancel(&C)
 [Name:]
-名前 :
+名前:
 [Information]
 情報
 [Contacts]

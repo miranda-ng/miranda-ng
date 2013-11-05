@@ -37,7 +37,7 @@
 [Fahrenheit]
 華氏
 [Degree sign:]
-度記号 :
+度記号:
 [Wind]
 風
 [km/h]
@@ -163,7 +163,7 @@ Weather プロトコル INI セットアップ
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Weather プロトコル INI セットアップ\nWeather INI ファイルのインストールと読み込み
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Weather プロトコルはあなたのコンピュータ上に保存されている Weather INI ファイルを見つけられませんでした。Weather INI のセットアップと気象台の追加をするには以下の手順に従ってください :
+Weather プロトコルはあなたのコンピュータ上に保存されている Weather INI ファイルを見つけられませんでした。Weather INI のセットアップと気象台の追加をするには以下の手順に従ってください:
 [Click here to download a weather ini file from Miranda file listing]
 クリックして Miranda ファイルリストから Weather INI ファイルをダウンロード
 [Extract the weather ini file from archive to this directory]
@@ -179,7 +179,7 @@ Weather プロトコルはあなたのコンピュータ上に保存されてい
 [Reload INI]
 INI を再読み込み
 [City:]
-市 :
+市:
 [Open brief information]
 概要情報を開く
 [Open complete forecast]
@@ -217,49 +217,49 @@ Netlib エラー - インターネット接続を確認してください (30)
 [Unknown error (99)]
 不明なエラー (99)
 [HTTP Error: No content (204)]
-HTTPエラー : コンテンツがありません (204)
+HTTPエラー: コンテンツがありません (204)
 [HTTP Error: Data moved (301)]
-HTTP エラー : データは移動しました (301)
+HTTP エラー: データは移動しました (301)
 [HTTP Error: Use proxy (305)]
-HTTPエラー : プロキシを使用してください (305)
+HTTPエラー: プロキシを使用してください (305)
 [HTTP Error: Temporary redirect (307)]
-HTTPエラー : 一時リダイレクト (307)
+HTTPエラー: 一時リダイレクト (307)
 [HTTP Error: Bad request (400)]
-HTTP エラー : 不正なリクエストです (400)
+HTTP エラー: 不正なリクエストです (400)
 [HTTP Error: Unauthorized (401)]
-HTTPエラー : 権限がありません (401)
+HTTPエラー: 権限がありません (401)
 [HTTP Error: Payment required (402)]
-HTTPエラー : 支払いが必要です (402)
+HTTPエラー: 支払いが必要です (402)
 [HTTP Error: Forbidden (403)]
-HTTPエラー : 許可されていません (403)
+HTTPエラー: 許可されていません (403)
 [HTTP Error: Not found (404)]
-HTTPエラー : 見つかりませんでした (404)
+HTTPエラー: 見つかりませんでした (404)
 [HTTP Error: Method not allowed (405)]
-HTTPエラー : 許可されていないメソッドです (405)
+HTTPエラー: 許可されていないメソッドです (405)
 [HTTP Error: Proxy authentication required (407)]
-HTTPエラー : プロキシの認証が必要です (407)
+HTTPエラー: プロキシの認証が必要です (407)
 [HTTP Error: Gone (410)]
-HTTPエラー : 削除されました (410)
+HTTPエラー: 削除されました (410)
 [HTTP Error: Internal server error (500)]
-HTTPエラー : 内部サーバーエラー (500)
+HTTPエラー: 内部サーバーエラー (500)
 [HTTP Error: Bad gateway (502)]
-HTTP エラー : 不正なゲートウェイです (502)
+HTTP エラー: 不正なゲートウェイです (502)
 [HTTP Error: Service unavailable (503)]
-HTTPエラー : サービスは利用できません (503)
+HTTPエラー: サービスは利用できません (503)
 [HTTP Error: Gateway timeout (504)]
-HTTPエラー : ゲートウェイはタイムアウトしました (504)
+HTTPエラー: ゲートウェイはタイムアウトしました (504)
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\n気温 : %t\n体感気温 : %f\n気圧 : %p\n風 : %i  %w\n湿度 : %m\n露点 : %e\n視界 : %v\n\n日の出 : %r\n日の入り : %y\n\n5 日分の天気予報 :\n%[ 予報 1 日目 ]\n%[ 予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
+%c\n気温: %t\n体感気温: %f\n気圧: %p\n風: %i  %w\n湿度: %m\n露点: %e\n視界: %v\n\n日の出: %r\n日の入り: %y\n\n5 日分の天気予報:\n%[ 予報 1 日目 ]\n%[ 予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-体感気温 : %f\n気圧 : %p\n風 : %i  %w\n湿度 : %m\n露点 : %e\n視界 : %v\n\n日の出 : %r\n日の入り : %y\n\n5 日分の天気予報 :\n%[ 予報 1 日目 ]\n%[予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
+体感気温: %f\n気圧: %p\n風: %i  %w\n湿度: %m\n露点: %e\n視界: %v\n\n日の出: %r\n日の入り: %y\n\n5 日分の天気予報:\n%[ 予報 1 日目 ]\n%[予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
 [Weather Condition for %n as of %u]
 %u 現在の %n の天気
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t ( 体感気温 %f)	風 : %i %w	湿度 : %m
+%c, %t ( 体感気温 %f)	風: %i %w	湿度: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n %u :	%c, %t ( 体感気温 %f)	風 : %i %w	湿度 : %m
+%n %u:	%c, %t ( 体感気温 %f)	風: %i %w	湿度: %m
 [%c, %t\nToday:  High %h, Low %l]
-%c, %t\n今日 :  最高 %h, 最低 %l
+%c, %t\n今日:  最高 %h, 最低 %l
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 %s の現在の天気情報
@@ -324,28 +324,28 @@ Weather 更新
 ポップアップしない
 ;file \plugins\Weather\src\weather_info.cpp
 [Name:]
-名前 :
+名前:
 [Internal Name:]
-内部名 :
+内部名:
 [INI Version:]
-INI バージョン :
+INI バージョン:
 [File Name:]
-ファイル名 :
+ファイル名:
 [Item Count:]
-項目数 :
+項目数:
 [Memory Used:]
-使用済みメモリ :
+使用済みメモリ:
 [bytes]
 バイト
 [Description:]
-説明 :
+説明:
 [Here is a list of custom variables that are currently available]
 現在利用可能なカスタム変数のリスト
 ;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 更新データファイルが見つかりませんでした。Plugins\\Weather フォルダーを確認して下さい
 [Invalid ini format for: %s]
-以下に対する不正な ini 形式です : %s
+以下に対する不正な ini 形式です: %s
 [All update data has been reloaded.]
 全ての更新データは再読み込みされました
 ;file \plugins\Weather\src\weather_mwin.cpp
@@ -397,7 +397,7 @@ Weather 通知
 [Current condition for %n]
 %n の現在の天気
 [Last update on:   %u]
-最終更新 :   %u
+最終更新:   %u
 [Variable]
 変数
 [Information]

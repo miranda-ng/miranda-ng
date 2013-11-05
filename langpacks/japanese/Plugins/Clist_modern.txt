@@ -7,25 +7,25 @@
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
-透明度 :
+透明度:
 [Window behavior:]
-ウィンドウの動作 :
+ウィンドウの動作:
 [List sorting:]
-リストの並べ替え :
+リストの並べ替え:
 [Status bar:]
-ステータスバー :
+ステータスバー:
 [List content:]
-リストの内容 :
+リストの内容:
 [Show counts of number of contacts in a group]
 グループにあるコンタクトの総数を表示
 [Hide group counts when there are none online]
 オンラインユーザーがいない時グループ数を非表示
 [1st:]
-1 番目 :
+1 番目:
 [2nd:]
-2 番目 :
+2 番目:
 [3rd:]
-3 番目 :
+3 番目:
 [Always on top]
 常に一番前
 [Hide contact list after]
@@ -39,7 +39,7 @@
 [Inactive opacity:]
 非アクティブ不透明度 ：
 [Active opacity:]
-アクティブ不透明度 :
+アクティブ不透明度:
 [Animate Avatars]
 アニメーションアバター
 [Show contact time in list]
@@ -97,11 +97,11 @@
 [Fragment location]
 フラグメントの位置
 [Position:]
-位置 :
+位置:
 [Size:]
-サイズ :
+サイズ:
 [W x H: 0 x 0 pixels]
-幅 × 高さ : 0 x 0 ピクセル
+幅 × 高さ: 0 x 0 ピクセル
 [Show contacts in groups]
 グループのコンタクトを表示
 [OK]
@@ -125,11 +125,11 @@ Cancel
 [Horizontal Align]
 水平配置
 [Multiline status bar:]
-多重線ステータスバー :
+多重線ステータスバー:
 [Accounts per line]
 アカウント毎に線を引く
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
-* ステータスバーの高さを増やすには :\nメインメニューの設定 : フレーム ->  ステータスバー -> タイトルバーの表示 , でステータスバーのタイトルを引きあげたり引き下げたりする
+* ステータスバーの高さを増やすには:\nメインメニューの設定: フレーム ->  ステータスバー -> タイトルバーの表示 , でステータスバーのタイトルを引きあげたり引き下げたりする
 [Set options per account]
 アカウントごとにオプションを設定
 [Enable custom account settings]
@@ -251,7 +251,7 @@ x100 ミリ秒
 [Dim idle contacts]
 不要のコンタクトを暗くする
 ['Hide Offline' means to hide:]
-' オフラインの非表示 ' で非表示にする対象 :
+' オフラインの非表示 ' で非表示にする対象:
 [Groups]
 グループ
 [Draw a line alongside group names]
@@ -267,11 +267,11 @@ x100 ミリ秒
 [Scroll list smoothly]
 リストをなめらかにスクロール
 [Time:]
-時間 :
+時間:
 [milliseconds]
 ミリ秒
 [Fade out entire list when:]
-以下の場合リスト全体をフェードアウト :
+以下の場合リスト全体をフェードアウト:
 [Single click interface]
 シングルクリックインターフェース
 [Always show status in tooltip]
@@ -303,7 +303,7 @@ xStatus アイコンを使用
 [Additional stuff]
 追加要素
 [Subcontacts indent:]
-サブコンタクトインデント :
+サブコンタクトインデント:
 [Show time only if it is different from current time]
 現在の時刻と異なる場合のみ時刻を表示
 [Show contact time as row item]
@@ -329,9 +329,9 @@ xStatus アイコンを使用
 [Frames]
 フレーム
 [Between frames:]
-フレーム間 :
+フレーム間:
 [After captions:]
-表題の後 :
+表題の後:
 [Gaps]
 間隔
 [Use Non-Layered mode]
@@ -343,11 +343,11 @@ xStatus アイコンを使用
 [Enable Aero Glass (Vista+)]
 Aero Glass (Vista+) を有効
 [Order of items:]
-項目の並び順 :
+項目の並び順:
 [Min row height:]
-行の高さの最小値 :
+行の高さの最小値:
 [Row border:]
-行の枠線 :
+行の枠線:
 [Variable row height]
 行の高さを可変にする
 [Align left items to left]
@@ -355,9 +355,9 @@ Aero Glass (Vista+) を有効
 [Align right items to right]
 右項目を右揃え
 [Left margin:]
-左マージン :
+左マージン:
 [Right margin:]
-右マージン :
+右マージン:
 [Draw border on avatar]
 アバターに枠線を描画
 [Draw overlay icons]
@@ -367,7 +367,7 @@ Aero Glass (Vista+) を有効
 [Ignore size for row height calcs]
 行の高さの演算結果を無視する
 [Border color:]
-枠線の色 :
+枠線の色:
 [Normal overlay icon]
 標準オーバーレイアイコン
 [Protocol status icon]
@@ -387,7 +387,7 @@ Aero Glass (Vista+) を有効
 [Hide groups icon]
 グループアイコンを非表示
 [Use extra status icon instead protocol]
-以下のプロトコルの代わりに追加ステータスアイコンを使用 :
+以下のプロトコルの代わりに追加ステータスアイコンを使用:
 [Draw normal status as overlay]
 オーバーレイでノーマルステータスを描画
 [Right-To-Left reading mode (mirror template)]
@@ -405,7 +405,7 @@ RTL 読み取りモード ( ミラーテンプレート )
 [Trim long text with ellipsis]
 長いテキストを省略して表示
 [Top space:]
-一番上の空間 :
+一番上の空間:
 [Draw smileys on second line]
 2 行目に顔文字を描画
 [Status]
@@ -445,13 +445,13 @@ XStatus が優先
 [Vertical align:]
 垂直配置:
 [Horizontal align:]
-水平配置 :
+水平配置:
 [Container type:]
-コンテナの種類 :
+コンテナの種類:
 [Container width:]
-コンテナの幅 :
+コンテナの幅:
 [Container height:]
-コンテナの高さ :
+コンテナの高さ:
 [Layered]
 レイヤー
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
@@ -714,9 +714,9 @@ PNG 形式の画像を使用するには画像サービスのプラグインが�
 [( unknown )]
 ( 不明 )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\n作成者 :\t %s\nコンタクト :\t %s\nWeb:\t %s\n\nファイル :\t %s
+%s\n\n%s\n\n作成者:\t %s\nコンタクト:\t %s\nWeb:\t %s\n\nファイル:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\n作成者 : %s\nコンタクト :\t %s\nWeb:\t %s\n\nファイル :\t %s
+%s\n\n%s\n\n作成者: %s\nコンタクト:\t %s\nWeb:\t %s\n\nファイル:\t %s
 [reVista for Modern v0.5]
 reVista for Modern v0.5
 [This is second default Modern Contact list skin in Vista Aero style]
@@ -734,9 +734,9 @@ Angeli-Ka ( グラフィック ), FYR ( テンプレート )
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 現在のスキンはファイルに保存されていません。\n\n全ての変更は失われます。\n\n新しいスキンの読み込みを続行しますか?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-プレビューは利用できません\n\n%s\n----------------------\n\n%s\n\n作成者 :\n%s\n\nコンタクト:\n%s\n\nホームページ:\n%s
+プレビューは利用できません\n\n%s\n----------------------\n\n%s\n\n作成者:\n%s\n\nコンタクト:\n%s\n\nホームページ:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-%s\n\n%s\n\n作成者 :\n%s\n\nコンタクト :\n%s\n\nWEB:\n%s\n\n\n
+%s\n\n%s\n\n作成者:\n%s\n\nコンタクト:\n%s\n\nWEB:\n%s\n\n\n
 [graphics by Angeli-Ka\ntemplate by FYR]
 グラフィック Angeli-Ka\nテンプレート FYR
 [Select skin from list]
@@ -760,4 +760,4 @@ Angeli-Ka ( グラフィック ), FYR ( テンプレート )
 ユーザー検索
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
-表示モードの設定 : %s
+表示モードの設定: %s

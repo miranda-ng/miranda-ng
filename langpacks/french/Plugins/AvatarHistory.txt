@@ -21,9 +21,9 @@ Ajouter à l'historique (pour ce contact)
 [Show popups for this user]
 Popup pour ce contact
 [Enable tracking for these protocols:]
-Surveiller les protocoles suivants :
+Surveiller les protocoles suivants:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
-Les MetaContacts ont un traitement spécial : l'info est copiée aux sous-contacts (les notifications des MetaContacts seront ignorées)
+Les MetaContacts ont un traitement spécial: l'info est copiée aux sous-contacts (les notifications des MetaContacts seront ignorées)
 [Show popup when a contact change his avatar]
 Afficher un popup au changement d'avatar
 [Background color]
@@ -39,15 +39,15 @@ Comme le plugin Popup
 [Custom]
 Défini
 [On right click:]
-Clic droit :
+Clic droit:
 [On left click:]
-Clic gauche :
+Clic gauche:
 [Avatar change:]
-Avatar changé :
+Avatar changé:
 [Avatar removal:]
-Avatar effacé :
+Avatar effacé:
 [Avatar History: Select how to store history avatars]
-Avatar History : Méthode d'enregistrement des avatars.
+Avatar History: Méthode d'enregistrement des avatars.
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Veuillez choisir comment l'historique des avatars sera stocker. Ce choix NE POURRAS PAS être modifier, sauf si vous voulez perdre tous les historiques.
 [Store history in miranda history and all history avatars in same folder]
@@ -80,11 +80,11 @@ Effacer le journal des avatars ?
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
 Êtes-vous sùr de vouloir effacer le raccourci à l'avatar ?\nSeule le raccourci sera effacé, l'avatar sera conservé !
 [Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
-Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera la ligne de l'historique et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'une ligne de l'historique !
+Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera la ligne de l'historique et l'avatar qui lui est associé.\nATTENTION: Ceci peut affecter plus d'une ligne de l'historique !
 [Delete avatar?]
 Effacer l'avatar ?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
-Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'un raccourci !
+Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION: Ceci peut affecter plus d'un raccourci !
 [View Avatar History]
 Historique des avatars...
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
@@ -102,9 +102,9 @@ Afficher l'historique des avatars
 [Show contact history]
 Afficher l'historique du contact
 [Test Contact]
-Test : Contact
+Test: Contact
 [Test description]
-Test : Description
+Test: Description
 [Avatar Change]
 Changement d'avatar
 ;file \plugins\AvatarHistory\src\utils.cpp

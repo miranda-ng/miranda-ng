@@ -87,8 +87,6 @@ Skype Проксі
 Помилка: Skype не запущено
 [Mark group chat message as read to avoid notification]
 Відзначати групові повідомлення як прочитані без попередження
-[Wheee, Skype won't let me use the API. :(]
-... Skype не дозволяє мені використовувати API :(
 [Phone call]
 Дзвінок
 [Incoming Skype Call]
@@ -121,9 +119,9 @@ Skype аватари контактів
 Додати контакт Skype
 [Answer call set call to %s on hold]
 Відповісти, поставити дзвінок %s на паузу
-[Birthday :]
+[Birthday:]
 День народження:
-[City :]
+[City:]
 Місто:
 [Do a SkypeOut-call]
 Зателефонувати через SkypeOut
@@ -135,25 +133,25 @@ Skype аватари контактів
 Відбити дзвінок (SkypeOut)
 [Hang up]
 Відбити дзвінок
-[Home phone :]
+[Home phone:]
 Домашній:
-[Homepage :]
+[Homepage:]
 Посилання:
 [Join conference with %s]
 Підключитися до розмови з %s
 [MALE]
 Чоловік
-[Name :]
+[Name:]
 Ім'я:
 [No Topic]
 Немає теми
-[Office phone :]
+[Office phone:]
 Офісний:
-[Province :]
+[Province:]
 Провінція:
 [Resume call]
 Відновити дзвінок
-[Sex :]
+[Sex:]
 Стать:
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? (If you chose NO, you can always enable it in the plugin options later.]
 Ви вперше запустили протокол Skype. Хочете включити його для цього профілю Miranda NG? (Якщо ви відмовитеся, завжди можна включити його в налаштуваннях).
