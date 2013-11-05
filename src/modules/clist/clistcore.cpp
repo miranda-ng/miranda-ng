@@ -213,6 +213,7 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnSetAllExtraIcons                = fnSetAllExtraIcons;
 
 		cli.pfnGetContactIcon                  = fnGetContactIcon;
+		cli.pfnGetAverageMode                  = fnGetAverageMode;
 
 		rc = LoadContactListModule2();
 		if (rc == 0)
