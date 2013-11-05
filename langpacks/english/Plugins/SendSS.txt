@@ -1,8 +1,8 @@
 ﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
 ;  File: SendSS.dll
-;  Plugin: Send screenshot+
-;  Version: 0.8.0.0
+;  Plugin: Send ScreenShot+
+;  Version: 0.8.2.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -108,7 +108,7 @@
 [< Copyright]
 [Copyright]
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
-[Drag&&Drop the target on the desired window.]
+[Drag&Drop the target on the desired window.]
 [Send screenshot to\n]
 [Window]
 [Desktop]

@@ -20,7 +20,7 @@
 [Protocols]
 [Suppress notifications upon connection for]
 [sec]
-[Prefix proto name]
+[Prefix protocol name]
 [Duration]
 [Show tooltip for]
 [ms]
@@ -40,7 +40,7 @@
 [Idle]
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
-[Other Status]
+[Other status]
 [Tooltip Notify: Online]
 [Tooltip Notify: Offline]
 [Tooltip Notify: Other]

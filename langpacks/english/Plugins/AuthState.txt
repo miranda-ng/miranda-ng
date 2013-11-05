@@ -10,7 +10,7 @@
 [Show Auth icon]
 [Show Grant icon]
 [Plugin settings]
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 [Show icons only for recently added contacts]
 ;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]

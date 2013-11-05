@@ -32,7 +32,7 @@
 [City:]
 [County/State:]
 [Country:]
-[Contact added to ContactList:]
+[Contact added to contact list:]
 [Just from the beginning.]
 [Your contact's local time is:]
 [Timezone:]

@@ -9,8 +9,8 @@
 ;file \protocols\VKontakte\res\resource.rc
 [E-mail or phone number:]
 [Password:]
-[Open VK site]
-[Bots Challenge Test]
+[Open VKontakte site]
+[Bots challenge test]
 [Instruction:]
 [Submit]
 [Cancel]

@@ -132,7 +132,7 @@
 [Ignore DCC Chat requests]
 [Ignore DCC Chat requests from unknown contacts]
 [Ignore users]
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 [Queries]
 [Messages]
 [Notices]
