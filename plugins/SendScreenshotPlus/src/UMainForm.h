@@ -78,19 +78,18 @@ class TfrmMain{
 	private:
 		HWND		m_hWnd;
 		HANDLE		m_hContact;
-		bool		m_bSelectingWindow, m_bDeleteAfterSend;
+		bool		m_bDeleteAfterSend;
 		bool		m_bFormAbout, m_bFormEdit;
 		HWND		m_hTargetWindow, m_hLastWin;
+		HWND		m_hTargetHighlighter;
 		LPTSTR		m_FDestFolder;
 		LPTSTR		m_pszFile;
 		LPTSTR		m_pszFileDesc;
 		FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
 		RGBQUAD		m_AlphaColor;
-		HCURSOR		m_hCursor;
 		CSend*		m_cSend;
 
 		void		chkTimedClick();
-		void		imgTargetMouseDown();
 		void		imgTargetMouseUp();
 		void		btnAboutClick();
 		void		btnAboutOnCloseWindow(HWND hWnd);
@@ -130,7 +129,6 @@ class TfrmMain{
 
 		void		UMevent(WPARAM wParam, LPARAM lParam);
 		void		UMClosing(WPARAM wParam, LPARAM lParam);
-		LRESULT		UMTab1(WPARAM wParam, LPARAM lParam);
 
 		static INT_PTR CALLBACK DlgProc_CaptureWindow (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static INT_PTR CALLBACK DlgProc_CaptureDesktop(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

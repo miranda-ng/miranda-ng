@@ -74,9 +74,6 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wP
 	case WM_COMMAND:
 		SendMessage(GetParent(hDlg), uMsg, wParam, lParam);
 		break;
-	case WM_MOUSEMOVE:
-		SendMessage(GetParent(hDlg), UM_TAB1, uMsg, 0);
-		break;
 	case WM_NOTIFY:
 		SendMessage(GetParent(hDlg), uMsg, wParam, lParam);
 		break;
@@ -389,7 +386,11 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 				case ID_chkEditor:
 					m_opt_chkEditor = (BYTE)Button_GetCheck((HWND)lParam);
 					break;
-
+				
+				case ID_bvlTarget:
+					if(m_opt_tabCapture==0) SetTimer(m_hWnd,ID_bvlTarget,BUTTON_POLLDELAY,NULL);
+					break;
+				
 				case ID_btnAbout:
 					TfrmMain::btnAboutClick();
 					break;
@@ -465,60 +466,62 @@ void TfrmMain::wmClose(WPARAM wParam, LPARAM lParam) {
 }
 
 //WM_TIMER:
+const int g_iTargetBorder=7;
 void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {// @todo : improve this
-	if (wParam == ID_bvlTarget) {		// Timer for Target selector
-		if (m_hCursor) {			//imgTarget is activ
-			//LmouseButton = false
-			if (!GetLmouse()) {
-				TfrmMain::imgTargetMouseUp();
-				return;
-			}
-			//Timer action if LmouseButton = true
-			m_hLastWin = m_hTargetWindow;
-			POINT point={0};
-			GetCursorPos(&point);
-			HWND hCurrentWin = WindowFromPoint(point);
-			while (GetParent(hCurrentWin)) {
-				hCurrentWin = GetParent(hCurrentWin);
-			}
-			if (m_hLastWin != hCurrentWin) {
-				LPTSTR lpTitle = NULL;
-				if (m_hLastWin) {
-					DrawBorderInverted(m_hLastWin);
-				}
-				int Count = GetWindowTextLength(hCurrentWin)+1;
-				if(Count > 1){
-					lpTitle = (LPTSTR)mir_alloc(Count*sizeof(TCHAR));
-					GetWindowText(hCurrentWin, lpTitle, Count);
-				}
-				else {
-					//no WindowText present, use WindowClass
-					lpTitle = (LPTSTR)mir_alloc(MAX_PATH*sizeof(TCHAR));
-					RealGetWindowClass(hCurrentWin, lpTitle, MAX_PATH);
-				}
-				SetDlgItemText(m_hwndTabPage, ID_edtCaption, lpTitle);
-				mir_free(lpTitle);
-				edtSizeUpdate(hCurrentWin, m_opt_chkClientArea, m_hwndTabPage, ID_edtSize);
-				DrawBorderInverted(hCurrentWin);
-				m_hTargetWindow = hCurrentWin;
-			}
+	if (wParam == ID_bvlTarget){// Timer for Target selector
+		static int primarymouse;
+		if(!m_hTargetHighlighter){
+			primarymouse=GetSystemMetrics(SM_SWAPBUTTON)?VK_RBUTTON:VK_LBUTTON;
+			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(LPTSTR)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,hInst,NULL);
+			if(!m_hTargetHighlighter) return;
+			SetLayeredWindowAttributes(m_hTargetHighlighter,0,123,LWA_ALPHA);
+			SetSystemCursor(CopyCursor(IcoLib_GetIcon(ICO_PLUG_SSTARGET)),OCR_NORMAL);
+			Hide();
+		}
+		if(!(GetAsyncKeyState(primarymouse)&0x8000)){
+			KillTimer(m_hWnd,ID_bvlTarget);
+			SystemParametersInfo(SPI_SETCURSORS,0,NULL,0);
+			DestroyWindow(m_hTargetHighlighter),m_hTargetHighlighter=NULL;
+			Show();
 			return;
 		}
-		//imgTarget is not activ (check if cursor is over ID_bvlTarget control)
-		RECT rc;
-		POINT pt;
-		GetWindowRect(GetDlgItem(m_hwndTabPage, wParam),&rc);
-		GetCursorPos(&pt);
-		//check Mouse cursor
-		if(!PtInRect(&rc,pt)) {					// mouse must be gone, trigger mouse leave
-			//PostMessage(m_hWnd,WM_MOUSELEAVE,wParam,lParam);
-			KillTimer(m_hWnd,wParam);
+		POINT point; GetCursorPos(&point);
+		m_hTargetWindow=WindowFromPoint(point);
+		if(!((GetAsyncKeyState(VK_SHIFT)|GetAsyncKeyState(VK_MENU))&0x8000))
+			for(HWND hTMP; (hTMP=GetParent(m_hTargetWindow)); m_hTargetWindow=hTMP);
+		if(m_hTargetWindow!=m_hLastWin){
+			m_hLastWin=m_hTargetWindow;
+			RECT rect; GetWindowRect(m_hLastWin,&rect);
+			int width=rect.right-rect.left;
+			int height=rect.bottom-rect.top;
+			if(g_iTargetBorder){
+				SetWindowPos(m_hTargetHighlighter,NULL,0,0,0,0,SWP_HIDEWINDOW|SWP_NOMOVE|SWP_NOSIZE);
+				/// @todo (White-Tiger#1#): inform WindowDetective about improvements / leaks (he uses 3 HRGN and doesn't delete 2 unneeded, HighlightWindow)
+				if(width>g_iTargetBorder*2 && height>g_iTargetBorder*2) {
+					HRGN hRegnNew=CreateRectRgn(0,0,width,height);
+					HRGN hRgnHole=CreateRectRgn(g_iTargetBorder,g_iTargetBorder,width-g_iTargetBorder,height-g_iTargetBorder);
+					CombineRgn(hRegnNew,hRegnNew,hRgnHole,RGN_XOR);
+					DeleteObject(hRgnHole);
+					SetWindowRgn(m_hTargetHighlighter,hRegnNew,FALSE);//cleans up hRegnNew
+				}else SetWindowRgn(m_hTargetHighlighter,NULL,FALSE);
+			}
+			SetWindowPos(m_hTargetHighlighter,HWND_TOPMOST,rect.left,rect.top,width,height,SWP_SHOWWINDOW|SWP_NOACTIVATE);
+			width=GetWindowTextLength(m_hTargetWindow)+1;
+			LPTSTR lpTitle;
+			if(width>1){
+				lpTitle=(LPTSTR)mir_alloc(width*sizeof(TCHAR));
+				GetWindowText(m_hTargetWindow,lpTitle,width);
+			}else{//no WindowText present, use WindowClass
+				lpTitle=(LPTSTR)mir_alloc(64*sizeof(TCHAR));
+				RealGetWindowClass(m_hTargetWindow,lpTitle,64);
+			}
+			SetDlgItemText(m_hwndTabPage,ID_edtCaption,lpTitle);
+			mir_free(lpTitle);
+			edtSizeUpdate(m_hTargetWindow,m_opt_chkClientArea,m_hwndTabPage,ID_edtSize);
 		}
-		else if (GetLmouse() && !m_hCursor) {	//mouse hover + LButton
-			TfrmMain::imgTargetMouseDown();
-		}
+		return;
 	}
-	if (wParam == ID_chkTimed) {		// Timer for Screenshot
+	if (wParam == ID_chkTimed){// Timer for Screenshot
 		#ifdef _DEBUG
 			OutputDebugStringA("SS Bitmap Timer Start\r\n" );
 		#endif
@@ -610,21 +613,6 @@ void TfrmMain::UMClosing(WPARAM wParam, LPARAM lParam) {
 	}
 }
 
-//UM_TAB1:
-LRESULT TfrmMain::UMTab1(WPARAM wParam, LPARAM lParam) {
-	switch (wParam) {
-		case WM_MOUSEMOVE:
-			if (m_opt_tabCapture == 0) {
-				// Call timer, used to start cheesy TrackMouseEvent faker
-				SetTimer(m_hWnd,ID_bvlTarget,BUTTON_POLLDELAY,NULL);
-			}
-			break;
-		default:
-			break;
-	}
-	return FALSE;
-}
-
 //UM_EVENT:
 void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 	//HWND hWnd = (HWND)wParam;
@@ -685,7 +673,7 @@ TfrmMain::TfrmMain() {
 	m_hContact		= NULL;
 	m_bDeleteAfterSend=m_bFormAbout=m_bFormEdit=false;
 	m_hTargetWindow	=m_hLastWin=NULL;
-	m_hCursor		= NULL;
+	m_hTargetHighlighter=NULL;
 	m_FDestFolder	=m_pszFile=m_pszFileDesc=NULL;
 	m_Screenshot	= NULL;
 	/* m_AlphaColor */
@@ -707,6 +695,10 @@ TfrmMain::~TfrmMain() {
 	mir_free(m_Monitors);
 	if (m_Screenshot) FIP->FI_Unload(m_Screenshot);
 	if (m_cSend) delete m_cSend;
+	if(m_hTargetHighlighter){
+		DestroyWindow(m_hTargetHighlighter),m_hTargetHighlighter=NULL;
+		SystemParametersInfo(SPI_SETCURSORS,0,NULL,0);
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -809,33 +801,6 @@ void TfrmMain::chkTimedClick() {
 	Button_Enable(GetDlgItem(m_hWnd, ID_edtTimedLabel), (BOOL)m_opt_chkTimed);
 	Button_Enable(GetDlgItem(m_hWnd, ID_edtTimed), (BOOL)m_opt_chkTimed);
 	Button_Enable(GetDlgItem(m_hWnd, ID_upTimed), (BOOL)m_opt_chkTimed);
-}
-
-//---------------------------------------------------------------------------
-void TfrmMain::imgTargetMouseDown() {
-	//if (Button != mbLeft) return;
-	m_hCursor = CopyCursor(GetCursor()); //backup cursor
-	//SetSystemCursor need a copy coz it destroy the handle
-	SetSystemCursor(CopyCursor(IcoLib_GetIcon(ICO_PLUG_SSTARGET)),OCR_NORMAL);
-	m_bSelectingWindow = true;
-	m_hTargetWindow = NULL;
-	Hide();
-	SetCapture(m_hWnd);
-}
-
-//---------------------------------------------------------------------------
-void TfrmMain::imgTargetMouseUp() {
-	//if (Button == mbLeft && m_bSelectingWindow && TimerCheckFocus->Enabled)
-	if (m_bSelectingWindow && m_hCursor) {
-		Show();
-		ReleaseCapture();
-		SetSystemCursor(m_hCursor, OCR_NORMAL);
-		m_hCursor = NULL;
-		if (m_hTargetWindow){
-			DrawBorderInverted(m_hTargetWindow);
-		}
-		m_bSelectingWindow = false;
-	}
 }
 
 //---------------------------------------------------------------------------
@@ -1102,10 +1067,8 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 		}
 		
 		if(m_cSend) {
-			mir_freeAndNil(m_cSend->m_pszFile);
-			mir_freeAndNil(m_cSend->m_pszFileDesc);
-			m_cSend->m_pszFile = mir_tstrdup(m_pszFile);
-			m_cSend->m_pszFileDesc = mir_tstrdup(m_pszFileDesc);
+			mir_freeAndNil(m_cSend->m_pszFile); m_cSend->m_pszFile=mir_tstrdup(m_pszFile);
+			mir_freeAndNil(m_cSend->m_pszFileDesc); m_cSend->m_pszFileDesc=mir_tstrdup(m_pszFileDesc);
 		}
 		mir_free(ret);
 		return 0;	//OK

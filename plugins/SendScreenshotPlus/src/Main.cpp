@@ -85,6 +85,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 * Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
 */
+ATOM g_clsTargetHighlighter=0;
 HANDLE g_hookModulesLoaded=0;
 HANDLE g_hookSystemPreShutdown=0;
 extern "C" __declspec(dllexport) int Load(void)
@@ -105,7 +106,9 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	AddMenuItems();
 	RegisterServices();
-
+	HBRUSH brush=CreateSolidBrush(0x0000FF00);//owned by class
+	WNDCLASS wndclass={CS_HREDRAW|CS_VREDRAW,DefWindowProc,0,0,hInst,NULL,NULL,brush,NULL,L"SendSSHighlighter"};
+	g_clsTargetHighlighter=RegisterClass(&wndclass);
 	return 0;
 }
 
@@ -140,6 +143,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	UnRegisterServices();
 	if(g_hookModulesLoaded) UnhookEvent(g_hookModulesLoaded),g_hookModulesLoaded=0;
 	if(g_hookSystemPreShutdown) UnhookEvent(g_hookSystemPreShutdown),g_hookSystemPreShutdown=0;
+	if(g_clsTargetHighlighter) UnregisterClass((LPTSTR)g_clsTargetHighlighter,hInst),g_clsTargetHighlighter=0;
 	return 0;
 }
 

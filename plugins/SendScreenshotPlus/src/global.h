@@ -94,7 +94,6 @@ using namespace std;
 
 #define UM_CLOSING	WM_USER+1
 #define UM_EVENT	WM_USER+2
-#define UM_TAB1		WM_USER+11
 
 // Generic Message Box for Errors
 #define MSGERROR(text) MessageBox(NULL, text, _T("SendSS"), MB_OK | MB_ICONERROR)

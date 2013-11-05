@@ -53,8 +53,6 @@ FIBITMAP*		CaptureScreen(HDC hDC, SIZE size, HWND hCapture=0);
 //FIBITMAP*		CaptureDesktop();	/*emulate print screen (not used)*/
 LPTSTR			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTSTR pszExt, int flag=0);
 
-void			DrawBorderInverted(HWND hWindow);
-BOOL			GetLmouse();
 INT_PTR			GetFileName(LPTSTR pszPath, UINT typ);
 INT_PTR			GetFileExt (LPTSTR pszPath, UINT typ);
 

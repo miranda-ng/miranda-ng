@@ -326,43 +326,6 @@ LPTSTR SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTST
 }
 
 //---------------------------------------------------------------------------
-//Draws a selection border on the window under cursor
-void DrawBorderInverted(HWND hWindow) {
-	if (!hWindow){
-		return;
-	}
-	HDC hDC=GetWindowDC(hWindow);
-	RECT rect={0};
-	GetWindowRect(hWindow, &rect);
-
-	int dcSave = SaveDC(hDC);
-
-	SetROP2(hDC, R2_NOT);
-
-	HPEN hPen=0;
-	hPen = CreatePen(PS_SOLID, 10, RGB(0, 0, 0));
-
-	SelectObject(hDC, &hPen);
-	SelectObject(hDC, GetStockObject(NULL_BRUSH));
-
-	Rectangle(hDC, 0, 0, rect.right-rect.left, rect.bottom-rect.top);
-	Rectangle(hDC, 1, 1, rect.right-rect.left-1, rect.bottom-rect.top-1);
-	Rectangle(hDC, 2, 2, rect.right-rect.left-2, rect.bottom-rect.top-2);
-
-	RestoreDC(hDC, dcSave);
-}
-
-//---------------------------------------------------------------------------
-//is left mouse button down
-BOOL GetLmouse() {
-	SHORT temp = GetAsyncKeyState((GetSystemMetrics(SM_SWAPBUTTON)) ? VK_RBUTTON : VK_LBUTTON);
-	if ((temp & 0x8000) == 0x8000) {	// LBUTTON down
-		return TRUE;
-	}
-	return FALSE;
-}
-
-//---------------------------------------------------------------------------
 INT_PTR GetFileName(LPTSTR pszPath, UINT typ) {
 	/*DBVT_ASCIIZ, DBVT_WCHAR, DBVT_TCHAR*/
 	LPTSTR slash = _tcsrchr(pszPath,_T('\\'));
