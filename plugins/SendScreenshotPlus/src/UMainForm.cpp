@@ -662,7 +662,7 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 					FIP->FI_Unload(m_Screenshot);
 					m_Screenshot = NULL;
 				}
-				m_hTargetWindow = m_hLastWin = NULL;
+				/* m_hTargetWindow = */m_hLastWin = NULL;
 				Show();
 			}else{
 				// Saving Options and close
@@ -678,21 +678,25 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 //---------------------------------------------------------------------------
 // Standard konstruktor/destruktor
 TfrmMain::TfrmMain() {
+	/* m_opt_XXX */
+	m_bOnExitSave	= TRUE;
+	
 	m_hWnd			= NULL;
 	m_hContact		= NULL;
-	m_hTargetWindow	= NULL;
+	m_bDeleteAfterSend=m_bFormAbout=m_bFormEdit=false;
+	m_hTargetWindow	=m_hLastWin=NULL;
 	m_hCursor		= NULL;
+	m_FDestFolder	=m_pszFile=m_pszFileDesc=NULL;
 	m_Screenshot	= NULL;
-	m_pszFile		= m_pszFileDesc = m_FDestFolder = NULL;
-	m_bFormAbout	= m_bFormEdit = m_bDeleteAfterSend = m_bSelectingWindow = false;
+	/* m_AlphaColor */
 	m_cSend			= NULL;
-	m_bOnExitSave	= TRUE;
-	LoadOptions();
-	m_bCapture		= false;
-	m_himlTab		= NULL;
-	m_Monitors		= NULL;
+	
 	m_MonitorCount	= MonitorInfoEnum(m_Monitors, m_VirtualScreen);
-
+	m_Monitors		= NULL;
+	/* m_opt_XXX */ LoadOptions();
+	m_bCapture		= false;
+	/* m_hwndTab,m_hwndTabPage */
+	m_himlTab		= NULL;
 }
 
 TfrmMain::~TfrmMain() {

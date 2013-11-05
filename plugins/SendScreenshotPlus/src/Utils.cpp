@@ -430,7 +430,7 @@ BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder) {
 	BOOL bOk=FALSE;
 	Gdiplus::GetImageEncodersSize(&uiNum,&uiSize);
 	if(uiSize>0){
-		Gdiplus::ImageCodecInfo* pImageCodecInfo=(Gdiplus::ImageCodecInfo *)new char[uiSize];
+		Gdiplus::ImageCodecInfo* pImageCodecInfo=(Gdiplus::ImageCodecInfo*)mir_alloc(uiSize);
 		if(pImageCodecInfo){
 			Gdiplus::GetImageEncoders(uiNum,uiSize,pImageCodecInfo);
 			for( UINT i=0; i<uiNum; ++i){
@@ -439,8 +439,8 @@ BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder) {
 					bOk=TRUE;
 				}
 			}
+			mir_free(pImageCodecInfo);
 		}
-		delete pImageCodecInfo;
 	}
 	return bOk;
 }
