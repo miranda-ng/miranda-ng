@@ -398,7 +398,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					TfrmMain::btnExploreClick();
 					break;
 				case ID_btnDesc:{
-					m_opt_btnDesc = (m_opt_btnDesc == 0);
+					m_opt_btnDesc=!m_opt_btnDesc;
 					HICON hIcon = IcoLib_GetIcon(m_opt_btnDesc ? ICO_PLUG_SSDESKON : ICO_PLUG_SSDESKOFF);
 					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 					break;}
@@ -467,7 +467,7 @@ void TfrmMain::wmClose(WPARAM wParam, LPARAM lParam) {
 
 //WM_TIMER:
 const int g_iTargetBorder=7;
-void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {// @todo : improve this
+void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 	if (wParam == ID_bvlTarget){// Timer for Target selector
 		static int primarymouse;
 		if(!m_hTargetHighlighter){
@@ -496,7 +496,6 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {// @todo : improve this
 			int height=rect.bottom-rect.top;
 			if(g_iTargetBorder){
 				SetWindowPos(m_hTargetHighlighter,NULL,0,0,0,0,SWP_HIDEWINDOW|SWP_NOMOVE|SWP_NOSIZE);
-				/// @todo (White-Tiger#1#): inform WindowDetective about improvements / leaks (he uses 3 HRGN and doesn't delete 2 unneeded, HighlightWindow)
 				if(width>g_iTargetBorder*2 && height>g_iTargetBorder*2) {
 					HRGN hRegnNew=CreateRectRgn(0,0,width,height);
 					HRGN hRgnHole=CreateRectRgn(g_iTargetBorder,g_iTargetBorder,width-g_iTargetBorder,height-g_iTargetBorder);
@@ -719,7 +718,7 @@ void TfrmMain::LoadOptions(void) {
 
 	m_opt_chkTimed				= db_get_b(NULL, SZ_SENDSS, "TimedCap", 0);
 	m_opt_edtTimed				= db_get_b(NULL, SZ_SENDSS, "CapTime", 3);
-	m_opt_cboxFormat			= db_get_b(NULL, SZ_SENDSS, "OutputFormat", 3);
+	m_opt_cboxFormat			= db_get_b(NULL, SZ_SENDSS, "OutputFormat", 0);
 	m_opt_cboxSendBy			= db_get_b(NULL, SZ_SENDSS, "SendBy", 0);
 
 	m_opt_chkEditor				= db_get_b(NULL, SZ_SENDSS, "Preview", 0);
@@ -913,16 +912,15 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	LPTSTR pszFilename = NULL;
 	LPTSTR pszFileDesc = NULL;
 	if (!dib) return 1;		//error
-
+	unsigned FileNumber=db_get_dw(NULL,SZ_SENDSS,"FileNumber",0)+1;
+	if(FileNumber>99999) FileNumber=1;
 	//Generate FileName
 	mir_tcsadd(path, m_FDestFolder);
 	if (path[_tcslen(path)-1] != _T('\\')) mir_tcsadd(path, _T("\\"));
-	mir_tcsadd(path, _T("shot%.5u"));
-	unsigned FileNumber=db_get_dw(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
-	// '00000'-'%.5ld'=0 (add more or less len if differ from 5
-	size_t len = (_tcslen(path)+0+1);
+	mir_tcsadd(path, _T("shot%.5u"));//on format change, adapt "len" below
+	size_t len=_tcslen(path)+2;
 	pszFilename = (LPTSTR)mir_alloc(sizeof(TCHAR)*(len));
-	mir_sntprintf(pszFilename, len, path, FileNumber);
+	mir_sntprintf(pszFilename,len,path,FileNumber);
 	mir_free(path);
 
 	//Generate a description according to the screenshot
@@ -1030,7 +1028,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			break;
 
 		default:
-			break;
+			ret=NULL;
 	}
 /*	//load PNG and save file in user format (if differ)
 	//this get better result for transparent aereas
@@ -1055,14 +1053,14 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	FIP->FI_Unload(dib_new);
 	mir_freeAndNil(pszFilename);
 
-	if (ret) {
-		db_set_dw(NULL, SZ_SENDSS, "FileNumber", FileNumber);
-		mir_freeAndNil(m_pszFile);
+	if(ret){
+		db_set_dw(NULL,SZ_SENDSS,"FileNumber",FileNumber);
+		mir_freeAndNil(m_pszFile); m_pszFile=ret;
 		mir_freeAndNil(m_pszFileDesc);
-		m_pszFile = ret;
-		if (IsWindowEnabled(GetDlgItem(m_hWnd, ID_btnDesc)) && m_opt_btnDesc) {
-			m_pszFileDesc = pszFileDesc;
+		if(IsWindowEnabled(GetDlgItem(m_hWnd,ID_btnDesc)) && m_opt_btnDesc){
+			m_pszFileDesc=pszFileDesc;
 		}else{
+			mir_free(pszFileDesc);
 			mir_tcsadd(m_pszFileDesc, _T(""));
 		}
 		
@@ -1070,11 +1068,10 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			mir_freeAndNil(m_cSend->m_pszFile); m_cSend->m_pszFile=mir_tstrdup(m_pszFile);
 			mir_freeAndNil(m_cSend->m_pszFileDesc); m_cSend->m_pszFileDesc=mir_tstrdup(m_pszFileDesc);
 		}
-		mir_free(ret);
-		return 0;	//OK
+		return 0;//OK
 	}
 	mir_free(pszFileDesc);
-	return 1;		//error
+	return 1;//error
 }
 
 //---------------------------------------------------------------------------

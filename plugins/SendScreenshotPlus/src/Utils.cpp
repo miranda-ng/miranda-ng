@@ -261,7 +261,7 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 			break;
 	}
 	BOOL inf = FIP->FI_IsTransparent(dib);
-	OutputDebugStringA(inf ? "FIBITMAP Transparent: true\r\n" : "FIBITMAP Transparent: fase\r\n");
+	OutputDebugStringA(inf ? "FIBITMAP Transparent: true\r\n" : "FIBITMAP Transparent: false\r\n");
 	#endif
 
 	return dib;
