@@ -194,7 +194,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s\r\nPlease select other server"), code ? code : _T(""), description ? description : _T(""));
 		SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,buff);
 	}
-	else SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateT("Error Unknown reply received\r\nPlease select other server"));
+	else SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateT("Error: unknown reply received\r\nPlease select other server"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
