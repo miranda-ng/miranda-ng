@@ -151,6 +151,8 @@ OTR: встановлений SecureIM
 Не записувати шифровані повідомлення в історію
 [Forget private key]
 Забути приватний ключ
+[Forget]
+Забути
 [OTR status]
 OTR-статус
 [Prefix encrypted IMs:]
