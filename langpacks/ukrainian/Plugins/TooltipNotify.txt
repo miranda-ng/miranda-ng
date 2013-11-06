@@ -33,7 +33,7 @@
 Заглушити повідомлення при підключенні до
 [sec]
 с
-[Prefix proto name]
+[Prefix protocol name]
 
 [Duration]
 Тривалість
@@ -41,8 +41,6 @@
 Показати підказку
 [ms]
 мс
-[Duration x2 upon online event]
-Тривалість х2 на подію онлайн
 [Double click on tooltip]
 Двічі клацніть по підказці
 [Shows/Hides CList]
@@ -53,34 +51,24 @@
 Поведінка
 [Misc]
 Інше
-[Obey 'Suppress online notification' settings]
-
-[Auto positioning]
-
-[Transparent input]
-
 [Preview]
 Тест
 [Translucency options]
 Налаштування прозорості
-[Transparent tooltip]
-Прозорість повідомлення-підказки
 [Contacts]
 Контакти
 [Idle]
 Очікування
-[Tooltip Notify]
-Повідомлення-підказка
 [Other Status]
 Інші статуси
 [Tooltip Notify: Online]
-Повідомлення-підказка: В мережі
+Повідомлення: В мережі
 [Tooltip Notify: Offline]
-Повідомлення-підказка: Не в мережі
+Повідомлення: Не в мережі
 [Tooltip Notify: Other]
-Повідомлення-підказка: Інше
+Повідомлення: Інше
 [Tooltip Notify: Typing]
-Повідомлення-підказка: Набирають
+Повідомлення: Набирають
 [Popups]
 Спливаючі вікна
 [** New contacts **]
@@ -91,5 +79,29 @@
 Не в очікуванні
 [Unknown]
 невідомо
+[Tooltip Notify]
+Повідомлення
+[Notify upon the following contact status changes]
+Повідомляти про зміни статусів подальших контактів
+[Duration x2 upon online event]
+В 2 рази довша для "У мережі"
+[Work in conjunction with 'Suppress online notification']
+Працювати разом із "Забороною повідомлень про вихід у мережу"
+[Default positioning]
+Позиція за замовчуванням
+[[Hint: right-click on the tooltip to move it when in custom placement mode]]
+Порада: Вікно повідомлення можна перетягнути правою кнопкою миші
+[Transparent tooltip]
+Прозорість
+[%s is %s]
+%s зараз %s
+[Auto positioning]
+Автопозиция
+[Prefix proto name]
+Ім'я облікового запису
+[Transparent input]
+Прозорий вхід
+[Obey 'Suppress online notification' settings]
+Включити тимчасовий заборона повідомлень
 [is]
-є
+тепер
