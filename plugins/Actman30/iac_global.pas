@@ -12,7 +12,7 @@ var
 const
   IcoLibPrefix = 'action_type_';
 const
-  NoDescription:PWideChar='No Description';
+  NoDescription:PWideChar='No description';
 const
   protostr = '<proto>';
 const
@@ -94,7 +94,7 @@ function ImportContactINI(node:pointer):THANDLE;
 
 implementation
 
-uses Common, global, dbsettings, base64, mirutils;
+uses Common, global, dbsettings, mirutils;
 
 //----- tBaseAction code -----
 const
@@ -308,6 +308,7 @@ var
   dbv:TDBVARIANT;
   tmp:pWideChar;
   is_chat:boolean;
+  bufLen:int; 
 begin
   with xmlparser do
   begin
@@ -336,7 +337,8 @@ begin
         DBVT_UTF8  : WideToUTF8(tmp,dbv.szVal.A);
         DBVT_WCHAR : dbv.szVal.W:=tmp;
         DBVT_BLOB  : begin
-          Base64Decode(FastWideToAnsi(tmp,pAnsiChar(dbv.pbVal)),dbv.pbVal);
+          dbv.pbVal := mir_base64_decode(FastWideToAnsi(tmp,pAnsiChar(dbv.pbVal)),bufLen);
+          dbv.cpbVal := bufLen;
         end;
       end;
     end;

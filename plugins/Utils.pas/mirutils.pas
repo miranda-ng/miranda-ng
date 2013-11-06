@@ -7,6 +7,7 @@ uses windows,m_api;
 
 // for miranda services
 const
+  rtUnkn = 0;
   rtInt  = 1;
   rtWide = 2;
   rtAnsi = 3;
@@ -109,7 +110,7 @@ begin
     end
     else
       pc:=nil;
-    CallService(MS_UTILS_PATHTOABSOLUTEW,wparam(src),lparam(dst));
+    PathToAbsoluteW(src,dst);
     mFreeMem(pc);
   end;
 end;
@@ -139,7 +140,7 @@ begin
     end
     else
       pc:=nil;
-    CallService(MS_UTILS_PATHTOABSOLUTE,wparam(src),lparam(dst));
+    PathToAbsolute(src,dst);
     mFreeMem(pc);
   end;
 end;
@@ -301,8 +302,7 @@ var
   tmp:pWideChar;
 begin
   mGetMem(tmp,(StrLen(sz)+1)*SizeOf(WideChar));
-  Result:=PWideChar(CallService(MS_LANGPACK_TRANSLATESTRING,LANG_UNICODE,
-          lParam(FastAnsiToWideBuf(sz,tmp))));
+  Result:=TranslateW(FastAnsiToWideBuf(sz,tmp));
   if Result<>tmp then
   begin
     StrDupW(Result,Result);
@@ -489,7 +489,7 @@ begin
   begin
     if path<>nil then
     begin
-      CallService(MS_UTILS_PATHTOABSOLUTE,wparam(path),lparam(@buf));
+      PathToAbsolute(path,buf);
       p:=StrEnd(buf);
       if p^<>'\' then
       begin
@@ -743,16 +743,15 @@ begin
     if proto<>nil then
       proto^:=#0;
   end;
-
 end;
 
 // Import plugin function adaptation
 function CreateGroupW(name:pWideChar;hContact:THANDLE):integer;
 var
-  groupId, res:integer;
+  groupId:integer;
   groupIdStr:array [0..10] of AnsiChar;
   grbuf:array [0..127] of WideChar;
-  p, pw:pWideChar;
+  p:pWideChar;
 begin
   if (name=nil) or (name^=#0) then
   begin
@@ -766,21 +765,21 @@ begin
   // Check for duplicate & find unused id
   groupId:=0;
   repeat
-    pw:=DBReadUnicode(0,'CListGroups',IntToStr(groupIdStr,groupId));
-    if pw=nil then
+    p:=DBReadUnicode(0,'CListGroups',IntToStr(groupIdStr,groupId));
+    if p=nil then
       break;
 
-    res:=StrCmpW(pw+1,@grbuf[1]);
-    mFreeMem(pw);
-    if res=0 then
+    if StrCmpW(p+1,@grbuf[1])=0 then
     begin
       if hContact<>0 then
         DBWriteUnicode(hContact,strCList,clGroup,@grbuf[1]);
 
+      mFreeMem(p);
       result:=0;
       exit;
     end;
 
+    mFreeMem(p);
     inc(groupId);
   until false;
 
