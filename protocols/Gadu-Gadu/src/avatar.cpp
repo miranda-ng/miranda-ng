@@ -80,20 +80,22 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 		return false;
 	}
 
-	if (strncmp(resp->pData, "<?xml", 5) == 0){
+	if ((strncmp(resp->pData, "<result>", 8) == 0) || (strncmp(resp->pData, "<?xml", 5) == 0)){
 
-		//before 11.2013 this url returned xml data
+		//if this url returned xml data (before and after 11.2013 gg convention)
 		TCHAR *xmlAction = mir_a2t(resp->pData);
 		HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
 		if (hXml != NULL) {
 			HXML node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar"), 0);
 			const TCHAR *blank = (node != NULL) ? xi.getAttrValue(node, _T("blank")) : NULL;
 			if (blank != NULL && _tcscmp(blank, _T("1"))) {
-				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/originBigAvatar"), 0);
-				*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
-
 				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/timestamp"), 0);
 				*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/bigavatar"), 0); //new gg convention
+				if (node == NULL){
+					node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/originBigAvatar"), 0); //old gg convention
+				}
+				*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 			}
 			xi.destroyNode(hXml);
 		}
@@ -101,7 +103,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 
 	} else if (strncmp(resp->pData, "{\"result\":", 10) == 0){
 
-		//after 11.2013 this url returns json data
+		//if this url returns json data (11.2013 gg convention)
 		JSONNODE *respJSON = json_parse(resp->pData);
 		if (respJSON != NULL) {
 			JSONNODE* respJSONavatars = json_get(json_get(json_get(json_get(respJSON, "result"), "users"), "user"), "avatars");
