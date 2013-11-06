@@ -320,13 +320,14 @@ begin
   CheckDlgButton(Dialog,IDC_FLAG_PARALLEL,BST_UNCHECKED);
 end;
 
-procedure FillFileName(Dialog:HWND;idc:integer);
+function FillFileName(Dialog:HWND;idc:integer):boolean;
 var
   pw,ppw:pWideChar;
 begin
   mGetMem(pw,1024*SizeOf(WideChar));
   ppw:=GetDlgText(Dialog,idc);
-  if ShowDlgW(pw,ppw) then
+  result:=ShowDlgW(pw,ppw);
+  if result then
   begin
     SetDlgItemTextW(Dialog,idc,pw);
     SetEditFlags(Dialog,idc,EF_SCRIPT,0);
@@ -437,7 +438,8 @@ begin
         BN_CLICKED: begin
           case loword(wParam) of
             IDC_PROGRAM: begin
-              FillFileName(Dialog,IDC_EDIT_PRGPATH);
+              if not FillFileName(Dialog,IDC_EDIT_PRGPATH) then
+                exit;
             end;
           end;
           SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);

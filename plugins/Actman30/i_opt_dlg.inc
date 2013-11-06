@@ -17,7 +17,7 @@ var
   i:integer;
 begin
   result:=0;
-  NoDescription:=TranslateW('No description');
+  NoDescription:=TranslateW('No Description');
 
   StrCopyW(xmlfilename,'c:\export.xml');
 

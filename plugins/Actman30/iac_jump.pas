@@ -373,7 +373,7 @@ begin
   SendMessage(wnd,CB_RESETCONTENT,0,0);
 
   InsertString(wnd,cardinal(aeGT),'> greater');
-  InsertString(wnd,cardinal(aeLT),'> lesser');
+  InsertString(wnd,cardinal(aeLT),'< lesser');
   InsertString(wnd,cardinal(aeEQ),'= equ');
   InsertString(wnd,cardinal(aeXR),'^ xor');
   InsertString(wnd,cardinal(aeND),'& and');

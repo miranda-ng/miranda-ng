@@ -1,0 +1,23 @@
+{resource constants}
+const
+  IDC_LIST_FUNC = 2101;
+  IDC_LIST_DLL  = 2102;
+  IDC_CDECL     = 2103;
+  IDC_STDCALL   = 2104;
+  IDC_ARGCOUNT  = 2105;
+  IDC_ARGSTAT   = 2106;
+
+  IDC_ARGNUM    = 2110;
+  IDC_FLAG_PAR  = 2111;
+  IDC_EDIT_PAR  = 2112;
+  IDC_STRUCT    = 2113;
+
+  IDC_DLL       = 2115;
+  IDC_DLL_CACHE = 2116;
+{
+  IDC_DLL_IMM   = 2116;
+  IDC_DLL_MACRO = 2117;
+  IDC_DLL_END   = 2118;
+}
+  IDC_CLOSE_ARG = 2119;
+  IDC_CLOSE_RES = 2120;

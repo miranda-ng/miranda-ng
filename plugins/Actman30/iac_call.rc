@@ -1,0 +1,38 @@
+#include "i_cnst_call.inc"
+
+LANGUAGE 0,0
+
+IDD_ACTCALL DIALOGEX 0, 0, 168, 200, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE  WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+  RTEXT      "Function name", -1,   1,  0, 166,  12, SS_CENTERIMAGE
+  COMBOBOX   IDC_LIST_FUNC      ,   1, 12, 166, 128, CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL
+  RTEXT      "DLL name"     , -1,   1, 26, 166,  12, SS_CENTERIMAGE
+  COMBOBOX   IDC_LIST_DLL       ,   1, 38, 148,  48, CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL
+  PUSHBUTTON "...", IDC_DLL     , 151, 38,  16,  12
+
+  GROUPBOX        "Call type"  , -1,             1,  52, 166, 22, WS_GROUP
+  AUTORADIOBUTTON "cdecl"      , IDC_CDECL   ,   4,  61, 52, 11
+  AUTORADIOBUTTON "stdcall"    , IDC_STDCALL ,  57,  61, 52, 11
+
+  AUTOCHECKBOX "Arguments", IDC_CLOSE_ARG, 1,  78, 166, 11, BS_PUSHLIKE
+  AUTOCHECKBOX "Result"   , IDC_CLOSE_RES, 1,  91, 166, 11, BS_PUSHLIKE
+
+  RTEXT "Number of arguments", IDC_ARGSTAT,   1,  90, 132, 12, SS_CENTERIMAGE
+  COMBOBOX IDC_ARGCOUNT                   , 137,  89,  30, 76, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL
+  // argument list fills by amount of it?
+  COMBOBOX IDC_ARGNUM                     ,   1, 104, 166, 76, CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL
+
+  RTEXT "DLL Handle Cache", -1,   1, 173, 166, 12, SS_CENTERIMAGE
+  COMBOBOX IDC_DLL_CACHE      ,   1, 185, 166, 76, CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL
+/*
+  GROUPBOX        "DLL Handle Cache" , -1,            1, 156, 166, 44, WS_GROUP
+  AUTORADIOBUTTON "Close immediately", IDC_DLL_IMM  , 4, 165, 162, 11
+  AUTORADIOBUTTON "Close for macro"  , IDC_DLL_MACRO, 4, 176, 162, 11
+  AUTORADIOBUTTON "Keep to end"      , IDC_DLL_END  , 4, 187, 162, 11
+*/
+}
+
+IDI_CALL   ICON "ico\call.ico"
