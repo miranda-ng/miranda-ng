@@ -43,7 +43,7 @@ secondes
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 minutes en mode %s
-[Status Messages]
+[Status messages]
 Messages d'état
 [Auto Away]
 Absence automatique

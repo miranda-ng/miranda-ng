@@ -62,7 +62,7 @@ Idõbélyeg (ablak)
 Idõbélyeg (naplófájl)
 [Maximum number of events in the message window]
 Események maximális száma az üzenet ablakban
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Csoporos csevegés partnerlista sormagasság (pixelben)
 [List]
 Lista

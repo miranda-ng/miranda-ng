@@ -36,7 +36,7 @@ OK
 
 [Do not set status message]
 
-[Status Messages]
+[Status messages]
 
 [Pop up dialog asking for new message]
 

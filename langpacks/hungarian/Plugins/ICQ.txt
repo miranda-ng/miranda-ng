@@ -307,8 +307,8 @@ Biztonságos belépés sikertelen.\nÉrvénytelen szerverválasz.
 [Secure login failed.\nInvalid key length.]
 Biztonságos belépés sikertelen.\nÉrvénytelen kulcshossz.
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)]
-Biztosan vissza akarod vonni a felhasználó felhatalmazását (ezzel eltávolítod magad a listájáról néhány kliensen)?
+[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
+Biztosan vissza akarod vonni a felhasználó felhatalmazását? Ezzel eltávolítod magad a listájáról néhány kliensen.
 [** This message was blocked by the ICQ server ** The message was invalid.]
 ** Ezt az üzenetet az ICQ szerver blokkolta ** Az üzenet érvénytelen volt.
 [** This message was blocked by the ICQ server ** The message was too long.]

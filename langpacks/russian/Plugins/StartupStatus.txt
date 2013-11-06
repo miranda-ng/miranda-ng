@@ -19,7 +19,7 @@
 Начальный статус
 [Your default profile will be changed]
 Профиль по умолчанию будет изменен
-[Status Profiles]
+[Status profiles]
 Профили статусов
 [There is a maximum of 6 menu items]
 Максимум 6 пунктов меню
@@ -49,7 +49,7 @@ Cтатус-профиль
 Подтверждать при загрузке
 [In submenu]
 В подменю
-[Create Shortcut]
+[Create shortcut]
 Создать ярлык
 [Show CMDL]
 Ком. строка
@@ -57,11 +57,11 @@ Cтатус-профиль
 Имя профиля
 [Set after]
 через
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Статус-профиль можно создать во вкладке "Профили статусов".
 [Dial-up (experimental)]
 Уд. доступ (экспериментально)
-[Command Line]
+[Command line]
 Ком. строка
 [Add new profile]
 Добавить профиль
@@ -91,7 +91,7 @@ Cтатус-профиль
 Использовать настройки Miranda
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
-[Confirm Status]
+[Confirm status]
 Подтвердите статус
 [Pressed toolbar icon]
 Зажатая иконка панели

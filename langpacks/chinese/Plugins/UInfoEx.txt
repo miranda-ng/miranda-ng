@@ -48,7 +48,7 @@
 国家/县: 
 [Country:]
 国家: 
-[Contact added to ContactList:]
+[Contact added to contact list:]
 联系人已加至联系人列表: 
 [Your contact's local time is:]
 您的联系人本地时间为: 

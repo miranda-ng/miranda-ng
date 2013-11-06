@@ -48,7 +48,7 @@
 [Hang up SkypeOut call]
 [Hold call]
 [Resume call]
-[&Open groupchat]
+[&Open group chat]
 [Import Skype history]
 [Add Skype contact]
 [&Kick user]

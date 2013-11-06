@@ -158,7 +158,7 @@ Confirmar nueva contraseña:
 Jabber Multi-User Conference
 [Conference server:]
 Conferencia servidor:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Crear o Unirse al Grupo de charla
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber Multi-User Conference\nCrear o unirse a la sala de conferencias existentes.
@@ -419,8 +419,8 @@ Copia real &JID
 Copiar en la sala JID
 [Real &JID: %s]
 Real &JID: %s
-[Send groupchat invitation.]
-Enviar invitación grupo de charla.
+[%s\nSend group chat invitation.]
+%s\nEnviar invitación grupo de charla.
 [Real JID not available]
 Real JID no disponibles
 [Reason to kick]
@@ -494,12 +494,12 @@ Cargando...
 Cargando...
 [Please wait for room list to download.]
 Por favor, espere a que la sala de lista para descargar.
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 Por favor especificar el directorio grupo de charla en primer lugar.
 [Bookmarks...]
 Marcadores...
-[Incoming groupchat invitation.]
-Entrantes invitación grupo de charla.
+[%s\nIncoming group chat invitation.]
+%s\nEntrantes invitación grupo de charla.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Notes]
 Notas
@@ -621,7 +621,7 @@ Registrado Transportes
 Servidor local Transportes
 [Browse Chatrooms]
 Echar un salas de chat
-[Create/Join groupchat]
+[Create/Join group chat]
 Crear / Unirse grupo de charla
 [Roster editor]
 Editor de listas
@@ -885,7 +885,7 @@ Establecer el estado
 Establecer las opciones
 [Forward unread messages]
 Reenvío de mensajes no leídos
-[Leave groupchats]
+[Leave group chats]
 Deja groupchats
 [Choose the status and status message]
 Elige el mensaje de estado y el estado

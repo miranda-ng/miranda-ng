@@ -47,7 +47,7 @@
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 分钟于 %s 模式
-[Status Messages]
+[Status messages]
 状态消息
 [Auto Away]
 自动离开

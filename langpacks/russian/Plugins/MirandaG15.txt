@@ -41,13 +41,13 @@
 Покинули %s
 [%s signed off]
 %s уходит
-[Contactlist event]
+[Contact list event]
 Событие списка контактов
 [You are now %s]
 Вы теперь %s
 [Protocol status change]
 Изменение статуса протокола
-[%s was deleted from contactlist!]
+[%s was deleted from contact list!]
 %s был удален из списка контактов!
 
 ; /CChatScreen.cpp
@@ -71,7 +71,7 @@
 Журнал событий:
 [Message log:]
 Журнал сообщений
-[Contactlist:]
+[Contact list:]
 Список контактов
 [Titles:]
 Заголовки
@@ -118,7 +118,7 @@
 Контакт выходит из сети
 [Contact changes status]
 Контакт изменяет статус
-[Contactlist events]
+[Contact list events]
 События сп. контактов
 [Protocol disconnected]
 Протокол отсоединен
@@ -152,7 +152,7 @@
 Показывать протоколы
 
 ; /MirandaG15.rc:IDD_CLIST
-[Contactlist]
+[Contact list]
 Список контактов
 [Show the contacts protocols]
 Показывать протоколы контактов
@@ -168,7 +168,7 @@
 Показывать счётчики после названий групп
 [Reset selection]
 Сбросить выделение
-[When opening the contactlist screen:]
+[When opening the contact list screen:]
 При открытии экрана списка контактов:
 [Don't change group states]
 Не изменять состояния групп

@@ -16,10 +16,6 @@ Art alan rengi
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [E&xit]
 Çı&kış
 [&Options]
@@ -32,8 +28,6 @@ Yeniden adlandı&r
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 ;file \plugins\DbEditorPP\src\exportimport.cpp
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \plugins\DbEditorPP\src\findwindow.cpp

@@ -26,8 +26,6 @@ Yahoo Japan
 Port:
 [Reset]
 Sıfırla
-[Reset]
-Sıfırla
 [Yahoo Ignore List]
 Yahoo Yoksay Listesi
 [&Add]
@@ -38,10 +36,6 @@ Kişisel Durum Seç
 Meşgul olarak göster
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [&Join]

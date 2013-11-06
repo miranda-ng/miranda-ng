@@ -176,7 +176,7 @@ Jelenlegi jelszó:
 Jabber Több-felhasználós konferencia
 [Conference server:]
 Konferencia szerver:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Csoportos csevegés létrehozása vagy csatlakozása
 [Room:]
 Szoba:
@@ -534,7 +534,7 @@ Szobalista kérelem túllépte az idõkorlátot.
 Betölés...
 [Please wait for room list to download.]
 Kérlek várd meg, míg letöltõdik a szobalista.
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 Kérlek add meg elõbb a csoportos csevegés könyvtárát.
 [Bookmarks...]
 Könyvjelzõk...
@@ -659,7 +659,7 @@ Regisztrált átvitelek
 Helyi szerver átvitelek
 [Browse Chatrooms]
 Csevegésszobák böngészése
-[Create/Join groupchat]
+[Create/Join group chat]
 Csoportos csevegés létrehozása/csatlakozása
 [Roster editor]
 Névsor szerkesztõ
@@ -890,8 +890,8 @@ Kilépett
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 %s %s hiba\r\nKérlek válassz másik szervert
-[Error Unknown reply received\r\nPlease select other server]
-Hiba Ismeretlen válasz érkezett\r\nKérlek válassz másik szervert
+[Error: unknown reply received\r\nPlease select other server]
+Hiba: ismeretlen válasz érkezett\r\nKérlek válassz másik szervert
 [Error %s %s\r\nTry to specify more detailed]
 %s %s hiba\r\nPróbálj részletesebben meghatározni
 [Search error]

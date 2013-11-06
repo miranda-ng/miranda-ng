@@ -201,7 +201,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Разрешить внутренние запросы статусных сообщений
 [Remove status message if contact became offline]
 Удалить статусное сообщение, если контакт оффлайн
-[Use improved search method in contactlist]
+[Use improved search method in contact list]
 Поиск по списку с фильтрацией результатов
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
 Для дополнительных возможностей загрузите плагин MetaContacts.\nhttp://miranda-ng.org/p/MetaContacts/

@@ -50,7 +50,7 @@ Gruppechat logg formatering
 Ditt navn
 [Other name]
 Annet navn
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Gruppechat brukerlistens radhøyde (piksler)
 [List]
 Liste

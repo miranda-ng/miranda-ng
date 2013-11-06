@@ -11,9 +11,9 @@
 E-mail или номер телефона:
 [Password:]
 Пароль:
-[Open VK site]
-Открыть страницу ВК
-[Bots Challenge Test]
+[Open VKontakte site] 
+Открыть страницу ВКонтакте
+[Bots challenge test]
 Защита от ботов
 [Instruction:]
 Инструкция

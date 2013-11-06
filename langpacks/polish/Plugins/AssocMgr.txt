@@ -23,17 +23,17 @@ Powiąż tylko podczas działania Mirandy NG
 Typ
 [Description]
 Opis
-[URLs on Websites]
+[URLs on websites]
 Linki w przeglądarce
-[File Types]
+[File types]
 Typy plików
-[File Association Error]
+[File association error]
 Błąd powiązań
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Wystąpił błąd podczas zapisu do rejestru w celu modyfikacji skojarzeń pliku/linku.\nPowód: %s
 [Unknown]
 Nieznany
-[Autostart Error]
+[Autostart error]
 Błąd autostartu
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Wystąpił błąd podczas zapisu do rejestru w celu modyfikacji listy autostartu.\n\nPowód: %s
@@ -41,7 +41,7 @@ Wystąpił błąd podczas zapisu do rejestru w celu modyfikacji listy autostartu
 Usługi
 [Associations]
 Powiązania
-[Miranda NG Database]
+[Miranda NG database]
 Profil Mirandy NG
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
@@ -59,14 +59,14 @@ Miranda NG nie była w stanie otworzyć "%S".\n\nPodany adres jest nieprawidłow
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Brak dostępu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-[Registry Warning]
-Ostrzeżenie Rejestru
+[Registry warning]
+Ostrzeżenie rejestru
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
 Powiązanie protokołu AIM
 [ICQ Link Shortcut]
 Powiązanie protokołu ICQ
-[&Add to Contact List...]
+[&Add to contact list...]
 Dodaj do listy kontaktów...
 [Yahoo Link Protocol]
 Powiązanie protokołu Yahoo

@@ -45,7 +45,7 @@ Törlés
 [seconds]
 mp.
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status Messages]
+[Status messages]
 Állapot Üzenetek
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]

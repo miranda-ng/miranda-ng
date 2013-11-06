@@ -182,7 +182,7 @@ Yeni Parolayı Onayla:
 Jabber Çok Kişili Konferans
 [Conference server:]
 Konferans sunucusu:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Grup Sohbetine Katıl/Oluştur
 [Room:]
 Oda:
@@ -540,7 +540,7 @@ Oda listesi isteği zaman aşımına uğradı.
 Yükleniyor...
 [Please wait for room list to download.]
 Oda listesi indirilirken bekleyin.
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 Önce grup sohbeti klasörünü belirtin.
 [Bookmarks...]
 Yer İmleri...
@@ -665,7 +665,7 @@ Kayıtlı Aktarımlar
 Yerel Sunucu Aktarımları
 [Browse Chatrooms]
 Sohbet Odalarına Gözat
-[Create/Join groupchat]
+[Create/Join group chat]
 Grup Sohbeti Oluştur/Katıl
 [Roster editor]
 İsim listesi düzenleyici
@@ -896,7 +896,7 @@ Görünmez
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Hata %s %s\r\nBaşka bir sunucu seçin
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 Hata bilinmeyen yanıt alındı\r\nBaşka bir sunucu seçin
 [Error %s %s\r\nTry to specify more detailed]
 Hata %s %s\r\nDaha detaylı belirtmeyi deneyin

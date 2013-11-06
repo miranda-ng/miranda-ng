@@ -680,7 +680,7 @@ Unicode сборка
 Транспорты сервера
 [Browse Chatrooms]
 Обзор чат-комнат
-[Create/Join groupchat]
+[Create/Join group chat]
 Создать/войти в чат
 [Create or join existing conference room.]
 Создание или вход в чат-комнату
@@ -706,9 +706,9 @@ Unicode сборка
 Редактор ростера\nПросмотр и правка списка контактов на сервере.
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 Записная книжка\nХранение заметок на сервере и доступ к ним отовсюду.
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <room jid>\nПригласить в чат-комнату.
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <room jid>\nПриглашение в чат-комнату.
 [Member Information\n<user ID>]
 Информация о пользователе\n<user ID>
@@ -1300,9 +1300,9 @@ JID / URL:
 Пересылать непрочитанные сообщения
 [There is no messages to forward]
 Нет сообщений для отправки
-[Leave groupchats]
+[Leave group chats]
 Покинуть чаты
-[There is no groupchats to leave]
+[There is no group chats to leave]
 Нет чатов для отключения
 [Workstation successfully locked]
 Компьютер успешно заблокирован
@@ -1322,8 +1322,8 @@ Jabber ошибка
 Команда выполнена успешно
 [Error occurred during processing command]
 Возникла ошибка в процессе выполнения команды
-[%s\nSend groupchat invitation.]
-%s\Пригласить в конференцию.
+[%s\nSend group chat invitation.]
+%s\nПригласить в конференцию.
 [Invite Users]
 Приглашение пользователей
 [&Invite]
@@ -1334,13 +1334,13 @@ Jabber ошибка
 Вас пригласил:
 [with following reason:]
 причина:
-[Groupchat Invitation]
+[Group chat invitation]
 Приглашение в конференцию
 [Jabber Protocol Option]
 Настройки протокола Jabber
 [These changes will take effect the next time you connect to the Jabber network.]
 Изменения вступят в силу при следующем входе в сеть Jabber.
-[%s\nIncoming groupchat invitation.]
+[%s\nIncoming group chat invitation.]
 %s\nПриглашение в конференцию.
 [Sending Ad-Hoc command to %s]
 Отправить Ad-Hoc команду %s
@@ -1410,8 +1410,8 @@ Cлужба недоступна
 Ошибка %s %s\r\nПожалуйста выберите другой сервер
 [Error %s %s\r\nTry to specify more detailed]
 Ошибка %s %s\r\nПопытайтесь указать больше деталей
-[Error Unknown reply received\r\nPlease select other server]
-Ошибка, принят неизвестный ответ\r\nПожалуйта выберите другой сервер
+[Error: unknown reply received\r\nPlease select other server]
+Ошибка: принят неизвестный ответ\r\nПожалуйта выберите другой сервер
 [Please wait...\r\nConnecting search server...]
 Подождите...\r\nПодключение к серверу поиска...
 [Search error]

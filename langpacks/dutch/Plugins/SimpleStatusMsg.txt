@@ -12,7 +12,7 @@
 Annuleren
 [OK]
 OK
-[Status Messages]
+[Status messages]
 Status berichten
 [seconds]
 seconden

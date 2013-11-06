@@ -18,10 +18,6 @@ Ad
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 Geçmişi &Göster
@@ -50,8 +46,6 @@ Kopyala
 Sil
 [Delete Group]
 Grubu sil
-[Options]
-Seçenekler
 [Options]
 Seçenekler
 [Icons]

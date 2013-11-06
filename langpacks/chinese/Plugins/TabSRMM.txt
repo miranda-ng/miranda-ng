@@ -64,7 +64,7 @@
 时间戳 (日志文件)
 [Maximum number of events in the message window]
 消息窗口最大事件数量
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 群组聊天用户列表列高 (像素)
 [Open log file base folder]
 打开日志文件夹

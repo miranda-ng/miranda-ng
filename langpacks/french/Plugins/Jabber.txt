@@ -476,7 +476,7 @@ Hors ligne
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Erreur %s %s\r\nVeuiller choisir un autre serveur
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 Erreur: réponse inconnue\r\nVeuillez sélectionner un autre serveur
 [Error %s %s\r\nTry to specify more detailed]
 Erreur %s %s\r\nVeuillez indiquer plus de renseignement

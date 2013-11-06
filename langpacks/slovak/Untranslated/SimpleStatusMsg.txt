@@ -10,7 +10,7 @@
 [Do not change status message]
 [Always set the same message]
 [Do not set status message]
-[Status Messages]
+[Status messages]
 [Pop up dialog asking for new message]
 [Set an empty message]
 [Use default message]

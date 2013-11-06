@@ -212,7 +212,7 @@ CTCP 聊天请求
 忽略未知联系人 DCC 聊天请求
 [Ignore users]
 忽略用户
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) 联系人列表中用户所发查询永不忽略
 [Messages]
 消息

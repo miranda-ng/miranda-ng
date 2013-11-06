@@ -242,7 +242,7 @@ Popis:
 
 [Conference server:]
 
-[Create or Join Groupchat]
+[Create or Join group chat]
 
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 
@@ -266,7 +266,7 @@ Registrácia jabber agenta
 Registrovať
 [Invite Users]
 
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 
 [Other JID:]
 
@@ -276,9 +276,9 @@ Registrovať
 
 [&Invite]
 
-[Groupchat Invitation]
+[Group chat invitation]
 
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 
 [You are invited to conference room by]
 
@@ -723,7 +723,7 @@ Voľný k rozhovoru
 
 [Real &JID: %s]
 
-[Send groupchat invitation.]
+[%s\nSend group chat invitation.]
 
 [not on roster]
 
@@ -1043,7 +1043,7 @@ Priezvisko
 
 [A list of pending file transfers]
 
-[A list of joined groupchat rooms]
+[A list of joined group chat rooms]
 
 [A presence or availability status]
 
@@ -1110,13 +1110,13 @@ Priezvisko
 
 [Please wait for room list to download.]
 
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 
 [Bookmarks...]
 
 [has set the subject to:]
 
-[Incoming groupchat invitation.]
+[%s\nIncoming group chat invitation.]
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
@@ -1271,7 +1271,7 @@ Osobná karta
 
 [Browse Chatrooms]
 
-[Create/Join groupchat]
+[Create/Join group chat]
 
 [Roster editor]
 
@@ -1959,7 +1959,7 @@ Podrobne
 
 [Forward unread messages]
 
-[Leave groupchats]
+[Leave group chats]
 
 [Lock workstation]
 
@@ -2013,14 +2013,14 @@ Odpojený
 
 [Please confirm Miranda NG shutdown]
 
-[There is no groupchats to leave]
+[There is no group chats to leave]
 
-[Choose the groupchats you want to leave]
+[Choose the group chats you want to leave]
 
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 
 [Error %s %s\r\nTry to specify more detailed]
 

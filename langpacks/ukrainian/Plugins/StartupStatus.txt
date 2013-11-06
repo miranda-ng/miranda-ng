@@ -18,7 +18,7 @@
 Початковий статус
 [Your default profile will be changed]
 Профіль за промовчанням буде змінено
-[Status Profiles]
+[Status profiles]
 Профілі статусів
 [There is a maximum of 6 menu items]
 Максимум 6 пунктів меню
@@ -48,7 +48,7 @@
 Підтверджувати при завантаженні
 [In submenu]
 У підменю
-[Create Shortcut]
+[Create shortcut]
 Створити ярлик
 [Show CMDL]
 Ком. рядок
@@ -56,11 +56,11 @@
 Ім'я профілю
 [Set after]
 через
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Статус-профіль можна створити у вкладці "Профілі статусів".
 [Dial-up (experimental)]
 Від. доступ (експериментально)
-[Command Line]
+[Command line]
 Ком. рядок
 [Add new profile]
 Додати профіль
@@ -90,7 +90,7 @@
 Використовувати налаштування Miranda
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 Початковий статус, дозволяє вам встановлювати, який статус буде виставлений при запуску Miranda у кожного протоколу.
-[Confirm Status]
+[Confirm status]
 Підтвердіть статус
 [Pressed toolbar icon]
 Затиснута іконка панелі

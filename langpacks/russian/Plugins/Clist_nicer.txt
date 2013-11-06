@@ -449,7 +449,7 @@ xСтатус
 Аватары в списке контактов
 [Contact list fonts]
 Шрифты списка контактов
-[Contactlist Items]
+[Contact list Items]
 Элементы списка контактов
 [Enable avatar display on the contact list]
 Показывать аватары в списке контактов

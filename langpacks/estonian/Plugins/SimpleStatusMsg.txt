@@ -10,7 +10,7 @@
 &Tühista
 [OK]
 OK
-[Status Messages]
+[Status messages]
 Oleku teated
 [seconds]
 sekundit

@@ -33,8 +33,6 @@
 Заглушити повідомлення при підключенні до
 [sec]
 с
-[Prefix protocol name]
-
 [Duration]
 Тривалість
 [Show tooltip for]
@@ -59,7 +57,7 @@
 Контакти
 [Idle]
 Очікування
-[Other Status]
+[Other status]
 Інші статуси
 [Tooltip Notify: Online]
 Повідомлення: В мережі
@@ -97,7 +95,7 @@
 %s зараз %s
 [Auto positioning]
 Автопозиция
-[Prefix proto name]
+[Prefix protocol name]
 Ім'я облікового запису
 [Transparent input]
 Прозорий вхід

@@ -26,7 +26,7 @@
 禁止通知当连接于
 [sec]
 秒
-[Prefix proto name]
+[Prefix protocol name]
 前缀名称
 [Duration]
 持续时间
@@ -57,7 +57,7 @@
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 工具提示通知
-[Other Status]
+[Other status]
 其它状态
 [Tooltip Notify: Online]
 工具提示通知: 在线

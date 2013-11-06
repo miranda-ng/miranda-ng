@@ -23,17 +23,17 @@ Verknüpfungen sind nur aktiv, wenn Miranda NG ausgefüh&rt wird.
 Typ
 [Description]
 Übersicht
-[URLs on Websites]
-URLs auf Webseiten
-[File Types]
+[URLs on websites]
+URLs auf webseiten
+[File types]
 Dateitypen
-[File Association Error]
+[File association error]
 Verknüpfungsproblem
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Es trat ein Fehler auf beim Schreiben in die Systemregistrierung. Die Datei- bzw. URL-Verknüpfungen konnten nicht verändert werden.\nGrund: %s
 [Unknown]
 Unbekannt
-[Autostart Error]
+[Autostart error]
 Autostart-Fehler
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Es trat ein Fehler beim Schreiben in die Systemregistrierung auf. Der Autostarteintrag konnte nicht verändert werden.\n\nGrund: %s
@@ -41,7 +41,7 @@ Es trat ein Fehler beim Schreiben in die Systemregistrierung auf. Der Autostarte
 Dienste
 [Associations]
 Verknüpfungen
-[Miranda NG Database]
+[Miranda NG database]
 Miranda-NG-Datenbank
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
@@ -59,14 +59,14 @@ Miranda NG konnte "%S" nicht öffnen.\n\nDer angegebene URL ist ungültig und ka
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Zugriff fehlgeschlagen:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-[Registry Warning]
+[Registry warning]
 Registrierungswarnung
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
 AIM-Link-Protokoll
 [ICQ Link Shortcut]
 ICQ-Link-Verknüpfung
-[&Add to Contact List...]
+[&Add to contact list...]
 Zu Kont&aktliste hinzufügen...
 [Yahoo Link Protocol]
 Yahoo-Link-Protokoll

@@ -381,8 +381,8 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Secure login failed.\nInvalid key length.]
 Памылка абароненага ўваходу.\nНяверная даўжыня ключа
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)]
-Вы ўпэўнены, што жадаеце адклікаць аўтарызацыю? (выдаліць вас са спісу кантактаў на некаторых кліентах)?
+[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
+Вы ўпэўнены, што жадаеце адклікаць аўтарызацыю? Выдаліць вас са спісу кантактаў на некаторых кліентах.
 [Confirmation]
 Пацверджанне
 [** This message was blocked by the ICQ server ** The message was invalid.]

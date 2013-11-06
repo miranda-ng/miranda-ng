@@ -14,10 +14,6 @@ Yazı
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Status]
 Durum

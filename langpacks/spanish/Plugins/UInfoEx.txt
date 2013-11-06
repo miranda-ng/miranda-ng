@@ -44,7 +44,7 @@ Ciudad:
 Condado / Estado:
 [Country:]
 País:
-[Contact added to ContactList:]
+[Contact added to contact list:]
 Contacto agregado a Lista de contactos:
 [Just from the beginning.]
 Sólo desde el principio.

@@ -196,7 +196,7 @@ Ignorer DCC Chat forespørsler
 Ignorer DCC Chat forespørsler fra ukjente kontakter
 [Ignore users]
 Ignorer brukere
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Forespørsler fra brukere på kontaktlisten din ignoreres aldri
 [Messages]
 Meldinger

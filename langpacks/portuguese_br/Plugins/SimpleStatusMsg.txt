@@ -14,15 +14,7 @@ Mensagem de %s para %s
 Reecuperando %s mensagem(s)...
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Status Messages]
+[Status messages]
 Mensagens de status
 [seconds]
 segundos

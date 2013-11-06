@@ -14,14 +14,10 @@ Sesler
 Göster
 [seconds]
 saniye
-[seconds]
-saniye
 [Close]
 Kapat
 [OK]
 Tamam
-[Description:]
-Açıklama:
 [Description:]
 Açıklama:
 [Date:]
@@ -45,8 +41,6 @@ Kişiler
 ;file \plugins\WhenWasIt\src\services.cpp
 [Error]
 Hata
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \plugins\WhenWasIt\src\services.h

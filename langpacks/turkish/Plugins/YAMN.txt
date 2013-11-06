@@ -10,8 +10,6 @@
 Tamam
 [Description:]
 Açıklama:
-[Description:]
-Açıklama:
 [Copyright:]
 Haklar:
 [Message]
@@ -24,16 +22,8 @@ Port:
 Varsayılan
 [Name:]
 Ad:
-[Name:]
-Ad:
 [Options]
 Seçenekler
-[Options]
-Seçenekler
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [Offline]
@@ -83,7 +73,5 @@ Genel
 Eklentiler
 [Popups]
 Açılır Pencereler
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar

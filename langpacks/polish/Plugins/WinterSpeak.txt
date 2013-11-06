@@ -54,9 +54,9 @@ Przychodzący link
 Przychodzący plik
 [Authorization request]
 Prośba o autoryzację
-[Added to Contact List]
+[Added to contact list]
 Dodanie do listy kontaktów
-[Status Messages]
+[Status messages]
 Opisy
 [Announce status changes on connect]
 Oznajmiaj zmiany statusu przy łączeniu

@@ -244,7 +244,7 @@ Potwierdź nowe hasło:
 Konferencja Jabbera
 [Conference server:]
 Serwer konferencji:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Utwórz lub przyłącz się do czatu.
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Czaty Jabber\nUtwórz lub przyłącz się do czatu.
@@ -268,7 +268,7 @@ JID:
 Zarejestruj
 [Invite Users]
 Zaproś użytkownika
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <room jid>\nWysłano zaproszenie czatu.
 [Other JID:]
 Inny JID:
@@ -278,9 +278,9 @@ Dodaj
 Powód zaproszenia:
 [&Invite]
 Zaproś
-[Groupchat Invitation]
+[Group chat invitation]
 Zaproszenie czatowe
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <room jid>\nNadchodzące zaproszenie czatu.
 [You are invited to conference room by]
 Jesteś zaproszony do pokoju konferencyjnego przez
@@ -725,7 +725,7 @@ Kopiuj prawdziwy JID
 Kopiuj JID z pokoju
 [Real &JID: %s]
 Prawdziwy JID: %s
-[%s\nSend groupchat invitation.]
+[%s\nSend group chat invitation.]
 %s\nWyślij zaproszenie do czatu.
 [%s (not on roster)]
 %s (nie na liście)
@@ -1045,7 +1045,7 @@ Automatycznie rozłączać się, po przejściu w stan bezczynności
 Grać dźwięki
 [A list of pending file transfers]
 Lista oczekujących transferów pliku
-[A list of joined groupchat rooms]
+[A list of joined group chat rooms]
 Lista pokoi czatowych, do których dołączyłeś
 [A presence or availability status]
 Obecność lub status dostępności
@@ -1112,7 +1112,7 @@ Upłynął limit czasu żądania listy pokojów.
 Wczytywanie...
 [Please wait for room list to download.]
 Proszę czekać na pobranie listy pokoi.
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 Proszę określić folder konferencji.
 [Bookmarks...]
 Zakładki...
@@ -1120,7 +1120,7 @@ Zakładki...
 Zmień nick w <%s>
 [has set the subject to:]
 ustawił temat na:
-[%s\nIncoming groupchat invitation.]
+[%s\nIncoming group chat invitation.]
 %s\nNadchodzi zaproszenie do czatu.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
@@ -1277,7 +1277,7 @@ Rejestruj Transport
 Lokalne transporty
 [Browse Chatrooms]
 Szukaj pokoi
-[Create/Join groupchat]
+[Create/Join group chat]
 Utwórz/Dołącz do czatu
 [Roster editor]
 Zarządzanie listą kontaktów
@@ -1965,7 +1965,7 @@ Wybierz status
 Wybierz opcje
 [Forward unread messages]
 Przekaż nieprzeczytane widomości
-[Leave groupchats]
+[Leave group chats]
 Opuść czat
 [Lock workstation]
 Zablokuj komputer
@@ -2019,14 +2019,14 @@ Wystąpił błąd %d podczas blokowania stacji roboczej
 Potrzebne zatwierdzenie
 [Please confirm Miranda NG shutdown]
 Proszę zatwierdzić wyłączenie Mirandy NG
-[There is no groupchats to leave]
+[There is no group chats to leave]
 Nie ma pokoii do opuszczenia
-[Choose the groupchats you want to leave]
+[Choose the group chats you want to leave]
 Wybierz czat który chcesz opuścić
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Błąd %s %s\r\nProszę wybrać inny serwer
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 Błąd: otrzymano nieznaną odpowiedź\r\nProszę wybrać inny serwer
 [Error %s %s\r\nTry to specify more detailed]
 Błąd %s %s\r\nSpróbuj podać więcej szczegółów

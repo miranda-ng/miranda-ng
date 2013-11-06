@@ -10,8 +10,6 @@
 Alınan iletiler
 [seconds]
 saniye
-[seconds]
-saniye
 [Online]
 Çevrimiçi
 [Away]
@@ -44,10 +42,6 @@ Ver...
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [The following events are being ignored:]
 Şu etkinlikler yoksayılacak:
 [Ignore]
@@ -64,8 +58,6 @@ Etkinlikler
 Hesaplar
 [Protocol]
 Protokol
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 [None]

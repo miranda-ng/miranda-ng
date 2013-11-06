@@ -10,7 +10,7 @@
 הראה Auth אייקון
 [Show Grant icon]
 הראה אייקון הענקה
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 אפשר פריט בתפריט ראשי (*)
 [Show icons only for recently added contacts]
 הראה אייקונים רק למשתמשים שהוספו רק בזמן האחרון 

@@ -13,7 +13,7 @@
 Проверять наличие соединения
 [Max. retries]
 Макс. попыток
-[Account Connection]
+[Account connection]
 Подключение учётной записи
 [Delay between retries (secs)]
 Задержка между попытками (сек)
@@ -31,7 +31,7 @@
 Постоянно проверять подключение к Интернету
 [Do so by pinging host]
 Пинговать хост
-[Confirm Status]
+[Confirm status]
 Подтвердите статус
 [Close]
 Закрыть
@@ -65,13 +65,13 @@
 только при неактивности
 [when workstation is locked]
 при блокировке компьютера
-[Command Line]
+[Command line]
 Ком. строка
-[Copy to Clipboard]
+[Copy to clipboard]
 Копировать в буфер обмена
-[Command Line:]
+[Command line:]
 Ком. строка:
-[Create Shortcut]
+[Create shortcut]
 Создать ярлык
 [Add new profile]
 Добавить профиль
@@ -107,7 +107,7 @@ Cтатус-профиль
 Размер окна
 [Allow override]
 Изменять
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Статус-профиль можно создать во вкладке "Профили статусов".
 [Window on startup]
 Окно при запуске
@@ -171,8 +171,8 @@ Cтатус-профиль
 Настройки для каждой учётной записи
 [Use same settings for all accounts]
 Общие настройки для всех учётных записей
-[Ignore caps-lock, num-lock and scroll-lock keys]
-Игнорировать клавиши caps-lock, num-lock и scroll-lock
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Игнорировать клавиши Caps Lock, Num Lock и Scroll Lock
 [Check interval (secs)]
 Интервал проверки (сек)
 [Confirm dialog timeout (secs)]
@@ -207,7 +207,7 @@ Cтатус-профиль
 Подтверждать при загрузке
 [Create a main menu item]
 Пункт в главном меню
-[Status Profiles]
+[Status profiles]
 Профили статусов
 [Hotkey]
 Горячая клавиша
@@ -251,7 +251,7 @@ Cтатус-профиль
 минут режима "%s"
 [Rules]
 Правила
-[Status Messages]
+[Status messages]
 Статусные сообщения
 [Auto Away]
 Отсутствие

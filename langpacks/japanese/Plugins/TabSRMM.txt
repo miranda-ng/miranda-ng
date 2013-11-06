@@ -64,7 +64,7 @@ Cancel
 タイムスタンプ(ログファイル)
 [Maximum number of events in the message window]
 メッセージウィンドウ内のイベントの最大値
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 グループチャットユーザーリストの行の高さ(ピクセル)
 [Open log file base folder]
 ログファイルベースフォルダーを開く

@@ -14,8 +14,6 @@ Kişisel ad:
 Grup:
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Send authorization request]
 izin isteği gönder
 [Authorization request]

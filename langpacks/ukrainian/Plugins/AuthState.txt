@@ -13,7 +13,7 @@
 Показувати значок "Дозволити"
 [Plugin settings]
 Налаштування
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 Додати пункт меню (*)
 [Show icons only for recently added contacts]
 Значки тільки для нещодавно доданих

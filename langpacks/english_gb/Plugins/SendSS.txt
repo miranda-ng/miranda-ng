@@ -1,8 +1,8 @@
 ﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
 ;  File: SendSS.dll
-;  Plugin: Send screenshot+
-;  Version: 0.8.0.0
+;  Plugin: Send ScreenShot+
+;  Version: 0.8.2.0
 ;  Authors: Merlin
 ;============================================================
 [The user canceled one of the dialog boxes]

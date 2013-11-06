@@ -38,13 +38,13 @@
 
 [After startup set:]
 
-[Filtered popups only (leave uncheck to no popups)]
+[Filtered popups only (leave uncheck for no popups)]
 
 [Enable sounds]
 
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
 
-[Allow mRadio or Weather popups, etc...]
+[Allow mRadio or Weather popups, etc.]
 
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
@@ -62,11 +62,11 @@
 
 [Sounds and popups are enabled]
 
-[Filtered mode On]
+[Filtered mode ON]
 
 [Sounds and popups are disabled temporarily]
 
-[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc...]
+[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
 
 [Silent Startup mode changed to ON]
 

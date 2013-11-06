@@ -68,7 +68,7 @@ Zeitstempel (Fenster)
 Zeitstem. (Verlaufsdatei)
 [Maximum number of events in the message window]
 Maximale Anzahl der Ereignisse im Nachrichtenfenster
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Zeilenhöhe der Benutzerliste in Gruppenchats (in Pixel):
 [Open log file base folder]
 Basisverzeichnis der Verlaufsdateien öffnen
@@ -1522,7 +1522,7 @@ Funktion aktiviert (als Overlay)
 Nachrichtenfenster - Instant Messaging
 [Message windows - all]
 Nachrichtenfenster - Alle
-[Message windows - groupchats]
+[Message windows - group chats]
 Nachrichtenfenster - Gruppenchats
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]

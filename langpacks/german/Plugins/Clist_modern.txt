@@ -398,7 +398,7 @@ Interne Abfrage der Texte der Statusnachrichten
 Unterkontakte einrücken um Pixel:
 [Remove status message if contact became offline]
 Statusnachricht entfernen, wenn Kontakt offline
-[Use improved search method in contactlist]
+[Use improved search method in contact list]
 Verbesserte Suchmethode in Kontaktliste verwenden
 [Show time only if it is different from current time]
 Zeit nur anzeigen, wenn lokale Zeit anders ist

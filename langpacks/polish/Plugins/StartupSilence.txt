@@ -38,13 +38,13 @@ Musisz skonfigurować raz dla każdego komputera, na którym uruchamiasz Mirand�
 Przycisk Zastosuj nie jest wymagany
 [After startup set:]
 Po starcie ustaw:
-[Filtered popups only (leave uncheck to no popups)]
+[Filtered popups only (leave uncheck for no popups)]
 Tylko filtrowane popupy (pozostaw odznaczone, by nie były wyświetlane żadne popupy)
 [Enable sounds]
 Włącz dźwięki
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
 Pozwól na ustawiene dźwięków i filtrowanych popupów dopiero po starcie (odhacz dla wszystkich dźwięków i popupów)
-[Allow mRadio or Weather popups, etc...]
+[Allow mRadio or Weather popups, etc.]
 Zezwól na popupy MRadio, pogody, itd.
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
@@ -62,11 +62,11 @@ Wyłącz ciszę TTB
 Włącz ciszę TTB
 [Sounds and popups are enabled]
 Dźwięki i popupy są włączone
-[Filtered mode On]
+[Filtered mode ON]
 Tryb filtrowania włączony
 [Sounds and popups are disabled temporarily]
 Dźwięki i popupy są tymczasowo wyłączone
-[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc...]
+[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
 Zezwól na popupy MRadio, pogody itd.
 [Silent Startup mode changed to ON]
 Tryb cichego startu zmieniony na włączony
@@ -80,3 +80,5 @@ Cisza przy starcie jest wyłączona
 Przełącz ciszę przy starcie
 [You have to install TopToolBar to use this option.]
 Musisz zainstalować TopToolbar, aby używać tej opcji.
+[You have to install "YAPP" or "Popup+" to use this option.]
+

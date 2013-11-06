@@ -23,17 +23,17 @@
 Тып
 [Description]
 Апісанне
-[URLs on Websites]
+[URLs on websites]
 Спасылкі і сайты
-[File Types]
+[File types]
 Тыпы файлаў
-[File Association Error]
+[File association error]
 Памылка асацыяцыі файлаў
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Адбылася памылка запісу для мадыфікацыі асацыяцый файлаў/спасылак.\n\n Чыннік: %s
 [Unknown]
 Невядома
-[Autostart Error]
+[Autostart error]
 Памылка аўтазагрузкі
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Адбылася памылка запісу для мадыфікацыі спісу аўтазапуску.\n\n Чыннік: %s
@@ -41,7 +41,7 @@
 Службы
 [Associations]
 Асацыяцыі
-[Miranda NG Database]
+[Miranda NG database]
 База дадзеных Miranda NG
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
@@ -59,14 +59,14 @@ Miranda NG не можа адчыніць "% S".\n\nДадзеная спасы�
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Доступ забаронены:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-[Registry Warning]
+[Registry warning]
 Заўвага рэестра
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
 Пратакол AIM
 [ICQ Link Shortcut]
 Пратакол ICQ
-[&Add to Contact List...]
+[&Add to contact list...]
 &Дадаць у спіс кантактаў...
 [Yahoo Link Protocol]
 Пратакол Yahoo

@@ -36,7 +36,7 @@ Statusnachricht nicht ändern
 Immer selbe Statusnachricht setzen
 [Do not set status message]
 Keine Statusnachricht setzen
-[Status Messages]
+[Status messages]
 Statusnachrichten
 [Pop up dialog asking for new message]
 Dialogfenster zur Eingabe neuer Nachrichten

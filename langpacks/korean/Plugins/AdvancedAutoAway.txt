@@ -23,7 +23,7 @@
 [seconds]
 초
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status Messages]
+[Status messages]
 상태 메세지
 [Auto Away]
 자동 자리 비움

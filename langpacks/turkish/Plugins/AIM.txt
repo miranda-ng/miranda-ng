@@ -28,8 +28,6 @@ Hesap Tipi Simgelerini Kapat
 Ek Durum Simgelerini Kapat
 [Advanced Options]
 Gelişmiş Seçenekler
-[Advanced Options]
-Gelişmiş Seçenekler
 [Instant Idle on Login]
 Girişte Boşta Ol
 [Force Proxy File Transfers]
@@ -40,8 +38,6 @@ Yadımcı Kişi Olarak Maskele
 * Ayarların etkin olması için AIM'e yeniden bağlanmalısınız
 [Port:]
 Port:
-[Reset]
-Sıfırla
 [Reset]
 Sıfırla
 [Save Profile]

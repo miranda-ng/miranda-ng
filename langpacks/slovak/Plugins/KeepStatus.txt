@@ -12,7 +12,7 @@
 
 [Max. retries]
 
-[Account Connection]
+[Account connection]
 
 [Delay between retries (secs)]
 
@@ -30,7 +30,7 @@
 
 [Do so by pinging host]
 
-[Confirm Status]
+[Confirm status]
 
 [Close]
 Zavrieť
@@ -64,15 +64,15 @@ minutách neaktivity
 
 [when workstation is locked]
 
-[Command Line]
+[Command line]
 
 [OK]
 OK
-[Copy to Clipboard]
+[Copy to Llipboard]
 
-[Command Line:]
+[Command line:]
 
-[Create Shortcut]
+[Create shortcut]
 
 [Add new profile]
 
@@ -110,7 +110,7 @@ OK
 
 [Allow override]
 
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 
 [Window on startup]
 
@@ -174,7 +174,7 @@ Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
 
 [Use same settings for all accounts]
 
-[Ignore caps-lock, num-lock and scroll-lock keys]
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
 
 [Check interval (secs)]
 
@@ -210,7 +210,7 @@ Stav
 
 [Create a main menu item]
 
-[Status Profiles]
+[Status profiles]
 
 [Hotkey]
 

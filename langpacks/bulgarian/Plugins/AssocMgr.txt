@@ -23,17 +23,17 @@
 Тип
 [Description]
 Описание
-[URLs on Websites]
+[URLs on websites]
 
-[File Types]
+[File types]
 Тип файлове
-[File Association Error]
+[File association error]
 Грешка при асоцииране на файлов тип
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Възникна грешка при писане в регистъра за промяна на асоциация за файл/url адрес.\nПричина: %s
 [Unknown]
 Неизвестно
-[Autostart Error]
+[Autostart error]
 
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Възникна грешка при писане в регистъра за промяна на списъка за автостартиране.\n\nПричина: %s
@@ -41,7 +41,7 @@
 Услуги
 [Associations]
 Асоциации
-[Miranda NG Database]
+[Miranda NG database]
 База от данни на Miranda NG
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
@@ -59,14 +59,14 @@
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 
-[Registry Warning]
+[Registry warning]
 
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
 
 [ICQ Link Shortcut]
 
-[&Add to Contact List...]
+[&Add to contact list...]
 
 [Yahoo Link Protocol]
 

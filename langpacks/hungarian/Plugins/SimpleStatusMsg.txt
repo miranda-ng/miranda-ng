@@ -14,7 +14,7 @@
 %s üzenet helyreállítása...
 [OK]
 OK
-[Status Messages]
+[Status messages]
 Állapot Üzenetek
 [seconds]
 mp.

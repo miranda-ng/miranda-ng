@@ -179,7 +179,7 @@ Dial-Up (прочтите keepstatus.txt)
 (будет "%s")
 [will be set to]
 будет
-[Account Connection]
+[Account connection]
 Подключение учётной записи
 [Accounts to check]
 Проверять следующие

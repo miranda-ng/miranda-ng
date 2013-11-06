@@ -299,8 +299,8 @@
 Введите электронный адрес.
 [Open in Browser]
 Открыть в браузере
-[Contact added to ContactList:]
-Добавлен(а) в контакт-лист:
+[Contact added to contact list:]
+Добавлен(а) в список контактов:
 [Just from the beginning.]
 С самого начала.
 [Your contact's local time is:]

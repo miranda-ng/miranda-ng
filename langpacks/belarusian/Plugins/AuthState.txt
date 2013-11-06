@@ -14,7 +14,7 @@
 Паказваць значок "Дазволіць"
 [Plugin settings]
 Налады
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 Дадаць пункт меню (*)
 [Show icons only for recently added contacts]
 Значкі толькі для нядаўна дададзеных

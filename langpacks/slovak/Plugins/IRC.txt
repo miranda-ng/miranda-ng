@@ -258,7 +258,7 @@ Sieť
 
 [Ignore users]
 
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 
 [Queries]
 

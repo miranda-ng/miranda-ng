@@ -192,7 +192,7 @@ Confirmar Nova Senha:
 Conferência Multi-usuário Jabber
 [Conference server:]
 Servidor de Conferência:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Criar ou participar de Grupo de Bate-papo
 [Room:]
 Sala:
@@ -564,7 +564,7 @@ Carregando...
 Carregando...
 [Please wait for room list to download.]
 Por favor, aguarde lista de salas para download.
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 Por favor, especifique diretório do grupo de bate-papo primeiro.
 [Bookmarks...]
 Marcadores...
@@ -691,7 +691,7 @@ Transportes Registrado
 Servidor Local de Transportes
 [Browse Chatrooms]
 Navegar Salas de Bate-papo
-[Create/Join groupchat]
+[Create/Join group chat]
 Criar/Entrar na Grupo de Bate-papo
 [Roster editor]
 Editor de registro
@@ -932,8 +932,8 @@ Invisível
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Erro %s %s\r\nPor favor escolha outro servidor
-[Error Unknown reply received\r\nPlease select other server]
-Erro Desconhecido \r\nPor favor escolha outro servidor
+[Error: unknown reply received\r\nPlease select other server]
+Erro: desconhecido\r\nPor favor escolha outro servidor
 [Error %s %s\r\nTry to specify more detailed]
 Erro %s %s\r\nTente especificar mais detalhadamente
 [Search error]

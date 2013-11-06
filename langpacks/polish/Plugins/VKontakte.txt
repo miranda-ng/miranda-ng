@@ -12,10 +12,10 @@ Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 E-mail lub numer telefonu:
 [Password:]
 Hasło:
-[Open VK site]
-Otwórz stronę VK
-[Bots Challenge Test]
-Test Sprawdzający Obecność Botów
+[Open VKontakte site] 
+Otwórz stronę VKontakte
+[Bots challenge test]
+Test sprawdzający obecność botów
 [Instruction:]
 Instrukcja:
 [Submit]

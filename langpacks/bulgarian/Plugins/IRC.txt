@@ -258,7 +258,7 @@ CTCP чат заявка
 Игнориране на DCC чат заявки от непознати контакти
 [Ignore users]
 Игнориране на потребители
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Запитванията от контакти в списъка ви няма да бъдат игнорирани
 [Queries]
 Запитвания

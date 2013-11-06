@@ -68,7 +68,7 @@ Czas (okno)
 Czas (plik dziennika)
 [Maximum number of events in the message window]
 Maksymalna liczba zdarzeń w oknie rozmowy
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Wysokość wiersza nicków na czacie (px)
 [Open log file base folder]
 Otwórz folder dziennika
@@ -1522,7 +1522,7 @@ Funkcja włączona (używany jako nakładka)
 Okno rozmowy - IM
 [Message windows - all]
 Okno rozmowy - wszystkie
-[Message windows - groupchats]
+[Message windows - group chats]
 Okno rozmowy - czaty
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]

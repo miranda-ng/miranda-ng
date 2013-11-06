@@ -12,7 +12,7 @@
 Проверяване на връзката
 [Max. retries]
 Макс. брой опити
-[Account Connection]
+[Account connection]
 
 [Delay between retries (secs)]
 Пауза между 2 опита (сек)
@@ -30,7 +30,7 @@
 Периодична проверка за наличие на връзка с интернет
 [Do so by pinging host]
 Проверяване чрез пингване до хоста
-[Confirm Status]
+[Confirm status]
 Потвърдете състоянията
 [Close]
 Затваряне
@@ -64,15 +64,15 @@
 задаване само при липса на активност
 [when workstation is locked]
 при заключване на работната станция
-[Command Line]
+[Command line]
 Команден ред
 [OK]
 ОК
-[Copy to Clipboard]
+[Copy to clipboard]
 Запис в клипборда
-[Command Line:]
+[Command line:]
 Команден ред:
-[Create Shortcut]
+[Create shortcut]
 Създай препратка
 [Add new profile]
 Добавяне на нов профил
@@ -110,7 +110,7 @@ ms
 
 [Allow override]
 
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Можете да създадете нов профил от таб "Профили на състоянията"
 [Window on startup]
 Прозорец при стартиране
@@ -174,8 +174,8 @@ Dial-up (експериментално)
 
 [Use same settings for all accounts]
 
-[Ignore caps-lock, num-lock and scroll-lock keys]
-Игнориране на caps-lock, num-lock и scroll-lock клавишите
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Игнориране на Caps Lock, Num Lock и Scroll Lock клавишите
 [Check interval (secs)]
 Интервал за проверяване (сек)
 [Confirm dialog timeout (secs)]
@@ -210,7 +210,7 @@ Dial-up (експериментално)
 Диалог за потвърждение при стартиране
 [Create a main menu item]
 Елемент в главното меню
-[Status Profiles]
+[Status profiles]
 Профили на състоянията
 [Hotkey]
 Клавишна комбинация

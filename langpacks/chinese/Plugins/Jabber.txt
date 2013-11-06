@@ -170,7 +170,7 @@ Jabber vCard: 添加电话号码
 Jabber 多用户会议
 [Conference server:]
 会议服务器: 
-[Create or Join Groupchat]
+[Create or Join group chat]
 建立或加入群组聊天
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber 多用户会议\n建立或加入已存在的会议室.
@@ -192,7 +192,7 @@ Jabber 代理注册
 注册
 [Invite Users]
 邀请用户
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <房间 JID>\n发送群聊邀请.
 [Other JID:]
 其它 JID: 
@@ -200,9 +200,9 @@ Jabber 代理注册
 添加
 [Invitation reason:]
 邀请原因:
-[Groupchat Invitation]
+[Group chat invitation]
 群组聊天邀请
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <房间 JID>\n收到群聊邀请.
 [You are invited to conference room by]
 邀请您的会议室
@@ -503,8 +503,8 @@ Jabber 特别命令于
 复制室内 JID
 [Real &JID: %s]
 真实 JID(&J): %s
-[Send groupchat invitation.]
-发送群聊邀请.
+[%s\nSend group chat invitation.]
+%s\n发送群聊邀请.
 [Member Info:]
 会员信息: 
 [Real JID not available]
@@ -580,14 +580,14 @@ Jabber 错误
 加载中...
 [Please wait for room list to download.]
 下载房间列表中, 请稍候. 
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 请先指定群组聊天目录. 
 [Bookmarks...]
 书签...
 [has set the subject to:]
 已设置主题为:
-[Incoming groupchat invitation.]
-收到群聊邀请.
+[%s\nIncoming group chat invitation.]
+%s\n收到群聊邀请.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 传输
@@ -721,7 +721,7 @@ Jabber 资源
 本地服务器传输
 [Browse Chatrooms]
 浏览聊天室
-[Create/Join groupchat]
+[Create/Join group chat]
 建立/加入群组聊天
 [Roster editor]
 名册编辑器
@@ -1243,7 +1243,7 @@ Facebook 聊天
 设置选项
 [Forward unread messages]
 转发未读消息
-[Leave groupchats]
+[Leave group chats]
 离开群聊
 [Quit Miranda NG]
 退出 Miranda NG
@@ -1291,14 +1291,14 @@ Facebook 聊天
 确认需要
 [Please confirm Miranda NG shutdown]
 请确认 Miranda NG 关闭
-[There is no groupchats to leave]
+[There is no group chats to leave]
 无群聊可退出
-[Choose the groupchats you want to leave]
+[Choose the group chats you want to leave]
 选择您想离开的群聊
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 错误 %s %s\r\n请选择其它服务器
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 错误收到未知回复\r\n请选择其它服务器
 [Error %s %s\r\nTry to specify more detailed]
 错误 %s %s\r\n尝试指定更多详细资料

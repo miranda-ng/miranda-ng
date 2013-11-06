@@ -20,7 +20,7 @@ Maks lengde:
 Popp opp dialogbox
 [Do not set status message]
 Ikke sett statusmelding
-[Status Messages]
+[Status messages]
 Statusmeldinger
 [Pop up dialog asking for new message]
 Popp opp dialogspørsmål for ny melding

@@ -40,13 +40,13 @@
 Покинули %s
 [%s signed off]
 %s йде
-[Contactlist event]
+[Contact list event]
 Подія списку контактів
 [You are now %s]
 Тепер ви %s
 [Status Protocol change]
 Зміна статусу протоколу
-[%s was deleted from contactlist!]
+[%s was deleted from contact list!]
 %s було видалено зі списку контактів!
 [typing..]
 набирає текст..
@@ -66,7 +66,7 @@
 Журнал подій:
 [Message log:]
 Журнал повідомлень
-[Contactlist:]
+[Contact list:]
 Список контактів:
 [Titles:]
 Заголовки:
@@ -110,7 +110,7 @@
 Контакт виходить з мережі
 [Contact changes status]
 Контакт змінює статус
-[Contactlist events]
+[Contact list events]
 Події сп. контактів
 [Protocol disconnected]
 Протокол від'єднано
@@ -142,7 +142,7 @@
 символів
 [Show protocol labels]
 Показувати протоколи
-[Contactlist]
+[Contact list]
 Список контактів
 [Show the contacts protocols]
 Показувати протоколи контактів
@@ -158,7 +158,7 @@
 Показувати лічильники після назв груп
 [Reset selection]
 Зняти виділення
-[When opening the contactlist screen:]
+[When opening the contact list screen:]
 При відкритті екрану списку контактів:
 [Don't change group states]
 Не змінювати стану груп

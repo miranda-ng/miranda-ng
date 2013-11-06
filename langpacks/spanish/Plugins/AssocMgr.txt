@@ -11,6 +11,6 @@
 Desconocida
 ;file \plugins\AssocMgr\src\dde.cpp
 ;file \plugins\AssocMgr\src\reg.cpp
-[Registry Warning]
+[Registry warning]
 Registro de alerta
 ;file \plugins\AssocMgr\src\test.cpp

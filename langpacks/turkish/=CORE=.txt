@@ -9,10 +9,6 @@ Protokol tipini seç
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Add %s]
 %s ekle 
 [&Add]
@@ -25,8 +21,6 @@ izin isteği gönder
 Kişisel ad:
 [Group:]
 Grup:
-[Options]
-Seçenekler
 [Options]
 Seçenekler
 [Authorization request]
@@ -171,8 +165,6 @@ Ses Bilgisi
 Yer:
 [Name:]
 Ad:
-[Name:]
-Ad:
 [Enable sound events]
 Sesli uyarıları etkinleştir
 [Icons]
@@ -211,8 +203,6 @@ Eklendi Uyarısı
 Yazıyor
 [Visibility]
 Görünürlük
-[Visibility]
-Görüş
 [You are visible to this person even when in invisible mode]
 Bu kişiye Görünmez kipte dahi görün
 [You are never visible to this person]
@@ -277,8 +267,6 @@ Varsayılandan farklı bir profil sürücüsü seçebilirsiniz, bu daha geniş o
 Sürücü
 [Description:]
 Açıklama:
-[Description:]
-Açıklama:
 [Author(s):]
 Yazarlar:
 [E-mail:]
@@ -295,8 +283,6 @@ Değişikliklerin etkin olması için Miranda'yı yeniden başlatın.
 Yazı Tipi ve Renkler
 [Undo]
 Geri Al
-[Reset]
-Sıfırla
 [Reset]
 Sıfırla
 [Export...]
@@ -423,8 +409,6 @@ Listeye &Ekle
 Kişi &Detayları
 [Send &Message]
 İleti &Gönder
-[Log]
-Günlük
 [Log]
 Günlük
 [&Copy]
@@ -584,8 +568,6 @@ Yapıştır
 Tümünü Seç
 [Clear]
 Temizle
-[Clear]
-Açık
 [Tabs]
 Sekmeler
 [&Close tab]
@@ -629,8 +611,6 @@ saniye, durumlar farklıyken
 Sadece durumlar farklı ise
 [Contact List]
 Kişi Listesi
-[Contact List]
-Kişi Listesi
 [System tray icon]
 Sistem tepsisi simgesi
 [System tray icon when using multiple protocols]
@@ -659,8 +639,6 @@ Bırakma gölgesini göster (yeniden başlatmalısınız)
 Masa üstüne iğnele
 [Hide contact list after it has been idle for]
 Şu kadar boş kaldıktan sonra kişi listesini gizle
-[seconds]
-saniye
 [seconds]
 saniye
 [Automatically resize window to height of list]
@@ -713,8 +691,6 @@ Grupları alfabetik olarak diz
 Yalnız açık gruplarda hızlı ara
 [Indent groups by:]
 Grupları şununla içe al:
-[pixels]
-piksel
 [pixels]
 piksel
 [Visual]
@@ -1104,8 +1080,6 @@ Websitesi:
 %u izninizi istiyor
 [%u added you to their contact list]
 %u sizi kişi listelerine ekledi
-[Alerts]
-Alarmlar
 [Alerts]
 Alarmlar
 ;file \src\core\stdauth\authdialogs.cpp
@@ -1582,8 +1556,6 @@ E-posta gönder
 %s tarafından gelen dosya
 [bytes]
 bayt
-[bytes]
-bayt
 [&File]
 &Dosya
 [File &Transfers...]
@@ -1599,8 +1571,6 @@ Red edildi
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s dosya
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \src\core\stdfile\fileopts.cpp

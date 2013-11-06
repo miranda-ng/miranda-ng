@@ -68,7 +68,7 @@
 В дневника
 [Maximum number of events in the message window]
 Максимален брой събития в прозореца за съобщения
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Височина на редовете в списъка с прякори (пиксела)
 [Open log file base folder]
 Отваряне папката на дневниците
@@ -1522,7 +1522,7 @@ Latin I
 Прозорци за съобщения - IM
 [Message windows - all]
 Прозорец за съобщения - всеки
-[Message windows - groupchats]
+[Message windows - group chats]
 Прозорци за съобщения - групов чат
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]

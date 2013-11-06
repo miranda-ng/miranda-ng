@@ -58,7 +58,7 @@ Miasto:
 Hrabstwo/Stan:
 [Country:]
 Kraj:
-[Contact added to ContactList:]
+[Contact added to contact list:]
 Kontakt został dodany:
 [Just from the beginning.]
 Jestem początkujący.

@@ -258,7 +258,7 @@ Ignorer les requêtes de DCC Chat
 Ignorer les requêtes de DCC Chat venant de contacts inconnus
 [Ignore users]
 Ignorer les usagers
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Ne jamais ignorer les messages privés d'utilisateurs de la liste de contacts
 [Queries]
 

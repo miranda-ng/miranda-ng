@@ -14,7 +14,7 @@
 %s ileti alınıyor...
 [OK]
 Tamam
-[Status Messages]
+[Status messages]
 Durum İletileri
 [seconds]
 saniye

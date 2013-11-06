@@ -214,7 +214,7 @@ Ignorar solicitações de bate-papo DCC
 Ignorar os pedidos de bate-papos DCC de contatos desconhecidos
 [Ignore users]
 Ignorar usuários
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Consultas de usuários em sua lista de contatos nunca são ignoradas
 [Messages]
 Mensagens

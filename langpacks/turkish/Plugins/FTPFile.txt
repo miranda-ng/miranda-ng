@@ -22,16 +22,10 @@ Kısa ad
 Kapat
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Select All]
 Tümünü Seç
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [Rename]

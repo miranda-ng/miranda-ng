@@ -34,7 +34,7 @@ Protokoły
 Usuń powiadomienia płączeń do
 [sec]
 s
-[Prefix proto name]
+[Prefix protocol name]
 Dodaj nazwę protokołu
 [Duration]
 Czas trwania
@@ -73,7 +73,7 @@ Bezczynność
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Powiadomienia
-[Other Status]
+[Other status]
 Inny status
 [Tooltip Notify: Online]
 Powiadomienia: Dostępny

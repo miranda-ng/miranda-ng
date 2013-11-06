@@ -153,7 +153,7 @@ Podgląd
 
 [&File]
 Plik
-[&Open groupchat]
+[&Open group chat]
 
 [Import Skype history]
 

@@ -18,7 +18,7 @@ Co&pier dans le presse-papier
 Récupération du message d'état de %s...
 [Max length:]
 Taille maxi:
-[Status Messages]
+[Status messages]
 Messages d'état
 [Use last message]
 Utiliser le message précédent

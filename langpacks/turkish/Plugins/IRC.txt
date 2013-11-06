@@ -204,7 +204,7 @@ DCC sohbet isteklerini reddet
 Bilinmeyen kişilerden gelen DCC sohbet isteklerini reddet
 [Ignore users]
 Kişileri yoksay
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Kişi listenizdekilerin sorguları asla yok sayılmayacak
 [Messages]
 İletiler

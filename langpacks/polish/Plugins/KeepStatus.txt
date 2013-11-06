@@ -12,7 +12,7 @@ KeepStatus sprawdza połączenia, można go używać z wtyczkami StartupStatus i
 Sprawdź połączenie
 [Max. retries]
 Ilość powtórzeń
-[Account Connection]
+[Account connection]
 Połączenie konta
 [Delay between retries (secs)]
 Przerwa między powtórzeniami
@@ -30,7 +30,7 @@ Nie próbuj łączyć ponownie, jeśli nie wykryjesz połączenia z internetem
 Cały czas szukaj połączenia z internetem
 [Do so by pinging host]
 Poprzez pingowanie hosta
-[Confirm Status]
+[Confirm status]
 Potwierdź status
 [Close]
 Zamknij
@@ -64,15 +64,15 @@ Ustaw
 ustaw tylko przy bezczynności
 [when workstation is locked]
 kiedy komputer jest zablokowany
-[Command Line]
+[Command line]
 Linia poleceń
 [OK]
 OK
-[Copy to Clipboard]
+[Copy to clipboard]
 Kopiuj do schowka
-[Command Line:]
+[Command line:]
 Linia poleceń:
-[Create Shortcut]
+[Create shortcut]
 Utwórz skrót
 [Add new profile]
 Dodaj nowy profil
@@ -110,7 +110,7 @@ Rozmiar okna
 x
 [Allow override]
 Nadpisuj
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Info: profile statusów mogą zostać utworzone w menu "Profile statusów"
 [Window on startup]
 Okno podczas uruchamiania
@@ -174,8 +174,8 @@ Zmienne...
 Ustaw każde konto osobno
 [Use same settings for all accounts]
 Użyj takich samych ustawień dla wszystkich kont
-[Ignore caps-lock, num-lock and scroll-lock keys]
-Ignoruj caps-lock, num-lock i scroll-lock
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Ignoruj Caps Lock, Num Lock i Scroll Lock
 [Check interval (secs)]
 Sprawdzaj co (s)
 [Confirm dialog timeout (secs)]
@@ -210,7 +210,7 @@ Utwórz przycisk paska narzędzi
 Pokaż okno potwierdzania przy załadunku
 [Create a main menu item]
 Utwórz wpis w menu głównym
-[Status Profiles]
+[Status profiles]
 Profile statusów
 [Hotkey]
 Skrót

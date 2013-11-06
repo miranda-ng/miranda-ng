@@ -96,9 +96,9 @@ Cтупінь
 Вхідний файл
 [Authorization request]
 Запит авторизації
-[Added to Contact List]
+[Added to contact list]
 Додавання у контакт лист
-[Status Messages]
+[Status messages]
 Статусне повідомлення
 [Announce status changes on connect]
 Сповіщати про зміни статусу

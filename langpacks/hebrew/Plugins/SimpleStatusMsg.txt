@@ -14,7 +14,7 @@
 ... משיג הודעת %s
 [OK]
 אישור
-[Status Messages]
+[Status messages]
 הודעות מצב
 [seconds]
 שניות

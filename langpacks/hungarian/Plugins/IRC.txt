@@ -204,7 +204,7 @@ DCC csevegés felkérések elvetése
 DCC csevegés felkérések elvetés ismeretlen partnerektõl
 [Ignore users]
 Felhasználók elvetése
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Partnerlistán szereplõ felhasználók kérdõívei soha nincsenek elvetve
 [Messages]
 Üzenetek

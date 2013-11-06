@@ -10,14 +10,8 @@
 Kısa Ad:
 [Reset]
 Sıfırla
-[Reset]
-Sıfırla
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 ;file \plugins\XSoundNotify\src\xsn_main.cpp

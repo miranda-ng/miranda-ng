@@ -32,7 +32,7 @@
 永远设置相同信息
 [Do not set status message]
 不设置状态信息
-[Status Messages]
+[Status messages]
 状态消息
 [Pop up dialog asking for new message]
 弹出对话框询问新信息

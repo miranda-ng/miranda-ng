@@ -45,7 +45,7 @@
 [seconds]
 שניות
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status Messages]
+[Status messages]
 הודעות מצב
 [Auto Away]
 לא נמצא אוטומטי

@@ -10,7 +10,7 @@
 显示认证图标
 [Show Grant icon]
 显示授权图标
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 启用菜单项 (*)
 [Show icons only for recently added contacts]
 仅最近添加联系人显示图标

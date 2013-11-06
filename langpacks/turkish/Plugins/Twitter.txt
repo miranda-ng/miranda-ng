@@ -10,10 +10,6 @@
 Kullanıcı Adı:
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [sec]
 sn
 [Text]

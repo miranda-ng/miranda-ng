@@ -39,7 +39,7 @@ Kustuta
 [seconds]
 sekundit
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status Messages]
+[Status messages]
 Oleku teated
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [Not right now.]

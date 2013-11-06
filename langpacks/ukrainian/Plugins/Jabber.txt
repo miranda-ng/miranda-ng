@@ -677,7 +677,7 @@ Unicode зборка
 Транспорти сервера
 [Browse Chatrooms]
 Огляд чат-кімнат
-[Create/Join groupchat]
+[Create/Join group chat]
 Створити/увійти в чат
 [Create or join existing conference room.]
 Створення або вхід у чат-кімнату
@@ -703,9 +703,9 @@ Unicode зборка
 Редактор ростеру\nПросмотр і правка списку контактів на сервері.
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 Записна книжка\nХранение заміток на сервері і доступ до них звідусіль.
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <room jid>\nЗапросити до чат-кімнати.
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <room jid>\nЗапрошення до чат-кімнати.
 [Member Information\n<user ID>]
 Інформація про користувача\n<user ID>
@@ -1297,9 +1297,9 @@ JID / URL:
 Пересилати непрочитані повідомлення
 [There is no messages to forward]
 Немає повідомлень для відправки
-[Leave groupchats]
+[Leave group chats]
 Залишити чати
-[There is no groupchats to leave]
+[There is no group chats to leave]
 Немає чатів для відключення
 [Workstation successfully locked]
 Комп'ютер успішно заблокований
@@ -1319,7 +1319,7 @@ Jabber помилка
 Команда виконана успішно
 [Error occurred during processing command]
 Виникла помилка в процесі виконання команди
-[%s\nSend groupchat invitation.]
+[%s\nSend group chat invitation.]
 %s\nЗапросити на конференцію.
 [Invite Users]
 Запрошення користувачів
@@ -1331,13 +1331,13 @@ Jabber помилка
 Вас запросив:
 [with following reason:]
 причина:
-[Groupchat Invitation]
+[Group chat invitation]
 Запрошення на конференцію
 [Jabber Protocol Option]
 Налаштування протоколу Jabber
 [These changes will take effect the next time you connect to the Jabber network.]
 Зміни вступлять в силу при наступному вході в мережу Jabber.
-[%s\nIncoming groupchat invitation.]
+[%s\nIncoming group chat invitation.]
 %s\nПриглашение в конференцію.
 [Sending Ad-Hoc command to %s]
 Відправити Ad-Hoc команду %s

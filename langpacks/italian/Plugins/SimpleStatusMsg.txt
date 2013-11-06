@@ -14,7 +14,7 @@ Messaggio di '%s' per %s
 Recupero messaggio di %s...
 [OK]
 OK
-[Status Messages]
+[Status messages]
 Messaggi di stato
 [seconds]
 secondi

@@ -383,8 +383,8 @@ ICQ бележка
 [Secure login failed.\nInvalid key length.]
 
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)]
-Желаете ли да оттеглите пълномощното на контакта (ще бъдете премахнати от списъка му, само за някои клиенти)?
+[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
+Желаете ли да оттеглите пълномощното на контакта? Ще бъдете премахнати от списъка му, само за някои клиенти.
 [Confirmation]
 Потвърждаване
 [** This message was blocked by the ICQ server ** The message was invalid.]

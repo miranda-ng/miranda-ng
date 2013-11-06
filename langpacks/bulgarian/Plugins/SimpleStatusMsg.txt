@@ -36,7 +36,7 @@
 
 [Do not set status message]
 
-[Status Messages]
+[Status messages]
 Текст за състояние
 [Pop up dialog asking for new message]
 

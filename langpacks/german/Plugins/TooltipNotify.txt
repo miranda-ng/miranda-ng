@@ -34,7 +34,7 @@ Protokolle
 Unterdrücke Benachrichtigungen beim Verbinden für
 [sec]
 Sek.
-[Prefix proto name]
+[Prefix protocol name]
 Proto-Namenspräfix
 [Duration]
 Dauer
@@ -73,7 +73,7 @@ Untätigkeit
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Tooltip-Benachrichtigung
-[Other Status]
+[Other status]
 Andere Status
 [Tooltip Notify: Online]
 Tooltip Notify: Online

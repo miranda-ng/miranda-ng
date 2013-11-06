@@ -210,7 +210,7 @@ DDC チャットリクエストを無視
 不明なコンタクトからの DDC チャットリクエストを無視
 [Ignore users]
 ユーザーを無視
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) あなたのコンタクトリストにあるユーザーからのクエリーは決して無視しない
 [Messages]
 メッセージ

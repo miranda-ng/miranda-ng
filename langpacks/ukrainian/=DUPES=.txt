@@ -2732,7 +2732,7 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 Ім'я сервера
 [Copy URL to clipboard]
 Копіювати посилання в буфер обміну
-[Command Line:]
+[Command line:]
 Ком. рядок:
 [Variables Help]
 Допомога по змінним

@@ -45,7 +45,7 @@ Excluir
 [seconds]
 segundos
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status Messages]
+[Status messages]
 Mensagens de status
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]

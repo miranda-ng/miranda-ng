@@ -186,7 +186,7 @@ PCS
 Jabber マルチユーザー会議
 [Conference server:]
 会議サーバー:
-[Create or Join Groupchat]
+[Create or Join group chat]
 グループチャットの作成もしくは参加
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber マルチユーザー会議\n新規作成もしくは既存の会議室に参加します
@@ -210,7 +210,7 @@ JID:
 登録
 [Invite Users]
 ユーザーを招待
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 < ルーム JID >\n送信グループチャット招待
 [Other JID:]
 その他の JID:
@@ -218,9 +218,9 @@ JID:
 追加
 [Invitation reason:]
 招待の理由:
-[Groupchat Invitation]
+[Group chat invitation]
 グループチャットの招待
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 < ルーム JID >\n着信グループチャット招待
 [You are invited to conference room by]
 あなたは以下から会議室に招待されました:
@@ -521,8 +521,8 @@ Jabber アドホックコマンド:
 入室中ルームの JID コピー
 [Real &JID: %s]
 実 JID(&J): %s
-[Send groupchat invitation.]
-グループチャットの招待を送信
+[%s\nSend group chat invitation.]
+%s\nグループチャットの招待を送信
 [Member Info:]
 メンバー情報:
 [Real JID not available]
@@ -594,14 +594,14 @@ Jabber エラー
 ロード中...
 [Please wait for room list to download.]
 ルームリストのダウンロード中。お待ちください
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 最初にグループチャットディレクトリーを指定
 [Bookmarks...]
 ブックマーク...
 [has set the subject to:]
 は目的を以下に設定:
-[Incoming groupchat invitation.]
-グループチャットの招待を着信しています
+[%s\nIncoming group chat invitation.]
+%s\nグループチャットの招待を着信しています
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Notes]
 メモ
@@ -731,7 +731,7 @@ Jabber リソース
 ローカルサーバートランスポート
 [Browse Chatrooms]
 チャットルームの参照
-[Create/Join groupchat]
+[Create/Join group chat]
 グループチャットの作成 / 参加
 [Roster editor]
 リストエディター
@@ -1015,7 +1015,7 @@ Ready.
 オプションを設定
 [Forward unread messages]
 未読メッセージの転送
-[Leave groupchats]
+[Leave group chats]
 グループチャットを離席
 [Quit Miranda NG]
 Miranda NG を終了
@@ -1063,14 +1063,14 @@ Miranda NG を終了
 確認が必要です
 [Please confirm Miranda NG shutdown]
 Miranda NG のシャットダウンを確認してください
-[There is no groupchats to leave]
+[There is no group chats to leave]
 離席するグループチャットはありません
-[Choose the groupchats you want to leave]
+[Choose the group chats you want to leave]
 離席したいグループチャットを選択
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 エラー %s %s\r\n他のサーバーを選択してください
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 エラー 不明な応答を受信\r\n他のサーバーを選択してください
 [Error %s %s\r\nTry to specify more detailed]
 エラー %s %s\r\nより詳しく指定してください

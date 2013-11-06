@@ -313,8 +313,8 @@ Güvenli giriş yapılamadı.\nGeçersiz sunucu yanıtı.
 [Secure login failed.\nInvalid key length.]
 Güvenli giriş yapılamadı.\Geçersiz anahtar uzunluğu.
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? (this will remove you from his/her list on some clients)]
-Kullanıcının izinlerini geri almak istediğinizden emin misiniz (bu sizi bazı arkadaşlarınızın istemci listelerinden silecek)?
+[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
+Kullanıcının izinlerini geri almak istediğinizden emin misiniz? Bu sizi bazı arkadaşlarınızın istemci listelerinden silecek.
 [** This message was blocked by the ICQ server ** The message was invalid.]
 ** ICQ sunucusu bu iletiyi engelledi. ** İleti geçersiz.
 [** This message was blocked by the ICQ server ** The message was too long.]

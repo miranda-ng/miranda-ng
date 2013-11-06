@@ -12,7 +12,7 @@
 Verbindung prüfen
 [Max. retries]
 Max. Versuche
-[Account Connection]
+[Account connection]
 Kontoverbindung
 [Delay between retries (secs)]
 Verzögerung der Versuche (Sek.)
@@ -30,7 +30,7 @@ Nicht wieder verbinden, wenn keine Internetverbindung
 Fortlaufend Internetverbindung prüfen
 [Do so by pinging host]
 Ping senden an Host:
-[Confirm Status]
+[Confirm status]
 Status bestätigen
 [Close]
 Schließen
@@ -64,15 +64,15 @@ Setzen
 Nur bei Untätigkeit setzen
 [when workstation is locked]
 wenn der Computer gesperrt wird
-[Command Line]
+[Command line]
 Befehlszeile
 [OK]
 OK
-[Copy to Clipboard]
+[Copy to clipboard]
 In Zwischenablage kopieren
-[Command Line:]
+[Command line:]
 Befehlszeile:
-[Create Shortcut]
+[Create shortcut]
 Verknüpfung erstellen
 [Add new profile]
 Neues Profil hinzufügen
@@ -110,7 +110,7 @@ Fenstergröße
 x
 [Allow override]
 Aufheben möglich
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Hinweis: Statusprofile können im 'Statusprofile'-Dialog erstellt werden.
 [Window on startup]
 Kontaktliste beim Start
@@ -174,7 +174,7 @@ Variablen
 Einstellungen für jedes Konto festlegen
 [Use same settings for all accounts]
 Selbe Einstellungen für alle Konten verwenden
-[Ignore caps-lock, num-lock and scroll-lock keys]
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
 Feststell-, Nummernblock- und Rollentaste ignorieren
 [Check interval (secs)]
 Prüfintervall (s)
@@ -210,7 +210,7 @@ TopToolbar-Button erstellen
 Bestätigungsdialog beim Profilaufruf
 [Create a main menu item]
 Erzeuge einen Hauptmenüeintrag
-[Status Profiles]
+[Status profiles]
 Statusprofile
 [Hotkey]
 Hotkey

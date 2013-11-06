@@ -199,7 +199,7 @@ Ctrl+Лівий клік вкл. фільтр за протоколом, клі�
 Вирішити внутрішні запити статусних повідомлень
 [Remove status message if contact became offline]
 Видалити статусне повідомлення, якщо контакт оффлайн
-[Use improved search method in contactlist]
+[Use improved search method in contact list]
 Пошук за списком з фільтрацією результатів
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
 Для додаткових можливостей завантажте плагін MetaContacts.\n\nhttp://miranda-ng.org/p/MetaContacts/

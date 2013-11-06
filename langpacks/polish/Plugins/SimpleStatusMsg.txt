@@ -36,7 +36,7 @@ Nie zmieniaj opisu
 Zawsze ustawiaj taki sam opis
 [Do not set status message]
 Nie ustawiaj opisu
-[Status Messages]
+[Status messages]
 Opisy
 [Pop up dialog asking for new message]
 Pokazuj okno nowego opisu

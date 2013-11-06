@@ -11,7 +11,7 @@
 Перевіряти наявність з'єднання
 [Max. retries]
 Макс. спроб
-[Account Connection]
+[Account connection]
 Підключення до облікового запису
 [Delay between retries (secs)]
 Затримка між спробами (с)
@@ -29,7 +29,7 @@
 Постійно перевіряти підключення до Інтернету
 [Do so by pinging host]
 Пінгувати хост
-[Confirm Status]
+[Confirm status]
 Підтвердіть статус
 [Close]
 Закрити
@@ -63,13 +63,13 @@
 тільки при неактивності
 [when workstation is locked]
 при блокуванні комп'ютера
-[Command Line]
+[Command line]
 Ком. рядок
-[Copy to Clipboard]
+[Copy to clipboard]
 Копіювати в буфер обміну
-[Command Line:]
+[Command line:]
 Ком. рядок:
-[Create Shortcut]
+[Create shortcut]
 Створити ярлик
 [Add new profile]
 Додати профіль
@@ -105,7 +105,7 @@
 Розмір вікна
 [Allow override]
 Змінювати
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 Статус-профіль можна створити у вкладці "Профілі статусів".
 [Window on startup]
 Вікно при запуску
@@ -169,7 +169,7 @@
 Налаштування для кожного облікового запису
 [Use same settings for all accounts]
 Загальні налаштування для всіх облікових записів
-[Ignore caps-lock, num-lock and scroll-lock keys]
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
 Ігнорувати клавіші Caps Lock, Num Lock і Scroll Lock
 [Check interval (secs)]
 Інтервал перевірки (с)
@@ -205,7 +205,7 @@
 Підтверджувати при завантаженні
 [Create a main menu item]
 Пункт у головному меню
-[Status Profiles]
+[Status profiles]
 Профілі статусів
 [Hotkey]
 Гаряча клавіша
@@ -249,7 +249,7 @@
 хвилин режиму "%s"
 [Rules]
 Правила
-[Status Messages]
+[Status messages]
 Статусні повідомлення
 [Auto Away]
 Відсутність

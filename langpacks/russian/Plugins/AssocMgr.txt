@@ -21,17 +21,17 @@
 Тип
 [Description]
 Описание
-[URLs on Websites]
+[URLs on websites]
 Ссылки и сайты
-[File Types]
+[File types]
 Типы файлов
-[File Association Error]
+[File association error]
 Ошибка ассоциации файлов
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Ошибка при попытке записи в реестр ассоциаций файлов/ссылок.\n\nПричина: %s
 [Unknown]
 Неизвестно
-[Autostart Error]
+[Autostart error]
 Ошибка автозагрузки
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Ошибка при попытке записи в реестр значения автозапуска.\n\nПричина: %s
@@ -41,7 +41,7 @@ Miranda NG не может открыть "%S".\n\nДанная ссылка н�
 Службы
 [Associations]
 Ассоциации
-[Miranda NG Database]
+[Miranda NG database]
 База данных Miranda NG
 [Miranda NG could not open file]
 Miranda NG не может открыть файл
@@ -49,13 +49,13 @@ Miranda NG не может открыть файл
 Miranda NG не может открыть ссылку
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Доступ запрещён:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-[Registry Warning]
+[Registry warning]
 Предупреждение
 [AIM Link Protocol]
 Протокол AIM
 [ICQ Link Shortcut]
 Протокол ICQ
-[&Add to Contact List...]
+[&Add to contact list...]
 &Добавить в список контактов...
 [Yahoo Link Protocol]
 Протокол Yahoo

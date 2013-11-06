@@ -68,7 +68,7 @@ Vaše meno
 
 [Maximum number of events in the message window]
 
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 
 [Open log file base folder]
 
@@ -1522,7 +1522,7 @@ Farba pozadia
 
 [Message windows - all]
 
-[Message windows - groupchats]
+[Message windows - group chats]
 
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]

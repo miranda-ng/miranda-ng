@@ -84,9 +84,9 @@ Timestamp (registro)
 Número máximo de eventos na janela de mensagem
 [Maximum number of events in the message window]
 Número máximo de eventos na janela de mensagem
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Altura da linha de usários do grupo de bate-papo (pixels)
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Altura da linha para grupo de chat da lista de usuário(pixels)
 [List]
 Lista

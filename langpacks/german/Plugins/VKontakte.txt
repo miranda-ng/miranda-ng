@@ -12,9 +12,9 @@
 
 [Password:]
 
-[Open VK site]
+[Open VKontakte site] 
 
-[Bots Challenge Test]
+[Bots challenge test]
 
 [Instruction:]
 

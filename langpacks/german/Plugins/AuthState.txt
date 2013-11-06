@@ -14,7 +14,7 @@ Falls ein Kontakt Sie nicht autorisiert hat, zeigt dieses Plugin ein Icon vor se
 'Kontakt ist nicht autorisiert'-Icon anzeigen
 [Plugin settings]
 Plugin-Einstellungen
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 Hauptmenüeintrag anzeigen (*)
 [Show icons only for recently added contacts]
 Icons nur für kürzlich hinzugefügte Kontakte

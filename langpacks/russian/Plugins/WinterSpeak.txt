@@ -121,11 +121,11 @@ URL от %s.
 Изменения статуса
 [Occuring Events]
 Случившиеся события
-[Added to Contact List]
+[Added to contact list]
 Добавлен в список контактов
 [Message Events]
 Сообщения
-[Status Messages]
+[Status messages]
 Сообщения статуса
 [incoming message from %s]
 Сообщение от %s.

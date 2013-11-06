@@ -298,7 +298,7 @@
 Введіть електронну адресу.
 [Open in Browser]
 Відкрити в браузері
-[Added to Contact ContactList:]
+[Added to contact list:]
 Додано в контакт-лист:
 [Just from the beginning.]
 З самого початку.

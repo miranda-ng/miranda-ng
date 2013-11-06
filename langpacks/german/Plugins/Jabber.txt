@@ -244,7 +244,7 @@ Bestätigung:
 Anmeldung Jabber-Mehrbenutzerkonferenz
 [Conference server:]
 Konferenzserver:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Konferenzräume betreten/erstellen
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber-Mehrbenutzerkonferenz\nKonferenzräume betreten oder erstellen.
@@ -268,7 +268,7 @@ JID:
 Registrieren
 [Invite Users]
 Benutzer einladen
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <Raum-JID>\nGruppenchateinladung senden.
 [Other JID:]
 Andere JID:
@@ -278,9 +278,9 @@ Hinzufügen
 Einladungsgrund:
 [&Invite]
 E&inladen
-[Groupchat Invitation]
+[Group chat invitation]
 Gruppenchateinladung
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <Raum-JID>\nEingehende Gruppenchateinladung.
 [You are invited to conference room by]
 Sie wurden in den Konferenzraum von
@@ -725,7 +725,7 @@ Echte &JID kopieren
 JID für diesen Raum kopieren
 [Real &JID: %s]
 Echte &JID: %s
-[%s\nSend groupchat invitation.]
+[%s\nSend group chat invitation.]
 %s\nEinladung zum Gruppenchat versenden.
 [%s (not on roster)]
 %s (nicht in der Kontaktliste)
@@ -1045,7 +1045,7 @@ Der Name des Knotens
 Ob Klänge abgespielt werden sollen
 [A list of pending file transfers]
 Eine Liste ausstehender Dateiübertragungen
-[A list of joined groupchat rooms]
+[A list of joined group chat rooms]
 Eine Liste betretener Gruppenchaträume
 [A presence or availability status]
 
@@ -1112,7 +1112,7 @@ Raumlistenanforderung überschritt das Timeout.
 Wird geladen...
 [Please wait for room list to download.]
 Bitte warten Sie bis die Raumliste gedownloaded ist.
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 Geben Sie zuerst einen Konferenzserver an.
 [Bookmarks...]
 Lesezeichen...
@@ -1120,7 +1120,7 @@ Lesezeichen...
 Nicknamen in <%s> ändern
 [has set the subject to:]
 hat den Betreff geändert auf:
-[%s\nIncoming groupchat invitation.]
+[%s\nIncoming group chat invitation.]
 %s\nEinladung zu einem Gruppenchat.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
@@ -1277,7 +1277,7 @@ Registrierte Transporte
 Transporte des Anmeldeservers
 [Browse Chatrooms]
 Konferenzräume durchsuchen
-[Create/Join groupchat]
+[Create/Join group chat]
 Konferenzräume betreten/erstellen
 [Roster editor]
 Serverseitige Kontaktliste
@@ -1965,7 +1965,7 @@ Status setzen
 Einstellungen vornehmen
 [Forward unread messages]
 Ungelesene Nachrichten weiterleiten
-[Leave groupchats]
+[Leave group chats]
 Konferenzräume verlassen
 [Lock workstation]
 Arbeitsstation sperren
@@ -2019,14 +2019,14 @@ Fehler %d ist beim Sperren der Arbeitsstation aufgetreten.
 Bestätigung benötigt
 [Please confirm Miranda NG shutdown]
 Bitte bestätigen Sie das Beenden von Miranda NG
-[There is no groupchats to leave]
+[There is no group chats to leave]
 Es gibt keine zu verlassenden Gruppenchats
-[Choose the groupchats you want to leave]
+[Choose the group chats you want to leave]
 Wählen Sie aus, welche Gruppenchats Sie verlassen wollen.
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Fehler %s %s\r\nBitte den Server wechseln!
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 Fehler: Unbekannte Antwort erhalten.\r\nBitte den Server wechseln!
 [Error %s %s\r\nTry to specify more detailed]
 Fehler %s %s\r\nBitte gehen Sie ins Detail

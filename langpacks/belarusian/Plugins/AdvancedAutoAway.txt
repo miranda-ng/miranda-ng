@@ -12,7 +12,7 @@ AutoAway - убудова з пашыраным наборам функцый.
 Правяраць
 [Max. retries]
 Макс. спроб
-[Account Connection]
+[Account connection]
 Далучэнне конту
 [Delay between retries (secs)]
 Затрымка паміж спробамі (сек)
@@ -30,7 +30,7 @@ AutoAway - убудова з пашыраным наборам функцый.
 Увесь час правяраць далучэнне да Інтэрнэту
 [Do so by pinging host]
 Пінгаваць хост
-[Confirm Status]
+[Confirm status]
 Пацвердзіце статус
 [Close]
 Зачыніць
@@ -64,15 +64,15 @@ AutoAway - убудова з пашыраным наборам функцый.
 толькі пры неактыўнасці
 [when workstation is locked]
 пры блакаванні кампутара
-[Command Line]
+[Command line]
 Камандны радок
 [OK]
 ОК
-[Copy to Clipboard]
+[Copy to clipboard]
 Капіяваць у буфер
-[Command Line:]
+[Command line:]
 Кам. радок:
-[Create Shortcut]
+[Create shortcut]
 Стварыць цэтлік
 [Add new profile]
 Дадаць профіль
@@ -110,7 +110,7 @@ AutoAway - убудова з пашыраным наборам функцый.
 x
 [Allow override]
 Змяняць
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 статус-профіль можна стварыць ва ўкладцы "Профілі статусаў".
 [Window on startup]
 Вакно пры запуску
@@ -174,8 +174,8 @@ Dial-up (эксперыментальна)
 Асабіста для кожнага конту
 [Use same settings for all accounts]
 Агульна для ўсіх контаў
-[Ignore caps-lock, num-lock and scroll-lock keys]
-Ігнараваць клавішы caps-lock, num-lock і scroll-lock
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Ігнараваць клавішы Caps Lock, Num Lock і Scroll Lock
 [Check interval (secs)]
 Інтэрвал праверкі (сек):
 [Confirm dialog timeout (secs)]
@@ -210,7 +210,7 @@ Dial-up (эксперыментальна)
 Пацвярджаць пры загрузцы
 [Create a main menu item]
 Пункт у галоўным меню
-[Status Profiles]
+[Status profiles]
 Профілі статусаў
 [Hotkey]
 Гарачая клавіша
@@ -261,7 +261,7 @@ Dial-up (эксперыментальна)
 хвілін рэжыму "%s"
 [Rules]
 Кіравала
-[Status Messages]
+[Status messages]
 Паведамленні статусу
 [Auto Away]
 Адсутнасць

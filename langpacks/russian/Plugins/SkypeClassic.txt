@@ -11,7 +11,7 @@
 Позвонить по Skype
 [Call using SkypeOut]
 Позвонить по SkypeOut
-[&Open groupchat]
+[&Open group chat]
 Открыть чат
 [Import Skype history]
 Импортировать историю из Skype

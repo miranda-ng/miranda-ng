@@ -38,8 +38,6 @@ Kişi resmi
 Sil
 [Reset]
 Sıfırla
-[Reset]
-Sıfırla
 [Picture options]
 Resim seçenekleri
 [Protect the picture]
@@ -54,12 +52,6 @@ Varsayılanı kullan
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
-[Options]
-Seçenekler
 [Options]
 Seçenekler
 [Background]
@@ -76,8 +68,6 @@ Her protokolün kendi avatarını kullan
 [Protocols have different avatars]
 Protokollerin farklı avatarları var
 ;file \plugins\AVS\src\main.cpp
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 [Windows Bitmaps]

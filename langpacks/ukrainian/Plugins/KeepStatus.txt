@@ -11,7 +11,7 @@
 Перевіряти
 [Max. retries]
 Макс. спроб
-[Account Connection]
+[Account connection]
 
 [Delay between retries (secs)]
 Затримка між спробами (с)
@@ -29,7 +29,7 @@
 Постійно перевіряти підключення до Інтернету
 [Do so by pinging host]
 Пінговати хост
-[Confirm Status]
+[Confirm status]
 Підтвердити статус
 [Close]
 Закрити
@@ -63,15 +63,15 @@
 
 [when workstation is locked]
 
-[Command Line]
+[Command line]
 Ком. рядок
 [OK]
 
-[Copy to Clipboard]
+[Copy to clipboard]
 Копіювати в буфер
-[Command Line:]
+[Command line:]
 Ком. рядок:
-[Create Shortcut]
+[Create shortcut]
 
 [Add new profile]
 
@@ -109,7 +109,7 @@
 
 [Allow override]
 
-[Note: status profiles can be created in the 'Status Profiles' options screen]
+[Note: status profiles can be created in the 'Status profiles' options screen]
 
 [Window on startup]
 
@@ -209,7 +209,7 @@
 
 [Create a main menu item]
 Пункт у головному меню
-[Status Profiles]
+[Status profiles]
 
 [Hotkey]
 Гаряча клавіша

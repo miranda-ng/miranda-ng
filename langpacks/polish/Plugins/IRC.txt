@@ -258,7 +258,7 @@ Ignoruj żądania rozmów DCC
 Ignoruj żądania rozmów DCC od nieznanych kontaktów
 [Ignore users]
 Ignoruj użytkowników
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Zapytania użytkowników z listy kontaktów nigdy nie są igonorowane
 [Queries]
 Zapytania

@@ -222,7 +222,7 @@ PCS
 Рэгістрацыя
 [Invite Users]
 Запрашэнне карыстачоў
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <room jid>\nЗапрасіць у чат-пакой.
 [Other JID:]
 Іншы JID:
@@ -232,9 +232,9 @@ PCS
 Чыннік запрашэння:
 [&Invite]
 Запрасіць
-[Groupchat Invitation]
+[Group chat invitation]
 Запрашэнне ў канферэнцыю
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <room jid>\nЗапрашэнне ў чат-пакой.
 [You are invited to conference room by]
 Вас запрасіў:
@@ -599,8 +599,8 @@ Jabber Ad-Hoc каманды на %s
 Капіяваць JID з пакою
 [Real &JID: %s]
 Рэальны JID: %s
-[Send groupchat invitation.]
-Запрасіць у канферэнцыю.
+[%s\nSend group chat invitation.]
+%s\nЗапрасіць у канферэнцыю.
 [from]
 з
 [Reason to kick]
@@ -678,8 +678,8 @@ Jabber памылка
 Калі ласка, пачакайце пакуль спіс пакояў загрузіцца.
 [Bookmarks...]
 Закладкі...
-[Incoming groupchat invitation.]
-Запрашэнне ў канферэнцыю.
+[%s\nIncoming group chat invitation.]
+%s\nЗапрашэнне ў канферэнцыю.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 транспарт
@@ -825,7 +825,7 @@ Jabber Рэсурс
 Транспарты сервера
 [Browse Chatrooms]
 Агляд чат-пакояў
-[Create/Join groupchat]
+[Create/Join group chat]
 Стварыць/увайсці ў чат
 [Roster editor]
 Рэдактар росцера
@@ -1469,7 +1469,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 Усталяваць налады
 [Forward unread messages]
 Перасылаць непрачытаныя паведамленні
-[Leave groupchats]
+[Leave group chats]
 Пакінуць чаты
 [Lock workstation]
 Заблакаваць кампутар
@@ -1509,12 +1509,12 @@ XML для MS Excel (кадзіроўка UTF-8)
 Памылка %d паўстала падчас працэсу блакавання
 [Please confirm Miranda NG shutdown]
 Пацвердзіце выключэнне праграмы
-[There is no groupchats to leave]
+[There is no group chats to leave]
 Няма чатаў для адключэння
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Памылка %s %s\r\n Калі ласка абярыце іншы сервер
-[Error Unknown reply received\r\nPlease select other server]
+[Error: unknown reply received\r\nPlease select other server]
 Памылка, прыняты невядомы адказ\r\n Калі ласка, абярыце іншы сервер
 [Error %s %s\r\nTry to specify more detailed]
 Памылка %s %s\r\n Паспрабуйце паказаць больш дэталяў

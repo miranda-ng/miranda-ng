@@ -398,7 +398,7 @@ Akceptuj wewnętrzne prośby o treść opisu
 Wcięcie subkontaktów:
 [Remove status message if contact became offline]
 Usuń opis, jeśli kontakt się rozłączy
-[Use improved search method in contactlist]
+[Use improved search method in contact list]
 Użyj ulepszonej metody wyszukiwania na liście kontaktów
 [Show time only if it is different from current time]
 Pokaż czas tylko wtedy, gdy różni się od bieżącego

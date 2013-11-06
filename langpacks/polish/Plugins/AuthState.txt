@@ -14,7 +14,7 @@ Pokaz ikonę autoryzacji
 Pokaż ikonę przyznania
 [Plugin settings]
 Ustawienia wtyczki
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 Dodaj element do menu (*}
 [Show icons only for recently added contacts]
 Pokazuj ikony tylko dla nowo dodanych kontaktów

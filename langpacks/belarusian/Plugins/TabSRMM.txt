@@ -68,7 +68,7 @@
 Час (файл)
 [Maximum number of events in the message window]
 Максімальная колькасць падзей у акне чатаў
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Вышыня пунктаў спісу карыстачоў (пікс.)
 [Open log file base folder]
 Адкрыць тэчку з логамі чатаў
@@ -1484,7 +1484,7 @@ TabSRMM: Набірае
 Вокны паведамленняў - IM
 [Message windows - all]
 Вокны паведамленняў - усё
-[Message windows - groupchats]
+[Message windows - group chats]
 Гутаркі - чаты
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]

@@ -26,8 +26,6 @@ Diğer
 Art alan rengi
 [Text color]
 Yazı rengi
-[Text color]
-Yazı rengi
 [Use Windows colors]
 Windows renklerini kullan
 [Events]
@@ -45,7 +43,7 @@ Sil
 [seconds]
 saniye
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status Messages]
+[Status messages]
 Durum İletileri
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]

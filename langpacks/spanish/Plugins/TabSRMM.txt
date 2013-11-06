@@ -64,7 +64,7 @@ Marca de tiempo (ventana)
 Marca de tiempo ('log')
 [Maximum number of events in the message window]
 Número máximo de eventos en la ventana del mensaje
-[Groupchat userlist row height (pixels)]
+[Group chat userlist row height (pixels)]
 Lista de usuarios Grupo de charla de alto de fila (píxeles)
 [Open log file base folder]
 Abrir carpeta de archivos de registro de base
@@ -1216,7 +1216,7 @@ Característica habilitada (utilizado como recubrimiento)
 Mensaje ventanas - IM
 [Message windows - all]
 Mensaje ventanas - todos
-[Message windows - groupchats]
+[Message windows - group chats]
 Mensaje ventanas - groupchats
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]

@@ -31,7 +31,7 @@
 Не уведомлять при подключении
 [sec]
 сек
-[Prefix proto name]
+[Prefix protocol name]
 Имя учётной записи
 [Duration]
 Длительность
@@ -67,7 +67,7 @@
 Ожидание
 [Tooltip Notify]
 Уведомления
-[Other Status]
+[Other status]
 Другой статус
 [Tooltip Notify: Online]
 Уведомления: В сети

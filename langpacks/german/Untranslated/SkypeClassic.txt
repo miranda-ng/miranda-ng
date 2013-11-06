@@ -71,7 +71,7 @@
 [Hold call]
 [Resume call]
 [&File]
-[&Open groupchat]
+[&Open group chat]
 [Import Skype history]
 [Add Skype contact]
 [Unknown]

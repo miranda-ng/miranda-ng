@@ -34,7 +34,7 @@ Odpojený
 
 [sec]
 sek
-[Prefix proto name]
+[Prefix protocol name]
 
 [Duration]
 
@@ -73,7 +73,7 @@ Kontakty
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 
-[Other Status]
+[Other status]
 
 [Tooltip Notify: Online]
 

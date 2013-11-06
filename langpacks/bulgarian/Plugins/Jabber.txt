@@ -244,7 +244,7 @@ PCS
 Jabber конференция
 [Conference server:]
 Сървър:
-[Create or Join Groupchat]
+[Create or Join group chat]
 Създаване или влизане в групов чат
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Jabber конференция\nСъздайте/присъединете се към съществуваща стая.
@@ -268,7 +268,7 @@ JID:
 Регистриране
 [Invite Users]
 Покани потребите
-[<room jid>\nSend groupchat invitation.]
+[<room jid>\nSend group chat invitation.]
 <room jid>\nИзпращане на покана за групов чат.
 [Other JID:]
 Друг JID:
@@ -278,9 +278,9 @@ JID:
 Причина за поканата:
 [&Invite]
 Покана
-[Groupchat Invitation]
+[Group chat invitation]
 Покана за групов чат
-[<room jid>\nIncoming groupchat invitation.]
+[<room jid>\nIncoming group chat invitation.]
 <room jid>\nВходяща покана за групов чат.
 [You are invited to conference room by]
 Поканени сте в конферентна стая от
@@ -723,8 +723,8 @@ Jabber настроение
 Копиране JID за стаята
 [Real &JID: %s]
 Истински JID: %s
-[Send groupchat invitation.]
-Изпращане на покана за групов чат.
+[%s\nSend group chat invitation.]
+%s\nИзпращане на покана за групов чат.
 [not on roster]
 не е в списъка с хора
 [Member Info:]
@@ -1043,7 +1043,7 @@ Jabber грешка
 
 [A list of pending file transfers]
 
-[A list of joined groupchat rooms]
+[A list of joined group chat rooms]
 
 [A presence or availability status]
 
@@ -1110,14 +1110,14 @@ Jabber грешка
 Зареждане...
 [Please wait for room list to download.]
 Моля, изчакайте списъка със стаи да бъде свален.
-[Please specify groupchat directory first.]
+[Please specify group chat directory first.]
 
 [Bookmarks...]
 Отметки...
 [has set the subject to:]
 зададе темата:
-[Incoming groupchat invitation.]
-Входяща покана за групов чат.
+[%s\nIncoming group chat invitation.]
+%s\nВходяща покана за групов чат.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 транспорт
@@ -1271,7 +1271,7 @@ Jabber източник
 Видове транспорт на сървъра
 [Browse Chatrooms]
 Разглеждане на чат стаите
-[Create/Join groupchat]
+[Create/Join group chat]
 Създаване/Влизане в групов чат
 [Roster editor]
 Редактор на списъка с хора
@@ -1959,7 +1959,7 @@ Facebook чат
 Конфигуриране
 [Forward unread messages]
 Препращане на непрочетените съобщения
-[Leave groupchats]
+[Leave group chats]
 Излизане от груповите чатове
 [Lock workstation]
 Заключване на работната станция
@@ -2013,15 +2013,15 @@ Facebook чат
 Необходимо е потвърждаване
 [Please confirm Miranda NG shutdown]
 Моля, потвърдете изключването на Miranda NG
-[There is no groupchats to leave]
+[There is no group chats to leave]
 Няма групови чатове, от които да излезете
-[Choose the groupchats you want to leave]
+[Choose the group chats you want to leave]
 Изберете груповите чатове, от които желаете да излезете
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Грешка %s %s\r\nМоля, изберете друг сървър
-[Error Unknown reply received\r\nPlease select other server]
-Грешка: Получен е непознат отговор\r\nМоля, изберете друг сървър
+[Error: unknown reply received\r\nPlease select other server]
+Грешка: получен е непознат отговор\r\nМоля, изберете друг сървър
 [Error %s %s\r\nTry to specify more detailed]
 
 [Search error]

@@ -17,21 +17,21 @@ Associer uniquement avec Miranda-IM quand il est lancé.
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
 Fichiers %hs
-[URLs on Websites]
+[URLs on websites]
 URL des sites web
-[File Types]
+[File types]
 Types de fichier
-[File Association Error]
+[File association error]
 Erreur d'association de fichier
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Il s'est produit une erreur lors de la modification de l'association du type fichier/URL dans la base de registre.\nMotif: %s
 [Unknown]
 Inconnu
-[Autostart Error]
+[Autostart error]
 Erreur de lancement automatique
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Il s'est produit une erreur lors de la modification de la liste des lancements automatiques.\n\nMotif: %s
-[Miranda NG Database]
+[Miranda NG database]
 Profil Miranda-IM
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
@@ -42,7 +42,7 @@ Miranda-IM ne peut ouvrir cet URL
 ;file \plugins\AssocMgr\src\test.cpp
 [ICQ Link Shortcut]
 Raccourci du protocole ICQ
-[&Add to Contact List...]
+[&Add to contact list...]
 &Ajouter à la liste de contacts...
 [Yahoo Link Protocol]
 Raccourci du protocole Yahoo

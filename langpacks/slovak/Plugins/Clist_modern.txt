@@ -400,7 +400,7 @@ Ikona v oznamovacej oblasti
 
 [Remove status message if contact became offline]
 
-[Use improved search method in contactlist]
+[Use improved search method in contact list]
 
 [Show time only if it is different from current time]
 

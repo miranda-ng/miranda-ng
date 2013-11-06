@@ -47,7 +47,7 @@ segundo
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 las actas de %s la moda
-[Status Messages]
+[Status messages]
 Mensaje de estado
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]

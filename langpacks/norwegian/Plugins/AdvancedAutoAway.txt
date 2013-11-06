@@ -43,7 +43,7 @@ Slett
 [seconds]
 sekunder
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status Messages]
+[Status messages]
 Statusmeldinger
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]

@@ -12,7 +12,7 @@
 &C 취소
 [OK]
 확인
-[Status Messages]
+[Status messages]
 상태 메세지
 [seconds]
 초

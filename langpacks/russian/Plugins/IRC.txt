@@ -513,7 +513,7 @@ ID пользователя
 Режим -a
 [%s sets mode %s%s]
 %s установил режим %s%s
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Не игнорировать запросы от пользователей из списка
 [Add new ignore]
 Добавить новое правило

@@ -14,7 +14,7 @@
 Показване на икона "Разрешено"
 [Plugin settings]
 Настройване на приставката
-[Enable Menu Item (*)]
+[Enable menu item (*)]
 Елемент в менюто*
 [Show icons only for recently added contacts]
 Показване на икони само за скоро добавените контакти

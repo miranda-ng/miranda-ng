@@ -257,7 +257,7 @@ Wildcard пошук по мережі
 Ігнорувати запити DCC-чатів від невідомих контактів
 [Ignore users]
 Ігнорувати користувачів
-[(*) Queries from users on your contactlist are never ignored]
+[(*) Queries from users on your contact list are never ignored]
 (*) Не ігнорувати запити від користувачів зі списку
 [Queries]
 

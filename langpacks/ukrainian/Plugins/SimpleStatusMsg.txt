@@ -35,7 +35,7 @@
 Завжди встановлювати це повідомлення
 [Do not set status message]
 Не встановлювати повідомлення статусу
-[Status Messages]
+[Status messages]
 Повідомлення статусу
 [Pop up dialog asking for new message]
 Діалог для нових повідомлень

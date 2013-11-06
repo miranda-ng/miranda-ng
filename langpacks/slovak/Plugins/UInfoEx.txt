@@ -58,7 +58,7 @@ Mesto:
 
 [Country:]
 Krajina:
-[Contact added to ContactList:]
+[Contact added to contact list:]
 
 [Just from the beginning.]
 
