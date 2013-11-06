@@ -188,9 +188,11 @@ OTR-статус
 [Policy]
 Политика
 [Default Policy]
-Политика по умолчанию
+Политика по умолчанию:
 [Opportunistic]
-Авантюристичная
+Автоматически
+[Manual]
+Вручную
 [End sessions when contacts go offline]
 Остановить сессию, когда контакт уходит из сети
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
