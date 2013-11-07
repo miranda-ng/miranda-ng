@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "global.h"
 
+#include <m_version.h>
+
 /************************************************************************/
 /* This file contains data about appropriate MirVer values              */
 /************************************************************************/
@@ -44,43 +46,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 *    In order to get "Unknown" client, last mask should be "?*".
 */
 
+#define NIGHTLY_CORE_VERSION _T("|*Miranda*NG*") _T(MIRANDA_VERSION_CORE_STRING) _T("*")
+
 KN_FP_MASK def_kn_fp_mask[] =
 {// {"Client_IconName",         _T("|^*Mask*|*names*"),                         _T("Icon caption"),                 IDI_RESOURCE_ID,         CLIENT_CASE,    OVERLAY?    },
 //#########################################################################################################################################################################
 //#################################   MIRANDA   ###########################################################################################################################
 //#########################################################################################################################################################################
 
-	{"client_Miranda_NG_stbl",  _T("|Miranda*NG*0.92.3.1504*")
-                                _T("|Miranda*NG*0.93.1.1649*")
-                                _T("|Miranda*NG*0.93.2.1746*")
-                                _T("|Miranda*NG*0.93.3.2110*")
-                                _T("|Miranda*NG*0.93.4.2450*")
-                                _T("|Miranda*NG*0.93.5.3007*")
-                                _T("|Miranda*NG*0.94.1.3800*")
-                                _T("|Miranda*NG*0.94.2.4228*")
-								_T("|Miranda*NG*0.94.3.4844*")
-								_T("|Miranda*NG*0.94.4.5216*")
-								_T("|Miranda*NG*0.94.5.6300*")
-								_T("|Miranda*NG*stable*"),                  LPGENT("MirandaNG stable"),             IDI_MIRANDA_NG_STABLE,   MIRANDA_CASE                },
-
 	{"client_Miranda_NG",       _T("|*nightly.miranda.im*")
-                                _T("|*Miranda*NG*"),                            _T("MirandaNG"),                    IDI_MIRANDA_NG,          MIRANDA_CASE                },
+                                NIGHTLY_CORE_VERSION,                           _T("MirandaNG"),                    IDI_MIRANDA_NG,          MIRANDA_CASE },
 
-	{"client_Miranda_010xx",    _T("Miranda*IM*0.10.*"),                        _T("MirandaIM v0.10.x.x"),          IDI_MIRANDA_010X,        MIRANDA_CASE                },
+	{"client_Miranda_NG_stbl",  _T("|Miranda*NG*"),                              LPGENT("MirandaNG stable"),         IDI_MIRANDA_NG_STABLE,   MIRANDA_CASE },
+
+	{"client_Miranda_010xx",    _T("Miranda*IM*0.10.*"),                         _T("MirandaIM v0.10.x.x"),          IDI_MIRANDA_010X,        MIRANDA_CASE },
 	{"client_Miranda_09XX",     _T("|*Miranda*IM*0.9*")
-                                _T("|*miranda-im.org/caps#*0.9*"),              _T("MirandaIM v0.9.x.x"),           IDI_MIRANDA_09XX,        MIRANDA_CASE                },
+                                _T("|*miranda-im.org/caps#*0.9*"),              _T("MirandaIM v0.9.x.x"),           IDI_MIRANDA_09XX,        MIRANDA_CASE },
 	{"client_Miranda_08XX",     _T("|^Miranda*0.7*Jabb*")
                                 _T("|*Miranda*0.8*")
-                                _T("|*miranda-im.org/caps#*0.8*"),              _T("MirandaIM v0.8.x.x"),           IDI_MIRANDA_08XX,        MIRANDA_CASE                },
+                                _T("|*miranda-im.org/caps#*0.8*"),              _T("MirandaIM v0.8.x.x"),           IDI_MIRANDA_08XX,        MIRANDA_CASE },
 	{"client_Miranda_07XX",     _T("|*Miranda*0.7*")
-                                _T("|*miranda-im.org/caps#*0.7*"),              _T("MirandaIM v0.7.x.x"),           IDI_MIRANDA_07XX,        MIRANDA_CASE                },
-	{"client_Miranda_06XX",     _T("*Miranda*0.6*"),                            _T("MirandaIM v0.6.x.x"),           IDI_MIRANDA_06XX,        MIRANDA_CASE                },
-	{"client_Miranda_05XX",     _T("*Miranda*0.5*"),                            _T("MirandaIM v0.5.x.x"),           IDI_MIRANDA_05XX,        MIRANDA_CASE                },
-	{"client_Miranda_04XX",     _T("*Miranda*0.4*"),                            _T("MirandaIM v0.4.x.x"),           IDI_MIRANDA_04XX,        MIRANDA_CASE                },
+                                _T("|*miranda-im.org/caps#*0.7*"),              _T("MirandaIM v0.7.x.x"),           IDI_MIRANDA_07XX,        MIRANDA_CASE },
+	{"client_Miranda_06XX",     _T("*Miranda*0.6*"),                             _T("MirandaIM v0.6.x.x"),           IDI_MIRANDA_06XX,        MIRANDA_CASE },
+	{"client_Miranda_05XX",     _T("*Miranda*0.5*"),                             _T("MirandaIM v0.5.x.x"),           IDI_MIRANDA_05XX,        MIRANDA_CASE },
+	{"client_Miranda_04XX",     _T("*Miranda*0.4*"),                             _T("MirandaIM v0.4.x.x"),           IDI_MIRANDA_04XX,        MIRANDA_CASE },
 
-	{"client_Miranda_old",      _T("*Miranda*0.?*"),                        LPGENT("MirandaIM (old versions)"),     IDI_MIRANDA_OLD,         MIRANDA_CASE                },
+	{"client_Miranda_old",      _T("*Miranda*0.?*"),                         LPGENT("MirandaIM (old versions)"),     IDI_MIRANDA_OLD,         MIRANDA_CASE },
 
-	{"client_Miranda_unknown",  _T("*Miranda*"),                            LPGENT("Miranda (unknown)"),            IDI_MIRANDA_UNKNOWN,     MIRANDA_CASE                },
+	{"client_Miranda_unknown",  _T("*Miranda*"),                             LPGENT("Miranda (unknown)"),            IDI_MIRANDA_UNKNOWN,     MIRANDA_CASE },
 
 //#########################################################################################################################################################################
 //#################################   MULTI-PROTOCOL   ####################################################################################################################
