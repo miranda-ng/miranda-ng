@@ -278,18 +278,18 @@ BEGIN
                     WS_TABSTOP | ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY,1,41,181,28,WS_EX_STATICEDGE
     CONTROL         "",IDC_MESSAGE,RICHEDIT_CLASS,WS_VSCROLL | WS_TABSTOP |
                     ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_WANTRETURN,0,87,181,13,WS_EX_ACCEPTFILES | WS_EX_STATICEDGE
-    CONTROL         "&U",IDC_USERMENU,"MButtonClass",0x0,1,71,16,14,
+    CONTROL         "&User menu",IDC_USERMENU,"MButtonClass",0x0,1,71,16,14,
 					0x18000000L
-    CONTROL         "&D",IDC_DETAILS,"MButtonClass",0x0,17,71,16,14,
+    CONTROL         "User &Details",IDC_DETAILS,"MButtonClass",0x0,17,71,16,14,
 					0x18000000L
-    CONTROL         "&E",IDC_SMILEYS,"MButtonClass",0x0,41,71,16,14,
+    CONTROL         "&Emoticons",IDC_SMILEYS,"MButtonClass",0x0,41,71,16,14,
 					0x18000000L
-    CONTROL         "",IDC_ADD,"MButtonClass",0x0,110,71,16,14,0x18000000L
-    CONTROL         "&H",IDC_HISTORY,"MButtonClass",0x0,130,71,16,14,
+    CONTROL         "&Add",IDC_ADD,"MButtonClass",0x0,110,71,16,14,0x18000000L
+    CONTROL         "&History",IDC_HISTORY,"MButtonClass",0x0,130,71,16,14,
 					0x18000000L
-    CONTROL         "&Q",IDC_QUOTE,"MButtonClass",0x0,130,71,16,14,
+    CONTROL         "&Quote",IDC_QUOTE,"MButtonClass",0x0,130,71,16,14,
 					0x18000000L
-    CONTROL         "",IDOK,"MButtonClass",0x0,162,71,20,14,0x18000000L
+    CONTROL         "&OK",IDOK,"MButtonClass",0x0,162,71,20,14,0x18000000L
     CONTROL         "",IDC_SPLITTER,"Static",SS_ENHMETAFILE | WS_CLIPSIBLINGS,0,85,183,2
     CONTROL         "",IDC_AVATAR,"Static", SS_OWNERDRAW,180,80,0,0
 END
