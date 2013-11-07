@@ -416,6 +416,22 @@ void strdel(TCHAR *parBuffer, int len )
 }
 
 #if MIRANDA_VER < 0x0A00
+static char szHexTable[] = "0123456789abcdef";
+
+char* bin2hex(const void *pData, size_t len, char *dest)
+{
+	const BYTE *p = (const BYTE*)pData;
+	char *d = dest;
+
+	for (size_t i=0; i < len; i++, p++) {
+		*d++ = szHexTable[*p >> 4];
+		*d++ = szHexTable[*p & 0x0F];
+	}
+	*d = 0;
+
+	return dest;
+}
+
 char* rtrim(char *str)
 {
 	if (str == NULL)

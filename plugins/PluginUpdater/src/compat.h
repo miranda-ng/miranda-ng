@@ -76,6 +76,7 @@ __forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 	return CallService("Opt/AddPage", wParam, (LPARAM)odp);
 }
 
+char* bin2hex(const void *pData, size_t len, char *dest);
 char *rtrim(char *str);
 int CreatePathToFileT(const TCHAR *ptszPath);
 
