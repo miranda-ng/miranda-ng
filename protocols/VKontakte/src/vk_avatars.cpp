@@ -77,6 +77,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if ( IsOnline()) {
 		AsyncHttpRequest *pReq = new AsyncHttpRequest();
+		pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
 		pReq->szUrl = mir_strdup(szUrl);
 		pReq->pUserInfo = (char*)AI->hContact;
 		pReq->m_pFunc = &CVkProto::OnReceiveAvatar;
