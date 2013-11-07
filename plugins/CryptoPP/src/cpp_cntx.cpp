@@ -1,7 +1,8 @@
 #include "commonheaders.h"
 
 // get context data on context id
-pCNTX get_context_on_id(HANDLE context) {
+pCNTX get_context_on_id(HANDLE context)
+{
 	if ( context ) {
 		pCNTX cntx = (pCNTX) context;
 		if ( cntx->header == HEADER && cntx->footer == FOOTER )
@@ -15,7 +16,8 @@ pCNTX get_context_on_id(HANDLE context) {
 }
 
 // create context, return context id
-HANDLE __cdecl cpp_create_context(int mode) {
+HANDLE __cdecl cpp_create_context(int mode)
+{
 	pCNTX cntx = (pCNTX) malloc(sizeof(CNTX));
 	memset(cntx,0,sizeof(CNTX)); // очищаем выделенный блок
 	cntx->header = HEADER;
@@ -26,7 +28,8 @@ HANDLE __cdecl cpp_create_context(int mode) {
 
 
 // delete context
-void __cdecl cpp_delete_context(HANDLE context) {
+void __cdecl cpp_delete_context(HANDLE context)
+{
 	pCNTX tmp = get_context_on_id(context);
 	if (tmp) { // помечаем на удаление
 		cpp_free_keys(tmp);
@@ -36,40 +39,40 @@ void __cdecl cpp_delete_context(HANDLE context) {
 
 
 // reset context
-void __cdecl cpp_reset_context(HANDLE context) {
+void __cdecl cpp_reset_context(HANDLE context)
+{
 	pCNTX tmp = get_context_on_id(context);
 	if (tmp)	cpp_free_keys(tmp);
 }
 
 
 // allocate pdata
-PBYTE cpp_alloc_pdata(pCNTX ptr) {
+PBYTE cpp_alloc_pdata(pCNTX ptr)
+{
 	if ( !ptr->pdata ) {
-	    if ( ptr->mode & MODE_PGP ) {
+		if ( ptr->mode & MODE_PGP ) {
 			ptr->pdata = (PBYTE) malloc(sizeof(PGPDATA));
 			memset(ptr->pdata,0,sizeof(PGPDATA));
-	    }
-	    else
-	    if ( ptr->mode & MODE_GPG ) {
+		}
+		else if ( ptr->mode & MODE_GPG ) {
 			ptr->pdata = (PBYTE) malloc(sizeof(GPGDATA));
 			memset(ptr->pdata,0,sizeof(GPGDATA));
-	    }
-	    else
-	    if ( ptr->mode & MODE_RSA ) {
+		}
+		else if ( ptr->mode & MODE_RSA ) {
 			rsa_alloc(ptr);
-	    }
-	    else {
+		}
+		else {
 			ptr->pdata = (PBYTE) malloc(sizeof(SIMDATA));
 			memset(ptr->pdata,0,sizeof(SIMDATA));
-	    }
+		}
 	}
 	return ptr->pdata;
 }
 
 
 // free memory from keys
-void cpp_free_keys(pCNTX ptr) {
-
+void cpp_free_keys(pCNTX ptr)
+{
 	replaceStr(ptr->tmp, 0);
 	cpp_alloc_pdata(ptr);
 	if ( ptr->mode & MODE_PGP ) {

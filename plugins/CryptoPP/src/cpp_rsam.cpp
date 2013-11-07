@@ -717,23 +717,23 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		int features; string sha1,sha2;
 		un_tlv(un_tlv(un_tlv(data,t[0],features),t[1],sha1),t[2],sha2);
 		BOOL lr = (p->pub_s==sha1); BOOL ll = (r->pub_s==sha2);
-		switch( (lr<<4)|ll ) {
-		case 0x11: { // оба паблика совпали
+		switch((lr << 4) | ll) {
+		case 0x11:   // оба паблика совпали
 			inject_msg(context,0x21,gen_aes_key_iv(ptr->mode,p,r));
-			p->state=5;
-		} break;
-		case 0x10: { // совпал удаленный паблик, нужен локальный
+			p->state = 5;
+			break;
+		case 0x10:  // совпал удаленный паблик, нужен локальный
 			inject_msg(context,0x22,tlv(0,features)+tlv(1,r->pub_k)+tlv(2,r->pub_s));
-			p->state=3;
-		} break;
-		case 0x01: { // совпал локальный паблик, нужен удаленный
+			p->state = 3;
+			break;
+		case 0x01:  // совпал локальный паблик, нужен удаленный
 			inject_msg(context,0x23,tlv(0,features));
-			p->state=3;
-		} break;
-		case 0x00: { // не совпали оба паблика
+			p->state = 3;
+			break;
+		case 0x00:  // не совпали оба паблика
 			inject_msg(context,0x24,tlv(0,features)+tlv(1,r->pub_k)+tlv(2,r->pub_s));
-			p->state=3;
-		} break;
+			p->state = 3;
+			break;
 		}
 	} break;
 
@@ -1078,6 +1078,5 @@ int __cdecl rsa_import_pubkey(HANDLE context, LPSTR pubKey) {
 	}	
 	return 0;
 }
-
 
 // EOF

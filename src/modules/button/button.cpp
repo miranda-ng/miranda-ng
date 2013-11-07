@@ -283,12 +283,12 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 					SendMessage(bct->hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 
 				if (SendMessage(bct->hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
-					int idx;
 					TTooltips tt;
 					tt.ThreadId = GetCurrentThreadId();
 
 					mir_cslock lck(csTips);
-					if ((idx = lToolTips.getIndex(&tt)) != -1) {
+					int idx = lToolTips.getIndex(&tt);
+					if (idx != -1) {
 						mir_free(lToolTips[idx]);
 						lToolTips.remove(idx);
 						DestroyWindow(bct->hwndToolTips);
@@ -462,14 +462,13 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 
 	case BUTTONADDTOOLTIP:
 		if (wParam) {
-			TOOLINFO ti = {0};
 			if ( !bct->hwndToolTips) {
-				int idx;
 				TTooltips tt;
 				tt.ThreadId = GetCurrentThreadId();
 
 				mir_cslock lck(csTips);
-				if ((idx = lToolTips.getIndex(&tt)) != -1)
+				int idx = lToolTips.getIndex(&tt);
+				if (idx != -1)
 					bct->hwndToolTips = lToolTips[idx]->hwnd;
 				else {
 					TTooltips *ptt = (TTooltips*)mir_alloc(sizeof(TTooltips));
@@ -479,6 +478,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 					bct->hwndToolTips = ptt->hwnd;
 				}
 			}
+			TOOLINFO ti = {0};
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND;
 			ti.hwnd = bct->hwnd;
