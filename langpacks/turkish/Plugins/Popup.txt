@@ -12,14 +12,10 @@ Etkiler
 Geçmiş
 [pixels]
 piksel
-[pixels]
-piksel
 [Close]
 Kapat
 [General]
 Genel
-[seconds]
-saniye
 [seconds]
 saniye
 [Position:]
@@ -34,10 +30,6 @@ Kişiler menüsü
 ;file \plugins\Popup\src\icons.cpp
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [User Details]

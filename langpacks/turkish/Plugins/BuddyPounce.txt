@@ -8,10 +8,6 @@
 ;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [OK]
 Tamam
 [Advanced >>]

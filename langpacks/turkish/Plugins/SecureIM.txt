@@ -20,10 +20,6 @@ Parola:
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Status]
 Durum
 ;file \plugins\SecureIM\src\language.cpp
@@ -34,8 +30,6 @@ Ad
 [Off]
 Kapalı
 ;file \plugins\SecureIM\src\loadicons.cpp
-[Contact List]
-Kişi Listesi
 [Contact List]
 Kişi Listesi
 [Popups]

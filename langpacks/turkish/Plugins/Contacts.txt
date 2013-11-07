@@ -16,10 +16,6 @@
 &Gönder
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [&Add]
 &Ekle
 [Close]

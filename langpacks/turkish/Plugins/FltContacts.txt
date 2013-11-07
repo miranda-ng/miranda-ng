@@ -8,10 +8,6 @@
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [pixels]
 piksel
-[pixels]
-piksel
-[seconds]
-saniye
 [seconds]
 saniye
 [Single click interface]
@@ -44,7 +40,5 @@ Farklı görünürlükte olduğunuz çevrimdışı kişiler
 [Floating contacts]
 Yüzen kişiler
 ;file \plugins\FloatingContacts\src\options.cpp
-[Contact List]
-Kişi Listesi
 [Contact List]
 Kişi Listesi

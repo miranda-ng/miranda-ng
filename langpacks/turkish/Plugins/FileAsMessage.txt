@@ -10,8 +10,6 @@
 Boyut:
 [bytes]
 bayt
-[bytes]
-bayt
 ;file \plugins\FileAsMessage\src\dialog.cpp
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]

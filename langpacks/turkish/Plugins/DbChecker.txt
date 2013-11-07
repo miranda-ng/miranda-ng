@@ -8,17 +8,11 @@
 ;file \plugins\DbChecker\res\resource.rc
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 ;file \plugins\DbChecker\src\finished.cpp
 ;file \plugins\DbChecker\src\progress.cpp
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Error]
 Hata
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \plugins\DbChecker\src\wizard.cpp

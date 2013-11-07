@@ -12,8 +12,6 @@ Kopyala
 Tümünü Seç
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Size:]
 Boyut:
 [Scroll with text]
@@ -49,8 +47,6 @@ Geçmiş
 Varsayılan
 [Message Sessions]
 İleti Oturumları
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp

@@ -42,14 +42,8 @@ Kişisel renkleri kullan
 Windows renklerini kullan
 [Reset]
 Sıfırla
-[Reset]
-Sıfırla
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [General]
@@ -68,10 +62,6 @@ Kişi
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Tüm Dosyalar
-[All Files]
-Tüm Dosyalar
-[Log]
-Günlük
 [Log]
 Günlük
 [Protocol]

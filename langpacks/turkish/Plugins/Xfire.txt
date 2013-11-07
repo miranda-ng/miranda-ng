@@ -12,8 +12,6 @@ Parola:
 Kısa Ad:
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [More options]
 Diğer seçenekler
 [Files]
@@ -26,8 +24,6 @@ Sil
 Kullanıcı Adı:
 [Name:]
 Ad:
-[Name:]
-Ad:
 [Port:]
 Port:
 [Copy]
@@ -36,15 +32,9 @@ Kopyala
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Search:]
 Ara:
 ;file \protocols\Xfire\src\addgamedialog.cpp
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \protocols\Xfire\src\all_statusmsg.cpp

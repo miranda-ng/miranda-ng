@@ -10,8 +10,6 @@
 ;file \plugins\NoHistory\src\icons.cpp
 [Clear]
 Temizle
-[Clear]
-Açık
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Tüm kişiler **

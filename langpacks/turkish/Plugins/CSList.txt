@@ -8,10 +8,6 @@
 ;file \plugins\CSList\res\cslist.rc
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 Durum
@@ -26,7 +22,5 @@ Ana Menü
 Sil
 [Clear]
 Temizle
-[Clear]
-Açık
 [Set]
 Ayarla

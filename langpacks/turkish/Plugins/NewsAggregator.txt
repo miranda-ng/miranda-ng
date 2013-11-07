@@ -14,14 +14,8 @@ Sil
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [URL]
 Web adresi
-[Reset]
-Sıfırla
 [Reset]
 Sıfırla
 ;file \plugins\NewsAggregator\Src\Icons.cpp

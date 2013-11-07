@@ -58,8 +58,6 @@ saniye, durumlar farklıyken
 Sadece durumlar farklı ise
 [Contact List]
 Kişi Listesi
-[Contact List]
-Kişi Listesi
 [System tray icon]
 Sistem tepsisi simgesi
 [System tray icon when using multiple protocols]
@@ -76,8 +74,6 @@ Araç stili ana pencere
 Sistem tepsisine küçült
 [Hide contact list after it has been idle for]
 Şu kadar boş kaldıktan sonra kişi listesini gizle
-[seconds]
-saniye
 [seconds]
 saniye
 [Automatically resize window to height of list]

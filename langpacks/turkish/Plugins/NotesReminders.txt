@@ -12,8 +12,6 @@ Yok
 &Kapat
 [Reset]
 Sıfırla
-[Reset]
-Sıfırla
 [Text Color]
 Yazı Rengi
 [Font]
@@ -27,8 +25,6 @@ Geri Al
 ;file \plugins\NotesAndReminders\src\main.cpp
 [Plugins]
 Eklentiler
-[Alerts]
-Alarmlar
 [Alerts]
 Alarmlar
 ;file \plugins\NotesAndReminders\src\notes.cpp

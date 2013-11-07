@@ -12,8 +12,6 @@
 İ&ptal
 [Visibility]
 Görünürlük
-[Visibility]
-Görüş
 [Ignore]
 Yoksay
 ;file \plugins\MenuItemEx\src\main.cpp

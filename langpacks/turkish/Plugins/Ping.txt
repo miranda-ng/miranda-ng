@@ -22,10 +22,6 @@ Değiştir
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Port:]
 Port:
 [Contact]

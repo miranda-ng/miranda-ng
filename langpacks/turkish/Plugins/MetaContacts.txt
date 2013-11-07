@@ -10,8 +10,6 @@
 İ&ptal
 [Name:]
 Ad:
-[Name:]
-Ad:
 [Information]
 Bilgi
 [Contacts]
@@ -20,10 +18,6 @@ Kişiler
 Uygul&a
 [Options]
 Seçenekler
-[Options]
-Seçenekler
-[Contact List]
-Kişi Listesi
 [Contact List]
 Kişi Listesi
 [Default]

@@ -14,10 +14,6 @@ Parola:
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]

@@ -22,8 +22,6 @@ Her zaman üstte
 Şu kadar süre sonra gizle
 [seconds]
 saniye
-[seconds]
-saniye
 [Fade contact list in/out]
 Kişi listesine giriş/çıkışta sönükleştir
 [Transparent contact list]
@@ -96,10 +94,6 @@ Kişileri gruplayarak göster
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Protocol]
 Protokol
 [Group]
@@ -166,8 +160,6 @@ Grupları devredışı bırak
 Kişileri silmeden önce sor
 [Contact List]
 Kişi Listesi
-[Contact List]
-Kişi Listesi
 [Contact List Sorting]
 Kişi Listesi Sıralaması
 [Place offline users out of groups]
@@ -210,8 +202,6 @@ görünme gecikmesi
 gizlenme gecikmesi
 [Hide method]
 Gizleme yöntemi
-[pixels]
-piksel
 [pixels]
 piksel
 [keep on screen]
@@ -418,8 +408,6 @@ Gülen yüzleri üçüncü satıra yerleştir
 Alt/Sağ
 [Position (vertical)]
 Konum (dikey)
-[Options]
-Seçenekler
 [Options]
 Seçenekler
 [Show Title]

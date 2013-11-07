@@ -14,8 +14,6 @@ Web Sitesi
 Kapat
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Update weather information on startup]
 Hava durumunu açılışta güncelle
 [Update weather information every]
@@ -50,8 +48,6 @@ mph
 knots
 [Visibility]
 Görünürlük
-[Visibility]
-Görüş
 [km]
 km
 [miles]
@@ -96,18 +92,12 @@ Güncellerken üzerine yaz
 Ek Bilgi Bağlantısı
 [Weather Map]
 Hava Haritası
-[Weather Map]
-Hava Haritası
 [Other Options]
 Diğer Seçenekler
 [Set as default station]
 Varsayılan istasyon olarak seç
 [Disable automatic update for this station]
 Bu istasyon için kendiliğinden güncellemeyi kapat
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [Popup only when condition changes]
@@ -128,22 +118,14 @@ Sağ Tık
 Açılan Pencere Gecikmesi
 [seconds]
 saniye
-[seconds]
-saniye
 [Popup Text]
 Açılan Pencere Yazısı
-[Popup Text]
-Açılır Pencere Yazısı
 [Default]
 Varsayılan
 [Updates]
 Güncellemeler
 [Alerts]
 Alarmlar
-[Alerts]
-Alarmlar
-[Contact List]
-Kişi Listesi
 [Contact List]
 Kişi Listesi
 [Brief Info Title]
@@ -156,8 +138,6 @@ Tüm Bilgiler
 Dış Günlük
 [More Variables]
 Diğer Değişkenler
-[Reset]
-Sıfırla
 [Reset]
 Sıfırla
 [Sunset]
@@ -267,8 +247,6 @@ HTTP Hatası: Ağ geçizidi zaman aşımı (504)
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 %s için hava durumu
-[Current weather information for %s.]
-%s için şimdiki hava durumu.
 [%s is now the default weather station]
 %s artık varsayılan istasyonunuz oldu
 [Weather Protocol]
@@ -292,8 +270,6 @@ Weather INI bilgisi
 Web sayfasını göster
 [Text Files]
 Yazı Dosyaları
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \plugins\Weather\src\weather_conv.cpp
@@ -321,8 +297,6 @@ Hava Durumu HTTP bağlantıları
 ;file \plugins\Weather\src\weather_info.cpp
 [Name:]
 Ad:
-[Name:]
-Ad:
 [Internal Name:]
 İç Ad:
 [INI Version:]
@@ -335,10 +309,6 @@ Dosya Adı:
 Kullanılan Bellek:
 [bytes]
 bayt
-[bytes]
-bayt
-[Description:]
-Açıklama:
 [Description:]
 Açıklama:
 [Here is a list of custom variables that are currently available]

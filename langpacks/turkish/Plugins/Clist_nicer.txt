@@ -28,8 +28,6 @@ Sadece listeden gizle, geçmiş ve yoksay/görünürlük ayarlarını tut
 Bu işlem bu kişinin tüm geçmişini ve ayarlarını silecek!
 [Contact List]
 Kişi Listesi
-[Contact List]
-Kişi Listesi
 [Hide offline users]
 Çevrimdışıları gizle
 [Hide empty groups]
@@ -178,8 +176,6 @@ Bırakma gölgesini göster (yeniden başlatmalısınız)
 Şu kadar boş kaldıktan sonra kişi listesini gizle
 [seconds]
 saniye
-[seconds]
-saniye
 [Automatically resize window to height of list]
 Pencereyi listenin yüksekliğine boyutlandır
 [maximum]
@@ -290,10 +286,6 @@ ICQ genişletilmiş durum simgelerini göster
 Genel durum değişikliklerinde protokolleri kilitle
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Apply]
 Uygula
 [Protocol]
@@ -350,8 +342,6 @@ Eklenen uyarıları gösterme
 Çevrim içi uyarılarını gösterme
 [Visibility]
 Görünürlük
-[Visibility]
-Görüş
 [Appear always online]
 Her zaman çevrimiçi görün
 [Appear always offline (block contact)]

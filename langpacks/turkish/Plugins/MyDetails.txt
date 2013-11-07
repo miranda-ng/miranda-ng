@@ -14,10 +14,6 @@ Kısa Ad:
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [General]
 Genel
 [RTL]
@@ -44,14 +40,10 @@ Sağ:
 Kişisel boyut:
 [pixels]
 piksel
-[pixels]
-piksel
 [Allow it to grow]
 Büyümesine izin ver
 [Use free space (under avatar) to other texts]
 Avatar altındaki alanı diğer yazılar için kullan
-[seconds]
-saniye
 [seconds]
 saniye
 [Set My Status Message for All Status]
@@ -109,8 +101,6 @@ Ddetaylarımı Gizle
 %s için durum iletimi ayarla
 [Show next account]
 
-[Contact List]
-Kişi Listesi
 [Contact List]
 Kişi Listesi
 ;file \plugins\MyDetails\src\options.cpp

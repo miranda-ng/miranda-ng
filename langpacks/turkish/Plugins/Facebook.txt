@@ -12,10 +12,6 @@ E-posta:
 Parola:
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [User Details]
 Kullanıcı Detayları
 [Text]

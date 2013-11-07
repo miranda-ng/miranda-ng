@@ -16,5 +16,3 @@ Varsayılan
 ;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact List]
 Kişi Listesi
-[Contact List]
-Kişi Listesi

@@ -13,5 +13,3 @@ Yazı
 &Yardım
 [All Files]
 Tüm Dosyalar
-[All Files]
-Tüm Dosyalar

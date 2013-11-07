@@ -12,10 +12,6 @@ Tamam
 Yoksay
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Password:]
 Parola:
 ;file \plugins\New_GPG\src\init.cpp

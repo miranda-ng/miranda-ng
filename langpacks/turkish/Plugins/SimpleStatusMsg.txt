@@ -18,8 +18,6 @@ Tamam
 Durum İletileri
 [seconds]
 saniye
-[seconds]
-saniye
 [Other]
 Diğer
 [Cut]

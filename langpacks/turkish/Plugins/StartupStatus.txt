@@ -12,10 +12,6 @@ Genel
 Kapat
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Profile]
 Profile
 [Message]
@@ -46,8 +42,6 @@ Hesaplar
 Durum
 [Delete]
 Sil
-[seconds]
-saniye
 [seconds]
 saniye
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp

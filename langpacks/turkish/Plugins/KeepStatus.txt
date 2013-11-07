@@ -44,8 +44,6 @@ Durum
 Sil
 [seconds]
 saniye
-[seconds]
-saniye
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]

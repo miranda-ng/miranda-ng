@@ -22,8 +22,6 @@ Hesabı sil
 Parolayı öğren
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Friends only]
 Yalnız arkadaşlar
 [Show offline users with status message as invisible in contact list]
@@ -78,16 +76,10 @@ Doğum yeri:
 Doğum yılı:
 [Description:]
 Açıklama:
-[Description:]
-Açıklama:
 [Enter token to continue]
 Devam etmek için işareti yazın
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [Create Gadu-Gadu account]
@@ -234,8 +226,6 @@ Resim izin verilen büyüklüğü aşıyor (255 KB).
 Sunucu listesinde kişileri alıp/vermeden önce bağlanmış olmalısınız.
 [Text files]
 Yazı dosyaları
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 [contacts]

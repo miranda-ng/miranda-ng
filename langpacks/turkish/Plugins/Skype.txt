@@ -20,10 +20,6 @@ Parola:
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Date of birth:]
 Doğum Tarihi
 [Gender:]

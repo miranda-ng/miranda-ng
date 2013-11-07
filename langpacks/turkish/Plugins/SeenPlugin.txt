@@ -49,8 +49,6 @@ Açılır Pencereler
 ;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 saniye
-[seconds]
-saniye
 [Group]
 Grup
 [Status]

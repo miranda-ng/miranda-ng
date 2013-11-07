@@ -11,5 +11,3 @@ sn
 ;file \plugins\Boltun\src\boltun.h
 [All Files]
 Tüm Dosyalar
-[All Files]
-Tüm Dosyalar

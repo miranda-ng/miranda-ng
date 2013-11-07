@@ -8,8 +8,6 @@
 ;file \plugins\SmileyAdd\res\resource.rc
 [Name:]
 Ad:
-[Name:]
-Ad:
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 ;file \plugins\SmileyAdd\src\download.cpp
 ;file \plugins\SmileyAdd\src\main.cpp
@@ -18,8 +16,6 @@ Ad:
 Kişiselleştir
 [Off]
 Kapalı
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \plugins\SmileyAdd\src\services.cpp

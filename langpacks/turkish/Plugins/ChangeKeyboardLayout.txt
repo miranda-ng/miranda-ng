@@ -10,8 +10,6 @@
 Kestirmeler
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Default]
 Varsayılan
 [Text]

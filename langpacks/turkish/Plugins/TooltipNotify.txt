@@ -10,10 +10,6 @@
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Online]
 Çevrimiçi
 [Offline]

@@ -10,8 +10,6 @@
 Kişiler
 [seconds]
 saniye
-[seconds]
-saniye
 ;file \plugins\ListeningTo\src\listeningto.cpp
 ;file \plugins\ListeningTo\src\options.cpp
 [Status]

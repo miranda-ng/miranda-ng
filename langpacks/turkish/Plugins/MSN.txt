@@ -28,8 +28,6 @@ Yeni Hotmail geldiğinde şu uygulamayı çalıştır
 Kişi listemdekilerin cep telefonuma ileti göndermelerine izin ver
 [Reset]
 Sıfırla
-[Reset]
-Sıfırla
 [Server List Manager]
 Sunucu Liste Yöneticisi
 [Contact is included into your server list]
@@ -58,10 +56,6 @@ Diğer
 Kişi Listesi uyarılarını kapat
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [&Cancel]

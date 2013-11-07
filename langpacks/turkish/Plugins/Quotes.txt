@@ -10,12 +10,6 @@
 Tamam
 [Log]
 Günlük
-[Log]
-Günlük
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [Close]

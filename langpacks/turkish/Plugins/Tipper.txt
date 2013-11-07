@@ -8,18 +8,12 @@
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Window]
 Pencere
 [Keep original avatar size]
 Gerçek avatar boyutunu tut
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [Items]
@@ -59,8 +53,6 @@ Ana sayfa:
 Boşta
 [Name]
 Ad
-[Name:]
-Ad:
 [Name:]
 Ad:
 [Time:]

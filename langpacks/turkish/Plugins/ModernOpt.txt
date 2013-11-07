@@ -12,10 +12,6 @@ Miranda NG Ayarları
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Apply]
 Uygula
 [Advanced]

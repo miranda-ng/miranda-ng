@@ -8,10 +8,6 @@
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Text]
 Yazı
 [Popups]

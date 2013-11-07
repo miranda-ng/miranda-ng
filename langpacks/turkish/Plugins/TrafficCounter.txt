@@ -15,8 +15,6 @@ Kişisel
 Genel
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Popups]
 Açılır Pencereler
 ;file \plugins\TrafficCounter\src\statistics.cpp

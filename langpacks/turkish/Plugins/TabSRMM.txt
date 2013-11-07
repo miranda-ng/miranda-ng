@@ -10,10 +10,6 @@
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Show these events]
 Şu etkinlikleri göster
 [Actions]
@@ -40,8 +36,6 @@ Kişi tekmeledi
 Uyarılar
 [Tray]
 Tepsi
-[Options]
-Seçenekler
 [Options]
 Seçenekler
 [Add new rooms to group:]
@@ -74,8 +68,6 @@ Grup sohbeti kişi listesi satır yüksekliği (piksel)
 Liste
 [&Message]
 İl&eti
-[Log]
-Günlük
 [Log]
 Günlük
 [Clear lo&g]
@@ -112,8 +104,6 @@ Yapıştır
 Tümünü Seç
 [Clear]
 Temizle
-[Clear]
-Açık
 [Tabs]
 Sekmeler
 [&Close tab]
@@ -127,8 +117,6 @@ Bu k&onumda aç
 Gelişmiş Ayarlar
 [Message send timeout]
 İleti gönderme zaman aşımı
-[seconds]
-saniye
 [seconds]
 saniye
 [Input history size]
@@ -289,8 +277,6 @@ Yeniden Adlandır
 Yeni kutu oluştur
 [Create new]
 Yeni oluştur
-[Reset]
-Sıfırla
 [Reset]
 Sıfırla
 [Insert Separator]
@@ -1055,8 +1041,6 @@ Genişletilmiş kip 2
 Art alan seçimi
 [Incremental search highlight]
 Artımlı arama vurgusu
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 [Select Folder]

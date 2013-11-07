@@ -20,10 +20,6 @@ ICQ parolasını yazın
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [ICQ number:]
 ICQ numarası:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -126,8 +122,6 @@ Yalnız kişi listemdekilerin durum iletisi isteklerini yanıtla
 Yalnız göründüğüm kişilerin durum iletisi isteklerini yanıtla
 [Some options are grayed out because they can only be changed when you are online.]
 Bazı seçenekler yalnız çevrim içi olduğunuzda değiştirilebileceğinden dolayı devre dışı 
-[Options]
-Seçenekler
 [Options]
 Seçenekler
 [Enable popup support]

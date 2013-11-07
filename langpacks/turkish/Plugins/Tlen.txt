@@ -14,8 +14,6 @@ Parola:
 Yeni hesap oluştur
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Port:]
 Port:
 [Background]
@@ -24,10 +22,6 @@ Art Alan
 Yazı
 [OK]
 Tamam
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Cancel]
 İptal
 [First name:]

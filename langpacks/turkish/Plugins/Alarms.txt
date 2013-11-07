@@ -14,12 +14,6 @@ Değiştir
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
-[Description:]
-Açıklama:
 [Description:]
 Açıklama:
 [Actions]

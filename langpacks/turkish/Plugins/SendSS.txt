@@ -12,10 +12,6 @@ Tamam
 Yok
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Credits >]
 Emekçiler >
 [&Close]

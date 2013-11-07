@@ -22,8 +22,6 @@ Her kişi için boyut ve konumu kaydet
 İleti şundan sonra alınamadığında uyarı göster
 [seconds]
 saniye
-[seconds]
-saniye
 [Tabs]
 Sekmeler
 [Tabs at bottom]
@@ -76,10 +74,6 @@ Bir hata oldu. Protokol şu hatayı verdi:
 Yeniden dene
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Message Session]
 İleti Oturumu
 [&U]
@@ -128,14 +122,10 @@ Kişi tekmeledi
 Uyarılar
 [Options]
 Seçenekler
-[Options]
-Seçenekler
 [Other]
 Diğer
 [Add new rooms to group:]
 Gruba yeni odalar ekle:
-[pixels]
-piksel
 [pixels]
 piksel
 [Log Options]
@@ -172,8 +162,6 @@ Zamanaşımı (s)
 Tamam
 [Log]
 Günlük
-[Log]
-Günlük
 [&Copy]
 &Kopyala
 [Co&py All]
@@ -204,8 +192,6 @@ Yapıştır
 Sil
 [Clear]
 Temizle
-[Clear]
-Açık
 [List]
 Liste
 [&Message]

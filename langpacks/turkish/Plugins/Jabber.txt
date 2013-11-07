@@ -10,10 +10,6 @@
 Tamam
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Type:]
 Tip:
 [User:]
@@ -168,8 +164,6 @@ PCS
 Yükle
 [Delete]
 Sil
-[Description:]
-Açıklama:
 [Description:]
 Açıklama:
 [Current Password:]
@@ -1021,8 +1015,6 @@ Sıkılmış
 Cesur
 [Calm]
 Sakin
-[Calm]
-Calm
 [Cold]
 Soğuk
 [Confused]

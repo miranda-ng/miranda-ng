@@ -30,10 +30,6 @@ Alınıyor...
 Bilgi Al Yardımcısı
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Import all contacts and all messages]
 Tüm kişileri ve iletileri al
 [Only import contacts]
@@ -109,8 +105,6 @@ Al işlemi %d saniyede tamamlandı.
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Belirttiğiniz dosya bulunamadı. Adını doğru yazdığınızdan emin olun.
-[All Files]
-Tüm Dosyalar
 [All Files]
 Tüm Dosyalar
 ;file \plugins\Import\src\utils.cpp

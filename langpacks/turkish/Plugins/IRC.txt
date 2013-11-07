@@ -368,10 +368,6 @@ Yeniden Adlandır
 Değiştir
 [Cancel]
 İptal
-[Cancel]
-İptal
-[Cancel]
-İptal
 [Channel list]
 Kanal listesi
 [Quick connect]
