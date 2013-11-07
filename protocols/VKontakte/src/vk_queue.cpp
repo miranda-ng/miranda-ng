@@ -64,7 +64,7 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 
 	CMStringA url;
 	if (*szUrl == '/') {	// relative url leads to a site
-		url = VK_API_URL;
+		url = ((bSecure) ? "https://" : "http://") + CMStringA(VK_API_URL);
 		url += szUrl;
 		pReq->bIsMainConn = true;
 	}
