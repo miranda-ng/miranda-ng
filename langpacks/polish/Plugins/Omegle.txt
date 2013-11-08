@@ -73,7 +73,7 @@ Obcy 2
 [Stranger]
 Obcy
 [You and the Stranger both like: ]
-Zarówno ty jak i obcy lubicie:
+Zarówno ty jak i obcy lubicie:\s
 [Stranger is typing.]
 Obcy pisze
 [Stranger stopped typing.]
