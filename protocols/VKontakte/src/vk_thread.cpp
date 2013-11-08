@@ -504,8 +504,8 @@ int CVkProto::PollServer()
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
-	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
-	req.flags = NLHRF_NODUMPHEADERS | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
+	req.flags = NLHRF_NODUMPHEADERS | NLHRF_PERSISTENT;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
 

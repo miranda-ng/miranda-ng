@@ -106,7 +106,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = (LPSTR)szUrl;
-	req.flags = NLHRF_HTTP11 | NLHRF_NODUMPHEADERS;
+	req.flags = NLHRF_NODUMPHEADERS;
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (reply == NULL)
