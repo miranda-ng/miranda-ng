@@ -55,21 +55,21 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################################################
 
 	{"client_Miranda_NG",       _T("|*nightly.miranda.im*")
-                                NIGHTLY_CORE_VERSION,                           _T("MirandaNG"),                    IDI_MIRANDA_NG,          MIRANDA_CASE },
+                                NIGHTLY_CORE_VERSION,                           _T("Miranda NG"),                    IDI_MIRANDA_NG,          MIRANDA_CASE },
 
 	{"client_Miranda_NG_stbl",  _T("|Miranda*NG*"),                              LPGENT("Miranda NG stable"),         IDI_MIRANDA_NG_STABLE,   MIRANDA_CASE },
 
-	{"client_Miranda_010xx",    _T("Miranda*IM*0.10.*"),                         _T("MirandaIM v0.10.x.x"),          IDI_MIRANDA_010X,        MIRANDA_CASE },
+	{"client_Miranda_010xx",    _T("Miranda*IM*0.10.*"),                         _T("Miranda IM v0.10.x.x"),          IDI_MIRANDA_010X,        MIRANDA_CASE },
 	{"client_Miranda_09XX",     _T("|*Miranda*IM*0.9*")
-                                _T("|*miranda-im.org/caps#*0.9*"),              _T("MirandaIM v0.9.x.x"),           IDI_MIRANDA_09XX,        MIRANDA_CASE },
+                                _T("|*miranda-im.org/caps#*0.9*"),              _T("Miranda IM v0.9.x.x"),           IDI_MIRANDA_09XX,        MIRANDA_CASE },
 	{"client_Miranda_08XX",     _T("|^Miranda*0.7*Jabb*")
                                 _T("|*Miranda*0.8*")
-                                _T("|*miranda-im.org/caps#*0.8*"),              _T("MirandaIM v0.8.x.x"),           IDI_MIRANDA_08XX,        MIRANDA_CASE },
+                                _T("|*miranda-im.org/caps#*0.8*"),              _T("Miranda IM v0.8.x.x"),           IDI_MIRANDA_08XX,        MIRANDA_CASE },
 	{"client_Miranda_07XX",     _T("|*Miranda*0.7*")
-                                _T("|*miranda-im.org/caps#*0.7*"),              _T("MirandaIM v0.7.x.x"),           IDI_MIRANDA_07XX,        MIRANDA_CASE },
-	{"client_Miranda_06XX",     _T("*Miranda*0.6*"),                             _T("MirandaIM v0.6.x.x"),           IDI_MIRANDA_06XX,        MIRANDA_CASE },
-	{"client_Miranda_05XX",     _T("*Miranda*0.5*"),                             _T("MirandaIM v0.5.x.x"),           IDI_MIRANDA_05XX,        MIRANDA_CASE },
-	{"client_Miranda_04XX",     _T("*Miranda*0.4*"),                             _T("MirandaIM v0.4.x.x"),           IDI_MIRANDA_04XX,        MIRANDA_CASE },
+                                _T("|*miranda-im.org/caps#*0.7*"),              _T("Miranda IM v0.7.x.x"),           IDI_MIRANDA_07XX,        MIRANDA_CASE },
+	{"client_Miranda_06XX",     _T("*Miranda*0.6*"),                             _T("Miranda IM v0.6.x.x"),           IDI_MIRANDA_06XX,        MIRANDA_CASE },
+	{"client_Miranda_05XX",     _T("*Miranda*0.5*"),                             _T("Miranda IM v0.5.x.x"),           IDI_MIRANDA_05XX,        MIRANDA_CASE },
+	{"client_Miranda_04XX",     _T("*Miranda*0.4*"),                             _T("Miranda IM v0.4.x.x"),           IDI_MIRANDA_04XX,        MIRANDA_CASE },
 
 	{"client_Miranda_old",      _T("*Miranda*0.?*"),                         LPGENT("Miranda IM (old versions)"),     IDI_MIRANDA_OLD,         MIRANDA_CASE },
 
@@ -769,9 +769,9 @@ KN_FP_MASK def_kn_fp_overlays2_mask[] =
                                 _T("|*[*кирпич*]*|*[*portable*]*")
                                 _T("|*[*flash*]*|*[*usb*]*"),               LPGENT("notebook overlay"),             IDI_NOTEBOOK_OVERLAY,    OVERLAYS_RESOURCE_CASE      },
 
-//  {"client_MirNG_09_over",    _T("*Miranda*NG*\?.\?\?.9.*"),                  _T("MirandaNG v0.9 #2 overlay"),    IDI_MIRANDA_NG_V9,       MIRANDA_VERSION_CASE        },
-//  {"client_MirNG_08_over",    _T("*Miranda*NG*\?.\?\?.8.*"),                  _T("MirandaNG v0.8 #2 overlay"),    IDI_MIRANDA_NG_V8,       MIRANDA_VERSION_CASE        },
-//  {"client_MirNG_07_over",    _T("*Miranda*NG*\?.\?\?.7.*"),                  _T("MirandaNG v0.7 #2 overlay"),    IDI_MIRANDA_NG_V7,       MIRANDA_VERSION_CASE        },
+//  {"client_MirNG_09_over",    _T("*Miranda*NG*\?.\?\?.9.*"),                  _T("Miranda NG v0.9 #2 overlay"),    IDI_MIRANDA_NG_V9,       MIRANDA_VERSION_CASE        },
+//  {"client_MirNG_08_over",    _T("*Miranda*NG*\?.\?\?.8.*"),                  _T("Miranda NG v0.8 #2 overlay"),    IDI_MIRANDA_NG_V8,       MIRANDA_VERSION_CASE        },
+//  {"client_MirNG_07_over",    _T("*Miranda*NG*\?.\?\?.7.*"),                  _T("Miranda NG v0.7 #2 overlay"),    IDI_MIRANDA_NG_V7,       MIRANDA_VERSION_CASE        },
 
 	{"client_MirNG_06_over",    _T("*Miranda*NG*\?.\?\?.6.*"),              LPGENT("Miranda NG v0.6 #2 overlay"),    IDI_MIRANDA_NG_V6,       MIRANDA_VERSION_CASE        },
 	{"client_MirNG_05_over",    _T("*Miranda*NG*\?.\?\?.5.*"),              LPGENT("Miranda NG v0.5 #2 overlay"),    IDI_MIRANDA_NG_V5,       MIRANDA_VERSION_CASE        },
