@@ -59,7 +59,7 @@ int ChangeInfoData::UploadSettings(void)
 {
 	if (!ppro->icqOnline())
 	{
-		MessageBoxUtf(hwndDlg, LPGEN("You are not currently connected to the ICQ network. You must be online in order to update your information on the server."), LPGEN("Change ICQ Details"), MB_OK);
+		MessageBox(hwndDlg, TranslateT("You are not currently connected to the ICQ network. You must be online in order to update your information on the server."), TranslateT("Change ICQ Details"), MB_OK);
 		return 0;
 	}
 

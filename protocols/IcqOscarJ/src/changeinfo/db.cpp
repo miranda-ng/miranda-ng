@@ -135,7 +135,7 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				if (strcmpnull(szTest, dat->ppro->GetUserPassword(TRUE))) 
 				{
-					MessageBoxUtf(hwndDlg, LPGEN("The password does not match your current password. Check Caps Lock and try again."), LPGEN("Change ICQ Details"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("The password does not match your current password. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
 					SendDlgItemMessage(hwndDlg,IDC_OLDPASS,EM_SETSEL,0,(LPARAM)-1);
 					SetFocus(GetDlgItem(hwndDlg,IDC_OLDPASS));
 					break;
@@ -144,7 +144,7 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				GetDlgItemTextA(hwndDlg,IDC_PASSWORD,szTest,sizeof(szTest));
 				if(strcmpnull(szTest, dat->Pass)) 
 				{
-					MessageBoxUtf(hwndDlg, LPGEN("The password does not match the password you originally entered. Check Caps Lock and try again."), LPGEN("Change ICQ Details"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("The password does not match the password you originally entered. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
 					SendDlgItemMessage(hwndDlg,IDC_PASSWORD,EM_SETSEL,0,(LPARAM)-1);
 					SetFocus(GetDlgItem(hwndDlg,IDC_PASSWORD));
 					break;
@@ -179,7 +179,7 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 
 				if (nSettingLen > 8 || nSettingLen < 1)
 				{
-					MessageBoxUtf(hwndDlg, LPGEN("The ICQ server does not support passwords longer than 8 characters. Please use a shorter password."), LPGEN("Change ICQ Details"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("The ICQ server does not support passwords longer than 8 characters. Please use a shorter password."), TranslateT("Change ICQ Details"), MB_OK);
 					ret=0;
 					break;
 				}

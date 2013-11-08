@@ -243,7 +243,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case PSN_APPLY:
 				if (dat->ChangesMade()) 
 				{
-					if (IDYES!=MessageBoxUtf(hwndDlg, LPGEN("You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?"), LPGEN("Change ICQ Details"), MB_YESNOCANCEL))
+					if (MessageBox(hwndDlg, TranslateT("You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?"), TranslateT("Change ICQ Details"), MB_YESNOCANCEL) != IDYES)
 					{
 						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
 						return TRUE;
@@ -436,10 +436,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			EnableDlgItem(hwndDlg, IDC_SAVE, FALSE);
 			EnableDlgItem(hwndDlg, IDC_LIST, FALSE);
-			{
-				char str[MAX_PATH];
-				SetDlgItemTextUtf(hwndDlg, IDC_UPLOADING, ICQTranslateUtfStatic(LPGEN("Upload in progress..."), str, MAX_PATH));
-			}
+			SetDlgItemText(hwndDlg, IDC_UPLOADING, TranslateT("Upload in progress..."));
 			EnableDlgItem(hwndDlg, IDC_UPLOADING, TRUE);
 			ShowDlgItem(hwndDlg, IDC_UPLOADING, SW_SHOW);
 			dat->hAckHook = HookEventMessage(ME_PROTO_ACK, hwndDlg, DM_PROTOACK);
@@ -484,8 +481,6 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			ACKDATA *ack=(ACKDATA*)lParam;
 			int i,done;
-			char str[MAX_PATH];
-			char buf[MAX_PATH];
 
 			if (ack->type != ACKTYPE_SETINFO) break;
 			if (ack->result == ACKRESULT_SUCCESS)
@@ -497,8 +492,9 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dat->hUpload[i] = NULL;
 				for (done = 0, i = 0; i < SIZEOF(dat->hUpload); i++)
 					done += dat->hUpload[i] == NULL;
-				mir_snprintf(buf, sizeof(buf), "%s%d%%", ICQTranslateUtfStatic(LPGEN("Upload in progress..."), str, MAX_PATH), 100*done/(SIZEOF(dat->hUpload)));
-				SetDlgItemTextUtf(hwndDlg, IDC_UPLOADING, buf);
+				TCHAR buf[MAX_PATH];
+				mir_sntprintf(buf, sizeof(buf), TranslateT("Upload in progress...%d%%"), 100*done/(SIZEOF(dat->hUpload)));
+				SetDlgItemText(hwndDlg, IDC_UPLOADING, buf);
 				if (done < SIZEOF(dat->hUpload)) break;
 
 				dat->ClearChangeFlags();
@@ -506,7 +502,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dat->hAckHook = NULL;
 				EnableDlgItem(hwndDlg, IDC_LIST, TRUE);
 				EnableDlgItem(hwndDlg, IDC_UPLOADING, FALSE);
-				SetDlgItemTextUtf(hwndDlg, IDC_UPLOADING, ICQTranslateUtfStatic(LPGEN("Upload complete"), str, MAX_PATH));
+				SetDlgItemText(hwndDlg, IDC_UPLOADING, TranslateT("Upload complete"));
 				SendMessage(GetParent(hwndDlg), PSM_FORCECHANGED, 0, 0);
 			}
 			else if (ack->result==ACKRESULT_FAILED)
@@ -515,7 +511,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dat->hAckHook = NULL;
 				EnableDlgItem(hwndDlg, IDC_LIST, TRUE);
 				EnableDlgItem(hwndDlg, IDC_UPLOADING, FALSE);
-				SetDlgItemTextUtf(hwndDlg, IDC_UPLOADING, ICQTranslateUtfStatic(LPGEN("Upload FAILED"), str, MAX_PATH));
+				SetDlgItemText(hwndDlg, IDC_UPLOADING, TranslateT("Upload FAILED"));
 				SendMessage(GetParent(hwndDlg), PSM_FORCECHANGED, 0, 0);
 				EnableDlgItem(hwndDlg, IDC_SAVE, TRUE);
 			}

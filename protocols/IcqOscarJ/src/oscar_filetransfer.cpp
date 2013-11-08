@@ -840,15 +840,13 @@ static char *oftGetFileContainer(oscar_filetransfer* oft, const char** files, in
 
 HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, const TCHAR** files, const TCHAR* pszDesc)
 {
-	oscar_filetransfer *ft;
 	int i, filesCount;
 	struct _stati64 statbuf;
-	char ** filesUtf;
 
 	// Initialize filetransfer struct
 	debugLogA("Init file send");
 
-	ft = CreateOscarTransfer();
+	oscar_filetransfer *ft = CreateOscarTransfer();
 	ft->hContact = hContact;
 	ft->pMessage.bMessageType = MTYPE_FILEREQ;
 	InitMessageCookie(&ft->pMessage);
@@ -858,7 +856,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 	ft->files_list = (char**)SAFE_MALLOC(sizeof(TCHAR *) * filesCount);
 	ft->qwTotalSize = 0;
 
-	filesUtf = (char**)SAFE_MALLOC(sizeof(char *) * filesCount);
+	char **filesUtf = (char**)SAFE_MALLOC(sizeof(char *) * filesCount);
 	for(i = 0; i < filesCount; i++) filesUtf[i] = FileNameToUtf(files[i]);
 
 	// Prepare files arrays

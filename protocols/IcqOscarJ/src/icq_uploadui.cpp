@@ -855,9 +855,9 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 				// All contacts are in sync
 				AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("All operations complete"), str, MAX_PATH));
 				EnableDlgItem(hwndDlg, IDCANCEL, TRUE);
-				SetDlgItemTextUtf(hwndDlg, IDCANCEL, ICQTranslateUtfStatic(LPGEN("Close"), str, MAX_PATH));
-        // end server modifications here
-        ppro->servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100);
+				SetDlgItemText(hwndDlg, IDCANCEL, TranslateT("Close"));
+				// end server modifications here
+				ppro->servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100);
 				working = 0;
 				//        SendMessage(hwndList, CLM_SETGREYOUTFLAGS,0,0);
 				UpdateCheckmarks(hwndList, ppro, hItemAll);
@@ -888,8 +888,8 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 			//        InvalidateRect(GetDlgItem(hwndDlg, IDC_CLIST), NULL, FALSE);
 			EnableDlgItem(hwndDlg, IDC_CLIST, FALSE);
 			hProtoAckHook = HookEventMessage(ME_PROTO_ACK, hwndDlg, M_PROTOACK);
-      // start server modifications here
-      ppro->servlistPostPacket(NULL, 0, SSO_BEGIN_OPERATION | SSOF_IMPORT_OPERATION, 100);
+			// start server modifications here
+			ppro->servlistPostPacket(NULL, 0, SSO_BEGIN_OPERATION | SSOF_IMPORT_OPERATION, 100);
 			PostMessage(hwndDlg, M_UPLOADMORE, 0, 0);
 			break;
 

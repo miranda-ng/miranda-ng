@@ -172,7 +172,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, HANDLE hContact,
 				bAlloc = 1;
 			}
 			if (idCtrl == IDC_UIN)
-				SetDlgItemTextUtf(hwndDlg, IDC_UINSTATIC, ICQTranslateUtfStatic(LPGEN("ScreenName:"), str, MAX_PATH));
+				SetDlgItemText(hwndDlg, IDC_UINSTATIC, TranslateT("ScreenName:"));
 			break;
 
 		default:
@@ -184,7 +184,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, HANDLE hContact,
 
 	EnableDlgItem(hwndDlg, idCtrl, !unspecified);
 	if (unspecified)
-		SetDlgItemTextUtf(hwndDlg, idCtrl, ICQTranslateUtfStatic(LPGEN("<not specified>"), str, MAX_PATH));
+		SetDlgItemText(hwndDlg, idCtrl, TranslateT("<not specified>"));
 	else if (bUtf)
 		SetDlgItemTextUtf(hwndDlg, idCtrl, pstr);
 	else
@@ -257,7 +257,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						SetValue(ppro, hwndDlg, IDC_PORT, hContact, (char*)DBVT_WORD, (char*)ppro->wListenPort, SVS_ZEROISUNSPEC);
 						SetValue(ppro, hwndDlg, IDC_VERSION, hContact, (char*)DBVT_WORD, (char*)ICQ_VERSION, SVS_ICQVERSION);
 						SetValue(ppro, hwndDlg, IDC_MIRVER, hContact, (char*)DBVT_ASCIIZ, str, SVS_ZEROISUNSPEC);
-						SetDlgItemTextUtf(hwndDlg, IDC_SUPTIME, ICQTranslateUtfStatic(LPGEN("Member since:"), str, MAX_PATH));
+						SetDlgItemText(hwndDlg, IDC_SUPTIME, TranslateT("Member since:"));
 						SetValue(ppro, hwndDlg, IDC_SYSTEMUPTIME, hContact, szProto, "MemberTS", SVS_TIMESTAMP);
 						SetValue(ppro, hwndDlg, IDC_STATUS, hContact, (char*)DBVT_WORD, (char*)ppro->m_iStatus, SVS_STATUSID);
 					}

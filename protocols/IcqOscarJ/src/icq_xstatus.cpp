@@ -613,7 +613,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			ShowDlgItem(hwndDlg, IDC_RETRXSTATUS, SW_HIDE);
 			ShowDlgItem(hwndDlg, IDC_XMSG, SW_SHOW);
 			ShowDlgItem(hwndDlg, IDC_XTITLE, SW_SHOW);
-			SetDlgItemTextUtf(hwndDlg,IDOK,ICQTranslateUtfStatic(LPGEN("Close"), str, MAX_PATH));
+			SetDlgItemText(hwndDlg,IDOK,TranslateT("Close"));
 			UnhookEvent(dat->hEvent); dat->hEvent = NULL;
 			char *szText = dat->ppro->getSettingStringUtf(dat->hContact, DBSETTING_XSTATUS_NAME, "");
 			SetDlgItemTextUtf(hwndDlg, IDC_XTITLE, szText);
@@ -665,7 +665,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				SendMessage(GetDlgItem(hwndDlg, IDC_XMSG), EM_SETREADONLY, 1, 0);
 
 				if (dat->ppro->CheckContactCapabilities(dat->hContact, CAPF_XSTATUS) && !dat->ppro->getByte("XStatusAuto", DEFAULT_XSTATUS_AUTO)) {
-					SetDlgItemTextUtf(hwndDlg,IDOK,ICQTranslateUtfStatic(LPGEN("Cancel"), str, MAX_PATH));
+					SetDlgItemText(hwndDlg,IDOK,TranslateT("Cancel"));
 					dat->hEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_PROTOACK);
 					ShowDlgItem(hwndDlg, IDC_RETRXSTATUS, SW_SHOW);
 					ShowDlgItem(hwndDlg, IDC_XMSG, SW_HIDE);
@@ -673,7 +673,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 					dat->iEvent = dat->ppro->requestXStatusDetails(dat->hContact, FALSE);
 				}
 				else {
-					SetDlgItemTextUtf(hwndDlg,IDOK,ICQTranslateUtfStatic(LPGEN("Close"), str, MAX_PATH));
+					SetDlgItemText(hwndDlg,IDOK,TranslateT("Close"));
 					dat->hEvent = NULL;
 					char *szText = dat->ppro->getSettingStringUtf(dat->hContact, DBSETTING_XSTATUS_NAME, "");
 					SetDlgItemTextUtf(hwndDlg, IDC_XTITLE, szText);
@@ -730,7 +730,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 		case IDC_XMSG:
 			if (!dat->bAction) { // set our xStatus
 				KillTimer(hwndDlg,1);
-				SetDlgItemTextUtf(hwndDlg,IDOK,ICQTranslateUtfStatic(LPGEN("OK"), str, MAX_PATH));
+				SetDlgItemText(hwndDlg,IDOK,TranslateT("OK"));
 			}
 		}
 		break;
