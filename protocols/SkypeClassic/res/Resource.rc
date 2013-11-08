@@ -186,7 +186,7 @@ BEGIN
     CONTROL         "Enable Skype menu options (currently: Find/Add user)",
                     IDC_ENABLEMENU,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
                     WS_TABSTOP,10,4,290,9
-    CONTROL         "Use popup plugin for displaying messages ",IDC_USEPOPUP,
+    CONTROL         "Use popup plugin for displaying messages",IDC_USEPOPUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,19,290,9
     CONTROL         "Suppress all error messages (not recommended, but if it annoys you... ;)",
                     IDC_NOERRORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,34,
