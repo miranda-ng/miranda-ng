@@ -52,8 +52,8 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	std::map<std::string, facebook_chatroom>::iterator chatroom = facy.chat_rooms.find(chat_id);
 	chatroom->second.message_readers = "";
 
-	HANDLE hChatContact = ChatIDToHContact(chat_id);
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)mir_a2u("Unseen"));
+	//HANDLE hChatContact = ChatIDToHContact(chat_id);
+	//CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)mir_a2u("Unseen"));
 }
 
 void FacebookProto::RenameChat(const char *chat_id, const char *name)

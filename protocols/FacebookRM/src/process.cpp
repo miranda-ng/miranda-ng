@@ -871,7 +871,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 		if (resp.code == HTTP_CODE_OK)
 		{
-			std::string about = utils::text::source_get_value(&resp.data, 2, "<div class=\"timeline", "<div id=\"footer");
+			std::string about = utils::text::source_get_value(&resp.data, 2, "<div class=\"timeline", "id=\"footer");
 		
 			std::string id = utils::text::source_get_value2(&about, ";id=", "&\"");
 			if (id.empty())

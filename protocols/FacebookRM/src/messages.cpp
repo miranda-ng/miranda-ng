@@ -171,7 +171,8 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 	// mark message read (also send seen info)
 	ptrA mid( getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
-	if (mid == NULL) return;
+	if (mid == NULL)
+		return;
 
 	std::string data = "ids[" + std::string(mid) + "]=true";
 	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
