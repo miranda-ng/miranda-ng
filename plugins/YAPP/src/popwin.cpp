@@ -171,9 +171,11 @@ void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 void DeinitWindowStack()
 {
 	HWNDStackNode *current = hwnd_stack_top;
+	hwnd_stack_top = NULL;
 	while(current) {
+		HWNDStackNode *pNext = current->next;
 		DestroyWindow(current->hwnd);
-		current = current->next;
+		current = pNext;
 	}
 }
 
