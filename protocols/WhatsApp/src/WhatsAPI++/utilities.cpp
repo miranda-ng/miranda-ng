@@ -2,6 +2,7 @@
 
 #include "utilities.h"
 #include <iostream>
+#include <io.h>
 #include <cstdio>
 #include <stdlib.h>
 #include <cstdlib>
@@ -261,8 +262,7 @@ vector<unsigned char>* loadFileToBytes(const string& path) {
 }
 
 bool fileExists(const std::string& path) {
-	std::ifstream in(path.c_str());
-	return in != NULL;
+	return _access(path.c_str(), 0) == 0;
 }
 
 

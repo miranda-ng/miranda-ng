@@ -5,6 +5,7 @@
  *      Author: Antonio
  */
 
+#include <algorithm>
 #include "BinTreeNodeReader.h"
 #include "WAException.h"
 #include "ProtocolTreeNode.h"

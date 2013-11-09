@@ -133,10 +133,11 @@ public:
 	__forceinline JSONNODE* Parse(LPCSTR text) { return (m_node = json_parse(text)); }
 };
 
+}
+
 #ifdef _XSTRING_
 MIR_C_CORE_DLL(std::string) json_as_pstring(const JSONNODE *node);
 #endif
-}
 
 #endif
 
