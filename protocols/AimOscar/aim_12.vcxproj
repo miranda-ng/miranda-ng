@@ -244,9 +244,8 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\plugins\zlib\zlib_11.vcxproj">
+    <ProjectReference Include="..\..\plugins\Zlib\zlib_12.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -219,10 +219,10 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zlib\zlib_11.vcxproj">
+    <ProjectReference Include="..\Zlib\zlib_12.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
-    <ProjectReference Include="curl-7.29.0\lib\vc6libcurl_11.vcxproj">
+    <ProjectReference Include="curl-7.29.0\lib\vc6libcurl_12.vcxproj">
       <Project>{01f9e227-06f5-4bed-907f-402ca7dfafe6}</Project>
     </ProjectReference>
   </ItemGroup>
