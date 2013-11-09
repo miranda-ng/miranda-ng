@@ -212,7 +212,7 @@ void UpdateDialogAddButton(HWND hwndDlg, HANDLE hContact)
 }
 
 
-HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char* szTip)
+HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char *szTip)
 {
   HWND hButton = GetDlgItem(hDlg, idButton);
   HICON hIcon = (HICON)LoadImage(GetModuleHandle(NULL),szIcon,IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0);

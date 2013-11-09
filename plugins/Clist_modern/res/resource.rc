@@ -1091,7 +1091,7 @@ IDR_MSF_DEFAULT_SKIN    MSF                     "skin.msf"
 
 IDR_CLISTMENU MENU
 BEGIN
-    POPUP "&¤"
+    POPUP "&Main menu"
     BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_ICQ_EXIT

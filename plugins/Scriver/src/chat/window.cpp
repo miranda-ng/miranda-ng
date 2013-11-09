@@ -21,10 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../commonheaders.h"
 
-#ifndef WM_UNICHAR
-#define WM_UNICHAR    0x0109
-#endif
-
 static ToolbarButton toolbarButtons[] = {
 	{ LPGENT("Bold"), IDC_CHAT_BOLD, 0, 4, 24},
 	{ LPGENT("Italic"), IDC_CHAT_ITALICS, 0, 0, 24},
@@ -83,10 +79,8 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LP
 	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
-static void   InitButtons(HWND hwndDlg, SESSION_INFO *si)
+static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 {
-	MODULEINFO * pInfo = MM_FindModule(si->pszModule);
-
 	SendDlgItemMessage(hwndDlg,IDC_CHAT_SMILEY,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetCachedIcon("chat_smiley"));
 	SendDlgItemMessage(hwndDlg,IDC_CHAT_BOLD,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetCachedIcon("chat_bold"));
 	SendDlgItemMessage(hwndDlg,IDC_CHAT_ITALICS,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetCachedIcon("chat_italics"));
@@ -97,46 +91,48 @@ static void   InitButtons(HWND hwndDlg, SESSION_INFO *si)
 	SendDlgItemMessage(hwndDlg,IDC_CHAT_CHANMGR,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetCachedIcon("chat_settings"));
 	SendDlgItemMessage(hwndDlg,IDC_CHAT_SHOWNICKLIST,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetCachedIcon(si->bNicklistEnabled?"chat_nicklist":"chat_nicklist2"));
 	SendDlgItemMessage(hwndDlg,IDC_CHAT_FILTER,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetCachedIcon(si->bFilterEnabled?"chat_filter":"chat_filter2"));
-	SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_SEND"));
+	SendDlgItemMessage(hwndDlg,IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_SEND"));
 
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_SMILEY, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_BOLD, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_ITALICS, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_UNDERLINE, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_BKGCOLOR, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_COLOR, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_HISTORY, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_SHOWNICKLIST, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_CHANMGR, BUTTONSETASFLATBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg,IDC_CHAT_FILTER, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_SMILEY, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_BOLD, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_ITALICS, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_UNDERLINE, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_BKGCOLOR, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_COLOR, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_HISTORY, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_SHOWNICKLIST, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_CHANMGR, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_FILTER, BUTTONSETASFLATBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg,IDOK, BUTTONSETASFLATBTN, TRUE, 0);
 
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_SMILEY), BUTTONADDTOOLTIP, (WPARAM)Translate("Insert a smiley"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_BOLD), BUTTONADDTOOLTIP, (WPARAM)Translate("Make the text bold (CTRL+B)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_ITALICS), BUTTONADDTOOLTIP, (WPARAM)Translate("Make the text italicized (CTRL+I)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_UNDERLINE), BUTTONADDTOOLTIP, (WPARAM)Translate("Make the text underlined (CTRL+U)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_BKGCOLOR), BUTTONADDTOOLTIP, (WPARAM)Translate("Select a background color for the text (CTRL+L)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_COLOR), BUTTONADDTOOLTIP, (WPARAM)Translate("Select a foreground color for the text (CTRL+K)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_HISTORY), BUTTONADDTOOLTIP, (WPARAM)Translate("Show the history (CTRL+H)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_SHOWNICKLIST), BUTTONADDTOOLTIP, (WPARAM)Translate("Show/hide the nicklist (CTRL+N)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_CHANMGR), BUTTONADDTOOLTIP, (WPARAM)Translate("Control this room (CTRL+O)"), 0);
-   SendMessage(GetDlgItem(hwndDlg,IDC_CHAT_FILTER), BUTTONADDTOOLTIP, (WPARAM)Translate("Enable/disable the event filter (CTRL+F)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDOK), BUTTONADDTOOLTIP, (WPARAM) Translate("Send Message"), 0);
-   SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BUTTONSETASPUSHBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BUTTONSETASPUSHBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BUTTONSETASPUSHBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg, IDC_CHAT_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
-   SendDlgItemMessage(hwndDlg, IDC_CHAT_BKGCOLOR, BUTTONSETASPUSHBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_SMILEY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert a smiley"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_BOLD, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_ITALICS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_UNDERLINE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_BKGCOLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_COLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_SHOWNICKLIST, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nicklist (CTRL+N)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_CHANMGR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_FILTER, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
+	SendDlgItemMessage(hwndDlg,IDOK, BUTTONADDTOOLTIP, (WPARAM) LPGEN("Send Message"), 0);
 
-   if (pInfo) {
-      EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_BOLD), pInfo->bBold);
-      EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_ITALICS), pInfo->bItalics);
-      EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_UNDERLINE), pInfo->bUnderline);
-      EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_COLOR), pInfo->bColor);
-      EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_BKGCOLOR), pInfo->bBkgColor);
-      if (si->iType == GCW_CHATROOM)
-         EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_CHANMGR), pInfo->bChanMgr);
-   }
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_BOLD, BUTTONSETASPUSHBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_ITALICS, BUTTONSETASPUSHBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_UNDERLINE, BUTTONSETASPUSHBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg,IDC_CHAT_BKGCOLOR, BUTTONSETASPUSHBTN, TRUE, 0);
+	
+	MODULEINFO *pInfo = MM_FindModule(si->pszModule);
+	if (pInfo) {
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_BOLD), pInfo->bBold);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_ITALICS), pInfo->bItalics);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_UNDERLINE), pInfo->bUnderline);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_COLOR), pInfo->bColor);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_BKGCOLOR), pInfo->bBkgColor);
+		if (si->iType == GCW_CHATROOM)
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_CHANMGR), pInfo->bChanMgr);
+	}
 }
 
 
@@ -1090,6 +1086,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
 			SESSION_INFO *psi = (SESSION_INFO*)lParam;
 			int mask;
