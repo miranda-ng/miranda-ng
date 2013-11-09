@@ -57,9 +57,10 @@ HANDLE hHookedNewEvent;
 HANDLE hHookedDeletedEvent;
 
 //---Called when a new event is added to the database
-int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 //wParam: contact-handle
 //lParam: dbevent-handle
+
+int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	PLUGIN_DATA* pdata;
@@ -81,11 +82,10 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	//custom database event types
-	if (ServiceExists(MS_DB_EVENT_GETTYPE))
-	{
+	if (ServiceExists(MS_DB_EVENT_GETTYPE)) {
 		DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
-		if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE && pei->flags & DETF_NONOTIFY)
 		// ignore events according to flags
+		if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE && pei->flags & DETF_NONOTIFY)
 			return 0;
     }
 
@@ -94,10 +94,9 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	//is it an event sent by the user? -> don't show
-	if (dbe.flags & DBEF_SENT)
-	{
-		if (pluginOptions.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1)
-		{ // JK, only message event, do not influence others
+	if (dbe.flags & DBEF_SENT) {
+		// JK, only message event, do not influence others
+		if (pluginOptions.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1) {
 			pdata = PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
 			PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
 		}		
@@ -112,13 +111,10 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 
 	//is another popup for this contact already present? -> merge message popups if enabled
 	if (dbe.eventType == EVENTTYPE_MESSAGE && (pluginOptions.bMergePopup && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1))
-	{ // JK, only merge with message events, do not mess with others
 		PopupUpdate(hContact, (HANDLE)lParam);
-	}
 	else
-	{	//now finally show a popup
 		PopupShow(&pluginOptions, hContact, (HANDLE)lParam, (UINT)dbe.eventType);
-	}
+
 	return 0;
 }
 
@@ -138,7 +134,6 @@ int HookedInit(WPARAM, LPARAM)
 int HookedOptions(WPARAM wParam, LPARAM lParam)
 {
 	OptionsAdd(hInst, wParam);
-
 	return 0;
 }
 
