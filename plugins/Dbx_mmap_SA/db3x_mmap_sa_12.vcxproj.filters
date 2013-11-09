@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4faf3f6f-953b-4e0c-aa3a-246accd395cc}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{26f1ddd9-261b-4512-8da8-b3e786b0e35c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{4eb47a45-3e87-400a-bfb3-05c2d9cbb32b}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Mmap files">
+      <UniqueIdentifier>{9b94a455-bdbc-497d-b375-18c090cccc36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mmap files\Checker">
+      <UniqueIdentifier>{9236b59b-8511-4248-adfd-5ad1f36788dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dialogs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\init.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\security.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbmodulechain.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbcache.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbcontacts.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\database.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbintf.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbintf_sa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbheaders.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbsettings.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbevents.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbintfm.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\aggressive.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\contactchain.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\disk.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\eventchain.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\finaltasks.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\initialchecks.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\modulechain.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\settingschain.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\user.cpp">
+      <Filter>Mmap files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dbintf_sa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Db3x_mmap\src\dbintf.h">
+      <Filter>Mmap files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\db3x_mmap.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
