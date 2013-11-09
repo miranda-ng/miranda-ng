@@ -466,7 +466,7 @@ IDC_DROPUSER            CURSOR                  "dropuser.cur"
 
 IDR_CLISTMENU MENU 
 BEGIN
-    POPUP "&¤"
+    POPUP "&Main menu"
     BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_ICQ_EXIT
