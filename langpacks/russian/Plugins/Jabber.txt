@@ -551,6 +551,8 @@ Jabber vCard: редактирование телефона
 Блокировка пользователей с использованием листов приватности
 [Supports SecureIM plugin for Miranda NG]
 Поддержка плагина SecureIM для Miranda NG
+[Supports OTR (Off-the-Record Messaging)]
+Поддержка OTR (Off-the-Record Messaging)
 [Supports generic publish-subscribe functionality]
 Основная функциональность подписок
 [Receives information about user moods]

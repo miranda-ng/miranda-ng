@@ -58,7 +58,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{	JABBER_FEAT_USER_MOOD_NOTIFY,     JABBER_CAPS_USER_MOOD_NOTIFY,     LPGENT("Receives information about user moods") },
 	{	JABBER_FEAT_PUBSUB,               JABBER_CAPS_PUBSUB,               LPGENT("Supports generic publish-subscribe functionality") },
 	{	JABBER_FEAT_SECUREIM,             JABBER_CAPS_SECUREIM,             LPGENT("Supports SecureIM plugin for Miranda NG") },
-	{	JABBER_FEAT_MIROTR,               JABBER_CAPS_MIROTR,               LPGENT("Supports MirOTR plugin for Miranda NG") },
+	{	JABBER_FEAT_MIROTR,               JABBER_CAPS_MIROTR,               LPGENT("Supports OTR (Off-the-Record Messaging)") },
 	{	JABBER_FEAT_NEWGPG,               JABBER_CAPS_NEWGPG,               LPGENT("Supports New_GPG plugin for Miranda NG") },
 	{	JABBER_FEAT_PRIVACY_LISTS,        JABBER_CAPS_PRIVACY_LISTS,        LPGENT("Can block communications from particular other users using Privacy lists") },
 	{	JABBER_FEAT_MESSAGE_RECEIPTS,     JABBER_CAPS_MESSAGE_RECEIPTS,     LPGENT("Supports Message Receipts") },
