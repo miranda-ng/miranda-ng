@@ -248,7 +248,7 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\plugins\Zlib\zlib_11.vcxproj">
+    <ProjectReference Include="..\..\plugins\Zlib\zlib_12.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
   </ItemGroup>

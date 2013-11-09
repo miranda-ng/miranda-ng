@@ -182,12 +182,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\zlib\zlib_11.vcxproj">
-      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\FreeImageToolkit\Background.cpp" />
     <ClCompile Include="src\FreeImage\BitmapAccess.cpp" />
     <ClCompile Include="src\FreeImage\ColorLookup.cpp" />
@@ -353,6 +347,11 @@
     <ClInclude Include="src\Utilities.h" />
     <ClInclude Include="src\FreeImageToolkit\Resize.h" />
     <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zlib\zlib_12.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

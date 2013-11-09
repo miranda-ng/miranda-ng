@@ -201,15 +201,15 @@
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zlib\zlib_11.vcxproj">
-      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="res\btnClose.ico" />
     <Image Include="res\btnOk.ico" />
     <Image Include="res\info.ico" />
     <Image Include="res\menu.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zlib\zlib_12.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
