@@ -395,6 +395,30 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		int isRead = json_as_int( json_get(pMsg, "read_state"));
 		ptrT ptszBody( json_as_string( json_get(pMsg, "body")));
 
+		JSONNODE *pAttachments = json_get(pMsg, "attachments");
+		if (pAttachments != NULL) {
+			CMString tszBody(ptszBody);
+			tszBody.AppendChar('\n');
+			tszBody += TranslateT("Attachments:");
+			tszBody.AppendChar('\n');
+			JSONNODE *pAttach;
+			for (int k=0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
+				tszBody.AppendChar('\t');
+				ptrT ptszType( json_as_string( json_get(pAttach, "type")));
+				if ( !lstrcmp(ptszType, _T("photo"))) {
+					JSONNODE *pPhoto = json_get(pAttach, "photo");
+					if (pPhoto == NULL) continue;
+
+					ptrT ptszLink( json_as_string( json_get(pPhoto, "src_big")));
+					int iWidth = json_as_int( json_get(pPhoto, "width"));
+					int iHeight = json_as_int( json_get(pPhoto, "height"));
+					tszBody.AppendFormat( _T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
+				}
+				tszBody.AppendChar('\n');
+			}
+			ptszBody = mir_tstrdup(tszBody);
+		}
+
 		char szMid[40];
 		_itoa(mid, szMid, 10);
 		HANDLE hContact = FindUser(uid, true);
@@ -461,7 +485,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 	debugLogA("CVkProto::PollUpdates");
 
 	CMStringA mids;
-	int msgid, uid;
+	int msgid, uid, flags;
 	HANDLE hContact;
 
 	JSONNODE *pChild;
@@ -469,6 +493,12 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 		switch (json_as_int( json_at(pChild, 0))) {
 		case VKPOLL_MSG_ADDED: // new message
 			msgid = json_as_int( json_at(pChild, 1));
+			flags = json_as_int( json_at(pChild, 2));
+
+			// skip outgoing messages sent from a client
+			if ((flags & VKFLAG_MSGOUTBOX) && !(flags & VKFLAG_MSGCHAT))
+				break;
+
 			if ( !CheckMid(msgid)) {
 				if ( !mids.IsEmpty())
 					mids.AppendChar(',');
