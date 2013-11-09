@@ -58,7 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Sets a tooltip for the button v0.3.3+
 // wParam = (WPARAM)(char *)szTip
 // lParam = BATF_* flags combination
-// Usage: SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("My Tip"), BATF_TCHAR);
+// Usage: SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)LPGEN("My Tip"), 0);
 #define BATF_UNICODE 1
 #if defined(_UNICODE)
 	#define BATF_TCHAR BATF_UNICODE
