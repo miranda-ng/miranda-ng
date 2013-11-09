@@ -46,5 +46,6 @@ static const TCHAR *clients[] = {
 	_T("blackberry"),
 	_T("prelude"),
 	_T("nimbuzz"),
-	_T("mqutim")
+	_T("mqutim"),
+	_T("sleekxmpp.com")
 };
