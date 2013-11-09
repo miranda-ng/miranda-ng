@@ -209,7 +209,7 @@ void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData* cbd)
 		if (cbd->hIcon)
 			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 		if (cbd->ptszTooltip)
-			SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), BATF_TCHAR);
+			SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)cbd->ptszTooltip, BATF_TCHAR);
 		SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 	}
 }
