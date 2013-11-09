@@ -19,16 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\8060.ico" />
     <None Include="res\add.ico" />
-    <None Include="res\add2.ico" />
     <None Include="res\auth.ico" />
     <None Include="res\away.ico" />
     <None Include="res\call.bmp" />
     <None Include="res\call.ico" />
     <None Include="res\chat.ico" />
     <None Include="res\conference.ico" />
-    <None Include="res\Copy of online.ico" />
     <None Include="res\DND.ico" />
     <None Include="res\error.ico" />
     <None Include="res\hang_up.ico" />

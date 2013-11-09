@@ -187,19 +187,10 @@
     <None Include="res\skypeout.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\8060.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\add2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\auth.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\conference.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Copy of online.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\history.ico">
