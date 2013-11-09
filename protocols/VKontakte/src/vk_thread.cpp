@@ -292,7 +292,7 @@ void CVkProto::RetrieveFriends()
 	debugLogA("CVkProto::RetrieveFriends");
 
 	HttpParam params[] = {
-		{ "fields", "uid,first_name,last_name,photo_medium,contacts" },
+		{ "fields", "uid,first_name,last_name,photo_medium,sex,country,timezone,contacts" },
 		{ "count", "1000" },
 		{ "access_token", m_szAccessToken }
 	};
@@ -337,6 +337,13 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		SetAvatarUrl(hContact, szValue);
 
 		setWord(hContact, "Status", (json_as_int( json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE); 
+
+		int iValue = json_as_int( json_get(pInfo, "sex"));
+		if (iValue)
+			setByte(hContact, "Gender", (iValue == 2) ? 'M' : 'F');
+
+		if ((iValue = json_as_int( json_get(pInfo, "timezone"))) != 0)
+			setByte(hContact, "Timezone", iValue * -2);
 
 		szValue = json_as_string( json_get(pInfo, "mobile_phone"));
 		if (szValue && *szValue) setTString(hContact, "Cellular", szValue);
