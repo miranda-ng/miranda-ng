@@ -187,24 +187,6 @@
     <None Include="res\skypeout.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\auth.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\conference.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\history.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\pause.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\search.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\skyping.ico">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">

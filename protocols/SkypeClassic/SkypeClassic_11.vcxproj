@@ -20,16 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\add.ico" />
-    <None Include="res\auth.ico" />
     <None Include="res\away.ico" />
     <None Include="res\call.bmp" />
     <None Include="res\call.ico" />
     <None Include="res\chat.ico" />
-    <None Include="res\conference.ico" />
     <None Include="res\DND.ico" />
     <None Include="res\error.ico" />
     <None Include="res\hang_up.ico" />
-    <None Include="res\history.ico" />
     <None Include="res\hold.ico" />
     <None Include="res\import.ico" />
     <None Include="res\invisible.ico" />
@@ -39,13 +36,10 @@
     <None Include="res\occupied.ico" />
     <None Include="res\offline.ico" />
     <None Include="res\online.ico" />
-    <None Include="res\pause.ico" />
     <None Include="res\phone.ico" />
     <None Include="res\resume.ico" />
-    <None Include="res\search.ico" />
     <None Include="res\skype.ico" />
     <None Include="res\skypeout.ico" />
-    <None Include="res\skyping.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc" />
