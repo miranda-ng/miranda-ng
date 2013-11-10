@@ -591,7 +591,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 			HANDLE hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
 				
-			if (proto->getWord(hContact, "Status", 0) == ID_STATUS_OFFLINE)
+			if (proto->isOnline() && proto->getWord(hContact, "Status", 0) == ID_STATUS_OFFLINE)
 				proto->setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 			JSONNODE *st = json_get(it, "st");
