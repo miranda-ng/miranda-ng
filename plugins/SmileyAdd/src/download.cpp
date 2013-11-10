@@ -40,7 +40,7 @@ static bool threadRunning;
 bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 {
 	int result = 0xBADBAD;
-	char* szRedirUrl  = NULL;
+	char *szRedirUrl  = NULL;
 	NETLIBHTTPREQUEST nlhr = {0};
 
 	// initialize the netlib request
@@ -60,9 +60,7 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 
 	while (result == 0xBADBAD) {
 		// download the page
-		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-			(WPARAM)hNetlibUser,(LPARAM)&nlhr);
-
+		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
 		if (nlhrReply) {
 			hHttpDwnl = nlhrReply->nlc;
 			// if the recieved code is 200 OK

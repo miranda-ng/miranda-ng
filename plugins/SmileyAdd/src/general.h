@@ -154,15 +154,6 @@ public:
 #define A2T_SM     (wchar_t*)A2W_SM
 #define W2T_SM(p1) (TCHAR*)p1
 
-
-inline unsigned short GetWinVer(void)
-{
-	unsigned short ver = LOWORD(GetVersion());
-	ver = (ver & 0xFF) << 8 | (ver >> 8);
-	return ver;
-}
-
-
 // init functions
 void InstallDialogBoxHook(void);
 void RemoveDialogBoxHook(void);

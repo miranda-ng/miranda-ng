@@ -112,23 +112,19 @@ public:
 		RECT rect;
 		POINT pt;
 
-		if (OldButtonPlace)
-		{
-			if (isSplit && db_get_b(NULL, "SRMsg", "ShowQuote", FALSE))
-			{
+		if (OldButtonPlace) {
+			if (isSplit && db_get_b(NULL, "SRMsg", "ShowQuote", FALSE)) {
 				GetWindowRect(QuoteB, &rect);
 				pt.x = rect.right + 12;
 			}
-			else
-			{
+			else {
 				GetWindowRect(MEdit, &rect);
 				pt.x = rect.left;
 			}
 			GetWindowRect(MOK, &rect);
 			pt.y = rect.top;
 		}
-		else
-		{
+		else {
 			GetWindowRect(LButton, &rect);
 			pt.y = rect.top;
 
@@ -154,24 +150,25 @@ public:
 		TCHAR szClassName[32] = _T("");
 
 		GetClassName(hwnd, szClassName, SIZEOF(szClassName));
-		if (_tcscmp(szClassName, _T("#32770"))) return false;  
+		if (_tcscmp(szClassName, _T("#32770")))
+			return false;  
 
-		if ((REdit = GetDlgItem(hwnd, MI_IDC_LOG)) != NULL) 
-		{
+		if ((REdit = GetDlgItem(hwnd, MI_IDC_LOG)) != NULL) {
 			GetClassName(REdit, szClassName, SIZEOF(szClassName));
 			if (_tcscmp(szClassName, _T("RichEdit20A")) != 0 && 
-				_tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
-				_tcscmp(szClassName, _T("RICHEDIT50W")) != 0)  return false; 
+				 _tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
+				 _tcscmp(szClassName, _T("RICHEDIT50W")) != 0)
+				return false; 
 		}
 		else return false; 
 
-		if ((MEdit = GetDlgItem(hwnd, MI_IDC_MESSAGE)) != NULL) 
-		{
+		if ((MEdit = GetDlgItem(hwnd, MI_IDC_MESSAGE)) != NULL) {
 			GetClassName(MEdit, szClassName, SIZEOF(szClassName));
 			if (_tcscmp(szClassName, _T("Edit")) != 0 &&  
-				_tcscmp(szClassName, _T("RichEdit20A")) != 0 && 
-				_tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
-				_tcscmp(szClassName, _T("RICHEDIT50W")) != 0)  return false; 
+				 _tcscmp(szClassName, _T("RichEdit20A")) != 0 && 
+				 _tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
+				 _tcscmp(szClassName, _T("RICHEDIT50W")) != 0)
+				return false; 
 		}
 		else return false;
 
@@ -197,16 +194,14 @@ public:
 		doSmileyButton &= SmileyPack != NULL && SmileyPack->VisibleSmileyCount() != 0;
 
 		bool showButtonLine;
-		if (IsOldSrmm())
-		{
+		if (IsOldSrmm()) {
 			isSplit = db_get_b(NULL,"SRMsg","Split", TRUE) != 0;
 
 			doSmileyReplace = (isSplit || !isSend);
 			doSmileyButton &= isSplit ||  isSend;
 			showButtonLine = db_get_b(NULL, "SRMsg", "ShowButtonLine", TRUE) != 0;
 		}
-		else
-		{
+		else {
 			doSmileyReplace = true;
 			OldButtonPlace = false;
 			showButtonLine = db_get_b(NULL, "SRMM", "ShowButtonLine", TRUE) != 0;
@@ -214,15 +209,13 @@ public:
 
 		doSmileyButton &= OldButtonPlace || showButtonLine;
 
-		if (ProtocolName[0] != 0)
-		{
+		if (ProtocolName[0] != 0) {
 			INT_PTR cap = CallProtoService(ProtocolName, PS_GETCAPS, PFLAGNUM_1, 0);
 			doSmileyButton  &= ((cap & (PF1_IMSEND | PF1_CHAT)) != 0);
 			doSmileyReplace &= ((cap & (PF1_IMRECV | PF1_CHAT)) != 0);
 		}
 
-		if (doSmileyButton && opt.PluginSupportEnabled)
-		{
+		if (doSmileyButton && opt.PluginSupportEnabled) {
 			//create smiley button
 			RECT rect = CalcSmileyButtonPos();
 
@@ -242,13 +235,11 @@ public:
 
 			// Conversion to bitmap done to prevent Miranda from scaling the image
 			SmileyType* sml = FindButtonSmiley(SmileyPack);
-			if (sml != NULL)
-			{
+			if (sml != NULL) {
 				hSmlBmp = sml->GetBitmap(GetSysColor(COLOR_BTNFACE), 0, 0);
 				SendMessage(hSmlButton, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hSmlBmp);
 			}
-			else
-			{
+			else {
 				hSmlIco = GetDefaultIcon(); 
 				SendMessage(hSmlButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hSmlIco);
 			}
@@ -303,16 +294,13 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 {
 	MsgWndData dat;
 
-	if (dat.IsMessageSendDialog(hwndDlg))
-	{
+	if (dat.IsMessageSendDialog(hwndDlg)) {
 		dat.hwnd = hwndDlg;
-		if (datm != NULL)
-		{
+		if (datm != NULL) {
 			dat.isSend = datm->isSend != 0;
 			dat.hContact = datm->hContact;
 		}
-		else
-			dat.hContact = hContact;
+		else dat.hContact = hContact;
 
 		// Get the protocol for this contact to display correct smileys.
 		char *protonam = GetContactProto( DecodeMetaContact(dat.hContact));
@@ -346,18 +334,17 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MsgWndData* dat = IsMsgWnd(hwnd);
-	if (dat == NULL) return 0;
+	if (dat == NULL)
+		return 0;
 
-	switch(uMsg) 
-	{
+	switch(uMsg) {
 	case DM_OPTIONSAPPLIED:
 		dat->clear();
 		dat->CreateSmileyButton();
 		break;
 
 	case DM_APPENDTOLOG:
-		if (opt.PluginSupportEnabled)
-		{
+		if (opt.PluginSupportEnabled) {
 			//get length of text now before things can get added...
 			GETTEXTLENGTHEX gtl;
 			gtl.codepage = 1200;
@@ -385,8 +372,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		break;
 
 	case WM_SIZE:
-		if (dat->doSmileyButton)
-		{
+		if (dat->doSmileyButton) {
 			RECT rect = dat->CalcSmileyButtonPos();
 			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top, 
 				0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -394,12 +380,10 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		break;
 
 	case DM_APPENDTOLOG:
-		if (dat->doSmileyReplace) 
-		{
+		if (dat->doSmileyReplace) {
 			SmileyPackCType* smcp;
 			SmileyPackType* SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != NULL)
-			{
+			if (SmileyPack != NULL) {
 				const CHARRANGE sel = { dat->idxLastChar, LONG_MAX };
 				ReplaceSmileys(dat->REdit, SmileyPack, smcp, sel, false, false, false);
 			}
@@ -407,12 +391,10 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		break;
 
 	case DM_REMAKELOG:
-		if (dat->doSmileyReplace) 
-		{
+		if (dat->doSmileyReplace) {
 			SmileyPackCType* smcp;
 			SmileyPackType* SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != NULL)
-			{
+			if (SmileyPack != NULL) {
 				static const CHARRANGE sel = { 0, LONG_MAX };
 				ReplaceSmileys(dat->REdit, SmileyPack, smcp, sel, false, false, false);
 			}
@@ -420,9 +402,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		break;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_SMLBUTTON && 
-			HIWORD(wParam) == BN_CLICKED)
-		{
+		if (LOWORD(wParam) == IDC_SMLBUTTON && HIWORD(wParam) == BN_CLICKED) {
 			SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
 			stwp->pSmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact);
 
@@ -434,14 +414,12 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			RECT rect;
 			GetWindowRect(dat->hSmlButton, &rect);
 
-			if (dat->OldButtonPlace)
-			{
+			if (dat->OldButtonPlace) {
 				stwp->direction = 3;
 				stwp->xPosition = rect.left;
 				stwp->yPosition = rect.top + 4;
 			}
-			else
-			{
+			else {
 				stwp->direction = 0;
 				stwp->xPosition = rect.left;
 				stwp->yPosition = rect.top + 24;
@@ -450,10 +428,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			mir_forkthread(SmileyToolThread, stwp);
 		}
 
-		if (LOWORD(wParam) == MI_IDC_ADD && 
-			HIWORD(wParam) == BN_CLICKED &&
-			dat->doSmileyButton)
-		{
+		if (LOWORD(wParam) == MI_IDC_ADD && HIWORD(wParam) == BN_CLICKED && dat->doSmileyButton) {
 			RECT rect = dat->CalcSmileyButtonPos();
 			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top, 
 				0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -467,12 +442,10 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 static int MsgDlgHook(WPARAM, LPARAM lParam)
 {
 	const MessageWindowEventData *wndEvtData = (MessageWindowEventData*)lParam;
-	switch(wndEvtData->uType)
-	{
+	switch(wndEvtData->uType) {
 	case MSG_WINDOW_EVT_OPENING:
 		MsgWndDetect(wndEvtData->hwndWindow, wndEvtData->hContact, NULL);
-		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData))
-		{
+		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData)) {
 			SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
 
 			if (wndEvtData->hwndLog)
@@ -483,13 +456,11 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 		break;
 
 	case MSG_WINDOW_EVT_OPEN:
-		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData))
-		{
+		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData)) {
 			SetRichOwnerCallback(wndEvtData->hwndWindow, wndEvtData->hwndInput, wndEvtData->hwndLog);
 			if (wndEvtData->hwndLog)
 				SetRichCallback(wndEvtData->hwndLog, wndEvtData->hContact, true, true);
-			if (wndEvtData->hwndInput)
-			{
+			if (wndEvtData->hwndInput) {
 				SetRichCallback(wndEvtData->hwndInput, wndEvtData->hContact, true, true);
 				SendMessage(wndEvtData->hwndInput, WM_REMAKERICH, 0, 0);
 			}
@@ -497,8 +468,7 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 		break;
 
 	case MSG_WINDOW_EVT_CLOSE:
-		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData) && wndEvtData->hwndLog)
-		{
+		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData) && wndEvtData->hwndLog) {
 			CloseRichCallback(wndEvtData->hwndLog);
 			CloseRichOwnerCallback(wndEvtData->hwndWindow);
 		}

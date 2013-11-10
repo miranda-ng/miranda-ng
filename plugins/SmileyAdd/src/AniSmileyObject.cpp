@@ -42,21 +42,21 @@ class CAniSmileyObject : public ISmileyBase
 private:
 	typedef enum { animStdOle, animDrctRichEd, animHpp } AnimType; 
 
-	POINTL          m_rectOrig;
-	SIZEL           m_rectExt;
+	POINTL      m_rectOrig;
+	SIZEL       m_rectExt;
 
-	COLORREF		m_bkg;
+	COLORREF    m_bkg;
 
-	SmileyType*		m_sml;
-	ImageBase*		m_img;
-	unsigned	    m_nFramePosition;
+	SmileyType *m_sml;
+	ImageBase  *m_img;
+	unsigned	   m_nFramePosition;
 
-	long			m_counter;
-	unsigned		m_richFlags;
-	long			m_lastObjNum; 
+	long        m_counter;
+	unsigned    m_richFlags;
+	long        m_lastObjNum; 
 
-	AnimType		m_animtype;
-	bool			m_allowAni;
+	AnimType    m_animtype;
+	bool        m_allowAni;
 
 public:
 	CAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp)
@@ -89,22 +89,19 @@ public:
 		if (m_img != NULL) return;
 
 		m_img = m_sml->CreateCachedImage();
-		if (m_img && m_img->IsAnimated() && opt.AnimateDlg)
-		{
+		if (m_img && m_img->IsAnimated() && opt.AnimateDlg) {
 			m_nFramePosition = 0;
 			m_img->SelectFrame(m_nFramePosition);
 			long frtm = m_img->GetFrameDelay();
 			m_counter = frtm / 10 + ((frtm % 10) >= 5);
 
 			regAniSmileys.insert(this);
-			if (timerId == 0) 
-			{
+			if (timerId == 0) {
 				timerId = 0xffffffff;
 				CallFunctionAsync(sttMainThreadCallback, NULL);
 			}
 		}
-		else
-			m_nFramePosition = m_sml->GetStaticFrame();
+		else m_nFramePosition = m_sml->GetStaticFrame();
 	}
 
 	void UnloadSmiley(void)
@@ -132,19 +129,14 @@ public:
 
 		HRESULT hr = RichEditOle->GetObject(m_lastObjNum, &reObj, REO_GETOBJ_NO_INTERFACES);
 		if (hr == S_OK && reObj.dwUser == (DWORD)(ISmileyBase*)this && reObj.clsid == CLSID_NULL) 
-		{
 			m_richFlags = reObj.dwFlags;
-		}
-		else
-		{
+		else {
 			long objectCount = RichEditOle->GetObjectCount();
-			for (long i = objectCount; i--; )
-			{
+			for (long i = objectCount; i--; ) {
 				HRESULT hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_NO_INTERFACES);
 				if (FAILED(hr)) continue;
 
-				if (reObj.dwUser == (DWORD)(ISmileyBase*)this && reObj.clsid == CLSID_NULL) 
-				{
+				if (reObj.dwUser == (DWORD)(ISmileyBase*)this && reObj.clsid == CLSID_NULL) {
 					m_lastObjNum = i;
 					m_richFlags = reObj.dwFlags;
 					break;
@@ -153,8 +145,7 @@ public:
 		}
 		RichEditOle->Release();
 
-		if ((m_richFlags & REO_SELECTED) == 0)
-		{
+		if ((m_richFlags & REO_SELECTED) == 0) {
 			CHARRANGE sel;
 			SendMessage(m_hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (reObj.cp >= sel.cpMin && reObj.cp < sel.cpMax)
@@ -184,8 +175,7 @@ public:
 
 		m_img->DrawInternal(hdcMem, rc.left, rc.top, m_sizeExtent.cx - 1, m_sizeExtent.cy - 1); 
 
-		if (m_richFlags & REO_SELECTED)
-		{
+		if (m_richFlags & REO_SELECTED) {
 			HBRUSH hbr = CreateSolidBrush(m_bkg ^ 0xFFFFFF); 
 			FrameRect(hdcMem, &rc, hbr);
 			DeleteObject(hbr);
@@ -204,8 +194,7 @@ public:
 	void DrawOnRichEdit(void)
 	{ 
 		HDC hdc = GetDC(m_hwnd);
-		if (RectVisible(hdc, &m_orect))
-		{
+		if (RectVisible(hdc, &m_orect)) {
 			RECT crct;
 			GetClientRect(m_hwnd, &crct);
 
@@ -221,8 +210,7 @@ public:
 			SelectClipRgn(hdc, res < 1 ? NULL : hrgnOld); 
 			DeleteObject(hrgnOld);
 		}
-		else
-		{
+		else {
 			m_visible = false;
 			m_allowAni = false;
 			UnloadSmiley();
@@ -242,8 +230,7 @@ public:
 		nmh.rcRect = m_orect;
 		SendMessage(GetParent(m_hwnd), WM_NOTIFY, (WPARAM)m_hwnd, (LPARAM)&nmh);
 
-		switch (nmh.bAction)
-		{
+		switch (nmh.bAction) {
 		case FVCA_DRAW:
 			// support for pseudo-edit mode and event details
 			m_animtype = m_dirAniAllow ? animDrctRichEd : animStdOle;
@@ -271,26 +258,20 @@ public:
 		case FVCA_NONE:
 			m_visible = false;
 			break;
-
-		default:
-			break;
 		}
 	}
 
 	void ProcessTimerTick(void)
 	{
-		if (m_visible && m_img && --m_counter <= 0)
-		{
+		if (m_visible && m_img && --m_counter <= 0) {
 			m_nFramePosition = m_img->SelectNextFrame(m_nFramePosition);
 			long frtm = m_img->GetFrameDelay();
 			m_counter = frtm / 10 + ((frtm % 10) >= 5);
 
-			switch (m_animtype)
-			{
+			switch (m_animtype) {
 			case animStdOle:
 				if (m_allowAni) SendOnViewChange();
-				else 
-				{
+				else {
 					m_visible = false;
 					UnloadSmiley();
 				}
@@ -318,25 +299,21 @@ public:
 		else UnloadSmiley();
 
 		if (lpRect == NULL) return;
-		if (m_animtype == animStdOle) 
-		{
+		if (m_animtype == animStdOle) {
 			m_animtype = animDrctRichEd;
 			GetDrawingProp();
 		}
 
-		if (lpRect->top == -1)
-		{
+		if (lpRect->top == -1) {
 			m_rectOrig.x = lpRect->left;
 			m_rectOrig.y = lpRect->bottom - m_sizeExtent.cy;
 			m_rectExt.cy = m_sizeExtent.cy;
 		}
-		else if (lpRect->bottom == -1)
-		{
+		else if (lpRect->bottom == -1) {
 			m_rectOrig.x = lpRect->left;
 			m_rectOrig.y = lpRect->top;
 		}
-		else
-		{
+		else {
 			m_rectOrig.x = lpRect->left;
 			m_rectOrig.y = lpRect->top;
 			m_rectExt.cy = lpRect->bottom - lpRect->top;
@@ -367,8 +344,7 @@ public:
 
 		m_rectExt = m_sizeExtent;
 
-		switch (m_animtype)
-		{
+		switch (m_animtype) {
 		case animDrctRichEd: 
 			{
 				m_rectExt.cy = pRectBounds->bottom - m_rectOrig.y;

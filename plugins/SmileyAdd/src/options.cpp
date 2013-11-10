@@ -72,23 +72,17 @@ int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 //
 static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	OptionsDialogType* pOD;
-	INT_PTR Result;
-
-	pOD = (OptionsDialogType*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (pOD == NULL) 
-	{
+	OptionsDialogType *pOD = (OptionsDialogType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	if (pOD == NULL) {
 		pOD = new OptionsDialogType(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pOD);
 	}
 
-	Result =  pOD->DialogProcedure(msg, wParam, lParam);
+	INT_PTR Result = pOD->DialogProcedure(msg, wParam, lParam);
 	SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, Result); 
 
 	if (msg == WM_NCDESTROY)
-	{
 		delete pOD;
-	}
 
 	return Result;
 }
@@ -99,8 +93,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL Result = FALSE;
 
-	switch(msg) 
-	{
+	switch(msg) {
 	case WM_INITDIALOG:
 		InitDialog();
 		Result = TRUE;
@@ -111,11 +104,9 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) 
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_FILENAME:
-			switch(HIWORD(wParam))
-			{
+			switch(HIWORD(wParam)) {
 			case EN_KILLFOCUS:
 				FilenameChanged();
 				break;
@@ -128,30 +119,26 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_BROWSE:
 			if (HIWORD(wParam) == BN_CLICKED)
-			{
-				if (BrowseForSmileyPacks(GetSelProto()))
-				{
+				if (BrowseForSmileyPacks(GetSelProto())) {
 					UpdateControls(true); 
 					SetChanged();
 				}
-			}
 			break;
 
 		case IDC_SMLOPTBUTTON:
-			if (HIWORD(wParam) == BN_CLICKED) ShowSmileyPreview();
+			if (HIWORD(wParam) == BN_CLICKED)
+				ShowSmileyPreview();
 			break;
 
 		case IDC_USESTDPACK:
-			if (HIWORD(wParam) == BN_CLICKED)
-			{
+			if (HIWORD(wParam) == BN_CLICKED) {
 				PopulateSmPackList(); 
 				SetChanged();
 			}
 			break;
 
 		case IDC_PLUGENABLED:
-			if (HIWORD(wParam) == BN_CLICKED)
-			{
+			if (HIWORD(wParam) == BN_CLICKED) {
 				BOOL en = IsDlgButtonChecked(m_hwndDialog, IDC_PLUGENABLED) == BST_UNCHECKED;
 				EnableWindow(GetDlgItem(m_hwndDialog, IDC_SMLBUT), en);
 				SetChanged();
@@ -160,20 +147,15 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_ADDCATEGORY:
 			if (HIWORD(wParam) == BN_CLICKED)
-			{
 				AddCategory();
-			}
 			break;
 
 		case IDC_DELETECATEGORY:
 			if (HIWORD(wParam) == BN_CLICKED)
-			{
-				if (tmpsmcat.DeleteCustomCategory(GetSelProto()))
-				{
+				if (tmpsmcat.DeleteCustomCategory(GetSelProto())) {
 					PopulateSmPackList();
 					SetChanged();
 				}
-			}
 			break;
 
 		case IDC_SPACES:
@@ -188,16 +170,19 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_DCURSORSMILEY:
 		case IDC_DISABLECUSTOM:
 		case IDC_HQSCALING:
-			if (HIWORD(wParam) == BN_CLICKED) SetChanged();
+			if (HIWORD(wParam) == BN_CLICKED)
+				SetChanged();
 			break;
 
 		case IDC_SELCLR:
-			if (HIWORD(wParam) == CPN_COLOURCHANGED) SetChanged();
+			if (HIWORD(wParam) == CPN_COLOURCHANGED)
+				SetChanged();
 			break;
 
 		case IDC_MAXCUSTSMSZ:
 		case IDC_MINSMSZ:
-			if (HIWORD(wParam) == EN_CHANGE && GetFocus() == (HWND)lParam) SetChanged();
+			if (HIWORD(wParam) == EN_CHANGE && GetFocus() == (HWND)lParam)
+				SetChanged();
 			break;
 		}
 		break;
@@ -207,11 +192,9 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom)
-		{
+		switch(((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR)lParam)->code)
-			{
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				ApplyChanges();
 				break;
@@ -219,8 +202,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_CATEGORYLIST:
-			switch (((LPNMHDR)lParam)->code)
-			{
+			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
 				{
 					TVHITTESTINFO ht = {0};
@@ -244,21 +226,16 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			case TVN_SELCHANGEDA:
 			case TVN_SELCHANGEDW:
-				{
-					LPNMTREEVIEW pnmtv = (LPNMTREEVIEW) lParam;
-					if (pnmtv->itemNew.state & TVIS_SELECTED)
-						UpdateControls();
-				}
-				break;
+				LPNMTREEVIEW pnmtv = (LPNMTREEVIEW) lParam;
+				if (pnmtv->itemNew.state & TVIS_SELECTED)
+					UpdateControls();
 			}
-			break;
 		}
 		break;
 	}
 
 	return Result;
 }
-
 
 void OptionsDialogType::AddCategory(void)
 {
@@ -274,7 +251,6 @@ void OptionsDialogType::AddCategory(void)
 		SetChanged();
 	}
 }
-
 
 void OptionsDialogType::UserAction(HTREEITEM hItem)
 {
@@ -633,18 +609,15 @@ void OptionsType::ReadPackFileName(CMString& filename, const CMString& name, con
 void OptionsType::WritePackFileName(const CMString& filename, const CMString& name)
 {
 	CMString settingKey = name + _T("-filename");
-	db_set_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), 
-		filename.c_str());
+	db_set_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), filename.c_str());
 }
 
 
 void OptionsType::ReadCustomCategories(CMString& cats)
 {
 	DBVARIANT dbv;
-
 	INT_PTR res = db_get_ts(NULL, "SmileyAdd", "CustomCategories", &dbv);
-	if (res == 0)
-	{
+	if (res == 0) {
 		cats = dbv.ptszVal;
 		db_free(&dbv);
 	}
@@ -663,10 +636,8 @@ void OptionsType::WriteCustomCategories(const CMString& cats)
 void OptionsType::ReadContactCategory(HANDLE hContact, CMString& cats)
 {
 	DBVARIANT dbv;
-
 	INT_PTR res = db_get_ts(hContact, "SmileyAdd", "CustomCategory", &dbv);
-	if (res == 0)
-	{
+	if (res == 0) {
 		cats = dbv.ptszVal;
 		db_free(&dbv);
 	}

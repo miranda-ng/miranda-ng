@@ -18,8 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "general.h"
 
-Animate::Animate(SmileyType *sml, RECT& rect, HDC hdcMem, HBRUSH hbr, bool clip)
-	: m_sml(sml), m_img(NULL),
+Animate::Animate(SmileyType *sml, RECT& rect, HDC hdcMem, HBRUSH hbr, bool clip) :
+	m_sml(sml),
+	m_img(NULL),
 	m_nFramePosition(0), m_sel(false), m_clip(clip),
 	m_offset(0), m_running(false),
 	m_hdcMem(hdcMem), m_hbr(hbr)
@@ -30,7 +31,8 @@ Animate::Animate(SmileyType *sml, RECT& rect, HDC hdcMem, HBRUSH hbr, bool clip)
 
 Animate::~Animate()
 {
-	if (m_img) m_img->Release();
+	if (m_img)
+		m_img->Release();
 }
 
 

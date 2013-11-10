@@ -24,18 +24,15 @@ SmileyPackCListType g_SmileyPackCStore;
 bool SmileyPackCListType::AddSmileyPack(HANDLE hContact, TCHAR* dir)
 {
 	bool res = true;
-	if (GetSmileyPack(hContact) == NULL)
-	{
+	if (GetSmileyPack(hContact) == NULL) {
 		SmileyPackCType *smileyPack = new SmileyPackCType;
 
 		res = smileyPack->LoadSmileyDir(dir);
-		if (res)
-		{
+		if (res) {
 			smileyPack->SetId(hContact);
 			m_SmileyPacks.insert(smileyPack);
 		}
-		else
-			delete smileyPack;
+		else delete smileyPack;
 	}
 	return res;
 }
@@ -86,11 +83,11 @@ bool SmileyCType::CreateTriggerText(char* text)
 	TCHAR *txt = mir_utf8decodeT(res);
 	res[reslen] = save;
 
-	if (txt == NULL) return false;
+	if (txt == NULL)
+		return false;
 
 	m_TriggerText = txt;
 	mir_free(txt);
-
 	return true;
 }
 
@@ -106,16 +103,13 @@ bool SmileyPackCType::LoadSmileyDir(TCHAR* dir)
 
 	_tfinddata_t c_file;
 	INT_PTR hFile = _tfindfirst((TCHAR*)dirs.c_str(), &c_file);
-	if (hFile > -1L)
-	{
+	if (hFile > -1L) {
 		do {
-			if (c_file.name[0] != '.')
-			{
+			if (c_file.name[0] != '.') {
 				CMString fullpath = dir;
 				fullpath = fullpath + _T("\\") + c_file.name;
 				TCHAR* div = _tcsrchr(c_file.name, '.');
-				if (div)
-				{
+				if (div) {
 					*div = 0;
 					SmileyCType *smlc = new SmileyCType(fullpath, c_file.name);
 					if (smlc->GetTriggerText().IsEmpty())
@@ -124,7 +118,8 @@ bool SmileyPackCType::LoadSmileyDir(TCHAR* dir)
 						m_SmileyList.insert(smlc);
 				}
 			}
-		} while( _tfindnext( hFile, &c_file ) == 0 );
+		}
+			while( _tfindnext( hFile, &c_file ) == 0 );
 		_findclose( hFile );
 		AddTriggersToSmileyLookup();
 		return true;
@@ -141,12 +136,11 @@ bool SmileyPackCType::LoadSmiley(TCHAR* path)
 
 	CMString name = dirs.Mid(slash+1, dot - slash - 1); 
 
-	for (int i=0; i < m_SmileyList.getCount(); i++) {
+	for (int i=0; i < m_SmileyList.getCount(); i++)
 		if (m_SmileyList[i].GetTriggerText() == name) {
 			m_SmileyList[i].LoadFromResource(dirs, 0);
 			return true; 
 		}
-	}
 
 	m_SmileyList.insert(new SmileyCType(dirs, (TCHAR*)name.c_str()));
 

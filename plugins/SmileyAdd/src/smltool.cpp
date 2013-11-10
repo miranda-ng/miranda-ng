@@ -74,20 +74,15 @@ public:
 
 LRESULT CALLBACK DlgProcSmileyToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	SmileyToolWindowType* pOD;
-	LRESULT Result;
-
-	pOD = (SmileyToolWindowType*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	SmileyToolWindowType *pOD = (SmileyToolWindowType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (pOD == NULL) {
 		pOD = new SmileyToolWindowType(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pOD);
 	}
 
-	Result =  pOD->DialogProcedure(msg, wParam, lParam);
-	//	SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, Result); 
+	LRESULT Result = pOD->DialogProcedure(msg, wParam, lParam);
 
-	if (msg == WM_NCDESTROY)
-	{
+	if (msg == WM_NCDESTROY) {
 		delete pOD;
 		Result = FALSE;
 	}
@@ -117,8 +112,7 @@ LRESULT SmileyToolWindowType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lP
 {
 	LRESULT Result = FALSE;
 
-	switch (msg) 
-	{
+	switch (msg) {
 	case WM_ACTIVATE:
 		if (wParam == WA_INACTIVE) 
 			DestroyWindow(m_hwndDialog);
@@ -192,17 +186,14 @@ void CALLBACK smileyServiceCallback(void* arg)
 
 void SmileyToolWindowType::InsertSmiley(void)
 {
-	if (m_CurrentHotTrack >= 0 && m_hWndTarget != NULL) 
-	{
+	if (m_CurrentHotTrack >= 0 && m_hWndTarget != NULL) {
 		SmileyType *sml = m_pSmileyPack->GetSmiley(m_CurrentHotTrack);
 
-		if (sml->IsService())
-		{
+		if (sml->IsService()) {
 			smlsrvstruct* p = new smlsrvstruct(sml, m_hContact);
 			CallFunctionAsync(smileyServiceCallback, p);
 		}
-		else
-		{
+		else {
 			CMString insertText;
 
 			if (opt.SurroundSmileyWithSpaces) insertText = ' ';
@@ -220,8 +211,7 @@ void SmileyToolWindowType::InsertSmiley(void)
 
 void SmileyToolWindowType::SmileySel(int but)
 {
-	if (but != m_CurrentHotTrack) 
-	{
+	if (but != m_CurrentHotTrack) {
 		SCROLLINFO si; 
 		si.cbSize = sizeof (si);
 		si.fMask  = SIF_POS;
@@ -229,16 +219,14 @@ void SmileyToolWindowType::SmileySel(int but)
 		GetScrollInfo (m_hwndDialog, SB_VERT, &si);
 
 		HDC hdc = GetDC(m_hwndDialog);
-		if (m_CurrentHotTrack >= 0) 
-		{
+		if (m_CurrentHotTrack >= 0) {
 			RECT rect = CalculateButtonToCoordinates(m_CurrentHotTrack, si.nPos);
 			DrawFocusRect(hdc, &rect);
 			m_CurrentHotTrack = -1;
 			SendMessage(m_hToolTip, TTM_ACTIVATE, FALSE, 0);
 		}
 		m_CurrentHotTrack = but;
-		if (m_CurrentHotTrack >= 0) 
-		{
+		if (m_CurrentHotTrack >= 0) {
 			TOOLINFO ti = {0};
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
@@ -268,44 +256,43 @@ void SmileyToolWindowType::ScrollV(int action, int dist)
 
 	// Save the position for comparison later on
 	int yPos = si.nPos;
-	switch (action)
-	{
-		// user clicked the HOME keyboard key
+	switch (action) {
+	// user clicked the HOME keyboard key
 	case SB_TOP:
 		si.nPos = si.nMin;
 		break;
 
-		// user clicked the END keyboard key
+	// user clicked the END keyboard key
 	case SB_BOTTOM:
 		si.nPos = si.nMax;
 		break;
 
-		// user clicked the top arrow
+	// user clicked the top arrow
 	case SB_LINEUP:
 		si.nPos -= 1;
 		break;
 
-		// user clicked the bottom arrow
+	// user clicked the bottom arrow
 	case SB_LINEDOWN:
 		si.nPos += 1;
 		break;
 
-		// user clicked the scroll bar shaft above the scroll box
+	// user clicked the scroll bar shaft above the scroll box
 	case SB_PAGEUP:
 		si.nPos -= si.nPage;
 		break;
 
-		// user clicked the scroll bar shaft below the scroll box
+	// user clicked the scroll bar shaft below the scroll box
 	case SB_PAGEDOWN:
 		si.nPos += si.nPage;
 		break;
 
-		// user dragged the scroll box
+	// user dragged the scroll box
 	case SB_THUMBTRACK:
 		si.nPos = si.nTrackPos;
 		break;
 
-		// user dragged the scroll box
+	// user dragged the scroll box
 	case SB_MYMOVE:
 		si.nPos += dist;
 		break;
@@ -316,9 +303,9 @@ void SmileyToolWindowType::ScrollV(int action, int dist)
 	SetScrollInfo (m_hwndDialog, SB_VERT, &si, TRUE);
 	GetScrollInfo (m_hwndDialog, SB_VERT, &si);
 	// If the position has changed, scroll window and update it
-	if (si.nPos != yPos)
-	{                    
-		if (m_AniPack) m_AniPack->SetOffset(si.nPos*GetRowSize());
+	if (si.nPos != yPos) {                    
+		if (m_AniPack)
+			m_AniPack->SetOffset(si.nPos*GetRowSize());
 
 		ScrollWindowEx(m_hwndDialog, 0, (yPos - si.nPos) * GetRowSize(), 
 			NULL, NULL, NULL, NULL, SW_INVALIDATE);
@@ -422,15 +409,12 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 		return;
 	}
 
-	if (numKey != -1)
-	{
-		if (rowSel == -1) 
-		{ 
+	if (numKey != -1) {
+		if (rowSel == -1) { 
 			rowSel = numKey;
 			but = (opt.IEViewStyle ? m_NumberOfHorizontalButtons : 1) * rowSel;
 		}
-		else 
-		{
+		else {
 			colSel = numKey;
 			if (opt.IEViewStyle)
 				but = colSel + m_NumberOfHorizontalButtons * rowSel;
@@ -443,7 +427,8 @@ void SmileyToolWindowType::KeyUp(WPARAM wParam, LPARAM lParam)
 	if (but >= (int)m_NumberOfButtons) but = m_NumberOfButtons-1;
 
 	SmileySel(but);
-	if (colSel != -1) InsertSmiley();
+	if (colSel != -1)
+		InsertSmiley();
 }
 
 
@@ -492,8 +477,7 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	width = rc.right - rc.left;
 	height =  rc.bottom - rc.top;
 
-	switch (m_Direction) 
-	{
+	switch (m_Direction) {
 	case 1: 
 		m_XPosition-=width;
 		break;
@@ -533,12 +517,9 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 
 	SmileyPackType::SmileyVectorType &sml = m_pSmileyPack->GetSmileyList();
 	for (unsigned i=0; i<m_NumberOfButtons; i++) 
-	{
 		if (!sml[i].IsHidden())
-		{
 			m_AniPack->Add(&sml[i], CalculateButtonToCoordinates(i, 0), opt.IEViewStyle);
-		}
-	}
+
 	m_AniPack->SetOffset(0);
 
 	if (opt.AnimateSel) SetTimer(m_hwndDialog, 1, 100, NULL);
@@ -573,7 +554,8 @@ void SmileyToolWindowType::PaintWindow(void)
 
 	CreateSmileyBitmap(hdcMem);
 
-	if (m_AniPack) m_AniPack->Draw(hdcMem);
+	if (m_AniPack)
+		m_AniPack->Draw(hdcMem);
 
 	BitBlt(hdc, 0, 0, m_BitmapWidth.cx, m_WindowSizeY, hdcMem, 0, 0, SRCCOPY);
 
@@ -581,7 +563,8 @@ void SmileyToolWindowType::PaintWindow(void)
 	DeleteObject(hBmp);	
 	DeleteDC(hdcMem);
 
-	if (m_CurrentHotTrack == -2) m_CurrentHotTrack = -1;
+	if (m_CurrentHotTrack == -2)
+		m_CurrentHotTrack = -1;
 
 	EndPaint(m_hwndDialog, &ps); 
 }

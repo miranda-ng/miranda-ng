@@ -46,40 +46,29 @@ int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf)
 	return fontSize.cy;
 }
 
-
 HICON GetDefaultIcon(bool copy)
 {
 	HICON resIco = Skin_GetIcon("SmileyAdd_ButtonSmiley");
-	if ( resIco == NULL || resIco == (HICON)CALLSERVICE_NOTFOUND )	
-	{
-		resIco = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_SMILINGICON), 
-			IMAGE_ICON, 0, 0, copy ? 0 : LR_SHARED);
-	}
-	else
-	{
-		if (copy)
-		{
-			resIco = (HICON)CopyImage(resIco, IMAGE_ICON, 0, 0, 0);
-			Skin_ReleaseIcon("SmileyAdd_ButtonSmiley");
-		}
+	if (resIco == NULL) 
+		resIco = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_SMILINGICON), IMAGE_ICON, 0, 0, copy ? 0 : LR_SHARED);
+	else if (copy) {
+		resIco = (HICON)CopyImage(resIco, IMAGE_ICON, 0, 0, 0);
+		Skin_ReleaseIcon("SmileyAdd_ButtonSmiley");
 	}
 
 	return resIco;
 }
-
 
 const TCHAR* GetImageExt(CMString &fname)
 {
 	const TCHAR* ext = _T("");
 
 	int fileId = _topen(fname.c_str(), O_RDONLY | _O_BINARY);
-	if (fileId != -1)
-	{
+	if (fileId != -1) {
 		BYTE buf[6];
 
 		int bytes = _read(fileId, buf, sizeof(buf));
-		if (bytes > 4)
-		{
+		if (bytes > 4) {
 			if ( *(unsigned short*)buf == 0xd8ff )
 				ext = _T("jpg");
 			else if ( *(unsigned short*)buf == 0x4d42 )
@@ -93,8 +82,6 @@ const TCHAR* GetImageExt(CMString &fname)
 	}
 	return ext;
 }
-
-
 
 HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle)
 {
@@ -150,21 +137,18 @@ void pathToAbsolute(const CMString& pSrc, CMString& pOut)
 {
 	TCHAR szOutPath[MAX_PATH];
 
-	TCHAR* szVarPath = Utils_ReplaceVarsT(pSrc.c_str());
-	if (szVarPath == (TCHAR*)CALLSERVICE_NOTFOUND || szVarPath == NULL)
-	{
+	TCHAR *szVarPath = Utils_ReplaceVarsT(pSrc.c_str());
+	if (szVarPath == (TCHAR*)CALLSERVICE_NOTFOUND || szVarPath == NULL) {
 		TCHAR szExpPath[MAX_PATH];
 		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, SIZEOF(szExpPath));
 		PathToAbsoluteT(szExpPath, szOutPath);
 	}
-	else
-	{
+	else {
 		PathToAbsoluteT(szVarPath, szOutPath);
 		mir_free(szVarPath);
 	}
 	pOut = szOutPath;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // UrlDecode - converts URL chars like %20 into printable characters
@@ -181,16 +165,12 @@ void  UrlDecode(char* str)
 {
 	char* s = str, *d = str;
 
-	while(*s)
-	{
-		if (*s == '%') 
-		{
+	while(*s) {
+		if (*s == '%') {
 			int digit1 = SingleHexToDecimal(s[1]);
-			if ( digit1 != -1 ) 
-			{
+			if (digit1 != -1) {
 				int digit2 = SingleHexToDecimal(s[2]);
-				if ( digit2 != -1 ) 
-				{
+				if (digit2 != -1) {
 					s += 3;
 					*d++ = (char)((digit1 << 4) | digit2);
 					continue;
@@ -211,15 +191,11 @@ bool InitGdiPlus(void)
 	static const TCHAR errmsg[] = _T("GDI+ not installed.\n")
 		_T("GDI+ can be downloaded here: http://www.microsoft.com/downloads");
 
-	__try 
-	{
+	__try {
 		if (g_gdiplusToken == 0 && !gdiPlusFail)
-		{
 			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
-		}
 	}
-	__except ( EXCEPTION_EXECUTE_HANDLER ) 
-	{
+	__except(EXCEPTION_EXECUTE_HANDLER) {
 		gdiPlusFail = true;
 		ReportError(errmsg);
 	}
@@ -229,8 +205,7 @@ bool InitGdiPlus(void)
 
 void DestroyGdiPlus(void)
 {
-	if (g_gdiplusToken != 0)
-	{
+	if (g_gdiplusToken != 0) {
 		Gdiplus::GdiplusShutdown(g_gdiplusToken);
 		g_gdiplusToken = 0;
 	}
