@@ -47,13 +47,11 @@ void WCMatcher::clearGroups()
 }
 CMString WCMatcher::replaceWithGroups(const CMString & str)
 {
-	CMString ret = L"";
+	CMString ret;
 
 	CMString t = str;
-	while (t.GetLength() > 0)
-	{
-		if (t[0] == '\\')
-		{
+	while (t.GetLength() > 0) {
+		if (t[0] == '\\') {
 			t.Delete(0);
 			if (t.GetLength() == 0)
 				ret += L"\\";
@@ -94,7 +92,7 @@ bool WCMatcher::matches()
 	matchedSomething = false;
 	clearGroups();
 	lm = 0;
-	return pat->head->match(*str, this, 0) == (int)str->GetLength();
+	return pat->head->match(*str, this, 0) == str->GetLength();
 }
 
 bool WCMatcher::findFirstMatch()
@@ -105,8 +103,7 @@ bool WCMatcher::findFirstMatch()
 	start = 0;
 	lm = 0;
 	ends[0] = pat->head->match(*str, this, 0);
-	if (ends[0] >= 0)
-	{
+	if (ends[0] >= 0) {
 		matchedSomething = true;
 		return 1;
 	}
@@ -123,7 +120,7 @@ bool WCMatcher::findNextMatch()
 	clearGroups();
 
 	starts[0] = e;
-	if (e >= (int)str->GetLength()) return 0;
+	if (e >= str->GetLength()) return 0;
 	start = e;
 	lm = e;
 	ends[0] = pat->head->match(*str, this, e);
@@ -135,9 +132,8 @@ std::vector<CMString> WCMatcher::findAll()
 	std::vector<CMString> ret;
 	reset();
 	while (findNextMatch())
-	{
 		ret.push_back(getGroup());
-	}
+
 	return ret;
 }
 
@@ -150,13 +146,15 @@ void WCMatcher::reset()
 
 int WCMatcher::getStartingIndex(const int groupNum) const
 {
-	if (groupNum < 0 || groupNum >= gc) return -1;
+	if (groupNum < 0 || groupNum >= gc)
+		return -1;
 	return starts[groupNum];
 }
 
 int WCMatcher::getEndingIndex(const int groupNum) const
 {
-	if (groupNum < 0 || groupNum >= gc) return -1;
+	if (groupNum < 0 || groupNum >= gc)
+		return -1;
 	return ends[groupNum];
 }
 
@@ -169,10 +167,9 @@ CMString WCMatcher::getGroup(const int groupNum) const
 
 std::vector<CMString> WCMatcher::getGroups(const bool includeGroupZero) const
 {
-	int i, start = (includeGroupZero ? 0 : 1);
 	std::vector<CMString> ret;
 
-	for (i = start; i < gc; ++i)
+	for (int i = (includeGroupZero ? 0 : 1); i < gc; ++i)
 		ret.push_back(getGroup(i));
 
 	return ret;
