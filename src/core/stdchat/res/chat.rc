@@ -162,7 +162,7 @@ BEGIN
     CONTROL         "Enable highlighting",IDC_HIGHLIGHT,"Button",
 					BS_AUTOCHECKBOX | WS_TABSTOP,10,46,118,10
     LTEXT           "Limit log text to (events):",IDC_STATIC,133,46,112,8
-    LTEXT           "Trim to (kB)",IDC_STATIC,248,104,38,8
+    LTEXT           "Trim to (KB)",IDC_STATIC,248,104,38,8
     EDITTEXT        IDC_LOGLIMIT,248,44,38,14,ES_RIGHT | ES_AUTOHSCROLL | 
 					ES_NUMBER
     CONTROL         "Spin1",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | 
