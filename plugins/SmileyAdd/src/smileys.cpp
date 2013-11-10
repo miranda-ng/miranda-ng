@@ -977,33 +977,29 @@ SmileyLookup::SmileyLookup(const CMString& str, const bool regexs, const int ind
 	TCHAR msgtxt[1024];
 
 	m_ind = ind;
-	if (regexs)
-	{
+	if (regexs) {
 		static const CMString testString(_T("Test String"));
 		m_pattern = _TPattern::compile(str);
 		m_valid = m_pattern != NULL;
-		if (m_valid)
-		{
+		if (m_valid) {
 			_TMatcher* matcher = m_pattern->createTMatcher(testString);
 			m_valid &= (!matcher->findFirstMatch() ||
 				matcher->getStartingIndex() != matcher->getEndingIndex());
-			if (!m_valid)
-			{
+			if (!m_valid) {
 				static const TCHAR errmsg[] = LPGENT("Regular Expression \"%s\" in smiley pack \"%s\" could produce \"empty matches\".");
 				mir_sntprintf(msgtxt, SIZEOF(msgtxt), TranslateTS(errmsg), str.c_str(), smpt.c_str());
 			}
 			delete matcher;
 		}
-		else
-		{
+		else {
 			static const TCHAR errmsg[] = LPGENT("Regular Expression \"%s\" in smiley pack \"%s\" malformed.") ;
 			mir_sntprintf(msgtxt, SIZEOF(msgtxt), TranslateTS(errmsg), str.c_str(), smpt.c_str());
 		}
 
-		if (!m_valid) CallService(MS_NETLIB_LOG, (WPARAM) hNetlibUser, (LPARAM)(char*)T2A_SM(msgtxt));
+		if (!m_valid)
+			CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)(char*)T2A_SM(msgtxt));
 	} 
-	else
-	{
+	else {
 		m_text = str;
 		m_pattern = NULL;
 		m_valid = !str.IsEmpty();
@@ -1013,7 +1009,7 @@ SmileyLookup::SmileyLookup(const CMString& str, const bool regexs, const int ind
 
 SmileyLookup::~SmileyLookup()
 {
-	if (m_pattern) delete m_pattern;
+	delete m_pattern;
 }
 
 

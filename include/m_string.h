@@ -315,10 +315,13 @@ public:
 	{
 		return GetData()->nDataLength;
 	}
-
 	PCXSTR GetString() const
 	{
 		return m_pszData;
+	}
+	PCXSTR GetTail() const
+	{
+		return m_pszData + GetData()->nDataLength;
 	}
 	bool IsEmpty() const
 	{
