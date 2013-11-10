@@ -73,6 +73,9 @@
 #include "http_proxy.h"
 #include "warnless.h"
 #include "non-ascii.h"
+#include "bundles.h"
+#include "pipeline.h"
+#include "http2.h"
 
 #define _MPRINTF_REPLACE /* use our functions only */
 #include <curl/mprintf.h>
@@ -103,7 +106,7 @@ static int https_getsock(struct connectdata *conn,
  */
 const struct Curl_handler Curl_handler_http = {
   "HTTP",                               /* scheme */
-  ZERO_NULL,                            /* setup_connection */
+  Curl_http_setup_conn,                 /* setup_connection */
   Curl_http,                            /* do_it */
   Curl_http_done,                       /* done */
   ZERO_NULL,                            /* do_more */
@@ -127,7 +130,7 @@ const struct Curl_handler Curl_handler_http = {
  */
 const struct Curl_handler Curl_handler_https = {
   "HTTPS",                              /* scheme */
-  ZERO_NULL,                            /* setup_connection */
+  Curl_http_setup_conn,                 /* setup_connection */
   Curl_http,                            /* do_it */
   Curl_http_done,                       /* done */
   ZERO_NULL,                            /* do_more */
@@ -146,6 +149,19 @@ const struct Curl_handler Curl_handler_https = {
 };
 #endif
 
+
+CURLcode Curl_http_setup_conn(struct connectdata *conn)
+{
+  /* allocate the HTTP-specific struct for the SessionHandle, only to survive
+     during this request */
+  DEBUGASSERT(conn->data->req.protop == NULL);
+
+  conn->data->req.protop = calloc(1, sizeof(struct HTTP));
+  if(!conn->data->req.protop)
+    return CURLE_OUT_OF_MEMORY;
+
+  return CURLE_OK;
+}
 
 /*
  * checkheaders() checks the linked list of custom HTTP headers for a
@@ -328,7 +344,7 @@ static bool pickoneauth(struct auth *pick)
 static CURLcode http_perhapsrewind(struct connectdata *conn)
 {
   struct SessionHandle *data = conn->data;
-  struct HTTP *http = data->state.proto.http;
+  struct HTTP *http = data->req.protop;
   curl_off_t bytessent;
   curl_off_t expectsend = -1; /* default is unknown */
 
@@ -946,7 +962,7 @@ static size_t readmoredata(char *buffer,
                            void *userp)
 {
   struct connectdata *conn = (struct connectdata *)userp;
-  struct HTTP *http = conn->data->state.proto.http;
+  struct HTTP *http = conn->data->req.protop;
   size_t fullsize = size * nitems;
 
   if(0 == http->postsize)
@@ -1017,7 +1033,7 @@ CURLcode Curl_add_buffer_send(Curl_send_buffer *in,
   CURLcode res;
   char *ptr;
   size_t size;
-  struct HTTP *http = conn->data->state.proto.http;
+  struct HTTP *http = conn->data->req.protop;
   size_t sendsize;
   curl_socket_t sockfd;
   size_t headersize;
@@ -1400,7 +1416,7 @@ CURLcode Curl_http_done(struct connectdata *conn,
                         CURLcode status, bool premature)
 {
   struct SessionHandle *data = conn->data;
-  struct HTTP *http =data->state.proto.http;
+  struct HTTP *http =data->req.protop;
 
   Curl_unencode_cleanup(conn);
 
@@ -1440,6 +1456,7 @@ CURLcode Curl_http_done(struct connectdata *conn,
   if(!premature && /* this check is pointless when DONE is called before the
                       entire operation is complete */
      !conn->bits.retry &&
+     !data->set.connect_only &&
      ((http->readbytecount +
        data->req.headerbytecount -
        data->req.deductheadercount)) <= 0) {
@@ -1454,14 +1471,19 @@ CURLcode Curl_http_done(struct connectdata *conn,
 }
 
 
-/* Determine if we should use HTTP 1.1 for this request. Reasons to avoid it
-   are if the user specifically requested HTTP 1.0, if the server we are
-   connected to only supports 1.0, or if any server previously contacted to
-   handle this request only supports 1.0. */
-static bool use_http_1_1(const struct SessionHandle *data,
-                         const struct connectdata *conn)
+/*
+ * Determine if we should use HTTP 1.1 (OR BETTER) for this request. Reasons
+ * to avoid it include:
+ *
+ * - if the user specifically requested HTTP 1.0
+ * - if the server we are connected to only supports 1.0
+ * - if any server previously contacted to handle this request only supports
+ * 1.0.
+ */
+static bool use_http_1_1plus(const struct SessionHandle *data,
+                             const struct connectdata *conn)
 {
-  return ((data->set.httpversion == CURL_HTTP_VERSION_1_1) ||
+  return ((data->set.httpversion >= CURL_HTTP_VERSION_1_1) ||
          ((data->set.httpversion != CURL_HTTP_VERSION_1_0) &&
           ((conn->httpversion == 11) ||
            ((conn->httpversion != 10) &&
@@ -1477,7 +1499,7 @@ static CURLcode expect100(struct SessionHandle *data,
   const char *ptr;
   data->state.expect100header = FALSE; /* default to false unless it is set
                                           to TRUE below */
-  if(use_http_1_1(data, conn)) {
+  if(use_http_1_1plus(data, conn)) {
     /* if not doing HTTP 1.0 or disabled explicitly, we add a Expect:
        100-continue to the headers which actually speeds up post operations
        (as there is one packet coming back from the web server) */
@@ -1653,20 +1675,7 @@ CURLcode Curl_http(struct connectdata *conn, bool *done)
      the rest of the request in the PERFORM phase. */
   *done = TRUE;
 
-  /* If there already is a protocol-specific struct allocated for this
-     sessionhandle, deal with it */
-  Curl_reset_reqproto(conn);
-
-  if(!data->state.proto.http) {
-    /* Only allocate this struct if we don't already have it! */
-
-    http = calloc(1, sizeof(struct HTTP));
-    if(!http)
-      return CURLE_OUT_OF_MEMORY;
-    data->state.proto.http = http;
-  }
-  else
-    http = data->state.proto.http;
+  http = data->req.protop;
 
   if(!data->state.this_is_a_follow) {
     /* this is not a followed location, get the original host name */
@@ -1737,8 +1746,11 @@ CURLcode Curl_http(struct connectdata *conn, bool *done)
     conn->bits.authneg = FALSE;
 
   Curl_safefree(conn->allocptr.ref);
-  if(data->change.referer && !Curl_checkheaders(data, "Referer:"))
+  if(data->change.referer && !Curl_checkheaders(data, "Referer:")) {
     conn->allocptr.ref = aprintf("Referer: %s\r\n", data->change.referer);
+    if(!conn->allocptr.ref)
+      return CURLE_OUT_OF_MEMORY;
+  }
   else
     conn->allocptr.ref = NULL;
 
@@ -1790,7 +1802,7 @@ CURLcode Curl_http(struct connectdata *conn, bool *done)
       if(conn->bits.authneg)
         /* don't enable chunked during auth neg */
         ;
-      else if(use_http_1_1(data, conn)) {
+      else if(use_http_1_1plus(data, conn)) {
         /* HTTP, upload, unknown file size and not HTTP 1.0 */
         data->req.upload_chunky = TRUE;
       }
@@ -2090,7 +2102,7 @@ CURLcode Curl_http(struct connectdata *conn, bool *done)
 
   /* Use 1.1 unless the user specifically asked for 1.0 or the server only
      supports 1.0 */
-  httpstring= use_http_1_1(data, conn)?"1.1":"1.0";
+  httpstring= use_http_1_1plus(data, conn)?"1.1":"1.0";
 
   /* initialize a dynamic send-buffer */
   req_buffer = Curl_add_buffer_init();
@@ -2167,6 +2179,15 @@ CURLcode Curl_http(struct connectdata *conn, bool *done)
 
   if(result)
     return result;
+
+  if(!(conn->handler->flags&PROTOPT_SSL) &&
+     (data->set.httpversion == CURL_HTTP_VERSION_2_0)) {
+    /* append HTTP2 updrade magic stuff to the HTTP request if it isn't done
+       over SSL */
+    result = Curl_http2_request(req_buffer, conn);
+    if(result)
+      return result;
+  }
 
 #if !defined(CURL_DISABLE_COOKIES)
   if(data->cookies || addcookies) {
@@ -3148,13 +3169,19 @@ CURLcode Curl_http_readwrite_headers(struct SessionHandle *data,
         }
         else if(conn->httpversion >= 11 &&
                 !conn->bits.close) {
+          struct connectbundle *cb_ptr;
 
           /* If HTTP version is >= 1.1 and connection is persistent
              server supports pipelining. */
           DEBUGF(infof(data,
                        "HTTP 1.1 or later with persistent connection, "
                        "pipelining supported\n"));
-          conn->server_supports_pipelining = TRUE;
+          /* Activate pipelining if needed */
+          cb_ptr = conn->bundle;
+          if(cb_ptr) {
+            if(!Curl_pipeline_site_blacklisted(data, conn))
+              cb_ptr->server_supports_pipelining = TRUE;
+          }
         }
 
         switch(k->httpcode) {
@@ -3230,6 +3257,16 @@ CURLcode Curl_http_readwrite_headers(struct SessionHandle *data,
         Curl_safefree(data->info.contenttype);
         data->info.contenttype = contenttype;
       }
+    }
+    else if(checkprefix("Server:", k->p)) {
+      char *server_name = copy_header_value(k->p);
+
+      /* Turn off pipelining if the server version is blacklisted */
+      if(conn->bundle && conn->bundle->server_supports_pipelining) {
+        if(Curl_pipeline_server_blacklisted(data, server_name))
+          conn->bundle->server_supports_pipelining = FALSE;
+      }
+      Curl_safefree(server_name);
     }
     else if((conn->httpversion == 10) &&
             conn->bits.httpproxy &&

@@ -5,7 +5,7 @@
 .\" *                            | (__| |_| |  _ <| |___
 .\" *                             \___|\___/|_| \_\_____|
 .\" *
-.\" * Copyright (C) 1998 - 2012, Daniel Stenberg, <daniel@haxx.se>, et al.
+.\" * Copyright (C) 1998 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
 .\" *
 .\" * This software is licensed as described in the file COPYING, which
 .\" * you should have received as part of this distribution. The terms
@@ -103,6 +103,18 @@ any response data to the terminal.
 If you prefer a progress "bar" instead of the regular meter, \fI-#\fP is your
 friend.
 .SH OPTIONS
+Options start with one or two dashes. Many of the options require an addition
+value next to it.
+
+The short "single-dash" form of the options, -d for example, may be used with
+or without a space between it and its value, although a space is a recommended
+separator. The long "double-dash" form, --data for example, requires a space
+between it and its value.
+
+Short version options that don't need any additional values can be used
+immediately next to each other, like for example you can specify all the
+options -O, -L and -v at once as -OLv.
+
 In general, all boolean options are enabled with --\fBoption\fP and yet again
 disabled with --\fBno-\fPoption. That is, you use the exact same option name
 but prefix it with "no-". However, in this list we mostly only list and show
@@ -113,8 +125,14 @@ same command line option.)
 Make curl display progress as a simple progress bar instead of the standard,
 more informational, meter.
 .IP "-0, --http1.0"
-(HTTP) Forces curl to issue its requests using HTTP 1.0 instead of using its
-internally preferred: HTTP 1.1.
+(HTTP) Tells curl to use HTTP version 1.0 instead of using its internally
+preferred: HTTP 1.1.
+.IP "--http1.1"
+(HTTP) Tells curl to use HTTP version 1.1. This is the internal default
+version. (Added in 7.33.0)
+.IP "--http2.0"
+(HTTP) Tells curl to issue its requests using HTTP 2.0. This requires that the
+underlying libcurl was built to support it. (Added in 7.33.0)
 .IP "-1, --tlsv1"
 (SSL)
 Forces curl to use TLS version 1 when negotiating with a remote TLS server.
@@ -230,7 +248,9 @@ server sends an unsupported encoding, curl will report an error.
 .IP "--connect-timeout <seconds>"
 Maximum time in seconds that you allow the connection to the server to take.
 This only limits the connection phase, once curl has connected this option is
-of no more use. See also the \fI-m, --max-time\fP option.
+of no more use.  Since 7.32.0, this option accepts decimal values, but the
+actual timeout will decrease in accuracy as the specified timeout increases in
+decimal precision. See also the \fI-m, --max-time\fP option.
 
 If this option is used several times, the last one will be used.
 .IP "--create-dirs"
@@ -270,7 +290,8 @@ If you start the data with the letter @, the rest should be a file name to
 read the data from, or - if you want curl to read the data from stdin.  The
 contents of the file must already be URL-encoded. Multiple files can also be
 specified. Posting data from a file named 'foobar' would thus be done with
-\fI--data @foobar\fP.
+\fI--data\fP @foobar. When --data is told to read from a file like that,
+carriage returns and newlines will be stripped out.
 .IP "-D, --dump-header <file>"
 Write the protocol headers to the specified file.
 
@@ -292,7 +313,7 @@ whatsoever.
 
 If you start the data with the letter @, the rest should be a filename.  Data
 is posted in a similar manner as \fI--data-ascii\fP does, except that newlines
-are preserved and conversions are never done.
+and carriage returns are preserved and conversions are never done.
 
 If this option is used several times, the ones following the first will append
 data as described in \fI-d, --data\fP.
@@ -367,6 +388,39 @@ is an alias for \fB--disable-epsv\fP.
 
 Disabling EPSV only changes the passive behavior. If you want to switch to
 active mode you need to use \fI-P, --ftp-port\fP.
+.IP "--dns-interface <interface>"
+Tell curl to send outgoing DNS requests through <interface>. This option
+is a counterpart to \fI--interface\fP (which does not affect DNS). The
+supplied string must be an interface name (not an address).
+
+This option requires that libcurl was built with a resolver backend that
+supports this operation. The c-ares backend is the only such one. (Added in
+7.33.0)
+.IP "--dns-ipv4-addr <ip-address>"
+Tell curl to bind to <ip-address> when making IPv4 DNS requests, so that
+the DNS requests originate from this address. The argument should be a
+single IPv4 address.
+
+This option requires that libcurl was built with a resolver backend that
+supports this operation. The c-ares backend is the only such one.  (Added in
+7.33.0)
+.IP "--dns-ipv6-addr <ip-address>"
+Tell curl to bind to <ip-address> when making IPv6 DNS requests, so that
+the DNS requests originate from this address. The argument should be a
+single IPv6 address.
+
+This option requires that libcurl was built with a resolver backend that
+supports this operation. The c-ares backend is the only such one.  (Added in
+7.33.0)
+.IP "--dns-servers <ip-address,ip-address>"
+Set the list of DNS servers to be used instead of the system default.
+The list of IP addresses should be separated with commas. Port numbers
+may also optionally be given as \fI:<port-number>\fP after each IP
+address.
+
+This option requires that libcurl was built with a resolver backend that
+supports this operation. The c-ares backend is the only such one.  (Added in
+7.33.0)
 .IP "-e, --referer <URL>"
 (HTTP) Sends the "Referer Page" information to the HTTP server. This can also
 be set with the \fI-H, --header\fP flag of course.  When used with
@@ -378,7 +432,8 @@ If this option is used several times, the last one will be used.
 .IP "-E, --cert <certificate[:password]>"
 (SSL) Tells curl to use the specified client certificate file when getting a
 file with HTTPS, FTPS or another SSL-based protocol. The certificate must be
-in PEM format.  If the optional password isn't specified, it will be queried
+in PKCS#12 format if using Secure Transport, or PEM format if using any other
+engine.  If the optional password isn't specified, it will be queried
 for on the terminal. Note that this option assumes a \&"certificate" file that
 is the private key and the private certificate concatenated! See \fI--cert\fP
 and \fI--key\fP to specify them independently.
@@ -388,7 +443,16 @@ curl the nickname of the certificate to use within the NSS database defined
 by the environment variable SSL_DIR (or by default /etc/pki/nssdb). If the
 NSS PEM PKCS#11 module (libnsspem.so) is available then PEM files may be
 loaded. If you want to use a file from the current directory, please precede
-it with "./" prefix, in order to avoid confusion with a nickname.
+it with "./" prefix, in order to avoid confusion with a nickname.  If the
+nickname contains ":", it needs to be preceded by "\\" so that it is not
+recognized as password delimiter.  If the nickname contains "\\", it needs to
+be escaped as "\\\\" so that it is not recognized as an escape character.
+
+(iOS and Mac OS X only) If curl is built against Secure Transport, then the
+certificate string can either be the name of a certificate/private key in the
+system or user keychain, or the path to a PKCS#12-encoded certificate and
+private key. If you want to use a file from the current directory, please
+precede it with "./" prefix, in order to avoid confusion with a nickname.
 
 If this option is used several times, the last one will be used.
 .IP "--engine <name>"
@@ -805,7 +869,10 @@ Basic authentication).
 .IP "-m, --max-time <seconds>"
 Maximum time in seconds that you allow the whole operation to take.  This is
 useful for preventing your batch jobs from hanging for hours due to slow
-networks or links going down.  See also the \fI--connect-timeout\fP option.
+networks or links going down.  Since 7.32.0, this option accepts decimal
+values, but the actual timeout will decrease in accuracy as the specified
+timeout increases in decimal precision.  See also the \fI--connect-timeout\fP
+option.
 
 If this option is used several times, the last one will be used.
 .IP "--mail-auth <address>"
@@ -987,6 +1054,14 @@ you want the file saved in a different directory, make sure you change current
 working directory before you invoke curl with the \fB-O, --remote-name\fP flag!
 
 You may use this option as many times as the number of URLs you have.
+.IP "--oauth2-bearer"
+(IMAP/POP3/SMTP) Specify the Bearer Token for OAUTH 2.0 server authentication.
+The Bearer Token is used in conjuction with the user name which can be
+specified as part of the \fI--url\fP or \fI-u, --user\fP options.
+
+The Bearer Token and user name are formatted according to RFC 6750.
+
+If this option is used several times, the last one will be used.
 .IP "-p, --proxytunnel"
 When an HTTP proxy is used (\fI-x, --proxy\fP), this option will cause non-HTTP
 protocols to attempt to tunnel through the proxy instead of merely using it to
@@ -1038,6 +1113,13 @@ ubiquitous in web browsers, so curl does the conversion by default to maintain
 consistency. However, a server may require a POST to remain a POST after such
 a redirection. This option is meaningful only when using \fI-L, --location\fP
 (Added in 7.19.1)
+.IP "--post303"
+(HTTP) Tells curl to respect RFC 2616/10.3.2 and not convert POST requests
+into GET requests when following a 303 redirection. The non-RFC behaviour is
+ubiquitous in web browsers, so curl does the conversion by default to maintain
+consistency. However, a server may require a POST to remain a POST after such
+a redirection. This option is meaningful only when using \fI-L, --location\fP
+(Added in 7.26.0)
 .IP "--proto <protocols>"
 Tells curl to use the listed protocols for its initial retrieval. Protocols
 are evaluated left to right, are comma separated, and are each a protocol
@@ -1272,8 +1354,12 @@ Set this option to zero to not timeout retries. (Added in 7.12.3)
 
 If this option is used several times, the last one will be used.
 .IP "-s, --silent"
-Silent or quiet mode. Don't show progress meter or error messages.  Makes
-Curl mute.
+Silent or quiet mode. Don't show progress meter or error messages.  Makes Curl
+mute. It will still output the data you ask for, potentially even to the
+terminal/stdout unless you redirect it.
+.IP "--sasl-ir"
+Enable initial response in SASL authentication.
+(Added in 7.31.0)
 .IP "-S, --show-error"
 When used with \fI-s\fP it makes curl show an error message if it fails.
 .IP "--ssl"
@@ -1449,16 +1535,23 @@ If this option is used several times, the last one will be used.
 .IP "--trace-time"
 Prepends a time stamp to each trace or verbose line that curl displays.
 (Added in 7.14.0)
-.IP "-u, --user <user:password>"
-Specify the user name and password to use for server authentication. Overrides
-\fI-n, --netrc\fP and \fI--netrc-optional\fP.
+.IP "-u, --user <user:password;options>"
+Specify the user name, password and optional login options to use for server
+authentication. Overrides \fI-n, --netrc\fP and \fI--netrc-optional\fP.
 
-If you just give the user name (without entering a colon) curl will prompt for
-a password.
+If you simply specify the user name, with or without the login options, curl
+will prompt for a password.
 
-If you use an SSPI-enabled curl binary and do NTLM authentication, you can
-force curl to pick up the user name and password from your environment by
-simply specifying a single colon with this option: "-u :".
+If you use an SSPI-enabled curl binary and perform NTLM authentication, you
+can force curl to select the user name and password from your environment by
+simply specifying a single colon with this option: "-u :" or by specfying the
+login options on their own, for example "-u ;auth=NTLM".
+
+You can use the optional login options part to specify protocol specific
+options that may be used during authentication. At present only IMAP, POP3 and
+SMTP support login options as part of the user login information. For more
+information about the login options please see RFC 2384, RFC 5092 and IETF
+draft draft-earhart-url-smtp-00.txt (Added in 7.31.0). 
 
 If this option is used several times, the last one will be used.
 .IP "-U, --proxy-user <user:password>"
@@ -1619,8 +1712,16 @@ to follow location: headers.
 
 If this option is used several times, the last one will be used.
 .IP "-x, --proxy <[protocol://][user:password@]proxyhost[:port]>"
-Use the specified HTTP proxy. If the port number is not specified, it is
-assumed at port 1080.
+Use the specified proxy.
+
+The proxy string can be specified with a protocol:// prefix to specify
+alternative proxy protocols. Use socks4://, socks4a://, socks5:// or
+socks5h:// to request the specific SOCKS version to be used. No protocol
+specified, http:// and all others will be treated as HTTP proxies. (The
+protocol support was added in curl 7.21.7)
+
+If the port number is not specified in the proxy string, it is assumed to be
+1080.
 
 This option overrides existing environment variables that set the proxy to
 use. If there's an environment variable setting a proxy, you can set proxy to
@@ -1638,11 +1739,6 @@ or pass in a colon with %3a.
 The proxy host can be specified the exact same way as the proxy environment
 variables, including the protocol prefix (http://) and the embedded user +
 password.
-
-From 7.21.7, the proxy string may be specified with a protocol:// prefix to
-specify alternative proxy protocols. Use socks4://, socks4a://, socks5:// or
-socks5h:// to request the specific SOCKS version to be used. No protocol
-specified, http:// and all others will be treated as HTTP proxies.
 
 If this option is used several times, the last one will be used.
 .IP "-X, --request <command>"
@@ -1669,7 +1765,7 @@ If this option is used several times, the last one will be used.
 
 .IP "--xattr"
 When saving output to a file, this option tells curl to store certain file
-metadata in extened file attributes. Currently, the URL is stored in the
+metadata in extended file attributes. Currently, the URL is stored in the
 xdg.origin.url attribute and, for HTTP, the content type is stored in
 the mime_type attribute. If the file system does not support extended
 attributes, a warning is issued.
@@ -1689,7 +1785,7 @@ speed-time seconds it gets aborted. speed-time is set with \fI-y\fP and is 30
 if not set.
 
 If this option is used several times, the last one will be used.
-.IP "-z/--time-cond <date expression>|<file>"
+.IP "-z, --time-cond <date expression>|<file>"
 (HTTP/FTP) Request a file that has been modified later than the given time and
 date, or one that has been modified before that time. The <date expression>
 can be all sorts of date strings or if it doesn't match any internal ones, it

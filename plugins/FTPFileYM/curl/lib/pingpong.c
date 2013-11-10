@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2012, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -33,6 +33,7 @@
 #include "pingpong.h"
 #include "multiif.h"
 #include "non-ascii.h"
+#include "sslgen.h"
 
 #define _MPRINTF_REPLACE /* use our functions only */
 #include <curl/mprintf.h>
@@ -76,48 +77,10 @@ long Curl_pp_state_timeout(struct pingpong *pp)
   return timeout_ms;
 }
 
-
 /*
- * Curl_pp_multi_statemach()
- *
- * called repeatedly until done when the multi interface is used.
+ * Curl_pp_statemach()
  */
-CURLcode Curl_pp_multi_statemach(struct pingpong *pp)
-{
-  struct connectdata *conn = pp->conn;
-  curl_socket_t sock = conn->sock[FIRSTSOCKET];
-  int rc;
-  struct SessionHandle *data=conn->data;
-  CURLcode result = CURLE_OK;
-  long timeout_ms = Curl_pp_state_timeout(pp);
-
-  if(timeout_ms <= 0) {
-    failf(data, "server response timeout");
-    return CURLE_OPERATION_TIMEDOUT;
-  }
-
-  rc = Curl_socket_ready(pp->sendleft?CURL_SOCKET_BAD:sock, /* reading */
-                         pp->sendleft?sock:CURL_SOCKET_BAD, /* writing */
-                         0);
-
-  if(rc == -1) {
-    failf(data, "select/poll error");
-    return CURLE_OUT_OF_MEMORY;
-  }
-  else if(rc != 0)
-    result = pp->statemach_act(conn);
-
-  /* if rc == 0, then select() timed out */
-
-  return result;
-}
-
-/*
- * Curl_pp_easy_statemach()
- *
- * called repeatedly until done when the easy interface is used.
- */
-CURLcode Curl_pp_easy_statemach(struct pingpong *pp)
+CURLcode Curl_pp_statemach(struct pingpong *pp, bool block)
 {
   struct connectdata *conn = pp->conn;
   curl_socket_t sock = conn->sock[FIRSTSOCKET];
@@ -125,29 +88,44 @@ CURLcode Curl_pp_easy_statemach(struct pingpong *pp)
   long interval_ms;
   long timeout_ms = Curl_pp_state_timeout(pp);
   struct SessionHandle *data=conn->data;
-  CURLcode result;
+  CURLcode result = CURLE_OK;
 
   if(timeout_ms <=0 ) {
     failf(data, "server response timeout");
     return CURLE_OPERATION_TIMEDOUT; /* already too little time */
   }
 
-  interval_ms = 1000;  /* use 1 second timeout intervals */
-  if(timeout_ms < interval_ms)
-    interval_ms = timeout_ms;
-
-  rc = Curl_socket_ready(pp->sendleft?CURL_SOCKET_BAD:sock, /* reading */
-                         pp->sendleft?sock:CURL_SOCKET_BAD, /* writing */
-                         interval_ms);
-
-  if(Curl_pgrsUpdate(conn))
-    result = CURLE_ABORTED_BY_CALLBACK;
+  if(block) {
+    interval_ms = 1000;  /* use 1 second timeout intervals */
+    if(timeout_ms < interval_ms)
+      interval_ms = timeout_ms;
+  }
   else
-    result = Curl_speedcheck(data, Curl_tvnow());
+    interval_ms = 0; /* immediate */
 
-  if(result)
-    ;
-  else if(rc == -1) {
+  if(Curl_pp_moredata(pp))
+    /* We are receiving and there is data in the cache so just read it */
+    rc = 1;
+  else if(!pp->sendleft && Curl_ssl_data_pending(conn, FIRSTSOCKET))
+    /* We are receiving and there is data ready in the SSL library */
+    rc = 1;
+  else
+    rc = Curl_socket_ready(pp->sendleft?CURL_SOCKET_BAD:sock, /* reading */
+                           pp->sendleft?sock:CURL_SOCKET_BAD, /* writing */
+                           interval_ms);
+
+  if(block) {
+    /* if we didn't wait, we don't have to spend time on this now */
+    if(Curl_pgrsUpdate(conn))
+      result = CURLE_ABORTED_BY_CALLBACK;
+    else
+      result = Curl_speedcheck(data, Curl_tvnow());
+
+    if(result)
+      return result;
+  }
+
+  if(rc == -1) {
     failf(data, "select/poll error");
     result = CURLE_OUT_OF_MEMORY;
   }
@@ -191,7 +169,7 @@ CURLcode Curl_pp_vsendf(struct pingpong *pp,
   struct connectdata *conn = pp->conn;
   struct SessionHandle *data = conn->data;
 
-#if defined(HAVE_KRB4) || defined(HAVE_GSSAPI)
+#ifdef HAVE_GSSAPI
   enum protection_level data_sec = conn->data_prot;
 #endif
 
@@ -220,12 +198,12 @@ CURLcode Curl_pp_vsendf(struct pingpong *pp,
     return error;
   }
 
-#if defined(HAVE_KRB4) || defined(HAVE_GSSAPI)
+#ifdef HAVE_GSSAPI
   conn->data_prot = PROT_CMD;
 #endif
   error = Curl_write(conn, conn->sock[FIRSTSOCKET], s, write_len,
                      &bytes_written);
-#if defined(HAVE_KRB4) || defined(HAVE_GSSAPI)
+#ifdef HAVE_GSSAPI
   DEBUGASSERT(data_sec > PROT_NONE && data_sec < PROT_LAST);
   conn->data_prot = data_sec;
 #endif
@@ -328,14 +306,14 @@ CURLcode Curl_pp_readresp(curl_socket_t sockfd,
     }
     else {
       int res;
-#if defined(HAVE_KRB4) || defined(HAVE_GSSAPI)
+#ifdef HAVE_GSSAPI
       enum protection_level prot = conn->data_prot;
       conn->data_prot = PROT_CLEAR;
 #endif
       DEBUGASSERT((ptr+BUFSIZE-pp->nread_resp) <= (buf+BUFSIZE+1));
       res = Curl_read(conn, sockfd, ptr, BUFSIZE-pp->nread_resp,
                       &gotbytes);
-#if defined(HAVE_KRB4) || defined(HAVE_GSSAPI)
+#ifdef HAVE_GSSAPI
       DEBUGASSERT(prot  > PROT_NONE && prot < PROT_LAST);
       conn->data_prot = prot;
 #endif
@@ -378,7 +356,7 @@ CURLcode Curl_pp_readresp(curl_socket_t sockfd,
              the line isn't really terminated until the LF comes */
 
           /* output debug output if that is requested */
-#if defined(HAVE_KRB4) || defined(HAVE_GSSAPI)
+#ifdef HAVE_GSSAPI
           if(!conn->sec_complete)
 #endif
             if(data->set.verbose)
@@ -395,10 +373,9 @@ CURLcode Curl_pp_readresp(curl_socket_t sockfd,
           if(result)
             return result;
 
-          if(pp->endofresp(pp, code)) {
+          if(pp->endofresp(conn, pp->linestart_resp, perline, code)) {
             /* This is the end of the last line, copy the last line to the
-               start of the buffer and zero terminate, for old times sake (and
-               krb4)! */
+               start of the buffer and zero terminate, for old times sake */
             char *meow;
             int n;
             for(meow=pp->linestart_resp, n=0; meow<ptr; meow++, n++)
@@ -533,6 +510,10 @@ CURLcode Curl_pp_disconnect(struct pingpong *pp)
   return CURLE_OK;
 }
 
-
+bool Curl_pp_moredata(struct pingpong *pp)
+{
+  return (!pp->sendleft && pp->cache && pp->nread_resp < pp->cache_size) ?
+         TRUE : FALSE;
+}
 
 #endif

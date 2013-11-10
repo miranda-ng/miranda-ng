@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2012, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -25,6 +25,7 @@
 #include <curl/curl.h>
 #include "urldata.h"
 #include "sslgen.h"
+#include "http2.h"
 
 #define _MPRINTF_REPLACE /* use the internal *printf() functions */
 #include <curl/mprintf.h>
@@ -119,6 +120,11 @@ char *curl_version(void)
 #endif
 #ifdef USE_LIBSSH2
   len = snprintf(ptr, left, " libssh2/%s", CURL_LIBSSH2_VERSION);
+  left -= len;
+  ptr += len;
+#endif
+#ifdef USE_NGHTTP2
+  len = Curl_http2_ver(ptr, left);
   left -= len;
   ptr += len;
 #endif
@@ -235,9 +241,6 @@ static curl_version_info_data version_info = {
 #ifdef ENABLE_IPV6
   | CURL_VERSION_IPV6
 #endif
-#ifdef HAVE_KRB4
-  | CURL_VERSION_KERBEROS4
-#endif
 #ifdef USE_SSL
   | CURL_VERSION_SSL
 #endif
@@ -277,6 +280,9 @@ static curl_version_info_data version_info = {
 #endif
 #if defined(USE_TLS_SRP)
   | CURL_VERSION_TLSAUTH_SRP
+#endif
+#if defined(USE_NGHTTP2)
+  | CURL_VERSION_HTTP2
 #endif
   ,
   NULL, /* ssl_version */

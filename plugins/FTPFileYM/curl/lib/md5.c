@@ -90,16 +90,36 @@ static void MD5_Final(unsigned char digest[16], MD5_CTX * ctx)
 #    include <md5.h>
 #  endif
 
-#elif defined(__MAC_10_4) || defined(__IPHONE_5_0)
+#elif (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && \
+              (__MAC_OS_X_VERSION_MAX_ALLOWED >= 1040)) || \
+      (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && \
+              (__IPHONE_OS_VERSION_MAX_ALLOWED >= 20000))
 
 /* For Apple operating systems: CommonCrypto has the functions we need.
-   The library's headers are even backward-compatible with OpenSSL's
-   headers as long as we define COMMON_DIGEST_FOR_OPENSSL first.
+   These functions are available on Tiger and later, as well as iOS 2.0
+   and later. If you're building for an older cat, well, sorry.
 
-   These functions are available on Tiger and later, as well as iOS 5.0
-   and later. If you're building for an older cat, well, sorry. */
-#  define COMMON_DIGEST_FOR_OPENSSL
+   Declaring the functions as static like this seems to be a bit more
+   reliable than defining COMMON_DIGEST_FOR_OPENSSL on older cats. */
 #  include <CommonCrypto/CommonDigest.h>
+#  define MD5_CTX CC_MD5_CTX
+
+static void MD5_Init(MD5_CTX *ctx)
+{
+  CC_MD5_Init(ctx);
+}
+
+static void MD5_Update(MD5_CTX *ctx,
+                       const unsigned char *input,
+                       unsigned int inputLen)
+{
+  CC_MD5_Update(ctx, input, inputLen);
+}
+
+static void MD5_Final(unsigned char digest[16], MD5_CTX *ctx)
+{
+  CC_MD5_Final(digest, ctx);
+}
 
 #elif defined(_WIN32)
 

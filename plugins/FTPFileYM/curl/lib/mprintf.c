@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1999 - 2011, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1999 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -203,101 +203,6 @@ static int dprintf_IsQualifierNoDollar(char c)
   }
 }
 
-#ifdef DPRINTF_DEBUG2
-static void dprintf_Pass1Report(va_stack_t *vto, int max)
-{
-  int i;
-  char buffer[256];
-  int bit;
-  int flags;
-
-  for(i=0; i<max; i++) {
-    char *type;
-    switch(vto[i].type) {
-    case FORMAT_UNKNOWN:
-      type = "unknown";
-      break;
-    case FORMAT_STRING:
-      type ="string";
-      break;
-    case FORMAT_PTR:
-      type ="pointer";
-      break;
-    case FORMAT_INT:
-      type = "int";
-      break;
-    case FORMAT_INTPTR:
-      type = "intptr";
-      break;
-    case FORMAT_LONG:
-      type = "long";
-      break;
-    case FORMAT_LONGLONG:
-      type = "long long";
-      break;
-    case FORMAT_DOUBLE:
-      type = "double";
-      break;
-    case FORMAT_LONGDOUBLE:
-      type = "long double";
-      break;
-    }
-
-
-    buffer[0]=0;
-
-    for(bit=0; bit<31; bit++) {
-      flags = vto[i].flags & (1<<bit);
-
-      if(flags & FLAGS_SPACE)
-        strcat(buffer, "space ");
-      else if(flags & FLAGS_SHOWSIGN)
-        strcat(buffer, "plus ");
-      else if(flags & FLAGS_LEFT)
-        strcat(buffer, "left ");
-      else if(flags & FLAGS_ALT)
-        strcat(buffer, "alt ");
-      else if(flags & FLAGS_SHORT)
-        strcat(buffer, "short ");
-      else if(flags & FLAGS_LONG)
-        strcat(buffer, "long ");
-      else if(flags & FLAGS_LONGLONG)
-        strcat(buffer, "longlong ");
-      else if(flags & FLAGS_LONGDOUBLE)
-        strcat(buffer, "longdouble ");
-      else if(flags & FLAGS_PAD_NIL)
-        strcat(buffer, "padnil ");
-      else if(flags & FLAGS_UNSIGNED)
-        strcat(buffer, "unsigned ");
-      else if(flags & FLAGS_OCTAL)
-        strcat(buffer, "octal ");
-      else if(flags & FLAGS_HEX)
-        strcat(buffer, "hex ");
-      else if(flags & FLAGS_UPPER)
-        strcat(buffer, "upper ");
-      else if(flags & FLAGS_WIDTH)
-        strcat(buffer, "width ");
-      else if(flags & FLAGS_WIDTHPARAM)
-        strcat(buffer, "widthparam ");
-      else if(flags & FLAGS_PREC)
-        strcat(buffer, "precision ");
-      else if(flags & FLAGS_PRECPARAM)
-        strcat(buffer, "precparam ");
-      else if(flags & FLAGS_CHAR)
-        strcat(buffer, "char ");
-      else if(flags & FLAGS_FLOATE)
-        strcat(buffer, "floate ");
-      else if(flags & FLAGS_FLOATG)
-        strcat(buffer, "floatg ");
-    }
-    printf("REPORT: %d. %s [%s]\n", i, type, buffer);
-
-  }
-
-
-}
-#endif
-
 /******************************************************************
  *
  * Pass 1:
@@ -475,11 +380,11 @@ static long dprintf_Pass1(const char *format, va_stack_t *vto, char **endpos,
         break;
       case 'x':
         vto[i].type = FORMAT_INT;
-        flags |= FLAGS_HEX;
+        flags |= FLAGS_HEX|FLAGS_UNSIGNED;
         break;
       case 'X':
         vto[i].type = FORMAT_INT;
-        flags |= FLAGS_HEX|FLAGS_UPPER;
+        flags |= FLAGS_HEX|FLAGS_UPPER|FLAGS_UNSIGNED;
         break;
       case 'c':
         vto[i].type = FORMAT_INT;
@@ -536,10 +441,6 @@ static long dprintf_Pass1(const char *format, va_stack_t *vto, char **endpos,
       *endpos++ = fmt + 1; /* end of this sequence */
     }
   }
-
-#ifdef DPRINTF_DEBUG2
-  dprintf_Pass1Report(vto, max_param);
-#endif
 
   /* Read the arg list parameters into our data list */
   for(i=0; i<max_param; i++) {
@@ -732,21 +633,21 @@ static int dprintf_formatf(
             OUTCHAR(' ');
         break;
       }
-      if(p->flags & FLAGS_UNSIGNED) {
-        /* Decimal unsigned integer.  */
-        base = 10;
-        goto unsigned_number;
-      }
       if(p->flags & FLAGS_OCTAL) {
         /* Octal unsigned integer.  */
         base = 8;
         goto unsigned_number;
       }
-      if(p->flags & FLAGS_HEX) {
+      else if(p->flags & FLAGS_HEX) {
         /* Hexadecimal unsigned integer.  */
 
         digits = (p->flags & FLAGS_UPPER)? upper_digits : lower_digits;
         base = 16;
+        goto unsigned_number;
+      }
+      else if(p->flags & FLAGS_UNSIGNED) {
+        /* Decimal unsigned integer.  */
+        base = 10;
         goto unsigned_number;
       }
 
@@ -919,7 +820,7 @@ static int dprintf_formatf(
     case FORMAT_DOUBLE:
       {
         char formatbuf[32]="%";
-        char *fptr;
+        char *fptr = &formatbuf[1];
         size_t left = sizeof(formatbuf)-strlen(formatbuf);
         int len;
 
@@ -936,15 +837,15 @@ static int dprintf_formatf(
           prec = (long)vto[p->precision].data.num.as_signed;
 
         if(p->flags & FLAGS_LEFT)
-          strcat(formatbuf, "-");
+          *fptr++ = '-';
         if(p->flags & FLAGS_SHOWSIGN)
-          strcat(formatbuf, "+");
+          *fptr++ = '+';
         if(p->flags & FLAGS_SPACE)
-          strcat(formatbuf, " ");
+          *fptr++ = ' ';
         if(p->flags & FLAGS_ALT)
-          strcat(formatbuf, "#");
+          *fptr++ = '#';
 
-        fptr=&formatbuf[strlen(formatbuf)];
+        *fptr = 0;
 
         if(width >= 0) {
           /* RECURSIVE USAGE */
@@ -969,8 +870,8 @@ static int dprintf_formatf(
 
         *fptr = 0; /* and a final zero termination */
 
-        /* NOTE NOTE NOTE!! Not all sprintf() implementations returns number
-           of output characters */
+        /* NOTE NOTE NOTE!! Not all sprintf implementations return number of
+           output characters */
         (sprintf)(work, formatbuf, p->data.dnum);
 
         for(fptr=work; *fptr; fptr++)

@@ -1237,12 +1237,6 @@ CURLcode Curl_nss_connect(struct connectdata *conn, int sockindex)
     goto error;
   model = SSL_ImportFD(NULL, model);
 
-  /* make the socket nonblocking */
-  sock_opt.option = PR_SockOpt_Nonblocking;
-  sock_opt.value.non_blocking = PR_TRUE;
-  if(PR_SetSocketOption(model, &sock_opt) != PR_SUCCESS)
-    goto error;
-
   if(SSL_OptionSet(model, SSL_SECURITY, PR_TRUE) != SECSuccess)
     goto error;
   if(SSL_OptionSet(model, SSL_HANDSHAKE_AS_SERVER, PR_FALSE) != SECSuccess)
@@ -1415,6 +1409,12 @@ CURLcode Curl_nss_connect(struct connectdata *conn, int sockindex)
     goto error;
   }
 
+  /* switch the SSL socket into non-blocking mode */
+  sock_opt.option = PR_SockOpt_Nonblocking;
+  sock_opt.value.non_blocking = PR_TRUE;
+  if(PR_SetSocketOption(connssl->handle, &sock_opt) != PR_SUCCESS)
+    goto error;
+
   connssl->state = ssl_connection_complete;
   conn->recv[sockindex] = nss_recv;
   conn->send[sockindex] = nss_send;
@@ -1482,10 +1482,8 @@ static ssize_t nss_send(struct connectdata *conn,  /* connection data */
                         size_t len,                /* amount to write */
                         CURLcode *curlcode)
 {
-  int rc;
-
-  rc = PR_Send(conn->ssl[sockindex].handle, mem, (int)len, 0, -1);
-
+  ssize_t rc = PR_Send(conn->ssl[sockindex].handle, mem, (int)len, 0,
+                       PR_INTERVAL_NO_WAIT);
   if(rc < 0) {
     PRInt32 err = PR_GetError();
     if(err == PR_WOULD_BLOCK_ERROR)
@@ -1513,9 +1511,8 @@ static ssize_t nss_recv(struct connectdata * conn, /* connection data */
                         size_t buffersize,         /* max amount to read */
                         CURLcode *curlcode)
 {
-  ssize_t nread;
-
-  nread = PR_Recv(conn->ssl[num].handle, buf, (int)buffersize, 0, -1);
+  ssize_t nread = PR_Recv(conn->ssl[num].handle, buf, (int)buffersize, 0,
+                          PR_INTERVAL_NO_WAIT);
   if(nread < 0) {
     /* failed SSL read */
     PRInt32 err = PR_GetError();
@@ -1546,9 +1543,8 @@ size_t Curl_nss_version(char *buffer, size_t size)
 
 int Curl_nss_seed(struct SessionHandle *data)
 {
-  /* TODO: implement? */
-  (void) data;
-  return 0;
+  /* make sure that NSS is initialized */
+  return !!Curl_nss_force_init(data);
 }
 
 void Curl_nss_random(struct SessionHandle *data,
@@ -1556,7 +1552,11 @@ void Curl_nss_random(struct SessionHandle *data,
                      size_t length)
 {
   Curl_nss_seed(data);  /* Initiate the seed if not already done */
-  PK11_GenerateRandom(entropy, curlx_uztosi(length));
+  if(SECSuccess != PK11_GenerateRandom(entropy, curlx_uztosi(length))) {
+    /* no way to signal a failure from here, we have to abort */
+    failf(data, "PK11_GenerateRandom() failed, calling abort()...");
+    abort();
+  }
 }
 
 void Curl_nss_md5sum(unsigned char *tmp, /* input */

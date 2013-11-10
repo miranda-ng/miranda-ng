@@ -391,21 +391,6 @@
 #endif
 
 /* ---------------------------------------------------------------- */
-/*                          STRUCT RELATED                          */
-/* ---------------------------------------------------------------- */
-
-/* Define if you have struct sockaddr_storage. */
-#if !defined(__SALFORDC__) && !defined(__BORLANDC__)
-#define HAVE_STRUCT_SOCKADDR_STORAGE 1
-#endif
-
-/* Define if you have struct timeval. */
-#define HAVE_STRUCT_TIMEVAL 1
-
-/* Define if struct sockaddr_in6 has the sin6_scope_id member. */
-#define HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID 1
-
-/* ---------------------------------------------------------------- */
 /*               BSD-style lwIP TCP/IP stack SPECIFIC               */
 /* ---------------------------------------------------------------- */
 
@@ -573,6 +558,25 @@
 #endif
 
 /* ---------------------------------------------------------------- */
+/*                          STRUCT RELATED                          */
+/* ---------------------------------------------------------------- */
+
+/* Define if you have struct sockaddr_storage. */
+#if !defined(__SALFORDC__) && !defined(__BORLANDC__)
+#define HAVE_STRUCT_SOCKADDR_STORAGE 1
+#endif
+
+/* Define if you have struct timeval. */
+#define HAVE_STRUCT_TIMEVAL 1
+
+/* Define if struct sockaddr_in6 has the sin6_scope_id member. */
+#define HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID 1
+
+#if HAVE_WINSOCK2_H && defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0600)
+#define HAVE_STRUCT_POLLFD 1
+#endif
+
+/* ---------------------------------------------------------------- */
 /*                        LARGE FILE SUPPORT                        */
 /* ---------------------------------------------------------------- */
 
@@ -611,8 +615,11 @@
 /* Define to enable c-ares asynchronous DNS lookups. */
 /* #define USE_ARES 1 */
 
-/* Define to enable threaded asynchronous DNS lookups. */
-#define USE_THREADS_WIN32 1
+/* Default define to enable threaded asynchronous DNS lookups. */
+#if !defined(USE_SYNC_DNS) && !defined(USE_ARES) && \
+    !defined(USE_THREADS_WIN32)
+#  define USE_THREADS_WIN32 1
+#endif
 
 #if defined(USE_ARES) && defined(USE_THREADS_WIN32)
 #  error "Only one DNS lookup specialty may be defined at most"

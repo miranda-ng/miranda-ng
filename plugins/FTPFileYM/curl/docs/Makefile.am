@@ -5,7 +5,7 @@
 #                            | (__| |_| |  _ <| |___
 #                             \___|\___/|_| \_\_____|
 #
-# Copyright (C) 1998 - 2012, Daniel Stenberg, <daniel@haxx.se>, et al.
+# Copyright (C) 1998 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
 #
 # This software is licensed as described in the file COPYING, which
 # you should have received as part of this distribution. The terms
@@ -22,7 +22,8 @@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-man_MANS = curl.1 curl-config.1 mk-ca-bundle.1
+man_MANS = curl.1 curl-config.1
+noinst_man_MANS = mk-ca-bundle.1
 GENHTMLPAGES = curl.html curl-config.html mk-ca-bundle.html
 PDFPAGES = curl.pdf curl-config.pdf mk-ca-bundle.pdf
 
@@ -36,7 +37,7 @@ EXTRA_DIST = MANUAL BUGS CONTRIBUTE FAQ FEATURES INTERNALS SSLCERTS	 \
  README.win32 RESOURCES TODO TheArtOfHttpScripting THANKS VERSIONS	 \
  KNOWN_BUGS BINDINGS $(man_MANS) $(HTMLPAGES) HISTORY INSTALL		 \
  $(PDFPAGES) LICENSE-MIXING README.netware DISTRO-DILEMMA INSTALL.devcpp \
- MAIL-ETIQUETTE HTTP-COOKIES
+ MAIL-ETIQUETTE HTTP-COOKIES LIBCURL-STRUCTS
 
 MAN2HTML= roffit < $< >$@
 

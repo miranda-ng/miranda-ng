@@ -13,27 +13,29 @@ curl tool
  - multiple file upload on a single command line
  - custom maximum transfer rate
  - redirectable stderr
+ - metalink support (*13)
 
-libcurl supports
+libcurl
  - full URL syntax with no length limit
  - custom maximum download time
  - custom least download speed acceptable
  - custom output result after completion
  - guesses protocol from host name unless specified
  - uses .netrc
- - progress bar/time specs while downloading
+ - progress bar with time statistics while downloading
  - "standard" proxy environment variables support
  - compiles on win32 (reported builds on 40+ operating systems)
  - selectable network interface for outgoing traffic
  - IPv6 support on unix and Windows
  - persistent connections
  - socks5 support
- - supports user name + password in proxy environment variables
+ - supports user name and password in proxy environment variables
  - operations through proxy "tunnel" (using CONNECT)
- - supports large files (>2GB and >4GB) both upload/download
+ - support for large files (>2GB and >4GB) during upload and download
  - replaceable memory functions (malloc, free, realloc, etc)
  - asynchronous name resolving (*6)
  - both a push and a pull style interface
+ - international domain names (*11)
 
 HTTP
  - HTTP/1.1 compliant (optionally uses 1.0)
@@ -60,7 +62,8 @@ HTTP
  - via http-proxy
  - retrieve file modification date
  - Content-Encoding support for deflate and gzip
- - "Transfer-Encoding: chunked" support for "uploads"
+ - "Transfer-Encoding: chunked" support in uploads
+ - data compression (*12)
 
 HTTPS (*1)
  - (all the HTTP features)
@@ -68,12 +71,13 @@ HTTPS (*1)
  - verify server certificate
  - via http-proxy
  - select desired encryption
- - force usage of a specific SSL version (SSLv2(*7), SSLv3 or TLSv1)
+ - force usage of a specific SSL version (SSLv2 (*7), SSLv3 (*10) or TLSv1)
 
 FTP
  - download
  - authentication
- - kerberos4 (*5), kerberos5 (*3)
+ - kerberos4 (*5)
+ - kerberos5 (*3)
  - active/passive using PORT, EPRT, PASV or EPSV
  - single file size information (compare to HTTP HEAD)
  - 'type=' URL support
@@ -93,7 +97,7 @@ FTP
 
 FTPS (*1)
  - implicit ftps:// support that use SSL on both connections
- - explicit "AUTH TSL" and "AUTH SSL" usage to "upgrade" plain ftp://
+ - explicit "AUTH TLS" and "AUTH SSL" usage to "upgrade" plain ftp://
    connection to use SSL for both or one of the connections
 
 SCP (*8)
@@ -104,7 +108,8 @@ SFTP (*8)
  - with custom commands sent before/after the transfer
 
 TFTP
- - download / upload
+ - download
+ - upload
 
 TELNET
  - connection negotiation
@@ -119,12 +124,12 @@ DICT
 
 FILE
  - URL support
- - "uploads"
+ - upload
  - resume
 
 SMTP
  - authentication: Plain, Login, CRAM-MD5, Digest-MD5 and NTLM (*9)
- - send mail
+ - send e-mails
  - mail from support
  - mail size support
  - mail auth support for trusted server-to-server relaying
@@ -142,7 +147,8 @@ POP3
    NTLM (*9)
  - list e-mails
  - retrieve e-mails
- - enhanced command support for: CAPA, DELE, TOP, STAT, UIDL and NOOP
+ - enhanced command support for: CAPA, DELE, TOP, STAT, UIDL and NOOP via
+   custom requests
  - via http-proxy
 
 POP3S (*1)
@@ -152,10 +158,14 @@ POP3S (*1)
 
 IMAP
  - authentication: Clear Text and SASL
- - select mailbox
- - basic fetch e-mail support
  - SASL based authentication: Plain, Login, CRAM-MD5, Digest-MD5 and
    NTLM (*9)
+ - list the folders of a mailbox
+ - select a mailbox with support for verifing the UIDVALIDITY
+ - fetch e-mails with support for specifing the UID and SECTION
+ - upload e-mails via the append command
+ - enhanced command support for: EXAMINE, CREATE, DELETE, RENAME, STATUS,
+   STORE, COPY and UID via custom requests
  - via http-proxy
 
 IMAPS (*1)
@@ -167,12 +177,20 @@ FOOTNOTES
 =========
 
   *1 = requires OpenSSL, GnuTLS, NSS, yassl, axTLS, PolarSSL, schannel (native
-       Windows), Secure Transport (native iOS/OS X)  or qssl (native IBM i)
+       Windows), Secure Transport (native iOS/OS X) or qssl (native IBM i)
   *2 = requires OpenLDAP
-  *3 = requires a GSSAPI-compliant library, such as Heimdal or similar.
+  *3 = requires a GSSAPI-compliant library, such as Heimdal or similar
   *4 = requires FBopenssl
-  *5 = requires a krb4 library, such as the MIT one or similar.
+  *5 = requires a krb4 library, such as the MIT one or similar
   *6 = requires c-ares
-  *7 = requires OpenSSL or NSS, as GnuTLS only supports SSLv3 and TLSv1
+  *7 = requires OpenSSL, NSS, qssl, schannel or Secure Transport; GnuTLS, for
+       example, only supports SSLv3 and TLSv1
   *8 = requires libssh2
-  *9 = requires OpenSSL, GnuTLS, NSS, yassl or SSPI (native Windows)
+  *9 = requires OpenSSL, GnuTLS, NSS, yassl, Secure Transport or SSPI (native
+       Windows)
+  *10 = requires any of the SSL libraries in (*1) above other than axTLS, which
+        does not support SSLv3
+  *11 = requires libidn or Windows
+  *12 = requires libz
+  *13 = requires libmetalink, and either an Apple or Microsoft operating
+        system, or OpenSSL, or GnuTLS, or NSS

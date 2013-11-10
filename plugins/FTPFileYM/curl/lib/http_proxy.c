@@ -66,13 +66,13 @@ CURLcode Curl_proxy_connect(struct connectdata *conn)
      * This function might be called several times in the multi interface case
      * if the proxy's CONNTECT response is not instant.
      */
-    prot_save = conn->data->state.proto.generic;
+    prot_save = conn->data->req.protop;
     memset(&http_proxy, 0, sizeof(http_proxy));
-    conn->data->state.proto.http = &http_proxy;
+    conn->data->req.protop = &http_proxy;
     conn->bits.close = FALSE;
     result = Curl_proxyCONNECT(conn, FIRSTSOCKET,
                                conn->host.name, conn->remote_port);
-    conn->data->state.proto.generic = prot_save;
+    conn->data->req.protop = prot_save;
     if(CURLE_OK != result)
       return result;
 #else
@@ -356,6 +356,10 @@ CURLcode Curl_proxyCONNECT(struct connectdata *conn,
 
                   result = Curl_client_write(conn, writetype, line_start,
                                              perline);
+
+                  data->info.header_size += (long)perline;
+                  data->req.headerbytecount += (long)perline;
+
                   if(result)
                     return result;
 
@@ -560,6 +564,8 @@ CURLcode Curl_proxyCONNECT(struct connectdata *conn,
 
   infof (data, "Proxy replied OK to CONNECT request\n");
   data->req.ignorebody = FALSE; /* put it (back) to non-ignore state */
+  conn->bits.rewindaftersend = FALSE; /* make sure this isn't set for the
+                                         document request  */
   return CURLE_OK;
 }
 #endif /* CURL_DISABLE_PROXY */

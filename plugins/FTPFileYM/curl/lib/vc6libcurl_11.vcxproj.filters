@@ -336,6 +336,12 @@
     <ClCompile Include="wildcard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dotdot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pipeline.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="amigaos.h">
@@ -645,6 +651,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wildcard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dotdot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

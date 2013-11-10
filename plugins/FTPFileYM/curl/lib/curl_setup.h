@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2012, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -270,6 +270,9 @@
 #    endif
 #  endif
 #  include <tchar.h>
+#  ifdef UNICODE
+     typedef wchar_t *(*curl_wcsdup_callback)(const wchar_t *str);
+#  endif
 #endif
 
 /*
@@ -368,7 +371,9 @@
 #  include <sys/stat.h>
 #  undef  lseek
 #  define lseek(fdes,offset,whence)  _lseeki64(fdes, offset, whence)
+#  undef  fstat
 #  define fstat(fdes,stp)            _fstati64(fdes, stp)
+#  undef  stat
 #  define stat(fname,stp)            _stati64(fname, stp)
 #  define struct_stat                struct _stati64
 #  define LSEEK_ERROR                (__int64)-1
@@ -615,7 +620,7 @@ int netware_init(void);
 #if defined(USE_GNUTLS) || defined(USE_SSLEAY) || defined(USE_NSS) || \
     defined(USE_QSOSSL) || defined(USE_POLARSSL) || defined(USE_AXTLS) || \
     defined(USE_CYASSL) || defined(USE_SCHANNEL) || \
-    defined(USE_DARWINSSL)
+    defined(USE_DARWINSSL) || defined(USE_GSKIT)
 #define USE_SSL    /* SSL support has been enabled */
 #endif
 
@@ -692,6 +697,11 @@ int netware_init(void);
 /* Define S_ISREG if not defined by system headers, f.e. MSVC */
 #if !defined(S_ISREG) && defined(S_IFMT) && defined(S_IFREG)
 #define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+#endif
+
+/* Define S_ISDIR if not defined by system headers, f.e. MSVC */
+#if !defined(S_ISDIR) && defined(S_IFMT) && defined(S_IFDIR)
+#define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
 #endif
 
 #endif /* HEADER_CURL_SETUP_H */

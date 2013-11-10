@@ -534,6 +534,7 @@ schannel_connect_step3(struct connectdata *conn, int sockindex)
       return retcode;
     }
     else {
+      connssl->cred->cached = TRUE;
       infof(data, "schannel: stored credential handle in session cache\n");
     }
   }
@@ -1126,15 +1127,26 @@ int Curl_schannel_shutdown(struct connectdata *conn, int sockindex)
 
     /* free SSPI Schannel API security context handle */
     if(connssl->ctxt) {
+      infof(data, "schannel: clear security context handle\n");
       s_pSecFn->DeleteSecurityContext(&connssl->ctxt->ctxt_handle);
       Curl_safefree(connssl->ctxt);
     }
 
-    /* decrement the reference counter of the credential/session handle */
-    if(connssl->cred && connssl->cred->refcount > 0) {
-      connssl->cred->refcount--;
-      infof(data, "schannel: decremented credential handle refcount = %d\n",
-            connssl->cred->refcount);
+    /* free SSPI Schannel API credential handle */
+    if(connssl->cred) {
+      /* decrement the reference counter of the credential/session handle */
+      if(connssl->cred->refcount > 0) {
+        connssl->cred->refcount--;
+        infof(data, "schannel: decremented credential handle refcount = %d\n",
+              connssl->cred->refcount);
+      }
+
+      /* if the handle was not cached and the refcount is zero */
+      if(!connssl->cred->cached && connssl->cred->refcount == 0) {
+        infof(data, "schannel: clear credential handle\n");
+        s_pSecFn->FreeCredentialsHandle(&connssl->cred->cred_handle);
+        Curl_safefree(connssl->cred);
+      }
     }
   }
 
@@ -1159,7 +1171,7 @@ void Curl_schannel_session_free(void *ptr)
 {
   struct curl_schannel_cred *cred = ptr;
 
-  if(cred && cred->refcount == 0) {
+  if(cred && cred->cached && cred->refcount == 0) {
     s_pSecFn->FreeCredentialsHandle(&cred->cred_handle);
     Curl_safefree(cred);
   }
