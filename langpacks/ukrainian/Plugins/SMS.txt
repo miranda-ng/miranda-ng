@@ -87,15 +87,15 @@ ID повідомлення:
 [Read Next]
 Наступне
 [SMS message didn't send by ICQ to %s because :\r\n]
-СМС для %s не відправлено через ICQ через:\r\n
+SMS для %s не відправлено через ICQ через:\r\n
 [SMS Message didn't Send]
-СМС повідомлення надіслано
+SMS-повідомлення не надіслано
 [SMS Message Sent]
-СМС повідомлення надіслано
+SMS-повідомлення надіслано
 [Save window position per contact]
 Зберігати позицію вікна поконтактно
 [Auto popup on new message]
-Автоокно на нове повідомлення
+Автовікно на нове повідомлення
 [Use Signature]
 Використовувати підпис
 [From %s:\r\n\r\n]

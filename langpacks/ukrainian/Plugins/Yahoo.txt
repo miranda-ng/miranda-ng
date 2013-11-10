@@ -24,7 +24,7 @@
 [Show Avatars]
 Показувати аватари
 [AutoLogin to Yahoo Website(s)]
-Автоматично підключатися до Yahoo сайту(ів)
+Автоматично підключатися до сайтів Yahoo
 [Display Yahoo notifications]
 Показувати повідомлення Yahoo!
 [Show Errors]
@@ -44,7 +44,7 @@ Yahoo! Японія
 [Yahoo Ignore List]
 Ігнорувати на Yahoo!
 [Ignore anyone who is not on my Yahoo buddy list]
-Ігрорувати всіх хто не у моему контакт листі Yahoo!
+Ігнорувати всіх, хто не у моєму списку контактів Yahoo!
 [Ignore only the people below:]
 
 [&Add]
@@ -144,11 +144,11 @@ Yahoo! Ігнор
 [Please enter a valid buddy name to ignore.]
 Введіть правильне ім'я контакту для ігнорування.
 [The buddy is already on your ignore list.]
-Це ім'я вже у вашому листі ігнорування.
+Цей контакт уже у вашому списку ігнорування.
 [You need to be connected to Yahoo to remove from the ignore list.]
-Ви повинні буди в мережі Yahoo! щоб видяляти зі списку ігнорування.
+Ви повинні бути в мережі Yahoo! щоб видаляти зі списку ігнорування.
 [Please select a buddy on the ignore list to remove.]
-Виберіть контакт, який потрібно видалити зі списку, ігнору.
+Виберіть контакт, який потрібно видалити зі списку ігнорування.
 [Network]
 Мережа
 [Account]

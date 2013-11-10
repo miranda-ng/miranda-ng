@@ -198,7 +198,7 @@
 [Gap between frames]
 Проміжок фреймів
 [Group row height]
-Ряд. висота групи
+Мін. висота групи
 [Group top padding]
 Верх. відступ груп
 [CList - Nicer]
@@ -220,7 +220,7 @@
 [Inner Row vertical padding]
 Вертикальний відступ між рядками
 [Make selection shape equal to selected item]
-Область виділення дорівнює обраному ел-ту
+Область виділення дорівнює вибраному ел-ту
 [Margins (left/right)]
 Поля (праворуч/ліворуч)
 [Margins and spacing]
@@ -350,7 +350,7 @@
 [Current view mode: %s]
 Поточний режим виду: %s
 [Advanced #1 (ICQ X-Status)]
-Дод. слот (ICQ хСтатус)
+Дод. слот (хСтатус ICQ)
 [Alpha (percent)]
 Альфа (відсоток)
 [Copy from]
@@ -414,7 +414,7 @@
 [Right to left]
 Справа наліво
 [Textcolor]
-Текст(колір)
+Колір тексту
 [Top-Left]
 Верхній лівий
 [Top-Right]

@@ -54,7 +54,7 @@
 [Changing Layout]
 Зміна розкладки
 [Popup colors]
-Кольори спл. вікон
+Кольори сплив. вікон
 [Windows colors]
 Кольори Windows
 [Custom colors]

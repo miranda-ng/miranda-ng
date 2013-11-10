@@ -16,7 +16,7 @@
 [Add/Modify]
 Додати/Змінити
 [Cancel]
-Скасування
+Скасувати
 [List settings]
 Налаштування списку
 [Confirm deletion of items]
@@ -41,7 +41,7 @@
 Попередження
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 
-[Обране]
+[Favorites]
 Обрані
 [Regular statuses]
 Часті статуси
@@ -65,7 +65,7 @@
 Видалити
 [Set/unset current item as favorite]
 Встановити/видалити вибраний пункт як обраний
-[Favourite]
+[Favorite]
 Обране
 [Undo changes]
 Скасувати зміни
@@ -82,10 +82,10 @@
 [No change]
 Без змін
 [Clear custom status (reset to None) and close]
-Очистити хСтатус (поставити в Немає) и закрити
+Очистити хСтатус (поставити в Немає) і закрити
 [Clear]
 Очистити
 [Set custom status to selected one and close]
-Вст. хСтатус на обраний и закрити
+Вст. хСтатус на вибраний і закрити
 [Set]
 Вибрати

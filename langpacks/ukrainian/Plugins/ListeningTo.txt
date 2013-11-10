@@ -48,7 +48,7 @@
 [iTunes]
 
 [foobar2000 (need to install the plugin manually)]
-foobar2000 (встановіть плагін руками)
+foobar2000 (встановіть плагін вручну)
 [Other players]
 Інші плеєри
 [Ask for new info every]

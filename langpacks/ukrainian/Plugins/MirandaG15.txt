@@ -197,7 +197,7 @@
 [Show only new messages]
 Показувати тільки нові повідомлення
 [Mark incoming messages as read]
-Відзначати входять як прочитані
+Позначати вхідні як прочитані
 [Maximized scrolling]
 Прокрутка в режимі повного екрану
 [Size of the log:]
@@ -213,7 +213,7 @@
 [Show linebreak indicators]
 Показувати символи переносу рядка
 [Send messages with return, insert linebreaks with ctrl+return]
-Відправлення повідомлень Enter, перехід рядка по CTRL+Enter
+Відправлення повідомлень по Enter, новий рядок по Ctrl+Enter
 [Maximized replying]
 Відповідь в режимі повного екрану
 [Provides an interface to use Miranda from the G15's LCD]

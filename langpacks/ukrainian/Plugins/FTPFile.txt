@@ -112,7 +112,7 @@
 [Close dialog after upload finishes]
 Закрити вікно після закінчення завантаження
 [Upload manager - %d file(s)]
-Менеджер завантажень - %d файл(ів)
+Менеджер завантажень - %d файлів
 [Sending for:]
 Відправлено для:
 [Download link for uploaded file:]

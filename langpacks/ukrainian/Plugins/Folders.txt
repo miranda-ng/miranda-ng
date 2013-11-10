@@ -32,7 +32,7 @@
 [What it expands to:]
 Що повертає:
 [Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
-Повертає шлях до вашій Miranda NG (приміром: c:\\program files\\miranda ng).
+Повертає шлях до вашої Miranda NG (наприклад, c:\\program files\\miranda ng).
 [Expands to your profile path - the value found in mirandaboot.ini,]
 Повертає шлях до вашого профілю - значення знайдене в mirandaboot.ini,
 [ProfileDir section (usually inside miranda\'s folder).]
@@ -40,7 +40,7 @@
 [Expands to your current profile name without the extenstion.]
 Повертає ім'я вашого профілю без розширення.
 [(e.g.default if your your profile is default.dat).]
-(наприклад default, якщо Ваш профіль default.dat).
+(наприклад, default, якщо ваш профіль default.dat).
 [Environment variables]
 Змінні оточення
 [The plugin can also expand environment variables; the variables are specified like in any other]

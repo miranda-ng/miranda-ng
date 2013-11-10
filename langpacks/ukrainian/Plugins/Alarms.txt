@@ -20,7 +20,7 @@
 [Default snooze:]
 Пауза за замовчуванням:
 [minutes]
-хвилин(и)
+хвилин
 [Row Height:]
 Висота рядка
 [Indent:]
@@ -112,7 +112,7 @@
 [&Edit...]
 &Змінити
 [&Delete]
-&Вилучити
+&Видалити
 [&Options...]
 &Налаштування
 [&New Alarm...]
@@ -180,6 +180,6 @@
 [Error]
 Помилка
 [The alarm time you have selected is in the past.]
-Обраний вами час - у минулому.
+Вибраний вами час - у минулому.
 [Events]
 Події

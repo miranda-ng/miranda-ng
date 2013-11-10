@@ -199,11 +199,11 @@ TLS
 [Server options]
 Налаштування сервера
 [Disable SASL authentication (for old servers)]
-Відключити автентифікації SASL (старі сервери)
+Відключити автентифікацію SASL (старі сервери)
 [Enable stream compression (if possible)]
 Стискати потік (якщо можливо)
 [Enable XMPP server ping (XEP-0199)]
-Включити пінг XMPP сервера (XEP-0199)
+Включити пінг XMPP-сервера (XEP-0199)
 [Enable remote controlling (from another resource of same JID only)]
 Віддалене управління (тільки з іншого ресурсу одного JID)
 [Show transport agents on contact list]
@@ -233,7 +233,7 @@ TLS
 [Jabber Mood]
 Настрій Jabber
 [Enable XMPP link processing (requires Association Manager)]
-Обробляти XMPP посилання (потрібен плагін "Association Manager")
+Обробляти XMPP-посилання (потрібен плагін Association Manager)
 [Keep contacts assigned to local groups (ignore roster group)]
 Використовувати локальні групи (ігнорувати групи ростеру)
 
@@ -384,7 +384,7 @@ Jabber Ad-Hoc команди на %s
 [List Owner]
 Список власників
 [%s, %d items (%s)]
-%s, %d пункту(ів) (%s)
+%s, %d пунктів (%s)
 [Apply filter]
 Застосувати фільтр
 [Reset filter]
@@ -587,7 +587,7 @@ vCard (візитні картки)
 [Supports multi-user chat]
 Підтримка чату
 [Supports in-band registration]
-Внутрипотоковая реєстрація
+Внутрішньопотокова реєстрація
 [Supports execution of Ad-Hoc commands]
 Виконання Ad-Hoc команд
 [Supports file transfers via Out-of-Band Bytestreams]
@@ -804,7 +804,7 @@ Unicode зборка
 [following stanza types:]
 Наступні типи подій:
 [Can't remove active or default list]
-Неможливо вилучити активний або стандартний список
+Неможливо видалити активний або стандартний список
 [If group is ']
 Якщо група '
 [If Jabber ID is ']

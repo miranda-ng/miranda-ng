@@ -88,7 +88,7 @@ WATrack: запит заборонений
 [&Name:]
 &Ім'я:
 [Show all except selected events]
-Показати всі, крім обраних подій
+Показати всі, крім вибраних подій
 [Show only selected events]
 Показати вибрані події
 [R&eset to Default]
@@ -106,7 +106,7 @@ WATrack: запит заборонений
 [&Add >>]
 &Додати >>
 [<< &Remove]
-<< &Вилучити
+<< &Видалити
 [Event Filters]
 Фільтри подій
 [Event Details]
@@ -232,9 +232,9 @@ EMail Express
 [Do you really want to delete selected items (%.0f)?]
 Видалити вибрані записи (%.0f)?
 [Delete Selected]
-Видалити обране
+Видалити вибране
 [Do you really want to delete selected item?]
-Вилучити виділений запис?
+Видалити вибраний запис?
 [%s - History++]
 Історія %s
 [History is empty]
@@ -350,7 +350,7 @@ EMail Express
 [Protect all contacts]
 Захистити всі контакти
 [Protect only selected contacts]
-Захистити обрані контакти
+Захистити вибрані контакти
 [Password...]
 Пароль...
 [&Refresh List]
@@ -646,7 +646,7 @@ HTML файл
 [Nick Font]
 Шрифт ніка
 [Nothing selected. Select item from the left and change it's properties below.]
-Нічого не обрано. Виберіть елемент ліворуч, і змініть його налаштування нижче.
+Нічого не вибрано. Виберіть елемент ліворуч і змініть його налаштування нижче.
 [Nothing Selected]
 Нічого не вибрано
 [Outgoing File Transfer Sample]
@@ -722,9 +722,7 @@ Wiki-сторінка додаткових параметрів
 [Database:]
 База даних:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
-Швидкий переглядач історії з можливістю фільтрації.\\тСоздан на основі плагіна History+.
-[History++ (2in1)]
-Історія++ (2в1)
+Швидкий переглядач історії з можливістю фільтрації.\\nСтворений на основі плагіна History+.
 [History++ Error]
 Помилка History++
 [History++ Warning]

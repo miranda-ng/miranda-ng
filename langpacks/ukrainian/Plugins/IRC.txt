@@ -194,7 +194,7 @@ Wildcard пошук по мережі
 [Private]
 Конфіденційний
 [Secret]
-Таемний
+Таємний
 [Topic]
 Тема
 [User modes]
@@ -308,7 +308,7 @@ DCC: Запит чату від %s відхилено
 [DCC: File transfer request from %s denied]
 DCC: Запит передачі файлу від %s відхилено
 [DCC: Reverse file transfer request from %s denied [No local IP]]
-DCC: Запит на реверсне передачу файлу від %s відхилений. (Не знайдено локальний IP)
+DCC: Запит на реверсну передачу файлу від %s відхилений. (Не знайдено локальний IP)
 [DCC ERROR: Malformed CTCP request from %s [%s]]
 Помилка DCC: Невірний СТСР-запит від %s [%s]
 [DCC: File transfer resume request from %s denied]
@@ -334,7 +334,7 @@ DCC: Запит на продовження закачування файлу в
 [Unknown]
 Невідомо
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Введіть вузла (nick!user@host)\nВНИМАНИЕ! Контакти у вашому списку ніколи не ігноруються
+Введіть маску (nick!user@host)\nУВАГА! Контакти у вашому списку не будуть ігноруватися
 [Ignore]
 Ігнорувати
 [Please enter the reason]
@@ -346,7 +346,7 @@ Jerk
 [*Disconnected*]
 *Відключений*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Використання /AWAY в буфері виконання обмежена\n так як IRC автоматично посилає цю команду.
+Використання /AWAY в буфері виконання обмежена,\n оскільки IRC автоматично посилає цю команду.
 [IRC Error]
 Помилка IRC
 [The buddy check function is enabled]
@@ -372,7 +372,7 @@ Jerk
 [The time interval for the buddy check function is now at default setting]
 Інтервал перевірки приятелів встановлений за замовчуванням
 [The time interval for the buddy check function is now %u seconds]
-Інтервал перевірки приятелів дорівнює %u секунд(ам)
+Інтервал перевірки приятелів становить %u секунд
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage around for %u to %u minute(s).\r\n\r\nDo you want to continue?]
 Ця команда не рекомендована для мережі такого розміру!\r\nЦе може зайняти ресурси системи приблизно від %u до %u хвилин.\r\nВи впевнені, що хочете продовжити?
 [IRC warning]
@@ -418,7 +418,7 @@ DCC-запит на передачу файлу посланий %s [%s]
 [The dcc chat connection is not active]
 З'єднання DCC-чату неактивно
 [Please choose an IRC-network to go online. This network will be the default.]
-Виберіть мережу IRC. Ця мережа буде обрана за замовчуванням.
+Виберіть мережу IRC. Ця мережа буде встановлена за замовчуванням.
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Неможливо встановити підключення. Ви не ввели всі необхідні дані (нік, User ID та ім'я)
 [Main]
@@ -490,7 +490,7 @@ DCC-запит на передачу файлу посланий %s [%s]
 [Do you want to delete\r\n%s]
 Видалити?\r\n%s
 [Delete server]
-Вилучити сервер
+Видалити сервер
 [Edit server]
 Змінити налаштування
 [<Resolved IP: ]
@@ -510,7 +510,7 @@ DCC-запит на передачу файлу посланий %s [%s]
 [Edit this ignore]
 Змінити правило
 [Delete this ignore]
-Вилучити правило
+Видалити правило
 [Ignore mask]
 Маска
 [Flags]
@@ -560,7 +560,7 @@ WallOps від %s:
 [%s (%s) is requesting a client-to-chat client connection.]
 %s [%s] запитує з'єднання на СТСР-чат
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Введіть маску (nick!user@host) \nУвага! Користувачі зі списку контакту не будуть ігноруватися!
+Введіть маску (nick!user@host) \nУВАГА! Користувачі зі списку контактів не будуть ігноруватися!
 [Join channel]
 Зайти в чат-кімнату
 [Please enter a channel to join]
@@ -732,7 +732,7 @@ Nickserv вбити фантома
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Настройки не збережені.\n\nПоле "Псевдонім" має містити як мінімум чотири знака (включаючи маски), і збігатися з псевдонімом за замовчуванням для цього контакту.
+Настройки не збережені.\n\nПоле "Псевдонім" має містити як мінімум чотири знаки (включаючи маски) і збігатися з псевдонімом за замовчуванням для цього контакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 
 [Please wait...]
@@ -744,9 +744,9 @@ Nickserv вбити фантома
 [%s - Filtered - %d items]
 
 [---- Not listed server ----]
-----Сервер поза списку---
+----Сервер поза списком---
 [Type new server address here]
-Новий адресу сервера
+Нова адреса сервера
 [Add ban/invite/exception]
 Додати бан/запрошення/виключення
 [Edit selected ban/invite/exception]

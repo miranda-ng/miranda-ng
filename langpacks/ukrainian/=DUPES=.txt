@@ -1014,7 +1014,7 @@ E-Mail
 [Show popup for users leaving]
 Виходи учасників
 [Show popup]
-Показувати спл. вікно
+Показувати сплив. вікно
 [Show Popups when I connect]
 Вікна при підключенні
 [Show popups]
@@ -1178,7 +1178,7 @@ E-Mail
 [Typing Notify]
 Набирає текст
 [U&se Popup colors]
-Кольори спл. вікон
+Кольори сплив. вікон
 [Uighur; Uyghur]
 Уйгурська
 [Unicode string]
@@ -1572,7 +1572,7 @@ Web-сторінка
 [Close button]
 Кнопка "Закрити"
 [hours]
-годин(и)
+годин
 [GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
 GMT+00:00 Час за Гринвічем: Дублін, Лондон, Лісабон, Едінбург
 [GMT+10:00 East Australia; Guam; Vladivostok]
@@ -1612,23 +1612,23 @@ GMT-10:00 Гаваї
 [GMT-11:00 Midway Island; Samoa]
 GMT-11:00 о. Мідуей, Самоа
 [GMT-12:00 Eniwetok; Kwajalein]
-GMT-12:00 Еневеток, Кваджалейн
+GMT-12:00 Еніветок, Кваджалейн
 [GMT-1:00 Cape Verde Islands; Azores]
 GMT-01:00 о-ви Зеленого мису, Азорські о-ви
 [GMT-2:00 Mid-Atlantic]
-GMT-02:00 Среднеатлантическое час
+GMT-02:00 Середньоатлантичний час
 [GMT-3:00 Greenland; Buenos Aires; Georgetown]
 GMT-03:00 Гренландія; Буенос-Айрес, Джорджтаун
 [GMT-3:30 Newfoundland]
 GMT-03:30 Ньюфаундленд
 [GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-GMT-04:00 Атлантичне час; Сантьяго; Каракас, Ла Пас
+GMT-04:00 Атлантичний час; Сантьяго; Каракас, Ла-Пас
 [GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-GMT-05:00 Східне час; Богота, Ліма, Кіто; Індіана (схід)
+GMT-05:00 Східний час; Богота, Ліма, Кіто; Індіана (схід)
 [GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-06:00 Центральне час; Центральна Америка; Саскачеван
+GMT-06:00 Центральний час; Центральна Америка; Саскачеван
 [GMT-7:00 Arizona; Mountain Time]
-GMT-07:00 Гірське час (США і Канада)
+GMT-07:00 Гірський час (США і Канада)
 [GMT-8:00 Pacific Time; Tijuana]
 GMT-08:00 Тихоокеанський час; Тіхуана
 [GMT-9:00 Alaska]
@@ -1650,11 +1650,11 @@ GMT-09:00 Аляска
 [%s is typing a message...]
 %s набирає текст...
 [signed off (was %s)]
-йде (був(а) %s)
+йде (був %s)
 [signed on (%s)]
 приходить (%s)
 [is now %s (was %s)]
-тепер %s (був(а) %s)
+тепер %s (був %s)
 [Others nicknames]
 Інші псевдоніми
 [Your nickname]
@@ -1722,13 +1722,13 @@ GMT-09:00 Аляска
 [You are now known as %s]
 Тепер ви відомі як %s
 [Show the history (CTRL+H)]
-Показати історію (CTRL+H)
+Показати історію (Ctrl+H)
 [Show/hide the nicklist (CTRL+N)]
-Показати/сховати список користувачів (CTRL+N)
+Показати/сховати список користувачів (Ctrl+N)
 [Control this room (CTRL+O)]
-Контролювати цю чат-кімнату (CTRL+O)
+Контролювати цю чат-кімнату (Ctrl+O)
 [Enable/disable the event filter (CTRL+F)]
-Ввімкнути/вимкнути фільтр подій (CTRL+F)
+Ввімкнути/вимкнути фільтр подій (Ctrl+F)
 [Insert a smiley]
 Вставити смайл
 [Insert Emoticon]
@@ -1921,7 +1921,7 @@ ID користувача:
 [Weekly]
 Щотижня
 [Mark replied to messages as read]
-Відзначати відповіді як прочитані
+Позначати відповіді як прочитані
 [Message with question]
 Повідомлення з питанням
 [Invite]
@@ -2043,7 +2043,7 @@ ID користувача:
 [Use the default message]
 Стандартне повідомлення
 [Creepy]
-(за промовчанням)
+(за замовчанням)
 [Gone fragging]
 Зайнятий
 [Showing an invitation messages]
@@ -2172,7 +2172,7 @@ ID користувача:
 Фон поля введення
 [Userlist background]
 Фон списку користувачів
-[To Trim (кб)]
+[Trim to (kB)]
 Ліміт (Кб)
 [Log directory]
 Папка журналу
@@ -2281,7 +2281,7 @@ ID користувача:
 [Show status icon for changes]
 Зміни статусів
 [Show popups only when the chat room is not active]
-Показувати спл. вікна тільки коли вікно чат-кімнати не активне
+Показувати сплив. вікна тільки коли вікно чат-кімнати не активне
 [%s has left (%s)]
 %s вийшов (%s)
 [Custom1]
@@ -2519,7 +2519,7 @@ ID користувача:
 [Sunken]
 Втоплений
 [Support and latest version information]
-Підтримка та інформація про останню версії
+Підтримка та інформація про нову версію
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
 Для потрібної дії необхідний правильний вибір контакту. Виберіть контакт зі списку і повторіть
 [Unload skin]
@@ -2665,7 +2665,7 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 [But not during sign-on]
 Але не під час входу
 [Use Popup colors]
-Кольори спл. вікон
+Кольори сплив. вікон
 [Timeouts]
 Перерви
 [Round corners by]
@@ -2737,7 +2737,7 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 [Variables Help]
 Допомога по змінним
 [contacts]
-контакту(ів)
+контактів
 [Registration rejected]
 У реєстрації відмовлено
 [<Last Status>]
@@ -2805,7 +2805,7 @@ ID користувача
 [recognize messages sent with utility only]
 Визначати тільки повідомлення, відправлені гар. клавішею
 [Check]
-Відзначити
+Позначити
 [XStatus]
 хСтатус
 [Run]
@@ -3379,7 +3379,7 @@ Web-дизайн
 [(F) feels talkative!]
 готова поговорити!
 [(U) feels talkative!]
-готовий(а) поговорити!
+готовий поговорити!
 [(M) went Away]
 відійшов
 [(F) went Away]
@@ -3495,7 +3495,7 @@ Web-дизайн
 [Use status icon]
 Значок статусу
 [Use standard &description]
-&Стандартні опис
+&Стандартні описи
 [Always when changing from offline]
 Із статусу "Відключений"
 [From offline]
@@ -3559,7 +3559,7 @@ Web-дизайн
 [Display time]
 Показувати час
 [Popup History]
-Історія спл. вікон
+Історія сплив. вікон
 [Send message]
 Відправити
 [Last seen]
@@ -3677,11 +3677,11 @@ Web-дизайн
 [...is typing a message.]
 ... набирає текст.
 [...has stopped typing.]
-... закінчив(а) набирати текст.
+... закінчив набирати текст.
 [Typing Notify: is typing]
 Набирає текст: набирає
 [Typing Notify: stopped typing]
-Набирає текст: закінчив(а) набирати текст
+Набирає текст: закінчив набирати текст
 [Disable &typing notification]
 Вимкнути сповіщення про набір тексту
 [Enable &typing notification]
@@ -4015,7 +4015,7 @@ INI файли
 [You were added]
 Вас додали
 [SMTP-Simple Email]
-Повідомлення e-mail (SMTP-Simple)
+Повідомлення E-mail (SMTP-Simple)
 [SMS message]
 Повідомлення SMS
 [Today]

@@ -32,7 +32,7 @@
 [Enable authorization requests blocking]
 Блокувати запити авторизації
 [Hide unanswered contacts and spammers from contact list]
-Приховати неответившие контакти з контакт-листа
+Приховати зі списку контактів тих, хто не відповів
 [Ignore spammers (do not write messages to history)]
 Ігнорувати спамерів (не писати повідомлення в історію)
 [Log spam to file]

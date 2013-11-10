@@ -12,7 +12,7 @@
 [Auto parse]
 Автоанализ
 [Parse the following string at startup]
-Аналіз рядки при завантаженні
+Аналіз рядків при завантаженні
 [Automatically strip "end of line" characters]
 Обрізати символ "кінець рядка"
 [Help...]

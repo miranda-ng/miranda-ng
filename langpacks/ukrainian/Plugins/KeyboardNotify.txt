@@ -6,7 +6,7 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-Додає мигання світлодіодів клавіатури при отриманих повідомленнях.
+Додає мигання світлодіодів клавіатури при отриманні повідомлень.
 [Accounts to check]
 Обліковий запис для перевірки
 [Events to react on]
@@ -112,7 +112,7 @@
 [&Preview]
 &Тест
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
-Емулювати натискання клавіш (Тільки для USB клавіатур)
+Емулювати натискання клавіш (Тільки для USB-клавіатур)
 [Create/Edit Themes]
 Створити/Редагувати тему
 [Theme]

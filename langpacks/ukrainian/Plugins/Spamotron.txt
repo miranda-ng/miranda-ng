@@ -23,7 +23,7 @@
 [Hide contact until verified]
 Ховати контакт до підтвердження
 [Add to permanently list on verified]
-Додавати у контакт лист при підтвердженні
+Додавати у список контактів при підтвердженні
 [Log actions to system history]
 Вести журнал
 [Flood protection]

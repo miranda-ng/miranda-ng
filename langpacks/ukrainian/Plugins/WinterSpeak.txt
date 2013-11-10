@@ -97,7 +97,7 @@ Cтупінь
 [Authorization request]
 Запит авторизації
 [Added to contact list]
-Додавання у контакт лист
+Додавання у список контактів
 [Status messages]
 Статусне повідомлення
 [Announce status changes on connect]

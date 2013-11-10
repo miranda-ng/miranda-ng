@@ -6,13 +6,13 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Service offering misc country utilities as flag icons and a IP-to-Country database.]
-Служба, додаюча національні прапори як значки, з бази даних IP = країну.
+Служба, яка додає значки національних прапорів з бази даних IP = країну.
 [Country Flags]
 Прапори країн
 [Show country flag as &status icon on message window]
-Показувати прапор, як значок статусу у вікні розмови
+Показувати прапор як значок статусу у вікні розмови
 [Show country flag as &extra image on contact list]
-Показувати прапор, як дод. значок в контакт-листі
+Показувати прапор як дод. значок у списку контактів
 [Use &IP-to-country database for country detection]
 Використовувати базу IP для визначення країни
 [Use &unknown flag if the country cannot be determined]

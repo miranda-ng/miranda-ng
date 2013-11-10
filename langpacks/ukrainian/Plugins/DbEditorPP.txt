@@ -278,11 +278,11 @@ INI файли
 [Error Loading Setting List]
 Помилка завантаження списку налаштувань
 [Finished. %d items were found, %d items were deleted.]
-Пошук завершено, знайдено %d та вилучено %d елемент(ів).
+Пошук завершено. Знайдено %d елементів, видалено %d.
 [Finished. %d items were found, %d items were replaced.]
-Пошук завершено, знайдено %d та замінено %d елемент(ів).
+Пошук завершено. Знайдено %d елементів, замінено %d.
 [Finished. %d items were found.]
-Пошук завершено, знайдено %d елемент(ів).
+Пошук завершено. Знайдено %d елементів.
 [Closed Known Module]
 Відомий модуль (закритий)
 [Open Known Module]
@@ -342,7 +342,7 @@ HANDLE
 [<unknown>]
 <невідомо>
 [Decoded string..]
-Розшифрована рядок
+Розшифрований рядок
 [Encoded string..]
 Зашифрований рядок
 [Contact]

@@ -21,7 +21,7 @@
 [Ex-/Import items]
 Експорт/Імпорт
 [This options require a contact list which supports extra icons.]
-Потрібен плагін контакт-листа з підтримкою додаткових значків.
+Потрібен плагін списку контактів з підтримкою додаткових значків.
 [Replace the following default icons:]
 Замінити такі піктограми:
 
@@ -73,7 +73,7 @@
 [Enable groups in details dialog's treeview.]
 Вкладені пункти меню
 [Sort all tree items alphabetically.]
-Відсортувати всі пункти в алфавітному порядку
+Впорядкувати всі пункти за абеткою
 
 ; налаштування - плагіни - особисті дані - нагадування
 [Reminder disabled]
@@ -295,11 +295,11 @@
 [Enter a representitive name for the e-mail address here.]
 Введіть ім'я для електронного адреси
 [Enter the e-mail address here.]
-Введіть електронну адресу.
+Введіть адресу E-mail.
 [Open in Browser]
 Відкрити в браузері
 [Added to contact list:]
-Додано в контакт-лист:
+Додано в список контактів:
 [Just from the beginning.]
 З самого початку.
 [Your contact's local time is:]
@@ -359,7 +359,7 @@
 [Uncheck all]
 Очистити всі
 [Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
-Відзначте в списку ті модулі, які ви хочете експортувати для контактів. Для додавання контакту з файлу у вигляді нового запису, необхідно експортувати хоча б модуль протоколу.
+Позначте в списку ті модулі, які ви хочете експортувати для контактів. Для додавання контакту з файлу у вигляді нового запису необхідно експортувати хоча б модуль протоколу.
 [Required modules]
 Обов'язкові модулі
 [Optional modules]

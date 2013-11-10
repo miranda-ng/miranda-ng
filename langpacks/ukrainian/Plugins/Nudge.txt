@@ -6,7 +6,7 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Plugin to shake the clist and chat window.]
-Плагін трясіння контакт листа і вікна повідомлень.
+Плагін трясіння списку контактів і вікна повідомлень.
 [Protocol options]
 Налаштування протоколу
 [Specify options for each protocol]

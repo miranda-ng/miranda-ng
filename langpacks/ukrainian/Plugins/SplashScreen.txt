@@ -36,11 +36,11 @@
 [Fade out:]
 Зникнення:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Бібліотека AdvaImg не знайдена. Будьласка встановіть для використання зображень.
+Бібліотека AdvaImg не знайдена. Будь ласка, встановіть її для використання зображень.
 [Preview...]
 Перегляд...
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Ваша advaimg.dll застаріла або пошкоджена. Встановіть альфа версію Miranda NG
+Ваша AdvaImg.dll застаріла або пошкоджена. Встановіть альфа-версію Miranda NG.
 [Error]
 Помилка
 [Call Splash Service]

@@ -196,7 +196,7 @@ YAMN: помилка підключення
 [%s - %d new mail messages, %d total]
 %s - %d нових листів (%d всього)
 [- new mail message(s)]
-- нових лист(ів)
+- нових листів
 [%s : %d new mail message(s), %d total]
 %s : %d нових листів, %d всього
 [%d new mail message(s), %d total]
@@ -266,7 +266,7 @@ POP3 плагін - помилка при записі у файл
 [Reading new mail messages (%d%% done)]
 Зчитування нових повідомлень (%d%% готово)
 [Deleting requested mails]
-Видалення листів запитуваних
+Видалення запитуваних листів
 [Deleting spam]
 Видалення спаму
 [Memory allocation error.]

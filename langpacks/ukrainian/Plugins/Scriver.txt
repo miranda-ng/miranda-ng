@@ -104,7 +104,7 @@
 [Enable message grouping]
 Групувати повідомлення
 [Mark follow-up msgs with timestamp]
-Відзначати датою
+Позначати датою
 [Start message text on a new line]
 Текст повідомлення нового рядка
 [Show lines between messages]
@@ -620,7 +620,7 @@ Unicode вимкнено
 [User list lines]
 Лінії списку
 [User list background (selected)]
-Фон списку (обрано)
+Фон списку (вибране)
 [Offline]
 Не в мережі
 [Online]
@@ -744,7 +744,7 @@ Miranda не змогла завантажити вбудовану систем
 [Timestamp has same colour as event]
 Час того ж кольору, як і подія
 [Indent the second line of a message]
-Відступ другий рядки повідомлення
+Відступ другого рядка повідомлення
 [Limit user names to 20 characters]
 Обмежити імена в журналі 20-ма символами
 [Strip colors from messages]

@@ -28,9 +28,7 @@
 [Show notification if no filter defined]
 Повідомляти, якщо жоден фільтр не визначений
 [Attempt interval (ms.)]
-Інтервалу спроб (мс.)
-[X]
-Х
+Інтервал спроб (мс)
 [Online mean]
 
 [Filters]

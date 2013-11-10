@@ -54,7 +54,7 @@
 [StopSpam automatic message:\r\n]
 
 [Not In List]
-Не у листі
+Не у списку
 [Complete]
 Готово
 [nospam]

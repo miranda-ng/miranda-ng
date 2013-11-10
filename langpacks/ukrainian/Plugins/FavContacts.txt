@@ -20,7 +20,7 @@
 [px.]
 пікс.
 [Hide for transparent avatars]
-Приховати для прозорих аватар
+Приховати для прозорих аватарів
 [Use system colors and fonts]
 Системні кольори і шрифти
 [Hotkey shows menu centered on screen]
@@ -52,7 +52,7 @@
 [Contact name]
 Ім'я контакту
 [Second line]
-Друга рядок
+Другий рядок
 [Selected contact name (color)]
 Ім'я контакту під курсором
 [Selected second line (color)]
@@ -63,9 +63,9 @@
 Обрати фон
 [Show favorite contacts]
 Показати обрані контакти
-[Архів]
+[Contacts]
 Контакти
-[Обране]
+[Favorites]
 Обрані
 [&Favorite Contacts...]
 &Обрані контакти

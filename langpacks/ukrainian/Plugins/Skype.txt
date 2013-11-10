@@ -112,7 +112,7 @@ Skype протокол для Miranda NG.
 [Anyone]
 Всіх
 [People in my Contact list only]
-Користувачів з мого контактного листа
+Користувачів з мого списку контактів
 [Allow calls from...]
 Дозволити дзвінки від...
 [Automatically receive video and share screens with...]
@@ -234,7 +234,7 @@ Skype протокол для Miranda NG.
 [Hi! I'd like to add you to my contact list]
 Привіт! Я хотів би додати Вас в свій список контактів
 [Contact already in your contact list]
-Контакт вже в контакт листі
+Контакт вже в списку
 [Contacts received]
 Вхідний груповий дзвінок
 [Enter a password for %s:]

@@ -27,7 +27,7 @@ WUMF: Показати підключення
 [Show infinitely]
 Постійно
 [Default Popup delay]
-Як в сплив. віконах
+Як у сплив. вікнах
 [File access filter && logging settings]
 Налаштування фільтрів журналу
 [Log into text file]

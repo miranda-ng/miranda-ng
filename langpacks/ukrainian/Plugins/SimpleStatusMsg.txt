@@ -206,7 +206,7 @@
 [Add to Predefined]
 У передвстановлені
 [Delete Selected]
-Видалити обране
+Видалити вибране
 [OK (%d)]
 
 [Global]

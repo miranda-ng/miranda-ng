@@ -174,7 +174,7 @@
 [Favorite contacts]
 Обрані контакти
 [Expand to second level after:]
-Другий ур-нь підказки через:
+Другий рівень підказки через:
 [ms]
 мс
 [First level tooltip]

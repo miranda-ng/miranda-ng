@@ -423,7 +423,7 @@ dat (mContacts)
 [Contacts]
 Контакти
 [At least one contact should be selected.]
-Повинен бути обраний, хоча б один контакт
+Потрібно вибрати хоча б один контакт
 [Upload to FTP]
 Завантажити на FTP
 [Path to output file]

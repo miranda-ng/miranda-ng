@@ -76,7 +76,7 @@
 [No change]
 без зм.
 [2 chars]
-2 символа
+2 символи
 [3 chars]
 3 символи
 [Elevation]
@@ -98,7 +98,7 @@
 [Weather Station]
 Прогноз погоди
 [City name]
-місто
+Місто
 [ID]
 
 [Log Information]
@@ -124,7 +124,7 @@ URL додаткової інформації
 [Disable automatic update for this station]
 Відключити автооновлення з цієї станції
 [Disable Popup for this station]
-Відключити сплив. відка для цієї станції
+Відключити сплив. вікна для цієї станції
 [Change]
 Змінити
 [Cancel]
@@ -154,7 +154,7 @@ URL додаткової інформації
 [Delay]
 Затримка
 [seconds]
-секунд(и)
+секунд
 [From Popup plugin]
 
 [Permanent]
@@ -466,9 +466,9 @@ HTTP підключення Weather
 [Weather Protocol Preview Text]
 Перегляд протоколу погоди
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tпрогноз на сьогодні\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление вітру\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID міста\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость вітру\n%y\tзакат
+%c\tпрогноз на сьогодні\n%d\tпоточна дата\n%e\tроса\n%f\tвідчуття\n%h\tмаксимум\n%i\tнапрямок вітру\n%l\tмінімум\n%m\tвологість\n%n\tмісто\n%p\tтиск\n%r\tсіход\n%s\tID міста\n%t\tтемпература\n%u\tоновлення\n%v\tвидимість\n%w\tшвидкість вітру\n%y\tзахід
 [%[..]\tcustom variables]
-%[..]\tсвои змінні
+%[..]\tсвої змінні
 [Station ID]
 ID міста
 [Disable &weather notification]
@@ -490,7 +490,7 @@ ID міста
 [Update All Weather]
 Оновити погоду
 [Remove Old Data then Update All]
-Видалити дані і оновити всі
+Видалити дані та оновити всі
 [Weather Notification]
 Нагадування про погоду
 [Display in a frame]

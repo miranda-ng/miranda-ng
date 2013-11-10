@@ -108,7 +108,7 @@
 [Select keyserver for key search:]
 Вибрати сервер ключів для пошуку:
 [Userlist:]
-Лист користувачів:
+Список користувачів:
 [Add tags to encoded and decoded messages]
 Додавати мітки повідомлень
 [Incoming message tags:]

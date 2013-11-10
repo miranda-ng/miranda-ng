@@ -15,9 +15,9 @@
 [List Contacts with Status Message]
 Статусні повідомлення контактів
 [Disable SMCN PopUps]
-Вимк. спл. вікна про зміну статусу
+Вимк. сплив. вікна про зміну статусу
 [Enable SMCN PopUps]
-Увім. спл. вікна про зміну статусу
+Увім. сплив. вікна про зміну статусу
 [Status Message Changed]
 Статусне повідомлення змінилося
 [changes his/her status message to:]

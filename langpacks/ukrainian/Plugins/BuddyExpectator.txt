@@ -60,7 +60,7 @@
 [Add an event (flashing icon) to the contact]
 Додати подію до контакту (блимання значка)
 [On event action (double click) or popup click:]
-По події (подв. клік) або кліку на спл. вікні
+По події (подв. клік) або кліку на сплив. вікні
 [Open User Details]
 Відкрити деталі користувача
 [Long time no see]

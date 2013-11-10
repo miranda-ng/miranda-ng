@@ -54,7 +54,7 @@ IP адреса 2
 [Test]
 Тест
 [Transfer limit (kb/sec)]
-Ліміт швидкості (kb/sec)
+Ліміт швидкості (Кб/с)
 [No control when Away/NA]
 Вимк. якщо недосяжний/зайнятий
 [Connection control]
@@ -74,7 +74,7 @@ IP адреса 2
 [Connections per user limit]
 Ліміт на користувача
 [Default download limit]
-Ліміт завантажень.
+Ліміт завантажень
 [&Edit share]
 &Редаг. шару
 [&Remove share]

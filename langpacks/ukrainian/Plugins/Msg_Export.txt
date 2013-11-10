@@ -15,8 +15,8 @@
 Замінити історію
 [Use UTF8 in new files]
 UTF8 в нових файлах
-[Append new line extra]
-Доl. переклад рядка
+[Append extra new line]
+Додатковий рядок
 [Use << and >>]
 Знаки << і >>
 [Auto filename]

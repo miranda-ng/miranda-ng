@@ -104,7 +104,7 @@
 [Week(s)]
 Тижнів
 [Month(s)]
-Місяць(ів)
+Місяців
 [Start/Stop automatic shutdown]
 Старт/Стоп автовимкнення
 [Stop automatic shutdown]

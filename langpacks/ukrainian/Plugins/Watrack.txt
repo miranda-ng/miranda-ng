@@ -390,7 +390,7 @@ VBR чи ні
 [Show by request only]
 Показувати тільки за запитом
 [second line]
-друга рядок
+другий рядок
 [Cover filenames]
 Імена файлів з обкладинками
 [Music Info]

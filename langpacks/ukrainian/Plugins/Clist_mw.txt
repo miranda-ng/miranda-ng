@@ -290,7 +290,7 @@
 [&Rename Group]
 Перейменувати групу
 [&Delete Group]
-Вилучити групу
+Видалити групу
 [Customize]
 Тонка настройка
 [Backgrounds]

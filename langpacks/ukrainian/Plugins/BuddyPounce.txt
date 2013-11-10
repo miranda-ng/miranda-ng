@@ -50,7 +50,7 @@
 [Use Confirmation Window]
 Вікно з підтвердженням
 [CHECK THIS FOR IT TO SEND]
-ВІДЗНАЧИТИ щоб відіслати
+Позначити для надсилання
 [&Delete Pounce]
 Видалити Pounce
 [&Load default settings]

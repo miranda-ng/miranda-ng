@@ -78,7 +78,7 @@
 [Log this user's avatars changes to history]
 Зберігати зміну аватарів в історії
 [Show popups for this user]
-Спл. вікна для цього користувача
+Сплив. вікна для цього користувача
 [Save As...]
 Зберегти як...
 [Delete this entry]
@@ -120,7 +120,7 @@
 [Show 'Avatar History' on contacts' menus (takes after effect restart)]
 Показувати пункт "Історія аватарів" в меню контакту
 [Show popup when user changes their avatar]
-Сплив. вікно при зміні аватар
+Сплив. вікна при зміні аватарів
 [Use default colors for popups]
 Стандартні кольори для вікон
 [Contact changed avatar]

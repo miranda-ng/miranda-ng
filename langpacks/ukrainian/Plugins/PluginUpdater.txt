@@ -14,7 +14,7 @@ Plugin updater for Miranda NG.]
 [Update]
 Оновити
 [Details >>]
-Детальніше >>
+Деталі >>
 [Cancel]
 Скасування
 [Select &all]
@@ -82,7 +82,7 @@ Plugin updater for Miranda NG.]
 [Sec]
 с.
 [* Needs popup actions to be enabled]
-* Необхідні включені дії спл. вікон
+* Необхідні включені дії сплив. вікон
 [Not sets for "Message boxes"]
 Не встановлює для "Діалоги"
 [Boxes]
@@ -136,7 +136,7 @@ Plugin updater for Miranda NG.]
 [Update checking already started!]
 Оновлення вже запущено!
 [hours]
-години(ів)
+годин
 [days]
 днів
 [Test]

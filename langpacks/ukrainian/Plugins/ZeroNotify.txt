@@ -6,7 +6,7 @@
 ;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-Автоматичне заборона різних подій, в залежності від певного статусу.
+Автоматична заборона різних подій в залежності від певного статусу.
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Приховати "вкл/викл звук" в головному меню (потрібен перезапуск)
 [No sounds when:]

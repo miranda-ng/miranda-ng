@@ -166,7 +166,7 @@ UIN, E-mail і т.д.
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Видалити метаконтакт?
 [Error - Database corruption.\nPlugin disabled.]
-Помилка - база пошкоджена.\nПлагин відключений.
+Помилка - база пошкоджена.\nПлагін відключений.
 [MetaContacts]
 Метаконтакти
 [There was a problem in assigning the contact to the MetaContact]
@@ -230,20 +230,20 @@ UIN, E-mail і т.д.
 [Could not write nickname of contact to MetaContact]
 Не можу записати нік контакту в метаконтакт
 [Subcontact contact number < 0 - deleting MetaContact]
-Номер субконтакта < 0 - метаконтакт буде вилучено
+Номер субконтакта < 0 - метаконтакт буде видалено
 [Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-Номер субконтакта (%d) > номери у метаконтакте (%d) - метаконтакт буде вилучено
+Номер субконтакта (%d) > номеру в метаконтакті (%d) - метаконтакт буде видалено
 [Subcontact's MetaContact not found - deleting MetaContact data]
 Субконтакти в метаконтакті не знайдені - дані метаконтакту будуть видалені
 [MetaContact number of contacts < 0 - deleting MetaContact]
 Кількість контактів в метаконтакті < 0 - метаконтакт буде видалено
 [MetaContact default contact number out of range - deleting MetaContact]
-Номер контакту за замовчуванням за межами метаконтакту - метаконтакт буде вилучений
+Номер контакту за замовчуванням за межами метаконтакту - метаконтакт буде видалено
 [Meta ID: ]
 Meta ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Метаконтакт пошкоджений - неправильна кількість субконтактов.\nВидаляю метаконтакт.
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n - move all contacts out of this group\n - synchronize your contacts with the server\n - re-enable MetaContacts]
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 Група 'MetaContacts Hidden Group' додано в ваш список\nЦе через список контактів на сервері. Для виправлення,\nщоб метаконтакти продовжили нормальну роботу, ви повинні:\n - вимкнути метаконтакти використовуючи пункт у головному меню\n - перемістити всі контакти з цієї групи\n - синхронізувати свої контакти з сервером\n - знову включити метаконтакти
 [MetaContacts Warning]
 Попередження метаконтактів

@@ -94,9 +94,9 @@ Miranda NG виявила пошкодження вашої базі даних.
 [Event chain corrupted, further entries ignored]
 Події ланцюжку пошкоджені, подальші записи ігноруються
 [First event not marked as such: correcting]
-Перша подія не позначені як така: виправлення
+Перша подія не позначена як така: виправлення
 [Event marked as first which is not: correcting]
-Подія відзначається як перший, якою не є: виправлення
+Подія, позначена як перша, не є такою: виправлення
 [Extra flags found in event: removing]
 Додаткові прапори знайдені у події: видалення
 [First unread event marked wrong: fixing]

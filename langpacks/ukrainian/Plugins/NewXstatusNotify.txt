@@ -128,11 +128,11 @@
 [Show status description]
 Показувати опис статусу
 [Ignore empty status and xStatus messages]
-Ігнорувати пистий статус і хСтатус повідомлення
+Ігнорувати пустий статус і хСтатус повідомлення
 [Messages]
 Повідомлення
 [Disable for extra status 'Music']
-Вимкнути для хСтатуса "Музика"
+Вимкнути для хСтатусу "Музика"
 [Truncate message to length:]
 Обрізати повідомлення:
 [characters]
@@ -142,7 +142,7 @@
 [Title text delimiter:]
 Заголовок-текст роздільник:
 [Remove:]
-Вилучення:
+Видалення:
 [New message:]
 Нове повідомлення:
 [New status:]

@@ -44,7 +44,7 @@
 [Client notifications]
 Повідомлення клієнта
 [Timeout (sec.)]
-Тривалість (сек.)
+Тривалість (с)
 [(0 = default, -1 = infinite)]
 (0 = за замовчуванням, -1 = нескінченно)
 [Request following types of News Feed items]
@@ -126,7 +126,7 @@
 [Cancel friendship]
 Видалити із друзів
 [Do you want to cancel your friendship with '%s'?]
-Ви впевнені, що хочете вилучити '%s' з друзів?
+Ви впевнені, що хочете видалити '%s' з друзів?
 [Cancel friendship request]
 Відкликати запит дружби
 [Check Friends Requests]

@@ -12,8 +12,8 @@
 [&Check any protocol or any status to exclude it from synchronization:]
 &Перевірте протокол або статус, щоб виключити з синхронізації:
 [Synchronize if current status differs from previous one]
-Синхронізацію, якщо стан відрізняється від попереднього
+Синхронізувати, якщо статус відрізняється від попереднього
 [Change Skype Status]
 Зміна статусу Skype
 [Plugins]
-Плагини
+Плагіни

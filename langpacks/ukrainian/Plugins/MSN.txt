@@ -130,7 +130,7 @@
 [User &history]
 Історія користувача
 [Contact tried to open an audio conference (currently not supported)]
-Контакт намагався відкрити аудиоконференцию (не підтримується)
+Контакт намагався відкрити аудіоконференцію (не підтримується)
 [%I64u bytes]
 
 [Accept NetMeeting request from %s?]
@@ -170,7 +170,7 @@ MSN Чат
 [Hotmail from %s]
 Пошта Hotmail від %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
-Є непрочитана пошта: %d вхідних листів і %d в інших папках.
+Непрочитана пошта: %d вхідних листів і %d в інших папках.
 [&Unblock]
 &Розблокувати
 [&Block]

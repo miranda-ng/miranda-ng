@@ -56,7 +56,7 @@ WebView
 [Display data in popup on alert]
 Попередження відображення даних у сплив. вікні 
 [Display data in popup]
-Показувати дані у спл. вікні
+Показувати дані у сплив. вікні
 [You may need to restart Miranda NG for this change to take effect.]
 Потрібно перезапустити Miranda NG щоб цей ефект вступив у силу.
 [Contact name:]
@@ -302,19 +302,19 @@ URL-адреса не поставляється
 [Alert test conditions not met; press the refresh button to view content.]
 Тест умов сповіщення не виконано, натисніть кнопку "Оновити", щоб переглянути вміст.
 [No whitespace removal]
-Не видяляти вільне місце
+Не видаляти вільне місце
 [Minimal level of whitespace removal]
-Мінімально видяляти вільне місце
+Мінімально видаляти вільне місце
 [Medium level of whitespace removal]
-Середне видяляти вільне місце
+Середне видаляти вільне місце
 [Large level of whitespace removal]
-Максимально видяляти вільне місце
+Максимально видаляти вільне місце
 [Remove all whitespace]
-Видяляти все вільне місце
+Видаляти все вільне місце
 [Popup plugin]
 Модуль сплив. вікон
 [Use OSD plugin]
-Використовувати OSD модуль
+Використовувати модуль OSD
 [A string is present]
 Присутній рядок
 [The web page changes]

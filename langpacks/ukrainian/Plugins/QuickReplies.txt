@@ -12,7 +12,7 @@
 [Send replies immediately]
 Надсилати відповіді негайно
 [- Add your replies, one per line.]
-- Додайте Ваші відповіді по одному в кожному рядку.
+- Додайте ваші відповіді, по одній у рядку.
 [Variables]
 Змінні
 [Hints:]
@@ -24,6 +24,6 @@
 [Button]
 Кнопка
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
-Швидкі відповіді\r\nЛіва кнопка меню\r\nПрава кнопка - налаштування
+Швидкі відповіді\r\nЛіва кнопка - меню\r\nПрава кнопка - налаштування
 [Message Sessions]
 Бесіди

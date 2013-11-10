@@ -6,13 +6,13 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
-Цей плагін імпортуе та додає групи визначені у Yahoo! Messenger
+Імпортує та додає групи, визначені у Yahoo! Messenger.
 [Dialog]
 Діалог
-[Move Yahoo contacts to groups now]
-Перенести Yahoo! контакти до групи (зараз)
+[Move yahoo contacts to groups now]
+Перенести контакти до груп
 [Move Yahoo contacts automatically on startup]
-Перенести Yahoo! контакти (автоматично при старті)
+Перенести контакти Yahoo! автоматично при старті
 [Yahoo Groups]
 Групи Yahoo!
 [Plugins]

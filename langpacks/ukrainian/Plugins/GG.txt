@@ -144,7 +144,7 @@
 [Open new conference]
 Почати конференцію
 [Open new conference\nSelect conference participants]
-Відкрити нову Конференцію\nОберіть учасників конференції
+Відкрити нову конференцію\nВиберіть учасників конференції
 [Open]
 Відкрити
 [Concurrent Sessions]
@@ -194,7 +194,7 @@ Gadu-Gadu сервери, відключені. Спробуйте ще раз �
 [&Clear ignored conferences]
 &Очистити ігноровані конференції
 [%s has ініціював conference with %d participants (%d unknowns).\nDo do you want participate ?]
-%s почав(а) конференцію з %d учасниками (%d невідомо).\nПринять участь?
+%s почав(ла) конференцію з %d учасниками (%d невідомо).\nВзяти участь?
 [%s ініціював the conference.]
 %s почав(ла) конференцію.
 [This is my own conference.]
@@ -275,8 +275,8 @@ Gadu-Gadu сервери, відключені. Спробуйте ще раз �
 Всі файли
 [List cannot be imported from file "%s \ " because of error:\n\t%s (Error: %d)]
 
-[Contacts]
-контакту(ів)
+[contacts]
+контактів
 [List cannot be exported to file\"% s \ " because of error:\n\t%s (Error: %d)]
 
 [List cannot be exported because of error:\n\t%s (Error: %d)]
@@ -342,7 +342,7 @@ IP адреса
 [Bad number or password]
 Невірний номер або пароль
 [Your account has been removed.]
-Користувач вилучений.
+Користувач видалений.
 [Your password cannot be changed because of error:\n\t%s]
 Неможливо змінити пароль через помилку:\n\t%s
 [Invalid data entered]

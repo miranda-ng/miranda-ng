@@ -12,7 +12,7 @@
 [Show error messages]
 Виводити повідомлення про помилки
 [Set popup colours]
-Вибрати кольори сплив. повідомлень
+Вибрати кольори сплив. вікон
 [Popup options]
 Налаштування спливаючих вікон
 [Background]
@@ -22,9 +22,9 @@
 [Close after:]
 Закрити після:
 [seс.(0 default,\n -1 disabled)]
-с. (0=Замочання,\n -1 вимкнути)
+с (0=замовчання,\n -1 вимкнути)
 [...but only if popup not clicked]
-...але тільки якщо сплив. вікна не натиснут
+...але тільки якщо сплив. вікно не натиснуте
 [Left button click cmd:]
 Команди лівої кнопки миші:
 [Command parameters:]
@@ -72,7 +72,7 @@ Lotus Notes клієнт не виявлено. Опис перевірки ко
 [Unable to initialize Notes.]
 Не вдалося ініціалізувати Notes.
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]
-Lotus Notes Extension Manager не був зареєстрований. Функція аутентифікації не будуть працювати належним чином
+Lotus Notes Extension Manager не був зареєстрований. Функція аутентифікації не буде працювати належним чином
 [In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
 У файлі notes.ini немає потрібного запису EXTMGR_ADDINS=plugindllnamewithout".dll"
 [This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding \"EXTMGR_ADDINS=PLUGINNAME\]
@@ -80,9 +80,9 @@ Lotus Notes Extension Manager не був зареєстрований. Функ
 [LotusNotify plugin configuration]
 Конфігурації плагіна повідомлень Lotus
 [notes.ini modified correctly. Miranda restart required.]
-notes.ini модіфіковано коректно. Потребує перезавантаження.
+notes.ini модифіковано коректно. Потребує перезавантаження.
 [notes.ini seem to be set correctly.]
-notes.ini здається, налаштовання правильні.
+Здається, налаштування notes.ini правильні.
 [Now checking Lotus, try again later]
 Тепер перевірка Lotus, повторіть спробу пізніше
 [Attachments: %d bytes]
@@ -90,7 +90,7 @@ notes.ini здається, налаштовання правильні.
 [Status]
 Статус
 [Plugins]
-Плагини
+Плагіни
 [&Check Lotus]
 &Перевірити 
 [Lotus Notify]
@@ -98,6 +98,6 @@ notes.ini здається, налаштовання правильні.
 [New Lotus document detected]
 Виявлено новий документ Lotus
 [LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)]
-LotusNotify.dll не працює у 64 біт. (Кліент Lotus тільки 32 біт)
+LotusNotify.dll не працює з 64-бітною Мірандою. (Існує лише 32-бітна версія клієнта Lotus.)
 [LotusNotify]
 Повідомлення Lotus

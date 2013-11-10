@@ -28,11 +28,11 @@
 [Check every]
 Перев. кожні
 [seconds]
-секунд(и)
+секунд
 [Force reconnect every]
 Примусове підключення кожні
 [minutes]
-мінут(и)
+хвилин
 [Check server before trying to connect]
 Перевірте сервер, перш ніж намагатися підключитися
 [Try to connect]
@@ -60,4 +60,4 @@
 [Exchange notify]
 Exchange повідомлення
 [Plugins]
-Плагини
+Плагіни
