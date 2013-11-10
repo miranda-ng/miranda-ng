@@ -45,13 +45,13 @@ public:
 
 	void Load(void);
 	void Save(void);
-	static void ReadPackFileName(bkstring& filename, const bkstring& name, 
-		const bkstring& defaultFilename);
-	static void ReadCustomCategories(bkstring& cats);
-	static void ReadContactCategory(HANDLE hContact, bkstring& cats);
-	static void WritePackFileName(const bkstring& filename, const bkstring& name);
-	static void WriteCustomCategories(const bkstring& cats);
-	static void WriteContactCategory(HANDLE hContact, const bkstring& cats);
+	static void ReadPackFileName(CMString& filename, const CMString& name, 
+		const CMString& defaultFilename);
+	static void ReadCustomCategories(CMString& cats);
+	static void ReadContactCategory(HANDLE hContact, CMString& cats);
+	static void WritePackFileName(const CMString& filename, const CMString& name);
+	static void WriteCustomCategories(const CMString& cats);
+	static void WriteContactCategory(HANDLE hContact, const CMString& cats);
 };
 
 extern OptionsType opt;

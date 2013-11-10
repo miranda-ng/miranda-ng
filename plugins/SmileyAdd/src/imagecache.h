@@ -66,7 +66,7 @@ private:
 	HICON m_SmileyIcon;
 
 public:
-	IconType(const unsigned id, const bkstring& file, const int index, const IcoTypeEnum type);
+	IconType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type);
 	~IconType();
 
 	void DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
@@ -101,8 +101,8 @@ private:
 
 public:
 
-	ImageType(const unsigned id, const bkstring& file, IStream* pStream);
-    ImageType(const unsigned id, const bkstring& file, const int index, const IcoTypeEnum type);
+	ImageType(const unsigned id, const CMString& file, IStream* pStream);
+    ImageType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type);
 	~ImageType();
 
     void SelectFrame(int frame);
@@ -123,7 +123,7 @@ protected:
 public:
 
     ImageFType(const unsigned id);
-	ImageFType(const unsigned id, const bkstring& file);
+	ImageFType(const unsigned id, const CMString& file);
 	~ImageFType();
 
 	void DrawInternal(HDC dc, int x, int y, int sizeX, int sizeY);
@@ -143,7 +143,7 @@ private:
 
 public:
 
-	ImageFAniType(const unsigned id, const bkstring& file);
+	ImageFAniType(const unsigned id, const CMString& file);
 	~ImageFAniType();
 
     void SelectFrame(int frame);
@@ -154,7 +154,7 @@ public:
 */
 
 
-ImageBase* AddCacheImage(const bkstring& file, int index);
+ImageBase* AddCacheImage(const CMString& file, int index);
 
 void InitImageCache(void);
 void DestroyImageCache(void);

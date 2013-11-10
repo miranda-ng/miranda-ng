@@ -200,7 +200,6 @@
   <ItemGroup>
     <ClCompile Include="src\anim.cpp" />
     <ClCompile Include="src\AniSmileyObject.cpp" />
-    <ClCompile Include="src\bkstring.cpp" />
     <ClCompile Include="src\customsmiley.cpp" />
     <ClCompile Include="src\dlgboxsubclass.cpp" />
     <ClCompile Include="src\download.cpp" />
@@ -226,7 +225,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\anim.h" />
-    <ClInclude Include="src\bkstring.h" />
     <ClInclude Include="src\customsmiley.h" />
     <ClInclude Include="src\download.h" />
     <ClInclude Include="src\general.h" />

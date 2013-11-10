@@ -23,7 +23,7 @@ static FI_INTERFACE *fei;
 static HANDLE g_hMutexIm;
 static OBJLIST<ImageBase> g_imagecache(25, ImageType::CompareImg);
 
-static bkstring lastdllname;
+static CMString lastdllname;
 static HMODULE lastmodule;
 static time_t laststamp;
 static UINT_PTR timerId;
@@ -36,7 +36,7 @@ static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 	{
 		FreeLibrary(lastmodule);
 		lastmodule = NULL;
-		lastdllname.clear();
+		lastdllname.Empty();
 	}
 
 	for (int i=g_imagecache.getCount()-1; i >= 0; i--)
@@ -61,7 +61,7 @@ static void CALLBACK sttMainThreadCallback( PVOID )
 }
 
 
-static HMODULE LoadDll(const bkstring& file)
+static HMODULE LoadDll(const CMString& file)
 {
 	WaitForSingleObject(g_hMutexIm, 3000);
 
@@ -198,7 +198,7 @@ int ImageBase::SelectNextFrame(const int frame)
 
 
 
-IconType::IconType(const unsigned id, const bkstring& file, const int index, const IcoTypeEnum type)
+IconType::IconType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type)
 	: ImageBase(id)
 {
 	m_SmileyIcon = NULL;
@@ -288,7 +288,7 @@ void ImageListItemType::GetSize(SIZE& size)
 	ImageList_GetIconSize(m_hImList, (int*)&size.cx, (int*)&size.cy);
 }
 
-ImageType::ImageType(const unsigned id, const bkstring& file, IStream* pStream)
+ImageType::ImageType(const unsigned id, const CMString& file, IStream* pStream)
 	: ImageBase(id)
 {
 	m_bmp           = NULL;
@@ -321,7 +321,7 @@ ImageType::ImageType(const unsigned id, const bkstring& file, IStream* pStream)
 	}
 }
 
-ImageType::ImageType(const unsigned id, const bkstring& file, const int index, const IcoTypeEnum type)
+ImageType::ImageType(const unsigned id, const CMString& file, const int index, const IcoTypeEnum type)
 	: ImageBase(id)
 {
 	m_bmp           = NULL;
@@ -437,7 +437,7 @@ ImageFType::ImageFType(const unsigned id)
 	m_bmp = NULL;
 }
 
-ImageFType::ImageFType(const unsigned id, const bkstring& file)
+ImageFType::ImageFType(const unsigned id, const CMString& file)
 	: ImageBase(id)
 {
 	m_bmp = NULL;
@@ -589,7 +589,7 @@ void ImageFType::GetSize(SIZE& size)
 	}
 }
 /*
-ImageFAniType::ImageFAniType(const unsigned id, const bkstring& file)
+ImageFAniType::ImageFAniType(const unsigned id, const CMString& file)
 : ImageFType(id)
 {
 	m_fmbmp = NULL;
@@ -720,10 +720,10 @@ void DestroyImageCache(void)
 }
 
 
-ImageBase* AddCacheImage(const bkstring& file, int index)
+ImageBase* AddCacheImage(const CMString& file, int index)
 {
-	bkstring tmpfile(file); tmpfile.appendfmt(_T("#%d"), index);
-	unsigned id = hash(tmpfile.c_str(), (unsigned int)tmpfile.size() * sizeof(TCHAR));
+	CMString tmpfile(file); tmpfile.AppendFormat(_T("#%d"), index);
+	unsigned id = hash(tmpfile.c_str(), (unsigned int)tmpfile.GetLength() * sizeof(TCHAR));
 
 	WaitForSingleObject(g_hMutexIm, 3000);
 
@@ -731,19 +731,21 @@ ImageBase* AddCacheImage(const bkstring& file, int index)
 	ImageBase *img = g_imagecache.find(&srch);
 	if (img == NULL)
 	{
-		bkstring::size_type ind = file.find_last_of('.');
-		if (ind == file.npos) return NULL;
-		bkstring ext = file.substr(ind+1);
+		int ind = file.ReverseFind('.');
+		if (ind == -1)
+			return NULL;
 
-		if (ext.comparei(_T("dll")) == 0 || ext.comparei(_T("exe")) == 0)
+		CMString ext = file.Right(ind+1);
+		ext.MakeLower();
+		if (ext == _T("dll") || ext == _T("exe"))
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoDll) : (ImageBase*)new IconType(id, file, index, icoDll);
-		else if (ext.comparei(_T("ico")) == 0)
+		else if (ext == _T("ico"))
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, 0, icoFile) : (ImageBase*)new IconType(id, file, 0, icoFile);
-		else if (ext.comparei(_T("icl")) == 0)
+		else if (ext == _T("icl"))
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoIcl) : (ImageBase*)new IconType(id, file, index, icoIcl);
-		else if (ext.comparei(_T("gif")) == 0)
+		else if (ext == _T("gif"))
 			img = new ImageType(id, file, NULL);
-		else if (fei == NULL || ext.comparei(_T("tif")) == 0 || ext.comparei(_T("tiff")) == 0)
+		else if (fei == NULL || ext == _T("tif") || ext == _T("tiff"))
 			img = new ImageType(id, file, NULL);
 		else
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, NULL) : (ImageBase*)new ImageFType(id, file);

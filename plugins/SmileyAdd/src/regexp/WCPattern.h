@@ -771,7 +771,7 @@ class NFAQuantifierUNode;
 
    <h4> Backslashes, escapes, and quoting </h4>
 
-   <p> The backslash character (<tt>(wchar_t)'\'</tt>) serves to introduce escaped
+   <p> The backslash character (<tt>'\'</tt>) serves to introduce escaped
    constructs, as defined in the table above, as well as to quote characters
    that otherwise would be interpreted as unescaped constructs.  Thus the
    expression <tt>\\</tt> matches a single backslash and <tt>\{</tt> matches a
@@ -963,691 +963,691 @@ class NFAQuantifierUNode;
  */
 class WCPattern
 {
-  friend class WCMatcher;
-  friend class NFAUNode;
-  friend class NFAQuantifierUNode;
-  private:
-    /**
-      This constructor should not be called directly. Those wishing to use the
-      WCPattern class should instead use the {@link compile compile} method.
+	friend class WCMatcher;
+	friend class NFAUNode;
+	friend class NFAQuantifierUNode;
+private:
+	/**
+	  This constructor should not be called directly. Those wishing to use the
+	  WCPattern class should instead use the {@link compile compile} method.
 
-      @param rhs The pattern to compile
-      @memo Creates a new pattern from the regular expression in <code>rhs</code>.
-     */
-    WCPattern(const bkstring & rhs);
-  protected:
-    /**
-      This currently is not used, so don't try to do anything with it.
-      @memo Holds all the compiled patterns for quick access.
-     */
-    static std::map<bkstring, WCPattern *> compiledWCPatterns;
-    /**
-      Holds all of the registered patterns as strings. Due to certain problems
-      with compilation of patterns, especially with capturing groups, this seemed
-      to be the best way to do it.
-     */
-    static std::map<bkstring, std::pair<bkstring, unsigned long> > registeredWCPatterns;
-  protected:
-    /**
-      Holds all the NFA nodes used. This makes deletion of a pattern, as well as
-      clean-up from an unsuccessful compile much easier and faster.
-     */
-    std::map<NFAUNode*, bool> nodes;
-    /**
-      Used when methods like split are called. The matcher class uses a lot of
-      dynamic memeory, so having an instance increases speedup of certain
-      operations.
-     */
-    WCMatcher * matcher;
-    /**
-      The front node of the NFA.
-     */
-    NFAUNode * head;
-    /**
-      The actual regular expression we rerpesent
-      */
-    bkstring pattern;
-    /**
-      Flag used during compilation. Once the pattern is successfully compiled,
-      <code>error</code> is no longer used.
-     */
-    bool error;
-    /**
-      Used during compilation to keep track of the current index into
-      <code>{@link pattern pattern}<code>.  Once the pattern is successfully
-      compiled, <code>error</code> is no longer used.
-     */
-    int curInd;
-    /**
-      The number of capture groups this contains.
-     */
-    int groupCount;
-    /**
-      The number of non-capture groups this contains.
-     */
-    int nonCapGroupCount;
-    /**
-      The flags specified when this was compiled.
-     */
-    unsigned long flags;
-  protected:
-    /**
-      Raises an error during compilation. Compilation will cease at that point
-      and compile will return <code>NULL</code>.
-     */
-    void raiseError();
-    /**
-      Convenience function for registering a node in <code>nodes</code>.
-      @param node The node to register
-      @return The registered node
-     */
-    NFAUNode * registerNode(NFAUNode * node);
+	  @param rhs The pattern to compile
+	  @memo Creates a new pattern from the regular expression in <code>rhs</code>.
+	  */
+	WCPattern(const CMString & rhs);
+protected:
+	/**
+	  This currently is not used, so don't try to do anything with it.
+	  @memo Holds all the compiled patterns for quick access.
+	  */
+	static std::map<CMString, WCPattern *> compiledWCPatterns;
+	/**
+	  Holds all of the registered patterns as strings. Due to certain problems
+	  with compilation of patterns, especially with capturing groups, this seemed
+	  to be the best way to do it.
+	  */
+	static std::map<CMString, std::pair<CMString, unsigned long> > registeredWCPatterns;
+protected:
+	/**
+	  Holds all the NFA nodes used. This makes deletion of a pattern, as well as
+	  clean-up from an unsuccessful compile much easier and faster.
+	  */
+	std::map<NFAUNode*, bool> nodes;
+	/**
+	  Used when methods like split are called. The matcher class uses a lot of
+	  dynamic memeory, so having an instance increases speedup of certain
+	  operations.
+	  */
+	WCMatcher * matcher;
+	/**
+	  The front node of the NFA.
+	  */
+	NFAUNode * head;
+	/**
+	  The actual regular expression we rerpesent
+	  */
+	CMString pattern;
+	/**
+	  Flag used during compilation. Once the pattern is successfully compiled,
+	  <code>error</code> is no longer used.
+	  */
+	bool error;
+	/**
+	  Used during compilation to keep track of the current index into
+	  <code>{@link pattern pattern}<code>.  Once the pattern is successfully
+	  compiled, <code>error</code> is no longer used.
+	  */
+	int curInd;
+	/**
+	  The number of capture groups this contains.
+	  */
+	int groupCount;
+	/**
+	  The number of non-capture groups this contains.
+	  */
+	int nonCapGroupCount;
+	/**
+	  The flags specified when this was compiled.
+	  */
+	unsigned long flags;
+protected:
+	/**
+	  Raises an error during compilation. Compilation will cease at that point
+	  and compile will return <code>NULL</code>.
+	  */
+	void raiseError();
+	/**
+	  Convenience function for registering a node in <code>nodes</code>.
+	  @param node The node to register
+	  @return The registered node
+	  */
+	NFAUNode * registerNode(NFAUNode * node);
 
-    /**
-      Calculates the union of two strings. This function will first sort the
-      strings and then use a simple selection algorithm to find the union.
-      @param s1 The first "class" to union
-      @param s2 The second "class" to union
-      @return A new string containing all unique characters. Each character
-              must have appeared in one or both of <code>s1</code> and
-              <code>s2</code>.
-     */
-    bkstring classUnion      (bkstring s1, bkstring s2)  const;
-    /**
-      Calculates the intersection of two strings. This function will first sort
-      the strings and then use a simple selection algorithm to find the
-      intersection.
-      @param s1 The first "class" to intersect
-      @param s2 The second "class" to intersect
-      @return A new string containing all unique characters. Each character
-              must have appeared both <code>s1</code> and <code>s2</code>.
-     */
-    bkstring classIntersect  (bkstring s1, bkstring s2)  const;
-    /**
-      Calculates the negation of a string. The negation is the set of all
-      characters between <code>\x00</code> and <code>\xFF</code> not
-      contained in <code>s1</code>.
-      @param s1 The "class" to be negated.
-      @param s2 The second "class" to intersect
-      @return A new string containing all unique characters. Each character
-              must have appeared both <code>s1</code> and <code>s2</code>.
-     */
-    bkstring classNegate     (bkstring s1)                  const;
-    /**
-      Creates a new "class" representing the range from <code>low</code> thru
-      <code>hi</code>. This function will wrap if <code>low</code> &gt;
-      <code>hi</code>. This is a feature, not a buf. Sometimes it is useful
-      to be able to say [\x70-\x10] instead of [\x70-\x7F\x00-\x10].
-      @param low The beginning character
-      @param hi  The ending character
-      @return A new string containing all the characters from low thru hi.
-     */
-    bkstring classCreateRange(wchar_t low,       wchar_t hi)         const;
+	/**
+	  Calculates the union of two strings. This function will first sort the
+	  strings and then use a simple selection algorithm to find the union.
+	  @param s1 The first "class" to union
+	  @param s2 The second "class" to union
+	  @return A new string containing all unique characters. Each character
+	  must have appeared in one or both of <code>s1</code> and
+	  <code>s2</code>.
+	  */
+	CMString classUnion(CMString s1, CMString s2)  const;
+	/**
+	  Calculates the intersection of two strings. This function will first sort
+	  the strings and then use a simple selection algorithm to find the
+	  intersection.
+	  @param s1 The first "class" to intersect
+	  @param s2 The second "class" to intersect
+	  @return A new string containing all unique characters. Each character
+	  must have appeared both <code>s1</code> and <code>s2</code>.
+	  */
+	CMString classIntersect(CMString s1, CMString s2)  const;
+	/**
+	  Calculates the negation of a string. The negation is the set of all
+	  characters between <code>\x00</code> and <code>\xFF</code> not
+	  contained in <code>s1</code>.
+	  @param s1 The "class" to be negated.
+	  @param s2 The second "class" to intersect
+	  @return A new string containing all unique characters. Each character
+	  must have appeared both <code>s1</code> and <code>s2</code>.
+	  */
+	CMString classNegate(CMString s1)                  const;
+	/**
+	  Creates a new "class" representing the range from <code>low</code> thru
+	  <code>hi</code>. This function will wrap if <code>low</code> &gt;
+	  <code>hi</code>. This is a feature, not a buf. Sometimes it is useful
+	  to be able to say [\x70-\x10] instead of [\x70-\x7F\x00-\x10].
+	  @param low The beginning character
+	  @param hi  The ending character
+	  @return A new string containing all the characters from low thru hi.
+	  */
+	CMString classCreateRange(wchar_t low, wchar_t hi)         const;
 
-    /**
-      Extracts a decimal number from the substring of member-variable
-      <code>{@link pattern pattern}<code> starting at <code>start</code> and
-      ending at <code>end</code>.
-      @param start The starting index in <code>{@link pattern pattern}<code>
-      @param end The last index in <code>{@link pattern pattern}<code>
-      @return The decimal number in <code>{@link pattern pattern}<code>
-     */
-    int getInt(int start, int end);
-    /**
-      Parses a <code>{n,m}</code> string out of the member-variable
-      <code>{@link pattern pattern}<code> stores the result in <code>sNum</code>
-      and <code>eNum</code>.
-      @param sNum Output parameter. The minimum number of matches required
-                  by the curly quantifier are stored here.
-      @param eNum Output parameter. The maximum number of matches allowed
-                  by the curly quantifier are stored here.
-      @return Success/Failure. Fails when the curly does not have the proper
-              syntax
-     */
-    bool quantifyCurly(int & sNum, int & eNum);
-    /**
-      Tries to quantify the currently parsed group. If the group being parsed
-      is indeed quantified in the member-variable
-      <code>{@link pattern pattern}<code>, then the NFA is modified accordingly.
-      @param start  The starting node of the current group being parsed
-      @param stop   The ending node of the current group being parsed
-      @param gn     The group number of the current group being parsed
-      @return       The node representing the starting node of the group. If the
-                    group becomes quantified, then this node is not necessarily
-                    a GroupHead node.
-     */
-    NFAUNode * quantifyGroup(NFAUNode * start, NFAUNode * stop, const int gn);
+	/**
+	  Extracts a decimal number from the substring of member-variable
+	  <code>{@link pattern pattern}<code> starting at <code>start</code> and
+	  ending at <code>end</code>.
+	  @param start The starting index in <code>{@link pattern pattern}<code>
+	  @param end The last index in <code>{@link pattern pattern}<code>
+	  @return The decimal number in <code>{@link pattern pattern}<code>
+	  */
+	int getInt(int start, int end);
+	/**
+	  Parses a <code>{n,m}</code> string out of the member-variable
+	  <code>{@link pattern pattern}<code> stores the result in <code>sNum</code>
+	  and <code>eNum</code>.
+	  @param sNum Output parameter. The minimum number of matches required
+	  by the curly quantifier are stored here.
+	  @param eNum Output parameter. The maximum number of matches allowed
+	  by the curly quantifier are stored here.
+	  @return Success/Failure. Fails when the curly does not have the proper
+	  syntax
+	  */
+	bool quantifyCurly(int & sNum, int & eNum);
+	/**
+	  Tries to quantify the currently parsed group. If the group being parsed
+	  is indeed quantified in the member-variable
+	  <code>{@link pattern pattern}<code>, then the NFA is modified accordingly.
+	  @param start  The starting node of the current group being parsed
+	  @param stop   The ending node of the current group being parsed
+	  @param gn     The group number of the current group being parsed
+	  @return       The node representing the starting node of the group. If the
+	  group becomes quantified, then this node is not necessarily
+	  a GroupHead node.
+	  */
+	NFAUNode * quantifyGroup(NFAUNode * start, NFAUNode * stop, const int gn);
 
-    /**
-      Tries to quantify the last parsed expression. If the character was indeed
-      quantified, then the NFA is modified accordingly.
-      @param newNode The recently created expression node
-      @return The node representing the last parsed expression. If the
-              expression was quantified, <code>return value != newNode</code>
-     */
-    NFAUNode * quantify(NFAUNode * newNode);
-    /**
-      Parses the current class being examined in
-      <code>{@link pattern pattern}</code>.
-      @return A string of unique characters contained in the current class being
-              parsed
-     */
-    bkstring parseClass();
-    /**
-      Parses the current POSIX class being examined in
-      <code>{@link pattern pattern}</code>.
-      @return A string of unique characters representing the POSIX class being
-              parsed
-     */
-    bkstring parsePosix();
-    /**
-      Returns a string containing the octal character being parsed
-      @return The string contained the octal value being parsed
-     */
-    bkstring parseOctal();
-    /**
-      Returns a string containing the hex character being parsed
-      @return The string contained the hex value being parsed
-     */
-    bkstring parseHex();
-    /**
-      Returns a new node representing the back reference being parsed
-      @return The new node representing the back reference being parsed
-     */
-    NFAUNode *   parseBackref();
-    /**
-      Parses the escape sequence currently being examined. Determines if the
-      escape sequence is a class, a single character, or the beginning of a
-      quotation sequence.
-      @param inv Output parameter. Whether or not to invert the returned class
-      @param quo Output parameter. Whether or not this sequence starts a
-                 quotation.
-      @return The characters represented by the class
-     */
-    bkstring parseEscape(bool & inv, bool & quo);
-    /**
-      Parses a supposed registered pattern currently under compilation. If the
-      sequence of characters does point to a registered pattern, then the
-      registered pattern is appended to <code>*end<code>. The registered pattern
-      is parsed with the current compilation flags.
-      @param end The ending node of the thus-far compiled pattern
-      @return The new end node of the current pattern
-     */
-    NFAUNode * parseRegisteredWCPattern(NFAUNode ** end);
-    /**
-      Parses a lookbehind expression. Appends the necessary nodes
-      <code>*end</code>.
-      @param pos Positive or negative look behind
-      @param end The ending node of the current pattern
-      @return The new end node of the current pattern
-     */
-    NFAUNode * parseBehind(const bool pos, NFAUNode ** end);
-    /**
-      Parses the current expression and tacks on nodes until a \E is found.
-      @return The end of the current pattern
-     */
-    NFAUNode * parseQuote();
-    /**
-      Parses <code>{@link pattern pattern}</code>. This function is called
-      recursively when an or (<code>|</code>) or a group is encountered.
-      @param inParen Are we currently parsing inside a group
-      @param inOr Are we currently parsing one side of an or (<code>|</code>)
-      @param end The end of the current expression
-      @return The starting node of the NFA constructed from this parse
-     */
-    NFAUNode * parse(const bool inParen = 0, const bool inOr = 0, NFAUNode ** end = NULL);
-  public:
-    /// We should match regardless of case
-    const static unsigned long CASE_INSENSITIVE;
-    /// We are implicitly quoted
-    const static unsigned long LITERAL;
-    /// @memo We should treat a <code><b>.</b></code> as [\x00-\x7F]
-    const static unsigned long DOT_MATCHES_ALL;
-    /** <code>^</code> and <code>$</code> should anchor to the beginning and
-        ending of lines, not all input
-     */
-    const static unsigned long MULTILINE_MATCHING;
-    /** When enabled, only instances of <code>\n</codes> are recognized as
-        line terminators
-     */
-    const static unsigned long UNIX_LINE_MODE;
-    /// The absolute minimum number of matches a quantifier can match (0)
-    const static int MIN_QMATCH;
-    /// The absolute maximum number of matches a quantifier can match (0x7FFFFFFF)
-    const static int MAX_QMATCH;
-  public:
-    /**
-      Call this function to compile a regular expression into a
-      <code>WCPattern</code> object. Special values can be assigned to
-      <code>mode</code> when certain non-standard behaviors are expected from
-      the <code>WCPattern</code> object.
-      @param pattern The regular expression to compile
-      @param mode    A bitwise or of flags signalling what special behaviors are
-                     wanted from this <code>WCPattern</code> object
-      @return If successful, <code>compile</code> returns a <code>WCPattern</code>
-              pointer. Upon failure, <code>compile</code> returns
-              <code>NULL</code>
-     */
-    static WCPattern                    * compile        (const bkstring & pattern,
-                                                        const unsigned long mode = 0);
-    /**
-      Dont use this function. This function will compile a pattern, and cache
-      the result. This will eventually be used as an optimization when people
-      just want to call static methods using the same pattern over and over
-      instead of first compiling the pattern and then using the compiled
-      instance for matching.
-      @param pattern The regular expression to compile
-      @param mode    A bitwise or of flags signalling what special behaviors are
-                     wanted from this <code>WCPattern</code> object
-      @return If successful, <code>compileAndKeep</code> returns a
-              <code>WCPattern</code> pointer. Upon failure, <code>compile</code>
-              returns <code>NULL</code>.
-     */
-    static WCPattern                    * compileAndKeep (const bkstring & pattern,
-                                                        const unsigned long mode = 0);
+	/**
+	  Tries to quantify the last parsed expression. If the character was indeed
+	  quantified, then the NFA is modified accordingly.
+	  @param newNode The recently created expression node
+	  @return The node representing the last parsed expression. If the
+	  expression was quantified, <code>return value != newNode</code>
+	  */
+	NFAUNode * quantify(NFAUNode * newNode);
+	/**
+	  Parses the current class being examined in
+	  <code>{@link pattern pattern}</code>.
+	  @return A string of unique characters contained in the current class being
+	  parsed
+	  */
+	CMString parseClass();
+	/**
+	  Parses the current POSIX class being examined in
+	  <code>{@link pattern pattern}</code>.
+	  @return A string of unique characters representing the POSIX class being
+	  parsed
+	  */
+	CMString parsePosix();
+	/**
+	  Returns a string containing the octal character being parsed
+	  @return The string contained the octal value being parsed
+	  */
+	CMString parseOctal();
+	/**
+	  Returns a string containing the hex character being parsed
+	  @return The string contained the hex value being parsed
+	  */
+	CMString parseHex();
+	/**
+	  Returns a new node representing the back reference being parsed
+	  @return The new node representing the back reference being parsed
+	  */
+	NFAUNode *   parseBackref();
+	/**
+	  Parses the escape sequence currently being examined. Determines if the
+	  escape sequence is a class, a single character, or the beginning of a
+	  quotation sequence.
+	  @param inv Output parameter. Whether or not to invert the returned class
+	  @param quo Output parameter. Whether or not this sequence starts a
+	  quotation.
+	  @return The characters represented by the class
+	  */
+	CMString parseEscape(bool & inv, bool & quo);
+	/**
+	  Parses a supposed registered pattern currently under compilation. If the
+	  sequence of characters does point to a registered pattern, then the
+	  registered pattern is appended to <code>*end<code>. The registered pattern
+	  is parsed with the current compilation flags.
+	  @param end The ending node of the thus-far compiled pattern
+	  @return The new end node of the current pattern
+	  */
+	NFAUNode * parseRegisteredWCPattern(NFAUNode ** end);
+	/**
+	  Parses a lookbehind expression. Appends the necessary nodes
+	  <code>*end</code>.
+	  @param pos Positive or negative look behind
+	  @param end The ending node of the current pattern
+	  @return The new end node of the current pattern
+	  */
+	NFAUNode * parseBehind(const bool pos, NFAUNode ** end);
+	/**
+	  Parses the current expression and tacks on nodes until a \E is found.
+	  @return The end of the current pattern
+	  */
+	NFAUNode * parseQuote();
+	/**
+	  Parses <code>{@link pattern pattern}</code>. This function is called
+	  recursively when an or (<code>|</code>) or a group is encountered.
+	  @param inParen Are we currently parsing inside a group
+	  @param inOr Are we currently parsing one side of an or (<code>|</code>)
+	  @param end The end of the current expression
+	  @return The starting node of the NFA constructed from this parse
+	  */
+	NFAUNode * parse(const bool inParen = 0, const bool inOr = 0, NFAUNode ** end = NULL);
+public:
+	/// We should match regardless of case
+	const static unsigned long CASE_INSENSITIVE;
+	/// We are implicitly quoted
+	const static unsigned long LITERAL;
+	/// @memo We should treat a <code><b>.</b></code> as [\x00-\x7F]
+	const static unsigned long DOT_MATCHES_ALL;
+	/** <code>^</code> and <code>$</code> should anchor to the beginning and
+		 ending of lines, not all input
+		 */
+	const static unsigned long MULTILINE_MATCHING;
+	/** When enabled, only instances of <code>\n</codes> are recognized as
+		 line terminators
+		 */
+	const static unsigned long UNIX_LINE_MODE;
+	/// The absolute minimum number of matches a quantifier can match (0)
+	const static int MIN_QMATCH;
+	/// The absolute maximum number of matches a quantifier can match (0x7FFFFFFF)
+	const static int MAX_QMATCH;
+public:
+	/**
+	  Call this function to compile a regular expression into a
+	  <code>WCPattern</code> object. Special values can be assigned to
+	  <code>mode</code> when certain non-standard behaviors are expected from
+	  the <code>WCPattern</code> object.
+	  @param pattern The regular expression to compile
+	  @param mode    A bitwise or of flags signalling what special behaviors are
+	  wanted from this <code>WCPattern</code> object
+	  @return If successful, <code>compile</code> returns a <code>WCPattern</code>
+	  pointer. Upon failure, <code>compile</code> returns
+	  <code>NULL</code>
+	  */
+	static WCPattern                    * compile(const CMString & pattern,
+		const unsigned long mode = 0);
+	/**
+	  Dont use this function. This function will compile a pattern, and cache
+	  the result. This will eventually be used as an optimization when people
+	  just want to call static methods using the same pattern over and over
+	  instead of first compiling the pattern and then using the compiled
+	  instance for matching.
+	  @param pattern The regular expression to compile
+	  @param mode    A bitwise or of flags signalling what special behaviors are
+	  wanted from this <code>WCPattern</code> object
+	  @return If successful, <code>compileAndKeep</code> returns a
+	  <code>WCPattern</code> pointer. Upon failure, <code>compile</code>
+	  returns <code>NULL</code>.
+	  */
+	static WCPattern                    * compileAndKeep(const CMString & pattern,
+		const unsigned long mode = 0);
 
-    /**
-      Searches through <code>replace</code> and replaces all substrings matched
-      by <code>pattern</code> with <code>str</code>. <code>str</code> may
-      contain backreferences (e.g. <code>\1</code>) to capture groups. A typical
-      invocation looks like:
-      <p>
-      <code>
-      WCPattern::replace(L"(a+)b(c+)", L"abcccbbabcbabc", L"\\2b\\1");
-      </code>
-      <p>
-      which would replace <code>abcccbbabcbabc</code> with
-      <code>cccbabbcbabcba</code>.
-      @param pattern          The regular expression
-      @param str              The replacement text
-      @param replacementText  The string in which to perform replacements
-      @param mode             The special mode requested of the <code>WCPattern</code>
-                              during the replacement process
-      @return The text with the replacement string substituted where necessary
-     */
-    static bkstring                  replace       (const bkstring & pattern,
-                                                        const bkstring & str,
-                                                        const bkstring & replacementText,
-                                                        const unsigned long mode = 0);
+	/**
+	  Searches through <code>replace</code> and replaces all substrings matched
+	  by <code>pattern</code> with <code>str</code>. <code>str</code> may
+	  contain backreferences (e.g. <code>\1</code>) to capture groups. A typical
+	  invocation looks like:
+	  <p>
+	  <code>
+	  WCPattern::replace(L"(a+)b(c+)", L"abcccbbabcbabc", L"\\2b\\1");
+	  </code>
+	  <p>
+	  which would replace <code>abcccbbabcbabc</code> with
+	  <code>cccbabbcbabcba</code>.
+	  @param pattern          The regular expression
+	  @param str              The replacement text
+	  @param replacementText  The string in which to perform replacements
+	  @param mode             The special mode requested of the <code>WCPattern</code>
+	  during the replacement process
+	  @return The text with the replacement string substituted where necessary
+	  */
+	static CMString                  replace(const CMString & pattern,
+		const CMString & str,
+		const CMString & replacementText,
+		const unsigned long mode = 0);
 
-    /**
-      Splits the specified string over occurrences of the specified pattern.
-      Empty strings can be optionally ignored. The number of strings returned is
-      configurable. A typical invocation looks like:
-      <p>
-      <code>
-      bkstring str(strSize, 0);<br>
-      FILE * fp = fopen(fileName, "r");<br>
-      fread((char*)str.data(), strSize * 2, 1, fp);<br>
-      fclose(fp);<br>
-      <br>
-      std::vector&lt;bkstring&gt; lines = WCPattern::split(L"[\r\n]+", str, true);<br>
-      <br>
-      </code>
+	/**
+	  Splits the specified string over occurrences of the specified pattern.
+	  Empty strings can be optionally ignored. The number of strings returned is
+	  configurable. A typical invocation looks like:
+	  <p>
+	  <code>
+	  CMString str(strSize, 0);<br>
+	  FILE * fp = fopen(fileName, "r");<br>
+	  fread((char*)str.data(), strSize * 2, 1, fp);<br>
+	  fclose(fp);<br>
+	  <br>
+	  std::vector&lt;CMString&gt; lines = WCPattern::split(L"[\r\n]+", str, true);<br>
+	  <br>
+	  </code>
 
-      @param pattern    The regular expression
-      @param replace    The string to split
-      @param keepEmptys Whether or not to keep empty strings
-      @param limit      The maximum number of splits to make
-      @param mode       The special mode requested of the <code>WCPattern</code>
-                        during the split process
-      @return All substrings of <code>str</code> split across <code>pattern</code>.
-     */
-    static std::vector<bkstring>     split         (const bkstring & pattern,
-                                                        const bkstring & str,
-                                                        const bool keepEmptys = 0,
-                                                        const unsigned long limit = 0,
-                                                        const unsigned long mode = 0);
+	  @param pattern    The regular expression
+	  @param replace    The string to split
+	  @param keepEmptys Whether or not to keep empty strings
+	  @param limit      The maximum number of splits to make
+	  @param mode       The special mode requested of the <code>WCPattern</code>
+	  during the split process
+	  @return All substrings of <code>str</code> split across <code>pattern</code>.
+	  */
+	static std::vector<CMString>     split(const CMString & pattern,
+		const CMString & str,
+		const bool keepEmptys = 0,
+		const unsigned long limit = 0,
+		const unsigned long mode = 0);
 
-    /**
-      Finds all the instances of the specified pattern within the string. You
-      should be careful to only pass patterns with a minimum length of one. For
-      example, the pattern <code>a*</code> can be matched by an empty string, so
-      instead you should pass <code>a+</code> since at least one character must
-      be matched. A typical invocation of <code>findAll</code> looks like:
-      <p>
-      <code>
-      std::vector&lt;td::string&gt; numbers = WCPattern::findAll(L"\\d+", string);
-      </code>
-      <p>
+	/**
+	  Finds all the instances of the specified pattern within the string. You
+	  should be careful to only pass patterns with a minimum length of one. For
+	  example, the pattern <code>a*</code> can be matched by an empty string, so
+	  instead you should pass <code>a+</code> since at least one character must
+	  be matched. A typical invocation of <code>findAll</code> looks like:
+	  <p>
+	  <code>
+	  std::vector&lt;td::string&gt; numbers = WCPattern::findAll(L"\\d+", string);
+	  </code>
+	  <p>
 
-      @param pattern  The pattern for which to search
-      @param str      The string to search
-      @param mode     The special mode requested of the <code>WCPattern</code>
-                      during the find process
-      @return All instances of <code>pattern</code> in <code>str</code>
-     */
-    static std::vector<bkstring>     findAll       (const bkstring & pattern,
-                                                        const bkstring & str,
-                                                        const unsigned long mode = 0);
+	  @param pattern  The pattern for which to search
+	  @param str      The string to search
+	  @param mode     The special mode requested of the <code>WCPattern</code>
+	  during the find process
+	  @return All instances of <code>pattern</code> in <code>str</code>
+	  */
+	static std::vector<CMString>     findAll(const CMString & pattern,
+		const CMString & str,
+		const unsigned long mode = 0);
 
-    /**
-      Determines if an entire string matches the specified pattern
+	/**
+	  Determines if an entire string matches the specified pattern
 
-      @param pattern  The pattern for to match
-      @param str      The string to match
-      @param mode     The special mode requested of the <code>WCPattern</code>
-                      during the replacement process
-      @return True if <code>str</code> is recognized by <code>pattern</code>
-     */
-    static bool                         matches        (const bkstring & pattern,
-                                                        const bkstring & str,
-                                                        const unsigned long mode = 0);
+	  @param pattern  The pattern for to match
+	  @param str      The string to match
+	  @param mode     The special mode requested of the <code>WCPattern</code>
+	  during the replacement process
+	  @return True if <code>str</code> is recognized by <code>pattern</code>
+	  */
+	static bool                         matches(const CMString & pattern,
+		const CMString & str,
+		const unsigned long mode = 0);
 
-    /**
-      Registers a pattern under a specific name for use in later compilations.
-      A typical invocation and later use looks like:
-      <p>
-      <code>
-      WCPattern::registerWCPattern(L"ip", L"(?:\\d{1,3}\\.){3}\\d{1,3}");<br>
-      WCPattern * p1 = WCPattern::compile(L"{ip}:\\d+");<br>
-      WCPattern * p2 = WCPattern::compile(L"Connection from ({ip}) on port \\d+");<br>
-      </code>
-      <p>
-      Multiple calls to <code>registerWCPattern</code> with the same
-      <code>name</code> will result in the pattern getting overwritten.
+	/**
+	  Registers a pattern under a specific name for use in later compilations.
+	  A typical invocation and later use looks like:
+	  <p>
+	  <code>
+	  WCPattern::registerWCPattern(L"ip", L"(?:\\d{1,3}\\.){3}\\d{1,3}");<br>
+	  WCPattern * p1 = WCPattern::compile(L"{ip}:\\d+");<br>
+	  WCPattern * p2 = WCPattern::compile(L"Connection from ({ip}) on port \\d+");<br>
+	  </code>
+	  <p>
+	  Multiple calls to <code>registerWCPattern</code> with the same
+	  <code>name</code> will result in the pattern getting overwritten.
 
-      @param name     The name to give to the pattern
-      @param pattern  The pattern to register
-      @param mode     Any special flags to use when compiling pattern
-      @return Success/Failure. Fails only if <code>pattern</code> has invalid
-              syntax
-     */
-    static bool                         registerWCPattern(const bkstring & name,
-                                                        const bkstring & pattern,
-                                                        const unsigned long mode = 0);
+	  @param name     The name to give to the pattern
+	  @param pattern  The pattern to register
+	  @param mode     Any special flags to use when compiling pattern
+	  @return Success/Failure. Fails only if <code>pattern</code> has invalid
+	  syntax
+	  */
+	static bool                         registerWCPattern(const CMString & name,
+		const CMString & pattern,
+		const unsigned long mode = 0);
 
-    /**
-      Clears the pattern registry
-      */
-    static void                         unregisterWCPatterns();
-    /**
-      Don't use
-     */
-    static void                         clearWCPatternCache();
+	/**
+	  Clears the pattern registry
+	  */
+	static void                         unregisterWCPatterns();
+	/**
+	  Don't use
+	  */
+	static void                         clearWCPatternCache();
 
-    /**
-      Searches through a string for the <code>n<sup>th</sup></code> match of the
-      given pattern in the string. Match indeces start at zero, not one.
-      A typical invocation looks like this:
-      <p>
-      <code>
-      std::pair&lt;bkstring, int&gt; match = WCPattern::findNthMatch(L"\\d{1,3}", L"192.168.1.101:22", 1);<br>
-      wprintf(L"%s %i\n", match.first.c_str(), match.second);<br>
-      <br>
-      Output: 168 4<br>
-      <br>
+	/**
+	  Searches through a string for the <code>n<sup>th</sup></code> match of the
+	  given pattern in the string. Match indeces start at zero, not one.
+	  A typical invocation looks like this:
+	  <p>
+	  <code>
+	  std::pair&lt;CMString, int&gt; match = WCPattern::findNthMatch(L"\\d{1,3}", L"192.168.1.101:22", 1);<br>
+	  wprintf(L"%s %i\n", match.first.c_str(), match.second);<br>
+	  <br>
+	  Output: 168 4<br>
+	  <br>
 
-      @param pattern  The pattern for which to search
-      @param str      The string to search
-      @param matchNum Which match to find
-      @param mode     Any special flags to use during the matching process
-      @return A string and an integer. The string is the string matched. The
-              integer is the starting location of the matched string in
-              <code>str</code>. You can check for success/failure by making sure
-              that the integer returned is greater than or equal to zero.
-     */
-    static std::pair<bkstring, int>  findNthMatch   (const bkstring & pattern,
-                                                        const bkstring & str,
-                                                        const int matchNum,
-                                                        const unsigned long mode = 0);
-  public:
-    /**
-      Deletes all NFA nodes allocated during compilation
-     */
-    ~WCPattern();
+	  @param pattern  The pattern for which to search
+	  @param str      The string to search
+	  @param matchNum Which match to find
+	  @param mode     Any special flags to use during the matching process
+	  @return A string and an integer. The string is the string matched. The
+	  integer is the starting location of the matched string in
+	  <code>str</code>. You can check for success/failure by making sure
+	  that the integer returned is greater than or equal to zero.
+	  */
+	static std::pair<CMString, int>  findNthMatch(const CMString & pattern,
+		const CMString & str,
+		const int matchNum,
+		const unsigned long mode = 0);
+public:
+	/**
+	  Deletes all NFA nodes allocated during compilation
+	  */
+	~WCPattern();
 
-    bkstring               replace       (const bkstring & str,
-                                              const bkstring & replacementText);
-    std::vector<bkstring>  split         (const bkstring & str, const bool keepEmptys = 0,
-                                              const unsigned long limit = 0);
-    std::vector<bkstring>  findAll       (const bkstring & str);
-    bool                       matches       (const bkstring & str);
-    /**
-      Returns the flags used during compilation of this pattern
-      @return The flags used during compilation of this pattern
-     */
-    unsigned long             getFlags       () const;
-    /**
-      Returns the regular expression this pattern represents
-      @return The regular expression this pattern represents
-     */
-    bkstring               getWCPattern     () const;
-    /**
-      Creates a matcher object using the specified string and this pattern.
-      @param str The string to match against
-      @return A new matcher using object using this pattern and the specified
-              string
-     */
-    WCMatcher                 * createWCMatcher  (const bkstring & str);
+	CMString               replace(const CMString & str,
+		const CMString & replacementText);
+	std::vector<CMString>  split(const CMString & str, const bool keepEmptys = 0,
+		const unsigned long limit = 0);
+	std::vector<CMString>  findAll(const CMString & str);
+	bool                       matches(const CMString & str);
+	/**
+	  Returns the flags used during compilation of this pattern
+	  @return The flags used during compilation of this pattern
+	  */
+	unsigned long             getFlags() const;
+	/**
+	  Returns the regular expression this pattern represents
+	  @return The regular expression this pattern represents
+	  */
+	CMString               getWCPattern() const;
+	/**
+	  Creates a matcher object using the specified string and this pattern.
+	  @param str The string to match against
+	  @return A new matcher using object using this pattern and the specified
+	  string
+	  */
+	WCMatcher                 * createWCMatcher(const CMString & str);
 };
 
 class NFAUNode
 {
-  friend class WCMatcher;
-  public:
-    NFAUNode * next;
-    NFAUNode();
-    virtual ~NFAUNode();
-    virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const = 0;
-    inline virtual bool isGroupHeadNode()     const { return false; }
-    inline virtual bool isStartOfInputNode()  const { return false; }
+	friend class WCMatcher;
+public:
+	NFAUNode * next;
+	NFAUNode();
+	virtual ~NFAUNode();
+	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const = 0;
+	inline virtual bool isGroupHeadNode()     const { return false; }
+	inline virtual bool isStartOfInputNode()  const { return false; }
 };
 class NFACharUNode : public NFAUNode
 {
-  protected:
-    wchar_t ch;
-  public:
-    NFACharUNode(const wchar_t c);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+protected:
+	wchar_t ch;
+public:
+	NFACharUNode(const wchar_t c);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFACICharUNode : public NFAUNode
 {
-  protected:
-    wchar_t ch;
-  public:
-    NFACICharUNode(const wchar_t c);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+protected:
+	wchar_t ch;
+public:
+	NFACICharUNode(const wchar_t c);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAStartUNode : public NFAUNode
 {
-  public:
-    NFAStartUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAStartUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAEndUNode : public NFAUNode
 {
-  public:
-    NFAEndUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAEndUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAQuantifierUNode : public NFAUNode
 {
-  public:
-    int min, max;
-    NFAUNode * inner;
-    virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-    NFAQuantifierUNode(WCPattern * pat, NFAUNode * internal,
-                      const int minMatch = WCPattern::MIN_QMATCH,
-                      const int maxMatch = WCPattern::MAX_QMATCH);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	int min, max;
+	NFAUNode * inner;
+	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
+	NFAQuantifierUNode(WCPattern * pat, NFAUNode * internal,
+		const int minMatch = WCPattern::MIN_QMATCH,
+		const int maxMatch = WCPattern::MAX_QMATCH);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGreedyQuantifierUNode : public NFAQuantifierUNode
 {
-  public:
-    NFAGreedyQuantifierUNode(WCPattern * pat, NFAUNode * internal,
-                            const int minMatch = WCPattern::MIN_QMATCH,
-                            const int maxMatch = WCPattern::MAX_QMATCH);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
-    virtual int matchInternal(const bkstring & str, WCMatcher * matcher, const int curInd, const int soFar) const;
+public:
+	NFAGreedyQuantifierUNode(WCPattern * pat, NFAUNode * internal,
+		const int minMatch = WCPattern::MIN_QMATCH,
+		const int maxMatch = WCPattern::MAX_QMATCH);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int matchInternal(const CMString & str, WCMatcher * matcher, const int curInd, const int soFar) const;
 };
 class NFALazyQuantifierUNode : public NFAQuantifierUNode
 {
-  public:
-    NFALazyQuantifierUNode(WCPattern * pat, NFAUNode * internal,
-                          const int minMatch = WCPattern::MIN_QMATCH,
-                          const int maxMatch = WCPattern::MAX_QMATCH);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFALazyQuantifierUNode(WCPattern * pat, NFAUNode * internal,
+		const int minMatch = WCPattern::MIN_QMATCH,
+		const int maxMatch = WCPattern::MAX_QMATCH);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAPossessiveQuantifierUNode : public NFAQuantifierUNode
 {
-  public:
-    NFAPossessiveQuantifierUNode(WCPattern * pat, NFAUNode * internal,
-                                const int minMatch = WCPattern::MIN_QMATCH,
-                                const int maxMatch = WCPattern::MAX_QMATCH);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAPossessiveQuantifierUNode(WCPattern * pat, NFAUNode * internal,
+		const int minMatch = WCPattern::MIN_QMATCH,
+		const int maxMatch = WCPattern::MAX_QMATCH);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAAcceptUNode : public NFAUNode
 {
-  public:
-    NFAAcceptUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAAcceptUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAClassUNode : public NFAUNode
 {
-  public:
-    bool inv;
-    std::map<wchar_t, bool> vals;
-    NFAClassUNode(const bool invert = 0);
-    NFAClassUNode(const bkstring & clazz, const bool invert);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	bool inv;
+	std::map<wchar_t, bool> vals;
+	NFAClassUNode(const bool invert = 0);
+	NFAClassUNode(const CMString & clazz, const bool invert);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFACIClassUNode : public NFAUNode
 {
-  public:
-    bool inv;
-    std::map<wchar_t, bool> vals;
-    NFACIClassUNode(const bool invert = 0);
-    NFACIClassUNode(const bkstring & clazz, const bool invert);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	bool inv;
+	std::map<wchar_t, bool> vals;
+	NFACIClassUNode(const bool invert = 0);
+	NFACIClassUNode(const CMString & clazz, const bool invert);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFASubStartUNode : public NFAUNode
 {
-  public:
-    NFASubStartUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFASubStartUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAOrUNode : public NFAUNode
 {
-  public:
-    NFAUNode * one;
-    NFAUNode * two;
-    NFAOrUNode(NFAUNode * first, NFAUNode * second);
-    virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAUNode * one;
+	NFAUNode * two;
+	NFAOrUNode(NFAUNode * first, NFAUNode * second);
+	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAQuoteUNode : public NFAUNode
 {
-  public:
-    bkstring qStr;
-    NFAQuoteUNode(const bkstring & quoted);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	CMString qStr;
+	NFAQuoteUNode(const CMString & quoted);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFACIQuoteUNode : public NFAUNode
 {
-  public:
-    bkstring qStr;
-    NFACIQuoteUNode(const bkstring & quoted);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	CMString qStr;
+	NFACIQuoteUNode(const CMString & quoted);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFALookAheadUNode : public NFAUNode
 {
-  public:
-    bool pos;
-    NFAUNode * inner;
-    NFALookAheadUNode(NFAUNode * internal, const bool positive);
-    virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	bool pos;
+	NFAUNode * inner;
+	NFALookAheadUNode(NFAUNode * internal, const bool positive);
+	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFALookBehindUNode : public NFAUNode
 {
-  public:
-    bool pos;
-    bkstring mStr;
-    NFALookBehindUNode(const bkstring & str, const bool positive);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	bool pos;
+	CMString mStr;
+	NFALookBehindUNode(const CMString & str, const bool positive);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAStartOfLineUNode : public NFAUNode
 {
-  public:
-    NFAStartOfLineUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAStartOfLineUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAEndOfLineUNode : public NFAUNode
 {
-  public:
-    NFAEndOfLineUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAEndOfLineUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAReferenceUNode : public NFAUNode
 {
-  public:
-    int gi;
-    NFAReferenceUNode(const int groupIndex);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	int gi;
+	NFAReferenceUNode(const int groupIndex);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAStartOfInputUNode : public NFAUNode
 {
-  public:
-    NFAStartOfInputUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
-    inline virtual bool isStartOfInputNode()  const { return false; }
+public:
+	NFAStartOfInputUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	inline virtual bool isStartOfInputNode()  const { return false; }
 };
 class NFAEndOfInputUNode : public NFAUNode
 {
-  public:
-    bool term;
-    NFAEndOfInputUNode(const bool lookForTerm);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	bool term;
+	NFAEndOfInputUNode(const bool lookForTerm);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAWordBoundaryUNode : public NFAUNode
 {
-  public:
-    bool pos;
-    NFAWordBoundaryUNode(const bool positive);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	bool pos;
+	NFAWordBoundaryUNode(const bool positive);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAEndOfMatchUNode : public NFAUNode
 {
-  public:
-    NFAEndOfMatchUNode();
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	NFAEndOfMatchUNode();
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGroupHeadUNode : public NFAUNode
 {
-  public:
-    int gi;
-    NFAGroupHeadUNode(const int groupIndex);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
-    inline virtual bool isGroupHeadNode()     const { return false; }
+public:
+	int gi;
+	NFAGroupHeadUNode(const int groupIndex);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	inline virtual bool isGroupHeadNode()     const { return false; }
 };
 class NFAGroupTailUNode : public NFAUNode
 {
-  public:
-    int gi;
-    NFAGroupTailUNode(const int groupIndex);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	int gi;
+	NFAGroupTailUNode(const int groupIndex);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGroupLoopPrologueUNode : public NFAUNode
 {
-  public:
-    int gi;
-    NFAGroupLoopPrologueUNode(const int groupIndex);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	int gi;
+	NFAGroupLoopPrologueUNode(const int groupIndex);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGroupLoopUNode : public NFAUNode
 {
-  public:
-    int gi, min, max, type;
-    NFAUNode * inner;
-    NFAGroupLoopUNode(NFAUNode * internal, const int minMatch,
-                     const int maxMatch, const int groupIndex, const int matchType);
-    virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-    virtual int match(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
-    int matchGreedy(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
-    int matchLazy(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
-    int matchPossessive(const bkstring & str, WCMatcher * matcher, const int curInd = 0) const;
+public:
+	int gi, min, max, type;
+	NFAUNode * inner;
+	NFAGroupLoopUNode(NFAUNode * internal, const int minMatch,
+		const int maxMatch, const int groupIndex, const int matchType);
+	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
+	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	int matchGreedy(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	int matchLazy(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	int matchPossessive(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 
 #endif

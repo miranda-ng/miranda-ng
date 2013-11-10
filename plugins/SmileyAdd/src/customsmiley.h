@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class SmileyCType : public SmileyType
 {
 public:
-	SmileyCType(const bkstring& fullpath, const TCHAR* filepath);
+	SmileyCType(const CMString& fullpath, const TCHAR* filepath);
 
 	bool CreateTriggerText(char* text);
 };
@@ -39,7 +39,7 @@ private:
 
 	HANDLE m_id;
 
-	void InsertLookup(SmileyCType& sml, bkstring& lk, bool first);
+	void InsertLookup(SmileyCType& sml, CMString& lk, bool first);
 	void AddTriggersToSmileyLookup(void);
 
 public:

@@ -156,7 +156,7 @@ ULONG ISmileyBase::AddRef(void)
 ULONG ISmileyBase::Release(void)
 {
 	LONG count = InterlockedDecrement(&m_lRefCount);
-	if(count == 0) 
+	if (count == 0) 
 		delete this;
 	return count;
 }

@@ -68,7 +68,7 @@ HICON GetDefaultIcon(bool copy)
 }
 
 
-const TCHAR* GetImageExt(bkstring &fname)
+const TCHAR* GetImageExt(CMString &fname)
 {
 	const TCHAR* ext = _T("");
 
@@ -139,14 +139,14 @@ HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle)
 	return hIcon;
 }
 
-void pathToRelative(const bkstring& pSrc, bkstring& pOut)
+void pathToRelative(const CMString& pSrc, CMString& pOut)
 {
 	TCHAR szOutPath[MAX_PATH];
 	PathToRelativeT(pSrc.c_str(), szOutPath);
 	pOut = szOutPath;
 }
 
-void pathToAbsolute(const bkstring& pSrc, bkstring& pOut) 
+void pathToAbsolute(const CMString& pSrc, CMString& pOut) 
 {
 	TCHAR szOutPath[MAX_PATH];
 

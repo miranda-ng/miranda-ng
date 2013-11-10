@@ -265,10 +265,9 @@ void OptionsDialogType::AddCategory(void)
 	TCHAR cat[30];
 
 	GetDlgItemText(m_hwndDialog, IDC_NEWCATEGORY, cat, SIZEOF(cat)); 
-	bkstring catd = cat;
+	CMString catd = cat;
 
-	if (!catd.empty())
-	{
+	if (!catd.IsEmpty()) {
 		tmpsmcat.AddCategory(cat, catd, smcCustom);
 
 		PopulateSmPackList();
@@ -281,17 +280,11 @@ void OptionsDialogType::UserAction(HTREEITEM hItem)
 {
 	HWND hLstView = GetDlgItem(m_hwndDialog, IDC_CATEGORYLIST);
 
-	if (TreeView_GetCheckState(hLstView, hItem))
-	{
+	if (TreeView_GetCheckState(hLstView, hItem)) {
 		if (!BrowseForSmileyPacks(GetSelProto(hItem)))
-		{
 			TreeView_SetCheckState(hLstView, hItem, TRUE)
-		}
 	}
-	else
-	{
-		tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();
-	}
+	else tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();
 
 	if (hItem == TreeView_GetSelection(hLstView))
 		UpdateControls();
@@ -313,14 +306,12 @@ void OptionsDialogType::UpdateControls(bool force)
 	const SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto());
 	if (smc == NULL) return;
 
-	const bkstring& smf = smc->GetFilename();
+	const CMString& smf = smc->GetFilename();
 
 	SetDlgItemText(m_hwndDialog, IDC_FILENAME, smf.c_str());
 
 	if (smPack.GetFilename() != smf || force)
-	{
 		smPack.LoadSmileyFile(smf, false, true);
-	}
 
 	HWND hLstView = GetDlgItem(m_hwndDialog, IDC_CATEGORYLIST);
 	TreeView_SetCheckState(hLstView, TreeView_GetSelection(hLstView), smPack.SmileyCount() != 0);
@@ -485,7 +476,7 @@ void OptionsDialogType::ApplyChanges(void)
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
 	for (int i=0; i < smc.getCount(); i++) {
 		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == NULL) {
-			bkstring empty;
+			CMString empty;
 			opt.WritePackFileName(empty, smc[i].GetName());
 		}
 	}
@@ -508,13 +499,13 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = SIZEOF(filename);
 
-	bkstring inidir;
+	CMString inidir;
 	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(item); 
-	if (smc->GetFilename().empty())
+	if (smc->GetFilename().IsEmpty())
 		pathToAbsolute(_T("Smileys"), inidir);
 	else {
 		pathToAbsolute(smc->GetFilename(), inidir);
-		inidir.erase(inidir.find_last_of('\\'));
+		inidir.Truncate(inidir.ReverseFind('\\'));
 	}
 
 	ofn.lpstrInitialDir = inidir.c_str();
@@ -540,7 +531,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	ofn.lpstrDefExt = _T("msl");
 
 	if (GetOpenFileName(&ofn)) {
-		bkstring relpath;
+		CMString relpath;
 		pathToRelative(filename, relpath);
 		smc->SetFilename(relpath);
 
@@ -557,7 +548,7 @@ void OptionsDialogType::FilenameChanged(void)
 
 	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto()); 
 	if (smc->GetFilename() != str) {
-		bkstring temp(str);
+		CMString temp(str);
 		smc->SetFilename(temp);
 		UpdateControls();
 	}
@@ -627,9 +618,9 @@ void OptionsType::Load(void)
 }
 
 
-void OptionsType::ReadPackFileName(bkstring& filename, const bkstring& name, const bkstring& defaultFilename)
+void OptionsType::ReadPackFileName(CMString& filename, const CMString& name, const CMString& defaultFilename)
 {
-	bkstring settingKey = name + _T("-filename");
+	CMString settingKey = name + _T("-filename");
 
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), &dbv)) {
@@ -639,15 +630,15 @@ void OptionsType::ReadPackFileName(bkstring& filename, const bkstring& name, con
 	else filename = defaultFilename;
 }
 
-void OptionsType::WritePackFileName(const bkstring& filename, const bkstring& name)
+void OptionsType::WritePackFileName(const CMString& filename, const CMString& name)
 {
-	bkstring settingKey = name + _T("-filename");
+	CMString settingKey = name + _T("-filename");
 	db_set_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), 
 		filename.c_str());
 }
 
 
-void OptionsType::ReadCustomCategories(bkstring& cats)
+void OptionsType::ReadCustomCategories(CMString& cats)
 {
 	DBVARIANT dbv;
 
@@ -660,16 +651,16 @@ void OptionsType::ReadCustomCategories(bkstring& cats)
 }
 
 
-void OptionsType::WriteCustomCategories(const bkstring& cats)
+void OptionsType::WriteCustomCategories(const CMString& cats)
 {
-	if (cats.empty())
+	if (cats.IsEmpty())
 		db_unset(NULL, "SmileyAdd", "CustomCategories");
 	else
 		db_set_ts(NULL, "SmileyAdd", "CustomCategories",	cats.c_str());
 }
 
 
-void OptionsType::ReadContactCategory(HANDLE hContact, bkstring& cats)
+void OptionsType::ReadContactCategory(HANDLE hContact, CMString& cats)
 {
 	DBVARIANT dbv;
 
@@ -682,9 +673,9 @@ void OptionsType::ReadContactCategory(HANDLE hContact, bkstring& cats)
 }
 
 
-void OptionsType::WriteContactCategory(HANDLE hContact, const bkstring& cats)
+void OptionsType::WriteContactCategory(HANDLE hContact, const CMString& cats)
 {
-	if (cats.empty())
+	if (cats.IsEmpty())
 		db_unset(hContact, "SmileyAdd", "CustomCategory");
 	else
 		db_set_ts(hContact, "SmileyAdd", "CustomCategory",	cats.c_str());

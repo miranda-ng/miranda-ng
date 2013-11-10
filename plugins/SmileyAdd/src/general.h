@@ -60,13 +60,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_icolib.h>
 #include <m_genmenu.h>
 #include <m_imgsrvc.h>
+#include <m_string.h>
 
 #include <m_metacontacts.h>
 #include <m_smileyadd.h>
 #include <m_smileyadd_deprecated.h>
 #include <m_folders.h>
 
-#include "bkstring.h"
 #include "regexp\wcpattern.h"
 #include "regexp\wcmatcher.h"
 
@@ -171,15 +171,15 @@ bool IsOldSrmm(void);
 
 //functions for general use (defined in general.cpp)
 int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf);
-const TCHAR* GetImageExt(bkstring &fname);
+const TCHAR* GetImageExt(CMString &fname);
 
 HANDLE DecodeMetaContact(HANDLE hContact);
 bool IsSmileyProto(char* proto);
 
 HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle);
 
-void pathToRelative(const bkstring& pSrc, bkstring& pOut);
-void pathToAbsolute(const bkstring& pSrc, bkstring& pOut);
+void pathToRelative(const CMString& pSrc, CMString& pOut);
+void pathToAbsolute(const CMString& pSrc, CMString& pOut);
 
 bool InitGdiPlus(void);
 void DestroyGdiPlus(void);

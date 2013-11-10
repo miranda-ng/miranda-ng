@@ -48,18 +48,18 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 	SmileyLookup::SmileyLocVecType* smileys = new SmileyLookup::SmileyLocVecType [smlsz];
 
 	// Find all possible smileys
-	bkstring tmpstr(lpstrText);
+	CMString tmpstr(lpstrText);
 	int i = 0;
 
 	if (sml)
 		for (int j=0; j < sml->getCount(); j++) {
-			(*sml)[j].find(tmpstr, smileys[i], false);
+			(*sml)[j].Find(tmpstr, smileys[i], false);
 			i++;
 		}
 
 	if (smlc)
 		for (int j=0; j < smlc->getCount(); j++) {
-			(*smlc)[j].find(tmpstr, smileys[i], false);
+			(*smlc)[j].Find(tmpstr, smileys[i], false);
 			i++;
 		}
 
@@ -67,7 +67,7 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 	memset(csmlit, 0, smlsz * sizeof(int));
 
 	long numCharsSoFar = 0;
-	bkstring::size_type smloff = 0;
+	int smloff = 0;
 
 	while (true) {
 		int firstSml = -1;
@@ -137,7 +137,7 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 		else delete dat;
 
 		// Advance string pointer to search for the next smiley
-		smloff = (*smlf)[firstSmlRef].pos + (*smlf)[firstSmlRef].len;
+		smloff = int((*smlf)[firstSmlRef].pos + (*smlf)[firstSmlRef].len);
 		csmlit[firstSml]++;
 	}
 	delete[] smileys;

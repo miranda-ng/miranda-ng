@@ -23,7 +23,7 @@
   invocation looks like:
   <pre>
   wchar_t buf[10000];
-  bkstring str = "\\5 (user name \\1) uses \\7 for his/her shell and \\6 is their home directory";
+  CMString str = "\\5 (user name \\1) uses \\7 for his/her shell and \\6 is their home directory";
   FILE * fp = fopen("/etc/passwd", "r");
   WCPattern::registerWCPattern("entry", "[^:]+");
   WCPattern * p = WCPattern::compile("^({entry}):({entry}):({entry}):({entry}):({entry}):({entry}):({entry})$",
@@ -92,12 +92,12 @@ class WCMatcher
       @param pattern  The pattern with which to search
       @param text     The text in which to search
      */
-    WCMatcher(WCPattern * pattern, const bkstring & text);
+    WCMatcher(WCPattern * pattern, const CMString & text);
   protected:
     /// The pattern we use to match
     WCPattern * pat;
     /// The string in which we are matching
-    const bkstring * str;
+    const CMString * str;
     /// The starting point of our match
     int start;
     /// An array of the starting positions for each group
@@ -135,7 +135,7 @@ class WCMatcher
       @param str The string in which to replace text
       @return A string with all backreferences appropriately replaced
      */
-    bkstring replaceWithGroups(const bkstring & str);
+    CMString replaceWithGroups(const CMString & str);
     /**
       The flags currently being used by the matcher.
       @return Zero
@@ -145,7 +145,7 @@ class WCMatcher
       The text being searched by the matcher.
       @return the text being searched by the matcher.
      */
-    const bkstring& getText() const;
+    const CMString& getText() const;
 
     /**
       Scans the string from start to finish for a match. The entire string must
@@ -179,7 +179,7 @@ class WCMatcher
 
       @return Every substring in order which matches the given pattern
      */
-    std::vector<bkstring> findAll();
+    std::vector<CMString> findAll();
     /**
       Resets the internal state of the matcher
      */
@@ -188,12 +188,12 @@ class WCMatcher
       Same as getText. Left n for backwards compatibilty with old source code
       @return Returns the string that is currently being used for matching
      */
-    inline const bkstring&  getString()                           const { return *str; }
+    inline const CMString&  getString()                           const { return *str; }
     /**
       Sets the string to scan
       @param newStr The string to scan for subsequent matches
      */
-    inline void         setString(const bkstring & newStr)       { str = &newStr; reset(); }
+    inline void         setString(const CMString & newStr)       { str = &newStr; reset(); }
 
     /**
       Returns the starting index of the specified group.
@@ -217,14 +217,14 @@ class WCMatcher
       @param groupNum The group to query
       @return The text of the group
      */
-    bkstring getGroup(const int groupNum = 0) const;
+    CMString getGroup(const int groupNum = 0) const;
     /**
       Returns every capture group in a vector
 
       @param includeGroupZero Whether or not include capture group zero
       @return Every capture group
      */
-    std::vector<bkstring> getGroups(const bool includeGroupZero = 0) const;
+    std::vector<CMString> getGroups(const bool includeGroupZero = 0) const;
 };
 
 #endif

@@ -23,11 +23,11 @@ static HANDLE hFolder;
 
 struct QueueElem
 {
-	bkstring url;
-	bkstring fname;
+	CMString url;
+	CMString fname;
 	bool needext;
 
-	QueueElem(bkstring& purl, bkstring& pfname, bool ne)
+	QueueElem(CMString& purl, CMString& pfname, bool ne)
 		: url(purl), fname(pfname), needext(ne) {}
 };
 
@@ -58,26 +58,22 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 	nlhr.headers[1].szName  = "Connection";
 	nlhr.headers[1].szValue = "close";
 
-	while (result == 0xBADBAD)
-	{
+	while (result == 0xBADBAD) {
 		// download the page
 		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
 			(WPARAM)hNetlibUser,(LPARAM)&nlhr);
 
-		if (nlhrReply)
-		{
+		if (nlhrReply) {
 			hHttpDwnl = nlhrReply->nlc;
 			// if the recieved code is 200 OK
-			if(nlhrReply->resultCode == 200)
-			{
-				char* delim = strrchr(szDest, '\\');
+			if (nlhrReply->resultCode == 200) {
+				char *delim = strrchr(szDest, '\\');
 				if (delim) *delim = '\0';
 				CreateDirectoryTree(szDest);
 				if (delim) *delim = '\\';
 				int res = -1;
 				int fh = _open(szDest, _O_BINARY | _O_WRONLY | _O_CREAT, _S_IREAD | _S_IWRITE);
-				if (fh != -1)
-				{
+				if (fh != -1) {
 					res = _write(fh, nlhrReply->pData, nlhrReply->dataLength);
 					_close(fh);
 				}
@@ -88,17 +84,13 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 			}
 			// if the recieved code is 302 Moved, Found, etc
 			// workaround for url forwarding
-			else if(nlhrReply->resultCode == 302 || nlhrReply->resultCode == 301 || nlhrReply->resultCode == 307) // page moved
-			{
+			else if (nlhrReply->resultCode == 302 || nlhrReply->resultCode == 301 || nlhrReply->resultCode == 307) { // page moved
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
-				for (int i=0; i<nlhrReply->headersCount; i++)
-				{
-					if (!strcmp(nlhrReply->headers[i].szName, "Location"))
-					{
+				for (int i=0; i<nlhrReply->headersCount; i++) {
+					if (!strcmp(nlhrReply->headers[i].szName, "Location")) {
 						size_t rlen = 0;
-						if (nlhrReply->headers[i].szValue[0] == '/')
-						{
+						if (nlhrReply->headers[i].szValue[0] == '/') {
 							const char* szPath;
 							const char* szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
@@ -106,8 +98,7 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl);
 						}
 
-						szRedirUrl = (char*)mir_realloc(szRedirUrl,
-							rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
+						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
 						strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue);
@@ -117,11 +108,9 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 					}
 				}
 			}
-			else
-				result = 1;
+			else result = 1;
 		}
-		else
-		{
+		else {
 			hHttpDwnl = NULL;
 			result = 1;
 		}
@@ -146,7 +135,7 @@ void __cdecl SmileyDownloadThread(void*)
 			InternetDownloadFile(T2A_SM(dlQueue[0].url.c_str()), T2A_SM(dlQueue[0].fname.c_str()), hHttpDwnl);
 			WaitForSingleObject(g_hDlMutex, 3000);
 
-			bkstring fname(dlQueue[0].fname);
+			CMString fname(dlQueue[0].fname);
 			if (dlQueue[0].needext) { fname += GetImageExt(fname); needext = true; }
 			_trename(dlQueue[0].fname.c_str(), fname.c_str());
 		}
@@ -159,8 +148,7 @@ void __cdecl SmileyDownloadThread(void*)
 	threadRunning = false;
 	ReleaseMutex(g_hDlMutex);
 
-	if (!Miranda_Terminated())
-	{
+	if (!Miranda_Terminated()) {
 		if (needext)
 			CallServiceSync(MS_SMILEYADD_RELOAD, 0, 0);
 		else
@@ -168,42 +156,42 @@ void __cdecl SmileyDownloadThread(void*)
 	}
 }
 
-bool GetSmileyFile(bkstring& url, const bkstring& packstr)
+bool GetSmileyFile(CMString& url, const CMString& packstr)
 {
-	_TPattern * urlsplit = _TPattern::compile(_T(".*/(.*)"));
-	_TMatcher * m0 = urlsplit->createTMatcher(url);
+	_TPattern *urlsplit = _TPattern::compile(_T(".*/(.*)"));
+	_TMatcher *m0 = urlsplit->createTMatcher(url);
 
 	m0->findFirstMatch();
 
-	bkstring filename;
-	filename.appendfmt(_T("%s\\%s\\"), cachepath, packstr.c_str());
-	size_t pathpos = filename.size();
+	CMString filename;
+	filename.AppendFormat(_T("%s\\%s\\"), cachepath, packstr.c_str());
+	int pathpos = filename.GetLength();
 	filename += m0->getGroup(1);
 
 	delete m0;
 	delete urlsplit;
 
-	bool needext = filename.find('.') == filename.npos;
-	if (needext) filename += _T(".*");
+	bool needext = filename.Find('.') == -1;
+	if (needext)
+		filename += _T(".*");
 
 	_tfinddata_t c_file;
 	INT_PTR hFile = _tfindfirst((TCHAR*)filename.c_str(), &c_file);
-	if (hFile > -1)
-	{
+	if (hFile > -1) {
 		_findclose(hFile);
-		filename.erase(pathpos);
+		filename.Truncate(pathpos);
 		filename += c_file.name;
 		url = filename;
 		return false;
 	}
-	if (needext) filename.erase(filename.size()-1);
+	if (needext)
+		filename.Truncate(filename.GetLength() - 1);
 
 	WaitForSingleObject(g_hDlMutex, 3000);
 	dlQueue.insert(new QueueElem(url, filename, needext));
 	ReleaseMutex(g_hDlMutex);
 
-	if (!threadRunning)
-	{
+	if (!threadRunning) {
 		threadRunning = true;
 		mir_forkthread(SmileyDownloadThread, NULL);
 	}
@@ -225,19 +213,13 @@ void GetSmileyCacheFolder(void)
 		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
-	else
-	{
-		TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\SmileyCache"));
-		lstrcpyn(cachepath, tszFolder, MAX_PATH);
-		mir_free(tszFolder);
-	}
+	else lstrcpyn(cachepath, VARST( _T("%miranda_userdata%\\SmileyCache")), MAX_PATH);
 }
 
 void DownloadInit(void)
 {
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION|NUF_TCHAR;
+	NETLIBUSER nlu = { sizeof(nlu) };
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_TCHAR;
 	nlu.szSettingsModule = "SmileyAdd";
 	nlu.ptszDescriptiveName = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
