@@ -60,11 +60,9 @@ BOOL MyResizeGetOffset(HWND hwndCtrl, int nWidth, int nHeight, int* nDx, int* nD
 
 INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	switch (msg) 
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
-		if (hViewWnd == NULL)
-		{
+		if (hViewWnd == NULL) {
 			hViewWnd = hwndDlg;
 			TranslateDialogDefault(hwndDlg);
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(IDI_VI, true));
@@ -76,22 +74,18 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			_tcscpy(chf.szFaceName, TEXT("Courier New"));
 			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
 
-			bkstring buffer;
-			buffer.reserve(0x1800);
+			CMString buffer;
 			PrintVersionInfo(buffer, (unsigned int)lParam);
 			SetDlgItemText(hwndDlg, IDC_VIEWVERSIONINFO, buffer.c_str());
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			if(lParam & VI_FLAG_PRNDLL)
-			{
 				SetWindowText(hwndDlg,TranslateT("View Version Information (with DLLs)"));
-			}
 
 			Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, PluginName, "ViewInfo_");
 			ShowWindow(hwndDlg, SW_SHOW);
 		}
-		else
-			DestroyWindow(hwndDlg);
+		else DestroyWindow(hwndDlg);
 		break;
 
 	case WM_SIZE: 
@@ -103,9 +97,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_FILEVER), &rc);
 			bsz = rc.bottom - rc.top;
 
-			if (MyResizeGetOffset(GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), 
-				LOWORD(lParam)-20, HIWORD(lParam)-30-bsz, &dx, &dy))
-			{
+			if (MyResizeGetOffset(GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), LOWORD(lParam)-20, HIWORD(lParam)-30-bsz, &dx, &dy)) {
 				hDwp = BeginDeferWindowPos(4);
 				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_FILEVER), 0, dy, 0, 0);
 				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_CLIPVER), dx/2, dy, 0, 0);
@@ -119,17 +111,13 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_GETMINMAXINFO: 
 		{
 			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
-
-			// The minimum width in points
-			mmi->ptMinTrackSize.x = 350;
-			// The minimum height in points
-			mmi->ptMinTrackSize.y = 300;
+			mmi->ptMinTrackSize.x = 350; // The minimum width in points
+			mmi->ptMinTrackSize.y = 300; // The minimum height in points
 		}
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) 
-		{
+		switch(LOWORD(wParam)) {
 		case IDC_CLIPVER:
 			CallService(MS_CRASHDUMPER_STORETOCLIP, 0, GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			break;
@@ -166,8 +154,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if (sel.cpMin == sel.cpMax)
 					EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
 
-				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) 
-				{
+				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 				case IDM_COPY:
 					SendMessage(hView, WM_COPY, 0, 0);
 					break;
@@ -208,20 +195,16 @@ void DestroyAllWindows(void)
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	switch (msg) 
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
 			DBVARIANT dbv;
-			if (db_get_s(NULL, PluginName, "Username", &dbv) == 0)
-			{
+			if (db_get_s(NULL, PluginName, "Username", &dbv) == 0) {
 				SetDlgItemTextA(hwndDlg, IDC_USERNAME, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (db_get_s(NULL, PluginName, "Password", &dbv) == 0)
-			{
+			if (db_get_s(NULL, PluginName, "Password", &dbv) == 0) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
@@ -238,8 +221,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY)
-		{
+		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
 			char szSetting[100];
 			GetDlgItemTextA(hwndDlg, IDC_USERNAME, szSetting, SIZEOF(szSetting));
 			db_set_s(NULL, PluginName, "Username", szSetting);
@@ -314,8 +296,7 @@ void ShowMessage(int type, const TCHAR* format, ...)
 	pi.lptzText[len] = 0;
 	va_end(va);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		_tcscpy(pi.lptzContactName, TEXT(PluginName));
 		pi.lchIcon = LoadIconEx(IDI_VI);
 		pi.PluginWindowProc = DlgProcPopup;
@@ -323,6 +304,5 @@ void ShowMessage(int type, const TCHAR* format, ...)
 
 		PUAddPopupT(&pi);
 	}
-	else
-		MessageBox(NULL, pi.lptzText, TEXT(PluginName), MB_OK | MB_ICONINFORMATION);
+	else MessageBox(NULL, pi.lptzText, TEXT(PluginName), MB_OK | MB_ICONINFORMATION);
 }

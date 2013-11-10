@@ -54,20 +54,17 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	GetLocalTime(&st);
 	CreateDirectoryTree(CrashLogFolder);
 
-	__try
-	{
-		if (dtsubfldr)
-		{
+	__try {
+		if (dtsubfldr) {
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, NULL);
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
 		else
-		{
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
-		}
+
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hDumpFile != INVALID_HANDLE_VALUE)
 			CreateMiniDump(hDumpFile, exc_ptr);
@@ -82,20 +79,17 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	CloseHandle(hDumpFile);
 	if (empty) DeleteFile(path);
 
-	__try
-	{
-		if (dtsubfldr)
-		{
+	__try {
+		if (dtsubfldr) {
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, NULL);
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
 		else
-		{
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
-		}
+
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 
 		mir_sntprintf(path, MAX_PATH, TranslateT("Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?"), CrashLogFolder);
@@ -122,8 +116,7 @@ LONG WINAPI myfilter(PEXCEPTION_POINTERS exc_ptr)
 
 LONG WINAPI myfilterv(PEXCEPTION_POINTERS exc_ptr)
 {
-	if (0xC0000000L <= exc_ptr->ExceptionRecord->ExceptionCode && 0xC0000500L >= exc_ptr->ExceptionRecord->ExceptionCode)
-	{
+	if (0xC0000000L <= exc_ptr->ExceptionRecord->ExceptionCode && 0xC0000500L >= exc_ptr->ExceptionRecord->ExceptionCode) {
 		if (exc_ptr == lastptr) return EXCEPTION_EXECUTE_HANDLER;
 		lastptr = exc_ptr;
 
@@ -134,8 +127,7 @@ LONG WINAPI myfilterv(PEXCEPTION_POINTERS exc_ptr)
 
 DWORD MirandaThreadFilter(DWORD code, EXCEPTION_POINTERS* info)
 {
-	if (info != lastptr)
-	{
+	if (info != lastptr) {
 		lastptr = info;
 		myfilterWorker(info, true);
 	}

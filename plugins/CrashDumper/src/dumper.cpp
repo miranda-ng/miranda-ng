@@ -34,12 +34,12 @@ void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr)
 }
 
 
-void WriteBBFile(bkstring& buffer, bool hdr)
+void WriteBBFile(CMString& buffer, bool hdr)
 {
 	static const TCHAR header[] = TEXT("[quote][size=1]");
 	static const TCHAR footer[] = TEXT("[/size][/quote]");
 
-	buffer.append(hdr ? header : footer);
+	buffer.Append(hdr ? header : footer);
 }
 
 
@@ -55,37 +55,36 @@ void WriteUtfFile(HANDLE hDumpFile, char* bufu)
 
 BOOL CALLBACK LoadedModules64(LPCSTR, DWORD64 ModuleBase, ULONG ModuleSize, PVOID UserContext)
 {
-	bkstring& buffer = *(bkstring*)UserContext;
+	CMString& buffer = *(CMString*)UserContext;
 
 	const HMODULE hModule = (HMODULE)ModuleBase;
 
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(hModule, path, MAX_PATH);
 
-	buffer.appendfmt(TEXT("%s  %p - %p"), path, (LPVOID)ModuleBase, (LPVOID)(ModuleBase + ModuleSize));
+	buffer.AppendFormat(TEXT("%s  %p - %p"), path, (LPVOID)ModuleBase, (LPVOID)(ModuleBase + ModuleSize));
 
 	GetVersionInfo(hModule, buffer);
 
 	TCHAR timebuf[30] = TEXT("");
 	GetLastWriteTime(path, timebuf, 30);
 
-	buffer.appendfmt(TEXT(" [%s]\r\n"), timebuf);
+	buffer.AppendFormat(TEXT(" [%s]\r\n"), timebuf);
 
 	return TRUE;
 }
 
-typedef struct _FindData
+struct FindData
 {
-	DWORD64 Offset;	IMAGEHLP_MODULE64* pModule;
-} FindData;
-
+	DWORD64 Offset;
+	IMAGEHLP_MODULE64* pModule;
+};
 
 BOOL CALLBACK LoadedModulesFind64(LPCSTR ModuleName, DWORD64 ModuleBase, ULONG ModuleSize, PVOID UserContext)
 {
 	FindData* data = (FindData*)UserContext;
 
-	if ((DWORD)(data->Offset - ModuleBase) < ModuleSize)
-	{
+	if ((DWORD)(data->Offset - ModuleBase) < ModuleSize) {
 		const size_t len = SIZEOF(data->pModule->ModuleName);
 		strncpy(data->pModule->ModuleName, ModuleName, len);
 		data->pModule->ModuleName[len-1] = 0;
@@ -101,40 +100,34 @@ BOOL CALLBACK LoadedModulesFind64(LPCSTR ModuleName, DWORD64 ModuleBase, ULONG M
 }
 
 
-void GetLinkedModulesInfo(TCHAR *moduleName, bkstring &buffer)
+void GetLinkedModulesInfo(TCHAR *moduleName, CMString &buffer)
 {
 	HANDLE hDllFile = CreateFile(moduleName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hDllFile == INVALID_HANDLE_VALUE) return;
+	if (hDllFile == INVALID_HANDLE_VALUE)
+		return;
 
 	HANDLE hDllMapping = CreateFileMapping(hDllFile, NULL, PAGE_READONLY, 0, 0, NULL);
-	if (hDllMapping == INVALID_HANDLE_VALUE) 
-	{
+	if (hDllMapping == INVALID_HANDLE_VALUE) {
 		CloseHandle(hDllFile);
 		return;
 	}
 
 	LPVOID dllAddr = MapViewOfFile(hDllMapping, FILE_MAP_READ, 0, 0, 0);
 
-
 	static const TCHAR format[] = TEXT("    Plugin statically linked to missing module: %S\r\n");
 
-
-	__try
-	{
+	__try {
 		PIMAGE_NT_HEADERS nthdrs = ImageNtHeader(dllAddr);
 
 		ULONG tableSize;
 		PIMAGE_IMPORT_DESCRIPTOR importData = (PIMAGE_IMPORT_DESCRIPTOR)ImageDirectoryEntryToData(dllAddr, FALSE, 
 			IMAGE_DIRECTORY_ENTRY_IMPORT, &tableSize);
-		if (importData)
-		{
-			while (importData->Name)
-			{
+		if (importData) {
+			while (importData->Name) {
 				char* moduleName = (char*)ImageRvaToVa(nthdrs, dllAddr, importData->Name, NULL);
 				if (!SearchPathA(NULL, moduleName, NULL, NULL, 0, NULL))
-				{
-					buffer.appendfmt(format, moduleName);
-				}
+					buffer.AppendFormat(format, moduleName);
+
 				importData++; //go to next record
 			}
 		}
@@ -142,22 +135,19 @@ void GetLinkedModulesInfo(TCHAR *moduleName, bkstring &buffer)
 		bool found = false;
 		PIMAGE_EXPORT_DIRECTORY exportData = (PIMAGE_EXPORT_DIRECTORY)ImageDirectoryEntryToData(dllAddr, FALSE, 
 			IMAGE_DIRECTORY_ENTRY_EXPORT, &tableSize);
-		if (exportData)
-		{
+		if (exportData) {
 			ULONG* funcAddr = (ULONG*)ImageRvaToVa(nthdrs, dllAddr, exportData->AddressOfNames, NULL);
-			for(unsigned i=0; i<exportData->NumberOfNames && !found; ++i)
-			{
+			for(unsigned i=0; i<exportData->NumberOfNames && !found; ++i) {
 				char* funcName = (char*)ImageRvaToVa(nthdrs, dllAddr, funcAddr[i], NULL);
 				found = strcmp(funcName, "MirandaPluginInfoEx") == 0 || strcmp(funcName, "MirandaPluginInfo") == 0; 
-				if (strcmp(funcName, "DatabasePluginInfo") == 0)
-				{
-					buffer.append(TEXT("    This dll is a Miranda database plugin, another database is active right now\r\n"));
+				if (strcmp(funcName, "DatabasePluginInfo") == 0) {
+					buffer.Append(TEXT("    This dll is a Miranda database plugin, another database is active right now\r\n"));
 					found = true;
 				}
 			}
 		}
 		if (!found) 
-			buffer.append(TEXT("    This dll is not a Miranda plugin and should be removed from plugins directory\r\n"));
+			buffer.Append(TEXT("    This dll is not a Miranda plugin and should be removed from plugins directory\r\n"));
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER) {}
 
@@ -171,13 +161,13 @@ struct ListItem
 {
 	ListItem() : str(), next(NULL) {}
 
-	bkstring str;
+	CMString str;
 	ListItem *next;
 };
 
-static void GetPluginsString(bkstring& buffer, unsigned& flags)
+static void GetPluginsString(CMString& buffer, unsigned& flags)
 {
-	buffer.appendfmt(TEXT("Service Mode: %s\r\n"), servicemode ? TEXT("Yes") : TEXT("No"));
+	buffer.AppendFormat(TEXT("Service Mode: %s\r\n"), servicemode ? TEXT("Yes") : TEXT("No"));
 
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -192,38 +182,32 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 
 	size_t count = 0, ucount = 0;
 
-	bkstring ubuffer;
+	CMString ubuffer;
 	ListItem* dlllist = NULL;
-
 
 	static const TCHAR format[] = TEXT("%c %s v.%s%d.%d.%d.%d%s [%s] - %S %s\r\n");
 
-
-	do 
-	{
+	do {
 		bool loaded = false;
 		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\%s"), FindFileData.cFileName);
 		HMODULE hModule = GetModuleHandle(path);
-		if (hModule == NULL && servicemode) 
-		{
+		if (hModule == NULL && servicemode) {
 			hModule = LoadLibrary(path);
 			loaded = true;
 		}
-		if (hModule == NULL) 
-		{	
-			if ((flags & VI_FLAG_PRNVAR) && IsPluginEnabled(FindFileData.cFileName))
-			{
+		if (hModule == NULL) {	
+			if ((flags & VI_FLAG_PRNVAR) && IsPluginEnabled(FindFileData.cFileName)) {
 				TCHAR timebuf[30] = TEXT("");
 				GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
-				ubuffer.appendfmt(format, TEXT(' '), FindFileData.cFileName, 
+				ubuffer.AppendFormat(format, TEXT(' '), FindFileData.cFileName, 
 					(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 					0, 0, 0, 0, 
 					(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
 					timebuf, "<unknown>", TEXT(""));
 
 				GetLinkedModulesInfo(path, ubuffer);
-				ubuffer.append(TEXT("\r\n"));
+				ubuffer.Append(TEXT("\r\n"));
 
 				++ucount;
 			}
@@ -231,8 +215,7 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 		}
 
 		PLUGININFOEX* pi = GetMirInfo(hModule);
-		if (pi != NULL)
-		{
+		if (pi != NULL) {
 			TCHAR timebuf[30] = TEXT("");
 			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
@@ -258,7 +241,7 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 				v1 = HIBYTE(HIWORD(ver)), v2 = LOBYTE(HIWORD(ver)), v3 = HIBYTE(LOWORD(ver)), v4 = LOBYTE(LOWORD(ver));
 			}
 		
-			lst->str.appendfmt(format, ep ? TEXT('\xa4') : TEXT(' '), FindFileData.cFileName, 
+			lst->str.AppendFormat(format, ep ? TEXT('\xa4') : TEXT(' '), FindFileData.cFileName, 
 				(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 				v1, v2, v3, v4, 
 				(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
@@ -266,10 +249,10 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 
 			ListItem* lsttmp = dlllist;
 			ListItem* lsttmppv = NULL;
-			while (lsttmp != NULL)
-			{
-				size_t sz = min(lsttmp->str.size(), lst->str.size()) - 2;
-				if (lsttmp->str.comparei(2, sz, lst->str, 2, sz) > 0) break;
+			while (lsttmp != NULL) {
+				size_t sz = min(lsttmp->str.GetLength(), lst->str.GetLength()) - 2;
+				if (lsttmp->str.CompareNoCase(lst->str) > 0)
+					break;
 				lsttmppv = lsttmp;
 				lsttmp = lsttmp->next;
 			}
@@ -289,23 +272,21 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 	while (FindNextFile(hFind, &FindFileData));
 	FindClose(hFind);
 
-	buffer.appendfmt(TEXT("\r\n%sActive Plugins (%u):%s\r\n"), 
+	buffer.AppendFormat(TEXT("\r\n%sActive Plugins (%u):%s\r\n"), 
 		(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""), count, (flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""));
 
 	ListItem* lsttmp = dlllist;
-	while (lsttmp != NULL)
-	{
-		buffer.append(lsttmp->str);
+	while (lsttmp != NULL) {
+		buffer.Append(lsttmp->str);
 		ListItem* lsttmp1 = lsttmp->next;
 		delete lsttmp;
 		lsttmp = lsttmp1;
 	} 
 
-	if (ucount)
-	{
-		buffer.appendfmt(TEXT("\r\n%sUnloadable Plugins (%u):%s\r\n"), 
+	if (ucount) {
+		buffer.AppendFormat(TEXT("\r\n%sUnloadable Plugins (%u):%s\r\n"), 
 			(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""), ucount, (flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""));
-		buffer.append(ubuffer);
+		buffer.Append(ubuffer);
 	}
 }
 
@@ -317,7 +298,7 @@ struct ProtoCount
 	bool nloaded;
 };
 
-static void GetProtocolStrings(bkstring& buffer)
+static void GetProtocolStrings(CMString& buffer)
 {
 	PROTOACCOUNT **accList;
 	int accCount;
@@ -362,13 +343,13 @@ static void GetProtocolStrings(bkstring& buffer)
 			}
 
 	for (i = 0; i < protoCountMy; i++)
-		buffer.appendfmt(TEXT("%-24s %d - Enabled %d - Disabled  %sLoaded\r\n"), 
+		buffer.AppendFormat(TEXT("%-24s %d - Enabled %d - Disabled  %sLoaded\r\n"), 
 			(TCHAR*)_A2T(protoListMy[i]), protos[i].countse, 
 			protos[i].countsd, protos[i].nloaded ? _T("Not ") : _T(""));
 }
 
 
-static void GetWeatherStrings(bkstring& buffer, unsigned flags)
+static void GetWeatherStrings(CMString& buffer, unsigned flags)
 {
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -381,16 +362,14 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE) return;
 
-	do 
-	{
+	do {
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 
 		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\weather\\%s"), FindFileData.cFileName);
 		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
 			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-		if (hDumpFile != INVALID_HANDLE_VALUE) 
-		{
+		if (hDumpFile != INVALID_HANDLE_VALUE) {
 			char buf[8192];
 
 			DWORD bytes = 0;
@@ -398,12 +377,10 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 			buf[bytes] = 0;
 
 			char* ver = strstr(buf, "Version=");
-			if (ver != NULL)
-			{
+			if (ver != NULL) {
 				char *endid = strchr(ver, '\r');
 				if (endid != NULL) *endid = 0;
-				else
-				{
+				else {
 					endid = strchr(ver, '\n');
 					if (endid != NULL) *endid = 0;
 				}
@@ -411,12 +388,10 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 			}
 
 			char *id = strstr(buf, "Name=");
-			if (id != NULL)
-			{
+			if (id != NULL) {
 				char *endid = strchr(id, '\r');
 				if (endid != NULL) *endid = 0;
-				else
-				{
+				else {
 					endid = strchr(id, '\n');
 					if (endid != NULL) *endid = 0;
 				}
@@ -429,7 +404,7 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 
 			static const TCHAR format[] = TEXT(" %s v.%s%S%s [%s] - %S\r\n");
 
-			buffer.appendfmt(format, FindFileData.cFileName, 
+			buffer.AppendFormat(format, FindFileData.cFileName, 
 				(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 				ver,
 				(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
@@ -442,7 +417,7 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 }
 
 
-static void GetIconStrings(bkstring& buffer)
+static void GetIconStrings(CMString& buffer)
 {
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -455,116 +430,107 @@ static void GetIconStrings(bkstring& buffer)
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE) return;
 
-	do 
-	{
+	do {
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 
 		TCHAR timebuf[30] = TEXT("");
 		GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
-		buffer.appendfmt(TEXT(" %s [%s]\r\n"), FindFileData.cFileName, timebuf);
+		buffer.AppendFormat(TEXT(" %s [%s]\r\n"), FindFileData.cFileName, timebuf);
 	}
 	while (FindNextFile(hFind, &FindFileData));
 	FindClose(hFind);
 }
 
 
-void PrintVersionInfo(bkstring& buffer, unsigned flags)
+void PrintVersionInfo(CMString& buffer, unsigned flags)
 {
 	GetProcessorString(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	GetFreeMemoryString(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	GetOSDisplayString(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	GetInternetExplorerVersion(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	GetAdminString(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	GetLanguageString(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	TCHAR *profpathfull = Utils_ReplaceVarsT(profpath);
-	if (flags & VI_FLAG_PRNVAR)
-	{
+	if (flags & VI_FLAG_PRNVAR) {
 		GetFreeDiskString(profpathfull, buffer);
-		buffer.append(TEXT("\r\n"));
+		buffer.Append(TEXT("\r\n"));
 	}
 
-	buffer.appendfmt(TEXT("\r\nMiranda NG Version: %s"), vertxt); 
+	buffer.AppendFormat(TEXT("\r\nMiranda NG Version: %s"), vertxt); 
 	GetWow64String(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	TCHAR path[MAX_PATH], mirtime[30];
 	GetModuleFileName(NULL, path, MAX_PATH); 
 	GetLastWriteTime(path, mirtime, 30);
-	buffer.appendfmt(TEXT("Build time: %s\r\n"), mirtime); 
+	buffer.AppendFormat(TEXT("Build time: %s\r\n"), mirtime); 
 
 	TCHAR profpn[MAX_PATH];
 	mir_sntprintf(profpn, SIZEOF(profpn), TEXT("%s\\%s"), profpathfull, profname);
 
-	buffer.appendfmt(TEXT("Profile: %s\r\n"), profpn);
+	buffer.AppendFormat(TEXT("Profile: %s\r\n"), profpn);
 
-	if (flags & VI_FLAG_PRNVAR)
-	{
+	if (flags & VI_FLAG_PRNVAR) {
 		WIN32_FIND_DATA FindFileData;
 
 		HANDLE hFind = FindFirstFile(profpn, &FindFileData);
-		if (hFind != INVALID_HANDLE_VALUE) 
-		{
+		if (hFind != INVALID_HANDLE_VALUE) {
 			FindClose(hFind);
 
 			unsigned __int64 fsize = (unsigned __int64)FindFileData.nFileSizeHigh << 32 | FindFileData.nFileSizeLow;
-			buffer.appendfmt(TEXT("Profile size: %I64u Bytes\r\n"), fsize), 
+			buffer.AppendFormat(TEXT("Profile size: %I64u Bytes\r\n"), fsize), 
 
 				GetLastWriteTime(&FindFileData.ftCreationTime, mirtime, 30);
-			buffer.appendfmt(TEXT("Profile creation date: %s\r\n"), mirtime);
+			buffer.AppendFormat(TEXT("Profile creation date: %s\r\n"), mirtime);
 		}
 	}
 	mir_free(profpathfull);
 
 	GetLanguagePackString(buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
-	// buffer.appendfmt(TEXT("Nightly: %s\r\n"), _tcsstr(vertxt, TEXT("alpha")) ? TEXT("Yes") : TEXT("No")); 
-	// buffer.appendfmt(TEXT("Unicode: %s\r\n"), _tcsstr(vertxt, TEXT("Unicode")) ? TEXT("Yes") : TEXT("No")); 
+	// buffer.AppendFormat(TEXT("Nightly: %s\r\n"), _tcsstr(vertxt, TEXT("alpha")) ? TEXT("Yes") : TEXT("No")); 
+	// buffer.AppendFormat(TEXT("Unicode: %s\r\n"), _tcsstr(vertxt, TEXT("Unicode")) ? TEXT("Yes") : TEXT("No")); 
 
 	GetPluginsString(buffer, flags);
 
-	if (flags & VI_FLAG_WEATHER)
-	{
-		buffer.appendfmt(TEXT("\r\n%sWeather ini files:%s\r\n-------------------------------------------------------------------------------\r\n"),
+	if (flags & VI_FLAG_WEATHER) {
+		buffer.AppendFormat(TEXT("\r\n%sWeather ini files:%s\r\n-------------------------------------------------------------------------------\r\n"),
 			(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 			(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""));
 		GetWeatherStrings(buffer, flags);
 	}
 
-	if (flags & VI_FLAG_PRNVAR && !servicemode)
-	{
-		buffer.appendfmt(TEXT("\r\n%sProtocols and Accounts:%s\r\n-------------------------------------------------------------------------------\r\n"),
+	if (flags & VI_FLAG_PRNVAR && !servicemode) {
+		buffer.AppendFormat(TEXT("\r\n%sProtocols and Accounts:%s\r\n-------------------------------------------------------------------------------\r\n"),
 			(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 			(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""));
 		GetProtocolStrings(buffer);
 	}
 
-	if (flags & VI_FLAG_PRNVAR)
-	{
-		buffer.appendfmt(TEXT("\r\n%sIcon Packs:%s\r\n-------------------------------------------------------------------------------\r\n"),
+	if (flags & VI_FLAG_PRNVAR) {
+		buffer.AppendFormat(TEXT("\r\n%sIcon Packs:%s\r\n-------------------------------------------------------------------------------\r\n"),
 			(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 			(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""));
 		GetIconStrings(buffer);
 	}
 
-	if (flags & VI_FLAG_PRNDLL)
-	{
-		__try
-		{
-			buffer.append(TEXT("\r\nLoaded Modules:\r\n-------------------------------------------------------------------------------\r\n"));
+	if (flags & VI_FLAG_PRNDLL) {
+		__try {
+			buffer.Append(TEXT("\r\nLoaded Modules:\r\n-------------------------------------------------------------------------------\r\n"));
 			EnumerateLoadedModules64(GetCurrentProcess(), LoadedModules64, &buffer);
 		}
 		__except(EXCEPTION_EXECUTE_HANDLER) {}
@@ -604,21 +570,19 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 
 	const PLUGININFOEX *pluginInfoEx = GetPluginInfoEx();
 
-	bkstring buffer;
-	buffer.reserve(0x5000);
-
 	TCHAR curtime[30];
 	GetISO8061Time(NULL, curtime, 30);
 
-	buffer.appendfmt(TEXT("Miranda Crash Report from %s. Crash Dumper v.%d.%d.%d.%d\r\n"),
+	CMString buffer;
+	buffer.AppendFormat(TEXT("Miranda Crash Report from %s. Crash Dumper v.%d.%d.%d.%d\r\n"),
 		curtime, 
 		HIBYTE(HIWORD(pluginInfoEx->version)), LOBYTE(HIWORD(pluginInfoEx->version)), 
 		HIBYTE(LOWORD(pluginInfoEx->version)), LOBYTE(LOWORD(pluginInfoEx->version)));
 
-	size_t crashpos = buffer.size();
+	int crashpos = buffer.GetLength();
 
 	ReadableExceptionInfo(exc_ptr->ExceptionRecord, buffer);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	const HANDLE hProcess = GetCurrentProcess();
 
@@ -626,17 +590,9 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 		SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
 	SymInitialize(hProcess, NULL, TRUE);
 
-	buffer.append(TEXT("\r\nStack Trace:\r\n---------------------------------------------------------------\r\n"));
+	buffer.Append(TEXT("\r\nStack Trace:\r\n---------------------------------------------------------------\r\n"));
 
-	for (int i=81; --i;)
-	{
-		/*
-		char symbuf[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR) + 4] = {0};
-		PSYMBOL_INFO pSym = (PSYMBOL_INFO)symbuf;
-		pSym->SizeOfStruct = sizeof(SYMBOL_INFO);
-		pSym->MaxNameLen = MAX_SYM_NAME;
-		*/
-
+	for (int i=81; --i;) {
 		char symbuf[sizeof(IMAGEHLP_SYMBOL64) + MAX_SYM_NAME * sizeof(TCHAR) + 4] = {0};
 		PIMAGEHLP_SYMBOL64 pSym = (PIMAGEHLP_SYMBOL64)symbuf;
 		pSym->SizeOfStruct = sizeof(IMAGEHLP_SYMBOL64);
@@ -659,19 +615,15 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 
 		if (frame.AddrPC.Offset == frame.AddrReturn.Offset) break;
 
-		if (frame.AddrPC.Offset != 0)
-		{
-			if (SymGetSymFromAddr64(hProcess, frame.AddrPC.Offset, &offsetFromSmybol, pSym))
-				//			if (SymFromAddr(hProcess, frame.AddrPC.Offset, &offsetFromSmybol, pSym))
-			{
+		if (frame.AddrPC.Offset != 0) {
+			if (SymGetSymFromAddr64(hProcess, frame.AddrPC.Offset, &offsetFromSmybol, pSym)) {
 				UnDecorateSymbolName(pSym->Name, undName, MAX_SYM_NAME, UNDNAME_NAME_ONLY);
 				UnDecorateSymbolName(pSym->Name, undFullName, MAX_SYM_NAME, UNDNAME_COMPLETE);
 			}
 
 			SymGetLineFromAddr64(hProcess, frame.AddrPC.Offset, &offsetFromLine, &Line);
 			SymGetModuleInfo64(hProcess, frame.AddrPC.Offset, &Module);
-			if (Module.ModuleName[0] == 0)
-			{
+			if (Module.ModuleName[0] == 0) {
 				FindData data;
 				data.Offset = frame.AddrPC.Offset;
 				data.pModule = &Module;
@@ -692,20 +644,16 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 		const char *lineFileName = Line.FileName ? Line.FileName : "(filename not available)";
 		const char *moduleName = Module.ModuleName[0] ? Module.ModuleName : "(module-name not available)";
 
-		if (crashpos != 0)
-		{
+		if (crashpos != 0) {
 			HMODULE hModule = (HMODULE)Module.BaseOfImage;
 			PLUGININFOEX *pi = GetMirInfo(hModule);
-			if (pi != NULL)
-			{
-
+			if (pi != NULL) {
 				static const TCHAR formatc[] = TEXT("\r\nLikely cause of the crash plugin: %S\r\n\r\n");
 
-				if (pi->shortName)
-				{
-					bkstring crashcause;
-					crashcause.appendfmt(formatc, pi->shortName);
-					buffer.insert(crashpos, crashcause);
+				if (pi->shortName) {
+					CMString crashcause;
+					crashcause.AppendFormat(formatc, pi->shortName);
+					buffer.Insert(crashpos, crashcause);
 				}
 				crashpos = 0;
 			}
@@ -714,12 +662,12 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 
 		static const TCHAR formatd[] = TEXT("%p (%S %p): %S (%d): %S\r\n");
 
-		buffer.appendfmt(formatd, 
+		buffer.AppendFormat(formatd, 
 			(LPVOID)frame.AddrPC.Offset, moduleName, (LPVOID)Module.BaseOfImage, 
 			lineFileName, Line.LineNumber, name);
 	}
 	SymCleanup(hProcess);
-	buffer.append(TEXT("\r\n"));
+	buffer.Append(TEXT("\r\n"));
 
 	PrintVersionInfo(buffer, VI_FLAG_PRNDLL);
 

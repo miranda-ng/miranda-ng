@@ -198,7 +198,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\bkstring.cpp" />
     <ClCompile Include="src\crshdmp.cpp" />
     <ClCompile Include="src\crshdmp_icons.cpp" />
     <ClCompile Include="src\dumper.cpp" />
@@ -211,7 +210,6 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\bkstring.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\sdkstuff.h" />
     <ClInclude Include="src\utils.h" />

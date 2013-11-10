@@ -23,8 +23,7 @@ HANDLE hNetlibUser;
 static void arrayToHex(BYTE* data, size_t datasz, char* res)
 {
 	char* resptr = res;
-	for (unsigned i=0; i<datasz ; i++)
-	{
+	for (unsigned i=0; i<datasz ; i++) {
 		const BYTE ch = data[i];
 
 		const char ch0 = (char)(ch >> 4);
@@ -40,16 +39,13 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 {
 	DBVARIANT dbv;
 
-	if (db_get_s(NULL, PluginName, "Username", &dbv) == 0)
-	{
+	if (db_get_s(NULL, PluginName, "Username", &dbv) == 0) {
 		mir_snprintf(user, szuser, "%s", dbv.pszVal);
 		db_free(&dbv);
 	}
-	else
-		user[0] = 0;
+	else user[0] = 0;
 
-	if (db_get_s(NULL, PluginName, "Password", &dbv) == 0)
-	{
+	if (db_get_s(NULL, PluginName, "Password", &dbv) == 0) {
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
 
 		BYTE hash[16];
@@ -63,8 +59,7 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 
 		db_free(&dbv);
 	}
-	else
-		pass[0] = 0;
+	else pass[0] = 0;
 }
 
 void OpenAuthUrl(const char* url)
@@ -125,31 +120,23 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 	nlhr.pData = szReq->buf;
 	nlhr.dataLength = (int)strlen(szReq->buf);
 
-	while (result == 0xBADBAD)
-	{
+	while (result == 0xBADBAD) {
 		// download the page
-		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-			(WPARAM)hNetlibUser,(LPARAM)&nlhr);
-
-		if (nlhrReply) 
-		{
+		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
+		if (nlhrReply) {
 			int i;
 
 			// if the recieved code is 200 OK
-			switch(nlhrReply->resultCode)
-			{
+			switch(nlhrReply->resultCode) {
 			case 200: 
 				if (db_get_b(NULL, PluginName, "UploadChanged", 0))
 					ProcessVIHash(true);
 
 				for (i=nlhrReply->headersCount; i--; )
-				{
-					if (_stricmp(nlhrReply->headers[i].szName, "OldPlugins") == 0)
-					{
+					if (_stricmp(nlhrReply->headers[i].szName, "OldPlugins") == 0) {
 						i = atoi(nlhrReply->headers[i].szValue);
 						break;
 					}
-				}
 
 				ShowMessage(1, TranslateT("VersionInfo upload successful,\n %d old plugins"), i);
 				result = 0;
@@ -175,13 +162,10 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			case 307:
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
-				for (i=0; i<nlhrReply->headersCount; i++) 
-				{
-					if (!strcmp(nlhrReply->headers[i].szName, "Location")) 
-					{
+				for (i=0; i<nlhrReply->headersCount; i++) {
+					if (!strcmp(nlhrReply->headers[i].szName, "Location")) {
 						size_t rlen = 0;
-						if (nlhrReply->headers[i].szValue[0] == '/')
-						{
+						if (nlhrReply->headers[i].szValue[0] == '/') {
 							const char* szPath;
 							const char* szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
@@ -206,8 +190,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 				ShowMessage(0, TranslateT("Cannot upload VersionInfo. Unknown error"));
 			}
 		}
-		else 
-		{
+		else {
 			result = 1;
 			ShowMessage(0, TranslateT("Cannot upload VersionInfo. Host unreachable."));
 		}
@@ -229,11 +212,9 @@ void __cdecl VersionInfoUploadThread(void* arg)
 	mir_free(trn);
 }
 
-
 void UploadInit(void) 
 {
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_TCHAR;
 	nlu.szSettingsModule = (char*)PluginName;
 	nlu.ptszDescriptiveName = TranslateT("Crash Dumper HTTP connections");
@@ -247,36 +228,27 @@ void UploadClose(void)
 
 bool ProcessVIHash(bool store)
 {
-	bkstring buffer;
-	buffer.reserve(0x1800);
+	CMString buffer;
 	PrintVersionInfo(buffer, 0);
 
 	BYTE hash[16];
 	mir_md5_state_t context;
 
 	mir_md5_init(&context);
-	mir_md5_append(&context, (PBYTE)buffer.c_str(), (int)buffer.sizebytes());
+	mir_md5_append(&context, (PBYTE)buffer.c_str(), buffer.GetLength()*sizeof(TCHAR));
 	mir_md5_finish(&context, hash);
 
 	char hashstr[40];
 	arrayToHex(hash, sizeof(hash), hashstr);
 
-	bool result;
-	if (store)
-	{
+	if (store) {
 		db_set_s(NULL, PluginName, "VIHash", hashstr);
-		result = true;
+		return true;
 	}
-	else
-	{
-		DBVARIANT dbv;
-		if (db_get_s(NULL, PluginName, "VIHash", &dbv) == 0)
-		{
-			result = strcmp(hashstr, dbv.pszVal) == 0;
-			db_free(&dbv);
-		}
-		else
-			result = false;
-	}
-	return result;
+
+	ptrA VIHash(db_get_sa(NULL, PluginName, "VIHash"));
+	if (VIHash == NULL)
+		return false;
+
+	return strcmp(hashstr, VIHash) == 0;
 }

@@ -76,9 +76,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 
 	if (hDumpFile != INVALID_HANDLE_VALUE)
 	{
-		bkstring buffer;
-
-		buffer.reserve(0x1800);
+		CMString buffer;
 		PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR);
 
 		char* bufu = mir_utf8encodeT(buffer.c_str());
@@ -97,9 +95,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 
 INT_PTR StoreVersionInfoToClipboard(WPARAM, LPARAM lParam)
 {
-	bkstring buffer;
-	buffer.reserve(0x1800);
-
+	CMString buffer;
 	WriteBBFile(buffer, true);
 	PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR | VI_FLAG_FORMAT);
 	WriteBBFile(buffer, false);
@@ -111,8 +107,7 @@ INT_PTR StoreVersionInfoToClipboard(WPARAM, LPARAM lParam)
 
 INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
 {
-	bkstring buffer;
-	buffer.reserve(0x1800);
+	CMString buffer;
 	PrintVersionInfo(buffer);
 
 	VerTrnsfr *trn = (VerTrnsfr*)mir_alloc(sizeof(VerTrnsfr));
