@@ -140,7 +140,7 @@ public:
 	~SmileyLookup();
 
 	void Find(const CMString& str, SmileyLocVecType& smlcur, bool firstOnly) const;
-	int  GetIndex(void) const { return m_ind; }
+	int GetIndex(void) const { return m_ind; }
 	bool IsValid(void) const { return m_valid; }
 };
 

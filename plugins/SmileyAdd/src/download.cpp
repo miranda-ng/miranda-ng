@@ -121,7 +121,6 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 	return result == 0;
 }
 
-
 void __cdecl SmileyDownloadThread(void*)
 {
 	bool needext = false;
