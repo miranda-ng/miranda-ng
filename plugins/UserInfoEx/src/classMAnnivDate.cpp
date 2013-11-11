@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * desc:	default constructor
  * param:	none
  * return:	nothing
- **/ 
+ **/
 MAnnivDate::MAnnivDate()
 {
 	Clear();
@@ -42,7 +42,7 @@ MAnnivDate::MAnnivDate()
  * desc:	constructor, which duplicates an existing anniversary date
  * param:	mda	- anniversary date to copy
  * return:	nothing
- **/ 
+ **/
 MAnnivDate::MAnnivDate(MAnnivDate &mda)
 {
 	SetDate(mda);
@@ -54,7 +54,7 @@ MAnnivDate::MAnnivDate(MAnnivDate &mda)
  * desc:	set all attributes to default value
  * param:	none
  * return:	nothing
- **/ 
+ **/
 void MAnnivDate::Clear()
 {
 	ZeroDate();
@@ -72,7 +72,7 @@ void MAnnivDate::Clear()
  * desc:	set new date
  * param:	none
  * return:	nothing
- **/ 
+ **/
 void MAnnivDate::SetDate(SYSTEMTIME &st)
 {
 	ZeroDate();
@@ -87,7 +87,7 @@ void MAnnivDate::SetDate(SYSTEMTIME &st)
  * desc:	duplicates the given anniversary date class
  * param:	none
  * return:	nothing
- **/ 
+ **/
 void MAnnivDate::SetDate(MAnnivDate &mda)
 {
 	SetDate(mda.SystemTime());
@@ -105,7 +105,7 @@ void MAnnivDate::SetDate(MAnnivDate &mda)
  * desc:	compare the current date with the given one in st
  * param:	st	- SYSTEMTIME to compare with
  * return:	number of days the st differs from the class value
- **/ 
+ **/
 __inline BYTE MAnnivDate::IsValid() const
 {
 	return (
@@ -121,7 +121,7 @@ __inline BYTE MAnnivDate::IsValid() const
  * desc:	compare the current date with the given one in st
  * param:	mt	- MTime to compare with
  * return:	number of days the mt differs from the class value
- **/ 
+ **/
 int MAnnivDate::CompareDays(MTime mt) const
 {
 	mt.Year(Year());
@@ -183,7 +183,7 @@ void MAnnivDate::DateStamp(const DWORD dwStamp)
  * desc:	calculates the age according to the date of the class and current date
  * param:	pNow	- optional pointer to a MTime class to specify a certain time to use for age calculation
  * return:	number of years the anniversary differs from now
- **/ 
+ **/
 int MAnnivDate::Age(MTime *pNow)
 {
 	int age = 0;
@@ -206,7 +206,7 @@ int MAnnivDate::Age(MTime *pNow)
  * desc:	returns the zodiac icon and text for the date
  * param:	none
  * return:	structure, holding zodiac information
- **/ 
+ **/
 
 struct {
 	const WORD startDays;
@@ -310,7 +310,7 @@ int MAnnivDate::DBWriteReminderOpts(HANDLE hContact)
 			db_unset(hContact, USERINFO, pszSetting);
 		else
 			db_set_b(hContact, USERINFO, pszSetting, _bRemind);
-		
+
 		// read offset
 		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dOffset", _wID);
 		if (_wDaysEarlier == (WORD)-1)
@@ -332,10 +332,10 @@ int MAnnivDate::DBWriteReminderOpts(HANDLE hContact)
  * param:	hContact	- handle to a contact to read the date from
  *			pszModule	- module holding the date
  *			szDay		- setting of the day to read
- *			szMonth		- setting of the month to read 
+ *			szMonth		- setting of the month to read
  *			szYear		- setting of the year to read
  * return:	0 on success, 1 otherwise
- **/ 
+ **/
 int MAnnivDate::DBGetDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear)
 {
 	ZeroDate();
@@ -367,16 +367,16 @@ int MAnnivDate::DBGetDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCST
  * param:	hContact	- handle to a contact to read the date from
  *			pszModule	- module holding the date
  *			szDay		- setting of the day to read
- *			szMonth		- setting of the month to read 
+ *			szMonth		- setting of the month to read
  *			szYear		- setting of the year to read
  * return:	0 on success, 1 otherwise
- **/ 
+ **/
 int MAnnivDate::DBWriteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear)
 {
 	return
 		db_set_b(hContact, pszModule, szDay, (BYTE)Day()) ||
 		db_set_b(hContact, pszModule, szMonth, (BYTE)Month()) ||
-		db_set_b(hContact, pszModule, szYear, Year());
+		db_set_w(hContact, pszModule, szYear, Year());
 }
 
 /**
@@ -386,10 +386,10 @@ int MAnnivDate::DBWriteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPC
  * param:	hContact	- handle to a contact to read the date from
  *			pszModule	- module holding the date
  *			szDay		- setting of the day to read
- *			szMonth		- setting of the month to read 
+ *			szMonth		- setting of the month to read
  *			szYear		- setting of the year to read
  * return:	0 on success, 1 otherwise
- **/ 
+ **/
 int MAnnivDate::DBDeleteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear) const
 {
 	int ret;
@@ -412,13 +412,13 @@ int MAnnivDate::DBDeleteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LP
  *			pszModule		- module to read the datestamp from
  *			pszSetting		- key used to identify the datestamp
  * return:	0 on success, 1 otherwise
- **/ 
-int MAnnivDate::DBGetDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting) 
+ **/
+int MAnnivDate::DBGetDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	DBVARIANT dbv;
-
 	if (DB::Setting::GetAsIs(hContact, pszModule, pszSetting, &dbv))
 		return 1;
+
 	if (dbv.type != DBVT_DWORD) {
 		db_free(&dbv);
 		return 1;
@@ -435,19 +435,14 @@ int MAnnivDate::DBGetDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSett
  *			pszModule	 - module to write the datestamp to
  *			pszSetting	- key used to save the datestamp
  * return:	0 on success, 1 otherwise
- **/ 
-int MAnnivDate::DBWriteDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting) 
+ **/
+int MAnnivDate::DBWriteDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	DWORD dwStamp = DateStamp();
-
-	if (hContact	 == INVALID_HANDLE_VALUE	||
-			pszModule	== 0 || *pszModule	== 0 ||
-			pszSetting == 0 || *pszSetting == 0 ||
-			dwStamp == 0)
-	{
+	if (hContact == INVALID_HANDLE_VALUE || pszModule == 0 || *pszModule	== 0 || pszSetting == 0 || *pszSetting == 0)
 		return 1;
-	}
-	return db_set_dw(hContact, pszModule, pszSetting, dwStamp);
+
+	DWORD dwStamp = DateStamp();
+	return (dwStamp == 0) ? 1 : db_set_dw(hContact, pszModule, pszSetting, dwStamp);
 }
 
 /***********************************************************************************************************
@@ -461,12 +456,12 @@ int MAnnivDate::DBWriteDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSe
  * param:	hContact		- handle to a contact to read the date from
  *			pszProto		- basic protocol module
  * return:	0 on success, 1 otherwise
- **/ 
+ **/
 int MAnnivDate::DBGetBirthDate(HANDLE hContact, LPSTR pszProto)
 {
 	Clear();
 
-	// try to get birthday from any custom module 
+	// try to get birthday from any custom module
 	if (	!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
 			!DBGetDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
 			!DBGetDate(hContact, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
@@ -478,50 +473,37 @@ int MAnnivDate::DBGetBirthDate(HANDLE hContact, LPSTR pszProto)
 	else if (pszProto || (pszProto = DB::Contact::Proto(hContact)) != NULL)
 	{
 		// try to get birthday from basic protocol
-		if (!DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) 
+		if (!DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 		{
 			SetFlags(MADF_HASPROTO);
 		}
 		// try to get birthday date from metacontact's subcontact
-		else if (DB::Module::IsMetaAndScan(pszProto))
-		{
-			const int def = DB::MetaContact::SubDefNum(hContact);
-			HANDLE hSubContact;
-
+		else if (DB::Module::IsMetaAndScan(pszProto)) {
 			// try to get setting from the default subcontact first
-			if (def > -1 && def < INT_MAX) 
-			{
-				hSubContact = DB::MetaContact::Sub(hContact, def);
-				if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) 
-				{
+			const int def = DB::MetaContact::SubDefNum(hContact);
+			if (def > -1 && def < INT_MAX) {
+				HANDLE hSubContact = DB::MetaContact::Sub(hContact, def);
+				if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) {
 					RemoveFlags(MADF_HASCUSTOM);
 					SetFlags(MADF_HASMETA);
 				}
 			}
 
 			// scan all subcontacts for the setting
-			if (_wFlags == 0)
-			{
+			if (_wFlags == 0) {
 				const int cnt = DB::MetaContact::SubCount(hContact);
 
-				if (cnt < INT_MAX) 
-				{
-					int i;
-					for (i = 0; i < cnt; i++) 
-					{
-						if (i != def)
-						{
-							hSubContact = DB::MetaContact::Sub(hContact, i);
-							if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) 
-							{
+				if (cnt < INT_MAX) {
+					for (int i = 0; i < cnt; i++) {
+						if (i != def) {
+							HANDLE hSubContact = DB::MetaContact::Sub(hContact, i);
+							if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) {
 								RemoveFlags(MADF_HASCUSTOM);
 								SetFlags(MADF_HASMETA);
 								break;
-		}	}	}	}	}	}	
-	}
+	}	}	}	}	}	}	}
 
-	if (_wFlags != 0) 
-	{
+	if (_wFlags != 0) {
 		_wID = ANID_BIRTHDAY;
 		_strDesc = TranslateT("Birthday");
 		return 0;
@@ -532,36 +514,36 @@ int MAnnivDate::DBGetBirthDate(HANDLE hContact, LPSTR pszProto)
 /**
  * name:	DBMoveBirthDate
  * class:	MAnnivDate
- * desc:	keep the database clean 
+ * desc:	keep the database clean
  * param:	hContact		- handle to a contact to read the date from
  *			bOld			- byte RemindBirthModule src
  *			bNew			- byte RemindBirthModule dest
  * return:	0 on success, 1 otherwise
- **/ 
-// 
-int MAnnivDate::DBMoveBirthDate(HANDLE hContact, BYTE bOld, BYTE bNew) {
+ **/
+
+int MAnnivDate::DBMoveBirthDate(HANDLE hContact, BYTE bOld, BYTE bNew)
+{
 	Clear();
 	switch(bOld) {
-		case 0:		//MOD_MBIRTHDAY
-			if (!DBGetDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
-				if (DBWriteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
-					return 1;
-				DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-				db_unset(hContact, MOD_MBIRTHDAY, "BirthMode");
-				}
-			break;
-		case 1:		//USERINFO
-			if (!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
-				if (DBWriteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
-					return 1;
-				db_set_b(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
-				DBDeleteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-			}
-			break;
-		default:
-			return 1;
-			break;
+	case 0:		//MOD_MBIRTHDAY
+		if (!DBGetDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
+			if (DBWriteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
+				return 1;
+			DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
+			db_unset(hContact, MOD_MBIRTHDAY, "BirthMode");
 		}
+		break;
+	case 1:		//USERINFO
+		if (!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
+			if (DBWriteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
+				return 1;
+			db_set_b(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
+			DBDeleteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
+		}
+		break;
+	default:
+		return 1;
+	}
 	return 0;
 }
 
@@ -572,15 +554,14 @@ int MAnnivDate::DBMoveBirthDate(HANDLE hContact, BYTE bOld, BYTE bNew) {
  * param:	hContact		- handle to a contact to read the date from
  *			pszProto		- basic protocol module
  * return:	0 on success, 1 otherwise
- **/ 
+ **/
+
 int MAnnivDate::DBWriteBirthDate(HANDLE hContact)
 {
-	int rc = 0;
 	LPCSTR pszModule = SvcReminderGetMyBirthdayModule();
 
-	rc = DBWriteDate(hContact, pszModule, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-	if (!rc)
-	{
+	int rc = DBWriteDate(hContact, pszModule, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
+	if (!rc) {
 		if (!mir_strcmp(pszModule, MOD_MBIRTHDAY))
 			db_set_b(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
 
@@ -592,16 +573,14 @@ int MAnnivDate::DBWriteBirthDate(HANDLE hContact)
 				!myGlobals.UseDbxTree)
 		{
 			// keep the database clean
-			
-			if (mir_strcmp(pszModule, MOD_MBIRTHDAY)!= 0)
-			{
+
+			if (mir_strcmp(pszModule, MOD_MBIRTHDAY) != 0) {
 				DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
 				db_unset(hContact, MOD_MBIRTHDAY, "BirthMode");
 			}
-			else if (mir_strcmp(pszModule, USERINFO) !=0)
-			{
+			else if (mir_strcmp(pszModule, USERINFO) != 0)
 				DBDeleteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-			}
+
 			DBDeleteDate(hContact, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
 			DBDeleteDate(hContact, USERINFO, SET_CONTACT_DOBD, SET_CONTACT_DOBM, SET_CONTACT_DOBY);
 		}
@@ -618,7 +597,8 @@ int MAnnivDate::DBWriteBirthDate(HANDLE hContact)
  * param:	hContact		- handle to a contact to read the date from
  *			pszProto		- basic protocol module
  * return:	0 on success, 1 otherwise
- **/ 
+ **/
+
 int MAnnivDate::DBDeleteBirthDate(HANDLE hContact)
 {
 	return DBDeleteDate(hContact, Module(), SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
@@ -635,28 +615,25 @@ int MAnnivDate::DBDeleteBirthDate(HANDLE hContact)
  * param:	hContact		- handle to a contact to read the date from
  *			pszProto		- basic protocol module
  * return: 0 on success, 1 otherwise
- **/ 
+ **/
+
 int MAnnivDate::DBGetAnniversaryDate(HANDLE hContact, WORD iIndex)
 {
-	CHAR szStamp[MAXSETTING];
-	DBVARIANT dbv;
-	int rc;
-
 	Clear();
 
 	// read date and convert older versions
+	CHAR szStamp[MAXSETTING];
 	mir_snprintf(szStamp, SIZEOF(szStamp), "Anniv%dDate", iIndex);
-	rc = DBGetDateStamp(hContact, USERINFO, szStamp);
-	if (!rc)
-	{
+	int rc = DBGetDateStamp(hContact, USERINFO, szStamp);
+	if (!rc) {
 		_strModule = USERINFO;
 		_wFlags |= MADF_HASCUSTOM;
 		_wID = iIndex;
-		
+
 		// read description
 		mir_snprintf(szStamp, SIZEOF(szStamp), "Anniv%dDesc", iIndex);
-		if (!DB::Setting::GetTString(hContact, USERINFO, szStamp, &dbv)) 
-		{
+		DBVARIANT dbv;
+		if (!DB::Setting::GetTString(hContact, USERINFO, szStamp, &dbv)) {
 			_strDesc = dbv.ptszVal;
 			db_free(&dbv);
 		}
@@ -671,21 +648,16 @@ int MAnnivDate::DBGetAnniversaryDate(HANDLE hContact, WORD iIndex)
  * param:	hContact		- handle to a contact to read the date from
  *			pszProto		- basic protocol module
  * return:	0 on success, 1 otherwise
- **/ 
+ **/
 int MAnnivDate::DBWriteAnniversaryDate(HANDLE hContact, WORD wIndex)
 {
-	int ret = 0;
-
 	// date can only be written to db as anniversary if it is not marked as birthday
-	if (wIndex <= ANID_LAST && _wID != ANID_BIRTHDAY) 
-	{
-		CHAR	pszSetting[MAXSETTING];
-
+	if (wIndex <= ANID_LAST && _wID != ANID_BIRTHDAY) {
 		_wID = wIndex;
-		
+
+		CHAR pszSetting[MAXSETTING];
 		mir_snprintf(pszSetting, SIZEOF(pszSetting), "Anniv%dDate", wIndex);
-		if (!DBWriteDateStamp(hContact, USERINFO, pszSetting)) 
-		{
+		if (!DBWriteDateStamp(hContact, USERINFO, pszSetting)) {
 			// write description
 			mir_snprintf(pszSetting, SIZEOF(pszSetting), "Anniv%dDesc", wIndex);
 			db_set_ts(hContact, USERINFO, pszSetting, (LPTSTR)Description());
@@ -710,11 +682,10 @@ static WORD AskUser(HANDLE hContact, MAnnivDate *pOldCustomDate, MAnnivDate *pNe
 
 	pOldCustomDate->DateFormat(szoldDate, SIZEOF(szoldDate));
 	pNewProtoDate->DateFormat(szDate, SIZEOF(szDate));
-	
+
 	mir_sntprintf(szMsg, SIZEOF(szMsg),
-		TranslateT("%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?"), 
-		DB::Contact::DisplayName(hContact), szDate, szoldDate
- );
+		TranslateT("%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?"),
+		DB::Contact::DisplayName(hContact), szDate, szoldDate);
 
 	MB.cbSize = sizeof(MSGBOX);
 	MB.hParent = NULL;
@@ -734,7 +705,8 @@ static WORD AskUser(HANDLE hContact, MAnnivDate *pOldCustomDate, MAnnivDate *pNe
  * param:	hContact		- handle to a contact to read the date from
  *			pszProto		- basic protocol module
  * return:	0 if backup was done, 1 otherwise
- **/ 
+ **/
+
 int MAnnivDate::BackupBirthday(HANDLE hContact, LPSTR pszProto, const BYTE bDontIgnoreAnything, PWORD lastAnswer)
 {
 	if (!hContact)
@@ -762,8 +734,8 @@ int MAnnivDate::BackupBirthday(HANDLE hContact, LPSTR pszProto, const BYTE bDont
 			MAnnivDate mdbIgnore;
 
 			const int nSubContactCount = (bIsMeta) ? DB::MetaContact::SubCount(hContact) : 0;
-				
-			BYTE bWantBackup = !mdbNewProto.DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) 
+
+			BYTE bWantBackup = !mdbNewProto.DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)
 									&& !IsEqual(mdbNewProto.SystemTime())
 									&& (bDontIgnoreAnything || (db_get_dw(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbNewProto.DateStamp()))
 									&& !bIsMetaSub;
@@ -772,8 +744,8 @@ int MAnnivDate::BackupBirthday(HANDLE hContact, LPSTR pszProto, const BYTE bDont
 			for (int i = 0; (i < nSubContactCount) && bWantBackup && bIsMeta; i++) {
 				HANDLE hSubContact = DB::MetaContact::Sub(hContact, i);
 				if (hSubContact && !mdbIgnore.DBGetDate(hSubContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
-					bWantBackup = bWantBackup 
-											&& !IsEqual(mdbIgnore.SystemTime()) 
+					bWantBackup = bWantBackup
+											&& !IsEqual(mdbIgnore.SystemTime())
 											&& (bDontIgnoreAnything || (db_get_dw(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbIgnore.DateStamp()));
 			}
 			if (bWantBackup) {
@@ -792,7 +764,7 @@ int MAnnivDate::BackupBirthday(HANDLE hContact, LPSTR pszProto, const BYTE bDont
 					Set(mdbNewProto);
 					DBWriteDateStamp(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
 					DBWriteBirthDate(hContact);
-						
+
 					// update metasubcontacts
 					for (int i = 0; i < nSubContactCount; i++) {
 						HANDLE hSubContact = DB::MetaContact::Sub(hContact, i);
@@ -806,7 +778,7 @@ int MAnnivDate::BackupBirthday(HANDLE hContact, LPSTR pszProto, const BYTE bDont
 					return 0;
 				}
 			}
-		}				
+		}
 	}
 	return 1;
 }
