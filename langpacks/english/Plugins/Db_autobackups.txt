@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.9
+;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
@@ -19,6 +19,7 @@
 [Backup to folder:]
 [Browse...]
 [Go to the "Customize -> Folders" to change settings]
+[Compress backup to zip-archive]
 [Disable progress bar]
 [Disable Popups]
 ;file \plugins\Db_autobackups\src\backup.cpp

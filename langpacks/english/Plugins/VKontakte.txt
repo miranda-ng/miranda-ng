@@ -25,3 +25,6 @@
 [Account]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
+;file \protocols\VKontakte\src\vk_thread.cpp
+[Attachments:]
+[Photo]

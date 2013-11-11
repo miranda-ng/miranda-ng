@@ -223,6 +223,7 @@
 [Show 2nd line:]
 [Draw overlay icon on avatar]
 [Show local time]
+[&Main menu]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]

@@ -86,6 +86,7 @@
 [Make sections equal width]
 [Show bevels on panels]
 [Show resize grip indicator]
+[&Main menu]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]

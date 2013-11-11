@@ -123,6 +123,7 @@
 [Show bevel effect on panels]
 [Use connecting Icon]
 [Use New Drawer for StatusBar]
+[&Main menu]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]

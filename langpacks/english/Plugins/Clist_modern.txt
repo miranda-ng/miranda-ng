@@ -304,6 +304,7 @@
 [Move up]
 [Move down]
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+[&Main menu]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]
