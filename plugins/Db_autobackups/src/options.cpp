@@ -29,6 +29,7 @@ int LoadOptions(void)
 
 	options.disable_progress = (BOOL)db_get_b(0, "AutoBackups", "NoProgress", 0);
 	options.disable_popups = (BOOL)db_get_b(0, "AutoBackups", "NoPopups", 0);
+	options.use_zip = (BOOL)db_get_b(0, "AutoBackups", "UseZip", 0);
 
 	SetBackupTimer();
 	return 0;
@@ -63,6 +64,7 @@ int SaveOptions(void)
 	db_set_w(0, "AutoBackups", "NumBackups", (WORD)options.num_backups);
 	db_set_b(0, "AutoBackups", "NoProgress", (BYTE)options.disable_progress);
 	db_set_b(0, "AutoBackups", "NoPopups", (BYTE)options.disable_popups);
+	db_set_b(0, "AutoBackups", "UseZip", (BYTE)options.use_zip);
 
 	SetBackupTimer();
 	return 0;
@@ -83,6 +85,7 @@ int SetDlgState(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPROG), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEZIP), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PERIOD), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PT), FALSE);
 
@@ -97,6 +100,7 @@ int SetDlgState(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPROG), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), TRUE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEZIP), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PERIOD), new_options.backup_types & BT_PERIODIC);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PT), new_options.backup_types & BT_PERIODIC);
 
@@ -116,6 +120,7 @@ int SetDlgState(HWND hwndDlg)
 
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPROG, new_options.disable_progress ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPOPUP, new_options.disable_popups ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_CHK_USEZIP, new_options.use_zip ? BST_CHECKED : BST_UNCHECKED);
 	if ( !ServiceExists(MS_POPUP_ADDPOPUP))
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), SW_HIDE);
 
@@ -262,6 +267,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 			case IDC_CHK_NOPOPUP:
 				new_options.disable_popups = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOPOPUP);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			case IDC_CHK_USEZIP:
+				new_options.use_zip = IsDlgButtonChecked(hwndDlg, IDC_CHK_USEZIP);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_LNK_FOLDERS:

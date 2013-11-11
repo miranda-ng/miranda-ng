@@ -176,6 +176,11 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Zlib\zlib_11.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\backup.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\stdafx.cpp">

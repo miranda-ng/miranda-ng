@@ -20,6 +20,7 @@
 #define IDC_CHK_NOPROG                  1670
 #define IDC_BUT_NOW                     1671
 #define IDC_CHK_NOPOPUP                 1672
+#define IDC_CHK_USEZIP                  1673
 #define IDC_PROGRESSMESSAGE             0xDAED
 #define IDC_PROGRESS                    0xDEAD
 

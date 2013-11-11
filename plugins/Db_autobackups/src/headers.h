@@ -38,6 +38,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam);
 int LoadOptions(void);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle);
 void BackupThread(void* backup_filename);
+bool MakeZip(LPCTSTR szSource, LPCTSTR szDest);
 
 extern HINSTANCE hInst;
 extern TCHAR* profilePath;

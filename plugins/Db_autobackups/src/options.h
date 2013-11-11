@@ -32,6 +32,7 @@ typedef struct Options_tag {
 	unsigned int num_backups;
 	BOOL disable_progress;
 	BOOL disable_popups;
+	BOOL use_zip;
 } Options;
 
 extern Options options;

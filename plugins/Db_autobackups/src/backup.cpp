@@ -1,6 +1,8 @@
 #include "headers.h"
+#include "..\Zlib\src\zip.h"
 
 TCHAR dbname[MAX_PATH];
+HWND progress_dialog;
 
 static UINT_PTR timer_id;
 
@@ -23,6 +25,95 @@ INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		break;
 	}
 	return FALSE;
+}
+TCHAR* DoubleSlash(TCHAR *sorce)
+{
+	TCHAR *ret = (TCHAR*)mir_calloc(MAX_PATH);
+	TCHAR *r, *s;
+	for (s = sorce, r = ret; *s && r - ret < MAX_PATH; s++, r++){
+		if (*s != _T('\\'))
+			*r = *s;
+		else{
+			*r = _T('\\');
+			r++;
+			*r = _T('\\');
+		}
+	}
+	return ret;
+}
+
+bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
+{
+	bool ret = false;
+
+	char* tmp = mir_u2a(tszSource);
+
+	ptrA szSourceName(mir_strdup(strrchr(tmp, '\\') + 1));
+	ptrT tszDestPath(DoubleSlash((TCHAR*)tszDest));
+
+	mir_free(tmp);
+
+	WIN32_FILE_ATTRIBUTE_DATA fad = {0};
+	if ( GetFileAttributesEx( tszSource, GetFileExInfoStandard, &fad ) )
+	{
+		SYSTEMTIME st;
+		FileTimeToLocalFileTime(  &fad.ftLastWriteTime, &fad.ftLastWriteTime );
+		FileTimeToSystemTime( &fad.ftLastWriteTime, &st );
+
+		HANDLE hSrc = CreateFile( tszSource, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+		if ( hSrc != INVALID_HANDLE_VALUE )
+		{
+			if ( zipFile hZip = zipOpen2_64(tszDestPath, APPEND_STATUS_CREATE, NULL, NULL) )
+			{
+				zip_fileinfo fi = {0};
+				fi.tmz_date.tm_sec = st.wSecond;
+				fi.tmz_date.tm_min = st.wMinute;
+				fi.tmz_date.tm_hour = st.wHour;
+				fi.tmz_date.tm_mday = st.wDay;
+				fi.tmz_date.tm_mon = st.wMonth;
+				fi.tmz_date.tm_year = st.wYear;
+
+				int res = zipOpenNewFileInZip( hZip, szSourceName, &fi, NULL, 0, NULL, 0, "",  Z_DEFLATED, Z_BEST_COMPRESSION );
+				if ( res == ZIP_OK )
+				{
+					DWORD buf_length = 256 * 1024;	// 256 KB
+					HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
+					UINT i = 0;
+					if ( void* buf = mir_alloc( buf_length ) )
+					{
+						for (;;)
+						{
+							DWORD read = 0;
+							if ( ! ReadFile( hSrc, buf, buf_length, &read, NULL ) )
+								break;
+
+							if ( read == 0 )
+							{
+								// EOF
+								ret = true;
+								break;
+							}
+
+							res = zipWriteInFileInZip( hZip, buf, read );
+							if ( res != ZIP_OK )
+								break;
+
+							SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / ((int)fad.nFileSizeLow / buf_length) * ++i), 0);
+						}					
+
+						mir_free( buf );
+					}
+					zipCloseFileInZip( hZip );
+				}
+				char szComment[128];
+				mir_snprintf(szComment, SIZEOF(szComment), "Miranda NG Database\r\nCreated by: %s %d.%d.%d.%d\r\n", __PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM); 
+				zipClose( hZip, szComment);
+			}
+			CloseHandle( hSrc );
+		}
+	}
+
+	return ret;
 }
 
 INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
@@ -58,11 +149,11 @@ struct FileNameFound_Tag
 	FILETIME CreationTime;
 }FileNameFound;
 
-int RotateBackups(HWND progress_dialog, DWORD start_time)
+int RotateBackups(DWORD start_time)
 {
 	TCHAR backupfilename1[MAX_PATH] = {0}, backupfolderTmp[MAX_PATH] = {0};
 	unsigned int i = 0;
-	HWND prog = GetDlgItem(progress_dialog, IDC_PROGRESS);
+	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 	MSG msg;
 
 	WIN32_FIND_DATA FindFileData;
@@ -78,7 +169,7 @@ int RotateBackups(HWND progress_dialog, DWORD start_time)
 	{
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
-		else if (_tcsicmp(&FindFileData.cFileName[_tcslen(FindFileData.cFileName)-4], _T(".bak")) == 0)
+		else if (_tcsicmp(&FindFileData.cFileName[_tcslen(FindFileData.cFileName)-4], _T(".bak")) == 0 || _tcsicmp(&FindFileData.cFileName[_tcslen(FindFileData.cFileName)-4], _T(".zip")) == 0)
 		{
 			if (_tcsicmp(FileNameFound.Name, _T("")) == 0)
 			{
@@ -90,7 +181,6 @@ int RotateBackups(HWND progress_dialog, DWORD start_time)
 				_tcscpy(FileNameFound.Name, FindFileData.cFileName);
 				FileNameFound.CreationTime = FindFileData.ftCreationTime;
 			}
-			i++;
 			while(PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0)
 			{
 				if (!IsDialogMessage(progress_dialog, &msg))
@@ -100,8 +190,8 @@ int RotateBackups(HWND progress_dialog, DWORD start_time)
 				}
 			}
 
-			SendMessage(prog, PBM_SETPOS, (WPARAM)(int)(100  * (options.num_backups - i) / options.num_backups), 0);
-			UpdateWindow(progress_dialog);
+			SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / options.num_backups * ++i), 0);
+			//UpdateWindow(progress_dialog);
 		}
 	}
 
@@ -123,8 +213,8 @@ void BackupThread(void* backup_filename)
 int Backup(TCHAR* backup_filename)
 {
 	TCHAR source_file[MAX_PATH] = {0}, dest_file[MAX_PATH] = {0};
-	HWND progress_dialog;
 	DWORD start_time = GetTickCount();
+	BOOL bZip = FALSE;
 
 	CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)dbname);
 
@@ -133,6 +223,7 @@ int Backup(TCHAR* backup_filename)
 		SYSTEMTIME st;
 		TCHAR buffer[MAX_COMPUTERNAME_LENGTH+1];
 		DWORD size = sizeof(buffer);
+		bZip = options.use_zip;
 
 		TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
@@ -143,7 +234,7 @@ int Backup(TCHAR* backup_filename)
 
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
-		mir_sntprintf(dest_file, MAX_PATH, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.bak"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer);
+		mir_sntprintf(dest_file, MAX_PATH, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip? _T("zip") : _T("bak"));
 		mir_free(backupfolder);
 	}
 	else
@@ -157,17 +248,22 @@ int Backup(TCHAR* backup_filename)
 		SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Rotating backup files..."));
 	}
 
-	RotateBackups(progress_dialog, start_time);
+	RotateBackups(start_time);
 
-	SetDlgItemText(progress_dialog, 0xDAED, TranslateT("Copying database file..."));
-	SendMessage(progress_dialog, PBM_SETPOS, (WPARAM)(int)(0), 0);
+	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
+	SendMessage(GetDlgItem(progress_dialog, IDC_PROGRESS), PBM_SETPOS, (WPARAM)0, 0);
 	UpdateWindow(progress_dialog);
 
 	mir_sntprintf(source_file, MAX_PATH, _T("%s\\%s"), profilePath, dbname);
 	TCHAR *pathtmp = Utils_ReplaceVarsT(source_file);
-	if (CopyFile(pathtmp, dest_file, 0))
+	BOOL res = 0;
+	if(bZip)
+		res = MakeZip(pathtmp, dest_file);
+	else
+		res = CopyFile(pathtmp, dest_file, 0);
+	if (res)
 	{
-		SendMessage(progress_dialog, PBM_SETPOS, (WPARAM)(int)(100), 0);
+		SendMessage(GetDlgItem(progress_dialog, IDC_PROGRESS), PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
 		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
 		if (!options.disable_popups)
