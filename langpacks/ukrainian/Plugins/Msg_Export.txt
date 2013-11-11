@@ -234,7 +234,7 @@ URL:
 [LastName :]
 Прізвище :
 [e-mail :]
-e-mail :
+E-mail :
 [Reason :]
 Причина :
 [Invalid Database event received. Type %d, size %d]

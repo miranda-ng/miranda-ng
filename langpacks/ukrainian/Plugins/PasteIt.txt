@@ -127,14 +127,14 @@ HTTP підключення Paste It
 Ви можете розмістити тільки 1 файл
 [Cannot get data from clipboard]
 Неможливо отримати дані з буфера обміну
-[File size is %dKB, do you realy want to paste such large file?]
-Розмір файлу %dKB, ви дійсно хочете розмістити такий великий файл?
+[File size is %d KB, do you realy want to paste such a large file?]
+Розмір файлу %d КБ, ви дійсно хочете розмістити такий великий файл?
 [Are You sure?]
 Ви впевнені?
 [Cannot read file '%s']
 Неможливо прочитати файл '%s'
-[File size is larger then 10MB, cannot be send]
-Файл розміром більше 10MB, не може бути відправленим
+[File size is larger then 10 MB, cannot be sent]
+Розмір файлу більше 10 МБ, неможливо відправити
 [Cannot open file '%s']
 Неможливо відкрити файл '%s'
 [File '%s' is empty]

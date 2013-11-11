@@ -112,7 +112,7 @@
 [Confirm password:]
 Підтвердити пароль:
 [New e-mail:]
-Новий e-mail:
+Новий E-mail:
 [&Create]
 &Створити
 [Remove Gadu-Gadu account]
@@ -128,9 +128,9 @@
 [Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
 Змінити пароль Gadu-Gadu\nЗміна поточного Gadu-Gadu паролю
 [Change Gadu-Gadu e-mail]
-Змінити e-mail Gadu-Gadu
+Змінити E-mail Gadu-Gadu
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-Змінити e-mail Gadu-Gadu\nЗміна поточного e-mail Gadu-Gadu
+Змінити E-mail Gadu-Gadu\nЗміна поточного E-mail Gadu-Gadu
 [Age from:]
 Вік:
 [to:]
@@ -162,9 +162,9 @@
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda не може розпізнати ім'я сервера Gadu-Gadu за IP-адресою.
 [Miranda was unable to make a connection with a server. It is likely that the server is down in which case you should wait for a while and try again later.]
-Miranda NG не в змозі встановити з'єднання з сервером. Цілком ймовірно, що сервер не працює, в такому випадку ви повинні почекати деякий час, і повторіть спробу пізніше.
+Miranda NG не в змозі встановити з'єднання з сервером. Цілком ймовірно, що сервер не працює, в такому випадку ви повинні почекати деякий час і повторити спробу пізніше.
 [Received invalid server response.]
-Отримано неправильний відповідь сервера.
+Отримано неправильну відповідь сервера.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check at login details M->Options->Network->Gadu-Gadu and try again.]
@@ -174,11 +174,11 @@ The connection with the server was abortively closed during the connection attem
 [Cannot establish secure connection.]
 Неможливо встановити SSL з'єднання.
 [Server disconnected asking you for changing your e-mail.]
-Сервер відключений прошу поміняти свій e-mail.
+Сервер відключений прошу поміняти свій E-mail.
 [Too many login attempts with invalid password.]
 Занадто багато спроб входу з невірним паролем.
 [Gadu-Gadu servers are now down. Try again later.]
-Gadu-Gadu сервери, відключені. Спробуйте ще раз пізніше.
+Сервери Gadu-Gadu відключені. Спробуйте ще раз пізніше.
 [Unknown]
 Невідомо
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
@@ -262,7 +262,7 @@ Gadu-Gadu сервери, відключені. Спробуйте ще раз �
 [Can not open image file. ERROR: %d: %s\n%s]
 Неможливо відкрити файл зображення. ПОМИЛКА: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
-Допустимий розмір в 255Кб перевищено
+Допустимий розмір в 255 КБ перевищено
 [You have to be connected before you can import/export contacts from/to server.]
 Встановіть з'єднання перед імпортом/експортом контактів з/на сервер.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
@@ -296,7 +296,7 @@ Gadu-Gadu сервери, відключені. Спробуйте ще раз �
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 
 [Password was sent to your e-mail.]
-Пароль надіслано на ваш e-mail.
+Пароль надіслано на ваш E-mail.
 [Notify]
 Повідомлення
 [Error]
@@ -350,8 +350,8 @@ IP адреса
 [Your password has been changed.]
 Ваш пароль змінено.
 [Your e-mail cannot be changed because of error:\n\t%s]
-Неможливо змінити e-mail через помилку:\n\t%s
+Неможливо змінити E-mail через помилку:\n\t%s
 [Bad old e-mail or password]
-Невірний старий e-mail або пароль
+Невірний старий E-mail або пароль
 [Your e-mail has been changed.]
-Ваш e-mail змінено.
+Ваш E-mail змінено.

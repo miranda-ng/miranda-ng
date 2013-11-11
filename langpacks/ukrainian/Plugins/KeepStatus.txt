@@ -186,7 +186,7 @@
 [Monitor mouse activity]
 
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
-Ігнорувати клавіші CTRL, ALT, SHIFT, TAB, ESC та Win
+Ігнорувати клавіші Ctrl, Alt, Shift, Tab, Esc та Win
 [Ignore any key combination with above keys]
 
 [Accounts]

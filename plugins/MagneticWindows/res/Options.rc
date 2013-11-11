@@ -74,7 +74,7 @@ BEGIN
     CONTROL         "Snap windows",IDC_CHK_SNAP,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,18,24,84,12
     LTEXT           "15 pix",IDC_TXT_SNAPWIDTH,216,24,42,12,SS_CENTERIMAGE
-    CONTROL         "For Scriver users: automatically hold down the CTRL key while moving/sizing. (make sure you use Scriver!)",
+    CONTROL         "For Scriver users: automatically hold down the CTRL key while moving/sizing. (Make sure you use Scriver!)",
                     IDC_CHK_SCRIVERWORKAROUND,"Button",BS_AUTOCHECKBOX | 
                     BS_MULTILINE | WS_TABSTOP,18,44,239,20,WS_EX_TRANSPARENT
 END

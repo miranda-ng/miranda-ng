@@ -28,7 +28,7 @@
 [...on left side of name]
 ...зліва від імені
 [Hide subcontacts]
-Ховати суб-контакти
+Ховати субконтакти
 [But keep subcontacts protocols of above in list if meta is hidden]
 Але показувати, якщо метаконтакт захований
 [Enter username:]

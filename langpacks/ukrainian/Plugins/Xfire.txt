@@ -96,8 +96,9 @@
 Доступні наступні змінні: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [* Variables plugin needed]
 * Потрібен плагін змінних (Variables)
-[The changes you have made you require to reconnect to the XFire network before they take effect]
-Зроблені вами зміни вимагають, що б ви переподключились до мережі XFire для вступу їх у силу.
+[The changes you have made require you to reconnect to the XFire network before they take effect]
+Зроблені вами зміни вимагають, щоб ви перепідключились до мережі XFire для вступу їх у силу.
+Необхідно перепідключились до мережі XFire, щоб зроблені вами зміни вступили в силу.
 [XFire Options]
 Налаштування XFire
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]

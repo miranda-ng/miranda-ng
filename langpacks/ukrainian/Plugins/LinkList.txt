@@ -46,7 +46,7 @@
 Тільки вихідні
 [Parting line]
 Розділ. лінію
-[Plugin Default]	
+[Plugin Default]
 За замовчуванням
 [Save window position individually for each contact]
 Зберігати позицію вікна окремо для кожного контакту

@@ -53,7 +53,7 @@ IP адреса 2
 %ExternalIP% змінна
 [Test]
 Тест
-[Transfer limit (kb/sec)]
+[Transfer limit (Kb/s)]
 Ліміт швидкості (Кб/с)
 [No control when Away/NA]
 Вимк. якщо недосяжний/зайнятий

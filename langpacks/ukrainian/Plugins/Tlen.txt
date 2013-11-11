@@ -90,7 +90,7 @@ Tlen запрошення до голосового чату
 [Alert policy]
 Політика повідомлення
 [These changes will take effect the next time you connect to the Tlen network.]
-Зміни вступлять в силу, після того як Ви переподключитесь до мережі Tlen.
+Зміни вступлять в силу після того, як ви перепідключитесь до мережі Tlen.
 [Voice Chat]
 Голосовий чат
 [Voice chat]

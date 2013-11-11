@@ -390,7 +390,7 @@
 [Selected contact]
 Вибраний контакт
 [Snap to edges (hold CTRL for snap between floaters)]
-Липнути до країв (тримайте CTRL для прилипання між плаваючими)
+Липнути до країв (тримайте Ctrl для прилипання між плаваючими)
 [Telephone]
 Телефон
 [View modes]

@@ -27,9 +27,9 @@
 [Show Preview of Event in Popup]
 Перегляд події у вікні
 [Open Event]
-Відкрити подія
+Відкрити подію
 [Dismiss Event]
-Приховати подія
+Приховати подію
 [Don't show Popup Message when-Dialog is already open]
 Не показувати, якщо відкрито вікно
 [Open Reply-Dialog instead of reading the Message]

@@ -441,7 +441,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [* only the first %d icons will be shown]
 * буде показано тільки перші %d значків
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Значки можна згрупувати/розгрупувати, виділивши їх (CTRL+ЛКМ) та викликавши меню правою кнопкою миші.
+Значки можна згрупувати/розгрупувати, виділивши їх (Ctrl+ЛКМ) та викликавши меню правою кнопкою миші.
 [Tray]
 Трей
 [&Hide/Show]
@@ -580,7 +580,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Ввімкнути підсвічування
 [Limit log text to (events):]
 Кількість подій у журналі:
-[Trim to (kB)]
+[Trim to (KB)]
 Обрізати до (КБ)
 [Words to highlight (wildcards allowed)]
 Підсвічувати слова (дозволені шаблони заміни)

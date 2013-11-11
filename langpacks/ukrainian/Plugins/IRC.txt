@@ -596,13 +596,13 @@ WallOps від %s:
 [Set URL, linked to nick]
 Посилання на нік
 [Please enter your e-mail, that will be linked to your nick]
-Введіть e-mail вашого ніка
+Введіть E-mail вашого ніка
 [Set e-mail, linked to nick]
-Встановити e-mail, що посилається на нік
+Встановити E-mail, що посилається на нік
 [Please enter some information about your nick]
-Введіть інформацію про вашому ніку
+Введіть інформацію про ваш нік
 [Set information for nick]
-Встановити інфо про ніке
+Встановити інфо про нік
 [Please enter nick you want to link to your current nick]
 Введіть нік, який потрібно закріпити за поточним ніком
 [Link another nick to current nick]
@@ -636,13 +636,13 @@ WallOps від %s:
 [Set homepage]
 Встановити посилання
 [Set e-mail]
-Встановити e-mail
+Встановити E-mail
 [Set info]
 Встановити інфо
-[Hide e-mail info from]
-Приховати e-mail з інформацією
+[Hide e-mail from info]
+Cховати E-mail
 [Show e-mail in info]
-Показати e-mail
+Показати E-mail
 [Set security for nick]
 Встановити захист на нік
 [Remove security for nick]

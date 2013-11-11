@@ -257,7 +257,7 @@ dat (mContacts)
 [Contacts recieved]
 Отримання контактів
 [SMTP-Simple Email]
-Повідомлення e-mail (SMTP-Simple)
+Повідомлення E-mail (SMTP-Simple)
 [SMS message]
 Повідомлення SMS
 [Group list]

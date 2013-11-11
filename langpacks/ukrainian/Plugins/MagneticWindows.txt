@@ -10,6 +10,6 @@
 [Snap windows]
 Прикріпіть
 [Alternate behauvior of shift key: move windows together by default]
-Чередувати режим клавішею SHIFT: рухати вікна, за замовчанням
-[For Scriver users: automatically hold down the CTRL key while moving/sizing. (make sure you use Scriver!)]
-Для плагіна Scriver: автоматично утримувати CTRL поки переміщаєте/калібруєте. (переконайтеся, що ви використовуєте Scriver!)
+Чергувати режими клавішею Shift: за замовчанням вікна переміщуються разом
+[For Scriver users: automatically hold down the CTRL key while moving/sizing. (Make sure you use Scriver!)]
+Для плагіна Scriver: автоматично утримувати Ctrl поки переміщаєте/калібруєте. (Переконайтеся, що ви використовуєте Scriver!)

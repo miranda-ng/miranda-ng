@@ -2172,8 +2172,8 @@ ID користувача:
 Фон поля введення
 [Userlist background]
 Фон списку користувачів
-[Trim to (kB)]
-Ліміт (Кб)
+[Trim to (KB)]
+Ліміт (КБ)
 [Log directory]
 Папка журналу
 [Fonts 'n Colors]
@@ -2867,11 +2867,11 @@ ICQ - підтримка
 [Other Services]
 Інше
 [Primary e-mail]
-Основний e-mail
+Основний E-mail
 [Secondary e-mail]
-Вторинний e-mail
+Другий E-mail
 [Tertiary e-mail]
-Третій e-mail
+Третій E-mail
 [Web Building]
 Web-служби
 [Year of birth]
@@ -3086,8 +3086,8 @@ Web-дизайн
 Натисніть "Далі", щоб вибрати інформацію для імпортування, або "Скасувати", щоб вийти з цього майстра.
 [Start]
 Почати
-[Kb]
-Кб
+[KB]
+КБ
 [Profile:]
 Профіль:
 [Del]
@@ -3209,7 +3209,7 @@ Web-дизайн
 [Notifications:]
 Повідомлення:
 [Full e-mail:]
-Повний e-mail:
+Повний E-mail:
 [Duck]
 У ванній
 [Playing]

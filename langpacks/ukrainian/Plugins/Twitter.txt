@@ -28,7 +28,7 @@ URL:
 [Tweet...]
 Написати твіт...
 [Please cycle your connection for these changes to take effect]
-Будь ласка, переподключитесь що б зміни набрали чинності з
+Будь ласка, перепідключіться, щоб зміни набрали чинності.
 [%s avatar connection]
 %s підключення аватарів
 [Send Tweet]

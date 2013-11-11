@@ -407,7 +407,7 @@ void PasteToWeb::FromFile(std::wstring file)
 			}
 			else
 			{
-				error = TranslateT("File size is larger then 10 MB, cannot be send");
+				error = TranslateT("File size is larger then 10 MB, cannot be sent");
 			}
 		}
 

@@ -79,11 +79,11 @@
 [Add offline contacts to multisend list]
 Додати в список розсилки оффлайн контакти
 [ESC key behavior]
-Поведінка при натисканні ESC
+Поведінка при натисканні Esc
 [Normal - close tab, if last tab is closed also close the window]
 Закрити вкладку, якщо остання вкладка - закрити вікно
 [Minimize the window to the task bar]
-Згорнути вікно на панель задач
+Згорнути вікно на панель завдань
 [Close or hide window, depends on the close button setting above]
 Закрити або приховати вікно, залежить від налаштування кнопки закриття
 [Setup status modes for automatic tab creation...]
@@ -394,13 +394,13 @@ RTL шаблони
 [All modes]
 Всі статуси
 [Timeout (seconds, 0 = default, -1 = no timeout)]
-Таймаут (сек., 0=за замовчанням, -1=утримання)
+Таймаут (с, 0=за замовчанням, -1=утримання)
 [Use the message log color theme for group chat popups]
 Використовувати кольори журналу повідомлень для сплив. вікон чатів
 [New messages: ]
 Нові повідомлення:\s
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
-Одна з дій спливаючих вікон налаштована на "Відхилити подія".\nЦе може справити небажаний ефект, так як позначає подію прочитаним.\nЯк наслідок події не будуть показані "новими". Якщо це не те, чого ви хотіли, перегляньте налаштування в розділі "Повідомлення".
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
+Одна з дій спливаючих вікон налаштована на "Відхилити подію".\nЦе може спричинити небажаний ефект, бо події будуть позначатися прочитаними.\nЯк наслідок, події не будуть показані "новими". Якщо це не те, чого ви хотіли, перегляньте налаштування в розділі "Повідомлення".
 
 ;-СКІН ВІКНА БЕСІД-
 
@@ -527,8 +527,8 @@ IRC-стиль(текстовий) індикаторів ролей в журн
 Формат журналу
 [Log files]
 Файли журналу
-[Maximum size for log files (in kB)]
-Максимальний розмір журналу (в кБ)
+[Maximum size for log files (in KB)]
+Максимальний розмір журналу (КБ)
 [Open log file base folder]
 Відкрити папку з журналами чатів
 [Group chat log formatting]
@@ -965,9 +965,9 @@ TabSRMM: Набирає
 [Do not add this contact permanently]
 Не додавати цей контакт до списку
 [UID: %s (SHIFT-click -> copy to clipboard)\nClick for user's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (SHIFT+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - управління метаконтактом\nСтрілка вниз - додавання/видалення користувача із вибраного.
+UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - управління метаконтактом\nСтрілка вниз - додавання/видалення користувача із вибраного.
 [UID: %s (SHIFT-click -> copy to clipboard)\nClick for user's Details\nClick dropdown to change this contact's favorite status.]
-UID: %s (SHIFT+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача із вибраного.
+UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача із вибраного.
 [Default Color]
 Типовий колір
 [Blue]
@@ -1381,7 +1381,7 @@ ID користувача в панелі статусу
 ;ПАНЕЛЬ СТАТУСУ
 
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
-Звук: %s. Клік для перемикання статусу, SHIFT+клік для всіх відкритих контейнерів
+Звук: %s. Клік для перемикання статусу, Shift+клік для всіх відкритих контейнерів
 [Sending typing notifications is %s.]
 Відправлення повідомлення про набір: %s.
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites quickly and configure message window behavior]

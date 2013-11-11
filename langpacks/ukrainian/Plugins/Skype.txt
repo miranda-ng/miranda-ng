@@ -152,7 +152,7 @@ Skype протокол для Miranda NG.
 [Invalid Skype name]
 Невірний логін Skype
 [Invalid email]
-Неправильний e-mail
+Неправильний E-mail
 [Unacceptable password]
 Неправильний пароль
 [Skype name is taken]

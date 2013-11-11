@@ -112,7 +112,7 @@
 [Mail.ru Agent]
 Протокол Mail.ru Агент
 [Full e-mail:]
-Повний e-mail:
+Повний E-mail:
 [Example: Petrov_Ivan@mail.ru]
 Приклад: Petrov_Ivan@mail.ru
 [Create a new Mail.ru account using the Mail.ru website]
@@ -324,7 +324,7 @@
 [Mail.ru extra info]
 
 [E-mail address]
-Адреса e-mail
+Адреса E-mail
 [Unread mail is available: %lu/%lu messages]
 Непрочитана пошта: %lu/%lu повідомлень
 [From: %S\r\nSubject: %S\r\n%s]
@@ -354,7 +354,7 @@
 [Avatars]
 Аватари
 [Please, setup e-mail in options]
-Будь ласка, введіть e-mail в налаштуваннях
+Будь ласка, введіть E-mail в налаштуваннях
 [Please, setup password in options]
 Будь ласка, введіть пароль в налаштуваннях
 [Logon error: invalid login/password]

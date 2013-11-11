@@ -337,8 +337,8 @@ AOL® Логін
 Бездротовий користувач
 [You are sending messages too fast. Some messages may have been dropped.]
 Ви відправляєте повідомлення занадто швидко. Деякі з них можуть бути відкинуті.
-[You have been and connecting disconnecting too frequently. Wait 10 minutes and try again. If you continue to try, you will need to wait even longer.]
-Ви переподключаєтесь занадто часто. Почекайте 10 хвилин і спробуйте знову. Якщо ви продовжите спроби, доведеться чекати довше.
+[You are connecting too frequently. Try waiting 10 minutes to reconnect.]
+Ви підключаєтесь занадто часто. Почекайте 10 хвилин і спробуйте знову.
 [You have been invited to the following chat:]
 Вас запросили в чат:
 [You Have Been Попереджені]
