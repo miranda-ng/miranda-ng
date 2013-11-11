@@ -453,7 +453,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				// Multi-user
 				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
-				if (gthreadinfo != NULL) {					
+				if (gthreadinfo != NULL) {
 					std::string thread_id = json_as_pstring(tid);
 
 					// This is a recent 5 person listing of participants.
@@ -497,7 +497,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					}
 
 					if (!hChatContact)
-						hChatContact = proto->ChatIDToHContact(thread_id.c_str());
+						hChatContact = proto->ChatIDToHContact(thread_id);
 
 					for (unsigned int n = 0; n < json_size(participants_ids); n++) {
 						JSONNODE *idItr = json_at(participants_ids, n);
