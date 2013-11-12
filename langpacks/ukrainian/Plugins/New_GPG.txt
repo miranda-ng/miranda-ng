@@ -69,7 +69,7 @@
 Ваша версія GnuPG не підтримується і може працювати не правильно!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
 [Generate key]
 Згенерувати
-[Select key for use]
+[Select key to use]
 Вибрати ключ
 [Generate and use random key]
 Згенерувати і використовувати ключ
@@ -155,3 +155,5 @@
 Експортувати публічні ключі GPG
 [Import GPG Public keys]
 Імпортувати публічні ключі GPG
+[Received encrypted file from contact with disabled encryption.]
+Отримано зашифрований файл від контакту з обмеженими можливостями шифрування.

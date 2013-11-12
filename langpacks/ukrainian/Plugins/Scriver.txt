@@ -154,17 +154,17 @@
 [Session Message]
 Бесіда
 [&User menu]
-
+&Меню користувача
 [User &details]
-
+Деталі &користувача
 [&Emoticons]
-
+Смайлики
 [&Add]
-
+&Додати
 [&History]
-
+&Історія
 [&Quote]
-
+&Черга
 [&OK]
 
 [Send To All Tabs]
@@ -178,21 +178,21 @@
 [No]
 Ні
 [&Bold]
-
+&Напівжирний
 [&Italic]
-
+&Курсив
 [&Underline]
-
+&Підкреслення
 [&Color]
-
+&Кольор
 [&Background color]
-
+Колір фону
 [&Filter]
-
+Фільтр
 [&Room Settings]
-
+&Налаштування кімнати
 [&Show/hide nicklist]
-
+&Показати/сховати ніклист
 [Show these events only:]
 Показувати тільки:
 [Actions]
@@ -286,11 +286,11 @@
 [Wikipedia (en)]
 
 [Google Maps]
-
+Мапи Google
 [Google Translate]
-
+Перекладачь Google
 [Yahoo]
-
+Yahoo!
 [Foodnetwork]
 
 [C&lear Log]
@@ -690,9 +690,9 @@ Miranda не змогла завантажити вбудовану систем
 [Outgoing]
 Вихідні
 [Contact started typing]
-
+Співрозмовник почив набирати
 [Contact stopped typing]
-
+Співрозмовник препинив набирати
 [An unknown error has occured.]
 Невідома помилка.
 [Always On Top]
@@ -722,7 +722,7 @@ Miranda не змогла завантажити вбудовану систем
 [The topic is '%s%s']
 Тема '%s%s'
 [ (set by %s on %s)]
-
+(встановлена %s на %s)
 [ (set by %s)]
 (поставлена %s)
 [%s enables '%s' status for %s]
@@ -730,7 +730,7 @@ Miranda не змогла завантажити вбудовану систем
 [%s disables '%s' status for %s]
 %s вимикає статус '%s' для %s
 [<invalid>]
-
+<недійсне>
 [&Join]
 Зайти
 [&Leave]
@@ -830,71 +830,71 @@ Miranda не змогла завантажити вбудовану систем
 [Show popup for messages]
 Показувати спливаючі вікна для повідомлень
 [Show popup for actions]
-
+Показувати сплив. вікна для дій
 [Show popup for highlights]
-
+Показувати сплив. вікна для основних моментів
 [Show popup for users leaving]
-
+Показувати сплив. вікна для виходу користувачів
 [Show popup for users kicking other user]
-
+Показувати сплив. вікна для викинутих користувачів
 [Show popup for notices]
-
+Показувати сплив. вікна для повідомлень
 [Show popup name for changes]
-
+Показувати сплив. вікна для змін
 [Show popup for information messages]
-
+Показувати сплив. вікна для інформаційних повідомлень
 [Show popup status for changes]
-
+Показувати сплив. вікна для змін статусу
 [Appearance and functionality of chat windows]
 Інтерфейс і функціональність вікон чату
 [Icons to display in the tray]
 Піктограми в системному лотку
 [nick of current contact (if defined)]
-
+нік поточного контакту (якщо визначено)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-
+ім'я протоколу поточного контакту (якщо воно вказано). Ім'я облікового запису використовується, коли протокол підтримує multiaccounts
 [User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID поточного контакту (якщо він визначений). Наприклад, для ICQ UIN, JID для Jabber і т.д.
 [path to Miranda root folder]
-
+шлях до кореневої папки Miranda
 [path to current Miranda profile]
-
+шлях до поточного профілю Miranda
 [name of current Miranda profile (filename, without extension)]
-
+ім'я поточного профілю (ім'я файлу без розширення)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-
+повернеться аналізованої рядки %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]
-
+повернеться аналізованого рядка %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged on Windows user]
-
+змінна оточення %APPDATA% для користувача що увійшов в систему.
 [username for currently logged on Windows user]
-
+ім'я користувача, що увійшов в систему користувача Windows
 ["My Documents" folder for currently logged on Windows user]
 папка "Мої документи" для поточного користувача Windows
 ["Desktop" folder for currently logged on Windows user]
 папка Робочий стіл для поточного користувача Windows
 [any environment variable defined in current Windows session (like %systemroot%% allusersprofile%, etc.)]
-
+будь-які змінні, визначені в поточній сесії Windows (такі як %systemroot%% allusersprofile%, і ін.)
 [day of month, 1-31]
-
+день місяця, 1-31
 [day of month, 01-31]
-
+день місяця, 01-31
 [month number, 1-12]
-
+номер місяця, 1-12
 [month number, 01-12]
-
+номер місяця, 01-12
 [abbreviated month name]
-
+скорочена назва місяця
 [full month name]
-
+повна назва місяця
 [year without century, 01 - 99]
-
+рік без вказівки століття, 01 - 99
 [year with century, 1901-9999]
-
+рік із зазначенням століття, 1901-9999
 [abbreviated weekday name]
-
+коротка назва дня тижня
 [full weekday name]
-
+повна назва дня тижня
 [Variables]
 Змінні
 [Appearance]

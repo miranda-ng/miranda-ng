@@ -12,11 +12,11 @@
 [&Add]
 &Додати
 [&User menu]
-
+&Меню користувача
 [User &details]
-
+Деталі &користувача
 [&History]
-
+&Історія
 [Choose contacts to be send:]
 Вибрати контакти для відправки:
 [&Send]
