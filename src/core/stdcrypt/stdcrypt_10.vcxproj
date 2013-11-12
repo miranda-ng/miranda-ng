@@ -209,6 +209,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\m_crypto.h" />
     <ClInclude Include="..\stdplug.h" />
     <ClInclude Include="commonheaders.h" />
   </ItemGroup>

@@ -122,8 +122,7 @@ static MuuidReplacement pluginDefault[] =
 	{	MIID_SRAWAY,          _T("stdaway"),       NULL },  // 10
 	{	MIID_CLIST,           _T("stdclist"),      NULL },  // 11
 	{	MIID_CHAT,            _T("stdchat"),       NULL },  // 12
-	{	MIID_SRMM,            _T("stdmsg"),        NULL },  // 13
-	{	MIID_CRYPTO,          _T("stdcrypt"),      NULL },  // 14
+	{	MIID_SRMM,            _T("stdmsg"),        NULL }   // 13
 };
 
 int getDefaultPluginIdx(const MUUID& muuid)
@@ -205,6 +204,7 @@ MUUID miid_clist = MIID_CLIST;
 MUUID miid_database = MIID_DATABASE;
 MUUID miid_protocol = MIID_PROTOCOL;
 MUUID miid_servicemode = MIID_SERVICEMODE;
+MUUID miid_crypto = MIID_CRYPTO;
 
 static bool validInterfaceList(MUUID *piface)
 {
@@ -407,12 +407,13 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 		return p;
 	}
 
-	// plugin declared that it's a database. load it asap!
-	if ( hasMuuid(pIds, miid_database)) {
+	// plugin declared that it's a database or a cryptor. load it asap!
+	bool bIsDb = hasMuuid(pIds, miid_database);
+	if (bIsDb || hasMuuid(pIds, miid_crypto)) {
 		BASIC_PLUGIN_INFO bpi;
 		if ( checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
-			// db plugin is valid
-			p->pclass |= (PCLASS_DB | PCLASS_BASICAPI);
+			// plugin is valid
+			p->pclass |= ((bIsDb ? PCLASS_DB : PCLASS_OK) | PCLASS_BASICAPI);
 			// copy the dblink stuff
 			p->bpi = bpi;
 
@@ -817,7 +818,9 @@ int LoadNewPluginsModuleInfos(void)
 	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini);
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
-	return 0;
+
+	MuuidReplacement stdCrypt = { MIID_CRYPTO, _T("stdcrypt"), NULL };
+	return !LoadCorePlugin(stdCrypt);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

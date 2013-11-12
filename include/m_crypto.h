@@ -24,27 +24,67 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CRYPTO_H__
 #define M_CRYPTO_H__ 1
 
-typedef struct tagCRYPTOAPI
+#include <m_core.h>
+
+typedef struct tagCRYPTOENGINE
 {
 	DWORD	dwVersion;
 
-	void	(__cdecl *pfnSetKey)( const char* );  // sets the master password
-	void	(__cdecl *pfnSetKeyT)( const TCHAR* );
+	// get/set the instance key
+	void (__cdecl *pfnGetKey)(const BYTE *pKey, size_t cbKeyLen);
+	BOOL (__cdecl *pfnSetKey)(const BYTE **pKey, size_t *cbKeyLen);
 
-	void	(__cdecl *pfnPurgeKey)( void );   // purges a key from memory
+	void(__cdecl *pfnGenerateKey)(void); // creates a new key inside
+	void(__cdecl *pfnPurgeKey)(void);    // purges a key from memory
 
-	void  (__cdecl *pfnEncodeString)( const char* src, char* buf, size_t buf_len);
-	void  (__cdecl *pfnEncodeStringT)( const TCHAR* src, char* buf, size_t buf_len);
+	// sets the master password (in utf-8)
+	void(__cdecl *pfnSetPassword)(const char *pszPassword);
 
-	void  (__cdecl *pfnDecodeString)( const char* src, char* buf, size_t buf_len);
-	void  (__cdecl *pfnDecodeStringT)( const char* src, TCHAR* buf, size_t buf_len);
+	BYTE* (__cdecl *pfnEncodeString)( const char *src, size_t *cbResultLen);
+	BYTE* (__cdecl *pfnEncodeStringW)(const WCHAR* src, size_t *cbResultLen);
+
+	char*  (__cdecl *pfnDecodeString)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
+	WCHAR* (__cdecl *pfnDecodeStringW)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
 }
-	CRYPTO_INTERFACE;
+CRYPTO_ENGINE;
 
-//retrieves the crypto interface  v0.10.0.2+
-//wParam=0
-//lParam=0
-//returns CRYPTO_INTERFACE* on success or NULL on failure
-#define MS_CRYPTO_GETINTERFACE "SRCrypto/GetInterface"
+//registers a crypto provider v0.94+
+//wParam = (int)hLangpack
+//lParam = (CRYPTO_PROVIDER*)
+//returns HANDLE on success or NULL on failure
+
+typedef CRYPTO_ENGINE* (__cdecl *pfnCryptoProviderFactory)(void);
+
+#define CPF_UNICODE 1
+
+#if defined(_UNICODE)
+	#define CPF_TCHAR CPF_UNICODE 
+#else
+	#define CPF_TCHAR 0
+#endif
+
+typedef struct tagCRYPTOPROVIDER
+{
+	DWORD	dwSize;
+	DWORD	dwFlags; // one of CPF_* constants
+
+	char *pszName; // unique id
+	union {
+		char *pszDescr;   // description
+		TCHAR *ptszDescr;	// auto translated by core
+		WCHAR *pwszDescr;
+	};
+
+	pfnCryptoProviderFactory pFactory;
+}
+CRYPTO_PROVIDER;
+
+#define MS_CRYPTO_REGISTER_ENGINE "SRCrypto/RegisterEngine"
+
+__forceinline HANDLE Crypto_RegisterEngine(CRYPTO_PROVIDER *pProvider)
+{
+	extern int hLangpack;
+	return (HANDLE)CallService(MS_CRYPTO_REGISTER_ENGINE, hLangpack, (LPARAM)pProvider);
+}
 
 #endif // M_CRYPTO_H__
