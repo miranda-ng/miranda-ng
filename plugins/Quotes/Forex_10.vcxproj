@@ -109,7 +109,7 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;..\..\..\boost\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;..\..\..\boost\stage64\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
@@ -160,7 +160,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;..\..\..\boost\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;..\..\..\boost\stage64\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
     <ResourceCompile>

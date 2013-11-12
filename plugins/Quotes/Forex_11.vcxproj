@@ -114,7 +114,7 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;..\..\..\boost\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;..\..\..\boost\stage64\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
@@ -164,7 +164,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;..\..\..\boost\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib;..\..\..\boost\stage64\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
