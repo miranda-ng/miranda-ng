@@ -30,7 +30,7 @@ TCHAR* DoubleSlash(TCHAR *sorce)
 {
 	TCHAR *ret = (TCHAR*)mir_calloc(MAX_PATH);
 	TCHAR *r, *s;
-	for (s = sorce, r = ret; *s && r - ret < MAX_PATH; s++, r++){
+	for (s = sorce, r = ret; *s && r - ret < MAX_PATH - 1; s++, r++){
 		if (*s != _T('\\'))
 			*r = *s;
 		else{
@@ -79,9 +79,10 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 					DWORD buf_length = 256 * 1024;	// 256 KB
 					HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 					UINT i = 0;
+					MSG msg;
 					if ( void* buf = mir_alloc( buf_length ) )
 					{
-						for (;;)
+						while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) == 0)
 						{
 							DWORD read = 0;
 							if ( ! ReadFile( hSrc, buf, buf_length, &read, NULL ) )
@@ -98,9 +99,16 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 							if ( res != ZIP_OK )
 								break;
 
+							while(PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0)
+							{
+								if (!IsDialogMessage(progress_dialog, &msg))
+								{
+									TranslateMessage(&msg);
+									DispatchMessage(&msg);
+								}
+							}
 							SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / ((int)fad.nFileSizeLow / buf_length) * ++i), 0);
 						}					
-
 						mir_free( buf );
 					}
 					zipCloseFileInZip( hZip );
@@ -149,12 +157,11 @@ struct FileNameFound_Tag
 	FILETIME CreationTime;
 }FileNameFound;
 
-int RotateBackups(DWORD start_time)
+int RotateBackups()
 {
 	TCHAR backupfilename1[MAX_PATH] = {0}, backupfolderTmp[MAX_PATH] = {0};
 	unsigned int i = 0;
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
-	MSG msg;
 
 	WIN32_FIND_DATA FindFileData;
 
@@ -181,17 +188,6 @@ int RotateBackups(DWORD start_time)
 				_tcscpy(FileNameFound.Name, FindFileData.cFileName);
 				FileNameFound.CreationTime = FindFileData.ftCreationTime;
 			}
-			while(PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0)
-			{
-				if (!IsDialogMessage(progress_dialog, &msg))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-			}
-
-			SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / options.num_backups * ++i), 0);
-			//UpdateWindow(progress_dialog);
 		}
 	}
 
@@ -213,7 +209,6 @@ void BackupThread(void* backup_filename)
 int Backup(TCHAR* backup_filename)
 {
 	TCHAR source_file[MAX_PATH] = {0}, dest_file[MAX_PATH] = {0};
-	DWORD start_time = GetTickCount();
 	BOOL bZip = FALSE;
 
 	CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)dbname);
@@ -248,11 +243,9 @@ int Backup(TCHAR* backup_filename)
 		SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Rotating backup files..."));
 	}
 
-	RotateBackups(start_time);
+	RotateBackups();
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
-	SendMessage(GetDlgItem(progress_dialog, IDC_PROGRESS), PBM_SETPOS, (WPARAM)0, 0);
-	UpdateWindow(progress_dialog);
 
 	mir_sntprintf(source_file, MAX_PATH, _T("%s\\%s"), profilePath, dbname);
 	TCHAR *pathtmp = Utils_ReplaceVarsT(source_file);
