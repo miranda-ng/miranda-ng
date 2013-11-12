@@ -82,7 +82,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcrypt.lib;libotr.lib;EkHtml.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -106,7 +106,7 @@
       <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcrypt.lib;libotr.lib;EkHtml.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
@@ -133,7 +133,7 @@
       <CreateHotpatchableImage>false</CreateHotpatchableImage>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcrypt.lib;libotr.lib;EkHtml.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -163,7 +163,7 @@
       <CreateHotpatchableImage>false</CreateHotpatchableImage>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcrypt.lib;libotr.lib;EkHtml.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
