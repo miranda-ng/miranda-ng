@@ -18,6 +18,10 @@ Secondary colour:
 &Authorise
 [Add to contact list if authorized]
 Add to contact list if authorised
+[&Color]
+&Colour
+[&Background color]
+&Background colour
 [Use default colors]
 Use default colours
 [Use custom colors]

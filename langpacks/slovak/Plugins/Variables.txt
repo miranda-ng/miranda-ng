@@ -175,9 +175,9 @@ Pomoc
 
 [path to Miranda root folder]
 
-[path to current miranda profile]
+[path to current Miranda profile]
 
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 

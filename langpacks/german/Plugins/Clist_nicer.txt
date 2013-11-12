@@ -440,6 +440,8 @@ Avatar zeigen
 Überlagerungsicons über Avatar
 [Show local time]
 Lokale Zeit anzeigen
+[&Main menu]
+Hauptmenü
 [E&xit]
 B&eenden
 [&Status]

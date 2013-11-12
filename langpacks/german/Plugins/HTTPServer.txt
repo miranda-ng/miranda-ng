@@ -54,8 +54,8 @@ URL-Adresse
 %ExternalIP%-Variable
 [Test]
 Testen
-[Transfer limit (kb/sec)]
-Verbindungsrate (kb/sec)
+[Transfer limit (Kb/s)]
+Verbindungsrate (Kb/s)
 [No control when Away/NA]
 Keine Kontrolle, wenn abwesend
 [Connection control]

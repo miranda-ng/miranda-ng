@@ -602,6 +602,8 @@ Hoch
 Runter
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 EINSTELLUNGSSEITE IST IM BAU!
+[&Main menu]
+Hauptmenü
 [E&xit]
 B&eenden
 [&Status]

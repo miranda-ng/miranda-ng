@@ -25,6 +25,7 @@
 [Right click opens Miranda NG menu]
 [Show bevels on panels]
 [Show resize grip indicator]
+[&Main menu]
 [Tray]
 [Nowhere]
 [Hide Miranda]

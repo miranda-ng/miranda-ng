@@ -35,3 +35,7 @@
 Конт
 [%s server connection]
 Далучэнне да сервера %s
+[Attachments:]
+
+[Photo]
+

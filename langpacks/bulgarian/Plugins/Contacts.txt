@@ -10,11 +10,14 @@
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 
-[&A]
+[&Add]
+Добавяне
 
-[&D]
+[&User menu]
 
-[&H]
+[User &details]
+
+[&History]
 
 [Choose contacts to be send:]
 
@@ -28,8 +31,6 @@
 
 [Add to &group:]
 
-[&Add]
-Добавяне
 [&Details]
 
 [Close]

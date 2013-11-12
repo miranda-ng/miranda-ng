@@ -10,12 +10,14 @@
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Kontakte senden
-[&A]
-&A
-[&D]
-&D
-[&H]
-&H
+[&Add]
+Hinzufügen
+[&User menu]
+Kontakt&menü
+[User &details]
+Kontakt&profil
+[&History]
+&Verlauf
 [Choose contacts to be send:]
 Kontakte zum Senden auswählen:
 [&Send]
@@ -28,8 +30,6 @@ Alles au&swählen
 Empfangene Kontakte
 [Add to &group:]
 Zur &Gruppe hinzufü&gen
-[&Add]
-Hinzufügen
 [&Details]
 &Details
 [Close]

@@ -131,13 +131,13 @@ Paste-It-HTTP-Verbindungen
 Sie können nur eine Datei einfügen.
 [Cannot get data from clipboard]
 Die Daten konnten nicht aus der Zwischenablage entnommen werden.
-[File size is %dKB, do you realy want to paste such large file?]
-Die Dateigröße ist %dKB, wollen Sie wirklich so eine Große Datei einfügen?
+[File size is %d KB, do you realy want to paste such a large file?]
+Die Dateigröße ist %d KB, wollen Sie wirklich so eine Große Datei einfügen?
 [Are You sure?]
 Sind Sie sich sicher?
 [Cannot read file '%s']
 Die Datei '%s' konnte nicht gelesen werden.
-[File size is larger then 10MB, cannot be send]
+[File size is larger then 10 MB, cannot be sent]
 Die Dateigröße von max. 10 MB wurde überschritten, es wurde nicht gesendet.
 [Cannot open file '%s']
 Die Datei '%s' konnte nicht geöffnet werden.

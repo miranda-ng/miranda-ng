@@ -522,8 +522,8 @@ Gruppierung aufheben
 Ablehnen
 [Decide &Later]
 Später entscheiden
-[&I]
-&I
+[User &details]
+Kontaktprofil
 [Reason:]
 Grund:
 [Denial Reason:]
@@ -534,8 +534,6 @@ Zur Kontakliste hinzufügen falls autorisiert
 Sie wurden hinzugefügt
 [&Close]
 S&chließen
-[&U]
-&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 '%s'-Nachricht von %s
@@ -562,6 +560,24 @@ In %d schließen
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Senden
+[&Emoticons]
+
+[&Bold]
+Fett
+[&Italic]
+Kursiv
+[&Color]
+Farbe
+[&Background color]
+Hintergrundfarbe
+[&History]
+Verlauf
+[&Filter]
+Filter
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
 [Actions]
@@ -598,8 +614,8 @@ Ihr Name
 Hervorhebungen aktivieren
 [Limit log text to (events):]
 Textbegrenzung (Ereignisse):
-[Trim to (kB)]
-Max. Größe (kB)
+[Trim to (KB)]
+Max. Größe (KB)
 [Words to highlight (wildcards allowed)]
 Wörter zum Hervorheben (Wildcards möglich)
 [Enable logging to disk]
@@ -861,6 +877,8 @@ Bringe teils verdecktes Fenster in Vordergrund
 Fenster:
 [Contact list background:]
 Kontaktlisten-Hintergrund:
+[&Main menu]
+Hauptmenü
 [&Status]
 &Status
 [&Offline\tCtrl+0]
@@ -894,10 +912,8 @@ Datei(en):
 Erneut auswählen...
 [Total size:]
 Gesamtgröße:
-[&D]
-&D
-[&H]
-&H
+[&User menu]
+Kontaktmenü
 [Incoming File Transfer]
 Eingehende Dateiübertragung
 [A&ccept]
@@ -912,13 +928,9 @@ Datum:
 Dateien:
 [Save to:]
 Speichern nach:
-[&A]
-&A
-[Contact menu]
-Kontaktmenü
-[Open...]
+[&Open...]
 Öffnen...
-[Open folder]
+[Open &folder]
 Ordner öffnen
 [Transfer completed, open file(s).]
 Übertragung beendet, Datei(en) öffnen.
@@ -952,6 +964,8 @@ Größe:
 Zuletzt geändert:
 [Open file]
 Datei öffnen
+[Open folder]
+Ordner öffnen
 [File properties]
 Dateieigenschaften
 [File being received]
@@ -1089,6 +1103,8 @@ Während des Sendens folgender Nachricht:
 Erneut versuchen
 [Message Session]
 Nachrichtensitzung
+[&Details]
+
 [Message Window Event Log]
 Nachrichtenfenster-Ereignislog
 [Show names]
@@ -1831,6 +1847,10 @@ Anfrage gesendet, warte auf Annahme...
 Warte auf Verbindung...
 [Unable to initiate transfer.]
 Übertragung kann nicht gestartet werden.
+[Contact menu]
+Kontaktmenü
+[Open...]
+Öffnen...
 [sec]
 Sek.
 [remaining]

@@ -34,13 +34,13 @@
 
 [Away]
 
-[Do not Disturb]
+[DND]
 
-[Not Available]
+[NA]
 
 [Occupied]
 
-[Free for Chat]
+[Free for chat]
 
 [Invisible]
 

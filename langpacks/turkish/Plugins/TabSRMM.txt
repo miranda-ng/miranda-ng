@@ -48,7 +48,7 @@ Günlük dosyaları
 Diske günlüklemeyi etkinleştir
 [Log directory]
 Günlük klasörü
-[Maximum size for log files (in kB)]
+[Maximum size for log files (in KB)]
 Günlük dosyasının en çok boyutu (KB)
 [Group chat log formatting]
 Grup sohbet günlüğü biçimi

@@ -209,7 +209,7 @@
 [Receives information about user moods]
 [Supports generic publish-subscribe functionality]
 [Supports SecureIM plugin for Miranda NG]
-[Supports MirOTR plugin for Miranda NG]
+[Supports OTR (Off-the-Record Messaging)]
 [Supports New_GPG plugin for Miranda NG]
 [Can block communications from particular other users using Privacy lists]
 [Supports Message Receipts]

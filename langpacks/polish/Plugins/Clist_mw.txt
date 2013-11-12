@@ -240,6 +240,8 @@ Pokaz separatory na panelach
 Użyj ikony łączenia
 [Use New Drawer for StatusBar]
 Nowe rysowanie paska statusu
+[&Main menu]
+Menu główne
 [E&xit]
 Wyjdź
 [&Status]

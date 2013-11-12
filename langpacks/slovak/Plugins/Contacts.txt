@@ -10,11 +10,13 @@
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 
-[&A]
+[&Add]
 
-[&D]
+[&User menu]
 
-[&H]
+[User &details]
+
+[&History]
 
 [Choose contacts to be send:]
 
@@ -27,8 +29,6 @@ Storno
 [Received contacts]
 
 [Add to &group:]
-
-[&Add]
 
 [&Details]
 

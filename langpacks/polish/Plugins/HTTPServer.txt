@@ -54,8 +54,8 @@ Adres
 Zmienna %ExternalIP%
 [Test]
 Test
-[Transfer limit (kb/sec)]
-Limit transferu (kb/sec)
+[Transfer limit (Kb/s)]
+Limit transferu (Kb/s)
 [No control when Away/NA]
 Brak kontroli, gdy Zaraz wracam/Niedostępny
 [Connection control]

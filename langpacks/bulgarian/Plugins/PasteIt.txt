@@ -131,14 +131,14 @@ HTTP връзки на Paste It
 Можете да поставите само 1 файл
 [Cannot get data from clipboard]
 Данните от клипборда не могат да бъда извлечени
-[File size is %dKB, do you realy want to paste such large file?]
-Размерът на файла е %dKB. Желаете да поставите толкова голям файл?
+[File size is %d KB, do you realy want to paste such a large file?]
+Размерът на файла е %d KB. Желаете да поставите толкова голям файл?
 [Are You sure?]
 Сигурни ли сте?
 [Cannot read file '%s']
 Файлът "%s" не може да бъде прочетен
-[File size is larger then 10MB, cannot be send]
-Файлът е по-голям от 10MB, поради това не може да бъде изпратен
+[File size is larger then 10 MB, cannot be sent]
+Файлът е по-голям от 10 MB, поради това не може да бъде изпратен
 [Cannot open file '%s']
 Файлът "%s" не може да бъде отворен
 [File '%s' is empty]

@@ -38,8 +38,8 @@ L'intégration du Chat est désactivée. Vous pouvez l'activer d'ici, ensuite vo
 Sauvegarde du journal
 [Log directory]
 Répertoire:
-[Maximum size for log files (in kB)]
-Taille maxi du journal (en kb)
+[Maximum size for log files (in KB)]
+Taille maxi du journal (en KB)
 [Your name]
 Votre nom
 [Other name]

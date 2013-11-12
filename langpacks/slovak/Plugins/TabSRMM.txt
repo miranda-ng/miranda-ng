@@ -54,7 +54,7 @@ Storno
 
 [Log directory]
 
-[Maximum size for log files (in kB)]
+[Maximum size for log files (in KB)]
 
 [Group chat log formatting]
 
@@ -153,6 +153,16 @@ Kopírovať odkaz
 [C&lose other tabs]
 
 [&Open at this position]
+;file \plugins\TabSRMM\res\msgwindow.rc 
+[&Retry]
+
+[&Cancel]
+
+[&Send]
+
+[&Add]
+
+[&Remove]
 
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
@@ -2169,9 +2179,9 @@ Prezívka
 
 [path to Miranda root folder]
 
-[path to current miranda profile]
+[path to current Miranda profile]
 
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 

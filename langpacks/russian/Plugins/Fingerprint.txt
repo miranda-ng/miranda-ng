@@ -139,10 +139,10 @@ Fingerprint NG отображает значки клиентов, исполь�
 Оверлей notebook
 [Client not found]
 Ненайденный клиент
-[MirandaNG stable]
-Стабильная MirandaNG
-[MirandaIM (old versions)]
-MirandaIM (старая версия)
+[Miranda NG stable]
+Стабильная Miranda NG
+[Miranda IM (old versions)]
+Miranda IM (старая версия)
 [Miranda (unknown)]
 Miranda (неизвестно)
 [spam client]
@@ -225,32 +225,32 @@ TM 2.x оверлей
 TM 1.x оверлей
 [QQ 2000 overlay]
 QQ 2000 оверлей
-[MirandaNG v0.6 #2 overlay]
-MirandaNG v0.6 #2 оверлей
-[MirandaNG v0.5 #2 overlay]
-MirandaNG v0.5 #2 оверлей
-[MirandaNG v0.4 #2 overlay]
-MirandaNG v0.4 #2 оверлей
-[MirandaNG v0.3 #2 overlay]
-MirandaNG v0.3 #2 оверлей
-[MirandaNG v0.2 #2 overlay]
-MirandaNG v0.2 #2 оверлей
-[MirandaNG v0.1 #2 overlay]
-MirandaNG v0.1 #2 оверлей
-[MirandaIM v0.10 #2 overlay]
-MirandaIM v0.10 #2 оверлей
-[MirandaIM v0.9 #2 overlay]
-MirandaIM v0.9 #2 оверлей
-[MirandaIM v0.8 #2 overlay]
-MirandaIM v0.8 #2 оверлей
-[MirandaIM v0.7 #2 overlay]
-MirandaIM v0.7 #2 оверлей
-[MirandaIM v0.6 #2 overlay]
-MirandaIM v0.6 #2 оверлей
-[MirandaIM v0.5 #2 overlay]
-MirandaIM v0.5 #2 оверлей
-[MirandaIM v0.4 #2 overlay]
-MirandaIM v0.4 #2 оверлей
+[Miranda NG v0.6 #2 overlay]
+Miranda NG v0.6 #2 оверлей
+[Miranda NG v0.5 #2 overlay]
+Miranda NG v0.5 #2 оверлей
+[Miranda NG v0.4 #2 overlay]
+Miranda NG v0.4 #2 оверлей
+[Miranda NG v0.3 #2 overlay]
+Miranda NG v0.3 #2 оверлей
+[Miranda NG v0.2 #2 overlay]
+Miranda NG v0.2 #2 оверлей
+[Miranda NG v0.1 #2 overlay]
+Miranda NG v0.1 #2 оверлей
+[Miranda IM v0.10 #2 overlay]
+Miranda IM v0.10 #2 оверлей
+[Miranda IM v0.9 #2 overlay]
+Miranda IM v0.9 #2 оверлей
+[Miranda IM v0.8 #2 overlay]
+Miranda IM v0.8 #2 оверлей
+[Miranda IM v0.7 #2 overlay]
+Miranda IM v0.7 #2 оверлей
+[Miranda IM v0.6 #2 overlay]
+Miranda IM v0.6 #2 оверлей
+[Miranda IM v0.5 #2 overlay]
+Miranda IM v0.5 #2 оверлей
+[Miranda IM v0.4 #2 overlay]
+Miranda IM v0.4 #2 оверлей
 [NewGPG overlay]
 NewGPG оверлей
 [MirOTR overlay]

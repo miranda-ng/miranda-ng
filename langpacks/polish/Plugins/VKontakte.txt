@@ -40,3 +40,8 @@ Konto
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Połączenie %s
+;file \protocols\VKontakte\src\vk_thread.cpp
+[Attachments:]
+
+[Photo]
+

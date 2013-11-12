@@ -89,8 +89,8 @@ IP адрес 2
 Контроль соединений
 [Default download limit]
 Лимит загрузок по умолч.
-[Transfer limit (kb/sec)]
-Лимит скорости (kb/sec)
+[Transfer limit (Kb/s)]
+Лимит скорости (Кб/с)
 [Total connection limit]
 Максимально соединений
 [Connections per user limit]

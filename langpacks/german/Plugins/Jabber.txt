@@ -557,7 +557,7 @@ Erhält Informationen über Benutzerstimmungen
 
 [Supports SecureIM plugin for Miranda NG]
 Unterstützt SecureIM-Plugin für Miranda NG
-[Supports MirOTR plugin for Miranda NG]
+[Supports OTR (Off-the-Record Messaging)]
 Unterstützt MirOTR-Plugin für Miranda NG
 [Supports New_GPG plugin for Miranda NG]
 Unterstützt New_GPG-Plugin für Miranda NG

@@ -50,7 +50,7 @@
 启用记录到磁盘
 [Log directory]
 记录目录
-[Maximum size for log files (in kB)]
+[Maximum size for log files (in KB)]
 日志文件最大容量 (KB)
 [Group chat log formatting]
 群组聊天记录格式化

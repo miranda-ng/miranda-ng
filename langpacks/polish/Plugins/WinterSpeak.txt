@@ -34,13 +34,13 @@ Rozłączony
 Dostępny
 [Away]
 Zaraz wracam
-[Do not Disturb]
+[DND]
 Nie przeszkadzać
-[Not Available]
+[NA]
 Niedostępny
 [Occupied]
 Zajęty
-[Free for Chat]
+[Free for chat]
 Chętny do rozmowy
 [Invisible]
 Niewidoczny

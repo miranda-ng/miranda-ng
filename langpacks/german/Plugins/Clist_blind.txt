@@ -166,6 +166,8 @@ Alle Protokolle gleiche Breite
 Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
+[&Main menu]
+Hauptmenü
 [E&xit]
 B&eenden
 [&Status]

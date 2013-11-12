@@ -381,8 +381,8 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Secure login failed.\nInvalid key length.]
 Памылка абароненага ўваходу.\nНяверная даўжыня ключа
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
-Вы ўпэўнены, што жадаеце адклікаць аўтарызацыю? Выдаліць вас са спісу кантактаў на некаторых кліентах.
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
+Вы ўпэўнены, што жадаеце адклікаць аўтарызацыю?\nВыдаліць вас са спісу кантактаў на некаторых кліентах.
 [Confirmation]
 Пацверджанне
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -1876,6 +1876,8 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць акно?
 [Upload in progress...]
 Загрузка...
+[Upload in progress...%d%%]
+Загрузка...%d%%
 [Upload complete]
 Загрузка завершана
 [Upload FAILED]

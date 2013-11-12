@@ -58,8 +58,8 @@ Ativar o registo no disco
 Diretório de Registro
 [Log directory]
 Diretório de registro
-[Maximum size for log files (in kB)]
-O tamanho máx para reg. de arq. (em kB)
+[Maximum size for log files (in KB)]
+O tamanho máx para reg. de arq. (em KB)
 [Group chat log formatting]
 Formatação do registro do grupo de bate-papo
 [Group chat log formatting]

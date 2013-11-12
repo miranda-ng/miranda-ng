@@ -83,10 +83,10 @@ Unicode
 [Protocol]
 Пратакол
 ;file \plugins\FingerprintNG\src\masks.cpp
-[MirandaNG stable]
-Стабільная MirandaNG
-[MirandaIM (old versions)]
-MirandaIM (старая)
+[Miranda NG stable]
+Стабільная Miranda NG
+[Miranda IM (old versions)]
+Miranda IM (старая)
 [Miranda (unknown)]
 Miranda (невядома)
 [spam client]

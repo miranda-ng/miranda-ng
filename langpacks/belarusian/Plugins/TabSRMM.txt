@@ -54,8 +54,8 @@
 Уключыць запіс лога
 [Log directory]
 Тэчка лога
-[Maximum size for log files (in kB)]
-Максімальны памер лога (у кб)
+[Maximum size for log files (in KB)]
+Максімальны памер лога (у КБ)
 [Group chat log formatting]
 Фарматаванне лога чатаў
 [Your name]
@@ -2087,9 +2087,9 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to Miranda root folder]
 шлях да тэчкі праграмы
-[path to current miranda profile]
+[path to current Miranda profile]
 шлях да тэчкі бягучага профіля
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%

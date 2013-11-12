@@ -602,6 +602,8 @@ Przesuń w górę
 Przesuń w dół
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 OSTRONA OPCJI JEST W KONSTRUKCJI Proszę NIE zgłaszać występujących tu błędów.\n Tylko komentarze o najważniejsze ustawienia są uznawane.
+[&Main menu]
+Menu główne
 [E&xit]
 Wyjdź
 [&Status]

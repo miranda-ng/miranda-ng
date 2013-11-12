@@ -327,7 +327,7 @@ ICQ 提示
 [Secure login failed.\nInvalid key length.]
 安全登录失败. \n密钥长度无效. 
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 您确定要撤销用户的授权 (某些客户端会将您从他/她的列表中移除)? 
 [** This message was blocked by the ICQ server ** The message was invalid.]
 ** 此消息已被 ICQ 服务器封锁 ** 消息无效. 
@@ -1304,6 +1304,8 @@ ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码.
 您已在 ICQ 详细资料中做出一些改动, 但尚未保存至服务器. 您确定要关闭此对话框? 
 [Upload in progress...]
 上传进行中...
+[Upload in progress...%d%%]
+上传进行中...%d%%
 [Upload complete]
 上传完成
 [Upload FAILED]

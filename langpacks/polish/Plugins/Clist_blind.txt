@@ -166,6 +166,8 @@ Sekcje tej samej szerokości
 Pokaż separatory na panelach
 [Show resize grip indicator]
 Pokaż wskaźnik rozmiaru uchwytu
+[&Main menu]
+Menu główne
 [E&xit]
 Wyjdź
 [&Status]

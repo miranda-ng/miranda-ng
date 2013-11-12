@@ -348,8 +348,8 @@ Uw naam
 Oplichting inschakelen
 [Limit log text to (events):]
 Log tekst beperken tot (gebeurtenissen):
-[Trim to (kB)]
-Verkleinen tot (kB)
+[Trim to (KB)]
+Verkleinen tot (KB)
 [Words to highlight (wildcards allowed)]
 Woorden om op te lichten (jokertekens toegestaan)
 [Enable logging to disk]

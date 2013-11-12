@@ -79,9 +79,9 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Безпека
 [Protocol]
 Протокол
-[MirandaNG stable]
+[Miranda NG stable]
 
-[MirandaIM (old versions)]
+[Miranda IM (old versions)]
 
 [Miranda (unknown)]
 
@@ -225,31 +225,31 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Оверлей work
 [notebook overlay]
 Оверлей notebook
-[MirandaNG v0.6 #2 overlay]
+[Miranda NG v0.6 #2 overlay]
 
-[MirandaNG v0.5 #2 overlay]
+[Miranda NG v0.5 #2 overlay]
 
-[MirandaNG v0.4 #2 overlay]
+[Miranda NG v0.4 #2 overlay]
 
-[MirandaNG v0.3 #2 overlay]
+[Miranda NG v0.3 #2 overlay]
 
-[MirandaNG v0.2 #2 overlay]
+[Miranda NG v0.2 #2 overlay]
 
-[MirandaNG v0.1 #2 overlay]
+[Miranda NG v0.1 #2 overlay]
 
-[MirandaIM v0.10 #2 overlay]
+[Miranda IM v0.10 #2 overlay]
 
-[MirandaIM v0.9 #2 overlay]
+[Miranda IM v0.9 #2 overlay]
 
-[MirandaIM v0.8 #2 overlay]
+[Miranda IM v0.8 #2 overlay]
 
-[MirandaIM v0.7 #2 overlay]
+[Miranda IM v0.7 #2 overlay]
 
-[MirandaIM v0.6 #2 overlay]
+[Miranda IM v0.6 #2 overlay]
 
-[MirandaIM v0.5 #2 overlay]
+[Miranda IM v0.5 #2 overlay]
 
-[MirandaIM v0.4 #2 overlay]
+[Miranda IM v0.4 #2 overlay]
 
 [x64 overlay]
 Оверлей x64

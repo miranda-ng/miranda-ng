@@ -220,8 +220,8 @@
 Месца
 [Trim to]
 Ліміт
-[kB]
-kB
+[KB]
+KB
 [Group Chat]
 Чат-пакой
 [Use same style as in the message log]
@@ -828,9 +828,9 @@ Miranda не змагла загрузіць убудаваную сістэму
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to Miranda root folder]
 шлях да тэчкі праграмы
-[path to current miranda profile]
+[path to current Miranda profile]
 шлях да тэчкі бягучага профіля
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%

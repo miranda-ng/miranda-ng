@@ -2083,6 +2083,8 @@ ID пользователя:
 Неизвестное значение
 [Upload in progress...]
 Загрузка...
+[Upload in progress...%d%%]
+Загрузка...%d%%
 [Upload complete]
 Загрузка завершена
 [Change ICQ Details]
@@ -2177,7 +2179,7 @@ ID пользователя:
 Фон поля ввода
 [Userlist background]
 Фон списка пользователей
-[Trim to (kB)]
+[Trim to (KB)]
 Лимит (КБ)
 [Log directory]
 Папка журнала

@@ -494,8 +494,6 @@ Miranda を非表示
 拒否 (&D)
 [Decide &Later]
 後で決定 (&L)
-[&I]
-&I
 [Reason:]
 理由:
 [Denial Reason:]
@@ -506,8 +504,6 @@ Miranda を非表示
 あなたは追加されました
 [&Close]
 閉じる (&C)
-[&U]
-&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s メッセージ 宛先 %s
@@ -570,8 +566,8 @@ Miranda を非表示
 強調表示を有効
 [Limit log text to (events):]
 ログテキストの制限 (イベント):
-[Trim to (kB)]
-トリムする (kB):
+[Trim to (KB)]
+トリムする (KB):
 [Words to highlight (wildcards allowed)]
 単語を強調表示 ( ワイルドカード使用可 )
 [Enable logging to disk]
@@ -862,10 +858,6 @@ Wikipedia
 再選択 (&C)...
 [Total size:]
 合計サイズ:
-[&D]
-&D
-[&H]
-&H
 [Incoming File Transfer]
 着信ファイル転送
 [A&ccept]
@@ -880,13 +872,9 @@ Wikipedia
 ファイル:
 [Save to:]
 以下として保存:
-[&A]
-&A
-[Contact menu]
-コンタクトメニュー
-[Open...]
+[&Open...]
 開く...
-[Open folder]
+[Open &folder]
 フォルダーを開く
 [Transfer completed, open file(s).]
 転送完了しました。ファイルを開きます
@@ -1737,6 +1725,8 @@ SMS テキストメッセージを受信できる電話
 接続待ち中です...
 [Unable to initiate transfer.]
 転送開始ができません
+[Contact menu]
+コンタクトメニュー
 [sec]
 秒
 [remaining]

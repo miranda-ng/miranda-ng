@@ -154,15 +154,19 @@ Scriver - за изпращане и получаване на съобщени�
 Отказ
 [Message Session]
 Разговор
-[&U]
+[&User menu]
 
-[&D]
+[User &details]
 
-[&E]
+[&Emoticons]
 
-[&H]
+[&Add]
 
-[&Q]
+[&History]
+
+[&Quote]
+
+[&OK]
 
 [Send To All Tabs]
 Изпращане до всички табове
@@ -174,6 +178,22 @@ Scriver - за изпращане и получаване на съобщени�
 Да
 [No]
 Не
+[&Bold]
+
+[&Italic]
+
+[&Underline]
+
+[&Color]
+
+[&Background color]
+
+[&Filter]
+
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 Показване само на следните събития:
 [Actions]
@@ -230,8 +250,8 @@ Scriver - за изпращане и получаване на съобщени�
 Местоположение
 [Trim to]
 Макс.
-[kB]
-kB
+[KB]
+KB
 [Group Chat]
 Групов чат
 [Use same style as in the message log]
@@ -854,10 +874,10 @@ Latin I
 
 [path to Miranda root folder]
 път до главната папка на Miranda
-[path to current miranda profile]
-път до текущия профил на miranda
-[name of current miranda profile (filename, without extension)]
-име на текущия профил на miranda (име без окончание)
+[path to current Miranda profile]
+път до текущия профил на Miranda
+[name of current Miranda profile (filename, without extension)]
+име на текущия профил на Miranda (име без окончание)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
 [will return parsed string %miranda_userdata%\\Logs]

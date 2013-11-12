@@ -10,6 +10,7 @@
 [Backup to folder:]
 [Browse...]
 [Go to the "Customize -> Folders" to change settings]
+[Compress backup to zip-archive]
 [Disable progress bar]
 [Disable Popups]
 [Miranda databases]

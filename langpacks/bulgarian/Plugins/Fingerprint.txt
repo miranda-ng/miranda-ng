@@ -83,10 +83,10 @@ Fingerprint
 [Protocol]
 Протокол
 ;file \plugins\FingerprintNG\src\masks.cpp
-[MirandaNG stable]
-MirandaNG (стабилна версия)
-[MirandaIM (old versions)]
-MirandaIM (стари версии)
+[Miranda NG stable]
+Miranda NG (стабилна версия)
+[Miranda IM (old versions)]
+Miranda IM (стари версии)
 [Miranda (unknown)]
 Miranda (непозната версия)
 [spam client]
@@ -229,32 +229,32 @@ home
 work
 [notebook overlay]
 notebook
-[MirandaNG v0.6 #2 overlay]
-MirandaNG v0.6 #2
-[MirandaNG v0.5 #2 overlay]
-MirandaNG v0.5 #2
-[MirandaNG v0.4 #2 overlay]
-MirandaNG v0.4 #2
-[MirandaNG v0.3 #2 overlay]
-MirandaNG v0.3 #2
-[MirandaNG v0.2 #2 overlay]
-MirandaNG v0.2 #2
-[MirandaNG v0.1 #2 overlay]
-MirandaNG v0.1 #2
-[MirandaIM v0.10 #2 overlay]
-MirandaIM v0.10 #2
-[MirandaIM v0.9 #2 overlay]
-MirandaIM v0.9 #2
-[MirandaIM v0.8 #2 overlay]
-MirandaIM v0.8 #2
-[MirandaIM v0.7 #2 overlay]
-MirandaIM v0.7 #2
-[MirandaIM v0.6 #2 overlay]
-MirandaIM v0.6 #2
-[MirandaIM v0.5 #2 overlay]
-MirandaIM v0.5 #2
-[MirandaIM v0.4 #2 overlay]
-MirandaIM v0.4 #2
+[Miranda NG v0.6 #2 overlay]
+Miranda NG v0.6 #2
+[Miranda NG v0.5 #2 overlay]
+Miranda NG v0.5 #2
+[Miranda NG v0.4 #2 overlay]
+Miranda NG v0.4 #2
+[Miranda NG v0.3 #2 overlay]
+Miranda NG v0.3 #2
+[Miranda NG v0.2 #2 overlay]
+Miranda NG v0.2 #2
+[Miranda NG v0.1 #2 overlay]
+Miranda NG v0.1 #2
+[Miranda IM v0.10 #2 overlay]
+Miranda IM v0.10 #2
+[Miranda IM v0.9 #2 overlay]
+Miranda IM v0.9 #2
+[Miranda IM v0.8 #2 overlay]
+Miranda IM v0.8 #2
+[Miranda IM v0.7 #2 overlay]
+Miranda IM v0.7 #2
+[Miranda IM v0.6 #2 overlay]
+Miranda IM v0.6 #2
+[Miranda IM v0.5 #2 overlay]
+Miranda IM v0.5 #2
+[Miranda IM v0.4 #2 overlay]
+Miranda IM v0.4 #2
 [x64 overlay]
 x64
 [x32 overlay]

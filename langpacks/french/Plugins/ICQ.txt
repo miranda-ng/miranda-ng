@@ -1052,6 +1052,8 @@ Valeur inconnue
 Vous avez fait des modifications de vos détails ICQ mais elles n'ont pu être sauvegardé sur le serveur. Voulez-vous vraiment fermer cette fenêtre ?
 [Upload in progress...]
 Sauvegarde en cours...
+[Upload in progress...%d%%]
+Sauvegarde en cours...%d%%
 [Upload complete]
 Sauvegarde terminée
 [Upload FAILED]

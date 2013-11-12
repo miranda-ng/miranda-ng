@@ -323,7 +323,7 @@ ICQ 注記
 [Secure login failed.\nInvalid key length.]
 セキュアログインに失敗しました\n鍵の長さが不正です
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 ユーザーの認証を本当に取り消しますか ( クライアント上にある彼 / 彼女のリストからあなたが削除されます )?
 [** This message was blocked by the ICQ server ** The message was invalid.]
 ** このメッセージは ICQ サーバーにブロックされました ** メッセージが不正です
@@ -1422,6 +1422,8 @@ ICQ サーバーは 8 文字以上の長さのパスワードをサポートし�
 あなたは ICQ 詳細情報を変更しましたが , まだサーバーに保存されていません。本当にこのダイアログを閉じますか ?
 [Upload in progress...]
 アップロード中です...
+[Upload in progress...%d%%]
+アップロード中です...%d%%
 [Upload complete]
 アップロードが完了しました
 [Upload FAILED]

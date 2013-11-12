@@ -522,8 +522,8 @@ Autoryzuj
 Odrzuć
 [Decide &Later]
 Przypomnij później
-[&I]
-&I
+[User &details]
+Dane kontaktu
 [Reason:]
 Powód:
 [Denial Reason:]
@@ -534,8 +534,6 @@ Dodaj kontakt do listy jeśli autoryzowany
 Zostałeś dodany
 [&Close]
 Zamknij
-[&U]
-&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Opis statusu "%s" - %s
@@ -562,6 +560,24 @@ Zamykanie w %d
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
 Wyślij
+[&Emoticons]
+
+[&Bold]
+Pogrubienie
+[&Italic]
+Kursywa
+[&Color]
+Kolor
+[&Background color]
+Kolor tła
+[&History]
+Historia
+[&Filter]
+Filtr
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -598,8 +614,8 @@ Twoja nazwa
 Włącz podświetlanie
 [Limit log text to (events):]
 Ogranicz dziennik do (ilość zdarzeń):
-[Trim to (kB)]
-Rozmiar (kB)
+[Trim to (KB)]
+Rozmiar (KB)
 [Words to highlight (wildcards allowed)]
 Słowa do podświetlenia (dozwolone znaki *, ?)
 [Enable logging to disk]
@@ -861,6 +877,8 @@ Jeżeli okno jest częściowo zasłonięte, przenieś je na pierwszy plan
 Okno:
 [Contact list background:]
 Tło listy kontaktów:
+[&Main menu]
+Menu główne
 [&Status]
 &Status
 [&Offline\tCtrl+0]
@@ -894,10 +912,8 @@ Plik(i):
 Wybierz ponownie...
 [Total size:]
 Całkowity rozmiar:
-[&D]
-&D
-[&H]
-&H
+[&User menu]
+Menu użytkownika
 [Incoming File Transfer]
 Przychodzący transfer plików
 [A&ccept]
@@ -912,13 +928,9 @@ Data:
 Pliki:
 [Save to:]
 Zapisz do:
-[&A]
-&A
-[Contact menu]
-Menu kontaktu
-[Open...]
+[&Open...]
 Otwórz...
-[Open folder]
+[Open &folder]
 Otwórz folder
 [Transfer completed, open file(s).]
 Transfer zakończony, otwórz plik(i).
@@ -952,6 +964,8 @@ Rozmiar:
 Ostatnio zmodyfikowano:
 [Open file]
 Otwórz plik
+[Open folder]
+Otwórz folder
 [File properties]
 Właściwości pliku
 [File being received]
@@ -1089,6 +1103,8 @@ podczas wysyłania wiadomości:
 Spróboj ponownie
 [Message Session]
 Sesja rozmowy
+[&Details]
+
 [Message Window Event Log]
 Dziennik okna rozmowy
 [Show names]
@@ -1831,6 +1847,10 @@ Prośba wysłana, oczekiwanie na akceptację...
 Oczekiwanie na połączenie...
 [Unable to initiate transfer.]
 Nie można zainicjować transferu.
+[Contact menu]
+Menu kontaktu
+[Open...]
+Otwórz...
 [sec]
 s
 [remaining]

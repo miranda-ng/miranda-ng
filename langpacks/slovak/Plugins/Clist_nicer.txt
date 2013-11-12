@@ -440,6 +440,8 @@ Viditeľnosť
 
 [Show local time]
 
+[&Main menu]
+
 [E&xit]
 Koniec
 [&Status]

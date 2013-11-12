@@ -436,16 +436,12 @@ Va&rsayılana Döndür
 Re&ddet
 [Decide &Later]
 Sonra Karar &Ver
-[&I]
-&I
 [Reason:]
 Gerekçe:
 [You Were Added]
 Eklendiniz
 [&Close]
 &Kapat
-[&U]
-&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s ileti %s için
@@ -506,8 +502,8 @@ Adınız
 Vurgulamayı etkinleştir
 [Limit log text to (events):]
 Günlük yazısını sınırla (etkinlikler):
-[Trim to (kB)]
-Şuna indir (kB)
+[Trim to (KB)]
+Şuna indir (KB)
 [Words to highlight (wildcards allowed)]
 Vurgulanacak kelimeler (arama işaretleri geçerli)
 [Enable logging to disk]
@@ -786,10 +782,6 @@ Dosya:
 &Yeniden Seç...
 [Total size:]
 Toplam boyut:
-[&D]
-&D
-[&H]
-&H
 [Incoming File Transfer]
 Size Dosya Gönderildi
 [A&ccept]
@@ -804,13 +796,9 @@ Tarih:
 Dosyalar:
 [Save to:]
 Şuraya Kaydet:
-[&A]
-&A
-[Contact menu]
-Kişiler menüsü
-[Open...]
+[&Open...]
 Aç...
-[Open folder]
+[Open &folder]
 Klasörü aç
 [Transfer completed, open file(s).]
 Aktarım tamamlandı, dosyayı aç.
@@ -1597,6 +1585,8 @@ Bu dosya henüz virüslere karşı taranmadı. Açmak istediğinize emin misiniz
 Size dosya gönderildi
 [of]
  / 
+[Contact menu]
+Kişiler menüsü
 [sec]
 sn
 [remaining]

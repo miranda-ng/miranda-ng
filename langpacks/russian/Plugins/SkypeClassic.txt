@@ -51,7 +51,7 @@ Skype дополнительно
 Skype дополнительно
 [Enable Skype menu options (currently: Find/Add user)]
 Включить опции меню (сейчас только: Найти/добавить контакты)
-[Use popup plugin for displaying messages ]
+[Use popup plugin for displaying messages]
 Использовать всплывающие окна для сообщений
 [Use group chat interface for conversations (requires group chat module)]
 Использовать интерфейс для чата (требуется плагин с поддержкой чатов)
@@ -153,8 +153,8 @@ Skype не установлен :(
 Восстановить звонок
 [Sex:]
 Пол:
-[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? (If you chose NO, you can always enable it in the plugin options later.]
-Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? (Если вы откажетесь, всегда можно включить его в настройках).
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
+Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? Если вы откажетесь, всегда можно включить его в настройках.
 [Skype protocol]
 Протокол Skype
 [Show incoming calls]

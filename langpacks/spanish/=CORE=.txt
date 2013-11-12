@@ -516,7 +516,7 @@ Su nombre
 Activar resaltado
 [Limit log text to (events):]
 Límite de registro de texto de (pruebas):
-[Trim to (kB)]
+[Trim to (KB)]
 Recorte a (KB)
 [Words to highlight (wildcards allowed)]
 Las palabras para resaltar (se permiten comodines)

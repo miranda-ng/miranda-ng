@@ -105,13 +105,13 @@ URL от %s.
 В сети
 [Away]
 Отсутствую
-[Not Available]
+[NA]
 Недоступен
 [Occupied]
 Занят
-[Do not Disturb]
+[DND]
 Не беспокоить
-[Free for Chat]
+[Free for chat]
 Готов болтать
 [Invisible]
 Невидимый

@@ -9,11 +9,13 @@
 Дозволяє надсилати та отримувати контакти.
 [Send contacts]
 Відправити контакти
-[&A]
+[&Add]
+&Додати
+[&User menu]
 
-[&D]
+[User &details]
 
-[&H]
+[&History]
 
 [Choose contacts to be send:]
 Вибрати контакти для відправки:
@@ -27,8 +29,6 @@
 Прийняті контакти
 [Add to &group:]
 Додати в групу:
-[&Add]
-&Додати
 [&Details]
 Деталі
 [Close]

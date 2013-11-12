@@ -124,16 +124,6 @@ IEView を有効
 Cancel
 [Message Session]
 メッセージセッション
-[&U]
-&U
-[&D]
-&D
-[&E]
-&E
-[&H]
-&H
-[&Q]
-&Q
 [Send To All Tabs]
 全てのタブに送る
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -200,8 +190,8 @@ Cancel
 場所
 [Trim to]
 トリムする
-[kB]
-kB
+[KB]
+KB
 [Group Chat]
 グループチャット
 [Use same style as in the message log]

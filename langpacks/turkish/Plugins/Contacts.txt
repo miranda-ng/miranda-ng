@@ -6,18 +6,12 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
-[&A]
-&A
-[&D]
-&D
-[&H]
-&H
+[&Add]
+&Ekle
 [&Send]
 &Gönder
 [Cancel]
 İptal
-[&Add]
-&Ekle
 [Close]
 Kapat
 [An error has occurred. The protocol reported the following error:]

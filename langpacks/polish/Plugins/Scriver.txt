@@ -154,16 +154,20 @@ Spróbuj ponownie
 Anuluj
 [Message Session]
 Sesja rozmowy
-[&U]
-&U
-[&D]
-&D
-[&E]
-&E
-[&H]
-&H
-[&Q]
-&Q
+[&User menu]
+Menu użytkownika
+[User &details]
+Dane kontaktu
+[&Emoticons]
+
+[&Add]
+Dodaj
+[&History]
+Historia
+[&Quote]
+Cytuj
+[&OK]
+&OK
 [Send To All Tabs]
 Wyślij do wszystkich zakładek
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -174,6 +178,22 @@ Pamiętaj mój wybór dla tego kontenera
 Tak
 [No]
 Nie
+[&Bold]
+Pogrubienie
+[&Italic]
+Kursywa
+[&Underline]
+Podkreślenie
+[&Color]
+Kolor
+[&Background color]
+Kolor tła
+[&Filter]
+Filtr
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -230,8 +250,8 @@ Zapisuj dziennik
 Miejsce
 [Trim to]
 Ogranicz do
-[kB]
-kB
+[KB]
+KB
 [Group Chat]
 Rozmowy grupowe
 [Use same style as in the message log]
@@ -854,10 +874,10 @@ Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wsp
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to Miranda root folder]
 folder docelowy Mirandy
-[path to current miranda profile]
-folder docelowy bieżącego profilu mirandy
-[name of current miranda profile (filename, without extension)]
-nazwa aktualnego profilu mirandy (nazwa pliku bez rozszerzenia)
+[path to current Miranda profile]
+folder docelowy bieżącego profilu Mirandy
+[name of current Miranda profile (filename, without extension)]
+nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 zwróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]

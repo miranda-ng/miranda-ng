@@ -154,15 +154,19 @@ Skús znovu
 Storno
 [Message Session]
 Rozhovor
-[&U]
+[&User menu]
 
-[&D]
+[User &details]
 
-[&E]
+[&Emoticons]
 
-[&H]
+[&Add]
 
-[&Q]
+[&History]
+
+[&Quote]
+
+[&OK]
 
 [Send To All Tabs]
 
@@ -174,6 +178,22 @@ Rozhovor
 Áno
 [No]
 Nie
+[&Bold]
+
+[&Italic]
+
+[&Underline]
+
+[&Color]
+
+[&Background color]
+
+[&Filter]
+
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 
 [Actions]
@@ -230,7 +250,7 @@ Vaše meno
 Miesto
 [Trim to]
 
-[kB]
+[KB]
 
 [Group Chat]
 
@@ -854,9 +874,9 @@ Opustiť
 
 [path to Miranda root folder]
 
-[path to current miranda profile]
+[path to current Miranda profile]
 
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 

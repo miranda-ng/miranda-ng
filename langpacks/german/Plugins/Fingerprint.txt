@@ -83,9 +83,9 @@ Sicherheit
 [Protocol]
 Protokoll
 ;file \plugins\FingerprintNG\src\masks.cpp
-[MirandaNG stable]
+[Miranda NG stable]
 Miranda NG stabil
-[MirandaIM (old versions)]
+[Miranda IM (old versions)]
 Miranda IM (alte Versionen)
 [Miranda (unknown)]
 Miranda (unbekannt)
@@ -229,31 +229,31 @@ Home-Overlay
 Arbeit-Overlay
 [notebook overlay]
 Notebook-Overlay
-[MirandaNG v0.6 #2 overlay]
+[Miranda NG v0.6 #2 overlay]
 Miranda-NG-v0.6-#2-Overlay
-[MirandaNG v0.5 #2 overlay]
+[Miranda NG v0.5 #2 overlay]
 Miranda-NG-v0.5-#2-Overlay
-[MirandaNG v0.4 #2 overlay]
+[Miranda NG v0.4 #2 overlay]
 Miranda-NG-v0.4-#2-Overlay
-[MirandaNG v0.3 #2 overlay]
+[Miranda NG v0.3 #2 overlay]
 Miranda-NG-v0.3-#2-Overlay
-[MirandaNG v0.2 #2 overlay]
+[Miranda NG v0.2 #2 overlay]
 Miranda-NG-v0.2-#2-Overlay
-[MirandaNG v0.1 #2 overlay]
+[Miranda NG v0.1 #2 overlay]
 Miranda-NG-v0.1-#2-Overlay
-[MirandaIM v0.10 #2 overlay]
+[Miranda IM v0.10 #2 overlay]
 Miranda-IM-v0.10-#2-Overlay
-[MirandaIM v0.9 #2 overlay]
+[Miranda IM v0.9 #2 overlay]
 Miranda-IM-v0.9-#2-Overlay
-[MirandaIM v0.8 #2 overlay]
+[Miranda IM v0.8 #2 overlay]
 Miranda-IM-v0.8-#2-Overlay
-[MirandaIM v0.7 #2 overlay]
+[Miranda IM v0.7 #2 overlay]
 Miranda-IM-v0.7-#2-Overlay
-[MirandaIM v0.6 #2 overlay]
+[Miranda IM v0.6 #2 overlay]
 Miranda-IM-v0.6-#2-Overlay
-[MirandaIM v0.5 #2 overlay]
+[Miranda IM v0.5 #2 overlay]
 Miranda-IM-v0.5-#2-Overlay
-[MirandaIM v0.4 #2 overlay]
+[Miranda IM v0.4 #2 overlay]
 Miranda-IM-v0.4-#2-Overlay
 [x64 overlay]
 x64-Overlay

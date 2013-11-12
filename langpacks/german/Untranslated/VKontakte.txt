@@ -13,3 +13,5 @@
 [Network]
 [Account]
 [%s server connection]
+[Attachments:]
+[Photo]

@@ -544,6 +544,8 @@ Modifica Dettagli ICQ
 Valore sconosciuto
 [Upload in progress...]
 Upload in corso...
+[Upload in progress...%d%%]
+Upload in corso...%d%%
 [Upload complete]
 Upload completato
 ;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp

@@ -240,6 +240,8 @@ Rovnaká šírka oddielov
 
 [Use New Drawer for StatusBar]
 
+[&Main menu]
+
 [E&xit]
 Koniec
 [&Status]

@@ -20,12 +20,12 @@ HTTP подключение Paste It
 Вы можете разместить только 1 файл
 [Cannot get data from clipboard]
 Не возможно получить данные из буфера обмена
-[File size is %dKB, do you realy want to paste such large file?]
-Размер файла %dKB, вы действительно хотите разместить такой большой файл?
+[File size is %d KB, do you realy want to paste such a large file?]
+Размер файла %d KБ, вы действительно хотите разместить такой большой файл?
 [Cannot read file '%s']
 Невозможно прочитать файл '%s'
-[File size is larger then 10MB, cannot be send]
-Файл размером более 10MB, не может быть отправлен
+[File size is larger then 10 MB, cannot be sent]
+Файл размером более 10 MБ, не может быть отправлен
 [Cannot open file '%s']
 Невозможно открыть файл '%s'
 [File '%s' is empty]

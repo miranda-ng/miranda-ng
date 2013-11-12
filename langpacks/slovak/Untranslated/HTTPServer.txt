@@ -22,7 +22,7 @@
 [URL address]
 [%ExternalIP% variable]
 [Test]
-[Transfer limit (kb/sec)]
+[Transfer limit (Kb/s)]
 [No control when Away/NA]
 [Connection control]
 [Index creation]

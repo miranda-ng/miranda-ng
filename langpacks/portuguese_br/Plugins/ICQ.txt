@@ -8,16 +8,6 @@
 ;file \protocols\IcqOscarJ\res\resources.rc
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
-[&Send]
-&Enviar
-[&Send]
-Enviar
 [&Send]
 &Enviar
 [&Cancel]
@@ -28,26 +18,6 @@ Digite a Senha ICQ
 Digite uma senha para UIN% d:
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [ICQ number:]
@@ -60,12 +30,6 @@ Recuperar uma senha perdida ou número de ICQ
 Criar uma nova conta ICQ usando o site ICQ
 [Port:]
 Porta:
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Default]
 Padrão
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
@@ -351,8 +315,8 @@ Secure login falhou.\nInvalid resposta do servidor.
 [Secure login failed.\nInvalid key length.]
 Secure login falhou.\nComprimento da chave inválida.
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
-Tem certeza de que pretende revogar a autorização do usuário? Isto irá remover-lo de sua lista de alguns clientes.
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
+Tem certeza de que pretende revogar a autorização do usuário?\nIsto irá remover-lo de sua lista de alguns clientes.
 [** This message was blocked by the ICQ server ** The message was invalid.]
 ** Esta mensagem foi bloqueada pelo servidor de ICQ ** A mensagem era inválido.
 [** This message was blocked by the ICQ server ** The message was too long.]
@@ -1206,6 +1170,8 @@ Valor desconhecido
 Você fez algumas alterações para os seus dados de ICQ, mas não foi salvo para o servidor. Tem certeza que deseja fechar esta janela?
 [Upload in progress...]
 Upload in progresso...
+[Upload in progress...%d%%]
+Upload in progresso...%d%%
 [Upload complete]
 Upload complete
 [Upload FAILED]

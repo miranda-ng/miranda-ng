@@ -175,9 +175,9 @@ pobiera 'najczęściej połączone' subkontakty "x"
 Globalne
 [path to Miranda root folder]
 folder docelowy Mirandy
-[path to current miranda profile]
-folder docelowy bieżącego profilu mirandy
-[name of current miranda profile (filename, without extension)]
+[path to current Miranda profile]
+folder docelowy bieżącego profilu Mirandy
+[name of current Miranda profile (filename, without extension)]
 nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 zwróci przetworzony ciąg %miranda_profile%\\Profiles\\%miranda_profilename%

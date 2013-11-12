@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.9
+;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
@@ -32,6 +32,8 @@ Zapisuj kopie do folderu:
 Przeglądaj...
 [Go to the "Customize -> Folders" to change settings]
 Idź do Personalizacja -> Foldery aby zmienić ustawienia
+[Compress backup to zip-archive]
+
 [Disable progress bar]
 Wyłącz okienko ze wskaźnikiem postępu kopiowania
 [Disable Popups]

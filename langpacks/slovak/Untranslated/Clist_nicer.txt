@@ -145,6 +145,7 @@
 [Show 2nd line:]
 [Draw overlay icon on avatar]
 [Show local time]
+[&Main menu]
 [Tray]
 [Nowhere]
 [Hide Miranda]

@@ -6,18 +6,12 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
-[&A]
-&A
-[&D]
-&D
-[&H]
-&H
+[&Add]
+追加 (&A)
 [&Send]
 送信 (&S)
 [Cancel]
 Cancel
-[&Add]
-追加 (&A)
 [Close]
 閉じる
 [An error has occurred. The protocol reported the following error:]

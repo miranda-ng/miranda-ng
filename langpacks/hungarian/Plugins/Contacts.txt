@@ -6,18 +6,12 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
-[&A]
-&A
-[&D]
-&D
-[&H]
-&H
+[&Add]
+&Új
 [&Send]
 &Küldés
 [Cancel]
 Mégsem
-[&Add]
-&Új
 [Close]
 Bezárás
 [An error has occurred. The protocol reported the following error:]

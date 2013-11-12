@@ -36,6 +36,7 @@
 [Show bevel effect on panels]
 [Use connecting Icon]
 [Use New Drawer for StatusBar]
+[&Main menu]
 [Tray]
 [Nowhere]
 [Hide Miranda]

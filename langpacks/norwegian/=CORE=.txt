@@ -392,16 +392,12 @@ Avbryt Endring
 &Godkjenn
 [&Deny]
 &Avslå
-[&I]
-&I
 [Reason:]
 Grunn:
 [You Were Added]
 Du Ble Lagt til
 [&Close]
 &Lukk
-[&U]
-&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s Melding til %s
@@ -462,8 +458,8 @@ Ditt navn
 Aktiver fremheving
 [Limit log text to (events):]
 Begrens loggtekst til (hendelser):
-[Trim to (kB)]
-Begrens til (kB)
+[Trim to (KB)]
+Begrens til (KB)
 [Words to highlight (wildcards allowed)]
 Ord som skal merkes (jokertegn er tillatt)
 [Enable logging to disk]
@@ -740,10 +736,6 @@ Fil(er):
 &Velg på Nytt...
 [Total size:]
 Total størrelse:
-[&D]
-&D
-[&H]
-&H
 [Incoming File Transfer]
 Innkommende Filoverføringer
 [A&ccept]
@@ -758,11 +750,7 @@ Dato:
 Filer:
 [Save to:]
 Lagre til:
-[&A]
-&A
-[Contact menu]
-Kontaktmeny
-[Open folder]
+[&Open folder]
 Åpne mappe
 [File Already Exists]
 Filen Eksisterer Fra Før
@@ -1529,6 +1517,8 @@ Forespørsel sendt, venter på svar...
 Venter på kobling...
 [Unable to initiate transfer.]
 Kan ikke starte overføring.
+[Contact menu]
+Kontaktmeny
 [sec]
 sek
 [remaining]

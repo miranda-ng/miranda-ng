@@ -54,8 +54,8 @@
 Запис на разговорите в дневник на диска
 [Log directory]
 Директория на дневника
-[Maximum size for log files (in kB)]
-Макс. размер на дневниците (в kБ)
+[Maximum size for log files (in KB)]
+Макс. размер на дневниците (в KБ)
 [Group chat log formatting]
 Форматиране на дневника за групови чатове
 [Your name]
@@ -2169,10 +2169,10 @@ TabSRMM предупреждение
 
 [path to Miranda root folder]
 път до главната папка на Miranda
-[path to current miranda profile]
-път до текущия профил на miranda
-[name of current miranda profile (filename, without extension)]
-име на текущия профил на miranda (име без окончание)
+[path to current Miranda profile]
+път до текущия профил на Miranda
+[name of current Miranda profile (filename, without extension)]
+име на текущия профил на Miranda (име без окончание)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
 [will return parsed string %miranda_userdata%\\Logs]

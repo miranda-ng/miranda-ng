@@ -175,9 +175,9 @@ Standard-Unterkontakt von x
 Miranda Core Global
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
-[path to current miranda profile]
+[path to current Miranda profile]
 Pfad zum aktuellen Miranda-Profil
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück

@@ -440,6 +440,8 @@ Pokaż drugą linię:
 Rysuj nakładkę na awatarze
 [Show local time]
 Pokaż czas kontaktu
+[&Main menu]
+Menu główne
 [E&xit]
 Wyjdź
 [&Status]

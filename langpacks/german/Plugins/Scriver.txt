@@ -154,16 +154,20 @@ Erneut versuchen
 Abbrechen
 [Message Session]
 Nachrichtensitzung
-[&U]
-&U
-[&D]
-&D
-[&E]
-&E
-[&H]
-&H
-[&Q]
-&Q
+[&User menu]
+Kontaktmenü
+[User &details]
+Kontaktprofil
+[&Emoticons]
+
+[&Add]
+Hinzufügen
+[&History]
+Verlauf
+[&Quote]
+Zitieren
+[&OK]
+&OK
 [Send To All Tabs]
 An alle Tabs senden
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -174,6 +178,22 @@ Meine Entscheidung für diesen Container merken.
 Ja
 [No]
 Nein
+[&Bold]
+Fett
+[&Italic]
+Kursiv
+[&Underline]
+Unterstrichen
+[&Color]
+Farbe
+[&Background color]
+Hintergrundfarbe
+[&Filter]
+Filter
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
 [Actions]
@@ -230,8 +250,8 @@ Logs speichern
 Ort
 [Trim to]
 bis max.
-[kB]
-kB
+[KB]
+KB
 [Group Chat]
 Gruppenchat
 [Use same style as in the message log]
@@ -854,9 +874,9 @@ Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet,
 BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
-[path to current miranda profile]
+[path to current Miranda profile]
 Pfad zum aktuellen Miranda-Profil
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück

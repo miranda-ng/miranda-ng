@@ -166,6 +166,8 @@ Rovnaká šírka oddielov
 
 [Show resize grip indicator]
 
+[&Main menu]
+
 [E&xit]
 Koniec
 [&Status]

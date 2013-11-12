@@ -35,3 +35,7 @@
 Обликовий запис
 [%s server connection]
 Підключення до серверу %s
+[Attachments:]
+
+[Photo]
+

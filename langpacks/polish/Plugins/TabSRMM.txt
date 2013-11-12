@@ -54,8 +54,8 @@ Dziennik plików
 Zapisuj dziennik na dysku
 [Log directory]
 Folder dziennika
-[Maximum size for log files (in kB)]
-Maksymalny rozmiar pliku z dziennikiem (w kB)
+[Maximum size for log files (in KB)]
+Maksymalny rozmiar pliku z dziennikiem (w KB)
 [Group chat log formatting]
 Formatowanie dziennika dla czatów
 [Your name]
@@ -154,6 +154,17 @@ Zamknij kartę
 Zamknij inne karty
 [&Open at this position]
 Otwórz w tym miejscu
+;file \plugins\TabSRMM\res\msgwindow.rc 
+[&Retry]
+Gotowy
+[&Cancel]
+Anuluj
+[&Send]
+Wyślij
+[&Add]
+Dodaj
+[&Remove]
+Usuń
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
 Wyjątek TabSRMM
@@ -2169,10 +2180,10 @@ Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wsp
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to Miranda root folder]
 folder docelowy Mirandy
-[path to current miranda profile]
-folder docelowy bieżącego profilu mirandy
-[name of current miranda profile (filename, without extension)]
-nazwa aktualnego profilu mirandy (nazwa pliku bez rozszerzenia)
+[path to current Miranda profile]
+folder docelowy bieżącego profilu Mirandy
+[name of current Miranda profile (filename, without extension)]
+nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 zwróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]

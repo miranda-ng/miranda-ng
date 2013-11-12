@@ -76,16 +76,6 @@ amíg elküldi az alábbi üzenetet:
 Mégsem
 [Message Session]
 Üzenet mukamenet
-[&U]
-&U
-[&D]
-&D
-[&E]
-&E
-[&H]
-&H
-[&Q]
-&Q
 [Send To All Tabs]
 Küldés minden fülön
 [You are about to send a message to all open tabs.\nAre you sure?]

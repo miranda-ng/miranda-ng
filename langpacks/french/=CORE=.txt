@@ -522,7 +522,7 @@ Dégrouper
 &Refuser
 [Decide &Later]
 Décider plus &Tard
-[&I]
+[User &details]
 
 [Reason:]
 Motif:
@@ -534,8 +534,6 @@ Ajouter à la liste de contacts si autorisé
 Vous avez été ajouté
 [&Close]
 &Fermer
-[&U]
-
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Message %s pour %s
@@ -598,7 +596,7 @@ Votre nom
 Autoriser surlignage
 [Limit log text to (events):]
 Limite texte (évènements):
-[Trim to (kB)]
+[Trim to (KB)]
 Limite (ko)
 [Words to highlight (wildcards allowed)]
 Mots à surligner (joker * autorisés)
@@ -894,10 +892,6 @@ Fichier(s):
 &Sélectionner...
 [Total size:]
 Taille totale:
-[&D]
-
-[&H]
-
 [Incoming File Transfer]
 Transfert de fichier entrant
 [A&ccept]
@@ -912,13 +906,9 @@ Date:
 Fichiers:
 [Save to:]
 Enregistrer sous:
-[&A]
-
-[Contact menu]
-Menu Contact
-[Open...]
+[&Open...]
 Ouvrir...
-[Open folder]
+[Open &folder]
 Ouvrir dossier
 [Transfer completed, open file(s).]
 Transfert complété, ouvrir le(s) fichier(s).
@@ -1829,6 +1819,8 @@ Demande envoyée, attente d'une réponse...
 Attente de connexion...
 [Unable to initiate transfer.]
 Lancement du transfert impossible.
+[Contact menu]
+Menu Contact
 [sec]
 secondes
 [remaining]

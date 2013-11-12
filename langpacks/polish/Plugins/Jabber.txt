@@ -557,7 +557,7 @@ Otrzymywanie informacji o nastroju użytkownika
 Wsparcie dla funkcji publikowania autoryzacji
 [Supports SecureIM plugin for Miranda NG]
 Wsparcie dla wtyczki SecureIM w Mirandzie NG
-[Supports MirOTR plugin for Miranda NG]
+[Supports OTR (Off-the-Record Messaging)]
 Wspiera wtyczkę MirOtr dla Miranda NG
 [Supports New_GPG plugin for Miranda NG]
 Wspiera wtyczkę New_GPG dla Miranda NG

@@ -25,6 +25,8 @@
 Резервирование в процессе
 [Go to the "Customize -> Folders" to change settings]
 Откройте "Тонкая настройка -> Папки" для изменения настроек
+[Compress backup to zip-archive]
+Сжать резервную копию в zip-архив
 [path to Miranda root folder]
 путь к папке программы
 [path to current Miranda profile]

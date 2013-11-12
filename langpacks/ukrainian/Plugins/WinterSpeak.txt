@@ -75,13 +75,13 @@ Cтупінь
 В мережі
 [Away]
 Відсутній
-[Do not Disturb]
+[DND]
 Не турбувати
-[Not Available]
+[NA]
 Недоступний
 [Occupied]
 Зайнятий
-[Free for Chat]
+[Free for chat]
 Готовий базікати
 [Invisible]
 Невидимий

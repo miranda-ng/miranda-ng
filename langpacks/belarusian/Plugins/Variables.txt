@@ -175,9 +175,9 @@ x - y - ...
 Зменныя ядра Miranda
 [path to Miranda root folder]
 шлях да тэчкі праграмы
-[path to current miranda profile]
+[path to current Miranda profile]
 шлях да тэчкі бягучага профіля
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%

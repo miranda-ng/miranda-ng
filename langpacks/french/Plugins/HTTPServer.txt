@@ -30,8 +30,8 @@ Ouvrir
 Adresse URL
 [%ExternalIP% variable]
 Variable %ExternalIP%
-[Transfer limit (kb/sec)]
-Limite de transfert (kb/sec)
+[Transfer limit (Kb/s)]
+Limite de transfert (Kb/s)
 [No control when Away/NA]
 Sans contrôle si Absent/indisponible
 [Create HTML (compatibility)]

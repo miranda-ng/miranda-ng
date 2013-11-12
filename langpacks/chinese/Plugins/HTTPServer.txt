@@ -44,8 +44,8 @@ HTTP 服务器统计查看
 URL 地址
 [%ExternalIP% variable]
 %ExternalIP% 变量
-[Transfer limit (kb/sec)]
-传输限制 (kb/秒)
+[Transfer limit (Kb/s)]
+传输限制 (Kb/秒)
 [No control when Away/NA]
 外出/没空时不控制
 [Connection control]

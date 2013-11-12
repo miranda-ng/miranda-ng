@@ -560,8 +560,8 @@ Miranda NG 正准备重启. \n请稍候...
 启用突出显示
 [Limit log text to (events):]
 限制记录文本为 (事件): 
-[Trim to (kB)]
-截短为 (kB)
+[Trim to (KB)]
+截短为 (KB)
 [Words to highlight (wildcards allowed)]
 突出显示字词 (允许通配符)
 [Enable logging to disk]

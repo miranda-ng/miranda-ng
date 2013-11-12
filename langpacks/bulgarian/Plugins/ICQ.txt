@@ -383,8 +383,8 @@ ICQ бележка
 [Secure login failed.\nInvalid key length.]
 
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
-Желаете ли да оттеглите пълномощното на контакта? Ще бъдете премахнати от списъка му, само за някои клиенти.
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
+Желаете ли да оттеглите пълномощното на контакта?\nЩе бъдете премахнати от списъка му, само за някои клиенти.
 [Confirmation]
 Потвърждаване
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -1932,6 +1932,8 @@ ICQ сървъра не поддържа пароли по-дълги от 8 з�
 Направили сте промени по ICQ подробностите, но те не са запаметени на сървъра. Желаете прозорецът да бъде затворен?
 [Upload in progress...]
 В процес на качване...
+[Upload in progress...%d%%]
+В процес на качване...%d%%
 [Upload complete]
 Качването завърши
 [Upload FAILED]

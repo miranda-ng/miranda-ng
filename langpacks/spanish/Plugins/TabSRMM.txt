@@ -50,8 +50,8 @@ Los archivos de registro
 Habilitar el registro en el disco
 [Log directory]
 Registro de la guía
-[Maximum size for log files (in kB)]
-Tamaño máximo para los archivos de registro (en kB)
+[Maximum size for log files (in KB)]
+Tamaño máximo para los archivos de registro (en KB)
 [Group chat log formatting]
 Chat de grupo de registro de formato
 [Your name]

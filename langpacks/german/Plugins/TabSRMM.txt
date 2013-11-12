@@ -54,8 +54,8 @@ Verlaufsdateien
 Verlauf auf Festplatte speichern
 [Log directory]
 Verzeichnis für Verlaufsdateien
-[Maximum size for log files (in kB)]
-Maximale Größe der Verlaufsdateien (in kB)
+[Maximum size for log files (in KB)]
+Maximale Größe der Verlaufsdateien (in KB)
 [Group chat log formatting]
 Gruppenchat-Verlaufsformatierung
 [Your name]
@@ -154,6 +154,17 @@ Tab s&chließen
 Andere Tabs sch&ließen
 [&Open at this position]
 An dieser Position öffnen
+;file \plugins\TabSRMM\res\msgwindow.rc 
+[&Retry]
+&Wiederholen
+[&Cancel]
+Abbre&chen
+[&Send]
+&Senden
+[&Add]
+&Hinzufügen
+[&Remove]
+&Entfernen
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
 TabSRMM-Ausnahme
@@ -2169,9 +2180,9 @@ Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet,
 BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
-[path to current miranda profile]
+[path to current Miranda profile]
 Pfad zum aktuellen Miranda-Profil
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück

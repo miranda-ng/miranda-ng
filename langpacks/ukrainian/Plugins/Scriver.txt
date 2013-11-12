@@ -153,15 +153,19 @@
 Скасування
 [Session Message]
 Бесіда
-[&U]
+[&User menu]
 
-[&D]
+[User &details]
 
-[&E]
+[&Emoticons]
 
-[&H]
+[&Add]
 
-[&Q]
+[&History]
+
+[&Quote]
+
+[&OK]
 
 [Send To All Tabs]
 Надіслати всім вкладкам
@@ -173,6 +177,22 @@
 Так
 [No]
 Ні
+[&Bold]
+
+[&Italic]
+
+[&Underline]
+
+[&Color]
+
+[&Background color]
+
+[&Filter]
+
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 Показувати тільки:
 [Actions]
@@ -837,9 +857,9 @@ Miranda не змогла завантажити вбудовану систем
 ID поточного контакту (якщо він визначений). Наприклад, для ICQ UIN, JID для Jabber і т.д.
 [path to Miranda root folder]
 
-[path to current miranda profile]
+[path to current Miranda profile]
 
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 

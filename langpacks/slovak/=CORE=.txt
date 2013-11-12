@@ -522,7 +522,7 @@ Autorizovať
 
 [Decide &Later]
 
-[&I]
+[User &details]
 
 [Reason:]
 Dôvod:
@@ -534,8 +534,6 @@ Dôvod:
 
 [&Close]
 Zavrieť
-[&U]
-
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s správa pre %s
@@ -562,6 +560,24 @@ Zavrieť (za %d s)
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
 Odoslať
+[&Emoticons]
+
+[&Bold]
+
+[&Italic]
+
+[&Color]
+
+[&Background color]
+
+[&History]
+
+[&Filter]
+
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
 
 [Actions]
@@ -598,7 +614,7 @@ Vaše meno
 
 [Limit log text to (events):]
 
-[Trim to (kB)]
+[Trim to (KB)]
 
 [Words to highlight (wildcards allowed)]
 
@@ -861,6 +877,8 @@ Rovnaká šírka oddielov
 
 [Contact list background:]
 
+[&Main menu]
+
 [&Status]
 Stav
 [&Offline\tCtrl+0]
@@ -894,9 +912,7 @@ Súbor(y):
 Znovu vybrať
 [Total size:]
 Celková veľkosť:
-[&D]
-
-[&H]
+[&User menu]
 
 [Incoming File Transfer]
 Príchádzajúci súbor
@@ -912,13 +928,9 @@ Dátum:
 Súbory:
 [Save to:]
 Uložiť do:
-[&A]
+[&Open...]
 
-[Contact menu]
-
-[Open...]
-
-[Open folder]
+[Open &folder]
 Otvoriť zložku
 [Transfer completed, open file(s).]
 
@@ -952,6 +964,8 @@ Veľkosť:
 Posledná modifikácia:
 [Open file]
 Otvoriť súbor
+[Open folder]
+Otvoriť zložku
 [File properties]
 Vlastnosti súboru
 [File being received]
@@ -1089,6 +1103,8 @@ Uložiť pozíciu a veľkosť okna individuálne pre každý kontakt
 Skús znovu
 [Message Session]
 Rozhovor
+[&Details]
+
 [Message Window Event Log]
 
 [Show names]
@@ -1828,6 +1844,10 @@ Požiadavka zaslaná, čakajte na akceptáciu...
 [Waiting for connection...]
 Čakajte na pripojenie...
 [Unable to initiate transfer.]
+
+[Contact menu]
+
+[Open...]
 
 [sec]
 sek

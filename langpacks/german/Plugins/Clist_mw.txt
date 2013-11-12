@@ -240,6 +240,8 @@ Zeige Abschrägungseffekt auf Tafeln
 Benutze Verbindungsicon
 [Use New Drawer for StatusBar]
 Benutze neue Zeichnung für die Statusbar
+[&Main menu]
+Hauptmenü
 [E&xit]
 B&eenden
 [&Status]

@@ -84,30 +84,8 @@ enquanto enviando a seguinte mensagem:
 Tentar novamente
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Message Session]
 Sessão de Mensagem
-[&U]
-&U
-[&D]
-&D
-[&E]
-&E
-[&H]
-&H
-[&Q]
-&Q
 [Send To All Tabs]
 Enviar A Todas as Abas
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -116,12 +94,6 @@ Você está prestes a enviar uma mensagem para todos as abas abertas.\nTem certe
 Lembrar minha escolha para o recipiente
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [Show these events only:]

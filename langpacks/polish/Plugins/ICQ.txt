@@ -383,8 +383,8 @@ Błąd bezpiecznego logowania.\nSerwer nie odpowiada.
 [Secure login failed.\nInvalid key length.]
 Błąd bezpiecznego logowania.\nBłędna długość klucza.
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization? This will remove you from his/her list on some clients.]
-Czy na pewno chcesz cofnąć autoryzację? Na niektórych klientach usunie Cię to z jej/jego listy.
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
+Czy na pewno chcesz cofnąć autoryzację?\nNa niektórych klientach usunie Cię to z jej/jego listy.
 [Confirmation]
 Potwierdź
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -1932,6 +1932,8 @@ Nieznana wartość
 Wprowadziłeś zmiany w szczegółach ICQ, ale nie zapisałeś ich na serwer. Czy na pewno chcesz zamknąć to okno?
 [Upload in progress...]
 Wysyłanie w trakcie...
+[Upload in progress...%d%%]
+Wysyłanie w trakcie...%d%%
 [Upload complete]
 Wysyłanie zakończone
 [Upload FAILED]

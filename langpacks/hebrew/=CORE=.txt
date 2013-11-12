@@ -362,8 +362,8 @@
 אפשר הדגשה
 [Limit log text to (events):]
 הגבל אירועי יומן ל:
-[Trim to (kB)]
-גזום ל (kB)
+[Trim to (KB)]
+גזום ל (KB)
 [Words to highlight (wildcards allowed)]
 מילים להדגיש כרטיס חופשי מותר
 [Enable logging to disk]

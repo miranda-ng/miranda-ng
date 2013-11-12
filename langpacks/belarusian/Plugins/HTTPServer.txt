@@ -50,8 +50,8 @@ IP адрас 2
 %ExternalIP% зменная
 [Test]
 Тэст
-[Transfer limit (kb/sec)]
-Ліміт хуткасці (kb/sec)
+[Transfer limit (Kb/s)]
+Ліміт хуткасці (Kb/s)
 [No control when Away/NA]
 Адкл. калі недаступны/заняты
 [Connection control]

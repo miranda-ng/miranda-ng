@@ -50,8 +50,8 @@ Cancel
 ディスクにログを残す
 [Log directory]
 ログフォルダー
-[Maximum size for log files (in kB)]
-ログファイルの最大サイズ (kB)
+[Maximum size for log files (in KB)]
+ログファイルの最大サイズ (KB)
 [Group chat log formatting]
 グループチャットのログを初期化する
 [Your name]

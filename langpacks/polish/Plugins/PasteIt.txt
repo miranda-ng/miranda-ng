@@ -131,14 +131,14 @@ Połączenie HTTP Paste It
 Możesz wkleić tylko 1 plik
 [Cannot get data from clipboard]
 Nie można pobrać danych ze schowka
-[File size is %dKB, do you realy want to paste such large file?]
-Rozmiar pliku wynosi %dKB, napewno chcesz wkleić tak duży plik?
+[File size is %d KB, do you realy want to paste such a large file?]
+Rozmiar pliku wynosi %d KB, napewno chcesz wkleić tak duży plik?
 [Are You sure?]
 Czy na pewno?
 [Cannot read file '%s']
 Nie można wczytać pliku '%s'
-[File size is larger then 10MB, cannot be send]
-Rozmiar pliku jest większy niż 10MB, nie może zostać wysłany
+[File size is larger then 10 MB, cannot be sent]
+Rozmiar pliku jest większy niż 10 MB, nie może zostać wysłany
 [Cannot open file '%s']
 Nie można otworzyć pliku '%s'
 [File '%s' is empty]

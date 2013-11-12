@@ -2,4 +2,3 @@
 [&Room Settings]
 [&Show/hide nicklist]
 [&Details]
-[Avatars root folder]

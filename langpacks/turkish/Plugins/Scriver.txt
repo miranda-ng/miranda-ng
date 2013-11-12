@@ -76,16 +76,6 @@ Yeniden dene
 İptal
 [Message Session]
 İleti Oturumu
-[&U]
-&U
-[&D]
-&D
-[&E]
-&E
-[&H]
-&H
-[&Q]
-&Q
 [Send To All Tabs]
 Tüm Sekmelere Gönder
 [You are about to send a message to all open tabs.\nAre you sure?]

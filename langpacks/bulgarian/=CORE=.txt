@@ -522,7 +522,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отхвърляне
 [Decide &Later]
 Попитай по-късно
-[&I]
+[User &details]
 
 [Reason:]
 Причина:
@@ -534,8 +534,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Вие бяхте добавен
 [&Close]
 Затваряне
-[&U]
-
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Текст "%s" на %s
@@ -598,8 +596,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отличаване на думи
 [Limit log text to (events):]
 Макс. брой събития в прозорец:
-[Trim to (kB)]
-Макс. (kB)
+[Trim to (KB)]
+Макс. (KB)
 [Words to highlight (wildcards allowed)]
 Думи за отличаване (wildcards allowed)
 [Enable logging to disk]
@@ -894,10 +892,6 @@ Wikipedia
 Изберете отново...
 [Total size:]
 Общ размер:
-[&D]
-
-[&H]
-
 [Incoming File Transfer]
 Входящ файл
 [A&ccept]
@@ -912,13 +906,9 @@ Wikipedia
 Файлове:
 [Save to:]
 Запис в:
-[&A]
-
-[Contact menu]
-Меню на контактите
-[Open...]
+[&Open...]
 Отваряне...
-[Open folder]
+[Open &folder]
 Отвари папката
 [Transfer completed, open file(s).]
 Прехвърлянето е завършено, отваряне на файла.
@@ -1831,6 +1821,8 @@ Popups за изобразяване
 Изчакване за връзка...
 [Unable to initiate transfer.]
 Стартирането на прехвърляне е невъзможно.
+[Contact menu]
+Меню на контактите
 [sec]
 сек
 [remaining]

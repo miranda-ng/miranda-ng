@@ -72,12 +72,6 @@ Forsøk igjen
 Avbryt
 [Message Session]
 Meldingsøkt
-[&U]
-&U
-[&D]
-&D
-[&H]
-&H
 [Send To All Tabs]
 Send Til Alle Faner
 [You are about to send a message to all open tabs.\nAre you sure?]

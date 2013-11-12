@@ -418,16 +418,12 @@ Változtatás Elvetése
 &Meghatalmazás
 [&Deny]
 Visszautasít
-[&I]
-&I
 [Reason:]
 Indok:
 [You Were Added]
 Hozzáadásra Kerültél
 [&Close]
 &Bezárás
-[&U]
-&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s Üzenet ennek: %s
@@ -488,8 +484,8 @@ Neve
 Kielemés bekapcsolása
 [Limit log text to (events):]
 Napló szövegek behatárolása (események):
-[Trim to (kB)]
-Max (kB)
+[Trim to (KB)]
+Max (KB)
 [Words to highlight (wildcards allowed)]
 Kiemelendõ szavak (helyettesítõk használhatóak)
 [Enable logging to disk]
@@ -766,10 +762,6 @@ Fájl(ok):
 &Válassz Újra...
 [Total size:]
 Teljes méret:
-[&D]
-&D
-[&H]
-&H
 [Incoming File Transfer]
 Bejövõ Fájlátvitel
 [A&ccept]
@@ -784,13 +776,9 @@ Dátum:
 Fájlok:
 [Save to:]
 Mentés ide:
-[&A]
-&A
-[Contact menu]
-Partner Menü
-[Open...]
+[&Open...]
 Megnyitás...
-[Open folder]
+[Open &folder]
 Mappa megnyitása
 [Transfer completed, open file(s).]
 Átvitel befejezõdött, fájl(ok) megnyitása.
@@ -1573,6 +1561,8 @@ Ezen a fájlon még nem lett víruskeresés lefuttatva. Biztosan meg akarod nyit
 Érkezett fájl
 [of]
 /
+[Contact menu]
+Partner Menü
 [sec]
 mp.
 [remaining]

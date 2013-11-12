@@ -48,7 +48,7 @@ Naplók
 Naplózás a lemezre
 [Log directory]
 Napló könyvtár
-[Maximum size for log files (in kB)]
+[Maximum size for log files (in KB)]
 Maximális naplófájlméret (KiB)
 [Group chat log formatting]
 Csevegés napló csoportosítása
