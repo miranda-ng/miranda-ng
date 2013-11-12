@@ -57,7 +57,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_TICK,            LPGEN("Tick"),                  -IDI_TICK           }, // 19
 	{ SKINICON_OTHER_NOTICK,          LPGEN("No Tick"),               -IDI_NOTICK         }, // 20
 	{ SKINICON_OTHER_HELP,            LPGEN("Help"),                  -IDI_HELP           }, // 21
-	{ SKINICON_OTHER_MIRANDAWEB,      LPGEN("Miranda Website"),       -IDI_MIRANDAWEBSITE }, // 22
+	{ SKINICON_OTHER_MIRANDAWEB,      LPGEN("Miranda website"),       -IDI_MIRANDAWEBSITE }, // 22
 	{ SKINICON_OTHER_TYPING,          LPGEN("Typing"),                -IDI_TYPING         }, // 23
 	{ SKINICON_OTHER_SMALLDOT,        LPGEN("Small Dot"),             -IDI_SMALLDOT       }, // 24
 	{ SKINICON_OTHER_FILLEDBLOB,      LPGEN("Filled Blob"),           -IDI_FILLEDBLOB     }, // 25
@@ -72,7 +72,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_ACCMGR,          LPGEN("Accounts"),              -IDI_ACCMGR         }, // 34
 	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("Show/Hide"),              -IDI_SHOWHIDE       }, // 35
 	{ SKINICON_OTHER_EXIT,            LPGEN("Exit"),                  -IDI_EXIT           }, // 36
-	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main Menu"),             -IDI_MAINMENU       }, // 37
+	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main menu"),             -IDI_MAINMENU       }, // 37
 	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),                -IDI_ONLINE         }, // 38
 	{ SKINICON_CHAT_JOIN,             LPGEN("Join chat"),             -IDI_JOINCHAT       }, // 39
 	{ SKINICON_CHAT_LEAVE,            LPGEN("Leave chat"),            -IDI_LEAVECHAT      }, // 40

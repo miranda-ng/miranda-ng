@@ -313,7 +313,7 @@ void GroupMenus_Init(void)
 	mi.position = 300000;
 	mi.pszService = "";
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
-	mi.pszName = LPGEN("&Main Menu");
+	mi.pszName = LPGEN("&Main menu");
 	hGroupMainMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300100;

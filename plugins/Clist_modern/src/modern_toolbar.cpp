@@ -39,11 +39,11 @@ struct
 }
 static BTNS[] = 
 {
-	{ "MainMenu", LPGEN("Main Menu"), "CList/ShowMainMenu", LPGEN("Main menu"), NULL,  100 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "StatusMenu", LPGEN("Status Menu"), "CList/ShowStatusMenu", LPGEN("Status menu"), NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "MainMenu", LPGEN("Main menu"), "CList/ShowMainMenu", LPGEN("Main menu"), NULL,  100 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "StatusMenu", LPGEN("Status menu"), "CList/ShowStatusMenu", LPGEN("Status menu"), NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "AccoMgr", LPGEN("Accounts"), MS_PROTO_SHOWACCMGR, LPGEN("Accounts..."), NULL,  282 , IDI_ACCMGR, IDI_ACCMGR, TRUE },
 	{ "ShowHideOffline",LPGEN("Show/Hide offline contacts"), MS_CLIST_TOGGLEHIDEOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "FindUser",LPGEN("Find User"), "FindAdd/FindAddCommand", LPGEN("Find User"), NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "FindUser",LPGEN("Find user"), "FindAdd/FindAddCommand", LPGEN("Find user"), NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "Options","Options", "Options/OptionsCommand", "Options", NULL,  150 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "UseGroups",LPGEN("Use/Disable groups"), MS_CLIST_TOGGLEGROUPS, LPGEN("Use groups"), LPGEN("Disable Groups"), 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
 	{ "EnableSounds",LPGEN("Enable/Disable sounds"), MS_CLIST_TOGGLESOUNDS, LPGEN("Enable sounds"), LPGEN("Disable sounds"), 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },

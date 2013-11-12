@@ -52,7 +52,7 @@ static IconItem iconList[] =
 	{ LPGEN("Pin Popup"),                   ICO_ACT_PIN,        IDI_ACT_PIN        },
 	{ LPGEN("Pinned Popup"),                ICO_ACT_PINNED,     IDI_ACT_PINNED     },
 	{ LPGEN("Send Message"),                ICO_ACT_MESS,       IDI_ACT_MESSAGE    },
-	{ LPGEN("User Details"),                ICO_ACT_INFO,       IDI_ACT_INFO       },
+	{ LPGEN("User details"),                ICO_ACT_INFO,       IDI_ACT_INFO       },
 	{ LPGEN("Contact Menu"),                ICO_ACT_MENU,       IDI_ACT_MENU       },
 	{ LPGEN("Add Contact Permanently"),     ICO_ACT_ADD,        IDI_ACT_ADD        },
 	{ LPGEN("Dismiss Popup"),               ICO_ACT_CLOSE,      IDI_ACT_CLOSE      },

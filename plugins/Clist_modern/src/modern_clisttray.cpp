@@ -552,7 +552,7 @@ void InitTrayMenus(void)
 	mi.position = 300000;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
 	mi.pszService = "FakeService_1";
-	mi.pszName = LPGEN("&Main Menu");
+	mi.pszName = LPGEN("&Main menu");
 	hTrayMainMenuItemProxy = (HANDLE)AddTrayMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300100;

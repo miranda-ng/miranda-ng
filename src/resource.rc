@@ -1140,7 +1140,7 @@ BEGIN
     BEGIN
         MENUITEM "&Add to List",                IDC_ADD
         MENUITEM SEPARATOR
-        MENUITEM "User &Details",               IDC_DETAILS
+        MENUITEM "User &details",               IDC_DETAILS
         MENUITEM "Send &Message",               IDC_SENDMESSAGE
     END
     POPUP "Log"

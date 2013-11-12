@@ -324,7 +324,7 @@ void InitGroupMenus(void)
 		mi.cbSize=sizeof(mi);
 		mi.position=300000;
 		mi.pszService="";
-		mi.pszName=LPGEN("&Main Menu");
+		mi.pszName=LPGEN("&Main menu");
 		hGroupMainMenuItemProxy = (HGENMENU)AddGroupMenuItem(0,(LPARAM)&mi);
 
 		memset(&mi,0,sizeof(mi));

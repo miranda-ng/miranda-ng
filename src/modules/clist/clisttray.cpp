@@ -737,7 +737,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			mi.fMask = MIIM_SUBMENU | MIIM_TYPE;
 			mi.fType = MFT_STRING;
 			mi.hSubMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
-			mi.dwTypeData = TranslateT("&Main Menu");
+			mi.dwTypeData = TranslateT("&Main menu");
 			InsertMenuItem(hMenu, 1, TRUE, &mi);
 			mi.hSubMenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 			mi.dwTypeData = TranslateT("&Status");
