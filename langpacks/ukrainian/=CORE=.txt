@@ -884,12 +884,6 @@ Miranda NG перезапускається.\nЗачекайте...
 Файли:
 [Save to:]
 Зберегти до:
-[Contact menu]
-Меню контакту
-[Open...]
-Відкрити...
-[Open folder]
-Відкрити папку
 [Transfer completed, open file(s).]
 Передачу завершено, відкрити файл(и).
 [No data transferred]
@@ -922,6 +916,8 @@ Miranda NG перезапускається.\nЗачекайте...
 Змінений:
 [Open file]
 Відкрити файл
+[Open folder]
+Відкрити папку
 [File properties]
 Властивості файлу
 [File being received]
@@ -1221,23 +1217,23 @@ Iндекс:
 [I've been away since %time%.]
 Відійшов о %time%. Скоро повернуся.
 [Give it up, I'm not in!]
-Ну немає мене зараз!
+Мене немає.
 [Not right now.]
-Не зараз...
+Не зараз.
 [Give a guy some peace, would ya?]
 Дайте спокій, я зайнятий.
 [I'm a chatbot!]
 Я - робот-базікало!
 [Yep, I'm here.]
-Я тут.
+Так, я тут.
 [Nope, not here.]
 Мене немає.
 [I'm hiding from the mafia.]
 Я переховуюсь від мафії.
 [That'll be the phone.]
-Дайте ж мені побалакати по телефону!
+Та дайте ж людині поговорити по телефону...
 [Mmm... food.]
-Ням-ням... їжа!
+Ммм... поїсти б...
 [idleeeeeeee]
 очікування...
 [Status]
@@ -1766,6 +1762,10 @@ Cписок неактивний
 Очікування з'єднання
 [Unable to initiate transfer.]
 Неможливо розпочати передачу.
+[Contact menu]
+Меню контакту
+[Open...]
+Відкрити...
 [sec]
 с
 [remaining]
@@ -1805,7 +1805,7 @@ Cписок неактивний
 [Outgoing]
 Вихідні
 [< Copyright]
-< Авторство
+< Права
 [&About...]
 Про Miranda NG
 [&Support]

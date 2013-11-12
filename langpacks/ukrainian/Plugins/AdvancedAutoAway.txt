@@ -49,9 +49,9 @@
 Підтвердити скидання статусу
 [Account]
 Обліковий запис
-[Only if set current status is]
+[Only set if current status is]
 Тільки якщо статус:
-[Monitor miranda's activity only]
+[Monitor Miranda's activity only]
 Стежити тільки за Miranda
 [Reset status on return]
 Відновити статус при поверненні
@@ -59,7 +59,7 @@
 при запуску заставки
 [Set]
 Вибрати
-[only when set inactive]
+[only set when inactive]
 тільки при неактивності
 [when workstation is locked]
 при блокуванні комп'ютера
@@ -157,7 +157,7 @@
 Постійно
 [Show additional information in popups]
 Додаткова інформація у сплив. вікнах
-[Use miranda's message setting]
+[Use Miranda's message setting]
 Використовувати установки Miranda
 [Use this message:]
 Використовувати повідомлення:
@@ -177,7 +177,7 @@
 Інтервал підтвердження (с)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
 Ви ввімкнули функцію зміни статусу в розділі налаштувань "Режим очікування", налаштування ААА будуть ігноруватися.
-[Keyboard activity Monitor]
+[Monitor keyboard activity]
 Стежити за активністю клавіатури
 [Monitor mouse activity]
 Стежити за активністю миші
@@ -195,7 +195,7 @@
 Встановити повідомлення статусу
 [Status]
 Статус
-[Додати...]
+[Add...]
 Додати...
 [Delete]
 Видалити
@@ -221,7 +221,7 @@
 Перепідключатися після сплячого режиму
 [Stop trying to reconnect]
 Припинити підключення
-[Set to delay]
+[Set delay to]
 Почекати
 [React on login errors]
 Враховувати помилки входу
@@ -243,8 +243,22 @@
 невдалих пінгів
 [Continuously check interval (secs)]
 Інтервал перевірки (с)
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Leaving second auto-away status]
+
+[Becoming active without status change]
+
 [Pre-conditions]
 Попередні умови
+[TriggerData]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
 [minutes of %s mode]
 хвилин режиму "%s"
 [Rules]
@@ -254,23 +268,23 @@
 [Auto Away]
 Відсутність
 [I've been away since %time%.]
-Відійшов у %time%. Скоро повернуся.
-[Give it up, i'm not in!]
+Відійшов о %time%. Скоро повернуся.
+[Give it up, I'm not in!]
 Мене немає.
 [Not right now.]
 Не зараз.
-[Give a some guy peace, would ya?]
-Прошу не турбувати...
+[Give a guy some peace, would ya?]
+Дайте спокій, я зайнятий.
 [I'm a chatbot!]
 Вільний
-[Yep, i'm here.]
+[Yep, I'm here.]
 Так, я тут.
 [Nope, not here.]
 Ні, мене тут немає.
-[I'm from the hiding mafia.]
+[I'm hiding from the mafia.]
 Я ховаюся від мафії.
 [That'll be the phone.]
-Так дайте ж людині поговорити по телефону...
+Та дайте ж людині поговорити по телефону...
 [Mmm... food.]
 Ммм... поїсти б...
 [idleeeeeeee]

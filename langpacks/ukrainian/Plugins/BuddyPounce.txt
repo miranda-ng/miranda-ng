@@ -1,139 +1,137 @@
 ﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
 ;============================================================
-;  File: buddypounce.dll
-;  Module: BuddyPounce
-;  Versions: 0.3.2.1
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-[Default Pounce Settings]
-Налаштування Pounce за замовчуванням
-[The Message]
-Повідомлення
-[Send when contact (MSN status)]
-Надіслати, коли контакт
-[Changes from OFFLINE]
-Переходить з "Відключений"
-[Changes to ONLINE]
-Змінюється на "У мережі"
-[Changes to AWAY (BRB)]
-Змінюється на "Відсутній"
-[Changes to NA (AWAY)]
-Змінюється на "Недоступний"
-[Changes to Occupied (BUSY)]
-Змінюється на "Зайнятий"
-[Changes to DND]
-Змінюється на "Не турбувати"
-[Changes to 'Free For Chat']
-Змінюється на "Готовий чатитися"
-[Changes to 'On The Phone']
-Змінюється на "Телефоную"
-[Changes to 'Out To Lunch']
-Змінюється на "Обідаю"
-[ONLINE]
-В мережі
-[AWAY (BRB)]
-Відсутній
-[NA (AWAY)]
-Недоступний
-[Occupied (BUSY)]
-Зайнятий
-['Free For Chat']
-Готовий чатитись
-['On The Phone']
-На телефоні
-['Out To Lunch']
-Обідаю
-[Reuse]
-Слати
-[Giveup after]
-Не більше
-[Use Confirmation Window]
-Вікно з підтвердженням
-[CHECK THIS FOR IT TO SEND]
-Позначити для надсилання
-[&Delete Pounce]
-Видалити Pounce
-[&Load default settings]
-За замовчанням
-[Pounce being sent to %s in %d seconds]
-Pounce надіслано %s за %d секунд
-[Buddy Pounce setup for %s]
-Установка Buddy Pounce для %s
-[Allows you to send a message to contacts if they change status and your not there to say hi. Bassically offline messaging protocols for that dont have it.]
-Дозволяє надсилати повідомлення, коли контакт змінює статус, а вас немає на місці. Зазвичай використовується для протоколів, у яких немає можливості надсилання оффлайнових повідомлень.
-[To NA]
--> Недоступний
-[Give Up delay]
-Затримка скасування
-[Contact To Send Pounce To]
-Контакт для відправки відкладених
-[The Message:]
-Повідомлення:
-[To Out To Lunch]
--> Обідаю
+[Allows you to send a message to contacts if they change status.]
+Дозволяє надсилати повідомлення, коли контакт змінює статус, а вас немає на місці.
 [Confirm Pounce send]
 Підтвердження відправки відкладених
-[Free For Chat]
-Готовий базікати
-[Confirmation Window]
-Вікно підтвердження
-[Show Delivery Messages]
-Повідомл. про доставку
-[Default Settings]
-Стандартні налаштування
-[These settings are also used when sending a "Simple" pounce]
-Ці параметри також використовуються для "простих" відкл. повідомлень
-[Buddy Pounce]
-Відкладене повідомлення
-[Reuse Pounce]
-Застосувати відкладене
-[Setting text...........]
-Налаштування тексту.........
-[To Occupied]
--> Зайнятий
-[To On The Phone]
--> На телефоні
-[Load default Settings]
-Завантажити за замовчанням
-[To Away]
--> Відійшов
-[To DND]
--> Не турбувати
-[To Invisible]
--> Невидимий
-[The Message (characters: )]
-Повідомлення (символів: )
-[To Online]
--> В мережі
+[Send]
+Надіслати
+[Cancel]
+Скасувати
 [Pounce being sent to]
 Відкл. повідом. надіслано для
-[To Free For Chat]
--> Готовий базікати
+[Buddy Pounce]
+Відкладене повідомлення
+[The Message:]
+Повідомлення:
 [Delete Pounce]
 Видалити відкладене
-[Message successfully sent to %s]
-Повідомлення успішно надіслано %s
-[Send a File]
-Надіслати файл
-[Message failed to send to %s]
-Помилка надсилання повідомлення для %s
-[Send If Their Status changes]
-Посилати, якщо вони змінюють статус
-[Send If They Change Status to...]
-Посилати, якщо вони змінюють статус на...
-[Send If My Status Is...]
-Посилати, якщо мій статус...
-[Send If My Status Is]
-Послати, якщо мій статус
+[Load default Settings]
+Завантажити за замовчанням
+[Setting Value]
+
+[Setting text...........]
+Налаштування тексту.........
+[Settings]
+Налаштування
+[Contact To Send Pounce To]
+Контакт для відправки відкладених
 [<< Simple]
 << Простий
+[Advanced >>]
+Розширений >>
+[The Message]
+Повідомлення
+[Dialog]
+Діалог
+[Status]
+Статус
 [Use Advanced Dialog]
 Розширений діалог
-[Out To Lunch]
-Обідаю
-[The Message (%d Characters)]
-Повідомлення (%d символів)
+[The Message (characters: )]
+Повідомлення (символів: )
+[Default Settings]
+Стандартні налаштування
+[Show Delivery Messages]
+Повідомл. про доставку
+[These settings are also used when sending a "Simple" pounce]
+Ці параметри також використовуються для "простих" відкл. повідомлень
+[Send If My Status Is...]
+Посилати, якщо мій статус...
+[Send If They Change Status to...]
+Посилати, якщо вони змінюють статус на...
+[Reuse Pounce]
+Застосувати відкладене
+[Give Up delay]
+Затримка скасування
+[Confirmation Window]
+Вікно підтвердження
+[Send If My Status Is]
+Послати, якщо мій статус
+[Any]
+
+[Online]
+В мережі
+[Away]
+Відійшов
+[NA]
+Недоступний
+[Occupied]
+Зайнятий
+[DND]
+Не турбувати
+[Free For Chat]
+Готовий базікати
+[Invisible]
+Невидимий
 [On The Phone]
 Телефоную
-[&Buddy Pounce]
-Відкладене повідомлення
+[Out To Lunch]
+Обідаю
+[Send If Their Status changes]
+Посилати, якщо вони змінюють статус
+[From Offline]
+
+[To Online]
+-> В мережі
+[To Away]
+-> Відійшов
+[To NA]
+-> Недоступний
+[To Occupied]
+-> Зайнятий
+[To DND]
+-> Не турбувати
+[To Free For Chat]
+-> Готовий базікати
+[To Invisible]
+-> Невидимий
+[To On The Phone]
+-> На телефоні
+[To Out To Lunch]
+-> Обідаю
+[The Message    (%d Characters)]
+Повідомлення (%d символів)
+[Couldn't allocate enough memory]
+
+[error......]
+помилка...
+[The Message    (0 Characters)]
+Повідомлення (0 символів)
+[Reuse this message? (0 to use it once)]
+
+[Times]
+Разів
+[Giveup after.. (0 to not giveup)]
+
+[Days]
+Днів
+[Show confirmation window? (0 to not Show)]
+
+[Seconds to wait before sending]
+
+[Pounce being sent to %s in %d seconds]
+Pounce надіслано %s за %d секунд
+[Retry]
+
+[Message successfully sent to %s]
+Повідомлення успішно надіслано %s
+[Message failed to send to %s]
+Помилка надсилання повідомлення для %s
+[Message Sessions]
+

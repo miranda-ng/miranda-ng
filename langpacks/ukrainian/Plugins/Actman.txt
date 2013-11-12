@@ -4,17 +4,16 @@
 ;  Plugin: Action Manager
 ;  Versions: 0.2.0.1
 ;  URL: 
+;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
 ;  Authors: Awkward
 ;============================================================
 [Contact window]
 Вікно контакту
-[Insert Text]
-Вставка тексту
 [vars]
 змін.
 [DWord]
 Дв.слово
-[You can use %name%% uid%, %account% and %group% macros]
+[You can use %name%, %uid%, %account% and %group% macros]
 Ви можете використовувати змінні %name%% uid%, %account% та %group%
 [wParam type]
 Тип wParam
@@ -42,7 +41,7 @@
 Умови
 [Insert into message]
 Вставити в повідомлення
-[параметр]
+[parameter]
 параметр
 [Process time, ms]
 Час процесу, мс
@@ -66,7 +65,7 @@
 Структура
 [Link to action]
 Посилання на дію
-[Plugin for manage hotkeys contact to open window, insert text, run program and call services]
+[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Плагін для управління "гарячими клавішами" і діями, такими як відкриття вікна контакту, вставка тексту, запуск інших програм та виклик сервісів.
 [Action manager]
 Менеджер дій
@@ -108,7 +107,7 @@
 Результат як ціле
 [Keep last result]
 Зберігати останній результат
-[Keep only handle]
+[Keep handle only]
 Зберігати handle, не відкриваючи вікна
 [Variables mark]
 Змінні
@@ -116,8 +115,8 @@
 С&касувати
 [Structure editor]
 Редактор структур
-[Result structure as]
-Як Результат структура
+[Result as structure]
+Результат як структура
 [Byte Array]
 Масив байтів
 [Word Array]
@@ -158,10 +157,12 @@
 Вимкнути змінні
 [Contact list format]
 Формат списку контактів
-[Only Active accounts]
+[Active accounts only]
 Тільки діючі облікові записи
 [Dropdown list format]
 Вигляд списку
+[Apply]
+Застосувати
 [Apply format]
 Застосувати формат
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]

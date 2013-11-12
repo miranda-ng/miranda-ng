@@ -1,227 +1,423 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;============================================================
-;  File: XFire.dll
-;  Module: XFire protocol
-;  Versions: 0.1.5.3
+;  File: Xfire.dll
+;  Plugin: Xfire Protocol
+;  Version: 0.1.9.0
+;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
 Підтримка протоколу XFire в Miranda NG.
-[XFire Protocol]
-Протокол XFire
+[Password:]
+Пароль:
 [Login name:]
 Логін
-[You can only change your nick, if you are connected to Xfire.]
-Ви можете змінити нік, тільки якщо Xfire підключений.
+[Nick:]
+Нік:
+[Current protocol version:]
+Поточна версія протоколу:
+[Note: You can only change these settings, if you are connected to Xfire.]
+Примітка: Ви можете змінити налаштування, тільки якщо підключені до Xfire.
 [Create a new Xfire account on website]
 Створити новий обліковий запис на сайті
-[Proxy settings]
-Налаштування проксі
-[Proxy:]
-Проксі:
-[Use proxy]
-Використовувати проксі
-[Enter your HTTP Proxy here. SOCKS4/5 are currently not supported.]
-Введіть тут ваш HTTP проксі. SOCKS4/5 на поточний момент не підтримується.
-[Current protocol version:]
-Поточна версія протоколу
-[Gamedetection]
-Виявлення ігри
-[Disable game detection]
-Вимкнути виявлення ігор
-[Disable popups when ingame]
-Вимкнути спливаючі вікна, коли в грі
-[Disable sound events when ingame]
-Вимкнути звуки коли в грі
-[Enable server IP/Port detection]
-Включити виявлення сервера IP/Port
-[Enable TeamSpeak2/Ventrilo detection]
-Ввімкнути виявлення TeamSpeak2/Ventrilo
-[Scan for games on every Miranda start]
-Шукати гри при запуску Miranda
-[Use TSRemote.dll to get teamspeak server info]
-Використовувати TSRemote.dll для отримання інф. з сервера
-[No custom away message]
-Без статусу відсутності
-[Disable avatars]
-Вимкнути аватари
-[Don't automatically create clan groups]
-Не створювати автоматично групи кланів
-[GameServerQuery support]
-Підтримка GameServerQuery
-[No Ip/Port in StatusMsg]
-Не показувати IP/Port в статусних повідомленнях
-[Show usernames only]
-Показувати тільки імена користувачів
-[Use Online status for unsupported global statuses]
-Використовувати статус "В мережі" для непідтримуваних глобальних статусів
-[Automatically update xfire_games.ini (pro-laming.de)]
-Автоматично оновлювати xfire_games.ini (pro-laming.de)
-[Download missing game icons from Xfire website]
-Завантажувати відсутні значки ігор з вебсайту Xfire
-[Use alternate way for Avatar download]
-Використовувати альтернативний шлях скачування аватарів
-[Dialog / Icon Options *]
-Спілкування / Налаштування значків *
+[Lost password?]
+Забули пароль?
+[Account options]
+Налаштування облікового запису
+[Show my friends]
+Показувати моїх друзів
+[Game Status]
+Статуси ігор
+[Show on my profile and miniprofile]
+Показувати мій профіль і мініпрофиль
+[Show my game server data]
+Показувати дані сервера моєї гри
+[Other Activity]
+Інші активності
+[Show my voice chat server to my friends]
+Показувати мій сервер голосового чату моїм друзям
+[Show people when I type to them]
+Показувати повідомлення про набір тексту мною
+[Show nicknames when available]
+Показувати ніки, якщо доступно
+[Show friends of my friends]
+Показувати друзів моїх друзів
+[Options]
+
+[More options]
+
 [Display Error and Infomessage:]
-Помилка та инфосообщение:
-[Messagebox]
-Вікно повідомлень
-[Blocklist / Games]
-Блоковані / Ігри
+Помилка та інформація:
+[Main group for clan groups:]
+Група для групи клану:
+[Automatically scan for games:]
+Автоматичний пошук ігор:
+[Main group for Friends of Friends:]
+Основна група для друзів друзів:
+[Files]
+Файли
 [Blocked User List]
-Заблокований список користувачів
+Список заблокованих користувачів
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Цей список містить заблокованих користувачів. Ви можете видалити одного, що дозволить йому посилати вам повідомлення.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User...]
 Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві у списку контактів.
 [This file is used for the game search, game detection and game ID resolving. It contains all xfire supported games.]
 Цей файл використовується для пошуку і виявлення ігор. Файл містить підтримувані ігри Xfire.
-[This file contains all original game icons. You can also activate the option icon for downloading, if you don't have it.]
-Цей файл містить оригінальні значки ігор. Ви можете так само активувати автоматичне завантаження, якщо цього файлу у вас немає.
+[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
+Цей файл містить оригінальні значки ігор. Ви можете також активувати автоматичне завантаження, якщо цього файлу у вас немає.
 [Be sure you put these files in following folder:]
-Будьте уважні, ви помістіть файли в цю папку:
-[Setup your Games...]
-Установка ваших ігор...
-[StatusMsg]
-Статусні повідомлення
-[Please enter server password...]
-
-[Change the status to occupied]
-Змінювати статус на "зайнятий"
+Переконайтеся, що ви помістили ці файли в папку:
+[Status Message]
+Статусне повідомлення:
+[Enable]
+Увімкнути
 [With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 З цією можливістю, наступне статусне повідомлення буде встановлено на інший протокол, якщо ви в грі. Так ваші друзі будуть бачити, що ви граєте. Це змінить ваш статус на "зайнятий", якщо ви включили цю функцію.
+[Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
+Доступні змінні: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
+[Status message:]
+Статусне повідомлення:
+[Change the status to occupied or dnd]
+Змінювати статус на "Зайнятий" або "Не турбувати"
 [The status message and status will be reset, if you close the game.]
 Статусне повідомлення та статус будуть скинуті, якщо ви закриєте гру.
-[Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
-Доступні наступні змінні: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
-[* Variables plugin needed]
-* Потрібен плагін змінних (Variables)
-[The changes you have made require you to reconnect to the XFire network before they take effect]
-Зроблені вами зміни вимагають, щоб ви перепідключились до мережі XFire для вступу їх у силу.
-Необхідно перепідключились до мережі XFire, щоб зроблені вами зміни вступили в силу.
+[Prefer dnd when it is available]
+"Не турбувати", якщо можливо
+[Games]
+Ігри
+[Game:]
+Гра:
+[Don't detect this game as running]
+Не виявляти гру, коли запущена
+[Apply]
+Застосувати
+[Don't set status message for other protocols]
+Не ставити повідомлення статусу іншим протоколам
+[Add new game]
+Додати гру
+[Remove]
+Видалити
+[Don't show in start menu]
+Вимкнути пункт у головному меню
+[(manual added)]
+
+[Extra Command Line Parameters:]
+
+[Edit...]
+
+[Username:]
+
+[Game]
+Гра
+[Voicechat]
+Голосовий чат
+[Name:]
+Ім'я:
+[Port:]
+Порт:
+[User details]
+Про користувача
+[Copy]
+
+[Enter Password]
+
+[Join]
+
+[Set Nickname]
+
+[Cancel]
+Скасувати
+[New xfire_games.ini]
+Новий xfire_games.ini
+[There is a new XFire gamelist online, do you want to update now?]
+
+[New supported games:]
+
+[Update]
+Оновити
+[Add game]
+Додати
+[Search:]
+
+[Custom...]
+
+[Game name:]
+Назва:
+[Game exe:]
+
+[Browse...]
+Огляд...
+[Launcher exe (optional):]
+
+[Game ID:]
+ID гри:
+[Send game ID:]
+
+[Status message for Xfire, if this game will be started:]
+
+[Parameter:]
+
+[Add a new game]
+Додати нову гру
+[Searching games...]
+Пошук ігор...
+[All Files]
+Усі файли
+[Please wait, game.ini will be currently parsed...]
+
 [XFire Options]
 Налаштування XFire
+[Please choose one game in the list!]
+Будь ласка, виберіть гру зі списку!
+[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+Якщо ви додаєте мод гри, яка підтримується Xfire, то можна вказати, який ID буде відправлено Xfire. Наприклад, можна вказати ID Half-Life для моду Half-Life, тоді ваші друзі будуть бачити значок Half-Life поряд з вашим іменем, коли гратимете в цей мод.
+[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
+
+[Please enter a game name.]
+Введіть назву гри.
+[Please enter a game ID.]
+Введіть ID гри.
+[Please enter a game ID above 1.]
+ID гри має бути більше 1.
+[This game ID is already in use.]
+Такий ID гри вже використовується.
+[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
+
+[Supported Games]
+
+[Custom game]
+
+[Yep, I'm here.]
+Так, я тут.
+[I've been away since %time%.]
+Відійшов о %time%. Скоро повернуся.
+[Give it up, I'm not in!]
+Мене немає.
+[Not right now.]
+Не зараз.
+[Give a guy some peace, would ya?]
+Дайте спокій, я зайнятий.
+[Well, I would talk to you if Miranda ICQ supported chat]
+
+[That'll be the phone.]
+Та дайте ж людині поговорити по телефону...
+[Mmm... food.]
+Ммм... поїсти б...
+[The xfire_games.ini was updated.]
+Xfire_games.ini оновлено.
+[Error during xfire_games Update.]
+
+[There is a new Icons.dll online, do you want to update now?]
+
+[The Icons.dll was updated.]
+
+[Error during Icons.dll Update.]
+
+[Protocol icon]
+
+[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+
+[Friends of Friends Playing]
+
+[Login failed.]
+
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Стара версія протоколу. Змініть поточну версію %d на %d. Ви повинні перепідключитися.
-[Games found:%s%s]
-Знайдені гри:%s%s
-[Block U&ser...]
-&Заблокувати користувача.
-[Play this game...]
-Грати в цю гру...
-[Join &Game...]
-Зайти в &гру...
-[Cop&y Voice Server Address and Port]
-Копіювати адресу і порт сервера спілкування
+[The protocol version is too old. Cannot detect a new version number.]
+
+[Someone logged in with your account. Disconnect.]
+
+[Do you really want to add %s to your friend list?]
+
+[Add me to your friends list.]
+
+[XFire is not connected.]
+
+[Current Game]
+Поточна гра
+[My Current Game]
+
+[ServerIP]
+IP сервера
+[My Current ServerIP]
+
+[Voice]
+
+[My Current Voice]
+
+[Voice ServerIP]
+
+[My Voice ServerIP]
+
+[Xfire Link Protocol]
+Протокол Xfire Link
+[Buddy start a game]
+Початок гри
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
+
+[Away from Keyboard]
+
+[&XFire Online Profile]
+&Онлайн профіль XFire
 [XFire &Clan Site]
 Сайт клану Xfire
 [C&opy Server Address and Port]
 Копіювати адресу і порт сервера
-[&My XFire Online Profile]
-&Мій профіль XFire
-[&Rescan my games...]
-&Пересканувати мої ігри...
-[&Setup my Games...]
-&Налаштування моєї гри
-[&XFire Online Profile]
-&Онлайн профіль XFire
+[Cop&y Voice Server Address and Port]
+Копіювати адресу і порт сервера спілкування
+[Join &Game...]
+Зайти в &гру...
+[Play this game...]
+Грати в цю гру...
 [Remove F&riend...]
 Видалити з &друзів...
+[Block U&ser...]
+&Заблокувати користувача...
+[&My XFire Online Profile]
+&Мій профіль XFire
+[&Activity Report]
+Звіт активності
+[&Rescan my games...]
+&Пересканувати мої ігри...
+[Set &Nickname]
+
+[Protocols/XFire]
+
+[XFire game icon]
+Значок гри XFire
+[XFire voice icon]
+Значок голосу XFire
+[XFire does not support offline messaging!]
+XFire не підтримує надсилання офлайнових повідомлень!
+[Username]
+Користувач
+[Unable to connect to XFire.]
+Не можу під'єднатися до XFire.
+[No Login name is set!]
+Логін не встановлений!
+[No Password is set!]
+Пароль не встановлений!
+[Last game: %s playtime: %.2d:%.2d:%.2d]
+
+[%s is playing %s.]
+%s грає в %s.
+[%s is playing %s on server %d.%d.%d.%d:%d.]
+%s грає в %s на сервері %d.%d.%d.%d:%d.
+[Playing]
+
 [Do you really want to delete your friend %s?]
 Ви дійсно хочете видалити %s?
-[Automatically Detect]
-Автоматичне виявлення
-[Never Detect]
-Ніколи не виявляти
-[Manuel Setup]
-Ручне налаштування
-[Browse...]
-Огляд...
+[Confirm Delete]
+
+[Block this user from ever contacting you again?]
+Заблокувати цього користувача?
+[Block Confirmation]
+Підтвердити блокування
+[Avatars]
+Аватари
+[Disable avatars]
+Вимкнути аватари
+[Don't download avatars of clan members]
+
+[Use alternate way for Avatar download]
+Використовувати альтернативний шлях скачування аватарів
+[General]
+
+[Automatically reconnect on protocol version changes]
+Автоматично перепідключатися при зміні версії протоколу
+[No Ip/Port in StatusMsg]
+Не показувати IP/Port в статусних повідомленнях
+[Use Online status for unsupported global statuses]
+Використовувати статус "В мережі" для непідтримуваних глобальних статусів
+[Don't move friends to clan groups]
+Не переміщати друзів в групу клану
+[GameServerQuery support]
+Підтримка GameServerQuery
+[No custom away message]
+Без статусу відсутності
+[Remove friend of friend buddies from database]
+Видаляти друзів з бази даних
 [Hide yourself in buddylist]
 Сховати себе в списку друзів
 [Don't display game search results]
 Не показувати результати пошуку ігор
-[Unable to connect to XFire.]
-Не можу під'єднатися до XFire.
-[Start game]
-Почати гру
-[Voicechat]
-Голосовий чат
-[User details]
-Деталі користувача
 [Don't display game search status window]
-Не показувати вікно пошуку ігор
-[Searching games...]
-Пошук ігор...
+Не показувати статус пошуку ігор
 [Display popup, if someone start a game]
 Спливаючі вікна, якщо хто-небудь починає гру
+[Don't automatically create clan groups]
+Не створювати автоматично групи кланів
+[Enable MBot support]
+Підтримка MBot
+[Gamedetection]
+Виявлення ігор
+[Disable game detection]
+Вимкнути виявлення ігор
+[Use TSRemote.dll to get teamspeak server info]
+Використовувати TSRemote.dll для отримання інф. з сервера
+[Disable popups when ingame]
+Вимкнути спливаючі вікна під час гри
+[Disable sound events when ingame]
+Вимкнути звуки під час гри
+[Automatically update xfire_games.ini (pro-laming.de)]
+Автоматично оновлювати xfire_games.ini (pro-laming.de)
 [Automatically update icons.dll (pro-laming.de)]
 Автоматично оновлювати icons.dll (pro-laming.de)
+[Download missing game icons from Xfire website]
+Завантажувати відсутні значки ігор з веб-сайту Xfire
 [No backup on update]
-Не створювати бекапи при оновленні
-[Automatically scan for games:]
-Автоматичний пошук ігор:
-[On every start]
-При кожному запуску
-[Main group for clan groups:]
-Група для групи клану:
-[Note: You can only change these settings, if you are connected to Xfire.]
-Примітка: Ви можете змінити налаштування, тільки якщо підключені до Xfire.
-[Show nicknames when available]
-Показувати ніки якщо доступно
-[Show my friends]
-Показувати моїх друзів
-[Show on my profile and miniprofile]
-Показувати мій профіль і мініпрофиль
-[Show my game server data]
-Показувати дані сервера моєї гри
-[Show my voice chat server to my friends]
-Показувати мій сервер голосового чату моїм друзям
-[Show people when I type to them]
-Показувати повідомлення про набір тексту мною
-[Automatically reconnect on protocol version changes]
-Автоматично перепідключатися при зміні версії протоколу
+Не створювати резерв при оновленні
 [Background updating]
 Оновлювати фон
-[Don't detect this game as running]
-Не виявляти гру коли запущена
-[Don't set status message for other protocols]
-Не ставити повідомлення статусу іншим протоколам
-[Account options]
-Налаштування облікового запису
-[Game Status]
-Статуси ігор
-[Other Activity]
-Інші активності
-[Show friends of my friends]
-Показувати друзів моїх друзів
-[Remove friend of friend buddies from database]
-Видаляти друзів з бази даних
-[Main group for Friends of Friends:]
-Основна група для друзів друзів:
-[Activity Report]
-Звіт активності
-[Change the status to occupied or dnd]
-Змінювати статус на Зайнятий або Не турбувати
-[Don't move friends to clan groups]
-Не переміщати друзів в групу клану
-[Add a new game]
-Додати нову гру
-[Add game]
-Додати
-[Please choose one game in the list!]
-Будь ласка, виберіть гру зі списку!
+[The username must be lowercase, so it will be lowercased saved.]
+Ім'я користувача буде збережено в нижньому регістрі.
+[The changes you have made require you to reconnect to the XFire network before they take effect]
+Необхідно перепідключились до мережі XFire, щоб зроблені вами зміни вступили в силу.
+[Hidden]
+
+[Messagebox]
+Діалогове вікно
+[Popup]
+Сплив. вікно
+[No]
+Ні
+[On every start]
+При кожному запуску
+[Daily]
+Щодня
+[<Root Group>]
+<Коренева група>
+[Are you sure you want to remove this game?]
+Справді видалити цю гру?
+[Please select a game.]
+Виберіть гру.
+[Error: unknown game ID.]
+Помилка: невідомий ID гри.
+[Not supported]
+Не підтримується
+[Configuration saved!]
+
+[Game not found?!]
+
+[Network]
+Мережа
+[Account]
+Обліковий запис
+[Features]
+
+[Blocklist / Games]
+Блоковані / Ігри
+[StatusMsg]
+Статусні повідомлення
+[Please enter server password...]
+Введіть пароль сервера...
+[Write to database...]
+
+[Games found:%s%s]
+Знайдені ігри:%s%s
+[<not specified>]
+<не вказано>
+[Start game]
+Почати гру
 [Please wait...]
 Будь ласка, зачекайте...
-[No Login name is set!]
-Логін не встановлений!
-[Working Folder]
-Робоча папка
-[Game Folder Icon]
-Папка іконок ігор
-[Buddy start a game]
-Початок гри
-[XFire game icon]
-Значок ігри XFire
-[XFire voice icon]
-Значок голосу XFire

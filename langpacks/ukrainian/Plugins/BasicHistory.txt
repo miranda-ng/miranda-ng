@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BasicHistory.dll
 ;  Plugin: Basic history
-;  Version: 1.0.1.9
+;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
@@ -35,7 +35,7 @@
 Шлях до логів WinSCP
 [New messages on top]
 Нові повідомлення зверху
-[Event Show icons]
+[Show event icons]
 Значки подій
 [Show timestamps]
 Показувати час
@@ -43,7 +43,7 @@
 Показувати імена
 [Show messages]
 Повідомлення
-[Truncate message to length:]
+[Truncate message length to:]
 Обрізати повідомлення:
 [Delta time to group messages:]
 Обмежити час для повідомлень:
@@ -53,11 +53,11 @@
 Обмежити повідомлення до:
 [Show date in timestamps]
 Показувати дату
-[Show in seconds timestamps]
+[Show seconds in timestamps]
 Показувати секунди
 [Enable Smileys]
 Ввімкнути смайли
-[Search forward in group list]
+[Search forward in list group]
 Шукати далі в групі
 [Search forward in message window]
 Шукати далі у вікні повідомлень
@@ -93,7 +93,7 @@
 Видалити завдання
 [Display errors using popups]
 Показувати помилки у вікнах
-[Save to system errors history]
+[Save errors to system history]
 Зберігати помилки в системній історії
 [Task]
 Завдання
@@ -123,6 +123,7 @@
 Стиснути файли
 [Password]
 Пароль
+[Upload to FTP (WinSCP requred)]
 Завантажити на FTP (необхідне WinSCP)
 [Session name]
 Ім'я сесії
@@ -134,12 +135,10 @@
 * Негативні значення для фільтрації ранніх подій
 [Execute task for specified contacts]
 Виконувати завдання для певних контактів
-[OK]
-
 [Cancel]
 Скасувати
 [Open History]
-
+Відкрити історію
 [View &History]
 &Історія
 [Delete All User History]
@@ -150,7 +149,7 @@
 Вхідне повідомлення
 [Outgoing message]
 Вихідне повідомлення
-[Change Status]
+[Status change]
 Зміна статусу
 [Show Contacts]
 Показати контакти
@@ -161,9 +160,9 @@
 [Find Previous]
 Знайте попереднє
 [Plus in export]
-
+Плюс в експорті
 [Minus in export]
-
+Мінус в експорті
 [History]
 Історія
 [All events]
@@ -189,12 +188,12 @@
 [File do not contain selected contact]
 
 [File is corrupted]
-
+Файл пошкоджений
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Ця операція повністю видалить історію цього контакту.\nВи впевнені?
 [Are You sure?]
 Ви впевнені?
-[Do you want delete all imported messages for this contact?\nNote that next task scheduler import this messages again.]
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 
 [Open in &new window]
 &Відкрити у новому вікні
@@ -236,9 +235,9 @@ dat (mContacts)
 Зберегти положення вікна
 [Save window position for all contacts]
 Зберегти положення вікна для всіх контактів
-[Do you want save imported messages to local profile?]
+[Do you want to save imported messages to local profile?]
 
-[File contain history for different contact. Do you want to change contact and import?]
+[File contains history for different contact. Do you want to change contact and import?]
 
 [Error]
 Помилка
@@ -254,10 +253,10 @@ dat (mContacts)
 Запит авторизації
 [You were added]
 Вас додали
-[Contacts recieved]
+[Contacts received]
 Отримання контактів
-[SMTP-Simple Email]
-Повідомлення E-mail (SMTP-Simple)
+[SMTP Simple Email]
+Повідомлення E-mail (SMTP Simple)
 [SMS message]
 Повідомлення SMS
 [Group list]
@@ -287,11 +286,11 @@ dat (mContacts)
 [<< Incoming messages]
 << Вхідне повідомлення
 [Group list background]
-
+Фон списку груп
 [Find window]
-
+Вікно пошуку
 [Find window background]
-
+Фон вікна пошуку
 [Window background]
 Фон вікна
 [Contact list background]
@@ -382,7 +381,7 @@ dat (mContacts)
 Четвер
 [Friday]
 П'ятниця
-[Субота]
+[Saturday]
 Субота
 [Sunday]
 Неділя
@@ -391,25 +390,25 @@ dat (mContacts)
 [Events older than]
 Події старше ніж
 [Some value is invalid]
-
+Неправильне значення
 [Invalid '%s' value.\n%s]
 Неправильне значення '%s'.\n%s
-[** Use <ext> to insert extension, <contact> contact to insert name]
-** Використовуйте <ext> для вставки розширення, <contact> для вставки імені контакту
+[** Use <ext> to insert extension, <contact> to insert contact name]
+** <ext> вставляє розширення, <contact> - ім'я контакту
 [Input files are compressed]
 Вхідні файли стиснуті
 [Download from FTP (WinSCP requred)]
 Скачати з FTP (необхідне WinSCP)
 [Import from]
 Імпорт з:
-[** Use <date> to insert date <ext> to insert extension, <contact> contact to insert name]
-** <date> - вставляє дату, <ext> - розширення, <contact> - ім'я контакту
+[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
+** <date> вставляє дату, <ext> - розширення, <contact> - ім'я контакту
 [History Log]
 Перегляд історії
 [Filter:]
 Фільтр:
 [Conversation started at %s]
-
+Розмова почалася %s
 [_files]
 
 [Menu]
@@ -428,16 +427,16 @@ dat (mContacts)
 Завантажити на FTP
 [Path to output file]
 Шлях до файлу
-[To create open session WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
-
+[To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
+Щоб створити сесію, відкрийте WinSCP, натисніть "Нова сесія", введіть дату та збережіть під певним ім'ям. Пам'ятайте, якщо FTP-сервер використовує пароль, то ви повинні зберегти його в WinSCP.
 [Path to file]
-
+Шлях до файлу
 [FTP path must contains '/' instead '\' and starts from '/'.]
-
+FTP-шлях повинен містити '/' замість '\' і починатися з '/'.
 [FTP path cannot contain <date> in import task.]
 
 [Unknown error]
-
+Невідома помилка
 [Cannot get FTP file(s).]
 
 [Cannot unzip file(s).]
@@ -446,7 +445,7 @@ dat (mContacts)
 
 [Unknown contact in file: %s.]
 
-[Cannot export history for contact %s.]
+[Cannot export history for contact: %s.]
 
 [Cannot compress file(s).]
 
@@ -460,11 +459,11 @@ dat (mContacts)
 
 [Task '%s' execution failed:]
 
-["%s \ " not found]
+["%s" not found]
 "%s" не знайдено
 [Search]
 Пошук
 [You have reached the end of the group.]
 Ви досягли кінця групи
 [You have reached the end of the history.]
-
+Ви досягли кінця історії

@@ -51,7 +51,7 @@ Miranda NG не в змозі відкрити "%S".\n\nФайл не може �
 Miranda NG не може відкрити посилання
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
 Miranda NG не в змозі відкрити "%S".\n\nВідсутній зареєстрований обробник для даного URL.
-[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 Miranda NG не в змозі відкрити "%S".\n\nЦей URL є недійсним і не може бути проаналізований.
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Доступ заборонений:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)

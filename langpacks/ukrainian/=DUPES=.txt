@@ -373,8 +373,6 @@
 Голландська
 [Dzongkha]
 Дзонгка
-[E-Mail]
-E-Mail
 [Eating]
 Їм
 [Edit rule]
@@ -4038,7 +4036,7 @@ INI файли
 Четвер
 [Friday]
 П'ятниця
-[Субота]
+[Saturday]
 Субота
 [Sunday]
 Неділя

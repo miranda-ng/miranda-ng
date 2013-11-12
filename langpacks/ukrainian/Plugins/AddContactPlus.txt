@@ -5,15 +5,47 @@
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-[Add contact\nAdd a contact to your contact list]
-Додати контакт\nДодати контакт у список контактів
-[&Add contact...]
-&Додати контакт...
 [Provides the ability to quickly add new contacts.]
 Надає можливість швидко додати контакт.
-[The contact cannot be added to your contact list. If you are not connected to that network, try to connect. Also, make sure the User ID is entered properly.]
-Контакт не може бути додано до вашого списку контактів. Якщо ви не підключені до цієї мережі, спробуйте підключитися. Також переконайтеся, що ви використовуєте правильний ID користувача.
+[Add contact]
+Додати контакт
+[Add contact\nAdd a contact to your contact list]
+Додати контакт\nДодати контакт у список контактів
+[Account:]
+Обл. запис:
+[Contact ID:]
+ID користувача:
+[Custom name:]
+Задане ім'я
+[Group:]
+Група:
+[Options]
+Налаштування
 [Add temporarily]
 Додати тимчасово
+[Send "You were added"]
+
+[Send authorization request]
+
+[Authorization request]
+
+[&Add]
+&Додати
+[&Cancel]
+&Скасувати
+[Please authorize my request and add me to your contact list.]
+
+[None]
+Немає
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+Контакт не може бути додано до вашого списку контактів. Переконайтеся, що ви вказали правильний ID користувача.
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+Контакт не може бути додано до вашого списку контактів. Якщо ви не підключені до цієї мережі, спробуйте підключитися. Також переконайтеся, що ви вказали правильний ID користувача.
+[&Add contact...]
+&Додати контакт...
 [Open add contact dialog]
 Відкрити діалог додавання контакту
+[Main]
+Головний
+[AddContact+]
+Додати контакт

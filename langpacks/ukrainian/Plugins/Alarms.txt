@@ -49,8 +49,6 @@
 Тест
 [Alarm]
 Нагадування
-[OK]
-
 [Cancel]
 Скасування
 [Title:]
@@ -151,13 +149,13 @@
 Фрейми
 [Alarm Reminders]
 Нагадування
-[Menu Set Alarm]
+[Menu: Set Alarm]
 Меню: Дані нагадування
 [Reminder: Soon]
 Нагадування: скоро
 [Reminder: Very Soon]
 Нагадування: дуже скоро
-[Alarm System Tray]
+[Alarm: System Tray]
 Трей
 [Menu: Show/Hide Reminders]
 Меню: Показати/Приховати нагадування
@@ -173,7 +171,7 @@
 Четвер
 [Friday]
 П'ятниця
-[Субота]
+[Saturday]
 Субота
 [Please enter a title for this alarm.]
 Введіть ім'я нагадування.
