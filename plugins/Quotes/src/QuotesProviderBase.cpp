@@ -192,13 +192,13 @@ CQuotesProviderBase::~CQuotesProviderBase()
 
 bool CQuotesProviderBase::Init()
 {
-	bool bSucceded = m_pXMLInfo;
+	bool bSucceded = m_pXMLInfo != NULL;
 	if(!m_pXMLInfo)
 	{
 		CQuotesProviderVisitorDbSettings visitor;
 		Accept(visitor);
 		assert(visitor.m_pszXMLIniFileName);
-				
+
 		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName,bSucceded)));
 	}
 
