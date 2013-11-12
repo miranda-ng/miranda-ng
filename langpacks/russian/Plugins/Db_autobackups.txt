@@ -41,3 +41,5 @@
 Базы данных Miranda NG
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
+[Compress backup to zip-archive]
+Сжать резерв в zip-архив
