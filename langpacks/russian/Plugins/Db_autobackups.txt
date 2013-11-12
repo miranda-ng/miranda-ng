@@ -42,4 +42,4 @@
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
 [Compress backup to zip-archive]
-Сжать резерв в zip-архив
+Сжать резервную копию в zip-архив
