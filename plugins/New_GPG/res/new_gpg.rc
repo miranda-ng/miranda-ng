@@ -71,7 +71,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",ID_OK,12,220,50,14,WS_DISABLED
     CONTROL         "",IDC_KEY_LIST,"SysListView32",LVS_REPORT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,44,277,105
     PUSHBUTTON      "Generate key",IDC_GENERATE_KEY,7,152,74,14
-    LTEXT           "Select key for use",IDC_STATIC,16,33,186,8
+    LTEXT           "Select key to use",IDC_STATIC,16,33,186,8
     EDITTEXT        IDC_KEY_PASSWORD,94,187,77,14,ES_PASSWORD | ES_AUTOHSCROLL
     RTEXT           "Key password:",IDC_STATIC,12,191,76,8
     PUSHBUTTON      "Load other",IDC_OTHER,117,152,64,14
@@ -182,7 +182,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "Ignore",IDC_IGNORE,7,42,50,14
     PUSHBUTTON      "Decrypt",IDC_DECRYPT,97,42,50,14
-    LTEXT           "Received encrypted file form contact with disabled encryption.",IDC_STATIC,7,7,215,14
+    LTEXT           "Received encrypted file from contact with disabled encryption.",IDC_STATIC,7,7,215,14
     CONTROL         "Remember choice",IDC_REMEMBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,22,157,10
 END
 
@@ -213,7 +213,7 @@ BEGIN
     PUSHBUTTON      "OK",IDC_OK,7,55,50,14
 END
 
-IDD_OPT_GPG DIALOGEX 0, 0, 286, 214
+IDD_OPT_GPG DIALOGEX 0, 0, 286, 250
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -221,7 +221,6 @@ BEGIN
     CTEXT           "Userlist:",IDC_STATIC,25,7,201,8
     PUSHBUTTON      "Export PubKey",IDC_SAVE_KEY_BUTTON,8,135,75,14
     PUSHBUTTON      "Delete key",IDC_DELETE_KEY_BUTTON,90,135,70,14
-    PUSHBUTTON      "Select own key",IDC_SELECT_KEY,205,193,74,14
     CONTROL         "Turn on debug log",IDC_DEBUG_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,181,159,89,10
     EDITTEXT        IDC_LOG_FILE_EDIT,11,157,98,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse",IDC_LOG_FILE_SET,119,156,50,14
@@ -230,7 +229,8 @@ BEGIN
     LTEXT           "Default key",IDC_CURRENT_KEY,12,196,110,8
     CONTROL         "Encrypt file transfers",IDC_FILE_TRANSFERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,185,137,10
     CONTROL         "Automatic key exchange",IDC_AUTO_EXCHANGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,137,111,10
-    PUSHBUTTON      "Copy own key",IDC_COPY_KEY,127,193,74,14
+    PUSHBUTTON      "Copy own key",IDC_COPY_KEY,127,205,74,14
+    PUSHBUTTON      "Select own key",IDC_SELECT_KEY,205,205,74,14
 END
 
 IDD_OPT_GPG_BIN DIALOGEX 0, 0, 282, 71
@@ -271,8 +271,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "Turn on presence signing (Jabber) (required by xep 0-27)",IDC_PRESCENSE_SUBSCRIPTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,9,268,10
-    PUSHBUTTON      "Export keys",IDC_EXPORT,12,26,60,14
-    PUSHBUTTON      "Import keys",IDC_IMPORT,82,26,68,14
+    PUSHBUTTON      "Export keys",IDC_EXPORT,12,26,100,14
+    PUSHBUTTON      "Import keys",IDC_IMPORT,122,26,100,14
 END
 
 
