@@ -25,5 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int LoadEncryptionModule(void)
 {
+	CRYPTO_PROVIDER cp = { sizeof(cp) };
+	cp.pszName = "AES (Rjindale)";
+	cp.pszDescr = LPGEN("Standard crypto provider");
+	Crypto_RegisterEngine(&cp);
 	return 0;
 }

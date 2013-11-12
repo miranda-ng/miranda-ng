@@ -26,17 +26,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_SYSTEM_GET_MD5I	"Miranda/System/GetMD5I"
 
 INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
-int InitOpenUrl(void);
-int InitWindowList(void);
-int InitPathUtils(void);
+
 void FreeWindowList(void);
-int InitHyperlink(void);
-int InitColourPicker(void);
-int InitBitmapFilter(void);
+
+int  InitOpenUrl(void);
+int  InitWindowList(void);
+int  InitPathUtils(void);
+int  InitHyperlink(void);
+int  InitColourPicker(void);
+int  InitBitmapFilter(void);
 void InitXmlApi(void);
+
 void InitTimeZones(void);
 void UninitTimeZones(void);
-int InitCrypt(void);
+
+int  InitCrypt(void);
+void UninitCrypt(void);
 
 static BOOL bModuleInitialized = FALSE;
 
@@ -484,6 +489,7 @@ void UnloadUtilsModule(void)
 	if ( !bModuleInitialized)
 		return;
 
+	UninitCrypt();
 	FreeWindowList();
 	UninitTimeZones();
 }

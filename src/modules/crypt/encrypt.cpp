@@ -49,9 +49,49 @@ static INT_PTR DecodeString(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int CompareFunc(const CRYPTO_PROVIDER *p1, const CRYPTO_PROVIDER *p2)
+{
+	return strcmp(p1->pszName, p2->pszName);
+}
+
+static LIST<CRYPTO_PROVIDER> arProviders(5, CompareFunc);
+
+static INT_PTR srvRegister(WPARAM wParam, LPARAM lParam)
+{
+	CRYPTO_PROVIDER *p = (CRYPTO_PROVIDER*)lParam;
+	if (p == NULL || p->dwSize != sizeof(CRYPTO_PROVIDER))
+		return 1;
+
+	CRYPTO_PROVIDER *pNew = new CRYPTO_PROVIDER(*p);
+	pNew->pszName = mir_strdup(p->pszName);
+	if (pNew->dwFlags & CPF_UNICODE)
+		pNew->ptszDescr = mir_u2t(TranslateW_LP(p->pwszDescr, wParam));
+	else
+		pNew->ptszDescr = mir_a2t(TranslateA_LP(p->pszDescr, wParam));
+	arProviders.insert(pNew);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int InitCrypt(void)
 {
 	CreateServiceFunction(MS_DB_CRYPT_ENCODESTRING, EncodeString);
 	CreateServiceFunction(MS_DB_CRYPT_DECODESTRING, DecodeString);
+
+	CreateServiceFunction(MS_CRYPTO_REGISTER_ENGINE, srvRegister);
 	return 0;
+}
+
+void UninitCrypt(void)
+{
+	for (int i = 0; i < arProviders.getCount(); i++) {
+		CRYPTO_PROVIDER *p = arProviders[i];
+		mir_free(p->pszName);
+		mir_free(p->pszDescr);
+		delete p;
+	}
+	arDbPlugins.destroy();
 }
