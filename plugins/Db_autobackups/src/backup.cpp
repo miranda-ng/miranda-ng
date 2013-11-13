@@ -151,53 +151,59 @@ INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-struct FileNameFound_Tag
+struct backupFile
 {
 	TCHAR Name[MAX_PATH];
 	FILETIME CreationTime;
-}FileNameFound;
+};
+
+int Comp(const void *i, const void *j)
+{
+	backupFile *pi = (backupFile*)i;
+	backupFile *pj = (backupFile*)j;
+
+	if(pi->CreationTime.dwHighDateTime > pj->CreationTime.dwHighDateTime ||  (pi->CreationTime.dwHighDateTime == pj->CreationTime.dwHighDateTime && pi->CreationTime.dwLowDateTime > pj->CreationTime.dwLowDateTime))
+		return -1;
+	else
+		return 1;
+}
 
 int RotateBackups()
 {
 	TCHAR backupfilename1[MAX_PATH] = {0}, backupfolderTmp[MAX_PATH] = {0};
 	unsigned int i = 0;
-	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
-
 	WIN32_FIND_DATA FindFileData;
-
 	TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
 
-	mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\*"), backupfolder);
+	mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\%s*"), backupfolder, dbname);
 	HANDLE hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE) 
 		return 0;
-	_tcscpy(FileNameFound.Name, _T(""));
-	while (FindNextFile(hFind, &FindFileData))
-	{
+
+	backupFile *bf = (backupFile*)mir_calloc(sizeof(backupFile));
+	_tcscpy(bf[0].Name, FindFileData.cFileName);
+	bf[0].CreationTime = FindFileData.ftCreationTime;
+
+	while(FindNextFile(hFind, &FindFileData)){
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
-		else if (_tcsicmp(&FindFileData.cFileName[_tcslen(FindFileData.cFileName)-4], _T(".bak")) == 0 || _tcsicmp(&FindFileData.cFileName[_tcslen(FindFileData.cFileName)-4], _T(".zip")) == 0)
-		{
-			if (_tcsicmp(FileNameFound.Name, _T("")) == 0)
-			{
-				_tcscpy(FileNameFound.Name, FindFileData.cFileName);
-				FileNameFound.CreationTime = FindFileData.ftCreationTime;
-			}
-			else if ((FindFileData.ftCreationTime.dwHighDateTime < FileNameFound.CreationTime.dwHighDateTime) || (FindFileData.ftCreationTime.dwHighDateTime == FileNameFound.CreationTime.dwHighDateTime && FindFileData.ftCreationTime.dwLowDateTime < FileNameFound.CreationTime.dwLowDateTime))
-			{
-				_tcscpy(FileNameFound.Name, FindFileData.cFileName);
-				FileNameFound.CreationTime = FindFileData.ftCreationTime;
-			}
-		}
-	}
 
+		bf = (backupFile*)mir_realloc(bf, (++i + 1) * sizeof(backupFile));
+		if (bf == 0)
+			return 1;
+		_tcscpy(bf[i].Name, FindFileData.cFileName);
+		bf[i].CreationTime = FindFileData.ftCreationTime;
+	}
 	FindClose(hFind);
-	if (i >= options.num_backups)
-	{
-		mir_sntprintf(backupfilename1, MAX_PATH, _T("%s\\%s"), backupfolder, FileNameFound.Name);
+	if (i > 0)
+		qsort(bf, i+1, sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
+
+	for(;i >= options.num_backups - 1 && bf[i].Name[0]; i--){
+		mir_sntprintf(backupfilename1, MAX_PATH, _T("%s\\%s"), backupfolder, bf[i].Name);
 		DeleteFile(backupfilename1);
 	}
 	mir_free(backupfolder);
+	mir_free(bf);
 	return 0;
 }
 
@@ -229,7 +235,7 @@ int Backup(TCHAR* backup_filename)
 
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
-		mir_sntprintf(dest_file, MAX_PATH, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip? _T("zip") : _T("bak"));
+		mir_sntprintf(dest_file, MAX_PATH, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip? _T("zip") : _T("dat"));
 		mir_free(backupfolder);
 	}
 	else
@@ -256,6 +262,16 @@ int Backup(TCHAR* backup_filename)
 		res = CopyFile(pathtmp, dest_file, 0);
 	if (res)
 	{
+		if(!bZip)
+		{ // Set the backup file to the current time for rotator's correct  work
+			FILETIME ft;
+			SYSTEMTIME st;
+			HANDLE hFile = CreateFile(dest_file, FILE_WRITE_ATTRIBUTES, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			GetSystemTime(&st);
+			SystemTimeToFileTime(&st, &ft);
+			SetFileTime(hFile,	(LPFILETIME) NULL, (LPFILETIME) NULL, &ft);
+			CloseHandle(hFile);
+		}
 		SendMessage(GetDlgItem(progress_dialog, IDC_PROGRESS), PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
 		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
