@@ -71,7 +71,7 @@
 Ваша версия GnuPG не поддерживается и может работать не правильно!\nРекомендуется использовать GnuPG v1.x.x с этим плагином.
 [Generate key]
 Сгенерировать
-[Select key for use]
+[Select key to use]
 Выбрать ключ
 [Generate and use random key]
 Сгенерировать и использовать ключ
