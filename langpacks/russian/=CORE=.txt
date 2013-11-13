@@ -589,7 +589,7 @@ URL:
 Файлы
 [Filled Blob]
 Заполнено
-[Find User]
+[Find user]
 Найти
 [Find What:]
 Найти:
@@ -785,7 +785,7 @@ URL:
 Журнал...
 [Main Icons]
 Главные значки
-[Main Menu]
+[Main menu]
 Главное меню
 [MainMenu]
 Главное меню
