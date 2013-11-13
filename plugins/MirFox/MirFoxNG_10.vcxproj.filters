@@ -21,6 +21,12 @@
     <None Include="res\option_showinff.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\popup_error.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\popup_notify.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">

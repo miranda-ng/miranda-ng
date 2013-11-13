@@ -95,7 +95,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>src\lib\MirFoxCommonsDebug32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>src\lib\$(PlatformToolset)\MirFoxCommons$(Configuration)$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
@@ -117,7 +117,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>src\lib\MirFoxCommonsDebug64.lib;mir_core64.lib;Miranda64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>src\lib\$(PlatformToolset)\MirFoxCommons$(Configuration)$(PlatformArchitecture).lib;mir_core64.lib;Miranda64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
@@ -145,7 +145,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>src\lib\MirFoxCommonsRelease32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>src\lib\$(PlatformToolset)\MirFoxCommons$(Configuration)$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalOptions>/PDBALTPATH:%_PDB% %(AdditionalOptions)</AdditionalOptions>
@@ -173,7 +173,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>src\lib\MirFoxCommonsRelease64.lib;mir_core64.lib;Miranda64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>src\lib\$(PlatformToolset)\MirFoxCommons$(Configuration)$(PlatformArchitecture).lib;mir_core64.lib;Miranda64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
@@ -187,6 +187,8 @@
   <ItemGroup>
     <None Include="res\option_off.ico" />
     <None Include="res\option_showinff.ico" />
+    <None Include="res\popup_error.ico" />
+    <None Include="res\popup_notify.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
