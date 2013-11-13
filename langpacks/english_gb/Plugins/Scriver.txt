@@ -13,6 +13,10 @@ and stay minimised
 Minimise on send
 [Customize fonts and colors]
 Customise fonts and colours
+[&Color]
+&Colour
+[&Background color]
+&Background colour
 [Use default colors]
 Use default colours
 [Use custom colors]
