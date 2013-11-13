@@ -213,7 +213,7 @@
     <ClInclude Include="..\..\..\include\m_crypto.h" />
     <ClInclude Include="..\stdplug.h" />
     <ClInclude Include="commonheaders.h" />
-    <ClCompile Include="Rijndael.h" />
+    <ClInclude Include="Rijndael.h" />
     <ClInclude Include="stdcrypt.h" />
   </ItemGroup>
   <ItemGroup>
