@@ -213,7 +213,7 @@ BEGIN
     PUSHBUTTON      "OK",IDC_OK,7,55,50,14
 END
 
-IDD_OPT_GPG DIALOGEX 0, 0, 286, 250
+IDD_OPT_GPG DIALOGEX 0, 0, 286, 220
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -226,7 +226,7 @@ BEGIN
     PUSHBUTTON      "Browse",IDC_LOG_FILE_SET,119,156,50,14
     CONTROL         "Use jabber api on Miranda NG (recomended)",IDC_JABBER_API,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,175,251,10
-    LTEXT           "Default key",IDC_CURRENT_KEY,12,196,110,8
+    LTEXT           "Default key",IDC_CURRENT_KEY,12,196,170,8
     CONTROL         "Encrypt file transfers",IDC_FILE_TRANSFERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,185,137,10
     CONTROL         "Automatic key exchange",IDC_AUTO_EXCHANGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,137,111,10
     PUSHBUTTON      "Copy own key",IDC_COPY_KEY,127,205,74,14
@@ -253,8 +253,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,65,243,10
     EDITTEXT        IDC_IN_OPEN_TAG,39,20,88,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_IN_CLOSE_TAG,151,20,90,14,ES_AUTOHSCROLL
-    LTEXT           "Incoming message tags:",IDC_STATIC,15,10,84,8
-    LTEXT           "Outgoing message tags:",IDC_STATIC,13,36,79,8
+    LTEXT           "Incoming message tags:",IDC_STATIC,15,10,200,8
+    LTEXT           "Outgoing message tags:",IDC_STATIC,13,36,200,8
     RTEXT           "Open:",IDC_STATIC,13,23,26,8
     RTEXT           "Close:",IDC_STATIC,127,23,23,8
     EDITTEXT        IDC_OUT_OPEN_TAG,39,46,88,14,ES_AUTOHSCROLL
