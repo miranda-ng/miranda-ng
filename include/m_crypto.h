@@ -26,34 +26,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_core.h>
 
-typedef struct tagCRYPTOENGINE
+struct MICryptoEngine
 {
 	DWORD	dwVersion;
 
-	// get/set the instance key
-	void (__cdecl *pfnGetKey)(const BYTE *pKey, size_t cbKeyLen);
-	BOOL (__cdecl *pfnSetKey)(const BYTE **pKey, size_t *cbKeyLen);
+	STDMETHOD_(void, destroy)(void) PURE;
 
-	void(__cdecl *pfnGenerateKey)(void); // creates a new key inside
-	void(__cdecl *pfnPurgeKey)(void);    // purges a key from memory
+	// get/set the instance key
+	STDMETHOD_(size_t, getKeyLength)(void) PURE;
+	STDMETHOD_(bool, getKey)(BYTE *pKey, size_t cbKeyLen) PURE;
+	STDMETHOD_(int, setKey)(const BYTE *pKey, size_t cbKeyLen) PURE;
+
+	STDMETHOD_(void, generateKey)(void)PURE; // creates a new key inside
+	STDMETHOD_(void, purgeKey)(void)PURE;    // purges a key from memory
 
 	// sets the master password (in utf-8)
-	void(__cdecl *pfnSetPassword)(const char *pszPassword);
+	STDMETHOD_(void, setPassword)(const char *pszPassword) PURE;
 
-	BYTE* (__cdecl *pfnEncodeString)( const char *src, size_t *cbResultLen);
-	BYTE* (__cdecl *pfnEncodeStringW)(const WCHAR* src, size_t *cbResultLen);
+	// result must be freed using mir_free or assigned to mir_ptr<BYTE>
+	STDMETHOD_(BYTE*, encodeString)(const char *src, size_t *cbResultLen) PURE;
+	STDMETHOD_(BYTE*, encodeStringW)(const WCHAR* src, size_t *cbResultLen) PURE;
 
-	char*  (__cdecl *pfnDecodeString)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
-	WCHAR* (__cdecl *pfnDecodeStringW)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
-}
-CRYPTO_ENGINE;
+	// result must be freed using mir_free or assigned to ptrA/ptrT
+	STDMETHOD_(char*, decodeString)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
+	STDMETHOD_(WCHAR*, decodeStringW)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
+};
 
 //registers a crypto provider v0.94+
 //wParam = (int)hLangpack
 //lParam = (CRYPTO_PROVIDER*)
 //returns HANDLE on success or NULL on failure
 
-typedef CRYPTO_ENGINE* (__cdecl *pfnCryptoProviderFactory)(void);
+typedef MICryptoEngine* (__cdecl *pfnCryptoProviderFactory)(void);
 
 #define CPF_UNICODE 1
 
@@ -77,7 +81,7 @@ typedef struct tagCRYPTOPROVIDER
 
 	pfnCryptoProviderFactory pFactory;
 }
-CRYPTO_PROVIDER;
+	CRYPTO_PROVIDER;
 
 #define MS_CRYPTO_REGISTER_ENGINE "SRCrypto/RegisterEngine"
 

@@ -215,6 +215,7 @@
     <ClInclude Include="..\..\..\include\m_crypto.h" />
     <ClInclude Include="..\stdplug.h" />
     <ClInclude Include="commonheaders.h" />
+    <ClInclude Include="stdcrypt.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
