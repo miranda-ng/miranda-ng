@@ -382,19 +382,17 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString& tbuf, bool onlyInfo, CMString& 
 	delete m0;
 	delete otherf;
 
-	if (!onlyInfo)
-	{
+	if (!onlyInfo) {
 		selec.x = 0;
 		selec.y = 0;
 		win.x   = 0;
 		win.y   = 0;
 		{
-			_TPattern * pat = _TPattern::compile(
+			_TPattern *pat = _TPattern::compile(
 				_T("^\\s*(Selection|Window)Size\\s*=\\s*(\\d+)\\s*,\\s*(\\d+)"),
 				_TPattern::MULTILINE_MATCHING);
-			_TMatcher * m0 = pat->createTMatcher(tbuf);
-			while (m0->findNextMatch()) 
-			{
+			_TMatcher *m0 = pat->createTMatcher(tbuf);
+			while (m0->findNextMatch()) {
 				POINT tpt;
 				tpt.x = _ttol(m0->getGroup(2).c_str());
 				tpt.y = _ttol(m0->getGroup(3).c_str());
@@ -418,7 +416,6 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString& tbuf, bool onlyInfo, CMString& 
 			_TPattern::MULTILINE_MATCHING);
 
 		_TMatcher * m0 = smiley->createTMatcher(tbuf);
-
 		SmileyVectorType hiddenSmileys;
 
 		unsigned smnum = 0;
@@ -463,8 +460,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString& tbuf, bool onlyInfo, CMString& 
 				dat->SetText(true);
 				noerr = true;
 			}
-			else
-				noerr = dat->LoadFromResource(resname, iconIndex);
+			else noerr = dat->LoadFromResource(resname, iconIndex);
 
 			if (dat->IsHidden())
 				hiddenSmileys.insert(dat);

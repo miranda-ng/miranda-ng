@@ -18,14 +18,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#define KEYLENGTH (256/8)
+#include "Rijndael.h"
+
+// we use 256-bit keys & 128-bit blocks
+#define KEY_LENGTH 32
+#define BLOCK_SIZE 16
 
 struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 {
 	CStdCrypt();
 
-	BYTE m_key[KEYLENGTH];
+	BOOL      m_valid;
 	CMStringA m_password;
+
+	char      m_key[KEY_LENGTH];
+	CRijndael m_aes;
 
 	STDMETHODIMP_(void) destroy();
 

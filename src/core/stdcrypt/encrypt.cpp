@@ -34,43 +34,51 @@ void CStdCrypt::destroy()
 
 size_t CStdCrypt::getKeyLength()
 {
-	return KEYLENGTH;
+	return m_aes.GetKeyLength();
 }
 
 bool CStdCrypt::getKey(BYTE *pKey, size_t cbKeyLen)
 {
-	if (cbKeyLen < KEYLENGTH)
+	if (!m_valid || cbKeyLen < KEY_LENGTH)
 		return false;
 
 	memcpy(pKey, m_key, sizeof(m_key));
-	if (cbKeyLen > KEYLENGTH)
-		memset(pKey + KEYLENGTH, 0, cbKeyLen - KEYLENGTH);
+	if (cbKeyLen > KEY_LENGTH)
+		memset(pKey + KEY_LENGTH, 0, cbKeyLen - KEY_LENGTH);
 	return true;
 }
 
 int CStdCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
 {
-	if (cbKeyLen > KEYLENGTH)
+	if (cbKeyLen > KEY_LENGTH)
 		return false;
 
 	memcpy(m_key, pKey, cbKeyLen);
-	if (cbKeyLen < KEYLENGTH)
-		memset(m_key + cbKeyLen, 0, KEYLENGTH - cbKeyLen);
+	if (cbKeyLen < KEY_LENGTH)
+		memset(m_key + cbKeyLen, 0, KEY_LENGTH - cbKeyLen);
+
+	m_aes.MakeKey(m_key, m_password, KEY_LENGTH, BLOCK_SIZE);
+	m_valid = true;
 	return 0;
 }
 
 void CStdCrypt::generateKey(void)
 {
 	LARGE_INTEGER counter;
-	QueryPerformanceCounter(&counter);
-	srand((UINT)counter.QuadPart);
-	for (int i = 0; i < sizeof(m_key); i++)
+	for (int i = 0; i < sizeof(m_key); i++) {
+		QueryPerformanceCounter(&counter);
+		srand(counter.LowPart);
 		m_key[i] = (BYTE)rand();
+	}
+
+	m_aes.MakeKey(m_key, m_password, KEY_LENGTH, BLOCK_SIZE);
+	m_valid = true;
 }
 
 void CStdCrypt::purgeKey(void)
 {
 	memset(m_key, 0, sizeof(m_key));
+	m_valid = false;
 }
 
 // sets the master password (in utf-8)
@@ -82,22 +90,93 @@ void CStdCrypt::setPassword(const char *pszPassword)
 // result must be freed using mir_free or assigned to mir_ptr<BYTE>
 BYTE* CStdCrypt::encodeString(const char *src, size_t *cbResultLen)
 {
-	return 0;
+	if (cbResultLen)
+		*cbResultLen = 0;
+
+	if (!m_valid || src == NULL || *src == 0)
+		return NULL;
+
+	size_t cbLen = strlen(src);
+	cbLen += BLOCK_SIZE - (cbLen % BLOCK_SIZE);
+	BYTE *result = (BYTE*)mir_alloc(cbLen);
+	if (m_aes.Encrypt(src, LPSTR(result), cbLen)) {
+		mir_free(result);
+		return NULL;
+	}
+
+	if (cbResultLen)
+		*cbResultLen = cbLen;
+	return result;
 }
 
-BYTE* CStdCrypt::encodeStringW(const WCHAR* src, size_t *cbResultLen)
+BYTE* CStdCrypt::encodeStringW(const WCHAR *src, size_t *cbResultLen)
 {
-	return 0;
+	if (cbResultLen)
+		*cbResultLen = 0;
+
+	if (!m_valid || src == NULL || *src == 0)
+		return NULL;
+
+	size_t cbLen = wcslen(src) * sizeof(WCHAR);
+	cbLen += BLOCK_SIZE - (cbLen % BLOCK_SIZE);
+	BYTE *result = (BYTE*)mir_alloc(cbLen);
+	if (m_aes.Encrypt(LPCSTR(src), LPSTR(result), cbLen)) {
+		mir_free(result);
+		return NULL;
+	}
+
+	if (cbResultLen)
+		*cbResultLen = cbLen;
+	return result;
 }
 
 char* CStdCrypt::decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen)
 {
-	return 0;
+	if (cbResultLen)
+		*cbResultLen = 0;
+
+	if (!m_valid || pBuf == NULL || (bufLen % BLOCK_SIZE) != 0)
+		return NULL;
+
+	char *result = (char*)mir_alloc(bufLen+1);
+	if (m_aes.Decrypt(LPCSTR(pBuf), result, bufLen)) {
+		mir_free(result);
+		return NULL;
+	}
+
+	result[bufLen] = 0;
+	for (int i = (int)bufLen-1; i >= 0; i--)
+		if (result[i] == 0)
+			bufLen--;
+
+	if (cbResultLen)
+		*cbResultLen = bufLen;
+	return result;
 }
 
 WCHAR* CStdCrypt::decodeStringW(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen)
 {
-	return 0;
+	if (cbResultLen)
+		*cbResultLen = 0;
+
+	if (!m_valid || pBuf == NULL || (bufLen % BLOCK_SIZE) != 0)
+		return NULL;
+
+	WCHAR *result = (WCHAR*)mir_alloc(bufLen + sizeof(WCHAR));
+	if (m_aes.Decrypt(LPCSTR(pBuf), LPSTR(result), bufLen)) {
+		mir_free(result);
+		return NULL;
+	}
+
+	bufLen /= sizeof(WCHAR);
+	result[bufLen] = 0;
+	for (int i = (int)bufLen - 1; i >= 0; i--)
+		if (result[i] == 0)
+			bufLen--;
+
+	if (cbResultLen)
+		*cbResultLen = bufLen;
+	return result;
 }
 
 static MICryptoEngine* __cdecl builder()
