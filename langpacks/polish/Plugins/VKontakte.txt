@@ -42,6 +42,6 @@ Konto
 Połączenie %s
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Attachments:]
-
+Załączniki:
 [Photo]
-
+Zdjęcie

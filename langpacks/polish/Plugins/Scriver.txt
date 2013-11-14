@@ -159,7 +159,7 @@ Menu użytkownika
 [User &details]
 Dane kontaktu
 [&Emoticons]
-
+Emotikony
 [&Add]
 Dodaj
 [&History]
@@ -191,9 +191,9 @@ Kolor tła
 [&Filter]
 Filtr
 [&Room Settings]
-
+Ustawienia pokoju
 [&Show/hide nicklist]
-
+Pokaż/ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]

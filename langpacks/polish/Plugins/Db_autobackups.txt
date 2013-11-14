@@ -33,7 +33,7 @@ Przeglądaj...
 [Go to the "Customize -> Folders" to change settings]
 Idź do Personalizacja -> Foldery aby zmienić ustawienia
 [Compress backup to zip-archive]
-
+Kompresuj kopię do archiwum zip
 [Disable progress bar]
 Wyłącz okienko ze wskaźnikiem postępu kopiowania
 [Disable Popups]

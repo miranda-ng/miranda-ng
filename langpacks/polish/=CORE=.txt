@@ -561,7 +561,7 @@ Zamykanie w %d
 [&Send]
 Wyślij
 [&Emoticons]
-
+Emotikony
 [&Bold]
 Pogrubienie
 [&Italic]
@@ -575,9 +575,9 @@ Historia
 [&Filter]
 Filtr
 [&Room Settings]
-
+Ustawienia pokoju
 [&Show/hide nicklist]
-
+Pokaż/ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -1104,7 +1104,7 @@ Spróboj ponownie
 [Message Session]
 Sesja rozmowy
 [&Details]
-
+Szczegóły
 [Message Window Event Log]
 Dziennik okna rozmowy
 [Show names]
