@@ -78,7 +78,7 @@ Lotus Notes Extension Manager wurde nicht registriert. Authentifizierung wird ni
 [In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
 In notes.ini ist kein benötigter Eintrag EXTMGR_ADDINS=plugindllnameohne".dll"
 [This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]
-
+Dieses Utility prüft, ob Ihre notes.ini-Datei dieses Plugin als sicher authentifiziert. Das Plugin ist nicht als Lotus-Erweiterung hinzugefügt, also funktioniert die eingebaute Authentifizierung nicht richtig. Möchten Sie dieses Plugin als Lotus-Erweiterung hinzufügen (ändern der notes.ini durch Hinzufügen von "EXTMGR_ADDINS=PLUGINNAME")?
 [LotusNotify plugin configuration]
 LotusNotify Plugin-Einstellungen
 [notes.ini modified correctly. Miranda restart required.]

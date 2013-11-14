@@ -8,94 +8,90 @@
 [Anti-spam plugin with captcha and Bayes filtering.]
 Anti-Spam-Plugin mit Captcha und Bayes-Filterung
 ;file \plugins\Spamotron\res\spamotron.rc
-[Do not send challenge request if message score above]
-Keine Abfrage, wenn Nachrichtenbewertung höher als
-[Auto-learn messages from approved contacts as ham]
-Trainiere Nachrichten von Kontakten autom. als Ham
-[Filtering options]
-Filtereinstellungen
-[Learning options]
-Trainingseinstellungen
-[Auto-learn outgoing messages as ham]
-Trainiere ausgehende Nachrichten automatisch als Ham
-[Spam]
-Spam
-[Ham]
-Ham
-[Learn message:]
-Lerne Nachricht:
-[Auto approve contact if message score below]
-Autom. verifizieren, wenn Wertung kleiner als
-[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-Aktivieren Sie keine dieser Einstellungen, bis Spam-o-tron nicht mindestens 20 Ham- und 50 Spam-Nachrichten antrainiert wurden!
+[Enabled]
+Aktiviert
 [Learned ham messages:]
 Trainierte Hams:
 [Learned spam messages:]
 Trainierte Spams:
-[Analyze]
-Analysieren
+[Filtering options]
+Filtereinstellungen
+[Do not send challenge request if message score above]
+Keine Abfrage, wenn Nachrichtenbewertung höher als
+[Auto approve contact if message score below]
+Autom. verifizieren, wenn Wertung kleiner als
+[and learn as ham]
+und als Ham anlernen
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
+Aktivieren Sie keine dieser Einstellungen, bis Spam-o-tron nicht mindestens 20 Ham- und 50 Spam-Nachrichten antrainiert wurden!
+[Learning options]
+Trainingseinstellungen
+[Auto-learn messages from approved contacts as ham]
+Trainiere Nachrichten von Kontakten autom. als Ham
 [Auto-learn messages from contacts if not approved in]
 Trainiere Nachrichten autom. als Spam, die nicht innerhalb von
 [days as spam]
 Tagen akzept. wurden.
-[Enabled]
-Aktiviert
-[and learn as ham]
-und als Ham anlernen
-[Enabled accounts:]
-Geschützte Konten:
-[Do not reply to messages with words in this list:]
-Antworte nicht auf Nachrichten mit diesen Schlüsselwörtern:
-[Do not reply to the same message more than]
-Antworte auf gleiche Nachricht nicht öfter als
-[Flood protection]
-Schutz vor "Flooding"
-[Do not send more than]
-Sende nicht mehr als
-[messages to one contact per day]
-Nachrichten an einen Kontakt pro Tag
-[times a day]
--mal pro Tag
+[Auto-learn outgoing messages as ham]
+Trainiere ausgehende Nachrichten automatisch als Ham
+[Learn message:]
+Lerne Nachricht:
+[Spam]
+Spam
+[Ham]
+Ham
+[Analyze]
+Analysieren
 [Settings]
 Einstellungen
+[Enabled accounts:]
+Geschützte Konten:
+[Auto approve on:]
+Automatisch annehmen bei:
 [Outgoing message]
 ausgehender Nachricht
 [Incoming message with any word from list:]
 eingehender Nachricht, die folgende Wörter enthält:
-[Auto approve on:]
-Automatisch annehmen bei:
 [Hide contact until verified]
 Kontakt bis zur Verifizierung verstecken
 [Add permanently to list on verified]
 Verifizierte Kontakte dauerhaft zur CList hinzufügen
 [Log actions to system history]
 Aktionen im Systemverlauf loggen
+[Flood protection]
+Schutz vor "Flooding"
+[Do not send more than]
+Sende nicht mehr als
+[messages to one contact per day]
+Nachrichten an einen Kontakt pro Tag
+[Do not reply to the same message more than]
+Antworte auf gleiche Nachricht nicht öfter als
+[times a day]
+-mal pro Tag
+[Do not reply to messages with words in this list:]
+Antworte nicht auf Nachrichten mit diesen Schlüsselwörtern:
 [Mode:]
 Modus:
-[Responses: (saved in %response%, %response-n% variables)]
-Antwort: (Gespeichert in den Variablen "%response%" bzw. "%response-n%")
+[Case-sensitive]
+Groß- und Kleinschreibung
 [will be saved in %mathexpr%]
 Wird gespeichert in "%mathexpr%"-Variable
-[Reset to defaults]
-Auf Std. zurücksetzen
+[Send challenge on incoming message:]
+Folgende Abfrage bei eingehender Nachricht senden:
+[Responses: (saved in %response%, %response-n% variables)]
+Antworten: (Gespeichert in den Variablen "%response%" bzw. "%response-n%")
 [Reply on success:]
 Antwort bei Erfolg:
 [Send challenge on authorization request:]
-Sende folgende Abfrage bei Autorisierungsanfrage:
+Folgende Abfrage bei Autorisierungsanfrage senden:
 [Keep blocked messages in contact history]
-Speichere blockierte Nachrichten im Kontaktverlauf
-[Case-sensitive]
-Groß- und Kleinschreibung
-[Send challenge on incoming message:]
-Sende folgende Abfrage bei eingehender Nachricht:
+Blockierte Nachrichten im Kontaktverlauf speichern
 [and mark them unread after approval]
-und markiere sie nach der Verifizierung als ungelesen
+und nach der Verifizierung als ungelesen markieren
+[Reset to defaults]
+Auf Std. zurücksetzen
 [Enable popup notifications]
 Popup-Benachrichtigung aktivieren
-[Contact blocked]
-Kontakt blockiert
-[Contact approved]
-Kontakt verifiziert
 [Appearance]
 Erscheinungsbild
 [Foreground]
@@ -104,16 +100,20 @@ Vordergrund
 Hintergrund
 [Timeout]
 Timeout
+[Contact blocked]
+Kontakt blockiert
+[Contact approved]
+Kontakt verifiziert
+[Challenge sent]
+Sicherheitsabfrage gesendet
 [Default colors]
 Standardfarben
+[Windows colors]
+Windowsfarben
 [Default timeout]
 Standard-Timeout
 [Preview]
 Vorschau
-[Windows colors]
-Windowsfarben
-[Challenge sent]
-Sicherheitsabfrage gesendet
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Bayes-Datenbank-Pfad

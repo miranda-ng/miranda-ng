@@ -117,55 +117,55 @@ Längengrad
 [Day Length]
 Tagesdauer
 [Chance Of Rain 20% Chance Of Precipitation]
-Regenwahrscheinlichkeit 20 %
+Regenwahrscheinlichkeit 20% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 30% Chance Of Precipitation]
-Regenwahrscheinlichkeit 30 %
+Regenwahrscheinlichkeit 30% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 40% Chance Of Precipitation]
-Regenwahrscheinlichkeit 40 %
+Regenwahrscheinlichkeit 40%Niederschlagswahrscheinlichkeit
 [Chance Of Rain 50% Chance Of Precipitation]
-Regenwahrscheinlichkeit 50 %
+Regenwahrscheinlichkeit 50% Niederschlagswahrscheinlichkeit
 [Rain 50% Chance Of Precipitation]
-Regen, 50 % Niederschlagswahrscheinlichkeit
+Regen, 50% Niederschlagswahrscheinlichkeit
 [Rain 60% Chance Of Precipitation]
-Regen, 60 % Niederschlagswahrscheinlichkeit
+Regen, 60% Niederschlagswahrscheinlichkeit
 [Rain 70% Chance Of Precipitation]
-Regen, 70 % Niederschlagswahrscheinlichkeit
+Regen, 70% Niederschlagswahrscheinlichkeit
 [Rain 80% Chance Of Precipitation]
-Regen, 80 % Niederschlagswahrscheinlichkeit
+Regen, 80% Niederschlagswahrscheinlichkeit
 [Rain 90% Chance Of Precipitation]
-Regen, 90 % Niederschlagswahrscheinlichkeit
+Regen, 90% Niederschlagswahrscheinlichkeit
 [Rain 100% Chance Of Precipitation]
-Regen, 100 % Niederschlagswahrscheinlichkeit
+Regen, 100% Niederschlagswahrscheinlichkeit
 [T-Storms 100% Chance Of Precipitation]
-
+Gewitter, 100% Niederschlagswahrscheinlichkeit
 [T-Storms 90% Chance Of Precipitation]
-
+Gewitter, 90% Niederschlagswahrscheinlichkeit
 [T-Storms 80% Chance Of Precipitation]
-
+Gewitter, 80% Niederschlagswahrscheinlichkeit
 [T-Storms 70% Chance Of Precipitation]
-
+Gewitter, 70% Niederschlagswahrscheinlichkeit
 [T-Storms 60% Chance Of Precipitation]
-
+Gewitter, 60% Niederschlagswahrscheinlichkeit
 [T-Storms 40% Chance Of Precipitation]
-
+Gewitter, 40% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 60% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 60% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 50% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 50% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 40% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 40% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 30% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 30% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 20% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewittern, 20% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 20% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Schnee, 20% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 30% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Schnee, 30% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 40% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Schnee, 40% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 50% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Schnee, 50% Niederschlagswahrscheinlichkeit
 [Forecast Day 1 Condition]
 Vorhersage Tag 1 Bedingungen
 [Forecast Day 1 Day]
@@ -307,7 +307,7 @@ Schneeregen
 [Light Ice Pellets]
 leichte Eisgraupel
 [Drizzle Mist]
-
+Sprühregen Nebel
 [Light Fog]
 Leichter Nebel
 [Showers Snow]
@@ -337,9 +337,9 @@ starker Schneefall
 [Blowing Snow]
 Schneesturm
 [Ice Crystals Mist]
-
+Eiskristall Nebel
 [Light Freezing Drizzle Snow]
-
+Leicht gefrierender Nieselschnee
 [Light Snow Low Drifting Snow]
 
 [Low Drifting Snow]
@@ -397,13 +397,13 @@ leichter Schneeregen
 [Snow Mist]
 Schneedunst
 [Light Rain Snow Mist]
-
+Leichter Regenschneedunst
 [Light Showers Snow Rain Mist]
-
+Leichte Schauer, Regenschneedunst
 [Heavy Blowing Snow]
 
 [Snow 50% Chance Of Precipitation]
-
+Schnee, 50% Niederschlagswahrscheinlichkeit
 [Drizzle Fog]
 Nieselregen Nebel
 [Local Time]
@@ -451,13 +451,13 @@ länger
 [Heat Index]
 gefühlte Temperatur
 [Visible Light Length]
-
+Sichtbare Lichtlänge
 [Wind Gust]
 Windböe
 [Showers Rain Snow]
-
+Schauer Regen Schnee
 [Clear]
-Löschen
+Klar
 [shorter]
 kürzer
 [T-Storms 50% Chance Of Precipitation]
@@ -473,39 +473,39 @@ Starke Schneestürme
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 
 [Chance Of Rain 60% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Regen, 60% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 70% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Regen, 70% Niederschlagswahrscheinlichkeit
 [Rain 20% Chance Of Precipitation]
-
+Regen, 60% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 70% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Schnee, 70% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 80% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Schnee, 80% Niederschlagswahrscheinlichkeit
 [Light Rain Fog]
-
+Leichter Regennebel
 [Snow 90% Chance Of Precipitation]
-
+Schnee, 60% Niederschlagswahrscheinlichkeit
 [Snow 20% Chance Of Precipitation]
-
+Schnee, 20% Niederschlagswahrscheinlichkeit
 [Chance Rain 80% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
 [Heavy Rain Showers]
 Starke Regenschauer
 [Rain 40% Chance Of Precipitation]
-
+Regen, 40% Niederschlagswahrscheinlichkeit
 [Chance Rain 40% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 60% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Schnee, 60% Niederschlagswahrscheinlichkeit
 [Chance Rain 50% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
 [Snow 40% Chance Of Precipitation]
-
+Schnee, 40% Niederschlagswahrscheinlichkeit
 [Snow 80% Chance Of Precipitation]
-
+Schnee, 80% Niederschlagswahrscheinlichkeit
 [Snow 70% Chance Of Precipitation]
-
+Schnee, 70% Niederschlagswahrscheinlichkeit
 [Light Blowing Snow]
 
 [Snow Freezing Rain Mist]

@@ -21,7 +21,7 @@ Abbrechen
 [Send screenshot]
 Screenshot senden
 [Send screenshot to\n<unknown>]
-Sende Screenshot an\n unbekannt
+Sende Screenshot an\n<unbekannt>
 [Ti&med capture]
 Verzögerte Aufnahme
 [Time (secs):]
@@ -128,7 +128,7 @@ Ignorieren
 SendScreenshot - Fehler
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
-
+Fataler Fehler, Bilddienste nicht gefunden. Send Screenshot wird deaktiviert.
 [SendSS]
 SendSS
 [Screenshots]

@@ -389,9 +389,9 @@ Konto jetzt registrieren
 [Jabber Account Information:]
 Jabber-Kontoinformationen:
 [Member Information]
-Information über Mitglied:
+Information über Mitglied
 [Member Information\n<user ID>]
-Information über Mitglied:\n<user ID>
+Information über Mitglied\n<user id>
 [Role:]
 Rolle:
 [Set role]
@@ -558,7 +558,7 @@ Erhält Informationen über Benutzerstimmungen
 [Supports SecureIM plugin for Miranda NG]
 Unterstützt SecureIM-Plugin für Miranda NG
 [Supports OTR (Off-the-Record Messaging)]
-Unterstützt MirOTR-Plugin für Miranda NG
+Unterstützt OTR (Off-the-Record Messaging)
 [Supports New_GPG plugin for Miranda NG]
 Unterstützt New_GPG-Plugin für Miranda NG
 [Can block communications from particular other users using Privacy lists]
@@ -1270,7 +1270,7 @@ In Konferenzraum umwandeln
 [Options...]
 Einstellungen...
 [Services...]
-Spezielle Funktionen...
+Dienste...
 [Registered Transports]
 Registrierte Transporte
 [Local Server Transports]
@@ -1910,7 +1910,7 @@ alle.
 [messages]
 Nachrichten
 [ and ]
- UND\s
+ und\s
 [incoming presences]
 eingehenden Status
 [outgoing presences]
@@ -1918,17 +1918,17 @@ ausgehenden Status
 [queries]
 Querys
 [Else ]
-SONST\s
+sonst\s
 [If Jabber ID is ']
-WENN JID ist gleich '
+Falls Jabber-ID ist '
 [ (nickname: ]
- (Nickname:
+ (Nickname:\s
 [If group is ']
-WENN Gruppe ist gleich '
+Falls Gruppe ist '
 [If subscription is ']
-WENN Autorisierung ist gleich '
+Falls Autorisierung ist '
 [then ]
-DANN\s
+dann\s
 [ (act., def.)]
  (aktiv, std.)
 [ (active)]
@@ -1992,7 +1992,7 @@ Statusnachricht
 [Change global status]
 Globalen Status ändern
 [Set Options]
-Optionen festlegen
+Einstellungen setzen
 [Set the desired options]
 Die gewünschten Einstellungen vornehmen
 [Automatically Accept File Transfers]
@@ -2004,9 +2004,9 @@ Fernbedienung deaktivieren (prüfen Sie zweimal was Sie machen)
 [There is no messages to forward]
 Es gibt keine weiterzuleitenden Nachrichten
 [Forward options]
-Weiterleitungsoptionen
+Weiterleitungseinstellungen
 [%d message(s) to be forwarded]
-%d Nachricht(en) werden weitergeleitet
+%d Nachricht(en) weiterzuleiten
 [Mark messages as read]
 Nachrichten als gelesen markieren
 [%d message(s) forwarded]

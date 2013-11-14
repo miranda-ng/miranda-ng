@@ -6,7 +6,7 @@
 ;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
-
+XFire-Protokollunterstützung für Miranda NG.
 ;file \protocols\Xfire\res\resource.rc
 [Password:]
 Passwort:
@@ -19,9 +19,9 @@ Nick:
 [Current protocol version:]
 Derzeitige Protokollversion:
 [Note: You can only change these settings, if you are connected to Xfire.]
-Info: Diese Einstellungen können nur geändert werden, wenn Sie mit XFire verbunden sind.
+Diese Einstellungen können nur geändert werden, wenn Sie mit XFire verbunden sind.
 [Create a new Xfire account on website]
-Ein neues XFire-Konto erstellen ...
+Ein neues XFire-Konto auf der Webseite erstellen
 [Lost password?]
 Passwort vergessen?
 [Account options]
@@ -35,15 +35,15 @@ In meinem Profil und Miniprofil anzeigen
 [Show my game server data]
 Meine Gameserver-Daten anzeigen
 [Other Activity]
-Andere Optionen
+Andere Aktivität
 [Show my voice chat server to my friends]
 Meinen Voice-Chat-Server meinen Freunden anzeigen
 [Show people when I type to them]
 Benutzern anzeigen, wenn ich ihnen schreibe
 [Show nicknames when available]
-Nicknamen anzeigen, wenn verfügbar
+Nicknamen anzeigen, wenn verfügb.
 [Show friends of my friends]
-Den Freunden meiner Freunde anzeigen
+Freunde meiner Freunde anzeigen
 [Options]
 Einstellungen
 [More options]
@@ -85,11 +85,11 @@ Folgende Variablen sind verfügbar: %myxfiregame%, %myxfirevoice%, %myxfireserve
 [Status message:]
 Statusnachricht:
 [Change the status to occupied or dnd]
-Wechsle den Status auf Beschäftigt
+Status auf Beschäftigt oder DND ändern
 [The status message and status will be reset, if you close the game.]
-Die Statusnachricht sowie der Onlinestatus werden wieder zurückgesetzt, wenn das Spiel geschlossen wird.
+Die Statusnachricht und Status werden wieder zurückgesetzt, wenn das Spiel geschlossen wird.
 [Prefer dnd when it is available]
-Bitte nicht stören bevorzugen wenn verfügbar
+DND bevorzugen wenn verfügbar
 [Games]
 Spiele
 [Game:]
@@ -99,19 +99,19 @@ Spielstart nicht erkennen
 [Apply]
 Übernehmen
 [Don't set status message for other protocols]
-Keine Statusnachrichten setzen
+Statusnachricht nicht für andere Protokolle setzen
 [Add new game]
-Spiel hinzufügen
+Neues Spiel hinzufügen
 [Remove]
 Entfernen
 [Don't show in start menu]
-Nicht im Spiel-starten-Menü anzeigen
+Nicht im Startmenü anzeigen
 [(manual added)]
 (manuell hinzugefügt)
 [Extra Command Line Parameters:]
 Zus. Kommandozeilen-Parameter:
 [Edit...]
-Bearbeiten
+Bearbeiten...
 [Username:]
 Benutzername:
 [Game]
@@ -211,7 +211,7 @@ Im Moment nicht!
 [Give a guy some peace, would ya?]
 Lass mich im Moment mal in Ruhe!
 [Well, I would talk to you if Miranda ICQ supported chat]
-
+Ich würde mit Ihnen reden, wenn Miranda ICQ das unterstützen würde.
 [That'll be the phone.]
 Bin gerade am Telefon
 [Mmm... food.]
@@ -247,15 +247,15 @@ Möchten Sie wirklich %s zu Ihrer Freundesliste hinzufügen?
 [Add me to your friends list.]
 Füge mich zu Ihrer Freundesliste hinzu.
 [XFire is not connected.]
-
+XFire ist nicht verbunden.
 [Current Game]
 Aktuelles Spiel
 [My Current Game]
 Mein aktuelles Spiel
 [ServerIP]
-
+ServerIP
 [My Current ServerIP]
-
+Meine aktuelle ServerIP
 [Voice]
 Stimme
 [My Current Voice]
@@ -287,13 +287,13 @@ Das Spiel spielen...
 [Remove F&riend...]
 F&reund entfernen...
 [Block U&ser...]
-Benutzer ignorieren ...
+Ben&utzer blockieren...
 [&My XFire Online Profile]
 &Mein XFire-Profil
 [&Activity Report]
 &Aktivitätsbericht
 [&Rescan my games...]
-E&rneute Suche nach Spielen
+E&rneute Suche nach Spielen...
 [Set &Nickname]
 &Nickname setzen
 [Protocols/XFire]
@@ -342,7 +342,7 @@ Allgemein
 [Automatically reconnect on protocol version changes]
 Automatisch nach Protokoll-Versionsänderungen neu verbinden
 [No Ip/Port in StatusMsg]
-Keine Server-IP- und Portanzeige bei der Statusmeldung
+Keine IP/Port in Statusnachricht
 [Use Online status for unsupported global statuses]
 Wechsle auf Online statt Abwesend bei nicht unterstütztem Status
 [Don't move friends to clan groups]
@@ -350,9 +350,9 @@ Meinen Freunden keine Clangruppen zuordnen
 [GameServerQuery support]
 GameServerQuery-Unterstützung
 [No custom away message]
-Eigene "Away"-Nachricht abschalten
+Keine eigene Abwesenheitsnachricht
 [Remove friend of friend buddies from database]
-Entferne die Freunde meiner Freunde von der Datenbank
+Freunde meiner Freunde aus der Datenbank entfernen
 [Hide yourself in buddylist]
 Sich selbst nicht in der Server-Kontaktliste anzeigen
 [Don't display game search results]
@@ -376,19 +376,19 @@ Popups im Spiel deaktivieren
 [Disable sound events when ingame]
 Akustische Hinweise im Spiel deaktivieren
 [Automatically update xfire_games.ini (pro-laming.de)]
-Automatisch xfire_games.ini aktual. (von pro-laming.de)
+Automatisch xfire_games.ini aktualisieren (pro-laming.de)
 [Automatically update icons.dll (pro-laming.de)]
-Automatisch icons.dll aktual. (von pro-laming.de)
+Automatisch icons.dll aktualisieren (pro-laming.de)
 [Download missing game icons from Xfire website]
-Lade fehlende Spielicons von der XFire-Homepage
+Fehlende Spielicons von der XFire-Homepage laden
 [No backup on update]
-Keine Sicherung beim Update (games.ini, icons.dll)
+Keine Sicherung beim Update
 [Background updating]
-Hintergrund-Aktualisierung
+Aktualisierung im Hintergrund
 [The username must be lowercase, so it will be lowercased saved.]
-Der Benutzername muss in Kleinbuchstaben geschrieben sein, damit es in Kleinbuchstaben gespeichert wird.
+Der Benutzername muss in Kleinbuchstaben geschrieben sein, also wird er in Kleinbuchstaben gespeichert.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
-
+Die Änderungen, die Sie gemacht haben, werden erst bei der nächsten Verbindung zum Xfire-Netzwerk aktiviert.
 [Hidden]
 Versteckt
 [Messagebox]
@@ -402,7 +402,7 @@ Bei jedem Start
 [Daily]
 Täglich
 [<Root Group>]
-Hauptgruppe
+<Hauptgruppe>
 [Are you sure you want to remove this game?]
 Sind Sie sicher, dass Sie dieses Spiel entfernen wollen?
 [Please select a game.]
@@ -427,7 +427,7 @@ Ignorieren / Spiele
 Statusnachricht
 ;file \protocols\Xfire\src\pwd_dlg.cpp
 [Please enter server password...]
-
+Bitte geben Sie das Server-Passwort ein...
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database...]
 Daten werden geschrieben...

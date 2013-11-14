@@ -6,7 +6,7 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
-Instant-Messaging- und Gruppenchat-Modul für Miranda NG.
+Sofortnachrichten- und Gruppenchat-Modul für Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Sie können den Nutzer nach Benutzernamen oder seiner ID hinzufügen. Platzhalter sind erlaubt und empfohlen.
@@ -95,7 +95,7 @@ Hervorherbungen für Benutzernamen
 [Enable highlighting for user names]
 Hervorhebungen für Benutzernamen aktivieren
 [Also look in user IDs]
-Berucksichtige auch Nutzer-IDs
+Berücksichtige auch Nutzer-IDs
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 Namen, die hervorgeoben werden sollen, Platzhalter wie * und ? sind erlaubt, mehrere Einträge durch Leerzeichen trennen
 [Highlight message text]
@@ -154,7 +154,7 @@ Tab s&chließen
 Andere Tabs sch&ließen
 [&Open at this position]
 An dieser Position öffnen
-;file \plugins\TabSRMM\res\msgwindow.rc 
+;file \plugins\TabSRMM\res\msgwindow.rc
 [&Retry]
 &Wiederholen
 [&Cancel]
@@ -1072,7 +1072,7 @@ Eingehende Datei (falsches Format)
 [Unknown event]
 Unbekanntes Ereignis
 [New messages: ]
-Neue Nachrichten:
+Neue Nachrichten:\s
 [Unknown module or contact]
 Unbekanntes Modul oder Kontakt
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
@@ -1198,7 +1198,7 @@ In Zwischenablage kopieren
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\tab \\ul\\b Statusnachricht:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b Erweiterte Status-Informationen:\\ul0\\b0 \\par
+\\par\\par\\tab \\ul\\b Erweiterte Status-Informationen:\\ul0\\b0 \\par\s
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b Hört gerade:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -1875,7 +1875,7 @@ Sie sind nun bekannt als %s
 [%s kicked %s]
 %s kickte %s
 [Notice from %s: ]
-Notiz von %s: 
+Notiz von %s:\s
 [The topic is '%s%s']
 Das Thema ist '%s%s'
 [ (set by %s on %s)]
@@ -2031,7 +2031,7 @@ Benutzerliste (abwesend)
 [* Symbols (outgoing)]
 * Symbole (ausgehend)
 [Nickname]
-Nick
+Nickname
 [UIN]
 UIN
 [Protocol]
@@ -2177,7 +2177,7 @@ Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
+Benutzer-ID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to current Miranda profile]
@@ -2187,7 +2187,7 @@ Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück
 [will return parsed string %miranda_userdata%\\Logs]
-
+Gibt umgewandelten String %miranda_userdata%\\Logs zurück
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]
@@ -2296,9 +2296,9 @@ Kein Wort zum Nachschlagen
 Editiere "Highlight" Liste ...
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
-Nick
+Nickname
 [Unique ID]
-Eindeutige ID
+Unique ID
 [Nick]
 Nick
 [%s: Chat Room (%u user%s)]

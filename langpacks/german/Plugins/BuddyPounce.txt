@@ -120,7 +120,7 @@ Die Nachricht   (0 Zeichen)
 [Reuse this message? (0 to use it once)]
 Diese Nachricht wiederverwenden? (0 meint nicht wiederverwenden)
 [Times]
-Zeitzonen
+Mal
 [Giveup after.. (0 to not giveup)]
 Aufgeben nach.. (0 meint nicht aufgeben)
 [Days]

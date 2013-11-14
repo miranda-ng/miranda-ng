@@ -370,7 +370,7 @@ Hält Geburtsdaten auf dem neuesten Stand.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 Wegen eines Parameterfehlers kann eins der Baumeinträge nicht hinzugefügt werden!
-[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
+[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 Beim Erstellen der Seite ist ein schwerer Fehler aufgetreten!
 [Rename Item]
 Umbenennen
@@ -1160,7 +1160,7 @@ Jahrestagserinnerung
 [contact identificaion]
 Kontaktidentifizierung
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
-Der Kontakt %s(%s) besitzt keine ID in der vCard,\naber ein Kontakt in deiner Liste hat denselben Alias und dasselbe Protokoll.\nSollen die Informationen für diesen Kontakt überschrieben werden?
+Der Kontakt %s(%s) besitzt keine ID in der vCard,\naber ein Kontakt in deiner Liste hat denselben Nick und dasselbe Protokoll.\nSollen die Informationen für diesen Kontakt überschrieben werden?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 Import eines neuen Kontakts wurde abgebrochen!

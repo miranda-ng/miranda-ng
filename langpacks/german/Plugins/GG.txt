@@ -171,17 +171,17 @@ Ungültige Serverantwort erhalten.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Der Verbindungsversuch zum Server wurde vorzeitig abgebrochen. Es könnte die lokale Netzwerkverbindung verloren gegangen sein.
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
-
+Ihre Kombination aus Gadu-Gadu-Nummer und -Passwort wurde vom Gadu-Gadu-Server abgelehnt. Bitte prüfen Sie Ihre Anmeldeeinstellungen in Einstellungen->Netzwerk->Gadu-Gadu und versuchen Sie es nochmal.
 [Connecting to Gadu-Gadu hub failed.]
-
+Verbindung zu Gadu-Gadu-Hub fehlgeschlagen
 [Cannot establish secure connection.]
-
+Kann keine sichere Verbindung aufbauen.
 [Server disconnected asking you for changing your e-mail.]
-
+Server hat Sie getrennt, während er Sie dazu aufgefordert hat, Ihre E-Mail-Adresse zu ändern.
 [Too many login attempts with invalid password.]
-
+Zu viele Anmeldeversuche mit ungültigem Passwort.
 [Gadu-Gadu servers are now down. Try again later.]
-
+Gadu-Gadu-Server sind nicht erreichbar. Versuchen Sie es später nochmal.
 [Unknown]
 Unbekannt
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
@@ -254,15 +254,15 @@ Kann Datei nicht übertragen. Fehler: %d: %s (dcc)\n%s
 Kann Datei nicht übertragen. Fehler: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
-
+HTTP-Speicherfehler
 [HTTP failed connecting]
-
+HTTP-Verbindungsfehler
 [HTTP failed resolving]
-
+HTTP-Auflösefehler
 [HTTP failed reading]
-
+HTTP-Lesefehler
 [HTTP failed writing]
-
+HTTP-Schreibfehler
 [Unknown HTTP error]
 Unbekannter HTTP-Fehler
 [&Unblock]

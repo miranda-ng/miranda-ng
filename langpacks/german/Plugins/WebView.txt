@@ -49,11 +49,11 @@ Fehlermeldungen unterdrücken
 [Display using Popup or OSD plugin]
 Via Popup- oder OSD-Plugin
 [Expert options]
-Experten-Optionen
+Experten-Einstellungen
 [Disable download protection]
 Download-Schutz deaktivieren
 [(not recommended)]
-(nicht empfehlenswert)
+(Nicht empfehlenswert)
 [Display data in popup on alert]
 Daten in Popup bei Alarm anzeigen
 [Display data in popup]
@@ -101,7 +101,7 @@ Suchen nach:
 [Search was completed.]
 Suche wurde beendet.
 [Alert options]
-Alarmoptionen
+Alarm-Einstellungen
 [Events and alerts]
 Ereignisse and Alarm
 [Enable alerts]
@@ -126,10 +126,10 @@ Testbedingungen
 Alarmiere bei neuem String auf der Webseite
 [String:]
 String:
-[Alert when specific area of Web page changes]
+[Alert when specific area of web page changes]
 Alarm, falls bestimmter Teil der Webseite sich ändert
 [Log to file]
-In Datei loggen
+In Datei speichern
 [Log file:]
 Logdatei:
 [Append data to file]
@@ -161,7 +161,7 @@ Selbe Farben wie Ausgabefenster
 [Left click action]
 Linksklick-Aktion
 [Open data display window]
-Offne Datenfenster
+Datenanzeigefenster öffnen
 [Open web page]
 Webseite öffnen
 [Dismiss popup]
@@ -207,9 +207,9 @@ Daten erneuern
 Kontakteinstellungen
 [Contact alert options]
 Kontakt-Alarmeinstellungen
-[Ping Web Site]
+[Ping web site]
 Webseite anpingen
-[Stop Data Processing]
+[Stop data processing]
 Datenverarbeitung stoppen
 ;file \plugins\WebView\src\webview.cpp
 [All Webview sites have been updated.]

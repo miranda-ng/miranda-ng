@@ -73,7 +73,7 @@ Fehler beim Öffnen der Datei
 Fehler bei der Speicherzuweisung
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
-
+Fehler beim Erstellen des Menus
 [Popup plugin not found!]
 Popup-Plugin nicht gefunden!
 [Error]

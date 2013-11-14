@@ -15,11 +15,11 @@ Dateiname:
 [Size:]
 Größe:
 [Chunk size]
-
+Chunk-Größe
 [ms]
 ms
 [Delays between sends]
-Verzögerung zwischen Senden
+Verzögerung zw. Senden
 [bytes]
 Bytes
 [Transfer settings]
@@ -37,7 +37,7 @@ Empfangen
 [Use only alphanumeric encoding on transfer]
 Nur alphanumerische Kodierung in Übertragungen verwenden
 [Extra options: Events > File Transfers, "Receiving files" group]
-
+Weitere Einstellungen: Ereignisse -> Dateiübertragungen, Gruppe "Dateien empfangen"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 Datei existiert bereits. Überschreiben?
@@ -58,17 +58,17 @@ Empfange...
 [Sent successfully]
 Erfolgreich gesendet
 [Unknown command for "File As Message" was received]
-
+Unbekannten Befehl für "File As Message" wurde empfangen.
 [Incoming file request. Do you want to proceed?]
-
+Eingehende Dateianfrage. Wollen Sie fortfahren?
 [Canceled by remote user]
 
 [New incoming file request. Do you want to proceed?]
-
+Neue eingehende Dateianfrage. Wollen Sie fortfahren?
 [File transfer is paused because of dropped connection]
-
+Dateiübertragung ist pausiert, da Verbindung verloren
 [Failed on file initialization]
-
+Fehler bei Dateiinitialisierung
 [Paused...]
 Pausiert...
 [Synchronizing...]

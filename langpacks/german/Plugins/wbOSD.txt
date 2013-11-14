@@ -8,50 +8,50 @@
 [Shows new message/status change info using on-screen display.]
 Zeigt Nachrichten und Statusänderungen direkt auf dem Bildschirm an.
 ;file \plugins\wbOSD\res\wbOSD.rc
+[General]
+Allgemein
+[Align]
+Ausrichten
 [Select font]
 Schriftart wählen
-[Text color]
-Textfarbe
-[Background color]
-Hintergrundfarbe
-[Transparent]
-Transparent
+[Shadow]
+Schatten
+[Show drop shadow]
+Schattenwurf anzeigen
+[Shadow align]
+Schattenausrichtung
 [Shadow color]
 Schattenfarbe
 [Alternative shadow]
 Alternativer Schatten
-[Shadow align]
-Schattenausrichtung
-[General]
-Allgemein
-[Shadow]
-Schatten
-[Show drop shadow]
-
-[Align]
-Ausrichten
 [Shadow distance:]
 Schattendistanz:
 [Other]
 Sonstige
+[Background color]
+Hintergrundfarbe
+[Transparent]
+Transparent
 [Alpha:]
 Alpha:
-[Announce]
-Ansagen
 [Timeout (ms):]
 Timeout (ms):
-[Show events]
-Ereignisse anzeigen
-[Status changes]
-Statusänderungen
 [Show testing OSD]
 Test-OSD anzeigen
+[Announce]
+Ansagen
+[Status changes]
+Statusänderungen
 [Show my status changes]
 Meine Statusänderungen anzeigen
-[Show message window after click]
-Nachrichtenfenster nach Klick anzeigen
+[Text color]
+Textfarbe
+[Show events]
+Ereignisse anzeigen
 [Format:]
 Format:
+[Show message window after click]
+Nachrichtenfenster nach Klick anzeigen
 [Show when my status is:]
 Zeige wenn mein Status:
 ;file \plugins\wbOSD\src\events.cpp
@@ -59,11 +59,11 @@ Zeige wenn mein Status:
 %s ist %s
 ;file \plugins\wbOSD\src\options.cpp
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
-
+Variablen:\n  %n : Nick\n  %m : Nachricht\n  %l : Neue Zeile
 [Help]
-
+Hilfe
 [Miranda NG is great and this is a long message.]
-
+Miranda NG ist groß und dies ist eine lange Nachricht.
 [Plugins]
 Plugins
 [OSD]

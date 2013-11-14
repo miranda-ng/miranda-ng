@@ -29,7 +29,7 @@ Hotkeys zeigen das Menu zentriert auf dem Bildschirm
 [Menu item preview:]
 Menueintrag Voorschau:
 [Favorite Contacts]
-Favourite Contacts
+Favorisierte Kontakte
 [Enable groups]
 Gruppen aktivieren
 [Multicolumn menu]
@@ -49,7 +49,7 @@ letzte Kontakte
 <keine Gruppe>
 ;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
-Favorisierte Kontakte
+Favorisierter Kontakt
 [Regular Contact]
 Reguläre Kontakte
 [Contact name]

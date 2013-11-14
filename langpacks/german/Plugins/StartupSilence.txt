@@ -6,79 +6,79 @@
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
-
+Deaktiviert ALLE popups und Klänge für 10-300 Sekunden beim Start von Miranda und aktiviert sie für Miranda NG (automatische per-Computer Einstellungen).
 ;file \plugins\StartupSilence\res\StartupSilence.rc
 [Silence at Startup]
-
+Rihe beim Start
 [Settings for the next Computer Name:]
-
+Einstellungen für folgenden Computernamen:
 [Enable silence at startup]
-
+Ruhe beim Start aktivieren
 [spin1]
 
 [for]
-
+für
 [10-300 seconds (Default 20)]
-
+10-300 Sekunden (Standard 20)
 [Show Popup notification]
-
+Popup-Benachrichtigungen anzeigen
 [spin2]
 
 [Popup time 1-30 seconds (Default 5)]
-
+Popup-Zeit 1-30 Sekunden (Standard 5)
 [Main Menu Item (plugin reload or Miranda restart required)]
-
+Menueintrag aktivieren (Plugin neu laden oder Miranda-Neustart erforderlich)
 [TopToolBar button (Miranda restart required)]
-
+TopToolBar-Button (Miranda-Neustart erforderlich)
 [Reset to default\r\n(for this computer)]
-
+Auf Standard zurücksetzen\r\n(für diesen Computer)
 [You need to configure it once for each computer, where you run your Miranda NG.]
-
+Sie müssen dies einmal für jeden Computer, auf dem Sie Miranda NG verwenden, einstellen.
 [No Apply button required.]
-
+Kein Übernehmen-Button nötig.
 [After startup set:]
-
+Nach Start setze:
 [Filtered popups only (leave uncheck for no popups)]
-
+Nur gefilterte Popups (deaktivieren für keine Popups)
 [Enable sounds]
-
+Klänge aktivieren
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
-
+Nur Klänge und gefiltere Popups nach Start erlauben (deaktivieren für keine Popups)
 [Allow mRadio or Weather popups, etc.]
-
+mRadio- und Wetter-Popups usw. erlauben
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
-
+Ereignisse
 ;file \plugins\StartupSilence\src\StartupSilence.h
 [Silence at startup]
-
+Ruhe beim Start
 [Toggle Silence OFF]
-
+Ruhe ausschalten
 [Toggle Silence ON]
-
+Ruhe einschalten
 [Toggle Silence OFF TTB]
-
+Ruhe ausschalten TTB
 [Toggle Silence ON TTB]
-
+Ruhe ausschalten TTB
 [Sounds and popups are enabled]
-
+Klänge und Popups sind aktiviert
 [Filtered mode ON]
-
+Filter-Modus ein
 [Sounds and popups are disabled temporarily]
-
+Klänge und Popups sind vorrübergehend deaktiviert
 [Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
-
+Klänge und Popups sind vorrübergehend deaktiviert\nnRadio- oder Wetter-Popups usw. erlauben
 [Silent Startup mode changed to ON]
-
+Start-Ruhe-Modus eingeschaltet
 [Silent Startup mode changed to OFF]
-
+Start-Ruhe-Modus ausgeschaltet
 [Silence At Startup is ON]
-
+Ruhe beim Start ist AN
 [Silence At Startup is OFF]
-
+Ruhe beim Start ist AUS
 [Toggle Silence At Startup]
-
+Ruhe beim Start umschalten
 [You have to install TopToolBar to use this option.]
-
+Sie müssen das TopToolBar-Plugin installieren, um diese Einstellung zu verwenden.
 [You have to install "YAPP" or "Popup+" to use this option.]
-
+Sie müssen "YAPP" oder "Popup+" installieren um diese Einstellung zu verwenden.

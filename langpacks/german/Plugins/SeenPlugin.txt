@@ -96,8 +96,6 @@ Statusänderung zu Online
 Kontakt hat sich abgemeldet
 [User Logged In]
 Kontakt hat sich angemeldet
-[Last seen]
-Zuletzt gesehen
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <unbekannt>
@@ -108,6 +106,8 @@ Zuletzt gesehen
 Zuletzt-gesehen-Variablen
 [Contacts]
 Kontakte
+[Last seen]
+Zuletzt gesehen
 [Popups]
 Popups
 ;file \plugins\SeenPlugin\src\seen.h

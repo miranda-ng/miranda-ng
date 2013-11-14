@@ -108,7 +108,7 @@ Wählen Sie den Keyserver für die Schlüsselsuche aus:
 Verschlüsselte Datei empfangen
 [Decrypt]
 Entschlüsseln
-[Recieved encrypted file form contact with disabled encryption.]
+[Received encrypted file from contact with disabled encryption.]
 Verschlüsselte Datei von Kontakt mit deaktivierter Verschlüsselung empfangen.
 [Remember choice]
 Auswahl merken
@@ -143,9 +143,9 @@ Dateitransfer verschlüsseln
 [Automatic key exchange]
 Auto Schlüsselaustausch
 [Copy own key]
-Kopiere eig. Schlüssel
+Eig. Schlüssel kopieren
 [Add tags to encoded and decoded messages]
-Füge Tags zu ver- und entschlüsselten Nachrichten hinzu
+Tags zu ver- und entschlüsselten Nachrichten hinzufügen
 [Incoming message tags:]
 Eingehende Nachrichten-Tags:
 [Outgoing message tags:]
@@ -174,7 +174,7 @@ GPG-Verschlüsselungsstatus
 [Toggle GPG encryption]
 GPG-Verschlüsselung umschalten
 [Send public key]
-Sende öffentl. Schlüssel
+Öffentlichen Schlüssel senden
 [Export GPG Public keys]
 Öffentliche GPG-Schlüssel exportieren
 [Import GPG Public keys]
@@ -199,7 +199,7 @@ Schlüssel-ID
 [not set]
 nicht gesetzt
 [Default private key ID]
-
+Standard private Schlüssel-ID
 [Failed to open file]
 Konnte die Datei nicht öffnen
 [Error]
@@ -207,19 +207,19 @@ Fehler
 [Generating new random key, please wait]
 Erstelle neuen zufälligen Schlüssel, bitte warten
 [Failed to alocate memory]
-
+Konnte Speicher nicht zuweisen
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
-Das GPG-Verzeichnis wurde gefunden, allerdings der Englische Ort davon existiert nicht.\nEs ist sehr wichtig die \\gnupg.nls\\en@quot.mo im GnuPG-Ordner im Miranda NG Verzeichnis zu legen.\nOhne diese Datei haben Sie viele Probleme mit der GPG-Ausgabe auf englischen Systemen.\nEs kann evtl. nicht richtig funktionieren.\nSeien Sie gewarnt!
+Das GPG-Verzeichnis wurde im Miranda-Verzeichnis gefunden, allerdings existiert das englische Locale nicht.\nEs ist sehr wichtig die \\gnupg.nls\\en@quot.mo im GnuPG-Verzeichnis im Miranda-NG-Verzeichnis zu legen.\nOhne diese Datei haben Sie viele Probleme mit der GPG-Ausgabe auf nicht-englischen Systemen.\nPlugin kann evtl. nicht richtig funktionieren.\nSeien Sie gewarnt!
 [Warning]
 Warnung
 [Wrong GPG binary location found in system.\nPlease choose another location]
 Ein falsches GPG-Verzeichnis wurde im System gefunden.\nBitte wählen Sie ein anderes Verzeichnis aus.
 [This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
-Dies ist kein GnuPG Verzeichnis!\nEs wird empfohlen GnuPG v1.x.x mit diesem Plugin zu verwenden.
+Dies ist keine GnuPG-Binärdatei!\nEs wird empfohlen GnuPG v1.x.x mit diesem Plugin zu verwenden.
 [Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
 Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf eigenes Risiko!\nEs wird empfohlen, GnuPG v1.x.x mit diesem Plugin zu benutzen.
 ["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
-
+"GPG"-Verzeichnis im Miranda-Hauptverzeichnis gefunden.\nNehme an, dass dies das GPG-Heimverzeichnis ist.\nGPG-Heimverzeichnis gesetzt.
 [Info]
 Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
@@ -233,13 +233,13 @@ Bitte setzen Sie den Hauptordner für die Schlüssel
 [There is existing key for contact, would you like to replace it with new key?]
 Für diesen Kontakt existiert bereits ein Schlüssel, wollen Sie ihn durch einen neuen Schlüssel ersetzen?
 [New public key was received, do you want to import it?]
-Ein neuer Schlüssel wurde empfangen, wollen Sie ihn importieren?
+Ein neuer öffentlicher Schlüssel wurde empfangen, wollen Sie ihn importieren?
 [Replace]
-Ersetze
+Ersetzen
 [Accept]
 Akzeptieren
 [Received key from ]
-Schlussel wurde empfangen von
+Schlussel wurde empfangen von\s
 [You must set encryption algorithm first]
 Sie müssen als Erstes einen Verschlüsselungsalgorithmus setzen
 [Key length must be of length from 1024 to 4096 bits]
@@ -259,35 +259,35 @@ Konnte öffentlichen Schlüssel nicht exportieren.
 [GPG binary is set and valid (this is good).\n]
 GPG-Programm ist gesetzt und gültig (das ist gut).\n
 [GPG binary unset or invalid (plugin will not work).\n]
-GPG-Programm ist nicht gesetzt oder ungültig (plugin wird nicht funktionieren).\n
+GPG-Programm ist nicht gesetzt oder ungültig (Plugin wird nicht funktionieren).\n
 [Home dir write access granted (this is good).\n]
 Schreibzugriff auf Benutzerverzeichnis gewährt (das ist gut).\n
 [Home dir has no write access (plugin most probably will not work).\n]
-Schreibzugriff auf Benutzerverzeichnis nicht gewährt (plugin wird höchstwahrscheinlich nicht funktionieren).\n
+Schreibzugriff auf Benutzerverzeichnis nicht gewährt (Plugin wird höchstwahrscheinlich nicht funktionieren).\n
 [Temp dir write access granted (this is good).\n]
 Schreibzugriff auf temporäres Verzeichnis gewährt (das ist gut).\n
 [Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
-Schreibzugriff auf temporäres Verzeichnis nicht gewährt (plugin sollte funktionieren, aber könnte Probleme verursachen, Dateiübertragungen funktionieren nicht).
+Schreibzugriff auf temporäres Verzeichnis nicht gewährt (Plugin sollte funktionieren, aber könnte Probleme verursachen, Dateiübertragungen funktionieren nicht).
 [\nGPG will be disabled until you solve these problems]
 \nGPG wird deaktiviert bis Sie dieses Problem beheben.
 [GPG plugin problems]
 GPG-Pluginprobleme
-[Your secret key whith ID: ]
-Ihr geheimer Schlüssel mit ID:
+[Your secret key with ID: ]
+Ihr geheimer Schlüssel mit ID:\s
 [ for account ]
- für Konto 
+ für Konto\s
 [ deleted from GPG secret keyring.\nDo you want to set another key?]
  gelöscht vom GPG-Schlüsselring\nWollen Sie einen anderen Schlüssel setzen?
 [Own secret key warning]
 Eigener geheimer Schlüssen Warnung
 [ expired and will not work.\nDo you want to set another key?]
-
+ ausgelaufen und wird nicht funktionieren.\nMöchten Sie einen anderen Schlüssel setzen?
 [You didn't set a private key.\nWould you like to set it now?]
-
+Sie haben keinen privaten Schlüssel gesetzt.\nMöchten Sie nun einen setzen?
 [Own private key warning]
 Eigener privater Schlüssen Warnung
 [Do you want to load key for all subcontacts?]
-Wollen Sie alle Schlüssel für den Unterkontakt laden?
+Möchten Sie den Schlüssel für alle Unterkontakte laden?
 [Metacontact detected]
 Metakontakt entdeckt
 ;file \plugins\New_GPG\src\messages.cpp
@@ -296,11 +296,11 @@ Sie haben eine verschlüsselte Nachricht von einem Kontakt empfangen der die Ver
 [Do you want to try to decrypt encrypted message?]
 Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
-
+Konnte Nachricht nicht entschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein.
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
 [failed to encrypt message, GPG returned error, turn on debug log for more details]
-Konnte Nachricht nicht verschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein
+Konnte Nachricht nicht verschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein.
 [Something is wrong, GPG does not understand us, aborting encryption.]
 Etwas läuft falsch, GPG versteht uns nicht, breche Verschlüsselung ab.
 ;file \plugins\New_GPG\src\options.cpp
@@ -321,7 +321,7 @@ Schlüssel-ID
 [Protocol]
 Protokoll
 [This key is not used by any contact. Do you want to remove it from public keyring?]
-Dieser Schlüssel wird von keinem Kontakt verwendet, wollen Sie ihn entfernen?
+Dieser Schlüssel wird von keinem Kontakt verwendet. Wollen Sie ihn aus dem öffentlichen Schlüsselbund entfernen?
 [Key info]
 Schlüssel-Info
 [we have secret key for this public key, do not removing from GPG keyring]
@@ -337,46 +337,46 @@ Wollen Sie den Schlüssel für den gesamten Metakontakt (und Unterkontakte) lös
 [.asc pubkey file]
 .asc-Pubkey-Datei
 [Set log file]
-Setze Logdatei
+Logdatei setzen
 [LOG files]
 Logdateien
 [Choose gpg.exe]
-Wählen sie den Pfad zur gpg.exe aus
+Wählen Sie den Pfad zur gpg.exe aus
 [Set home directory]
-Setze Heimverzeichnis
+Heimverzeichnis setzen
 [Load Public GPG Key for ]
-Lade offentlichen GPG-Schlussel fur
+Lade offentlichen GPG-Schlüssel für\s
 [Turn off encryption]
 Verschlüsselung deaktivieren
 [ found in presence, and exists in keyring.)]
- gegenwärtig gefunden, er existiert im Hauptverzeichnis.)
+ in Presence gefunden, und existiert im Schlüsselbund.)
 [Load Public GPG Key (Key ID: ]
-Lade offentlichen GPG-Schlussel (Schlussel-ID:
+Lade offentlichen GPG-Schlussel (Schlussel-ID:\s
 [ found in presence.)]
-gegenwärtig gefunden.
+ in Presence gefunden.)
 [This is not public or private key]
 Dies ist kein öffentlicher oder privater Schlüssel
 [Key already in secret keyring.]
-Der Schlüssel ist bereits im geheimen Hauptverzeichnis.
+Der Schlüssel ist bereits im geheimen Schlüsselbund.
 [Set file containing GPG public key]
 Setzen Sie die Datei, die den GPG-Schlüssel enthält
 [GPG public key file]
 GPG öffentliche Schlüsseldatei
 [There is no public or private key.]
-Wo ist der öffentliche oder private Schlüssel?
+Es gibt keinen öffentlichen oder privaten Schlüssel.
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
 [Target file exists, do you want to replace it?]
 Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
 [Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
-
+Kapazitäten zur Entschlüsselung der Datei auf der anderen Seite nicht gefunden.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
 [Filetransfer warning]
 Dateiübertragungswarnung
 [Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
-
+Kann Kapazitäten zur Verschlüsselung auf der anderen Seite nicht überprüfen.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nKapazitätenprüfung unterstützt aktuell nur das ICQ- und das Jabber-Protokoll.\nEs funktioniert mit jedem anderen Protokoll wenn Miranda mit New_GPG auf der anderen Seite verwendet werden.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
 [encrypting file for transfer]
-
+Verschlüssele Datei für Übertragung
 [we have succesfully exported]
 erfolgreich exportiert wurden
 [public keys]
@@ -386,10 +386,10 @@ und
 [all private keys]
 alle privaten Schlüssel
 [Keys export result]
-
+Ergebnis Schlüssel exportieren
 [Keys import result]
-
+Ergebnis Schlüssel importieren
 [New passwords do not match]
 Die neuen Passwörter stimmen nicht überein
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
-
+Altes Passwort stimmt nicht, Sie können fortfahren, aber GPG wird das falsche Passwort ablehnen.\nMöchten Sie fortfahren?

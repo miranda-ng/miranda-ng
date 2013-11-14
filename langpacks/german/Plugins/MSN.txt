@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-Microsoft Netzwerk (MSN Protokollunterstützung für Miranda NG:
+Microsoft Netzwerk (MSN) Protokollunterstützung für Miranda NG:
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
@@ -184,7 +184,7 @@ Blockieren a&ufheben
 [&Block]
 &Blockieren
 [Open &Hotmail Inbox]
-&Hotmail Posteingang öffnen
+&Hotmail-Posteingang öffnen
 [Send &Hotmail E-mail]
 &Hotmail E-Mail senden
 [You must be talking to start Netmeeting]

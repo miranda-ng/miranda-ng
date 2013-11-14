@@ -167,7 +167,7 @@ Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
 [&Main menu]
-Hauptmenü
+&Hauptmenü
 [E&xit]
 B&eenden
 [&Status]

@@ -262,7 +262,7 @@ Eingehende Autorisierungsanfrage
 [You were added]
 Sie wurden hinzugefügt.
 [Contacts received]
-Kontakt empfangen
+Kontakte empfangen
 [SMTP Simple Email]
 SMTP einfache E-Mail
 [SMS message]

@@ -359,7 +359,7 @@ Geschrieben
 [Are you sure?]
 Sind Sie sich sicher?
 [Services...]
-
+Dienste...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Netzwerk
@@ -373,9 +373,9 @@ Dateien
 Avatare
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
-Bitte E-Mail-Einstellungen unter Optionen einrichten
+Bitte E-Mail-Einstellungen in den Einstellungen einrichten
 [Please, setup password in options]
-Bitte richten Sie ein Kennwort unter Optionen ein.
+Bitte richten Sie ein Kennwort in den Einstellungen ein.
 [Logon error: invalid login/password]
 Anmeldefehler: Falscher Benutzername/Kennwort
 [MRIM_CS_MESSAGE_STATUS: not found in queue]

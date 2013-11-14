@@ -270,7 +270,7 @@ Status: Der Status, in den das Konto wechselt\r\nKonto: Das Konto, dessen Status
 [<current>]
 <aktueller>
 [<unknown>]
-
+<unbekannt>
 [Left]
 Links
 [Right]
@@ -327,7 +327,7 @@ Ich zieh mir ne Tarnkappe auf!
 [That'll be the phone.]
 Bin gerade am Telefon
 [Mmm... food.]
-Hmmh... lecker
+Hmm... Essen.
 [idleeeeeeee]
 Langweilig
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

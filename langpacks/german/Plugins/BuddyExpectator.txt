@@ -65,7 +65,7 @@ Tage
 [Never hide this contact]
 Diesen Kontakt niemals verstecken
 [Enable Miss You]
-Aktiviere 'Vermisst'-Funktion
+'Vermisst'-Funktion aktivieren
 [Notify always]
 Immer benachrichtigen
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
@@ -78,9 +78,9 @@ Deaktiviert
 [Hide]
 Verstecken
 [Never hide]
-
+Niemals verstecken
 [Hiding %s (%S)]
-Verstecke %s (%S)
+%s verstecken (%S)
 [%d days since last message]
 %d tage seit der letzten Nachricht
 [Disable Miss You]

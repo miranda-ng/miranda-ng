@@ -6,133 +6,133 @@
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
 [Miranda interface to the Microsoft Speech API.]
-
+Miranda Interface für Microsoft Sprach-API.
 ;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
-
+Programmeinstellungen
 [Engine]
-
+Sprachmodul
 [Voice]
-
+Stimme
 [Volume]
-
+Lautstärke
 [Rate]
-
+Rate
 [Pitch]
-
+Höhe
 [Test]
-
+Testen
 [Lexicon]
-
+Lexikon
 [Welcome Message]
-
+Willkommensnachricht
 [Status Changes]
-
+Statusänderungen
 [Offline]
-
+Offline
 [Online]
-
+Online
 [Away]
-
+Abwesend
 [DND]
-
+Bitte nicht stören
 [NA]
-
+Außer Haus
 [Occupied]
-
+Beschäftigt
 [Free for chat]
-
+Für Chat bereit
 [Invisible]
-
+Unsichtbar
 [Occurring Events]
-
+Auftretende Ereignisse
 [Incoming Message]
-
+Eingehende Nachricht
 [Incoming URL]
-
+Eingehende URL
 [Incoming File]
-
+Eingehende Datei
 [Authorization request]
-
+Autorisierungsanfrage
 [Added to contact list]
-
+Zur Kontaktliste hinzugefügt
 [Status messages]
-
+Statusnachrichten
 [Announce status changes on connect]
-
+Statusänderungen nach Verbinden melden
 [Message Events]
-
+Nachrichten
 [Read message if less characters than]
-
+Nachricht lesen, wenn weniger Zeichen als
 [Ignore event if message dialog is open]
-
+Ereignis ignoriere, wenn Nachrichtenfenster offen
 [Ignore event if message dialog is focused]
-
+Ignoriere, wenn Nachrichtenfenster fokussiert
 [Active Modes]
-
+Aktiver Status
 [Active Users]
-
+Aktive Benutzer
 [The following events are being ignored:]
-
+Die folgenden Ereignisse werden ignoriert:
 [Messages]
-
+Nachrichten
 [Online Notification]
-
+Statusbenachrichtigungen
 [All Events]
-
+Alle Ereignisse
 [None]
-
+Keine
 [Add]
-
+Hinzufügen
 [Remove]
-
+Entfernen
 ;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
 [** All contacts **]
-
+** Alle Kontakte **
 [** Unknown contacts **]
-
+** Unbekannte Kontakte **
 ;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
 [testing testing 1 2 3]
-
+Das ist ein Test. 1 2 3
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
-
+Eingehende Nachricht von %u
 [incoming URL from %u]
-
+Eingehende URL von %u
 [you have been added to %u's contact list]
-
+Sie wurden auf die Kontaktliste von %u hinzugefügt
 [%u requests your authorization]
-
+%u möchte Ihre Autorisierung
 [there is an incoming file from %u]
-
+Sie haben eine Datei von %u bekommen
 [%u says]
-
+%u sagt
 ;file \plugins\WinterSpeak\src\main.cpp
 [Speak]
-
+Sprechen
 [Engine/Voice]
-
+Stimmparameter
 [Announce]
-
+Ansagen
 ;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
 [Message Session]
-
+Nachrichtensitzung
 [Message Received]
-
+Nachricht empfangen
 ;file \plugins\WinterSpeak\src\UserInformation.cpp
 [%u is now offline]
-
+%u ist nun offline
 [%u is now online]
-
+%u ist nun online
 [%u is away]
-
+%u ist abwesend
 [%u is invisible]
-
+%u ist unsichtbar
 [%u is not available]
-
+%u ist nicht verfügbar
 [%u does not want to be disturbed]
-
+%u möchte nicht gestört werden
 [%u is occupied]
-
+%u ist beschäftigt
 [%u is free for chat]
-
+%u ist für Chat bererit 

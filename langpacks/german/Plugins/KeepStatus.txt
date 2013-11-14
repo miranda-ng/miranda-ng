@@ -322,7 +322,7 @@ Ich zieh' mir ne Tarnkappe auf!
 [That'll be the phone.]
 Bin gerade am Telefon
 [Mmm... food.]
-Hmm... Essen
+Hmm... Essen.
 [idleeeeeeee]
 Langweilig
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

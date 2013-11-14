@@ -127,7 +127,7 @@ Statusbeschreibung anzeigen
 [Ignore empty status and xStatus messages]
 Leere (x)Statusnachrichten ignorieren
 [Connection timeout]
-
+Verbindungs-Timeout
 [Notification]
 Benachrichtigung
 [Disable for extra status 'Music']

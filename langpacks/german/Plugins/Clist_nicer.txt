@@ -441,7 +441,7 @@ Avatar zeigen
 [Show local time]
 Lokale Zeit anzeigen
 [&Main menu]
-Hauptmenü
+&Hauptmenü
 [E&xit]
 B&eenden
 [&Status]

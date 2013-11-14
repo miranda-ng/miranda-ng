@@ -155,17 +155,17 @@ Abbrechen
 [Message Session]
 Nachrichtensitzung
 [&User menu]
-Kontaktmenü
+Ben&utzermenü
 [User &details]
-Kontaktprofil
+Benutzer&details
 [&Emoticons]
-
+Smil&eys
 [&Add]
-Hinzufügen
+&Hinzufügen
 [&History]
-Verlauf
+&Verlauf
 [&Quote]
-Zitieren
+&Zitieren
 [&OK]
 &OK
 [Send To All Tabs]
@@ -179,21 +179,21 @@ Ja
 [No]
 Nein
 [&Bold]
-Fett
+&Fett
 [&Italic]
-Kursiv
+&Kursiv
 [&Underline]
-Unterstrichen
+&Unterstrichen
 [&Color]
-Farbe
+&Farbe
 [&Background color]
-Hintergrundfarbe
+&Hintergrundfarbe
 [&Filter]
-Filter
+&Filter
 [&Room Settings]
-
+&Raumeinstellungen
 [&Show/hide nicklist]
-
+Nickliste &anzeigen/verbergen
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
 [Actions]
@@ -881,7 +881,7 @@ Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück
 [will return parsed string %miranda_userdata%\\Logs]
-
+Gibt umgewandelten String %miranda_userdata%\\Logs zurück
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]

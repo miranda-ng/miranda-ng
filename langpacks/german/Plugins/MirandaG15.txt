@@ -6,210 +6,210 @@
 ;  Authors: Martin Kleinhans
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
-
+Stellt ein interface zur Verfügung, um Miranda per LCD von gängigen Logitech-Geräten zu steuern.
 ;file \plugins\MirandaG15\res\MirandaG15.rc
 [Fonts]
-
+Schriften
 [General settings]
-
+Generelle Einstellungen
 [Show softkey labels]
-
+Softkeybeschreibungen anzeigen
 [Event log:]
-
+Ereignisverlauf:
 [Sample]
-
+Beispiel
 [Message log:]
-
+Nachrichtenverlauf:
 [Contact list:]
-
+Kontaktliste:
 [Titles:]
-
+Titel:
 [Notifications:]
-
+Benachrichtigungen:
 [Turn off backlights]
-
+Rückenlichter abschalten
 [If the applet is active:]
-
+Wenn das Applet aktiv ist:
 [Use the VolumeWheel to scroll up and down (might affect system performance)]
-
+Lautstärkerad zum hoch-/runterscrollen verwenden (könnte Systemperformanz beeinflussen)
 [Show seconds in timestamps]
-
+Sekunden in Zeitstempel anzeigen
 [Use transition effects when changing screens]
-
+Übergangseffekte für Bildschirmwechsel
 [Credits]
-
+Credits
 [About]
-
+Über
 [Mirandag15 + TrillianG15]
-
+Mirandag15 + TrillianG15
 [For updates and news check the thread on http://www.g15forums.com]
-
+Für Neuigkeiten und Aktualisierungen, siehe den Thread auf http://www.g15forums.com
 [Or visit http://www.mkleinhans.de]
-
+Oder besuche http://www.mkleinhans.de
 [mail@mkleinhans.de]
-
+mail@mkleinhans.de
 [© 2006 by Martin Kleinhans]
-
+© 2006 by Martin Kleinhans
 [Device:]
-
+Gerät:
 [If the screensaver is active:]
-
+Wenn Bildschirmschoner aktiv ist:
 [Lock the screen]
-
+Bildschirm sperren
 [Skip driver missing notification]
-
+Benachrichtigung nach fehlenden Treibern überspringen
 [Notifications]
-
+Benachrichtigungen
 [Notification screen title]
-
+Benachrichtigungstitel
 [Hide it]
-
+Ausblenden
 [Show the plugin name]
-
+Pluginname anzeigen
 [Show a short event summary]
-
+Ereignisbeschreibung anzeigen
 [Size of the log]
-
+Größe des Verlaufs
 [Notification duration]
-
+Benachrichtigungsdauer
 [events]
-
+Ereignisse
 [seconds]
-
+Sekunden
 [Notification types]
-
+Benachrichtigungstypen
 [Incoming messages]
-
+Eingehende Nachrichten
 [Contact signs off]
-
+Kontakt meldet sich ab
 [Contact changes status]
-
+Kontakt wechselt Status
 [Incoming URL]
-
+Eingehende URL
 [Contact list events]
-
+Kontaktlisten-Ereignisse
 [Incoming file transfers]
-
+Eingehende Dateiübertragungen
 [Protocol disconnected]
-
+Verbindung getrennt
 [Protocol connected]
-
+Verbindung hergestellt
 [Protocol status changes]
-
+Verbindungsstatus geändert
 [Show only events from the following protocols:]
-
+Nur Ereignisse der folgenden Protokolle zeigen:
 [Contact signs on]
-
+Kontakt meldet sich an
 [When a chat session is active, skip the following notifications for that contact:]
-
+Wenn eine Chatsitzung aktiv ist, folgende Benachrichtigungen für diesen Kontakt überspringen:
 [Chat session specific]
-
+Chatsitzungsspezifisch
 [Show timestamps]
-
+Zeitstempel anzeigen
 [Messages]
-
+Nachrichten
 [User events]
-
+Benutzer-Ereignisse
 [Emotes]
-
+Emotes
 [Status changes]
-
+Statusänderungen
 [Special IRC events:]
-
+Spezielle IRC-Ereignisse:
 [Notices]
-
+Notizen
 [Channel events]
-
+Channel-Ereignisse
 [Cut off nicknames after]
-
+Nicks abschneiden nach
 [chars]
-
+Zeichen
 [Show protocol labels]
-
+Protkoll anzeigen
 [Don't skip when replying]
-
+Beim Antworten nicht überspringen
 [Exceptions:]
-
+Ausnahmen:
 [Cut off channel names after]
-
+Channelnamen abschneiden nach
 [Contact list]
-
+Kontaktliste
 [Show the contacts protocols]
-
+Protokolle der Kontakte anzeigen
 [Hide offline users]
-
+Abgemeldete Benutzer ausblenden
 [Use ignore settings]
-
+Ignorier-Einstellungen benutzen
 [Use groups/subgroups]
-
+Gruppen/Untergruppen benutzen
 [Grouped mode]
-
+Gruppenmodus
 [Draw tree lines]
-
+Baumlinien anzeigen
 [Show counters behind group names]
-
+Zähler hinter Gruppe anzeigen
 [Reset selection]
-
+Auswahl zurücksetzen
 [When opening the contact list screen:]
-
+Wenn die Kontaktliste aktiviert wird:
 [Don't change group states]
-
+Gruppenzustände nicht ändern
 [Collapse all groups]
-
+Alle Gruppen schließen
 [Show only contacts from the following protocols:]
-
+Nur Kontakte der folgenden Protokolle anzeigen
 [Protocol filter]
-
+Protkollfilter
 [Expand all groups]
-
+Alle Gruppen öffnen
 [Use two columns]
-
+Zwei Spalten verwenden
 [Fade out selection rectangle]
-
+Auswahl-Rechteck ausblenden
 [Chat]
-
+Chat
 [Typing notifications]
-
+Tipp-Benachrichtigungen
 [Show typing notifications]
-
+Tipp-Benachrichtigungen anzeigen
 [Send typing notifications]
-
+Tipp-Benachrichtigungen senden
 [Maximizing]
-
+Maximieren
 [When maximized:]
-
+Wenn maximiert:
 [Hide title]
-
+Titel ausblenden
 [Hide labels]
-
+Softkeybeschreibungen ausblenden
 [Show only new messages]
-
+Nur neue Nachrichten anzeigen
 [Mark incoming messages as read]
-
+Eingehende Nachrichten als gelesen markieren
 [Maximized scrolling]
-
+Maximiertes Blättern
 [Size of the log:]
-
+Größe des Verlaufs:
 [On incoming messages:]
-
+Bei eingehenden Nachrichten:
 [Do nothing]
-
+Nichts machen
 [Scroll to the first line]
-
+Zur ersten Zeile blättern
 [Scroll to the last line]
-
+Zur letzten Zeile blättern
 [Replying]
-
+Antworten
 [Show line break indicators]
-
+Zeilenumbrüche anzeigen
 [Send messages with return, insert line breaks with ctrl+return]
-
+Nachrichten mit Eingabe senden, Zeilenumbruch mit STRG+Eingabe einfügen
 [Maximized replying]
-
+Maximiertes Antworten
 [Close chat after]
-
+Chat schließen nach
 [When in background]
-
+Wenn im Hintergrund
 ;file \plugins\MirandaG15\src\CConfig.cpp
 [No device attached]
-
+Keinem Gerät zugeordnet

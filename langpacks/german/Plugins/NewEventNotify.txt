@@ -85,7 +85,7 @@ Kontakte
 [You were added!]
 Sie wurden hinzugefügt!
 [Requests your authorization]
-Erbittet deine Autorisation
+Erbittet Ihre Autorisation
 [ICQ Web pager]
 ICQ Web pager
 [ICQ Email express]

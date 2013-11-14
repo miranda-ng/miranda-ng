@@ -390,13 +390,13 @@ E-Mail-Express von %s (%s): %s
 [Status change: %s]
 Statusänderung: %s
 [Authorization request granted by %s (%d): %s]
-
+Autorisierungsanfrage gewährt von %s (%d): %s
 [Authorization request denied by %s (%d): %s]
-
+Autorisierungsanfrage abgelehnt von %s (%d): %s
 [User %s (%d) removed himself from your contact list: %s]
-
+Benutzer %s (%d) hat sich selbst aus Ihrer Kontaktliste entfernt: %s
 [Authorization future request by %s (%d): %s]
-
+Zukünftige Autorisierungsanfrage von %s (%d): %s
 [Broadcast message from %s (%s): %s]
 
 [All except status]
@@ -618,7 +618,7 @@ und
 [Authorization Request by %s (%s%s%d): %s]
 Autorisierungsanfrage von %s (%s%s%d): %s
 [Authorization Request Sample]
-
+Beispiel Autorisierungsanfrage
 [Change nick and date font for %s.]
 
 [Customize %s]
@@ -626,9 +626,9 @@ Autorisierungsanfrage von %s (%s%s%d): %s
 [Customize the look of %s Event. Select it's font, font color and background color.]
 
 [Date Font Color]
-
+Datum-Schriftfarbe
 [Date Font]
-
+Datum-Schrift
 [Easy, fast and feature complete history viewer]
 Einfacher, schneller und funktionsreicher Verlaufsbetrachter
 [Event Icons]
@@ -636,7 +636,7 @@ Ereignissymbole
 [Forward &Message]
 Nachricht weiterleiten
 [History++ Options]
-History++-Optionen
+History++-Einstellungen
 [History++ [%s]]
 History++ [%s]
 [HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
@@ -644,13 +644,13 @@ History++ [%s]
 [HTML file (*.htm; *.html)|*.htm;*.html]
 
 [Incoming File Transfer Sample]
-
+Beispiel eingehende Dateiübertragung
 [Incoming File Transfer:]
-
+Eingehende Dateiübertragung:
 [Incoming Message Sample]
-
+Beispiel eingehende Nachricht
 [Incoming URL Sample]
-
+Beispiel eingehende URL
 [Incoming Url]
 Eingehender URL
 [Make shure you have CAPS LOCK turned off.]
@@ -668,19 +668,19 @@ Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Nothing Selected]
 
 [Outgoing File Transfer Sample]
-
+Beispiel ausgehende Dateiübertragung
 [Outgoing File Transfer:]
-
+Ausgehende Dateiübertragung:
 [Outgoing Message Sample]
-
+Beispiel ausgehende Nachricht
 [Outgoing URL Sample]
-
+Beispiel Ausgehende URL
 [Outgoing Url]
-
+Ausgehende URL
 [Recent at bottom]
-
+Neuste nach unten
 [Recent on top]
-
+Neuste nach oben
 [Save All as &HTML...]
 Alles als &HTML speichern...
 [Save All as &Text...]
@@ -688,7 +688,7 @@ Alles als &Text speichern...
 [Save All as &XML...]
 Alles als &XML speichern...
 [Select search mode:]
-
+Suchmodus auswählen:
 [Selected file and contact file folder not found]
 
 [SMS Sample]
@@ -696,7 +696,7 @@ SMS-Beispiel
 [Some Contact]
 Irgendein Kontakt
 [System History (%s)]
-
+Systemverlauf (%s)
 [System Message Sample]
 Systemnachrichtenbeispiel
 [System Message]
@@ -704,11 +704,11 @@ Systemnachricht
 [Use Miranda default settings]
 
 [You were added by %s (%s%s%d)]
-
+Sie wurden von %s (%s%s%d) hinzugefügt.
 [You Were Added Message Sample]
 
 [Authorization request]
-
+Eingehende Autorisierungsanfrage
 [Your were added message]
 
 [Show events count in menu]

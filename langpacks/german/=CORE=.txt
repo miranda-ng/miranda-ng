@@ -519,11 +519,11 @@ Gruppierung aufheben
 [&Authorize]
 &Autorisieren
 [&Deny]
-Ablehnen
+&Ablehnen
 [Decide &Later]
-Später entscheiden
+&Später entscheiden
 [User &details]
-Kontaktprofil
+Kontakt&profil
 [Reason:]
 Grund:
 [Denial Reason:]
@@ -561,23 +561,23 @@ In %d schließen
 [&Send]
 &Senden
 [&Emoticons]
-
+Smil&eys
 [&Bold]
-Fett
+&Fett
 [&Italic]
-Kursiv
+&Kursiv
 [&Color]
-Farbe
+&Farbe
 [&Background color]
-Hintergrundfarbe
+&Hintergrundfarbe
 [&History]
-Verlauf
+&Verlauf
 [&Filter]
-Filter
+&Filter
 [&Room Settings]
-
+&Raumeinstellungen
 [&Show/hide nicklist]
-
+Nickliste &anzeigen/verbergen
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
 [Actions]
@@ -878,7 +878,7 @@ Fenster:
 [Contact list background:]
 Kontaktlisten-Hintergrund:
 [&Main menu]
-Hauptmenü
+&Hauptmenü
 [&Status]
 &Status
 [&Offline\tCtrl+0]
@@ -913,7 +913,7 @@ Erneut auswählen...
 [Total size:]
 Gesamtgröße:
 [&User menu]
-Kontaktmenü
+&Kontaktmenü
 [Incoming File Transfer]
 Eingehende Dateiübertragung
 [A&ccept]
@@ -929,9 +929,9 @@ Dateien:
 [Save to:]
 Speichern nach:
 [&Open...]
-Öffnen...
+&Öffnen...
 [Open &folder]
-Ordner öffnen
+&Verzeichnis öffnen
 [Transfer completed, open file(s).]
 Übertragung beendet, Datei(en) öffnen.
 [No data transferred]
@@ -1104,7 +1104,7 @@ Erneut versuchen
 [Message Session]
 Nachrichtensitzung
 [&Details]
-
+&Details
 [Message Window Event Log]
 Nachrichtenfenster-Ereignislog
 [Show names]
@@ -2566,7 +2566,7 @@ PNG-Bilder
 [Avatars]
 Avatare
 [Avatars root folder]
-
+Avatar-Hauptverzeichnis
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <unspezifiziert>

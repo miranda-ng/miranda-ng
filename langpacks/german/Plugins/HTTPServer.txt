@@ -55,7 +55,7 @@ URL-Adresse
 [Test]
 Testen
 [Transfer limit (Kb/s)]
-Verbindungsrate (Kb/s)
+Verbindungsrate (kB/Sek)
 [No control when Away/NA]
 Keine Kontrolle, wenn abwesend
 [Connection control]

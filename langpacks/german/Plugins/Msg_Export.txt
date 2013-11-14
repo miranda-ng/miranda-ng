@@ -78,7 +78,7 @@ Kopieren
 [Error: Optimal buffer size decrecied to a to low size!]
 
 [Internal error! (lExtraRead >= 0)]
-
+Interner Fehler! (lExtraRead >= 0)
 [Faile to execute external file view]
 
 [Failed to load Rich Edit ( RICHED32.DLL )]
@@ -106,7 +106,7 @@ Fehler beim Erzeugen der Datei
 [Failed to save file]
 
 [History was saved successfully in file\r\n]
-
+Verlauf wurde erfolgreich gespeichert in Datei\n
 [Failed to create history dialog]
 
 ;file \plugins\Msg_Export\src\Glob.h
@@ -270,6 +270,6 @@ Unbekannter Ereignistyp %d, Größe %d.
 [Failed to write Unknown event to the file :\n]
 
 [User has been deleted. Do you want to delete the file?]
-
+Benutzer wurde gelöscht. Möchten Sie die Datei löschen?
 [Failed to delete the file]
 Datei konnte nicht gelöscht werden

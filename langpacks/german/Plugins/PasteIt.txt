@@ -132,7 +132,7 @@ Sie können nur eine Datei einfügen.
 [Cannot get data from clipboard]
 Die Daten konnten nicht aus der Zwischenablage entnommen werden.
 [File size is %d KB, do you realy want to paste such a large file?]
-Die Dateigröße ist %d KB, wollen Sie wirklich so eine Große Datei einfügen?
+Die Dateigröße ist %d KB, wollen Sie wirklich so eine große Datei einfügen?
 [Are You sure?]
 Sind Sie sich sicher?
 [Cannot read file '%s']

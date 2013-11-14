@@ -302,7 +302,7 @@ Das Artikel zum löschen wurde in der Liste nicht gefunden.
 [Failed to add buddy to list: Item already exist.]
 Fehler Kontakt zur Liste hinzufügen: Dieser existiert bereits in Ihrer Liste!
 [Error adding buddy (invalid ID or already in list?)]
-Fehler beim Kontakt hinzufügen (falsche ID?, existiert bereits in Ihrer Liste?)
+Fehler beim Kontakt hinzufügen (falsche ID oder bereits in Ihrer Liste?)
 [Cannot add buddy. Limit for this type of item exceeded.]
 Kann den Kontakt nicht hinzufügen. Das Limit für diese Art wurde bereits überschritten.
 [Error? Attempting to add ICQ contact to an AIM list.]

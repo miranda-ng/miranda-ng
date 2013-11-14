@@ -27,7 +27,7 @@ Titel Datum
 [Title Time]
 Titel Zeit
 [Startup options]
-Startoptionen
+Starteinstellungen
 [Hide notes at startup]
 Notizen beim Start verbergen
 [Add Contact list menu items]

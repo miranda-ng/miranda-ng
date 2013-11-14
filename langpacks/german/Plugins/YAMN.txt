@@ -91,7 +91,7 @@ Trayiconhinweis bei Fehlern
 [Reset counter]
 Zähler zurücksetzen
 [Check while...]
-Prüfe, während
+Prüfe bei Status
 [Cancel]
 Abbrechen
 [Choose modes]
@@ -250,8 +250,6 @@ Teil
 Verbindung getrennt
 [POP3 protocol (internal)]
 POP3-Protokoll (intern)
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Mail-Benachrichtigung und -Browser für Miranda NG. Beinhaltet das POP3-Protokoll.
 [Found new version of account book, not compatible with this version of YAMN.]
 Neuere Version einer Kontodatei gefunden, die nicht kompatibel mit dieser Version von YAMN ist.
 [YAMN (internal POP3) read error]
