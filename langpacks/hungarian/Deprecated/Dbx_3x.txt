@@ -1,0 +1,54 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+Adatbázis beállítások telepítése
+[Yes]
+Igen
+[No]
+Nem
+[Do you want to import the settings now?]
+Akarod most importálni a beállításokat?
+[No to all]
+Nem, mindre
+[&View contents]
+Tartalom megtekintése
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Veszélyes változásokat figyelõ biztonsági rendszer van üzemben, és figyelmeztetni fognak a nem biztonságok változások elõtt.
+[Database Setting Change]
+Adatbázis beállítás módosult
+[Database settings are being imported from]
+Adatbázis importálása innen:
+[This file wishes to change the setting]
+Az a fájl szeretné módosítani a beállítást
+[to the value]
+érték
+[Do you want to allow this change?]
+Engedélyezed ezt a változást?
+[&Allow all further changes to this section]
+Minden további változtatás engedélyezése e részlegben
+[&Yes]
+&Igen
+[&No]
+&Nem
+[Cancel Import]
+Importálás megszakítása
+[Database Import Complete]
+Adatbázis importálás kész
+[The import has completed from]
+Az importálás befejezõdött innen:
+[What do you want to do with the file now?]
+Most mit szeretne tenni a fájllal?
+[&Recycle]
+Újrahasznosít
+[&Delete]
+&Törlés
+[&Move/Rename]
+Mozgat/átnevez
+[&Leave]
+&Kilépés

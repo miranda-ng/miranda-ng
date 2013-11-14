@@ -1,0 +1,58 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
+;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+Konfigurace databáze
+[Yes]
+Ano
+[No]
+Ne
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Do adresáře s programem Miranda byl umístěn soubor ke konfiguraci databáze uživatele.
+[Do you want to import the settings now?]
+Chcete naimportovat tento konfigurační soubor?
+[No to all]
+Ne všem
+[&View contents]
+Zobrazit o&bsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
+[Database Setting Change]
+Změna konfigurace databáze
+[Database settings are being imported from]
+Importovaný konfigurační soubor
+[This file wishes to change the setting]
+Požadavek na změnu položky
+[to the value]
+na hodnotu
+[Do you want to allow this change?]
+Chcete povolit úpravu této položky?
+[&Allow all further changes to this section]
+&Povolit všechny další úpravy v této sekci
+[&Yes]
+&Ano
+[&No]
+&Ne
+[Cancel Import]
+Zrušit import
+[Database Import Complete]
+Import databáze dokončen
+[The import has completed from]
+Import nastavení dokončen; z
+[What do you want to do with the file now?]
+Co chcete udělat s tímto souborem?
+[&Recycle]
+Př&esunout do koše
+[&Delete]
+&Smazat
+[&Move/Rename]
+Přesunout/Přej&menovat
+[&Leave]
+Ode&jít

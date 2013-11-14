@@ -1,0 +1,56 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+Veritabanı Ayarlarını Kur
+[Yes]
+Evet
+[No]
+Hayır
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Yeni veritabanı ayarlarını içeren bir dosya Miranda NG klasörüne yerleştirildi.
+[Do you want to import the settings now?]
+Ayarları şimdi almak istiyor musunuz?
+[No to all]
+Tümüne hayır
+[&View contents]
+İçeri&kleri göster
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Tehlikeli değişiklikleri engelleyen bir güvenlik sistemi var ve güvenli olmayan değişiklikleri yapmadan önce uyarılacaksınız.
+[Database Setting Change]
+Veritabanı Ayarları Değişti
+[Database settings are being imported from]
+Veritabanı ayarları şuradan alındı
+[This file wishes to change the setting]
+Bu dosya ayarın değiştirilmesini gerektiriyor
+[to the value]
+değerine
+[Do you want to allow this change?]
+Bu değişikliği onaylıyor musunuz?
+[&Allow all further changes to this section]
+Bu bölümde sonr&aki tüm değişikliklere izin ver
+[&Yes]
+&Evet
+[&No]
+&Hayır
+[Cancel Import]
+Al işlemini iptal et
+[Database Import Complete]
+Veritabanı Alındı
+[The import has completed from]
+Şuradan alma tamamlandı
+[What do you want to do with the file now?]
+Dosyayla şimdi ne yapmak istiyorsunuz?
+[&Recycle]
+Tek&rarla
+[&Delete]
+&Sil
+[&Move/Rename]
+&Taşı/Yeniden adlandır
+[&Leave]
+Ayrı&l

@@ -1,0 +1,64 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+Intalar configurações do Banco de dados
+[Yes]
+Sim
+[Yes]
+Sim
+[No]
+Não
+[No]
+Não
+[No]
+Não
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Um arquivo contendo novas opções da base de dados foi colocado na pasta do Miranda NG BR.
+[Do you want to import the settings now?]
+Você deseja importar as configurações agora?
+[No to all]
+Não para todos
+[&View contents]
+&Exibir conteúdo
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Sistemas de segurança para prevenir alterações maliciosas estão funcionais e será avisado antes que essas alterações sejam efetuadas.
+[Database Setting Change]
+Alterar configuração do Banco de Dados
+[Database settings are being imported from]
+Configuração do banco de dados sendo importada de
+[This file wishes to change the setting]
+Este arquivo está a tentar alterar a configuração
+[to the value]
+para o valor
+[Do you want to allow this change?]
+Você deseja permitir essa mudança?
+[&Allow all further changes to this section]
+&Permitir futuras alterações nesta seção
+[&Yes]
+&Sim
+[&No]
+&Não
+[Cancel Import]
+Cancelar importação
+[Database Import Complete]
+Importação do Banco de dados completa
+[The import has completed from]
+A importação foi completada de
+[What do you want to do with the file now?]
+O que você deseja fazer com o arquivo agora?
+[&Recycle]
+&Lixeira
+[&Delete]
+&Excluir
+[&Delete]
+&Apagar
+[&Move/Rename]
+&Mover/Renomear
+[&Leave]
+&Deixar

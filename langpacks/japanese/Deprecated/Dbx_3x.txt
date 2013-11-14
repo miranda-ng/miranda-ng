@@ -1,0 +1,56 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+データベース設定をインストール
+[Yes]
+はい
+[No]
+いいえ
+[A file containing new database settings has been placed in the Miranda NG directory.]
+新規データベースの設定ファイルは Miranda NG フォルダー内にあります
+[Do you want to import the settings now?]
+今すぐ設定をインポートしますか ？
+[No to all]
+全てをいいえ
+[&View contents]
+コンテンツを見る (&V)
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+悪意のある変更を防ぐためにセキュリティシステムを内蔵されています。安全が保証されていない変更が行なわれる際に警告します
+[Database Setting Change]
+データベースの設定変更
+[Database settings are being imported from]
+データベースの設定は以下からインポート中
+[This file wishes to change the setting]
+このファイルは設定変更が必要です
+[to the value]
+割り当て
+[Do you want to allow this change?]
+この変更を許可しますか ?
+[&Allow all further changes to this section]
+このセクションへの全ての追加変更を許可する (&A)
+[&Yes]
+はい (&Y)
+[&No]
+いいえ (&N)
+[Cancel Import]
+インポートをキャンセル
+[Database Import Complete]
+データベースのインポートが完了しました
+[The import has completed from]
+以下からのインポートは完了しました:
+[What do you want to do with the file now?]
+このファイルに何をしますか？
+[&Recycle]
+リサイクル (&R)
+[&Delete]
+削除 (&D)
+[&Move/Rename]
+移動 / 名称変更 (&M)
+[&Leave]
+終了する (&L)

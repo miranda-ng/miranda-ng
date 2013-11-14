@@ -1,0 +1,21 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: dbx_3x.dll
+;  Module: Miranda database driver
+;  Versions: 0.10.2.0
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/db3x/
+;  Authors: Miranda-IM project
+;============================================================
+[db3x Plugin]
+Плагин db3x
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
+[Backup periodically:]
+Резервировать периодически:
+[Backup when Miranda exits]
+Резервировать при выходе
+[Backup when Miranda starts]
+Резервировать при старте
+[db3x driver]
+db3x драйвер

@@ -1,0 +1,57 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів і т.і.
+[Install Database Settings]
+Встановити налаштування бази даних
+[Yes]
+Так
+[No]
+Ні
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Файл з новими налаштуваннями бази даних був поміщений в каталог Miranda NG.
+[Do you want to import the settings now?]
+Імпортувати налаштування зараз?
+[No to all]
+Ні для всіх
+[&View contents]
+&Вміст
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Система безпеки для запобігання небажаних змін активна і ви будете попереджені перед небезпечними змінами.
+[Database Setting Change]
+Зміна налаштувань бази даних
+[Database settings are being imported from]
+Налаштування імпортуються з
+[This file wishes to change the setting]
+Цей файл змінює налаштування
+[to the value]
+на величину
+[Do you want to allow this change?]
+Дозволити зміну?
+[&Allow all further changes to this section]
+&Дозволити всі зміни в цій секції
+[&Yes]
+&Так
+[&No]
+&Ні
+[Cancel Import]
+Скасувати імпорт
+[Database Import Complete]
+Імпорт бази завершено
+[The import has completed from]
+Імпорт завершено з
+[What do you want to do with the file now?]
+Що ви бажаєте зробити з файлом?
+[&Recycle]
+&Використовувати знову
+[&Delete]
+&Видалити
+[&Move/Rename]
+&Перемістити/перейменувати
+[&Leave]
+&Залишити

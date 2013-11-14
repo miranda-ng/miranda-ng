@@ -1,0 +1,54 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+Instalar Configuración de base de datos
+[Yes]
+Si
+[No]
+No
+[Do you want to import the settings now?]
+Un archivo que contiene la nueva configuración de base de datos se ha colocado en el directorio de Miranda NG.
+[No to all]
+No a todos los
+[&View contents]
+&Ver el contenido
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advertirá antes de los cambios que no se sabe que son seguros.
+[Database Setting Change]
+Cambiar la configuración de base de datos
+[Database settings are being imported from]
+configuración de base de datos se importan de
+[This file wishes to change the setting]
+Este archivo desea cambiar el settin
+[to the value]
+al valor
+[Do you want to allow this change?]
+¿Desea permitir que este cambio?
+[&Allow all further changes to this section]
+&Permitir a todos los nuevos cambios en esta sección
+[&Yes]
+&Si
+[&No]
+&No
+[Cancel Import]
+Cancelar importación
+[Database Import Complete]
+Completa base de datos de importación
+[The import has completed from]
+La importación ha terminado de
+[What do you want to do with the file now?]
+¿Qué quieres hacer con el archivo ahora?
+[&Recycle]
+&Reciclar
+[&Delete]
+&Eliminar
+[&Move/Rename]
+&Mover / Renombrar
+[&Leave]
+&Deja

@@ -1,0 +1,58 @@
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Miranda NG database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt.
+;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+Datenbankeinstellungen installieren
+[Yes]
+Ja
+[No]
+Nein
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Eine Datei mit neuen Profileinstellungen wurde im Miranda NG Verzeichnis gefunden.
+[Do you want to import the settings now?]
+Möchten Sie die Einstellungen jetzt importieren?
+[No to all]
+Nein für alle
+[&View contents]
+Inhalt zeigen
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet, und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
+[Database Setting Change]
+Änderung Profileinstellungen
+[Database settings are being imported from]
+Datenbankeinstellungen werden importiert von
+[This file wishes to change the setting]
+Diese Datei möchte die Einstellungen ändern
+[to the value]
+auf den Wert
+[Do you want to allow this change?]
+Diese Änderungen zulassen?
+[&Allow all further changes to this section]
+&Alle weiteren Änderungen in diesem Bereich erlauben
+[&Yes]
+Ja
+[&No]
+&Nein
+[Cancel Import]
+Import abbrechen
+[Database Import Complete]
+Datenbank-Import abgeschlossen
+[The import has completed from]
+Der Import wurde abgeschlossen von
+[What do you want to do with the file now?]
+Was wollen Sie mit der Datei jetzt tun?
+[&Recycle]
+Wiede&rherstellen
+[&Delete]
+Löschen
+[&Move/Rename]
+Verschieben/U&mbenennen
+[&Leave]
+Ver&lassen
