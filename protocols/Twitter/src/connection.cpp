@@ -535,9 +535,9 @@ void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
 		popup.colorBack = GetSysColor(COLOR_WINDOWTEXT);
 
 	DBVARIANT dbv;
-	if( !db_get_s(hContact,"CList","MyHandle",&dbv) || !db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if( !db_get_ts(hContact,"CList","MyHandle",&dbv) || !db_get_ts(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
-		mbcs_to_tcs(CP_UTF8,dbv.pszVal,popup.lptzContactName,MAX_CONTACTNAME);
+		_tcsncpy(popup.lptzContactName,dbv.ptszVal,MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 
