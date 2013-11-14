@@ -52,10 +52,11 @@ struct MICryptoEngine
 	STDMETHOD_(WCHAR*, decodeStringW)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
 };
 
-//registers a crypto provider v0.94+
-//wParam = (int)hLangpack
-//lParam = (CRYPTO_PROVIDER*)
-//returns HANDLE on success or NULL on failure
+/////////////////////////////////////////////////////////////////////////////////////////
+// registers a crypto provider v0.94+
+// wParam = (int)hLangpack
+// lParam = (CRYPTO_PROVIDER*)
+// returns HANDLE on success or NULL on failure
 
 typedef MICryptoEngine* (__cdecl *pfnCryptoProviderFactory)(void);
 
@@ -83,12 +84,25 @@ typedef struct tagCRYPTOPROVIDER
 }
 	CRYPTO_PROVIDER;
 
-#define MS_CRYPTO_REGISTER_ENGINE "SRCrypto/RegisterEngine"
+#define MS_CRYPTO_REGISTER_ENGINE "Crypto/RegisterEngine"
 
 __forceinline HANDLE Crypto_RegisterEngine(CRYPTO_PROVIDER *pProvider)
 {
 	extern int hLangpack;
 	return (HANDLE)CallService(MS_CRYPTO_REGISTER_ENGINE, hLangpack, (LPARAM)pProvider);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// retrieves list of all available crypto providers
+// wParam = (WPARAM)(int*)piNumProviders
+// lParam = (CRYPTO_PROVIDER***)pointer to an array of CRYPTO_PROVIDER*
+// always returns 0
+
+#define MS_CRYPTO_ENUM_PROVIDERS "Crypto/EnumProviders"
+
+__forceinline void Crypto_EnumProviders(int *numProvs, CRYPTO_PROVIDER ***pResult)
+{
+	CallService(MS_CRYPTO_ENUM_PROVIDERS, WPARAM(numProvs), LPARAM(pResult));
 }
 
 #endif // M_CRYPTO_H__

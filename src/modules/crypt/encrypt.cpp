@@ -74,6 +74,15 @@ static INT_PTR srvRegister(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR srvEnumProviders(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam && lParam) {
+		*(int*)wParam = arProviders.getCount();
+		*(CRYPTO_PROVIDER***)lParam = arProviders.getArray();
+	}
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int InitCrypt(void)
@@ -82,6 +91,7 @@ int InitCrypt(void)
 	CreateServiceFunction(MS_DB_CRYPT_DECODESTRING, DecodeString);
 
 	CreateServiceFunction(MS_CRYPTO_REGISTER_ENGINE, srvRegister);
+	CreateServiceFunction(MS_CRYPTO_ENUM_PROVIDERS,  srvEnumProviders);
 	return 0;
 }
 
