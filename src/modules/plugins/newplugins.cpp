@@ -413,7 +413,7 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 		BASIC_PLUGIN_INFO bpi;
 		if ( checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			// plugin is valid
-			p->pclass |= ((bIsDb ? PCLASS_DB : PCLASS_OK) | PCLASS_BASICAPI);
+			p->pclass |= ((bIsDb ? PCLASS_DB : PCLASS_CRYPT) | PCLASS_BASICAPI);
 			// copy the dblink stuff
 			p->bpi = bpi;
 
@@ -849,7 +849,7 @@ void UnloadNewPluginsModule(void)
 	// unload everything but the DB
 	for (int i = pluginList.getCount()-1; i >= 0; i--) {
 		pluginEntry* p = pluginList[i];
-		if ( !(p->pclass & PCLASS_DB) && p != pluginList_crshdmp)
+		if (!(p->pclass & (PCLASS_DB | PCLASS_CRYPT)) && p != pluginList_crshdmp)
 			Plugin_Uninit(p);
 	}
 

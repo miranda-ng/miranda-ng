@@ -204,6 +204,7 @@ protected:
 	virtual	int   InitCache(void) = 0;
 
 protected:
+	int InitCrypt(void);
 	virtual	void EncodeCopyMemory(void *dst, void *src, size_t size);
 	virtual	void DecodeCopyMemory(void *dst, void *src, size_t size);
 	virtual	void EncodeDBWrite(DWORD ofs, void *src, int size);
@@ -223,7 +224,9 @@ protected:
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;
 	bool     m_safetyMode, m_bReadOnly;
-	
+
+	MICryptoEngine *m_crypto;
+
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
 public:	

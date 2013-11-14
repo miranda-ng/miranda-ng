@@ -37,6 +37,7 @@ struct BASIC_PLUGIN_INFO
 #define PCLASS_CLIST     0x80   // a CList implementation
 #define PCLASS_SERVICE  0x100   // has Service Mode implementation
 #define PCLASS_CORE     0x200   // a plugin from the /Core directory
+#define PCLASS_CRYPT    0x400   // crypto provider
 
 struct pluginEntry
 {

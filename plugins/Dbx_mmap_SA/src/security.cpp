@@ -69,37 +69,27 @@ void CDbxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 
-	if (!m_bEncoding)
-		return;
-
-	CryptoEngine->EncryptMem((BYTE *)dst, (int)size, key);
+	if (m_bEncoding)
+		CryptoEngine->EncryptMem((BYTE *)dst, (int)size, key);
 }
 
 void CDbxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 
-	if (!m_bEncoding)
-		return;
-
-	CryptoEngine->DecryptMem((BYTE *)dst, (int)size, key);
+	if (m_bEncoding)
+		CryptoEngine->DecryptMem((BYTE *)dst, (int)size, key);
 }
 
 void CDbxMmapSA::EncodeDBWrite(DWORD ofs, void *src, int size)
 {
-	if (m_bEncoding)
-	{
-		BYTE * buf;
-
-		buf = (BYTE*)GlobalAlloc(GPTR, sizeof(BYTE)*size);
+	if (m_bEncoding) {
+		BYTE *buf = (BYTE*)GlobalAlloc(GPTR, sizeof(BYTE)*size);
 		EncodeCopyMemory(buf, src, size);
 		DBWrite(ofs, buf, (int)size);
 		GlobalFree(buf);
 	}
-	else
-	{
-		DBWrite(ofs, src, (int)size);
-	}
+	else DBWrite(ofs, src, (int)size);
 }
 
 void CDbxMmapSA::DecodeDBWrite(DWORD ofs, void *src, int size)
@@ -242,9 +232,8 @@ void CDbxMmapSA::EncryptDB()
 		return;
 	}
 
-	if (SelectEncoder()) {
+	if (SelectEncoder())
 		return;
-	}
 
 	bEncProcess = 1;
 

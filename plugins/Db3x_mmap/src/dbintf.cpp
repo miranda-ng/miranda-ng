@@ -58,7 +58,7 @@ CDb3Base::CDb3Base(const TCHAR *tszFileName) :
 	m_ChunkSize = sinf.dwAllocationGranularity;
 
 	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-	m_hModHeap = HeapCreate(0,0,0);
+	m_hModHeap = HeapCreate(0, 0, 0);
 }
 
 CDb3Base::~CDb3Base()
@@ -71,11 +71,14 @@ CDb3Base::~CDb3Base()
 	m_lOfs.destroy();
 
 	// destroy map
-	KillTimer(NULL,m_flushBuffersTimerId);
+	KillTimer(NULL, m_flushBuffersTimerId);
 	if (m_pDbCache) {
 		FlushViewOfFile(m_pDbCache, 0);
 		UnmapViewOfFile(m_pDbCache);
 	}
+
+	if (m_crypto)
+		m_crypto->destroy();
 
 	if (m_hMap)
 		CloseHandle(m_hMap);
@@ -114,6 +117,7 @@ int CDb3Base::Load(bool bSkipInit)
 	if ( !bSkipInit) {
 		if (InitCache()) return 1;
 		if (InitModuleNames()) return 1;
+		if (InitCrypt()) return 1;
 
 		m_bReadOnly = false;
 
@@ -140,26 +144,6 @@ STDMETHODIMP_(void) CDb3Base::SetCacheSafetyMode(BOOL bIsSet)
 		m_safetyMode = bIsSet != 0;
 	}
 	DBFlush(1);
-}
-
-void CDb3Base::EncodeCopyMemory(void *dst, void *src, size_t size)
-{
-	MoveMemory(dst, src, size);
-}
-
-void CDb3Base::DecodeCopyMemory(void *dst, void *src, size_t size)
-{
-	MoveMemory(dst, src, size);
-}
-
-void CDb3Base::EncodeDBWrite(DWORD ofs, void *src, int size)
-{
-	DBWrite(ofs, src, size);
-}
-
-void CDb3Base::DecodeDBWrite(DWORD ofs, void *src, int size)
-{
-	DBWrite(ofs, src, size);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

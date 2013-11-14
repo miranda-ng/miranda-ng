@@ -34,6 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_langpack.h>
+#include <m_crypto.h>
 
 #include "database.h"
 #include "dbintf.h"

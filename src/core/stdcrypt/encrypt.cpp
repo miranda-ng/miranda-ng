@@ -34,7 +34,7 @@ void CStdCrypt::destroy()
 
 size_t CStdCrypt::getKeyLength()
 {
-	return m_aes.GetKeyLength();
+	return KEY_LENGTH;
 }
 
 bool CStdCrypt::getKey(BYTE *pKey, size_t cbKeyLen)
@@ -65,10 +65,12 @@ int CStdCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
 void CStdCrypt::generateKey(void)
 {
 	LARGE_INTEGER counter;
+	QueryPerformanceCounter(&counter);
+	srand(counter.LowPart);
+
 	for (int i = 0; i < sizeof(m_key); i++) {
-		QueryPerformanceCounter(&counter);
-		srand(counter.LowPart);
 		m_key[i] = (BYTE)rand();
+		Sleep(0);
 	}
 
 	m_aes.MakeKey(m_key, m_password, KEY_LENGTH, BLOCK_SIZE);
