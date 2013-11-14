@@ -36,7 +36,7 @@ begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
   PluginInfo.shortName  :='Quick Search';
-  PluginInfo.version    :=$01040113;
+  PluginInfo.version    :=$01040114;
   PluginInfo.description:=
     'This plugin allows you to quick search for nickname, '+
     'firstname, lastname, email, uin in your contact list. '+
