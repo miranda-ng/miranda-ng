@@ -16,7 +16,6 @@ uses
   sr_optdialog,
   sr_global,
   sr_window,
-  sr_frame,
   mirutils,
   common;
 
@@ -198,8 +197,6 @@ begin
   onstatus :=HookEvent(ME_CLIST_CONTACTICONCHANGED,@OnStatusChanged);
 //  onaccount:=HookEvent(ME_PROTO_ACCLISTCHANGED    ,@OnAccountChanged);
   HookEvent(ME_TTB_MODULELOADED,@OnTTBLoaded);
-
-  CreateFrame(0);
   Result:=0;
 end;
 
@@ -216,7 +213,6 @@ function Unload:Integer;cdecl;
 begin
   result:=0;
   removetoolbar; //??
-  DestroyFrame;
 
   DestroyServiceFunction(servshow);
   UnhookEvent(opthook);

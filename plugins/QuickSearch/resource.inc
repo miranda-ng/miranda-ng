@@ -2,7 +2,6 @@ const
   IDD_DIALOG1            = 101;
   IDD_MAIN               = 102;
   IDD_SCRIPT             = 103;
-  IDD_FRAME              = 104;
 
   IDI_QS                 = 107;
 
@@ -17,11 +16,6 @@ const
   IDI_MALE               = 120;
   IDI_FEMALE             = 121;
 
-  IDC_FRAME_EDIT         = 1025;
-  IDC_FRAME_PREV         = 1026;
-  IDC_FRAME_NEXT         = 1027;
-  IDC_FRAME_OPEN         = 1028;
-  
   IDC_NEW                = 1001;
   IDC_DELETE             = 1002;
   IDC_UP                 = 1003;
