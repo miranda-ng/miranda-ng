@@ -341,6 +341,7 @@ static renameTable[] =
 	{ _T("ttnotify.dll"),                   _T("Plugins\\tooltipnotify.dll") },
 	{ _T("newstatusnotify.dll"),            _T("Plugins\\newxstatusnotify.dll") },
 	{ _T("rss.dll"),                        _T("Plugins\\newsaggregator.dll") },
+	{ _T("dbx_3x.dll"),                     _T("Plugins\\dbx_mmap.dll") },
 
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
 	{ _T("clienticons_general.dll"),        _T("Icons\\fp_icons.dll") },
@@ -402,13 +403,8 @@ static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 static bool isValidExtension(const TCHAR *ptszFileName)
 {
 	const TCHAR *pExt = _tcsrchr(ptszFileName, '.');
-	if (pExt == NULL)
-		return false;
 
-	if ( !_tcsicmp(pExt, _T(".dll"))) return true;
-	if ( !_tcsicmp(pExt, _T(".exe"))) return true;
-	if ( !_tcsicmp(pExt, _T(".txt"))) return true;
-	return false;
+	return (pExt != NULL) && (!_tcsicmp(pExt, _T(".dll")) || !_tcsicmp(pExt, _T(".exe")) || !_tcsicmp(pExt, _T(".txt")));
 }
 
 static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
