@@ -83,6 +83,16 @@ static INT_PTR srvEnumProviders(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR srvGetProvider(WPARAM wParam, LPARAM lParam)
+{
+	if (lParam == 0)
+		return 0;
+
+	CRYPTO_PROVIDER tmp;
+	tmp.pszName = (LPSTR)lParam;
+	return (INT_PTR)arProviders.find(&tmp);
+}	
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int InitCrypt(void)
@@ -92,6 +102,7 @@ int InitCrypt(void)
 
 	CreateServiceFunction(MS_CRYPTO_REGISTER_ENGINE, srvRegister);
 	CreateServiceFunction(MS_CRYPTO_ENUM_PROVIDERS,  srvEnumProviders);
+	CreateServiceFunction(MS_CRYPTO_GET_PROVIDER,    srvGetProvider);
 	return 0;
 }
 

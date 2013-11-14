@@ -105,4 +105,17 @@ __forceinline void Crypto_EnumProviders(int *numProvs, CRYPTO_PROVIDER ***pResul
 	CallService(MS_CRYPTO_ENUM_PROVIDERS, WPARAM(numProvs), LPARAM(pResult));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// retrieves a crypto provider by name
+// wParam = 0 (unused)
+// lParam = (const char*)pszProviderName = CRYPTO_PROVIDER::pszName
+// returns 0 on fail or CRYPTO_PROVIDER* on success
+
+#define MS_CRYPTO_GET_PROVIDER "Crypto/GetProvider"
+
+__forceinline CRYPTO_PROVIDER* Crypto_GetProvider(const char *pszName)
+{
+	return (CRYPTO_PROVIDER*)CallService(MS_CRYPTO_GET_PROVIDER, 0, LPARAM(pszName));
+}
+
 #endif // M_CRYPTO_H__
