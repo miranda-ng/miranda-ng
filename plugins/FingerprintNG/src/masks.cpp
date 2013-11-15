@@ -520,11 +520,11 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################################################
 	{"client_MRA_official",     _T("|magent*|Mail.ru Agent*official*")
                                 _T("|Mail.ru Agent*PC*")
-                                _T("|*agent.mail.ru*"),                     LPGENT("Mail.Ru Agent (official)"),     IDI_MAIL_RU_OFFICIAL,    MRA_CASE,           TRUE    },
+                                _T("|*agent.mail.ru*"),                    LPGENT("Mail.Ru Agent (official)"),     IDI_MAIL_RU_OFFICIAL,    MRA_CASE,           TRUE    },
 	{"client_MRA_Mobile",       _T("|wmagent*|MobileAgent*")
                                 _T("|sagent*|Mail.ru Agent*Symbian*")
-                                _T("|jagent*"),                                 _T("Mail.Ru Mobile Agent"),         IDI_MAIL_RU_MOBILE,      MRA_CASE,           TRUE    },
-	{"client_MRA_web",          _T("Web Agent*"),                               _T("Mail.Ru Web Agent"),            IDI_MAIL_RU_WEBAGENT,    MRA_CASE,           TRUE    },
+                                _T("|jagent*"),                                _T("Mail.Ru Mobile Agent"),         IDI_MAIL_RU_MOBILE,      MRA_CASE,           TRUE    },
+	{"client_MRA_web",          _T("|webagent*|*Web Agent*"),                   _T("Mail.Ru Web Agent"),            IDI_MAIL_RU_WEBAGENT,    MRA_CASE,           TRUE    },
 	{"client_MRA_unknown",      _T("Mail.ru Agent*"),                       LPGENT("Mail.Ru (unknown client)"),     IDI_MAIL_RU_UNKNOWN,     MRA_CASE,           TRUE    },
 
 //#########################################################################################################################################################################
