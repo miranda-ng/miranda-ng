@@ -146,7 +146,6 @@
 [Pin Popup]
 [Pinned Popup]
 [Send Message]
-[User Details]
 [Contact Menu]
 [Add Contact Permanently]
 [Dismiss Popup]

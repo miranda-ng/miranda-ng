@@ -244,7 +244,7 @@
 [&Reset to default]
 [find/add]
 [&Add to List]
-[User &Details]
+[User &details]
 [Send &Message]
 [Log]
 [&Copy]
@@ -261,7 +261,6 @@
 [&Authorize]
 [&Deny]
 [Decide &Later]
-[User &details]
 [Reason:]
 [Denial Reason:]
 [Add to contact list if authorized]
@@ -905,6 +904,8 @@
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 ;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 [Send e-mail]
@@ -1069,7 +1070,6 @@
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 [De&lete]
@@ -1286,7 +1286,7 @@
 [Tick]
 [No Tick]
 [Help]
-[Miranda Website]
+[Miranda website]
 [Small Dot]
 [Filled Blob]
 [Empty Blob]
@@ -1296,7 +1296,7 @@
 [Unloaded plugin]
 [Show/Hide]
 [Exit]
-[Main Menu]
+[Main menu]
 [Leave chat]
 [Move to Group]
 [On]

@@ -442,7 +442,6 @@
 [(Unknown Contact)]
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
-[&Main Menu]
 [&Options...]
 [&About]
 ;file \plugins\Clist_modern\src\modern_clui.cpp
@@ -525,16 +524,14 @@
 [Center]
 [Right]
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
 [Main menu]
-[Status Menu]
 [Status menu]
 [Accounts]
 [Accounts...]
 [Show/Hide offline contacts]
 [Hide offline contacts]
 [Show offline contacts]
-[Find User]
+[Find user]
 [Use/Disable groups]
 [Use groups]
 [Disable Groups]

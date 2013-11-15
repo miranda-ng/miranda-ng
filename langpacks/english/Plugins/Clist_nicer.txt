@@ -444,7 +444,6 @@
 [Floating]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
-[&Main Menu]
 [&Options...]
 [&About the contact list...]
 [&New SubGroup]

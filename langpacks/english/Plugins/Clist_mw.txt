@@ -191,7 +191,6 @@
 [(Unknown Contact)]
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
-[&Main Menu]
 [&Options...]
 [&About]
 ;file \plugins\Clist_mw\src\clui.cpp
