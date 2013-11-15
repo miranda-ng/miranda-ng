@@ -114,7 +114,7 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 					zipCloseFileInZip( hZip );
 				}
 				char szComment[128];
-				mir_snprintf(szComment, SIZEOF(szComment), "Miranda NG Database\r\nCreated by: %s %d.%d.%d.%d\r\n", __PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM); 
+				mir_snprintf(szComment, SIZEOF(szComment), "%s\r\n%s %s %d.%d.%d.%d\r\n", Translate("Miranda NG database"), Translate("Created by:"), __PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 				zipClose( hZip, szComment);
 			}
 			CloseHandle( hSrc );
@@ -126,22 +126,25 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 
 INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR fname_buff[MAX_PATH], szFilter[128];
+	TCHAR fname_buff[MAX_PATH], tszFilter[210];
 	OPENFILENAME ofn = {0};
 	CallService(MS_DB_GETPROFILENAMET,MAX_PATH,(LPARAM)fname_buff);
 
-	int i = mir_sntprintf(szFilter, 64, _T("%s (*.dat)"), TranslateT("Miranda databases")) + 1;
-	_tcscpy(szFilter + i, _T("*.dat")); 
+	int i = mir_sntprintf(tszFilter, 64, _T("%s (*.dat)"), TranslateT("Miranda NG databases")) + 1;
+	_tcscpy(tszFilter + i, _T("*.dat")); 
 	i += 6;
-	i += mir_sntprintf(szFilter + i, 48, _T("%s (*.*)"), TranslateT("All Files")) + 1;
-	_tcscpy(szFilter + i, _T("*"));
-	szFilter[i + 2] = 0;
+	i += mir_sntprintf(tszFilter + i, 84, _T("%s (*.zip)"), TranslateT("Compressed Miranda NG databases")) + 1;
+	_tcscpy(tszFilter + i, _T("*.zip"));
+	i += 6;
+	i += mir_sntprintf(tszFilter + i, 48, _T("%s (*.*)"), TranslateT("All Files")) + 1;
+	_tcscpy(tszFilter + i, _T("*"));
+	tszFilter[i + 2] = 0;
 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = fname_buff;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_NOREADONLYRETURN | OFN_OVERWRITEPROMPT;
-	ofn.lpstrFilter = szFilter;
+	ofn.lpstrFilter = tszFilter;
 	ofn.nFilterIndex = 1;
 	ofn.lpstrDefExt = _T("dat");
 
@@ -198,7 +201,7 @@ int RotateBackups()
 	if (i > 0)
 		qsort(bf, i+1, sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
 
-	for(;i >= options.num_backups - 1 && bf[i].Name[0]; i--){
+	for(;i >= options.num_backups - 1; i--){
 		mir_sntprintf(backupfilename1, MAX_PATH, _T("%s\\%s"), backupfolder, bf[i].Name);
 		DeleteFile(backupfilename1);
 	}
@@ -214,17 +217,17 @@ void BackupThread(void* backup_filename)
 
 int Backup(TCHAR* backup_filename)
 {
-	TCHAR source_file[MAX_PATH] = {0}, dest_file[MAX_PATH] = {0};
-	BOOL bZip = FALSE;
+	TCHAR source_file[MAX_PATH] = { 0 }, dest_file[MAX_PATH] = { 0 };
+	bool bZip = false;
 
 	CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)dbname);
 
 	if (backup_filename == NULL)
 	{
 		SYSTEMTIME st;
-		TCHAR buffer[MAX_COMPUTERNAME_LENGTH+1];
+		TCHAR buffer[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = sizeof(buffer);
-		bZip = options.use_zip;
+		bZip = options.use_zip != 0;
 
 		TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
@@ -235,21 +238,21 @@ int Backup(TCHAR* backup_filename)
 
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
-		mir_sntprintf(dest_file, MAX_PATH, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip? _T("zip") : _T("dat"));
+		mir_sntprintf(dest_file, MAX_PATH, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? _T("zip") : _T("dat"));
 		mir_free(backupfolder);
+		RotateBackups();
 	}
 	else
+	{
 		lstrcpyn(dest_file, backup_filename, MAX_PATH);
-
+		if (!_tcscmp(_tcsrchr(backup_filename, _T('.')), _T(".zip")))
+			bZip = true;
+	}
 	if (!options.disable_popups)
 		ShowPopup(dbname, TranslateT("Backup in progress"));
 
-	if (!options.disable_progress) {
+	if (!options.disable_progress)
 		progress_dialog = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, DlgProcProgress);
-		SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Rotating backup files..."));
-	}
-
-	RotateBackups();
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
@@ -269,7 +272,7 @@ int Backup(TCHAR* backup_filename)
 			HANDLE hFile = CreateFile(dest_file, FILE_WRITE_ATTRIBUTES, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			GetSystemTime(&st);
 			SystemTimeToFileTime(&st, &ft);
-			SetFileTime(hFile,	(LPFILETIME) NULL, (LPFILETIME) NULL, &ft);
+			SetFileTime(hFile, NULL, NULL, &ft);
 			CloseHandle(hFile);
 		}
 		SendMessage(GetDlgItem(progress_dialog, IDC_PROGRESS), PBM_SETPOS, (WPARAM)(100), 0);
