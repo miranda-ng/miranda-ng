@@ -1786,7 +1786,7 @@ Globalne
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\encrypt.cpp
 [Standard crypto provider]
-
+Standardowe wsparcie szyfrowania
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Użytkownik nie zarejestrował adresu e-mail
