@@ -24,7 +24,7 @@ OK
 
 [Generate key]
 
-[Select key for use]
+[Select key to use]
 
 [Key password:]
 
@@ -108,7 +108,7 @@ Importovat
 
 [Decrypt]
 
-[Received encrypted file form contact with disabled encryption.]
+[Received encrypted file from contact with disabled encryption.]
 
 [Remember choice]
 
@@ -130,8 +130,6 @@ Importovat
 
 [Export PubKey]
 
-[Select own key]
-
 [Turn on debug log]
 
 [Use jabber api on Miranda NG (recomended)]
@@ -143,6 +141,8 @@ Importovat
 [Automatic key exchange]
 
 [Copy own key]
+
+[Select own key]
 
 [Add tags to encoded and decoded messages]
 

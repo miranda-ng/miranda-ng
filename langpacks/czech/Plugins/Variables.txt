@@ -175,9 +175,9 @@ Metakontakty
 
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
-[path to current miranda profile]
+[path to current Miranda profile]
 cesta k aktuálnímu profilu Mirandy
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%

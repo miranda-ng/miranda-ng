@@ -54,8 +54,8 @@ Soubory záznamů
 Aktivovat záznam
 [Log directory]
 Složka pro záznam
-[Maximum size for log files (in kB)]
-Maximální velikost souboru záznamu (v kB)
+[Maximum size for log files (in KB)]
+Maximální velikost souboru záznamu (v KB)
 [Group chat log formatting]
 Formátování záznamu chatu
 [Your name]
@@ -154,6 +154,17 @@ Panely
 Zavřít ostatní zá&ložky
 [&Open at this position]
 &Otevřít na stejném místě
+;file \plugins\TabSRMM\res\msgwindow.rc
+[&Retry]
+&Opakovat
+[&Cancel]
+&Zrušit
+[&Send]
+Po&slat
+[&Add]
+Přid&at
+[&Remove]
+Odst&ranit
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
 TabSRMM výjimka
@@ -2169,9 +2180,9 @@ název protokolu stávajícího kontaktu (pokud je definován). Název účtu je
 Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
-[path to current miranda profile]
+[path to current Miranda profile]
 cesta k aktuálnímu profilu Mirandy
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%

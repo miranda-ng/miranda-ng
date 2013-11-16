@@ -280,8 +280,6 @@ Připíchnout oznámení
 Připíchnuté oznámení
 [Send Message]
 Odeslat zprávu
-[User Details]
-Informace o uživateli
 [Contact Menu]
 Menu kontaktu
 [Add Contact Permanently]

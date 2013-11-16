@@ -557,8 +557,8 @@ Přijímá informace o náladě
 
 [Supports SecureIM plugin for Miranda NG]
 Podporuje doplněk SecureIM pro Mirandu
-[Supports MirOTR plugin for Miranda NG]
-Podporuje doplněk MirOTR pro Mirandu
+[Supports OTR (Off-the-Record Messaging)]
+Podporuje OTR (komunikace mimo záznam)
 [Supports New_GPG plugin for Miranda NG]
 Podporuje doplněk New_GPG pro Mirandu
 [Can block communications from particular other users using Privacy lists]

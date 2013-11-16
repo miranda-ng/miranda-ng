@@ -166,6 +166,8 @@ Shodná šířka všech položek
 Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
 Zobrazit tlač. změny velik.
+[&Main menu]
+&Hlavní nabídka
 [E&xit]
 U&končit
 [&Status]

@@ -489,8 +489,8 @@ O&bnovit výchozí
 najít/přidat
 [&Add to List]
 Přid&at do seznamu
-[User &Details]
-In&formace o kontaktu
+[User &details]
+&Detaily uživatele
 [Send &Message]
 Poslat zp&rávu
 [Log]
@@ -522,8 +522,6 @@ Zrušit skupinu
 O&dmítnout
 [Decide &Later]
 &Později
-[&I]
-&I
 [Reason:]
 Důvod:
 [Denial Reason:]
@@ -534,8 +532,6 @@ Je-li autorizován, přidat mezi kontakty
 Zpráva o zařazení mezi kontakty
 [&Close]
 &Zavřít
-[&U]
-&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Stav: '%s', uživatel: %s
@@ -562,6 +558,24 @@ Zavře se za %d sek.
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
 Po&slat
+[&Emoticons]
+&Smajlíky
+[&Bold]
+&Tučné
+[&Italic]
+&Kurzíva
+[&Color]
+&Barva
+[&Background color]
+Barva &pozadí
+[&History]
+&Historie
+[&Filter]
+&Filtr
+[&Room Settings]
+&Správa místnosti
+[&Show/hide nicklist]
+&Přepnout seznam uživatelů
 [Show these events only:]
 Zobrazit pouze tyto události:
 [Actions]
@@ -598,8 +612,8 @@ Vl. jméno
 Aktivovat zvýrazňování
 [Limit log text to (events):]
 Max. počet zazn. událostí:
-[Trim to (kB)]
-Max. (kB)
+[Trim to (KB)]
+Max. (KB)
 [Words to highlight (wildcards allowed)]
 Zvýrazněná slova (masky jsou povoleny)
 [Enable logging to disk]
@@ -861,6 +875,8 @@ Je-li okno částečně zakryto, přesunout do popředí
 Okno
 [Contact list background:]
 Pozadí seznamu kontaktů
+[&Main menu]
+&Hlavní nabídka
 [&Status]
 &Stav
 [&Offline\tCtrl+0]
@@ -894,10 +910,8 @@ Soubory:
 Vyberte &další...
 [Total size:]
 Celková velikost:
-[&D]
-&D
-[&H]
-&H
+[&User menu]
+Nabídka &uživatele
 [Incoming File Transfer]
 Žádost o přenos souboru
 [A&ccept]
@@ -912,14 +926,10 @@ Datum:
 Soubory:
 [Save to:]
 Uložit do:
-[&A]
-&A
-[Contact menu]
-Menu kontaktu
-[Open...]
-Otevřít...
-[Open folder]
-Otevřít složku
+[&Open...]
+&Otevřít...
+[Open &folder]
+Otevřít &složku
 [Transfer completed, open file(s).]
 Přenos dat dokončen, otevřít soubor(y).
 [No data transferred]
@@ -952,6 +962,8 @@ Velikost:
 Změněno:
 [Open file]
 Otevřít soubor
+[Open folder]
+Otevřít složku
 [File properties]
 Vlastnosti souboru
 [File being received]
@@ -1089,6 +1101,8 @@ během odesílání následující zprávy:
 Opakovat
 [Message Session]
 Rozhovor
+[&Details]
+Po&drobnosti
 [Message Window Event Log]
 Záznam událostí
 [Show names]
@@ -1770,6 +1784,9 @@ Pozadí seznamu
 [Global]
 Globální
 ;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
+Standardní šifrovací modul
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Uživatel nemá zaregistrovanou e-mailovou adresu
@@ -1831,6 +1848,10 @@ z
 Čekání na spojení...
 [Unable to initiate transfer.]
 Chyba při inicializaci přenosu.
+[Contact menu]
+Nabídka kontaktu
+[Open...]
+Otevřít...
 [sec]
 sek.
 [remaining]
@@ -2064,8 +2085,6 @@ Rozšířený stav
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-Hlavní &menu
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Vybraný kontakt daného komunikačního systému je uložen na centrálním serveru. Při příštím připojení bude odstraněn jak ze serveru, tak z vašeho seznamu.
@@ -2470,7 +2489,7 @@ Zaškrtnuto
 Nezaškrtnuto
 [Help]
 Nápověda
-[Miranda Website]
+[Miranda website]
 Stránka o Mirandě
 [Small Dot]
 Tečka uprostřed
@@ -2490,7 +2509,7 @@ Nespuštěný doplněk
 Zobrazit nebo skrýt
 [Exit]
 Ukončit
-[Main Menu]
+[Main menu]
 Hlavní nabídka
 [Leave chat]
 Opustit diskusi

@@ -12,7 +12,7 @@
 [This Skype proxy requires password authentication:]
 [Province:]
 [Enable Skype menu options (currently: Find/Add user)]
-[Use popup plugin for displaying messages ]
+[Use popup plugin for displaying messages]
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
 [Use group chat interface for conversations (requires group chat module)]
 [Mark group chat message as read to avoid notification]
@@ -29,3 +29,4 @@
 [&Kick user]
 [invited ]
 [Connection to Skype lost]
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]

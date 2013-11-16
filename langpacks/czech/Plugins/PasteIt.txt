@@ -131,13 +131,13 @@ Chyba
 
 [Cannot get data from clipboard]
 
-[File size is %dKB, do you realy want to paste such large file?]
+[File size is %d KB, do you realy want to paste such a large file?]
 
 [Are You sure?]
 Opravdu chcete pokračovat?
 [Cannot read file '%s']
 
-[File size is larger then 10MB, cannot be send]
+[File size is larger then 10 MB, cannot be sent]
 
 [Cannot open file '%s']
 

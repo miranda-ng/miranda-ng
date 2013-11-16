@@ -101,7 +101,7 @@ Oznámení
 [Bytes]
 bajtů
 [KB]
-
+KB
 [MB]
 
 [Adaptive]

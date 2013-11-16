@@ -34,13 +34,13 @@ Offline
 Online
 [Away]
 Na chvíli pryč
-[Do not Disturb]
-Nerušit
-[Not Available]
+[DND]
+Nerušit!
+[NA]
 Nejsem tady
 [Occupied]
 Nemám čas
-[Free for Chat]
+[Free for chat]
 Mám volno
 [Invisible]
 Neviditelný

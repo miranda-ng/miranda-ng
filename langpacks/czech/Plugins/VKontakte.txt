@@ -40,3 +40,8 @@ Sítě
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s - spojení se serverem
+;file \protocols\VKontakte\src\vk_thread.cpp
+[Attachments:]
+Přílohy:
+[Photo]
+Fotka

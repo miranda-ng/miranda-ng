@@ -109,7 +109,6 @@
 [Picture transform]
 [kb]
 [Kb]
-[KB]
 [Genres]
 [Scrobble at]
 [Get Series Info]

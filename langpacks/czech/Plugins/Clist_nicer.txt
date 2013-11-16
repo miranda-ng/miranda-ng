@@ -440,6 +440,8 @@ Zobrazit druhý řádek:
 Použít překryvné ikony (na avatar)
 [Show local time]
 Zobrazit místní čas
+[&Main menu]
+&Hlavní nabídka
 [E&xit]
 U&končit
 [&Status]
@@ -866,8 +868,6 @@ Plovoucí
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
-[&Main Menu]
-Hlavní &menu
 [&Options...]
 M&ožnosti...
 [&About the contact list...]

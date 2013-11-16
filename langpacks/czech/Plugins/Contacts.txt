@@ -10,12 +10,14 @@ Umožňuje odesílat a přijímat kontakty.
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Poslat kontakty
-[&A]
-&A
-[&D]
-&D
-[&H]
-&H
+[&Add]
+Přid&at
+[&User menu]
+Nabídka &uživatele
+[User &details]
+&Detaily uživatele
+[&History]
+&Historie
 [Choose contacts to be send:]
 Vyberte kontakty k odeslání:
 [&Send]
@@ -28,8 +30,6 @@ Zrušit
 Přijaté kontakty
 [Add to &group:]
 Přidat do &skupiny:
-[&Add]
-Přid&at
 [&Details]
 Po&drobnosti
 [Close]

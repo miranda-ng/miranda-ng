@@ -92,7 +92,7 @@ WWW:
 Uložit
 [Enable Skype menu options (currently: Find/Add user)]
 
-[Use popup plugin for displaying messages ]
+[Use popup plugin for displaying messages]
 
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
 
@@ -189,8 +189,8 @@ Příchozí hovor ze Skype
 Příchozí hovor (%s)
 [Connection to Skype lost]
 
-[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? (If you chose NO, you can always enable it in the plugin options later.]
-Chcete aktivovat podporu protokolu Skype pro vybraný profil v Mirandě?
+[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
+
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]
 Náhled chybového hlášení

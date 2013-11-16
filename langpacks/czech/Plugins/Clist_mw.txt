@@ -240,6 +240,8 @@ Zobrazit efekt zkosení panelů
 Zobrazit průběh připojování
 [Use New Drawer for StatusBar]
 Použít nový systém stav. lišty
+[&Main menu]
+&Hlavní nabídka
 [E&xit]
 U&končit
 [&Status]
@@ -368,8 +370,6 @@ _žádný-protokol_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
-[&Main Menu]
-Hlavní &menu
 [&Options...]
 M&ožnosti...
 [&About]

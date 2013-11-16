@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.9
+;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
@@ -32,19 +32,25 @@ Složka pro zálohování profilů:
 Procházet...
 [Go to the "Customize -> Folders" to change settings]
 Nastavení změníte v sekci Vlastní úpravy -> Složky
+[Compress backup to zip-archive]
+Komprimovat zálohu do zip-archivu
 [Disable progress bar]
 Vypnout ukazatel průběhu
 [Disable Popups]
 Vypnout oznámení
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda databases]
-Databáze Mirandy
+[Miranda NG database]
+Databáze Mirandy NG
+[Created by:]
+Vytvořeno:
+[Miranda NG databases]
+Databáze Mirandy NG
+[Compressed Miranda NG databases]
+Komprimované databáze Mirandy NG
 [All Files]
 Všechny soubory
 [Backup in progress]
 Probíhá zálohování
-[Rotating backup files...]
-Rotování zálohovaných souborů...
 [Copying database file...]
 Kopírování souborů s profilem...
 [Database backed up]

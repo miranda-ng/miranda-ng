@@ -154,16 +154,20 @@ Opakovat
 Zrušit
 [Message Session]
 Rozhovor
-[&U]
-&U
-[&D]
-&D
-[&E]
-&E
-[&H]
-&H
-[&Q]
-&Q
+[&User menu]
+Nabídka &uživatele
+[User &details]
+&Detaily uživatele
+[&Emoticons]
+&Smajlíky
+[&Add]
+Přid&at
+[&History]
+&Historie
+[&Quote]
+&Citovat
+[&OK]
+&OK
 [Send To All Tabs]
 Odeslat všem otevřeným
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -174,6 +178,22 @@ Pamatovat si mou volbu pro tento kontejner
 Ano
 [No]
 Ne
+[&Bold]
+&Tučné
+[&Italic]
+&Kurzíva
+[&Underline]
+Pod&tržené
+[&Color]
+&Barva
+[&Background color]
+Barva &pozadí
+[&Filter]
+&Filtr
+[&Room Settings]
+&Správa místnosti
+[&Show/hide nicklist]
+&Přepnout seznam uživatelů
 [Show these events only:]
 Zobrazit pouze tyto události:
 [Actions]
@@ -230,8 +250,8 @@ Uložit do souboru
 Umístění
 [Trim to]
 Max.
-[kB]
-kB
+[KB]
+KB
 [Group Chat]
 Skupinový rozhovor
 [Use same style as in the message log]
@@ -854,9 +874,9 @@ název protokolu stávajícího kontaktu (pokud je definován). Název účtu je
 Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
-[path to current miranda profile]
+[path to current Miranda profile]
 cesta k aktuálnímu profilu Mirandy
-[name of current miranda profile (filename, without extension)]
+[name of current Miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%

@@ -54,7 +54,7 @@ Zobrazovat oznámení
 
 [Test]
 Ověřit
-[Transfer limit (kb/sec)]
+[Transfer limit (Kb/s)]
 
 [No control when Away/NA]
 

@@ -29,68 +29,68 @@
 [Select protocols]
 Vybrat protokoly
 [AIM clients]
-
+Klienti AIM
 [Gadu-Gadu clients]
-
+Klienti Gadu-Gadu
 [ICQ clients]
-
+Klienti ICQ
 [IRC clients]
-
+Klienti IRC
 [Jabber clients]
-
+Klienti Jabber
 [MRA clients]
-
+Klienti MRA
 [MSN clients]
-
+Klienti MSN
 [QQ clients]
-
+Klienti QQ
 [RSS clients]
-
+Klienti RSS
 [Tlen clients]
-
+Klienti Tlen
 [Weather clients]
-
+Klienti počasí
 [Yahoo clients]
-
+Klienti Yahoo
 [Multi-protocol clients]
-
+Více-protokoloví klienti
 [Other (rare) protocols]
-
+Ostatní (ojedinělé) protokoly
 [Other icons]
-
+Ostatní ikony
 [Show client icon in message window status bar]
-
+Zobrazit ikonu klienta ve stavovém řádku komunikačního okna
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Fingerprint
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
-
+Ikony klientů
 [Pack overlays]
 Překryvné ikony
 [Multi-proto clients]
-
+Více-protokoloví klienti
 [Other protocols]
-
+Ostatní protokoly
 [Overlays]
-
+Překryvné
 [Resource]
 Zdroj
 [Platform]
-
+Platforma
 [Security]
 Zabezpečení
 [Protocol]
 Protokol
 ;file \plugins\FingerprintNG\src\masks.cpp
-[MirandaNG stable]
-
-[MirandaIM (old versions)]
-
+[Miranda NG stable]
+Miranda NG stabilní
+[Miranda IM (old versions)]
+Miranda IM (staré verze)
 [Miranda (unknown)]
-
+Miranda (neznámá)
 [spam client]
-
+spamovací klient
 [PHP Jabber Client]
 
 [MP3 Script for mIRC]
@@ -229,31 +229,31 @@ neznámý klient
 
 [notebook overlay]
 
-[MirandaNG v0.6 #2 overlay]
+[Miranda NG v0.6 #2 overlay]
 
-[MirandaNG v0.5 #2 overlay]
+[Miranda NG v0.5 #2 overlay]
 
-[MirandaNG v0.4 #2 overlay]
+[Miranda NG v0.4 #2 overlay]
 
-[MirandaNG v0.3 #2 overlay]
+[Miranda NG v0.3 #2 overlay]
 
-[MirandaNG v0.2 #2 overlay]
+[Miranda NG v0.2 #2 overlay]
 
-[MirandaNG v0.1 #2 overlay]
+[Miranda NG v0.1 #2 overlay]
 
-[MirandaIM v0.10 #2 overlay]
+[Miranda IM v0.10 #2 overlay]
 
-[MirandaIM v0.9 #2 overlay]
+[Miranda IM v0.9 #2 overlay]
 
-[MirandaIM v0.8 #2 overlay]
+[Miranda IM v0.8 #2 overlay]
 
-[MirandaIM v0.7 #2 overlay]
+[Miranda IM v0.7 #2 overlay]
 
-[MirandaIM v0.6 #2 overlay]
+[Miranda IM v0.6 #2 overlay]
 
-[MirandaIM v0.5 #2 overlay]
+[Miranda IM v0.5 #2 overlay]
 
-[MirandaIM v0.4 #2 overlay]
+[Miranda IM v0.4 #2 overlay]
 
 [x64 overlay]
 

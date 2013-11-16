@@ -31,7 +31,6 @@
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 [Menu State]
 [Always Try]
-[Overlays]
 [Key Popup]
 [Secure Popup]
 [Message Popup]

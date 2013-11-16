@@ -365,7 +365,7 @@ Odeslána zabezpečená zpráva
 [Always Try]
 
 [Overlays]
-
+Překryvné
 [Native mode]
 Nativní mód
 [PGP mode]
