@@ -306,6 +306,9 @@ suppress Unicode part of event in answer, add DBVTF_DENYUNICODE to this field.
 Function returns a pointer to a string in the required format.
 This string should be freed by a call of mir_free
 */
+
+#define DBVTF_DENYUNICODE  0x10000
+
 typedef struct {
 	DBEVENTINFO* dbei;
 	int datatype;

@@ -62,7 +62,6 @@ MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(LPCTSTR ptszParameter);
   #define DBVT_TCHAR DBVT_ASCIIZ
 #endif
 #define DBVTF_VARIABLELENGTH  0x80
-#define DBVTF_DENYUNICODE     0x10000
 typedef struct {
 	BYTE type;
 	union {
