@@ -29,7 +29,7 @@
 аналог змінну середовища %APPDATA% для поточного користувача системи
 [username for currently logged on Windows user]
 ім'я поточного користувача системи
-[Miranda databases]
+[Miranda NG databases]
 Бази даних Miranda NG
 [Error creating backup folder]
 Помилка при створенні папки для резервного копіювання

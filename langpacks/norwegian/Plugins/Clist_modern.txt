@@ -577,7 +577,7 @@ Radelementer
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Finn/Legg til Kontakter
-[&Main Menu]
+[&Main menu]
 &Hovedmeny
 [&Options...]
 &Valg...
@@ -644,13 +644,13 @@ Standard Skin
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
+[Main menu]
 Hovedmeny
-[Status Menu]
+[Status menu]
 Statusmeny
 [Show/Hide offline contacts]
 Vis/Skjul frakoblede kontakter
-[Find User]
+[Find user]
 Finn Bruker
 [Use/Disable groups]
 Bruk/Deaktiver grupper

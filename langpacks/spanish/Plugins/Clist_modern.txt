@@ -679,8 +679,8 @@ Fila de elementos
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Buscar/Agregar contactos...
-[&Main Menu]
-&Menú Principal
+[&Main menu]
+&Menú principal
 [&Options...]
 &Opciones...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
@@ -764,12 +764,10 @@ Por defecto la piel
 [Center]
 Centro
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
-Menú Principal
 [Main menu]
-Menú Principal
-[Status Menu]
-Menú Estado
+Menú principal
+[Status menu]
+Menú estado
 [Accounts]
 Cuentas
 [Accounts...]
@@ -778,7 +776,7 @@ Cuentas...
 Mostrar / Ocultar contactos en línea
 [Show offline contacts]
 Mostrar los contactos en línea
-[Find User]
+[Find user]
 Buscar usuario
 [Use/Disable groups]
 Utilice / Desactivar grupos

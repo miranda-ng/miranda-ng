@@ -489,7 +489,7 @@ Effacer le groupe
 cherche/ajoute
 [&Add to List]
 &Ajouter à la liste
-[User &Details]
+[User &details]
 &Détails du contact
 [Send &Message]
 Envoyer
@@ -522,8 +522,6 @@ Dégrouper
 &Refuser
 [Decide &Later]
 Décider plus &Tard
-[User &details]
-
 [Reason:]
 Motif:
 [Denial Reason:]
@@ -2050,8 +2048,8 @@ Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 [(Unknown Contact)]
 (Contact inconnu)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ce contact est sur un système de messagerie instantanée gardant les listes de contacts sur un serveur central. Le contact sera supprimé du serveur et de votre liste de contacts lors de votre prochaine connexion.
@@ -2450,7 +2448,7 @@ Coché
 Décoché
 [Help]
 Aide
-[Miranda Website]
+[Miranda website]
 Site de Miranda
 [Small Dot]
 Petit point
@@ -2470,7 +2468,7 @@ Plugin non chargé
 
 [Exit]
 Quitter
-[Main Menu]
+[Main menu]
 Menu principal
 [Leave chat]
 

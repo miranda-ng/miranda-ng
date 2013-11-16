@@ -629,7 +629,7 @@ Sor elemek
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Partnerek keresése/hozzáadása
-[&Main Menu]
+[&Main menu]
 &Fõmenü
 [&Options...]
 &Beállítások...
@@ -698,11 +698,11 @@ Alap bõr
 [<<Global>>]
 <<Globális>>
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
+[Main menu]
 Fõmenü
 [Accounts]
 Fiókok
-[Find User]
+[Find user]
 Felhasználó keresése
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]

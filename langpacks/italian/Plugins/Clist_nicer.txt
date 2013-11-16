@@ -284,7 +284,7 @@ Frame
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Trova/Aggiungi contatti...
-[&Main Menu]
+[&Main menu]
 &Menu principale
 [&Options...]
 &Opzioni...

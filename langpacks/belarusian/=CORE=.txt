@@ -489,7 +489,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 знайсці/дадаць
 [&Add to List]
 &Дадаць у спіс
-[User &Details]
+[User &details]
 &Інфармацыя
 [Send &Message]
 Адправіць паведамленне
@@ -2054,7 +2054,7 @@ URL ад %s
 [(Unknown Contact)]
 (Невядомы кантакт)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 Галоўнае меню
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2460,7 +2460,7 @@ Win +
 Не адзначана
 [Help]
 Даведка
-[Miranda Website]
+[Miranda website]
 Сайт Miranda NG
 [Small Dot]
 Кропка
@@ -2480,7 +2480,7 @@ ANSI плагін
 Схаваць/паказаць
 [Exit]
 Выйсце
-[Main Menu]
+[Main menu]
 Галоўнае меню
 [Leave chat]
 Пакінуць чат

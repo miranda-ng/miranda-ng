@@ -32,8 +32,8 @@ Kişiler menüsü
 Tamam
 [Cancel]
 İptal
-[User Details]
-Kullanıcı Detayları
+[User details]
+Kullanıcı detayları
 ;file \plugins\Popup\src\main.cpp
 [Actions]
 Eylemler

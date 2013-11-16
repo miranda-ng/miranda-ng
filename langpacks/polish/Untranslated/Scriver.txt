@@ -1,3 +1,0 @@
-﻿[&Emoticons]
-[&Room Settings]
-[&Show/hide nicklist]

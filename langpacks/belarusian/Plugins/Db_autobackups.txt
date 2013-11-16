@@ -37,14 +37,12 @@
 [Disable Popups]
 Адключыць усплывальныя вокны
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda databases]
+[Miranda NG databases]
 Базы данных Miranda NG
 [All Files]
 Усе файлы
 [Backup in progress]
 Рэзерваванне падчас
-[Rotating backup files...]
-Ратацыя папярэдніх копіяў...
 [Copying database file...]
 Капіяванне файла базы...
 [Database backed up]

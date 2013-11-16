@@ -38,8 +38,6 @@ Dettagli utente
 OK
 [Cancel]
 Annulla
-[User Details]
-Dettagli utente
 ;file \plugins\Popup\src\main.cpp
 [Actions]
 Azioni

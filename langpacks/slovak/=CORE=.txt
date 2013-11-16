@@ -489,7 +489,7 @@ Vrátiť sa k pôvodnemu nastaveniu
 
 [&Add to List]
 Pridať do zoznamu
-[User &Details]
+[User &details]
 Informácie o užívatelovi
 [Send &Message]
 Odoslať správu
@@ -521,8 +521,6 @@ Autorizovať
 [&Deny]
 
 [Decide &Later]
-
-[User &details]
 
 [Reason:]
 Dôvod:
@@ -1784,6 +1782,9 @@ Pozadie zoznamu
 [Global]
 
 ;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
+
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Užívatel nemá zaregistrovnú e-mailovú adresu\nMôžete ju pridať v podrobných informáciách o užívatelovi v záložke "kontakt".
@@ -2078,8 +2079,6 @@ Zobraziť/Zmeniť moje informácie...
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Tento kontakt patrí do IM systému ktorý ukladá svoje zoznamy kontaktov na centrálny server. Tento kontakt bude odstranený zo servera a z vášho zoznamu kontaktov pri vašom dalšom pripojení do tejto IM siete.
@@ -2474,7 +2473,7 @@ Pripájam sa
 
 [Help]
 Pomoc
-[Miranda Website]
+[Miranda website]
 
 [Small Dot]
 
@@ -2494,7 +2493,7 @@ Pomoc
 
 [Exit]
 
-[Main Menu]
+[Main menu]
 
 [Leave chat]
 

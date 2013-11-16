@@ -869,8 +869,6 @@ Oddelovače
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Nájsť/Pridať kontakty...
-[&Main Menu]
-
 [&Options...]
 Nastavenia...
 [&About the contact list...]

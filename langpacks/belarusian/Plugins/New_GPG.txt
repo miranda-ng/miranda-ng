@@ -20,7 +20,7 @@
 Выбар ўласнага ключа
 [Generate key]
 Згенераваць
-[Select key for use]
+[Select key to use]
 Выбраць ключ
 [Key password:]
 Пароль ключа:

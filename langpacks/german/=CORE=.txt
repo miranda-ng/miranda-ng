@@ -489,7 +489,7 @@ Zu&rücksetzen auf Standard
 suchen/hinzufügen
 [&Add to List]
 Zur Liste hinzufügen
-[User &Details]
+[User &details]
 Kontaktprofil
 [Send &Message]
 Nachricht senden
@@ -522,8 +522,6 @@ Gruppierung aufheben
 &Ablehnen
 [Decide &Later]
 &Später entscheiden
-[User &details]
-Kontakt&profil
 [Reason:]
 Grund:
 [Denial Reason:]
@@ -1786,6 +1784,9 @@ Hintergrund Liste
 [Global]
 Global
 ;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
+
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Kontakt hat keine E-Mail-Adresse angegeben
@@ -2084,8 +2085,6 @@ Custom Status
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-Haupt&menü
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Dieser Kontakt befindet sich in einem Instant-Messaging-System, welches seine Kontakte auf einem Server speichert. Er wird gelöscht, sobald Sie sich das nächste Mal mit dem Netzwerk verbinden.
@@ -2490,7 +2489,7 @@ Aktiv
 Inaktiv
 [Help]
 Hilfe
-[Miranda Website]
+[Miranda website]
 Miranda Webseite
 [Small Dot]
 Punkt
@@ -2510,7 +2509,7 @@ Plugin deaktiviert
 Anzeigen/Verstecken
 [Exit]
 Beenden
-[Main Menu]
+[Main menu]
 Hauptmenü
 [Leave chat]
 Chat verlassen

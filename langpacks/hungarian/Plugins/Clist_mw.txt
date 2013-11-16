@@ -332,7 +332,7 @@ _NoProtocol_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Partnerek keresése/hozzáadása
-[&Main Menu]
+[&Main menu]
 &Fõmenü
 [&Options...]
 &Beállítások...

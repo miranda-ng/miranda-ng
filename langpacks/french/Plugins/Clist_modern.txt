@@ -635,8 +635,8 @@ Détail des lignes
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Chercher/Ajouter des contacts...
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Afficher l'avatar du contact
@@ -710,15 +710,15 @@ Skin par défaut
 [Center]
 Centre
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
+[Main menu]
 Menu principal
-[Status Menu]
+[Status menu]
 Menu états
 [Accounts]
 Comptes
 [Show/Hide offline contacts]
 Afficher/Cacher contacts hors-ligne
-[Find User]
+[Find user]
 Chercher un contact
 [Use/Disable groups]
 Activer/désactiver les groupes

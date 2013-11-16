@@ -29,8 +29,6 @@ Désactiver la barre de progression
 Tous les fichiers
 [Backup in progress]
 Sauvegarde en cours
-[Rotating backup files...]
-Inversion des fichiers de sauvegardes...
 [Copying database file...]
 Copie de la base de données...
 ;file \plugins\Db_autobackups\src\main.cpp

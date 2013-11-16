@@ -866,7 +866,7 @@ URL събития
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
-[&Main Menu]
+[&Main menu]
 Главно меню
 [&Options...]
 Настройки...

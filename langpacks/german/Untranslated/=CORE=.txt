@@ -1,5 +1,1 @@
-﻿[&Emoticons]
-[&Room Settings]
-[&Show/hide nicklist]
-[&Details]
-[Avatars root folder]
+﻿[Standard crypto provider]

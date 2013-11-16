@@ -285,7 +285,7 @@
 אפס &לברירת מחדל
 [&Add to List]
 &הוסף לרשימה
-[User &Details]
+[User &details]
 פרופיל &משתמש
 [Send &Message]
 שלח &הודעה
@@ -1422,7 +1422,7 @@
 [(Unknown Contact)]
 (איש קשר לא מוכר)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 &תפריט ראשי
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -1574,7 +1574,7 @@
 הראה החבא
 [Exit]
 יציאה
-[Main Menu]
+[Main menu]
 תפריט ראשי
 [Move to Group]
 העבר לקבוצה

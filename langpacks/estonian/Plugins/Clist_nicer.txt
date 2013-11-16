@@ -198,7 +198,7 @@ Väljas olevad kontaktid
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Otsi/lisa kontakte...
-[&Main Menu]
+[&Main menu]
 Põhimenüü
 [&Options...]
 &Valikud...

@@ -592,7 +592,7 @@ Skinnet ramme
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Finn/Legg til Kontakter
-[&Main Menu]
+[&Main menu]
 &Hovedmeny
 [&Options...]
 &Valg...

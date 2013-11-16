@@ -370,8 +370,6 @@ Telefonuje
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Nájsť/Pridať kontakty...
-[&Main Menu]
-
 [&Options...]
 Nastavenia...
 [&About]

@@ -693,7 +693,7 @@ x100 毫秒
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 查找/添加联系人(&F)...
-[&Main Menu]
+[&Main menu]
 主菜单(&M)
 [&Options...]
 选项(&O)...
@@ -776,13 +776,13 @@ Angeli-Ka (图形), FYR (模板)
 [Center]
 中间
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
+[Main menu]
 主菜单
 [Accounts]
 帐号
 [Show offline contacts]
 显示离线联系人
-[Find User]
+[Find user]
 查找用户
 [Use groups]
 使用群组

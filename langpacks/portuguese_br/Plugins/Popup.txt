@@ -208,12 +208,6 @@ Contatos bloqueados
 Fixar popup
 [Pinned Popup]
 Popup fixo
-[User Details]
-Detalhes do Usuário
-[User Details]
-Detalhes do usuário
-[User Details]
-Detalhes do Usuário
 [Add Contact Permanently]
 Adicionar contato permanentemente
 ;file \plugins\Popup\src\main.cpp

@@ -332,7 +332,7 @@ Miranda を非表示
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 コンタクトを検索 / 追加 (&F)...
-[&Main Menu]
+[&Main menu]
 メインメニュー (&M)
 [&Options...]
 オプション (&O)...

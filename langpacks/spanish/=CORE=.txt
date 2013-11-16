@@ -417,7 +417,7 @@ Grupo
 &Restablecimiento de los valores
 [&Add to List]
 &Agregar a la lista
-[User &Details]
+[User &details]
 Usuario &detalles
 [Send &Message]
 &Enviar Mensaje
@@ -1802,8 +1802,8 @@ De estado personalizados
 [(Unknown Contact)]
 (contacto desconocido)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-&Menú Principal
+[&Main menu]
+&Menú principal
 ;file \src\modules\clist\clui.cpp
 [De&lete]
 E&liminar
@@ -2128,7 +2128,7 @@ Tick
 No Tick
 [Help]
 Ayuda
-[Miranda Website]
+[Miranda website]
 Miranda Website
 [Small Dot]
 Pequeños puntos
@@ -2148,7 +2148,7 @@ Descargado el plugin
 Mostrar/Esconder
 [Exit]
 Salir
-[Main Menu]
+[Main menu]
 Menú Principal
 [Leave chat]
 Deja chat

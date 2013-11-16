@@ -871,8 +871,6 @@ Text
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 Nájsť/Pridať kontakty...
-[&Main Menu]
-
 [&Options...]
 Nastavenia...
 [&About]
@@ -1026,11 +1024,7 @@ Chyba
 [Right]
 
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
-
 [Main menu]
-
-[Status Menu]
 
 [Status menu]
 Menu stavov
@@ -1044,7 +1038,7 @@ Menu stavov
 
 [Show offline contacts]
 
-[Find User]
+[Find user]
 
 [Use/Disable groups]
 

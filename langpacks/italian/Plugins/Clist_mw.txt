@@ -282,7 +282,7 @@ Globale
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Trova/Aggiungi contatti...
-[&Main Menu]
+[&Main menu]
 &Menu principale
 [&Options...]
 &Opzioni...

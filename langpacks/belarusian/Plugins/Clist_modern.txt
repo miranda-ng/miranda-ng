@@ -865,7 +865,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 Дадаць &кантакты
-[&Main Menu]
+[&Main menu]
 Галоўнае меню
 [&Options...]
 &Налады
@@ -1020,12 +1020,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Right]
 Справа
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
-Галоўнае меню
 [Main menu]
 Галоўнае меню
-[Status Menu]
-Меню статусу
 [Status menu]
 Меню статусаў
 [Accounts]
@@ -1038,7 +1034,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Схаваць адключаных
 [Show offline contacts]
 Паказаць адключаных
-[Find User]
+[Find user]
 Знайсці
 [Use/Disable groups]
 Уключыць/Выключыць групы

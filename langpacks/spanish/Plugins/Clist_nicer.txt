@@ -312,7 +312,7 @@ Marcos
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Buscar/Agregar contactos...
-[&Main Menu]
-&Menú Principal
+[&Main menu]
+&Menú principal
 [&Options...]
 &Opciones...

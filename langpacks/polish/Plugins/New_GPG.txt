@@ -24,7 +24,7 @@ Importuj klucz z serwera
 Ustaw własny klucz
 [Generate key]
 Generuj klucz
-[Select key for use]
+[Select key to use]
 Wybierz klucz, którego chcesz używać
 [Key password:]
 Hasło:
@@ -108,7 +108,7 @@ Wybierz serwer kluczy, na którym chcesz szukać klucza:
 Otrzymano zaszyfrowany plik
 [Decrypt]
 Odszyfruj
-[Received encrypted file form contact with disabled encryption.]
+[Received encrypted file from contact with disabled encryption.]
 Otrzymano zaszyfrowany plik od kontaktu z wyłączonym szyfrowaniem
 [Remember choice]
 Pamiętaj wybór
@@ -130,8 +130,6 @@ Nowe hasło dwókrotnie:
 Lista użytkowników:
 [Export PubKey]
 Eksportuj klucz publiczny
-[Select own key]
-Wybierz własny klucz
 [Turn on debug log]
 Włącz log debugowania
 [Use jabber api on Miranda NG (recomended)]
@@ -144,6 +142,8 @@ Szyfruj transfery pliku
 Automatyczna wymiana kluczy
 [Copy own key]
 Kopiuj własny klucz
+[Select own key]
+Wybierz własny klucz
 [Add tags to encoded and decoded messages]
 Dodaj tagi do zakodowanych i odkodowanych wiadomości
 [Incoming message tags:]

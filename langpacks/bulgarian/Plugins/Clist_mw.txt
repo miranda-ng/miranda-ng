@@ -368,7 +368,7 @@ _НямаПротокол_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
-[&Main Menu]
+[&Main menu]
 Главно меню
 [&Options...]
 Настройки...

@@ -328,7 +328,7 @@
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 查找/添加联系人(&F)...
-[&Main Menu]
+[&Main menu]
 主菜单(&M)
 [&Options...]
 选项(&O)...

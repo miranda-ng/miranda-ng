@@ -463,7 +463,7 @@ Miranda を非表示
 検索 / 追加
 [&Add to List]
 リストに追加 (&A)
-[User &Details]
+[User &details]
 ユーザーの詳細情報 (&D)
 [Send &Message]
 メッセージを送信 (&M)
@@ -1956,7 +1956,7 @@ Fax
 [(Unknown Contact)]
 ( 不明なコンタクト )
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 メインメニュー (&M)
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2256,7 +2256,7 @@ SMS
 チェックなし
 [Help]
 ヘルプ
-[Miranda Website]
+[Miranda website]
 Miranda ウェブサイト
 [Small Dot]
 小さいドット
@@ -2276,7 +2276,7 @@ ANSI プラグイン
 ハイド表示
 [Exit]
 終了
-[Main Menu]
+[Main menu]
 メインメニュー
 [Leave chat]
 チャットから離席

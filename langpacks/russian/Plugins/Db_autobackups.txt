@@ -39,9 +39,11 @@
 аналог переменной среды %APPDATA% для текущего пользователя системы
 [username for currently logged-on Windows user]
 имя текущего пользователя системы
-[Miranda databases]
+[Miranda NG database]
+База данных Miranda NG
+[Miranda NG databases]
 Базы данных Miranda NG
+[Compressed Miranda NG databases]
+Сжатые базы данных Miranda NG
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
-[Compress backup to zip-archive]
-Сжать резервную копию в zip-архив

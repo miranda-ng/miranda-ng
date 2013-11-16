@@ -457,7 +457,7 @@ Miranda NG 正准备重启. \n请稍候...
 查找/添加
 [&Add to List]
 加至列表(&A)
-[User &Details]
+[User &details]
 用户详细资料(&D)
 [Send &Message]
 发送消息(&M)
@@ -1970,7 +1970,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [(Unknown Contact)]
 (未知联系人)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 主菜单(&M)
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2310,7 +2310,7 @@ Miranda 范围
 未选定
 [Help]
 说明
-[Miranda Website]
+[Miranda website]
 Miranda 网站
 [Small Dot]
 小点
@@ -2330,7 +2330,7 @@ ANSI 插件
 显示隐藏
 [Exit]
 离开
-[Main Menu]
+[Main menu]
 主菜单
 [Leave chat]
 离开聊天室

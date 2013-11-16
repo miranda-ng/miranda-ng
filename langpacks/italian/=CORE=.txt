@@ -277,7 +277,7 @@ Nascondi utenti &offline qui dentro
 &Ripristina predefiniti
 [&Add to List]
 &Aggiungi alla lista
-[User &Details]
+[User &details]
 &Dettagli utente
 [Send &Message]
 Invia &messaggio
@@ -1152,7 +1152,7 @@ Per favore dammi l'autorizzazione e aggiungimi alla tua lista dei contatti.
 [(Unknown Contact)]
 (Contatto sconosciuto)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 &Menu principale
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]

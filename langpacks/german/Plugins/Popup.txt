@@ -280,8 +280,6 @@ Popup anheften
 Angeheftetes Popup
 [Send Message]
 Nachricht senden
-[User Details]
-Kontaktprofil
 [Contact Menu]
 Kontaktmenü
 [Add Contact Permanently]

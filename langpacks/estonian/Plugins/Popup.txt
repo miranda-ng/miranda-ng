@@ -30,7 +30,7 @@ Kontaktide menüü
 OK
 [Cancel]
 Tühista
-[User Details]
+[User details]
 Kasutaja detailid
 ;file \plugins\Popup\src\main.cpp
 [Actions]

@@ -121,7 +121,6 @@
 [Quick Reply]
 [Pin Popup]
 [Pinned Popup]
-[User Details]
 [Contact Menu]
 [Add Contact Permanently]
 [Dismiss Popup]

@@ -478,7 +478,7 @@ Miranda NG перезапускається.\nЗачекайте...
 знайти/додати
 [&Add to List]
 Додати до списку
-[User &Details]
+[User &details]
 Про користувача
 [Send &Message]
 Надіслати повідомлення
@@ -1974,7 +1974,7 @@ xСтатус
 %s (заблокований)
 [(Unknown Contact)]
 (Невідомий контакт)
-[&Main Menu]
+[&Main menu]
 Головне меню
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Цей контакт знаходиться у системі обміну миттєвими повідомленнями, яка зберігає списки контактів на сервері. Контакт буде видалено з серверу та локального списку при наступному з'єднанні.
@@ -2340,7 +2340,7 @@ Miranda
 Не відмічено
 [Help]
 Довідка
-[Miranda Website]
+[Miranda website]
 Сайт Miranda NG
 [Small Dot]
 Крапка
@@ -2360,7 +2360,7 @@ ANSI-плагін
 Показати/сховати
 [Exit]
 Вихід
-[Main Menu]
+[Main menu]
 Головне меню
 [Leave chat]
 Вийти з чату

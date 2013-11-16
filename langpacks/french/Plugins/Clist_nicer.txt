@@ -866,8 +866,8 @@ Flottant
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Chercher/Ajouter des contacts...
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 [&Options...]
 &Paramètres...
 [&About the contact list...]

@@ -606,7 +606,7 @@ Bõrözött keret
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Partnerek keresése/hozzáadása
-[&Main Menu]
+[&Main menu]
 &Fõmenü
 [&Options...]
 &Beállítások...

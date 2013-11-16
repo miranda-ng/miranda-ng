@@ -280,8 +280,6 @@ Popup група
 Прилепен popup
 [Send Message]
 Изпращане на съобщение
-[User Details]
-Подробности за потребителя
 [Contact Menu]
 Меню на контакта
 [Add Contact Permanently]

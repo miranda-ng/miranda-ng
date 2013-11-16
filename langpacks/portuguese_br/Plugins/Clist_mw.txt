@@ -388,8 +388,8 @@ _SemProtocolo_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 [&Options...]
 &Opções...
 ;file \plugins\Clist_mw\src\clui.cpp

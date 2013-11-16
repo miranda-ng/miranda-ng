@@ -32,7 +32,7 @@ Partner Menü
 OK
 [Cancel]
 Mégsem
-[User Details]
+[User details]
 Felhasználó részletek
 ;file \plugins\Popup\src\main.cpp
 [Actions]

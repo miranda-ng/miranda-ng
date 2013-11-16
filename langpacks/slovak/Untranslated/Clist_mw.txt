@@ -53,7 +53,6 @@
 [StatusBar Background]
 [Global]
 [_NoProtocol_]
-[&Main Menu]
 [&About]
 [My Contacts]
 [&New SubGroup]

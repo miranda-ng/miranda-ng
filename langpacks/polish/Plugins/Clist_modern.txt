@@ -871,8 +871,6 @@ Obiekty w wierszu
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 Szukaj/dodaj kontakty...
-[&Main Menu]
-Menu główne
 [&Options...]
 Opcje...
 [&About]
@@ -1026,12 +1024,8 @@ Domyślna skórka
 [Right]
 Prawa
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
-Menu główne
 [Main menu]
 Menu główne
-[Status Menu]
-Menu statusu
 [Status menu]
 Menu statusu
 [Accounts]
@@ -1044,7 +1038,7 @@ Pokaż/ukryj rozłączonych
 Ukryj rozłączone kontakty
 [Show offline contacts]
 Pokaż rozłączone kontakty
-[Find User]
+[Find user]
 Szukaj kontaktu
 [Use/Disable groups]
 Włącz/wyłącz grupy

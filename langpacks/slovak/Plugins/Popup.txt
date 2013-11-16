@@ -280,8 +280,6 @@ Storno
 
 [Send Message]
 Odoslať správu
-[User Details]
-
 [Contact Menu]
 
 [Add Contact Permanently]

@@ -180,8 +180,6 @@ IM コンタクトのみに情報とメニューを追加
 OK
 [Cancel]
 Cancel
-[User Details]
-ユーザーの詳細情報
 ;file \plugins\Popup\src\main.cpp
 [Actions]
 アクション

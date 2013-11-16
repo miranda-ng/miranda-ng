@@ -328,8 +328,8 @@ Pas de contacts ou protocoles
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Chercher/Ajouter des contacts...
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp

@@ -275,8 +275,6 @@ History++ для історії вікон
 Закріплене
 [Send Message]
 Відправити
-[User Details]
-Про користувача
 [Contact Menu]
 Меню контакту
 [Add Contact Permanently]

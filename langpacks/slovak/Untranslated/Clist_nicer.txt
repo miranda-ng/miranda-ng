@@ -304,6 +304,5 @@
 [Show TitleBar]
 [Skinned frame]
 [Floating]
-[&Main Menu]
 [&About the contact list...]
 [&New SubGroup]

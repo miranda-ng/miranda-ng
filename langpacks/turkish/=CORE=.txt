@@ -405,8 +405,8 @@ Va&rsayılana döndür
 bul/ekle
 [&Add to List]
 Listeye &Ekle
-[User &Details]
-Kişi &Detayları
+[User &details]
+Kişi &detayları
 [Send &Message]
 İleti &Gönder
 [Log]
@@ -1772,8 +1772,8 @@ Kişisel durum
 [(Unknown Contact)]
 (Bilinmmeyen Kişi)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-Ana &Menü
+[&Main menu]
+Ana &menü
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Bu kişi, kişi listesini merkez bir sunucu üzerinde tutan bir iletişim sisteminde. Bu kişi ağa yeniden bağlandığınızda sunucudan ve kişi listenizden kaldırılacak. 
@@ -1998,7 +1998,7 @@ Tümünü Ara
 İşaretsiz
 [Help]
 Yardım
-[Miranda Website]
+[Miranda website]
 Miranda Websitesi
 [Small Dot]
 Küçük Nokta
@@ -2018,7 +2018,7 @@ Kaldırılan eklenti
 Göster/Gizle
 [Exit]
 Çıkış
-[Main Menu]
+[Main menu]
 Ana Menü
 [On]
 Açık

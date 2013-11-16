@@ -216,10 +216,6 @@ Rápida respuesta
 Pin Popup
 [Pinned Popup]
 Pinned Popup
-[User Details]
-Información del usuario
-[User Details]
-Datos del Usuario
 [Add Contact Permanently]
 Añadir un contacto permanente
 ;file \plugins\Popup\src\main.cpp

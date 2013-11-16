@@ -370,8 +370,6 @@ Brak protokołu
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Szukaj/dodaj kontakty...
-[&Main Menu]
-Menu główne
 [&Options...]
 Opcje...
 [&About]

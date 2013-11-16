@@ -368,7 +368,7 @@ _Безпротокола_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Дадаць &кантакты
-[&Main Menu]
+[&Main menu]
 Галоўнае меню
 [&Options...]
 &Налады

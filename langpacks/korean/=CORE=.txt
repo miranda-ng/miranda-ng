@@ -237,7 +237,7 @@ Netlib 로그 옵션
 &R 기본으로 재설정
 [&Add to List]
 &A 목록에 추가
-[User &Details]
+[User &details]
 &D 사용자 정보
 [Send &Message]
 &M 메세지 보내기
@@ -980,7 +980,7 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 [(Unknown Contact)]
 (알 수 없는 대화 상대)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 &M 메인 메뉴
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]

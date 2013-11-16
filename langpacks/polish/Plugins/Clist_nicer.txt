@@ -868,8 +868,6 @@ Pływający
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Szukaj/dodaj kontakty...
-[&Main Menu]
-Menu główne
 [&Options...]
 Opcje...
 [&About the contact list...]

@@ -27,14 +27,12 @@
 [Disable progress bar]
 禁用进度条
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda databases]
-Miranda 数据库
+[Miranda NG databases]
+Miranda NG 数据库
 [All Files]
 所有文件
 [Backup in progress]
 备份进行中
-[Rotating backup files...]
-轮流备份文件...
 [Copying database file...]
 复制数据库文件中...
 [Database backed up]

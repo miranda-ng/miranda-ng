@@ -280,8 +280,6 @@ Przypnij popup
 Przypięty popup
 [Send Message]
 Wyślij wiadomość
-[User Details]
-Dane kontaktu
 [Contact Menu]
 Menu kontaktu
 [Add Contact Permanently]

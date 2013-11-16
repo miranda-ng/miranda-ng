@@ -210,8 +210,6 @@ Miranda 窗口屏幕
 弹出窗口别针
 [Pinned Popup]
 固定弹出窗口
-[User Details]
-用户详细资料
 [Add Contact Permanently]
 永久添加联系人
 ;file \plugins\Popup\src\main.cpp

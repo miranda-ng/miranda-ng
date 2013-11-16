@@ -489,7 +489,7 @@ Przywróć domyślne
 znajdź/dodaj
 [&Add to List]
 Dodaj do listy
-[User &Details]
+[User &details]
 Dane kontaktu
 [Send &Message]
 Wyślij wiadomość
@@ -522,8 +522,6 @@ Autoryzuj
 Odrzuć
 [Decide &Later]
 Przypomnij później
-[User &details]
-Dane kontaktu
 [Reason:]
 Powód:
 [Denial Reason:]
@@ -1786,6 +1784,9 @@ Tło listy
 [Global]
 Globalne
 ;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
+
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Użytkownik nie zarejestrował adresu e-mail
@@ -2084,8 +2085,6 @@ Niestandardowy status
 [(Unknown Contact)]
 (Nieznany kontakt)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-Menu główne
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ten kontakt należy do sieci, która przechowuje swoją listę kontaktów na centralnym serwerze. Kontakt zostanie usunięty z serwera i twojej listy kontaktów kiedy ponownie połączysz się z tą siecią.
@@ -2490,7 +2489,7 @@ Zaznaczone
 Odznaczone
 [Help]
 Pomoc
-[Miranda Website]
+[Miranda website]
 Strona domowa Mirandy
 [Small Dot]
 Mała kropka
@@ -2510,7 +2509,7 @@ Niezaładowane wtyczki
 Pokaż/ukryj
 [Exit]
 Wyłącz
-[Main Menu]
+[Main menu]
 Menu główne
 [Leave chat]
 Opuść czat

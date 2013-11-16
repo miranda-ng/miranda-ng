@@ -1,1 +1,0 @@
-﻿[will return parsed string %miranda_userdata%\\Logs]

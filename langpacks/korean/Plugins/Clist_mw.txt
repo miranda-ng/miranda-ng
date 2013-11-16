@@ -278,7 +278,7 @@
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &F 찾기/대화 상대 추가...
-[&Main Menu]
+[&Main menu]
 &M 메인 메뉴
 [&Options...]
 &O 옵션...

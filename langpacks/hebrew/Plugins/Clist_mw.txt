@@ -300,7 +300,7 @@
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &מצא/הוסף משתמשים
-[&Main Menu]
+[&Main menu]
 &תפריט ראשי
 [&Options...]
 ...אפשרויו&ת

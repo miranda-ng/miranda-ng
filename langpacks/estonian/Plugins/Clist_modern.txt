@@ -231,7 +231,7 @@ Tundmatu kontakt
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 Otsi/lisa kontakte...
-[&Main Menu]
+[&Main menu]
 Põhimenüü
 [&Options...]
 &Valikud...
@@ -270,10 +270,10 @@ Vaikimisi nahk
 [<<Global>>]
 <<Globaalne>>
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
+[Main menu]
 Põhimenüü
 [Accounts]
 Kontod
-[Find User]
+[Find user]
 Otsi kasutajat
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp

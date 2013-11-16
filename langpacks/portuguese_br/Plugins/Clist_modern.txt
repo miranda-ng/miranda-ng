@@ -1029,8 +1029,8 @@ Itens da linha
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 [&Options...]
 &Opções...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
@@ -1162,14 +1162,10 @@ Skin padrão
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
-Menu Principal
-[Main Menu]
-Menu Principal
 [Main menu]
 Menu principal
-[Status Menu]
-Menu de Status
+[Status menu]
+Menu de status
 [Accounts]
 Contas
 [Accounts...]
@@ -1178,9 +1174,7 @@ Contas...
 Exibir/Ocultar contatos offline
 [Show offline contacts]
 Mostrar contatos offline
-[Find User]
-Localizar usuário
-[Find User]
+[Find user]
 Localizar usuário
 [Use/Disable groups]
 Usar / desativar grupos 

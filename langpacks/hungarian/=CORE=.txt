@@ -389,7 +389,7 @@ Csoport átnevezése
 keresés/hozzáadás
 [&Add to List]
 &Hozzáadás Listához
-[User &Details]
+[User &details]
 Felhasználó &részletek
 [Send &Message]
 &Üzenet küldése
@@ -1746,7 +1746,7 @@ Egyéni állapot
 [(Unknown Contact)]
 (ismeretlen partner)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 &Fõmenü
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -1966,7 +1966,7 @@ Pipa
 Nincs Pipa
 [Help]
 Súgó
-[Miranda Website]
+[Miranda website]
 Miranda Weboldal
 [Small Dot]
 Kis Pont
@@ -1986,7 +1986,7 @@ Futó beépülõ
 Mutat/Rejt
 [Exit]
 Kilépés
-[Main Menu]
+[Main menu]
 Fõmenü
 [On]
 Be

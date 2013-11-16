@@ -211,3 +211,5 @@ Zamknij czat po
 [When in background]
 Gdy w tle
 ;file \plugins\MirandaG15\src\CConfig.cpp
+[No device attached]
+

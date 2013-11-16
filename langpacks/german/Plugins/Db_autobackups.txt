@@ -39,14 +39,18 @@ Fortschrittsanzeige deaktivieren
 [Disable Popups]
 Popups deaktivieren
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda databases]
+[Miranda NG database]
+
+[Created by:]
+
+[Miranda NG databases]
 Miranda-Datenbanken
+[Compressed Miranda NG databases]
+
 [All Files]
 Alle Dateien
 [Backup in progress]
 Sicherheitskopie wird erstellt
-[Rotating backup files...]
-Rotiere Sicherungsdateien...
 [Copying database file...]
 Kopiere Datenbank...
 [Database backed up]

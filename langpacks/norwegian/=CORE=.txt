@@ -363,7 +363,7 @@ Gruppe
 finn/legg til
 [&Add to List]
 &Legg til i Liste
-[User &Details]
+[User &details]
 Bruker &Detaljer
 [Send &Message]
 Send &Melding
@@ -1724,7 +1724,7 @@ Selvvalgt status
 [(Unknown Contact)]
 (Ukjent Kontakt)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 &Hovedmeny
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -1932,7 +1932,7 @@ Tikk
 Ingen Tikk
 [Help]
 Hjelp
-[Miranda Website]
+[Miranda website]
 Miranda Webside
 [Small Dot]
 Liten Prikk
@@ -1948,7 +1948,7 @@ ANSI plugin
 Kjørende tillegg
 [Unloaded plugin]
 Avslått Plugin
-[Main Menu]
+[Main menu]
 Hovedmeny
 [On]
 På

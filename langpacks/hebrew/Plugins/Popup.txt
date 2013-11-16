@@ -154,8 +154,6 @@
 נעץ פופאפ
 [Pinned Popup]
 פופאפ מקובע
-[User Details]
-פרופיל משתמש
 ;file \plugins\Popup\src\main.cpp
 [Actions]
 פעולות

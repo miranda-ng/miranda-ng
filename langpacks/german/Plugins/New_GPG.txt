@@ -24,7 +24,7 @@ Schlüssel vom Schlüsselserver importieren
 Eigenen Schlüssel setzen
 [Generate key]
 Generiere Schlüssel
-[Select key for use]
+[Select key to use]
 Wählen Sie den zu verwendenden Schlüssel aus:
 [Key password:]
 Schlüsselpasswort:
@@ -130,8 +130,6 @@ Neues Passwort (zweimal):
 Benutzerliste:
 [Export PubKey]
 Exportiere Schlüssel
-[Select own key]
-Wähle eigenen Schlüssel
 [Turn on debug log]
 Schalte Debug-Log ein
 [Use jabber api on Miranda NG (recomended)]
@@ -144,6 +142,8 @@ Dateitransfer verschlüsseln
 Auto Schlüsselaustausch
 [Copy own key]
 Eig. Schlüssel kopieren
+[Select own key]
+Wähle eigenen Schlüssel
 [Add tags to encoded and decoded messages]
 Tags zu ver- und entschlüsselten Nachrichten hinzufügen
 [Incoming message tags:]

@@ -326,7 +326,7 @@ _IngenProtokoll_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Finn/Legg til Kontakter
-[&Main Menu]
+[&Main menu]
 &Hovedmeny
 [&Options...]
 &Valg...

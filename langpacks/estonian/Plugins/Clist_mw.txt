@@ -180,7 +180,7 @@ Tundmatu kontakt
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Otsi/lisa kontakte...
-[&Main Menu]
+[&Main menu]
 Põhimenüü
 [&Options...]
 &Valikud...

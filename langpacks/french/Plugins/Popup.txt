@@ -148,8 +148,6 @@ Contact bloqué
 Verrouiller le popup
 [Pinned Popup]
 Popup verrouillé
-[User Details]
-Détails du contact
 [Add Contact Permanently]
 Ajouter le contact
 ;file \plugins\Popup\src\main.cpp

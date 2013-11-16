@@ -273,7 +273,7 @@ Groep verwij&deren
 Naar standaard te&rugzetten
 [&Add to List]
 &Aan lijst toevoegen
-[User &Details]
+[User &details]
 Gebruikers &details
 [Send &Message]
 Bericht versturen

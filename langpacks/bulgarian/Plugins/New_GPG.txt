@@ -24,7 +24,7 @@
 
 [Generate key]
 
-[Select key for use]
+[Select key to use]
 
 [Key password:]
 

@@ -1,1 +1,3 @@
-﻿[Compress backup to zip-archive]
+﻿[Miranda NG database]
+[Created by:]
+[Compressed Miranda NG databases]

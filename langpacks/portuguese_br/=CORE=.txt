@@ -497,8 +497,8 @@ Restaurar padrão
 procurar/adicionar
 [&Add to List]
 &Adicionar a lista
-[User &Details]
-&Detalhes do Usuário
+[User &details]
+&Detalhes do usuário
 [Send &Message]
 Enviar &Mensagem
 [Log]
@@ -2104,8 +2104,8 @@ Status personalizada
 [(Unknown Contact)]
 <desconhecido>
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Este contato é sobre um sistema de mensagens instantâneas que armazena sua lista de contatos em um servidor central. O contato será removido do servidor e de sua lista de contato quando você conectar-se próxima a essa rede.
@@ -2416,7 +2416,7 @@ Selecionado
 Não selecionado
 [Help]
 Ajuda
-[Miranda Website]
+[Miranda website]
 Miranda Website
 [Small Dot]
 Símbolo Pequeno
@@ -2436,9 +2436,7 @@ Plugin desativado
 Exibir/Ocultar
 [Exit]
 Sair
-[Main Menu]
-Menu Principal
-[Main Menu]
+[Main menu]
 Menu Principal
 [Leave chat]
 Sair do chat
@@ -2446,8 +2444,6 @@ Sair do chat
 Mover para o Grupo
 [On]
 Ligado
-[Off]
-Desligado
 [Off]
 Desligado
 [Frames]

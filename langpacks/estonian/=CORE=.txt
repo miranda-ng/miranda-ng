@@ -257,7 +257,7 @@ Nimeta grupp ümber
 Kustuta grupp
 [&Add to List]
 Lisa nimekirja
-[User &Details]
+[User &details]
 Kasutaja detailid
 [Send &Message]
 Saada teade
@@ -952,7 +952,7 @@ Lisa kontakt
 [(Unknown Contact)]
 Tundmatu kontakt
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 Põhimenüü
 ;file \src\modules\clist\clui.cpp
 [De&lete]
@@ -1098,13 +1098,13 @@ SMS
 Otsi kõiki
 [Help]
 Spikker
-[Miranda Website]
+[Miranda website]
 Miranda veebisait
 [Show/Hide]
 Kuva/Peida
 [Exit]
 Välju
-[Main Menu]
+[Main menu]
 Põhimenüü
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp

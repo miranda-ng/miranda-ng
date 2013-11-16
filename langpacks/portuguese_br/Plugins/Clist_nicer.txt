@@ -658,8 +658,8 @@ Aparência do quadro
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...
-[&Main Menu]
-&Menu Principal
+[&Main menu]
+&Menu principal
 [&Options...]
 &Opções...
 [&About the contact list...]

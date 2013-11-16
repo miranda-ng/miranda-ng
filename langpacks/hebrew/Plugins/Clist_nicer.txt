@@ -414,7 +414,7 @@
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &מצא/הוסף משתמשים
-[&Main Menu]
+[&Main menu]
 &תפריט ראשי
 [&Options...]
 ...אפשרויו&ת

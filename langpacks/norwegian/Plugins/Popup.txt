@@ -120,8 +120,6 @@ Svevende Handling
 OK
 [Cancel]
 Avbryt
-[User Details]
-Brukerdetaljer
 ;file \plugins\Popup\src\main.cpp
 [Actions]
 Handlinger

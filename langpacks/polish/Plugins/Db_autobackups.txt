@@ -39,14 +39,18 @@ Wyłącz okienko ze wskaźnikiem postępu kopiowania
 [Disable Popups]
 Wyłącz popupy
 ;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda databases]
-Bazy danych Mirandy
+[Miranda NG database]
+
+[Created by:]
+
+[Miranda NG databases]
+Bazy danych Mirandy NG
+[Compressed Miranda NG databases]
+
 [All Files]
 Wszystkie pliki
 [Backup in progress]
 Tworzenie kopii zapasowej...
-[Rotating backup files...]
-Przygotowanie plików do skopiowania...
 [Copying database file...]
 Kopiowanie pliku profilu...
 [Database backed up]

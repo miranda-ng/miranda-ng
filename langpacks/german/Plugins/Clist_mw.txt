@@ -370,8 +370,6 @@ _NoProtocol_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...
-[&Main Menu]
-Haupt&menü
 [&Options...]
 Einstellungen...
 [&About]

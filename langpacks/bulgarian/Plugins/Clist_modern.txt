@@ -867,7 +867,7 @@ Modern contact list
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
-[&Main Menu]
+[&Main menu]
 Главно меню
 [&Options...]
 Настройки...
@@ -1022,12 +1022,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 [Right]
 Дясно
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main Menu]
-Главно меню
 [Main menu]
 Главно меню
-[Status Menu]
-Меню на състоянието
 [Status menu]
 Меню на състоянието
 [Accounts]
@@ -1040,7 +1036,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 Скриване на контактите "Извън линия"
 [Show offline contacts]
 Показване на контактите "Извън линия"
-[Find User]
+[Find user]
 Търсене на потребител
 [Use/Disable groups]
 Ползване на групи / Без групи

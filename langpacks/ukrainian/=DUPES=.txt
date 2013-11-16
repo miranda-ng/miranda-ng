@@ -2624,8 +2624,6 @@ Miranda NG знайшла ушкодження у Вашій базі. Вони 
 Будь ласка, введіть новий пароль
 [Wrong password!]
 Невірний пароль!
-[Rotating backup files...]
-Ротація попередніх копій...
 [Backup profile]
 Резервувати профіль
 [Database backups]

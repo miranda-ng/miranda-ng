@@ -44,7 +44,7 @@ Uitschakelen wanneer:
 OK
 [Cancel]
 Annuleren
-[User Details]
+[User details]
 Gebruikersdetails
 ;file \plugins\Popup\src\main.cpp
 [Contacts]

@@ -1,4 +1,0 @@
-﻿[&Emoticons]
-[&Room Settings]
-[&Show/hide nicklist]
-[will return parsed string %miranda_userdata%\\Logs]

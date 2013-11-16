@@ -489,7 +489,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [&Add to List]
 Добавяне в списъка
-[User &Details]
+[User &details]
 Подробности за потребителя
 [Send &Message]
 Изпращане на съобщение
@@ -522,8 +522,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отхвърляне
 [Decide &Later]
 Попитай по-късно
-[User &details]
-
 [Reason:]
 Причина:
 [Denial Reason:]
@@ -2056,7 +2054,7 @@ URL
 [(Unknown Contact)]
 (Непознат контакт)
 ;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
+[&Main menu]
 Главно меню
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2460,7 +2458,7 @@ SMS
 Без отметка
 [Help]
 Помощ
-[Miranda Website]
+[Miranda website]
 Сайта на Miranda
 [Small Dot]
 Малка точица
@@ -2480,7 +2478,7 @@ ANSI приставка
 Показване/Скриване
 [Exit]
 Изход
-[Main Menu]
+[Main menu]
 Главно меню
 [Leave chat]
 Излизане от чата

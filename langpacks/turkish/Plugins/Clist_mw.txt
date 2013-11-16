@@ -332,8 +332,8 @@ _ProtokolYok_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Kişi Ara/Bul...
-[&Main Menu]
-Ana &Menü
+[&Main menu]
+Ana &menü
 [&Options...]
 &Seçenekler...
 ;file \plugins\Clist_mw\src\clui.cpp
