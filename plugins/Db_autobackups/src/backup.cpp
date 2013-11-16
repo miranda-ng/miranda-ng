@@ -33,7 +33,8 @@ TCHAR* DoubleSlash(TCHAR *sorce)
 	for (s = sorce, r = ret; *s && r - ret < MAX_PATH - 1; s++, r++){
 		if (*s != _T('\\'))
 			*r = *s;
-		else{
+		else
+		{
 			*r = _T('\\');
 			r++;
 			*r = _T('\\');
@@ -82,7 +83,7 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 					MSG msg;
 					if ( void* buf = mir_alloc( buf_length ) )
 					{
-						while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) == 0)
+						while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1)
 						{
 							DWORD read = 0;
 							if ( ! ReadFile( hSrc, buf, buf_length, &read, NULL ) )
@@ -165,7 +166,7 @@ int Comp(const void *i, const void *j)
 	backupFile *pi = (backupFile*)i;
 	backupFile *pj = (backupFile*)j;
 
-	if(pi->CreationTime.dwHighDateTime > pj->CreationTime.dwHighDateTime ||  (pi->CreationTime.dwHighDateTime == pj->CreationTime.dwHighDateTime && pi->CreationTime.dwLowDateTime > pj->CreationTime.dwLowDateTime))
+	if (pi->CreationTime.dwHighDateTime > pj->CreationTime.dwHighDateTime ||  (pi->CreationTime.dwHighDateTime == pj->CreationTime.dwHighDateTime && pi->CreationTime.dwLowDateTime > pj->CreationTime.dwLowDateTime))
 		return -1;
 	else
 		return 1;
@@ -184,22 +185,23 @@ int RotateBackups()
 		return 0;
 
 	backupFile *bf = (backupFile*)mir_calloc(sizeof(backupFile));
-	_tcscpy(bf[0].Name, FindFileData.cFileName);
-	bf[0].CreationTime = FindFileData.ftCreationTime;
 
-	while(FindNextFile(hFind, &FindFileData)){
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-			continue;
-
-		bf = (backupFile*)mir_realloc(bf, (++i + 1) * sizeof(backupFile));
-		if (bf == 0)
-			return 1;
+	while(bf)
+	{
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY){
+			if (FindNextFile(hFind, &FindFileData))
+				continue;
+			else break;
+		}
 		_tcscpy(bf[i].Name, FindFileData.cFileName);
 		bf[i].CreationTime = FindFileData.ftCreationTime;
+		if (FindNextFile(hFind, &FindFileData))
+			bf = (backupFile*)mir_realloc(bf, (++i + 1) * sizeof(backupFile));
+		else break;
 	}
 	FindClose(hFind);
 	if (i > 0)
-		qsort(bf, i+1, sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
+		qsort(bf, i + 1, sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
 
 	for(;i >= options.num_backups - 1; i--){
 		mir_sntprintf(backupfilename1, MAX_PATH, _T("%s\\%s"), backupfolder, bf[i].Name);
@@ -259,13 +261,13 @@ int Backup(TCHAR* backup_filename)
 	mir_sntprintf(source_file, MAX_PATH, _T("%s\\%s"), profilePath, dbname);
 	TCHAR *pathtmp = Utils_ReplaceVarsT(source_file);
 	BOOL res = 0;
-	if(bZip)
+	if (bZip)
 		res = MakeZip(pathtmp, dest_file);
 	else
 		res = CopyFile(pathtmp, dest_file, 0);
 	if (res)
 	{
-		if(!bZip)
+		if (!bZip)
 		{ // Set the backup file to the current time for rotator's correct  work
 			FILETIME ft;
 			SYSTEMTIME st;
