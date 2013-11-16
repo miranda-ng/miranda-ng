@@ -134,28 +134,25 @@ CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
 	m_nSizeSubject    = 0    ;
 	m_nSizeEntryID    = 0    ;
  
-	if (NULL != szSender )
-	{
-		m_nSizeSender = _tcslen ( szSender ) +1;
-		m_szSender    = new TCHAR[ m_nSizeSender ];
-		memset ( m_szSender, 0, m_nSizeSender * sizeof(TCHAR) );
-		_tcscpy( m_szSender, szSender);
+	if (NULL != szSender) {
+		m_nSizeSender = (UINT)_tcslen(szSender)+1;
+		m_szSender = new TCHAR[ m_nSizeSender ];
+		memset(m_szSender, 0, m_nSizeSender * sizeof(TCHAR));
+		_tcscpy(m_szSender, szSender);
 	}
 	
-	if ( NULL != szSubject )
-	{
-		m_nSizeSubject = _tcslen( szSubject ) +1;
-		m_szSubject    = new TCHAR[m_nSizeSubject];
-		memset ( m_szSubject, 0, m_nSizeSubject * sizeof(TCHAR) );
-		_tcscpy( m_szSubject, szSubject );
+	if (NULL != szSubject) {
+		m_nSizeSubject = (UINT)_tcslen(szSubject) +1;
+		m_szSubject = new TCHAR[m_nSizeSubject];
+		memset(m_szSubject, 0, m_nSizeSubject * sizeof(TCHAR));
+		_tcscpy(m_szSubject, szSubject);
 	}
 	
-	if ( NULL != szEntryID )
-	{
-		m_nSizeEntryID = strlen( szEntryID ) +1;
-		m_szEntryID    = new char[m_nSizeEntryID];
-		memset ( m_szEntryID, 0, m_nSizeEntryID * sizeof(char) );
-		strcpy( m_szEntryID, szEntryID );
+	if (NULL != szEntryID) {
+		m_nSizeEntryID = (UINT)strlen( szEntryID ) +1;
+		m_szEntryID = new char[m_nSizeEntryID];
+		memset(m_szEntryID, 0, m_nSizeEntryID * sizeof(char));
+		strcpy(m_szEntryID, szEntryID );
 	}
 }
 
@@ -413,73 +410,59 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPassword, LPCTSTR szExchangeServer )
 {
 	_popupUtil("Connecting to Exchange ...");
-	UINT  nSize        = 0;
+	UINT  nSize = 0;
 	short nSizeOfTCHAR = sizeof( TCHAR );
 
-	if ( ( m_szUsername == NULL ) && ( NULL != szUsername ) )
-	{
-		nSize = _tcslen(szUsername);
-		if (nSize>0)
-		{	
+	if (m_szUsername == NULL && NULL != szUsername) {
+		nSize = (UINT)_tcslen(szUsername);
+		if (nSize > 0) {	
 			nSize++;
-			m_szUsername = new TCHAR[ nSize ];
+			m_szUsername = new TCHAR[nSize];
 			memset ( m_szUsername, 0, nSize * nSizeOfTCHAR );
 			_tcscpy( m_szUsername, szUsername );
 		}
 	}	
 	
-	if ( ( m_szPassword == NULL ) && ( NULL != szPassword ) )
-	{
-		nSize = _tcslen( szPassword );
-		if ( nSize>0 )
-		{	
+	if (m_szPassword == NULL && NULL != szPassword) {
+		nSize = (UINT)_tcslen(szPassword);
+		if (nSize > 0) {	
 			nSize++;
-			m_szPassword = new TCHAR[ nSize ];
-			memset ( m_szPassword, 0, nSize * nSizeOfTCHAR );
-			_tcscpy( m_szPassword, szPassword );
+			m_szPassword = new TCHAR[nSize];
+			memset(m_szPassword, 0, nSize * nSizeOfTCHAR);
+			_tcscpy(m_szPassword, szPassword);
 		}
 	}
 
-	if ( ( m_szExchangeServer == NULL ) && ( NULL != szExchangeServer ) )
-	{
-		nSize = _tcslen(szExchangeServer);
-		if ( nSize>0 )
-		{	
+	if (m_szExchangeServer == NULL && NULL != szExchangeServer) {
+		nSize = (UINT)_tcslen(szExchangeServer);
+		if (nSize > 0) {	
 			nSize++;
-			m_szExchangeServer = new TCHAR[ nSize ];
-			memset ( m_szExchangeServer, 0, nSize * nSizeOfTCHAR );
-			_tcscpy( m_szExchangeServer, szExchangeServer );
+			m_szExchangeServer = new TCHAR[nSize];
+			memset(m_szExchangeServer, 0, nSize * nSizeOfTCHAR);
+			_tcscpy(m_szExchangeServer, szExchangeServer);
 		}
 	}
 	
-	if ( !m_bLoginOK || m_lpInbox || NULL == m_lpMAPISession )
-	{
+	if (!m_bLoginOK || m_lpInbox || NULL == m_lpMAPISession) {
 		HRESULT hr          = S_OK;
 		LPMDB lpMDB         = NULL;
 		MAPIINIT_0 mapiInit = { MAPI_INIT_VERSION , MAPI_MULTITHREAD_NOTIFICATIONS };
 		
-		if( !m_bNoInitAgain)
-		{
+		if( !m_bNoInitAgain) {
 			m_bNoInitAgain = true;
 			hr = MAPIInitialize( &mapiInit) ;
 		}
 		
-		if( FAILED(hr) )
-		{
-			//Log("Failed to initialize MAPI\n");
-		}
-		else
-		{
+		if( SUCCEEDED(hr)) {
 			TCHAR	szPIDandName[128];
 			TCHAR	szPID[20];
 
-			_tstrtime( szPID );
-			_tcscpy(szPIDandName,m_szUsername);		
-			_tcscat(szPIDandName,szPID  );
+			_tstrtime(szPID);
+			_tcscpy(szPIDandName, m_szUsername);		
+			_tcscat(szPIDandName, szPID);
 			
-			hr = CreateProfile( szPIDandName);
-			if ( HR_FAILED(hr ) )
-			{
+			hr = CreateProfile(szPIDandName);
+			if ( HR_FAILED(hr)) {
 				//Log("Create profile failed: 0x%08X", hr);
 				return hr;
 			}
@@ -488,8 +471,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			
 			hr = MAPILogonEx( 0, szPIDandName, m_szPassword, dwFlags, &m_lpMAPISession );
 
-			if (FAILED(hr))
-			{
+			if (FAILED(hr)) {
 				//Log( _T("MAPI Logon failed: 0x%08X"), hr );
 				return hr;
 			}
@@ -501,10 +483,8 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			{
 				//Log("Admin profile interface creation failed: 0x%08X", hr);
 			}
-			else
-			{
+			else {
 				hr = pProfAdmin->DeleteProfile( szPIDandName, 0 );
-			
 				if ( FAILED(hr) )
 				{
 					//Log( "Failed to delete the profile: 0x%08X", hr );
@@ -512,18 +492,14 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			}
 			
 			if (pProfAdmin)
-			{
 				pProfAdmin->Release();
-			}
 			
 			ULONG cbDefStoreEid = 0;
 
 			CMAPIBuffer< LPENTRYID>  pDefStoreEid = NULL;
 			hr = HrMAPIFindDefaultMsgStore(m_lpMAPISession, &cbDefStoreEid, &pDefStoreEid );
 			if (FAILED(hr)) 
-			{
 				return hr;
-			}
 			
 			// Open default message store
 			LPMDB pDefMsgStore = NULL;
@@ -535,20 +511,15 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			CMAPIBuffer< LPENTRYID>  lpInboxEID = NULL;
 			
 			if (NULL == pDefMsgStore )
-			{
 				return hr;
-			}
 
 			hRes = pDefMsgStore->GetReceiveFolder( _T("IPM"), NULL, &cbInboxEID,  &lpInboxEID, NULL);
 			m_lpMDB = pDefMsgStore;
-			if (cbInboxEID && lpInboxEID)
-			{
+			if (cbInboxEID && lpInboxEID) {
 				hRes = CallOpenEntry( pDefMsgStore, NULL, NULL, NULL, cbInboxEID, lpInboxEID, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&m_lpInbox);
 			
 				if ( m_lpInbox && hRes == S_OK)
-				{
 					m_bFolderInboxOK = true;
-				}
 			}
 		}
 	}
@@ -608,9 +579,8 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 							0,
 							&pRows);
 						
-						if (!FAILED(hr)) 
-						{
-							UINT nSize = _tcslen(m_szUsername)+2;
+						if (!FAILED(hr)) {
+							UINT nSize = (UINT)_tcslen(m_szUsername)+2;
 							
 							TCHAR* szUniqName = new TCHAR[nSize];
 							
