@@ -951,7 +951,7 @@ CRijndael::~CRijndael()
 // chain      - initial chain block
 // keylength  - 16, 24 or 32 bytes
 // blockSize  - The block size in bytes of this Rijndael (16, 24 or 32 bytes).
-int CRijndael::MakeKey(char const* key, char const* chain, int keylength, int blockSize)
+int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int blockSize)
 {
 	if (NULL == key)
 		return 1;
@@ -992,12 +992,12 @@ int CRijndael::MakeKey(char const* key, char const* chain, int keylength, int bl
 	int KC = m_keylength / 4;
 	//Copy user material bytes into temporary ints
 	int* pi = tk;
-	char const* pc = key;
+	BYTE const* pc = key;
 	for (i = 0; i < KC; i++) {
-		*pi = (unsigned char)*(pc++) << 24;
-		*pi |= (unsigned char)*(pc++) << 16;
-		*pi |= (unsigned char)*(pc++) << 8;
-		*(pi++) |= (unsigned char)*(pc++);
+		*pi = *(pc++) << 24;
+		*pi |= *(pc++) << 16;
+		*pi |= *(pc++) << 8;
+		*(pi++) |= *(pc++);
 	}
 	//Copy values into round key arrays
 	int t = 0;
@@ -1296,7 +1296,7 @@ void CRijndael::DecryptBlock(char const* in, char* result)
 	}
 }
 
-int CRijndael::Encrypt(char const* in, char* result, size_t n)
+int CRijndael::Encrypt(void const* in, void* result, size_t n)
 {
 	if (!m_bKeyInit)
 		return 1;
@@ -1305,11 +1305,10 @@ int CRijndael::Encrypt(char const* in, char* result, size_t n)
 	if (0 == n || n%m_blockSize != 0)
 		return 2;
 
-	int i;
-	char const* pin;
-	char* presult;
+	char const* pin = (char const*)in;
+	char* presult = (char*)result;
 
-	for (i = 0, pin = in, presult = result; i < n / m_blockSize; i++) {
+	for (int i = 0; i < n / m_blockSize; i++) {
 		Xor(m_chain, pin);
 		EncryptBlock(m_chain, presult);
 		memcpy(m_chain, presult, m_blockSize);
@@ -1319,7 +1318,7 @@ int CRijndael::Encrypt(char const* in, char* result, size_t n)
 	return 0;
 }
 
-int CRijndael::Decrypt(char const* in, char* result, size_t n)
+int CRijndael::Decrypt(void const* in, void* result, size_t n)
 {
 	if (!m_bKeyInit)
 		return 1;
@@ -1327,11 +1326,10 @@ int CRijndael::Decrypt(char const* in, char* result, size_t n)
 	if (0 == n || n%m_blockSize != 0)
 		return 2;
 
-	int i;
-	char const* pin;
-	char* presult;
+	char const* pin = (char const*)in;
+	char* presult = (char*)result;
 
-	for (i = 0, pin = in, presult = result; i < n / m_blockSize; i++) {
+	for (int i = 0; i < n / m_blockSize; i++) {
 		DecryptBlock(pin, presult);
 		Xor(presult, m_chain);
 		memcpy(m_chain, pin, m_blockSize);

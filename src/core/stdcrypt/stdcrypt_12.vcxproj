@@ -211,6 +211,7 @@
     <ClCompile Include="encrypt.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rijndael.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\m_crypto.h" />
@@ -222,6 +223,11 @@
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
     <ResourceCompile Include="version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\plugins\Zlib\zlib_12.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

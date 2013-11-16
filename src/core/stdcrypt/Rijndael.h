@@ -33,7 +33,7 @@ public:
 	// chain      - initial chain block
 	// keylength  - 16, 24 or 32 bytes
 	// blockSize  - The block size in bytes of this Rijndael (16, 24 or 32 bytes).
-	int MakeKey(char const* key, char const* chain, int keylength, int blockSize);
+	int MakeKey(BYTE const* key, char const* chain, int keylength, int blockSize);
 
 private:
 	//Auxiliary Function
@@ -66,9 +66,9 @@ public:
 	// result     - The plaintext generated from a ciphertext using the session key.
 	void DecryptBlock(char const* in, char* result);
 
-	int Encrypt(char const* in, char* result, size_t n);
+	int Encrypt(void const* in, void* result, size_t n);
 	
-	int Decrypt(char const* in, char* result, size_t n);
+	int Decrypt(void const* in, void* result, size_t n);
 
 	//Get Key Length
 	int GetKeyLength()

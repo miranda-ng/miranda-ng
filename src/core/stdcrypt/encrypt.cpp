@@ -23,6 +23,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+#include "..\..\..\plugins\zlib\src\zlib.h"
+
+struct ExternalKey
+{
+	BYTE  m_key[KEY_LENGTH];
+	DWORD m_crc32;
+	BYTE  slack[BLOCK_SIZE - sizeof(DWORD)];
+};
+
 CStdCrypt::CStdCrypt() :
 	m_password("Miranda")
 {}
@@ -34,47 +43,61 @@ void CStdCrypt::destroy()
 
 size_t CStdCrypt::getKeyLength()
 {
-	return KEY_LENGTH;
+	return sizeof(ExternalKey);
 }
 
 bool CStdCrypt::getKey(BYTE *pKey, size_t cbKeyLen)
 {
-	if (!m_valid || cbKeyLen < KEY_LENGTH)
+	if (!m_valid || cbKeyLen < sizeof(ExternalKey))
 		return false;
 
-	memcpy(pKey, m_key, sizeof(m_key));
-	if (cbKeyLen > KEY_LENGTH)
-		memset(pKey + KEY_LENGTH, 0, cbKeyLen - KEY_LENGTH);
+	ExternalKey tmp = { 0 };
+	memcpy(&tmp.m_key, m_key, KEY_LENGTH);
+	tmp.m_crc32 = crc32(0xAbbaDead, (LPCBYTE)m_password.GetString(), m_password.GetLength());
+	getRandomBytes(tmp.slack, sizeof(tmp.slack));
+
+	BYTE tmpHash[32];
+	slow_hash(m_password, m_password.GetLength(), tmpHash);
+
+	CRijndael tmpAes;
+	tmpAes.MakeKey(tmpHash, tmpAes.sm_chain0, KEY_LENGTH, BLOCK_SIZE);
+	tmpAes.Encrypt(&tmp, pKey, sizeof(tmp));
 	return true;
 }
 
-int CStdCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
+bool CStdCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
 {
-	if (cbKeyLen > KEY_LENGTH)
-		return false;
+	ExternalKey tmp = { 0 };
 
-	memcpy(m_key, pKey, cbKeyLen);
-	if (cbKeyLen < KEY_LENGTH)
-		memset(m_key + cbKeyLen, 0, KEY_LENGTH - cbKeyLen);
+	// full external key. decode & check password
+	if (cbKeyLen == sizeof(tmp)) { 
+		BYTE tmpHash[32];
+		slow_hash(m_password, m_password.GetLength(), tmpHash);
 
+		CRijndael tmpAes;
+		tmpAes.MakeKey(tmpHash, tmpAes.sm_chain0, KEY_LENGTH, BLOCK_SIZE);
+		tmpAes.Decrypt(pKey, &tmp, sizeof(tmp));
+		if (tmp.m_crc32 != crc32(0xAbbaDead, (LPCBYTE)m_password.GetString(), m_password.GetLength()))
+			return false;
+	}
+	// new key. simply copy it
+	else if (cbKeyLen == KEY_LENGTH) {
+		memcpy(&tmp.m_key, pKey, KEY_LENGTH);
+	}
+	else return false;
+
+	memcpy(m_key, &tmp.m_key, KEY_LENGTH);
 	m_aes.MakeKey(m_key, m_password, KEY_LENGTH, BLOCK_SIZE);
-	m_valid = true;
-	return 0;
+	return m_valid = true;
 }
 
-void CStdCrypt::generateKey(void)
+bool CStdCrypt::generateKey(void)
 {
-	LARGE_INTEGER counter;
-	QueryPerformanceCounter(&counter);
-	srand(counter.LowPart);
+	BYTE tmp[KEY_LENGTH];
+	if (!getRandomBytes(tmp, sizeof(tmp)))
+		return false;
 
-	for (int i = 0; i < sizeof(m_key); i++) {
-		m_key[i] = (BYTE)rand();
-		Sleep(0);
-	}
-
-	m_aes.MakeKey(m_key, m_password, KEY_LENGTH, BLOCK_SIZE);
-	m_valid = true;
+	return setKey(tmp, sizeof(tmp));
 }
 
 void CStdCrypt::purgeKey(void)

@@ -31,7 +31,7 @@ struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 	BOOL      m_valid;
 	CMStringA m_password;
 
-	char      m_key[KEY_LENGTH];
+	BYTE      m_key[KEY_LENGTH];
 	CRijndael m_aes;
 
 	STDMETHODIMP_(void) destroy();
@@ -39,9 +39,9 @@ struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 	// get/set the instance key
 	STDMETHODIMP_(size_t) getKeyLength(void);
 	STDMETHODIMP_(bool) getKey(BYTE *pKey, size_t cbKeyLen);
-	STDMETHODIMP_(int) setKey(const BYTE *pKey, size_t cbKeyLen);
+	STDMETHODIMP_(bool) setKey(const BYTE *pKey, size_t cbKeyLen);
 
-	STDMETHODIMP_(void) generateKey(void); // creates a new key inside
+	STDMETHODIMP_(bool) generateKey(void); // creates a new key inside
 	STDMETHODIMP_(void) purgeKey(void);    // purges a key from memory
 
 	// sets the master password (in utf-8)
