@@ -59,6 +59,7 @@ int CDb3Base::InitCrypt()
 	dbv.type = DBVT_BLOB;
 	dbcgs.szSetting = "StoredKey";
 	if (GetContactSetting(NULL, &dbcgs)) {
+LBL_SetNewKey:
 		m_crypto->generateKey(); // unencrypted key
 		
 		BYTE *pKey = (BYTE*)_alloca(iKeyLength);
@@ -74,7 +75,7 @@ int CDb3Base::InitCrypt()
 	}
 	else {
 		if (dbv.cpbVal != (WORD)iKeyLength)
-			return 4;
+			goto LBL_SetNewKey;
 
 		m_crypto->setKey(dbv.pbVal, iKeyLength);
 		FreeVariant(&dbv);
