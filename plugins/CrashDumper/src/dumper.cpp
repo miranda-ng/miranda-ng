@@ -681,6 +681,6 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 	if (len > 8192) free(dst);
 
 
-	if (msg && MessageBox(NULL, msg, TEXT("Miranda Crash Dumper"), MB_YESNO | MB_ICONERROR | MB_TASKMODAL | MB_DEFBUTTON2 | MB_TOPMOST) == IDYES)
+	if (db_get_b(0,PluginName,"ShowCrashMessageBox",1) && msg && MessageBox(NULL, msg, TEXT("Miranda Crash Dumper"), MB_YESNO | MB_ICONERROR | MB_TASKMODAL | MB_DEFBUTTON2 | MB_TOPMOST) == IDYES)
 		StoreStringToClip(buffer);
 }
