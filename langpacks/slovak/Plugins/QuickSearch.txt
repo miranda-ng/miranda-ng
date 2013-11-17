@@ -217,11 +217,3 @@ Nový
 
 [QuickSearch window hotkey]
 
-[Previous item]
-
-[Next item]
-
-[Open main window]
-
-[Frame background]
-

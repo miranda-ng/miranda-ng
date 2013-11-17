@@ -217,11 +217,3 @@ Hintergrund versteckter Kontakte
 Vordergrund versteckter Kontakte
 [QuickSearch window hotkey]
 Schnellsuchfensterhotkey
-[Previous item]
-Vorheriger Eintrag
-[Next item]
-Nächster Eintrag
-[Open main window]
-Öffne Hauptfenster
-[Frame background]
-Framehintergrund

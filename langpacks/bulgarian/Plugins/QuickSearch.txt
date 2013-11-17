@@ -217,11 +217,3 @@ CSV с горни колонтитули
 Цвят на текста за скрит контакт
 [QuickSearch window hotkey]
 
-[Previous item]
-Предишен елемент
-[Next item]
-Следващ елемент
-[Open main window]
-Отваряне на главния прозорец
-[Frame background]
-Фон на рамката

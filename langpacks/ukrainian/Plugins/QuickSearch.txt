@@ -216,11 +216,3 @@ CSV з заголовками
 Текст прихованих контактів
 [QuickSearch window hotkey]
 Відкрити вікно швидкого пошуку
-[Previous item]
-Попередній збіг
-[Next item]
-Такий збіг
-[Open main window]
-Відкрити основний вікно
-[Frame background]
-Фон фрейму

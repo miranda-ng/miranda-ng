@@ -571,7 +571,7 @@ HTML файл
 Також видалити історію субконтактов
 [History of this contact is password protected]
 Історія цього контакту захищена паролем
-[Prevous message]
+[Previous message]
 Попереднє повідомлення
 [Running version of AniSmiley is not supported]
 Ця версія AniSmiley не підтримується

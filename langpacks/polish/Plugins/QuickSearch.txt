@@ -217,11 +217,3 @@ Ukryj tło kontaktu
 Ukryj tło pierwszoplanowe kontaktu
 [QuickSearch window hotkey]
 Otwórz okno szybkiego szukania
-[Previous item]
-Poprzedni
-[Next item]
-Następny
-[Open main window]
-Otwórz okno główne
-[Frame background]
-Tło ramki

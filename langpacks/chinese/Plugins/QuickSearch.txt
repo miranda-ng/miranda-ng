@@ -203,9 +203,3 @@ CSV 标题
 隐藏联系人前景
 [QuickSearch window hotkey]
 快速搜索窗口热键
-[Previous item]
-上一项
-[Next item]
-下一项
-[Open main window]
-打开主窗口
