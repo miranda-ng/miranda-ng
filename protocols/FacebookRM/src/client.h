@@ -95,7 +95,7 @@ public:
 
 	std::map<std::string, std::string> cookies;
 	std::map<std::string, std::string> pages;
-	std::map<std::string, facebook_chatroom> chat_rooms;
+	std::map<std::tstring, facebook_chatroom> chat_rooms;
 
 	std::string get_newsfeed_type();
 	std::string get_server_type();

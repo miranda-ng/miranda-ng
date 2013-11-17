@@ -76,7 +76,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	send_chat *data = static_cast<send_chat*>(p);
 	std::string err_message = "";
 
-	HANDLE hContact = ChatIDToHContact(data->chat_id);
+	HANDLE hContact = ChatIDToHContact(std::tstring(_A2T(data->chat_id.c_str())));
 	if (hContact) {		
 		std::string tid;
 		DBVARIANT dbv;
@@ -98,9 +98,9 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		
 		if (!tid.empty()) {
 			if (facy.send_message(tid, data->msg, &err_message, MESSAGE_TID))
-				UpdateChat(data->chat_id.c_str(), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
+				UpdateChat(_A2T(data->chat_id.c_str()), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
 			else
-				UpdateChat(data->chat_id.c_str(), NULL, NULL, err_message.c_str());
+				UpdateChat(_A2T(data->chat_id.c_str()), NULL, NULL, err_message.c_str());
 		}
 	}
 

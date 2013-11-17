@@ -362,7 +362,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 					// Set thread id (TID) for later.
 					AddChat(room->thread_id.c_str(), room->chat_name.c_str());
 					hChatContact = ChatIDToHContact(room->thread_id);
-					setString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
+					setTString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
 
 					for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end(); ) {
 						AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
@@ -373,7 +373,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 				if (!hChatContact)
 					hChatContact = ChatIDToHContact(room->thread_id);
 
-				setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, room->thread_id.c_str());
+				setTString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, room->thread_id.c_str());
 				ForkThread(&FacebookProto::ReadMessageWorker, hChatContact);
 
 				delete it->second;
@@ -385,7 +385,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {				
 				if (messages[i]->isChat) {
 					debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
-					UpdateChat(messages[i]->thread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time);
+					UpdateChat(_A2T(messages[i]->thread_id.c_str()), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time);
 				} else if (messages[i]->user_id != facy.self_.user_id) {
 					debugLogA("      Got message: %s", messages[i]->message_text.c_str());
 					facebook_user fbu;

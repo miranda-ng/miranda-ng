@@ -361,14 +361,15 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid != NULL) { // multi user chat
-					std::string tid = json_as_pstring(threadid);
+					std::tstring tid = json_as_string(threadid);
 					std::string reader_id = json_as_pstring(reader);
 
-					std::map<std::string, facebook_chatroom>::iterator chatroom = proto->facy.chat_rooms.find(tid);
+					std::map<std::tstring, facebook_chatroom>::iterator chatroom = proto->facy.chat_rooms.find(tid);
 					if (chatroom != proto->facy.chat_rooms.end()) {
 						std::map<std::string, std::string>::const_iterator participant = chatroom->second.participants.find(reader_id);
 						if (participant == chatroom->second.participants.end()) {
-							std::string search = utils::url::encode(tid) + "?";
+							std::string tidA = _T2A(tid.c_str());
+							std::string search = utils::url::encode(tidA) + "?";
 							http::response resp = proto->facy.flap(REQUEST_USER_INFO, NULL, &search);
 
 							if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
@@ -454,14 +455,14 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				// Multi-user
 				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
 				if (gthreadinfo != NULL) {
-					std::string thread_id = json_as_pstring(tid);
+					std::tstring thread_id = json_as_string(tid);
 
 					// This is a recent 5 person listing of participants.
 					JSONNODE *participants_ids = json_get(gthreadinfo, "participant_ids");
 					JSONNODE *participants_names = json_get(gthreadinfo, "participant_names");
 
 					JSONNODE *thread_name_ = json_get(gthreadinfo, "name");
-					std::string name = json_as_pstring(thread_name_);
+					std::tstring name = json_as_string(thread_name_);
 
 					// if there is no name for this room, set own name
 					if (name.empty()) {
@@ -471,16 +472,16 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 							JSONNODE *nameItr = json_at(participants_names, n);
 							
 							if (!name.empty())
-								name += ", ";
+								name += _T(", ");
 
-							name += json_as_pstring(nameItr);
+							name += json_as_string(nameItr);
 						}
 						JSONNODE *count_ = json_get(gthreadinfo, "participant_total_count");
 						unsigned int count = json_as_int(count_);
 
 						if (count > namesCount) {
-							char more[200];
-							mir_snprintf(more, SIZEOF(more), Translate("%s and more (%d)"), name.c_str(), count - namesCount);
+							TCHAR more[200];
+							mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), name.c_str(), count - namesCount);
 							name = more;
 						}
 					}
@@ -493,7 +494,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						// Set thread id (TID) for later.
 						proto->AddChat(thread_id.c_str(), name.c_str());
 						hChatContact = proto->ChatIDToHContact(thread_id);
-						proto->setString(hChatContact, FACEBOOK_KEY_TID, thread_id.c_str());
+						proto->setTString(hChatContact, FACEBOOK_KEY_TID, thread_id.c_str());
 					}
 
 					if (!hChatContact)
@@ -664,7 +665,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				JSONNODE *name_ = json_get(log_data_, "name");
 				std::string name = json_as_pstring(name_);
-				std::string thread_id = json_as_pstring(thread_id_);
+				std::tstring thread_id = json_as_string(thread_id_);
 				std::string message = json_as_pstring(log_body_);
 
 				// proto->RenameChat(thread_id.c_str(), name.c_str()); // this don't work, why?
@@ -760,7 +761,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			JSONNODE *it = json_at(roger, i);
 			
 			facebook_chatroom *room = new facebook_chatroom();
-			room->thread_id = json_name(it);
+			room->thread_id = _A2T(json_name(it));
 
 			for (unsigned int j = 0; j < json_size(it); j++) {
 				JSONNODE *jt = json_at(it, j);
@@ -768,7 +769,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 				room->participants.insert(std::make_pair(user_id, user_id)); // TODO: get name somehow
 			}
 
-			chatrooms->insert(std::make_pair(room->thread_id, room));
+			chatrooms->insert(std::make_pair(_T2A(room->thread_id.c_str()), room));
 		}
 	}
 
@@ -782,7 +783,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(json_as_pstring(thread_id));
 		if (iter != chatrooms->end()) {
-			iter->second->chat_name = json_as_pstring(name); // TODO: create name from users if there is no name...
+			iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
 		}
 
 		if (canonical == NULL || thread_id == NULL)

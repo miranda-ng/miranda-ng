@@ -63,8 +63,8 @@ struct facebook_chatroom
 {
 	HANDLE handle;
 
-	std::string chat_name;
-	std::string thread_id;
+	std::tstring chat_name;
+	std::tstring thread_id;
 	std::map<std::string, std::string> participants;
 
 	std::string message_readers;

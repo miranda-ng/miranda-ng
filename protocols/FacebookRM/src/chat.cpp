@@ -24,15 +24,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_history.h>
 #include <m_userinfo.h>
 
-void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp)
+void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char *name, const char *message, DWORD timestamp)
 {
-	ptrT tchat_id( mir_a2t(chat_id));
 	ptrT tid( mir_a2t(id));
 	ptrT tnick( mir_a2t_cp(name,CP_UTF8));
 	ptrT ttext( mir_a2t_cp(message,CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = tchat_id;
+	gcd.ptszID = (TCHAR *)tchat_id;
 
 	GCEVENT gce  = {sizeof(gce)};
 	gce.pDest    = &gcd;
@@ -49,7 +48,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 	
-	std::map<std::string, facebook_chatroom>::iterator chatroom = facy.chat_rooms.find(chat_id);
+	std::map<std::tstring, facebook_chatroom>::iterator chatroom = facy.chat_rooms.find(tchat_id);
 	chatroom->second.message_readers = "";
 
 	//HANDLE hChatContact = ChatIDToHContact(chat_id);
@@ -155,14 +154,13 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-void FacebookProto::AddChatContact(const char *chat_id, const char *id, const char *name)
+void FacebookProto::AddChatContact(const TCHAR *tchat_id, const char *id, const char *name)
 {
-	ptrT tchat_id( mir_a2t(chat_id));
 	ptrT tnick( mir_a2t_cp(name, CP_UTF8));
 	ptrT tid( mir_a2t(id));
 
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = tchat_id;
+	gcd.ptszID = (TCHAR *)tchat_id;
 	gcd.iType  = GC_EVENT_JOIN;
 
 	GCEVENT gce    = {sizeof(gce)};
@@ -178,7 +176,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const char *id, const ch
 	else
 		gce.ptszStatus = _T("Normal");
 
-	std::map<std::string, facebook_chatroom>::iterator room = facy.chat_rooms.find(chat_id);
+	std::map<std::tstring, facebook_chatroom>::iterator room = facy.chat_rooms.find(tchat_id);
 	if(room != facy.chat_rooms.end())
 		room->second.participants.insert(std::make_pair(id, name));
 
@@ -186,17 +184,16 @@ void FacebookProto::AddChatContact(const char *chat_id, const char *id, const ch
 }
 
 
-void FacebookProto::RemoveChatContact(const char *chat_id, const char *id)
+void FacebookProto::RemoveChatContact(const TCHAR *tchat_id, const char *id)
 {
 	// We dont want to remove our self-contact from chat. Ever.
 	if (!strcmp(id, facy.self_.user_id.c_str()))
 		return;
 
-	ptrT tchat_id( mir_a2t(chat_id));
 	ptrT tid( mir_a2t(id));
 	
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = tchat_id;
+	gcd.ptszID = (TCHAR *)tchat_id;
 	gcd.iType  = GC_EVENT_PART;
 
 	GCEVENT gce    = {sizeof(gce)};
@@ -208,7 +205,7 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id)
 	gce.time       = ::time(NULL);
 	gce.bIsMe      = false;//!strcmp(id, facy.self_.user_id.c_str());
 
-	std::map<std::string, facebook_chatroom>::iterator room = facy.chat_rooms.find(chat_id);
+	std::map<std::tstring, facebook_chatroom>::iterator room = facy.chat_rooms.find(tchat_id);
 	if (room != facy.chat_rooms.end())
 		room->second.participants.erase(id);
 
@@ -216,13 +213,12 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id)
 }
 
 /** Caller must free result */
-char *FacebookProto::GetChatUsers(const char *chat_id)
+char *FacebookProto::GetChatUsers(const TCHAR *chat_id)
 {
-	ptrT tid( mir_a2t(chat_id));
 	GC_INFO gci = {0};
 	gci.Flags = USERS;
 	gci.pszModule = m_szModuleName;
-	gci.pszID = tid;
+	gci.pszID = (TCHAR *)chat_id;
 	CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
 
 	debugLogA("**Chat - Users in chat %s: %s", chat_id, gci.pszUsers);
@@ -231,18 +227,15 @@ char *FacebookProto::GetChatUsers(const char *chat_id)
 	return gci.pszUsers;
 }
 
-bool FacebookProto::IsChatContact(const char *chat_id, const char *id)
+bool FacebookProto::IsChatContact(const TCHAR *chat_id, const char *id)
 {
 	ptrA users( GetChatUsers(chat_id));
 	return (users != NULL && strstr(users, id) != NULL);
 }
 
-void FacebookProto::AddChat(const char *id, const char *name)
+void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 {
 	GCSESSION gcw = {sizeof(gcw)};
-
-	ptrT tname( mir_a2t_cp(name, CP_UTF8));
-	ptrT tid( mir_a2t(id));
 
 	// Create the group chat session
 	gcw.dwFlags   = GC_TCHAR;
@@ -254,7 +247,7 @@ void FacebookProto::AddChat(const char *id, const char *name)
 
 	// Send setting events
 	GCDEST gcd = { m_szModuleName };
-	gcd.ptszID = tid;
+	gcd.ptszID = (TCHAR *)tid;
 
 	GCEVENT gce = {sizeof(gce)};
 	gce.pDest = &gcd;
@@ -273,11 +266,11 @@ void FacebookProto::AddChat(const char *id, const char *name)
 	gce.pDest = &gcd;
 	
 	facebook_chatroom chatroom;
-	chatroom.chat_name = name;
-	facy.chat_rooms.insert(std::make_pair(id, chatroom));
+	chatroom.chat_name = tname;
+	facy.chat_rooms.insert(std::make_pair(tid, chatroom));
 
 	// Add self contact
-	AddChatContact(id, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
+	AddChatContact(tid, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
 	CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
 }
@@ -305,10 +298,10 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
 
 	// TODO: load info from server + old history,...
 
-	ptrA id( getStringA(hContact, "ChatRoomID"));
-	ptrA name( getStringA(hContact, "Nick"));
+	ptrT idT( getTStringA(hContact, "ChatRoomID"));
+	ptrT nameT( getTStringA(hContact, "Nick"));
 
-	AddChat(id, name);
+	AddChat(idT, nameT);
 
 /*	GCSESSION gcw = {sizeof(gcw)};
 

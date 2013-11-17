@@ -187,20 +187,20 @@ public:
 	// Contacts handling
 	bool    IsMyContact(HANDLE, bool include_chat = false);
 	HANDLE  ContactIDToHContact(std::string);
-	HANDLE  ChatIDToHContact(std::string);
+	HANDLE  ChatIDToHContact(std::tstring);
 	HANDLE  AddToContactList(facebook_user*, ContactType type, bool dont_check = false);
 	void    SetAllContactStatuses(int status, bool reset_client = false);
 	HANDLE  HContactFromAuthEvent(HANDLE hEvent);
 
 	// Chats handling
- 	void AddChat(const char *id, const char *name);
-	void UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0);
+ 	void AddChat(const TCHAR *id, const TCHAR *name);
+	void UpdateChat(const TCHAR *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0);
 	void RenameChat(const char *chat_id, const char *name);
-	bool IsChatContact(const char *chat_id, const char *id);
-	void AddChatContact(const char *chat_id, const char *id, const char *name);
-	void RemoveChatContact(const char *chat_id, const char *id);
+	bool IsChatContact(const TCHAR *chat_id, const char *id);
+	void AddChatContact(const TCHAR *chat_id, const char *id, const char *name);
+	void RemoveChatContact(const TCHAR *chat_id, const char *id);
 	void SetChatStatus(const char *chat_id, int status);
-	char *GetChatUsers(const char *chat_id);
+	char *GetChatUsers(const TCHAR *chat_id);
 
 	// Connection client
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic

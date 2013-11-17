@@ -66,14 +66,14 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 	return false;
 }
 
-HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
+HANDLE FacebookProto::ChatIDToHContact(std::tstring chat_id)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact, true))
 			continue;
 
-		ptrA id(getStringA(hContact, "ChatRoomID"));
-		if (id && !strcmp(id, chat_id.c_str()))
+		ptrT id(getTStringA(hContact, "ChatRoomID"));
+		if (id && !_tcscmp(id, chat_id.c_str()))
 			return hContact;
 	}
 
