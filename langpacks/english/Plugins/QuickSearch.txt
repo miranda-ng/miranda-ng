@@ -111,7 +111,3 @@
 [Hidden contact background]
 [Hidden contact foreground]
 [QuickSearch window hotkey]
-[Previous item]
-[Next item]
-[Open main window]
-[Frame background]
