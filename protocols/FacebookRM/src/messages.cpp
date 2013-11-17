@@ -169,8 +169,11 @@ void FacebookProto::ReadMessageWorker(void *p)
 {
 	if (p == NULL)
 		return;
-
+	
 	HANDLE hContact = static_cast<HANDLE>(p);
+	
+	if (getBool(FACEBOOK_KEY_KEEP_UNREAD, 0) || getBool(hContact, FACEBOOK_KEY_KEEP_UNREAD, 0))
+		return;
 
 	// mark message read (also send seen info)
 	ptrA mid( getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
