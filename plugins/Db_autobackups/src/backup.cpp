@@ -47,81 +47,72 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 {
 	bool ret = false;
 
-	char* tmp = mir_u2a(tszSource);
-
-	ptrA szSourceName(mir_strdup(strrchr(tmp, '\\') + 1));
+	ptrA szSourceName(mir_u2a(dbname));
 	ptrT tszDestPath(DoubleSlash((TCHAR*)tszDest));
 
-	mir_free(tmp);
-
 	WIN32_FILE_ATTRIBUTE_DATA fad = {0};
-	if ( GetFileAttributesEx( tszSource, GetFileExInfoStandard, &fad ) )
+	SYSTEMTIME st;
+	GetFileAttributesEx(tszSource, GetFileExInfoStandard, &fad);
+	FileTimeToLocalFileTime(&fad.ftLastWriteTime, &fad.ftLastWriteTime);
+	FileTimeToSystemTime(&fad.ftLastWriteTime, &st);
+
+	HANDLE hSrc = CreateFile( tszSource, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+	if (hSrc == INVALID_HANDLE_VALUE)
+		return ret;
+
+	if (zipFile hZip = zipOpen2_64(tszDestPath, APPEND_STATUS_CREATE, NULL, NULL))
 	{
-		SYSTEMTIME st;
-		FileTimeToLocalFileTime(  &fad.ftLastWriteTime, &fad.ftLastWriteTime );
-		FileTimeToSystemTime( &fad.ftLastWriteTime, &st );
+		zip_fileinfo fi = {0};
+		fi.tmz_date.tm_sec = st.wSecond;
+		fi.tmz_date.tm_min = st.wMinute;
+		fi.tmz_date.tm_hour = st.wHour;
+		fi.tmz_date.tm_mday = st.wDay;
+		fi.tmz_date.tm_mon = st.wMonth;
+		fi.tmz_date.tm_year = st.wYear;
 
-		HANDLE hSrc = CreateFile( tszSource, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
-		if ( hSrc != INVALID_HANDLE_VALUE )
+		int res = zipOpenNewFileInZip( hZip, szSourceName, &fi, NULL, 0, NULL, 0, "",  Z_DEFLATED, Z_BEST_COMPRESSION );
+		if (res == ZIP_OK)
 		{
-			if ( zipFile hZip = zipOpen2_64(tszDestPath, APPEND_STATUS_CREATE, NULL, NULL) )
+			DWORD buf_length = 256 * 1024;	// 256 KB
+			HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
+			UINT i = 0;
+			MSG msg;
+			if (void* buf = mir_alloc( buf_length ))
 			{
-				zip_fileinfo fi = {0};
-				fi.tmz_date.tm_sec = st.wSecond;
-				fi.tmz_date.tm_min = st.wMinute;
-				fi.tmz_date.tm_hour = st.wHour;
-				fi.tmz_date.tm_mday = st.wDay;
-				fi.tmz_date.tm_mon = st.wMonth;
-				fi.tmz_date.tm_year = st.wYear;
-
-				int res = zipOpenNewFileInZip( hZip, szSourceName, &fi, NULL, 0, NULL, 0, "",  Z_DEFLATED, Z_BEST_COMPRESSION );
-				if ( res == ZIP_OK )
+				while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1)
 				{
-					DWORD buf_length = 256 * 1024;	// 256 KB
-					HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
-					UINT i = 0;
-					MSG msg;
-					if ( void* buf = mir_alloc( buf_length ) )
+					DWORD read = 0;
+					if (!ReadFile( hSrc, buf, buf_length, &read, NULL))
+						break;
+
+					if (read == 0) // EOF
 					{
-						while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1)
-						{
-							DWORD read = 0;
-							if ( ! ReadFile( hSrc, buf, buf_length, &read, NULL ) )
-								break;
-
-							if ( read == 0 )
-							{
-								// EOF
-								ret = true;
-								break;
-							}
-
-							res = zipWriteInFileInZip( hZip, buf, read );
-							if ( res != ZIP_OK )
-								break;
-
-							while(PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0)
-							{
-								if (!IsDialogMessage(progress_dialog, &msg))
-								{
-									TranslateMessage(&msg);
-									DispatchMessage(&msg);
-								}
-							}
-							SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / ((int)fad.nFileSizeLow / buf_length) * ++i), 0);
-						}					
-						mir_free( buf );
+						ret = true;
+						break;
 					}
-					zipCloseFileInZip( hZip );
-				}
-				char szComment[128];
-				mir_snprintf(szComment, SIZEOF(szComment), "%s\r\n%s %s %d.%d.%d.%d\r\n", Translate("Miranda NG database"), Translate("Created by:"), __PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
-				zipClose( hZip, szComment);
-			}
-			CloseHandle( hSrc );
-		}
-	}
+					res = zipWriteInFileInZip(hZip, buf, read);
+					if (res != ZIP_OK)
+						break;
 
+					while(PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0)
+					{
+						if (!IsDialogMessage(progress_dialog, &msg))
+						{
+							TranslateMessage(&msg);
+							DispatchMessage(&msg);
+						}
+					}
+					SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / ((int)fad.nFileSizeLow / buf_length) * ++i), 0);
+				}					
+				mir_free(buf);
+			}
+			zipCloseFileInZip(hZip);
+		}
+		char szComment[128];
+		mir_snprintf(szComment, SIZEOF(szComment), "%s\r\n%s %s %d.%d.%d.%d\r\n", Translate("Miranda NG database"), Translate("Created by:"), __PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+		zipClose( hZip, szComment);
+	}
+	CloseHandle(hSrc);
 	return ret;
 }
 
@@ -226,7 +217,6 @@ int Backup(TCHAR* backup_filename)
 
 	if (backup_filename == NULL)
 	{
-		SYSTEMTIME st;
 		TCHAR buffer[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = sizeof(buffer);
 		bZip = options.use_zip != 0;
@@ -237,7 +227,7 @@ int Backup(TCHAR* backup_filename)
 		if (err != ERROR_ALREADY_EXISTS && err != 0) {
 			return 1;
 		}
-
+		SYSTEMTIME st;
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
 		mir_sntprintf(dest_file, MAX_PATH, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? _T("zip") : _T("dat"));
