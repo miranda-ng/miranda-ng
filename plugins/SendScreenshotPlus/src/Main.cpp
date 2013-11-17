@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "global.h"
+#include <m_hotkeys.h>
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 //LIST_INTERFACE	li;
@@ -106,6 +107,17 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	RegisterServices();
 	AddMenuItems();
+	
+	//hotkey's
+	HOTKEYDESC hkd={sizeof(hkd)};
+	hkd.pszName="Open SendSS+";
+	hkd.ptszDescription=LPGENT("Open SendSS+");
+	hkd.ptszSection=L"SendSS+";
+	hkd.pszService=MS_SENDSS_OPENDIALOG;
+	//hkd.DefHotKey=HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
+	hkd.lParam=0xFFFF;
+	hkd.dwFlags = HKD_TCHAR;
+	Hotkey_Register(&hkd);
 
 	HBRUSH brush=CreateSolidBrush(0x0000FF00);//owned by class
 	WNDCLASS wndclass={CS_HREDRAW|CS_VREDRAW,DefWindowProc,0,0,hInst,NULL,NULL,brush,NULL,L"SendSSHighlighter"};
@@ -140,6 +152,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {//as "ghazan" says, it's useless to unregister services or unhook events, let's still do it for now :P
+	CallService(MS_HOTKEY_UNREGISTER,0,(LPARAM)"Open SendSS+");
 	UnRegisterServices();
 	if(g_hookModulesLoaded) UnhookEvent(g_hookModulesLoaded),g_hookModulesLoaded=0;
 	if(g_hookSystemPreShutdown) UnhookEvent(g_hookSystemPreShutdown),g_hookSystemPreShutdown=0;
@@ -226,6 +239,9 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam){
 	}
 	frmMain->Init(pszPath,(HANDLE)wParam);
 	mir_free(pszPath);
+	if(lParam==0xFFFF){
+		frmMain->SetTargetWindow(NULL);
+	}
 	frmMain->Show();
 	return 0;
 }

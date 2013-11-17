@@ -467,6 +467,27 @@ void TfrmMain::wmClose(WPARAM wParam, LPARAM lParam) {
 
 //WM_TIMER:
 const int g_iTargetBorder=7;
+void TfrmMain::SetTargetWindow(HWND hwnd){
+	if(!hwnd){
+		POINT point; GetCursorPos(&point);
+		hwnd=WindowFromPoint(point);
+//		if(!((GetAsyncKeyState(VK_SHIFT)|GetAsyncKeyState(VK_MENU))&0x8000))
+		for(HWND hTMP; (hTMP=GetParent(hwnd)); hwnd=hTMP);
+	}
+	m_hTargetWindow=hwnd;
+	int len=GetWindowTextLength(m_hTargetWindow)+1;
+	LPTSTR lpTitle;
+	if(len>1){
+		lpTitle=(LPTSTR)mir_alloc(len*sizeof(TCHAR));
+		GetWindowText(m_hTargetWindow,lpTitle,len);
+	}else{//no WindowText present, use WindowClass
+		lpTitle=(LPTSTR)mir_alloc(64*sizeof(TCHAR));
+		RealGetWindowClass(m_hTargetWindow,lpTitle,64);
+	}
+	SetDlgItemText(m_hwndTabPage,ID_edtCaption,lpTitle);
+	mir_free(lpTitle);
+	edtSizeUpdate(m_hTargetWindow,m_opt_chkClientArea,m_hwndTabPage,ID_edtSize);
+}
 void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 	if (wParam == ID_bvlTarget){// Timer for Target selector
 		static int primarymouse;
@@ -482,6 +503,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			KillTimer(m_hWnd,ID_bvlTarget);
 			SystemParametersInfo(SPI_SETCURSORS,0,NULL,0);
 			DestroyWindow(m_hTargetHighlighter),m_hTargetHighlighter=NULL;
+			SetTargetWindow(m_hTargetWindow);
 			Show();
 			return;
 		}
@@ -505,18 +527,6 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 				}else SetWindowRgn(m_hTargetHighlighter,NULL,FALSE);
 			}
 			SetWindowPos(m_hTargetHighlighter,HWND_TOPMOST,rect.left,rect.top,width,height,SWP_SHOWWINDOW|SWP_NOACTIVATE);
-			width=GetWindowTextLength(m_hTargetWindow)+1;
-			LPTSTR lpTitle;
-			if(width>1){
-				lpTitle=(LPTSTR)mir_alloc(width*sizeof(TCHAR));
-				GetWindowText(m_hTargetWindow,lpTitle,width);
-			}else{//no WindowText present, use WindowClass
-				lpTitle=(LPTSTR)mir_alloc(64*sizeof(TCHAR));
-				RealGetWindowClass(m_hTargetWindow,lpTitle,64);
-			}
-			SetDlgItemText(m_hwndTabPage,ID_edtCaption,lpTitle);
-			mir_free(lpTitle);
-			edtSizeUpdate(m_hTargetWindow,m_opt_chkClientArea,m_hwndTabPage,ID_edtSize);
 		}
 		return;
 	}
