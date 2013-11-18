@@ -769,7 +769,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 				room->participants.insert(std::make_pair(user_id, user_id)); // TODO: get name somehow
 			}
 
-			chatrooms->insert(std::make_pair(_T2A(room->thread_id.c_str()), room));
+			chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
 		}
 	}
 
