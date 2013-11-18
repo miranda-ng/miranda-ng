@@ -1,0 +1,175 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTNET DIALOGEX 0, 0, 314, 203
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    RTEXT           "Server name:",IDC_STATIC,14,61,49,8
+    EDITTEXT        IDC_ED_SNAME,70,57,92,14,ES_AUTOHSCROLL
+    RTEXT           "Port:",IDC_STATIC,14,81,49,8
+    EDITTEXT        IDC_ED_PORT,70,77,36,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Get contacts from server",IDC_CHK_GETSERVERCONTACTS,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,180,15,115,15
+    PUSHBUTTON      "Upload Contacts",IDC_BTN_UPLOADCONTACTS,180,29,115,15
+    PUSHBUTTON      "Import from file...",IDC_BTN_IMPORTCONTACTS,180,48,115,15
+    COMBOBOX        IDC_CMB_CLIENT,10,109,114,107,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_ED_CLIENTID,126,109,37,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Id:",IDC_STATIC,14,17,49,8
+    EDITTEXT        IDC_ED_NAME,70,13,92,14,ES_AUTOHSCROLL
+    RTEXT           "Password:",IDC_STATIC,14,39,49,8
+    EDITTEXT        IDC_ED_PWORD,70,35,92,14,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Error Display",IDC_STATIC,7,143,161,53
+    CONTROL         "Use message boxes",IDC_RAD_ERRMB,"Button",BS_AUTORADIOBUTTON | WS_GROUP,20,156,122,10
+    CONTROL         "Use popups",IDC_RAD_ERRPOP,"Button",BS_AUTORADIOBUTTON,20,169,122,10
+    CONTROL         "Use system tray baloons",IDC_RAD_ERRBAL,"Button",BS_AUTORADIOBUTTON,21,182,122,10
+    GROUPBOX        "Connection",IDC_STATIC,7,7,161,91
+    GROUPBOX        "Contacts",IDC_STATIC,172,7,135,91
+    GROUPBOX        "Client ID",IDC_STATIC,7,98,161,44
+    CONTROL         "Auto-add new contacts",IDC_CHK_ADDCONTACTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,180,67,115,11
+    GROUPBOX        "Encryption",IDC_STATIC,172,98,135,44
+    CONTROL         "40 or 128 bit",IDC_RAD_ENC,"Button",BS_AUTORADIOBUTTON | WS_GROUP,190,113,88,10
+    CONTROL         "None",IDC_RAD_NOENC,"Button",BS_AUTORADIOBUTTON,190,126,88,10
+    CTEXT           "Static",IDC_ST_CLIENTVER,185,165,102,12,SS_SUNKEN
+    CTEXT           "Static",IDC_ST_SERVERVER,185,180,102,12,SS_SUNKEN
+    CONTROL         "Treat 'idle' as 'away'",IDC_CHK_IDLEAWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,180,81,115,11
+    CTEXT           "Meanwhile lib ver: 1.0.2",IDC_ST_LIBVER,185,150,102,12
+    GROUPBOX        "",IDC_STATIC,172,143,135,53
+    CONTROL         "Use old client version",IDC_CHK_OLDDEFAULTVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,127,115,11
+END
+
+IDD_SESSIONANNOUNCE DIALOG  0, 0, 286, 263
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Send Announcement"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,95,242,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,150,242,50,14
+    EDITTEXT        IDC_ED_ANMSG,10,20,264,60,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN
+    LTEXT           "Message Text:",IDC_STATIC,9,9,142,8
+    CONTROL         "List1",IDC_LST_ANTO,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,10,92,197,132
+    PUSHBUTTON      "Select All",IDC_BUT_SELALL,214,122,58,36
+    PUSHBUTTON      "Invert\n Selection",IDC_BUT_SELINV,214,167,58,36,BS_MULTILINE
+END
+
+IDD_USERSEARCH DIALOG  0, 0, 155, 86
+STYLE DS_SETFONT | WS_POPUP
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT1,34,32,103,14,ES_AUTOHSCROLL
+    LTEXT           "ID:",IDC_STATIC,18,35,10,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPTNET, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 196
+    END
+
+    IDD_SESSIONANNOUNCE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 279
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 256
+    END
+
+    IDD_USERSEARCH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 148
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 79
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_PROTO          ICON                    "online.ico"
+IDI_ICON_LEAVE          ICON                    "part.ico"
+IDI_ICON_INVITE         ICON                    "invite.ico"
+IDI_ANNOUNCE            ICON                    "announce.ico"
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
