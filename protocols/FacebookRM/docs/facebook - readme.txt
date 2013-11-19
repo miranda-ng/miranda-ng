@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.2.1.0 |
+| Facebook Protocol RM 0.2.2.0 |
 |        for Miranda NG        |
-|          (1.10.2013)         |
+|         (19.11.2013)         |
 --------------------------------
 
 Autor: Robyer
@@ -29,11 +29,26 @@ Info:
 "PollRate" (Byte) - Waiting time between buddy list and newsfeed parsing.
 "Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc.
 "UseLocalTimestampUnread" (Byte) - 1 = Use local timestamp for offline (unread) messages
+"KeepUnread" (Byte) - 1 = Don't mark messages as read on server (works globally or per contact)
 
 --------------------------------
        Version history
 --------------------------------
+0.2.2.0 - 19.11.2013
+ + Correctly load contacts on mobile phone that are online right now (also removed old related option)
+ + Added hidden option to keep messages unread to disable marking messages as read on server
+ * Multi user chat improvements:
+   + Load unread messages at login
+   + Mark received messages as read
+   * Don't show "unseen" in statusbar
+ ! Spelling corrections (thanks RMN)
+ ! Fix for remembering device (no more e-mail notification on every login)
+ ! Fixed searching by ID/Login
+ ! Don't switch typing contacts to online when we are not online
+ ! Various other fixes and code cleaning
 
+ x Getting sent messages from other browser/mobile instances still doesn't work
+ 
 0.2.1.0 - 1.10.2013
  + Save name into first, second and last name fields separately
  + First experimental implementation of multi user chats (thanks to nobodyreal for patch)
