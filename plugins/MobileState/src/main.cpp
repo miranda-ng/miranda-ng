@@ -71,9 +71,11 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL)
 		return 0;
 
-	const char *icon = hasMobileClient((HANDLE) wParam, lParam) ? "mobile_icon" : NULL;	
+	if (hasMobileClient((HANDLE)wParam, lParam))
+		ExtraIcon_SetIcon(hExtraIcon, (HANDLE)wParam, "mobile_icon");
+	else
+		ExtraIcon_Clear(hExtraIcon, (HANDLE)wParam);
 
-	ExtraIcon_SetIcon(hExtraIcon, (HANDLE)wParam, icon);
 	return 0;
 }
 
