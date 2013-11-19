@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Product management
 #define FACEBOOK_NAME							"Facebook"
-#define FACEBOOK_MOBILE							"Facebook (Mobile)"
 #define FACEBOOK_URL_HOMEPAGE					"http://www.facebook.com"
 #define FACEBOOK_URL_REQUESTS					"http://www.facebook.com/n/?reqs.php"
 #define FACEBOOK_URL_MESSAGES					"http://www.facebook.com/n/?inbox"
@@ -40,6 +39,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_SERVER_LOGIN					"login.facebook.com"
 #define FACEBOOK_SERVER_APPS					"apps.facebook.com"
 #define FACEBOOK_SERVER_DOMAIN					"facebook.com"
+
+// Facebook clients
+#define FACEBOOK_CLIENT							"Facebook"
+#define FACEBOOK_CLIENT_MOBILE					"Facebook (Mobile)"
 
 // Limits
 #define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger
@@ -63,7 +66,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_BIG_AVATARS						0
 #define DEFAULT_DISCONNECT_CHAT					0
 #define DEFAULT_MAP_STATUSES					0
-#define DEFAULT_LOAD_MOBILE						0
 #define DEFAULT_CUSTOM_SMILEYS					0
 #define DEFAULT_LOCAL_TIME						0
 #define DEFAULT_LOAD_PAGES						0

@@ -115,7 +115,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 
 			std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
 			setString(hContact, "Homepage", homepage.c_str());
-			setString(hContact, "MirVer", fbu->status_id == ID_STATUS_ONTHEPHONE ? FACEBOOK_MOBILE : FACEBOOK_NAME);
+			setTString(hContact, "MirVer", fbu->mobile ? _T(FACEBOOK_CLIENT_MOBILE) : _T(FACEBOOK_CLIENT));
 
 			db_unset(hContact, "CList", "MyHandle");
 
@@ -155,8 +155,8 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 
 		if (reset_client) {
 			ptrT mirver( getTStringA(hContact, "MirVer"));
-			if (!mirver || _tcscmp(mirver, _T(FACEBOOK_NAME)))
-				setTString(hContact, "MirVer", _T(FACEBOOK_NAME));
+			if (!mirver || _tcscmp(mirver, _T(FACEBOOK_CLIENT)))
+				setTString(hContact, "MirVer", _T(FACEBOOK_CLIENT));
 		}
 
 		if (getWord(hContact, "Status", 0) != status)

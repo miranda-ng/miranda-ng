@@ -44,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_BIG_AVATARS			"UseBigAvatars"
 #define FACEBOOK_KEY_DISCONNECT_CHAT		"DisconnectChatEnable"
 #define FACEBOOK_KEY_MAP_STATUSES			"MapStatuses"
-#define FACEBOOK_KEY_LOAD_MOBILE			"LoadMobile"
 #define FACEBOOK_KEY_CUSTOM_SMILEYS			"CustomSmileys"
 #define FACEBOOK_KEY_MESSAGE_ID				"LastMessageId"
 #define FACEBOOK_KEY_SERVER_TYPE			"ServerType"

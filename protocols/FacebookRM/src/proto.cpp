@@ -54,6 +54,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	HookProtoEvent(ME_GC_BUILDMENU,				&FacebookProto::OnGCMenuHook);
 
 	db_set_resident(m_szModuleName, "Status");
+	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, FACEBOOK_KEY_MESSAGE_ID);
 
 	InitHotkeys();

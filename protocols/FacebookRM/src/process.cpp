@@ -42,28 +42,24 @@ void FacebookProto::ProcessBuddyList(void* data)
 	p->parse_buddy_list(data, &facy.buddies);
 	delete p;
 
-	bool use_mobile_status = getByte(FACEBOOK_KEY_LOAD_MOBILE, DEFAULT_LOAD_MOBILE) != 0;
-
 	for (List::Item< facebook_user >* i = facy.buddies.begin(); i != NULL;)
 	{		
 		facebook_user* fbu = i->data;
-		bool on_mobile = false;
 
-		char *status;
+		std::string status;
 		switch (fbu->status_id) {
 			case ID_STATUS_OFFLINE:
 				status = "Offline"; break;
 			case ID_STATUS_ONLINE:
 				status = "Online"; break;
 			case ID_STATUS_ONTHEPHONE:
-				on_mobile = true;
-				status = "Phone";
-
-				if (!use_mobile_status)
-					fbu->status_id = ID_STATUS_OFFLINE;
-				break;
+				status = "Mobile"; break;
 		}
-		debugLogA("      Now %s: %s", status, fbu->user_id.c_str());
+		
+		if (fbu->idle)
+			status += " (idle)";
+
+		debugLogA("      Now %s: %s", status.c_str(), fbu->user_id.c_str());
 
 		if (!fbu->deleted)
 		{
@@ -71,14 +67,16 @@ void FacebookProto::ProcessBuddyList(void* data)
 			if (!hContact)
 				hContact = AddToContactList(fbu, CONTACT_FRIEND);
 			
-			DBVARIANT dbv;
-			TCHAR* client = on_mobile ? _T(FACEBOOK_MOBILE) : _T(FACEBOOK_NAME);
-			if (!getTString(hContact, "MirVer", &dbv)) {
-				if (_tcscmp(dbv.ptszVal, client))
-					setTString(hContact, "MirVer", client);
-				db_free(&dbv);
+			ptrT client( getTStringA(hContact, "MirVer"));
+			if (!client || _tcscmp(client, fbu->mobile ? _T(FACEBOOK_CLIENT_MOBILE) : _T(FACEBOOK_CLIENT)))
+				setTString(hContact, "MirVer", fbu->mobile ? _T(FACEBOOK_CLIENT_MOBILE) : _T(FACEBOOK_CLIENT));
+
+			if (getDword(fbu->handle, "IdleTS", 0) != fbu->last_active) {
+				if ((fbu->idle || fbu->status_id == ID_STATUS_OFFLINE) && fbu->last_active > 0)
+					setDword(fbu->handle, "IdleTS", fbu->last_active);
+				else
+					delSetting(fbu->handle, "IdleTS");
 			}
-			else setTString(hContact, "MirVer", client);
 		}
 
 		if (fbu->status_id == ID_STATUS_OFFLINE || fbu->deleted)

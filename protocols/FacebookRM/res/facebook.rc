@@ -115,10 +115,8 @@ BEGIN
     EDITTEXT        IDC_GROUP,84,84,123,13,ES_AUTOHSCROLL
     CONTROL         "Automatically set 'Ignore status change' flag",IDC_SET_IGNORE_STATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,101,271,10
-    GROUPBOX        "Contacts Settings",IDC_STATIC,7,72,291,70
+    GROUPBOX        "Contacts Settings",IDC_STATIC,7,72,291,60
     CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,114,271,10
-    CONTROL         "Load contacts with 'On the Mobile' status",IDC_LOAD_MOBILE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,127,271,10
 END
 
 IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 210

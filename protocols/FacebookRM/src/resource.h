@@ -26,7 +26,6 @@
 #define IDC_DISCONNECT_CHAT             1028
 #define IDC_BIGGER_AVATARS              1030
 #define IDC_MAP_STATUSES                1032
-#define IDC_LOAD_MOBILE                 1033
 #define IDC_CUSTOM_SMILEYS              1034
 #define IDC_USE_LOCAL_TIME              1035
 #define IDC_LOAD_PAGES                  1036

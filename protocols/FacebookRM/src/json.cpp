@@ -80,7 +80,8 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 				current->user_id = id;
 			}
 
-			current->status_id = ID_STATUS_ONTHEPHONE;
+			current->status_id = ID_STATUS_OFFLINE;
+			current->mobile = true;
 		}
 	}
 
@@ -100,10 +101,36 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 
 			current->status_id = ID_STATUS_ONLINE;
 			
-			// In new version of Facebook "i" means "offline"
-			JSONNODE *idle = json_get(it, "i");
-			if (idle != NULL && json_as_bool(idle))
-				current->status_id = ID_STATUS_OFFLINE;
+			JSONNODE *p = json_get(it, "p");
+			if (p != NULL) {
+				JSONNODE *status = json_get(p, "status"); // this seems to be "active" everytime
+				JSONNODE *webStatus = json_get(p, "webStatus"); // "active", "idle" or "offline"
+				JSONNODE *fbAppStatus = json_get(p, "fbAppStatus"); // "offline" or "active"
+				JSONNODE *messengerStatus = json_get(p, "messengerStatus"); // "offline" or "active"
+				JSONNODE *otherStatus = json_get(p, "otherStatus"); // "offline" or "active" - this seems to be "active" when webStatus is "idle" or "active" only
+
+				// this may never happen
+				if (json_as_pstring(status) != "active")
+					current->status_id = ID_STATUS_OFFLINE;
+
+				// "webStatus" and "otherStatus" are marked as "WEB" on FB website
+				if (json_as_pstring(webStatus) == "active" || json_as_pstring(otherStatus) == "active") {
+					current->status_id = ID_STATUS_ONLINE;
+					current->mobile = false;
+				}
+
+				// "fbAppStatus" and "messengerStatus" are marked as "MOBILE" on FB website
+				if (json_as_pstring(fbAppStatus) == "active" || json_as_pstring(messengerStatus) == "active") {
+					current->status_id = ID_STATUS_ONTHEPHONE;
+					current->mobile = true;
+				}
+
+				// this is not marked anyhow on website (yet?)
+				current->idle = json_as_pstring(webStatus) == "idle"
+					|| json_as_pstring(otherStatus) == "idle"
+					|| json_as_pstring(fbAppStatus) == "idle"
+					|| json_as_pstring(messengerStatus) == "idle";
+			}
 		}
 	}
 
