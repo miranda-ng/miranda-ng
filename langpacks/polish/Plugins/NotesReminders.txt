@@ -40,8 +40,8 @@ Opcje Przypomnień
 Dodanie przypomnienia zamyka okno
 [Use MCI to play alert sounds]
 Używaj MCI do odtwarzania dźwięków powiadomień
-[Note Transparency (Minimum Win 2k/XP)]
-Przezroczystość Notatki (minimum Windows 2000/XP)
+[Note transparency]
+Przezroczystość Notatki
 [Send Reminders through E-mail/SMS:]
 Wysyłaj przypomnienia przez E-mail/SMS
 [Open links with this program instead:]

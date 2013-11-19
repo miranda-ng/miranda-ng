@@ -36,8 +36,8 @@
 Использовать драйвер MCI
 [Add Contact list menu items]
 Пункты в меню контакта
-[Note Transparency (Minimum Win 2k/XP)]
-Прозрачность заметок (требуется Win 2000 и выше)
+[Note transparency]
+Прозрачность заметок
 [Send Reminders through E-mail/SMS:]
 Напоминания на e-mail/SMS:
 [Open links with this program instead:]

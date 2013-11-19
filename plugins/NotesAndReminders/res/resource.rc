@@ -75,7 +75,7 @@ BEGIN
     GROUPBOX        "Reminder options",IDC_STATIC,168,66,128,95
     CONTROL         "Add Reminder closes dialog",IDC_CHECK_CLOSE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,172,81,119,10
     CONTROL         "Use MCI to play alert sounds",IDC_CHECK_MSI,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,172,96,119,10
-    GROUPBOX        "Note Transparency (Minimum Win 2k/XP)",IDC_STATIC,6,161,290,35
+    GROUPBOX        "Note transparency",IDC_STATIC,6,161,290,35
     CONTROL         "Slider1",IDC_SLIDER_TRANSPARENCY,"msctls_trackbar32",TBS_ENABLESELRANGE | WS_TABSTOP,14,171,277,14
     LTEXT           "0%",IDC_STATIC,12,185,9,8
     LTEXT           "100%",IDC_STATIC,273,186,18,8
