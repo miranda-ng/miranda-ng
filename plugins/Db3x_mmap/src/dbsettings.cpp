@@ -39,8 +39,9 @@ DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
 
 static bool isEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {
-	if (!_strnicmp(szSetting, "password", 8))       return true;
+	if (!_strnicmp(szSetting, "password", 8))      return true;
 	if (!strcmp(szSetting, "NLProxyAuthPassword")) return true;
+	if (!strcmp(szSetting, "LNPassword"))          return true;
 	if (!strcmp(szSetting, "FileProxyPassword"))   return true;
 	if (!strcmp(szSetting, "TokenSecret"))         return true;
 

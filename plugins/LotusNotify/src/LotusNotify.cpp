@@ -990,7 +990,6 @@ void LoadSettings()
 	if(!db_get(NULL, PLUGINNAME, "LNPassword", &dbv))
 		strncpy_s(settingPassword, _countof(settingPassword), dbv.pszVal, SIZEOF(settingPassword));
 	db_free(&dbv);
-	CallService(MS_DB_CRYPT_DECODESTRING, sizeof(settingPassword), (LPARAM)settingPassword);
 	if(!db_get_s(NULL, PLUGINNAME, "LNCommand", &dbv, DBVT_ASCIIZ))
 		strncpy_s(settingCommand, _countof(settingCommand), dbv.pszVal, SIZEOF(settingCommand));
 	db_free(&dbv);
@@ -1271,9 +1270,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, sizeof(settingServer));
 								db_set_s(NULL, PLUGINNAME, "LNServer", settingServer );
 								db_set_s(NULL, PLUGINNAME, "LNServerSec", settingServerSec);
-								CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(settingPassword), (LPARAM) settingPassword);
 								db_set_s(NULL, PLUGINNAME, "LNPassword", settingPassword);
-								CallService(MS_DB_CRYPT_DECODESTRING, sizeof(settingPassword), (LPARAM) settingPassword);
 								db_set_s(NULL, PLUGINNAME, "LNDatabase", settingDatabase);
 								db_set_dw (NULL, PLUGINNAME, "LNInterval", settingInterval);
 								db_set_dw (NULL, PLUGINNAME, "LNInterval1", settingInterval1);
