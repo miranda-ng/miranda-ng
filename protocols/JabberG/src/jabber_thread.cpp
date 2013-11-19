@@ -552,8 +552,7 @@ recvRest:
 				SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
 			}
 
-			if (jabberChatDllPresent)
-				CallFunctionAsync(JabberOfflineChatWindows, this);
+			CallFunctionAsync(JabberOfflineChatWindows, this);
 
 			ListRemoveList(LIST_CHATROOM);
 			ListRemoveList(LIST_BOOKMARK);

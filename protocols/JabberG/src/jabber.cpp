@@ -59,8 +59,6 @@ TIME_API tmi;
 CLIST_INTERFACE* pcli;
 FI_INTERFACE *FIP = NULL;
 
-BOOL   jabberChatDllPresent = FALSE;
-
 HANDLE hExtraActivity = NULL;
 HANDLE hExtraMood = NULL;
 HANDLE hExtListInit, hDiscoInfoResult;

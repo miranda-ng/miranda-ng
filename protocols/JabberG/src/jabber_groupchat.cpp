@@ -178,10 +178,7 @@ private:
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)
 {
-	if (jabberChatDllPresent)
-		GroupchatJoinRoomByJid(NULL, NULL);
-	else
-		JabberChatDllError();
+	GroupchatJoinRoomByJid(NULL, NULL);
 	return 0;
 }
 
@@ -200,14 +197,12 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 	ptrT password( JGetStringCrypt(hContact, "LoginPassword"));
 
 	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
-		if ( !jabberChatDllPresent)
-			JabberChatDllError();
-		else {
-			TCHAR *p = _tcschr(jid, '@');
-			if (p != NULL) {
-				*p++ = 0;
-				GroupchatJoinRoom(p, jid, nick, password);
-	}	}	}
+		TCHAR *p = _tcschr(jid, '@');
+		if (p != NULL) {
+			*p++ = 0;
+			GroupchatJoinRoom(p, jid, nick, password);
+		}
+	}
 
 	return 0;
 }

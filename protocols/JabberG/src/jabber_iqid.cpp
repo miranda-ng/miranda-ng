@@ -128,7 +128,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
 		if (info->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO)
 			EnableArchive(m_options.EnableMsgArchive != 0);
 
-		if (jabberChatDllPresent && m_options.AutoJoinBookmarks) {
+		if (m_options.AutoJoinBookmarks) {
 			LIST<JABBER_LIST_ITEM> ll(10);
 			LISTFOREACH(i, this, LIST_BOOKMARK)
 			{

@@ -329,11 +329,6 @@ void CJabberDlgBookmarks::OpenBookmark()
 	if (item == NULL) return;
 
 	if ( !lstrcmpi(item->type, _T("conference"))) {
-		if ( !jabberChatDllPresent) {
-			JabberChatDllError();
-			return;
-		}
-
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
 		/* some hack for using bookmark to transport not under XEP-0048 */

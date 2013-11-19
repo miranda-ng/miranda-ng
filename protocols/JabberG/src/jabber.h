@@ -575,7 +575,6 @@ private:
  * Global variables
  *******************************************************************/
 extern HINSTANCE hInst;
-extern BOOL   jabberChatDllPresent;
 
 extern HANDLE hExtraMood;
 extern HANDLE hExtraActivity;
