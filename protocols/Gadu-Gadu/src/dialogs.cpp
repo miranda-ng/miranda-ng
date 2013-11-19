@@ -252,7 +252,6 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ShowWindow(GetDlgItem(hwndDlg, IDC_LOSTPASS), SW_HIDE);
 			}
 			if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -414,7 +413,6 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					// Update password
 					if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
-						CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 						SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 						db_free(&dbv);
 					}
@@ -462,7 +460,6 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
 			uin = atoi(str);
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 			gg->checknewuser(uin, str);
 			gg->setDword(GG_KEY_UIN, uin);
 			gg->setString(GG_KEY_PASSWORD, str);
@@ -957,7 +954,6 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (num = gg->getDword(GG_KEY_UIN, 0))
 				SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 			if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -1000,7 +996,6 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					// Update password
 					if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
-						CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 						SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 						db_free(&dbv);
 					}
@@ -1030,7 +1025,6 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
 					uin = atoi(str);
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					gg->checknewuser(uin, str);
 					gg->setDword(GG_KEY_UIN, uin);
 					gg->setString(GG_KEY_PASSWORD, str);

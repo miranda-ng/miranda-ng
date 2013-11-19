@@ -644,9 +644,7 @@ void CQuickDlg::OnOk( CCtrlButton* )
 		m_proto->setString("ServerName",m_proto->m_serverName);
 		m_proto->setString("PortStart",m_proto->m_portStart);
 		m_proto->setString("PortEnd",m_proto->m_portEnd);
-		CallService(MS_DB_CRYPT_ENCODESTRING, 499, (LPARAM)m_proto->m_password);
 		m_proto->setString("Password",m_proto->m_password);
-		CallService(MS_DB_CRYPT_DECODESTRING, 499, (LPARAM)m_proto->m_password);
 		m_proto->setString("Network",m_proto->m_network);
 		m_proto->setByte("UseSSL",m_proto->m_iSSL);
 	}

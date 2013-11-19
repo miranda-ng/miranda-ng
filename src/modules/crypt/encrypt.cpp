@@ -23,32 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 
-//VERY VERY VERY BASIC ENCRYPTION FUNCTION
-
-void Encrypt(char*msg, BOOL up)
-{
-	int jump;
-	if (up)
-		jump = 5;
-	else
-		jump = -5;
-
-	for (int i = 0; msg[i]; i++)
-		msg[i] = msg[i] + jump;
-}
-
-static INT_PTR EncodeString(WPARAM wParam, LPARAM lParam)
-{
-	Encrypt((char*)lParam, TRUE);
-	return 0;
-}
-
-static INT_PTR DecodeString(WPARAM wParam, LPARAM lParam)
-{
-	Encrypt((char*)lParam, FALSE);
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int CompareFunc(const CRYPTO_PROVIDER *p1, const CRYPTO_PROVIDER *p2)
@@ -97,9 +71,6 @@ static INT_PTR srvGetProvider(WPARAM wParam, LPARAM lParam)
 
 int InitCrypt(void)
 {
-	CreateServiceFunction(MS_DB_CRYPT_ENCODESTRING, EncodeString);
-	CreateServiceFunction(MS_DB_CRYPT_DECODESTRING, DecodeString);
-
 	CreateServiceFunction(MS_CRYPTO_REGISTER_ENGINE, srvRegister);
 	CreateServiceFunction(MS_CRYPTO_ENUM_PROVIDERS,  srvEnumProviders);
 	CreateServiceFunction(MS_CRYPTO_GET_PROVIDER,    srvGetProvider);

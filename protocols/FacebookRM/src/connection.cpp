@@ -148,12 +148,11 @@ bool FacebookProto::NegotiateConnection()
 	}
 
 	ptrA password( getStringA(FACEBOOK_KEY_PASS));
-	if (!password || !strlen(password)) {
+	if (!password || !*password) {
 		NotifyEvent(m_tszUserName,TranslateT("Please enter a password."),NULL,FACEBOOK_EVENT_CLIENT);
 		return false;
 	}
 
-	CallService(MS_DB_CRYPT_DECODESTRING, strlen(password) + 1, password);
 	password = mir_utf8encode(password);
 
 	// Refresh last time of feeds update

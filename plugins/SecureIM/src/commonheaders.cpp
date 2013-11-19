@@ -45,7 +45,6 @@ LPSTR myDBGetStringDecode(HANDLE hContact,const char *szModule,const char *szSet
 	size_t len = strlen(val)+64;
 	char *buf = (LPSTR)mir_alloc(len);
 	strncpy(buf,val,len); mir_free(val);
-	CallService(MS_DB_CRYPT_DECODESTRING,(WPARAM)len,(LPARAM)buf);
 	return buf;
 }
 
@@ -54,7 +53,6 @@ int myDBWriteStringEncode(HANDLE hContact,const char *szModule,const char *szSet
 	int len = (int)strlen(val)+64;
 	char *buf = (LPSTR)alloca(len);
 	strncpy(buf,val,len);
-	CallService(MS_DB_CRYPT_ENCODESTRING,(WPARAM)len,(LPARAM)buf);
 	int ret = db_set_s(hContact,szModule,szSetting,buf);
 	return ret;
 }

@@ -46,8 +46,6 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 	else user[0] = 0;
 
 	if (db_get_s(NULL, PluginName, "Password", &dbv) == 0) {
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
-
 		BYTE hash[16];
 		mir_md5_state_t context;
 

@@ -196,7 +196,6 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETTINGS *settings, DWORD flags)
 {
 	if (flags & NUF_OUTGOING) {
-		char szEncodedPassword[512];
 		db_set_b(NULL, szSettingsModule, "NLValidateSSL", (BYTE)settings->validateSSL);
 		db_set_b(NULL, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
 		db_set_b(NULL, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
@@ -204,9 +203,7 @@ static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETT
 		db_set_w(NULL, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
 		db_set_b(NULL, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
 		db_set_s(NULL, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser?settings->szProxyAuthUser:"");
-		lstrcpynA(szEncodedPassword, settings->szProxyAuthPassword?settings->szProxyAuthPassword:"", SIZEOF(szEncodedPassword));
-		CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(szEncodedPassword), (LPARAM)szEncodedPassword);
-		db_set_s(NULL, szSettingsModule, "NLProxyAuthPassword", szEncodedPassword);
+		db_set_s(NULL, szSettingsModule, "NLProxyAuthPassword", settings->szProxyAuthPassword?settings->szProxyAuthPassword:"");
 		db_set_b(NULL, szSettingsModule, "NLDnsThroughProxy", (BYTE)settings->dnsThroughProxy);
 		db_set_b(NULL, szSettingsModule, "NLSpecifyOutgoingPorts", (BYTE)settings->specifyOutgoingPorts);
 		db_set_s(NULL, szSettingsModule, "NLOutgoingPorts", settings->szOutgoingPorts?settings->szOutgoingPorts:"");

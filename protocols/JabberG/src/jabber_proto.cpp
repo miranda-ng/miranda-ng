@@ -159,7 +159,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 
 	ptrA szPassword( getStringA("Password"));
 	if (szPassword != NULL) {
-		CallService(MS_DB_CRYPT_DECODESTRING, lstrlenA(szPassword) + 1, szPassword);
 		JSetStringCrypt(NULL, "LoginPassword", _A2T(szPassword));
 		delSetting("Password");
 	}

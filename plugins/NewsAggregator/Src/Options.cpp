@@ -74,7 +74,6 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(hContact, MODULE, "Login", str);
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
-					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
 					db_set_s(hContact, MODULE, "Password", passw);
 				}
 				DeleteAllItems(hwndList);
@@ -157,45 +156,44 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			HANDLE hContact;
 			for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-				DBVARIANT dbNick = {0};
-				if (db_get_ts(hContact, MODULE, "Nick", &dbNick))
+				ptrT dbNick( db_get_tsa(hContact, MODULE, "Nick"));
+				if (dbNick == NULL)
 					continue;
-				else if (lstrcmp(dbNick.ptszVal, SelItem.nick) == 0) {
-					db_free(&dbNick);
-					DBVARIANT dbURL = {0};
-					if (db_get_ts(hContact, MODULE, "URL", &dbURL))
-						continue;
-					else if (lstrcmp(dbURL.ptszVal, SelItem.url) == 0) {
-						db_free(&dbURL);
-						nSelItem->hContact = hContact;
-						SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)nSelItem);
-						SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
-						SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
-						SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
-						DBVARIANT dbMsg = {0};
-						if (!db_get_ts(hContact, MODULE, "MsgFormat", &dbMsg)) {
-							SetDlgItemText(hwndDlg, IDC_TAGSEDIT, dbMsg.ptszVal);
-							db_free(&dbMsg);
-						}
-						if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
-							CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-							DBVARIANT dbLogin = {0};
-							if (!db_get_ts(hContact, MODULE, "Login", &dbLogin)) {
-								SetDlgItemText(hwndDlg, IDC_LOGIN, dbLogin.ptszVal);
-								db_free(&dbLogin);
-							}
-							ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
-							if (pwd)
-								CallService(MS_DB_CRYPT_DECODESTRING, strlen(pwd), pwd);
-							SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
-						}
-						break;
-					}
-					db_free(&dbURL);
+
+				if (lstrcmp(dbNick, SelItem.nick) != 0)
+					continue;
+
+				ptrT dbURL( db_get_tsa(hContact, MODULE, "URL"));
+				if (dbURL == NULL)
+					continue;
+
+				if (lstrcmp(dbURL, SelItem.url) != 0)
+					continue;
+
+				nSelItem->hContact = hContact;
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)nSelItem);
+				SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
+				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
+				SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
+				
+				DBVARIANT dbMsg = {0};
+				if (!db_get_ts(hContact, MODULE, "MsgFormat", &dbMsg)) {
+					SetDlgItemText(hwndDlg, IDC_TAGSEDIT, dbMsg.ptszVal);
+					db_free(&dbMsg);
 				}
-				db_free(&dbNick);
+				if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
+					CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
+					DBVARIANT dbLogin = {0};
+					if (!db_get_ts(hContact, MODULE, "Login", &dbLogin)) {
+						SetDlgItemText(hwndDlg, IDC_LOGIN, dbLogin.ptszVal);
+						db_free(&dbLogin);
+					}
+					ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
+					SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
+				}
+				break;
 			}
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
@@ -235,10 +233,11 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ts(SelItem->hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(SelItem->hContact, MODULE, "UseAuth", 1);
+
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(SelItem->hContact, MODULE, "Login", str);
+
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
-					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
 					db_set_s(SelItem->hContact, MODULE, "Password", passw);
 				}
 				else
@@ -353,9 +352,6 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					db_free(&dbv);
 				}
 				ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
-
-				if (pwd)
-					CallService(MS_DB_CRYPT_DECODESTRING, strlen(pwd), pwd);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
 			}
 		}
@@ -394,10 +390,11 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ts(hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(hContact, MODULE, "UseAuth", 1);
+
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(hContact, MODULE, "Login", str);
+
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
-					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
 					db_set_s(hContact, MODULE, "Password", passw);
 				}
 				else

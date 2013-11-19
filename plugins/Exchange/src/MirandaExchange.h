@@ -175,7 +175,7 @@ public:
     // DESTRUCTOR logs off of the MAPI session and releases the session handle.
     ~CMAPISession() 
     {
-        if( m_ptr)
+        if ( m_ptr)
             m_ptr->Logoff( 0L, 0L, 0L);
     }
 };

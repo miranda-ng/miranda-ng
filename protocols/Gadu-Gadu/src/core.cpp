@@ -284,45 +284,37 @@ void __cdecl GGPROTO::mainthread(void *)
 
 	// Setup proxy
 	nlus.cbSize = sizeof(nlus);
-	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hNetlibUser, (LPARAM)&nlus))
-	{
+	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hNetlibUser, (LPARAM)&nlus)) {
 		if (nlus.useProxy)
 			debugLogA("mainthread() (%x): Using proxy %s:%d.", this, nlus.szProxyServer, nlus.wProxyPort);
 		gg_proxy_enabled = nlus.useProxy;
 		gg_proxy_host = nlus.szProxyServer;
 		gg_proxy_port = nlus.wProxyPort;
-		if (nlus.useProxyAuth)
-		{
+		if (nlus.useProxyAuth) {
 			gg_proxy_username = nlus.szProxyAuthUser;
 			gg_proxy_password = nlus.szProxyAuthPassword;
 		}
 		else gg_proxy_username = gg_proxy_password = NULL;
 	}
-	else
-	{
+	else {
 		debugLogA("mainthread() (%x): Failed loading proxy settings.", this);
 		gg_proxy_enabled = 0;
 	}
 
 	// Check out manual host setting
-	if (getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST))
-	{
-		if (!getString(GG_KEY_SERVERHOSTS, &dbv))
-		{
+	if (getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST)) {
+		if (!getString(GG_KEY_SERVERHOSTS, &dbv)) {
 			hostcount = gg_decodehosts(dbv.pszVal, hosts, 64);
 			db_free(&dbv);
 		}
 	}
 
 	// Readup password
-	if (!getString(GG_KEY_PASSWORD, &dbv))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
+	if (!getString(GG_KEY_PASSWORD, &dbv)) {
 		p.password = mir_strdup(dbv.pszVal);
 		db_free(&dbv);
 	}
-	else
-	{
+	else {
 		debugLogA("mainthread() (%x): No password specified. Exiting.", this);
 		broadcastnewstatus(ID_STATUS_OFFLINE);
 #ifdef DEBUGMODE
@@ -332,8 +324,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	}
 
 	// Readup number
-	if (!(p.uin = getDword(GG_KEY_UIN, 0)))
-	{
+	if (!(p.uin = getDword(GG_KEY_UIN, 0))) {
 		debugLogA("mainthread() (%x): No Gadu-Gadu number specified. Exiting.", this);
 		broadcastnewstatus(ID_STATUS_OFFLINE);
 		mir_free(p.password);
@@ -352,8 +343,7 @@ void __cdecl GGPROTO::mainthread(void *)
 
 	////////////////////////////// DCC STARTUP /////////////////////////////
 	// Uin is ok so startup dcc if not started already
-	if (!dcc)
-	{
+	if (!dcc) {
 		hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 		dccstart();
 
@@ -364,13 +354,11 @@ void __cdecl GGPROTO::mainthread(void *)
 		while (WaitForSingleObjectEx(hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 		CloseHandle(hEvent); hEvent = NULL;
 	}
+
 	// Check if dcc is running and setup forwarding port
-	if (dcc && getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING))
-	{
-		if (!getString(GG_KEY_FORWARDHOST, &dbv))
-		{
-			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal)))
-			{
+	if (dcc && getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING)) {
+		if (!getString(GG_KEY_FORWARDHOST, &dbv)) {
+			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal))) {
 				TCHAR error[128];
 				TCHAR* forwardHostT = mir_a2t(dbv.pszVal);
 				mir_sntprintf(error, SIZEOF(error), TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);

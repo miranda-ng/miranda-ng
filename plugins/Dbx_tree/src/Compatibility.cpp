@@ -153,6 +153,43 @@ STDMETHODIMP_(HANDLE) CDataBase::FindNextContact(HANDLE hContact, const char* sz
 	return NULL;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool isEncrypted(LPCSTR szModule, LPCSTR szSetting)
+{
+	if (!_strnicmp(szSetting, "password", 8))       return true;
+	if (!strcmp(szSetting, "NLProxyAuthPassword")) return true;
+	if (!strcmp(szSetting, "FileProxyPassword"))   return true;
+	if (!strcmp(szSetting, "TokenSecret"))         return true;
+
+	if (!strcmp(szModule, "SecureIM")) {
+		if (!strcmp(szSetting, "pgp"))              return true;
+		if (!strcmp(szSetting, "pgpPrivKey"))       return true;
+	}
+	return false;
+}
+
+//VERY VERY VERY BASIC ENCRYPTION FUNCTION
+
+static void Encrypt(char *msg, BOOL up)
+{
+	int jump = (up) ? 5 : -5;
+	for (int i = 0; msg[i]; i++)
+		msg[i] = msg[i] + jump;
+}
+
+__forceinline void EncodeString(LPSTR buf)
+{
+	Encrypt(buf, TRUE);
+}
+
+__forceinline void DecodeString(LPSTR buf)
+{
+	Encrypt(buf, FALSE);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
 {
 	dbcgs->pValue->type = 0;
@@ -181,67 +218,61 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSE
 	if (DBSettingRead(reinterpret_cast<WPARAM>(&set), 0) == DBT_INVALIDPARAM)
 		return -1;
 
-	switch (set.Type)
-	{
-		case DBT_ST_ANSI:
-		{
-			dbcgs->pValue->type = DBVT_ASCIIZ;
-			dbcgs->pValue->pszVal = set.Value.pAnsi;
-			dbcgs->pValue->cchVal = set.Value.Length - 1;
-		} break;
-		case DBT_ST_UTF8:
-		{
-			dbcgs->pValue->type = DBVT_WCHAR;
-			dbcgs->pValue->pwszVal = mir_utf8decodeW(set.Value.pUTF8);
-			if (dbcgs->pValue->pwszVal)
-				dbcgs->pValue->cchVal = static_cast<uint32_t>(wcslen(dbcgs->pValue->pwszVal));
-			else
-				dbcgs->pValue->cchVal = 0;
-			mir_free(set.Value.pUTF8);
-		} break;
-		case DBT_ST_WCHAR:
-		{
-			dbcgs->pValue->type = DBVT_WCHAR;
-			dbcgs->pValue->pwszVal = set.Value.pWide;
-			dbcgs->pValue->cchVal = set.Value.Length - 1;
-		} break;
-		case DBT_ST_BLOB:
-		{
-			dbcgs->pValue->type = DBVT_BLOB;
-			dbcgs->pValue->pbVal = set.Value.pBlob;
-			dbcgs->pValue->cpbVal = set.Value.Length;
-		} break;
-		case DBT_ST_BOOL:
-		{
-			dbcgs->pValue->type = DBVT_BYTE;
-			dbcgs->pValue->bVal = (uint8_t)set.Value.Bool;
-		} break;
-		case DBT_ST_BYTE: case DBT_ST_CHAR:
-		{
-			dbcgs->pValue->type = DBVT_BYTE;
-			dbcgs->pValue->bVal = set.Value.Byte;
-		} break;
-		case DBT_ST_SHORT: case DBT_ST_WORD:
-		{
-			dbcgs->pValue->type = DBVT_WORD;
-			dbcgs->pValue->wVal = set.Value.Word;
-		} break;
-		case DBT_ST_INT: case DBT_ST_DWORD:
-		{
-			dbcgs->pValue->type = DBVT_DWORD;
-			dbcgs->pValue->dVal = set.Value.DWord;
-		} break;
-		case DBT_ST_INT64: case DBT_ST_QWORD:
-		case DBT_ST_DOUBLE: case DBT_ST_FLOAT:
-		{
-			dbcgs->pValue->type = DBVT_BLOB;
-			dbcgs->pValue->cpbVal = sizeof(set.Value);
-			dbcgs->pValue->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
-			memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
-		} break;
+	switch (set.Type) {
+	case DBT_ST_ANSI:
+		dbcgs->pValue->type = DBVT_ASCIIZ;
+		dbcgs->pValue->pszVal = set.Value.pAnsi;
+		dbcgs->pValue->cchVal = set.Value.Length - 1;
+		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+			DecodeString(dbcgs->pValue->pszVal);
+		break;
+	case DBT_ST_UTF8:
+		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+			DecodeString(set.Value.pUTF8);
+		dbcgs->pValue->type = DBVT_WCHAR;
+		dbcgs->pValue->pwszVal = mir_utf8decodeW(set.Value.pUTF8);
+		if (dbcgs->pValue->pwszVal)
+			dbcgs->pValue->cchVal = static_cast<uint32_t>(wcslen(dbcgs->pValue->pwszVal));
+		else
+			dbcgs->pValue->cchVal = 0;
+		mir_free(set.Value.pUTF8);
+		break;
+	case DBT_ST_WCHAR:
+		dbcgs->pValue->type = DBVT_WCHAR;
+		dbcgs->pValue->pwszVal = set.Value.pWide;
+		dbcgs->pValue->cchVal = set.Value.Length - 1;
+		break;
+	case DBT_ST_BLOB:
+		dbcgs->pValue->type = DBVT_BLOB;
+		dbcgs->pValue->pbVal = set.Value.pBlob;
+		dbcgs->pValue->cpbVal = set.Value.Length;
+		break;
+	case DBT_ST_BOOL:
+		dbcgs->pValue->type = DBVT_BYTE;
+		dbcgs->pValue->bVal = (uint8_t)set.Value.Bool;
+		break;
+	case DBT_ST_BYTE: case DBT_ST_CHAR:
+		dbcgs->pValue->type = DBVT_BYTE;
+		dbcgs->pValue->bVal = set.Value.Byte;
+		break;
+	case DBT_ST_SHORT: case DBT_ST_WORD:
+		dbcgs->pValue->type = DBVT_WORD;
+		dbcgs->pValue->wVal = set.Value.Word;
+		break;
+	case DBT_ST_INT: case DBT_ST_DWORD:
+		dbcgs->pValue->type = DBVT_DWORD;
+		dbcgs->pValue->dVal = set.Value.DWord;
+		break;
+	case DBT_ST_INT64: case DBT_ST_QWORD:
+	case DBT_ST_DOUBLE: case DBT_ST_FLOAT:
+		dbcgs->pValue->type = DBVT_BLOB;
+		dbcgs->pValue->cpbVal = sizeof(set.Value);
+		dbcgs->pValue->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
+		memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
+		break;
 
-		default:
-			return -1;
+	default:
+		return -1;
 	}
 
 	return 0;
@@ -272,9 +303,7 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, DBCONTACTGE
 	set.cbSize = sizeof(set);
 	set.Descriptor = &desc;
 
-
-	switch (dbcgs->pValue->type)
-	{
+	switch (dbcgs->pValue->type) {
 		case DBVT_ASCIIZ: set.Type = DBT_ST_ANSI; break;
 		case DBVT_BLOB:   set.Type = DBT_ST_BLOB; break;
 		case DBVT_UTF8:   set.Type = DBT_ST_UTF8; break;
@@ -284,69 +313,65 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, DBCONTACTGE
 	if (DBSettingRead(reinterpret_cast<WPARAM>(&set), 0) == DBT_INVALIDPARAM)
 		return -1;
 
-	switch (set.Type)
-	{
-		case DBT_ST_ANSI:
-		{
-			dbcgs->pValue->type = DBVT_ASCIIZ;
-			dbcgs->pValue->pszVal = set.Value.pAnsi;
+	switch (set.Type) {
+	case DBT_ST_ANSI:
+		dbcgs->pValue->type = DBVT_ASCIIZ;
+		dbcgs->pValue->pszVal = set.Value.pAnsi;
+		dbcgs->pValue->cchVal = set.Value.Length - 1;
+		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+			DecodeString(dbcgs->pValue->pszVal);
+		break;
+	case DBT_ST_UTF8:
+		dbcgs->pValue->type = DBVT_UTF8;
+		dbcgs->pValue->pszVal = set.Value.pUTF8;
+		dbcgs->pValue->cchVal = set.Value.Length - 1;
+		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+			DecodeString(dbcgs->pValue->pszVal);
+		break;
+	case DBT_ST_WCHAR:
+		if (dbcgs->pValue->type == DBVT_WCHAR) {
+			dbcgs->pValue->pwszVal = set.Value.pWide;
 			dbcgs->pValue->cchVal = set.Value.Length - 1;
-		} break;
-		case DBT_ST_UTF8:
-		{
+		}
+		else {
 			dbcgs->pValue->type = DBVT_UTF8;
-			dbcgs->pValue->pszVal = set.Value.pUTF8;
-			dbcgs->pValue->cchVal = set.Value.Length - 1;
-		} break;
-		case DBT_ST_WCHAR:
-		{
-			if (dbcgs->pValue->type == DBVT_WCHAR)
-			{
-				dbcgs->pValue->pwszVal = set.Value.pWide;
-				dbcgs->pValue->cchVal = set.Value.Length - 1;
-			} else {
-				dbcgs->pValue->type = DBVT_UTF8;
-				dbcgs->pValue->pszVal = mir_utf8encodeW(set.Value.pWide);
-				dbcgs->pValue->cchVal = static_cast<uint32_t>(strlen(dbcgs->pValue->pszVal));
-				mir_free(set.Value.pWide);
-			}
-		} break;
-		case DBT_ST_BLOB:
-		{
-			dbcgs->pValue->type = DBVT_BLOB;
-			dbcgs->pValue->pbVal = set.Value.pBlob;
-			dbcgs->pValue->cpbVal = set.Value.Length;
-		} break;
-		case DBT_ST_BOOL:
-		{
-			dbcgs->pValue->type = DBVT_BYTE;
-			dbcgs->pValue->bVal = (uint8_t)set.Value.Bool;
-		} break;
-		case DBT_ST_BYTE: case DBT_ST_CHAR:
-		{
-			dbcgs->pValue->type = DBVT_BYTE;
-			dbcgs->pValue->bVal = set.Value.Byte;
-		} break;
-		case DBT_ST_SHORT: case DBT_ST_WORD:
-		{
-			dbcgs->pValue->type = DBVT_WORD;
-			dbcgs->pValue->wVal = set.Value.Word;
-		} break;
-		case DBT_ST_INT: case DBT_ST_DWORD:
-		{
-			dbcgs->pValue->type = DBVT_DWORD;
-			dbcgs->pValue->dVal = set.Value.DWord;
-		} break;
-		case DBT_ST_INT64: case DBT_ST_QWORD:
-		case DBT_ST_DOUBLE: case DBT_ST_FLOAT:
-		{
-			dbcgs->pValue->type = DBVT_BLOB;
-			dbcgs->pValue->cpbVal = sizeof(set.Value);
-			dbcgs->pValue->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
-			memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
-		} break;
-		default:
-			return -1;
+			dbcgs->pValue->pszVal = mir_utf8encodeW(set.Value.pWide);
+			dbcgs->pValue->cchVal = static_cast<uint32_t>(strlen(dbcgs->pValue->pszVal));
+			if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+				DecodeString(dbcgs->pValue->pszVal);
+			mir_free(set.Value.pWide);
+		}
+		break;
+	case DBT_ST_BLOB:
+		dbcgs->pValue->type = DBVT_BLOB;
+		dbcgs->pValue->pbVal = set.Value.pBlob;
+		dbcgs->pValue->cpbVal = set.Value.Length;
+		break;
+	case DBT_ST_BOOL:
+		dbcgs->pValue->type = DBVT_BYTE;
+		dbcgs->pValue->bVal = (uint8_t)set.Value.Bool;
+		break;
+	case DBT_ST_BYTE: case DBT_ST_CHAR:
+		dbcgs->pValue->type = DBVT_BYTE;
+		dbcgs->pValue->bVal = set.Value.Byte;
+		break;
+	case DBT_ST_SHORT: case DBT_ST_WORD:
+		dbcgs->pValue->type = DBVT_WORD;
+		dbcgs->pValue->wVal = set.Value.Word;
+		break;
+	case DBT_ST_INT: case DBT_ST_DWORD:
+		dbcgs->pValue->type = DBVT_DWORD;
+		dbcgs->pValue->dVal = set.Value.DWord;
+		break;
+	case DBT_ST_INT64: case DBT_ST_QWORD:
+	case DBT_ST_DOUBLE: case DBT_ST_FLOAT:
+		dbcgs->pValue->type = DBVT_BLOB;
+		dbcgs->pValue->cpbVal = sizeof(set.Value);
+		dbcgs->pValue->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
+		memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
+		break;
+	default:
+		return -1;
 	}
 
 	return 0;
@@ -381,92 +406,86 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTAC
 		return -1;
 	}
 
-	switch (set.Type)
-	{
-		case DBT_ST_ANSI:
-		{
-			if (dbcgs->pValue->cchVal < set.Value.Length)
-			{
-				memcpy(dbcgs->pValue->pszVal, set.Value.pAnsi, dbcgs->pValue->cchVal);
-				dbcgs->pValue->pszVal[dbcgs->pValue->cchVal - 1] = 0;
-			} else {
-				memcpy(dbcgs->pValue->pszVal, set.Value.pAnsi, set.Value.Length);
-			}
-			dbcgs->pValue->type = DBVT_ASCIIZ;
-			dbcgs->pValue->cchVal = set.Value.Length - 1;
+	switch (set.Type) {
+	case DBT_ST_ANSI:
+		if (dbcgs->pValue->cchVal < set.Value.Length) {
+			memcpy(dbcgs->pValue->pszVal, set.Value.pAnsi, dbcgs->pValue->cchVal);
+			dbcgs->pValue->pszVal[dbcgs->pValue->cchVal - 1] = 0;
+		}
+		else memcpy(dbcgs->pValue->pszVal, set.Value.pAnsi, set.Value.Length);
 
-			mir_free(set.Value.pAnsi);
-		} break;
-		case DBT_ST_UTF8:
-		{
-			set.Value.pUTF8 = mir_utf8decode(set.Value.pUTF8, NULL);
-			set.Value.Length = static_cast<uint32_t>(strlen(set.Value.pUTF8));
+		dbcgs->pValue->type = DBVT_ASCIIZ;
+		dbcgs->pValue->cchVal = set.Value.Length - 1;
+		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+			DecodeString(dbcgs->pValue->pszVal);
 
-			if (dbcgs->pValue->cchVal < set.Value.Length)
-			{
-				memcpy(dbcgs->pValue->pszVal, set.Value.pUTF8, dbcgs->pValue->cchVal);
-				dbcgs->pValue->pszVal[dbcgs->pValue->cchVal - 1] = 0;
-			} else {
-				memcpy(dbcgs->pValue->pszVal, set.Value.pUTF8, set.Value.Length);
-			}
-			dbcgs->pValue->type = DBVT_ASCIIZ;
-			dbcgs->pValue->cchVal = set.Value.Length - 1;
+		mir_free(set.Value.pAnsi);
+		break;
+	case DBT_ST_UTF8:
+		set.Value.pUTF8 = mir_utf8decode(set.Value.pUTF8, NULL);
+		set.Value.Length = static_cast<uint32_t>(strlen(set.Value.pUTF8));
 
-			mir_free(set.Value.pUTF8);
-		} break;
-		case DBT_ST_WCHAR:
+		if (dbcgs->pValue->cchVal < set.Value.Length) {
+			memcpy(dbcgs->pValue->pszVal, set.Value.pUTF8, dbcgs->pValue->cchVal);
+			dbcgs->pValue->pszVal[dbcgs->pValue->cchVal - 1] = 0;
+		}
+		else memcpy(dbcgs->pValue->pszVal, set.Value.pUTF8, set.Value.Length);
+
+		dbcgs->pValue->type = DBVT_ASCIIZ;
+		dbcgs->pValue->cchVal = set.Value.Length - 1;
+		if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+			DecodeString(dbcgs->pValue->pszVal);
+
+		mir_free(set.Value.pUTF8);
+		break;
+	case DBT_ST_WCHAR:
 		{
-			char * tmp = mir_u2a(set.Value.pWide);
+			char *tmp = mir_u2a(set.Value.pWide);
 			WORD l = static_cast<WORD>(strlen(tmp));
 			mir_free(set.Value.pWide);
 
-			if (dbcgs->pValue->cchVal < l + 1)
-			{
+			if (dbcgs->pValue->cchVal < l + 1) {
 				memcpy(dbcgs->pValue->pszVal, tmp, dbcgs->pValue->cchVal);
 				dbcgs->pValue->pszVal[l] = 0;
-			} else {
-				memcpy(dbcgs->pValue->pszVal, tmp, l + 1);
 			}
+			else memcpy(dbcgs->pValue->pszVal, tmp, l + 1);
+
 			dbcgs->pValue->type = DBVT_ASCIIZ;
 			dbcgs->pValue->cchVal = l;
+			if (isEncrypted(dbcgs->szModule, dbcgs->szSetting))
+				DecodeString(dbcgs->pValue->pszVal);
 
 			mir_free(tmp);
-		} break;
-		case DBT_ST_BLOB:
-		{
-			if (dbcgs->pValue->cchVal < set.Value.Length)
-			{
-				memcpy(dbcgs->pValue->pbVal, set.Value.pBlob, dbcgs->pValue->cchVal);
-			} else {
-				memcpy(dbcgs->pValue->pbVal, set.Value.pBlob, set.Value.Length);
-			}
-			dbcgs->pValue->type = DBVT_BLOB;
-			dbcgs->pValue->cchVal = set.Value.Length;
+		}
+		break;
+	case DBT_ST_BLOB:
+		if (dbcgs->pValue->cchVal < set.Value.Length)
+			memcpy(dbcgs->pValue->pbVal, set.Value.pBlob, dbcgs->pValue->cchVal);
+		else
+			memcpy(dbcgs->pValue->pbVal, set.Value.pBlob, set.Value.Length);
 
-			mir_free(set.Value.pBlob);
-		} break;
-		case DBT_ST_BOOL:
-		{
-			dbcgs->pValue->type = DBVT_BYTE;
-			dbcgs->pValue->bVal = set.Value.Bool ? TRUE : FALSE;
-		} break;
-		case DBT_ST_BYTE: case DBT_ST_CHAR:
-		{
-			dbcgs->pValue->type = DBVT_BYTE;
-			dbcgs->pValue->bVal = set.Value.Byte;
-		} break;
-		case DBT_ST_SHORT: case DBT_ST_WORD:
-		{
-			dbcgs->pValue->type = DBVT_WORD;
-			dbcgs->pValue->wVal = set.Value.Word;
-		} break;
-		case DBT_ST_INT: case DBT_ST_DWORD:
-		{
-			dbcgs->pValue->type = DBVT_DWORD;
-			dbcgs->pValue->dVal = set.Value.DWord;
-		} break;
-		default:
-			return -1;
+		dbcgs->pValue->type = DBVT_BLOB;
+		dbcgs->pValue->cchVal = set.Value.Length;
+		mir_free(set.Value.pBlob);
+		break;
+	case DBT_ST_BOOL:
+		dbcgs->pValue->type = DBVT_BYTE;
+		dbcgs->pValue->bVal = set.Value.Bool ? TRUE : FALSE;
+		break;
+	case DBT_ST_BYTE: case DBT_ST_CHAR:
+		dbcgs->pValue->type = DBVT_BYTE;
+		dbcgs->pValue->bVal = set.Value.Byte;
+		break;
+	case DBT_ST_SHORT: case DBT_ST_WORD:
+		dbcgs->pValue->type = DBVT_WORD;
+		dbcgs->pValue->wVal = set.Value.Word;
+		break;
+	case DBT_ST_INT: case DBT_ST_DWORD:
+		dbcgs->pValue->type = DBVT_DWORD;
+		dbcgs->pValue->dVal = set.Value.DWord;
+		break;
+	default:
+		return -1;
 	}
 
 	return 0;
@@ -474,12 +493,11 @@ STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTAC
 
 STDMETHODIMP_(BOOL) CDataBase::FreeVariant(DBVARIANT *dbv)
 {
-	if ((dbv->type == DBVT_BLOB) && (dbv->pbVal))
-	{
+	if (dbv->type == DBVT_BLOB && dbv->pbVal) {
 		mir_free(dbv->pbVal);
 		dbv->pbVal = 0;
-	} else if ((dbv->type & DBVTF_VARIABLELENGTH) && (dbv->pszVal))
-	{
+	}
+	else if ((dbv->type & DBVTF_VARIABLELENGTH) && (dbv->pszVal)) {
 		mir_free(dbv->pszVal);
 		dbv->pszVal = NULL;
 	}
@@ -506,72 +524,66 @@ STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(HANDLE hContact, DBCONTACTWRI
 	set.cbSize = sizeof(set);
 	set.Descriptor = &desc;
 
-	switch (dbcws->value.type)
-	{
-		case DBVT_ASCIIZ:
-		{
-			set.Type = DBT_ST_ANSI;
-			set.Value.pAnsi = dbcws->value.pszVal;
-		} break;
-		case DBVT_UTF8:
+	switch (dbcws->value.type) {
+	case DBVT_ASCIIZ:
+		set.Type = DBT_ST_ANSI;
+		set.Value.pAnsi = dbcws->value.pszVal;
+		if (isEncrypted(dbcws->szModule, dbcws->szSetting))
+			EncodeString(dbcws->value.pszVal);
+		break;
+	case DBVT_UTF8:
+		if (isEncrypted(dbcws->szModule, dbcws->szSetting))
+			EncodeString(dbcws->value.pszVal);
 		{
 			wchar_t * tmp = mir_utf8decodeW(dbcws->value.pszVal);
-			if (tmp == 0)
-			{
+			if (tmp == 0) {
 				if (IsDebuggerPresent())
 				{
 					DebugBreak();
 #ifdef _DEBUG
-				} else {
+				}
+				else {
 					LOG(logWARNING, _T("Trying to write malformed UTF8 setting \"%hs\" in module \"%hs\""), dbcws->szSetting, dbcws->szModule);
 					CLogger::Instance().ShowMessage();
 #endif
 				}
 				return -1;
-			} else {
-				mir_free(tmp);
 			}
-
-			set.Type = DBT_ST_UTF8;
-			set.Value.pUTF8 = dbcws->value.pszVal;
-		} break;
-		case DBVT_WCHAR:
-		{
-			set.Type = DBT_ST_WCHAR;
-			set.Value.pWide = dbcws->value.pwszVal;
-		} break;
-		case DBVT_BLOB:
-		{
-			set.Type = DBT_ST_BLOB;
-			set.Value.pBlob = dbcws->value.pbVal;
-			set.Value.Length = dbcws->value.cpbVal;
-		} break;
-		case DBVT_BYTE:
-		{
-			set.Type = DBT_ST_BYTE;
-			set.Value.Byte = dbcws->value.bVal;
-		} break;
-		case DBVT_WORD:
-		{
-			set.Type = DBT_ST_WORD;
-			set.Value.Word = dbcws->value.wVal;
-		} break;
-		case DBVT_DWORD:
-		{
-			set.Type = DBT_ST_DWORD;
-			set.Value.DWord = dbcws->value.dVal;
-		} break;
-		default:
-		{
-			return -1;
+			else mir_free(tmp);
 		}
+
+		set.Type = DBT_ST_UTF8;
+		set.Value.pUTF8 = dbcws->value.pszVal;
+		break;
+	case DBVT_WCHAR:
+		set.Type = DBT_ST_WCHAR;
+		set.Value.pWide = dbcws->value.pwszVal;
+		break;
+	case DBVT_BLOB:
+		set.Type = DBT_ST_BLOB;
+		set.Value.pBlob = dbcws->value.pbVal;
+		set.Value.Length = dbcws->value.cpbVal;
+		break;
+	case DBVT_BYTE:
+		set.Type = DBT_ST_BYTE;
+		set.Value.Byte = dbcws->value.bVal;
+		break;
+	case DBVT_WORD:
+		set.Type = DBT_ST_WORD;
+		set.Value.Word = dbcws->value.wVal;
+		break;
+	case DBVT_DWORD:
+		set.Type = DBT_ST_DWORD;
+		set.Value.DWord = dbcws->value.dVal;
+		break;
+	default:
+		return -1;
 	}
 
 	if (DBSettingWrite(reinterpret_cast<WPARAM>(&set), 0) == DBT_INVALIDPARAM)
 		return -1;
 
-	if (dbcws->value.type == DBVT_WCHAR)
-	{
+	if (dbcws->value.type == DBVT_WCHAR) {
 		dbcws->value.type = DBVT_UTF8;
 		wchar_t * tmp = dbcws->value.pwszVal;
 		dbcws->value.pszVal = mir_utf8encodeW(dbcws->value.pwszVal);
@@ -579,9 +591,8 @@ STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(HANDLE hContact, DBCONTACTWRI
 		mir_free(dbcws->value.pszVal);
 		dbcws->value.type = DBVT_WCHAR;
 		dbcws->value.pwszVal = tmp;		
-	} else {
-		NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)dbcws);
 	}
+	else NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)dbcws);
 
 	return 0;
 }

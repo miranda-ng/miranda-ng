@@ -253,10 +253,6 @@ void GGPROTO::parsecontacts(char *contacts)
 
 INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 {
-	char *password;
-	uin_t uin;
-	DBVARIANT dbv;
-
 	// Check if connected
 	if (!isonline())
 	{
@@ -268,14 +264,11 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	if (!getString(GG_KEY_PASSWORD, &dbv))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-		password = _strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	else return 0;
+	char *password = getStringA(GG_KEY_PASSWORD);
+	if (password == NULL)
+		return 0;
 
+	uin_t uin;
 	if (!(uin = getDword(GG_KEY_UIN, 0)))
 		return 0;
 
@@ -300,13 +293,8 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 
 INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 {
-	char *password;
-	uin_t uin;
-	DBVARIANT dbv;
-
 	// Check if connected
-	if (!isonline())
-	{
+	if (!isonline()) {
 		MessageBox(NULL,
 			TranslateT("You have to be connected before you can import/export contacts from/to server."),
 			m_tszUserName, MB_OK | MB_ICONSTOP
@@ -315,14 +303,11 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	if (!getString(GG_KEY_PASSWORD, &dbv))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-		password = _strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	else return 0;
+	char *password = getStringA(GG_KEY_PASSWORD);
+	if (password == NULL)
+		return 0;
 
+	uin_t uin;
 	if (!(uin = getDword(GG_KEY_UIN, 0)))
 		return 0;
 
@@ -491,13 +476,9 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	DBVARIANT dbv;
-	if (getString(GG_KEY_PASSWORD, &dbv))
+	char *password = getStringA(GG_KEY_PASSWORD);
+	if (password == NULL)
 		return 0;
-
-	CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-	char *password = _strdup(dbv.pszVal);
-	db_free(&dbv);
 
 	uin_t uin = getDword(GG_KEY_UIN, 0);
 	if (!uin)

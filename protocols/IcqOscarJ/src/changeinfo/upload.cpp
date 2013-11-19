@@ -36,7 +36,8 @@ int CIcqProto::StringToListItemId(const char *szSetting,int def)
 		if (!strcmpnull(szSetting,setting[i].szDbSetting))
 			break;
 
-	if (i==settingCount) return def;
+	if (i == settingCount)
+		return def;
 
 	FieldNamesItem *list = (FieldNamesItem*)setting[i].pList;
 
@@ -57,8 +58,7 @@ int CIcqProto::StringToListItemId(const char *szSetting,int def)
 
 int ChangeInfoData::UploadSettings(void)
 {
-	if (!ppro->icqOnline())
-	{
+	if (!ppro->icqOnline()) {
 		MessageBox(hwndDlg, TranslateT("You are not currently connected to the ICQ network. You must be online in order to update your information on the server."), TranslateT("Change ICQ Details"), MB_OK);
 		return 0;
 	}
@@ -67,10 +67,8 @@ int ChangeInfoData::UploadSettings(void)
 
 	//password
 	char* tmp = ppro->GetUserPassword(TRUE);
-	if (tmp)
-	{
-		if (strlennull(Password) > 0 && strcmpnull(Password, tmp))
-		{
+	if (tmp) {
+		if (strlennull(Password) > 0 && strcmpnull(Password, tmp)) {
 			// update password in user info dialog (still open)
 			strcpy(Password, tmp);
 			// update password in protocol
@@ -79,16 +77,9 @@ int ChangeInfoData::UploadSettings(void)
 			hUpload[1] = (HANDLE)ppro->icq_changeUserPasswordServ(tmp);
 			char szPwd[PASSWORDMAXLEN] = {0};
 
+			// password is stored in DB, update
 			if (ppro->GetUserStoredPassword(szPwd, sizeof(szPwd)))
-			{ // password is stored in DB, update
-				char ptmp[PASSWORDMAXLEN];
-
-				strcpy(ptmp, tmp);
-
-				CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(ptmp), (LPARAM)ptmp);
-
-				ppro->setString("Password", ptmp);
-			}
+				ppro->setString("Password", tmp);
 		}
 	}
 

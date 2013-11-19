@@ -78,12 +78,10 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
 
+			// bit of a security hole here, since it's easy to extract a password from an edit box
 			char pszPwd[PASSWORDMAXLEN];
 			if (ppro->GetUserStoredPassword(pszPwd, sizeof(pszPwd)))
-			{
-				//bit of a security hole here, since it's easy to extract a password from an edit box
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pszPwd);
-			}
 
 			LoadDBCheckState(ppro, hwndDlg, IDC_SSL, "SecureConnection", DEFAULT_SECURE_CONNECTION);
 			LoadDBCheckState(ppro, hwndDlg, IDC_MD5LOGIN, "SecureLogin", DEFAULT_SECURE_LOGIN);
@@ -106,86 +104,73 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_HSCROLL:
-		{
-			SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL,TBM_GETPOS, 0, 0)]));
-			OptDlgChanged(hwndDlg);
-		}
+		SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL,TBM_GETPOS, 0, 0)]));
+		OptDlgChanged(hwndDlg);
 		break;
 
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case IDC_LOOKUPLINK:
-				CallService(MS_UTILS_OPENURL, 1, (LPARAM)URL_FORGOT_PASSWORD);
-				return TRUE;
+		switch (LOWORD(wParam)) {
+		case IDC_LOOKUPLINK:
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)URL_FORGOT_PASSWORD);
+			return TRUE;
 
-			case IDC_NEWUINLINK:
-				CallService(MS_UTILS_OPENURL, 1, (LPARAM)URL_REGISTER);
-				return TRUE;
+		case IDC_NEWUINLINK:
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)URL_REGISTER);
+			return TRUE;
 
-			case IDC_RESETSERVER:
-				SetDlgItemInt(hwndDlg, IDC_ICQPORT, IsDlgButtonChecked(hwndDlg, IDC_SSL) ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT, FALSE);
+		case IDC_RESETSERVER:
+			SetDlgItemInt(hwndDlg, IDC_ICQPORT, IsDlgButtonChecked(hwndDlg, IDC_SSL) ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT, FALSE);
 
-			case IDC_SSL:
-				SetDlgItemTextA(hwndDlg, IDC_ICQSERVER, IsDlgButtonChecked(hwndDlg, IDC_SSL) ? DEFAULT_SERVER_HOST_SSL : DEFAULT_SERVER_HOST);
-				SetDlgItemInt(hwndDlg, IDC_ICQPORT, IsDlgButtonChecked(hwndDlg, IDC_SSL) ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT, FALSE);
-				OptDlgChanged(hwndDlg);
-				return TRUE;
-			}
-
-			if (ppro->icqOnline() && LOWORD(wParam) != IDC_NOERRMULTI)
-			{
-				char szClass[80];
-				GetClassNameA((HWND)lParam, szClass, sizeof(szClass));
-
-				if (stricmpnull(szClass, "EDIT") || HIWORD(wParam) == EN_CHANGE)
-					ShowDlgItem(hwndDlg, IDC_RECONNECTREQD, SW_SHOW);
-			}
-
-			if ((LOWORD(wParam)==IDC_ICQNUM || LOWORD(wParam)==IDC_PASSWORD || LOWORD(wParam)==IDC_ICQSERVER || LOWORD(wParam)==IDC_ICQPORT) &&
-				(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()))
-			{
-				return 0;
-			}
-
+		case IDC_SSL:
+			SetDlgItemTextA(hwndDlg, IDC_ICQSERVER, IsDlgButtonChecked(hwndDlg, IDC_SSL) ? DEFAULT_SERVER_HOST_SSL : DEFAULT_SERVER_HOST);
+			SetDlgItemInt(hwndDlg, IDC_ICQPORT, IsDlgButtonChecked(hwndDlg, IDC_SSL) ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT, FALSE);
 			OptDlgChanged(hwndDlg);
-			break;
+			return TRUE;
 		}
 
-	case WM_NOTIFY:
+		if (ppro->icqOnline() && LOWORD(wParam) != IDC_NOERRMULTI) {
+			char szClass[80];
+			GetClassNameA((HWND)lParam, szClass, sizeof(szClass));
+
+			if (stricmpnull(szClass, "EDIT") || HIWORD(wParam) == EN_CHANGE)
+				ShowDlgItem(hwndDlg, IDC_RECONNECTREQD, SW_SHOW);
+		}
+
+		if ((LOWORD(wParam)==IDC_ICQNUM || LOWORD(wParam)==IDC_PASSWORD || LOWORD(wParam)==IDC_ICQSERVER || LOWORD(wParam)==IDC_ICQPORT) &&
+			(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()))
 		{
-			switch (((LPNMHDR)lParam)->code)
-			{
+			return 0;
+		}
 
-			case PSN_APPLY:
-				{
-					char str[128];
+		OptDlgChanged(hwndDlg);
+		break;
 
-					ppro->setDword(UNIQUEIDSETTING, GetDlgItemInt(hwndDlg, IDC_ICQNUM, NULL, FALSE));
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(ppro->m_szPassword));
-					if (strlennull(str))
-					{
-						strcpy(ppro->m_szPassword, str);
-						ppro->m_bRememberPwd = TRUE;
-					}
-					else
-						ppro->m_bRememberPwd = ppro->getByte("RememberPass", 0);
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_APPLY:
+			char str[128];
 
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(ppro->m_szPassword), (LPARAM)str);
-					ppro->setString("Password", str);
-					GetDlgItemTextA(hwndDlg,IDC_ICQSERVER, str, sizeof(str));
-					ppro->setString("OscarServer", str);
-					ppro->setWord("OscarPort", (WORD)GetDlgItemInt(hwndDlg, IDC_ICQPORT, NULL, FALSE));
-					StoreDBCheckState(ppro, hwndDlg, IDC_KEEPALIVE, "KeepAlive");
-					StoreDBCheckState(ppro, hwndDlg, IDC_SSL, "SecureConnection");
-					StoreDBCheckState(ppro, hwndDlg, IDC_MD5LOGIN, "SecureLogin");
-					StoreDBCheckState(ppro, hwndDlg, IDC_LEGACY, "LegacyFix");
-					StoreDBCheckState(ppro, hwndDlg, IDC_NOERRMULTI, "IgnoreMultiErrorBox");
-					ppro->setByte("ShowLogLevel", (BYTE)(4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)));
-
-					return TRUE;
-				}
+			ppro->setDword(UNIQUEIDSETTING, GetDlgItemInt(hwndDlg, IDC_ICQNUM, NULL, FALSE));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(ppro->m_szPassword));
+			if (strlennull(str)) {
+				strcpy(ppro->m_szPassword, str);
+				ppro->m_bRememberPwd = TRUE;
 			}
+			else ppro->m_bRememberPwd = ppro->getByte("RememberPass", 0);
+			ppro->setString("Password", str);
+
+			GetDlgItemTextA(hwndDlg,IDC_ICQSERVER, str, sizeof(str));
+			ppro->setString("OscarServer", str);
+
+			ppro->setWord("OscarPort", (WORD)GetDlgItemInt(hwndDlg, IDC_ICQPORT, NULL, FALSE));
+
+			StoreDBCheckState(ppro, hwndDlg, IDC_KEEPALIVE, "KeepAlive");
+			StoreDBCheckState(ppro, hwndDlg, IDC_SSL, "SecureConnection");
+			StoreDBCheckState(ppro, hwndDlg, IDC_MD5LOGIN, "SecureLogin");
+			StoreDBCheckState(ppro, hwndDlg, IDC_LEGACY, "LegacyFix");
+			StoreDBCheckState(ppro, hwndDlg, IDC_NOERRMULTI, "IgnoreMultiErrorBox");
+			ppro->setByte("ShowLogLevel", (BYTE)(4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)));
+			return TRUE;
 		}
 		break;
 	}

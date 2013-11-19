@@ -40,8 +40,5 @@ public:
 	static int getString(HANDLE hContact, char *szModule, char *szSetting, TCHAR *buff);
 	static int getStringF(HANDLE hContact, char *szModule, char *szSetting, int id, TCHAR *buff);
 
-	static int setCryptedString(HANDLE hContact, char *szModule, char *szSetting, char *szValue);
-	static int getCryptedString(HANDLE hContact, char *szModule, char *szSetting, char *szValue);
-
 	static int deleteSettingF(HANDLE hContact, char *szModule, char *szSetting, int id);
 };

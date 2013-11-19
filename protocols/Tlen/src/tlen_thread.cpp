@@ -167,21 +167,23 @@ void __cdecl TlenServerThread(ThreadData *info)
 			QueueUserAPC(TlenPasswordCreateDialogApcProc, hMainThread, (DWORD) jidStr);
 			WaitForSingleObject(hEventPasswdDlg, INFINITE);
 			CloseHandle(hEventPasswdDlg);
-			//if ((p=(char *)DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PASSWORD), NULL, TlenPasswordDlgProc, (LPARAM) jidStr)) != onlinePassword) {
+			
 			if (onlinePassword[0] != (char) -1) {
 				strncpy(info->password, onlinePassword, sizeof(info->password));
 				info->password[sizeof(info->password)-1] = '\0';
-			} else {
+			}
+			else {
 				info->proto->debugLogA("Thread ended, password request dialog was canceled");
 				loginErr = LOGINERR_BADUSERID;
 			}
-		} else {
+		}
+		else {
 			if (!db_get(NULL, info->proto->m_szModuleName, "Password", &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 				strncpy(info->password, dbv.pszVal, sizeof(info->password));
 				info->password[sizeof(info->password)-1] = '\0';
 				db_free(&dbv);
-			} else {
+			}
+			else {
 				info->proto->debugLogA("Thread ended, password is not configured");
 				loginErr = LOGINERR_BADUSERID;
 			}

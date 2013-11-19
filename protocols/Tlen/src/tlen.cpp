@@ -187,13 +187,9 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 		login = mir_strdup(dbv.pszVal);
 		db_free(&dbv);
 	}
-	if (db_get_b(NULL, m_szModuleName, "SavePassword", TRUE) == TRUE) {
-		if (!db_get(NULL, m_szModuleName, "Password", &dbv)) {
-			CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
-			password = mir_strdup(dbv.pszVal);
-			db_free(&dbv);
-		}
-	}
+
+	if (db_get_b(NULL, m_szModuleName, "SavePassword", TRUE) == TRUE)
+		password = db_get_sa(NULL, m_szModuleName, "Password");
 	else if (threadData != NULL && strlen(threadData->password) > 0)
 		password = mir_strdup(threadData->password);
 

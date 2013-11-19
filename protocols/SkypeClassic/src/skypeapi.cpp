@@ -407,14 +407,17 @@ char *SkypeRcvTime(char *what, time_t st, DWORD maxwait) {
 	LOG(("<SkypeRcv: (empty)"));	
 	return NULL;
 }
-char *SkypeRcv(char *what, DWORD maxwait) {
+
+char *SkypeRcv(char *what, DWORD maxwait)
+{
 	return SkypeRcvTime(what, 0, maxwait);
 }
 
-char *SkypeRcvMsg(char *what, time_t st, HANDLE hContact, DWORD maxwait) {
-    char *msg, msgid[32]={0}, *pMsg, *pCurMsg;
+char *SkypeRcvMsg(char *what, time_t st, HANDLE hContact, DWORD maxwait)
+{
+	char *msg, msgid[32]={0}, *pMsg, *pCurMsg;
 	struct MsgQueue *ptr;
-	int iLenWhat = strlen(what);
+	int iLenWhat = (int)strlen(what);
 	DWORD dwWaitStat;
 	BOOL bIsError, bProcess;
 
@@ -1346,7 +1349,8 @@ static int my_spawnv(const char *cmdname, const char *const *argv, PROCESS_INFOR
 	BOOL bRet;
 
 	memset (pi, 0, sizeof(PROCESS_INFORMATION));
-	for (i=0; argv[i]; i++) iLen+=strlen(argv[i])+1;
+	for (i=0; argv[i]; i++)
+		iLen += (int)strlen(argv[i])+1;
 	if (!(CommandLine = (char*)calloc(1, iLen))) return -1;
 	for (i=0; argv[i]; i++) {
 		if (i) strcat (CommandLine, " ");
@@ -1407,11 +1411,9 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 		{
 				char reply=0;
 
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
-				if ((reply=SendSkypeproxyCommand(AUTHENTICATE))==-1) 
-				{
-						db_free(&dbv);
-						return -1;
+				if ((reply=SendSkypeproxyCommand(AUTHENTICATE))==-1) {
+					db_free(&dbv);
+					return -1;
 				}
 				if (!reply) {
 					OUTPUT(_T("Authentication is not supported/needed for this Skype proxy server. It will be disabled."));
@@ -1492,7 +1494,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 		if (iStart != 2 || counter)
 		{
 			LOG(("ConnectToSkypeAPI sending discover message.. hWnd=%08X", (long)g_hWnd));
-			retval=SendMessageTimeout(HWND_BROADCAST, ControlAPIDiscover, (WPARAM)g_hWnd, 0, SMTO_ABORTIFHUNG, 3000, NULL);
+			retval = (int)SendMessageTimeout(HWND_BROADCAST, ControlAPIDiscover, (WPARAM)g_hWnd, 0, SMTO_ABORTIFHUNG, 3000, NULL);
 			LOG(("ConnectToSkypeAPI sent discover message returning %d", retval));
 		}
 
@@ -1521,7 +1523,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 					LOG(("ConnectToSkypeAPI Starting Skype, as it's not running"));
 
 					j=1;
-					for (i=0; i<sizeof(SkypeOptions)/sizeof(SkypeOptions[0]); i++)
+					for (i=0; i < SIZEOF(SkypeOptions); i++)
 						if (db_get_b(NULL, SKYPE_PROTONAME, SkypeOptions[i]+1, SkypeDefaults[i])) {
 							DBVARIANT dbv;
 
@@ -1532,7 +1534,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 								{
 									int paramSize;
 									TranslateMirandaRelativePathToAbsolute(dbv.pszVal, szAbsolutePath, TRUE);
-									paramSize = strlen(SkypeOptions[i]) + strlen(szAbsolutePath);
+									paramSize = (int)strlen(SkypeOptions[i]) + (int)strlen(szAbsolutePath);
 									pFree = args[j] = (char*)malloc(paramSize + 1);
 									sprintf(args[j],"%s%s",SkypeOptions[i],szAbsolutePath);
 									db_free(&dbv);

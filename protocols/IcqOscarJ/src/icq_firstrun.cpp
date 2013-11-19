@@ -29,13 +29,11 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-
 static void accountLoadDetails(CIcqProto *ppro, HWND hwndDlg)
 {
 	char pszUIN[20];
 	DWORD dwUIN = ppro->getContactUin(NULL);
-	if (dwUIN)
-	{
+	if (dwUIN) {
 		mir_snprintf(pszUIN, 20, "%u", dwUIN);
 		SetDlgItemTextA(hwndDlg, IDC_UIN, pszUIN);
 	}
@@ -44,7 +42,6 @@ static void accountLoadDetails(CIcqProto *ppro, HWND hwndDlg)
 	if (ppro->GetUserStoredPassword(pszPwd, PASSWORDMAXLEN))
 		SetDlgItemTextA(hwndDlg, IDC_PW, pszPwd);
 }
-
 
 INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -75,47 +72,41 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-    {
+		switch (LOWORD(wParam)) {
 		case IDC_REGISTER:
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)URL_REGISTER);
 			break;
 
-    case IDC_UIN:
-    case IDC_PW:
-			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-			{
-        SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		case IDC_UIN:
+		case IDC_PW:
+			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
-    }
-    break;
+		}
+		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code)
-		{
+		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			{
-        char str[128];
-        GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
-        ppro->setDword(UNIQUEIDSETTING, atoi(str));
-        GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(ppro->m_szPassword));
-        strcpy(ppro->m_szPassword, str);
-        CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(ppro->m_szPassword), (LPARAM) str);
-        ppro->setString("Password", str);
-      }
-      break;
+			char str[128];
+			GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
+			ppro->setDword(UNIQUEIDSETTING, atoi(str));
 
-    case PSN_RESET:
-      accountLoadDetails(ppro, hwndDlg);
-      break;
-    }
+			GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(ppro->m_szPassword));
+			strcpy(ppro->m_szPassword, str);
+			ppro->setString("Password", str);
+			break;
+
+		case PSN_RESET:
+			accountLoadDetails(ppro, hwndDlg);
+			break;
+		}
 		break;
 	}
 
 	return FALSE;
 }
-
 
 INT_PTR CIcqProto::OnCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {

@@ -59,11 +59,6 @@ extern HGENMENU hSetPwdMenu;
 #endif
 
 //global procedures
-//int InitSkin();
-void EncodeCopyMemory(void * dst, void * src, size_t size );
-void DecodeCopyMemory(void * dst, void * src, size_t size );
-void EncodeDBWrite(DWORD ofs, void * src, size_t size);
-void DecodeDBWrite(DWORD ofs, void * src, size_t size);
 
 struct DlgStdInProcParam
 {

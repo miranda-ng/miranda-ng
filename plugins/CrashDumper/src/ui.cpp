@@ -205,7 +205,6 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_free(&dbv);
 			}
 			if (db_get_s(NULL, PluginName, "Password", &dbv) == 0) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -227,7 +226,6 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			db_set_s(NULL, PluginName, "Username", szSetting);
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, SIZEOF(szSetting));
-			CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(szSetting), (LPARAM)szSetting);
 			db_set_s(NULL, PluginName, "Password", szSetting);
 
 			db_set_b(NULL, PluginName, "UploadChanged", 

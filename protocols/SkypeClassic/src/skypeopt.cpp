@@ -210,10 +210,10 @@ INT_PTR CALLBACK OptPopupDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				case IDC_POPUPBACKCOLOR:
 				case IDC_POPUPTEXTCOLORERR:
 				case IDC_POPUPBACKCOLORERR:
-					popupBackColor = SendDlgItemMessage(hwnd,IDC_POPUPBACKCOLOR,CPM_GETCOLOUR,0,0);
-					popupTextColor = SendDlgItemMessage(hwnd,IDC_POPUPTEXTCOLOR,CPM_GETCOLOUR,0,0);
-					popupBackColorErr = SendDlgItemMessage(hwnd,IDC_POPUPBACKCOLORERR,CPM_GETCOLOUR,0,0);
-					popupTextColorErr = SendDlgItemMessage(hwnd,IDC_POPUPTEXTCOLORERR,CPM_GETCOLOUR,0,0);
+					popupBackColor = (UINT)SendDlgItemMessage(hwnd,IDC_POPUPBACKCOLOR,CPM_GETCOLOUR,0,0);
+					popupTextColor = (UINT)SendDlgItemMessage(hwnd,IDC_POPUPTEXTCOLOR,CPM_GETCOLOUR,0,0);
+					popupBackColorErr = (UINT)SendDlgItemMessage(hwnd,IDC_POPUPBACKCOLORERR,CPM_GETCOLOUR,0,0);
+					popupTextColorErr = (UINT)SendDlgItemMessage(hwnd,IDC_POPUPTEXTCOLORERR,CPM_GETCOLOUR,0,0);
 					SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
 					break;
 				case IDC_USEWINCOLORS:
@@ -385,7 +385,6 @@ INT_PTR CALLBACK OptionsProxyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			CheckDlgButton(hwndDlg, IDC_REQPASS, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "RequiresPassword", 0));
 			CheckDlgButton(hwndDlg, IDC_USES2S, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UseSkype2Socket", 0));
 			if (!db_get_s(NULL, SKYPE_PROTONAME, "Password", &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -408,7 +407,6 @@ INT_PTR CALLBACK OptionsProxyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 					db_set_b (NULL, SKYPE_PROTONAME, "UseSkype2Socket", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_USES2S), BM_GETCHECK,0,0)));
 					ZeroMemory(buf, sizeof(buf));
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, buf, sizeof(buf));
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(buf), (LPARAM)buf);
 					db_set_s(NULL, SKYPE_PROTONAME, "Password", buf);
 					return TRUE;
 				}

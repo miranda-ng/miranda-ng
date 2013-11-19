@@ -295,28 +295,18 @@ char* GGPROTO::oauth_header(const char *httpmethod, const char *url)
 	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
 	ptrA token( getStringA(GG_KEY_TOKEN));
 	ptrA password( getStringA(GG_KEY_PASSWORD));
-	if (password != NULL)
-		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(password) + 1, (LPARAM)password);
 	ptrA token_secret( getStringA(GG_KEY_TOKENSECRET));
-	if (token_secret != NULL)
-		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(token_secret) + 1, (LPARAM)token_secret);
-
 	return oauth_auth_header(httpmethod, url, HMACSHA1, uin, password, token, token_secret);
 }
 
 int GGPROTO::oauth_receivetoken()
 {
-	char szUrl[256], uin[32], *password = NULL, *str, *token = NULL, *token_secret = NULL;
-	DBVARIANT dbv;
+	char szUrl[256], uin[32], *str, *token = NULL, *token_secret = NULL;
 	int res = 0;
 	HANDLE nlc = NULL;
 
 	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
-	if (!getString(GG_KEY_PASSWORD, &dbv)) {
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
-		password = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
+	char *password = getStringA(GG_KEY_PASSWORD);
 
 	// 1. Obtaining an Unauthorized Request Token
 	debugLogA("oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
@@ -435,7 +425,6 @@ int GGPROTO::oauth_receivetoken()
 
 	if (token != NULL && token_secret != NULL) {
 		setString(GG_KEY_TOKEN, token);
-		CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)(int)strlen(token_secret) + 1, (LPARAM) token_secret);
 		setString(GG_KEY_TOKENSECRET, token_secret);
 		debugLogA("oauth_receivetoken(): Access Token obtained successfully.");
 		res = 1;

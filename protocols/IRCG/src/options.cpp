@@ -719,7 +719,6 @@ void CConnectPrefsDlg::OnApply()
 		m_port.GetTextA( m_proto->m_portStart, SIZEOF(m_proto->m_portStart));
 		m_port2.GetTextA( m_proto->m_portEnd, SIZEOF(m_proto->m_portEnd));
 		m_pass.GetTextA( m_proto->m_password, SIZEOF(m_proto->m_password));
-		CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(m_proto->m_password), (LPARAM)m_proto->m_password);
 	}
 	else m_proto->m_serverName[0] = m_proto->m_portStart[0] = m_proto->m_portEnd[0] = m_proto->m_password[0] = 0;
 
@@ -812,8 +811,6 @@ void CConnectPrefsDlg::OnApply()
 	}	}	}
 
 	m_proto->WriteSettings( ConnectSettings, SIZEOF( ConnectSettings ));
-
-	CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(m_proto->m_password), (LPARAM)m_proto->m_password);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1713,8 +1710,6 @@ void CIrcProto::InitPrefs(void)
 	ReadSettings(OtherSettings, SIZEOF( OtherSettings ));
 	ReadSettings(IgnoreSettings, SIZEOF( IgnoreSettings ));
 
-	CallService(MS_DB_CRYPT_DECODESTRING, 499, (LPARAM)m_password);
-
 	int x = getDword( "SizeOfListBottom", -1 );
 	if ( x != -1 ) {
 		db_unset( NULL, m_szModuleName, "SizeOfListBottom" );
@@ -1816,7 +1811,6 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 		m_port.GetTextA( m_proto->m_portStart, SIZEOF(m_proto->m_portStart));
 		m_port2.GetTextA( m_proto->m_portEnd, SIZEOF(m_proto->m_portEnd));
 		m_pass.GetTextA( m_proto->m_password, SIZEOF(m_proto->m_password));
-		CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(m_proto->m_password), (LPARAM)m_proto->m_password);
 
 		m_nick.GetText( m_proto->m_nick, SIZEOF(m_proto->m_nick));
 		removeSpaces(m_proto->m_nick);
@@ -1827,7 +1821,6 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 		removeSpaces(m_proto->m_userID);
 		m_name.GetText( m_proto->m_name, SIZEOF(m_proto->m_name));
 		m_proto->WriteSettings( ConnectSettings, SIZEOF( ConnectSettings ));
-		CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(m_proto->m_password), (LPARAM)m_proto->m_password);
 	}
 
 	void OnChangeCombo( CCtrlCombo* )

@@ -180,13 +180,13 @@ int onModulesLoaded(WPARAM, LPARAM)
 	if (bPGP) { //PGP
 		bPGPloaded = pgp_init();
 		bUseKeyrings = db_get_b(0,MODULENAME,"ukr",1);
-		LPSTR priv = myDBGetStringDecode(0,MODULENAME,"pgpPrivKey");
+		LPSTR priv = db_get_sa(0,MODULENAME,"pgpPrivKey");
 		if (priv) {
 			bPGPprivkey = true;
 			if (bPGPloaded)
 				pgp_set_priv_key(priv);
 			mir_free(priv);
-		}// if (priv)
+		}
 		if (bPGPloaded && bUseKeyrings) {
 			char PubRingPath[MAX_PATH], SecRingPath[MAX_PATH];
 			PubRingPath[0]='\0'; SecRingPath[0]='\0';
@@ -215,8 +215,8 @@ int onModulesLoaded(WPARAM, LPARAM)
 					}
 				}
 			}
-		}// if (bPGPloaded && bUseKeyrings)
-	}// if (bPGP)
+		}
+	}
 
 	Sent_NetLog("gpg_init");
 

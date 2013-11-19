@@ -440,28 +440,29 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		* Load Yahoo ID from the database.
 		*/
 		if (!getString(YAHOO_LOGINID, &dbv)) {
-			if (lstrlenA(dbv.pszVal) > 0) {
+			if (lstrlenA(dbv.pszVal) > 0)
 				lstrcpynA(m_yahoo_id, dbv.pszVal, 255);
-			} else
+			else
 				err++;
 			db_free(&dbv);
-		} else {
+		}
+		else {
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 			err++;
 		}
 
-		if (err) {
+		if (err)
 			lstrcpynA(errmsg, Translate("Please enter your Yahoo ID in Options/Network/Yahoo"), 80);
-		} else {
+		else {
 			if (!getString(YAHOO_PASSWORD, &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, lstrlenA(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-				if (lstrlenA(dbv.pszVal) > 0) {
+				if (lstrlenA(dbv.pszVal) > 0)
 					lstrcpynA(m_password, dbv.pszVal, 255);
-				} else
+				else
 					err++;
 
 				db_free(&dbv);
-			}  else  {
+			}
+			else  {
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 				err++;
 			}
@@ -483,9 +484,8 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		FREE(m_pw_token); // No Token yet.
 
 		if (!getString(YAHOO_PWTOKEN, &dbv)) {
-			if (lstrlenA(dbv.pszVal) > 0) {
+			if (lstrlenA(dbv.pszVal) > 0)
 				m_pw_token = strdup(dbv.pszVal);
-			}
 
 			db_free(&dbv);
 		}
@@ -719,32 +719,28 @@ int __cdecl CYahooProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	DBVARIANT dbv;
+	CYahooProto* ppro = (CYahooProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
+		TranslateDialogDefault(hwndDlg);
 
-			CYahooProto* ppro = (CYahooProto*)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		ppro = (CYahooProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			DBVARIANT dbv;
-			if ( !ppro->getString(YAHOO_LOGINID, &dbv))
-			{
-				SetDlgItemTextA(hwndDlg, IDC_HANDLE, dbv.pszVal);
-				db_free(&dbv);
-			}
-
-			if ( !ppro->getString(YAHOO_PASSWORD, &dbv))
-			{
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-				db_free(&dbv);
-			}
-
-			SetButtonCheck(hwndDlg, IDC_YAHOO_JAPAN, ppro->getByte("YahooJapan", 0));
-			return TRUE;
+		if ( !ppro->getString(YAHOO_LOGINID, &dbv)) {
+			SetDlgItemTextA(hwndDlg, IDC_HANDLE, dbv.pszVal);
+			db_free(&dbv);
 		}
+
+		if ( !ppro->getString(YAHOO_PASSWORD, &dbv)) {
+			SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
+			db_free(&dbv);
+		}
+
+		SetButtonCheck(hwndDlg, IDC_YAHOO_JAPAN, ppro->getByte("YahooJapan", 0));
+		return TRUE;
 
 	case WM_COMMAND:
 		if ( LOWORD( wParam ) == IDC_NEWYAHOOACCOUNTLINK ) {
@@ -769,11 +765,8 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY )
-		{
-			CYahooProto* ppro = (CYahooProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY ) {
 			char str[128];
-			DBVARIANT dbv;
 			BOOL reconnectRequired = FALSE;
 
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, sizeof(str));
@@ -798,7 +791,6 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (reconnectRequired)
 				ppro->delSetting(YAHOO_PWTOKEN);
 
-			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 			ppro->setString(YAHOO_PASSWORD, str);
 			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN ));
 

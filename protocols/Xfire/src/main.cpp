@@ -1517,49 +1517,17 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 			}
 			else
 			{
-				CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv2.pszVal)+1,(LPARAM)dbv2.pszVal);
-
 				if(myClient!=NULL)
 					delete myClient;
 
-				//alter proxycode, entfernt da über netlib die proxysache geregelt wird
-				/* if(db_get_b(NULL, protocolname, "useproxy" ,0))
-				{
-					//verbindung über proxy
-					DBVARIANT dbv3;
-					DBVARIANT dbv4;
-					if(!db_get(NULL,protocolname,"proxyip",&dbv3))
-					{
-						if(!db_get(NULL,protocolname,"proxyport",&dbv4))
-						{
-							myClient = new XFireClient(dbv.pszVal,dbv2.pszVal,db_get_b(NULL,protocolname,"protover",0),1,dbv3.pszVal,atoi(dbv4.pszVal));
-							db_free(&dbv4);
-						}
-						db_free(&dbv3);
-					}
-				}
-				else */
-					myClient = new XFireClient(dbv.pszVal,dbv2.pszVal,db_get_b(NULL,protocolname,"protover",0));
+				myClient = new XFireClient(dbv.pszVal,dbv2.pszVal,db_get_b(NULL,protocolname,"protover",0));
 
 				//verbindung als thread
 				bpStatus = ID_STATUS_CONNECTING;
 				ProtoBroadcastAck(protocolname,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)oldStatus,ID_STATUS_CONNECTING);
 
 				mir_forkthread(ConnectingThread,(LPVOID)wParam);
-				//alte verb
-				/*
-				myClient->run();
 
-				if(myClient->client->connected)
-				{
-					sendonrecieve=TRUE;
-				}
-				else
-				{
-					MSGBOXE(Translate("Unable to connect to XFire."));
-					wParam =ID_STATUS_OFFLINE;
-				}
-				*/
 				//für die vars
 				db_unset(NULL,protocolname,"currentgamename");
 				db_unset(NULL,protocolname,"currentvoicename");

@@ -421,13 +421,11 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			if (g_wMask & OPT_REQPASS){  //password request
 				DBVARIANT dbVar = {0};
-				if (!db_get_s(NULL,MOD_NAME,"password",&dbVar))
-				{
+				if (!db_get_s(NULL,MOD_NAME,"password",&dbVar)) {
 					g_fPassRequested = true;
 
 					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
 					db_free(&dbVar);
-					CallService(MS_DB_CRYPT_DECODESTRING, MAXPASSLEN+1, ( LPARAM )g_password );
 
 					int res = DialogBox(g_hInstance,(MAKEINTRESOURCE(IDD_PASSDIALOGNEW)),GetForegroundWindow(), DlgStdInProc);
 

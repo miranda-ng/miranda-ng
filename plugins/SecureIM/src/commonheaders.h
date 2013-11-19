@@ -108,9 +108,6 @@ __forceinline int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hP
 	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
 }
 
-LPSTR myDBGetStringDecode(HANDLE,const char *,const char *);
-int myDBWriteStringEncode(HANDLE,const char *,const char *,const char *);
-
 extern HANDLE hNetlibUser;
 void InitNetlib();
 void DeinitNetlib();

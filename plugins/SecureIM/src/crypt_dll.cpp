@@ -1,6 +1,5 @@
 #include "commonheaders.h"
 
-
 // generate KeyA pair and return public key
 LPSTR InitKeyA(pUinKey ptr,int features)
 {
@@ -11,8 +10,8 @@ LPSTR InitKeyA(pUinKey ptr,int features)
 
 	char *tmp = db_get_sa(ptr->hContact,MODULENAME,"PSK");
 	if (tmp) {
-	    cpp_init_keyp(ptr->cntx,tmp);	// make pre-shared key from password
-	    mir_free(tmp);
+		cpp_init_keyp(ptr->cntx,tmp);	// make pre-shared key from password
+		mir_free(tmp);
 	}
 
 	LPSTR pub_text = cpp_init_keya(ptr->cntx,features);	// calculate public and private key & fill KeyA
@@ -24,8 +23,7 @@ LPSTR InitKeyA(pUinKey ptr,int features)
 		else
 			keysig = (LPSTR)SIG_KEYA;
 	}
-	else
-	if (isProtoSmallPackets(ptr->hContact))
+	else if (isProtoSmallPackets(ptr->hContact))
 		keysig = (LPSTR)SIG_KEY4;
 	else
 		keysig = (LPSTR)SIG_KEY3;
@@ -65,8 +63,8 @@ int InitKeyB(pUinKey ptr,LPCSTR key)
 
 
 // store KeyX into context
-void InitKeyX(pUinKey ptr,BYTE *key) {
-
+void InitKeyX(pUinKey ptr,BYTE *key)
+{
 	if (!ptr->cntx)
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
@@ -75,8 +73,8 @@ void InitKeyX(pUinKey ptr,BYTE *key) {
 
 
 // calculate secret key
-BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
-
+BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact)
+{
 	int agr = cpp_calc_keyx(ptr->cntx);
 	if (agr) {
 		// do this only if key exchanged is ok
@@ -105,8 +103,8 @@ BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
 
 
 // encrypt message
-LPSTR encrypt(pUinKey ptr, LPCSTR szEncMsg) {
-
+LPSTR encrypt(pUinKey ptr, LPCSTR szEncMsg)
+{
 	LPSTR szSig = (LPSTR) (ptr->offlineKey?SIG_ENOF:SIG_ENON);
 
 	int slen = (int)strlen(szSig);
@@ -121,30 +119,27 @@ LPSTR encrypt(pUinKey ptr, LPCSTR szEncMsg) {
 
 
 // encode message
-LPSTR encodeMsg(pUinKey ptr, LPARAM lParam) {
-
+LPSTR encodeMsg(pUinKey ptr, LPARAM lParam)
+{
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = (LPSTR) pccsd->lParam;
 
 	if (pccsd->wParam & PREF_UTF )
 		szNewMsg = encrypt(ptr,cpp_encodeU(ptr->cntx,szOldMsg));
-	else
-	if (pccsd->wParam & PREF_UNICODE )
+	else if (pccsd->wParam & PREF_UNICODE )
 		szNewMsg = encrypt(ptr,cpp_encodeW(ptr->cntx,(LPWSTR)(szOldMsg+strlen(szOldMsg)+1)));
 	else
 		szNewMsg = encrypt(ptr,cpp_encodeA(ptr->cntx,szOldMsg));
 
-//	pccsd->wParam &= ~(PREF_UNICODE|PREF_UTF);
 	pccsd->wParam &= ~PREF_UNICODE;
-
 	return szNewMsg;
 }
 
 
 // decode message
-LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
-
+LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg)
+{
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = (PROTORECVEVENT *)pccsd->lParam;
 
@@ -152,7 +147,7 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 	LPSTR szOldMsg = (ppre->flags&PREF_UTF)?cpp_decodeU(ptr->cntx,szEncMsg):cpp_decode(ptr->cntx,szEncMsg);
 
 	if (szOldMsg == NULL) {
-		ptr->decoded=false;
+		ptr->decoded = false;
 		switch(cpp_get_error(ptr->cntx)) {
 		case CPP_ERROR_BAD_LEN:
 			szNewMsg = mir_strdup(Translate(sim102));
@@ -160,10 +155,9 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 		case CPP_ERROR_BAD_CRC:
 			szNewMsg = mir_strdup(Translate(sim103));
 			break;
-		default: {
+		default:
 			ptr->decoded=true;
-    			szNewMsg = mir_strdup(Translate(sim101));
-    		}
+			szNewMsg = mir_strdup(Translate(sim101));
 			break;
 		}
 		ppre->flags &= ~(PREF_UNICODE|PREF_UTF);
@@ -200,8 +194,8 @@ BOOL LoadKeyPGP(pUinKey ptr)
 		db_free(&dbv);
 		return r;
 	}
-	else if (mode == 1) {
-		LPSTR key = myDBGetStringDecode(ptr->hContact,MODULENAME,"pgp");
+	if (mode == 1) {
+		LPSTR key = db_get_sa(ptr->hContact,MODULENAME,"pgp");
 		if (key) {
 			pgp_set_key(ptr->cntx,key);
 			mir_free(key);
@@ -211,15 +205,15 @@ BOOL LoadKeyPGP(pUinKey ptr)
 	return 0;
 }
 
-BOOL LoadKeyGPG(pUinKey ptr) {
-
+BOOL LoadKeyGPG(pUinKey ptr)
+{
 	LPSTR key = db_get_sa(ptr->hContact,MODULENAME,"gpg");
 	if (key) {
 		gpg_set_keyid(ptr->cntx,key);
 		mir_free(key);
-	   	return 2;
+		return 2;
 	}
-   	return 0;
+	return 0;
 }
 
 // EOF

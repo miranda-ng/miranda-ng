@@ -38,8 +38,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 	// Load token
 	if (!gg->gettoken(&token)) return NULL;
 
-	if (!(h = gg_register3(newEmail, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success || !s->uin)
-	{
+	if (!(h = gg_register3(newEmail, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success || !s->uin) {
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot register new account because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
@@ -47,10 +46,8 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg->debugLogA("gg_doregister(): Cannot register. errno=%d: %s", errno, strerror(errno));
 	}
-	else
-	{
+	else {
 		gg->setDword(GG_KEY_UIN, s->uin);
-		CallService(MS_DB_CRYPT_ENCODESTRING, strlen(newPass) + 1, (LPARAM) newPass);
 		gg->checknewuser(s->uin, newPass);
 		gg->setString(GG_KEY_PASSWORD, newPass);
 		gg->setString(GG_KEY_EMAIL, newEmail);
@@ -149,7 +146,6 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 	else
 	{
 		gg_pubdir_free(h);
-		CallService(MS_DB_CRYPT_ENCODESTRING, strlen(newPass) + 1, (LPARAM) newPass);
 		gg->setString(GG_KEY_PASSWORD, newPass);
 		gg->debugLogA("gg_dochpass(): Password change succesful.");
 		MessageBox(NULL, TranslateT("Your password has been changed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);

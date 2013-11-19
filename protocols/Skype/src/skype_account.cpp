@@ -95,8 +95,6 @@ bool CSkypeProto::PreparePassword()
 				this->rememberPassword = param.rememberPassword;
 			}
 		}
-		else
-			::CallService(MS_DB_CRYPT_DECODESTRING, ::strlen(this->password), (LPARAM)this->password);
 	}
 
 	return true;
@@ -220,10 +218,6 @@ void CSkypeProto::OnLoggedIn()
 	{
 		::mir_free(this->password);
 		this->password = NULL;
-	}
-	else
-	{
-		::CallService(MS_DB_CRYPT_ENCODESTRING, ::strlen(this->password), (LPARAM)this->password);
 	}
 
 	this->SetServerStatus(this->m_iDesiredStatus);

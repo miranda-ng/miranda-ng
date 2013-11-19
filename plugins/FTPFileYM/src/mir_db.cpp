@@ -53,14 +53,6 @@ int DB::setStringF(HANDLE hContact, char *szModule, char *szSetting, int id, TCH
 	return db_set_ts(hContact, szModule, formSet, stzValue);
 }
 
-int DB::setCryptedString(HANDLE hContact, char *szModule, char *szSetting, char *szValue)
-{
-	char buff[256];
-	strcpy(buff, szValue);
-	CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)sizeof(buff), (LPARAM)buff);
-	return db_set_s(hContact, szModule, szSetting, buff);
-}
-
 int DB::getByteF(HANDLE hContact, char *szModule, char *szSetting, int id, int iErrorValue)
 {
 	char formSet[256];
@@ -122,20 +114,6 @@ int DB::getStringF(HANDLE hContact, char *szModule, char *szSetting, int id, TCH
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
 	return getString(hContact, szModule, formSet, buff);
-}
-
-int DB::getCryptedString(HANDLE hContact, char *szModule, char *szSetting, char *szValue)
-{
-	char buff[256];
-	if (!getAString(hContact, szModule, szSetting, buff))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)sizeof(buff), (LPARAM)buff);
-		strcpy(szValue, buff);
-		return 0;
-	}
-
-	szValue[0] = 0;
-	return 1;
 }
 
 int DB::deleteSettingF(HANDLE hContact, char *szModule, char *szSetting, int id)

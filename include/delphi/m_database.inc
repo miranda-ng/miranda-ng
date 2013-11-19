@@ -251,29 +251,6 @@ const
 
   MS_DB_EVENT_GETSTRINGT:PAnsiChar = 'DB/Event/GetStringT';
 
-//************************** Encryption ****************************
-
-  {
-    wParam : size in bytes of string buffer (including null term)
-    lParam : pointer to string buffer
-    Affect : Scrambles the string buffer in place using a strange encryption algorithm,
-             see notes
-    Returns: Always returns 0
-    notes  : this service may be changed at a later date such that it increasess
-             the length of the string
-  }
-  MS_DB_CRYPT_ENCODESTRING:PAnsiChar = 'DB/Crypt/EncodeString';
-
-  {
-    wParam : size in bytes of string buffer, including null term
-    lParam : pointer to string buffer
-    Affect : Descrambles pszString in-place using the strange encryption algorithm,
-             see notes.
-    Return : Always returns 0
-    notes  : Reverses the operation done by MS_DB_CRYPT_ENCODINGSTRING
-  }
-  MS_DB_CRYPT_DECODESTRING:PAnsiChar = 'DB/Crypt/DecodeString';
-
 //**************************** Time ********************************
 
   {

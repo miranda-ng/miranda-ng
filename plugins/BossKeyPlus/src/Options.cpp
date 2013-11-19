@@ -23,30 +23,14 @@ bool g_fOptionsOpen;
 bool g_fReqRass;
 extern HGENMENU g_hMenuItem;
 
-//void Disable_ChildWindows(HWND hwndParent)
-//{
-//	if (hwndParent != NULL)
-//	{
-//		HWND hWorkWnd = GetWindow(hwndParent,GW_CHILD); // first child
-//		while (hWorkWnd != NULL)
-//		{
-//			EnableWindow(hWorkWnd,false);
-//			hWorkWnd = GetNextWindow(hWorkWnd,GW_HWNDNEXT);
-//		}
-//	}
-//}
-
-
 INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	static bool s_fRedraw;
 
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
 			g_fOptionsOpen = true;
 			s_fRedraw = false;
 
@@ -57,10 +41,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			DBVARIANT dbVar;
 
-			if (!db_get_s(NULL,MOD_NAME,"password",&dbVar))
-			{
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen( dbVar.pszVal )+1, ( LPARAM )dbVar.pszVal );
-
+			if (!db_get_s(NULL,MOD_NAME,"password",&dbVar)) {
 				SetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,dbVar.pszVal);
 				db_free(&dbVar);
 			}
@@ -82,87 +63,77 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			SendMessage(hwndDlg,WM_USER + 50,0,0);
 
 			s_fRedraw = true;
-			return true;
-		} break;
-		case WM_NOTIFY:
-		{
-			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code)
-			{
-				case PSN_APPLY:
-				{
-					WORD wMask = 0;
-					// we apply changes here
-					// this plugin ain't that big, no need for a seperate routine
+		}
+		return true;
 
-					// write down status type
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED)
-					{
-						db_set_b(NULL,MOD_NAME,"stattype",(BYTE)SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_GETCURSEL,0,0));
+	case WM_NOTIFY:
+		switch (((NMHDR*)lParam)->code) {
+		case PSN_APPLY:
+			WORD wMask = 0;
+			// we apply changes here
+			// this plugin ain't that big, no need for a seperate routine
 
-						// status msg, if needed
-						if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG))) // meaning we should save it
-						{
-							TCHAR tszMsg[1025];
-							GetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,tszMsg,1024);
-							if (tszMsg[0] != 0)
-								db_set_ts(NULL,MOD_NAME,"statmsg",tszMsg);
-							else // delete current setting
-								db_unset(NULL,MOD_NAME,"statmsg");
-						}
-						wMask |= OPT_CHANGESTATUS;
-					}
+			// write down status type
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED) {
+				db_set_b(NULL,MOD_NAME,"stattype",(BYTE)SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_GETCURSEL,0,0));
 
-					// checkbox
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_REQPASS) == BST_CHECKED)
-					{
-						char szPass[MAXPASSLEN+1];
-						GetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,szPass,MAXPASSLEN+1);
-						if (szPass[0] != 0){
-							CallService(MS_DB_CRYPT_ENCODESTRING, MAXPASSLEN+1, ( LPARAM )szPass );
-							db_set_s(NULL,MOD_NAME,"password",szPass);
-							wMask |= OPT_REQPASS;
-						}
-					}
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_SETONLINEBACK) == BST_CHECKED) wMask |= OPT_SETONLINEBACK;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_DISABLESNDS) == BST_CHECKED) wMask	|= OPT_DISABLESNDS;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_ONLINEONLY) == BST_CHECKED) wMask |= OPT_ONLINEONLY;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) == BST_CHECKED)  wMask |= OPT_USEDEFMSG;
-					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_TRAYICON) == BST_CHECKED)  wMask |= OPT_TRAYICON;
-
-					db_set_w(NULL,MOD_NAME,"optsmask",wMask);
-					g_wMask = wMask;
-
-					return true;
-				} break;
+				// status msg, if needed
+				if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG))) { // meaning we should save it
+					TCHAR tszMsg[1025];
+					GetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,tszMsg,1024);
+					if (tszMsg[0] != 0)
+						db_set_ts(NULL,MOD_NAME,"statmsg",tszMsg);
+					else // delete current setting
+						db_unset(NULL,MOD_NAME,"statmsg");
+				}
+				wMask |= OPT_CHANGESTATUS;
 			}
-		} break;
-		case WM_USER+50: // we're told to checkout the selection state of the combobox, and enable/disable accordingly
+
+			// checkbox
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_REQPASS) == BST_CHECKED) {
+				char szPass[MAXPASSLEN+1];
+				GetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,szPass,MAXPASSLEN+1);
+				if (szPass[0] != 0){
+					db_set_s(NULL,MOD_NAME,"password",szPass);
+					wMask |= OPT_REQPASS;
+				}
+			}
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_SETONLINEBACK) == BST_CHECKED) wMask |= OPT_SETONLINEBACK;
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_DISABLESNDS) == BST_CHECKED) wMask	|= OPT_DISABLESNDS;
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_ONLINEONLY) == BST_CHECKED) wMask |= OPT_ONLINEONLY;
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) == BST_CHECKED)  wMask |= OPT_USEDEFMSG;
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_TRAYICON) == BST_CHECKED)  wMask |= OPT_TRAYICON;
+
+			db_set_w(NULL,MOD_NAME,"optsmask",wMask);
+			g_wMask = wMask;
+			return true;
+		}
+		break;
+
+	case WM_USER+50: // we're told to checkout the selection state of the combobox, and enable/disable accordingly
 		{
 			BYTE bSelection = (BYTE)SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_GETCURSEL,0,0);
 			WORD wMode = STATUS_ARR_TO_ID[bSelection];
-			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) == BST_CHECKED)
-			{
+			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) == BST_CHECKED) {
 				TCHAR *ptszDefMsg = GetDefStatusMsg(wMode, 0);
 				SetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, ptszDefMsg);
 				if(ptszDefMsg)
 					mir_free(ptszDefMsg);
 			}
-			else
-			{
+			else {
 				DBVARIANT dbVar;
 				SendDlgItemMessage(hwndDlg,IDC_MAINOPT_STATMSG,EM_LIMITTEXT,1024,0);
-				if (!db_get_ts(NULL,MOD_NAME,"statmsg",&dbVar))
-				{
+				if (!db_get_ts(NULL,MOD_NAME,"statmsg",&dbVar)) {
 					SetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,dbVar.ptszVal);
 					db_free(&dbVar);
 				}
 			}
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG),(IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED) && (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) != BST_CHECKED));
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MAINOPT_VARHELP), IsWindowEnabled(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG)) && ServiceExists(MS_VARS_FORMATSTRING));
-			return true;
-		} break;
-		case WM_USER+60:
+		}
+		return true;
+
+	case WM_USER+60:
 		{
 			bool fEnable = IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED;
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_CHGSTS),fEnable);
@@ -170,89 +141,71 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_ONLINEONLY),fEnable);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_USEDEFMSG),fEnable);			
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_PASS),IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_REQPASS) == BST_CHECKED);
-			return true;
-		} break;
-		case WM_COMMAND:
-		{
-			switch (HIWORD(wParam))
-			{
-				case CBN_SELCHANGE:
-				{
-					// check the type
-					// if type doesn't require a msg, we don't use one
-					if (LOWORD(wParam) == IDC_MAINOPT_CHGSTS)
-					{
-						SendMessage(hwndDlg,WM_USER + 50,0,0);
-					}
-					SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-					return 0;
-				} break;
-				case BN_CLICKED:
-				{
-					switch(LOWORD(wParam))
-					{
-						case IDC_MAINOPT_DISABLESNDS:
-						case IDC_MAINOPT_SETONLINEBACK:
-						case IDC_MAINOPT_ONLINEONLY:
-						case IDC_MAINOPT_TRAYICON:
-						{
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return true;
-						} break;
-						case IDC_MAINOPT_USEDEFMSG:
-						{
-							SendMessage(hwndDlg,WM_USER + 50,0,0);
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return true;
-						} break;
-						case IDC_MAINOPT_CHANGESTATUSBOX:
-						{
-							SendMessage(hwndDlg,WM_USER + 60,0,0);
-							SendMessage(hwndDlg,WM_USER + 50,0,0);
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return true;
-						} break;
-						case IDC_MAINOPT_REQPASS:
-						{
-							SendMessage(hwndDlg,WM_USER + 60,0,0);
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return true;
-						} break;
-						case IDC_MAINOPT_VARHELP:
-						{
-							variables_showhelp(hwndDlg, IDC_MAINOPT_STATMSG, VHF_INPUT|VHF_HELP, 0, 0);
-							SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-							return true;
-						} break;
-						case IDC_MAINOPT_LNK_HOTKEY:
-						{
-							OPENOPTIONSDIALOG ood = {0};
-							ood.cbSize = sizeof(ood);
-							ood.pszGroup = "Customize";
-							ood.pszPage = "Hotkeys";
-							Options_Open(&ood);
-							return (true);
-						} break;
-					}
-					return 0;
-				} break;
-				case EN_UPDATE:
-				{
-					switch( LOWORD( wParam )) {
-						case IDC_MAINOPT_STATMSG:
-						case IDC_MAINOPT_PASS:
-							if (s_fRedraw)
-								SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
-					}
-				} break;
-				default:break;
-			}
-		} break;
-		case WM_DESTROY:
-		{
-			g_fOptionsOpen = false;
+		}
+		return true;
+
+	case WM_COMMAND:
+		switch (HIWORD(wParam)) {
+		case CBN_SELCHANGE:
+			if (LOWORD(wParam) == IDC_MAINOPT_CHGSTS)
+				SendMessage(hwndDlg,WM_USER + 50,0,0);
+
+			SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
 			return 0;
-		} break;
+
+		case BN_CLICKED:
+			switch(LOWORD(wParam)) {
+			case IDC_MAINOPT_DISABLESNDS:
+			case IDC_MAINOPT_SETONLINEBACK:
+			case IDC_MAINOPT_ONLINEONLY:
+			case IDC_MAINOPT_TRAYICON:
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
+
+			case IDC_MAINOPT_USEDEFMSG:
+				SendMessage(hwndDlg,WM_USER + 50,0,0);
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
+
+			case IDC_MAINOPT_CHANGESTATUSBOX:
+				SendMessage(hwndDlg,WM_USER + 60,0,0);
+				SendMessage(hwndDlg,WM_USER + 50,0,0);
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
+
+			case IDC_MAINOPT_REQPASS:
+				SendMessage(hwndDlg,WM_USER + 60,0,0);
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
+
+			case IDC_MAINOPT_VARHELP:
+				variables_showhelp(hwndDlg, IDC_MAINOPT_STATMSG, VHF_INPUT|VHF_HELP, 0, 0);
+				SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+				return true;
+
+			case IDC_MAINOPT_LNK_HOTKEY:
+				OPENOPTIONSDIALOG ood = {0};
+				ood.cbSize = sizeof(ood);
+				ood.pszGroup = "Customize";
+				ood.pszPage = "Hotkeys";
+				Options_Open(&ood);
+				return (true);
+			}
+			return 0;
+
+		case EN_UPDATE:
+			switch( LOWORD( wParam )) {
+			case IDC_MAINOPT_STATMSG:
+			case IDC_MAINOPT_PASS:
+				if (s_fRedraw)
+					SendMessage(GetParent(hwndDlg),PSM_CHANGED,(WPARAM)hwndDlg,0);
+			}
+		}
+		break;
+
+	case WM_DESTROY:
+		g_fOptionsOpen = false;
+		return 0;
 	}
 	return(false);
 }

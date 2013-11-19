@@ -1076,12 +1076,8 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here
 	///////////////////////// convert to submenu
 	case MENU_VIEWDECRYPT:
 		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
-			if (lstrcmpA(setting, "LoginPassword")) {
-				char *text = mir_strdup(dbv.pszVal);
-				CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)lstrlenA(dbv.pszVal)+1, (LPARAM)text);
-				msg(text, Translate("Decoded string.."));
-				mir_free(text);
-			}
+			if (lstrcmpA(setting, "LoginPassword"))
+				msg(dbv.pszVal, Translate("Decoded string.."));
 			else {
 				char *str = mir_strdup(dbv.pszVal);
 				char *str1 = str;
@@ -1100,32 +1096,20 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here
 		break;
 
 	case MENU_VIEWENCRYPT:
-		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
-			char *text = mir_tstrdup(dbv.pszVal);
-			CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)strlen(dbv.pszVal)+1, (LPARAM)text);
-			msg(text, Translate("Encoded string.."));
-			mir_free(text);
-		}
+		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ)
+			msg(dbv.pszVal, Translate("Encoded string.."));
 		db_free(&dbv);
 		break;
 
 	case MENU_DECRYPT:
-		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
-			char *text = mir_tstrdup(dbv.pszVal);
-			CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(dbv.pszVal)+1, (LPARAM)text);
-			db_set_s(hContact,module,setting,text);
-			mir_free(text);
-		}
+		if (!db_get_s(hContact,module,setting,&dbv))
+			db_set_s(hContact,module,setting,dbv.pszVal);
 		db_free(&dbv);
 		break;
 
 	case MENU_ENCRYPT:
-		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
-			char *text = mir_tstrdup(dbv.pszVal);
-			CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)strlen(dbv.pszVal)+1, (LPARAM)text);
-			db_set_s(hContact,module,setting,text);
-			mir_free(text);
-		}
+		if (!db_get_s(hContact,module,setting,&dbv))
+			db_set_s(hContact,module,setting,dbv.pszVal);
 		db_free(&dbv);
 		break;
 

@@ -35,60 +35,43 @@ CExchangeServer::~CExchangeServer()
 int CExchangeServer::Connect(int bForceConnect)
 {
 	int maxRetries = db_get_b(NULL, ModuleName, "MaxRetries", MAX_EXCHANGE_CONNECT_RETRIES);
-	if (bForceConnect)
-	{
+	if (bForceConnect) {
 		bTryConnect = 1;
 		cConnections = 0;
 	}
 		
-	if (cConnections >= maxRetries)
-	{
+	if (cConnections >= maxRetries) {
 		bTryConnect = 0;
 		cConnections = 0;
 		_popupUtil("Maximum number of retries reached.\nPlugin will stop trying to connect automatically.");
 	}
+
 	if (bTryConnect)
-	{
 		cConnections++;
-	}
 		
-	if ((bTryConnect) && !IsServerAvailable())
-	{
+	if ((bTryConnect) && !IsServerAvailable()) {
 		bTryConnect = 0;
 		_popupUtil("Server not available");
 	}		
 		
-	if ((!IsConnected()) && (bTryConnect))
-		{
-			TCHAR user[1024]; //lovely
-			TCHAR password[1024]; //i know
-			char apassword[1024];
-			TCHAR server[1024];
-			int port;
-			
-			GetStringFromDatabase("Username", _T(""), user, _countof(user));
-			if (ServiceExists(MS_UTILS_REPLACEVARS))
-			{
-				TCHAR *tmpUser = Utils_ReplaceVarsT(user);
-				
-				_tcsncpy(user, tmpUser, _countof(user));
-				mir_free(tmpUser);
-			}
-			
-			GetStringFromDatabase("Password", _T(""), password, _countof(password));
-			strcpy(apassword,mir_t2a(password));
-			CallService(MS_DB_CRYPT_DECODESTRING, sizeof(apassword), (LPARAM) apassword);
-			_tcsncpy(password,mir_a2t(apassword),_countof(password));
-			GetStringFromDatabase("Server", _T(""), server, _countof(server));
-			port = db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT);
-			if (_tcslen(server) > 0) //only connect if there's a server to connect to
-			{
-				return DoConnect(user, password, server, port);			
-			}
-			else {
-				_popupUtil("Server is not configured...");
-			}
-		}
+	if ( !IsConnected() && bTryConnect) {
+		TCHAR user[1024]; //lovely
+		TCHAR password[1024]; //i know
+		TCHAR server[1024];
+
+		GetStringFromDatabase("Username", _T(""), user, _countof(user));
+		if (ServiceExists(MS_UTILS_REPLACEVARS))
+			_tcsncpy_s(user, _countof(user), VARST(user), _TRUNCATE);
+
+		GetStringFromDatabase("Password", _T(""), password, _countof(password));
+		GetStringFromDatabase("Server", _T(""), server, _countof(server));
+
+		int port = db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT);
+		if (_tcslen(server) > 0) //only connect if there's a server to connect to
+			return DoConnect(user, password, server, port);			
+
+		_popupUtil("Server is not configured...");
+	}
 	return -1; //0 on success, != 0 otherwise
 }
 
@@ -151,44 +134,37 @@ void InitSocketAddr(sockaddr_in *addrServer, char *szServer)
 	hp = gethostbyname(szServer);
 	addrServer->sin_family = AF_INET;
 	if (hp == NULL)
-	{
 		addrServer->sin_addr.s_addr = inet_addr(szServer);
-	}
-	else{
+	else
 		memcpy(&(addrServer->sin_addr), hp->h_addr, hp->h_length);		
-	}
+
 	int port = db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT);
 	addrServer->sin_port = htons(port);
 }
 
 int CExchangeServer::IsServerAvailable()
 {
-	int check = db_get_b(NULL, ModuleName, "UsePortCheck", 1);
-	if (check)
-	{
-		SOCKET sServer = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		if (sServer == INVALID_SOCKET)
-		{
-			return 0; //server is not available
-		}
-		TCHAR szServer[1024];
-		GetStringFromDatabase("Server", _T(""), szServer, sizeof(szServer));
-		sockaddr_in addrServer;
-		InitSocketAddr(&addrServer, mir_t2a(szServer));
-		int res = connect(sServer, (sockaddr *) &addrServer, sizeof(addrServer));
-		int bAvailable = 0;
-		if (!res)
-		{//if connected then close smtp connection by sending a quit message
-			bAvailable = 1;
-			char message[] = "quit\n";
-			res = send(sServer, message, strlen(message), 0); 
-		}
-		res = closesocket(sServer); //close the socket
-		return bAvailable;
+	if (!db_get_b(NULL, ModuleName, "UsePortCheck", 1))
+		return 1;
+
+	SOCKET sServer = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sServer == INVALID_SOCKET)
+		return 0; //server is not available
+
+	TCHAR szServer[1024];
+	GetStringFromDatabase("Server", _T(""), szServer, sizeof(szServer));
+	sockaddr_in addrServer;
+	InitSocketAddr(&addrServer, mir_t2a(szServer));
+	int res = connect(sServer, (sockaddr *) &addrServer, sizeof(addrServer));
+	int bAvailable = 0;
+	if (!res) {
+		// if connected then close smtp connection by sending a quit message
+		bAvailable = 1;
+		char message[] = "quit\n";
+		send(sServer, message, strlen(message), 0); 
 	}
-	else{
-		return 1; //if we're not using port check assume the server is available.
-	}
+	res = closesocket(sServer); //close the socket
+	return bAvailable;
 }
 
 int CExchangeServer::GetUnreadEmailsCount()
@@ -220,42 +196,29 @@ int CExchangeServer::GetUnreadEmailsCount()
 int CExchangeServer::GetEmailHeader(int iUnreadEmail, TEmailHeader *emailInfo)
 {
 	if (!IsConnected())
-	{
-		//Connect();
 		return -1;
-	}
+
 	if (emailInfo->cbSize != sizeof(TEmailHeader))
-	{
 		return -1;
-	}
 
 #ifndef NO_EXCHANGE_TEST
 
-	if(NULL!=m_HeadersKeeper[iUnreadEmail])
-	{
+	if (NULL != m_HeadersKeeper[iUnreadEmail]) {
 		TCHAR* szSender  = m_HeadersKeeper[iUnreadEmail]->m_szSender;
 		TCHAR* szSubject = m_HeadersKeeper[iUnreadEmail]->m_szSubject;
 
-		if( NULL == szSender)
-		{
+		if (NULL == szSender)
 			szSender = _T("");
-		}
 
-		if( NULL == szSubject)
-		{
+		if (NULL == szSubject)
 			szSubject = _T("");
-		}
 
 		emailInfo->szSender  = szSender;
 		emailInfo->szSubject = szSubject;
 		emailInfo->emailID   = (NULL!=m_HeadersKeeper[iUnreadEmail]->m_szEntryID)?m_HeadersKeeper[iUnreadEmail]->m_szEntryID:"";
 		
 	}
-	else {
-		return -1;
-	}
-
-
+	else return -1;
 #else
 	emailInfo->szSender = "<sender>";
 	emailInfo->szSubject = "<subject>";
@@ -268,9 +231,7 @@ int CExchangeServer::GetEmailHeader(int iUnreadEmail, TEmailHeader *emailInfo)
 int CExchangeServer::MarkEmailAsRead(TCHAR *emailID)
 {
 	if (!IsConnected())
-	{
 		return -1;
-	}
 
 #ifndef NO_EXCHANGE_TEST	
 	MarkAsRead( emailID );
@@ -282,87 +243,50 @@ int CExchangeServer::MarkEmailAsRead(TCHAR *emailID)
 int CExchangeServer::OpenMessage(TCHAR *emailID)
 {
 	if (!IsConnected())
-	{
 		return -1;
-	}
 
 #ifndef NO_EXCHANGE_TEST	
 	OpenTheMessage( emailID );
 #endif
-
 	return 0;
 }
 
 int CExchangeServer::Check(int bNoEmailsNotify)
 {
-
 	int count = -1;
-	if (IsConnected())
-	{
-		count =	GetUnreadEmailsCount();
-
-		if (count==-1)
-		{
+	if (IsConnected()) {
+		count = GetUnreadEmailsCount();
+		if (count == -1) {
 			Reconnect();	
 			if (IsConnected())
-			{	
 				count = GetUnreadEmailsCount();	
-			}
-			else {
+			else
 				return -1;
-			}
 		}
-
 	}
 	else {	
 		Reconnect();
 		if (IsConnected())
-		{	
 			count = GetUnreadEmailsCount();	
-		}
-		else {
+		else
 			return -1;
-		}
 		
 		if (count==-1)
-		{
 			return -1;
-		}
 	}
 
-	if( ( (count > 0) || ((bNoEmailsNotify) && (count >= 0)) )&& (count!=-1))
-	{
+	if (((count > 0) || ((bNoEmailsNotify) && (count >= 0))) && (count != -1)) {
 		TCHAR buffer[1024];
 		if (count != 1)
-		{
 			mir_sntprintf(buffer,_countof(buffer), TranslateT("You have %d unread emails..."), count);
-		}
-		else {
+		else
 			mir_sntprintf(buffer, _countof(buffer),TranslateT("You have one unread email..."));
-		}
 
 		ShowMessage(buffer, count);
-		/*int i;
-				TEmailHeader emailInfo = {0};
-				char sender[1024];
-				char subject[1024];
-				emailInfo.cbSize = sizeof(emailInfo);
-				emailInfo.szSender = sender;
-				emailInfo.szSubject = subject;
-				emailInfo.cSender = sizeof(sender);
-				emailInfo.cSubject = sizeof(subject);
-				for (i = 0; i < count; i++)
-					{
-						GetEmailHeader(i, &emailInfo);
-						sprintf(buffer, "Unread email #%d:\nSender :%s\nSubject :%s", i + 1, sender, subject);
-						ShowMessage(buffer);
-					}*/
 	}
 
 	if (count==-1)
-	{
 		_popupUtil("Cannot connect to Exchange server...");
-	}
 
 	return count;
 }
@@ -371,14 +295,9 @@ int ShowMessage(TCHAR *message, int cUnreadEmails)
 {
 	int usePopups = ServiceExists(MS_POPUP_ADDPOPUP) ? db_get_b(NULL, ModuleName, "UsePopups", 0) : 0;
 	if (usePopups)
-	{
 		return ShowPopupMessage(TranslateT("Exchange email"), message, cUnreadEmails);
-	}
-	else{
-		return ShowMessageBoxMessage(TranslateT("Do you want to see the email headers?"), message, cUnreadEmails);
-	}
-	
-	return 0;
+
+	return ShowMessageBoxMessage(TranslateT("Do you want to see the email headers?"), message, cUnreadEmails);
 }
 
 int ShowPopupMessage(TCHAR *title, TCHAR *message, int cUnreadEmails)
@@ -398,30 +317,21 @@ int ShowPopupMessage(TCHAR *title, TCHAR *message, int cUnreadEmails)
 int ShowMessageBoxMessage(TCHAR *title, TCHAR *message, int cUnreadEmails)
 {
 	if (MessageBox(0, message, title, MB_YESNO) == IDYES)
-	{
 		ShowEmailsWindow(cUnreadEmails);
-	}
-	
 	return 0;
 }
 
 int ShowEmailsWindow(int cUnreadEmails)
 {
-	if (cUnreadEmails > 0) //show window only if there are unread emails
-	{
+	if (cUnreadEmails > 0) { //show window only if there are unread emails
 		if (!hEmailsDlg)
-		{
 			hEmailsDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails);
-		}
 		
 		SetWindowLong(hEmailsDlg, GWLP_USERDATA, cUnreadEmails);
 		if (IsWindowVisible(hEmailsDlg))
-		{
 			SendMessage(hEmailsDlg, EXM_UPDATE_EMAILS, 0, 0);
-		}
-		else {
+		else
 			ShowWindow(hEmailsDlg, SW_SHOW);
-		}
 	}
 	return 0;
 }

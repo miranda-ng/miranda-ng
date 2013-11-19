@@ -122,16 +122,13 @@ static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szS
 	return dbv.dVal;
 }
 
-static char *GetNetlibUserSettingString(const char *szUserModule, const char *szSetting, int decode)
+static char *GetNetlibUserSettingString(const char *szUserModule, const char *szSetting)
 {
-	DBVARIANT dbv;
-	if (db_get_s(NULL, szUserModule, szSetting, &dbv) && db_get_s(NULL, "Netlib", szSetting, &dbv))
-		return NULL;
+	char *szRet = db_get_sa(NULL, szUserModule, szSetting);
+	if (szRet == NULL)
+		if ((szRet = db_get_sa(NULL, "Netlib", szSetting)) == NULL)
+			return NULL;
 
-	if (decode) CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
-	char *szRet = mir_strdup(dbv.pszVal);
-	db_free(&dbv);
-	if (szRet == NULL) SetLastError(ERROR_OUTOFMEMORY);
 	return szRet;
 }
 
@@ -186,16 +183,16 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 		thisUser->settings.useProxy = 0;
 		thisUser->settings.proxyType = PROXYTYPE_SOCKS5;
 	}
-	thisUser->settings.szProxyServer = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyServer", 0);
+	thisUser->settings.szProxyServer = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyServer");
 	thisUser->settings.wProxyPort = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyPort", 1080);
 	thisUser->settings.useProxyAuth = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxyAuth", 0);
-	thisUser->settings.szProxyAuthUser = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthUser", 0);
-	thisUser->settings.szProxyAuthPassword = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthPassword", 1);
+	thisUser->settings.szProxyAuthUser = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthUser");
+	thisUser->settings.szProxyAuthPassword = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthPassword");
 	thisUser->settings.dnsThroughProxy = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLDnsThroughProxy", 1);
 	thisUser->settings.specifyIncomingPorts = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLSpecifyIncomingPorts", 0);
-	thisUser->settings.szIncomingPorts = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLIncomingPorts", 0);
+	thisUser->settings.szIncomingPorts = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLIncomingPorts");
 	thisUser->settings.specifyOutgoingPorts = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLSpecifyOutgoingPorts", 0);
-	thisUser->settings.szOutgoingPorts = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLOutgoingPorts", 0);
+	thisUser->settings.szOutgoingPorts = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLOutgoingPorts");
 	thisUser->settings.enableUPnP = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLEnableUPnP", 1); //default to on
 	thisUser->settings.validateSSL = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLValidateSSL", 0);
 

@@ -29,10 +29,7 @@ void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg)
 			tlogin = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
-		ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
-		if (pwd)
-			CallService(MS_DB_CRYPT_DECODESTRING, strlen(pwd), pwd);
-		tpass = mir_a2t(pwd);
+		tpass = db_get_tsa(hContact, MODULE, "Password");
 	}
 	else if (hwndDlg && IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		GetDlgItemText(hwndDlg, IDC_LOGIN, buf, SIZEOF(buf));
@@ -110,7 +107,6 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				else if (SelItem.hContact) {
 					db_set_b(SelItem.hContact, MODULE, "UseAuth", 1);
 					db_set_ts(SelItem.hContact, MODULE, "Login", username);
-					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
 					db_set_s(SelItem.hContact, MODULE, "Password", passw);
 				}
 				EndDialog(hwndDlg, IDOK);

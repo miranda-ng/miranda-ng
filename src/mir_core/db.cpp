@@ -120,7 +120,7 @@ MIR_CORE_DLL(char*) db_get_sa(HANDLE hContact, const char *szModule, const char 
 	db_get_s(hContact, szModule, szSetting, &dbv, DBVT_ASCIIZ);
 	if (dbv.type == DBVT_ASCIIZ)
 		str = mir_strdup(dbv.pszVal);
-	db_free(&dbv);
+		db_free(&dbv);
 	return str;
 }
 

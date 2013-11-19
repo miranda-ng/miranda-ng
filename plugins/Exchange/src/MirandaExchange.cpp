@@ -59,23 +59,23 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
     // Get the list of available message stores from MAPI
     hrT = MAPICALL(lplhSession)->GetMsgStoresTable( 0, &lpTable);
 
-	if(!FAILED(hrT))
+	if (!FAILED(hrT))
 	{
 		// Get the row count for the message recipient table
 		hrT = MAPICALL(lpTable)->GetRowCount(0, &cRows);
-		if(!FAILED(hrT))
+		if (!FAILED(hrT))
 		{
 			// Set the columns to return
 			hrT = MAPICALL(lpTable)->SetColumns((LPSPropTagArray)&rgPropTagArray, 0);
-			if(!FAILED(hrT))
+			if (!FAILED(hrT))
 			{
 				// Go to the beginning of the recipient table for the envelope
 				hrT = MAPICALL(lpTable)->SeekRow( BOOKMARK_BEGINNING, 0, NULL);
-				if(!FAILED(hrT))
+				if (!FAILED(hrT))
 				{
 					// Read all the rows of the table
 					hrT = MAPICALL(lpTable)->QueryRows( cRows, 0, &lpRows);
-					if(SUCCEEDED(hrT) && (lpRows != NULL) && (lpRows->cRows == 0))
+					if (SUCCEEDED(hrT) && (lpRows != NULL) && (lpRows->cRows == 0))
 					{
 						FreeProws(lpRows);
 						lpRows = NULL;
@@ -86,18 +86,18 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
 		}
 	}
 
-    if( !FAILED(hrT) )
+    if ( !FAILED(hrT) )
     {
 		bool bGetOut = false;
 		for(i = 0; (i < cRows) && (!bGetOut); i++)
 		{
-			if(lpRows->aRow[i].lpProps[0].Value.b == TRUE)
+			if (lpRows->aRow[i].lpProps[0].Value.b == TRUE)
 			{
 				cbeid = lpRows->aRow[i].lpProps[1].Value.bin.cb;
 
 				sc = MAPIAllocateBuffer(cbeid, (void **)&lpeid);
 
-				if(FAILED(sc))
+				if (FAILED(sc))
 				{
 					cbeid = 0;
 					lpeid = NULL;
@@ -113,7 +113,7 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
 		}
     }
 
-    if(lpRows != NULL)
+    if (lpRows != NULL)
     {
         FreeProws(lpRows);
     }
@@ -228,7 +228,7 @@ CMirandaExchange::~CMirandaExchange()
 		m_lpMDB = NULL;
 	}
 	
-	if( NULL!= m_lpMAPISession )
+	if ( NULL!= m_lpMAPISession )
 	{
 		m_lpMAPISession->Logoff(NULL,NULL,NULL);
 		UlRelease(m_lpMAPISession );
@@ -448,12 +448,12 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		LPMDB lpMDB         = NULL;
 		MAPIINIT_0 mapiInit = { MAPI_INIT_VERSION , MAPI_MULTITHREAD_NOTIFICATIONS };
 		
-		if( !m_bNoInitAgain) {
+		if ( !m_bNoInitAgain) {
 			m_bNoInitAgain = true;
 			hr = MAPIInitialize( &mapiInit) ;
 		}
 		
-		if( SUCCEEDED(hr)) {
+		if ( SUCCEEDED(hr)) {
 			TCHAR	szPIDandName[128];
 			TCHAR	szPID[20];
 
@@ -694,7 +694,7 @@ HRESULT CMirandaExchange::LogOFF()
 			m_lpMDB = NULL;
 		}
 
-		if( NULL!= m_lpMAPISession )
+		if ( NULL!= m_lpMAPISession )
 		{
 			m_lpMAPISession->Logoff( NULL, NULL, NULL );
 			m_lpMAPISession->Release();
@@ -788,7 +788,7 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 		CMAPIInterface<LPMAPITABLE> lpMessageTable;
 		
 		hr = lpFolder->GetContentsTable( 0, &lpMessageTable );
-		if( HR_FAILED( hr ) )
+		if ( HR_FAILED( hr ) )
 		{
 			return -1;
 		}
@@ -808,7 +808,7 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 		
 		//////////////////////////////////////////////////////////////////////////
 		
-		if( HR_FAILED( hr ) )
+		if ( HR_FAILED( hr ) )
 		{
 			return -1;
 		}
@@ -823,21 +823,21 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 				if ( !(lpRowsR->aRow[ i ].lpProps[ 1 ].Value.l & MSGFLAG_READ) )
 				{
 					
-					if( !FAILED(lpRowsR->aRow[i].lpProps[2].Value.err) ) 
+					if ( !FAILED(lpRowsR->aRow[i].lpProps[2].Value.err) ) 
 					{
 						szSenderName = lpRowsR->aRow[i].lpProps[2].Value.lpszW;
 					}
 					
 					if ( NULL == szSenderName)
 					{
-						if( !FAILED(lpRowsR->aRow[i].lpProps[3].Value.err))
+						if ( !FAILED(lpRowsR->aRow[i].lpProps[3].Value.err))
 						{
 							szSenderName = lpRowsR->aRow[i].lpProps[3].Value.lpszW;
 						}
 					}
 					
 					
-					if( !FAILED(lpRowsR->aRow[i].lpProps[4].Value.err) )
+					if ( !FAILED(lpRowsR->aRow[i].lpProps[4].Value.err) )
 					{
 						szSubject = lpRowsR->aRow[i].lpProps[4].Value.lpszW;
 					}
@@ -887,7 +887,7 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 						lpRowProp = lpRow->aRow[i].lpProps;
 						CMAPIInterface<LPMAPIFOLDER> lpSubFolder = NULL;
 						hr = CallOpenEntry( m_lpMDB, NULL, NULL, NULL, lpRowProp[IENTRYID].Value.bin.cb, (LPENTRYID)lpRowProp[IENTRYID].Value.bin.lpb, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&lpSubFolder );
-						if( !FAILED(hr) )
+						if ( !FAILED(hr) )
 						{
 							hr = CheckInFolder( lpSubFolder );
 							//if (FAILED(hr) ){//Log("failed checkinfolder for %s\n",lpRowProp[IDISPNAME].Value.lpszA );}
@@ -917,7 +917,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR szEntryID )
 	DWORD dwLength  = 512 ;
 	DWORD dwType = REG_SZ;
 
-	if( RegOpenKeyEx(HKEY_CLASSES_ROOT,
+	if ( RegOpenKeyEx(HKEY_CLASSES_ROOT,
         _T("mailto\\shell\\open\\command"),
         0,
         KEY_ALL_ACCESS | KEY_EXECUTE | KEY_QUERY_VALUE ,
@@ -927,7 +927,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR szEntryID )
 		LONG lResult = RegQueryValueEx( hTheKey, NULL, NULL,  (LPDWORD)&dwType, (LPBYTE)szRegValue, &dwLength);
 		RegCloseKey( hTheKey );
 
-		if( lResult != ERROR_SUCCESS )
+		if ( lResult != ERROR_SUCCESS )
 		{
 			hRes = E_FAIL;
 		}
@@ -936,7 +936,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR szEntryID )
 					
 			TCHAR* szTheEnd = _tcsstr( szRegValue,_T(".EXE") );
 
-			if( NULL != szTheEnd )
+			if ( NULL != szTheEnd )
 			{
 				szRegValue[ _tcslen(szRegValue) - _tcslen(szTheEnd) +5 ]  = _T('\0');
 				_tcscat( szRegValue, _T(" /recycle") );
@@ -951,7 +951,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR szEntryID )
 				si.dwFlags      =   STARTF_USESHOWWINDOW;
 				si.wShowWindow  =   SW_SHOWNORMAL;
 				
-				if( CreateProcess   (   NULL,
+				if ( CreateProcess   (   NULL,
 					szRegValue,
 					NULL,
 					NULL,

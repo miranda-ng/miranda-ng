@@ -366,30 +366,6 @@ __forceinline TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 	return (TCHAR*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
 }
 
-/************************** Encryption ****************************/
-
-/* DB/Crypt/EncodeString
-Scrambles pszString in-place using a strange encryption algorithm
-  wParam = (WPARAM)(int)cbString
-  lParam = (LPARAM)(char*)pszString
-cbString is the size of the buffer pointed to by pszString, *not* the length
-of pszString. This service may be changed at a later date such that it
-increases the length of pszString
-Returns 0 always
-*/
-#define MS_DB_CRYPT_ENCODESTRING  "DB/Crypt/EncodeString"
-
-/* DB/Crypt/DecodeString
-Descrambles pszString in-place using the strange encryption algorithm
-  wParam = (WPARAM)(int)cbString
-  lParam = (LPARAM)(char*)pszString
-Reverses the operation done by crypt/encodestring
-cbString is the size of the buffer pointed to by pszString, *not* the length
-of pszString.
-Returns 0 always
-*/
-#define MS_DB_CRYPT_DECODESTRING  "DB/Crypt/DecodeString"
-
 /**************************** Time ********************************/
 
 /* DB/Time/TimestampToLocal

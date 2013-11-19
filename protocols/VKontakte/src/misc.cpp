@@ -20,11 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 TCHAR* CVkProto::GetUserStoredPassword()
 {
 	ptrA szRawPass( getStringA("Password"));
-	if (szRawPass != NULL) {
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(szRawPass), szRawPass);
-		return mir_utf8decodeT(szRawPass);
-	}
-	return NULL;
+	return (szRawPass != NULL) ? mir_utf8decodeT(szRawPass) : NULL;
 }
 
 void CVkProto::SetAllContactStatuses(int iStatus)

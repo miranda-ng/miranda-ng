@@ -87,8 +87,6 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	error = true;
 	if ( !getString(WHATSAPP_KEY_PASS, &dbv))
 	{
-		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
-			reinterpret_cast<LPARAM>(dbv.pszVal));
 		pass = dbv.pszVal;
 		db_free(&dbv);
 		error = pass.empty();

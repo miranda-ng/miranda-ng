@@ -61,22 +61,14 @@ HANDLE CAimProto::aim_peer_connect(unsigned long ip, unsigned short port)
 
 void CAimProto::aim_connection_authorization(void)
 {
-	DBVARIANT dbv;
-	char *password = NULL;
-
 	NETLIBPACKETRECVER packetRecv = {0};
 	HANDLE hServerPacketRecver = NULL;
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE)
 		goto exit;
 
-	if (!getString(AIM_KEY_PW, &dbv))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-		password = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	else
+	char *password = getStringA(AIM_KEY_PW);
+	if (password == NULL)
 		goto exit;
 
 	mir_free(username);
@@ -87,44 +79,37 @@ void CAimProto::aim_connection_authorization(void)
 	hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 2048 * 4);
 	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = 5000;
-	for (;;)
-	{
+	for (;;) {
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM) & packetRecv);
-		if (recvResult == 0)
-		{
+		if (recvResult == 0) {
 			debugLogA("Connection Closed: No Error? during Connection Authorization");
 			break;
 		}
-		else if (recvResult < 0)
-		{
+		else if (recvResult < 0) {
 			debugLogA("Connection Closed: Socket Error during Connection Authorization %d", WSAGetLastError());
 			break;
 		}
-		else
-		{
+		else {
 			unsigned short flap_length=0;
-			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
-			{
+			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed = flap_length) {
 				if (!packetRecv.buffer)
 					break;
+
 				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],(unsigned short)(packetRecv.bytesAvailable-packetRecv.bytesUsed));
 				if (!flap.len())
 					break;
+
 				flap_length+=FLAP_SIZE+flap.len();
-				if (flap.cmp(0x01))
-				{
+				if (flap.cmp(0x01)) {
 					if (aim_send_connection_packet(hServerConn, seqno,flap.val())==0)//cookie challenge
 						aim_authkey_request(hServerConn, seqno);//md5 authkey request
 				}
-				else if (flap.cmp(0x02))
-				{
+				else if (flap.cmp(0x02)) {
 					SNAC snac(flap.val(),flap.snaclen());
-					if (snac.cmp(0x0017))
-					{
+					if (snac.cmp(0x0017)) {
 						snac_md5_authkey(snac,hServerConn,seqno, username, password);
 						int authres = snac_authorization_reply(snac);
-						switch (authres)
-						{
+						switch (authres) {
 						case 1:
 							mir_free(password);
 							Netlib_CloseHandle(hServerPacketRecver);
@@ -141,8 +126,7 @@ void CAimProto::aim_connection_authorization(void)
 						}
 					}
 				}
-				else if (flap.cmp(0x04))
-				{
+				else if (flap.cmp(0x04)) {
 					debugLogA("Connection Authorization Thread Ending: Flap 0x04");
 					goto exit;
 				}

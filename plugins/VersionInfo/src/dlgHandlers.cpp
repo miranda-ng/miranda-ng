@@ -299,7 +299,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_USERNAME), buffer);
 
 			GetStringFromDatabase("UploadPassword", _T(""), buffer, SIZEOF(buffer));
-			CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(buffer), (LPARAM) buffer);
 			SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_PASSWORD), buffer);
 		}
 

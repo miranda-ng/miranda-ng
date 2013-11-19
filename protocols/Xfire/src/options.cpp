@@ -179,7 +179,6 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			if(!db_get(NULL,protocolname,"password",&dbv)) {
 				//bit of a security hole here, since it's easy to extract a password from an edit box
-				CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,(LPARAM)dbv.pszVal);
 				SetDlgItemTextA(hwndDlg,IDC_PASSWORD,dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -298,8 +297,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if(dbv.pszVal!=NULL) db_free(&dbv);
 
 					GetDlgItemTextA(hwndDlg,IDC_PASSWORD,str,sizeof(str));
-					CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),(LPARAM)str);
-					dbv.pszVal=NULL;
+					dbv.pszVal = NULL;
 					if(db_get(NULL,protocolname,"password",&dbv) || strcmp(str,dbv.pszVal))
 						reconnectRequired=1;
 					if(dbv.pszVal!=NULL) db_free(&dbv);

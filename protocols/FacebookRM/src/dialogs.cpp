@@ -58,16 +58,15 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
 		{
-			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
-				reinterpret_cast<LPARAM>(dbv.pszVal));
 			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
 			db_free(&dbv);
 		}
 
-		if (!proto->isOffline()) {
+		if (!proto->isOffline())
+		{
 			SendMessage(GetDlgItem(hwnd,IDC_UN),EM_SETREADONLY,1,0);
-			SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,1,0); }
-
+			SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,1,0);
+		}
 		return TRUE;
 
 	case WM_COMMAND:
@@ -97,9 +96,7 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
 
 			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
 			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,str);
-
 			return TRUE;
 		}
 		break;
@@ -356,7 +353,6 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
 		{
-			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,reinterpret_cast<LPARAM>(dbv.pszVal));
 			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -409,7 +405,6 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
 
 			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
 			proto->setString(FACEBOOK_KEY_PASS, str);
 
 			GetDlgItemText(hwnd,IDC_GROUP,tstr,sizeof(tstr));

@@ -1791,12 +1791,9 @@ char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsiz
 char* CIcqProto::GetUserStoredPassword(char *szBuffer, int cbSize)
 {
 	if (!getSettingStringStatic(NULL, "Password", szBuffer, cbSize))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING, strlennull(szBuffer) + 1, (LPARAM)szBuffer);
-
 		if (strlennull(szBuffer))
 			return szBuffer;
-	}
+
 	return NULL;
 }
 

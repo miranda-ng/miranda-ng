@@ -68,10 +68,8 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 			
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
 			ptrA szRawPasswd( mir_utf8encodeT(str));
-			if (szRawPasswd != NULL) {
-				CallService(MS_DB_CRYPT_ENCODESTRING, strlen(szRawPasswd), szRawPasswd);
+			if (szRawPasswd != NULL)
 				ppro->setString("Password", szRawPasswd);
-			}
 		}
 		break;
 

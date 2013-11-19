@@ -470,12 +470,11 @@ HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 			strcpy(sb.szPassword, "");
 			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE)) {
 				sb.useAuth = TRUE;
-				if (!db_get(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
+				if (!db_get_s(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
 					strcpy(sb.szUser, dbv.pszVal);
 					db_free(&dbv);
 				}
-				if (!db_get(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
-					CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
+				if (!db_get_s(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
 					strcpy(sb.szPassword, dbv.pszVal);
 					db_free(&dbv);
 				}

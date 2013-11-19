@@ -779,8 +779,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -788,34 +787,27 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ppro = (CAimProto*)lParam;
 		{
 			DBVARIANT dbv;
-			if (!ppro->getString(AIM_KEY_SN, &dbv))
-			{
+			if (!ppro->getString(AIM_KEY_SN, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_SN, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!ppro->getString(AIM_KEY_NK, &dbv))
-			{
+			if (!ppro->getString(AIM_KEY_NK, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_NK, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else if (!ppro->getString(AIM_KEY_SN, &dbv))
-			{
+			else if (!ppro->getString(AIM_KEY_SN, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_NK, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!ppro->getString(AIM_KEY_PW, &dbv))
-			{
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
+			if (!ppro->getString(AIM_KEY_PW, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_PW, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!ppro->getString(AIM_KEY_HN, &dbv))
-			{
+			if (!ppro->getString(AIM_KEY_HN, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_HN, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else
-				SetDlgItemTextA(hwndDlg, IDC_HN, ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
+			else SetDlgItemTextA(hwndDlg, IDC_HN, ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
 
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
 
@@ -892,11 +884,9 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//PW
 				GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
 				if (str[0] != 0)
-				{
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					ppro->setString(AIM_KEY_PW, str);
-				}
-				else ppro->delSetting(AIM_KEY_PW);
+				else
+					ppro->delSetting(AIM_KEY_PW);
 				//END PW
 
 				//HN
@@ -1166,58 +1156,50 @@ int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		ppro = (CAimProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			TranslateDialogDefault(hwndDlg);
-
-			CAimProto* ppro = (CAimProto*)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
 			DBVARIANT dbv;
-			if (!ppro->getString(AIM_KEY_SN, &dbv))
-			{
+			if (!ppro->getString(AIM_KEY_SN, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_SN, dbv.pszVal);
 				db_free(&dbv);
 			}
 
-			if (!ppro->getString(AIM_KEY_PW, &dbv))
-			{
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
+			if (!ppro->getString(AIM_KEY_PW, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_PW, dbv.pszVal);
 				db_free(&dbv);
 			}
-			return TRUE;
 		}
+		return TRUE;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_NEWAIMACCOUNTLINK)
-		{
+		if (LOWORD(wParam) == IDC_NEWAIMACCOUNTLINK) {
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://www.aim.com/redirects/inclient/register.adp");
 			return TRUE;
 		}
 
-		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-		{
-			switch(LOWORD(wParam))
-			{
-			case IDC_SN:			case IDC_PW:
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
+			switch(LOWORD(wParam)) {
+			case IDC_SN:
+			case IDC_PW:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY)
-		{
-			CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
+		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
 			char str[128];
 			GetDlgItemTextA(hwndDlg, IDC_SN, str, sizeof(str));
 			ppro->setString(AIM_KEY_SN, str);
+
 			GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 			ppro->setString(AIM_KEY_PW, str);
 			return TRUE;
 		}
@@ -1241,8 +1223,7 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -1257,6 +1238,7 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SetDlgItemInt(hwndDlg, IDC_IIM, minutes,0);
 		}
 		break;
+
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
 		break;
@@ -1271,13 +1253,12 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			unsigned short minutes=(unsigned short)GetDlgItemInt(hwndDlg, IDC_IIM,0,0);
 			if (minutes > 59)
 				minutes = 59;
+
 			ppro->setDword(AIM_KEY_IIT, hours*60+minutes);
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 			case IDOK:
 				//Instant Idle
-				if (ppro->state==1)
-				{
+				if (ppro->state == 1) {
 					ppro->aim_set_idle(ppro->hServerConn,ppro->seqno,hours * 60 * 60 + minutes * 60);
 					ppro->instantidle=1;
 				}
@@ -1304,8 +1285,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 {
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -1323,24 +1303,20 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam))
-			{
-			case IDOK:
-				char room[128];
-				GetDlgItemTextA(hwndDlg, IDC_ROOM, room, sizeof(room));
-				if (ppro->state == 1 && room[0] != 0)
-				{
-					chatnav_param* par = new chatnav_param(room, 4);
-					ppro->ForkThread(&CAimProto::chatnav_request_thread, par);
-				}
-				EndDialog(hwndDlg, IDOK);
-				break;
-
-			case IDCANCEL:
-				EndDialog(hwndDlg, IDCANCEL);
-				break;
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			char room[128];
+			GetDlgItemTextA(hwndDlg, IDC_ROOM, room, sizeof(room));
+			if (ppro->state == 1 && room[0] != 0) {
+				chatnav_param* par = new chatnav_param(room, 4);
+				ppro->ForkThread(&CAimProto::chatnav_request_thread, par);
 			}
+			EndDialog(hwndDlg, IDOK);
+			break;
+
+		case IDCANCEL:
+			EndDialog(hwndDlg, IDCANCEL);
+			break;
 		}
 		break;
 	}

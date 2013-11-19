@@ -88,7 +88,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 				char *publ = LoadKeys(KeyPath,false);
 				if (publ) {
 					db_unset((HANDLE)wParam,MODULENAME,"pgp");
-					myDBWriteStringEncode((HANDLE)wParam,MODULENAME,"pgp",publ);
+					db_set_s((HANDLE)wParam,MODULENAME,"pgp",publ);
 					db_set_b((HANDLE)wParam,MODULENAME,"pgp_mode",1);
 					db_set_s((HANDLE)wParam,MODULENAME,"pgp_abbr","(binary)");
 					mir_free(publ);

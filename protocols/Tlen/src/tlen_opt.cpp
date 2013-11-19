@@ -127,7 +127,6 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				db_free(&dbv);
 			}
 			if (!db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -167,7 +166,6 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(text), (LPARAM) text);
 					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
 						reconnectRequired = TRUE;
 					if (dbv.pszVal != NULL)	db_free(&dbv);
@@ -205,7 +203,6 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				db_free(&dbv);
 			}
 			if (!db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -303,7 +300,6 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(text), (LPARAM) text);
 					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
 						reconnectRequired = TRUE;
 					if (dbv.pszVal != NULL)	db_free(&dbv);
@@ -399,9 +395,8 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (!db_get_ts(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, dbv.ptszVal);
 				db_free(&dbv);
-			} else {
-				SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, _T("tlen.pl"));
 			}
+			else SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, _T("tlen.pl"));
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOSTPORT), TRUE);
@@ -409,8 +404,9 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (!db_get_ts(NULL, proto->m_szModuleName, "ManualHost", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_HOST, dbv.ptszVal);
 				db_free(&dbv);
-			} else
-				SetDlgItemText(hwndDlg, IDC_HOST, _T("s1.tlen.pl"));
+			}
+			else SetDlgItemText(hwndDlg, IDC_HOST, _T("s1.tlen.pl"));
+
 			SetDlgItemInt(hwndDlg, IDC_HOSTPORT, db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT), FALSE);
 
 			CheckDlgButton(hwndDlg, IDC_KEEPALIVE, db_get_b(NULL, proto->m_szModuleName, "KeepAlive", TRUE));
@@ -431,11 +427,11 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_PORT_LABEL), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_PORT), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_USE_AUTH), bChecked);
-			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE) == TRUE) {
+			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE) == TRUE)
 				CheckDlgButton(hwndDlg, IDC_FILE_PROXY_USE_AUTH, TRUE);
-			} else {
+			else
 				bChecked = FALSE;
-			}
+
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_USER_LABEL), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_USER), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_PASSWORD_LABEL), bChecked);
@@ -454,8 +450,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SetDlgItemText(hwndDlg, IDC_FILE_PROXY_USER, dbv.ptszVal);
 				db_free(&dbv);
 			}
-			if (!db_get(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
-				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
+			if (!db_get_s(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -503,62 +498,62 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 		}
 		break;
+
 	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
-				{
-					WORD port;
-					BOOL useEncryption;
-					BOOL reconnectRequired = FALSE;
-					DBVARIANT dbv;
-					GetDlgItemTextA(hwndDlg, IDC_EDIT_LOGIN_SERVER, text, sizeof(text));
-					if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv) || strcmp(text, dbv.pszVal))
-						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	db_free(&dbv);
-					db_set_s(NULL, proto->m_szModuleName, "LoginServer", strlwr(text));
+		switch (((LPNMHDR) lParam)->code) {
+		case PSN_APPLY:
+			WORD port;
+			BOOL useEncryption;
+			BOOL reconnectRequired = FALSE;
+			DBVARIANT dbv;
+			GetDlgItemTextA(hwndDlg, IDC_EDIT_LOGIN_SERVER, text, sizeof(text));
+			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv) || strcmp(text, dbv.pszVal))
+				reconnectRequired = TRUE;
+			if (dbv.pszVal != NULL)	db_free(&dbv);
+			db_set_s(NULL, proto->m_szModuleName, "LoginServer", strlwr(text));
 
-					GetDlgItemTextA(hwndDlg, IDC_HOST, text, sizeof(text));
-					if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv) || strcmp(text, dbv.pszVal))
-						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	db_free(&dbv);
-					db_set_s(NULL, proto->m_szModuleName, "ManualHost", text);
+			GetDlgItemTextA(hwndDlg, IDC_HOST, text, sizeof(text));
+			if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv) || strcmp(text, dbv.pszVal))
+				reconnectRequired = TRUE;
+			if (dbv.pszVal != NULL)	db_free(&dbv);
+			db_set_s(NULL, proto->m_szModuleName, "ManualHost", text);
 
-					port = (WORD) GetDlgItemInt(hwndDlg, IDC_HOSTPORT, NULL, FALSE);
-					if (db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT) != port)
-						reconnectRequired = TRUE;
-					db_set_w(NULL, proto->m_szModuleName, "ManualPort", port);
+			port = (WORD) GetDlgItemInt(hwndDlg, IDC_HOSTPORT, NULL, FALSE);
+			if (db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT) != port)
+				reconnectRequired = TRUE;
+			db_set_w(NULL, proto->m_szModuleName, "ManualPort", port);
 
-					proto->tlenOptions.sendKeepAlive = IsDlgButtonChecked(hwndDlg, IDC_KEEPALIVE);
-					db_set_b(NULL, proto->m_szModuleName, "KeepAlive", (BYTE) proto->tlenOptions.sendKeepAlive);
+			proto->tlenOptions.sendKeepAlive = IsDlgButtonChecked(hwndDlg, IDC_KEEPALIVE);
+			db_set_b(NULL, proto->m_szModuleName, "KeepAlive", (BYTE) proto->tlenOptions.sendKeepAlive);
 
-					useEncryption = IsDlgButtonChecked(hwndDlg, IDC_USE_SSL);
-					if (db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE) != useEncryption)
-						reconnectRequired = TRUE;
-					db_set_b(NULL, proto->m_szModuleName, "UseEncryption", (BYTE) useEncryption);
+			useEncryption = IsDlgButtonChecked(hwndDlg, IDC_USE_SSL);
+			if (db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE) != useEncryption)
+				reconnectRequired = TRUE;
+			db_set_b(NULL, proto->m_szModuleName, "UseEncryption", (BYTE) useEncryption);
 
-					db_set_b(NULL, proto->m_szModuleName, "VisibilitySupport", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_VISIBILITY_SUPPORT));
-					// File transfer options
-					db_set_b(NULL, proto->m_szModuleName, "UseFileProxy", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_USE_PROXY));
-					db_set_w(NULL, proto->m_szModuleName, "FileProxyType", (WORD) SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_GETCURSEL, 0, 0));
-					GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_HOST, text, sizeof(text));
-					db_set_s(NULL, proto->m_szModuleName, "FileProxyHost", text);
-					db_set_w(NULL, proto->m_szModuleName, "FileProxyPort", (WORD) GetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, NULL, FALSE));
-					db_set_b(NULL, proto->m_szModuleName, "FileProxyAuth", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_PROXY_USE_AUTH));
-					GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_USER, text, sizeof(text));
-					db_set_s(NULL, proto->m_szModuleName, "FileProxyUsername", text);
-					GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_PASSWORD, text, sizeof(text));
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(text), (LPARAM) text);
-					db_set_s(NULL, proto->m_szModuleName, "FileProxyPassword", text);
-					if (reconnectRequired && proto->isConnected)
-						MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Tlen network."), TranslateT("Tlen Protocol Option"), MB_OK|MB_SETFOREGROUND);
-					ApplyChanges(proto, 4);
-					return TRUE;
-				}
-			}
+			db_set_b(NULL, proto->m_szModuleName, "VisibilitySupport", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_VISIBILITY_SUPPORT));
+
+			// File transfer options
+			db_set_b(NULL, proto->m_szModuleName, "UseFileProxy", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_USE_PROXY));
+			db_set_w(NULL, proto->m_szModuleName, "FileProxyType", (WORD) SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_GETCURSEL, 0, 0));
+
+			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_HOST, text, sizeof(text));
+			db_set_s(NULL, proto->m_szModuleName, "FileProxyHost", text);
+
+			db_set_w(NULL, proto->m_szModuleName, "FileProxyPort", (WORD) GetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, NULL, FALSE));
+			db_set_b(NULL, proto->m_szModuleName, "FileProxyAuth", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_PROXY_USE_AUTH));
+
+			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_USER, text, sizeof(text));
+			db_set_s(NULL, proto->m_szModuleName, "FileProxyUsername", text);
+
+			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_PASSWORD, text, sizeof(text));
+			db_set_s(NULL, proto->m_szModuleName, "FileProxyPassword", text);
+
+			if (reconnectRequired && proto->isConnected)
+				MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Tlen network."), TranslateT("Tlen Protocol Option"), MB_OK|MB_SETFOREGROUND);
+			ApplyChanges(proto, 4);
+			return TRUE;
 		}
-		break;
-	case WM_DESTROY:
 		break;
 	}
 

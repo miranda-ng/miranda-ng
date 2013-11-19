@@ -18,9 +18,6 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			}
 			{
 				ptrA pwd( ::db_get_sa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD));
-				if (pwd)
-					::CallService(MS_DB_CRYPT_DECODESTRING, ::strlen(pwd), pwd);
-
 				SetDlgItemTextA(hwnd, IDC_PW, pwd);
 			}
 			{
@@ -157,7 +154,6 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 
 			char pwd[128];
 			GetDlgItemTextA(hwnd, IDC_PW, pwd, SIZEOF(pwd));
-			::CallService(MS_DB_CRYPT_ENCODESTRING, ::strlen(pwd), (LPARAM)&pwd);
 			::db_set_s(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD, pwd);
 
 			HWND item = GetDlgItem(hwnd, IDC_PORT);

@@ -135,7 +135,6 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	char szPassword[100];
 	getStaticString(NULL, "Password", szPassword, sizeof(szPassword));
-	CallService(MS_DB_CRYPT_DECODESTRING, strlen(szPassword)+1, (LPARAM)szPassword);
 	szPassword[16] = 0;
 	char* szEncPassword = HtmlEncode(szPassword);
 

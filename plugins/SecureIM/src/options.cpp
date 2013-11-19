@@ -1319,7 +1319,7 @@ void ApplyPGPSettings(HWND hDlg)
 	if (priv) {
 		bPGPprivkey = true;
 		pgp_set_priv_key(priv);
-		myDBWriteStringEncode(0,MODULENAME,"pgpPrivKey",priv);
+		db_set_s(0,MODULENAME,"pgpPrivKey",priv);
 		mir_free(priv);
 		db_unset(0,MODULENAME,"tpgpPrivKey");
 	}
