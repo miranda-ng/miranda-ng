@@ -68,8 +68,8 @@ void FacebookProto::ProcessBuddyList(void* data)
 				hContact = AddToContactList(fbu, CONTACT_FRIEND);
 			
 			ptrT client( getTStringA(hContact, "MirVer"));
-			if (!client || _tcscmp(client, fbu->mobile ? _T(FACEBOOK_CLIENT_MOBILE) : _T(FACEBOOK_CLIENT)))
-				setTString(hContact, "MirVer", fbu->mobile ? _T(FACEBOOK_CLIENT_MOBILE) : _T(FACEBOOK_CLIENT));
+			if (!client || _tcscmp(client, fbu->getMirVer()))
+				setTString(hContact, "MirVer", fbu->getMirVer());
 
 			if (getDword(fbu->handle, "IdleTS", 0) != fbu->last_active) {
 				if ((fbu->idle || fbu->status_id == ID_STATUS_OFFLINE) && fbu->last_active > 0)

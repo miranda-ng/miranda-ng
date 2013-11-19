@@ -37,7 +37,8 @@ struct facebook_user
 
 	bool deleted;
 	bool idle;
-	bool mobile;
+
+	ClientType client;
 
 	facebook_user()
 	{
@@ -45,7 +46,8 @@ struct facebook_user
 		this->user_id = this->real_name = this->image_url = "";
 		this->status_id = ID_STATUS_OFFLINE;
 		this->gender = this->last_active = 0;
-		this->deleted = this->idle = this->mobile = false;
+		this->deleted = this->idle = false;
+		this->client = CLIENT_WEB;
 	}
 
 	facebook_user(facebook_user* fu)
@@ -59,7 +61,24 @@ struct facebook_user
 		this->image_url = fu->image_url;
 		this->deleted = fu->deleted;		
 		this->idle = fu->idle;
-		this->mobile = fu->mobile;
+		this->client = fu->client;
+	}
+
+	TCHAR *getMirVer()
+	{
+		switch (this->client) {
+		case CLIENT_APP:
+			return _T(FACEBOOK_CLIENT_APP);
+		case CLIENT_MESSENGER:
+			return _T(FACEBOOK_CLIENT_MESSENGER);
+		case CLIENT_OTHER:
+			return _T(FACEBOOK_CLIENT_OTHER);
+		case CLIENT_MOBILE:
+			return _T(FACEBOOK_CLIENT_MOBILE);
+		case CLIENT_WEB:
+		default:
+			return _T(FACEBOOK_CLIENT_WEB);
+		}
 	}
 };
 

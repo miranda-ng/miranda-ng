@@ -39,7 +39,7 @@ void FacebookProto::ChangeStatus(void*)
 		Netlib_Shutdown(facy.hMsgCon);
 
 		OnLeaveChat(NULL, NULL);
-		SetAllContactStatuses(ID_STATUS_OFFLINE, true);
+		SetAllContactStatuses(ID_STATUS_OFFLINE);
 		ToggleStatusMenuItems(false);
 		delSetting("LogonTS");
 
@@ -122,7 +122,7 @@ void FacebookProto::ChangeStatus(void*)
 	else if (new_status == ID_STATUS_INVISIBLE)
 	{
 		facy.buddies.clear();
-		this->SetAllContactStatuses(ID_STATUS_OFFLINE, true);
+		this->SetAllContactStatuses(ID_STATUS_OFFLINE);
 	}
 
 	facy.chat_state(m_iDesiredStatus != ID_STATUS_INVISIBLE);	

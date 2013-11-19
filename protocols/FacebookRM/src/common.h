@@ -63,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class FacebookProto;
 
+#include "constants.h"
 #include "definitions.h"
 #include "entities.h"
 #include "http.h"
@@ -72,7 +73,6 @@ class FacebookProto;
 #include "proto.h"
 #include "json.h"
 #include "db.h"
-#include "constants.h"
 #include "dialogs.h"
 #include "theme.h"
 #include "resource.h"

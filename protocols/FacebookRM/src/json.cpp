@@ -81,7 +81,7 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 			}
 
 			current->status_id = ID_STATUS_OFFLINE;
-			current->mobile = true;
+			current->client = CLIENT_MOBILE;
 		}
 	}
 
@@ -113,16 +113,18 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 				if (json_as_pstring(status) != "active")
 					current->status_id = ID_STATUS_OFFLINE;
 
+				bool b;
+
 				// "webStatus" and "otherStatus" are marked as "WEB" on FB website
-				if (json_as_pstring(webStatus) == "active" || json_as_pstring(otherStatus) == "active") {
-					current->status_id = ID_STATUS_ONLINE;
-					current->mobile = false;
+				if ((b = json_as_pstring(webStatus) == "active") || json_as_pstring(otherStatus) == "active") {
+					current->status_id = ID_STATUS_ONLINE;					
+					current->client = b ? CLIENT_WEB : CLIENT_OTHER;
 				}
 
 				// "fbAppStatus" and "messengerStatus" are marked as "MOBILE" on FB website
-				if (json_as_pstring(fbAppStatus) == "active" || json_as_pstring(messengerStatus) == "active") {
+				if ((b = json_as_pstring(fbAppStatus) == "active") || json_as_pstring(messengerStatus) == "active") {
 					current->status_id = ID_STATUS_ONTHEPHONE;
-					current->mobile = true;
+					current->client = b ? CLIENT_APP : CLIENT_MESSENGER;
 				}
 
 				// this is not marked anyhow on website (yet?)

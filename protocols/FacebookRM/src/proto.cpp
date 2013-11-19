@@ -78,7 +78,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	facy.set_handle(m_hNetlibUser);	
 
 	// Set all contacts offline -- in case we crashed
-	SetAllContactStatuses(ID_STATUS_OFFLINE, true);
+	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
 FacebookProto::~FacebookProto()

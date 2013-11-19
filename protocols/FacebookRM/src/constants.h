@@ -41,8 +41,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_SERVER_DOMAIN					"facebook.com"
 
 // Facebook clients
-#define FACEBOOK_CLIENT							"Facebook"
-#define FACEBOOK_CLIENT_MOBILE					"Facebook (Mobile)"
+#define FACEBOOK_CLIENT_WEB						"Facebook (website)"
+#define FACEBOOK_CLIENT_MOBILE					"Facebook (mobile)"
+#define FACEBOOK_CLIENT_OTHER					"Facebook (other)"
+#define FACEBOOK_CLIENT_APP						"Facebook App"
+#define FACEBOOK_CLIENT_MESSENGER				"Facebook Messenger"
 
 // Limits
 #define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger
@@ -135,6 +138,14 @@ enum ContactType {
 	CONTACT_NONE	= 2,	// contact that ISN'T on our server list
 	CONTACT_REQUEST	= 3,	// contact that we asked for friendship
 	CONTACT_APPROVE	= 4		// contact that is asking us for approval of friendship
+};
+
+enum ClientType {
+	CLIENT_WEB		 = 1,	// Facebook website
+	CLIENT_APP		 = 2,	// Facebook mobile application
+	CLIENT_MESSENGER = 3,	// Facebook Messenger application
+	CLIENT_OTHER	 = 4,	// Facebook over XMPP
+	CLIENT_MOBILE	 = 5	// Facebook on unknown mobile client (can't be determined for offline contacts)
 };
 
 typedef struct {
