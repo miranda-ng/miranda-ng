@@ -98,7 +98,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				BOOL savePassword = IsDlgButtonChecked(hwndDlg, IDC_SAVE_PERM);
 				param->pro->setByte("SavePassword", savePassword);
 				if (savePassword) {
-					param->pro->JSetStringCrypt(NULL,"LoginPassword",param->onlinePassword);
+					param->pro->setTString("Password", param->onlinePassword);
 					param->saveOnlinePassword = TRUE;
 				}
 			}
@@ -347,7 +347,7 @@ LBL_FatalError:
 			}
 		}
 		else {
-			TCHAR *passw = JGetStringCrypt(NULL, "LoginPassword");
+			TCHAR *passw = getTStringA(NULL, "Password");
 			if (passw == NULL) {
 				JLoginFailed(LOGINERR_BADUSERID);
 				debugLogA("Thread ended, password is not configured");

@@ -677,10 +677,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog = NULL);
 
 	//---- jabber_std.cpp ----------------------------------------------
+	void   ConvertPasswords();
 	void   JLoginFailed(int errorCode);
-
-	TCHAR* JGetStringCrypt(HANDLE hContact, char* valueName);
-	DWORD  JSetStringCrypt(HANDLE hContact, char* valueName, const TCHAR *parValue);
 
 	//---- jabber_svc.c ------------------------------------------------------------------
 

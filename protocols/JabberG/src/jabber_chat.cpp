@@ -153,12 +153,12 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 		}
 		else setTString(hContact, "MyNick", item->nick);
 
-		ptrT passw( JGetStringCrypt(hContact, "LoginPassword"));
+		ptrT passw( getTStringA(hContact, "Password"));
 		if (lstrcmp_null(passw, item->password)) {
 			if ( !item->password || !item->password[0])
-				delSetting(hContact, "LoginPassword");
+				delSetting(hContact, "Password");
 			else
-				JSetStringCrypt(hContact, "LoginPassword", item->password);
+				setTString(hContact, "Password", item->password);
 		}
 	}
 	mir_free(szNick);

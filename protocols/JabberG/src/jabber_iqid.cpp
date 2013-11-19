@@ -334,7 +334,7 @@ void CJabberProto::GroupchatJoinByHContact(HANDLE hContact, bool autojoin)
 			return;
 	}
 
-	GroupchatJoinRoom(server, room, nick, ptrT(JGetStringCrypt(hContact, "LoginPassword")), autojoin);
+	GroupchatJoinRoom(server, room, nick, ptrT(getTStringA(hContact, "Password")), autojoin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

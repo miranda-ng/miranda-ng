@@ -40,10 +40,10 @@ void __forceinline sttCryptString(char *str)
 	}
 }
 
-TCHAR* CJabberProto::JGetStringCrypt(HANDLE hContact, char *valueName)
+static TCHAR* JSetStringCrypt(LPCSTR szModule, HANDLE hContact, char *valueName)
 {
 	DBVARIANT dbv;
-	if ( db_get_s(hContact, m_szModuleName, valueName, &dbv))
+	if (db_get_s(hContact, szModule, valueName, &dbv))
 		return NULL;
 
 	sttCryptString(dbv.pszVal);
@@ -52,11 +52,36 @@ TCHAR* CJabberProto::JGetStringCrypt(HANDLE hContact, char *valueName)
 	return res;
 }
 
-DWORD CJabberProto::JSetStringCrypt(HANDLE hContact, char *valueName, const TCHAR *parValue)
+void CJabberProto::ConvertPasswords()
 {
-	char *tmp = mir_utf8encodeT(parValue);
-	sttCryptString(tmp);
-	setString(hContact, valueName, tmp);
-	mir_free(tmp);
-	return 0;
+	ptrT passw(JSetStringCrypt(m_szModuleName, NULL, "LoginPassword"));
+	if (passw == NULL)
+		return;
+
+	setTString("Password", passw);
+	delSetting("LoginPassword");
+
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if ((passw = JSetStringCrypt(m_szModuleName, hContact, "LoginPassword")) == NULL)
+			continue;
+
+		setTString(hContact, "Password", passw);
+		delSetting(hContact, "LoginPassword");
+	}
+
+	for (int i = 0;; i++) {
+		char varName[100];
+		mir_snprintf(varName, sizeof(varName), "rcMuc_%d_server", i);
+		ptrA str(getStringA(NULL, varName));
+		if (str == NULL)
+			break;
+
+		mir_snprintf(varName, sizeof(varName), "rcMuc_%d", i);
+		if ((passw = JSetStringCrypt(m_szModuleName, NULL, varName)) != NULL) {
+			delSetting(varName);
+
+			mir_snprintf(varName, sizeof(varName), "password_rcMuc_%d", i);
+			setTString(varName, passw);
+		}
+	}
 }

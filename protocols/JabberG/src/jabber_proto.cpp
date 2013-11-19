@@ -156,12 +156,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 
 	if ((m_tszSelectedLang = getTStringA("XmlLang")) == NULL)
 		m_tszSelectedLang = mir_tstrdup(_T("en"));
-
-	ptrA szPassword( getStringA("Password"));
-	if (szPassword != NULL) {
-		JSetStringCrypt(NULL, "LoginPassword", _A2T(szPassword));
-		delSetting("Password");
-	}
 }
 
 CJabberProto::~CJabberProto()
@@ -264,6 +258,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
 
 	CheckAllContactsAreTransported();
+	ConvertPasswords();
 
 	// Set all contacts to offline
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {

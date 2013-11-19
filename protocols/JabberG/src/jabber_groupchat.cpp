@@ -127,8 +127,8 @@ struct JabberGcRecentInfo
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
 		nick = ppro->getTStringA(setting);
 
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_passwordW", iRecent);
-		password = ppro->JGetStringCrypt(NULL, setting);
+		mir_snprintf(setting, sizeof(setting), "password_rcMuc_%d", iRecent);
+		password = ppro->getTStringA(NULL, setting);
 
 		return room || server || nick || password;
 	}
@@ -155,9 +155,9 @@ struct JabberGcRecentInfo
 		else
 			ppro->delSetting(setting);
 
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_passwordW", iRecent);
+		mir_snprintf(setting, sizeof(setting), "password_rcMuc_%d", iRecent);
 		if (password)
-			ppro->JSetStringCrypt(NULL, setting, password);
+			ppro->setTString(setting, password);
 		else
 			ppro->delSetting(setting);
 	}
@@ -194,7 +194,7 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 		if ((nick = getTStringA("Nick")) == NULL)
 			return 0;
 
-	ptrT password( JGetStringCrypt(hContact, "LoginPassword"));
+	ptrT password(getTStringA(hContact, "Password"));
 
 	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
 		TCHAR *p = _tcschr(jid, '@');

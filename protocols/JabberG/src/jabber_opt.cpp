@@ -447,7 +447,7 @@ protected:
 
 		SendDlgItemMessage(m_hwnd, IDC_PRIORITY_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(127, -128));
 
-		TCHAR *passw = m_proto->JGetStringCrypt(NULL, "LoginPassword");
+		TCHAR *passw = m_proto->getTStringA(NULL, "Password");
 		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
@@ -504,12 +504,10 @@ protected:
 		// clear saved password
 		*m_proto->m_savedPassword = 0;
 
-		if (m_chkSavePassword.GetState() == BST_CHECKED) {
-			TCHAR *text = m_txtPassword.GetText();
-			m_proto->JSetStringCrypt(NULL, "LoginPassword", text);
-			mir_free(text);
-		}
-		else m_proto->delSetting("LoginPassword");
+		if (m_chkSavePassword.GetState() == BST_CHECKED)
+			m_proto->setTString("Password", ptrT(m_txtPassword.GetText()));
+		else
+			m_proto->delSetting("Password");
 
 		int index = m_cbLocale.GetCurSel();
 		if (index >= 0) {
@@ -1622,7 +1620,7 @@ protected:
 
 		m_gotservers = false;
 
-		TCHAR *passw = m_proto->JGetStringCrypt(NULL, "LoginPassword");
+		TCHAR *passw = m_proto->getTStringA(NULL, "Password");
 		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
@@ -1748,10 +1746,10 @@ protected:
 
 		if (m_chkSavePassword.GetState() == BST_CHECKED) {
 			TCHAR *text = m_txtPassword.GetText();
-			m_proto->JSetStringCrypt(NULL, "LoginPassword", text);
+			m_proto->setTString("Password", text);
 			mir_free(text);
 		}
-		else m_proto->delSetting("LoginPassword");
+		else m_proto->delSetting("Password");
 
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
 		case ACC_OK:
