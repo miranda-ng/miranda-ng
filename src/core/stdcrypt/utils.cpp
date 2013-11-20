@@ -27,12 +27,10 @@ bool getRandomBytes(BYTE *buf, size_t bufLen)
 {
 	// try to use Intel hardware randomizer first
 	HCRYPTPROV hProvider = NULL;
-	if (::CryptAcquireContext(&hProvider, NULL, _T("Intel Hardware Cryptographic Service Provider"), PROV_INTEL_SEC, 0)) {
-		::CryptGenRandom(hProvider, DWORD(bufLen), buf);
-		::CryptReleaseContext(hProvider, 0);
-	}
-	// no luck? try to use RSA
-	else if (::CryptAcquireContext(&hProvider, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) {
+	if (::CryptAcquireContext(&hProvider, NULL, _T("Intel Hardware Cryptographic Service Provider"), PROV_INTEL_SEC, 0) ||
+		 ::CryptAcquireContext(&hProvider, NULL, MS_STRONG_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT) ||
+		 ::CryptAcquireContext(&hProvider, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
+	{
 		::CryptGenRandom(hProvider, DWORD(bufLen), buf);
 		::CryptReleaseContext(hProvider, 0);
 	}
