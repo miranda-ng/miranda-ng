@@ -1,0 +1,28 @@
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,3,0
+ PRODUCTVERSION 0,0,3,0
+ FILEFLAGSMASK $3F
+ FILEOS 4
+ FILETYPE 2
+ FILESUBTYPE 0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "000004b0"
+    BEGIN
+      VALUE "CompanyName",""
+      VALUE "Comments", "Secure alghoritm developed in russian universities"0
+      VALUE "FileDescription", "Secure alghoritm developed in russian universities"0
+      VALUE "FileVersion", "0, 0, 3, 0 "0
+      VALUE "InternalName", "Athena"0
+      VALUE "OriginalFilename", "Athena.dll"0
+      VALUE "ProductName", "Athena"0
+      VALUE "ProductVersion", "0, 0, 3, 0 "0
+      VALUE "SpecialBuild", ".04.2010 "0
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+      VALUE "Translation",0,1200
+  END
+END

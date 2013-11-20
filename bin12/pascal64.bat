@@ -30,11 +30,6 @@ call makeicons.bat fpc64 12
 if errorlevel 1 goto :Error
 popd
 
-pushd Dbx_mmap_SA\Cryptors\Athena
-call make.bat fpc64 12
-if errorlevel 1 goto :Error
-popd
-
 popd
 goto :eof
 
