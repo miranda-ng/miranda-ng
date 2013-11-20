@@ -31,11 +31,14 @@ extern MUUID miid_clist, miid_database, miid_protocol;
 HANDLE hevLoadModule, hevUnloadModule;
 bool bOldMode = false;
 
+static CMString szFilter;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
 
-typedef struct
+struct PluginListItemData
 {
+	TCHAR fileName[MAX_PATH];
 	HINSTANCE hInst;
 	int   flags, stdPlugin;
 	char* author;
@@ -44,9 +47,14 @@ typedef struct
 	char* copyright;
 	char* homepage;
 	MUUID uuid;
-	TCHAR fileName[MAX_PATH];
+};
+
+static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData *p2)
+{
+	return _tcscmp(p1->fileName, p2->fileName);
 }
-	PluginListItemData;
+
+static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
 
 static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM lParam)
 {
@@ -84,7 +92,6 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 	int iRow = ListView_InsertItem(hwndList, &it);
 
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
-		//hasMuuid(pi, miid_database) || !_tcscmp(dat->fileName, _T("advaimg.dll")) || !_tcscmp(dat->fileName, _T("dbchecker.dll"));
 
 	if (isPluginOnWhiteList(fd->cFileName))
 		ListView_SetItemState(hwndList, iRow, bNoCheckbox ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
@@ -131,6 +138,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 				LOBYTE(LOWORD(pi.pluginInfo->version)));
 
 		ListView_SetItemText(hwndList, iRow, 4, buf);
+		arPluginList.insert(dat);
 	}
 	else mir_free(dat);
 	FreeLibrary(pi.hInst);
@@ -201,31 +209,65 @@ static bool UnloadPluginDynamically(PluginListItemData *dat)
 
 static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_LBUTTONDOWN) {
+	switch(msg) {
+	case WM_CHAR:
+		if (wParam == '\b') {
+			if (szFilter.GetLength() > 0)
+				szFilter.Truncate(szFilter.GetLength() - 1);
+		}
+		else {
+			szFilter.AppendChar(wParam);
+	
+			for (int i = 0; i < arPluginList.getCount(); i++) {
+				PluginListItemData *p = arPluginList[i];
+				if (!_tcsnicmp(szFilter, p->fileName, szFilter.GetLength())) {
+					LVFINDINFO lvfi;
+					lvfi.flags = LVFI_PARAM;
+					lvfi.lParam = (LPARAM)p;
+					int idx = ListView_FindItem(hwnd, 0, &lvfi);
+					if (idx != -1) {
+						ListView_SetItemState(hwnd, idx, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+						ListView_EnsureVisible(hwnd, idx, FALSE);
+					}
+					return TRUE;
+				}
+			}
+
+			szFilter.Truncate(szFilter.GetLength() - 1);
+			Beep(750, 200);
+		}
+		return TRUE;
+
+	case WM_LBUTTONDOWN:
 		LVHITTESTINFO hi;
 		hi.pt.x = LOWORD(lParam); hi.pt.y = HIWORD(lParam);
 		ListView_SubItemHitTest(hwnd, &hi);
-		if (hi.iSubItem == 1) {
-			LVITEM lvi = {0};
-			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
-			lvi.stateMask = -1;
-			lvi.iItem = hi.iItem;
-			lvi.iSubItem = 1;
-			if (ListView_GetItem(hwnd, &lvi)) {
-				lvi.mask = LVIF_IMAGE;
+		if (hi.iSubItem != 1)
+			break;
 
-				PluginListItemData* dat = (PluginListItemData*)lvi.lParam;
-				if (lvi.iImage == 3) {
-					if ( LoadPluginDynamically(dat)) {
-						lvi.iImage = 2;
-						ListView_SetItem(hwnd, &lvi);
-					}
-				}
-				else if (lvi.iImage == 2) {
-					if ( UnloadPluginDynamically(dat)) {
-						lvi.iImage = 3;
-						ListView_SetItem(hwnd, &lvi);
-	}	}	}	}	}
+		LVITEM lvi = {0};
+		lvi.mask = LVIF_IMAGE | LVIF_PARAM;
+		lvi.stateMask = -1;
+		lvi.iItem = hi.iItem;
+		lvi.iSubItem = 1;
+		if (!ListView_GetItem(hwnd, &lvi))
+			break;
+
+		lvi.mask = LVIF_IMAGE;
+		PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
+		if (lvi.iImage == 3) {
+			if ( LoadPluginDynamically(dat)) {
+				lvi.iImage = 2;
+				ListView_SetItem(hwnd, &lvi);
+			}
+		}
+		else if (lvi.iImage == 2) {
+			if ( UnloadPluginDynamically(dat)) {
+				lvi.iImage = 3;
+				ListView_SetItem(hwnd, &lvi);
+			}
+		}
+	}
 
 	return mir_callNextSubclass(hwnd, PluginListWndProc, msg, wParam, lParam);
 }
@@ -287,6 +329,8 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			// XXX: Won't work on windows 95 without IE3+ or 4.70
 			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT);
 			// scan the plugin dir for plugins, cos
+			arPluginList.destroy();
+			szFilter.Empty();
 			enumPlugins(dialogListPlugins, (WPARAM)hwndDlg, (LPARAM)hwndList);
 			// sort out the headers
 
@@ -469,6 +513,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_DESTROY:
+		arPluginList.destroy();
 		RemoveAllItems( GetDlgItem(hwndDlg, IDC_PLUGLIST));
 		break;
 	}
