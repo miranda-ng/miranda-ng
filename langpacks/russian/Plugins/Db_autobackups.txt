@@ -1,32 +1,70 @@
 ﻿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
-;  File: db_autobackups.dll
-;  Module: DB AutoBackups
-;  Versions: 0.0.0.8
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.0.0.10
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3667
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/db_autobackups/
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
 ;============================================================
 [Db autobackuper plugin.]
 Плагин авторезервирования профиля.
-[Save profile as...]
-Сохранить профиль как...
-[Database backups]
-Резервирование профиля
+[Backup progress]
+
+[Cancel]
+
 [Automatic Backups]
 Авторезервирование профиля
-[Database backed up]
-Профиль зарезервирован
-[Backup folder]
-Папка резервирования
-[Backup profile]
-Резервировать профиль
-[Backup in progress]
-Резервирование в процессе
+[Number of backups to keep:]
+
+[Backup NOW]
+
+[Disabled]
+
+[When Miranda starts]
+
+[When Miranda exits]
+
+[Every:]
+
+[Backup to folder:]
+
+[Browse...]
+
 [Go to the "Customize -> Folders" to change settings]
 Откройте "Тонкая настройка -> Папки" для изменения настроек
 [Compress backup to zip-archive]
 Сжать резервную копию в zip-архив
+[Disable progress bar]
+
+[Disable Popups]
+
+[Miranda NG database]
+База данных Miranda NG
+[Created by:]
+
+[Miranda NG databases]
+Базы данных Miranda NG
+[Compressed Miranda NG databases]
+Сжатые базы данных Miranda NG
+[All Files]
+Все файлы
+[Backup in progress]
+Резервирование в процессе
+[Copying database file...]
+
+[Database backed up]
+Профиль зарезервирован
+[Backup profile]
+Резервировать профиль
+[Save profile as...]
+Сохранить профиль как...
+[Database backups]
+Резервирование профиля
+[Backup folder]
+Папка резервирования
+[Database]
+
 [path to Miranda root folder]
 путь к папке программы
 [path to current Miranda profile]
@@ -39,11 +77,21 @@
 аналог переменной среды %APPDATA% для текущего пользователя системы
 [username for currently logged-on Windows user]
 имя текущего пользователя системы
-[Miranda NG database]
-База данных Miranda NG
-[Miranda NG databases]
-Базы данных Miranda NG
-[Compressed Miranda NG databases]
-Сжатые базы данных Miranda NG
+["My Documents" folder for currently logged-on Windows user]
+
+["Desktop" folder for currently logged-on Windows user]
+
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+
+[Variables]
+
+[Days]
+
+[Hours]
+
+[Minutes]
+
+[Select backup folder]
+
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
