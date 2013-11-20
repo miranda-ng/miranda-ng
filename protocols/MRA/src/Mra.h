@@ -6,7 +6,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#pragma warning(disable:4267)
+#pragma warning(disable:4267 4312)
 
 //#define CRTDLL
 
@@ -146,16 +146,16 @@ __forceinline BinBuffer& operator >>(BinBuffer& buf, CMStringW &sVar)  { buf.get
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
-BOOL DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+bool DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+bool DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 	  
-BOOL DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA &Ret);
-BOOL DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW &Ret);
+bool DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA &Ret);
+bool DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW &Ret);
 	  
-BOOL DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &value);
-BOOL DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &value);
+bool DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &value);
+bool DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &value);
 	  
-BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+bool DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
 #include "MraConstans.h"
 #include "MraProto.h"

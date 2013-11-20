@@ -170,9 +170,9 @@ void MraAddrListFree(MRA_ADDR_LIST *pmalAddrList)
 	}
 }
 
-BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
+bool DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
-	BOOL bRet = FALSE;
+	bool bRet = false;
 	size_t dwReadedStringLen, dwRetBuffSizeLocal;
 	DBVARIANT dbv = {0};
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0)
@@ -182,7 +182,7 @@ BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 		{
 			dwRetBuffSizeLocal = WideCharToMultiByte(MRA_CODE_PAGE, 0, dbv.pwszVal, dwReadedStringLen, lpszRetBuff, dwRetBuffSize, NULL, NULL);
 			(*((CHAR*)(lpszRetBuff+dwRetBuffSizeLocal))) = 0;
-			bRet = TRUE;
+			bRet = true;
 		}else {
 			dwRetBuffSizeLocal = dwReadedStringLen;
 			if (lpszRetBuff && dwRetBuffSize >= sizeof(WORD)) (*((WORD*)lpszRetBuff)) = 0;
@@ -199,9 +199,9 @@ BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 }
 
 // sizes in wchars
-BOOL DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpwszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
+bool DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpwszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
-	BOOL bRet = FALSE;
+	bool bRet = false;
 	size_t dwReadedStringLen;
 	DBVARIANT dbv = {0};
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0)
@@ -211,7 +211,7 @@ BOOL DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 		{
 			memmove(lpwszRetBuff, dbv.pszVal, (dwReadedStringLen*sizeof(WCHAR)));//include null terminated
 			(*((WCHAR*)(lpwszRetBuff+dwReadedStringLen))) = 0;
-			bRet = TRUE;
+			bRet = true;
 		}else {
 			if (lpwszRetBuff && dwRetBuffSize >= sizeof(WCHAR)) (*((WCHAR*)lpwszRetBuff)) = 0;
 		}
@@ -226,65 +226,62 @@ BOOL DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 	return bRet;
 }
 
-BOOL DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA& res)
+bool DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA& res)
 {
 	char *szRes = db_get_sa(hContact, lpszModule, lpszValueName);
 	if (szRes) {
 		res = szRes;
 		mir_free(szRes);
-		return TRUE;
+		return true;
 	}
 	
 	res.Empty();
-	return FALSE;
+	return false;
 }
 
 
-BOOL DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW& res)
+bool DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW& res)
 {
 	WCHAR *szRes = db_get_wsa(hContact, lpszModule, lpszValueName);
 	if (szRes) {
 		res = szRes;
 		mir_free(szRes);
-		return TRUE;
+		return true;
 	}
 	
 	res.Empty();
-	return FALSE;
+	return false;
 }
 
-BOOL DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &szValue)
+bool DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &szValue)
 {
 	if (szValue.IsEmpty()) {
 		db_unset(hContact, lpszModule, lpszValueName);
 		return true;
 	}
 
-	return db_set_s(hContact, lpszModule, lpszValueName, szValue);
+	return db_set_s(hContact, lpszModule, lpszValueName, szValue) != 0;
 }
 
-BOOL DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &szValue)
+bool DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &szValue)
 {
 	if (szValue.IsEmpty()) {
 		db_unset(hContact, lpszModule, lpszValueName);
 		return true;
 	}
 
-	return db_set_ws(hContact, lpszModule, lpszValueName, szValue);
+	return db_set_ws(hContact, lpszModule, lpszValueName, szValue) != 0;
 }
 
-BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
+bool DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
-	BOOL bRet = FALSE;
+	bool bRet = false;
 	DBVARIANT dbv;
-	if (db_get(hContact, lpszModule, lpszValueName, &dbv) == 0)
-	{
-		if (dbv.type == DBVT_BLOB)
-		{
-			if (dwRetBuffSize >= dbv.cpbVal)
-			{
+	if (db_get(hContact, lpszModule, lpszValueName, &dbv) == 0) {
+		if (dbv.type == DBVT_BLOB) {
+			if (dwRetBuffSize >= dbv.cpbVal) {
 				memmove(lpRet, dbv.pbVal, dbv.cpbVal);
-				bRet = TRUE;
+				bRet = true;
 			}
 			if (pdwRetBuffSize) (*pdwRetBuffSize) = dbv.cpbVal;
 		}
@@ -292,9 +289,9 @@ BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszVal
 	}
 	else {
 		if (pdwRetBuffSize)	(*pdwRetBuffSize) = 0;
-		bRet = FALSE;
+		bRet = false;
 	}
-	return(bRet);
+	return bRet;
 }
 
 DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR ptszName)
@@ -1325,69 +1322,13 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static DWORD MemFillRandom(LPVOID lpBuff, size_t dwBuffSize)
+bool CMraProto::GetPassDB(CMStringA &res)
 {
-	DWORD dwRetErrorCode;
+	int storageType = getDword("pCryptVer", 0);
+	if (storageType == 0)
+		return mraGetStringA(NULL, "Password", res) != 0;
 
-	if (lpBuff && dwBuffSize) {
-		HCRYPTPROV hCryptProv = NULL;
-
-		if (CryptAcquireContext(&hCryptProv, NULL, MS_STRONG_PROV, PROV_RSA_FULL, 0) == FALSE && GetLastError() == NTE_BAD_KEYSET)
-			CryptAcquireContext(&hCryptProv, NULL, MS_STRONG_PROV, PROV_RSA_FULL, CRYPT_NEWKEYSET);
-
-		if (hCryptProv) {
-			if (CryptGenRandom(hCryptProv, dwBuffSize, (BYTE*)lpBuff))
-				dwRetErrorCode = NO_ERROR;
-			else
-				dwRetErrorCode = GetLastError();
-		}
-		else dwRetErrorCode = GetLastError();
-
-		CryptReleaseContext(hCryptProv, 0);
-	}
-	else dwRetErrorCode = ERROR_INVALID_HANDLE;
-
-	return dwRetErrorCode;
-}
-
-bool CMraProto::SetPassDB(const CMStringA& pass)
-{
-	if (pass.GetLength() >= 128)
-		return false;
-
-	CMStringA szEmail;
-	if ( !mraGetStringA(NULL, "e-mail", szEmail))
-		return false;
-
-	BYTE btRandomData[256], btCryptedPass[256] = {0}, bthmacSHA1[MIR_SHA1_HASH_SIZE] = {0};
-	MemFillRandom(btRandomData, sizeof(btRandomData));
-
-	SHA1GetDigest((void*)pass.c_str(), pass.GetLength(), &btCryptedPass[1]);
-
-	//BASE64EncodeUnSafe(lpszBuff, dwBuffSize, &btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], (sizeof(btCryptedPass)-1), &dwBuffSize);
-	memmove(&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], pass.c_str(), pass.GetLength());
-	btCryptedPass[0] = (BYTE)pass.GetLength();
-	//memmove(&btCryptedPass[1], lpszBuff, dwBuffSize);
-
-	mir_hmac_sha1(bthmacSHA1, (BYTE*)szEmail.c_str(), szEmail.GetLength(), btRandomData, sizeof(btRandomData));
-
-	RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
-	RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, sizeof(btRandomData));
-	CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
-	RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
-
-	setDword("pCryptVer", MRA_PASS_CRYPT_VER);
-	mraWriteContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData));
-	mraWriteContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass));
-	return true;
-}
-																		 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-
-bool CMraProto::GetPassDB_v1(CMStringA &res)
-{
-	BYTE btRandomData[256] = {0}, btCryptedPass[256] = {0}, bthmacSHA1[MIR_SHA1_HASH_SIZE] = {0};
+	BYTE btRandomData[256] = { 0 }, btCryptedPass[256] = { 0 }, bthmacSHA1[MIR_SHA1_HASH_SIZE] = { 0 };
 	size_t dwRandomDataSize, dwCryptedPass, dwPassSize;
 	CMStringA szEmail;
 
@@ -1398,61 +1339,43 @@ bool CMraProto::GetPassDB_v1(CMStringA &res)
 	if (mraGetStringA(NULL, "e-mail", szEmail)) {
 		mir_hmac_sha1(bthmacSHA1, (BYTE*)szEmail.c_str(), szEmail.GetLength(), btRandomData, sizeof(btRandomData));
 
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
-		CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
-		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
+		if (storageType == 2) {
+			RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
+			CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
+			RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
+			RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 
-		dwPassSize = (*btCryptedPass);
-		btCryptedPass[dwPassSize+1+MIR_SHA1_HASH_SIZE] = 0;
-
-		unsigned dwDecodedSize;
-		mir_ptr<BYTE> pDecoded((PBYTE)mir_base64_decode((LPCSTR)&btCryptedPass[1+MIR_SHA1_HASH_SIZE], &dwDecodedSize));
-		SHA1GetDigest(pDecoded, dwDecodedSize, btRandomData);
-		if ( !memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE)) {
-			res = CMStringA((LPSTR)(PBYTE)pDecoded, dwDecodedSize);
-			return true;
+			dwPassSize = btCryptedPass[0];
+			SHA1GetDigest(&btCryptedPass[(1 + MIR_SHA1_HASH_SIZE)], dwPassSize, btRandomData);
+			if (0 != memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE))
+				return false;
+				
+			res = CMStringA((char*)&btCryptedPass[(1 + MIR_SHA1_HASH_SIZE)], dwPassSize);
 		}
+		else if (storageType == 1) {
+			RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
+			CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
+			RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
+			RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
+
+			dwPassSize = (*btCryptedPass);
+			btCryptedPass[dwPassSize + 1 + MIR_SHA1_HASH_SIZE] = 0;
+
+			unsigned dwDecodedSize;
+			mir_ptr<BYTE> pDecoded((PBYTE)mir_base64_decode((LPCSTR)&btCryptedPass[1 + MIR_SHA1_HASH_SIZE], &dwDecodedSize));
+			SHA1GetDigest(pDecoded, dwDecodedSize, btRandomData);
+			if (0 != memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE))
+				return false;
+			res = CMStringA((LPSTR)(PBYTE)pDecoded, dwDecodedSize);
+		}
+		else return false;
 	}
 
-	return false;
-}
-
-bool CMraProto::GetPassDB(CMStringA &res)
-{
-	switch (getDword("pCryptVer", 0)) {
-	case 1:
-		return GetPassDB_v1(res);
-	case 2:
-		break;
-	default:
-		return false;
-	}
-
-	CMStringA szEmail;
-	BYTE btRandomData[256] = {0}, btCryptedPass[256] = {0}, bthmacSHA1[MIR_SHA1_HASH_SIZE] = {0};
-	size_t dwRandomDataSize, dwCryptedPass;
-
-	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
-	if (dwRandomDataSize == sizeof(btRandomData))
-	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
-	if (dwCryptedPass == sizeof(btCryptedPass))
-	if (mraGetStringA(NULL, "e-mail", szEmail)) {
-		mir_hmac_sha1(bthmacSHA1, (BYTE*)szEmail.GetString(), szEmail.GetLength(), btRandomData, sizeof(btRandomData));
-
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
-		CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
-		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
-
-		DWORD dwPassSize = btCryptedPass[0];
-		SHA1GetDigest(&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], dwPassSize, btRandomData);
-		if ( !memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE))
-			res = CMStringA((char*)&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], dwPassSize);
-		return true;
-	}
-
-	return false;
+	delSetting("pCryptData");
+	delSetting("pCryptPass");
+	delSetting("pCryptVer");
+	setString("Password", res);
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

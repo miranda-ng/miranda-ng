@@ -40,10 +40,9 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 			GetDlgItemText(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
 			ppro->setTString(NULL, "e-mail", szBuff);
 
-			char szPass[MAX_EMAIL_LEN];
-			if (GetDlgItemTextA(hWndDlg, IDC_PASSWORD, szPass, SIZEOF(szPass))) {
-				ppro->SetPassDB(szPass);
-				SecureZeroMemory(szPass, SIZEOF(szPass));
+			if (GetDlgItemText(hWndDlg, IDC_PASSWORD, szBuff, SIZEOF(szBuff))) {
+				ppro->setTString("Password", szBuff);
+				SecureZeroMemory(szBuff, SIZEOF(szBuff));
 			}
 			return TRUE;
 		}
@@ -93,10 +92,9 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			GetDlgItemText(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
 			ppro->mraSetStringW(NULL, "e-mail", szBuff);
 
-			char szPass[MAX_EMAIL_LEN];
-			if (GetDlgItemTextA(hWndDlg, IDC_PASSWORD, szPass, SIZEOF(szPass))) {
-				ppro->SetPassDB(szPass);
-				SecureZeroMemory(szPass, SIZEOF(szPass));
+			if (GetDlgItemText(hWndDlg, IDC_PASSWORD, szBuff, SIZEOF(szBuff))) {
+				ppro->setTString("Password", szBuff);
+				SecureZeroMemory(szBuff, sizeof(szBuff));
 			}
 			return TRUE;
 		}

@@ -89,29 +89,29 @@ struct CMraProto : public PROTO<CMraProto>
 	__forceinline void MraPopupShowFromAgentW(DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage) {
 		MraPopupShowFromContactW(NULL, dwType, dwFlags, lpszMessage); }
 
-	__forceinline BOOL mraGetStaticStringA(HANDLE Contact, const char *ValueName, char *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
+	__forceinline bool mraGetStaticStringA(HANDLE Contact, const char *ValueName, char *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
 		return DB_GetStaticStringA(Contact, m_szModuleName, ValueName, Ret, RetBuffSize, pRetBuffSize); }
-	__forceinline BOOL mraGetStaticStringW(HANDLE Contact, const char *ValueName, WCHAR *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
+	__forceinline bool mraGetStaticStringW(HANDLE Contact, const char *ValueName, WCHAR *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
 		return DB_GetStaticStringW(Contact, m_szModuleName, ValueName, Ret, RetBuffSize, pRetBuffSize); }
 
-	__forceinline BOOL mraGetStringA(HANDLE Contact, const char *ValueName, CMStringA &Ret) {
+	__forceinline bool mraGetStringA(HANDLE Contact, const char *ValueName, CMStringA &Ret) {
 		return DB_GetStringA(Contact, m_szModuleName, ValueName, Ret); }
-	__forceinline BOOL mraGetStringW(HANDLE Contact, const char *ValueName, CMStringW &Ret) {
+	__forceinline bool mraGetStringW(HANDLE Contact, const char *ValueName, CMStringW &Ret) {
 		return DB_GetStringW(Contact, m_szModuleName, ValueName, Ret); }
 
-	__forceinline BOOL mraSetStringA(HANDLE Contact, const char *valueName, const CMStringA &parValue) {
+	__forceinline bool mraSetStringA(HANDLE Contact, const char *valueName, const CMStringA &parValue) {
 		return DB_SetStringExA(Contact, m_szModuleName, valueName, parValue); }
-	__forceinline BOOL mraSetStringW(HANDLE Contact, const char *valueName, const CMStringW &parValue) {
+	__forceinline bool mraSetStringW(HANDLE Contact, const char *valueName, const CMStringW &parValue) {
 		return DB_SetStringExW(Contact, m_szModuleName, valueName, parValue); }
 
-	__forceinline BOOL mraSetStringExA(HANDLE Contact, const char *valueName, const CMStringA &parValue) {
+	__forceinline bool mraSetStringExA(HANDLE Contact, const char *valueName, const CMStringA &parValue) {
 		return DB_SetStringExA(Contact, m_szModuleName, valueName, parValue); }
-	__forceinline BOOL mraSetStringExW(HANDLE Contact, const char *valueName, const CMStringW &parValue) {
+	__forceinline bool mraSetStringExW(HANDLE Contact, const char *valueName, const CMStringW &parValue) {
 		return DB_SetStringExW(Contact, m_szModuleName, valueName, parValue); }
 
-	__forceinline BOOL mraWriteContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbValue, size_t dwValueSize) {
-		return db_set_blob(hContact, m_szModuleName, lpszValueName, lpbValue, dwValueSize); }
-	__forceinline BOOL mraGetContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize) {
+	__forceinline bool mraWriteContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbValue, size_t dwValueSize) {
+		return db_set_blob(hContact, m_szModuleName, lpszValueName, lpbValue, dwValueSize) != 0; }
+	__forceinline bool mraGetContactSettingBlob(HANDLE hContact, const char *lpszValueName, LPVOID lpbRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize) {
 		return DB_GetContactSettingBlob(hContact, m_szModuleName, lpszValueName, lpbRet, dwRetBuffSize, pdwRetBuffSize); }
 
 	// ====| Services  |====================================================================
@@ -289,9 +289,7 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
 	CMStringA CreateBlobFromContact(HANDLE hContact, const CMStringW &wszRequestReason);
 
-	bool   SetPassDB(const CMStringA& pass);
 	bool   GetPassDB(CMStringA& pass);
-	bool   GetPassDB_v1(CMStringA &res);
 
 	bool   MraRequestXStatusDetails(DWORD dwXStatus);
 	bool   MraSendReplyBlogStatus(HANDLE hContact);
