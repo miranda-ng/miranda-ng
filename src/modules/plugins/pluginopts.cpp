@@ -234,7 +234,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			}
 
 			szFilter.Truncate(szFilter.GetLength() - 1);
-			Beep(750, 200);
+			MessageBeep((UINT)-1);
 		}
 		return TRUE;
 
