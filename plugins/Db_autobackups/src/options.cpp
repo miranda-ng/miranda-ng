@@ -358,7 +358,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = LPGEN("Automatic Backups");
+	odp.pszTitle = LPGEN("Automatic backups");
 	odp.pszGroup = LPGEN("Database");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;

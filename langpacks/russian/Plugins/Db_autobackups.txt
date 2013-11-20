@@ -13,7 +13,7 @@
 
 [Cancel]
 
-[Automatic Backups]
+[Automatic backups]
 Авторезервирование профиля
 [Number of backups to keep:]
 
@@ -37,7 +37,7 @@
 Сжать резервную копию в zip-архив
 [Disable progress bar]
 
-[Disable Popups]
+[Disable popups]
 
 [Miranda NG database]
 База данных Miranda NG

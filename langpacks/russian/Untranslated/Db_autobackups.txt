@@ -9,7 +9,7 @@
 [Backup to folder:]
 [Browse...]
 [Disable progress bar]
-[Disable Popups]
+[Disable popups]
 [Created by:]
 [Copying database file...]
 [Database]
