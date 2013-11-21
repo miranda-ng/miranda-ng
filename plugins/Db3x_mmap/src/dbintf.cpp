@@ -91,6 +91,14 @@ CDb3Base::~CDb3Base()
 	}
 	CloseHandle(m_hDbFile);
 
+	DestroyHookableEvent(hContactDeletedEvent);
+	DestroyHookableEvent(hContactAddedEvent);
+	DestroyHookableEvent(hSettingChangeEvent);
+
+	DestroyHookableEvent(hEventAddedEvent);
+	DestroyHookableEvent(hEventDeletedEvent);
+	DestroyHookableEvent(hEventFilterAddedEvent);
+
 	DeleteCriticalSection(&m_csDbAccess);
 
 	DestroyDbInstance(this);
@@ -117,7 +125,6 @@ int CDb3Base::Load(bool bSkipInit)
 	if ( !bSkipInit) {
 		if (InitCache()) return 1;
 		if (InitModuleNames()) return 1;
-		if (InitCrypt()) return 1;
 
 		m_bReadOnly = false;
 

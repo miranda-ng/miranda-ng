@@ -301,6 +301,8 @@ struct CDb3Mmap : public CDb3Base
 	CDb3Mmap(const TCHAR* ptszFileName);
 	~CDb3Mmap();
 
+	int   Load(bool bSkipInit);
+
 protected:
 	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName);
 	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
@@ -311,7 +313,7 @@ protected:
 	virtual	int   InitCache(void);
 
 protected:
-	PBYTE    m_pNull;
+	PBYTE m_pNull;
 
 	void  Map();
 	void  ReMap(DWORD needed);

@@ -37,7 +37,7 @@ CDbxMmapSA::CDbxMmapSA(const TCHAR* tszFileName) :
 
 int CDbxMmapSA::Load(bool bSkipInit)
 {
-	if ( CDb3Mmap::Load(bSkipInit) != ERROR_SUCCESS)
+	if (CDb3Base::Load(bSkipInit) != ERROR_SUCCESS)
 		return 1;
 
 	if ( CheckDbHeaders())
