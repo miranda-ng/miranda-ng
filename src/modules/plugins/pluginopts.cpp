@@ -32,6 +32,7 @@ HANDLE hevLoadModule, hevUnloadModule;
 bool bOldMode = false;
 
 static CMString szFilter;
+static UINT_PTR timerID;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
@@ -225,10 +226,14 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 					lvfi.flags = LVFI_PARAM;
 					lvfi.lParam = (LPARAM)p;
 					int idx = ListView_FindItem(hwnd, 0, &lvfi);
-					if (idx != -1) {
-						ListView_SetItemState(hwnd, idx, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-						ListView_EnsureVisible(hwnd, idx, FALSE);
-					}
+					if (idx == -1)
+						continue;
+
+					ListView_SetItemState(hwnd, idx, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+					ListView_EnsureVisible(hwnd, idx, FALSE);
+					if (timerID != 0)
+						KillTimer(hwnd, timerID);
+					timerID = SetTimer(hwnd, 1, 1500, 0);
 					return TRUE;
 				}
 			}
@@ -237,6 +242,14 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			MessageBeep((UINT)-1);
 		}
 		return TRUE;
+
+	case WM_TIMER:
+		if (wParam == 1) {
+			KillTimer(hwnd, timerID);
+			timerID = 0;
+			szFilter.Empty();
+		}
+		break;
 
 	case WM_LBUTTONDOWN:
 		LVHITTESTINFO hi;
@@ -291,6 +304,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		timerID = 0;
 		{
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 			mir_subclassWindow(hwndList, PluginListWndProc);
