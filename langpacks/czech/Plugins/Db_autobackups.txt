@@ -12,7 +12,7 @@ Doplněk pro zálohování databáze.
 Průběh zálohování
 [Cancel]
 Zrušit
-[Automatic Backups]
+[Automatic backups]
 Automatické zálohování
 [Number of backups to keep:]
 Počet uložených kopií:
@@ -36,7 +36,7 @@ Nastavení změníte v sekci Vlastní úpravy -> Složky
 Komprimovat zálohu do zip-archivu
 [Disable progress bar]
 Vypnout ukazatel průběhu
-[Disable Popups]
+[Disable popups]
 Vypnout oznámení
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]

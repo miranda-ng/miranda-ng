@@ -217,11 +217,3 @@ Metakontakt
 
 [QuickSearch window hotkey]
 
-[Previous item]
-Předchozí položka
-[Next item]
-Další položka
-[Open main window]
-Otevřít hlavní okno
-[Frame background]
-
