@@ -1,8 +1,8 @@
 ﻿#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
 ;============================================================
 ;  File: CyrTranslit.dll
-;  Plugin: Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations
-;  Versions: 0.1.2.0
+;  Plugin: CyrTranslit
+;  Version: 0.1.2.0
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2523
 ;  Source: http://addons.miranda-im.org/download.php?dlsource=2523
 ;  Authors: ValeraVi, Ivan Krechetov

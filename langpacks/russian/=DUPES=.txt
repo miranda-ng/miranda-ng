@@ -3932,9 +3932,9 @@ xСтатусы
 [Rescan]
 Обновить
 ["My Documents" folder for currently logged-on Windows user]
-папка "Мои документы" для текущего Windows пользователя
+папка "Мои документы" для текущего пользователя Windows
 ["Desktop" folder for currently logged-on Windows user]
-папка "Рабочий стол" для текущего Windows пользователя
+папка "Рабочий стол" для текущего пользователя Windows
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
 Подсказка: если Вы не укажете здесь пароль, Miranda NG будет запрашивать его каждый раз при подключении к сети.
 [INI Files]

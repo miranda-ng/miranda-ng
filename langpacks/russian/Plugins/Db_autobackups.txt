@@ -10,49 +10,49 @@
 [Db autobackuper plugin.]
 Плагин авторезервирования профиля.
 [Backup progress]
-
+Процесс резервного копирования
 [Cancel]
-
+Отменить
 [Automatic backups]
 Авторезервирование профиля
 [Number of backups to keep:]
-
+Количество резервных копий:
 [Backup NOW]
-
+Сохранить СЕЙЧАС
 [Disabled]
-
+Отключено
 [When Miranda starts]
-
+При запуске Miranda NG
 [When Miranda exits]
-
+При выходе из Miranda NG
 [Every:]
-
+Каждые:
 [Backup to folder:]
-
+Сохранять в папку:
 [Browse...]
-
+Обзор...
 [Go to the "Customize -> Folders" to change settings]
 Откройте "Тонкая настройка -> Папки" для изменения настроек
 [Compress backup to zip-archive]
 Сжать резервную копию в zip-архив
 [Disable progress bar]
-
+Отключить индикатор выполнения
 [Disable popups]
-
+Отключить всплывающие окна
 [Miranda NG database]
-База данных Miranda NG
+Резервная копия профиля Miranda NG
 [Created by:]
-
+Создана:
 [Miranda NG databases]
-Базы данных Miranda NG
+Профили Miranda NG
 [Compressed Miranda NG databases]
-Сжатые базы данных Miranda NG
-[All Files]
+Сжатые профили Miranda NG
+[All files]
 Все файлы
 [Backup in progress]
 Резервирование в процессе
 [Copying database file...]
-
+Копирование файла профиля...
 [Database backed up]
 Профиль зарезервирован
 [Backup profile]
@@ -64,7 +64,7 @@
 [Backup folder]
 Папка резервирования
 [Database]
-
+Профиль
 [path to Miranda root folder]
 путь к папке программы
 [path to current Miranda profile]
@@ -78,20 +78,20 @@
 [username for currently logged-on Windows user]
 имя текущего пользователя системы
 ["My Documents" folder for currently logged-on Windows user]
-
+папка "Мои документы" для текущего пользователя Windows
 ["Desktop" folder for currently logged-on Windows user]
-
+папка "Рабочий стол" для текущего пользователя Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
+любая переменная среды, определённая в текущей сессии Windows (например, %systemroot%, %allusersprofile% и т.д.)
 [Variables]
-
-[Days]
-
-[Hours]
-
-[Minutes]
-
+Переменные
+[days]
+дней
+[hours]
+часов
+[minutes]
+минут(ы)
 [Select backup folder]
-
+Выберите папку для хранения резервных копий
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
