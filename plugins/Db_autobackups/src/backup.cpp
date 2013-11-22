@@ -128,7 +128,7 @@ INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
 	i += mir_sntprintf(tszFilter + i, 84, _T("%s (*.zip)"), TranslateT("Compressed Miranda NG databases")) + 1;
 	_tcscpy(tszFilter + i, _T("*.zip"));
 	i += 6;
-	i += mir_sntprintf(tszFilter + i, 48, _T("%s (*.*)"), TranslateT("All Files")) + 1;
+	i += mir_sntprintf(tszFilter + i, 48, _T("%s (*.*)"), TranslateT("All files")) + 1;
 	_tcscpy(tszFilter + i, _T("*"));
 	tszFilter[i + 2] = 0;
 
