@@ -23,7 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-DBSignature dbSignature = {"Miranda ICQ DB",0x1A};
+DBSignature dbSignature = { "Miranda ICQ DB", 0x1A };
+DBSignature dbSignatureSA = { "Miranda ICQ SA", 0x1A };
 
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2 )
 {
@@ -87,7 +88,7 @@ CDb3Base::~CDb3Base()
 	if (!m_bReadOnly) {
 		DWORD bytesWritten;
 		SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
-		WriteFile(m_hDbFile, &dbSignature, 1, &bytesWritten, NULL);
+		WriteFile(m_hDbFile, &dbSignature, sizeof(dbSignature), &bytesWritten, NULL);
 	}
 	CloseHandle(m_hDbFile);
 

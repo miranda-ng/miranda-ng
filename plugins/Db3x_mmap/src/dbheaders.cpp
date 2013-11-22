@@ -54,7 +54,8 @@ int CDb3Base::CreateDbHeaders(const DBSignature& _sign)
 
 int CDb3Base::CheckDbHeaders()
 {
-	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature)))
+	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature)) &&
+		 memcmp(m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
 		return EGROKPRF_UNKHEADER;
 
 	if (m_dbHeader.version != DB_THIS_VERSION)
