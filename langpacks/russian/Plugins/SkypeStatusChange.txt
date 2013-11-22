@@ -2,15 +2,18 @@
 ;============================================================
 ;  File: SkypeStatusChange.dll
 ;  Plugin: Skype status change
+;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
 [Skype status change according to Miranda status.]
 Меняет статус запущенного Skype в соответствии со статусом Миранды.
-[Change Skype status]
-Смена статуса Skype
-[&Check any protocol or any status to exclude it from synchronization:]
-Отмеченные протоколы и статусы не будут синхронизироваться
 [Synchronize status message]
 Синхронизировать сообщение статуса
+[&Check any protocol or any status to exclude it from synchronization:]
+Отмеченные протоколы и статусы не будут синхронизироваться
 [Synchronize if current status differs from previous one]
 Синхронизировать если текущий статус отличается от предыдущего
+[Change Skype status]
+Смена статуса Skype
+[Plugins]
+Плагины
