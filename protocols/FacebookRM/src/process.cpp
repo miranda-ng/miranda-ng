@@ -328,15 +328,17 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 		data += "&__a=1&__dyn=&__req=&ttstamp=0";
 	
 		for (std::vector<std::string>::size_type i = 0; i < threads.size(); i++) {
+			std::string thread_id = utils::url::encode(threads[i]);
+
 			// request messages from thread
-			data += "&messages[thread_ids][" + threads[i];
+			data += "&messages[thread_ids][" + thread_id;
 			data += "][offset]=" + utils::conversion::to_string(&offset, UTILS_CONV_SIGNED_NUMBER);
-			data += "&messages[thread_ids][" + threads[i];
+			data += "&messages[thread_ids][" + thread_id;
 			data += "][limit]=" + utils::conversion::to_string(&limit, UTILS_CONV_SIGNED_NUMBER);
 			
 			// request info about thread
 			data += "&threads[thread_ids][" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
-			data += "]=" + threads[i];
+			data += "]=" + thread_id;
 		}
 
 		resp = facy.flap(REQUEST_THREAD_INFO, &data);
