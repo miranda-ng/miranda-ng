@@ -205,10 +205,6 @@ protected:
 
 protected:
 	int InitCrypt(void);
-	virtual	void EncodeCopyMemory(void *dst, void *src, size_t size);
-	virtual	void DecodeCopyMemory(void *dst, void *src, size_t size);
-	virtual	void EncodeDBWrite(DWORD ofs, void *src, int size);
-	virtual	void DecodeDBWrite(DWORD ofs, void *src, int size);
 
 public:  // Check functions
 	int WorkInitialChecks(int);

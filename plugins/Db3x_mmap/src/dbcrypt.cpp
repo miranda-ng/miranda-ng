@@ -82,23 +82,3 @@ LBL_SetNewKey:
 	}
 	return 0;
 }
-
-void CDb3Base::EncodeCopyMemory(void *dst, void *src, size_t size)
-{
-	MoveMemory(dst, src, size);
-}
-
-void CDb3Base::DecodeCopyMemory(void *dst, void *src, size_t size)
-{
-	MoveMemory(dst, src, size);
-}
-
-void CDb3Base::EncodeDBWrite(DWORD ofs, void *src, int size)
-{
-	DBWrite(ofs, src, size);
-}
-
-void CDb3Base::DecodeDBWrite(DWORD ofs, void *src, int size)
-{
-	DBWrite(ofs, src, size);
-}
