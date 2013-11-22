@@ -23,18 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-int CDb3Mmap::Load(bool bSkipInit)
-{
-	int res = CDb3Base::Load(bSkipInit);
-	if (res != ERROR_SUCCESS)
-		return res;
-
-	if (!bSkipInit)
-		return InitCrypt();
-
-	return 0;
-}
-
 void CDb3Mmap::Map()
 {
 	m_hMap = CreateFileMapping(m_hDbFile, NULL, PAGE_READWRITE, 0, m_dwFileSize, NULL);

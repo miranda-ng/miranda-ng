@@ -123,8 +123,9 @@ int CDb3Base::Load(bool bSkipInit)
 	}
 
 	if ( !bSkipInit) {
-		if (InitCache()) return 1;
+		if (InitCache())       return 1;
 		if (InitModuleNames()) return 1;
+		if (InitCrypt())       return 1;
 
 		m_bReadOnly = false;
 
