@@ -44,8 +44,6 @@ Exportar...
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [The following events are being ignored:]
 Los siguientes eventos están siendo ignorados:
 [Ignore]
@@ -56,8 +54,6 @@ Ignorar
 [** Unknown contacts **]
 ** ** Contactos Desconocida
 ;file \plugins\KeyboardNotify\src\options.cpp
-[Events]
-Eventos
 [Events]
 Eventos
 [Accounts]

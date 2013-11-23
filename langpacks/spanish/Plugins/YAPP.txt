@@ -12,8 +12,6 @@ Cerrar
 Entre mayúsculas y minúsculas
 [Options]
 Opciones
-[Options]
-Opciones
 [Transparent background]
 fondo transparente
 ;file \plugins\YAPP\src\icons.cpp
@@ -29,6 +27,4 @@ Error
 ;file \plugins\YAPP\src\yapp.cpp
 [Background]
 Fondo
-[Background]
-Background
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp

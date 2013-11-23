@@ -12,12 +12,8 @@ Copiar
 Seleccionar todo
 [Options]
 Opciones
-[Options]
-Opciones
 [Enable support for Flash files in smileys and BBCodes]
 Habilitar la compatibilidad con archivos Flash en smileys y BBCodes
-[Enable MathModule support]
-Habilitar la compatibilidad con MathModule
 [Enable MathModule support]
 Habilitar la compatibilidad con MathModule
 [Replace smileys in user names]
@@ -26,28 +22,16 @@ Vuelva a colocar emoticonos en los nombres de usuario
 Tamaño
 [Background image]
 Imagen de Fondo
-[Background image]
-Imagen de Fondo
 [Scroll with text]
 Vaya con el texto
-[Scroll with text]
-Vaya con el texto
-[Use message grouping]
-El uso de mensajes de agrupación
 [Use message grouping]
 El uso de mensajes de agrupación
 [Show nicknames]
 Mostrar apodos
 [Show seconds]
 Mostrar segundo
-[Show seconds]
-Mostrar segundo
 [Use long date format]
 Use el formato de fecha larga
-[Use long date format]
-Use el formato de fecha larga
-[Use relative timestamp]
-El uso de marca de tiempo en relación
 [Use relative timestamp]
 El uso de marca de tiempo en relación
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
@@ -65,18 +49,12 @@ Error
 ;file \plugins\IEView\src\Options.cpp
 [General]
 General
-[General]
-General
 [Message Log]
 Registro de mensajes
 [Group Chats]
 Conversaciones en grupo
-[Group Chats]
-Grupo de Foros
 [History]
 Historia
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Message Sessions]

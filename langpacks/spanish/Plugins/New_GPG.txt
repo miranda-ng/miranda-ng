@@ -12,8 +12,6 @@ OK
 Ignorar
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Password:]
 Contraseña:
 ;file \plugins\New_GPG\src\init.cpp
@@ -22,8 +20,6 @@ Contraseña:
 Nombre
 [Accounts]
 Cuentas
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Error]
@@ -34,8 +30,6 @@ Aceptar
 ;file \plugins\New_GPG\src\options.cpp
 [Messages]
 Mensaje ventanas - IM
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 [Contact]

@@ -10,16 +10,10 @@
 Teclas de acceso directo
 [Options]
 Opciones
-[Options]
-Opciones
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Windows colors]
 Ventanas de colores
-[Text]
-Texto
 [Text]
 Texto
 [Custom]

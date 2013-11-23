@@ -16,12 +16,8 @@ URL
 Archivo
 [Text]
 Texto
-[Text]
-Texto
 [Background]
 Fondo
-[Background]
-Background
 [Left Click Actions]
 Izquierda Haga clic en Acciones
 [Right Click Actions]

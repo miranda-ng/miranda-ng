@@ -8,12 +8,8 @@
 ;file \Plugins\StatusPlugins\resource.rc
 [General]
 General
-[General]
-General
 [Close]
 Cerrar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Profile]
@@ -36,8 +32,6 @@ Usar colores de Windows
 Utilice los colores por defecto
 [Events]
 Eventos
-[Events]
-Eventos
 [Custom]
 Personalizado
 [Use %time% for the current time, %date% for the current date]
@@ -54,8 +48,6 @@ segundo
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protocolo
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 ;file \Plugins\StatusPlugins\commonstatus.cpp
@@ -79,8 +71,6 @@ Me estoy escondiendo de la mafia.
 Eso va a ser el teléfono.
 [Mmm... food.]
 Mmm... la comida.
-[idleeeeeeee]
-idleeeeeeee
 [idleeeeeeee]
 ocioso
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

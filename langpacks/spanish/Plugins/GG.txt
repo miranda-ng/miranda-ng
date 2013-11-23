@@ -18,8 +18,6 @@ Eliminar la cuenta
 Recuperar contraseña
 [Options]
 Opciones
-[Options]
-Opciones
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Tendrá que volver a conectar para que los cambios que ha realizado en esta página para tener efecto.
 [Advanced Configuration]
@@ -40,8 +38,6 @@ Ciudad:
 Descripción:
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [&Create]
@@ -69,18 +65,10 @@ Hombre
 <No se ha especificado>
 [Network]
 Red
-[Network]
-red
-[General]
-General
 [General]
 General
 [Advanced]
 Avanzada
-[Advanced]
-Avanzada
-[System tray icon]
-Icono de la bandeja del sistema
 [System tray icon]
 Icono de la bandeja del sistema
 [Allow]
@@ -108,8 +96,6 @@ Configuración de la cuenta
 Imagen anterior
 [Next image]
 Siguiente imagen
-[Save image]
-Importar
 [Save image]
 Guardar imagen
 [Delete image]

@@ -12,10 +12,6 @@ OK
 Habilita la notificación
 [Background]
 Fondo
-[Background]
-Background
-[Text]
-Texto
 [Text]
 Texto
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp

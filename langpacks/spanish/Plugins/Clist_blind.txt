@@ -66,8 +66,6 @@ Sólo cuando estados diferentes
 Lista de contactos
 [System tray icon]
 Icono de la bandeja del sistema
-[System tray icon]
-Icono de la bandeja del sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema al utilizar protocolos múltiples
 [Contact List Sorting]

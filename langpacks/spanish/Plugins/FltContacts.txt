@@ -8,8 +8,6 @@
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [pixels]
 Pixel
-[pixels]
-Pixel
 [seconds]
 segundo
 [Single click interface]
@@ -18,8 +16,6 @@ interfaz de un solo clic
 Dim inactivo contactos
 [Background]
 Fondo
-[Background]
-Background
 [Stretch to width]
 Estiramiento de ancho
 [Stretch to height]

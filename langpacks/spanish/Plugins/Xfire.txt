@@ -12,8 +12,6 @@ Contraseña:
 Nick:
 [Options]
 Opciones
-[Options]
-Opciones
 [More options]
 Más opciones
 [Files]
@@ -24,8 +22,6 @@ Aplicar
 Quitar
 [Username:]
 Nombre de usuario:
-[Username:]
-Username:
 [Game]
 Juego
 [Name:]
@@ -38,8 +34,6 @@ Copiar
 Únete
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Search:]
@@ -69,16 +63,12 @@ Nombre de usuario
 ;file \protocols\Xfire\src\options.cpp
 [General]
 General
-[General]
-General
 [No]
 No
 [<Root Group>]
 Grupo Raíz
 [Network]
 Red
-[Network]
-red
 [StatusMsg]
 Statusmsg
 ;file \protocols\Xfire\src\searching4games.cpp

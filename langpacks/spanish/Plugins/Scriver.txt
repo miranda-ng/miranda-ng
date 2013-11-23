@@ -26,8 +26,6 @@ Registro de mensajes de ventana de eventos
 Mostrar iconos
 [Show seconds]
 Mostrar segundo
-[Show seconds]
-Mostrar segundo
 [Show names]
 Mostrar nombres
 [Last]
@@ -50,8 +48,6 @@ Enviar Error
 Ha ocurrido un error. El protocolo reportó el siguiente error:
 [Try again]
 Inténtelo de nuevo
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Message Session]
@@ -82,18 +78,12 @@ El usuario comienza
 Avisos
 [Options]
 Opciones
-[Options]
-Opciones
 [Other]
 Otros
 [Add new rooms to group:]
 Añadir nuevas habitaciones en el grupo:
 [pixels]
 Pixel
-[pixels]
-Pixel
-[Log Options]
-Opciones de registro
 [Log Options]
 Opciones de registro
 [Your name]
@@ -122,12 +112,8 @@ Utilice los colores por defecto
 Usar colores personalizados
 [Text]
 Texto
-[Text]
-Texto
 [Background]
 Fondo
-[Background]
-Background
 [Timeout (s)]
 Tiempo de espera (s)
 [OK]
@@ -215,8 +201,6 @@ Deja (10x10)
 NickChange (10x10)
 [Group Chats]
 Conversaciones en grupo
-[Group Chats]
-Grupo de Foros
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Mensajería
@@ -227,8 +211,6 @@ Añadir contacto
 Menú del Usuario
 [User Details]
 Información del usuario
-[User Details]
-Datos del Usuario
 [History]
 Historia
 [No word to look up]
@@ -255,8 +237,6 @@ El archivo enviado
 [File received]
 Recibido Archivo
 ;file \plugins\Scriver\src\msgoptions.cpp
-[General]
-General
 [General]
 General
 [Group Chat Log]
@@ -343,8 +323,6 @@ En el teléfono
 ** Nuevos contactos **
 [** Unknown contacts **]
 ** ** Contactos Desconocida
-[Show balloon popup (unsupported system)]
-Mostrar globo emergente (sistema incompatible)
 [Show balloon popup (unsupported system)]
 Mostrar globo emergente (sistema incompatible)
 [Message Sessions]

@@ -24,8 +24,6 @@ Introduzca la contraseña
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Date of birth:]
 Fecha de nacimiento:
 [Gender:]
@@ -70,12 +68,8 @@ Hombre
 ;file \protocols\Skype\src\skype_events.cpp
 [Network]
 Red
-[Network]
-red
 [Contacts]
 Contactos
-[General]
-General
 [General]
 General
 ;file \protocols\Skype\src\skype_icons.cpp

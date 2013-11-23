@@ -12,8 +12,6 @@ OK
 Registrarse
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Close]
 Cerrar
 [Use default colors]
@@ -32,8 +30,6 @@ Personalizado
 ;file \plugins\Quotes\src\Forex.cpp
 [Network]
 Red
-[Network]
-red
 ;file \plugins\Quotes\src\HTTPSession.cpp
 ;file \plugins\Quotes\src\IconLib.cpp
 ;file \plugins\Quotes\src\ImportExport.cpp

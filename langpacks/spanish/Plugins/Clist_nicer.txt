@@ -36,8 +36,6 @@ Preguntar antes de eliminar contactos
 Deshabilitar el icono parpadea
 [System tray icon]
 Icono de la bandeja del sistema
-[System tray icon]
-Icono de la bandeja del sistema
 [Single click interface]
 interfaz de un solo clic
 [Always show status in tooltip]
@@ -176,8 +174,6 @@ Mostrar biseles en los paneles
 Mostrar indicador de agarre cambiar el tamaño
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Apply]
 Aplicar
 [Protocol]
@@ -225,8 +221,6 @@ Ocultar Miranda
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 General
-[General]
-General
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Accounts]
@@ -260,12 +254,8 @@ Nombre
 estado
 [Background]
 Fondo
-[Background]
-Background
 [Contacts]
 Contactos
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 ;file \plugins\Clist_nicer\src\clistmenus.cpp

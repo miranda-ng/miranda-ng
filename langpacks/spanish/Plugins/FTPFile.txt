@@ -26,14 +26,10 @@ Nick
 Cerrar
 [Options]
 Opciones
-[Options]
-Opciones
 [Select All]
 Seleccionar todo
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Rename]
@@ -57,8 +53,6 @@ Borrar todos
 ;file \plugins\FTPFileYM\src\options.cpp
 [Accounts]
 Cuentas
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 ;file \plugins\FTPFileYM\src\serverlist.cpp

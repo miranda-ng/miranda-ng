@@ -49,8 +49,6 @@ Notas
 De entrada
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Help]
 Ayuda
 [Variables Help]

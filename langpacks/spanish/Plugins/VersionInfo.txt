@@ -10,8 +10,6 @@
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Username]
 Nombre de usuario
 [Close]

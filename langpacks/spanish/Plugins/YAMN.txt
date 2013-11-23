@@ -21,17 +21,11 @@ Contraseña:
 [Port:]
 Puerto:
 [Default]
-por defecto
-[Default]
 Predeterminado
 [Name:]
 Nombre
 [Options]
 Opciones
-[Options]
-Opciones
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Offline]
@@ -77,12 +71,8 @@ Desconectado
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Red
-[Network]
-red
 [Accounts]
 Cuentas
-[General]
-General
 [General]
 General
 [Plugins]

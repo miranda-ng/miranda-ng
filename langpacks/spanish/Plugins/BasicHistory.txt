@@ -20,8 +20,6 @@ Nombre
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 Ver &Historia
@@ -54,8 +52,6 @@ Eliminar
 Eliminar grupo
 [Options]
 Opciones
-[Options]
-Opciones
 [Filters]
 Filtros
 [Fonts & Colors]
@@ -75,8 +71,6 @@ Solicitud de autorización
 Mensaje ventanas - IM
 [Searching]
 Búsqueda
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 [Find]

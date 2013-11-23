@@ -12,8 +12,6 @@ Seleccione los contactos que se envíe:
 &Enviar
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Add to &group:]
 Agregar al &grupo:
 [&Add]
@@ -26,8 +24,6 @@ Ha ocurrido un error. El protocolo reportó el siguiente error:
 Inténtelo de nuevo
 [User Details]
 Información del usuario
-[User Details]
-Datos del Usuario
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]
 Contactos

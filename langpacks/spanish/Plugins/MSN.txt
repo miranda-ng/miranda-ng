@@ -56,8 +56,6 @@ Deshabilitar la lista de notificaciones de contacto
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [MSN Delete Contact]
 MSN Eliminar contacto
 [Remove from Hotmail Address book]
@@ -144,8 +142,6 @@ IP información disponible sólo después de anunciarse
 MSN Protocolo requiere tiempo de espera de mensaje para ser no menos de 60 seg. Corrija el valor de tiempo de espera.
 [Network]
 Red
-[Network]
-red
 [Server list]
 Servidor de listas
 ;file \protocols\MSN\src\msn_p2p.cpp

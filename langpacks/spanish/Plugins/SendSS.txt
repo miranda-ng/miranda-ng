@@ -39,8 +39,6 @@ Ignorar
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Default]
-por defecto
-[Default]
 Predeterminado
 [Help]
 Ayuda

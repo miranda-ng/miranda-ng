@@ -8,8 +8,6 @@
 ;file \plugins\Ping\res\ping.rc
 [Network]
 Red
-[Network]
-red
 [Reply]
 Responder
 [Row height:]
@@ -22,8 +20,6 @@ Quitar
 Editar
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Port:]

@@ -14,8 +14,6 @@ Etiquetas:
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Type:]
 Tipo:
 [User:]
@@ -38,8 +36,6 @@ Editor de listas
 Lista editor\nVer y modificar la lista de contactos del lado del servidor.
 [Username:]
 Nombre de usuario:
-[Username:]
-Username:
 [Priority:]
 Prioridad:
 [Use hostname as resource]
@@ -490,8 +486,6 @@ solicitud de habitación lista ha agotado el tiempo.
 <no nick>
 [Loading...]
 Cargando...
-[Loading...]
-Cargando...
 [Please wait for room list to download.]
 Por favor, espere a que la sala de lista para descargar.
 [Please specify group chat directory first.]
@@ -723,8 +717,6 @@ Aceptar sólo en la banda de transferencia de archivos de entrada (no revelan pr
 Aceptar peticiones de autenticación HTTP (XEP-0070)
 [General]
 General
-[General]
-General
 [Autoaccept multiuser chat invitations]
 Autoaccept multiusuario invitaciones para chatear
 [Automatically join bookmarks on login]
@@ -759,10 +751,6 @@ XML for MS Excel (UTF-8 encoded)
 Conectando...
 [Network]
 Red
-[Network]
-red
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 [Public XMPP Network]

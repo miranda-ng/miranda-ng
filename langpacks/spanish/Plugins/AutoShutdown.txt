@@ -14,17 +14,11 @@ Configurar
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Background]
 Fondo
-[Background]
-Background
 ;file \plugins\AutoShutdown\src\main.cpp
 ;file \plugins\AutoShutdown\src\options.cpp
-[Events]
-Eventos
 [Events]
 Eventos
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp

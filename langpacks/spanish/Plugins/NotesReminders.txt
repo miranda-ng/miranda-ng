@@ -37,6 +37,4 @@ Notas
 ;file \plugins\NotesAndReminders\src\options.cpp
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Default]
-por defecto
-[Default]
 Predeterminado

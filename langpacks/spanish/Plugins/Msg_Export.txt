@@ -28,8 +28,6 @@ Nick
 Historia
 [General]
 General
-[General]
-General
 ;file \plugins\Msg_Export\src\utils.cpp
 [(Unknown Contact)]
 (contacto desconocido)

@@ -14,8 +14,6 @@ Quitar
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [URL]
 URL
 [Login]
@@ -31,7 +29,5 @@ Restablecer
 Error 
 [Network]
 Red
-[Network]
-red
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp

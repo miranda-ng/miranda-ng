@@ -58,8 +58,6 @@ Mosaico horizontal
 Mosaico vertical
 [Scroll with text]
 Vaya con el texto
-[Scroll with text]
-Vaya con el texto
 [Stretch proportionally]
 Estire proporcionalmente
 [Use Windows Colors]
@@ -106,8 +104,6 @@ W x H: 0 x 0 Pixel
 Mostrar los contactos en grupos
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Protocol]
@@ -185,8 +181,6 @@ Coloque los usuarios en línea de los grupos
 [Gamma correction]
 Corrección de gamma
 [Default]
-por defecto
-[Default]
 Predeterminado
 [Full selection]
 selección completa
@@ -222,8 +216,6 @@ mostrar el resultado de retraso
 ocultar retraso
 [Hide method]
 Ocultar método
-[pixels]
-Pixel
 [pixels]
 Pixel
 [keep on screen]
@@ -294,8 +286,6 @@ segundo, cuando estados diferentes
 Mostrar iconos múltiples
 [Only when statuses differ]
 Sólo cuando estados diferentes
-[System tray icon]
-Icono de la bandeja del sistema
 [System tray icon]
 Icono de la bandeja del sistema
 [System tray icon mode]
@@ -432,8 +422,6 @@ Mostrar tercera línea
 Dibuje caritas en la tercera línea
 [Options]
 Opciones
-[Options]
-Opciones
 [Add container]
 Añadir contenedor
 [Remove container]
@@ -558,8 +546,6 @@ Evento área de texto
 Vista actual de modo de texto
 [Background]
 Fondo
-[Background]
-Background
 [Hot text]
 Caliente el texto
 [Quick search text]
@@ -574,8 +560,6 @@ Marco de texto del título
 Barra de estado de texto
 [3rd party frames transparent back color]
 3º partido de vuelta de color transparente
-[General]
-General
 [General]
 General
 [List]
@@ -651,8 +635,6 @@ Póngase en contacto con alta tasa de
 [Show even if offline]
 Mostrar aunque en línea
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
-[Text]
-Texto
 [Text]
 Texto
 [Extra icons]

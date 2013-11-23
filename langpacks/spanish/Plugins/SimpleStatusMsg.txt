@@ -48,10 +48,6 @@ Cierre en %d
 estado
 [General]
 General
-[General]
-General
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
@@ -75,7 +71,5 @@ Me estoy escondiendo de la mafia.
 Eso va a ser el teléfono.
 [Mmm... food.]
 Mmm... la comida.
-[idleeeeeeee]
-idleeeeeeee
 [idleeeeeeee]
 ocioso

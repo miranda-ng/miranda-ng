@@ -10,18 +10,12 @@
 Popup opciones
 [Background]
 Fondo
-[Background]
-Background
-[Text]
-Texto
 [Text]
 Texto
 [Filters]
 Filtros
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp

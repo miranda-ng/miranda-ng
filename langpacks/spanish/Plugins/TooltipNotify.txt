@@ -10,8 +10,6 @@
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Online]
 En línea
 [Offline]

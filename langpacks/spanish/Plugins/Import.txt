@@ -34,8 +34,6 @@ Ahora la importación de...
 Asistente para importación de la Información
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Import all contacts and all messages]
 Importar todos los contactos y mensajes de todos los
 [Only import contacts]

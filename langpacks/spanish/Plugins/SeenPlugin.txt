@@ -34,8 +34,6 @@ Cuentas a seguir:
 Utilice pop-ups
 [Text]
 Texto
-[Text]
-Texto
 [Online]
 En línea
 [Away]

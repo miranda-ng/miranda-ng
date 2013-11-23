@@ -8,10 +8,6 @@
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Text]
-Texto
 [Text]
 Texto
 ;file \plugins\PackUpdater\Src\Events.cpp

@@ -8,8 +8,6 @@
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Opciones
-[Options]
-Opciones
 [Window]
 Ventana
 [Max width:]
@@ -56,8 +54,6 @@ Marco o el prefijo:
 Traducción:
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Item]
@@ -287,8 +283,6 @@ Viento:
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Fondo
-[Background]
-Background
 [Dividers]
 Divisores
 [Labels]

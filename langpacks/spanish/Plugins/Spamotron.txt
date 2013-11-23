@@ -10,8 +10,6 @@
 Mensaje saliente
 [Background]
 Fondo
-[Background]
-Background
 ;file \plugins\Spamotron\src\bayes.cpp
 ;file \plugins\Spamotron\src\common.h
 ;file \plugins\Spamotron\src\options.cpp

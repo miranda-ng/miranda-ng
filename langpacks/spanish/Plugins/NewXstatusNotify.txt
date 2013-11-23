@@ -60,10 +60,6 @@ Deshabilitar todas las
 Habilitar todas las
 [Background]
 Fondo
-[Background]
-Background
-[Text]
-Texto
 [Text]
 Texto
 [Use custom colors]
@@ -98,8 +94,6 @@ Restablecer
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Disable globally]
 Desactivar el mundo
 [Disable only if I change global status]
@@ -116,8 +110,6 @@ Mantenga los acontecimientos de la historia
 Prevenir los registros idénticos
 [On opening ML:]
 Al abrir ML:
-[General]
-General
 [General]
 General
 [Accounts]

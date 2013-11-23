@@ -14,8 +14,6 @@ Nombre personalizado:
 Grupo:
 [Options]
 Opciones
-[Options]
-Opciones
 [Send "You were added"]
 Enviar "Usted se agregaron"
 [Send authorization request]

@@ -20,8 +20,6 @@ Compartir
 Cancelar
 [User Details]
 Información del usuario
-[User Details]
-Datos del Usuario
 [Automatically set 'Ignore status change' flag]
 Se ajusta automáticamente " No haga caso de cambio de estado " bandera
 [Contacts Settings]
@@ -32,10 +30,6 @@ El uso más grandes avatares
 Carga de los contactos con ' El móvil ' estado de
 [Text]
 Texto
-[Text]
-Texto
-[Default]
-por defecto
 [Default]
 Predeterminado
 [News feeds]
@@ -50,8 +44,6 @@ Tiempo de espera (seg.)
 Usar las notificaciones de globo en la bandeja del sistema en lugar de ventanas emergentes
 [News Feed types to notify:]
 Tipos News Feed para notificar a:
-[Advanced Settings]
-Configuración avanzada
 [Advanced Settings]
 Configuración avanzada
 [Force secure (HTTPS) connection]
@@ -82,10 +74,6 @@ Tiempo de espera de la hora de enviar mensajes.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Por favor, introduzca un nombre de usuario.
-[Please enter a username.]
-Por favor, introduzca un nombre de usuario.
-[Please enter a password.]
-Por favor, introduzca una contraseña.
 [Please enter a password.]
 Por favor, introduzca una contraseña.
 ;file \protocols\FacebookRM\src\constants.h
@@ -119,14 +107,8 @@ Noticias RSS
 otros eventos
 [Network]
 Red
-[Network]
-red
 [Advanced]
 Avanzada
-[Advanced]
-Avanzada
-[Events]
-Eventos
 [Events]
 Eventos
 ;file \protocols\FacebookRM\src\theme.cpp

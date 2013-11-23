@@ -14,10 +14,6 @@ Nick:
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[General]
-General
 [General]
 General
 [Align text to right]
@@ -40,8 +36,6 @@ Izquierda:
 derecha:
 [Custom size:]
 Tamaño personalizado:
-[pixels]
-Pixel
 [pixels]
 Pixel
 [Allow it to grow]
@@ -88,8 +82,6 @@ estado
 Mis datos
 [Background]
 Fondo
-[Background]
-Background
 [Show My Details]
 Mostrar detalles
 [Enable Listening To for %s]

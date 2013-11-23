@@ -44,8 +44,6 @@ Mostrar como ocupado
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [&Deny]
 &Negar
 [&Cancel]
@@ -94,8 +92,6 @@ Usted necesita estar conectado a Yahoo a quitar de la lista de ignorados.
 Por favor, seleccione un amigo en la lista de ignorados para eliminar.
 [Network]
 Red
-[Network]
-red
 [Ignore List]
 La lista de ignorados
 ;file \protocols\Yahoo\src\proto.cpp

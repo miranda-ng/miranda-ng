@@ -8,13 +8,9 @@
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [OK]
 OK
 ;file \protocols\WhatsApp\src\connection.cpp
-[Please enter a password.]
-Por favor, introduzca una contraseña.
 [Please enter a password.]
 Por favor, introduzca una contraseña.
 ;file \protocols\WhatsApp\src\dialogs.cpp

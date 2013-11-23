@@ -53,6 +53,4 @@ Bold
 ;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Red
-[Network]
-red
 ;file \protocols\AimOscar\src\utility.cpp

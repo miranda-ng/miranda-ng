@@ -52,8 +52,6 @@ Añadir a todos los contactos (Incluye configuración)
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Edit Setting]
 Editar Marco
 [Value Name:]

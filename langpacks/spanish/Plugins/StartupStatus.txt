@@ -10,12 +10,8 @@ StartupStatus, le permite definir el estado Miranda debe establecer en el arranq
 ;file \Plugins\StatusPlugins\resource.rc
 [General]
 General
-[General]
-General
 [Close]
 Cerrar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Profile]
@@ -36,8 +32,6 @@ Color del texto
 Usar colores de Windows
 [Use default colors]
 Utilice los colores por defecto
-[Events]
-Eventos
 [Events]
 Eventos
 [Custom]
@@ -98,8 +92,6 @@ Me estoy escondiendo de la mafia.
 Eso va a ser el teléfono.
 [Mmm... food.]
 Mmm... la comida.
-[idleeeeeeee]
-idleeeeeeee
 [idleeeeeeee]
 ocioso
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

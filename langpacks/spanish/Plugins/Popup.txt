@@ -32,8 +32,6 @@ Dibuje las fronteras avatar
 Dibuje las fronteras para los avatares semitransparentes demasiado
 [pixels]
 Pixel
-[pixels]
-Pixel
 [Enable avatar updates]
 Habilitar las actualizaciones avatar
 [Start the popups in the monitor with]
@@ -66,8 +64,6 @@ Distancia entre pop-ups
 Configurar la zona emergente
 [Close]
 Cerrar
-[General]
-General
 [General]
 General
 [Enable popup actions]
@@ -200,8 +196,6 @@ Emergente de ubicación
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Popup Group]
 Grupo de pop-ups
 [Favorite Contact]
@@ -223,8 +217,6 @@ Añadir un contacto permanente
 Acciones
 [Contacts]
 Contactos
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 ;file \plugins\Popup\src\opt_adv.cpp

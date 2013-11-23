@@ -10,8 +10,6 @@
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Remove]
 Quitar
 [Install Database Settings]

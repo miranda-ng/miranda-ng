@@ -8,14 +8,10 @@
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Nombre de usuario:
-[Username:]
-Username:
 [Password:]
 Contraseña:
 [Create new account]
 Crear cuenta nueva
-[Options]
-Opciones
 [Options]
 Opciones
 [Port:]
@@ -30,18 +26,12 @@ Servidor proxy:]
 El proxy requiere autorización
 [Background]
 Fondo
-[Background]
-Background
-[Text]
-Texto
 [Text]
 Texto
 [&Custom]
 &Personalizado
 [OK]
 OK
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Last name:]
@@ -68,16 +58,10 @@ El oxígeno de autenticación
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 General
-[General]
-General
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 [Network]
 Red
-[Network]
-red
 ;file \protocols\Tlen\src\tlen_svc.cpp
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Tlen Connection Error]
@@ -99,7 +83,5 @@ Conceder la autorización
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
-[Default]
-por defecto
 [Default]
 Predeterminado

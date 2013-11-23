@@ -8,8 +8,6 @@
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Every:]
 Todos:
 ;file \plugins\Db_autobackups\src\backup.cpp

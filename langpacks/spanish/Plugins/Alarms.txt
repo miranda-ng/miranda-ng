@@ -14,8 +14,6 @@ Editar
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Description:]
 Descripción:
 [Actions]
@@ -37,8 +35,6 @@ Una vez
 ;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 Fondo
-[Background]
-Background
 [Window]
 Ventana
 ;file \plugins\Alarms\src\frame.cpp
@@ -48,7 +44,5 @@ Marcos
 ;file \plugins\Alarms\src\options.cpp
 [Error]
 Error 
-[Events]
-Eventos
 [Events]
 Eventos

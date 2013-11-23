@@ -10,10 +10,6 @@
 Crear una nueva cuenta de Twitter
 [Username:]
 Nombre de usuario:
-[Username:]
-Username:
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Misc. Options]
@@ -36,8 +32,6 @@ Utilice colores Popup
 Usar colores personalizados
 [Text]
 Texto
-[Text]
-Texto
 [Timeouts]
 Tiempos de espera
 [Custom]
@@ -52,8 +46,6 @@ OK
 Enviar Tweet...
 [Network]
 Red
-[Network]
-red
 ;file \protocols\Twitter\src\theme.cpp
 [Visit Homepage]
 Visita la Página de inicio

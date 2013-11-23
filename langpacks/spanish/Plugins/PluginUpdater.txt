@@ -8,10 +8,6 @@
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Text]
-Texto
 [Text]
 Texto
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp

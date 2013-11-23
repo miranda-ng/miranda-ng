@@ -14,8 +14,6 @@ Restablecer
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Sounds]
 Sonidos

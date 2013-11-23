@@ -10,12 +10,8 @@
 Cerrar
 [Options]
 Opciones
-[Options]
-Opciones
 [Visibility]
 Visibilidad
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Background color]
@@ -26,8 +22,6 @@ Color del texto
 Usar colores de Windows
 [seconds]
 segundo
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Alerts]
@@ -64,10 +58,6 @@ Descripción:
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Red
-[Network]
-red
-[General]
-General
 [General]
 General
 ;file \plugins\Weather\src\weather_popup.cpp

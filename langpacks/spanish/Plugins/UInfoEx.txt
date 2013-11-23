@@ -18,8 +18,6 @@ Actualización
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Apply]
 Aplicar
 [Nick:]
@@ -72,16 +70,10 @@ Ingrese su número de teléfono\ny no te preocupes por el formateo.
 Escriba una categoría para este número:
 [Enter country, area code and phone number:]
 Introduzca el país, código de área y número de teléfono:
-[Enter country, area code and phone number:]
-Introduzca el país, código de área y número de teléfono:
-[Or enter a full international number:]
-O escriba un número internacional completo:
 [Or enter a full international number:]
 O escriba un número internacional completo:
 [Phone can receive SMS text messages]
 Teléfono puede recibir mensajes de texto SMS
-[Phone can receive SMS text messages]
-perfeccionar puede recibir mensajes de texto SMS
 [Add E-Mail]
 Agregar E-Mail
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
@@ -381,8 +373,6 @@ Ninguna página se han añadido. Cancelación de la creación de diálogo
 Detalles de diálogo no pudo ser creado. Volviendo de error es %d.
 [General]
 General
-[General]
-General
 [Contact (private)]
 Contacto (privada)
 [Anniversaries]
@@ -413,8 +403,6 @@ Estado civil
 Exportación: Módulos
 [Export: Folder]
 Exportación: Carpeta
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Details Infobar]
@@ -547,8 +535,6 @@ UserInfo (por defecto)
 Este es el mensaje recordatorio
 [Contacts]
 Contactos
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 [Details Dialog]

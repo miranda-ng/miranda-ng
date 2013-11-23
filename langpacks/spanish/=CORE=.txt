@@ -9,8 +9,6 @@ Especifique el nombre de la cuenta interna (opcional)
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Add %s]
 Agregar %s
 [&Add]
@@ -25,8 +23,6 @@ Enviar solicitud de autorización
 Nombre personalizado:
 [Group:]
 Grupo:
-[Options]
-Opciones
 [Options]
 Opciones
 [Authorization request]
@@ -63,8 +59,6 @@ Nick:
 En primer lugar:
 [Last:]
 Última:
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 [Advanced >>]
@@ -231,8 +225,6 @@ Puerto:
 Utilice Personalizar Login (nombre de usuario de dominio recogido de forma automática)
 [Username:]
 Nombre de usuario:
-[Username:]
-Username:
 [Password:]
 Contraseña:
 [Resolve hostnames through proxy]
@@ -325,8 +317,6 @@ Mover a la barra de estado
 Inserte el separador
 [Service:]
 Servicio:
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Set]
@@ -502,8 +492,6 @@ El usuario comienza
 Avisos
 [Log Options]
 Opciones de registro
-[Log Options]
-Opciones de registro
 [Log timestamp]
 Registro de fecha y hora
 [Timestamp]
@@ -542,12 +530,8 @@ Pop-ups para el plugin de chat
 Tiempo de espera (s)
 [Text]
 Texto
-[Text]
-Texto
 [Background]
 Fondo
-[Background]
-Background
 [List]
 Lista
 [&Message]
@@ -609,8 +593,6 @@ Mostrar iconos múltiples
 Sólo cuando estados diferentes
 [Contact List]
 Lista de contactos
-[System tray icon]
-Icono de la bandeja del sistema
 [System tray icon]
 Icono de la bandeja del sistema
 [System tray icon when using multiple protocols]
@@ -695,8 +677,6 @@ Búsqueda rápida en grupos abiertos sólo]
 Guión por grupos:
 [pixels]
 Pixel
-[pixels]
-Pixel
 [Visual]
 Visual
 [Scroll list smoothly]
@@ -731,8 +711,6 @@ Estiramiento de la altura
 Mosaico horizontal
 [Tile vertically]
 Mosaico vertical
-[Scroll with text]
-Vaya con el texto
 [Scroll with text]
 Vaya con el texto
 [Stretch proportionally]
@@ -971,8 +949,6 @@ minutos de edad
 Mostrar los cambios de estado
 [Show seconds]
 Mostrar segundo
-[Show seconds]
-Mostrar segundo
 [Load History Events]
 Eventos de carga de la Historia
 [Show Formatting]
@@ -1007,16 +983,10 @@ Buscar...
 Agregar Número de teléfono
 [Enter country, area code and phone number:]
 Introduzca el país, código de área y número de teléfono:
-[Enter country, area code and phone number:]
-Introduzca el país, código de área y número de teléfono:
-[Or enter a full international number:]
-O escriba un número internacional completo:
 [Or enter a full international number:]
 O escriba un número internacional completo:
 [Phone can receive SMS text messages]
 Teléfono puede recibir mensajes de texto SMS
-[Phone can receive SMS text messages]
-perfeccionar puede recibir mensajes de texto SMS
 [Add E-Mail Address]
 Agregar E-Mail
 [%s: User Details]
@@ -1127,8 +1097,6 @@ Me estoy escondiendo de la mafia.
 Eso va a ser el teléfono.
 [Mmm... food.]
 Mmm... la comida.
-[idleeeeeeee]
-idleeeeeeee
 [idleeeeeeee]
 ocioso
 [Status]
@@ -1373,14 +1341,10 @@ NickChange (10x10)
 Mensajería
 [Group Chats]
 Conversaciones en grupo
-[Group Chats]
-Grupo de Foros
 [Group Chats Log]
 Grupo de registro de conversación
 [Options for using a tabbed interface]
 Opciones para el uso de una interfaz con pestañas
-[Appearance and functionality of chat room windows]
-Apariencia y funcionalidad de chat de ventanas de la sala
 [Appearance and functionality of chat room windows]
 Apariencia y funcionalidad de chat de ventanas de la sala
 [Appearance of the message log]
@@ -1395,8 +1359,6 @@ Seleccionar carpeta
 Mensaje de Sesiones
 [Group chats]
 Conversaciones en grupo
-[General]
-General
 [General]
 General
 [Chat Log]
@@ -1562,8 +1524,6 @@ Todos los archivos
 Los archivos ejecutables
 [Events]
 Eventos
-[Events]
-Eventos
 ;file \src\core\stdfile\filerecvdlg.cpp
 [My Received Files]
 Mis archivos recibidos
@@ -1682,8 +1642,6 @@ Registro de mensajes
 ** Nuevos contactos **
 [** Unknown contacts **]
 ** ** Contactos Desconocida
-[Show balloon popup (unsupported system)]
-Mostrar globo emergente (sistema incompatible)
 [Show balloon popup (unsupported system)]
 Mostrar globo emergente (sistema incompatible)
 [Messaging Log]
@@ -2015,8 +1973,6 @@ Seleccione el programa que se ejecute
 <Todas las conexiones>
 [Network]
 Red
-[Network]
-red
 ;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 El cliente no puede decodificar mensajes de acogida. Posibles causas: Host no es compatible con SSL o requiere no existentes paquete de seguridad
@@ -2110,8 +2066,6 @@ Grupo (Cerrado)
 Conexión
 [User Details]
 Información del usuario
-[User Details]
-Datos del Usuario
 [History]
 Historia
 [Down Arrow]

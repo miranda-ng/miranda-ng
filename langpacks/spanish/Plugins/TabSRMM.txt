@@ -12,8 +12,6 @@ Usted puede agregar el usuario por su nombre de usuario o su identificación. Lo
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Show these events]
 Mostrar los eventos
 [Actions]
@@ -36,8 +34,6 @@ Desconecta
 El usuario comienza
 [Notices]
 Avisos
-[Options]
-Opciones
 [Options]
 Opciones
 [Add new rooms to group:]
@@ -98,8 +94,6 @@ Resalta el texto del mensaje
 Activar resaltado de mensajes de texto
 [Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
 Las palabras para destacar, como comodines * y ? están permitidas, las entradas por separado con varios espacios. Déjelo vacío si sólo desea resaltar su apodo propio.
-[Highlight messages containing my own nick name]
-Resaltar mensajes que contengan mi nombre propio nick
 [Highlight messages containing my own nick name]
 Resaltar mensajes que contengan mi nombre propio nick
 [List]
@@ -169,8 +163,6 @@ Opciones marcados con un asterisco (*) sólo tendrá efecto después de Miranda 
 Más información sobre los ajustes avanzados
 [Revert to (safe) defaults]
 Volver a la (seguridad) por defecto
-[Revert to (safe) defaults]
-Volver a la (seguridad) por defecto
 [Event notify options]
 Caso, comunicará las opciones
 [Limit message preview to]
@@ -179,12 +171,8 @@ Límite de vista previa del mensaje de
 Mostrar sólo las notificaciones de eventos cuando mi estado es...
 [Text]
 Texto
-[Text]
-Texto
 [Background]
 Fondo
-[Background]
-Background
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 Tiempo de espera (segundos, 0 = por defecto, -1 = no hay tiempo de espera)
 [Group chats]
@@ -223,8 +211,6 @@ No haga caso de envío de los tiempos de espera
 Cargue sólo la historia real
 [Always trim message log to]
 Siempre corte mensaje de registro a
-[Events]
-Eventos
 [Events]
 Eventos
 [Only show tab bar when it's needed]
@@ -436,11 +422,7 @@ Utilice la interfaz de usuario Aero de elementos (no sólo cuando se utiliza un 
 [Use Windows 7 task bar enhancements (restart required)]
 El uso de Windows 7 tarea mejoras bar (requiere reiniciar)
 [...is &typing]
-... Está &escribiendo
-[...is &typing]
 ...esta &escribiendo
-[...stopped t&yping]
-... Dejó de e&scribir
 [...stopped t&yping]
 ... Dejó de escrib&ir
 [U&se Popup colors]
@@ -630,8 +612,6 @@ Cerca de contenedores
 [Show Contact Picture]
 Mostrar Imagen del contacto
 [Default]
-por defecto
-[Default]
 Predeterminado
 [Hidden for this Contact]
 Oculto para este contacto
@@ -800,10 +780,6 @@ Seleccione el color de la fuente
 Enviar mensaje\nGlobo Mostrar información sobre herramientas en la bandeja del sistema
 [Quote last message OR selected text]
 Cita el último mensaje de texto o seleccionar
-[Quote last message OR selected text]
-Cita el último mensaje de texto o seleccionar
-[Message Log Options]
-Opciones de registro de mensajes
 [Message Log Options]
 Opciones de registro de mensajes
 [View User's History]
@@ -973,8 +949,6 @@ Mostrar detalles del usuario
 Activar barra de herramientas
 [Toggle info panel]
 Activar panel de información
-[Toggle info panel]
-Activar panel de información
 [Toggle text direction]
 Cambiar dirección del texto
 [Toggle multi send]
@@ -1099,8 +1073,6 @@ O bien el empujón plugin no está instalado o protocolo del contacto no es comp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 ¿Quieres leer también plantillas de mensajes del tema?\nAtención: Esto sobrescribirá el conjunto plantilla almacenada que pueda afectar el aspecto de tu ventana de mensajes de manera significativa.\nelegir a cancelar para no cargar nada en absoluto.
 [IEView plugin]
-IEView-Plugin
-[IEView plugin]
 IEView plugin
 [History++ plugin]
 History++-Plugin
@@ -1110,8 +1082,6 @@ Ha elegido usar un plugin externo para visualizar el historial de mensajes en la
 ** Nuevos contactos **
 [** Unknown contacts **]
 ** ** Contactos Desconocida
-[Show balloon popup (unsupported system)]
-Mostrar globo emergente (sistema incompatible)
 [Show balloon popup (unsupported system)]
 Mostrar globo emergente (sistema incompatible)
 [Always, but no popup when window is focused]
@@ -1128,8 +1098,6 @@ Cerrar u ocultar la ventana, depende del botón de cierre de ajuste anterior
 Mensaje de Sesiones
 [General]
 General
-[General]
-General
 [Tabs and layout]
 Aquí y el diseño
 [Containers]
@@ -1142,8 +1110,6 @@ Escribiendo Notifiqueme
 Ventana de ajustes de diseño
 [Group Chats]
 Conversaciones en grupo
-[Group Chats]
-Grupo de Foros
 [Log formatting]
 Registro de formato
 [Events and filters]
@@ -1354,8 +1320,6 @@ Eliminar ventanas emergentes de un contacto cuando la ventana del mensaje se cen
 Eliminar ventanas emergentes de un contacto cuando comienza a escribir una respuesta
 [Remove popups for a contact when I send a reply]
 Eliminar ventanas emergentes de un contacto cuando envío una respuesta
-[System tray icon]
-Icono de la bandeja del sistema
 [System tray icon]
 Icono de la bandeja del sistema
 [Left click actions (popups only)]
@@ -1713,8 +1677,6 @@ NickChange (10x10)
 Grupo ventana de chat
 [Group chat log]
 Chat de grupo de registro
-[Appearance and functionality of chat room windows]
-Apariencia y funcionalidad de chat de ventanas de la sala
 [Appearance and functionality of chat room windows]
 Apariencia y funcionalidad de chat de ventanas de la sala
 [Appearance of the message log]

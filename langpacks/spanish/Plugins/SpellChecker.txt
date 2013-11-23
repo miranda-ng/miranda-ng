@@ -30,8 +30,6 @@ Usar variables en la corrección
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Spell Checker]
 Corrector ortográfico
 [Default language:]
@@ -46,8 +44,6 @@ Omitir palabras en MAYÚSCULAS
 Preguntar antes de enviar un mensaje con errores de ortografía
 [Download more dictionaries]
 Descargar más diccionarios
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 [Underline type:]
@@ -102,8 +98,6 @@ Corrección
 Diccionarios
 [Custom Dictionaries]
 Diccionarios personalizados
-[Flags DLL]
-Banderas DLL
 [Flags DLL]
 Banderas DLL
 [Enable/disable spell checker]

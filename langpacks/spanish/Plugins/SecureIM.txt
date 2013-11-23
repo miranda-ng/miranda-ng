@@ -10,29 +10,19 @@
 seg
 [Text]
 Texto
-[Text]
-Texto
-[Events]
-Eventos
 [Events]
 Eventos
 [Username:]
 Nombre de usuario:
-[Username:]
-Username:
 [Password:]
 Contraseña:
 [OK]
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Status]
 estado
 ;file \plugins\SecureIM\src\language.cpp
-[General]
-General
 [General]
 General
 [Name]

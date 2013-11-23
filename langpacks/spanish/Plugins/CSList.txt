@@ -8,8 +8,6 @@
 ;file \plugins\CSList\res\cslist.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 estado

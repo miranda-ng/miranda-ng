@@ -18,15 +18,9 @@ Contraseña:
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 Eventos
-[Events]
-Eventos
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada

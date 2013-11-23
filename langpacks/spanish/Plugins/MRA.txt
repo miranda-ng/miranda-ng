@@ -15,8 +15,6 @@ Configuración
 [Port:]
 Puerto:
 [Default]
-por defecto
-[Default]
 Predeterminado
 [Background color]
 Color de fondo
@@ -75,8 +73,6 @@ E-Mail-
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Red
-[Network]
-red
 [Files]
 Archivo
 ;file \protocols\MRA\src\Mra_proto.cpp

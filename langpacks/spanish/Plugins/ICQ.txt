@@ -16,18 +16,12 @@ Contraseña:
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Port:]
 Puerto:
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Messaging]
 Mensajería
-[Options]
-Opciones
 [Options]
 Opciones
 [Text Color]
@@ -94,8 +88,6 @@ Conceder la autorización
 ;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Network]
 Red
-[Network]
-red
 [Contacts]
 Contactos
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp

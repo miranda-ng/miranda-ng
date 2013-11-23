@@ -11,8 +11,6 @@
 Mensaje de Sesiones
 [General]
 General
-[General]
-General
 [Messages]
 Mensaje ventanas - IM
 [Accounts]

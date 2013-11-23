@@ -25,16 +25,12 @@ No
 Desconocida
 [General]
 General
-[General]
-General
 [Contacts]
 Contactos
 [Contact]
 Póngase en contacto con
 [Protocol]
 Protocolo
-[Default]
-por defecto
 [Default]
 Predeterminado
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp

@@ -58,16 +58,10 @@ Utilizar las opciones predeterminadas
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Options]
-Opciones
 [Options]
 Opciones
 [Background]
 Fondo
-[Background]
-Background
 [Points:]
 Puntos:
 [Color diff:]

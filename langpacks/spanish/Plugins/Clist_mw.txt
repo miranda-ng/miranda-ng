@@ -16,8 +16,6 @@ Mosaico horizontal
 Mosaico vertical
 [Scroll with text]
 Vaya con el texto
-[Scroll with text]
-Vaya con el texto
 [Stretch proportionally]
 Estire proporcionalmente
 [Warning!\r\nThis MenuObject not support user defined options.]
@@ -32,8 +30,6 @@ Servicio:
 Nombre
 [Set]
 Set
-[Default]
-por defecto
 [Default]
 Predeterminado
 [Delete Contact]
@@ -90,8 +86,6 @@ Sólo cuando estados diferentes
 Lista de contactos
 [System tray icon]
 Icono de la bandeja del sistema
-[System tray icon]
-Icono de la bandeja del sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema al utilizar protocolos múltiples
 [Contact List Sorting]
@@ -102,8 +96,6 @@ Anclar al escritorio
 Filas
 [Row height:]
 Alto de fila:
-[pixels]
-Pixel
 [pixels]
 Pixel
 [Gamma correction]
@@ -248,8 +240,6 @@ Divisores
 contactos fuera de línea a la que usted tiene una visibilidad diferente
 [Background]
 Fondo
-[Background]
-Background
 [Selected Text]
 Texto seleccionado
 [Hottrack Text]

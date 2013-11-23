@@ -69,7 +69,5 @@ Usted recibió un codazo
 ;file \plugins\Nudge\src\options.cpp
 [Events]
 Eventos
-[Events]
-Eventos
 [Window Shaking]
 Ventana de agitación

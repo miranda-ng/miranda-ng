@@ -44,8 +44,6 @@ on
 off
 [Network]
 Red
-[Network]
-red
 [&Clear all]
 &Borrar todos
 [Invites]
@@ -86,12 +84,8 @@ Cambiar el nombre de
 Editar
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
 [Flags]
 Banderas
-[Advanced]
-Avanzada
 [Advanced]
 Avanzada
 ;file \protocols\IRCG\src\output.cpp

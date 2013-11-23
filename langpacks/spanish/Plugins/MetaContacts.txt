@@ -18,14 +18,10 @@ Información
 Contactos
 [Options]
 Opciones
-[Options]
-Opciones
 [Function]
 Función
 [Contact List]
 Lista de contactos
-[Default]
-por defecto
 [Default]
 Predeterminado
 ;file \plugins\MetaContacts\src\addto.cpp
@@ -54,8 +50,6 @@ Error
 ;file \plugins\MetaContacts\src\meta_services.cpp
 [Message from %s]
 Mensaje del %s
-[General]
-General
 [General]
 General
 [History]
