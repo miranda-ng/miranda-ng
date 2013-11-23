@@ -155,17 +155,17 @@ Anuluj
 [Message Session]
 Sesja rozmowy
 [&User menu]
-Menu użytkownika
+&Menu użytkownika
 [User &details]
-Dane kontaktu
+&Dane kontaktu
 [&Emoticons]
-Emotikony
+&Emotikony
 [&Add]
-Dodaj
+Dod&aj
 [&History]
-Historia
+&Historia
 [&Quote]
-Cytuj
+&Cytuj
 [&OK]
 &OK
 [Send To All Tabs]
