@@ -1985,7 +1985,7 @@ ID пользователя:
 Удалить аватар с диска (возможно, необходимо для сброса, но удалит локальное изображение)?
 [Contact has no avatar]
 У контакта нет аватара
-[Num of points to define bkg:]
+[Number of points to define background:]
 Количество точек фона:
 [When setting avatars, always make it square]
 Сделать аватар квадратным

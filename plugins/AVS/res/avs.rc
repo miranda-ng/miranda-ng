@@ -45,7 +45,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Try to draw avatar background transparent (for images without transparency)",IDC_MAKE_TRANSPARENT_BKG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,17,278,12
-    LTEXT           "Num of points to define bkg:",IDC_BKG_NUM_POINTS_L,33,31,135,11
+    LTEXT           "Number of points to define background:",IDC_BKG_NUM_POINTS_L,33,31,135,11
     EDITTEXT        IDC_BKG_NUM_POINTS,173,30,36,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_BKG_NUM_POINTS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,209,30,11,12
     LTEXT           "Color difference allowed:",IDC_BKG_COLOR_DIFFERENCE_L,33,44,135,11
@@ -101,7 +101,7 @@ BEGIN
     CONTROL         "Set as hidden",IDC_HIDEAVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,122,186,11
     CONTROL         "Try to make picture background transparent",IDC_MAKETRANSPBKG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,133,186,11
-    LTEXT           "Num of points to define bkg:",IDC_BKG_NUM_POINTS_L,23,148,118,11
+    LTEXT           "Number of points to define background:",IDC_BKG_NUM_POINTS_L,23,148,118,11
     EDITTEXT        IDC_BKG_NUM_POINTS,145,146,42,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_BKG_NUM_POINTS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,187,147,11,12
     LTEXT           "Color difference allowed:",IDC_BKG_COLOR_DIFFERENCE_L,23,162,118,11
