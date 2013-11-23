@@ -29,9 +29,9 @@
 [Delete Contact]
 Видалити контакт
 [&Yes]
-Так
+&Так
 [&No]
-Ні
+&Ні
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Сховати зі списку, зберігши історію і параметри ігнорування та видимості
 [Use Options->Contacts->Ignore to unhide contacts.]
@@ -45,11 +45,11 @@
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Виберіть інший пріоритет показу імен (замість показу ніків):
 [Miranda NG Profile Manager]
-Менеджер профілів Miranda NG
+Менеджер профілів
 [&Run]
-Запуск
+&Запуск
 [&Exit]
-Вихід
+&Вихід
 [Start in Service Mode with]
 Запуск у сервісному режимі з
 [Find/Add Contacts]
@@ -71,7 +71,7 @@
 [Advanced >>]
 Розширений >>
 [&Search]
-Знайти
+&Знайти
 [More options]
 Ще параметри
 [Add to list]
@@ -101,7 +101,7 @@
 [No to all]
 Ні для всіх
 [&View contents]
-Показати вміст
+&Показати вміст
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Захист від небезпечних змін ввімкнено. При спробі небезпечної зміни налаштувань буде попередження.
 [Database Setting Change]
@@ -115,7 +115,7 @@
 [Do you want to allow this change?]
 Дозволити цю зміну?
 [&Allow all further changes to this section]
-Дозволити усі зміни у цьому розділі
+&Дозволити усі зміни у цьому розділі
 [Cancel Import]
 Скасувати імпорт
 [Database Import Complete]
@@ -129,9 +129,9 @@
 [&Delete]
 &Видалити
 [&Move/Rename]
-Перемістити/Перейменувати
+&Перемістити/Перейменувати
 [&Leave]
-Залишити
+&Залишити
 [Netlib Log Options]
 Опції журналу з'єднань
 [Show]
@@ -165,9 +165,9 @@
 [Sounds]
 Звуки
 [&Change...]
-Змінити...
+&Змінити...
 [&Preview]
-Тест
+&Тест
 [Download more sounds]
 Завантажити більше звуків
 [Sound Information]
@@ -183,9 +183,9 @@
 [Show category:]
 Категорія:
 [&Load icon set...]
-Вибрати набір значків...
+&Вибрати набір значків...
 [&Import icons >>]
-Імпорт значків >>
+&Імпорт значків >>
 [Download more icons]
 Завантажити більше значків
 [The following events are being ignored:]
@@ -231,7 +231,7 @@
 [To]
 До
 [<< &Import]
-<< Імпорт
+<< &Імпорт
 [To default status icons]
 Стандартні значки
 [Logging...]
@@ -319,7 +319,7 @@
 [Font st&yle:]
 С&тиль шрифту:
 [\nStyles and effects are disabled for this font.]
-Для цього шрифту налаштування стилів і ефектів вимкнено.
+\nДля цього шрифту налаштування стилів і ефектів вимкнено.
 [&Size:]
 &Розмір:
 [Effects]
@@ -335,7 +335,7 @@
 [AaBbYyZz]
 АаБбВвГг
 [Sc&ript:]
-Скрипт:
+Ск&рипт:
 [&Apply]
 &Застосувати
 [&Help]
@@ -395,9 +395,9 @@
 [Get more protocols...]
 Завантажити більше протоколів...
 [&Add...]
-Додати...
+&Додати...
 [&Edit]
-Змінити
+&Змінити
 [&Options]
 &Налаштування
 [&Upgrade]
@@ -447,29 +447,29 @@ Miranda NG перезапускається.\nЗачекайте...
 [&Hide/Show]
 С&ховати/Показати
 [E&xit]
-Вихід
+&Вихід
 [Nowhere]
 Ніде
 [&New Group]
-Створити групу
+&Створити групу
 [&Hide Offline Users]
-Сховати від'єднаних
+С&ховати від'єднаних
 [Hide &Offline Users out here]
-Сховати від'єднаних поза групою
+Сховати &від'єднаних поза групою
 [Hide &Empty Groups]
 Сховати порожні групи
 [Disable &Groups]
-Вимкнути групи
+Вимкнути &групи
 [Hide Miranda]
 Сховати список контактів
 [Group]
 Група
 [&New Subgroup]
-Створити підгрупу
+С&творити підгрупу
 [&Hide Offline Users in here]
-Сховати від'єднаних у групі
+Сховати &від'єднаних у групі
 [&Rename Group]
-Перейменувати групу
+&Перейменувати групу
 [&Delete Group]
 &Видалити групу
 [&Reset to default]
@@ -479,23 +479,23 @@ Miranda NG перезапускається.\nЗачекайте...
 [&Add to List]
 Додати до списку
 [User &details]
-Про користувача
+&Про користувача
 [Send &Message]
-Надіслати повідомлення
+Надіслати &повідомлення
 [Log]
 Журнал
 [&Copy]
-Копіювати
+&Копіювати
 [Co&py All]
 Коп&іювати все
 [Select &All]
-Виділити все
+Виділити &все
 [C&lear Log]
-Очистити журнал
+&Очистити журнал
 [Open in &new window]
-Відкрити у новому вікні
+Відкрити у &новому вікні
 [&Open in existing window]
-Відкрити у поточному вікні
+&Відкрити у поточному вікні
 [&Copy link]
 Копіювати по&силання
 [Cancel Change]

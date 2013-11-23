@@ -1890,7 +1890,7 @@ ID користувача:
 [Play sound]
 Грати звук
 [Loop sound]
-
+По колу
 Повторювати звук
 [Prefix:]
 Префікс:
@@ -1969,7 +1969,7 @@ ID користувача:
 [Number of backups to keep:]
 Кількість резервних копій:
 [ Track ]
-Відстеження\s
+ Відстеження\s
 [Protect the picture and prevent automatic avatars from overwriting it]
 Захистити зображення і не дозволяти аватарам його замінювати
 [Protect the picture]
@@ -1980,7 +1980,7 @@ ID користувача:
 Видалити зображення з диска (можливо, необхідно для скидання, але видалить локальне зображення)?
 [Contact has no avatar]
 У контакту немає аватар
-[Num of points to define bkg:]
+[Number of points to define background:]
 Кількість точок фону:
 [When setting аватари, always make it square]
 Зробити аватар квадратним
@@ -4047,7 +4047,7 @@ INI файли
 [Invalid codepage]
 Невірна кодова сторінка
 [Scheduler]
-Планувальник
+Планувач
 [ETA]
 Залишилося днів
 [Toolbar]
