@@ -6,11 +6,9 @@
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
-Створення та надсилання знімків екрану контакту.
+Створення та надсилання знімків екрану контактам.
 [Dialog]
 Діалог
-[OK]
-
 [All]
 Всі
 [None]
@@ -20,7 +18,7 @@
 [Send screenshot]
 Відправити знімок екрану
 [Send screenshot to\n<unknown>]
-Відправити знімок екрану \n<невідомо>
+Відправити знімок екрану\n<невідомо>
 [Ti&med capture]
 &Затримка захоплення
 [Time (secs):]
@@ -41,8 +39,6 @@
 &Захоплення
 [About]
 Інформація
-[%s\nv%s]
-
 [Credits >]
 Автори >
 [&Close]
@@ -56,15 +52,15 @@
 [Size (HxW):]
 Розмір (ВхШ):
 [Target Tool]
-Інструмент пріцілювання
+Інструмент прицілювання
 [GCHAT error]
 Помилка GCHAT
-[An unknown error has occured.]
+[An unknown error has occurred.]
 Невідома помилка.
 [Error]
 Помилка
 [Unable to initiate %s.]
-Не в змозі ініціювати %s.
+Не вдалося ініціювати %s.
 [MAPI error (%i):\n%s.]
 Помилка MAPI (%i):\n%s.
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
@@ -76,35 +72,35 @@
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
 Тип одержувача не MAPI_TO, MAPI_CC, або MAPI_BCC
 [One or more unspecified errors occurred]
-Одна чи декілька невизначених помилки
+Одна чи декілька невизначених помилок
 [There was insufficient memory to proceed]
 Недостатньо пам'яті для продовження
-[One or more recipients were invalid or did not resolve address to any]
-Одного або декілька одержувачів, були визнані недійсними або не дозволити звернутися в будь-який
+[One or more recipients were invalid or did not resolve to any address]
+Один або декілька одержувачів є недійсними або не відповідають жодній із вказаних адрес.
 [There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
-Не було ніякого входу в систему за замовчанням, і користувач не зміг увійти в систему, коли діалогове вікно входу в систему відображається
+Не виконано входу в систему за замовчанням, і користувач не зміг увійти в систему, коли відображалося діалогове вікно входу.
 [The text in the message was too large]
 Текст повідомлення був занадто великий
 [There were too many file attachments]
-Там було дуже багато вкладених файлів
+Забагато вкладених файлів
 [There were too many recipients]
-Там було дуже багато отримувачів
+Забагато одержувачів
 [A recipient did not appear in the address list]
-Одержувач не з'явиться в списку адрес
+Одержувача немає в списку адрес
 [The user canceled one of the dialog boxes]
 Користувач скасував одне з діалогових вікон
 [Unknown Error]
 Невідома помилка
 [FTPFile transfer]
-FTPFile передача
-[%s (%i):\nCould not add a to share the FTP File plugin.]
-%s (%i):\nНе сміг передати у нару плагіну FTP File.
+Передача FTPFile
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+Неможливо додати ресурс в плагін FTP File.
 [Could not start the HTTP Server plugin.]
-Не можу запустити плагін HTTP сервер.
-[%s (%i):\nCould not add a to share the HTTP Server plugin.]
-%s (%i):\nНе зміг передати у шару плагіну HTTP сервер.]
+Неможливо запустити плагін HTTP Server.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+Неможливо додати ресурс в плагін HTTP Server.
 [Upload server did not respond timely.]
-Обраний сервер не відповів вчасно.
+Сервер не відповів вчасно.
 [Retry]
 Ще раз
 [Yes]
@@ -112,19 +108,21 @@ FTPFile передача
 [No]
 Ні
 [Abort]
-Про
+Скасувати
 [Ignore]
 Ігнорувати
 [SendScreenshot - Error]
-Відправити знімок єкрану - помилка
+Помилка SendSS
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 Невиправна помилка, сервісу зображень не знайдено. Плагін SendSS буде відключено.
+[Open SendSS+]
+Відкрити SendSS
 [SendSS]
 Надіслати скріншот
 [Screenshots]
-Знімок екрану
+Знімки екрану
 [SendSS HTTP connections]
-SendSS HTTP з'єднання
+HTTP-з'єднання SendSS
 [Could not create main dialog.]
 Неможливо створити головний діалог.
 [Send Screenshot]
@@ -138,35 +136,35 @@ SendSS HTTP з'єднання
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 Не вдалося створити папку знімків екрану (код помилки: %d:)\n%s\nУ вас є права на запис?
 [Screenshot Icon1]
-Знімок екрану іконка1
+Значок 1
 [Screenshot Icon2]
-Знімок екрану іконка2
+Значок 2
 [Target Cursor]
 Ціль вікно у фокусі
 [Target Desktop]
-Ціль робочій стіл
+Ціль робочий стіл
 [Default]
 За замовчанням
 [overlay on]
-оверлей вкл.
+Оверлей вкл.
 [overlay off]
-оверлей вимк.
+Оверлей вимк.
 [Help]
 Довідка
 [Open Folder]
 Відкрити папку
 [description off]
-опис вимк.
+Опис вимк.
 [description on]
-опис ввімк.
+Опис ввімк.
 [delete off]
-видалення вимк.
+Видалення вимк.
 [delete on]
-виладення ввімк.
+Видалення ввімк.
 [Prev]
-Поперед.
+Попереднє
 [Next]
-Насупне
+Наступне
 [Update]
 Оновити
 [Apply]
@@ -175,10 +173,10 @@ SendSS HTTP з'єднання
 Стрілка вниз
 [Buttons]
 Кнопки
-[Overlays]
+[overlays]
 Оверлеї
 [Credits]
-Подяки
+Автори
 [< Copyright]
 < Права
 [Copyright]
@@ -186,44 +184,38 @@ SendSS HTTP з'єднання
 [Drag&Drop the target on the desired window.]
 Перетягніть приціл на потрібне вікно.
 [Send screenshot to\n]
-Відправити знімок екрану \n
+Відправити знімок екрану\n
 [Window]
 Вікно
 [Desktop]
-Робочій стіл
+Робочий стіл
 [<entire desktop>]
-<весь робочій стіл>
+<Весь робочий стіл>
 [Monitor]
 Монітор
 [ (primary)]
- (осеновний)
+ (основний)
 [<Only save>]
-<Тільки зберигти>
+<Тільки зберегти>
 [File Transfer]
 Передача файлу
-[E-mail]
-Пошта
-[FTP File]
-FTP файл
-[ImageShack]
-
 [Information]
 Інформація
 [Fill description textbox.]
 Заповніть опис у текстовому полі.
 [Delete after send]
-Видалити вісля відправки
+Видалити після відправки
 [Capture]
 Запис
 [Can't create a Screenshot]
 Неможливо створити знімок екрану
 [Select a target window.]
-Виберіть вікно для відправки.
+Виберіть вікно, щоб зробити знімок.
 [Screenshot ]
 Знімок екрану
-[Client for area ]
+[for Client area ]
 
-[of]
-з
+[of "]
+з "
 [" Window]
 " вікно
