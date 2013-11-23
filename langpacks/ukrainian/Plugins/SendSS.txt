@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.2.0
+;  Version: 0.8.3.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -56,55 +56,55 @@
 [Size (HxW):]
 Розмір (ВхШ):
 [Target Tool]
-
+Інструмент пріцілювання
 [GCHAT error]
-
+Помилка GCHAT
 [An unknown error has occured.]
 Невідома помилка.
 [Error]
 Помилка
 [Unable to initiate %s.]
-
+Не в змозі ініціювати %s.
 [MAPI error (%i):\n%s.]
-
+Помилка MAPI (%i):\n%s.
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 
 [The specified attachment was not found]
-
+Вкладення не знайдено
 [The specified attachment could not be opened]
-
+Вкладення неможливо відкрити
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
-
+Тип одержувача не MAPI_TO, MAPI_CC, або MAPI_BCC
 [One or more unspecified errors occurred]
-
+Одна чи декілька невизначених помилки
 [There was insufficient memory to proceed]
-
+Недостатньо пам'яті для продовження
 [One or more recipients were invalid or did not resolve address to any]
-
+Одного або декілька одержувачів, були визнані недійсними або не дозволити звернутися в будь-який
 [There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
-
+Не було ніякого входу в систему за замовчанням, і користувач не зміг увійти в систему, коли діалогове вікно входу в систему відображається
 [The text in the message was too large]
-
+Текст повідомлення був занадто великий
 [There were too many file attachments]
-
+Там було дуже багато вкладених файлів
 [There were too many recipients]
-
+Там було дуже багато отримувачів
 [A recipient did not appear in the address list]
-
+Одержувач не з'явиться в списку адрес
 [The user canceled one of the dialog boxes]
-
+Користувач скасував одне з діалогових вікон
 [Unknown Error]
 Невідома помилка
 [FTPFile transfer]
 FTPFile передача
 [%s (%i):\nCould not add a to share the FTP File plugin.]
-
+%s (%i):\nНе сміг передати у нару плагіну FTP File.
 [Could not start the HTTP Server plugin.]
-Не можу запустити плагін HTTP Сервер.
+Не можу запустити плагін HTTP сервер.
 [%s (%i):\nCould not add a to share the HTTP Server plugin.]
-
+%s (%i):\nНе зміг передати у шару плагіну HTTP сервер.]
 [Upload server did not respond timely.]
-
+Обраний сервер не відповів вчасно.
 [Retry]
 Ще раз
 [Yes]
@@ -116,15 +116,15 @@ FTPFile передача
 [Ignore]
 Ігнорувати
 [SendScreenshot - Error]
-
+Відправити знімок єкрану - помилка
 [Fatal error, image services not found. Send Screenshot will be disabled.]
-
+Невиправна помилка, сервісу зображень не знайдено. Плагін SendSS буде відключено.
 [SendSS]
 Надіслати скріншот
 [Screenshots]
-
+Знімок екрану
 [SendSS HTTP connections]
-
+SendSS HTTP з'єднання
 [Could not create main dialog.]
 Неможливо створити головний діалог.
 [Send Screenshot]
@@ -134,17 +134,17 @@ FTPFile передача
 [Take a screenshot]
 Зробити скріншот
 [Could not register miranda service.]
-
-[Could not create Screenshot folder (error code: %d:\n%s\nDo you have write permissions?]
-
+Неможливо зареєструвати сервіс.
+[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+Не вдалося створити папку знімків екрану (код помилки: %d:)\n%s\nУ вас є права на запис?
 [Screenshot Icon1]
-
+Знімок екрану іконка1
 [Screenshot Icon2]
-
+Знімок екрану іконка2
 [Target Cursor]
-
+Ціль вікно у фокусі
 [Target Desktop]
-
+Ціль робочій стіл
 [Default]
 За замовчанням
 [overlay on]
@@ -186,13 +186,13 @@ FTPFile передача
 [Drag&Drop the target on the desired window.]
 Перетягніть приціл на потрібне вікно.
 [Send screenshot to\n]
-
+Відправити знімок екрану \n
 [Window]
 Вікно
 [Desktop]
 Робочій стіл
 [<entire desktop>]
-
+<весь робочій стіл>
 [Monitor]
 Монітор
 [ (primary)]
@@ -202,28 +202,28 @@ FTPFile передача
 [File Transfer]
 Передача файлу
 [E-mail]
-
+Пошта
 [FTP File]
-
+FTP файл
 [ImageShack]
 
 [Information]
 Інформація
 [Fill description textbox.]
-
+Заповніть опис у текстовому полі.
 [Delete after send]
 Видалити вісля відправки
 [Capture]
 Запис
 [Can't create a Screenshot]
-
+Неможливо створити знімок екрану
 [Select a target window.]
 Виберіть вікно для відправки.
 [Screenshot ]
-
+Знімок екрану
 [Client for area ]
 
 [of]
-
+з
 [" Window]
-
+" вікно
