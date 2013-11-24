@@ -101,7 +101,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			if (IsAeroMode())
 			{
 				SetWindowLongPtr(hDlg, GWL_STYLE, GetWindowLongPtr(hDlg, GWL_STYLE) | WS_DLGFRAME | WS_SYSMENU);
-
+				SetWindowLongPtr(hDlg, GWL_EXSTYLE, GetWindowLongPtr(hDlg, GWL_EXSTYLE) | WS_EX_TOOLWINDOW);
 				RECT rect;
 				GetClientRect(hDlg, &rect);
 				SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom + GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CXSIZEFRAME), SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
@@ -179,12 +179,12 @@ static void LanguageChanged(HWND hDlg)
 	HKL LangID = GetKeyboardLayout(0);
 	if (LangID != oldLangID)
 	{
-		TCHAR Lang[3] = {0};
+		char Lang[3] = {0};
 		oldLangID = LangID;
-		GetLocaleInfo(MAKELCID(((WORD)LangID & 0xffffffff),  SORT_DEFAULT),  LOCALE_SABBREVLANGNAME, Lang, 2);
+		GetLocaleInfoA(MAKELCID(((WORD)LangID & 0xffffffff),  SORT_DEFAULT),  LOCALE_SABBREVLANGNAME, Lang, 2); 
 		Lang[0] = toupper(Lang[0]);
 		Lang[1] = tolower(Lang[1]);
-		SetDlgItemText(hDlg, IDC_LANG, Lang);
+		SetDlgItemTextA(hDlg, IDC_LANG, Lang);
 	}
 }
 
