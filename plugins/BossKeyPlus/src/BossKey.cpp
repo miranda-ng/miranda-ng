@@ -19,35 +19,24 @@
 
 #include "BossKey.h"
 
-// multiple instances support:
-// when hotkey is hit, handler notifies all listen windows
-//#pragma data_seg("Shared") // Shared data segment
-// these must be shared, since they're called by the hook (The hook is global and called from the context of each process)
-//HHOOK g_hKeyHook = NULL; // shared
-// this isn't referenced by hook, but should be shared to keep a reference count of multiple instances
-//WORD g_wRefCount = 0; // reference count. when this is 0 on init, the hook is created. when this is 0 on destruction, the hook is destroyed.
-//#pragma data_seg() // end of shared data segment
-
-// unique to this DLL, not to be shared
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 HGENMENU g_hMenuItem;
-HANDLE g_hHideService, g_hIsHiddenService;
+HANDLE g_hHideService;
 HWINEVENTHOOK g_hWinHook;
-HWND g_hListenWindow, hDlg, g_hDlgPass, hOldForegroundWindow;
+HWND g_hListenWindow, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
 HMODULE hDwmApi;
 DWORD g_dwMirandaPID;
 WORD g_wMask, g_wMaskAdv;
-bool g_bWindowHidden, g_fKeyPressed, g_fPassRequested, g_TrayIcon;
+bool g_bWindowHidden, g_fPassRequested, g_TrayIcon;
 char g_password[MAXPASSLEN + 1];
 HKL oldLangID, oldLayout;
-int protoCount;
+int protoCount, hLangpack;
 PROTOACCOUNT **proto;
 unsigned *oldStatus;
 TCHAR **oldStatusMsg;
 BYTE g_bOldSetting;
-int hLangpack;
 
 PFNDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
@@ -89,52 +78,46 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 	static DWORD dwOldIcon = 0;
 	HICON hIcon = 0;
 
-	switch(uMsg)
-	{
+	switch(uMsg){
 	case WM_INITDIALOG:
+		g_hDlgPass = hDlg;
+		hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DLGPASSWD));
+		dwOldIcon = SetClassLongPtr(hDlg, GCLP_HICON, (LONG)hIcon); // set alt+tab icon
+		SendDlgItemMessage(hDlg,IDC_EDIT1,EM_LIMITTEXT,MAXPASSLEN,0);
+
+		if (IsAeroMode())
 		{
-			g_hDlgPass = hDlg;
-			hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DLGPASSWD));
-			dwOldIcon = SetClassLongPtr(hDlg, GCLP_HICON, (LONG)hIcon); // set alt+tab icon
-			SendDlgItemMessage(hDlg,IDC_EDIT1,EM_LIMITTEXT,MAXPASSLEN,0);
-
-			if (IsAeroMode())
-			{
-				SetWindowLongPtr(hDlg, GWL_STYLE, GetWindowLongPtr(hDlg, GWL_STYLE) | WS_DLGFRAME | WS_SYSMENU);
-				SetWindowLongPtr(hDlg, GWL_EXSTYLE, GetWindowLongPtr(hDlg, GWL_EXSTYLE) | WS_EX_TOOLWINDOW);
-				RECT rect;
-				GetClientRect(hDlg, &rect);
-				SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom + GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CXSIZEFRAME), SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
-			}
-			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
-			SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
-
-			TranslateDialogDefault(hDlg);
-			oldLangID = 0;
-			SetTimer(hDlg,1,200,NULL);
-
-			oldLayout = GetKeyboardLayout(0);
-			if (MAKELCID((WORD)oldLayout & 0xffffffff,  SORT_DEFAULT) != (LCID)0x00000409)
-				ActivateKeyboardLayout((HKL)0x00000409, 0);
-			LanguageChanged(hDlg);
-			return TRUE;
+			SetWindowLongPtr(hDlg, GWL_STYLE, GetWindowLongPtr(hDlg, GWL_STYLE) | WS_DLGFRAME | WS_SYSMENU);
+			SetWindowLongPtr(hDlg, GWL_EXSTYLE, GetWindowLongPtr(hDlg, GWL_EXSTYLE) | WS_EX_TOOLWINDOW);
+			RECT rect;
+			GetClientRect(hDlg, &rect);
+			SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom + GetSystemMetrics(SM_CYCAPTION), SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
 		}
+		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
+		SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
+
+		TranslateDialogDefault(hDlg);
+		oldLangID = 0;
+		SetTimer(hDlg,1,200,NULL);
+
+		oldLayout = GetKeyboardLayout(0);
+		if (MAKELCID((WORD)oldLayout & 0xffffffff,  SORT_DEFAULT) != (LCID)0x00000409)
+			ActivateKeyboardLayout((HKL)0x00000409, 0);
+		LanguageChanged(hDlg);
+		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
-		{
-			if (GetWindowLongPtr((HWND)lParam, GWLP_ID) == IDC_LANG)
-			{
-				SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
-				SetBkMode((HDC)wParam, TRANSPARENT);
-				return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
-			}
-			return FALSE;
-		}
+		if (GetWindowLongPtr((HWND)lParam, GWLP_ID) != IDC_LANG)
+			break;
+
+		SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+		SetBkMode((HDC)wParam, TRANSPARENT);
+		return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
 
 	case WM_COMMAND:
 		{
 			UINT uid = LOWORD(wParam);
-			if(uid == IDOK){
+			if (uid == IDOK){
 				char password[MAXPASSLEN + 1] = {0};
 				int passlen = GetDlgItemTextA(hDlg,IDC_EDIT1,password,MAXPASSLEN+1);
 
@@ -142,34 +125,32 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 				{
 					SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
 					SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
+					break;
 				}
 				else if (lstrcmpA(password, g_password))
 				{
 					SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Password is not correct!\nPlease, enter correct password."));
 					SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 					SetDlgItemText(hDlg, IDC_EDIT1, _T(""));
+					break;
 				}
-				else EndDialog(hDlg,IDOK);
-
-			}else if (uid == IDCANCEL)
-				EndDialog(hDlg,IDCANCEL);
+				else EndDialog(hDlg, IDOK);
+			}
+			else if (uid == IDCANCEL)
+				EndDialog(hDlg, IDCANCEL);
 		}
 
 	case WM_TIMER:
-		{
-			LanguageChanged(hDlg);
-			return FALSE;
-		}
-	case WM_DESTROY:
-		{
-			KillTimer(hDlg, 1);
-			if (GetKeyboardLayout(0) != oldLayout)
-				ActivateKeyboardLayout(oldLayout, 0);
-			SetClassLongPtr(hDlg, GCLP_HICON, (long)dwOldIcon);
-			DestroyIcon(hIcon);
-			return FALSE;
-		}
+		LanguageChanged(hDlg);
+		break;
 
+	case WM_DESTROY:
+		KillTimer(hDlg, 1);
+		if (GetKeyboardLayout(0) != oldLayout)
+			ActivateKeyboardLayout(oldLayout, 0);
+		SetClassLongPtr(hDlg, GCLP_HICON, (long)dwOldIcon);
+		DestroyIcon(hIcon);
+		break;
 	}
 	return FALSE;
 }
@@ -330,23 +311,18 @@ static void RestoreOldSettings(void)
 
 LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
-	switch (uMsg)
-	{
-		case WM_WTSSESSION_CHANGE:
-		{
-			if (wParam == WTS_SESSION_LOCK && g_wMaskAdv & OPT_HIDEIFLOCK && !g_bWindowHidden) // Windows locked
-				PostMessage(hWnd,WM_USER + 40, 0, 0);
-			return 0;
-		}break;
+	switch (uMsg){
+	case WM_WTSSESSION_CHANGE:
+		if (wParam == WTS_SESSION_LOCK && g_wMaskAdv & OPT_HIDEIFLOCK && !g_bWindowHidden) // Windows locked
+			PostMessage(hWnd,WM_USER + 40, 0, 0);
+		return 0;
 
-		case WM_USER + 24:
-		{
-			if (lParam == WM_LBUTTONDBLCLK)
-				PostMessage(hWnd,WM_USER + 52, 0, 0);
-			return 0;
-		}break;
+	case WM_USER + 24:
+		if (lParam == WM_LBUTTONDBLCLK)
+			PostMessage(hWnd,WM_USER + 52, 0, 0);
+		return 0;
 
-		case WM_USER+40: // hide
+	case WM_USER+40: // hide
 		{
 			if (g_bWindowHidden || g_fOptionsOpen) // already hidden or in options, no hiding
 				break;
@@ -368,8 +344,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				{
 					TCHAR *ptszDefMsg = GetDefStatusMsg(uMode, 0);
 					ChangeAllProtoStatuses(uMode, ptszDefMsg);
-					if(ptszDefMsg)
-						mir_free(ptszDefMsg);
+					mir_free(ptszDefMsg);
 				}
 				else
 				{
@@ -377,8 +352,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 					{
 						TCHAR *ptszParsed = variables_parse(dbVar.ptszVal, 0, 0);
 						ChangeAllProtoStatuses(uMode, ptszParsed);
-						if (ptszParsed)
-							mir_free(ptszParsed);
+						mir_free(ptszParsed);
 					}
 					else
 						ChangeAllProtoStatuses(uMode, dbVar.ptszVal);
@@ -412,16 +386,17 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			g_bOldSetting |= OLD_WASHIDDEN;
 			db_set_b(NULL, MOD_NAME, "OldSetting", g_bOldSetting);
-			return 0;
-		} break;
-		case WM_USER+52: // back
+		}
+		return 0;
+
+	case WM_USER+52: // back
 		{
 			if (!g_bWindowHidden || g_fPassRequested)
 				break;
 
 			if (g_wMask & OPT_REQPASS){  //password request
-				DBVARIANT dbVar = {0};
-				if (!db_get_s(NULL,MOD_NAME,"password",&dbVar)) {
+				DBVARIANT dbVar;
+				if (!db_get_s(NULL,MOD_NAME, "password", &dbVar)) {
 					g_fPassRequested = true;
 
 					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
@@ -445,9 +420,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				GetClassName(pCurWnd->hWnd,szTemp,32);
 
 				if (IsWindow(pCurWnd->hWnd) && lstrcmp(szTemp,_T("SysShadow")) != 0) // precaution
-				{
 					ShowWindow(pCurWnd->hWnd, SW_SHOW);
-				}
 
 				delete pCurWnd; // bye-bye
 				pCurWnd = pNextWnd; // traverse to next item
@@ -465,7 +438,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			if (g_TrayIcon) CreateTrayIcon(false);
 
 			pcli->pfnInitTray();
-			pcli->pfnTrayIconInit(pcli->hwndContactList); //this restores the icons without memory leaks :)
+			pcli->pfnTrayIconInit(pcli->hwndContactList);
 
 			// force a redraw
 			// should prevent drawing problems
@@ -476,11 +449,10 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			g_bWindowHidden = false;
 
 			db_set_b(NULL, MOD_NAME, "OldSetting", 0);
-			return 0;
-		} break;
-		default:break;
+		}
+		return 0;
 	}
-	return(DefWindowProc(hWnd,uMsg,wParam,lParam));
+	return(DefWindowProc(hWnd, uMsg, wParam, lParam));
 }
 
 static int MsgWinOpening(WPARAM, LPARAM) // hiding new message windows
@@ -495,9 +467,9 @@ VOID CALLBACK WinEventProc(HWINEVENTHOOK g_hWinHook, DWORD event, HWND hwnd, LON
 	if (g_bWindowHidden && idObject == OBJID_WINDOW && (event == EVENT_OBJECT_CREATE || event == EVENT_OBJECT_SHOW) && (IsWindowVisible(hwnd)))
 	{
 		if(hwnd == pcli->hwndContactList)
-			ShowWindow(hwnd,SW_HIDE);
+			ShowWindow(hwnd, SW_HIDE);
 		else
-			EnumWindows(EnumWindowsProc,0);
+			EnumWindows(EnumWindowsProc, 0);
 	}
 }
 
@@ -546,7 +518,7 @@ static TCHAR *HokeyVkToName(WORD vkKey)
 
 static TCHAR *GetBossKeyText(void)
 {
-	WORD wHotKey = db_get_w(NULL,"SkinHotKeys","Hide/Show Miranda",HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
+	WORD wHotKey = db_get_w(NULL,"SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
 
 	BYTE key = LOBYTE(wHotKey);
 	BYTE shift = HIBYTE(wHotKey);
@@ -616,7 +588,7 @@ void RegisterCoreHotKeys (void)
 	Hotkey_Register(&hotkey);
 }
 
-static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support
+static int TopToolbarInit(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.pszService = MS_BOSSKEY_HIDE;
@@ -687,7 +659,7 @@ int MirandaLoaded(WPARAM,LPARAM)
 
 	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
 
-	HookEvent(ME_TTB_MODULELOADED, ModernToolbarInit);
+	HookEvent(ME_TTB_MODULELOADED, TopToolbarInit);
 	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWinOpening);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtos);
@@ -695,13 +667,6 @@ int MirandaLoaded(WPARAM,LPARAM)
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 
 	GetWindowThreadProcessId(pcli->hwndContactList, &g_dwMirandaPID);
-
-	// let's create our secret window
-	// this is a cheap, cheap hack...
-	// needed because of the hook, that gives problems
-	// if the calls aren't made from this context, they won't work
-	// using the window is a workaround to make this process do its work :)
-	// see notes
 
 	WNDCLASS winclass = {0};
 	winclass.lpfnWndProc = ListenWndProc;
@@ -787,8 +752,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 		UnhookWinEvent(g_hWinHook);
 
 	DestroyServiceFunction(g_hHideService);
-	if (g_hIsHiddenService)
-		DestroyServiceFunction(g_hIsHiddenService);
 
 	if (g_hListenWindow)
 	{
@@ -807,9 +770,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 		delete pTemp;
 		pTemp = pNext;
 	}
-	g_pMirWnds = NULL; // safety
 
-	// free memory
 	delete[] oldStatus;
 	delete[] oldStatusMsg;
 

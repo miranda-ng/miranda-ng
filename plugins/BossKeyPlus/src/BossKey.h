@@ -81,14 +81,9 @@
 #define MS_BOSSKEY_HIDE				"BossKey/HideMiranda"
 #define MS_BOSSKEY_ISMIRANDAHIDDEN	"BossKey/IsMirandaHidden"
 
-#define TRIGGERNAME					"BossKey: Key pressed"
-#define TRIGGER_BK_HIDE				0x01
-#define TRIGGER_BK_SHOW				0x02
-#define SETTING_TRIGGERON			"TriggerOn"
-
 const unsigned STATUS_ARR_TO_ID[8] = { ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE };
 extern bool g_fOptionsOpen; // options dialog is open. be sure not to hide anything while we're there.
-extern WORD g_wHotKey, g_wMask, g_wMaskAdv;
+extern WORD g_wMask, g_wMaskAdv;
 extern HINSTANCE g_hInstance;
 extern bool g_bWindowHidden;
 extern UINT minutes;
@@ -100,7 +95,6 @@ void BossKeyMenuItemUnInit(void);
 TCHAR *GetBossKeyText(void);
 void InitIdleTimer(void);
 void UninitIdleTimer(void);
-LRESULT CALLBACK KbdProc(int nCode,WPARAM wParam,LPARAM lParam);
 TCHAR* GetDefStatusMsg(unsigned uMode, const char* szProto);
 
 // I never really liked STL's vector... hmm this is nicer anyway, more flexible
