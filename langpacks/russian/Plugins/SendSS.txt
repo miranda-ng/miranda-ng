@@ -170,7 +170,7 @@ JPG качество
 (Неизвестный контакт)
 [<Unknow Contact>]
 (Неизвестный контакт)
-[overlays]
+[Overlays]
 Оверлеи
 [Screenshot Icon1]
 Значок снимка 1
@@ -180,17 +180,17 @@ JPG качество
 Курсор цель
 [Target Desktop]
 Курсор рабочий стол
-[overlay on]
+[Overlay on]
 Оверлей вкл
-[overlay off]
+[Overlay off]
 Оверлей выкл
-[description off]
+[Description off]
 Описание выкл
-[description on]
+[Description on]
 Описание вкл
-[delete off]
+[Delete off]
 Удаление выкл
-[delete on]
+[Delete on]
 Удаление вкл
 [Screenshots]
 Снимки экрана

@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 // sections
 #define SECT_COMMON				MODNAME
 #define SECT_BUTTONS			MODNAME"/"LPGEN("Buttons")
-#define SECT_OVERLAY			MODNAME"/"LPGEN("overlays")
+#define SECT_OVERLAY			MODNAME"/"LPGEN("Overlays")
 
 // icons
 #define ICO_PLUG_SSWINDOW1		MODNAME"_plug_SSwindow1"

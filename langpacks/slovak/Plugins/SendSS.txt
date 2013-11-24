@@ -158,21 +158,21 @@ Ignorovať
 
 [Default]
 Prednastavené
-[overlay on]
+[Overlay on]
 
-[overlay off]
+[Overlay off]
 
 [Help]
 Pomoc
 [Open Folder]
 
-[description off]
+[Description off]
 
-[description on]
+[Description on]
 
-[delete off]
+[Delete off]
 
-[delete on]
+[Delete on]
 
 [Prev]
 
@@ -187,7 +187,7 @@ Aplikovať
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
 
-[overlays]
+[Overlays]
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
@@ -205,7 +205,7 @@ Aplikovať
 Okno
 [Desktop]
 
-[<entire desktop>]
+[<Entire Desktop>]
 
 [Monitor]
 

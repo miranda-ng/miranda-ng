@@ -158,21 +158,21 @@ Target Cursor]
 Target Desktop
 [Default]
 Standard
-[overlay on]
+[Overlay on]
 Overlay ein
-[overlay off]
+[Overlay off]
 Overlay aus
 [Help]
 Hilfe
 [Open Folder]
 Ordner öffnen
-[description off]
+[Description off]
 Beschreibung aus
-[description on]
+[Description on]
 Beschreibung ein
-[delete off]
+[Delete off]
 Löschen aus
-[delete on]
+[Delete on]
 Löschen ein
 [Prev]
 Zurück
@@ -187,8 +187,8 @@ Pfeil runter
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
 Schaltflächen
-[overlays]
-overlays
+[Overlays]
+Overlays
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Danksagung
@@ -205,7 +205,7 @@ Sende Screenshot an\n
 Fenster
 [Desktop]
 Desktop
-[<entire desktop>]
+[<Entire Desktop>]
 Gesamten Desktop
 [Monitor]
 Monitor

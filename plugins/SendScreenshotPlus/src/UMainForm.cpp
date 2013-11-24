@@ -253,7 +253,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	hCtrl = GetDlgItem(itab.hwndTabPage, ID_edtCaption);
 	ComboBox_ResetContent(hCtrl);
-	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<entire desktop>"))  ,0);
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<Entire Desktop>"))  ,0);
 	ComboBox_SetCurSel (hCtrl,0);
 	if(m_MonitorCount >1) {
 		TCHAR	tszTemp[120];

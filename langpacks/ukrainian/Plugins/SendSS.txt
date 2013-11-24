@@ -145,21 +145,21 @@ HTTP-з'єднання SendSS
 Ціль робочий стіл
 [Default]
 За замовчанням
-[overlay on]
+[Overlay on]
 Оверлей вкл.
-[overlay off]
+[Overlay off]
 Оверлей вимк.
 [Help]
 Довідка
 [Open Folder]
 Відкрити папку
-[description off]
+[Description off]
 Опис вимк.
-[description on]
+[Description on]
 Опис ввімк.
-[delete off]
+[Delete off]
 Видалення вимк.
-[delete on]
+[Delete on]
 Видалення ввімк.
 [Prev]
 Попереднє
@@ -173,7 +173,7 @@ HTTP-з'єднання SendSS
 Стрілка вниз
 [Buttons]
 Кнопки
-[overlays]
+[Overlays]
 Оверлеї
 [Credits]
 Автори
@@ -189,8 +189,8 @@ HTTP-з'єднання SendSS
 Вікно
 [Desktop]
 Робочий стіл
-[<entire desktop>]
-<Весь робочий стіл>
+[<Entire Desktop>]
+<Весь Робочий стіл>
 [Monitor]
 Монітор
 [ (primary)]

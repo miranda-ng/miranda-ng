@@ -91,7 +91,7 @@
 [Apply]
 应用
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
-[overlays]
+[Overlays]
 覆盖
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [< Copyright]

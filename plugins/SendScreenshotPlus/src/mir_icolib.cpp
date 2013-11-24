@@ -48,16 +48,16 @@ static icoDesc[] =
 	{ ICO_PLUG_SSDEFAULT,   LPGEN("Default"),          SECT_COMMON,  IDI_PLUG_DEFAULT,    0 },
 
 	// overlays
-	{ ICO_PLUG_OVERLAYON,   LPGEN("overlay on"),       SECT_OVERLAY, IDI_PLUG_OVERLAYON,  0 },
-	{ ICO_PLUG_OVERLAYOFF,  LPGEN("overlay off"),      SECT_OVERLAY, IDI_PLUG_OVERLAYOFF, 0 },
+	{ ICO_PLUG_OVERLAYON,   LPGEN("Overlay on"),       SECT_OVERLAY, IDI_PLUG_OVERLAYON,  0 },
+	{ ICO_PLUG_OVERLAYOFF,  LPGEN("Overlay off"),      SECT_OVERLAY, IDI_PLUG_OVERLAYOFF, 0 },
 
 	// button icons
 	{ ICO_PLUG_SSHELP,      LPGEN("Help"),             SECT_BUTTONS, IDI_PLUG_HELP,       0 },
 	{ ICO_PLUG_SSFOLDERO,   LPGEN("Open Folder"),      SECT_BUTTONS, IDI_PLUG_FOLDERO,    0 },
-	{ ICO_PLUG_SSDESKOFF,   LPGEN("description off"),  SECT_BUTTONS, IDI_PLUG_DESKOFF,    0 },
-	{ ICO_PLUG_SSDESKON,    LPGEN("description on"),   SECT_BUTTONS, IDI_PLUG_DESKON,     0 },
-	{ ICO_PLUG_SSDELOFF,    LPGEN("delete off"),       SECT_BUTTONS, IDI_PLUG_DELOFF,     0 },
-	{ ICO_PLUG_SSDELON,     LPGEN("delete on"),        SECT_BUTTONS, IDI_PLUG_DELON,      0 },
+	{ ICO_PLUG_SSDESKOFF,   LPGEN("Description off"),  SECT_BUTTONS, IDI_PLUG_DESKOFF,    0 },
+	{ ICO_PLUG_SSDESKON,    LPGEN("Description on"),   SECT_BUTTONS, IDI_PLUG_DESKON,     0 },
+	{ ICO_PLUG_SSDELOFF,    LPGEN("Delete off"),       SECT_BUTTONS, IDI_PLUG_DELOFF,     0 },
+	{ ICO_PLUG_SSDELON,     LPGEN("Delete on"),        SECT_BUTTONS, IDI_PLUG_DELON,      0 },
 	{ ICO_PLUG_ARROWL,      LPGEN("Prev"),             SECT_BUTTONS, IDI_PLUG_ARROWL,     0 },
 	{ ICO_PLUG_ARROWR,      LPGEN("Next"),             SECT_BUTTONS, IDI_PLUG_ARROWR,     0 },
 	{ ICO_PLUG_UPDATE,      LPGEN("Update"),           SECT_BUTTONS, IDI_PLUG_UPDATE,     0 },
