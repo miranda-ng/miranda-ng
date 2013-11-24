@@ -40,23 +40,11 @@ void overrideStr(TCHAR*& dest, const TCHAR* src, bool unicode, const TCHAR* def)
 	else if (def != NULL)
 		dest = mir_tstrdup(def);
 }
-
+				
 char* arrayToHex(BYTE* data, size_t datasz)
 {
-	char* res = (char*)mir_alloc(2 * datasz + 1);
-
-	char* resptr = res;
-	for (unsigned i=0; i<datasz ; i++)
-	{
-		const BYTE ch = data[i];
-
-		const char ch0 = ch >> 4;
-		*resptr++ = (ch0 <= 9) ? ('0' + ch0) : (('a' - 10) + ch0);
-
-		const char ch1 = ch & 0xF;
-		*resptr++ = (ch1 <= 9) ? ('0' + ch1) : (('a' - 10) + ch1);
-	}
-	*resptr = '\0';
+	char *res = (char*)mir_alloc(2 * datasz + 1);
+	bin2hex(data, datasz, res);
 	return res;
 }
 
@@ -67,27 +55,23 @@ bool txtParseParam (const char* szData, const char* presearch, const char* start
 
 	if (szData == NULL) return false;
 
-	if (presearch != NULL)
-	{
+	if (presearch != NULL) {
 		cp1 = strstr(szData, presearch);
 		if (cp1 == NULL) return false;
 	}
-	else
-		cp1 = szData;
+	else cp1 = szData;
 
 	cp = strstr(cp1, start);
 	if (cp == NULL) return false;
 	cp += strlen(start);
 	while (*cp == ' ') ++cp;
 
-	if (finish)
-	{
+	if (finish) {
 		cp1 = strstr(cp, finish);
 		if (cp1 == NULL) return FALSE;
 		while (*(cp1-1) == ' ' && cp1 > cp) --cp1;
 	}
-	else
-		cp1 = strchr(cp, '\0');
+	else cp1 = strchr(cp, '\0');
 
 	len = min(cp1 - cp, size - 1);
 	memmove(param, cp, len);
@@ -98,28 +82,25 @@ bool txtParseParam (const char* szData, const char* presearch, const char* start
 
 void parseWLID(char* wlid, char** net, char** email, char** inst)
 {
-	char* col = strchr(wlid, ':');
-	if (col && strncmp(wlid, "tel:", 4))
-	{
+	char *col = strchr(wlid, ':');
+	if (col && strncmp(wlid, "tel:", 4)) {
 		*col = 0;
 		if (net) *net = wlid;
 		if (email) *email = col + 1;
 		++col;
 	}
-	else
-	{
+	else {
 		if (net) *net = NULL;
 		if (email) *email = wlid;
 	}
 
 	col = strchr(wlid, ';');
-	if (col)
-	{
+	if (col) {
 		*col = 0;
 		if (inst) *inst = col + 1;
 	}
-	else
-		if (inst) *inst = NULL;
+	else if (inst)
+		*inst = NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -140,16 +121,12 @@ template <class chartype> void UrlDecode(chartype* str)
 {
 	chartype* s = str, *d = str;
 
-	while(*s)
-	{
-		if (*s == '%')
-		{
+	while(*s) {
+		if (*s == '%') {
 			int digit1 = SingleHexToDecimal(s[1]);
-			if (digit1 != -1)
-			{
+			if (digit1 != -1) {
 				int digit2 = SingleHexToDecimal(s[2]);
-				if (digit2 != -1)
-				{
+				if (digit2 != -1) {
 					s += 3;
 					*d++ = (char)((digit1 << 4) | digit2);
 					continue;
@@ -162,17 +139,14 @@ template <class chartype> void UrlDecode(chartype* str)
 	*d = 0;
 }
 
-void  HtmlDecode(char* str)
+void HtmlDecode(char *str)
 {
-	char* p, *q;
-
 	if (str == NULL)
 		return;
 
-	for (p=q=str; *p!='\0'; p++,q++)
-	{
-		if (*p == '&')
-		{
+	char* p, *q;
+	for (p = q = str; *p != '\0'; p++, q++) {
+		if (*p == '&') {
 			if (!strncmp(p, "&amp;", 5)) {	*q = '&'; p += 4; }
 			else if (!strncmp(p, "&apos;", 6)) { *q = '\''; p += 5; }
 			else if (!strncmp(p, "&gt;", 4)) { *q = '>'; p += 3; }
@@ -180,15 +154,12 @@ void  HtmlDecode(char* str)
 			else if (!strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
 			else { *q = *p;	}
 		}
-		else
-		{
-			*q = *p;
-		}
+		else *q = *p;
 	}
 	*q = '\0';
 }
 
-char*  HtmlEncode(const char* str)
+char* HtmlEncode(const char *str)
 {
 	char* s, *p, *q;
 	int c;
@@ -196,30 +167,26 @@ char*  HtmlEncode(const char* str)
 	if (str == NULL)
 		return NULL;
 
-	for (c=0,p=(char*)str; *p!='\0'; p++)
-	{
-		switch (*p)
-		{
-		case '&': c += 5; break;
-		case '\'': c += 6; break;
-		case '>': c += 4; break;
-		case '<': c += 4; break;
-		case '"': c += 6; break;
-		default: c++; break;
+	for (c=0,p=(char*)str; *p!='\0'; p++) {
+		switch (*p) {
+			case '&': c += 5; break;
+			case '\'': c += 6; break;
+			case '>': c += 4; break;
+			case '<': c += 4; break;
+			case '"': c += 6; break;
+			default: c++; break;
 		}
 	}
-	if ((s=(char*)mir_alloc(c+1)) != NULL)
-	{
-		for (p=(char*)str,q=s; *p!='\0'; p++)
-		{
-			switch (*p)
-			{
-			case '&': strcpy(q, "&amp;"); q += 5; break;
-			case '\'': strcpy(q, "&apos;"); q += 6; break;
-			case '>': strcpy(q, "&gt;"); q += 4; break;
-			case '<': strcpy(q, "&lt;"); q += 4; break;
-			case '"': strcpy(q, "&quot;"); q += 6; break;
-			default: *q = *p; q++; break;
+
+	if ((s=(char*)mir_alloc(c+1)) != NULL) {
+		for (p=(char*)str,q=s; *p!='\0'; p++) {
+			switch (*p) {
+				case '&': strcpy(q, "&amp;"); q += 5; break;
+				case '\'': strcpy(q, "&apos;"); q += 6; break;
+				case '>': strcpy(q, "&gt;"); q += 4; break;
+				case '<': strcpy(q, "&lt;"); q += 4; break;
+				case '"': strcpy(q, "&quot;"); q += 6; break;
+				default: *q = *p; q++; break;
 			}
 		}
 		*q = '\0';
@@ -233,13 +200,11 @@ char*  HtmlEncode(const char* str)
 void stripBBCode(char* src)
 {
 	bool tag = false;
-	char* ps = src;
-	char* pd = src;
+	char *ps = src;
+	char *pd = src;
 
-	while (*ps != 0)
-	{
-		if (!tag && *ps == '[')
-		{
+	while (*ps != 0) {
+		if (!tag && *ps == '[') {
 			char ch = ps[1];
 			if (ch  == '/') ch = ps[2];
 			tag = ch == 'b' || ch == 'u' || ch == 'i' || ch == 'c' || ch == 'a' ||  ch == 's';
@@ -256,13 +221,10 @@ void stripColorCode(char* src)
 	unsigned char* ps = (unsigned char*)src;
 	unsigned char* pd = (unsigned char*)src;
 
-	while (*ps != 0)
-	{
-		if (ps[0] == 0xc2 && ps[1] == 0xb7)
-		{
+	while (*ps != 0) {
+		if (ps[0] == 0xc2 && ps[1] == 0xb7) {
 			char ch = ps[2];
-			switch (ch)
-			{
+			switch (ch) {
 			case '#':
 			case '&':
 			case '\'':
@@ -272,18 +234,14 @@ void stripColorCode(char* src)
 				continue;
 
 			case '$':
-				if (isdigit(ps[3]))
-				{
+				if (isdigit(ps[3])) {
 					ps += 3;
 					if (isdigit(ps[1]))
-					{
 						ps += 2;
-					}
 					else
 						++ps;
 
-					if (ps[0] == ',' && isdigit(ps[1]))
-					{
+					if (ps[0] == ',' && isdigit(ps[1])) {
 						ps += 2;
 						if (isdigit(ps[1]))
 							ps += 2;
@@ -292,8 +250,7 @@ void stripColorCode(char* src)
 					}
 					continue;
 				}
-				else if (ps[3] == '#')
-				{
+				else if (ps[3] == '#') {
 					ps += 4;
 					for (int i=0; i<6; ++i)
 						if (isxdigit(*ps)) ++ps;
@@ -348,13 +305,13 @@ TCHAR* UnEscapeChatTags(TCHAR* str_in)
 
 char* getNewUuid(void)
 {
-	BYTE* p;
 	UUID id;
-
 	UuidCreate(&id);
+
+	BYTE *p;
 	UuidToStringA(&id, &p);
 	size_t len = strlen((char*)p) + 3;
-	char* result = (char*)mir_alloc(len);
+	char *result = (char*)mir_alloc(len);
 	mir_snprintf(result, len, "{%s}", p);
 	_strupr(result);
 	RpcStringFreeA(&p);
