@@ -78,7 +78,7 @@
 [Unknown]
 невідомо
 [Tooltip Notify]
-Повідомлення
+Спливаючі повідомлення
 [Notify upon the following contact status changes]
 Повідомляти про зміни статусів подальших контактів
 [Duration x2 upon online event]

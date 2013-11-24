@@ -900,7 +900,7 @@ TabSRMM: Набирає
 За замовчанням
 [Flash until focused]
 Блимати до активації
-[Disable Flashing]
+[Disable flashing]
 Вимкнути блимання
 [Show Multisend Contact List]
 Показувати вікно мультивідправки
