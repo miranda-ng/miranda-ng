@@ -31,6 +31,7 @@ int CDb3Base::InitCrypt()
 	dbv.type = DBVT_ASCIIZ;
 	DBCONTACTGETSETTING dbcgs = { "CryptoEngine", "Provider", &dbv };
 	if (GetContactSettingStr(NULL, &dbcgs)) {
+LBL_CreateProvider:
 		CRYPTO_PROVIDER **ppProvs;
 		int iNumProvs;
 		Crypto_EnumProviders(&iNumProvs, &ppProvs);
@@ -38,7 +39,7 @@ int CDb3Base::InitCrypt()
 			return 1;
 
 		pProvider = ppProvs[0];  //!!!!!!!!!!!!!!!!!!
-		
+
 		DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
 		dbcws.value.type = DBVT_ASCIIZ;
 		dbcws.value.pszVal = pProvider->pszName;
@@ -48,7 +49,7 @@ int CDb3Base::InitCrypt()
 		pProvider = Crypto_GetProvider(dbv.pszVal);
 		FreeVariant(&dbv);
 		if (pProvider == NULL)
-			return 2;
+			goto LBL_CreateProvider;
 	}
 
 	if ((m_crypto = pProvider->pFactory()) == NULL)
