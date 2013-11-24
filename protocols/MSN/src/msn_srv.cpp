@@ -324,11 +324,7 @@ void CMsnProto::MSN_SendNicknameUtf(const char* nickname)
 
 void CMsnProto::MSN_SetNicknameUtf(const char* nickname)
 {
-	const size_t urlNickSz = strlen(nickname) * 3 + 1;
-	char* urlNick = (char*)alloca(urlNickSz);
-
-	UrlEncode(nickname, urlNick, urlNickSz);
-	msnNsThread->sendPacket("PRP", "MFN %s", urlNick);
+	msnNsThread->sendPacket("PRP", "MFN %s", ptrA(mir_urlEncode(nickname)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

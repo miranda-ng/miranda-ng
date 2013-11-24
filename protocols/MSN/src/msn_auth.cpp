@@ -439,7 +439,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 }
 
 
-char* CMsnProto::HotmailLogin(const char* url)
+CMStringA CMsnProto::HotmailLogin(const char* url)
 {
 	unsigned char nonce[24];
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
@@ -458,29 +458,17 @@ char* CMsnProto::HotmailLogin(const char* url)
 	unsigned char key2[MIR_SHA1_HASH_SIZE+4];
 	derive_key(key2, key1, key1len, data1, data1len);
 
-	const size_t xmlenclen = 3 * strlen(hotAuthToken) + 1;
-	char* xmlenc = (char*)alloca(xmlenclen);
-	UrlEncode(hotAuthToken, xmlenc, xmlenclen);
+	CMStringA result;
+	result.Format("%s&da=%s&nonce=", url, ptrA(mir_urlEncode(hotAuthToken)));
 
-	ptrA noncenc( mir_base64_encode(nonce, sizeof(nonce)));
-	size_t noncenclen = lstrlenA(noncenc);
-
-	const size_t fnpstlen = strlen(xmlenc) + strlen(url) + 3*noncenclen + 100;
-	char* fnpst = (char*)mir_alloc(fnpstlen);
-
-	size_t sz = mir_snprintf(fnpst, fnpstlen, "%s&da=%s&nonce=", url, xmlenc);
-
-	UrlEncode(noncenc, fnpst + sz, fnpstlen - sz);
-	sz = strlen(fnpst);
+	ptrA noncenc(mir_base64_encode(nonce, sizeof(nonce)));
+	result.Append(ptrA(mir_urlEncode(noncenc)));
 
 	BYTE hash[MIR_SHA1_HASH_SIZE];
-	mir_hmac_sha1(hash, key2, sizeof(key2), (BYTE*)fnpst, sz);
-
-	noncenc = mir_base64_encode(hash, sizeof(hash));
-
-	sz += mir_snprintf(fnpst + sz, fnpstlen - sz, "&hash=");
-	UrlEncode(noncenc, fnpst + sz, fnpstlen - sz);
-	return fnpst;
+	mir_hmac_sha1(hash, key2, sizeof(key2), (BYTE*)result.GetString(), result.GetLength());
+	ptrA szHash(mir_base64_encode(hash, sizeof(hash)));
+	result.AppendFormat("&hash=%s", ptrA(mir_urlEncode(szHash)));
+	return result;
 }
 
 void CMsnProto::FreeAuthTokens(void)

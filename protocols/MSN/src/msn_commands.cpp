@@ -303,20 +303,16 @@ void CMsnProto::sttCustomSmiley(const char* msgBody, char* email, char* nick, in
 
 			size_t slen = strlen(lastsml);
 			ptrA buf( mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
+			ptrA smileyName(mir_urlEncode(buf));
 			int rlen = lstrlenA(buf);
-
-			char* smileyName = (char*)mir_alloc(rlen*3);
-			UrlEncode(buf, smileyName, rlen*3);
 
 			TCHAR path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(hContact, path, SIZEOF(path), smileyName, iSmileyType);
 			ft->std.tszCurrentFile = mir_tstrdup(path);
-			mir_free(smileyName);
 
 			if (p2p_IsDlFileOk(ft))
 				delete ft;
-			else
-			{
+			else {
 				debugLogA("Custom Smiley p2p invite for object : %s", ft->p2p_object);
 				p2p_invite(iSmileyType, ft, email);
 				Sleep(3000);

@@ -63,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_timezones.h>
 #include <m_extraicons.h>
 #include <m_nudge.h>
+#include <m_string.h>
 
 #include "m_proto_listeningto.h"
 #include "m_folders.h"
@@ -162,8 +163,6 @@ void		parseWLID(char* wlid, char** net, char** email, char** inst);
 char*		GetGlobalIp(void);
 
 template <class chartype> void UrlDecode(chartype* str);
-
-void     	UrlEncode(const char* src, char* dest, size_t cbDest);
 
 void		__cdecl MSN_ConnectionProc(HANDLE hNewConnection, DWORD dwRemoteIP, void*);
 

@@ -474,10 +474,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN Authentication
 
-	int    MSN_GetPassportAuth(void);
-	char*	 GenerateLoginBlob(char* challenge);
-	char*	 HotmailLogin(const char* url);
-	void	 FreeAuthTokens(void);
+	int       MSN_GetPassportAuth(void);
+	char*	    GenerateLoginBlob(char* challenge);
+	CMStringA HotmailLogin(const char* url);
+	void	    FreeAuthTokens(void);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN avatars support

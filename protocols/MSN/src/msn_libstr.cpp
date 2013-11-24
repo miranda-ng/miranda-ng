@@ -229,35 +229,6 @@ char*  HtmlEncode(const char* str)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// UrlEncode - converts printable characters into URL chars like %20
-
-void  UrlEncode(const char* src, char* dest, size_t cbDest)
-{
-	unsigned char* d = (unsigned char*)dest;
-	size_t   i = 0;
-
-	for (const unsigned char* s = (unsigned char*)src; *s; s++)
-	{
-		if ((*s <= '/' && *s != '.' && *s != '-') ||
-			 (*s >= ':' && *s <= '?') ||
-			 (*s >= '[' && *s <= '`' && *s != '_'))
-		{
-			if (i + 4 >= cbDest) break;
-
-			*d++ = '%';
-			_itoa(*s, (char*)d, 16);
-			d += 2;
-			i += 3;
-		}
-		else
-		{
-			if (++i >= cbDest) break;
-			*d++ = *s;
-	}	}
-
-	*d = '\0';
-}
-
 
 void stripBBCode(char* src)
 {

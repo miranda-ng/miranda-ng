@@ -285,9 +285,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 	char* szBuffer = ezxml_toxml(xmlp, false);
 	ezxml_free(xmlp);
 	mir_free(szFname);
-
-	char szEncodedBuffer[2000];
-	UrlEncode(szBuffer, szEncodedBuffer, sizeof(szEncodedBuffer));
+	ptrA szEncodedBuffer(mir_urlEncode(szBuffer));
 	free(szBuffer);
 
 	const TCHAR *szExt;
@@ -309,8 +307,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 		char szAvatarHashdOld[41] = "";
 		getStaticString(NULL, "AvatarHash", szAvatarHashdOld, sizeof(szAvatarHashdOld));
 		char *szAvatarHash = arrayToHex(sha1d, sizeof(sha1d));
-		if (strcmp(szAvatarHashdOld, szAvatarHash))
-		{
+		if (strcmp(szAvatarHashdOld, szAvatarHash)) {
 			setString("PictObject", szEncodedBuffer);
 			setString("AvatarHash", szAvatarHash);
 		}
@@ -445,7 +442,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 						break;
 
 				if (*p == 0) {
-					UrlEncode(dbv.pszVal, tFontName, sizeof(tFontName));
+					strncpy_s(tFontName, sizeof(tFontName), ptrA(mir_urlEncode(dbv.pszVal)), _TRUNCATE);
 					db_free(&dbv);
 				}
 			}
@@ -777,14 +774,15 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Display Hotmail Inbox thread
 
+static const char postdataM[] = "ct=%u&bver=7&wa=wsignin1.0&ru=%s&pl=MBI";
+static const char postdataS[] = "ct=%u&bver=7&id=73625&ru=%s&js=yes&pl=%%3Fid%%3D73625";
+
 void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 {
 	char* hippy = NULL;
 	if (!url)
 		url = ismail ? "http://mail.live.com?rru=inbox" : "http://profile.live.com";
 
-	static const char postdataM[] = "ct=%u&bver=7&wa=wsignin1.0&ru=%s&pl=MBI";
-	static const char postdataS[] = "ct=%u&bver=7&id=73625&ru=%s&js=yes&pl=%%3Fid%%3D73625";
 	const char *postdata = ismail ? postdataM : postdataS;
 
 	char passport[256];
@@ -796,30 +794,14 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 	if (p)
 		*p = 0;
 
-	char ruenc[256];
-	UrlEncode(url, ruenc, sizeof(ruenc));
+	CMStringA post = HotmailLogin(CMStringA().Format(postdata, (unsigned)time(NULL), ptrA(mir_urlEncode(url))));
+	if (!post.IsEmpty()) {
+		CMStringA hippy(passport);
+		hippy.AppendFormat("/ppsecure/sha1auth.srf?lc=%d&token=%s", itoa(langpref, passport, 10), ptrA(mir_urlEncode(post)));
 
-	const size_t fnpstlen = strlen(postdata) +  strlen(ruenc) + 30;
-	char* fnpst = (char*)alloca(fnpstlen);
-
-	mir_snprintf(fnpst, fnpstlen, postdata, time(NULL), ruenc);
-
-	char* post = HotmailLogin(fnpst);
-	if (post) {
-		size_t hipsz = strlen(passport) + 3*strlen(post) + 70;
-		hippy = (char*)alloca(hipsz);
-
-		strcpy(hippy, passport);
-		strcat(hippy, "\\ppsecure\\sha1auth.srf?lc=");
-		strcat(hippy, itoa(langpref, passport, 10));
-		strcat(hippy, "&token=");
-		size_t hiplen = strlen(hippy);
-		UrlEncode(post, hippy+hiplen, hipsz-hiplen);
-		mir_free(post);
+		debugLogA("Starting URL: '%s'", hippy);//why are we doin' this even though "hippy" might be "null"?
+		CallService(MS_UTILS_OPENURL, 1, (LPARAM)(LPCSTR)hippy);
 	}
-
-	debugLogA("Starting URL: '%s'", hippy);
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)hippy);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
