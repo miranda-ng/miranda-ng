@@ -219,7 +219,7 @@ protected:
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;
-	bool     m_safetyMode, m_bReadOnly;
+	bool     m_safetyMode, m_bReadOnly, m_bEncrypted;
 
 	MICryptoEngine *m_crypto;
 

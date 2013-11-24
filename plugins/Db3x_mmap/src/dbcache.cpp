@@ -79,7 +79,7 @@ void CDb3Mmap::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
 PBYTE CDb3Mmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 {
 	// buggy read
-	if (ofs>= m_dwFileSize) {
+	if (ofs >= m_dwFileSize) {
 		//log2("read from outside %d@%08x",bytesRequired,ofs);
 		if (bytesAvail != NULL) *bytesAvail = m_ChunkSize;
 		return m_pNull;
