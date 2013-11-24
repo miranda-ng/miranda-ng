@@ -868,8 +868,6 @@ TabSRMM: Набирает
 
 [Stay on Top]
 Поверх всех окон
-[Container Options...]
-Настройки контейнера
 [Save Message Log As...]
 Сохранить историю как...
 [Close Message Session\tCtrl-W]
@@ -900,8 +898,6 @@ TabSRMM: Набирает
 По умолчанию
 [Flash until focused]
 Мигать до активации
-[Disable Flashing]
-Выключить мигание
 [Show Multisend Contact List]
 Показывать окно мультиотправки
 [&User]

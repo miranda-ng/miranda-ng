@@ -756,7 +756,7 @@ BEGIN
         MENUITEM "Clear saved Tab Position",    ID_TABMENU_CLEARSAVEDTABPOSITION
         MENUITEM SEPARATOR
         MENUITEM "Attach to Container...",      ID_TABMENU_ATTACHTOCONTAINER
-        MENUITEM "Container Options...",        ID_TABMENU_CONTAINEROPTIONS
+        MENUITEM "Container options...",        ID_TABMENU_CONTAINEROPTIONS
         MENUITEM SEPARATOR
         MENUITEM "Close Container",             ID_TABMENU_CLOSECONTAINER
     END
@@ -918,7 +918,7 @@ BEGIN
         BEGIN
             MENUITEM "Use default Value",           ID_WINDOWFLASHING_USEDEFAULTVALUES
             MENUITEM "Flash until focused",         ID_WINDOWFLASHING_FLASHUNTILFOCUSED
-            MENUITEM "Disable Flashing",            ID_WINDOWFLASHING_DISABLEFLASHING
+            MENUITEM "Disable flashing",            ID_WINDOWFLASHING_DISABLEFLASHING
         END
         MENUITEM SEPARATOR
         MENUITEM "Show Multisend Contact List", ID_VIEW_SHOWMULTISENDCONTACTLIST
@@ -935,7 +935,7 @@ BEGIN
     END
     POPUP "&Container"
     BEGIN
-        MENUITEM "Container Options...",        ID_CONTAINER_CONTAINEROPTIONS
+        MENUITEM "Container options...",        ID_CONTAINER_CONTAINEROPTIONS
         MENUITEM SEPARATOR
         POPUP "Event Popups"
         BEGIN
