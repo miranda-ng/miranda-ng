@@ -351,7 +351,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				}
 
 				case IDC_HELP_GENERAL:
-					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://blog.miranda.or.at/tabsrmm/skin-selection-changes/");
+					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/UsingSkins");
 					break;
 
 				case IDC_SKIN_CLOSENOW: {
