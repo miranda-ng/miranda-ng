@@ -799,8 +799,8 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 		CMStringA hippy(passport);
 		hippy.AppendFormat("/ppsecure/sha1auth.srf?lc=%d&token=%s", itoa(langpref, passport, 10), ptrA(mir_urlEncode(post)));
 
-		debugLogA("Starting URL: '%s'", hippy);//why are we doin' this even though "hippy" might be "null"?
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM)(LPCSTR)hippy);
+		debugLogA("Starting URL: '%s'", hippy);
+		CallService(MS_UTILS_OPENURL, 1, (LPARAM)hippy.GetString());
 	}
 }
 
