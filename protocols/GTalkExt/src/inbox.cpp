@@ -42,7 +42,7 @@ const NETLIBHTTPHEADER HEADER_URL_ENCODED = {"Content-Type", "application/x-www-
 #define SID_KEY_NAME  "SID="
 #define LSID_KEY_NAME "LSID="
 
-#define LOGIN_PASS_SETTING_NAME "LoginPassword"
+#define LOGIN_PASS_SETTING_NAME "Password"
 
 #define INBOX_URL_FORMAT  _T("https://mail.google.com/%s%s/#inbox")
 
@@ -155,14 +155,6 @@ void OpenUrlThread(void *param)
 	free(data);
 }
 
-void __forceinline DecryptString(LPSTR str, int len)
-{
-	for (--len; len >= 0; len--) {
-		const char c = str[len] ^ 0xc3;
-		if (c) str[len] = c;
-	}
-}
-
 int GetMailboxPwd(LPCSTR acc, LPCTSTR mailbox, LPSTR *pwd, int buffSize)
 {
 	char buff[256];
@@ -181,9 +173,9 @@ int GetMailboxPwd(LPCSTR acc, LPCTSTR mailbox, LPSTR *pwd, int buffSize)
 	int result = dbv.cchVal;
 
 	if (pwd) {
-		if (buffSize < result + 1) result = buffSize - 1;
+		if (buffSize < result + 1)
+			result = buffSize - 1;
 		memcpy(*pwd, &buff, result + 1);
-		DecryptString(*pwd, result);
 	}
 
 	return result;
