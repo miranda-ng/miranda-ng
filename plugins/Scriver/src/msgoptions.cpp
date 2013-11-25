@@ -182,8 +182,8 @@ void RegisterChatFonts( void )
 	char idstr[10];
 	int index = 0, i;
 	fid.cbSize = sizeof(FontIDT);
-	mir_sntprintf(fid.group, SIZEOF(fid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group Chats"));
-	mir_sntprintf(fid.backgroundGroup, SIZEOF(fid.backgroundGroup), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group Chats"));
+	mir_sntprintf(fid.group, SIZEOF(fid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group chats"));
+	mir_sntprintf(fid.backgroundGroup, SIZEOF(fid.backgroundGroup), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group chats"));
 	strncpy(fid.dbSettingsGroup, "ChatFonts", sizeof(fid.dbSettingsGroup));
 	fid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
 	for (i = 0; i < SIZEOF(chatFontOptionsList); i++) {
@@ -207,7 +207,7 @@ void RegisterChatFonts( void )
 
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	mir_sntprintf(colourid.group, SIZEOF(colourid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group Chats"));
+	mir_sntprintf(colourid.group, SIZEOF(colourid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group chats"));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 

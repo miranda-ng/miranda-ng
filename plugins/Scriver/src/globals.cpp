@@ -101,7 +101,7 @@ void RegisterIcons(void)
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 
 	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList,   16);
-	Icon_Register(g_hInst, LPGEN("Group Chats"),     iconList+16, 20);
+	Icon_Register(g_hInst, LPGEN("Group chats"),     iconList+16, 20);
 	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList+36, 14);
 }
 

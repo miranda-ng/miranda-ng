@@ -1283,8 +1283,6 @@ Web-страница
 Изменять размер смайлов
 [Show avatars]
 Аватары
-[Group Chats]
-Чаты
 [Group chats]
 Чаты
 [Instant messages]
@@ -2235,7 +2233,7 @@ ID пользователя:
 Тема '%s'
 [The topic is '%s' (set by %s)]
 Тема '%s' (установлена %s)
-[User list members (Online)]
+[User list members (online)]
 Пользователи (в сети)
 [Flash window when someone speaks]
 Мигать окном, если есть новое сообщение

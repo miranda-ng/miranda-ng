@@ -1322,7 +1322,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 
 	odp.pszGroup    = LPGEN("Message Sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
-	odp.pszTitle    = LPGEN("Group Chats");
+	odp.pszTitle    = LPGEN("Group chats");
 	odp.pszTab      = LPGEN("Settings");
 	odp.pfnDlgProc = DlgProcOptions1;
 	Options_AddPage(wParam, &odp);

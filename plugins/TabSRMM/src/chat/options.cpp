@@ -63,7 +63,7 @@ struct ColorOptionsList
  * (GetSysColor(default_color & 0x00ffffff)), not a rgb value.
  */
 static ColorOptionsList _clrs[] = {
-	0, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), LPGENT("Group chat log background"), SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR,
+	0, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), LPGENT("Group chat log background"), SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR,
 	1, LPGENT("Message Sessions"), LPGENT("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR,
 	2, LPGENT("Message Sessions"), LPGENT("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR,
 	0, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR,
@@ -721,7 +721,7 @@ void RegisterFontServiceFonts() {
 	fontOptionsList = CHAT_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID|FIDF_ALLOWEFFECTS;
 	fid.flags&=~FIDF_SAVEPOINTSIZE;
-	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), SIZEOF(fid.group));
+	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), SIZEOF(fid.group));
 	strncpy(fid.dbSettingsGroup, CHAT_FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 	for (int i=0; i < msgDlgFontCount; i++) {
 		LoadMsgDlgFont(FONTSECTION_CHAT, i , &lf, &fontOptionsList[i].colour, CHAT_FONTMODULE);
@@ -735,14 +735,14 @@ void RegisterFontServiceFonts() {
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), SIZEOF(fid.backgroundGroup));
+		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), SIZEOF(fid.backgroundGroup));
 		_tcsncpy(fid.backgroundName, LPGENT("Group chat log background"), SIZEOF(fid.backgroundName));
 		if (i == 18 || i == 19)
 			_tcsncpy(fid.backgroundName, LPGENT("Userlist background"), SIZEOF(fid.backgroundName));
 		FontRegisterT(&fid);
 	}
 
-	_tcsncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), SIZEOF(cid.group));
+	_tcsncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), SIZEOF(cid.group));
 	strncpy(cid.dbSettingsGroup, "Chat", SIZEOF(cid.dbSettingsGroup));
 	for (int i=0; i <= 7; i++) {
 		mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);

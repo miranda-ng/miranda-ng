@@ -100,8 +100,8 @@ static void GetObjectSummary(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 
 	switch(dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (dbei->flags & DBEF_SENT)   pszSrc = TranslateT("Outgoing Message");
-		else                             pszSrc = TranslateT("Incoming Message");
+		if (dbei->flags & DBEF_SENT)   pszSrc = TranslateT("Outgoing message");
+		else                             pszSrc = TranslateT("Incoming message");
 		break;
 
 	case EVENTTYPE_URL:

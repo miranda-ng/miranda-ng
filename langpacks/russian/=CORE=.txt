@@ -717,7 +717,7 @@ URL:
 Входящий файл
 [Incoming File]
 Входящий файл
-[Incoming Message]
+[Incoming message]
 Входящее сообщение
 [Incoming nick]
 Имя собеседника
@@ -935,7 +935,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Исходящие соединения
 [Outgoing File]
 Исходящий файл
-[Outgoing Message]
+[Outgoing message]
 Исходящее сообщение
 [Outgoing nick]
 Ваше имя
@@ -2496,3 +2496,5 @@ Miranda не смогла загрузить встроенную систему
 Обед&аю\tCtrl+9
 [No profile support installed!]
 Нет установленных плагинов базы!
+[Group сhats log]
+Групповые чаты

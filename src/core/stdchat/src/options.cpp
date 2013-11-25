@@ -68,7 +68,7 @@ static const fontOptionsList[] = {
 	{ LPGENT("Action message"),               RGB(160, 90, 160),  _T("Verdana"), DEFAULT_CHARSET, 0, -12},
 	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  _T("Verdana"), DEFAULT_CHARSET, 0, -12},
 	{ LPGENT("Message typing area"),          RGB(0, 0, 40),      _T("Verdana"), DEFAULT_CHARSET, 0, -12},
-	{ LPGENT("User list members (Online)"),   RGB(0,0, 0),        _T("Verdana"), DEFAULT_CHARSET, 0, -12},
+	{ LPGENT("User list members (online)"),   RGB(0,0, 0),        _T("Verdana"), DEFAULT_CHARSET, 0, -12},
 	{ LPGENT("User list members (away)"),     RGB(170, 170, 170), _T("Verdana"), DEFAULT_CHARSET, 0, -12},
 };
 
@@ -469,8 +469,8 @@ static IconItem iconList[] =
 
 void AddIcons(void)
 {
-	Icon_Register(g_hInst, LPGEN("Messaging") "/" LPGEN("Group Chats"), iconList, 21);
-	Icon_Register(g_hInst, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), iconList+21, 14);
+	Icon_Register(g_hInst, LPGEN("Messaging") "/" LPGEN("Group chats"), iconList, 21);
+	Icon_Register(g_hInst, LPGEN("Messaging") "/" LPGEN("Group chats log"), iconList+21, 14);
 }
 
 // load icons from the skinning module if available

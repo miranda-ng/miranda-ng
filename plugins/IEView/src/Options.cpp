@@ -44,7 +44,7 @@ static tabPages[] =
 {
 	{ IEViewGeneralOptDlgProc,    IDD_GENERAL_OPTIONS, LPGENT("General")     },
 	{ IEViewSRMMOptDlgProc,       IDD_SRMM_OPTIONS,    LPGENT("Message Log") },
-	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS,    LPGENT("Group Chats") },
+	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS,    LPGENT("Group chats") },
 	{ IEViewHistoryOptDlgProc,    IDD_SRMM_OPTIONS,    LPGENT("History")     }
 };
 

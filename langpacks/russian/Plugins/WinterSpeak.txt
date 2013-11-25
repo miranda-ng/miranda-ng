@@ -19,7 +19,7 @@
 Тест
 [Occurring Events]
 Произошедшие события
-[Incoming Message]
+[Incoming message]
 Входящее сообщение
 [Incoming URL]
 Входящая ссылка
