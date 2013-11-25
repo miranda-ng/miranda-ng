@@ -23,17 +23,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-DBSignature dbSignature = { "Miranda ICQ DB", 0x1A };
+DBSignature dbSignature   = { "Miranda NG DBu", 0x1A };
+DBSignature dbSignatureIM = { "Miranda ICQ DB", 0x1A };
 DBSignature dbSignatureSA = { "Miranda ICQ SA", 0x1A };
 
-static int ModCompare(const ModuleName *mn1, const ModuleName *mn2 )
+static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
-	return strcmp( mn1->name, mn2->name );
+	return strcmp(mn1->name, mn2->name);
 }
 
-static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2 )
+static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
-	return ( mn1->ofs - mn2->ofs );
+	return (mn1->ofs - mn2->ofs);
 }
 
 static int stringCompare2(const char *p1, const char *p2)
@@ -118,12 +119,12 @@ int CDb3Base::Load(bool bSkipInit)
 	if ( m_hDbFile == INVALID_HANDLE_VALUE )
 		return EGROKPRF_CANTREAD;
 
-	if ( !ReadFile(m_hDbFile,&m_dbHeader,sizeof(m_dbHeader),&dummy,NULL)) {
+	if (!ReadFile(m_hDbFile, &m_dbHeader, sizeof(m_dbHeader), &dummy, NULL)) {
 		CloseHandle(m_hDbFile);
 		return EGROKPRF_CANTREAD;
 	}
 
-	if ( !bSkipInit) {
+	if (!bSkipInit) {
 		if (InitCache())       return 1;
 		if (InitModuleNames()) return 1;
 		if (InitCrypt())       return 1;
@@ -144,7 +145,7 @@ int CDb3Base::Load(bool bSkipInit)
 int CDb3Base::Create()
 {
 	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
-	return ( m_hDbFile == INVALID_HANDLE_VALUE );
+	return (m_hDbFile == INVALID_HANDLE_VALUE);
 }
 
 STDMETHODIMP_(void) CDb3Base::SetCacheSafetyMode(BOOL bIsSet)

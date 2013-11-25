@@ -20,7 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDb3Base::WorkInitialCheckHeaders()
 {
-	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature))) {
+	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature)) &&
+		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
+	{
 		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database signature is corrupted, automatic repair is impossible"));
 		return ERROR_BAD_FORMAT;
 	}
@@ -44,9 +46,9 @@ int CDb3Base::WorkInitialChecks(int firstTime)
 	if (res)
 		return res;
 
-	m_hMap = CreateFileMapping(m_hDbFile, NULL, cb->bAggressive?PAGE_WRITECOPY:PAGE_READONLY, 0, 0, NULL);
+	m_hMap = CreateFileMapping(m_hDbFile, NULL, cb->bAggressive ? PAGE_WRITECOPY : PAGE_READONLY, 0, 0, NULL);
 	if (m_hMap)
-		m_pDbCache = (BYTE*)MapViewOfFile(m_hMap, cb->bAggressive?FILE_MAP_COPY:FILE_MAP_READ, 0, 0 ,0);
+		m_pDbCache = (BYTE*)MapViewOfFile(m_hMap, cb->bAggressive ? FILE_MAP_COPY : FILE_MAP_READ, 0, 0, 0);
 	else {
 		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Can't create file mapping (%u)"),GetLastError());
 		return ERROR_ACCESS_DENIED;
@@ -56,8 +58,12 @@ int CDb3Base::WorkInitialChecks(int firstTime)
 		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Can't create map view of file (%u)"),GetLastError());
 		return ERROR_ACCESS_DENIED;
 	}
-	if (ReadSegment(0,&m_dbHeader,sizeof(m_dbHeader)) != ERROR_SUCCESS) return ERROR_READ_FAULT;
-	if (WriteSegment(0,&m_dbHeader,sizeof(m_dbHeader)) == WS_ERROR) return ERROR_HANDLE_DISK_FULL;
+	if (ReadSegment(0,&m_dbHeader,sizeof(m_dbHeader)) != ERROR_SUCCESS)
+		return ERROR_READ_FAULT;
+
+	if (WriteSegment(0,&m_dbHeader,sizeof(m_dbHeader)) == WS_ERROR)
+		return ERROR_HANDLE_DISK_FULL;
+
 	cb->spaceUsed = m_dbHeader.ofsFileEnd-m_dbHeader.slackSpace;
 	m_dbHeader.ofsFileEnd = sizeof(m_dbHeader);
 	return ERROR_NO_MORE_ITEMS;

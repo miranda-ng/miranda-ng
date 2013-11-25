@@ -475,7 +475,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		}
 		else bytesRequired = tmp.value.type;
 		bytesRequired += 2 + settingNameLen;
-		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY - (bytesRequired%DB_SETTINGS_RESIZE_GRANULARITY)) % DB_SETTINGS_RESIZE_GRANULARITY;
+		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY - (bytesRequired % DB_SETTINGS_RESIZE_GRANULARITY)) % DB_SETTINGS_RESIZE_GRANULARITY;
 		ofsSettingsGroup = CreateNewSpace(bytesRequired + offsetof(DBContactSettings, blob));
 		dbcs.signature = DBCONTACTSETTINGS_SIGNATURE;
 		dbcs.ofsNext = dbc.ofsFirstSettings;
@@ -612,21 +612,19 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	case DBVT_BYTE: DBWrite(ofsBlobPtr, &tmp.value.bVal, 1); MoveAlong(1); break;
 	case DBVT_WORD: DBWrite(ofsBlobPtr, &tmp.value.wVal, 2); MoveAlong(2); break;
 	case DBVT_DWORD: DBWrite(ofsBlobPtr, &tmp.value.dVal, 4); MoveAlong(4); break;
-	case DBVT_UTF8:
-	case DBVT_ASCIIZ:
-		{
-			int len = (int)strlen(tmp.value.pszVal);
-			if (bIsEncrypted)
-				EncodeString(tmp.value.pszVal);
-			DBWrite(ofsBlobPtr, &len, 2);
-			DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, len); // encode
-			MoveAlong(2 + len);
-		}
-		break;
 	case DBVT_BLOB:
 		DBWrite(ofsBlobPtr, &tmp.value.cpbVal, 2);
 		DBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal); // encode
 		MoveAlong(2 + tmp.value.cpbVal);
+		break;
+	case DBVT_UTF8:
+	case DBVT_ASCIIZ:
+		int len = (int)strlen(tmp.value.pszVal);
+		if (bIsEncrypted)
+			EncodeString(tmp.value.pszVal);
+		DBWrite(ofsBlobPtr, &len, 2);
+		DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, len); // encode
+		MoveAlong(2 + len);
 		break;
 	}
 

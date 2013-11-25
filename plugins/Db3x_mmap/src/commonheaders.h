@@ -42,7 +42,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 extern LIST<CDb3Mmap> g_Dbs;
-extern DBSignature dbSignature, dbSignatureSA;
+extern DBSignature dbSignature, dbSignatureIM, dbSignatureSA;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
