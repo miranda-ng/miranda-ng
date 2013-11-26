@@ -142,7 +142,7 @@ Zkopírovat
 Vyjmout
 [Paste]
 Vložit
-[Select All]
+[Select all]
 Vybrat vše
 [Clear]
 Vymazat
@@ -728,8 +728,6 @@ Vložit formátovaný text
 Vložit a Poslat ihned
 [Copy all]
 Zkopírovat vše
-[Select all]
-Vybrat vše
 [Show Message Length Indicator]
 Zobrazit indikátor délky zprávy
 [Close Tab]
@@ -744,7 +742,7 @@ Uložit rozmístění panelů
 Vymazat uložené rozmístění panelů
 [Attach to Container...]
 Připojit ke kontejneru...
-[Container Options...]
+[Container options...]
 Možnosti kontejneru...
 [Close Container]
 Zavřít kontejner
@@ -904,8 +902,6 @@ Panely vespod okna
 Blikání okna
 [Use default Value]
 Použít výchozí
-[Disable Flashing]
-Zakázat blikání
 [Show Multisend Contact List]
 Zobrazit seznam hromadného odeslání
 [Stay on Top]
@@ -974,8 +970,6 @@ Správa kanálů
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Skrýt záhlaví okna
-[Container options...]
-Možnosti kontejneru...
 [Message Session...]
 Rozhovor...
 [Default container]
@@ -1441,8 +1435,6 @@ Komunikační okno
 Použití
 [Window layout tweaks]
 Rozvržení okna
-[Group Chats]
-Skupinové rozhovory
 [Settings]
 Nastavení
 [Log formatting]

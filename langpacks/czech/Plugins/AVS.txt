@@ -18,7 +18,7 @@ Odstranit výchozí obrázek
 Upozornění: Váš vlastní avatar určíte pomocí funkce Nastavit\navatar ze sekce Informace o sobě v hlavní nabídce.
 [Try to draw avatar background transparent (for images without transparency)]
 Pokusit se zprůhlednit pozadí avataru (platí pro obrázky bez transparence)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Množství bodů definujících pozadí:
 [Color difference allowed:]
 Povolená odchylka barev:

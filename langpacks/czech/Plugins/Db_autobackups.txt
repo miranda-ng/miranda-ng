@@ -47,7 +47,7 @@ Vytvořeno:
 Databáze Mirandy NG
 [Compressed Miranda NG databases]
 Komprimované databáze Mirandy NG
-[All Files]
+[All files]
 Všechny soubory
 [Backup in progress]
 Probíhá zálohování
@@ -87,11 +87,11 @@ složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
 [Variables]
 Proměnné
-[Days]
-Dnů
-[Hours]
+[days]
+dnů
+[hours]
 hodin
-[Minutes]
+[minutes]
 minut
 [Select backup folder]
 Vyberte složku pro zálohování profilů

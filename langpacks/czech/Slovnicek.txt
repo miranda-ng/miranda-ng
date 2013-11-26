@@ -5,6 +5,7 @@ Autoreply - automatická odpovìï
 Avatar - avatar (avatara, avatarù, avataøi)
 Code page - kódová stránka
 Contact list - seznam kontaktù
+Credits - podìkování
 Drop down - šipka
 Fatal error - katastrofální selhání
 Frames, windows - rámeèky

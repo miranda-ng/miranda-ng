@@ -46,7 +46,7 @@ Mám volno
 Neviditelný
 [Occurring Events]
 
-[Incoming Message]
+[Incoming message]
 Příchozí zpráva
 [Incoming URL]
 Příchozí odkaz

@@ -673,7 +673,7 @@ Zobrazit
 [Current file]
 Aktuální stav
 [All files]
-Soubory celkově
+Všechny soubory
 [Existing file]
 Existující soubor
 [File being received]

@@ -115,7 +115,7 @@ Chyba
 Obecné
 [Message Log]
 Záznam komunikace
-[Group Chats]
+[Group chats]
 Skupinové rozhovory
 [History]
 Historie

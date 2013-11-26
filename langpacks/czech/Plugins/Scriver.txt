@@ -429,7 +429,7 @@ Zvýraznění (10x10)
 Informace (10x10)
 [Single Messaging]
 Běžný rozhovor
-[Group Chats]
+[Group chats]
 Skupinové rozhovory
 [Thai]
 thajština
@@ -922,8 +922,6 @@ Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivn�
 Vyberte požadovanou složku
 [Popups]
 Oznámení
-[Group chats]
-Skupinové rozhovory
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]

@@ -160,21 +160,21 @@ Odeslat obrázek
 
 [Default]
 Výchozí
-[overlay on]
+[Overlay on]
 
-[overlay off]
+[Overlay off]
 
 [Help]
 Nápověda
 [Open Folder]
 Otevřít složku
-[description off]
+[Description off]
 
-[description on]
+[Description on]
 
-[delete off]
+[Delete off]
 
-[delete on]
+[Delete on]
 
 [Prev]
 Předchozí
@@ -189,15 +189,15 @@ Použít
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
 Tlačítka
-[overlays]
-
+[Overlays]
+Překryvné
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
-
+Poděkování
 [< Copyright]
 < Copyright
 [Copyright]
-
+Copyright
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Umístěte kříž na požadované okno.
@@ -207,14 +207,14 @@ Umístěte kříž na požadované okno.
 Okno
 [Desktop]
 Plocha
-[<entire desktop>]
-
+[<Entire Desktop>]
+<Celá obrazovka>
 [Monitor]
-
+Monitor
 [ (primary)]
-
+ (primární)
 [<Only save>]
-
+<Pouze uložit>
 [File Transfer]
 Přenos souborů
 [E-mail]
@@ -222,7 +222,7 @@ E-mail
 [FTP File]
 Soubory přes FTP
 [ImageShack]
-
+ImageShack
 [Information]
 Informace
 [Fill description textbox.]

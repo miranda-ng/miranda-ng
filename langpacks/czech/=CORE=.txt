@@ -1373,7 +1373,7 @@ Upozornění
 Zvýrazněná zpráva
 [Message typing area]
 Oblast se zprávou
-[User list members (Online)]
+[User list members (online)]
 Seznam účastníků (online)
 [User list members (away)]
 Seznam účastníků (pryč)
@@ -1609,9 +1609,9 @@ Zvýraznění (10x10)
 Informace (10x10)
 [Messaging]
 Rozhovor
-[Group Chats]
+[Group chats]
 Skupinové rozhovory
-[Group Chats Log]
+[Group chats log]
 Záznam rozhovorů
 [Options for using a tabbed interface]
 Nastavení funkcí systému záložek
@@ -1631,8 +1631,6 @@ Zobrazit oznámení
 Vyberte požadovanou složku
 [Message Sessions]
 Komunikace
-[Group chats]
-Skupinové rozhovory
 [General]
 Obecné
 [Chat Log]
@@ -1990,10 +1988,6 @@ Neznámá chyba.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Neplatná zpráva
-[Outgoing Message]
-Odchozí zpráva
-[Incoming Message]
-Příchozí zpráva
 [Outgoing URL]
 Odchozí odkaz
 [Incoming URL]

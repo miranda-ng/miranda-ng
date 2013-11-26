@@ -37,7 +37,7 @@ Zobrazit sekundy v časovém údaji
 [Use transition effects when changing screens]
 
 [Credits]
-
+Poděkování
 [About]
 Informace
 [Mirandag15 + TrillianG15]
