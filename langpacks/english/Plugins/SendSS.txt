@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.2.0
+;  Version: 0.8.3.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -72,6 +72,7 @@
 [SendScreenshot - Error]
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
+[Open SendSS+]
 [SendSS]
 [Screenshots]
 [SendSS HTTP connections]
@@ -87,14 +88,14 @@
 [Target Cursor]
 [Target Desktop]
 [Default]
-[overlay on]
-[overlay off]
+[Overlay on]
+[Overlay off]
 [Help]
 [Open Folder]
-[description off]
-[description on]
-[delete off]
-[delete on]
+[Description off]
+[Description on]
+[Delete off]
+[Delete on]
 [Prev]
 [Next]
 [Update]
@@ -102,7 +103,7 @@
 [Down arrow]
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
-[overlays]
+[Overlays]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 [< Copyright]
@@ -112,7 +113,7 @@
 [Send screenshot to\n]
 [Window]
 [Desktop]
-[<entire desktop>]
+[<Entire Desktop>]
 [Monitor]
 [ (primary)]
 [<Only save>]

@@ -63,7 +63,7 @@
 ;file \plugins\IEView\src\Options.cpp
 [General]
 [Message Log]
-[Group Chats]
+[Group chats]
 [History]
 [Default]
 [Message Sessions]
