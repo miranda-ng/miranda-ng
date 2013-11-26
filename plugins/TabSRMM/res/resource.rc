@@ -911,7 +911,7 @@ BEGIN
             MENUITEM "Place ToolBar at bottom",     ID_VIEW_BOTTOMTOOLBAR
         END
         MENUITEM "Title Bar",                   ID_VIEW_SHOWTITLEBAR
-        MENUITEM "Tabs at Bottom",              ID_VIEW_TABSATBOTTOM
+        MENUITEM "Tabs at the bottom",              ID_VIEW_TABSATBOTTOM
         MENUITEM "Vertical maximize",           ID_VIEW_VERTICALMAXIMIZE
         MENUITEM SEPARATOR
         POPUP "Window Flashing"
