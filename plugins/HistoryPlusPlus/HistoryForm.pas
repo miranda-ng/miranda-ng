@@ -119,13 +119,6 @@ type
     tiFilter: TTimer;
     ilToolbar: TImageList;
     Toolbar: THppToolBar;
-    paPassHolder: TPanel;
-    paPassword: TPanel;
-    laPass: TLabel;
-    Image1: TImage;
-    laPass2: TLabel;
-    edPass: TEdit;
-    bnPass: TButton;
     pmHistory: TPopupMenu;
     SaveasMContacts2: TMenuItem;
     SaveasRTF2: TMenuItem;
@@ -159,7 +152,6 @@ type
     ShowAll1: TMenuItem;
     Customize1: TMenuItem;
     N6: TMenuItem;
-    Passwordprotection1: TMenuItem;
     TopPanel: TPanel;
     paSearchButtons: TPanel;
     pmSessions: TPopupMenu;
@@ -236,7 +228,6 @@ type
     procedure tbSearchClick(Sender: TObject);
     procedure tbFilterClick(Sender: TObject);
     procedure pbSearchPaint(Sender: TObject);
-    procedure paPassHolderResize(Sender: TObject);
     procedure tvSessMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     // procedure tvSessClick(Sender: TObject);
     procedure sbCloseSessClick(Sender: TObject);
@@ -275,9 +266,6 @@ type
     procedure OpenLinkClick(Sender: TObject);
     procedure OpenLinkNWClick(Sender: TObject);
     procedure CopyLinkClick(Sender: TObject);
-    procedure bnPassClick(Sender: TObject);
-    procedure edPassKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure edPassKeyPress(Sender: TObject; var Key: Char);
     procedure CopyText1Click(Sender: TObject);
     procedure hgUrlClick(Sender: TObject; Item: Integer; const URLText: String;  Button: TMouseButton);
     procedure hgProcessRichText(Sender: TObject; Handle: THandle; Item: Integer);
@@ -295,7 +283,6 @@ type
     procedure tbHistorySearchClick(Sender: TObject);
     procedure EmptyHistory1Click(Sender: TObject);
     procedure EventsFilterItemClick(Sender: TObject);
-    procedure Passwordprotection1Click(Sender: TObject);
     procedure SessSelectClick(Sender: TObject);
     procedure pmGridPopup(Sender: TObject);
     procedure pmHistoryPopup(Sender: TObject);
@@ -343,7 +330,6 @@ type
     EndTimestamp: DWord;
     FhContact, FhSubContact: THandle;
     FProtocol, FSubProtocol: AnsiString;
-    FPasswordMode: Boolean;
     SavedLinkUrl: String;
     SavedFileDir: String;
     HotFilterString: String;
@@ -371,8 +357,6 @@ type
     procedure HMNickChanged(var M: TMessage); message HM_NOTF_NICKCHANGED;
 
     procedure OpenDetails(Item: Integer);
-    procedure SetPasswordMode(const Value: Boolean);
-    procedure ProcessPassword;
     procedure TranslateForm;
 
     procedure SethContact(const Value: THandle);
@@ -417,7 +401,6 @@ type
     function GetItemData(Index: Integer): THistoryItem;
 
     procedure ReplyQuoted(Item: Integer);
-    procedure OpenPassword;
     procedure EmptyHistory;
 
     procedure SMPrepare(var M: TMessage); message HM_SESS_PREPARE;
@@ -449,7 +432,6 @@ type
     procedure FillBookmarks;
     procedure HMBookmarkChanged(var M: TMessage); message HM_NOTF_BOOKMARKCHANGED;
 
-    property PasswordMode: Boolean read FPasswordMode write SetPasswordMode;
     property hContact: THandle read FhContact write SethContact;
     property Protocol: AnsiString read FProtocol;
     property hSubContact: THandle read FhSubContact;
@@ -470,7 +452,7 @@ const
 implementation
 
 uses
-  EventDetailForm, PassForm, hpp_options, hpp_services, hpp_eventfilters,
+  EventDetailForm, hpp_options, hpp_services, hpp_eventfilters,
   hpp_database, hpp_contacts, hpp_itemprocess, hpp_events, hpp_forms, hpp_richedit,
   hpp_messages, hpp_bookmarks, Checksum, CustomizeFiltersForm, CustomizeToolbar;
 
@@ -661,7 +643,6 @@ begin
   LoadButtonIcons;
   LoadSessionIcons;
   LoadBookIcons;
-  Image1.Picture.Icon.Handle := CopyIcon(hppIntIcons[0].Handle);
 
   DesktopFont := True;
   MakeFontsParent(Self);
@@ -948,7 +929,7 @@ var
 begin
   Utils_SaveFormPosition(Self, 0, hppDBName, 'HistoryWindow.');
 
-  if (not PasswordMode) and (HistoryLength > 0) then
+  if (HistoryLength > 0) then
   begin
     if hContact = 0 then
     begin
@@ -1135,7 +1116,7 @@ begin
     Exit;
   end;
 
-  if (Key = VK_F10) and (Shift = []) and (not PasswordMode) then
+  if (Key = VK_F10) and (Shift = []) then
   begin
     WriteDBBool(hppDBName, 'Accessability', True);
     NotifyAllForms(HM_NOTF_ACCCHANGED, ORD(True), 0);
@@ -1143,7 +1124,7 @@ begin
     Exit;
   end;
 
-  if (Key = VK_F3) and ((Shift = []) or (Shift = [ssShift])) and (not PasswordMode) and
+  if (Key = VK_F3) and ((Shift = []) or (Shift = [ssShift])) and
     (SearchMode in [smSearch, smHotSearch]) then
   begin
     if ssShift in Shift then
@@ -1157,13 +1138,10 @@ begin
   if hg.State = gsInline then
     Exit;
 
-  if not PasswordMode then
+  if IsFormShortCut([mmAcc], Key, Shift) then
   begin
-    if IsFormShortCut([mmAcc], Key, Shift) then
-    begin
-      Key := 0;
-      Exit;
-    end;
+    Key := 0;
+    Exit;
   end;
 
   with Sender as TWinControl do
@@ -1229,17 +1207,7 @@ begin
     Action := caFree;
     if Assigned(WindowList) then
     begin
-      if WindowList.count = 1 then
-      begin
-        // we are the last left
-        if Assigned(PassCheckFm) then
-          FreeAndNil(PassCheckFm);
-        if Assigned(PassFm) then
-          FreeAndNil(PassFm);
-      end;
       WindowList.Delete(WindowList.IndexOf(Self));
-      // Windows.ShowCaret(Handle);
-      // Windows.ShowCursor(True);
     end;
     SavePosition;
   except
@@ -2036,23 +2004,20 @@ var
 begin
   if csDestroying in ComponentState then
     Exit;
-  if PasswordMode then
-    t := ''
-  else
-    case State of
-      gsIdle:
-        t := Format(TranslateW('%.0n items in history'), [HistoryLength / 1]);
-      gsLoad:
-        t := TranslateW('Loading...');
-      gsSave:
-        t := TranslateW('Saving...');
-      gsSearch:
-        t := TranslateW('Searching...');
-      gsDelete:
-        t := TranslateW('Deleting...');
-      gsInline:
-        t := TranslateW('Pseudo-edit mode...');
-    end;
+  case State of
+    gsIdle:
+      t := Format(TranslateW('%.0n items in history'), [HistoryLength / 1]);
+    gsLoad:
+      t := TranslateW('Loading...');
+    gsSave:
+      t := TranslateW('Saving...');
+    gsSearch:
+      t := TranslateW('Searching...');
+    gsDelete:
+      t := TranslateW('Deleting...');
+    gsInline:
+      t := TranslateW('Pseudo-edit mode...');
+  end;
   sb.SimpleText := t;
 end;
 
@@ -2192,8 +2157,6 @@ end;
 procedure THistoryFrm.FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if PasswordMode then
-    Exit;
   Handled := True;
   (* we can get range check error (???) here
     it looks that without range check it works ok
@@ -2504,43 +2467,6 @@ begin
   end;
 end;
 
-procedure THistoryFrm.SetPasswordMode(const Value: Boolean);
-var
-  enb: Boolean;
-begin
-  FPasswordMode := Value;
-  enb := not Value;
-  hgState(hg, hg.State);
-  hg.Enabled := enb;
-  hg.Visible := enb;
-  paClient.Enabled := enb;
-  paClient.Visible := enb;
-
-  if Value then
-    paPassHolder.Align := TAlign(alClient);
-  paPassHolder.Enabled := not enb;
-  paPassHolder.Visible := not enb;
-  if Value then
-  begin
-    paPassword.Left := (paPassHolder.ClientWidth - paPassword.Width) div 2;
-    paPassword.Top := (paPassHolder.ClientHeight - paPassword.Height) div 2;
-    if Self.Visible then
-      edPass.SetFocus
-    else
-      Self.ActiveControl := edPass;
-  end
-  else
-  begin
-    ToggleMainMenu(GetDBBool(hppDBName, 'Accessability', False));
-    // reset selected
-    hg.Selected := hg.Selected;
-    if Self.Visible then
-      hg.SetFocus
-    else
-      Self.ActiveControl := hg;
-  end;
-end;
-
 procedure THistoryFrm.SetRecentEventsPosition(OnTop: Boolean);
 begin
   hg.Reversed := not OnTop;
@@ -2628,20 +2554,6 @@ begin
   hg.Selected := Value;
 end;
 
-procedure THistoryFrm.bnPassClick(Sender: TObject);
-begin
-  if DigToBase(HashString(AnsiString(edPass.Text))) = GetPassword then
-    PasswordMode := False
-  else
-    { DONE: sHure }
-    HppMessageBox(Handle, TranslateW('You have entered the wrong password'),
-      TranslateW('History++ Password Protection'), MB_OK or MB_DEFBUTTON1 or MB_ICONSTOP);
-end;
-
-procedure THistoryFrm.edPassKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin;
-end;
-
 procedure THistoryFrm.edSearchChange(Sender: TObject);
 begin
   if SearchMode = smFilter then
@@ -2691,23 +2603,12 @@ begin
   end;
 end;
 
-procedure THistoryFrm.edPassKeyPress(Sender: TObject; var Key: Char);
-begin
-  // to prevent ** BLING ** when press Enter
-  // to prevent ** BLING ** when press Tab
-  // to prevent ** BLING ** when press Esc
-  if ORD(Key) in [VK_RETURN, VK_TAB, VK_ESCAPE] then
-    Key := #0;
-end;
-
 procedure THistoryFrm.PostLoadHistory;
 var
   tPanel: THistoryPanels;
 begin
   LoadPosition;
-  ProcessPassword;
-  if not PasswordMode then
-    ToggleMainMenu(GetDBBool(hppDBName, 'Accessability', False));
+  ToggleMainMenu(GetDBBool(hppDBName, 'Accessability', False));
 
   // if hContact = 0 then paTop.Visible := False;
   // set reversed here, after Allocate, because of some scrollbar
@@ -2765,19 +2666,6 @@ begin
 
 end;
 
-procedure THistoryFrm.ProcessPassword;
-begin
-  if IsPasswordBlank(GetPassword) then
-    Exit;
-  if IsUserProtected(hContact) or IsUserProtected(hSubContact) then
-    PasswordMode := True;
-end;
-
-procedure THistoryFrm.OpenPassword;
-begin
-  RunPassForm;
-end;
-
 procedure THistoryFrm.FormShow(Sender: TObject);
 begin
   // EndUpdate is better here, not in PostHistoryLoad, because it's faster
@@ -2827,20 +2715,6 @@ begin
   CustomizeToolbar;
 end;
 
-procedure THistoryFrm.paPassHolderResize(Sender: TObject);
-begin
-  if PasswordMode then
-  begin
-    paPassword.Left := (ClientWidth - paPassword.Width) div 2;
-    paPassword.Top := (ClientHeight - paPassword.Height) div 2;
-  end;
-end;
-
-procedure THistoryFrm.Passwordprotection1Click(Sender: TObject);
-begin
-  OpenPassword;
-end;
-
 procedure THistoryFrm.TranslateForm;
 begin
   Caption := TranslateUnicodeString(Caption);
@@ -2860,9 +2734,6 @@ begin
 
   sbClearFilter.Hint := TranslateUnicodeString(sbClearFilter.Hint);
 
-  bnPass.Caption  := TranslateUnicodeString(bnPass.Caption);
-  laPass.Caption  := TranslateUnicodeString(laPass.Caption);
-  laPass2.Caption := TranslateUnicodeString(laPass2.Caption);
   laSess.Caption  := TranslateUnicodeString(laSess.Caption);
   laBook.Caption  := TranslateUnicodeString(laBook.Caption);
 
@@ -3127,12 +2998,6 @@ end;
 
 procedure THistoryFrm.hgKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  // this workaround was done because when we have password and
-  // press enter, if password is ok, we a brought to the
-  // history grid, and have VK_RETURN onkeyup event. So we have
-  // this var to help us. And no, if move this code to OnKeyDown,
-  // we will have problems with inline richedit not appearing
-  // on enter
   if not WasReturnPressed then
     Exit;
   WasReturnPressed := False;
@@ -3820,7 +3685,6 @@ end;
 
 procedure THistoryFrm.hgRTLEnabled(Sender: TObject; BiDiMode: TBiDiMode);
 begin
-  edPass.BiDiMode := BiDiMode;
   edSearch.BiDiMode := BiDiMode;
   // tvSess.BiDiMode := BiDiMode;
   if Assigned(EventDetailForm) then

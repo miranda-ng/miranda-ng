@@ -67,24 +67,20 @@ type
   private
     FContact: THandle;
     FContacts: Array of THandle;
-    FPasswordMode: Boolean;
     procedure TranslateForm;
     procedure PrepareForm;
     procedure SetContact(const Value: THandle);
-    procedure SetPasswordMode(const Value: Boolean);
     procedure EmptyHistory(hContact: THandle);
   protected
     function GetFormText: String;
   public
     property Contact: THandle read FContact write SetContact;
-    property PasswordMode: Boolean read FPasswordMode write SetPasswordMode;
   end;
 
 implementation
 
 uses
   Math, SysUtils, HistoryForm,
-  PassForm, {PassCheckForm,}
   hpp_global, hpp_forms, hpp_contacts, hpp_database, hpp_bookmarks;
 
 {$R *.dfm}
@@ -169,10 +165,7 @@ begin
   IconTextWidth := Image.Width + HorzSpacing + TextRect.Right;
   IconTextHeight := Max(Image.Height,TextRect.Bottom);
 
-  if PasswordMode then
-    ButtonGroupWidth := ButtonWidth
-  else
-    ButtonGroupWidth := ButtonWidth*2 + ButtonSpacing;
+  ButtonGroupWidth := ButtonWidth*2 + ButtonSpacing;
 
   BorderWidth := VertSpacing;
   ClientWidth := Max(IconTextWidth, ButtonGroupWidth);
@@ -194,15 +187,8 @@ begin
   Text.SetBounds(Image.Width + HorzSpacing, 0,
     TextRect.Right, TextRect.Bottom);
 
-  if PasswordMode then
-  begin
-    btCancel.SetBounds((ClientWidth - ButtonGroupWidth) div 2,0, ButtonWidth, ButtonHeight);
-  end
-  else
-  begin
-    btYes.SetBounds((ClientWidth - ButtonGroupWidth) div 2,0, ButtonWidth, ButtonHeight);
-    btNo.SetBounds(btYes.Left + btYes.Width + ButtonSpacing,0, ButtonWidth, ButtonHeight);
-  end;
+  btYes.SetBounds((ClientWidth - ButtonGroupWidth) div 2,0, ButtonWidth, ButtonHeight);
+  btNo.SetBounds(btYes.Left + btYes.Width + ButtonSpacing,0, ButtonWidth, ButtonHeight);
 end;
 
 procedure TEmptyHistoryFrm.FormShow(Sender: TObject);
@@ -255,34 +241,7 @@ begin
       end;
     end;
   end;
-  if Assigned(Owner) and (Owner is THistoryFrm) then
-    PasswordMode := THistoryFrm(Owner).PasswordMode
-  else
-    PasswordMode := (not IsPasswordBlank(GetPassword)) and IsUserProtected(FContact);
-  paContacts.Visible := not PasswordMode and (Length(FContacts) > 0);
-end;
-
-procedure TEmptyHistoryFrm.SetPasswordMode(const Value: Boolean);
-begin
-  FPasswordMode := Value;
-  if PasswordMode then
-  begin
-    Image.Picture.Icon.Handle := LoadIcon(0, IDI_EXCLAMATION);
-    Text.Caption := TranslateW('History of this contact is password protected');
-  end
-  else
-  begin
-    Image.Picture.Icon.Handle := LoadIcon(0, IDI_QUESTION);
-    Text.Caption :=
-      TranslateW('Do you really want to delete ALL items for this contact?')+#10#13+
-      #10#13+
-      TranslateW('Note: It can take several minutes for large histories');
-  end;
-  btYes.Visible := not FPasswordMode;
-  btYes.Default := not FPasswordMode;
-  btNo.Visible := not FPasswordMode;
-  btCancel.Visible := FPasswordMode;
-  btCancel.Default := FPasswordMode;
+  paContacts.Visible := (Length(FContacts) > 0);
 end;
 
 procedure TEmptyHistoryFrm.EmptyHistory(hContact: THandle);

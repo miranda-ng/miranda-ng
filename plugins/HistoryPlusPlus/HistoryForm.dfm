@@ -1,12 +1,12 @@
 object HistoryFrm: THistoryFrm
   Left = 245
   Top = 167
-  Width = 586
-  Height = 424
   VertScrollBar.Tracking = True
   VertScrollBar.Visible = False
   ActiveControl = hg
   Caption = '%s - History++'
+  ClientHeight = 397
+  ClientWidth = 578
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -164,7 +164,6 @@ object HistoryFrm: THistoryFrm
           TabOrder = 0
           OnChange = edSearchChange
           OnKeyDown = edSearchKeyDown
-          OnKeyPress = edPassKeyPress
           OnKeyUp = edSearchKeyUp
         end
       end
@@ -217,7 +216,7 @@ object HistoryFrm: THistoryFrm
           Left = 22
           Top = 3
           Width = 12
-          Height = 19
+          Height = 13
           Align = alRight
           Caption = '>>'
           Transparent = True
@@ -254,8 +253,6 @@ object HistoryFrm: THistoryFrm
         Height = 30
         AutoSize = True
         BorderWidth = 2
-        EdgeBorders = []
-        Flat = True
         DoubleBuffered = True
         Images = ilToolbar
         ParentDoubleBuffered = False
@@ -555,7 +552,6 @@ object HistoryFrm: THistoryFrm
           OnChange = tvSessChange
           OnGetSelectedIndex = tvSessGetSelectedIndex
           OnKeyDown = tvSessKeyDown
-          OnKeyPress = edPassKeyPress
           OnMouseMove = tvSessMouseMove
         end
       end
@@ -568,79 +564,6 @@ object HistoryFrm: THistoryFrm
     Height = 19
     Panels = <>
     SimplePanel = True
-  end
-  object paPassHolder: TPanel
-    Left = 179
-    Top = 95
-    Width = 325
-    Height = 153
-    BevelOuter = bvNone
-    BorderStyle = bsSingle
-    Enabled = False
-    TabOrder = 2
-    Visible = False
-    OnResize = paPassHolderResize
-    object paPassword: TPanel
-      Left = 8
-      Top = 16
-      Width = 301
-      Height = 117
-      BevelOuter = bvNone
-      TabOrder = 0
-      object laPass: TLabel
-        Left = 54
-        Top = 7
-        Width = 236
-        Height = 46
-        AutoSize = False
-        Caption = 'You need password to access this history'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-        Transparent = True
-        WordWrap = True
-      end
-      object Image1: TImage
-        Left = 10
-        Top = 8
-        Width = 32
-        Height = 29
-        AutoSize = True
-        Transparent = True
-      end
-      object laPass2: TLabel
-        Left = 10
-        Top = 60
-        Width = 49
-        Height = 13
-        Caption = 'Password:'
-        Transparent = True
-      end
-      object edPass: TEdit
-        Left = 80
-        Top = 56
-        Width = 211
-        Height = 21
-        MaxLength = 100
-        TabOrder = 0
-        PasswordChar = '*'
-        OnKeyPress = edPassKeyPress
-        OnKeyUp = edPassKeyUp
-      end
-      object bnPass: TButton
-        Left = 208
-        Top = 82
-        Width = 83
-        Height = 25
-        Caption = 'Enter'
-        Default = True
-        TabOrder = 1
-        OnClick = bnPassClick
-      end
-    end
   end
   object SaveDialog: TSaveDialog
     FilterIndex = 0
@@ -840,10 +763,6 @@ object HistoryFrm: THistoryFrm
     end
     object N7: TMenuItem
       Caption = '-'
-    end
-    object Passwordprotection1: TMenuItem
-      Caption = 'Password protection...'
-      OnClick = Passwordprotection1Click
     end
   end
   object pmEventsFilter: TPopupMenu

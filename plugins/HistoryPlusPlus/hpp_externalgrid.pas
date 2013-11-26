@@ -955,7 +955,6 @@ begin
   oep.cbSize := SizeOf(oep);
   oep.hContact := Items[Grid.Selected].hContact;
   oep.hDBEvent := Items[Grid.Selected].hDBEvent;
-  oep.pPassword := nil;
   CallService(MS_HPP_OPENHISTORYEVENT, WParam(@oep), 0);
 end;
 

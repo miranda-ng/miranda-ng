@@ -224,8 +224,7 @@ const
   HPP_ICON_BOOKMARK_OFF      = 30;
   HPP_ICON_SEARCHADVANCED    = 31;
   HPP_ICON_SEARCHRANGE       = 32;
-  HPP_ICON_SEARCHPROTECTED   = 33;
-
+  
   HPP_ICON_EVENT_INCOMING    = 34;
   HPP_ICON_EVENT_OUTGOING    = 35;
   HPP_ICON_EVENT_SYSTEM      = 36;
@@ -356,7 +355,7 @@ var
   HostStart, HostEnd: Integer;
   HostStr, EncodedStr: String;
 begin
-  // [scheme://*][user:password@]host[:port][/path]
+  // [scheme://*][user:pass]host[:port][/path]
   // [mailto:]userinfo@host
   // \\host\path
   Result := False;

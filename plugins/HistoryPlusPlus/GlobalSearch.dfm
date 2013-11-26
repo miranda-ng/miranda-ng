@@ -1,9 +1,9 @@
 object fmGlobalSearch: TfmGlobalSearch
   Left = 259
   Top = 118
-  Width = 559
-  Height = 544
   Caption = 'Global History Search'
+  ClientHeight = 517
+  ClientWidth = 551
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,17 +26,19 @@ object fmGlobalSearch: TfmGlobalSearch
     Left = 0
     Top = 0
     Width = 551
-    Height = 493
+    Height = 498
     Align = alClient
     BevelOuter = bvNone
     BorderWidth = 2
     TabOrder = 0
     object spContacts: TSplitter
       Left = 157
-      Top = 248
-      Height = 189
+      Top = 202
+      Height = 240
       ResizeStyle = rsUpdate
       Visible = False
+      ExplicitTop = 248
+      ExplicitHeight = 189
     end
     object paSearch: TPanel
       Left = 2
@@ -45,7 +47,7 @@ object fmGlobalSearch: TfmGlobalSearch
       Height = 32
       Align = alTop
       BevelOuter = bvNone
-      TabOrder = 5
+      TabOrder = 4
       DesignSize = (
         547
         32)
@@ -84,13 +86,13 @@ object fmGlobalSearch: TfmGlobalSearch
     end
     object paProgress: TPanel
       Left = 2
-      Top = 437
+      Top = 442
       Width = 547
       Height = 54
       Align = alBottom
       BevelInner = bvRaised
       BevelOuter = bvLowered
-      TabOrder = 3
+      TabOrder = 2
       Visible = False
       DesignSize = (
         547
@@ -116,89 +118,20 @@ object fmGlobalSearch: TfmGlobalSearch
         TabOrder = 0
       end
     end
-    object paPassword: TPanel
-      Left = 2
-      Top = 202
-      Width = 547
-      Height = 46
-      Align = alTop
-      BevelOuter = bvNone
-      TabOrder = 1
-      Visible = False
-      DesignSize = (
-        547
-        46)
-      object bePassword: TBevel
-        Left = 12
-        Top = 10
-        Width = 519
-        Height = 5
-        Anchors = [akLeft, akTop, akRight]
-        Shape = bsTopLine
-      end
-      object laPass: TLabel
-        Left = 8
-        Top = 25
-        Width = 49
-        Height = 13
-        Caption = 'Password:'
-      end
-      object laPasswordHead: TLabel
-        Left = 4
-        Top = 4
-        Width = 154
-        Height = 13
-        Caption = 'Search Protected Contacts'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-        Transparent = False
-      end
-      object sbPasswordClose: TSpeedButton
-        Left = 521
-        Top = 2
-        Width = 18
-        Height = 17
-        Anchors = [akTop, akRight]
-        Flat = True
-        Transparent = False
-        OnClick = sbPasswordCloseClick
-      end
-      object laPassNote: TLabel
-        Caption = ''
-        Left = 199
-        Top = 25
-        Width = 3
-        Height = 13
-      end
-      object edPass: TEdit
-        Left = 65
-        Top = 21
-        Width = 125
-        Height = 21
-        TabOrder = 0
-        PasswordChar = '*'
-        OnKeyDown = edSearchKeyUp
-        OnKeyPress = edPassKeyPress
-      end
-    end
     object paContacts: TPanel
       Left = 2
-      Top = 248
+      Top = 202
       Width = 155
-      Height = 189
+      Height = 240
       Align = alLeft
       BevelOuter = bvNone
-      TabOrder = 2
+      TabOrder = 1
       Visible = False
       object lvContacts: TListView
         Left = 0
         Top = 0
         Width = 155
-        Height = 189
+        Height = 240
         Align = alClient
         Columns = <
           item
@@ -221,17 +154,17 @@ object fmGlobalSearch: TfmGlobalSearch
     end
     object paHistory: TPanel
       Left = 160
-      Top = 248
+      Top = 202
       Width = 389
-      Height = 189
+      Height = 240
       Align = alClient
       BevelOuter = bvNone
-      TabOrder = 4
+      TabOrder = 3
       object hg: THistoryGrid
         Left = 0
         Top = 0
         Width = 389
-        Height = 161
+        Height = 212
         VertScrollBar.Increment = 1
         ShowBottomAligned = False
         ShowBookmarks = True
@@ -265,7 +198,6 @@ object fmGlobalSearch: TfmGlobalSearch
         OnUrlClick = hgUrlClick
         OnBookmarkClick = hgBookmarkClick
         OnItemFilter = hgItemFilter
-        OnProcessRichText = hgProcessRichText
         OnSearchItem = hgSearchItem
         Reversed = False
         ReversedHeader = False
@@ -279,7 +211,7 @@ object fmGlobalSearch: TfmGlobalSearch
       end
       object paFilter: TPanel
         Left = 0
-        Top = 161
+        Top = 212
         Width = 389
         Height = 28
         Align = alBottom
@@ -325,7 +257,7 @@ object fmGlobalSearch: TfmGlobalSearch
       Height = 46
       Align = alTop
       BevelOuter = bvNone
-      TabOrder = 6
+      TabOrder = 5
       Visible = False
       DesignSize = (
         547
@@ -396,7 +328,7 @@ object fmGlobalSearch: TfmGlobalSearch
       Height = 46
       Align = alTop
       BevelOuter = bvNone
-      TabOrder = 7
+      TabOrder = 6
       Visible = False
       DesignSize = (
         547
@@ -490,8 +422,6 @@ object fmGlobalSearch: TfmGlobalSearch
         Height = 30
         AutoSize = True
         BorderWidth = 2
-        EdgeBorders = []
-        Flat = True
         DoubleBuffered = True
         Images = ilToolbar
         ParentDoubleBuffered = False
@@ -524,23 +454,14 @@ object fmGlobalSearch: TfmGlobalSearch
           Style = tbsCheck
           OnClick = tbEventsClick
         end
-        object tbPassword: THppToolButton
-          Left = 69
-          Top = 0
-          Hint = 'Search protected contacts'
-          HelpKeyword = 'F7'
-          Caption = 'Search protected contacts'
-          Style = tbsCheck
-          OnClick = tbPasswordClick
-        end
         object ToolButton1: THppToolButton
-          Left = 92
+          Left = 69
           Top = 0
           Width = 8
           Style = tbsSeparator
         end
         object tbBookmarks: THppToolButton
-          Left = 100
+          Left = 77
           Top = 0
           Hint = 'Bookmarks'
           HelpKeyword = 'F9'
@@ -549,13 +470,13 @@ object fmGlobalSearch: TfmGlobalSearch
           OnClick = tbBookmarksClick
         end
         object ToolButton2: THppToolButton
-          Left = 123
+          Left = 100
           Top = 0
           Width = 8
           Style = tbsSeparator
         end
         object tbSearch: THppToolButton
-          Left = 131
+          Left = 108
           Top = 0
           Caption = 'Find'
           Grouped = True
@@ -563,7 +484,7 @@ object fmGlobalSearch: TfmGlobalSearch
           Visible = False
         end
         object tbFilter: THppToolButton
-          Left = 154
+          Left = 131
           Top = 0
           Caption = 'Filter'
           Grouped = True
@@ -571,14 +492,14 @@ object fmGlobalSearch: TfmGlobalSearch
           Visible = False
         end
         object ToolButton3: THppToolButton
-          Left = 177
+          Left = 154
           Top = 0
           Width = 8
           Style = tbsSeparator
           Visible = False
         end
         object tbEventsFilter: THppSpeedButton
-          Left = 185
+          Left = 162
           Top = 0
           Width = 110
           Height = 22
@@ -591,27 +512,27 @@ object fmGlobalSearch: TfmGlobalSearch
           OnClick = tbEventsFilterClick
         end
         object ToolButton4: THppToolButton
-          Left = 295
+          Left = 272
           Top = 0
           Width = 8
           Style = tbsSeparator
         end
         object tbCopy: THppToolButton
-          Left = 303
+          Left = 280
           Top = 0
           Hint = 'Copy'
           Caption = 'Copy'
           OnClick = tbCopyClick
         end
         object tbDelete: THppToolButton
-          Left = 326
+          Left = 303
           Top = 0
           Hint = 'Delete'
           Caption = 'Delete'
           OnClick = tbDeleteClick
         end
         object tbSave: THppToolButton
-          Left = 349
+          Left = 326
           Top = 0
           Hint = 'Save'
           Caption = 'Save'
@@ -626,7 +547,7 @@ object fmGlobalSearch: TfmGlobalSearch
       Height = 46
       Align = alTop
       BevelOuter = bvNone
-      TabOrder = 8
+      TabOrder = 7
       Visible = False
       DesignSize = (
         547
@@ -680,7 +601,6 @@ object fmGlobalSearch: TfmGlobalSearch
         AutoCloseUp = True
         Style = csDropDownList
         BiDiMode = bdLeftToRight
-        ItemHeight = 13
         ParentBiDiMode = False
         TabOrder = 0
       end
@@ -688,7 +608,7 @@ object fmGlobalSearch: TfmGlobalSearch
   end
   object sb: TStatusBar
     Left = 0
-    Top = 493
+    Top = 498
     Width = 551
     Height = 19
     Panels = <>

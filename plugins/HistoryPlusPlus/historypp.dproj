@@ -8,7 +8,7 @@
 			<AppType>Library</AppType>
 			<FrameworkType>VCL</FrameworkType>
 			<ProjectVersion>13.4</ProjectVersion>
-			<Platform Condition="'$(Platform)'==''">Win64</Platform>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -143,15 +143,6 @@
 			</DCCReference>
 			<DCCReference Include="EmptyHistoryForm.pas">
 				<Form>EmptyHistoryFrm</Form>
-			</DCCReference>
-			<DCCReference Include="PassForm.pas">
-				<Form>fmPass</Form>
-			</DCCReference>
-			<DCCReference Include="PassNewForm.pas">
-				<Form>fmPassNew</Form>
-			</DCCReference>
-			<DCCReference Include="PassCheckForm.pas">
-				<Form>fmPassCheck</Form>
 			</DCCReference>
 			<DCCReference Include="GlobalSearch.pas">
 				<Form>fmGlobalSearch</Form>

@@ -51,13 +51,11 @@ interface
 uses
   Classes, Windows, Controls,
   m_api,
-  HistoryForm, PassForm, PassCheckForm;
+  HistoryForm;
 
 var
   hHppRichEditItemProcess: THandle;
   HstWindowList: TList;
-  PassFm: TfmPass;
-  PassCheckFm: TfmPassCheck;
 
 procedure hppRegisterServices;
 procedure hppUnregisterServices;
@@ -183,7 +181,6 @@ end;
 // See m_historypp.inc for details
 function HppOpenHistoryEvent(wParam { POpenEventParams } : WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 var
-  wHistory: THistoryFrm;
   hDbEvent: THandle;
   item, sel: Integer;
   oep: TOpenEventParams;
@@ -201,14 +198,9 @@ begin
     end;
     if hDbEvent = oep.hDbEvent then
       sel := item;
-    wHistory := OpenContactHistory(oep.hContact, sel);
-    if wHistory.PasswordMode then
-      if (oep.pPassword <> nil) and CheckPassword(oep.pPassword) then
-        wHistory.PasswordMode := False;
-    Result := int_ptr(not wHistory.PasswordMode);
-  end
-  else
-    Result := 0;
+    OpenContactHistory(oep.hContact, sel);
+  end;
+  Result := 0;
 end;
 
 // MS_HPP_EMPTYHISTORY service

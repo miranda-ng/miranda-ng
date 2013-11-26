@@ -27,7 +27,7 @@ procedure Register;
 
 implementation
 
-uses Classes, HistoryControls, DesignIntf, DesignEditors;
+uses Classes, HistoryControls, HistoryGrid, DesignIntf, DesignEditors;
 
 type
 
@@ -43,6 +43,7 @@ begin
   RegisterComponents('History++', [THppToolButton]);
   RegisterComponents('History++', [THppSpeedButton]);
   RegisterComponents('History++', [THppGroupBox]);
+  RegisterComponents('THistoryGrid', [THistoryGrid]);
   RegisterCustomModule(THppForm, THppFormCustomModule);
   {RegisterComponents('History++', [THppSaveDialog]);}
 end;

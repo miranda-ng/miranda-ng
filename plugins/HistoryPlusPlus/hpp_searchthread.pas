@@ -159,8 +159,7 @@ function SearchTextAllWords(const MessageText: String; SearchWords: array of Str
 implementation
 
 uses
-  hpp_contacts, hpp_events, hpp_bookmarks, hpp_eventfilters,
-  PassForm;
+  hpp_contacts, hpp_events, hpp_bookmarks, hpp_eventfilters;
 
 function SearchTextExact(const MessageText: String; const SearchText: String): Boolean;
 begin
@@ -256,11 +255,7 @@ begin
   while hCont <> 0 do
   begin
     Inc(AllContacts);
-    // I hope I haven't messed this up by
-    // if yes, also fix the same in CalcMaxProgress
-    if SearchProtectedContacts or (not SearchProtectedContacts and (not IsUserProtected(hCont)))
-    then
-      AddContact(hCont);
+    AddContact(hCont);
     hCont := db_find_next(hCont);
   end;
 
@@ -277,11 +272,7 @@ begin
   hCont := db_find_first();
   while hCont <> 0 do
   begin
-    // I hope I haven't messed this up by
-    // if yes, also fix the same in Execute
-    if SearchProtectedContacts or (not SearchProtectedContacts and (not IsUserProtected(hCont)))
-    then
-      MaxProgress := MaxProgress + GetItemsCount(hCont);
+    MaxProgress := MaxProgress + GetItemsCount(hCont);
     hCont := db_find_next(hCont);
   end;
   // add sysem history

@@ -303,7 +303,6 @@ const
   tomTextFlowSW = $00000004;
   tomTextFlowWN = $00000008;
   tomTextFlowNE = $0000000C;
-  tomUsePassword = $00000010;
   tomNoIME = $00080000;
   tomSelfIME = $00040000;
 

@@ -32,7 +32,6 @@ object EmptyHistoryFrm: TEmptyHistoryFrm
     Height = 32
   end
   object Text: TLabel
-    Caption = ''
     Left = 42
     Top = 0
     Width = 232

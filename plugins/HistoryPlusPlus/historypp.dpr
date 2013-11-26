@@ -48,9 +48,6 @@ uses
   HistoryForm in 'HistoryForm.pas' {HistoryFrm},
   EventDetailForm in 'EventDetailForm.pas' {EventDetailsFrm},
   EmptyHistoryForm in 'EmptyHistoryForm.pas' {EmptyHistoryFrm},
-  PassForm in 'PassForm.pas' {fmPass},
-  PassNewForm in 'PassNewForm.pas' {fmPassNew},
-  PassCheckForm in 'PassCheckForm.pas' {fmPassCheck},
   GlobalSearch in 'GlobalSearch.pas' {fmGlobalSearch},
   hpp_searchthread in 'hpp_searchthread.pas',
   hpp_bookmarks in 'hpp_bookmarks.pas',
@@ -247,7 +244,6 @@ begin
 
   LoadIcons;
   LoadIcons2;
-  LoadIntIcons;
 
   // TopToolBar support
   HookTTBLoaded := HookEvent(ME_TTB_MODULELOADED,OnTTBLoaded);

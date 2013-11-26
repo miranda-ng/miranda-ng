@@ -98,7 +98,7 @@ const
   DEFFORMAT_SELECTION       = '%selmes%\n';
   DEFFORMAT_DATETIME        = 'c'; // ShortDateFormat + LongTimeFormat
 
-  hppIconsDefs : array[0..33] of ThppIconsRec = (
+  hppIconsDefs : array[0..32] of ThppIconsRec = (
     (name:'historypp_01'; desc:'Contact history';           group: nil; i:HPP_ICON_CONTACTHISTORY),
     (name:'historypp_02'; desc:'History search';            group: nil; i:HPP_ICON_GLOBALSEARCH),
     (name:'historypp_03'; desc:'Conversation divider';      group: 'Conversations'; i:HPP_ICON_SESS_DIVIDER),
@@ -131,8 +131,7 @@ const
     (name:'historypp_30'; desc:'Bookmark enabled';          group: nil; i:HPP_ICON_BOOKMARK_ON),
     (name:'historypp_31'; desc:'Bookmark disabled';         group: nil; i:HPP_ICON_BOOKMARK_OFF),
     (name:'historypp_32'; desc:'Advanced Search Options';   group: 'Toolbar'; i:HPP_ICON_SEARCHADVANCED),
-    (name:'historypp_33'; desc:'Limit Search Range';        group: 'Toolbar'; i:HPP_ICON_SEARCHRANGE),
-    (name:'historypp_34'; desc:'Search Protected Contacts'; group: 'Toolbar'; i:HPP_ICON_SEARCHPROTECTED)
+    (name:'historypp_33'; desc:'Limit Search Range';        group: 'Toolbar'; i:HPP_ICON_SEARCHRANGE)
   );
 
   hppFontItems: array[0..29] of ThppFontsRec = (
@@ -228,11 +227,6 @@ const
   );
 
 var
-  hppIntIcons: array[0..0] of ThppIntIconsRec = (
-    (handle: 0; name:'z_password_protect')
-  );
-
-var
   GridOptions: TGridOptions;
   SmileyAddEnabled: Boolean;
   MathModuleEnabled: Boolean;
@@ -248,7 +242,6 @@ procedure LoadGridOptions;
 procedure SaveGridOptions;
 procedure LoadIcons;
 procedure LoadIcons2;
-procedure LoadIntIcons;
 procedure OnShowIcons;
 procedure OnTextFormatting(Value: Boolean);
 procedure hppRegisterGridOptions;
@@ -354,14 +347,6 @@ begin
   finally
     GridOptions.EndChange(Changed);
   end;
-end;
-
-procedure LoadIntIcons;
-var
-  i: Integer;
-begin
-  for i := 0 to High(hppIntIcons) do
-    hppIntIcons[i].handle := LoadIconA(hInstance,hppIntIcons[i].name);
 end;
 
 procedure LoadIcons2;
@@ -701,15 +686,6 @@ begin
   end;
 end;
 
-procedure LocalFreeIcons;
-var
-  i: Integer;
-begin
-  for i := 0 to High(hppIntIcons) do
-    if hppIntIcons[i].handle <> 0 then
-      DestroyIcon(hppIntIcons[i].handle);
-end;
-
 initialization
 
   GridOptions := TGridOptions.Create;
@@ -719,8 +695,6 @@ initialization
   SetLength(skinIcons, SkinIconsCount);
 
 finalization
-
-  LocalFreeIcons;
 
   Finalize(hppIcons);
   Finalize(skinIcons);
