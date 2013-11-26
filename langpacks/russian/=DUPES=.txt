@@ -3577,7 +3577,7 @@ xСтатусы
 Исходящее сообщение (10x10)
 [Show times]
 Показывать время
-[Tabs at bottom]
+[Tabs at the bottom]
 Вкладки cнизу
 [Use long date format]
 Буквенный формат даты
