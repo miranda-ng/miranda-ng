@@ -712,7 +712,7 @@ TabSRMM: Набирает
 Окна чата
 [Message delivery error]
 Ошибка отправки сообщения
-[Statuschange]
+[Status change]
 Смена статуса
 [Image tag]
 Изображение

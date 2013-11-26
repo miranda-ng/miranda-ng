@@ -3997,8 +3997,6 @@ INI файлы
 Показывать секунды
 [Group list]
 Список групп
-[StatusChange]
-Смена статуса
 [Show event icons]
 Значки событий
 [Find Next]
