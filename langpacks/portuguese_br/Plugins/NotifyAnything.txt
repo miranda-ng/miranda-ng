@@ -10,20 +10,10 @@
 Porta:
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 ;file \plugins\NotifyAnything\src\common.h
 ;file \plugins\NotifyAnything\src\main.cpp
 [Error]
 Erro
-[Error]
-Erro
 ;file \plugins\NotifyAnything\src\options.cpp
-[Plugins]
-Plugins
 [Plugins]
 Plugins

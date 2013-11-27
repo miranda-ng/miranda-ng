@@ -10,8 +10,6 @@
 Pastas personalizadas
 [Edit]
 Editar
-[Edit]
-Editar
 [Refresh preview]
 Atualizar visualização
 [Variables help]
@@ -21,13 +19,5 @@ Fechar
 ;file \plugins\Folders\src\dlg_handlers.cpp
 [Folders]
 Pastas
-[Folders]
-Pastas
-[Folders]
-Pastas
-[Customize]
-Personalizar
-[Customize]
-Personalizar
 [Customize]
 Personalizar

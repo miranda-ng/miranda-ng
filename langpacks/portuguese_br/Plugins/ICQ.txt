@@ -122,12 +122,6 @@ Só responder à solicitação de status de mensagem de contatos visíveis
 Algumas opções estão acinzentadas, porque eles só podem ser alterados quando você está online.
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Enable popup support]
 Ativar suporte a popup
 [Display popup when spambot is detected]
@@ -136,8 +130,6 @@ Mostrar popup quando spambot é detectada
 &Visual
 [Text Color]
 Cor do Texto
-[Error]
-Erro
 [Error]
 Erro
 [Fatal]
@@ -164,14 +156,10 @@ Inativo desde:
 Resumo
 [Nickname:]
 Apelido:
-[Nickname:]
-Apelido:
 [First name:]
 Primeiro nome:
 [Last name:]
 Sobrenome:
-[E-mail:]
-E-mail:
 [E-mail:]
 E-mail:
 [Gender:]
@@ -824,16 +812,8 @@ Mostrar problemas que exigem a intervenção do usuário
 Não exibir quaisquer problemas (não recomendado)
 [System default codepage]
 Sistema codepage padrão
-[System default codepage]
-Sistema de codificação usual
-[System default codepage]
-Sistema codepage padrão
 [Network]
 Rede
-[Network]
-Rede
-[Contacts]
-Contatos
 [Contacts]
 Contatos
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
@@ -895,8 +875,6 @@ Todas as operações completas
 Fechar
 [You have to be online to sychronize the server-list!]
 Você tem que estar online para sincronizar o servidor-lista!
-[** All contacts **]
-** Todos os contatos **
 [** All contacts **]
 ** Todos os contatos **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
@@ -1082,8 +1060,6 @@ Sobrenome
 Contato
 [Street]
 Street
-[City]
-Cidade
 [City]
 Cidade
 [ZIP/postcode]

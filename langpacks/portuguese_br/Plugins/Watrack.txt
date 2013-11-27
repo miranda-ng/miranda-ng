@@ -77,26 +77,14 @@ Esconder frame quando não há player
 Códigos de cor
 [File size]
 Tamanho do arquivo
-[File size]
-Tamanho do arquivo
-[FileSize text format]
-Formatar texto
 [FileSize text format]
 Formatar texto
 [Formats]
 Formatos
-[Formats]
-Formatos
-[Player name letters]
-Tocar nome das letras
 [Player name letters]
 Tocar nome das letras
 [Players list]
 Tocar lista
-[Players list]
-Tocar lista
-[Popup Title / Text]
-Título Popup / Texto
 [Popup Title / Text]
 Título Popup / Texto
 [Frame Text]
@@ -107,36 +95,20 @@ Exportar Texto
 Postfix
 [Refresh time, sec]
 Atualizar hora, seg
-[Refresh time, sec]
-Atualizar hora, seg
-[Report]
-Reportar
 [Report]
 Reportar
 [Report Items]
 Reportar Itens
-[Report Items]
-Reportar Itens
-[Report file]
-Reportar arquivo
 [Report file]
 Reportar arquivo
 [Report format]
 Reportar formato
 [Show in report]
 Mostrar em reportar
-[Show in report]
-Ver o reporte
-[Sort]
-Ordenar
 [Sort]
 Ordenar
 [Sort log file]
 Ordenar arquivo de registro
-[Sort log file]
-Ordenar arquivo de registro
-[Statistic log file]
-Estatística de arquivo de registro
 [Statistic log file]
 Estatística de arquivo de registro
 [Autosort period, days]
@@ -151,10 +123,6 @@ Freq. album
 by Length
 [Unicode to Ansi translation codepage:]
 Traduzir codificação da página de Unicode para Ansi
-[Unicode to Ansi translation codepage:]
-Traduzir codificação da página de Unicode para Ansi
-[VBR macro]
-Macro VBR
 [VBR macro]
 Macro VBR
 [Insert in messages]
@@ -245,10 +213,6 @@ Kilobytes
 Megabytes
 [Precision]
 Precisão
-[Precision]
-Precisão
-[Color]
-Cor
 [Color]
 Cor
 [Output]

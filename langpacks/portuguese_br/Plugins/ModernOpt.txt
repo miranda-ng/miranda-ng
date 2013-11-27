@@ -9,41 +9,15 @@
 [Visit official Miranda NG website]
 Visite o site oficial do Miranda NG BR
 [Miranda NG Options]
-Miranda NG BR Opções
-[Miranda NG Options]
-Opções do Miranda NG BR
-[Miranda NG Options]
 Opções do Miranda NG BR
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Apply]
 Aplicar
 [Switch to classic options]
 Mudar para opções clássicas
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 ;file \plugins\ModernOpt\src\modernopt.cpp
@@ -55,8 +29,6 @@ Configure sua conta para exibição da mensagem inicial.
 Visual
 [Change the look of Miranda NG according to your taste.]
 Mude o visual do Miranda NG BR de acordo com seu gosto.
-[Contacts]
-Contatos
 [Contacts]
 Contatos
 [Configure behavior of your contact list.]

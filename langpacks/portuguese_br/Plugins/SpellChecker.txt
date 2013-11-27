@@ -12,38 +12,12 @@ Substituir
 Ativar substituição automática
 [Edit...]
 Editar...
-[Edit...]
-Editar...
-[Remove]
-Remover
 [Remove]
 Remover
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Spell Checker]
-Corretor Ortográfico
 [Spell Checker]
 Corretor Ortográfico
 [Default language:]
@@ -60,12 +34,8 @@ Perguntar antes de enviar uma mensagem com erros
 Baixar mais dicionários
 [Advanced]
 Avançado
-[Advanced]
-Avançado
 [Underline type:]
 Escrever sublinhado:
-[Underline type:]
-Modo de sublinhar:
 [Show corrections in submenu]
 Mostrar correções no submenu
 [Show all corrections in context menu (takes more time to show)]
@@ -89,10 +59,6 @@ Sessões de mensagem
 Substituição automática
 [Line]
 Linha
-[Dotted]
-Pontos
-[Dotted]
-Dotted
 [Dotted]
 Pontos
 [Dash]
@@ -125,8 +91,6 @@ Sempre substituir por
 Adicionar ao dicionário
 [Wrong word: %s]
 Palavra errada: %s
-[Language]
-Idioma
 [Language]
 Idioma
 [Enable spell checking]

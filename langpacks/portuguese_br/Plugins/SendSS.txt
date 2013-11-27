@@ -8,14 +8,6 @@
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [None]
 Nenhum
 [Cancel]
@@ -36,12 +28,8 @@ Preencher a descrição
 Apagar depois de enviar
 [&Capture]
 &Capturar
-[&Capture]
-Capturar
 [&Close]
 &Fechar
-[Edit]
-Editar
 [Edit]
 Editar
 [C&lient Area]
@@ -55,8 +43,6 @@ Tamanho (AxL):
 Ocorreu um erro desconhecido.
 [Error]
 Erro
-[Error]
-Erro
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
@@ -67,12 +53,6 @@ Não foi possível iniciar o plugin HTTP Server.
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [Ignore]
@@ -88,12 +68,6 @@ Enviar foto do desktop
 [Take a screenshot]
 Tirar foto da tela
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Default]
 Padrão
 [Help]

@@ -8,29 +8,11 @@
 ;file \plugins\DbChecker\res\resource.rc
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 ;file \plugins\DbChecker\src\finished.cpp
 ;file \plugins\DbChecker\src\progress.cpp
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Error]
 Erro
-[Error]
-Erro
-[All Files]
-Todos os Arquivos
-[All Files]
-Todos os arquivos
 [All Files]
 Todos os Arquivos
 ;file \plugins\DbChecker\src\wizard.cpp

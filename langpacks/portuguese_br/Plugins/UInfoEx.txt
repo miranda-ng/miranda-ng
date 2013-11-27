@@ -10,26 +10,6 @@
 Atualizando
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Apply]
@@ -82,28 +62,14 @@ Usar cores padrão
 Padrão
 [Delete]
 Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
-[Delete]
-Excluir
 [Icons]
 Ícones
 [Common]
 Comum
-[Common]
-Common
 [None]
 Nenhum
 [MainMenu]
 Menu Principal
-[Off]
-Desligado
 [Off]
 Desligado
 [ContactMenu]
@@ -136,35 +102,19 @@ Contato
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [Ignore]
 Ignorar
 [Error]
 Erro
-[Error]
-Erro
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[General]
-Geral
-[General]
-Geral
 [General]
 Geral
 [Work]
 Trabalho
 [Profile]
 Perfil
-[Profile]
-Perfil
-[Notes]
-Notas
 [Notes]
 Notas
 [Owner]
@@ -173,28 +123,14 @@ Proprietário
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Default]
 Padrão
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Fax]
 Fax
 [Add]
 Adicionar
-[Add]
-Adicionar
-[Edit]
-Editar
 [Edit]
 Editar
 [Search]
 Pesquisa
-[Search]
-Procurar
-[Search]
-Pesquisar
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &Details]
@@ -209,10 +145,6 @@ Sobre:
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Contacts]
 Contatos
-[Contacts]
-Contatos
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
@@ -254,10 +186,6 @@ Esporte e atletismo
 [Home automation]
 Automação residencial
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
-['(Unknown Contact)']
-'(Contato Desconhecido)'
-['(Unknown Contact)']
-'(Contato Desconhecido)'
 ['(Unknown Contact)']
 '(Contato Desconhecido)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp

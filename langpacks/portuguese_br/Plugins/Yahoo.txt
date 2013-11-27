@@ -10,12 +10,6 @@
 ID:
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 [Nick:]
 Apelido:
 [Create a new Yahoo account using the Yahoo website]
@@ -36,14 +30,6 @@ Criar uma nova conta Yahoo
 Porta:
 [Reset]
 Limpar
-[Reset]
-Padrão
-[Reset]
-Apagar
-[Reset]
-Apagar
-[Reset]
-Limpar
 [Yahoo Ignore List]
 Ignorar Lista do Yahoo
 [Ignore anyone who is not on my Yahoo buddy list]
@@ -52,34 +38,12 @@ Ignorar qualquer um que não esteja nos amigos do Yahoo
 ignorar somente as pessoas abaixo:
 [&Add]
 &Adicionar
-[&Add]
-&Adicionar
 [Set Custom Status]
 Configurar Status Personalizado
 [Show as busy]
 Mostrar como ocupado
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [&Join]
@@ -90,14 +54,10 @@ Cancelar
 &Cancelar
 [Add]
 Adicionar
-[Add]
-Adicionar
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 E-Mail
-[Profile]
-Perfil
 [Profile]
 Perfil
 [Address Book]
@@ -132,8 +92,6 @@ O amigo já está na sua lista de ignorados.
 Você precisa estar conectado ao Yahoo para remover da lista de ignorados.
 [Please select a buddy on the ignore list to remove.]
 Por favor selecione um nome da lista de ignorados para remover
-[Network]
-Rede
 [Network]
 Rede
 [Ignore List]

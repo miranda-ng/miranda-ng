@@ -14,22 +14,12 @@ segundos
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 [On the phone]
@@ -40,50 +30,14 @@ Saiu para almoço
 &Previsualizar
 [Add]
 Adicionar
-[Add]
-Adicionar
-[Delete]
-Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
 [Delete]
 Excluir
 [Export...]
 Exportar...
-[Export...]
-Exportar...
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[The following events are being ignored:]
-Os seguintes eventos estão sendo ignorados:
 [The following events are being ignored:]
 Os seguintes eventos estão sendo ignorados:
 [Ignore]
@@ -91,35 +45,15 @@ Ignorar
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Todos os contatos **
-[** All contacts **]
-** Todos os contatos **
-[** Unknown contacts **]
-** Contatos desconhecidos **
-[** Unknown contacts **]
-** Contatos desconhecidos ** 
 [** Unknown contacts **]
 ** Contatos desconhecidos **
 ;file \plugins\KeyboardNotify\src\options.cpp
-[Events]
-Eventos
-[Events]
-Eventos
-[Events]
-Eventos
-[Events]
-Eventos
 [Events]
 Eventos
 [Accounts]
 Contas
 [Protocol]
 Protocolo
-[Protocol]
-Protocolo
-[All Files]
-Todos os Arquivos
-[All Files]
-Todos os arquivos
 [All Files]
 Todos os Arquivos
 [None]

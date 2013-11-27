@@ -8,28 +8,8 @@
 ;file \plugins\Quotes\res\Forex.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [Log]
 Registro
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Close]
@@ -44,14 +24,10 @@ Texto colorido
 Padrão
 [&Add]
 &Adicionar
-[&Add]
-&Adicionar
 ;file \plugins\Quotes\src\Chart.h
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 ;file \plugins\Quotes\src\Forex.cpp
-[Network]
-Rede
 [Network]
 Rede
 ;file \plugins\Quotes\src\HTTPSession.cpp

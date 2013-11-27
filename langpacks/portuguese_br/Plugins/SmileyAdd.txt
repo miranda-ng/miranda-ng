@@ -12,10 +12,6 @@ Categorias de Smiley
 Especifique Smiley Pack para cada categoria
 [Name:]
 Nome:
-[Name:]
-Nome
-[Name:]
-Nome:
 [Replace only smileys surrounded by spaces]
 Substituir somente smileys rodeado por espaços
 [Scale smiley to textheight]
@@ -26,8 +22,6 @@ Desabilitar smileys personalizados
 Aplicar Alta Qualidade aos smileys
 [Animate]
 Animar
-[Animate]
-Animado
 [Max "Custom Smiley" height]
 Max tanhanho do "Smiley Personalizado"
 [Min smiley height]
@@ -66,20 +60,10 @@ Apenas uma instância de SmileyAdd poderia ser executado.\nRemove ocorrências d
 Smileys
 [Customize]
 Personalizar
-[Customize]
-Personalizar
-[Customize]
-Personalizar
-[Off]
-Desligado
 [Off]
 Desligado
 [Smiley Packs]
 Smiley Packs
-[All Files]
-Todos os Arquivos
-[All Files]
-Todos os arquivos
 [All Files]
 Todos os Arquivos
 ;file \plugins\SmileyAdd\src\services.cpp

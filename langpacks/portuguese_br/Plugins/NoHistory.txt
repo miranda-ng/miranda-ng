@@ -13,7 +13,5 @@ Limpar
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Todos os contatos **
-[** All contacts **]
-** Todos os contatos **
 [History]
 Histórico

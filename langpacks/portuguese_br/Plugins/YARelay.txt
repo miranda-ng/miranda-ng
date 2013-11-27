@@ -12,26 +12,14 @@ Contato
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 ;file \plugins\YARelay\src\options.cpp
-[Plugins]
-Plugins
 [Plugins]
 Plugins

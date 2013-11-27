@@ -14,12 +14,6 @@ Você tem certeza que deseja excluir %s?
 Isto apagará todo histórico e configuraçõe para este contato!
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -134,8 +128,6 @@ Barra de Status
 Mostrar barra de status
 [Show icons]
 Mostrar ícones
-[Show icons]
-Mostrar ícones
 [Show protocol names]
 Exibir os nomes de protocolo
 [Show status text]
@@ -175,8 +167,6 @@ Barra de tarefas
 [&Hide/Show]
 &Ocultar/Exibir
 [Nowhere]
-Em nenhum lado
-[Nowhere]
 Não está
 [&New Group]
 &Novo Grupo
@@ -203,28 +193,16 @@ Grupo
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Não focalizado
-[Not focused]
-Não focalizado
 [Online]
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 [Out to lunch]

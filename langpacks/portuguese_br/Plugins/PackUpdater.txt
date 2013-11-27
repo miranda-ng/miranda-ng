@@ -10,18 +10,6 @@
 Exibir informações
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Pack update options]
 Opções de atualização
 [Text]

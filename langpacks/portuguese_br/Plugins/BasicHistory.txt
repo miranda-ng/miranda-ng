@@ -14,55 +14,21 @@ Mostrar eventos de ícones
 Exibir nomes
 [Show messages]
 Exibir mensagens
-[Show messages]
-Mostrar as mensagens
 [External CSS file]
 Arquivo CSS externo
 [Name]
 Nome
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 Ver &Histórico
-[View &History]
-Ver &Histórico
-[View &History]
-Exibir &Histórico
 [Incoming message]
 Mensagem recebida
-[Incoming message]
-Mensagem chegando
 [Outgoing message]
 Enviando mensagem
-[Outgoing message]
-Mensagem saindo
-[History]
-Histórico
-[History]
-Histórico
 [History]
 Histórico
 ;file \plugins\BasicHistory\src\EventList.cpp
@@ -70,36 +36,16 @@ Histórico
 Histórico para %s
 [System]
 Sistema
-[System]
-Sistema
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 Abrir em &nova janela
-[Open in &new window]
-Abrir em &nova janela
-[&Open in existing window]
-&Abrir em janela existente
 [&Open in existing window]
 &Abrir em janela existente
 [&Copy link]
 &Copiar link
 [Copy]
 Copiar
-[Copy]
-Copiar
-[Copy]
-Copiar
-[Delete]
-Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
 [Delete]
 Excluir
 [Reply &Quoted]
@@ -108,20 +54,12 @@ Responder &Citando
 Excluir Grupo
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Fonts & Colors]
 Fontes & Cores
 [Icons]
 Ícones
 [Hotkeys]
 Atalhos
-[Error]
-Erro
 [Error]
 Erro
 ;file \plugins\BasicHistory\src\Options.cpp
@@ -137,16 +75,10 @@ Mensagem SMTP
 Mensagem SMS 
 [Messages]
 Mensagens
-[Messages]
-Mensagens
 [Searching]
 Pesquisando
 [Advanced]
 Avançado
-[Advanced]
-Avançado
-[Find]
-Localizar
 [Find]
 Localizar
 [Incoming events]
@@ -159,13 +91,7 @@ Evento de saída
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [Contacts]
 Contatos
-[Contacts]
-Contatos
 ;file \plugins\BasicHistory\src\Searcher.cpp
 [Search]
 Pesquisa
-[Search]
-Procurar
-[Search]
-Pesquisar
 ;file \plugins\BasicHistory\src\TxtExport.cpp

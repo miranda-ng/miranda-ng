@@ -12,14 +12,6 @@ Detalhes do Usuário Gadu-Gadu
 Número Gadu-Gadu:
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
-[E-mail:]
-E-mail:
 [E-mail:]
 E-mail:
 [Create new account]
@@ -28,12 +20,6 @@ Criar nova conta
 Remover conta
 [Retrieve password]
 Recuperar senha
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Options]
 Opções
 [Friends only]
@@ -78,8 +64,6 @@ Sobrenome:
 Apelido:
 [Nickname:]
 Apelido:
-[Nickname:]
-Apelido:
 [Gender:]
 Sexo:
 [City:]
@@ -94,26 +78,6 @@ Descrição
 Digite a marca para continuar
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Create Gadu-Gadu account]
@@ -132,8 +96,6 @@ Remover conta Gadu-Gadu
 Sim, quero remover a minha conta
 [Remove]
 Remover
-[Remove]
-Remover
 [Change Gadu-Gadu password]
 Alterar senha Gadu-Gadu
 [Change Gadu-Gadu e-mail]
@@ -142,10 +104,6 @@ Alterar e-mail Gadu-Gadu
 Idade de:
 [&Close]
 &Fechar
-[&Send]
-&Enviar
-[&Send]
-Enviar
 [&Send]
 &Enviar
 [Open new conference]
@@ -173,16 +131,8 @@ Masculino
 Feminino
 [Network]
 Rede
-[Network]
-Rede
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 [System tray icon]
@@ -254,10 +204,6 @@ Você tem de estar conectado antes que você possa importar/exportar contatos de
 Arquivos de texto
 [All Files]
 Todos os Arquivos
-[All Files]
-Todos os arquivos
-[All Files]
-Todos os Arquivos
 [contacts]
 contatos
 [Import List From &Server]
@@ -275,8 +221,6 @@ List & Export To Text File...
 [Password was sent to your e-mail.]
 A senha foi enviada para o e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
-[Error]
-Erro
 [Error]
 Erro
 ;file \protocols\Gadu-Gadu\src\services.cpp

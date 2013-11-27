@@ -10,42 +10,14 @@
 &Cancelar
 [Add]
 Adicionar
-[Add]
-Adicionar
 [&Create]
 &Criar
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 [Hint:]
 Dica:
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Date of birth:]
@@ -81,8 +53,6 @@ configurar &papel
 &Usuário
 [&Add]
 &Adicionar
-[&Add]
-&Adicionar
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
 [Male]
@@ -92,31 +62,13 @@ Feminino
 ;file \protocols\Skype\src\skype_events.cpp
 [Network]
 Rede
-[Network]
-Rede
 [Contacts]
 Contatos
-[Contacts]
-Contatos
-[General]
-Geral
-[General]
-Geral
 [General]
 Geral
 ;file \protocols\Skype\src\skype_icons.cpp
 [Contact]
 Contato
-[Delete]
-Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
 [Delete]
 Excluir
 ;file \protocols\Skype\src\skype_ignore_list.cpp

@@ -8,42 +8,14 @@
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Remove]
-Remover
 [Remove]
 Remover
 [Install Database Settings]
 Intalar configurações do Banco de dados
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -84,8 +56,6 @@ O que você deseja fazer com o arquivo agora?
 &Lixeira
 [&Delete]
 &Excluir
-[&Delete]
-&Apagar
 [&Move/Rename]
 &Mover/Renomear
 [&Leave]
@@ -99,7 +69,5 @@ Nome
 [Version]
 Versão
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
-[Error]
-Erro
 [Error]
 Erro

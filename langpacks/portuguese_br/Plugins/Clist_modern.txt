@@ -42,8 +42,6 @@ Transp. inativa:
 Ativar opacidade:
 [Animate Avatars]
 Avatares animados
-[Animate Avatars]
-Avatares animados
 [Show contact time in list]
 Mostrar tempo do contato na lista
 [Compact mode]
@@ -54,48 +52,28 @@ Exibir os nomes de protocolo
 Mostrar status
 [Stretch to width]
 Esticar em largura
-[Stretch to width]
-Esticar em largura
-[Stretch to height]
-Esticar em altura
 [Stretch to height]
 Esticar em altura
 [Tile horizontally]
 Título horizontal
-[Tile horizontally]
-Título horizontal
-[Tile vertically]
-Título vertical
 [Tile vertically]
 Título vertical
 [Scroll with text]
 Rolar com texto
-[Scroll with text]
-Rolar com texto
-[Stretch proportionally]
-Esticar proporcionalmente
 [Stretch proportionally]
 Esticar proporcionalmente
 [Use Windows Colors]
 Use o Windows Colors
 [Available skins]
 Skins disponíveis
-[Available skins]
-Skins disponíveis
 [Apply]
 Aplicar
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \ n\n\nPor favor, selecione uma das skins disponíveis.\n\nOu browse não para a pele na lista.
-[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
-\ n\n\nPor favor, selecione uma das skins disponíveis.\n\nOu procure uma skin que não esteja na lista.
 [Skin Preview]
 Previsualização de Skin
-[Skin Preview]
-Visualizar Skin
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 AVISO:\tSkins pode modificar o seu perfil atual. Reversão não é possível.\n\t\tPlease BACKUP seu banco de dados antes de aplicar a pele.
-[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-AVISO:\tSkins pode modificar o seu perfil atual. Não é possível reverter.\n\t\tPor favor COPIE seu banco de dados antes de aplicar a skin.
 [* Restart may be required for all changes to take effect]
 * Reiniciar pode ser exigido para que todas as alterações tenham efeito
 [Available objects]
@@ -112,20 +90,10 @@ Cor
 Modo de arquivo de imagem e montagem
 [File]
 Arquivo
-[File]
-Arquivo
-[File]
-Arquivo
-[Borders]
-Bordas
 [Borders]
 Bordas
 [Fit mode]
 Modo ajustar
-[Fit mode]
-Modo ajustar
-[Fragment location]
-Fragmento local
 [Fragment location]
 Fragmento local
 [Position:]
@@ -136,36 +104,10 @@ Tamanho:
 W x H: 0 x 0 pixels
 [Show contacts in groups]
 Mostrar contatos em grupos
-[Show contacts in groups]
-Mostrar contatos em grupos
-[Show contacts in groups]
-Mostrar contatos em grupos
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Protocol]
-Protocolo
 [Protocol]
 Protocolo
 [Group]
@@ -178,54 +120,30 @@ Mostrar barra de status
 Fazer seções de tamanhos iguais
 [Space between]
 Espaço entre
-[Space between]
-Espaço entre
-[Vertical Align]
-Vertical Align
 [Vertical Align]
 Alinhamento Vertical
 [Horizontal Align]
 Alinhamento horizontal
-[Horizontal Align]
-Alinhamento Horizontal
 [Multiline status bar:]
 Barra de status multilinha:
-[Multiline status bar:]
-Multilinhas na barra de status:
-[Accounts per line]
-Contas por linha
 [Accounts per line]
 Contas por linha
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Para aumentar a altura Barra de Status:\nConfigure no menu principal: Janelas -> Barra de Estado -> Mostrar Barra de título e clique em título da barra de status para cima ou para baixo.
 [Set options per account]
 Defina as opções para cada conta
-[Set options per account]
-Defina as opções para cada conta
-[Enable custom account settings]
-Ativar configurações de conta personalizado
 [Enable custom account settings]
 Ativar configurações de conta personalizado
 [Hide account completely]
 Ocultar conta completamente
-[Hide account completely]
-Ocultar conta completamente
-[Show xStatus icon]
-Mostrar ícone xStatus
 [Show xStatus icon]
 Mostrar ícone xStatus
 [Show both icons]
 Mostrar os ícones
-[Show both icons]
-Mostrar os ícones
-[Show normal status as overlay]
-Mostrar estado normal, como superposição
 [Show normal status as overlay]
 Mostrar estado normal, como superposição
 [Status overlay opacity is 75%]
 Estado de opacidade de sobreposição é de 75%
-[Show unread emails (if supported)]
-Mostrar e-mails não lidos (se suportado)
 [Show unread emails (if supported)]
 Mostrar e-mails não lidos (se suportado)
 [Right click opens status menu]
@@ -234,18 +152,10 @@ Clique com o botão direito abre o menu de status
 Espaço a Esquerda
 [Space on right]
 Espaço a direita
-[Space on right]
-Espaço a direita
 [Delete Contact]
 Excluir Contato
 [No]
 Não
-[No]
-Não
-[No]
-Não
-[Yes]
-Sim
 [Yes]
 Sim
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -268,36 +178,18 @@ Lista de Contatos
 Dispor Contatos Por
 [Place offline users out of groups]
 Coloque os usuários off-line dos grupos
-[Place offline users out of groups]
-Coloque os usuários off-line fora de grupos
 [Gamma correction]
 Correção de gama
 [Default]
 Padrão
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Full selection]
 Selecionar tudo
-[Full selection]
-Seleção total
 [Less selection]
 Selecionar menos
-[Less selection]
-Menos de seleção
 [No selection]
 Sem seleção
-[No selection]
-Nenhuma seleção
 [Selection Mode]
 Modo de Seleção
-[Selection Mode]
-Modo de Seleção
-[Bring to front if covered]
-Trazer para a frente, se cobertos
 [Bring to front if covered]
 Trazer para a frente, se cobertos
 [Automatically resize window to height of list]
@@ -310,56 +202,32 @@ máximo
 Ajustar para cima
 [Lock manual resize]
 Bloquear redimensionar manual
-[Lock manual resize]
-Bloquear redimensionar manual
 [Drag to]
 Arraste para
 [Easy Scroll]
 Rolagem Fácil
-[Easy Scroll]
-Rolagem Simples
 [Easy move]
 Mover facilmente
 [x100 ms]
 x100 ms
 [show delay]
 atraso show
-[show delay]
-mostrar atraso 
-[hide delay]
-esconder atraso
 [hide delay]
 esconder atraso
 [Hide method]
 Método ocultar
-[Hide method]
-Método ocultar
 [pixels]
 pixels
-[pixels]
-pixels
-[keep on screen]
-manter na tela
 [keep on screen]
 manter na tela
 [Snap to edges]
 Forçar para as bordas
-[Snap to edges]
-Forçar às bordas
-[Event notify area]
-Evento notificar área
 [Event notify area]
 Evento notificar área
 [Show automaticaly]
 Mostrar automaticamente
-[Show automaticaly]
-Mostrar automaticamente
 [Always Visible]
 Sempre Visível
-[Always Visible]
-Sempre Visível
-[Dock to sides]
-Dock para os lados
 [Dock to sides]
 Dock para os lados
 [Items]
@@ -396,12 +264,6 @@ Rolar a lista suavemente
 Tempo:
 [milliseconds]
 milisegundos
-[milliseconds]
-Milisegundos
-[milliseconds]
-milissegundos
-[Fade out entire list when:]
-Desvanecer quando a lista completa:
 [Fade out entire list when:]
 Desvanecer quando a lista completa:
 [Single click interface]
@@ -418,58 +280,32 @@ Alternar ícones a cada
 segundos, para diferenciar status
 [Show multiple icons]
 Mostrar múltiplos ícones
-[Only when statuses differ]
-Só com status diferentes
 [System tray icon]
 Ícone da barra de tarefas
 [System tray icon mode]
 Modo ícone na bandeja do sistema
-[System tray icon mode]
-Modo ícone na bandeja do sistema
-[Use xStatus icon]
-Use o ícone xStatus
 [Use xStatus icon]
 Use o ícone xStatus
 [only when statuses differ]
 somente quando estados diferem
-[only when statuses differ]
-somente quando estados diferem
 [Expand metacontacts]
 Expandir metacontatos
-[Expand metacontacts]
-Expandir metacontatos
-[MetaContacts stuff]
-Coisas Metacontatos
 [MetaContacts stuff]
 Coisas Metacontatos
 [Additional stuff]
 Material complementar
-[Additional stuff]
-Material adicional
-[Subcontacts indent:]
-Subcontatos travessão:
 [Subcontacts indent:]
 Subcontatos travessão:
 [Show time only if it is different from current time]
 Mostrar a hora apenas se ela é diferente do tempo atual
-[Show time only if it is different from current time]
-Mostrar a hora apenas se ela é diferente do tempo atual
-[Show contact time as row item]
-Mostrar tempo de contato como item de linha
 [Show contact time as row item]
 Mostrar tempo de contato como item de linha
 [Pin to desktop]
 Unir à área de trabalho
 [Client area margins]
 Área de margens do Cliente
-[Client area margins]
-Área margens do Cliente
 [Thin border main window]
 Borda da janela principal
-[Thin border main window]
-Borda da janela principal
-[Borderless main window]
-Borderless janela principal
 [Borderless main window]
 Borderless janela principal
 [Show menu bar]
@@ -486,94 +322,50 @@ Minimizar para a barra de tarefas
 Janelas
 [Between frames:]
 Entre os quadros:
-[Between frames:]
-Entre os quadros:
 [After captions:]
 Depois de legendas:
-[After captions:]
-Depois de legendas:
-[Gaps]
-Lacunas
 [Gaps]
 Lacunas
 [Use Non-Layered mode]
 Use o modo não-Layered
-[Use Non-Layered mode]
-Use o modo sem-camadas
 [Non-layered mode]
 Modo sem-camadas
-[Non-layered mode]
-Modo sem-camadas
-[Disable Skin Engine]
-Desabilitar Motor de Skin
-[Disable Skin Engine]
-Disable Skin Engine
 [Disable Skin Engine]
 Desabilitar Skins
 [Enable Aero Glass (Vista+)]
 Ativar o Aero Glass (Vista+)
 [Order of items:]
 Ordem dos itens:
-[Order of items:]
-Ordem dos itens:
 [Min row height:]
 Altura mínima da linha:
-[Min row height:]
-Altura mínima de linha:
 [Row border:]
 Fronteiriças Linha:
-[Row border:]
-Borda:
-[Variable row height]
-Altura da linha Variável
 [Variable row height]
 Altura da linha Variável
 [Align left items to left]
 Alinhar à esquerda os itens para a esquerda
-[Align left items to left]
-Alinhar para a esquerda
 [Align right items to right]
 Itens Alinhar à direita para a direita
-[Align right items to right]
-Alinhar para a direita
 [Left margin:]
 Margem esquerda:
 [Right margin:]
 Margem direita:
-[Right margin:]
-Margem direita:
 [Draw border on avatar]
 Desenhar borda no Avatar
-[Draw border on avatar]
-Desenhar borda no avatar
 [Draw overlay icons]
 Mostrar sobreposição de ícones
-[Draw overlay icons]
-Desenhar sobreposição de ícones
 [Round corners of avatars]
 Cantos arredondados dos avatares
-[Round corners of avatars]
-Cantos arrendados do avatar
-[Ignore size for row height calcs]
-Ignorar tamanho para calcular altura da linha
 [Ignore size for row height calcs]
 Ignorar tamanho para calcular altura da linha
 [Border color:]
 Cor da Borda:
 [Normal overlay icon]
 Ícone normal de sobreposição
-[Normal overlay icon]
-Sobreposição normal de ícone
 [Protocol status icon]
 Protocolo ícone de status
-[Protocol status icon]
-Ícone de status do protocolo 
 [Contact icon]
 Ícone do contato
-[Contact icon]
-Ícone do Contato
-[height]
-altura
 [height]
 altura
 [Max width]
@@ -582,94 +374,52 @@ Largura máxima
 Use velho método render (fast, mas tem artefatos)
 [Hide icon when showing avatar]
 Ocultar ícone quando mostrando avatar
-[Hide icon when showing avatar]
-Ocultar ícone quando mostrando avatar
 [Draw icon in avatar space]
 Mostrar ícone no espaço avatar
-[Draw icon in avatar space]
-Desenhar ícone no espaço do avatar
-[Hide groups icon]
-Ocultar ícone de grupos
 [Hide groups icon]
 Ocultar ícone de grupos
 [Always show "Always visibile" icon]
 Sempre mostrar  ícone " Sempre visível"
 [Use extra status icon instead protocol]
 Use ícone de status do protocolo adicional ao invés
-[Use extra status icon instead protocol]
-Usar ícone extra de status ao invés do protocolo
 [Draw normal status as overlay]
 Empate estado normal como overlay
-[Draw normal status as overlay]
-Desenhar status normal como sobreposição
 [Right-To-Left reading mode (mirror template)]
 Modo de leitura, da direita para a esquerda (espelho modelo)
-[Right-To-Left reading mode (mirror template)]
-Modo de leitura da direita para a esquerda (espelho modelo)
-[Replace smileys in clist]
-Substituir smileys em clist
 [Replace smileys in clist]
 Substituir smileys em clist
 [Draw smileys on first line]
 Mostrar smileys na primeira linha
-[Draw smileys on first line]
-Desenhar smileys na primeira linha
 [Resize smileys and 'Listening to' icon]
 Redimensionar smileys e ícone 'Ouvindo a'
 [Align to right]
 Alinhar à direita
-[Align to right]
-Alinhar à direita
 [Append nick if different from custom name]
 Append nick se for diferente do nome personalizado
-[Append nick if different from custom name]
-Mostrar nick se for diferente do nome personalizado
 [Trim long text with ellipsis]
 Terminar texto longo com reticências
-[Trim long text with ellipsis]
-Trim longo texto com reticências
-[Top space:]
-Espaço mais populares:
 [Top space:]
 Espaço mais populares:
 [Draw smileys on second line]
 Mostrar smileys na segunda linha
-[Draw smileys on second line]
-Desenhar smileys na segunda linha
 [Status]
 Status
 [XStatus has priority]
 XStatus tem prioridade
-[XStatus has priority]
-XStatus tem prioridade
-[Use 'XStatus: XMessage']
-Usar 'XStatus: xmessage'
 [Use 'XStatus: XMessage']
 Use 'Xstatus: XMensagem'
 [(Variables will be replaced)]
 (Variáveis serão substituídos)
-[(Variables will be replaced)]
-(Variáveis serão substituídas)
-[Show third line]
-Mostrar terceira linha
 [Show third line]
 Mostrar terceira linha
 [Draw smileys on third line]
 Mostrar smileys na terceira linha
-[Draw smileys on third line]
-Desenhar Smileys na terceira linha
 [Top/Left]
 Topo/Esquerdo
 [Bottom/Right]
 Bottom/Direita
 [Position (vertical)]
 Posição (vertical)
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Options]
 Opções
 [Show Title]
@@ -682,40 +432,22 @@ Ordem dos Frames
 EM CONSTRUÇÃO!!!                 NÃO FUNCIONA
 [Row template]
 Modelo de linha
-[Row template]
-Linha modelo
 [Add container]
 Adicionar contêiner
-[Add container]
-Adicionar recipiente
 [Remove container]
 Remover Contêiner
-[Remove container]
-Remover Recipiente 
-[Vertical align:]
-Vertical align:
 [Vertical align:]
 Alinhamento vertical:
 [Horizontal align:]
 Alinhamento horizontal:
-[Horizontal align:]
-Alinhamento horizontal:
 [Container type:]
 Tipo de Contêiner:
-[Container type:]
-Tipo de recipiente:
 [Container width:]
 Largura do Contêiner:
-[Container width:]
-Largura do recipiente:
 [Container height:]
 Altura do contêiner:
-[Container height:]
-Altura do recipiente:
 [Layered]
 Mergulhado
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-OPÇÃO DE PÁGINA ESTÁ EM CONSTRUÇÃO Por favor NÂO informe nada aqui.\n Apenas comentários de alto nível de design são aplicáveis.
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 OPÇÃO DE PÁGINA ESTÁ EM CONSTRUÇÃO Por favor NÂO informe nada aqui.\n Apenas comentários de alto nível de design são aplicáveis.
 [E&xit]
@@ -744,8 +476,6 @@ Barra de tarefas
 &Ocultar/Exibir
 [Nowhere]
 Em nenhum lado
-[Nowhere]
-Não está
 [&New Group]
 &Novo Grupo
 [&Hide Offline Users]
@@ -764,8 +494,6 @@ Ocultar Miranda
 &Ocultar usuários offline aqui
 [&Show Offline Users in here]
 &Exibir usuários offline
-[&Show Offline Users in here]
-&Mostrar Usuários Offline aqui
 [&Rename Group]
 &Renomer Grupo
 [&Delete Group]
@@ -775,10 +503,6 @@ Ocultar Miranda
 Status
 [Contact List smileys]
 Smileys dos Contatos
-[Contact List smileys]
-Smileys da Lista de Contato
-[Contact List smileys]
-Smileys da Lista de Contato
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Você quer contato que '%s' seja convertido para MetaContato e '%s' seja adicionado a ele?
 [Converting to MetaContact]
@@ -802,8 +526,6 @@ Alterando Metacontatos (Movendo)
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Nomes Contato
-[Row Items]
-Itens de Linha
 [Frame texts]
 Janela de textos
 [Special colors]
@@ -812,36 +534,20 @@ Cores Especiais
 Contatos padrão
 [Away contacts]
 Nenhum contato
-[Away contacts]
-Nenhum contato
-[DND contacts]
-Contatos DND
 [DND contacts]
 Contatos DND
 [NA contacts]
 Contatos NA
-[NA contacts]
-Contatos NA
 [Occupied contacts]
 Contatos Ocupados
-[Occupied contacts]
-Contatos Ocupados
-[Free for chat contacts]
-Livre para contatos de bate-papo
 [Free for chat contacts]
 Livre para conversar
-[Invisible contacts]
-Contatos Invisíveis
 [Invisible contacts]
 Contatos invisíveis
 [On the phone contacts]
 Contatos ao telefone
-[On the phone contacts]
-Contatos ao telefone
 [Out to lunch contacts]
 Contatos sairam para almoço
-[Out to lunch contacts]
-Contatos em almoço
 [Offline contacts]
 Contatos offline
 [Online contacts to whom you have a different visibility]
@@ -850,42 +556,24 @@ Contatos Online para quem a visibilidade é diferenciada
 Contatos Offline para quem a visibilidade é diferenciada
 [Contacts who are 'not on list']
 Contatos que 'não estão na lista'
-[Contacts who are 'not on list']
-Os contatos que não 'estão na lista'
 [Open groups]
 Abrir grupos
-[Open groups]
-Grupos abertos
 [Open group member counts]
 Abrir conta de membro do grupo
-[Open group member counts]
-Abrir conta de membro do grupo
-[Closed groups]
-Grupos fechados
 [Closed groups]
 Grupos fechados
 [Closed group member counts]
 Fechar contas de membros do grupo
-[Closed group member counts]
-Fechada conta de membro do grupo
 [Dividers]
 Divisórias
 [Third line]
 Terceira linha
 [Status bar text]
 Texto da barra de status
-[Status bar text]
-Texto da barra de status
 [Event area text]
 Texto da área de eventos
-[Event area text]
-Texto da área de evento
 [Current view mode text]
 Modo de exibição atual do texto
-[Current view mode text]
-Modo de exibição atual do texto
-[Background]
-Fundo
 [Background]
 Fundo
 [Hot text]
@@ -904,10 +592,6 @@ Texto da barra de status
 Cor de fundo transparente para outras janelas
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
 [List]
 Lista
 [Window]
@@ -916,28 +600,16 @@ Janela
 Alterar Fundo
 [Not focused]
 Não focalizado
-[Not focused]
-Não focalizado
 [Online]
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 [Out to lunch]
@@ -958,19 +630,11 @@ Nome da Conta
 Global
 [Hide to tray]
 Ocultar na bandeja
-[Hide to tray]
-Ocultar na bandeja
 [Behind left edge]
 Atrás borda esquerda
-[Behind left edge]
-Atrás da borda esquerda
 [Behind right edge]
 Atrás borda direita
-[Behind right edge]
-Atrás da borda direita
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No Events]
-Sem Eventos
 [No Events]
 Sem Eventos
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
@@ -980,20 +644,12 @@ Sem Eventos
 Nenhum
 [Contact rate None]
 Taxa de contato Nenhum
-[Contact rate None]
-Contato Nenhuma taxa
 [Contact rate Low]
 Taxa de contato Baixa
-[Contact rate Low]
-Baixa taxa de contato
 [Contact rate Medium]
 Taxa de contato Média
-[Contact rate Medium]
-Contato taxa média
 [Contact rate High]
 Taxa de contato Alta
-[Contact rate High]
-Alta taxa de contato
 [Show even if offline]
 Mostrar mesmo offline
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
@@ -1018,14 +674,10 @@ Segunda Linha
 [Third Line]
 Terceira Linha
 [Row items]
-Itens de Linha
-[Row items]
 Itens da linha
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)
-[(Unknown Contact)]
-<desconhecido>
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...
@@ -1036,12 +688,8 @@ Itens da linha
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Mostrar &Avatar do Contato
-[Show Contact &Avatar]
-Mostrar Contato & Avatar
 [Hide Contact &Avatar]
 Ocultar &Avatar do Contato
-[Hide Contact &Avatar]
-Ocultar Contato & Avatar
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 [&Show title]
 &Exibir título
@@ -1052,20 +700,12 @@ Ocultar Contato & Avatar
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Esvaziar %s células
-[Empty %s cell]
-Esvaziar %s células
-[column]
-coluna
 [column]
 coluna
 [line]
 linha
 [columns]
 colunas
-[columns]
-colunas
-[%s, contain %s]
-%s, contém %s
 [%s, contain %s]
 %s, contém %s
 [ layered]
@@ -1087,78 +727,46 @@ Alongar Vertical,Estreitar Horizontal
 Alongar Ambos os sentidos
 [Image size is]
 O tamanho da imagem é
-[Image size is]
-Tamanho da imagem é
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 É preciso um plugin de serviço de imagem para processar imagens PNG.
 [Error]
 Erro
-[Error]
-Erro
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Rodar/Salvar
-[Load/Save]
-baixar / Salvar
-[Object Editor]
-Editor de Objeto
 [Object Editor]
 Editor de Objeto
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n %s\n\nAutor(es):\t %s\nContato:\t %s\nWeb:\t %s\n\nArquivo:\t %s
-[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n %s\n\nAutor (es):\t %s\nContato:\t %s\nWeb:\t %s\n\nArquivo:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n %s\n\nAutor(es): %s\nContato:\t %s\nWeb:\t %s\n\nArquivo:\t %s
-[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n %s\n\nAutor (es): %s\nContato:\t %s\nWeb:\t %s\n\nArquivo:\t %s
 [This is second default Modern Contact list skin in Vista Aero style]
 Esta é a segunda skin padrão da lista de contatos Modern Contact no estilo Vista Aero
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (gráficos), FYR (modelo)
 [Inside library]
 Dentro da biblioteca
-[Inside library]
-Dentro da biblioteca
 [Skin Information]
 Informação da skin
 [Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 Editor de skin contém alterações não Salvas.\n\nTodas alterações serão perdidas.\n\n continuar a carregar a nova skin?
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-O editor de skin contém alterações não salvas.\n\nTodas as alterações serão perdidas.\n\n Continuar a carregar a nova skin?
-[Warning!]
-Atenção!
 [Warning!]
 Atenção!
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 A skin atual não foi salva para o arquivo.\n\nTodas as alterações serão perdidas.\n\n continuar a carregar a nova pele?
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Skin atual não foi salvo para o arquivo.\n\nTodas as alterações serão perdidas.\n\n Deseja continuar carregando a nova skin?
-[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-Pré-visualização não está disponível\n\n%s\n----------------------\n\n%s\n\nAUTOR(ES):\n %s\n\nCONTATO:\n%s\n\nPágina Web:\n %s
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Pré-visualização não está disponível\n\n %s\n ----------------------\n\n %s\n\nAUTOR (ES):\n  %s\n\nCONTATO:\n %s\n\nHOMEPAGE:\n %s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n %s\n\nAUTORES:\n %s\n\nCONTATo:\n %s\n\nWEB:\n %s\n\n\n
-[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-%s\n\n %s\n\nAUTORES:\n %s\n\nCONTATO:\n %s\n\nWEB:\n %s\n\n\n
 [Select skin from list]
 Selecione skin a partir  da lista
-[Select skin from list]
-Selecione skin da lista
 [Please select skin to apply]
 Por favor, selecione a skin para aplicar
-[Please select skin to apply]
-Por favor, selecione a skin para aplicar
-[Default Skin]
-Skin padrão
 [Default Skin]
 Skin padrão
 [%Default Skin%]
 %% Default Skin
-[%Default Skin%]
-%% Skin Padão
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
@@ -1185,7 +793,5 @@ Ativar / desativar sons
 [Minimize]
 Minimizar
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
-[Configuring view mode: %s]
-Configurando o modo de exibição: %s
 [Configuring view mode: %s]
 Configurando o modo de exibição: %s

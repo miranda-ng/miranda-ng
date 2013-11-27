@@ -9,16 +9,8 @@
 ;file \plugins\IgnoreState\src\main.cpp
 [Messages]
 Mensagens
-[Messages]
-Mensagens
 [Files]
 Arquivos
-[Files]
-Arquivos
-[Files]
-Arquivos
-[User Online]
-Usuário Online
 [User Online]
 Usuário Online
 [You Were Added]

@@ -10,12 +10,6 @@
 Fechar
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Transparent background]
 Fundo transparente
 [Padding:]
@@ -27,12 +21,8 @@ Moldura:
 Status
 [Error]
 Erro
-[Error]
-Erro
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
-[Background]
-Fundo
 [Background]
 Fundo
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp

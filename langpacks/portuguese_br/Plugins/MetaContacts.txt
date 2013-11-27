@@ -10,72 +10,38 @@
 &Cancelar
 [Name:]
 Nome:
-[Name:]
-Nome
-[Name:]
-Nome:
 [Information]
 Informação
-[Contacts]
-Contatos
 [Contacts]
 Contatos
 [&Apply]
 &Aplicar
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Contact List]
 Lista de Contatos
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Default]
 Padrão
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)
-[(Unknown Contact)]
-<desconhecido>
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [Contact]
 Contato
 [Protocol]
 Protocolo
-[Protocol]
-Protocolo
 ;file \plugins\MetaContacts\src\icons.cpp
 [Edit]
 Editar
-[Edit]
-Editar
-[Remove]
-Remover
 [Remove]
 Remover
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
-[Error]
-Erro
 [Error]
 Erro
 ;file \plugins\MetaContacts\src\meta_options.cpp
@@ -84,14 +50,6 @@ Erro
 Mensagem de %s
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
-[History]
-Histórico
-[History]
-Histórico
 [History]
 Histórico
 ;file \plugins\MetaContacts\src\meta_utils.cpp

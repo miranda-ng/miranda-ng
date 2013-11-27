@@ -14,26 +14,6 @@
 Cor do fundo
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [E&xit]
@@ -42,10 +22,6 @@ Cancelar
 &Opções
 [&Delete]
 &Excluir
-[&Delete]
-&Apagar
-[&Rename]
-&Renomear
 [&Rename]
 &Renomear
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
@@ -54,18 +30,12 @@ Cancelar
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [All Files]
 Todos os Arquivos
-[All Files]
-Todos os arquivos
-[All Files]
-Todos os Arquivos
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 ;file \plugins\DbEditorPP\src\icons.cpp
 ;file \plugins\DbEditorPP\src\main.cpp
 ;file \plugins\DbEditorPP\src\main_window.cpp
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
-[Contacts]
-Contatos
 [Contacts]
 Contatos
 ;file \plugins\DbEditorPP\src\options.cpp

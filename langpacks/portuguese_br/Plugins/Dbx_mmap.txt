@@ -10,12 +10,6 @@
 Intalar configurações do Banco de dados
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -56,8 +50,6 @@ O que você deseja fazer com o arquivo agora?
 &Lixeira
 [&Delete]
 &Excluir
-[&Delete]
-&Apagar
 [&Move/Rename]
 &Mover/Renomear
 [&Leave]

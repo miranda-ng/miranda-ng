@@ -22,32 +22,12 @@ segundos
 Outros
 [Cut]
 Recortar
-[Cut]
-Recortar
-[Cut]
-Recortar
-[Copy]
-Copiar
-[Copy]
-Copiar
 [Copy]
 Copiar
 [Paste]
 Colar
 [Delete]
 Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
-[Delete]
-Excluir
-[Select All]
-Selecionar Tudo
 [Select All]
 Selecionar Tudo
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
@@ -57,8 +37,6 @@ Selecionar Tudo
 Ler %s Messagem(s)
 [Re&ad Away Message]
 Ler Messagem de Ausente
-[Re&ad Away Message]
-&Ler Sempre as Mensagens
 ;file \plugins\SimpleStatusMsg\src\main.cpp
 [%s (locked)]
 %s (travado)
@@ -72,12 +50,6 @@ Fechando em %d
 Status
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
@@ -93,8 +65,6 @@ Dê ao cara um pouco de paz, certo?
 Eu sou um chatbot!
 [Yep, I'm here.]
 Sim, eu estou aqui.
-[Yep, I'm here.]
-Sim, estou aqui.
 [Nope, not here.]
 Não, não estou aqui.
 [I'm hiding from the mafia.]

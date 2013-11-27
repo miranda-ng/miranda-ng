@@ -8,12 +8,6 @@
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Window]
 Janela
 [Max width:]
@@ -50,30 +44,8 @@ Módulo:
 Configurações:
 [Translation:]
 Tradução:
-[Translation:]
-Tradução:
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Item]
@@ -90,14 +62,8 @@ Itens
 Substituições
 [Add]
 Adicionar
-[Add]
-Adicionar
 [Remove]
 Remover
-[Remove]
-Remover
-[Edit]
-Editar
 [Edit]
 Editar
 [Extra icons]
@@ -116,10 +82,6 @@ Sem título
 Centro
 [None]
 Nenhum
-[Customize]
-Personalizar
-[Customize]
-Personalizar
 [Customize]
 Personalizar
 ;file \plugins\TipperYM\src\options.h
@@ -143,16 +105,10 @@ Inativo
 Nome
 [Name:]
 Nome:
-[Name:]
-Nome
-[Name:]
-Nome:
 [Time:]
 Tempo:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
-[Background]
-Fundo
 [Background]
 Fundo
 [Dividers]

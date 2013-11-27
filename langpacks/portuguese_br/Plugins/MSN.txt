@@ -8,14 +8,6 @@
 ;file \protocols\MSN\res\msn.rc
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
-[Nickname:]
-Apelido:
 [Nickname:]
 Apelido:
 [Create a new Windows Live account]
@@ -30,14 +22,6 @@ Gerir grupos de servidor
 Execute o aplicativo quando um novo Hotmail chegar
 [Allow people on my contact list send messages to mobile device]
 Permitir que as pessoas na minha lista de contatos enviem mensagens para o dispositivo móvel
-[Reset]
-Limpar
-[Reset]
-Padrão
-[Reset]
-Apagar
-[Reset]
-Apagar
 [Reset]
 Limpar
 [Server List Manager]
@@ -58,32 +42,10 @@ Ativar popup 'Sessão de Ativação do Bate-papo'
 Ativar popup 'Canal direito do contato'
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [&Cancel]
 &Cancelar
-[Add]
-Adicionar
 [Add]
 Adicionar
 ;file \protocols\MSN\src\msn_chat.cpp
@@ -132,12 +94,8 @@ Você deve estar falando para iniciar o NetMeeting
 ;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 Erro
-[Error]
-Erro
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
-[Profile]
-Perfil
 [Profile]
 Perfil
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
@@ -154,8 +112,6 @@ Especificar manualmente o host/porta
 Informações do IP disponíveis somente após o login
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 O protocolo  MSN exige que o tempo limite de mensagens não deve ser inferior a 60 seg. Corrigir o valor do tempo limite.
-[Network]
-Rede
 [Network]
 Rede
 [Server list]

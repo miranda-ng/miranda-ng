@@ -27,8 +27,6 @@ previsão...
 ;file \plugins\SplashScreen\src\main.cpp
 [Error]
 Erro
-[Error]
-Erro
 ;file \plugins\SplashScreen\src\options.cpp
 [Splash Screen]
 Tela de abertura

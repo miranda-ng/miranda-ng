@@ -8,28 +8,14 @@
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
 Copiar
-[Copy]
-Copiar
-[Copy]
-Copiar
 [Select All]
 Selecionar Tudo
-[Select All]
-Selecionar Tudo
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Options]
 Opções
 [Enable support for Flash files in smileys and BBCodes]
 Ativar suporte para Arquivos Flash em smileys e BBCodes
 [Enable workaround for PNG transparency]
 Suportar transparência em arquivos PNG
-[Enable MathModule support]
-Ativar suporte a módulo matemático
 [Enable MathModule support]
 Ativar o suporte ao MathModule
 [Replace smileys in user names]
@@ -48,26 +34,16 @@ Usar Modelos
 Imagem de fundo
 [Scroll with text]
 Rolar com texto
-[Scroll with text]
-Rolar com texto
 [Template Options]
 Opções do Modelo
 [Use message grouping]
 Usar o agrupamento de mensagens
-[Use message grouping]
-Usar mensagem de grupo
 [Show nicknames]
 Exibir apelidos
 [Show seconds]
 Mostrar segundos
-[Show seconds]
-Exibir segundos
 [Use long date format]
 Usar formato de data longo
-[Use long date format]
-Usar formato de data por extenso
-[Use relative timestamp]
-Usar marca horária relativa
 [Use relative timestamp]
 Usar marca horária relativa
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
@@ -76,51 +52,23 @@ Recebimento de Transfrência de Arquivo
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Contato Desconhecido)
-[(Unknown Contact)]
-<desconhecido>
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[Error]
-Erro
 [Error]
 Erro
 ;file \plugins\IEView\src\Options.cpp
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
 [Message Log]
 Reg. de Mensagem
-[Message Log]
-Reg. de Mensagem
-[Group Chats]
-Grupo Bate-papo
 [Group Chats]
 Grupos de Conversa
-[Group Chats]
-Grupos de Chats
 [History]
 Histórico
-[History]
-Histórico
-[History]
-Histórico
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Default]
 Padrão
 [Message Sessions]
 Sessões de mensagem
-[All Files]
-Todos os Arquivos
-[All Files]
-Todos os arquivos
 [All Files]
 Todos os Arquivos
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp

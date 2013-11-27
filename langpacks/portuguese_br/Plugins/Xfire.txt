@@ -8,76 +8,28 @@
 ;file \protocols\Xfire\res\resource.rc
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 [Nick:]
 Apelido:
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Options]
 Opções
 [More options]
 Mais opções
 [Files]
 Arquivos
-[Files]
-Arquivos
-[Files]
-Arquivos
 [Apply]
 Aplicar
 [Remove]
 Remover
-[Remove]
-Remover
 [Username:]
 Usuário:
-[Username:]
-Usuário:
-[Name:]
-Nome:
-[Name:]
-Nome
 [Name:]
 Nome:
 [Port:]
 Porta:
 [Copy]
 Copiar
-[Copy]
-Copiar
-[Copy]
-Copiar
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Search:]
@@ -85,15 +37,9 @@ Pesquisar:
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Todos os Arquivos
-[All Files]
-Todos os arquivos
-[All Files]
-Todos os Arquivos
 ;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Sim, eu estou aqui.
-[Yep, I'm here.]
-Sim, estou aqui.
 [I've been away since %time%.]
 Eu estou ausente desde %time%.
 [Give it up, I'm not in!]
@@ -113,20 +59,10 @@ Usuário
 ;file \protocols\Xfire\src\options.cpp
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [<Root Group>]
 <Grupo Raiz>
-[Network]
-Rede
 [Network]
 Rede
 ;file \protocols\Xfire\src\searching4games.cpp

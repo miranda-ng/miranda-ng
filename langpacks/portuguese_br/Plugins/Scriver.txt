@@ -15,13 +15,9 @@ Novas janelas em cascata
 [Save size and location for each contact]
 Guardar tamanho e localização para cada contato
 [Send message on 'Enter']
-Enviar mensagem no Enter
-[Send message on 'Enter']
 Enviar mensagem clicando em 'Enter'
 [Send message on double 'Enter']
 Enviar mensagem no duplo Enter
-[Send message on double 'Enter']
-Enviar mensagem no duplo 'Enter'
 [Show warning when message has not been received after]
 Mostrar aviso quando a mensagem não for recebida após:
 [seconds]
@@ -42,12 +38,8 @@ Registro de Eventos da Janela de Mensagens
 Habilitar IEView
 [Show icons]
 Mostrar ícones
-[Show icons]
-Mostrar ícones
 [Show seconds]
 Mostrar segundos
-[Show seconds]
-Exibir segundos
 [Show names]
 Exibir nomes
 [Mark follow-up msgs with timestamp]
@@ -68,8 +60,6 @@ Mostrar notificação quando um usuário estiver escrevendo uma mensagem
 Atualizar mensagem da janela de ícones quando um usuário está digitando
 [Show typing notification when no message dialog is open]
 Mostrar notificação quando nenhum diálogo de msg estiver aberto
-[Show typing notification when no message dialog is open]
-Mostrar digitando notificação quando nenhuma mensagem de diálogo está aberta
 [Flash in the system tray and in the contact list]
 Piscar ícone na barra de tarefas e na lista de contatos
 [Show balloon popup]
@@ -102,10 +92,6 @@ Mostrar somente estes eventos:
 Ações
 [Messages]
 Mensagens
-[Messages]
-Mensagens
-[Nick changes]
-Alterar Apelido
 [Nick changes]
 Nick alterado
 [Users joining]
@@ -114,8 +100,6 @@ Usuário entrou
 Usuário saiu
 [Topic changes]
 O tópico mudou
-[Status changes]
-Alterações de Status
 [Status changes]
 Status alterado
 [Information]
@@ -128,30 +112,16 @@ Ignorar usuário
 Notificações
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Other]
 Outros
 [Add new rooms to group:]
 Adicionar novas salas ao grupo:
-[Add new rooms to group:]
-Adicionar novas salas para o grupo
-[pixels]
-pixels
 [pixels]
 pixels
 [Log Options]
 Opções de Registro
 [Your name]
 Seu nome
-[Your name]
-Seu nome
-[Other name]
-Outro nome
 [Other name]
 Outro nome
 [Timestamp]
@@ -162,12 +132,8 @@ Registro de tempo
 Limitar registro para (eventos):
 [Enable highlighting]
 Ativar destaque
-[Enable highlighting]
-Habilitar destaque
 [Words to highlight (wildcards allowed)]
 Palavras para destacar (permitidos 'wilcards')
-[Words to highlight (wildcards allowed)]
-Palavras para destacar (wildcards permitidos)
 [Location]
 Localidade
 [Use same style as in the message log]
@@ -180,32 +146,18 @@ Usar cores personalizadas
 Texto
 [Background]
 Fundo
-[Background]
-Fundo
 [Timeout (s)]
 Tempo final (s)
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 [Log]
 Registro
 [&Copy]
 &Copiar
-[&Copy]
-&Copiar
 [Co&py All]
 Co&piar Tudo
 [Select &All]
 Selecionar &Tudo
-[Select &All]
-Selecionar &tudo
 [Word lookup]
 Visual da Palavra
 [Google]
@@ -218,34 +170,14 @@ L&impar Registro
 Mensagem
 [Undo]
 Desfazer
-[Undo]
-Desfazer
 [Redo]
 Refazer
 [Cut]
 Recortar
-[Cut]
-Recortar
-[Cut]
-Recortar
-[Copy]
-Copiar
-[Copy]
-Copiar
 [Copy]
 Copiar
 [Paste]
 Colar
-[Delete]
-Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
 [Delete]
 Excluir
 [Clear]
@@ -337,12 +269,6 @@ Tópico (10X10)
 Destacar (10X10)
 [Information (10x10)]
 informação (10x10)
-[Group Chats]
-Grupo Bate-papo
-[Group Chats]
-Grupos de Conversa
-[Group Chats]
-Grupos de Chats
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Mensagem
@@ -351,18 +277,8 @@ Mensagem
 Adicionar Contato
 [User Menu]
 Menu do Usuário
-[User Menu]
-Menu do Usuário
 [User Details]
 Detalhes do Usuário
-[User Details]
-Detalhes do usuário
-[User Details]
-Detalhes do Usuário
-[History]
-Histórico
-[History]
-Histórico
 [History]
 Histórico
 [No word to look up]
@@ -371,8 +287,6 @@ Sem palavras para procurar
 Adicionar contato permanentemente a Lista
 [View User's Details]
 Ver detalhes do usuário
-[View User's History]
-Exibir Histórico do Usuário
 [View User's History]
 Exibir Histórico do Usuário
 [Quote Text]
@@ -397,10 +311,6 @@ Arquivo enviado
 [File received]
 Arquivo recebido
 ;file \plugins\Scriver\src\msgoptions.cpp
-[General]
-Geral
-[General]
-Geral
 [General]
 Geral
 [Outgoing messages]
@@ -443,12 +353,8 @@ O Usuário agora é conhecido como ...
 Notificação do usuário
 [Incoming message]
 Mensagem recebida
-[Incoming message]
-Mensagem chegando
 [Outgoing message]
 Enviando mensagem
-[Outgoing message]
-Mensagem saindo
 [The topic is ...]
 O tópico está ...
 [Information messages]
@@ -471,8 +377,6 @@ Membros da lista de usuários (online)
 Fundo da lista de usuários
 [User list members (away)]
 Membros da lista (Desligados)
-[User list members (away)]
-Membros da lista (Desligados)
 [User list lines]
 Linhas da lista de usuário
 [User list background (selected)]
@@ -481,22 +385,12 @@ Fundo da lista de usuário (selecionada)
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 [Out to lunch]
@@ -505,14 +399,6 @@ Saiu para almoço
 Ao telefone
 [** New contacts **]
 ** Novos contatos **
-[** New contacts **]
-** Novos contatos **
-[** New contacts **]
-** Novos contatos **
-[** Unknown contacts **]
-** Contatos desconhecidos **
-[** Unknown contacts **]
-** Contatos desconhecidos ** 
 [** Unknown contacts **]
 ** Contatos desconhecidos **
 [Show balloon popup (unsupported system)]
@@ -526,12 +412,8 @@ Escrevendo Notificação
 Mensagem de %s
 [%s is typing a message]
 %s está escrevendo uma mensagem
-[%s is typing a message]
-%s está escrevendo uma mensagem
 [Typing Notification]
 Escrevendo Notificação
-[Typing Notification]
-Digitação de notificação
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda não pôde carregar o plugin Chat porque o Microsoft Rich Edit v 3 não foi encontrado.\nSe estiver a usar o Windows 95/98/NT ou WINE por favor, atualize o seu 'Rich Edit control'.\n\nPretende descarregar a atualização agora?
 [Incoming (Focused Window)]
@@ -553,8 +435,6 @@ Sempre No Topo
 Esgotado o tempo para enviar a mensagem.
 ;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
-Entrar no bate-papo
-[Join chat]
 Entrar no chat
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
@@ -562,8 +442,6 @@ Entrar no chat
 %s acabou de entrar
 [You have joined %s]
 Entrou em %s
-[You have joined %s]
-Entrou em
 [%s has left]
 %s saiu
 [%s has disconnected]
@@ -588,120 +466,64 @@ Notificação de %s
 ;file \plugins\Scriver\src\chat\options.cpp
 [Prefix all events with a timestamp]
 Usar 'timestamp' antecedendo todos os eventos
-[Prefix all events with a timestamp]
-Prefixo de todos os eventos com um timestamp
 [Only prefix with timestamp if it has changed]
 Só anteceder com 'timestamp' só se este tiver mudado
-[Only prefix with timestamp if it has changed]
-Apenas prefixo com hora e data, se mudou
 [Indent the second line of a message]
 Recortar segunda linha de uma mensagem
-[Indent the second line of a message]
-Recuo a segunda linha de uma mensagem
 [Show topic changes]
 Mostrar alteração de tópico
-[Show topic changes]
-Mostrar alterações de tópico
-[Show users joining]
-Mostrar usuários entrando
 [Show users joining]
 Mostrar usuários entrando
 [Show users disconnecting]
 Mostrar usários desconectando
-[Show users disconnecting]
-Mostrar usuários que desconectar
 [Show messages]
 Exibir mensagens
-[Show messages]
-Mostrar as mensagens
-[Show actions]
-Mostrar Ações
 [Show actions]
 Mostrar ações
 [Show users leaving]
 Mostrar usuários saindo
-[Show users leaving]
-Mostrar usuários saindo
 [Show users being kicked]
 Mostrar usuários sendo bloqueados
-[Show users being kicked]
-Mostrar usuários sendo chutado
 [Show notices]
 Exibir Notificações
-[Show notices]
-Mostrar avisos
 [Show users changing name]
 Mostrar usuários alterando o nome
-[Show users changing name]
-Mostrar usuários que mudar o nome
 [Show information messages]
 Exibir mensagens de informação
-[Show information messages]
-Mostrar mensagens de informação
 [Show status changes of users]
 Mostrar alteração de status de usuários
-[Show status changes of users]
-Mostrar alterações do status de usuários
 [Show icons in tray only when the chat room is not active]
 Mostrar ícone na barra de tarefas se a janela de conversa estiver inativa
-[Show icons in tray only when the chat room is not active]
-Mostrar ícones na bandeja apenas quando a sala de chat não está ativa
 [Show icon in tray for topic changes]
 Mostrar ícone na barra de tarefas para mudança de tópico
-[Show icon in tray for topic changes]
-Mostrar ícone na bandeja para mudanças de tópico
 [Show icon in tray for users joining]
 Mostrar ícone na barra de tarefas para usuários a entrarem na sala
-[Show icon in tray for users joining]
-Mostrar ícone na bandeja para usuários juntando
 [Show icon in tray for users disconnecting]
 Mostrar ícone na barra de tarefas para usuários a desligarem-se
-[Show icon in tray for users disconnecting]
-Mostrar ícone na bandeja para os usuários desconectando
 [Show icon in tray for messages]
 Mostrar ícone na barra de tarefas para mensagens
-[Show icon in tray for messages]
-Mostrar ícone na bandeja para mensagens
 [Show icon in tray for actions]
 Mostrar ícone na barra de tarefas para ações
-[Show icon in tray for actions]
-Mostrar ícone na bandeja para as ações
 [Show icon in tray for highlights]
 Mostrar ícone na barra de tarefas para palavras destacadas
-[Show icon in tray for highlights]
-Mostrar ícone na bandeja para destaques
 [Show icon in tray for users leaving]
 Mostrar ícone na barra de tarefas para usuários a sairem
-[Show icon in tray for users leaving]
-Mostrar ícone na bandeja para os usuários saindo
-[Show icon in tray for users kicking other user]
-Mostrar ícone na barra de tarefas para usuários 'chutando' outros usuários
 [Show icon in tray for users kicking other user]
 Mostrar ícone na bandeja para usuários chutando outro usuário
 [Show icon in tray for notices ]
 Mostrar ícone na barra de tarefas para notificações
-[Show icon in tray for notices ]
-Mostrar ícone na bandeja de anúncios
 [Show icon in tray for name changes]
 Mostrar ícone na na barra de tarefas para mudanças de nome
-[Show icon in tray for name changes]
-Mostrar ícone na bandeja para mudanças de nome
 [Show icon in tray for information messages]
 Mostrar ícone na barra de tarefas para mensagens de informação
-[Show icon in tray for information messages]
-Mostrar ícone na bandeja para mensagens de informação
 [Show icon in tray for status changes]
 Mostrar ícone na barra de tarefas para mudanças de status
-[Show icon in tray for status changes]
-Mostrar ícone na bandeja para mudanças de status
 [Icons to display in the tray]
 Ícones a serem exibidos na barra de tarefas
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Eventos padrão para mostrar em novas salas de chat, se o 'filtro de evento' está habilitado
 [Select Folder]
 Selecionar Pasta
-[Group chats]
-Bate-papo em grupo
 [Group chats]
 Grupos de chat
 [Message is highlighted]

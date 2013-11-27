@@ -8,10 +8,6 @@
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Pesquisa
-[Search]
-Procurar
-[Search]
-Pesquisar
 [Close]
 Fechar
 [Incoming messages]
@@ -31,13 +27,7 @@ Número
 ;file \plugins\HistoryLinkListPlus\src\language.h
 [Error]
 Erro
-[Error]
-Erro
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[History]
-Histórico
-[History]
-Histórico
 [History]
 Histórico
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp

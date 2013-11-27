@@ -8,26 +8,12 @@
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-mail:
-[E-mail:]
-E-mail:
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 [Configuration]
 Configuração
 [Port:]
 Porta:
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Default]
 Padrão
 [Background color]
@@ -36,8 +22,6 @@ Cor do fundo
 Fonte
 [Summary]
 Resumo
-[Nickname:]
-Apelido:
 [Nickname:]
 Apelido:
 [First name:]
@@ -77,15 +61,11 @@ Garantir autorização
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Menu Principal
-[Main Menu]
-Menu Principal
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Nenhum
 [Information]
 Informação
-[Error]
-Erro
 [Error]
 Erro
 ;file \protocols\MRA\src\MraProto.cpp
@@ -95,12 +75,6 @@ Endereço de e-mail
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Rede
-[Network]
-Rede
-[Files]
-Arquivos
-[Files]
-Arquivos
 [Files]
 Arquivos
 ;file \protocols\MRA\src\Mra_proto.cpp

@@ -18,10 +18,6 @@ Previsão
 Tamanho e posição
 [History]
 Histórico
-[History]
-Histórico
-[History]
-Histórico
 [Enable popup history]
 Habilitar histórico de popup
 [Store last]
@@ -32,8 +28,6 @@ Usar History++ para renderizar o log
 Mostrar bordas do avatar
 [Draw borders for semitransparent avatars too]
 Mostrar bordas para avatares semitransparentes também
-[pixels]
-pixels
 [pixels]
 pixels
 [Enable avatar updates]
@@ -60,10 +54,6 @@ Pixels
 Configurar área de popup
 [Close]
 Fechar
-[General]
-Geral
-[General]
-Geral
 [General]
 Geral
 [Enable popup actions]
@@ -174,26 +164,6 @@ Recarregar lista de capas
 Localização do popup
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Popup Group]
@@ -215,10 +185,6 @@ Adicionar contato permanentemente
 Ações
 [Contacts]
 Contatos
-[Contacts]
-Contatos
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -254,8 +220,6 @@ Recarregar lista
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
-[Error]
-Erro
 [Error]
 Erro
 ;file \plugins\Popup\src\skin.cpp

@@ -103,8 +103,6 @@ Preparar equalizador
 Exportar Todos
 [Advanced]
 Avançado
-[Advanced]
-Avançado
 [Volume]
 Volume
 [Equalizer]

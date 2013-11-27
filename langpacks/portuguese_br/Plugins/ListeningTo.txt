@@ -8,18 +8,12 @@
 ;file \plugins\ListeningTo\res\resource.rc
 [Contacts]
 Contatos
-[Contacts]
-Contatos
 [seconds]
 segundos
 ;file \plugins\ListeningTo\src\listeningto.cpp
 ;file \plugins\ListeningTo\src\options.cpp
 [Status]
 Status
-[General]
-Geral
-[General]
-Geral
 [General]
 Geral
 ;file \plugins\ListeningTo\src\players\generic.cpp

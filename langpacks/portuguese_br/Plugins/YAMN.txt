@@ -8,88 +8,34 @@
 ;file \plugins\YAMN\res\YAMN.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [Description:]
 Descrição
-[Copyright:]
-Direitos autorais:
 [Copyright:]
 Licença:
 [Message]
 Mensagem
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 [Port:]
 Porta:
 [Default]
 Padrão
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
-[Name:]
-Nome:
-[Name:]
-Nome
 [Name:]
 Nome:
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Online]
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 [On the phone]
@@ -105,12 +51,8 @@ Texto colorido
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Apelido
-[Nick]
-Apelido
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
-[Select All]
-Selecionar Tudo
 [Select All]
 Selecionar Tudo
 [Size]
@@ -121,23 +63,11 @@ Tamanho
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Rede
-[Network]
-Rede
 [Accounts]
 Contas
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
 [Plugins]
 Plugins
-[Plugins]
-Plugins
-[All Files]
-Todos os Arquivos
-[All Files]
-Todos os arquivos
 [All Files]
 Todos os Arquivos

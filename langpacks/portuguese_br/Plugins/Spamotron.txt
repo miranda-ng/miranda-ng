@@ -8,10 +8,6 @@
 ;file \plugins\Spamotron\res\spamotron.rc
 [Outgoing message]
 Enviando mensagem
-[Outgoing message]
-Mensagem saindo
-[Background]
-Fundo
 [Background]
 Fundo
 ;file \plugins\Spamotron\src\bayes.cpp
@@ -19,8 +15,6 @@ Fundo
 ;file \plugins\Spamotron\src\options.cpp
 [Message Sessions]
 Sessões de mensagem
-[Messages]
-Mensagens
 [Messages]
 Mensagens
 ;file \plugins\Spamotron\src\spamotron.cpp

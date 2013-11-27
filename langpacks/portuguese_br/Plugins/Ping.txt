@@ -8,44 +8,16 @@
 ;file \plugins\Ping\res\ping.rc
 [Network]
 Rede
-[Network]
-Rede
 [Row height:]
 Altura da linha:
 [Add]
 Adicionar
-[Add]
-Adicionar
-[Remove]
-Remover
 [Remove]
 Remover
 [Edit]
 Editar
-[Edit]
-Editar
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Port:]

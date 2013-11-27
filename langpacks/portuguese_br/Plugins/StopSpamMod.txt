@@ -12,17 +12,9 @@
 Sessões de mensagem
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
-[Messages]
-Mensagens
 [Messages]
 Mensagens
 [Accounts]
 Contas
-[Advanced]
-Avançado
 [Advanced]
 Avançado

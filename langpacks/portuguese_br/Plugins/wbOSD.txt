@@ -42,8 +42,6 @@ Outros
 
 [Status changes]
 Alterações de Status
-[Status changes]
-Status alterado
 [Show my status changes]
 
 [Text color]

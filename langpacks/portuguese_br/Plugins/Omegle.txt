@@ -15,6 +15,4 @@ Conectando...
 ;file \protocols\Omegle\src\proto.cpp
 [Network]
 Rede
-[Network]
-Rede
 ;file \protocols\Omegle\src\theme.cpp

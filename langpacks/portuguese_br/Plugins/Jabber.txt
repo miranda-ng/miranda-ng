@@ -16,12 +16,6 @@ Escrever:
 Usuário:
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 [Resource:]
 Recursos:
 [Register new user]
@@ -36,8 +30,6 @@ Serviço de pesquisa
 Editor de Registro
 [Jabber]
 Jabber
-[Username:]
-Usuário:
 [Username:]
 Usuário:
 [Priority:]
@@ -136,8 +128,6 @@ Companhia:
 Departamento:
 [E-mail:]
 E-mail:
-[E-mail:]
-E-mail:
 [Phone:]
 Telefone:
 [Jabber vCard: Add Email Address]
@@ -170,16 +160,6 @@ PCS
 Carregar
 [Delete]
 Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
-[Delete]
-Excluir
 [Description:]
 Descrição
 [Current Password:]
@@ -200,8 +180,6 @@ Sala:
 Recentemente visitou as salas de bate-papo:
 [Bookmarks]
 Marcador
-[Bookmarks]
-Marcações
 [JID List]
 Lista JID
 [Apply Filter]
@@ -218,20 +196,12 @@ Registro
 Outros JID:
 [Add]
 Adicionar
-[Add]
-Adicionar
-[Nickname:]
-Apelido:
 [Nickname:]
 Apelido:
 [Jabber Bookmarks]
 Jabber Favoritos
 [Remove]
 Remover
-[Remove]
-Remover
-[Edit]
-Editar
 [Edit]
 Editar
 [Bookmark Details]
@@ -282,8 +252,6 @@ Se:
 Então:
 [following stanza types:]
 seguintes tipos de estrofe:
-[Messages]
-Mensagens
 [Messages]
 Mensagens
 [Incoming presence]
@@ -455,14 +423,8 @@ Copiar tópico da sala
 Online
 [Away]
 Ausente
-[Away]
-Ausente
 [DND]
 DND
-[DND]
-DND
-[Free for chat]
-Livre para conversar
 [Free for chat]
 Livre para conversar
 [&User details]
@@ -560,8 +522,6 @@ Não há salas disponíveis no servidor.
 Solicitação de lista de salas expirou.
 [Loading...]
 Carregando...
-[Loading...]
-Carregando...
 [Please wait for room list to download.]
 Por favor, aguarde lista de salas para download.
 [Please specify group chat directory first.]
@@ -569,8 +529,6 @@ Por favor, especifique diretório do grupo de bate-papo primeiro.
 [Bookmarks...]
 Marcadores...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
-[Notes]
-Notas
 [Notes]
 Notas
 [Agents list]
@@ -709,8 +667,6 @@ Escolha a máxima prioridade do servidor (a)
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 Para
-[To]
-Até
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Nauru]
@@ -761,10 +717,6 @@ Aceitar apenas em banda entrada de transferência de arquivos(não divulgar pró
 Aceitar solicitações de autenticação HTTP (XEP-0070)
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
 [Autoaccept multiuser chat invitations]
 Automaticamente aceitar convites de bate-papo
 [Automatically join bookmarks on login]
@@ -787,8 +739,6 @@ Mudanças de filiação
 Mudanças de papel
 [Status changes]
 Alterações de Status
-[Status changes]
-Status alterado
 [JID]
 JID
 [Group]
@@ -801,10 +751,6 @@ Enviando...
 Conectando...
 [Network]
 Rede
-[Network]
-Rede
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 [Public XMPP Network]
@@ -927,8 +873,6 @@ Editor de Lista...
 Status
 [Invisible]
 Invisível
-[Invisible]
-Invisível
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Erro %s %s\r\nPor favor escolha outro servidor
@@ -977,20 +921,12 @@ Software
 Versão
 [System]
 Sistema
-[System]
-Sistema
 [Idle since]
 Inativo desde
 [Client capabilities]
 Recursos de cliente
 [Yes]
 Sim
-[Yes]
-Sim
-[No]
-Não
-[No]
-Não
 [No]
 Não
 [Last logoff time]
@@ -1005,10 +941,6 @@ Recurso ativo a última vez
 Selecione on-line para ver mais detalhes.
 [Copy]
 Copiar
-[Copy]
-Copiar
-[Copy]
-Copiar
 [Copy only this value]
 Copie apenas este valor
 [format]
@@ -1018,8 +950,6 @@ Formato Desconhecido
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
-[Error]
-Erro
 [Error]
 Erro
 [Unknown error message]
@@ -1039,8 +969,6 @@ VCard Jabber
 Jabber vCard: Editar endereço de E-mail
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: Editar número de telefone
-[Contacts]
-Contatos
 [Contacts]
 Contatos
 ;file \protocols\JabberG\src\jabber_ws.cpp

@@ -10,28 +10,10 @@
 Fechar
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Visibility]
 Visibilidade
 [Frame]
 Frame
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Background color]
@@ -44,30 +26,12 @@ Usar Janelas coloridas
 segundos
 [Default]
 Padrão
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
-[Updates]
-Updates
 [Updates]
 Atualizar
 [Alerts]
 Alertas
-[Alerts]
-Alertas
 [Contact List]
 Lista de Contatos
-[Reset]
-Limpar
-[Reset]
-Padrão
-[Reset]
-Apagar
-[Reset]
-Apagar
 [Reset]
 Limpar
 [City:]
@@ -78,19 +42,11 @@ Cidade:
 ;file \plugins\Weather\src\weather_contacts.cpp
 [All Files]
 Todos os Arquivos
-[All Files]
-Todos os arquivos
-[All Files]
-Todos os Arquivos
 ;file \plugins\Weather\src\weather_conv.cpp
 ;file \plugins\Weather\src\weather_data.cpp
 ;file \plugins\Weather\src\weather_http.cpp
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
-[Name:]
-Nome:
-[Name:]
-Nome
 [Name:]
 Nome:
 [bytes]
@@ -102,12 +58,6 @@ Descrição
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Rede
-[Network]
-Rede
-[General]
-Geral
-[General]
-Geral
 [General]
 Geral
 ;file \plugins\Weather\src\weather_popup.cpp

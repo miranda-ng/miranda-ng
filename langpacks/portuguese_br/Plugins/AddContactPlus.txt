@@ -14,18 +14,10 @@ Nome personalizado:
 Grupo:
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Send authorization request]
 Enviar pedido de autorização
 [Authorization request]
 Pedido de Autorização
-[&Add]
-&Adicionar
 [&Add]
 &Adicionar
 [&Cancel]

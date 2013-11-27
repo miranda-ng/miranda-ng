@@ -8,46 +8,14 @@
 ;file \plugins\PasteIt\res\PasteIt.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Delete]
-Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
 [Delete]
 Excluir
 ;file \plugins\PasteIt\src\Options.cpp
 [Web page]
 Página na Web
 ;file \plugins\PasteIt\src\PasteIt.cpp
-[Error]
-Erro
 [Error]
 Erro
 ;file \plugins\PasteIt\src\PasteToWeb.cpp

@@ -10,22 +10,8 @@
 Criar uma nova conta no Twitter
 [Username:]
 Usuário:
-[Username:]
-Usuário:
 [Send Tweet]
 Enviar Tweet
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [sec]
@@ -36,20 +22,10 @@ Texto
 Padrão
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
 Enviar Tweet...
-[Network]
-Rede
 [Network]
 Rede
 [%s avatar connection]

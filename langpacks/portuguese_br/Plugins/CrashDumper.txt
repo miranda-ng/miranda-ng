@@ -12,20 +12,12 @@ Fechar
 Usuário
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
-[&Copy]
-&Copiar
 [&Copy]
 &Copiar
 [Co&py All]
 Co&piar Tudo
 [Select &All]
 Selecionar &Tudo
-[Select &All]
-Selecionar &tudo
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [Show]
 Mostrar

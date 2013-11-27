@@ -12,14 +12,8 @@ Texto
 Online
 [Away]
 Ausente
-[Away]
-Ausente
 [Occupied]
 Ocupado
-[Occupied]
-Ocupado
-[DND]
-DND
 [DND]
 DND
 [On the phone]
@@ -28,27 +22,13 @@ Ao telefone
 Saiu para almoço
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
 [Invisible]
 Invisível
-[Invisible]
-Invisível
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 ;file \plugins\SeenPlugin\src\history.cpp
 [View User's Details]
 Ver detalhes do usuário
-[User Menu]
-Menu do Usuário
 [User Menu]
 Menu do Usuário
 ;file \plugins\SeenPlugin\src\main.cpp
@@ -58,8 +38,6 @@ Menu do Usuário
 ;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 Contatos
-[Contacts]
-Contatos
 ;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 segundos
@@ -67,8 +45,6 @@ segundos
 Grupo
 [Status]
 Status
-[Protocol]
-Protocolo
 [Protocol]
 Protocolo
 ;file \plugins\SeenPlugin\src\userinfo.cpp

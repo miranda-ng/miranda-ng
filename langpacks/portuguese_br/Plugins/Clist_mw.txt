@@ -8,26 +8,14 @@
 ;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 Esticar em largura
-[Stretch to width]
-Esticar em largura
-[Stretch to height]
-Esticar em altura
 [Stretch to height]
 Esticar em altura
 [Tile horizontally]
 Título horizontal
-[Tile horizontally]
-Título horizontal
-[Tile vertically]
-Título vertical
 [Tile vertically]
 Título vertical
 [Scroll with text]
 Rolar com texto
-[Scroll with text]
-Rolar com texto
-[Stretch proportionally]
-Esticar proporcionalmente
 [Stretch proportionally]
 Esticar proporcionalmente
 [Warning!\r\nThis MenuObject not support user defined options.]
@@ -42,32 +30,14 @@ Inserir Separador
 Serviço:
 [Name:]
 Nome:
-[Name:]
-Nome
-[Name:]
-Nome:
 [Set]
 Configurar
-[Set]
-Configurar
-[Default]
-Padrão
-[Default]
-Padrão
-[Default]
-Padrão
 [Default]
 Padrão
 [Delete Contact]
 Excluir Contato
 [No]
 Não
-[No]
-Não
-[No]
-Não
-[Yes]
-Sim
 [Yes]
 Sim
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -128,8 +98,6 @@ Unir à área de trabalho
 Linhas
 [Row height:]
 Altura da linha:
-[pixels]
-pixels
 [pixels]
 pixels
 [Gamma correction]
@@ -202,10 +170,6 @@ Rolar a lista suavemente
 Tempo:
 [milliseconds]
 milisegundos
-[milliseconds]
-Milisegundos
-[milliseconds]
-milissegundos
 [Left margin:]
 Margem esquerda:
 [Gray out entire list when:]
@@ -222,8 +186,6 @@ Barra de Status
 Mostrar barra de status
 [Show icons]
 Mostrar ícones
-[Show icons]
-Mostrar ícones
 [Show protocol names]
 Exibir os nomes de protocolo
 [Show status text]
@@ -238,8 +200,6 @@ Redimensionar
 Mostrar efeito bisel em painéis
 [Use connecting Icon]
 Usar ícone conectando
-[Use connecting Icon]
-Use Ícone ligação
 [Use New Drawer for StatusBar]
 Use Nova Gaveta para Barra de Status
 [E&xit]
@@ -267,8 +227,6 @@ Barra de tarefas
 [&Hide/Show]
 &Ocultar/Exibir
 [Nowhere]
-Em nenhum lado
-[Nowhere]
 Não está
 [&New Group]
 &Novo Grupo
@@ -293,10 +251,6 @@ Grupo
 [&Delete Group]
 &Excluir Grupo
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
-[Customize]
-Personalizar
-[Customize]
-Personalizar
 [Customize]
 Personalizar
 [Backgrounds]
@@ -324,16 +278,10 @@ Grupo Fechado
 Animar Contatos
 [Background]
 Fundo
-[Background]
-Fundo
 [Selected Text]
 Texto Selecionado
 [Hottrack Text]
-Marcar texto
-[Hottrack Text]
 Texto Quente
-[Quicksearch Text]
-Pesquisa rápida do texto
 [Quicksearch Text]
 Texto de Pesquisa
 ;file \plugins\Clist_mw\src\clcopts.cpp
@@ -347,28 +295,16 @@ Listar Metacontatos
 Fundo da Barra de Status
 [Not focused]
 Não focalizado
-[Not focused]
-Não focalizado
 [Online]
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 [Out to lunch]
@@ -383,8 +319,6 @@ Global
 _SemProtocolo_
 [(Unknown Contact)]
 (Contato Desconhecido)
-[(Unknown Contact)]
-<desconhecido>
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Procurar/Adicionar Contatos...

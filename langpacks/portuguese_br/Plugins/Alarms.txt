@@ -8,42 +8,10 @@
 ;file \plugins\Alarms\res\resource.rc
 [Delete]
 Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
-[Delete]
-Excluir
-[Edit]
-Editar
 [Edit]
 Editar
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Description:]
@@ -52,15 +20,11 @@ Descrição
 Ações
 [&Delete]
 &Excluir
-[&Delete]
-&Apagar
 [&Options...]
 &Opções...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
-[Background]
-Fundo
 [Background]
 Fundo
 [Window]
@@ -72,15 +36,5 @@ Janelas
 ;file \plugins\Alarms\src\options.cpp
 [Error]
 Erro
-[Error]
-Erro
-[Events]
-Eventos
-[Events]
-Eventos
-[Events]
-Eventos
-[Events]
-Eventos
 [Events]
 Eventos

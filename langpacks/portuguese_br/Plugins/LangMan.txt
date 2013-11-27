@@ -10,40 +10,18 @@ Auxilia-o a gerir pacotes de diferentes idiomas.
 ;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Autor(es):
-[Author(s):]
-Autor(es):
-[Author(s):]
-Autor(es):
-[Author(s):]
-Autor(es):
-[E-mail:]
-E-mail:
 [E-mail:]
 E-mail:
 [Last modified using:]
 Última modificação:
-[Last modified using:]
-Última modificação usando:
 [Date:]
 Data:
-[Date:]
-Data
-[Date:]
-Data:
-[Locale:]
-Local:
 [Locale:]
 Local:
 [Download more Language Packs]
 Baixar mais Pacotes de idioma
 [Please restart Miranda NG for your changes to take effect.]
 Por favor reinicie o Miranda NG BR para que as alterações tenham efeito.
-[Please restart Miranda NG for your changes to take effect.]
-Reinicie o Miranda NG BR para que as alterações surtam efeito.
-[Please restart Miranda NG for your changes to take effect.]
-Reinicie o Miranda NG BR para que as alterações surtam efeito.
-[Please restart Miranda NG for your changes to take effect.]
-Reinicie o Miranda NG BR para que as alterações surtam efeito.
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
@@ -56,17 +34,7 @@ Atual
 Idiomas Instalados
 [File]
 Arquivo
-[File]
-Arquivo
-[File]
-Arquivo
 [&Remove...]
 &Remover...
-[&Remove...]
-&Remover...
-[Customize]
-Personalizar
-[Customize]
-Personalizar
 [Customize]
 Personalizar

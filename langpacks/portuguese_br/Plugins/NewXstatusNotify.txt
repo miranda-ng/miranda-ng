@@ -10,22 +10,12 @@
 Online
 [Invisible]
 Invisível
-[Invisible]
-Invisível
-[Free for chat]
-Livre para conversar
 [Free for chat]
 Livre para conversar
 [Away]
 Ausente
-[Away]
-Ausente
 [Occupied]
 Ocupado
-[Occupied]
-Ocupado
-[DND]
-DND
 [DND]
 DND
 [Out to lunch]
@@ -34,20 +24,8 @@ Saiu para almoço
 Ao telefone
 [Delete]
 Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
-[Delete]
-Excluir
 [Sounds]
 Sons
-[Background]
-Fundo
 [Background]
 Fundo
 [Text]
@@ -58,42 +36,10 @@ Usar cores personalizadas
 Usar Janelas coloridas
 [Reset]
 Limpar
-[Reset]
-Padrão
-[Reset]
-Apagar
-[Reset]
-Apagar
-[Reset]
-Limpar
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [OK]
 OK
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[General]
-Geral
-[General]
-Geral
 [General]
 Geral
 [Accounts]
@@ -103,8 +49,6 @@ Contas
 Status
 [** All contacts **]
 ** Todos os contatos **
-[** All contacts **]
-** Todos os contatos **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
@@ -112,14 +56,8 @@ Contato
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Todos os Arquivos
-[All Files]
-Todos os arquivos
-[All Files]
-Todos os Arquivos
 [Log]
 Registro
-[Protocol]
-Protocolo
 [Protocol]
 Protocolo
 ;file \plugins\NewXstatusNotify\src\popup.h

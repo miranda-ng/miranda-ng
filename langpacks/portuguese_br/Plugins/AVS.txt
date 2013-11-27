@@ -10,44 +10,24 @@
 As imagens que estão aqui são usadas como avatar padrão \npara contos que não tenham a sua própria.\nUse os botões para ativar/desativar mostrar avatar para os protocolos.
 [Set default picture]
 Definir uma imagem padrão
-[Set default picture]
-Definir uma imagem padrão
-[Set default picture]
-Configurar imagem padrão
 [Delete default picture]
 Excluir imagem padrão
-[Delete default picture]
-Excluir imagem padrão 
-[Delete default picture]
-Apagar imagem padrão
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
 ATENÇÃO: Estas imagens NÃO são seus próprios avatares.\nPara configurar seu próprio Avatar vá a Menu Inicial | Exibir/Alterar Meus Detalhes | Avatar
 [Try to draw avatar background transparent (for images without transparency)]
 Tente desenhar o avatar com fundo transparente (para imagens sem transparência)
-[Try to draw avatar background transparent (for images without transparency)]
-Tente desenhar avatar fundo transparente (para imagens sem transparência)
 [Num of points to define bkg:]
 Num. de pontos para definir fundo:
-[Num of points to define bkg:]
-Num. de pontos para definir fundo:
-[Color difference allowed:]
-Permitir diferenças de cor:
 [Color difference allowed:]
 Permitir diferenças de cor:
 [Make transparency proportional to color diff]
 Transparência porporcional à diferença de cor
 [Draw avatars grayscale]
 Desenhar avatares em tons de cinza
-[Draw avatars grayscale]
-Desenhar avatares em tons de cinza
 [Show warning messages]
 Mostrar mensagens de alerta
 [When setting avatars, always make them square]
 Quando definr avatares, sempre fazê-los quadrado
-[When setting avatars, always make them square]
-Quando configurar os avatares, sempre fazê-los quadrado
-[Try to draw own avatar background transparent (for images without transparency)]
-Tente desenhar fundo próprio para avatar transparente (para imagens sem transparência)
 [Try to draw own avatar background transparent (for images without transparency)]
 Tente desenhar fundo próprio para avatar transparente (para imagens sem transparência)
 [This uses the same additional options as in "Contact Avatars" tab]
@@ -56,190 +36,84 @@ Tente desenhar fundo próprio para avatar transparente (para imagens sem transpa
 Protege a imagem e previne contra substituição automática de avatar sobrescrevê-lo
 [Make the avatar square]
 Desenhar Avatar quadrado
-[Make the avatar square]
-Avatar quadrado
 [Resize the avatar to fit max allowed protocol size]
 Redimensionar o avatar para caber no limite do tamanho do protocolo
 [Contact picture]
 Imagem do contato
-[Contact picture]
-Imagem do contato
 [Delete]
 Excluir
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Apagar
-[Delete]
-Excluir
-[Delete]
-Excluir
-[Reset]
-Limpar
-[Reset]
-Padrão
-[Reset]
-Apagar
-[Reset]
-Apagar
 [Reset]
 Limpar
 [Picture options]
 Opções de imagem
-[Picture options]
-Opções da imagem
 [Protect the picture]
 Protege a imagem
-[Protect the picture]
-Proteger a imagem
 [Set as hidden]
 Configurar como invisível
-[Set as hidden]
-Definir como oculta
 [Try to make picture background transparent]
 Aplicar tranparência a imagem de fundo
-[Try to make picture background transparent]
-Fundo da imagem transparente
-[Use defaults]
-Usar padrão
 [Use defaults]
 Usar padrão
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
-[Background]
-Fundo
 [Background]
 Fundo
 [Points:]
 Pontos
-[Points:]
-Pontos:
-[Color diff:]
-Dif. de Cor:
 [Color diff:]
 Diferença de cor:
 [Set]
 Configurar
-[Set]
-Configurar
-[Use per protocol avatars]
-Usar avatares por protocolo
 [Use per protocol avatars]
 Usar avatares por protocolo
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protocolos têm avatares diferentes
-[Protocols have different avatars]
-Os protocolos tem diferentes avatares
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 Redimensionar o avatar para ajustar o tamanho máximo permitido para o protocolo
 [All Files]
 Todos os Arquivos
-[All Files]
-Todos os arquivos
-[All Files]
-Todos os Arquivos
-[Windows Bitmaps]
-Janelas Bitmaps
 [Windows Bitmaps]
 Bitmaps do Windows
 [JPEG Bitmaps]
-Bitmaps JPEG
-[JPEG Bitmaps]
 Imagens JPEG
-[GIF Bitmaps]
-Bitmaps GIF
 [GIF Bitmaps]
 Imagens GIF
 [PNG Bitmaps]
-Bitmaps PNG
-[PNG Bitmaps]
 Imagens PNG
-[Flash Animations]
-Piscar Animações
 [Flash Animations]
 Animações em Flash
 [XML Files]
 Arquivos XML
-[XML Files]
-Arquivos XML
-[Set My Avatar]
-Configurar Meu Avatar
 [Set My Avatar]
 Configurar Meu Avatar
 [Set My Avatar for %s]
 Configura Meu Avatar para %s
-[Set My Avatar for %s]
-Configurar Meu Avatar para %s
 [My Avatars]
 Meus Avatares
 [My Global Avatar Cache]
 Meu Cache do Avatar Global
-[My Global Avatar Cache]
-Meu Cache do Avatar Global
-[Contacts]
-Contatos
 [Contacts]
 Contatos
 [Contact Avatars]
 Avatares do contato
-[Contact Avatars]
-Avatares do Contato
-[Own Avatars]
-Avatares Próprios
 [Own Avatars]
 Avatares Próprios
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Configurar opções para %s
-[Set avatar options for %s]
-Definir opções de avatar para %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
 Excluir imagem do disco? (Necessário reiniciar)
 [Reset contact picture]
 Limpar imagem do contato
 [Contact has no avatar]
 Contato sem avatar
-[Contact has no avatar]
-O contato não tem Avatar
 [Are you sure you want to remove your avatar?]
 Tem certeza que deseja remover o seu avatar?
-[Are you sure you want to remove your avatar?]
-Tem certeza que deseja remover o seu avatar?
-[Global Avatar]
-Avatar Global
 [Global Avatar]
 Avatar Global

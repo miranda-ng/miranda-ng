@@ -8,98 +8,42 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Alterar Meu Apelido
-[Set My Nickname]
-Configurar Meu Apelido
-[Nickname:]
-Apelido:
 [Nickname:]
 Apelido:
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
-[RTL]
-RTL
 [RTL]
 RTL
 [Align text to right]
 Alinhar texto à direita
-[Align text to right]
-Alinhar texto a direita
 [Auto-resize frame]
 Auto dimensionar janela
-[Auto-resize frame]
-Auto-dimensionarframe
 [Use contact list smileys]
 Usar smileys para os contatos
-[Use contact list smileys]
-Usar smileys na lista de contatos
-[Replace Smileys]
-Substituir Smileys
 [Replace Smileys]
 Substituir Smileys
 [Resize Smileys]
 Redimensionar Smileys
-[Resize Smileys]
-Redimensionar Smileys
-[Top:]
-Topo:
 [Top:]
 Topo:
 [Bottom:]
 Fundo:
-[Bottom:]
-Fundo:
-[Left:]
-Esquerdo:
 [Left:]
 Esquerdo:
 [Right:]
 Direita:
-[Right:]
-Direita:
-[Custom size:]
-Definir tamanho:
 [Custom size:]
 Personalizar tamanho:
 [pixels]
 pixels
-[pixels]
-pixels
 [Allow it to grow]
 Permitir que ela cresça
-[Allow it to grow]
-Permitir expansão
 [Use free space (under avatar) to other texts]
 Usar espaço livre (sob o avatar) para outros textos
-[Use free space (under avatar) to other texts]
-Usar o espaço livre (sob o avatar) para outros textos
 [seconds]
 segundos
 [Set My Status Message for All Status]
@@ -124,14 +68,8 @@ Ao tele&fone
 Saiu para &Almoço
 [Set My Avatar...]
 Configurar Meu Avatar...
-[Set My Avatar...]
-Configurar Meu Avatar...
 [Set My Nickname...]
 Configurar Meu Apelido...
-[Set My Nickname...]
-Configurar Meu Apelido...
-[Set My Status Message...]
-Configurar Minha Mensagem de Status...
 [Set My Status Message...]
 Configurar Minha Mensagem de Status...
 [Enable Listening To]
@@ -142,10 +80,6 @@ Ativar Ouvir para
 Status
 [My Details]
 Meus detalhes
-[My Details]
-Meus Detalhes
-[Background]
-Fundo
 [Background]
 Fundo
 [Show My Details]
@@ -153,17 +87,11 @@ Mostrar Meus Detalhes
 [Enable Listening To for %s]
 Ativar ouvir para %s
 [Set My Avatar for %s...]
-Config. Meu Avatar para %s...
-[Set My Avatar for %s...]
 Configurar Meu Avatar para %s...
-[Set My Nickname for %s...]
-Configurar Meu Apelido para %s...
 [Set My Nickname for %s...]
 Configurar Meu Apelido para %s...
 [Set My Status Message for %s...]
 Configar Minha Msg de Status para %s...
-[Set My Status Message for %s...]
-Configurar Minha Mensagem de Status para %s...
 [Hide My Details]
 Ocultar Meus Detalhes
 ;file \plugins\MyDetails\src\mydetails.cpp
@@ -171,8 +99,6 @@ Ocultar Meus Detalhes
 Protocolo anterior
 [Next protocol]
 Próximo protocolo
-[Set My Nickname for %s]
-Configurar Meu Apelido para %s
 [Set My Nickname for %s]
 Configurar Meu Apelido para %s
 [Set My Status Message for %s]

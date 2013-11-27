@@ -60,8 +60,6 @@ Dê ao cara um pouco de paz, certo?
 Eu sou um chatbot!
 [Yep, I'm here.]
 Sim, eu estou aqui.
-[Yep, I'm here.]
-Sim, estou aqui.
 [Nope, not here.]
 Não, não estou aqui.
 [I'm hiding from the mafia.]

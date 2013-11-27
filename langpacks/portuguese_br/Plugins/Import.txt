@@ -8,86 +8,44 @@
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Escolha como você gostaria importar:
-[Choose how you would like to import:]
-Escolha como deseja importar:
-[From a Miranda NG database.]
-De um banco de dados IM Miranda.
 [From a Miranda NG database.]
 A partir de bases de dados do Miranda NG BR.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
 Clique "Avançar" para escolher a informação que deseja importar, ou clique "Cancelar" para sair do assistente e continuar a utilizar o Miranda.
 [It is recommended that you create a backup of your current Miranda profile before importing.]
 É recomendável que você crie um backup do seu perfil Miranda atual antes de importar.
-[It is recommended that you create a backup of your current Miranda profile before importing.]
-É recomendado que faça um 'Backup' do seu perfil atual do Miranda antes de proceder à importação.
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
 Se desejar importar mais informação, prima "Seguinte" para regressar ao início do assistente, de resto prima "Terminar".
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
 Você provavelmente nunca precisará usar este assistente novamente, assim você pode economizar memória, não carregando-o cada vez que você iniciar Miranda. Isto significa que o item de menu de importação não será mais disponível.
-[You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
-Provavelmente não terá necessidade de utilizar este assistente novamente, poderá usar menos memória não o carregando. Isto significa que o menu de importação deixará de estar disponível.
 [Do not load the import plugin at startup again]
 Não coloque o plugin de importação ao iniciar de novo
-[Do not load the import plugin at startup again]
-Não voltar a carregar o plugin de importação ao iniciar
-[Import completed]
-Importação concluída
 [Import completed]
 Importação concluída
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Se em uma data futura que você deseja usar o assistente novamente, você pode fazer é carregar novamente, vá até a seção Plugins do caixa de diálogo Opções.
-[If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
-Se no futuro desejar utilizar o assistente, poderá carregá-lo novamente indo à secçao de plugins na janela de opções.
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
 Miranda encontrou os seguintes perfis. Escolha aquele que desejar importar, ou clique em "Outro Perfil" se o seu não estiver listado ou no caso da lista estar vazia.
 [&Other Profile...]
 &Outros Perfis...
-[&Other Profile...]
-&Outro Perfil
-[&Filename:]
-&Nome do arquivo:
 [&Filename:]
 &Arquivo de nome:
 [Now importing...]
 Importar agora...
-[Now importing...]
-Importando...
 [Import Information Wizard]
 Importação e Assistente
-[Import Information Wizard]
-Assistente do plugin de importação
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Import all contacts and all messages]
-Importar todos os contatos e todas as mensagens
 [Import all contacts and all messages]
 Importar todos os contatos e todas as mensagens
 [Only import contacts]
 Apenas os contactos de importação
-[Only import contacts]
-Apenas importar contatos
 [Custom import]
 Importação personalizada
 [Select this if you want to import as much data as possible. This is the recommended option.]
 Selecione esta opção se você deseja importar o máximo de dados possível. Esta é a opção recomendada.
-[Select this if you want to import as much data as possible. This is the recommended option.]
-Assinale esta opção se desejar importar o máximo de dados possível. Esta é a opção recomendada.
 [Select this if you want to import contacts but don't want to import any message history.]
 Selecione esta opção se você deseja importar contatos, mas não querem importar qualquer histórico de mensagens.
-[Select this if you want to import contacts but don't want to import any message history.]
-Assinale esta opção se desejar importar contatos mas não deseja importar o histórico de conversas.
 [New contacts && groups]
 Novos contatos &&grupos
 [System history]
@@ -100,8 +58,6 @@ Recebendo
 Enviando
 [Only since:]
 Somente a partir de:
-[Messages]
-Mensagens
 [Messages]
 Mensagens
 [File Transfers]
@@ -153,12 +109,6 @@ Ignorado %d duplicados.
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 O arquivo indicado não existe. Verifique se introduziu corretamente o nome.
-[The given file does not exist. Please check that you have entered the name correctly.]
-O arquivo indicado não existe. Verifique se introduziu corretamente o nome.
-[All Files]
-Todos os Arquivos
-[All Files]
-Todos os arquivos
 [All Files]
 Todos os Arquivos
 ;file \plugins\Import\src\utils.cpp

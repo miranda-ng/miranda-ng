@@ -166,8 +166,6 @@ Exibir barra de menu
 Mover facilmente
 [Rounded border]
 Bordas arredondadas
-[Rounded border]
-Borda arredondada
 [Title bar text:]
 Texto da barra de título:
 [Pin to desktop]
@@ -244,26 +242,14 @@ Cor do fundo
 Usar imagem de fundo
 [Stretch to width]
 Esticar em largura
-[Stretch to width]
-Esticar em largura
-[Stretch to height]
-Esticar em altura
 [Stretch to height]
 Esticar em altura
 [Tile horizontally]
 Título horizontal
-[Tile horizontally]
-Título horizontal
-[Tile vertically]
-Título vertical
 [Tile vertically]
 Título vertical
 [Scroll with text]
 Rolar com texto
-[Scroll with text]
-Rolar com texto
-[Stretch proportionally]
-Esticar proporcionalmente
 [Stretch proportionally]
 Esticar proporcionalmente
 [Use these settings to skin the entire background]
@@ -274,8 +260,6 @@ Se você permitir isso, as configurações de fundo irão afetar a lista complet
 Barra de Status
 [Show status bar]
 Mostrar barra de status
-[Show icons]
-Mostrar ícones
 [Show icons]
 Mostrar ícones
 [Show protocol names]
@@ -300,22 +284,8 @@ Mostrar ícones de status extendido do ICQ
 Marcar protocolos trancados para alterações do estado global
 [Cancel]
 Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Apply]
 Aplicar
-[Protocol]
-Protocolo
 [Protocol]
 Protocolo
 [Group]
@@ -326,12 +296,8 @@ Por skins dos contatos:
 Skin da Lista de contatos
 [Apply skin now]
 Aplicar skin agora
-[Apply skin now]
-Aplicar skin agora
 [Unload skin]
 Não aplicar skin
-[Unload skin]
-Skin não aplicada
 [Make selection shape equal to selected item]
 Selecionar igual ao item selecionado
 [Blend selection with background]
@@ -362,8 +328,6 @@ Carregar skin
 Exportar para arquivo de skin
 [Ignore these events]
 Ignorar esses eventos
-[Messages]
-Mensagens
 [Messages]
 Mensagens
 [Suppress auth requests]
@@ -420,8 +384,6 @@ Barra de tarefas
 &Ocultar/Exibir
 [Nowhere]
 Em nenhum lado
-[Nowhere]
-Não está
 [&New Group]
 &Novo Grupo
 [&Hide Offline Users]
@@ -455,10 +417,6 @@ Desenhar janela afundada
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Geral
-[General]
-Geral
-[General]
-Geral
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
@@ -484,28 +442,16 @@ Desmarque o Modo de exibição
 ;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Não focalizado
-[Not focused]
-Não focalizado
 [Online]
 Online
 [Away]
 Ausente
-[Away]
-Ausente
-[Occupied]
-Ocupado
 [Occupied]
 Ocupado
 [DND]
 DND
-[DND]
-DND
 [Free for chat]
 Livre para conversar
-[Free for chat]
-Livre para conversar
-[Invisible]
-Invisível
 [Invisible]
 Invisível
 [Out to lunch]
@@ -546,16 +492,10 @@ Com Apelido - à direita
 Lista de distribuição
 [Background]
 Fundo
-[Background]
-Fundo
-[Contacts]
-Contatos
 [Contacts]
 Contatos
 [Groups and layout]
 Grupos e layout
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
@@ -621,12 +561,8 @@ Tempo da lista de contato local
 Texto Selecionado
 [Hottrack Text]
 Marcar texto
-[Hottrack Text]
-Texto Quente
 [Quicksearch Text]
 Pesquisa rápida do texto
-[Quicksearch Text]
-Texto de Pesquisa
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Tool Window]
 Janela de Ferramentas

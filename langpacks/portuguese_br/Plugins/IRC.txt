@@ -8,8 +8,6 @@
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Adicionar
-[&Add]
-&Adicionar
 [&Edit]
 &Editar
 [&Del]
@@ -44,8 +42,6 @@ Endereço da Internet
 Intervalo de porta
 [Nick]
 Apelido
-[Nick]
-Apelido
 [User ID (Ident)]
 ID de Usuário (Identificação)
 [Full name (e-mail)]
@@ -56,8 +52,6 @@ Nome do servidor
 Apelido Alternativo
 [Ident]
 Identificação
-[System]
-Sistema
 [System]
 Sistema
 [Default network]
@@ -120,10 +114,6 @@ Adicionar servidor
 Ligado
 [Off]
 Desligado
-[Off]
-Desligado
-[Network]
-Rede
 [Network]
 Rede
 [Channels on server]
@@ -218,8 +208,6 @@ Ignorar usuários
 (*) Consultas de usuários em sua lista de contatos nunca são ignoradas
 [Messages]
 Mensagens
-[Messages]
-Mensagens
 [Notices]
 Notificações
 [CTCP]
@@ -236,12 +224,6 @@ Ignorar eventos
 (*) Em branco para definir essa máscara para todas as redes
 [Password:]
 Senha:
-[Password:]
-Senha:
-[Password:]
-Senha:
-[Password:]
-Senha
 [Alternate nick]
 Apelido suprente
 ;file \protocols\IRCG\src\clist.cpp
@@ -378,30 +360,12 @@ A conexão não pode ser estabelecida! Você não completou todos os campos nece
 ;file \protocols\IRCG\src\options.cpp
 [Add]
 Adicionar
-[Add]
-Adicionar
 [Apply]
 Aplicar
 [Rename]
 Renomear
-[Rename]
-Renomear
 [Edit]
 Editar
-[Edit]
-Editar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Channel list]
@@ -454,8 +418,6 @@ Adicionar ignorar
 Editar ignorar
 [DCC'n CTCP]
 DCC no CTCP
-[Advanced]
-Avançado
 [Advanced]
 Avançado
 ;file \protocols\IRCG\src\output.cpp
