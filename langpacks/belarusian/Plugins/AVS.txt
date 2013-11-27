@@ -18,7 +18,7 @@
 ПАПЯРЭДЖАННЕ: Гэтыя выявы НЕ ВАШЫ аватары. Усталяваць свой аватар Вы можаце праз Галоўнае меню.
 [Try to draw avatar background transparent (for images without transparency)]
 Выводзіць фон аватара празрыстым (для аватараў без празрыстасці)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Колькасць кропак фону:
 [Color difference allowed:]
 Дазволеная розніца колераў:

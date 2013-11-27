@@ -12,7 +12,7 @@ Wtyczka do automatycznego tworzenia kopii zapasowej profilu.
 Tworzenie kopii zapasowej profilu...
 [Cancel]
 Anuluj
-[Automatic Backups]
+[Automatic backups]
 Automatyczne kopie zapasowe
 [Number of backups to keep:]
 Liczba trzymanych kopii zapasowych:
@@ -36,7 +36,7 @@ Idź do Personalizacja -> Foldery aby zmienić ustawienia
 Kompresuj kopię do archiwum zip
 [Disable progress bar]
 Wyłącz okienko ze wskaźnikiem postępu kopiowania
-[Disable Popups]
+[Disable popups]
 Wyłącz popupy
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
@@ -47,7 +47,7 @@ Stworzona przez:
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]
 skompresowane bazy danych Miranda NG
-[All Files]
+[All files]
 Wszystkie pliki
 [Backup in progress]
 Tworzenie kopii zapasowej...
@@ -87,12 +87,12 @@ folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%,%allusersprofile% itp.)
 [Variables]
 Zmienne
-[Days]
-Dni
-[Hours]
-Godzin
-[Minutes]
-Minuty
+[days]
+dni
+[hours]
+godzin
+[minutes]
+minuty
 [Select backup folder]
 Wybierz folder kopii zapasowej
 [Error creating backup folder]

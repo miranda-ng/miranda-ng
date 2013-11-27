@@ -43,7 +43,7 @@ Feil
 Generelt
 [Message Log]
 Meldingslogg
-[Group Chats]
+[Group chats]
 Gruppesamtaler
 [History]
 Historikk

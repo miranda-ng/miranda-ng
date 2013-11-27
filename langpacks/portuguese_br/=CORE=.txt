@@ -1191,10 +1191,10 @@ Mensagem de ação
 Mensagem destacada
 [Message typing area]
 Área de redação da mensagem
-[User list members (Online)]
-Membros da lista (Online)
+[User list members (online)]
+Membros da lista (online)
 [User list members (away)]
-Membros da lista (Desligados)
+Membros da lista (desligados)
 [Use a tabbed interface]
 Usar um 'interface' em abas'
 [Close tab on doubleclick]
@@ -1389,8 +1389,8 @@ Destacar (10X10)
 informação (10x10)
 [Messaging]
 Mensagem
-[Group Chats Log]
-Reg. de Grupos de Chats
+[Group chats log]
+Reg. de grupos de chats
 [Options for using a tabbed interface]
 Opções para usar um 'interface' em abas
 [Appearance and functionality of chat room windows]

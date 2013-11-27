@@ -78,7 +78,7 @@ Copier
 Couper
 [Paste]
 Coller
-[Select All]
+[Select all]
 Tout sélectionner
 [Clear]
 Effacer
@@ -369,8 +369,6 @@ Coller texte formaté
 Coller et envoyer immédiatement
 [Copy all]
 Tout copier
-[Select all]
-Tout sélectionner
 [Show Message Length Indicator]
 Afficher l'indicateur de la taille du message
 [Leave Chat Room]
@@ -381,7 +379,7 @@ Sauver position de l'onglet
 Effacer la position de l'onglet
 [Attach to Container...]
 Rattacher à un conteneur...
-[Container Options...]
+[Container options...]
 Options du conteneur...
 [Close Container]
 Fermer le conteneur
@@ -491,8 +489,6 @@ Onglets en bas
 Clignotement de la fenêtre
 [Use default Value]
 Valeur par défaut
-[Disable Flashing]
-Sans Clignotement
 [Show Multisend Contact List]
 Voir la liste pour un envoi multiple
 [Stay on Top]
@@ -551,8 +547,6 @@ Filtres d'évènements - clic droit pour configurer, gauche pour activer/désact
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Cacher la barre de titre
-[Container options...]
-Options conteneur...
 [Message Session...]
 Session de message...
 [Attach to]
@@ -706,8 +700,6 @@ Conteneurs
 Barre d'outils
 [Typing Notify]
 Notification de frappe
-[Group Chats]
-Groupe Chats
 [Choose status modes]
 Choisir les modes d'état...
 ;file \plugins\TabSRMM\src\msgs.cpp

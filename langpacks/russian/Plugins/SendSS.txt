@@ -196,3 +196,5 @@ JPG качество
 Снимки экрана
 [SendSS HTTP connections]
 HTTP подключение SendSS
+[Open SendSS+]
+Открыть SendSS+

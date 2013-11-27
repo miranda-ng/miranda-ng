@@ -69,7 +69,7 @@ BB אפשר תמיכה בקבצי פלאש בסמיילים וקודי
 כללי
 [Message Log]
 יומן הודעה
-[Group Chats]
+[Group chats]
 צ'אט קבוצתי
 [History]
 היסטוריה\n

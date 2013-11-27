@@ -1301,7 +1301,7 @@ SMS テキストメッセージを受信できる電話
 強調表示されたメッセージ
 [Message typing area]
 メッセージ入力エリア
-[User list members (Online)]
+[User list members (online)]
 ユーザーリストメンバー ( オンライン )
 [User list members (away)]
 ユーザーリストメンバー ( 離席中 )
@@ -1507,9 +1507,9 @@ SMS テキストメッセージを受信できる電話
 情報 (10x10)
 [Messaging]
 メッセージング
-[Group Chats]
+[Group chats]
 グループチャット
-[Group Chats Log]
+[Group chats log]
 グループチャットログ
 [Options for using a tabbed interface]
 タブインターフェース使用時のオプション
@@ -1525,8 +1525,6 @@ SMS テキストメッセージを受信できる電話
 フォルダーを選択
 [Message Sessions]
 メッセージセッション
-[Group chats]
-グループチャット
 [General]
 全般
 [Chat Log]
@@ -1861,10 +1859,6 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 不正なメッセージ
-[Outgoing Message]
-発信メッセージ
-[Incoming Message]
-着信メッセージ
 [Outgoing URL]
 発信 URL
 [Incoming URL]

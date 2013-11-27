@@ -136,7 +136,7 @@ Wikipedia
 カット
 [Paste]
 ペースト
-[Select All]
+[Select all]
 全て選択
 [Clear]
 クリア
@@ -625,8 +625,6 @@ Ctrl + Enter でメッセージを送信 ( 常に有効 )
 ペーストして直接送信
 [Copy all]
 全てコピー
-[Select all]
-全てを選択
 [Show Message Length Indicator]
 メッセージ長表記を表示
 [Leave Chat Room]
@@ -637,7 +635,7 @@ Ctrl + Enter でメッセージを送信 ( 常に有効 )
 保存されたタブ位置をクリア
 [Attach to Container...]
 コンテナに添付...
-[Container Options...]
+[Container options...]
 コンテナオプション...
 [Close Container]
 コンテナを閉じる
@@ -777,8 +775,6 @@ dummy
 ウィンドウのフラッシュ
 [Use default Value]
 デフォルト値を使用
-[Disable Flashing]
-フラッシュを無効
 [Show Multisend Contact List]
 複数送信コンタクトリストを表示
 [Stay on Top]
@@ -815,8 +811,6 @@ TabSRMM バージョン情報...
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 タイトルバーを非表示
-[Container options...]
-コンテナオプション...
 [Message Session...]
 メッセージセッション...
 [Default container]
@@ -1110,8 +1104,6 @@ History++ プラグイン
 入力中通知
 [Window layout tweaks]
 ウィンドウレイアウト調整
-[Group Chats]
-グループチャット
 [Log formatting]
 ログ書式設定
 [Events and filters]

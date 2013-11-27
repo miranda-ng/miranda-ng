@@ -1073,10 +1073,6 @@ Miranda non è riuscito a caricare il modulo per i messaggi predefinito, il file
 Errore nell'invio del messaggio
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-Messaggio in uscita
-[Incoming Message]
-Messaggio in arrivo
 [Outgoing URL]
 URL in uscita
 [Incoming URL]

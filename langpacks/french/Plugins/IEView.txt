@@ -77,7 +77,7 @@ Erreur
 Général
 [Message Log]
 Historique récent
-[Group Chats]
+[Group chats]
 Groupe Chats
 [History]
 Historique

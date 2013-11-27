@@ -1103,8 +1103,8 @@ Handlingsmelding
 Markert melding
 [Message typing area]
 Skriveområde for meldinger
-[User list members (Online)]
-Brukerliste medlemmer (Online)
+[User list members (online)]
+Brukerliste medlemmer (online)
 [User list members (away)]
 Brukerliste medlemmer (borte)
 [Use a tabbed interface]
@@ -1307,7 +1307,7 @@ Markering (10x10)
 Informasjon (10x10)
 [Messaging]
 Melding
-[Group Chats]
+[Group chats]
 Gruppesamtaler
 [Options for using a tabbed interface]
 Valg for bruk av grensesnitt med faner
@@ -1323,8 +1323,6 @@ Ikoner å vise i oppgavelinjen
 Velg Mapper
 [Message Sessions]
 Meldingsøkter
-[Group chats]
-Gruppesamtaler
 [General]
 Generelt
 [Chat Log]
@@ -1633,10 +1631,6 @@ Innkommende (Ny Samtaleøkt)
 [An unknown error has occurred.]
 En ukjent feil har inntruffet
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-Utgående Melding
-[Incoming Message]
-Innkommende Melding
 [Outgoing URL]
 Utgående URL
 [Incoming URL]

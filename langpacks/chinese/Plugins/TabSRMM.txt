@@ -134,7 +134,7 @@
 剪切
 [Paste]
 粘贴
-[Select All]
+[Select all]
 全选
 [Clear]
 晴
@@ -619,8 +619,6 @@ Ctrl+Enter 发送消息 (总是启用)
 立即粘贴并发送
 [Copy all]
 全部复制
-[Select all]
-全选
 [Show Message Length Indicator]
 显示消息长度指示器
 [Leave Chat Room]
@@ -631,7 +629,7 @@ Ctrl+Enter 发送消息 (总是启用)
 清除已保存标签位置
 [Attach to Container...]
 吸附至容器...
-[Container Options...]
+[Container options...]
 容器选项...
 [Close Container]
 关闭容器
@@ -769,8 +767,6 @@ Ctrl+Enter 发送消息 (总是启用)
 窗口闪动
 [Use default Value]
 使用默认值
-[Disable Flashing]
-禁用闪动
 [Show Multisend Contact List]
 显示多重发送联系人列表
 [Stay on Top]
@@ -831,8 +827,6 @@ Ctrl+Enter 发送消息 (总是启用)
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 隐藏标题栏
-[Container options...]
-容器选项...
 [Message Session...]
 消息会话...
 [Default container]
@@ -1164,8 +1158,6 @@ History++ 插件
 键入通知
 [Window layout tweaks]
 窗口布局调整
-[Group Chats]
-群组聊天
 [Log formatting]
 记录格式
 [Events and filters]

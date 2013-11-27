@@ -12,7 +12,7 @@
 Ход працэсу рэзервавання
 [Cancel]
 Скасаваць
-[Automatic Backups]
+[Automatic backups]
 Аўтаматычнае рэзерваванне
 [Number of backups to keep:]
 Колькасць рэзервовых копяў:
@@ -34,12 +34,12 @@
 Адкрыйце "Тонкая налада -> Тэчкі" для змены налад
 [Disable progress bar]
 Адключыць індыкатар выканання
-[Disable Popups]
+[Disable popups]
 Адключыць усплывальныя вокны
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG databases]
 Базы данных Miranda NG
-[All Files]
+[All files]
 Усе файлы
 [Backup in progress]
 Рэзерваванне падчас
@@ -79,12 +79,12 @@
 любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
 [Variables]
 Зменныя
-[Days]
-Дзён
-[Hours]
-Гадзін
-[Minutes]
-Хвілін
+[days]
+дзён
+[hours]
+гадзін
+[minutes]
+хвілін
 [Select backup folder]
 Абярыце тэчку для рэзервовых копій
 [Error creating backup folder]

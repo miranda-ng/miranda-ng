@@ -10,7 +10,6 @@
 [Automatically set 'Ignore status change' flag]
 [Contacts Settings]
 [Use bigger avatars]
-[Load contacts with 'On the Mobile' status]
 [Event notifications]
 [Colors]
 [Notifications]

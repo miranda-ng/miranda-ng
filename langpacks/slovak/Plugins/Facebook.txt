@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.2.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -35,8 +35,6 @@ Storno
 [Contacts Settings]
 
 [Use bigger avatars]
-
-[Load contacts with 'On the Mobile' status]
 
 [Event notifications]
 

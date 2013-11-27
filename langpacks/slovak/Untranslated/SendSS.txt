@@ -46,6 +46,7 @@
 [Abort]
 [SendScreenshot - Error]
 [Fatal error, image services not found. Send Screenshot will be disabled.]
+[Open SendSS+]
 [SendSS]
 [Screenshots]
 [SendSS HTTP connections]

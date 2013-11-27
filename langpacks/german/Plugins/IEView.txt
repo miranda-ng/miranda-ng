@@ -115,7 +115,7 @@ Fehler
 Allgemein
 [Message Log]
 Nachrichtenverlauf
-[Group Chats]
+[Group chats]
 Gruppenchats
 [History]
 Verlauf

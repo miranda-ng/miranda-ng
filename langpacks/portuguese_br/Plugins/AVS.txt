@@ -16,7 +16,7 @@ Excluir imagem padrão
 ATENÇÃO: Estas imagens NÃO são seus próprios avatares.\nPara configurar seu próprio Avatar vá a Menu Inicial | Exibir/Alterar Meus Detalhes | Avatar
 [Try to draw avatar background transparent (for images without transparency)]
 Tente desenhar o avatar com fundo transparente (para imagens sem transparência)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Num. de pontos para definir fundo:
 [Color difference allowed:]
 Permitir diferenças de cor:

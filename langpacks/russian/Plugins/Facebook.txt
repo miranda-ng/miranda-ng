@@ -1,11 +1,11 @@
 ﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
-;  File: facebook.dll
-;  Module: Facebook
-;  Versions: 0.0.5.5
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Versions: 0.2.2.0
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4406
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
-;  Authors: Robyer
+;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Поддержка протокола Facebook в Miranda NG.
@@ -89,8 +89,6 @@
 Автоматически включать игнорирование смены статусов
 [Use bigger avatars]
 Большие аватары
-[Load contacts with 'On the Mobile' status]
-Загружать контакты "с мобильного"
 [Use secure connection also for channel requests]
 Безопасное соединение также для запросов канала
 [Also disconnect chat when going to offline]

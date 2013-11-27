@@ -1347,7 +1347,7 @@ Miranda
 Падсветленае паведамленне
 [Message typing area]
 Поле набору тэксту
-[User list members (Online)]
+[User list members (online)]
 Карыстачы (далучаны)
 [User list members (away)]
 Карыстачы (адсутнічаюць)
@@ -1583,9 +1583,9 @@ Miranda
 Інфармацыя (10х10)
 [Messaging]
 Паведамленні
-[Group Chats]
+[Group chats]
 Чаты
-[Group Chats Log]
+[Group chats log]
 Групавыя чаты
 [Options for using a tabbed interface]
 Налады ўкладак
@@ -1605,8 +1605,6 @@ Miranda
 Абраць тэчку
 [Message Sessions]
 Гутаркі
-[Group chats]
-Чаты
 [General]
 Агульнае
 [Chat Log]
@@ -1959,10 +1957,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Паведамленне пашкоджана
-[Outgoing Message]
-Выходнае паведамленне
-[Incoming Message]
-Уваходнае паведамленне
 [Outgoing URL]
 Выходныя URL
 [Incoming URL]

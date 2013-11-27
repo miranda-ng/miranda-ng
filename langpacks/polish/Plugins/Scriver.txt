@@ -429,7 +429,7 @@ Podświetlenie (10x10)
 Informacja (10x10)
 [Single Messaging]
 Pojedyńcze rozmowy
-[Group Chats]
+[Group chats]
 Rozmowy grupowe
 [Thai]
 Tajski
@@ -922,8 +922,6 @@ Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest akty
 Wybierz folder
 [Popups]
 Popupy
-[Group chats]
-Rozmowy grupowe
 [Message is highlighted]
 Podświetlona wiadomość
 [User has performed an action]

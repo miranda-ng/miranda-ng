@@ -16,7 +16,7 @@ Eliminar la imagen predeterminada
 PRECAUCIÓN: Estas fotos no son sus propios personajes.\nPara establecer su propio Avatar Ir a Menú Principal | Ver / Cambiar mis datos | Avatares
 [Try to draw avatar background transparent (for images without transparency)]
 Trate de sacar de fondo transparente avatar(Para imágenes sin transparencia)
-[Num of points to define bkg:]
+[Number of points to define background:]
 N º de puntos para definir bkg:
 [Color difference allowed:]
 La diferencia de color permite:

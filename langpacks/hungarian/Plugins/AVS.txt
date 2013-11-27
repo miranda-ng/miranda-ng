@@ -12,7 +12,7 @@ Alap kép beállítása
 Alap kép törlése
 [Try to draw avatar background transparent (for images without transparency)]
 Próbálja átlátszó háttérrel mutatni az avatárt (a nem átlátszó képeknél)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Meghatározandó pontok száma:
 [Color difference allowed:]
 Megengedett színkülönbség:

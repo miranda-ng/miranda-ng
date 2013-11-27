@@ -16,7 +16,7 @@
 注意: 这些图片并非您自己的头像.\n设置自身头像至 主菜单 | 查看/变更我的详细资料 | 头像
 [Try to draw avatar background transparent (for images without transparency)]
 尝试绘制透明头像背景 (仅无透明效果图像)
-[Num of points to define bkg:]
+[Number of points to define background:]
 定义背景所用点数: 
 [Color difference allowed:]
 允许的色差:

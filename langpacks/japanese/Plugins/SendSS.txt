@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.2.0
+;  Version: 0.8.3.0
 ;  Authors: Merlin
 ;============================================================
 ;file \plugins\SendScreenshotPlus\res\resource.rc

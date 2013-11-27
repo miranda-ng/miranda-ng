@@ -1373,7 +1373,7 @@ Wiadomość akcji
 Podświetlona wiadomość
 [Message typing area]
 Obszar pisania wiadomości
-[User list members (Online)]
+[User list members (online)]
 Członkowie listy użytkowników (Dostępni)
 [User list members (away)]
 Członkowie listy użytkowników (Zaraz wracam)
@@ -1609,9 +1609,9 @@ Podświetlenie (10x10)
 Informacja (10x10)
 [Messaging]
 Wiadomości
-[Group Chats]
+[Group chats]
 Rozmowy grupowe
-[Group Chats Log]
+[Group chats log]
 Dziennik czatu
 [Options for using a tabbed interface]
 Opcje interfejsu kart
@@ -1631,8 +1631,6 @@ Popupy do wyświetlenia
 Wybierz folder
 [Message Sessions]
 Okno rozmowy
-[Group chats]
-Rozmowy grupowe
 [General]
 Ogólne
 [Chat Log]
@@ -1990,10 +1988,6 @@ Nieznany błąd.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Nieprawidłowa Wiadomość
-[Outgoing Message]
-Wychodząca wiadomość
-[Incoming Message]
-Przychodząca wiadomość
 [Outgoing URL]
 Wychodzący link
 [Incoming URL]

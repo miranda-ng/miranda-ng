@@ -45,7 +45,7 @@
 [The topic is %s.]
 [General]
 [Message Log]
-[Group Chats]
+[Group chats]
 [History]
 [Message Sessions]
 [IEView]

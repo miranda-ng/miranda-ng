@@ -41,7 +41,7 @@ MathModule サポートを有効
 全般
 [Message Log]
 メッセージログ
-[Group Chats]
+[Group chats]
 グループチャット
 [History]
 履歴

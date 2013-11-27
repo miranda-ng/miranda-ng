@@ -281,8 +281,8 @@ Başlık (10x10)
 Vurgula (10x10)
 [Information (10x10)]
 Bilgi (10x10)
-[Group Chats]
-Grup Sohbetleri
+[Group chats]
+Grup sohbetleri
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 İletişim
@@ -544,8 +544,6 @@ Sistem tepsisinde gösterilecek simgeler
 Klasör Seç
 [Popups]
 Açılır Pencereler
-[Group chats]
-Grup Sohbetleri
 [Message is highlighted]
 İleti vurgulandı
 [User has performed an action]

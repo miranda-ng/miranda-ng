@@ -142,7 +142,7 @@ Kopírovať odkaz
 
 [Paste]
 
-[Select All]
+[Select all]
 
 [Clear]
 
@@ -727,8 +727,6 @@ Otvoriť v tomto okne
 
 [Copy all]
 
-[Select all]
-
 [Show Message Length Indicator]
 
 [Close Tab]
@@ -743,7 +741,7 @@ Otvoriť v tomto okne
 
 [Attach to Container...]
 
-[Container Options...]
+[Container options...]
 
 [Close Container]
 
@@ -903,8 +901,6 @@ Prednastavené
 
 [Use default Value]
 
-[Disable Flashing]
-
 [Show Multisend Contact List]
 
 [Stay on Top]
@@ -972,8 +968,6 @@ Zobraziť históriu
 
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
-
-[Container options...]
 
 [Message Session...]
 
@@ -1439,8 +1433,6 @@ Správa od %s
 [Load and apply]
 
 [Window layout tweaks]
-
-[Group Chats]
 
 [Settings]
 

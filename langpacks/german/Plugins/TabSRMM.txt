@@ -142,7 +142,7 @@ Kopieren
 Ausschneiden
 [Paste]
 Einfügen
-[Select All]
+[Select all]
 Alles markieren
 [Clear]
 Löschen
@@ -728,8 +728,6 @@ Formatierten Text einfügen
 Einfügen und sofort senden
 [Copy all]
 Alles kopieren
-[Select all]
-Alles markieren
 [Show Message Length Indicator]
 Nachrichtenlänge grafisch anzeigen
 [Close Tab]
@@ -744,7 +742,7 @@ Tab-Position speichern
 Gespeicherte Tab-Position löschen
 [Attach to Container...]
 Zu Container zuordnen...
-[Container Options...]
+[Container options...]
 Containereinstellungen...
 [Close Container]
 Container schließen
@@ -904,8 +902,6 @@ Tabs am unteren Rand
 Fensterblinken
 [Use default Value]
 Standardwert verwenden
-[Disable Flashing]
-Blinken deaktivieren
 [Show Multisend Contact List]
 Kontaktliste einbetten
 [Stay on Top]
@@ -974,8 +970,6 @@ Channelmanager
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Titelleiste verstecken
-[Container options...]
-Containereinstellungen...
 [Message Session...]
 Nachrichtensitzung ...
 [Default container]
@@ -1441,8 +1435,6 @@ Nachrichtenfenster
 Skin laden
 [Window layout tweaks]
 Fenster-Anordnung
-[Group Chats]
-Gruppenchats
 [Settings]
 Einstellungen
 [Log formatting]

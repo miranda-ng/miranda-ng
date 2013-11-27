@@ -429,7 +429,7 @@ Tučné
 
 [Single Messaging]
 
-[Group Chats]
+[Group chats]
 
 [Thai]
 
@@ -921,8 +921,6 @@ Opustiť
 [Select Folder]
 Vyber zložku
 [Popups]
-
-[Group chats]
 
 [Message is highlighted]
 

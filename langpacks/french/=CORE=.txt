@@ -1347,7 +1347,7 @@ Message d'action
 Message surligné
 [Message typing area]
 Zone de saisie des messages
-[User list members (Online)]
+[User list members (online)]
 Liste des usagers (en ligne)
 [User list members (away)]
 Liste des usagers (absents)
@@ -1583,9 +1583,9 @@ Surligner (10x10)
 
 [Messaging]
 Envoi de message
-[Group Chats]
-Groupe Chats
-[Group Chats Log]
+[Group chats]
+Groupe chats
+[Group chats log]
 
 [Options for using a tabbed interface]
 Options pour l'usage des onglets
@@ -1605,8 +1605,6 @@ Icônes à afficher dans la zone de notification système (tray)
 Sélectionnez un répertoire
 [Message Sessions]
 Sessions de message
-[Group chats]
-Chats
 [General]
 Général
 [Chat Log]
@@ -1953,10 +1951,6 @@ Une erreur inconnue s'est produite.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 
-[Outgoing Message]
-Message envoyé
-[Incoming Message]
-Message reçu
 [Outgoing URL]
 Lien envoyé
 [Incoming URL]

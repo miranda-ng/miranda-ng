@@ -100,7 +100,7 @@ Kopyala
 Kes
 [Paste]
 Yapıştır
-[Select All]
+[Select all]
 Tümünü Seç
 [Clear]
 Temizle
@@ -401,8 +401,6 @@ Biçimlendirilmiş Yazıyı Yapıştır
 Yapıştır ve Hemen Gönder
 [Copy all]
 Tümünü kopyala
-[Select all]
-Tümünü seç
 [Show Message Length Indicator]
 İleti Genişliği Göstergesini Göster
 [Leave Chat Room]
@@ -413,7 +411,7 @@ Sekme Konumunu Kaydet
 Kaydedilmiş Sekme Konumunu Sil
 [Attach to Container...]
 Kutuya İliştir...
-[Container Options...]
+[Container options...]
 Kutu Seçenekleri...
 [Close Container]
 Kutuyu Kapat
@@ -533,8 +531,6 @@ Sekmeler Aşağı
 Pencere Yanıp Sönmesi
 [Use default Value]
 Varsayılan Değeri Kullan
-[Disable Flashing]
-Yanıp Sönmeyi Kapat
 [Show Multisend Contact List]
 Çoklu Gönderim Kişi Listesini Göster
 [Stay on Top]
@@ -567,8 +563,6 @@ Kullanıcı Geçmişini Göster
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Başlık çubuğunu gizle
-[Container options...]
-Kutu seçenekleri...
 [Message Session...]
 İleti Oturumu...
 [Attach to]
@@ -712,8 +706,6 @@ Kutular
 Araç Çubuğu
 [Typing Notify]
 Yazıyor Uyarısı
-[Group Chats]
-Grup Sohbetleri
 [Log formatting]
 Günlük biçimi
 [Highlighting]

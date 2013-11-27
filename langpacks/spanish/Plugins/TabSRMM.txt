@@ -122,7 +122,7 @@ Copiar
 Cortar
 [Paste]
 Pegar
-[Select All]
+[Select all]
 Seleccionar todo
 [Clear]
 Borrar
@@ -593,8 +593,6 @@ Pegar texto con formato
 Pegar y enviar de inmediato
 [Copy all]
 Copie todos
-[Select all]
-Seleccionar todo
 [Show Message Length Indicator]
 Mostrar el mensaje Longitud del indicador
 [Leave Chat Room]
@@ -605,7 +603,7 @@ Guardar posición de tabulación
 Borrar guardado Ficha Posición
 [Attach to Container...]
 Asociar al contenedor...
-[Container Options...]
+[Container options...]
 Opciones de contenedores...
 [Close Container]
 Cerca de contenedores
@@ -737,8 +735,6 @@ Aquí en la parte inferior
 Ventana intermitente
 [Use default Value]
 Utilice el valor por defecto
-[Disable Flashing]
-Deshabilitar intermitente
 [Show Multisend Contact List]
 Deshabilitar intermitente
 [Stay on Top]
@@ -797,8 +793,6 @@ Filtro de sucesos - haga clic derecho a la instalación, a la izquierda haga cli
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Ocultar barra de título
-[Container options...]
-Contenedor de opciones...
 [Message Session...]
 Mensaje de sesión...
 [Default container]
@@ -1108,8 +1102,6 @@ Barra de herramientas
 Escribiendo Notifiqueme
 [Window layout tweaks]
 Ventana de ajustes de diseño
-[Group Chats]
-Conversaciones en grupo
 [Log formatting]
 Registro de formato
 [Events and filters]

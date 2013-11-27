@@ -9,7 +9,7 @@
 [Cancel]
 Tühista
 ;file \plugins\Db_autobackups\src\backup.cpp
-[All Files]
+[All files]
 Kõik failid
 ;file \plugins\Db_autobackups\src\main.cpp
 ;file \plugins\Db_autobackups\src\options.cpp

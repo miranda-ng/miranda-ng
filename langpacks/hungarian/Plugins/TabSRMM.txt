@@ -100,7 +100,7 @@ Másol
 Kivág
 [Paste]
 Beszúrás
-[Select All]
+[Select all]
 Összes kijelölése
 [Clear]
 Töröl
@@ -401,8 +401,6 @@ Formázott szöveg beillesztése
 Beillesztés és azonnali küldés
 [Copy all]
 Összes másolása
-[Select all]
-Összes kijelölése
 [Show Message Length Indicator]
 Üzenethossz kijelzõ mutatása
 [Leave Chat Room]
@@ -413,7 +411,7 @@ Fül helyzetének mentése
 Mentett fül elhelyezkedés törlése
 [Attach to Container...]
 Befoglalóhoz csatolás...
-[Container Options...]
+[Container options...]
 Befoglaló beállítások...
 [Close Container]
 Befoglaló bezárása
@@ -533,8 +531,6 @@ Fülek lent
 Ablak felvillantás
 [Use default Value]
 Alapért. érték használata
-[Disable Flashing]
-Felvillanás kikapcsolása
 [Show Multisend Contact List]
 Csoportos küldési partnerlista mutatása
 [Stay on Top]
@@ -567,8 +563,6 @@ Felhasználó elõzményeinek megtekintése
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Címsor elrejtése
-[Container options...]
-Tartalmazó beállításai...
 [Message Session...]
 Üzenet munkamenet...
 [Attach to]
@@ -712,8 +706,6 @@ Befoglalók
 Fülsor
 [Typing Notify]
 Gépelés értesítés
-[Group Chats]
-Csoportos csevegések
 [Log formatting]
 Napló formázása
 [Highlighting]

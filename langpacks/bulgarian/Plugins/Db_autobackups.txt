@@ -12,7 +12,7 @@
 Създаване на резервно копие
 [Cancel]
 Отказ
-[Automatic Backups]
+[Automatic backups]
 Автоматично създаване на резервни копия
 [Number of backups to keep:]
 Брой резервни копия за съхраняване:
@@ -34,12 +34,12 @@
 Можете да промените настройките от Персонализиране>Папки
 [Disable progress bar]
 Изключване на лентата за напредък
-[Disable Popups]
+[Disable popups]
 Изключване на Popups
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG databases]
 
-[All Files]
+[All files]
 Всички файлове
 [Backup in progress]
 Създава се резервно копие
@@ -79,12 +79,12 @@
 
 [Variables]
 Променливи
-[Days]
-Дни
-[Hours]
-Часове
-[Minutes]
-Минути
+[days]
+дни
+[hours]
+часове
+[minutes]
+минути
 [Select backup folder]
 Избор на папка за резервните копия
 [Error creating backup folder]

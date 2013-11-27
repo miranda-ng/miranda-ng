@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.0.0
+;  Version: 0.2.2.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -44,8 +44,6 @@ URL:
 Настройки за контактите
 [Use bigger avatars]
 Ползване на по-големи аватари
-[Load contacts with 'On the Mobile' status]
-Зареждай и контакти със състояние "На мобилния"
 [Event notifications]
 Уведомявания за събития
 [Notifications]

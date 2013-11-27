@@ -868,8 +868,8 @@ TabSRMM: Набирає
 
 [Stay on Top]
 Поверх всіх вікон
-[Container Options...]
-Налаштування контейнера
+[Container options...]
+Налаштування контейнера...
 [Save Message Log As...]
 Зберегти історію як...
 [Close Message Session\tCtrl-W]
@@ -918,8 +918,6 @@ TabSRMM: Набирає
 &Для цього контакту...
 [&Container]
 &Контейнер
-[Container options...]
-Налаштування контейнера...
 [Event Popups]
 Налаштування повідомлення
 [Disable all Event Popups]

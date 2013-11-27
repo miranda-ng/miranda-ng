@@ -275,7 +275,7 @@ Overskrift (10x10)
 Markering (10x10)
 [Information (10x10)]
 Informasjon (10x10)
-[Group Chats]
+[Group chats]
 Gruppesamtaler
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
@@ -524,8 +524,6 @@ Ikoner å vise i oppgavelinjen
 Velg Mapper
 [Popups]
 Popups
-[Group chats]
-Gruppesamtaler
 [Message is highlighted]
 Melding er markert
 [User has performed an action]

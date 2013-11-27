@@ -1306,7 +1306,7 @@ Iндекс:
 Підсвічені повідомлення
 [Message typing area]
 Поле вводу повідомлення
-[User list members (Online)]
+[User list members (online)]
 Користувачі (онлайн)
 [User list members (away)]
 Користувачі (відсутні)
@@ -1542,9 +1542,9 @@ Iндекс:
 Інформація (10x10)
 [Messaging]
 Повідомлення
-[Group Chats]
+[Group chats]
 Групові чати
-[Group Chats Log]
+[Group chats log]
 Журнал чатів
 [Options for using a tabbed interface]
 Налаштування вкладок
@@ -1564,8 +1564,6 @@ Iндекс:
 Вибрати папку
 [Message Sessions]
 Бесіди
-[Group chats]
-Чати
 [General]
 Загальне
 [Chat Log]
@@ -1892,10 +1890,6 @@ Miranda не змогла завантажити вбудований модул
 Невідома помилка.
 [Invalid Message]
 Повідомлення пошкоджене
-[Outgoing Message]
-Вихідне повідомлення
-[Incoming Message]
-Вхідне повідомлення
 [Outgoing URL]
 Вихідний URL
 [Incoming URL]

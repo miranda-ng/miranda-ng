@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.2.0
+;  Version: 0.8.3.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -129,6 +129,8 @@ SendScreenshot - Błąd
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 Błąd, usługa obrazków nie została znaleziona. Send Screenshot zostanie wyłączony.
+[Open SendSS+]
+
 [SendSS]
 Wyślij zrzut ekranu
 [Screenshots]

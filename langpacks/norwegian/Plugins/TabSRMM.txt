@@ -88,7 +88,7 @@ Kopier
 Klipp ut
 [Paste]
 Lim inn
-[Select All]
+[Select all]
 Velg Alt
 [Clear]
 Fjern:
@@ -327,8 +327,6 @@ Lim inn formatert Tekst
 Lim og Send øyeblikkelig
 [Copy all]
 Kopier alt
-[Select all]
-Velg alt
 [Show Message Length Indicator]
 Vis Meldingslengde indikator
 [Leave Chat Room]
@@ -339,7 +337,7 @@ Lagre Faneposisjon
 Klarer lagrede Faneposisjoner
 [Attach to Container...]
 Fest til Beholder...
-[Container Options...]
+[Container options...]
 Beholdervalg...
 [Close Container]
 Lukk Beholder
@@ -449,8 +447,6 @@ Faner på Bunn
 Vindublinking
 [Use default Value]
 Bruk standard Verdi
-[Disable Flashing]
-Deaktiver Blinking
 [Show Multisend Contact List]
 Vis flersendings Kontaktliste
 [Stay on Top]
@@ -483,8 +479,6 @@ Se Brukerens Historikk
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Skjul tittellinje
-[Container options...]
-Beholderinnstillinger...
 [Message Session...]
 Meldingsøkt...
 [Attach to]
@@ -616,8 +610,6 @@ Faner og layout
 Beholdere
 [Typing Notify]
 Skrivevarsling
-[Group Chats]
-Gruppesamtaler
 [Choose status modes]
 Velg statusmoduser
 ;file \plugins\TabSRMM\src\msgs.cpp

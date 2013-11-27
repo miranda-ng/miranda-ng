@@ -12,7 +12,7 @@ Varsayılan resmi ayarla
 Varsayılan resmi sil
 [Try to draw avatar background transparent (for images without transparency)]
 Avatar art alanını saydam yapmayı dene (saydam olmayan resimler için)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Artalan tanımı için nokta sayısı:
 [Color difference allowed:]
 İzin verilen renk farkı:

@@ -343,7 +343,7 @@ Unicode 已关闭
 突出显示 (10x10)
 [Information (10x10)]
 信息 (10x10)
-[Group Chats]
+[Group chats]
 群组聊天
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
@@ -692,8 +692,6 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 选择文件夹
 [Popups]
 弹出窗口
-[Group chats]
-群组聊天
 [Message is highlighted]
 突出显示消息
 [User has performed an action]

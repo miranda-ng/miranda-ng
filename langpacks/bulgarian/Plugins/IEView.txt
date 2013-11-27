@@ -115,7 +115,7 @@
 Основни
 [Message Log]
 Дневник за съобщения
-[Group Chats]
+[Group chats]
 Групови чатове
 [History]
 История

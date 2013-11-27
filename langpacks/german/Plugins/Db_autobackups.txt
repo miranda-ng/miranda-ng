@@ -12,7 +12,7 @@ Automatische Backups der DB
 Fortschritt der Sicherung
 [Cancel]
 Abbrechen
-[Automatic Backups]
+[Automatic backups]
 Automatische Sicherung
 [Number of backups to keep:]
 Anzahl der gespeicherten Sicherungen:
@@ -36,7 +36,7 @@ Gehen Sie zu "Customize->Verzeichnisse", um die Einstellungen zu ändern.
 Sicherungen in Zip-Archiven komprimieren
 [Disable progress bar]
 Fortschrittsanzeige deaktivieren
-[Disable Popups]
+[Disable popups]
 Popups deaktivieren
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
@@ -47,7 +47,7 @@ Popups deaktivieren
 Miranda-Datenbanken
 [Compressed Miranda NG databases]
 
-[All Files]
+[All files]
 Alle Dateien
 [Backup in progress]
 Sicherheitskopie wird erstellt
@@ -87,12 +87,12 @@ Benutzername für den aktuell angemeldeten Windows-Benutzer.
 Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %systemroot%, %allusersprofile% usw.)
 [Variables]
 Variablen
-[Days]
-Tage
-[Hours]
-Stunden
-[Minutes]
-Minuten
+[days]
+tage
+[hours]
+stunden
+[minutes]
+minuten
 [Select backup folder]
 Backup-Verzeichnis auswählen
 [Error creating backup folder]

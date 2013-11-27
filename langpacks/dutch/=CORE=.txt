@@ -931,8 +931,8 @@ Actie bericht
 Opgelichte berichten
 [Message typing area]
 Bericht typen gebied
-[User list members (Online)]
-Gebruikerlijst leden (Online)
+[User list members (online)]
+Gebruikerlijst leden (online)
 [User list members (away)]
 Gebruikerlijst leden (afwezig)
 [Use a tabbed interface]

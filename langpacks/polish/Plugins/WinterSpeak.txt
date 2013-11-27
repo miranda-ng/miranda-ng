@@ -46,7 +46,7 @@ Chętny do rozmowy
 Niewidoczny
 [Occurring Events]
 Zdarzenia
-[Incoming Message]
+[Incoming message]
 Przychodząca wiadomość
 [Incoming URL]
 Przychodzący link

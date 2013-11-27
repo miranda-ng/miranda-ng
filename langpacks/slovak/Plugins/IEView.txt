@@ -115,7 +115,7 @@ Chyba
 
 [Message Log]
 
-[Group Chats]
+[Group chats]
 
 [History]
 

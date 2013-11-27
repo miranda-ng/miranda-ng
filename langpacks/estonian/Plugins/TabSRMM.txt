@@ -52,7 +52,7 @@ Kopeeri
 Lõika
 [Paste]
 Pane
-[Select All]
+[Select all]
 Vali kõik
 [Clear]
 Puhasta

@@ -919,7 +919,7 @@
 הודעה מודגשת
 [Message typing area]
 אזור כתיבת ההודעה
-[User list members (Online)]
+[User list members (online)]
 רשימת חברים של המשתמש (שמחוברים)
 [User list members (away)]
 רשימת חברים של המשתמש (במצב לא נמצא)
@@ -1103,7 +1103,7 @@
 מידע (10x10)
 [Messaging]
 הודעות
-[Group Chats]
+[Group chats]
 צ'אט קבוצתי
 [Options for using a tabbed interface]
 אפשרויות בשביל להשתמש בממשק עם טאבים
@@ -1341,10 +1341,6 @@
 שגיאה בשליחת ההודעה
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-הודעה יוצאת
-[Incoming Message]
-הודעה נכנסת
 [Outgoing URL]
 קישור יוצא
 [Incoming URL]

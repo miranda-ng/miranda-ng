@@ -30,7 +30,7 @@ Collegamento
 Messaggio
 [Copy]
 Copia
-[Select All]
+[Select all]
 Seleziona Tutto
 [Clear]
 Terso

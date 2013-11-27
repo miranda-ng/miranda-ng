@@ -429,7 +429,7 @@ Unicode е изключен
 Информация (10х10)
 [Single Messaging]
 
-[Group Chats]
+[Group chats]
 Групови чатове
 [Thai]
 тайски (тайландски)
@@ -922,8 +922,6 @@ Latin I
 Избор на папка
 [Popups]
 Popups
-[Group chats]
-Групови чатове
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]

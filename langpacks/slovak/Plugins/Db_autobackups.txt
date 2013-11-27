@@ -12,7 +12,7 @@
 
 [Cancel]
 Storno
-[Automatic Backups]
+[Automatic backups]
 
 [Number of backups to keep:]
 
@@ -36,7 +36,7 @@ Storno
 
 [Disable progress bar]
 
-[Disable Popups]
+[Disable popups]
 
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
@@ -47,7 +47,7 @@ Storno
 
 [Compressed Miranda NG databases]
 
-[All Files]
+[All files]
 Všetky súbory
 [Backup in progress]
 
@@ -89,11 +89,11 @@ Všetky súbory
 
 [Variables]
 
-[Days]
+[days]
 
-[Hours]
+[hours]
 
-[Minutes]
+[minutes]
 
 [Select backup folder]
 

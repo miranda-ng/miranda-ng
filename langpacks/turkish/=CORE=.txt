@@ -1169,8 +1169,8 @@ Eylem iletisi
 Vurgulanan ileti
 [Message typing area]
 İleti yazma alanı
-[User list members (Online)]
-Kişi listesi üyeleri (Çevrimiçi)
+[User list members (online)]
+Kişi listesi üyeleri (çevrimiçi)
 [User list members (away)]
 Kişi listesi üyeleri (Uzakta)
 [Use a tabbed interface]
@@ -1376,7 +1376,7 @@ Bilgi (10x10)
 [Messaging]
 İletişim
 [Group Chats]
-Grup Sohbetleri
+Grup sohbetleri
 [Options for using a tabbed interface]
 Sekmeli arayüz seçenekleri
 [Appearance and functionality of chat room windows]
@@ -1391,8 +1391,6 @@ Sistem tepsisinde gösterilecek simgeler
 Klasör Seç
 [Message Sessions]
 İleti Oturumları
-[Group chats]
-Grup Sohbetleri
 [General]
 Genel
 [Chat Log]
@@ -1681,10 +1679,6 @@ Alınan (Yeni Oturum)
 [An unknown error has occurred.]
 Bilinmeyen bir hata oldu.
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-Gönderilen İleti
-[Incoming Message]
-Alınan İleti
 [Outgoing URL]
 Gönderilen web adresi
 [Incoming URL]

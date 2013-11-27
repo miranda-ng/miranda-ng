@@ -16,7 +16,7 @@
 注意: この画像はあなた自身のアバターではありません\nメインメニュー | 詳細情報の表示 / 変更 | アバターで , 自分のアバターを設定してください
 [Try to draw avatar background transparent (for images without transparency)]
 アバターの背景を透明にする（非透過画像用）
-[Num of points to define bkg:]
+[Number of points to define background:]
 背景を定義するポイント数:
 [Color difference allowed:]
 色差を許可:

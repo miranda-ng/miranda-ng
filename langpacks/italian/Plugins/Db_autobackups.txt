@@ -9,7 +9,7 @@
 [Cancel]
 Annulla
 ;file \plugins\Db_autobackups\src\backup.cpp
-[All Files]
+[All files]
 Tutti i file
 ;file \plugins\Db_autobackups\src\main.cpp
 ;file \plugins\Db_autobackups\src\options.cpp

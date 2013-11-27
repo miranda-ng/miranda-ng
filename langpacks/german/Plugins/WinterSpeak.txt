@@ -46,7 +46,7 @@ Für Chat bereit
 Unsichtbar
 [Occurring Events]
 Auftretende Ereignisse
-[Incoming Message]
+[Incoming message]
 Eingehende Nachricht
 [Incoming URL]
 Eingehende URL

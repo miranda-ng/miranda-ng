@@ -901,9 +901,9 @@ Netlib 로그 옵션
 riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어들일 수 없습니다. 미란다를 계속 실행하시려면 '네'를 누르세요.
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
+[Outgoing message]
 보낸 메세지
-[Incoming Message]
+[Incoming message]
 받은 메세지
 [Outgoing URL]
 보낸 URL

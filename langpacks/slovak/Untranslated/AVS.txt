@@ -4,7 +4,7 @@
 [Delete default picture]
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
 [Try to draw avatar background transparent (for images without transparency)]
-[Num of points to define bkg:]
+[Number of points to define background:]
 [Color difference allowed:]
 [Make transparency proportional to color diff]
 [Draw avatars grayscale]

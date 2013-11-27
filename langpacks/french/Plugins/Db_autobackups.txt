@@ -8,7 +8,7 @@
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
 Annuler
-[Automatic Backups]
+[Automatic backups]
 Sauvegardes automatiques
 [Number of backups to keep:]
 Nombre de sauvegarde à conserver:
@@ -25,7 +25,7 @@ Dossier de sauvegarde:
 [Disable progress bar]
 Désactiver la barre de progression
 ;file \plugins\Db_autobackups\src\backup.cpp
-[All Files]
+[All files]
 Tous les fichiers
 [Backup in progress]
 Sauvegarde en cours

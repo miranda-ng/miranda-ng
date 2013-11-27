@@ -879,10 +879,6 @@ Teade %s'lt
 Trükkimisest teavitamine
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-Väljuv teade
-[Incoming Message]
-Sisenev teade
 [Incoming URL]
 Sisendteate URL
 [Outgoing File]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.1.0
+;  Version: 0.2.2.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -44,8 +44,6 @@ Automatycznie ustaw 'Ignoruj zmiany statusu'
 Opcje kontaktu
 [Use bigger avatars]
 Użyj większych awatarów
-[Load contacts with 'On the Mobile' status]
-Pokazuj kontakty z statusem 'Na komórce'
 [Event notifications]
 Zdarzenia
 [Notifications]

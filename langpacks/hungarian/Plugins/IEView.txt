@@ -39,7 +39,7 @@ Hiba
 Általános
 [Message Log]
 Üzenet napló
-[Group Chats]
+[Group chats]
 Csoportos csevegések
 [History]
 Elõzmény

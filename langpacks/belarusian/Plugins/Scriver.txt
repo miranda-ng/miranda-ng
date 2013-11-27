@@ -397,7 +397,7 @@ Yahoo
 Інфармацыя (10х10)
 [Single Messaging]
 Паведамленні
-[Group Chats]
+[Group chats]
 Чаты
 [Thai]
 Тайскі
@@ -876,8 +876,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Абраць тэчку
 [Popups]
 Усплывальныя вокны
-[Group chats]
-Чаты
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]

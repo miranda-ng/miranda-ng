@@ -11,7 +11,7 @@ Cancelar
 [Every:]
 Todos:
 ;file \plugins\Db_autobackups\src\backup.cpp
-[All Files]
+[All files]
 Todos los archivos
 ;file \plugins\Db_autobackups\src\main.cpp
 ;file \plugins\Db_autobackups\src\options.cpp

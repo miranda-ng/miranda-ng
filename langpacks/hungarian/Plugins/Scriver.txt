@@ -281,7 +281,7 @@ Téma (10x10)
 Kiemelés (10x10)
 [Information (10x10)]
 Információ (10x10)
-[Group Chats]
+[Group chats]
 Csoportos csevegések
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
@@ -544,8 +544,6 @@ Tálcán megjelenítendõ ikonok
 Mappa kijelölése
 [Popups]
 Felugrók
-[Group chats]
-Csoportos csevegés
 [Message is highlighted]
 Üzenet kiemelve
 [User has performed an action]

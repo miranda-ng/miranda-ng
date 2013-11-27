@@ -14,7 +14,7 @@
 אזהרה:תמונות אלה הם לא האוואטרים שלך.\nכדי להגדיר אוואטר משלך לך לתפריט ראשי |שנה/הצג את הפרטים שלי |אוואטרים
 [Try to draw avatar background transparent (for images without transparency)]
 נסה לצייר רקע אוואטר שקוף בשביל תמונות ללא שקיפות
-[Num of points to define bkg:]
+[Number of points to define background:]
 מספר של נקודות בשביל להגדיר רקע:
 [Color difference allowed:]
 שינוי צבע מותר:

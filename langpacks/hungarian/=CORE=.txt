@@ -1147,7 +1147,7 @@ Akció üzenet
 Kiemelt üzenet
 [Message typing area]
 Üzenet beviteli terület
-[User list members (Online)]
+[User list members (online)]
 Felhasználó-listatagok (elérhetõ)
 [User list members (away)]
 Felhasználó-listatagok (távol)
@@ -1353,7 +1353,7 @@ Kiemelés (10x10)
 Információ (10x10)
 [Messaging]
 Üzenés
-[Group Chats]
+[Group chats]
 Csoportos csevegések
 [Options for using a tabbed interface]
 Füles felület beállításai
@@ -1369,8 +1369,6 @@ Tálcán megjelenítendõ ikonok
 Mappa kijelölése
 [Message Sessions]
 Üzenet mukamenetek
-[Group chats]
-Csoportos csevegés
 [General]
 Általános
 [Chat Log]
@@ -1655,10 +1653,6 @@ Bejövõ (új munkamenet)
 [An unknown error has occurred.]
 Ismeretlen hiba történt.
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-Kimenõ üzenet
-[Incoming Message]
-Bejövõ üzenet
 [Outgoing URL]
 Kimenõ URL
 [Incoming URL]

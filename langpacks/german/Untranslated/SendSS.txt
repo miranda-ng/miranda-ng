@@ -1,2 +1,3 @@
 ﻿[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 [There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+[Open SendSS+]

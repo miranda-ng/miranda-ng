@@ -18,7 +18,7 @@ Usuń domyślny obrazek
 Uwaga: To NIE są twoje własne awatary.\nAby ustawić własny awatar wchodzimy w Menu -> Pokaż/zmień moje dane -> Awatar
 [Try to draw avatar background transparent (for images without transparency)]
 Próbuj rysować przezroczyste tło awataru (dla obrazku bez przezroczystości)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Liczba punktów do określenia tła:
 [Color difference allowed:]
 Dozwolona różnica kolorów:

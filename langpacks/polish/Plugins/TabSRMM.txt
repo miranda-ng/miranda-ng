@@ -142,7 +142,7 @@ Kopiuj
 Wytnij
 [Paste]
 Wklej
-[Select All]
+[Select all]
 Zaznacz wszystko
 [Clear]
 Wyczyść
@@ -728,8 +728,6 @@ Wklej sformatowany tekst
 Wklej i wyślij
 [Copy all]
 Kopiuj wszystko
-[Select all]
-Zaznacz wszystko
 [Show Message Length Indicator]
 Pokaż wskaźnik długości wiadomości
 [Close Tab]
@@ -744,7 +742,7 @@ Zapisz pozycję kart
 Usuń zapisane pozycje kart
 [Attach to Container...]
 Przyczep do kontenera...
-[Container Options...]
+[Container options...]
 Opcje kontenera...
 [Close Container]
 Zamknij kontener
@@ -904,8 +902,6 @@ Karty na dole
 Miganie okna
 [Use default Value]
 Użyj domyślnej wartości
-[Disable Flashing]
-Wyłącz miganie
 [Show Multisend Contact List]
 Pokaż listę kontaktów Multisend
 [Stay on Top]
@@ -974,8 +970,6 @@ Zarządzanie kanałem
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Ukryj pasek tytułu
-[Container options...]
-Opcje kontenera...
 [Message Session...]
 Sesja rozmowy...
 [Default container]
@@ -1441,8 +1435,6 @@ Okno rozmowy
 Wczytaj i zastosuj
 [Window layout tweaks]
 Wygląd kart
-[Group Chats]
-Rozmowy grupowe
 [Settings]
 Ustawienia
 [Log formatting]

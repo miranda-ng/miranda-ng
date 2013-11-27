@@ -60,7 +60,7 @@ Kopiëren
 Knippen
 [Paste]
 Plakken
-[Select All]
+[Select all]
 Alles selecteren
 [Clear]
 Opschonen

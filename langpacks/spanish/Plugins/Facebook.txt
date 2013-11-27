@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.2.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
@@ -26,8 +26,6 @@ Se ajusta automáticamente " No haga caso de cambio de estado " bandera
 Contactos Configuración
 [Use bigger avatars]
 El uso más grandes avatares
-[Load contacts with 'On the Mobile' status]
-Carga de los contactos con ' El móvil ' estado de
 [Text]
 Texto
 [Default]

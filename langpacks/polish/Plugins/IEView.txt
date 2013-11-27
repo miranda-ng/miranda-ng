@@ -115,7 +115,7 @@ Błąd
 Ogólne
 [Message Log]
 Dziennik wiadomości
-[Group Chats]
+[Group chats]
 Rozmowy grupowe
 [History]
 Historia

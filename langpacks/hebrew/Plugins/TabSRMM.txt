@@ -54,7 +54,7 @@
 גזור
 [Paste]
 הדבק
-[Select All]
+[Select all]
 בחר הכל
 [Clear]
 בהיר
@@ -249,7 +249,7 @@
 פ&תח בחלון קיים
 [Attach to Container...]
 ...הוסף לחלון טאב
-[Container Options...]
+[Container options...]
 ...הגדרות חלון טאב
 [Close Container]
 סגור חלון טאב
@@ -311,8 +311,6 @@ BB קוד
 היבהוב חלון
 [Use default Value]
 השתמש בערך ברירת מחדל
-[Disable Flashing]
-בטל היבהוב
 [Show Multisend Contact List]
 הראה רשימת שליחה לכמה אנשי קשר
 [Stay on Top]
@@ -347,8 +345,6 @@ BB קוד
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 הסתר כותרת
-[Container options...]
-...אפשרויות חלון שיחה
 [Attach to]
 חבר ל
 [Autoselect]
@@ -424,7 +420,7 @@ IEViewפלאג ה
 סרגל כלים
 [Typing Notify]
 התראת כתיבה
-[Group Chats]
+[Group chats]
 צ'אט קבוצתי
 [Choose status modes]
 בחר מצבי סטטוס

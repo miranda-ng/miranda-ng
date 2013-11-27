@@ -83,7 +83,7 @@
 常规
 [Message Log]
 消息记录
-[Group Chats]
+[Group chats]
 群组聊天
 [History]
 历史

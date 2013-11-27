@@ -17,7 +17,7 @@
 УВАГА: Ці зображення НЕ ВАШІ аватари. Свій аватар ви можете встановити через "Головне меню -> Особисті дані -> Аватари".
 [Try to draw avatar background transparent (for images without transparency)]
 Виводити фон аватара прозорим (для аватарів без прозорості)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Кількість точок фону:
 [Color difference allowed:]
 Дозволена різниця кольорів:

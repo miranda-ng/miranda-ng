@@ -88,7 +88,7 @@ Cтупінь
 
 [Occurring Events]
 Подій, що відбуваються
-[Incoming Message]
+[Incoming message]
 Вхідне повідомлення
 [Incoming URL]
 Вхідне посилання

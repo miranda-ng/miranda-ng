@@ -51,7 +51,7 @@ Error
 General
 [Message Log]
 Registro de mensajes
-[Group Chats]
+[Group chats]
 Conversaciones en grupo
 [History]
 Historia

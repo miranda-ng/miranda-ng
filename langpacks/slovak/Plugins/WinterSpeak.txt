@@ -46,7 +46,7 @@
 
 [Occurring Events]
 
-[Incoming Message]
+[Incoming message]
 
 [Incoming URL]
 

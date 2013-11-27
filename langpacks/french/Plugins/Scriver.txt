@@ -255,8 +255,8 @@ Changer de pseudo (10x10)
 Sujet (10x10)
 [Highlight (10x10)]
 Surligner (10x10)
-[Group Chats]
-Groupe Chats
+[Group chats]
+Groupe chats
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Envoi de message
@@ -506,8 +506,6 @@ Changements d'état du contact
 Icônes à afficher dans la zone de notification système (tray)
 [Select Folder]
 Sélectionnez un répertoire
-[Group chats]
-Chats
 [Message is highlighted]
 Message surligné
 [User has performed an action]

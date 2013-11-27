@@ -47,7 +47,7 @@
 Бази данних Miranda NG
 [Compressed Miranda NG databases]
 Стиснуті бази данних Miranda NG
-[All Files]
+[All files]
 Усі файли
 [Backup in progress]
 Резервування у процесі
@@ -85,12 +85,12 @@
 будь-які змінні, визначені в поточній сесії Windows (такі як %systemroot%, %allusersprofile%, та ін.)
 [Variables]
 Змінні
-[Days]
-Днів
-[Hours]
-Годин
-[Minutes]
-Хвилин
+[days]
+днів
+[hours]
+годин
+[minutes]
+хвилин
 [Select backup folder]
 Обрати папку резервного копіювання
 [Error creating backup folder]

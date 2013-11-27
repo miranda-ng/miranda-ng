@@ -1373,7 +1373,7 @@ Aktionsnachricht
 Hervorgehobene Nachricht
 [Message typing area]
 Nachrichteneingabefeld
-[User list members (Online)]
+[User list members (online)]
 Benutzerliste (online)
 [User list members (away)]
 Benutzerliste (abwesend)
@@ -1609,9 +1609,9 @@ Hervorhebung (10x10)
 Information (10x10)
 [Messaging]
 Nachrichten
-[Group Chats]
+[Group chats]
 Gruppenchats
-[Group Chats Log]
+[Group chats log]
 Gruppenchatverlauf
 [Options for using a tabbed interface]
 Einstellungen für Chatfenster mit Tabs
@@ -1631,8 +1631,6 @@ Folgende Popups anzeigen
 Ordner wählen
 [Message Sessions]
 Nachrichtensitzungen
-[Group chats]
-Gruppenchats
 [General]
 Allgemein
 [Chat Log]
@@ -1990,10 +1988,6 @@ Ein unbekannter Fehler ist aufgetreten.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Ungültige Nachricht
-[Outgoing Message]
-Ausgehende Nachricht
-[Incoming Message]
-Eingehende Nachricht
 [Outgoing URL]
 Ausgehende URL
 [Incoming URL]

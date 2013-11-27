@@ -1301,7 +1301,7 @@ Miranda NG 正准备重启. \n请稍候...
 突出显示消息
 [Message typing area]
 消息键入区域
-[User list members (Online)]
+[User list members (online)]
 用户列表成员 (在线)
 [User list members (away)]
 用户列表成员 (外出)
@@ -1511,9 +1511,9 @@ Miranda NG 正准备重启. \n请稍候...
 信息 (10x10)
 [Messaging]
 通信
-[Group Chats]
+[Group chats]
 群组聊天
-[Group Chats Log]
+[Group chats log]
 群组聊天记录
 [Options for using a tabbed interface]
 使用标签界面选项
@@ -1531,8 +1531,6 @@ Miranda NG 正准备重启. \n请稍候...
 选择文件夹
 [Message Sessions]
 消息会话
-[Group chats]
-群组聊天
 [General]
 常规
 [Chat Log]
@@ -1877,10 +1875,6 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 无效消息
-[Outgoing Message]
-外出消息
-[Incoming Message]
-传入消息
 [Outgoing URL]
 发送网址
 [Incoming URL]

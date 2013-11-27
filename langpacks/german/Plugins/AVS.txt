@@ -18,7 +18,7 @@ Standardbild löschen
 ACHTUNG: Bei diesen Bildern handelt es sich NICHT um die eigenen Avatare!\nDiese werden über das Hauptmenü unter 'Mein Profil ändern -> Avatar' festgelegt.
 [Try to draw avatar background transparent (for images without transparency)]
 Versuche Avatarhintergr. transparent darzust. (für Bilder ohne Transparenz)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Anzahl der Punkte um Hg zu definieren:
 [Color difference allowed:]
 Erlaubter Farbunterschied:

@@ -61,8 +61,8 @@ Erro
 Geral
 [Message Log]
 Reg. de Mensagem
-[Group Chats]
-Grupos de Conversa
+[Group chats]
+Grupos de conversa
 [History]
 Histórico
 [Default]

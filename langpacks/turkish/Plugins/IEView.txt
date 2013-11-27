@@ -39,8 +39,8 @@ Hata
 Genel
 [Message Log]
 İleti Günlüğü
-[Group Chats]
-Grup Sohbetleri
+[Group chats]
+Grup sohbetleri
 [History]
 Geçmiş
 [Default]

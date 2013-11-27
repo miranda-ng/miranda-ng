@@ -12,7 +12,7 @@ Sett standardbilde
 Fjern standardbilde
 [Try to draw avatar background transparent (for images without transparency)]
 Forsøk å tegne avatarbakgrunnen gjennomsiktig (for bilder uten gje.siktighet)
-[Num of points to define bkg:]
+[Number of points to define background:]
 Ant. punkter til å def. bkgr:
 [Color difference allowed:]
 Fargeforskjell tillatt:

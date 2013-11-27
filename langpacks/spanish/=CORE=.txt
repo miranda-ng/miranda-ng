@@ -1161,10 +1161,10 @@ Acción mensaje
 Destacados mensaje
 [Message typing area]
 Mensaje escribiendo zona
-[User list members (Online)]
+[User list members (online)]
 El usuario de la lista (en línea)
 [User list members (away)]
-El usuario de la lista (Alejado)
+El usuario de la lista (alejado)
 [Use a tabbed interface]
 Utilice una interfaz con pestañas
 [Close tab on doubleclick]
@@ -1339,9 +1339,9 @@ Deja (10x10)
 NickChange (10x10)
 [Messaging]
 Mensajería
-[Group Chats]
+[Group chats]
 Conversaciones en grupo
-[Group Chats Log]
+[Group chats log]
 Grupo de registro de conversación
 [Options for using a tabbed interface]
 Opciones para el uso de una interfaz con pestañas
@@ -1357,8 +1357,6 @@ Los iconos a mostrar en la bandeja
 Seleccionar carpeta
 [Message Sessions]
 Mensaje de Sesiones
-[Group chats]
-Conversaciones en grupo
 [General]
 General
 [Chat Log]
@@ -1669,10 +1667,6 @@ Enviar mensaje de error
 [An unknown error has occurred.]
 Un error desconocido ha ocurrido.
 ;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-Mensaje de salida
-[Incoming Message]
-Mensaje entrante
 [Outgoing URL]
 URL salientes
 [Incoming URL]

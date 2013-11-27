@@ -429,7 +429,7 @@ Hervorhebung (10x10)
 Information (10x10)
 [Single Messaging]
 Einzelchats
-[Group Chats]
+[Group chats]
 Gruppenchats
 [Thai]
 Thailändisch
@@ -922,8 +922,6 @@ Standard-Ereignisse in neuen Chaträumen wenn Ereignisfilter aktiviert ist
 Ordner wählen
 [Popups]
 Popups
-[Group chats]
-Gruppenchats
 [Message is highlighted]
 Nachricht ist hervorgehoben
 [User has performed an action]

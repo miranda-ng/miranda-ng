@@ -18,7 +18,7 @@
 ВНИМАНИЕ: Това НЕ са вашите аватари. За да зададете собствен аватар отидете\nв Главно меню(>Extentended UserInfo)>Преглед/Промяна на личните данни>Аватар
 [Try to draw avatar background transparent (for images without transparency)]
 Прозрачен фон (за непрозрачни изображения), ако е възможно
-[Num of points to define bkg:]
+[Number of points to define background:]
 
 [Color difference allowed:]
 Позволена цветова разлика:

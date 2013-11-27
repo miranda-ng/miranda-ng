@@ -1356,7 +1356,7 @@ Fraba textu
 [Notice from user]
 
 [Incoming message]
-
+Prichádzajúca správa
 [Outgoing message]
 
 [The topic is ...]
@@ -1373,7 +1373,7 @@ Fraba textu
 
 [Message typing area]
 
-[User list members (Online)]
+[User list members (online)]
 
 [User list members (away)]
 
@@ -1609,9 +1609,9 @@ Tučné
 
 [Messaging]
 Rozhovor
-[Group Chats]
+[Group chats]
 
-[Group Chats Log]
+[Group chats log]
 
 [Options for using a tabbed interface]
 
@@ -1630,8 +1630,6 @@ Rozhovor
 [Select Folder]
 Vyber zložku
 [Message Sessions]
-
-[Group chats]
 
 [General]
 
@@ -1984,10 +1982,6 @@ Správa od %s
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 
-[Outgoing Message]
-
-[Incoming Message]
-Prichádzajúca správa
 [Outgoing URL]
 
 [Incoming URL]

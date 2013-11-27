@@ -142,7 +142,7 @@ Wikipedia
 Выразаць
 [Paste]
 Уставіць
-[Select All]
+[Select all]
 Вылучыць усё
 [Clear]
 Ачысціць
@@ -715,8 +715,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Уставіць і адправіць
 [Copy all]
 Капіяваць усё
-[Select all]
-Вылучыць усё
 [Show Message Length Indicator]
 Індыкатар даўжыні паведамлення
 [Close Tab]
@@ -731,7 +729,7 @@ Esc зачыняе сесію (інакш - згортвае)
 Ачысціць захаваную
 [Attach to Container...]
 Далучыць да кантэйнера
-[Container Options...]
+[Container options...]
 Налады кантэйнера
 [Close Container]
 Зачыніць кантэйнер
@@ -885,8 +883,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Мігценне акна
 [Use default Value]
 Па змаўчанні
-[Disable Flashing]
-Выключыць мігценне
 [Show Multisend Contact List]
 Паказваць акно мультыадпраўкі
 [Stay on Top]
@@ -955,8 +951,6 @@ Esc зачыняе сесію (інакш - згортвае)
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Схаваць загаловак акна
-[Container options...]
-Налады кантэйнера
 [Message Session...]
 Гутарка...
 [Default container]
@@ -1396,8 +1390,6 @@ TabSRMM: Набірае
 Загрузіць і ўжыць
 [Window layout tweaks]
 Выгляд укладак
-[Group Chats]
-Чаты
 [Settings]
 Налады
 [Log formatting]

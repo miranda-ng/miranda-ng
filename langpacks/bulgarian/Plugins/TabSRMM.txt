@@ -142,7 +142,7 @@ Wikipedia
 Изрязване
 [Paste]
 Поставяне
-[Select All]
+[Select all]
 Избор - всичко
 [Clear]
 Изчистване
@@ -717,8 +717,6 @@ URL събития
 Поставяне и изпращане веднага
 [Copy all]
 Копиране на всичко
-[Select all]
-Маркиране на всичко
 [Show Message Length Indicator]
 Показване на индикатор за дължина на съобщението
 [Close Tab]
@@ -733,7 +731,7 @@ URL събития
 Изчистване на запаметените таб позиции
 [Attach to Container...]
 Прикрепване към контейнер...
-[Container Options...]
+[Container options...]
 Настройване на контейнера...
 [Close Container]
 Затваряне на контейнера
@@ -893,8 +891,6 @@ Mаксимална ширина за лента с бутони
 Мигане на прозореца
 [Use default Value]
 Стандартна стойност
-[Disable Flashing]
-Изключване на мигането
 [Show Multisend Contact List]
 Списък за многократно изпращане
 [Stay on Top]
@@ -963,8 +959,6 @@ Popups за събития
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Скриване на заглавната лента
-[Container options...]
-Настройване на контейнера...
 [Message Session...]
 Разговор...
 [Default container]
@@ -1430,8 +1424,6 @@ Latin I
 Зареждане и прилагане
 [Window layout tweaks]
 
-[Group Chats]
-Групови чатове
 [Settings]
 Настройки
 [Log formatting]

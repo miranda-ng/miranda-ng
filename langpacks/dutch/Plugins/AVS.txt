@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 ;file \plugins\AVS\res\avs.rc
-[Num of points to define bkg:]
+[Number of points to define background:]
 Aantal punten voor agk:
 [Color difference allowed:]
 Kleurverschil toegestaan:

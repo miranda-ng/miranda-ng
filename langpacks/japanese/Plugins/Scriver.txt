@@ -355,7 +355,7 @@ Unicode オフ
 強調表示 (10x10)
 [Information (10x10)]
 情報 (10x10)
-[Group Chats]
+[Group chats]
 グループチャット
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
@@ -662,8 +662,6 @@ Miranda は組み込みメッセージモジュールの読み込みができま
 フォルダーを選択
 [Popups]
 ポップアップ
-[Group chats]
-グループチャット
 [Message is highlighted]
 メッセージを強調表示
 [User has performed an action]

@@ -277,7 +277,7 @@
 הדגש (10x10)
 [Information (10x10)]
 מידע (10x10)
-[Group Chats]
+[Group chats]
 צ'אט קבוצתי
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]

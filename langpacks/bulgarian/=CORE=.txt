@@ -1347,7 +1347,7 @@ Miranda
 Отличено съобщение
 [Message typing area]
 Поле за въвеждане на съобщения
-[User list members (Online)]
+[User list members (online)]
 Списък с прякори (На линия)
 [User list members (away)]
 Списък с прякори (Отсъстващ)
@@ -1583,9 +1583,9 @@ Miranda
 Информация (10х10)
 [Messaging]
 Съобщения
-[Group Chats]
+[Group chats]
 Групови чатове
-[Group Chats Log]
+[Group chats log]
 Дневник за груповите чатове
 [Options for using a tabbed interface]
 Настройки на интерфейса с табове
@@ -1605,8 +1605,6 @@ Popups за изобразяване
 Избор на папка
 [Message Sessions]
 Разговори
-[Group chats]
-Групови чатове
 [General]
 Основни
 [Chat Log]
@@ -1959,10 +1957,6 @@ Popups за изобразяване
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Невалидно съобщение
-[Outgoing Message]
-Изходящи съобщения
-[Incoming Message]
-Входящи съобщения
 [Outgoing URL]
 Изходящ URL адрес
 [Incoming URL]

@@ -103,7 +103,7 @@ URL атрыманы
 Агульнае
 [Message Log]
 Журнал
-[Group Chats]
+[Group chats]
 Чаты
 [History]
 Гісторыя
