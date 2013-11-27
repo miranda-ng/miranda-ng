@@ -36,8 +36,8 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 			*url = new_url;
 
 		if (!getTString(ai.hContact, FACEBOOK_KEY_ID, &dbv)) {
-			std::string ext = new_url.substr(new_url.rfind('.'));
-			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());			
+			std::string ext = new_url.substr(new_url.rfind('.'), 4);
+			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());
 			db_free(&dbv);			
 
 			ai.hContact = ai.hContact;

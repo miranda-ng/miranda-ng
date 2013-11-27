@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.2.2.0 |
+| Facebook Protocol RM 0.2.2.1 |
 |        for Miranda NG        |
-|         (19.11.2013)         |
+|         (27.11.2013)         |
 --------------------------------
 
 Autor: Robyer
@@ -34,6 +34,13 @@ Info:
 --------------------------------
        Version history
 --------------------------------
+0.2.2.1 - 27.11.2013
+ ! Fixed marking messages of some multichats as read
+ ! Fixed downloading avatars of some contacts (and repeated downloading of them again and again...)
+ + Load messages marked as abusive/spam
+
+ x Getting sent messages from other browser/mobile instances still doesn't work
+
 0.2.2.0 - 19.11.2013
  + Correctly load contacts on mobile phone that are online right now (also removed old related option)
  + Added hidden option to keep messages unread to disable marking messages as read on server

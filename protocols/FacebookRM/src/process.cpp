@@ -443,6 +443,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 	}
 }
 
+// TODO: combine processmessages and processunreadmessages? (behavior of showing messages to user should be the same)
 void FacebookProto::ProcessMessages(void* data)
 {
 	if (data == NULL)

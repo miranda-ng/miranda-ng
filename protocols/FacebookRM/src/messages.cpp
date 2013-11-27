@@ -84,7 +84,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			tid = dbv.pszVal;
 			db_free(&dbv);
 		} else {
-			std::string post_data = "threads[group_ids][0]=" + data->chat_id;
+			std::string post_data = "threads[group_ids][0]=" + utils::url::encode(data->chat_id);
 			post_data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 			post_data += "&__user=" + facy.self_.user_id;
 			post_data += "&phstamp=0";
@@ -148,18 +148,16 @@ void FacebookProto::SendTypingWorker(void *p)
 		delete typing;
 		return;
 	}
-		
-	DBVARIANT dbv;
-	if (!getString(typing->hContact, FACEBOOK_KEY_ID, &dbv)) {
+	
+	ptrA id( getStringA(typing->hContact, FACEBOOK_KEY_ID));
+	if (id != NULL) {
 		std::string data = "&source=mercury-chat";
 		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0"); // PROTOTYPE_SELFTYPING_OFF
-		data += "&to=" + std::string(dbv.pszVal);
+		data += "&to=" + utils::url::encode(std::string(id));
 		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 		data += "&lsd=&phstamp=0&__user=" + facy.self_.user_id;
 		
 		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data);
-
-		db_free(&dbv);
 	}		
 
 	delete typing;
@@ -180,7 +178,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	if (mid == NULL)
 		return;
 
-	std::string data = "ids[" + std::string(mid) + "]=true";
+	std::string data = "ids[" + utils::url::encode(std::string(mid)) + "]=true";
 	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 	data += "&__user=" + facy.self_.user_id;
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";

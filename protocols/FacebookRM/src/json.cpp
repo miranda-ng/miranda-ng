@@ -458,6 +458,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *tid = json_get(msg, "tid");
 				JSONNODE *mid = json_get(msg, "mid");
 				JSONNODE *timestamp = json_get(msg, "timestamp");
+				JSONNODE *filtered = json_get(it, "is_filtered_content");
 
 				if (sender_fbid == NULL || sender_name == NULL || body == NULL || mid == NULL || timestamp == NULL)
 					continue;
@@ -476,6 +477,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				// Ignore duplicits or messages sent from miranda
 				if (body == NULL || ignore_duplicits(proto, message_id, message_text))
 					continue;
+
+				if (json_as_bool(filtered) && message_text.empty())
+					message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 
 				message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
 				if (message_text.empty())
@@ -835,9 +839,10 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *tid = json_get(it, "thread_id");
 		JSONNODE *mid = json_get(it, "message_id");
 		JSONNODE *timestamp = json_get(it, "timestamp");
+		JSONNODE *filtered = json_get(it, "is_filtered_content");
 
 		if (author == NULL || body == NULL || mid == NULL || tid == NULL || timestamp == NULL)
-			continue;		
+			continue;
 
 		std::string thread_id = json_as_pstring(tid);
 		std::string message_id = json_as_pstring(mid);		
@@ -850,6 +855,9 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		// Process attachements and stickers
 		parseAttachments(proto, &message_text, it);
 
+		if (json_as_bool(filtered) && message_text.empty())
+			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
+		
 		message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
 		if (message_text.empty())
 			continue;

@@ -1373,25 +1373,30 @@ bool facebook_client::save_url(const std::string &url,const std::tstring &filena
 	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(this->parent->m_hNetlibUser), reinterpret_cast<LPARAM>(&req)));
 
-	if (resp)
-	{
+	bool ret = false;
+
+	if (resp) {
 		nlc = resp->nlc;
 		parent->debugLogA("@@@@@ Saving avatar URL %s to path %s", url.c_str(), _T2A(filename.c_str()));
 
 		// Create folder if necessary
 		std::tstring dir = filename.substr(0,filename.rfind('\\'));
-		if(_taccess(dir.c_str(),0))
+		if (_taccess(dir.c_str(), 0))
 			CreateDirectoryTreeT(dir.c_str());
 
 		// Write to file
 		FILE *f = _tfopen(filename.c_str(), _T("wb"));
-		fwrite(resp->pData,1,resp->dataLength,f);
-		fclose(f);
+		if (f != NULL) {
+			fwrite(resp->pData,1,resp->dataLength,f);
+			fclose(f);
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)resp);
-		return true;
+			ret = _taccess(filename.c_str(), 0) == 0;
+		}
+
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	} else {
 		nlc = NULL;
-		return false;
 	}
+
+	return ret;
 }
