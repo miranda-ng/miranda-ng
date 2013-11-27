@@ -36,7 +36,7 @@ Dół-Lewy
 Kolory
 [First color]
 Pierszy kolor
-[Textcolor]
+[Text color]
 Kolor tekstu
 [Second color]
 Drugi kolor

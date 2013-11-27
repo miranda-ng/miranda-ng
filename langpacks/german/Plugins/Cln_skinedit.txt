@@ -36,7 +36,7 @@ Unten links
 Elementfarben
 [First color]
 1. Farbe
-[Textcolor]
+[Text color]
 Textfarbe
 [Second color]
 2. Farbe

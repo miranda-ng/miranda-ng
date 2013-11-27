@@ -36,7 +36,7 @@
 Цветове на елемента
 [First color]
 Първи цвят
-[Textcolor]
+[Text color]
 Цвят на текста
 [Second color]
 Втори цвят
@@ -70,4 +70,3 @@
 [Bumped]
 Двойно изпъкнало
 [Etched]
-

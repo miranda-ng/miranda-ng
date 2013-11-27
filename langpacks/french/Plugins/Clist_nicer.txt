@@ -531,7 +531,7 @@ Bas-gauche
 Couleurs de l'élément
 [First color]
 Couleur principale
-[Textcolor]
+[Text color]
 Couleur du texte
 [Second color]
 Couleur secondaire
@@ -762,7 +762,7 @@ Bords fins
 Sans bordure
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place. 
+La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place.
 [Clist docking]
 
 ;file \plugins\Clist_nicer\src\extBackg.cpp

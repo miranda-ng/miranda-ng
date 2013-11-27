@@ -9,7 +9,7 @@
 Item colours
 [First color]
 First colour
-[Textcolor]
-Textcolour
+[Text color]
+Text colour
 [Second color]
 Second colour

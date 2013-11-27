@@ -413,7 +413,7 @@
 Зліва направо
 [Right to left]
 Справа наліво
-[Textcolor]
+[Text color]
 Колір тексту
 [Top-Left]
 Верхній лівий

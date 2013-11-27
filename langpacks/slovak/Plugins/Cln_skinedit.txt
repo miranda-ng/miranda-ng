@@ -36,7 +36,7 @@
 
 [First color]
 
-[Textcolor]
+[Text color]
 
 [Second color]
 
@@ -70,4 +70,3 @@
 [Bumped]
 
 [Etched]
-

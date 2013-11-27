@@ -9,5 +9,5 @@
 Colour Select
 [Backgroundcolor]
 Backgroundcolour
-[Textcolor]
-Textcolour
+[Text color]
+Text colour

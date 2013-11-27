@@ -21,7 +21,7 @@
 [Bottom-Left]
 [Item colors]
 [First color]
-[Textcolor]
+[Text color]
 [Second color]
 [Transparent]
 [Alpha (percent)]

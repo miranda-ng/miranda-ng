@@ -11,7 +11,7 @@ Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów.
 [CList Nicer exception]
 Wyjątek CList Nicer
 [Copy to clipboard]
-Kopiuj do schowka 
+Kopiuj do schowka
 [Continue]
 Kontynuuj
 [Exit Miranda]
@@ -253,7 +253,7 @@ Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
 [Make selection highlight translucent]
-Przeźroczyste podświetlenie zaznaczenia 
+Przeźroczyste podświetlenie zaznaczenia
 [Use full row for selection and hottracking]
 Użyj pełnego wiersza dla zaznaczenia i podświetlenia
 [Double click on avatar opens userinfo]
@@ -417,7 +417,7 @@ Ignoruj wszystkie
 [Ignore none]
 Nie ignoruj
 [Visibility]
-Widoczność 
+Widoczność
 [Appear always online]
 Zawsze dostępny
 [Appear always offline (block contact)]
@@ -533,7 +533,7 @@ Dół-Lewy
 Kolory
 [First color]
 Pierszy kolor
-[Textcolor]
+[Text color]
 Kolor tekstu
 [Second color]
 Drugi kolor
@@ -732,7 +732,7 @@ Ostrzeżenie
 [Standard contacts]
 Standardowe kontakty
 [Online contacts to whom you have a different visibility]
-Połączone kontakty, dla których mam różną widoczność 
+Połączone kontakty, dla których mam różną widoczność
 [Offline contacts]
 Kontakty "Rozłączone"
 [Offline contacts to whom you have a different visibility]
@@ -740,7 +740,7 @@ Rozłączone kontakty, dla których mam różną widoczność
 [Contacts which are 'not on list']
 Kontakty spoza listy
 [Group member counts]
-Liczba członków grupy 
+Liczba członków grupy
 [Dividers]
 Separatory
 [Frame titles]

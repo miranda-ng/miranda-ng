@@ -1991,7 +1991,7 @@ Test-Beschreibung
 Text
 [Text area borders]
 Textgrenzen Bereich
-[Textcolor]
+[Text color]
 Textfarbe
 [Textcolour]
 Textfarbe
@@ -17571,7 +17571,7 @@ Jabber-Link-Protokoll
 Jabber-Passwort
 [Remember password for this session]
 Passwort für diese Sitzung behalten
-[Save password permanently] 
+[Save password permanently]
 Passwort dauerhaft speichern
 
 ;Icons

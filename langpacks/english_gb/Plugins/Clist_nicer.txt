@@ -21,8 +21,8 @@ Protocol skins override status text colours
 Item colours
 [First color]
 First colour
-[Textcolor]
-Textcolour
+[Text color]
+Text colour
 [Second color]
 Second colour
 [Minimize contact list]

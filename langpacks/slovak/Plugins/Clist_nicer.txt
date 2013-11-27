@@ -533,7 +533,7 @@ Zmazať skupinu
 
 [First color]
 
-[Textcolor]
+[Text color]
 
 [Second color]
 
@@ -874,4 +874,3 @@ Nastavenia...
 [&About the contact list...]
 
 [&New SubGroup]
-

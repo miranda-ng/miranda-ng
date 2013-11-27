@@ -255,7 +255,7 @@ Zobrazit výběr i tehdy, není-li seznam aktivní
 [Make selection highlight translucent]
 Zobrazit vybrané položky průhledně
 [Use full row for selection and hottracking]
-Při výběru a hledání označit celý řádek 
+Při výběru a hledání označit celý řádek
 [Double click on avatar opens userinfo]
 Otevřít inf. o kontaktu dvojklikem na avatar
 [Visual]
@@ -533,7 +533,7 @@ Levý dolní
 Definice barev
 [First color]
 Barva 1
-[Textcolor]
+[Text color]
 Barva textu
 [Second color]
 Barva 2

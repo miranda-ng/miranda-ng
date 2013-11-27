@@ -36,7 +36,7 @@ Levý dolní
 Definice barev
 [First color]
 Barva 1
-[Textcolor]
+[Text color]
 Barva textu
 [Second color]
 Barva 2

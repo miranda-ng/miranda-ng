@@ -36,7 +36,7 @@
 Колеры
 [First color]
 Першы колер
-[Textcolor]
+[Text color]
 Тэкст(колер)
 [Second color]
 Другі колер
@@ -47,7 +47,7 @@
 [Item margins]
 Палі
 [Item borders]
-Межы 
+Межы
 [Border style]
 Стыль рамкі
 [3D border (bright / dark)]

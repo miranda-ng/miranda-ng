@@ -230,7 +230,7 @@
 [Minimum row height:]
 Мин. высота строки
 [Move events to the top of list\nor group]
-Перемещать события наверх списка или группы 
+Перемещать события наверх списка или группы
 [Move marked Contacts to this Group]
 Переместить отмеченные контакты в эту группу
 [NOTE: This is work in progress. Most options here do NOT yet work as they should, because the code is not yet implemented. Please don't report these issues as bugs, because they aren't bugs, just unfinished stuff.]
@@ -368,7 +368,7 @@ xСтатус
 [Image items]
 Элементы изображений
 [Item borders]
-Границы 
+Границы
 [Item colors]
 Цвета
 [Item ignored]
@@ -413,7 +413,7 @@ xСтатус
 Слева направо
 [Right to left]
 Справа налево
-[Textcolor]
+[Text color]
 Текст(цвет)
 [Top-Left]
 Левый верхний
