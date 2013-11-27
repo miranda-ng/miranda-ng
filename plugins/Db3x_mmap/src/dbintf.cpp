@@ -89,7 +89,7 @@ CDb3Base::~CDb3Base()
 	if (!m_bReadOnly) {
 		DWORD bytesWritten;
 		SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
-		WriteFile(m_hDbFile, &dbSignatureIM, sizeof(dbSignatureIM), &bytesWritten, NULL);
+		WriteFile(m_hDbFile, &dbSignatureIM, 1, &bytesWritten, NULL);
 	}
 	CloseHandle(m_hDbFile);
 

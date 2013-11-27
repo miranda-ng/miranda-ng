@@ -342,7 +342,7 @@ static void sha256_final(SHA256_CONTEXT *hd, BYTE tmpHash[32])
 #undef X
 }
 
-static void make_sha256(const void *buf, size_t bufLen, BYTE tmpHash[32])
+static void make_sha256(const void *buf, size_t bufLen, BYTE *tmpHash)
 {
 	SHA256_CONTEXT tmp;
 	sha256_init(&tmp);
@@ -350,10 +350,10 @@ static void make_sha256(const void *buf, size_t bufLen, BYTE tmpHash[32])
 	sha256_final(&tmp, tmpHash);
 }
 
-void slow_hash(const void *buf, size_t bufLen, BYTE tmpHash[32])
+void slow_hash(const void *buf, size_t bufLen, BYTE* tmpHash)
 {
 	make_sha256(buf, bufLen, tmpHash);
 
 	for (int i = 0; i < 50000; i++)
-		make_sha256(tmpHash, sizeof(tmpHash), tmpHash);
+		make_sha256(tmpHash, 32, tmpHash);
 }

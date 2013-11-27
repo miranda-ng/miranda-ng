@@ -963,8 +963,14 @@ int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int bl
 	m_keylength = keylength;
 	m_blockSize = blockSize;
 	//Initialize the chain
-	memcpy(m_chain0, chain, m_blockSize);
-	memcpy(m_chain, chain, m_blockSize);
+	size_t len = strlen(chain);
+	if (len >= m_blockSize)
+		memcpy(m_chain0, chain, m_blockSize);
+	else {
+		memcpy(m_chain0, chain, len);
+		memset(m_chain0 + len, 0, m_blockSize - len);
+	}
+	memcpy(m_chain, m_chain0, m_blockSize);
 	//Calculate Number of Rounds
 	switch (m_keylength) {
 	case 16:

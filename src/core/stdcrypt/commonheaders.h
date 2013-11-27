@@ -78,4 +78,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE hInst;
 
 bool getRandomBytes(BYTE *buf, size_t bufLen);
-void slow_hash(const void *buf, size_t bufLen, BYTE tmpHash[32]);
+void slow_hash(const void *buf, size_t bufLen, BYTE *tmpHash);

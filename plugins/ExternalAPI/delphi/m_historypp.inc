@@ -149,7 +149,7 @@ type
     cbSize   : DWord;
     hContact : THandle;
     hDBEvent : THandle;
-    pPassword: PAnsiChar;
+    junkie:    PAnsiChar;
   end;
 
   POpenEventParams = ^TOpenEventParams;

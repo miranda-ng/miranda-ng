@@ -45,11 +45,11 @@ struct MICryptoEngine
 
 	// result must be freed using mir_free or assigned to mir_ptr<BYTE>
 	STDMETHOD_(BYTE*, encodeString)(const char *src, size_t *cbResultLen) PURE;
-	STDMETHOD_(BYTE*, encodeStringW)(const WCHAR* src, size_t *cbResultLen) PURE;
+	STDMETHOD_(BYTE*, encodeBuffer)(const void *src, size_t cbLen, size_t *cbResultLen) PURE;
 
 	// result must be freed using mir_free or assigned to ptrA/ptrT
 	STDMETHOD_(char*, decodeString)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
-	STDMETHOD_(WCHAR*, decodeStringW)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
+	STDMETHOD_(void*, decodeBuffer)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

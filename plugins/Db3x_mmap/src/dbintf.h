@@ -50,6 +50,8 @@ DBHeader
 #define WSOFS_END   0xFFFFFFFF
 #define WS_ERROR    0xFFFFFFFF
 
+#define DBVT_ENCRYPTED 250
+
 struct DBSignature {
   char name[15];
   BYTE eof;
@@ -151,7 +153,7 @@ struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 
 	__forceinline HANDLE getFile() const { return m_hDbFile; }
 
-protected:
+public:
 	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)   GetContactCount(void);
@@ -202,9 +204,7 @@ protected:
 	virtual	void  DBFill(DWORD ofs, int bytes) = 0;
 	virtual	void  DBFlush(int setting) = 0;
 	virtual	int   InitCache(void) = 0;
-
-protected:
-	int InitCrypt(void);
+	virtual	int	InitCrypt(void) { return 0; }
 
 public:  // Check functions
 	int WorkInitialChecks(int);
@@ -221,8 +221,6 @@ protected:
 	DWORD    m_ChunkSize;
 	bool     m_safetyMode, m_bReadOnly, m_bEncrypted;
 
-	MICryptoEngine *m_crypto;
-
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
 public:	
@@ -230,6 +228,8 @@ public:
 	DWORD    m_flushFailTick;
 	PBYTE    m_pDbCache;
 	HANDLE   m_hMap;
+
+	MICryptoEngine *m_crypto;
 
 protected:
 	DWORD    m_dwFileSize;
@@ -305,6 +305,7 @@ protected:
 	virtual	void  DBFill(DWORD ofs, int bytes);
 	virtual	void  DBFlush(int setting);
 	virtual	int   InitCache(void);
+	virtual	int   InitCrypt(void);
 
 protected:
 	PBYTE m_pNull;

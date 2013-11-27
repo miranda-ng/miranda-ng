@@ -35,9 +35,9 @@ DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
 
 #define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
-#define VLT(n) ((n == DBVT_UTF8)?DBVT_ASCIIZ:n)
+#define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 
-static bool isEncrypted(LPCSTR szModule, LPCSTR szSetting)
+bool isEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!_strnicmp(szSetting, "password", 8))      return true;
 	if (!strcmp(szSetting, "NLProxyAuthPassword")) return true;
@@ -50,25 +50,6 @@ static bool isEncrypted(LPCSTR szModule, LPCSTR szSetting)
 		if (!strcmp(szSetting, "pgpPrivKey"))       return true;
 	}
 	return false;
-}
-
-//VERY VERY VERY BASIC ENCRYPTION FUNCTION
-
-static void Encrypt(char *msg, BOOL up)
-{
-	int jump = (up) ? 5 : -5;
-	for (int i = 0; msg[i]; i++)
-		msg[i] = msg[i] + jump;
-}
-
-__forceinline void EncodeString(LPSTR buf)
-{
-	Encrypt(buf, TRUE);
-}
-
-__forceinline void DecodeString(LPSTR buf)
-{
-	Encrypt(buf, FALSE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -123,8 +104,6 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 				dbcgs->pValue->pszVal = (char*)mir_alloc(strlen(pCachedValue->pszVal)+1);
 				strcpy(dbcgs->pValue->pszVal,pCachedValue->pszVal);
 			}
-			if (bIsEncrypted)
-				DecodeString(dbcgs->pValue->pszVal);
 		}
 		else memcpy( dbcgs->pValue, pCachedValue, sizeof( DBVARIANT ));
 
@@ -146,7 +125,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsContact, ofsModuleName);
 	if (ofsSettingsGroup) {
 		int bytesRemaining;
-		bool bEncrypted = false;
+		unsigned varLen;
 		DWORD ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
 		PBYTE pBlob = DBRead(ofsBlobPtr, sizeof(DBContactSettings), &bytesRemaining);
 		while (pBlob[0]) {
@@ -157,8 +136,8 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 				if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbcgs->pValue->type) != VLT(pBlob[0]))
 					return 1;
 
-				dbcgs->pValue->type = pBlob[0];
-				switch (pBlob[0]) {
+				BYTE iType = dbcgs->pValue->type = pBlob[0];
+				switch (iType) {
 				case DBVT_DELETED: /* this setting is deleted */
 					dbcgs->pValue->type = DBVT_DELETED;
 					return 2;
@@ -166,41 +145,73 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 				case DBVT_BYTE: dbcgs->pValue->bVal = pBlob[1]; break;
 				case DBVT_WORD:  MoveMemory(&(dbcgs->pValue->wVal), (PWORD)(pBlob + 1), 2); break;
 				case DBVT_DWORD: MoveMemory(&(dbcgs->pValue->dVal), (PDWORD)(pBlob + 1), 4); break;
+				
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
-					bEncrypted = m_bEncrypted || isEncrypted(dbcgs->szModule, dbcgs->szSetting);
-					NeedBytes(3 + *(PWORD)(pBlob + 1));
+					varLen = *(PWORD)(pBlob + 1);
+					NeedBytes(int(3 + varLen));
 					if (isStatic) {
 						dbcgs->pValue->cchVal--;
-						if (*(PWORD)(pBlob + 1) < dbcgs->pValue->cchVal)
-							dbcgs->pValue->cchVal = *(PWORD)(pBlob + 1);
+						if (varLen < dbcgs->pValue->cchVal)
+							dbcgs->pValue->cchVal = varLen;
 						MoveMemory(dbcgs->pValue->pszVal, pBlob + 3, dbcgs->pValue->cchVal); // decode
 						dbcgs->pValue->pszVal[dbcgs->pValue->cchVal] = 0;
-						dbcgs->pValue->cchVal = *(PWORD)(pBlob + 1);
+						dbcgs->pValue->cchVal = varLen;
 					}
 					else {
-						dbcgs->pValue->pszVal = (char*)mir_alloc(1 + *(PWORD)(pBlob + 1));
-						MoveMemory(dbcgs->pValue->pszVal, pBlob + 3, *(PWORD)(pBlob + 1));
-						dbcgs->pValue->pszVal[*(PWORD)(pBlob + 1)] = 0;
+						dbcgs->pValue->pszVal = (char*)mir_alloc(1 + varLen);
+						MoveMemory(dbcgs->pValue->pszVal, pBlob + 3, varLen);
+						dbcgs->pValue->pszVal[varLen] = 0;
 					}
 					break;
+				
 				case DBVT_BLOB:
-					NeedBytes(3 + *(PWORD)(pBlob + 1));
+					varLen = *(PWORD)(pBlob + 1);
+					NeedBytes(int(3 + varLen));
 					if (isStatic) {
-						if (*(PWORD)(pBlob + 1) < dbcgs->pValue->cpbVal)
-							dbcgs->pValue->cpbVal = *(PWORD)(pBlob + 1);
-						MoveMemory(dbcgs->pValue->pbVal, pBlob + 3, dbcgs->pValue->cpbVal); // decode
+						if (varLen < dbcgs->pValue->cpbVal)
+							dbcgs->pValue->cpbVal = varLen;
+						MoveMemory(dbcgs->pValue->pbVal, pBlob + 3, dbcgs->pValue->cpbVal);
 					}
 					else {
-						dbcgs->pValue->pbVal = (BYTE *)mir_alloc(*(PWORD)(pBlob + 1));
-						MoveMemory(dbcgs->pValue->pbVal, pBlob + 3, *(PWORD)(pBlob + 1)); // decode
+						dbcgs->pValue->pbVal = (BYTE *)mir_alloc(varLen);
+						MoveMemory(dbcgs->pValue->pbVal, pBlob + 3, varLen);
 					}
-					dbcgs->pValue->cpbVal = *(PWORD)(pBlob + 1);
+					dbcgs->pValue->cpbVal = varLen;
+					break;
+
+				case DBVT_ENCRYPTED:
+					if (m_crypto == NULL)
+						return 1;
+					else {
+						varLen = *(PWORD)(pBlob + 1);
+						NeedBytes(int(3 + varLen));
+						size_t realLen;
+						ptrA decoded(m_crypto->decodeString(pBlob + 3, varLen, &realLen));
+						if (decoded == NULL)
+							return 1;
+
+						varLen = (WORD)realLen;
+						dbcgs->pValue->type = DBVT_UTF8;
+						if (isStatic) {
+							dbcgs->pValue->cchVal--;
+							if (varLen < dbcgs->pValue->cchVal)
+								dbcgs->pValue->cchVal = varLen;
+							MoveMemory(dbcgs->pValue->pszVal, decoded, dbcgs->pValue->cchVal);
+							dbcgs->pValue->pszVal[dbcgs->pValue->cchVal] = 0;
+							dbcgs->pValue->cchVal = varLen;
+						}
+						else {
+							dbcgs->pValue->pszVal = (char*)mir_alloc(1 + varLen);
+							MoveMemory(dbcgs->pValue->pszVal, decoded, varLen);
+							dbcgs->pValue->pszVal[varLen] = 0;
+						}
+					}
 					break;
 				}
 
 				/**** add to cache **********************/
-				if (dbcgs->pValue->type != DBVT_BLOB && !bEncrypted) {
+				if (iType != DBVT_BLOB && iType != DBVT_ENCRYPTED) {
 					DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
 					if (pCachedValue != NULL) {
 						m_cache->SetCachedVariant(dbcgs->pValue, pCachedValue);
@@ -208,10 +219,6 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 					}
 				}
 
-				// don't cache decrypted values
-				if (dbcgs->pValue->type == DBVT_UTF8 || dbcgs->pValue->type == DBVT_ASCIIZ)
-					if (bEncrypted)
-						DecodeString(dbcgs->pValue->pszVal);
 				return 0;
 			}
 			NeedBytes(1);
@@ -403,23 +410,33 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		else return 1;
 	}
 
-	if (tmp.value.type != DBVT_BYTE && tmp.value.type != DBVT_WORD && tmp.value.type != DBVT_DWORD && tmp.value.type != DBVT_ASCIIZ && tmp.value.type != DBVT_UTF8 && tmp.value.type != DBVT_BLOB)
-		return 1;
-	if ((!tmp.szModule) || (!tmp.szSetting) || ((tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8) && tmp.value.pszVal == NULL) || (tmp.value.type == DBVT_BLOB && tmp.value.pbVal == NULL))
+	if (tmp.szModule == NULL || tmp.szSetting == NULL)
 		return 1;
 
-	// the db can not tolerate strings/blobs longer than 0xFFFF since the format writes 2 lengths
+	mir_ptr<BYTE> pEncoded(NULL);
 	bool bIsEncrypted = false;
 	switch (tmp.value.type) {
-	case DBVT_ASCIIZ:		case DBVT_BLOB:	case DBVT_UTF8:
-		size_t len = (tmp.value.type != DBVT_BLOB) ? strlen(tmp.value.pszVal) : tmp.value.cpbVal;
-		if (len >= 0xFFFF) {
-#ifdef _DEBUG
-			OutputDebugStringA("WriteContactSetting() writing huge string/blob, rejecting ( >= 0xFFFF ) \n");
-#endif
-			return 1;
-		}
+	case DBVT_BYTE: case DBVT_WORD: case DBVT_DWORD:
+		break;
+	case DBVT_ASCIIZ: case DBVT_UTF8:
+		if (tmp.value.pszVal == NULL) return 1;
+		tmp.value.cchVal = (WORD)strlen(tmp.value.pszVal);
 		bIsEncrypted = m_bEncrypted || isEncrypted(dbcws->szModule, dbcws->szSetting);
+		if (bIsEncrypted) {
+			size_t len;
+			BYTE *pResult = m_crypto->encodeString(tmp.value.pszVal, &len);
+			if (pResult != NULL) {
+				pEncoded = tmp.value.pbVal = pResult;
+				tmp.value.cpbVal = (WORD)len;
+				tmp.value.type = DBVT_ENCRYPTED;
+			}
+		}
+		break;
+	case DBVT_BLOB: case DBVT_ENCRYPTED:
+		if (tmp.value.pbVal == NULL) return 1;
+		break;
+	default:
+		return 1;
 	}
 
 	mir_cslockfull lck(m_csDbAccess);
@@ -427,7 +444,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	char *szCachedSettingName = m_cache->GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
 	log3("set [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
-	if (tmp.value.type != DBVT_BLOB && !bIsEncrypted) {
+	if (tmp.value.type != DBVT_BLOB && tmp.value.type != DBVT_ENCRYPTED && !bIsEncrypted) {
 		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
 		if (pCachedValue != NULL) {
 			bool bIsIdentical = false;
@@ -467,13 +484,16 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	DBContactSettings dbcs;
 	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsContact, ofsModuleName);
 	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it
-		if (tmp.value.type & DBVTF_VARIABLELENGTH) {
-			if (tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8)
-				bytesRequired = (int)strlen(tmp.value.pszVal) + 2;
-			else if (tmp.value.type == DBVT_BLOB)
-				bytesRequired = tmp.value.cpbVal + 2;
+		switch (tmp.value.type) {
+		case DBVT_ASCIIZ: case DBVT_UTF8:
+			bytesRequired = tmp.value.cchVal + 2;
+			break;
+		case DBVT_BLOB: case DBVT_ENCRYPTED:
+			bytesRequired = tmp.value.cpbVal + 2;
+			break;
+		default:
+			bytesRequired = tmp.value.type;
 		}
-		else bytesRequired = tmp.value.type;
 		bytesRequired += 2 + settingNameLen;
 		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY - (bytesRequired % DB_SETTINGS_RESIZE_GRANULARITY)) % DB_SETTINGS_RESIZE_GRANULARITY;
 		ofsSettingsGroup = CreateNewSpace(bytesRequired + offsetof(DBContactSettings, blob));
@@ -507,7 +527,10 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 			MoveAlong(1 + settingNameLen);
 			//if different type or variable length and length is different
 			NeedBytes(3);
-			if (pBlob[0] != tmp.value.type || ((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob + 1) != strlen(tmp.value.pszVal)) || (pBlob[0] == DBVT_BLOB && *(PWORD)(pBlob + 1) != tmp.value.cpbVal)) {
+			if (pBlob[0] != tmp.value.type || 
+				 ((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob + 1) != tmp.value.cchVal) ||
+				 ((pBlob[0] == DBVT_BLOB || pBlob[0] == DBVT_ENCRYPTED) && *(PWORD)(pBlob + 1) != tmp.value.cpbVal))
+			{
 				//bin it
 				NeedBytes(3);
 				int nameLen = 1 + settingNameLen;
@@ -533,13 +556,12 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 				case DBVT_WORD:  DBWrite(ofsBlobPtr, &tmp.value.wVal, 2); break;
 				case DBVT_DWORD: DBWrite(ofsBlobPtr, &tmp.value.dVal, 4); break;
 				case DBVT_BLOB:
-					DBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal); // encode
+				case DBVT_ENCRYPTED:
+					DBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal);
 					break;
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
-					if (bIsEncrypted)
-						EncodeString(tmp.value.pszVal);
-					DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, (int)strlen(tmp.value.pszVal)); // encode
+					DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, tmp.value.cchVal);
 					break;
 				}
 				//quit
@@ -554,13 +576,17 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	//cannot do a simple replace, add setting to end of list
 	//pBlob already points to end of list
 	//see if it fits
-	if (tmp.value.type & DBVTF_VARIABLELENGTH) {
-		if (tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8)
-			bytesRequired = (int)strlen(tmp.value.pszVal) + 2;
-		else if (tmp.value.type == DBVT_BLOB)
-			bytesRequired = tmp.value.cpbVal + 2;
+	switch (tmp.value.type) {
+	case DBVT_ASCIIZ: case DBVT_UTF8:
+		bytesRequired = tmp.value.cchVal + 2;
+		break;
+	case DBVT_BLOB: case DBVT_ENCRYPTED:
+		bytesRequired = tmp.value.cpbVal + 2;
+		break;
+	default:
+		bytesRequired = tmp.value.type;
 	}
-	else bytesRequired = tmp.value.type;
+
 	bytesRequired += 2 + settingNameLen;
 	bytesRequired += ofsBlobPtr + 1 - (ofsSettingsGroup + offsetof(DBContactSettings, blob));
 
@@ -612,19 +638,17 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	case DBVT_BYTE: DBWrite(ofsBlobPtr, &tmp.value.bVal, 1); MoveAlong(1); break;
 	case DBVT_WORD: DBWrite(ofsBlobPtr, &tmp.value.wVal, 2); MoveAlong(2); break;
 	case DBVT_DWORD: DBWrite(ofsBlobPtr, &tmp.value.dVal, 4); MoveAlong(4); break;
-	case DBVT_BLOB:
+
+	case DBVT_BLOB: case DBVT_ENCRYPTED:
 		DBWrite(ofsBlobPtr, &tmp.value.cpbVal, 2);
-		DBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal); // encode
+		DBWrite(ofsBlobPtr + 2, tmp.value.pbVal, tmp.value.cpbVal);
 		MoveAlong(2 + tmp.value.cpbVal);
 		break;
-	case DBVT_UTF8:
-	case DBVT_ASCIIZ:
-		int len = (int)strlen(tmp.value.pszVal);
-		if (bIsEncrypted)
-			EncodeString(tmp.value.pszVal);
-		DBWrite(ofsBlobPtr, &len, 2);
-		DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, len); // encode
-		MoveAlong(2 + len);
+	
+	case DBVT_UTF8: case DBVT_ASCIIZ:
+		DBWrite(ofsBlobPtr, &tmp.value.cchVal, 2);
+		DBWrite(ofsBlobPtr + 2, tmp.value.pszVal, tmp.value.cchVal); 
+		MoveAlong(2 + tmp.value.cchVal);
 		break;
 	}
 

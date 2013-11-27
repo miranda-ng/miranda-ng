@@ -23,7 +23,101 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-int CDb3Base::InitCrypt()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool isEncrypted(LPCSTR szModule, LPCSTR szSetting);
+
+//VERY VERY VERY BASIC ENCRYPTION FUNCTION
+
+static void Encrypt(char *msg, BOOL up)
+{
+	int jump = (up) ? 5 : -5;
+	for (int i = 0; msg[i]; i++)
+		msg[i] = msg[i] + jump;
+}
+
+__forceinline void DecodeString(LPSTR buf)
+{
+	Encrypt(buf, FALSE);
+}
+
+struct VarDescr
+{
+	VarDescr(LPCSTR var, LPCSTR value) :
+		szVar(mir_strdup(var)),
+		szValue(mir_strdup(value))
+		{}
+		
+	ptrA szVar, szValue;
+};
+
+struct SettingUgraderParam
+{
+	CDb3Mmap *db;
+	LPCSTR    szModule;
+	HANDLE    hContact;
+	OBJLIST<VarDescr>* pList;
+};
+
+int sttSettingUgrader(const char *szSetting, LPARAM lParam)
+{
+	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
+	if (isEncrypted(param->szModule, szSetting)) {
+		DBVARIANT dbv = { DBVT_UTF8 };
+		DBCONTACTGETSETTING dbcgs = { param->szModule, szSetting, &dbv };
+		if (!param->db->GetContactSettingStr(param->hContact, &dbcgs)) {
+			if (dbv.type == DBVT_UTF8) {
+				DecodeString(dbv.pszVal);
+				param->pList->insert(new VarDescr(szSetting, dbv.pszVal));
+			}
+			param->db->FreeVariant(&dbv);
+		}
+	}
+	return 0;
+}
+
+void sttContactEnum(HANDLE hContact, const char *szModule, CDb3Mmap *db)
+{
+	OBJLIST<VarDescr> arSettings(1);
+	SettingUgraderParam param = { db, szModule, hContact, &arSettings };
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
+	dbces.pfnEnumProc = sttSettingUgrader;
+	dbces.szModule = szModule;
+	dbces.lParam = (LPARAM)&param;
+	db->EnumContactSettings(NULL, &dbces);
+
+	for (int i = 0; i < arSettings.getCount(); i++) {
+		VarDescr &p = arSettings[i];
+
+		size_t len;
+		BYTE *pResult = db->m_crypto->encodeString(p.szValue, &len);
+		if (pResult != NULL) {
+			DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
+			dbcws.value.type = DBVT_ENCRYPTED;
+			dbcws.value.pbVal = pResult;
+			dbcws.value.cpbVal = (WORD)len;
+			db->WriteContactSetting(hContact, &dbcws);
+
+			mir_free(pResult);
+		}
+	}
+}
+
+int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
+{
+	CDb3Mmap *db = (CDb3Mmap*)lParam;
+	sttContactEnum(NULL, szModule, db);
+
+	for (HANDLE hContact = db->FindFirstContact(); hContact; hContact = db->FindNextContact(hContact))
+		sttContactEnum(hContact, szModule, db);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CDb3Mmap::InitCrypt()
 {
 	CRYPTO_PROVIDER *pProvider;
 
@@ -78,8 +172,19 @@ LBL_SetNewKey:
 		if (dbv.cpbVal != (WORD)iKeyLength)
 			goto LBL_SetNewKey;
 
-		m_crypto->setKey(dbv.pbVal, iKeyLength);
+		if (!m_crypto->setKey(dbv.pbVal, iKeyLength))
+			goto LBL_SetNewKey;
+
 		FreeVariant(&dbv);
 	}
+
+	if (memcmp(&m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature))) {
+		EnumModuleNames(sttModuleEnum, this);
+
+		// upgrade signature
+		memcpy(&m_dbHeader.signature, &dbSignature, sizeof(dbSignature));
+		DBWrite(0, &dbSignature, sizeof(dbSignature));
+	}
+
 	return 0;
 }

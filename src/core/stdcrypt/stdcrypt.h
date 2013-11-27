@@ -49,9 +49,9 @@ struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 
 	// result must be freed using mir_free or assigned to mir_ptr<BYTE>
 	STDMETHODIMP_(BYTE*) encodeString(const char *src, size_t *cbResultLen);
-	STDMETHODIMP_(BYTE*) encodeStringW(const WCHAR* src, size_t *cbResultLen);
+	STDMETHODIMP_(BYTE*) encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen);
 
 	// result must be freed using mir_free or assigned to ptrA/ptrT
-	STDMETHODIMP_(char*)  decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
-	STDMETHODIMP_(WCHAR*) decodeStringW(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
+	STDMETHODIMP_(char*) decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
+	STDMETHODIMP_(void*) decodeBuffer(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
 };
