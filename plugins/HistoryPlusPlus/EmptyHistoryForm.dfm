@@ -70,17 +70,6 @@ object EmptyHistoryFrm: TEmptyHistoryFrm
       ModalResult = 7
       TabOrder = 1
     end
-    object btCancel: TButton
-      Left = 168
-      Top = 0
-      Width = 75
-      Height = 25
-      Cancel = True
-      Caption = 'Cancel'
-      Default = True
-      ModalResult = 2
-      TabOrder = 2
-    end
   end
   object paContacts: TPanel
     Left = 0

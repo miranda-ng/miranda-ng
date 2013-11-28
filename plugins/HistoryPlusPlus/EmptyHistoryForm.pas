@@ -59,7 +59,6 @@ type
     Image: TImage;
     Text: TLabel;
     cbInclude: TCheckBox;
-    btCancel: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -133,7 +132,6 @@ begin
   cbInclude.Caption := TranslateUnicodeString(cbInclude.Caption);
   btYes.Caption     := TranslateUnicodeString(btYes.Caption);
   btNo.Caption      := TranslateUnicodeString(btNo.Caption);
-  btCancel.Caption  := TranslateUnicodeString(btCancel.Caption);
 end;
 
 procedure TEmptyHistoryFrm.PrepareForm;
@@ -242,6 +240,12 @@ begin
     end;
   end;
   paContacts.Visible := (Length(FContacts) > 0);
+  Image.Picture.Icon.Handle := LoadIcon(0, IDI_QUESTION);
+  Text.Caption :=
+    TranslateW('Do you really want to delete ALL items for this contact?')+#10#13+
+    #10#13+
+    TranslateW('Note: It can take several minutes for large histories');
+  btYes.Default := true;
 end;
 
 procedure TEmptyHistoryFrm.EmptyHistory(hContact: THandle);
