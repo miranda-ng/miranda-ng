@@ -126,7 +126,7 @@ void RebuildContact()
 	{
 		mi.hParentMenu = mhRoot;
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
-		mi.pszName = LPGEN("User &Details");
+		mi.pszName = LPGEN("User &details");
 		mi.position = 1000050000;
 		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.hotKey = MAKELPARAM(VK_F3, MOD_ALT);

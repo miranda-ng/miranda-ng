@@ -46,7 +46,7 @@ static ToolbarButton toolbarButtons[] = {
 	{LPGENT("Smiley"), IDC_SMILEYS, 0, 10, 24},
 	{LPGENT("Add Contact"), IDC_ADD, 0, 10, 24},
 	{LPGENT("User Menu"), IDC_USERMENU, 1, 0, 24},
-	{LPGENT("User Details"), IDC_DETAILS, 1, 0, 24},
+	{LPGENT("User details"), IDC_DETAILS, 1, 0, 24},
 	{LPGENT("History"), IDC_HISTORY, 1, 0, 24},
 	{LPGENT("Send"), IDOK, 1, 0, 38}
 };

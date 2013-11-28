@@ -197,7 +197,7 @@ IDR_MSG_EXPORT MENU
 BEGIN
     POPUP "UserList"
     BEGIN
-        MENUITEM "User &Details",               ID_USERLIST_USERDETAILS
+        MENUITEM "User &details",               ID_USERLIST_USERDETAILS
         MENUITEM "Export selected",             ID_EXPORTSELECTED
         MENUITEM "Set to default filename",     ID_SET_TO_DEFAULT
         MENUITEM SEPARATOR

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Versions: 0.2.2.0
+;  Versions: 0.2.2.1
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4406
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
 ;  Authors: Michal Zelinka, Robert Pösel
@@ -217,3 +217,5 @@
 Данные контакта
 [User &history]
 История пользователя
+[This message is no longer available, because it was marked as abusive or spam.]
+Сообщение недоступно, оно было отмечено, как оскорбительное или спам.

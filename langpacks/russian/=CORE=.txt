@@ -1319,7 +1319,7 @@ URL от %s
 И&спользовать прокси
 [User &details]
 &Информация
-[User Details]
+[User details]
 О пользователе
 [User has not registered an e-mail address]
 Пользователь не зарегистрировал свой адрес e-mail.

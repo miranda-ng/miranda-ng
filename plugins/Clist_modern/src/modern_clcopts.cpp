@@ -53,7 +53,7 @@ struct FontOptionsList
 };
 
 #define CLCGROUP			LPGENT("Contact List")_T("/")LPGENT("Contact names")
-#define CLCLINESGROUP		LPGENT("Contact List")_T("/")LPGENT("Row Items")
+#define CLCLINESGROUP		LPGENT("Contact List")_T("/")LPGENT("Row items")
 #define CLCFRAMESGROUP		LPGENT("Contact List")_T("/")LPGENT("Frame texts")
 #define CLCCOLOURSGROUP     LPGENT("Contact List")_T("/")LPGENT("Special colors")
 
