@@ -415,7 +415,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			int numSlots = GetNumberOfSlots();
 			if (numSlots < (int)registeredExtraIcons.getCount()) {
 				TCHAR txt[512];
-				mir_sntprintf(txt, SIZEOF(txt), TranslateT("* only the first %d icons will be shown"), numSlots);
+				mir_sntprintf(txt, SIZEOF(txt), TranslateT("*only the first %d icons will be shown"), numSlots);
 
 				HWND label = GetDlgItem(hwndDlg, IDC_MAX_ICONS_L);
 				SetWindowText(label, txt);

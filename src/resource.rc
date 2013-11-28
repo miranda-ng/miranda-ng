@@ -303,18 +303,18 @@ BEGIN
     ICON            IDI_FILE,IDC_FILEICON,8,202,20,20,SS_CENTERIMAGE
     LTEXT           "Files",IDC_STATIC,28,208,70,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_USERONLINE,IDC_ONLINEICON,96,172,20,20,SS_CENTERIMAGE
-    LTEXT           "Online Notification",IDC_STATIC,116,178,107,8,SS_NOPREFIX | SS_CENTERIMAGE
+    LTEXT           "Online notification",IDC_STATIC,116,178,107,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_MIRANDA,IDC_AUTHICON,96,187,20,20,SS_CENTERIMAGE
-    LTEXT           "Auth Requests",IDC_STATIC,116,193,107,8,SS_NOPREFIX | SS_CENTERIMAGE
+    LTEXT           "Auth requests",IDC_STATIC,116,193,107,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_FILLEDBLOB,IDC_ALLICON,221,187,20,20,SS_CENTERIMAGE
-    LTEXT           "All Events",IDC_STATIC,241,193,66,8,SS_NOPREFIX | SS_CENTERIMAGE
+    LTEXT           "All events",IDC_STATIC,241,193,66,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_EMPTYBLOB,IDC_NONEICON,221,202,20,20,SS_CENTERIMAGE
     LTEXT           "None",IDC_STATIC,241,208,66,8,SS_NOPREFIX | SS_CENTERIMAGE
     CTEXT           "Only the ticked contacts will be shown on the main contact list",IDC_STCHECKMARKS,8,227,297,8
     CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x3da,8,26,297,146,WS_EX_CLIENTEDGE
     GROUPBOX        "Ignore",IDC_STATIC,0,0,313,240
     ICON            IDI_ADDCONTACT,IDC_ADDED,96,202,20,20,SS_CENTERIMAGE
-    LTEXT           "Added Notification",IDC_STATIC,116,208,107,8,SS_NOPREFIX | SS_CENTERIMAGE
+    LTEXT           "Added notification",IDC_STATIC,116,208,107,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_TYPING,IDC_TYPINGICON,221,172,20,20,SS_CENTERIMAGE
     LTEXT           "Typing",IDC_STATIC,241,178,66,8,SS_NOPREFIX | SS_CENTERIMAGE
 END
@@ -335,7 +335,7 @@ END
 IDD_ICONINDEX DIALOGEX 0, 0, 219, 197
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Icon Index"
+CAPTION "Icon index"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     RTEXT           "Icon library:",IDC_STATIC,4,6,54,8
@@ -359,7 +359,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_NETLIBUSERS,0,1,231,110,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Logging...",IDC_LOGOPTIONS,241,1,60,13
-    GROUPBOX        "Outgoing Connections",IDC_STATIC12,0,18,313,148
+    GROUPBOX        "Outgoing connections",IDC_STATIC12,0,18,313,148
     CONTROL         "Use proxy server",IDC_USEPROXY,"Button",BS_3STATE | WS_TABSTOP,7,29,159,9
     LTEXT           "Type:",IDC_STATIC21,19,43,57,8,WS_DISABLED
     COMBOBOX        IDC_PROXYTYPE,80,40,86,62,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
@@ -368,19 +368,19 @@ BEGIN
     LTEXT           "Port:",IDC_STATIC23,177,58,35,8,WS_DISABLED
     EDITTEXT        IDC_PROXYPORT,213,56,35,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     LTEXT           "(often %d)",IDC_STOFTENPORT,258,57,48,8,WS_DISABLED
-    CONTROL         "Use Custom Login (Domain login picked up automatically)",IDC_PROXYAUTH,
+    CONTROL         "Use custom login (domain login picked up automatically)",IDC_PROXYAUTH,
                     "Button",BS_3STATE | WS_DISABLED | WS_TABSTOP,20,80,286,10
     LTEXT           "Username:",IDC_STATIC31,32,94,47,8,WS_DISABLED
     EDITTEXT        IDC_PROXYUSER,80,92,86,12,ES_AUTOHSCROLL | WS_DISABLED
     LTEXT           "Password:",IDC_STATIC32,177,94,49,8,WS_DISABLED
     EDITTEXT        IDC_PROXYPASS,232,92,74,12,ES_PASSWORD | ES_AUTOHSCROLL | WS_DISABLED
     CONTROL         "Resolve hostnames through proxy",IDC_PROXYDNS,"Button",BS_3STATE | WS_DISABLED | WS_TABSTOP,20,115,202,10
-    CONTROL         "Port Range:",IDC_SPECIFYPORTSO,"Button",BS_3STATE | BS_TOP | BS_MULTILINE | WS_TABSTOP,7,130,72,9
+    CONTROL         "Port range:",IDC_SPECIFYPORTSO,"Button",BS_3STATE | BS_TOP | BS_MULTILINE | WS_TABSTOP,7,130,72,9
     EDITTEXT        IDC_PORTSRANGEO,80,129,142,12,ES_AUTOHSCROLL | WS_DISABLED
     LTEXT           "Example: 1050-1070, 2000-2010, 2500",IDC_STATIC54,80,144,196,8,WS_DISABLED
     CONTROL         "Validate SSL certificates",IDC_VALIDATESSL,"Button",BS_3STATE | BS_TOP | BS_MULTILINE | WS_TABSTOP,7,154,299,9
-    GROUPBOX        "Incoming Connections",IDC_STATIC43,0,167,313,52
-    CONTROL         "Port Range:",IDC_SPECIFYPORTS,"Button",BS_3STATE | BS_TOP | BS_MULTILINE | WS_TABSTOP,7,179,72,9
+    GROUPBOX        "Incoming connections",IDC_STATIC43,0,167,313,52
+    CONTROL         "Port range:",IDC_SPECIFYPORTS,"Button",BS_3STATE | BS_TOP | BS_MULTILINE | WS_TABSTOP,7,179,72,9
     EDITTEXT        IDC_PORTSRANGE,80,178,142,12,ES_AUTOHSCROLL | WS_DISABLED
     LTEXT           "Example: 1050-1070, 2000-2010, 2500",IDC_STATIC52,80,193,196,8,WS_DISABLED
     CONTROL         "Enable UPnP port mapping",IDC_ENABLEUPNP,"Button",BS_3STATE | BS_TOP | BS_MULTILINE | WS_TABSTOP,7,204,299,9
@@ -439,7 +439,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Fonts and Colors",IDC_STATIC,0,0,315,250
+    GROUPBOX        "Fonts and colors",IDC_STATIC,0,0,315,250
     CONTROL         "Tree1",IDC_FONTGROUP,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,4,10,102,235
     LISTBOX         IDC_FONTLIST,109,10,201,186,LBS_OWNERDRAWVARIABLE | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,196,199,30,14
@@ -449,10 +449,10 @@ BEGIN
     PUSHBUTTON      "Undo",IDC_BTN_UNDO,109,199,73,14
     PUSHBUTTON      "Reset",IDC_BTN_RESET,109,215,73,14
     PUSHBUTTON      "Export...",IDC_BTN_EXPORT,109,231,73,14
-    LTEXT           "Color/Background",IDC_BKGCOLOUR_STATIC,231,199,79,14,SS_CENTERIMAGE
-    LTEXT           "Text Effect",IDC_EFFECT_STATIC,231,199,79,14,SS_CENTERIMAGE | NOT WS_VISIBLE
-    LTEXT           "Text Color",IDC_STATIC,231,215,79,14,SS_CENTERIMAGE
-    LTEXT           "Choose Font",IDC_STATIC,231,231,79,14,SS_CENTERIMAGE
+    LTEXT           "Background color",IDC_BKGCOLOUR_STATIC,231,199,79,14,SS_CENTERIMAGE
+    LTEXT           "Text effect",IDC_EFFECT_STATIC,231,199,79,14,SS_CENTERIMAGE | NOT WS_VISIBLE
+    LTEXT           "Text color",IDC_STATIC,231,215,79,14,SS_CENTERIMAGE
+    LTEXT           "Choose font",IDC_STATIC,231,231,79,14,SS_CENTERIMAGE
 END
 
 IDD_CUSTOM_FONT DIALOGEX 13, 54, 287, 196
@@ -499,7 +499,7 @@ END
 IDD_ICOLIB_IMPORT DIALOGEX 0, 0, 217, 194
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTROLPARENT
-CAPTION "Icon Index"
+CAPTION "Icon index"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     RTEXT           "Icon library:",IDC_STATIC,5,6,44,8
@@ -514,14 +514,14 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Menu Objects",IDC_STATIC,5,2,140,94
+    GROUPBOX        "Menu objects",IDC_STATIC,5,2,140,94
     CONTROL         "Tree2",IDC_MENUOBJECTS,"SysTreeView32",TVS_SHOWSELALWAYS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,11,13,128,79
-    GROUPBOX        "Menu Items",IDC_STATIC,149,2,161,248
+    GROUPBOX        "Menu items",IDC_STATIC,149,2,161,248
     CONTROL         "Tree1",IDC_MENUITEMS,"SysTreeView32",TVS_SHOWSELALWAYS | WS_DISABLED | WS_BORDER | WS_HSCROLL | WS_TABSTOP,156,13,148,212
     GROUPBOX        "Protocol menus",IDC_STATIC,5,100,140,37
     CONTROL         "Move to the main menu",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,11,111,128,8
     CONTROL         "Move to the status bar",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,11,123,130,8
-    LTEXT           "Warning!\r\nThis MenuObject not support user defined options.",IDC_NOTSUPPORTWARNING,10,140,136,32,NOT WS_VISIBLE
+    LTEXT           "Warning!\r\nThis menu object not support user defined options.",IDC_NOTSUPPORTWARNING,10,140,136,32,NOT WS_VISIBLE
     PUSHBUTTON      "Insert separator",IDC_INSERTSEPARATOR,39,180,97,14,WS_DISABLED
     LTEXT           "Service:",IDC_STATIC,4,201,29,8
     EDITTEXT        IDC_GENMENU_SERVICE,36,199,108,14,ES_AUTOHSCROLL | ES_READONLY
@@ -539,7 +539,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CTEXT           "Show accounts in the following order,\ndrag to choose another order:",IDC_STATIC,78,11,150,25
-    GROUPBOX        "Account Order && Visibility",IDC_STATIC,0,0,314,241,0,WS_EX_TRANSPARENT
+    GROUPBOX        "Account order and visibility",IDC_STATIC,0,0,314,241,0,WS_EX_TRANSPARENT
     CONTROL         "Tree1",IDC_PROTOCOLORDER,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,78,37,151,153
     PUSHBUTTON      "Reset",IDC_RESETPROTOCOLDATA,96,193,115,14,BS_NOTIFY
     CTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_PROTOCOLORDERWARNING,13,216,280,16
@@ -550,7 +550,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Key Bindings",IDC_STATIC,0,0,315,250
+    GROUPBOX        "Key bindings",IDC_STATIC,0,0,315,250
     CONTROL         "Tree1",IDC_CATEGORYLIST,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,4,10,102,235
     LTEXT           "Shortcut:",IDC_STATIC,109,10,146,12
     EDITTEXT        IDC_PREVIEW,109,21,146,12
@@ -558,8 +558,8 @@ BEGIN
     LTEXT           "",IDC_MESSAGE,109,37,201,41
     LISTBOX         IDC_LIST,109,80,146,52,WS_VSCROLL | WS_TABSTOP
     CONTROL         "Remove",IDC_DELETE,"MButtonClass",WS_TABSTOP,260,80,50,14
-    PUSHBUTTON      "Undo Changes",IDC_BTN_UNDO,109,140,96,14
-    PUSHBUTTON      "Reset To Default",IDC_BTN_RESET,214,140,96,14
+    PUSHBUTTON      "Undo changes",IDC_BTN_UNDO,109,140,96,14
+    PUSHBUTTON      "Reset to default",IDC_BTN_RESET,214,140,96,14
 END
 
 IDD_OPT_HOTKEYS DIALOGEX 0, 0, 316, 251
@@ -610,7 +610,7 @@ END
 IDD_ERROR_LIST DIALOGEX 0, 0, 312, 209
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Error Console"
+CAPTION "Error console"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LISTBOX         IDC_LST_ERRORS,5,5,301,198,LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
@@ -693,7 +693,7 @@ END
 
 IDD_CHOOSE_FONT_EFFECT DIALOGEX 13, 54, 226, 103
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CONTEXTHELP | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Font Effect"
+CAPTION "Font effect"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Effect:",IDC_STATIC,12,12,66,12,SS_CENTERIMAGE
@@ -719,7 +719,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Select the extra icons to be shown in the contact list:",IDC_STATIC,1,9,274,13
     CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,1,24,274,160
-    LTEXT           "* only the first %d icons will be shown",IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
+    LTEXT           "*only the first %d icons will be shown",IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
     LTEXT           "You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)",IDC_STATIC,1,208,274,20
 END
 
@@ -1115,22 +1115,22 @@ BEGIN
     END
     POPUP "Nowhere"
     BEGIN
-        MENUITEM "&New Group",                  POPUP_NEWGROUP
+        MENUITEM "&New group",                  POPUP_NEWGROUP
         MENUITEM SEPARATOR
-        MENUITEM "&Hide Offline Users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &Offline Users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &Empty Groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &Groups",             POPUP_DISABLEGROUPS
+        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
+        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
+        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
+        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
         MENUITEM SEPARATOR
         MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
     END
     POPUP "Group"
     BEGIN
-        MENUITEM "&New Subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide Offline Users in here", POPUP_GROUPHIDEOFFLINE
+        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
+        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
         MENUITEM SEPARATOR
-        MENUITEM "&Rename Group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete Group",               POPUP_DELETEGROUP
+        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
+        MENUITEM "&Delete group",               POPUP_DELETEGROUP
     END
     POPUP "IconOptions"
     BEGIN
@@ -1138,18 +1138,18 @@ BEGIN
     END
     POPUP "find/add"
     BEGIN
-        MENUITEM "&Add to List",                IDC_ADD
+        MENUITEM "&Add to list",                IDC_ADD
         MENUITEM SEPARATOR
         MENUITEM "User &details",               IDC_DETAILS
-        MENUITEM "Send &Message",               IDC_SENDMESSAGE
+        MENUITEM "Send &message",               IDC_SENDMESSAGE
     END
     POPUP "Log"
     BEGIN
         MENUITEM "&Copy",                       IDM_COPY
-        MENUITEM "Co&py All",                   IDM_COPYALL
-        MENUITEM "Select &All",                 IDM_SELECTALL
+        MENUITEM "Co&py all",                   IDM_COPYALL
+        MENUITEM "Select &all",                 IDM_SELECTALL
         MENUITEM SEPARATOR
-        MENUITEM "C&lear Log",                  IDM_CLEAR
+        MENUITEM "C&lear log",                  IDM_CLEAR
     END
     POPUP "LogLink"
     BEGIN
@@ -1163,8 +1163,8 @@ IDR_ICOLIB_CONTEXT MENU
 BEGIN
     POPUP "IconOptions"
     BEGIN
-        MENUITEM "Cancel Change",               ID_CANCELCHANGE
-        MENUITEM "&Reset To Default",           ID_RESET
+        MENUITEM "Cancel change",               ID_CANCELCHANGE
+        MENUITEM "&Reset to default",           ID_RESET
     END
 END
 

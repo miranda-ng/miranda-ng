@@ -35,7 +35,7 @@
 Значки статуса
 [%s is Online]
 %s в сети
-[%s Message for %s]
+[%s message for %s]
 %s (%s)
 [%s options]
 %s опции
@@ -55,7 +55,7 @@
 Учётные записи
 [&Add permanently to list]
 &Добавить в постоянный список
-[&Add to List]
+[&Add to list]
 &Добавить в список
 [&Add...]
 &Добавить
@@ -85,7 +85,7 @@
 Создать
 [&Decline]
 &Отказать
-[&Delete Group]
+[&Delete group]
 Удалить группу
 [&Delete]
 &Удалить
@@ -111,9 +111,9 @@
 Шрифт:
 [&Help]
 &Справка
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Скрыть отключённых в группе
-[&Hide Offline Users]
+[&Hide offline users]
 Скрыть отключённых
 [&Hide/Show]
 С&крыть/показать
@@ -133,9 +133,9 @@
 Группа
 [&Move/Rename]
 &Переместить/переименовать
-[&New Group]
+[&New group]
 Со&здать группу
-[&New Subgroup]
+[&New subgroup]
 Создать подгруппу
 [&No]
 &Нет
@@ -153,7 +153,7 @@
 &Использовать снова
 [&Remove...]
 Удалить...
-[&Rename Group]
+[&Rename group]
 Переименовать группу
 [&Rename]
 &Переименовать
@@ -163,8 +163,6 @@
 &Поддержка
 [&Report Bug]
 Сооб&щить об ошибке
-[&Reset To Default]
-&Стандартные
 [&Reset to default]
 &Сбросить
 [&Run]
@@ -180,7 +178,7 @@
 [&Underline]
 Подчеркнуть
 [&Upgrade]
-&Модернизация
+&Обновить
 [&View contents]
 &Содержимое
 [&Yes]
@@ -239,7 +237,7 @@ ID учётной записи
 Учётная запись:
 [Account is disabled. Please activate it to access options.]
 Учётная запись отключена. Активируйте для настроек.
-[Account Order && Visibility]
+[Account order and visibility]
 Порядок учётных записей
 [Accounts\nConfigure your IM accounts]
 Учётные записи\nНастройка ваших учётных записей
@@ -265,7 +263,7 @@ ID учётной записи
 Добавить
 [Added event]
 Событие добавления
-[Added Notification]
+[Added notification]
 Уведомление о добавлении
 [Additional data due to proxy communication]
 Дополнительные данные о прокси
@@ -279,7 +277,7 @@ ID учётной записи
 Возраст:
 [All Bitmaps]
 Все изображения
-[All Events]
+[All events]
 Все события
 [All Files]
 Все файлы
@@ -299,7 +297,7 @@ ANSI плагин
 По окончании загрузки каждого файла
 [Ask me]
 Спросить
-[Auth Requests]
+[Auth requests]
 Запросы авторизации
 [Author(s):]
 Автор(ы):
@@ -333,7 +331,7 @@ ANSI плагин
 Использовать сообщение:
 [bytes]
 байт
-[C&lear Log]
+[C&lear log]
 Очистить журнал
 [Calling modules' names]
 Имена вызывающих модулей
@@ -341,7 +339,7 @@ ANSI плагин
 Не найден плагин списка контактов! Вам нужен StdClist или clist_*.dll плагин.
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
-[Cancel Change]
+[Cancel change]
 Откатить изменения
 [Cancel import]
 Отменить импорт
@@ -351,7 +349,7 @@ ANSI плагин
 Отмена
 [Canceled]
 Отменённые
-[Change %s Message]
+[Change %s message]
 Изменить сообщение "%s"
 [Change my status mode to:]
 Сменить статус на:
@@ -359,7 +357,7 @@ ANSI плагин
 Проверить обновления
 [Choose events you wish to ignore:]
 Следующие события будут проигнорированы:
-[Choose Font]
+[Choose font]
 Шрифт
 [Choose the protocol type]
 Выберите протокол
@@ -367,6 +365,8 @@ ANSI плагин
 Город:
 [Clear completed]
 Очистить завершённые
+[Background color]
+Цвет фона
 [Close Miranda]
 Закрыть программу
 [Close window when transfer completes]
@@ -375,10 +375,8 @@ ANSI плагин
 Закрыть
 [Closing in %d]
 Закрыть (%d)
-[Co&py All]
+[Co&py all]
 Ко&пировать всё
-[Color/Background]
-Цвет фона
 [Command line:]
 Ком. строка:
 [Company:]
@@ -469,7 +467,7 @@ ANSI плагин
 Отдел:
 [Description:]
 Описание:
-[Disable &Groups]
+[Disable &groups]
 Отключить группы
 [DND]
 Не беспокоить
@@ -515,7 +513,7 @@ ANSI плагин
 Эффекты
 [Empty Blob]
 Не заполнено
-[Use Custom Login (Domain login picked up automatically)]
+[Use custom login (domain login picked up automatically)]
 Логин пользователя (вход с доменным логином автоматический)
 [Enable keyword search in options dialog]
 Включить поиск по ключевым словам в настройках
@@ -531,7 +529,7 @@ ANSI плагин
 Описание:
 [Enter URL:]
 URL:
-[Error Console]
+[Error console]
 Консоль ошибок
 [Error notifications]
 Уведомления об ошибках
@@ -613,7 +611,7 @@ URL:
 Фамилия Имя
 [FirstName]
 Имя
-[Font Effect]
+[Font effect]
 Эффект шрифта
 [Font st&yle:]
 Стиль шрифта:
@@ -621,7 +619,7 @@ URL:
 Шрифт
 [Fonts & Colors]
 Шрифты и цвета
-[Fonts and Colors]
+[Fonts and colors]
 Шрифты и цвета
 [Fonts]
 Шрифты
@@ -661,9 +659,9 @@ URL:
 Заголовки
 [Help]
 Справка
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скрыть пустые группы
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скрыть отключённых вне группы
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скрыть из списка (останутся история и настройки игнорирования/видимости)
@@ -685,7 +683,7 @@ URL:
 Я прячусь от мафии.
 [I've been away since %time%.]
 Отошел в %time%. Скоро вернусь.
-[Icon Index]
+[Icon index]
 Номер значка
 [Icon library:]
 Библиотека:
@@ -711,7 +709,7 @@ URL:
 Игнорировать
 [Import multiple]
 Импорт нескольких
-[Incoming Connections]
+[Incoming connections]
 Входящие соединения
 [Incoming File Transfer]
 Входящий файл
@@ -751,7 +749,7 @@ URL:
 Войти в чат
 [JPEG Bitmaps]
 Изображения JPEG
-[Key Bindings]
+[Key bindings]
 Горячие клавиши
 [Last modified:]
 Изменён:
@@ -901,7 +899,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Не в сети
 [On the phone]
 На телефоне
-[Online Notification]
+[Online notification]
 Уведомление "В сети"
 [Online]
 В сети
@@ -931,7 +929,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Или введите международный номер:
 [Out to lunch]
 Обедаю
-[Outgoing Connections]
+[Outgoing connections]
 Исходящие соединения
 [Outgoing File]
 Исходящий файл
@@ -977,7 +975,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Плагины
 [PNG Bitmaps]
 Изображения PNG
-[Port Range:]
+[Port range:]
 Порты:
 [Port:]
 Порт:
@@ -1035,12 +1033,12 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Переименовать
 [Request sent, waiting for acceptance...]
 Запрос отправлен, ожидание подтверждения...
-[Reset To Default]
+[Reset to default]
 Сброс на умолчания
 [Reset]
 Сброс
 [Resolve hostnames through proxy]
-Использовать DNS на прокси
+Отправлять запросы DNS через прокси
 [Results]
 Результаты
 [Resume all]
@@ -1091,7 +1089,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед каждым произведённым изменением.
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
 Система безопасности для предотвращения нежелательных изменений выключена. Вы не получите дальнейших предупреждений.
-[Select &All]
+[Select &all]
 Выделить &всё
 [Select Folder]
 Выбрать папку
@@ -1101,7 +1099,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Выбрать программу для запуска
 [Select where log file will be created]
 Выбрать путь к файлу журнала
-[Send &Message]
+[Send &message]
 Отправить сообщение
 [Send authorization request]
 Отправить запрос авторизации
@@ -1142,7 +1140,7 @@ Cлужба:
 [Show/Hide Offline Users]
 Показать/Скрыть отключённых
 [Show accounts in the following order,\ndrag to choose another order:]
-Порядок отображения учётных записей. \nПеретаскивайте для изменения:
+Порядок отображения учётных записей.\nПеретаскивайте для изменения:
 [Show this dialog box when Miranda NG starts]
 Показать этот диалог при запуске Miranda NG
 [Show]
@@ -1179,7 +1177,7 @@ Cлужба:
 Штат:
 [Status messages:]
 Сообщения статуса:
-[Status Messages]
+[Status messages]
 Сообщения статуса
 [Status]
 Статус
@@ -1193,11 +1191,11 @@ Cлужба:
 Сочетание в системе
 [System]
 Система
-[Text Color]
+[Text color]
 Цвет текста
 [Text dumps where available]
 Текстовые дампы (если есть)
-[Text Effect]
+[Text effect]
 Эффект
 [That'll be the phone.]
 Да дайте же человеку поговорить по телефону...
@@ -1281,7 +1279,7 @@ Cлужба:
 Невозможно загрузить плагин в служебном режиме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Невозможно загрузить ни один из установленных плагинов списка контактов. Даже отключённые в настройках не запускаются.
-[Undo Changes]
+[Undo changes]
 Отменить изменения
 [Undo]
 Откат
@@ -1330,7 +1328,7 @@ URL от %s
 [Username]
 Имя пользователя
 [Validate SSL certificates]
-Проверять подпись SSL сертификатов
+Проверять подпись сертификатов SSL
 [Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Переменные: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Version]
@@ -1347,8 +1345,8 @@ URL от %s
 Ожидание соединения
 [Warn me before opening a file that has not been scanned]
 Предупреждать при открытии непроверенного файла
-[Warning!\r\nThis MenuObject not support user defined options.]
-Внимание!\r\nЭти пункты меню не поддаются настройке.
+[Warning!\r\nThis menu object not support user defined options.]
+Внимание!\r\nЭтот пункт меню не поддаётся настройке.
 [Web Page Address (&URL)]
 Ссылка (&URL)
 [Web page:]
@@ -1391,7 +1389,7 @@ URL от %s
 Вам нужен плагин службы изображений для поддержки PNG.
 [You need to disable plugin to delete this account]
 Для удаления учётной записи необходимо отключить протокол
-[You Were Added]
+[You were added]
 Вас добавили
 [You will always be asked about files from people not on your contact list]
 Запрос всегда будет показан, если человек не в списке
@@ -2037,11 +2035,11 @@ URL от %s
 Сахарская Арабская Демократическая Республика
 [Unknown]
 Неизвестно
-[Menu Objects]
+[Menu objects]
 Виды меню
-[Menu Items]
+[Menu items]
 Пункты меню
-[Decide &Later]
+[Decide &later]
 Решить &позже
 [Clear completed transfers on window closing]
 Очищать завершённые передачи при закрытии окна
@@ -2063,7 +2061,7 @@ URL от %s
 %s запросил(а) авторизацию\n%u в %s
 [%s requested authorization\n%s on %s]
 %s запросил(а) авторизацию\n%s в %s
-[Denial Reason:]
+[Denial reason:]
 Причина отказа:
 [View User Details]
 Посмотреть информацию о пользователе
@@ -2104,7 +2102,7 @@ Miranda пытается обновить вашу структуру хране
 [<unspecified>]
 <не указано>
 [Add to contact list if authorized]
-Добавлять в список контактов после авторизации
+Добавить в список контактов после авторизации
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Учётная запись будет удалена. Это означает, что все настройки, контакты и история также будут удалены.\n\nВы точно уверены?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2462,7 +2460,7 @@ Miranda не смогла загрузить встроенную систему
 Разгруппировать
 [Chat activity]
 Активность в чате
-[* only the first %d icons will be shown]
+[*only the first %d icons will be shown]
 *будут отображаться только первые %d значков
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Вы можете группировать/разгруппировывать значки, выделяя их (CTRL+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
@@ -2498,3 +2496,5 @@ Miranda не смогла загрузить встроенную систему
 Нет установленных плагинов базы!
 [Group сhats log]
 Групповые чаты
+[&Show/hide nicklist]
+&Показать/Скрыть список ников

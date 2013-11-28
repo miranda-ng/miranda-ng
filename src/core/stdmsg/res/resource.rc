@@ -315,12 +315,12 @@ IDR_CONTEXT MENU
 BEGIN
     POPUP "Log"
     BEGIN
-        MENUITEM "C&lear Log",                  IDM_CLEAR
+        MENUITEM "C&lear log",                  IDM_CLEAR
         MENUITEM SEPARATOR
         MENUITEM "&Copy",                       IDM_COPY
-        MENUITEM "Co&py All",                   IDM_COPYALL
+        MENUITEM "Co&py all",                   IDM_COPYALL
         MENUITEM SEPARATOR
-        MENUITEM "Select &All",                 IDM_SELECTALL
+        MENUITEM "Select &all",                 IDM_SELECTALL
     END
     POPUP "LogLink"
     BEGIN
@@ -338,7 +338,7 @@ BEGIN
         MENUITEM "Paste && Send",               IDM_PASTESEND
         MENUITEM "Delete",                      IDM_DELETE
         MENUITEM SEPARATOR
-        MENUITEM "Select &All",                 IDM_SELECTALL
+        MENUITEM "Select &all",                 IDM_SELECTALL
         MENUITEM SEPARATOR
         MENUITEM "Clear",                       IDM_CLEAR
     END
