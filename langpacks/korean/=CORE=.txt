@@ -124,7 +124,7 @@ Netlib 로그 옵션
 [Calling modules' names]
 모듈명 호출
 [OutputDebugString()]
-디버그 구문 내보내기()
+OutputDebugString()
 [File]
 파일
 [Run now]

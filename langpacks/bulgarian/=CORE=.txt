@@ -154,7 +154,7 @@ Miranda NG диспечер на профили
 [Log to]
 Запис в
 [OutputDebugString()]
-
+OutputDebugString()
 [File]
 Файл
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]

@@ -140,7 +140,7 @@ Chamando nomes de módulos
 [Log to]
 Registrar para
 [OutputDebugString()]
-TextoSaidaDepurador()
+OutputDebugString()
 [File]
 Arquivo
 [Run now]

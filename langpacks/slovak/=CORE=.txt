@@ -154,7 +154,7 @@ Zobraziť
 [Log to]
 
 [OutputDebugString()]
-
+OutputDebugString()
 [File]
 Súbor
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]

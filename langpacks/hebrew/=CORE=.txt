@@ -116,7 +116,7 @@
 [Log to]
 שמור ל
 [OutputDebugString()]
-מחרוזת דיבאג יוצאת()
+OutputDebugString()
 [File]
 קובץ
 [Run now]

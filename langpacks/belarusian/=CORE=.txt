@@ -154,7 +154,7 @@
 [Log to]
 Пісаць у
 [OutputDebugString()]
-Выснова адладкавых радкоў
+OutputDebugString()
 [File]
 Файл
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]

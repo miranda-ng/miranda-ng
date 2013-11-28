@@ -35,7 +35,6 @@
 [Auto-detect text]
 [Calling modules' names]
 [Log to]
-[OutputDebugString()]
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 [Run now]
 [Show this dialog box when Miranda NG starts]

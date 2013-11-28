@@ -2118,7 +2118,7 @@ Miranda пытается обновить вашу структуру хране
 [User:]
 Логин:
 [OutputDebugString()]
-Вывод отладочных строк
+Функция OutputDebugString()
 [Text Files]
 Текстовые файлы
 [Sound Files]

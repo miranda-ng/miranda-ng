@@ -154,7 +154,7 @@ Appel des noms de modules
 [Log to]
 Inscription dans...
 [OutputDebugString()]
-Débogage de paramètres de sortie
+OutputDebugString()
 [File]
 Fichier
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
