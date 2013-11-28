@@ -272,7 +272,7 @@ ID учётной записи
 [Additional:]
 Дополнительно:
 [Advanced >>]
-Дополнительно >
+Дополнительно >>
 [Advanced]
 Дополнительно
 [Age:]
@@ -304,7 +304,7 @@ ANSI плагин
 [Author(s):]
 Автор(ы):
 [Authorization request]
-Запрос на авторизацию
+Запрос авторизации
 [Auto-accept incoming files from people on my contact list]
 Автоматически принимать файлы от людей в списке контактов
 [Auto-detect text]
@@ -343,7 +343,7 @@ ANSI плагин
 Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
 [Cancel Change]
 Откатить изменения
-[Cancel Import]
+[Cancel import]
 Отменить импорт
 [Cancel transfer]
 Отмена
@@ -362,7 +362,7 @@ ANSI плагин
 [Choose Font]
 Шрифт
 [Choose the protocol type]
-Выбор типа протокола
+Выберите протокол
 [City:]
 Город:
 [Clear completed]
@@ -397,7 +397,7 @@ ANSI плагин
 Подключение...
 [Connecting]
 Подключение
-[Contact Display Options]
+[Contact display options]
 Параметры показа контактов
 [Contact menu]
 Меню контакта
@@ -437,9 +437,9 @@ ANSI плагин
 Настроить
 [Customize]
 Тонкая настройка
-[Database Import Complete]
+[Database import complete]
 Импорт базы завершен
-[Database Setting Change]
+[Database setting change]
 Изменение настроек базы данных
 [Database settings are being imported from]
 Настройки импортируются из
@@ -455,7 +455,7 @@ ANSI плагин
 Решение отправлено
 [Default]
 По умолчанию
-[Delete Contact]
+[Delete contact]
 Удалить контакт
 [Delete Group]
 Удаление группы
@@ -593,9 +593,9 @@ URL:
 Найти
 [Find What:]
 Найти:
-[Find/Add Contacts\nHere you can add contacts to your contact list]
+[Find/Add contacts\nHere you can add contacts to your contact list]
 Поиск контактов\nЗдесь Вы можете найти и добавить контакты в список контактов
-[Find/Add Contacts]
+[Find/Add contacts]
 Найти/добавить контакты
 [find/add]
 найти/добавить
@@ -666,7 +666,7 @@ URL:
 [Hide &Offline Users out here]
 Скрыть отключённых вне группы
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-Скрыть из списка (останутся история и настройки видимости)
+Скрыть из списка (останутся история и настройки игнорирования/видимости)
 [Hide Miranda]
 Скрыть список контактов
 [History for %s]
@@ -731,12 +731,12 @@ URL:
 Инициализация...
 [Insert separator]
 Вставить разделитель
-[Install Database Settings]
+[Install database settings]
 Установить настройки базы данных
 [Installed Plugins]
 Установленные плагины
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Вместо показа псевдонимов,\nвыберите другой приоритет показа имён:
+Вместо показа псевдонимов,\nвыберите перетаскиванием другой приоритет показа имён:
 [Interests:]
 Интересы:
 [Invalid Message]
@@ -849,7 +849,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Имя:
 [Name]
 Имя
-[Netlib Log Options]
+[Netlib log options]
 Настройки журналирования сети
 [Network]
 Сеть
@@ -1161,7 +1161,7 @@ Cлужба:
 Дополнительный текст
 [Smooth bump]
 Размытие
-[Sound Information]
+[Sound information]
 Дополнительная информация
 [Sounds]
 Звуки
@@ -1169,7 +1169,7 @@ Cлужба:
 Укажите внутреннее имя (не обязательно)
 [Spoken languages:]
 Языки:
-[SSL Traffic]
+[SSL traffic]
 Трафик SSL
 [Standard hh:mm:ss times]
 Часы, минуты, секунды
@@ -2164,7 +2164,7 @@ Cвернуть
 [Do you want to restart it now?]
 Перезапустить программу сейчас?
 [Open contact's chat window]
-Открыть окно с контактом
+Открыть окно беседы с контактом
 [Account Error]
 Ошибка учётной записи
 [Account name has to be unique. Please enter unique name.]

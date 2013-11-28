@@ -199,7 +199,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 						db_set_b((HANDLE)wParam, "CList", "Delete", 1);
 						MessageBox(NULL,
 							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
-							TranslateT("Delete Contact"), MB_ICONINFORMATION | MB_OK);
+							TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
 						return 0;
 					}
 				}
