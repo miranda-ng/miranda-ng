@@ -7,6 +7,8 @@
 ;  Source: http://historypp.googlecode.com/svn/historypp/trunk
 ;  Authors: theMIROn
 ;============================================================
+[Easy, fast and feature complete history viewer.]
+Einfacher, schneller und funktionsreicher Verlaufsbetrachter.
 [Voice calls]
 Sprachanrufe
 [Voice call]
@@ -25,8 +27,6 @@ Dropdownpfeil
 &Pseudobearbeitung
 [Pseudo-edit mode...]
 Pseudobearbeitungsmodus...
-[Easy, fast and feature complete history viewer.]
-Einfacher, schneller und funktionsreicher Verlaufsbetrachter.
 [Group log messages]
 Verlaufsnachrichten gruppieren
 [Need more options?]
@@ -71,18 +71,12 @@ Erweiterte Sucheinstellungen
 Suchbereich einschränken
 [Limit Search Sange]
 Suchbereich einschränken
-[Search protected contacts]
-Geschützte Kontakte durchsuchen
 [Search messages from]
 Nachrichten von
-[History is not protected, searching all contacts]
-Verlauf ist nicht geschützt, durchsuche alle Kontakte
 [Text Formatting]
 Textformatierung
 [Limit Search Range]
 Suchbereich einschränken
-[Search Protected Contacts]
-Geschützte Kontakte durchsuchen
 [Customize Filters]
 Filter anpassen
 [Filter Properties]
@@ -195,10 +189,6 @@ Suche vorbereiten...
 Suche... %.0n Einträge in %d Kontakten gefunden.
 [Enter the history password to search.]
 Geben Sie das Passwort ein um die Suche zu starten.
-[History++ Password Protection]
-History++ Passwortschutz
-[You have entered the wrong password.]
-Es wurde ein falsches Passwort eingegeben.
 [Please wait while closing the window...]
 Bitte warten, während das Fenster geschlossen wird...
 [Partial History [%s] - [%s]]
@@ -251,10 +241,6 @@ Unterhaltungen (F4)
 Verlaufssuche
 [His&tory Search]
 Verlaufssuche
-[You need password to access this history]
-Passwort für Zugriff auf den Verlauf erforderlich
-[Enter]
-Enter
 [&Open]
 Öffnen
 [Open &Link]
@@ -301,8 +287,6 @@ Von oben fortgesetzt
 Von unten fortgesetzt
 [Search: %s (F3 to find next)]
 Suchen: %s (F3 - weitersuchen)
-[You have entered the wrong password]
-Sie haben ein falsches Passwort eingegeben
 [%d event]
 %d Ereignis
 [%0.n events (%s)]
@@ -343,34 +327,6 @@ Lesezeichen entfernen
 Lesezeichen setzen
 [Hide headers]
 Kopf verstecken
-[Password Check]
-Passwort prüfen
-[To access Password Protection options you need to enter password]
-Passwort eingeben, um auf die Passwortschutzeinstellungen zuzugreifen
-[Password Options]
-Passworteinstellungen
-[Protect all contacts]
-Alle Kontakte schützen
-[Protect only selected contacts]
-Nur ausgewählte Kontakte schützen
-[Password...]
-Passwort...
-[&Refresh List]
-Liste aktualisie&ren
-[Password not set]
-Passwort nicht gesetzt
-[Password set]
-Passwort gesetzt
-[New Password]
-Neues Passwort
-[Enter new password]
-Neues Passwort eingeben
-[Leave this fields blank to disable password]
-Feld leer lassen um das Passwort zu löschen
-[Pay attention to CAPS LOCK button state]
-Auf Feststelltasteneinstellung achten
-[Password and Confirm fields should be similar]
-Passwort- und Vergleichsfeld müssen gleich sein
 [Outgoing file transfer: %s]
 Ausgehender Dateitransfer: %s
 [Incoming file transfer: %s]
@@ -547,12 +503,6 @@ Ereignisse eingrenzen
 Menu verbergen
 [&File Actions]
 Dateiaktionen
-[Searching unprotected contacts only]
-Nur ungeschützte Kontakte durchsuchen
-[Searching all contacts]
-Alle Kontakte durchsuchen
-[Wrong password]
-Falsches Passwort
 [Unknown codepage %u]
 Unbekannte Codepage %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
@@ -587,8 +537,6 @@ Wollen Sie wirklich ALLE Einträge für diesen Kontakt löschen?
 Dies kann bei einem großen Verlauf mehrere Minuten lang dauern.
 [Empty history of subcontacts also]
 Auch Verlauf aller Unterkontakte löschen
-[History of this contact is password protected]
-Verlauf dieses Kontaktes ist passwortgeschützt
 [Previous message]
 Vorherige Nachricht
 [Running version of AniSmiley is not supported]
@@ -629,8 +577,6 @@ Beispiel Autorisierungsanfrage
 Datum-Schriftfarbe
 [Date Font]
 Datum-Schrift
-[Easy, fast and feature complete history viewer]
-Einfacher, schneller und funktionsreicher Verlaufsbetrachter
 [Event Icons]
 Ereignissymbole
 [Forward &Message]

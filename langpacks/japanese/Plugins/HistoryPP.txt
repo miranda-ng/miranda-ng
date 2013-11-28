@@ -41,18 +41,12 @@ WATrack: リクエストは拒否されました
 高度な検索オプション
 [Limit search range]
 検索範囲の制限
-[Search protected contacts]
-保護されたコンタクトを検索
 [Search messages from]
 メッセージ検索の期間
-[History is not protected, searching all contacts]
-全コンタクトを検索中 , 履歴は保護されていません
 [Text Formatting]
 テキストの書式設定
 [Limit Search Range]
 検索範囲の制限
-[Search Protected Contacts]
-保護されたコンタクトを検索
 [Customize Filters]
 フィルターをカスタマイズ
 [Filter Properties]
@@ -145,10 +139,6 @@ History++ エクスポート
 検索の準備中...
 [Searching... %.0n items in %d contacts found]
 検索中... %.0n 項目が見つかりました ( %d コンタクト中 )
-[History++ Password Protection]
-History++ パスワード保護
-[You have entered the wrong password.]
-入力したパスワードに誤りがあります
 [Please wait while closing the window...]
 ウィンドウを閉じていますのでお待ちください...
 [Partial History [%s] - [%s]]
@@ -185,10 +175,6 @@ History++ 検索
 会話
 [History Search]
 履歴検索
-[You need password to access this history]
-この履歴にアクセスするにはパスワードが必要です
-[Enter]
-確定
 [&Open]
 開く (&O)
 [Export as &HTML...]
@@ -225,8 +211,6 @@ ANSI エンコード
 一番下から続行
 [Search: %s (F3 to find next)]
 検索: %s ( F3 で次を検索 )
-[You have entered the wrong password]
-入力したパスワードに誤りがあります
 [%d event]
 %d イベント
 [%0.n events (%s)]
@@ -243,34 +227,6 @@ ANSI エンコード
 ブックマークを設定
 [Hide headers]
 ヘッダーを非表示
-[Password Check]
-パスワード確認
-[To access Password Protection options you need to enter password]
-パスワード保護オプションにアクセスするにはパスワードを入力する必要があります
-[Password Options]
-パスワードオプション
-[Protect all contacts]
-全てのコンタクトを保護
-[Protect only selected contacts]
-選択されたコンタクトのみ保護
-[Password...]
-パスワード...
-[&Refresh List]
-リストを更新 (&R)
-[Password not set]
-パスワードは未設定
-[Password set]
-パスワード設定
-[New Password]
-新規パスワード
-[Enter new password]
-新規パスワードを入力してください
-[Leave this fields blank to disable password]
-パスワードを無効にするにはフィールドを空白にする
-[Pay attention to CAPS LOCK button state]
-CAPS LOCK ボタンの状態に注意してください
-[Password and Confirm fields should be similar]
-パスワードと確認フィールドを同様にする
 [Outgoing file transfer: %s]
 発信ファイル転送: %s
 [Incoming file transfer: %s]
@@ -359,12 +315,6 @@ IcoLib プラグインをダウンロード
 メニューを非表示
 [&File Actions]
 ファイル操作 (&F)
-[Searching unprotected contacts only]
-保護されていないコンタクトのみを検索中
-[Searching all contacts]
-全てのコンタクトを検索中
-[Wrong password]
-パスワードが違います
 [Unknown codepage %u]
 不明なコードページ %u
 [User %s (%d) changed icq client: %s]
@@ -385,8 +335,6 @@ IcoLib プラグインをダウンロード
 メモ: 大きい履歴の場合は数分かかります
 [Empty history of subcontacts also]
 サブコンタクトの履歴も空にする
-[History of this contact is password protected]
-このコンタクトの履歴はパスワードで保護されています
 [Previous message]
 前のメッセージ
 [Running version of AniSmiley is not supported]

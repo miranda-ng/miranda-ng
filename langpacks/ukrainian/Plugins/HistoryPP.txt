@@ -5,6 +5,8 @@
 ;  Versions: 1.5.1.4
 ;  Authors: theMIROn
 ;============================================================
+[Easy, fast and feature complete history viewer.]
+Простий, швидкий і багатофункціональний перегляд історії.
 [Voice calls]
 Дзвінки
 [Voice call]
@@ -23,8 +25,6 @@
 Псевдо-редагування
 [Pseudo-edit mode...]
 Режим псевдо-редагування...
-[Easy, fast and feature complete history viewer.]
-Простий, швидкий і багатофункціональний перегляд історії.
 [Group log messages]
 Групувати повідомлення
 [Need more options?]
@@ -69,18 +69,12 @@ WATrack: запит заборонений
 Обмежити пошук
 [Limit Search Sange]
 Обмежити пошук
-[Search protected contacts]
-Шукати в захищених контактах
 [Search messages from]
 Шукати повідомлення з
-[History is not protected, searching all contacts]
-Історія не захищена, пошук по всіх контактах
 [Text Formatting]
 Форматування
 [Limit Search Range]
 Обмежити пошук
-[Search Protected Contacts]
-Шукати в захищених контактах
 [Customize Filters]
 Налаштування фільтрів
 [Filter Properties]
@@ -193,10 +187,6 @@ EMail Express
 Пошук... Знайдено %.0n записів у %d контактів
 [Enter the history password to search.]
 Для пошуку необхідно ввести пароль.
-[History++ Password Protection]
-Захист історії паролем
-[You have entered the wrong password.]
-Ви ввели неправильний пароль.
 [Please wait while closing the window...]
 Зачекайте закриття вікна...
 [Partial History [%s] - [%s]]
@@ -249,10 +239,6 @@ EMail Express
 Пошук в історії
 [His&tory Search]
 Пошук &в історії
-[Password You need to access this history]
-Для доступу до даної історії потрібен пароль
-[Enter]
-Введення
 [&Open]
 &Відкрити
 [Open &Link]
@@ -299,8 +285,6 @@ EMail Express
 Продовжено знизу
 [Search: %s (F3 to find next)]
 Пошук: %s (F3 для продовження)
-[You have entered the wrong password]
-Ви ввели неправильний пароль
 [%d event]
 %d подія
 [%0.n events (%s)]
@@ -341,34 +325,6 @@ EMail Express
 Поставити закладку
 [Hide headers]
 Приховати заголовки
-[Password Check]
-Перевірка пароля
-[To access Password Protection options you need to enter password]
-Введіть пароль для доступу до параметри безпеки
-[Password Options]
-Параметри пароля
-[Protect all contacts]
-Захистити всі контакти
-[Protect only selected contacts]
-Захистити вибрані контакти
-[Password...]
-Пароль...
-[&Refresh List]
-&Оновити список
-[Password not set]
-Пароль не встановлено
-[Set Password]
-Пароль встановлений
-[New Password]
-Новий пароль
-[Enter new password]
-Введіть новий пароль
-[Leave this fields blank to disable password]
-Залиште поле порожнім, щоб відключити пароль
-[Pay attention to CAPS LOCK button state]
-Враховуйте стан клавіші CAPS LOCK
-[Confirm Password and fields should be similar]
-Поля "Пароль" і "Повтор" повинні бути однакові
 [Outgoing file transfer: %s]
 Передача файлу: %s
 [Incoming file transfer: %s]
@@ -529,12 +485,6 @@ HTML файл
 Приховати меню
 [&File Actions]
 Дії
-[Searching unprotected contacts only]
-Тільки незахищені контакти
-[Searching all contacts]
-Всі контакти
-[Wrong password]
-Невірний пароль
 [Unknown codepage %u]
 Невідома кодова сторінка %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
@@ -569,8 +519,6 @@ HTML файл
 Примітка: це може зайняти декілька хвилин для великої історії
 [Empty history of subcontacts also]
 Також видалити історію субконтактов
-[History of this contact is password protected]
-Історія цього контакту захищена паролем
 [Previous message]
 Попереднє повідомлення
 [Running version of AniSmiley is not supported]
@@ -611,8 +559,6 @@ HTML файл
 Колір дати
 [Date Font]
 Шрифт дати
-[Easy, fast and feature complete history viewer]
-Простий, швидкий та багатофункціональний переглядач історії
 [Event Icons]
 Значки подій
 [Forward &Message]
@@ -742,6 +688,6 @@ Wiki-сторінка додаткових параметрів
 [Incoming contacts]
 Вхідні контакти
 [Incoming timestamp]
-Вхідне час
+Вхідний час
 [Outgoing timestamp]
-Вихідне час
+Вихідний час

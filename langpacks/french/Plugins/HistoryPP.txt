@@ -33,12 +33,6 @@ Afficher les avatars modifiés
 Changement de l'apparence
 [Advanced search options]
 Recherche avancée
-[Search protected contacts]
-Recherche dans les contacts protégés
-[History is not protected, searching all contacts]
-L'historique n'est pas protégé, recherche dans tous les contacts
-[Search Protected Contacts]
-Recherche dans les contacts protégés
 [Customize Filters]
 Filtres personnalisables
 [Filter Properties]
@@ -131,10 +125,6 @@ Recherche... Veuillez patienter.
 Préparation de la recherche...
 [Searching... %.0n items in %d contacts found]
 Recherche... %.0n éléments dans %d contacts trouvés
-[History++ Password Protection]
-History++ Protection par mot de passe
-[You have entered the wrong password.]
-Votre mot de passe est erroné.
 [Please wait while closing the window...]
 Veuillez patienter pendant la fermeture de la fenêtre...
 [Partial History [%s] - [%s]]
@@ -169,10 +159,6 @@ Aucune sélection
 Recherche
 [His&tory Search]
 Recherche d'historique
-[You need password to access this history]
-Mot de passe nécessaire pour voir cet historique
-[Enter]
-Entrée
 [&Open]
 &Ouvrir
 [Export as &HTML...]
@@ -207,8 +193,6 @@ Continuer depuis le haut
 Continuer depuis le bas
 [Search: %s (F3 to find next)]
 Résultat: %s (F3 = suivant)
-[You have entered the wrong password]
-Vous avez entrée un mauvais mot de passe
 [%d event]
 %d évènement
 [%0.n events (%s)]
@@ -221,34 +205,6 @@ Effacer ce favori
 Mettre en favori
 [Hide headers]
 Cacher l'entête
-[Password Check]
-Vérif. du passe
-[To access Password Protection options you need to enter password]
-Pour accéder aux Options de Protection, vous devez entrer le mot de passe.
-[Password Options]
-Options 
-[Protect all contacts]
-Protéger tous les contacts
-[Protect only selected contacts]
-Protéger les contacts sélectionnés
-[Password...]
-Mot de passe...
-[&Refresh List]
-&Actualiser
-[Password not set]
-Mot de passe non défini
-[Password set]
-Mot de passe réglé
-[New Password]
-Nouveau Passe
-[Enter new password]
-Tapez nouveau Passe
-[Leave this fields blank to disable password]
-Laissez vide pour le désactiver
-[Pay attention to CAPS LOCK button state]
-Prenez garde au 'CAPS LOCK' (verrouillage majuscule)
-[Password and Confirm fields should be similar]
-Le mot de passe et sa confirmation doivent être identique (à la casse prête)
 [Outgoing file transfer: %s]
 Envoi de fichier: %s
 [Incoming file transfer: %s]
@@ -323,12 +279,6 @@ Inclure les évènements personnalisés (0-65535)
 &Copier le nom de fichier
 [Hide Menu]
 Cacher le menu
-[Searching unprotected contacts only]
-Recherche dans les contacts non protégés uniquement
-[Searching all contacts]
-Recherche dans les contacts
-[Wrong password]
-Mot de passe erroné
 [Unknown codepage %u]
 Codepage inconnu %u
 [User %s (%d) changed icq client: %s]
@@ -351,8 +301,6 @@ Voulez-vous vraiment effacer TOUS l'historique de ce contact ?
 Note: Ceci peut prendre du temps sur de longs historiques
 [Empty history of subcontacts also]
 Effacer également celui des sous-contacts.
-[History of this contact is password protected]
-L'historique de ce contact est protégé par un mot de passe.
 [Previous message]
 Mess. précédent
 [Running version of AniSmiley is not supported]

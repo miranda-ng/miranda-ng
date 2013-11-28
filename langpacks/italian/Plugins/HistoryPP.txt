@@ -39,10 +39,6 @@ Salva storico
 &Storico di sistema
 [System History]
 Storico di sistema
-[History++ Password Protection]
-Protezione Password Storico++
-[You have entered the wrong password.]
-Hai inserito una password sbagliata.
 [Partial History [%s] - [%s]]
 Storico parziale [%s] - [%s]
 [HotSearch: %s (F3 to find next)]
@@ -61,10 +57,6 @@ Vuoi cancellare gli oggetti selezionati (%.0f)?
 Lo Storico è vuoto
 [No such items]
 Nessun oggetto
-[You need password to access this history]
-C'è bisogno della password per accedere a questo storico
-[Enter]
-Inserisci
 [&Open]
 &Apri
 [Open &Link]
@@ -89,34 +81,6 @@ File XML (*.xml)|*.xml
 File di testo (*.txt)|*.txt
 [All files (*.*)|*.*]
 Tutti i file (*.*)|*.*
-[Password Check]
-Controllo Password
-[To access Password Protection options you need to enter password]
-Per accedere alle opzioni di protezione devi prima inserire la password
-[Password Options]
-Opzioni Password
-[Protect all contacts]
-Proteggi tutti i contatti
-[Protect only selected contacts]
-Proteggi solo i contatti selezionati
-[Password...]
-Password...
-[&Refresh List]
-&Aggiorna lista
-[Password not set]
-Password non impostata
-[Password set]
-Password impostata
-[New Password]
-Nuova Password
-[Enter new password]
-Inserisci la nuova password
-[Leave this fields blank to disable password]
-Lascia questo campo vuoto per disattivare la password
-[Pay attention to CAPS LOCK button state]
-Attenzione al CAPS LOCK
-[Password and Confirm fields should be similar]
-La password e la conferma devono essere uguali
 [History++]
 Storico++
 [%.0f items in history]

@@ -35,14 +35,10 @@ Grid berichten
 Geavanceerde zoek opties
 [Limit search range]
 Zoekbereik beperken
-[Search protected contacts]
-Doorzoek beschermde personen
 [Search messages from]
 Berichten zoeken van
 [Limit Search Range]
 Zoekbereik beperken
-[Search Protected Contacts]
-Doorzoek beschermde personen
 [Customize Filters]
 Filters aanpassen
 [Filter Properties]
@@ -141,10 +137,6 @@ Zoeken voorbereiden...
 Bezig met zoeken... %.0n items in %d personen gevonden
 [Enter the history password to search.]
 Om te zoeken het geschiedeniswachtwoord invoeren.
-[History++ Password Protection]
-Geschiedenis++ wachtwoord bescherming
-[You have entered the wrong password.]
-U heeft een verkeerd wachtwoord ingevoerd.
 [Please wait while closing the window...]
 Even geduld aub terwijl het scherm gesloten wordt...
 [Partial History [%s] - [%s]]
@@ -187,10 +179,6 @@ Gesprekken (F4)
 Geschiedenis doorzoeken
 [His&tory Search]
 Geschiedenis doorzoeken
-[You need password to access this history]
-U heeft een wachtwoord nodig om deze geschiedenis te benaderen
-[Enter]
-Enter
 [&Open]
 &Openen
 [Open &Link]
@@ -235,8 +223,6 @@ Van boven verdergegaan
 Van onderen verdergegaan
 [Search: %s (F3 to find next)]
 Zoeken: %s (F3 om de volgende te vinden)
-[You have entered the wrong password]
-U heeft het verkeerde wachtwoord ingevoerd
 [%d event]
 %d gebeurtenis
 [%0.n events (%s)]
@@ -271,34 +257,6 @@ Bladwijzer verwijderen
 Bladwijzer installen
 [Hide headers]
 Koppen verbergen
-[Password Check]
-Wachtwoord controle
-[To access Password Protection options you need to enter password]
-Om de wachtwoord beschermings opties te benaderen moet die het wachtwoord invoeren
-[Password Options]
-Wachtwoord opties
-[Protect all contacts]
-Alle personen beschermen
-[Protect only selected contacts]
-Alleen geselecteerde personen beschermen
-[Password...]
-Wachtwoord...
-[&Refresh List]
-Lijst bijwe&rken
-[Password not set]
-Wachtwoord niet ingesteld
-[Password set]
-Wachtwoord ingesteld
-[New Password]
-Nieuw wachtwoord
-[Enter new password]
-Voer nieuw wachtwoord in
-[Leave this fields blank to disable password]
-Laat dit veld leeg om wachtwoorden uit te schakelen
-[Pay attention to CAPS LOCK button state]
-Denk aan de Caps Lock
-[Password and Confirm fields should be similar]
-Wachtwoord en Bevestig velden moeten gelijk zijn
 [Outgoing file transfer: %s]
 Uitgaande bestandsoverdracht: %s
 [Incoming file transfer: %s]

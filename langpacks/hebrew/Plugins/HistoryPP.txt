@@ -41,8 +41,6 @@ WATrack הודעה
 פעולות היסטוריה
 [Limit Search Range]
 הגבל טווח חיפוש
-[Search Protected Contacts]
-חפש תוכן מוגן
 [Event Details]
 פרטי אירוע
 [Event Info]
@@ -71,8 +69,6 @@ WATrack הודעה
 היסטורית מערכת
 [System History]
 היסטורית מערכת
-[You have entered the wrong password.]
-.הכנסת סיסמא שגויה
 [Partial History [%s] - [%s]]
 הסטוריה חלקית [%s] - [%s]
 [Remove &Bookmark]
@@ -85,10 +81,6 @@ WATrack הודעה
 שיחות
 [His&tory Search]
 היס&טוריה חיפוש
-[You need password to access this history]
-נדרשת סיסמא כדי להכנס להיסטוריה הזאת
-[Enter]
-הכנס
 [&Open]
 &פתח
 [Open &Link]
@@ -107,28 +99,6 @@ ANSI קידוד
  ביטוי לא נמצא
 [All files (*.*)|*.*]
 כל הקבצים (*.*)|*.*
-[Password Check]
-בדוק סיסמה
-[To access Password Protection options you need to enter password]
-כדי להכנס לאפשרויות ההגנה עלייך להכניס סיסמא
-[Password Options]
-אפשרויות סיסמה
-[Protect all contacts]
-הגן עם סיסמה על ההסטוריה של כל אנשי הקשר
-[Protect only selected contacts]
-הגן עם סיסמא רק על הסטוריית אנשי הקשר שנבחרו
-[Password...]
-...סיסמה
-[&Refresh List]
-רענן רשימה
-[Password not set]
-לא נקבעה סיסמה
-[Password set]
-קבע סיסמא
-[New Password]
-סיסמה חדשה
-[Enter new password]
-הכנס סיסמה חדשה
 [Show all events]
 הראה כל האירועים
 [Avatar changes]

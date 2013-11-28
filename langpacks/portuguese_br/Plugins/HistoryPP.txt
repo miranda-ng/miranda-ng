@@ -45,14 +45,10 @@ Grelha de mensagens
 Histórico de Ações
 [Search messages from]
 Pesquisar mensagem em
-[History is not protected, searching all contacts]
-O histórico não está protegido, pesquisando todos os contatos
 [Text Formatting]
 Formatando Texto
 [Limit Search Range]
 Delimitar Pesquisa
-[Search Protected Contacts]
-Pesquisar Contatos Protegidos
 [&Reply Quoted]
 &Responder citando
 [Global History Search]
@@ -125,10 +121,6 @@ Item ausente
 Conversas
 [His&tory Search]
 Pes&quisa no Histórico
-[You need password to access this history]
-Precisa de senha para acessar a este conteúdo
-[Enter]
-Entrar
 [&Open]
 &Abrir
 [Open &Link]
