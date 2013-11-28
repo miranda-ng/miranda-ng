@@ -8,7 +8,7 @@
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Плагін зберігає історію зміни аватарів контактів і показує спливаючі вікна.
 [Avatar List Popup]
-
+Сплив. вікно списку аватарів
 [Save As...]
 Зберегти як...
 [Delete this entry]
@@ -18,7 +18,7 @@
 [Avatar History]
 Історія аватарів
 [Static]
-
+Статичний
 [Open Folder]
 Відкрити папку
 [Store this user's old avatars in disk]
@@ -30,7 +30,7 @@
 [Protocols]
 Протоколи
 [Enable tracking for these protocols:]
-
+Ввімкнути відстеження для цих протоколів:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Метаконтакти обробляються особливо: інформація завжди копіюється з субконтактів (повідомлення від метаконтактів ігноруються)
 [Show popup when a contact change his avatar]
@@ -44,23 +44,23 @@
 [Use Windows colors]
 Кольори Windows
 [Use default colors]
-
+Викор. кольори за замовчанням
 [Delay]
-
+Затримка
 [From Popup plugin]
-
+З плагіну сплив. викон
 [Custom]
-
+Обрані
 [Permanent]
-
+Постійно
 [Actions]
 Дії
 [On right click:]
-
+На правий клік:
 [On left click:]
-
+На лівий клік:
 [Track]
-
+Стежити
 [Avatar change:]
 Зміна аватара:
 [Avatar removal:]
@@ -110,23 +110,21 @@
 [Avatar History is empty!]
 Історія аватарів порожня!
 [avatar path is null.]
-
+шлях до аватару не дійсний.
 [View Avatar History]
 Показати історію аватарів
 [Save Avatar for %s]
 Зберегти аватар %s
 [Save Avatar]
 Зберегти аватар
-[AVH Debug]
-
 [Removed avatar, no avatar before...skipping]
-
+Видалений аватар, небуло раніше аватару...пропустити
 [Hashes are the same... skipping]
-
+Хеши ті ж самі...пропустити
 [Avatar History: Unable to save avatar]
-
+Історія аватарів: Неможливо сберегти аватар
 [AVH Debug: File copied successfully]
-
+AVH Debug: Копіювання файлу успішно
 [Avatars]
 Аватари
 [Contact changed avatar]
@@ -140,11 +138,11 @@
 [History]
 Історія
 [Avatar Overlay]
-
+Накладення аватару
 [Do nothing]
-
+Нічого не робити
 [Close popup]
-Закрити вікно
+Закрити сплив. вікно
 [Show avatar history]
 Показати історію аватарів
 [Show contact history]

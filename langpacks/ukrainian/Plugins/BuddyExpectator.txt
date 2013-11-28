@@ -42,13 +42,13 @@
 [Use Windows colors]
 Кольори Windows
 [Delay]
-
+Затримка
 [Default]
-
+За замовчанням
 [Custom]
-
+Обрані
 [Permanent]
-
+Постійний
 [sec]
 с
 [Preview]
@@ -78,7 +78,7 @@ Notify
 [Never hide]
 Ніколи не ховати
 [Hiding %s (%S)]
-
+Приховування %s (%S)
 [%d days since last message]
 %d днів після останньої розмови
 [Disable Miss You]

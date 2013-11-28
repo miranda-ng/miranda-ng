@@ -144,7 +144,7 @@
 [Delete All User History]
 Видалити всю історію користувача
 [Execute history task]
-
+Виконати задачу
 [Incoming message]
 Вхідне повідомлення
 [Outgoing message]
@@ -186,7 +186,7 @@
 [Export]
 Експорт
 [File do not contain selected contact]
-
+Файл не містить обраного контакту
 [File is corrupted]
 Файл пошкоджений
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
@@ -194,7 +194,7 @@
 [Are You sure?]
 Ви впевнені?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-
+Ви дійсно хочете видалити всі імпортовані повідомлення для цього контакту?\nПримітка - наступне завдання планувача імпортує ці повідомлення знов.
 [Open in &new window]
 &Відкрити у новому вікні
 [&Open in existing window]
@@ -236,9 +236,9 @@ dat (mContacts)
 [Save window position for all contacts]
 Зберегти положення вікна для всіх контактів
 [Do you want to save imported messages to local profile?]
-
+Ви хочете зберегти імпортовані повідомлення у локальний профіль?
 [File contains history for different contact. Do you want to change contact and import?]
-
+Файл містить історію для іншого контакту. Хочете змінити контакт і імпорт?
 [Error]
 Помилка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
@@ -266,7 +266,7 @@ dat (mContacts)
 [Searching]
 Пошук
 [Scheduler]
-Планувальник
+Планувач
 [Advanced]
 Додатково
 [>> Outgoing timestamp]
@@ -409,8 +409,6 @@ dat (mContacts)
 Фільтр:
 [Conversation started at %s]
 Розмова почалася %s
-[_files]
-
 [Menu]
 Меню
 [Open all]
@@ -434,31 +432,31 @@ dat (mContacts)
 [FTP path must contains '/' instead '\' and starts from '/'.]
 FTP-шлях повинен містити '/' замість '\' і починатися з '/'.
 [FTP path cannot contain <date> in import task.]
-
+FTP-шлях не може містити <date> в задачі імпорту.
 [Unknown error]
 Невідома помилка
 [Cannot get FTP file(s).]
-
+Неможливо завантажити FTP файл(и).
 [Cannot unzip file(s).]
-
+Неможливо разархівувати файл(и).
 [Incorrect file format: %s.]
-
+Некоректний формат файлу: %S.
 [Unknown contact in file: %s.]
-
+Невідомий контакт у файлу: %s.
 [Cannot export history for contact: %s.]
-
+Неможливо експортувати історію для контакту: %s
 [Cannot compress file(s).]
-
+Неможливо архівувати файл(и).
 [Cannot send FTP file(s).]
-
+Неможливо відіслати FTP файл(и).
 [Task finished]
-
+Завдання завершено
 [Task '%s' execution failed]
-
+Виконання завдання '%s' не вдалося
 [Task '%s' finished successfully]
-
+Завдання '%s' завершено
 [Task '%s' execution failed:]
-
+Виконання завдання '%s' не вдалося:
 ["%s" not found]
 "%s" не знайдено
 [Search]

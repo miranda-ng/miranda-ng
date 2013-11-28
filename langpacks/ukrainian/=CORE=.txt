@@ -1,9 +1,12 @@
-﻿[Enter account name (for example, My Google)]
+﻿;file \src\resource.rc
+[Enter account name (for example, My Google)]
 Вкажіть ім'я облікового запису (напр., Google)
 [Choose the protocol type]
-Виберіть тип протоколу
+Оберіть протокол
 [Specify the internal account name (optional)]
 Внутрішнє ім'я облікового запису (необов'язково)
+[OK]
+
 [Cancel]
 Скасувати
 [Add %s]
@@ -25,15 +28,15 @@
 [Options]
 Налаштування
 [Authorization request]
-Запит на авторизацію
+Запит авторизації
 [Delete Contact]
-Видалити контакт
+
 [&Yes]
 &Так
 [&No]
 &Ні
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-Сховати зі списку, зберігши історію і параметри ігнорування та видимості
+Сховати зі списку (зберігши історію і налаштування ігнорування/видимості)
 [Use Options->Contacts->Ignore to unhide contacts.]
 Приховані контакти: Налаштування -> Контакти -> Ігнорувати
 [Are you sure you want to delete %s?]
@@ -41,7 +44,7 @@
 [This will erase all history and settings for this contact!]
 Ця дія видалить УСЮ історію і налаштування цього контакту!
 [Contact Display Options]
-Налаштування показу контактів
+
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Виберіть інший пріоритет показу імен (замість показу ніків):
 [Miranda NG Profile Manager]
@@ -79,7 +82,7 @@
 [Custom]
 Вказане
 [Find/Add Contacts\nHere you can add contacts to your contact list]
-Знайти/додати контакт\nТут можна додати контакти до свого списку контактів
+
 [Options\nConfigure your Miranda NG options]
 Налаштування\nНалаштуйте Miranda NG згідно своїх вподобань
 [Apply]
@@ -89,7 +92,7 @@
 [Please select a subentry from the list]
 Виберіть підпункт зі списку
 [Install Database Settings]
-Встановіть параметри БД
+
 [Yes]
 Так
 [No]
@@ -105,7 +108,7 @@
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Захист від небезпечних змін ввімкнено. При спробі небезпечної зміни налаштувань буде попередження.
 [Database Setting Change]
-Зміна налаштувань БД
+
 [Database settings are being imported from]
 Відбувається імпорт налаштувань з
 [This file wishes to change the setting]
@@ -117,9 +120,9 @@
 [&Allow all further changes to this section]
 &Дозволити усі зміни у цьому розділі
 [Cancel Import]
-Скасувати імпорт
+
 [Database Import Complete]
-Імпорт бази даних завершено
+
 [The import has completed from]
 Завершено імпортування з
 [What do you want to do with the file now?]
@@ -133,7 +136,7 @@
 [&Leave]
 &Залишити
 [Netlib Log Options]
-Опції журналу з'єднань
+
 [Show]
 Показати
 [Received bytes]
@@ -150,6 +153,8 @@
 Імена викликаючих модулів
 [Log to]
 Писати в
+[OutputDebugString()]
+OutputDebugString()
 [File]
 Файл
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
@@ -161,7 +166,7 @@
 [Save as default]
 Зберегти налаштув.
 [SSL Traffic]
-Трафік SSL
+
 [Sounds]
 Звуки
 [&Change...]
@@ -171,7 +176,7 @@
 [Download more sounds]
 Завантажити більше звуків
 [Sound Information]
-Інформація звуку
+
 [Location:]
 Місце:
 [Name:]
@@ -199,7 +204,7 @@
 [Online Notification]
 Сповіщення "Онлайн"
 [Auth Requests]
-Запити на авторизацію
+
 [All Events]
 Усі події
 [None]
@@ -288,6 +293,8 @@
 Опис:
 [Author(s):]
 Автор(и):
+[E-mail:]
+
 [Homepage:]
 Сайт:
 [Unique ID:]
@@ -299,7 +306,7 @@
 [Fonts and Colors]
 Шрифти і кольори
 [Undo]
-Скасувати
+Відкат
 [Reset]
 Скинути
 [Export...]
@@ -404,6 +411,8 @@
 &Оновити
 [&Remove...]
 Ви&далити...
+[Miranda NG]
+
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG перезапускається.\nЗачекайте...
 [Error Console]
@@ -422,6 +431,8 @@ Miranda NG перезапускається.\nЗачекайте...
 Дрібний текст:
 [This font is used to display various addtional notes.]
 Шрифт для додаткового тексту, приміток.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+
 [Event icon legend:]
 Події:
 [Choose events you wish to ignore:]
@@ -479,7 +490,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [&Add to List]
 Додати до списку
 [User &details]
-&Про користувача
+Дані контакту
 [Send &Message]
 Надіслати &повідомлення
 [Log]
@@ -504,6 +515,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Скинути на стандартне
 [Ungroup]
 Розгрупувати
+;file \src\core\stdauth\resource.rc
 [&Authorize]
 Дозволити
 [&Deny]
@@ -520,6 +532,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Вас додали
 [&Close]
 Закрити
+;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s (%s)
 [Retrieving %s message...]
@@ -542,34 +555,53 @@ Miranda NG перезапускається.\nЗачекайте...
 Змінити повідомлення "%s"
 [Closing in %d]
 Закриття (%d)
+;file \src\core\stdchat\res\chat.rc
 [&Send]
 Над&іслати
+[&Emoticons]
+
+[&Bold]
+
+[&Italic]
+
+[&Color]
+
+[&Background color]
+
+[&History]
+
+[&Filter]
+
+[&Room Settings]
+
+[&Show/hide nicklist]
+
 [Show these events only:]
-Показувати лише:
+Показувати тільки:
 [Actions]
 Дії
 [Nick changes]
-Зміни ніків
+Зміна ніка
 [Users joining]
-Входи до чату
+Вхід у чат
 [Users leaving]
 Виходи з чату
 [Topic changes]
 Зміни теми
 [Status changes]
-Зміни статусів
+Зміни статусу
 [Information]
-Інформацію
+Інформація
 [Disconnects]
 Відключення
 [User kicks]
 Стусани
 [Notices]
-Приватні повідомл.
+Повідомлення
 [Log Options]
 Налаштування журналу
 [Log timestamp]
-Формат дати
+Записувати час
 [Timestamp]
 Час
 [Other name]
@@ -577,33 +609,33 @@ Miranda NG перезапускається.\nЗачекайте...
 [Your name]
 Ваше ім'я
 [Enable highlighting]
-Ввімкнути підсвічування
+Включити виділення
 [Limit log text to (events):]
 Кількість подій у журналі:
 [Trim to (KB)]
-Обрізати до (КБ)
+Ліміт (КБ)
 [Words to highlight (wildcards allowed)]
-Підсвічувати слова (дозволені шаблони заміни)
+Слова для підсвічування (можна маски)
 [Enable logging to disk]
-Записувати журнал на диск
+Запис журналу на диск
 [Log directory]
 Папка журналу
 [Other]
 Інше
 [Add new rooms to group:]
-Додавати кімнати до групи:
+Додати чат-кімнати в групу:
 [Userlist row distance (pixels):]
 Відстань між рядками (пікселі):
 [Use same style as in the message log]
-Використ. стиль журналу повідомлень
+Той же стиль, що і в журналі
 [Use default colors]
-Стандартні кольори
+Кольори за замовчанням
 [Use custom colors]
-Вказати кольори
+Задати кольори
 [Popups for the Chat plugin]
 Спливаючі вікна чату
 [Timeout (s)]
-Затримка (с)
+Тривалість (с)
 [Text]
 Текст
 [Background]
@@ -615,21 +647,25 @@ Miranda NG перезапускається.\nЗачекайте...
 [&Message]
 Повідомлення
 [Clear lo&g]
-Очистити журнал
+Очистити ча&т
 [Co&py all]
-Коп&іювати все
+Копіювати всі
 [Word lookup]
 Пошук слова
+[Google]
+
+[Wikipedia]
+
 [Link]
 Посилання
 [Open a &new browser window]
-Відкрити у новому вікні
+Відкрити в &новому вікні
 [&Open in current browser window]
 Відкрити у поточному вікні
 [Message]
 Повідомлення
 [Redo]
-Повторити
+Повернути
 [Copy]
 Копіювати
 [Cut]
@@ -637,25 +673,26 @@ Miranda NG перезапускається.\nЗачекайте...
 [Paste]
 Вставити
 [Select All]
-Вибрати все
+Виділити всі
 [Clear]
 Очистити
 [Tabs]
 Вкладки
 [&Close tab]
-&Закрити вкладку
+Закрити вкладку
 [C&lose other tabs]
 З&акрити інші вкладки
 [&Open at this position]
-Від&крити на цій позиції
+Відкрити в цьому місці
+;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
-Сховати від'єднаних
+Приховати відключених
 [Hide empty groups]
-Сховати порожні групи
+Приховати порожні групи
 [Disable groups]
-Вимкнути групи
+Відключити групи
 [Ask before deleting contacts]
-Запит перед видаленням
+Підтвердження видалення
 [Sort contacts by name]
 за ім'ям
 [Sort contacts by status]
@@ -667,49 +704,49 @@ Miranda NG перезапускається.\nЗачекайте...
 [Always show status in tooltip]
 Завжди показувати статус у підказці
 [Disable icon blinking]
-Вимкнути миготіння
+Вимкнути блимання
 [ms delay]
 Затримка (мс)
 [icon when statuses differ]
 при різних статусах
 [Cycle icons every]
-Змінювати значок кожні
+Міняти кожні
 [seconds, when statuses differ]
-секунд при різних статусах
+секунд, при різних статусах
 [Show multiple icons]
-Декілька значків
+Кілька значків
 [Only when statuses differ]
-при різних статусах
+При різних статусах
 [Contact List]
 Список контактів
 [System tray icon]
-Значок у треї
+Значок в треї
 [System tray icon when using multiple protocols]
-Значки протоколів у треї
+Піктограми протоколів в системному лотку
 [Contact List Sorting]
-Впорядкування списку
+Сортування списку контактів
 [Window]
 Вікно
 [Always on top]
 Поверх усіх вікон
 [Tool style main window]
-Вікно як панель інструментів
+Стиль панелі заголовка
 [Minimize to tray]
-Згортати до трею
+Приховати в системний лоток
 [Show menu bar]
-Показувати кнопки
+Показувати меню
 [Easy move]
 Просте переміщення
 [Show title bar]
 Показувати заголовок
 [Title bar text:]
-Заголовок:
+Заголовок вікна:
 [Show drop shadow (restart required)]
-Ввімкнути тінь (потрібен перезапуск)
+Тінь (потрібен перезапуск)
 [Pin to desktop]
-Прикріпити до столу
+Прикріпити до робочого столу
 [Hide contact list after it has been idle for]
-Сховати список після неактивності:
+Сховати список, якщо не активний протягом:
 [seconds]
 секунд
 [Automatically resize window to height of list]
@@ -717,17 +754,17 @@ Miranda NG перезапускається.\nЗачекайте...
 [maximum]
 максимум
 [% of screen]
-% екрану
+% від екрану
 [Size upwards]
 Розтягувати вгору
 [If window is partially covered, bring to front instead of hiding]
-Помістити вікно на передній план, якщо його перекрито іншими вікнами
+Помістити вікно на передній план, якщо воно прикрите іншими вікнами
 [Enable docking]
 Дозволити парковку вікна
 [Translucency options]
-Прозорість
+Налаштування прозорості
 [Fade contact list in/out]
-Плавно згортати/розгортати список
+Плавно сховати список
 [Transparent contact list]
 Прозорий список контактів
 [Inactive opacity:]
@@ -739,39 +776,39 @@ Miranda NG перезапускається.\nЗачекайте...
 [Show divider between online and offline contacts]
 Розділяти користувачів онлайн та від'єднаних
 [Hot track items as mouse passes over]
-Підсвітка під курсором миші
+Підсвічування під курсором миші
 [Disable drag and drop of items]
-Вимкнути перетягування елементів
+Відключити перетягування елементів
 [Disable rename of items by clicking twice]
-Вимкнути перейменування при двокліку
+Відключити перейменування за двома клацанням
 [Show selection even when list is not focused]
-Виділяти навіть якщо вікно неактивне
+Виділення, навіть якщо вікно неактивне
 [Make selection highlight translucent]
 Напівпрозоре виділення
 [Dim idle contacts]
-Затемняти неактивних користувачів
+Затемнити неактивних користувачів
 ['Hide Offline' means to hide:]
-Сховати від'єднаних = сховати:
+'Приховати відключених' - приховати:
 [Groups]
 Групи
 [Draw a line alongside group names]
-Лінія вздовж назви групи
+Лінія вздовж назв груп
 [Show counts of number of contacts in a group]
-Показувати кількість користувачів у групах
+Показати кількість користувачів в групах
 [Hide group counts when there are none online]
-Ховати лічильник, якщо нема користувачів онлайн
+Приховати лічильник, якщо немає користувачів в мережі
 [Sort groups alphabetically]
-Впорядкувати групи за абеткою
+Сортувати групи за алфавітом
 [Quicksearch in open groups only]
 Швидкий пошук лише у відкритих групах
 [Indent groups by:]
-Відступ груп:
+Відступ для груп:
 [pixels]
 пікселів
 [Visual]
-Зовнішній вигляд
+Візуальні налаштування
 [Scroll list smoothly]
-Плавне прокручування списку
+Плавне прокручування
 [Time:]
 Час:
 [milliseconds]
@@ -779,15 +816,15 @@ Miranda NG перезапускається.\nЗачекайте...
 [Left margin:]
 Ліве поле:
 [Hide vertical scroll bar]
-Сховати смугу прокрутки
+Приховати смугу прокручування
 [Row height:]
 Висота рядків:
 [Gamma correction]
-Корекція гамми
+Корекція гами
 [Gray out entire list when:]
 Зробити сірим, якщо:
 [Contact List Background]
-Фон списку контактів
+Фон списку
 [Background color]
 Колір фону
 [Selection color]
@@ -795,9 +832,9 @@ Miranda NG перезапускається.\nЗачекайте...
 [Use background image]
 Фонове зображення
 [Stretch to width]
-Розтягнути у ширину
+Розтягнути по ширині
 [Stretch to height]
-Розтягнути у висоту
+Розтягнути по висоті
 [Tile horizontally]
 Горизонтальна мозаїка
 [Tile vertically]
@@ -838,6 +875,8 @@ Miranda NG перезапускається.\nЗачекайте...
 Вікно:
 [Contact list background:]
 Фон списку контактів:
+[&Main menu]
+Головне меню
 [&Status]
 Статус
 [&Offline\tCtrl+0]
@@ -860,6 +899,7 @@ Miranda NG перезапускається.\nЗачекайте...
 &Телефоную\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Обі&даю\tCtrl+9
+;file \src\core\stdfile\resource.rc
 [Send File(s)]
 Надіслати файл(и)
 [To:]
@@ -870,6 +910,8 @@ Miranda NG перезапускається.\nЗачекайте...
 Вибрати знову...
 [Total size:]
 Загальний розмір:
+[&User menu]
+
 [Incoming File Transfer]
 Вхідний файл
 [A&ccept]
@@ -884,6 +926,10 @@ Miranda NG перезапускається.\nЗачекайте...
 Файли:
 [Save to:]
 Зберегти до:
+[&Open...]
+
+[Open &folder]
+
 [Transfer completed, open file(s).]
 Передачу завершено, відкрити файл(и).
 [No data transferred]
@@ -953,7 +999,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [As each file finishes downloading]
 Після завантаження кожного файлу
 [Command line:]
-Команд. рядок:
+Ком. рядок:
 [%f will be replaced by the file or folder name to be scanned]
 %f - ім'я файлу чи папки, що перевіряється
 [Warn me before opening a file that has not been scanned]
@@ -966,12 +1012,20 @@ Miranda NG перезапускається.\nЗачекайте...
 Перейменувати: додати "(1)"
 [You will always be asked about files from people not on your contact list]
 Запит буде показано завжди, якщо відправник поза списком
+;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Про Miranda NG
+[Miranda NG\n%s]
+
 [Credits >]
 Автори >
+;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Перейти до режиму очікування, якщо неактивні:
+[Windows]
+
+[Miranda]
+
 [Become idle if the screen saver is active]
 Режим очікування, якщо працює заставка екрану
 [Become idle if the computer is locked]
@@ -998,20 +1052,21 @@ Miranda NG перезапускається.\nЗачекайте...
 Режим очікування, якщо комп'ютер неактивний протягом:
 [Idle (auto-away):]
 Режим очікування:
+;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Відкривати вікно, якщо:
 [In background]
 У фоні
 [Close the message window on send]
-Закривати вікно після надсилання
+Закривати вікно після відправлення
 [Minimize the message window on send]
-Згортати вікно після надсилання
+Згортати вікно після відправлення
 [Use the contact's status icon as the window icon]
 Значок статусу контакту в заголовку вікна
 [Save the window size and location individually for each contact]
 Зберігати розмір і розташування вікна для кожного контакту
 [Cascade new windows]
-Розміщувати нові вікна каскадом
+Розташовувати нові вікна каскадом
 [Show 'Send' button]
 Показувати кнопку "Надіслати"
 [Show username on top row]
@@ -1019,9 +1074,9 @@ Miranda NG перезапускається.\nЗачекайте...
 [Show toolbar buttons on top row]
 Кнопки у верхньому рядку
 [Send message on double 'Enter']
-Надсилати подвійним натисканням Enter
+Посилати по подвійному Enter
 [Send message on 'Enter']
-Надсилати натисканням Enter
+Посилати по Enter
 [Show character count]
 Показувати лічильник символів
 [Show warning when message has not been received after]
@@ -1037,17 +1092,19 @@ Miranda NG перезапускається.\nЗачекайте...
 [Max Number of Flashes]
 Максимальна кількість блимань
 [Send Error]
-Помилка надсилання
+Помилка відсилання
 [An error has occurred. The protocol reported the following error:]
-Протокол повідомляє про наступну помилку:
+Протокол повернув наступну помилку:
 [while sending the following message:]
 при спробі надіслати повідомлення:
 [Try again]
-Повторити
+Ще раз
 [Message Session]
 Вікно повідомлень
+[&Details]
+
 [Message Window Event Log]
-Журнал у вікні повідомлень
+Журнал у вікні діалогу
 [Show names]
 Показувати імена
 [Show timestamp]
@@ -1057,9 +1114,9 @@ Miranda NG перезапускається.\nЗачекайте...
 [Load unread events only]
 Лише непереглянуті події
 [Load number of previous events]
-Попередні події у кількості
+Попередні події в кількості
 [Load previous events less than]
-Події, отримані пізніше ніж
+Події, отримані менше ніж
 [minutes old]
 хвилин тому
 [Show status changes]
@@ -1071,17 +1128,17 @@ Miranda NG перезапускається.\nЗачекайте...
 [Show Formatting]
 Показувати форматування
 [Send typing notifications to the following users when you are typing a message to them:]
-Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
+Сповіщати позначених користувачів про те, що ви набираєте повідомлення:
 [Show typing notifications when a user is typing a message]
-Cповіщати, коли співрозмовник друкує повідомлення
+Показувати повідомлення про набір тексту
 [Update inactive message window icons when a user is typing]
 Оновлювати значок неактивного вікна, коли користувач друкує
 [Show typing notification when no message dialog is open]
-Cповіщати про друк, коли вікно повідомлень закрите
+Повідомляти про набір тексту, коли вікно розмови не відкрито
 [Flash in the system tray and in the contact list]
-Миготінням у треї та списку контактів
+Блимати в треї і в списку контактів
 [Show balloon popup]
-Підказкою у треї
+Показувати підказку
 [Save the window position for each contact]
 Зберігати позицію вікна для кожного контакту
 [Message window behavior:]
@@ -1094,6 +1151,7 @@ Cповіщати про друк, коли вікно повідомлень з
 Вставити й надіслати
 [Delete]
 Видалити
+;file \src\core\stduihist\resource.rc
 [Find]
 Пошук
 [&Find Next]
@@ -1104,6 +1162,7 @@ Cповіщати про друк, коли вікно повідомлень з
 Історія повідомлень
 [&Find...]
 Зн&айти...
+;file \src\core\stduserinfo\resource.rc
 [Add Phone Number]
 Додати номер телефону
 [Enter country, area code and phone number:]
@@ -1174,6 +1233,7 @@ Iндекс:
 Посада:
 [Website:]
 Сайт:
+;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s запитує авторизацію
 [%u requests authorization]
@@ -1183,9 +1243,10 @@ Iндекс:
 [%u added you to their contact list]
 %u додав вас до свого списку контактів
 [Alerts]
-Сповіщення
+Повідомлення
 [Added event]
 Подія "Вас додали"
+;file \src\core\stdauth\authdialogs.cpp
 [View User's Details]
 Про користувача
 [Add Contact Permanently to List]
@@ -1210,10 +1271,12 @@ Iндекс:
 %s запитав(ла) авторизацію\n%s о %s
 [Feature is not supported by protocol]
 Не підтримується протоколом
+;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s Message]
 Читати повідомлення "%s"
 [Re&ad Status Message]
 Читати статусне повідомлення
+;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Відійшов о %time%. Скоро повернуся.
 [Give it up, I'm not in!]
@@ -1238,74 +1301,78 @@ Iндекс:
 очікування...
 [Status]
 Статус
+;file \src\core\stdchat\src\clist.cpp
 [Join chat]
 Увійти до чату
 [Open chat window]
 Відкрити вікно чату
+;file \src\core\stdchat\src\colorchooser.cpp
 [Text color]
 Колір тексту
+;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s увійшов
 [You have joined %s]
-Ви приєдналися %s
+Ви прийшли на '%s'
 [%s has left]
 %s вийшов
 [%s has disconnected]
-%s від'єднався
+%s відключився
 [%s is now known as %s]
 %s змінив ім'я на %s
 [You are now known as %s]
-Ви відомі як %s
+Тепер ви відомі як %s
 [%s kicked %s]
-%s вигнав %s
+%s викинув %s
 [Notice from %s: ]
-Приватне повідомлення від %s:\s
+Повідомлення від %s:\s
 [The topic is '%s%s']
 Тема '%s%s'
 [ (set by %s on %s)]
  (встановив %s %s)
 [ (set by %s)]
- (встановив %s)
+(вставлена %s)
 [%s enables '%s' status for %s]
 %s вмикає статус '%s' для %s
 [%s disables '%s' status for %s]
-%s вимикає статус "%s" для %s
+%s вимикає статус '%s' для %s
 [<invalid>]
 <неправильно>
+;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
-Ніки інших
+Інші псевдоніми
 [Your nickname]
-Ваш нік
+Ваш псевдонім
 [User has joined]
-Входи до чату
+Користувач приєднався
 [User has left]
-Виходи з чату
+Користувач пішов
 [User has disconnected]
-Користувач від'єднався
+Користувач відключився
 [User kicked ...]
-Стусани
+Стусан
 [User is now known as ...]
-Зміни ніків
+Зміна псевдоніма
 [Notice from user]
-Приватні повідомлення
+Повідомлення
 [Incoming message]
-Вхідні повідомлення
+Вхідне повідомлення
 [Outgoing message]
-Вихідні повідомлення
+Вихідне повідомлення
 [The topic is ...]
-Зміни теми
+Зміна теми
 [Information messages]
 Інформаційні повідомлення
 [User enables status for ...]
-Ввімкнення статусу ...
+Встановлення статусу
 [User disables status for ...]
-Вимкнення статусу
+Зняття статусу
 [Action message]
-Дії
+Дія
 [Highlighted message]
-Підсвічені повідомлення
+Підсвічене повідомлення
 [Message typing area]
-Поле вводу повідомлення
+Поле набору тексту
 [User list members (online)]
 Користувачі (онлайн)
 [User list members (away)]
@@ -1323,11 +1390,11 @@ Iндекс:
 [Send message by pressing the Enter key twice]
 Надсилати подвійним натисканням Enter
 [Flash window when someone speaks]
-Мигання вікна, якщо є нове повідомлення
+Блимати вікном, якщо є нове повідомлення
 [Flash window when a word is highlighted]
-Мигання вікна, якщо є підсвічене повідомлення
+Блимати вікном, якщо є підсвічені повідомлення
 [Show list of users in the chat room]
-Показувати у кімнаті чату список користувачів
+Показувати список користувачів у чат-кімнаті
 [Show button for sending messages]
 Показувати кнопку надсилання повідомлення
 [Show buttons for controlling the chat room]
@@ -1335,67 +1402,67 @@ Iндекс:
 [Show buttons for formatting the text you are typing]
 Показувати кнопки форматування тексту
 [Show button menus when right clicking the buttons]
-Показувати меню кнопоки за натисненням правої кнопки миші
+Показувати меню кнопки правим клацанням
 [Show new windows cascaded]
 Розміщувати нові вікна каскадом
 [Save the size and position of chat rooms]
 Зберігати розмір і позицію вікон чату
 [Show the topic of the room on your contact list (if supported)]
-Показувати тему кімнати у списку контактів (якщо підтримується)
+Показувати тему чат-кімнати в списку контактів (якщо підтримується)
 [Do not play sounds when the chat room is focused]
-Без звуків, якщо вікно чату активне
+Не грати звук, коли чат-кімната на передньому плані
 [Do not pop up the window when joining a chat room]
-Не відкривати вікно чату при вході до кімнати
+Не відкривати вікно чату при вході в чат-кімнату
 [Toggle the visible state when double clicking in the contact list]
 Перемикати видимість подвійним клацанням у списку контактів
 [Show contact statuses if protocol supports them]
-Показувати статуси (якщо підтримується протоколом)
+Показувати статуси, якщо є підтримка в протоколі
 [Display contact status icon before user role icon]
-Показувати значок статусу перед значком ролі
+Показувати піктограму статусу перед значком ролі
 [Prefix all events with a timestamp]
-Показувати час для всіх подій
+Підставляти час у всі події
 [Only prefix with timestamp if it has changed]
-Показувати час, якщо він змінився
+Підставляти час, якщо є зміни
 [Timestamp has same color as the event]
-Часова мітка того ж кольору що й подія
+Показувати час тим же кольором, що і подія
 [Indent the second line of a message]
 Відступ другого рядка повідомлення
 [Limit user names in the message log to 20 characters]
-Обмежити імена в журналі до 20 символів
+Обмежити імена в журналі 20-ма символами
 [Add ':' to auto-completed user names]
 Додавати ":" до імен користувачів
 [Strip colors from messages in the log]
 Заборонити кольори в журналі
 [Enable the 'event filter' for new rooms]
-Ввімкнути "Фільтр подій" для нових кімнат
+Включити "Фільтр подій" для нових чат-кімнат
 [Show topic changes]
-Зміни теми
+Зміна теми
 [Show users joining]
-Входи до чату
+Нові користувачі
 [Show users disconnecting]
-Від'єднання користувачів
+Користувачі, які покинули сервер
 [Show messages]
 Повідомлення
 [Show actions]
 Дії
 [Show users leaving]
-Виходи з чату
+Користувачі, які покинули чат-кімнату
 [Show users being kicked]
-Стусани
+Стусани з чат-кімнати
 [Show notices]
-Приватні повідомлення
+Повідомлення
 [Show users changing name]
-Зміни ніків
+Зміна псевдоніма
 [Show information messages]
 Інформаційні повідомлення
 [Show status changes of users]
-Зміни статусів
+Зміна статусу
 [Show icon for topic changes]
 Зміни теми
 [Show icon for users joining]
-Входи до чату
+Нові користувачі
 [Show icon for users disconnecting]
-Від'єднання користувачів
+Відключення учасників
 [Show icon for messages]
 Повідомлення
 [Show icon for actions]
@@ -1403,11 +1470,11 @@ Iндекс:
 [Show icon for highlights]
 Підсвічені повідомлення
 [Show icon for users leaving]
-Виходи з чату
+Виходи учасників
 [Show icon for users kicking other user]
 Стусани
 [Show icon for notices]
-Приватні повідомлення
+Повідомлення
 [Show icon for name changes]
 Зміни ніків
 [Show icon for information messages]
@@ -1415,13 +1482,13 @@ Iндекс:
 [Show icon for status changes]
 Зміни статусів
 [Show icons in tray only when the chat room is not active]
-Показувати значки лише коли вікно чату неактивне
+Показувати значки тільки коли вікно чат-кімнати неактивне
 [Show icon in tray for topic changes]
-Зміни теми
+Зміна теми
 [Show icon in tray for users joining]
-Входи до чату
+Підключення учасників
 [Show icon in tray for users disconnecting]
-Від'єднання користувачів
+Відключення учасників
 [Show icon in tray for messages]
 Повідомлення
 [Show icon in tray for actions]
@@ -1429,25 +1496,25 @@ Iндекс:
 [Show icon in tray for highlights]
 Підсвічені повідомлення
 [Show icon in tray for users leaving]
-Виходи з чату
+Виходи учасників
 [Show icon in tray for users kicking other user]
 Стусани
 [Show icon in tray for notices]
-Приватні повідомлення
+Показувати піктограму повідомлення в треї
 [Show icon in tray for name changes]
-Зміни ніків
+Зміни псевдонімів
 [Show icon in tray for information messages]
 Інформаційні повідомлення
 [Show icon in tray for status changes]
 Зміни статусів
 [Show popups only when the chat room is not active]
-Показувати сплив. вікна лише коли вікно чату неактивне
+Показувати сплив. вікна тільки коли вікно чат-кімнати не активне
 [Show popup for topic changes]
 Зміни теми
 [Show popup for users joining]
-Входи до чату
+Підключення учасників
 [Show popup for users disconnecting]
-Від'єднання користувачів
+Відключення учасників
 [Show popup for messages]
 Повідомлення
 [Show popup for actions]
@@ -1455,11 +1522,11 @@ Iндекс:
 [Show popup for highlights]
 Підсвічені повідомлення
 [Show popup for users leaving]
-Виходи з чату
+Виходи учасників
 [Show popup for users kicking other user]
 Стусани
 [Show popup for notices]
-Приватні повідомлення
+Спливаючі вікна повідомлень
 [Show popup for name changes]
 Зміни ніків
 [Show popup for information messages]
@@ -1485,21 +1552,21 @@ Iндекс:
 [Underlined]
 Підкреслений
 [Smiley button]
-Вставити смайл
+Смайли
 [Room history]
-Історія чату
+Історія
 [Room settings]
-Параметри кімнати
+Налаштування
 [Event filter disabled]
-Ввімкнути фільтр
+Фільтр подій вимкнено
 [Event filter enabled]
-Вимкнути фільтр
+Фільтр подій включено
 [Hide userlist]
 Сховати список користувачів
 [Show userlist]
 Показати список користувачів
 [Icon overlay]
-Значок зверху
+Значок поверх
 [Status 1 (10x10)]
 Статус 1 (10x10)
 [Status 2 (10x10)]
@@ -1513,51 +1580,51 @@ Iндекс:
 [Status 6 (10x10)]
 Статус 6 (10x10)
 [Message in (10x10)]
-Отримане повідомлення (10x10)
+Прийняте повідомлення (10х10)
 [Message out (10x10)]
-Надіслане повідомлення (10x10)
+Надіслане повідомлення (10х10)
 [Action (10x10)]
 Дія (10x10)
 [Add Status (10x10)]
-Додати статус (10x10)
+Додати статус (10х10)
 [Remove status (10x10)]
-Видалити статус (10x10)
+Видалити статус (10х10)
 [Join (10x10)]
 Увійти (10x10)
 [Leave (10x10)]
-Вийти (10x10)
+Залишити (10х10)
 [Quit (10x10)]
-Від'єднатися (10x10)
+Вихід (10х10)
 [Kick (10x10)]
-Стусани (10x10)
+Вигнати (10х10)
 [Nickchange (10x10)]
-Зміна ніку (10x10)
+Зміна псевдоніма (10х10)
 [Notice (10x10)]
-Приватне повідомлення (10x10)
+Повідомлення (10x10)
 [Topic (10x10)]
-Тема (10x10)
+Тема (10х10)
 [Highlight (10x10)]
-Підсвічування (10x10)
+Виділити (10х10)
 [Information (10x10)]
-Інформація (10x10)
+Інформація (10х10)
 [Messaging]
 Повідомлення
 [Group chats]
-Групові чати
+Чати
 [Group chats log]
 Журнал чатів
 [Options for using a tabbed interface]
 Налаштування вкладок
 [Appearance and functionality of chat room windows]
-Інтерфейс та функції вікон чатів
+Інтерфейс і функціональність вікон чату
 [Appearance of the message log]
-Вигляд журналу повідомлень
+Зовнішній вигляд журналу повідомлень
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-Показувати у новому вікні, якщо "Фільтр подій" ввімкнений
+Показати в новому вікні, якщо "Фільтр подій" включений
 [Icons to display in the message log]
-Значки в журналі повідомлень
+Значки повідомлень журналу
 [Icons to display in the tray]
-Значки у треї
+Піктограми в системному лотку
 [Popups to display]
 Спливаючі вікна
 [Select Folder]
@@ -1573,61 +1640,64 @@ Iндекс:
 [Popups]
 Спливаючі вікна
 [Message is highlighted]
-Підсвічені повідомлення
+Повідомлення виділено
 [User has performed an action]
 Дії
 [User has kicked some other user]
-Стусани
+Користувач вигнав іншого
 [User's status was changed]
-Зміни статусів
+Статус користувача змінився
 [User has changed name]
-Зміни ніків
+Користувач змінив ім'я
 [User has sent a notice]
-Приватні повідомлення
+Користувач відправив повідомлення
 [The topic has been changed]
-Зміни теми
+Тема змінилася
+;file \src\core\stdchat\src\services.cpp
 [&Join]
-Увійти до чату
+Зайти
+;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
-%s потребує вашої уваги в %s
+%s потребує Вашої уваги, в %s
 [%s speaks in %s]
-%s говорить в %s
+%s говорить %s
 [%s has joined %s]
-%s увійшов до %s
+%s увійшов у %s
 [%s has left %s]
 %s вийшов з %s
 [%s kicked %s from %s]
-%s вигнав %s з %s
+%s викинув %s з %s
 [Notice from %s]
-Приватне повідомлення від %s
+Повідомлення від %s
 [Topic change in %s]
-Зміна теми в %s
+Зміна теми у %s
 [Information in %s]
-Інформація у %s
+Інформація в %s
 [%s enables '%s' status for %s in %s]
-%s вмикає статус "%s" для %s у %s
+%s включає статус '%s' для %s у %s
 [%s disables '%s' status for %s in %s]
-%s вимикає статус "%s" для %s у %s
+%s вимикає статус '%s' для %s у %s
 [%s says: %s]
 %s каже: %s
 [%s has left (%s)]
 %s вийшов (%s)
 [%s has disconnected (%s)]
-%s від'єднався (%s)
+%s відключився (%s)
 [%s kicked %s (%s)]
-%s вигнав %s (%s)
+%s викинув %s (%s)
 [Notice from %s: %s]
-Приватне повідомлення від %s: %s
+Повідомлення від %s: %s
 [The topic is '%s']
-Тема: %s
+Тема '%s'
 [The topic is '%s' (set by %s)]
-Тема %s (встановив %s)
+Тема '%s' (встановлена %s)
 [Look up '%s':]
-Шукати "%s" у
+Шукати '%s':
 [No word to look up]
-Нічого шукати
+Немає слів для перегляду
 [&Message %s]
 &Написати %s
+;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Вставити смайл
 [Make the text bold (CTRL+B)]
@@ -1645,15 +1715,15 @@ Iндекс:
 [Show/hide the nicklist (CTRL+N)]
 Показати/сховати список користувачів (Ctrl+N)
 [Control this room (CTRL+O)]
-Налаштування кімнати (Ctrl+O)
+Контролювати цю чат-кімнату (Ctrl+O)
 [Enable/disable the event filter (CTRL+F)]
-Ввімк./вимк. фільтр подій (Ctrl+F)
+Ввімкнути/вимкнути фільтр подій (Ctrl+F)
 [Close current tab (CTRL+F4)]
 Закрити поточну вкладку (Ctrl+F4)
 [%s: Chat Room (%u user)]
-%s - Чат (%u)
+%s: Чат-кімната (%u користувач)
 [%s: Chat Room (%u users)]
-%s - Чат (%u)
+%s: Чат-кімната (%u користувачів)
 [%s: Message Session]
 %s - Бесіда
 [%s: Message Session (%u users)]
@@ -1662,28 +1732,30 @@ Iндекс:
 Нік
 [Unique ID]
 Унікальний ID
+;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
-Звичайні контакти
+Стандартні контакти
 [Online contacts to whom you have a different visibility]
-Контакти зі зміненою видимістю (онлайн)
+Контакти зі зміненою видимістю (в мережі)
 [Offline contacts]
-Від'єднані контакти
+Відключені контакти
 [Contacts which are 'not on list']
-Контакти поза списком
+Контакти 'не в списку'
 [Group member counts]
 Лічильники груп
 [Dividers]
 Розділювачі
 [Offline contacts to whom you have a different visibility]
-Контакти зі зміненою видимістю (від'єднані)
+Контакти зі зміненою видимістю (відключені)
 [Selected Text]
 Виділений текст
 [Hottrack Text]
-Текст під курсором
+Під курсором
 [Quicksearch Text]
 Швидкий пошук
+;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
-Cписок неактивний
+Не в фокусі
 [Offline]
 Від'єднаний
 [Online]
@@ -1706,12 +1778,21 @@ Cписок неактивний
 Телефоную
 [List Background]
 Фон списку
+;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Глобальні
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
+
+;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Користувач не зареєстрував свою адресу E-mail.
 [Send e-mail]
 Надіслати E-mail
+[&E-mail]
+
+;file \src\core\stdfile\file.cpp
 [File from %s]
 Файл від %s
 [bytes]
@@ -1723,19 +1804,22 @@ Cписок неактивний
 [Incoming]
 Вхідні
 [Complete]
-Завершено
+Готово
 [Error]
 Помилка
 [Denied]
 Відхилено
+;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s файл
 [All Files]
 Усі файли
+;file \src\core\stdfile\fileopts.cpp
 [Executable Files]
 Виконувані файли
 [Events]
 Події
+;file \src\core\stdfile\filerecvdlg.cpp
 [My Received Files]
 Отримані файли
 [View User's History]
@@ -1744,10 +1828,12 @@ Cписок неактивний
 Меню користувача
 [Canceled]
 Скасовані
+;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d файлів
 [%d directories]
 %d папок
+;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Цей файл ще не перевірено антивірусом. Бажаєте відкрити цей файл?
 [File Received]
@@ -1800,10 +1886,13 @@ Cписок неактивний
 Перевірка на віруси...
 [Transfer and virus scan complete]
 Передачу та перевірку на віруси завершено
+;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Вихідні
+;file \src\core\stdhelp\about.cpp
 [< Copyright]
 < Права
+;file \src\core\stdhelp\help.cpp
 [&About...]
 Про Miranda NG
 [&Support]
@@ -1812,46 +1901,52 @@ Cписок неактивний
 Сайт Miranda NG
 [&Report Bug]
 Повідомити про помилку
+;file \src\core\stdidle\idle.cpp
 [Idle]
 Очікування
+;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Час надсилання повідомлення вичерпано.
+;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Вхідне повідомлення (10x10)
 [Outgoing message (10x10)]
 Вихідне повідомлення (10x10)
+;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
-Останнє повідомлення отримано %s о %s
+Останнє повідомлення ви отримали %s у %s.
 [signed off (was %s)]
-від'єднався (був %s)
+йде (був %s)
 [signed on (%s)]
-%s
+приходить (%s)
 [is now %s (was %s)]
-%s (був %s)
+тепер %s (був %s)
 [%s is typing a message...]
-%s друкує вам повідомлення...
+%s набирає текст...
+;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Надіслано файл
 [File received]
 Отримано файл
+;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Вихідні повідомлення
 [Incoming messages]
 Вхідні повідомлення
 [Outgoing name]
-Ваше ім'я
+Моє ім'я
 [Outgoing time]
-Час надсилання
+Час відправлення
 [Outgoing colon]
-Двокрапка у надісланих повідомленнях
+Двокрапка у вихідних повідомленнях
 [Incoming name]
 Ім'я співрозмовника
 [Incoming time]
 Час отримання
 [Incoming colon]
-Двокрапка в отриманих повідомленнях
+Двокрапка у вхідних повідомленнях
 [Message area]
-Поле вводу повідомлення
+Область повідомлень
 [Message Log]
 Журнал
 [** New contacts **]
@@ -1863,31 +1958,34 @@ Cписок неактивний
 [Messaging Log]
 Журнал
 [Typing Notify]
-Сповіщення про друк
+Набирає текст
+;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Повідомлення від %s
 [%s is typing a message]
-%s друкує вам повідомлення
+%s набирає текст
 [Typing Notification]
-Увага!
+Повідомлення про набір тексту
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не змогла завантажити вбудований модуль повідомлень, оскільки riched20.dll відсутній. Натисніть "Так" щоб продовжити запуск програми.
 [Instant messages]
-Повідомлення
+Миттєві повідомлення
 [Incoming (Focused Window)]
 Вхідні (активне вікно)
 [Incoming (Unfocused Window)]
 Вхідні (неактивне вікно)
 [Incoming (New Session)]
-Вхідні (нова бесіда)
+Вхідні (новий сеанс)
 [Message send error]
-Помилка надсилання
+Помилка відправки повідомлення
 [Contact started typing]
 Контакт почав друкувати повідомлення
 [Contact stopped typing]
 Контакт закінчив друкувати повідомлення
+;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невідома помилка.
+;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Повідомлення пошкоджене
 [Outgoing URL]
@@ -1906,14 +2004,19 @@ Miranda не змогла завантажити вбудований модул
 Видалити історію
 [View &History]
 Історія
+;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL від %s
 [Web Page Address (&URL)]
 Надіслати &URL
+[URL]
+
+;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Надіслати URL
 [Send timed out]
 Час надсилання вичерпано
+;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail Address]
 Змінити адресу E-mail
 [Edit Phone Number]
@@ -1934,6 +2037,7 @@ URL від %s
 Робочий телефон
 [Work Fax]
 Робочий факс
+;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Чоловіча
 [Female]
@@ -1952,24 +2056,30 @@ URL від %s
 Біографія
 [Notes]
 Нотатки
+;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Власник
 [View/Change My &Details...]
 Особисті дані
+;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s онлайн
+;file \src\modules\addcontact\addcontact.cpp
 [Add Contact]
 Додати контакт
 [Please authorize my request and add me to your contact list.]
 Будь ласка, авторизуйте мене і внесіть до свого списку контактів.
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 xСтатус
 [%s (locked)]
 %s (заблокований)
+;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Невідомий контакт)
-[&Main menu]
-Головне меню
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Цей контакт знаходиться у системі обміну миттєвими повідомленнями, яка зберігає списки контактів на сервері. Контакт буде видалено з серверу та локального списку при наступному з'єднанні.
 [De&lete]
@@ -1978,12 +2088,15 @@ xСтатус
 Перейменувати
 [&Add permanently to list]
 Додати до списку
+;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Задане ім'я (завжди перше)
 [Nick]
 Нік
 [FirstName]
 Ім'я
+[E-mail]
+
 [LastName]
 Прізвище
 [Username]
@@ -1998,12 +2111,15 @@ xСтатус
 '(Невідомий контакт)'
 [Contact names]
 Контакти
+;file \src\modules\clist\genmenu.cpp
 [Menu Icons]
 Значки меню
+;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Меню
 [Customize]
 Тонке налаштування
+;file \src\modules\clist\groups.cpp
 [New Group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2016,6 +2132,7 @@ xСтатус
 Перейменувати групу
 [This group]
 Ця група
+;file \src\modules\clist\keyboard.cpp
 [Show/Hide Contact List]
 Показати/сховати список контактів
 [Read Message]
@@ -2026,10 +2143,12 @@ xСтатус
 Опції журналу з'єднань
 [Open Find User Dialog]
 Знайти/додати контакти
+;file \src\modules\clist\movetogroup.cpp
 [&Move to Group]
 Пере&містити до групи
 [<Root Group>]
 <Коренева група>
+;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda намагається оновити вашу структуру зберігання профілів.\nНе вдається перемістити профіль %s на нове місце %s, бо профіль з таким ім'ям вже існує. Вирішіть проблему вручну.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
@@ -2048,6 +2167,7 @@ Miranda не може зрозуміти цей профіль
 Miranda не може відкрити "%s".\nДо нього немає доступу або він використовується іншою програмою чи іншою копією Miranda NG.
 [Miranda can't open that profile]
 Miranda не може відкрити цей профіль
+;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Захист від небезпечних змін ввімкнено, вас попередять про будь-які зміни налаштувань.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2062,6 +2182,7 @@ Miranda не може відкрити цей профіль
 Невідомо, чи є ця зміна налаштувань безпечною.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Хибний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
+;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль "%s" вже існує. Бажаєте перемістити його до смітника?\n\nУВАГА! Якщо смітник (кошик) вимкнено, то профіль буде безповоротно видалено.\nУВАГА! Профіль може містити конфіденційну інформцію і його потрібно видаляти належним чином.
 [The profile already exists]
@@ -2083,7 +2204,7 @@ Miranda не може відкрити цей профіль
 [Size]
 Розмір
 [Run]
-Запуск
+Запустити
 [Check database]
 Перевірити базу
 [Created]
@@ -2096,12 +2217,16 @@ Miranda не може відкрити цей профіль
 Мої профілі
 [New Profile]
 Створити профіль
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
 Активність у чаті
+;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 Активність у чаті
+;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
-Додаткові значки
+Екстра значки
+;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Ви не заповнили поле для пошуку. Сформуйте пошуковий запит і спробуйте знову.
 [Search]
@@ -2118,6 +2243,7 @@ Miranda не може відкрити цей профіль
 Назва
 [&Find/Add Contacts...]
 Зн&айти/додати контакти
+;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не можу запустити пошук у мережі %s. Перевірте з'єднання з %s.
 [Could not search on any of the protocols, are you online?]
@@ -2132,6 +2258,7 @@ Miranda не може відкрити цей профіль
 Знайдено %d користувачів (
 [No users found]
 Користувачів не знайдено
+;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 Не вдалося створити файл
 [<none>]
@@ -2162,18 +2289,22 @@ Miranda не може відкрити цей профіль
 Зразок тексту
 [Fonts]
 Шрифти
+;file \src\modules\fonts\FontService.cpp
 [Headers]
 Заголовки
 [Generic text]
 Звичайний текст
 [Small text]
 Дрібний текст
+;file \src\modules\icolib\skin2opts.cpp
 [Icon Sets]
 Набори значків
+;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Усі контакти **
 [Contacts]
 Контакти
+;file \src\modules\netlib\netliblog.cpp
 [No times]
 Без часу
 [Standard hh:mm:ss times]
@@ -2190,14 +2321,17 @@ Miranda не може відкрити цей профіль
 Вибрати програму для запуску
 [Standard netlib log]
 Стандартний журнал netlib
+;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Усі з'єднання>
 [Network]
 Мережа
+;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 
 [Host we are connecting to is not the one certificate was issued for]
 
+;file \src\modules\options\options.cpp
 [<all modules>]
 <усі модулі>
 [<core modules>]
@@ -2210,6 +2344,7 @@ Miranda не може відкрити цей профіль
 Налаштування Miranda NG
 [&Options...]
 &Налаштування
+;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Не вдалося завантажити модуль ядра "%s" (можливо він відсутній). Программа змушена завершити работу.
 [Fatal error]
@@ -2226,6 +2361,7 @@ Miranda не може відкрити цей профіль
 Неможливо завантажити жоден встановлений плагін списку контактів. Навіть ігноруючи ваші налаштування, Miranda не може завантажити список контактів.
 [Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 Не знайдено жодного плагіна списку контактів! Вам потрібен StdClist або clist_*.dll.
+;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Плагін
 [Version]
@@ -2236,6 +2372,7 @@ Miranda не може відкрити цей профіль
 Перезапустити зараз?
 [Plugins]
 Плагіни
+;file \src\modules\protocols\protoopts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 УВАГА! Обліковий запис буде видалено. Це призведе до повного видалення усіх налаштувань, контактів та історії даного облікового запису.\n\nВи впевнені?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2290,6 +2427,15 @@ ID облікового запису
 Перед видаленням облікового запису необхідно вимкнути плагін
 [&Accounts...]
 Облікові записи...
+;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+
+[Alt + ]
+
+[Shift + ]
+
+[Win + ]
+
 [Remove shortcut]
 Видалити
 [Add another shortcut]
@@ -2308,6 +2454,7 @@ ID облікового запису
 Система
 [Miranda scope]
 Miranda
+;file \src\modules\skin\skinicons.cpp
 [User Online]
 Користувач онлайн
 [Group (Open)]
@@ -2326,6 +2473,8 @@ Miranda
 Знайти
 [Send E-mail]
 Надіслати E-mail
+[SMS]
+
 [Search All]
 Знайти все
 [Tick]
@@ -2361,9 +2510,9 @@ ANSI-плагін
 [Move to Group]
 Перемістити до групи
 [On]
-Ввімк.
+Вкл
 [Off]
-Вимк.
+Вимкнено
 [Running core plugin]
 Плагін ядра
 [Non-loadable plugin]
@@ -2388,10 +2537,12 @@ ANSI-плагін
 Значки %s
 [Main Icons]
 Головні значки
+;file \src\modules\skin\sounds.cpp
 [Sound Files]
 Звукові файли
 [WAV Files]
 Файли WAV
+;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Для обробки зображень PNG вам потрібен модуль служби зображень.
 [All Bitmaps]
@@ -2404,14 +2555,17 @@ ANSI-плагін
 Зображення GIF
 [PNG Bitmaps]
 Зображення PNG
+;file \src\modules\utils\path.cpp
 [Avatars]
 Аватари
 [Avatars root folder]
 Коренева папка аватарів
+;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <не вказано>
+;file \src\modules\utils\utils.cpp
 [Unspecified]
-<не вказано>
+Не вказано
 [Unknown]
 Невідомо
 [Afghanistan]
@@ -2912,3 +3066,4 @@ ANSI-плагін
 Замбія
 [Zimbabwe]
 Зімбабве
+;file \src\modules\visibility\visibility.cpp

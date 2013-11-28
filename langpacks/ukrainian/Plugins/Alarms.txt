@@ -116,7 +116,7 @@
 [&New Alarm...]
 &Нове нагадування...
 [Unknown command issued: "%s"]
-
+Невідома команда повернула: "%s"
 [Set Alarm]
 Встановлення нагадування
 [Example Alarm]

@@ -24,7 +24,7 @@
 [Load default Settings]
 Завантажити за замовчанням
 [Setting Value]
-
+Налаштування значення
 [Setting text...........]
 Налаштування тексту.........
 [Settings]
@@ -64,7 +64,7 @@
 [Send If My Status Is]
 Послати, якщо мій статус
 [Any]
-
+будь-які
 [Online]
 В мережі
 [Away]
@@ -86,7 +86,7 @@
 [Send If Their Status changes]
 Посилати, якщо вони змінюють статус
 [From Offline]
-
+-> З офлайну
 [To Online]
 -> В мережі
 [To Away]
@@ -108,30 +108,30 @@
 [The Message    (%d Characters)]
 Повідомлення (%d символів)
 [Couldn't allocate enough memory]
-
+Не вдалося виділити достатньо пам'яті
 [error......]
 помилка...
 [The Message    (0 Characters)]
 Повідомлення (0 символів)
 [Reuse this message? (0 to use it once)]
-
+Повторити це повідомлення? (0 використовувати його один раз)
 [Times]
 Разів
 [Giveup after.. (0 to not giveup)]
-
+Покинути після.. (0 не покидати)
 [Days]
 Днів
 [Show confirmation window? (0 to not Show)]
-
+Показати вікно підтвердження? (0 до не показувати)
 [Seconds to wait before sending]
-
+Секунд очікування перед відправкою
 [Pounce being sent to %s in %d seconds]
 Pounce надіслано %s за %d секунд
 [Retry]
-
+Повторити
 [Message successfully sent to %s]
 Повідомлення успішно надіслано %s
 [Message failed to send to %s]
 Помилка надсилання повідомлення для %s
 [Message Sessions]
-
+Сессія повідомлень

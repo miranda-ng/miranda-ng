@@ -244,21 +244,21 @@
 [Continuously check interval (secs)]
 Інтервал перевірки (с)
 [Entering first auto-away status]
-
+Перший статус авто-відійшов
 [Entering second auto-away status]
-
+Другий статус авто-відійшов
 [Leaving first auto-away status]
-
+Залишивши перший статус авто-відійшов
 [Leaving second auto-away status]
-
+Залишивши другий статус авто-відійшов
 [Becoming active without status change]
-
+Стають активними без зміни статусу
 [Pre-conditions]
 Попередні умови
 [TriggerData]
-
+Запускаючі данні
 [Status: The status the account will change to\r\nAccount: The account changing state]
-
+Статус: Статус аккаунту зміниться на\r\nАккаунт: зміна стану облікового запису
 [minutes of %s mode]
 хвилин режиму "%s"
 [Rules]
