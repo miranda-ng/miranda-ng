@@ -57,7 +57,7 @@
 &Вихід
 [Start in Service Mode with]
 Запуск у сервісному режимі з
-[Find/Add Contacts]
+[Find/Add contacts]
 Знайти/додати контакт
 [Search:]
 Знайти:
@@ -201,8 +201,10 @@
 Посилання
 [Files]
 Файли
-[Online Notification]
+[Online notification]
 Сповіщення "Онлайн"
+[Auth requests]
+Запити авторизації
 [All events]
 Усі події
 [None]
@@ -221,7 +223,7 @@
 Ви завжди видимі для цієї людини
 [You are never visible to this person]
 Ви завжди невидимі для цієї людини
-[Icon Index]
+[Icon index]
 Значки
 [Icon library:]
 Бібліотека значків:
@@ -251,20 +253,20 @@
 Порт:
 [(often %d)]
 (часто %d)
-[Use custom login (Domain login picked up automatically)]
+[Use custom login (domain login picked up automatically)]
 Логін користувача (з доменним логіном вхід автоматичний)
 [Username:]
 Користувач:
 [Password:]
 Пароль:
 [Resolve hostnames through proxy]
-Отримувати назви хостів через проксі
-[Port Range:]
+Надсилати запити DNS через проксі
+[Port range:]
 Порти:
 [Example: 1050-1070, 2000-2010, 2500]
 Наприклад: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
-Перевіряти SSL-сертифікати
+Перевіряти сертифікати SSL
 [Incoming connections]
 Вхідні з'єднання
 [Enable UPnP port mapping]
@@ -299,7 +301,7 @@
 Права:
 [Please restart Miranda NG for your changes to take effect.]
 Щоб зміни набрали чинності, необхідно перезапустити Miranda NG
-[Fonts and Colors]
+[Fonts and colors]
 Шрифти і кольори
 [Undo]
 Скасувати
@@ -307,13 +309,13 @@
 Скинути
 [Export...]
 Експорт...
-[Color/Background]
+[Background color]
 Колір фону
-[Text Effect]
+[Text effect]
 Ефект тексту
-[Text Color]
+[Text color]
 Колір тексту
-[Choose Font]
+[Choose font]
 Шрифт
 [Font]
 Шрифт
@@ -353,8 +355,8 @@
 У головному меню
 [Move to the status bar]
 У панелі статусів
-[Warning!\r\nThis MenuObject not support user defined options.]
-Увага!\r\nНа ці пункти меню налаштування не діють.
+[Warning!\r\nThis menu object not support user defined options.]
+Увага!\r\nНа цей пункт меню налаштування не діють.
 [Insert separator]
 Вставити розділювач
 [Service:]
@@ -367,11 +369,11 @@
 Вимкнути значки
 [Show accounts in the following order,\ndrag to choose another order:]
 Облікові записи буде показано у наступному порядку.\nПеретягуйте щоб змінити:
-[Account Order && Visibility]
+[Account order and visibility]
 Впорядкування облікових записів
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Зміни наберуть чинності після перезапуску Miranda NG.
-[Key Bindings]
+[Key bindings]
 Гарячі клавіші
 [Shortcut:]
 Поєднання:
@@ -409,7 +411,7 @@
 Ви&далити...
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG перезапускається.\nЗачекайте...
-[Error Console]
+[Error console]
 Консоль помилок
 [Error notifications]
 Сповіщення про помилки
@@ -429,7 +431,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Події:
 [Choose events you wish to ignore:]
 Виберіть події, які будуть ігноруватися:
-[Font Effect]
+[Font effect]
 Ефект шрифту
 [Effect:]
 Ефект:
@@ -441,7 +443,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Вторинний колір:
 [Select the extra icons to be shown in the contact list:]
 Виберіть, які додаткові значки буде показано в списку контактів:
-[* only the first %d icons will be shown]
+[*only the first %d icons will be shown]
 * буде показано тільки перші %d значків
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Значки можна згрупувати/розгрупувати, виділивши їх (Ctrl+ЛКМ) та викликавши меню правою кнопкою миші.
@@ -453,47 +455,47 @@ Miranda NG перезапускається.\nЗачекайте...
 &Вихід
 [Nowhere]
 Ніде
-[&New Group]
+[&New group]
 &Створити групу
-[&Hide Offline Users]
+[&Hide offline users]
 С&ховати від'єднаних
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Сховати &від'єднаних поза групою
-[Hide &Empty Groups]
+[Hide &empty groups]
 Сховати порожні групи
-[Disable &Groups]
+[Disable &groups]
 Вимкнути &групи
 [Hide Miranda]
 Сховати список контактів
 [Group]
 Група
-[&New Subgroup]
+[&New subgroup]
 С&творити підгрупу
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Сховати &від'єднаних у групі
-[&Rename Group]
+[&Rename group]
 &Перейменувати групу
-[&Delete Group]
+[&Delete group]
 &Видалити групу
 [&Reset to default]
 Скинути на стандартне
 [find/add]
 знайти/додати
-[&Add to List]
+[&Add to list]
 Додати до списку
 [User &details]
 &Про користувача
-[Send &Message]
+[Send &message]
 Надіслати &повідомлення
 [Log]
 Журнал
 [&Copy]
 &Копіювати
-[Co&py All]
+[Co&py all]
 Коп&іювати все
-[Select &All]
+[Select &all]
 Виділити &все
-[C&lear Log]
+[C&lear log]
 &Очистити журнал
 [Open in &new window]
 Відкрити у &новому вікні
@@ -501,33 +503,31 @@ Miranda NG перезапускається.\nЗачекайте...
 &Відкрити у поточному вікні
 [&Copy link]
 Копіювати по&силання
-[Cancel Change]
+[Cancel change]
 Скасувати зміну
-[&Reset To Default]
-Скинути на стандартне
 [Ungroup]
 Розгрупувати
 [&Authorize]
 Дозволити
 [&Deny]
 &Відмовити
-[Decide &Later]
+[Decide &later]
 Вирішити &пізніше
 [Reason:]
 Причина:
-[Denial Reason:]
+[Denial reason:]
 Причина відмови:
 [Add to contact list if authorized]
 Додавати до списку контактів після авторизації
-[You Were Added]
+[You were added]
 Вас додали
 [&Close]
 Закрити
-[%s Message for %s]
+[%s message for %s]
 %s (%s)
 [Retrieving %s message...]
 Завантаження повідомлення "%s"...
-[Status Messages]
+[Status messages]
 Статусні повідомлення
 [Do not reply to requests for this message]
 Не відповідати на запити цього повідомлення
@@ -541,7 +541,7 @@ Miranda NG перезапускається.\nЗачекайте...
 %date% - нинішня дата; %time% - поточний час
 [Status messages:]
 Статусні повідомлення:
-[Change %s Message]
+[Change %s message]
 Змінити повідомлення "%s"
 [Closing in %d]
 Закриття (%d)
@@ -619,8 +619,6 @@ Miranda NG перезапускається.\nЗачекайте...
 Повідомлення
 [Clear lo&g]
 Очистити журнал
-[Co&py all]
-Коп&іювати все
 [Word lookup]
 Пошук слова
 [Link]
@@ -791,8 +789,6 @@ Miranda NG перезапускається.\nЗачекайте...
 Зробити сірим, якщо:
 [Contact List Background]
 Фон списку контактів
-[Background color]
-Колір фону
 [Selection color]
 Колір виділення
 [Use background image]
@@ -841,6 +837,8 @@ Miranda NG перезапускається.\nЗачекайте...
 Вікно:
 [Contact list background:]
 Фон списку контактів:
+[&Main menu]
+Головне меню
 [&Status]
 Статус
 [&Offline\tCtrl+0]
@@ -1245,8 +1243,6 @@ Iндекс:
 Увійти до чату
 [Open chat window]
 Відкрити вікно чату
-[Text color]
-Колір тексту
 [%s has joined]
 %s увійшов
 [You have joined %s]
@@ -1971,8 +1967,6 @@ xСтатус
 %s (заблокований)
 [(Unknown Contact)]
 (Невідомий контакт)
-[&Main menu]
-Головне меню
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Цей контакт знаходиться у системі обміну миттєвими повідомленнями, яка зберігає списки контактів на сервері. Контакт буде видалено з серверу та локального списку при наступному з'єднанні.
 [De&lete]
@@ -2159,8 +2153,6 @@ Miranda не може відкрити цей профіль
 Текстові файли
 [Error writing file]
 Помилка запису файлу
-[Fonts & Colors]
-Шрифти і кольори
 [Sample Text]
 Зразок тексту
 [Fonts]
@@ -2319,7 +2311,7 @@ Miranda
 Група (закрита)
 [Connecting]
 З'єднання
-[User Details]
+[User details]
 Про користувача
 [History]
 Історія

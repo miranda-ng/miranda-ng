@@ -518,7 +518,7 @@ HTML файл
 [Note: It can take several minutes for large histories]
 Примітка: це може зайняти декілька хвилин для великої історії
 [Empty history of subcontacts also]
-Також видалити історію субконтактов
+Також видалити історію субконтактів
 [Previous message]
 Попереднє повідомлення
 [Running version of AniSmiley is not supported]

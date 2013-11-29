@@ -197,9 +197,9 @@ CSV з заголовками
 [Metacontact foreground]
 Текст метаконтактів
 [SubMetacontact background]
-Фон субконтактов
+Фон субконтактів
 [SubMetacontact foreground]
-Текст субконтактов
+Текст субконтактів
 [%u users found (%u) Online: %u]
 %u користувачів знайдено (% u) В мережі: %u
 [ users found (]

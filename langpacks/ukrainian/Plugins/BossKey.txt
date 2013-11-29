@@ -22,7 +22,7 @@
 [Disable Sounds]
 Вимкнути звуки
 [Show the Tray Icon]
-Показувати іконку в треї
+Показувати значок в треї
 [When I return:]
 При поверненні...
 [Request password:]

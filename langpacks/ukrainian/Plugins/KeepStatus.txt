@@ -268,7 +268,7 @@
 [%s connected from another location]
 %s підключено з іншого місця
 [%s login error, cancel reconnecting]
-%s помилка входу, відміна перепідключення
+%s помилка входу, перепідключення скасовано
 [%s login error (next retry (%d) in %d s)]
 
 [%s status error (next retry (%d) in %d s)]

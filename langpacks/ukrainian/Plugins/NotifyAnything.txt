@@ -50,7 +50,7 @@
 [ID is required for replacement.]
 Ідентифікатор необхідний для заміни.
 [Invalid argument for replace option: ]
-Неправильний аргумент для заміни: %s
+Неправильний аргумент для заміни:\s
 [Empty message ignored.]
 Пусте повідомлення ігнорується.
 [Failed to write to log file.]

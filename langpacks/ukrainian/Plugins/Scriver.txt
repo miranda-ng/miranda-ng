@@ -277,22 +277,14 @@
 Виділити &все
 [Word lookup]
 Знайти слово
-[Google]
-
-[Bing]
-
 [Yandex]
 Яндекс
-[Wikipedia (en)]
-
 [Google Maps]
 Мапи Google
 [Google Translate]
-Перекладачь Google
+Перекладач Google
 [Yahoo]
 Yahoo!
-[Foodnetwork]
-
 [C&lear Log]
 &Очистити журнал
 [&Open link]

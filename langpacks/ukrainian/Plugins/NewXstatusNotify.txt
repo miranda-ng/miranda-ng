@@ -107,8 +107,8 @@
 Таймаут
 [Popups when status changes to:]
 Сплив. вікно коли статус змінився на:
-[Connection timeout] 
-Затримка на старті 
+[Connection timeout]
+Затримка на старті
 [Click action]
 Дії по кліку
 [Show contact group name]

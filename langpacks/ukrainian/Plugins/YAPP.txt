@@ -14,7 +14,7 @@
 [Case sensitive]
 Регістр
 [Default Timeout]
-Тривалість за замовчуванням 
+Тривалість за замовчуванням
 [Never timeout]
 Постійно
 [Set timeout:]

@@ -182,7 +182,7 @@ The connection with the server was abortively closed during the connection attem
 [Unknown]
 Невідомо
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
-Зовнішній хост для прямих підключень %s невірний. 
+Зовнішній хост для прямих підключень %s невірний.
 [Avatars]
 Аватари
 [Images]
@@ -306,7 +306,7 @@ The connection with the server was abortively closed during the connection attem
 [Can not remove old avatar file. ERROR: %d: %s\n%s]
 
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
-Для видалення вашого аватару, ви повинні використовувати вебсайт gg.pl 
+Свій аватар треба видаляти на веб-сайті gg.pl
 [Client Name]
 Ім'я клієнта
 [IP Address]

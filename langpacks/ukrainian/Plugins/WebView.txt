@@ -18,7 +18,7 @@ WebView
 [seconds]
 секунд(и)
 [Hide icon on status bar]
-Приховувати іконку у статус барі
+Ховати значок на панелі статусів
 [Disable main menu items]
 Відключити елементи у головному меню
 [Load page on window open]
@@ -30,7 +30,7 @@ WebView
 [Window appearance]
 Зовнішній вигляд вікна
 [Background color:]
-Колір фону: 
+Колір фону:
 [Text color:]
 Колір тексту:
 [Bold]
@@ -54,7 +54,7 @@ WebView
 [(not recommended)]
 (не рекомендовано)
 [Display data in popup on alert]
-Попередження відображення даних у сплив. вікні 
+Попередження відображення даних у сплив. вікні
 [Display data in popup]
 Показувати дані у сплив. вікні
 [You may need to restart Miranda NG for this change to take effect.]

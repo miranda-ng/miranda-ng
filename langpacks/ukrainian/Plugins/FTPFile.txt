@@ -58,7 +58,7 @@
 [Upload speed:]
 Швидкість завантаження:
 [Cancel all]
-Відмінити все
+Скасувати все
 [File upload complete]
 Завантаження файлу завершено
 [Upload canceled]
@@ -128,7 +128,7 @@
 [Remaining:]
 Залишилося:
 [Do you really want to cancel all running uploads?]
-Ви дійсно хочете відмінити всі завантаження?
+Ви дійсно хочете скасувати всі завантаження?
 [FTP File manager]
 FTP файл менеджер
 [FTPFile manager]
@@ -190,7 +190,7 @@ FTP сервер 5
 [Speed:]
 Швидкість:
 [Do you really want to cancel all running jobs?]
-Відмінити всі запущені завдання?
+Скасувати всі запущені завдання?
 [CANCELED]
 Скасування
 [COMPLETED]

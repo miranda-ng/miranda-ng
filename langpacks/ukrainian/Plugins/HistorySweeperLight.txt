@@ -24,7 +24,7 @@
 [Keep all events]
 
 [Delete all events]
-Видалити всі 
+Видалити всі
 [Delete older than 1 day]
 Видалити усе старіше 1 дня
 [Delete older than 3 days]

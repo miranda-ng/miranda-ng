@@ -92,7 +92,7 @@ notes.ini модифіковано коректно. Потребує перез
 [Plugins]
 Плагіни
 [&Check Lotus]
-&Перевірити 
+&Перевірити
 [Lotus Notify]
 Повідомлення Lotus
 [New Lotus document detected]

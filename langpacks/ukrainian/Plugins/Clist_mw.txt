@@ -236,7 +236,7 @@
 [Show bevel effect on panels]
 Ефект бордюру на панелях
 [Use connecting Icon]
-Використовувати іконку підключення
+Використовувати значок підключення
 [Use New Drawer for StatusBar]
 Новий стиль панелі статусу
 [E&xit]

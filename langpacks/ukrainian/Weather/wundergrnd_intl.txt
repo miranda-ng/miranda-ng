@@ -375,7 +375,7 @@
 [Light Freezing Rain Light Showers Snow]
 Легкий крижаний дощ, слабкий сніг
 [Light Freezing Drizzle Light Snow]
-Слабка мряка, слабкий сніг 
+Слабка мряка, слабкий сніг
 [Heavy Fog]
 Густий туман
 [Rain Mist]

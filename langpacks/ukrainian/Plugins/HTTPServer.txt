@@ -120,11 +120,11 @@ Miranda NG HTTP Server
 [No share selected]
 Папка не вибрана
 [Current IP Address: ]
-Поточниа IP адреса:
+Поточна IP-адреса:
 [Current Address: ]
 Поточна адреса:
 [IP Adress: ]
-IP адреса
+IP-адреса
 [You are browsing from]
 
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]

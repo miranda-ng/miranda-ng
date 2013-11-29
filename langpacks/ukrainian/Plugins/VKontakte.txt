@@ -11,7 +11,7 @@
 Пошта або номер телефону:
 [Password:]
 Пароль:
-[Open VKontakte site] 
+[Open VKontakte site]
 Відкрити сторінку ВКонтактi
 [Bots challenge test]
 Захист від ботів

@@ -236,7 +236,7 @@
 [Registered actions]
 Зареєстровані дії
 [Menu icons]
-Іконки меню
+Значки меню
 [Data align]
 Вирівнювання даних
 [Native]

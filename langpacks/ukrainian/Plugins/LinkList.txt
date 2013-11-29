@@ -75,7 +75,7 @@
 [mailaddresses]
 Адреси E-mail
 [Matches for searchtext]
-Виявлення відповідностей при пошуку 
+Виявлення відповідностей при пошуку
 [Miranda Linklist]
 Журнал посилань Miranda NG
 [outgoing]

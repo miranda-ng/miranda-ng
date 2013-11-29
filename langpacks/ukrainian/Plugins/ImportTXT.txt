@@ -9,7 +9,7 @@
 [Imports history saved in TXT files from other clients.]
 Імпортує історію з текстових файлів.
 [Import history to ]
-Імпортувати в історію \s
+Імпортувати в історію\s
 [Import history]
 Імпорт історії
 [Choose a file...]
@@ -23,7 +23,7 @@
 [All files (*.*)]
 Усі файли (*.*)
 [Error in cfg file: ]
-Помилка в cfg файлі:
+Помилка в файлі cfg:
 [No Files Patterns Found]
 Не знайдені файли шаблонів
 [No messages in this file]
@@ -67,7 +67,7 @@
 [Select protocol or account:]
 Виберіть протокол або аккаунт:
 [Click "Next" to start or Import "Cancel" to Abort.]
-Натисніть "Далі" для початку Імпорту або "Відміна" для виходу.
+Натисніть "Далі" для початку Імпорту або "Скасувати" для виходу.
 [Select folder for import...]
 Виберіть папку для імпорту...
 [File: %s]

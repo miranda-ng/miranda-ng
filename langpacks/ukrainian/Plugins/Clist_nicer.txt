@@ -456,7 +456,7 @@
 [Frames_Menu]
 Меню фреймів
 [Ignore all subcontact states]
-Ігнорувати стану субконтактов
+Ігнорувати стан субконтактів
 [Ignore for groups]
 Ігнорувати для груп
 [ignore this item completely]

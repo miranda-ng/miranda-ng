@@ -256,7 +256,7 @@
 [Pre-conditions]
 Попередні умови
 [TriggerData]
-Запускаючі данні
+Запускаючі дані
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: Статус аккаунту зміниться на\r\nАккаунт: зміна стану облікового запису
 [minutes of %s mode]

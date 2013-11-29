@@ -170,7 +170,7 @@ UTF8 в нових файлах
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не вдалося перейменувати файл\n\nстаре ім'я:\t%s\nнове ім'я:\t%s\n\nПомилка: %s
 [\nError: ]
-\nПомилка: 
+\nПомилка:\s
 [\nMessage has not been saved!\n]
 
 [Do you wish to save debug information?]
@@ -219,8 +219,6 @@ UTF8 в нових файлах
 
 [Failed to write message to the file :\n]
 Не вдалося записати повідомлення у файл:\n
-[URL: ]
-URL:
 [File: ]
 Файл:
 [Description: ]

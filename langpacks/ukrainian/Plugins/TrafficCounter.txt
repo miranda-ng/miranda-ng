@@ -50,7 +50,7 @@
 [Display]
 Показувати
 [Icon]
-Іконка
+Значок
 [Account name]
 
 [Current traffic]
