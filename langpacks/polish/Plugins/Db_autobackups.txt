@@ -46,7 +46,7 @@ Stworzona przez:
 [Miranda NG databases]
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]
-skompresowane bazy danych Miranda NG
+Skompresowane bazy danych Miranda NG
 [All files]
 Wszystkie pliki
 [Backup in progress]

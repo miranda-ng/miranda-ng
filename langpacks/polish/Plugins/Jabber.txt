@@ -1910,7 +1910,7 @@ wszystko.
 [messages]
 wiadomości
 [ and ]
- i 
+ i\s
 [incoming presences]
  przychodzącą obecność
 [outgoing presences]
@@ -1918,17 +1918,17 @@ wiadomości
 [queries]
 zapytania
 [Else ]
-W przeciwnym razie
+W przeciwnym razie\s
 [If Jabber ID is ']
-
+Jeżeli ID Jabber'a to '
 [ (nickname: ]
- ( pseudonim: 
+ (pseudonim:\s
 [If group is ']
 Jeśli grupa jest '
 [If subscription is ']
 Jeśli autoryzacja jest '
 [then ]
-to 
+to\s
 [ (act., def.)]
  (akt., dom.)
 [ (active)]
@@ -1953,7 +1953,7 @@ Edytuj listy...
 [No compatible file transfer machanism exist]
 Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Protocol is offline or no JID]
-
+Protokół jest Rozłączony lub brak JID
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Komenda zakończona poprawnie
@@ -1964,7 +1964,7 @@ Wybierz status
 [Set options]
 Wybierz opcje
 [Forward unread messages]
-Przekaż nieprzeczytane widomości
+Przekaż nieprzeczytane wiadomości
 [Leave group chats]
 Opuść czat
 [Lock workstation]
@@ -2040,7 +2040,7 @@ Proszę czekać...\r\nTrwa wyszukiwanie serwera...
 Musisz być połączony z serwerem
 ;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
-rozmóca zakończył sesję rozmowy
+rozmówca zakończył sesję rozmowy
 [sent subscription request]
 Wyślij żądanie subskrypcji
 [approved subscription request]
@@ -2122,7 +2122,7 @@ Ostatni opis
 [Last active resource]
 Ostatnio aktywny zasób
 [Please switch online to see more details.]
-Proszę się połączyć aby zobaczeć informacje.
+Proszę się połączyć aby zobaczyć informacje.
 [Copy]
 Kopiuj
 [Copy only this value]

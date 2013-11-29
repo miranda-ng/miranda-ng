@@ -103,7 +103,7 @@ Kontakt loguje się
 [When a chat session is active, skip the following notifications for that contact:]
 Gdy aktywna jest sesja rozmowy, ignoruj następujące zdarzenia dla tego kontaktu:
 [Chat session specific]
-dotyczące sesji rozmowy
+Dotyczące sesji rozmowy
 [Show timestamps]
 Pokazuj czas
 [Messages]
@@ -203,7 +203,7 @@ Odpowiadanie
 [Show line break indicators]
 Pokaż wskaźniki końca linii
 [Send messages with return, insert line breaks with ctrl+return]
-Wysyłaj wiadomość po wciśnięciu entera, wstawiaj nową linię po wciśnięciu ctrl+Enter
+Wysyłaj wiadomość po wciśnięciu enteru, wstawiaj nową linię po wciśnięciu Ctrl+Enter
 [Maximized replying]
 Zmaksymalizowane odpowiadanie
 [Close chat after]
@@ -212,4 +212,4 @@ Zamknij czat po
 Gdy w tle
 ;file \plugins\MirandaG15\src\CConfig.cpp
 [No device attached]
-
+Brak podłączonych urządzeń
