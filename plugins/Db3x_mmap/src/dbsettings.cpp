@@ -229,15 +229,6 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact, DBCONTACTGETSETTING *dbcg
 		}
 	}
 
-	/**** add missing setting to cache **********************/
-	if (dbcgs->pValue->type != DBVT_BLOB) {
-		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
-		if (pCachedValue != NULL) {
-			pCachedValue->type = DBVT_DELETED;
-			log3("set missing [%08p] %s (%p)", hContact, szCachedSettingName, pCachedValue);
-		}
-	}
-
 	logg();
 	return 1;
 }
