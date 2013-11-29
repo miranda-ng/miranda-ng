@@ -71,7 +71,7 @@
 О&тмена
 [&Change...]
 &Изменить...
-[&Choose Again...]
+[&Choose again...]
 &Выбрать снова...
 [&Close]
 &Закрыть
@@ -559,7 +559,7 @@ URL:
 Женский
 [File &Transfers...]
 Передачи &файлов
-[File Already Exists]
+[File already exists]
 Файл уже существует
 [File already exists]
 Файл уже существует
@@ -711,7 +711,7 @@ URL:
 Импорт нескольких
 [Incoming connections]
 Входящие соединения
-[Incoming File Transfer]
+[Incoming file transfer]
 Входящий файл
 [Incoming File]
 Входящий файл
@@ -1107,7 +1107,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Отправить e-mail
 [Send E-mail]
 Отправить почту
-[Send File(s)]
+[Send file(s)]
 Отправить файл(ы)
 [Send timed out]
 Время отправки истекло
@@ -1329,7 +1329,7 @@ URL от %s
 Имя пользователя
 [Validate SSL certificates]
 Проверять подпись сертификатов SSL
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Переменные: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Version]
 Версия
@@ -2488,9 +2488,9 @@ Miranda не смогла загрузить встроенную систему
 &Готов болтать\tCtrl+7
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На &телефоне\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Обед&аю\tCtrl+9
 [No profile support installed!]
 Нет установленных плагинов базы!
@@ -2498,3 +2498,9 @@ Miranda не смогла загрузить встроенную систему
 Групповые чаты
 [&Show/hide nicklist]
 &Показать/Скрыть список ников
+[(Background) Color]
+(Фоновый) цвет
+[&Background color]
+Цвет фона
+[Background color]
+Цвет фона

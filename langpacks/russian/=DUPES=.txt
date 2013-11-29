@@ -917,6 +917,8 @@ E-Mail
 секунд(ы)
 [seconds]
 секунд
+[Select all]
+Выделить всё
 [Select All]
 Выделить всё
 [Send file]
@@ -1367,6 +1369,8 @@ Web-страница
 Добавить в список
 [Contact List]
 Список контактов
+[Contact list]
+Список контактов
 [Hide offline users]
 Скрыть отключённых
 [Hide empty groups]
@@ -1457,6 +1461,8 @@ Web-страница
 Поместить окно на передний план, если оно прикрыто другими окнами
 [Contact List Background]
 Фон списка
+[Contact list background]
+Фон списка
 [&Use Windows colors]
 &Цвета Windows
 [Stretch to height]
@@ -1477,6 +1483,8 @@ Web-страница
 Показывать значки
 [Status Bar]
 Панель статуса
+[Status bar]
+Панель статуса
 [Show protocol names]
 Показывать протоколы
 [Show status text]
@@ -1493,6 +1501,8 @@ Web-страница
 Скин списка
 [Contact List Sorting]
 Сортировка списка контактов
+[Contact list sorting]
+Сортировка списка контактов
 [Groups]
 Группы
 [Draw a line alongside group names]
@@ -1500,6 +1510,8 @@ Web-страница
 [Sort groups alphabetically]
 Сортировать группы по алфавиту
 [Quicksearch in open groups only]
+Быстрый поиск только в открытых группах
+[Quick search in open groups only]
 Быстрый поиск только в открытых группах
 [Dim idle contacts]
 Затемнить неактивных пользователей
@@ -1639,7 +1651,7 @@ GMT-08:00 Тихоокеанское время; Тихуана
 GMT-09:00 Аляска
 [Show time]
 Показывать время
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Скрыть отключённых' - скрыть:
 [Left margin:]
 Левое поле:
@@ -2183,7 +2195,7 @@ ID пользователя:
 Папка журнала
 [Fonts 'n Colors]
 Шрифты и цвета
-[Log Options]
+[Log options]
 Настройки журнала
 [Popups for the Chat plugin]
 Всплывающие окна чата

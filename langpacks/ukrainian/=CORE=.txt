@@ -309,7 +309,7 @@
 Скинути
 [Export...]
 Експорт...
-[Background color]
+[(Background) Color]
 Колір фону
 [Text effect]
 Ефект тексту
