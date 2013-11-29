@@ -345,7 +345,7 @@ Protocole
 [Group]
 Groupe
 [Status mode]
-
+État
 [Automatically clear this view mode after]
 Revenir au mode d'affichage par défaut après
 [View mode options]
@@ -791,7 +791,7 @@ Jours
 [Current view mode: %s]
 Mode actuel: %s
 [Filtering]
-Filtre
+Filtres
 [*** All contacts ***]
 *** Tous les contacts ***
 [Really delete this view mode? This cannot be undone]
