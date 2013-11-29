@@ -64,7 +64,7 @@ Gdy kontakt zostaje usunięty
 Usuń plik
 [Debug]
 Analizuj
-[User &Details]
+[User &details]
 Dane kontaktu
 [Export selected]
 Eksportuj zaznaczony

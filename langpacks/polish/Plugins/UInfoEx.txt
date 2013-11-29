@@ -615,7 +615,7 @@ Dane kontkatu
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Eksport/Import
-[User &Details]
+[User &details]
 Dane kontaktu
 [&Export User Details]
 Eksportuj dane kontaktu

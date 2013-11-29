@@ -12,7 +12,7 @@ Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 E-mail lub numer telefonu:
 [Password:]
 Hasło:
-[Open VKontakte site] 
+[Open VKontakte site]
 Otwórz stronę VKontakte
 [Bots challenge test]
 Test sprawdzający obecność botów

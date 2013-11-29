@@ -29,7 +29,7 @@ Grupa:
 Opcje
 [Authorization request]
 Prośba o autoryzację
-[Delete Contact]
+[Delete contact]
 Usuń kontakt
 [&Yes]
 Tak
@@ -43,7 +43,7 @@ Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
 To usunie wszystkie ustawienia i historię tego kontaktu!
-[Contact Display Options]
+[Contact display options]
 Opcje wyświetlania kontaktu
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Zamiast wyświetlać kontakty w kolejności ich nicków,\nprzenieś aby wybrać inną kolejność.
@@ -55,7 +55,7 @@ Uruchom
 Wyjście
 [Start in Service Mode with]
 Startuj w:
-[Find/Add Contacts]
+[Find/Add contacts]
 Szukaj/dodaj kontakty
 [Search:]
 Szukaj:
@@ -81,7 +81,7 @@ Więcej opcji
 Dodaj do listy
 [Custom]
 Niestandardowe
-[Find/Add Contacts\nHere you can add contacts to your contact list]
+[Find/Add contacts\nHere you can add contacts to your contact list]
 Szukaj/dodaj kontakty\nTu możesz dodać kontakty do listy kontaktów
 [Options\nConfigure your Miranda NG options]
 Opcje:\nSkonfiguruj swoją Mirandę NG
@@ -91,7 +91,7 @@ Zastosuj
 Przełącz do trybu prostego
 [Please select a subentry from the list]
 Proszę wybrać podopcję z listy 
-[Install Database Settings]
+[Install database settings]
 Instalacja ustawień profilu
 [Yes]
 Tak
@@ -107,7 +107,7 @@ Nie dla wszystkich
 Zawartość 
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 System bezpieczeństwa zapobiegający szkodliwym zmianom jest aktywny i będzie ostrzegał przed zmianami, które nie są bezpieczne.
-[Database Setting Change]
+[Database setting change]
 Zmień ustawienia profilu
 [Database settings are being imported from]
 Ustawienia profilu są importowane z
@@ -119,9 +119,9 @@ do wartości
 Czy chcesz umożliwić tę zmianę?
 [&Allow all further changes to this section]
 &Zezwalaj na wszystkie przyszłe zmiany w tej sekcji 
-[Cancel Import]
+[Cancel import]
 Anuluj import
-[Database Import Complete]
+[Database import complete]
 Zakończeno importowanie profilu
 [The import has completed from]
 Import zakończył się z
@@ -135,7 +135,7 @@ Usuń
 Przenieś/zmień nazwę
 [&Leave]
 Opuść
-[Netlib Log Options]
+[Netlib log options]
 Raportuj opcje Netlib
 [Show]
 Pokaż
@@ -165,7 +165,7 @@ Uruchom teraz
 Pokazuj to okno przy starcie
 [Save as default]
 Ustaw jako domyślne
-[SSL Traffic]
+[SSL traffic]
 Połączenie SSL
 [Sounds]
 Dźwięki
@@ -175,7 +175,7 @@ Zmień
 Podgląd
 [Download more sounds]
 Pobierz więcej dźwięków 
-[Sound Information]
+[Sound information]
 Informacje o dźwięku
 [Location:]
 Lokalizacja:
@@ -201,11 +201,11 @@ Wiadomości
 Linki
 [Files]
 Pliki
-[Online Notification]
+[Online notification]
 Zmiany statusu
-[Auth Requests]
+[Auth requests]
 Prośba o autoryzacje
-[All Events]
+[All events]
 Wszystkie zdarzenia
 [None]
 Brak
@@ -213,7 +213,7 @@ Brak
 Tylko zaznaczone kontakty będą pokazywane na liście kontaktów
 [Ignore]
 Ignorowanie
-[Added Notification]
+[Added notification]
 Powiadomienie o dodaniu
 [Typing]
 Pisanie
@@ -223,7 +223,7 @@ Widoczność
 Jesteś widoczny dla tej osoby, nawet w trybie niewidocznym 
 [You are never visible to this person]
 Zawsze jesteś niewidoczny dla tej osoby 
-[Icon Index]
+[Icon index]
 Indeks ikon
 [Icon library:]
 Biblioteka ikon:
@@ -241,7 +241,7 @@ Do
 Do domyślnych ikon statusu
 [Logging...]
 Raportowanie...
-[Outgoing Connections]
+[Outgoing connections]
 Połączenia wychodzące
 [Use proxy server]
 Użyj serwera proxy
@@ -253,7 +253,7 @@ Host:
 Port:
 [(often %d)]
 (często %d)
-[Use Custom Login (Domain login picked up automatically)]
+[Use custom login (domain login picked up automatically)]
 Użyj niestandardowego loginu (login domeny zostanie uzupełniony automatycznie)
 [Username:]
 Użytkownik:
@@ -261,13 +261,13 @@ Użytkownik:
 Hasło:
 [Resolve hostnames through proxy]
 Ustal nazwy hostów przez proxy
-[Port Range:]
+[Port range:]
 Zakres portów:
 [Example: 1050-1070, 2000-2010, 2500]
 Przykład: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
 Zatwierdź certyfikat SSL
-[Incoming Connections]
+[Incoming connections]
 Połączenia przychodzące
 [Enable UPnP port mapping]
 Włącz mapowanie portów UPnP
@@ -303,7 +303,7 @@ ID:
 Własność:
 [Please restart Miranda NG for your changes to take effect.]
 Zrestartuj Mirandę by wprowadzić poczynione zmiany.
-[Fonts and Colors]
+[Fonts and colors]
 Czcionki i kolory
 [Undo]
 Przywróć
@@ -311,13 +311,13 @@ Przywróć
 Domyślne
 [Export...]
 Eksportuj...
-[Color/Background]
-Kolor/Tło
-[Text Effect]
+[Background color]
+Kolor tła
+[Text effect]
 Efekt tekstu
-[Text Color]
+[Text color]
 Kolor tekstu
-[Choose Font]
+[Choose font]
 Wybierz czcionkę
 [Font]
 Czcionka
@@ -347,9 +347,9 @@ Pismo:
 Zastosuj
 [&Help]
 Pomoc
-[Menu Objects]
+[Menu objects]
 Obiekty menu
-[Menu Items]
+[Menu items]
 Elementy menu
 [Protocol menus]
 Menu protokołu
@@ -357,7 +357,7 @@ Menu protokołu
 Przenieś do menu głównego
 [Move to the status bar]
 Przenieś do paska statusu
-[Warning!\r\nThis MenuObject not support user defined options.]
+[Warning!\r\nThis menu object not support user defined options.]
 Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika. 
 [Insert separator]
 Wstaw separator 
@@ -371,11 +371,11 @@ Ustaw
 Wyłącz ikony
 [Show accounts in the following order,\ndrag to choose another order:]
 Pokaż konta według kolejności\n(przeciągnij aby ją zmienić):
-[Account Order && Visibility]
+[Account order and visibility]
 Kolejność i widoczność kont
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Info: Musisz ponownie uruchomić Mirandę NG aby wprowadzić zmiany.
-[Key Bindings]
+[Key bindings]
 Skróty klawiszowe
 [Shortcut:]
 Skrót:
@@ -383,9 +383,9 @@ Skrót:
 Dodaj
 [Remove]
 Usuń
-[Undo Changes]
+[Undo changes]
 Cofnij zmiany
-[Reset To Default]
+[Reset to default]
 Przywróć domyślne
 [Hotkeys]
 Skróty
@@ -415,7 +415,7 @@ Usuń...
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG jest restartowana.\nProszę czekać...
-[Error Console]
+[Error console]
 Konsola błędów
 [Error notifications]
 Powiadomienia o błędach
@@ -437,7 +437,7 @@ Witaj w menedżerze kont Mirandy NG.\nTutaj możesz skonfigurować konta w swoic
 Znaczenia ikon zdarzeń:
 [Choose events you wish to ignore:]
 Wybierz zdarzenia, które chcesz ignorować:
-[Font Effect]
+[Font effect]
 Efekt
 [Effect:]
 Efekt:
@@ -449,7 +449,7 @@ Widoczność:
 Drugi kolor:
 [Select the extra icons to be shown in the contact list:]
 Tylko zaznaczone ikony będą pokazywane na liście kontaktów:
-[* only the first %d icons will be shown]
+[*only the first %d icons will be shown]
 * tylko %d pierwszych ikon będzie pokazywane
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Możesz grupować wyświetlane ikony (CTRL+LPM) i użyć menu popup (PPM)
@@ -461,47 +461,47 @@ Pokaż/ukryj
 Wyjdź
 [Nowhere]
 Nigdzie
-[&New Group]
+[&New group]
 Nowa grupa
-[&Hide Offline Users]
+[&Hide offline users]
 Ukryj rozłączonych
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Ukryj rozłączonych tutaj
-[Hide &Empty Groups]
+[Hide &empty groups]
 Ukryj puste grupy
-[Disable &Groups]
+[Disable &groups]
 Wyłącz grupy
 [Hide Miranda]
 Ukryj Mirandę
 [Group]
 Grupa
-[&New Subgroup]
+[&New subgroup]
 Nowa podgrupa
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Ukryj tu rozłączonych
-[&Rename Group]
+[&Rename group]
 Zmień nazwę grupy
-[&Delete Group]
+[&Delete group]
 Usuń grupę
 [&Reset to default]
 Przywróć domyślne
 [find/add]
 znajdź/dodaj
-[&Add to List]
+[&Add to list]
 Dodaj do listy
 [User &details]
 Dane kontaktu
-[Send &Message]
+[Send &message]
 Wyślij wiadomość
 [Log]
 Dziennik
 [&Copy]
 Kopiuj
-[Co&py All]
+[Co&py all]
 Kopiuj wszystko
-[Select &All]
+[Select &all]
 Zaznacz wszystko
-[C&lear Log]
+[C&lear log]
 Wyczyść dziennik
 [Open in &new window]
 Otwórz w nowym oknie
@@ -509,10 +509,8 @@ Otwórz w nowym oknie
 Otwórz w istniejącym oknie
 [&Copy link]
 Kopiuj link
-[Cancel Change]
+[Cancel change]
 Anuluj zmianę
-[&Reset To Default]
-Przywróć domyślne
 [Ungroup]
 Anuluj grupowanie
 ;file \src\core\stdauth\resource.rc
@@ -520,24 +518,24 @@ Anuluj grupowanie
 Autoryzuj
 [&Deny]
 Odrzuć
-[Decide &Later]
+[Decide &later]
 Przypomnij później
 [Reason:]
 Powód:
-[Denial Reason:]
+[Denial reason:]
 Powód odmowy:
 [Add to contact list if authorized]
 Dodaj kontakt do listy jeśli autoryzowany
-[You Were Added]
+[You were added]
 Zostałeś dodany
 [&Close]
 Zamknij
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Opis statusu "%s" - %s
 [Retrieving %s message...]
 Odbieranie %s wiadomości...
-[Status Messages]
+[Status messages]
 Opisy
 [Do not reply to requests for this message]
 Nie odpowiadaj na prośby o ten opis
@@ -551,7 +549,7 @@ Domyślnie użyj tej wiadomości:
 Użyj %time% dla czasu obecnego, %date% dla aktualnej daty 
 [Status messages:]
 Opisy:
-[Change %s Message]
+[Change %s message]
 Zmień opis dla "%s"
 [Closing in %d]
 Zamykanie w %d
@@ -572,10 +570,10 @@ Kolor tła
 Historia
 [&Filter]
 Filtr
-[&Room Settings]
+[&Room settings]
 Ustawienia pokoju
-[&Show/hide nicklist]
-Pokaż/ukryj listę nicków
+[&Show/Hide nicklist]
+Pokaż/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -648,8 +646,6 @@ Lista
 Wiadomość
 [Clear lo&g]
 Wyczyść dziennik
-[Co&py all]
-Kopiuj wszystko
 [Word lookup]
 Wyszukaj słowo
 [Google]
@@ -825,8 +821,6 @@ Korekcja Gamma
 Przyciemnij całą listę kiedy:
 [Contact List Background]
 Tło listy kontaktów
-[Background color]
-Kolor tła
 [Selection color]
 Kolor zaznaczenia
 [Use background image]
@@ -1307,8 +1301,6 @@ Dołącz do pokoju
 [Open chat window]
 Otwórz okno czatu
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Kolor tekstu
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s dołączył(a)
@@ -2283,8 +2275,6 @@ Konfiguracja pliku
 Pliki tekstowe
 [Error writing file]
 Błąd zapisu pliku
-[Fonts & Colors]
-Czcionki
 [Sample Text]
 Przykładowy Tekst
 [Fonts]
@@ -2463,7 +2453,7 @@ Grupa (Otwarta)
 Grupa (Zamknięta)
 [Connecting]
 Łączenie 
-[User Details]
+[User details]
 Dane kontaktu
 [History]
 Historia

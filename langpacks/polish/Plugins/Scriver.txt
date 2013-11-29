@@ -40,7 +40,7 @@ Karty
 Włącz zakładki
 [Always show tab bar]
 Zawsze pokazuj pasek zakładek
-[Tabs at bottom]
+[Tabs at the bottom]
 Zakładki na dole okna
 [Limit names on tabs to]
 Ogranicz długość nazw do
@@ -499,7 +499,7 @@ Emotikony
 Dodaj kontakt
 [User Menu]
 Menu użytkownika
-[User Details]
+[User details]
 Dane kontaktu
 [History]
 Historia

@@ -154,7 +154,7 @@ Zamknij kartę
 Zamknij inne karty
 [&Open at this position]
 Otwórz w tym miejscu
-;file \plugins\TabSRMM\res\msgwindow.rc 
+;file \plugins\TabSRMM\res\msgwindow.rc
 [&Retry]
 Gotowy
 [&Cancel]
@@ -896,7 +896,7 @@ Pokaż pasek narzędzi
 Pasek narzędzi na dole
 [Title Bar]
 Pasek tytułowy
-[Tabs at Bottom]
+[Tabs at the bottom]
 Karty na dole
 [Window Flashing]
 Miganie okna
@@ -1021,8 +1021,6 @@ Opcje kontenera
 Konfiguruj opcje kontenera dla \n%s
 [Tabs at the top]
 Karty na górze
-[Tabs at the bottom]
-Karty na dole
 [Switch bar on the left side]
 Karty po lewej stronie
 [Switch bar on the right side]
@@ -1484,7 +1482,7 @@ Błąd dostarczenia wiadomości
 Przychodząca wiadomość
 [Outgoing message]
 Wychodząca wiadomość
-[Statuschange]
+[Status change]
 Zmiana statusu
 [Static container icon]
 Statyczna ikona kontenera

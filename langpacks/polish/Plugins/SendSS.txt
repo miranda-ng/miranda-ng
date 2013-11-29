@@ -130,7 +130,7 @@ SendScreenshot - Błąd
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 Błąd, usługa obrazków nie została znaleziona. Send Screenshot zostanie wyłączony.
 [Open SendSS+]
-
+Otwórz SendSS+
 [SendSS]
 Wyślij zrzut ekranu
 [Screenshots]

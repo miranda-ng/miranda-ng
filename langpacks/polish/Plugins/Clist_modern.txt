@@ -692,8 +692,8 @@ Chcesz dodać kontakt "%s" do metakontaktu "%s"?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Nazwy kontaktów
-[Row Items]
-Dodatkowe linie
+[Row items]
+Obiekty w wierszu
 [Frame texts]
 Tekst ramki
 [Special colors]
@@ -863,8 +863,6 @@ Ułożenie wiersza
 Druga linia
 [Third Line]
 Trzecia linia
-[Row items]
-Obiekty w wierszu
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Nieznany kontakt)
