@@ -491,7 +491,7 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 	odp.position = -1000000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACT);
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pszTitle = LPGEN("Contact names");
 	odp.pfnDlgProc = ContactOpts;
 	odp.flags = ODPF_BOLDGROUPS;

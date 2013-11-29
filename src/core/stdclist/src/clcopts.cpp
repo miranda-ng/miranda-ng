@@ -423,7 +423,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.pszTitle = LPGEN("List");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
@@ -454,7 +454,7 @@ int ClcModernOptInit(WPARAM wParam, LPARAM lParam)
 	obj.hInstance = g_hInst;
 	obj.iSection = MODERNOPT_PAGE_SKINS;
 	obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
-	obj.lptzSubsection = LPGENT("Contact List");
+	obj.lptzSubsection = LPGENT("Contact list");
 	obj.iBoldControls = iBoldControls;
 	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
 

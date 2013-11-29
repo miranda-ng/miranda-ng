@@ -859,7 +859,7 @@ int GenMenuOptInit(WPARAM wParam, LPARAM)
 	odp.groupPosition = 1000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTOCOLORDER);
 	odp.pszTitle = LPGEN("Accounts");
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pfnDlgProc = ProtocolOrderOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

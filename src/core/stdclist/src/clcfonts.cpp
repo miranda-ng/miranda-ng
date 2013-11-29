@@ -111,7 +111,7 @@ void RegisterCListFonts()
 
 	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Contact List"), SIZEOF(colourid.group));
+	_tcsncpy(colourid.group, LPGENT("Contact list"), SIZEOF(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
 	ColourRegisterT(&colourid);
 

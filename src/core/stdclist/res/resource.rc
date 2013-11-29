@@ -69,10 +69,10 @@ BEGIN
     LTEXT           "seconds, when statuses differ",IDC_STATIC,140,161,165,8,NOT WS_GROUP
     CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,177,98,10
     CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,177,198,10
-    GROUPBOX        "Contact List",IDC_STCLISTGROUP,2,2,135,126
+    GROUPBOX        "Contact list",IDC_STCLISTGROUP,2,2,135,126
     GROUPBOX        "System tray icon",IDC_STATIC,143,57,169,70
     GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,131,310,66
-    GROUPBOX        "Contact List Sorting",IDC_STATIC,143,2,169,54,WS_GROUP
+    GROUPBOX        "Contact list sorting",IDC_STATIC,143,2,169,54,WS_GROUP
     CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,173,97,11,21
     CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,84,97,10
 END
@@ -139,7 +139,7 @@ BEGIN
     CONTROL         "Make selection highlight translucent",IDC_NOTNOTRANSLUCENTSEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,179,10
     CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,96,153,10
-    LTEXT           "'Hide Offline' means to hide:",IDC_STATIC,191,10,112,8
+    LTEXT           "'Hide offline' means to hide:",IDC_STATIC,191,10,112,8
     CONTROL         "Tree1",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,191,20,112,84
     GROUPBOX        "Groups",IDC_STATIC,2,112,148,136
     CONTROL         "Draw a line alongside group names",IDC_LINEWITHGROUPS,
@@ -149,7 +149,7 @@ BEGIN
     CONTROL         "Hide group counts when there are none online",IDC_HIDECOUNTSWHENEMPTY,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,165,131,16
     CONTROL         "Sort groups alphabetically",IDC_SORTGROUPSALPHA,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,183,131,16
-    CONTROL         "Quicksearch in open groups only",IDC_QUICKSEARCHVISONLY,
+    CONTROL         "Quick search in open groups only",IDC_QUICKSEARCHVISONLY,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,201,131,16
     LTEXT           "Indent groups by:",IDC_STATIC,11,221,67,8
     EDITTEXT        IDC_GROUPINDENT,78,219,31,12,ES_RIGHT | ES_NUMBER
@@ -180,7 +180,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Contact List Background",IDC_STATIC,4,4,227,146
+    GROUPBOX        "Contact list background",IDC_STATIC,4,4,227,146
     LTEXT           "Background color",IDC_STATIC,59,35,72,8,NOT WS_GROUP
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,22,35,32,10
     LTEXT           "Selection color",IDC_STATIC,59,51,72,8
@@ -202,7 +202,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Status Bar",IDC_STATIC,4,4,195,204
+    GROUPBOX        "Status bar",IDC_STATIC,4,4,195,204
     CONTROL         "Show status bar",IDC_SHOWSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,17,176,10
     CONTROL         "Show icons",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,33,166,10
     CONTROL         "Show protocol names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,48,166,10
@@ -481,8 +481,8 @@ BEGIN
         MENUITEM "&DND\tCtrl+5",                ID_STATUS_DND
         MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
         MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
-        MENUITEM "On the &Phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
-        MENUITEM "Out to &Lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
+        MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
     END
 END
 

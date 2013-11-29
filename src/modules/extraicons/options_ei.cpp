@@ -739,7 +739,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pszTitle = LPGEN("Extra icons");
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
