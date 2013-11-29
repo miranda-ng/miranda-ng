@@ -1,10 +1,10 @@
 ﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
-Utwórz nazwe konta (dla przykładu, Moje GG)
+Utwórz nazwę konta (dla przykładu, Moje GG)
 [Choose the protocol type]
 Wybierz typ protokołu
 [Specify the internal account name (optional)]
-Utwórz wewnętrzną nazwe konta (opcjonalnie)
+Utwórz wewnętrzną nazwę konta (opcjonalnie)
 [OK]
 OK
 [Cancel]
@@ -118,11 +118,11 @@ do wartości
 [Do you want to allow this change?]
 Czy chcesz umożliwić tę zmianę?
 [&Allow all further changes to this section]
-&Zezwalaj na wszystkie przyszłe zmiany w tej sekcji 
+&Zezwalaj na wszystkie przyszłe zmiany w tej sekcji
 [Cancel import]
 Anuluj import
 [Database import complete]
-Zakończeno importowanie profilu
+Zakończono importowanie profilu
 [The import has completed from]
 Import zakończył się z
 [What do you want to do with the file now?]
@@ -232,7 +232,7 @@ Biblioteka ikon:
 [Import multiple]
 Importuj wiele
 [To main icons]
-Do głównych ikon 
+Do głównych ikon
 [To]
 Do
 [<< &Import]
@@ -858,7 +858,7 @@ Sekcje tej samej szerokości
 [Show bevels on panels]
 Pokaz separatory na panelach
 [Show resize grip indicator]
-Pokaż wskaznik rozmiaru uchwytu
+Pokaż wskaźnik rozmiaru uchwytu
 [Ordering:]
 Sortowanie:
 [Contact list:]
@@ -1728,13 +1728,13 @@ Unikalne ID
 [Standard contacts]
 Standardowe kontakty
 [Online contacts to whom you have a different visibility]
-Połączone kontakty, dla których mam różną widoczność 
+Połączone kontakty, dla których mam różną widoczność
 [Offline contacts]
 Kontakty "Rozłączone"
 [Contacts which are 'not on list']
 Kontakty spoza listy
 [Group member counts]
-Liczba członków grupy 
+Liczba członków grupy
 [Dividers]
 Separatory
 [Offline contacts to whom you have a different visibility]
@@ -1895,7 +1895,7 @@ Strona domowa Mirandy
 Zgłoś błąd
 ;file \src\core\stdidle\idle.cpp
 [Idle]
-Bezczynność 
+Bezczynność
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
@@ -2192,7 +2192,7 @@ Utwórz
 [<In Use>]
 <W użyciu>
 [Are you sure you want to remove profile "%s"?]
-Czy napewano chcesz usunąć profil "%s"?
+Czy na pewno chcesz usunąć profil "%s"?
 [Size]
 Rozmiar
 [Run]
@@ -2370,7 +2370,7 @@ Twoje konto zostało pomyślnie zaktualizowane. Do jego aktywacji niezbędny jes
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 To konto można skonfigurować w opcjach Mirandy NG.
 [Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nZaznacz konto z listy po lewej by zobaczeć dostępne opcje. Alternatywnie, kliknij na '+' pod listą aby utworzyć nowe konto.
+Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nZaznacz konto z listy po lewej by zobaczyć dostępne opcje. Alternatywnie, kliknij na '+' pod listą aby utworzyć nowe konto.
 [Create new account]
 Utwórz nowe konto
 [Editing account]
@@ -2452,7 +2452,7 @@ Grupa (Otwarta)
 [Group (Closed)]
 Grupa (Zamknięta)
 [Connecting]
-Łączenie 
+Łączenie
 [User details]
 Dane kontaktu
 [History]

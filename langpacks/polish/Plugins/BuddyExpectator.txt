@@ -9,7 +9,7 @@
 Reaguje na powrót kontaktów lub na ich dłuższą nieobecność przy użyciu powiadomień i innych akcji.
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
-Kiedy kontakt bedzie aktywny po:
+Kiedy kontakt będzie aktywny po:
 [Show a popup]
 Pokaż popup
 [Add an event (flashing icon) to the contact]

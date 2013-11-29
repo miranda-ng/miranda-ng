@@ -57,7 +57,7 @@ Wyłącz SSL
 [Manage Server Groups]
 Zarządzaj grupami na serwerze
 [Force Single Client]
-Wymuś pojedyńczego klienta.
+Wymuś pojedynczego klienta.
 [Save Profile]
 Zapisz profil
 [Create a new AIM account]
@@ -101,7 +101,7 @@ Dołącz
 [&Cancel]
 Anuluj
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
-Pozwala na dostęp do zdefiniowanych przez użytkownika czatów. 
+Pozwala na dostęp do zdefiniowanych przez użytkownika czatów.
 [Change Password]
 Zmień hasło
 [Original]

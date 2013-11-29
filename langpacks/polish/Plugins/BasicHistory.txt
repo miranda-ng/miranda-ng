@@ -201,7 +201,7 @@ Ta operacja TRWALE USUNIE całą historię tego kontaktu.\nCzy na pewno chcesz t
 [Are You sure?]
 Czy na pewno?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Czy chcesz usunąć wszystkie zimportowane wiadomości dla tego kontaktu?\nZauważ że nastepne zadanie harmonogramu zimportuje tą wiadomość ponownie.
+Czy chcesz usunąć wszystkie zaimportowane wiadomości dla tego kontaktu?\nZauważ, że następne zadanie harmonogramu zaimportuje tą wiadomość ponownie.
 [Open in &new window]
 Otwórz w nowym oknie
 [&Open in existing window]
@@ -239,7 +239,7 @@ Binarny
 [Dat (mContacts)]
 Dat (mContacts)
 [Save window position as default]
-Zapisz pozycję okna jako domyslne
+Zapisz pozycję okna jako domyślne
 [Save window position for all contacts]
 Zapisz pozycję okna dla wszystkich kontaktów
 [Do you want to save imported messages to local profile?]
@@ -440,7 +440,7 @@ Załaduj na FTP
 [Path to output file]
 Ścieżka pliku wyjściowego
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
-Aby utworzyć sesię: otwórz WinSCP, naciśniej Nowa Sesia, wprowadź dane i zapisz z określoną nazwą. Pamiętaj, jeśli serwer FTP używa hasła, powinienieś zapisać go w WinSCP.
+Aby utworzyć sesję: otwórz WinSCP, naciśnij Nowa Sesja, wprowadź dane i zapisz z określoną nazwą. Pamiętaj, jeśli serwer FTP używa hasła, powinieneś zapisać go w WinSCP.
 [Path to file]
 Ścieżka do pliku
 [FTP path must contains '/' instead '\' and starts from '/'.]
@@ -458,7 +458,7 @@ Nieprawidłowy format pliku: %s.
 [Unknown contact in file: %s.]
 Nieznany kontakt w pliku: %s.
 [Cannot export history for contact: %s.]
-Niemożna eksportować historii dla kuntaktu: %s.
+Niemożna eksportować historii dla kontaktu: %s.
 [Cannot compress file(s).]
 Nie można spakować plik(ów).
 [Cannot send FTP file(s).]
@@ -466,11 +466,11 @@ Niemożna wysłać plik(ów) FTP.
 [Task finished]
 Zadanie zakończone
 [Task '%s' execution failed]
-Zadanie '%s' niepowiodło się
+Zadanie '%s' nie powiodło się
 [Task '%s' finished successfully]
 Zadanie '%s' zakończyło się prawidłowo
 [Task '%s' execution failed:]
-Zadanie '%s' niepowiodło się:
+Zadanie '%s' nie powiodło się:
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 Nie znaleziono "%s"

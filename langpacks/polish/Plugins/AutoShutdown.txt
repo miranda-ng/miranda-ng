@@ -80,7 +80,7 @@ Wstrzymaj odliczanie
 [&Cancel Countdown]
 Anuluj odliczanie
 [AutoShutdown]
-Autozamykanie
+Autowyłączanie
 [Countdown on Frame]
 Odliczanie w ramce
 [Background]
@@ -170,7 +170,7 @@ Zawieś aktywne połączenia
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Ustawia status wszystkich protokołów na Rozłączony i zamyka Mirandę NG.
 [Sets all Miranda NG protocols to offline.]
-Ustawia status wszystkich ptorokołów na rozłączony.
+Ustawia status wszystkich protokołów na rozłączony.
 [Logs the current Windows user off so that another user can log in.]
 Wylogowuje obecnego użytkownika Windows.
 [Shuts down Windows and then restarts Windows.]

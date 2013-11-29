@@ -41,7 +41,7 @@ Anuluj
 [EN]
 EN
 [Workstation is Locked]
-Koputer jest zablokowany
+Komputer jest zablokowany
 [Screen Saver is running]
 Wygaszacz jest włączony
 [Windows is inactive]
