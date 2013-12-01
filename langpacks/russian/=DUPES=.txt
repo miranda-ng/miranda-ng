@@ -4087,3 +4087,13 @@ INI файлы
 Осталось дней
 [Toolbar]
 Панель кнопок
+[&New Group]
+Новая группа
+[&Hide Offline Users]
+Скрыть отключённых
+[Hide &Offline Users out here]
+Скрыть отключённых вне группы
+[Hide &Empty Groups]
+Скрыть пустые группы
+[Disable &Groups]
+Отключить группы
