@@ -149,26 +149,15 @@ LBL_CreateProvider:
 	if ((m_crypto = pProvider->pFactory()) == NULL)
 		return 3;
 
-	size_t iKeyLength = m_crypto->getKeyLength();
-
 	dbv.type = DBVT_BLOB;
 	dbcgs.szSetting = "StoredKey";
 	if (GetContactSetting(NULL, &dbcgs)) {
 LBL_SetNewKey:
 		m_crypto->generateKey(); // unencrypted key
-		
-		BYTE *pKey = (BYTE*)_alloca(iKeyLength);
-		m_crypto->getKey(pKey, iKeyLength);
-
-		DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "StoredKey" };
-		dbcws.value.type = DBVT_BLOB;
-		dbcws.value.cpbVal = (WORD)iKeyLength;
-		dbcws.value.pbVal = pKey;
-		WriteContactSetting(NULL, &dbcws);
-
-		memset(pKey, 0, iKeyLength);
+		StoreKey();		
 	}
 	else {
+		size_t iKeyLength = m_crypto->getKeyLength();
 		if (dbv.cpbVal != (WORD)iKeyLength)
 			goto LBL_SetNewKey;
 
@@ -186,5 +175,21 @@ LBL_SetNewKey:
 		DBWrite(0, &dbSignature, sizeof(dbSignature));
 	}
 
+	InitDialogs();
 	return 0;
+}
+
+void CDb3Mmap::StoreKey()
+{
+	size_t iKeyLength = m_crypto->getKeyLength();
+	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
+	m_crypto->getKey(pKey, iKeyLength);
+
+	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "StoredKey" };
+	dbcws.value.type = DBVT_BLOB;
+	dbcws.value.cpbVal = (WORD)iKeyLength;
+	dbcws.value.pbVal = pKey;
+	WriteContactSetting(NULL, &dbcws);
+
+	SecureZeroMemory(pKey, iKeyLength);
 }

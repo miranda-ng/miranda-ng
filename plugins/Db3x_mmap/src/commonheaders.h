@@ -34,6 +34,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_langpack.h>
+#include <m_clist.h>
+#include <m_icolib.h>
 #include <m_crypto.h>
 
 #include "database.h"
@@ -41,6 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 
+extern HINSTANCE g_hInst;
 extern LIST<CDb3Mmap> g_Dbs;
 extern DBSignature dbSignature, dbSignatureIM, dbSignatureSA;
 

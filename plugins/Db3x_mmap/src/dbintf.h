@@ -152,6 +152,7 @@ struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 	void DatabaseCorruption(TCHAR *text);
 
 	__forceinline HANDLE getFile() const { return m_hDbFile; }
+	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 
 public:
 	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
@@ -297,6 +298,8 @@ struct CDb3Mmap : public CDb3Base
 	CDb3Mmap(const TCHAR* ptszFileName);
 	~CDb3Mmap();
 
+	void     StoreKey(void);
+
 protected:
 	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName);
 	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
@@ -312,6 +315,8 @@ protected:
 
 	void  Map();
 	void  ReMap(DWORD needed);
+
+	void  InitDialogs();
 };
 
 typedef int (CDb3Base::*CheckWorker)(int);
