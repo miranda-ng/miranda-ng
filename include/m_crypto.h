@@ -41,6 +41,7 @@ struct MICryptoEngine
 	STDMETHOD_(void, purgeKey)(void)PURE;    // purges a key from memory
 
 	// sets the master password (in utf-8)
+	STDMETHOD_(bool, checkPassword)(const char *pszPassword) PURE;
 	STDMETHOD_(void, setPassword)(const char *pszPassword) PURE;
 
 	// result must be freed using mir_free or assigned to mir_ptr<BYTE>

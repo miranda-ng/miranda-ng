@@ -104,6 +104,12 @@ void CStdCrypt::purgeKey(void)
 	m_valid = false;
 }
 
+// checks the master password (in utf-8)
+bool CStdCrypt::checkPassword(const char *pszPassword)
+{
+	return m_password == pszPassword;
+}
+
 // sets the master password (in utf-8)
 void CStdCrypt::setPassword(const char *pszPassword)
 {

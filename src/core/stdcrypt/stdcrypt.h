@@ -45,6 +45,7 @@ struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 	STDMETHODIMP_(void) purgeKey(void);    // purges a key from memory
 
 	// sets the master password (in utf-8)
+	STDMETHODIMP_(bool) checkPassword(const char *pszPassword);
 	STDMETHODIMP_(void) setPassword(const char *pszPassword);
 
 	// result must be freed using mir_free or assigned to mir_ptr<BYTE>
