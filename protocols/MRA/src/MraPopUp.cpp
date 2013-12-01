@@ -152,20 +152,6 @@ struct MraPopupData
 	int iPopupType;
 };
 
-void CALLBACK MraPopupThreadMarandaCallback(ULONG_PTR dwParam)
-{
-	if (dwParam == 0)
-		return;
-
-	MraPopupData *dat = (MraPopupData*)((POPUPDATAW*)dwParam)->PluginData;
-	if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS && dat->ppro->hWndEMailPopupStatus)
-		PUChangeTextW(dat->ppro->hWndEMailPopupStatus, ((POPUPDATAW*)dwParam)->lpwzText);
-	else
-		PUAddPopupW((POPUPDATAW*)dwParam);
-
-	mir_free((void*)dwParam);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup plugin window proc
 
@@ -226,19 +212,15 @@ void CMraProto::MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dw
 	MraPopupShowW(hContact, dwType, dwFlags, szTitle, lpszMessage);
 }
 
-
 void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage)
 {
 	if (getByte("PopupsEnabled", MRA_DEFAULT_POPUPS_ENABLED))
 	if (GetBit(getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType))
 	if ( ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		BOOL bUseWinColors;
-		char szBuff[MAX_PATH];
-		POPUPDATAT *ppd = (POPUPDATAT*)mir_calloc(sizeof(POPUPDATAT));
+		POPUPDATAT ppd = { 0 };
 
-		//if ( ServiceExists(MS_POPUP2_SHOW) == FALSE)// yapp used
+		// delete old email popup
 		if (dwType == MRA_POPUP_TYPE_EMAIL_STATUS && hWndEMailPopupStatus) {
-			// delete old email popup
 			PUDeletePopup(hWndEMailPopupStatus);
 			hWndEMailPopupStatus = NULL;
 		}
@@ -246,25 +228,25 @@ void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWS
 		// load icon
 		switch (dwType) {
 		case MRA_POPUP_TYPE_NONE:// proto icon
-			ppd->lchIcon = g_hMainIcon;
+			ppd.lchIcon = g_hMainIcon;
 			break;
 		case MRA_POPUP_TYPE_DEBUG:// IDI_APPLICATION
-			ppd->lchIcon = (HICON)LoadImage(NULL, IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_INFORMATION:// IDI_INFORMATION
-			ppd->lchIcon = (HICON)LoadImage(NULL, IDI_INFORMATION, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_INFORMATION, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_QUESTION:// IDI_QUESTION
-			ppd->lchIcon = (HICON)LoadImage(NULL, IDI_QUESTION, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_QUESTION, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_WARNING:// IDI_WARNING
-			ppd->lchIcon = (HICON)LoadImage(NULL, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_ERROR:// IDI_ERROR
-			ppd->lchIcon = (HICON)LoadImage(NULL, IDI_ERROR, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_ERROR, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_EMAIL_STATUS:
-			ppd->lchIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_MAIL_NOTIFY), IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_MAIL_NOTIFY), IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		}
 
@@ -272,32 +254,36 @@ void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWS
 		dat->iPopupType = dwType;
 		dat->ppro = this;
 
-		ppd->lchContact = hContact;
+		ppd.lchContact = hContact;
 		if (lpszTitle)
-			lstrcpyn(ppd->lptzContactName, lpszTitle, MAX_CONTACTNAME);
+			lstrcpyn(ppd.lptzContactName, lpszTitle, MAX_CONTACTNAME);
 		if (lpszMessage)
-			lstrcpyn(ppd->lptzText, lpszMessage, MAX_SECONDLINE);
-		ppd->PluginWindowProc = MraPopupDlgProc;
-		ppd->PluginData = dat;
+			lstrcpyn(ppd.lptzText, lpszMessage, MAX_SECONDLINE);
+		ppd.PluginWindowProc = MraPopupDlgProc;
+		ppd.PluginData = dat;
 
+		char szBuff[MAX_PATH];
 		mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SUseWinColors", lpcwszPopupsTypes[dwType]);
-		bUseWinColors = getByte(szBuff, MRA_DEFAULT_POPUP_USE_WIN_COLORS);
+		BOOL bUseWinColors = getByte(szBuff, MRA_DEFAULT_POPUP_USE_WIN_COLORS);
 		if (bUseWinColors) {
-			ppd->colorBack = GetSysColor(COLOR_BTNFACE);
-			ppd->colorText = GetSysColor(COLOR_WINDOWTEXT);
+			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 		}
 		else {
 			mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorBack", lpcwszPopupsTypes[dwType]);
-			ppd->colorBack = getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_BACK);
+			ppd.colorBack = getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_BACK);
 
 			mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorText", lpcwszPopupsTypes[dwType]);
-			ppd->colorText = getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_TEXT);
+			ppd.colorText = getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_TEXT);
 		}
 
 		mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%STimeout", lpcwszPopupsTypes[dwType]);
-		ppd->iSeconds = getDword(szBuff, MRA_DEFAULT_POPUP_TIMEOUT);
+		ppd.iSeconds = getDword(szBuff, MRA_DEFAULT_POPUP_TIMEOUT);
 
-		MraPopupThreadMarandaCallback((ULONG_PTR)ppd);
+		if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS && dat->ppro->hWndEMailPopupStatus)
+			PUChangeTextW(dat->ppro->hWndEMailPopupStatus, ppd.lpwzText);
+		else
+			PUAddPopupW(&ppd);
 	}
 	else if (dwFlags & MRA_POPUP_ALLOW_MSGBOX)
 		MessageBox(NULL, lpszMessage, lpszTitle, MB_OK+(dwType == MRA_POPUP_TYPE_WARNING)?MB_ICONERROR:MB_ICONINFORMATION);

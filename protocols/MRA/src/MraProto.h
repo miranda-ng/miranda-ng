@@ -173,7 +173,6 @@ struct CMraProto : public PROTO<CMraProto>
 	HANDLE   hSendQueueHandle, hFilesQueueHandle, hMPopSessionQueue;
 
 	HANDLE   m_heNudgeReceived;
-	HANDLE   m_hThreadWorker;
 	HANDLE   m_hConnection;
 	DWORD    m_dwThreadWorkerLastPingTime, m_dwNextPingSendTickTime, m_dwPingPeriod;
 	DWORD    m_dwThreadWorkerRunning;
@@ -251,7 +250,6 @@ struct CMraProto : public PROTO<CMraProto>
 	void   MraUpdateEmailStatus(const CMStringA &szFrom, const CMStringA &szSubject, DWORD dwDate, DWORD dwUIDL);
 	DWORD  MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMessageRTF);
 
-	void   MraThreadClean();
 	DWORD  StartConnect();
 	void   __cdecl MraThreadProc(LPVOID lpParameter);
 	DWORD  MraGetNLBData(CMStringA &szHost, WORD *pwPort);

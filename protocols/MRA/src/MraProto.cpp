@@ -124,14 +124,6 @@ int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	SetStatus(ID_STATUS_OFFLINE);
 	MraAvatarsQueueDestroy(hAvatarsQueueHandle); hAvatarsQueueHandle = NULL;
-
-	if (m_hThreadWorker) {
-		if (IsThreadAlive(m_hThreadWorker))
-			WaitForSingleObjectEx(m_hThreadWorker, (WAIT_FOR_THREAD_TIMEOUT*1000), FALSE);
-		CloseHandle(m_hThreadWorker);
-		m_hThreadWorker = NULL;
-	}
-
 	return 0;
 }
 

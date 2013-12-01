@@ -9,30 +9,21 @@ DWORD CMraProto::StartConnect()
 		return ERROR_OPERATION_ABORTED;
 
 	// поток ещё/уже не работал, поставили статус что работает и запускаем
-	if (InterlockedCompareExchange((volatile LONG*)&m_dwThreadWorkerRunning, TRUE, FALSE) == FALSE) {
-		CMStringA szEmail;
-		mraGetStringA(NULL, "e-mail", szEmail);
+	if (InterlockedCompareExchange((volatile LONG*)&m_dwThreadWorkerRunning, TRUE, FALSE))
+		return 0;
 
-		CMStringA szPass;
-		if (szEmail.GetLength() > 5 && GetPassDB(szPass)) {
-			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
-			m_hThreadWorker = ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0);
-			if (m_hThreadWorker == NULL) {
-				DWORD dwRetErrorCode = GetLastError();
-				InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
-				SetStatus(ID_STATUS_OFFLINE);
-				return dwRetErrorCode;
-			}
-		}
-		else {
-			MraThreadClean();
-			if (szEmail.GetLength() <= 5)
-				MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup e-mail in options"));
-			else
-				MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup password in options"));
-		}
+	CMStringA szEmail;
+	mraGetStringA(NULL, "e-mail", szEmail);
+
+	CMStringA szPass;
+	if (szEmail.GetLength() <= 5)
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup e-mail in options"));
+	else if (!GetPassDB(szPass))
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup password in options"));
+	else {
+		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
+		ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0);
 	}
-
 	return 0;
 }
 
@@ -104,22 +95,11 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 		}
 	}
 
-	MraThreadClean();
-}
-
-void CMraProto::MraThreadClean()
-{
 	MraMPopSessionQueueFlush(hMPopSessionQueue);
 	Netlib_CloseHandle(m_hConnection);// called twice, if user set offline, its normal
 	m_hConnection = NULL;
 	dwCMDNum = 0;
 
-	SleepEx(100, FALSE);// to prevent high CPU load by some status plugins like allwaysonline
-
-	if (m_hThreadWorker) {
-		CloseHandle(m_hThreadWorker);
-		m_hThreadWorker = NULL;
-	}
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
 	SetStatus(ID_STATUS_OFFLINE);
 }
