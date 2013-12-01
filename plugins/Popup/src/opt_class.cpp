@@ -380,7 +380,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					{
 						OPENOPTIONSDIALOG ood = { sizeof(ood) };
 						ood.pszGroup = "Customize";
-						ood.pszPage = "Fonts & Colors";
+						ood.pszPage = "Fonts and colors";
 						Options_Open(&ood);
 					}
 					break;

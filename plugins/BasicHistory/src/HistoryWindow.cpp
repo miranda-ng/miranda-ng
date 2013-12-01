@@ -1922,7 +1922,7 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 	if (hPopupMenu != NULL)
 	{
 		AppendMenu(hPopupMenu, MF_STRING, IDM_OPTIONS, TranslateT("Options"));
-		AppendMenu(hPopupMenu, MF_STRING, IDM_FONTS, TranslateT("Fonts & Colors"));
+		AppendMenu(hPopupMenu, MF_STRING, IDM_FONTS, TranslateT("Fonts and colors"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_ICONS, TranslateT("Icons"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_HOTKEYS, TranslateT("Hotkeys"));
 		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, NULL);
@@ -1953,7 +1953,7 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 			SendMessage(hWnd, WM_COMMAND, IDM_CONFIG, 0);
 			break;
 		case IDM_FONTS:
-			OpenOptions("Customize", "Fonts & Colors");
+			OpenOptions("Customize", "Fonts and colors");
 			break;
 		case IDM_ICONS:
 			OpenOptions("Customize", "Icons");

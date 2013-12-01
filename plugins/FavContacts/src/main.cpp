@@ -1087,7 +1087,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			{
 				OPENOPTIONSDIALOG ood = { sizeof(ood) };
 				ood.pszGroup = "Customize";
-				ood.pszPage = "Fonts & Colors";
+				ood.pszPage = "Fonts and colors";
 				ood.pszTab = NULL;
 				Options_Open(&ood);
 			}
