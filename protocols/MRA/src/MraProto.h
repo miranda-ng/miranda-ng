@@ -332,6 +332,7 @@ struct CMraProto : public PROTO<CMraProto>
 
 	DWORD   MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle);
 	void    MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle);
+	void    MraAvatarsQueueSuspend(HANDLE hAvatarsQueueHandle);
 	void    MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle);
 	DWORD   MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD *pdwAvatarsQueueID);
 	bool    MraAvatarsGetContactTime	(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime);

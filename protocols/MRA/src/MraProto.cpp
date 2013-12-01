@@ -71,6 +71,7 @@ CMraProto::~CMraProto()
 	if (m_heNudgeReceived)
 		DestroyHookableEvent(m_heNudgeReceived);
 
+	MraAvatarsQueueDestroy(hAvatarsQueueHandle);
 	MraMPopSessionQueueDestroy(hMPopSessionQueue);
 	MraFilesQueueDestroy(hFilesQueueHandle);
 	MraSendQueueDestroy(hSendQueueHandle);
@@ -123,7 +124,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	SetStatus(ID_STATUS_OFFLINE);
-	MraAvatarsQueueDestroy(hAvatarsQueueHandle); hAvatarsQueueHandle = NULL;
+	MraAvatarsQueueSuspend(hAvatarsQueueHandle);
 	return 0;
 }
 

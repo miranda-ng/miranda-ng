@@ -109,18 +109,19 @@ void CMraProto::MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
 	}
 }
 
+void CMraProto::MraAvatarsQueueSuspend(HANDLE hAvatarsQueueHandle)
+{
+	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
+	InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, FALSE);
+	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
+}
+
 void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 {
 	if ( !hAvatarsQueueHandle)
 		return;
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
-
-	InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, FALSE);
-	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
-
-	WaitForMultipleObjects(pmraaqAvatarsQueue->iThreadsCount, (HANDLE*)&pmraaqAvatarsQueue->hThread[0], TRUE, (WAIT_FOR_THREAD_TIMEOUT*1000));
-
 	if (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
 		while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
 			SleepEx(100, TRUE);
