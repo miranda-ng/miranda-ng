@@ -9,6 +9,8 @@
 ;============================================================
 [db3x_mmap Plugin]
 Плагин db3x_mmap
+[Set password]
+Установить пароль
 [Disk is full. Miranda will now shutdown.]
 Диск полон. Miranda завершает работу.
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
