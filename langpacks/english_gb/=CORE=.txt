@@ -2,12 +2,12 @@
 Send authorisation request
 [Authorization request]
 Authorisation request
-[Fonts and Colors]
-Fonts and Colours
-[Color/Background]
-Colour/Background
-[Text Color]
-Text Colour
+[Fonts and colors]
+Fonts and colours
+[(Background) Color]
+(Background) Colour
+[Text color]
+Text colour
 [&Color:]
 &Colour:
 [Base color:]
@@ -52,8 +52,6 @@ Message window behaviour:
 %s requested authorisation\n%u on %s
 [%s requested authorization\n%s on %s]
 %s requested authorisation\n%s on %s
-[Text color]
-Text colour
 [Timestamp has same color as the event]
 Timestamp has same colour as the event
 [Strip colors from messages in the log]
@@ -72,8 +70,6 @@ Initialising...
 Please authorise my request and add me to your contact list.
 [Customize]
 Customise
-[Fonts & Colors]
-Fonts & Colours
 [Request authorization]
 Request authorisation
 [Grant authorization]

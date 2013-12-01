@@ -7,7 +7,7 @@
 ;============================================================
 [Authorization request by %s (%s%d): %s]
 Authorisation request by %s (%s%d): %s
-[Fonts & Colors]
-Fonts & Colours
+[Fonts and colors]
+Fonts and colours
 [Authorization request]
 Authorisation request
