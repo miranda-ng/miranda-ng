@@ -25,7 +25,7 @@
 [Try again]
 [Popup]
 [Add to List]
-[User Details]
+[User details]
 [Send Message]
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

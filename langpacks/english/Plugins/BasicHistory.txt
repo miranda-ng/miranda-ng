@@ -116,7 +116,7 @@
 [Delete Group]
 [Options]
 [Filters]
-[Fonts & Colors]
+[Fonts and colors]
 [Icons]
 [Hotkeys]
 [Rich Html]
