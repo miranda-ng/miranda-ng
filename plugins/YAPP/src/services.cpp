@@ -42,6 +42,9 @@ void StripBBCodesInPlace(wchar_t *text)
 
 static INT_PTR CreatePopup(WPARAM wParam, LPARAM lParam)
 {
+	if (bShutdown)
+		return -1;
+
 	POPUPDATA *pd_in = (POPUPDATA *)wParam;
 	if ( NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
 		return 0;
@@ -80,6 +83,9 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR CreatePopupW(WPARAM wParam, LPARAM lParam)
 {
+	if (bShutdown)
+		return -1;
+
 	POPUPDATAW *pd_in = (POPUPDATAW *)wParam;
 	if ( NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
 		return 0;
@@ -207,7 +213,8 @@ void UpdateMenu()
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : TTBST_RELEASED);
 }
 
-INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam) {
+INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam)
+{
 	switch(wParam) {
 	case PUQS_ENABLEPOPUPS:
 		{
@@ -244,6 +251,9 @@ static INT_PTR TogglePopups(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
 {
+	if (bShutdown)
+		return -1;
+
 	HWND hwndPop = (HWND)wParam;
 	POPUPDATAW *pd_in = (POPUPDATAW *)lParam;
 
@@ -280,7 +290,10 @@ static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 {
-	if ( db_get_b(0, MODULE, "Enabled", 1)) {
+	if (bShutdown)
+		return -1;
+
+	if (db_get_b(0, MODULE, "Enabled", 1)) {
 		POPUPDATAT pd = {0};
 		_tcscpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
 		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
@@ -292,7 +305,10 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 {
-	if ( db_get_b(0, MODULE, "Enabled", 1)) {
+	if (bShutdown)
+		return -1;
+
+	if (db_get_b(0, MODULE, "Enabled", 1)) {
 		POPUPDATAW pd = {0};
 		wcscpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);

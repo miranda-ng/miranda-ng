@@ -81,7 +81,8 @@ void SaveOptions()
 	db_set_dw(0, MODULE, "AvatarPadding", options.av_padding);
 }
 
-void ShowExamplePopups() {
+void ShowExamplePopups()
+{
 	PopupData pd = {sizeof(PopupData)};
 	pd.hIcon = hPopupIcon;
 	pd.flags = PDF_TCHAR;

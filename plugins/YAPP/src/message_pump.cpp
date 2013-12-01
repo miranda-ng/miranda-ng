@@ -15,7 +15,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 		SetEvent((HANDLE)param);
 
 	MSG hwndMsg = { 0 };
-	while(GetMessage(&hwndMsg, 0, 0, 0) > 0 && !Miranda_Terminated()) {
+	while (GetMessage(&hwndMsg, 0, 0, 0) > 0 && !bShutdown) {
 		if (!IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) {
 			switch(hwndMsg.message) {
 			case MUM_CREATEPOPUP:

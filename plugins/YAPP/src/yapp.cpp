@@ -4,6 +4,7 @@
 #include "common.h"
 
 HMODULE hInst = 0;
+bool bShutdown = false;
 
 MNOTIFYLINK *notifyLink = 0;
 
@@ -225,6 +226,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
+	bShutdown = true;
 	DeinitMessagePump();
 	DeinitNotify();
 	return 0;

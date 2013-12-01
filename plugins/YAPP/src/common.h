@@ -63,10 +63,11 @@
 
 #define MODULE			"YAPP"
 
-extern HMODULE hInst;
+extern HMODULE  hInst;
+extern bool     bShutdown;
 
-extern HFONT hFontFirstLine, hFontSecondLine, hFontTime;
-extern COLORREF	colFirstLine, colSecondLine, colBg, colTime, colBorder, colSidebar, colTitleUnderline;
+extern HFONT    hFontFirstLine, hFontSecondLine, hFontTime;
+extern COLORREF colFirstLine, colSecondLine, colBg, colTime, colBorder, colSidebar, colTitleUnderline;
 
 extern MNOTIFYLINK *notifyLink;
 
