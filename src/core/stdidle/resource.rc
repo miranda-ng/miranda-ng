@@ -50,7 +50,7 @@ BEGIN
     CONTROL         "Change my status mode to:",IDC_AASHORTIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,147,132,11
     CONTROL         "Do not set status back to online when returning from idle",IDC_IDLESTATUSLOCK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,35,164,254,10
-    GROUPBOX        "Idle Options",IDC_STATIC,3,1,304,192
+    GROUPBOX        "Idle options",IDC_STATIC,3,1,304,192
     CONTROL         "Become idle if application full screen",IDC_FULLSCREEN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,94,265,9
     CONTROL         "Disable sounds on idle",IDC_IDLESOUNDSOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,177,265,9

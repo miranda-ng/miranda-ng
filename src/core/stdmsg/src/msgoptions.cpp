@@ -579,7 +579,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
 	odp.pszTab = LPGEN("Messaging");
-	odp.pszTitle = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("Message sessions");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

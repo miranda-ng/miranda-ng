@@ -431,7 +431,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
-	odp.pszTitle = LPGEN("List Background");
+	odp.pszTitle = LPGEN("List background");
 	odp.pfnDlgProc = DlgProcClcBkgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

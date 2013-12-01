@@ -511,6 +511,8 @@ E-Mail
 Горячая клавиша
 [Hottrack Text]
 Под курсором
+[Hottrack text]
+Под курсором
 [Hungarian]
 Венгерский
 [Icelandic]
@@ -1529,7 +1531,11 @@ Web-страница
 Разделители
 [Selected Text]
 Выделенный текст
+[Selected text]
+Выделенный текст
 [Quicksearch Text]
+Быстрый поиск
+[Quicksearch text]
 Быстрый поиск
 [Contacts which are 'not on list']
 Контакты 'не в списке'
@@ -2115,6 +2121,8 @@ ID пользователя:
 Статус пользователя изменился
 [Window Icon]
 Значок окна
+[Window icon]
+Значок окна
 [Italics]
 Курсив
 [Underlined]
@@ -2157,6 +2165,8 @@ ID пользователя:
 Тема (10х10)
 [Nickchange (10x10)]
 Смена псевдонима (10х10)
+[Nick change (10x10)]
+Смена псевдонима (10х10)
 [Kick (10x10)]
 Выгнать (10х10)
 [Quit (10x10)]
@@ -2167,7 +2177,7 @@ ID пользователя:
 Войти (10x10)
 [Remove status (10x10)]
 Удалить статус (10х10)
-[Add Status (10x10)]
+[Add status (10x10)]
 Добавить статус (10х10)
 [Message out (10x10)]
 Отправленное сообщение (10х10)
@@ -2179,7 +2189,11 @@ ID пользователя:
 Действие (10x10)
 [%s: Message Session]
 %s: диалог
+[%s: message session]
+%s: диалог
 [%s: Message Session (%u users)]
+%s: диалог (%u пользователей)
+[%s: message session (%u users)]
 %s: диалог (%u пользователей)
 [Enable logging to disk]
 Запись журнала на диск
@@ -2324,6 +2338,8 @@ ID пользователя:
 [Enable notification]
 Включить уведомление
 [List Background]
+Фон списка
+[List background]
 Фон списка
 [Pin to desktop]
 Прикрепить к столу
@@ -3615,6 +3631,8 @@ xСтатусы
 пикселей
 [Message Sessions]
 Беседы
+[Message sessions]
+Беседы
 [Send typing notifications to the following users when you are typing a message to them:]
 Оповещать отмеченных пользователей о том, что вы набираете сообщение:
 [Single Messaging]
@@ -3785,7 +3803,11 @@ xСтатусы
 Показывать заголовок
 [%s: Chat Room (%u user)]
 %s: Чат-комната (%u пользователь)
+[%s: chat room (%u user)]
+%s: Чат-комната (%u пользователь)
 [%s: Chat Room (%u users)]
+%s: Чат-комната (%u пользователей)
+[%s: chat room (%u users)]
 %s: Чат-комната (%u пользователей)
 [Log status changes]
 Запись изменений статусов в журнал

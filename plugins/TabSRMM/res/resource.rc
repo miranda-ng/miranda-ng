@@ -660,8 +660,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,37,174,10
     CONTROL         "Check1",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,10,49,174,10
     CONTROL         "Send on Shift+Enter",IDC_SENDSHIFTENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,89,174,10
-    CONTROL         "Send message on Enter",IDC_SENDENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,101,174,10
-    CONTROL         "Send message on double Enter",IDC_SENDDBLENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,113,174,10
+    CONTROL         "Send message on 'Enter'",IDC_SENDENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,101,174,10
+    CONTROL         "Send message on double 'Enter'",IDC_SENDDBLENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,113,174,10
     CONTROL         "Minimize the message window on send",IDC_MINSEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,125,174,10
     LTEXT           "Tabs:",IDC_TXT_TITLE4,184,0,183,8
     CONTROL         "Use tabbed interface",IDC_USETABS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,13,173,10

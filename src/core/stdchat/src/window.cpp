@@ -1309,12 +1309,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			switch(si->iType) {
 			case GCW_CHATROOM:
 				mir_sntprintf(szTemp, SIZEOF(szTemp),
-					(si->nUsersInNicklist ==1) ? TranslateT("%s: Chat Room (%u user)") : TranslateT("%s: Chat Room (%u users)"),
+					(si->nUsersInNicklist ==1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_PRIVMESS:
 				mir_sntprintf(szTemp, SIZEOF(szTemp),
-					(si->nUsersInNicklist ==1) ? TranslateT("%s: Message Session") : TranslateT("%s: Message Session (%u users)"),
+					(si->nUsersInNicklist ==1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_SERVER:
@@ -2387,7 +2387,7 @@ LABEL_SHOWWINDOW:
 					if ( ui != NULL ) {
 						static TCHAR ptszBuf[ 1024 ];
 						mir_sntprintf( ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
-							TranslateT( "Nick name" ), ui->pszNick,
+							TranslateT( "Nickname" ), ui->pszNick,
 							TranslateT( "Unique ID" ), ui->pszUID,
 							TranslateT( "Status" ), TM_WordToString( parentdat->pStatuses, ui->Status ));
 						lpttd->lpszText = ptszBuf;

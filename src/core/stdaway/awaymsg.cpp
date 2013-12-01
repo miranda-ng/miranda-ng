@@ -142,7 +142,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 		int chatRoom = szProto ? db_get_b((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 		if ( !chatRoom) {
 			int status = db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
-			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), pcli->pfnGetStatusModeDescription(status, 0));
+			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
 			mi.ptszName = str;
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
@@ -169,7 +169,7 @@ int LoadAwayMsgModule(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000005000;
 	mi.flags = CMIF_NOTOFFLINE;
-	mi.pszName = LPGEN("Re&ad Status Message");
+	mi.pszName = LPGEN("Re&ad status message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);

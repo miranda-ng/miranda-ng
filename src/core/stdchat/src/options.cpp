@@ -84,14 +84,14 @@ struct branch_t
 
 static const struct branch_t branch0[] = {
 	{ LPGENT("Use a tabbed interface"), "Tabs", 0, 1},
-	{ LPGENT("Close tab on doubleclick"), "TabCloseOnDblClick", 0, 0},
+	{ LPGENT("Close tab on double click"), "TabCloseOnDblClick", 0, 0},
 	{ LPGENT("Restore previously open tabs when showing the window"), "TabRestore", 0, 0},
 	{ LPGENT("Show tabs at the bottom"), "TabBottom", 0, 0},
 };
 
 static const struct branch_t branch1[] = {
-	{ LPGENT("Send message by pressing the Enter key"), "SendOnEnter", 0, 1},
-	{ LPGENT("Send message by pressing the Enter key twice"), "SendOnDblEnter", 0,0},
+	{ LPGENT("Send message by pressing the 'Enter' key"), "SendOnEnter", 0, 1},
+	{ LPGENT("Send message by pressing the 'Enter' key twice"), "SendOnDblEnter", 0,0},
 	{ LPGENT("Flash window when someone speaks"), "FlashWindow", 0,0},
 	{ LPGENT("Flash window when a word is highlighted"), "FlashWindowHighlight", 0,1},
 	{ LPGENT("Show list of users in the chat room"), "ShowNicklist", 0,1},
@@ -399,27 +399,27 @@ void RegisterFonts( void )
 
 	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Chat Module"), SIZEOF(colourid.group));
+	_tcsncpy(colourid.group, LPGENT("Chat module"), SIZEOF(colourid.group));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorMessageBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Message Background"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Message background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Userlist Background"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("User list background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Userlist Lines"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("User list lines"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Userlist Background (selected)"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("User list background (selected)"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
 	ColourRegisterT(&colourid);
 }
@@ -428,7 +428,7 @@ void RegisterFonts( void )
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Window Icon"),           "chat_window",           IDI_CHANMGR,     0 },
+	{ LPGEN("Window icon"),           "chat_window",           IDI_CHANMGR,     0 },
 	{ LPGEN("Text color"),            "chat_fgcol",            IDI_COLOR,       0 },
 	{ LPGEN("Background color"),      "chat_bkgcol",           IDI_BKGCOLOR,    0 },
 	{ LPGEN("Bold"),                  "chat_bold",             IDI_BBOLD,       0 },
@@ -454,13 +454,13 @@ static IconItem iconList[] =
 	{ LPGEN("Message in (10x10)"),    "chat_log_message_in",   IDI_MESSAGE,    10 },
 	{ LPGEN("Message out (10x10)"),   "chat_log_message_out",  IDI_MESSAGEOUT, 10 },
 	{ LPGEN("Action (10x10)"),        "chat_log_action",       IDI_ACTION,     10 },
-	{ LPGEN("Add Status (10x10)"),    "chat_log_addstatus",    IDI_ADDSTATUS,  10 },
+	{ LPGEN("Add status (10x10)"),    "chat_log_addstatus",    IDI_ADDSTATUS,  10 },
 	{ LPGEN("Remove status (10x10)"), "chat_log_removestatus", IDI_REMSTATUS,  10 },
 	{ LPGEN("Join (10x10)"),          "chat_log_join",         IDI_JOIN,       10 },
 	{ LPGEN("Leave (10x10)"),         "chat_log_part",         IDI_PART,       10 },
 	{ LPGEN("Quit (10x10)"),          "chat_log_quit",         IDI_QUIT,       10 },
 	{ LPGEN("Kick (10x10)"),          "chat_log_kick",         IDI_KICK,       10 },
-	{ LPGEN("Nickchange (10x10)"),    "chat_log_nick",         IDI_NICK,       10 },
+	{ LPGEN("Nick change (10x10)"),    "chat_log_nick",         IDI_NICK,       10 },
 	{ LPGEN("Notice (10x10)"),        "chat_log_notice",       IDI_NOTICE,     10 },
 	{ LPGEN("Topic (10x10)"),         "chat_log_topic",        IDI_TOPIC,      10 },
 	{ LPGEN("Highlight (10x10)"),     "chat_log_highlight",    IDI_HIGHLIGHT,  10 },
@@ -702,7 +702,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			bi.hwndOwner=hwndDlg;
 			bi.pszDisplayName=szDirectory;
-			bi.lpszTitle=TranslateT("Select Folder");
+			bi.lpszTitle=TranslateT("Select folder");
 			bi.ulFlags=BIF_NEWDIALOGSTYLE|BIF_EDITBOX|BIF_RETURNONLYFSDIRS;			
 			bi.lpfn=BrowseCallbackProc;
 			bi.lParam=(LPARAM)szDirectory;
@@ -907,7 +907,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTitle = LPGEN("Group chats");
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = DlgProcOptions1;
@@ -916,7 +916,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 
 	odp.position = 910000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
-	odp.pszTab = LPGEN("Chat Log");
+	odp.pszTab = LPGEN("Chat log");
 	odp.pfnDlgProc = DlgProcOptions2;
 	Options_AddPage(wParam, &odp);
 
