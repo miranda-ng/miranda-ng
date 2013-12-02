@@ -4117,3 +4117,19 @@ INI файлы
 Все файлы
 [My Received Files]
 Принятые файлы
+[&Hide Offline Users in here]
+Скрыть отключённых в группе
+[&Rename Group]
+Переименовать группу
+[&Delete Group]
+Удалить группу
+[View &History]
+&История
+[&Hide Offline Users in here]
+Скрыть отключённых в группе
+[&Show Offline Users in here]
+Показать отключённых в группе
+[&Rename Group]
+Переименовать группу
+[&Delete Group]
+Удалить группу
