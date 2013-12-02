@@ -34,7 +34,7 @@ static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] =
 	LPGENT("Username"),
 	LPGENT("FirstName LastName"),
 	LPGENT("LastName FirstName"),
-	LPGENT("'(Unknown Contact)' (not movable)")
+	LPGENT("'(Unknown contact)' (not movable)")
 };
 
 BYTE nameOrder[NAMEORDERCOUNT];
@@ -322,9 +322,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 
 					case 8:
 						if (ci->dwFlag & CNF_UNICODE)
-							ci->pszVal = (TCHAR*)mir_wstrdup(TranslateW(L"'(Unknown Contact)'"));
+							ci->pszVal = (TCHAR*)mir_wstrdup(TranslateW(L"'(Unknown contact)'"));
 						else
-							ci->pszVal = (TCHAR*)mir_strdup(Translate("'(Unknown Contact)'"));
+							ci->pszVal = (TCHAR*)mir_strdup(Translate("'(Unknown contact)'"));
 						ci->type = CNFT_ASCIIZ;
 						return 0;
 					}

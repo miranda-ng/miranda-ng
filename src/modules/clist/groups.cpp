@@ -73,7 +73,7 @@ static INT_PTR CreateGroupInternal(INT_PTR iParent, const TCHAR *ptszName)
 	char str[33];
 	int i;
 
-	const TCHAR* grpName = ptszName ? ptszName : TranslateT("New Group");
+	const TCHAR* grpName = ptszName ? ptszName : TranslateT("New group");
 	if (iParent) {
 		_itoa(iParent - 1, str, 10);
 		DBVARIANT dbv;
@@ -190,7 +190,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	{
 		TCHAR szQuestion[256+100];
 		mir_sntprintf(szQuestion, SIZEOF(szQuestion), TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), name);
-		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete Group"), MB_YESNO|MB_ICONQUESTION) == IDNO)
+		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO|MB_ICONQUESTION) == IDNO)
 			return 1;
 	}
 	SetCursor(LoadCursor(NULL, IDC_WAIT));
@@ -276,7 +276,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	DBVARIANT dbv;
 
 	if (GroupNameExists(szName, groupId)) {
-		MessageBox(NULL, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename Group"), MB_ICONERROR | MB_OK);
+		MessageBox(NULL, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename group"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 

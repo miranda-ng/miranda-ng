@@ -167,12 +167,12 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-					_tcscpy(filter, TranslateT("Executable Files"));
+					_tcscpy(filter, TranslateT("Executable files"));
 					_tcscat(filter, _T(" (*.exe)"));
 					pfilter = filter + _tcslen(filter) + 1;
 					_tcscpy(pfilter, _T("*.exe"));
 					pfilter = pfilter + _tcslen(pfilter)+1;
-					_tcscpy(pfilter, TranslateT("All Files"));
+					_tcscpy(pfilter, TranslateT("All files"));
 					_tcscat(pfilter, _T(" (*)"));
 					pfilter = pfilter + _tcslen(pfilter) + 1;
 					_tcscpy(pfilter, _T("*"));

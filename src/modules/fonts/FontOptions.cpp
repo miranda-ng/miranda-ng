@@ -1140,7 +1140,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_BTN_EXPORT:
 			{
 				TCHAR fname_buff[MAX_PATH], filter[MAX_PATH];
-				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c"), TranslateT("Configuration Files"), 0, 0, TranslateT("Text Files"), 0, 0, TranslateT("All Files"), 0, 0);
+				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c"), TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
@@ -1328,7 +1328,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SetBkMode(dis->hDC, TRANSPARENT);
 			SetTextColor(dis->hDC, GetSysColor(COLOR_BTNTEXT));
 			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_BTNFACE));
-			DrawText(dis->hDC, TranslateT("Sample Text"), (int)_tcslen(TranslateT("Sample Text")), &dis->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS|DT_CENTER);
+			DrawText(dis->hDC, TranslateT("Sample text"), (int)_tcslen(TranslateT("Sample text")), &dis->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS|DT_CENTER);
 			if (hoFont)
 				SelectObject(dis->hDC, hoFont);
 			return TRUE;

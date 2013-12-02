@@ -418,7 +418,7 @@ int LoadSendRecvFileModule(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_FILE);
 	mi.position = 1900000000;
-	mi.pszName = LPGEN("File &Transfers...");
+	mi.pszName = LPGEN("File &transfers...");
 	mi.pszService = "FtMgr/Show"; //MS_PROTO_SHOWFTMGR;
 	Menu_AddMainMenuItem(&mi);
 

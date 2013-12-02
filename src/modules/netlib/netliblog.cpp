@@ -116,7 +116,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				TreeView_InsertItem(hwndFilter, &tvis);
 			}
 			tvis.item.lParam = -1;
-			tvis.item.pszText = TranslateT("(Miranda Core Logging)");
+			tvis.item.pszText = TranslateT("(Miranda core logging)");
 			tvis.item.state = INDEXTOSTATEIMAGEMASK((logOptions.toLog) ? 2 : 1);
 			TreeView_InsertItem(hwndFilter, &tvis);
 		}
@@ -166,7 +166,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				ofn.Flags|=OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST;
 				ofn.lpstrTitle = TranslateT("Select program to be run");
 			}
-			_tcscpy(filter, TranslateT("All Files"));
+			_tcscpy(filter, TranslateT("All files"));
 			_tcscat(filter, _T(" (*)"));
 			pfilter = filter+lstrlen(filter)+1;
 			_tcscpy(pfilter, _T("*"));

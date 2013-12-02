@@ -360,7 +360,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			hdc = GetDC(hwndDlg);
 			SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, WM_GETFONT, 0, 0));
 			if (netProtoCount>1) {
-				cbei.pszText = TranslateT("All Networks");
+				cbei.pszText = TranslateT("All networks");
 				GetTextExtentPoint32(hdc, cbei.pszText, lstrlen(cbei.pszText), &textSize);
 				if (textSize.cx > cbwidth)
 					cbwidth = textSize.cx;
@@ -1021,7 +1021,7 @@ int LoadFindAddModule(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500020000;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_FINDUSER);
-	mi.pszName = LPGEN("&Find/Add Contacts...");
+	mi.pszName = LPGEN("&Find/Add contacts...");
 	mi.pszService = MS_FINDADD_FINDADD;
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 	return 0;

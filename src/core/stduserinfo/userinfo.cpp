@@ -642,7 +642,7 @@ int LoadUserInfoModule(void)
 	Menu_AddContactMenuItem(&mi);
 
 	mi.position = 500050000;
-	mi.pszName = LPGEN("View/Change My &Details...");
+	mi.pszName = LPGEN("View/change my &details...");
 	Menu_AddMainMenuItem(&mi);
 
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);

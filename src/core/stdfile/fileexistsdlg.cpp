@@ -155,7 +155,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		}
 		CharUpper(szExtension);
 		if (fileInfo.szTypeName[0] == '\0')
-			mir_sntprintf(fileInfo.szTypeName, SIZEOF(fileInfo.szTypeName), TranslateT("%s File"), szExtension);
+			mir_sntprintf(fileInfo.szTypeName, SIZEOF(fileInfo.szTypeName), TranslateT("%s file"), szExtension);
 		SetDlgItemText(info->hwndDlg, IDC_EXISTINGTYPE, fileInfo.szTypeName);
 		SetDlgItemText(info->hwndDlg, IDC_NEWTYPE, fileInfo.szTypeName);
 		SendDlgItemMessage(info->hwndDlg, IDC_EXISTINGICON, STM_SETICON, (WPARAM)fileInfo.hIcon, 0);
@@ -276,7 +276,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
 			ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-			_tcscpy(filter, TranslateT("All Files"));
+			_tcscpy(filter, TranslateT("All files"));
 			_tcscat(filter, _T(" (*)"));
 			pfilter = filter + _tcslen(filter) + 1;
 			_tcscpy(pfilter, _T("*"));

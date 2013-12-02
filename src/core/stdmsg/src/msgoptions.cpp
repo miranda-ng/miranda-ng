@@ -103,7 +103,7 @@ void RegisterSRMMFonts( void )
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	for (int i=0; i < SIZEOF(fontOptionsList); i++) {
 		strcpy(fontid.dbSettingsGroup, SRMMMOD);
-		_tcscpy(fontid.group, LPGENT("Message Log"));
+		_tcscpy(fontid.group, LPGENT("Message log"));
 		_tcscpy(fontid.name, fontOptionsList[i].szDescr);
 		mir_snprintf(idstr, SIZEOF(idstr), "SRMFont%d", i);
 		strcpy(fontid.prefix, idstr);
@@ -125,7 +125,7 @@ void RegisterSRMMFonts( void )
 	strcpy(colourid.setting, SRMSGSET_BKGCOLOUR);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	_tcscpy(colourid.name, LPGENT("Background"));
-	_tcscpy(colourid.group, LPGENT("Message Log"));
+	_tcscpy(colourid.group, LPGENT("Message log"));
 	ColourRegisterT(&colourid);
 }
 
@@ -585,12 +585,12 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
-	odp.pszTab = LPGEN("Messaging Log");
+	odp.pszTab = LPGEN("Messaging log");
 	odp.pfnDlgProc = DlgProcLogOptions;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.pszTab = LPGEN("Typing Notify");
+	odp.pszTab = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;

@@ -43,7 +43,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_GROUPOPEN,       LPGEN("Group (Open)"),          -IDI_GROUPOPEN      }, //  5
 	{ SKINICON_OTHER_GROUPSHUT,       LPGEN("Group (Closed)"),        -IDI_GROUPSHUT      }, //  6
 	{ SKINICON_OTHER_CONNECTING,      LPGEN("Connecting"),            -IDI_LOAD           }, //  7
-	{ SKINICON_OTHER_ADDCONTACT,      LPGEN("Add Contact"),           -IDI_ADDCONTACT     }, //  8
+	{ SKINICON_OTHER_ADDCONTACT,      LPGEN("Add contact"),           -IDI_ADDCONTACT     }, //  8
 	{ SKINICON_OTHER_USERDETAILS,     LPGEN("User details"),          -IDI_USERDETAILS    }, //  9
 	{ SKINICON_OTHER_HISTORY,         LPGEN("History"),               -IDI_HISTORY        }, // 10
 	{ SKINICON_OTHER_DOWNARROW,       LPGEN("Down Arrow"),            -IDI_DOWNARROW      }, // 11

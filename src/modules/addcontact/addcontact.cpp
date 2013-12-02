@@ -75,7 +75,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Add %s"), szName);
 					SetWindowText(hdlg, szTitle);
 				}
-				else SetWindowText(hdlg, TranslateT("Add Contact"));
+				else SetWindowText(hdlg, TranslateT("Add contact"));
 				mir_free(tmpStr);
 			}
 		}

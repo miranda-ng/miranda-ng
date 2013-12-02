@@ -258,7 +258,7 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hParent;
 
-	lstrcpy(filter, TranslateT("Icon Sets"));
+	lstrcpy(filter, TranslateT("Icon sets"));
 	if (bAll)
 		lstrcat(filter, _T(" (*.dll;*.icl;*.exe;*.ico)"));
 	else
@@ -271,7 +271,7 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 		lstrcpy(pfilter, _T("*.DLL"));
 
 	pfilter += lstrlen(pfilter) + 1;
-	lstrcpy(pfilter, TranslateT("All Files"));
+	lstrcpy(pfilter, TranslateT("All files"));
 	lstrcat(pfilter, _T(" (*)"));
 	pfilter += lstrlen(pfilter) + 1;
 	lstrcpy(pfilter, _T("*"));

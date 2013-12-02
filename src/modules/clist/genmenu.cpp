@@ -1046,7 +1046,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
 		TCHAR sectionName[256];
-		mir_sntprintf(sectionName, SIZEOF(sectionName), LPGENT("Menu Icons") _T("/%s"), (TCHAR*)_A2T(pmi->parent->Name));
+		mir_sntprintf(sectionName, SIZEOF(sectionName), LPGENT("Menu icons") _T("/%s"), (TCHAR*)_A2T(pmi->parent->Name));
 
 		char iconame[256];
 		mir_snprintf(iconame, sizeof(iconame), "genmenu_%s_%s", pmi->parent->Name, uname && *uname ? uname : descr);

@@ -89,7 +89,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	if ( !hMoveToGroupItem) {
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 100000;
-		mi.pszName = LPGEN("&Move to Group");
+		mi.pszName = LPGEN("&Move to group");
 		mi.flags = CMIF_ROOTHANDLE;
 		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_GROUP);
 
@@ -104,7 +104,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	int pos = 1000;
 
-	AddGroupItem(hMoveToGroupItem, TranslateT("<Root Group>"), pos, -1, !szContactGroup);
+	AddGroupItem(hMoveToGroupItem, TranslateT("<Root group>"), pos, -1, !szContactGroup);
 
 	pos += 100000; // Separator
 

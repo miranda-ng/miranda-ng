@@ -506,7 +506,7 @@ static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM lParam)
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Chat Activity"), "ChatActivity",  IDI_CHAT   },
+	{ LPGEN("Chat activity"), "ChatActivity",  IDI_CHAT   },
 	{ LPGEN("Male"),          "gender_male",   IDI_MALE   },
 	{ LPGEN("Female"),		  "gender_female", IDI_FEMALE }
 };

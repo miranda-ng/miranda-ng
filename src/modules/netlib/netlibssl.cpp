@@ -87,7 +87,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = fal
 		return;
 
 	case SEC_E_INVALID_TOKEN:
-		_tcscpy(szMsgBuf, TranslateT("Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package"));
+		_tcscpy(szMsgBuf, TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package"));
 		break;
 
 	case CERT_E_CN_NO_MATCH:

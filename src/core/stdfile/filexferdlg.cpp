@@ -33,7 +33,7 @@ static int CheckVirusScanned(HWND hwnd, struct FileDlgData *dat, int i)
 	if (dat->fileVirusScanned == NULL) return 0;
 	if (dat->fileVirusScanned[i]) return 1;
 	if (db_get_b(NULL, "SRFile", "WarnBeforeOpening", 1) == 0) return 1;
-	return IDYES == MessageBox(hwnd, TranslateT("This file has not yet been scanned for viruses. Are you certain you want to open it?"), TranslateT("File Received"), MB_YESNO|MB_DEFBUTTON2);
+	return IDYES == MessageBox(hwnd, TranslateT("This file has not yet been scanned for viruses. Are you certain you want to open it?"), TranslateT("File received"), MB_YESNO|MB_DEFBUTTON2);
 }
 
 #define M_VIRUSSCANDONE  (WM_USER+100)

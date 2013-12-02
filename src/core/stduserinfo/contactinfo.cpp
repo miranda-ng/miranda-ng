@@ -31,7 +31,7 @@ static INT_PTR CALLBACK EditUserEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	switch(msg) {
 	case WM_INITDIALOG:
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		if (*(char*)lParam) SetWindowText(hwndDlg, TranslateT("Edit E-Mail Address"));
+		if (*(char*)lParam) SetWindowText(hwndDlg, TranslateT("Edit E-Mail address"));
 		TranslateDialogDefault(hwndDlg);
 		SetDlgItemTextA(hwndDlg, IDC_EMAIL, (char*)lParam);
 		EnableWindow(GetDlgItem(hwndDlg, IDOK), *(char*)lParam);
@@ -65,7 +65,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			int i, item, countryCount;
 			struct CountryListEntry *countries;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-			if (szText[0]) SetWindowText(hwndDlg, TranslateT("Edit Phone Number"));
+			if (szText[0]) SetWindowText(hwndDlg, TranslateT("Edit phone number"));
 			TranslateDialogDefault(hwndDlg);
 			if (lstrlenA(szText)>4 && !lstrcmpA(szText+lstrlenA(szText)-4, " SMS")) {
 				CheckDlgButton(hwndDlg, IDC_SMS, BST_CHECKED);
@@ -93,7 +93,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				if (lstrlenA(szText)<7 || szText[0] != '+') isValid = 0;
 				if (isValid) isValid = (lstrlenA(szText+1) == (int)strspn(szText+1, "0123456789 ()-"));
 				if ( !isValid) {
-					MessageBox(hwndDlg, TranslateT("The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only."), TranslateT("Invalid Phone Number"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only."), TranslateT("Invalid phone Pumber"), MB_OK);
 					break;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_SMS)) lstrcatA(szText, " SMS");
@@ -336,14 +336,14 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.iItem++;
 				}
 				if ( !db_get_ts(hContact, szProto, "CompanyPhone", &dbv)) {
-					lvi.pszText = TranslateT("Work Phone");
+					lvi.pszText = TranslateT("Work phone");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
 					db_free(&dbv);
 					lvi.iItem++;
 				}
 				if ( !db_get_ts(hContact, szProto, "CompanyFax", &dbv)) {
-					lvi.pszText = TranslateT("Work Fax");
+					lvi.pszText = TranslateT("Work fax");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
 					db_free(&dbv);

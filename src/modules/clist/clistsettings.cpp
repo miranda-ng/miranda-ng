@@ -151,7 +151,7 @@ TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode)
 	}
 
 	CallContactService(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
-	TCHAR *buffer = TranslateT("(Unknown Contact)");
+	TCHAR *buffer = TranslateT("(Unknown contact)");
 	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;
 }
 
@@ -202,7 +202,7 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 	}
 
 	CallContactService(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
-	char* result = Translate("(Unknown Contact)");
+	char* result = Translate("(Unknown contact)");
 	return (INT_PTR)((cacheEntry == NULL) ? mir_strdup(result) : result);
 }
 

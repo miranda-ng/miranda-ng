@@ -128,7 +128,7 @@ static int CreateProfile(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 		sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s\0"), profile);
 		if (SHFileOperation(&sf) != 0) {
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Couldn't move '%s' to the Recycle Bin, Please select another profile name."), file);
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Couldn't move '%s' to the Recycle Bin. Please select another profile name."), file);
 			MessageBox(0, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION|MB_OK);
 			return 0;
 		}
@@ -305,7 +305,7 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 		if (dblink != NULL) {
 			if (bFileLocked) {
 				// file locked
-				item2.pszText = TranslateT("<In Use>");
+				item2.pszText = TranslateT("<In use>");
 				item2.iSubItem = 1;
 				SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
 			}
@@ -813,13 +813,13 @@ int getProfileManager(PROFILEMANAGERDATA * pd)
 	DetailsPageInit opi = { 0 };
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.pszTitle = LPGEN("My Profiles");
+	odp.pszTitle = LPGEN("My profiles");
 	odp.pfnDlgProc = DlgProfileSelect;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_SELECTION);
 	odp.hInstance = hInst;
 	AddProfileManagerPage(&opi, &odp);
 
-	odp.pszTitle = LPGEN("New Profile");
+	odp.pszTitle = LPGEN("New profile");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_NEW);
 	odp.pfnDlgProc = DlgProfileNew;
 	AddProfileManagerPage(&opi, &odp);

@@ -38,7 +38,7 @@ static HANDLE hWindowList = 0;
 static void GetMessageDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 {
 	TCHAR* msg = DbGetEventTextT(dbei, CP_ACP);
-    _tcsncpy(buf, msg ? msg : TranslateT("Invalid Message"), cbBuf);
+    _tcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
     buf[ cbBuf-1 ] = 0;
 	mir_free(msg);
 }
@@ -110,8 +110,8 @@ static void GetObjectSummary(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 		break;
 
 	case EVENTTYPE_FILE:
-		if (dbei->flags & DBEF_SENT)   pszSrc = TranslateT("Outgoing File");
-		else                             pszSrc = TranslateT("Incoming File");
+		if (dbei->flags & DBEF_SENT)   pszSrc = TranslateT("Outgoing file");
+		else                             pszSrc = TranslateT("Incoming file");
 		break;
 
 	default:
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (index == LB_ERR)
 					break;
 
-				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this history item?"), TranslateT("Delete History"), MB_YESNO|MB_ICONQUESTION) == IDYES) {
+				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this history item?"), TranslateT("Delete history"), MB_YESNO|MB_ICONQUESTION) == IDYES) {
 					hDbevent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
 					db_event_delete(hContact, hDbevent);
 					SendMessage(hwndDlg, DM_HREBUILD, 0, 0);
@@ -407,7 +407,7 @@ int LoadHistoryModule(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000090000;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_HISTORY);
-	mi.pszName = LPGEN("View &History");
+	mi.pszName = LPGEN("View &history");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddContactMenuItem(&mi);
 

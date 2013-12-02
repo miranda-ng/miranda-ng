@@ -172,7 +172,7 @@ static INT_PTR BmpFilterGetStrings(WPARAM wParam, LPARAM lParam)
 	lstrcpynA(pfilter, "*.PNG", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpynA(pfilter, Translate("All Files"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
+	lstrcpynA(pfilter, Translate("All files"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
 	strncat(pfilter, " (*)", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpynA(pfilter, "*", bytesLeft);
@@ -217,7 +217,7 @@ static INT_PTR BmpFilterGetStringsW(WPARAM wParam, LPARAM lParam)
 	lstrcpyn(pfilter, _T("*.PNG"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpyn(pfilter, TranslateT("All Files"), bytesLeft); bytesLeft-=lstrlen(pfilter);
+	lstrcpyn(pfilter, TranslateT("All files"), bytesLeft); bytesLeft-=lstrlen(pfilter);
 	_tcsncat(pfilter, _T(" (*)"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpyn(pfilter, _T("*"), bytesLeft);

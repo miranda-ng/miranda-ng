@@ -89,13 +89,13 @@ int LoadHelpModule(void)
 
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_MIRANDAWEB);
 	mi.position = 2000050000;
-	mi.pszName = LPGEN("&Miranda NG Homepage");
+	mi.pszName = LPGEN("&Miranda NG homepage");
 	mi.pszService = "Help/WebsiteCommand";
 	Menu_AddMainMenuItem(&mi);
 
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_URL);
 	mi.position = 2000040000;
-	mi.pszName = LPGEN("&Report Bug");
+	mi.pszName = LPGEN("&Report bug");
 	mi.pszService = "Help/BugCommand";
 	Menu_AddMainMenuItem(&mi);
 	return 0;

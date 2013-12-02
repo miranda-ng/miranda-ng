@@ -144,7 +144,7 @@ void GetContactReceivedFilesDir(HANDLE hContact, TCHAR *szDir, int cchDir, BOOL 
 
 	if ( !szTemp[0])
 
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My Received Files"));
+		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
 
 	if (hContact) {
@@ -193,7 +193,7 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 
 	if ( !szTemp[0])
 
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s"), TranslateT("My Received Files"));
+		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s"), TranslateT("My received files"));
 
 
 	patchDir(szTemp, SIZEOF(szTemp));
@@ -226,8 +226,8 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Window_SetIcon_IcoLib(hwndDlg, SKINICON_EVENT_FILE);
 			Button_SetIcon_IcoLib(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
 			Button_SetIcon_IcoLib(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details"));
-			Button_SetIcon_IcoLib(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View User's History"));
-			Button_SetIcon_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User Menu"));
+			Button_SetIcon_IcoLib(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View user's history"));
+			Button_SetIcon_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User Uenu"));
 
 			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
