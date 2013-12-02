@@ -222,8 +222,8 @@ Usuń grupę
 Opcje
 [Filters]
 Filtry
-[Fonts & Colors]
-Czcionki
+[Fonts and colors]
+Czcionki i kolory
 [Icons]
 Ikony
 [Hotkeys]

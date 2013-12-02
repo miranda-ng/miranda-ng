@@ -672,10 +672,10 @@ Zawsze wyskakuj i aktywuj nowe okna
 Twórz nowe okna w stanie zminimalizowanym
 [Send on Shift+Enter]
 Wyślij wiadomość po Shift+Enter
-[Send message on Enter]
-Wyślij wiadomość po Enterze
-[Send message on double Enter]
-Wyślij wiadomość po dwóch Enterach
+[Send message on 'Enter']
+Enter wysyła wiadomość
+[Send message on double 'Enter']
+Podwójny Enter wysyła wiadomość
 [Minimize the message window on send]
 Minimalizuj okno rozmowy po wysłaniu
 [Tabs:]
@@ -1709,10 +1709,6 @@ Zachowanie okna rozmowy
 Wysyłanie wiadomości
 [Send on SHIFT - Enter]
 Shift+Enter wysyła wiadomość
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
 [Close the message window on send]
 Zamknij okno rozmowy po wysłaniu
 [Always flash contact list and tray icon for new messages]

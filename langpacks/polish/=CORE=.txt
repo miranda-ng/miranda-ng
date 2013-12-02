@@ -311,8 +311,8 @@ Przywróć
 Domyślne
 [Export...]
 Eksportuj...
-[Background color]
-Kolor tła
+[(Background) Color]
+(Tło) Kolor
 [Text effect]
 Efekt tekstu
 [Text color]
@@ -596,7 +596,7 @@ Rozłączeni
 Wyrzucanie użytkownika
 [Notices]
 Powiadomienia
-[Log Options]
+[Log options]
 Opcje dziennika
 [Log timestamp]
 Czas dziennika
@@ -668,7 +668,7 @@ Kopiuj
 Wytnij
 [Paste]
 Wklej
-[Select All]
+[Select all]
 Zaznacz wszystko
 [Clear]
 Wyczyść
@@ -713,13 +713,13 @@ sekund(y), jeśli statusy się różnią
 Pokaż ikony osobno
 [Only when statuses differ]
 Tylko, jeśli statusy się różnią
-[Contact List]
+[Contact list]
 Lista kontaktów
 [System tray icon]
 Ikona w zasobniku
 [System tray icon when using multiple protocols]
 Ikona w zasobniku systemowym podczas korzystania z wielu protokołów
-[Contact List Sorting]
+[Contact list sorting]
 Sortowanie kontaktów
 [Window]
 Okno
@@ -783,7 +783,7 @@ Pokazuj zaznaczenie na nieaktywnej liście
 Przeźroczyste podświetlenie zaznaczenia 
 [Dim idle contacts]
 Przygaś bezczynne kontakty
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 "Ukryj rozłączonych" tzn.:
 [Groups]
 Grupy
@@ -795,7 +795,7 @@ Pokaż liczbę kontaktów w grupach
 Ukryj liczbę kontaktów, jeśli nikt nie jest dostępny
 [Sort groups alphabetically]
 Sortuj grupy alfabetycznie
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Szybkie szukanie tylko w otwartych grupach
 [Indent groups by:]
 Wcinaj grupy na:
@@ -819,8 +819,10 @@ Wysokość wiersza:
 Korekcja Gamma
 [Gray out entire list when:]
 Przyciemnij całą listę kiedy:
-[Contact List Background]
+[Contact list background]
 Tło listy kontaktów
+[Background color]
+Kolor tła
 [Selection color]
 Kolor zaznaczenia
 [Use background image]
@@ -839,7 +841,7 @@ Przewijaj z tekstem
 Rozciągnij proporcjonalnie
 [Use Windows colors]
 Użyj kolorów Windows
-[Status Bar]
+[Status bar]
 Pasek statusu
 [Show status bar]
 Pokaż pasek statusu
@@ -889,24 +891,24 @@ Nie przeszkadzać
 &Chętny do rozmowy\tCtrl+6
 [&Invisible\tCtrl+7]
 Niewidoczny\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Przy telefonie\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Poszedłem na obiad\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Wyślij plik(i)
 [To:]
 Do:
 [File(s):]
 Plik(i):
-[&Choose Again...]
+[&Choose again...]
 Wybierz ponownie...
 [Total size:]
 Całkowity rozmiar:
 [&User menu]
 Menu użytkownika
-[Incoming File Transfer]
+[Incoming file transfer]
 Przychodzący transfer plików
 [A&ccept]
 Akceptuj
@@ -928,8 +930,8 @@ Otwórz folder
 Transfer zakończony, otwórz plik(i).
 [No data transferred]
 Brak połączenia
-[File Already Exists]
-Plik już istnieje
+[File already exists]
+Plik już istnieje 
 [Resume]
 Wznów
 [Resume all]
@@ -962,7 +964,7 @@ Otwórz folder
 Właściwości pliku
 [File being received]
 Plik jest odbierany
-[File Transfers]
+[File transfers]
 Transfery plików
 [Clear completed]
 Wyczyść zakończone
@@ -972,7 +974,7 @@ Zamknij
 Odbieranie plików
 [Received files folder:]
 Zapisuj odebrane pliki w:
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Dozwolone zmienne: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
 Automatycznie akceptuj przychodzące pliki od osób z mojej listy
@@ -1036,7 +1038,7 @@ przez
 Zmień mój status na:
 [Do not set status back to online when returning from idle]
 Nie zmieniaj mojego statusu na "Dostępny" gdy wracam z bezczynności
-[Idle Options]
+[Idle options]
 Opcje bezczynności
 [Become idle if application full screen]
 Przejdź w bezczynność gdy uruchomiona jest aplikacja pełnoekranowa
@@ -1075,17 +1077,17 @@ Enter wysyła wiadomość
 Pokazuj liczbę znaków
 [Show warning when message has not been received after]
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
-[Support control up/down in message area to show previously sent messages]
-Pozwalaj używać control góra/dół w oknie rozmowy by przewijać wysłane wiadomości
+[Support CTRL+Up/Down in message area to show previously sent messages]
+Pozwalaj używać Ctrl+góra/dół w oknie rozmowy by przewijać wysłane wiadomości
 [Delete temporary contacts when closing message window]
 Usuń tymczasowe kontakty po zamknięciu okna rozmowy
 [Enable avatar support in the message window]
 Włącz awatary w oknie rozmowy
 [Limit avatar height to]
 Ogranicz wysokość awataru do
-[Max Number of Flashes]
+[Maximum number of flashes]
 Maksymalna liczba mignięć
-[Send Error]
+[Send error]
 Błąd wysyłania
 [An error has occurred. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
@@ -1093,11 +1095,11 @@ Wystąpił błąd. Protokół zwrócił następujący błąd:
 podczas wysyłania wiadomości:
 [Try again]
 Spróboj ponownie
-[Message Session]
+[Message session]
 Sesja rozmowy
 [&Details]
 Szczegóły
-[Message Window Event Log]
+[Message window event log]
 Dziennik okna rozmowy
 [Show names]
 Pokaż nazwy
@@ -1117,9 +1119,9 @@ minut(y)
 Pokaż zmiany statusów
 [Show seconds]
 Pokaż sekundy
-[Load History Events]
+[Load history events]
 Wczytaj zdarzenia z historii
-[Show Formatting]
+[Show formatting]
 Pokaż formatowanie
 [Send typing notifications to the following users when you are typing a message to them:]
 Wyślij powiadomienie o pisaniu do następujących użytkowników, kiedy piszesz do nich wiadomość:
@@ -1141,23 +1143,23 @@ Zachowanie okna rozmowy:
 Rozmowa:
 [&Open link]
 Otwórz link
-[Paste && Send]
+[Paste and send]
 Wklej i wyślij
 [Delete]
 Usuń
 ;file \src\core\stduihist\resource.rc
 [Find]
 Szukaj
-[&Find Next]
+[&Find next]
 szukaj następnego
-[Find What:]
+[Find what:]
 Szukaj:
-[Message History]
+[Message history]
 Historia wiadomości 
 [&Find...]
 Szukaj...
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Dodaj numer telefonu
 [Enter country, area code and phone number:]
 Wprowadź kraj, numer kierunkowy i numer telefonu:
@@ -1165,13 +1167,13 @@ Wprowadź kraj, numer kierunkowy i numer telefonu:
 Albo wprowadź pełny numer międzynarodowy:
 [Phone can receive SMS text messages]
 Telefon może odbierać wiadomości SMS 
-[Add E-Mail Address]
+[Add e-mail address]
 Dodaj adres e-mail
-[%s: User Details]
+[%s: user details]
 %s: dane kontaktu
 [%s\nView personal user details and more]
 Zobacz osobiste dane użytkownika %s.
-[Update Now]
+[Update now]
 Odśwież
 [Updating]
 Aktualizowanie
@@ -1241,9 +1243,9 @@ Alarmy
 [Added event]
 Dodano akcję
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Zobacz dane kontaktu
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Dodaj kontakt na stałe do listy
 [<Unknown>]
 <Nieznany>
@@ -1255,8 +1257,6 @@ Dodaj kontakt na stałe do listy
 %s dodał(a) Cię do listy kontaktów\n%s na %s
 [(Unknown)]
 (Nieznany)
-[View User Details]
-Pokaż dane kontaktu
 [%s requested authorization\n%u (%s) on %s]
 %s poprosił(a) o autoryzację\n%u (%s) na koncie %s
 [%s requested authorization\n%u on %s]
@@ -1266,9 +1266,9 @@ Pokaż dane kontaktu
 [Feature is not supported by protocol]
 Funkcja nie wspierana przez protokół
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 Pokaż opis "%s"
-[Re&ad Status Message]
+[Re&ad status message]
 Zobacz opis statusu
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -1371,15 +1371,15 @@ Członkowie listy użytkowników (Dostępni)
 Członkowie listy użytkowników (Zaraz wracam)
 [Use a tabbed interface]
 Użyj kart
-[Close tab on doubleclick]
+[Close tab on double click]
 Dwuklik zamyka kartę
 [Restore previously open tabs when showing the window]
 Przywróć ostatnio używane karty po otworzeniu okna
 [Show tabs at the bottom]
 Pokaż karty na dole
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 Wyślij wiadomość po Enterze
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 Wyślij wiadomość po dwukliku Entera
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
@@ -1525,17 +1525,17 @@ Pokaż popup zmian nicków
 Pokaż popup wiadomości informacyjnych
 [Show popup for status changes]
 Pokaż popup zmian statusu
-[Chat Module]
+[Chat module]
 Moduł czatu
-[Message Background]
+[Message background]
 Tło wiadomości
-[Userlist Background]
+[User list background]
 Tło listy użytkowników
-[Userlist Lines]
+[User list lines]
 Linie listy użytkowników
-[Userlist Background (selected)]
+[User list background (selected)]
 Tło listy użytkowników (zaznaczenie)
-[Window Icon]
+[Window icon]
 Ikona okna
 [Bold]
 Pogrubienie
@@ -1577,7 +1577,7 @@ Wiadomość przychodząca (10x10)
 Wiadomość wychodząca (10x10)
 [Action (10x10)]
 Akcja (10x10)
-[Add Status (10x10)]
+[Add status (10x10)]
 Dodaj status (10x10)
 [Remove status (10x10)]
 Usuń status (10x10)
@@ -1589,7 +1589,7 @@ Wyjdź (10x10)
 Wyjście (10x10)
 [Kick (10x10)]
 Wykop (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Zmiana nazwy (10x10)
 [Notice (10x10)]
 Powiadomienie (10x10)
@@ -1619,13 +1619,13 @@ Ikony wyświetlane w dzienniku wiadomości
 Ikony wyświetlane w zasobniku
 [Popups to display]
 Popupy do wyświetlenia
-[Select Folder]
+[Select folder]
 Wybierz folder
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 [General]
 Ogólne
-[Chat Log]
+[Chat log]
 Dziennik czatu
 [Chat]
 Czat
@@ -1712,16 +1712,16 @@ Kontroluj ten pokój (Ctrl + O)
 Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 [Close current tab (CTRL+F4)]
 Zamknij bieżącą kartę (Ctrl+F4)
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Konferencja (%u użytkowników)
-[%s: Message Session]
+[%s: message session]
 %s: Rozmowa
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)
-[Nick name]
-Nazwa
+[Nickname]
+Nick
 [Unique ID]
 Unikalne ID
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1739,11 +1739,11 @@ Liczba członków grupy
 Separatory
 [Offline contacts to whom you have a different visibility]
 Rozłączone kontakty, dla których mam różną widoczność
-[Selected Text]
-Wybrany tekst
-[Hottrack Text]
+[Selected text]
+Zaznaczony tekst
+[Hottrack text]
 Tekst pod kursorem
-[Quicksearch Text]
+[Quicksearch text]
 Tekst szybkiego wyszukiwania
 ;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
@@ -1768,7 +1768,7 @@ Niewidoczny
 Na obiedzie
 [On the phone]
 Pod telefonem
-[List Background]
+[List background]
 Tło listy
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1791,7 +1791,7 @@ Plik od %s
 bajty
 [&File]
 Plik
-[File &Transfers...]
+[File &transfers...]
 Transfery plików...
 [Incoming]
 Przychodzący
@@ -1802,21 +1802,21 @@ Błąd
 [Denied]
 Odrzucony
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[%s File]
+[%s file]
 %s plik
-[All Files]
+[All files]
 Wszystkie pliki
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 Pliki wykonywalne
 [Events]
 Zdarzenia
 ;file \src\core\stdfile\filerecvdlg.cpp
-[My Received Files]
+[My received files]
 Moje odebrane  pliki
-[View User's History]
+[View user's history]
 Zobacz historię użytkownika
-[User Menu]
+[User Uenu]
 Menu użytkownika
 [Canceled]
 Anulowany
@@ -1825,10 +1825,12 @@ Anulowany
 %d pliki
 [%d directories]
 %d lokalizacje
+[User menu]
+Menu użytkownika
 ;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Ten plik nie został przeskanowany na obecność wirusów. Na pewno chcesz go otworzyć?
-[File Received]
+[File received]
 Plik odebrany
 [of]
 z
@@ -1858,8 +1860,6 @@ Połączono
 Uruchamianie...
 [Moving to next file...]
 Przechodzenie do następnego pliku...
-[File already exists]
-Plik już istnieje 
 [Sending...]
 Wysyłanie...
 [Receiving...]
@@ -1889,9 +1889,9 @@ Wychodzące
 O programie...
 [&Support]
 Wsparcie techniczne
-[&Miranda NG Homepage]
+[&Miranda NG homepage]
 Strona domowa Mirandy
-[&Report Bug]
+[&Report bug]
 Zgłoś błąd
 ;file \src\core\stdidle\idle.cpp
 [Idle]
@@ -1918,8 +1918,6 @@ jest teraz %s (był %s)
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Wysłano plik
-[File received]
-Otrzymano plik
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Wychodzące wiadomości
@@ -1939,7 +1937,7 @@ Przychodzący czas
 Przychodzący dwukropek
 [Message area]
 Pole tekstowe
-[Message Log]
+[Message log]
 Dziennik wiadomości
 [** New contacts **]
 ** Nowe kontakty **
@@ -1947,27 +1945,27 @@ Dziennik wiadomości
 ** Nieznane kontakty **
 [Show balloon popup (unsupported system)]
 Pokaż podpowiedzi w chmurce (nieobsługiwany system)
-[Messaging Log]
+[Messaging log]
 Dziennik wiadomości
-[Typing Notify]
+[Typing notify]
 Pisanie
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Wiadomość od %s
 [%s is typing a message]
 %s pisze wiadomość
-[Typing Notification]
+[Typing notification]
 Pisanie
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda nie może załadować wbudowanego modułu wiadomości, brakuje riched20.dll. Wciśnij 'Tak' aby kontynuować.
 [Instant messages]
 Wiadomości
-[Incoming (Focused Window)]
-Przychodzące (Aktywne okno)
-[Incoming (Unfocused Window)]
-Przychodzące (Nieaktywne okno)
-[Incoming (New Session)]
-Przychodzące (Nowa sesja)
+[Incoming (focused window)]
+Przychodzące (aktywne okno)
+[Incoming (unfocused window)]
+Przychodzące (nieaktywne okno)
+[Incoming (new session)]
+Przychodzące (nowa sesja)
 [Message send error]
 Błąd wysyłania wiadomości
 [Contact started typing]
@@ -1978,28 +1976,28 @@ Kontakt przestał pisać
 [An unknown error has occurred.]
 Nieznany błąd.
 ;file \src\core\stduihist\history.cpp
-[Invalid Message]
-Nieprawidłowa Wiadomość
+[Invalid message]
+Nieprawidłowa wiadomość
 [Outgoing URL]
 Wychodzący link
 [Incoming URL]
 Przychodzący link
-[Outgoing File]
+[Outgoing file]
 Wychodzący plik
-[Incoming File]
+[Incoming file]
 Przychodzący plik
 [History for %s]
 Historia dla "%s"
 [Are you sure you want to delete this history item?]
 Czy jesteś pewien, że chcesz usunąć ten wpis historii?
-[Delete History]
+[Delete history]
 Usuń historię
-[View &History]
+[View &history]
 Zobacz historię
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL od %s
-[Web Page Address (&URL)]
+[Web page address (&URL)]
 Adres strony internetowej (URL)
 [URL]
 URL
@@ -2009,13 +2007,13 @@ Wyślij link do
 [Send timed out]
 Przekroczono czas wysyłania
 ;file \src\core\stduserinfo\contactinfo.cpp
-[Edit E-Mail Address]
+[Edit E-Mail address]
 Edytuj adres E-Mail
-[Edit Phone Number]
+[Edit phone number]
 Edytuj numer telefonu
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Numer telefonu powinien zaczynać się od + i składać się z cyfr, spacji, myślników i nawiasów.
-[Invalid Phone Number]
+[Invalid phone Pumber]
 Nieprawidłowy numer telefonu 
 [Primary]
 Podstawowy 
@@ -2025,9 +2023,9 @@ Zwyczajny %d
 Fax
 [Mobile]
 Telefon komórkowy
-[Work Phone]
+[Work phone]
 Telefon do pracy
-[Work Fax]
+[Work fax]
 Faks do pracy
 ;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
@@ -2051,13 +2049,13 @@ Notatki
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Właściciel
-[View/Change My &Details...]
+[View/change my &details...]
 Pokaż/zmień moje dane...
 ;file \src\core\stduseronline\useronline.cpp
-[%s is Online]
+[%s is online]
 %s jest Dostępny
 ;file \src\modules\addcontact\addcontact.cpp
-[Add Contact]
+[Add contact]
 Dodaj kontakt
 [Please authorize my request and add me to your contact list.]
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
@@ -2068,7 +2066,7 @@ Niestandardowy status
 [%s (locked)]
 %s (zablokowane)
 ;file \src\modules\clist\clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Nieznany kontakt)
 ;file \src\modules\clist\clisttray.cpp
 ;file \src\modules\clist\clui.cpp
@@ -2097,14 +2095,14 @@ Użytkownik
 Imię Nazwisko
 [LastName FirstName]
 Nazwisko Imię
-['(Unknown Contact)' (not movable)]
-"(nieznany kontakt)" (przeniesienie niemożliwe)
-['(Unknown Contact)']
+['(Unknown contact)' (not movable)]
+"(Nieznany kontakt)" (przeniesienie niemożliwe)
+['(Unknown contact)']
 "(Nieznany kontakt)"
 [Contact names]
 Nazwy kontaktów
 ;file \src\modules\clist\genmenu.cpp
-[Menu Icons]
+[Menu icons]
 Ikony menu
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
@@ -2112,33 +2110,33 @@ Menu
 [Customize]
 Personalizacja
 ;file \src\modules\clist\groups.cpp
-[New Group]
+[New group]
 Nowa grupa
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
 Czy napewno chcesz usunąć grupę '%s'? Ta operacja nie może być odwrócona.
-[Delete Group]
+[Delete group]
 Usuń grupę
 [You already have a group with that name. Please enter a unique name for the group.]
 Grupa o tej nazwie już istnieje. Wybierz unikalną nazwę dla tej grupy.
-[Rename Group]
+[Rename group]
 Zmień nazwę grupy
 [This group]
 Ta grupa
 ;file \src\modules\clist\keyboard.cpp
-[Show/Hide Contact List]
+[Show/Hide contact list]
 Pokaż/ukryj listę kontaktów
-[Read Message]
+[Read message]
 Przeczytaj wiadomość
-[Open Options Page]
+[Open Options page]
 Otwórz okno opcji
-[Open Logging Options]
+[Open logging options]
 Otwórz okno opcji logowania
-[Open Find User Dialog]
+[Open 'Find user' dialog]
 Otwórz okno szukania użytkowników
 ;file \src\modules\clist\movetogroup.cpp
-[&Move to Group]
+[&Move to group]
 Przenieś do grupy
-[<Root Group>]
+[<Root group>]
 <Grupa główna>
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
@@ -2147,8 +2145,8 @@ Miranda próbuje zaktualizować strukturę twojego profilu.\nNie można przenie�
 Miranda próbuje zaktualizować strukturę twojego profilu.\nNie można przenieść profilu %s do nowej lokalizacji %s automatycznie\nPrawdopodobnie nie masz wystarczających uprawnień. Proszę rozwiązać ten problem ręcznie.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nie może być umieszczony w folderze głównym Mirandy.\Proszę przenieść profil do innej lokalizacji.
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Miranda nie może otworzyć "%s", ponieważ nie masz zainstalowanej wtyczki do obsługi profili.\nMusisz zainstalować dbx_3x.dll lub podobną.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda nie może otworzyć "%s", ponieważ nie masz zainstalowanej wtyczki do obsługi profili.\nMusisz zainstalować dbx_mmap.dll lub podobną.
 [No profile support installed!]
 Nie zainstalowano wsparcia dla profili!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
@@ -2179,7 +2177,7 @@ Nieprawidłowe ustawienie typu dla '%s'. Pierwszym znakiem każdej wartości mus
 Profil '%s' już istnieje. Czy chcesz, aby przenieść go do Kosza?\n\nUWAGA: Profil zostanie usunięty jeśli kosz jest wyłączony.\nUWAGA: Profil może zawierać informacje poufne i powinien być odpowiednio usunięty.
 [The profile already exists]
 Taki profil już istnieje
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 Nie można przenieść "%s" do kosza. Wybierz inną nazwę profilu.
 [Problem moving profile]
 Problem z przenoszeniem profilu
@@ -2189,7 +2187,7 @@ Nie można utworzyć profilu "%s", wystąpił błąd %x
 Problem z utworzeniem profilu
 [&Create]
 Utwórz
-[<In Use>]
+[<In use>]
 <W użyciu>
 [Are you sure you want to remove profile "%s"?]
 Czy na pewno chcesz usunąć profil "%s"?
@@ -2205,16 +2203,14 @@ Utworzono
 Zmodyfikowano
 [Manage your Miranda NG profile]
 Zarządzaj profilem Miranda NG
-[My Profiles]
+[My profiles]
 Moje profile
-[New Profile]
+[New profile]
 Nowy profil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
 Aktywność czatu
 ;file \src\modules\extraicons\extraicons.cpp
-[Chat Activity]
-Aktywność czatu
 ;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Dodatkowe ikony
@@ -2229,11 +2225,11 @@ Wyniki
 Nie ma żadnych wyników do wyświetlenia.
 [Searching]
 Wyszukiwanie
-[All Networks]
+[All networks]
 Wszystkie sieci 
 [Handle]
 Uchwyt
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Szukaj/dodaj kontakty...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2269,13 +2265,13 @@ Gładka bulwa
 niewyraźny zarys
 [Contour heavy]
 silny zarys
-[Configuration Files]
+[Configuration files]
 Konfiguracja pliku
-[Text Files]
+[Text files]
 Pliki tekstowe
 [Error writing file]
 Błąd zapisu pliku
-[Sample Text]
+[Sample text]
 Przykładowy Tekst
 [Fonts]
 Czcionka
@@ -2287,7 +2283,7 @@ Ogólny tekst
 [Small text]
 Mały tekst
 ;file \src\modules\icolib\skin2opts.cpp
-[Icon Sets]
+[Icon sets]
 Zestawy ikon
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
@@ -2303,7 +2299,7 @@ Standardowy czas hh:mm:ss
 Czas w milisekundach
 [Times in microseconds]
 Czas w mikrosekundach
-[(Miranda Core Logging)]
+[(Miranda core logging)]
 (Dziennik rdzenia Mirandy)
 [Select where log file will be created]
 Wybierz gdzie zostanie utworzony dziennik
@@ -2317,7 +2313,7 @@ Standardowy log Netlib
 [Network]
 Protokoły
 ;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
 [Host we are connecting to is not the one certificate was issued for]
 Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.

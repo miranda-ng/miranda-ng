@@ -317,7 +317,7 @@ Nazwa zakładki:
 [Privacy Lists]
 Lista prywatności
 [Privacy Lists\nFlexible way to configure visibility and more.]
-Lista prywatnośći\nZarządzanie listami pozwala na ukrywanie się, blokowanie wiadomości i wiele więcej.
+Lista prywatności\nZarządzanie listami pozwala na ukrywanie się, blokowanie wiadomości i wiele więcej.
 [Lists:]
 Listy:
 [Rules:]
@@ -616,15 +616,15 @@ Właściciel
 [User %s is now banned.]
 %s został zbanowany.
 [User %s changed status to %s with message: %s]
-Użytkownik %s zminił status na %s wraz z opisem: %s
+Użytkownik %s zmienił status na %s wraz z opisem: %s
 [User %s changed status to %s]
-Użytkownik %s zmienil status na %s
+Użytkownik %s zmienił status na %s
 [Room configuration was changed.]
 Konfiguracja pokoju została zmieniona.
 [Outcast]
 Wygnaniec
 [Affiliation of %s was changed to '%s'.]
-Powiązanie %s zmienino na '%s'.
+Powiązanie %s zmieniono na '%s'.
 [Role of %s was changed to '%s'.]
 Rolę %s zmieniono na '%s'.
 [because room is now members-only]

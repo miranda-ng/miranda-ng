@@ -16,8 +16,20 @@ EN
 OK
 [Cancel]
 Anuluj
+[New password]
+Nowe hasło do profilu:
+[Please enter your new password]
+Proszę wpisać twoje nowe hasło.
 [Enter password]
 Wprowadź hasło
+[Change password]
+Zmień hasło
+[Change]
+Zmień
+[Remove]
+Usuń
+[Old password]
+Stare hasło do profilu:
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
 Dysk jest pełny. Miranda zostanie zamknięta.
@@ -29,6 +41,21 @@ Błąd profilu
 Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z http://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz zamknięta.
 [Database Panic]
 Panika profilu
+;file \plugins\Db3x_mmap\src\ui.cpp
+[Logo]
+Logo
+[Password]
+Hasło:
+[Password is too short!]
+Hasło jest za krótkie!
+[Passwords do not match!]
+Hasła nie pasują!
+[Wrong old password entered!]
+Złe stare hasło!
+[Database]
+Baza danych
+[Set password]
+Ustaw/Zmień hasło
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 Wykonywanie agresywnego przejścia
