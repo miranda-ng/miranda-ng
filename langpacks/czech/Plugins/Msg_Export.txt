@@ -64,8 +64,8 @@ Po odebrání kontaktu
 Smazat soubor
 [Debug]
 Debug
-[User &Details]
-In&formace o kontaktu
+[User &details]
+&Detaily uživatele
 [Export selected]
 Exportovat vybrané
 [Set to default filename]
@@ -143,7 +143,7 @@ UIN
 [You have not applied the changes, do you wish to apply them first?]
 Některé ze změn nebyly potvrzeny. Chcete je potvrdit?
 [Executable files]
-
+Spustitelné soubory
 [All files]
 Všechny soubory
 [Failed to get the shells allocator!]

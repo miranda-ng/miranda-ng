@@ -31,7 +31,7 @@ Maska
 [Show HTTP server statistics]
 
 [Set to default]
-
+Nastavit jako výchozí
 [External server name]
 
 [This is the link pasted to the message window]
@@ -107,7 +107,7 @@ Uživatel
 [Agent]
 
 [Completed]
-
+DOKONČENO
 [Speed]
 
 [Selected link size is 0]
@@ -167,6 +167,6 @@ Sítě
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 
 [Disable HTTP server]
-
+Deaktivovat HTTP server
 [Enable HTTP server]
-
+Aktivovat HTTP server

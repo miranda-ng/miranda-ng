@@ -319,7 +319,7 @@ Online
 [Remove all whitespace]
 
 [Popup plugin]
-
+Dopl. PopUp
 [Use OSD plugin]
 
 [A string is present]

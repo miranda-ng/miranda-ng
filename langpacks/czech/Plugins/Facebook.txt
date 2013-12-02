@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.2.0
+;  Version: 0.2.2.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -34,7 +34,7 @@ Zrušit
 Kontakty >>
 [Attach contacts:]
 Označit kontakty:
-[User Details]
+[User details]
 Informace o uživateli
 [Default group:]
 Výchozí skupina:
@@ -193,6 +193,8 @@ Uživatel vám poslal %s:
 Zpráva byla přečtena: %s - %s
 [Message read: %s]
 Zpráva byla přečtena: %s
+[This message is no longer available, because it was marked as abusive or spam.]
+
 [%s and more (%d)]
 %s a další (%d)
 ;file \protocols\FacebookRM\src\messages.cpp

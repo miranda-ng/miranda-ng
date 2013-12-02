@@ -85,9 +85,9 @@ Pozastavit
 [Server:]
 Server:
 [User info]
-
+Informace o uživateli
 [UPLOADING...]
-
+NAHRÁVÁNÍ...
 [Open in Browser]
 Otevřít v prohlížeči
 [FTP File Manager]
@@ -196,21 +196,21 @@ Soubory přes FTP - vyberte soubory
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
 
 [CANCELED]
-
+PŘERUŠENO
 [COMPLETED]
-
+DOKONČENO
 [CONNECTING...]
-
+NAVAZOVÁNÍ SPOJENÍ...
 [CREATED]
-
+NAVÁZÁNO
 [PACKING...]
-
+ZABALOVÁNÍ...
 [PAUSED]
-
+POZASTAVENO
 [WAITING...]
-
+ČEKÁNÍ...
 [UNKNOWN]
-
+NEZNÁMÝ
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occurred when zipping the file(s).]
 

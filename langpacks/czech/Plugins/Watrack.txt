@@ -232,7 +232,7 @@ Ponechat starý soubor
 [No Music]
 Žádná hudba
 [No player]
-
+Žádný přehrávač
 [User message]
 Zpráva uživateli
 [Channel message]
@@ -320,7 +320,7 @@ Další stopa
 [Show player]
 Zobrazit přehrávač
 [bitrate]
-
+datový tok
 [by Count]
 počtu
 [by Date]
@@ -358,7 +358,7 @@ vzorkovací frekvence
 [song title]
 název písně
 [song year]
-
+rok skladby
 [total song length (sec)]
 celková délka (sek.)
 [track number]
@@ -370,7 +370,7 @@ celková délka (sek.)
 [player]
 
 [Independed Xstatus]
-
+Nezávislý rozšířený stav
 ["Variables" ANSI output]
 
 [FPS (Frames per second)]
@@ -390,7 +390,7 @@ celková délka (sek.)
 [Show by request only]
 Zobrazit jen na vyžádání
 [second line]
-
+druhý řádek
 [Cover filenames]
 Názvy obalů
 [Music Info]
@@ -426,7 +426,7 @@ Doplněk zakázán
 [Create Report]
 Vytvořit zápis
 [Context menu]
-
+Kontextová nabídka
 [/me listening "%title%"]
 
 [Report file name not defined]
@@ -434,7 +434,7 @@ Vytvořit zápis
 [Status Template]
 
 [XStatus Title]
-
+Název rozšířeného stavu
 ['mono' / 'stereo']
 
 [- "mono" / "stereo"]
@@ -524,9 +524,9 @@ Povolit doplněk
 [Content language]
 
 [Artist]
-
+Umělec
 [Album]
-
+Album
 [Track]
 
 [Get Artist Info]
@@ -600,9 +600,9 @@ Přesnost
 [none]
 ---
 [kb]
-
+kb
 [Kb]
-
+Kb
 [KB]
 KB
 [Color]

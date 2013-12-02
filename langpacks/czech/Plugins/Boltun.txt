@@ -48,7 +48,7 @@ Načíst znovu
 
 ;file \plugins\Boltun\src\boltun.h
 [Message sessions]
-
+Komunikace
 [Mind Files]
 
 [All Files]

@@ -20,7 +20,7 @@
 [Choose a file for import...]
 Vyberte soubor k importu...
 [Text files (*.txt)]
-
+Textové soubory (*.txt)
 [All files (*.*)]
 Všechny soubory (*.*)
 [Error in cfg file: ]

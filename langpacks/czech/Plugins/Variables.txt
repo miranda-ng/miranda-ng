@@ -107,7 +107,7 @@ Logické výrazy
 [performs logical AND (x && y && ...)]
 logické AND (x && y && ...)
 [Boolean FALSE]
-
+Boolean FALSE
 [performs w, then shows z and performs y while x is TRUE]
 smyčka FOR (provede w, pak zobrazí z a provádí y dokud je x TRUE)
 [shows y if x is TRUE, otherwise it shows z]
@@ -133,7 +133,7 @@ logické NOT (!x)
 [performs logical OR (x || y || ...)]
 logické OR (x || y || ...)
 [Boolean TRUE]
-
+Boolean TRUE
 [performs logical XOR (x ^ y)]
 logické XOR (x ^ y)
 ;file \plugins\Variables\src\parse_math.cpp
@@ -230,7 +230,7 @@ aktuální stav protokolu x (nezadáte-li x, přečte globální stav)
 [translates x]
 
 [get the version of Miranda]
-
+zjistí verzi Mirandy
 [get the contact display name]
 
 [get the date and time (using Miranda format)]

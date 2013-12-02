@@ -6,7 +6,6 @@
 [Left button click cmd:]
 [Command parameters:]
 [Remember newest message ID\n and don't show older]
-[version:]
 [Clear popups history]
 [Filter messages contain below strings in:]
 [Lotus connection settings]

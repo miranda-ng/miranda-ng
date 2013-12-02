@@ -41,7 +41,6 @@
 [Server rejected connection with SSL.]
 [Cannot write SSL data.]
 [Cannot read SSL data.]
-[New Account]
 [Executables]
 [Dialog box error]
 [Please select application to run]

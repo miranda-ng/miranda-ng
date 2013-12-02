@@ -17,7 +17,6 @@
 [Miranda NG (Message Export Plugin)]
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
 [Reading database information (Phase 1 of 2)]
-[Executable files]
 [Failed to get the shells allocator!]
 [Failed to Allocate buffer space]
 [Export Protocols]

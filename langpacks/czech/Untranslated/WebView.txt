@@ -105,7 +105,6 @@
 [Medium level of whitespace removal]
 [Large level of whitespace removal]
 [Remove all whitespace]
-[Popup plugin]
 [Use OSD plugin]
 [A string is present]
 [The web page changes]

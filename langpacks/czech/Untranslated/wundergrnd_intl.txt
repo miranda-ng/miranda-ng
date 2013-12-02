@@ -1,7 +1,6 @@
 ﻿[Light Showers Rain Mist]
 [Patches Fog]
 [Light Showers Snow]
-[Var]
 [of the Moon is Illuminated]
 [Latitude]
 [Longitude]

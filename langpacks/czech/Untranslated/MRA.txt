@@ -9,7 +9,6 @@
 [Click to Inbox]
 [Show received formatted text (receive RTF)]
 [Send formatted text (send RTF)]
-[from:]
 [Zodiak:]
 [Remember]
 [Enable avatars support (loading)]

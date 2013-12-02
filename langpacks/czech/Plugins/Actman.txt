@@ -218,7 +218,7 @@ Nový
 [Core Hotkey]
 
 [Tray menu]
-
+Nabídka ikony
 [2 state button/item]
 
 [Save button/item state]
@@ -240,7 +240,7 @@ odloučený/á
 [Registered actions]
 
 [Menu icons]
-
+Ikony nabídky
 [Data align]
 
 [Native]

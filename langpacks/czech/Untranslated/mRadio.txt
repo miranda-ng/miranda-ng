@@ -28,6 +28,4 @@
 [Play/Pause]
 [Oops! BASS error]
 [Mute with Miranda]
-[Frame background]
-[OFF]
 [Device list]

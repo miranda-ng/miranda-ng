@@ -57,7 +57,7 @@ Obnovit původní
 [Login to pastebin.com]
 
 [User name]
-
+Uživatelské jméno
 [Password]
 Heslo
 [Paste It]

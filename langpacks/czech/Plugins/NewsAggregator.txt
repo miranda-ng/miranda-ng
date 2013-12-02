@@ -35,7 +35,7 @@ Projít každých
 [minutes]
 min.
 [Check Feed]
-
+Zkont. zdroj
 [Authentication]
 
 [Use &authentication]
@@ -89,7 +89,7 @@ Zadejte vaše heslo
 [%s\nis not a valid feed's address.]
 %s\nnení platná adresa zdroje.
 [empty]
-
+prázdné
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
 
@@ -151,7 +151,7 @@ Opravdu chcete pokračovat?
 [Wait...]
 Počkejte...
 [Change Feed]
-
+Změnit zdroj
 [Contact deleting]
 
 [Network]

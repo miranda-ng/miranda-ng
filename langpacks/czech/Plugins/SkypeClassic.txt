@@ -15,7 +15,7 @@ Smazat
 [Start Skype with Miranda NG if not running using the following command line options:]
 
 [/NOSPLASH - Don't show splash screen on startup]
-
+/NOSPLASH - při spuštění nezobrazí uvítací okno
 [/MINIMIZED - Start Skype minimized]
 /MINIMIZED - spustí program minimalizovaný
 [/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
@@ -91,7 +91,7 @@ WWW:
 [Save]
 Uložit
 [Enable Skype menu options (currently: Find/Add user)]
-
+Povolit položky menu Skype (aktuálně 'Najít/Přidat')
 [Use popup plugin for displaying messages]
 
 [Suppress all error messages (not recommended, but if it annoys you... ;)]

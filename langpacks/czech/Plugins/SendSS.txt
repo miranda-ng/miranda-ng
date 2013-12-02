@@ -19,7 +19,7 @@ všechno
 [Cancel]
 Zrušit
 [Send screenshot]
-
+Odeslat obrázek
 [Send screenshot to\n<unknown>]
 
 [Ti&med capture]
@@ -98,7 +98,7 @@ Chyba
 [The user canceled one of the dialog boxes]
 
 [Unknown Error]
-
+Neznámá chyba
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 

@@ -59,7 +59,7 @@ Stabilní
 [Falling]
 Klesá
 [Var]
-
+Proměnlivý
 [N]
 S
 [W]

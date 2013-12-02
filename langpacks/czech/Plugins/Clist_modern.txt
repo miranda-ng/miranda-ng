@@ -692,8 +692,8 @@ Chcete přidat kontakt '%s' do metakontaktu '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Jména kontaktů
-[Row Items]
-Položky řádků
+[Row items]
+Řádky
 [Frame texts]
 Texty rámečků
 [Special colors]
@@ -863,8 +863,6 @@ Vzhled řádku
 Druhý řádek
 [Third Line]
 Třetí řádek
-[Row items]
-Řádky
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (neznámý kontakt)

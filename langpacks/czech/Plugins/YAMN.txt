@@ -338,7 +338,7 @@ Není vybraný účet
 [Time left to next check [s]: %d]
 Další vybírání pošty za (sek.): %d
 [New Account]
-
+Zřídit účet
 [Executables]
 
 [All Files]

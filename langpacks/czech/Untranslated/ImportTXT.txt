@@ -3,7 +3,6 @@
 [Import history]
 [Choose a file...]
 [Choose a pattern...]
-[Text files (*.txt)]
 [Error in cfg file: ]
 [No Files Patterns Found]
 [No messages in this file]

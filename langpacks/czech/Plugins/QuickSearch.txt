@@ -14,7 +14,7 @@ Rychlé hledání
 [Show Offline contacts]
 Zobrazit offline kontakty
 [New column]
-
+Nový sloupec
 [Set Item]
 
 [wParam type:]
@@ -36,7 +36,7 @@ Identifikace klienta
 [Quick Search]
 Rychlé hledání
 [Quick search]
-
+Rychlé hledání
 [Search on:]
 Vyhledat:
 [Quick Search:]

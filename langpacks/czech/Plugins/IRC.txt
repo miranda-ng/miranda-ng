@@ -449,7 +449,7 @@ Okno serveru
 [Show channel]
 Zobrazit kanál
 [WhoIs]
-
+WhoIs
 [Incoming DCC Chat]
 Žádost o DCC Chat
 [Logo (48x48)]
@@ -523,9 +523,9 @@ Maska
 [Flags]
 Příznaky
 [Add ignore]
-
+Přidat mezi ignorované
 [Edit ignore]
-
+Upravit ignorované
 [Account]
 Účet
 [DCC'n CTCP]

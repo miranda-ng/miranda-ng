@@ -123,7 +123,7 @@ Poznámky
 [Cut off nicknames after]
 
 [chars]
-
+znaků
 [Show protocol labels]
 
 [Don't skip when replying]

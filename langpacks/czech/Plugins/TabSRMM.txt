@@ -672,9 +672,9 @@ Vždy vyvolat a aktivovat nové komunikační okno
 Vytvářet nová okna minimalizovaně
 [Send on Shift+Enter]
 Odeslat zprávu pomocí SHIFT+ENTER
-[Send message on Enter]
+[Send message on 'Enter']
 Odeslat zprávu klávesou ENTER
-[Send message on double Enter]
+[Send message on double 'Enter']
 Odeslat zprávu dvojitým ENTER
 [Minimize the message window on send]
 Minimalizovat okno kliknutím na 'Poslat'
@@ -896,8 +896,8 @@ Zobrazit lištu s tlačítky
 Tlačítková lišta v dolní části okna
 [Title Bar]
 Záhlaví okna
-[Tabs at Bottom]
-Panely vespod okna
+[Tabs at the bottom]
+Panely v dolní části okna
 [Window Flashing]
 Blikání okna
 [Use default Value]
@@ -1021,8 +1021,6 @@ Možnosti kontejneru
 Nastavit možnosti kontejneru pro\n%s
 [Tabs at the top]
 Panely nahoře
-[Tabs at the bottom]
-Panely v dolní části okna
 [Switch bar on the left side]
 Přepínací lišta vlevo
 [Switch bar on the right side]
@@ -1143,7 +1141,7 @@ Citovat zprávu
 [Send message]
 Poslat zprávu
 [Smiley selector]
-
+Použití smajlíku
 [Show message history]
 
 [Show user menu]
@@ -1484,7 +1482,7 @@ Chyba při doručování zprávy
 Příchozí zpráva
 [Outgoing message]
 Odchozí zpráva
-[Statuschange]
+[Status change]
 Změna stavu
 [Static container icon]
 Použít pro kontejner statickou ikonu
@@ -1711,10 +1709,6 @@ Chování komunikačního okna
 Odesílání zpráv
 [Send on SHIFT - Enter]
 Odeslat zprávu pomocí SHIFT+ENTER
-[Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým ENTER
 [Close the message window on send]
 Zavřít okno kliknutím na 'Poslat'
 [Always flash contact list and tray icon for new messages]

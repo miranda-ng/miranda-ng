@@ -33,7 +33,7 @@ Zavřít po:
 [Remember newest message ID\n and don't show older]
 
 [version:]
-
+verze:
 [Clear popups history]
 
 [Filter messages contain below strings in:]

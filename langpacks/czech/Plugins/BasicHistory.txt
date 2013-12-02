@@ -222,7 +222,7 @@ Smazat skupinu
 Možnosti
 [Filters]
 Filtry
-[Fonts & Colors]
+[Fonts and colors]
 Písma a barvy
 [Icons]
 Ikony

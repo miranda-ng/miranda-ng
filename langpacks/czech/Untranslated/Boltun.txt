@@ -15,7 +15,6 @@
 [Stay silent, if have no good aswers]
 [Start answers with a lowercase letter]
 [Don't use "I don't understand"-like answers]
-[Message sessions]
 [Mind Files]
 [Boltun/Auto Chat]
 [Boltun/Not to Chat]

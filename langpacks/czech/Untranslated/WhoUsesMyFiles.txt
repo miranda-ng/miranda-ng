@@ -6,7 +6,6 @@
 [Default Popup delay]
 [Choose delay time]
 [Popup color settings]
-[Use default Popup colors]
 [Choose colors]
 [File access filter && logging settings]
 [Log into text file]

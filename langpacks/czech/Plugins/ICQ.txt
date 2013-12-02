@@ -911,11 +911,11 @@ Umění
 [Astronomy]
 Astronomie
 [Audio and Visual]
-
+Audio a video
 [Business]
 Za obchodem
 [Business Services]
-
+Služby pro podnikání
 [Cars]
 Auta
 [Celebrity Fans]
@@ -933,17 +933,17 @@ Počítače
 [Entertainment]
 Zábava
 [Finance and Corporate]
-
+Finančnictví a obchod
 [Fitness]
 Péče o zdraví
 [Health and Beauty]
-
+Zdraví a krása
 [Hobbies]
 Hobby
 [Home Automation]
-
+Pomocníci v domácnosti
 [Household Products]
-
+Potřeby pro domácnost
 [Games]
 Hry
 [Government]
@@ -955,7 +955,7 @@ Internet
 [Lifestyle]
 Životní styl
 [Mail Order Catalog]
-
+Objednávkové katalogy
 [Media]
 Média
 [Movies and TV]
@@ -979,7 +979,7 @@ Vydávání
 [Religion]
 Náboženství
 [Retail Stores]
-
+Obchodní řetězce
 [Science]
 
 [Skills]
@@ -989,7 +989,7 @@ Sociální vědy
 [Space]
 Vesmír
 [Sporting and Athletic]
-
+Atletika
 [Sports]
 Sport
 [Travel]
@@ -1247,7 +1247,7 @@ Technický obor
 [University Student]
 Škola (VŠ)
 [Web Building]
-
+Tvorba webových stránek
 [Other Services]
 Ostatní
 [Alumni Org.]
@@ -1406,15 +1406,15 @@ Chyba připojení.\nPřihlášení k síti se nezdařilo z neznámého důvodu.\
 
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
-
+NENALEZENO
 [ALREADY EXISTS]
-
+JIŽ EXISTUJE
 [INVALID DATA]
-
+NEPLATNÁ DATA
 [LIST FULL]
-
+SEZNAM JE PLNÝ
 [FAILED]
-
+SELHÁNÍ
 [Select contacts you want to store on server.]
 Vyberte položky k uložení do seznamu na serveru.
 [Ready...]

@@ -5,7 +5,6 @@
 [Most recent unread session]
 [Contact's messaging prefs]
 [Toggle send later]
-[Smiley selector]
 [Show message history]
 [Show user details]
 [Toggle tool bar]

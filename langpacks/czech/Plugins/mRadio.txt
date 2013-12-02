@@ -182,9 +182,9 @@ Zastavit
 [Play]
 Přehrát
 [Frame background]
-
+Barva pozadí rámečku
 [OFF]
-
+VYP
 [Volume]
 Hlasitost
 [Device list]

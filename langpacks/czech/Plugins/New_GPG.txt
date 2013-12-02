@@ -49,7 +49,7 @@ Změnit heslo
 [Continue]
 Pokračovat
 [Home directory:]
-
+Dom. adresář:
 [GnuPG binary:]
 
 [Browse]
@@ -123,7 +123,7 @@ Importovat
 [Change private key password]
 
 [Current password:]
-
+Původní heslo:
 [New password twice:]
 
 [Userlist:]
@@ -195,9 +195,9 @@ Jméno
 [Default]
 Výchozí
 [key ID]
-
+ID klíče
 [not set]
-
+Není zvoleno
 [Default private key ID]
 
 [Failed to open file]
@@ -251,7 +251,7 @@ Přijmout
 [Name cannot contain '(' or ')']
 
 [Invalid Email]
-
+Neplatný e-mail
 [Generating new key, please wait...]
 
 [Failed to export public key.]
@@ -327,7 +327,7 @@ Protokol
 [we have secret key for this public key, do not removing from GPG keyring]
 
 [info]
-
+Info
 [Key removed from GPG keyring]
 
 [Do you want to remove key from entire metacontact (all subcontacts)?]
@@ -339,7 +339,7 @@ Exportovat veřejný klíč
 [Set log file]
 
 [LOG files]
-
+Soubory záznamů
 [Choose gpg.exe]
 
 [Set home directory]
@@ -382,7 +382,7 @@ Exportovat veřejný klíč
 [public keys]
 
 [and]
-
+a
 [all private keys]
 
 [Keys export result]

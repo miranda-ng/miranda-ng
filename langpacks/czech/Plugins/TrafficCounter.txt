@@ -103,7 +103,7 @@ bajtů
 [KB]
 KB
 [MB]
-
+MB
 [Adaptive]
 
 [Hourly]
@@ -131,7 +131,7 @@ Online
 [Couldn't read statistics file]
 
 [Traffic Counter]
-
+Počitadlo dat
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Písmo

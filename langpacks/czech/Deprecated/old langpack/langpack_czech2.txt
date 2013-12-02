@@ -945,7 +945,7 @@ Nabídky
 Nové verze
 
 [Menu Icons]
-Nabídky
+Ikony nabídky
 [Frames_Menu]
 Nabídka rámečku
 

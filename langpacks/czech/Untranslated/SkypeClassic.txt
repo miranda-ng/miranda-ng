@@ -1,5 +1,4 @@
 ﻿[Start Skype with Miranda NG if not running using the following command line options:]
-[/NOSPLASH - Don't show splash screen on startup]
 [/SECONDARY - This is the second instance]
 [/DATAPATH - Specify Skype data folder*]
 [Use custom Skype executable*]
@@ -11,7 +10,6 @@
 [* You must restart Miranda NG in order to let the settings take effect]
 [This Skype proxy requires password authentication:]
 [Province:]
-[Enable Skype menu options (currently: Find/Add user)]
 [Use popup plugin for displaying messages]
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
 [Use group chat interface for conversations (requires group chat module)]

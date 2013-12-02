@@ -263,7 +263,7 @@ Bílá
 [Notes]
 Poznámky
 [Note text]
-
+Pozn. text
 [Date/Title]
 
 ;file \plugins\NotesAndReminders\src\options.cpp

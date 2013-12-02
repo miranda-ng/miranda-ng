@@ -123,7 +123,7 @@ Povolání:
 [Looking for:]
 Hledá:
 [Voice chats]
-
+Hovory
 [Publicly visible status]
 
 [Save changes]
@@ -184,7 +184,7 @@ Ikona protokolu
 [Group chats]
 Skupinové rozhovory
 [Tlen chats]
-
+Diskuse
 [Voice chat]
 Telefonní hovor
 [Microphone]

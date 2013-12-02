@@ -542,7 +542,7 @@ Podporuje vCard
 [Supports iq-based avatars]
 Podporuje avatary dle IQ
 [Supports XHTML formatting of chat messages]
-
+Podporuje XHTML ve zprávách
 [Supports Jabber Browsing]
 Podporuje katalogizaci služeb
 [Can negotiate options for specific features]
@@ -1916,7 +1916,7 @@ příchozí stavy
 [outgoing presences]
 odchozí stavy
 [queries]
-
+Soukr. zprávy
 [Else ]
 Jinak 
 [If Jabber ID is ']
@@ -1992,7 +1992,7 @@ Zpráva stavu
 [Change global status]
 Změnit globální statu
 [Set Options]
-
+Změnit nastavení
 [Set the desired options]
 Vyberte požadovanou možnost
 [Automatically Accept File Transfers]

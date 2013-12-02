@@ -118,13 +118,13 @@ Kopírovat vše
 [&Select All]
 &Vybrat vše
 [SMS Message]
-
+Zpráva SMS
 [WebPager]
 WebPager
 [EMail Express]
 
 [Other event]
-
+Ostatní
 [Global History Search]
 Vyhledávání v globální historii
 [Search for]
@@ -318,7 +318,7 @@ Hledat dolů (Ctrl+šipka dolu)
 [Conversation started at %s]
 Rozhovor začal %s
 [Remove bookmark]
-
+Odstranění záložky
 [Bookmark]
 Záložka
 [Remove Bookmark]
@@ -382,7 +382,7 @@ Psát standardně zprava doleva
 [Enable BBCodes]
 Povolit BBCode
 [Change Appearance]
-
+Změna vzhledu
 [To change fonts you need to install FontService plugin.]
 Změna nastavení písem vyžaduje doplněk FontService.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
@@ -554,7 +554,7 @@ Vaše verze doplňku Emoticons není podporována
 [&Additional]
 
 [&Delete All]
-
+&Smazat vše
 [&Password Protection...]
 
 [(time and date)]
@@ -562,7 +562,7 @@ Vaše verze doplňku Emoticons není podporována
 [All Items]
 
 [and]
-
+a
 [Authorization Request by %s (%s%s%d): %s]
 Žádost o autorizaci: %s (%s%s%d): %s
 [Authorization Request Sample]
@@ -598,7 +598,7 @@ Ukázková žádost o autorizaci
 [Incoming URL Sample]
 
 [Incoming Url]
-
+Příchozí odkaz
 [Make shure you have CAPS LOCK turned off.]
 
 [Make sure you have CAPS LOCK turned off.]
@@ -622,7 +622,7 @@ Ukázková žádost o autorizaci
 [Outgoing URL Sample]
 
 [Outgoing Url]
-
+Odchozí odkaz
 [Recent at bottom]
 
 [Recent on top]
@@ -646,7 +646,7 @@ Ukázková žádost o autorizaci
 [System Message Sample]
 
 [System Message]
-
+Zpráva systému
 [Use Miranda default settings]
 
 [You were added by %s (%s%s%d)]

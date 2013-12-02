@@ -44,7 +44,7 @@ Opakovat
 Oznámení
 [Add to List]
 Přidat do seznamu
-[User Details]
+[User details]
 Informace o uživateli
 [Send Message]
 Odeslat zprávu

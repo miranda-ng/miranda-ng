@@ -40,8 +40,8 @@ Panely
 Zapnout panely
 [Always show tab bar]
 Trvale zobrazit lištu s panely
-[Tabs at bottom]
-Panely v dolní části
+[Tabs at the bottom]
+Panely v dolní části okna
 [Limit names on tabs to]
 Omezit délku jména na panelu na
 [characters]
@@ -499,7 +499,7 @@ Smajlík
 Přidat kontakt
 [User Menu]
 Uživatelské menu
-[User Details]
+[User details]
 Informace o uživateli
 [History]
 Historie

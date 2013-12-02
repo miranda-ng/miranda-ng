@@ -59,9 +59,9 @@ Pohlaví:
 [Age:]
 Věk:
 [from:]
-
+od:
 [to:]
-do:
+pro:
 [Birthday:]
 Narozeniny:
 [Zodiak:]

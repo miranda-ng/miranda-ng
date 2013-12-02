@@ -33,7 +33,7 @@ Barva textu
 [Use windows colors]
 Použít barvy Windows
 [Use default Popup colors]
-
+Použít výchozí barvy
 [Choose colors]
 
 [File access filter && logging settings]

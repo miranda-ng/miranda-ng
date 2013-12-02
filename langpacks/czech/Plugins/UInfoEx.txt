@@ -615,8 +615,8 @@ Detaily uživatele
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Export/Import kontaktů
-[User &Details]
-In&formace o kontaktu
+[User &details]
+&Detaily uživatele
 [&Export User Details]
 
 [&Import]
@@ -916,7 +916,7 @@ Technický obor
 [University Student]
 Škola (VŠ)
 [Web Building]
-
+Tvorba webových stránek
 [Other Services]
 Ostatní
 [Art]
@@ -1078,9 +1078,9 @@ odloučený/á
 [Widowed]
 ovdovělý/á
 [jun.]
-
+jun.
 [sen.]
-
+sen.
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(neznámý kontakt)'
