@@ -10,6 +10,7 @@
 [Install Database Settings]
 Встановити налаштування бази даних
 [Yes]
+[Yes]
 Так
 [No]
 Ні
@@ -55,6 +56,10 @@
 &Перемістити/перейменувати
 [&Leave]
 &Залишити
+[db3x_mmap Plugin] 
+Плагін db3x_mmap 
+[Set password] 
+Встановити пароль 
 [Disk is full. Miranda will now shutdown.]
 Диск сповнений. Miranda завершує роботу.
 [Database failure. Miranda will now shutdown.]
