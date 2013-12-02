@@ -93,7 +93,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				if (lstrlenA(szText)<7 || szText[0] != '+') isValid = 0;
 				if (isValid) isValid = (lstrlenA(szText+1) == (int)strspn(szText+1, "0123456789 ()-"));
 				if ( !isValid) {
-					MessageBox(hwndDlg, TranslateT("The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only."), TranslateT("Invalid phone Pumber"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only."), TranslateT("Invalid phone number"), MB_OK);
 					break;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_SMS)) lstrcatA(szText, " SMS");
