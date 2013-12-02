@@ -1,0 +1,75 @@
+﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.2.1
+;  Authors: Uli Hecht
+;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Поддержка протокола WhatsApp в Miranda NG.
+[Phone-Number]
+Телефон
+[Including country code, without '+' or '00']
+Включая код страны, без '+' или '00'
+[Password]
+Пароль
+[Nickname]
+Ник
+[Request Code]
+Код запроса
+[Register Code]
+Код регистрации
+[SMS-Code:]
+SMS-код:
+[Will only be used for registration]
+Нужен только для регистрации
+[Use SSL connection (443 port)]
+Подключение по SSL (порт 443)
+[Paste password from WART  utility]
+Вставьте пароль из программы WART
+[Use WART utility from Plugins folder for registering your number and generating password]
+Для регистрации номера и получения пароля воспользуйтесь программой WART из папки Plugins
+[Cancel]
+Отмена
+[Please enter a country-code.]
+Введите код страны.
+[Please enter a phone-number without country code.]
+Введите номер телефона без кода страны.
+[Please enter a nickname.]
+Введите ник.
+[Please enter a password.]
+Введите пароль.
+[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+Код регистрации придет на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
+[Please correctly specify your registration code received by SMS]
+Пожалуйста, верно укажите свой код регистрации, полученный в SMS
+[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+Ваш пароль установлен автоматически.\nЕсли вы измените его вручную, то можете потерять его и придется запросить новый код!
+[Did not unpack registration utility WART-1.5.4.0.exe.]
+Не распакована программа для регистрации WART-1.5.4.0.exe.
+[%s server connection]
+%s подключение к серверу 
+[Unable to get Netlib connection for WhatsApp]
+
+[Network-connection error.]
+Ошибка соединения
+[Network]
+Сеть
+[Account]
+Учётная запись
+[WhatsApp Icon]
+Значок WhatsApp
+[Add To Group]
+Добавить в группу
+[Create Chat Group]
+Создать чат-группу
+[Remove From Chat Group]
+Убрать из чат-группы
+[Leave And Delete Group]
+Покинуть и удалить группу
+[Leave Group]
+Покинуть группу
+[Change Group Subject]
+Изменить тему группы
+[Create Group]
+Создать группу
