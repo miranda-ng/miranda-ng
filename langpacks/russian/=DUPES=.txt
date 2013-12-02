@@ -675,6 +675,8 @@ E-Mail
 Только для сообщений
 [Message Log]
 Журнал
+[Message log]
+Журнал
 [Message Session]
 Беседа
 [Message window]
@@ -1183,6 +1185,8 @@ E-Mail
 Настройки уведомлений набора
 [Typing Notify]
 Набирает текст
+[Typing notify]
+Набирает текст
 [U&se Popup colors]
 Цвета вспл. окон
 [Uighur; Uyghur]
@@ -1293,9 +1297,15 @@ Web-страница
 Сообщения IM
 [Incoming (Focused Window)]
 Входящие (активное окно)
+[Incoming (focused window)]
+Входящие (активное окно)
 [Incoming (Unfocused Window)]
 Входящие (неактивное окно)
+[Incoming (unfocused window)]
+Входящие (неактивное окно)
 [Incoming (New Session)]
+Входящие (новый сеанс)
+[Incoming (new session)]
 Входящие (новый сеанс)
 [Message is highlighted]
 Сообщение выделено
@@ -1755,6 +1765,8 @@ GMT-09:00 Аляска
 Вставить смайл
 [Insert Emoticon]
 Смайлы
+[View user's history]
+История сообщений
 [View User's History]
 История сообщений
 [Byte]
@@ -3665,6 +3677,8 @@ xСтатусы
 %s набирает текст
 [Typing Notification]
 Уведомление о наборе текста
+[Typing notification]
+Уведомление о наборе текста
 [Close the message window on send]
 Закрывать окно после отправки
 [Minimize the message window on send]
@@ -3945,6 +3959,8 @@ xСтатусы
 Показывать флаг, как значок статуса в окне беседы
 [User Menu]
 Меню пользователя
+[User menu]
+Меню пользователя
 [Server window]
 Окно сервера
 [Radio]
@@ -4097,3 +4113,7 @@ INI файлы
 Скрыть пустые группы
 [Disable &Groups]
 Отключить группы
+[All Files]
+Все файлы
+[My Received Files]
+Принятые файлы
