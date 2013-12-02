@@ -9,8 +9,30 @@
 ;============================================================
 [db3x_mmap Plugin]
 Плагин db3x_mmap
+[Database]
+Профиль
+[Password]
+Пароль
 [Set password]
 Установить пароль
+[Old password]
+Старый пароль
+[New password]
+Новый пароль
+[Change password]
+Изменить пароль
+[Change]
+Изменить
+[Remove]
+Удалить
+[Please enter your new password]
+Пожалуйста введите новый пароль
+[Password is too short!]
+Пароль слишком короткий!
+[Passwords do not match!]
+Пароли не совпадают!
+[Wrong old password entered!]
+Введён ошибочный старый пароль!
 [Disk is full. Miranda will now shutdown.]
 Диск полон. Miranda завершает работу.
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
