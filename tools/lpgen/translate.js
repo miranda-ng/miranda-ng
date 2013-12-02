@@ -372,6 +372,10 @@ while ((string = find.exec(translatefiletext)) != null) {
     //add key-item pair into dictionary, if not exists already
     if (!dictionary.Exists(key))
         dictionary.Add(key,item);
+    // add key-item pair for case-insensitive match (with prefix so it won't interfere with real keys)
+    lowerKey = "__lower__" + key.toLowerCase();
+    if (!dictionary.Exists(lowerKey))
+        dictionary.Add(lowerKey,item);
     //use also different variants of Miranda name for translations from old langpacks
     key = key.replace("Miranda IM", "Miranda NG");
     item = item.replace("Miranda IM", "Miranda NG");
@@ -422,42 +426,60 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
      englishstring=line.match(/\[.+\]/);
      //If current line is english string covered by [], try to find translation in global db
      if (englishstring) {
+        var cycle = -1;
+        var found = false;
+        var search = line;
+        
+        while (cycle<1 && !found) {
+            cycle = cycle+1;
+            if (cycle==1) {
+                // second cycle, try to be case-insensitive now
+                search = "__lower__" + line.toLowerCase();
+            }
+
             //uncomment next string for more verbose log output
             //if (log) WScript.Echo("lookin' for "+englishstring);
             //firstly find our string exist in Plugin translate DB dictionary
-            if (PluginTranslateDict.Exists(line)) {
+            if (PluginTranslateDict.Exists(search)) {
                 //yes, we have translation, put translation into array
-                translated_array.push(PluginTranslateDict.Item(line));
+                translated_array.push(PluginTranslateDict.Item(search));
                 //add translation to release array
-                release_array.push(PluginTranslateDict.Item(line));
+                release_array.push(PluginTranslateDict.Item(search));
+                found = true;
+            } else {
+                //if we do not found string in plugin translation, check Dupes and if found, put to array
+                if (DupesTranslateDict.Exists(search)) {
+                    translated_array.push(DupesTranslateDict.Item(search));
+                    release_array.push(DupesTranslateDict.Item(search));
+                    found = true;
                 } else {
-                //If we do not foud sting in plugin translation, check Dupes and if found, put to array
-                if (DupesTranslateDict.Exists(line)) {
-                    translated_array.push(DupesTranslateDict.Item(line));
-                    release_array.push(DupesTranslateDict.Item(line));
-                    } else {
                     //not found in dupes? Check CORE
-                    if (CoreTranslateDict.Exists(line)) {
-                        translated_array.push(CoreTranslateDict.Item(line));
-                        release_array.push(CoreTranslateDict.Item(line));
-                        } else {
-                            //Sill no luck? Check Langpack...
-                            if (LangpackTranslateDict.Exists(line)) {
-                                translated_array.push(LangpackTranslateDict.Item(line));
-                                release_array.push(LangpackTranslateDict.Item(line));
-                                } else {
-                                    //no translation found, put empty line
-                                    translated_array.push("");
-                                    //add to untranslated array
-                                    untranslated_array.push(line);
-                                    //remove from release, no translation found.
-                                    release_array.pop();
-                                    }
-                            }
+                    if (CoreTranslateDict.Exists(search)) {
+                        translated_array.push(CoreTranslateDict.Item(search));
+                        release_array.push(CoreTranslateDict.Item(search));
+                        found = true;
+                    } else {
+                        //still no luck? Check Langpack...
+                        if (LangpackTranslateDict.Exists(search)) {
+                            translated_array.push(LangpackTranslateDict.Item(search));
+                            release_array.push(LangpackTranslateDict.Item(search));
+                            found = true;
+                        }
                     }
                 }
             }
-    }  
+        }
+
+        if (!found) {
+            //no translation found, put empty line
+            translated_array.push("");
+            //add to untranslated array
+            untranslated_array.push(line);
+            //remove from release, no translation found.
+            release_array.pop();
+        }
+    }
+ }
  //closing file
  stream.Close();
  //if we will output one file only, concatenate array
