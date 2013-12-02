@@ -1816,7 +1816,7 @@ Zdarzenia
 Moje odebrane  pliki
 [View user's history]
 Zobacz historię użytkownika
-[User Uenu]
+[User menu]
 Menu użytkownika
 [Canceled]
 Anulowany
@@ -1825,8 +1825,6 @@ Anulowany
 %d pliki
 [%d directories]
 %d lokalizacje
-[User menu]
-Menu użytkownika
 ;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Ten plik nie został przeskanowany na obecność wirusów. Na pewno chcesz go otworzyć?
@@ -2013,7 +2011,7 @@ Edytuj adres E-Mail
 Edytuj numer telefonu
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Numer telefonu powinien zaczynać się od + i składać się z cyfr, spacji, myślników i nawiasów.
-[Invalid phone Pumber]
+[Invalid phone number]
 Nieprawidłowy numer telefonu 
 [Primary]
 Podstawowy 

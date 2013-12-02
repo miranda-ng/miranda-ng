@@ -1,8 +1,8 @@
 ﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
 ;============================================================
 ;  File: WhatsApp.dll
-;  Plugin: WhatsApp
-;  Version: 0.0.2.0
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.2.1
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -12,6 +12,8 @@ Wsparcie protokołu WhatsApp dla Mirandy NG.
 Numer Telefonu
 [Including country code, without '+' or '00']
 z kierunkowym kraju bez "+", ani "00"
+[Password]
+Hasło:
 [Nickname]
 Nick
 [Request Code]
@@ -24,6 +26,10 @@ Kod z SMSa:
 Będzie użyty tylko do rejestracji
 [Use SSL connection (443 port)]
 Używaj połączenia SSL (port 443)
+[Paste password from WART  utility]
+
+[Use WART utility from Plugins folder for registering your number and generating password]
+
 [WhatsApp]
 WhatsApp
 [Cancel]
@@ -40,12 +46,15 @@ Proszę podać ksywkę.
 [Please enter a password.]
 Wprowadź hasło
 ;file \protocols\WhatsApp\src\dialogs.cpp
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneousley!\nContinue?]
+[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie możesz używać prawdziwego WhatsApp i tej wtyczki równocześnie.\nKontynuować?
 [Please correctly specify your registration code received by SMS]
 Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
 Twoje hasło zostało ustawione automatycznie.\nJeżeli zmienisz je ręcznie, możesz je stracić i będziesz musiał zażądać nowego kodu weryfikacyjnego.
+;file \protocols\WhatsApp\src\main.cpp
+[Did not unpack registration utility WART-1.5.4.0.exe.]
+
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Połączenie %s
@@ -53,6 +62,10 @@ Połączenie %s
 Nie udało się uzyskać połączenia Netlib dla WhatsApp
 [Network-connection error.]
 Błąd połączenia sieciowego
+[Network]
+Protokoły
+[Account]
+Konto
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp Icon]
 Ikona WhatsApp
