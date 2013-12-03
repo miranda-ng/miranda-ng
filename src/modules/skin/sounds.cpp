@@ -303,9 +303,9 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			OPENFILENAME ofn;
 			ZeroMemory(&ofn, sizeof(ofn));
 			if (GetModuleHandle(_T("bass_interface.dll")))
-				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c"), TranslateT("Sound Files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 			else
-				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav)%c*.wav%c%s (*)%c*%c"), TranslateT("WAV Files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav)%c*.wav%c%s (*)%c*%c"), TranslateT("WAV files"), 0, 0, TranslateT("All files"), 0, 0);
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = GetParent(hwndDlg);
 			ofn.hInstance = NULL;

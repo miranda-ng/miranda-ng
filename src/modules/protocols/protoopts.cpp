@@ -126,7 +126,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					if (buf[0]) {
 						for (int i=0; i < accounts.getCount(); i++)
 							if (_stricmp(buf, accounts[i]->szModuleName) == 0) {
-								MessageBox(NULL, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account Error"), MB_ICONERROR | MB_OK);
+								MessageBox(NULL, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 								return FALSE;
 							}
 					}

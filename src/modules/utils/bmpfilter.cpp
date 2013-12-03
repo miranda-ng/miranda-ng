@@ -142,31 +142,31 @@ static INT_PTR BmpFilterGetStrings(WPARAM wParam, LPARAM lParam)
 	int bytesLeft = wParam;
 	char *filter = (char*)lParam, *pfilter;
 
-	lstrcpynA(filter, Translate("All Bitmaps"), bytesLeft); bytesLeft-=lstrlenA(filter);
+	lstrcpynA(filter, Translate("All bitmaps"), bytesLeft); bytesLeft-=lstrlenA(filter);
 	strncat(filter, " (*.bmp;*.jpg;*.gif;*.png)", bytesLeft);
 	pfilter = filter+lstrlenA(filter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpynA(pfilter, "*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpynA(pfilter, Translate("Windows Bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
+	lstrcpynA(pfilter, Translate("Windows bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
 	strncat(pfilter, " (*.bmp;*.rle)", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpynA(pfilter, "*.BMP;*.RLE", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpynA(pfilter, Translate("JPEG Bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
+	lstrcpynA(pfilter, Translate("JPEG bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
 	strncat(pfilter, " (*.jpg;*.jpeg)", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpynA(pfilter, "*.JPG;*.JPEG", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpynA(pfilter, Translate("GIF Bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
+	lstrcpynA(pfilter, Translate("GIF bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
 	strncat(pfilter, " (*.gif)", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpynA(pfilter, "*.GIF", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpynA(pfilter, Translate("PNG Bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
+	lstrcpynA(pfilter, Translate("PNG bitmaps"), bytesLeft); bytesLeft-=lstrlenA(pfilter);
 	strncat(pfilter, " (*.png)", bytesLeft);
 	pfilter+=lstrlenA(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpynA(pfilter, "*.PNG", bytesLeft);
@@ -187,31 +187,31 @@ static INT_PTR BmpFilterGetStringsW(WPARAM wParam, LPARAM lParam)
 	int bytesLeft = wParam;
 	TCHAR *filter = (TCHAR*)lParam, *pfilter;
 
-	lstrcpyn(filter, TranslateT("All Bitmaps"), bytesLeft); bytesLeft-=lstrlen(filter);
+	lstrcpyn(filter, TranslateT("All bitmaps"), bytesLeft); bytesLeft-=lstrlen(filter);
 	_tcsncat(filter, _T(" (*.bmp;*.jpg;*.gif;*.png)"), bytesLeft);
 	pfilter = filter+lstrlen(filter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpyn(pfilter, _T("*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpyn(pfilter, TranslateT("Windows Bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
+	lstrcpyn(pfilter, TranslateT("Windows bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
 	_tcsncat(pfilter, _T(" (*.bmp;*.rle)"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpyn(pfilter, _T("*.BMP;*.RLE"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpyn(pfilter, TranslateT("JPEG Bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
+	lstrcpyn(pfilter, TranslateT("JPEG bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
 	_tcsncat(pfilter, _T(" (*.jpg;*.jpeg)"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpyn(pfilter, _T("*.JPG;*.JPEG"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpyn(pfilter, TranslateT("GIF Bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
+	lstrcpyn(pfilter, TranslateT("GIF bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
 	_tcsncat(pfilter, _T(" (*.gif)"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpyn(pfilter, _T("*.GIF"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 
-	lstrcpyn(pfilter, TranslateT("PNG Bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
+	lstrcpyn(pfilter, TranslateT("PNG bitmaps"), bytesLeft); bytesLeft-=lstrlen(pfilter);
 	_tcsncat(pfilter, _T(" (*.png)"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft = wParam-(pfilter-filter);
 	lstrcpyn(pfilter, _T("*.PNG"), bytesLeft);

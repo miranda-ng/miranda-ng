@@ -39,29 +39,29 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),               -IDI_RECVMSG        }, //  1
 	{ SKINICON_EVENT_URL,             LPGEN("URL"),                   -IDI_URL            }, //  2
 	{ SKINICON_EVENT_FILE,            LPGEN("File"),                  -IDI_FILE           }, //  3
-	{ SKINICON_OTHER_USERONLINE,      LPGEN("User Online"),           -IDI_USERONLINE     }, //  4
-	{ SKINICON_OTHER_GROUPOPEN,       LPGEN("Group (Open)"),          -IDI_GROUPOPEN      }, //  5
-	{ SKINICON_OTHER_GROUPSHUT,       LPGEN("Group (Closed)"),        -IDI_GROUPSHUT      }, //  6
+	{ SKINICON_OTHER_USERONLINE,      LPGEN("User online"),           -IDI_USERONLINE     }, //  4
+	{ SKINICON_OTHER_GROUPOPEN,       LPGEN("Group (open)"),          -IDI_GROUPOPEN      }, //  5
+	{ SKINICON_OTHER_GROUPSHUT,       LPGEN("Group (closed)"),        -IDI_GROUPSHUT      }, //  6
 	{ SKINICON_OTHER_CONNECTING,      LPGEN("Connecting"),            -IDI_LOAD           }, //  7
 	{ SKINICON_OTHER_ADDCONTACT,      LPGEN("Add contact"),           -IDI_ADDCONTACT     }, //  8
 	{ SKINICON_OTHER_USERDETAILS,     LPGEN("User details"),          -IDI_USERDETAILS    }, //  9
 	{ SKINICON_OTHER_HISTORY,         LPGEN("History"),               -IDI_HISTORY        }, // 10
-	{ SKINICON_OTHER_DOWNARROW,       LPGEN("Down Arrow"),            -IDI_DOWNARROW      }, // 11
-	{ SKINICON_OTHER_FINDUSER,        LPGEN("Find User"),             -IDI_FINDUSER       }, // 12
+	{ SKINICON_OTHER_DOWNARROW,       LPGEN("Down arrow"),            -IDI_DOWNARROW      }, // 11
+	{ SKINICON_OTHER_FINDUSER,        LPGEN("Find user"),             -IDI_FINDUSER       }, // 12
 	{ SKINICON_OTHER_OPTIONS,         LPGEN("Options"),               -IDI_OPTIONS        }, // 13
-	{ SKINICON_OTHER_SENDEMAIL,       LPGEN("Send E-mail"),           -IDI_SENDEMAIL      }, // 14
+	{ SKINICON_OTHER_SENDEMAIL,       LPGEN("Send e-mail"),           -IDI_SENDEMAIL      }, // 14
 	{ SKINICON_OTHER_DELETE,          LPGEN("Delete"),                -IDI_DELETE         }, // 15
 	{ SKINICON_OTHER_RENAME,          LPGEN("Rename"),                -IDI_RENAME         }, // 16
 	{ SKINICON_OTHER_SMS,             LPGEN("SMS"),                   -IDI_SMS            }, // 17
-	{ SKINICON_OTHER_SEARCHALL,       LPGEN("Search All"),            -IDI_SEARCHALL      }, // 18
+	{ SKINICON_OTHER_SEARCHALL,       LPGEN("Search all"),            -IDI_SEARCHALL      }, // 18
 	{ SKINICON_OTHER_TICK,            LPGEN("Tick"),                  -IDI_TICK           }, // 19
-	{ SKINICON_OTHER_NOTICK,          LPGEN("No Tick"),               -IDI_NOTICK         }, // 20
+	{ SKINICON_OTHER_NOTICK,          LPGEN("No tick"),               -IDI_NOTICK         }, // 20
 	{ SKINICON_OTHER_HELP,            LPGEN("Help"),                  -IDI_HELP           }, // 21
 	{ SKINICON_OTHER_MIRANDAWEB,      LPGEN("Miranda website"),       -IDI_MIRANDAWEBSITE }, // 22
 	{ SKINICON_OTHER_TYPING,          LPGEN("Typing"),                -IDI_TYPING         }, // 23
-	{ SKINICON_OTHER_SMALLDOT,        LPGEN("Small Dot"),             -IDI_SMALLDOT       }, // 24
-	{ SKINICON_OTHER_FILLEDBLOB,      LPGEN("Filled Blob"),           -IDI_FILLEDBLOB     }, // 25
-	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty Blob"),            -IDI_EMPTYBLOB      }, // 26
+	{ SKINICON_OTHER_SMALLDOT,        LPGEN("Small dot"),             -IDI_SMALLDOT       }, // 24
+	{ SKINICON_OTHER_FILLEDBLOB,      LPGEN("Filled blob"),           -IDI_FILLEDBLOB     }, // 25
+	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty blob"),            -IDI_EMPTYBLOB      }, // 26
 	{ SKINICON_OTHER_UNICODE,         LPGEN("Unicode plugin"),        -IDI_UNICODE        }, // 27
 	{ SKINICON_OTHER_ANSI,            LPGEN("ANSI plugin"),           -IDI_ANSI           }, // 28
 	{ SKINICON_OTHER_LOADED,          LPGEN("Running plugin"),        -IDI_LOADED         }, // 29
@@ -76,7 +76,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),                -IDI_ONLINE         }, // 38
 	{ SKINICON_CHAT_JOIN,             LPGEN("Join chat"),             -IDI_JOINCHAT       }, // 39
 	{ SKINICON_CHAT_LEAVE,            LPGEN("Leave chat"),            -IDI_LEAVECHAT      }, // 40
-	{ SKINICON_OTHER_GROUP,           LPGEN("Move to Group"),         -IDI_MOVETOGROUP    }, // 41
+	{ SKINICON_OTHER_GROUP,           LPGEN("Move to group"),         -IDI_MOVETOGROUP    }, // 41
 	{ SKINICON_OTHER_ON,              LPGEN("On"),                    -IDI_ON             }, // 42
 	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                   -IDI_OFF            }, // 43
 	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"),   -IDI_LOADED_GRAY    }, // 44
@@ -88,7 +88,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_AUTH_REVOKE,           LPGEN("Revoke authorization"),  -IDI_AUTH_REVOKE    }, // 50
 	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),        -IDI_ALWAYSVIS,     0, LPGEN("Contact list") },
 	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),      -IDI_NEVERVIS,      0, LPGEN("Contact list") },
-	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),         -IDI_STATUS_LOCKED, 0, LPGEN("Status Icons") }, 
+	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),         -IDI_STATUS_LOCKED, 0, LPGEN("Status icons") }, 
 };
 
 static struct StandardIconDescription statusIcons[] = 
@@ -107,9 +107,9 @@ static struct StandardIconDescription statusIcons[] =
 
 const char mainIconsFmt[] = "core_main_";
 const char statusIconsFmt[] = "core_status_";
-const char protoIconsFmt[] = LPGEN("%s Icons");
+const char protoIconsFmt[] = LPGEN("%s icons");
 
-#define PROTOCOLS_PREFIX LPGEN("Status Icons")
+#define PROTOCOLS_PREFIX LPGEN("Status icons")
 #define GLOBAL_PROTO_NAME "*"
 
 // load small icon (shared) it's not need to be destroyed
@@ -476,7 +476,7 @@ int LoadSkinIcons(void)
 	//
 	for (i=0; i < SIZEOF(mainIcons); i++) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, i);
-		sid.pszSection = mainIcons[i].section == NULL ? LPGEN("Main Icons") : (char*)mainIcons[i].section;
+		sid.pszSection = mainIcons[i].section == NULL ? LPGEN("Main icons") : (char*)mainIcons[i].section;
 		sid.pszDescription = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
 		mainIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);

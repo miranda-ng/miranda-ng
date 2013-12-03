@@ -29,9 +29,9 @@
 %s добавил вас в свой список
 [%s file]
 %s файл
-[%s Icons]
+[%s icons]
 %s значки
-[Status Icons]
+[Status icons]
 Значки статуса
 [%s is online]
 %s в сети
@@ -281,7 +281,7 @@ ID учётной записи
 Дополнительно
 [Age:]
 Возраст:
-[All Bitmaps]
+[All bitmaps]
 Все изображения
 [All events]
 Все события
@@ -341,8 +341,8 @@ ANSI плагин
 Очистить журнал
 [Calling modules' names]
 Имена вызывающих модулей
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
-Не найден плагин списка контактов! Вам нужен StdClist или clist_*.dll плагин.
+[Can't find a contact list plugin! You need StdClist.dll or any other clist plugin.]
+Не найден плагин списка контактов! Вам нужен StdClist.dll или clist_*.dll плагин.
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
 [Cancel change]
@@ -491,7 +491,7 @@ ANSI плагин
 Разрешить изменение?
 [Do you want to import the settings now?]
 Импортировать настройки сейчас?
-[Down Arrow]
+[Down arrow]
 Вниз
 [Download more icons]
 Загрузить с сайта Miranda NG
@@ -519,7 +519,7 @@ ANSI плагин
 Эффект:
 [Effects]
 Эффекты
-[Empty Blob]
+[Empty blob]
 Не заполнено
 [Use custom login (domain login picked up automatically)]
 Логин пользователя (вход с доменным логином автоматический)
@@ -595,7 +595,7 @@ URL:
 Файлы:
 [Files]
 Файлы
-[Filled Blob]
+[Filled blob]
 Заполнено
 [Find user]
 Найти
@@ -647,15 +647,15 @@ URL:
 Основной текст
 [Get more protocols...]
 Загрузка протоколов...
-[GIF Bitmaps]
+[GIF bitmaps]
 Изображения GIF
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
 [Give it up, I'm not in!]
 Меня нет.
-[Group (Closed)]
+[Group (closed)]
 Группа (закрыта)
-[Group (Open)]
+[Group (open)]
 Группа (открыта)
 [Group:]
 Группа:
@@ -757,7 +757,7 @@ URL:
 Невидимый
 [Join chat]
 Войти в чат
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Изображения JPEG
 [Key bindings]
 Горячие клавиши
@@ -791,7 +791,7 @@ URL:
 Журнал
 [Logging...]
 Журнал...
-[Main Icons]
+[Main icons]
 Главные значки
 [Main menu]
 Главное меню
@@ -819,7 +819,7 @@ URL:
 Miranda NG не может открыть этот профиль
 [Miranda can't understand that profile]
 Miranda не может распознать этот профиль
-[Miranda NG Options]
+[Miranda NG options]
 Настройки Miranda NG
 [Miranda NG Profile Manager]
 Менеджер профилей Miranda NG
@@ -842,6 +842,8 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 [More options]
 Ещё настройки
 [Move to Group]
+Группа
+[Move to group]
 Группа
 [Moving to next file...]
 Следующий файл...
@@ -879,7 +881,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Ник:
 [No data transferred]
 Данные не переданы
-[No Tick]
+[No tick]
 Не отмечено
 [No times]
 Без времени
@@ -985,7 +987,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Плагин
 [Plugins]
 Плагины
-[PNG Bitmaps]
+[PNG bitmaps]
 Изображения PNG
 [Port range:]
 Порты:
@@ -1087,6 +1089,8 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Где:
 [Search All]
 Найти всех
+[Search all]
+Найти всех
 [Search:]
 Искать:
 [Search]
@@ -1171,7 +1175,7 @@ Cлужба:
 Размер
 [Skip]
 Пропуск
-[Small Dot]
+[Small dot]
 Точка
 [Small text]
 Дополнительный текст
@@ -1339,7 +1343,7 @@ URL от %s
 О пользователе
 [User has not registered an e-mail address]
 Пользователь не зарегистрировал свой адрес e-mail.
-[User Online]
+[User online]
 Пользователь в сети
 [Username:]
 Пользователь:
@@ -1379,7 +1383,7 @@ URL от %s
 По окончании загрузки всех файлов
 [Window]
 Окно
-[Windows Bitmaps]
+[Windows bitmaps]
 Изображения Windows Bitmap
 [Work fax]
 Рабочий факс
@@ -2139,9 +2143,9 @@ Miranda пытается обновить вашу структуру хране
 Функция OutputDebugString()
 [Text files]
 Текстовые файлы
-[Sound Files]
+[Sound files]
 Звуковые файлы
-[WAV Files]
+[WAV files]
 Файлы WAV
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG перезапускается.\nПожалуйста, подождите...
@@ -2183,7 +2187,7 @@ Cвернуть
 Перезапустить программу сейчас?
 [Open contact's chat window]
 Открыть окно беседы с контактом
-[Account Error]
+[Account error]
 Ошибка учётной записи
 [Account name has to be unique. Please enter unique name.]
 Имя учётной записи должно быть уникальным. Введите уникальное имя.
