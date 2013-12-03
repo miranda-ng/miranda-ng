@@ -6,6 +6,7 @@ Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
 Ekaterina Gritsenko aka Tuarisa
 George Hazan aka ghazan
+Ulrich Hecht aka fishbone
 Vitaly Igonin aka persei
 Alexey Koulakov aka Awkward
 Michael Kunz aka Protogenes
