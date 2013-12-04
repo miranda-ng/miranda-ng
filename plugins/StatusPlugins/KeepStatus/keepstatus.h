@@ -53,7 +53,6 @@
 #define SETTING_PINGCOUNT            "PingCount"
 #define DEFAULT_PINGCOUNT            1
 #define SETTING_CNTDELAY             "CntDelay"
-#define SETTING_PROTORETRY           "Retry" // IRC setting
 #define STATUSCHANGEDELAY            500 // ms
 #define DEFAULT_MAXRETRIES           0
 #define DEFAULT_INITDELAY            10 // s

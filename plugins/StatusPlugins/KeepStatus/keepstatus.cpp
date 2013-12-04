@@ -253,14 +253,13 @@ static int GetStatus(const TConnectionSettings& cs)
 
 static int SetCurrentStatus()
 {
-	int realStatus;
 	PROTOCOLSETTINGEX **ps = GetCurrentProtoSettingsCopy();
 	for (int i=0; i < connectionSettings.getCount(); i++) {
-		realStatus = CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0);
-		if ( (ps[i]->status == ID_STATUS_DISABLED) || (ps[i]->status == realStatus) || ( db_get_b(NULL, ps[i]->szName, SETTING_PROTORETRY, 0)))	{ // ignore this proto by removing it's name (not so nice)
+		int realStatus = CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0);
+		if (ps[i]->status == ID_STATUS_DISABLED || ps[i]->status == realStatus)	{ // ignore this proto by removing it's name (not so nice)
 			ps[i]->szName = "";
 		}
-		else if ( (ps[i]->status != ID_STATUS_DISABLED) && (ps[i]->status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && ( db_get_b(NULL, MODULENAME, SETTING_FIRSTOFFLINE, FALSE))) {
+		else if ((ps[i]->status != ID_STATUS_DISABLED) && (ps[i]->status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && (db_get_b(NULL, MODULENAME, SETTING_FIRSTOFFLINE, FALSE))) {
 			// force offline before reconnecting
 			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", ps[i]->szName);
 			CallProtoService(ps[i]->szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
@@ -524,7 +523,7 @@ static int ProcessProtoAck(WPARAM,LPARAM lParam)
 {
 	ACKDATA *ack=(ACKDATA*)lParam;
 
-	if ( (ack->type != ACKTYPE_STATUS) && (ack->type != ACKTYPE_LOGIN))
+	if (ack->type != ACKTYPE_STATUS && ack->type != ACKTYPE_LOGIN)
 		return 0;
 
 	char dbSetting[128];
@@ -532,15 +531,10 @@ static int ProcessProtoAck(WPARAM,LPARAM lParam)
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		return 0;
 
-	if ( db_get_b(NULL, ack->szModule, SETTING_PROTORETRY, 0)) {
-		log_infoA("KeepStatus: %s has built-in reconnection enabled", ack->szModule);
-		return 0;
-	}
-
-	if ( ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS ) {
-		for (int i=0; i < connectionSettings.getCount(); i++ ) {
+	if (ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
+		for (int i = 0; i < connectionSettings.getCount(); i++) {
 			TConnectionSettings& cs = connectionSettings[i];
-			if ( !strcmp( cs.szName, ack->szModule ))
+			if (!strcmp(cs.szName, ack->szModule))
 				cs.lastStatusAckTime = GetTickCount();
 		}
 		StartTimer(IDT_PROCESSACK, 0, FALSE);
@@ -549,14 +543,13 @@ static int ProcessProtoAck(WPARAM,LPARAM lParam)
 
 	if (ack->type == ACKTYPE_LOGIN) {
 		if (ack->lParam == LOGINERR_OTHERLOCATION) {
-
-			for (int i=0;i<connectionSettings.getCount();i++) {
+			for (int i=0; i < connectionSettings.getCount(); i++) {
 				TConnectionSettings& cs = connectionSettings[i];
 				if (!strcmp(ack->szModule, cs.szName)) {
 					AssignStatus(&cs, ID_STATUS_OFFLINE, 0, NULL);
-					if ( db_get_b(NULL, MODULENAME, SETTING_CNCOTHERLOC, 0)) {
+					if (db_get_b(NULL, MODULENAME, SETTING_CNCOTHERLOC, 0)) {
 						StopTimer(IDT_PROCESSACK);
-						for (int j=0;j<connectionSettings.getCount();j++) {
+						for (int j = 0; j < connectionSettings.getCount(); j++) {
 							AssignStatus(&connectionSettings[j], ID_STATUS_OFFLINE, 0, NULL);
 						}
 					}
@@ -573,7 +566,7 @@ static int ProcessProtoAck(WPARAM,LPARAM lParam)
 			case LOGINERR_CANCEL:
 				{
 					log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
-					for ( int i=0; i <connectionSettings.getCount(); i++ ) {
+					for (int i = 0; i < connectionSettings.getCount(); i++) {
 						TConnectionSettings& cs = connectionSettings[i];
 						if (!strcmp(ack->szModule, cs.szName))
 							AssignStatus(&cs, ID_STATUS_OFFLINE, 0, NULL);
@@ -607,7 +600,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND hwnd,UINT message,UINT_PTR idEven
 
 	StopTimer(IDT_CHECKCONNECTING);
 	//log_debugA("KeepStatus: CheckConnectingTimer");
-	for (int i=0;i<connectionSettings.getCount();i++) {
+	for (int i=0; i < connectionSettings.getCount(); i++) {
 		TConnectionSettings& cs = connectionSettings[i];
 
 		int curStatus = GetStatus(cs);
@@ -631,7 +624,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND hwnd,UINT message,UINT_PTR idEvent
 	bool needChecking = false;
 
 	StopTimer(IDT_PROCESSACK);
-	for (int i=0;i<connectionSettings.getCount();i++) {
+	for (int i=0; i < connectionSettings.getCount(); i++) {
 		TConnectionSettings& cs = connectionSettings[i];
 
 		int curStatus = GetStatus(cs);
