@@ -530,3 +530,9 @@
 Возможны грозы, 90% вероятность осадков
 [Chance Of T-Storms 80% Chance Of Precipitation]
 Возможны грозы, 80% вероятность осадков
+[Snow Showers 70% Chance Of Precipitation]
+Снег, 70% вероятность осадков
+[Snow Showers 60% Chance Of Precipitation]
+Снег, 60% вероятность осадков
+[Snow Showers 50% Chance Of Precipitation]
+Снег, 50% вероятность осадков
