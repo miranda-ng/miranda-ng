@@ -58,8 +58,30 @@
 &Залишити
 [db3x_mmap Plugin] 
 Плагін db3x_mmap 
+[Database] 
+Профіль 
+[Password] 
+Пароль 
 [Set password] 
 Встановити пароль 
+[Old password] 
+Старий пароль 
+[New password] 
+Новий пароль 
+[Change password] 
+Змінити пароль 
+[Change] 
+Змінити
+[Remove] 
+Видалити
+[Please enter your new password] 
+Будьласка введіть новий пароль 
+[Password is too short!] 
+Пароль занабто короткий! 
+[Passwords do not match!] 
+Пароли не співпадають! 
+[Wrong old password entered!] 
+Введено помилковий старий пароль! 
 [Disk is full. Miranda will now shutdown.]
 Диск сповнений. Miranda завершує роботу.
 [Database failure. Miranda will now shutdown.]
