@@ -264,7 +264,7 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	char *password = getStringA(GG_KEY_PASSWORD);
+	ptrA password(getStringA(GG_KEY_PASSWORD));
 	if (password == NULL)
 		return 0;
 
@@ -283,7 +283,6 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 		debugLogA("import_server(): Cannot import list. errno:%d: %s", errno, strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 2, "sess_mutex", 1);
-	free(password);
 
 	return 0;
 }
@@ -303,7 +302,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	char *password = getStringA(GG_KEY_PASSWORD);
+	ptrA password(getStringA(GG_KEY_PASSWORD));
 	if (password == NULL)
 		return 0;
 
@@ -325,7 +324,6 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 
 	// Set list removal
 	is_list_remove = TRUE;
-	free(password);
 
 	return 0;
 }
@@ -476,7 +474,7 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	char *password = getStringA(GG_KEY_PASSWORD);
+	ptrA password(getStringA(GG_KEY_PASSWORD));
 	if (password == NULL)
 		return 0;
 
@@ -505,7 +503,6 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	// Set list removal
 	is_list_remove = FALSE;
 	free(contacts);
-	free(password);
 
 	return 0;
 }
