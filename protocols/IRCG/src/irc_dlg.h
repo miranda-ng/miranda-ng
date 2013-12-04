@@ -127,7 +127,7 @@ struct CQuickDlg : public CCoolIrcDlg
 	virtual void OnDestroy();
 
 	CCtrlCombo m_serverCombo;
-	void OnServerCombo( CCtrlData* );
+	void OnServerCombo(CCtrlData*);
 
 	CCtrlButton  m_Ok;
 	void OnOk( CCtrlButton* );
@@ -151,10 +151,10 @@ struct CManagerDlg : public CCoolIrcDlg
 	virtual void OnClose();
 	virtual void OnDestroy();
 
-	void OnCheck( CCtrlData* );
-	void OnCheck5( CCtrlData* );
-	void OnCheck6( CCtrlData* );
-	void OnRadio( CCtrlData* );
+	void OnCheck(CCtrlData*);
+	void OnCheck5(CCtrlData*);
+	void OnCheck6(CCtrlData*);
+	void OnRadio(CCtrlData*);
 
 	void OnAdd( CCtrlButton* );
 	void OnEdit( CCtrlButton* );
@@ -162,8 +162,8 @@ struct CManagerDlg : public CCoolIrcDlg
 
 	void OnListDblClick( CCtrlListBox* );
 	void OnChangeList( CCtrlListBox* );
-	void OnChangeModes( CCtrlData* );
-	void OnChangeTopic( CCtrlData* );
+	void OnChangeModes(CCtrlData*);
+	void OnChangeTopic(CCtrlData*);
 
 	void OnApplyModes( CCtrlButton* );
 	void OnApplyTopic( CCtrlButton* );
@@ -206,9 +206,6 @@ struct CConnectPrefsDlg : public CProtoDlgBase<CIrcProto>
 	CCtrlCheck   m_ident, m_identTimer;
 	CCtrlEdit    m_identSystem, m_identPort;
 
-	CCtrlCheck   m_retry;
-	CCtrlEdit    m_retryCount, m_retryWait;
-
 	CCtrlCheck   m_forceVisible, m_rejoinOnKick, m_rejoinChannels, m_disableError,
 		          m_address, m_useServer, m_showServer, m_keepAlive, m_autoJoin,
 					 m_oldStyle, m_onlineNotif, m_channelAway, m_enableServer;
@@ -221,16 +218,16 @@ struct CConnectPrefsDlg : public CProtoDlgBase<CIrcProto>
 	virtual void OnInitDialog();
 	virtual void OnApply();
 
-	void OnServerCombo( CCtrlData* );
+	void OnServerCombo(CCtrlData*);
 	void OnAddServer( CCtrlButton* );
 	void OnDeleteServer( CCtrlButton* );
 	void OnEditServer( CCtrlButton* );
-	void OnStartup( CCtrlData* );
-	void OnIdent( CCtrlData* );
-	void OnUseServer( CCtrlData* );
-	void OnOnlineNotif( CCtrlData* );
-	void OnChannelAway( CCtrlData* );
-	void OnRetry( CCtrlData* );
+	void OnStartup(CCtrlData*);
+	void OnIdent(CCtrlData*);
+	void OnUseServer(CCtrlData*);
+	void OnOnlineNotif(CCtrlData*);
+	void OnChannelAway(CCtrlData*);
+	void OnRetry(CCtrlData*);
 };
 
 //---- the second property page: DCC/CTCP -----------------------------------------------
@@ -249,7 +246,7 @@ struct CCtcpPrefsDlg : public CProtoDlgBase<CIrcProto>
 	virtual void OnInitDialog();
 	virtual void OnApply();
 
-	void OnClicked( CCtrlData* );
+	void OnClicked(CCtrlData*);
 };
 
 //---- the third property page: Other ---------------------------------------------------
@@ -273,10 +270,10 @@ struct COtherPrefsDlg : public CProtoDlgBase<CIrcProto>
 	virtual void OnDestroy();
 
 	void OnUrl( CCtrlButton* );
-	void OnPerformCombo( CCtrlData* );
-	void OnCodePage( CCtrlData* );
-	void OnPerformEdit( CCtrlData* );
-	void OnPerform( CCtrlData* );
+	void OnPerformCombo(CCtrlData*);
+	void OnCodePage(CCtrlData*);
+	void OnPerformEdit(CCtrlData*);
+	void OnPerform(CCtrlData*);
 	void OnAdd( CCtrlButton* );
 	void OnDelete( CCtrlButton* );
 
@@ -302,8 +299,8 @@ struct CIgnorePrefsDlg : public CProtoDlgBase<CIrcProto>
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void List_OnColumnClick( CCtrlListView::TEventInfo* );
-	void OnEnableIgnore( CCtrlData* );
-	void OnIgnoreChat( CCtrlData* );
+	void OnEnableIgnore(CCtrlData*);
+	void OnIgnoreChat(CCtrlData*);
 	void OnAdd( CCtrlButton* );
 	void OnEdit( CCtrlButton* );
 	void OnDelete( CCtrlButton* );

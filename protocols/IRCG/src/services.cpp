@@ -1088,8 +1088,6 @@ void __cdecl CIrcProto::ConnectServerThread( void* )
 		Connect(si);
 		LeaveCriticalSection(&cs);
 		if (IsConnected()) {
-			KillChatTimer( RetryTimer );
-
 			if ( m_mySpecifiedHost[0] )
 				ForkThread( &CIrcProto::ResolveIPThread, new IPRESOLVE( m_mySpecifiedHost, IP_MANUAL ));
 
@@ -1103,16 +1101,14 @@ void __cdecl CIrcProto::ConnectServerThread( void* )
 			Sleep(100);
 	}	}
 
-	InterlockedDecrement((long *) &m_bConnectThreadRunning);
+	InterlockedDecrement((long *)&m_bConnectThreadRunning);
 }
 
 void __cdecl CIrcProto::DisconnectServerThread( void* )
 {
-	EnterCriticalSection( &cs );
-	KillChatTimer( RetryTimer );
-	if ( IsConnected())
+	mir_cslock lck(cs);
+	if (IsConnected())
 		Disconnect();
-	LeaveCriticalSection( &cs );
 	return;
 }
 
@@ -1129,17 +1125,7 @@ void CIrcProto::ConnectToServer(void)
 	si.iIdentServerPort = StrToInt(m_identPort);
 	si.sIdentServerType = m_identSystem;
 	si.m_iSSL = m_iSSL;
-	{	TCHAR* p = mir_a2t( m_network );
-		si.sNetwork = p;
-		mir_free(p);
-	}
-	m_iRetryCount = 1;
-	KillChatTimer(RetryTimer);
-	if (m_retry) {
-		if (StrToInt(m_retryWait)<10)
-			lstrcpy(m_retryWait, _T("10"));
-		SetChatTimer(RetryTimer, StrToInt(m_retryWait)*1000, RetryTimerProc);
-	}
+	si.sNetwork = m_network;
 
 	bPerformDone = false;
 	bTempDisableCheck = false;
@@ -1190,35 +1176,4 @@ INT_PTR __cdecl CIrcProto::GetMyAwayMsg(WPARAM wParam,LPARAM lParam)
 	const TCHAR* p = m_statusMessage.c_str();
 
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(p) : (INT_PTR)mir_t2a(p);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Service function creation
-
-VOID CALLBACK RetryTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
-{
-	CIrcProto *ppro = GetTimerOwner( idEvent );
-	if (ppro == NULL)
-		return;
-
-	if ( ppro->m_iRetryCount <= StrToInt( ppro->m_retryCount) && ppro->m_retry ) {
-		ppro->m_portCount++;
-		if ( ppro->m_portCount > StrToIntA( ppro->m_portEnd ) || StrToIntA( ppro->m_portEnd ) == 0 )
-			ppro->m_portCount = StrToIntA( ppro->m_portStart );
-		ppro->si.iPort = ppro->m_portCount;
-
-		TCHAR szTemp[300];
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0033%s \002%s\002 (%S: %u, try %u)"),
-			TranslateT("Reconnecting to"), ppro->si.sNetwork.c_str(), ppro->si.sServer.c_str(), ppro->si.iPort, ppro->m_iRetryCount);
-
-		ppro->DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
-
-		if ( !ppro->m_bConnectThreadRunning )
-			ppro->ForkThread( &CIrcProto::ConnectServerThread, 0 );
-		else
-			ppro->m_bConnectRequested = true;
-
-		ppro->m_iRetryCount++;
-	}
-	else ppro->KillChatTimer( ppro->RetryTimer );
 }

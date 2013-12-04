@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by IRC.rc
+// Used by D:\Myranda\protocols\IRCG\res\IRC.rc
 //
 #define ID_INFO_QUERY                   3
 #define IDD_PREFS_MAIN                  101
@@ -71,10 +71,8 @@
 #define IDC_SERVERCOMBO                 1022
 #define IDC_IDENT                       1023
 #define IDC_IDENT_TIMED                 1024
-#define IDC_RETRY                       1029
 #define IDC_ADDSERVER                   1031
 #define IDC_EDITSERVER                  1032
-#define IDC_RETRYWAIT                   1035
 #define IDC_IDENTSYSTEM                 1036
 #define IDC_IDENTPORT                   1037
 #define IDC_ONLINETIMER                 1038

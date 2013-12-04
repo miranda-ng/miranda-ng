@@ -654,7 +654,7 @@ void CQuickDlg::OnOk( CCtrlButton* )
 	m_proto->ConnectToServer();
 }
 
-void CQuickDlg::OnServerCombo( CCtrlData* )
+void CQuickDlg::OnServerCombo(CCtrlData*)
 {
 	int i = m_serverCombo.GetCurSel();
 	if ( i == CB_ERR )
@@ -1061,12 +1061,12 @@ void CManagerDlg::OnChangeList( CCtrlListBox* )
 		m_remove.Enable();
 }	}
 
-void CManagerDlg::OnChangeModes( CCtrlData* )
+void CManagerDlg::OnChangeModes(CCtrlData*)
 {
 	m_applyModes.Enable();
 }
 
-void CManagerDlg::OnChangeTopic( CCtrlData* )
+void CManagerDlg::OnChangeTopic(CCtrlData*)
 {
 	m_applyTopic.Enable();
 }
@@ -1211,24 +1211,24 @@ void CManagerDlg::OnApplyTopic( CCtrlButton* )
 	m_applyTopic.Disable();
 }
 
-void CManagerDlg::OnCheck( CCtrlData* )
+void CManagerDlg::OnCheck(CCtrlData*)
 {
 	m_applyModes.Enable();
 }
 
-void CManagerDlg::OnCheck5( CCtrlData* )
+void CManagerDlg::OnCheck5(CCtrlData*)
 {
 	m_key.Enable( m_check5.GetState());
 	m_applyModes.Enable();
 }
 
-void CManagerDlg::OnCheck6( CCtrlData* )
+void CManagerDlg::OnCheck6(CCtrlData*)
 {
 	m_limit.Enable( m_check6.GetState());				
 	m_applyModes.Enable();
 }
 
-void CManagerDlg::OnRadio( CCtrlData* )
+void CManagerDlg::OnRadio(CCtrlData*)
 {
 	ApplyQuestion();
 }

@@ -925,7 +925,6 @@ int CIrcProto::SetStatusInternal( int iNewStatus, bool bIsInternal )
 		DisconnectFromServer();
 	else if ( iNewStatus == ID_STATUS_OFFLINE && !IsConnected()) //offline to offline
 	{
-		KillChatTimer( RetryTimer);
 		return 0;
 	}
 	else if ( iNewStatus == ID_STATUS_AWAY && IsConnected()) //go to away while connected

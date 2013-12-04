@@ -298,8 +298,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	char     m_portEnd[10];
 	int      m_iSSL;
 	TCHAR    m_identPort[10];
-	TCHAR    m_retryWait[10];
-	TCHAR    m_retryCount[10];
 	TCHAR    m_nick[30], m_pNick[30];
 	TCHAR    m_alternativeNick[30];
 	TCHAR    m_name[200];
@@ -326,7 +324,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	BYTE     m_hideServerWindow;
 	BYTE     m_ident;
 	BYTE     m_identTimer;
-	BYTE     m_retry;
 	BYTE     m_disableDefaultServer;
 	BYTE     m_autoOnlineNotification;
 	BYTE     m_sendKeepAlive;
@@ -366,7 +363,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	CIrcSessionInfo si;
 
-	int       m_iRetryCount;
 	int       m_portCount;
 	DWORD     m_bConnectRequested;
 	DWORD     m_bConnectThreadRunning;
@@ -475,8 +471,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void   ConnectToServer(void);
 	void   DisconnectFromServer(void);
 	void   InitMainMenus(void);
-
-	UINT_PTR  RetryTimer;
 
 	void __cdecl ConnectServerThread( void* );
 	void __cdecl DisconnectServerThread( void* );
@@ -646,7 +640,6 @@ VOID CALLBACK KeepAliveTimerProc( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD 
 VOID CALLBACK OnlineNotifTimerProc( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime );
 VOID CALLBACK OnlineNotifTimerProc3( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime );
 VOID CALLBACK DCCTimerProc( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime );
-VOID CALLBACK RetryTimerProc( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime );
 
 // options.cpp
 
