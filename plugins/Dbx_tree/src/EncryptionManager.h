@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "sigslot.h"
 
 #define __INTERFACE_ONLY__
-#include "../encryption/Common/Cipher.h"
+#include "Cipher.h"
 #undef __INTERFACE_ONLY__
 
 #include "SHA256.h"
