@@ -83,7 +83,7 @@ bool CStdCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
 		return false;
 
 	memcpy(m_key, &tmp.m_key, KEY_LENGTH);
-	m_aes.MakeKey(m_key, m_password, KEY_LENGTH, BLOCK_SIZE);
+	m_aes.MakeKey(m_key, "Miranda", KEY_LENGTH, BLOCK_SIZE);
 	return m_valid = true;
 }
 
@@ -94,7 +94,7 @@ bool CStdCrypt::generateKey(void)
 		return false;
 
 	memcpy(m_key, tmp, KEY_LENGTH);
-	m_aes.MakeKey(m_key, m_password, KEY_LENGTH, BLOCK_SIZE);
+	m_aes.MakeKey(m_key, "Miranda", KEY_LENGTH, BLOCK_SIZE);
 	return m_valid = true;
 }
 
