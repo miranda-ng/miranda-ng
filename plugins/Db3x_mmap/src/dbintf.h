@@ -301,6 +301,9 @@ struct CDb3Mmap : public CDb3Base
 
 	void     StoreKey(void);
 	void     SetPassword(const TCHAR *ptszPassword);
+	void     UpdateMenuItem(void);
+
+	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
 
 protected:
 	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName);

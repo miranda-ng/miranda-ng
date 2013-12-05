@@ -207,4 +207,5 @@ void CDb3Mmap::SetPassword(LPCTSTR ptszPassword)
 		m_bUsesPassword = true;
 		m_crypto->setPassword(ptrA(mir_utf8encodeT(ptszPassword)));
 	}
+	UpdateMenuItem();
 }

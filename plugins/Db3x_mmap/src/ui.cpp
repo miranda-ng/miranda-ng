@@ -192,20 +192,22 @@ LBL_Error:
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS2, "");
 			}
 			else {
-				param->newPass[0] = 0;
-				EndDialog(hwndDlg, IDOK);
+				param->db->SetPassword(NULL);
+				param->db->StoreKey();
+				EndDialog(hwndDlg, IDREMOVE);
 			}
 			break;
 
 		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_USERPASS1, param->newPass, SIZEOF(param->newPass));
-			if (_tcslen(param->newPass) < 3) {
+			TCHAR buf2[100];
+			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, SIZEOF(buf2));
+			if (_tcslen(buf2) < 3) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
 				goto LBL_Error;
 			}
 
 			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, SIZEOF(buf));
-			if (_tcscmp(param->newPass, buf)) {
+			if (_tcscmp(buf2, buf)) {
 				SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
 				goto LBL_Error;
 			}
@@ -213,6 +215,9 @@ LBL_Error:
 			if (!CheckOldPassword(hwndDlg, param->db))
 				goto LBL_Error;
 
+			param->db->SetPassword(buf2);
+			param->db->StoreKey();
+			SecureZeroMemory(buf2, sizeof(buf2));
 			EndDialog(hwndDlg, IDOK);
 		}
 		break;
@@ -233,15 +238,20 @@ static INT_PTR ChangePassword(void* obj, LPARAM, LPARAM)
 {
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 	DlgChangePassParam param = { db };
-	if (IDOK == DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param)) {
-		db->SetPassword(param.newPass);
-		db->StoreKey();
-	}
-		
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CDb3Mmap::UpdateMenuItem()
+{
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_NAME;
+	mi.icolibItem = iconList[1].hIcolib;
+	mi.pszName = GetMenuTitle();
+	Menu_ModifyItem(hSetPwdMenu, &mi);
+}
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
@@ -251,10 +261,10 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	// main menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL | CMIF_TCHAR;
+	mi.flags = CMIM_ALL;
 	mi.icolibItem = iconList[1].hIcolib;
-	mi.ptszName = (db->isEncrypted()) ? LPGENT("Change password") : LPGENT("Set password");
-	mi.ptszPopupName = LPGENT("Database");
+	mi.pszName = db->GetMenuTitle();
+	mi.pszPopupName = LPGEN("Database");
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	mi.position = 500000000;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
