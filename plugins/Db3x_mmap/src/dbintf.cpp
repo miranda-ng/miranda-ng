@@ -23,7 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-DBSignature dbSignature   = { "Miranda NG DBu", 0x1A };
+DBSignature dbSignatureU = { "Miranda NG DBu", 0x1A }; // unencrypted database
+DBSignature dbSignatureE = { "Miranda NG DBe", 0x1A }; // encrypted database
 DBSignature dbSignatureIM = { "Miranda ICQ DB", 0x1A };
 DBSignature dbSignatureSA = { "Miranda ICQ SA", 0x1A };
 

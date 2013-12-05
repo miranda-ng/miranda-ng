@@ -53,7 +53,7 @@ static int makeDatabase(const TCHAR *profile)
 	if (db->Create() != ERROR_SUCCESS)
 		return EMKPRF_CREATEFAILED;
 
-	return db->CreateDbHeaders(dbSignature);
+	return db->CreateDbHeaders(dbSignatureU);
 }
 
 // returns 0 if the given profile has a valid header

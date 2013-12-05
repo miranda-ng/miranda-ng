@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDb3Base::WorkInitialCheckHeaders()
 {
-	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature)) &&
+	if (memcmp(m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
 		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
 	{
 		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database signature is corrupted, automatic repair is impossible"));

@@ -167,12 +167,14 @@ LBL_SetNewKey:
 		FreeVariant(&dbv);
 	}
 
-	if (memcmp(&m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature))) {
+	if (memcmp(&m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
+		 memcmp(&m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
+	{
 		EnumModuleNames(sttModuleEnum, this);
 
 		// upgrade signature
-		memcpy(&m_dbHeader.signature, &dbSignature, sizeof(dbSignature));
-		DBWrite(0, &dbSignature, sizeof(dbSignature));
+		memcpy(&m_dbHeader.signature, &dbSignatureU, sizeof(dbSignatureU));
+		DBWrite(0, &dbSignatureU, sizeof(dbSignatureU));
 	}
 
 	InitDialogs();

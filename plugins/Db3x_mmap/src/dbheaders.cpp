@@ -54,7 +54,8 @@ int CDb3Base::CreateDbHeaders(const DBSignature& _sign)
 
 int CDb3Base::CheckDbHeaders()
 {
-	if (memcmp(m_dbHeader.signature, &dbSignature,   sizeof(m_dbHeader.signature)) &&
+	if (memcmp(m_dbHeader.signature, &dbSignatureU,  sizeof(m_dbHeader.signature)) &&
+		 memcmp(m_dbHeader.signature, &dbSignatureE,  sizeof(m_dbHeader.signature)) &&
 		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)) &&
 		 memcmp(m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
 		return EGROKPRF_UNKHEADER;
@@ -65,5 +66,6 @@ int CDb3Base::CheckDbHeaders()
 	if (m_dbHeader.ofsUser == 0)
 		return EGROKPRF_DAMAGED;
 
+	m_bEncrypted = 0 == memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature));
 	return 0;
 }
