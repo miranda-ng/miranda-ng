@@ -24,14 +24,19 @@
 [Database Error]
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
 [Database Panic]
+;file \plugins\Db3x_mmap\src\dbintf.h
+[Change/remove password]
+[Set password]
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 [Password]
+[Too many errors!]
+[Password is not correct!]
+[Please type in your password]
+[Wrong old password entered!]
 [Password is too short!]
 [Passwords do not match!]
-[Wrong old password entered!]
 [Database]
-[Set password]
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 [Aggressive: random junk at %08X: skipping]
