@@ -536,3 +536,5 @@
 Снег, 60% вероятность осадков
 [Snow Showers 50% Chance Of Precipitation]
 Снег, 50% вероятность осадков
+[Light Snow 30% Chance Of Precipitation]
+Слабый снег, 30% вероятность осадков
