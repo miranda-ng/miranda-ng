@@ -40,12 +40,14 @@ static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 int MenuitemUpdate(BOOL bStatus)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(bStatus ? IDI_ENABLED : IDI_DISABLED));
-	if (bStatus)
-		mi.ptszName = TranslateT(MENUITEM_DISABLE);
-	else
-		mi.ptszName = TranslateT(MENUITEM_ENABLE);
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
+	if (bStatus) {
+		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
+		mi.pszName = MENUITEM_DISABLE;
+	} else {
+		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DISABLED));
+		mi.pszName = MENUITEM_ENABLE;
+	}
+	mi.flags = CMIM_ICON | CMIM_NAME;
 	Menu_ModifyItem(hMenuitemNotify, &mi);
 
 	return 0;
@@ -58,9 +60,9 @@ int MenuitemInit(BOOL bStatus)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
-	mi.ptszPopupName = TranslateT("Popups");
+	mi.pszPopupName = LPGEN("Popups");
 	mi.pszService = MS_NEN_MENUNOTIFY;
-	mi.flags = CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
+	mi.flags = 0;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);
 
 	bNotify = bStatus;
