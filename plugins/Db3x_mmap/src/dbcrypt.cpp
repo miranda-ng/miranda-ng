@@ -161,11 +161,9 @@ LBL_SetNewKey:
 		if (dbv.cpbVal != (WORD)iKeyLength)
 			goto LBL_SetNewKey;
 
-		if (!m_crypto->setKey(dbv.pbVal, iKeyLength)) {
+		if (!m_crypto->setKey(dbv.pbVal, iKeyLength))
 			if (!EnterPassword(dbv.pbVal, iKeyLength)) // password protected?
 				return 4;
-			m_bUsesPassword = true;
-		}
 
 		FreeVariant(&dbv);
 	}
@@ -197,4 +195,16 @@ void CDb3Mmap::StoreKey()
 	WriteContactSetting(NULL, &dbcws);
 
 	SecureZeroMemory(pKey, iKeyLength);
+}
+
+void CDb3Mmap::SetPassword(LPCTSTR ptszPassword)
+{
+	if (ptszPassword == NULL || *ptszPassword == 0) {
+		m_bUsesPassword = false;
+		m_crypto->setPassword(NULL);
+	}
+	else {
+		m_bUsesPassword = true;
+		m_crypto->setPassword(ptrA(mir_utf8encodeT(ptszPassword)));
+	}
 }

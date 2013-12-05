@@ -300,6 +300,7 @@ struct CDb3Mmap : public CDb3Base
 	~CDb3Mmap();
 
 	void     StoreKey(void);
+	void     SetPassword(const TCHAR *ptszPassword);
 
 protected:
 	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName);

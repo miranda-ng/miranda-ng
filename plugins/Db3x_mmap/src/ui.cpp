@@ -127,6 +127,7 @@ bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
 
 		m_crypto->setPassword(ptrA(mir_utf8encodeT(param.newPass)));
 		if (m_crypto->setKey(pKey, keyLen)) {
+			m_bUsesPassword = true;
 			SecureZeroMemory(&param, sizeof(param));
 			return true;
 		}
@@ -233,10 +234,7 @@ static INT_PTR ChangePassword(void* obj, LPARAM, LPARAM)
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 	DlgChangePassParam param = { db };
 	if (IDOK == DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param)) {
-		if (param.newPass[0])
-			db->m_crypto->setPassword(ptrA(mir_utf8encodeT(param.newPass)));
-		else
-			db->m_crypto->setPassword(NULL);
+		db->SetPassword(param.newPass);
 		db->StoreKey();
 	}
 		
