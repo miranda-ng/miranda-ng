@@ -1,10 +1,8 @@
 ﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
 ;============================================================
-;  File: irc.dll
-;  Module: IRC Protocol
-;  Versions: 0.10.0.2
-;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IRCG/
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -259,8 +257,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Ошибка IRC
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
 Этот протокол требует наличия плагина chat.\n\nЗагрузить его с сайта Miranda NG?
-[Reconnecting to]
-Подключаюсь к
 [&Add to ignore list]
 Добавить в черный список
 [Give &Op]
@@ -407,10 +403,6 @@ ID пользователя
 Полное имя
 [Alternative nick]
 Альтерн. ник
-[Wait (s)]
-Ждать (с)
-[Retry count]
-Количество попыток
 [Check every (s):]
 Проверять каждые (с):
 [Channels]

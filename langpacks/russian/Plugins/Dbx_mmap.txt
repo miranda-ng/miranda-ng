@@ -1,11 +1,9 @@
 ﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
-;  File: db3x_mmap.dll
-;  Module: Miranda mmap database driver
-;  Versions: 0.10.0.2
-;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/db3x_mmap/
-;  Authors: Miranda-IM project
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.11.0.2
+;  Authors: Miranda-NG project
 ;============================================================
 [db3x_mmap Plugin]
 Плагин db3x_mmap
@@ -21,10 +19,14 @@
 Новый пароль
 [Change password]
 Изменить пароль
+[Change/remove password]
+Изменить/удалить пароль
 [Change]
 Изменить
 [Remove]
 Удалить
+[Please type in your password]
+Пожалуйста введите ваш пароль
 [Please enter your new password]
 Пожалуйста введите новый пароль
 [Password is too short!]
@@ -33,6 +35,10 @@
 Пароли не совпадают!
 [Wrong old password entered!]
 Введён ошибочный старый пароль!
+[Password is not correct!]
+Неверный пароль!
+[Too many errors!]
+Слишком много ошибок!
 [Disk is full. Miranda will now shutdown.]
 Диск полон. Miranda завершает работу.
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
