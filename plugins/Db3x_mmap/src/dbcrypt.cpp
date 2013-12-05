@@ -161,8 +161,11 @@ LBL_SetNewKey:
 		if (dbv.cpbVal != (WORD)iKeyLength)
 			goto LBL_SetNewKey;
 
-		if (!m_crypto->setKey(dbv.pbVal, iKeyLength))
-			goto LBL_SetNewKey;
+		if (!m_crypto->setKey(dbv.pbVal, iKeyLength)) {
+			if (!EnterPassword(dbv.pbVal, iKeyLength)) // password protected?
+				return 4;
+			m_bUsesPassword = true;
+		}
 
 		FreeVariant(&dbv);
 	}

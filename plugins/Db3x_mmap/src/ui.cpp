@@ -23,6 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+struct DlgChangePassParam
+{
+	CDb3Mmap *db;
+	TCHAR newPass[100];
+	int wrongPass;
+};
+
 #define MS_DB_CHANGEPASSWORD "DB/ChangePassword"
 
 static IconItem iconList[] =
@@ -34,7 +41,7 @@ static IconItem iconList[] =
 static HGENMENU hSetPwdMenu;
 
 static int oldLangID;
-void LanguageChanged(HWND hDlg)
+void LanguageChanged(HWND hwndDlg)
 {
 	UINT LangID = (UINT)GetKeyboardLayout(0);
 	char Lang[3] = { 0 };
@@ -43,21 +50,111 @@ void LanguageChanged(HWND hDlg)
 		GetLocaleInfoA(MAKELCID((LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
 		Lang[0] = toupper(Lang[0]);
 		Lang[1] = tolower(Lang[1]);
-		SetDlgItemTextA(hDlg, IDC_LANG, Lang);
+		SetDlgItemTextA(hwndDlg, IDC_LANG, Lang);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct DlgChangePassParam
+static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	CDb3Mmap *db;
-	TCHAR newPass[100];
-};
+	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		SendMessage(GetDlgItem(hwndDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib));
+
+		param = (DlgChangePassParam*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		if (param->wrongPass) {
+			if (param->wrongPass > 2) {
+				HWND hwndCtrl = GetDlgItem(hwndDlg, IDC_USERPASS);
+				EnableWindow(hwndCtrl, FALSE);
+				hwndCtrl = GetDlgItem(hwndDlg, IDOK);
+				EnableWindow(hwndCtrl, FALSE);
+				SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Too many errors!"));
+			}
+			else SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Password is not correct!"));
+		}
+		else SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Please type in your password"));
+
+		oldLangID = 0;
+		SetTimer(hwndDlg, 1, 200, NULL);
+		LanguageChanged(hwndDlg);
+		return TRUE;
+
+	case WM_CTLCOLORSTATIC:
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_LANG)) {
+			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			SetBkMode((HDC)wParam, TRANSPARENT);
+			return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
+		}
+		return FALSE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			EndDialog(hwndDlg, IDCANCEL);
+			break;
+
+		case IDOK:
+			GetDlgItemText(hwndDlg, IDC_USERPASS, param->newPass, SIZEOF(param->newPass));
+			EndDialog(hwndDlg, IDOK);
+		}
+		break;
+
+	case WM_TIMER:
+		LanguageChanged(hwndDlg);
+		return FALSE;
+
+	case WM_DESTROY:
+		KillTimer(hwndDlg, 1);
+		DestroyIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+	}
+
+	return FALSE;
+}
+
+bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
+{
+	DlgChangePassParam param = { this };
+	while (true) {
+		// Esc pressed
+		if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), 0, sttEnterPassword, (LPARAM)&param))
+			return false;
+
+		m_crypto->setPassword(ptrA(mir_utf8encodeT(param.newPass)));
+		if (m_crypto->setKey(pKey, keyLen)) {
+			SecureZeroMemory(&param, sizeof(param));
+			return true;
+		}
+
+		param.wrongPass++;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
+{
+	if (db->usesPassword()) {
+		TCHAR buf[100];
+		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, SIZEOF(buf));
+		ptrA oldPass(mir_utf8encodeT(buf));
+		if (!db->m_crypto->checkPassword(oldPass)) {
+			SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Wrong old password entered!"));
+			return false;
+		}
+	}
+	return true;
+}
 
 static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TCHAR buf[100];
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -86,32 +183,35 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			EndDialog(hwndDlg, IDCANCEL);
 			break;
 
-		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_USERPASS1, param->newPass, SIZEOF(param->newPass));
-			if (_tcslen(param->newPass) < 3) {
-				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
+		case IDREMOVE:
+			if (!CheckOldPassword(hwndDlg, param->db)) {
 LBL_Error:
 				SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS1, "");
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS2, "");
-				break;
+			}
+			else {
+				param->newPass[0] = 0;
+				EndDialog(hwndDlg, IDOK);
+			}
+			break;
+
+		case IDOK:
+			GetDlgItemText(hwndDlg, IDC_USERPASS1, param->newPass, SIZEOF(param->newPass));
+			if (_tcslen(param->newPass) < 3) {
+				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
+				goto LBL_Error;
 			}
 
-			TCHAR buf2[100];
-			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf2, SIZEOF(buf2));
-			if (_tcscmp(param->newPass, buf2)) {
+			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, SIZEOF(buf));
+			if (_tcscmp(param->newPass, buf)) {
 				SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
 				goto LBL_Error;
 			}
 
-			if (param->db->isEncrypted()) {
-				GetDlgItemText(hwndDlg, IDC_OLDPASS, buf2, SIZEOF(buf2));
-				ptrA oldPass(mir_utf8encodeT(buf2));
-				if (!param->db->m_crypto->checkPassword(oldPass)) {
-					SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Wrong old password entered!"));
-					goto LBL_Error;
-				}
-			}
+			if (!CheckOldPassword(hwndDlg, param->db))
+				goto LBL_Error;
+
 			EndDialog(hwndDlg, IDOK);
 		}
 		break;
@@ -132,10 +232,12 @@ static INT_PTR ChangePassword(void* obj, LPARAM, LPARAM)
 {
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 	DlgChangePassParam param = { db };
-	if (IDOK == DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->isEncrypted() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param)) {
-		ptrA newPass(mir_utf8encodeT(param.newPass));
-		db->m_crypto->setPassword(newPass);
-		// db->StoreKey();
+	if (IDOK == DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param)) {
+		if (param.newPass[0])
+			db->m_crypto->setPassword(ptrA(mir_utf8encodeT(param.newPass)));
+		else
+			db->m_crypto->setPassword(NULL);
+		db->StoreKey();
 	}
 		
 	return 0;

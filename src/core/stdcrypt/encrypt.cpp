@@ -113,7 +113,7 @@ bool CStdCrypt::checkPassword(const char *pszPassword)
 // sets the master password (in utf-8)
 void CStdCrypt::setPassword(const char *pszPassword)
 {
-	m_password = pszPassword;
+	m_password = (pszPassword == NULL) ? "Miranda" : pszPassword;
 }
 
 // result must be freed using mir_free or assigned to mir_ptr<BYTE>

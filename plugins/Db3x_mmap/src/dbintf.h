@@ -153,6 +153,7 @@ struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 
 	__forceinline HANDLE getFile() const { return m_hDbFile; }
 	__forceinline bool isEncrypted() const { return m_bEncrypted; }
+	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
 	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
@@ -220,7 +221,7 @@ protected:
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;
-	bool     m_safetyMode, m_bReadOnly, m_bEncrypted;
+	bool     m_safetyMode, m_bReadOnly, m_bEncrypted, m_bUsesPassword;
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
@@ -317,6 +318,7 @@ protected:
 	void  ReMap(DWORD needed);
 
 	void  InitDialogs();
+	bool  EnterPassword(const BYTE *pKey, const size_t keyLen);
 };
 
 typedef int (CDb3Base::*CheckWorker)(int);
