@@ -1,31 +1,47 @@
-﻿#muuid CF25D645-4DAB-4B0A-B9F1-DE1E86231F9B}
+﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
-;  File: MsgPopup.dll, messagepopup.dll
-;  Module: Message Popup. Replace a mesaage boxes to Popups
-;  Versions: 0.0.0.1
-;  URL: http://miranda-im.org/download/feed.php?dlfile=1228
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.1.3
+;  Authors: StDenis
 ;============================================================
+[Plugin replaces message boxes (those having only OK button) with popups.]
+Заменяет диалоговые окна (которые имеют лишь кнопку ОК) на всплывающие окна.
 [ASTERISK style]
 Звездочка
-[Foreground]
-Текст
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
 [ERROR style]
 Ошибка
-[QUESTION style]
-Вопрос
 [EXCLAMATION style]
 Восклицание
+[QUESTION style]
+Вопрос
+[Preview]
+Тест
+[Timeout]
+Таймаут
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
 Специальные значения "таймаута":\n -1 - постоянно, 0 - значение по умолчанию
 [Emit a sound]
 Играть звук
-[MessagePopup - demo]
-MessagePopup - Демо
-[This stuff will replace MessageBox'es [whose have only OK button] into Popups]
-Заменяет диалоговые окна с предупреждениями на всплывающие окна. Работает совместно с Popup. Перевод: Wattman.
-[Message with error]
-Предупреждение об ошибке
+[VirtualProtect failed. Code %d\nTry to call the author]
+
+[Error]
+Ошибка
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
+
+[MessagePopup]
+Предупреждения
+[Popups]
+Всплывающие окна
+[Message with question]
+Сообщение с вопросом
 [Message with exclamation]
 Восклицание
+[Message with error]
+Предупреждение об ошибке
 [Message with asterisk]
 Сообщение *со звёздочкой*
