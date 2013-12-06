@@ -17,13 +17,13 @@ Lisa %s
 Grupp:
 [Options]
 Valikud
-[Delete Contact]
+[Delete contact]
 Kustuta kontakt
 [&Yes]
 &Jah
 [&No]
 &Ei
-[Contact Display Options]
+[Contact display options]
 Kontaktide kuvamise valikud
 [Miranda NG Profile Manager]
 Miranda NG profillihaldus
@@ -31,7 +31,7 @@ Miranda NG profillihaldus
 Jooksuta
 [&Exit]
 &Välju
-[Find/Add Contacts]
+[Find/Add contacts]
 Otsi/lisa kontakte
 [Search:]
 Otsi:
@@ -61,7 +61,7 @@ Ei
 Kas Sa tahad praegu importida seadeid?
 [No to all]
 Ei kõigile
-[Cancel Import]
+[Cancel import]
 Tühista import
 [&Delete]
 Kustuta
@@ -69,7 +69,7 @@ Kustuta
 Teisalda/nimeta ümber
 [&Leave]
 Lahku
-[Netlib Log Options]
+[Netlib log options]
 Netlib logimise valikud
 [Show]
 Kuva
@@ -109,9 +109,9 @@ Teated
 URL-id
 [Files]
 Failid
-[Online Notification]
+[Online notification]
 Sees oleku teavitamine
-[All Events]
+[All events]
 Kõik sündmused
 [None]
 Pole
@@ -127,7 +127,7 @@ Sa ei ole kunagi nähtav sellele isikule
 << &Import
 [Logging...]
 Logimine...
-[Outgoing Connections]
+[Outgoing connections]
 Väljuvad ühendused
 [Use proxy server]
 Kasuta proksiserverit
@@ -143,11 +143,11 @@ Port:
 Kasutajanimi:
 [Password:]
 Parool:
-[Port Range:]
+[Port range:]
 Pordivahemik:
 [Example: 1050-1070, 2000-2010, 2500]
 Näide: 1050-1070, 2000-2010, 2500
-[Incoming Connections]
+[Incoming connections]
 Sisenev ühendus
 [Profile]
 Profiil
@@ -169,7 +169,7 @@ Unikaalne ID:
 Kopeerimisõigused:
 [Please restart Miranda NG for your changes to take effect.]
 Palun taaspäivita Miranda NG, et muudatused saaksid mõjuda
-[Fonts and Colors]
+[Fonts and colors]
 Fondid ja värvid
 [Undo]
 Ennista
@@ -179,9 +179,9 @@ Algväärtusta
 Eksport...
 [Color/Background]
 Värv/Taust
-[Text Color]
+[Text color]
 Teksti värv
-[Choose Font]
+[Choose font]
 Vali font
 [Font]
 Font
@@ -213,7 +213,7 @@ Sea
 Lisa
 [Remove]
 Eemalda
-[Undo Changes]
+[Undo changes]
 Ennista muudatused
 [Hotkeys]
 Kiirklahvid
@@ -237,37 +237,37 @@ Miranda NG
 Kuva/&Peida
 [E&xit]
 Välju
-[&New Group]
+[&New group]
 Uus grupp
-[&Hide Offline Users]
+[&Hide offline users]
 Peida väljas olevad kasutajad
-[Hide &Empty Groups]
+[Hide &empty groups]
 Peida tühjad grupid
 [Hide Miranda]
 Peida Miranda
 [Group]
 Grupp
-[&New Subgroup]
+[&New subgroup]
 Uus alamgrupp
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Peida siin väljas kasutajad
-[&Rename Group]
+[&Rename group]
 Nimeta grupp ümber
-[&Delete Group]
+[&Delete group]
 Kustuta grupp
-[&Add to List]
+[&Add to list]
 Lisa nimekirja
 [User &details]
 Kasutaja detailid
-[Send &Message]
+[Send &message]
 Saada teade
 [&Copy]
 Kopeeri
-[Co&py All]
+[Co&py all]
 Kopeeri kõik
-[Select &All]
+[Select &all]
 Vali &kõik
-[C&lear Log]
+[C&lear log]
 Puhasta logi
 [Open in &new window]
 Ava uues aknas
@@ -278,16 +278,16 @@ Kopeeri link
 ;file \src\core\stdauth\resource.rc
 [Reason:]
 Põhjus
-[You Were Added]
+[You were added]
 Sa oled lisatud
 [&Close]
 &Sul&ge
 ;file \src\core\stdaway\resource.rc
-[Status Messages]
+[Status messages]
 Oleku teated
 [By default, use this message:]
 Vaikimisi kasuta seda teadet:
-[Change %s Message]
+[Change %s message]
 Muuda "%s" teadet
 [Closing in %d]
 Sulgub %d s. pärast
@@ -302,7 +302,7 @@ Tegevused
 Info
 [Notices]
 Teavitused
-[Log Options]
+[Log options]
 Logimise valikud
 [Timestamp]
 Ajatempel
@@ -344,7 +344,7 @@ Kopeeri
 Lõika
 [Paste]
 Pane
-[Select All]
+[Select all]
 Vali kõik
 [Clear]
 Puhasta
@@ -361,9 +361,9 @@ Sorteeri kontaktid nime järgi
 Sorteeri kontaktid oleku järgi
 [Sort contacts by protocol]
 Sorteeri kontaktid protokolli järgi
-[Contact List]
+[Contact list]
 Kontaktide nimekiri
-[Contact List Sorting]
+[Contact list sorting]
 Kontaktide nimekirja sorteerimine
 [Window]
 Aken
@@ -387,7 +387,7 @@ Mitteaktiivse läbipaistmatus:
 Aktiivse läbipaistmatus:
 [Items]
 Elemendid
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Peida väljasolevad' tähendab peita:
 [Groups]
 Grupid
@@ -405,13 +405,13 @@ Vasak ääris:
 Rea kõrgus:
 [Gamma correction]
 Gamma parandus
-[Contact List Background]
+[Contact list background]
 Kontaktide nimekirja taust
 [Background color]
 Taustavärv
 [Use background image]
 Kasuta taustapilti
-[Status Bar]
+[Status bar]
 Olekuriba
 [Show status bar]
 Kuva olekuriba
@@ -441,20 +441,20 @@ Pole kättesaadav\tCtrl+3
 Vestluseks vaba\tCtrl+6
 [&Invisible\tCtrl+7]
 &Nähtamatu\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Telefonil\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Lõunastamas\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Saada fail(id)
 [File(s):]
 Fail(id):
-[&Choose Again...]
+[&Choose again...]
 Vali uuesti...
 [Total size:]
 Suurus kokku
-[Incoming File Transfer]
+[Incoming file transfer]
 Siseneva faili ülekanne
 [A&ccept]
 Aktsepteeri
@@ -476,7 +476,7 @@ Ava kaust
 Ülekanne lõpetatud, ava fail(id).
 [No data transferred]
 Andmeid ei ole veel üle kantud
-[File Already Exists]
+[File already exists]
 Fail juba eksisteerib
 [Resume]
 Jätka
@@ -500,7 +500,7 @@ Suurus:
 Ava fail
 [File properties]
 Faili omadused
-[File Transfers]
+[File transfers]
 Failide ülekanded
 [Clear completed]
 Puhasta lõpetatud
@@ -510,7 +510,7 @@ Sulge
 Failide vastuvõtmine
 [Received files folder:]
 Vastu võetud failide kaust:
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Lubatud muutujad: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
 Automaatselt aktsepteeri sisenevaid faile inimestelt, kes on minu kontaktide nimekirjas
@@ -544,7 +544,7 @@ Aknad
 Miranda
 [minute(s)]
 minutit
-[Idle Options]
+[Idle options]
 Tegevusetuse valikud
 ;file \src\core\stdmsg\res\resource.rc
 [Close the message window on send]
@@ -561,9 +561,9 @@ Kuva märkide loendur
 Kuva hoiatus, kui teadet ei ole saadud peale
 [Enable avatar support in the message window]
 Võimalda avatari-toetus teadete aknas
-[Limit avatar height to ]
+[Limit avatar height to]
 Limiteeri avatari kõrgus 
-[Send Error]
+[Send error]
 Saada viga
 [Try again]
 Proovi uuesti
@@ -581,7 +581,7 @@ minutit vana
 Kuva olekute muutused
 [Show seconds]
 Kuva sekundid
-[Load History Events]
+[Load history events]
 Laadi ajaloo seaded
 [Show typing notifications when a user is typing a message]
 Kuva trükkimise teavitused kui kasutaja trükib teadet
@@ -592,24 +592,24 @@ Kustuta
 ;file \src\core\stduihist\resource.rc
 [Find]
 Otsi
-[&Find Next]
+[&Find next]
 &Otsi järgmist
-[Find What:]
+[Find what:]
 Otsi mida:
 [&Find...]
 &Otsi...
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Lisa telefoninumber
 [Enter country, area code and phone number:]
 Sisesta riik, ala kood ja telefoni nr:
 [Or enter a full international number:]
 Või sisesta täielik rahvusvaheline nr:
-[Add E-Mail Address]
+[Add e-mail address]
 Lisa e-mailiaadress
-[%s: User Details]
+[%s: user details]
 %s: kasutaja detailid
-[Update Now]
+[Update now]
 Uuenda nüüd
 [Nickname:]
 Hüüdnimi:
@@ -659,7 +659,7 @@ Veebisait
 [Alerts]
 Alarmid
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Vaata kasutaja detaile
 [(Unknown)]
 (Tundmatu)
@@ -670,7 +670,7 @@ Mitte praegu
 [Yep, I'm here.]
 Jah, ma olen siin.
 [Mmm... food.]
-Mmm... söök
+Mmm...söök
 [Status]
 Staatus
 ;file \src\core\stdchat\src\clist.cpp
@@ -689,7 +689,7 @@ Kasutaja lahkus
 Sisenev teade
 [Outgoing message]
 Väljundteade
-[Close tab on doubleclick]
+[Close tab on double click]
 Topeltklikiga sulge sakk
 [Show users joining]
 Kuva kasutajate ühinemised
@@ -701,11 +701,11 @@ Kuva tegevused
 Kuva kasutajate lahkumised
 [Show status changes of users]
 Kuva kasutajate olekute muutused
-[Chat Module]
+[Chat module]
 Vestluse moodul
-[Message Background]
+[Message background]
 Teate taust
-[Userlist Background]
+[User list background]
 Kasutajanimekirja taust
 [Bold]
 Rasvane
@@ -721,13 +721,13 @@ Sündmuste filter võimaldatud
 Jututoa akende välisilme ja funktsionaalsus
 [Appearance of the message log]
 Teadete logi välisilme
-[Select Folder]
+[Select folder]
 Vali kaust
 [Group chats]
 Grupivestlused
 [General]
 Üldine
-[Chat Log]
+[Chat log]
 Vestluse logi
 [Chat]
 Vestlus
@@ -748,14 +748,14 @@ Tee tekst alla kriipsutatuks (CTRL+U)
 Kuva ajalugu (CTRL+H)
 [Close current tab (CTRL+F4)]
 Sulge praegune sakk (CTRL+F4)
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Jututuba (%u kasutaja)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Jututuba (%u kasutajat)
-[Nick name]
+[Nickname]
 Hüüdnimi
 [Unique ID]
-Unikaalne ID
+Unikaalne id
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Offline contacts]
 Väljas olevad kontaktid
@@ -778,7 +778,7 @@ Nähtamatu
 Lõunastamas
 [On the phone]
 Telefonil
-[List Background]
+[List background]
 Nimekirjade taust
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -799,21 +799,21 @@ Sisenev
 [Error]
 Viga
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[All Files]
+[All files]
 Kõik failid
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 Käivitatavad failid
 [Events]
 Sündmused
 ;file \src\core\stdfile\filerecvdlg.cpp
-[View User's History]
+[View user's history]
 Vaata kasutaja ajalugu
 [Canceled]
 Tühistatud
 ;file \src\core\stdfile\filesenddlg.cpp
 ;file \src\core\stdfile\filexferdlg.cpp
-[File Received]
+[File received]
 Fail vastu võetud
 [sec]
 sek.
@@ -828,9 +828,9 @@ Väljuv
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 Teave...
-[&Miranda NG Homepage]
+[&Miranda NG homepage]
 &Miranda NG koduleht
-[&Report Bug]
+[&Report bug]
 &Raporteeri puugist
 ;file \src\core\stdidle\idle.cpp
 [Idle]
@@ -864,45 +864,49 @@ Sisendteate aeg
 Sisendteate koolon
 [Message area]
 Teate ala
-[Message Log]
+[Message log]
 Teadete logi
 [** New contacts **]
 ** Uued kontaktid **
 [** Unknown contacts **]
 ** Tundmatud kontaktid **
-[Typing Notify]
+[Typing notify]
 Trükkimise teavitus
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Teade %s'lt
-[Typing Notification]
+[Typing notification]
 Trükkimisest teavitamine
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
+[Outgoing Message]
+Väljuv teade
+[Incoming Message]
+Sisenev teade
 [Incoming URL]
 Sisendteate URL
-[Outgoing File]
+[Outgoing file]
 Väljuv fail
-[Incoming File]
+[Incoming file]
 Sisenev tulev fail
 [History for %s]
 %s ajalugu
-[Delete History]
+[Delete history]
 Kustuta ajalugu
-[View &History]
+[View &history]
 Vaata ajalugu
 ;file \src\core\stdurl\url.cpp
-[Web Page Address (&URL)]
+[Web page address (&URL)]
 Veebilehe aadress (&URL)
 [URL]
 URL
 ;file \src\core\stdurl\urldialogs.cpp
 ;file \src\core\stduserinfo\contactinfo.cpp
-[Edit E-Mail Address]
+[Edit E-Mail address]
 Redigeeri e-maili aadressi
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Telefoninumber võib alata +'ga ja sisaldada ainult numbreid, tühikuid, sulge ja sidekriipse.
-[Invalid Phone Number]
+[Invalid phone number]
 Vigane telefoninumber
 [Primary]
 Primaarne
@@ -910,9 +914,9 @@ Primaarne
 Faks
 [Mobile]
 Mobiil
-[Work Phone]
+[Work phone]
 Töötelefon
-[Work Fax]
+[Work fax]
 Tööfaks
 ;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
@@ -934,21 +938,21 @@ Märkused
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Omanik
-[View/Change My &Details...]
+[View/change my &details...]
 Vaata/muuda minu &detaile...
 ;file \src\core\stduseronline\useronline.cpp
-[%s is Online]
+[%s is online]
 %s on sees
 ;file \src\modules\addcontact\addcontact.cpp
-[Add Contact]
+[Add contact]
 Lisa kontakt
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 ;file \src\modules\clist\clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 Tundmatu kontakt
 ;file \src\modules\clist\clisttray.cpp
-[&Main menu]
+[&Main Menu]
 Põhimenüü
 ;file \src\modules\clist\clui.cpp
 [De&lete]
@@ -958,7 +962,7 @@ Nimeta ümber
 ;file \src\modules\clist\contacts.cpp
 [E-mail]
 E-mail
-['(Unknown Contact)']
+['(Unknown contact)']
 '(Tundmatu kontakt)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
@@ -967,19 +971,19 @@ Menüüd
 [Customize]
 Kohandamine
 ;file \src\modules\clist\groups.cpp
-[New Group]
+[New group]
 Uus grupp
-[Delete Group]
+[Delete group]
 Kustuta grupp
-[Rename Group]
+[Rename group]
 Nimeta grupp ümber
 [This group]
 See grupp
 ;file \src\modules\clist\keyboard.cpp
 ;file \src\modules\clist\movetogroup.cpp
-[&Move to Group]
+[&Move to group]
 Teisalda gruppi
-[<Root Group>]
+[<Root group>]
 Juurgrupp
 ;file \src\modules\database\database.cpp
 [No profile support installed!]
@@ -996,15 +1000,15 @@ Ei saa luua profiili '%s', viga oli %x
 Probleem profiili loomisel
 [&Create]
 &Loo
-[<In Use>]
+[<In use>]
 Kasutusel
 [Size]
 Suurus
 [Created]
 Loodud
-[My Profiles]
+[My profiles]
 Minu profiilid
-[New Profile]
+[New profile]
 Uus profiil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
@@ -1018,9 +1022,9 @@ Otsi
 Tulemused
 [Searching]
 Otsimine
-[All Networks]
+[All networks]
 Kõik võrgustikud
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Otsi/lisa kontakte...
 ;file \src\modules\findadd\searchresults.cpp
 [%d users found (]
@@ -1080,7 +1084,7 @@ Süsteem
 ;file \src\modules\skin\skinicons.cpp
 [User Online]
 Kasutaja sees
-[User Details]
+[User details]
 Kasutaja detailid
 [History]
 Ajalugu

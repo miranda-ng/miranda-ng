@@ -19,7 +19,7 @@ Groep:
 Opties
 [Authorization request]
 Autorisatie verzoek
-[Delete Contact]
+[Delete contact]
 Contact verwijderen
 [&Yes]
 Ja
@@ -31,7 +31,7 @@ Verberg alleen van lijst, zodat de geschiedenis en negeer/zichtbaarheid instelli
 Weet u zeker dat u %s wilt verwijderen?
 [This will erase all history and settings for this contact!]
 Dit zal alle geschiedenis en instellingen verwijderen voor deze persoon!
-[Contact Display Options]
+[Contact display options]
 Persoon weegave opties
 [Miranda NG Profile Manager]
 Miranda NG Profiel Beheerder
@@ -69,7 +69,7 @@ Aangepast
 Toepassen
 [Please select a subentry from the list]
 Selecteer aub een subitem uit de lijst
-[Install Database Settings]
+[Install database settings]
 Database instellingen installeren
 [Yes]
 Ja
@@ -85,7 +85,7 @@ Nee voor alles
 Inhoud bekijken
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Ter voorkoming van kwaadaardige wijzigen zijn beveilingssystemen aangebracht en u zal worden gewaarschuwd voordat wijzigingen worden gedaan die niet veilig worden geacht.
-[Database Setting Change]
+[Database setting change]
 Database instellingen wijzigen
 [Database settings are being imported from]
 Database instellingen worden geimporteerd van
@@ -97,9 +97,9 @@ naar de waarde
 Wilt u deze wijziging door laten gaan?
 [&Allow all further changes to this section]
 &alle verdere wijzigingen aan deze sectie toestaan
-[Cancel Import]
+[Cancel import]
 Import annuleren
-[Database Import Complete]
+[Database import complete]
 Database import voltooid
 [The import has completed from]
 De import is voltooid van
@@ -111,7 +111,7 @@ Verwij&deren
 Verplaatsen/Hernoe&men
 [&Leave]
 &Laten staan
-[Netlib Log Options]
+[Netlib log options]
 Netlib log opties
 [Show]
 Weergeven
@@ -143,7 +143,7 @@ Geluiden
 Wijzigen...
 [Download more sounds]
 Meer geluiden downloaden
-[Sound Information]
+[Sound information]
 Geluid informatie
 [Location:]
 Lokatie:
@@ -247,45 +247,45 @@ ondoorlatendheid:
 Verbergen/Weergeven
 [E&xit]
 Afsluiten
-[&New Group]
+[&New group]
 &Nieuwe Groep
-[&Hide Offline Users]
+[&Hide offline users]
 Offline gebruikers verbergen
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 &Offline gebruikers hierbuiten verbergen
-[Hide &Empty Groups]
+[Hide &empty groups]
 L&ege groepen verbergen
-[Disable &Groups]
+[Disable &groups]
 &Groepen uitschakelen
 [Hide Miranda]
 Miranda verbergen
 [Group]
 Groep
-[&New Subgroup]
+[&New subgroup]
 &Nieuw Subgroep
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 &Offline gebruikers hierbinnen verbergen
-[&Rename Group]
+[&Rename group]
 G&roep hernoemen
-[&Delete Group]
+[&Delete group]
 Groep verwij&deren
 [&Reset to default]
 Naar standaard te&rugzetten
-[&Add to List]
+[&Add to list]
 &Aan lijst toevoegen
 [User &details]
 Gebruikers &details
-[Send &Message]
+[Send &message]
 Bericht versturen
 [Log]
 Loggen
 [&Copy]
 Kopiëren
-[Co&py All]
+[Co&py all]
 Alles ko&piëren
-[Select &All]
+[Select &all]
 &Alles selecteren
-[C&lear Log]
+[C&lear log]
 Log opschonen
 [Open in &new window]
 In &nieuw scherm openen
@@ -300,14 +300,14 @@ Link kopiëreren
 Weigeren
 [Reason:]
 Reden:
-[You Were Added]
+[You were added]
 U bent toegevoegd
 [&Close]
 Sluiten
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 %s Bericht voor %s
-[Status Messages]
+[Status messages]
 Status berichten
 [Do not reply to requests for this message]
 Niet op verzoeken voor dit bericht reargeren
@@ -319,7 +319,7 @@ Altijd hetzelfde bericht als de vorige keer gebruiken
 Altijd dit bericht gebruiken:
 [Use %time% for the current time, %date% for the current date]
 Gebruik %time% voor de huidige tijd, %date% voor de huidige datum
-[Change %s Message]
+[Change %s message]
 %s bericht wijzigen
 [Closing in %d]
 Sluiten in %d
@@ -349,7 +349,7 @@ Oplichting inschakelen
 [Limit log text to (events):]
 Log tekst beperken tot (gebeurtenissen):
 [Trim to (KB)]
-Verkleinen tot (KB)
+Verkleinen tot (kB)
 [Words to highlight (wildcards allowed)]
 Woorden om op te lichten (jokertekens toegestaan)
 [Enable logging to disk]
@@ -398,7 +398,7 @@ Kopiëren
 Knippen
 [Paste]
 Plakken
-[Select All]
+[Select all]
 Alles selecteren
 [Clear]
 Opschonen
@@ -439,13 +439,13 @@ seconden, wanneer statussen verschillen
 Meerdere iconen weergeven
 [Only when statuses differ]
 Alleen wanneer statussen verschillen
-[Contact List]
+[Contact list]
 Persoon lijst
 [System tray icon]
 Systeemvak icoon
 [System tray icon when using multiple protocols]
 Systeemvak icoon bij gebruik meedere protocollen
-[Contact List Sorting]
+[Contact list sorting]
 Persoon lijst sortering
 [Window]
 Scherm
@@ -497,7 +497,7 @@ Selectie weergeven zelfs wanneer lijst geen focus heeft
 Selectie oplichting doorzichtig maken
 [Dim idle contacts]
 Rustige personen donker maken
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Verberg Offline' betekent verberg:
 [Groups]
 Groepen
@@ -509,7 +509,7 @@ Aantallen van aantal personen in een groep weergeven
 Groep aantallen wanneer er niemand online is verbergen
 [Sort groups alphabetically]
 Groepen alfabetisch sorteren
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Snelzoeken alleen in open groepen
 [Indent groups by:]
 Spring groepen in bij:
@@ -529,7 +529,7 @@ Rij hoogte:
 Gamma correctie
 [Gray out entire list when:]
 Gehele lijst grijs maken wanneer:
-[Contact List Background]
+[Contact list background]
 Persoon lijst achtergrond
 [Background color]
 Achtergrond kleur
@@ -551,7 +551,7 @@ Met tekst scrollen
 Proportioneel uitrekken
 [Use Windows colors]
 Windows kleuren gebruiken
-[Status Bar]
+[Status bar]
 Status balk
 [Show status bar]
 Status balk weergeven
@@ -579,22 +579,22 @@ Niet storen\tCtrl+5
 Beschikbaar voor gesprek\tCtrl+6
 [&Invisible\tCtrl+7]
 Onz&ichtbaar\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Aan de telefoon\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Aan het lunchen\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Bestand(en) versturen
 [To:]
 Aan:
 [File(s):]
 Bestand(en):
-[&Choose Again...]
+[&Choose again...]
 Nogmaals kiezen...
 [Total size:]
 Totale grootte:
-[Incoming File Transfer]
+[Incoming file transfer]
 Binnenkomend bestand overdracht
 [A&ccept]
 A&ccepteren
@@ -608,7 +608,7 @@ Datum:
 Bestanden:
 [Save to:]
 Opslaan naar:
-[File Already Exists]
+[File already exists]
 Bestand bestaad al
 [Resume]
 Hervatten
@@ -638,7 +638,7 @@ Bestand openen
 Bestandseigenschappen
 [File being received]
 Bestand dat wordt ontvangen
-[File Transfers]
+[File transfers]
 Bestandsoverdrachten
 [Close]
 Sluit
@@ -690,7 +690,7 @@ voor
 Mijn status mode wijzigen naar:
 [Do not set status back to online when returning from idle]
 Status niet terugzetten naar online bij terugkomst van rustig
-[Idle Options]
+[Idle options]
 Rustig opties
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
@@ -719,13 +719,13 @@ Bericht op 'Enter' versturen
 Aantal tekens weergeven
 [Show warning when message has not been received after]
 Waarschuwing weergeven wanneer bericht niet is ontvangen na
-[Support control up/down in message area to show previously sent messages]
+[Support CTRL+Up/Down in message area to show previously sent messages]
 Control omhoog/omlaag ondersteunen om eerder verstuurde berichten te zien
 [Delete temporary contacts when closing message window]
 Tijdelijke personen verwijderen wanneer het berichtenscherm geloten wordt
 [Enable avatar support in the message window]
 Avatar ondersteuning in het berichtenschem inschakelen
-[Message Window Event Log]
+[Message window event log]
 Berichten scherm gebreurtenis log
 [Show names]
 Namen weergeven
@@ -745,7 +745,7 @@ minuten oud
 Status wijzigingen weergeven
 [Show seconds]
 Seconden weergeven
-[Load History Events]
+[Load history events]
 Geschiedenis gebeurtenissen laden
 [Send typing notifications to the following users when you are typing a message to them:]
 Typen meldingen naar de volgende gebruikers versturen wanneer u een bericht naar hen aan het typen bent:
@@ -764,16 +764,16 @@ Verwijderen
 ;file \src\core\stduihist\resource.rc
 [Find]
 Vinden
-[&Find Next]
+[&Find next]
 Volgende zoeken
-[Find What:]
+[Find what:]
 Zoeken naar:
-[Message History]
+[Message history]
 Bericht geschiedenis
 [&Find...]
 Zoeken...
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Telefoonnummer toevoegen:
 [Enter country, area code and phone number:]
 Vul een land, regio en telefoonnummer in:
@@ -781,11 +781,11 @@ Vul een land, regio en telefoonnummer in:
 Of vul een volledig internationaal nummer in:
 [Phone can receive SMS text messages]
 Telefoon kan SMS tekst berichten ontvangen
-[Add E-Mail Address]
+[Add e-mail address]
 E-Mail adres toevoegen
-[%s: User Details]
+[%s: user details]
 %s: Gebruikers details
-[Update Now]
+[Update now]
 Nu bijwerken
 [Updating]
 Bijwerken
@@ -845,14 +845,14 @@ Positie:
 [Alerts]
 Waarschuwingen
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Details van de gebruiker bekijken
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Persoon permanent aan lijst toevoegen
 [(Unknown)]
 (Onbekend)
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 %s bericht lezen
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -874,7 +874,7 @@ Ik verstop me voor de mafia.
 [That'll be the phone.]
 Dat zal de telefoon zijn.
 [Mmm... food.]
-Mmm... eten.
+Mmm...eten.
 [idleeeeeeee]
 ruuuuustig
 [Status]
@@ -932,20 +932,20 @@ Opgelichte berichten
 [Message typing area]
 Bericht typen gebied
 [User list members (online)]
-Gebruikerlijst leden (online)
+Gebruikerlijst leden (Online)
 [User list members (away)]
 Gebruikerlijst leden (afwezig)
 [Use a tabbed interface]
 Een tabbed interface gebruiken
-[Close tab on doubleclick]
+[Close tab on double click]
 Tab sluiten bij dubbelklik
 [Restore previously open tabs when showing the window]
 Vorige open tabs herstellen wanneer het scherm wordt getoond
 [Show tabs at the bottom]
 Tabs onderaan tonen
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 Bericht versturen door Enter in te drukken
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 Bericht vesturen door Enter twee keer in te drukken
 [Flash window when someone speaks]
 Scherm knipperen wanneer iemand praat
@@ -1023,7 +1023,7 @@ Icoon voor oplichtingen weergeven
 Icoon voor vertrekkende gebruikers weergeven
 [Show icon for users kicking other user]
 Icoon voor gebruikers die andere gebruikers wegtrappen weergeven
-[Show icon for notices ]
+[Show icon for notices]
 Icoon voor meldingen weergeven
 [Show icon for name changes]
 Icoon voor naamswijzigingen weergeven
@@ -1049,7 +1049,7 @@ Icoon in systeemvak voor oplichtingen weergeven
 Icoon in systeemvak voor vertrekkende gebruikers weergeven
 [Show icon in tray for users kicking other user]
 Icoon in systeemvak voor gebruikers die andere gebruikers wegtrappen weergeven
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Icoon in systeemvak meldingen weergeven
 [Show icon in tray for name changes]
 Icoon in systeemvak naamwijzigingen weergeven
@@ -1071,11 +1071,11 @@ Uiterlijk van het bericht log
 Iconen om weer te geven in het bericht log
 [Icons to display in the tray]
 Iconen om weer te geven in het systeemvak
-[Select Folder]
+[Select folder]
 Folder selecteren
 [General]
 Algemeen
-[Chat Log]
+[Chat log]
 Gesprek log
 [Chat]
 Gesprek
@@ -1146,13 +1146,13 @@ Deze ruimte controleren (CTRL+O)
 De gebeurtenis filter in-/uitschakelen (CTRL+O)
 [Close current tab (CTRL+F4)]
 Huidige tab sluiten (CTRL+F4)
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Gespreksruimte (%u gebruiker)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Gespreksruimte (%u gebruikers)
-[%s: Message Session]
+[%s: message session]
 %s: Bericht sessie
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Bericht sessie (%u gebruikers)
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -1188,7 +1188,7 @@ Onzichtbaar
 Aan het lunchen
 [On the phone]
 Aan de telefoon
-[List Background]
+[List background]
 Lijst achtergrond
 ;file \src\core\stdclist\src\clistopts.cpp
 ;file \src\core\stdclist\src\cluiopts.cpp
@@ -1213,19 +1213,19 @@ Fout
 [Denied]
 Geweigerd
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[%s File]
+[%s file]
 %s Bestand
-[All Files]
+[All files]
 Alle bestanden
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 Uitvoerbare bestanden
 [Events]
 Gebeurtenissen
 ;file \src\core\stdfile\filerecvdlg.cpp
-[View User's History]
+[View user's history]
 Geschiedenis van de gebruiker bekijken
-[User Menu]
+[User menu]
 Gebruikersmenu
 [Canceled]
 Geannuleerd
@@ -1238,7 +1238,7 @@ Uitgaand
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 Over...
-[&Report Bug]
+[&Report bug]
 Fout melden
 ;file \src\core\stdidle\idle.cpp
 [Idle]
@@ -1274,33 +1274,33 @@ Berichtruimte
 ** Nieuwe Personen **
 [** Unknown contacts **]
 ** Onbekende personen **
-[Messaging Log]
+[Messaging log]
 Berichten log
-[Typing Notify]
+[Typing notify]
 Typen meldingen
 ;file \src\core\stdmsg\src\msgs.cpp
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Binnenkomend (Actief scherm)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Binnenkomend (Niet actief scherm)
-[Incoming (New Session)]
+[Incoming (new session)]
 Binnenkomend (Nieuwe sessie)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
 [History for %s]
 Geschiedenis voor %s
-[View &History]
+[View &history]
 Gesc&hiedenis bekijken
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL van %s
-[Web Page Address (&URL)]
+[Web page address (&URL)]
 Webpagina adres (&URL)
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Verstuur URL naar
 ;file \src\core\stduserinfo\contactinfo.cpp
-[Edit Phone Number]
+[Edit phone number]
 Telefoonnummer bewerken
 [Primary]
 Hoofd
@@ -1324,14 +1324,14 @@ Notities
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Eigenaar
-[View/Change My &Details...]
+[View/change my &details...]
 Mijn &details bekijken/wijzigen...
 ;file \src\core\stduseronline\useronline.cpp
 ;file \src\modules\addcontact\addcontact.cpp
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 ;file \src\modules\clist\clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Onbekend Persoon)
 ;file \src\modules\clist\clisttray.cpp
 ;file \src\modules\clist\clui.cpp
@@ -1354,9 +1354,9 @@ Achternaam
 Gebruikersnaam
 [FirstName LastName]
 Voornaam achternaam
-['(Unknown Contact)' (not movable)]
+['(Unknown contact)' (not movable)]
 '(Onbekend Persoon)' (niet verplaatsbaar)
-['(Unknown Contact)']
+['(Unknown contact)']
 '(Onbekend Persoon)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
@@ -1364,16 +1364,16 @@ Voornaam achternaam
 Aanpassen
 ;file \src\modules\clist\groups.cpp
 ;file \src\modules\clist\keyboard.cpp
-[Show/Hide Contact List]
+[Show Hide Contact List]
 Lijst weergeven verbergen
-[Read Message]
+[Read message]
 Bericht lezen
-[Open Options Page]
+[Open Options page]
 Opties scherm openen
 [Open Find User Dialog]
 Zoek gebruiker scherm openen
 ;file \src\modules\clist\movetogroup.cpp
-[&Move to Group]
+[&Move to group]
 Naar groep verplaatsen
 ;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
@@ -1396,9 +1396,9 @@ Niet in staat om het profiel '%s' aan te maken, de fout was %x
 Probleem aanmaken profiel
 [Size]
 Grootte
-[My Profiles]
+[My profiles]
 Mijn profielen
-[New Profile]
+[New profile]
 Nieuw profiel
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
@@ -1412,7 +1412,7 @@ Zoeken
 Resultaten
 [There are no results to display.]
 Er zijn geen resultaten om weer te geven.
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Personen zoeken/toevoegen...
 ;file \src\modules\findadd\searchresults.cpp
 ;file \src\modules\fonts\FontOptions.cpp
@@ -1428,7 +1428,7 @@ Outline vloeiend
 Lettertypes
 ;file \src\modules\fonts\FontService.cpp
 ;file \src\modules\icolib\skin2opts.cpp
-[Icon Sets]
+[Icon sets]
 Icoon sets
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
@@ -1474,7 +1474,7 @@ Gebruiker Online
 Groep (Open)
 [Connecting]
 Verbinden
-[User Details]
+[User details]
 Gebruikersdetails
 [History]
 Geschiedenis

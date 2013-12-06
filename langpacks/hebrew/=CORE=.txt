@@ -21,7 +21,7 @@
 אפשרוית
 [Authorization request]
 בקשת אישור
-[Delete Contact]
+[Delete contact]
 מחיקת איש קשר
 [&Yes]
 &כן
@@ -31,11 +31,11 @@
 הסתר אותו מרשימה בלבד, בכדי לשמור את ההיסטוריה שלהם והגדרות התעלמות/ראות
 [Are you sure you want to delete %s?]
 ?האם את בטוח שברצונך למחוק את %s  
-[Contact Display Options]
+[Contact display options]
 אפשרויות תצוגת רשימה
 [Miranda NG Profile Manager]
 מנהל הפרופילים של מירנדה
-[Find/Add Contacts]
+[Find/Add contacts]
 מצא/הוסף משתמשים
 [Name]
 שם
@@ -53,7 +53,7 @@
 החל
 [Please select a subentry from the list]
 אנא בחר תת קטגוריה מהרשימה
-[Install Database Settings]
+[Install database settings]
 התקן הגדרות מסד נתונים
 [Yes]
 כן
@@ -69,7 +69,7 @@
 &הצג אנשי קשר
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 .מערכות אבטחה למניעת שינויים מזיקים עובדות, אתה תוזהר כששינוי שלא ידוע כבטוח יחל
-[Database Setting Change]
+[Database setting change]
 הגדראות מסד הנתונים השתנו
 [Database settings are being imported from]
 הגדרות מסד נתונים מייובאות מ
@@ -81,9 +81,9 @@
 ?האם אתה מרשה את השינוי
 [&Allow all further changes to this section]
 אש&ר את כל השינויים לאזור הזה
-[Cancel Import]
+[Cancel import]
 בטל ייבוא
-[Database Import Complete]
+[Database import complete]
 ייבוא מסד נתונים הושלם
 [The import has completed from]
 הייבוא הושלם מ
@@ -97,7 +97,7 @@
 הזז/&שנה שם
 [&Leave]
 &עזוב
-[Netlib Log Options]
+[Netlib log options]
 אפשרוית רישום Netlib
 [Show]
 הראה
@@ -153,7 +153,7 @@ OutputDebugString()
 הודעות
 [Files]
 קבצים
-[All Events]
+[All events]
 כל האירועים
 [None]
 ללא
@@ -169,7 +169,7 @@ OutputDebugString()
 אתה נראה לאיש קשר זה אפילו כשאתה במצב בלתי נראה
 [You are never visible to this person]
 אתה בלתי נראה לאיש זה
-[Icon Index]
+[Icon index]
 אינדקס סמלים
 [Icon library:]
 ספריית סמלים:
@@ -213,13 +213,13 @@ OutputDebugString()
 זכויות:
 [Please restart Miranda NG for your changes to take effect.]
 .תצטרך להפעיל מחדש את המירנדה כדי שהשינויים יכנסו לתוקף
-[Fonts and Colors]
+[Fonts and colors]
 גופן וצבע
 [Undo]
 בטל
 [Reset]
 אפס
-[Text Color]
+[Text color]
 צבע טקסט
 [Font]
 גופן
@@ -261,43 +261,43 @@ OutputDebugString()
 &הצג/הסתר
 [E&xit]
 &יציאה
-[&New Group]
+[&New group]
 &קבוצה חדשה
-[&Hide Offline Users]
+[&Hide offline users]
 הס&תר משתמשים לא מחוברים
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 הסתר משתמשים לא מחוב&רים כאן
-[Hide &Empty Groups]
+[Hide &empty groups]
 הסתר &קבוצות ריקות
-[Disable &Groups]
+[Disable &groups]
 בטל קבו&צות
 [Hide Miranda]
 הסתר את המירנדה
-[&New Subgroup]
+[&New subgroup]
 &תת קבוצה חדשה
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 הסתר מ&שתמשים לא מחוברים כאן
-[&Rename Group]
+[&Rename group]
 ש&נה שם קבוצה
-[&Delete Group]
+[&Delete group]
 &מחק קבוצה
 [&Reset to default]
 אפס &לברירת מחדל
-[&Add to List]
+[&Add to list]
 &הוסף לרשימה
 [User &details]
 פרופיל &משתמש
-[Send &Message]
+[Send &message]
 שלח &הודעה
 [Log]
 יומן
 [&Copy]
 ה&עתק
-[Co&py All]
+[Co&py all]
 העת&ק הכול
-[Select &All]
+[Select &all]
 &בחר הכול
-[C&lear Log]
+[C&lear log]
 &נקה יומן
 [Open in &new window]
 &פתח בחלון חדש
@@ -312,16 +312,16 @@ OutputDebugString()
 &דחה
 [Reason:]
 :סיבה
-[You Were Added]
+[You were added]
 אתה צורפת
 [&Close]
 סגור
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 הודעת %s של %s
 [Retrieving %s message...]
 ... משיג הודעת %s
-[Status Messages]
+[Status messages]
 הודעות מצב
 [Do not reply to requests for this message]
 אל תגיב לבקשות להודעה זו
@@ -333,7 +333,7 @@ OutputDebugString()
 כברירת מחדל, השתמש בהודעה  זו
 [Use %time% for the current time, %date% for the current date]
 לקביעת הזמן והתאריך הנוכחיים %date% -ו %time% השתמש ב
-[Change %s Message]
+[Change %s message]
 שנה הודעת %s
 [Closing in %d]
 סוגר תוך %d
@@ -348,7 +348,7 @@ OutputDebugString()
 שינויי מצב
 [Information]
 מידע
-[Log Options]
+[Log options]
 אפשרויות יומן
 [Log timestamp]
 יומן חותמת זמן
@@ -406,7 +406,7 @@ OutputDebugString()
 גזור
 [Paste]
 הדבק
-[Select All]
+[Select all]
 בחר הכל
 [Clear]
 בהיר
@@ -445,13 +445,13 @@ OutputDebugString()
 הראה מספר סמלים
 [Only when statuses differ]
 רק כשהמצבים שונים
-[Contact List]
+[Contact list]
 רשימת אנשי קשר
 [System tray icon]
 סמל מגש המערכת
 [System tray icon when using multiple protocols]
 סמל מגש המערכת כשמשתמשים במספר פרוטוקולים
-[Contact List Sorting]
+[Contact list sorting]
 סדר רשימה
 [Window]
 חלון
@@ -511,7 +511,7 @@ OutputDebugString()
 עשה שרקע הבחירה יהיה שקוף
 [Dim idle contacts]
 הקהה אנשי קשר בלתי פעילים
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 הסתר 'לא מחובר' הכוונה הסתר:
 [Groups]
 קבוצות
@@ -523,7 +523,7 @@ OutputDebugString()
 הסתר מספרי קבוצות כשאף אחד לא מחובר
 [Sort groups alphabetically]
 סדר קבוצות לפי א,ב,ג
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 חיפוש-מהיר בקבוצות פתוחות בלבד
 [Indent groups by:]
 הרווח בין הקבוצות:
@@ -547,7 +547,7 @@ OutputDebugString()
 תיקון גמא:
 [Gray out entire list when:]
 האפר את כל הרשימה כש:
-[Contact List Background]
+[Contact list background]
 רקע רשימת אנשי קשר
 [Background color]
 צבע רקע
@@ -569,7 +569,7 @@ OutputDebugString()
 מתח פרופורצית
 [Use Windows colors]
 השתמש בצבעי חלונות
-[Status Bar]
+[Status bar]
 שורת מצב
 [Show status bar]
 הצג את שורת המצב
@@ -607,22 +607,22 @@ OutputDebugString()
 &פנוי לשיחה\tCtrl+6
 [&Invisible\tCtrl+7]
 &בלתי נראה\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 &מדבר בטלפון\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 או&כל ארוחת צהריים\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 (שלח קובץ(ים
 [To:]
 אל:
 [File(s):]
 (קובץ(ים:
-[&Choose Again...]
+[&Choose again...]
 ...בחר &שנית
 [Total size:]
 גודל כולל:
-[Incoming File Transfer]
+[Incoming file transfer]
 העברה קבצים נכנסת
 [A&ccept]
 &קבל
@@ -638,7 +638,7 @@ OutputDebugString()
 תפריט משתמש
 [Open folder]
 פתח תיקיה
-[File Already Exists]
+[File already exists]
 הקובץ קיים
 [Resume]
 המשך
@@ -668,7 +668,7 @@ OutputDebugString()
 אפשרויות קובץ
 [File being received]
 הקובץ מתקבל
-[File Transfers]
+[File transfers]
 העברות קבצים
 [Close]
 סגור
@@ -728,7 +728,7 @@ OutputDebugString()
 שנה את המצב שלי ל:
 [Do not set status back to online when returning from idle]
 אל תחליף את המצב למחובר כשחוזר מלא נמצא אוטומטי
-[Idle Options]
+[Idle options]
 אפשרויות לא נמצא אוטומטי
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
@@ -757,21 +757,21 @@ OutputDebugString()
 הצג את מספר התוים
 [Show warning when message has not been received after]
 הצג אזהרה כאשר ההודעה לא התקבלה אחרי
-[Support control up/down in message area to show previously sent messages]
+[Support CTRL+Up/Down in message area to show previously sent messages]
 תמוך בשליטה למטה/למעלה באיזור הודעות כדי להראות הודעות שנשלחו בעבר
 [Delete temporary contacts when closing message window]
 מחק תוכן זמני כאשר סוגרים חלון הודעות
 [Enable avatar support in the message window]
 אפשר תמיכה באוואטר בחלון הודעות
-[Limit avatar height to ]
+[Limit avatar height to]
 הגבל גובה אוואטר ל
 [An error has occurred. The protocol reported the following error:]
 התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
 [Try again]
 נסה שנית
-[Message Session]
+[Message session]
 חלון הודעות
-[Message Window Event Log]
+[Message window event log]
 חלון יומן הודעות
 [Show names]
 הראה שמות
@@ -791,7 +791,7 @@ OutputDebugString()
 הראה שינויי מצב
 [Show seconds]
 הראה שניות
-[Load History Events]
+[Load history events]
 הראה אירועי היסטוריה
 [Show typing notifications when a user is typing a message]
 הצג התראת כתיבה כאשר משתמש כותב
@@ -810,16 +810,16 @@ OutputDebugString()
 ;file \src\core\stduihist\resource.rc
 [Find]
 חפש
-[&Find Next]
+[&Find next]
 &חפש את הבא
-[Find What:]
+[Find what:]
 חפש את:
-[Message History]
+[Message history]
 היסטורית הודעות
 [&Find...]
 ...&חפש
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 הוסף מספר טלפון
 [Enter country, area code and phone number:]
 :הזן ארץ, קידומת ומספר טלפון
@@ -827,9 +827,9 @@ OutputDebugString()
 :או הזן מספר בינלאומי מלא
 [Phone can receive SMS text messages]
 סמס יכול לקבל הודעות
-[%s: User Details]
+[%s: user details]
 %s: פרטי משתמש
-[Update Now]
+[Update now]
 עדכן עכשיו
 [Updating]
 מעדכן
@@ -847,12 +847,12 @@ OutputDebugString()
 [Alerts]
 אזהרות
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 הצג פרופיל משתמש
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 הוסף איש קשר בקביעות לרשימה
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 קר&א הודעת %s
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -925,15 +925,15 @@ OutputDebugString()
 רשימת חברים של המשתמש (במצב לא נמצא)
 [Use a tabbed interface]
 השתמש בממשק טאבים
-[Close tab on doubleclick]
+[Close tab on double click]
 סגור טאב עם לחיצה כפולה
 [Restore previously open tabs when showing the window]
 שחזר טאבים פתוחים קודמים כאשר מציגים את החלון
 [Show tabs at the bottom]
 הראה טאבים בתחתית
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 שלח הודעה באנטר
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 של הודעה באנטר כפול
 [Flash window when someone speaks]
 הבהב חלון כשמישהו מדבר
@@ -1019,7 +1019,7 @@ OutputDebugString()
 הראה אייקון למשתמשים שעוזבים
 [Show icon for users kicking other user]
 הראה אייקון למשתמשים שמעיפים משתמש אחר
-[Show icon for notices ]
+[Show icon for notices]
  הראה אייקון בשביל הודעות
 [Show icon for name changes]
 הראה אייקון לשינויי שמות
@@ -1045,7 +1045,7 @@ OutputDebugString()
 הראה בסרגל אייקון למשתמשים שעוזבים
 [Show icon in tray for users kicking other user]
 הראה בסרגל אייקון למשתמשים שמעיפים משתמש אחר
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 הראה אייקון במגש מערכת בשביל הודעות
 [Show icon in tray for name changes]
 הראה בסרגל אייקון לשינויי שמות
@@ -1053,11 +1053,11 @@ OutputDebugString()
 הראה בסרגל אייקון לשינויי מידע
 [Show icon in tray for status changes]
 הראה בסרגל אייקון לשינויי מצב
-[Chat Module]
+[Chat module]
 מצב צאט
-[Message Background]
+[Message background]
 רקע הודעה
-[Userlist Lines]
+[User list lines]
 קווי רשימת משתמשים
 [Bold]
 בולט
@@ -1117,13 +1117,13 @@ OutputDebugString()
 אייקונים להראות ביומן ההודעות
 [Icons to display in the tray]
 אייקונים להצגה בסרגל
-[Select Folder]
+[Select folder]
 בחר תיקייה
-[Message Sessions]
+[Message sessions]
 חלון הודעות
 [General]
 כללי
-[Chat Log]
+[Chat log]
 יומן צ'אט
 [Chat]
 צ'אט
@@ -1186,7 +1186,7 @@ OutputDebugString()
 אוכל ארוחת צהריים
 [On the phone]
 מדבר בטלפון
-[List Background]
+[List background]
 רקע הרשימה
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1215,17 +1215,17 @@ OutputDebugString()
 [Denied]
 נדחה
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[All Files]
+[All files]
 כל הקבצים
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 קבצי תוכניות
 [Events]
 אירועים
 ;file \src\core\stdfile\filerecvdlg.cpp
-[View User's History]
+[View user's history]
 הצג היסטוריה עם משתמש
-[User Menu]
+[User menu]
 תפריט משתמש
 [Canceled]
 בוטל
@@ -1237,7 +1237,7 @@ OutputDebugString()
 ;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 ?הקובץ לא נסרק לוירוסים. האם אתה בטוח שברצונך לפתוח אותו
-[File Received]
+[File received]
 התקבל קובץ
 [Request sent, waiting for acceptance...]
 ...הבקשה נשלחה, מחכה לקבלה
@@ -1276,7 +1276,7 @@ OutputDebugString()
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 ...או&דות
-[&Report Bug]
+[&Report bug]
 דווח ע&ל באג
 ;file \src\core\stdidle\idle.cpp
 [Idle]
@@ -1310,7 +1310,7 @@ OutputDebugString()
 זמן שמתקבל
 [Incoming colon]
 נקודתיים שמתקבלים
-[Message Log]
+[Message log]
 יומן הודעה
 [** New contacts **]
 **אנשי קשר חדשים**
@@ -1318,24 +1318,24 @@ OutputDebugString()
 **אנשי קשר לא ידועים**
 [Show balloon popup (unsupported system)]
 (הצג חלונות פופאפ (מערכת בלתי נתמכת
-[Messaging Log]
+[Messaging log]
 יומן הודעות
-[Typing Notify]
+[Typing notify]
 התראת כתיבה
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 הודעה מ%s
 [%s is typing a message]
 מקליד הודעה %s
-[Typing Notification]
+[Typing notification]
 התראת כתיבה
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 מירנדה לא יכלה לטעון את מודול ההודעות, riched20.dll חסר. לחץ ב 'כן' בכדי להמשיך לטעון את מירנדה.
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 (נכנסות (חלון ממוקד
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 (נכנסות (חלון לא ממוקד
-[Incoming (New Session)]
+[Incoming (new session)]
 (נכנסות (חלון חדש
 [Message send error]
 שגיאה בשליחת ההודעה
@@ -1345,22 +1345,22 @@ OutputDebugString()
 קישור יוצא
 [Incoming URL]
 קישור נכנס
-[Outgoing File]
+[Outgoing file]
 קובץ יוצא
-[Incoming File]
+[Incoming file]
 קובץ נכנס
 [History for %s]
 %s היסטוריה עבור
 [Are you sure you want to delete this history item?]
 ?האם אתה בטוח שברצונך למחוק את פריט ההיסטוריה הזה
-[Delete History]
+[Delete history]
 מחק היסטוריה
-[View &History]
+[View &history]
 הצד היסטוריה
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 %s קישור מ
-[Web Page Address (&URL)]
+[Web page address (&URL)]
 קישור&
 [URL]
 קישור
@@ -1368,11 +1368,11 @@ OutputDebugString()
 [Send timed out]
 הזמן הנקבע לשליחת ההודעה עבר
 ;file \src\core\stduserinfo\contactinfo.cpp
-[Edit Phone Number]
+[Edit phone number]
 ערוך מספר טלפון
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 מספר הטלפון אמור להתחיל עם + ולהמשיך עם מספרים, רווחים, סוגריים ומקפים בלבד. 
-[Invalid Phone Number]
+[Invalid phone number]
 מספר טלפון שגוי
 [Primary]
 ראשי
@@ -1402,20 +1402,20 @@ OutputDebugString()
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 בעלים
-[View/Change My &Details...]
+[View/change my &details...]
 ...הצג/שנה את הפרופיל ש&לי
 ;file \src\core\stduseronline\useronline.cpp
-[%s is Online]
+[%s is online]
 %s מחובר
 ;file \src\modules\addcontact\addcontact.cpp
-[Add Contact]
+[Add contact]
 הוסף איש קשר
 [Please authorize my request and add me to your contact list.]
 אנא אשר את בקשתי להוסיף אותך לרשימה שלי.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 ;file \src\modules\clist\clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (איש קשר לא מוכר)
 ;file \src\modules\clist\clisttray.cpp
 [&Main menu]
@@ -1440,34 +1440,34 @@ OutputDebugString()
 שם משתמש
 [FirstName LastName]
 שם פרטי + שם משפחה
-['(Unknown Contact)' (not movable)]
+['(Unknown contact)' (not movable)]
 (איש קשר לא מוכר)' (לא ניתן להזזה)'
-['(Unknown Contact)']
+['(Unknown contact)']
 '(תוכן לא ידוע)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
 [Customize]
 התאמה אישית
 ;file \src\modules\clist\groups.cpp
-[New Group]
+[New group]
 קבוצה חדשה
 [You already have a group with that name. Please enter a unique name for the group.]
 יש לך קבוצה כבר בשם הזה. הזן שם ייחודי לקבוצה.
-[Rename Group]
+[Rename group]
 שנה שם קבוצה
 [This group]
 הקבוצה הזו
 ;file \src\modules\clist\keyboard.cpp
-[Show/Hide Contact List]
+[Show/Hide contact list]
 הראה החבא רשימת תוכן
-[Read Message]
+[Read message]
 קרא הודעה
-[Open Options Page]
+[Open Options page]
 פתח דף אפשרויות
 [Open Find User Dialog]
 פתח תיבת חיפוש משתמש
 ;file \src\modules\clist\movetogroup.cpp
-[&Move to Group]
+[&Move to group]
 &העבר לקבוצה
 ;file \src\modules\database\database.cpp
 ;file \src\modules\database\dbini.cpp
@@ -1488,7 +1488,7 @@ OutputDebugString()
 גודל
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
-[Chat Activity]
+[Chat activity]
 פעילות צ'אט
 ;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
@@ -1496,7 +1496,7 @@ OutputDebugString()
 ;file \src\modules\findadd\findadd.cpp
 [Search]
 חיפוש
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &מצא/הוסף משתמשים
 ;file \src\modules\findadd\searchresults.cpp
 [%d users found (]
@@ -1508,7 +1508,7 @@ OutputDebugString()
 גופנים
 ;file \src\modules\fonts\FontService.cpp
 ;file \src\modules\icolib\skin2opts.cpp
-[Icon Sets]
+[Icon sets]
 סטי סמלים
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
@@ -1556,7 +1556,7 @@ OutputDebugString()
 (קבוצה (סגורה
 [Connecting]
 מתחבר
-[User Details]
+[User details]
 פרופיל משתמש
 [History]
 היסטוריה\n

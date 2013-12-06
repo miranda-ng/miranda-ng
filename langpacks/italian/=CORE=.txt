@@ -21,7 +21,7 @@ Gruppo:
 Opzioni
 [Authorization request]
 Richiesta di autorizzazione
-[Delete Contact]
+[Delete contact]
 Elimina contatto
 [&Yes]
 &Sì
@@ -41,7 +41,7 @@ Miranda NG - Gestione dei profili utente
 &Esegui
 [&Exit]
 &Esci
-[Find/Add Contacts]
+[Find/Add contacts]
 Trova/Aggiungi contatti
 [Search:]
 Cerca:
@@ -71,7 +71,7 @@ Personalizzato
 Applica
 [Please select a subentry from the list]
 Seleziona per favore una sottovoce dalla lista
-[Install Database Settings]
+[Install database settings]
 Installa la configurazione del DB
 [Yes]
 Sì
@@ -87,7 +87,7 @@ No a tutti
 &Visualizza contenuti
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 I sistemi di sicurezza per prevenire modifiche dannose sono all'opera e sarai avvisato in caso di modifiche non sicure.
-[Database Setting Change]
+[Database setting change]
 Modifica configurazione DB
 [Database settings are being imported from]
 Sto importando la configurazione del DB da
@@ -99,9 +99,9 @@ al valore
 Vuoi permettere questa modifica?
 [&Allow all further changes to this section]
 &Permetti tutte le ulteriori modifiche a questa sezione
-[Cancel Import]
+[Cancel import]
 Annulla importazione
-[Database Import Complete]
+[Database import complete]
 Importazione database completata
 [The import has completed from]
 Completata l'importazione da
@@ -115,7 +115,7 @@ Cosa vuoi fare con il file ora?
 &Sposta/Rinomina
 [&Leave]
 &Lascia
-[Netlib Log Options]
+[Netlib log options]
 Opzioni di log di NetLib
 [Show]
 Mostra
@@ -165,7 +165,7 @@ Scarica altre icone
 I seguenti eventi sono attualmente ignorati:
 [Files]
 File
-[All Events]
+[All events]
 Tutti gli eventi
 [None]
 Nessuno
@@ -179,7 +179,7 @@ Visibilità
 Sei visibile per questa persona anche in modalità invisibile
 [You are never visible to this person]
 Non sei mai visibile per questa persona
-[Icon Index]
+[Icon index]
 Indice icone
 [Icon library:]
 Libreria icone:
@@ -255,41 +255,41 @@ Scorciatoie
 &Nascondi/Mostra
 [E&xit]
 &Esci
-[&New Group]
+[&New group]
 Nuovo &gruppo
-[&Hide Offline Users]
+[&Hide offline users]
 Nascondi &utenti offline
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Nascondi utenti &offline fuori da qui
-[Hide &Empty Groups]
+[Hide &empty groups]
 Nascondi gruppi &vuoti
-[Disable &Groups]
+[Disable &groups]
 Disattiva &gruppi
-[&New Subgroup]
+[&New subgroup]
 &Nuovo sottogruppo
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Nascondi utenti &offline qui dentro
-[&Rename Group]
+[&Rename group]
 &Rinomina gruppo
-[&Delete Group]
+[&Delete group]
 &Elimina gruppo
 [&Reset to default]
 &Ripristina predefiniti
-[&Add to List]
+[&Add to list]
 &Aggiungi alla lista
 [User &details]
 &Dettagli utente
-[Send &Message]
+[Send &message]
 Invia &messaggio
 [Log]
 Registro (Log file)
 [&Copy]
 &Copia
-[Co&py All]
+[Co&py all]
 Co&pia tutto
-[Select &All]
+[Select &all]
 Seleziona &tutto
-[C&lear Log]
+[C&lear log]
 Pu&lisci log
 [Open in &new window]
 Apri in una nuova &finestra
@@ -304,16 +304,16 @@ Apri in una nuova &finestra
 &Nega
 [Reason:]
 Motivo:
-[You Were Added]
+[You were added]
 Sei stato aggiunto
 [&Close]
 &Chiudi
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Messaggio di '%s' per %s
 [Retrieving %s message...]
 Recupero messaggio di %s...
-[Status Messages]
+[Status messages]
 Messaggi di stato
 [Do not reply to requests for this message]
 Non rispondere alle richieste per questo messaggio
@@ -325,7 +325,7 @@ Usa lo stesso messaggio dell'ultima volta
 Usa sempre questo messaggio:
 [Use %time% for the current time, %date% for the current date]
 Utilizza %time% per l'ora e %date% per la data corrente
-[Change %s Message]
+[Change %s message]
 Modifica messaggio di %s
 [Closing in %d]
 Chiusura in %d
@@ -352,7 +352,7 @@ Collegamento
 Messaggio
 [Copy]
 Copia
-[Select All]
+[Select all]
 Seleziona Tutto
 [Clear]
 Terso
@@ -387,13 +387,13 @@ secondi, quando gli stati sono diversi
 Mostra icone multiple
 [Only when statuses differ]
 Solo quando gli stati sono diversi
-[Contact List]
+[Contact list]
 Lista dei contatti
 [System tray icon]
 Icona nella tray di sistema
 [System tray icon when using multiple protocols]
 Icona nella tray utilizzando protocolli multipli
-[Contact List Sorting]
+[Contact list sorting]
 Ordinamento lista contatti
 [Window]
 Finestra
@@ -449,7 +449,7 @@ Mostra selez. anche quando lista non in primo piano
 Rendi traslucenti le selezioni evidenziate
 [Dim idle contacts]
 Abbassa i contatti inattivi
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Nascondi Offline' significa nascondere:
 [Groups]
 Gruppi
@@ -483,7 +483,7 @@ Altezza righe:
 Correggi la gamma dei colori
 [Gray out entire list when:]
 L'intera lista diventa grigia quando:
-[Contact List Background]
+[Contact list background]
 Sfondo lista contatti
 [Background color]
 Colore di sfondo
@@ -501,7 +501,7 @@ Scorri assieme al testo
 Mantieni le proporzioni
 [Use Windows colors]
 Utilizza colori di Windows
-[Status Bar]
+[Status bar]
 Barra di stato
 [Show status bar]
 Mostra barra di stato
@@ -535,22 +535,22 @@ Non &Disturbare\tCtrl+5
 Disponibile &per chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisibile\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Al &telefono\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Fuori a pran&zo\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Invia file
 [To:]
 A:
 [File(s):]
 File:
-[&Choose Again...]
+[&Choose again...]
 S&cegli di nuovo...
 [Total size:]
 Dimensioni totali:
-[Incoming File Transfer]
+[Incoming file transfer]
 Trasferimento file in entrata
 [A&ccept]
 A&ccetta
@@ -566,7 +566,7 @@ File
 Salva in:
 [Open folder]
 Apri cartella
-[File Already Exists]
+[File already exists]
 Il file esiste già
 [Resume]
 Riprendi
@@ -596,7 +596,7 @@ Apri file
 Proprietà
 [File being received]
 File in ricezione
-[File Transfers]
+[File transfers]
 Trasferimenti file
 [Close]
 Chiudi
@@ -704,16 +704,16 @@ Elimina
 ;file \src\core\stduihist\resource.rc
 [Find]
 Trova
-[&Find Next]
+[&Find next]
 &Trova succ.
-[Find What:]
+[Find what:]
 Trova:
-[Message History]
+[Message history]
 Storico messaggi
 [&Find...]
 &Trova
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Aggiungi numero di telefono
 [Enter country, area code and phone number:]
 Inserisci nazione, prefisso e numero di telefono:
@@ -721,9 +721,9 @@ Inserisci nazione, prefisso e numero di telefono:
 Oppure inserisci un numero internazionale completo:
 [Phone can receive SMS text messages]
 Il telefono può ricevere messaggi SMS
-[%s: User Details]
+[%s: user details]
 %s: Dettagli utente
-[Update Now]
+[Update now]
 Aggiorna ora
 [Updating]
 in aggiornamento
@@ -779,12 +779,12 @@ Sito Web:
 [%s requests authorization]
 %s richiede l'autorizzazione
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Visualizza dettagli utente
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Aggiungi contatto definitivamente alla lista
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 Leggi mess&aggio di %s
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -873,7 +873,7 @@ Grassetto
 Scambio messaggi
 [Appearance and functionality of chat room windows]
 Aspetto e funzionalità delle finestre chat room
-[Select Folder]
+[Select folder]
 Seleziona cartella
 [General]
 Generale
@@ -928,7 +928,7 @@ Invisibile
 Fuori a pranzo
 [On the phone]
 Al telefono
-[List Background]
+[List background]
 Lista - Sfondo
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -961,9 +961,9 @@ File eseguibili
 [Events]
 Eventi
 ;file \src\core\stdfile\filerecvdlg.cpp
-[View User's History]
+[View user's history]
 Visualizza storico utente
-[User Menu]
+[User menu]
 Menu utente
 [Canceled]
 Cancellato
@@ -975,7 +975,7 @@ Cancellato
 ;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Questo file non è stato ancora controllato. Sei sicuro di volerlo aprire?
-[File Received]
+[File received]
 File ricevuto
 [Request sent, waiting for acceptance...]
 Richiesta inviata, attesa accettazione...
@@ -1018,7 +1018,7 @@ In uscita
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 &Informazioni su...
-[&Report Bug]
+[&Report bug]
 Segnala un &bug
 ;file \src\core\stdidle\idle.cpp
 [Idle]
@@ -1056,16 +1056,16 @@ Colonna in entrata
 ** Contatti sconosciuti **
 [Show balloon popup (unsupported system)]
 Mostra popup (sistema non supportato)
-[Messaging Log]
+[Messaging log]
 Scambio messaggi - Log
-[Typing Notify]
+[Typing notify]
 Notifica digitazione
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Messaggio da %s
 [%s is typing a message]
 %s sta digitando un messaggio
-[Typing Notification]
+[Typing notification]
 Notifica digitazione
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda non è riuscito a caricare il modulo per i messaggi predefinito, il file riched20.dll è mancante. Premi 'Sì' per continuare a caricare Miranda.
@@ -1077,32 +1077,32 @@ Errore nell'invio del messaggio
 URL in uscita
 [Incoming URL]
 URL in entrata
-[Outgoing File]
+[Outgoing file]
 File in uscita
-[Incoming File]
+[Incoming file]
 File in arrivo
 [History for %s]
 Storico di %s
 [Are you sure you want to delete this history item?]
 Sei sicuro di voler eliminare questo elemento dello storico?
-[Delete History]
+[Delete history]
 Elimina storico
-[View &History]
+[View &history]
 &Visualizza storico
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL da %s
-[Web Page Address (&URL)]
+[Web page address (&URL)]
 Indirizzo Pagina Web (&URL)
 [URL]
 URL
 ;file \src\core\stdurl\urldialogs.cpp
 ;file \src\core\stduserinfo\contactinfo.cpp
-[Edit Phone Number]
+[Edit phone number]
 Modifica numero di telefono
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Il numero di telefono dovrebbe iniziare con un + e consistere solo di numeri, spazi, parentesi e trattini.
-[Invalid Phone Number]
+[Invalid phone number]
 Numero di telefono non valido
 [Primary]
 Primario
@@ -1132,20 +1132,20 @@ Note
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Proprietario
-[View/Change My &Details...]
+[View/change my &details...]
 Visualizza/Modifica i miei &dettagli...
 ;file \src\core\stduseronline\useronline.cpp
-[%s is Online]
+[%s is online]
 %s è online
 ;file \src\modules\addcontact\addcontact.cpp
-[Add Contact]
+[Add contact]
 Aggiungi contatto
 [Please authorize my request and add me to your contact list.]
 Per favore dammi l'autorizzazione e aggiungimi alla tua lista dei contatti.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 ;file \src\modules\clist\clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Contatto sconosciuto)
 ;file \src\modules\clist\clisttray.cpp
 [&Main menu]
@@ -1174,18 +1174,18 @@ Cognome
 Nome utente
 [FirstName LastName]
 Nome Cognome
-['(Unknown Contact)' (not movable)]
+['(Unknown contact)' (not movable)]
 '(Contatto sconosciuto)' (non spostabile)
-['(Unknown Contact)']
+['(Unknown contact)']
 '(Contatto sconosciuto)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
 ;file \src\modules\clist\groups.cpp
-[New Group]
+[New group]
 Nuovo gruppo
 [You already have a group with that name. Please enter a unique name for the group.]
 Hai già un gruppo con questo nome. Inserisci per favore un nome univoco per il gruppo.
-[Rename Group]
+[Rename group]
 Rinomina gruppo
 [This group]
 Questo gruppo
@@ -1210,9 +1210,9 @@ Questa modifica non è riconosciuta come sicura.
 &Crea
 [Size]
 Dimensioni
-[My Profiles]
+[My profiles]
 I miei profili
-[New Profile]
+[New profile]
 Nuovo profilo
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
@@ -1228,9 +1228,9 @@ Risultati
 Nessun risultato da visualizzare.
 [Searching]
 Ricerca in corso su
-[All Networks]
+[All networks]
 Tutte le reti
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Trova/Aggiungi contatti...
 ;file \src\modules\findadd\searchresults.cpp
 [1 %s user found]
@@ -1244,13 +1244,13 @@ Nessun utente trovato
 ;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <nessuno>
-[Text Files]
+[Text files]
 File di testo
 [Fonts]
 Caratteri
 ;file \src\modules\fonts\FontService.cpp
 ;file \src\modules\icolib\skin2opts.cpp
-[Icon Sets]
+[Icon sets]
 Set di icone
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
@@ -1304,7 +1304,7 @@ Gruppo (Aperto)
 Gruppo (Chiuso)
 [Connecting]
 In connessione
-[User Details]
+[User details]
 Dettagli utente
 [History]
 Storico
