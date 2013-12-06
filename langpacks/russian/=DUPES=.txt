@@ -347,7 +347,7 @@ xСтатус %s
 Выключен
 [Disconnects]
 Отключения
-[Dismiss Popup]
+[Dismiss popup]
 Закрыть
 [Dismiss]
 Убрать
