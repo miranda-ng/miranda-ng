@@ -866,7 +866,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Дадаць &кантакты
-[&Main menu]
+[&Main Menu]
 Галоўнае меню
 [&Options...]
 &Налады

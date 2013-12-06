@@ -3,3 +3,4 @@ Language: Belarusian (BY)
 Locale: 0423
 Last-Modified-Using: 0.94.6
 Authors: Jerbifor, Inha
+Author-email: jerbifor@gmail.com

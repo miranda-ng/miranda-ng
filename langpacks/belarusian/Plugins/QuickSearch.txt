@@ -217,3 +217,11 @@ CSV з загалоўкамі
 Тэкст утоеных кантактаў
 [QuickSearch window hotkey]
 Адчыніць акно хуткага пошуку
+[Previous item]
+Папярэдняе супадзенне
+[Next item]
+Наступнае супадзенне
+[Open main window]
+Адкрыць асноўнае акно
+[Frame background]
+Фон фрэйма

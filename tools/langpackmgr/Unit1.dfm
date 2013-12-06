@@ -1,160 +1,92 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
-  Caption = 'Miranda Langpack Manager'
-  ClientHeight = 286
-  ClientWidth = 630
+  AutoSize = True
+  BorderIcons = [biSystemMenu]
+  Caption = 'Miranda NG Langpack Manager'
+  ClientHeight = 343
+  ClientWidth = 643
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = 15
+  Font.Name = 'Verdana'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 13
-  object Label1: TLabel
-    Left = 192
-    Top = 16
-    Width = 37
-    Height = 13
-    Caption = 'Strings:'
-  end
-  object Label2: TLabel
-    Left = 192
-    Top = 35
-    Width = 60
-    Height = 13
-    Caption = 'Untranslate:'
-  end
-  object Label3: TLabel
-    Left = 192
-    Top = 54
-    Width = 46
-    Height = 13
-    Caption = 'Changes:'
+  TextHeight = 14
+  object ListBox1: TListBox
+    Left = 0
+    Top = 0
+    Width = 137
+    Height = 343
+    ItemHeight = 14
+    TabOrder = 0
+    OnClick = ListBox1Click
+    OnDblClick = ListBox12Click
   end
   object Memo1: TMemo
-    Left = 168
-    Top = 88
-    Width = 449
-    Height = 80
-    Font.Charset = RUSSIAN_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    ScrollBars = ssHorizontal
-    TabOrder = 0
-  end
-  object RadioGroup1: TRadioGroup
-    Left = 360
-    Top = 9
-    Width = 257
-    Height = 73
-    Caption = 'Available translations'
-    Columns = 2
-    Font.Charset = RUSSIAN_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
+    Left = 143
+    Top = 0
+    Width = 500
+    Height = 343
+    ScrollBars = ssBoth
     TabOrder = 1
-    OnClick = RadioGroup1Click
-  end
-  object ComboBox1: TComboBox
-    Left = 8
-    Top = 8
-    Width = 154
-    Height = 21
-    Style = csDropDownList
-    TabOrder = 2
-    OnChange = ComboBox1Change
   end
   object Memo2: TMemo
-    Left = 168
-    Top = 176
-    Width = 449
-    Height = 80
-    Font.Charset = RUSSIAN_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    ScrollBars = ssHorizontal
-    TabOrder = 3
+    Left = 143
+    Top = 153
+    Width = 500
+    Height = 150
+    ScrollBars = ssBoth
+    TabOrder = 2
+    Visible = False
   end
-  object StringGrid1: TStringGrid
-    Left = 8
-    Top = 35
-    Width = 154
-    Height = 247
-    ColCount = 1
-    DefaultColWidth = 150
-    DefaultRowHeight = 14
-    FixedCols = 0
-    RowCount = 1
-    FixedRows = 0
-    Font.Charset = RUSSIAN_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    ScrollBars = ssVertical
-    TabOrder = 4
-    OnClick = Click
-    OnDrawCell = Draw
+  object Button1: TButton
+    Left = 142
+    Top = 318
+    Width = 75
+    Height = 25
+    Caption = 'Copy'
+    TabOrder = 3
+    Visible = False
+    OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 239
-    Top = 262
-    Width = 58
-    Height = 20
-    Caption = 'Google'
-    Font.Charset = RUSSIAN_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 5
+    Left = 223
+    Top = 318
+    Width = 75
+    Height = 25
+    Caption = 'Translate'
+    TabOrder = 4
+    Visible = False
     OnClick = Button2Click
   end
   object Button3: TButton
-    Left = 559
-    Top = 262
-    Width = 58
-    Height = 20
+    Left = 566
+    Top = 318
+    Width = 75
+    Height = 25
     Caption = 'Save'
-    Font.Charset = RUSSIAN_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 6
+    TabOrder = 5
+    Visible = False
     OnClick = Button3Click
   end
-  object Button1: TButton
-    Left = 168
-    Top = 262
-    Width = 58
-    Height = 20
-    Caption = 'Copy'
-    Font.Charset = RUSSIAN_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 7
-    OnClick = Button1Click
+  object ComboBox1: TComboBox
+    Left = 0
+    Top = 318
+    Width = 136
+    Height = 22
+    Style = csOwnerDrawFixed
+    Enabled = False
+    ItemIndex = 1
+    TabOrder = 6
+    Text = 'Untranslated items'
+    Visible = False
+    Items.Strings = (
+      'All items'
+      'Untranslated items')
   end
 end

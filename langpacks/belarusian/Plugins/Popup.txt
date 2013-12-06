@@ -276,6 +276,8 @@ History++ для гісторыі вокнаў
 Замацаванае
 [Send Message]
 Адправіць
+[User Details]
+Пра карыстача
 [Contact Menu]
 Меню кантакту
 [Add Contact Permanently]

@@ -1022,6 +1022,10 @@ Angeli-Ka (графіка), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Галоўнае меню
+[Main menu]
+Галоўнае меню
+[Status Menu]
+Меню статусу
 [Status menu]
 Меню статусаў
 [Accounts]

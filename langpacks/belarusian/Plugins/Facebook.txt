@@ -44,6 +44,8 @@ URL:
 Налады кантактаў
 [Use bigger avatars]
 Вялікія аватары
+[Load contacts with 'On the Mobile' status]
+Загружаць кантакты "з мабільнага"
 [Event notifications]
 Апавяшчэнні
 [Notifications]

@@ -43,6 +43,8 @@
 Усе файлы
 [Backup in progress]
 Рэзерваванне падчас
+[Rotating backup files...]
+Ратацыя папярэдніх копіяў...
 [Copying database file...]
 Капіяванне файла базы...
 [Database backed up]
@@ -89,3 +91,5 @@
 Абярыце тэчку для рэзервовых копій
 [Error creating backup folder]
 Памылка пры стварэнні тэчкі для рэзервовага капіравання
+[Database AutoBackups]
+Аўтарэзервіраванне профіля
