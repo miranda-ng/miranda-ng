@@ -143,7 +143,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 
 							g_HookError = TRUE;
 							mir_sntprintf(buf, SIZEOF(buf), TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
-							prevMessageBox(0, buf, TranslateT("MsgBox"), MB_OK);
+							prevMessageBox(0, buf, TranslateT("Error"), MB_OK);
 						}
 					}
 					*(DWORD*)ppfn = lpNewFunc;
@@ -152,7 +152,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 						if(!g_HookError2)
 						{
 							g_HookError2 = TRUE;
-							prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author"), TranslateT("MsgBox"), MB_OK);
+							prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author"), TranslateT("Error"), MB_OK);
 						}
 					}
 				}

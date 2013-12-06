@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"Message popup"
 #define __FILENAME					"MsgPopup.dll"
-#define __DESCRIPTION 				"Plugin replaces MessageBoxes (those having only OK button) with popups."
+#define __DESCRIPTION 				"Plugin replaces message boxes (those having only OK button) with popups."
 #define __AUTHOR					"StDenis"
 #define __AUTHOREMAIL				"stdenformiranda@fromru.com"
 #define __AUTHORWEB					"http://miranda-ng.org/p/MsgPopup/"
