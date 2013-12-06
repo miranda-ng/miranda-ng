@@ -324,7 +324,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
 
 	if (mwid == NULL || mwd == NULL) return 1; 
-	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(SrmmWindowData)) return 1; 
+	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(MessageWindowData)) return 1; 
 	if (mwid->hContact == NULL) return 1; 
 	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1; 
 
