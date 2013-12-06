@@ -6,82 +6,82 @@
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
-
+Wsparcie dla protokołu Skype w Miranda NG. Klasyczna implementacja wymagająca oryginalnego klienta Skype uruchomionego w tle.
 ;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
 Ustaw
 [Delete]
 Usuń
 [Start Skype with Miranda NG if not running using the following command line options:]
-
+Uruchom Skype wraz z Mirandą(jeśli nie jest jeszcze uruchomiony) używając następujących parametrów:
 [/NOSPLASH - Don't show splash screen on startup]
-
+/NOSPLASH - nie pokazuj okna powitalnego podczas uruchamiania
 [/MINIMIZED - Start Skype minimized]
-
+/MINIMIZED - uruchom Skype zminimalizowane
 [/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
-
+/NOTRAY - ikona Skype w zasobniku staje się szara, dzięki czemu jest ""niewidoczna"
 [/REMOVEABLE - For running portable Skype]
-
+/REMOVEABLE - w celu uruchomienia przenośnej kopii Skype
 [/SECONDARY - This is the second instance]
-
+/SECoNDARY - w przypadku uruchamiania drugiej instancji
 [/DATAPATH - Specify Skype data folder*]
-
+/DATAPATH - określ folder z danymi Skype
 [Use custom Skype executable*]
-
+Używaj własnego pliku wykonywalnego Skype
 [* Relative path root is Miranda NG folder]
-
+* Głównym folderem ścieżki względnej jest folder Mirandy
 [Shutdown Skype when you close Miranda NG]
-
+Zamknij Skype wraz z Mirandą
 [Unload Skype when you change to Offline status]
-
+Zamknij Skype, gdy zmieniasz status na rozłączony
 [Try at least]
-
+Spróbuj przynajmniej
 [times to connect to Skype API before giving up]
-
+razy połączyć się z API  Skype przed zaniechaniem
 [User name:]
-
+Użytkownik:
 [Password:]
 Hasło:
 [Dial]
-
+Zadzwoń
 [Number:]
 Numer:
 [Cancel]
 Anuluj
 [%s is calling]
-
+%s dzwoni
 [Join conference with %s]
-
+Przyłącz się do rozmowy grupowej z %s
 [Answer call; set call to %s on hold]
-
+Odbierz rozmowę; zawieś rozmowę z %s
 [Hang up]
-
+Rozłącz się
 [OK]
 OK
 [Dialog]
 Okno
 [Use Skype proxy connection over network instead of local Skype API]
-
+Używaj połączenia z serwerem proxy Skype zamiast lokalnego API Skype
 [Host:]
 Host:
 [Port:]
 Port:
 [* You must restart Miranda NG in order to let the settings take effect]
-
+Aby ustawienia mogły wejść w życie, musisz zrestartować Mirandę
 [This Skype proxy requires password authentication:]
-
+To proxy Skype wymaga uwierzytelnienia hasłem:
 [Name:]
 Nazwa:
 [Birthday:]
 Urodziny:
 [Sex:]
-
+Płeć:
 [City:]
 Miasto:
 [Country:]
 Kraj:
 [Province:]
-
+Województwo:
 [Home phone:]
 Telefon domowy:
 [Office phone:]
@@ -91,39 +91,39 @@ WWW:
 [Save]
 Zapisz
 [Enable Skype menu options (currently: Find/Add user)]
-
+Włącz elementy menu Skype (obecnie Szukaj/dodaj kontakty)
 [Use popup plugin for displaying messages]
-
+Używaj wtyczki Popup do wyświetlania komunikatów
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
-
+Ignoruj wszystkie komunikaty o błędach (niezalecane, ale jeżeli cię denerwują... ;)
 [Use group chat interface for conversations (requires group chat module)]
-
+Używaj interfejjsu rozmów grupowych dla konwersacji(wymaga modułu czatów grupowych)
 [Mark group chat message as read to avoid notification]
-
+Oznacz wiadomości z czatów grupowych jako przeczytane, aby uniknąć powiadomienia
 [Keep requested online status on startup under every circumstance]
-
+Utrzymuj żądany status dostępny podczas uruchamiania w każdych warunkach
 [Use time zone patch]
-
+Używaj poprawki stref czasowych
 [Ignore time zones]
-
+Ignoruj strefy czasowe
 [Show default Skype avatar for contacts]
-
+Pokazuj domyślny awatar Skype dla kontaktów
 [Suppress call summary chat message]
-
+Ignoruj wiadomość czatu z podsumowaniem rozmowy
 [Disable support for N/A and SkypeMe status (for Skype 4+)]
-
+Wyłącz wsparcie dla statusów "niedostępny" oraz "SkypeMe" (dla Skype 4+)
 [Show full name in contact list instead of nickname]
-
+Pokaż nazwę wyświetlaną, zamiast nazwy użytkownika, na liście kontaktów
 [SkypeOut contacts are in status:]
-
+Status kontaktów SkypeOut
 [Cleanup Nicknames]
-
+Czyszczenie nicków
 [Skype Popups]
-
+Popupy Skype
 [Incoming Calls]
-
+Przychodzące rozmowy
 [Show incoming calls]
-
+Pokazuj rozmowy przychodzące
 [seconds]
 s
 [Background]
@@ -135,30 +135,30 @@ Tekst
 [Preview]
 Podgląd
 [Error Messages]
-
+Komunikaty błędów
 [Display error messages]
-
+Wyświetlaj komunikaty błędów
 ;file \protocols\SkypeClassic\src\contacts.cpp
 [Call (Skype)]
-
+Zadzwoń ze Skype
 [Call using SkypeOut]
-
+Zadzwoń przy użyciu SkypeOut
 [Hang up call (Skype)]
-
+Zakończ rozmowę na Skype
 [Hang up SkypeOut call]
-
+Zakończ rozmowę SkypeOut
 [Hold call]
-
+Zawieś
 [Resume call]
-
+Wznów
 [&File]
 Plik
 [&Open group chat]
-
+Otwórz czat grupowy
 [Import Skype history]
-
+Importuj historię Skype
 [Add Skype contact]
-
+Dodaj kontakt Skype
 ;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 Nieznany
@@ -175,39 +175,39 @@ Dane kontaktu
 [User &history]
 Historia użytkownika
 [&Kick user]
-
+Wykop użytkownika
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
-
+Rozpocznij rozmowę SkypeOut
 [invited ]
-
+zaproszony
 [Phone call]
-
+Rozmowa telefoniczna
 [Incoming Skype Call]
-
+Przychodząca rozmowa Skype
 [Incoming call from %s]
-
+Przychodząca rozmowa od %s
 [Connection to Skype lost]
-
+Utracono połączenie ze Skype
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
-
+Wygląda na to, że poraz pierwszy uruchamiasz wtyczkę protokołu Skype. Czy chcesz włączyć protokół dla tego profilu Mirandy? Jeżęli wybierzesz "nie" możesz to później zmienić w opcjach wtyczek.
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]
-
+Podgląd komunikatu błędu
 [Skype default]
-
+Domyślny Skype
 [Skype advanced]
-
+Zaawansowany Skype
 [Skype proxy]
-
+Proxy Skype
 [Avatar]
 Awatar
 [Details]
-
+Szczegóły
 [MALE]
-
+Mężczyzna
 [FEMALE]
-
+Kobieta
 ;file \protocols\SkypeClassic\src\skypesvc.cpp
 [Skype ID]
-
+ID Skype
