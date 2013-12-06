@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -70,10 +70,14 @@
 Новий пароль 
 [Change password] 
 Змінити пароль 
+[Change/remove password] 
+Змінити/видалити пароль
 [Change] 
 Змінити
 [Remove] 
 Видалити
+[Please type in your password] 
+Будь ласка, введіть ваш пароль
 [Please enter your new password] 
 Будьласка введіть новий пароль 
 [Password is too short!] 
@@ -82,6 +86,10 @@
 Пароли не співпадають! 
 [Wrong old password entered!] 
 Введено помилковий старий пароль! 
+[Password is not correct!] 
+Невірний пароль!
+[Too many errors!] 
+Дуже багато помилок!
 [Disk is full. Miranda will now shutdown.]
 Диск сповнений. Miranda завершує роботу.
 [Database failure. Miranda will now shutdown.]

@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: KeepStatus.dll
 ;  Plugin: Keep status
-;  Version: 0.8.0.97
-;  Authors: P Boon
+;  Version: 0.9.0.1
+;  Authors: P Boon, G Hazan
 ;============================================================
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 Перевіряє наявність підключення до мережі і автоматично перепідключає при розриві.
@@ -12,7 +12,7 @@
 [Max. retries]
 Макс. спроб
 [Account connection]
-
+Підключінь облікового запису
 [Delay between retries (secs)]
 Затримка між спробами (с)
 [Show popups]
@@ -20,7 +20,7 @@
 [General]
 Загальна
 [Accounts to check]
-
+Облікові записи для перевірки
 [Dial-Up]
 Віддалений доступ
 [Don't reconnect if no internet connection seems available]
@@ -44,25 +44,25 @@
 [minutes of inactivity]
 хвилин неактивності
 [minutes of level 1 mode]
-
+хвилин рівня у 1 рівні
 [Confirm resetting status]
-
+Підтвердити відновлення статусу
 [Account]
 Обліковий запис
 [Only if set current status is]
-
+Тільки якщо встановлено поточний стан
 [Monitor miranda's activity only]
-
+Перевіряти тільки активнісь Міранда
 [Reset status on return]
-
+Скинути стан після повернення
 [when screen saver engages]
-
+коли заставка займається
 [Set]
 Вибрати
 [only when set inactive]
-
+тільки тоді, коли неактивні
 [when workstation is locked]
-
+коли комп'ютер заблоковано
 [Command line]
 Ком. рядок
 [OK]
@@ -72,53 +72,51 @@
 [Command line:]
 Ком. рядок:
 [Create shortcut]
-
+Створити ярлик
 [Add new profile]
-
+Додати новий профіль
 [Profile name]
-
+Ім'я профілю
 [Set window state]
-
+Встановити позицію вікна
 [Show dialog]
-
+Показати діалог
 [Set status to offline before exit]
-
+Встановити статус офлайн до виходу з нього.
 [Show CMDL]
-
+Показати CMDL
 [Activate status profile]
-
+Активувати статус профілю
 [Set docked]
 
 [Other]
 Інше
 [Status on startup]
-
+Станус на старті
 [ms]
 мс
 [Set after]
-
+Встановити потім
 [Timeout]
 Таймаут
 [s]
-з
+с
 [Set window location]
-
+Вказати позицію вікна
 [Set window size]
-
-[x]
-
+Вказати розмір вікна
 [Allow override]
-
+Перевизначати
 [Note: status profiles can be created in the 'Status profiles' options screen]
-
+Примітка: стан профілю може бути створено у "Статус профілю" параметрів екрану
 [Window on startup]
-
+Вікно при старті
 [Automatically dial on startup]
-
+Автоматично встановлювати з'єднання при запуску
 [Automatically hang up on exit]
 
 [Dial-up (experimental)]
-
+Dial-up (експериментальна)
 [Background colour]
 Колір фону
 [Text colour]
@@ -162,7 +160,7 @@
 [Show additional information in popups]
 Додаткова інформація
 [Use miranda's message setting]
-
+Використовувати повідомлення Міранди
 [Use this message:]
 Використовувати повідомлення:
 [Use %time% for the current time, %date% for the current date]
@@ -170,25 +168,25 @@
 [Variables...]
 Змінні...
 [Specify settings for each account]
-
+Вкажіть параметри для кожного облікового запису
 [Use same settings for all accounts]
-
+Використовувати однакові параметри для всіх облікових записів
 [Ignore caps-lock, num-scroll lock and-lock keys]
 Ігнорувати клавіші caps-lock, num-scroll lock та інші lock keys
 [Check interval (secs)]
-
+Інтервал перевірки (секунди)
 [Confirm dialog timeout (secs)]
-
+Я підтверджую, вікно тайм-аут (секунди)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-
+Ви ввімкнули опцію "Змінити мій статус в режим" в "Холостому" діалог додаткові опції, AdvancedAutoAway опції ігноруються.
 [Keyboard activity Monitor]
-
+Відслідковувати активніть з клавіатури
 [Monitor mouse activity]
-
+Відслітковувати активність миші
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Ігнорувати клавіші Ctrl, Alt, Shift, Tab, Esc та Win
 [Ignore any key combination with above keys]
-
+Ігнорувати будь-які комбінації клавіш з вище вказаними клавішами 
 [Accounts]
 Облікові записи
 [Enable checking]
@@ -204,23 +202,23 @@
 [Delete]
 Видалити
 [Create a TopToolBar button]
-
+Створити кнопку TopToolBar
 [Show confirm dialog when loading]
-
+Показати діалог підтвердження при завантаженні
 [Create a main menu item]
 Пункт у головному меню
 [Status profiles]
-
+Статус профілю
 [Hotkey]
 Гаряча клавіша
 [In submenu]
-
+У субменю
 [Max. delay (secs)]
 Макс. затримка (с)
 [Increase delay exponential]
 Збільшити експоненціально
 [Cancel all if a account connects from another location]
-
+Скасувати якщо усі облікові записи з'єднує з іншого місця
 [Reconnect on APM resume]
 Перепідключатися після сплячого режиму
 [Stop trying to reconnect]
@@ -232,9 +230,9 @@
 [seconds]
 секунд(и)
 [Set account offline before a connection attempt]
-
+Настроювання облікового запису в режимі офлайн до спроб з'єднання
 [Max. account connecting time (secs)]
-
+Макс. підключень облікового запису (сек)
 [Timers]
 Таймери
 [Reconnecting]
@@ -248,21 +246,21 @@
 [Continuously check interval (secs)]
 Інтервал перевірки (с)
 [Entering first auto-away status]
-
+Введення першого авто-відійшов стану
 [Entering second auto-away status]
-
+Введення другого авто-від стану
 [Leaving first auto-away status]
-
+Залишивши першого авто-відійшов стану
 [Leaving second auto-away status]
-
+Залишивши другий авто-відійшов стану
 [Becoming active without change status]
-
+Стають активними без зміни статусу
 [Pre-conditions]
-
+Попередні умови
 [TriggerData]
 
 [Status: The status the account will change to\r\nAccount: changing The account state]
-
+Статус: Стан облікового запису зміниться на\r\nОблыковий запис: зміна стану рахунку
 [Protocol]
 Протокол
 [%s connected from another location]
@@ -270,21 +268,21 @@
 [%s login error, cancel reconnecting]
 %s помилка входу, перепідключення скасовано
 [%s login error (next retry (%d) in %d s)]
-
+%s помилка входу (далі повторювати (%d)% d s)
 [%s status error (next retry (%d) in %d s)]
-
+%s помилка статусу (далі повторювати (%d)% d s)
 [Status error (next retry (%d) in %d s)]
-
+Статус помилки (далі повторювати (%d)% d s)
 [%s\t(will be set to %s)\r\n]
 %s\t (% s)\r\n
 [Resetting status... (last try (%d)%s]
 Скидання статусу.. (остання спроба (%d)%s
 [Resetting status... (next retry (%d) in %d s)%s]
-
+Скидання стану... (далі повторювати (%d)% d s):% s
 [No internet connection seems available... (last try (%d))]
 Немає доступу до Інтернету (остання спроба (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
-
+Немає підключення до Інтернету, здається... (далі повторювати (%d)% d s)
 [Status was set ok]
 Статус встановлено
 [Giving up]
@@ -322,7 +320,7 @@
 [idleeeeeeee]
 очікування...
 [Set %s message for %s.]
-
+Встановлення %s повідомлення для %s.
 [<last>]
 <останній>
 [<current>]

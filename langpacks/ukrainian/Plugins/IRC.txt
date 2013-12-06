@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -71,14 +71,8 @@ ID користувача
 Інше
 [Reconnect]
 Перепідключення
-[Wait (s)]
-Чекати (с)
-[Retry count]
-Кількість спроб
 [Check every (s):]
 Перевіряти кожні (с):
-[SSL]
-
 [Don't check if more than (users):]
 Не перевіряти, якщо більше (користуванні):
 [User information]
@@ -146,7 +140,7 @@ ID користувача
 [Off]
 Вимк.
 [Host address]
-
+Адреса хоста
 [Server description]
 Коментар серверу
 [Network]
@@ -168,7 +162,7 @@ ID користувача
 [Online detection mode]
 Режим визначення в мережі
 [Basic]
-
+Базово
 [Wildcard enabled network search]
 Wildcard пошук по мережі
 [Channel manager]
@@ -260,7 +254,7 @@ Wildcard пошук по мережі
 [(*) Queries from users on your contact list are never ignored]
 (*) Не ігнорувати запити від користувачів зі списку
 [Queries]
-
+Цитата
 [Messages]
 Повідомлення
 [Notices]
@@ -354,7 +348,7 @@ Jerk
 [The buddy check function is disabled]
 Функція перевірки приятелів вимкнена
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-
+Некоректні параметри. Використання: /sleep [ms], мс - повинно бути більше 0 і менше, ніж 4000.
 [Ignore system is enabled]
 Система ігнорування ввімк.
 [Ignore system is disabled]
@@ -723,18 +717,16 @@ Nickserv вбити фантома
 &Додати в контакти
 [Connecting to]
 З'єднання з
-[Reconnecting to]
-Підключаюся до
 [Offline]
 Не в мережі
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-
+Швидше! Шукає в мережі точний збіг ніку. В хостамаска є опціональною і забезпечує додаткову безпеку при використанні. Символи підстановки (? і *) дозволені.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-
+Повільніше! Шукає в мережі нікі відповідні з шаблоном рядка. В хостмаске є обов'язковим і не менше 4-х символів необхідно в полі "Нік" поле. Символи підстановки (? і *) дозволено.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Настройки не збережені.\n\nПоле "Псевдонім" має містити як мінімум чотири знаки (включаючи маски) і збігатися з псевдонімом за замовчуванням для цього контакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-
+Налаштування не можуть бути збережені!\n\nA повна хостмаска повинна бути встановлена для цього онлайн-режиму виявлення, щоб працювати.
 [Please wait...]
 Будь ласка, зачекайте...
 [Channel]
@@ -742,7 +734,7 @@ Nickserv вбити фантома
 [Mode]
 Режим
 [%s - Filtered - %d items]
-
+%s - відфільтровано - %d пунктів
 [---- Not listed server ----]
 ----Сервер поза списком---
 [Type new server address here]

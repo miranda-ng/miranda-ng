@@ -510,6 +510,8 @@
 Сніг, 80% імовірність опадів
 [Snow 70% Chance Of Precipitation]
 Сніг, 70% імовірність опадів
+[Light Snow 30% Chance Of Precipitation] 
+Слабкий сніг, 30% імовірність опадів
 [Light Blowing Snow]
 Завірюха
 [Snow Freezing Rain Mist]

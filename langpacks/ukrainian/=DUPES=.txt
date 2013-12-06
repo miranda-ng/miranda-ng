@@ -347,7 +347,7 @@
 Вимкнено
 [Disconnects]
 Відключення
-[Dismiss Popup]
+[Dismiss popup]
 Закрити
 [Dismiss]
 Прибрати

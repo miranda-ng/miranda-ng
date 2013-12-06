@@ -8,7 +8,7 @@
 [Plugin replaces MessageBoxes [whose have only OK button] into Popups.]
 Плагін замінює Вікно повідомленнь [у якого є тільки кнопка OK] у спливаючіх вікнах.
 [ASTERISK style]
-Стил ЗІРОЧКИ
+ASTERISK стиль 
 [Background]
 Фон
 [Foreground]
