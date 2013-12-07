@@ -674,7 +674,7 @@ URL:
 [Hide &offline users out here]
 Скрыть отключённых вне группы
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-Скрыть из списка (останутся история и настройки видимости)
+Скрыть из списка (останутся история и настройки игнорирования/видимости)
 [Hide Miranda]
 Скрыть список контактов
 [History for %s]
