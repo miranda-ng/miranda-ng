@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -41,7 +41,7 @@ Automatycznie dołącz po zaproszeniu
 [Update online statuses for users]
 Aktualizuj statusy połączonych kontaktów
 [Update statuses in channel nicklist]
-Aktualizuj statust na liście użytkowników kanału
+Aktualizuj statusy na liście użytkowników kanału
 [Internet address]
 Adres internetowy
 [Port range]
@@ -70,12 +70,6 @@ Sieć domyślna
 Inforamcje użytkownika - Wymagane
 [Other]
 Inne
-[Reconnect]
-Połącz ponownie
-[Wait (s)]
-Czekaj (s)
-[Retry count]
-Powtórne liczenie
 [Check every (s):]
 Sprawdzaj co (s):
 [SSL]
@@ -213,7 +207,7 @@ Normalne
 [Send-ahead]
 Wyślij z wyprzedzeniem
 [Attempt reverse DCC (good if firewalled)]
-Spróbuj odwrócoego DCC (dobre, gdy za firewallem)
+Spróbuj odwróconego DCC (dobre, gdy za firewallem)
 [none]
 brak
 [everyone on the contact list]
@@ -259,7 +253,7 @@ Ignoruj żądania rozmów DCC od nieznanych kontaktów
 [Ignore users]
 Ignoruj użytkowników
 [(*) Queries from users on your contact list are never ignored]
-(*) Zapytania użytkowników z listy kontaktów nigdy nie są igonorowane
+(*) Zapytania użytkowników z listy kontaktów nigdy nie są ignorowane
 [Queries]
 Zapytania
 [Messages]
@@ -293,7 +287,7 @@ Alternatywny nick
 [%s sets mode %s%s]
 %s ustawił tryb %s%s
 [CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
-BŁĄD CTCT: Otrzymano niewłaściwie sformowane polecenie CTCP od %s!%s@%s. Zarejestrowano potencjalną próbę przejęcia kontroli nad twoim klientem irc.
+BŁĄD CTCT: Otrzymano niewłaściwie sformowane polecenie CTCP od %s!%s@%s. Zarejestrowano potencjalną próbę przejęcia kontroli nad twoim klientem IRC.
 [CTCP FINGER requested by %s]
 Żądanie CTCP FINGER od %s
 [CTCP VERSION requested by %s]
@@ -542,9 +536,9 @@ WallOps od %s:
 [These are online: ]
 Online są:
 [CTCP %s reply sent to %s]
-Odpowiedź CTCP %s wyslano do %s
+Odpowiedź CTCP %s wysłano do %s
 [CTCP %s reply sent to %s: %s]
-Odpowiedź CTCP %s wyslano do %s: %s
+Odpowiedź CTCP %s wysłano do %s: %s
 [Notice to %s: ]
 Powiadomienie do %s:
 ;file \protocols\IRCG\src\services.cpp
@@ -732,8 +726,6 @@ Dodaj do listy ignorowanych
 Dodaj użytkownika
 [Connecting to]
 Połącz do
-[Reconnecting to]
-Łączenie ponowne z
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Rozłączony
@@ -741,9 +733,9 @@ Rozłączony
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Szybciej! Przeszukuje sieć w poszukiwaniu tylko dokładnego dopasowania nicka. Maska hosta jest opcjonalna i zapewnia większe bezpieczeństwo, jeżeli jest używana. Znaki (? oraz *) są dozwolone.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-Wolniej! przeszukuje sieć w poszukiwaniu nicka pasującego do ciągu znaków. Maska hosta jes obowiązkowa, a w polu nick muszą zostać użyte przynajmniej 4 znaki. Znaki (? oraz *) są dozwolone.
+Wolniej! przeszukuje sieć w poszukiwaniu nicka pasującego do ciągu znaków. Maska hosta jest obowiązkowa, a w polu nick muszą zostać użyte przynajmniej 4 znaki. Znaki (? oraz *) są dozwolone.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Ustawienia nie  mogły zostać zapisane!\n\nPole "Nick" musi zawierać conajmniej 4 znaki, wliczając w to znaki specjalne,\noraz musi ono być zgodne z domyślnym nickiem tego kontaktu.
+Ustawienia nie  mogły zostać zapisane!\n\nPole "Nick" musi zawierać co najmniej 4 znaki, wliczając w to znaki specjalne,\noraz musi ono być zgodne z domyślnym nickiem tego kontaktu.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Ustawienia nie mogły zostać zapisane!\n\nPełna maska hosta musi zostać podana, by ten tryb wykrywania dostępności mógł działać.
 ;file \protocols\IRCG\src\windows.cpp

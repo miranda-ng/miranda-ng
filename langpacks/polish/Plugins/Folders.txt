@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
-Pozwala wtyczkom zapisywać dane do folderów wybranych przez użytkownika; współpracuje z wtyczką variables.
+Pozwala wtyczkom zapisywać dane do folderów wybranych przez użytkownika; wspiera zmienne.
 ;file \plugins\Folders\res\folders.rc
 [Dialog]
 Okno
@@ -78,7 +78,7 @@ zostanie rozwinięte do 'c:\\program files\\miranda ng\\profiles\\default'
 [will expand to 'c:\\program files\\miranda ng\\plugins\\config']
 zostanie rozwinięte do 'c:\\program files\\miranda ng\\plugins\\config
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
-Zauważ, że spacje na początku i końcu ciągu są przycięte, zarówno jak ostatni.
+Zauważ, że spacje na początku i końcu ciągu są przycięte, zarówno jak i ostatnia.
 [Folders]
 Foldery
 [Customize]

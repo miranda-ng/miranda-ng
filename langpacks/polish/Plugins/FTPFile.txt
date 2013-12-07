@@ -177,7 +177,7 @@ Wysyłanie pliku
 [Zip and upload file]
 Spakuj i załaduj plik
 [You have to fill FTP server setting before upload a file.]
-Musisz uzupełnić ustawienia serwra przed wysłaniem pliku.
+Musisz uzupełnić ustawienia serwera przed wysłaniem pliku.
 [Error has occurred while trying to create a dialog!]
 Wystąpił błąd podczas tworzenia okna!
 [File upload complete]
@@ -236,12 +236,12 @@ Wystąpił błąd FTP.\n%s
 [Download link:]
 Link do pobrania pliku:
 [Do you really want to cancel running upload?]
-Czy napewno chcesz anulować wysyłanie?
+Czy na pewno chcesz anulować wysyłanie?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
 %s\r\nSzybkość: %s\r\nZakończono: %s\r\nPozostało: %s
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
-Musisz wypełnić dane co najmniej jednego serweru FTP oraz włączyć go w ustawieniach.
+Musisz wypełnić dane co najmniej jednego serwera FTP oraz włączyć go w ustawieniach.
 [Clear All]
 Wyczyść wszystko
 ;file \plugins\FTPFileYM\src\options.cpp

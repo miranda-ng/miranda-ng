@@ -35,7 +35,7 @@ Dół-Lewy
 [Item colors]
 Kolory
 [First color]
-Pierszy kolor
+Pierwszy kolor
 [Text color]
 Kolor tekstu
 [Second color]
@@ -43,7 +43,7 @@ Drugi kolor
 [Transparent]
 Przeźroczysty
 [Alpha (percent)]
-Alpha (procent)
+Alfa (procent)
 [Item margins]
 Marginesy
 [Item borders]

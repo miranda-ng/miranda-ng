@@ -251,7 +251,7 @@ Zhuki
 [Web search]
 Szukaj w internecie
 [Update all users info]
-Zaktualizuj infromacje wszystkich użytkowników
+Zaktualizuj informacje wszystkich użytkowników
 [Check users avatars updates]
 Sprawdź aktualizacje awatarów
 [Request authorization for all]

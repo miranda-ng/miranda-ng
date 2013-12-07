@@ -105,7 +105,7 @@ BŁĄD
 [%s has joined.]
 % dołączył.
 [%s has left.]
-%s opóścił czat
+%s opuścił czat
 [The topic is %s.]
 Temat: %s.
 [Error]

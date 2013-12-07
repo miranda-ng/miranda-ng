@@ -11,7 +11,7 @@ Narzędzie do sprawdzania i naprawy bazy danych Mirandy NG.
 [Welcome to the Miranda Database Wizard]
 Witamy w kreatorze profilu
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-Za pomocą tego narzędzia możesz skompaktować bazę danych Mirandy poprzez usunięcie martwej przestrzeni utworzonej podczas używania komunikatora oraz naprawić błędy mogące wpływać na bazę danych. 
+Za pomocą tego narzędzia możesz skompresować bazę danych Mirandy poprzez usunięcie martwej przestrzeni utworzonej podczas używania komunikatora oraz naprawić błędy mogące wpływać na bazę danych.
 [To continue, click Next.]
 Aby kontynuować kliknij Dalej
 [This program is licenced under the terms of the GNU General Public License.]
@@ -41,7 +41,7 @@ Wystąpił błąd podczas otwierania profilu.
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
 Kliknij przycisk Dalej, aby spróbować ponownie otworzyć plik, lub kliknij przycisk Wstecz, aby wybrać nowy profil.
 [The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
-Plik może być używany przez aktualnie uruchomioną Mirandę. Zamknij wszystkie uruchomione Mirandy i kliknij przycisk Dalej, aby ponowić. 
+Plik może być używany przez aktualnie uruchomioną Mirandę. Zamknij wszystkie uruchomione Mirandy i kliknij przycisk Dalej, aby ponowić.
 [File Access Options]
 Opcje dostępu pliku
 [You can select low level options to determine how the database is processed.]
@@ -53,7 +53,7 @@ Tworzy kopię zapasową profilu przed wprowadzeniem zmian.
 [Aggressively find corruption]
 Agresywne wyszukiwanie błędnych wpisów
 [Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
-Skanuje bazę danych, która nie jest związana z żadnymi innymi danymi. Wymaga to więcej czasu i miejsca na dysku, więc wymagane jest tylko w przypadku wystąpienia błędnych wpisów. 
+Skanuje bazę danych, która nie jest związana z żadnymi innymi danymi. Wymaga to więcej czasu i miejsca na dysku, więc wymagane jest tylko w przypadku wystąpienia błędnych wpisów.
 [Check consistency only]
 Sprawdź tylko spójność danych
 [Just checks that the database is valid, without writing anything to the disk.]

@@ -153,7 +153,7 @@ Przyklejone kontakty
 [Clear all]
 Wyczyść wszystko
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Używając listy kontaktów po lewej stonie, możesz wybrać kontakty, które będą "przyklejone" do tego widoku. Te kontakty będą ignorować standardowe reguły filtrowania i używać tylko poniższego filtru trybu statusu.
+Używając listy kontaktów po lewej stronie, możesz wybrać kontakty, które będą "przyklejone" do tego widoku. Te kontakty będą ignorować standardowe reguły filtrowania i używać tylko poniższego filtru trybu statusu.
 [Protocol]
 Protokół
 [Group]
@@ -183,13 +183,13 @@ Poziome wyrówn.
 [Multiline status bar:]
 Wielolinijkowy pasek statusu:
 [Accounts per line]
-Protokołów w lini
+Protokołów w linii
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
-* Aby zwiększyć wysykość paska statusu - ustaw w głównym menu: Ramki -> Pasek statusu -> Pokaż pasek tytułu i wtedy pociągnij widoczny pasek w górę lub dół.
+* Aby zwiększyć wysokość paska statusu - ustaw w głównym menu: Ramki -> Pasek statusu -> Pokaż pasek tytułu i wtedy pociągnij widoczny pasek w górę lub dół.
 [Hold [Shift] to inverse [Right Click] behavior]
 SHIFT+PPM wywołuje menu główne.
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
-CTRL+LPM filtruje protokoły. Kliknięcie w pustą przestrzeń pokazuje wszystkie.
+Ctrl+LPM filtruje protokoły. Kliknięcie w pustą przestrzeń pokazuje wszystkie.
 [Set options per account]
 Ustaw opcje dla każdego konta
 [Enable custom account settings]
@@ -213,7 +213,7 @@ Pokaż status jako nakładkę
 [Status overlay opacity is 75%]
 Widoczność nakładki statusu - 75%
 [Show unread emails (if supported)]
-Pokaż nieprzeczytane emaile (jeśli obsługiwane)
+Pokaż nieprzeczytane maile (jeśli obsługiwane)
 [Right click opens status menu]
 PPM otwiera menu statusu
 [Right click opens Miranda menu]
@@ -231,7 +231,7 @@ Tak
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Tylko ukryj na liście by zatrzymać ustawienia ignorowania/widoczności.
 [Use Options->Contacts->Ignore to unhide contacts.]
-Użyj Opcje -> Kontakty -> Ignorowanie by pokazac kontakty.
+Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 [Are you sure you want to delete %s?]
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
@@ -277,7 +277,7 @@ Rozciągnij do góry
 [Behavior]
 Zachowanie
 [Lock manual resize]
-Zablokuj ręczną zmianię rozmiaru
+Zablokuj ręczną zmianę rozmiaru
 [Drag to]
 Przeciągnij do
 [Easy Scroll]
@@ -491,7 +491,7 @@ wysokość
 [Max width]
 Maks. szerokość
 [Use old render method (fast, but has artefacts)]
-Użyj starej metody renederowania (szybka, ale z artefaktami)
+Użyj starej metody renderowania (szybka, ale z artefaktami)
 [Hide icon when showing avatar]
 Ukryj ikonę, gdy pokazany jest awatar
 [Draw icon in avatar space]
@@ -680,7 +680,7 @@ Chcesz dodać kontakt "%s" do metakontaktu "%s"?
 [Adding contact to MetaContact]
 Dodawanie kontaktu do metakontaktu
 [Do you want contact '%s' to be default?]
-Chcesz żeby "%s" był domyslnym kontaktem?
+Chcesz żeby "%s" był domyślnym kontaktem?
 [Set default contact]
 Ustaw domyślny kontakt
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
@@ -868,7 +868,7 @@ Trzecia linia
 (Nieznany kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
-Szukaj/dodaj kontakty...
+Szukaj/Dodaj kontakty...
 [&Options...]
 Opcje...
 [&About]
@@ -916,7 +916,7 @@ Ukryj wszystkie paski tytułów
 [Lock Frame]
 Zablokuj ramkę
 [Show TitleBar]
-Pokaż pasek tutułu
+Pokaż pasek tytułu
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
 [GroupMenu]
 Menu grupy
@@ -932,7 +932,7 @@ Ogólne
 [Restore last status]
 Przywróć ostatni status
 [Show/Hide Offline Users]
-Pokaż/ukryj rozłączonych
+Pokaż/Ukryj rozłączonych
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Pusta komórka %s
@@ -952,7 +952,7 @@ linie
 [- Empty - (do not draw this object)]
 - pusty - (nie rysuj tego objektu)
 [Solid fill object]
-Stałe wypełnienie objektu
+Stałe wypełnienie obiektu
 [Image (draw image)]
 Obraz (rysuj obraz)
 [Fragment (draw portion of image)]
@@ -1004,7 +1004,7 @@ Podgląd jest niedostępny\n\n%s\n----------------------\n\n%s\n\nAutor(zy):\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nAutor(zy):\n%s\n\nKontakt:\n%s\n\nStrona domowa:\n%s\n\n\n
 [graphics by Angeli-Ka\ntemplate by FYR]
-Grafika Angeli-Ka\nSzablon FYR
+Grafika: Angeli-Ka\nSzablon: FYR
 [Select skin from list]
 Wybierz skórkę z listy
 [Please select skin to apply]
@@ -1031,7 +1031,7 @@ Konta
 [Accounts...]
 Konta...
 [Show/Hide offline contacts]
-Pokaż/ukryj rozłączonych
+Pokaż/Ukryj rozłączonych
 [Hide offline contacts]
 Ukryj rozłączone kontakty
 [Show offline contacts]
@@ -1039,13 +1039,13 @@ Pokaż rozłączone kontakty
 [Find user]
 Szukaj kontaktu
 [Use/Disable groups]
-Włącz/wyłącz grupy
+Włącz/Wyłącz grupy
 [Use groups]
 Pokaż grupy
 [Disable Groups]
 Wyłącz grupy
 [Enable/Disable sounds]
-Włącz/wyłącz dźwięki
+Włącz/Wyłącz dźwięki
 [Enable sounds]
 Włącz dźwięki
 [Disable sounds]
@@ -1084,7 +1084,7 @@ Filtrowanie
 [Configure view modes]
 Ustaw tryb widoku
 [Really delete this view mode? This cannot be undone]
-Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąc.
+Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
 [Delete a view mode]
 Usuwanie trybu widoku
 [A view mode with this name does alredy exist]

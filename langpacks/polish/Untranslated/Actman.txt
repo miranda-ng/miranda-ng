@@ -7,7 +7,6 @@
 [Contact related]
 [Data align]
 [Packed]
-[data]
 [Structure help]
 [Descr]
 [Miranda service help]

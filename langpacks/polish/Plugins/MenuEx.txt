@@ -49,7 +49,7 @@ Pokaż ID w menu
 [Trim too long ID]
 Skracaj długie ID
 [* Use Ctrl+click to see popup with the copied text]
-* Użyj Ctrl+klick aby zobaczeć dodatkowe opcje
+* Użyj Ctrl+klick aby zobaczyć dodatkowe opcje
 [Hide contact on 'Ignore all']
 Ukryj gdy 'Zablokowany'
 ;file \plugins\MenuItemEx\src\main.cpp

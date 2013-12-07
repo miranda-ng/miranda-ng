@@ -39,7 +39,7 @@ Błąd wysyłania kontaktu
 [An error has occurred. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
 [Try again]
-Spróboj ponownie
+Spróbuj ponownie
 [Popup]
 Popup
 [Add to List]

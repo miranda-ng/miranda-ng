@@ -13,13 +13,13 @@ Ustaw
 [Delete]
 Usuń
 [Start Skype with Miranda NG if not running using the following command line options:]
-Uruchom Skype wraz z Mirandą(jeśli nie jest jeszcze uruchomiony) używając następujących parametrów:
+Uruchom Skype wraz z Mirandą (jeśli nie jest jeszcze uruchomiony) używając następujących parametrów:
 [/NOSPLASH - Don't show splash screen on startup]
 /NOSPLASH - nie pokazuj okna powitalnego podczas uruchamiania
 [/MINIMIZED - Start Skype minimized]
-/MINIMIZED - uruchom Skype zminimalizowane
+/MINIMIZED - uruchom Skype zminimalizowany
 [/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
-/NOTRAY - ikona Skype w zasobniku staje się szara, dzięki czemu jest ""niewidoczna"
+/NOTRAY - ikona Skype w zasobniku staje się szara, dzięki czemu jest "niewidoczna"
 [/REMOVEABLE - For running portable Skype]
 /REMOVEABLE - w celu uruchomienia przenośnej kopii Skype
 [/SECONDARY - This is the second instance]
@@ -33,11 +33,11 @@ Używaj własnego pliku wykonywalnego Skype
 [Shutdown Skype when you close Miranda NG]
 Zamknij Skype wraz z Mirandą
 [Unload Skype when you change to Offline status]
-Zamknij Skype, gdy zmieniasz status na rozłączony
+Zamknij Skype, gdy zmieniasz status na Rozłączony
 [Try at least]
 Spróbuj przynajmniej
 [times to connect to Skype API before giving up]
-razy połączyć się z API  Skype przed zaniechaniem
+razy połączyć się z API Skype przed zaniechaniem
 [User name:]
 Użytkownik:
 [Password:]
@@ -91,13 +91,13 @@ WWW:
 [Save]
 Zapisz
 [Enable Skype menu options (currently: Find/Add user)]
-Włącz elementy menu Skype (obecnie Szukaj/dodaj kontakty)
+Włącz elementy menu Skype (obecnie Szukaj/Dodaj kontakty)
 [Use popup plugin for displaying messages]
 Używaj wtyczki Popup do wyświetlania komunikatów
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
 Ignoruj wszystkie komunikaty o błędach (niezalecane, ale jeżeli cię denerwują... ;)
 [Use group chat interface for conversations (requires group chat module)]
-Używaj interfejjsu rozmów grupowych dla konwersacji(wymaga modułu czatów grupowych)
+Używaj interfejsu rozmów grupowych dla konwersacji (wymaga modułu czatów grupowych)
 [Mark group chat message as read to avoid notification]
 Oznacz wiadomości z czatów grupowych jako przeczytane, aby uniknąć powiadomienia
 [Keep requested online status on startup under every circumstance]
@@ -190,7 +190,7 @@ Przychodząca rozmowa od %s
 [Connection to Skype lost]
 Utracono połączenie ze Skype
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
-Wygląda na to, że poraz pierwszy uruchamiasz wtyczkę protokołu Skype. Czy chcesz włączyć protokół dla tego profilu Mirandy? Jeżęli wybierzesz "nie" możesz to później zmienić w opcjach wtyczek.
+Wygląda na to, że po raz pierwszy uruchamiasz wtyczkę protokołu Skype. Czy chcesz włączyć protokół dla tego profilu Mirandy? Jeżeli wybierzesz "Nie" możesz to później zmienić w opcjach wtyczek.
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]
 Podgląd komunikatu błędu

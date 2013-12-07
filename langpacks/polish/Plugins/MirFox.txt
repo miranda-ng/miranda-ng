@@ -81,4 +81,4 @@ Ten plugin MirFox (Miranda) jest nieaktualny. Zaktualizuj go.
 [MirFox (Miranda) - Error]
 MirFox (Miranda) - Błąd
 [This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
-Nie można uruchomić pluginu MirFox (Miranda), inny komponent MirFox jest nieaktualny. Sprawdź i zaktualizuj komponenty MirFox.
+Nie można uruchomić wtyczki MirFox (Miranda), inny komponent MirFox jest nieaktualny. Sprawdź i zaktualizuj komponenty MirFox.

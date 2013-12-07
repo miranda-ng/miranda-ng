@@ -6,4 +6,4 @@
 ;  Authors: Merlin_de, Victor Pavlychko
 ;============================================================
 [Provides text render API for different plugins.]
-Zapenia obsługę API renderowania tekstów dla różnych wtyczek.
+Zapewnia obsługę API renderowania tekstów dla różnych wtyczek.

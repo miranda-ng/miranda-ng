@@ -43,7 +43,7 @@ Wysyłaj do rozłączonego
 [Set default contact on receipt of message]
 Ustaw domyślny kontakt po otrzymaniu wiadomości
 [Always send to default contact if not offline]
-Zawsze wysyłaj do domyślnego kontaktu jeśi nie jest rozłączony
+Zawsze wysyłaj do domyślnego kontaktu jeśli nie jest rozłączony
 [Options]
 Opcje
 [Suppress status notification for subcontacts]
@@ -240,15 +240,15 @@ Nie udało się zapisać unikalnego ID kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nie udało się zapisać nicka kontaktu do metakontaktu
 [Subcontact contact number < 0 - deleting MetaContact]
-Podkontakt kontakt liczba < 0 - usuwanie metakontaktu
+Subkontakt kontakt liczba < 0 - usuwanie metakontaktu
 [Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-Podkontakt kontakt liczba (%d) > liczba kontaktów w meta (%d) - usuwanie metakontaktu
+Subkontakt kontakt liczba (%d) > liczba kontaktów w meta (%d) - usuwanie metakontaktu
 [Subcontact's MetaContact not found - deleting MetaContact data]
 Subkontakt metakontaktu nie został znaleziony - usuwanie metakontaktu
 [MetaContact number of contacts < 0 - deleting MetaContact]
 Liczba kontaktów w metakontakcie < 0 - usuwanie metakontaku
 [MetaContact default contact number out of range - deleting MetaContact]
-Domyslna liczba kontaktu poza zakresem - usuwanie metakontaktu
+Domyślna liczba kontaktu poza zakresem - usuwanie metakontaktu
 [Meta ID: ]
 Meta ID:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]

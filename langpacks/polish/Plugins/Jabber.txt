@@ -753,10 +753,10 @@ Nie można przesyłać danych, gdy jesteś rozłączony.
 [Jabber Error]
 Błąd Jabbera
 [Outgoing XML parsing error]
-Błąd parsowania XML wychadzącego
+Błąd parsowania XML wychodzącego
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
-czas zapytania miną.
+czas zapytania minął.
 [Node hierarchy]
 Hierarchia węzłów
 [Node]
@@ -1088,7 +1088,7 @@ Może wysyłać powiadomienia o stanie w czatach (według XEP-0085)
 [Whether allowed to use XHTML-IM formatting per XEP-0071]
 Zezwolić na używanie formatowania wiadomości XHTML według XEP-0071
 [Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
-Pierwszy język pisany czatu (każda wartość pojawia się w preferowaneym porządku i odpowiada RFC 4646 oraz rejestrowi IANA)
+Pierwszy język pisany czatu (każda wartość pojawia się w preferowanym porządku i odpowiada RFC 4646 oraz rejestrowi IANA)
 [Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
 Zezwolić na logowanie wiadomości (czyli tryb Off-The-Record jest wymagany)
 [Whether to renegotiate the session]
@@ -1812,7 +1812,7 @@ Przesyłanie...
 [Downloading...]
 Pobieranie...
 [XML for MS Excel (UTF-8 encoded)]
-XML dla MS Exel (UTF-8 encoded)
+XML dla MS Excel (UTF-8 encoded)
 [Connecting...]
 Łączenie...
 [Network]
@@ -2175,7 +2175,7 @@ Nieznany błąd
 [Error]
 Błąd
 [Unknown error message]
-Nieznany bląd
+Nieznany błąd
 [Advanced Status]
 Zaawansowany status
 [Set mood...]

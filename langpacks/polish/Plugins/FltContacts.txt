@@ -78,7 +78,7 @@ Krycie:
 [Standard contacts]
 Standardowe kontakty
 [Online contacts to whom you have a different visibility]
-Połączone kontakty, dla których mam różną widoczność 
+Połączone kontakty, dla których mam różną widoczność
 [Offline contacts]
 Kontakty "Rozłączone"
 [Offline contacts to whom you have a different visibility]
@@ -94,7 +94,7 @@ Ukryj pływające kontakty
 [Remove thumb]
 Usuń pływające kontakty
 [Show/Hide all thumbs]
-Pokaż/ukryj wszystkie kontakty
+Pokaż/Ukryj wszystkie kontakty
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Pływające kontakty

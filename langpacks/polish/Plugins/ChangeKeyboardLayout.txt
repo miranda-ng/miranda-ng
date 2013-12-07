@@ -21,7 +21,7 @@ Zamiana wielkości liter:
 [Options]
 Opcje
 [Two-way changing layout (experimental)]
-Dwóstronna zmiana układu (eksperymentalne)
+Dwustronna zmiana układu (eksperymentalne)
 [Log operations]
 Zapisuj operacje
 [Copy result to clipboard]

@@ -6,7 +6,7 @@
 ;  Authors: 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
-Wyświetla kontakty, powiadomienia o zdarzeniach, status protokołu z modyfikacjami wielo-okiennymi.
+Wyświetla kontakty, powiadomienia o zdarzeniach, status protokołu z modyfikacjami wielookiennymi.
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Ustawienia
@@ -55,7 +55,7 @@ Tak
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Tylko ukryj na liście by zatrzymać ustawienia ignorowania/widoczności.
 [Use Options->Contacts->Ignore to unhide contacts.]
-Użyj Opcje -> Kontakty -> Ignorowanie by pokazac kontakty.
+Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 [Are you sure you want to delete %s?]
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
@@ -211,7 +211,7 @@ Unikaj rozwijania podwójnym kliknięciem
 [Hide all 'Extra icons' for subcontacts]
 Ukryj wszystkie "dodatkowe ikony" dla subkontaktów
 [MetaContacts supporting]
-Wsparcie dla Metakontaktów
+Wsparcie dla metakontaktów
 [Ignore Empty Extra icons places (arrange to right).]
 Ignoruj puste miejsca na ikony (przesuń do prawej).
 [Hide offline subcontacts.]
@@ -269,7 +269,7 @@ Poszedłem na obiad\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/ukryj
+Pokaż/Ukryj
 [Nowhere]
 Nigdzie
 [&New Group]
@@ -303,9 +303,9 @@ Tło
 [Standard contacts]
 Standardowe kontakty
 [Online contacts to whom you have a different visibility]
-Połączone kontakty, dla których mam różną widoczność 
+Połączone kontakty, dla których mam różną widoczność
 [Offline contacts]
-Kontakty "Rozłączone"
+Rozłączone kontakty
 [Contacts which are 'not on list']
 Kontakty spoza listy
 [Group member counts]
@@ -334,7 +334,7 @@ Lista
 [List Background]
 Tło listy
 [List MetaContacts]
-Lista Metakontaktów
+Lista metakontaktów
 [StatusBar Background]
 Tło paska statusu
 [Not focused]

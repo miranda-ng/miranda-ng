@@ -27,7 +27,7 @@ Zamknij sesję podczas zamykania okna
 [End sessions when contacts go offline]
 Zamknij sesję kiedy kontakt jest rozłączony
 [Prefix encrypted IMs:]
-Prefix szyfrowanych wiadomości:
+Prefiks szyfrowanych wiadomości:
 [Don't add encrypted messages to the history]
 Nie dodawaj szyfrowanych wiadomości do historii
 [Also remove OTR system messages]
@@ -41,7 +41,7 @@ Czas oczekiwania sesji MINĄŁ, powrót do rozmowy CZYSTYM TEKSTEM (trzymaj się
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
 [Set OTR policy per protocol]
-Ustaw politylkę OTR indywidualnie dla każdego protokołu
+Ustaw politykę OTR indywidualnie dla każdego protokołu
 [Current policy:]
 Obecna polityka:
 [Generate new private key]

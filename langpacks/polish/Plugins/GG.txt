@@ -156,20 +156,20 @@ Równoległe sesje logowania %s\nWyświetl informacje o aktywnych równoległych
 Wyloguj wszystkie sesje
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-Nie można utowrzyć folderu cache awatarów. BŁĄD: %d: %s\n%s
+Nie można utworzyć folderu cache awatarów. BŁĄD: %d: %s\n%s
 [Cannot create avatar file. ERROR: %d: %s\n%s]
-Nie można utowrzyć pliku awatara. BŁĄD: %d: %s\n%s
+Nie można utworzyć pliku awatara. BŁĄD: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 Nie można otworzyć pliku awatara. BŁĄD: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda nie mogła ustalić IP serwera Gadu-Gadu na podstawie nazwy hosta.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
-Miranda nie była w stanie nawiązać połaczenia z serwerem. Prawdopodobnie serwer jest nieosiągalny. Odczekaj chwilę i spróbuj ponownie.
+Miranda nie była w stanie nawiązać połączenia z serwerem. Prawdopodobnie serwer jest nieosiągalny. Odczekaj chwilę i spróbuj ponownie.
 [Received invalid server response.]
 Otrzymano niepoprawną odpowiedź od serwera.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-Podczas próby nawiązania połaczenia z serwerem łączność została przerwana. Być może straciłeś połączenie z internetem.
+Podczas próby nawiązania połączenia z serwerem łączność została przerwana. Być może straciłeś połączenie z internetem.
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
 Twój numer i hasło zostały odrzucone przez serwer Gadu-Gadu. Sprawdź dane logowania Opcje -> Protokoły -> Gadu-Gadu i spróbuj ponownie.
 [Connecting to Gadu-Gadu hub failed.]
@@ -249,9 +249,9 @@ Twoje dane zostały wysłane do katalogu publicznego.
 Musisz być zalogowany, żeby zmienić swoje dane.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
-Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
+Nie można utworzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
-Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc7)\n%s
+Nie można utworzyć transferu plików. BŁĄD: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
 HTTP błąd pamięci
@@ -436,7 +436,7 @@ Nie można zarejestrować konta z powodu błędu:\n\t%s
 [Registration rejected]
 Rejestracja została odrzucona
 [You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
-Zarejestrowałeś nowe konto.\nProszę swoje dane w "Menu -> Pokaż/zmień moje dane..."
+Zarejestrowałeś nowe konto.\nProszę swoje dane w "Menu -> Pokaż/Zmień moje dane..."
 [Your account cannot be removed because of error:\n\t%s]
 Twoje konto nie może być usunięte z powodu błędu:\n\t%s
 [Bad number or password]

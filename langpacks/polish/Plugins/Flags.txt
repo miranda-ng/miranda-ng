@@ -13,7 +13,7 @@ Flagi państw
 [Show country flag as &status icon on message window]
 Pokaż ikonę kraju w oknie rozmowy
 [Show country flag as &extra image on contact list]
-Pokaż flagę kraju jako dodatkową ikonę na liście kontaków
+Pokaż flagę kraju jako dodatkową ikonę na liście kontaktów
 [Use &IP-to-country database for country detection]
 Użyj IP kraju do wykrycia flagi
 [Use &unknown flag if the country cannot be determined]

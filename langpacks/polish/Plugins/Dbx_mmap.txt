@@ -41,21 +41,30 @@ Błąd profilu
 Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z http://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz zamknięta.
 [Database Panic]
 Panika profilu
+;file \plugins\Db3x_mmap\src\dbintf.h
+[Change/remove password]
+Zmień/usuń hasło
+[Set password]
+Ustaw/Zmień hasło
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo
 [Password]
 Hasło:
+[Too many errors!]
+Zbyt wiele błędów!
+[Password is not correct!]
+Nieprawidłowe hasło!
+[Please type in your password]
+Proszę wprowadzić hasło
+[Wrong old password entered!]
+Złe stare hasło!
 [Password is too short!]
 Hasło jest za krótkie!
 [Passwords do not match!]
 Hasła nie pasują!
-[Wrong old password entered!]
-Złe stare hasło!
 [Database]
 Baza danych
-[Set password]
-Ustaw/Zmień hasło
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 Wykonywanie agresywnego przejścia
@@ -74,7 +83,7 @@ Uszkodzony łańcuch kontaktu, dalsze wpisy będą ignorowane
 [Invalid offset found (database truncated?)]
 Znaleziono nieprawidłowe przesunięcie (baza danych obcięta?)
 [Invalid offset found]
-Znaleziono nieprawidłową kompensate
+Znaleziono nieprawidłową przesunięcie
 [Error reading, database truncated? (%u)]
 Błąd odczytu, niekompletny plik profilu? (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]

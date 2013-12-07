@@ -68,7 +68,7 @@ Nowy przychodzący plik. Czy odebrać?
 [File transfer is paused because of dropped connection]
 Transfer plików wstrzymany z powodu utraconego połączenia
 [Failed on file initialization]
-Błąd inicializacji pliku
+Błąd inicjalizacji pliku
 [Paused...]
 Zatrzymano...
 [Synchronizing...]
@@ -82,7 +82,7 @@ Nie można pobrać rozmiaru pliku
 [Canceled by user]
 Anulowane przez użytkownika
 [Transfer is in progress. Do you really want to close?]
-Transfer w toku. Czy napewno chcesz zamknąć?
+Transfer w toku. Czy na pewno chcesz zamknąć?
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Graj

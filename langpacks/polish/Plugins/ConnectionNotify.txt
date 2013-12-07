@@ -78,7 +78,7 @@ Akcja
 [Plugins]
 Wtyczki
 [New Connection Notification]
-Powiadomienie O Nowym Połączeniu
+Powiadomienie o Nowym Połączeniu
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Najpierw zamknij okno opcji

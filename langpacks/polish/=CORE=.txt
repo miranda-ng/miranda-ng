@@ -2324,7 +2324,7 @@ Host, z którym się łączymy, nie jest tym, dla którego został wystawiony ce
 Wczytywanie... %d%%
 [%s options]
 %s opcje
-[Miranda NG Options]
+[Miranda NG options]
 Opcje Mirandy NG
 [&Options...]
 Opcje...
@@ -2363,8 +2363,6 @@ UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i 
 Twoje konto zostało pomyślnie zaktualizowane. Do jego aktywacji niezbędny jest restart Mirandy.\n\nJeśli chcesz zrestartować Mirandę teraz, naciśnij "Tak". Jeśli chcesz zaktualizować kolejne konto, naciśnij "Nie".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 To konto można skonfigurować w opcjach Mirandy NG.
-[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nZaznacz konto z listy po lewej by zobaczyć dostępne opcje. Alternatywnie, kliknij na '+' pod listą aby utworzyć nowe konto.
 [Create new account]
 Utwórz nowe konto
 [Editing account]
@@ -2373,7 +2371,7 @@ Edycja konta
 Aktualizowanie konta
 [Account name has to be unique. Please enter unique name.]
 Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
-[Account Error]
+[Account error]
 Błąd konta
 [Account is disabled. Please activate it to access options.]
 Konto jest wyłączone. Proszę je aktywować, by pokazać jego opcje.
@@ -2439,11 +2437,11 @@ Zasięg systemowy
 [Miranda scope]
 Zasięg Mirandy
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Połączony użytkownik
-[Group (Open)]
+[Group (open)]
 Grupa (Otwarta)
-[Group (Closed)]
+[Group (closed)]
 Grupa (Zamknięta)
 [Connecting]
 Łączenie
@@ -2451,29 +2449,27 @@ Grupa (Zamknięta)
 Dane kontaktu
 [History]
 Historia
-[Down Arrow]
+[Down arrow]
 Strzałka w dół
-[Find User]
+[Find user]
 Szukaj kontaktu
-[Send E-mail]
-Wyślij e-mail
 [SMS]
 SMS
-[Search All]
+[Search all]
 Przeszukaj wszystko
 [Tick]
 Zaznaczone
-[No Tick]
+[No tick]
 Odznaczone
 [Help]
 Pomoc
 [Miranda website]
 Strona domowa Mirandy
-[Small Dot]
+[Small dot]
 Mała kropka
-[Filled Blob]
+[Filled blob]
 Wypełniona kropka
-[Empty Blob]
+[Empty blob]
 Pusta kropka
 [Unicode plugin]
 Wtyczka Unicode 
@@ -2491,7 +2487,7 @@ Wyłącz
 Menu główne
 [Leave chat]
 Opuść czat
-[Move to Group]
+[Move to group]
 Przenieś do grupy
 [On]
 Wł.
@@ -2515,29 +2511,29 @@ Zawsze widoczny
 Zawsze niewidoczny
 [Locked status]
 Zablokowany status
-[Status Icons]
+[Status icons]
 Ikony statusu
-[%s Icons]
+[%s icons]
 %s ikony
-[Main Icons]
+[Main icons]
 Główne ikony 
 ;file \src\modules\skin\sounds.cpp
-[Sound Files]
+[Sound files]
 Dźwięki
-[WAV Files]
+[WAV files]
 pliki WAV
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Potrzebujesz wtyczki do przetworzenia obrazu PNG.
-[All Bitmaps]
+[All bitmaps]
 Wszystkie mapy bitowe
-[Windows Bitmaps]
+[Windows bitmaps]
 Mapa bitowa Windows
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Mapa bitowa JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Mapa bitowa GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Mapa bitowa PNG
 ;file \src\modules\utils\path.cpp
 [Avatars]

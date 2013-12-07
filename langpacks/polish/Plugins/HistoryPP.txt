@@ -122,7 +122,7 @@ Wiadomość SMS
 [WebPager]
 WebPager
 [EMail Express]
-Email Express
+EMail Express
 [Other event]
 Inne zdarzenie
 [Global History Search]
@@ -176,7 +176,7 @@ Wszystkie wyniki
 [&System History]
 Historia systemowa
 [System History]
-Hisoria systemowa
+Historia systemowa
 [Searching "%s"...]
 Wyszukiwanie "%s"...
 [Stop]
@@ -642,7 +642,7 @@ Przykładowy SMS
 [Some Contact]
 Jakiś kontakt
 [System History (%s)]
-Historia ssytemowa (%s)
+Historia systemowa (%s)
 [System Message Sample]
 Fragment systemowej wiadomości
 [System Message]
@@ -698,7 +698,7 @@ Ostrzeżenie History++
 [%d min]
 %d min
 [&Reset to Default]
-Przywróć domyslne
+Przywróć domyślne
 [Contact history]
 Historia kontaktu
 [Incoming nick]

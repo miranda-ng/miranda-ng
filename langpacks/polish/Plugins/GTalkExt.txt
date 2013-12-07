@@ -21,7 +21,7 @@ Wyczyść historię pseudokontaktu przed dodaniem nowych zdarzeń
 [Mark history event read when popup closed]
 Oznacz zdarzenia historii jako przeczytane po zamknięciu popupu.
 [Add message snip to notification]
-Dodaj przyciętą wiadmość do powiadomienia
+Dodaj przyciętą wiadomość do powiadomienia
 [Try to login before open mailbox]
 Spróbuj się zalogować przed otwarciem skrzynki pocztowej
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]

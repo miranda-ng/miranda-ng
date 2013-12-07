@@ -75,7 +75,7 @@ Konto
 [Show account name]
 Pokaż nazwę konta
 [Show account cycle button]
-Pokaż przycik przełączania kont
+Pokaż przycisk przełączania kont
 [Set My Status Message for All Status]
 Ustaw mój opis dla wszystkich statusów
 [Status Message:]

@@ -135,7 +135,7 @@ Pokaż tylko wczytane
 [Show only &Unloaded]
 Pokaż tylko niewczytane
 [Edit &Bytes in Hex]
-Edytuj wartośći Byte w Hex
+Edytuj wartości Byte w Hex
 [Edit &Words in Hex]
 Edytuj wartości Word w Hex
 [Edit &Dwords in Hex]

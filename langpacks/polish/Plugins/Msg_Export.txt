@@ -29,7 +29,7 @@ Pomoc
 [Export all history]
 Eksportuj wszystko
 [Export directory]
-Folder ekportu
+Folder eksportu
 [Max column width]
 Szerokość
 [Time format]
@@ -147,7 +147,7 @@ Pliki wykonywalne
 [All files]
 Wszystkie pliki
 [Failed to get the shells allocator!]
-Nie udało się pobrać allokatora powłok!
+Nie udało się pobrać alokatora powłok!
 [Failed to Allocate buffer space]
 Nie można przydzielić miejsca w buforze
 [Select Destination Directory]
@@ -246,7 +246,7 @@ Powód    :
 [Invalid Database event received. Type %d, size %d]
 Otrzymano nieprawidłowe zdarzenie. Typ %d, rozmiar %d
 [Failed to write Invalid Database event the file :\n]
-Nie udało się zapisać nieprawidlowego zdarzenia do pliku:\n
+Nie udało się zapisać nieprawidłowego zdarzenia do pliku:\n
 [The following user made an authorization request:]
 Następujący użytkownik wysłał prośbę o autoryzację:
 [The following user added you to their contact list:]

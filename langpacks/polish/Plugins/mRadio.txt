@@ -18,11 +18,11 @@ Arena
 [Genre]
 Gatunek
 [Plain]
-Równiena
+Równina
 [Alley]
 Alejka
 [Dizzy]
-Przestrzeny
+Przestrzenny
 [Generic]
 Ogólny
 [Bathroom]
@@ -40,7 +40,7 @@ Hol wyłożony wykładziną
 [Play from first]
 Graj jako pierwszy
 [Shuffle playlist]
-Tasuj playliste
+Tasuj playlistę
 [Loop single media]
 Pętla jednego utworu
 [Station Name]
@@ -142,7 +142,7 @@ Zgrywanie
 [Status message template]
 Szablon opisu
 [Equalizer presets]
-Ustawienia poczatkowe Eq.
+Ustawienia początkowe Eq.
 [Export All]
 Eksportuj wszystko
 [Current status]

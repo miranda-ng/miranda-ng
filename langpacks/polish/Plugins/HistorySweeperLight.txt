@@ -63,6 +63,6 @@ Usuń wszystko
 [*** Defaut Action ***]
 *** Domyślna akcja ***
 [*** System History ***]
-*** System historii ***
+*** Historia systemowa ***
 [History]
 Historia

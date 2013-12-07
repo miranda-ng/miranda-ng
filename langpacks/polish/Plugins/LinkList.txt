@@ -13,7 +13,7 @@ Szukaj
 [Close]
 Zamknij
 [Search for:]
-Wyszykaj dla:
+Wyszukaj dla:
 [Message direction]
 Kierunek wiadomości
 [Message types]
@@ -147,7 +147,7 @@ Rezultatów wyszukiwania
 [Processing list...]
 Przetwarzanie listy...
 [No messages found!\nPlease change current filter options.]
-Nie znaleziono wiadomości!\nProszę zmienić bierzące opcje filtra.
+Nie znaleziono wiadomości!\nProszę zmienić bieżące opcje filtra.
 [RTF file]
 Plik RTF
 [All files]

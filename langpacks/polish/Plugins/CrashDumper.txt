@@ -29,7 +29,7 @@ Ogólne
 [Use classic dates]
 Użyj klasycznych dat
 [Create reports in subfolders naming as current date]
-Twórz raporty w subfolderach używając bieżącej daty
+Twórz raporty w podfolderach używając bieżącej daty
 [View]
 Pokaż
 [&Copy]
@@ -40,7 +40,7 @@ Kopiuj wszystko
 Zaznacz wszystko
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
-Informaje o wersji zachowano w pliku: %s
+Informacje o wersji zachowano w pliku: %s
 [VersionInfo file %s is inaccessible]
 Plik VersionInfo %s jest niedostępny
 [Services]

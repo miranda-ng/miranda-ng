@@ -55,7 +55,7 @@ Podgląd
 [Ignore these clients (separated by semicolons):]
 Ignoruj klientów (oddzielaj średnikami):
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
-(musisz zaisntalowac pcre.dll lub pcre3.dll do używania wyrażeń regularnych)
+(musisz zainstalować pcre.dll lub pcre3.dll do używania wyrażeń regularnych)
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [changed client to %s (was %s)]
 zmienił(a) klienta na %s (z %s)
@@ -74,7 +74,7 @@ Zawsze, z wyjątkiem sytuacji, gdy powiadomienia o zmianie klienta są wyłączo
 [Always, even when client change notifications are disabled globally]
 Zawsze, nawet gdy powiadomienia o zmianie klienta są wyłączone globalnie
 [Use global settings (default)]
-Użyj ustawień globlanych (domyślne)
+Użyj ustawień globalnych (domyślne)
 [Disable c&lient change notification]
 Wyłącz powiadomienia o zmianie klienta
 [Enable c&lient change notification]

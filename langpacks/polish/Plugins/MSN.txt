@@ -288,7 +288,7 @@ Wiadomość jest za długa: Wiadomości MSN są ograniczone do 1202 znaków UTF-
 Wysyłanie wiadomości Offline nie jest dozwolone dla kontaktów LCS
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-MSN wymaga, aby limit czasu wysyłania wiadomośći w opcjach wtyczki okna rozmowy nie był mniejszy niż 60 sekund. Proszę ustawić poprawną wartość.
+MSN wymaga, aby limit czasu wysyłania wiadomości w opcjach wtyczki okna rozmowy nie był mniejszy niż 60 sekund. Proszę ustawić poprawną wartość.
 [Convert to Chat]
 Konwertuj do czatu
 ;file \protocols\MSN\src\msn_ws.cpp

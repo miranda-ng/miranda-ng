@@ -9,7 +9,7 @@
 Powiadamia o nieprzeczytanych wiadomościach na serwerze Exchange.
 ;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
-Nieprzeczytane emaile
+Nieprzeczytane maile
 [Close]
 Zamknij
 [Mark as read]

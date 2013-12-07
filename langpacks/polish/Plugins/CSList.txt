@@ -13,9 +13,9 @@ Niestandardowa lista statusów
 [No items available in the database.\nClick the Add button to define some.]
 Brak elementów w bazie danych.\nKliknij na przycisk dodawania aby zdefiniować statusy.
 [Add/Modify Custom Status]
-Dodaj/edytuj wlasne statusy
+Dodaj/Edytuj własne statusy
 [Add/Modify]
-Dodaj/edytuj
+Dodaj/Edytuj
 [Cancel]
 Anuluj
 [List settings]
@@ -25,7 +25,7 @@ Potwierdź usuwanie elementów
 [Delete entries in Custom status menu after Import]
 Usuń wpisy w menu niestandardowych statusów po imporcie
 [Remember last window position]
-Pamiętaj ostanią pozycję okna
+Pamiętaj ostatnią pozycję okna
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Uwaga: elementy menu są widoczne tylko wtedy, gdy co najmniej jedno konto jest prawidłowo ustawione. Sprawdź, czy masz w co najmniej jednym koncie wypełniony UIN.
 ;file \plugins\CSList\src\cslist.cpp

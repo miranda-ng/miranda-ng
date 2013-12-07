@@ -11,7 +11,7 @@ Dziennik konsoli dla Mirandy NG.
 [Console]
 Konsola
 [Single window mode*]
-Tryb pojedyńczego okna*
+Tryb pojedynczego okna*
 [Show icons in log*]
 Pokaż ikony w dzienniku*
 [New lines between events*]
@@ -28,7 +28,7 @@ Limit wielkości dziennika [1 000 - 1 000 000 linii]
 Zapisz ustawienia i zrestartuj konsolę
 ;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
-Pokaż/ukryj konsolę
+Pokaż/Ukryj konsolę
 [Hide Console]
 Ukryj konsolę
 [Show Console]
@@ -40,7 +40,7 @@ Zatrzymaj dziennik (Ctrl+P)
 [Save log to file (Ctrl+S)]
 Zapisz dziennik do pliku (Ctrl+S)
 [Copy selected log (Ctrl+C)]
-Kopiuj zaznaczony dzinnik (Ctrl+C)
+Kopiuj zaznaczony dziennik (Ctrl+C)
 [Delete selected (Del)]
 Usuń zaznaczone (Del)
 [Log options (Ctrl+O)]
@@ -50,7 +50,7 @@ Rozpocznij przechwytywanie we wszystkich zakładkach
 [Pause logging in all tabs]
 Zatrzymaj przechwytywanie we wszystkich zakładkach
 [Close tab (Ctrl+W)]
-Zamknij zakłądkę (Ctrl+W)
+Zamknij zakładkę (Ctrl+W)
 [*** Console started ***]
 *** Uruchomiono ***
 [*** Console paused ***]

@@ -124,7 +124,7 @@ Pomijanie importu historii systemowej.
 [Importing history.]
 Import historii.
 [Skipping history import.]
-Pomijanie imoprtowania historii.
+Pomijanie importowania historii.
 [Import completed in %d seconds.]
 Zakończono import po %d sekundach.
 [Added %d contacts and %d groups.]
