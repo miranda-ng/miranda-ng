@@ -66,8 +66,8 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Delete contact"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    PUSHBUTTON      "&Yes",IDYES,54,38,65,14
-    DEFPUSHBUTTON   "&No",IDNO,162,38,65,14
+    PUSHBUTTON      "&Yes",IDYES,58,38,65,14
+    DEFPUSHBUTTON   "&No",IDNO,172,38,65,14
     CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings",IDC_HIDE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,65,280,9
     LTEXT           "Use Options->Contacts->Ignore to unhide contacts.",IDC_STATIC,20,78,257,8
