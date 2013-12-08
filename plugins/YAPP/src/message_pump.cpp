@@ -75,8 +75,6 @@ unsigned __stdcall MessagePumpThread(void* param)
 
 	DeinitWindowStack();
 	num_popups = 0;
-
-	DeinitServices();
 	return 0;
 }
 
