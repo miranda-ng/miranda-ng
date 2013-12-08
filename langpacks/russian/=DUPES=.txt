@@ -1815,8 +1815,6 @@ GMT-09:00 Аляска
 Поддержка MathModule
 [Other events]
 Другие события
-[Selected text]
-Выделенный текст
 [closed chat session]
 закрыл окно чата
 [Privacy]
@@ -4125,11 +4123,2499 @@ INI файлы
 Удалить группу
 [View &History]
 &История
-[&Hide Offline Users in here]
-Скрыть отключённых в группе
 [&Show Offline Users in here]
 Показать отключённых в группе
-[&Rename Group]
-Переименовать группу
-[&Delete Group]
+['%s' is disabled, re-enable?]
+'%s' отключён, включить?
+['(Unknown contact)' (not movable)]
+'(Неизвестный)' (всегда последнее)
+['(Unknown contact)']
+'(Неизвестный контакт)'
+[%d %s users found]
+Найдено %d пользователей %s
+[%d directories]
+%d каталога(ов)
+[%d directory]
+%d папка
+[%d file]
+%d файл
+[%d files]
+%d файла(ов)
+[%d users found (]
+Найдено %d пользователей (
+[%f will be replaced by the file or folder name to be scanned]
+%f = имя проверяемого файла или папки
+[%s (locked)]
+%s (заблокирован)
+[%s added you to their contact list]
+%s добавил вас в свой список
+[%s file]
+%s файл
+[%s icons]
+%s значки
+[Status icons]
+Значки статуса
+[%s is online]
+%s в сети
+[%s message for %s]
+%s (%s)
+[%s options]
+%s опции
+[%s requests authorization]
+%s запрашивает авторизацию
+[%s: user details]
+О пользователе %s
+[%s\nView personal user details and more]
+%s\nПросмотр личных данных пользователя
+[%u added you to their contact list]
+%u добавил вас в свой список
+[%u requests authorization]
+%u запрашивает авторизацию
+[&About...]
+&О программе
+[&Accounts...]
+Учётные записи
+[&Add permanently to list]
+&Добавить в постоянный список
+[&Add to list]
+&Добавить в список
+[&Add...]
+&Добавить
+[&Add]
+&Добавить
+[&Allow all further changes to this section]
+&Разрешить все изменения в этой секции
+[&Apply]
+Применить
+[&Authorize]
+&Разрешить
+[&Cancel]
+О&тмена
+[&Change...]
+&Изменить...
+[&Choose again...]
+&Выбрать снова...
+[&Close]
+&Закрыть
+[&Color:]
+Цвет:
+[&Copy link]
+&Копировать ссылку
+[&Copy]
+&Копировать
+[&Create]
+Создать
+[&Decline]
+&Отказать
+[&Delete group]
 Удалить группу
+[&Delete]
+&Удалить
+[&Deny]
+&Запретить
+[&Download Now]
+Загрузить
+[&E-mail]
+&E-mail
+[&Edit]
+Править
+[&Exit]
+Вы&ход
+[&File]
+&Файл
+[&Find next]
+&Следующий
+[&Find...]
+&Найти
+[&Find/Add Contacts...]
+Добавить &контакты
+[&Find/Add contacts...]
+Добавить &контакты
+[&Font:]
+Шрифт:
+[&Help]
+&Справка
+[&Hide offline users in here]
+Скрыть отключённых в группе
+[&Hide offline users]
+Скрыть отключённых
+[&Hide/Show]
+С&крыть/показать
+[&Import icons >>]
+&Импорт значков >>
+[&Leave]
+&Оставить
+[&Load icon set...]
+&Выбрать набор значков...
+[&Main menu]
+Главное меню
+[&Message]
+&Сообщение
+[&Miranda NG homepage]
+О&фициальный сайт Miranda NG
+[&Move to group]
+Группа
+[&Move/Rename]
+&Переместить/переименовать
+[&New group]
+Со&здать группу
+[&New subgroup]
+Создать подгруппу
+[&No]
+&Нет
+[&Open in existing window]
+Открыть в &текущем окне
+[&Open URL]
+&Открыть URL
+[&Options...]
+&Настройки
+[&Options]
+&Настройки
+[&Preview]
+&Тест
+[&Recycle]
+&Использовать снова
+[&Remove...]
+Удалить...
+[&Rename group]
+Переименовать группу
+[&Rename]
+&Переименовать
+[&Reply]
+Ответить
+[&Support]
+&Поддержка
+[&Report bug]
+Сооб&щить об ошибке
+[&Reset to default]
+&Сбросить
+[&Run]
+Запустить
+[&Search]
+&Искать
+[&Send]
+&Отправить
+[&Size:]
+Размер:
+[&Status]
+Статус
+[&Underline]
+Подчеркнуть
+[&Upgrade]
+&Обновить
+[&View contents]
+&Содержимое
+[&Yes]
+&Да
+[(Miranda core logging)]
+Ядро Miranda NG
+[(often %d)]
+(часто %d)
+[(Unknown Contact)]
+(Неизвестный контакт)
+[(Unknown contact)]
+(Неизвестный контакт)
+[(Unknown)]
+(неизвестный)
+[** All contacts **]
+** Все контакты **
+[** Unknown contacts **]
+** Неизвестные контакты **
+[< Copyright]
+< Права
+[<< &Import]
+<< &Импорт
+[<All connections>]
+<Все подключения>
+[<all modules>]
+<все модули>
+[<core modules>]
+<настройки ядра>
+[<In use>]
+<Используется>
+[<mixed>]
+<смешано>
+[<none>]
+<нет>
+[<not specified>]
+<не указано>
+[<Root group>]
+<Корневая группа>
+[<unknown>]
+<неизвестно>
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Файл с новыми настройками базы данных был помещён в каталог Miranda NG.
+[A new version of Miranda NG is now available.  Click the download button to download this new update.]
+Доступна новая версия Miranda NG. Нажмите кнопку "Загрузить", чтобы открыть страницу загрузки.
+[A&ccept]
+&Принять
+[About Miranda NG]
+О программе
+[About:]
+Информация:
+[Account %s is being deleted]
+Удаление учётной записи %s
+[Account %s is being disabled]
+Отключение учётной записи %s
+[Account ID]
+ID учётной записи
+[Account information:]
+Учётная запись:
+[Account is disabled. Please activate it to access options.]
+Учётная запись отключена. Активируйте для настроек.
+[Account order and visibility]
+Порядок учётных записей
+[Accounts\nConfigure your IM accounts]
+Учётные записи\nНастройка ваших учётных записей
+[Accounts]
+Учётные записи
+[Actions:]
+Действия:
+[Add %s]
+Добавить %s
+[Add another shortcut]
+Добавить сочетание
+[Add binding]
+Добавить сочетание
+[Add Contact]
+Добавить контакт
+[Add e-mail address]
+Добавить адрес
+[Add phone number]
+Добавить телефон
+[Add to list]
+Добавить в список
+[Add]
+Добавить
+[Added event]
+Событие добавления
+[Added notification]
+Уведомление о добавлении
+[Additional data due to proxy communication]
+Дополнительные данные о прокси
+[Additional:]
+Дополнительно:
+[Advanced >>]
+Дополнительно >>
+[Advanced]
+Дополнительно
+[Age:]
+Возраст:
+[All bitmaps]
+Все изображения
+[All files]
+Все файлы
+[All networks]
+Все сети
+[ANSI plugin]
+ANSI плагин
+[Apply]
+Применить
+[Are you sure you want to delete %s?]
+Удалить %s из списка?
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Вы уверены, что хотите удалить группу "%s"? Операция не может быть отменена.
+[Are you sure you want to delete this history item?]
+Удалить эту запись из истории?
+[As each file finishes downloading]
+По окончании загрузки каждого файла
+[Ask me]
+Спросить
+[Auth requests]
+Запросы авторизации
+[Author(s):]
+Автор(ы):
+[Auto-accept incoming files from people on my contact list]
+Автоматически принимать файлы от людей в списке контактов
+[Auto-detect text]
+Автоопределение текста
+[Away]
+Отсутствую
+[Background info]
+Биография
+[Base color:]
+Основной цвет:
+[Become idle if a terminal session is disconnected]
+Режим ожидания, если удалённая сессия завершена
+[Become idle if computer is left unattended for:]
+Режим бездействия, если компьютер неактивен больше:
+[Become idle if the computer is locked]
+Режим ожидания, если компьютер заблокирован
+[Become idle if the following is left unattended:]
+Перейти в режим ожидания, если неактивны:
+[Become idle if the screen saver is active]
+Режим ожидания, если включена заставка
+[Built %s %s]
+Сборка %s %s
+[By default, use the same message as last time]
+Использовать предыдущее сообщение
+[By default, use this message:]
+Использовать сообщение:
+[bytes]
+байт
+[C&lear log]
+Очистить журнал
+[Calling modules' names]
+Имена вызывающих модулей
+[Can't find a contact list plugin! You need StdClist.dll or any other clist plugin.]
+Не найден плагин списка контактов! Вам нужен StdClist.dll или clist_*.dll плагин.
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
+[Cancel change]
+Откатить изменения
+[Cancel import]
+Отменить импорт
+[Cancel transfer]
+Отмена
+[Cancel]
+Отмена
+[Canceled]
+Отменённые
+[Change %s message]
+Изменить сообщение "%s"
+[Change my status mode to:]
+Сменить статус на:
+[Check for Update]
+Проверить обновления
+[Choose events you wish to ignore:]
+Следующие события будут проигнорированы:
+[Choose font]
+Шрифт
+[Choose the protocol type]
+Выберите протокол
+[City:]
+Город:
+[Clear completed]
+Очистить завершённые
+[Close Miranda]
+Закрыть программу
+[Close window when transfer completes]
+Закрыть окно по окончании передачи
+[Close]
+Закрыть
+[Closing in %d]
+Закрыть (%d)
+[Company:]
+Компания:
+[Configuration files]
+Файлы конфигураций
+[Configure network...]
+Настройка сети...
+[Connected]
+Подключён
+[Connecting (attempt %d)]
+Подключение (%d попытка)
+[Connecting to proxy...]
+Подключение к прокси...
+[Connecting...]
+Подключение...
+[Connecting]
+Подключение
+[Contact display options]
+Параметры показа контактов
+[Contact menu]
+Меню контакта
+[ContactMenu]
+Меню контакта
+[Contact]
+Контакт
+[Contacts]
+Контакты
+[Contour heavy]
+Толстый контур
+[Contour thin]
+Тонкий контур
+[Copyright:]
+Права:
+[Could not search on any of the protocols, are you online?]
+Не могу запустить поиск ни в одной из сетей. Пожалуйста, проверьте подключение к сетям.
+[Could not start a search on '%s', there was a problem - is %s connected?]
+Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
+Не могу переместить '%s' в корзину, выберите другое имя для профиля.
+[Country:]
+Страна:
+[Create new account]
+Новая учётная запись
+[Created]
+Создан
+[Credits >]
+Авторы >
+[Custom %d]
+Разное %d
+[Custom name:]
+Заданное имя:
+[Custom status]
+хСтатус
+[Custom]
+Настроить
+[Customize]
+Тонкая настройка
+[Database import complete]
+Импорт базы завершен
+[Database setting change]
+Изменение настроек базы данных
+[Database settings are being imported from]
+Настройки импортируются из
+[Database]
+Профиль
+[Date of birth:]
+Дата рождения:
+[Date:]
+Дата:
+[De&lete]
+&Удалить
+[Decision sent]
+Решение отправлено
+[Default]
+По умолчанию
+[Delete contact]
+Удалить контакт
+[Delete Group]
+Удаление группы
+[Delete group]
+Удаление группы
+[Delete history]
+Удалить историю
+[Delete]
+Удалить
+[Denied]
+Отказано
+[Department:]
+Отдел:
+[Description:]
+Описание:
+[Disable &groups]
+Отключить группы
+[DND]
+Не беспокоить
+[Do not let protocols report any idle information]
+Не позволять протоколам сообщать информацию об ожидании
+[Do not pop up dialog asking for new message]
+Не показывать диалог для нового сообщения
+[Do not reply to requests for this message]
+Не отвечать на запросы этого сообщения
+[Do not set status back to online when returning from idle]
+Не восстанавливать статус при возвращении из режима ожидания
+[Do you want to allow this change?]
+Разрешить изменение?
+[Do you want to import the settings now?]
+Импортировать настройки сейчас?
+[Down arrow]
+Вниз
+[Download more icons]
+Загрузить с сайта Miranda NG
+[Download more sounds]
+Загрузить с сайта Miranda NG
+[Drag icons to main list to assign them:]
+Перетащите значок в главное окно для замены:
+[Driver]
+Драйвер
+[E-mail address]
+Адрес e-mail
+[E&xit]
+Вы&ход
+[e.g. Miranda Database]
+напр. Miranda Database
+[e.g. Workplace]
+напр. "Рабочий"
+[Edit E-Mail address]
+Редактировать адрес E-mail
+[Edit]
+Изменить
+[Editing account]
+Изменение учётной записи
+[Effect:]
+Эффект:
+[Effects]
+Эффекты
+[Empty blob]
+Не заполнено
+[Use custom login (domain login picked up automatically)]
+Логин пользователя (вход с доменным логином автоматический)
+[Enable keyword search in options dialog]
+Включить поиск по ключевым словам в настройках
+[Enable sound events]
+Включить звуки событий
+[Enable UPnP port mapping]
+Включить перенаправление портов UPnP
+[Enter account name (for example, My Google)]
+Введите имя (например, Google)
+[Enter country, area code and phone number:]
+Введите страну, код города и номер телефона:
+[Enter description:]
+Описание:
+[Enter URL:]
+URL:
+[Error console]
+Консоль ошибок
+[Error notifications]
+Уведомления об ошибках
+[Error writing file]
+Ошибка записи в файл
+[Error]
+Ошибка
+[Event icon legend:]
+Описание значков событий:
+[Events]
+События
+[Example: 1050-1070, 2000-2010, 2500]
+Например: 1050-1070, 2000-2010, 2500
+[Executable files]
+Исполняемые файлы
+[Existing file]
+Существующий файл
+[Exit]
+Выход
+[Export...]
+Экспорт
+[Failed to create file]
+Ошибка создания файла
+[Fax]
+Факс
+[Female]
+Женский
+[File &transfers...]
+Передачи &файлов
+[File already exists]
+Файл уже существует
+[File being received]
+Принимаемый файл
+[File from %s]
+Файл от %s
+[File properties]
+Свойства файла
+[File received]
+Файл получен
+[File transfer denied]
+В передаче файла отказано
+[File transfer failed]
+Неудачная передача файла
+[File Transfers]
+Передача файлов
+[File transfers]
+Передача файлов
+[File(s):]
+Файл(ы):
+[File]
+Файл
+[Files:]
+Файлы:
+[Files]
+Файлы
+[Filled blob]
+Заполнено
+[Find user]
+Найти
+[Find what:]
+Найти:
+[Find/Add contacts\nHere you can add contacts to your contact list]
+Поиск контактов\nЗдесь Вы можете найти и добавить контакты в список контактов
+[Find/Add contacts]
+Найти/добавить контакты
+[find/add]
+найти/добавить
+[Find]
+Найти
+[First name:]
+Имя:
+[First Name]
+Имя
+[First:]
+Имя:
+[FirstName LastName]
+Имя Фамилия
+[LastName FirstName]
+Фамилия Имя
+[FirstName]
+Имя
+[Font effect]
+Эффект шрифта
+[Font st&yle:]
+Стиль шрифта:
+[Font]
+Шрифт
+[Fonts & Colors]
+Шрифты и цвета
+[Fonts and colors]
+Шрифты и цвета
+[Fonts]
+Шрифты
+[for]
+в течение
+[Free for chat]
+Готов болтать
+[From:]
+От:
+[Gender:]
+Пол:
+[General]
+Общее
+[Generic text]
+Основной текст
+[Get more protocols...]
+Загрузка протоколов...
+[GIF bitmaps]
+Изображения GIF
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[Give it up, I'm not in!]
+Меня нет.
+[Group (closed)]
+Группа (закрыта)
+[Group (open)]
+Группа (открыта)
+[Group:]
+Группа:
+[Group]
+Группа
+[Handle]
+Название
+[Headers:]
+Заголовки:
+[Headers]
+Заголовки
+[Help]
+Справка
+[Hide &empty groups]
+Скрыть пустые группы
+[Hide &offline users out here]
+Скрыть отключённых вне группы
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Скрыть из списка (останутся история и настройки игнорирования/видимости)
+[Hide Miranda]
+Скрыть список контактов
+[History for %s]
+История для %s
+[History]
+История
+[Homepage:]
+Сайт:
+[Host:]
+Хост:
+[Hotkeys]
+Горячие клавиши
+[I'm a chatbot!]
+Свободен.
+[I'm hiding from the mafia.]
+Я прячусь от мафии.
+[I've been away since %time%.]
+Отошел в %time%. Скоро вернусь.
+[Icon index]
+Номер значка
+[Icon library:]
+Библиотека:
+[Icon sets]
+Наборы значков
+[IconOptions]
+Настройки значка
+[Icons]
+Значки
+[Idle (auto-away):]
+Режим бездействия:
+[Idle options]
+Режим ожидания
+[Idle]
+Ожидание
+[idleeeeeeee]
+ожидание...
+[If incoming files already exist]
+Если принимаемый файл уже есть
+[If this option is checked it allows you to search for option pages that contain the search string or plugin name.]
+Если выбран данный пункт, поиск будет осуществляться не только в заголовках настроек, но и в самих настройках.
+[Ignore]
+Игнорировать
+[Import multiple]
+Импорт нескольких
+[Incoming connections]
+Входящие соединения
+[Incoming file transfer]
+Входящий файл
+[Incoming nick]
+Имя собеседника
+[Incoming timestamp]
+Входящее время
+[Incoming URL]
+Входящий URL
+[Incoming]
+Входящие
+[Initializing...]
+Инициализация...
+[Insert separator]
+Вставить разделитель
+[Install database settings]
+Установить настройки базы данных
+[Installed Plugins]
+Установленные плагины
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Вместо показа псевдонимов,\nвыберите перетаскиванием другой приоритет показа имён:
+[Interests:]
+Интересы:
+[Invalid message]
+Сообщение повреждено
+[Invalid phone number]
+Неверный номер телефона
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
+[Invisible]
+Невидимый
+[Join chat]
+Войти в чат
+[JPEG bitmaps]
+Изображения JPEG
+[Key bindings]
+Горячие клавиши
+[Last modified:]
+Изменён:
+[Last name:]
+Фамилия:
+[Last Name]
+Фамилия
+[Last:]
+Фамилия:
+[LastName]
+Фамилия
+[Latest Version:]
+Последняя версия:
+[Leave chat]
+Покинуть чат
+[Loading... %d%%]
+Загрузка... %d%%
+[Local time:]
+Местное время:
+[Location:]
+Путь:
+[Location]
+Место
+[Locked status]
+Заблокированный статус
+[Log to]
+Писать в
+[Log]
+Журнал
+[Logging...]
+Журнал...
+[Main icons]
+Главные значки
+[Main menu]
+Главное меню
+[MainMenu]
+Главное меню
+[Male]
+Мужской
+[Menu icons]
+Меню
+[Menus]
+Меню
+[Message history]
+История сообщений
+[Message]
+Сообщение
+[Messages]
+Сообщения
+[Minimize the file transfer window]
+Свернуть окно передачи файлов
+[Minor notes:]
+Примечания:
+[minute(s)]
+минут(ы)
+[Miranda can't open that profile]
+Miranda NG не может открыть этот профиль
+[Miranda can't understand that profile]
+Miranda не может распознать этот профиль
+[Miranda NG options]
+Настройки Miranda NG
+[Miranda NG Profile Manager]
+Менеджер профилей Miranda NG
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nВам нужно установить плагин dbx_mmap.dll или подобный.
+[Miranda scope]
+Сочетание в Miranda
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
+Miranda NG не может открыть '%s', профиль в неизвестном формате.\nЭтот профиль также может быть повреждён, попробуйте исправить его с помощью DbChecker.
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Miranda NG не может открыть '%s'\nОн недоступен или занят другим приложением, или другой копией Miranda NG
+[Miranda website]
+Сайт Miranda NG
+[Mmm... food.]
+Ммм... поесть бы...
+[Mobile]
+Мобильный
+[Modify]
+Изменить
+[More options]
+Ещё настройки
+[Move to Group]
+Группа
+[Move to group]
+Группа
+[Moving to next file...]
+Следующий файл...
+[My custom name (not movable)]
+Заданное имя (всегда первое)
+[My notes:]
+Мои заметки:
+[My profiles]
+Мои профили
+[NA]
+Недоступен
+[Name]
+Имя
+[Netlib log options]
+Настройки журналирования сети
+[Network]
+Сеть
+[Never, do not use virus scanning]
+Никогда, не проверять на вирусы
+[New account]
+Новая учётная запись
+[New Group]
+Новая группа
+[New group]
+Новая группа
+[New profile]
+Создать профиль
+[Nick:]
+Ник:
+[Nick]
+Ник
+[Nickname:]
+Ник:
+[No data transferred]
+Данные не переданы
+[No tick]
+Не отмечено
+[No times]
+Без времени
+[No to all]
+Нет для всех
+[No Update Available]
+Нет обновлений
+[No users found]
+Пользователи не найдены
+[No]
+Нет
+[None]
+Нет
+[Nope, not here.]
+Нет, меня здесь нет.
+[Normal text:]
+Обычный текст:
+[Not right now.]
+Не сейчас.
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Важно: Изменения вступят в силу после перезапуска программы.
+[Notes]
+Заметки
+[Nowhere]
+Нигде
+[Occupied]
+Занят
+[Offline]
+Не в сети
+[On the phone]
+На телефоне
+[Online notification]
+Уведомление "В сети"
+[Online]
+В сети
+[Only the ticked contacts will be shown on the main contact list]
+Только помеченные контакты будут показаны в списке контактов
+[opacity:]
+непрозрачность:
+[Open file]
+Открыть файл
+[Open folder]
+Открыть папку
+[Open in &new window]
+&Открыть в новом окне
+[Open 'Find user' dialog]
+Открыть диалог поиска контактов
+[Open Options page]
+Открыть настройки
+[Open...]
+Открыть...
+[Options search]
+Поиск по настройкам
+[Options\nConfigure your Miranda NG options]
+Настройки\nОсновной диалог настроек Miranda NG
+[Options]
+Настройки
+[Or enter a full international number:]
+Или введите международный номер:
+[Out to lunch]
+Обедаю
+[Outgoing connections]
+Исходящие соединения
+[Outgoing file]
+Исходящий файл
+[Outgoing nick]
+Ваше имя
+[Outgoing timestamp]
+Исходящее время
+[Outgoing URL]
+Исходящий URL
+[Outgoing]
+Исходящие
+[Outline smooth]
+Гладкий контур
+[Outline]
+Контур
+[Overwrite all]
+Перезаписать все
+[Overwrite]
+Перезаписать
+[Owner]
+Владелец
+[Password:]
+Пароль:
+[Past background:]
+Прошлое:
+[Phone can receive SMS text messages]
+Телефон может получать SMS
+[Phone:]
+Телефон:
+[Please authorize my request and add me to your contact list.]
+Пожалуйста, разрешите добавить Вас в мой список контактов.
+[Please complete the following form to create a new user profile]
+Заполните форму для создания профиля пользователя
+[Please restart Miranda NG for your changes to take effect.]
+Изменения вступят в силу после перезапуска программы.
+[Please select a subentry from the list]
+Выберите подраздел из списка
+[Plugin]
+Плагин
+[Plugins]
+Плагины
+[PNG bitmaps]
+Изображения PNG
+[Port range:]
+Порты:
+[Port:]
+Порт:
+[Position:]
+Должность:
+[Postal code:]
+Индекс:
+[Primary]
+Главный
+[Problem creating profile]
+Проблема с созданием профиля
+[Problem moving profile]
+Проблема с перемещением профиля
+[Problem with search]
+Проблема с поиском
+[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
+Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_3x.dll
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_mmap.dll
+[Profile]
+Профиль
+[Protocol is not loaded.]
+Протокол не загружен.
+[Protocol]
+Протокол
+[Re-enable Miranda plugin?]
+Включить плагин?
+[Re&ad %s message]
+&Прочитать сообщение "%s"
+[Re&ad Away Message]
+Пр&очесть сообщение "Отсутствую"
+[Read Message]
+Прочитать сообщение
+[Read message]
+Прочитать сообщение
+[Reason:]
+Причина:
+[Received bytes]
+Полученные байты
+[Received files folder:]
+Каталог для файлов:
+[Receiving files]
+Прием файлов
+[Receiving...]
+Получение...
+[remaining]
+осталось
+[Remove shortcut]
+Удалить сочетание
+[Remove]
+Удалить
+[Rename (append " (1)", etc.)]
+Дописать "(1)" и т.д.
+[Rename Group]
+Переименовать группу
+[Rename group]
+Переименовать группу
+[Rename]
+Переименовать
+[Request sent, waiting for acceptance...]
+Запрос отправлен, ожидание подтверждения...
+[Reset to default]
+Сброс на умолчания
+[Reset]
+Сброс
+[Resolve hostnames through proxy]
+Отправлять запросы DNS через прокси
+[Results]
+Результаты
+[Resume all]
+Докачать все
+[Resume]
+Продолжить
+[Retrieving %s message...]
+Загрузка сообщения "%s"...
+[Run now]
+Зап. сейчас
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+Запустить программу при запуске (например, tail -f, dbgview и т.д.):
+[Running plugin]
+Запущенный плагин
+[Sample]
+Пример
+[Save as default]
+Сохранить настройки
+[Save as...]
+Сохранить как...
+[Save to:]
+Сохранять в:
+[Sc&ript:]
+Скрипт:
+[Scan files:]
+Проверять:
+[Scanning for viruses...]
+Проверка на вирусы...
+[Scope:]
+Где:
+[Search All]
+Найти всех
+[Search all]
+Найти всех
+[Search:]
+Искать:
+[Search]
+Поиск
+[Searching]
+Поиск
+[sec]
+с
+[Secondary color:]
+Вторичный цвет:
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед опасными изменениями.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед небезопасными изменениями.
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед каждым произведённым изменением.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+Система безопасности для предотвращения нежелательных изменений выключена. Вы не получите дальнейших предупреждений.
+[Select &all]
+Выделить &всё
+[Select folder]
+Выбрать папку
+[Manage your Miranda NG profile]
+Управление профилями пользователя
+[Select program to be run]
+Выбрать программу для запуска
+[Select where log file will be created]
+Выбрать путь к файлу журнала
+[Send &message]
+Отправить сообщение
+[Send authorization request]
+Отправить запрос авторизации
+[Send e-mail]
+Отправить e-mail
+[Send E-mail]
+Отправить почту
+[Send file(s)]
+Отправить файл(ы)
+[Send timed out]
+Время отправки истекло
+[Send URL to]
+Отправить URL
+[Sending...]
+Передача...
+[Sent bytes]
+Отправ. байты
+[Service:]
+Cлужба:
+[Set All Offline]
+Перейти в оффлайн
+[Set]
+Выбрать
+[Shadow at left]
+Тень слева
+[Shadow at right]
+Тень справа
+[Shortcut already assigned to "%s" action.\nIf you click "Add" the shortcut will be reassigned.]
+Сочетание уже назначено на действие "%s".\nЕсли нажать "Добавить" то сочетание переназначится.
+[Shortcut:]
+Сочетание:
+[Show category:]
+Категория:
+[Show expert options]
+Эксперт
+[Show/Hide Contact List]
+Показать/Скрыть список контактов
+[Show/Hide contact list]
+Показать/Скрыть список контактов
+[Show/Hide Offline Users]
+Показать/Скрыть отключённых
+[Show accounts in the following order,\ndrag to choose another order:]
+Порядок отображения учётных записей.\nПеретаскивайте для изменения:
+[Show this dialog box when Miranda NG starts]
+Показать этот диалог при запуске Miranda NG
+[Show]
+Показать
+[Show/Hide]
+Скрыть/показать
+[Size:]
+Размер:
+[Size]
+Размер
+[Skip]
+Пропуск
+[Small dot]
+Точка
+[Small text]
+Дополнительный текст
+[Smooth bump]
+Размытие
+[Sound information]
+Дополнительная информация
+[Sounds]
+Звуки
+[Specify the internal account name (optional)]
+Укажите внутреннее имя (не обязательно)
+[Spoken languages:]
+Языки:
+[SSL traffic]
+Трафик SSL
+[Standard hh:mm:ss times]
+Часы, минуты, секунды
+[Start in Service Mode with]
+Запуск в служебном режиме с
+[State:]
+Штат:
+[Status messages:]
+Сообщения статуса:
+[Status messages]
+Сообщения статуса
+[Status]
+Статус
+[Street:]
+Улица:
+[Stri&keout]
+Зачеркнутый
+[Summary]
+Резюме
+[System scope]
+Сочетание в системе
+[System]
+Система
+[Text dumps where available]
+Текстовые дампы (если есть)
+[Text effect]
+Эффект
+[That'll be the phone.]
+Да дайте же человеку поговорить по телефону...
+[The following events are being ignored:]
+Следующие события будут проигнорированы:
+[The import has completed from]
+Импорт завершен из
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Телефон должен начинаться с + и состоять только из цифр, пробелов, скобок и тире.
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Профиль '%s" уже существует. Хотите переместить его в корзину?\n\nВНИМАНИЕ: Профиль будет удалён, если корзина отключена\nВНИМАНИЕ: Профиль может содержать конфиденциальную информацию и должен быть правильно удалён.
+[The profile already exists]
+Профиль уже существует
+[There are no results to display.]
+Нет результатов.
+[This change is known to be potentially hazardous.]
+Это изменение потенциально опасно.
+[This change is known to be safe.]
+Это изменение известно, как безопасное.
+[This change is not known to be safe.]
+Неизвестно, будет ли изменение безопасным.
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Этот контакт находится в системе обмена мгновенными сообщениями, которая хранит списки контактов на сервере. Контакт будет удалён с сервера и из локального списка при следующем подключении.
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Этот файл ещё не проверялся антивирусом. Вы всё-таки хотите открыть его?
+[This file wishes to change the setting]
+Этот файл изменяет настройку
+[This font is used to display main section titles or text elements.]
+Шрифт для заголовков основных разделов или текстовых элементов.
+[This font is used to display most text element or section bodies.]
+Шрифт для большинства текстовых элементов или разделов.
+[This font is used to display various addtional notes.]
+Шрифт для различных дополнительных заметок.
+[This group]
+Эта группа
+[This plugin requires db3x plugin version 0.5.1.0 or later]
+Для работы этого плагина нужен db3x плагин 0.5.1.0 или старше
+[This will erase all history and settings for this contact!]
+Это удалит всю историю и настройки для данного контакта!
+[Tick]
+Отмечено
+[Times in microseconds]
+Микросекунды
+[Times in milliseconds]
+Миллисекунды
+[Timezone:]
+Часовой пояс:
+[To default status icons]
+Значки по умолчанию
+[To main icons]
+Главные значки
+[to the value]
+на значение
+[To:]
+Для:
+[To]
+В
+[Total size:]
+Общий размер:
+[Transfer and virus scan complete]
+Передача и проверка на вирусы завершены
+[Transfer completed, open file(s).]
+Передача завершена, открыть файл(ы).
+[Transfer completed, open file.]
+Передача завершена, открыть файл.
+[Transfer completed, open folder.]
+Передача завершена, открыть папку.
+[Transfer completed.]
+Передача завершена.
+[Tray]
+Трей
+[Type:]
+Тип:
+[Typing]
+Набор текста
+[Unable to create the profile '%s', the error was %x]
+Не могу создать профиль '%s', ошибка %x
+[Unable to initiate transfer.]
+Невозможно начать передачу.
+[Unable to load plugin in Service Mode!]
+Невозможно загрузить плагин в служебном режиме!
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+Невозможно загрузить ни один из установленных плагинов списка контактов. Даже отключённые в настройках не запускаются.
+[Undo changes]
+Отменить изменения
+[Unicode plugin]
+Юникод плагин
+[Unique ID:]
+Уник. ID:
+[Unloaded plugin]
+Выгруженный плагин
+[Update Notification Options]
+Уведомление об обновлениях
+[Update notification]
+Обновления ядра
+[Update Notify]
+Обновление ядра
+[Update now]
+Обновить
+[Updating]
+Обновление
+[Upgrade]
+Модернизировать
+[Upgrading account]
+Модернизация учётной записи
+[URL from %s]
+URL от %s
+[URL Received]
+Получен URL
+[URLs]
+Ссылки
+[Use %time% for the current time, %date% for the current date]
+%date% - сегодняшняя дата; %time% - текущее время
+[Use Options->Contacts->Ignore to unhide contacts.]
+Скрытые контакты: "Настройки->Контакты->Игнорировать"
+[Use proxy server]
+И&спользовать прокси
+[User has not registered an e-mail address]
+Пользователь не зарегистрировал свой адрес e-mail.
+[User online]
+Пользователь в сети
+[Username:]
+Пользователь:
+[Username]
+Имя пользователя
+[Validate SSL certificates]
+Проверять подпись сертификатов SSL
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Переменные: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Version]
+Версия
+[View &history]
+&История
+[View/Change My &Details...]
+Личные &данные
+[View/change my &details...]
+Личные &данные
+[Virus scanner]
+Антивирус
+[Visibility]
+Видимость
+[Waiting for connection...]
+Ожидание соединения
+[Warn me before opening a file that has not been scanned]
+Предупреждать при открытии непроверенного файла
+[Warning!\r\nThis menu object not support user defined options.]
+Внимание!\r\nЭтот пункт меню не поддаётся настройке.
+[Web page address (&URL)]
+Ссылка (&URL)
+[Web page:]
+Сайт:
+[Website:]
+Сайт:
+[What do you want to do with the file now?]
+Что вы желаете сделать с файлом?
+[When all files have been downloaded]
+По окончании загрузки всех файлов
+[Window]
+Окно
+[Windows bitmaps]
+Изображения Windows Bitmap
+[Work fax]
+Рабочий факс
+[Work phone]
+Рабочий телефон
+[Work]
+Работа
+[Yep, I'm here.]
+Да, я здесь.
+[Yes]
+Да
+[You already have a group with that name. Please enter a unique name for the group.]
+Группа с таким именем уже есть. Введите уникальное имя для группы.
+[You are about to receive the file]
+Вы принимаете файл
+[You are never visible to this person]
+Вы всегда невидимы для этого человека
+[You are running the latest version of Miranda NG.  No update is available at this time.]
+Вы используете последнюю версию Miranda NG. Нет доступных обновлений.
+[You are visible to this person even when in invisible mode]
+Вы всегда видимы для этого человека
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Выбор драйвера базы данных. Если вы не уверены какой следует выбрать - используйте драйвер по умолчанию.
+[You haven't filled in the search field. Please enter a search term and try again.]
+Вы не заполнили поле для поиска. Пожалуйста, введите запрос для поиска и попробуйте ещё раз.
+[You need an image services plugin to process PNG images.]
+Вам нужен плагин службы изображений для поддержки PNG.
+[You need to disable plugin to delete this account]
+Для удаления учётной записи необходимо отключить протокол
+[You will always be asked about files from people not on your contact list]
+Запрос всегда будет показан, если человек не в списке
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Изменения вступят в силу при следующем входе в сеть обмена сообщениями.
+[Your Version:]
+Ваша версия:
+[Configure...]
+Настройка...
+[Upgrade account]
+Модернизация
+[Remove account]
+Удалить
+[1 %s user found]
+Найден 1 пользователь %s
+[Automatically check for new versions of Miranda NG]
+Автоматически проверять новые версии Miranda NG
+[Check for updates for the following:]
+Проверять обновления для:
+[Stable releases]
+Стабильных версий
+[Preview releases (beta)]
+Предварительных версий (бета)
+[Development releases (alpha)]
+"Ночных" версий (альфа)
+[of]
+из
+[Afghanistan]
+Афганистан
+[Albania]
+Албания
+[Algeria]
+Алжир
+[Andorra]
+Андорра
+[Angola]
+Ангола
+[Anguilla]
+Ангуилья
+[Antigua and Barbuda]
+Антигуа и Барбуда
+[Argentina]
+Аргентина
+[Armenia]
+Армения
+[Aruba]
+Аруба
+[Ascension Island]
+о. Вознесения
+[Australia]
+Австралия
+[Australia, Antarctic Territory]
+Австралийская антарктическая территория
+[Australia, Christmas Island]
+о. Рождества (Австралия)
+[Australia, Cocos (Keeling) Islands]
+Кокосовые (Килинг) о-ва (Австралия)
+[Australia, Norfolk Island]
+о. Норфолк (Австралия)
+[Austria]
+Австрия
+[Azerbaijan]
+Азербайджан
+[Bahamas]
+Багамы
+[Bahrain]
+Бахрейн
+[Bangladesh]
+Бангладеш
+[Barbados]
+Барбадос
+[Belarus]
+Беларусь
+[Belgium]
+Бельгия
+[Belize]
+Белиз
+[Benin]
+Бенин
+[Bermuda]
+Бермудские о-ва
+[Bhutan]
+Бутан
+[Bolivia]
+Боливия
+[Bosnia and Herzegovina]
+Босния и Герцеговина
+[Botswana]
+Ботсвана
+[Brazil]
+Бразилия
+[British Virgin Islands]
+Британские Виргинские острова
+[Brunei]
+Бруней
+[Bulgaria]
+Болгария
+[Burkina Faso]
+Буркина Фасо
+[Burundi]
+Бурунди
+[Cambodia]
+Камбоджа
+[Cameroon]
+Камерун
+[Canada]
+Канада
+[Canary Islands]
+Канарские о-ва
+[Cape Verde Islands]
+о-ва Зеленого Мыса
+[Cayman Islands]
+Каймановы о-ва
+[Central African Republic]
+Центрально-Африканская Республика
+[Chad]
+Чад
+[Chile, Republic of]
+Республика Чили
+[China]
+Китай (КНР)
+[Colombia]
+Колумбия
+[Comoros]
+Коморские о-ва
+[Congo, Democratic Republic of (Zaire)]
+Демократическая республика Конго (Заир)
+[Congo, Republic of the]
+Республика Конго
+[Cook Islands]
+о-ва Кука
+[Costa Rica]
+Коста-Рика
+[Cote d'Ivoire (Ivory Coast)]
+Республика Кот-д’Ивуар
+[Croatia]
+Хорватия
+[Cuba]
+Куба
+[Greek, Republic of South Cyprus]
+Кипр (Республика Южного Кипра)
+[Czech Republic]
+Чешская республика
+[Denmark]
+Дания
+[Diego Garcia]
+Диего Гарсия
+[Djibouti]
+Джибути
+[Dominica]
+Доминика
+[Dominican Republic]
+Доминиканская республика
+[Ecuador]
+Эквадор
+[Egypt]
+Египет
+[El Salvador]
+Сальвадор
+[Equatorial Guinea]
+Экваториальная Гвинея
+[Eritrea]
+Эритрея
+[Estonia]
+Эстония
+[Ethiopia]
+Эфиопия
+[Europe]
+Европа
+[Faeroe Islands]
+о-ва Фаэро
+[Falkland Islands]
+Фолклендские о-ва
+[Fiji]
+Фиджи
+[Finland]
+Финляндия
+[France]
+Франция
+[French Antilles]
+Французские Антильские о-ва
+[French Guiana]
+Французская Гвиана
+[French Polynesia]
+Французская Полинезия
+[Gabon]
+Габон
+[Gambia]
+Гамбия
+[Georgia]
+Грузия
+[Germany]
+Германия
+[Ghana]
+Гана
+[Gibraltar]
+Гибралтар
+[Greece]
+Греция
+[Greenland]
+Гренландия
+[Grenada]
+Гренада
+[Guadeloupe]
+Гваделупа
+[Guam, US Territory of]
+Территория Гуам (США)
+[Guatemala]
+Гватемала
+[Guinea]
+Гвинея
+[Guinea-Bissau]
+Гвинея-Бисау
+[Guyana]
+Гайана
+[Haiti]
+Гаити
+[Honduras]
+Гондурас
+[Hong Kong]
+Гонконг
+[Hungary]
+Венгрия
+[Iceland]
+Исландия
+[India]
+Индия
+[Indonesia]
+Индонезия
+[Iran (Islamic Republic of)]
+Исламская Республика Иран
+[Iraq]
+Ирак
+[Ireland]
+Ирландия
+[Israel]
+Израиль
+[Italy]
+Италия
+[Jamaica]
+Ямайка
+[Japan]
+Япония
+[Jordan]
+Иордания
+[Kazakhstan]
+Казахстан
+[Kenya]
+Кения
+[Kiribati]
+Кирибати
+[Korea, North]
+Северная Корея (КНДР)
+[Korea, South]
+Республика Корея
+[Kuwait]
+Кувейт
+[Kyrgyzstan]
+Киргизия
+[Laos]
+Лаос
+[Latvia]
+Латвия
+[Lebanon]
+Ливан
+[Lesotho]
+Лесото
+[Liberia]
+Либерия
+[Libyan Arab Jamahiriya]
+Ливия
+[Liechtenstein]
+Лихтенштейн
+[Lithuania]
+Литва
+[Luxembourg]
+Люксембург
+[Macau]
+Макао
+[Macedonia, Republic of]
+Республика Македония
+[Madagascar]
+Мадагаскар
+[Malawi]
+Малави
+[Malaysia]
+Малайзия
+[Maldives]
+Мальдивские о-ва
+[Mali]
+Мали
+[Malta]
+Мальта
+[Marshall Islands]
+Маршалловы о-ва
+[Martinique]
+Мартиника
+[Mauritania]
+Мавритания
+[Mauritius]
+Маврикий
+[Mayotte Island]
+о. Майотт
+[Mexico]
+Мексика
+[Micronesia, Federated States of]
+Микронезия
+[Moldova, Republic of]
+Республика Молдова
+[Monaco]
+Монако
+[Mongolia]
+Монголия
+[Montserrat]
+Монсеррат
+[Morocco]
+Марокко
+[Mozambique]
+Мозамбик
+[Myanmar]
+Мьянма
+[Namibia]
+Намибия
+[Nauru]
+Республика Науру
+[Nepal]
+Непал
+[Netherlands]
+Нидерланды
+[Netherlands Antilles]
+Нидерландские Антильские о-ва
+[St. Maarten]
+Синт-Маартен
+[Curacao]
+Кюрасао
+[Netherlands (Bonaire Island)]
+Нидерланды (о. Бонайре)
+[Netherlands (Saba Island)]
+Нидерланды  (о. Саба)
+[Netherlands (St. Eustatius Island)]
+Нидерланды (о. Синт-Эстатиус)
+[New Caledonia]
+Новая Каледония
+[New Zealand]
+Новая Зеландия
+[Nicaragua]
+Никарагуа
+[Niger]
+Нигер
+[Nigeria]
+Нигерия
+[Niue]
+Ниуэ
+[Northern Mariana Islands, US Territory of]
+Северные Марианские о-ва, территория США
+[Norway]
+Норвегия
+[Oman]
+Оман
+[Pakistan]
+Пакистан
+[Palau]
+Палау
+[Panama]
+Панама
+[Papua New Guinea]
+Папуа - Новая Гвинея
+[Paraguay]
+Парагвай
+[Peru]
+Перу
+[Philippines]
+Филиппины
+[Poland]
+Польша
+[Portugal]
+Португалия
+[Puerto Rico]
+Пуэрто-Рико
+[Qatar]
+Катар
+[Reunion Island]
+о. Реюньон
+[Romania]
+Румыния
+[Russia]
+Россия
+[Rwanda]
+Руанда
+[Samoa (USA)]
+Американские Самоа
+[Samoa, Western]
+Независимое государство Самоа
+[Saint Helena]
+о. Святой Елены
+[Saint Kitts and Nevis]
+Сент-Кристофер и Невис
+[Saint Lucia]
+Санта Лусия
+[Saint Pierre and Miquelon]
+Сен-Пьер и Микелон
+[Saint Vincent and the Grenadines]
+Сен-Винсент и Гренадины
+[San Marino]
+Сан-Марино
+[Sao Tome and Principe]
+Сан-Томе и Принсипи
+[Saudi Arabia]
+Саудовская Аравия
+[Scotland]
+Шотландия
+[Senegal]
+Сенегал
+[Seychelles]
+Сейшельские о-ва
+[Sierra Leone]
+Сьерра-Леоне
+[Singapore]
+Сингапур
+[Slovakia]
+Словакия
+[Slovenia]
+Словения
+[Solomon Islands]
+Соломоновы о-ва
+[Somalia]
+Сомали
+[South Africa]
+Южная Африка
+[Spain]
+Испания
+[Spain, Canary Islands]
+Канарские о-ва (Испания)
+[Sri Lanka]
+Шри Ланка
+[Sudan]
+Судан
+[Suriname]
+Суринам
+[Swaziland]
+Свазиленд
+[Sweden]
+Швеция
+[Switzerland]
+Швейцария
+[Syrian Arab Republic]
+Сирия
+[Taiwan]
+Тайвань
+[Tajikistan]
+Таджикистан
+[Tanzania]
+Танзания
+[Thailand]
+Тайланд
+[Timor, East]
+Восточный Тимор
+[Togo]
+Того
+[Tokelau]
+Токелау
+[Tonga]
+Тонга
+[Trinidad and Tobago]
+Тринидад и Тобаго
+[Tristan da Cunha]
+Тристан-да-Кунья
+[Tunisia]
+Тунис
+[Turkey]
+Турция
+[Turkey, Republic of Northern Cyprus]
+Турецкая Республика Северного Кипра
+[Turkmenistan]
+Туркменистан
+[Turks and Caicos Islands]
+о-ва Туркс и Кайкос
+[Tuvalu]
+Тувалу
+[Uganda]
+Уганда
+[Ukraine]
+Украина
+[United Arab Emirates]
+Объединённые Арабские Эмираты
+[United Kingdom]
+Великобритания
+[Uruguay]
+Уругвай
+[USA]
+США
+[Uzbekistan]
+Узбекистан
+[Vanuatu]
+Вануату
+[Vatican City]
+г. Ватикан
+[Venezuela]
+Венесуэла
+[Vietnam]
+Вьетнам
+[Virgin Islands (UK)]
+Виргинские о-ва (Англия)
+[Virgin Islands (USA)]
+Виргинские о-ва (США)
+[Wales]
+Уэльс
+[Wallis and Futuna Islands]
+о-ва Валлис и Футуна
+[Yemen]
+Йемен
+[Yugoslavia]
+Югославия
+[Serbia, Republic of]
+Республика Сербия
+[Kosovo, Republic of]
+Республика Косово
+[Montenegro, Republic of]
+Республика Черногория
+[Zambia]
+Замбия
+[Zimbabwe]
+Зимбабве
+[Aland Islands]
+Аландские о-ва
+[American Samoa]
+Американское Самоа
+[Antarctica]
+Антарктида
+[Bolivia, Plurinational State of]
+Боливия
+[Bonaire, Sint Eustatius and Saba]
+Бонайре, Синт-Эстатиус и Саба
+[Bouvet Island]
+о. Буве
+[British Indian Ocean Territory]
+Британская территория в Индийском океане
+[Brunei Darussalam]
+Бруней
+[Cape Verde]
+Кабо-Верде
+[Chile]
+Чили
+[Christmas Island]
+о. Рождества
+[Cocos (Keeling) Islands]
+Кокосовые о-ва
+[Congo]
+Конго, Республика
+[Congo, the Democratic Republic of the]
+Конго, Демократическая Республика
+[Cote d'Ivoire]
+Кот-д’Ивуар
+[Cyprus]
+Кипр
+[Falkland Islands (Malvinas)]
+Фолклендские о-ва
+[Faroe Islands]
+Фарерские о-ва
+[French Southern Territories]
+Французские Южные и Антарктические территории
+[Guam]
+Гуам
+[Guernsey]
+о. Гернси
+[Heard Island and McDonald Islands]
+о. Херд и о-ва Макдональд
+[Holy See (Vatican City State)]
+Ватикан
+[Iran, Islamic Republic of]
+Иран
+[Isle of Man]
+о. Мэн
+[Jersey]
+о. Джерси
+[Korea, Democratic People's Republic of]
+КНДР, Северная Корея
+[Korea, Republic of]
+Корея, Республика (Южная Корея)
+[Lao People's Democratic Republic]
+Лаос
+[Libya]
+Ливия
+[Macao]
+Макао
+[Macedonia, The Former Yugoslav Republic of]
+Македония
+[Mayotte]
+Майотта
+[Montenegro]
+Черногория
+[Norfolk Island]
+о. Норфолк
+[Northern Mariana Islands]
+Северные Марианские о-ва
+[Palestinian Territory, Occupied]
+Палестинские территории
+[Pitcairn]
+Питкэрн
+[Reunion]
+о. Реюньон
+[Russian Federation]
+Россия
+[Saint Barthelemy]
+Сен-Бартелеми
+[Saint Helena, Ascension and Tristan da Cunha]
+о-ва Св. Елены, Вознесения и Тристан-да-Кунья
+[Saint Martin (French part)]
+Сен-Мартен
+[Samoa]
+Самоа
+[Serbia]
+Сербия
+[Sint Maarten (Dutch part)]
+Синт-Маартен
+[South Georgia and the South Sandwich Islands]
+Южная Георгия и Южные Сандвичевы о-ва
+[South Sudan]
+Южный Судан
+[Svalbard and Jan Mayen]
+Шпицберген и Ян-Майен
+[Taiwan, Province of China]
+Тайвань
+[Tanzania, United Republic of]
+Танзания
+[Timor-Leste]
+Восточный Тимор
+[United States]
+США
+[United States Minor Outlying Islands]
+Внешние малые о-ва США
+[Venezuela, Bolivarian Republic of]
+Венесуэла
+[Viet Nam]
+Вьетнам
+[Virgin Islands, British]
+Британские Виргинские о-ва
+[Virgin Islands, U.S.]
+Виргинские о-ва (США)
+[Wallis and Futuna]
+о-ва Валлис и Футуна
+[Western Sahara]
+Сахарская Арабская Демократическая Республика
+[Unknown]
+Неизвестно
+[Menu objects]
+Виды меню
+[Menu items]
+Пункты меню
+[Decide &later]
+Решить &позже
+[Clear completed transfers on window closing]
+Очищать завершённые передачи при закрытии окна
+[View user's details]
+Информация о пользователе
+[Add contact permanently to list]
+Добавить в список
+[Auto rename]
+Автопереименование
+[Protocol menus]
+Меню протоколов
+[Move to the main menu]
+В главном меню
+[Move to the status bar]
+В панели статусов
+[%s requested authorization\n%u (%s) on %s]
+%s запросил(а) авторизацию\n%u (%s) в %s
+[%s requested authorization\n%u on %s]
+%s запросил(а) авторизацию\n%u в %s
+[%s requested authorization\n%s on %s]
+%s запросил(а) авторизацию\n%s в %s
+[Denial reason:]
+Причина отказа:
+[View User Details]
+Посмотреть информацию о пользователе
+[%s added you to the contact list\n%u (%s) on %s]
+%s добавил вас в свой список контактов\n%u (%s) в %s
+[%s added you to the contact list\n%u on %s]
+%s добавил вас в свой список контактов\n%u в %s
+[%s added you to the contact list\n%s on %s]
+%s добавил вас в свой список контактов\n%s в %s
+[Are you sure you want to remove profile "%s"?]
+Вы уверены, что хотите удалить профиль "%s"?
+[Modified]
+Изменён
+[Feature is not supported by protocol]
+Не поддерживается протоколом
+[Your database is located in Miranda root folder.\n]
+Файл вашего профиля находится в корневой папке Miranda.\n
+[Even though your profile folder is %s\n]
+Теперь папка вашего профиля это %s\n
+[Profiles are not allowed in the Miranda root folder.\n]
+Файл профиля не должен находится в корневой папке Miranda.\n
+[Please move Miranda database into the current profile folder.]
+Пожалуйста, переместите ваш профиль в правильную папку.
+[Profile cannot be placed into Miranda root folder.]
+Файл профиля не должен находится в корневой папке Miranda.
+[Please move Miranda profile to some other location.]
+Пожалуйста, переместите ваш профиль в другое место.
+[Miranda is trying upgrade your profile structure.\n]
+Miranda пытается обновить вашу структуру хранения профилей.\n
+[It cannot move profile %s to the new location %s automatically\n]
+Она не может автоматически переместить профиль %s на новое место %s\n
+[Most likely due to insufficient privileges. Please move profile manually.]
+Скорее всего, из-за недостатка прав. Пожалуйста, переместите профиль вручную.
+[Become idle if application full screen]
+Режим ожидания, если приложение запущено в полноэкранном режиме
+[Set custom time zone]
+Установить пользовательский часовой пояс
+[<unspecified>]
+<не указано>
+[Add to contact list if authorized]
+Добавить в список контактов после авторизации
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+ВНИМАНИЕ! Учётная запись будет удалена. Это означает, что все настройки, контакты и история также будут удалены.\n\nВы точно уверены?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет"
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Добро пожаловать в менеджер учётных записей Miranda NG!\nЗдесь вы можете настроить свои учётные записи.\n\nСлева в списке можно выбрать учётную запись, или кликнуть на значок плюса снизу для добавления новой учётной записи.
+[Send "You were added"]
+Отправить "Вас добавили"
+[User:]
+Логин:
+[OutputDebugString()]
+Функция OutputDebugString()
+[Text files]
+Текстовые файлы
+[Sound files]
+Звуковые файлы
+[WAV files]
+Файлы WAV
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG перезапускается.\nПожалуйста, подождите...
+[Open logging options]
+Настройки журналирования сети
+[Account is online. Disable account?]
+Учётная запись в сети. Отключить?
+[Configuring view mode: %s]
+Настройка режима вида: %s
+[Editing view mode]
+Режим просмотра по умолчанию
+[Show contacts in groups]
+Показывать контакты в группах
+[Download more plugins]
+Скачать плагины
+[Re&ad status message]
+Читать статусное сообщение
+[Disable icons]
+Отключить значки
+[Disable sounds on idle]
+Отключить звуки при переходе в режим ожидания
+[Minimize Miranda]
+Cвернуть
+[Running core plugin]
+Неотключаемый плагин ядра
+[Non-loadable plugin]
+Незагружаемый плагин
+[Check database]
+Проверить базу
+[Fatal error]
+Фатальная ошибка
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
+[Switch to simple options]
+Упрощённый вид настроек
+[Miranda NG must be restarted to apply changes for these plugins:]
+Требуется перезапуск программы для следующих плагинов:
+[Do you want to restart it now?]
+Перезапустить программу сейчас?
+[Open contact's chat window]
+Открыть окно беседы с контактом
+[Account error]
+Ошибка учётной записи
+[Account name has to be unique. Please enter unique name.]
+Имя учётной записи должно быть уникальным. Введите уникальное имя.
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
+[Standard netlib log]
+Стандартный журнал netlib
+[My received files]
+Принятые файлы
+[Edit phone number]
+Редактировать телефон
+[Avatars root folder]
+Корневая папка аватаров
+
+
+;ПЛАГИН КЛИСТА
+[ms delay]
+Задержка (мс)
+[Global Status Icons]
+Общие значки статуса
+[Contact Display]
+Контакты
+[HotKey1]
+Горячие клавиши 1
+[HotKey2]
+Горячие клавиши 2
+[Web Search:]
+Поиск в web:
+[Classic contact list]
+Список контактов (классик)
+[Row height:]
+Высота строки:
+[Selection color]
+Цвет выделения
+[Sort contacts by name]
+Сортировка по имени
+[Sort contacts by protocol]
+Сортировка по протоколу
+[Sort contacts by status]
+Сортировка по статусу
+[Enable docking]
+Парковать
+
+
+;ПЛАГИН ЧАТА
+[Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?.]
+Miranda не может загрузить плагин Chat, потому что отсутствует Microsoft Rich Edit версии 3.\nЕсли вы используете Windows 95/98/NT или WINE, обновите Rich Edit control.\n\nЗагрузить обновление?
+[Options for using a tabbed interface]
+Настройки вкладок
+[Use a tabbed interface]
+Использовать вкладки
+[Close tab on double click]
+Закрывать по двойному щелчку
+[Restore previously open tabs when showing the window]
+Восстанавливать открытые вкладки при показе окна
+[Show tabs at the bottom]
+Вкладки внизу
+[Chat log]
+Журнал чата
+[Users status was changed]
+Пользователь сменил статус
+[Chat windows]
+Окна чата
+[Toggle userlist]
+Перекл. список
+[Make the text bold (CTRL+B)]
+Сделать текст жирным (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Сделать текст курсивом (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Подчеркнуть текст (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Выбрать фон текста (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Выбрать цвет текста (CTRL+K)
+[%s wants your attention in room %s]
+%s просит вашего внимания в комнате %s
+[Close current tab (CTRL+F4)]
+Закрыть текущую вкладку (CTRL+F4)
+[Userlist user indent (pixels):]
+Отступ в списке (пиксели):
+[Userlist row distance (pixels):]
+Расстояние между строками (пикс.):
+[User list lines]
+Цвета линий в списке
+[C&lose other tabs]
+Закрыть остальные вкладки
+[User list members (Away)]
+Пользователи (отсутствуют)
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
+[User list members]
+Пользователи
+[User list background]
+Фон списка
+[Chat module]
+Модуль чата
+[User list statuses]
+Статусы пользователей
+[Send message by pressing the 'Enter' key]
+ВВОД отправляет сообщение
+[Send message by pressing the 'Enter' key twice]
+Двойной ВВОД отправляет сообщение
+[Show button for sending messages]
+Показывать кнопку отправки сообщения
+[Show name of the chat room in the top left of the window]
+Показывать название комнаты в левом верхнем углу
+[Show buttons for controlling the chat room]
+Показывать кнопки управления комнатой
+[Show buttons for formatting the text you are typing]
+Показывать кнопки форматирования текста
+[Show lines in the userlist]
+Показывать линии в списке
+[Show new windows cascaded]
+Уложить каскадом
+[Save the size and position of chat rooms]
+Сохранять размер и позицию окон комнат
+;;;
+[Custom2]
+Набор 2
+[Unique ID]
+Уник. ID
+[Word lookup]
+Найти слово
+[User list background (selected)]
+Заливка списка (выбрано)
+[Make the text bold]
+Полужирный
+[Make the text italicized]
+Наклонный
+[Make the text underlined]
+Подчеркнутый
+[Select a background color for the text]
+Цвет фона
+[Select a foreground color for the text]
+Цвет текста
+[Show the history]
+История
+[Show/hide the nicklist]
+Вкл/откл список ников
+[Control this room]
+Управление каналом
+[Enable/disable the event filter]
+Вкл/выкл фильтр
+[Save the size and position of chat rooms individually]
+Сохранять размер и позицию каждого окна
+[Chat: Incoming message]
+Чат: Входящее
+[Chat: Message is highlighted]
+Чат: Внимание!
+[Chat: The topic has been changed]
+Чат: Смена темы
+[Chat: User has changed name]
+Чат: Смена ника
+[Chat: User has disconnected]
+Чат: Выход из сети
+[Chat: User has joined]
+Чат: Вход на канал
+[Chat: User has kicked some other user]
+Чат: Кик с канала
+[Chat: User has left]
+Чат: Выход с канала
+[Chat: User has performed an action]
+Чат: Было выполнено действие
+[Chat: User has sent a notice]
+Чат: Уведомление!
+[Chat: Userґs status was changed]
+Чат: Смена статуса
+[Check temporary also]
+Проверять периодически
+[Event: Available]
+Событие: Доступен
+[Event: Away]
+Событие: Отошел
+[Event: Disconnect]
+Событие: Отключён
+[Event: DND]
+Событие: Не беспокоить
+[Event: Free for chat]
+Событие: Готов болтать
+[Event: N/A]
+Событие: Недоступен
+[Event: Occupied]
+Событие: Занят
+[Event: On the phone]
+Событие: На телефоне
+[Event: Out for lunch]
+Событие: Ушел обедать
+[Online notification of contacts]
+Проверка статуса контактов
+[Outgoing commands are not shown in the server window]
+Исходящие команды не будут показаны в серверном окне
+[Outgoing commands are shown in the server window]
+Исходящие команды будут показаны в серверном окне
+[The following is known about this user on the network. The information is not necessarily accurate]
+Об этом пользователе известно следующее (не обязательно достоверно)
+[timer (s): ]
+Таймер (с):\s
+[%s : Channel (%u Users)]
+%s : Канал (%u участников)
+[%s wants your attention in room %u]
+%s требует вашего внимания в комнате %u
+[Record all events in the room to a log file]
+Сохранять все события в журнале
+[&Message %s]
+&Сообщение %s
+
+
+;ПЛАГИН ОКНА СООБЩЕНИЙ
+[Send and receive instant messages]
+Плагин приема/отправки сообщений
+[Show balloon popup (unsupported system)]
+Показывать подсказки (неподдерживаемая система)
+[Messaging log]
+Журнал
+[An unknown error has occurred.]
+Неизвестная ошибка.
+[Save the window size and location individually for each contact]
+Сохранять размер и положение окна для каждого контакта
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda не смогла загрузить встроенную систему сообщений, так как отсутствует riched20.dll. Нажмите "Да" для продолжения загрузки программы.
+[Show 'Send' button]
+Показывать кнопку "Отправить"
+[Show username on top row]
+Показывать имя в верхней строке
+[Show toolbar buttons on top row]
+Показывать кнопки в верхней строке
+[Show character count]
+Показывать счётчик символов
+[Support CTRL+Up/Down in message area to show previously sent messages]
+Показывать старые сообщения при нажатии Ctrl+ВВЕРХ/ВНИЗ
+[Delete temporary contacts when closing message window]
+Удалять временные контакты при закрытии окна сообщения
+[Enable avatar support in the message window]
+Поддержка аватаров в окне сообщения
+[Limit avatar height to]
+Ограничить высоту аватара
+[Show timestamp]
+Показывать время
+[Show dates]
+Показывать даты
+[Show formatting]
+Показывать форматирование
+[Save the window position for each contact]
+Сохранять позицию окна для каждого контакта
+[Message window behavior:]
+Поведение окна сообщений:
+[Messaging:]
+Сообщения:
+[Automatically popup window when:]
+Открывать окно, если:
+[Message Window Options]
+Настройки окна диалога
+[Send and receive instant messages using a split mode or single mode interface.]
+Отправляйте и принимайте мгновенные сообщения, используя диалог (ICQ2000+) или простое окно (ICQ99b) окно.
+[Send/Receive Messaging]
+Отправка/получение сообщений
+[%.200s: Message Received]
+%.200s: получено сообщение
+[%.200s: Send Message]
+%.200s: отправить сообщение
+[Display Time in Message Log]
+Показывать время в журнале
+[Read &Next (%u)]
+Следующее (%u)
+[Read &Next]
+&Следующее
+[Single Mode]
+Простой
+[Split Mode]
+Диалоговый
+[Contact started typing]
+Контакт начал набор сообщения
+[Contact stopped typing]
+Контакт закончил набор сообщения
+
+
+;ПЛАГИН ЭКСТРА ЗНАЧКОВ
+[Select the extra icons to be shown in the contact list:]
+Выберите какие экстра значки будут отображаться в списке контактов:
+[Ungroup]
+Разгруппировать
+[Chat activity]
+Активность в чате
+[*only the first %d icons will be shown]
+*будут отображаться только первые %d значков
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Вы можете группировать/разгруппировывать значки, выделяя их (CTRL+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
+[Mobile State]
+Мобильность
+[Always invisible]
+Всегда невидимый
+[\nStyles and effects are disabled for this font.]
+Для этого шрифта настройка стилей и эффектов отключена.
+[Maximum number of flashes]
+Максимальное количество миганий
+[&Offline\tCtrl+0]
+Не в с&ети\tCtrl+0
+[On&line\tCtrl+1]
+В &сети\tCtrl+1
+[&Away\tCtrl+2]
+&Отсутствую\tCtrl+2
+[&NA\tCtrl+3]
+Не&доступен\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Занят\tCtrl+4
+[&DND\tCtrl+5]
+Не &беспокоить\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Готов болтать\tCtrl+7
+[&Invisible\tCtrl+7]
+&Невидимый\tCtrl+7
+[On the &phone\tCtrl+8]
+На &телефоне\tCtrl+8
+[Out to &lunch\tCtrl+9]
+Обед&аю\tCtrl+9
+[No profile support installed!]
+Нет установленных плагинов базы!
+[Group сhats log]
+Групповые чаты
+[&Show/hide nicklist]
+&Показать/Скрыть список ников
+[(Background) Color]
+(Фоновый) цвет
+[&Background color]
+Цвет фона
+[Send error]
+Ошибка отправки
+[Message window event log]
+Журнал в окне диалога
+[Load history events]
+Подгрузка истории
+[Paste and send]
+Вставить и отправить
+[Sample text]
+Пример текста
+
