@@ -1,0 +1,169 @@
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+[Ping labelled IP addresses or domain names.]
+
+;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+
+[Timeout]
+Tiempo de espera
+[Ping timeout (secs):]
+
+[Logging]
+Iniciando sesión
+[Log to File]
+
+[Log Filename:]
+
+[Network]
+Red
+[Popups]
+Ventanas emergentes
+[Reply]
+
+[Block Repetitions]
+
+[View Log]
+
+[Browse...]
+
+[Interface]
+
+[Do not change icon when testing]
+
+[Use the Customize/Fonts options to change text size and color.]
+
+[Indent:]
+
+[Row height:]
+Alto de fila:
+[Repeats for success/failure:]
+
+[Attach to contact list]
+
+[Use CSV format]
+
+[Add]
+Añadir
+[Remove]
+Eliminar
+[Edit]
+Editar
+[Up]
+
+[Down]
+
+[Edit Host]
+
+[OK]
+Aceptar
+[Cancel]
+Cancelar
+[Address:]
+
+[Label:]
+
+[TCP Connect]
+
+[Port:]
+Puerto:
+[Control Protocol:]
+
+[Set my status to:]
+
+[On success, if my status is:]
+
+[Execute the following command on double-click:]
+
+[Contact]
+Contacto
+[Protocols]
+Protocolos
+[(Optional) Command Parameters:]
+
+[Menu]
+
+[Graph]
+
+[Enable]
+Habilitar
+[Disable all pings]
+
+[Enable all pings]
+
+[Options...]
+
+[Hosts...]
+
+;file \plugins\Ping\src\menu.cpp
+[PING]
+
+[Enable All Pings]
+
+[Disable All Pings]
+
+;file \plugins\Ping\src\options.cpp
+[All\0*.*\0Text\0*.TXT\0]
+
+[<none>]
+<Nada>
+[<all>]
+
+[Settings]
+Ajustes
+[Hosts]
+
+;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+
+;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+
+[Show stats]
+
+[%d ms]
+
+[AVG %.1lf ms]
+
+[MAX %hd ms]
+
+[MIN %hd ms]
+
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+
+[%s - reply, %d]
+
+[%s - timeout]
+
+[Disable]
+Deshabilitar
+[enabled]
+
+[double clicked]
+
+[Ping]
+
+[Show/Hide &Ping Window]
+
+;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+
+;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+
+[Unknown]
+Desconocido
+[Responding]
+
+[Not Responding]
+
+[Testing]
+
+[Disabled]
+

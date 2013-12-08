@@ -1,0 +1,434 @@
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+
+;file \plugins\Clist_mw\res\resource.rc
+[Settings]
+Ajustes
+[Background color:]
+Color del fondo:
+[Selection color:]
+Color de selección:
+[Use background bitmap]
+Usar fondo de mapa de bits
+[Stretch to width]
+Estirar a ancho
+[Stretch to height]
+Estire a altura
+[Tile horizontally]
+Mosaico horizontal
+[Tile vertically]
+Mosaico vertical
+[Scroll with text]
+Desplazarse con el texto
+[Stretch proportionally]
+Estirar proporcionalmente
+[Tile vertically according to Row Height]
+Mosaico vertical de acuerdo con el alto de fila
+[Warning!\r\nThis MenuObject not support user defined options.]
+¡Advertencia!\r\nEste MenuObject no admite opciones definidas por el usuario.
+[MenuObjects]
+
+[MenuItems]
+
+[InsertSeparator]
+
+[Service:]
+Servicio:
+[Name:]
+Nombre:
+[Set]
+Establecer
+[Default]
+Por defecto
+[Delete Contact]
+Eliminar contacto
+[No]
+No
+[Yes]
+Sí
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
+[Use Options->Contacts->Ignore to unhide contacts.]
+Usar Opciones->Contactos->Ignorar Para mostrar los contactos
+[Are you sure you want to delete %s?]
+¿Está seguro de que desea eliminar a %s?
+[This will erase all history and settings for this contact!]
+¡Esto borrará toda el historial y los valores de este contacto!
+[Hide offline users]
+Ocultar usuarios fuera de línea
+[Hide empty groups]
+Ocultar grupos vacíos
+[Disable groups]
+Desactivar grupos
+[Ask before deleting contacts]
+Preguntar antes de eliminar
+[Always on top]
+Siempre en primer plano
+[Hide contact list after it has been idle for]
+Ocultar la lista de contactos después de que ha estado inactivo durante
+[seconds]
+segundos
+[Sort contacts by name]
+Ordenar contactos por nombre
+[Sort contacts by status]
+Ordenar contactos por estado
+[Sort contacts by protocol]
+Ordenar contactos por protocolo
+[Single click interface]
+Interfaz simple clic
+[Always show status in tooltip]
+Mostrar estado sobre herramientas
+[Disable icon blinking]
+Desactivar parpadeo de icono
+[ms, delay between icon blinking]
+
+[Show]
+Mostrar
+[icon when statuses differ]
+icono cuando el estado cambia
+[Cycle icons every]
+Ciclo de iconos de cada
+[seconds, when statuses differ]
+segundos, cuando el estado cambia
+[Show multiple icons]
+Mostrar varios iconos
+[Only when statuses differ]
+Sólo cuando el estado cambia
+[Contact List]
+Lista de contactos
+[System tray icon]
+Icono de la bandeja de sistema
+[System tray icon when using multiple protocols]
+Icono de la bandeja del sistema cuando se usan múltiples protocolos
+[Contact List Sorting]
+Clasificación de la lista de contacto 
+[Don't move offline user to bottom]
+
+[Pin to desktop]
+Pin de escritorio
+[Rows]
+
+[Row height:]
+Alto de fila:
+[pixels]
+píxeles
+[Gamma correction]
+Corrección de gama
+[Window]
+Ventana
+[Tool style main window]
+Estilo de ventana de herramientas principal
+[Minimize to tray]
+Minimizar a la bandeja
+[Automatically resize window to height of list]
+Redimensionar automáticamente la ventana a la altura de la lista
+[maximum]
+máximo
+[% of screen]
+% de la pantalla
+[Size upwards]
+Tamaño arriba
+[Title bar text:]
+Texto de la barra de título:
+[Translucency options]
+Opciones de translucidez
+[Fade contact list in/out]
+Desvanecer lista de contactos entrada/salida
+[Transparent contact list]
+Lista de contactos transparente
+[Inactive opacity:]
+Opacidad inactivo:
+[Active opacity:]
+Opacidad activio:
+[Show menu bar]
+Mostrar barra de menú
+[Easy move]
+Fácil movimiento
+[Show title bar]
+Mostrar barra de título
+[If window is partially covered, bring to front instead of hiding]
+Si la ventana está cubierta parcialmente, traer al frente en lugar de esconderse
+[Enable drop shadow (restart required)]
+
+[Items]
+Elementos
+[Show divider between online and offline contacts]
+Divisor entre contactos en línea y fuera de línea
+[Hot track items as mouse passes over]
+Seguir ítems resientes, como el ratón pasa encima
+[Disable drag and drop of items]
+Desactivar arrastre y soltado de ítems
+[Disable rename of items by clicking twice]
+Desactivar renombrado de ítems con doble clic
+[Show selection even when list is not focused]
+Mostrar selección aún si la lista no está enfocada
+[Make selection highlight translucent]
+Hacer selección resaltada translúcida
+['Hide Offline' means to hide:]
+'Ocultar fuera de línea' es:
+[Groups]
+Grupos
+[Draw a line alongside group names]
+Dibujar una línea al lado de los nombres de grupos
+[Show counts of number of contacts in a group]
+Mostrar recuento de número de contactos en un grupo
+[Hide group counts when there are none online]
+Ocultar cuentas de grupo cuando no hay nadie en línea
+[Sort groups alphabetically]
+Ordenar grupos alfabéticamente
+[Quicksearch in open groups only]
+Búsqueda rápida sólo en grupos abiertos
+[Indent groups by:]
+Sangría de grupos por:
+[Visual]
+Visual
+[Scroll list smoothly]
+Desplazar lista de problemas
+[Time:]
+Tiempo:
+[milliseconds]
+milisegundos
+[Left margin:]
+Margen izquierdo:
+[Gray out entire list when:]
+Vista gris a la lista completa cuando:
+[Dim idle contacts]
+Oscurecer contactos inactivos
+[Hide vertical scrollbar]
+
+[Contact List Background]
+Fondo de la lista de contactos
+[Use 'Meta' protocol icons for Metacontacts]
+
+[Avoid doubleclick expand]
+
+[Hide all 'Extra icons' for subcontacts]
+
+[MetaContacts supporting]
+
+[Ignore Empty Extra icons places (arrange to right).]
+
+[Hide offline subcontacts.]
+
+[Status Bar]
+Barra de estado
+[Show status bar]
+Mostrar barra de estado
+[Show icons]
+Mostrar iconos
+[Show protocol names]
+Mostrar nombres de protocolo
+[Show status text]
+Mostrar texto de estado
+[Right click opens status menu]
+Clic derecho abre el menú de estado
+[Right click opens Miranda menu]
+Clic derecho abre el menú de Miranda
+[Make sections equal width]
+Igualar anchura de secciones
+[Show size grip]
+
+[Show bevel effect on panels]
+
+[Use connecting Icon]
+
+[Use New Drawer for StatusBar]
+
+[&Main menu]
+&Menú principal
+[E&xit]
+&Salir
+[&Status]
+E&stado
+[&Offline\tCtrl+0]
+&Fuera de línea
+[On&line\tCtrl+1]
+&En línea
+[&Away\tCtrl+2]
+Fuer&a
+[&NA\tCtrl+3]
+&No disponible
+[Occ&upied\tCtrl+4]
+Oc&upado
+[&DND\tCtrl+5]
+No molestar
+[&Free for chat\tCtrl+6]
+&Libre para el chat
+[&Invisible\tCtrl+7]
+&Invisible
+[On the &Phone\tCtrl+8]
+En el &teléfono
+[Out to &Lunch\tCtrl+9]
+Salí a comer
+[Tray]
+Bandeja
+[&Hide/Show]
+&Mostrar/Ocultar
+[Nowhere]
+En ninguna parte
+[&New Group]
+&Nuevo Grupo
+[&Hide Offline Users]
+&Ocultar usuarios Fuera de línea
+[Hide &Offline Users out here]
+Ocultar usuarios fuera de línea fuera de aquí
+[Hide &Empty Groups]
+Ocu&ltar grupos vacíos
+[Disable &Groups]
+Desactivar Grupos
+[Hide Miranda]
+Ocultar Miranda
+[Group]
+Grupo
+[&New Subgroup]
+&Nuevo subgrupo
+[&Hide Offline Users in here]
+Ocul&tar usuarios fuera de línea aquí
+[&Rename Group]
+&Renombrar grupo
+[&Delete Group]
+El&iminar Grupo
+;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+Personalizar
+[Backgrounds]
+
+;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Contactos estándar
+[Online contacts to whom you have a different visibility]
+Contactos en línea a los que usted tiene una visibilidad diferente
+[Offline contacts]
+Contactos fuera de línea
+[Contacts which are 'not on list']
+Contactos que son 'no está en la lista'
+[Group member counts]
+Recuentos miembros del grupo
+[Dividers]
+Divisores
+[Offline contacts to whom you have a different visibility]
+Contactos desconectados a los que usted tiene una visibilidad diferente
+[Status messages]
+Mensajes de estado
+[Group Closed]
+
+[Hover Contacts]
+
+[Background]
+Fondo
+[Selected Text]
+Texto seleccionado
+[Hottrack Text]
+Texto rondado
+[Quicksearch Text]
+Búsqueda rápida de texto
+;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+Lista
+[List Background]
+Lista de fondos
+[List MetaContacts]
+
+[StatusBar Background]
+
+[Not focused]
+No enfocado
+[Offline]
+Fuera de línea
+[Online]
+En línea
+[Away]
+Fuera
+[NA]
+No disponible
+[Occupied]
+Ocupado
+[DND]
+No molestar
+[Free for chat]
+Libre para el chat	
+[Invisible]
+Invisible
+[Out to lunch]
+Salí a comer
+[On the phone]
+En el teléfono
+;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+Global
+;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
+
+[(Unknown Contact)]
+(Contacto desconocido)
+;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+&Buscar/Agregar contactos...
+[&Options...]
+&Opciones
+[&About]
+
+;file \plugins\Clist_mw\src\clui.cpp
+[My Contacts]
+
+;file \plugins\Clist_mw\src\cluiopts.cpp
+;file \plugins\Clist_mw\src\groupmenu.cpp
+[&New SubGroup]
+
+;file \plugins\Clist_mw\src\keyboard.cpp
+[Close Miranda]
+
+[Restore last status]
+
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+
+[&Visible]
+
+[&Show TitleBar]
+
+[&Locked]
+
+[&Collapsed]
+
+[&Floating Mode]
+
+[&Border]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Frames]
+Marcos
+[Show All Frames]
+
+[Show All Titlebars]
+
+[Hide All Titlebars]
+
+[Lock Frame]
+
+[Visible]
+
+[Show TitleBar]
+
+[Floating]
+
+;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

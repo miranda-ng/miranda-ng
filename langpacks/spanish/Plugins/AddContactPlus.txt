@@ -1,0 +1,54 @@
+﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.1
+;  Authors: Bartosz 'Dezeath' Bialek
+;============================================================
+[Provides the ability to quickly add new contacts.]
+Ofrece la posibilidad de añadir rápidamente nuevos contactos.
+;file \plugins\AddContactPlus\res\resource.rc
+[Add contact]
+Añadir contacto
+[Add contact\nAdd a contact to your contact list]
+Añadir contacto\nAgregar un contacto a la lista de contactos
+[Account:]
+Cuenta:.
+[Contact ID:]
+Contacto ID:
+[Custom name:]
+Nombre personalizado:
+[Group:]
+Grupo:
+[Options]
+Opciones
+[Add temporarily]
+Añadir temporalmente
+[Send "You were added"]
+Enviar "Usted fue agregado"
+[Send authorization request]
+Enviar solicitud de autorización
+[Authorization request]
+Solicitud de autorización
+[&Add]
+&Añadir
+[&Cancel]
+&Cancelar
+;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Por favor autorice mi petición y añadame a su lista de contactos.
+[None]
+Ninguno
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+El contacto no se puede añadir a su lista de contactos. Por favor, asegúrese de que la ID del contacto se introdujo correctamente.
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+El contacto no se puede añadir a su lista de contactos. Si usted no está registrado en la cuenta seleccionada, por favor trate de hacerlo. También, asegúrese de que la ID del contacto está introducida correctamente.
+;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+&Añadir contacto...
+[Open add contact dialog]
+Abrir diálogo de añadir contacto
+[Main]
+Principal
+[AddContact+]
+AddContact+

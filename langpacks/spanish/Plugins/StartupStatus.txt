@@ -1,0 +1,341 @@
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.45
+;  Authors: P Boon
+;============================================================
+[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
+
+;file \Plugins\StatusPlugins\resource.rc
+[Check connection]
+Comprobar la conexión
+[Max. retries]
+Máximos reintentos
+[Account connection]
+
+[Delay between retries (secs)]
+Tiempo entre reintentos (segundos)
+[Show popups]
+Mostrar pop-ups
+[General]
+General
+[Accounts to check]
+Cuentas a comprobar
+[Dial-Up]
+Dial-Up
+[Don't reconnect if no internet connection seems available]
+No volver a conectar si parece que no hay conexión a Internet disponible
+[Continuously check for internet connection]
+Comprobar continuamente la conexión a Internet
+[Do so by pinging host]
+Hacer ping a servidor
+[Confirm status]
+
+[Close]
+Cerrar
+[Cancel]
+Cancelar
+[Profile]
+Perfil
+[Message]
+Mensaje
+[after]
+después
+[minutes of inactivity]
+minutos de inactividad
+[minutes of level 1 mode]
+minutos de modo de nivel 1
+[Confirm resetting status]
+Confirmar el reajuste de estado
+[Account]
+Cuenta
+[Only set if current status is]
+Sólo establecer si el estado actual es
+[Monitor Miranda's activity only]
+Monitorear sólo la actividad de Miranda
+[Reset status on return]
+Restablecer el estado al volver
+[when screen saver engages]
+Cuando el protector de pantalla cuando se acopla
+[Set]
+Establecer
+[only set when inactive]
+Sólo se establece cuando está inactivo
+[when workstation is locked]
+cuando la estación de trabajo está bloqueada
+[Command line]
+
+[OK]
+Aceptar
+[Copy to clipboard]
+
+[Command line:]
+Comandos:
+[Create shortcut]
+
+[Add new profile]
+Añadir nuevo perfil
+[Profile name]
+Nombre del perfil
+[Set window state]
+Establecer estado de la ventana
+[Show dialog]
+Mostrar diálogo
+[Set status to offline before exit]
+Establecer estado a Fuera de línea antes de la salir
+[Show CMDL]
+Mostrar CMDL
+[Activate status profile]
+Activar perfil de estado
+[Set docked]
+Establecer acoplado
+[Other]
+Otro
+[Status on startup]
+Estado al arranque
+[ms]
+ms
+[Set after]
+Establecer después
+[Timeout]
+Tiempo de espera
+[s]
+s
+[Set window location]
+Establecer ubicación de ventana
+[Set window size]
+Establecer tamaño de ventana
+[x]
+x
+[Allow override]
+Permitir anular
+[Note: status profiles can be created in the 'Status profiles' options screen]
+
+[Window on startup]
+Ventana al arranque
+[Automatically dial on startup]
+Usar automáticamente al arranque
+[Automatically hang up on exit]
+Suspender automáticamente al salir
+[Dial-up (experimental)]
+Dial-up (experimental)
+[Background color]
+Color de fondo
+[Text color]
+Color de texto
+[Use Windows colors]
+Usar colores de Windows
+[Use default colors]
+Usar colores predeterminados
+[Delay]
+Retardo
+[On left click]
+En clic izquierdo
+[On right click]
+En clic derecho
+[Do nothing]
+No hacer nada
+[Close popup]
+Cerrar popup
+[Cancel reconnecting]
+Cancelar reconexión
+[Colors]
+Colores
+[Preview]
+Previsualizar
+[Events]
+Eventos
+[Show when connection is lost]
+Mostrar cuando se pierde la conexión
+[Show when a connection attempt is made]
+Mostrar cuando se realiza un intento de conexión
+[Show when reconnection has finished]
+Mostrar cuando la reconexión ha terminado
+[Show other messages]
+Mostrar otros mensajes
+[From Popup plugin]
+Desde Popup plugin
+[Custom]
+Personalizado
+[Permanent]
+Permanente
+[Show additional information in popups]
+Mostrar información adicional de popups
+[Use Miranda's message setting]
+Usar configuración de mensajes de Miranda
+[Use this message:]
+Usar este mensaje:
+[Use %time% for the current time, %date% for the current date]
+Usar %time% para la hora actual, %date% para la fecha actual
+[Variables...]
+Variables...
+[Specify settings for each account]
+Especificar la configuración de cada cuenta
+[Use same settings for all accounts]
+Usar la misma configuración para todas las cuentas
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+
+[Check interval (secs)]
+Comprobar cada (segundos)
+[Confirm dialog timeout (secs)]
+Tiempo de espera de diálogo confirmar (segundos)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Usted permite "Cambiar mi modo de estado a" en el diálogo de opciones "Inactivo" Se ignoran las opciones de AdvancedAutoAway.
+[Monitor keyboard activity]
+Monitorear la actividad del teclado
+[Monitor mouse activity]
+Monitorear actividad del ratón
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ignorar CTRL, ALT, SHIFT, TAB, ESC y las teclas de Windows
+[Ignore any key combination with above keys]
+Ignore cualquier combinación de teclas con las teclas de arriba
+[Accounts]
+Cuentas
+[Enable checking]
+Habilitar comprobación
+[Disable checking]
+Deshabilitar comprobación
+[Set status message]
+Establecer mensaje de estado
+[Status]
+Estado
+[Add...]
+Añadir...
+[Delete]
+Eliminar
+[Create a TopToolBar button]
+Crear un botón de barra de herramientas superior
+[Show confirm dialog when loading]
+Mostrar diálogo de confirmación cuando se carga
+[Create a main menu item]
+Crear un elemento del menú principal
+[Status profiles]
+
+[Hotkey]
+Tecla de acceso directo
+[In submenu]
+En el submenú
+[Max. delay (secs)]
+Retardo máximo (segundos)
+[Increase delay exponential]
+Aumentar retraso exponencial
+[Cancel all if a account connects from another location]
+Cancelar todo si una cuenta se conecta desde otro lugar
+[Reconnect on APM resume]
+Reconectar en resumen APM
+[Stop trying to reconnect]
+Deja de tratar de volver a conectar
+[Set delay to]
+Establecer demora a
+[React on login errors]
+Reaccionar en los errores de inicio de sesión
+[seconds]
+segundos
+[Set account offline before a connection attempt]
+Establecer cuenta Fuera de línea ante un intento de conexión
+[Max. account connecting time (secs)]
+Máximo tiempo de conexión de cuenta (segundos)
+[Timers]
+Minuteros
+[Reconnecting]
+Reconectando
+[Ignore locked status of accounts]
+No hacer caso de estado de bloqueo de cuentas
+[Consider connection lost after]
+Considerar posibilidad de pérdida de conexión después de
+[failed pings]
+pings que han fallado
+[Continuously check interval (secs)]
+Intervalo de comprobación continuamente (segundos)
+[Entering first auto-away status]
+Introduciendo primero el estado de auto-fuera
+[Entering second auto-away status]
+Introduciendo segundo estado de auto-fuera
+[Leaving first auto-away status]
+Dejando primer estado auto-fuera
+[Leaving second auto-away status]
+Dejando segundo estado auto-fuera
+[Becoming active without status change]
+Ser activo sin cambio de estado
+[Pre-conditions]
+Condiciones previas
+[TriggerData]
+Datos de activación
+[Status: The status the account will change to\r\nAccount: The account changing state]
+Estado: El estado de la cuenta cambiará a\r\nCuenta: Cambiando el estado de la cuenta
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<last>]
+<último>
+[<current>]
+<presente>
+[<unknown>]
+<desconocido>
+[Left]
+Izquierda
+[Right]
+Right
+[None]
+Ninguno
+[size: %d x %d]
+
+[loc: %d x %d]
+
+[Hidden]
+
+[Minimized]
+
+[Normal]
+
+[Create a status menu item]
+
+[default]
+
+[unknown]
+
+[At least one profile must exist]
+
+[StartupStatus]
+
+[Your default profile will be changed]
+
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[There is a maximum of 6 menu items]
+
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+[Pressed toolbar icon]
+
+[Released toolbar icon]
+
+;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+He estado fuera desde %time%.
+[Give it up, I'm not in!]
+¡Dejenme, no estoy!
+[Not right now.]
+No en este momento.
+[Give a guy some peace, would ya?]
+Dale un poco de paz, ¿quieres?
+[I'm a chatbot!]
+¡Soy un chatbot!
+[Yep, I'm here.]
+Sí, estoy aquí.
+[Nope, not here.]
+No, no estoy aquí.
+[I'm hiding from the mafia.]
+Me estoy escondiendo de la mafia.
+[That'll be the phone.]
+Estoy al teléfono.
+[Mmm... food.]
+Mmm... comida.
+[idleeeeeeee]
+libreeeeeeee
+;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Set %s message for %s.]
+Establecer mensaje %s para %s.
+[<n/a>]
+<n/a>
+[Protocol]
+Protocolo
+[Closing in %d]
+Cerrando en %d

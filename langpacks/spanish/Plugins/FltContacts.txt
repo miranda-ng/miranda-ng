@@ -1,0 +1,106 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.1
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+[Floating Contacts plugin for Miranda.]
+
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+
+[Hide offline contacts]
+Ocultar contactos sin conexión
+[Stick together]
+
+[Use fixed width]
+
+[pixels]
+píxeles
+[Hide all contacts]
+
+[Hide when a fulscreen app is active]
+
+[Show tooltips*]
+
+[ms]
+ms
+[Tooltips]
+
+[Miscellaneous]
+Diverso
+[0 = Default]
+0 = por defecto
+[*requires Tipper plugin]
+
+[Bring to front]
+
+[Bring to front every]
+
+[seconds]
+segundos
+[Hide when contact list is shown]
+
+[Single click interface]
+Interfaz simple clic
+[Dim idle contacts]
+Oscurecer contactos inactivos
+[Idle contacts]
+
+[Border]
+
+[Draw border]
+
+[Left-top edge's color:]
+
+[Right-bottom edge's color:]
+
+[Background]
+Fondo
+[Background color:]
+Color del fondo:
+[Use background bitmap]
+Usar fondo de mapa de bits
+[Stretch to width]
+Estirar a ancho
+[Stretch to height]
+Estire a altura
+[Tile horizontally]
+Mosaico horizontal
+[Tile vertically]
+Mosaico vertical
+[Stretch proportionally]
+Estirar proporcionalmente
+[Opacity:]
+
+;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Contactos estándar
+[Online contacts to whom you have a different visibility]
+Contactos en línea a los que usted tiene una visibilidad diferente
+[Offline contacts]
+Contactos fuera de línea
+[Offline contacts to whom you have a different visibility]
+Contactos desconectados a los que usted tiene una visibilidad diferente
+[Contacts which are 'not on list']
+Contactos que son 'no está en la lista'
+[Floating contacts]
+
+[Show all thumbs]
+
+[Hide all thumbs]
+
+[Remove thumb]
+
+[Show/Hide all thumbs]
+
+;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+
+[Contact List]
+Lista de contactos
+[Main Features]
+
+[Appearance]
+

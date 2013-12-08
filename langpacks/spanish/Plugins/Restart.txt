@@ -1,0 +1,14 @@
+﻿#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
+;============================================================
+;  File: Restart.dll
+;  Plugin: Restart
+;  Version: 0.0.6.0
+;  Authors: eugene.nv
+;============================================================
+[Adds Restart menu item.]
+Añade ítem de reinicio al menú.
+;file \plugins\Restart\src\restart.cpp
+[Restart]
+Reiniciar
+[Restart Plugin]
+Reiniciar Plugin
