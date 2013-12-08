@@ -11,7 +11,7 @@ Wsparcie dla szyfrowania wiadomości OTR (Off-the-Record).
 [OTR Generating Private Key]
 OTR Generowanie Klucza Prywatnego
 [Generating new private key - please wait.]
-Generuj nowy klucz prywatny - proszę czekać.
+Generowanie nowego klucza prywatnego. - Proszę czekać.
 [Default Policy]
 Domyślna Polityka
 [Always]
@@ -19,15 +19,15 @@ Zawsze
 [Opportunistic]
 Oportunistyczna
 [Manual]
-Manualne
+Ręcznie
 [Never]
 Nigdy
 [End sessions on window close]
 Zamknij sesję podczas zamykania okna
 [End sessions when contacts go offline]
-Zamknij sesję kiedy kontakt jest rozłączony
+Zamknij sesję kiedy kontakt rozłącza się
 [Prefix encrypted IMs:]
-Prefiks szyfrowanych wiadomości:
+Prefix szyfrowanych wiadomości:
 [Don't add encrypted messages to the history]
 Nie dodawaj szyfrowanych wiadomości do historii
 [Also remove OTR system messages]
@@ -37,7 +37,7 @@ Pokazuj wiadomości systemowe OTR w linii
 [Show OTR system messages as popup]
 Pokazuj wiadomości systemowe OTR jako popupy
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Czas oczekiwania sesji MINĄŁ, powrót do rozmowy CZYSTYM TEKSTEM (trzymaj się!)
+Czas oczekiwania sesji MINĄŁ, powrót do rozmowy CZYSTYM TEKSTEM (uwarzaj!)
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
 [Set OTR policy per protocol]
@@ -59,15 +59,15 @@ Ustaw jako nieznany
 [Forget]
 Porzuć
 [Socialist Millionaires Protocol]
-Protokół Socjalistycznych Milionerów
+Protokół Socialist Millioneres
 [Socialist Millionaires Protocol\r\nVerification progress]
-Protokół Socjalistycznych Milionerów\r\nWeryfikacja w toku
+Protokół Socialist Millioneres\r\nWeryfikacja w toku
 [&Cancel]
 Anuluj
 [&OK]
 &OK
 [Socialist Millionaires Protocol\r\nVerification]
-Protokół Socjalistycznych Milionerów\r\nWeryfikacja
+Protokół Socialist Millioneres\r\nWeryfikacja
 [&No]
 Nie
 [&Yes]
@@ -104,27 +104,27 @@ Szyfrowanie OTR: Zakończone
 [&Convert HTML (for Pidgin)]
 Konwertuj HTML (dla Pidgina)
 [OTR encrypted session with '%s' has been terminated]
-Sesja szyfrowania OTR z "%s" została zakończona
+Szyfrowana sesja OTR z "%s" została przerwana
 [Requesting OTR encrypted session with '%s']
-Żądanie sesji szyfrowania OTR z "%s"
+Żądanie szyfrowanej sesji OTR z "%s"
 [Beginning OTR encrypted session with '%s']
-Rozpoczynanie sesji szyfrowania OTR z "%s"
+Rozpoczynanie szyfrowanej sesji OTR z "%s"
 [Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
-Rozpoczynanie sesji szyfrowania OTR z "%s" (niezweryfikowany)
+Rozpoczynanie szyfrowanej sesji OTR z "%s" (niezweryfikowany)
 [Trying to refresh OTR encrypted session with '%s']
-Próba odświeżenia sesji szyfrowania OTR z "%s"
+Próba odświeżenia sesji OTR z "%s"
 [OTR encrypted session was refreshed by '%s']
-Sesja szyfrowania OTR została odświeżona przez "%s"
+Sesja OTR została odświeżona przez "%s"
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
-Sesja szyfrowania OTR została odświeżona przez "%s" (niezweryfikowany)
+Sesja OTR została odświeżona przez "%s" (niezweryfikowany)
 [OTR encrypted session with '%s' sucessfully refreshed]
-Sesja szyfrowania OTR z "%s" odświeżona pomyślnie
+Szyfrowana sesja OTR z "%s" odświeżona pomyślnie
 [OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
-Sesja szyfrowania OTR z "%s" odświeżona pomyślnie (niezweryfikowany)
+Sesja OTR z "%s" odświeżona pomyślnie (niezweryfikowany)
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
-Sesja szyfrowania OTR została zakończona przez "%s". Powinieneś również to uczynić.
+Sesja OTR została zakończona przez "%s". Powinieneś również to uczynić.
 [OTR encrypted session with '%s' could not be started]
-Sesja szyfrowania OTR z "%s" nie mogła zostać rozpoczęta
+Szyfrowana sesja OTR z "%s" nie mogła zostać rozpoczęta
 [OTR could not encrypt when sending message]
 OTR nie mogło zaszyfrować wiadomości podczas jej wysyłania
 [OTR Information]
@@ -132,7 +132,7 @@ Informacje OTR
 [[OTR INFO] ]
 Info OTR
 [Authentication from %s]
-Autentykacja od "%s"
+Uwierzytelnienie od "%s"
 [Authenticae %s]
 Autoryzuj %s
 [Unknown]
@@ -142,9 +142,9 @@ OTR: %s (%s)
 [OTR %s (%s)]
 OTR %s (%s)
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
-Sesja szyfrowania OTR z "%s" używa teraz zweryfikowanego odcisku palca
+Szyfrowana sesja OTR z "%s" używa teraz zweryfikowanego odcisku palca
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
-Sesja szyfrowania OTR z "%s" używa teraz niezweryfikowanego odcisku palca
+Szyfrowana sesja OTR z "%s" używa teraz niezweryfikowanego odcisku palca
 [OTR unverified]
 OTR niezweryfikowany
 [OTR finished]
@@ -156,7 +156,7 @@ OTR bez szyfrowania
 [OTR]
 OTR
 [Generating new private key for protocol '%s'.\nPlease Wait...]
-Generuj nowy klucz prywatny dla protokołu '%s'.\nProszę czekać...
+Generowanie nowego klucza prywatnego dla protokołu '%s'.\nProszę czekać...
 [General]
 Ogólne
 [Protocols]
@@ -176,13 +176,13 @@ Zweryfikowany
 [Active]
 Aktywny
 [Fingerprint]
-Ikony klientów
+Odcisk palca
 [Conv. HTML]
 Conv. HTML
 [Default]
 Domyślny
 [Generating new key for '%s'. Continue?]
-Generuj nowy klucz dla '%s'. Kontynuować?
+Generowanie nowego klucza dla '%s'. Kontynuować?
 [Removing key for '%s'. Continue?]
 Usuwanie klucza dla '%s'. Kontynuować?
 [OTR Fingerprint Verification]
@@ -198,7 +198,7 @@ ZWERYFIKUJ: odcisk palca kontaktu
 [OTR Authenticate: %s (%s)]
 OTR autoryzuj: %s (%s)
 [Challenge Question]
-Pytanie-wyzwanie
+Pytanie-odpowiedź
 [Known Password]
 Znane hasło
 [Manual fingerprint comparison]
@@ -210,11 +210,11 @@ Pytanie
 [Password]
 Hasło:
 [Authentication sucessful.]
-Autentykacja pomyślna.
+Uwierzytelnianie pomyślne.
 [You contact authenticated you sucessful. You can send your own request to authenticate him.]
-Twój kontakt zautoryzował cię pomyślnie. Teraz możesz wysłać swoje żądanie autentykacji.
+Twój kontakt zautoryzował cię pomyślnie. Teraz możesz wysłać swoje żądanie uwierzytelnienia.
 [Error during authentication.]
-Błąd podczas autentykacji.
+Błąd podczas uwierzytelniania.
 [Authentication failed]
 Autentykacja nieudana
 [Authentication for '%s' is already in progress.]
