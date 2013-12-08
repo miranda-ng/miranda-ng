@@ -1,0 +1,3049 @@
+﻿;file \src\resource.rc
+[Enter account name (for example, My Google)]
+Introduzca el nombre de cuenta (por ejemplo, Mi Google)
+[Choose the protocol type]
+Seleccione el tipo de protocolo
+[Specify the internal account name (optional)]
+Especifique el nombre de la cuenta interna (opcional)
+[OK]
+Aceptar
+[Cancel]
+Cancelar
+[Add %s]
+Añadir %s
+[&Add]
+&Añadir
+[&Cancel]
+&Cancelar
+[Send "You were added"]
+Enviar "Usted fue agregado"
+[Send authorization request]
+Enviar solicitud de autorización
+[Open contact's chat window]
+Abrir ventana de conversación del contacto
+[Custom name:]
+Nombre personalizado:
+[Group:]
+Grupo:
+[Options]
+Opciones
+[Authorization request]
+Solicitud de autorización
+[Delete contact]
+Eliminar contacto
+[&Yes]
+&Sí
+[&No]
+&No
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
+[Use Options->Contacts->Ignore to unhide contacts.]
+Usar Opciones->Contactos->Ignorar Para mostrar los contactos
+[Are you sure you want to delete %s?]
+¿Está seguro de que desea eliminar a %s?
+[This will erase all history and settings for this contact!]
+¡Esto borrará toda el historial y los valores de este contacto!
+[Contact display options]
+Opciones de visualización de contacto
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+En lugar de mostrar los contactos por su apodo,\narrastre para seleccionar otro orden:
+[Miranda NG Profile Manager]
+Administrador de perfiles de Miranda NG
+[&Run]
+Ejecuta&r
+[&Exit]
+&Salir
+[Start in Service Mode with]
+Iniciar en el modo de servicio con
+[Find/Add contacts]
+Buscar/Agregar contactos
+[Search:]
+Buscar:
+[E-mail address]
+Dirección E-mail
+[Name]
+Nombre
+[Nick:]
+Nick:
+[First:]
+Primero:
+[Last:]
+Último:
+[Advanced]
+Avanzado
+[Advanced >>]
+Avanzado >>
+[&Search]
+Bu&scar
+[More options]
+Más opciones
+[Add to list]
+Añadir a la lista
+[Custom]
+Personalizado
+[Find/Add contacts\nHere you can add contacts to your contact list]
+Buscar/Agregar contactos\nAquí usted puede agregar contactos a su lista de contactos
+[Options\nConfigure your Miranda NG options]
+Opciones\nConfigure las opciones de Miranda NG
+[Apply]
+Aplicar
+[Switch to simple options]
+Cambiar a opciones sencillas
+[Please select a subentry from the list]
+Por favor seleccione una subentrada de la lista
+[Install database settings]
+Instalar ajustes de la base de datos
+[Yes]
+Sí
+[No]
+No
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Un archivo que contiene los nuevos valores de base de datos se ha colocado en el directorio de Miranda NG.
+[Do you want to import the settings now?]
+¿Desea importar la configuración ahora?
+[No to all]
+No a todo
+[&View contents]
+&Ver contenidos
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de los cambios que no se sabe que son seguros.
+[Database setting change]
+Cambiar configuración de base de datos
+[Database settings are being imported from]
+Propiedades de la base están siendo importadas de
+[This file wishes to change the setting]
+Este archivo desea cambiar el ajuste
+[to the value]
+al valor
+[Do you want to allow this change?]
+¿Desea permitir este cambio?
+[&Allow all further changes to this section]
+Permitir todos los nuevos c&ambios en esta sección
+[Cancel import]
+Cancelar importación
+[Database import complete]
+Importar base de datos completado
+[The import has completed from]
+La importación ha completado a partir de
+[What do you want to do with the file now?]
+¿Qué es lo que quiere hacer con el archivo ahora?
+[&Recycle]
+&Reciclar
+[&Delete]
+&Borrar
+[&Move/Rename]
+&Mover/Renombrar
+[&Leave]
+&Dejar
+[Netlib log options]
+Opciones de registro Netlib
+[Show]
+Mostrar
+[Received bytes]
+Bytes recibidos
+[Sent bytes]
+Bytes enviados
+[Additional data due to proxy communication]
+Datos adicionales debido a la comunicación de proxy
+[Text dumps where available]
+Dumpear texto cuando se pueda
+[Auto-detect text]
+Detección automática de texto
+[Calling modules' names]
+Llamando a nombres de módulos
+[Log to]
+Registrar en
+[OutputDebugString()]
+OutputDebugString()
+[File]
+Archivo
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+Ejecutar programa cuando miranda NG comienza (por ejemplo tail-f, dbgview, etc.):
+[Run now]
+Ejecutar ahora
+[Show this dialog box when Miranda NG starts]
+Mostrar este cuadro de diálogo cuando Miranda NG inicia
+[Save as default]
+Guardar predeterminado
+[SSL traffic]
+Tráfico SSL
+[Sounds]
+Sonidos
+[&Change...]
+&Cambiar...
+[&Preview]
+&Previsualizar
+[Download more sounds]
+Descargar más sonidos
+[Sound information]
+Información de sonido
+[Location:]
+Ubicación:
+[Name:]
+Nombre:
+[Enable sound events]
+Activar eventos de sonido
+[Icons]
+Iconos
+[Show category:]
+Mostrar categoría:
+[&Load icon set...]
+&Cargar grupo de iconos...
+[&Import icons >>]
+&Importar iconos >>
+[Download more icons]
+Descargar más iconos
+[The following events are being ignored:]
+Los siguientes eventos seran ignorados:
+[Messages]
+Mensajes
+[URLs]
+URLs
+[Files]
+Archivos
+[Online notification]
+Notificación En línea
+[Auth requests]
+Solicitudes de autenticación
+[All events]
+Todos los eventos
+[None]
+Ninguno
+[Only the ticked contacts will be shown on the main contact list]
+Sólo los contactos marcados se muestran en la lista de contactos principal
+[Ignore]
+Ignorar
+[Added notification]
+Notificación añadida
+[Typing]
+Escribiendo
+[Visibility]
+Visibilidad
+[You are visible to this person even when in invisible mode]
+Usted es visible a esta persona, incluso cuando está en modo invisible
+[You are never visible to this person]
+Nunca es visible a esta persona
+[Icon index]
+Índice de icono
+[Icon library:]
+Biblioteca de icono:
+[Drag icons to main list to assign them:]
+Arrastre los iconos a la lista principal para asignarles:
+[Import multiple]
+Importar múltiples
+[To main icons]
+A iconos principales
+[To]
+A
+[<< &Import]
+<< &Importar
+[To default status icons]
+Para reajustar los iconos de estado
+[Logging...]
+Iniciando...
+[Outgoing connections]
+Conexiones salientes
+[Use proxy server]
+Usar servidor proxy
+[Type:]
+Tipo:
+[Host:]
+Anfitrión:
+[Port:]
+Puerto:
+[(often %d)]
+(veces %d)
+[Use custom login (domain login picked up automatically)]
+Usar inicio de sesión personalizado (Dominio de sesión tomado automáticamente)
+[Username:]
+Usuario:
+[Password:]
+Contraseña:
+[Resolve hostnames through proxy]
+Resolver nombres de anfitrión a través del proxy
+[Port range:]
+Rango de puerto:
+[Example: 1050-1070, 2000-2010, 2500]
+Ejemplo: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Validar certificados SSL
+[Incoming connections]
+Conexiones entrantes
+[Enable UPnP port mapping]
+Habilitar la asignación de puertos UPnP
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Tendrá que volver a conectarse para que los cambios en esta página surtan efecto.
+[Please complete the following form to create a new user profile]
+Por favor, complete el siguiente formulario para crear un nuevo perfil de usuario.
+[Profile]
+Perfil
+[e.g. Workplace]
+Ejemplo: Trabajo
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Puede seleccionar un controlador de perfil diferente del predeterminado, puede ofrecer más características o habilidades, en caso de duda usar el predeterminado.
+[e.g. Miranda Database]
+Ejemplo: Miranda Database
+[Driver]
+Controlador
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Problema: No se puede encontrar ningún controlador de base de datos, esto significa que no se puede crear un nuevo perfil, necesita obtener dbx_mmap.dll
+[Download more plugins]
+Descargar más plugins
+[Description:]
+Detalles:
+[Author(s):]
+Autor(es):
+[E-mail:]
+E-mail:
+[Homepage:]
+Sitio web:
+[Unique ID:]
+ID único:
+[Copyright:]
+Copyright:
+[Please restart Miranda NG for your changes to take effect.]
+Por favor reinicie Miranda NG para que los cambios surtan efecto.
+[Fonts and colors]
+Fuentes y colores
+[Undo]
+Deshacer
+[Reset]
+Reiniciar
+[Export...]
+Exportar...
+[(Background) Color]
+(Fondo) Color
+[Text effect]
+Efecto de texto
+[Text color]
+Color de texto
+[Choose font]
+Elegir fuente
+[Font]
+Fuente
+[&Font:]
+&Fuente:
+[Font st&yle:]
+Est&ilo de fuente:
+[\nStyles and effects are disabled for this font.]
+E&stilos y efectos están desactivados para este tipo de letra.
+[&Size:]
+Tama&ño:
+[Effects]
+Efectos
+[Stri&keout]
+&Tachado
+[&Underline]
+S&ubrayar
+[&Color:]
+&Color:
+[Sample]
+Muestra
+[AaBbYyZz]
+AaBbYyZz
+[Sc&ript:]
+Sc&ript:
+[&Apply]
+&Aplicar
+[&Help]
+A&yuda
+[Menu objects]
+Objetos del menú
+[Menu items]
+Elementos del menú
+[Protocol menus]
+Menús protocolo
+[Move to the main menu]
+Mover al menú principal
+[Move to the status bar]
+Mover a la barra de estado
+[Warning!\r\nThis menu object not support user defined options.]
+¡Advertencia!\r\nEste menú objeto no admite opciones definidas por el usuario.
+[Insert separator]
+Insertar separador
+[Service:]
+Servicio:
+[Default]
+Por defecto
+[Set]
+Establecer
+[Disable icons]
+Desactivar iconos
+[Show accounts in the following order,\ndrag to choose another order:]
+Mostrar cuentas en el siguiente orden,\narrastre para seleccionar otro orden:
+[Account order and visibility]
+Orden de cuenta y visibilidad
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Nota: Miranda NG tendrá que ser reiniciado para que los cambios surtan efecto
+[Key bindings]
+Atajos de teclado
+[Shortcut:]
+Atajo:
+[Add]
+Añadir
+[Remove]
+Eliminar
+[Undo changes]
+Deshacer cambios
+[Reset to default]
+Restaurar por defecto
+[Hotkeys]
+Teclas de acceso directo
+[Accounts]
+Cuentas
+[Accounts\nConfigure your IM accounts]
+Cuentas\nConfigure sus cuentas de mensajería instantánea
+[Account information:]
+Información de la cuenta:
+[Additional:]
+Adicional:
+[Configure network...]
+Configurar red...
+[Get more protocols...]
+Obtener más protocolos...
+[&Add...]
+&Añadir...
+[&Edit]
+&Editar
+[&Options]
+&Opciones
+[&Upgrade]
+Act&ualizar
+[&Remove...]
+&Retirar...
+[Miranda NG]
+Miranda NG
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG se reinicia.\nPor favor espere...
+[Error console]
+Consola de errores
+[Error notifications]
+Notificaciones de error
+[Headers:]
+Cabeceras
+[This font is used to display main section titles or text elements.]
+Esta fuente se utiliza para mostrar secciones de títulos principales o elementos de texto.
+[Normal text:]
+Texto normal:
+[This font is used to display most text element or section bodies.]
+Esta fuente se utiliza para mostrar más elementos de texto o sección de cuerpos.
+[Minor notes:]
+Notas menores:
+[This font is used to display various addtional notes.]
+Esta fuente se utiliza para mostrar diferentes notas complementarias.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+¡Bienvenido al gestor de cuentas de Miranda NG!\nAquí usted puede configurar sus cuentas de mensajería instantánea.\n\nSeleccione una cuenta de la lista de la izquierda para ver las opciones disponibles. Alternativamente, haga clic en el signo más debajo de la lista para configurar una nueva cuenta de MI.
+[Event icon legend:]
+Leyenda de icono de evento:
+[Choose events you wish to ignore:]
+Seleccione los eventos que desea ignorar:
+[Font effect]
+Efecto de fuente
+[Effect:]
+Efecto:
+[Base color:]
+Color básico:
+[opacity:]
+opacidad:
+[Secondary color:]
+Color secundario:
+[Select the extra icons to be shown in the contact list:]
+Seleccione los iconos adicionales que se muestran en la lista de contactos:
+[*only the first %d icons will be shown]
+* sólo los primeros %d iconos se muestran
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y usando el menú contextual (clic derecho)
+[Tray]
+Bandeja
+[&Hide/Show]
+&Mostrar/Ocultar
+[E&xit]
+&Salir
+[Nowhere]
+En ninguna parte
+[&New group]
+&Nuevo Grupo
+[&Hide offline users]
+&Ocultar usuarios Fuera de línea
+[Hide &offline users out here]
+Ocultar usuarios fuera de línea fuera de aquí
+[Hide &empty groups]
+Ocu&ltar grupos vacíos
+[Disable &groups]
+Desactivar &grupos
+[Hide Miranda]
+Ocultar Miranda
+[Group]
+Grupo
+[&New subgroup]
+&Nuevo subgrupo
+[&Hide offline users in here]
+Ocul&tar usuarios fuera de línea aquí
+[&Rename group]
+&Renombrar grupo
+[&Delete group]
+El&iminar Grupo
+[&Reset to default]
+Restablecer valores predeterminados
+[find/add]
+buscar/añadir
+[&Add to list]
+&Añadir a la lista
+[User &details]
+&Detalles del usuario
+[Send &message]
+Enviar mensaje
+[Log]
+Registro
+[&Copy]
+&Copiar
+[Co&py all]
+Co&piar todo
+[Select &all]
+Elegir &todo
+[C&lear log]
+&Limpiar registro
+[Open in &new window]
+Abrir en nueva ventana
+[&Open in existing window]
+Abrir en ventana existente
+[&Copy link]
+Copiar enlace
+[Cancel change]
+Cancelar cambio
+[Ungroup]
+Desagrupar
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&Autorizar
+[&Deny]
+&Denegar
+[Decide &later]
+&Decidir más &tarde
+[Reason:]
+Razón:
+[Denial reason:]
+Razón de rechazo:
+[Add to contact list if authorized]
+Añadir a la lista de contactos si está autorizado
+[You were added]
+Usted fue añadido
+[&Close]
+&Cerrar
+;file \src\core\stdaway\resource.rc
+[%s message for %s]
+%s Mensaje(S) para %s
+[Retrieving %s message...]
+Recuperando %s Mensaje(S)...
+[Status messages]
+Mensajes de estado
+[Do not reply to requests for this message]
+No responder a las solicitudes de este mensaje
+[Do not pop up dialog asking for new message]
+No mostrar diálogo preguntando por un nuevo mensaje
+[By default, use the same message as last time]
+Por defecto, usar el mismo mensaje como la última vez
+[By default, use this message:]
+Por defecto, usar este mensaje:
+[Use %time% for the current time, %date% for the current date]
+Usar %time% para la hora actual, %date% para la fecha actual
+[Status messages:]
+Mensajes de estado:
+[Change %s message]
+Cambiar %s mensaje
+[Closing in %d]
+Cerrando en %d
+;file \src\core\stdchat\res\chat.rc
+[&Send]
+&Enviar
+[&Emoticons]
+&Emoticones
+[&Bold]
+&Negrita
+[&Italic]
+C&ursiva
+[&Color]
+&Color
+[&Background color]
+Color &de fondo
+[&History]
+&Historial
+[&Filter]
+&Filtro
+[&Room settings]
+Configu&ración de espacio
+[&Show/Hide nicklist]
+&Mostrar/ocultar lista de nicks
+[Show these events only:]
+Mostrar sólo estos eventos:
+[Actions]
+Acciones
+[Nick changes]
+Cambios de Nick
+[Users joining]
+Usuarios entrando
+[Users leaving]
+Usuarios saliendo
+[Topic changes]
+Cambios de tema
+[Status changes]
+Cambios de estado
+[Information]
+Información
+[Disconnects]
+Desconectados
+[User kicks]
+Usuarios sacados
+[Notices]
+Avisos
+[Log options]
+Opciones de registro
+[Log timestamp]
+Registro de marca de tiempo
+[Timestamp]
+Marca de tiempo
+[Other name]
+Otro nombre
+[Your name]
+Su nombre
+[Enable highlighting]
+Habilitar resaltando
+[Limit log text to (events):]
+Limitar el texto del registro a (eventos):
+[Trim to (KB)]
+Recortar a (KB)
+[Words to highlight (wildcards allowed)]
+Palabras a resaltar (comodines permitidos)
+[Enable logging to disk]
+Habilitar registro en el disco
+[Log directory]
+Directorio de registro
+[Other]
+Otro
+[Add new rooms to group:]
+Añadir nuevas salas de grupo:
+[Userlist row distance (pixels):]
+Lista de usuarios distancia entre hileras (píxeles):
+[Use same style as in the message log]
+Usar mismo estilo que en el registro de mensajes
+[Use default colors]
+Usar colores predeterminados
+[Use custom colors]
+Usar colores personalizados
+[Popups for the Chat plugin]
+Ventanas emergentes para el plugin de chat
+[Timeout (s)]
+Tiempo de espera (s)
+[Text]
+Texto
+[Background]
+Fondo
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
+[List]
+Lista
+[&Message]
+&Mensaje
+[Clear lo&g]
+Limpiar re&gistro
+[Word lookup]
+Palabra de búsqueda
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+Enlace
+[Open a &new browser window]
+Abrir una nueva ventana del navegador
+[&Open in current browser window]
+Abrir en ventana actual del navegad&or
+[Message]
+Mensaje
+[Redo]
+Rehacer
+[Copy]
+Copiar
+[Cut]
+Cortar
+[Paste]
+Pegar
+[Select all]
+Seleccionar todo
+[Clear]
+Limpiar
+[Tabs]
+Pestañas
+[&Close tab]
+&Cerrar pestaña
+[C&lose other tabs]
+C&errar otras pestañas
+[&Open at this position]
+Abrir en esta p&osición
+;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+Ocultar usuarios fuera de línea
+[Hide empty groups]
+Ocultar grupos vacíos
+[Disable groups]
+Desactivar grupos
+[Ask before deleting contacts]
+Preguntar antes de eliminar
+[Sort contacts by name]
+Ordenar contactos por nombre
+[Sort contacts by status]
+Ordenar contactos por estado
+[Sort contacts by protocol]
+Ordenar contactos por protocolo
+[Single click interface]
+Interfaz simple clic
+[Always show status in tooltip]
+Mostrar estado sobre herramientas
+[Disable icon blinking]
+Desactivar parpadeo de icono
+[ms delay]
+ms de retardo
+[icon when statuses differ]
+icono cuando el estado cambia
+[Cycle icons every]
+Ciclo de iconos de cada
+[seconds, when statuses differ]
+segundos, cuando el estado cambia
+[Show multiple icons]
+Mostrar varios iconos
+[Only when statuses differ]
+Sólo cuando el estado cambia
+[Contact list]
+Lista de contactos
+[System tray icon]
+Icono de la bandeja de sistema
+[System tray icon when using multiple protocols]
+Icono de la bandeja del sistema cuando se usan múltiples protocolos
+[Contact list sorting]
+Orden de la lista de contacto
+[Window]
+Ventana
+[Always on top]
+Siempre en primer plano
+[Tool style main window]
+Estilo de ventana de herramientas principal
+[Minimize to tray]
+Minimizar a la bandeja
+[Show menu bar]
+Mostrar barra de menú
+[Easy move]
+Fácil movimiento
+[Show title bar]
+Mostrar barra de título
+[Title bar text:]
+Texto de la barra de título:
+[Show drop shadow (restart required)]
+Mostrar sombra (requiere un reinicio)
+[Pin to desktop]
+Pin de escritorio
+[Hide contact list after it has been idle for]
+Ocultar la lista de contactos después de que ha estado inactivo durante
+[seconds]
+segundos
+[Automatically resize window to height of list]
+Redimensionar automáticamente la ventana a la altura de la lista
+[maximum]
+máximo
+[% of screen]
+% de la pantalla
+[Size upwards]
+Tamaño arriba
+[If window is partially covered, bring to front instead of hiding]
+Si la ventana está cubierta parcialmente, traer al frente en lugar de esconderse
+[Enable docking]
+Habilitar el acoplamiento
+[Translucency options]
+Opciones de translucidez
+[Fade contact list in/out]
+Desvanecer lista de contactos entrada/salida
+[Transparent contact list]
+Lista de contactos transparente
+[Inactive opacity:]
+Opacidad inactivo:
+[Active opacity:]
+Opacidad activio:
+[Items]
+Elementos
+[Show divider between online and offline contacts]
+Divisor entre contactos en línea y fuera de línea
+[Hot track items as mouse passes over]
+Seguir ítems resientes, como el ratón pasa encima
+[Disable drag and drop of items]
+Desactivar arrastre y soltado de ítems
+[Disable rename of items by clicking twice]
+Desactivar renombrado de ítems con doble clic
+[Show selection even when list is not focused]
+Mostrar selección aún si la lista no está enfocada
+[Make selection highlight translucent]
+Hacer selección resaltada translúcida
+[Dim idle contacts]
+Oscurecer contactos inactivos
+['Hide offline' means to hide:]
+'Ocultar fuera de línea' es:
+[Groups]
+Grupos
+[Draw a line alongside group names]
+Dibujar una línea al lado de los nombres de grupos
+[Show counts of number of contacts in a group]
+Mostrar recuento de número de contactos en un grupo
+[Hide group counts when there are none online]
+Ocultar cuentas de grupo cuando no hay nadie en línea
+[Sort groups alphabetically]
+Ordenar grupos alfabéticamente
+[Quick search in open groups only]
+Búsqueda rápida sólo en grupos abiertos
+[Indent groups by:]
+Sangría de grupos por:
+[pixels]
+píxeles
+[Visual]
+Visual
+[Scroll list smoothly]
+Desplazar lista de problemas
+[Time:]
+Tiempo:
+[milliseconds]
+milisegundos
+[Left margin:]
+Margen izquierdo:
+[Hide vertical scroll bar]
+Ocultar barra de desplazamiento vertical
+[Row height:]
+Alto de fila:
+[Gamma correction]
+Corrección de gama
+[Gray out entire list when:]
+Vista gris a la lista completa cuando:
+[Contact list background]
+Fondo de la lista de contactos
+[Background color]
+Color de fondo
+[Selection color]
+Color de selección
+[Use background image]
+Usar imagen de fondo
+[Stretch to width]
+Estirar a ancho
+[Stretch to height]
+Estire a altura
+[Tile horizontally]
+Mosaico horizontal
+[Tile vertically]
+Mosaico vertical
+[Scroll with text]
+Desplazarse con el texto
+[Stretch proportionally]
+Estirar proporcionalmente
+[Use Windows colors]
+Usar colores de Windows
+[Status bar]
+Barra de estado
+[Show status bar]
+Mostrar barra de estado
+[Show icons]
+Mostrar iconos
+[Show protocol names]
+Mostrar nombres de protocolo
+[Show status text]
+Mostrar texto de estado
+[Right click opens status menu]
+Clic derecho abre el menú de estado
+[Right click opens Miranda NG menu]
+Clic derecho abre el menú de Miranda NG
+[Make sections equal width]
+Igualar anchura de secciones
+[Show bevels on panels]
+Mostrar biseles en los paneles
+[Show resize grip indicator]
+Mostrar indicador de cambio de tamaño
+[Ordering:]
+Ordenando:
+[Contact list:]
+Lista de contactos:
+[If window is partially covered, bring it to front]
+Si la ventana está cubierta en parte, llevar a delante
+[Window:]
+Ventana:
+[Contact list background:]
+Fondo de lista de de contactos:
+[&Main menu]
+&Menú principal
+[&Status]
+E&stado
+[&Offline\tCtrl+0]
+&Fuera de línea
+[On&line\tCtrl+1]
+&En línea
+[&Away\tCtrl+2]
+Fuer&a
+[&NA\tCtrl+3]
+&No disponible
+[Occ&upied\tCtrl+4]
+Oc&upado
+[&DND\tCtrl+5]
+No molestar
+[&Free for chat\tCtrl+6]
+&Libre para el chat
+[&Invisible\tCtrl+7]
+&Invisible
+[On the &phone\tCtrl+8]
+En el &teléfono\tCtrl+8
+[Out to &lunch\tCtrl+9]
+Salí a comer\tCtrl+9
+;file \src\core\stdfile\resource.rc
+[Send file(s)]
+Enviar archivo(s)
+[To:]
+A:
+[File(s):]
+Archivo(s)
+[&Choose again...]
+Sele&ccionar de nuevo...
+[Total size:]
+Tamaño total:
+[&User menu]
+Menú de usuario
+[Incoming file transfer]
+Transferencia de archivos entrantes
+[A&ccept]
+%Aceptar
+[&Decline]
+&Denegar
+[From:]
+De:
+[Date:]
+Fecha:
+[Files:]
+Archivos:
+[Save to:]
+Guardar a:
+[&Open...]
+&Abrir...
+[Open &folder]
+Abrir &carpeta
+[Transfer completed, open file(s).]
+Transferencia finalizada, abrir archivo(s)
+[No data transferred]
+No hay datos transferidos
+[File already exists]
+El archivo ya existe
+[Resume]
+Reanudar
+[Resume all]
+Reanudar todo
+[Overwrite]
+Sobrescribir
+[Overwrite all]
+Sobrescribir todo
+[Save as...]
+Guardar como...
+[Auto rename]
+Auto renombrar
+[Skip]
+Omitir
+[Cancel transfer]
+Cancelar transferencia
+[You are about to receive the file]
+Va a recibir el archivo
+[Existing file]
+Archivo existente
+[Size:]
+Tamaño:
+[Last modified:]
+Última modificación:
+[Open file]
+Abrir archivo
+[Open folder]
+Abrir carpeta
+[File properties]
+Propiedades de archivo
+[File being received]
+El archivo se está recibiendo
+[File transfers]
+Transferencias de archivos
+[Clear completed]
+Limpiar completado
+[Close]
+Cerrar
+[Receiving files]
+Recibir archivos
+[Received files folder:]
+Carpeta para archivos:
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Variables admitidas: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Auto-aceptar los archivos entrantes de personas en mi lista de contactos
+[Minimize the file transfer window]
+Minimizar la ventana de transferencia de archivos
+[Close window when transfer completes]
+Cerrar ventana cuando la transferencia se completa
+[Clear completed transfers on window closing]
+Limpiar transferencias realizadas al cerrar la ventana
+[Virus scanner]
+Escáner de virus
+[Scan files:]
+Analizar:
+[Never, do not use virus scanning]
+Nunca, no usar detección de virus
+[When all files have been downloaded]
+Cuando todos los archivos se han descargado
+[As each file finishes downloading]
+Segun cada archivo termine de descargarse
+[Command line:]
+Comandos:
+[%f will be replaced by the file or folder name to be scanned]
+%f será reemplazado por el nombre del archivo o carpeta a escanear
+[Warn me before opening a file that has not been scanned]
+Avisar antes de abrir un archivo que no se ha explorado
+[If incoming files already exist]
+Si ya existen los archivos entrantes
+[Ask me]
+Preguntarme
+[Rename (append " (1)", etc.)]
+Renombrar (añadir " (1)", etc.)
+[You will always be asked about files from people not on your contact list]
+Siempre que se pregunte sobre archivos de personas que no están en la lista
+;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+Acerca de Miranda NG
+[Miranda NG\n%s]
+Miranda NG\n%s
+[Credits >]
+Créditos >
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+Pasar a reposo, si el siguiente queda desatendido:
+[Windows]
+Ventanas
+[Miranda]
+Miranda
+[Become idle if the screen saver is active]
+Pasar a inactivo si el salvapantallas está activo
+[Become idle if the computer is locked]
+Pasar a inactivo si el equipo está bloqueado
+[Become idle if a terminal session is disconnected]
+Pasar a inactivo si una sesión de terminal se desconecta
+[Do not let protocols report any idle information]
+No permitir a los protocolos reportar cualquier información de estado libre
+[minute(s)]
+minuto(s)
+[for]
+para
+[Change my status mode to:]
+Cambiar mi modo de estado a:
+[Do not set status back to online when returning from idle]
+No establecer estado a en línea al volver de inactividad
+[Idle options]
+Opciones de inactividad
+[Become idle if application full screen]
+Pasar a inactivo si aplicación pasa a pantalla completa
+[Disable sounds on idle]
+Desactivar los sonidos en inactividad
+[Become idle if computer is left unattended for:]
+Pasar a inactivo si el equipo se deja de usar durante:
+[Idle (auto-away):]
+Inactivo (automático):
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+Ventana emergente automáticamente cuando:
+[In background]
+En segundo plano
+[Close the message window on send]
+Cerrar la ventana de mensaje al enviar
+[Minimize the message window on send]
+Minimizar la ventana de mensaje al enviar
+[Use the contact's status icon as the window icon]
+Usar el icono de estado del contacto como el icono de la ventana
+[Save the window size and location individually for each contact]
+Guardar el tamaño de la ventana y la ubicación de forma individual para cada contacto
+[Cascade new windows]
+Ventanas en cascada nueva
+[Show 'Send' button]
+Mostrar botón 'Enviar'
+[Show username on top row]
+Mostrar nombre de usuario en la fila superior
+[Show toolbar buttons on top row]
+Mostrar botones de barra de herramientas en la parte superior de la fila
+[Send message on double 'Enter']
+Enviar mensaje con doble 'Intro'
+[Send message on 'Enter']
+Enviar mensaje con 'Intro'
+[Show character count]
+Mostrar recuento de caracteres
+[Show warning when message has not been received after]
+Mostrar aviso cuando el mensaje no se ha recibido después de
+[Support CTRL+Up/Down in message area to show previously sent messages]
+Soporte CTRL+Arriba/Abajo en el área de mensajes para mostrar mensajes previamente enviados
+[Delete temporary contacts when closing message window]
+Eliminar contactos temporales al cerrar la ventana mensaje
+[Enable avatar support in the message window]
+Habilitar la compatibilidad de avatar en la ventana de mensajes
+[Limit avatar height to]
+Limitar altura de avatar a
+[Maximum number of flashes]
+Número máximo de destellos
+[Send error]
+Enviar error
+[An error has occurred. The protocol reported the following error:]
+Se ha producido un error. El protocolo reportó el siguiente error:
+[while sending the following message:]
+al enviar el siguiente mensaje:
+[Try again]
+Intentar de nuevo
+[Message session]
+Sesión de mensaje
+[&Details]
+&Detalles
+[Message window event log]
+Ventana de mensajes de registro de eventos
+[Show names]
+Mostrar nombres
+[Show timestamp]
+Mostrar indicación de la hora
+[Show dates]
+Mostrar fechas
+[Load unread events only]
+Cargar eventos sólo sin leer
+[Load number of previous events]
+Número de eventos anteriores a cargar
+[Load previous events less than]
+Cargar eventos previos de menos de
+[minutes old]
+minutos de pasado
+[Show status changes]
+Mostrar cambios de estado
+[Show seconds]
+Mostrar segundos
+[Load history events]
+Cargar historial de eventos
+[Show formatting]
+Mostrar formateando
+[Send typing notifications to the following users when you are typing a message to them:]
+Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
+[Show typing notifications when a user is typing a message]
+Mostrar notificaciones de escritura cuando el usuario está escribiendo un mensaje
+[Update inactive message window icons when a user is typing]
+Actualizar iconos de la ventana de mensajes inactivos cuando el usuario está escribiendo
+[Show typing notification when no message dialog is open]
+Mostrar notificación de escritura cuando no hay diálogo de mensaje abierto
+[Flash in the system tray and in the contact list]
+Destellos en la bandeja del sistema y en la lista de contactos
+[Show balloon popup]
+Mostrar globo emergente
+[Save the window position for each contact]
+Guardar la posición de la ventana para cada contacto
+[Message window behavior:]
+Comportamiento de la ventana de mensaje:
+[Messaging:]
+Mensajería:
+[&Open link]
+&Abrir enlace
+[Paste and send]
+Pegar y Enviar
+[Delete]
+Eliminar
+;file \src\core\stduihist\resource.rc
+[Find]
+Buscar
+[&Find next]
+Buscar &siguiente
+[Find what:]
+Buscar siguiente
+[Message history]
+Historial de mensajes
+[&Find...]
+&Buscar...
+;file \src\core\stduserinfo\resource.rc
+[Add phone number]
+Agregar número de teléfono
+[Enter country, area code and phone number:]
+Introduzca país, código de área y número de teléfono:
+[Or enter a full international number:]
+O introduzca un número internacional completo:
+[Phone can receive SMS text messages]
+El teléfono puede recibir mensajes de texto SMS
+[Add e-mail address]
+Añadir dirección de correo
+[%s: user details]
+%s: Información del usuario
+[%s\nView personal user details and more]
+%s\nVer detalles personales del usuario y más
+[Update now]
+Actualizar ahora
+[Updating]
+Actualizando
+[Nickname:]
+Apodo:
+[First name:]
+Primer nombre:
+[Gender:]
+Género:
+[Last name:]
+Apellido:
+[Age:]
+Edad:
+[Date of birth:]
+Fecha de nacimiento:
+[Marital status:]
+Estado civil:
+[Phone:]
+Teléfono:
+[Web page:]
+Página web:
+[Past background:]
+Últimos fondos:
+[Interests:]
+Intereses:
+[About:]
+Acerca de:
+[My notes:]
+Mis notas:
+[Street:]
+Calle
+[City:]
+Ciudad
+[State:]
+Estado:
+[Postal code:]
+Código Postal:
+[Country:]
+País:
+[Spoken languages:]
+Idiomas hablados:
+[Timezone:]
+Zona horaria:
+[Local time:]
+Hora local
+[Set custom time zone]
+Establecer zona horaria personalizada
+[Company:]
+Empresa:
+[Department:]
+Departamento:
+[Position:]
+Posición:
+[Website:]
+Sitio web
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s solicita autorización
+[%u requests authorization]
+%u olicita autorización
+[%s added you to their contact list]
+%s te ha añadido a su lista de contactos
+[%u added you to their contact list]
+%u te ha añadido a su lista de contactos
+[Alerts]
+Alertas
+[Added event]
+Evento añadido
+;file \src\core\stdauth\authdialogs.cpp
+[View user's details]
+Ver detalles del usuario
+[Add contact permanently to list]
+Añadir contacto permanentemente a la lista
+[<Unknown>]
+<Desconocido>
+[%s added you to the contact list\n%u (%s) on %s]
+%s te agregó a la lista de contactos\n%u (%s) en %s
+[%s added you to the contact list\n%u on %s]
+%s te agregó a la lista de contactos\n%u en %s
+[%s added you to the contact list\n%s on %s]
+%s te agregó a la lista de contactos\n%s en %s
+[(Unknown)]
+(Desconocido)
+[%s requested authorization\n%u (%s) on %s]
+%s autorización solicitada\n%u (%s) en %s
+[%s requested authorization\n%u on %s]
+%s autorización solicitada\n%u en %s
+[%s requested authorization\n%s on %s]
+%s autorización solicitada\n%s on %s
+[Feature is not supported by protocol]
+La función no está soportada por el protocolo
+;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s message]
+Leer %s mensaje(s)
+[Re&ad status message]
+Leer mens&aje de estado
+;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+He estado fuera desde %time%.
+[Give it up, I'm not in!]
+¡Dejenme, no estoy!
+[Not right now.]
+No en este momento.
+[Give a guy some peace, would ya?]
+Dame un poco de paz, ¿quieres?
+[I'm a chatbot!]
+¡Soy un chatbot!
+[Yep, I'm here.]
+Sí, estoy aquí.
+[Nope, not here.]
+No, no estoy aquí.
+[I'm hiding from the mafia.]
+Me estoy escondiendo de la mafia.
+[That'll be the phone.]
+Estoy al teléfono.
+[Mmm... food.]
+Mmm... comida.
+[idleeeeeeee]
+libreeeeeeee
+[Status]
+Estado
+;file \src\core\stdchat\src\clist.cpp
+[Join chat]
+Entrar al chat
+[Open chat window]
+Abrir ventana de chat
+;file \src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\log.cpp
+[%s has joined]
+%s se ha unido
+[You have joined %s]
+Te has unido a %s
+[%s has left]
+%s ha salido
+[%s has disconnected]
+%s se ha desconectado
+[%s is now known as %s]
+%s ahora se conoce como %s
+[You are now known as %s]
+Usted ahora se conoce como %s
+[%s kicked %s]
+%s sacado %s
+[Notice from %s: ]
+Aviso de %s: 
+[The topic is '%s%s']
+El tema es '%s%s'
+[ (set by %s on %s)]
+ (establecido por %s el %s)
+[ (set by %s)]
+ (establecido por %s)
+[%s enables '%s' status for %s]
+%s habilitar '%s' de estado para %s
+[%s disables '%s' status for %s]
+%s deshabilitar '%s' de estado para %s
+[<invalid>]
+<inválido>
+;file \src\core\stdchat\src\options.cpp
+[Others nicknames]
+Otros apodos
+[Your nickname]
+Su apodo
+[User has joined]
+El usuario se ha unido
+[User has left]
+El usuario se ha salido
+[User has disconnected]
+El usuario se ha desconectado
+[User kicked ...]
+usuario sacado...
+[User is now known as ...]
+El usuario está ahora conocido como...
+[Notice from user]
+Aviso del usuario
+[Incoming message]
+Mensaje entrante
+[Outgoing message]
+Mensaje saliente
+[The topic is ...]
+El tema es...
+[Information messages]
+Mensajes de información
+[User enables status for ...]
+El usuario permite el estado de...
+[User disables status for ...]
+El usuario desactiva el estado de...
+[Action message]
+Mensaje de acción
+[Highlighted message]
+Mensaje seleccionado
+[Message typing area]
+Área de escritura de mensaje
+[User list members (online)]
+Miembros de la lista de usuarios (en línea)
+[User list members (away)]
+Miembros de la lista de usuarios (fuera)
+[Use a tabbed interface]
+Usar interfaz con pestañas
+[Close tab on double click]
+Cerrar pestaña con doble clic
+[Restore previously open tabs when showing the window]
+Restaurar pestañas previamente abiertas al mostrar la ventana
+[Show tabs at the bottom]
+Mostrar pestañas en la parte inferior
+[Send message by pressing the 'Enter' key]
+Enviar mensaje pulsando la tecla 'Intro'
+[Send message by pressing the 'Enter' key twice]
+Enviar mensaje pulsando la tecla 'Intro' dos veces
+[Flash window when someone speaks]
+Parpadear ventana cuando alguien habla
+[Flash window when a word is highlighted]
+Parpadear ventana cuando se resalta una palabra
+[Show list of users in the chat room]
+Mostrar lista de usuarios en la sala de chat
+[Show button for sending messages]
+Mostrar el botón para enviar mensajes
+[Show buttons for controlling the chat room]
+Mostrar botones para el control de la sala de chat
+[Show buttons for formatting the text you are typing]
+Mostrar botones para formatear el texto que está escribiendo
+[Show button menus when right clicking the buttons]
+Mostrar menús del botón derecho cuando se hace clic en los botones
+[Show new windows cascaded]
+Mostrar nuevas ventanas en cascada
+[Save the size and position of chat rooms]
+Guarde el tamaño y la posición de las salas de chat
+[Show the topic of the room on your contact list (if supported)]
+Mostrar el tema de la sala en su lista de contactos (si es compatible)
+[Do not play sounds when the chat room is focused]
+No reproducir sonidos cuando la sala de chat esta enfocada
+[Do not pop up the window when joining a chat room]
+No abrir la ventana al unirse a una sala de chat
+[Toggle the visible state when double clicking in the contact list]
+Alternar el estado visible cuando se hace doble clic en la lista de contactos
+[Show contact statuses if protocol supports them]
+Mostrar estados de contacto si el protocolo lo soporta
+[Display contact status icon before user role icon]
+Mostrar icono de estado de contacto antes icono de función de usuario
+[Prefix all events with a timestamp]
+Prefijo de todos los eventos con una fecha y hora
+[Only prefix with timestamp if it has changed]
+Sólo prefijo de marca de tiempo si ha cambiado
+[Timestamp has same color as the event]
+La marca de tiempo tiene mismo color que evento
+[Indent the second line of a message]
+Sangría de la segunda línea de un mensaje
+[Limit user names in the message log to 20 characters]
+Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
+[Add ':' to auto-completed user names]
+Añadir ':' a los nombres de usuario auto-completado
+[Strip colors from messages in the log]
+Quitar los colores de los mensajes en el registro
+[Enable the 'event filter' for new rooms]
+Habilitar el "filtro de eventos" para nuevas salas
+[Show topic changes]
+Mostar cambios recientes de tema
+[Show users joining]
+Mostrar usuarios entrando
+[Show users disconnecting]
+Mostrar usuarios que se desconectan
+[Show messages]
+Mostrar mensajes
+[Show actions]
+Mostrar acciones
+[Show users leaving]
+Mostrar usuarios que salen
+[Show users being kicked]
+Mostrar usuarios sacados
+[Show notices]
+Mostrar avisos
+[Show users changing name]
+Mostrar usuarios cambiando nombre
+[Show information messages]
+Mostrar mensajes de información
+[Show status changes of users]
+Mostrar cambios de estado de usuarios
+[Show icon for topic changes]
+Mostrar icono de cambios de temas
+[Show icon for users joining]
+Mostrar icono para usuarios entrando
+[Show icon for users disconnecting]
+Mostrar icono para usuarios que se desconectan
+[Show icon for messages]
+Mostrar icono para mensajes
+[Show icon for actions]
+Mostrar icono para acciones
+[Show icon for highlights]
+Mostrar icono para destacados
+[Show icon for users leaving]
+Mostrar icono para usuarios que salen
+[Show icon for users kicking other user]
+Mostrar icono para usuarios que sacan a otro usuario
+[Show icon for notices]
+Mostrar icono de notificaciones
+[Show icon for name changes]
+Mostrar icono de cambio de nombre
+[Show icon for information messages]
+Mostrar icono de mensajes de información
+[Show icon for status changes]
+Mostrar icono de cambia de estado
+[Show icons in tray only when the chat room is not active]
+Mostrar iconos en la bandeja sólo cuando el chat no está activo
+[Show icon in tray for topic changes]
+Mostrar icono en la bandeja de cambios de temas
+[Show icon in tray for users joining]
+Mostrar icono en la bandeja para los usuarios que estan entrando
+[Show icon in tray for users disconnecting]
+Mostrar icono en la bandeja para los usuarios que se estan desconectando
+[Show icon in tray for messages]
+Mostrar icono en la bandeja para mensajes
+[Show icon in tray for actions]
+Mostrar icono en la bandeja para acciones
+[Show icon in tray for highlights]
+Mostrar icono en la bandeja para destacados
+[Show icon in tray for users leaving]
+Mostrar icono en la bandeja para los usuarios que estan saliendo
+[Show icon in tray for users kicking other user]
+Mostrar icono en la bandeja para los usuarios sacados por otro usuario
+[Show icon in tray for notices]
+Mostrar icono en la bandeja de notificaciones
+[Show icon in tray for name changes]
+Mostrar icono en la bandeja para el cambio de nombres
+[Show icon in tray for information messages]
+Mostrar icono en la bandeja para mensajes de información
+[Show icon in tray for status changes]
+Mostrar icono en la bandeja para los cambios de estado
+[Show popups only when the chat room is not active]
+Mostrar ventanas emergentes cuando el chat no está activo
+[Show popup for topic changes]
+Mostrar ventana emergente para cambios temáticos
+[Show popup for users joining]
+Mostrar ventana emergente para los usuarios que estan entrando
+[Show popup for users disconnecting]
+Mostrar ventana emergente para los usuarios que se desconectan
+[Show popup for messages]
+Mostrar ventana emergente para mensajes
+[Show popup for actions]
+Mostrar ventana emergente para acciones
+[Show popup for highlights]
+Mostrar ventana emergente para destacados
+[Show popup for users leaving]
+Mostrar ventana emergente para los usuarios que estan saliendo
+[Show popup for users kicking other user]
+Mostrar ventana emergente para usuarios sacados por otro usuario
+[Show popup for notices]
+Mostrar ventana emergente para notificaciones
+[Show popup for name changes]
+Mostrar ventana emergente para cambios de nombre
+[Show popup for information messages]
+Mostrar ventana emergente para mensajes de información
+[Show popup for status changes]
+Mostrar ventana emergente para cambios de estado
+[Chat module]
+Módulo de chat
+[Message background]
+Fondo de mensajes
+[User list background]
+Fondo de lista de usuarios
+[User list lines]
+Líneas de lista de usuarios
+[User list background (selected)]
+Fondo de lista de usuarios (seleccionado)
+[Window icon]
+Icono de ventana
+[Bold]
+Negrita
+[Italics]
+Cursiva
+[Underlined]
+Subrayado
+[Smiley button]
+Botón de emoticono
+[Room history]
+Historial de salas
+[Room settings]
+Configuración de la Sala
+[Event filter disabled]
+Filtro de eventos desactivado
+[Event filter enabled]
+Filtro de eventos activado
+[Hide userlist]
+Ocultar lista de usuarios
+[Show userlist]
+Mostrar lista de usuarios
+[Icon overlay]
+Icono de superposición
+[Status 1 (10x10)]
+Estado 1 (10x10)
+[Status 2 (10x10)]
+Estado 2 (10x10)
+[Status 3 (10x10)]
+Estado 3 (10x10)
+[Status 4 (10x10)]
+Estado 4 (10x10)
+[Status 5 (10x10)]
+Estado 5 (10x10)
+[Status 6 (10x10)]
+Estado 6 (10x10)
+[Message in (10x10)]
+Mensaje entrante (10x10)
+[Message out (10x10)]
+Mensaje saliente (10x10)
+[Action (10x10)]
+Acción (10x10)
+[Add status (10x10)]
+Añadir estado (10x10)
+[Remove status (10x10)]
+Quitar estado (10x10)
+[Join (10x10)]
+Unirse (10x10)
+[Leave (10x10)]
+Dejar (10x10)
+[Quit (10x10)]
+Quitar (10x10)
+[Kick (10x10)]
+Sacar (10x10)
+[Nick change (10x10)]
+Cambio de apodo (10x10)
+[Notice (10x10)]
+Anuncio (10x10)
+[Topic (10x10)]
+Tema (10x10)
+[Highlight (10x10)]
+Resaltado (10x10)
+[Information (10x10)]
+Información (10x10)
+[Messaging]
+Mensajería
+[Group chats]
+Grupo de chats
+[Group chats log]
+Registro de Grupo de Chats
+[Options for using a tabbed interface]
+Opciones para usar una interfaz con pestañas
+[Appearance and functionality of chat room windows]
+Apariencia y funcionalidad de ventanas de chat
+[Appearance of the message log]
+Apariencia del registro de mensajes
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el 'filtro de eventos'
+[Icons to display in the message log]
+Iconos a mostrar en el registro de mensajes
+[Icons to display in the tray]
+Iconos a mostrar en la bandeja
+[Popups to display]
+Ventanas emergentes mostrar
+[Select folder]
+Seleccionar carpeta
+[Message sessions]
+Sesiones de mensaje
+[General]
+General
+[Chat log]
+Registro de chat
+[Chat]
+Chat
+[Popups]
+Ventanas emergentes
+[Message is highlighted]
+El mensaje esta resaltado
+[User has performed an action]
+El usuario ha realizado una acción
+[User has kicked some other user]
+El usuario ha echado algún otro usuario
+[User's status was changed]
+Se ha cambiado el estado del usuario
+[User has changed name]
+El usuario ha cambiado de nombre
+[User has sent a notice]
+El usuario ha enviado una notificación
+[The topic has been changed]
+El tema ha sido cambiado
+;file \src\core\stdchat\src\services.cpp
+[&Join]
+&Entrar
+;file \src\core\stdchat\src\tools.cpp
+[%s wants your attention in %s]
+%s quiere su atención en %s
+[%s speaks in %s]
+%s habla en %s
+[%s has joined %s]
+%s se ha unido %s
+[%s has left %s]
+%s ha dejado %s
+[%s kicked %s from %s]
+%s echado %s de %s
+[Notice from %s]
+Aviso de %s
+[Topic change in %s]
+Tema cambiado en %s
+[Information in %s]
+Información en %s
+[%s enables '%s' status for %s in %s]
+%s habilita '%s' de estado para %s en %s
+[%s disables '%s' status for %s in %s]
+%s deshabilita '%s' de estado para %s en %s
+[%s says: %s]
+%s dice: %s
+[%s has left (%s)]
+%s ha dejado (%s)
+[%s has disconnected (%s)]
+%s se ha desconectado (%s)
+[%s kicked %s (%s)]
+%s echado %s (%s)
+[Notice from %s: %s]
+Aviso de %s: %s
+[The topic is '%s']
+El tema es '%s'
+[The topic is '%s' (set by %s)]
+El tema es '%s' (establecido por %s)
+[Look up '%s':]
+Buscar '%s':
+[No word to look up]
+Ni una palabra para buscar
+[&Message %s]
+&Mensaje %s
+;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+Inserte un emoticono
+[Make the text bold (CTRL+B)]
+Hacer el texto negrita (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Hacer el texto cursiva (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Hacer el texto subrayado (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Seleccione un color de fondo para el texto (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Seleccione un color de primer plano para el texto (CTRL+K)
+[Show the history (CTRL+H)]
+Mostrar el historial (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Mostrar/ocultar la lista de apodos (CTRL+N)
+[Control this room (CTRL+O)]
+Controlar esta sala (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Activar/desactivar el filtro de eventos (CTRL+F)
+[Close current tab (CTRL+F4)]
+Cerrar pestaña actual (CTRL+F4)
+[%s: chat room (%u user)]
+%s: sala de chat (%u usuario)
+[%s: chat room (%u users)]
+%s: sala de chat (%u usuarios)
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)
+[Nickname]
+Apodo
+[Unique ID]
+ID único
+;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Contactos estándar
+[Online contacts to whom you have a different visibility]
+Contactos en línea a los que usted tiene una visibilidad diferente
+[Offline contacts]
+Contactos fuera de línea
+[Contacts which are 'not on list']
+Contactos que son 'no está en la lista'
+[Group member counts]
+Recuentos miembros del grupo
+[Dividers]
+Divisores
+[Offline contacts to whom you have a different visibility]
+Contactos desconectados a los que usted tiene una visibilidad diferente
+[Selected text]
+Texto seleccionado
+[Hottrack text]
+Texto rondado
+[Quicksearch text]
+Búsqueda rápida de texto
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+No enfocado
+[Offline]
+Fuera de línea
+[Online]
+En línea
+[Away]
+Fuera
+[NA]
+No disponible
+[Occupied]
+Ocupado
+[DND]
+No molestar
+[Free for chat]
+Libre para el chat	
+[Invisible]
+Invisible
+[Out to lunch]
+Salí a comer
+[On the phone]
+En el teléfono
+[List background]
+Lista de fondos
+;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Global
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
+Proveedor estándar de cifrado
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+El usuario no ha registrado una dirección de correo electrónico
+[Send e-mail]
+Enviar e-mail
+[&E-mail]
+E-mail
+;file \src\core\stdfile\file.cpp
+[File from %s]
+Archivo de %s
+[bytes]
+bytes
+[&File]
+&Archivo
+[File &transfers...]
+&Transferencias de archivos...
+[Incoming]
+Entrante
+[Complete]
+Completo
+[Error]
+Error
+[Denied]
+Denegado
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s file]
+%s archivo
+[All files]
+Todos los archivos
+;file \src\core\stdfile\fileopts.cpp
+[Executable files]
+Archivos ejecutables
+[Events]
+Eventos
+;file \src\core\stdfile\filerecvdlg.cpp
+[My received files]
+Mis archivos recibidos
+[View user's history]
+Ver historial del usuario
+[User menu]
+Menú del usuario
+[Canceled]
+Cancelado
+;file \src\core\stdfile\filesenddlg.cpp
+[%d files]
+%d Archivos
+[%d directories]
+%d directorios
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Este archivo aún no ha sido escaneado en busca de virus. ¿Estás seguro de que quieres abrirlo?
+[File received]
+Archivo recibido
+[of]
+de
+[Request sent, waiting for acceptance...]
+Solicitud enviada, en espera de la aceptación
+[Waiting for connection...]
+Esperando por conexión...
+[Unable to initiate transfer.]
+No se puede iniciar la transferencia.
+[Contact menu]
+Menú de contacto
+[Open...]
+Abrir...
+[sec]
+seg
+[remaining]
+restante
+[Decision sent]
+Decisión enviada
+[Connecting...]
+Conectando...
+[Connecting to proxy...]
+Conectando al proxy...
+[Connected]
+Conectado
+[Initializing...]
+Inicializando...
+[Moving to next file...]
+Pasando al siguiente archivo...
+[Sending...]
+Enviando...
+[Receiving...]
+Recibiendo...
+[File transfer denied]
+Transferencia de archivo denegada
+[File transfer failed]
+Transferencia de archivos fallida
+[Transfer completed.]
+Transferencia finalizada.
+[Transfer completed, open file.]
+Transferencia finalizada, abrir archivo.
+[Transfer completed, open folder.]
+Transferencia finalizada, abrir carpeta.
+[Scanning for viruses...]
+Análisis en busca de virus...
+[Transfer and virus scan complete]
+Transferencia y Análisis en busca de virus finalizado
+;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+Saliendo
+;file \src\core\stdhelp\about.cpp
+[< Copyright]
+< Copyright
+;file \src\core\stdhelp\help.cpp
+[&About...]
+&Acerca de...
+[&Support]
+&Soporte
+[&Miranda NG homepage]
+&Miranda NG página principal
+[&Report bug]
+&Reportar error
+;file \src\core\stdidle\idle.cpp
+[Idle]
+Inactivo
+;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+El mensaje envia el tiempo de espera.
+;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+Mensaje entrante (10x10)
+[Outgoing message (10x10)]
+Mensaje saliente (10x10)
+;file \src\core\stdmsg\src\msgdialog.cpp
+[Last message received on %s at %s.]
+Último mensaje recibido el %s a %s.
+[signed off (was %s)]
+firma deshabilitada (era %s)
+[signed on (%s)]
+firma habilitada (%s)
+[is now %s (was %s)]
+es ahora %s (era %s)
+[%s is typing a message...]
+%s está escribiendo un mensaje...
+;file \src\core\stdmsg\src\msglog.cpp
+[File sent]
+Archivo enviado
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+Mensajes salientes
+[Incoming messages]
+Mensajes entrantes
+[Outgoing name]
+Nombre saliente
+[Outgoing time]
+Tiempo saliente
+[Outgoing colon]
+Puntos de salida
+[Incoming name]
+Nombre entrante
+[Incoming time]
+Tiempo entrante
+[Incoming colon]
+Puntos de entrada
+[Message area]
+Área de mensaje
+[Message log]
+Registro de mensaje
+[** New contacts **]
+** Nuevos contactos **
+[** Unknown contacts **]
+** Contactos desconocidos **
+[Show balloon popup (unsupported system)]
+Mostrar globo emergente (sistema sin soporte)
+[Messaging log]
+Registro de mensajería
+[Typing notify]
+Notificación de escritura
+;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+Mensaje de
+[%s is typing a message]
+%s está escribiendo un mensaje
+[Typing notification]
+Escribiendo notificación
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda no pudo cargar el módulo de mensajes incorporado, falta riched20.dll. Pulse 'Sí ' para continuar cargando Miranda.
+[Instant messages]
+Mensajes instantáneos
+[Incoming (focused window)]
+Entrante (ventana enfocada)
+[Incoming (unfocused window)]
+Entrante (ventana desenfocada)
+[Incoming (new session)]
+Entrante (nueva sesión)
+[Message send error]
+Enviar mensaje de error
+[Contact started typing]
+El contacto ha comenzado a escribir
+[Contact stopped typing]
+El contacto dejó de escribir
+;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occurred.]
+Se ha producido un error desconocido.
+;file \src\core\stduihist\history.cpp
+[Invalid message]
+Mensaje no válido
+[Outgoing URL]
+URL saliente
+[Incoming URL]
+URL entrante
+[Outgoing file]
+Archivo saliente
+[Incoming file]
+Archivo entrante
+[History for %s]
+Historial de %s
+[Are you sure you want to delete this history item?]
+¿Realmente desea eliminar este elemento del historial?
+[Delete history]
+Eliminar historial
+[View &history]
+Ver &historial
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+URL de %s
+[Web page address (&URL)]
+Dirección de página Web (&URL)
+[URL]
+URL
+;file \src\core\stdurl\urldialogs.cpp
+[Send URL to]
+Enviar URL a
+[Send timed out]
+Tiempo de envio expirado
+;file \src\core\stduserinfo\contactinfo.cpp
+[Edit E-Mail address]
+Editar dirección de correo
+[Edit phone number]
+Editar número de teléfono
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+El número de teléfono debe comenzar con + y se componen sólo de números, espacios, paréntesis y guiones.
+[Invalid phone number]
+Número de teléfono no válido
+[Primary]
+Primario
+[Custom %d]
+Ajustado %d
+[Fax]
+Fax
+[Mobile]
+Móvil
+[Work phone]
+Teléfono de trabajo
+[Work fax]
+Fax de trabajo
+;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+Masculino
+[Female]
+Femenino
+[<not specified>]
+<no especificado>
+[Summary]
+Resumen
+[Contact]
+Contacto
+[Location]
+Localización
+[Work]
+Trabajo
+[Background info]
+Informacion de fondo
+[Notes]
+Notas
+;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+Propietario
+[View/change my &details...]
+Ver/cambiar mis &datos...
+;file \src\core\stduseronline\useronline.cpp
+[%s is online]
+%s está en línea
+;file \src\modules\addcontact\addcontact.cpp
+[Add contact]
+Añadir contacto
+[Please authorize my request and add me to your contact list.]
+Por favor autorice mi petición y añadame a su lista de contactos.
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
+[Custom status]
+Estado personalizado
+[%s (locked)]
+%s (bloqueado)
+;file \src\modules\clist\clistsettings.cpp
+[(Unknown contact)]
+(Contacto desconocido)
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Este contacto se encuentra en un sistema de mensajería instantánea que almacena su lista de contactos en un servidor central. El contacto se elimina del servidor y de la lista de contactos cuando vuelva a conectarse a la red.
+[De&lete]
+E&liminar
+[&Rename]
+&Renombrar
+[&Add permanently to list]
+&Añadir a la lista de forma permanente
+;file \src\modules\clist\contacts.cpp
+[My custom name (not movable)]
+Mi nombre personalizado (no movible)
+[Nick]
+Apodo
+[FirstName]
+Nombre
+[E-mail]
+E-mail
+[LastName]
+Apellido
+[Username]
+Nombre de usuario
+[FirstName LastName]
+Nombre y apellido
+[LastName FirstName]
+Nombre Apellido
+['(Unknown contact)' (not movable)]
+'(Contacto desconocido)' (no movible)
+['(Unknown contact)']
+'(Contacto desconocido)'
+[Contact names]
+Nombres de contacto
+;file \src\modules\clist\genmenu.cpp
+[Menu icons]
+Iconos de menú
+;file \src\modules\clist\genmenuopt.cpp
+[Menus]
+Menús
+[Customize]
+Personalizar
+;file \src\modules\clist\groups.cpp
+[New group]
+Nuevo grupo
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+¿Realmente desea eliminar del a grupo '%s'? Esta operación no se puede deshacer.
+[Delete group]
+Eliminar grupo
+[You already have a group with that name. Please enter a unique name for the group.]
+Usted ya tiene un grupo con ese nombre. Por favor, introduzca un nombre exclusivo para el grupo.
+[Rename group]
+Renombrar grupo
+[This group]
+Este grupo
+;file \src\modules\clist\keyboard.cpp
+[Show/Hide contact list]
+Mostrar/Ocultar lista de contactos
+[Read message]
+Leer mensaje
+[Open Options page]
+Abrir opciones de página
+[Open logging options]
+Abrir opciones de registro
+[Open 'Find user' dialog]
+Abrir diálogo 'Buscar usuario'
+;file \src\modules\clist\movetogroup.cpp
+[&Move to group]
+&Mover a grupo
+[<Root group>]
+<Grupo raíz>
+;file \src\modules\database\database.cpp
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
+Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover el perfil %s a la nueva ubicación %s\nPorque ya existe un perfil con este nombre. Por favor, resolver el problema de forma manual.
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el perfil %s a la nueva ubicación %s automáticamente\nLo más probable es por falta de privilegios. Por favor, mueva el perfil manualmente.
+[Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
+El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mmap.dll o equivalente.
+[No profile support installed!]
+¡No soporta el perfil instalado!
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
+Miranda no pudo abrir '%s', está en un formato desconocido.\nEste perfil también puede estar dañado, Por favor, ejecute DbChecker que debe instalarse.
+[Miranda can't understand that profile]
+Miranda no puede entender el perfil
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Miranda no pudo abrir '%s'\nEs inaccesible o utilizado por otra aplicación o instancia Miranda
+[Miranda can't open that profile]
+Miranda no puede abrir ese perfil
+;file \src\modules\database\dbini.cpp
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de cada cambio que se realiza.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de los cambios que se sabe que no es seguro.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+Los sistemas de seguridad para prevenir cambios maliciosos se han desactivado. Usted no recibirá más advertencias.
+[This change is known to be safe.]
+Este cambio se sabe que es seguro.
+[This change is known to be potentially hazardous.]
+Este cambio se sabe es son potencialmente peligroso.
+[This change is not known to be safe.]
+Este cambio no se sabe que es seguro
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h o n.
+;file \src\modules\database\profilemanager.cpp
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+El perfil '%s' ya existe. ¿Desea mover a la Papelera de reciclaje?\n\nADVERTENCIA: El perfil será borrado si la papelera de reciclaje está desactivada\nDVERTENCIA: Un perfil puede contener información confidencial y debe ser eliminado adecuadamente.
+[The profile already exists]
+Ya existe el perfil
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
+No se puede mover '%s' a la Papelera de reciclaje. Por favor seleccione otro nombre de perfil.
+[Problem moving profile]
+Problema al mover el perfil
+[Unable to create the profile '%s', the error was %x]
+No se puede crear el perfil '%s', el error fue %x
+[Problem creating profile]
+Problema al crear el perfil
+[&Create]
+&Crear
+[<In use>]
+<En uso>
+[Are you sure you want to remove profile "%s"?]
+¿Está seguro que desea eliminar el perfil "%s"?
+[Size]
+Tamaño
+[Run]
+Ejecutar
+[Check database]
+Comprobar bases de datos
+[Created]
+Creado
+[Modified]
+Modificado
+[Manage your Miranda NG profile]
+Administre su perfil Miranda NG
+[My profiles]
+Mis perfiles
+[New profile]
+Nuevo perfil
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+[Chat activity]
+Actividad de chat
+;file \src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+Iconos adicionales
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
+[Search]
+Buscar
+[Results]
+Resultados
+[There are no results to display.]
+No hay resultados para mostrar.
+[Searching]
+Buscando
+[All networks]
+Todas las redes
+[Handle]
+Manejar
+[&Find/Add contacts...]
+&Buscar/Agregar contactos...
+;file \src\modules\findadd\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
+[Could not search on any of the protocols, are you online?]
+No se pudo buscar en ninguno de los protocolos, ¿esta usted en línea?
+[Problem with search]
+Problema con la búsqueda
+[1 %s user found]
+1 %s usuario encontrado
+[%d %s users found]
+%d %s usuarios encontrados
+[%d users found (]
+%d usuarios encontrados (
+[No users found]
+Ningún usuario encontrado
+;file \src\modules\fonts\FontOptions.cpp
+[Failed to create file]
+No se pudo crear el archivo
+[<none>]
+<Nada>
+[Shadow at left]
+Sombra a la izquierda
+[Shadow at right]
+Sombra a la derecha
+[Outline]
+Perfil
+[Outline smooth]
+Perfil suavizado
+[Smooth bump]
+Golpe suavizado
+[Contour thin]
+Contorno delgado
+[Contour heavy]
+Contour pesado
+[Configuration files]
+Archivos de configuración
+[Text files]
+Archivos de texto
+[Error writing file]
+Error escribiendo archivo
+[Sample text]
+Texto de ejemplo
+[Fonts]
+Fuentes
+;file \src\modules\fonts\FontService.cpp
+[Headers]
+Cabeceras
+[Generic text]
+Texto genérico
+[Small text]
+Texto pequeño
+;file \src\modules\icolib\skin2opts.cpp
+[Icon sets]
+Conjuntos de iconos
+;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** Todos los contactos **
+[Contacts]
+Contactos
+;file \src\modules\netlib\netliblog.cpp
+[No times]
+No hay tiempos
+[Standard hh:mm:ss times]
+Estándar hh:mm:ss veces
+[Times in milliseconds]
+Tiempos en milisegundos
+[Times in microseconds]
+Tiempos en microsegundos
+[(Miranda core logging)]
+(Miranda nucleo de inicio de seción)
+[Select where log file will be created]
+Seleccione el archivo de registro que se creará
+[Select program to be run]
+Seleccione el programa a ser ejecutado
+[Standard netlib log]
+Registro netlib estándar
+;file \src\modules\netlib\netlibopts.cpp
+[<All connections>]
+<Todas las conexiones>
+[Network]
+Red
+;file \src\modules\netlib\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
+[Host we are connecting to is not the one certificate was issued for]
+El servidor al que nos estamos conectando no es el del certificado emitido
+;file \src\modules\options\options.cpp
+[<all modules>]
+<todos los módulos>
+[<core modules>]
+<módulos básicos>
+[Loading... %d%%]
+Cargando... %d%%
+[%s options]
+%s opciones
+[Miranda NG options]
+Miranda NG opciones
+[&Options...]
+&Opciones
+;file \src\modules\plugins\newplugins.cpp
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Módulo básico '%s' no se puede cargar o falta. 
+[Fatal error]
+Error fatal
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
+['%s' is disabled, re-enable?]
+'%s' está deshabilitado, ¿volver a activar?
+[Re-enable Miranda plugin?]
+Volver a activar el plugin de Miranda?
+[Unable to load plugin in Service Mode!]
+¡No se pueden cargar plugins en el modo de servicio!
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
+;file \src\modules\plugins\pluginopts.cpp
+[Plugin]
+Plugin
+[Version]
+Versión
+[Miranda NG must be restarted to apply changes for these plugins:]
+Miranda NG se debe reiniciar para aplicar los cambios de estos plugins:
+[Do you want to restart it now?]
+¿Desea reiniciar ahora?
+[Plugins]
+Plugins
+;file \src\modules\protocols\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+¡ADVERTENCIA! La cuenta se va a eliminar. Esto significa que todos sus ajustes, contactos y las historias serán también borrados.\n\n¿Estás absolutamente seguro?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Tu cuenta ha sido actualizada correctamente. Para activarla, es necesario reiniciar Miranda.\n\nSi desea reiniciar Miranda ahora, pulse Sí, si usted desea actualizar otra cuenta, presione No
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de Miranda NG para cambiar sus preferencias.
+[Create new account]
+Crear nueva cuenta
+[Editing account]
+Editar cuenta
+[Upgrading account]
+Actualizar cuenta
+[Account name has to be unique. Please enter unique name.]
+El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
+[Account error]
+Error de cuenta
+[Account is disabled. Please activate it to access options.]
+Cuenta deshabilitada. Active para acceder a las opciones.
+[New account]
+Nueva cuenta
+[Edit]
+Editar
+[Remove account]
+Eliminar cuenta
+[Configure...]
+Configurar...]
+[Upgrade account]
+Actualiza cuenta
+[Protocol]
+Protocolo
+[Account ID]
+ID de la cuenta
+[<unknown>]
+<desconocido>
+[Protocol is not loaded.]
+Protocolo no está cargado.
+[Rename]
+Renombrar
+[Configure]
+Configurar
+[Upgrade]
+Actualizar
+[Account %s is being disabled]
+La cuenta %s se está deshabilitando
+[Account is online. Disable account?]
+La cuenta está en línea. ¿Desactivar la cuenta?
+[Account %s is being deleted]
+La cuenta %s se está borrando
+[You need to disable plugin to delete this account]
+Es necesario desactivar plugin para eliminar esta cuenta
+[&Accounts...]
+&Cuentas...
+;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+Ctrl +
+[Alt + ]
+Alt +
+[Shift + ]
+Shift +
+[Win + ]
+Win +
+[Remove shortcut]
+Eliminar atajo
+[Add another shortcut]
+Añadir otro atajo
+[Scope:]
+Alcance:
+[System]
+Sistema
+[Actions:]
+Acciones:
+[Add binding]
+Añadir enlace
+[Modify]
+Modificar
+[System scope]
+Alcanse de sistema
+[Miranda scope]
+Alcanse de Miranda
+;file \src\modules\skin\skinicons.cpp
+[User online]
+Usuario en línea
+[Group (open)]
+Grupo (abierto)
+[Group (closed)]
+Grupo (cerrado)
+[Connecting]
+Conectando
+[User details]
+Información del usuario
+[History]
+Historial
+[Down arrow]
+Flecha abajo
+[Find user]
+Buscar usuario
+[SMS]
+SMS
+[Search all]
+Buscar en todo
+[Tick]
+Marcar
+[No tick]
+Sin impulsos
+[Help]
+Ayuda
+[Miranda website]
+Sitio web de Miranda
+[Small dot]
+Punto pequeño
+[Filled blob]
+Mancha rellenada
+[Empty blob]
+Mancha vacía
+[Unicode plugin]
+Plugin unicode
+[ANSI plugin]
+Plugin ANSI
+[Running plugin]
+Ejecutando plugin
+[Unloaded plugin]
+Plugin sin cargar
+[Show/Hide]
+Mostrar/Ocultar
+[Exit]
+Salir
+[Main menu]
+Menú principal
+[Leave chat]
+Dejar charla
+[Move to group]
+Mover a grupo
+[On]
+Encendido
+[Off]
+Apagado
+[Running core plugin]
+Ejecutando plugin del núcleo
+[Non-loadable plugin]
+Plugin no cargable
+[Frames]
+Marcos
+[Request authorization]
+Solicitar autorización
+[Grant authorization]
+Conceder autorización
+[Revoke authorization]
+Revocar autorización
+[Always visible]
+Siempre visible
+[Always invisible]
+Siempre invisible
+[Locked status]
+Estado bloqueado
+[Status icons]
+Iconos de estado
+[%s icons]
+%s iconos
+[Main icons]
+Iconos principales
+;file \src\modules\skin\sounds.cpp
+[Sound files]
+Archivos de sonido
+[WAV files]
+Archivos WAV
+;file \src\modules\utils\bmpfilter.cpp
+[You need an image services plugin to process PNG images.]
+Usted necesita un plugin de servicios de imagen para procesar imágenes PNG.
+[All bitmaps]
+Todos los mapas de bits
+[Windows bitmaps]
+Mapas de bits de Windows
+[JPEG bitmaps]
+Mapas de bits JPEG
+[GIF bitmaps]
+Mapas de bits GIF
+[PNG bitmaps]
+Mapas de bits PNG
+;file \src\modules\utils\path.cpp
+[Avatars]
+Avatares
+[Avatars root folder]
+Carpeta raíz de avatares
+;file \src\modules\utils\timezones.cpp
+[<unspecified>]
+<Sin especificar>
+;file \src\modules\utils\utils.cpp
+[Unspecified]
+<Sin especificar>
+[Unknown]
+Desconocido
+[Afghanistan]
+Afganistán
+[Aland Islands]
+Islas Aland
+[Albania]
+Albania
+[Algeria]
+Algeria
+[American Samoa]
+Samoa Americana
+[Andorra]
+Andorra
+[Angola]
+Angola
+[Anguilla]
+Anguilla
+[Antarctica]
+Antártida
+[Antigua and Barbuda]
+Antigua y Barbuda
+[Argentina]
+Argentina
+[Armenia]
+Armenia
+[Aruba]
+Aruba
+[Australia]
+Australia
+[Austria]
+Austria
+[Azerbaijan]
+Azerbaijan
+[Bahamas]
+Bahamas
+[Bahrain]
+Bahrein
+[Bangladesh]
+Bangladesh
+[Barbados]
+Barbados
+[Belarus]
+Bielorrusia
+[Belgium]
+Bélgica
+[Belize]
+Belice
+[Benin]
+Benin
+[Bermuda]
+Bermuda
+[Bhutan]
+Bhutan
+[Bolivia, Plurinational State of]
+Bolivia, Estado Plurinacional de
+[Bonaire, Sint Eustatius and Saba]
+Bonaire, Son Eustatius y Saba
+[Bosnia and Herzegovina]
+Bosnia y Herzegovina
+[Botswana]
+Botswana
+[Bouvet Island]
+Isla Bouvet
+[Brazil]
+Brasil
+[British Indian Ocean Territory]
+Territorio Británico del Océano Índico
+[Brunei Darussalam]
+Brunei Darussalam
+[Bulgaria]
+Bulgaria
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Camboya
+[Cameroon]
+Camerún
+[Canada]
+Canadá
+[Cape Verde]
+Cabo Verde
+[Cayman Islands]
+Islas Caimán
+[Central African Republic]
+República Centroafricana
+[Chad]
+Chad
+[Chile]
+Chile
+[China]
+China
+[Christmas Island]
+Isla de Navidad
+[Cocos (Keeling) Islands]
+Islas Cocos (Keeling)
+[Colombia]
+Colombia
+[Comoros]
+Comoras
+[Congo]
+Congo
+[Congo, the Democratic Republic of the]
+Congo, la República Democrática del
+[Cook Islands]
+Islas Cook
+[Costa Rica]
+Costa Rica
+[Cote d'Ivoire]
+Cote d'Ivoire
+[Croatia]
+Croacia
+[Cuba]
+Cuba
+[Curacao]
+Curacao
+[Cyprus]
+Chipre
+[Czech Republic]
+República Checa
+[Denmark]
+Dinamarca
+[Djibouti]
+Djibouti
+[Dominica]
+Dominica
+[Dominican Republic]
+República Dominicana
+[Ecuador]
+Ecuador
+[Egypt]
+Egipto
+[El Salvador]
+El Salvador
+[Equatorial Guinea]
+Guinea Ecuatorial
+[Eritrea]
+Eritrea
+[Estonia]
+Estonia
+[Ethiopia]
+Etiopía
+[Falkland Islands (Malvinas)]
+Islas Malvinas (Falkland)
+[Faroe Islands]
+Islas Feroe
+[Fiji]
+Fiji
+[Finland]
+Finlandia
+[France]
+Francia
+[French Guiana]
+Guiana Francés
+[French Polynesia]
+Polinesia francés
+[French Southern Territories]
+Territorios Australes Franceses
+[Gabon]
+Gabón
+[Gambia]
+Gambia
+[Georgia]
+Georgia
+[Germany]
+Alemania
+[Ghana]
+Ghana
+[Gibraltar]
+Gibraltar
+[Greece]
+Grecia
+[Greenland]
+Groenlandia
+[Grenada]
+Granada
+[Guadeloupe]
+Guadalupe
+[Guam]
+Guam
+[Guatemala]
+Guatemala
+[Guernsey]
+Guernsey
+[Guinea]
+Guinea
+[Guinea-Bissau]
+Guinea-Bissau
+[Guyana]
+Guayana
+[Haiti]
+Haití
+[Heard Island and McDonald Islands]
+Isla Heard e Islas McDonald
+[Holy See (Vatican City State)]
+Santa Sede (Ciudad del Vaticano)
+[Honduras]
+Honduras
+[Hong Kong]
+Hong Kong
+[Hungary]
+Hungría
+[Iceland]
+Islandia
+[India]
+India
+[Indonesia]
+Indonesia
+[Iran, Islamic Republic of]
+Irán, República Islámica de
+[Iraq]
+Irak
+[Ireland]
+Irlanda
+[Isle of Man]
+Isla de Man
+[Israel]
+Israel
+[Italy]
+Italia
+[Jamaica]
+Jamaica
+[Japan]
+Japón
+[Jersey]
+Jersey
+[Jordan]
+Jordania
+[Kazakhstan]
+Kazajstán
+[Kenya]
+Kenia
+[Kiribati]
+Kiribati
+[Korea, Democratic People's Republic of]
+Corea, República Popular Democrática de
+[Korea, Republic of]
+Corea, República de
+[Kuwait]
+Kuwait
+[Kyrgyzstan]
+Kirguistán
+[Lao People's Democratic Republic]
+República Democrática Popular de Lao
+[Latvia]
+Letonia
+[Lebanon]
+Líbano
+[Lesotho]
+Lesoto
+[Liberia]
+Liberia
+[Libya]
+Libia
+[Liechtenstein]
+Liechtenstein
+[Lithuania]
+Lituania
+[Luxembourg]
+Luxemburgo
+[Macao]
+Macao
+[Macedonia, The Former Yugoslav Republic of]
+Macedonia, La Antigua República Yugoslava de
+[Madagascar]
+Madagascar
+[Malawi]
+Malawi
+[Malaysia]
+Malasia
+[Maldives]
+Maldivas
+[Mali]
+Malí
+[Malta]
+Malta
+[Marshall Islands]
+Islas Marshall
+[Martinique]
+Islas Marshall
+[Mauritania]
+Mauritania
+[Mauritius]
+Mauricio
+[Mayotte]
+Mayotte
+[Mexico]
+México
+[Micronesia, Federated States of]
+Micronesia, Estados Federados de
+[Moldova, Republic of]
+Moldova, República de
+[Monaco]
+Mónaco
+[Mongolia]
+Mongolia
+[Montenegro]
+Montenegro
+[Montserrat]
+Montserrat
+[Morocco]
+Marruecos
+[Mozambique]
+Mozambique
+[Myanmar]
+Myanmar
+[Namibia]
+Namibia
+[Nauru]
+Nauru
+[Nepal]
+Nepal
+[Netherlands]
+Países Bajos
+[New Caledonia]
+Nueva Caledonia
+[New Zealand]
+Nueva Zelandia
+[Nicaragua]
+Nicaragua
+[Niger]
+Níger
+[Nigeria]
+Nigeria
+[Niue]
+Niue
+[Norfolk Island]
+Isla Norfolk
+[Northern Mariana Islands]
+Islas Mariana del norte
+[Norway]
+Noruega
+[Oman]
+Omán
+[Pakistan]
+Pakistán
+[Palau]
+Palau
+[Palestinian Territory, Occupied]
+Territorio Palestino, Ocupado
+[Panama]
+Panamá
+[Papua New Guinea]
+Papúa Nueva Guinea
+[Paraguay]
+Paraguay
+[Peru]
+Perú
+[Philippines]
+Filipinas
+[Pitcairn]
+Pitcairn
+[Poland]
+Polonia
+[Portugal]
+Portugal
+[Puerto Rico]
+Puerto Rico
+[Qatar]
+Katar
+[Reunion]
+Reunión
+[Romania]
+Rumania
+[Russian Federation]
+Federación de Rusia
+[Rwanda]
+Ruanda
+[Saint Barthelemy]
+San Bartolomé
+[Saint Helena, Ascension and Tristan da Cunha]
+Santa Helena, Ascensión y Tristán da Cunha
+[Saint Kitts and Nevis]
+San Cristóbal y Nevis
+[Saint Lucia]
+Santa Lucía
+[Saint Martin (French part)]
+San Martín (parte francesa)
+[Saint Pierre and Miquelon]
+San Pedro y Miquelón
+[Saint Vincent and the Grenadines]
+San Vicente y las Granadinas
+[Samoa]
+Samoa
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sao Tomé y Príncipe
+[Saudi Arabia]
+Arabia Saudita
+[Senegal]
+Senegal
+[Serbia]
+Serbia
+[Seychelles]
+Seychelles
+[Sierra Leone]
+Sierra Leona
+[Singapore]
+Singapur
+[Sint Maarten (Dutch part)]
+Sint Maarten (parte neerlandesa)
+[Slovakia]
+Eslovaquia
+[Slovenia]
+Eslovenia
+[Solomon Islands]
+Islas Salomón
+[Somalia]
+Somalia
+[South Africa]
+Sudáfrica
+[South Georgia and the South Sandwich Islands]
+Georgia del Sur e Islas Sandwich del Sur
+[South Sudan]
+Sudán del Sur
+[Spain]
+España
+[Sri Lanka]
+Sri Lanka
+[Sudan]
+Sudán
+[Suriname]
+Suriname
+[Svalbard and Jan Mayen]
+Svalbard y Jan Mayen
+[Swaziland]
+Swazilandia
+[Sweden]
+Suecia
+[Switzerland]
+Suiza
+[Syrian Arab Republic]
+República Árabe Siria
+[Taiwan, Province of China]
+Taiwan, Provincia de China
+[Tajikistan]
+Tayikistán
+[Tanzania, United Republic of]
+Tanzania, República Unida de
+[Thailand]
+Tailandia
+[Timor-Leste]
+Timor-Leste
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad y Tobago
+[Tunisia]
+Túnez
+[Turkey]
+Turquía
+[Turkmenistan]
+Turkmenistán
+[Turks and Caicos Islands]
+Islas Turcas y Caicos
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ucrania
+[United Arab Emirates]
+Emiratos Árabes Unidos
+[United Kingdom]
+Reino Unido
+[United States]
+Estados Unidos
+[United States Minor Outlying Islands]
+Estados Unidos Islas menores alejadas de
+[Uruguay]
+Uruguay
+[Uzbekistan]
+Uzbekistán
+[Vanuatu]
+Vanuatu
+[Venezuela, Bolivarian Republic of]
+Venezuela, República Bolivariana de
+[Viet Nam]
+Viet Nam
+[Virgin Islands, British]
+Islas Vírgenes, Británico
+[Virgin Islands, U.S.]
+Islas Vírgenes, EE.UU.
+[Wallis and Futuna]
+Wallis y Futuna
+[Western Sahara]
+Sáhara Occidental
+[Yemen]
+Yemen
+[Zambia]
+Zambia
+[Zimbabwe]
+Zimbabue
+;file \src\modules\visibility\visibility.cpp
