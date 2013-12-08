@@ -261,12 +261,16 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	// main menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL;
+	mi.pszName = LPGEN("Database");
+	mi.position = 500000000;
+	mi.flags = CMIF_ROOTHANDLE;
+	mi.icolibItem = iconList[0].hIcolib;
+	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
+
 	mi.icolibItem = iconList[1].hIcolib;
 	mi.pszName = db->GetMenuTitle();
-	mi.pszPopupName = LPGEN("Database");
+	mi.hParentMenu = hMenuRoot;
 	mi.pszService = MS_DB_CHANGEPASSWORD;
-	mi.position = 500000000;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;
 }

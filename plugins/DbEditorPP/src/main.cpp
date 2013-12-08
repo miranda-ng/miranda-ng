@@ -159,6 +159,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1900000001;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
+	mi.pszPopupName = "Database";
 	mi.pszName = modFullname;
 	mi.pszService = "DBEditorpp/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
