@@ -7,10 +7,10 @@
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
-[Hide the "toggle sound" menu item (requires restart of Miranda)]
 [No sounds when:]
-[No SysTray blink when:]
 [No CLIST blink when:]
+[No SysTray blink when:]
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
 ;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
 [Enable &Sounds]

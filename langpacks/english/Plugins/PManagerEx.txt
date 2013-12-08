@@ -13,5 +13,5 @@
 [Change profile]
 [Check database]
 [Restart]
-[Profile manager]
 [Database]
+[Profile manager]
