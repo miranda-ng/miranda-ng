@@ -2290,6 +2290,8 @@ ID користувача:
 Показувати тільки:
 [%s: Server]
 %s: Сервер
+[Chat module]
+Чати
 [Chat rooms]
 Чати
 [Display contact status icon before user role icon]

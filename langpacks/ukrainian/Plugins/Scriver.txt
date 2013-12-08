@@ -164,9 +164,7 @@
 [&History]
 &Історія
 [&Quote]
-&Черга
-[&OK]
-
+&Цитувати
 [Send To All Tabs]
 Надіслати всім вкладкам
 [You are about to send a message to all open tabs.\nAre you sure ?]
@@ -178,13 +176,13 @@
 [No]
 Ні
 [&Bold]
-&Напівжирний
+&Жирний
 [&Italic]
 &Курсив
 [&Underline]
-&Підкреслення
+&Підкреслений
 [&Color]
-&Кольор
+&Колір
 [&Background color]
 Колір фону
 [&Filter]
@@ -192,7 +190,7 @@
 [&Room Settings]
 &Налаштування кімнати
 [&Show/hide nicklist]
-&Показати/сховати ніклист
+&Показати/сховати список
 [Show these events only:]
 Показувати тільки:
 [Actions]
@@ -265,8 +263,6 @@
 Тривалість (с)
 [(0 means default setting, -1 means indefinite time)]
 0 = стандартні значення, -1 = нескінченне час
-[OK]
-
 [Log]
 Журнал
 [&Copy]
@@ -682,9 +678,9 @@ Miranda не змогла завантажити вбудовану систем
 [Outgoing]
 Вихідні
 [Contact started typing]
-Співрозмовник почив набирати
+Співрозмовник почав друкувати
 [Contact stopped typing]
-Співрозмовник препинив набирати
+Співрозмовник закінчив друкувати
 [An unknown error has occured.]
 Невідома помилка.
 [Always On Top]

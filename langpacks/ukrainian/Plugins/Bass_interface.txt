@@ -59,7 +59,7 @@
 Вимкнути звуки
 [Enable sounds]
 Ввімкнути звуки
-[Frame Background]
+[Frame background]
 Фон
 [Bass library]
 Бібліотека BASS

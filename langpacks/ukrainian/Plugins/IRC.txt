@@ -40,9 +40,9 @@
 [Update online statuses for users]
 Оновлювати статуси для корист.
 [Update statuses in channel nicklist]
-Обнов. статуси в списку чат-кімнати
+Оновл. статуси в списку чат-кімнати
 [Internet address]
-Мережевий адресу
+Адреса у мережі
 [Port range]
 Діапазон портів
 [Nick]
@@ -69,12 +69,10 @@ ID користувача
 Інфо користувача - Необхідно
 [Other]
 Інше
-[Reconnect]
-Перепідключення
 [Check every (s):]
 Перевіряти кожні (с):
 [Don't check if more than (users):]
-Не перевіряти, якщо більше (користуванні):
+Не перевіряти, якщо більше (користувачів):
 [User information]
 Інформація
 [Ping]
@@ -111,8 +109,6 @@ ID користувача
 Інформація СТСР
 [Question]
 Питання
-[&OK]
-
 [&Cancel]
 &Скасувати
 [Perform]
@@ -122,7 +118,7 @@ ID користувача
 [Alias]
 Аліас
 [Perform on event:]
-Виконати при подію:
+Виконати при події:
 [Scripting support]
 Підтримка скриптів
 [Quit message:]
@@ -181,7 +177,7 @@ Wildcard пошук по мережі
 За запрошеннями
 [Moderated]
 Модерований
-[Key]
+[Key:]
 Ключ:
 [User limit:]
 Ліміт:
@@ -205,13 +201,13 @@ Wildcard пошук по мережі
 Нормальний
 [Send-ahead]
 Випереджальний
-[Attempt reverse DCC (good if firewolls)]
+[Attempt reverse DCC (good if firewalled)]
 Реверсивне DCC (для брандмауерів)
 [none]
 Нічого
 [everyone on the contact list]
 у списку
-[кожен]
+[everyone]
 всі
 [Disconnect DCC chats when disconnecting from server]
 Відключати DCC-чати при вихід з сервера
@@ -225,13 +221,13 @@ Wildcard пошук по мережі
 Чати СТСР
 [Send mode:]
 Режим відправки:
-[Packet size (b)]
+[Packet size (b):]
 Розмір пакета (б):
 [Get IP address from server]
 Отримати IP сервера
 [Auto-accept from:]
 Автоприйом від:
-[Відіслати повідомлення]
+[Send notice]
 Надіслати повідомлення
 [CTCP Chat Request]
 Запит на СТСР-чат
@@ -254,15 +250,11 @@ Wildcard пошук по мережі
 [(*) Queries from users on your contact list are never ignored]
 (*) Не ігнорувати запити від користувачів зі списку
 [Queries]
-Цитата
+Запити
 [Messages]
 Повідомлення
 [Notices]
 Повідомлення
-[CTCP]
-
-[DCC]
-
 [Ignore mask ( nick!user@host )]
 Маска ігнорування( nick!user@host )
 [Network (*)]
@@ -270,7 +262,7 @@ Wildcard пошук по мережі
 [Ignore events]
 Події
 [(*) blank to set this mask for all networks]
-(*) Залишіть пустим щоб застосувати маску для всіх мереж
+(*) Залишіть пустим, щоб застосувати маску для всіх мереж
 [Server:]
 Сервер:
 [Password:]
@@ -335,12 +327,10 @@ DCC: Запит на продовження закачування файлу в
 Вкажіть причину
 [Ban'n Kick]
 Вигнати і забанити
-[Jerk]
-Jerk
 [*Disconnected*]
 *Відключений*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Використання /AWAY в буфері виконання обмежена,\n оскільки IRC автоматично посилає цю команду.
+Використання /AWAY в буфері виконання обмежене,\n оскільки IRC автоматично посилає цю команду.
 [IRC Error]
 Помилка IRC
 [The buddy check function is enabled]
@@ -348,12 +338,12 @@ Jerk
 [The buddy check function is disabled]
 Функція перевірки приятелів вимкнена
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-Некоректні параметри. Використання: /sleep [ms], мс - повинно бути більше 0 і менше, ніж 4000.
+Некоректні параметри. Використання: /sleep [ms], ms повинно бути більше 0 і менше, ніж 4000.
 [Ignore system is enabled]
 Система ігнорування ввімк.
 [Ignore system is disabled]
 Система ігнорування вимк.
-[%s on %s now is ignored (+%s)]
+[%s on %s is now ignored (+%s)]
 %s на %s ігнорується (+%s)
 [%s is not ignored now]
 %s більше не ігнорується
@@ -367,21 +357,21 @@ Jerk
 Інтервал перевірки приятелів встановлений за замовчуванням
 [The time interval for the buddy check function is now %u seconds]
 Інтервал перевірки приятелів становить %u секунд
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage around for %u to %u minute(s).\r\n\r\nDo you want to continue?]
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
 Ця команда не рекомендована для мережі такого розміру!\r\nЦе може зайняти ресурси системи приблизно від %u до %u хвилин.\r\nВи впевнені, що хочете продовжити?
 [IRC warning]
 Попередження IRC
 [Aborted]
 Скасовано
 [CTCP %s request sent to %s]
-СТСР %s запит, посланий для %s
+СТСР %s запит посланий для %s
 [DCC ERROR: Unable to automatically resolve external IP]
 Помилка DCC: Неможливо автоматично визначити зовнішній IP
 [DCC CHAT request sent to %s]
 Запит на DCC-чат відправлений для %s
 [DCC ERROR: Unable to bind port]
 Помилка DCC: Неможливо визначити порт
-[Command Input]
+[Input command]
 Введення команди
 [Please enter the reply]
 Введіть відповідь
@@ -394,7 +384,7 @@ Jerk
 [%s client-to-client connections]
 Підключення між клієнтами %s
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Цей протокол вимагає наявності плагіна chat.\n\nЗагрузить його з сайту Miranda NG?
+Цей протокол вимагає наявності плагіна StdChat.dll.\n\nЗавантажити його з сайту Miranda NG?
 [Information]
 Інформація
 [Nickname]
@@ -413,7 +403,7 @@ DCC-запит на передачу файлу посланий %s [%s]
 З'єднання DCC-чату неактивно
 [Please choose an IRC-network to go online. This network will be the default.]
 Виберіть мережу IRC. Ця мережа буде встановлена за замовчуванням.
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Неможливо встановити підключення. Ви не ввели всі необхідні дані (нік, User ID та ім'я)
 [Main]
 Головний
@@ -442,35 +432,35 @@ DCC-запит на передачу файлу посланий %s [%s]
 [Logo (48x48)]
 Лого (48x48)
 [Thai]
-Тайський
+Тайська
 [Japanese]
-Японський
+Японська
 [Simplified Chinese]
-Китайський (спрощений)
+Китайська (спрощена)
 [Korean]
 Корейська
 [Traditional Chinese]
-Китайський (традиційний)
+Китайська (традиційна)
 [Central European]
-Центральноєвропейський
-[Кирилиця (Windows)]
+Центральноєвропейська
+[Cyrillic (Windows)]
 Кирилиця Windows
 [Cyrillic (KOI8R)]
 Кирилиця KOI8-R
 [Latin I]
-Західноєвропейський
+Західноєвропейська
 [Greek]
 Грецька
 [Turkish]
-Турецький
+Турецька
 [Hebrew]
 Іврит
 [Arabic]
 Арабська
 [Baltic]
-Балтійський
+Балтійська
 [Vietnamese]
-В'єтнамський
+В'єтнамська
 [Korean (Johab)]
 Корейська (Johab)
 [Please complete all fields]
@@ -488,13 +478,13 @@ DCC-запит на передачу файлу посланий %s [%s]
 [Edit server]
 Змінити налаштування
 [<Resolved IP: ]
-<Певні IP>
+<Визначені IP:\s
 [<Automatic>]
 <Автоматично>
 [<Local IP: ]
-<Локальний IP:>
+<Локальний IP:\s
 [Click to set commands that will be performed for this event]
-Клікніть для встановлення команд обробки цієї події
+Клікніть, щоб встановити команди для обробки цієї події
 [Click to delete the commands for this event]
 Клікніть для видалення команд цієї події
 [Default ANSI codepage]
@@ -515,8 +505,6 @@ DCC-запит на передачу файлу посланий %s [%s]
 Змінити ігнор
 [Account]
 Обліковий запис
-[DCC'n CTCP]
-
 [Advanced]
 Додатково
 [WallOps from %s: ]
@@ -528,9 +516,9 @@ WallOps від %s:
 [These are online: ]
 В мережі:
 [CTCP %s reply sent to %s]
-СТСР %s відповідь посланий для %s
+СТСР %s відповідь послана для %s
 [CTCP %s reply sent to %s: %s]
-СТСР %s відповідь посланий для %s: %s
+СТСР %s відповідь послана для %s: %s
 [Notice to %s: ]
 Повідомлення для %s:
 [&Quick connect]
@@ -551,7 +539,7 @@ WallOps від %s:
 Ві&дключитися
 [&Add to ignore list]
 &Додати в чорний список
-[%s (%s) is requesting a client-to-chat client connection.]
+[%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запитує з'єднання на СТСР-чат
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
 Введіть маску (nick!user@host) \nУВАГА! Користувачі зі списку контактів не будуть ігноруватися!
@@ -560,7 +548,7 @@ WallOps від %s:
 [Please enter a channel to join]
 Введіть назву чат-кімнати
 [Please select IRC network and enter the password if needed]
-Виберіть IRC мережу і введіть пароль, якщо необхідно
+Виберіть мережу IRC і введіть пароль, якщо необхідно
 [Change nick name]
 Змінити нік
 [Please enter a unique nickname]
@@ -581,11 +569,11 @@ WallOps від %s:
 Будь ласка, введіть новий пароль
 [Set new password]
 Встановити новий пароль
-[Please enter desired мови (numeric value, depends on server)]
-Введіть вибраний мови (цифрове значення, що залежить від сервера)
+[Please enter desired language ID (numeric value, depends on server)]
+Введіть вибраний ID мови (цифрове значення, що залежить від сервера)
 [Change language of NickServ messages]
 Змінити мову повідомлень Nickserv
-[URL Please enter that will be linked to your nick]
+[Please enter URL that will be linked to your nick]
 Введіть посилання на ваш нік
 [Set URL, linked to nick]
 Посилання на нік
@@ -617,8 +605,6 @@ WallOps від %s:
 Введіть ім'я чат-кімнати для запрошення
 [Invite to channel]
 Запросити в чат-кімнату
-[NickServ]
-
 [Register nick]
 Зареєструвати нік
 [Auth nick]
@@ -698,7 +684,7 @@ Nickserv вбити фантома
 [&Kick]
 Викинути
 [Ki&ck (reason)]
-&Вигнати (причиною)
+&Вигнати (з причиною)
 [&Ban]
 &Бан
 [Ban'&n kick]
@@ -720,13 +706,13 @@ Nickserv вбити фантома
 [Offline]
 Не в мережі
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-Швидше! Шукає в мережі точний збіг ніку. В хостамаска є опціональною і забезпечує додаткову безпеку при використанні. Символи підстановки (? і *) дозволені.
+Швидше! Шукає в мережі точний збіг ніку. Хостмаска є опціональною і забезпечує додаткову безпеку при використанні. Дозволені символи підстановки (? і *).
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-Повільніше! Шукає в мережі нікі відповідні з шаблоном рядка. В хостмаске є обов'язковим і не менше 4-х символів необхідно в полі "Нік" поле. Символи підстановки (? і *) дозволено.
+Повільніше! Шукає в мережі ніки відповідно до шаблону. Хостмаска є обов'язковою, а поле "Нік" має містити не менше 4-х символів. Дозволені символи підстановки (? і *).
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Настройки не збережені.\n\nПоле "Псевдонім" має містити як мінімум чотири знаки (включаючи маски) і збігатися з псевдонімом за замовчуванням для цього контакту.
+Налаштування не збережені.\n\nПоле "Нік" має містити як мінімум чотири знаки (включаючи маски) і збігатися з псевдонімом за замовчуванням для цього контакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-Налаштування не можуть бути збережені!\n\nA повна хостмаска повинна бути встановлена для цього онлайн-режиму виявлення, щоб працювати.
+Налаштування не збережені.\n\nДля цього режиму виявлення повинна бути встановлена повна хостмаска.
 [Please wait...]
 Будь ласка, зачекайте...
 [Channel]
@@ -740,17 +726,17 @@ Nickserv вбити фантома
 [Type new server address here]
 Нова адреса сервера
 [Add ban/invite/exception]
-Додати бан/запрошення/виключення
+Додати бан/запрошення/виняток
 [Edit selected ban/invite/exception]
-Правити вибраний бан/запрошення/виключення
+Правити вибраний бан/запрошення/виняток
 [Delete selected ban/invite/exception]
-Видалити вибраний бан/запрошення/виключення
+Видалити вибраний бан/запрошення/виняток
 [Set these modes for the channel]
 Встановити режими для чат-кімнати
 [Set this topic for the channel]
 Встановити тему для чат-кімнати
 [You have not applied all changes!\n\nApply before exiting?]
-Ви не застосували зміни!\n\nПрименить перед виходом?
+Ви не застосували зміни!\n\nЗастосувати перед виходом?
 [Add ban]
 Додати бан
 [Add invite]

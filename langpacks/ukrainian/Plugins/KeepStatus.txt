@@ -3,7 +3,7 @@
 ;  File: KeepStatus.dll
 ;  Plugin: Keep status
 ;  Version: 0.9.0.1
-;  Authors: P Boon, G Hazan
+;  Authors: P Boon
 ;============================================================
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 Перевіряє наявність підключення до мережі і автоматично перепідключає при розриві.
@@ -12,7 +12,7 @@
 [Max. retries]
 Макс. спроб
 [Account connection]
-Підключінь облікового запису
+Підключень облікового запису
 [Delay between retries (secs)]
 Затримка між спробами (с)
 [Show popups]
@@ -34,7 +34,7 @@
 [Close]
 Закрити
 [Cancel]
-Скасування
+Скасувати
 [Profile]
 Профіль
 [Message]
@@ -49,24 +49,22 @@
 Підтвердити відновлення статусу
 [Account]
 Обліковий запис
-[Only if set current status is]
+[Only set if current status is]
 Тільки якщо встановлено поточний стан
-[Monitor miranda's activity only]
-Перевіряти тільки активнісь Міранда
+[Monitor Miranda's activity only]
+Перевіряти тільки активність Miranda
 [Reset status on return]
 Скинути стан після повернення
 [when screen saver engages]
-коли заставка займається
+коли працює заставка
 [Set]
 Вибрати
-[only when set inactive]
+[only set when inactive]
 тільки тоді, коли неактивні
 [when workstation is locked]
 коли комп'ютер заблоковано
 [Command line]
 Ком. рядок
-[OK]
-
 [Copy to clipboard]
 Копіювати в буфер
 [Command line:]
@@ -82,17 +80,17 @@
 [Show dialog]
 Показати діалог
 [Set status to offline before exit]
-Встановити статус офлайн до виходу з нього.
+Встановити статус офлайн перед виходом.
 [Show CMDL]
 Показати CMDL
 [Activate status profile]
-Активувати статус профілю
+Активувати профіль статусу
 [Set docked]
 
 [Other]
 Інше
 [Status on startup]
-Станус на старті
+Статус на старті
 [ms]
 мс
 [Set after]
@@ -108,7 +106,7 @@
 [Allow override]
 Перевизначати
 [Note: status profiles can be created in the 'Status profiles' options screen]
-Примітка: стан профілю може бути створено у "Статус профілю" параметрів екрану
+Примітка: профіль статусів можна створити на сторінці налаштувань "Профілі статусу"
 [Window on startup]
 Вікно при старті
 [Automatically dial on startup]
@@ -117,13 +115,13 @@
 
 [Dial-up (experimental)]
 Dial-up (експериментальна)
-[Background colour]
+[Background color]
 Колір фону
-[Text colour]
+[Text color]
 Колір тексту
-[Use Windows colours]
+[Use Windows colors]
 Кольори Windows
-[Use default colours]
+[Use default colors]
 Кольори за замовчуванням
 [Delay]
 Затримка
@@ -137,7 +135,7 @@ Dial-up (експериментальна)
 Закрити вікно
 [Cancel reconnecting]
 Скасування підключення
-[Colours]
+[Colors]
 Кольори
 [Preview]
 Тест
@@ -152,15 +150,15 @@ Dial-up (експериментальна)
 [Show other messages]
 Інші
 [From Popup plugin]
-З плагіну спливаючіх вікон
+З плагіна спливаючих вікон
 [Custom]
 Налаштувати
 [Permanent]
 Постійно
 [Show additional information in popups]
 Додаткова інформація
-[Use miranda's message setting]
-Використовувати повідомлення Міранди
+[Use Miranda's message setting]
+Використовувати повідомлення Miranda
 [Use this message:]
 Використовувати повідомлення:
 [Use %time% for the current time, %date% for the current date]
@@ -171,22 +169,22 @@ Dial-up (експериментальна)
 Вкажіть параметри для кожного облікового запису
 [Use same settings for all accounts]
 Використовувати однакові параметри для всіх облікових записів
-[Ignore caps-lock, num-scroll lock and-lock keys]
-Ігнорувати клавіші caps-lock, num-scroll lock та інші lock keys
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Ігнорувати клавіші Caps Lock, Num Lock та Scroll Lock
 [Check interval (secs)]
-Інтервал перевірки (секунди)
+Інтервал перевірки (с)
 [Confirm dialog timeout (secs)]
-Я підтверджую, вікно тайм-аут (секунди)
+Затримка діалогу підтвердження (с)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Ви ввімкнули опцію "Змінити мій статус в режим" в "Холостому" діалог додаткові опції, AdvancedAutoAway опції ігноруються.
-[Keyboard activity Monitor]
-Відслідковувати активніть з клавіатури
+Ви ввімкнули опцію "Змінити мій статус в режим" в діалозі "Очікування", опції AdvancedAutoAway ігноруються.
+[Monitor keyboard activity]
+Відслідковувати активність клавіатури
 [Monitor mouse activity]
-Відслітковувати активність миші
+Відслідковувати активність миші
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Ігнорувати клавіші Ctrl, Alt, Shift, Tab, Esc та Win
 [Ignore any key combination with above keys]
-Ігнорувати будь-які комбінації клавіш з вище вказаними клавішами 
+Ігнорувати будь-які комбінації з клавіш, вказаних вище
 [Accounts]
 Облікові записи
 [Enable checking]
@@ -194,10 +192,10 @@ Dial-up (експериментальна)
 [Disable checking]
 Вимкнути перевірку
 [Set status message]
-Встановити станусне повідомлення
+Встановити статусне повідомлення
 [Status]
 Статус
-[Додати...]
+[Add...]
 Додати...
 [Delete]
 Видалити
@@ -208,7 +206,7 @@ Dial-up (експериментальна)
 [Create a main menu item]
 Пункт у головному меню
 [Status profiles]
-Статус профілю
+Профілі статусу
 [Hotkey]
 Гаряча клавіша
 [In submenu]
@@ -218,21 +216,21 @@ Dial-up (експериментальна)
 [Increase delay exponential]
 Збільшити експоненціально
 [Cancel all if a account connects from another location]
-Скасувати якщо усі облікові записи з'єднує з іншого місця
+Скасувати, якщо обліковий запис підключений з іншого місця
 [Reconnect on APM resume]
 Перепідключатися після сплячого режиму
 [Stop trying to reconnect]
 Припинити підключення
-[Set to delay]
+[Set delay to]
 Почекати
 [React on login errors]
 Враховувати помилки входу
 [seconds]
-секунд(и)
+секунд
 [Set account offline before a connection attempt]
-Настроювання облікового запису в режимі офлайн до спроб з'єднання
+Перемикати обліковий запис в офлайн перед спробою з'єднання
 [Max. account connecting time (secs)]
-Макс. підключень облікового запису (сек)
+Макс. час підключення (с)
 [Timers]
 Таймери
 [Reconnecting]
@@ -242,25 +240,25 @@ Dial-up (експериментальна)
 [Consider connection lost after]
 Зв'язок втрачено після
 [failed pings]
-невд. пінг.
+невдалих пінгів
 [Continuously check interval (secs)]
 Інтервал перевірки (с)
 [Entering first auto-away status]
-Введення першого авто-відійшов стану
+Введення першого стану авто-відійшов
 [Entering second auto-away status]
-Введення другого авто-від стану
+Введення другого стану авто-відійшов
 [Leaving first auto-away status]
-Залишивши першого авто-відійшов стану
+Залишивши першого стану авто-відійшов
 [Leaving second auto-away status]
-Залишивши другий авто-відійшов стану
-[Becoming active without change status]
+Залишивши другого стану авто-відійшов
+[Becoming active without status change]
 Стають активними без зміни статусу
 [Pre-conditions]
 Попередні умови
 [TriggerData]
 
-[Status: The status the account will change to\r\nAccount: changing The account state]
-Статус: Стан облікового запису зміниться на\r\nОблыковий запис: зміна стану рахунку
+[Status: The status the account will change to\r\nAccount: The account changing state]
+Статус: статус, який має бути встановлено для облікового запису\r\nОбліковий запис: обліковий запис, для якого потрібно змінити статус
 [Protocol]
 Протокол
 [%s connected from another location]
@@ -268,21 +266,21 @@ Dial-up (експериментальна)
 [%s login error, cancel reconnecting]
 %s помилка входу, перепідключення скасовано
 [%s login error (next retry (%d) in %d s)]
-%s помилка входу (далі повторювати (%d)% d s)
+%s помилка входу (наступна спроба (%d) через %d с)
 [%s status error (next retry (%d) in %d s)]
-%s помилка статусу (далі повторювати (%d)% d s)
+%s помилка статусу (наступна спроба (%d) через %d с)
 [Status error (next retry (%d) in %d s)]
-Статус помилки (далі повторювати (%d)% d s)
+Помилка статусу (наступна спроба (%d) через %d с)
 [%s\t(will be set to %s)\r\n]
-%s\t (% s)\r\n
-[Resetting status... (last try (%d)%s]
-Скидання статусу.. (остання спроба (%d)%s
+%s\t (буде %s)\r\n
+[Resetting status... (last try (%d))%s]
+Скидання статусу... (остання спроба (%d))%s
 [Resetting status... (next retry (%d) in %d s)%s]
-Скидання стану... (далі повторювати (%d)% d s):% s
+Скидання статусу... (наступна спроба (%d) через %d с)%s
 [No internet connection seems available... (last try (%d))]
-Немає доступу до Інтернету (остання спроба (%d))
+Немає підключення до Інтернету... (остання спроба (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
-Немає підключення до Інтернету, здається... (далі повторювати (%d)% d s)
+Немає підключення до Інтернету... (наступна спроба (%d) через %d с)
 [Status was set ok]
 Статус встановлено
 [Giving up]
@@ -298,34 +296,34 @@ Dial-up (експериментальна)
 [Popups]
 Спливаючі вікна
 [I've been away since %time%.]
-Відійшов у %time%. Скоро повернуся.
-[Give it up, i'm not in!]
-Мене немає
+Відійшов о %time%. Скоро повернуся.
+[Give it up, I'm not in!]
+Мене немає.
 [Not right now.]
 Не зараз.
-[Give a some guy peace, would ya?]
-Прошу не турбувати...
+[Give a guy some peace, would ya?]
+Дайте спокій, я зайнятий.
 [I'm a chatbot!]
-Вільний
-[Yep, i'm here.]
+Я - робот-базікало!
+[Yep, I'm here.]
 Так, я тут.
 [Nope, not here.]
-Ні, мене тут немає.
-[I'm from the hiding mafia.]
-Я ховаюся від мафії.
+Мене немає.
+[I'm hiding from the mafia.]
+Я переховуюсь від мафії.
 [That'll be the phone.]
-Так дайте ж людині поговорити по телефону...
+Та дайте ж людині поговорити по телефону...
 [Mmm... food.]
 Ммм... поїсти б...
 [idleeeeeeee]
 очікування...
 [Set %s message for %s.]
-Встановлення %s повідомлення для %s.
+Встановлення повідомлення %s для %s.
 [<last>]
 <останній>
 [<current>]
 <поточний>
 [<n/a>]
-
+<немає>
 [Closing in %d]
 Закрити (%d)
