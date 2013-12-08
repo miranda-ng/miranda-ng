@@ -102,8 +102,8 @@ DWORD CMraProto::MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, con
 	szEmail.MakeLower();
 
 	int iStart = 0;
+	CMStringA szUser = szEmail.Tokenize("@", iStart);
 	CMStringA szDomain = szEmail.Tokenize("@", iStart);
-	CMStringA szUser   = szEmail.Tokenize("@", iStart);
 
 	CMStringA szUrl;
 	szUrl.Format("%s/%s/%s", lpszUrl.c_str(), szDomain.c_str(), szUser.c_str());
