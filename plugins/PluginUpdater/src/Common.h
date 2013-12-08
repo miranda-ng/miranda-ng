@@ -190,7 +190,7 @@ INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int  ImageList_AddIconFromIconLib(HIMAGELIST hIml, const char *name);
 
-bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
+bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
 void strdel(TCHAR *parBuffer, int len);
 
 ///////////////////////////////////////////////////////////////////////////////

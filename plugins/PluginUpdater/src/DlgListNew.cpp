@@ -102,7 +102,7 @@ static void ApplyDownloads(void *param)
 				BackupFile(tszSrcPath, tszBackFile);
 			}
 
-			if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
+			if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack,false))
 				SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 		}
 	}

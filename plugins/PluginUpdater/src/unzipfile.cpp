@@ -45,21 +45,19 @@ void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName)
 	SafeMoveFile(ptszSrcFileName, ptszBackFileName);
 }
 
-bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
+bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bool ch)
 {
-	int err = UNZ_OK;
 	unz_file_info64 file_info;
-	char filename[MAX_PATH];
-	char buf[8192];
+	char filename[MAX_PATH], buf[8192];
 
-	err = unzGetCurrentFileInfo64(uf, &file_info, filename, sizeof(filename), buf, sizeof(buf), NULL, 0);
+	int err = unzGetCurrentFileInfo64(uf, &file_info, filename, sizeof(filename), buf, sizeof(buf), NULL, 0);
 	if (err != UNZ_OK)
 		return false;
 
 	for (char *p = strchr(filename, '/'); p; p = strchr(p+1, '/'))
 		*p = '\\';
 
-	if (!db_get_b(NULL, MODNAME "Files", StrToLower(ptrA(mir_strdup(filename))), true))
+	if (ch && !db_get_b(NULL, MODNAME "Files", StrToLower(ptrA(mir_strdup(filename))), 1))
 		return true;
 
 	TCHAR tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
@@ -123,7 +121,7 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 	return true;
 }
 
-bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
+bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch)
 {
 	bool bResult = true;
 
@@ -133,7 +131,7 @@ bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 	unzFile uf = unzOpen2_64(ptszZipFile, &ffunc);
 	if (uf) {
 		do {
-			if ( !extractCurrentFile(uf, ptszDestPath, ptszBackPath))
+			if ( !extractCurrentFile(uf, ptszDestPath, ptszBackPath,ch))
 				bResult = false;
 		}
 			while (unzGoToNextFile(uf) == UNZ_OK);

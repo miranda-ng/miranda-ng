@@ -115,7 +115,7 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType)
 {	
-	if ( !ServiceExists(MS_POPUP_ADDPOPUP) || !db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) ) {
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPT) || !db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) ) {
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
 		if (db_get_b(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
@@ -207,7 +207,7 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 bool PrepareEscalation()
 {
 	// First try to create a file near Miranda32.exe
-	wchar_t szPath[MAX_PATH];
+	TCHAR szPath[MAX_PATH];
 	GetModuleFileName(NULL, szPath, SIZEOF(szPath));
 	TCHAR *ext = _tcsrchr(szPath, '.');
 	if (ext != NULL)
@@ -234,11 +234,11 @@ bool PrepareEscalation()
 		return false;
 	}
 
-	wchar_t cmdLine[100], *p;
+	TCHAR cmdLine[100], *p;
 	GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
-	if ((p = wcsrchr(szPath, '\\')) != 0)
-		wcscpy(p+1, L"pu_stub.exe");
-	mir_sntprintf(cmdLine, SIZEOF(cmdLine), L"%d", GetCurrentProcessId());
+	if ((p = _tcsrchr(szPath, '\\')) != 0)
+		_tcscpy(p+1, _T("pu_stub.exe"));
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("%d"), GetCurrentProcessId());
 
 	// Launch a stub
 	SHELLEXECUTEINFO sei = { sizeof(sei) };
