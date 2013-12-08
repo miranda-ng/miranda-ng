@@ -64,6 +64,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 {
 	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
+	MenuInit();
 	FoldersInit();
 	LoadOptions();
 
@@ -90,7 +91,6 @@ void SysInit()
 
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
-	MenuInit();
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
