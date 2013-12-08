@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "..\src\resource.h"
+#include "..\src\resource."
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -52,18 +50,19 @@ END
 // Dialog
 //
 
-IDD_OPT_NOSOUND DIALOG  0, 0, 244, 145
-STYLE DS_SETFONT | DS_CENTER | WS_CHILD
-FONT 8, "MS Shell Dlg"
+IDD_OPT_NOSOUND DIALOGEX 0, 0, 244, 145
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
+    LTEXT           "No sounds when:",IDC_STATIC,4,4,77,16
+    CONTROL         "Tree1",IDC_NOSOUND,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,4,22,77,105
+    LTEXT           "No CLIST blink when:",IDC_STATIC,165,4,77,16
+    CONTROL         "Tree1",IDC_NOBLINK,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,87,22,73,105
+    LTEXT           "No SysTray blink when:",IDC_STATIC,87,4,77,16
+    CONTROL         "Tree1",IDC_NOCLCBLINK,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,165,22,73,105
     CONTROL         "Hide the ""toggle sound"" menu item (requires restart of Miranda)",IDC_HIDEMENU,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,133,234,10
-    CONTROL         "Tree1",IDC_NOSOUND,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_TABSTOP,4,22,77,105
-    CONTROL         "Tree1",IDC_NOBLINK,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_TABSTOP,87,22,73,105
-    CONTROL         "Tree1",IDC_NOCLCBLINK,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_TABSTOP,165,22,73,105
-    LTEXT           "No sounds when:",IDC_STATIC,4,4,77,8
-    LTEXT           "No SysTray blink when:",IDC_STATIC,87,4,77,8
-    LTEXT           "No CLIST blink when:",IDC_STATIC,165,4,73,8
 END
 
 
@@ -73,7 +72,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_NOSOUND, DIALOG
     BEGIN
@@ -87,7 +86,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
