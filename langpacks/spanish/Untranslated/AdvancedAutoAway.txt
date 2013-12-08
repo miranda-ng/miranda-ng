@@ -1,0 +1,8 @@
+﻿[Account connection]
+[Confirm status]
+[Command line]
+[Copy to clipboard]
+[Create shortcut]
+[Note: status profiles can be created in the 'Status profiles' options screen]
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+[Status profiles]
