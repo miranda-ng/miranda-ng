@@ -231,7 +231,7 @@ static CountryListEntry countries[] = {
 	{974,    LPGEN("Qatar"), "QA"},
 	{262,    LPGEN("Reunion"), "RE"},
 	{40,     LPGEN("Romania"), "RO"},
-	{7,      LPGEN("Russian Federation"), "RU"},
+	{7,      LPGEN("Russia"), "RU"},
 	{250,    LPGEN("Rwanda"), "RW"},
 	{590,    LPGEN("Saint Barthelemy"), "BL"},
 	{290,    LPGEN("Saint Helena, Ascension and Tristan da Cunha"), "SH"},

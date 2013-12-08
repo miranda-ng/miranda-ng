@@ -2785,7 +2785,7 @@ ANSI плагин
 о. Реюньон
 [Romania]
 Румыния
-[Russian Federation]
+[Russia]
 Россия
 [Rwanda]
 Руанда
