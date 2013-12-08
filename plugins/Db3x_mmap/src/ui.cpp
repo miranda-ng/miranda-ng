@@ -244,6 +244,51 @@ static INT_PTR ChangePassword(void* obj, LPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CDb3Mmap *db = (CDb3Mmap *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		db = (CDb3Mmap*)lParam;
+		CheckRadioButton(hwndDlg, IDC_STANDARD, IDC_TOTAL, IDC_STANDARD + db->isEncrypted());
+		return TRUE;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			if (IsDlgButtonChecked(hwndDlg, IDC_TOTAL) == (BOOL)db->isEncrypted())
+				break;
+		}
+		break;
+	}
+
+	return FALSE;
+}
+
+static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.position = -790000000;
+	odp.hInstance = g_hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTitle = LPGEN("Database");
+	odp.pfnDlgProc = DlgProcOptions;
+	odp.dwInitParam = (LPARAM)obj;
+	Options_AddPage(wParam, &odp);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDb3Mmap::UpdateMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -258,6 +303,8 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 
 	Icon_Register(g_hInst, LPGEN("Database"), iconList, SIZEOF(iconList), "mmap");
+
+	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
 	// main menu item
 	CLISTMENUITEM mi = { sizeof(mi) };

@@ -110,4 +110,12 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\pass.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\logo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -245,6 +245,10 @@
     <ResourceCompile Include="res\db3x_mmap.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\logo.ico" />
+    <None Include="res\pass.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
