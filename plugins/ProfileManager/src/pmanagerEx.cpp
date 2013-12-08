@@ -92,6 +92,25 @@ static IconItem iconList[] =
 	{ LPGEN("Restart"),        SRV_RESTART_ME, IDI_Restart   }
 };
 
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = -500200000;
+	mi.pszPopupName = LPGEN("Database");
+
+	for (int i = 0; i < SIZEOF(iconList); i++) {
+		mi.pszName = iconList[i].szDescr;
+		mi.pszService = iconList[i].szName;
+		mi.icolibItem = iconList[i].hIcolib;
+		if (i == 3)
+			mi.pszPopupName = NULL;
+		Menu_AddMainMenuItem(&mi);
+	}
+
+	Menu_AddTrayMenuItem(&mi);
+	return 0;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -103,20 +122,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(SRV_CHANGE_PM, ChangePM);
 	CreateServiceFunction(SRV_RESTART_ME, RestartMe);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.position = -500200000;
-	mi.pszPopupName = LPGEN("Database");
-
-	for (int i=0; i < SIZEOF(iconList); i++) {
-		mi.pszName = iconList[i].szDescr;
-		mi.pszService = iconList[i].szName;
-		mi.icolibItem = iconList[i].hIcolib;
-		if (i == 3)
-			mi.pszPopupName = NULL;
-		Menu_AddMainMenuItem(&mi);
-	}
-
-	Menu_AddTrayMenuItem(&mi);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
 }
 
