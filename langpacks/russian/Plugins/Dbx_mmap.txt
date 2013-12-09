@@ -46,7 +46,7 @@
 [Total]
 Полный
 [Only critical data are encrypted (passwords, security tokens etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрование только критических данных (пароли, токены авторизации итд). Остальные настройки, а также история остаются незашиифрованными. Быстрый и эффективный, подходит в большинстве случаев
+Шифрование только критических данных (пароли, токены авторизации итд). Остальные настройки, а также история остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
 Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохраненного в профиле в случае утери пароля. Рекомендуется только параноидальным пользователям
 [Disk is full. Miranda will now shutdown.]

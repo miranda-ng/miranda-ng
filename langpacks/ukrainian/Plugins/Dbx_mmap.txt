@@ -56,40 +56,50 @@
 &Перемістити/перейменувати
 [&Leave]
 &Залишити
-[db3x_mmap Plugin] 
-Плагін db3x_mmap 
-[Database] 
-Профіль 
-[Password] 
-Пароль 
-[Set password] 
-Встановити пароль 
-[Old password] 
-Старий пароль 
-[New password] 
+[db3x_mmap Plugin]
+Плагін db3x_mmap
+[Database]
+Профіль
+[Password]
+Пароль
+[Set password]
+Встановити пароль
+[Old password]
+Старий пароль
+[New password]
 Новий пароль 
-[Change password] 
-Змінити пароль 
-[Change/remove password] 
+[Change password]
+Змінити пароль
+[Change/remove password]
 Змінити/видалити пароль
-[Change] 
+[Change]
 Змінити
-[Remove] 
+[Remove]
 Видалити
-[Please type in your password] 
+[Please type in your password]
 Будь ласка, введіть ваш пароль
-[Please enter your new password] 
-Будьласка введіть новий пароль 
-[Password is too short!] 
-Пароль занабто короткий! 
-[Passwords do not match!] 
-Пароли не співпадають! 
-[Wrong old password entered!] 
+[Please enter your new password]
+Будьласка введіть новий пароль
+[Password is too short!]
+Пароль занабто короткий!
+[Passwords do not match!]
+Пароли не співпадають!
+[Wrong old password entered!]
 Введено помилковий старий пароль! 
-[Password is not correct!] 
+[Password is not correct!]
 Невірний пароль!
-[Too many errors!] 
+[Too many errors!]
 Дуже багато помилок!
+[Database encryption mode]
+Режим шифрування бази
+[Standard]
+Стандартний
+[Total] 
+Повний 
+[Only critical data are encrypted (passwords, security tokens etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Шифрування тільки критичних даних (паролі, токени авторизації іті). Інші налаштування, а також історія залишаються незашифрованою. Швидко та ефективно, підходить в більшості випадків
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users] 
+Всі налаштування і всі події історії зашифровані. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в профілі в разі втрати пароля. Рекомендується тільки параноїдальним користувачам
 [Disk is full. Miranda will now shutdown.]
 Диск сповнений. Miranda завершує роботу.
 [Database failure. Miranda will now shutdown.]
