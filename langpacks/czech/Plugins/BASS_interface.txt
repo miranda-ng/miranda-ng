@@ -62,7 +62,7 @@ Zvuky
 Zakázat zvuky
 [Enable sounds]
 Povolit zvuky
-[Frame Background]
+[Frame background]
 Barva pozadí rámečku
 [Bass library]
 Bass knihovna

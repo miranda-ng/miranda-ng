@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -30,6 +30,16 @@ Změnit
 Odebrat
 [Old password]
 Aktuální heslo
+[Database encryption mode]
+Režim šifrování databáze
+[Standard]
+Standardní
+[Total]
+Kompletní
+[Only critical data are encrypted (passwords, security tokens etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné ve většině případech.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
+Všechny řetězce a události v historii jsou šifrovány. To v důsledku způsobí pomalejší běh Mirandy a riziko ztráty veškerých dat v profilu při zapomenutí hesla. Doporučeno pouze pro paranoidní uživatele.
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
 Disk je plný. Miranda bude nyní ukončena.
@@ -41,21 +51,30 @@ Chyba databáze.
 Miranda zjistila poškození vaší databáze. Toto poškození může být možná opraveno doplňkem DbChecker. Stáhněte si jej z http://miranda-ng.org/p/DbChecker/. Miranda bude nyní ukončena.
 [Database Panic]
 Poškození databáze
+;file \plugins\Db3x_mmap\src\dbintf.h
+[Change/remove password]
+Změnit/zrušit heslo
+[Set password]
+Nastavit heslo
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
-
+Logo
 [Password]
 Heslo
+[Too many errors!]
+Příliš mnoho chybných pokusů!
+[Password is not correct!]
+Zadané heslo není správné!
+[Please type in your password]
+Zadejte prosím své heslo
+[Wrong old password entered!]
+Zadané původní heslo není správné!
 [Password is too short!]
 Heslo je příliš krátké!
 [Passwords do not match!]
 Zadaná hesla se neshodují!
-[Wrong old password entered!]
-
 [Database]
 Databáze
-[Set password]
-Nastavit heslo
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 Důkladný průchod databází

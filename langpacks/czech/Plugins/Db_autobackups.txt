@@ -14,8 +14,6 @@ Průběh zálohování
 Zrušit
 [Automatic backups]
 Automatické zálohování
-[Number of backups to keep:]
-Počet uložených kopií:
 [Backup NOW]
 Zazálohovat
 [Disabled]
@@ -26,6 +24,8 @@ Při spuštění Mirandy
 Při ukončení Mirandy
 [Every:]
 Každé:
+[Number of backups to keep:]
+Počet uložených kopií:
 [Backup to folder:]
 Složka pro zálohování profilů:
 [Browse...]

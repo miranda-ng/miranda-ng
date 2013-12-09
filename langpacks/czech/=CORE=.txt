@@ -2324,7 +2324,7 @@ Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 Načítání... %d%%
 [%s options]
 %s nastavení
-[Miranda NG Options]
+[Miranda NG options]
 Miranda - možnosti nastavení
 [&Options...]
 M&ožnosti...
@@ -2363,8 +2363,6 @@ POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstran
 Vybraný účet byl úspěšně zaktualizován a nyní ho už zbývá jen aktivovat, což vyžaduje restart Mirandy.\n\nPomocí tlačítka 'Ano' provedete restart, kliknutím na tlačítko 'Ne' lze aktualizovat další účet.
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Tento účet používá starší generaci doplňku pro podporu daného protokolu. Konfigurovat ho můžete jen v okně s nastavením pro celou Mirandu.
-[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
 [Create new account]
 Zřídit nový účet
 [Editing account]
@@ -2373,7 +2371,7 @@ Upravit účet
 Aktualizace účtu
 [Account name has to be unique. Please enter unique name.]
 Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
-[Account Error]
+[Account error]
 Chyba účtu
 [Account is disabled. Please activate it to access options.]
 Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
@@ -2439,11 +2437,11 @@ Platnost v systému
 [Miranda scope]
 Platnost v Mirandě
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Uživatel online
-[Group (Open)]
+[Group (open)]
 Skupina (otevřená)
-[Group (Closed)]
+[Group (closed)]
 Skupina (zavřená)
 [Connecting]
 Připojování
@@ -2451,29 +2449,27 @@ Připojování
 Informace o uživateli
 [History]
 Historie
-[Down Arrow]
+[Down arrow]
 Šipka dolů
-[Find User]
+[Find user]
 Vyhledat kontakt
-[Send E-mail]
-Poslat e-mail
 [SMS]
 SMS
-[Search All]
+[Search all]
 Prohledat vše
 [Tick]
 Zaškrtnuto
-[No Tick]
+[No tick]
 Nezaškrtnuto
 [Help]
 Nápověda
 [Miranda website]
 Stránka o Mirandě
-[Small Dot]
+[Small dot]
 Tečka uprostřed
-[Filled Blob]
+[Filled blob]
 Vyplněný slot
-[Empty Blob]
+[Empty blob]
 Prázdný slot
 [Unicode plugin]
 Doplněk Unicode
@@ -2491,7 +2487,7 @@ Ukončit
 Hlavní nabídka
 [Leave chat]
 Opustit diskusi
-[Move to Group]
+[Move to group]
 Přesunout do skupiny
 [On]
 Zap
@@ -2515,30 +2511,30 @@ Tento člověk mě vždy uvidí
 Vždy neviditelný
 [Locked status]
 Zamknuto
-[Status Icons]
+[Status icons]
 Stavové ikony
-[%s Icons]
+[%s icons]
 %s ikony
-[Main Icons]
+[Main icons]
 Hlavní ikony
 ;file \src\modules\skin\sounds.cpp
-[Sound Files]
+[Sound files]
 Zvukové soubory
-[WAV Files]
+[WAV files]
 Soubory WAV
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Pro zpracování PNG obrázků je zapotřebí doplněk Image services
-[All Bitmaps]
+[All bitmaps]
 Všechny bitmapy
-[Windows Bitmaps]
-obrázky typu BMP
-[JPEG Bitmaps]
-obrázky typu JPEG
-[GIF Bitmaps]
-obrázky typu GIF
-[PNG Bitmaps]
-obrázky typu PNG
+[Windows bitmaps]
+Obrázky typu BMP
+[JPEG bitmaps]
+Obrázky typu JPEG
+[GIF bitmaps]
+Obrázky typu GIF
+[PNG bitmaps]
+Obrázky typu PNG
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatary
@@ -2604,8 +2600,8 @@ Benin
 Bermudy
 [Bhutan]
 Bhútán
-[Bolivia, Plurinational State of]
-Bolívie, plurinacionální stát
+[Bolivia]
+Bolívie
 [Bonaire, Sint Eustatius and Saba]
 Bonaire, Sint Eustatius a Saba
 [Bosnia and Herzegovina]
@@ -2618,7 +2614,7 @@ Bouvetův ostrov
 Brazílie
 [British Indian Ocean Territory]
 Britské indickooceánské území
-[Brunei Darussalam]
+[Brunei]
 Brunej
 [Bulgaria]
 Bulharsko
@@ -2652,7 +2648,7 @@ Kokosové ostrovy
 Kolumbie
 [Comoros]
 Komory
-[Congo]
+[Congo, Republic of the]
 Kongo
 [Congo, the Democratic Republic of the]
 Kongo, demokratická republika
@@ -2708,8 +2704,8 @@ Francie
 Francouzská Guyana
 [French Polynesia]
 Francouzská Polynésie
-[French Southern Territories]
-Francouzská jižní území
+[French Southern and Antarctic Lands]
+Francouzská jižní a antarktická území
 [Gabon]
 Gabon
 [Gambia]
@@ -2746,7 +2742,7 @@ Guyana
 Haiti
 [Heard Island and McDonald Islands]
 Heardův ostrov a McDonaldovy ostrovy
-[Holy See (Vatican City State)]
+[Holy See (Vatican City)]
 Svatý stolec (Vatikánský městský stát)
 [Honduras]
 Honduras
@@ -2786,16 +2782,16 @@ Kazachstán
 Keňa
 [Kiribati]
 Kiribati
-[Korea, Democratic People's Republic of]
-Korea, demokratická lidová republika
-[Korea, Republic of]
-Korea, republika
+[North Korea]
+Severní Korea
+[South Korea]
+Jižní Korea
 [Kuwait]
 Kuvajt
 [Kyrgyzstan]
 Kirgizstán
-[Lao People's Democratic Republic]
-Laoská lidově demokratická republika
+[Laos]
+Laos
 [Latvia]
 Lotyšsko
 [Lebanon]
@@ -2842,7 +2838,7 @@ Mayotte
 Mexiko
 [Micronesia, Federated States of]
 Mikronésie
-[Moldova, Republic of]
+[Moldova]
 Moldávie
 [Monaco]
 Monako
@@ -2890,8 +2886,8 @@ Omán
 Pákistán
 [Palau]
 Palau
-[Palestinian Territory, Occupied]
-Palestina, okupovaná
+[Palestinian Territories]
+Palestina
 [Panama]
 Panama
 [Papua New Guinea]
@@ -2902,8 +2898,8 @@ Paraguay
 Peru
 [Philippines]
 Filipíny
-[Pitcairn]
-Pitcairn
+[Pitcairn Islands]
+Pitcairnovy ostrovy
 [Poland]
 Polsko
 [Portugal]
@@ -2916,8 +2912,8 @@ Katar
 Réunion
 [Romania]
 Rumunsko
-[Russian Federation]
-Ruská federace
+[Russia]
+Rusko
 [Rwanda]
 Rwanda
 [Saint Barthelemy]
@@ -2984,14 +2980,14 @@ Swazijsko
 Švédsko
 [Switzerland]
 Švýcarsko
-[Syrian Arab Republic]
+[Syria]
 Sýrie
 [Taiwan, Province of China]
 Tchaj-wan, čínská provincie
 [Tajikistan]
 Tádžikistán
-[Tanzania, United Republic of]
-Tanzanie, spojená republika
+[Tanzania]
+Tanzánie
 [Thailand]
 Thajsko
 [Timor-Leste]
@@ -3032,14 +3028,14 @@ Uruguay
 Uzbekistán
 [Vanuatu]
 Vanuatu
-[Venezuela, Bolivarian Republic of]
-Venezuela, Bolívarovská republika
-[Viet Nam]
+[Venezuela]
+Venezuela
+[Vietnam]
 Vietnam
-[Virgin Islands, British]
-Panenské ostrovy, britské
-[Virgin Islands, U.S.]
-Panenské ostrovy, americké
+[Virgin Islands (British)]
+Panenské ostrovy (britské)
+[Virgin Islands (United States)]
+Panenské ostrovy (americké)
 [Wallis and Futuna]
 Wallis a Futuna
 [Western Sahara]

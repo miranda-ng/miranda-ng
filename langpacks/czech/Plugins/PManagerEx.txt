@@ -20,7 +20,7 @@ Změnit profil
 Zkontrolovat databázi
 [Restart]
 Restart
-[Profile manager]
-Správce profilů
 [Database]
 Databáze
+[Profile manager]
+Správce profilů

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -70,12 +70,6 @@ Výchozí síť
 Osobní informace (povinné)
 [Other]
 Ostatní
-[Reconnect]
-Obnovení spojení
-[Wait (s)]
-Znovu po (s)
-[Retry count]
-Počet pokusů
 [Check every (s):]
 Zjišťovat stav každých (s):
 [SSL]
@@ -732,8 +726,6 @@ Přidat mezi &ignorované
 Přid&at mezi kontakty
 [Connecting to]
 Připojování k
-[Reconnecting to]
-Obnovování připojení k
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Offline

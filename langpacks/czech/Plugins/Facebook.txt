@@ -194,7 +194,7 @@ Zpráva byla přečtena: %s - %s
 [Message read: %s]
 Zpráva byla přečtena: %s
 [This message is no longer available, because it was marked as abusive or spam.]
-
+Tato zpráva již není dostupná, protože byla označena jako urážlivá nebo spam.
 [%s and more (%d)]
 %s a další (%d)
 ;file \protocols\FacebookRM\src\messages.cpp
