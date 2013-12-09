@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by ..\res\resource.rc
 //
 #define IDD_LASTUC_OPT                  9
 #define IDI_FOLDER                      101
@@ -14,7 +14,7 @@
 #define IDC_DATETIME                    1005
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        106
