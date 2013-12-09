@@ -63,7 +63,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(GetDlgItem(hwndDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib));
+		SendMessage(GetDlgItem(hwndDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib, true));
 
 		param = (DlgChangePassParam*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -160,7 +160,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(GetDlgItem(hwndDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib));
+		SendMessage(GetDlgItem(hwndDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib, true));
 
 		param = (DlgChangePassParam*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
