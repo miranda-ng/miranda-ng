@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Vkontakte.dll
 ;  Module: Vkontakte protocol
-;  Versions: 0.1.0.2
+;  Versions: 0.1.0.6
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -39,3 +39,5 @@
 Прикріплення:
 [Photo]
 Фото
+[Server-side delivery confirmation]
+Підтвердження доставки зі сторони серверу
