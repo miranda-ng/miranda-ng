@@ -15,6 +15,7 @@ type
     Button2: TButton;
     Button3: TButton;
     ComboBox1: TComboBox;
+    Button4: TButton;
     procedure ListBox12Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ListBox1Click(Sender: TObject);
@@ -25,6 +26,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -59,11 +61,11 @@ var str:string; i:integer;
  if  locale='bulgarian' then str:=str+'bg/';
  if  locale='chinese' then str:=str+'zh-CN/';
  if  locale='czech' then str:=str+'cs/';
- if  locale='duth' then str:=str+'da/';
+ if  locale='dutch' then str:=str+'da/';
  if  locale='estonian' then str:=str+'et/';
  if  locale='french' then str:=str+'fr/';
  if  locale='german' then str:=str+'de/';
- if  locale='herbrew' then str:=str+'iw/';
+ if  locale='hebrew' then str:=str+'iw/';
  if  locale='hungarian' then str:=str+'hu/';
  if  locale='italian' then str:=str+'it/';
  if  locale='japanese' then str:=str+'ja/';
@@ -99,11 +101,35 @@ var sList:TStringList;
           begin
             sList.add(s[0,i]);
             sList.add(s[1,i]);
+          end
+        else
+        if (copy(s[0,i],1,1)='[')and
+        (fileexists(extractfilePath(application.exename)+'clearstring.ini'))then
+          begin
+          sList.add(s[0,i]);
+          sList.add('');
           end;
       end;
   sList.SavetoFile(extractfilePath(application.exename)
   +'/'+locale+'/'+filename+'.txt',TEncoding.UTF8);
   sList.free;
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+var search:TStringList;
+q:integer;
+begin
+search:=TstringList.Create;
+search.LoadFromFile(extractfilePath(application.exename)+
+'/'+locale+'/'+'Langpack_'+locale+'.txt');
+for q := 1 to listbox1.items.Count-1 do
+for i := 1 to search.count-1 do
+ if (s[0,u[q]]=search[i])and(copy(search[i+1],1,1)<>'[')then
+ begin
+  s[1,u[q]]:=search[i+1];
+  break;
+ end;
+search.free;
 end;
 
 procedure tform1.fileslist;
@@ -199,6 +225,7 @@ procedure TForm1.FormCreate(Sender: TObject);
   begin
     langlist;
     qq:=0;
+
   end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
@@ -215,7 +242,6 @@ procedure TForm1.ListBox1Click(Sender: TObject);
     if (qq=2) and (listbox1.itemindex>0)then
       begin
         savestring;
-        {}
         memo1.Lines.clear;
         memo2.Lines.clear;
         stringview;
@@ -232,11 +258,6 @@ case qq of
     ListBox1.height:=300;
     Combobox1.Visible:=true;
     Memo1.Lines.Clear;
-    Memo1.Height:=150;
-    Memo2.Visible:=true;
-    Button1.Visible:=true;
-    Button2.Visible:=true;
-    Button3.Visible:=true;
     locale:=listbox1.items[listbox1.itemindex];
     listbox1.items.clear;
     form1.Caption:='Miranda NG Langpack Manager: '+locale;
@@ -252,11 +273,6 @@ case qq of
         Combobox1.Visible:=false;
         ListBox1.Items.clear;
         Memo1.Lines.Clear;
-        Memo1.Height:=343;
-        Memo2.Visible:=false;
-        Button1.Visible:=false;
-        Button2.Visible:=false;
-        Button3.Visible:=false;
         langlist;
         listbox1.itemindex:=0;
         form1.Caption:='Miranda NG Langpack Manager';
@@ -267,6 +283,11 @@ case qq of
         for i := 1 to 6000 do
           begin s[0,i]:='';s[1,i]:='';end;
         j:=0;
+        Memo1.Height:=150;
+        Memo2.Visible:=true;
+        Button1.Visible:=true;
+        Button2.Visible:=true;
+        Button3.Visible:=true;
         lList:=TstringList.Create;
         lList.LoadFromFile(extractfilePath(application.exename)+'/english/'
         +listbox1.items[listbox1.itemindex]+'.txt',TEncoding.UTF8);
@@ -291,11 +312,12 @@ case qq of
         +listbox1.items[listbox1.itemindex]+'.txt',TEncoding.UTF8);
         for z:= 1 to j do
           for i := 1 to lList.count-2 do
-            if (copy(s[0,z],1,1)='[')and(s[0,z]=lList[i]) then
+            if (copy(s[0,z],1,1)='[')and(s[0,z]=lList[i])
+            and (copy(lList[i+1],1,1)<>'[')then
               s[1,z]:=lList[i+1];
         lList.free;
-        form1.Caption:='Miranda NG Langpack Manager - '
-        +locale+':'+listbox1.items[listbox1.itemindex];
+        form1.Caption:='Miranda NG Langpack Manager: '
+        +locale+'\'+listbox1.items[listbox1.itemindex];
         filename:=listbox1.items[listbox1.itemindex];
         listbox1.items.Clear;
         listbox1.items.add('..');
@@ -307,6 +329,9 @@ case qq of
               u[z]:=i;
               listbox1.items.add(copy(s[0,i],2,length(s[0,i])-2));
           end;
+         if (fileexists(extractfilePath(application.exename)+'/'+locale+'/'
+        +'Langpack_'+locale+'.txt')) and (listbox1.items.Count>1) then
+        button4.Visible:=true;
 
         qq:=2;
       end;
@@ -315,6 +340,12 @@ case qq of
   2:begin
     if listbox1.items[listbox1.itemindex]='..' then
       begin
+        Memo1.Height:=343;
+        Memo2.Visible:=false;
+        Button1.Visible:=false;
+        Button2.Visible:=false;
+        Button3.Visible:=false;
+        button4.Visible:=false;
         listbox1.Items.Clear;
         listbox1.Items.Add('..');
         fileslist;

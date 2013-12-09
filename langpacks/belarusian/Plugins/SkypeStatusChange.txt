@@ -2,6 +2,7 @@
 ;============================================================
 ;  File: SkypeStatusChange.dll
 ;  Plugin: Skype status change
+;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
 [Skype status change according to Miranda status.]

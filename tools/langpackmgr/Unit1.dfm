@@ -89,4 +89,14 @@ object Form1: TForm1
       'All items'
       'Untranslated items')
   end
+  object Button4: TButton
+    Left = 304
+    Top = 317
+    Width = 75
+    Height = 25
+    Caption = 'Find lines'
+    TabOrder = 7
+    Visible = False
+    OnClick = Button4Click
+  end
 end

@@ -290,8 +290,6 @@
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заблакаваны)
-[ ago]
- назад
 [Log on:]
 Далучаны:
 [Unread emails:]
@@ -327,6 +325,8 @@
 Дзень нараджэння:
 [Client:]
 Кліент:
+[Email:]
+Пошта:
 [Gender:]
 Пол:
 [Homepage]
@@ -339,6 +339,10 @@
 Чаканне
 [Idle:]
 У чаканні:
+[IP]
+IP
+[IP:]
+IP:
 [IP internal]
 Унутраны IP
 [IP internal:]

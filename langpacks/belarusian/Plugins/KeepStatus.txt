@@ -1,8 +1,8 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
-;  Version: 0.8.0.97
+;  Plugin: Keep status
+;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
@@ -192,6 +192,10 @@ Dial-up (эксперыментальна)
 Ігнараваць камбінацыі са згаданымі клавішамі
 [Accounts]
 Конты
+[Enable checking]
+Правяраць
+[Disable checking]
+Не правяраць
 [Set status message]
 Усталяваць статутнае паведамленне
 [Status]
@@ -244,36 +248,42 @@ Dial-up (эксперыментальна)
 незад. пінг.
 [Continuously check interval (secs)]
 Інтэрвал праверкі (сек)
+[Becoming active without status change]
+Не змяняць статус пры вяртанні
+[TriggerData]
+Дадзеныя трыгера
+[Status: The status the account will change to\r\nAccount: The account changing state]
+Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-[KeepStatus]
-Перадалучэнне
-[%s Connected from another location]
+[Protocol]
+Пратакол
+[%s connected from another location]
 %s далучаны з іншага месца
-[%s Login error, cancel reconnecting]
+[%s login error, cancel reconnecting]
 %s памылка далучэння, адмяняю далучэнне
-[%s Login error (next retry (%d) in %ds)]
+[%s login error (next retry (%d) in %d s)]
 %s памылка далучэння (спроба № %d праз %d з.)
-[%s Status error (next retry (%d) in %ds)]
+[%s status error (next retry (%d) in %d s)]
 %s памылка статусу (наступны паўтор (%d) праз %d з.)
-[Status error (next retry (%d) in %ds)]
+[Status error (next retry (%d) in %d s)]
 Памылка статусу (спроба № %d праз % з.)
-[will be set to]
+[%s\t(will be set to %s)\r\n]
 будзе
 [Resetting status... (last try (%d))%s]
 Скід статусу.. (апошняя спроба (%d))%s
-[Resetting status... (next retry (%d) in %ds)%s]
+[Resetting status... (next retry (%d) in %d s)%s]
 Скід статусу.. (спроба № %d праз %d з.)%s
 [No internet connection seems available... (last try (%d))]
 Няма доступу да Інтэрнэту (апошняя спроба (%d))
-[No internet connection seems available... (next retry (%d) in %ds)]
+[No internet connection seems available... (next retry (%d) in %d s)]
 Няма доступу да Інтэрнэту (спроба № %d праз %d з.)
 [Status was set ok]
 Статус усталяваны
 [Giving up]
 Спыняю
+[KeepStatus]
+Перадалучэнне
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
-[Protocol]
-Пратакол
 [Basic]
 Асноўныя
 [Advanced]

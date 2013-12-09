@@ -55,6 +55,10 @@ X
 [Remote IP:Port]
 Аддалены IP: Порт
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+Паказаць
+[Hide]
+Схаваць
 [Always show popup]
 Заўсёды паказваць вакно
 [Never show popup]
@@ -71,8 +75,6 @@ X
 Дзеянне
 [Plugins]
 Плагіны
-[ConnectionNotify: New Connection Notification]
-ConnectionNotify: Апавяшчэнне пра новыя злучэнні
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Спачатку зачыніць налады

@@ -140,8 +140,6 @@ Wikipedia
 Капіяваць
 [Cut]
 Выразаць
-[Paste]
-Уставіць
 [Select all]
 Вылучыць усё
 [Clear]
@@ -154,6 +152,15 @@ Wikipedia
 Зачыніць астатнія ўкладкі
 [&Open at this position]
 Адкрыць у гэтым месцы
+;file \plugins\TabSRMM\res\msgwindow.rc
+[&Cancel]
+С&касаваць
+[&Send]
+&Адправіць
+[&Add]
+&Дадаць
+[&Remove]
+Ачысціць
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
 Памылка TabSRMM
@@ -447,6 +454,8 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Стварыць новы кантэйнер
 [Create new]
 Стварыць
+[Reset]
+Скід
 [Show in IM chats]
 Паказваць у звычайным акне
 [Show in chat rooms]
@@ -455,8 +464,6 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Прамежак кнопак:
 [Hide if there isn't enough space]
 Хаваць, калі недастаткова месцы
-[Reset]
-Скід
 [Insert Separator]
 Уставіць падзельнік
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
@@ -661,9 +668,9 @@ Esc зачыняе сесію (інакш - згортвае)
 Ствараць новыя вокны згорнутымі
 [Send on Shift+Enter]
 Пасылаць па Shift+Enter
-[Send message on Enter]
+[Send message on 'Enter']
 Пасылаць па "Enter"
-[Send message on double Enter]
+[Send message on double 'Enter']
 Пасылаць па падвойным "Enter"
 [Minimize the message window on send]
 Згортваць вакно пасля адпраўкі
@@ -715,8 +722,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Уставіць і адправіць
 [Copy all]
 Капіяваць усё
-[Select all]
-Вылучыць усё
 [Show Message Length Indicator]
 Індыкатар даўжыні паведамлення
 [Close Tab]
@@ -879,14 +884,12 @@ Esc зачыняе сесію (інакш - згортвае)
 Змясціць панэль прылад уніз
 [Title Bar]
 Загаловак
-[Tabs at Bottom]
-Укладкі знізу
+[Tabs at the bottom]
+Укладкі ўнізе
 [Window Flashing]
 Мігценне акна
 [Use default Value]
 Па змаўчанні
-[Disable Flashing]
-Выключыць мігценне
 [Show Multisend Contact List]
 Паказваць акно мультыадпраўкі
 [Stay on Top]
@@ -955,8 +958,6 @@ Esc зачыняе сесію (інакш - згортвае)
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Схаваць загаловак акна
-[Container options...]
-Налады кантэйнера
 [Message Session...]
 Гутарка...
 [Default container]
@@ -1006,8 +1007,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Налады для кантэйнера\n%s
 [Tabs at the top]
 Укладкі зверху
-[Tabs at the bottom]
-Укладкі ўнізе
 [Switch bar on the left side]
 Панэль пераключэння злева
 [Switch bar on the right side]
@@ -1396,8 +1395,6 @@ TabSRMM: Набірае
 Загрузіць і ўжыць
 [Window layout tweaks]
 Выгляд укладак
-[Group Chats]
-Чаты
 [Settings]
 Налады
 [Log formatting]
@@ -1443,7 +1440,7 @@ TabSRMM: Набірае
 Уваходнае паведамленне
 [Outgoing message]
 Выходнае паведамленне
-[Statuschange]
+[Status change]
 Змена статусу
 [Static container icon]
 Статычны значок кантэйнера
@@ -1502,6 +1499,8 @@ TabSRMM: Набірае
 Задача адпраўкі з затрымкай паспяхова выканана. \nАрыгінальнае паведамленне: %s
 [<All contacts>]
 <Усе кантакты>
+[Failed]
+Не атрымалася
 [Pending]
 У чаканні
 [Contact]
@@ -1648,10 +1647,6 @@ TabSRMM: Набірае
 Адпраўка паведамленняў
 [Send on SHIFT - Enter]
 Пасылаць па "Shift+Enter"
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
 [Close the message window on send]
 Зачыняць вакно пасля адпраўкі
 [Always flash contact list and tray icon for new messages]
@@ -1813,6 +1808,8 @@ TabSRMM: Набірае
 <няверна>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
+[Input area background]
+Фон поля ўводу
 [Log background]
 Фон лога
 [Single Messaging]
@@ -2093,8 +2090,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 імя бягучага профіля (толькі імя, без пашырэння)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 верне радок выгляду %miranda_profile%\\Profiles\\%miranda_profilename%
-[will return parsed string %miranda_userdata%\\Logs]
-
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог зменнага асяроддзя %APPDATA% для бягучага карыстача сістэмы
 [username for currently logged-on Windows user]
@@ -2195,6 +2190,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Шукаць '%s':
 [No word to look up]
 Няма слоў для пошуку
+[&Message %s]
+&Паведамленне %s
 [Highlight User...]
 Падсвятляць карыстачоў
 [Edit Highlight List...]
@@ -2202,10 +2199,10 @@ ID бягучага кантакту (калі вызначаны). Напрык
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 Мянушка
-[Nick]
-Нік
 [Unique ID]
 Асабісты конт
+[Nick]
+Нік
 [%s: Chat Room (%u user%s)]
 %s: Чат-пакой (%u карыстачоў)
 [%s: Chat Room (%u users%s)]

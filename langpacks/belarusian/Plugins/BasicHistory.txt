@@ -214,7 +214,7 @@
 Налады
 [Filters]
 Фільтры
-[Fonts & Colors]
+[Fonts and colors]
 Шрыфты і колеры
 [Icons]
 Абразкі

@@ -10,6 +10,14 @@
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Паслаць кантакты
+[&Add]
+&Дадаць
+[&User menu]
+Меню карыстача
+[User &details]
+&Інфармацыя
+[&History]
+Гісторыя
 [Choose contacts to be send:]
 Абраць кантакты для адпраўкі:
 [&Send]
@@ -22,8 +30,6 @@
 Прынятыя кантакты
 [Add to &group:]
 Дадаць у групу:
-[&Add]
-&Дадаць
 [&Details]
 Дэталі
 [Close]
@@ -38,7 +44,7 @@
 Вакно
 [Add to List]
 Дадаць
-[User Details]
+[User details]
 Пра карыстача
 [Send Message]
 Адправіць

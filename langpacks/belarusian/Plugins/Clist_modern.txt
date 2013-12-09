@@ -686,7 +686,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Кантакты
-[Row Items]
+[Row items]
 Элементы радкоў
 [Frame texts]
 Тэкст фрэйма
@@ -1024,7 +1024,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Галоўнае меню
 [Main menu]
 Галоўнае меню
-[Status Menu]
+[Status menu]
 Меню статусу
 [Status menu]
 Меню статусаў

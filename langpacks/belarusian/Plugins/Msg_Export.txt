@@ -62,7 +62,7 @@ UTF8 у новых файлах
 Выдаліць файл
 [Debug]
 Адладка
-[User &Details]
+[User &details]
 &Інфармацыя
 [Export selected]
 Экспарт абранага

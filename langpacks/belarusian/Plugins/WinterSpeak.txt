@@ -1,0 +1,70 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+;file \plugins\WinterSpeak\res\Speak.rc
+[Engine Settings]
+Налады рухавіка
+[Engine]
+Рухавік
+[Voice]
+Голас
+[Volume]
+Гучнасць
+[Rate]
+Рэйтынг
+[Test]
+Тэст
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[DND]
+Не турбаваць
+[NA]
+Недаступны
+[Occupied]
+Заняты
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[Incoming message]
+Уваходнае паведамленне
+[Incoming URL]
+Уваходны URL
+[Authorization request]
+Запыт аўтарызацыі
+[Status messages]
+Паведамленні статусу
+[The following events are being ignored:]
+Наступныя падзеі будуць праігнараваны:
+[Messages]
+Паведамленні
+[None]
+Няма
+[Add]
+Дадаць
+[Remove]
+Выдаліць
+;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
+[** All contacts **]
+** Усе кантакты **
+[** Unknown contacts **]
+** Невядомыя кантакты **
+;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
+;file \plugins\WinterSpeak\src\EventInformation.cpp
+;file \plugins\WinterSpeak\src\main.cpp
+[Speak]
+Гаворка
+[Announce]
+Аб'яўленьне
+;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
+[Message Session]
+Гутарка
+;file \plugins\WinterSpeak\src\UserInformation.cpp

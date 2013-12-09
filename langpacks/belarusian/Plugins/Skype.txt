@@ -10,6 +10,8 @@ Skype пратакол для Miranda NG.
 ;file \protocols\Skype\res\Resource.rc
 [Invite contacts to conference]
 Запрасіць у канферэнцыю
+[Skype name:]
+Лагін Skype:
 [&Invite]
 Запрасіць
 [&Cancel]
@@ -18,8 +20,6 @@ Skype пратакол для Miranda NG.
 Дадаць
 [Create conference]
 Стварыць канферэнцыю
-[Skype name:]
-Лагін Skype:
 [&Create]
 Стварыць
 [Topic:]
@@ -28,8 +28,6 @@ Skype пратакол для Miranda NG.
 Кіравала:
 [Enable joining]
 Дазволіць уваход у чат
-[Users joining as:]
-Карыстач уваходзіць як:
 [Create with password]
 Стварыць з паролем
 [Password:]
@@ -39,8 +37,6 @@ Skype пратакол для Miranda NG.
 [Password hint:]
 Падказка пароля:
 [Enter password]
-Увядзіце пароль
-[Enter a password]
 Увядзіце пароль
 [Remember this session password]
 Запомніць пароль сеансу
@@ -110,10 +106,8 @@ Skype пратакол для Miranda NG.
 Выкарыстоўваць порты 80 і 443 як уваходныя
 [Default group:]
 Група:
-[Ignore list]
-Спіс ігнаравання
-[Server side ignore list\nControl ignore list on server.]
-Спіс ігнаравання серверы\nЗахоўваць спіс ігнаравання на серверы.
+[Block]
+Заблакаваць
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
 [HTTPS proxy authentication failed]
@@ -126,7 +120,7 @@ Skype пратакол для Miranda NG.
 Сервер перагружаны
 [SkypeKit database already in use]
 База дадзеных SkypeKit ужо выкарыстоўваецца
-[Invalid skypename]
+[Invalid Skype name]
 Няслушны Skype ID
 [Invalid email]
 Няслушны e-mail
@@ -162,9 +156,10 @@ Skype пратакол для Miranda NG.
 Уведзены пароль сапраўды такой жа як стары 
 [The new password was unacceptable]
 Новы пароль непрымальны 
-;file \protocols\Skype\src\skype_bookmarks.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Імя
+;file \protocols\Skype\src\skype_bookmarks.cpp
 [Conferences]
 Канферэнцыі
 ;file \protocols\Skype\src\skype_chat.cpp
@@ -242,10 +237,6 @@ Skype пратакол для Miranda NG.
 Кантакт
 [Delete]
 Выдаліць
-[Ignore]
-Ігнараваць
-[Block]
-Заблакаваць
 [Protocols]
 Пратаколы
 ;file \protocols\Skype\src\skype_ignore_list.cpp
@@ -272,6 +263,7 @@ SkypeKit не запусціўся.
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
 Імя Скайп
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp
 [Validation succeeded]
 Валідацыя пройдзена

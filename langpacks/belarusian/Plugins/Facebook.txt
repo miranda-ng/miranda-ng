@@ -34,7 +34,7 @@ URL:
 Кантакты >>
 [Attach contacts:]
 Далучыць кантакты:
-[User Details]
+[User details]
 Пра карыстача
 [Default group:]
 Група:

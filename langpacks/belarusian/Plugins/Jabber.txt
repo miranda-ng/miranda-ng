@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -601,18 +601,6 @@ Jabber Ad-Hoc каманды на %s
 Рэальны JID: %s
 [%s\nSend group chat invitation.]
 %s\nЗапрасіць у канферэнцыю.
-[from]
-з
-[Reason to kick]
-Чыннік выспятку
-[Reason to ban]
-Чыннік бана
-[Set topic for]
-Вызначыць тэму для
-[Change nickname in]
-Змяніць нік у
-[Reason to destroy]
-Чыннік знішчэння
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Jabber Error]
 Jabber памылка
@@ -785,8 +773,8 @@ Jabber памылка
 Спіс адмінаў
 [Owner List]
 Спіс уладальнікаў
-[Removing]
-Выдаленне
+[Reason to ban]
+Чыннік бана
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
@@ -841,8 +829,6 @@ Jabber Рэсурс
 Спісы прыватнасці
 [Service discovery]
 Прагляд службаў
-[Last active]
-Апошні актыўны
 [No activity yet, use server's choice]
 Актыўнага няма, выкарыстоўвайце выбар сервера
 [Highest priority (server's choice)]
@@ -1241,8 +1227,6 @@ Jabber Рэсурс
 Налады пратаколу Jabber
 [Confirm password]
 Увядзіце пароль
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Гэта аперацыя выдаліць Ваш конт, росцер і ўсю інфармацыю захоўваемую на серверы. Вы сапраўды жадаеце выдаліць Конт?
 [Account removal warning]
 Выдаленне конту
 [You can change your password only when you are online]
@@ -1362,8 +1346,6 @@ XML для MS Excel (кадзіроўка UTF-8)
 [Facebook Chat]
 Чат Facebook
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Усталёўка новага пароля
 [New password does not match.]
 Новыя паролі не супадаюць
 [Current password is incorrect.]
@@ -1540,8 +1522,6 @@ XML для MS Excel (кадзіроўка UTF-8)
 [sent unknown presence type]
 адправіў невядомы тып прысутнасці
 ;file \protocols\JabberG\src\jabber_thread.cpp
-[Enter password for]
-Увядзіце пароль для
 [Error: Not enough memory]
 Памылка: Не хапае памяці
 [Error: Cannot connect to the server]
@@ -1581,16 +1561,6 @@ XML для MS Excel (кадзіроўка UTF-8)
 Версія ПЗ
 [Miranda core version]
 Версія Miranda
-[Unicode build]
-Unicode зборка
-[Yes]
-Так
-[No]
-Не
-[Alpha build]
-Альфа зборка
-[Debug build]
-Адладкавая зборка
 [Mood]
 Настрой
 [Activity]
@@ -1601,6 +1571,8 @@ Unicode зборка
 у абодва бакі
 [to]
 у
+[from]
+з
 [none]
 няма
 [Last logoff time]

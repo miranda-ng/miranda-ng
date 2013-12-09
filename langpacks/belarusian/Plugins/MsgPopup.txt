@@ -1,4 +1,4 @@
-﻿#muuid CF25D645-4DAB-4B0A-B9F1-DE1E86231F9B}
+﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll, messagepopup.dll
 ;  Module: Message Popup. Replace a mesaage boxes to Popups

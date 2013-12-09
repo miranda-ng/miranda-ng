@@ -8,54 +8,28 @@
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Падтрымка базы Miranda NG.
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Install Database Settings]
-Усталяваць налады базы дадзеных
-[Yes]
-Так
-[No]
-Не
-[A file containing new database settings has been placed in the Miranda NG directory.]
-Файл з новымі наладамі базы дадзеных быў змешчаны ў тэчку Міранды.
-[Do you want to import the settings now?]
-Імпартаваць налады цяпер?
-[No to all]
-Няма для ўсіх
-[&View contents]
-&Змест
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад небяспечнымі зменамі.
-[Database Setting Change]
-Змена налад базы дадзеных
-[Database settings are being imported from]
-Налады імпартуюцца з
-[This file wishes to change the setting]
-Гэты файл змяняе наладу
-[to the value]
-на значэнне
-[Do you want to allow this change?]
-Дазволіць змену?
-[&Allow all further changes to this section]
-&Дазволіць усезмены ў гэтай секцыі
-[&Yes]
-&Так
-[&No]
-&Няма
-[Cancel Import]
-Адмяніць імпарт
-[Database Import Complete]
-Імпарт базы завершаны
-[The import has completed from]
-Імпарт завершаны з
-[What do you want to do with the file now?]
-Што вы жадаеце зрабіць з файлам?
-[&Recycle]
-&Выкарыстоўваць ізноў
-[&Delete]
-&Выдаліць
-[&Move/Rename]
-&Перамясціць/пераназваць
-[&Leave]
-&Пакінуць
+[Login to Miranda NG]
+Уваход у Miranda NG
+[EN]
+EN
+[OK]
+ОК
+[Cancel]
+Скасаваць
+[New password]
+Новы пароль
+[Please enter your new password]
+Калі ласка, увядзіце новы пароль
+[Enter password]
+Увядзіце пароль
+[Change password]
+Змяніць пароль
+[Change]
+Змена
+[Remove]
+Выдаліць
+[Old password]
+Стары пароль
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
 Дыск перапоўнены. Miranda будзе зачынена.
@@ -67,6 +41,24 @@
 Міранда знайшла пашкоджанні ў базе дадзеных. Яны могуць быць выпраўленыя плагінам DbChecker. Калі ласка, загрузіце яго з http://miranda-ng.org/p/DbChecker/. Міранда будзе зачынена.
 [Database Panic]
 Праблема з базай
+;file \plugins\Db3x_mmap\src\dbintf.h
+[Set password]
+Усталяваць пароль
+;file \plugins\Db3x_mmap\src\ui.cpp
+[Password]
+Пароль
+[Too many errors!]
+Занадта шмат памылак!
+[Password is not correct!]
+Пароль няслушны!
+[Please type in your password]
+Увядзіце ваш пароль
+[Password is too short!]
+Пароль надта кароткі!
+[Passwords do not match!]
+Паролі не супадаюць!
+[Database]
+Профіль
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 Выкананне агрэсіўнага праходу

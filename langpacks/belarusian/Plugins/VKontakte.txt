@@ -11,7 +11,7 @@
 Пошта ці нумар тэлефона:
 [Password:]
 Пароль:
-[Open VKontakte site] 
+[Open VKontakte site]
 Адкрыць старонку ВКонтакте
 [Bots challenge test]
 Абарона ад ботаў

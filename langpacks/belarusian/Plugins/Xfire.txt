@@ -120,6 +120,8 @@ icons.dll
 IP:
 [Port:]
 Порт:
+[User details]
+Пра карыстача
 [Copy]
 Капіяваць
 [Enter Password]
@@ -134,12 +136,16 @@ IP:
 Скасаваць
 [Update]
 Абнавіць
-[Search:]
-Шукаць:
 [Add game]
 Дадаць
+[Search:]
+Шукаць:
+[Custom...]
+Змяніць…
 [Game name:]
 Назва гульні:
+[Browse...]
+Адкрыць...
 [Add a new game]
 Дадаць новую гульню
 ;file \protocols\Xfire\src\addgamedialog.cpp
@@ -314,3 +320,5 @@ XFireне падтрымлівае паведамленні адключаным
 [Start game]
 Пачаць гульню
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
+[Please wait...]
+Пачакайце, калі ласка...

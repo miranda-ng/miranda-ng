@@ -1,7 +1,7 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
@@ -179,7 +179,7 @@
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Wave Files]
 Wave файлы
-[All Files]
+[All files]
 Усе файлы
 [Status]
 Статус

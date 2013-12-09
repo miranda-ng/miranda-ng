@@ -2324,7 +2324,7 @@ Miranda NG не можа адкрыць гэты профіль
 Загрузка... %d%%
 [%s options]
 %s налады
-[Miranda NG Options]
+[Miranda NG options]
 Налады Miranda
 [&Options...]
 &Налады
@@ -2371,7 +2371,7 @@ Miranda NG не можа адкрыць гэты профіль
 Аднавіць конт
 [Account name has to be unique. Please enter unique name.]
 Імя конта павінна быць унікальным. Калі ласка, увядзіце унікальнае імя.
-[Account Error]
+[Account error]
 Памылка конта
 [Account is disabled. Please activate it to access options.]
 Конт адключаны. Уключыце для кіравання.
@@ -2437,11 +2437,11 @@ Win +
 [Miranda scope]
 Спалучэнне ў Miranda
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Карыстач далучаны
-[Group (Open)]
+[Group (open)]
 Група (адкрыта)
-[Group (Closed)]
+[Group (closed)]
 Група (зачынена)
 [Connecting]
 Далучэнне
@@ -2449,29 +2449,27 @@ Win +
 Пра карыстача
 [History]
 Гісторыя
-[Down Arrow]
+[Down arrow]
 Уніз
-[Find User]
+[Find user]
 Знайсці
-[Send E-mail]
-Адправіць пошту
 [SMS]
 СМС
-[Search All]
+[Search all]
 Знайсці ўсіх
 [Tick]
 Адзначана
-[No Tick]
+[No tick]
 Не адзначана
 [Help]
 Даведка
 [Miranda website]
 Сайт Miranda NG
-[Small Dot]
+[Small dot]
 Кропка
-[Filled Blob]
+[Filled blob]
 Запоўнена
-[Empty Blob]
+[Empty blob]
 Не запоўнена
 [Unicode plugin]
 Юнікод плагін
@@ -2489,7 +2487,7 @@ ANSI плагін
 Галоўнае меню
 [Leave chat]
 Пакінуць чат
-[Move to Group]
+[Move to group]
 Група
 [On]
 Укл
@@ -2513,29 +2511,29 @@ ANSI плагін
 Заўсёды нябачны
 [Locked status]
 Заблакаваны статус
-[Status Icons]
+[Status icons]
 Статус
-[%s Icons]
+[%s icons]
 %s абразкі
-[Main Icons]
+[Main icons]
 Галоўныя
 ;file \src\modules\skin\sounds.cpp
-[Sound Files]
+[Sound files]
 Файлы гукаў
-[WAV Files]
+[WAV files]
 Файлы гукаў
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Вам патрэбны плагін службы малюнкаў для падтрымкі PNG.
-[All Bitmaps]
+[All bitmaps]
 Усе выявы
-[Windows Bitmaps]
+[Windows bitmaps]
 Малюнкі Windows Bitmap
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Выявы JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Малюнкі GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Выявы PNG
 ;file \src\modules\utils\path.cpp
 [Avatars]
@@ -2602,7 +2600,7 @@ ANSI плагін
 Бярмуды
 [Bhutan]
 Бутан
-[Bolivia, Plurinational State of]
+[Bolivia]
 Балівія
 [Bonaire, Sint Eustatius and Saba]
 Бонайрэ, Сінт-Эстатіус і Саба
@@ -2616,7 +2614,7 @@ ANSI плагін
 Бразілія
 [British Indian Ocean Territory]
 Брытанскай тэрыторыі ў Індыйскім акіяне
-[Brunei Darussalam]
+[Brunei]
 Бруней-Даруссалам
 [Bulgaria]
 Балгарыя
@@ -2650,7 +2648,7 @@ ANSI плагін
 Калумбія
 [Comoros]
 Каморы
-[Congo]
+[Congo, Republic of the]
 Конго
 [Congo, the Democratic Republic of the]
 Конга, Дэмакратычная Рэспубліка
@@ -2706,7 +2704,7 @@ ANSI плагін
 Французская Гвіяна
 [French Polynesia]
 Французская Палінезія
-[French Southern Territories]
+[French Southern and Antarctic Lands]
 Французскія Паўднёвыя Тэрыторыі
 [Gabon]
 Габон
@@ -2744,7 +2742,7 @@ ANSI плагін
 Гаіці
 [Heard Island and McDonald Islands]
 Выспы Херд і Макдональд
-[Holy See (Vatican City State)]
+[Holy See (Vatican City)]
 Святая зямля (Ватыкан)
 [Honduras]
 Гандурас
@@ -2784,16 +2782,16 @@ ANSI плагін
 Кенія
 [Kiribati]
 Кірыбаці
-[Korea, Democratic People's Republic of]
-Карэя, КНДР
-[Korea, Republic of]
-Карэя, Рэспубліка
+[North Korea]
+Паўночная Карэя
+[South Korea]
+Рэспубліка Карэя 
 [Kuwait]
 Кувейт
 [Kyrgyzstan]
 Кіргізія
-[Lao People's Democratic Republic]
-Лаос, Народна-Дэмакратычная Рэспубліка
+[Laos]
+Лаос
 [Latvia]
 Латвія
 [Lebanon]
@@ -2840,7 +2838,7 @@ ANSI плагін
 Мексіка
 [Micronesia, Federated States of]
 Мікранезія
-[Moldova, Republic of]
+[Moldova]
 Малдова
 [Monaco]
 Манака
@@ -2888,7 +2886,7 @@ ANSI плагін
 Пакістан
 [Palau]
 Палау
-[Palestinian Territory, Occupied]
+[Palestinian Territories]
 Палестына, акупаваная тэрыторыя
 [Panama]
 Панама
@@ -2900,7 +2898,7 @@ ANSI плагін
 Перу
 [Philippines]
 Філіпіны
-[Pitcairn]
+[Pitcairn Islands]
 Піткэрн
 [Poland]
 Польшча
@@ -2914,7 +2912,7 @@ ANSI плагін
 Рэюньён
 [Romania]
 Румынія
-[Russian Federation]
+[Russia]
 Руская Федэрацыя
 [Rwanda]
 Руанда
@@ -2982,13 +2980,13 @@ ANSI плагін
 Швецыя
 [Switzerland]
 Швейцарыя
-[Syrian Arab Republic]
+[Syria]
 Сірыйская Арабская Рэспубліка
 [Taiwan, Province of China]
 Тайвань
 [Tajikistan]
 Таджыкістан
-[Tanzania, United Republic of]
+[Tanzania]
 Танзанія
 [Thailand]
 Тайланд
@@ -3030,14 +3028,14 @@ ANSI плагін
 Узбекістан
 [Vanuatu]
 Вануату
-[Venezuela, Bolivarian Republic of]
+[Venezuela]
 Венесуэла
-[Viet Nam]
+[Vietnam]
 В'етнам
-[Virgin Islands, British]
-Брытанскія Віргінскія выспы
-[Virgin Islands, U.S.]
-ЗША Віргінскія выспы
+[Virgin Islands (British)]
+Віргінскія выспы (Брытанія)
+[Virgin Islands (United States)]
+Віргінскія выспы (ЗША)
 [Wallis and Futuna]
 Уоліс і Футуна
 [Western Sahara]
