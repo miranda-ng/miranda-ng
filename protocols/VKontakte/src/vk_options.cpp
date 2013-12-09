@@ -94,19 +94,91 @@ INT_PTR CVkProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 //////////////////////////////////////////////////////////////////////////////
 // Options
 
+INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CVkProto* ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		ppro = (CVkProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon, true));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon));
+		{
+			ptrT tszLogin(ppro->getTStringA("Login"));
+			if (tszLogin != NULL)
+				SetDlgItemText(hwndDlg, IDC_LOGIN, tszLogin);
+
+			ptrT tszPassw(ppro->GetUserStoredPassword());
+			if (tszPassw != NULL)
+				SetDlgItemText(hwndDlg, IDC_PASSWORD, tszPassw);
+		}
+		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_URL:
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://www.vk.com");
+			break;
+
+		case IDC_LOGIN:
+		case IDC_PASSWORD:
+			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_DELIVERY:
+			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			TCHAR str[128];
+			GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
+			ppro->setTString("Login", str);
+
+			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
+			ptrA szRawPasswd(mir_utf8encodeT(str));
+			if (szRawPasswd != NULL)
+				ppro->setString("Password", szRawPasswd);
+
+			ppro->m_bServerDelivery = IsDlgButtonChecked(hwndDlg, IDC_DELIVERY) == BST_CHECKED;
+			ppro->setByte("ServerDelivery", ppro->m_bServerDelivery);
+		}
+		break;
+
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_DESTROY:
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		break;
+	}
+
+	return FALSE;
+}
+
 int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance   = hInst;
 	odp.ptszTitle   = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-
 	odp.position    = 1;
 	odp.ptszGroup   = LPGENT("Network");
 	odp.ptszTab     = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
-	odp.pfnDlgProc  = VKAccountProc;
+	odp.pfnDlgProc  = &CVkProto::OptionsProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

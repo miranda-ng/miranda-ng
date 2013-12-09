@@ -55,7 +55,7 @@ LBL_Restart:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams, HttpParam *pParams, int iTimeout)
+AsyncHttpRequest* CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams, HttpParam *pParams, int iTimeout)
 {
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
 	pReq->flags = NLHRF_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
@@ -83,7 +83,7 @@ bool CVkProto::PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure
 	return PushAsyncHttpRequest(pReq, iTimeout);
 }
 
-bool CVkProto::PushAsyncHttpRequest(AsyncHttpRequest *pReq, int iTimeout)
+AsyncHttpRequest* CVkProto::PushAsyncHttpRequest(AsyncHttpRequest *pReq, int iTimeout)
 {
 	pReq->timeout = iTimeout;
 	{
@@ -91,7 +91,7 @@ bool CVkProto::PushAsyncHttpRequest(AsyncHttpRequest *pReq, int iTimeout)
 		m_arRequestsQueue.insert(pReq);
 	}
 	SetEvent(m_evRequestsQueue);
-	return true;
+	return pReq;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

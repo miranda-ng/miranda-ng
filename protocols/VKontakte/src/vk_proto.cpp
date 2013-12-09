@@ -49,6 +49,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	db_set_resident(m_szModuleName, "Status");
 
+	m_bServerDelivery = getBool("ServerDelivery", true);
+
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 }
@@ -153,23 +155,34 @@ int CVkProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 		{ "message", szMsg },
 		{ "access_token", m_szAccessToken }
 	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendMessage, SIZEOF(params), params);
 
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
-	ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
+	AsyncHttpRequest *pReq = PushAsyncHttpRequest(REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendMessage, SIZEOF(params), params);
+	pReq->pData = (char*)hContact;
+	pReq->pUserInfo = (void*)msgId;
+
+	if (!m_bServerDelivery)
+		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
 	return msgId;
 }
 
 void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
-	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
-	if (reply->resultCode != 200)
-		return;
+	int iResult = ACKRESULT_FAILED;
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse != NULL)
-		m_sendIds.insert((HANDLE)json_as_int(pResponse));
+	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
+	if (reply->resultCode == 200) {
+		JSONROOT pRoot;
+		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+		if (pResponse != NULL) {
+			m_sendIds.insert((HANDLE)json_as_int(pResponse));
+			iResult = ACKRESULT_SUCCESS;
+		}
+	}
+
+	if (m_bServerDelivery)
+		ProtoBroadcastAck(pReq->pData, ACKTYPE_MESSAGE, iResult, pReq->pUserInfo, 0);
+	pReq->pData = NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////////

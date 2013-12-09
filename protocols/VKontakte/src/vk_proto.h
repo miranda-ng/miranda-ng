@@ -136,7 +136,7 @@ private:
 	CMStringA m_prevUrl;
 	HANDLE m_evRequestsQueue;
 	HANDLE m_hWorkerThread;
-	bool   m_bTerminated;
+	bool   m_bTerminated, m_bServerDelivery;
 
 	struct Cookie
 	{
@@ -155,9 +155,10 @@ private:
 	void   InitQueue();
 	void   UninitQueue();
 	void   ExecuteRequest(AsyncHttpRequest*);
-	bool   PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, HttpParam *pParams = 0, int iTimeout = 10000);
-	bool   PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
 	void   __cdecl WorkerThread(void*);
+
+	AsyncHttpRequest* PushAsyncHttpRequest(int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, int nParams = 0, HttpParam *pParams = 0, int iTimeout = 10000);
+	AsyncHttpRequest* PushAsyncHttpRequest(AsyncHttpRequest*, int iTimeout = 10000);
 
 	bool   RunCaptchaForm(LPCSTR szUrl, CMStringA&);
 	bool   AutoFillForm(char*, CMStringA&, CMStringA&);
@@ -194,4 +195,6 @@ private:
 
 	LIST<void> m_sendIds;
 	bool   CheckMid(int msgid);
+
+	static INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
