@@ -153,7 +153,7 @@ static CountryListEntry countries[] = {
 	{354,    LPGEN("Iceland"), "IS"},
 	{91,     LPGEN("India"), "IN"},
 	{62,     LPGEN("Indonesia"), "ID"},
-	{98,     LPGEN("Iran, Islamic Republic of"), "IR"},
+	{98,     LPGEN("Iran"), "IR"},
 	{964,    LPGEN("Iraq"), "IQ"},
 	{353,    LPGEN("Ireland"), "IE"},
 	{44,     LPGEN("Isle of Man"), "IM"},
