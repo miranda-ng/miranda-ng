@@ -75,20 +75,20 @@ const FieldNamesItem countryField[]={
   {237, LPGEN("Cameroon")},
   {1002, LPGEN("Canada")},
   {178, LPGEN("Canary Islands")},
-  {238, LPGEN("Cape Verde Islands")},
+  {238, LPGEN("Cape Verde")},
   {1345, LPGEN("Cayman Islands")},
   {236, LPGEN("Central African Republic")},
   {235, LPGEN("Chad")},
-  {56, LPGEN("Chile, Republic of")},
+  {56, LPGEN("Chile")},
   {86, LPGEN("China")},
 //{6101, LPGEN("Cocos (Keeling) Islands")},  /* removed (double): see Australia, Cocos (Keeling) Islands */
   {57, LPGEN("Colombia")},
   {269, LPGEN("Comoros")},
-  {243, LPGEN("Congo, Democratic Republic of (Zaire)")},
+  {243, LPGEN("Congo, Democratic Republic of the")},
   {242, LPGEN("Congo, Republic of the")},
   {682, LPGEN("Cook Islands")},
   {506, LPGEN("Costa Rica")},
-  {225, LPGEN("Cote d'Ivoire (Ivory Coast)")},
+  {225, LPGEN("Cote d'Ivoire")},
   {385, LPGEN("Croatia")},
   {53, LPGEN("Cuba")},
   {357, LPGEN("Greek, Republic of South Cyprus")},  /* rename coz Turkey, Republic of Northern Cyprus */
@@ -106,7 +106,7 @@ const FieldNamesItem countryField[]={
   {372, LPGEN("Estonia")},
   {251, LPGEN("Ethiopia")},
   {3883,LPGEN("Europe")},	/* add county code  +388 3 official European Telephony Numbering Space*/
-  {298, LPGEN("Faeroe Islands")},
+  {298, LPGEN("Faroe Islands")},
   {500, LPGEN("Falkland Islands")},
   {679, LPGEN("Fiji")},
   {358, LPGEN("Finland")},
@@ -136,7 +136,7 @@ const FieldNamesItem countryField[]={
   {354, LPGEN("Iceland")},
   {91, LPGEN("India")},
   {62, LPGEN("Indonesia")},
-  {98, LPGEN("Iran (Islamic Republic of)")},
+  {98, LPGEN("Iran, Islamic Republic of")},
   {964, LPGEN("Iraq")},
   {353, LPGEN("Ireland")},
   {972, LPGEN("Israel")},
@@ -156,7 +156,7 @@ const FieldNamesItem countryField[]={
   {961, LPGEN("Lebanon")},
   {266, LPGEN("Lesotho")},
   {231, LPGEN("Liberia")},
-  {218, LPGEN("Libyan Arab Jamahiriya")},
+  {218, LPGEN("Libya")},
   {423, LPGEN("Liechtenstein")},
   {370, LPGEN("Lithuania")},
   {352, LPGEN("Luxembourg")},
@@ -172,10 +172,10 @@ const FieldNamesItem countryField[]={
   {596, LPGEN("Martinique")},
   {222, LPGEN("Mauritania")},
   {230, LPGEN("Mauritius")},
-  {262, LPGEN("Mayotte Island")},
+  {262, LPGEN("Mayotte")},
   {52, LPGEN("Mexico")},
   {691, LPGEN("Micronesia, Federated States of")},
-  {373, LPGEN("Moldova, Republic of")},
+  {373, LPGEN("Moldova")},
   {377, LPGEN("Monaco")},
   {976, LPGEN("Mongolia")},
   {1664, LPGEN("Montserrat")},
@@ -213,7 +213,7 @@ const FieldNamesItem countryField[]={
   {351, LPGEN("Portugal")},
   {1939, LPGEN("Puerto Rico")},
   {974, LPGEN("Qatar")},
-  {262, LPGEN("Reunion Island")},
+  {262, LPGEN("Reunion")},
   {40, LPGEN("Romania")},
 //{6701, LPGEN("Rota Island")},  /* removed: it is not a country it is part of Northern Mariana Islands, US Territory of */
   {7, LPGEN("Russia")},
@@ -248,7 +248,7 @@ const FieldNamesItem countryField[]={
   {268, LPGEN("Swaziland")},
   {46, LPGEN("Sweden")},
   {41, LPGEN("Switzerland")},
-  {963, LPGEN("Syrian Arab Republic")},
+  {963, LPGEN("Syria")},
   {886, LPGEN("Taiwan")},
   {992, LPGEN("Tajikistan")},
   {255, LPGEN("Tanzania")},
@@ -279,12 +279,12 @@ const FieldNamesItem countryField[]={
   {1284, LPGEN("Virgin Islands (UK)")},	/* change county code to NANP (from 105) - rename coz Virgin Islands (USA) */
   {1340, LPGEN("Virgin Islands (USA)")},	/* change county code to NANP (from 123) */
   {441, LPGEN("Wales")},
-  {681, LPGEN("Wallis and Futuna Islands")},
+  {681, LPGEN("Wallis and Futuna")},
   {967, LPGEN("Yemen")},
   {38, LPGEN("Yugoslavia")},
-  {381, LPGEN("Serbia, Republic of")},	/* rename need (from Yugoslavia)*/
+  {381, LPGEN("Serbia")},	/* rename need (from Yugoslavia)*/
   {383, LPGEN("Kosovo, Republic of")},	/*change country code (from 3811),  rename need (from Yugoslavia - Serbia) */
-  {382, LPGEN("Montenegro, Republic of")},	/* rename need (from Yugoslavia - Montenegro) */
+  {382, LPGEN("Montenegro")},	/* rename need (from Yugoslavia - Montenegro) */
   {260, LPGEN("Zambia")},
   {263, LPGEN("Zimbabwe")},
   {0,  NULL}
