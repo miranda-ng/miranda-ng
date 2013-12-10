@@ -2,39 +2,274 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.2.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Facebook protocol support for Miranda NG.]
+
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
-e-mail:
+E-mail:
 [Password:]
 Passe:
+[Create a new Facebook account]
+
+[What's on your mind?]
+
+[Wall:]
+
+[Visibility:]
+
+[Text:]
+
+[URL:]
+Lien:
+[Place:]
+
+[Share]
+
 [Cancel]
 Annuler
-[User Details]
+[Contacts >>]
+
+[Attach contacts:]
+
+[User details]
 Détails du contact
-[Text]
-Texte
-[Default]
-Défaut
+[Default group:]
+Groupes:
+[Automatically set 'Ignore status change' flag]
+
+[Contacts Settings]
+
+[Use bigger avatars]
+
+[Event notifications]
+
+[Notifications]
+Notifications
+[News feeds]
+
+[News Feed types to notify:]
+
+[Other events]
+
+[Client notifications]
+
+[Preview]
+Aperçu
+[Use balloon notifications in system tray instead of popups]
+
 [Advanced Settings]
 Options Avancées
+[Force secure (HTTPS) connection]
+
+[Post Miranda statuses to Wall]
+
+[Use secure connection also for channel requests]
+
+[Also disconnect chat when going to offline]
+
+[Map non-standard statuses to Invisible (instead of Online)]
+
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+
+[Use local time for received messages]
+
+[Use this server for opening links:]
+
+[Allow posting statuses to my pages (may slow down login)]
+
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+
+[&Leave chat session]
+
+[User &details]
+&Détails du contact
+[User &history]
+
 ;file \protocols\FacebookRM\src\communication.cpp
+[Login error: %s]
+
+[Unknown error]
+
+[Login error: Invalid request.]
+
+[Login error: Some Facebook things are required.]
+
+[Login error: Captcha code is required. Bad login credentials?]
+
+[Login error, probably bad login credentials.]
+
+[Your account requires HTTPS connection. Activating.]
+
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+
+[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+
+[Timeout when sending message.]
+
+[Status update was successful.]
+
 ;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+
+[Please enter a password.]
+
 ;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+
+[Wall Posts]
+
+[Top News]
+
+[Photos]
+
+[Links]
+
+[Apps and Games]
+
+[Classic website]
+
+[Mobile website]
+
+[Smartphone website]
+
+[Public]
+
+[Friends of friends]
+
+[Friends]
+
+[Friends except acquaintances]
+
+[Only me]
+
 ;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+
+[Error occurred when removing contact from server.]
+
+[Request for friendship was sent.]
+
+[Error occurred when requesting friendship.]
+
+[Request for friendship was canceled.]
+
+[Error occurred when canceling friendship request.]
+
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
+Défaut
+[<< Contacts]
+
+[What's on your mind, %s?]
+
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+
+[Sample event]
+
+[Sample request]
+
+[Sample newsfeed]
+
+[Sample notification]
+
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+
+[files]
+Fichiers
+[a file]
+
+[photos]
+
+[a photo]
+
+[User sent you %s:]
+
+[Message read: %s by %s]
+
+[Message read: %s]
+Message lu : %s
+[This message is no longer available, because it was marked as abusive or spam.]
+
+[%s and more (%d)]
+
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
 ;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+
+[Contact is no longer on server-list.]
+
 ;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+%s serveur connexion
+[Unable to get Netlib connection for Facebook]
+
+[Facebook ID must be numeric value.]
+
 [Network]
 Réseau
-[Advanced]
-Avancé
+[Account]
+Compte
 [Events]
 Évènements
+[Advanced]
+Avancées
+[Share status...]
+Partager le statut
+[Own wall]
+
+[Loading newsfeeds...]
+
+[Checking friend requests...]
+
+[Refreshing buddy list...]
+
+[Do you want to cancel your friendship with '%s'?]
+
+[Show 'Share status' window]
+
+[Notification]
+
+[News Feed]
+
+[Other Event]
+
 ;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+
+[Mind]
+
+[Poke]
+
+[Newsfeed]
+
+[Friendship details]
+
+[Visit profile]
+Visiter le profil
+[Visit friendship details]
+Voir les détails
+[Cancel friendship]
+
+[Cancel friendship request]
+
+[Request friendship]
+
+[Approve friendship]
+
+[Services...]
+
+[Refresh Buddy List]
+
+[Services]
+Services
+[Check Friends Requests]
+
+[Check Newsfeeds]
+

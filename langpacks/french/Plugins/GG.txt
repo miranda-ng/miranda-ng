@@ -1,10 +1,12 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
+;  Plugin: Gadu-Gadu Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Identifiants Gadu-Gadu
@@ -13,13 +15,17 @@ Numéro Gadu-Gadu:
 [Password:]
 Passe:
 [E-mail:]
-e-mail:
+E-mail:
 [Create new account]
 Créer un compte
 [Remove account]
 Effacer ce compte
+[Change password]
+Changer le mot de passe
 [Retrieve password]
 Retrouver un mot de passe
+[Options]
+Paramètres
 [Friends only]
 Seulement les amis
 [Show offline users with status message as invisible in contact list]
@@ -28,26 +34,38 @@ Voir les contacts Hors ligne avec le motif d'invisibilité dans la liste
 Après déconnexion, se remettre dans l'état:
 [Receive image and after image is received use:]
 Receptionner les image, puis utiliser:
+[Show links from unknown contacts]
+
+[Enable avatars]
+
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Vous devrez vous reconnecter afin de valider les modifications de cette page.
 [Conference policy]
 Police
 [if total participant count greater than:]
-s'y il la plus de participants que:
+si il y'a plus de participants que:
 [if unknown participant count greater than:]
-s'y il la plus de participants inconnus que:
+si il y'a plus de participants inconnus que:
 [in other case]
 dans une autre case
 [Advanced Configuration]
 Configuration avancée
+[Keep connection alive]
+Garder la connection active
 [Show connection errors]
 Voir les erreurs de connexion
+[Automatically reconnect after unintentional disconnection]
+
+[Send messages slower, but with full acknowledgement]
+
 [Manually specify connection servers' hosts]
 Spécifier l'hôte du serveur de connexion
 [* new line is separator\n** hostname:port format]
 * la nouvelle ligne est séparateur \n** format hôte:port 
 [Use SSL secure connection]
 Utiliser une connexion sécurisée SSL
+[File Transfer]
+Transfert de fichiers
 [Use direct connections]
 Utiliser une connexion directe
 [Port:]
@@ -56,6 +74,10 @@ Port:
 Utiliser le \'forwarding\'
 [Host:]
 Hôte:
+[Number:]
+Numéro:
+[Internal IP:]
+IP interne:
 [First name:]
 Prénom:
 [Last name:]
@@ -74,12 +96,18 @@ Ville d'origine:
 Né en:
 [Description:]
 Description:
+[&Save changes]
+&Sauvegarder les changements
 [Enter token to continue]
 Entrer quelquechose pour continuer
+[OK]
+OK
 [Cancel]
 Annuler
 [Create Gadu-Gadu account]
-Créer un compte Gadu-Gadu.
+Créer un compte Gadu-Gadu
+[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
+Créer un compte Gadu-Gadu\nCeci va créer un nouveau compte Gadu-Gadu
 [New password:]
 Nouveau mot de passe:
 [Confirm password:]
@@ -90,28 +118,58 @@ Nouvel e-mail:
 &Créer
 [Remove Gadu-Gadu account]
 Effacer le compte Gadu-Gadu
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+Effacer le compte Gadu-Gadu\nCeci effacera votre compte Gadu-Gadu
 [Yes, I want to remove my account]
 Oui, je veux effacer mon compte
 [Remove]
 Retirer
 [Change Gadu-Gadu password]
 Changer le mot de passe Gadu-Gadu
+[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+Changer le mot de passe Gadu-Gadu\nChange le mot de passe du compte Gadu-Gadu courrant
 [Change Gadu-Gadu e-mail]
 Changer l'e-mail Gadu-Gadu
+[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+
 [Age from:]
 Agé de:
+[to:]
+À:
+[Search online users only]
+Chercher les utilisateurs en ligne seulement
 [&Close]
 &Fermer
 [&Send]
 &Envoyer
 [Open new conference]
 Ouvrir un chat
+[Open new conference\nSelect conference participants]
+Ouvrir un chat\nChoisir les participants du chat
+[Open]
+Ouvrir
+[Concurrent Sessions]
+
+[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+
+[Sign out all sessions]
+
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+
+[Cannot create avatar file. ERROR: %d: %s\n%s]
+
+[Cannot open avatar file. ERROR: %d: %s\n%s]
+
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda n'a pu trouver le nom du serveur de Gadu-Gadu via son adresse numérique.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+
 [Received invalid server response.]
 Envoi d'une réponse inconnue du serveur.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+
 [Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
 Vos identifiants ont été rejeté par le serveur Gadu-Gadu. Vérifier vos identifiants dans M->Options->Réseaux->Gadu-Gadu et reconnectez-vous.
 [Connecting to Gadu-Gadu hub failed.]
@@ -122,10 +180,16 @@ Impossible d'établir une connexion sécurisée.
 Le serveur déconnecté demande à ce que vous changiez d'e-mail.
 [Too many login attempts with invalid password.]
 Trop de tentative de connexion avec mot de passe erroné
+[Gadu-Gadu servers are now down. Try again later.]
+
 [Unknown]
 Inconnu
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Nom d'Hôte du serveur %s invalide. Utilisez celui par défaut par le réseau.
+[Connection cannot be established. errno=%d: %s]
+
 [Age:]
 Age:
 [List import successful.]
@@ -134,6 +198,16 @@ Liste importée avec succès.
 Liste effacée avec succès.
 [List export successful.]
 Liste exportée avec succès.
+[Me]
+
+[Unknown client]
+
+[You have logged in at another location]
+
+[You are logged in at another location]
+
+[Incoming image]
+
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Homme
@@ -145,12 +219,18 @@ Femme
 Réseau
 [General]
 Général
+[Conference]
+Chat
 [Advanced]
 Avancé
 [<Last Status>]
 <Dernier État>
 [System tray icon]
 Icône de la barre des tâches
+[Popup window]
+
+[Message with [img] BBCode]
+
 [You need to specify your registration e-mail first.]
 Vous devez spécifier votre e-mail primaire d'enregistrement
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]
@@ -159,21 +239,43 @@ Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous
 Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant?
 [Allow]
 Autoriser
+[Ask]
+Demander
 [Ignore]
 Ignorer
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
+
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
+
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
+
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
 Erreur HTTP: mémoire
 [HTTP failed connecting]
 Erreur HTTP: connexion
+[HTTP failed resolving]
+
 [HTTP failed reading]
 Erreur HTTP: lecture
 [HTTP failed writing]
 Erreur HTTP: écriture
 [Unknown HTTP error]
 Erreur HTTP inconnue
+[&Unblock]
+
+[&Block]
+
+[Contact list]
+Liste de contacts
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[%s connection]
+
+[Images]
+
 [Gadu-Gadu Number]
 Numéro Gadu-Gadu:
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
@@ -187,6 +289,8 @@ Ouvrir un &chat...
 %s a lancé(e) le chat.
 [This is my own conference.]
 C'est mon propre chat.
+[Participants]
+
 ['Unknown']
 'Inconnu'
 [You have to be connected to open new conference.]
@@ -196,6 +300,8 @@ Toutes les conférences ignorées sont maintenant désignorées et la politique 
 [There are no ignored conferences.]
 Il n'y a pas de conférence ignorée.
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
+[Protocol icon]
+
 [Import list from server]
 Importer la liste du serveur
 [Import list from text file]
@@ -208,32 +314,66 @@ Exporter la liste vers le serveur
 Exporter la liste dans un fichier texte
 [Account settings]
 Réglages du compte
+[Block user]
+
 [Previous image]
 Image précédente
 [Next image]
 Image suivante
+[Send image]
+
 [Save image]
 Sauver l'image
 [Delete image]
 Effacer l'image
+[Clear ignored conferences]
+
+[Concurrent sessions]
+
 ;file \protocols\Gadu-Gadu\src\image.cpp
+[&Image]
+
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+
 [Image cannot be written to disk.]
 L'image n'a pu être copiée sur le disque.
+[Delete image from the list]
+
+[Save image to disk]
+
 [Image from %s]
 Image de %s
 [Image for %s]
 Image pour %s
 [Select picture to send]
 Sélectionnez l'image à envoyer
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
+
+[Cannot save received image to file. ERROR: %d: %s\n%s]
+
+[Cannot open image file. ERROR: %d: %s\n%s]
+
 [Image exceeds maximum allowed size of 255 KB.]
 L'image excède la restriction des 255 kb.
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Vous devez vous connecter afin d'importer/exporter vos contact sur le serveur.
+[List cannot be imported because of error:\n\t%s (Error: %d)]
+
+[List cannot be removed because of error: %s (Error: %d)]
+
 [Text files]
 Fichiers Texte
 [All Files]
 Tous les fichiers
+[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
+
+[contacts]
+
+[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
+
+[List cannot be exported because of error:\n\t%s (Error: %d)]
+
 [Import List From &Server]
 Importer depuis un &Serveur
 [Import List From &Text File...]
@@ -245,22 +385,58 @@ Exporter la liste vers le &server
 [Export List To &Text File...]
 Exporter la liste vers un fichier &Texte
 ;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu Link Protocol]
+
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+[Password could not be reminded because of error:\n\t%s (Error: %d)]
+
 [Password was sent to your e-mail.]
 Votre mot de passe a été envoyé par e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Notify]
+
 [Error]
 Erreur
 ;file \protocols\Gadu-Gadu\src\services.cpp
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
+
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
+
+[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
+
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
+[Client Name]
+
+[IP Address]
+
+[Login Time]
+
+[Action]
+
+[sign out]
+
+[There are no active concurrent sessions for this account.]
+
+[You have to be logged in to view concurrent sessions.]
+
+[Copy Text]
+
+[Whois]
+
+[Concurrent &sessions]
+
 ;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 Une récupération a échoué. Erreur:\n\t%s
+[Could not load token image.]
+
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Enregistrement du nouveau compte impossible Erreur:\n\t%s
 [Registration rejected]
 Enregistrement refusé
+[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+
 [Your account cannot be removed because of error:\n\t%s]
 Votre compte n'a pu être effacé. Erreur:\n\t%s
 [Bad number or password]

@@ -5,7 +5,11 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
+[This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
+
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Avatar List Popup]
+
 [Save As...]
 Sauver sous...
 [Delete this entry]
@@ -14,18 +18,28 @@ Effacer cette entrée
 Effacer cette entrée et l'image
 [Avatar History]
 Historique des avatars
+[Static]
+
+[Open Folder]
+
 [Store this user's old avatars in disk]
 Sauver sur le disque (pour ce contact)
 [Log this user's avatars changes to history]
 Ajouter à l'historique (pour ce contact)
 [Show popups for this user]
 Popup pour ce contact
+[OK]
+OK
+[Protocols]
+
 [Enable tracking for these protocols:]
 Surveiller les protocoles suivants:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Les MetaContacts ont un traitement spécial: l'info est copiée aux sous-contacts (les notifications des MetaContacts seront ignorées)
 [Show popup when a contact change his avatar]
 Afficher un popup au changement d'avatar
+[Colors]
+Couleurs
 [Background color]
 Couleur de fond
 [Text color]
@@ -34,18 +48,28 @@ Couleur du texte
 Utiliser les couleurs Windows
 [Use default colors]
 Couleurs par défaut
+[Delay]
+
 [From Popup plugin]
 Comme le plugin Popup
 [Custom]
 Défini
+[Permanent]
+
+[Actions]
+
 [On right click:]
 Clic droit:
 [On left click:]
 Clic gauche:
+[Track]
+
 [Avatar change:]
 Avatar changé:
 [Avatar removal:]
 Avatar effacé:
+[Preview]
+Aperçu
 [Avatar History: Select how to store history avatars]
 Avatar History: Méthode d'enregistrement des avatars.
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
@@ -73,6 +97,8 @@ Les avatars ne seront que sur le disque, mais avec un raccourci dans l'historiqu
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (le même avatar peut être stocker plusieurs fois).
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
+[Avatar History for %s]
+
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Êtes-vous sùr de vouloir effacer cette ligne de l'historique ?\nSeule cette ligne sera effacée, l'avatar sera conservé !
 [Delete avatar log?]
@@ -85,9 +111,33 @@ Effacer le journal des avatars ?
 Effacer l'avatar ?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION: Ceci peut affecter plus d'un raccourci !
+[Avatar History is empty!]
+
+[avatar path is null.]
+
 [View Avatar History]
 Historique des avatars...
+[Save Avatar for %s]
+
+[Save Avatar]
+
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+[AVH Debug]
+
+[Removed avatar, no avatar before...skipping]
+
+[Hashes are the same... skipping]
+
+[Avatar History: Unable to save avatar]
+
+[AVH Debug: File copied successfully]
+
+[Avatars]
+Avatars
+[Contact changed avatar]
+
+[Contact removed avatar]
+
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 a effacé son avatar
@@ -96,7 +146,13 @@ a changé d'avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Historique
+[Avatar Overlay]
+
 ;file \plugins\AvatarHistory\src\options.cpp
+[Do nothing]
+
+[Close popup]
+
 [Show avatar history]
 Afficher l'historique des avatars
 [Show contact history]
@@ -105,8 +161,20 @@ Afficher l'historique du contact
 Test: Contact
 [Test description]
 Test: Description
+[Avatar]
+
+[Popups]
+Popups
 [Avatar Change]
 Changement d'avatar
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 UIN inconnu
+[Unknown Protocol]
+
+[AVH Debug: GetOldStyleAvatarName]
+
+[Avatar History: Unable to create shortcut]
+
+[AVH Debug: Shortcut created successfully]
+
