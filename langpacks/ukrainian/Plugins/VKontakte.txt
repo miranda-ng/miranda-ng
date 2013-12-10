@@ -39,5 +39,9 @@
 Прикріплення:
 [Photo]
 Фото
+[Login settings]
+Налаштування входу
+[Advanced]
+Додатково
 [Server-side delivery confirmation]
 Підтвердження доставки зі сторони серверу
