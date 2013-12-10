@@ -25,7 +25,7 @@ Grupo:
 Opções
 [Authorization request]
 Pedido de autorização
-[Delete Contact]
+[Delete contact]
 Excluir Contato
 [&Yes]
 &Sim
@@ -37,7 +37,7 @@ Esconder da lista apenas, manter histórico e config. de visibilidade
 Você tem certeza que deseja excluir %s?
 [This will erase all history and settings for this contact!]
 Isto apagará todo histórico e configuraçõe para este contato!
-[Contact Display Options]
+[Contact display options]
 Exibir Opções dos Contatos
 [Miranda NG Profile Manager]
 Gerenciador de Perfil do Miranda NG BR
@@ -47,7 +47,7 @@ Gerenciador de Perfil do Miranda NG BR
 &Sair
 [Start in Service Mode with]
 Iniciar no Modo de serviço com
-[Find/Add Contacts]
+[Find/Add contacts]
 Procurar/Adicionar Contatos
 [Search:]
 Pesquisar:
@@ -71,13 +71,13 @@ Mais opções
 Adicionar à lista
 [Custom]
 Padrão
-[Find/Add Contacts\nHere you can add contacts to your contact list]
+[Find/Add contacts\nHere you can add contacts to your contact list]
 Procurar/Adicionar Contatos\nAqui você pode adicionar contatos a sua lista
 [Apply]
 Aplicar
 [Please select a subentry from the list]
 Por favor selecione uma sub-opção da lista
-[Install Database Settings]
+[Install database settings]
 Intalar configurações do Banco de dados
 [Yes]
 Sim
@@ -93,7 +93,7 @@ Não para todos
 &Exibir conteúdo
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Sistemas de segurança para prevenir alterações maliciosas estão funcionais e será avisado antes que essas alterações sejam efetuadas.
-[Database Setting Change]
+[Database setting change]
 Alterar configuração do Banco de Dados
 [Database settings are being imported from]
 Configuração do banco de dados sendo importada de
@@ -105,9 +105,9 @@ para o valor
 Você deseja permitir essa mudança?
 [&Allow all further changes to this section]
 &Permitir futuras alterações nesta seção
-[Cancel Import]
+[Cancel import]
 Cancelar importação
-[Database Import Complete]
+[Database import complete]
 Importação do Banco de dados completa
 [The import has completed from]
 A importação foi completada de
@@ -121,7 +121,7 @@ O que você deseja fazer com o arquivo agora?
 &Mover/Renomear
 [&Leave]
 &Deixar
-[Netlib Log Options]
+[Netlib log options]
 Opções Reg. Netlib
 [Show]
 Mostrar
@@ -157,7 +157,7 @@ Sons
 &Previsualizar
 [Download more sounds]
 Baixe mais sons
-[Sound Information]
+[Sound information]
 Informação sonora
 [Location:]
 Localização:
@@ -181,11 +181,11 @@ Os seguintes eventos estão sendo ignorados:
 Mensagens
 [Files]
 Arquivos
-[Online Notification]
+[Online notification]
 Notificação de estado Online
-[Auth Requests]
+[Auth requests]
 Requesição de Autorização
-[All Events]
+[All events]
 Todos os Eventos
 [None]
 Nenhum
@@ -193,7 +193,7 @@ Nenhum
 Só os contatos assinalados serão exibidos na lista de contatos
 [Ignore]
 Ignorar
-[Added Notification]
+[Added notification]
 Notificação Adicionada
 [Typing]
 Escrevendo
@@ -203,7 +203,7 @@ Visibilidade
 Está visível para este contato mesmo em modo invisível
 [You are never visible to this person]
 Nunca está visível para este contato
-[Icon Index]
+[Icon index]
 Índice de Ícones
 [Icon library:]
 Biblioteca de Ícones:
@@ -219,7 +219,7 @@ Para
 Para ícones de status padrão
 [Logging...]
 Conectando...
-[Outgoing Connections]
+[Outgoing connections]
 Conexões de Envio
 [Use proxy server]
 Use servidor proxy
@@ -235,13 +235,13 @@ Usuário:
 Senha:
 [Resolve hostnames through proxy]
 Resolver 'hostnames' via proxy
-[Port Range:]
+[Port range:]
 Alcance da porta:
 [Example: 1050-1070, 2000-2010, 2500]
 Exemplo: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
 Validar certificados SSL
-[Incoming Connections]
+[Incoming connections]
 Conexões de entrada
 [Enable UPnP port mapping]
 Habilitar o mapeamento de portas UPnP
@@ -271,7 +271,7 @@ ID único:
 Direitos autorais:
 [Please restart Miranda NG for your changes to take effect.]
 Por favor reinicie o Miranda NG BR para que as alterações tenham efeito.
-[Fonts and Colors]
+[Fonts and colors]
 Fontes e Cores
 [Undo]
 Desfazer
@@ -281,9 +281,9 @@ Limpar
 Exportar...
 [Color/Background]
 Cor/Fundo
-[Text Color]
+[Text color]
 Cor do Texto
-[Choose Font]
+[Choose font]
 Selecionar Fonte
 [Font]
 Fonte
@@ -311,7 +311,7 @@ Sc&ript:
 &Aplicar
 [&Help]
 &Ajuda
-[Warning!\r\nThis MenuObject not support user defined options.]
+[Warning!\r\nThis menu object not support user defined options.]
 Atenção!\r\nEste Objeto do Menu não suporta opções definidas pelo usuário.
 [Insert separator]
 Inserir separador
@@ -321,11 +321,11 @@ Serviço:
 Padrão
 [Set]
 Configurar
-[Account Order && Visibility]
+[Account order and visibility]
 Ordem das Contas
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Nota: Miranda NG BR deverá ser reiniciado para que as alterações tenham efeito.
-[Key Bindings]
+[Key bindings]
 Chave de ligação
 [Shortcut:]
 Atalho:
@@ -333,9 +333,9 @@ Atalho:
 Adicionar
 [Remove]
 Remover
-[Undo Changes]
+[Undo changes]
 Desfazer alterações
-[Reset To Default]
+[Reset to default]
 Restaurar padrão
 [Hotkeys]
 Atalhos
@@ -391,47 +391,47 @@ Barra de tarefas
 &Sair
 [Nowhere]
 Em nenhum lado
-[&New Group]
+[&New group]
 &Novo Grupo
-[&Hide Offline Users]
+[&Hide offline users]
 &Ocultar usuários offline
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 &Ocultar Contatos Offline daqui
-[Hide &Empty Groups]
+[Hide &empty groups]
 &Ocultar Grupos Vazios
-[Disable &Groups]
+[Disable &groups]
 Desativar &Grupos
 [Hide Miranda]
 Ocultar Miranda
 [Group]
 Grupo
-[&New Subgroup]
+[&New subgroup]
 &Novo Subgrupo
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 &Ocultar usuários offline aqui
-[&Rename Group]
+[&Rename group]
 &Renomer Grupo
-[&Delete Group]
+[&Delete group]
 &Excluir Grupo
 [&Reset to default]
 Restaurar padrão
 [find/add]
 procurar/adicionar
-[&Add to List]
+[&Add to list]
 &Adicionar a lista
 [User &details]
 &Detalhes do usuário
-[Send &Message]
+[Send &message]
 Enviar &Mensagem
 [Log]
 Registro
 [&Copy]
 &Copiar
-[Co&py All]
+[Co&py all]
 Co&piar Tudo
-[Select &All]
+[Select &all]
 Selecionar &Tudo
-[C&lear Log]
+[C&lear log]
 L&impar Registro
 [Open in &new window]
 Abrir em &nova janela
@@ -439,7 +439,7 @@ Abrir em &nova janela
 &Abrir em janela existente
 [&Copy link]
 &Copiar link
-[Cancel Change]
+[Cancel change]
 Cancelar Alterações
 [&Reset To Default]
 Restaurar padrão
@@ -450,16 +450,16 @@ Restaurar padrão
 &Recusar
 [Reason:]
 Razão:
-[You Were Added]
+[You were added]
 Você foi adicionado
 [&Close]
 &Fechar
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Mensagem de %s para %s
 [Retrieving %s message...]
 Reecuperando %s mensagem(s)...
-[Status Messages]
+[Status messages]
 Mensagens de status
 [Do not reply to requests for this message]
 Não responda a pedidos para esta mensagem
@@ -473,7 +473,7 @@ Usar esta mensagem como padrão:
 Usar %time% para o tempo atual,%date% para a data atual
 [Status messages:]
 Mensagem de status:
-[Change %s Message]
+[Change %s message]
 Alterar mensagem %s
 [Closing in %d]
 Fechando em %d
@@ -502,7 +502,7 @@ Desconectados
 Ignorar usuário
 [Notices]
 Notificações
-[Log Options]
+[Log options]
 Opções de Registro
 [Log timestamp]
 Registro de tempo
@@ -574,7 +574,7 @@ Copiar
 Recortar
 [Paste]
 Colar
-[Select All]
+[Select all]
 Selecionar Tudo
 [Clear]
 Limpar
@@ -619,13 +619,13 @@ segundos, para diferenciar status
 Mostrar múltiplos ícones
 [Only when statuses differ]
 Só com status diferentes
-[Contact List]
+[Contact list]
 Lista de Contatos
 [System tray icon]
 Ícone da barra de tarefas
 [System tray icon when using multiple protocols]
 Ícone da barra de tarefas quando usando múltiplos protocolos
-[Contact List Sorting]
+[Contact list sorting]
 Dispor Contatos Por
 [Window]
 Janela
@@ -685,7 +685,7 @@ Mostrar seleção quando a lista não estiver selecionada
 Destaque da seleção translúcida
 [Dim idle contacts]
 Desvanecer contatos inativos
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Ocultar offline' significa esconder
 [Groups]
 Grupos
@@ -697,7 +697,7 @@ Exibir as contas dos contatos no grupo
 Ocultar grupo quando não houver contato online
 [Sort groups alphabetically]
 Dispôr grupos em ordem alfabética
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Pesquisa rápida somente nos grupos abertos
 [Indent groups by:]
 Recortar grupos para:
@@ -719,7 +719,7 @@ Altura da linha:
 Correção de gama
 [Gray out entire list when:]
 Acinzentar lista quando
-[Contact List Background]
+[Contact list background]
 Fundo dos Contatos
 [Background color]
 Cor do fundo
@@ -741,7 +741,7 @@ Rolar com texto
 Esticar proporcionalmente
 [Use Windows colors]
 Usar Janelas coloridas
-[Status Bar]
+[Status bar]
 Barra de Status
 [Show status bar]
 Mostrar barra de status
@@ -777,22 +777,22 @@ Ocu&upado\tCtrl+4
 &Livre para conversar\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisível\tCtl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Ao &Telefone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Saiu para Almoço\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Enviar Arquivos(s)
 [To:]
 Para:
 [File(s):]
 Arquivo(s):
-[&Choose Again...]
+[&Choose again...]
 &Escolha Again...
 [Total size:]
 Tamanho total:
-[Incoming File Transfer]
+[Incoming file transfer]
 Recebimento de Transfrência de Arquivo
 [A&ccept]
 A&ceitar
@@ -814,7 +814,7 @@ Abrir pasta
 Transferência concluída, abrir arquivo (s).
 [No data transferred]
 Não há dados transferidos
-[File Already Exists]
+[File already exists]
 O arquivo já existe
 [Resume]
 Continuar
@@ -844,7 +844,7 @@ Abrir arquivo
 Propriedades do arquivo
 [File being received]
 Arquivo que está sendo recebido
-[File Transfers]
+[File transfers]
 Transferência de Arquivos
 [Clear completed]
 Limpeza completa
@@ -854,7 +854,7 @@ Fechar
 Recepção de arquivos
 [Received files folder:]
 Pasta de arquivos recebidos:
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Variáveis permitidas: %userid%,%nick%, %proto%%,%miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
 Aceitar automaticamente arquivos dos meus contatos
@@ -912,7 +912,7 @@ para
 Alterar o meu status para:
 [Do not set status back to online when returning from idle]
 Não alterar o meu status para online após deixar de estar inativo 
-[Idle Options]
+[Idle options]
 Opções de Inatividade
 [Become idle if computer is left unattended for:]
 Passar a inativo se o computador não reg. ação em:
@@ -945,15 +945,15 @@ Enviar mensagem no Enter
 Mostrar caracteres da conta
 [Show warning when message has not been received after]
 Mostrar aviso quando a mensagem não for recebida após:
-[Support control up/down in message area to show previously sent messages]
+[Support CTRL+Up/Down in message area to show previously sent messages]
 Suportar o controle subir/descer na área de mensagem para exibir mensagens enviadas
 [Delete temporary contacts when closing message window]
 Apagar contatos temporários quando fechar a janela de mensagens
 [Enable avatar support in the message window]
 Ative o suporte de Avatares na janela de mensagens
-[Limit avatar height to ]
+[Limit avatar height to]
 Limitar o tamanho do avatar a]
-[Send Error]
+[Send error]
 Enviar Erro
 [An error has occurred. The protocol reported the following error:]
 Ocorreu um erro. O protocolo reportou o seguinte erro:
@@ -961,9 +961,9 @@ Ocorreu um erro. O protocolo reportou o seguinte erro:
 enquanto enviando a seguinte mensagem:
 [Try again]
 Tentar novamente
-[Message Session]
+[Message session]
 Sessão de Mensagem
-[Message Window Event Log]
+[Message window event log]
 Registro de Eventos da Janela de Mensagens
 [Show names]
 Exibir nomes
@@ -983,7 +983,7 @@ minutos atrás
 Exibir mudança de status
 [Show seconds]
 Mostrar segundos
-[Load History Events]
+[Load history events]
 Carregar Histórico de Eventos
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificação de escrita para os seguintes usuários quando lhes escrever uma mensagem:
@@ -1006,16 +1006,16 @@ Excluir
 ;file \src\core\stduihist\resource.rc
 [Find]
 Localizar
-[&Find Next]
+[&Find next]
 &Encontrar Próximo
-[Find What:]
+[Find what:]
 Localizar:
-[Message History]
+[Message history]
 Histórico de mensagens
 [&Find...]
 &Encontrar...
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Adicionar Telefone
 [Enter country, area code and phone number:]
 Digite país, código de área do número de telefone:
@@ -1023,13 +1023,13 @@ Digite país, código de área do número de telefone:
 Ou digite um número internacional inteiro:
 [Phone can receive SMS text messages]
 Telefone pode receber mensagens de texto SMS
-[Add E-Mail Address]
+[Add e-mail address]
 Adicionar E-Mail
-[%s: User Details]
+[%s: user details]
 %s: Detalhes do usuário
 [%s\nView personal user details and more]
 %s\nExibe detalhes pessoais do usuário e mais...
-[Update Now]
+[Update now]
 Atualizar Agora
 [Updating]
 Atualizando
@@ -1095,14 +1095,14 @@ Alertas
 [Added event]
 Evento adicionado
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Ver detalhes do usuário
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Adicionar contato permanentemente a Lista
 [(Unknown)]
 (Desconhecido)
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 Ler %s Messagem(s)
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -1197,15 +1197,15 @@ Membros da lista (online)
 Membros da lista (desligados)
 [Use a tabbed interface]
 Usar um 'interface' em abas'
-[Close tab on doubleclick]
+[Close tab on double click]
 Fechar a aba com duplo clique
 [Restore previously open tabs when showing the window]
 Restaurar abas previamente abertas quando mostrar a janela
 [Show tabs at the bottom]
 Mostrar separadores ao fundo
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 Enviar mensagem pressionando Enter
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 Enviar mensagem pressionando duplo Enter
 [Flash window when someone speaks]
 Piscar a janela quando alguém fala
@@ -1291,7 +1291,7 @@ Mostrar ícone para destaques
 Mostrar ícone os que estão usuários saindo
 [Show icon for users kicking other user]
 Mostrar ícone para usuários que estão chutando outro usuário
-[Show icon for notices ]
+[Show icon for notices]
 Mostrar ícone de anúncios
 [Show icon for name changes]
 Mostrar ícone para mudanças de nome
@@ -1317,7 +1317,7 @@ Mostrar ícone na barra de tarefas para palavras destacadas
 Mostrar ícone na barra de tarefas para usuários a sairem
 [Show icon in tray for users kicking other user]
 Mostrar ícone na barra de tarefas para usuários 'chutando' outros usuários
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Mostrar ícone na barra de tarefas para notificações
 [Show icon in tray for name changes]
 Mostrar ícone na na barra de tarefas para mudanças de nome
@@ -1325,17 +1325,17 @@ Mostrar ícone na na barra de tarefas para mudanças de nome
 Mostrar ícone na barra de tarefas para mensagens de informação
 [Show icon in tray for status changes]
 Mostrar ícone na barra de tarefas para mudanças de status
-[Chat Module]
+[Chat module]
 Módulo de Mensagem
-[Message Background]
+[Message background]
 Fundo da Mensagem
-[Userlist Background]
+[User list background]
 Fundo da Lista de Usuários
-[Userlist Lines]
+[User list lines]
 Linhas da Lista de usuário
-[Userlist Background (selected)]
+[User list background (selected)]
 Fundo da Lista de usuários (selecionado)
-[Window Icon]
+[Window icon]
 Janela do Ícone
 [Bold]
 Negrito
@@ -1365,7 +1365,7 @@ Mensagem em (10X10)
 Mensagem ao sair (10x10)
 [Action (10x10)]
 Ação (10X10)
-[Add Status (10x10)]
+[Add status (10x10)]
 Adicionar Status (10X10)
 [Remove status (10x10)]
 Remover status (10x10)
@@ -1377,7 +1377,7 @@ Deixar (10X10)
 Sair (10x10)
 [Kick (10x10)]
 'Chutar'(10X10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Mudar apelido (10x10)
 [Notice (10x10)]
 Notificação (10X10)
@@ -1403,15 +1403,15 @@ Eventos padrão para mostrar em novas salas de chat, se o 'filtro de evento' est
 Ícones para exibir o registro de mensagens
 [Icons to display in the tray]
 Ícones a serem exibidos na barra de tarefas
-[Select Folder]
+[Select folder]
 Selecionar Pasta
-[Message Sessions]
+[Message sessions]
 Sessões de mensagem
 [Group chats]
 Grupos de chat
 [General]
 Geral
-[Chat Log]
+[Chat log]
 Reg. Chat
 [Chat]
 Conversa
@@ -1484,15 +1484,15 @@ Controlar esta sala (CTRL+O)
 Ativar/desativar o filtro de eventos (CTRL+F)
 [Close current tab (CTRL+F4)]
 Fechar aba atual (CTRL+F4)
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Sala de Bate-papo (%u usuário)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Sala de Bate-papo (%u usuários)
-[%s: Message Session]
+[%s: message session]
 %s: Sessões de Mensagens
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Sessões de Mensagens (%u usuários)
-[Nick name]
+[Nickname]
 Apelido
 [Unique ID]
 ID único
@@ -1511,11 +1511,11 @@ Contagem de membros do grupo
 Divisórias
 [Offline contacts to whom you have a different visibility]
 Contatos Offline para quem a visibilidade é diferenciada
-[Selected Text]
+[Selected text]
 Texto Selecionado
-[Hottrack Text]
+[Hottrack text]
 Marcar texto
-[Quicksearch Text]
+[Quicksearch text]
 Pesquisa rápida do texto
 ;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
@@ -1536,7 +1536,7 @@ Invisível
 Saiu para almoço
 [On the phone]
 Ao telefone
-[List Background]
+[List background]
 Alterar Fundo
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1556,7 +1556,7 @@ Arquivo de %s
 bytes
 [&File]
 &Arquivo
-[File &Transfers...]
+[File &transfers...]
 Transferência de &Arquivos...
 [Incoming]
 Recebendo
@@ -1567,19 +1567,19 @@ Erro
 [Denied]
 Recusado
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[%s File]
+[%s file]
 %s Arquivo
-[All Files]
+[All files]
 Todos os Arquivos
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 Arquivos executáveis
 [Events]
 Eventos
 ;file \src\core\stdfile\filerecvdlg.cpp
-[View User's History]
+[View user's history]
 Exibir Histórico do Usuário
-[User Menu]
+[User menu]
 Menu do Usuário
 [Canceled]
 Cancelado
@@ -1591,7 +1591,7 @@ pastas %d
 ;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Este arquivo ainda não foi verificado. Tem certeza que deseja abri-lo?
-[File Received]
+[File received]
 Arquivo Recebido
 [of]
 de
@@ -1612,9 +1612,9 @@ Enviando
 &Sobre...
 [&Support]
 Suporte
-[&Miranda NG Homepage]
+[&Miranda NG homepage]
 Site do &Miranda NG em Inglês
-[&Report Bug]
+[&Report bug]
 &Reportar Bug
 ;file \src\core\stdidle\idle.cpp
 [Idle]
@@ -1662,7 +1662,7 @@ Tempo de entrada
 Pontos de entrada
 [Message area]
 Área de mensagem
-[Message Log]
+[Message log]
 Reg. de Mensagem
 [** New contacts **]
 ** Novos contatos **
@@ -1670,24 +1670,24 @@ Reg. de Mensagem
 ** Contatos desconhecidos **
 [Show balloon popup (unsupported system)]
 Mostrar popup (sistema não suportado)
-[Messaging Log]
+[Messaging log]
 Registro de Mensagens
-[Typing Notify]
+[Typing notify]
 Escrevendo Notificação
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Mensagem de %s
 [%s is typing a message]
 %s está escrevendo uma mensagem
-[Typing Notification]
+[Typing notification]
 Escrevendo Notificação
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda não pôde carregar o plugin Chat porque o Microsoft Rich Edit v 3 não foi encontrado.\nPretende descarregar a atualização agora?
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Recebendo (janela visível)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Recebendo (janela não visível)
-[Incoming (New Session)]
+[Incoming (new session)]
 Recebendo (Nova Sessão)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
@@ -1697,22 +1697,22 @@ Ocorreu um erro desconhecido.
 Enviando URL
 [Incoming URL]
 Recebendo URL
-[Outgoing File]
+[Outgoing file]
 Arquivo de saída
-[Incoming File]
+[Incoming file]
 Recebendo Arquivo
 [History for %s]
 Histórico para %s
 [Are you sure you want to delete this history item?]
 Tem certeza de que deseja excluir este item do histórico?
-[Delete History]
+[Delete history]
 Excluir Histórico
-[View &History]
+[View &history]
 Ver &Histórico
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL de %s
-[Web Page Address (&URL)]
+[Web page address (&URL)]
 Página Web (URL)
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
@@ -1720,11 +1720,11 @@ Enviar URL para
 [Send timed out]
 Tempo de Envio esgotado
 ;file \src\core\stduserinfo\contactinfo.cpp
-[Edit E-Mail Address]
+[Edit E-Mail address]
 Editar E-Mail
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 O número de telefone deve começar com um + e deve conter apenas números, espaços, parênteses e hífens.
-[Invalid Phone Number]
+[Invalid phone number]
 Número de Telefone Inválido
 [Primary]
 Primário
@@ -1734,9 +1734,9 @@ Primário
 Fax
 [Mobile]
 Celular
-[Work Phone]
+[Work phone]
 Telefone Comercial
-[Work Fax]
+[Work fax]
 Fax Comercial
 ;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
@@ -1756,13 +1756,13 @@ Notas
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Proprietário
-[View/Change My &Details...]
+[View/change my &details...]
 Ver/Mudar Meus &Detalhes...
 ;file \src\core\stduseronline\useronline.cpp
-[%s is Online]
+[%s is online]
 %s está Online
 ;file \src\modules\addcontact\addcontact.cpp
-[Add Contact]
+[Add contact]
 Adicionar Contato
 [Please authorize my request and add me to your contact list.]
 Por favor, autorizar o meu pedido e me adicionar à sua lista de contatos.
@@ -1773,7 +1773,7 @@ Status personalizada
 [%s (locked)]
 %s (travado)
 ;file \src\modules\clist\clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Contato Desconhecido)
 ;file \src\modules\clist\clisttray.cpp
 [&Main menu]
@@ -1802,14 +1802,14 @@ Sobrenome
 Usuário
 [FirstName LastName]
 Nome e Sobrenome
-['(Unknown Contact)' (not movable)]
+['(Unknown contact)' (not movable)]
 '(Contato Desconhecido)' (não movível)
-['(Unknown Contact)']
+['(Unknown contact)']
 '(Contato Desconhecido)'
 [Contact names]
 Nomes Contato
 ;file \src\modules\clist\genmenu.cpp
-[Menu Icons]
+[Menu icons]
 Ícones do Menu
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
@@ -1817,29 +1817,29 @@ Menus
 [Customize]
 Personalizar
 ;file \src\modules\clist\groups.cpp
-[New Group]
+[New group]
 Novo Grupo
-[Delete Group]
+[Delete group]
 Excluir Grupo
 [You already have a group with that name. Please enter a unique name for the group.]
 Já existe um grupo com esse nome. Por favor insira um nome original para o grupo.
-[Rename Group]
+[Rename group]
 Renomear Grupo
 [This group]
 Este grupo
 ;file \src\modules\clist\keyboard.cpp
-[Show/Hide Contact List]
+[Show/Hide contact list]
 Exibir/Ocultar Lista de Contatos
-[Read Message]
+[Read message]
 Ler Mensagem
-[Open Options Page]
+[Open Options page]
 Abrir Opções de Página
 [Open Find User Dialog]
 Abrir Diálogo Procurar Usuário
 ;file \src\modules\clist\movetogroup.cpp
-[&Move to Group]
+[&Move to group]
 &Mover para o Grupo
-[<Root Group>]
+[<Root group>]
 <Grupo Raiz>
 ;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
@@ -1868,13 +1868,13 @@ Tamanho
 Criado
 [Run]
 Ativar
-[My Profiles]
+[My profiles]
 Meus Perfis
-[New Profile]
+[New profile]
 Novo Perfil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
-[Chat Activity]
+[Chat activity]
 Atividade de bate-papo
 ;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
@@ -1890,11 +1890,11 @@ Resultados
 Não há resultados para mostrar.
 [Searching]
 Pesquisando
-[All Networks]
+[All networks]
 Todas as redes
 [Handle]
 Alça
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Procurar/Adicionar Contatos...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -1914,7 +1914,7 @@ Nenhum utilizador encontrado
 ;file \src\modules\fonts\FontOptions.cpp
 [Fonts & Colors]
 Fontes & Cores
-[Sample Text]
+[Sample text]
 Exemplo
 [Fonts]
 Fontes
@@ -1926,7 +1926,7 @@ Texto genérico
 [Small text]
 Texto pequeno
 ;file \src\modules\icolib\skin2opts.cpp
-[Icon Sets]
+[Icon sets]
 Configuar Ícone
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
@@ -1951,7 +1951,7 @@ todos os módulos
 módulos core
 [%s options]
 %s opções
-[Miranda NG Options]
+[Miranda NG options]
 Opções do Miranda NG BR
 [&Options...]
 &Opções...
@@ -2012,41 +2012,41 @@ Ações
 [Add binding]
 Adicionar
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Usuário Online
-[Group (Open)]
+[Group (open)]
 Grupo (Aberto)
-[Group (Closed)]
+[Group (closed)]
 Grupo (Fechado)
 [Connecting]
 Conectando
-[User Details]
+[User details]
 Detalhes do Usuário
 [History]
 Histórico
-[Down Arrow]
+[Down arrow]
 Baixar
-[Find User]
+[Find user]
 Localizar usuário
 [Send E-mail]
 Enviar E-mail
 [SMS]
 SMS
-[Search All]
+[Search all]
 Pesquisar Tudo
 [Tick]
 Selecionado
-[No Tick]
+[No tick]
 Não selecionado
 [Help]
 Ajuda
 [Miranda website]
 Miranda Website
-[Small Dot]
+[Small dot]
 Símbolo Pequeno
-[Filled Blob]
+[Filled blob]
 Falhou o carregamento
-[Empty Blob]
+[Empty blob]
 Carregado com êxito
 [Unicode plugin]
 Plugin Unicode
@@ -2064,7 +2064,7 @@ Sair
 Menu Principal
 [Leave chat]
 Sair do chat
-[Move to Group]
+[Move to group]
 Mover para o Grupo
 [On]
 Ligado
@@ -2078,25 +2078,25 @@ Pedindo autorização
 Garantir autorização
 [Revoke authorization]
 Revogar autorização
-[Status Icons]
+[Status icons]
 Ícones de Status
-[%s Icons]
+[%s icons]
 %s Ícones
-[Main Icons]
+[Main icons]
 Ícones Principais
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 É preciso um plugin de serviço de imagem para processar imagens PNG.
-[All Bitmaps]
+[All bitmaps]
 Todos os Bitmaps
-[Windows Bitmaps]
+[Windows bitmaps]
 Bitmaps do Windows
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Imagens JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Imagens GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Imagens PNG
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp

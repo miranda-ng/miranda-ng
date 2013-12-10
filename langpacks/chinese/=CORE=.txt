@@ -403,7 +403,7 @@ Miranda NG 正准备重启. \n请稍候...
 次要提示:
 [This font is used to display various addtional notes.]
 此字体用于显示各种附加说明.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 欢迎使用 Miranda NG 帐号管理员! \n您可以在此设置您的即时通讯帐号. \n\n请从左方列表选择帐号查看可用选项. 您也可以点击列表下面的 "新增" 按钮设置新的即时通讯帐号. 
 [Event icon legend:]
 事件图标图例:
@@ -2193,7 +2193,7 @@ Miranda 无法打开此配置文件
 加载... %d%%
 [%s options]
 %s 选项
-[Miranda NG Options]
+[Miranda NG options]
 Miranda NG 选项
 [&Options...]
 选项(&O)...
@@ -2278,11 +2278,11 @@ System 范围
 [Miranda scope]
 Miranda 范围
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 用户上线
-[Group (Open)]
+[Group (open)]
 群组 (打开)
-[Group (Closed)]
+[Group (closed)]
 群组 (关闭)
 [Connecting]
 连接中
@@ -2290,27 +2290,27 @@ Miranda 范围
 用户详细资料
 [History]
 历史
-[Down Arrow]
+[Down arrow]
 向下箭头
-[Find User]
+[Find user]
 查找用户
 [Send E-mail]
 发送邮件
-[Search All]
+[Search all]
 全部搜索
 [Tick]
 选定
-[No Tick]
+[No tick]
 未选定
 [Help]
 说明
 [Miranda website]
 Miranda 网站
-[Small Dot]
+[Small dot]
 小点
-[Filled Blob]
+[Filled blob]
 填满的 Blob
-[Empty Blob]
+[Empty blob]
 空 Blob
 [Unicode plugin]
 Unicode 插件
@@ -2328,7 +2328,7 @@ ANSI 插件
 主菜单
 [Leave chat]
 离开聊天室
-[Move to Group]
+[Move to group]
 移至群组
 [On]
 打开
@@ -2346,25 +2346,25 @@ ANSI 插件
 永远可见
 [Locked status]
 锁定状态
-[Status Icons]
+[Status icons]
 状态图标
-[%s Icons]
+[%s icons]
 %s 图标
-[Main Icons]
+[Main icons]
 主要图标
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 您需要图片服务插件处理 PNG 图片. 
-[All Bitmaps]
+[All bitmaps]
 所有位图
-[Windows Bitmaps]
+[Windows bitmaps]
 Windows 位图
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG 位图
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF 位图
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG 位图
 ;file \src\modules\utils\path.cpp
 ;file \src\modules\utils\timezones.cpp

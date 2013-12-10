@@ -1548,11 +1548,11 @@ OutputDebugString()
 [System]
 מערכת
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 משתמש מחובר
-[Group (Open)]
+[Group (open)]
 (קבוצה (פתוחה
-[Group (Closed)]
+[Group (closed)]
 (קבוצה (סגורה
 [Connecting]
 מתחבר
@@ -1560,7 +1560,7 @@ OutputDebugString()
 פרופיל משתמש
 [History]
 היסטוריה\n
-[Find User]
+[Find user]
 מצא משתמש
 [SMS]
 סמס
@@ -1572,7 +1572,7 @@ OutputDebugString()
 יציאה
 [Main menu]
 תפריט ראשי
-[Move to Group]
+[Move to group]
 העבר לקבוצה
 [On]
 פועל
@@ -1588,19 +1588,19 @@ OutputDebugString()
 בקש אישור שנית
 [Always visible]
 תמיד נראה
-[%s Icons]
+[%s icons]
 סמלים של %s
-[Main Icons]
+[Main icons]
 סמלים ראשיים
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
-[All Bitmaps]
+[All bitmaps]
 כל מפות הסיביות
-[Windows Bitmaps]
+[Windows bitmaps]
 מפות הסיביות של חלונות
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG מפות סיביות של
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF מפות סיביות של
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp

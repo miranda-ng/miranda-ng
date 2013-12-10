@@ -2,7 +2,6 @@
 Language: Turkish (Turkey)
 Locale: 041f
 Authors: Kaya Zeren, Jerbifor
-Author-email: jerbifor@tut.by
-Last-Modified-Using: Miranda NG 0.94.4 
+Last-Modified-Using: Miranda NG 0.94.6 
 ;	This translation is automatically generated from the Turkish langpack Miranda IM by Erik Dokter.
-;	If you want to add, please contact the author.
+;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0

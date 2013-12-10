@@ -19,7 +19,7 @@ Gruppe:
 Valg
 [Authorization request]
 Godkjenningsforespørsel
-[Delete Contact]
+[Delete contact]
 Slett Kontakt
 [&Yes]
 &Ja
@@ -31,7 +31,7 @@ Skjules fra liste, slik at historikk og ignorerings/synbarhets innstillinger beh
 Er du sikker på at du ønsker å slette %s?
 [This will erase all history and settings for this contact!]
 Dette vil slette all historikk og innstillinger for kontakten!
-[Contact Display Options]
+[Contact display options]
 Valg for Kontaktvisning
 [Miranda NG Profile Manager]
 Miranda NG Profilmanager
@@ -39,7 +39,7 @@ Miranda NG Profilmanager
 &Kjør
 [&Exit]
 &Avslutt
-[Find/Add Contacts]
+[Find/Add contacts]
 Finn/Legg til Kontakter
 [Search:]
 Søk:
@@ -69,7 +69,7 @@ Selvvalgt
 Lagre
 [Please select a subentry from the list]
 Vennligst velg en underkategori fra listen
-[Install Database Settings]
+[Install database settings]
 Installere Database Innstillinger
 [Yes]
 Ja
@@ -85,7 +85,7 @@ Nei til alt
 &Se innhold
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Sikkerhetssystemer som hindrer ondskapsfulle endringer er på plass og du vil bli advart om endringer som ikke er kjent å være sikre.
-[Database Setting Change]
+[Database setting change]
 Database Innstillingsendring
 [Database settings are being imported from]
 Databaseinnstillinger blir importert fra
@@ -97,9 +97,9 @@ til verdien
 Ønsker du å tillate denne endringen?
 [&Allow all further changes to this section]
 &Tillat alle videre endringer i denne delen
-[Cancel Import]
+[Cancel import]
 Avbryt Importering
-[Database Import Complete]
+[Database import complete]
 Import av Database ferdig
 [The import has completed from]
 Import er fullført fra
@@ -113,7 +113,7 @@ Hva ønsker du å gjøre med filen nå?
 &Flytt/Gi nytt navn
 [&Leave]
 &Forlat
-[Netlib Log Options]
+[Netlib log options]
 Netlib Logg Valg
 [Show]
 Vis
@@ -145,7 +145,7 @@ Lyder
 &Vis
 [Download more sounds]
 Last ned flere lyder
-[Sound Information]
+[Sound information]
 Lydinformasjon
 [Location:]
 Plassering:
@@ -171,11 +171,11 @@ Meldinger
 URLer
 [Files]
 Filer
-[Online Notification]
+[Online notification]
 Påloggingsvarsel
-[Auth Requests]
+[Auth requests]
 Godkjenningsforespørsler
-[All Events]
+[All events]
 Alle Hendelser
 [None]
 Ingen
@@ -183,7 +183,7 @@ Ingen
 Bare den avmerkede kontakten vil vises i hovedkontaktlisten 
 [Ignore]
 Ignorer
-[Added Notification]
+[Added notification]
 La til Varsling
 [Typing]
 Skriving
@@ -193,7 +193,7 @@ Synlighet
 Du er synlig for denne personen selv i usynlig modus
 [You are never visible to this person]
 Du er aldri synlig for denne personen
-[Icon Index]
+[Icon index]
 Ikon Indeks
 [Icon library:]
 Ikon bibliotek:
@@ -211,7 +211,7 @@ Til
 Til standard statusikoner
 [Logging...]
 Loggføring..
-[Outgoing Connections]
+[Outgoing connections]
 Utgående Koblinger
 [Use proxy server]
 Bruk proxy server
@@ -229,11 +229,11 @@ Brukernavn:
 Passord:
 [Resolve hostnames through proxy]
 Finn vertsnavn gjennom proxy
-[Port Range:]
+[Port range:]
 Portområde:
 [Example: 1050-1070, 2000-2010, 2500]
 Eksempel: 1050-1070, 2000-2010, 2500
-[Incoming Connections]
+[Incoming connections]
 Innkommende Koblinger
 [Enable UPnP port mapping]
 Aktiver UPnP port mapping
@@ -265,7 +265,7 @@ Unik ID:
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
 Vennligst start Miranda NG på nytt for at endringene skal tre i kraft
-[Fonts and Colors]
+[Fonts and colors]
 Skrift og Farger
 [Undo]
 Omgjør
@@ -275,9 +275,9 @@ Nullstill
 Eksporter..
 [Color/Background]
 Farge/Bakgrunn
-[Text Color]
+[Text color]
 TekstFarge
-[Choose Font]
+[Choose font]
 Velg Skrift
 [Font]
 Skrift
@@ -305,7 +305,7 @@ Sk&ript:
 &Utfør
 [&Help]
 &Hjelp
-[Warning!\r\nThis MenuObject not support user defined options.]
+[Warning!\r\nThis menu object not support user defined options.]
 Advarsel!\r\n\Dette MenyObjekt støtter ikke brukerdefinerte valg.
 [Insert separator]
 Sett inn skille
@@ -335,47 +335,47 @@ Uklarhet:
 A&vslutt
 [Nowhere]
 Ingensteds
-[&New Group]
+[&New group]
 &Ny Gruppe
-[&Hide Offline Users]
+[&Hide offline users]
 &Skjul Frakoblede Brukere
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skjul &Frakoblede Brukere her ute
-[Hide &Empty Groups]
+[Hide &empty groups]
 Skjul &Tomme Grupper
-[Disable &Groups]
+[Disable &groups]
 Deaktiver &Grupper
 [Hide Miranda]
 Skjul Miranda
 [Group]
 Gruppe
-[&New Subgroup]
+[&New subgroup]
 &Ny Undergruppe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 &Skjul Frakoblede Brukere her
-[&Rename Group]
+[&Rename group]
 &Gi gruppen nytt navn
-[&Delete Group]
+[&Delete group]
 &Slett Gruppe
 [&Reset to default]
 &Tilbakestill til standard
 [find/add]
 finn/legg til
-[&Add to List]
+[&Add to list]
 &Legg til i Liste
 [User &details]
 Bruker &Detaljer
-[Send &Message]
+[Send &message]
 Send &Melding
 [Log]
 Logg
 [&Copy]
 &Kopier
-[Co&py All]
+[Co&py all]
 Ko&pier Alt
-[Select &All]
+[Select &all]
 Velg &Alt
-[C&lear Log]
+[C&lear log]
 K&larer Logg
 [Open in &new window]
 Åpne i &nytt vindu
@@ -383,7 +383,7 @@ K&larer Logg
 &Åpne i eksisterende vindu
 [&Copy link]
 &Kopier link
-[Cancel Change]
+[Cancel change]
 Avbryt Endring
 [&Reset To Default]
 &Tilbakestill til Standard
@@ -394,16 +394,16 @@ Avbryt Endring
 &Avslå
 [Reason:]
 Grunn:
-[You Were Added]
+[You were added]
 Du Ble Lagt til
 [&Close]
 &Lukk
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 %s Melding til %s
 [Retrieving %s message...]
 Henter %s melding...
-[Status Messages]
+[Status messages]
 Statusmeldinger
 [Do not reply to requests for this message]
 Ikke svar på forespørsler for denne meldingen
@@ -415,7 +415,7 @@ Som standard, bruk den samme meldingen som sist
 Bruk denne meldingen som standard:
 [Use %time% for the current time, %date% for the current date]
 Bruk %time% for nåværende tid, %date% for nåværende dato
-[Change %s Message]
+[Change %s message]
 Forandre %s Melding
 [Closing in %d]
 Lukker om %d
@@ -444,7 +444,7 @@ Kobler fra
 Bruker kicker
 [Notices]
 Varsler
-[Log Options]
+[Log options]
 Loggvalg
 [Log timestamp]
 Logg tidsstempel
@@ -516,7 +516,7 @@ Kopier
 Klipp ut
 [Paste]
 Lim inn
-[Select All]
+[Select all]
 Velg Alt
 [Clear]
 Fjern:
@@ -561,13 +561,13 @@ sekund(er), når status er forskj.
 Vis mange ikoner
 [Only when statuses differ]
 Bare når statusene er forskjellige
-[Contact List]
+[Contact list]
 Kontaktliste
 [System tray icon]
 Oppgavelinje ikon
 [System tray icon when using multiple protocols]
 Ikoner på oppgavelinjen ved bruk av flere protokoller
-[Contact List Sorting]
+[Contact list sorting]
 Kontaktliste sortering
 [Window]
 Vindu
@@ -627,7 +627,7 @@ Vis valg selv når listen ikke er i fokus
 Gjør valget gjennomskinnelig merket
 [Dim idle contacts]
 Utydeliggjør inaktive kontakter
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Skjul frakoblet' skjuler:
 [Groups]
 Grupper
@@ -639,7 +639,7 @@ Vis antall kontakter i en gruppe
 Skjul telling av grupper når ingen er påkoblet
 [Sort groups alphabetically]
 Sorter grupper alfabetisk
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Hurtigsøk kun i åpne grupper
 [Indent groups by:]
 Rykk inn grupper:
@@ -663,7 +663,7 @@ Radhøyde:
 Gammakorreksjon
 [Gray out entire list when:]
 Grå ut hele listen når:
-[Contact List Background]
+[Contact list background]
 Kontaktliste bakgrunn
 [Background color]
 Bakgrunnsfarge
@@ -685,7 +685,7 @@ Rull med tekst
 Strekk proporsjonelt
 [Use Windows colors]
 Bruk Windowsfarger
-[Status Bar]
+[Status bar]
 Statuslinje
 [Show status bar]
 Vis statuslinje
@@ -721,22 +721,22 @@ Opp&tatt\tCtrl+4
 &Tilgjengelig for chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Usynlig\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 I &Telefonen\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Ute til &Lunsj\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Send Fil(er)
 [To:]
 Til:
 [File(s):]
 Fil(er):
-[&Choose Again...]
+[&Choose again...]
 &Velg på Nytt...
 [Total size:]
 Total størrelse:
-[Incoming File Transfer]
+[Incoming file transfer]
 Innkommende Filoverføringer
 [A&ccept]
 A&ksepter
@@ -752,7 +752,7 @@ Filer:
 Lagre til:
 [&Open folder]
 Åpne mappe
-[File Already Exists]
+[File already exists]
 Filen Eksisterer Fra Før
 [Resume]
 Gjenoppta
@@ -782,7 +782,7 @@ Sist modifisert:
 Filegenskaper
 [File being received]
 Filen mottas
-[File Transfers]
+[File transfers]
 Filoverføringer
 [Close]
 Lukk
@@ -871,15 +871,15 @@ Send melding ved 'Enter'
 Vis antall tegn
 [Show warning when message has not been received after]
 Vis advarsel når meldingen ikke har blitt mottatt etter
-[Support control up/down in message area to show previously sent messages]
+[Support CTRL+Up/Down in message area to show previously sent messages]
 Støtte kontroll opp/ned i meldingsområdet for å vise tidligere sendte meldinger
 [Delete temporary contacts when closing message window]
 Slett midlertidige kontakter når samtalevinduet lukkes
 [Enable avatar support in the message window]
 Aktiver avatarstøtte i samtalevinduet
-[Limit avatar height to ]
+[Limit avatar height to]
 Begrens avatarhøyde til 
-[Send Error]
+[Send error]
 Sendefeil
 [An error has occurred. The protocol reported the following error:]
 En feil har inntruffet. Protokollen rapporterte følgende feil:
@@ -887,9 +887,9 @@ En feil har inntruffet. Protokollen rapporterte følgende feil:
 under sending av følgende melding:
 [Try again]
 Forsøk igjen
-[Message Session]
+[Message session]
 Meldingsøkt
-[Message Window Event Log]
+[Message window event log]
 Meldingsvindu Hendelseslogg
 [Show names]
 Vis navn
@@ -909,7 +909,7 @@ minutter gamle
 Vis statusforandringer
 [Show seconds]
 Vis sekunder
-[Load History Events]
+[Load history events]
 Last Historikkhendelser
 [Send typing notifications to the following users when you are typing a message to them:]
 Sender skrivevarsel til følgende brukere når du skriver meldinger til dem:
@@ -928,16 +928,16 @@ Slett
 ;file \src\core\stduihist\resource.rc
 [Find]
 Finn
-[&Find Next]
+[&Find next]
 &Finn Neste
-[Find What:]
+[Find what:]
 Finn følgende:
-[Message History]
+[Message history]
 Samtalehistorikk
 [&Find...]
 &Finn...
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Legg til Telefonnummer
 [Enter country, area code and phone number:]
 Skriv inn land, postnummer og telefonnummer
@@ -945,11 +945,11 @@ Skriv inn land, postnummer og telefonnummer
 Eller skriv inn et internasjonalt nummer:
 [Phone can receive SMS text messages]
 Telefonen kan motta SMS tekstmeldinger
-[Add E-Mail Address]
+[Add e-mail address]
 Legg til E-Post Adresse
-[%s: User Details]
+[%s: user details]
 %s: Brukerdetaljer
-[Update Now]
+[Update now]
 Oppdater Nå
 [Updating]
 Oppdaterer
@@ -1011,14 +1011,14 @@ Nettside:
 [Alerts]
 Varsler
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Se Brukerens Detaljer
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Legg til Kontakt Permanent til Listen
 [(Unknown)]
 (Ukjent)
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 Le&s %s Melding
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -1109,15 +1109,15 @@ Brukerliste medlemmer (online)
 Brukerliste medlemmer (borte)
 [Use a tabbed interface]
 Bruk grensesnitt med faner
-[Close tab on doubleclick]
+[Close tab on double click]
 Lukk fane ved dobbeltklikk
 [Restore previously open tabs when showing the window]
 Gjenopprett tidligere åpnede faner når vindu vises
 [Show tabs at the bottom]
 Vis faner nederst
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 Send meldinger ved å trykke på Enter
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 Send meldinger ved å trykke to ganger på Enter
 [Flash window when someone speaks]
 Blink vindu når noen snakker
@@ -1199,7 +1199,7 @@ Vis ikon for høydepunkter
 Vis ikon for brukere som forlater
 [Show icon for users kicking other user]
 Vis ikon for brukere som kicker annen bruker
-[Show icon for notices ]
+[Show icon for notices]
 Vis ikon for varsler
 [Show icon for name changes]
 Vis ikon for navneforandringer
@@ -1225,7 +1225,7 @@ Vis ikon i oppgavelinje for høydepunkter
 Vis ikon i oppgavelinje for brukere som forlater
 [Show icon in tray for users kicking other user]
 Vis ikon i oppgavelinje for brukere som kicker annen bruker
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Vis ikon i oppgavelinje for varsler
 [Show icon in tray for name changes]
 Vis ikon i oppgavelinje for navneforandringer
@@ -1233,15 +1233,15 @@ Vis ikon i oppgavelinje for navneforandringer
 Vis ikon i oppgavelinje for informasjonsmeldinger
 [Show icon in tray for status changes]
 Vis ikon i oppgavelinje for statusforandringer
-[Chat Module]
+[Chat module]
 Samtalemodul
-[Message Background]
+[Message background]
 Melding Bakgrunn
-[Userlist Background]
+[User list background]
 Brukerliste Bakgrunn
-[Userlist Lines]
+[User list lines]
 Brukerliste Linjer
-[Window Icon]
+[Window icon]
 Vindu Ikon
 [Bold]
 Fet
@@ -1283,7 +1283,7 @@ Melding inn (10x10)
 Melding ut (10x10)
 [Action (10x10)]
 Handling (10x10)
-[Add Status (10x10)]
+[Add status (10x10)]
 Legg til Status (10x10)
 [Remove status (10x10)]
 Fjern status (10x10)
@@ -1295,7 +1295,7 @@ Forlat (10x10)
 Avslutt (10x10)
 [Kick (10x10)]
 Kick (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Kallenavnendring (10x10)
 [Notice (10x10)]
 Varsel (10x10)
@@ -1319,13 +1319,13 @@ Utseendet til samtaleloggen
 Ikoner å vise i samtaleloggen
 [Icons to display in the tray]
 Ikoner å vise i oppgavelinjen
-[Select Folder]
+[Select folder]
 Velg Mapper
-[Message Sessions]
+[Message sessions]
 Meldingsøkter
 [General]
 Generelt
-[Chat Log]
+[Chat log]
 Samtalelogg
 [Chat]
 Chat
@@ -1400,15 +1400,15 @@ Kontroller dette rommet (CTRL+O)
 Aktiver/deaktiver hendelsesfilteret (CTRL+F)
 [Close current tab (CTRL+F4)]
 Lukk denne fanen (CTRL+F4)
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Samtalerom (%u bruker)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Samtalerom (%u brukere)
-[%s: Message Session]
+[%s: message session]
 %s: Meldingsøkt
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Meldingsøkt (%u brukere)
-[Nick name]
+[Nickname]
 Kallenavn
 [Unique ID]
 Unik ID
@@ -1454,7 +1454,7 @@ Usynlig
 Ute til lunsj
 [On the phone]
 I Telefonen
-[List Background]
+[List background]
 Listebakgrunn
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1483,19 +1483,19 @@ Feil
 [Denied]
 Avslått
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[%s File]
+[%s file]
 %s Fil
-[All Files]
+[All files]
 Alle Filer
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 Kjørbare Filer
 [Events]
 Hendelser
 ;file \src\core\stdfile\filerecvdlg.cpp
-[View User's History]
+[View user's history]
 Se Brukerens Historikk
-[User Menu]
+[User menu]
 Brukermeny
 [Canceled]
 Avbrutt
@@ -1507,7 +1507,7 @@ Avbrutt
 ;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Denne filen har ennå ikke blitt skannet for virus. Er du sikker på at du vil åpne den?
-[File Received]
+[File received]
 Fil Mottatt
 [Request sent, waiting for acceptance...]
 Forespørsel sendt, venter på svar...
@@ -1550,9 +1550,9 @@ Utgående
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 &Om...
-[&Miranda NG Homepage]
+[&Miranda NG homepage]
 &Miranda NG Hjemmeside
-[&Report Bug]
+[&Report bug]
 &Rapporter Feil
 ;file \src\core\stdidle\idle.cpp
 [Idle]
@@ -1600,7 +1600,7 @@ Innkommende tid
 Innkommende kolon
 [Message area]
 Samtaleområde
-[Message Log]
+[Message log]
 Meldingslogg
 [** New contacts **]
 ** Nye kontakter **
@@ -1608,24 +1608,24 @@ Meldingslogg
 ** Ukjente kontakter **
 [Show balloon popup (unsupported system)]
 Vis ballong popup (ustøttet system)
-[Messaging Log]
+[Messaging log]
 Meldingslogg
-[Typing Notify]
+[Typing notify]
 Skrivevarsling
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Melding fra %s
 [%s is typing a message]
 %s skriver en melding
-[Typing Notification]
+[Typing notification]
 Skrivevarsling
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda kunne ikke laste inn den innebygde meldingsmodulen, riched20.dll mangler. Trykk 'Ja' for å fortsette å laste Miranda.
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Innkommende (Fokusert Vindu)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Innkommende (Ufokusert Vindu)
-[Incoming (New Session)]
+[Incoming (new session)]
 Innkommende (Ny Samtaleøkt)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
@@ -1635,22 +1635,22 @@ En ukjent feil har inntruffet
 Utgående URL
 [Incoming URL]
 Innkommende URL
-[Outgoing File]
+[Outgoing file]
 Utgående Fil
-[Incoming File]
+[Incoming file]
 Innkommende Fil
 [History for %s]
 Historikk for %s
 [Are you sure you want to delete this history item?]
 Er du sikker på at du vil slette denne historikk forekomsten?
-[Delete History]
+[Delete history]
 Slett Historikk
-[View &History]
+[View &history]
 Se &Historikk
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL fra %s
-[Web Page Address (&URL)]
+[Web page address (&URL)]
 Web-adresse (&URL)
 [URL]
 URL
@@ -1660,11 +1660,11 @@ Send URL til
 [Send timed out]
 Sending utløp
 ;file \src\core\stduserinfo\contactinfo.cpp
-[Edit E-Mail Address]
+[Edit E-Mail address]
 Rediger E-Post Adresse
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Telefonnummeret bør begynne med et + og bestå av numre, mellomrom, klammer og bindestrek.
-[Invalid Phone Number]
+[Invalid phone number]
 Feil Telefonnummer
 [Primary]
 Hovednummer
@@ -1674,9 +1674,9 @@ Selvvalgt %d
 Faks
 [Mobile]
 Mobil
-[Work Phone]
+[Work phone]
 Telefon Arbeid
-[Work Fax]
+[Work fax]
 Fax Jobb
 ;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
@@ -1698,13 +1698,13 @@ Notater
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Eier
-[View/Change My &Details...]
+[View/change my &details...]
 Se/Forandre Mine &Detaljer...
 ;file \src\core\stduseronline\useronline.cpp
-[%s is Online]
+[%s is online]
 %s er Pålogget
 ;file \src\modules\addcontact\addcontact.cpp
-[Add Contact]
+[Add contact]
 Legg til Kontakt
 [Please authorize my request and add me to your contact list.]
 Vennligst godta min forespørsel og legg meg til i din kontaktliste.
@@ -1715,7 +1715,7 @@ Selvvalgt status
 [%s (locked)]
 %s (låst)
 ;file \src\modules\clist\clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Ukjent Kontakt)
 ;file \src\modules\clist\clisttray.cpp
 [&Main menu]
@@ -1744,7 +1744,7 @@ Etternavn
 Brukernavn
 [FirstName LastName]
 Fornavn Etternavn
-['(Unknown Contact)']
+['(Unknown contact)']
 '(Ukjent Kontakt)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
@@ -1753,21 +1753,21 @@ Menyer
 [Customize]
 Tilpass
 ;file \src\modules\clist\groups.cpp
-[New Group]
+[New group]
 Ny Gruppe
-[Delete Group]
+[Delete group]
 Slett Gruppe
 [You already have a group with that name. Please enter a unique name for the group.]
 Du har allerede en gruppe med det navnet. Vennligst skriv inn et unikt navn for gruppen.
-[Rename Group]
+[Rename group]
 Gi nytt navn til Gruppen
 [This group]
 Denne gruppen
 ;file \src\modules\clist\keyboard.cpp
 ;file \src\modules\clist\movetogroup.cpp
-[&Move to Group]
+[&Move to group]
 &Flytt til Gruppe
-[<Root Group>]
+[<Root group>]
 <Root Gruppe>
 ;file \src\modules\database\database.cpp
 [No profile support installed!]
@@ -1788,19 +1788,19 @@ Kunne ikke opprette profilen '%s', feilen var %x
 Problem ved opprettelse av profil
 [&Create]
 &Lag
-[<In Use>]
+[<In use>]
 <I Bruk>
 [Size]
 Størrelse
 [Created]
 Opprettet
-[My Profiles]
+[My profiles]
 Mine Profiler
-[New Profile]
+[New profile]
 Ny Profil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
-[Chat Activity]
+[Chat activity]
 Samtaleaktivitet
 ;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
@@ -1816,9 +1816,9 @@ Resultater
 Det er ingen resultater å vise.
 [Searching]
 Søker
-[All Networks]
+[All networks]
 Alle Nettverk
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Finn/Legg til Kontakter
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -1842,7 +1842,7 @@ Ingen brukere funnet
 Skrifter
 ;file \src\modules\fonts\FontService.cpp
 ;file \src\modules\icolib\skin2opts.cpp
-[Icon Sets]
+[Icon sets]
 Ikonpakker
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
@@ -1863,7 +1863,7 @@ Nettverk
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <Alle moduler>
-[Miranda NG Options]
+[Miranda NG options]
 Miranda NG Innstillinger
 [&Options...]
 &Valg...
@@ -1898,41 +1898,41 @@ Konfigurer
 [System]
 System
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Bruker Pålogget
-[Group (Open)]
+[Group (open)]
 Gruppe (Åpen)
-[Group (Closed)]
+[Group (closed)]
 Gruppe (Stengt)
 [Connecting]
 Kobler til
-[User Details]
+[User details]
 Brukerdetaljer
 [History]
 Historikk
-[Down Arrow]
+[Down arrow]
 Pil Ned
-[Find User]
+[Find user]
 Finn Bruker
 [Send E-mail]
 Send E-post
 [SMS]
 SMS
-[Search All]
+[Search all]
 Søk Alle
 [Tick]
 Tikk
-[No Tick]
+[No tick]
 Ingen Tikk
 [Help]
 Hjelp
 [Miranda website]
 Miranda Webside
-[Small Dot]
+[Small dot]
 Liten Prikk
-[Filled Blob]
+[Filled blob]
 Fylt Blabb
-[Empty Blob]
+[Empty blob]
 Tomt Blabb
 [Unicode plugin]
 Unicode plugin
@@ -1956,23 +1956,23 @@ Forespør godkjenning
 Godkjenn autorisasjon
 [Revoke authorization]
 Tilbakekall godkjenning
-[%s Icons]
+[%s icons]
 %s Ikoner
-[Main Icons]
+[Main icons]
 Hovedikoner
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Du trenger en bildetjeneste plugin for å behandle PNG bilder.
-[All Bitmaps]
+[All bitmaps]
 Alle Bitmaps
-[Windows Bitmaps]
+[Windows bitmaps]
 Vindu Bitmaps
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG Bitmaps
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF Bitmaps
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG Bitmaps
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp

@@ -175,7 +175,7 @@ Zichtbaarheid
 U bent zichtbaar voor deze persoon zelfs wanneer in onzichtbare modus
 [You are never visible to this person]
 U bent nooit zichtbaar voor deze persoon
-[Icon Index]
+[Icon index]
 Icoon indez
 [Icon library:]
 Icoon bibliotheek
@@ -334,7 +334,7 @@ Status wijzigingen
 Informatie
 [Notices]
 Meldingen
-[Log Options]
+[Log options]
 Log opties
 [Log timestamp]
 Log tijdstempel
@@ -1443,7 +1443,7 @@ Personen
 Netwerk
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
-[Miranda NG Options]
+[Miranda NG options]
 Miranda NG opties
 [&Options...]
 &Opties...
@@ -1468,9 +1468,9 @@ Instellen
 [System]
 Systeem
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Gebruiker Online
-[Group (Open)]
+[Group (open)]
 Groep (Open)
 [Connecting]
 Verbinden
@@ -1482,11 +1482,11 @@ Geschiedenis
 Aan
 [Off]
 Uit
-[Main Icons]
+[Main icons]
 Hoofd iconen
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
-[All Bitmaps]
+[All bitmaps]
 Alle bitmaps
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp

@@ -2031,37 +2031,37 @@ Ajouter un autre raccourci
 [System]
 Système
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Utilisateur en ligne
-[Group (Open)]
+[Group (open)]
 Groupe ouvert
-[Group (Closed)]
+[Group (closed)]
 Groupe Fermé
 [Connecting]
 Connexion...
 [History]
 Historique
-[Down Arrow]
+[Down arrow]
 Flèche bas
-[Find User]
+[Find user]
 Chercher un contact
 [Send E-mail]
 envoyer e-mail
-[Search All]
+[Search all]
 rechercher tous
 [Tick]
 Coché
-[No Tick]
+[No tick]
 Décoché
 [Help]
 Aide
 [Miranda website]
 Site de Miranda
-[Small Dot]
+[Small dot]
 Petit point
-[Filled Blob]
+[Filled blob]
 Blog rempli
-[Empty Blob]
+[Empty blob]
 Blog vidé
 [Unicode plugin]
 Plugin Unicode
@@ -2083,25 +2083,25 @@ Demander l'autorisation
 Accorder l'autorisation
 [Revoke authorization]
 Enlever l'autorisation
-[Status Icons]
+[Status icons]
 Icônes d'état
-[%s Icons]
+[%s icons]
 Icônes %s
-[Main Icons]
+[Main icons]
 Icônes principales
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
-[All Bitmaps]
+[All bitmaps]
 Toutes les images
-[Windows Bitmaps]
+[Windows bitmaps]
 Bitmap Windows
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Images JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Images GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Images PNG
 ;file \src\modules\utils\path.cpp
 ;file \src\modules\utils\timezones.cpp

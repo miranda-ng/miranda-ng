@@ -461,7 +461,7 @@ Mostra conteggio del numero dei contatti in un gruppo
 Nascondi conteggio del gruppo se nessuno è online
 [Sort groups alphabetically]
 Gruppi in ordine alfabetico
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Ricerca veloce solo nei gruppi aperti
 [Indent groups by:]
 Rientra gruppi di:
@@ -1296,11 +1296,11 @@ Configura
 [System]
 Sistema
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Utente online
-[Group (Open)]
+[Group (open)]
 Gruppo (Aperto)
-[Group (Closed)]
+[Group (closed)]
 Gruppo (Chiuso)
 [Connecting]
 In connessione
@@ -1318,19 +1318,19 @@ Esci
 Frame
 [Request authorization]
 Richiesta di autorizzazione
-[%s Icons]
+[%s icons]
 Icone %s
-[Main Icons]
+[Main icons]
 Icone principali
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
-[All Bitmaps]
+[All bitmaps]
 Tutti i tipi di bitmap
-[Windows Bitmaps]
+[Windows bitmaps]
 Bitmap di Windows
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Immagini JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Immagini GIF
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp

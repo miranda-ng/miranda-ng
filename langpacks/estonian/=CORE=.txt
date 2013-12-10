@@ -1053,7 +1053,7 @@ Võrgustik
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <kõik moodulid>
-[Miranda NG Options]
+[Miranda NG options]
 Miranda NG valikud
 [&Options...]
 &Valikud...
@@ -1082,19 +1082,19 @@ Kontod...
 [System]
 Süsteem
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Kasutaja sees
 [User details]
 Kasutaja detailid
 [History]
 Ajalugu
-[Find User]
+[Find user]
 Otsi kasutajat
 [Send E-mail]
 Saada e-mail
 [SMS]
 SMS
-[Search All]
+[Search all]
 Otsi kõiki
 [Help]
 Spikker
@@ -1108,9 +1108,9 @@ Välju
 Põhimenüü
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
-[All Bitmaps]
+[All bitmaps]
 Kõik bittrasterid
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG bittraster
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp
