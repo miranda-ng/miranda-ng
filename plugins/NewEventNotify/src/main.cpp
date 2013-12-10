@@ -124,7 +124,10 @@ int HookedInit(WPARAM, LPARAM)
 	hHookedNewEvent = HookEvent(ME_DB_EVENT_ADDED, HookedNewEvent);
 	// Plugin sweeper support
 	if (ServiceExists("PluginSweeper/Add"))
-    CallService("PluginSweeper/Add", (WPARAM)MODULE, (LPARAM)MODULE);
+		CallService("PluginSweeper/Add", (WPARAM)MODULE, (LPARAM)MODULE);
+
+	if (pluginOptions.bMenuitem)
+		MenuitemInit(!pluginOptions.bDisable);
 
 	g_IsSrmmWindowAPI = ServiceExists(MS_MSG_GETWINDOWDATA) != 0;
 	return 0;
@@ -154,9 +157,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	OptionsInit(&pluginOptions);
 	pluginOptions.hInst = hInst;
-
-	if (pluginOptions.bMenuitem)
-		MenuitemInit(!pluginOptions.bDisable);
 
 	return 0;
 }
