@@ -222,7 +222,7 @@
 Настройки
 [Filters]
 Филтри
-[Fonts & Colors]
+[Fonts and colors]
 Шрифтове и цветове
 [Icons]
 Икони

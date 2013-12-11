@@ -29,7 +29,7 @@
 Настройки
 [Authorization request]
 Молба за упълномощаване
-[Delete Contact]
+[Delete contact]
 Изтриване на контакта
 [&Yes]
 Да
@@ -43,7 +43,7 @@
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
 Ще бъде изтрита изтрита историята и настройките за контакта!
-[Contact Display Options]
+[Contact display options]
 Изобразяване на контактите
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Ако не желаете контактите Ви да бъдат изобразявани с прякора им можете да изберете друг тип име. Влачете за да промените подредбата:
@@ -55,7 +55,7 @@ Miranda NG диспечер на профили
 Изход
 [Start in Service Mode with]
 Стартиране в сервизен режим с:
-[Find/Add Contacts]
+[Find/Add contacts]
 Търсене/Добавяне на контакти
 [Search:]
 Търсене:
@@ -81,7 +81,7 @@ Miranda NG диспечер на профили
 Добавяне в списъка
 [Custom]
 Избор
-[Find/Add Contacts\nHere you can add contacts to your contact list]
+[Find/Add contacts\nHere you can add contacts to your contact list]
 Търсене/Добавяне на контакти\nОт тук можете да добавите нови контакти в списъка
 [Options\nConfigure your Miranda NG options]
 Настройки\nКонфигурирайте настройките на Miranda NG
@@ -91,7 +91,7 @@ Miranda NG диспечер на профили
 Опростен вид на настройките
 [Please select a subentry from the list]
 Моля, изберете подраздел от списъка вляво
-[Install Database Settings]
+[Install database settings]
 Инсталиране на нови настройки в базата от данни
 [Yes]
 Да
@@ -107,7 +107,7 @@ Miranda NG диспечер на профили
 Съдържание
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди промени, за които не е известно да са безопасни.
-[Database Setting Change]
+[Database setting change]
 Промяна в базата от данни
 [Database settings are being imported from]
 Внасяне на настройки в базата от данни от
@@ -119,9 +119,9 @@ Miranda NG диспечер на профили
 Желаете ли да позволите тази промяна?
 [&Allow all further changes to this section]
 Разреши всички следващи промени в секцията
-[Cancel Import]
+[Cancel import]
 Отказ от вноса
-[Database Import Complete]
+[Database import complete]
 Внасянето на базата от данни завърши
 [The import has completed from]
 
@@ -135,7 +135,7 @@ Miranda NG диспечер на профили
 Преместване/Преименуване
 [&Leave]
 Излизане
-[Netlib Log Options]
+[Netlib log options]
 Настройки на дневника на мрежовите връзки
 [Show]
 Показване
@@ -165,7 +165,7 @@ OutputDebugString()
 Показване на този прозорец, когато Miranda NG стартира
 [Save as default]
 Запис като стандарт
-[SSL Traffic]
+[SSL traffic]
 SSL трафик
 [Sounds]
 Звук
@@ -175,7 +175,7 @@ SSL трафик
 Образец
 [Download more sounds]
 Сваляне на още звуци
-[Sound Information]
+[Sound information]
 Информация за звука
 [Location:]
 Местоположение:
@@ -201,11 +201,11 @@ SSL трафик
 URL адреси
 [Files]
 Файлове
-[Online Notification]
+[Online notification]
 Уведомяване "На линия"
-[Auth Requests]
+[Auth requests]
 Молби за упълномощаване
-[All Events]
+[All events]
 Всички събития
 [None]
 Няма
@@ -213,7 +213,7 @@ URL адреси
 Само отметнатите контакти ще бъдат видими в списъка с контакти
 [Ignore]
 Игнориране
-[Added Notification]
+[Added notification]
 Уведомяване за добавяне
 [Typing]
 Пише
@@ -223,7 +223,7 @@ URL адреси
 Винаги сте видим за този човек, дори и при състояние Невидим
 [You are never visible to this person]
 Винаги сте невидим за този човек
-[Icon Index]
+[Icon index]
 Индекс на иконите
 [Icon library:]
 Библиотека на иконите:
@@ -241,7 +241,7 @@ URL адреси
 Стандартни икони за състоянието
 [Logging...]
 Записване...
-[Outgoing Connections]
+[Outgoing connections]
 Изходящи връзки
 [Use proxy server]
 Ползване на прокси сървър
@@ -253,7 +253,7 @@ URL адреси
 Порт:
 [(often %d)]
 (често %d)
-[Use Custom Login (Domain login picked up automatically)]
+[Use custom login (domain login picked up automatically)]
 
 [Username:]
 Потребител:
@@ -261,13 +261,13 @@ URL адреси
 Парола:
 [Resolve hostnames through proxy]
 Откриване имената на хостовете чрез прокси сървъра
-[Port Range:]
+[Port range:]
 Портов обхват:
 [Example: 1050-1070, 2000-2010, 2500]
 Пример: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
 Потвърждаване на SSL сертификатите
-[Incoming Connections]
+[Incoming connections]
 Входящи връзки
 [Enable UPnP port mapping]
 
@@ -303,7 +303,7 @@ URL адреси
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
 Моля, рестартирайте Miranda NG, за да бъдат осъществени промените.
-[Fonts and Colors]
+[Fonts and colors]
 Шрифтове и цветове
 [Undo]
 Отмяна
@@ -311,13 +311,13 @@ Copyright:
 Анулиране
 [Export...]
 Износ...
-[Color/Background]
+[(Background) Color]
 Фонов цвят
-[Text Effect]
+[Text effect]
 Ефекти
-[Text Color]
+[Text color]
 Цвят на текста
-[Choose Font]
+[Choose font]
 Избор на шрифт
 [Font]
 Шрифт
@@ -347,9 +347,9 @@ Copyright:
 Прилагане
 [&Help]
 Помощ
-[Menu Objects]
+[Menu objects]
 Менюта
-[Menu Items]
+[Menu items]
 Елементи
 [Protocol menus]
 Менюта на протоколите
@@ -357,7 +357,7 @@ Copyright:
 в главното меню
 [Move to the status bar]
 в лентата за състояние
-[Warning!\r\nThis MenuObject not support user defined options.]
+[Warning!\r\nThis menu object not support user defined options.]
 Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
 [Insert separator]
 Вмъкване на разделител
@@ -371,11 +371,11 @@ Copyright:
 Изключи иконите
 [Show accounts in the following order,\ndrag to choose another order:]
 Показване на акаунтите в следния ред,\nвлачете, за да промените реда:
-[Account Order && Visibility]
+[Account order and visibility]
 Ред и видимост на акаунтите
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
-[Key Bindings]
+[Key bindings]
 
 [Shortcut:]
 Препратка:
@@ -383,9 +383,9 @@ Copyright:
 Добавяне
 [Remove]
 Премахване
-[Undo Changes]
+[Undo changes]
 Отменяна на промените
-[Reset To Default]
+[Reset to default]
 Стандарт
 [Hotkeys]
 Клавишни комбинации
@@ -415,7 +415,7 @@ Copyright:
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG се рестартира.\nМоля, изчакайте...
-[Error Console]
+[Error console]
 
 [Error notifications]
 Уведомяване за грешки
@@ -437,7 +437,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Легенда на иконите за събития:
 [Choose events you wish to ignore:]
 Кои събития да бъдат игнорирани:
-[Font Effect]
+[Font effect]
 Ефекти на шрифта
 [Effect:]
 Ефект:
@@ -449,8 +449,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Втори цвят:
 [Select the extra icons to be shown in the contact list:]
 Изберете допълнителни икони за показване в списъка с контакти:
-[* only the first %d icons will be shown]
-* ще бъдат показани само първите %d икони
+[*only the first %d icons will be shown]
+*ще бъдат показани само първите %d икони
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+CTRL и popup менюто (десен бутон)
 [Tray]
@@ -461,47 +461,47 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Изход
 [Nowhere]
 Никъде
-[&New Group]
+[&New group]
 Нова група
-[&Hide Offline Users]
+[&Hide offline users]
 Скриване на контактите "Извън линия"
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скриване на контактите "Извън линия" тук
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скриване на празните групи
-[Disable &Groups]
+[Disable &groups]
 Без групи
 [Hide Miranda]
 Скриване на Miranda
 [Group]
 Група
-[&New Subgroup]
+[&New subgroup]
 Нова подгрупа
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Скриване на контактите "Извън линия" тук
-[&Rename Group]
+[&Rename group]
 Преименуване на групата
-[&Delete Group]
+[&Delete group]
 Изтриване на групата
 [&Reset to default]
 Стандарт
 [find/add]
 
-[&Add to List]
+[&Add to list]
 Добавяне в списъка
 [User &details]
 Подробности за потребителя
-[Send &Message]
+[Send &message]
 Изпращане на съобщение
 [Log]
 Дневник
 [&Copy]
 Копиране
-[Co&py All]
+[Co&py all]
 Копиране на всичко
-[Select &All]
+[Select &all]
 Маркиране на всичко
-[C&lear Log]
+[C&lear log]
 Изчистване на дневника
 [Open in &new window]
 Отваряне в нов прозорец
@@ -509,10 +509,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отваряне в съществуващ прозорец
 [&Copy link]
 Копиране на връзката
-[Cancel Change]
+[Cancel change]
 Отказ на промяната
-[&Reset To Default]
-Стандарт
 [Ungroup]
 Дегрупиране
 ;file \src\core\stdauth\resource.rc
@@ -520,24 +518,24 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Приемане
 [&Deny]
 Отхвърляне
-[Decide &Later]
+[Decide &later]
 Попитай по-късно
 [Reason:]
 Причина:
-[Denial Reason:]
+[Denial reason:]
 Причина за отказ:
 [Add to contact list if authorized]
 Добавяне в списъка с контакти при приемане
-[You Were Added]
+[You were added]
 Вие бяхте добавен
 [&Close]
 Затваряне
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Текст "%s" на %s
 [Retrieving %s message...]
 Извличане на текста "%s"...
-[Status Messages]
+[Status messages]
 Текст за състояние
 [Do not reply to requests for this message]
 Без отговор на запитвания за това съобщение
@@ -551,7 +549,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Използвайте %time% и %date% за текущ час и дата.
 [Status messages:]
 Текст за състояние:
-[Change %s Message]
+[Change %s message]
 Промяна на текста "%s"
 [Closing in %d]
 Затваряне след %d
@@ -580,7 +578,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Изгонване на потребител
 [Notices]
 Известия
-[Log Options]
+[Log options]
 Настройки на дневника
 [Log timestamp]
 В дневника
@@ -630,8 +628,6 @@ Popup за приставката Chat
 Съобщение
 [Clear lo&g]
 Изчистване на дневника
-[Co&py all]
-Копиране на всичко
 [Word lookup]
 Търсене на дума
 [Google]
@@ -654,7 +650,7 @@ Wikipedia
 Изрязване
 [Paste]
 Поставяне
-[Select All]
+[Select all]
 Избор - всичко
 [Clear]
 Изчистване
@@ -699,13 +695,13 @@ Wikipedia
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[Contact List]
+[Contact list]
 Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
 Режим на иконата в трея, когато се използват няколко протокола
-[Contact List Sorting]
+[Contact list sorting]
 Сортиране на списъка с контакти по:
 [Window]
 Прозорец
@@ -769,7 +765,7 @@ Wikipedia
 Полупрозрачност на отличения текст
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 Скриване като извън линия:
 [Groups]
 Групи
@@ -781,7 +777,7 @@ Wikipedia
 Скриване на броя, когато всички са "Извън линия"
 [Sort groups alphabetically]
 Сортиране на групите по азбучен ред
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Бързо търсене само в отворените групи
 [Indent groups by:]
 Отстъп на групите:
@@ -805,7 +801,7 @@ Wikipedia
 Корекция на гамата
 [Gray out entire list when:]
 Посивяване на списъка, когато:
-[Contact List Background]
+[Contact list background]
 Фон на списъка с контакти
 [Background color]
 Цвят на фона
@@ -827,7 +823,7 @@ Wikipedia
 Пропорционално разтягане
 [Use Windows colors]
 Цветове от Windows
-[Status Bar]
+[Status bar]
 Лента за състояние
 [Show status bar]
 Показване на лента за състояние
@@ -875,22 +871,22 @@ Wikipedia
 Готов за чат\tCtrl+6
 [&Invisible\tCtrl+7]
 Невидим\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На телефона\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Изпрати файл(ове)
 [To:]
 За:
 [File(s):]
 Файлове:
-[&Choose Again...]
+[&Choose again...]
 Изберете отново...
 [Total size:]
 Общ размер:
-[Incoming File Transfer]
+[Incoming file transfer]
 Входящ файл
 [A&ccept]
 Приемане
@@ -912,7 +908,7 @@ Wikipedia
 Прехвърлянето е завършено, отваряне на файла.
 [No data transferred]
 Няма прехвърлена информация
-[File Already Exists]
+[File already exists]
 Файлът вече съществува
 [Resume]
 Продължаване
@@ -944,7 +940,7 @@ Wikipedia
 Инф. за файла
 [File being received]
 Получаване на файл
-[File Transfers]
+[File transfers]
 Обмен на файлове
 [Clear completed]
 Изчистване на завършените
@@ -954,7 +950,7 @@ Wikipedia
 Получаване на файлове
 [Received files folder:]
 Папка на файловете:
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Позволени променливи: %userid% %nick% %proto% %miranda_path% %userprofile%
 [Auto-accept incoming files from people on my contact list]
 Автоматично приемане на файлове, изпратени от хора в списъка с контакти
@@ -1018,7 +1014,7 @@ Miranda
 Промяна на състоянието ми на:
 [Do not set status back to online when returning from idle]
 Без задаване на старото състояние след излизане от бездействие
-[Idle Options]
+[Idle options]
 Настройки
 [Become idle if application full screen]
 Бездействащ при програма работеща на целия екран
@@ -1057,7 +1053,7 @@ Miranda
 Показване броя на знаците
 [Show warning when message has not been received after]
 Предупреждение, ако съобщение не е получено след
-[Support control up/down in message area to show previously sent messages]
+[Support CTRL+Up/Down in message area to show previously sent messages]
 Показване на вече изпратените съобщения чрез Ctrl + стрелка нагоре/надолу
 [Delete temporary contacts when closing message window]
 Изтриване на временните контакти след затваряне на прозореца
@@ -1065,9 +1061,9 @@ Miranda
 Поддръжка на аватари в прозореца за съобщения
 [Limit avatar height to]
 Височина на аватара до
-[Max Number of Flashes]
+[Maximum number of flashes]
 Максимален брой мигания
-[Send Error]
+[Send error]
 Грешка при изпращането
 [An error has occurred. The protocol reported the following error:]
 Възникна следната грешка:
@@ -1075,9 +1071,9 @@ Miranda
 при опит за изпращане на следното съобщение:
 [Try again]
 Опитай отново
-[Message Session]
+[Message session]
 Разговор
-[Message Window Event Log]
+[Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Show names]
 Показване на имена
@@ -1097,9 +1093,9 @@ Miranda
 Промяна на състояние
 [Show seconds]
 Показване на секунди
-[Load History Events]
+[Load history events]
 Допълнително зареждани събития
-[Show Formatting]
+[Show formatting]
 
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
@@ -1121,23 +1117,23 @@ Miranda
 
 [&Open link]
 Отваряне на връзката
-[Paste && Send]
+[Paste and send]
 Поставяне и изпращане
 [Delete]
 Изтриване
 ;file \src\core\stduihist\resource.rc
 [Find]
 Намери
-[&Find Next]
+[&Find next]
 Намери >>
-[Find What:]
+[Find what:]
 Намери какво:
-[Message History]
+[Message history]
 История на съобщенията
 [&Find...]
 Търсене...
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Добавяне на телефонен номер
 [Enter country, area code and phone number:]
 Въведете код на държавата, областта и тел. номер:
@@ -1145,13 +1141,13 @@ Miranda
 Или въведете целия международен номер:
 [Phone can receive SMS text messages]
 Телефонът може да получава SMS съобщения
-[Add E-Mail Address]
+[Add e-mail address]
 Добавяне на имейл
-[%s: User Details]
+[%s: user details]
 %s: Подробности за потребителя
 [%s\nView personal user details and more]
 %s\nПреглед на потребителските данни
-[Update Now]
+[Update now]
 Обновяване
 [Updating]
 Актуализиране
@@ -1221,7 +1217,7 @@ Miranda
 [Added event]
 Добавяне на събитие
 ;file \src\core\stdauth\authdialogs.cpp
-[View User's Details]
+[View user's details]
 Подробности за потребителя
 [Add Contact Permanently to List]
 Добавяне на контакта за постоянно в списъка
@@ -1235,8 +1231,6 @@ Miranda
 %s ви добави в списъка си с контакти\n%s (Акаунт: %s)
 [(Unknown)]
 (Неизвестен)
-[View User Details]
-Подробности за потребителя
 [%s requested authorization\n%u (%s) on %s]
 %s изпрати молба за упълномощаване%u (%s) (Акаунт: %s)
 [%s requested authorization\n%u on %s]
@@ -1246,9 +1240,9 @@ Miranda
 [Feature is not supported by protocol]
 Не се поддържа от протокола
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 Показване на текста "%s"
-[Re&ad Status Message]
+[Re&ad status message]
 Показване на текста за състояние
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -1281,8 +1275,6 @@ Miranda
 [Open chat window]
 Отваряне на чат прозорец
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Цвят на текста
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s влезе
@@ -1353,15 +1345,15 @@ Miranda
 Списък с прякори (Отсъстващ)
 [Use a tabbed interface]
 Ползване на табове
-[Close tab on doubleclick]
+[Close tab on double click]
 Затваряне на таб при двукратно натискане
 [Restore previously open tabs when showing the window]
 Възстановяване на последно отворените табове при показване на прозореца
 [Show tabs at the bottom]
 Табове на дъното
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 Изпращане на съобщение с натискане на бутона "Enter"
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 Изпращане на съобщение с двукратно натискане на бутона "Enter"
 [Flash window when someone speaks]
 Мигане на прозореца при ново съобщение
@@ -1507,17 +1499,17 @@ Miranda
 Показване на popups за информационни съобщения
 [Show popup for status changes]
 Показване на popups при промяна на състояние
-[Chat Module]
+[Chat module]
 Чат модул
-[Message Background]
+[Message background]
 Фон на съобщенията
-[Userlist Background]
+[User list background]
 Фон на списъка с прякори
-[Userlist Lines]
+[User list lines]
 
-[Userlist Background (selected)]
+[User list background (selected)]
 Фон на списъка с прякори (маркирано)
-[Window Icon]
+[Window icon]
 Икона на прозореца
 [Bold]
 Удебеляване
@@ -1559,7 +1551,7 @@ Miranda
 Изходящо съобщение (10x10)
 [Action (10x10)]
 Действие (10х10)
-[Add Status (10x10)]
+[Add status (10x10)]
 Добавяне на състояние (10х10)
 [Remove status (10x10)]
 Премахване на състояние (10x10)
@@ -1571,7 +1563,7 @@ Miranda
 Изход (10x10)
 [Kick (10x10)]
 Изгонване (10х10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Промяна на прякор (10х10)
 [Notice (10x10)]
 Известие (10x10)
@@ -1601,13 +1593,13 @@ Miranda
 Икони за изобразяване в трея
 [Popups to display]
 Popups за изобразяване
-[Select Folder]
+[Select folder]
 Избор на папка
-[Message Sessions]
+[Message sessions]
 Разговори
 [General]
 Основни
-[Chat Log]
+[Chat log]
 Чат дневник
 [Chat]
 
@@ -1694,15 +1686,15 @@ Popups за изобразяване
 Включване/Изключване на филтъра за събития (CTRL+F)
 [Close current tab (CTRL+F4)]
 Затваряне на текущия таб (CTRL+F4)
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Чат стая (%u потребител)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Чат стая (%u потребителя)
-[%s: Message Session]
+[%s: message session]
 %s: Разговор
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Разговор (%u потребителя)
-[Nick name]
+[Nickname]
 Прякор
 [Unique ID]
 
@@ -1721,11 +1713,11 @@ Popups за изобразяване
 Разделители
 [Offline contacts to whom you have a different visibility]
 Контакти "Извън линия", към които имате различна видимост
-[Selected Text]
+[Selected text]
 Маркиран текст
-[Hottrack Text]
+[Hottrack text]
 Посочен текст
-[Quicksearch Text]
+[Quicksearch text]
 Бързо търсен текст
 ;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
@@ -1750,7 +1742,7 @@ Popups за изобразяване
 На обяд
 [On the phone]
 На телефона
-[List Background]
+[List background]
 Фон на списъка
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1835,8 +1827,6 @@ Popups за изобразяване
 
 [Moving to next file...]
 
-[File already exists]
-Файлът вече съществува.
 [Sending...]
 Изпращане...
 [Receiving...]
@@ -2252,8 +2242,6 @@ URL
 Текстови файлове
 [Error writing file]
 Грешка при записването на файла
-[Fonts & Colors]
-Шрифтове и цветове
 [Sample Text]
 Примерен текст
 [Fonts]
@@ -2432,7 +2420,7 @@ Win +\s
 Група (затворена)
 [Connecting]
 Свързване
-[User Details]
+[User details]
 Подробности за потребителя
 [History]
 История
@@ -2639,8 +2627,8 @@ PNG изображения
 Коморски острови
 [Congo]
 Конго
-[Congo, the Democratic Republic of the]
-Демократична република Конго (Заир)
+[Congo, Democratic Republic of the]
+Демократична република Конго
 [Cook Islands]
 острови Кук (Cook)
 [Costa Rica]
@@ -2745,8 +2733,8 @@ PNG изображения
 Индия
 [Indonesia]
 Индонезия
-[Iran, Islamic Republic of]
-Иран, Ислямска република
+[Iran]
+Иран
 [Iraq]
 Ирак
 [Ireland]
@@ -2827,7 +2815,7 @@ PNG изображения
 Мексико
 [Micronesia, Federated States of]
 Микронезия
-[Moldova, Republic of]
+[Moldova]
 Молдова
 [Monaco]
 Монако
@@ -2969,7 +2957,7 @@ PNG изображения
 Швеция
 [Switzerland]
 Швейцария
-[Syrian Arab Republic]
+[Syria]
 Сирия
 [Taiwan, Province of China]
 Тайван, провинция на Китай

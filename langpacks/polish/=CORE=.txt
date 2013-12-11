@@ -2650,7 +2650,7 @@ Kolumbia
 Komory
 [Congo]
 Kongo
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 Demokratyczna Republika Konga
 [Cook Islands]
 Wyspy Cooka
@@ -2756,7 +2756,7 @@ Islandia
 Indie
 [Indonesia]
 Indonezja
-[Iran, Islamic Republic of]
+[Iran]
 Iran
 [Iraq]
 Irak
@@ -2838,7 +2838,7 @@ Majotta
 Meksyk
 [Micronesia, Federated States of]
 Mikronezja
-[Moldova, Republic of]
+[Moldova]
 Mołdawia
 [Monaco]
 Monako
@@ -2980,7 +2980,7 @@ Suazi
 Szwecja
 [Switzerland]
 Szwajcaria
-[Syrian Arab Republic]
+[Syria]
 Syryjska Republika Arabska
 [Taiwan, Province of China]
 Tajwan

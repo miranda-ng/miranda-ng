@@ -492,7 +492,7 @@ ICQ
 ЦАР
 [Chad]
 Чад
-[Chile, Republic of]
+[Chile]
 Чылі
 [China]
 КНР
@@ -500,7 +500,7 @@ ICQ
 Калумбія
 [Comoros]
 Каморы
-[Congo, Democratic Republic of (Zaire)]
+[Congo, Democratic Republic of the]
 ДР Конга - ДРК і Конга (Кіншасы)
 [Congo, Republic of the]
 Конга (Бразавіль)
@@ -508,7 +508,7 @@ ICQ
 Выспы Кука
 [Costa Rica]
 Коста-Рыка
-[Cote d'Ivoire (Ivory Coast)]
+[Cote d'Ivoire]
 Кот-д'Івуар
 [Croatia]
 Харватыя
@@ -598,7 +598,7 @@ ICQ
 Індыя
 [Indonesia]
 Інданезія
-[Iran (Islamic Republic of)]
+[Iran]
 Іран
 [Iraq]
 Ірак
@@ -638,7 +638,7 @@ ICQ
 Лесота
 [Liberia]
 Ліберыя
-[Libyan Arab Jamahiriya]
+[Libya]
 Лівія
 [Liechtenstein]
 Ліхтэнштэйн
@@ -670,13 +670,13 @@ ICQ
 Маўрытанія
 [Mauritius]
 Маўрыкій
-[Mayotte Island]
+[Mayotte]
 Майотта
 [Mexico]
 Мексіка
 [Micronesia, Federated States of]
 Мікранезія
-[Moldova, Republic of]
+[Moldova]
 Малдова
 [Monaco]
 Манака
@@ -740,7 +740,7 @@ ICQ
 Пуэрта-Рыка
 [Qatar]
 Катар
-[Reunion Island]
+[Reunion]
 Рэюньён
 [Romania]
 Румынія
@@ -794,8 +794,8 @@ ICQ
 Швецыя
 [Switzerland]
 Швейцарыя
-[Syrian Arab Republic]
-Сірыйская Арабская Рэспубліка
+[Syria]
+Сірыя
 [Taiwan]
 Тайвань
 [Tajikistan]

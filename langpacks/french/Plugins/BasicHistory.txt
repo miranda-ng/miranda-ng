@@ -58,7 +58,7 @@ Effacer
 Répondre en citant
 [Delete Group]
 Effacer un groupe
-[Fonts & Colors]
+[Fonts and colors]
 Police et couleur
 [Icons]
 Icônes

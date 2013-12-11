@@ -12,7 +12,7 @@ E-mail:
 Parool:
 [Cancel]
 Tühista
-[User Details]
+[User details]
 Kasutaja detailid
 [Text]
 Tekst

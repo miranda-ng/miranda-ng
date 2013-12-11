@@ -29,7 +29,7 @@ Gruppe:
 Einstellungen
 [Authorization request]
 Autorisierungsanfrage
-[Delete Contact]
+[Delete contact]
 Kontakt löschen
 [&Yes]
 Ja
@@ -43,7 +43,7 @@ Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
 Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
-[Contact Display Options]
+[Contact display options]
 Namensanzeige in der Kontaktliste
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Festlegen, welcher Name eines Kontakts in der Kontaktliste angezeigt werden soll:
@@ -55,7 +55,7 @@ Ausfüh&ren
 B&eenden
 [Start in Service Mode with]
 Starte im Servicemodus mit
-[Find/Add Contacts]
+[Find/Add contacts]
 Kontakte suchen/hinzufügen
 [Search:]
 Suche:
@@ -81,7 +81,7 @@ Weitere Einstellungen
 Zur Liste hinzufügen
 [Custom]
 Benutzerdef.
-[Find/Add Contacts\nHere you can add contacts to your contact list]
+[Find/Add contacts\nHere you can add contacts to your contact list]
 Kontakte suchen/hinzufügen\nHiermit können Sie Kontakte zur Kontaktliste hinzufügen
 [Options\nConfigure your Miranda NG options]
 Einstellungen\nHier können Sie Ihre Miranda-NG-Einstellungen anpassen.
@@ -91,7 +91,7 @@ Einstellungen\nHier können Sie Ihre Miranda-NG-Einstellungen anpassen.
 Einfache Ansicht der Einstellungen
 [Please select a subentry from the list]
 Bitte einen Unterpunkt aus der Baumstruktur auswählen.
-[Install Database Settings]
+[Install database settings]
 Datenbankeinstellungen installieren
 [Yes]
 Ja
@@ -107,7 +107,7 @@ Nein für alle
 Inhalt zeigen
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet, und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
-[Database Setting Change]
+[Database setting change]
 Änderung Profileinstellungen
 [Database settings are being imported from]
 Datenbankeinstellungen werden importiert von
@@ -119,9 +119,9 @@ auf den Wert
 Diese Änderungen zulassen?
 [&Allow all further changes to this section]
 &Alle weiteren Änderungen in diesem Bereich erlauben
-[Cancel Import]
+[Cancel import]
 Importierung abbrechen
-[Database Import Complete]
+[Database import complete]
 Datenbank-Import abgeschlossen
 [The import has completed from]
 Der Import wurde abgeschlossen von
@@ -135,7 +135,7 @@ Löschen
 Verschieben/U&mbenennen
 [&Leave]
 Ver&lassen
-[Netlib Log Options]
+[Netlib log options]
 Netlib-Logeinstellungen
 [Show]
 Zeige
@@ -165,7 +165,7 @@ Starten
 Diesen Dialog zeigen, wenn Miranda NG startet
 [Save as default]
 Als Standard speichern
-[SSL Traffic]
+[SSL traffic]
 SSL-Verkehr
 [Sounds]
 Klänge
@@ -175,7 +175,7 @@ Klänge
 Vorschau
 [Download more sounds]
 Weitere Klänge herunterladen
-[Sound Information]
+[Sound information]
 Klanghinweis
 [Location:]
 Ort:
@@ -201,11 +201,11 @@ Nachrichten
 URLs
 [Files]
 Dateien
-[Online Notification]
+[Online notification]
 Statusbenachrichtigungen
-[Auth Requests]
+[Auth requests]
 Autorisierungsanfragen
-[All Events]
+[All events]
 Alle Ereignisse
 [None]
 Keine
@@ -213,7 +213,7 @@ Keine
 Nur aktivierte Kontakte werden in der Kontaktliste angezeigt
 [Ignore]
 Ignorieren
-[Added Notification]
+[Added notification]
 "Sie wurden hinzugefügt"
 [Typing]
 Tippen
@@ -223,7 +223,7 @@ Sichtbarkeit
 Auch im 'Unsichtbar'-Status für diesen Kontakt sichtbar sein
 [You are never visible to this person]
 Niemals für diesen Kontakt sichtbar sein
-[Icon Index]
+[Icon index]
 Iconindex
 [Icon library:]
 Iconsammlung:
@@ -241,7 +241,7 @@ An
 Als Standard-Statusicon
 [Logging...]
 Logeinstell.
-[Outgoing Connections]
+[Outgoing connections]
 Ausgehende Verbindungen
 [Use proxy server]
 Proxyserver benutzen
@@ -253,7 +253,7 @@ Host:
 Port:
 [(often %d)]
 (oft %d)
-[Use Custom Login (Domain login picked up automatically)]
+[Use custom login (domain login picked up automatically)]
 Benutzerdefiniertes Login (Domainlogin automatisch finden)
 [Username:]
 Benutzername:
@@ -261,13 +261,13 @@ Benutzername:
 Passwort:
 [Resolve hostnames through proxy]
 Hostnamen durch Proxy auflösen
-[Port Range:]
+[Port range:]
 Portbereich:
 [Example: 1050-1070, 2000-2010, 2500]
 Beispiel: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
 SSL-Zertifikate überprüfen
-[Incoming Connections]
+[Incoming connections]
 Eingehende Verbindungen
 [Enable UPnP port mapping]
 UPnP-Portweiterleitungen aktivieren
@@ -303,7 +303,7 @@ Unique ID:
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
 Sie müssen Miranda NG neu starten, bevor diese Änderungen wirksam werden.
-[Fonts and Colors]
+[Fonts and colors]
 Schriften und Farben
 [Undo]
 Rückgängig
@@ -311,13 +311,13 @@ Rückgängig
 Standard
 [Export...]
 Exportieren
-[Color/Background]
+[(Background) Color]
 Farbe/Hintergrund
-[Text Effect]
+[Text effect]
 Texteffekt
-[Text Color]
+[Text color]
 Textfarbe
-[Choose Font]
+[Choose font]
 Schriftart auswählen
 [Font]
 Schriftart
@@ -347,9 +347,9 @@ Sp&rache:
 Übernehmen
 [&Help]
 &Hilfe
-[Menu Objects]
+[Menu objects]
 Menüobjekte
-[Menu Items]
+[Menu items]
 Menüeinträge
 [Protocol menus]
 Protokollmenüs
@@ -357,7 +357,7 @@ Protokollmenüs
 In das Hauptmenü setzen
 [Move to the status bar]
 In die Statusleiste setzen
-[Warning!\r\nThis MenuObject not support user defined options.]
+[Warning!\r\nThis menu object not support user defined options.]
 Warnung!\r\nDieses Menüobjekt kann nicht vom Benutzer angepasst werden!
 [Insert separator]
 Trennlinie einfügen
@@ -371,11 +371,11 @@ Setzen
 Icons deaktivieren
 [Show accounts in the following order,\ndrag to choose another order:]
 Zeige Konten in folgender Reihenfolge, Elemente sind verschiebbar
-[Account Order && Visibility]
+[Account order and visibility]
 Konten Reihenfolge und Sichtbarkeit
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Hinweis: Bei Änderungen ist ein Neustart von Miranda NG erforderlich.
-[Key Bindings]
+[Key bindings]
 Tastenzuordnungen
 [Shortcut:]
 Kürzel:
@@ -383,9 +383,9 @@ Kürzel:
 Hinzufügen
 [Remove]
 Entfernen
-[Undo Changes]
+[Undo changes]
 Änderungen rückgängig
-[Reset To Default]
+[Reset to default]
 Auf Standard zurücksetzen
 [Hotkeys]
 Hotkeys
@@ -415,7 +415,7 @@ Einstellungen
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Mianda NG wird neu gestartet.\nBitte warten...
-[Error Console]
+[Error console]
 Fehlerkonsole
 [Error notifications]
 Fehlerbenachrichtigungen
@@ -437,7 +437,7 @@ Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten e
 Zeichenerklärung:
 [Choose events you wish to ignore:]
 Die folgenden Ereignisse werden ignoriert:
-[Font Effect]
+[Font effect]
 Texteffekt
 [Effect:]
 Effekt:
@@ -449,7 +449,7 @@ Deckkraft:
 Zweite Farbe:
 [Select the extra icons to be shown in the contact list:]
 Wählen Sie die Extraicons aus, welche in der Kontaktliste angezeigt werden sollen:
-[* only the first %d icons will be shown]
+[*only the first %d icons will be shown]
 Hinweis: Nur die ersten %d Icons werden angezeigt!
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Wählen Sie mehrere Elemente mit gedrückter Umschalt- oder Strg-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
@@ -461,47 +461,47 @@ Zeigen/Ausblenden
 B&eenden
 [Nowhere]
 Nirgends
-[&New Group]
+[&New group]
 &Neue Gruppe
-[&Hide Offline Users]
+[&Hide offline users]
 Offline-Kontakte ausblenden
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 &Offline-Kontakte außerhalb ausblenden
-[Hide &Empty Groups]
+[Hide &empty groups]
 L&eere Gruppen ausblenden
-[Disable &Groups]
+[Disable &groups]
 &Gruppen deaktivieren
 [Hide Miranda]
 Miranda ausblenden
 [Group]
 Gruppe
-[&New Subgroup]
+[&New subgroup]
 &Neue Untergruppe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Offline-Kontakte &hier ausblenden
-[&Rename Group]
+[&Rename group]
 G&ruppe umbenennen
-[&Delete Group]
+[&Delete group]
 Gruppe löschen
 [&Reset to default]
 Zu&rücksetzen auf Standard
 [find/add]
 suchen/hinzufügen
-[&Add to List]
+[&Add to list]
 Zur Liste hinzufügen
 [User &details]
 Kontaktprofil
-[Send &Message]
+[Send &message]
 Nachricht senden
 [Log]
 Verlauf
 [&Copy]
 Kopieren
-[Co&py All]
+[Co&py all]
 Alles ko&pieren
-[Select &All]
+[Select &all]
 &Alles auswählen
-[C&lear Log]
+[C&lear log]
 Verlauf &leeren
 [Open in &new window]
 In &neuem Fenster öffnen
@@ -509,10 +509,8 @@ In &neuem Fenster öffnen
 In bestehendem Fenster öffnen
 [&Copy link]
 Link kopieren
-[Cancel Change]
+[Cancel change]
 Änderungen abbrechen
-[&Reset To Default]
-Standa&rdicon
 [Ungroup]
 Gruppierung aufheben
 ;file \src\core\stdauth\resource.rc
@@ -520,24 +518,24 @@ Gruppierung aufheben
 &Autorisieren
 [&Deny]
 &Ablehnen
-[Decide &Later]
+[Decide &later]
 &Später entscheiden
 [Reason:]
 Grund:
-[Denial Reason:]
+[Denial reason:]
 Grund der Ablehnung:
 [Add to contact list if authorized]
 Zur Kontakliste hinzufügen falls autorisiert
-[You Were Added]
+[You were added]
 Sie wurden hinzugefügt
 [&Close]
 S&chließen
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 '%s'-Nachricht von %s
 [Retrieving %s message...]
 Rufe '%s'-Nachricht ab...
-[Status Messages]
+[Status messages]
 Statusnachrichten
 [Do not reply to requests for this message]
 Anfragen nach dieser Nachricht nicht beantworten
@@ -551,7 +549,7 @@ Folgende Nachricht als Standard verwenden:
 %time%, %date% für die aktuelle Uhrzeit oder Datum
 [Status messages:]
 Statusnachrichten:
-[Change %s Message]
+[Change %s message]
 '%s'-Nachricht ändern
 [Closing in %d]
 In %d schließen
@@ -572,9 +570,9 @@ Smil&eys
 &Verlauf
 [&Filter]
 &Filter
-[&Room Settings]
+[&Room settings]
 &Raumeinstellungen
-[&Show/hide nicklist]
+[&Show/Hide nicklist]
 Nickliste &anzeigen/verbergen
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
@@ -598,7 +596,7 @@ Verbindungsabbrüche
 Gekickte Benutzer
 [Notices]
 Notizen
-[Log Options]
+[Log options]
 Verlaufseinstellungen
 [Log timestamp]
 Zeitstempel in Logdatei
@@ -648,8 +646,6 @@ Liste
 Nachricht
 [Clear lo&g]
 Verlauf löschen
-[Co&py all]
-Alles ko&pieren
 [Word lookup]
 Wort nachschlagen
 [Google]
@@ -672,7 +668,7 @@ Kopieren
 Ausschneiden
 [Paste]
 Einfügen
-[Select All]
+[Select all]
 Alles markieren
 [Clear]
 Löschen
@@ -717,13 +713,13 @@ Sekunden, wenn Status unterschiedlich
 Mehrere Icons anzeigen
 [Only when statuses differ]
 Nur, wenn Status untersch.
-[Contact List]
+[Contact list]
 Kontaktliste
 [System tray icon]
 Systemtray-Icon
 [System tray icon when using multiple protocols]
 Systemtray-Icon bei Benutzung mehrerer Protokolle
-[Contact List Sorting]
+[Contact list sorting]
 Sortierung der Kontaktliste
 [Window]
 Fenster
@@ -787,7 +783,7 @@ Markierung immer anzeigen
 Transparente Markierung
 [Dim idle contacts]
 Inaktive Kontakte abblenden
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
 [Groups]
 Gruppen
@@ -799,7 +795,7 @@ Anzahl der Kontakte in der Gruppe anzeigen
 Summe der Kontakte ausblenden, wenn niemand online ist
 [Sort groups alphabetically]
 Gruppen alphabetisch sortieren
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Schnellsuche nur in offenen Gruppen
 [Indent groups by:]
 Gruppen einrücken:
@@ -823,7 +819,7 @@ Zeilenhöhe:
 Gammakorrektur
 [Gray out entire list when:]
 Liste grau färben, wenn:
-[Contact List Background]
+[Contact list background]
 Hintergrund der Kontaktliste
 [Background color]
 Hintergrundfarbe
@@ -845,7 +841,7 @@ Mit Text scrollen
 Proportional strecken
 [Use Windows colors]
 Windowsfarben verwenden
-[Status Bar]
+[Status bar]
 Statusleiste
 [Show status bar]
 Statusleiste anzeigen
@@ -895,24 +891,24 @@ Bitte nicht st&ören\tStrg+5
 &Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
 Uns&ichtbar\tStrg+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Am Telefon\tStrg+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Datei(en) senden
 [To:]
 An:
 [File(s):]
 Datei(en):
-[&Choose Again...]
+[&Choose again...]
 Erneut auswählen...
 [Total size:]
 Gesamtgröße:
 [&User menu]
 &Kontaktmenü
-[Incoming File Transfer]
+[Incoming file transfer]
 Eingehende Dateiübertragung
 [A&ccept]
 Akzeptieren
@@ -934,7 +930,7 @@ Speichern nach:
 Übertragung beendet, Datei(en) öffnen.
 [No data transferred]
 Keine Daten übertragen
-[File Already Exists]
+[File already exists]
 Datei existiert bereits
 [Resume]
 Fortsetzen
@@ -968,7 +964,7 @@ Ordner öffnen
 Dateieigenschaften
 [File being received]
 Datei wird empfangen
-[File Transfers]
+[File transfers]
 Dateiübertragungen
 [Clear completed]
 Abgeschlossene entfernen
@@ -978,7 +974,7 @@ Schließen
 Dateien empfangen
 [Received files folder:]
 Ordner für Dateien:
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 Mögliche Variablen: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
 Dateien von Personen auf meiner Kontaktliste automatisch annehmen
@@ -1042,7 +1038,7 @@ für
 Meinen Status ändern zu:
 [Do not set status back to online when returning from idle]
 Status nicht automatisch zu 'Online' ändern, sobald Inaktivität vorbei
-[Idle Options]
+[Idle options]
 Untätigkeits-Einstellungen
 [Become idle if application full screen]
 Untätig werden, wenn eine Vollbildanwendung aktiviert wird
@@ -1081,7 +1077,7 @@ Doppel-'Enter' sendet Nachricht
 Zeichenzähler anzeigen
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
-[Support control up/down in message area to show previously sent messages]
+[Support CTRL+Up/Down in message area to show previously sent messages]
 Zuvor gesendete Nachrichten mit Strg + Auf/Ab erneut abrufen
 [Delete temporary contacts when closing message window]
 Temporäre Kontakte löschen, wenn Nachrichtenfenster geschlossen wird
@@ -1089,9 +1085,9 @@ Temporäre Kontakte löschen, wenn Nachrichtenfenster geschlossen wird
 Avatar-Unterstützung im Nachrichtenfenster aktivieren
 [Limit avatar height to]
 Avatarhöhe begrenzen auf
-[Max Number of Flashes]
+[Maximum number of flashes]
 Max. Anzahl Blinken
-[Send Error]
+[Send error]
 Fehler beim Senden
 [An error has occurred. The protocol reported the following error:]
 Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
@@ -1099,11 +1095,11 @@ Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 Während des Sendens folgender Nachricht:
 [Try again]
 Erneut versuchen
-[Message Session]
+[Message session]
 Nachrichtensitzung
 [&Details]
 &Details
-[Message Window Event Log]
+[Message window event log]
 Nachrichtenfenster-Ereignislog
 [Show names]
 Namen anzeigen
@@ -1123,9 +1119,9 @@ Minuten alt
 Statuswechsel anzeigen
 [Show seconds]
 Sekunden anzeigen
-[Load History Events]
+[Load history events]
 Vergangene Ereignisse laden
-[Show Formatting]
+[Show formatting]
 Formatierung anzeigen
 [Send typing notifications to the following users when you are typing a message to them:]
 An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
@@ -1147,23 +1143,23 @@ Verhalten des Nachrichtenfensters:
 Nachrichten:
 [&Open link]
 Link &öffnen
-[Paste && Send]
+[Paste and send]
 Einfügen && Senden
 [Delete]
 Löschen
 ;file \src\core\stduihist\resource.rc
 [Find]
 Suchen
-[&Find Next]
+[&Find next]
 Weitersuchen
-[Find What:]
+[Find what:]
 Suchen nach:
-[Message History]
+[Message history]
 Nachrichtenverlauf
 [&Find...]
 Suchen
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Telefonnummer hinzufügen
 [Enter country, area code and phone number:]
 Landes-, Ortsvorwahl und Rufnummer:
@@ -1171,13 +1167,13 @@ Landes-, Ortsvorwahl und Rufnummer:
 oder internationale Rufnummer:
 [Phone can receive SMS text messages]
 Telefon kann SMS-Nachrichten empfangen
-[Add E-Mail Address]
+[Add e-mail address]
 E-Mail-Adresse hinzufügen
-[%s: User Details]
+[%s: user details]
 %s: Benutzerdetails
 [%s\nView personal user details and more]
 %s\nPersönliche Benutzerdetails und mehr ansehen
-[Update Now]
+[Update now]
 Aktualisieren
 [Updating]
 Aktualisieren
@@ -1261,8 +1257,6 @@ Kontakt dauerhaft zur Liste hinzufügen
 %s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%s in %s
 [(Unknown)]
 (Unbekannt)
-[View User Details]
-Kontaktprofil anzeigen
 [%s requested authorization\n%u (%s) on %s]
 %s fragt nach einer Autorisierung\n%u (%s) unter %s
 [%s requested authorization\n%u on %s]
@@ -1272,9 +1266,9 @@ Kontaktprofil anzeigen
 [Feature is not supported by protocol]
 Diese Funktion wird durch dieses Protokoll nicht unterstützt
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 '%s'-N&achricht lesen
-[Re&ad Status Message]
+[Re&ad status message]
 St&atusnachricht lesen
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -1307,8 +1301,6 @@ Chat betreten
 [Open chat window]
 Chatfenster öffnen
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Textfarbe
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s ist beigetreten
@@ -1379,15 +1371,15 @@ Benutzerliste (online)
 Benutzerliste (abwesend)
 [Use a tabbed interface]
 Chatfenster mit Tabs verwenden
-[Close tab on doubleclick]
+[Close tab on double click]
 Tabs mit Doppelklick schließen
 [Restore previously open tabs when showing the window]
 Vorher geöffnete Tabs beim Öffnen des Fensters wiederherstellen
 [Show tabs at the bottom]
 Tabs unten anzeigen
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 Nachricht beim Drücken der Entertaste senden
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 Nachricht beim doppelten Drücken der Entertaste senden
 [Flash window when someone speaks]
 Fenster blinkt, wenn jemand schreibt
@@ -1533,17 +1525,17 @@ Popup für Namensänderungen anzeigen
 Popup für Informationsnachrichten anzeigen
 [Show popup for status changes]
 Popup für Statusänderungen anzeigen
-[Chat Module]
+[Chat module]
 Chatfenster
-[Message Background]
+[Message background]
 Nachrichten-Hintergrund
-[Userlist Background]
+[User list background]
 Benutzerliste Hintergrund
-[Userlist Lines]
+[User list lines]
 Linien Kontaktliste
-[Userlist Background (selected)]
+[User list background (selected)]
 Benutzerliste, ausgewählter Benutzer
-[Window Icon]
+[Window icon]
 Fenstericon
 [Bold]
 Fett
@@ -1585,7 +1577,7 @@ Eingehende Nachricht (10x10)
 Ausgehende Nachrichten (10x10)
 [Action (10x10)]
 Aktion (10x10)
-[Add Status (10x10)]
+[Add status (10x10)]
 Status hinzufügen (10x10)
 [Remove status (10x10)]
 Status entfernen (10x10)
@@ -1597,7 +1589,7 @@ Verlassen (10x10)
 Beenden (10x10)
 [Kick (10x10)]
 Kick (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Nick ändern (10x10)
 [Notice (10x10)]
 Notiz (10x10)
@@ -1627,13 +1619,13 @@ Folgende Icons im Verlaufsfenster anzeigen
 Folgende Icons im Tray anzeigen
 [Popups to display]
 Folgende Popups anzeigen
-[Select Folder]
+[Select folder]
 Ordner wählen
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [General]
 Allgemein
-[Chat Log]
+[Chat log]
 Chatverlauf
 [Chat]
 Chat
@@ -1720,15 +1712,15 @@ Diesen Raum kontrollieren (Strg+O)
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Close current tab (CTRL+F4)]
 Aktuellen Tab schließen (Strg+F4)
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Chatraum (%u Benutzer)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Chatraum (%u Benutzer)
-[%s: Message Session]
+[%s: message session]
 %s: Nachrichtensitzung
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Nachrichtensitzung (%u Benutzer)
-[Nick name]
+[Nickname]
 Nickname
 [Unique ID]
 Unique ID
@@ -1747,11 +1739,11 @@ Kontaktzähler einer Gruppe
 Trennlinien
 [Offline contacts to whom you have a different visibility]
 Offline-Kontakte mit anderer Sichtbarkeit
-[Selected Text]
+[Selected text]
 Markierter Text
-[Hottrack Text]
+[Hottrack text]
 Hottracktext
-[Quicksearch Text]
+[Quicksearch text]
 Schnellsuche-Text
 ;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
@@ -1776,7 +1768,7 @@ Unsichtbar
 Zum Essen
 [On the phone]
 Am Telefon
-[List Background]
+[List background]
 Hintergrund Liste
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1866,8 +1858,6 @@ Verbunden
 Vorbereitung...
 [Moving to next file...]
 Nächste Datei...
-[File already exists]
-Datei existiert bereits
 [Sending...]
 Sende...
 [Receiving...]
@@ -2283,8 +2273,6 @@ Konfigurationsdateien
 Textdateien
 [Error writing file]
 Fehler beim Schreiben der Datei
-[Fonts & Colors]
-Schriften & Farben
 [Sample Text]
 Beispieltext
 [Fonts]
@@ -2463,7 +2451,7 @@ Gruppe (offen)
 Gruppe (geschlossen)
 [Connecting]
 Verbinden
-[User Details]
+[User details]
 Kontaktprofil
 [History]
 Verlauf
@@ -2670,7 +2658,7 @@ Kolumbien
 Comoren
 [Congo]
 Kongo
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 Kongo, demokratische Republik
 [Cook Islands]
 Cook-Inseln
@@ -2776,8 +2764,8 @@ Island
 Indien
 [Indonesia]
 Indonesien
-[Iran, Islamic Republic of]
-Iran, Islamische Republik
+[Iran]
+Iran
 [Iraq]
 Irak
 [Ireland]
@@ -2858,7 +2846,7 @@ Mayotte
 Mexiko
 [Micronesia, Federated States of]
 Föderierte Staaten von Mikronesien
-[Moldova, Republic of]
+[Moldova]
 Moldawien
 [Monaco]
 Monaco
@@ -3000,8 +2988,8 @@ Swaziland
 Schweden
 [Switzerland]
 Schweiz
-[Syrian Arab Republic]
-Arabische Republik Syrien
+[Syria]
+Syrien
 [Taiwan, Province of China]
 Taiwan, Provinz von China
 [Tajikistan]

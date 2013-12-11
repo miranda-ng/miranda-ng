@@ -661,9 +661,9 @@ Esc затваря разговора (минимизира прозореца, 
 Създаване на прозореца в минимизирано състояние
 [Send on Shift+Enter]
 Изпращане със SHIFT+Enter
-[Send message on Enter]
+[Send message on 'Enter']
 Изпращане на съобщение с "Enter"
-[Send message on double Enter]
+[Send message on double 'Enter']
 Изпращане на съобщение с двукратно натискане на бутона "Enter"
 [Minimize the message window on send]
 Минимизиране на прозореца след изпращане
@@ -885,7 +885,7 @@ Mаксимална ширина за лента с бутони
 Лентата с инструменти на дъното
 [Title Bar]
 Заглавна лента
-[Tabs at Bottom]
+[Tabs at the bottom]
 Табове на дъното
 [Window Flashing]
 Мигане на прозореца
@@ -1010,8 +1010,6 @@ Popups за събития
 Настройване за контейнер\n%s
 [Tabs at the top]
 Табове на върха
-[Tabs at the bottom]
-Табове на дъното
 [Switch bar on the left side]
 Лента за смяна отляво
 [Switch bar on the right side]
@@ -1473,7 +1471,7 @@ Latin I
 Входящо съобщение
 [Outgoing message]
 Изходящо съобщение
-[Statuschange]
+[Status change]
 Промяна на състояние
 [Static container icon]
 Статична икона за контейнера
@@ -1700,10 +1698,6 @@ TabSRMM съобщение (%s)
 Изпращане на съобщения
 [Send on SHIFT - Enter]
 Изпращане със SHIFT+Enter
-[Send message on 'Enter']
-Изпращане на съобщение с "Enter"
-[Send message on double 'Enter']
-Двукратно натискане на "Enter" изпраща съобщение
 [Close the message window on send]
 Затваряне на прозореца след изпращане
 [Always flash contact list and tray icon for new messages]

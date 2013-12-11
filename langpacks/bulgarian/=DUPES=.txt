@@ -16,7 +16,7 @@
 Настройки
 [Authorization request]
 Молба за упълномощаване
-[Delete Contact]
+[Delete contact]
 Изтриване на контакта
 [&Yes]
 Да
@@ -52,7 +52,7 @@
 Избор
 [Apply]
 Прилагане
-[Install Database Settings]
+[Install database settings]
 Инсталиране на нови настройки в базата от данни
 [Yes]
 Да
@@ -68,7 +68,7 @@
 Съдържание
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди промени, за които не е известно да са безопасни.
-[Database Setting Change]
+[Database setting change]
 Промяна в базата от данни
 [Database settings are being imported from]
 Внасяне на настройки в базата от данни от
@@ -80,9 +80,9 @@
 Желаете ли да позволите тази промяна?
 [&Allow all further changes to this section]
 Разреши всички следващи промени в секцията
-[Cancel Import]
+[Cancel import]
 Отказ от вноса
-[Database Import Complete]
+[Database import complete]
 Внасянето на базата от данни завърши
 [What do you want to do with the file now?]
 Какво желаете да стане с файла?
@@ -154,7 +154,7 @@ Copyright:
 Анулиране
 [Export...]
 Износ...
-[Text Color]
+[Text color]
 Цвят на текста
 [Font]
 Шрифт
@@ -164,7 +164,7 @@ Copyright:
 Прилагане
 [&Help]
 Помощ
-[Warning!\r\nThis MenuObject not support user defined options.]
+[Warning!\r\nThis menu object not support user defined options.]
 Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
 [Service:]
 Услуга:
@@ -198,27 +198,27 @@ Copyright:
 Показване/Скриване
 [E&xit]
 Изход
-[&New Group]
+[&New group]
 Нова група
-[&Hide Offline Users]
+[&Hide offline users]
 Скриване на контактите "Извън линия"
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скриване на контактите "Извън линия" тук
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скриване на празните групи
-[Disable &Groups]
+[Disable &groups]
 Без групи
 [Hide Miranda]
 Скриване на Miranda
 [Group]
 Група
-[&New Subgroup]
+[&New subgroup]
 Нова подгрупа
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Скриване на контактите "Извън линия" тук
-[&Rename Group]
+[&Rename group]
 Преименуване на групата
-[&Delete Group]
+[&Delete group]
 Изтриване на групата
 [User &Details]
 Подробности за потребителя
@@ -226,11 +226,11 @@ Copyright:
 Дневник
 [&Copy]
 Копиране
-[Co&py All]
+[Co&py all]
 Копиране на всичко
-[Select &All]
+[Select &all]
 Маркиране на всичко
-[C&lear Log]
+[C&lear log]
 Изчистване на дневника
 [Open in &new window]
 Отваряне в нов прозорец
@@ -240,19 +240,19 @@ Copyright:
 Копиране на връзката
 [&Deny]
 Отхвърляне
-[You Were Added]
+[You were added]
 Вие бяхте добавен
 [&Close]
 Затваряне
-[%s Message for %s]
+[%s message for %s]
 Текст "%s" на %s
 [Retrieving %s message...]
 Извличане на текста "%s"...
-[Status Messages]
+[Status messages]
 Текст за състояние
 [Use %time% for the current time, %date% for the current date]
 Използвайте %time% и %date% за текущ час и дата.
-[Change %s Message]
+[Change %s message]
 Промяна на текста "%s"
 [Closing in %d]
 Затваряне след %d
@@ -280,7 +280,7 @@ Copyright:
 Изгонване на потребител
 [Notices]
 Известия
-[Log Options]
+[Log options]
 Настройки на дневника
 [Log timestamp]
 В дневника
@@ -322,8 +322,6 @@ Copyright:
 Съобщение
 [Clear lo&g]
 Изчистване на дневника
-[Co&py all]
-Копиране на всичко
 [Word lookup]
 Търсене на дума
 [Link]
@@ -342,7 +340,7 @@ Copyright:
 Изрязване
 [Paste]
 Поставяне
-[Select All]
+[Select all]
 Избор - всичко
 [Clear]
 Изчистване
@@ -688,7 +686,7 @@ Copyright:
 Добавяне на контакта за постоянно в списъка
 [<Unknown>]
 <Неизвестно>
-[Re&ad %s Message]
+[Re&ad %s message]
 Показване на текста "%s"
 [I've been away since %time%.]
 Отсъствам от %time%.
@@ -708,8 +706,6 @@ Copyright:
 Влизане в чата
 [Open chat window]
 Отваряне на чат прозорец
-[Text color]
-Цвят на текста
 [%s has joined]
 %s влезе
 [You have joined %s]

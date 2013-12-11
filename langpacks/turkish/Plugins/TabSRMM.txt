@@ -525,7 +525,7 @@ Araç Çubuğunu Göster
 Araç Çubuğunu Aşağı Koy
 [Title Bar]
 Başlık Çubuğu
-[Tabs at Bottom]
+[Tabs at the bottom]
 Sekmeler Aşağı
 [Window Flashing]
 Pencere Yanıp Sönmesi
@@ -580,8 +580,6 @@ Varsayılan Protokolü Ayarla
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [Container options]
 Kutu seçenekleri
-[Tabs at the bottom]
-Sekmeler aşağıda
 [Globally on]
 Genel açık
 [On, if present]
@@ -741,7 +739,7 @@ Oda ayarları
 Alınan ileti
 [Outgoing message]
 Gönderilen ileti
-[Statuschange]
+[Status change]
 Durumdeğişikliği
 [Static container icon]
 Durağan kutu simgesi

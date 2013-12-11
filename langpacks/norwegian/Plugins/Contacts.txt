@@ -18,7 +18,7 @@ Lukk
 En feil har inntruffet. Protokollen rapporterte følgende feil:
 [Try again]
 Forsøk igjen
-[User Details]
+[User details]
 Brukerdetaljer
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

@@ -39,7 +39,7 @@ Miranda NG Profiel Beheerder
 Uitvoe&ren
 [&Exit]
 Afsluiten
-[Find/Add Contacts]
+[Find/Add contacts]
 Personen zoeken/toevoegen
 [Search:]
 Zoeken:
@@ -382,8 +382,6 @@ Lijst
 Bericht
 [Clear lo&g]
 Lo&g opschonen
-[Co&py all]
-Alles ko&piëren
 [Open a &new browser window]
 Een &nieuw browser scherm openen
 [&Open in current browser window]

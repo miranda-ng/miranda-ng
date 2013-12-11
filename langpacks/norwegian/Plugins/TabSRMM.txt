@@ -441,7 +441,7 @@ Vis Statuslinje
 Vis Verktøylinje
 [Title Bar]
 Tittellinje
-[Tabs at Bottom]
+[Tabs at the bottom]
 Faner på Bunn
 [Window Flashing]
 Vindublinking
@@ -496,8 +496,6 @@ Sett Standardprotokoll
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [Container options]
 Beholdervalg
-[Tabs at the bottom]
-Faner på bunnen
 [Globally on]
 Globalt på
 [On, if present]
@@ -639,7 +637,7 @@ Meldingsleverings feil
 Innkommende melding
 [Outgoing message]
 Utgående melding
-[Statuschange]
+[Status change]
 Statusendring
 [Static container icon]
 Statisk beholderikon

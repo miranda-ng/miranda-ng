@@ -34,7 +34,7 @@
 タブ
 [Enable tabs]
 タブを有効
-[Tabs at bottom]
+[Tabs at the bottom]
 タブは一番下
 [Limit names on tabs to]
 タブの名前を以下に制限
@@ -365,7 +365,7 @@ Unicode オフ
 コンタクトを追加
 [User Menu]
 ユーザーメニュー
-[User Details]
+[User details]
 ユーザーの詳細情報
 [History]
 履歴

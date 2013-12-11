@@ -391,9 +391,9 @@ Sempre pop-up e ativar novas janelas
 Criar novas janelas no estado minimizado
 [Send on Shift+Enter]
 Enviar em Shift Enter
-[Send message on Enter]
+[Send message on 'Enter']
 Enviar mensagem clicando em Enter
-[Send message on double Enter]
+[Send message on double 'Enter']
 Enviar mensagem em duplo Enter
 [Minimize the message window on send]
 Minimizar a janela de mensagem ao enviar
@@ -832,7 +832,7 @@ Mensagem de erro de entrega
 Mensagem recebida
 [Outgoing message]
 Enviando mensagem
-[Statuschange]
+[Status change]
 Mundança de Status
 [Static container icon]
 Ícone do contêiner estático
@@ -935,10 +935,6 @@ Comportamento da janela de mensagem
 Envio de mensagens
 [Send on SHIFT - Enter]
 Enviar em SHIFT - Enter
-[Send message on 'Enter']
-Enviar mensagem clicando em 'Enter'
-[Send message on double 'Enter']
-Enviar mensagem no duplo Enter
 [Close the message window on send]
 Feche a janela de mensagens ao enviar
 [Always flash contact list and tray icon for new messages]

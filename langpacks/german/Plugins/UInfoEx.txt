@@ -615,7 +615,7 @@ UserInfoEx
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Kontakt ex-/importieren
-[User &Details]
+[User &details]
 Kontaktprofil
 [&Export User Details]
 Benutzerinfo &exportieren

@@ -215,7 +215,7 @@
 Налаштування
 [Filters]
 Фільтри
-[Fonts & Colors]
+[Fonts and colors]
 Шрифти і кольори
 [Icons]
 Значки

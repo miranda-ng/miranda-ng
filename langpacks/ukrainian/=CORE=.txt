@@ -2529,7 +2529,7 @@ ANSI-плагін
 Коморські о-ви
 [Congo, Republic of the]
 Конго, Республіка
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 Конго, Демократична Республіка
 [Cook Islands]
 о-ви Кука
@@ -2635,7 +2635,7 @@ ANSI-плагін
 Індія
 [Indonesia]
 Індонезія
-[Iran, Islamic Republic of]
+[Iran]
 Іран
 [Iraq]
 Ірак
@@ -2765,7 +2765,7 @@ ANSI-плагін
 Пакистан
 [Palau]
 Палау
-[Palestinian Territory]
+[Palestinian Territories]
 Палестинські території
 [Panama]
 Панама
@@ -2788,10 +2788,10 @@ ANSI-плагін
 [Qatar]
 Катар
 [Reunion]
-о. Реюньйон
+Реюньйон
 [Romania]
 Румунія
-[Russian Federation]
+[Russia]
 Росія
 [Rwanda]
 Руанда
@@ -2916,7 +2916,7 @@ ANSI-плагін
 [Virgin Islands (United States)]
 Віргінські о-ви (США)
 [Wallis and Futuna]
-о-ви Уолліс і Футуна
+Уолліс і Футуна
 [Western Sahara]
 Сахарська Арабська Демократична Республіка
 [Yemen]

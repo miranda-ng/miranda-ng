@@ -18,7 +18,7 @@ Fechar
 Ocorreu um erro. O protocolo reportou o seguinte erro:
 [Try again]
 Tentar novamente
-[User Details]
+[User details]
 Detalhes do Usuário
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

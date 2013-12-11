@@ -24,7 +24,7 @@ Her kişi için boyut ve konumu kaydet
 saniye
 [Tabs]
 Sekmeler
-[Tabs at bottom]
+[Tabs at the bottom]
 Sekmeler altta
 [Limit names on tabs to]
 Sekme adlarını şuna sınırla
@@ -291,7 +291,7 @@ Grup sohbetleri
 Kişi Ekle
 [User Menu]
 Kullanıcı Menüsü
-[User Details]
+[User details]
 Kullanıcı Detayları
 [History]
 Geçmiş

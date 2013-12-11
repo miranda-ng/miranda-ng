@@ -486,7 +486,7 @@ Kamerun
 Kanada
 [Canary Islands]
 Wyspy Kanaryjskie
-[Cape Verde Islands]
+[Cape Verde]
 Wyspy Zielonego Przylądka
 [Cayman Islands]
 Kajmany
@@ -494,7 +494,7 @@ Kajmany
 Republika Środkowoafrykańska
 [Chad]
 Czad
-[Chile, Republic of]
+[Chile]
 Chile
 [China]
 Chiny
@@ -502,15 +502,15 @@ Chiny
 Kolumbia
 [Comoros]
 Komory
-[Congo, Democratic Republic of (Zaire)]
-Kongo, Demokratyczna Republika (Zair)
+[Congo, Democratic Republic of the]
+Kongo, Demokratyczna Republika
 [Congo, Republic of the]
 Kongo
 [Cook Islands]
 Wyspy Cooka
 [Costa Rica]
 Kostaryka
-[Cote d'Ivoire (Ivory Coast)]
+[Cote d'Ivoire]
 Wybrzeże Kości Słoniowej
 [Croatia]
 Chorwacja
@@ -546,7 +546,7 @@ Estonia
 Etiopia
 [Europe]
 Europa
-[Faeroe Islands]
+[Faroe Islands]
 Wyspy Owcze
 [Falkland Islands]
 Falklandy
@@ -606,7 +606,7 @@ Islandia
 Indie
 [Indonesia]
 Indonezja
-[Iran (Islamic Republic of)]
+[Iran]
 Iran
 [Iraq]
 Irak
@@ -646,7 +646,7 @@ Libia
 Lesotho
 [Liberia]
 Liberia
-[Libyan Arab Jamahiriya]
+[Libya]
 Liban
 [Liechtenstein]
 Liechtenstein
@@ -678,13 +678,13 @@ Martynika
 Mauretania
 [Mauritius]
 Mauritius
-[Mayotte Island]
+[Mayotte]
 Majotta
 [Mexico]
 Meksyk
 [Micronesia, Federated States of]
 Mikronezja
-[Moldova, Republic of]
+[Moldova]
 Mołdawia
 [Monaco]
 Monako
@@ -758,8 +758,8 @@ Portugalia
 Portoryko
 [Qatar]
 Katar
-[Reunion Island]
-Wyspa Reunion
+[Reunion]
+Reunion
 [Romania]
 Rumunia
 [Russia]
@@ -822,7 +822,7 @@ Suazi
 Szwecja
 [Switzerland]
 Szwajcaria
-[Syrian Arab Republic]
+[Syria]
 Syryjska Republika Arabska
 [Taiwan]
 Tajwan
@@ -882,17 +882,17 @@ Wyspy Dziewicze (Wielka Brytania)
 Wyspy Dziewicze (USA)
 [Wales]
 Walia
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 Wallis i Futuny
 [Yemen]
 Jemen
 [Yugoslavia]
 Jugosławia
-[Serbia, Republic of]
+[Serbia]
 Serbia
 [Kosovo, Republic of]
 Kosowo
-[Montenegro, Republic of]
+[Montenegro]
 Czarnogóra
 [Zambia]
 Zambia

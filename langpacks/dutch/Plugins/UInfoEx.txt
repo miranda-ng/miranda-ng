@@ -403,7 +403,7 @@ Feest later
 Waarschuwing: Uw huidige versie van IconPack is verschillen dan degene UserInfoEx is voor ontwikkeld.\nSommige iconen kunnen niet goed worden weergegeven
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 Gebruikers &details
 [&Export User Details]
 Gebruiker details &exporteren

@@ -64,7 +64,7 @@ Zavrieť
 
 [Debug]
 
-[User &Details]
+[User &details]
 Informácie o užívatelovi
 [Export selected]
 Výber exportu

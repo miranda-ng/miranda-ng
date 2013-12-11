@@ -406,7 +406,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Angola]
 Ангола
 [Anguilla]
-Ангуилья
+Ангілья
 [Antigua and Barbuda]
 Антигуа і Барбуда
 [Argentina]
@@ -454,19 +454,19 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Bolivia]
 Болівія
 [Bosnia and Herzegovina]
-Боснія та Герцеговина
+Боснія і Герцеговина
 [Botswana]
 Ботсвана
 [Brazil]
 Бразилія
 [British Virgin Islands]
-Британські Віргінські острови
+Британські Віргінські о-ви
 [Brunei]
 Бруней
 [Bulgaria]
 Болгарія
 [Burkina Faso]
-Буркіна Фасо
+Буркіна-Фасо
 [Burundi]
 Бурунді
 [Cambodia]
@@ -477,32 +477,32 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 Канада
 [Canary Islands]
 Канарські о-ви
-[Cape Verde Islands]
-о-ви Зеленого Мису
+[Cape Verde]
+Кабо-Верде
 [Cayman Islands]
 Кайманові о-ви
 [Central African Republic]
-Центрально-Африканська Республіка
+Центральноафриканська Республіка
 [Chad]
 Чад
-[Chile, Republic of]
-Республіка Чилі
+[Chile]
+Чилі
 [China]
-Китай (КНР)
+Китай
 [Colombia]
 Колумбія
 [Comoros]
-Коморські о-ва
-[Congo, Democratic Republic of (Zaire)]
-Демократична республіка Конго (Заїр)
+Коморські о-ви
+[Congo, Democratic Republic of the]
+Конго, Демократична Республіка
 [Congo, Republic of the]
-Республіка Конго
+Конго, Республіка
 [Cook Islands]
-о Кука
+о-ви Кука
 [Costa Rica]
 Коста-Ріка
-[Cote d'ivoire (Ivory Coast)]
-Республіка Кот-Д'івуар
+[Cote d'Ivoire]
+Кот-д'Івуар
 [Croatia]
 Хорватія
 [Cuba]
@@ -510,7 +510,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Greek, Republic of South Cyprus]
 Кіпр (Республіка Південного Кіпру)
 [Czech Republic]
-Чеська республіка
+Чехія
 [Denmark]
 Данія
 [Diego Garcia]
@@ -537,7 +537,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 Ефіопія
 [Europe]
 Європа
-[Faeroe Islands]
+[Faroe Islands]
 Фарерські о-ви
 [Falkland Islands]
 Фолклендські о-ви
@@ -574,7 +574,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Guadeloupe]
 Гваделупа
 [Guam, US Territory of]
-Територія Гуам (США)
+Гуам (США)
 [Guatemala]
 Гватемала
 [Guinea]
@@ -597,8 +597,8 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 Індія
 [Індонезія]
 Індонезія
-[Iran (Islamic Republic of)]
-Ісламська Республіка Іран
+[Iran]
+Іран
 [Iraq]
 Ірак
 [Ireland]
@@ -620,9 +620,9 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Kiribati]
 Кірібаті
 [Korea, North]
-Північна Корея (КНДР)
+КНДР, Північна Корея
 [Korea, South]
-Республіка Корея
+Корея, Республіка (Південна Корея)
 [Kuwait]
 Кувейт
 [Kyrgyzstan]
@@ -637,7 +637,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 Лесото
 [Liberia]
 Ліберія
-[Libyan Arab Jamahiriya]
+[Libya]
 Лівія
 [Liechtenstein]
 Ліхтенштейн
@@ -646,9 +646,9 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Luxembourg]
 Люксембург
 [Macau]
-Макао
+Макао (Аоминь)
 [Macedonia, Republic of]
-Республіка Македонія
+Македонія
 [Madagascar]
 Мадагаскар
 [Malawi]
@@ -656,7 +656,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Malaysia]
 Малайзія
 [Maldives]
-Мальдівські острови
+Мальдіви
 [Mali]
 Малі
 [Malta]
@@ -669,20 +669,20 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 Мавританія
 [Mauritius]
 Маврикій
-[Mayotte Island]
-о. Майотт
+[Mayotte]
+Майотта
 [Mexico]
 Мексика
 [Micronesia, Federated States of]
 Мікронезія
-[Moldova, Republic of]
-Республіка Молдова
+[Moldova]
+Молдова
 [Monaco]
 Монако
 [Mongolia]
 Монголія
 [Montserrat]
-Монсеррат
+Монтсеррат
 [Morocco]
 Марокко
 [Mozambique]
@@ -692,7 +692,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Namibia]
 Намібія
 [Nauru]
-Республіка Науру
+Науру
 [Nepal]
 Непал
 [Netherlands]
@@ -700,7 +700,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Netherlands Antilles]
 Нідерландські Антильські о-ви
 [St. Maarten]
-Сінт-Маартен
+Сінт-Мартен
 [Curacao]
 Кюрасао
 [Netherlands (Bonaire Island)]
@@ -722,7 +722,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Niue]
 Ніуе
 [Northern Mariana Islands, US Territory of]
-Північні Маріанські о-ви, територія США
+Північні Маріанські о-ви (США)
 [Norway]
 Норвегія
 [Oman]
@@ -749,8 +749,8 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 Пуерто-Ріко
 [Qatar]
 Катар
-[Reunion Island]
-о. Реюньон
+[Reunion]
+Реюньон
 [Romania]
 Румунія
 [Russia]
@@ -758,21 +758,21 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Rwanda]
 Руанда
 [Samoa (USA)]
-Американські Самоа
+Американське Самоа
 [Samoa, Western]
-Незалежна держава Самоа
+Самоа
 [Saint Helena]
 о. Святої Єлени
-[Saint Кітс and Nevis]
-Сент-Крістофер і Невіс
+[Saint Kitts and Nevis]
+Сент-Кіттс і Невіс
 [Saint Lucia]
-Санта Лусия
+Сент-Люсія
 [Saint Pierre and Miquelon]
 Сен-П'єр і Мікелон
 [Saint Vincent and the Grenadines]
 Сен-Вінсент і Гренадіни
 [San Marino]
-Сан-Марино
+Сан-Маріно
 [Sao Tome and Principe]
 Сан-Томе і Прінсіпі
 [Saudi Arabia]
@@ -796,13 +796,13 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Somalia]
 Сомалі
 [South Africa]
-Південна Африка
+Південно-Африканська Республіка
 [Spain]
 Іспанія
 [Spain, Canary Islands]
-Канарські острови (Іспанія)
+Канарські о-ви (Іспанія)
 [Sri Lanka]
-Шрі Ланка
+Шрі-Ланка
 [Sudan]
 Судан
 [Suriname]
@@ -813,7 +813,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 Швеція
 [Switzerland]
 Швейцарія
-[Syrian Arab Republic]
+[Syria]
 Сирія
 [Тайвань]
 Тайвань
@@ -822,9 +822,9 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Tanzania]
 Танзанія
 [Thailand]
-Тайланд
+Таїланд
 [Timor, East]
-Східний Тимор
+Східний Тімор
 [Togo]
 Того
 [Tokelau]
@@ -832,7 +832,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Tonga]
 Тонга
 [Trinidad and Tobago]
-Тринідад і Тобаго
+Трінідад і Тобаго
 [Tunisia]
 Туніс
 [Turkey]
@@ -842,7 +842,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Turkmenistan]
 Туркменістан
 [Turks and Caicos Islands]
-о-ви Туркс і Кайкос
+о-ви Теркс і Кайкос
 [Tuvalu]
 Тувалу
 [Uganda]
@@ -852,7 +852,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [United Arab Emirates]
 Об'єднані Арабські Емірати
 [United Kingdom]
-Великобританія
+Велика Британія
 [Uruguay]
 Уругвай
 [USA]
@@ -862,29 +862,29 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Vanuatu]
 Вануату
 [Vatican City]
-м. Ватикан
+Ватикан
 [Venezuela]
 Венесуела
 [Vietnam]
 В'єтнам
 [Virgin Islands (UK)]
-Віргінські о-ви (Англія)
+Британські Віргінські о-ви
 [Virgin Islands (USA)]
 Віргінські о-ви (США)
 [Wales]
 Уельс
-[Wallis and Futuna Islands]
-о-ви Валіс і Футуна
+[Wallis and Futuna]
+Валіс і Футуна
 [Yemen]
 Ємен
 [Yugoslavia]
 Югославія
-[Serbia, Republic of]
-Республіка Сербія
+[Serbia]
+Сербія
 [Kosovo, Republic of]
-Республіка Косово
-[Montenegro, Republic of]
-Республіка Чорногорія
+Косово
+[Montenegro]
+Чорногорія
 [Zambia]
 Замбія
 [Zimbabwe]

@@ -14,7 +14,7 @@ Annuleren
 Toevoegen
 [Close]
 Sluit
-[User Details]
+[User details]
 Gebruikersdetails
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

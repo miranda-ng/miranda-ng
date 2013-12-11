@@ -22,7 +22,7 @@ Vis advarsel når meldingen ikke har blitt mottatt etter
 sekunder
 [Tabs]
 Faner
-[Tabs at bottom]
+[Tabs at the bottom]
 Faner på bunnen
 [Limit names on tabs to]
 Begrens navn på faner til
@@ -285,7 +285,7 @@ Melding
 Legg til Kontakt
 [User Menu]
 Brukermeny
-[User Details]
+[User details]
 Brukerdetaljer
 [History]
 Historikk

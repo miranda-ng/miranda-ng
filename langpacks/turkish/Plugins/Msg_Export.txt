@@ -12,7 +12,7 @@ Yardım
 &Bul...
 [&Close]
 &Kapat
-[User &Details]
+[User &details]
 Kişi &Detayları
 [Copy]
 Kopyala

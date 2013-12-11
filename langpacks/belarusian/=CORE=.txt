@@ -2650,7 +2650,7 @@ ANSI плагін
 Каморы
 [Congo, Republic of the]
 Конго
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 Конга, Дэмакратычная Рэспубліка
 [Cook Islands]
 Выспы Кука
@@ -2756,7 +2756,7 @@ ANSI плагін
 Індыя
 [Indonesia]
 Інданезія
-[Iran, Islamic Republic of]
+[Iran]
 Іран
 [Iraq]
 Ірак

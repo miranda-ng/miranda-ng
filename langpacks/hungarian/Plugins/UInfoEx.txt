@@ -125,7 +125,7 @@ Szerkeszt
 Keresés
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 Felhasználó &részletek
 [View/Change My &Details...]
 Saját &Részletek megtekintése/módosítása...

@@ -30,7 +30,7 @@ Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
 Réessayer
 [Add to List]
 Ajouter à ma liste
-[User Details]
+[User details]
 Détails du contact
 ;file \plugins\ContactsPlus\src\main.cpp
 [Incoming Contacts]

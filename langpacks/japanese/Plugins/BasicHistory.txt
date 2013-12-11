@@ -56,7 +56,7 @@ Cancel
 オプション
 [Filters]
 フィルター
-[Fonts & Colors]
+[Fonts and colors]
 フォントと色
 [Icons]
 アイコン

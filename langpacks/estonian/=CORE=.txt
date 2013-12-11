@@ -1,4 +1,6 @@
-﻿;file \src\resource.rc
+﻿[Cancel Import]
+Tühista import
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Sisesta konto nimi (nt. Minu Google')
 [Choose the protocol type]
@@ -177,7 +179,7 @@ Ennista
 Algväärtusta
 [Export...]
 Eksport...
-[Color/Background]
+[(Background) Color]
 Värv/Taust
 [Text color]
 Teksti värv
@@ -328,8 +330,6 @@ Nimekiri
 Teade
 [Clear lo&g]
 Puhasta logi
-[Co&py all]
-Kopeeri kõik
 [Google]
 Google
 [Wikipedia]
@@ -675,8 +675,6 @@ Mmm...söök
 Staatus
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Teksti värv
 ;file \src\core\stdchat\src\log.cpp
 ;file \src\core\stdchat\src\options.cpp
 [Your nickname]
@@ -843,8 +841,6 @@ Viimane teade saadud %s kell %s.
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Fail saadetud
-[File received]
-Fail vastu võetud
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Väljundteated

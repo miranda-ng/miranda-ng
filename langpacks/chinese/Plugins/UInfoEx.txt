@@ -444,7 +444,7 @@ IM 命名
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 导出/入联系人
-[User &Details]
+[User &details]
 用户详细资料(&D)
 [View/Change My &Details...]
 查看/变更我的详细资料(&D)...

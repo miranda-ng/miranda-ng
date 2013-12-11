@@ -421,8 +421,8 @@ Miranda NG 正准备重启. \n请稍候...
 辅助色:
 [Select the extra icons to be shown in the contact list:]
 选择的额外图标将显示于联系人列表中:
-[* only the first %d icons will be shown]
-* 将仅显示前 %d 个图标
+[*only the first %d icons will be shown]
+*将仅显示前 %d 个图标
 [Tray]
 托盘
 [&Hide/Show]
@@ -479,8 +479,6 @@ Miranda NG 正准备重启. \n请稍候...
 复制链接(&C)
 [Cancel change]
 取消变更
-[&Reset To Default]
-重置为默认值(&R)
 [Ungroup]
 取消群组
 ;file \src\core\stdauth\resource.rc
@@ -594,8 +592,6 @@ Miranda NG 正准备重启. \n请稍候...
 消息(&M)
 [Clear lo&g]
 清除记录(&G)
-[Co&py all]
-全部复制(&P)
 [Word lookup]
 字词检索
 [Wikipedia]
@@ -1189,8 +1185,6 @@ Miranda NG 正准备重启. \n请稍候...
 %s 已将您添加至联系人列表\n%s 于 %s
 [(Unknown)]
 (未知)
-[View User Details]
-查看用户详细资料
 [%s requested authorization\n%u (%s) on %s]
 %s 请示授权\n%u (%s) 于 %s
 [%s requested authorization\n%u on %s]
@@ -1235,8 +1229,6 @@ Miranda NG 正准备重启. \n请稍候...
 [Open chat window]
 打开聊天窗口
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-文本颜色
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s 已加入
@@ -1757,8 +1749,6 @@ Miranda NG 正准备重启. \n请稍候...
 初始化中...
 [Moving to next file...]
 移至下一个文件...
-[File already exists]
-文件已存在
 [Sending...]
 发送中...
 [Receiving...]
@@ -1817,8 +1807,6 @@ Miranda NG 主页(&M)
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 已发送文件
-[File received]
-已接收文件
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 发送的消息
@@ -2142,8 +2130,6 @@ Miranda 无法打开此配置文件
 文本文件
 [Error writing file]
 写文件错误
-[Fonts & Colors]
-字体及颜色
 [Sample text]
 示例文本
 [Fonts]
@@ -2611,7 +2597,7 @@ PNG 位图
 墨西哥
 [Micronesia, Federated States of]
 密克罗西尼亚联邦国
-[Moldova, Republic of]
+[Moldova]
 摩尔多瓦共和国
 [Monaco]
 摩纳哥
@@ -2723,7 +2709,7 @@ PNG 位图
 瑞典
 [Switzerland]
 瑞士
-[Syrian Arab Republic]
+[Syria]
 阿拉伯叙利亚共和国
 [Tajikistan]
 塔吉克斯坦

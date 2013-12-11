@@ -129,7 +129,7 @@ Fax
 検索
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 ユーザーの詳細情報 (&D)
 [View/Change My &Details...]
 詳細情報の表示 / 変更 (&D)...

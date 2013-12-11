@@ -525,7 +525,7 @@ eszköztár megjelenik
 Eszköztár alulra
 [Title Bar]
 Címsor
-[Tabs at Bottom]
+[Tabs at the bottom]
 Fülek lent
 [Window Flashing]
 Ablak felvillantás
@@ -580,8 +580,6 @@ Alap protokoll beállítása
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [Container options]
 Tartalmazó beállítások
-[Tabs at the bottom]
-Fülek lent
 [Globally on]
 Általánosan be
 [On, if present]
@@ -741,7 +739,7 @@ Szoba beállítások
 Bejövõ üzenet
 [Outgoing message]
 Kimenõ üzenet
-[Statuschange]
+[Status change]
 Állapotváltás
 [Static container icon]
 Statikus befoglaló ikon

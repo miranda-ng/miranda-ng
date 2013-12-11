@@ -484,7 +484,7 @@ ICQ poznámka
 
 [Canary Islands]
 
-[Cape Verde Islands]
+[Cape Verde]
 
 [Cayman Islands]
 
@@ -492,7 +492,7 @@ ICQ poznámka
 
 [Chad]
 
-[Chile, Republic of]
+[Chile]
 
 [China]
 
@@ -500,7 +500,7 @@ ICQ poznámka
 
 [Comoros]
 
-[Congo, Democratic Republic of (Zaire)]
+[Congo, Democratic Republic of the]
 
 [Congo, Republic of the]
 
@@ -508,7 +508,7 @@ ICQ poznámka
 
 [Costa Rica]
 
-[Cote d'Ivoire (Ivory Coast)]
+[Cote d'Ivoire]
 
 [Croatia]
 
@@ -544,7 +544,7 @@ ICQ poznámka
 
 [Europe]
 
-[Faeroe Islands]
+[Faroe Islands]
 
 [Falkland Islands]
 
@@ -604,7 +604,7 @@ ICQ poznámka
 
 [Indonesia]
 
-[Iran (Islamic Republic of)]
+[Iran]
 
 [Iraq]
 
@@ -644,7 +644,7 @@ ICQ poznámka
 
 [Liberia]
 
-[Libyan Arab Jamahiriya]
+[Libya]
 
 [Liechtenstein]
 
@@ -676,13 +676,13 @@ ICQ poznámka
 
 [Mauritius]
 
-[Mayotte Island]
+[Mayotte]
 
 [Mexico]
 
 [Micronesia, Federated States of]
 
-[Moldova, Republic of]
+[Moldova]
 
 [Monaco]
 
@@ -756,7 +756,7 @@ ICQ poznámka
 
 [Qatar]
 
-[Reunion Island]
+[Reunion]
 
 [Romania]
 
@@ -820,7 +820,7 @@ ICQ poznámka
 
 [Switzerland]
 
-[Syrian Arab Republic]
+[Syria]
 
 [Taiwan]
 
@@ -880,17 +880,17 @@ ICQ poznámka
 
 [Wales]
 
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 
 [Yemen]
 
 [Yugoslavia]
 
-[Serbia, Republic of]
+[Serbia]
 
 [Kosovo, Republic of]
 
-[Montenegro, Republic of]
+[Montenegro]
 
 [Zambia]
 

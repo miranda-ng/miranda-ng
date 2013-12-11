@@ -483,7 +483,7 @@ Voir barre d'outils
 Placer la barre d'outils en bas
 [Title Bar]
 Barre de titre
-[Tabs at Bottom]
+[Tabs at the bottom]
 Onglets en bas
 [Window Flashing]
 Clignotement de la fenêtre
@@ -568,8 +568,6 @@ Apparence des fenêtres
 Taille et thème des fenêtres
 [Container options]
 Options du conteneur
-[Tabs at the bottom]
-Onglets en bas
 [Globally on]
 Oui, dans tous les protocoles
 [On, if present]
@@ -731,7 +729,7 @@ Paramètres du salon
 Message reçu
 [Outgoing message]
 Message envoyé
-[Statuschange]
+[Status change]
 Changement d'état
 [Static container icon]
 Icône du conteneur fixe

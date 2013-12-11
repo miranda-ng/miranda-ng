@@ -18,7 +18,7 @@ Bezárás
 Hiba történt. A protokol az alábbi hibát jelentette:
 [Try again]
 Újra próbál
-[User Details]
+[User details]
 Felhasználó részletek
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

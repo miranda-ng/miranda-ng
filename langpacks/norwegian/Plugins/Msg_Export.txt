@@ -12,7 +12,7 @@ Hjelp
 &Finn...
 [&Close]
 &Lukk
-[User &Details]
+[User &details]
 Bruker &Detaljer
 [Copy]
 Kopier

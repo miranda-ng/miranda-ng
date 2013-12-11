@@ -222,7 +222,7 @@ Odpovedať s &citáciou
 
 [Filters]
 
-[Fonts & Colors]
+[Fonts and colors]
 
 [Icons]
 Ikony

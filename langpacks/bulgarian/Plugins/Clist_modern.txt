@@ -688,7 +688,7 @@ Modern contact list
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Имена на контактите
-[Row Items]
+[Row items]
 Елементи на реда
 [Frame texts]
 Текст в рамките
@@ -859,8 +859,6 @@ Modern contact list
 Втори ред
 [Third Line]
 Трети ред
-[Row items]
-Елементи на реда
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Непознат контакт)

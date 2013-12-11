@@ -12,7 +12,7 @@ Aiuto
 &Trova
 [&Close]
 &Chiudi
-[User &Details]
+[User &details]
 &Dettagli utente
 [Copy]
 Copia

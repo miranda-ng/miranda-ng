@@ -24,7 +24,7 @@ Mostrar aviso quando a mensagem não for recebida após:
 segundos
 [Tabs]
 Abas
-[Tabs at bottom]
+[Tabs at the bottom]
 Abas na parte inferior
 [Limit names on tabs to]
 Limite de nomes nas guias para
@@ -277,7 +277,7 @@ Mensagem
 Adicionar Contato
 [User Menu]
 Menu do Usuário
-[User Details]
+[User details]
 Detalhes do Usuário
 [History]
 Histórico

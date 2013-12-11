@@ -133,7 +133,7 @@ Editar
 Pesquisa
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 &Detalhes do Usuário
 [View/Change My &Details...]
 Ver/Mudar Meus &Detalhes...

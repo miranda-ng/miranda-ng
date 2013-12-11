@@ -20,7 +20,7 @@
 התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
 [Try again]
 נסה שנית
-[User Details]
+[User details]
 פרופיל משתמש
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

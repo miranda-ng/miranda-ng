@@ -12,7 +12,7 @@ Spikker
 &Otsi...
 [&Close]
 &Sul&ge
-[User &Details]
+[User &details]
 Kasutaja detailid
 [Copy]
 Kopeeri

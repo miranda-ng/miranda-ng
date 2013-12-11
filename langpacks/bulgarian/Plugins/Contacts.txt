@@ -45,7 +45,7 @@
 Рopup
 [Add to List]
 
-[User Details]
+[User details]
 Подробности за потребителя
 [Send Message]
 Изпращане на съобщение

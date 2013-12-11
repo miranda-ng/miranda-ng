@@ -1,0 +1,5 @@
+﻿[Login to Miranda NG]
+[EN]
+[OK]
+[Cancel]
+[Enter password]

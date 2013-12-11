@@ -8,54 +8,16 @@
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Install Database Settings]
-Aplikovať nastavenia databázy
-[Yes]
-Áno
-[No]
-Nie
-[A file containing new database settings has been placed in the Miranda NG directory.]
+[Login to Miranda NG]
 
-[Do you want to import the settings now?]
-Chcete importovať nastavenia?
-[No to all]
-Nie pre všetko
-[&View contents]
-Zobraziť obsah
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
-[Database Setting Change]
-Zmena nastavenia databázy
-[Database settings are being imported from]
-Nastavenie databázy je importované z
-[This file wishes to change the setting]
-Tento súbor zmení nastavenie
-[to the value]
-hodnotu
-[Do you want to allow this change?]
-Prajete si umožniť túto zmenu?
-[&Allow all further changes to this section]
-Umožniť všetky budúce zmeny v tejto sekcii
-[&Yes]
-Áno
-[&No]
-Nie
-[Cancel Import]
-Zrušiť importovanie
-[Database Import Complete]
-Databáza kompletne importovaná
-[The import has completed from]
-Import je kompletný z
-[What do you want to do with the file now?]
-Čo ďalej robiť so súborom?
-[&Recycle]
-Recyklovať
-[&Delete]
-Vymazať
-[&Move/Rename]
-Presunúť/Premenovať
-[&Leave]
-Opustiť
+[EN]
+
+[OK]
+
+[Cancel]
+
+[Enter password]
+
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
 

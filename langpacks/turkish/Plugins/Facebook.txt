@@ -12,7 +12,7 @@ E-posta:
 Parola:
 [Cancel]
 İptal
-[User Details]
+[User details]
 Kullanıcı Detayları
 [Text]
 Yazı

@@ -424,7 +424,7 @@ ICQ 注記
 カナダ
 [Canary Islands]
 カナリア諸島
-[Cape Verde Islands]
+[Cape Verde]
 カーボベルデ諸島
 [Cayman Islands]
 ケイマン諸島
@@ -432,7 +432,7 @@ ICQ 注記
 中央アフリカ共和国
 [Chad]
 チャド
-[Chile, Republic of]
+[Chile]
 チリ共和国
 [China]
 中国
@@ -440,16 +440,16 @@ ICQ 注記
 コロンビア
 [Comoros]
 コモロ
-[Congo, Democratic Republic of (Zaire)]
-コンゴ民主共和国(ザイール)
+[Congo, Democratic Republic of the]
+コンゴ民主共和国
 [Congo, Republic of the]
 コンゴ共和国
 [Cook Islands]
 クック諸島
 [Costa Rica]
 コスタリカ
-[Cote d'Ivoire (Ivory Coast)]
-コートジボワール(アイボリー・コースト)
+[Cote d'Ivoire]
+コートジボワール
 [Croatia]
 クロアチア
 [Cuba]
@@ -484,7 +484,7 @@ ICQ 注記
 エチオピア
 [Europe]
 ヨーロッパ
-[Faeroe Islands]
+[Faroe Islands]
 フェロー諸島
 [Falkland Islands]
 フォークランド諸島
@@ -544,8 +544,8 @@ ICQ 注記
 インド
 [Indonesia]
 インドネシア
-[Iran (Islamic Republic of)]
-イラン ( イスラム共和国 )
+[Iran
+イラン
 [Iraq]
 イラク
 [Ireland]
@@ -584,7 +584,7 @@ ICQ 注記
 レソト
 [Liberia]
 リベリア
-[Libyan Arab Jamahiriya]
+[Libya]
 リビア・アラブ国
 [Liechtenstein]
 リヒテンシュタイン
@@ -616,13 +616,13 @@ ICQ 注記
 モーリタニア
 [Mauritius]
 モーリシャス
-[Mayotte Island]
+[Mayotte]
 マヨット島
 [Mexico]
 メキシコ
 [Micronesia, Federated States of]
 ミクロネシア連邦
-[Moldova, Republic of]
+[Moldova]
 モルドバ共和国
 [Monaco]
 モナコ
@@ -696,7 +696,7 @@ ICQ 注記
 プエルトリコ
 [Qatar]
 カタール
-[Reunion Island]
+[Reunion]
 レユニオン島
 [Romania]
 ルーマニア
@@ -760,7 +760,7 @@ ICQ 注記
 スウェーデン
 [Switzerland]
 スイス
-[Syrian Arab Republic]
+[Syria]
 シリアアラブ共和国
 [Taiwan]
 台湾
@@ -820,17 +820,17 @@ ICQ 注記
 米領ヴァージン諸島
 [Wales]
 ウェールズ
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 ウォリス・フトゥーナ諸島
 [Yemen]
 イエメン
 [Yugoslavia]
 ユーゴスラビア
-[Serbia, Republic of]
+[Serbia]
 セルビア共和国
 [Kosovo, Republic of]
 コソボ共和国
-[Montenegro, Republic of]
+[Montenegro]
 モンテネグロ共和国
 [Zambia]
 ザンビア

@@ -2650,7 +2650,7 @@ Kolumbie
 Komory
 [Congo, Republic of the]
 Kongo
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 Kongo, demokratická republika
 [Cook Islands]
 Cookovy ostrovy
@@ -2756,8 +2756,8 @@ Island
 Indie
 [Indonesia]
 Indonésie
-[Iran, Islamic Republic of]
-Íránská islámská republika
+[Iran]
+Írán
 [Iraq]
 Irák
 [Ireland]

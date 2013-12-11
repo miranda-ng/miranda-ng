@@ -692,7 +692,7 @@ Soll Kontakt '%s' zu Metakontakt '%s' hinzugefügt werden?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Kontaktnamen
-[Row Items]
+[Row items]
 Zeileninhalt
 [Frame texts]
 Frame-Texte
@@ -863,8 +863,6 @@ Zeilengestaltung
 Zweite Zeile
 [Third Line]
 Dritte Zeile
-[Row items]
-Inhalte Kontaktanzeige
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Unbekannter Kontakt)

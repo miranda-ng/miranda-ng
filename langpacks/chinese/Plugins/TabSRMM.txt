@@ -573,9 +573,9 @@ Esc 关闭会话 (如禁用则最小化窗口)
 创建最小化状态新窗口
 [Send on Shift+Enter]
 Shift+Enter 发送
-[Send message on Enter]
+[Send message on 'Enter']
 回车发送消息
-[Send message on double Enter]
+[Send message on double 'Enter']
 按两下回车发送消息
 [Minimize the message window on send]
 发送时最小化消息窗口
@@ -761,7 +761,7 @@ Ctrl+Enter 发送消息 (总是启用)
 在底部放置工具栏
 [Title Bar]
 标题栏
-[Tabs at Bottom]
+[Tabs at the bottom]
 标签在底部
 [Window Flashing]
 窗口闪动
@@ -868,8 +868,6 @@ Ctrl+Enter 发送消息 (总是启用)
 配置容器选项于\n%s
 [Tabs at the top]
 标签位于上方
-[Tabs at the bottom]
-标签栏在底部
 [Switch bar on the left side]
 切换栏位于左侧
 [Switch bar on the right side]
@@ -1199,7 +1197,7 @@ History++ 插件
 传入消息
 [Outgoing message]
 发送消息
-[Statuschange]
+[Status change]
 状态变更
 [Static container icon]
 静态容器图标
@@ -1392,10 +1390,6 @@ TabSRMM 消息 (%s)
 发送消息
 [Send on SHIFT - Enter]
 SHIFT - Enter 发送
-[Send message on 'Enter']
-按 "Enter" 发送消息
-[Send message on double 'Enter']
-按两次 "Enter" 发送消息
 [Close the message window on send]
 发送时关闭消息窗口
 [Always flash contact list and tray icon for new messages]

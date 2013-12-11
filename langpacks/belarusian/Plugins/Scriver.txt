@@ -40,7 +40,7 @@
 Уключыць укладкі
 [Always show tab bar]
 Заўсёды паказваць панэль укладак
-[Tabs at bottom]
+[Tabs at the bottom]
 Укладкі знізу
 [Limit names on tabs to]
 Абмежаваць імёны на ўкладках
@@ -465,7 +465,7 @@ Yahoo
 Дадаць кантакт
 [User Menu]
 Меню карыстача
-[User Details]
+[User details]
 Пра карыстача
 [History]
 Гісторыя

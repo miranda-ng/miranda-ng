@@ -24,7 +24,7 @@ Figyelmeztetés, ha az üzenet nem érekzik meg ... idõ alatt
 mp.
 [Tabs]
 Fülek
-[Tabs at bottom]
+[Tabs at the bottom]
 Fülek alul
 [Limit names on tabs to]
 Névhoz behatárolása füleken
@@ -291,7 +291,7 @@ Csoportos csevegések
 Új partner
 [User Menu]
 Felhasználó menü
-[User Details]
+[User details]
 Felhasználó részletek
 [History]
 Elõzmény

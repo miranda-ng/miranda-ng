@@ -13,7 +13,7 @@
 [An error has occurred. The protocol reported the following error:]
 [Popup]
 [Add to List]
-[User Details]
+[User details]
 [Contacts received from]
 [Incoming Contacts]
 [Outgoing Contacts]

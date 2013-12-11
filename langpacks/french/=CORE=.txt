@@ -2332,8 +2332,8 @@ Mauritanie
 Mexique
 [Micronesia, Federated States of]
 Micronésie, États Fédérés de
-[Moldova, Republic of]
-Moldavie, Rép. de
+[Moldova]
+Moldavie
 [Mongolia]
 Mongolie
 [Montserrat]
@@ -2438,8 +2438,8 @@ Swaziland
 Suède
 [Switzerland]
 Suisse
-[Syrian Arab Republic]
-République Arabe Syrienne
+[Syria]
+Syrienne
 [Tajikistan]
 Tadjikistan
 [Thailand]
@@ -2479,7 +2479,6 @@ Ouzbékistan
 [Vanuatu]
 Vanuatu
 [Venezuela, Bolivarian Republic of]
-[Yemen]
 [Yemen]
 Yémen
 [Zambia]

@@ -6,52 +6,6 @@
 ;  Authors: Miranda-NG project
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Install Database Settings]
-Adatbázis beállítások telepítése
-[Yes]
-Igen
-[No]
-Nem
-[Do you want to import the settings now?]
-Akarod most importálni a beállításokat?
-[No to all]
-Nem, mindre
-[&View contents]
-Tartalom megtekintése
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Veszélyes változásokat figyelõ biztonsági rendszer van üzemben, és figyelmeztetni fognak a nem biztonságok változások elõtt.
-[Database Setting Change]
-Adatbázis beállítás módosult
-[Database settings are being imported from]
-Adatbázis importálása innen:
-[This file wishes to change the setting]
-Az a fájl szeretné módosítani a beállítást
-[to the value]
-érték
-[Do you want to allow this change?]
-Engedélyezed ezt a változást?
-[&Allow all further changes to this section]
-Minden további változtatás engedélyezése e részlegben
-[&Yes]
-&Igen
-[&No]
-&Nem
-[Cancel Import]
-Importálás megszakítása
-[Database Import Complete]
-Adatbázis importálás kész
-[The import has completed from]
-Az importálás befejezõdött innen:
-[What do you want to do with the file now?]
-Most mit szeretne tenni a fájllal?
-[&Recycle]
-Újrahasznosít
-[&Delete]
-&Törlés
-[&Move/Rename]
-Mozgat/átnevez
-[&Leave]
-&Kilépés
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
 A lemez megtelt. A Miranda most kilép.

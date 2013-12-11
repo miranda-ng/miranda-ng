@@ -36,7 +36,7 @@
 אפשר טאבים
 [Always show tab bar]
 תמיד הראה סרגל טאבים
-[Tabs at bottom]
+[Tabs at the bottom]
  טאבים בתחתית
 [Limit names on tabs to]
 הגבל שמות על טאבים ל
@@ -287,7 +287,7 @@
 הוסף איש קשר
 [User Menu]
 תפריט משתמש
-[User Details]
+[User details]
 פרופיל משתמש
 [History]
 היסטוריה\n

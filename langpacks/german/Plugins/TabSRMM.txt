@@ -672,9 +672,9 @@ Neue Fenster immer öffnen und aktivieren
 Neue Fenster minimiert erzeugen
 [Send on Shift+Enter]
 Umschalt+Enter sendet Nachricht
-[Send message on Enter]
+[Send message on 'Enter']
 'Enter' sendet Nachricht
-[Send message on double Enter]
+[Send message on double 'Enter']
 2-mal Enter sendet Nachricht
 [Minimize the message window on send]
 Nachrichtenfenster beim Senden minimieren
@@ -896,7 +896,7 @@ Toolbar anzeigen
 Toolbar unten platzieren
 [Title Bar]
 Titelleiste
-[Tabs at Bottom]
+[Tabs at the bottom]
 Tabs am unteren Rand
 [Window Flashing]
 Fensterblinken
@@ -1021,8 +1021,6 @@ Containereinstellungen
 Konfiguriere Containeroptionen für\n%s
 [Tabs at the top]
 Tabs oben anzeigen
-[Tabs at the bottom]
-Tabs unten anzeigen
 [Switch bar on the left side]
 Umschaltleiste auf der linken Seite
 [Switch bar on the right side]
@@ -1484,7 +1482,7 @@ Zustellungsfehler
 Eingehende Nachricht
 [Outgoing message]
 Ausgehende Nachricht
-[Statuschange]
+[Status change]
 Statusänderung
 [Static container icon]
 Statisches Containericon
@@ -1711,10 +1709,6 @@ Verhalten des Nachrichtenfensters
 Nachrichten senden
 [Send on SHIFT - Enter]
 'Umschalt+Enter' sendet Nachricht
-[Send message on 'Enter']
-'Enter' sendet Nachricht
-[Send message on double 'Enter']
-Doppel-'Enter' sendet Nachricht
 [Close the message window on send]
 Nachrichtenfenster beim Senden schließen
 [Always flash contact list and tray icon for new messages]

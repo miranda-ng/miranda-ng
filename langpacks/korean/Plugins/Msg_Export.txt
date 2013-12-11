@@ -10,7 +10,7 @@
 &F 찾기...
 [&Close]
 &C 닫기
-[User &Details]
+[User &details]
 &D 사용자 정보
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 ;file \plugins\Msg_Export\src\Glob.h

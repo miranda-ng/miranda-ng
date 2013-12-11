@@ -115,7 +115,7 @@
 חיפוש
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 פרופיל &משתמש
 [View/Change My &Details...]
 ...הצג/שנה את הפרופיל ש&לי

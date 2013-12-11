@@ -25,7 +25,7 @@ Cancel(&C)
 オプション
 [Authorization request]
 認証リクエスト
-[Delete Contact]
+[Delete contact]
 コンタクトの削除
 [&Yes]
 はい (&Y)
@@ -485,8 +485,6 @@ Miranda を非表示
 リンクをコピー (&C)
 [Cancel change]
 変更をキャンセル
-[&Reset To Default]
-デフォルトに戻す (&R)
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 許可 (&A)
@@ -600,8 +598,6 @@ Miranda を非表示
 メッセージ (&M)
 [Clear lo&g]
 ログをクリア (&g)
-[Co&py all]
-全てコピー (&p)
 [Word lookup]
 単語検索
 [Google]
@@ -1195,8 +1191,6 @@ SMS テキストメッセージを受信できる電話
 %sはあなたをコンタクトリストに追加しました\n%s: %s
 [(Unknown)]
 ( 不明 )
-[View User Details]
-ユーザーの詳細情報を表示
 [%s requested authorization\n%u (%s) on %s]
 %s は認証リクエストしました\n%u (%s): %s
 [%s requested authorization\n%u on %s]
@@ -1241,8 +1235,6 @@ SMS テキストメッセージを受信できる電話
 [Open chat window]
 チャットウィンドウを開く
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-テキスト色
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s は参加しました
@@ -1741,8 +1733,6 @@ SMS テキストメッセージを受信できる電話
 初期化中...
 [Moving to next file...]
 次のファイルに移動中...
-[File already exists]
-ファイルは既に存在します
 [Sending...]
 送信中...
 [Receiving...]
@@ -1801,8 +1791,6 @@ Miranda NG ホームページ
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 ファイル送信
-[File received]
-ファイル受信
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 発信メッセージ
@@ -2094,8 +2082,6 @@ Miranda はプロファイルを開けませんでした
 テキストファイル
 [Error writing file]
 ファイル書き込みエラー
-[Fonts & Colors]
-フォントと色
 [Sample text]
 サンプルテキスト
 [Fonts]
@@ -2542,7 +2528,7 @@ PNG 形式
 メキシコ
 [Micronesia, Federated States of]
 ミクロネシア連邦
-[Moldova, Republic of]
+[Moldova]
 モルドバ共和国
 [Monaco]
 モナコ
@@ -2652,7 +2638,7 @@ PNG 形式
 スウェーデン
 [Switzerland]
 スイス
-[Syrian Arab Republic]
+[Syria]
 シリアアラブ共和国
 [Tajikistan]
 タジキスタン

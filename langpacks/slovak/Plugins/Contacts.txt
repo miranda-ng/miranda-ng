@@ -44,7 +44,7 @@ Skús znovu
 
 [Add to List]
 
-[User Details]
+[User details]
 
 [Send Message]
 Odoslať správu

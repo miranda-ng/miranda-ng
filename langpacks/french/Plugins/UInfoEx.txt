@@ -343,7 +343,7 @@ Recherche
 Attention: La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 &Détails du contact
 [View/Change My &Details...]
 Voir/Changer mes &détails...

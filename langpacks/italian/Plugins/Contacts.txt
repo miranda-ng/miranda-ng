@@ -18,7 +18,7 @@ Chiudi
 C'è stato un errore. Il protocollo ha riferito l'errore seguente:
 [Try again]
 Prova di nuovo
-[User Details]
+[User details]
 Dettagli utente
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

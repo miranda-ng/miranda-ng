@@ -279,7 +279,7 @@ Desfazer
 Limpar
 [Export...]
 Exportar...
-[Color/Background]
+[(Background) Color]
 Cor/Fundo
 [Text color]
 Cor do Texto
@@ -441,8 +441,6 @@ Abrir em &nova janela
 &Copiar link
 [Cancel change]
 Cancelar Alterações
-[&Reset To Default]
-Restaurar padrão
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autorizar
@@ -550,8 +548,6 @@ Lista
 &Mensagem
 [Clear lo&g]
 Limpar R&egistro
-[Co&py all]
-Co&piar tudo
 [Word lookup]
 Visual da Palavra
 [Google]
@@ -1133,8 +1129,6 @@ Status
 [Join chat]
 Entrar no bate-papo
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Texto colorido
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s acabou de entrar
@@ -1641,8 +1635,6 @@ Agora é %s (era %s)
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Arquivo enviado
-[File received]
-Arquivo recebido
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Enviando mensagens
@@ -1912,8 +1904,6 @@ usuários %d encontrado (
 [No users found]
 Nenhum utilizador encontrado
 ;file \src\modules\fonts\FontOptions.cpp
-[Fonts & Colors]
-Fontes & Cores
 [Sample text]
 Exemplo
 [Fonts]
@@ -2334,8 +2324,8 @@ Maurício
 México
 [Micronesia, Federated States of]
 Micronésia, Estados Federados da
-[Moldova, Republic of]
-Moldávia, República da
+[Moldova]
+Moldávia
 [Monaco]
 Mônaco
 [Mongolia]
@@ -2446,7 +2436,7 @@ Suazilândia
 Suécia
 [Switzerland]
 Suíça
-[Syrian Arab Republic]
+[Syria]
 República Árabe da Síria
 [Tajikistan]
 Tadjiquistão

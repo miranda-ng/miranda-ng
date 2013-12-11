@@ -43,7 +43,7 @@
 Спливаюче вікно
 [Add to List]
 Додати
-[User Details]
+[User details]
 О користуваче
 [Send Message]
 Відправити

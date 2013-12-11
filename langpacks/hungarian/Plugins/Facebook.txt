@@ -12,7 +12,7 @@ E-levél
 Jelszó:
 [Cancel]
 Mégsem
-[User Details]
+[User details]
 Felhasználó részletek
 [Text]
 Szöveg

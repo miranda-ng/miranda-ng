@@ -24,7 +24,7 @@
 ...&חפש
 [&Close]
 סגור
-[User &Details]
+[User &details]
 פרופיל &משתמש
 [Copy]
 העתק

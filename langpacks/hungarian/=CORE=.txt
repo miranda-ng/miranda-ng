@@ -277,7 +277,7 @@ Visszavonás
 Alapraállítás
 [Export...]
 Exportálás...
-[Color/Background]
+[(Background) Color]
 Szín/Háttér
 [Text color]
 Szövegszín
@@ -411,8 +411,6 @@ Megnyitás létezõ ablakban
 &Link másolása
 [Cancel change]
 Változtatás Elvetése
-[&Reset To Default]
-&Visszaállítás Alapért.-re
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Meghatalmazás
@@ -518,8 +516,6 @@ Lista
 Üzenet
 [Clear lo&g]
 Napló ürítése
-[Co&py all]
-Mindet másol
 [Word lookup]
 Szó keresés
 [Google]
@@ -1087,8 +1083,6 @@ Inaktíííííív
 [Join chat]
 Csatlakozás csevegéshez
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Szövegszín
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s csatlakozott
@@ -1601,8 +1595,6 @@ most %s (régebben: %s)
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Fájl elküldve
-[File received]
-Fájl fogadva
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Kimenõ üzenetek
@@ -2246,7 +2238,7 @@ Mauritius
 Mexikó
 [Micronesia, Federated States of]
 Mikronézia
-[Moldova, Republic of]
+[Moldova]
 Moldova
 [Monaco]
 Monaco
@@ -2358,7 +2350,7 @@ Szváziföld
 Svédország
 [Switzerland]
 Svájc
-[Syrian Arab Republic]
+[Syria]
 Szíria
 [Tajikistan]
 Tadzsikisztán

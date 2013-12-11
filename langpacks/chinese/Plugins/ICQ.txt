@@ -428,7 +428,7 @@ ICQ 提示
 加拿大
 [Canary Islands]
 加那利群岛
-[Cape Verde Islands]
+[Cape Verde]
 佛得角群岛
 [Cayman Islands]
 开曼群岛
@@ -436,7 +436,7 @@ ICQ 提示
 中非共和国
 [Chad]
 乍得
-[Chile, Republic of]
+[Chile]
 智利共和国
 [China]
 中国
@@ -444,16 +444,16 @@ ICQ 提示
 哥伦比亚
 [Comoros]
 科摩罗
-[Congo, Democratic Republic of (Zaire)]
-刚果民主共和国 (扎伊尔)
+[Congo, Democratic Republic of the]
+刚果民主共和国
 [Congo, Republic of the]
 刚果共和国
 [Cook Islands]
 库克群岛
 [Costa Rica]
 哥斯达黎加
-[Cote d'Ivoire (Ivory Coast)]
-科特迪瓦(象牙海岸)
+[Cote d'Ivoire]
+科特迪瓦
 [Croatia]
 克罗地亚
 [Cuba]
@@ -488,7 +488,7 @@ ICQ 提示
 埃塞俄比亚
 [Europe]
 欧洲
-[Faeroe Islands]
+[Faroe Islands]
 法罗群岛
 [Falkland Islands]
 福克兰群岛
@@ -548,8 +548,8 @@ ICQ 提示
 印度
 [Indonesia]
 印度尼西亚
-[Iran (Islamic Republic of)]
-伊朗 (伊斯兰共和国)
+[Iran]
+伊朗
 [Iraq]
 伊拉克
 [Ireland]
@@ -588,7 +588,7 @@ ICQ 提示
 莱索托
 [Liberia]
 利比里亚
-[Libyan Arab Jamahiriya]
+[Libya]
 阿拉伯利比亚
 [Liechtenstein]
 列支敦士登
@@ -620,13 +620,13 @@ ICQ 提示
 毛里塔尼亚
 [Mauritius]
 毛里求斯
-[Mayotte Island]
+[Mayotte]
 马约特岛
 [Mexico]
 墨西哥
 [Micronesia, Federated States of]
 密克罗西尼亚联邦国
-[Moldova, Republic of]
+[Moldova]
 摩尔多瓦共和国
 [Monaco]
 摩纳哥
@@ -700,7 +700,7 @@ ICQ 提示
 波多黎各
 [Qatar]
 卡塔尔
-[Reunion Island]
+[Reunion]
 留尼旺岛
 [Romania]
 罗马尼亚
@@ -764,7 +764,7 @@ ICQ 提示
 瑞典
 [Switzerland]
 瑞士
-[Syrian Arab Republic]
+[Syria]
 阿拉伯叙利亚共和国
 [Taiwan]
 台湾
@@ -824,17 +824,17 @@ ICQ 提示
 维尔京群岛 (美国)
 [Wales]
 威尔士
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 瓦利斯群岛和富图纳群岛
 [Yemen]
 也门
 [Yugoslavia]
 南斯拉夫
-[Serbia, Republic of]
+[Serbia]
 塞尔维亚共和国
 [Kosovo, Republic of]
 科索沃共和国
-[Montenegro, Republic of]
+[Montenegro]
 黑山共和国
 [Zambia]
 赞比亚

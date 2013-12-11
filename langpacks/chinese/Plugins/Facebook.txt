@@ -18,7 +18,7 @@
 分享
 [Cancel]
 取消
-[User Details]
+[User details]
 用户详细资料
 [Text]
 文本

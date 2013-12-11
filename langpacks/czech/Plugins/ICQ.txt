@@ -486,7 +486,7 @@ Kamerun
 Kanada
 [Canary Islands]
 Kanárské ostrovy
-[Cape Verde Islands]
+[Cape Verde]
 Kapverdské soustroví
 [Cayman Islands]
 Kajmanské ostrovy
@@ -494,7 +494,7 @@ Kajmanské ostrovy
 Středoafrická republika
 [Chad]
 Čad
-[Chile, Republic of]
+[Chile]
 Chile
 [China]
 Čína
@@ -502,15 +502,15 @@ Chile
 Kolumbie
 [Comoros]
 Komory
-[Congo, Democratic Republic of (Zaire)]
-Kongo (Zair)
+[Congo, Democratic Republic of the]
+Kongo
 [Congo, Republic of the]
 Kongo
 [Cook Islands]
 Cookovy ostrovy
 [Costa Rica]
 Kostarika
-[Cote d'Ivoire (Ivory Coast)]
+[Cote d'Ivoire]
 Pobřeží slonoviny
 [Croatia]
 Chorvatsko
@@ -546,7 +546,7 @@ Estonsko
 Etiopie
 [Europe]
 
-[Faeroe Islands]
+[Faroe Islands]
 Faerské ostrovy
 [Falkland Islands]
 Falklandské ostrovy
@@ -606,7 +606,7 @@ Island
 Indie
 [Indonesia]
 Indonésie
-[Iran (Islamic Republic of)]
+[Iran]
 Írán
 [Iraq]
 Irák
@@ -646,7 +646,7 @@ Libanon
 Lesotho
 [Liberia]
 Libérie
-[Libyan Arab Jamahiriya]
+[Libya]
 Libye
 [Liechtenstein]
 Lichtenštejnsko
@@ -678,13 +678,13 @@ Martinik
 Mauretánie
 [Mauritius]
 Mauritius
-[Mayotte Island]
+[Mayotte]
 Mayotte
 [Mexico]
 Mexiko
 [Micronesia, Federated States of]
 Mikronésie
-[Moldova, Republic of]
+[Moldova]
 Moldávie
 [Monaco]
 Monako
@@ -758,7 +758,7 @@ Portugalsko
 Portoriko
 [Qatar]
 Katar
-[Reunion Island]
+[Reunion]
 Reunion
 [Romania]
 Rumunsko
@@ -822,7 +822,7 @@ Swazijsko
 Švédsko
 [Switzerland]
 Švýcarsko
-[Syrian Arab Republic]
+[Syria]
 Sýrie
 [Taiwan]
 Taiwan
@@ -882,17 +882,17 @@ Vietnam
 Panenské ostrovy (USA)
 [Wales]
 Wales
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 Wallis a Futuna
 [Yemen]
 Jemen
 [Yugoslavia]
 Jugoslávie
-[Serbia, Republic of]
+[Serbia]
 Srbsko
 [Kosovo, Republic of]
 
-[Montenegro, Republic of]
+[Montenegro]
 Černá Hora
 [Zambia]
 Zambie

@@ -68,7 +68,7 @@
 选项
 [Filters]
 过滤器
-[Fonts & Colors]
+[Fonts and colors]
 字体及颜色
 [Icons]
 图标

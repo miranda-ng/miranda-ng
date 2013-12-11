@@ -10,7 +10,7 @@
 Zoeken...
 [&Close]
 Sluiten
-[User &Details]
+[User &details]
 Gebruikers &details
 [Copy]
 Kopiëren

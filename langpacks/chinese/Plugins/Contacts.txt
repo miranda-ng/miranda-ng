@@ -32,7 +32,7 @@
 再试一次
 [Add to List]
 加至列表
-[User Details]
+[User details]
 用户详细资料
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

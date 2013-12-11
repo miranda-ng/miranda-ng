@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.2.0
+;  Version: 0.2.2.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -34,7 +34,7 @@ Abbrechen
 Kontakte >>
 [Attach contacts:]
 Kontakte anhängen:
-[User Details]
+[User details]
 Kontaktprofil
 [Default group:]
 Standardgruppe:
@@ -193,6 +193,8 @@ Benutzer hat Ihnen %s gesendet:
 Nachricht gelesen: %s von %s
 [Message read: %s]
 Nachricht gelesen: %s
+[This message is no longer available, because it was marked as abusive or spam.]
+
 [%s and more (%d)]
 %s und mehr (%d)
 ;file \protocols\FacebookRM\src\messages.cpp

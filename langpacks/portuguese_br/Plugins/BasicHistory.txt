@@ -54,7 +54,7 @@ Responder &Citando
 Excluir Grupo
 [Options]
 Opções
-[Fonts & Colors]
+[Fonts and colors]
 Fontes & Cores
 [Icons]
 Ícones

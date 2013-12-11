@@ -40,7 +40,7 @@ sekúnd
 
 [Always show tab bar]
 
-[Tabs at bottom]
+[Tabs at the bottom]
 
 [Limit names on tabs to]
 
@@ -499,7 +499,7 @@ Rozhovor
 
 [User Menu]
 Menu užívatela
-[User Details]
+[User details]
 
 [History]
 

@@ -64,7 +64,7 @@ UTF8 за нови файлове
 Изтриване на файла
 [Debug]
 
-[User &Details]
+[User &details]
 Подробности за потребителя
 [Export selected]
 

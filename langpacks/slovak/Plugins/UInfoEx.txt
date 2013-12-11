@@ -615,7 +615,7 @@ Hľadať
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 
-[User &Details]
+[User &details]
 Informácie o užívatelovi
 [&Export User Details]
 

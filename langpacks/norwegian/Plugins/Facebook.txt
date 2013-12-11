@@ -12,7 +12,7 @@ E-post:
 Passord:
 [Cancel]
 Avbryt
-[User Details]
+[User details]
 Brukerdetaljer
 [Text]
 Tekst

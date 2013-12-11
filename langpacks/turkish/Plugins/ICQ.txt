@@ -398,7 +398,7 @@ Kamerun
 Kanada
 [Canary Islands]
 Kanarya Adaları
-[Cape Verde Islands]
+[Cape Verde]
 Cape Verde Adaları
 [Cayman Islands]
 Kayman Adaları
@@ -406,7 +406,7 @@ Kayman Adaları
 Orta Afrika Cumhuriyeti
 [Chad]
 Çad
-[Chile, Republic of]
+[Chile]
 Şili Cumhuriyeti
 [China]
 Çin
@@ -414,16 +414,16 @@ Orta Afrika Cumhuriyeti
 Kolombiya
 [Comoros]
 Komor
-[Congo, Democratic Republic of (Zaire)]
-Demokratik kongo Cumhuriyeti (Zaire)
+[Congo, Democratic Republic of the]
+Demokratik kongo Cumhuriyeti
 [Congo, Republic of the]
 Kongo Cumhuriyeti
 [Cook Islands]
 Kook Adaları
 [Costa Rica]
 Kosta Rika
-[Cote d'Ivoire (Ivory Coast)]
-Cote d'Ivoire (Ivory Coast)
+[Cote d'Ivoire]
+Cote d'Ivoire
 [Croatia]
 Hırvatistan
 [Cuba]
@@ -454,7 +454,7 @@ Eritre
 Estonya
 [Ethiopia]
 Etyopya
-[Faeroe Islands]
+[Faroe Islands]
 Faeroe Adaları
 [Falkland Islands]
 Falkland Adaları
@@ -514,8 +514,8 @@ Macaristan
 Hindistan
 [Indonesia]
 Endonezya
-[Iran (Islamic Republic of)]
-İran İslam Cumhuriyeti
+[Iran]
+İran
 [Iraq]
 Irak
 [Ireland]
@@ -554,8 +554,8 @@ Lübnan
 Lesoto
 [Liberia]
 Liberya
-[Libyan Arab Jamahiriya]
-Libya Arap Cemahiriyesi
+[Libya]
+Libya
 [Liechtenstein]
 Lihtenştayn
 [Lithuania]
@@ -584,14 +584,14 @@ Martinik
 Moritanya
 [Mauritius]
 Mauritius
-[Mayotte Island]
-Mayot Adaları
+[Mayotte]
+Mayot
 [Mexico]
 Meksika
 [Micronesia, Federated States of]
 Mikronezya Federal Eyaleti
-[Moldova, Republic of]
-Moldova Cumhuriyeti
+[Moldova]
+Moldova
 [Monaco]
 Monako
 [Mongolia]
@@ -652,8 +652,8 @@ Portekiz
 Puerto Riko
 [Qatar]
 Katar
-[Reunion Island]
-Reunion Adası
+[Reunion]
+Reunion
 [Romania]
 Romanya
 [Russia]
@@ -762,8 +762,8 @@ Venezüela
 Vietnam
 [Wales]
 Galler
-[Wallis and Futuna Islands]
-Wallis ve Futuna Adaları
+[Wallis and Futuna]
+Wallis ve Futuna
 [Yemen]
 Yemen
 [Yugoslavia]

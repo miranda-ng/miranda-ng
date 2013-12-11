@@ -287,7 +287,7 @@ Geri Al
 Sıfırla
 [Export...]
 Ver...
-[Color/Background]
+[(Background) Color]
 Renk/Art Alan
 [Text color]
 Yazı Rengi
@@ -427,8 +427,6 @@ Var&olan pencerede aç
 &Bağlantıyı kopyala
 [Cancel change]
 Değişikliği iptal et
-[&Reset To Default]
-Va&rsayılana Döndür
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 İzin &Ver
@@ -536,8 +534,6 @@ Liste
 İl&eti
 [Clear lo&g]
 &Günlüğü temizle
-[Co&py all]
-Tümünü ko&pyala
 [Word lookup]
 Kelime arama
 [Google]
@@ -1109,8 +1105,6 @@ Durum
 [Join chat]
 Sohbete katıl
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Yazı rengi
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s katıldı
@@ -1627,8 +1621,6 @@ Gönderilen ileti (10x10)
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Dosya gönderildi
-[File received]
-Dosya alındı
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Gönderilen iletiler
@@ -2278,8 +2270,8 @@ Mauritius
 Meksika
 [Micronesia, Federated States of]
 Mikronezya Federal Eyaleti
-[Moldova, Republic of]
-Moldova Cumhuriyeti
+[Moldova]
+Moldova
 [Monaco]
 Monako
 [Mongolia]
@@ -2390,8 +2382,8 @@ Swaziland
 İsveç
 [Switzerland]
 İsviçre
-[Syrian Arab Republic]
-Siryan Arap Cumhuriyeti
+[Syria]
+Sirya
 [Tajikistan]
 Tacikistan
 [Thailand]

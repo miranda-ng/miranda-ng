@@ -91,7 +91,7 @@
 찾기
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 &D 사용자 정보
 [View/Change My &Details...]
 &D 내 정보 보기/바꾸기

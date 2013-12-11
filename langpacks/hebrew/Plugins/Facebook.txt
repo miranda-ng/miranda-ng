@@ -10,7 +10,7 @@
 סיסמא:
 [Cancel]
 ביטול
-[User Details]
+[User details]
 פרופיל משתמש
 [Text]
 טקסט

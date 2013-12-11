@@ -615,7 +615,7 @@ UserInfoEx
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Износ/Внос на контакта
-[User &Details]
+[User &details]
 Подробности за потребителя
 [&Export User Details]
 Износ на подробности за потребителя

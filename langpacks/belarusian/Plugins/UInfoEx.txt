@@ -537,7 +537,7 @@ E-Mail
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Экс-/Імпарт кантакт
-[User &Details]
+[User &details]
 &Інфармацыя
 [&Import]
 Імпарт

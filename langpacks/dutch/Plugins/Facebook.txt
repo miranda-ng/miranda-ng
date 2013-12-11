@@ -10,7 +10,7 @@
 Wachtwoord:
 [Cancel]
 Annuleren
-[User Details]
+[User details]
 Gebruikersdetails
 [Text]
 Tekst

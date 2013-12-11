@@ -44,7 +44,7 @@ Erneut versuchen
 Popup
 [Add to List]
 Zur Liste hinzufügen
-[User Details]
+[User details]
 Kontaktprofil
 [Send Message]
 Nachricht senden

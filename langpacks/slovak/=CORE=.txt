@@ -29,7 +29,7 @@ Storno
 
 [Authorization request]
 Požiadavka na autorizáciu
-[Delete Contact]
+[Delete contact]
 Zmazať kontakt
 [&Yes]
 Áno
@@ -43,7 +43,7 @@ Nie
 
 [This will erase all history and settings for this contact!]
 
-[Contact Display Options]
+[Contact display options]
 
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 
@@ -55,7 +55,7 @@ Nie
 
 [Start in Service Mode with]
 
-[Find/Add Contacts]
+[Find/Add contacts]
 Nájsť/Pridať kontakt
 [Search:]
 
@@ -81,7 +81,7 @@ Hľadať
 Pridať do zoznamu
 [Custom]
 
-[Find/Add Contacts\nHere you can add contacts to your contact list]
+[Find/Add contacts\nHere you can add contacts to your contact list]
 
 [Options\nConfigure your Miranda NG options]
 
@@ -91,7 +91,7 @@ Aplikovať
 
 [Please select a subentry from the list]
 Prosím vyberte zo zoznamu jednu z podkategórií
-[Install Database Settings]
+[Install database settings]
 Aplikovať nastavenia databázy
 [Yes]
 Áno
@@ -107,7 +107,7 @@ Nie pre všetko
 Zobraziť obsah
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
-[Database Setting Change]
+[Database setting change]
 Zmena nastavenia databázy
 [Database settings are being imported from]
 Nastavenie databázy je importované z
@@ -119,9 +119,9 @@ hodnotu
 Prajete si umožniť túto zmenu?
 [&Allow all further changes to this section]
 Umožniť všetky budúce zmeny v tejto sekcii
-[Cancel Import]
+[Cancel import]
 Zrušiť importovanie
-[Database Import Complete]
+[Database import complete]
 Databáza kompletne importovaná
 [The import has completed from]
 Import je kompletný z
@@ -135,7 +135,7 @@ Vymazať
 Presunúť/Premenovať
 [&Leave]
 Opustiť
-[Netlib Log Options]
+[Netlib log options]
 
 [Show]
 Zobraziť
@@ -165,7 +165,7 @@ Súbor
 
 [Save as default]
 
-[SSL Traffic]
+[SSL traffic]
 
 [Sounds]
 Zvuky
@@ -175,7 +175,7 @@ Zmeniť...
 Prehrať
 [Download more sounds]
 Stiahnuť viac zvukov
-[Sound Information]
+[Sound information]
 
 [Location:]
 
@@ -201,11 +201,11 @@ Nasledujúce udalosti budú ignorované:
 
 [Files]
 
-[Online Notification]
+[Online notification]
 
-[Auth Requests]
+[Auth requests]
 
-[All Events]
+[All events]
 
 [None]
 Žiadne
@@ -213,7 +213,7 @@ Nasledujúce udalosti budú ignorované:
 V zozname kontaktov budú iba označené kontakty
 [Ignore]
 Ignorovať
-[Added Notification]
+[Added notification]
 
 [Typing]
 
@@ -223,7 +223,7 @@ Viditeľnosť
 Pre túto osobu ste viditelný pokiaľ neprejdete do stavu "Neviditelný"
 [You are never visible to this person]
 Pre túto osobu ste VŽDY neviditelný
-[Icon Index]
+[Icon index]
 Zoznam ikon
 [Icon library:]
 Knižnica ikon:
@@ -241,7 +241,7 @@ Importovať
 
 [Logging...]
 
-[Outgoing Connections]
+[Outgoing connections]
 
 [Use proxy server]
 Použi proxy server
@@ -253,7 +253,7 @@ Server:
 Port:
 [(often %d)]
 (asi %d)
-[Use Custom Login (Domain login picked up automatically)]
+[Use custom login (domain login picked up automatically)]
 
 [Username:]
 Užív. meno:
@@ -261,13 +261,13 @@ Užív. meno:
 Heslo:
 [Resolve hostnames through proxy]
 Resolvuj mená cez proxy
-[Port Range:]
+[Port range:]
 
 [Example: 1050-1070, 2000-2010, 2500]
 Napr: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
 
-[Incoming Connections]
+[Incoming connections]
 
 [Enable UPnP port mapping]
 
@@ -303,7 +303,7 @@ WWW:
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
 
-[Fonts and Colors]
+[Fonts and colors]
 
 [Undo]
 Späť
@@ -311,13 +311,13 @@ Späť
 Reset
 [Export...]
 
-[Color/Background]
+[(Background) Color]
 
-[Text Effect]
+[Text effect]
 
-[Text Color]
-
-[Choose Font]
+[Text color]
+Fraba textu
+[Choose font]
 
 [Font]
 
@@ -347,9 +347,9 @@ Príklad
 
 [&Help]
 Pomoc
-[Menu Objects]
+[Menu objects]
 
-[Menu Items]
+[Menu items]
 
 [Protocol menus]
 
@@ -357,7 +357,7 @@ Pomoc
 
 [Move to the status bar]
 
-[Warning!\r\nThis MenuObject not support user defined options.]
+[Warning!\r\nThis menu object not support user defined options.]
 
 [Insert separator]
 
@@ -371,11 +371,11 @@ Prednastavené
 
 [Show accounts in the following order,\ndrag to choose another order:]
 
-[Account Order && Visibility]
+[Account order and visibility]
 
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 
-[Key Bindings]
+[Key bindings]
 
 [Shortcut:]
 
@@ -383,9 +383,9 @@ Prednastavené
 
 [Remove]
 
-[Undo Changes]
+[Undo changes]
 
-[Reset To Default]
+[Reset to default]
 
 [Hotkeys]
 Klávesové skratky
@@ -415,7 +415,7 @@ Klávesové skratky
 
 [Miranda NG is being restarted.\nPlease wait...]
 
-[Error Console]
+[Error console]
 
 [Error notifications]
 
@@ -437,7 +437,7 @@ Klávesové skratky
 
 [Choose events you wish to ingonre:]
 
-[Font Effect]
+[Font effect]
 
 [Effect:]
 
@@ -449,7 +449,7 @@ Klávesové skratky
 
 [Select the extra icons to be shown in the contact list:]
 
-[* only the first %d icons will be shown]
+[*only the first %d icons will be shown]
 
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 
@@ -461,47 +461,47 @@ Skryť/Zobraziť
 Koniec
 [Nowhere]
 
-[&New Group]
+[&New group]
 Nová skupina
-[&Hide Offline Users]
+[&Hide offline users]
 Skryť nepripojených užívatelov
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &Empty Groups]
+[Hide &empty groups]
 Skryť prázdne skupiny
-[Disable &Groups]
+[Disable &groups]
 Skryť názvy skupín
 [Hide Miranda]
 
 [Group]
 
-[&New Subgroup]
+[&New subgroup]
 Nová podskupina
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Skryť nepripojených užívatelov v tejto skupine
-[&Rename Group]
+[&Rename group]
 Premenovať skupinu
-[&Delete Group]
+[&Delete group]
 Zmazať skupinu
 [&Reset to default]
 Vrátiť sa k pôvodnemu nastaveniu
 [find/add]
 
-[&Add to List]
+[&Add to list]
 Pridať do zoznamu
 [User &details]
 Informácie o užívatelovi
-[Send &Message]
+[Send &message]
 Odoslať správu
 [Log]
 Log
 [&Copy]
 Kopírovať
-[Co&py All]
+[Co&py all]
 Kopírovať všetko
-[Select &All]
+[Select &all]
 Vybrať všetko
-[C&lear Log]
+[C&lear log]
 Odstrániť záznamy v Logu
 [Open in &new window]
 Otvoriť v novom okne
@@ -509,9 +509,7 @@ Otvoriť v novom okne
 Otvoriť v tomto okne
 [&Copy link]
 Kopírovať odkaz
-[Cancel Change]
-
-[&Reset To Default]
+[Cancel change]
 
 [Ungroup]
 
@@ -520,24 +518,24 @@ Kopírovať odkaz
 Autorizovať
 [&Deny]
 
-[Decide &Later]
+[Decide &later]
 
 [Reason:]
 Dôvod:
-[Denial Reason:]
+[Denial reason:]
 
 [Add to contact list if authorized]
 
-[You Were Added]
+[You were added]
 
 [&Close]
 Zavrieť
 ;file \src\core\stdaway\resource.rc
-[%s Message for %s]
+[%s message for %s]
 %s správa pre %s
 [Retrieving %s message...]
 Prijímam %s správu
-[Status Messages]
+[Status messages]
 
 [Do not reply to requests for this message]
 Neodpovedať automaticky na túto správu
@@ -551,7 +549,7 @@ Ako prednastavenú použi túto správu:
 Použi %time% pre aktuálny čas, %date% pre aktuálny dátum
 [Status messages:]
 
-[Change %s Message]
+[Change %s message]
 Zmeniť %s správu
 [Closing in %d]
 Zavrieť (za %d s)
@@ -572,9 +570,9 @@ Odoslať
 
 [&Filter]
 
-[&Room Settings]
+[&Room settings]
 
-[&Show/hide nicklist]
+[&Show/Hide nicklist]
 
 [Show these events only:]
 
@@ -598,7 +596,7 @@ Odoslať
 
 [Notices]
 
-[Log Options]
+[Log options]
 
 [Log timestamp]
 
@@ -648,8 +646,6 @@ Zoznam
 &Správa
 [Clear lo&g]
 
-[Co&py all]
-
 [Word lookup]
 
 [Google]
@@ -672,7 +668,7 @@ Zoznam
 
 [Paste]
 
-[Select All]
+[Select all]
 
 [Clear]
 
@@ -717,13 +713,13 @@ sekund, ked su stavy rozdielne
 Zobraziť mnohonásobné ikony
 [Only when statuses differ]
 Iba pri rozdielnych stavoch
-[Contact List]
+[Contact list]
 Zoznam kontaktov
 [System tray icon]
 Ikona v oznamovacej oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovacej oblasti pri použití viacerých protokolov
-[Contact List Sorting]
+[Contact list sorting]
 
 [Window]
 Okno
@@ -787,7 +783,7 @@ Zvýrazňovať výber i keď je zoznam neaktívny
 Použiť priehladné označenie výberu
 [Dim idle contacts]
 
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Skryť nepripojených' = skryť týchto:
 [Groups]
 Skupiny
@@ -799,7 +795,7 @@ Zobrazovať počet kontaktov v skupine za názvom skupiny
 Skryť počet kontaktov v skupine ak sú všetci odpojený
 [Sort groups alphabetically]
 Triediť skupiny podľa abecedy
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Rýchle hľadanie iba v otvorených skupinách
 [Indent groups by:]
 Odsadzovanie skupín:
@@ -823,7 +819,7 @@ Výška riadku:
 Gamma korekcia
 [Gray out entire list when:]
 Potlačiť intenzitu u týchto položiek:
-[Contact List Background]
+[Contact list background]
 Pozadie zoznamu kontaktov
 [Background color]
 Farba pozadia
@@ -845,7 +841,7 @@ Posúvať s textom
 Roztiahnúť veľkosť
 [Use Windows colors]
 
-[Status Bar]
+[Status bar]
 Stavový riadok
 [Show status bar]
 Zobraziť stavový riadok
@@ -895,24 +891,24 @@ Nerušiť
 Prístupný k rozhovoru
 [&Invisible\tCtrl+7]
 Neviditelný
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Telefonujem
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Na obede
 ;file \src\core\stdfile\resource.rc
-[Send File(s)]
+[Send file(s)]
 Odoslať súbor(y)
 [To:]
 Pre:
 [File(s):]
 Súbor(y):
-[&Choose Again...]
+[&Choose again...]
 Znovu vybrať
 [Total size:]
 Celková veľkosť:
 [&User menu]
 
-[Incoming File Transfer]
+[Incoming file transfer]
 Príchádzajúci súbor
 [A&ccept]
 Prijať
@@ -934,7 +930,7 @@ Otvoriť zložku
 
 [No data transferred]
 
-[File Already Exists]
+[File already exists]
 Súbor už existuje
 [Resume]
 Výsledok
@@ -968,7 +964,7 @@ Otvoriť zložku
 Vlastnosti súboru
 [File being received]
 Súbor na prijatie
-[File Transfers]
+[File transfers]
 Prenos súboru
 [Clear completed]
 
@@ -978,7 +974,7 @@ Zavrieť
 Prijať súbory
 [Received files folder:]
 Zlozka pre prijaté súbory:
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 
 [Auto-accept incoming files from people on my contact list]
 Automaticky príjmy súbory od ľudí v mojom zozname
@@ -1042,7 +1038,7 @@ Odpoveď ľuďom ktorý niesu vo vašom zozname kontaktov
 
 [Do not set status back to online when returning from idle]
 
-[Idle Options]
+[Idle options]
 
 [Become idle if application full screen]
 
@@ -1081,7 +1077,7 @@ Uložiť pozíciu a veľkosť okna individuálne pre každý kontakt
 
 [Show warning when message has not been received after]
 
-[Support control up/down in message area to show previously sent messages]
+[Support CTRL+Up/Down in message area to show previously sent messages]
 
 [Delete temporary contacts when closing message window]
 
@@ -1089,9 +1085,9 @@ Uložiť pozíciu a veľkosť okna individuálne pre každý kontakt
 
 [Limit avatar height to ]
 
-[Max Number of Flashes]
+[Maximum number of flashes]
 
-[Send Error]
+[Send error]
 
 [An error has occurred. The protocol reported the following error:]
 
@@ -1099,11 +1095,11 @@ Uložiť pozíciu a veľkosť okna individuálne pre každý kontakt
 
 [Try again]
 Skús znovu
-[Message Session]
+[Message session]
 Rozhovor
 [&Details]
 
-[Message Window Event Log]
+[Message window event log]
 
 [Show names]
 Zobraziť mená
@@ -1123,9 +1119,9 @@ minút staré
 
 [Show seconds]
 
-[Load History Events]
+[Load history events]
 
-[Show Formatting]
+[Show formatting]
 
 [Send typing notifications to the following users when you are typing a message to them:]
 
@@ -1147,23 +1143,23 @@ minút staré
 
 [&Open link]
 
-[Paste && Send]
+[Paste and send]
 
 [Delete]
 
 ;file \src\core\stduihist\resource.rc
 [Find]
 Hľadať
-[&Find Next]
+[&Find next]
 Hľadať ďalšie
-[Find What:]
+[Find what:]
 Čo hľadať:
-[Message History]
+[Message history]
 História správ
 [&Find...]
 Nájsť...
 ;file \src\core\stduserinfo\resource.rc
-[Add Phone Number]
+[Add phone number]
 Pridať telefónne číslo
 [Enter country, area code and phone number:]
 Uveďte krajinu, predvoľbu a telefónne číslo:
@@ -1171,13 +1167,13 @@ Uveďte krajinu, predvoľbu a telefónne číslo:
 Alebo uveďte telefónne číslo v medzinárodnom tvare:
 [Phone can receive SMS text messages]
 Na toto číslo môžete posielať SMS správy
-[Add E-Mail Address]
+[Add e-mail address]
 
-[%s: User Details]
+[%s: user details]
 %s: Užívatelove informácie
 [%s\nView personal user details and more]
 
-[Update Now]
+[Update now]
 Aktualizovať
 [Updating]
 Aktualizujem
@@ -1261,8 +1257,6 @@ Pridať kontakt do zoznamu
 
 [(Unknown)]
 
-[View User Details]
-
 [%s requested authorization\n%u (%s) on %s]
 
 [%s requested authorization\n%u on %s]
@@ -1272,9 +1266,9 @@ Pridať kontakt do zoznamu
 [Feature is not supported by protocol]
 
 ;file \src\core\stdaway\awaymsg.cpp
-[Re&ad %s Message]
+[Re&ad %s message]
 Čítať %s správu
-[Re&ad Status Message]
+[Re&ad status message]
 
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
@@ -1307,8 +1301,6 @@ Stav
 [Open chat window]
 
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Fraba textu
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 
@@ -1379,15 +1371,15 @@ Prichádzajúca správa
 
 [Use a tabbed interface]
 
-[Close tab on doubleclick]
+[Close tab on double click]
 
 [Restore previously open tabs when showing the window]
 
 [Show tabs at the bottom]
 
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 
 [Flash window when someone speaks]
 
@@ -1533,17 +1525,17 @@ Prichádzajúca správa
 
 [Show popup for status changes]
 
-[Chat Module]
+[Chat module]
 
-[Message Background]
+[Message background]
 
-[Userlist Background]
+[User list background]
 
-[Userlist Lines]
+[User list lines]
 
-[Userlist Background (selected)]
+[User list background (selected)]
 
-[Window Icon]
+[Window icon]
 
 [Bold]
 Tučné
@@ -1585,7 +1577,7 @@ Tučné
 
 [Action (10x10)]
 
-[Add Status (10x10)]
+[Add status (10x10)]
 
 [Remove status (10x10)]
 
@@ -1597,7 +1589,7 @@ Tučné
 
 [Kick (10x10)]
 
-[Nickchange (10x10)]
+[Nick change (10x10)]
 
 [Notice (10x10)]
 
@@ -1627,13 +1619,13 @@ Rozhovor
 
 [Popups to display]
 
-[Select Folder]
+[Select folder]
 Vyber zložku
-[Message Sessions]
+[Message sessions]
 
 [General]
 
-[Chat Log]
+[Chat log]
 
 [Chat]
 
@@ -1718,15 +1710,15 @@ Vyber zložku
 
 [Close current tab (CTRL+F4)]
 
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 
-[%s: Message Session]
+[%s: message session]
 
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 
-[Nick name]
+[Nickname]
 
 [Unique ID]
 
@@ -1745,11 +1737,11 @@ Počet členov skupiny
 Oddelovače
 [Offline contacts to whom you have a different visibility]
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
-[Selected Text]
+[Selected text]
 
-[Hottrack Text]
+[Hottrack text]
 
-[Quicksearch Text]
+[Quicksearch text]
 
 ;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
@@ -1774,7 +1766,7 @@ Neviditelný
 Na obede
 [On the phone]
 Telefonuje
-[List Background]
+[List background]
 Pozadie zoznamu
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1864,8 +1856,6 @@ Pripojený
 Inicializujem...
 [Moving to next file...]
 presuň do ďalšieho suboru...
-[File already exists]
-Súbor už existuje
 [Sending...]
 Odosielam...
 [Receiving...]
@@ -2277,8 +2267,6 @@ Nenájdený užívatelia
 
 [Error writing file]
 
-[Fonts & Colors]
-
 [Sample Text]
 
 [Fonts]
@@ -2447,7 +2435,7 @@ Skupina (otvoriť)
 Skupina (zavrieť)
 [Connecting]
 Pripájam sa
-[User Details]
+[User details]
 
 [History]
 
@@ -2649,7 +2637,7 @@ neznáme
 
 [Congo]
 
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 
 [Cook Islands]
 
@@ -2755,7 +2743,7 @@ neznáme
 
 [Indonesia]
 
-[Iran, Islamic Republic of]
+[Iran]
 
 [Iraq]
 
@@ -2837,7 +2825,7 @@ neznáme
 
 [Micronesia, Federated States of]
 
-[Moldova, Republic of]
+[Moldova]
 
 [Monaco]
 
@@ -2979,7 +2967,7 @@ neznáme
 
 [Switzerland]
 
-[Syrian Arab Republic]
+[Syria]
 
 [Taiwan, Province of China]
 

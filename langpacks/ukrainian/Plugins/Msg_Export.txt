@@ -63,7 +63,7 @@ UTF8 в нових файлах
 Видалити файл
 [Debug]
 Налагодження
-[User &Details]
+[User &details]
 &Інформація
 [Export selected]
 Експорт вибраного

@@ -193,7 +193,7 @@ Rediger
 Søk
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 Bruker &Detaljer
 [View/Change My &Details...]
 Se/Forandre Mine &Detaljer...

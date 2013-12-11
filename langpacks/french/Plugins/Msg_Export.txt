@@ -54,7 +54,7 @@ Renommer le fichier
 Si le contact est effacé
 [Delete file]
 Effacer le fichier
-[User &Details]
+[User &details]
 &Détails du contact
 [Export selected]
 Exporter la sélection

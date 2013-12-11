@@ -692,7 +692,7 @@ Zmazať skupinu
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 
-[Row Items]
+[Row items]
 
 [Frame texts]
 
@@ -862,8 +862,6 @@ Text
 [Second Line]
 
 [Third Line]
-
-[Row items]
 
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]

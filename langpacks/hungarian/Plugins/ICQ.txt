@@ -398,7 +398,7 @@ Kamerun
 Kanada
 [Canary Islands]
 Kanári-szigetek
-[Cape Verde Islands]
+[Cape Verde]
 Zöld-foki Köztársaság
 [Cayman Islands]
 Kajmán-szigetek
@@ -406,7 +406,7 @@ Kajmán-szigetek
 Közép-Afrika
 [Chad]
 Csád
-[Chile, Republic of]
+[Chile]
 Chile
 [China]
 Kínai Népköztársaság
@@ -414,7 +414,7 @@ Kínai Népköztársaság
 Kolumbia
 [Comoros]
 Comore-szigetek
-[Congo, Democratic Republic of (Zaire)]
+[Congo, Democratic Republic of the]
 Kongói Demokratikus Köztársaság
 [Congo, Republic of the]
 Kongói Köztársaság
@@ -422,7 +422,7 @@ Kongói Köztársaság
 Cook-szigetek
 [Costa Rica]
 Costa Rica
-[Cote d'Ivoire (Ivory Coast)]
+[Cote d'Ivoire]
 Elefántcsontpart
 [Croatia]
 Horvátország
@@ -454,7 +454,7 @@ Eritrea
 Észtország
 [Ethiopia]
 Etiópia
-[Faeroe Islands]
+[Faroe Islands]
 Feröer-szögetek
 [Falkland Islands]
 Falkland-szigetek
@@ -514,7 +514,7 @@ Izland
 India
 [Indonesia]
 Indonézia
-[Iran (Islamic Republic of)]
+[Iran]
 Irán
 [Iraq]
 Irak
@@ -554,7 +554,7 @@ Libanon
 Lesotho
 [Liberia]
 Libéria
-[Libyan Arab Jamahiriya]
+[Libya]
 Líbia
 [Liechtenstein]
 Liechtenstein
@@ -584,13 +584,13 @@ Martinique
 Mauritánia
 [Mauritius]
 Mauritius
-[Mayotte Island]
+[Mayotte]
 Mayotte
 [Mexico]
 Mexikó
 [Micronesia, Federated States of]
 Mikronézia
-[Moldova, Republic of]
+[Moldova]
 Moldova
 [Monaco]
 Monaco
@@ -652,7 +652,7 @@ Portugália
 Puerto Rico
 [Qatar]
 Quatar
-[Reunion Island]
+[Reunion]
 Réunion
 [Romania]
 Románia
@@ -710,7 +710,7 @@ Szváziföld
 Svédország
 [Switzerland]
 Svájc
-[Syrian Arab Republic]
+[Syria]
 Szíria
 [Taiwan]
 Taiwan
@@ -764,7 +764,7 @@ Vietnámi Köztársaság
 Amerikai Virgin-szigetek
 [Wales]
 Wales
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 Wallis és Futuna
 [Yemen]
 Jemen

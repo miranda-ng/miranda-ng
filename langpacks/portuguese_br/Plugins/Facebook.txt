@@ -12,7 +12,7 @@ E-mail:
 Senha:
 [Cancel]
 Cancelar
-[User Details]
+[User details]
 Detalhes do Usuário
 [Text]
 Texto

@@ -16,7 +16,7 @@ Tühista
 Sulge
 [Try again]
 Proovi uuesti
-[User Details]
+[User details]
 Kasutaja detailid
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

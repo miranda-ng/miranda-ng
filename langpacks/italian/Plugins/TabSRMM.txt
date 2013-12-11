@@ -85,7 +85,7 @@ Icone
 Sì
 [No]
 No
-[Send message on Enter]
+[Send message on 'Enter']
 Invia messaggio con Invio
 [Minimize the message window on send]
 Minimizza la finestra del messaggio all'invio
@@ -174,8 +174,6 @@ Stato
 ;file \plugins\TabSRMM\src\translator.cpp
 [System tray icon]
 Icona nella tray di sistema
-[Send message on 'Enter']
-Invia messaggio con 'Invio'
 [Send message on double 'Enter']
 Invia messaggio con un doppio 'Invio'
 [Close the message window on send]

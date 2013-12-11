@@ -6,26 +6,6 @@
 ;  Authors: Miranda-NG project
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Yes]
-Jah
-[No]
-Ei
-[Do you want to import the settings now?]
-Kas Sa tahad praegu importida seadeid?
-[No to all]
-Ei kõigile
-[&Yes]
-&Jah
-[&No]
-&Ei
-[Cancel Import]
-Tühista import
-[&Delete]
-Kustuta
-[&Move/Rename]
-Teisalda/nimeta ümber
-[&Leave]
-Lahku
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Database Error]
 Andmebaasi viga

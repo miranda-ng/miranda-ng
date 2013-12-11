@@ -129,7 +129,7 @@ Sündmuste filter võimaldatud
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Add Contact]
 Lisa kontakt
-[User Details]
+[User details]
 Kasutaja detailid
 [History]
 Ajalugu

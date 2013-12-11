@@ -64,7 +64,7 @@ Wenn Benutzer gelöscht wird
 Datei löschen
 [Debug]
 Debug
-[User &Details]
+[User &details]
 Kontaktprofil
 [Export selected]
 Auswahl expotieren

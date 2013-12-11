@@ -486,7 +486,7 @@ ICQ бележка
 Канада
 [Canary Islands]
 Канарски острови
-[Cape Verde Islands]
+[Cape Verde]
 острови Кабо Верде
 [Cayman Islands]
 Кайманови острови
@@ -494,7 +494,7 @@ ICQ бележка
 Централноафриканска република
 [Chad]
 Чад
-[Chile, Republic of]
+[Chile]
 Чили
 [China]
 Китай
@@ -502,16 +502,16 @@ ICQ бележка
 Колумбия
 [Comoros]
 Коморски острови
-[Congo, Democratic Republic of (Zaire)]
-Демократична република Конго (Заир)
+[Congo, Democratic Republic of the]
+Демократична република Конго
 [Congo, Republic of the]
 Република Конго
 [Cook Islands]
 острови Кук (Cook)
 [Costa Rica]
 Коста Рика
-[Cote d'Ivoire (Ivory Coast)]
-Кот д’Ивоар (Ivory Coast)
+[Cote d'Ivoire]
+Кот д’Ивоар
 [Croatia]
 Хърватия
 [Cuba]
@@ -546,7 +546,7 @@ ICQ бележка
 Етиопия
 [Europe]
 Европа
-[Faeroe Islands]
+[Faroe Islands]
 Фарьорски острови
 [Falkland Islands]
 Фолкландски острови
@@ -606,8 +606,8 @@ ICQ бележка
 Индия
 [Indonesia]
 Индонезия
-[Iran (Islamic Republic of)]
-Иран (Ислямска република)
+[Iran]
+Иран
 [Iraq]
 Ирак
 [Ireland]
@@ -646,8 +646,8 @@ ICQ бележка
 Лесото
 [Liberia]
 Либерия
-[Libyan Arab Jamahiriya]
-Либия (Арабска джамахирия)
+[Libya]
+Либия
 [Liechtenstein]
 Лихтенщайн
 [Lithuania]
@@ -678,13 +678,13 @@ ICQ бележка
 Мавритания
 [Mauritius]
 Мавриций
-[Mayotte Island]
-остров Майот
+[Mayotte]
+Майот
 [Mexico]
 Мексико
 [Micronesia, Federated States of]
 Микронезия
-[Moldova, Republic of]
+[Moldova]
 Молдова
 [Monaco]
 Монако
@@ -758,8 +758,8 @@ ICQ бележка
 Пуерто Рико
 [Qatar]
 Катар
-[Reunion Island]
-остров Реюнион
+[Reunion]
+Реюнион
 [Romania]
 Румъния
 [Russia]
@@ -822,7 +822,7 @@ ICQ бележка
 Швеция
 [Switzerland]
 Швейцария
-[Syrian Arab Republic]
+[Syria]
 Сирия
 [Taiwan]
 Тайван
@@ -882,17 +882,17 @@ ICQ бележка
 Американски Вирджински острови
 [Wales]
 Уелс
-[Wallis and Futuna Islands]
-острови Уолис и Футуна
+[Wallis and Futuna]
+Уолис и Футуна
 [Yemen]
 Йемен
 [Yugoslavia]
 Югославия
-[Serbia, Republic of]
+[Serbia]
 Сърбия
 [Kosovo, Republic of]
 Косово
-[Montenegro, Republic of]
+[Montenegro]
 Черна гора
 [Zambia]
 Замбия

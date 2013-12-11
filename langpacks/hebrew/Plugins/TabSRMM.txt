@@ -227,9 +227,9 @@
 כן
 [No]
 לא
-[Send message on Enter]
+[Send message on 'Enter']
 שלח הודעה באנטר
-[Send message on double Enter]
+[Send message on double 'Enter']
 שלח הודעה באנטר כפול
 [Minimize the message window on send]
 מזער את חלון ההודעה בשליחת ההודעה
@@ -305,7 +305,7 @@ BB קוד
 הראה סרגל כלים
 [Title Bar]
 שורת כותרת
-[Tabs at Bottom]
+[Tabs at the bottom]
 טאבים בתחתית
 [Window Flashing]
 היבהוב חלון
@@ -354,8 +354,6 @@ BB קוד
 [Set Default Protocol]
 בחר פרוטוקול ברירת מחדל
 ;file \plugins\TabSRMM\src\containeroptions.cpp
-[Tabs at the bottom]
-טאבים בתחתית
 [Globally on]
 אצל כולם
 [On, if present]
@@ -494,10 +492,6 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 שליחת הודעות
 [Send on SHIFT - Enter]
 אנטר SHIFT שלח הודעות בלחיצה
-[Send message on 'Enter']
-'שלח הודעות בלחיצה על 'אנטר
-[Send message on double 'Enter']
-שלח הודעות בלחיצה כפולה על 'אנטר'
 [Close the message window on send]
 סגור את חלון ההודעה בשליחת ההודעה
 [Delete temporary contacts on close]

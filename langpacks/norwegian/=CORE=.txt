@@ -273,7 +273,7 @@ Omgjør
 Nullstill
 [Export...]
 Eksporter..
-[Color/Background]
+[(Background) Color]
 Farge/Bakgrunn
 [Text color]
 TekstFarge
@@ -385,8 +385,6 @@ K&larer Logg
 &Kopier link
 [Cancel change]
 Avbryt Endring
-[&Reset To Default]
-&Tilbakestill til Standard
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Godkjenn
@@ -492,8 +490,6 @@ Liste
 &Skriv til
 [Clear lo&g]
 Fjern lo&gg
-[Co&py all]
-Ko&pier alt
 [Word lookup]
 Ord oppslag
 [Google]
@@ -1047,8 +1043,6 @@ chiiiiller'n
 Status
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-Tekstfarge
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s har joinet kanalen
@@ -1427,9 +1421,9 @@ Antall gruppemedlemmer
 Delere
 [Offline contacts to whom you have a different visibility]
 Frakoblede brukere du har annen synlighet ovenfor
-[Selected Text]
+[Selected text]
 Valgt Tekst
-[Quicksearch Text]
+[Quicksearch text]
 Hurtigsøk Tekst
 ;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
@@ -1533,8 +1527,6 @@ Tilkoblet
 Igangsetter...
 [Moving to next file...]
 Begynner på neste fil...
-[File already exists]
-Filen eksisterer allerede
 [File transfer denied]
 Filoverføring avvist
 [File transfer failed]
@@ -1579,8 +1571,6 @@ er nå %s (var %s)
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Fil sendt
-[File received]
-Fil mottatt
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Utgående meldinger

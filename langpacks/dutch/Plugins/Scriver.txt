@@ -143,7 +143,7 @@ Berichtgeving
 ;file \plugins\Scriver\src\msgdialog.cpp
 [User Menu]
 Gebruikersmenu
-[User Details]
+[User details]
 Gebruikersdetails
 [History]
 Geschiedenis

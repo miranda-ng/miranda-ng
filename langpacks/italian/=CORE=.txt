@@ -33,7 +33,7 @@ Nascondi solo dalla lista, così da mantenere storico e impostazioni sulla visib
 Sei sicuro di voler eliminare %s?
 [This will erase all history and settings for this contact!]
 Questo eliminerà tutta la cronologia e le impostazioni per questo contatto!
-[Contact Display Options]
+[Contact display options]
 Opzioni visualizzazione contatti
 [Miranda NG Profile Manager]
 Miranda NG - Gestione dei profili utente
@@ -669,9 +669,9 @@ Mostra avviso se il messaggio non è stato ricevuto dopo
 C'è stato un errore. Il protocollo ha riferito l'errore seguente:
 [Try again]
 Prova di nuovo
-[Message Session]
+[Message session]
 Sessione messaggi
-[Message Window Event Log]
+[Message window event log]
 Log degli eventi della finestra messaggi
 [Show names]
 Mostra nomi
@@ -685,7 +685,7 @@ Carica numero di eventi precedenti
 Carica eventi risalenti ad almeno
 [minutes old]
 minuti fa
-[Load History Events]
+[Load history events]
 Carica eventi storici
 [Send typing notifications to the following users when you are typing a message to them:]
 Invia notifiche agli utenti seguenti quando stai scrivendo messaggi a loro diretti:
@@ -839,9 +839,9 @@ Messaggi informativi
 Abilitare stato dell'utente per ...
 [User disables status for ...]
 Disabilitare stato dell'utente per ...
-[Send message by pressing the Enter key]
+[Send message by pressing the 'Enter' key]
 Invia messaggio premendo il tasto Invio
-[Send message by pressing the Enter key twice]
+[Send message by pressing the 'Enter' key twice]
 Invia messaggio premendo il tasto Invio due volte
 [Flash window when someone speaks]
 Animare la finestra quando qualcuno parla
@@ -997,8 +997,6 @@ Connesso
 Inizializzazione...
 [Moving to next file...]
 Spostamento al file successivo...
-[File already exists]
-Il file esiste già
 [Sending...]
 Invio...
 [Receiving...]
@@ -1444,7 +1442,7 @@ Martinica
 Messico
 [Micronesia, Federated States of]
 Micronesia, Stati Federati della
-[Moldova, Republic of]
+[Moldova]
 Moldavia
 [Morocco]
 Marocco
@@ -1496,7 +1494,7 @@ Spagna
 Svezia
 [Switzerland]
 Svizzera
-[Syrian Arab Republic]
+[Syria]
 Siria
 [Tajikistan]
 Tagikistan

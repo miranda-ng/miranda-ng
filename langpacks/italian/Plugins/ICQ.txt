@@ -192,7 +192,7 @@ Cambogia
 Camerun
 [Canary Islands]
 Isole Canarie
-[Cape Verde Islands]
+[Cape Verde]
 Capo Verde
 [Cayman Islands]
 Isole Cayman
@@ -200,19 +200,19 @@ Isole Cayman
 Repubblica Centroafricana
 [Chad]
 Ciad
-[Chile, Republic of]
+[Chile]
 Cile
 [China]
 Cina
 [Comoros]
 Comore
-[Congo, Democratic Republic of (Zaire)]
-Congo, Repubblica Democratica del(Zaire)
+[Congo, Democratic Republic of the]
+Congo, Repubblica Democratica del
 [Congo, Republic of the]
 Congo, Repubblica del
 [Cook Islands]
 Isole Cook
-[Cote d'Ivoire (Ivory Coast)]
+[Cote d'Ivoire]
 Costa d'Avorio
 [Croatia]
 Croazia
@@ -230,7 +230,7 @@ Egitto
 Guinea Equatoriale
 [Ethiopia]
 Etiopia
-[Faeroe Islands]
+[Faroe Islands]
 Isole Faeroe
 [Falkland Islands]
 Isole Falkland
@@ -262,8 +262,8 @@ Guam, Territorio USA di
 Ungheria
 [Iceland]
 Islanda
-[Iran (Islamic Republic of)]
-Iran (Repubblica Islamica di)
+[Iran]
+Iran
 [Ireland]
 Irlanda
 [Israel]
@@ -284,7 +284,7 @@ Corea del Sud
 Lettonia
 [Lebanon]
 Libano
-[Libyan Arab Jamahiriya]
+[Libya]
 Libia
 [Lithuania]
 Lituania
@@ -300,13 +300,13 @@ Maldive
 Isole Marshall
 [Martinique]
 Martinica
-[Mayotte Island]
-Isole Mayotte
+[Mayotte]
+Mayotte
 [Mexico]
 Messico
 [Micronesia, Federated States of]
 Micronesia, Stati Federati della
-[Moldova, Republic of]
+[Moldova]
 Moldavia
 [Morocco]
 Marocco
@@ -332,8 +332,8 @@ Polonia
 Portogallo
 [Puerto Rico]
 Porto Rico
-[Reunion Island]
-Isole Riunione
+[Reunion]
+Riunione
 [Rwanda]
 Ruanda
 [Saint Helena]
@@ -364,7 +364,7 @@ Spagna
 Svezia
 [Switzerland]
 Svizzera
-[Syrian Arab Republic]
+[Syria]
 Siria
 [Tajikistan]
 Tagikistan
@@ -390,8 +390,8 @@ Città del Vaticano
 Isole Vergini (USA)
 [Wales]
 Galles
-[Wallis and Futuna Islands]
-Isole Wallis e Futuna
+[Wallis and Futuna]
+Wallis e Futuna
 [Past Work Place]
 Precedente occupazione
 [Past Organization]

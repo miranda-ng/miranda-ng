@@ -671,9 +671,9 @@ Nie
 
 [Send on Shift+Enter]
 
-[Send message on Enter]
+[Send message on 'Enter']
 Odoslať správu po stlačení Enter
-[Send message on double Enter]
+[Send message on double 'Enter']
 Odoslať správu po dvojitom stlačení Enter
 [Minimize the message window on send]
 
@@ -895,7 +895,7 @@ Prednastavené
 
 [Title Bar]
 
-[Tabs at Bottom]
+[Tabs at the bottom]
 
 [Window Flashing]
 
@@ -1019,8 +1019,6 @@ Zobraziť históriu
 [Configure container options for\n%s]
 
 [Tabs at the top]
-
-[Tabs at the bottom]
 
 [Switch bar on the left side]
 
@@ -1483,7 +1481,7 @@ Farba pozadia
 
 [Outgoing message]
 
-[Statuschange]
+[Status change]
 
 [Static container icon]
 
@@ -1709,10 +1707,6 @@ Ikona v oznamovacej oblasti
 [Sending messages]
 
 [Send on SHIFT - Enter]
-
-[Send message on 'Enter']
-
-[Send message on double 'Enter']
 
 [Close the message window on send]
 

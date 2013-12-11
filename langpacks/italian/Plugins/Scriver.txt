@@ -111,7 +111,7 @@ Scambio messaggi
 Aggiungi contatto
 [User Menu]
 Menu utente
-[User Details]
+[User details]
 Dettagli utente
 [History]
 Storico

@@ -117,7 +117,7 @@ Fax
 Ricerca
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 &Dettagli utente
 [View/Change My &Details...]
 Visualizza/Modifica i miei &dettagli...

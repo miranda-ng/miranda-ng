@@ -125,7 +125,7 @@ Değiştir
 Ara
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 Kişi &Detayları
 [View/Change My &Details...]
 Bilgilerimi Göster/&Değiştir...

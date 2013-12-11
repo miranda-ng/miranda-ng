@@ -91,7 +91,7 @@
 [Delete Group]
 [Options]
 [Filters]
-[Fonts & Colors]
+[Fonts and colors]
 [Rich Html]
 [Plain Html]
 [Txt]

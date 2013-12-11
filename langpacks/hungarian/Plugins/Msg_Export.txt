@@ -12,7 +12,7 @@ Súgó
 &Keresés...
 [&Close]
 &Bezárás
-[User &Details]
+[User &details]
 Felhasználó &részletek
 [Copy]
 Másol

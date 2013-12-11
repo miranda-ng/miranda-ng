@@ -12,7 +12,7 @@ Email:
 Password:
 [Cancel]
 Annulla
-[User Details]
+[User details]
 Dettagli utente
 [Text]
 Testo

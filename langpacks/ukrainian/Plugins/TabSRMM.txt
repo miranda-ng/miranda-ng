@@ -712,7 +712,7 @@ TabSRMM: Набирає
 Вікна чату
 [Message delivery error]
 Помилка відправлення повідомлення
-[Statuschange]
+[Status change]
 Зміна статусу
 [Image tag]
 Зображення
@@ -890,7 +890,7 @@ TabSRMM: Набирає
 Помістити панель інструментів вниз
 [Title Bar]
 Заголовок
-[Tabs at Bottom]
+[Tabs at the bottom]
 Вкладки знизу
 [Vertical maximize]
 Розтягувати по вертикалі
@@ -1193,8 +1193,6 @@ ID користувача в панелі статусу
 Розташування вкладок
 [Tabs at the top]
 Вкладки зверху
-[Tabs at the bottom]
-Внизу Вкладки
 [Switch bar on the left side]
 Панель перемикання зліва
 [Switch bar on the right side]

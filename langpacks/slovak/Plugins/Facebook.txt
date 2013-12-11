@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.2.0
+;  Version: 0.2.2.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -26,7 +26,7 @@ Heslo:
 
 [Cancel]
 Storno
-[User Details]
+[User details]
 
 [Default group:]
 
@@ -182,6 +182,8 @@ Neznáma chyba
 [Message read: %s by %s]
 
 [Message read: %s]
+
+[This message is no longer available, because it was marked as abusive or spam.]
 
 [%s and more (%d)]
 

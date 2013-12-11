@@ -579,9 +579,9 @@ Esc キーでセッションを終了 ( 無効な場合はウィンドウを最�
 新規ウインドウを最小化した状態で作成
 [Send on Shift+Enter]
 Shift + Enter で送信
-[Send message on Enter]
+[Send message on 'Enter']
 Enter でメッセージを送信
-[Send message on double Enter]
+[Send message on double 'Enter']
 Enter 2 回でメッセージを送信
 [Minimize the message window on send]
 送信用メッセージウィンドウを最小化
@@ -769,7 +769,7 @@ dummy
 ツールバーを一番下に表示
 [Title Bar]
 タイトルバー
-[Tabs at Bottom]
+[Tabs at the bottom]
 タブは一番下
 [Window Flashing]
 ウィンドウのフラッシュ
@@ -852,8 +852,6 @@ TabSRMM バージョン情報...
 以下のコンテナオプションを設定\n%s
 [Tabs at the top]
 タブを一番上
-[Tabs at the bottom]
-タブを一番下
 [Switch bar on the left side]
 バーを左側に切り替え
 [Switch bar on the right side]
@@ -1145,7 +1143,7 @@ History++ プラグイン
 着信メッセージ
 [Outgoing message]
 発信メッセージ
-[Statuschange]
+[Status change]
 ステータス変更
 [Static container icon]
 静的コンテナアイコン
@@ -1322,10 +1320,6 @@ RSS プロトコルからのイベントを通知しない
 メッセージの送信中
 [Send on SHIFT - Enter]
 SHIFT - Enter で送信
-[Send message on 'Enter']
-エンターキーでメッセージ送信
-[Send message on double 'Enter']
-エンターキー 2 回でメッセージ送信
 [Close the message window on send]
 送信用メッセージウィンドウを閉じる
 [Always flash contact list and tray icon for new messages]

@@ -18,7 +18,7 @@
 シェア
 [Cancel]
 Cancel
-[User Details]
+[User details]
 ユーザーの詳細情報
 [Text]
 テキスト

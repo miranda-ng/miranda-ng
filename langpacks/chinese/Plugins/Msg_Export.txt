@@ -54,7 +54,7 @@
 当用户删除时
 [Delete file]
 删除文件
-[User &Details]
+[User &details]
 用户详细资料(&D)
 [Export selected]
 导出选定

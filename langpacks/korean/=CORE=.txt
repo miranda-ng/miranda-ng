@@ -794,7 +794,7 @@ OutputDebugString()
 식사중
 [On the phone]
 전화중
-[List Background]
+[List background]
 목록 배경
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -859,8 +859,6 @@ OutputDebugString()
 초기화중...
 [Moving to next file...]
 다음 파일로 이동중...
-[File already exists]
-이미 같은 파일이 존재합니다
 [File transfer denied]
 파일 전송 거절
 [File transfer failed]

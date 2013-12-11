@@ -2650,7 +2650,7 @@ Colombia
 Comoras
 [Congo]
 Congo
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 Congo, la República Democrática del
 [Cook Islands]
 Islas Cook
@@ -2756,8 +2756,8 @@ Islandia
 India
 [Indonesia]
 Indonesia
-[Iran, Islamic Republic of]
-Irán, República Islámica de
+[Iran]
+Irán
 [Iraq]
 Irak
 [Ireland]
@@ -2838,8 +2838,8 @@ Mayotte
 México
 [Micronesia, Federated States of]
 Micronesia, Estados Federados de
-[Moldova, Republic of]
-Moldova, República de
+[Moldova]
+Moldova
 [Monaco]
 Mónaco
 [Mongolia]
@@ -2980,8 +2980,8 @@ Swazilandia
 Suecia
 [Switzerland]
 Suiza
-[Syrian Arab Republic]
-República Árabe Siria
+[Syria]
+Siria
 [Taiwan, Province of China]
 Taiwan, Provincia de China
 [Tajikistan]

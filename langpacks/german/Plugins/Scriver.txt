@@ -40,7 +40,7 @@ Tabs
 Tabs aktivieren
 [Always show tab bar]
 Tab-Leiste immer anzeigen
-[Tabs at bottom]
+[Tabs at the bottom]
 Tabs unten anzeigen
 [Limit names on tabs to]
 Namen auf Tabs kürzen auf
@@ -499,7 +499,7 @@ Smiley
 Kontakt hinzufügen
 [User Menu]
 Kontaktmenü
-[User Details]
+[User details]
 Kontaktprofil
 [History]
 Verlauf

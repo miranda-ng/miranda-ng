@@ -99,7 +99,7 @@ Lisa
 Otsi
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[User &Details]
+[User &details]
 Kasutaja detailid
 [View/Change My &Details...]
 Vaata/muuda minu &detaile...

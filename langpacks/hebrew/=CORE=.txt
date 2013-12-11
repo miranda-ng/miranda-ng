@@ -803,7 +803,7 @@ OutputDebugString()
 הבהב במגש המערכת וברשימת אנשי הקשר
 [Show balloon popup]
 הצג בחלון פופ אפ
-[Paste && Send]
+[Paste and send]
 הדבק && שלח
 [Delete]
 מחק
@@ -879,8 +879,6 @@ OutputDebugString()
 מצב
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
-[Text color]
-צבע טקסט
 ;file \src\core\stdchat\src\log.cpp
 [%s is now known as %s]
 %s ידוע כ %s
@@ -1257,8 +1255,6 @@ OutputDebugString()
 ...מאתחל
 [Moving to next file...]
 ...עובר לקובץ הבא
-[File already exists]
-הקובץ קיים
 [Sending...]
 ...שולח
 [Receiving...]

@@ -24,7 +24,7 @@ M'alerter quand le message n'a pas été reçu après
 secondes
 [Tabs]
 Onglets
-[Tabs at bottom]
+[Tabs at the bottom]
 Onglets en bas
 [Limit names on tabs to]
 Taille maxi des noms des onglets à
@@ -265,7 +265,7 @@ Envoi de message
 Ajouter le contact
 [User Menu]
 Menu Contact
-[User Details]
+[User details]
 Détails du contact
 [History]
 Historique

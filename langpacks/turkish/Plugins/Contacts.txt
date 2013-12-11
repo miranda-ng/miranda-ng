@@ -18,7 +18,7 @@ Kapat
 Bir hata oldu. Protokol şu hatayı verdi:
 [Try again]
 Yeniden dene
-[User Details]
+[User details]
 Kullanıcı Detayları
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]

@@ -39,7 +39,7 @@
 Включити вкладки
 [Always show tab bar]
 Завжди ховати панель вкладок
-[Tabs at bottom]
+[Tabs at the bottom]
 Вкладки знизу
 [Limit names on tabs to]
 Обмежити імена на вкладках
@@ -481,7 +481,7 @@ Unicode вимкнено
 Додати контакт
 [User Menu]
 Меню користувача
-[User Details]
+[User details]
 Про користувача
 [History]
 Історія

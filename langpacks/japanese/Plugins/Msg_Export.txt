@@ -12,7 +12,7 @@
 検索 (&F)...
 [&Close]
 閉じる (&C)
-[User &Details]
+[User &details]
 ユーザーの詳細情報 (&D)
 [Copy]
 コピー

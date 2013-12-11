@@ -222,7 +222,7 @@ Gruppe löschen
 Einstellungen
 [Filters]
 Filter
-[Fonts & Colors]
+[Fonts and colors]
 Schriften && Farben
 [Icons]
 Icons

@@ -36,7 +36,7 @@
 启用标签
 [Always show tab bar]
 永远显示标签栏
-[Tabs at bottom]
+[Tabs at the bottom]
 标签放在底部
 [Limit names on tabs to]
 限制标签名称为
@@ -381,7 +381,7 @@ Unicode 已关闭
 添加联系人
 [User Menu]
 用户菜单
-[User Details]
+[User details]
 用户详细资料
 [History]
 历史
