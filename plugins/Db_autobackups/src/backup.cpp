@@ -67,7 +67,7 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 		fi.tmz_date.tm_min = st.wMinute;
 		fi.tmz_date.tm_hour = st.wHour;
 		fi.tmz_date.tm_mday = st.wDay;
-		fi.tmz_date.tm_mon = st.wMonth;
+		fi.tmz_date.tm_mon = st.wMonth-1;
 		fi.tmz_date.tm_year = st.wYear;
 
 		int res = zipOpenNewFileInZip( hZip, szSourceName, &fi, NULL, 0, NULL, 0, "",  Z_DEFLATED, Z_BEST_COMPRESSION );
@@ -103,7 +103,7 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 						}
 					}
 					SendMessage(hProgBar, PBM_SETPOS, (WPARAM)(100 / ((int)fad.nFileSizeLow / buf_length) * ++i), 0);
-				}					
+				}
 				mir_free(buf);
 			}
 			zipCloseFileInZip(hZip);
@@ -118,19 +118,14 @@ bool MakeZip(LPCTSTR tszSource, LPCTSTR tszDest)
 
 INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR fname_buff[MAX_PATH], tszFilter[210];
+	TCHAR fname_buff[MAX_PATH], tszFilter[200];
 	OPENFILENAME ofn = {0};
 	CallService(MS_DB_GETPROFILENAMET,MAX_PATH,(LPARAM)fname_buff);
 
-	int i = mir_sntprintf(tszFilter, 64, _T("%s (*.dat)"), TranslateT("Miranda NG databases")) + 1;
-	_tcscpy(tszFilter + i, _T("*.dat")); 
-	i += 6;
-	i += mir_sntprintf(tszFilter + i, 84, _T("%s (*.zip)"), TranslateT("Compressed Miranda NG databases")) + 1;
-	_tcscpy(tszFilter + i, _T("*.zip"));
-	i += 6;
-	i += mir_sntprintf(tszFilter + i, 48, _T("%s (*.*)"), TranslateT("All files")) + 1;
-	_tcscpy(tszFilter + i, _T("*"));
-	tszFilter[i + 2] = 0;
+	mir_sntprintf(tszFilter, SIZEOF(tszFilter), _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"), 
+		TranslateT("Miranda NG databases"), 0, 0, 
+		TranslateT("Compressed Miranda NG databases"), 0, 0, 
+		TranslateT("All files"), 0, 0);
 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = fname_buff;
@@ -172,7 +167,7 @@ int RotateBackups()
 
 	mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\%s*"), backupfolder, dbname);
 	HANDLE hFind = FindFirstFile(backupfolderTmp, &FindFileData);
-	if (hFind == INVALID_HANDLE_VALUE) 
+	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
 	backupFile *bf = (backupFile*)mir_calloc(sizeof(backupFile));
@@ -313,8 +308,8 @@ int SetBackupTimer(void)
 	{
 		if (timer_id == 0)
 			timer_id = SetTimer(0, timer_id, 1000 * 60, TimerProc);
-	} 
-	else if (timer_id != 0) 
+	}
+	else if (timer_id != 0)
 	{
 		KillTimer(0, timer_id);
 		timer_id = 0;
