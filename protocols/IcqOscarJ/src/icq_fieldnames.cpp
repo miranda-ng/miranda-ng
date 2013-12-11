@@ -136,7 +136,7 @@ const FieldNamesItem countryField[]={
   {354, LPGEN("Iceland")},
   {91, LPGEN("India")},
   {62, LPGEN("Indonesia")},
-  {98, LPGEN("Iran, Islamic Republic of")},
+  {98, LPGEN("Iran")},
   {964, LPGEN("Iraq")},
   {353, LPGEN("Ireland")},
   {972, LPGEN("Israel")},

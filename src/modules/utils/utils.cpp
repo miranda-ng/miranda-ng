@@ -100,7 +100,7 @@ static CountryListEntry countries[] = {
 	{57,     LPGEN("Colombia"), "CO"},
 	{269,    LPGEN("Comoros"), "KM"},
 	{242,    LPGEN("Congo, Republic of the"), "CG"},
-	{243,    LPGEN("Congo, the Democratic Republic of the"), "CD"},
+	{243,    LPGEN("Congo, Democratic Republic of the"), "CD"},
 	{682,    LPGEN("Cook Islands"), "CK"},
 	{506,    LPGEN("Costa Rica"), "CR"},
 	{225,    LPGEN("Cote d'Ivoire"), "CI"},
