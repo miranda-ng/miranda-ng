@@ -7,203 +7,347 @@
 ;============================================================
 [Tlen protocol support for Miranda NG.]
 Поддержка протокола Tlen в Miranda NG.
-[%s Web Messages]
-%s Web сообщений
-[...Connecting...]
-...Подключение...
-[...Denied...]
-...Запрещено...
-[...Error...]
-...Ошибка...
-[...Finished...]
-...Завершено...
-[...Waiting for connection...]
-...Ожидание соединения...
-[<Ask me>]
-<Спроси меня>
-[<Last message>]
-(Последнее сообщение)
-[Accept all alerts]
-Принимать все уведомления
-[Accept all invitations]
-Принимать все приглашения
-[Accept invitations from authorized contacts]
-Принимать приглашения от авторизированных контактов
-[Alert]
-Предупреждение
-[Ignore advertisements]
-Игнорировать рекламу
-[Plan:]
-План:
-[Looking for:]
-Ищу:
-[Clerk]
-Клерк
-[Enable incoming mail notification]
-Вкл. уведомление о входящей почте
-[Friendship]
-Дружба
-[Connection Host:]
-Узел подключения:
-[Tlen login:]
-Вход Tlen:
-[Unemployed]
-Безработный
-[You cannot create more than %s chat rooms.]
-Вы не можете создать больше чем %s комнат.
-[Nickname '%s' is already registered.]
-Псевдоним '%s' уже зарегистрирован.
-[You cannot send any message unless you join this chat room.]
-Вы не можете посылать сообщение, пока Вы не вошли в комнату.
-[Ignore all invitation]
-Игнорировать все приглашения
-[Subscription:]
-Подписка:
-[Tlen Voice Chat Invitation]
-Tlen приглашение голосового чата
-[Expert Options]
-Настройки Эксперта
-[Ignore all alerts]
-Игнорировать все уведомления
-[You cannot register more than %s nicknames.]
-Вы не можете зарегистрировать больше чем %s псевдонимов.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Псевдоним уже используется, выберите другой. Подсказка: '%s' свободен.
-[Manager]
-Менеджер
-[Send and receive client version information]
-Отправлять и получать версии клиентов
-[Teacher]
-Учитель
-[Voice chat policy]
-Политика групповых чатов
-[Group chat policy]
-Политика чатов
-[Ignore invitations from unauthorized contacts]
-Игнорировать приглашения от неавторизованных контактов
-[Pensioner]
-Пенсионер
-[School:]
-Школа:
-[Tlen Protocol Option]
-Настройки протокола Tlen
-[Alert policy]
-Политика уведомления
-[These changes will take effect the next time you connect to the Tlen network.]
-Изменения вступят в силу, после того как Вы переподключитесь к сети Tlen.
-[Voice Chat]
-Голосовой чат
-[Voice chat]
-Голосовой чат
-[Voice Chats]
-Голосовые чаты
-[Voice chats]
-Голосовые чаты
-[Always ask me]
-Всегда спрашивать
-[Show offline users with status messages as invisible in contact list]
-Показывать отключённых пользователей с сообщениями статуса как невидимые
-[Use Nudge plugin]
-Исп. Тряску
-[Somebody to talk]
-Поговорить с любым
-[Housekeeper]
-Домработница
-[Chat room with already created.]
-Комната уже создана.
-[Log alerts as messages]
-Сохр. увед. как сооб.
-[Ignore alerts from unauthorized contacts]
-Игнорировать уведомления от неавторизованных контактов
-[You have been kicked. Reason: %s ]
-Вас выкинули. Причина: %s\s
-[P2P Connections]
-P2P Подключения
-[Enable Always Visible and Never Visible]
-Вкл. Всегда видим и Всегда невидим
-[Incoming mail]
-Входящая почта
-[You cannot join more than %s chat rooms.]
-Вы не можете войти в больше чем %s комнат.
-[This is a private chat room and you are not one of the members.]
-Это приватная чат-комната, и вы не её член.
-[Playback device:]
-Устройство воспр.:
-[Flirt/romance]
-Флирт/Романтика
-[Private conference]
-Личная конференция
-[You cannot join this chat room, because you are banned.]
-Вы не можете войти в комнату, потому что Вы заблокированы.
-[Use proxy for incoming connections]
-Исп. прокси для входящих подключений
-[Specialist]
-Специалист
-[Chat room not found.]
-Комната чата не найдена.
-[The following invitation to join a voice chat is received.]
-Получено приглашение войти в голосовой чат.
-[Student]
-Студент
-[Recording device:]
-Устройство записи:
-[An alert has been received.]
-Уведомление принято.
-[Forwarding]
-Перенаправление
-[Farmer]
-Фермер
-[Doctor]
-Доктор
-[Year of birth:]
-Год рождения:
-[Personal Information]
-Персональные данные
-[Unknown error code: %d]
-Неизвестная ошибка: %d
-[Extra Search Criterias]
-Доп. критерии поиска
+[Username:]
+Пользователь:
+[Password:]
+Пароль:
+[Save password]
+Сохранить пароль
+[Create new account]
+Новая учётная запись
+[Options]
+Настройки
+[Automatically reconnect after unintentional disconnection]
+
 [Leave status message after disconnection]
 Оставить сообщение статуса после отключения
-[Anonymous nicknames are not allowed in this chat room.]
-Анонимные псевдонимы запрещены в этой комнате.
+[Ignore advertisements]
+Игнорировать рекламу
+[Automatically delete contacts not in my roster]
+Автоматически удалять контакты, которые не в списке
+[Show offline users with status messages as invisible in contact list]
+Показывать отключённых пользователей с сообщениями статуса как невидимые
+[Enable avatars]
+Включить аватары
+[Send and receive client version information]
+Отправлять и получать версии клиентов
+[Alert policy]
+Политика уведомления
+[Use Nudge plugin]
+Исп. Тряску
+[Log alerts as messages]
+Сохр. увед. как сооб.
+[Group chat policy]
+Политика чатов
+[Image transfer policy]
 
-;no translation
-[I'd like to go downtown]
-[I'd like to go on a blind date]
-[I'd like to go to the cinema]
-[I'd like to go to the disco]
-[I'd like to take a walk]
+[Voice Chats]
+Голосовые чаты
+[Voice chat policy]
+Политика групповых чатов
+[Recording device:]
+Устройство записи:
+[Playback device:]
+Устройство воспр.:
+[Expert Options]
+Настройки Эксперта
+[Login server:]
+Сервер:
+[Connection Host:]
+Узел подключения:
+[Port:]
+Порт:
+[Keep connection alive]
+Поддерживать соединение
+[Enable encryption]
+
+[Enable Always Visible and Never Visible]
+Вкл. Всегда видим и Всегда невидим
+[P2P Connections]
+P2P Подключения
+[Use proxy for incoming connections]
+Исп. прокси для входящих подключений
+[Proxy type:]
+
+[Proxy server:]
+
+[Proxy requires authorization]
+
 [Mail Notification]
-[Public avatar]
-[Publicly visible status]
-[Tlen Chats]
-[Tlen Inbox]
-[Tlen login]
-[Tlen Protocol Plugin]
-[Tlen Voice Chat]
-[Waiting for suggestion]
-[Web message]
-[Available]
-[College student]
-[Send picture]
-[%s mail]
 
-[...Status...]
-...Статус...
-[Event Filter]
-Фильтр событий
-[Topic:]
-Тема:
-[User JID:]
-Пользователь:
+[Enable incoming mail notification]
+Вкл. уведомление о входящей почте
+[Colors]
+Цвета
+[Background]
+Фон
+[Text]
+Текст
+[Delay]
+Задержка
+[&From Popup plugin]
+Установки Popup
+[&Custom]
+Настроить
+[P&ermanent]
+Постоянно
+[Preview]
+Тест
+[Tlen Password]
+Пароль Tlen
+[OK]
+
+[Cancel]
+Отмена
+[Nick name:]
+Псевдоним:
+[First name:]
+Имя:
+[Last name:]
+Фамилия:
+[E-mail:]
+
+[Gender:]
+Пол:
+[Year of birth:]
+Год рождения:
+[City:]
+Город:
+[School:]
+Школа:
+[Occupation:]
+Занятие:
+[Looking for:]
+Ищу:
+[Voice chats]
+Голосовые чаты
+[Publicly visible status]
+
+[Save changes]
+
+[Avatar]
+Аватар
+[Avatar Options]
+
+[Public avatar]
+
+[Tlen login:]
+Вход Tlen:
+[Subscription:]
+Подписка:
+[Software:]
+
+[Version:]
+Версия:
+[System:]
+
+[Personal Information]
+Персональные данные
+[Nickname:]
+Ник:
+[Age:]
+Возраст:
+[to]
+в
+[Extra Search Criterias]
+Доп. критерии поиска
+[Status:]
+Статус:
+[Plan:]
+План:
+[Tlen Voice Chat]
+
+[Quality]
+
+[In]
+
+[Out]
+
+[Finish]
+Завершить
+[Tlen Voice Chat Invitation]
+Tlen приглашение голосового чата
+[&Accept]
+Принять
+[From:]
+От:
+[The following invitation to join a voice chat is received.]
+Получено приглашение войти в голосовой чат.
+[Protocol icon]
+Значок протокола
 [Tlen inbox]
 Tlen входящие
+[Group chats]
+Чаты
 [Tlen chats]
 Tlen чаты
+[Voice chat]
+Голосовой чат
 [Microphone]
 Микрофон
 [Speaker]
 Динамик
-[Tlen Password]
-Пароль Tlen
+[Send image]
+Отправить
+[Incoming mail]
+Входящая почта
+[Alert]
+Предупреждение
+[Tlen Chats]
+
+[Multi-User Conference]
+Чат-комната
+[Tlen Mail]
+
+[Send picture]
+
+[Voice Chat]
+Голосовой чат
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[1 File]
+
+[%d Files]
+%d файлов
+[Authentication failed for]
+
+[Tlen Authentication]
+
+[You have been kicked. Reason: %s ]
+Вас выкинули. Причина: %s\s
+[You cannot join this chat room, because you are banned.]
+Вы не можете войти в комнату, потому что Вы заблокированы.
+[Chat room not found.]
+Комната чата не найдена.
+[This is a private chat room and you are not one of the members.]
+Это приватная чат-комната, и вы не её член.
+[You cannot send any message unless you join this chat room.]
+Вы не можете посылать сообщение, пока Вы не вошли в комнату.
+[Chat room with already created.]
+Комната уже создана.
+[Nickname '%s' is already registered.]
+Псевдоним '%s' уже зарегистрирован.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+Псевдоним уже используется, выберите другой. Подсказка: '%s' свободен.
+[You cannot register more than %s nicknames.]
+Вы не можете зарегистрировать больше чем %s псевдонимов.
+[You cannot create more than %s chat rooms.]
+Вы не можете создать больше чем %s комнат.
+[You cannot join more than %s chat rooms.]
+Вы не можете войти в больше чем %s комнат.
+[Anonymous nicknames are not allowed in this chat room.]
+Анонимные псевдонимы запрещены в этой комнате.
+[Unknown error code: %d]
+Неизвестная ошибка: %d
+[General]
+Общее
+[Advanced]
+Дополнительно
+[Notifications]
+Уведомления
+[Network]
+Сеть
+[These changes will take effect the next time you connect to the Tlen network.]
+Изменения вступят в силу, после того как Вы переподключитесь к сети Tlen.
+[Tlen Protocol Option]
+Настройки протокола Tlen
+[Accept all alerts]
+Принимать все уведомления
+[Ignore alerts from unauthorized contacts]
+Игнорировать уведомления от неавторизованных контактов
+[Ignore all alerts]
+Игнорировать все уведомления
+[Always ask me]
+Всегда спрашивать
+[Accept invitations from authorized contacts]
+Принимать приглашения от авторизированных контактов
+[Accept all invitations]
+Принимать все приглашения
+[Ignore invitations from unauthorized contacts]
+Игнорировать приглашения от неавторизованных контактов
+[Ignore all invitation]
+Игнорировать все приглашения
+[Accept all images]
+
+[Ignore images from unauthorized contacts]
+
+[Ignore all images]
+
+[<Last message>]
+(Последнее сообщение)
+[Forwarding]
+Перенаправление
+[SOCKS4]
+
+[SOCKS5]
+
+[%s mail]
+
+[Image sent file://%s]
+
+[Image received file://%s]
+
+[Tlen login]
+
+[Enter password for]
+
+[Tlen Connection Error]
+
+[Windows Server 2003]
+
+[Windows XP]
+
+[Windows 2000]
+
+[Windows NT]
+
+[Windows 95]
+
+[Windows 98]
+
+[Windows ME]
+
+[Windows]
+
+[%s Web Messages]
+%s Web сообщений
+[Web message]
+
+[From]
+От
+[E-mail]
+
+[An alert has been received.]
+Уведомление принято.
+[Private conference]
+Личная конференция
+[Subject]
+Тема
+[Account]
+Учётная запись
+[both]
+в обе стороны
+[from]
+из
+[none]
+нет
+[not on roster]
+
+[...Connecting...]
+...Подключение...
+[...Waiting for connection...]
+...Ожидание соединения...
+[...Finished...]
+...Завершено...
+[...Error...]
+...Ошибка...
+[...Denied...]
+...Запрещено...
+[Default]
+По умолчанию
+[%s connection]
+%s подключение 
+[%s SOCKS connection]
+

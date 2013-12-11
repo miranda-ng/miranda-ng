@@ -1,57 +1,212 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
-;  File: yahoo.dll
-;  Module: Yahoo Protocol
-;  Versions: 0.3.0.9, 0.8.2.0
+;  File: Yahoo.dll
+;  Plugin: Yahoo Protocol
+;  Version: 0.11.0.1
+;  Authors: Gennady Feldman
 ;============================================================
 [Yahoo Protocol support for Miranda NG.]
 Поддержка протокола Yahoo в Miranda NG.
+[ID:]
+
+[Password:]
+Пароль:
+[Nick:]
+Ник:
+[Create a new Yahoo account using the Yahoo website]
+Создать учётную запись на сайте Yahoo
+[Expert]
+Эксперт
+[Use Yahoo Address Book (YAB)]
+Использовать адресную книгу Yahoo (YAB)
+[Show Avatars]
+Показывать аватары
+[AutoLogin to Yahoo Website(s)]
+Автоматически подключаться к Yahoo сайту(ам)
+[Display Yahoo notifications]
+Показывать сообщения Yahoo
+[Show Errors]
+Показывать ошибки
+[Yahoo Japan]
+Yahoo Япония
+[Create a new Yahoo account]
+Создать новую учётную запись Yahoo
+[Connection Settings]
+Настройки соединений
+[Login server:]
+Сервер:
+[Port:]
+Порт:
+[Reset]
+Сброс
+[Yahoo Ignore List]
+Игнорировать на Yahoo
+[Ignore anyone who is not on my Yahoo buddy list]
+Игнорировать всех, кто не в моём списке друзей
+[Ignore only the people below:]
+Игнорировать выбранных:
+[&Add]
+&Добавить
+[&Remove]
+Очистить
+[Set Custom Status]
+Установка xСтатуса
+[Show as busy]
+Показать как "занят"
+[OK]
+
+[Cancel]
+Отмена
+[Protocol:]
+Протокол:
+[Client:]
+Клиент:
+[Chat Room Invitation Request]
+
+[&Join]
+Зайти
+[&Deny]
+&Запретить
+[Denial Message]
+
+[Invitation Message]
+
+[Host]
+
+[Invite Buddy To Chat Room]
+Приглашение в чат-комнату
+[Screen Name]
+Ник
+[&Invite]
+Пригласить
+[&Cancel]
+О&тмена
+[Invitation reason]
+Причина приглашения
+[Add]
+Добавить
+[[miranda] Got conference invite to room: %s with msg: %s]
+(Miranda NG) Получено приглашение в комнату %s:%s
+[%s denied invitation with message: %s]
+
+[Me]
+Я
+[Others]
+Другое
+[&Invite user...]
+&Пригласить пользователя...
+[&Leave chat session]
+&Покинуть чат
+[User &details]
+&Информация
+[User &history]
+История пользователя
+[Join My Conference...]
+Заходи в мою чат-комнату...
+[No, thank you...]
+Нет, спасибо...
+[Main]
+Главный
+[Mail]
+Почта
+[Profile]
+Профиль
+[Refresh]
+Обновить
+[Address Book]
+Адресная книга
+[Set Status]
+Установить статус
+[Calendar]
+Календарь
+[Yahoo Error]
+Yahoo ошибка
+[The message send timed out.]
+Таймаут отправки сообщения
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Сообщение слишком длинное: Yahoo ограничено в 800 UTF8 символов
+[YAHOO Link Protocol]
+
+[YAHOO plugin HTTP connections]
+Yahoo подключения по HTTP
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Изменения вступят при следующем входе в сеть Yahoo.
-[New Mail (99 msgs)]
-Новая почта (99 писем)
-[From: Sample User\nSubject: Testing123.]
-От: Простой пользователь\nТема: ТЕСТ.
+[YAHOO Options]
+Настройки Yahoo
+[You need to be connected to Yahoo to add to Ignore List.]
+Вы должны быть в сети для добавление в список игнорирования.
+[Yahoo Ignore]
+Yahoo Игнор
+[Please enter a valid buddy name to ignore.]
+Введите правильное имя контакта для игнорирования.
+[The buddy is already on your ignore list.]
+Этот контакт уже в Вашем списке игнора.
+[You need to be connected to Yahoo to remove from the ignore list.]
+Вы должны быть в сети для удаления из списка игнорирования.
+[Please select a buddy on the ignore list to remove.]
+Выберите контакт для удаления из списка игнора.
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Connection]
+Подключение
+[Ignore List]
+Черный список
+[New E-mail available in Inbox]
+Новая почта в папке "Входящие"
+[%s plugin connections]
+%s подключение к серверу
+[ID]
+ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Введите ваш Yahoo ID - Настройки/Сеть/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
 Введите ваш yahoo пароль - Настройки/Сеть/Yahoo
 [Yahoo Login Error]
 Ошибка подключения Yahoo
-[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-Сообщение слишком длинное: Yahoo ограничено в 800 UTF8 символов
 [You need to be connected to set the custom message]
 Вы должны быть подключены чтобы задать сообщение
 [You need to be connected to refresh your buddy list]
 Вы должны быть подключены для обновления списка
 [Set &Custom Status]
 Установить xСтатус
-[S&how My profile]
-Показать мой профиль
-[&Yahoo Mail]
-Почта &Yahoo
-[&Show profile]
-Показать профиль
+[&Edit My Profile]
+&Редактировать мой профиль
 [&My Profile]
 Мой &профиль
+[&Yahoo Mail]
+Почта &Yahoo
 [&Address Book]
 &Адресная книга
 [&Calendar]
 &Календарь
-[[miranda] Got conference invite to room: %s with msg: %s]
-(Miranda NG) Получено приглашение в комнату %s:%s
-[I am sorry, but i can't join your conference since this feature is not currently implemented in my client.]
-Простите, но я не могу к вам присоединиться, т.к. эта возможность еще не реализована.
+[Create Conference]
+Создать чат-комнату
+[&Show Profile]
+Профиль
+[[miranda] Got webcam invite. (not currently supported)]
+(Miranda NG) Приглашение в видеоконференцию (пока не поддерживается)
+[Calendar Reminder]
+Календарь напоминаний
 [%s has rejected your request and sent the following message:]
 %s отклонил запрос и послал сообщение:
+[Invalid Contact]
+
+[The ID you tried to add is invalid.]
+
+[Unknown Error.]
+
+[New Mail]
+Новая почта
 [You Have %i unread msgs]
 У вас %i не прочитанных сообщений
 [New Mail (%i msgs)]
 Новая почта (%i писем)
 [From: %s\nSubject: %s]
 От: %s\nТема: %s
-[[miranda] Got webcam invite. (not currently supported)]
-(Miranda NG) Приглашение в видеоконференцию (пока не поддерживается)
+[Yahoo System Message]
+
 [Yahoo Ping Error]
 Yahoo ошибка пинга
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
@@ -66,9 +221,9 @@ Yahoo ошибка пинга
 Не могу подключится к сервису Yahoo. Проверьте настройки сервера/порт и прокси.
 [Could not log in, unknown reason: %d.]
 Не могу авторизоваться, причина: %d.
-[unknown error %s]
-неизвестная ошибка %s
-[custom error %s]
+[Unknown error %s]
+Неизвестная ошибка %s
+[Custom error %s]
 Ошибка %s
 [%s is not available for the conference]
 %s недоступен для разговора
@@ -78,126 +233,9 @@ Yahoo ошибка пинга
 %s не в игнор-списке
 [%s is in buddy list - cannot ignore]
 %s в списке - не могу игнорировать
-[system error %s]
-системная ошибка %s
-[Yahoo Error]
-Yahoo ошибка
-[Connection to %s:%d failed]
-Подключение к %s:%d не удалось
-[Please enter Yahoo server to Connect to in Options.]
-Введите в настройках сервер Yahoo
-[Create a new Yahoo account using the Yahoo website]
-Создать учётную запись на сайте Yahoo
-[Disable UTF8 encoding]
-Выключить кодировку UTF8
-[Disable main menu (needs restart)]
-Убрать подменю в главном меню
-[Use Yahoo Address Book (YAB)]
-Использовать адресную книгу Yahoo (YAB)
-[Show Errors]
-Показывать ошибки
-;сократил, т.к. не влезает в Buddy Expectator'е
-[Display Yahoo Mail notifications]
-Уведомлять о новой почте
-[Show as busy]
-Показать как "занят"
-[Yahoo Mail]
-Почта Yahoo
-[Set Custom Status]
-Установка xСтатуса
-[YAHOO plugin connections]
-Подключения плагина YAHOO
-[YAHOO plugin HTTP connections]
-Yahoo подключения по HTTP
-[Display Yahoo notifications]
-Показывать сообщения Yahoo
-[Yahoo Ignore List]
-Игнорировать на Yahoo
-[Yahoo Japan]
-Yahoo Япония
-[Avatar upload failed!?!]
-Ошибка загрузки аватара!?!
-[Address Book]
-Адресная книга
-[Calendar]
-Календарь
-[Mail]
-Почта
-[Set Status]
-Установить статус
-[Yahoo plugin requires db3x plugin version 0.5.1.0 or later]
-Плагину Yahoo нужен плагин db3x версии 0.5.1.0 или старше
-[Please enter a valid buddy name to ignore.]
-Введите правильное имя контакта для игнорирования.
-[Please select a buddy on the ignore list to remove.]
-Выберите контакт для удаления из списка игнора.
-[The buddy is already on your ignore list.]
-Этот контакт уже в Вашем списке игнора.
-[YAHOO Options]
-Настройки Yahoo
-[Yahoo Ignore]
-Yahoo Игнор
-[You need to be connected to Yahoo to add to Ignore List.]
-Вы должны быть в сети для добавление в список игнорирования.
-[You need to be connected to Yahoo to remove from the ignore list.]
-Вы должны быть в сети для удаления из списка игнорирования.
-[&Show Profile]
-Профиль
-[Calendar Reminder]
-Календарь напоминаний
-[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
-Невозможно подключится к серверу Yahoo. Проверьте настройки, и состояния подключения к сети.
-[Custom error %s]
-Ошибка %s
-[Server Connection Error: %s]
-Ошибка соединения сервера: %s
 [System Error: %s]
 Системная ошибка: %s
-[Unknown error %s]
-Неизвестная ошибка %s
-[You have been logged out of the yahoo service.]
-Вы отключены от сети Yahoo.
-[Yahoo Detail]
-Yahoo детали
-[Yahoo Directory Search]
-Поиск в директории Yahoo
-[Yahoo Member Profile]
-Профиль пользователя Yahoo
-[Yahoo Protocol]
-Протокол Yahoo
-[YAHOO]
-Yahoo
-[[%s] Requesting file from %s]
-(%s) Запрос файла от %s
-[Yahoo Protocol Beta/Nightly]
-Протокол Yahoo Beta/Nightly
-[&Edit My Profile]
-&Редактировать мой профиль
-[Connection Settings]
-Настройки соединений
-[Ignore List]
-Черный список
-[Ignore anyone who is not on my Yahoo buddy list]
-Игнорировать всех, кто не в моём списке друзей
-[Ignore only the people below:]
-Игнорировать выбранных:
-[Disable Yahoo Menu Items]
-Отключить пункты меню Yahoo
-[My Yahoo Member Profile]
-Мой Yahoo профиль
-[Create a new Yahoo account]
-Создать новую учётную запись Yahoo
-[mail]
-почта
-[AutoLogin to Yahoo Website(s)]
-Автоматически подключаться к Yahoo сайту(ам)
-[Create Conference]
-Создать чат-комнату
-[Invite Buddy To Chat Room]
-Приглашение в чат-комнату
-[Screen Name]
-Ник
-[Invitation reason]
-Причина приглашения
-[Join My Conference...]
-Заходи в мою чат-комнату...
+[Server Connection Error: %s]
+Ошибка соединения сервера: %s
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Невозможно подключится к серверу Yahoo. Проверьте настройки, и состояния подключения к сети.

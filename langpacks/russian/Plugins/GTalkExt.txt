@@ -1,51 +1,69 @@
-﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;============================================================
 ;  File: GTalkExt.dll
-;  Module: GTalk extensions for Jabber protocol
-;  Versions: 0.0.0.18
-;  URL: http://miranda-planet.com/forum/index.php?autocom=downloads&showfile=1400
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/gtalkext/
+;  Plugin: GTalk Extension
+;  Version: 0.1.0.2
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
 Расширение протокола Jabber для почтовых уведомлений GTalk.
-[subject\n    %s\nfrom\n%s\n%s\n]
-тема\n    %s\nот\n%s\n%s\n
-[subject\n    %s\nfrom\n%s]
-тема\n    %s\nот\n%s
-[Unread threads:]
-Непрочитанных цепочек:
-[GMail notifications]
-Уведомления о почте GMail
 [Popup notifications (needs popup plugin)]
 Всплывающие уведомления (требуется плагин всплывающих окон)
-[Notify in contact list]
-Уведомлять в списке контактов
-[Clear pseudocontact history before adding new events]
-Очищать историю псевдоконтакта перед добавлением новых событий
 [Notify in fullscreen mode too]
 Также уведомлять и в полноэкранном режиме
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Используйте это если ваш плагин всплывающих окон неверно определяет полноэкранный режим. Оно отберет у вас фокус ввода
-[Supress foreign popups for pseudocontact]
-Скрывать посторонние всплывающие окна для псевдоконтакта
-[0 means default timeout,\n-1 means no timeout]
-0 = Умолчание,\n-1 = Бесконечно
-[If both colors set to the same value, default colors will be used]
-Если оба цвета одинаковы, будут использованы цвета по умолчанию
+[Notify in contact list]
+Уведомлять в списке контактов
+[Clear pseudocontact history before adding new events]
+Очищать историю псевдоконтакта перед добавлением новых событий
 [Mark history event read when popup closed]
 При закрытии всплывающего окна помечать событие прочитанным
+[Add message snip to notification]
+Добавить в уведомление фрагмент письма
 [Try to login before open mailbox]
 Пытаться залогиниться перед переходом в почтовый ящик
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
 Это работает только если пароль сохранён в БД. Не влияет на ссылки в журнале сообщений псевдоконтакта
-[Open mailbox]
-Открыть почтовый ящик
-[Add message snip to notification]
-Добавить в уведомление фрагмент письма
 [Choose GMail view you use in web interface]
 Выберите вид GMail, используемый в веб-интерфейсе
 [I don't know]
 Я не знаю
 [Standard view]
 Стандартный
+[Basic HTML]
+Базовый HTML
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Timeout]
+Таймаут
+[If both colors set to the same value, default colors will be used]
+Если оба цвета одинаковы, будут использованы цвета по умолчанию
+[0 means default timeout,\n-1 means no timeout]
+0 = Умолчание,\n-1 = Бесконечно
+[Test]
+Тест
+[Open mailbox]
+Открыть почтовый ящик
+[Popups]
+Всплывающие окна
+[Network]
+Сеть
+[Why C sucks]
+
+[brickstrace@gmail.com [1]]
+
+[    bems\n]
+
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
+
+[GMail notifications]
+Уведомления о почте GMail
+[subject\n    %s\nfrom\n%s\n%s\n]
+тема\n    %s\nот\n%s\n%s\n
+[subject\n    %s\nfrom\n%s]
+тема\n    %s\nот\n%s
+[Unread threads:]
+Непрочитанных цепочек:

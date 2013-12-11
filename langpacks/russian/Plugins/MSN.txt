@@ -1,246 +1,279 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
-;  File: msn.dll
-;  Module: MSN Protocol
-;  Versions: 0.1.6.9, 0.7.0.2, 0.8.1.0, 0.8.4.0, 0.9.0.0
+;  File: MSN.dll
+;  Plugin: MSN Protocol
+;  Version: 0.11.0.3
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Поддержка протокола Microsoft Network (MSN) в Miranda NG.
-[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте ваш плагин сообщений.
-[Setup Live &Alerts]
-Настройки Live &Alerts
-[Run the following application when new Hotmail arrives]
-Запустить приложение при появлении новой почты
-[MSN Options]
-Настройки MSN
-[Relative list]
-Список "вы в списке"
-[Blocked list]
-Список заблокированных
-[Allowed list]
-Список разрешённых
-[Contact list]
-Список контактов
-[Local list]
-Локальный список
-[Start Netmeeting]
-Запустить Netmeeting
-[Invite to chat]
-Пригласить в чат
-[Block user]
-Заблокировать
-[Set Avatar]
-Аватар
-[MSN Services]
-Службы MSN
-[Hotmail Inbox]
-Входящие Hotmail
-[Unable to contact MS Passport servers check proxy/firewall settings]
-Невозможно подключиться к серверам MS Passport. Проверьте настройки прокси/брандмауэра
-[MSN Protocol]
-Протокол MSN
-[Hotmail from %s]
-Почта Hotmail от %s
-[Hotmail from %s (%s)]
-Почта Hotmail от %s (%s)
-[Subject: %s]
-Тема: %s
-[Contact left channel]
-Контакт покинул канал
-[&Block]
-Блокировать
-[&Unblock]
-Разблокировать
-[&Invite to chat]
-Пригласить на чат
-[Set &Nickname]
-Псевдоним...
-[&Start Netmeeting]
-Запустить Netmeeting
-[Contact tried to send its webcam data (currently not supported)]
-Контакт пытался отправить данные с веб-камеры (не поддерживается)
-[Contact tried to view our webcam data (currently not supported)]
-Контакт пытался просмотреть нашу веб-камеру (не поддерживается)
-[Contact tried to open an audio conference (currently not supported)]
-Контакт пытался открыть аудиоконференцию (не поддерживается)
-[file transfer is canceled by remote host]
-передача файла отменена удалённым пользователем
-[MSN plugin cannot add a new contact because the contact list is full]
-Плагин MSN не может добавить контакт в список, потому что список контактов полный
-[MSN protocol does not allow you to communicate with others when you are invisible]
-Протокол MSN не позволяет разговаривать с другими пользователями, если вы невидимы.
-[MSN Services are temporarily unavailable, please try to connect later]
-Службы MSN временно недоступны, попробуйте подключиться позже
-[Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Сообщения MSN ограничены 1202 символами UTF-8
-[Server has requested an unknown protocol set (%s)]
-Сервер запросил неизвестный набор протоколов (%s)
-[Unprocessed error: %s]
-Необработанная ошибка: %s
-[Unrecognised error %d. The server has closed our connection]
-Неизвестная ошибка %d. Сервер закрыл наше подключение.
-[User is already in your contact list]
-Пользователь уже в списке контактов
-[You must be talking to start Netmeeting]
-Вы должны разговаривать перед запуском Netmeeting
-[You must specify your e-mail in Options/Network/MSN]
-Вы должны указать ваш e-mail в разделе Настройки/Сеть/MSN
-[Your username or password is incorrect]
-Ваш адрес или пароль неверен
-[Your MSN account e-mail is unverified. Goto http://www.passport.com and verify the primary e-mail first]
-Ваша учётная запись MSN не подтверждена. Подтвердите ваш главный адрес e-mail на http://www.passport.com
+[Live ID:]
+
+[Password:]
+Пароль:
+[Nickname:]
+Ник:
+[Create a new Windows Live account]
+Создать новую учётную запись Windows Live
+[Expert]
+Эксперт
 [Send message font color/size info inside messages]
 Отправлять информацию о шрифте/цвете в сообщении
 [Disable all contacts not included into my contact list]
 Отключить все контакты не в списке контактов
 [Manage server groups]
 Управлять группами на сервере
-[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Импорт групп с сервера может изменить расположение контактов после следующего входа. Загрузить группы на сервер?
-[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Изменения вступят при следующем входе в сеть MSN
-[Server list]
-Список на сервере
+[Run the following application when new Hotmail arrives]
+Запустить приложение при появлении новой почты
+[Allow people on my contact list send messages to mobile device]
+Разрешить контактам из списка отправлять сообщения на мобильник
+[Connection settings]
+Настройки подключения
+[Direct:]
+Сервер:
+[Gateway:]
+Шлюз:
+[Reset]
+Сброс
+[Notify me when a message delivery has failed]
+Оповещать о неудачной доставке сообщений
+[Incoming file transfers]
+Приём файлов
+[Your host (or router):]
+Ваш хост (или роутер):
 [Server List Manager]
 Управление списком на сервере
+[Contact is on your local list]
+Контакт в вашем локальном списке
 [Contact is included into your server list]
 Контакт в вашем списке на сервере
-[Somebody included you in his/her server list]
-Вы в списке контакта на сервере
 [Allowed (active) contact]
 Разрешённый контакт
 [Blocked contact]
 Блокированный
-[This conversation has been inactive, participants will be removed.]
-Эта беседа неактивна, участники будут удалены
-[To resume the conversation, please quit this session and start a new chat session.]
-Чтобы продолжить беседу, покиньте этот сеанс и начните новый сеанс.
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-В чате остался только один человек, вернуться к окну диалога?
-[User is already in the chat session.]
-Пользователь уже есть в этом сеансе чата.
-[No active chat session is found.]
-Активный сеанс чата не найден.
-[User &history]
-История пользователя
-[&Invite user...]
-П&ригласить пользователя...
-[Set Nickname]
-Ввод ника
-[User not online]
-Пользователь не в сети
-[Live Alert]
-Live уведомление
-[Live Mail]
-Live почта
-[Allow people on my contact list send messages to mobile device]
-Разрешить контактам из списка отправлять сообщения на мобильник
-[Enable 'Contact left channel' popup]
-Всплывающее окно 'Контакт покинул канал'
-[Chat session established by contact request]
-Сессия установлена по запросу контакта
-[Chat session established by my request]
-Сессия установлена по моему запросу
-[MSN Alert]
-MSN уведомление
-[Hotmail from %S]
-Почта от %S
-[Hotmail from %S (%s)]
-Почта от %S (%s)
-[Hotmail from %s (%S)]
-Почта от %s (%S)
-[Subject: %S]
-Тема: %S
-[Automatically obtain host/port]
-Автоматически получать хост/порт
-[Chat session established]
-Сессия установлена
-[IP info available only after login]
-Информация о IP доступна после входа
-[Manually specify host/port]
-Указывать хост/порт
-[Message is too long: SMS page limited to 133 UTF8 chars]
-Слишком большое сообщение, максимум 133 символа UTF8
-[You cannot send message to yourself]
-Вы не можете посылать сообщения самому себе
-[Chat session dropped due to inactivity]
-Сессия сброшена из-за неактивности
-[Adds support for communicating with users of the MSN Messenger network]
-Добавляет поддержку протокола MSN.
-[Enable 'Chat Session Established' popup]
-Всплывающее окно 'Чат сессия установлена'
-[Chat #]
-Чат #
-[MSN Chat]
-MSN Чат
-[MSN Server Lists]
-Списки на сервере (MSN)
-[Custom Smiley]
-Свои смайлики
-[MSN Protocol Plugin]
-Плагин MSN протокола
-[No Title]
-Нет заголовка
-[Server Lists]
-Контакты на сервере
-[Contact already in your contact list]
-Контакт уже в вашем списке
-[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-Протокол MSN требует таймаута отправки сообщения не менее 60 секунд. Исправьте настройки.
-[Offline messaging is not allowed for LCS contacts]
-Сообщения отключённым LCS контактам невозможны
-[%s plugin HTTPS connections]
-%s подключение по HTTPS
-[Create a new Windows Live account]
-Создать новую учётную запись Windows Live
-[Middle Name]
-Отчество
-[Mobile Device (used for SMS)]
-Мобильное устройство (SMS)
-[Spouse/Partner]
-Супруг(а)/Партнер
+[Somebody included you in his/her server list]
+Вы в списке контакта на сервере
+[Refresh]
+Обновить
+[Hotmail]
+
 [Disable Popup notifications]
 Отключить уведомление всплывающими окнами
 [Disable Tray notifications]
 Отключить уведомления в трее
 [Ignore new messages not in Inbox folder]
 Игнорировать новые письма не из "Входящих"
+[Other]
+Другое
+[Display errors using popups]
+Показывать ошибки в окнах
+[Enable 'Chat Session Established' popup]
+Всплывающее окно 'Чат сессия установлена'
+[Enable 'Contact left channel' popup]
+Всплывающее окно 'Контакт покинул канал'
 [Disable Contact List notifications]
 Отключить уведомления в списке контактов
-[Block Contact]
-Заблокировать
-[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Контакт %s был удален с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
-[Display &Hotmail Inbox]
-Показать ящик Hotmail
-[MSN Delete Contact]
-Удаление MSN-контакта
-[MSN protocol]
-Протокол MSN
-[Open &Hotmail Inbox]
-Открыть ящик &Hotmail
-[Remove from Hotmail Address book]
-Удалить из адресной книги Hotmail
-[Send &Hotmail E-mail]
-Отправить почту Hotmail
-[Unread mail is available: %d in Inbox and %d in other folders.]
-Имеется непрочитанная почта: %d входящих писем и %d в других папках.
-[Message delivery failed]
-Доставка сообщения не удалась
-[Contact is on your local list]
-Контакт в вашем локальном списке
-[Direct:]
-Сервер:
-[Gateway:]
-Шлюз:
-[View &Profile]
-Просмотреть &профиль
-[Convert to Chat]
-Конвертировать в чат
-[Create &Chat]
-Создать &чат
+[Set Nickname]
+Ввод ника
+[OK]
+
+[Cancel]
+Отмена
+[Mobile Device (used for SMS)]
+Мобильное устройство (SMS)
+[Spouse/Partner]
+Супруг(а)/Партнер
+[Middle Name]
+Отчество
+[First Name]
+Имя
+[Last Name]
+Фамилия
+[Anniversary]
+Праздник
+[Birthday]
+День рождения
+[Nickname]
+Ник
 [Place:]
 Место:
+[MSN Delete Contact]
+Удаление MSN-контакта
+[Remove from Hotmail Address book]
+Удалить из адресной книги Hotmail
+[Block Contact]
+Заблокировать
+[Invite Contact To Chat]
+
+[Live ID]
+
+[&Invite]
+Пригласить
+[&Cancel]
+О&тмена
+[Add]
+Добавить
+[Chat #]
+Чат #
+[Me]
+Я
+[Others]
+Другое
+[&Invite user...]
+П&ригласить пользователя...
+[&Leave chat session]
+&Покинуть чат
+[User &details]
+&Информация
+[User &history]
+История пользователя
+[Contact tried to open an audio conference (currently not supported)]
+Контакт пытался открыть аудиоконференцию (не поддерживается)
+[%I64u bytes]
+
+[Accept NetMeeting request from %s?]
+
+[MSN Protocol]
+Протокол MSN
+[MSN Alert]
+MSN уведомление
+[Chat session established by my request]
+Сессия установлена по моему запросу
+[Chat session established by contact request]
+Сессия установлена по запросу контакта
+[Contact left channel]
+Контакт покинул канал
+[This conversation has been inactive, participants will be removed.]
+Эта беседа неактивна, участники будут удалены
+[To resume the conversation, please quit this session and start a new chat session.]
+Чтобы продолжить беседу, покиньте этот сеанс и начните новый сеанс.
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+В чате остался только один человек, вернуться к окну диалога?
+[MSN Chat]
+MSN Чат
+[Message delivery failed]
+Доставка сообщения не удалась
+[User not online]
+Пользователь не в сети
+[MSN Link Protocol]
+Протокол MSN
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+Контакт %s был удален с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
+[%s protocol]
+
+[Subject: %s]
+Тема: %s
+[Hotmail from %s (%S)]
+Почта от %s (%S)
+[Hotmail from %s]
+Почта Hotmail от %s
+[Unread mail is available: %d in Inbox and %d in other folders.]
+Имеется непрочитанная почта: %d входящих писем и %d в других папках.
+[&Unblock]
+Разблокировать
+[&Block]
+Блокировать
+[Open &Hotmail Inbox]
+Открыть ящик &Hotmail
+[Send &Hotmail E-mail]
+Отправить почту Hotmail
+[You must be talking to start Netmeeting]
+Вы должны разговаривать перед запуском Netmeeting
+[Set &Nickname]
+Псевдоним...
+[Create &Chat]
+Создать &чат
+[Display &Hotmail Inbox]
+Показать ящик Hotmail
+[View &Profile]
+Просмотреть &профиль
+[Setup Live &Alerts]
+Настройки Live &Alerts
+[&Start Netmeeting]
+Запустить Netmeeting
 [Custom Smileys]
 Смайлы
+[Notify]
+Уведомление
+[Error]
+Ошибка
+[Protocol icon]
+Значок протокола
+[Hotmail Inbox]
+Входящие Hotmail
+[Profile]
+Профиль
+[MSN Services]
+Службы MSN
+[Block user]
+Заблокировать
+[Invite to chat]
+Пригласить в чат
+[Start Netmeeting]
+Запустить Netmeeting
+[Contact list]
+Список контактов
+[Allowed list]
+Список разрешённых
+[Blocked list]
+Список заблокированных
+[Relative list]
+Список "вы в списке"
+[Local list]
+Локальный список
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Импорт групп с сервера может изменить расположение контактов после следующего входа. Загрузить группы на сервер?
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Изменения вступят при следующем входе в сеть MSN
+[MSN Options]
+Настройки MSN
+[Automatically obtain host/port]
+Автоматически получать хост/порт
+[Manually specify host/port]
+Указывать хост/порт
+[Disable]
+Выключить
+[IP info available only after login]
+Информация о IP доступна после входа
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+Протокол MSN требует таймаута отправки сообщения не менее 60 секунд. Исправьте настройки.
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Connection]
+Подключение
+[Server list]
+Список на сервере
+[Notifications]
+Уведомления
+[Contact tried to send its webcam data (currently not supported)]
+Контакт пытался отправить данные с веб-камеры (не поддерживается)
+[Contact tried to view our webcam data (currently not supported)]
+Контакт пытался просмотреть нашу веб-камеру (не поддерживается)
+[Live Mail]
+Live почта
+[Live Alert]
+Live уведомление
+[%s plugin HTTPS connections]
+%s подключение по HTTPS
+[%s plugin connections]
+%s подключение к серверу
+[Contact already in your contact list]
+Контакт уже в вашем списке
+[Protocol is offline]
+
+[You cannot send message to yourself]
+Вы не можете посылать сообщения самому себе
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Слишком большое сообщение, максимум 133 символа UTF8
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Сообщения MSN ограничены 1202 символами UTF-8
+[Offline messaging is not allowed for LCS contacts]
+Сообщения отключённым LCS контактам невозможны
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте ваш плагин сообщений.
+[Convert to Chat]
+Конвертировать в чат
+[Chat session dropped due to inactivity]
+Сессия сброшена из-за неактивности

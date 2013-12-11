@@ -1,11 +1,259 @@
 ﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
 ;============================================================
 ;  File: Clist_blind.dll
-;  Plugin: A contact list for blind folks.
-;  Versions: 0.8.0.1
-;  URL: http://www.pescuma.org/miranda/bclist/lang/en/
-;  Source: http://svn.miranda-ng.org/main/trunk/plugins/Clist_blind/
-;  Authors: Ricardo Pescuma Domenecci, ghazan
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
 Список контактов для людей с проблемами зрения.
+[Delete Contact]
+Удалить контакт
+[Are you sure you want to delete %s?]
+Удалить %s из списка?
+[This will erase all history and settings for this contact!]
+Будет удалена вся история и все настройки для данного контакта!
+[Yes]
+Да
+[No]
+Нет
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Скрыть из списка (останутся история и настройки видимости)
+[Use Options->Contacts->Ignore to unhide contacts.]
+Скрытые контакты: "Настройки->Контакты->Игнорировать"
+[Hotkeys]
+Горячие клавиши
+[Show/Hide:]
+Показать/Спрятать:
+[Read Message:]
+
+[Web Search:]
+Поиск в web:
+[URL:]
+
+[Open in new browser window]
+
+[Show Options]
+
+[Hide offline users]
+Скрыть отключённых
+[Hide empty groups]
+Скрыть пустые группы
+[Disable groups]
+Отключить группы
+[Ask before deleting contacts]
+Подтверждение удаления
+[Sort contacts by name]
+Сортировка по имени
+[Sort contacts by status]
+Сортировка по статусу
+[Sort contacts by protocol]
+Сортировка по протоколу
+[Single click interface]
+Один щелчок
+[Always show status in tooltip]
+Всегда показывать статус в подсказке
+[Disable icon blinking]
+Выключить мигание
+[ms delay]
+Задержка (мс)
+[Show]
+Показать
+[icon when statuses differ]
+при разных статусах
+[Cycle icons every]
+Менять каждые
+[seconds, when statuses differ]
+секунд, при разных статусах
+[Show multiple icons]
+Несколько значков
+[Only when statuses differ]
+При разных статусах
+[Contact List]
+Список контактов
+[System tray icon]
+Значок в трее
+[System tray icon when using multiple protocols]
+Значки протоколов в системном лотке
+[Contact List Sorting]
+Сортировка списка контактов
+[Window]
+Окно
+[Always on top]
+Поверх всех окон
+[Tool style main window]
+Стиль панели у заголовка
+[Minimize to tray]
+Скрыть в системный лоток
+[Hide contact list after it has been idle for]
+Скрыть список, при неактивности в течение
+[seconds]
+секунд
+[Automatically resize window to height of list]
+Автоматически изменять размер окна
+[maximum]
+максимум
+[% of screen]
+% от экрана
+[Size upwards]
+Растягивать вверх
+[Title bar text:]
+Заголовок окна:
+[Translucency options]
+Настройки прозрачности
+[Fade contact list in/out]
+Плавно скрыть список
+[Transparent contact list]
+Прозрачный список контактов
+[Inactive opacity:]
+Окно неактивно:
+[Active opacity:]
+Окно активно:
+[Show menu bar]
+Показывать меню
+[Easy move]
+Простое перемещение
+[Show title bar]
+Показывать заголовок
+[If window is partially covered, bring to front instead of hiding]
+Поместить окно на передний план, если оно прикрыто другими окнами
+[Show drop shadow (restart required)]
+Тень (нужен перезапуск)
+[Pin to desktop]
+Прикрепить к столу
+[Items]
+Элементы
+['Hide Offline' means to hide:]
+
+[Groups]
+Группы
+[Show counts of number of contacts in a group]
+Показать количество пользователей в группах
+[Hide group counts when there are none online]
+Скрыть счётчик, если нет пользователей в сети
+[Sort groups alphabetically]
+Сортировать группы по алфавиту
+[Quicksearch in open groups only]
+Быстрый поиск только в открытых группах
+[Templates]
+Шаблоны
+[Contact:]
+Контакт:
+[Group:]
+Группа:
+[Divider:]
+Разделитель:
+[Info:]
+Инфо:
+[Status Bar]
+Панель статуса
+[Show status bar]
+Показывать панель статуса
+[Show icons]
+Показывать значки
+[Show protocol names]
+Показывать протоколы
+[Show status text]
+Показывать текст статуса
+[Right click opens status menu]
+Правый щелчок - меню статуса
+[Right click opens Miranda NG menu]
+Правый щелчок - главное меню
+[Make sections equal width]
+Разделы равной ширины
+[Show bevels on panels]
+Бордюры на панелях
+[Show resize grip indicator]
+Индикатор изм. размера
+[&Main menu]
+Главное меню
+[E&xit]
+Вы&ход
+[&Status]
+Статус
+[&Offline\tCtrl+0]
+Не в с&ети\tCtrl+0
+[On&line\tCtrl+1]
+В &сети\tCtrl+1
+[&Away\tCtrl+2]
+&Отсутствую\tCtrl+2
+[&NA\tCtrl+3]
+Не&доступен\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Занят\tCtrl+4
+[&DND\tCtrl+5]
+Не &беспокоить\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Готов болтать\tCtrl+7
+[&Invisible\tCtrl+7]
+&Невидимый\tCtrl+7
+[On the &Phone\tCtrl+8]
+
+[Out to &Lunch\tCtrl+9]
+
+[Tray]
+Трей
+[&Hide/Show]
+С&крыть/Показать
+[Nowhere]
+Нигде
+[&New Group]
+Новая группа
+[&Hide Offline Users]
+Скрыть отключённых
+[Hide &Offline Users out here]
+Скрыть отключённых вне группы
+[Hide &Empty Groups]
+Скрыть пустые группы
+[Disable &Groups]
+Отключить группы
+[Hide Miranda]
+Скрыть список контактов
+[Group]
+Группа
+[&New Subgroup]
+
+[&Hide Offline Users in here]
+Скрыть отключённых в группе
+[&Rename Group]
+Переименовать группу
+[&Delete Group]
+Удалить группу
+[Not focused]
+Не в фокусе
+[Offline]
+Не в сети
+[Online]
+В сети
+[Away]
+Отсутствую
+[NA]
+Недоступен
+[Occupied]
+Занят
+[DND]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[Out to lunch]
+Обедаю
+[On the phone]
+На телефоне
+[Group: %name% %count% [%mode%]]
+
+[Divider: %s]
+
+[Info: %s]
+
+[List]
+Список
+[Global]
+Глобальные
+[Unknown Protocol]
+Неизвестный протокол
+[Expanded]
+
+[Colapsed]
+

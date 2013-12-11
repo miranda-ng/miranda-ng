@@ -1,60 +1,366 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
-;  File: gg.dll
-;  Module: Gadu-Gadu protocol
-;  Versions: 0.10.0.3
-;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/Gadu-Gadu/
-;  Authors: dezred
+;  File: GG.dll
+;  Plugin: Gadu-Gadu Protocol
+;  Version: 0.11.0.3
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
 Поддержка протокола Gadu-Gadu в Miranda NG.
-[Public Info]
-Общий каталог
-[Family name:]
-Фамилия:
-[Origin city:]
-Место жительства:
-[Birth year:]
-Год рождения:
-[Ex.]
-Экс.
+[Gadu-Gadu User Details]
+Информация о пользователе Gadu-Gadu
+[Gadu-Gadu Number:]
+Номер Gadu-Gadu:
+[Password:]
+Пароль:
+[Create new account]
+Новая учётная запись
+[Remove account]
+Удалить
+[Change password]
+Изменить пароль
+[Retrieve password]
+Восстановить пароль
+[Options]
+Настройки
 [Friends only]
 Только друзья
 [Show offline users with status message as invisible in contact list]
 Отключённые со статусным сообщением = невидимые
-[Ignore incoming conference messages]
-Игнорировать входящие конференц-сообщения
-[Automatically pop up the window when a image is received]
-Показать окно при получении изображения
-[Show contacts not on my list having me on their list]
-Показывать контакты, у которых я в списке
-[Gadu-Gadu Number:]
-Номер Gadu-Gadu:
-[Gadu-Gadu Number]
-Номер Gadu-Gadu
-[Gadu-Gadu User Details]
-Информация о пользователе Gadu-Gadu
-[Retrieve password]
-Восстановить пароль
-[Change e-mail]
-Изменить е-mail
-[Change status safely]
-Безопасное изменение статуса
-[Show connection errors]
-Показывать ошибки соединения
 [After disconnection leave away message of status:]
 После разъединения оставить статусное сообщение:
+[Receive image and after image is received use:]
+После получения изображения:
+[Show links from unknown contacts]
+Показывать ссылки от неизвестных контактов
+[Enable avatars]
+Включить аватары
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Изменения вступят в силу при следующем входе в сеть.
+[Conference policy]
+Политика конференций
+[if total participant count greater than:]
+если общее число участников больше:
+[if unknown participant count greater than:]
+если число неизвестных участников больше:
+[in other case]
+в других случаях
+[Advanced Configuration]
+Дополнительная настройка
+[Keep connection alive]
+Поддерживать соединение
+[Show connection errors]
+Показывать ошибки соединения
+[Automatically reconnect after unintentional disconnection]
+Переподключиться после неожиданного разрыва
+[Send messages slower, but with full acknowledgement]
+Отсылать сообщения медленнее, но с подтверждением
 [Manually specify connection servers' hosts]
 Указать серверы вручную
-[Use SSL secure connection]
-Безопасное подключение (SSL)
 [* new line is separator\n** hostname:port format]
 * перевод строки разделитель\n** хост:порт
+[Use SSL secure connection]
+Безопасное подключение (SSL)
+[File Transfer]
+Передача файла
 [Use direct connections]
 Использовать прямое соединение
+[Port:]
+Порт:
 [Use forwarding]
 Использовать перенаправление
+[Host:]
+Хост:
+[Number:]
+Номер:
+[Internal IP:]
+Внутренний IP:
+[First name:]
+Имя:
+[Last name:]
+Фамилия:
+[Family name:]
+Фамилия:
+[Nickname:]
+Ник:
+[Gender:]
+Пол:
+[City:]
+Город:
+[Origin city:]
+Место жительства:
+[Birth year:]
+Год рождения:
+[Description:]
+Описание:
+[&Save changes]
+Сохранить изменения
+[Enter token to continue]
+Введите маркер для продолжения
+[OK]
+
+[Cancel]
+Отмена
+[Create Gadu-Gadu account]
+Создать номер Gadu-Gadu
+[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
+Учётная запись Gadu-Gadu\nСоздание новой учётной записи Gadu-Gadu
+[New password:]
+Новый пароль:
+[Confirm password:]
+Подтвердить пароль:
+[New e-mail:]
+Новый e-mail:
+[&Create]
+Создать
+[Remove Gadu-Gadu account]
+Удалить номер Gadu-Gadu
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+
+[Yes, I want to remove my account]
+Да, удалите мою учётную запись
+[Remove]
+Удалить
+[Change Gadu-Gadu password]
+Изменить пароль Gadu-Gadu
+[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+
+[Change Gadu-Gadu e-mail]
+Изменить e-mail Gadu-Gadu
+[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+
+[Age from:]
+Возраст:
+[to:]
+до:
+[Search online users only]
+Только подключённых пользователей
+[&Close]
+&Закрыть
+[&Send]
+&Отправить
+[Open new conference]
+Начать конференцию
+[Open new conference\nSelect conference participants]
+
+[Open]
+Открыть
+[Concurrent Sessions]
+Одновременные сессии
+[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+Одновременные сессии %s\nИнформация об активных одновременных сессиях
+[Sign out all sessions]
+Выйти из всех сессий
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+
+[Cannot create avatar file. ERROR: %d: %s\n%s]
+
+[Cannot open avatar file. ERROR: %d: %s\n%s]
+
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Miranda не может распознать имя сервера Gadu-Gadu по IP-адресу.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Не удалось подключиться к серверу. Возможно, сервер не работает. Пожалуйста, попробуйте подключиться позже.
+[Received invalid server response.]
+Получен неверный ответ сервера.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Попытка подключения с сервером прервалась с ошибкой. Возможно, пропало подключение к локальной сети.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+Ваш логин или пароль не принят сервером Gadu-Gadu. Пожалуйста, проверьте их правильность Меню->Настройки->Сеть->Gadu-Gadu и попробуйте ещё раз.
+[Connecting to Gadu-Gadu hub failed.]
+Соединение с Gadu-Gadu разорвано.
+[Cannot establish secure connection.]
+Невозможно установить SSL соединение.
+[Server disconnected asking you for changing your e-mail.]
+
+[Too many login attempts with invalid password.]
+
+[Gadu-Gadu servers are now down. Try again later.]
+
+[Unknown]
+Неизвестно
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+Внешний хост для прямых подключений %s неверен. Перенаправление на внешний хост выключено.
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+Имя сервера %s неверно. Использую сервер сети по умолчанию.
+[Connection cannot be established. errno=%d: %s]
+
+[Age:]
+Возраст:
+[List import successful.]
+Список импортирован.
+[List remove successful.]
+Список удалён.
+[List export successful.]
+Список экспортирован.
+[Me]
+Я
+[Unknown client]
+Неизвестный клиент
+[You have logged in at another location]
+
+[You are logged in at another location]
+
+[Incoming image]
+
+[Male]
+Мужской
+[Female]
+Женский
+[<not specified>]
+<не указано>
+[Network]
+Сеть
+[General]
+Общее
+[Conference]
+Чат-комната
+[Advanced]
+Дополнительно
+[<Last Status>]
+<Последний статус>
+[System tray icon]
+Значок в трее
+[Popup window]
+Всплывающее окно
+[Message with [img] BBCode]
+Сообщение с [img] BB-кодом
+[You need to specify your registration e-mail first.]
+Необходимо указать ваш e-mail.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Ваш пароль будет выслан на регистрационный e-mail .\nПродолжить?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
+[Allow]
+Разрешить
+[Ask]
+Спросить
+[Ignore]
+Игнорировать
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
+
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
+
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
+
+[HTTP failed memory]
+
+[HTTP failed connecting]
+HTTP ошибка подключения
+[HTTP failed resolving]
+HTTP ошибка определения адреса
+[HTTP failed reading]
+HTTP ошибка чтения
+[HTTP failed writing]
+HTTP ошибка записи
+[Unknown HTTP error]
+HTTP неизвестная ошибка
+[&Unblock]
+Разблокировать
+[&Block]
+Блокировать
+[Contact list]
+Список контактов
+[%s connection]
+%s подключение 
+[Images]
+Изображения
+[Gadu-Gadu Number]
+Номер Gadu-Gadu
+[Open &conference...]
+Открыть конференцию...
+[&Clear ignored conferences]
+Очистить игнорируемые конференции
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s начал(а) конференцию с %d участниками (%d неизвестно).\nПринять участие?
+[%s initiated the conference.]
+%s начал(а) конференцию.
+[This is my own conference.]
+Это моя конференция.
+[Participants]
+Участники
+['Unknown']
+'Неизвестно'
+[You have to be connected to open new conference.]
+Вы должны быть подключены чтобы начинать конференции.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Список игнорируемых конференций очищен и применяется общая политика конференций.
+[There are no ignored conferences.]
+Игнорируемых конференций нет.
+[Protocol icon]
+Значок протокола
+[Import list from server]
+Импорт с сервера
+[Import list from text file]
+Импорт из файла
+[Remove list from server]
+Удалить с сервера
+[Export list to server]
+Экспорт на сервер
+[Export list to text file]
+Экспорт в файл
+[Account settings]
+Настройки
+[Block user]
+Заблокировать
+[Previous image]
+Предыдущая картинка
+[Next image]
+Следующая картинка
+[Send image]
+Отправить
+[Save image]
+Сохранить
+[Delete image]
+Удалить картинку
+[Clear ignored conferences]
+Очистить игнорируемые конференции
+[Concurrent sessions]
+Параллельные сессии
+[&Image]
+Изображение
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+
+[Image cannot be written to disk.]
+Изображение не может быть записано на диск.
+[Delete image from the list]
+
+[Save image to disk]
+
+[Image from %s]
+Изображение от %s
+[Image for %s]
+Изображение для %s
+[Select picture to send]
+Выберите изображение для отправки
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
+
+[Cannot save received image to file. ERROR: %d: %s\n%s]
+
+[Cannot open image file. ERROR: %d: %s\n%s]
+
+[Image exceeds maximum allowed size of 255 KB.]
+Допустимый размер в 255Кб превышен
+[You have to be connected before you can import/export contacts from/to server.]
+Установите соединение перед импортом/экспортом контактов с/на сервер.
+[List cannot be imported because of error:\n\t%s (Error: %d)]
+
+[List cannot be removed because of error: %s (Error: %d)]
+
+[Text files]
+Текстовый файл
+[All Files]
+Все файлы
+[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
+
+[contacts]
+контакта(ов)
+[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
+
+[List cannot be exported because of error:\n\t%s (Error: %d)]
+
 [Import List From &Server]
 Импорт списка с &Сервера
 [Import List From &Text File...]
@@ -65,243 +371,67 @@
 Экспортировать список на &Сервер
 [Export List To &Text File...]
 Экспортировать список в &Файл...
-[Text files]
-Текстовый файл
-[Connection cannot be established because of error:\n\t%s]
-Невозможно соединиться из-за ошибки:\n\t%s
-[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
-Miranda не может распознать имя сервера Gadu-Gadu по IP-адресу.
-[Received invalid server response.]
-Получен неверный ответ сервера.
-[Cannot establish secure connection.]
-Невозможно установить SSL соединение.
-[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
-Ваш логин или пароль не принят сервером Gadu-Gadu. Пожалуйста, проверьте их правильность Меню->Настройки->Сеть->Gadu-Gadu и попробуйте ещё раз.
-[Connecting to Gadu-Gadu hub failed.]
-Соединение с Gadu-Gadu разорвано.
-[Token retrieval failed because of error:\n\t%s]
-Маркер не получен из-за ошибки\n\t%s
-[Enter token to continue]
-Введите маркер для продолжения
-[You have to be connected before you can import/export contacts from/to server.]
-Установите соединение перед импортом/экспортом контактов с/на сервер.
-[List cannot be exported because of error:\n\t%s]
-Экспорт невозможен из-за ошибки:\n\t%s
-[List cannot be exported to file "%s" because of error:\n\t%s]
-Экспорт в файл "%s" невозможен из-за ошибки:\n\t%s
-[List cannot be imported because of error:\n\t%s]
-Импорт невозможен из-за ошибки:\n\t%s
-[List cannot be imported from file "%s" because of error:\n\t%s]
-Импорт в файл "%s" невозможен из-за ошибки:\n\t%s
-[List remove successful.]
-Список удалён.
-[List export successful.]
-Список экспортирован.
-[List import successful.]
-Список импортирован.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Ваш пароль будет выслан на регистрационный e-mail .\nПродолжить?
-[Password could not be reminded because of error:\n\t%s]
-Не возможно получить пароль из-за ошибки:\n\t%s
+[Gadu-Gadu Link Protocol]
+Протокол Gadu-Gadu
+[Password could not be reminded because of error:\n\t%s (Error: %d)]
+
 [Password was sent to your e-mail.]
 Пароль выслан на ваш e-mail.
-[Your info cannot be uploaded because of error:\n\t%s]
-Ваша информация не выгружена на сервер из-за ошибки:\n\t%s
-[Your info has been uploaded to public catalog.]
-Ваша информация выгружена в общий каталог.
-[Your password cannot be changed because of error:\n\t%s]
-Невозможно изменить пароль из-за ошибки:\n\t%s
-[Your password has been changed.]
-Ваш пароль изменён.
-[Your e-mail cannot be changed because of error:\n\t%s]
-Невозможно изменить e-mail из-за ошибки:\n\t%s
-[Your e-mail has been changed.]
-Ваш e-mail изменён.
-[Cannot register new account because of error:\n\t%s]
-Невозможно зарегистрировать пользователя из-за ошибки:\n\t%s
-[You have registered new account.\nPlease fill up your personal details in "M->Change my details..."]
-Вы зарегистрированы.\nВведите свои данные в "Меню->Изменить мои данные..."
-[Your account cannot be removed because of error:\n\t%s]
-Невозможно удалить пользователя из-за ошибки:\n\t%s
-[Bad number or password]
-Неверный номер или пароль
-[Bad old e-mail or password]
-Неверный старый e-mail или пароль
-[Bad e-mail or password]
-Неверный e-mail или пароль
-[Invalid data entered]
-Неверные данные
-[Your account has been removed.]
-Пользователь удалён.
-[Password too short.]
-Слишком короткий пароль.
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
-[Server hostname %s is invalid. Using default hostname provided by the network.]
-Имя сервера %s неверно. Использую сервер сети по умолчанию.
-[External direct connections hostname %s is invalid. Disabling external host forwarding.]
-Внешний хост для прямых подключений %s неверен. Перенаправление на внешний хост выключено.
-[Change Gadu-Gadu password]
-Изменить пароль Gadu-Gadu
-[Changes current Gadu-Gadu user password.]
-Изменение пароля текущего пользователя Gadu-Gadu.
-[Change Gadu-Gadu e-mail]
-Изменить e-mail Gadu-Gadu
-[Changes current Gadu-Gadu user e-mail.]
-Изменение e-mail текущего пользователя Gadu-Gadu.
-[New password:]
-Новый пароль:
-[Confirm password:]
-Подтвердить пароль:
-[New e-mail:]
-Новый e-mail:
-[Yes, I want to remove my account]
-Да, удалите мою учётную запись
-[Remove Gadu-Gadu account]
-Удалить номер Gadu-Gadu
-[This will remove your Gadu-Gadu account.]
-Номер Gadu-Gadu удалён.
-[Create Gadu-Gadu account]
-Создать номер Gadu-Gadu
-[This will create new Gadu-Gadu account.]
-Новый номер Gadu-Gadu создан.
-[Age from:]
-Возраст:
-[to:]
-до:
-[&Image]
-Изображение
-[Image saved.]
-Изображение сохранено.
-[Image cannot be written to disk.]
-Изображение не может быть записано на диск.
-[Image from %s]
-Изображение от %s
-[Image for %s]
-Изображение для %s
-[Image files (*.bmp,*.jpg,*.gif)]
-Изображения (*.bmp,*.jpg,*.gif)
-[Select picture to send]
-Выберите изображение для отправки
-[Could not load image. Image might have unsupported file format.]
-Невозможно загрузить изображение (формат не поддерживается?)
-[Open new conference]
-Начать конференцию
-[Select conference participants.]
-Выбрать участников конференции
-[Open &conference...]
-Открыть конференцию...
-[&Clear ignored conferences]
-Очистить игнорируемые конференции
-[%s initiated the conference.]
-%s начал(а) конференцию.
-[This is my own conference.]
-Это моя конференция.
-[You have to be connected to open new conference.]
-Вы должны быть подключены чтобы начинать конференции.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Список игнорируемых конференций очищен и применяется общая политика конференций.
-[There are no ignored conferences.]
-Игнорируемых конференций нет.
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s начал(а) конференцию с %d участниками (%d неизвестно).\nПринять участие?
-[Conference policy]
-Политика конференций
-[if total participant count greater than:]
-если общее число участников больше:
-[if unknown participant count greater than:]
-если число неизвестных участников больше:
-[in other case]
-в других случаях
-[Image received]
-Получена картинка
-[You need to specify your registration e-mail first.]
-Необходимо указать ваш e-mail.
-[HTTP failed connecting]
-HTTP ошибка подключения
-[HTTP failed reading]
-HTTP ошибка чтения
-[HTTP failed resolving]
-HTTP ошибка определения адреса
-[HTTP failed writing]
-HTTP ошибка записи
-[Unknown HTTP error]
-HTTP неизвестная ошибка
-['Unknown']
-'Неизвестно'
-[Account settings]
-Настройки
-[Blocked to this contact]
-Заблокировано
-[Delete image]
-Удалить картинку
-[Export list to server]
-Экспорт на сервер
-[Export list to text file]
-Экспорт в файл
-[Import list from server]
-Импорт с сервера
-[Import list from text file]
-Импорт из файла
-[Next image]
-Следующая картинка
-[Previous image]
-Предыдущая картинка
-[Remove list from server]
-Удалить с сервера
-[Save image]
-Сохранить
-[Send image]
-Отправить
-[Image exceeds maximum allowed size of 255 KB.]
-Допустимый размер в 255Кб превышен
-[Image files (*.bmp,*.jpg,*.gif,*.png)]
-Изображения (*.bmp,*.jpg,*.gif,*.png)
-[List cannot be removed because of error:\n\t%s]
-Нельзя удалить список из-за ошибки:\n\t%s
-[Advanced Configuration]
-Дополнительная настройка
-[Receive image and after image is received use:]
-После получения изображения:
-[GG: PS_AWAYMSG was called without previous PS_SETSTATUS for status %d, desired %d, current %d.]
-GG: PS_AWAYMSG вызван без PS_SETSTATUS для статуса %d, выбран %d, текущий %d
-[Could not load token image.]
-Не могу загрузить маркер.
-[Use secure SSL connection]
-Использовать SSL соединение
-[Gadu-Gadu Protocol]
-Протокол Gadu-Gadu
-[Show links from unknown contacts]
-Показывать ссылки от неизвестных контактов
-[Message with [img] BBCode]
-Сообщение с [img] BB-кодом
-[Concurrent Sessions]
-Одновременные сессии
-[Concurrent &sessions]
-Одновременные сессии
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-Одновременные сессии %s\nИнформация об активных одновременных сессиях
+[Notify]
+Уведомление
+[Error]
+Ошибка
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
+
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
+
+[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
+
+[Client Name]
+Имя клиента
+[IP Address]
+
+[Login Time]
+Время входа
+[Action]
+Действие
+[sign out]
+выйти
 [There are no active concurrent sessions for this account.]
 Нет активных одновременных сессий для этой учётной записи.
 [You have to be logged in to view concurrent sessions.]
 Вы должны быть подключены для просмотра одновременных сессий.
-[Client Name]
-Имя клиента
-[Login Time]
-Время входа
-[sign out]
-выйти
-[Sign out all sessions]
-Выйти из всех сессий
 [Copy Text]
 Копировать
 [Whois]
 Информация
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Учётная запись Gadu-Gadu\nСоздание новой учётной записи Gadu-Gadu
-[Clear ignored conferences]
-Очистить игнорируемые конференции
-[Concurrent sessions]
-Параллельные сессии
-[Images]
-Изображения
+[Concurrent &sessions]
+Одновременные сессии
+[Token retrieval failed because of error:\n\t%s]
+Маркер не получен из-за ошибки\n\t%s
+[Could not load token image.]
+Не могу загрузить маркер.
+[Cannot register new account because of error:\n\t%s]
+Невозможно зарегистрировать пользователя из-за ошибки:\n\t%s
+[Registration rejected]
+В регистрации отказано
+[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+
+[Your account cannot be removed because of error:\n\t%s]
+Невозможно удалить пользователя из-за ошибки:\n\t%s
+[Bad number or password]
+Неверный номер или пароль
+[Your account has been removed.]
+Пользователь удалён.
+[Your password cannot be changed because of error:\n\t%s]
+Невозможно изменить пароль из-за ошибки:\n\t%s
+[Invalid data entered]
+Неверные данные
+[Your password has been changed.]
+Ваш пароль изменён.
+[Your e-mail cannot be changed because of error:\n\t%s]
+Невозможно изменить e-mail из-за ошибки:\n\t%s
+[Bad old e-mail or password]
+Неверный старый e-mail или пароль
+[Your e-mail has been changed.]
+Ваш e-mail изменён.

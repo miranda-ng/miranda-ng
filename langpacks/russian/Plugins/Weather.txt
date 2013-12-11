@@ -1,140 +1,218 @@
 ﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
 ;============================================================
 ;  File: Weather.dll
-;  Module: Weather
-;  Versions: 0.2.2.0-0.3.8.16
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=423
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
 ;============================================================
-[Weather Protocol]
-Протокол погоды
 [Retrieves weather information and displays it in your contact list.]
 Запрос и отображение информации о погоде в вашем списке контактов.
-[Disable support for automatic station icon assignment]
-Отменить поддержку автоназначения значков станций
-[Weather]
-Погода
-[Weather Text]
-Текст погоды
-[Update Weather]
-Обновить погоду
-[Read Complete Forecast]
-Читать полный прогноз
-[Brief Information]
-Краткая информация
-[View Log]
-Журнал
-[Edit Settings]
-Изменить настройки
-[%s - Update All]
-%s - Обновить все
-[Current weather information for %s.]
-Текущая информация о погоде для %s.
+[Update]
+Обновить
+[Brief Info]
+Кратко
+[Webpage]
+Сайт
+[Close]
+Закрыть
+[Options]
+Настройки
+[Update weather information on startup]
+Обновлять погоду при запуске Miranda NG
+[Update weather information every]
+Обновлять каждые
+[minutes]
+минут(ы)
+[Consider weather info updated only when condition and temperature are changed]
+Сообщать об обновлении погоды только при изменении температуры
+[Remove old data when updating]
+Перезаписать данные после обновления
+[Make the contact italic when weather alert is issued]
+Делать контакт наклонным при получении обновления
+[Modes]
+Режимы
+[Use weather condition as protocol status]
+Состояние погоды как статус протокола
+[Avatar only mode]
+Только аватар
+[Units]
+Единицы
+[Temperature]
+Температура
+[Celsius]
+Цельсий
+[Fahrenheit]
+Фаренгейт
+[Degree sign:]
+Единицы температуры
+[Wind]
+Ветер
+[km/h]
+км/ч
+[m/s]
+м/с
+[mph]
+м/ч
+[knots]
+узлы
+[Visibility]
+Видимость
+[km]
+км
+[miles]
+мили
+[Pressure]
+Давление
+[kPa]
+кПа
+[mb (hPa)]
+миллибар
+[inches]
+дюймы
+[mm Hg (torr)]
+мм рт. столба
+[Day/Month]
+День/Месяц
+[No change]
+без изм.
+[2 chars]
+2 символа
+[3 chars]
+3 символа
+[Elevation]
+Высота над уровнем моря
+[ft]
+фут
+[m]
+м
+[Do not append units to values]
+Не добавлять единицы к значениям
+[Do not display fractional values]
+Не показывать дробные величины
+[Frame]
+Фрейм
+[Avatar size]
+Размер аватара
+[Edit Weather Station]
+Редактировать станцию
 [Weather Station]
 Прогноз погоды
+[City name]
+город
+[ID]
+ID
 [Log Information]
 Сохранение информации
 [Use internal history]
 Встроенная история
 [Use external file]
 Внешний файл
-[Other Options]
-Другие настройки
-[Disable Popup for this station]
-Не выводить всплывающее окно
-[Brief Info]
-Кратко
-[Set as default station]
-По умолчанию
-[Weather condition was not logged.]
-Журнал погоды не ведется.
-[No information available.\r\nPlease update weather condition first.]
-Информация недоступна.\r\nПредварительно обновите данные о погоде.
-[Brief Weather Information]
-Краткая информация о погоде
-[Read More]
-Подробнее
-[Station ID]
-ID города
-[Please try again after weather update is completed.]
-Попробуйте после завершения обновления сведений о погоде.
-[Use English units]
-Применять британские единицы
-[Show main menu items]
-Показывать пункты в меню
-[Update weather information every]
-Обновлять каждые
-[Display current condition on contact list]
-Показывать погоду в списке контактов
-[Hide Weather in status bar and status menu]
-Скрыть погоду в панели статуса и меню статуса
-[If new protocol is installed or icon is changed:]
-Если значки изменены:
-[Rebuild Icons]
-Восстановить
-[Degree sign:]
-Единицы температуры
-[%sC]
-%s°C
-[%sF]
-%s°F
-[Display Text]
-Показ текста
-[Extra Text]
-Доп. текст
-[External Log]
-Внешняя история
+[Overwrite file upon update]
+Перезапись при обновлении
+[Path:]
+Путь:
+[Link Settings]
+Настройка ссылок
 [More Info URL]
 URL доп. информации
 [Weather Map]
 Карта погоды
+[Other Options]
+Другие настройки
+[Set as default station]
+По умолчанию
+[Disable automatic update for this station]
+Отключить автообновление с этой станции
+[Disable Popup for this station]
+Не выводить всплывающее окно
+[Change]
+Изменить
+[Cancel]
+Отмена
+[Popup Options]
+
+[Enable popups]
+Всплывающие окна
 [Popup only when condition changes]
 Только при изменении погоды
-[Show informations and warnings]
-Информация и предупреждения
-[Here is a short weather description]
-Краткое описание погоды
-[This is the name of the city]
-город
-[Unable to retrieve weather information for %s]
-Невозможно найти информацию о погоде для %s
-[Cannot reset status while updating weather]
-Невозможно сбросить статус, пока обновляется погода
-[Weather updates are re-activated]
-Обновления погоды возобновлены
-[Weather updates are now disabled]
-Обновления погоды остановлены
-[%s is now the default weather station]
-%s станция погоды по умолчанию
-[<unknown time>]
-<время не определено>
-[Override Default Settings]
-Отменить установки по умолчанию
-[Please close all weather dialog first.]
-Пожалуйста, закройте сначала диалог погоды
-[No weather station found!]
-Станции не найдены
-[Overwrite file upon update]
-Перезапись при обновлении
+[Colors]
+Цвета
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Use Windows colors]
+Цвета Windows
+[Popup Actions]
+Кнопки мыши
 [Left Click]
 Левая
 [Right Click]
 Правая
-[Open brief information]
-Краткая информация
-[Open complete forecast]
-Полный прогноз
-[Open weather map]
-Карта погоды
-[View history]
-История
-[current condition]
-текущие условия
-[current date]
-дата
-[Disable internal station status icon selection]
-Отменить выбор значка статуса станции
-[Disable support for automatic protocol icons assignment]
-Отменить поддержку автоназначения значков протоколов
+[Popup Delay]
+Задержка окна
+[Delay]
+Задержка
+[seconds]
+секунд
+[From Popup plugin]
+По умолчанию
+[Permanent]
+Постоянно
+[Popup Text]
+Всплывающий текст
+[Popup Title]
+Заголовок окна
+[Variables]
+Переменные
+[Default]
+По умолчанию
+[Preview]
+Тест
+[Updates]
+Обновления
+[Alerts]
+Уведомления
+[Errors]
+Ошибки
+[Contact List]
+Список контактов
+[Brief Info Title]
+Заголовок
+[Note Text]
+Текст
+[Extra Text]
+Доп. текст
+[External Log]
+Внешняя история
+[History Log]
+Просмотр истории
+[Variable List]
+Переменные
+[More Variables]
+Еще переменные
+[Reset]
+Сброс
+[Status Message]
+Статусное сообщение
+[Sunset]
+Закат
+[Feel-like]
+Ощущения
+[Today's Low]
+Минимум
+[Today's High]
+Максимум
+[Sunrise]
+Восход
+[Dewpoint]
+Точка росы
+[Humidity]
+Влажность
+[More...]
+Ещё...
+[Weather Protocol INI Setup]
+Настройка INI файла плагина "Погода"
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Установка INI погоды\nУстановка и загрузка вашего INI погоды здесь
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
@@ -147,14 +225,48 @@ URL доп. информации
 Нажмите для загрузки данных из INI файла в память
 [Add new weather station and close this dialog]
 Добавьте новый город и закройте это окно
-[Never show this at startup again]
-Не показывать это при запуске
-[Retrieving new data, please wait...]
-Получаю новые данные. Подождите пожалуйста...
-[Make the contact italic when weather alert is issued]
-Делать контакт наклонным при получении обновления
-[Display warning if INI file is not found at startup]
-Показывать предупреждение, если файл INI не найден 
+[Total INI files]
+Всего ini файлов
+[Total memory used]
+Использовано памяти
+[Reload INI]
+Перезагрузить
+[City:]
+Город:
+[Menu]
+Меню
+[Dismiss Popup]
+
+[Open brief information]
+Краткая информация
+[Open complete forecast]
+Полный прогноз
+[Open weather map]
+Карта погоды
+[View history]
+История
+[Open log file]
+Открыть журнал
+[Show user menu]
+Меню пользователя
+[Show user detail]
+Показать детали
+[To old setting]
+К старым
+[To default]
+По умолчанию
+[Enable/disable auto update]
+Вкл/Выкл автообновление
+[Auto Update Enabled]
+Автообновление включено
+[Auto Update Disabled]
+Автообновление выключено
+[Weather Condition Changed]
+Weather: Погода изменилась
+[Weather Alert Issued]
+Weather: Погодное предупреждение
+[N/A]
+Недоступен
 [Invalid ID format, missing "/" (10)]
 Неправильный формат ID, нет "/" (10)
 [Invalid service (11)]
@@ -205,76 +317,116 @@ INI файл погоды для этой станции не найден (20)
 Ошибка HTTP: Сервис недоступен (503)
 [HTTP Error: Gateway timeout (504)]
 Ошибка HTTP: Таймаут шлюза (504)
-[HTTP Error %i]
-Ошибка HTTP %i
-[Disable auto update when status changes to offline, enable when changes to other]
-Отменить автообновление при статусе оффлайн, включить при любом другом
-[Remove old data when updating]
-Перезаписать данные после обновления
-[To old settings]
-К прежним
-[To default]
-По умолчанию
-[Brief Info Title]
-Заголовок
-[Weather Protocol Text Preview]
-Просмотр протокола погоды
-[Remove Old Data then Update All]
-Удалить данные и обновить все
-[Remove Old Data then Update]
-Удалить данные и обновить
-[Auto Update Enabled]
-Автообновление включено
-[Auto Update Disabled]
-Автообновление выключено
-[More Info]
-Подробнее
-[Webpage]
-Сайт
-[View all weather details for this contact]
-Смотреть всю информацию о погоде для этого контакта 
-[More Variables]
-Еще переменные
-[Here is a list of custom variables that are currently available]
-Список дополнительных переменных, доступных на данный момент
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\nТемпература: %t\nОщущение: %f\nДавление: %p\nВетер: %i  %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 дней:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+Ощущение: %f\nДавление: %p\nВетер: %i  %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 дней:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[Weather Condition for %n as of %u]
+Состояние погоды для %n на %u
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n в %u:	%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nСегодня:  макс. %h, мин. %l
+[Temperature: %[Temperature]]
+
+[Current weather information for %s.]
+Текущая информация о погоде для %s.
+[%s is now the default weather station]
+%s станция погоды по умолчанию
+[Weather Protocol]
+Протокол погоды
+[Please try again after weather update is completed.]
+Попробуйте после завершения обновления сведений о погоде.
+[<Enter station name here>]
+<Введите название города>
+[<Enter station ID here>]
+<Введите ID города>
+[Weather condition was not logged.]
+Журнал погоды не ведется.
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+Не указан URL для полного прогноза погоды. Укажите его в настройках.
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
+Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
 [Get city name from ID]
 Получить название города по ID
-[City name]
-город
-[<Enter city name here>]
-<Введите название города>
-[Weather status will free to change all the time if this option is enabled.]
-Если эта опция включена, статус погоды можно изменить в любое время.
-[Change display texts]
-Текстовые шаблоны
-[View weather INI information]
-Информация о INI файле погоды
-[Disable automatic update for this station]
-Отключить автообновление с этой станции
 [Weather INI information]
 Информация о INI файле погоды
+[Browse]
+Обзор
 [View webpage]
 На сайт
 [Reset to default]
 По умолчанию
-[Click "Yes" to download new data files, "No" to load Weather Protocol without any update support]
-Нажми "Yes" для загрузки новых данных или "No" для загрузки протокола погоды без поддержки обновлений
-[A list of Weather INI files currently in memory:]
-Список INI файлов погоды находящихся в памяти:
-[Name\tAuthor\tFile Version\tINI ver\tItems\tDisplay Name\t\tFile Name]
-Название\tАвтор\tВерсия файла\tINI вер\tПунктов\tИмя\t\tИмя файла
-[Total INI files:\t%i]
-Всего INI файлов:\t%i
-[Total memory used:\t%i bytes]
-Размер:\t%i байт
-[Weather INI Information]
-Информация о INI файле погоды
+[Text Files]
+
+[All Files]
+Все файлы
+[mb]
+мбар
+[in]
+дюйм
+[mm]
+мм
+[<unknown time>]
+<время не определено>
+[<Error>]
+<Ошибка>
+[HTTP Error %i]
+Ошибка HTTP %i
+[<Enter city name here>]
+<Введите название города>
+[Error when obtaining data: %s]
+Ошибка при получении данных: %s
+[Weather HTTP connections]
+HTTP подключение Weather
+[Protocol icon]
+Значок протокола
+[Update Disabled]
+Обновления выкл
+[View Log]
+Журнал
+[Update with Clear]
+Удалить и обновить
+[View Brief]
+Краткий прогноз
+[View Complete]
+Полный прогноз
+[Weather Update]
+Обновление прогноза
+[Popup]
+Всплывающее окно
+[No Popup]
+Без окон
+[Edit Settings]
+Изменить настройки
+[Name]
+Имя
+[Author]
+Автор
+[File Version]
+Версия файла
+[INI Version]
+Версия ini
+[Items]
+Элементы
+[Display Name]
+Имя
+[File Name]
+Имя файла
 [The corresponding INI file for "%s" is not found.]
 Соответствующий INI файл для "%s" не найден.
 [Weather INI information for "%s":]
 Информация о INI файле погоды для "%s":
+[Name:]
+Имя:
 [Internal Name:]
 Внутреннее имя:
+[Author:]
+Автор:
+[Version:]
+Версия:
 [INI Version:]
 Версия INI:
 [File Name:]
@@ -283,223 +435,79 @@ INI файл погоды для этой станции не найден (20)
 Пунктов:
 [Memory Used:]
 Размер:
-[%[..]\tcustom variables]
-%[..]\tсвои переменные
-[Consider weather info updated only when condition and temperature are changed]
-Сообщать об обновлении погоды только при изменении температуры
+[bytes]
+байт
+[Description:]
+Описание:
+[Here is a list of custom variables that are currently available]
+Список дополнительных переменных, доступных на данный момент
+[No update data file is found. Please check your Plugins\\Weather directory.]
+
 [Invalid ini format for: %s]
 Собственный формат ini для: %s
-[<Enter station name here>]
-<Введите название города>
-[<Enter station ID here>]
-<Введите ID города>
 [All update data has been reloaded.]
 Все обновлённые данные перезагружены.
-[Error when obtaining data: %s]
-Ошибка при получении данных: %s
-[<Error>]
-<Ошибка>
-[Fahrenheit]
-Фаренгейт
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для полного прогноза погоды. Укажите его в настройках.
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
-[Open URLs in new browser window]
-Открывать ссылки в новом окне
-[Units]
-Единицы
-[Temperature]
-Температура
-[Celsius]
-Цельсий
-[Wind]
-Ветер
-[km/h]
-км/ч
-[m/s]
-м/с
-[mph]
-м/ч
-[knots]
-узлы
-[Visibillity]
-Видимость
-[km]
-км
-[miles]
-мили
-[Pressure]
-Давление
-[kPa]
-кПа
-[mb (hPa)]
-миллибар
-[inches]
-дюймы
-[mm Hg (torr)]
-мм рт. столба
-[Texts]
-Текст
-[Click the button on the left to change the display and log texts]
-Нажмите на кнопку слева, чтобы поменять шрифт основного окна и истории
-[Note that icon cannot be changed when this feature is enabled]
-Внимание! Если эта опция включена, вы не сможете поменять значок
-[Disable internal icon selection]
-Отключить выбор значка
-[Note Text]
-Текст
-[Weather HTTP connections]
-HTTP подключение Weather
-[Enable &weather notification]
-Включить уведомления о смене погоды
-[Disable &weather notification]
-Выключить уведомления о смене погоды
-[Update All Weather]
-Обновить погоду
-[Reload All Update Data]
-Перезагрузить обновление
-[No update data file is found. Please check your Plugins\\Weather directory.] 
-Не найден файл обновления. Пожалуйста, проверьте папку Plugins\\Weather.
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат
-[Link Settings]
-Настройка ссылок
-[Do not display weather condition as protocol status]
-Не показывать состояние погоды как статус протокола
-[Popup Text]
-Всплывающий текст
-[Weather Protocol Text Options]
-Шаблоны диалогов погоды 
-[Okay]
-ОК
-[Weather Notification]
-Напоминание о погоде
-[Do you want to view more information?]
-Хотите узнать больше?
-[Brief information for ]
-Краткая информация для\s
-[Invalid time delay.\n\nEnter '0' for using default time.\nEnter '-1' for keeping popup forever.\nUsing value > 1 to specify the amount of seconds.]
-Неправильная задержка времени. \n\nВведите '0' для использования времени по умолчанию.\nВведите '-1' для того, чтобы вспл. окно не исчезало.\nИспользуйте значения > 1 для указания количества секунд.
-[Weather Alert Issued]
-Weather: Погодное предупреждение
-[Weather Condition Changed]
-Weather: Погода изменилась
-[No Popup]
-Без окон
-[Enable/Disable Weather Update]
-Вкл/Выкл обновления погоды
-[Modes]
-Режимы
-[Update weather information on startup]
-Обновлять погоду при запуске Miranda NG
-[2 chars]
-2 символа
-[3 chars]
-3 символа
-[Avatar only mode]
-Только аватар
-[No change]
-без изм.
-[Day/Month]
-День/Месяц
-[Use weather condition as protocol status]
-Состояние погоды как статус протокола
-[Reload INI]
-Перезагрузить
-[Total INI files]
-Всего ini файлов
-[Total memory used]
-Использовано памяти
-[File Name]
-Имя файла
-[File Version]
-Версия файла
-[INI Version]
-Версия ini
-[Display Name]
-Имя
 [Frame Font]
 Шрифт фрейма
-[Frame Background]
-Фон фрейма
-[Display in a frame]
-Показывать во фрейме
-[Update with Clear]
-Удалить и обновить
-[Weather Update]
-Обновление прогноза
-[Update Disabled]
-Обновления выкл
-[View Complete]
-Полный прогноз
-[View Brief]
-Краткий прогноз
-[No Pupup]
-Нет вспл. окон
-[Add New Weather Station]
-Добавить новую станцию
-[Edit Weather Station]
-Редактировать станцию
-[Special status]
-Специальный
-[Update weather information at startup]
-Обновлять при старте
-[When condition unavailable, use the status:]
-Если состояние недоступно, показывать статус:
-[To old setting]
-К старым
-[Variable]
-Переменная
-[Debug for INI files]
-Отладить INI файлы
-[Avatar size]
-Размер аватара
 [Frame Title Font]
 Шрифт заголовка фрейма
-[Do not append units to values]
-Не добавлять единицы к значениям
-[Do not display fractional values]
-Не показывать дробные величины
-[mm]
-мм
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\nСегодня:  макс. %h, мин. %l
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\nТемпература: %t\nОщущение: %f\nДавление: %p\nВетер: %i  %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 дней:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n в %u:	%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
+[Frame Background]
+Фон фрейма
+[Network]
+Сеть
+[General]
+Общее
+[Display]
+Показывать
+[Popups]
+Всплывающие окна
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат
+[Weather Protocol Text Preview]
+Просмотр протокола погоды
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
+[%[..]\tcustom variables]
+%[..]\tсвои переменные
+[Station ID]
+ID города
+[Disable &weather notification]
+Выключить уведомления о смене погоды
+[Enable &weather notification]
+Включить уведомления о смене погоды
+[Update Weather]
+Обновить погоду
+[Remove Old Data then Update]
+Удалить данные и обновить
+[Brief Information]
+Краткая информация
+[Read Complete Forecast]
+Читать полный прогноз
+[Weather]
+Погода
+[Enable/Disable Weather Update]
+Вкл/Выкл обновления погоды
+[Update All Weather]
+Обновить погоду
+[Remove Old Data then Update All]
+Удалить данные и обновить все
+[Weather Notification]
+Напоминание о погоде
+[Display in a frame]
+Показывать во фрейме
+[Unable to retrieve weather information for %s]
+Невозможно найти информацию о погоде для %s
 [Current condition for %n]
 Текущее состояние для %n
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Ощущение: %f\nДавление: %p\nВетер: %i  %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 дней:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
-[Feel-like]
-Ощущения
-[in]
-дюйм
 [Last update on:   %u]
 Последнее обновление: %u
-[mb]
-мбар
-[Today's High]
-Максимум
-[Today's Low]
-Минимум
-[Weather Condition for %n as of %u]
-Состояние погоды для %n на %u
-[Dewpoint]
-Точка росы
-[Humidity]
-Влажность
-[ft]
-фут
-[m]
-м
-[Enable/disable auto update]
-Вкл/Выкл автообновление
-[Weather Protocol INI Setup]
-Настройка INI файла плагина "Погода"
+[Variable]
+Переменная
+[Information]
+Информация
+[Retrieving new data, please wait...]
+Получаю новые данные. Подождите пожалуйста...
+[More Info]
+Подробнее
+[No information available.\r\nPlease update weather condition first.]
+Информация недоступна.\r\nПредварительно обновите данные о погоде.

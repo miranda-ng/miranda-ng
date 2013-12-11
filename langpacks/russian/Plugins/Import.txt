@@ -1,329 +1,153 @@
 ﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 ;============================================================
-;  File: import.dll, import_sa.dll
-;  Module: Import contacts and messages
-;  Versions: 0.10.0.2
-;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/import/
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.11.0.1
 ;  Authors: Miranda team
-
-;  URL: 
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/import_sa/
-;  Authors: Unsane, Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Импортирует контакты и сообщения из других профилей Miranda NG или из сторонних программ.
-[The given file does not exist. Please check that you have entered the name correctly.]
-Данный файл не существует. Проверьте имя файла.
-[Mirabilis Import]
-Импорт Mirabilis
-[Mirabilis ICQ database indexes (*.idx)\0*.IDX\0All Files (*)\0*\0]
-Индексы баз Mirabilis ICQ (*.idx)\0*.IDX\0Все файлы (*)\0*\0
-[Miranda Import]
-Импорт Miranda NG
-[Miranda NG database (*.dat)\0*.DAT\0All Files (*)\0*\0]
-База Miranda NG (*.dat)\0*.DAT\0Все файлы (*)\0*\0
-[Miranda NG database]
-База Miranda NG
-[Finish]
-Завершить
+[Choose how you would like to import:]
+Выберите, откуда необходимо произвести импорт данных:
 [From a Miranda NG database.]
 Из базы Miranda NG.
-[From a Mirabilis ICQ (99a - 2003a) database.]
-Из базы Mirabilis ICQ (99a - 2003a).
-[Use the Find/Add contacts tool to populate my contact list.]
-Использовать "Найти/добавить контакты".
-[Do not load the import plugin at startup again]
-Не загружать мастер при следующем запуске
-[Import all contacts and all messages]
-Импортировать все контакты и сообщения
-[Only import contacts]
-Импортировать только контакты
-[&Other Database...]
-&Другая база...
-[&Other Profile...]
-&Другой профиль..
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 Этот мастер поможет вам импортировать контакты и историю из других профилей Miranda NG или из сторонних программ.
+[Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
+Нажмите "Далее", чтобы выбрать информацию для импортирования, или "Отмена", чтобы выйти из этого мастера.
+[It is recommended that you create a backup of your current Miranda profile before importing.]
+Рекомендуется создать резервную копию текущего профиля перед импортированием.
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
 Нажмите "Далее", чтобы импортировать еще одну базу, или "Завершить", чтобы запустить Miranda NG
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
 Скорее всего, вам больше не пригодится этот мастер. Вы можете освободить память, не загружая его при запуске Miranda NG.
+[Do not load the import plugin at startup again]
+Не загружать мастер при следующем запуске
 [Import completed]
 Импорт завершен
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Если вам в будущем понадобится этот мастер, отметьте плагин import.dll в настройках (раздел "Плагины").
-[Miranda has found Mirabilis ICQ databases corresponding to the following ICQ numbers. Please select the one you wish to import, or click "Other Database" if your database is not listed.]
-Miranda нашла базы Mirabilis ICQ для следующих номеров ICQ. Выберите один из них, или нажмите "Другая база", если ваша база не указана в списке.
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
 Miranda нашла следующие профили. Выберите профиль из списка, или нажмите "Другой профиль", если Вашего профиля нет в списке или список пустой.
+[&Other Profile...]
+&Другой профиль..
+[&Filename:]
+&Имя файла:
+[Now importing...]
+Импортируется...
+[Import Information Wizard]
+Мастер импортирования
+[&Next >]
+&Далее >
+[Cancel]
+Отмена
+[< &Back]
+< &Назад
+[Import all contacts and all messages]
+Импортировать все контакты и сообщения
+[Only import contacts]
+Импортировать только контакты
+[Custom import]
+Импорт вручную
 [Select this if you want to import as much data as possible. This is the recommended option.]
 Выберите эту опцию, чтобы импортировать как можно больше данных (рекомендуется).
 [Select this if you want to import contacts but don't want to import any message history.]
 Выберите эту опцию, чтобы импортировать только контакты (без истории сообщений).
-[Miranda has now been configured to automatically download the contacts in your server-side contact list the next time you connect to ICQ.]
-Miranda теперь настроена на автоматическую загрузку списка контактов с сервера при следующем подключении к сети ICQ.
-[If you want to change the way Miranda handles server-side contacts at a later time, you can do this in the "ICQ Contacts" page in the Miranda options.]
-Изменить настройки списков на сервере можно в разделе "Настройки->ICQ, Контакты."
-[&Filename:]
-&Имя файла:
-[Import Information Wizard]
-Мастер импортирования
-[Click ]
-Клик\s
-[Warning: Mirabilis ICQ running. Import may not be reliable.]
-Внимание: ICQ запущена. Импорт будет ненадёжен
-[Custom import]
-Импорт вручную
 [Select this if you want to customize what to import.]
 Выберите эту опцию, чтобы указать, что именно импортировать
-[Import additional modules settings (for new contacts only)]
-Импорт настроек модулей (только для новых контактов)
-[Select items to import:]
-Выберите, что импортировать:
 [New contacts && groups]
 Новые контакты и группы
 [System history]
 Системная история
+[Select items to import:]
+Выберите, что импортировать:
+[Incoming]
+Входящие
+[Outgoing]
+Исходящие
 [Only since:]
 Только с:
-[Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or browse to it.]
-Miranda нашла следующие профили. Пожалуйста, выберите один для импорта или выберите другой.
-[This looks like a Miranda database, version 0.1.0.0 or above.]
-Обнаружено сходство с базой Miranda, версия 0.1.0.0 или выше.
+[Messages]
+Сообщения
+[URLs]
+
+[File Transfers]
+Передача файлов
+[Other]
+Другое
+[Ignored event from/to self]
+Пропускаю событие от самого себя
+[Added contact %u (found in history)]
+Добавлен контакт %u (найдено в истории)
+[Failed to add %S contact %s]
+
+[Added %S contact %s, '%s']
+
+[Added %S contact %s]
+
+[Skipping contact with no protocol]
+Пропуск контактов без протокола
+[Skipping contact, %S not installed.]
+
+[Skipping non-IM contact (%S)]
+
+[Skipping %S contact, ID not found]
+
+[Skipping duplicate %S contact %s]
+
+[Unknown error while adding %S contact %s]
+
+[Failed to add message]
+Не удалось добавить сообщение
+[Error retrieving current profile, exiting.]
+
+[There's no database driver to open the input file, exiting.]
+
+[Error loading source file, exiting.]
+
 [Number of contacts in database: %d]
 Количество контактов в базе: %d
-[Could not open file.]
-Не могу открыть файл.
+[Importing groups.]
+Импорт групп.
+[Group import failed.]
+Ошибка импорта группы
+[Importing contacts.]
+Импорт контактов.
+[Skipping new contacts import.]
+Пропуск импорта новых контактов.
+[Importing system history.]
+Импорт системной истории.
+[Skipping system history import.]
+Пропуск импорта системной истории.
+[Importing history.]
+Импорт истории.
+[Skipping history import.]
+Пропуск импорта истории.
+[Import completed in %d seconds.]
+Импорт завершён за %d секунд.
 [Added %d contacts and %d groups.]
 Добавлено %d контактов и %d групп.
 [Added %d contacts, %d groups and %d events.]
 Добавлено %d контактов, %d групп и %d событий.
-[Added %d events and skipped %d duplicates.]
-Добавлено %d событий, пропущено %d дубликатов.
-[Added %s contact %s, '%s']
-Добавлен %s контакт %s, '%s'
-[Added %s contact %s]
-Добавлен %s контакт %s
-[Added contact %u (found in history)]
-Добавлен контакт %u (найдено в истории)
-[All groups may not have not been imported.]
-Не все группы могут быть импортированы.
-[Attempting to parse group list, type %d.]
-Попытка обработать список групп, тип %d.
-[Attempting to parse property block at offset %u.]
-Попытка обработать блок на смещении %u.
-[Attempting to parse property block list at offset %u.]
-Попытка обработать список блоков на смещении %u.
-[Attempting to parse sub list at offset %u.]
-Попытка обработать список на смещении %u.
-[Attempting to parse wav file list at offset %u.]
-Попытка обработать список файлов wav на смещении %u.
-[DEBUG: Deleted setting treated as 0-length setting]
-DEBUG: Настройка нулевой длинны удалена.
-[ERROR: An error occurred while importing groups.]
-ОШИБКА: Ошибка импорт групп.
-[ERROR: Chain broken, no valid contact at %d]
-ОШИБКА: Цепочка оборвана, нет контактов на %d
-[ERROR: Failed to find contact list groups.]
-ОШИБКА: Не удалось найти список групп.
-[ERROR: Failed to find owner information.]
-ОШИБКА: Не удалось найти информацию владельца.
-[ERROR: Faulty settings chain]
-ОШИБКА: Проблемная цепочка настроек
-[Error: Unknown datatype (%u) at offset %u.]
-Ошибка: Неизвестный тип данных (%u) на смещении %u.
-[Error: Unknown sub list type (%u) at offset %u.]
-Ошибка: Неизвестный тип списка (%u) на смещении %u.
-[Failed to add %s contact %s]
-Не удалось добавить %s контакт %s
-[Failed to add message]
-Не удалось добавить сообщение
-[Failed to find module %s]
-Не удалось найти модуль %s
-[Failed to find setting %s]
-Не удалось найти настройку %s
-[Failed to open database file]
-Не удалось открыть файл с базой
-[Failed to open index file]
-Не удалось открыть файл с индексом
-[Failed to read Property block.]
-Не удалось прочитать блок.
-[Found module: %s]
-Найден модуль: %s
-[Getting type %u value for setting: %s]
-Получение значения типа %u для настройки:%s
-[Group import failed.]
-Ошибка импорта группы
-[Group import was not completed.]
-Импорт групп не завершен.
-[ICQ plugin is not installed.]
-Не установлен плагин ICQ
-[Ignored event from/to self]
-Пропускаю событие от самого себя
-[Ignoring module: %s]
-Пропускаю модуль: %s
-[Ignoring msg from user %d at ofs %d.]
-Пропускаю сообщение от %d на смещении %d.
-[Ignoring msg with no text from %d ofs %d.]
-Пропускаю пустое сообщение от %d на смещении %d.
-[Ignoring setting: %s]
-Пропускаю
-[Import aborted]
-Импорт отменён
-[Import completed in %d seconds.]
-Импорт завершён за %d секунд.
-[Importing contacts.]
-Импорт контактов.
-[Importing contacts]
-Импорт контактов
-[Importing groups.]
-Импорт групп.
-[Importing history (this may take a while)]
-Импорт истории (может занять некоторое время)
-[Importing history.]
-Импорт истории.
-[Importing system history.]
-Импорт системной истории.
-[Modulename corrupted]
-Имя модуля повреждено
-[No ICQ contacts or history will be imported.]
-ICQ Контакты и история не будут импортированы.
-[No owner found.]
-Владелец не найден.
-[Read failure.]
-Ошибка чтения.
-[Signature mismatch]
-Подпись не совпадает
 [Skipped %d contacts.]
 Пропущено %d контактов.
 [Skipped %d duplicates and %d filtered events.]
 Пропущено %d дубликатов и %d отфильтрованных событий.
 [Skipped %d duplicates.]
 Пропущено %d дубликатов.
-[Skipping 'Auth. accepted' msg, ofs %d.]
-Пропуск сообщения "Авторизация принята", смещение %d
-[Skipping 'Auth. denied' msg, ofs %d.]
-Пропуск сообщения "Авторизация отклонена", смещение %d
-[Skipping 'Birthday' msg (?), ofs %d.]
-Пропуск сообщения "День рождения (?), смещение %d
-[Skipping 'Chat request' msg, ofs %d.]
-Пропуск сообщения "Запрос чата", смещение %d
-[Skipping 'Contact' msg, ofs %d.]
-Пропуск сообщения "Контакт", смещение %d
-[Skipping 'Email Express' msg, ofs %d.]
-Пропуск сообщения "Email Express", смещение %d
-[Skipping 'Phonecall' msg (?), ofs %d.]
-Пропуск сообщения "Звонок" (?), смещение %d
-[Skipping 'Request for auth.' msg, ofs %d.]
-Пропуск сообщения "Запрос авторизации", смещение %d
-[Skipping 'SMS' msg (?), ofs %d.]
-Пропуск сообщения "СМС", смещение %d
-[Skipping 'System message', ofs %d.]
-Пропуск "системного сообщения", смещение %d
-[Skipping 'WWW Pager' msg, ofs %d.]
-Пропуск сообщения "WWW пейджер", смещение %d
-[Skipping 'You were added' msg, ofs %d.]
-Пропуск сообщения "Вас добавили", смещение %d
-[Skipping %s contact, ID not found]
-Пропуск контакта %s, не найден ID
-[Skipping 29 msg, ofs %d.]
-Пропуск сообщения 29, смещение %d
-[Skipping 32 msg, ofs %d.]
-Пропуск сообщения 32, смещение %d
-[Skipping contact with no protocol]
-Пропуск контактов без протокола
-[Skipping contact with unsupported version.]
-Пропуск контакта с неподдерживаемой версией.
-[Skipping contact, %s not installed.]
-Пропуск контакта, %s не установлен.
-[Skipping duplicate %s contact %s]
-Пропуск дубликата %s контакт %s
-[Skipping duplicate group %s.]
-Пропуск дубликата группы %s
-[Skipping duplicate ICQ contact %u, %s]
-Пропуск дубликата ICQ контакт %u, %s
-[Skipping duplicate ICQ contact %u]
-Пропуск дубликата ICQ контакт %u
-[Skipping event with ID < 2001.]
-Пропуск событий с ID меньше 2001.
-[Skipping file message offset %d.]
-Пропуск события "Файл", смещение %d
-[Skipping history import.]
-Пропуск импорта истории.
-[Skipping inactive contact.]
-Пропуск неактивных контактов.
-[Skipping message type 0xE3 at offset %d.]
-Пропуск событий типа 0xE3 на смещении %d
-[Skipping new contacts import.]
-Пропуск импорта новых контактов.
-[Skipping non-ICQ contact %u.]
-Пропуск не-ICQ контакта %u
-[Skipping non-IM contact (%s)]
-Пропуск не-ICQ контакта (%s)
-[Skipping system history import.]
-Пропуск импорта системной истории.
-[Skipping unknown 0xE0 subtype (%d), ofs %d.]
-Пропуск неизвестного подтипа 0xE0 (%d) на смещении %d.
-[Skipping unknown event type %d at offset %d.]
-Пропуск неизвестного типа события %d на смещении %d.
-[Skipping unrecognizable contact.]
-Пропуск нераспознанного контакта.
-[This database does not contain any contact groups.]
-Эта база не содержит ни одной группы.
-[This database is an unknown version.]
-База неизвестной версии.
-[This looks like a ICQ 2000a database.]
-Обнаружено сходство с базой ICQ 2000a
-[This looks like a ICQ 2000b database.]
-Обнаружено сходство с базой ICQ 2000b
-[This looks like a ICQ 2001, 2002 or 2003a database.]
-Обнаружено сходство с базой ICQ 2001,2002, или 2003a
-[This looks like a ICQ 99a database.]
-Обнаружено сходство с базой ICQ 99a
-[This looks like a ICQ 99b database.]
-Обнаружено сходство с базой ICQ 99b
-[Unknown error while adding %s contact %s]
-Неизвестная ошибка добавления %s контакта %s
-[Version mismatch]
-Несовпадение версий
-[Warning: Found module with no name]
-Внимание: найден модуль без имени
-[Download ICQ contacts from my server contact list.]
-Загрузить список контактов с ICQ-сервера.
-[From a Mirabilis ICQ (99a or later) database.]
-Из базы Mirabilis ICQ (99 и позже).
-[Add that user to your contact list]
-Добавить пользователя в список контактов
-[Do not import the event]
-Не импортировать событие
-[If a history event is found for a user who is not on your contact list:]
-Если найдено событие, а пользователь не в списке:
-[Let me choose which contacts and messages to import]
-Выбрать контакты и сообщения для импорта
-[Messages received]
-Принято сообщений
-[Messages sent]
-Отправлено сообщений
-[Select the events you would like to import:]
-Выберите события для импорта
-[This option lets you specify exactly what to import. Recommended for expert users.]
-Эта опция позволяет указать события для импорта (рекомендуется для экспертов).
-[URLs received]
-Принято URL
-[URLs sent]
-Отправлено URL
-[If you wish to import more information, click ]
-Чтобы ещё импортировать информацию, нажмите\s
-[Import all contacts and messages since:]
-Импорт всех контактов и сообщений после:
-[Import contacts and messages]
-Импорт контактов и сообщений
-[Last import]
-Последний импорт
-[< &Back]
-< &Назад
-[&Next >]
-&Далее >
 [Import...]
 Импорт...
+[&Import...]
+&Импорт
+[The given file does not exist. Please check that you have entered the name correctly.]
+Данный файл не существует. Проверьте имя файла.
+[Miranda Import]
+Импорт Miranda NG
+[Miranda NG database]
+База Miranda NG
+[All Files]
+Все файлы
+[Skipping duplicate group %s.]
+Пропуск дубликата группы %s
+[Finish]
+Завершить

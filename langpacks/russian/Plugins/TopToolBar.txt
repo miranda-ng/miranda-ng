@@ -1,139 +1,47 @@
 ﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;============================================================
-;  Module: toptoolbar.dll
+;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
-;  Versions: 0.6.0.11-0.7.0.0
-;  Translators: Vladimir Rozhkovskiy aka Voron (VoronSoft at email.ru)
-;  Translation-fix: SAOPP (saop at mail.ru | icq: 342834289 | www.reallite.com.ru | www.samlab.ru), CriS
-;  Template: http://miranda-im.org/download/feed.php?dlfile=466
-;  Template: ruki.sys
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=466
+;  Version: 0.8.0.3
+;  Authors: Bethoven
 ;============================================================
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
-Данный плагин списка контактов не поддерживает сервис фреймов, необходимый для их работы, поэтому плагин панели кнопок был выключен.\nДля работы панели кнопок требуется установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можете скачать их на http://miranda-ng.org/
-[Hide Offline Users]
-Скрыть отключённых
-[Show All Users]
-Показывать всех
-[Show Groups]
-Показывать группы
-[Hide Groups]
-Скрыть группы
-[Enable Sounds]
-Включить звуки
-[Buttons Order && Visibility]
-Порядок и видимость кнопок
-[Buttons order:]
-Показывать кнопки:
-[Groups On/Off]
-Группы вкл/выкл
-[Sounds Enable/Disable]
-Звуки вкл/выкл
-[Show Options Page]
-Настройки Miranda
-[Show only Online Users]
-Скрыть отключённых
-[Separator 0]
-Разделитель 0
-[Separator 1]
-Разделитель 1
-[Separator 2]
-Разделитель 2
-[Separator 3]
-Разделитель 3
-[Separator 4]
-Разделитель 4
-[Separator 5]
-Разделитель 5
-[Separator 6]
-Разделитель 6
-[Separator 7]
-Разделитель 7
-[Separator 8]
-Разделитель 8
-[Separator 9]
-Разделитель 9
-[Separator 10]
-Разделитель 10
-[Separator 11]
-Разделитель 11
-[Separator 12]
-Разделитель 12
-[Separator 13]
-Разделитель 13
-[Separator 14]
-Разделитель 14
-[Separator 15]
-Разделитель 15
-[Separator 16]
-Разделитель 16
-[Separator 17]
-Разделитель 17
-[Separator 18]
-Разделитель 18
-[Separator 19]
-Разделитель 19
-[Separator 20]
-Разделитель 20
-[Separator 21]
-Разделитель 21
-[Separator 22]
-Разделитель 22
-[Separator 23]
-Разделитель 23
-[Separator 24]
-Разделитель 24
-[Separator 25]
-Разделитель 25
-[Separator 26]
-Разделитель 26
-[Separator 27]
-Разделитель 27
-[Separator 28]
-Разделитель 28
-[Separator 29]
-Разделитель 29
-[Separator 30]
-Разделитель 30
-[Minimize Button]
-Свернуть
-[Up:]
-Вв:
-[Down:]
-Вниз:
-[Separator Button]
-Кнопка-разделитель
-[Add Separator]
-Добавить разделитель
-[Launch Button]
-Кнопки запуска
-[Add Launch]
-Добавить кнопку
-[Del Sep/Launch Button]
-Удалить разделитель/кнопку
-[Execute Path]
-Путь запуска
-[Button width]
-Ширина кнопки
-[Button height]
-Высота кнопки
-[Interval between buttons]
-Промежуток
-[WUMF: Show connections list]
-Список текущих подключений
 [ToptoolBar adds buttons in top frame for fast access.]
 Плагин добавляет панель кнопок для быстрого доступа к функциям Miranda и Вашим программам.
-[Network Connections]
-Сетевые подключения
+[Buttons Order && Visibility]
+Порядок и видимость кнопок
+[Button height]
+Высота кнопки
+[Button width]
+Ширина кнопки
+[Interval between buttons]
+Промежуток
 [Use flat mode]
 Кнопки без границы
 [Auto resize]
 Авторазмер
 [Single line]
 Панель в одну строку
-[Select Directory]
-Выберите папку
-[Separator]
-Разделитель
-[TopToolbar]
+[Buttons order:]
+Показывать кнопки:
+[Add Separator]
+Добавить разделитель
+[Add Launch]
+Добавить кнопку
+[Del Sep/Launch Button]
+Удалить разделитель/кнопку
+[Name:]
+Имя:
+[Path:]
+Путь:
+[Set]
+Выбрать
+[Default]
+По умолчанию
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
+Данный плагин списка контактов не поддерживает сервис фреймов, необходимый для их работы, поэтому плагин панели кнопок был выключен.\nДля работы панели кнопок требуется установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можете скачать их на http://miranda-ng.org/
+[TopToolBar]
+Панель кнопок
+[Contact List]
+Список контактов
+[Toolbar]
 Панель кнопок

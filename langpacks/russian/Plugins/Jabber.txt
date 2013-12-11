@@ -1,535 +1,220 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
-;  File: jabber.dll
-;  Module: Jabber protocol
-;  Versions: 0.10.0.2
-;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/JabberG/
+;  File: Jabber.dll
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-
-;  Страницы опций
 [Jabber protocol support for Miranda NG.]
 Поддержка протокола Jabber в Miranda NG.
+[Edit Note]
+Редактировать заметку
+[Tags:]
+Теги:
+[OK]
 
-;  СЕТЬ
-;  Имя учётной записи Jabber
-[Register new user]
-Регистрация
-[Jabber Account Registration]
-Регистрация учётной записи Jabber
-[Register]
-Регистрация
-[No message]
-Нет сообщения
-[Sending registration information...]
-Отсылка регистрационной информации...
-[Requesting registration instruction...]
-Запрос регистрационной инструкции...
-[Authentication failed for %s.]
-Аутентификация не прошла для %s.
-[Authentication failed for %s@%S.]
-Аутентификация не прошла для %s@%S.
-[Error: Not enough memory]
-Ошибка: Не хватает памяти
-[Error: Cannot resolve server address]
-Ошибка: Невозможно найти адрес сервера
-[Error: Connection lost]
-Ошибка: Соединение потеряно
-[Registration successful]
-Регистрация успешно пройдена
-[Password do not match.]
-Пароли не совпадают
-[Forbidden]
-Запрещено
-[Current Password:]
-Текущий пароль:
-[New Password:]
-Новый пароль:
-[Confirm New Password:]
-Подтверждение:
-[Confirm password]
-Введите пароль
-[Unregister]
-Удалить
-[Reason to ban]
-Причина бана
-[Account removal warning]
-Удаление учётной записи
-[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
-Эта операция удалит Вашу учётную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учётную запись?
-[Set New Password for %s@%S]
-Установка нового пароля для %s@%S
-[New password does not match.]
-Новые пароли не совпадают
-[Current password is incorrect.]
-Текущий пароль неверен
-[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль успешно изменен. Не забудьте обновить Ваш пароль в настройках учётной записи Jabber.
-[Password cannot be changed.]
-Пароль не может быть изменен
-[Save password]
-Сохранить пароль
-[Remember password for this session]
-Запомнить пароль для этой сессии
-[Save password permanently]
-Сохранить пароль
-[Use Domain Login]
-Доменный логин
-[Jabber Password]
-Jabber Пароль
-[Enter password for %s]
-Введите пароль для %s
-[Priority:]
-Приоритет:
-[Resource:]
-Ресурс:
+[Cancel]
+Отмена
+[Type:]
+Тип:
+[User:]
+Логин:
 [Domain/Server:]
 Домен/Сервер:
+[Password:]
+Пароль:
+[Save password]
+Сохранить пароль
+[Resource:]
+Ресурс:
+[Register new user]
+Регистрация
+[Use custom connection host and port:]
+Настройка подключения (узел и порт):
+[Use Domain Login]
+Доменный логин
+[Go]
+
+[Search service]
+Служба поиска
+[Roster Editor]
+Редактор ростера
+[Roster editor\nView and modify your server-side contact list.]
+Редактор ростера\nПросмотр и правка списка контактов на сервере.
+[Download]
+Скачать
+[Upload]
+Загрузить
+[Import from file]
+Импорт из файла
+[Export to file]
+Экспорт
+[Jabber]
+
+[Username:]
+Пользователь:
+[Change password]
+Изменить пароль
+[Priority:]
+Приоритет:
 [Use hostname as resource]
 Имя хоста в качестве ресурса
 [List of public servers]
 Публичные серверы
+[Port:]
+Порт:
 [Use SSL]
 SSL
 [Use TLS]
 TLS
+[Unregister]
+Удалить
+[Expert]
+Эксперт
 [Manually specify connection host]
 Указать хост для подключения
+[Host:]
+Хост:
+[Keep connection alive]
+Поддерживать соединение
 [Automatically delete contacts not in my roster]
 Автоматически удалять контакты, которые не в списке
 [User directory:]
 Директория пользователей:
 [Language for human-readable resources:]
 Язык для видимых человеку ресурсов:
-[You can change your password only when you are online]
-Что бы сменить пароль, вам нужно подключиться к сети
-[You must be online]
-Вам нужно подключиться к сети
-[Use custom connection host and port:]
-Настройка подключения (узел и порт):
-[Secure XMPP Network (old style)]
-Защищённая сеть XMPP (старый стиль)
-[Public XMPP Network]
-Публичная сеть XMPP
-[Secure XMPP Network]
-Защищённая сеть XMPP
-[Click here to download OpenSSL, required for Google Talk support]
-Загрузить OpenSSL (необходим для поддержки Google Talk)
-[LiveJournal Talk]
-ЖЖ
-[Facebook Chat]
-Чат Facebook
-[sent subscription request]
-отправил запрос на подписку
-[approved subscription request]
-принял запрос на подписку
-[declined subscription]
-отклонил подписку
-[sent error presence]
-отправил присутствие с ошибкой
-[sent unknown presence type]
-отправил неизвестный тип присутствия
-
-;  Чат-комнаты
-[Chat options]
-Настройки чата
-[Conferences]
-Чат-комнаты
-[Automatically join conferences on login]
-Автоматически заходить в чат-комнаты при входе
-[Autoaccept multiuser chat invitations]
-Автоматически принимать приглашения в чат-комнаты
-[Automatically join bookmarks on login]
-Автоматически заходить в закладки
-[Hide conference windows at startup]
-Не открывать окна чат-комнат при входе
-[Do not show multiuser chat invitations]
-Не показывать приглашения в многопользовательский чат
-[Log events]
-Запись событий в журнал
-[Ban notifications]
-Уведомления о банах
-[Room configuration changes]
-Смена настроек чат-комнаты
-[Affiliation changes]
-Изменение принадлежности
-[Role changes]
-Изменение роли
-[Don't notify history messages]
-Не показывать уведомлений из истории
-[Custom messages]
-Свои сообщения
-[Quit:]
-Выход:
-[Slap:]
-Шлепок:
-[/me slaps %s around a bit with a large trout]
-/me шарахнул %s веслом по голове
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Я использую Miranda NG (http://miranda-ng.org/.)
-[Alternate nick:]
-Альтернативный ник:
-
-;  Дополнительно
+[File Transfer]
+Передача файла
 [Allow file sending through direct peer-to-peer connection]
 Передача файлов через прямое соединение
-[Allow file sending through bytestream proxy server:]
-Передача через потоковый прокси сервер:
 [Specify external address:]
 Внешний адрес:
+[Allow file sending through bytestream proxy server:]
+Передача через потоковый прокси сервер:
+[Miscellaneous]
+Прочее
 [Hint:]
 !!!!
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Отключите все опции, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
-[Log chat state changes]
-Записывать изменения состояния чата
-[Log presence errors]
-Записывать ошибки присутствия
-[Log presence subscription state changes]
-Записывать изменения присутствия
-[Enable user moods receiving]
-Включить прием настроений
-[Enable user tunes receiving]
-Включить прием мелодий
-[Enable user activity receiving]
-Включить прием занятий
-[Receive notes]
-Принимать заметки
-[Automatically save received notes]
-Автоматически сохранять принятые заметки
-[Server options]
-Настройки сервера
-[Disable SASL authentication (for old servers)]
-Отключить аутентификацию SASL (старые серверы)
-[Enable stream compression (if possible)]
-Сжимать поток (если возможно)
-[Enable XMPP server ping (XEP-0199)]
-Включить пинг XMPP сервера (XEP-0199)
-[Enable remote controlling (from another resource of same JID only)]
-Удалённое управление (только из другого ресурса одного JID)
-[Show transport agents on contact list]
-Показать транспортные агенты в списке контактов
-[Automatically add contact when accept authorization]
-Добавлять контакт после подтверждения авторизации
-[Automatically accept authorization requests]
-Автоматически принимать запросы авторизации
-[Fix incorrect timestamps in incoming messages]
-Исправлять время во входящих сообщениях
-[Disable frame]
-Выключить фрейм
-[Security]
-Безопасность
-[Enable server-side history]
-Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
-[Allow servers to request version (XEP-0092)]
-Отвечать серверу на запросы о версиях ПО (XEP-0092)
-[Show information about operating system in version replies]
-Посылать информацию об операционной системе в запросах версии
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Разрешать передачу файлов только внутри потока (не раскрывать свой IP)
-[Accept HTTP Authentication requests (XEP-0070)]
-Принимать запросы аутентификации HTTP (XEP-0070)
-[Jabber Activity]
-Занятие Jabber
-[Jabber Mood]
-Настроение Jabber
-[Enable XMPP link processing (requires Association Manager)]
-Обрабатывать XMPP ссылки (требуется плагин "Association Manager")
-[Keep contacts assigned to local groups (ignore roster group)]
-Использовать локальные группы (игнорировать группы ростера)
+[Jabber Account Registration]
+Регистрация учётной записи Jabber
+[Jabber Agents]
 
-;  Шрифты  цвета
-[Frame text]
-Текст фрейма
-[Frame title]
-Заголовок фрейма
-[Background]
-Фон
+[Register/Search Jabber Agents]
 
-;  Горячие клавиши
-[Privacy lists]
-Списки приватности
+[Jabber server:]
 
-;  МЕНЮ
-;  Меню контакта
-[Convert]
-Конвертировать
-[Login/logout]
-Войти/Выйти
-[Add to roster]
-Добавить в ростер
-[Send Presence]
-Отправить присутствие
-[Send Note]
-Отправить заметку
-[Tags:]
-Теги:
-[Send note to %s]
-Отправить заметку %s
-[&Convert to Chat Room]
-&Конвертировать в чат
-[&Convert to Contact]
-Конвертировать в контакт
-[Jabber Resource]
-Ресурс
-[Last Active]
-Последний активный
-[Last active (%s)]
-Последний активный (%s)
-[Server's Choice]
-Выбор сервера
-[Resolve nicks]
-Определить ники
-[Add to Bookmarks]
-Добавить в закладки
-[Commands]
-Команды
-[Convert to room]
-Конв. в чат-комнату
-[AdHoc Command]
-Команда AdHoc
-[OpenID Request]
-Запрос OpenID
-[Personal vCard]
-Личная визитная карточка
+[Browse]
+Обзор
+[Register...]
 
-;  Контекстное Меню
-[Voice List]
-Список участников
-[Set topic for %s]
-Установить тему для %s
-[Join conference]
-Подключиться к чату
-[Open bookmarks]
-Открыть закладки
-[all attributes]
-все атрибуты
-[Refresh Info]
-Обновить инфо
-[Refresh Children]
-Обновить службы
-[Join chatroom]
-Войти в чат-комнату
-[Contact Menu...]
-Меню контакта...
-[Copy node information]
-Скопировать информацию
-[Copy node name]
-Скопировать имя
-[Copy JID]
-Скопировать JID
-[Bookmark chatroom]
-Добавить в закладки
-[Add to favorites]
-Добавить в избранное
-[View vCard]
-Просмотр vCard
-[Commands...]
-Команды...
-[Jabber Ad-Hoc commands at %s]
-Jabber Ad-Hoc команды на %s
+[Browse/Join chat room...]
+
+[Search...]
+
+[Registered Jabber Transports]
+
+[Log on]
+
+[Log off]
+
+[Register with a new service...]
+
+[Close]
+Закрыть
+[Command]
+
+[Jabber Form]
+
 [Instruction:]
 Инструкция:
-[Bots Challenge Test]
-Защита от ботов
-[Select Command]
-Выберите команду
-[Not supported]
-Не поддерживается
-[Error %s %s]
-Ошибка %s %s
-[Execute]
-Выполнить
-[Use this proxy]
-Использовать этот прокси
-[Bookmarks...]
-Закладки...
-[Copy &nickname]
-Копировать ник
-[Copy only this value]
-Копировать значение
-[Copy real &JID]
-Копировать JID
-[Copy room &JID]
-Копировать JID чат-комнаты
-[Copy room topic]
-Копировать тему
-[Change &nickname]
-Изменить ник
-[&Admin list]
-Список админов
-[&Affiliations]
-Принадлежности
-[&Destroy room]
-Удалить чат-комнату
-[&Invite a user]
-Пригласить пользователя
-[&Member list]
-Список пользователей
-[&Moderator list]
-Список модераторов
-[&Owner list]
-Список владельцев
-[&Participant list]
-Список участников
-[&Roles]
-Роли
-[Admin List]
-Список админов
-[Ban List]
-Список заблокированных
-[Member List]
-Список пользователей
-[Moderator List]
-Список модераторов
-[Owner List]
-Список владельцев
-[%s, %d items (%s)]
-%s, %d пункта(ов) (%s)
-[Apply filter]
-Применить фильтр
-[Reset filter]
-Сбросить фильтр
-[Real &JID: %s]
-Реальный JID: %s
-[Change nickname in %s]
-Изменить ник в %s
-[Change nickname in <%s>]
-Изменить ник в <%s>
-[Lin&ks]
-Ссылки
-[Copy in-room JID]
-Копировать JID с чат-комнаты
-[&Send presence]
-&Отправить присутствие
-[&Add to roster]
-&Добавить в ростер
-[&Admin]
-&Админ
-[&Member]
-Пользователь
-[&Moderator]
-Модератор
-[&None]
-Нет
-[&Owner]
-Владелец
-[&Participant]
-Участник
-[&Room options]
-Настройки чат-комнаты
-[&Visitor]
-Посетитель
-[Outcast (&ban)]
-Забанить
-[Outcast list (&ban)]
-Список забаненных
-[Add search directory]
-Добавить поиск
-[Member &info]
-Права доступа
-[Member Information]
-Права доступа
-[Member]
-Пользователь
-[Moderator]
-Модератор
-[Reason to ban %s]
-Причина бана %s
-[Invite to room]
-Пригласить в чат-комнату
-[from]
-из
-[Set &affiliation]
-Установить принадлежность
-[Set &role]
-Установить роль
-[View/change &topic]
-Просмотр/смена темы
-[Add to &bookmarks]
-Добавить в закладки
-[Affiliation:]
-Принадл.:
-[&Configure...]
-&Настроить...
-[Role:]
-Роль:
-[Visitor]
-Посетитель
-[Participant]
-Участник
-[Affiliation:\t]
-В составе:\t
-[Nick:\t\t]
-Ник:\t\t
-[Real JID:\t]
-Реальный JID:\t
-[Role:\t\t]
-Роль:\t\t
-[Status text:\t]
-Текст статуса:\t
-[Status:\t\t]
-Статус:\t
-[Removing %s?]
-Удалить %s?
-[Real JID:]
-Реальный JID:
+[Submit]
+Передать
+[Next]
+Вперёд
+[Back]
+Фон
+[Complete]
+Готово
+[Jabber Password]
+Jabber Пароль
+[Remember password for this session]
+Запомнить пароль для этой сессии
+[Save password permanently]
+Сохранить пароль
+[Data form test]
 
-;  Значки
-[Send note]
-Отправить заметку
-[Multi-User Conference]
-Чат-комната
-[JabberAccountChooser]
-Выбор учётной записи Jabber
-[Activities]
-Занятия
-[Moods]
-Настроения
-[transport]
-транспорт
+[Address1:]
+Адрес 1:
+[Address2:]
+Адрес 2:
+[City:]
+Город:
+[State:]
+Штат:
+[ZIP:]
+Индекс:
+[Country:]
+Страна:
+[Full name:]
+Полное имя:
+[Nick name:]
+Псевдоним:
+[First name:]
+Имя:
+[Middle:]
+Отчество:
+[Last name:]
+Фамилия:
+[Date of birth:]
+Дата рождения:
+[YYYY-MM-DD]
+ГГГГ-ММ-ДД
+[Gender:]
+Пол:
+[Occupation:]
+Занятие:
+[Homepage:]
+Сайт:
+[Company:]
+Компания:
+[Department:]
+Отдел:
+[Title:]
+Заголовок:
+[E-mail:]
 
-;  Информация о контакте
-[<No photo>]
-<Нет фото>
-[both]
-в обе стороны
-[Last logoff time]
-Время выхода:
-[Last active resource]
-Последний активный ресурс
-[<no information available>]
-<нет информации>
-[Logoff message]
-Сообщение выхода
-[Resource]
-Ресурс
-[Software]
-Клиент
-[Resource priority]
-Приоритет ресурса
-[Client capabilities]
-Возможности клиента
-[Idle since]
-Простаивает с
-;  странно, но эта строка не нужна
-;[Jabber vCard: Add Email Address]
-;Jabber vCard: добавление E-mail
-[Jabber vCard: Add Phone Number]
-Jabber vCard: добавление телефона
-[Jabber vCard: Edit Email Address]
-Jabber vCard: редактирование E-mail
-[Jabber vCard: Edit Phone Number]
-Jabber vCard: редактирование телефона
+[Phone:]
+Телефон:
+[Jabber vCard: Add Email Address]
+
 [Email address:]
 Адрес E-mail:
+[Home]
+Дом
+[Work]
+Работа
+[Internet]
+Интернет
+[X400]
+
+[Jabber vCard: Add Phone Number]
+Jabber vCard: добавление телефона
 [Phone number:]
 Телефон:
+[Voice]
+Голос
+[Fax]
+Факс
 [Pager]
 Пейджер
 [Text/Messaging]
 Текстовое общение
+[Cellular]
+Мобильный
+[Video]
+Видео
 [BBS]
 ББС
 [Modem]
@@ -538,354 +223,948 @@ Jabber vCard: редактирование телефона
 Номер
 [PCS]
 Шт
-;  CAPs
-[Supports private XML Storage (for bookmakrs and other)]
-Хранение XML (для закладок и пр.)
-[Receives information about the music to which a user is listening]
-Прием мелодий (слушает музыку)
-[Can report information about the music to which a user is listening]
-Отправка мелодий (слушаю музыку)
-[Supports Message Receipts]
-Прием сообщений
-[Can block communications from particular other users using Privacy lists]
-Блокировка пользователей с использованием листов приватности
-[Supports SecureIM plugin for Miranda NG]
-Поддержка плагина SecureIM для Miranda NG
-[Supports OTR (Off-the-Record Messaging)]
-Поддержка OTR (Off-the-Record Messaging)
-[Supports generic publish-subscribe functionality]
-Основная функциональность подписок
-[Receives information about user moods]
-Прием настроений
-[Can report information about user moods]
-Отправка настроений
-[Can request advanced processing of message stanzas]
-Запросы расширенной обработки типов событий
-[Can negotiate options for specific features]
-Обработка специальных возможностей
-[Supports Jabber Browsing]
-Просмотр Jabber
-[Supports xHTML formatting of chat messages]
-xHTML формат чат сообщений
-[Supports iq-based avatars]
-Аватары (iq протокол)
-[Supports vCard]
-vCard (визитные карточки)
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Запрос и ответ на события - доставка, отображение, составление сообщений
-[Supports data forms]
-Формы данных
-[Can send and receive ping requests]
-Прием и отправка пингов (ping)
-[Can report local time of the user]
-Сообщение локального времени
-[Can report own version information]
-Сообщение версий
-[Can report information about the last activity of the user]
-Сообщение о последней активности пользователя
-[Can report information about user activity]
-Сообщение об активности пользователя
-[Can report chat state in a chat session]
-Сообщение о состоянии чата в чат сессии
-[Supports multi-user chat]
-Поддержка чата
-[Supports in-band registration]
-Внутрипотоковая регистрация
-[Supports execution of Ad-Hoc commands]
-Выполнение Ad-Hoc команд
-[Supports file transfers via Out-of-Band Bytestreams]
-Внепотоковая передача файлов
-[Supports file transfers via In-Band Bytestreams]
-Внутрипотоковая передача файлов
-[Supports file transfers via SOCKS5 Bytestreams]
-Передача файлов через SOCKS5 прокси
-[Supports stream initiation for file transfers]
-Инициирование потока для передачи файлов
-[Supports stream initiation (for filetransfers for ex.)]
-Инициирование потока (передача файлов наружу)
-[Can inform about its Jabber capabilities]
-Сообщение поддерживаемых функций Jabber (CAPs)
-[Supports Service Discovery items list]
-Просмотр списка служб
-[Supports Service Discovery info]
-Информация о службах
-[Supports Jingle]
-Поддержка Jingle
-[Supports attention requests ('nudge')]
-Поддержка уведомлений внимания ('Встряска')
-[Supports Miranda NG notes extension]
-Поддержка заметок Miranda NG
-;  end CAPs
-[Software information]
-Информация о ПО
-[Operating system]
-Операционная система
-[Operating system version]
-Версия ОС
-[Software version]
-Версия ПО
-[Miranda core version]
-Версия Miranda
-[Unicode build]
-Unicode сборка
-[Alpha build]
-Альфа сборка
-[Debug build]
-Отладочная сборка
-[Subscription]
-Подписка
-[Mood]
-Настроение
-[Activity]
-Занятие
-[Full name:]
-Полное имя:
-[Middle:]
-Отчество:
-[YYYY-MM-DD]
-ГГГГ-ММ-ДД
-[Address1:]
-Адрес 1:
-[Address2:]
-Адрес 2:
-[ZIP:]
-Индекс:
-[Receives information about user activity]
-Прием информации о занятии пользователя
-[Tune]
-Мелодия
+[Load]
 
-;  Меню протокола
-[Services...]
-Службы...
-[Service Discovery]
-Просмотр служб
-[View as list]
-Как список
-[View as tree]
-Как дерево
-[Navigate home]
-Перейти в начало
-[Refresh node]
-Обновить узел
-[Node:]
-Узел:
-[Node]
-Узел
-[Node hierarchy]
-Иерархия узла
-[Set filter...]
-Фильтр...
-[Registered Transports]
-Транспорты
-[Local Server Transports]
-Транспорты сервера
-[Browse Chatrooms]
-Обзор чат-комнат
-[Create/Join group chat]
-Создать/войти в чат
-[Create or join existing conference room.]
-Создание или вход в чат-комнату
+[Save]
+Сохранить
+[Delete]
+Удалить
+[Description:]
+Описание:
+[Change Password]
+Сменить пароль
+[Current Password:]
+Текущий пароль:
+[New Password:]
+Новый пароль:
+[Confirm New Password:]
+Подтверждение:
+[Jabber Multi-User Conference]
+
 [Conference server:]
 Сервер:
-[Room:]
-Чат-комната:
-[Nick name:]
-Псевдоним:
-[Recently visited chatrooms:]
-Последние посещённые чаты:
-[Roster editor]
-Редактор ростера
-[Roster Editor]
-Редактор ростера
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Закладки на сервере\nХранить чат-комнаты и ссылки на сервере.
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Списки приватности\nУдобный способ настроить видимость и не только.
+[Create or Join group chat]
+
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Чат-комната Jabber\nСоздание или вход в чат-комнату.
-[Roster editor\nView and modify your server-side contact list.]
-Редактор ростера\nПросмотр и правка списка контактов на сервере.
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Записная книжка\nХранение заметок на сервере и доступ к ним отовсюду.
+[Room:]
+Чат-комната:
+[Recently visited chatrooms:]
+Последние посещённые чаты:
+[Bookmarks]
+Закладки
+[JID List]
+
+[Apply Filter]
+
+[Reset Filter]
+
+[Jabber Agent Registration]
+
+[JID:]
+
+[Register]
+Регистрация
+[Invite Users]
+Приглашение пользователей
 [<room jid>\nSend group chat invitation.]
 <room jid>\nПригласить в чат-комнату.
+[Other JID:]
+Другой JID:
+[Add]
+Добавить
+[Invitation reason:]
+Причина приглашения:
+[&Invite]
+Пригласить
+[Group chat invitation]
+Приглашение в конференцию
 [<room jid>\nIncoming group chat invitation.]
 <room jid>\nПриглашение в чат-комнату.
-[Member Information\n<user ID>]
-Информация о пользователе\n<user ID>
-[Member Information\n%s from %s]
-Информация о пользователе\n%s из %s
-[Member Info: %s]
-Инфо пользователя: %s
-[%s (not on roster)]
-%s (не в ростере)
-[Nick Name]
-Ник
+[You are invited to conference room by]
+Вас пригласил:
+[with following reason:]
+причина:
+[Nickname:]
+Ник:
+[&Accept]
+Принять
+[Jabber Bookmarks]
+Закладки
+[Server side bookmarks\nStore conference rooms and web links on server.]
+Закладки на сервере\nХранить чат-комнаты и ссылки на сервере.
+[Remove]
+Удалить
+[Edit]
+Изменить
+[Bookmark Details]
+Детали закладки
+[Bookmark Type]
+Тип закладки
+[Conference]
+Чат-комната
+[Transport]
+Транспорт
+[URL]
+Ссылка
+[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
+Авто-вход (Необходимо включить автоматический вход в настройках)
+[Room JID/ URL:]
+JID / URL:
+[Bookmark Name:]
+Имя закладки:
 [Privacy Lists]
 Списки приватности
-[List Editor...]
-Редактор списков...
-[** Default **]
-** По умолчанию **
-[** Subsription: none **]
-** Подписка: нет **
-[** Subsription: from **]
-** Подписка: от **
-[** Subsription: to **]
-** Подписка: в **
-[** Subsription: both **]
-** Подписка: обе **
-[invisible]
-невидимые
-[invisible list]
-список невидимых
-[visible]
-видимые
-[visible list]
-список видимых
-[Flexible way to configure visibility and more.]
-Удобный способ настроить видимость и не только
-[ (act., def.)]
- (активн., основн.)
+[Privacy Lists\nFlexible way to configure visibility and more.]
+Списки приватности\nУдобный способ настроить видимость и не только.
 [Lists:]
 Списки:
 [Rules:]
 Правила:
-[Add list...]
-Добавить...
-[Presence (in)]
-Присутствие (вх)
-[Presence (out)]
-Присутствие (исх)
-[Query]
-Запрос
-[Add JID]
-Добавить
-[Simple mode]
-Простой режим
-[Advanced mode]
-Расширенный режим
-[Ready.]
-Готов.
-[Sending request, please wait...]
-Отправка запроса, пожалуйста, подождите...
-[Set default]
-По умолчанию
-[Remove list]
-Удалить
-[Privacy lists are not saved, discard any changes and exit?]
-Списки приватности не сохранены, отменить изменения и выйти?
-[No list selected]
-Список не выбран
+[Simple Mode]
+
+[Advanced Mode]
+
+[Add list... (Ins)]
+
+[Activate (Space)]
+
+[Set as default (Ctrl+Space)]
+
+[Remove list (Del)]
+
+[Add rule (Ins)]
+
+[Edit rule... (F2)]
+
+[Move rule up (Alt+Up)]
+
+[Move rule down (Alt+Down)]
+
+[Remove rule (Del)]
+
 [Privacy rule]
 Правило приватности
-[Warning: privacy lists were changed on server.]
-Внимание: списки приватности сохранены на сервере.
 [If:]
 Если:
 [Then:]
 Тогда:
-[then]
-то
-[Else]
-Иначе
-[allow]
-разрешить
-[deny]
-запретить
-[queries]
-запросы
-[incoming presences]
-входящее присутствие
-[outgoing presences]
-исходящее присутствие
+[following stanza types:]
+Следующие типы событий:
+[Messages]
+Сообщения
+[Queries]
+Запросы
 [Incoming presence]
 Вход. присутствие
 [Outgoing presence]
 Nсход. присутствие
-[following stanza types:]
-Следующие типы событий:
-[Can't remove active or default list]
-Невозможно удалить активный или стандартный список
-[If group is ']
-Если группа '
-[If Jabber ID is ']
-Если JID '
-[If subscription is ']
-Если подписка '
-[ and ]
- и\s
-[Other JID:]
-Другой JID:
-[Active privacy list successfully declined]
-Активный список приватности отклонен успешно
-[Default privacy list successfully declined]
-Стандартный список приватности успешно отклонен
-[Error occurred while setting list %s as active]
-Ошибка при установке списка %s активным
-[Error occurred while setting list %s as default]
-Ошибка при установке списка %s по умолчанию
-[Privacy list %s set as default]
-Список приватности %s - основной
-[Privacy list %s set as active]
-Список приватности %s - активный
-[ (active)]
- (активный)
-[ (default)]
- (основной)
-[ (nickname: ]
- (ник:\s
-[all.]
-всё.
 [New privacy list name:]
 Hовое имя списка приватности:
 [Enter the name of the new list:]
 Введите имя нового списка:
-[Resource priority [%d]]
-Приоритет ресурса [%d]
-[Set mood...]
-Настроение...
-[Set activity...]
-Занятие...
-[Increase priority by 10]
-Увеличить приоритет на 10
-[Increase priority by 5]
-Увеличить приоритет на 5
-[Increase priority by 1]
-Увеличить приоритет на 1
-[Decrease priority by 10]
-Уменьшить приоритет на 10
-[Decrease priority by 5]
-Уменьшить приоритет на 5
-[Decrease priority by 1]
-Уменьшить приоритет на 1
-[Mood: %s]
-Настроение: %s
-[Activity: %s]
-Занятие: %s
-[Set Mood]
-Настроение
-[Set Activity]
-Занятие
+[Service Discovery]
+Просмотр служб
+[View as tree]
+Как дерево
+[View as list]
+Как список
+[Favorites]
+Избранные
+[Refresh]
+Обновить
+[Node:]
+Узел:
+[Change %s Message]
+
+[Closing in %d]
+Закрыть (%d)
+[Account type:]
+
+[Login server:]
+Сервер:
+[Register account now]
+
+[Jabber Account Information:]
+
+[Member Information]
+Права доступа
+[Member Information\n<user ID>]
+Информация о пользователе\n<user ID>
+[Role:]
+Роль:
+[Set role]
+
+[Affiliation:]
+Принадл.:
+[Set affiliation]
+
+[Status message:]
+Статусное сообщение:
+[Chat options]
+Настройки чата
+[Alternate nick:]
+Альтернативный ник:
+[Custom messages]
+Свои сообщения
+[Quit:]
+Выход:
+[Slap:]
+Шлепок:
+[Authorization request]
+Запрос авторизации
+[HTTP Authorization\nAccept or reject incoming request]
+
+[Someone (maybe you) has requested the following file:]
+
+[Request was sent from JID:]
+
+[The transaction identifier is:]
+
+[Request method is:]
+
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+
+[Authorize]
+
+[Deny]
+Запретить
+[Dialog]
+Диалог
+[Jabber Notebook]
+Записная книжка
+[Jabber notebook\nStore notes on server and access them from anywhere.]
+Записная книжка\nХранение заметок на сервере и доступ к ним отовсюду.
+[Bots Challenge Test]
+Защита от ботов
 [XML Console]
 XML Консоль
-[Presences]
-Присутствие
-[Queries]
-Запросы
-[Filter mode]
-Режим фильтра
 [Reset log]
 Очистить лог
+[Send]
+Отправить
+[Jabber Link Protocol]
+Протокол Jabber
+[Frame title]
+Заголовок фрейма
+[Frame text]
+Текст фрейма
+[Jabber Activity]
+Занятие Jabber
+[Jabber Mood]
+Настроение Jabber
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
+
+[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
+Я использую Miranda NG (http://miranda-ng.org/.)
+[/me slaps %s around a bit with a large trout]
+/me шарахнул %s веслом по голове
+[Error %s %s]
+Ошибка %s %s
+[Select Command]
+Выберите команду
+[Not supported]
+Не поддерживается
+[Done]
+Готово
+[In progress. Please Wait...]
+Обработка. Подождите...
+[Execute]
+Выполнить
+[Requesting command list. Please wait...]
+Запрос списка команд. Подождите...
+[Jabber Ad-Hoc commands at %s]
+Jabber Ad-Hoc команды на %s
+[Sending Ad-Hoc command to %s]
+Отправить Ad-Hoc команду %s
+[No message]
+Нет сообщения
+[Please wait...]
+Подождите, пожалуйста...
+[Bookmark Name]
+Имя закладки
+[Address (JID or URL)]
+Адрес (JID или URL)
+[Nickname]
+Ник
+[Conferences]
+Чат-комнаты
+[Links]
+Ссылки
+[Bytestream Proxy not available]
+
+[Supports Service Discovery info]
+Информация о службах
+[Supports Service Discovery items list]
+Просмотр списка служб
+[Can inform about its Jabber capabilities]
+Сообщение поддерживаемых функций Jabber (CAPs)
+[Supports stream initiation (for filetransfers for ex.)]
+Инициирование потока (передача файлов наружу)
+[Supports stream initiation for file transfers]
+Инициирование потока для передачи файлов
+[Supports file transfers via SOCKS5 Bytestreams]
+Передача файлов через SOCKS5 прокси
+[Supports file transfers via In-Band Bytestreams]
+Внутрипотоковая передача файлов
+[Supports file transfers via Out-of-Band Bytestreams]
+Внепотоковая передача файлов
+[Supports execution of Ad-Hoc commands]
+Выполнение Ad-Hoc команд
+[Supports in-band registration]
+Внутрипотоковая регистрация
+[Supports multi-user chat]
+Поддержка чата
+[Can report chat state in a chat session]
+Сообщение о состоянии чата в чат сессии
+[Can report information about the last activity of the user]
+Сообщение о последней активности пользователя
+[Can report own version information]
+Сообщение версий
+[Can report local time of the user]
+Сообщение локального времени
+[Can send and receive ping requests]
+Прием и отправка пингов (ping)
+[Supports data forms]
+Формы данных
+[Can request and respond to events relating to the delivery, display, and composition of messages]
+Запрос и ответ на события - доставка, отображение, составление сообщений
+[Supports vCard]
+vCard (визитные карточки)
+[Supports iq-based avatars]
+Аватары (iq протокол)
+[Supports XHTML formatting of chat messages]
+
+[Supports Jabber Browsing]
+Просмотр Jabber
+[Can negotiate options for specific features]
+Обработка специальных возможностей
+[Can request advanced processing of message stanzas]
+Запросы расширенной обработки типов событий
+[Can report information about user moods]
+Отправка настроений
+[Receives information about user moods]
+Прием настроений
+[Supports generic publish-subscribe functionality]
+Основная функциональность подписок
+[Supports SecureIM plugin for Miranda NG]
+Поддержка плагина SecureIM для Miranda NG
+[Supports OTR (Off-the-Record Messaging)]
+Поддержка OTR (Off-the-Record Messaging)
+[Supports New_GPG plugin for Miranda NG]
+
+[Can block communications from particular other users using Privacy lists]
+Блокировка пользователей с использованием листов приватности
+[Supports Message Receipts]
+Прием сообщений
+[Can report information about the music to which a user is listening]
+Отправка мелодий (слушаю музыку)
+[Receives information about the music to which a user is listening]
+Прием мелодий (слушает музыку)
+[Supports private XML Storage (for bookmakrs and other)]
+Хранение XML (для закладок и пр.)
+[Supports attention requests ('nudge')]
+Поддержка уведомлений внимания ('Встряска')
+[Supports chat history retrieving]
+
+[Supports chat history management]
+
+[Can report information about user activity]
+Сообщение об активности пользователя
+[Receives information about user activity]
+Прием информации о занятии пользователя
+[Supports Miranda NG notes extension]
+Поддержка заметок Miranda NG
+[Supports Jingle]
+Поддержка Jingle
+[Supports Roster Exchange]
+
+[Enter the text you see]
+Введите текст, который видите
+[None]
+Нет
+[Member]
+Пользователь
+[Admin]
+Админ
+[Owner]
+Владелец
+[Visitor]
+Посетитель
+[Participant]
+Участник
+[Moderator]
+Модератор
+[Visitors]
+
+[Participants]
+Участники
+[Moderators]
+
+[Owners]
+
+[User %s is now banned.]
+Пользователь %s был забанен.
+[User %s changed status to %s with message: %s]
+%s изменил статус на %s: %s
+[User %s changed status to %s]
+%s изменил статус на %s.
+[Room configuration was changed.]
+
+[Outcast]
+
+[Affiliation of %s was changed to '%s'.]
+Принадлежность %s изменилась на %s.
+[Role of %s was changed to '%s'.]
+Роль %s сменилась на '%s'.
+[because room is now members-only]
+
+[user banned]
+
+[Change &nickname]
+Изменить ник
+[&Invite a user]
+Пригласить пользователя
+[&Roles]
+Роли
+[&Participant list]
+Список участников
+[&Moderator list]
+Список модераторов
+[&Affiliations]
+Принадлежности
+[&Member list]
+Список пользователей
+[&Admin list]
+Список админов
+[&Owner list]
+Список владельцев
+[Outcast list (&ban)]
+Список забаненных
+[&Room options]
+Настройки чат-комнаты
+[View/change &topic]
+Просмотр/смена темы
+[Add to &bookmarks]
+Добавить в закладки
+[&Configure...]
+&Настроить...
+[&Destroy room]
+Удалить чат-комнату
+[Lin&ks]
+Ссылки
+[Copy room &JID]
+Копировать JID чат-комнаты
+[Copy room topic]
+Копировать тему
+[&Send presence]
+&Отправить присутствие
+[Online]
+В сети
+[Away]
+Отсутствую
+[NA]
+Недоступен
+[DND]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[&Leave chat session]
+&Покинуть чат
+[&Slap]
+&Шлепок
+[&User details]
+Информация о контакте
+[Member &info]
+Права доступа
+[User &details]
+&Информация
+[&Add to roster]
+&Добавить в ростер
+[&Copy to clipboard]
+Скопировать в буфер обмена
+[Invite to room]
+Пригласить в чат-комнату
+[Set &role]
+Установить роль
+[&Visitor]
+Посетитель
+[&Participant]
+Участник
+[&Moderator]
+Модератор
+[Set &affiliation]
+Установить принадлежность
+[&None]
+Нет
+[&Member]
+Пользователь
+[&Admin]
+&Админ
+[&Owner]
+Владелец
+[Outcast (&ban)]
+Забанить
+[&Kick]
+Выкинуть
+[Copy &nickname]
+Копировать ник
+[Copy real &JID]
+Копировать JID
+[Copy in-room JID]
+Копировать JID с чат-комнаты
+[Real &JID: %s]
+Реальный JID: %s
+[%s\nSend group chat invitation.]
+%s\nПригласить в конференцию.
+[%s (not on roster)]
+%s (не в ростере)
+[Member Info: %s]
+Инфо пользователя: %s
+[Member Information\n%s from %s]
+Информация о пользователе\n%s из %s
+[Real JID not available]
+
+[Reason to kick %s]
+Причина пинка %s
+[Reason to ban %s]
+Причина бана %s
+[Invite %s to %s]
+
+[Set topic for %s]
+Установить тему для %s
+[Change nickname in %s]
+Изменить ник в %s
+[Reason to destroy %s]
+Причина уничтожения %s
+[Can't send data while you are offline.]
+
+[Jabber Error]
+Jabber ошибка
+[Outgoing XML parsing error]
+
+[request timeout.]
+
+[Node hierarchy]
+Иерархия узла
+[Node]
+Узел
+[Navigate]
+
+[Browse all favorites]
+
+[Remove all favorites]
+
+[Registered transports]
+Транспорты
+[Browse local transports]
+Обзор локальных транспортов
+[Browse chatrooms]
+Обзор чат-комнат
+[Contact Menu...]
+Меню контакта...
+[View vCard]
+Просмотр vCard
+[Join chatroom]
+Войти в чат-комнату
+[Refresh Info]
+Обновить инфо
+[Refresh Children]
+Обновить службы
+[Add to favorites]
+Добавить в избранное
+[Add to roster]
+Добавить в ростер
+[Bookmark chatroom]
+Добавить в закладки
+[Add search directory]
+Добавить поиск
+[Use this proxy]
+Использовать этот прокси
+[Commands...]
+Команды...
+[Logon]
+Войти
+[Logoff]
+Выйти
+[Copy JID]
+Скопировать JID
+[Copy node name]
+Скопировать имя
+[Copy node information]
+Скопировать информацию
+[Identities]
+Идентификаторы
+[category]
+
+[type]
+тип
+[Category]
+
+[Type]
+Тип
+[Supported features]
+Поддерживаемые возможности
+[Info request error]
+
+[Items request error]
+
+[One or more addresses for communication related to abusive traffic]
+
+[One or more addresses for customer feedback]
+
+[One or more addresses for communication related to sales and marketing]
+
+[One or more addresses for communication related to security concerns]
+
+[One or more addresses for customer support]
+
+[The Jabber ID of a single entity to which an operation applies]
+
+[The Jabber ID of one or more entities to which an operation applies]
+
+[The Jabber IDs associated with active sessions]
+
+[The number of online entities that are active]
+
+[A list of entities with administrative privileges]
+
+[The text of an announcement to be sent to active users or all users]
+
+[A list of entities with whom communication is blocked]
+
+[The number of seconds to delay before applying a change]
+
+[The Jabber IDs that have been disabled]
+
+[The number of disabled entities]
+
+[The email address for a user]
+
+[The given (first) name of a user]
+
+[The number of online entities that are idle]
+
+[The IP addresses of an account's online sessions]
+
+[The last login time (per XEP-0082) of a user]
+
+[The number of logins per minute for an account]
+
+[The maximum number of items associated with a search or list]
+
+[The text of a message of the day]
+
+[The names of an account's online sessions]
+
+[The Jabber IDs associated with online users]
+
+[The number of online entities]
+
+[The password for an account]
+
+[Password verification]
+
+[A list of registered entities]
+
+[The number of registered entities]
+
+[Number of roster items for an account]
+
+[The number of stanzas being sent per second by an account]
+
+[The family (last) name of a user]
+
+[The text of a welcome message]
+
+[A list of entities with whom communication is allowed]
+
+[First Name]
+Имя
+[Last Name]
+Фамилия
+[Desired Nickname]
+
+[Your URL]
+
+[Email Address]
+
+[FAQ Entry]
+
+[Whether to Allow Occupants to Invite Others]
+
+[Whether to Allow Occupants to Change Subject]
+
+[Whether to Enable Logging of Room Conversations]
+
+[Natural Language for Room Discussions]
+
+[Maximum Number of Room Occupants]
+
+[Whether an Make Room Members-Only]
+
+[Whether to Make Room Moderated]
+
+[Whether a Password is Required to Enter]
+
+[Whether to Make Room Persistent]
+
+[Roles for which Presence is Broadcast]
+
+[Whether to Allow Public Searching for Room]
+
+[Full List of Room Admins]
+
+[Short Description of Room]
+
+[Natural-Language Room Name]
+
+[Full List of Room Owners]
+
+[The Room Password]
+
+[Affiliations that May Discover Real JIDs of Occupants]
+
+[Precondition: node configuration with the specified access model]
+
+[Whether to allow the subscription]
+
+[The SubID of the subscription]
+
+[The NodeID of the relevant node]
+
+[The address (JID) of the subscriber]
+
+[Whether an entity wants to receive or disable notifications]
+
+[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
+
+[The minimum number of milliseconds between sending any two notification digests]
+
+[The DateTime at which a leased subscription will end or has ended]
+
+[Whether an entity wants to receive an XMPP message body in addition to the payload format]
+
+[The presence states for which an entity wants to receive notifications]
+
+[Who may subscribe and retrieve items]
+
+[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
+
+[The collection with which a node is affiliated]
+
+[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
+
+[Whether to deliver payloads with event notifications]
+
+[Whether owners or publisher should receive replies to items]
+
+[Who may associate leaf nodes with a collection]
+
+[The list of JIDs that may associated leaf nodes with a collection]
+
+[The child nodes (leaf or collection) associated with a collection]
+
+[The maximum number of child nodes that can be associated with a collection]
+
+[The maximum number of items to persist]
+
+[The maximum payload size in bytes]
+
+[Whether the node is a leaf (default) or a collection]
+
+[Whether to notify subscribers when the node configuration changes]
+
+[Whether to notify subscribers when the node is deleted]
+
+[Whether to notify subscribers when items are removed from the node]
+
+[Whether to persist items to storage]
+
+[Whether to deliver notifications to available users only]
+
+[The publisher model]
+
+[The specific multi-user chat rooms to specify for replyroom]
+
+[The specific JID(s) to specify for replyto]
+
+[The roster group(s) allowed to subscribe and retrieve items]
+
+[Whether to send items to new subscribers]
+
+[Whether to allow subscriptions]
+
+[A friendly name for the node]
+
+[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
+
+[The JIDs of those to contact with questions]
+
+[The datetime when the node was created]
+
+[The JID of the node creator]
+
+[A description of the node]
+
+[The default language of the node]
+
+[The number of subscribers to the node]
+
+[The JIDs of those with an affiliation of owner]
+
+[The JIDs of those with an affiliation of publisher]
+
+[The name of the node]
+
+[Payload type]
+
+[Whether to automatically authorize subscription requests]
+
+[Whether to automatically accept file transfers]
+
+[Whether to automatically open new messages]
+
+[Whether to automatically go offline when idle]
+
+[Whether to play sounds]
+
+[A list of pending file transfers]
+
+[A list of joined group chat rooms]
+
+[A presence or availability status]
+
+[The status message text]
+
+[The new priority for the client]
+
+[Account name associated with the user]
+
+[Familiar name of the user]
+
+[Password or secret for the user]
+
+[Full name of the user]
+
+[First name or given name of the user]
+
+[Last name, surname, or family name of the user]
+
+[Email address of the user]
+
+[Street portion of a physical or mailing address]
+
+[Locality portion of a physical or mailing address]
+
+[Region portion of a physical or mailing address]
+
+[Postal code portion of a physical or mailing address]
+
+[Family Name]
+
+[Whether to accept the invitation]
+
+[Another resource with which to continue the session]
+
+[Disclosure of content, decryption keys or identities]
+
+[Whether may send Chat State Notifications per XEP-0085]
+
+[Whether allowed to use XHTML-IM formatting per XEP-0071]
+
+[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
+
+[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
+
+[Whether to renegotiate the session]
+
+[Minimum security level]
+
+[Whether to terminate the session]
+
+[Whether to enable Message Receipts per XEP-0184]
+
+[Failed to retrieve room list from server.]
+
+[No rooms available on server.]
+
+[Room list request timed out.]
+
+[<no nick>]
+
+[Loading...]
+Загрузка...
+[Please wait for room list to download.]
+Пожалуйста, подождите пока список комнат загрузится.
+[Please specify group chat directory first.]
+
+[Bookmarks...]
+Закладки...
+[Change nickname in <%s>]
+Изменить ник в <%s>
+[has set the subject to:]
+
+[%s\nIncoming group chat invitation.]
+%s\nПриглашение в конференцию.
+[transport]
+транспорт
+[Notes]
+Заметки
+[Multi-User Conference]
+Чат-комната
+[Agents list]
+Список агентов
 [Transports]
 Транспорты
+[Personal vCard]
+Личная визитная карточка
+[Convert to room]
+Конв. в чат-комнату
+[Login/logout]
+Войти/Выйти
+[Resolve nicks]
+Определить ники
+[Send note]
+Отправить заметку
+[AdHoc Command]
+Команда AdHoc
+[OpenID Request]
+Запрос OpenID
+[Discovery succeeded]
+Определение завершено
+[Discovery failed]
+Определение не удалось
+[Discovery in progress]
+Определение...
+[Apply filter]
+Применить фильтр
+[Reset filter]
+Сбросить фильтр
+[Navigate home]
+Перейти в начало
+[Refresh node]
+Обновить узел
+[Browse node]
+Обзор узла
+[RSS service]
+Служба RSS
+[Server]
+Сервер
+[Storage service]
+Служба хранения
+[Weather service]
+Служба погоды
 [Generic privacy list]
 Простой список
-[Default privacy list]
-Список по умолчанию
 [Active privacy list]
 Активный список
+[Default privacy list]
+Список по умолчанию
+[Move up]
+Выше
+[Move down]
+Ниже
 [Allow Messages]
 Разрешить сообщения
 [Allow Presences (in)]
@@ -902,18 +1181,1166 @@ XML Консоль
 Запретить присутствие (исх)
 [Deny Queries]
 Запретить запросы
-[Agents list]
-Список агентов
-[Downloading...]
-Получение...
+[Protocols]
+Протоколы
+[Dialogs]
+Диалоги
+[Discovery]
+Просмотр
+[Privacy]
+Приватность
+[Authentication failed for %s.]
+Аутентификация не прошла для %s.
+[Jabber Authentication]
+
+[Registration successful]
+Регистрация успешно пройдена
+[Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
+Пароль успешно изменен. Не забудьте обновить Ваш пароль в настройках учётной записи Jabber.
+[Password cannot be changed.]
+Пароль не может быть изменен
+[Jabber Bookmarks Error]
+
+[%s, %d items (%s)]
+%s, %d пункта(ов) (%s)
+[Voice List]
+Список участников
+[Member List]
+Список пользователей
+[Moderator List]
+Список модераторов
+[Ban List]
+Список заблокированных
+[Admin List]
+Список админов
+[Owner List]
+Список владельцев
+[Reason to ban]
+Причина бана
+[Removing %s?]
+Удалить %s?
+[Http authentication request received]
+
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
+[Convert]
+Конвертировать
+[Add to Bookmarks]
+Добавить в закладки
+[Commands]
+Команды
+[Send Note]
+Отправить заметку
+[Send Presence]
+Отправить присутствие
+[Jabber Resource]
+Ресурс
+[Last Active]
+Последний активный
+[Server's Choice]
+Выбор сервера
+[&Convert to Contact]
+Конвертировать в контакт
+[&Convert to Chat Room]
+&Конвертировать в чат
+[Options...]
+Настройки...
+[Services...]
+Службы...
+[Registered Transports]
+Транспорты
+[Local Server Transports]
+Транспорты сервера
+[Browse Chatrooms]
+Обзор чат-комнат
+[Create/Join group chat]
+Создать/войти в чат
+[Roster editor]
+Редактор ростера
+[Resource priority]
+Приоритет ресурса
+[Resource priority [%d]]
+Приоритет ресурса [%d]
+[Join conference]
+Подключиться к чату
+[Open bookmarks]
+Открыть закладки
+[Privacy lists]
+Списки приватности
+[Service discovery]
+Просмотр служб
+[Last active (%s)]
+Последний активный (%s)
+[No activity yet, use server's choice]
+Активного еще нет, используйте по выбору сервера
+[Highest priority (server's choice)]
+Высочайший приоритет (по выбору сервера)
+[Status Message]
+Статусное сообщение
+[CHAT plugin is required for conferences. Install it before chatting]
+
+[To]
+В
+[From]
+От
+[Both]
+
+[Errors]
+Ошибки
+[Incoming note from %s]
+Входящая заметка от %s
+[Send note to %s]
+Отправить заметку %s
+[From: %s]
+
+[All tags]
+Все теги
+[Notes are not saved, close this window without uploading data to server?]
+Заметки не сохранены, закрыть окно без загрузки заметок на сервер?
+[Are you sure?]
+Вы уверены?
+[Incoming note]
+Входящая заметка
+[Afar]
+Афар
+[Abkhazian]
+Абхазский
+[Afrikaans]
+Африкаанс
+[Akan]
+Акан
+[Albanian]
+Албанский
+[Amharic]
+Амхарский
+[Arabic]
+Арабский
+[Aragonese]
+Арагонский
+[Armenian]
+Армянский
+[Assamese]
+Ассамский
+[Avaric]
+Аварский
+[Avestan]
+Авестийский
+[Aymara]
+Аймарский
+[Azerbaijani]
+Азербайджанский
+[Bashkir]
+Башкирский
+[Bambara]
+Бамана
+[Basque]
+Баскский
+[Belarusian]
+Белоруский
+[Bengali]
+Бенгальский
+[Bihari]
+Бихари
+[Bislama]
+Бислама
+[Bosnian]
+Боснийский
+[Breton]
+Бретонский
+[Bulgarian]
+Болгарский
+[Burmese]
+Бурмезский
+[Catalan; Valencian]
+Каталонский
+[Chamorro]
+Чаморрский
+[Chechen]
+Чеченский
+[Chinese]
+Китайский
+[Church Slavic; Old Slavonic]
+Старославянский
+[Chuvash]
+Чувашский
+[Cornish]
+Корнуоллский
+[Corsican]
+Корсиканский
+[Cree]
+Кри
+[Czech]
+Чешский
+[Danish]
+Датский
+[Divehi; Dhivehi; Maldivian]
+Мальдивский
+[Dutch; Flemish]
+Фламандский
+[Dzongkha]
+Дзонгка
+[English]
+Английский
+[Esperanto]
+Эсперанто
+[Estonian]
+Эстонский
+[Ewe]
+Еве
+[Faroese]
+Фарерский
+[Fijian]
+Фиджийский
+[Finnish]
+Финский
+[French]
+Французский
+[Western Frisian]
+Фризский
+[Fulah]
+Фула
+[Georgian]
+Грузинский
+[German]
+Немецкий
+[Gaelic; Scottish Gaelic]
+Гэльский
+[Irish]
+Ирландский
+[Galician]
+Галисийский
+[Manx]
+Мэнский
+[Greek, Modern (1453-)]
+Греческий
+[Guarani]
+Гуарани
+[Gujarati]
+Гуджаратский
+[Haitian; Haitian Creole]
+Гаитянский
+[Hausa]
+Науса
+[Hebrew]
+Иврит
+[Herero]
+Гереро
+[Hindi]
+Хинди
+[Hiri Motu]
+Хири Моту
+[Hungarian]
+Венгерский
+[Igbo]
+Игбо
+[Icelandic]
+Исландский
+[Ido]
+Идо
+[Sichuan Yi]
+Сычуаньский
+[Inuktitut]
+Инуктитут
+[Interlingue]
+Интерлингва
+[Interlingua (International Auxiliary Language Association)]
+Интерлингва (IALA)
+[Indonesian]
+Индонезийский
+[Inupiaq]
+Инуит
+[Italian]
+Итальянский
+[Javanese]
+Яванский
+[Japanese]
+Японский
+[Kalaallisut; Greenlandic]
+Гренландский
+[Kannada]
+Каннада
+[Kashmiri]
+Кашмирский
+[Kanuri]
+Канури
+[Kazakh]
+Казахский
+[Central Khmer]
+Кхмерский (центральный)
+[Kikuyu; Gikuyu]
+Кикуйю
+[Kinyarwanda]
+Кинаруанда
+[Kirghiz; Kyrgyz]
+Киргизский
+[Komi]
+Коми
+[Kongo]
+Конго
+[Korean]
+Корейский
+[Kuanyama; Kwanyama]
+Киньяма
+[Kurdish]
+Курдский
+[Lao]
+Лаосский
+[Latin]
+Латинский
+[Latvian]
+Латышский
+[Limburgan; Limburger; Limburgish]
+Лимбургийский
+[Lingala]
+Лингала
+[Lithuanian]
+Литовский
+[Luxembourgish; Letzeburgesch]
+Люксембургский
+[Luba-Katanga]
+Луба-Катанга
+[Ganda]
+Ганда
+[Macedonian]
+Македонский
+[Marshallese]
+Маршалльский
+[Malayalam]
+Малаялам
+[Maori]
+Маорийский
+[Marathi]
+Марахатский
+[Malay]
+Малайский
+[Malagasy]
+Малагасийский
+[Maltese]
+Мальтийский
+[Moldavian]
+Молдавский
+[Mongolian]
+Монгольский
+[Nauru]
+Науру
+[Navajo; Navaho]
+Навахо
+[Ndebele, South; South Ndebele]
+Ндебеле, Южный
+[Ndebele, North; North Ndebele]
+Ндебеле, Северный
+[Ndonga]
+Ндонга
+[Nepali]
+Непальский
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+Норвежский
+[Bokmaal, Norwegian; Norwegian Bokmaal]
+Норвежский букмол
+[Norwegian]
+Норвежский
+[Chichewa; Chewa; Nyanja]
+Ньянджа
+[Occitan (post 1500); Provencal]
+Окситанский, провансальский
+[Ojibwa]
+Оджибва
+[Oriya]
+Ория
+[Oromo]
+Оромо
+[Ossetian; Ossetic]
+Осетинский
+[Panjabi; Punjabi]
+Панджабский
+[Persian]
+Персидский
+[Pali]
+Пали
+[Polish]
+Польский
+[Portuguese]
+Португальский
+[Pushto]
+Пушту
+[Quechua]
+Кечуа
+[Romansh]
+Романшский
+[Romanian]
+Румынский
+[Rundi]
+Рунди
+[Russian]
+Русский
+[Sango]
+Санго
+[Sanskrit]
+Санскрит
+[Serbian]
+Сербский
+[Croatian]
+Хорватский
+[Sinhala; Sinhalese]
+Сингальсткий
+[Slovak]
+Словацкий
+[Slovenian]
+Словенский
+[Northern Sami]
+Северносаамский
+[Samoan]
+Самоанский
+[Shona]
+Шона
+[Sindhi]
+Синди
+[Somali]
+Сомалийский
+[Sotho, Southern]
+Суто
+[Spanish; Castilian]
+Кастильский
+[Sardinian]
+Сардинский
+[Swati]
+Свати
+[Sundanese]
+Сунданский
+[Swahili]
+Суахили
+[Swedish]
+Шведский
+[Tahitian]
+Таитянский
+[Tamil]
+Тамильский
+[Tatar]
+Татарский
+[Telugu]
+Телугу
+[Tajik]
+Таджикский
+[Tagalog]
+Тагалог
+[Thai]
+Тайский
+[Tibetan]
+Тибетский
+[Tigrinya]
+Тигринья
+[Tonga (Tonga Islands)]
+Тонганский
+[Tswana]
+Тсвана
+[Tsonga]
+Тсонга
+[Turkmen]
+Туркменский
+[Turkish]
+Турецкий
+[Twi]
+Тви
+[Uighur; Uyghur]
+Уйгурский
+[Ukrainian]
+Украинский
+[Urdu]
+Урду
+[Uzbek]
+Узбекский
+[Venda]
+Венда
+[Vietnamese]
+Вьетнамский
+[Volapuk]
+Волапюк
+[Welsh]
+Уэльский
+[Walloon]
+Валлонский
+[Wolof]
+Волоф
+[Xhosa]
+Коса
+[Yiddish]
+Идиш
+[Yoruba]
+Ёрубский
+[Zhuang; Chuang]
+Чжуан
+[Zulu]
+Зулусский
+[These changes will take effect the next time you connect to the Jabber network.]
+Изменения вступят в силу при следующем входе в сеть Jabber.
+[Jabber Protocol Option]
+Настройки протокола Jabber
+[Confirm password]
+Введите пароль
+[Passwords do not match.]
+
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
+Эта операция удалит Вашу учётную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учётную запись?
+[Account removal warning]
+Удаление учётной записи
+[You can change your password only when you are online]
+Что бы сменить пароль, вам нужно подключиться к сети
+[You must be online]
+Вам нужно подключиться к сети
+[Messaging]
+Сообщения
+[Send messages slower, but with full acknowledgement]
+Отсылать сообщения медленнее, но с подтверждением
+[Enable avatars]
+Включить аватары
+[Log chat state changes]
+Записывать изменения состояния чата
+[Log presence subscription state changes]
+Записывать изменения присутствия
+[Log presence errors]
+Записывать ошибки присутствия
+[Enable user moods receiving]
+Включить прием настроений
+[Enable user tunes receiving]
+Включить прием мелодий
+[Enable user activity receiving]
+Включить прием занятий
+[Receive notes]
+Принимать заметки
+[Automatically save received notes]
+Автоматически сохранять принятые заметки
+[Enable server-side history]
+Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
+[Server options]
+Настройки сервера
+[Disable SASL authentication (for old servers)]
+Отключить аутентификацию SASL (старые серверы)
+[Enable stream compression (if possible)]
+Сжимать поток (если возможно)
+[Other]
+Другое
+[Enable remote controlling (from another resource of same JID only)]
+Удалённое управление (только из другого ресурса одного JID)
+[Show transport agents on contact list]
+Показать транспортные агенты в списке контактов
+[Automatically add contact when accept authorization]
+Добавлять контакт после подтверждения авторизации
+[Automatically accept authorization requests]
+Автоматически принимать запросы авторизации
+[Fix incorrect timestamps in incoming messages]
+Исправлять время во входящих сообщениях
+[Disable frame]
+Выключить фрейм
+[Enable XMPP link processing (requires Association Manager)]
+Обрабатывать XMPP ссылки (требуется плагин "Association Manager")
+[Keep contacts assigned to local groups (ignore roster group)]
+Использовать локальные группы (игнорировать группы ростера)
+[Security]
+Безопасность
+[Allow servers to request version (XEP-0092)]
+Отвечать серверу на запросы о версиях ПО (XEP-0092)
+[Show information about operating system in version replies]
+Посылать информацию об операционной системе в запросах версии
+[Accept only in band incoming filetransfers (don't disclose own IP)]
+Разрешать передачу файлов только внутри потока (не раскрывать свой IP)
+[Accept HTTP Authentication requests (XEP-0070)]
+Принимать запросы аутентификации HTTP (XEP-0070)
+[General]
+Общее
+[Autoaccept multiuser chat invitations]
+Автоматически принимать приглашения в чат-комнаты
+[Automatically join bookmarks on login]
+Автоматически заходить в закладки
+[Automatically join conferences on login]
+Автоматически заходить в чат-комнаты при входе
+[Hide conference windows at startup]
+Не открывать окна чат-комнат при входе
+[Do not show multiuser chat invitations]
+Не показывать приглашения в многопользовательский чат
+[Log events]
+Запись событий в журнал
+[Ban notifications]
+Уведомления о банах
+[Room configuration changes]
+Смена настроек чат-комнаты
+[Affiliation changes]
+Изменение принадлежности
+[Role changes]
+Изменение роли
+[Status changes]
+Смены статуса
+[Don't notify history messages]
+Не показывать уведомлений из истории
+[JID]
+
+[Nick Name]
+Ник
+[Group]
+Группа
+[Subscription]
+Подписка
 [Uploading...]
 Загрузка...
+[Downloading...]
+Получение...
 [XML for MS Excel (UTF-8 encoded)]
 XML для MS Excel (кодировка UTF-8)
-[Please wait for room list to download.]
-Пожалуйста, подождите пока список комнат загрузится.
+[Connecting...]
+Подключение...
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Advanced]
+Дополнительно
+[Public XMPP Network]
+Публичная сеть XMPP
+[Secure XMPP Network]
+Защищённая сеть XMPP
+[Secure XMPP Network (old style)]
+Защищённая сеть XMPP (старый стиль)
+[Google Talk!]
 
-;  Занятия
+[LiveJournal Talk]
+ЖЖ
+[Facebook Chat]
+Чат Facebook
+[Odnoklassniki]
+
+[Some changes will take effect the next time you connect to the Jabber network.]
+
+[Set New Password for %s@%S]
+Установка нового пароля для %s@%S
+[New password does not match.]
+Новые пароли не совпадают
+[Current password is incorrect.]
+Текущий пароль неверен
+[Sending request, please wait...]
+Отправка запроса, пожалуйста, подождите...
+[Warning: privacy lists were changed on server.]
+Внимание: списки приватности сохранены на сервере.
+[Error occurred while applying changes]
+
+[Privacy lists successfully saved]
+
+[Privacy list %s set as active]
+Список приватности %s - активный
+[Active privacy list successfully declined]
+Активный список приватности отклонен успешно
+[Error occurred while setting active list]
+
+[Privacy list %s set as default]
+Список приватности %s - основной
+[Default privacy list successfully declined]
+Стандартный список приватности успешно отклонен
+[Error occurred while setting default list]
+
+[Simple mode]
+Простой режим
+[Advanced mode]
+Расширенный режим
+[Add JID]
+Добавить
+[Activate]
+Активировать
+[Set default]
+По умолчанию
+[Edit rule]
+Изменить правило
+[Add rule]
+Добавить правило
+[Delete rule]
+Удалить правило
+[Move rule up]
+
+[Move rule down]
+
+[Add list...]
+Добавить...
+[Remove list]
+Удалить
+[** Default **]
+** По умолчанию **
+[** Subsription: both **]
+** Подписка: обе **
+[** Subsription: to **]
+** Подписка: в **
+[** Subsription: from **]
+** Подписка: от **
+[** Subsription: none **]
+** Подписка: нет **
+[<none>]
+<нет>
+[allow ]
+
+[deny ]
+
+[all.]
+всё.
+[messages]
+сообщений
+[ and ]
+ и\s
+[incoming presences]
+входящее присутствие
+[outgoing presences]
+исходящее присутствие
+[queries]
+запросы
+[Else ]
+
+[If Jabber ID is ']
+Если JID '
+[ (nickname: ]
+ (ник:\s
+[If group is ']
+Если группа '
+[If subscription is ']
+Если подписка '
+[then ]
+
+[ (act., def.)]
+ (активн., основн.)
+[ (active)]
+ (активный)
+[ (default)]
+ (основной)
+[Ready.]
+Готов.
+[Privacy lists are not saved, discard any changes and exit?]
+Списки приватности не сохранены, отменить изменения и выйти?
+[Please save list before activating]
+Сохраните список перед активацией
+[First, save the list]
+Сохраните список
+[Please save list before you make it the default list]
+Сохраните список перед тем как сделать его списком по-умолчанию.
+[Unable to save list because you are currently offline.]
+Невозможно сохранить список, т.к. вы не в сети.
+[List Editor...]
+Редактор списков...
+[No compatible file transfer machanism exist]
+Не найдено ни одного совместимого механизма передачи файлов
+[Protocol is offline or no JID]
+Протокол не в сети или нет JID
+[Command completed successfully]
+Команда выполнена успешно
+[Error occurred during processing command]
+Возникла ошибка в процессе выполнения команды
+[Set status]
+Установить статус
+[Set options]
+Установить настройки
+[Forward unread messages]
+Пересылать непрочитанные сообщения
+[Leave group chats]
+Покинуть чаты
+[Lock workstation]
+Заблокировать компьютер
+[Quit Miranda NG]
+Закрыть Miranda NG
+[Change Status]
+
+[Choose the status and status message]
+Установить статус и статусное сообщение
+[Status]
+Статус
+[Extended Away (N/A)]
+Недоступен (Н/Д)
+[Do Not Disturb]
+Не беспокоить
+[Invisible]
+Невидимый
+[Offline]
+Не в сети
+[Priority]
+Приоритет
+[Status message]
+Сообщение статуса
+[Change global status]
+Изменить глобальный статус
+[Set Options]
+
+[Set the desired options]
+Установите желаемые настройки
+[Automatically Accept File Transfers]
+Автоматически одобрять передачи файлов
+[Play sounds]
+Проигрывать звуки
+[Disable remote controlling (check twice what you are doing)]
+Выключить удалённое управление (проверяйте дважды, что вы делаете)
+[There is no messages to forward]
+Нет сообщений для отправки
+[Forward options]
+
+[%d message(s) to be forwarded]
+
+[Mark messages as read]
+
+[%d message(s) forwarded]
+
+[Workstation successfully locked]
+Компьютер успешно заблокирован
+[Error %d occurred during workstation lock]
+Ошибка %d возникла во время процесса блокировки
+[Confirmation needed]
+
+[Please confirm Miranda NG shutdown]
+Подтвердите выключение программы
+[There is no group chats to leave]
+Нет чатов для отключения
+[Choose the group chats you want to leave]
+
+[Error %s %s\r\nPlease select other server]
+Ошибка %s %s\r\nПожалуйста выберите другой сервер
+[Error: unknown reply received\r\nPlease select other server]
+Ошибка: принят неизвестный ответ\r\nПожалуйта выберите другой сервер
+[Error %s %s\r\nTry to specify more detailed]
+Ошибка %s %s\r\nПопытайтесь указать больше деталей
+[Search error]
+Ошибка поиска
+[Select/type search service URL above and press <Go>]
+Выберите/введите URL службы поиска и нажмите >>
+[Please wait...\r\nConnecting search server...]
+Подождите...\r\nПодключение к серверу поиска...
+[You have to be connected to server]
+Нужно подключение к серверу
+[closed chat session]
+закрыл окно чата
+[sent subscription request]
+отправил запрос на подписку
+[approved subscription request]
+принял запрос на подписку
+[declined subscription]
+отклонил подписку
+[sent error presence]
+отправил присутствие с ошибкой
+[sent unknown presence type]
+отправил неизвестный тип присутствия
+[Enter password for %s]
+Введите пароль для %s
+[Error: Not enough memory]
+Ошибка: Не хватает памяти
+[Error: Cannot connect to the server]
+Ошибка: Невозможно подключиться к серверу
+[Error: Connection lost]
+Ошибка: Соединение потеряно
+[Requesting registration instruction...]
+Запрос регистрационной инструкции...
+[Authentication failed for %s@%S.]
+Аутентификация не прошла для %s@%S.
+[Message redirected from: %s\r\n%s]
+
+[Sending registration information...]
+Отсылка регистрационной информации...
+[Resource]
+Ресурс
+[Message]
+Сообщение
+[<not specified>]
+<не указано>
+[Software]
+Клиент
+[Version]
+Версия
+[System]
+Система
+[unknown]
+неизвестно
+[Idle since]
+Простаивает с
+[Client capabilities]
+Возможности клиента
+[Software information]
+Информация о ПО
+[Operating system]
+Операционная система
+[Operating system version]
+Версия ОС
+[Software version]
+Версия ПО
+[Miranda core version]
+Версия Miranda
+[Mood]
+Настроение
+[Activity]
+Занятие
+[Tune]
+Мелодия
+[both]
+в обе стороны
+[to]
+в
+[from]
+из
+[none]
+нет
+[Last logoff time]
+Время выхода:
+[Uptime]
+
+[Logoff message]
+Сообщение выхода
+[<no information available>]
+<нет информации>
+[Last active resource]
+Последний активный ресурс
+[Please switch online to see more details.]
+
+[Copy]
+Копировать
+[Copy only this value]
+Копировать значение
+[format]
+
+[Unknown format]
+
+[<Photo not available while offline>]
+<Фото недоступно без подключения к сети>
+[<No photo>]
+<Нет фото>
+[Photo]
+Фото
+[Redirect]
+Перенаправление
+[Bad request]
+Неверный запрос
+[Unauthorized]
+Не авторизован
+[Payment required]
+Требуется оплата
+[Forbidden]
+Запрещено
+[Not found]
+Не найдено
+[Not allowed]
+Запрещено
+[Not acceptable]
+Неприемлемо
+[Registration required]
+Требуется регистрация
+[Request timeout]
+Таймаут запроса
+[Conflict]
+Конфликт
+[Internal server error]
+Внутренняя ошибка сервера
+[Not implemented]
+Не реализовано
+[Remote server error]
+Ошибка удалённого сервера
+[Service unavailable]
+Cлужба недоступна
+[Remote server timeout]
+Таймаут удалённого сервера
+[Unknown error]
+Неизвестная ошибка
+[Error]
+Ошибка
+[Unknown error message]
+
+[Advanced Status]
+
+[Set mood...]
+Настроение...
+[Set activity...]
+Занятие...
+[OK (%d)]
+
+[Male]
+Мужской
+[Female]
+Женский
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+
+[Jabber vCard]
+
+[Jabber vCard: Edit Email Address]
+Jabber vCard: редактирование E-mail
+[Jabber vCard: Edit Phone Number]
+Jabber vCard: редактирование телефона
+[Contacts]
+Контакты
+[Note]
+Заметка
+[%s connection]
+%s подключение 
+[Afraid]
+Испуганный
+[Amazed]
+Изумлённый
+[Amorous]
+Влюбчивый
+[Angry]
+Злюсь
+[Annoyed]
+Недовольный
+[Anxious]
+Озабоченный
+[Aroused]
+Возбуждённый
+[Ashamed]
+Пристыженный
+[Bored]
+Скучающий
+[Brave]
+Мужественный
+[Calm]
+Спокойный
+[Cautious]
+Осмотрительный
+[Cold]
+Холодный
+[Confident]
+Уверенный
+[Confused]
+Cмущённый
+[Contemplative]
+Задумчивый
+[Contented]
+Удовлетворённый
+[Cranky]
+Расшатанный
+[Crazy]
+Сумасшедший
+[Creative]
+Творческий
+[Curious]
+Любопытный
+[Dejected]
+Удручённый
+[Depressed]
+Подавленный
+[Disappointed]
+Разочарованный
+[Disgusted]
+Отвращённый
+[Dismayed]
+Встревоженный
+[Distracted]
+Растерянный
+[Embarrassed]
+Затруднённый
+[Envious]
+Завистливый
+[Excited]
+Взволнованный
+[Flirtatious]
+Кокетливый
+[Frustrated]
+Расстроенный
+[Grateful]
+Благодарный
+[Grieving]
+Скорбящий
+[Grumpy]
+Несдержанный
+[Guilty]
+Виновный
+[Happy]
+Счастливый
+[Hopeful]
+Надеющийся
+[Hot]
+Горячий
+[Humbled]
+Приниженный
+[Humiliated]
+Униженный
+[Hungry]
+Голодный
+[Hurt]
+Раненный
+[Impressed]
+Впечатлённый
+[In awe]
+В страхе
+[In love]
+Влюблённый
+[Indignant]
+Негодующий
+[Interested]
+Заинтересованный
+[Intoxicated]
+Опьянённый
+[Invincible]
+Неодолимый
+[Jealous]
+Ревнивый
+[Lonely]
+Одинокий
+[Lost]
+Потерянный
+[Lucky]
+Удачливый
+[Mean]
+Неприятный
+[Moody]
+Унылый
+[Nervous]
+Нервный
+[Neutral]
+Нейтрально
+[Offended]
+Обиженный
+[Outraged]
+Возмущённый
+[Playful]
+Игривый
+[Proud]
+Гордый
+[Relaxed]
+Расслабленный
+[Relieved]
+Помогающий
+[Remorseful]
+Раскаянный
+[Restless]
+Беспокойный
+[Sad]
+Грустный
+[Sarcastic]
+Саркастичный
+[Satisfied]
+Довольный
+[Serious]
+Серьезный
+[Shocked]
+Шокирован
+[Shy]
+Застенчивый
+[Sick]
+Болен
+[Sleepy]
+Сонный
+[Spontaneous]
+Спонтанный
+[Stressed]
+Потрясённый
+[Strong]
+Решительный
+[Surprised]
+Удивлённый
+[Thankful]
+Благодарный
+[Thirsty]
+Жаждущий
+[Tired]
+Устал
+[Undefined]
+Не определено
+[Weak]
+Нерешительный
+[Worried]
+Озабоченный
+[Mood: %s]
+Настроение: %s
+[Set Mood]
+Настроение
 [Doing chores]
 Хозяйничаю
 [buying groceries]
@@ -942,6 +2369,8 @@ XML для MS Excel (кодировка UTF-8)
 пью кофе
 [having tea]
 пью чай
+[Eating]
+Кушаю
 [having a snack]
 перекусываю
 [having breakfast]
@@ -954,6 +2383,8 @@ XML для MS Excel (кодировка UTF-8)
 Упражняюсь
 [cycling]
 на велосипеде
+[dancing]
+танцую
 [hiking]
 хожу пешком
 [jogging]
@@ -984,16 +2415,28 @@ XML для MS Excel (кодировка UTF-8)
 принимаю душ
 [Having appointment]
 На свидании
+[Inactive]
+Неактивно
 [day off]
 выходной
 [hanging out]
 слоняюсь
+[hiding]
+прячусь
 [on vacation]
 в отпуске
+[praying]
+молюсь
 [scheduled holiday]
 каникулы
 [sleeping]
 сплю
+[thinking]
+думаю
+[Relaxing]
+Расслабляюсь
+[fishing]
+ловлю рыбу
 [gaming]
 играю
 [going out]
@@ -1006,6 +2449,8 @@ XML для MS Excel (кодировка UTF-8)
 выступаю
 [shopping]
 делаю покупки
+[smoking]
+курю
 [socializing]
 общаюсь
 [sunbathing]
@@ -1014,6 +2459,8 @@ XML для MS Excel (кодировка UTF-8)
 смотрю телевизор
 [watching a movie]
 смотрю фильм
+[Talking]
+Разговариваю
 [in real life]
 в реальной жизни
 [on the phone]
@@ -1038,6 +2485,8 @@ XML для MS Excel (кодировка UTF-8)
 путешествую
 [walking]
 гуляю
+[Working]
+Работаю
 [coding]
 программирую
 [in a meeting]
@@ -1046,400 +2495,15 @@ XML для MS Excel (кодировка UTF-8)
 учусь
 [writing]
 пишу
-[dancing]
-танцую
-[hiding]
-прячусь
-[praying]
-молюсь
-[thinking]
-думаю
-[fishing]
-ловлю рыбу
-[smoking]
-курю
-
-;  Настроения
-[Sad]
-Грустный
-[Shy]
-Застенчивый
-[Cold]
-Холодный
-[Mean]
-Неприятный
-[Hurt]
-Раненный
-[Distracted]
-Растерянный
-[Brave]
-Мужественный
-[Bored]
-Скучающий
-[Proud]
-Гордый
-[Moody]
-Унылый
-[Calm]
-Спокойный
-[Flirtatious]
-Кокетливый
-[Shocked]
-Шокирован
-[Worried]
-Озабоченный
-[Ashamed]
-Пристыженный
-[Humbled]
-Приниженный
-[Aroused]
-Возбуждённый
-[In awe]
-В страхе
-[Excited]
-Взволнованный
-[Annoyed]
-Недовольный
-[Amazed]
-Изумлённый
-[Afraid]
-Испуганный
-[Contented]
-Удовлетворённый
-[Sarcastic]
-Саркастичный
-[Disgusted]
-Отвращённый
-[Playful]
-Игривый
-[Cranky]
-Расшатанный
-[Lonely]
-Одинокий
-[Hungry]
-Голодный
-[Sleepy]
-Сонный
-[Grumpy]
-Несдержанный
-[Guilty]
-Виновный
-[Anxious]
-Озабоченный
-[Confused]
-Cмущённый
-[Curious]
-Любопытный
-[Depressed]
-Подавленный
-[Embarrassed]
-Затруднённый
-[Frustrated]
-Расстроенный
-[Happy]
-Счастливый
-[Humiliated]
-Униженный
-[Impressed]
-Впечатлённый
-[In love]
-Влюблённый
-[Indignant]
-Негодующий
-[Interested]
-Заинтересованный
-[Intoxicated]
-Опьянённый
-[Invincible]
-Неодолимый
-[Jealous]
-Ревнивый
-[Nervous]
-Нервный
-[Offended]
-Обиженный
-[Relieved]
-Помогающий
-[Remorseful]
-Раскаянный
-[Restless]
-Беспокойный
-[Serious]
-Серьезный
-[Stressed]
-Потрясённый
-[Surprised]
-Удивлённый
-[Thirsty]
-Жаждущий
-[Amorous]
-Влюбчивый
-[Cautious]
-Осмотрительный
-[Confident]
-Уверенный
-[Contemplative]
-Задумчивый
-[Creative]
-Творческий
-[Dejected]
-Удручённый
-[Dismayed]
-Встревоженный
-[Envious]
-Завистливый
-[Grateful]
-Благодарный
-[Grieving]
-Скорбящий
-[Hopeful]
-Надеющийся
-[Lost]
-Потерянный
-[Lucky]
-Удачливый
-[Outraged]
-Возмущённый
-[Relaxed]
-Расслабленный
-[Satisfied]
-Довольный
-[Spontaneous]
-Спонтанный
-[Strong]
-Решительный
-[Thankful]
-Благодарный
-[Weak]
-Нерешительный
-
-;  Закладки и заметки
-[Jabber Bookmarks]
-Закладки
-[Bookmark Name]
-Имя закладки
-[Address (JID or URL)]
-Адрес (JID или URL)
-[Bookmark Details]
-Детали закладки
-[Bookmark Type]
-Тип закладки
-[Transport]
-Транспорт
-[Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
-Авто-вход (Необходимо включить автоматический вход в настройках)
-[Room JID/ URL:]
-JID / URL:
-[Bookmark Name:]
-Имя закладки:
-[All tags]
-Все теги
-[Jabber Notebook]
-Записная книжка
-[Edit Note]
-Редактировать заметку
-[Incoming note from %s]
-Входящая заметка от %s
-[Incoming note]
-Входящая заметка
-[Notes are not saved, close this window without uploading data to server?]
-Заметки не сохранены, закрыть окно без загрузки заметок на сервер?
-
-;  Просмотр служб + транспорты
-[Identities]
-Идентификаторы
-[Supported features]
-Поддерживаемые возможности
-[Logon]
-Войти
-[Logoff]
-Выйти
-[Discovery]
-Просмотр
-[Browse node]
-Обзор узла
-[RSS service]
-Служба RSS
-[Storage service]
-Служба хранения
-[Weather service]
-Служба погоды
-[Discovery failed]
-Определение не удалось
-[Discovery in progress]
-Определение...
-[Discovery succeeded]
-Определение завершено
-[Registered transports]
-Транспорты
-[Browse chatrooms]
-Обзор чат-комнат
-[Browse local transports]
-Обзор локальных транспортов
-
-;  Ad-Hoc команды и приглашение пользователей
-[Set status]
-Установить статус
-[Choose the status and status message]
-Установить статус и статусное сообщение
-[Priority]
-Приоритет
-[Extended Away (N/A)]
-Недоступен (Н/Д)
-[Do Not Disturb]
-Не беспокоить
-[Change global status]
-Изменить глобальный статус
-[Set options]
-Установить настройки
-[Set the desired options]
-Установите желаемые настройки
-[Automatically Accept File Transfers]
-Автоматически одобрять передачи файлов
-[Disable remote controlling (check twice what you are doing)]
-Выключить удалённое управление (проверяйте дважды, что вы делаете)
-[Forward unread messages]
-Пересылать непрочитанные сообщения
-[There is no messages to forward]
-Нет сообщений для отправки
-[Leave group chats]
-Покинуть чаты
-[There is no group chats to leave]
-Нет чатов для отключения
-[Workstation successfully locked]
-Компьютер успешно заблокирован
-[Error %d occurred during workstation lock]
-Ошибка %d возникла во время процесса блокировки
-[Quit Miranda NG]
-Закрыть Miranda NG
-[Please confirm Miranda NG shutdown]
-Подтвердите выключение программы
-[I agree]
-Я согласен
-[Jabber Error]
-Jabber ошибка
-[In progress. Please Wait...]
-Обработка. Подождите...
-[Command completed successfully]
-Команда выполнена успешно
-[Error occurred during processing command]
-Возникла ошибка в процессе выполнения команды
-[%s\nSend group chat invitation.]
-%s\nПригласить в конференцию.
-[Invite Users]
-Приглашение пользователей
-[&Invite]
-Пригласить
-[Invitation reason:]
-Причина приглашения:
-[You are invited to conference room by]
-Вас пригласил:
-[with following reason:]
-причина:
-[Group chat invitation]
-Приглашение в конференцию
-[Jabber Protocol Option]
-Настройки протокола Jabber
-[These changes will take effect the next time you connect to the Jabber network.]
-Изменения вступят в силу при следующем входе в сеть Jabber.
-[%s\nIncoming group chat invitation.]
-%s\nПриглашение в конференцию.
-[Sending Ad-Hoc command to %s]
-Отправить Ad-Hoc команду %s
-[Requesting command list. Please wait...]
-Запрос списка команд. Подождите...
-
-;  Информация и статусы в чатах
-[User %s changed status to %s]
-%s изменил статус на %s.
-[User %s is now banned.]
-Пользователь %s был забанен.
-[User %s changed status to %s with message: %s]
-%s изменил статус на %s: %s
-[Affiliation of %s was changed to '%s'.]
-Принадлежность %s изменилась на %s.
-[Role of %s was changed to '%s'.]
-Роль %s сменилась на '%s'.
-[Submit]
-Передать
-[Reason to kick %s]
-Причина пинка %s
-[Reason to destroy %s]
-Причина уничтожения %s
-
-;  Окно сообщений
-[Last active]
-Последний активный
-[Highest priority (server's choice)]
-Высочайший приоритет (по выбору сервера)
-[No activity yet, use server's choice]
-Активного еще нет, используйте по выбору сервера
-
-; Поиск
-[Search service]
-Служба поиска
-[Redirect]
-Перенаправление
-[Bad request]
-Неверный запрос
-[Unauthorized]
-Не авторизован
-[Payment required]
-Требуется оплата
-[Not found]
-Не найдено
-[Not allowed]
-Запрещено
-[Not acceptable]
-Неприемлемо
-[Registration required]
-Требуется регистрация
-[Request timeout]
-Таймаут запроса
-[Conflict]
-Конфликт
-[Not implemented]
-Не реализовано
-[Remote server error]
-Ошибка удалённого сервера
-[Service unavailable]
-Cлужба недоступна
-[Remote server timeout]
-Таймаут удалённого сервера
-[Unknown error]
-Неизвестная ошибка
-[Error %s %s\r\nPlease select other server]
-Ошибка %s %s\r\nПожалуйста выберите другой сервер
-[Error %s %s\r\nTry to specify more detailed]
-Ошибка %s %s\r\nПопытайтесь указать больше деталей
-[Error: unknown reply received\r\nPlease select other server]
-Ошибка: принят неизвестный ответ\r\nПожалуйта выберите другой сервер
-[Please wait...\r\nConnecting search server...]
-Подождите...\r\nПодключение к серверу поиска...
-[Search error]
-Ошибка поиска
-[Select/type search service URL above and press <Go>]
-Выберите/введите URL службы поиска и нажмите >>
-[You have to be connected to server]
-Нужно подключение к серверу
-[Please save list before activating]
-Сохраните список перед активацией
-[First, save the list]
-Сохраните список
-[Please save list before you make it the default list]
-Сохраните список перед тем как сделать его списком по-умолчанию.
-[Unable to save list because you are currently offline.]
-Невозможно сохранить список, т.к. вы не в сети.
-;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer machanism exist]
-Не найдено ни одного совместимого механизма передачи файлов
-[Protocol is offline or no JID]
-Протокол не в сети или нет JID
-[<Photo not available while offline>]
-<Фото недоступно без подключения к сети>
-[Bokmaal, Norwegian; Norwegian Bokmaal]
-Норвежский букмол
-[Occitan (post 1500); Provencal]
-Окситанский, провансальский
-[Volapuk]
-Волапюк
+[Activity: %s]
+Занятие: %s
+[Set Activity]
+Занятие
+[Listening To]
+Слушаю
+[Moods]
+Настроения
+[Activities]
+Занятия
+[Set filter...]
+Фильтр...

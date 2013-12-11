@@ -1,55 +1,109 @@
-﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;============================================================
-;  File: twitter.dll
-;  Module: Provides basic support for Twitter protocol.
-;  Versions: 0.0.7.0
-;  URL: http://miranda-twitter.googlecode.com/files/twitter-0.0.7.0.zip
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
 Поддержка протокола Twitter в Miranda NG.
-[Base URL:]
-URL:
-[Once every]
-каждые
-[Enable popup notifications for Tweets]
-Всплывающие окна для Tweets
-[Misc. Options]
-Доп. настройки
-[Polling rate:]
-Опрашивать
-[Use group chat for Twitter feed]
-Чат для отображения сообщений
-[Twitter Plugin]
-Протокол Twitter
+[Server:]
+Сервер:
 [Create a new Twitter account]
 Создать новую учётную запись Twitter
-[Tweet]
-Написать твит
-[Tweet...]
-Написать твит...
-[Please cycle your connection for these changes to take effect]
-Пожалуйста, переподключитесь что бы изменения вступили с силу
-[%s avatar connection]
-%s подключение аватаров
-[Send Tweet]
-Послать Tweet
-[Send Tweet...]
-Послать твит...
-[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Введите PIN-код, предоставленный Twitter-ом, чтобы завершить процесс входа. Это требуется сделать один раз, пока вы не пересоздадите вашу учётную запись Miranda Twitter.
-[Treat tweets as messages]
-Твиты как сообщения
-[Enter Twitter PIN]
-Введите PIN-код из Twitter-а
-[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Переменные OAuth потеряли последовательность и были обнулены. Пожалуйста, подсоединитесь снова и авторизуйте Miranda на Twitter.com (еще раз с PIN-кодом)
-[Reply...]
-Ответ...
-[Visit Homepage]
-Сайт
-[Twitter Icon]
-Значок Twitter
-[Reply to Tweet]
-Ответить на твит
+[Default group:]
+Группа:
+[Username:]
+Пользователь:
 [[Sign in to link your twitter account]]
 Войдите, чтобы подключить учётную запись Twitter
+[Send Tweet]
+Послать Tweet
+[Send]
+Отправить
+[Cancel]
+Отмена
+[Misc. Options]
+Доп. настройки
+[Use group chat for Twitter feed]
+Чат для отображения сообщений
+[Base URL:]
+URL:
+[Polling rate:]
+Опрашивать
+[Once every]
+каждые
+[sec]
+с
+[Please cycle your connection for these changes to take effect]
+Пожалуйста, переподключитесь что бы изменения вступили с силу
+[Treat tweets as messages]
+Твиты как сообщения
+[Enable popup notifications for Tweets]
+Всплывающие окна для Tweets
+[Colors]
+Цвета
+[Use Windows colors]
+Цвета Windows
+[Use Popup colors]
+Цвета вспл. окон
+[Use custom colors]
+Задать цвета
+[Back]
+Фон
+[Text]
+Текст
+[Timeouts]
+Перерывы
+[Use default]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Preview]
+Тест
+[But not during sign-on]
+Но не во время входа
+[Enter Twitter PIN]
+Введите PIN-код из Twitter-а
+[OK]
+
+[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
+Введите PIN-код, предоставленный Twitter-ом, чтобы завершить процесс входа. Это требуется сделать один раз, пока вы не пересоздадите вашу учётную запись Miranda Twitter.
+[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
+Переменные OAuth потеряли последовательность и были обнулены. Пожалуйста, подсоединитесь снова и авторизуйте Miranda на Twitter.com (еще раз с PIN-кодом)
+[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
+
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your twitter account in the miranda account options]
+
+[Send Tweet...]
+Послать твит...
+[Network]
+Сеть
+[Basic]
+Основные
+[Popups]
+Всплывающие окна
+[%s server connection]
+%s подключение к серверу 
+[Unable to get Netlib connection for Twitter]
+
+[Twitter]
+
+[%s avatar connection]
+%s подключение аватаров
+[Unable to get avatar Netlib connection for Twitter]
+
+[%s Protocol]
+
+[Twitter Icon]
+Значок Twitter
+[Tweet]
+Написать твит
+[Reply to Tweet]
+Ответить на твит
+[Visit Homepage]
+Сайт
+[Reply...]
+Ответ...

@@ -1,380 +1,76 @@
 ﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;============================================================
-;  File: Aim.dll
-;  Plugin: AIM Protocol
-;  Versions: 0.10.0.2
-;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/AimOscar/
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-[(seconds)]
-(секунды)
-[*Aim must be reconnected for some option to take effect]
-*AIM должен быть переподключён, чтобы изменения вступили в силу
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 Поддержка протокола AOL Instant Messenger (AIM) в Miranda NG.
-[AIM Account Setup]
-Настройки учётной записи AIM
-[AIM Instant Idler]
-AIM Установить Instant Idle
+[AIM User Details]
+AIM Детали пользователя
+[Screen Name:]
+Имя AIM:
+[Display Name:]
+Показыв. имя:
+[Password:]
+Пароль:
+[Login Server:]
+Сервер:
 [AIM Options]
 AIM Опции
-[Aim Profile Editing Dialog]
-Диалог редактирования профиля AIM
-[Check Mail on Login]
-Проверять почту при подключении
-[Notify about new mail]
-Уведомлять о новой почте
+[Message Delivery Confirmation]
+Подтверждение приема
+[Do Not Autoreply When Away]
+Не отвечать авт. когда Отсутствую
 [Convert Incoming Messages to BBCode]
 Переводить вх. сообщения в BBCode
 [Convert Outgoing Messages to HTML]
 Переводить исх. сообщения в HTML
-[Disable Account Type Icons]
-Откл. значки типов учётных записей
 [Disable Avatars]
 Отключить аватары
+[Disable Account Type Icons]
+Откл. значки типов учётных записей
 [Disable Extended Status Icons]
 Откл. расширенные значки статуса
-[Do Not Autoreply When Away]
-Не отвечать авт. когда Отсутствую
-[File Transfer Grace Period:]
-Период ожидания передачи:
-[Force Proxy File Transfers]
-Передачи файлов через прокси
+[Notify about new mail]
+Уведомлять о новой почте
+[Advanced Options]
+Дополнительно
 [Instant Idle on Login]
 Режим ожидания при входе
+[Force Proxy File Transfers]
+Передачи файлов через прокси
 [Masquerade as a Sidekick/Hiptop User]
 Представляться как Sidekick/Hiptop
-[Message Delivery Confirmation]
-Подтверждение приема
+[*Aim must be reconnected for some option to take effect]
+*AIM должен быть переподключён, чтобы изменения вступили в силу
+[Connection]
+Подключение
+[Port:]
+Порт:
+[Reset]
+Сброс
+[Disable SSL]
+Выкл. SSL
+[Manage Server Groups]
+Управлять группами на сервере
+[Force Single Client]
+Только одна сессия
+[Save Profile]
+Сохранить профиль
+[Create a new AIM account]
+Создать новую учётную запись AIM
+[AIM Instant Idler]
+AIM Установить Instant Idle
 [Number of Hours:]
 Число часов:
 [Number of Minutes:]
 Число минут:
-[Please enter your AIM account details to continue:]
-Пожалуйста введите Ваши данные учётной записи AIM:
-[Save Profile]
-Сохранить профиль
-[Screenname:]
-Имя AIM:
-[Send Keep Alive Packets]
-Отпр. пакеты Keep Alive
 [Set Idle]
 Установить
 [Unset Idle]
 Снять
-[Force Single Client]
-Только одна сессия
-[Screen Name]
-Имя AIM
-[Original]
-Старый
-[Confirm Account]
-Подтвердить
-[Save Changes]
-Сохранить изменения
-[Create a new AIM account]
-Создать новую учётную запись AIM
-[*Applied upon reconnect]
-*Требуется перезапуск
-
-; protocols/AimOscar/popup.cpp
-[Aim Protocol]
-AIM протокол
-
-; protocols/AimOscar/server.cpp
-[No information has been provided by the server.]
-Сервер не предоставил никакой информации.
-[[Auto-Response]:]
-(Автоответ):
-
-; protocols/AimOscar/services.cpp
-[Add To Server List]
-Добавить в список на сервере
-[Check Mail]
-Проверить почту
-[Edit Profile]
-Редактировать профиль
-[Instant Idle]
-Установить Instant Idle
-[Manage Account]
-Управление учётной записью
-[Read &HTML Away Message]
-Читать HTML статусное сообщение
-[Read Profile]
-Просмотреть профиль
-[AIM Contact Options]
-AIM Опции контакта
-[AIM Contacts]
-AIM Контакты
-[AIM Error]
-AIM Ошибка
-[AIM Group Chat]
-AIM Чат
-[AIM MetaContact corrupted - the number of subcontacts is incorrect.]
-Метаконтакт поврежден - неверное количество подконтактов.
-[AIM Network Error]
-AIM Ошибка сети
-[AIM Password Change]
-AIM Смена пароля
-[AIM Protocol]
-AIM Протокол
-[AIM Support]
-Поддержка AIM
-[AIM Account Tupe]
-Тип учётной записи AIM
-[AIM Extended Status]
-Расширенный статус AIM
-[AIM User Details]
-AIM Детали пользователя
-[AIM Warning Level Change]
-AIM Уровень предупреждений
-[AIM Warning]
-AIM Предупреждение
-[Handle aim: links on websites]
-Обработка: Ссылки на вебсайты
-[Screenname]
-Имя AIM
-[AOL® Instant Messenger server connection]
-Подключение к серверу AOL® Instant Messenger
-[%s - AIM Group Chat, %d user(s)]
-%s - AIM чат, %d участников
-[%s (%s) changed status to %s.]
-%s (%s) меняет статус на %s.
-[&Add User to List...]
-Добавить в список...
-[&Leave Channel]
-Покинуть канал
-[&Show Channel]
-Показать канал
-[&User Info...]
-Инфо пользователя...
-[&Warn User]
-Известить
-[(%s) AIM Contacts]
-(%s) AIM Контакты
-[(%s) AIM Group Chat]
-(%s) AIM чат
-[(Private)]
-(Приват)
-[*** %s has %s %s]
-*** %s есть %s %s
-[[%s] *** Chat session ended]
-(%s) *** Чат сессия завершена
-[[%s] *** Chat session started]
-(%s) *** Чат сессия начата
-[[%s] Cancelling file receive request from %s]
-(%s) Отмена запроса на получение файла от %s
-[[%s] Denying file receive request from %s]
-(%s) Запрет получения файлов от %s
-[[%s] File transfer complete]
-(%s) Передача файла завершена
-[[%s] Receieved file receive request from %s]
-(%s) Получен запрос приема файла от %s
-[[%s] Received file %d of %d]
-(%s) Получено файл %d из %d
-[[%s] Receiving %s]
-(%s) Получение %s
-[A message has been dropped. You are exceeding the server speed limit.]
-Все сообщения сброшены. Вы превысили ограничение скорости сервера.
-[Administrator]
-Администратор
-[Unknown error occurred when attempting to connect.]
-Неизвестная ошибка при соединении.
-[An Error has occurred.]
-Неизвестная ошибка.
-[Anonymous]
-Анонимно
-[AOL has reported that you have been warned by another user.]
-AOL сообщает, что вы были предупреждены другим пользователем.
-[AOL Instant Messenger client-to-client connections]
-AIM соединения между пользователями
-[AOL Instant Messenger server connection]
-AIM подключение к серверу
-[AOL User]
-AOL контакт
-[AOL® Instant Messenger Login]
-AOL® Логин
-[Buddy Added Successfully!]
-Успешно добавлен!
-[Buddy does not exist on server!]
-Отсутствует на сервере!
-[Buddy not avaliable.]
-Недоступен.
-[Buddy:]
-Приятель:
-[CANCEL]
-ОТМЕНА
-[Change AIM Password]
-Поменять пароль на AIM
-[Chat invitation from %s]
-Приглашение от %s
-[Chat:]
-Чат:
-[Confirm Delete]
-Подтвердите удаление
-[Currently Offline]
-Сейчас не в сети
-[Do you want to disable the AIM protocol (requires restart)?]
-Вы хотите выключить протокол AIM (требуется рестарт)?
-[Enable Warn User menu item for contacts]
-"Известить" в меню контакта
-[Exchange:]
-Обмен:
-[Flash window on activity in chat]
-Мигать окно при активности в чате
-[Formatted screenname does not match your screenname.]
-Имя не соответствует вашему имени.
-[Group Chat Invitatation]
-Приглашение в чат
-[Group Chat Options]
-Опции чата
-[hrs]
-ч.
-[Ignore group chat join requests]
-Игнорировать приглашение в чат
-[Ignore join requests]
-Игнорировать запросы
-[Import extra contacts from the server list on next login]
-Импортировать контакты с сервера со следующим логином
-[Invite to Group Chat...]
-Пригласить в чат...
-[Join me in this chat.]
-Пригласите меня в чат.
-[Join/Create AIM Group Chat]
-Создать/Зайти в AIM чат
-[Join/Create Group Chat...]
-Создать/Зайти в чат...
-[Log chat conversations]
-Записывать диалоги чата
-[Lost AIM Password?]
-Забыли пароль на AIM?
-[Lost password?]
-Забыли пароль?
-[Minimize chats to system tray icon]
-Минимизировать чаты в трей
-[mins]
-минут
-[My Date]
-Моя дата
-[My Message]
-Мое сообщение
-[My Name]
-Мое имя
-[No User information Provided]
-Информация не указана
-[Normal User]
-Нормальный
-[Note: Use port 0 to connect on a random port]
-Используйте порт 0 для соединения по случайному порту
-[Notify me when I have been warned by another user]
-Уведомлять меня о получении предупреждения
-[Only reply to users in your contact list]
-Отвечать только контактам из списка
-[Parts/Joins]
-Подключился
-[Please enter the name of the chat you wish to join:]
-Введите имя чата для присоединения:
-[Please enter your AOL® Instant Messenger login details to continue:]
-Пожалуйста, введите ваши AOL® Instant Messenger детали:
-[Please enter your old and new password:]
-Введите старый и новый пароли:
-[Read Away Message]
-Читать сообщение
-[Recover Lost Password]
-Восстановить пароль
-[Register Account]
-Зарегистрировать учётную запись
-[Send a chat invitation to the following user:]
-Послать приглашение початиться:
-[Send Area]
-Поле отправки
-[Send message on Ctrl+Enter]
-Посылать по Ctrl+Enter
-[Show change password menu item]
-Пункт меню "Сменить пароль..."
-[Show error messages]
-Показывать ошибки
-[Show join chat main menu item]
-Пункт меню "Войти в чат"
-[Show join group chat main menu item]
-Пункт "Чат" во всплывающем меню
-[Show joins/parts in log]
-Подключения в журнале
-[Show Profile]
-Профиль
-[Show sync buddy list menu item]
-Пункт синхронизации в меню
-[Show timestamp in log]
-Показывать время
-[Show tooltip messages]
-Показ всплыв. сообщений
-[Sync Buddy List with Server-side list]
-Синхронизировать список с сервером
-[Sync Buddy with Server-side list]
-Синхронизировать с сервером
-[Service temporarily unavailable.]
-Сервис временно недоступен.
-[Unable to add buddy or group. You may have the max allowed buddies or groups or are trying to add a buddy to a group that doesn't exist and cannot be created.]
-Невозможно добавить контакт или группу. Возможно, вы достигли максимума контактов или групп, либо вы пытаетесь добавить контакт в несуществующую группу, которую нельзя создать.
-[Unconfirmed AOL User]
-Непроверенный AOL пользователь
-[Unconfirmed User]
-Непроверенный пользователь
-[Unknown AOL User]
-Неизвестный AOL пользователь
-[Unknown User]
-Неизвестный
-[User Type:]
-Тип пользователя:
-[Verify Password:]
-Подтверждение пароля:
-[Warn %s (%s)]
-Уведомление %s (%s)
-[Warn %s]
-Уведомление %s
-[Warn User]
-Известить
-[Warned By:]
-Предупреждение от:
-[Warning Level:]
-Уровень предупреждений:
-[Wireless AOL User]
-Беспроводной AOL пользователь
-[Wireless User]
-Беспроводной пользователь
-[You are sending messages too fast. Some messages may have been dropped.]
-Вы отправляете сообщения слишком быстро. Некоторые из них могут быть отброшены.
-[You have been connecting and disconnecting too frequently. Wait 10 minutes and try again. If you continue to try, you will need to wait even longer.]
-Вы переподключаетесь слишком часто. Подождите 10 минут и попробуйте снова. Если вы продолжите попытки, придется ждать дольше.
-[You have been invited to the following chat:]
-Вас пригласили в чат:
-[You Have Been Warned]
-Вас предупредили
-[You missed a message because it was sent too fast.]
-Вы пропустили слишком быстро посланное сообщение.
-[You missed a message because it was too big.]
-Вы пропустили слишком большое сообщение
-[You were warned by %s. Your new warning level is %d%%.]
-Вы предупреждены %s. Ваш уровень предупреждений %d%%.
-[Your warning level has been changed to %d%%.]
-Ваш уровень предупреждений сменился на %d%%.
-[Your warning level is currently too high to sign on. Please try again later.]
-Ваш уровень предупреждений слишком высок. Попробуйте позже.
-[AIM Group Chats (%d)]
-AIM Групповые чаты (%d)
-[Would you like to warn %s?\r\n\r\nYou must have exchanged messages with this user recently in order for this to work.]
-Вы хотите предупредить %s?\r\n\r\nВы должны были обменяться сообщениями с этим пользователем, чтобы эта функция работала.
-[AIM Chat Logs]
-AIM Журналы
-[AIM OSCAR Plugin]
-Протокол AIM
-[Screen Name:]
-Имя AIM:
-[Manage Server Groups]
-Управлять группами на сервере
-[Disable SSL]
-Выкл. SSL
 [Users who can contact me:]
 Те кто может связаться со мной:
 [Allow all users]
@@ -387,34 +83,290 @@ AIM Журналы
 Заблокировать всех
 [Block only users below]
 Заблок. всех из списка ниже
+[Add]
+Добавить
+[Remove]
+Удалить
+[Idle]
+Ожидание
 [Allow contacts to be notified of:]
 Уведомить контакты об:
-[Please, enter a username in the options dialog.]
-Пожалуйста, введи имя пользователя в настройках
-[Mismatched Screen Name or password.]
-Неправильное имя AIM или пароль.
-[%s Client-to-client connection]
-%s подключения между клиентами 
 [Join Chat Room]
 Зайти в чат
+[Chat Room]
+Чат
+[&Join]
+Зайти
+[&Cancel]
+О&тмена
+[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
+
+[Change Password]
+Сменить пароль
+[Original]
+Старый
+[New]
+Новый
+[Repeat]
+Повторить
+[*Passwords don't match.]
+*Пароли не совпадают.
+[Screen Name]
+Имя AIM
+[E-mail]
+E-mail
+[Confirm Account]
+Подтвердить
+[*Applied upon reconnect]
+*Требуется перезапуск
+[Save Changes]
+Сохранить изменения
+[Invite Buddy To Chat Room]
+Приглашение в чат-комнату
+[&Invite]
+Пригласить
+[Invitation reason]
+Причина приглашения
+[Chat Room Invitation Request]
+
+[&Deny]
+&Запретить
+[Message]
+Сообщение
+[Room]
+Чат-комната
+[Me]
+Я
+[Others]
+Другое
+[&Invite user...]
+&Пригласить пользователя...
+[&Leave chat session]
+&Покинуть чат
+[User &details]
+&Информация
+[User &history]
+История пользователя
+[Invalid Screen Name or password.]
+
+[Mismatched Screen Name or password.]
+Неправильное имя AIM или пароль.
+[You are connecting too frequently. Try waiting 10 minutes to reconnect.]
+
+[Unknown error occurred when attempting to connect.]
+Неизвестная ошибка при соединении.
+[Invalid SNAC header.]
+
+[Server rate limit exceeded.]
+
+[Client rate limit exceeded]
+
+[Recipient is not logged in.]
+
+[Requested service is unavailable.]
+
+[Requested service is not defined.]
+
+[You sent obsolete SNAC.]
+
+[Not supported by server.]
+
+[Not supported by the client.]
+
+[Refused by client.]
+
+[Reply too big.]
+
+[Response lost.]
+
+[Request denied.]
+
+[Incorrect SNAC format.]
+
+[Insufficient rights.]
+
+[Recipient blocked.]
+
+[Sender too evil.]
+
+[Receiver too evil.]
+
+[User temporarily unavailable.]
+
+[No Match.]
+
+[List overflow.]
+
+[Request ambiguous.]
+
+[Server queue full.]
+
+[Not while on AOL.]
+
+[Check your Screen Name.]
+
+[Check your Password.]
+
+[Check your Email Address.]
+
+[Service temporarily unavailable.]
+Сервис временно недоступен.
+[Field change temporarily unavailable.]
+
+[Invalid Screen Name.]
+
+[Invalid Password.]
+
+[Invalid Email.]
+
+[Invalid Registration Preference.]
+
+[Invalid Old Password.]
+
+[Invalid Screen Name Length.]
+
+[Invalid Password Length.]
+
+[Invalid Email Length.]
+
+[Invalid Old Password Length.]
+
+[Need Old Password.]
+
+[Read Only Field.]
+
+[Write Only Field.]
+
+[Unsupported Type.]
+
+[An Error has occurred.]
+Неизвестная ошибка.
+[Invalid Account.]
+
+[Delete Account.]
+
+[Expired Account.]
+
+[No Database access.]
+
+[Invalid Database fields.]
+
+[Bad Database status.]
+
+[Migration Cancel.]
+
+[Internal Error.]
+
+[There is already a Pending Request for this Screen Name.]
+
+[Not DT status.]
+
+[Outstanding Confirmation.]
+
+[No Email Address.]
+
+[Over Limit.]
+
+[Email Host Fail.]
+
+[DNS Fail.]
+
+[Failed to open file: %s : %s]
+
+[AIM Link Protocol]
+Протокол AIM
+[%s Protocol]
+
+[Open mail account?]
+
+[%s server connection]
+%s подключение к серверу 
+[%s Client-to-client connection]
+%s подключения между клиентами 
+[[Auto-Response]:]
+(Автоответ):
+[Contact tried to open an audio/video conference (currently not supported)]
+
+[No information has been provided by the server.]
+Сервер не предоставил никакой информации.
+[Item you want to delete not found in list.]
+
+[Failed to add buddy to list: Item already exist.]
+
+[Error adding buddy (invalid ID or already in list?)]
+
+[Cannot add buddy. Limit for this type of item exceeded.]
+
+[Error? Attempting to add ICQ contact to an AIM list.]
+
+[Cannot add this buddy because it requires authorization.]
+
+[Unknown error when adding buddy to list. Error code %#x]
+
+[Item you want to modify not found in list.]
+
+[Unknown error when attempting to modify a group. Error code %#x]
+
+[You've got mail! Checked at]
+
+[Error uploading avatar. (Too small)]
+
+[Error uploading avatar. (Too big)]
+
+[Error uploading avatar. (Wrong type)]
+
+[Error uploading avatar. (Is banned)]
+
+[Error uploading avatar. (Unknown error)]
+
+[A confirmation message has been sent to the new email address. Please follow its instructions.]
+
+[A confirmation message has been sent to your email address. Please follow its instructions.]
+
+[Unable to confirm at this time. Please try again later.]
+
+[Your account has already been confirmed.]
+
+[Can't start the confirmation procedure.]
+
+[ICQ]
+
+[Block]
+Заблокировать
+[Profile]
+Профиль
 [AOL Mail]
 Почта AOL
 [AIM Icon]
 Значок AIM
+[Hiptop]
+
 [AOL Bot]
 Бот AOL
+[Admin]
+Админ
 [Confirmed]
 Проверенный
 [Not Confirmed]
 Непроверенный
-[Profile Editor]
-Редактор профиля
+[Blocked list]
+Список заблокированных
+[AOL]
+
 [Foreground Color]
 Цвет переднего плана
+[Background Color]
+Цвет фона
+[Bold]
+Жирный
 [Not Bold]
 Не жирный
+[Italic]
+Курсив
 [Not Italic]
 Не курсив
+[Underline]
+Подчёркивание
 [Not Underline]
 Не подчёркнутый
 [Subscript]
@@ -429,5 +381,37 @@ AIM Журналы
 Стандартный скрипт
 [Not Normal Script]
 Нестандартный скрипт
-[Display Name:]
-Показыв. имя:
+[Profile Editor]
+Редактор профиля
+[AIM Account Type]
+
+[AIM Extended Status]
+Расширенный статус AIM
+[&Block]
+Блокировать
+[&Unblock]
+Разблокировать
+[Manage Account]
+Управление учётной записью
+[Instant Idle]
+Установить Instant Idle
+[Read &HTML Away Message]
+Читать HTML статусное сообщение
+[Read Profile]
+Просмотреть профиль
+[Add To Server List]
+Добавить в список на сервере
+[Network]
+Сеть
+[Basic]
+Основные
+[Privacy]
+Приватность
+[Join me in this buddy chat!]
+
+[Please, enter a username in the options dialog.]
+Пожалуйста, введи имя пользователя в настройках
+[Please, enter a password in the options dialog.]
+
+[Failed to open file: %s %s]
+

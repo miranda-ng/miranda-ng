@@ -1,60 +1,46 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
-;  File: icq.dll
-;  Module: IcqOscarJ Protocol, ICQ Plus Mod Protocol
-;  Versions: 0.10.0.2
-;  URL: http://code.google.com/p/miranda/downloads/list
-;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/
+;  File: ICQ.dll
+;  Plugin: IcqOscarJ Protocol
+;  Version: 0.11.0.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
-
-;  Versions: 0.3.10.67
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4312
-;  Source: git://sss.chaoslab.ru/mim_plugs.git
-;  Authors: sss
 ;============================================================
-
-;  Страницы опций
-;  -ВСПЛЫВАЮЩИЕ ОКНА-ИМЯ УЧЁТНОЙ ЗАПИСИ-
-
-[Enable popup support]
-Включить всплывающие окна
-[Display popup when spambot is detected]
-Окно при обнаружении спамбота
-[Look && Feel]
-Отображение
-[Fatal]
-Фатальная ошибка
-[Spam detected]
-Обнаружен спам
-[Back Color]
-Цвет фона
-[&Use Windows colors]
-&Цвета Windows
-[Use system &icons]
-Системные значки
-[Sample Note]
-Пример заметки
-[Sample Warning]
-Пример предупреждения
-[Sample Error]
-Пример ошибки
-[Sample Fatal]
-Пример фатальной ошибки
-[Sample Spambot]
-Пример спамбота
-
-;-СЕТЬ-ИМЯ УЧЁТНОЙ ЗАПИСИ-
-
-;Учётная запись
-
+[ICQ protocol support for Miranda NG.]
+Поддержка протокола ICQ в Miranda NG.
+[ICQ Number:]
+Номер ICQ:
+[Password:]
+Пароль:
+[Create a new ICQ account]
+Создать новую учётную запись ICQ
+[Enter an authorization request]
+Текст запроса авторизации
+[&Send]
+&Отправить
+[&Cancel]
+О&тмена
+[Enter ICQ Password]
+Введите пароль ICQ
+[Enter a password for UIN %d:]
+Введите пароль для номера %d:
+[Remember this session password]
+Запомнить пароль сеанса
+[Cancel]
+Отмена
 [ICQ number:]
 Номер ICQ:
+[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+Подсказка: если Вы не укажете здесь пароль, Miranda NG будет запрашивать его каждый раз при подключении к сети.
 [Retrieve a lost password or ICQ number]
 Напомнить пароль или номер ICQ
 [Create a new ICQ account using the ICQ website]
 Создать учётную запись на сайте ICQ
+[Connection settings]
+Настройки подключения
 [Login Server:]
 Сервер:
+[Port:]
+Порт:
 [Default]
 По умолчанию
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
@@ -71,20 +57,10 @@
 Не показывать окно ошибки, пока не закрыто предыдущее
 [Show connection error messages:]
 Показывать ошибки подключения:
-[Display all problems]
-Все проблемы
-[Display problems causing possible loss of data]
-Проблемы с возможной потерей данных
-[Display explanations for disconnection]
-Объяснения о разъединении
-[Display problems requiring user intervention]
-Требуется вмешательство пользователя
-[Do not display any problems (not recommended)]
-Скрыть все ошибки (не рекомендуется)
-
-;Контакты
 [ICQ contacts stored on server]
 Контакты ICQ на сервере
+[Manage server's list...]
+Управление списком...
 [Enable server-side contact lists *]
 Использовать список на сервере *
 [Add contacts to the server's list when I add them to mine]
@@ -93,8 +69,6 @@
 Обновлять данные о контактах с сервера *
 [Update contacts' details on the server's list when I change them in mine]
 Обновлять данные о контактах на сервере, когда я их меняю в своем списке
-[Manage server's list...]
-Управление списком...
 [ICQ avatars]
 Аватары ICQ
 [Enable avatar support]
@@ -103,21 +77,20 @@
 Проверять целостность аватара перед сохранением *
 [Load avatars automatically (like ICQ Lite)]
 Загружать аватары автоматически (как ICQ Lite)
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Изменения вступят в силу при следующем входе в сеть ICQ.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Невозможно включить/выключить список на сервере во время подключения к сети ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Замечание: Настройки, отмеченные звездочкой, имеют побочные эффекты, которые могут быть не документированы в справке.
-
-;Возможности
-
+[Messaging]
+Сообщения
 [Enable unicode messaging support]
 Включить поддержку Unicode
 [Send all messages in unicode if possible]
 Отсылать в Unicode (если возможно)
 [Use this codepage for Ansi <-> Unicode translation:]
 Перекодировка ANSI <-> Unicode:
-[System default codepage]
-Системная кодировка
 [Make me temporarily visible to contacts I send message to]
 Становиться видимым для контакта, которому посылаете сообщение
 [Notify me when a message delivery has failed (recommended)]
@@ -144,9 +117,6 @@
 Блок. известные спамботы
 [Enable AIM contacts support]
 Включить поддержку контактов AIM
-
-;Приватность
-
 [Direct connections]
 Прямые соединения
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
@@ -173,127 +143,1008 @@
 Отвечать на запрос статусного сообщения только пользователям из списка
 [Only reply to status message request from visible contacts]
 Отвечать на запрос статусного сообщения только видимым контактам
+[Some options are grayed out because they can only be changed when you are online.]
+Некоторые настройки можно изменять только после подключения к сети ICQ.
+[Options]
+Настройки
+[Enable popup support]
+Включить всплывающие окна
+[Display errors using popups]
+Показывать ошибки в окнах
+[Display popup when spambot is detected]
+Окно при обнаружении спамбота
+[Look && Feel]
+Отображение
+[Back Color]
+Цвет фона
+[Text Color]
 
-;-ПЛАГИНЫ-
-
-[ICQ protocol support for Miranda NG.]
-Поддержка протокола ICQ в Miranda NG.
-
-;  -СПИСОК КОНТАКТОВ-ЭКСТРАЗНАЧКИ-
-
-[ICQ XStatus]
-хСтатус ICQ
-
-;  -ТОНКАЯ НАСТРОЙКА-МЕНЮ-
-
-[Show custom status details]
-Подробный xСтатус
-[Add to server list]
-Добавить в список на сервере
-
-;  Управление списком
-
-[Manage ICQ Server Contacts]
-Управление контактами на сервере
-[Select contacts to store:]
-Контакты для закачки:
-[Select contacts you want to store on server.]
-Выберите контакты для хранения на сервере.
-[Ready...]
-Готово...
-[Synchronize]
-Синхронизировать
-[Cleaning groups]
-Чищу группы
-[Updating group "%s"...]
-Обновляю группу "%s"...
-[Deleting group "%s"...]
-Удаляю группу "%s"...
-[Adding group "%s"...]
-Добавляю группу "%s"...
-[Moving %s to group "%s"...]
-Перемещаю %s в группу "%s"...
-[Uploading %s...]
-Загружаю %s...
-[Deleting %s...]
-Удаляю %s...
-[No upload group available]
-Нет группы для загрузки
-[Adding %s to visible list...]
-Добавляю %s в список видимости...
-[Adding %s to invisible list...]
-Добавляю %s в список невидимости...
-[Deleting %s from visible list...]
-Удаляю %s из списка видимости...
-[Deleting %s from invisible list...]
-Удаляю %s из списка невидимости...
-[All operations complete]
-Все операции завершены
-[You have to be online to sychronize the server-list!]
-Вы должны быть подключены для синхронизации списка на сервере
-[NOT FOUND]
-НЕ НАЙДЕНО
-[ALREADY EXISTS]
-УЖЕ СУЩЕСТВУЕТ
-[INVALID DATA]
-НЕВЕРНЫЕ ДАННЫЕ
-[LIST FULL]
-СПИСОК ПОЛНЫЙ
-[FAILED]
-НЕУДАЧА
-[Upload FAILED]
-Загрузка не удалась
-
-;  ЛИЧНЫЕ ДАННЫЕ
-
+[Timeout]
+Таймаут
+[Note]
+Заметка
+[Warning]
+Предупреждение
+[Error]
+Ошибка
+[Fatal]
+Фатальная ошибка
+[Spam detected]
+Обнаружен спам
+[&Use Windows colors]
+&Цвета Windows
+[Use system &icons]
+Системные значки
+[Previe&w]
+&Тест
+[Use default colors]
+Цвета по умолчанию
 [UIN:]
 Номер:
+[External IP:]
+Внешний IP:
+[Internal IP:]
+Внутренний IP:
 [Protocol Version:]
 Версия протокола:
 [User Client:]
 Клиент:
-[Member since:]
-Участник с:
+[Online since:]
+В сети с:
+[System up since:]
+Включён с:
 [Idle since:]
 Простаивает с:
-[Personal]
-Личное
-[First name]
-Имя
-[Last name]
-Фамилия
-[Street]
-Улица
-[City]
-Город
-[State]
-Штат
-[Phone number]
-Телефон
-[Fax number]
-Факс
-[Cellular number]
-Мобильный тел.
-[Personal Detail]
-Личные данные
-[Month of birth]
-Месяц рождения
-[Day of birth]
-День рождения
-[Marital Status]
-Семейное положение
-[Open relationship]
-В активном поиске
-[Spoken language 1]
-Язык 1
-[Spoken language 2]
-Язык 2
-[Spoken language 3]
-Язык 3
-[Originally from]
-По происхождению
-[Level]
-Ступень
+[Status:]
+Статус:
+[Summary]
+Резюме
+[Nickname:]
+Ник:
+[First name:]
+
+[Last name:]
+Фамилия:
+[E-mail:]
+
+[Gender:]
+Пол:
+[Age:]
+Возраст:
+[Marital status:]
+Семейное положение:
+[Keywords:]
+Кл. слова:
+[Work]
+Работа
+[Occupation:]
+Занятие:
+[Company:]
+Компания:
+[Department:]
+Отдел:
+[Position:]
+Должность:
+[Organization:]
+Организация:
+[Location]
+Место
+[Language:]
+Язык:
+[Country:]
+Страна:
+[State:]
+Штат:
+[City:]
+Город:
+[Background info]
+Биография
+[Interests]
+Интересы:
+[Category:]
+Категория:
+[Past]
+Прошлое
+[Homepage]
+Сайт
+[Other]
+Другое
+[Search online users only]
+Только подключённых пользователей
+[Manage ICQ Server Contacts]
+Управление контактами на сервере
+[Select contacts to store:]
+Контакты для закачки:
+[Synchronize]
+Синхронизировать
+[Custom Status "%s" Details]
+xСтатус "%s"
+[Closing in %d]
+Закрыть (%d)
+[Title:]
+Заголовок:
+[Message:]
+Диалог:
+[Retrieving custom status details...]
+Запрос текста хСтатуса...
+[&Save changes]
+Сохранить изменения
+[Confirm Password Change]
+Подтвердить смену пароля
+[Please re-type your new password:]
+Повторите ваш новый пароль:
+[Enter your current password:]
+Введите текущий пароль:
+[Unable to connect to migrated ICQ communication server]
+Невозможно подключиться к мигрированному серверу общения ICQ
+[Unable to connect to ICQ communication server]
+Невозможно подключиться к серверу общения ICQ
+[You could not sign on because the server returned invalid data. Try again.]
+Вы не вошли в сеть, так как сервер вернул неверные данные. Попробуйте позже.
+[You have been disconnected from the ICQ network because the current server shut down.]
+Вас разъединили от сети ICQ потому что текущий сервер был выключен.
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Неудачное подключение.\nВаш номер или пароль не приняты сервером (%d).
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Ошибка подключения.\nСервер временно недоступен (%d).
+[Connection failed.\nServer has too many connections from your IP (%d).]
+Неудачное подключение.\nСлишком много подключений с вашего IP (%d).
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+Неудачное подключение.\nВы слишком часто подключаетесь,\nпопробуйте через 10-20 минут (%d).
+[Connection failed.\nThe server did not accept this client version.]
+Неудачное подключение.\nСервер не принял эту версию клиента.
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+Сервер послал предупреждение, эта версия клиента старая.\nПоищите новую версию.
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+Неудачное подключение.\nСервер вас не принял по неизвестной причине.\nЭто может случиться, если ваш номер уже подключён.
+[Connection failed.\nSecure (MD5) login is not supported on this account.]
+Неудачное подключение.\nБезопасный вход (MD5) не поддерживается на этой учётной записи.
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+Неудачное подключение.\nНеизвестная ошибка при входе: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Сервер закрыл соединение, так как вы вошли с другого места используя тот же номер ICQ.
+[Unknown runtime error: 0x%02x]
+Неизвестная ошибка: 0x%02x
+[A server migration has failed because the server returned invalid data. You must reconnect manually.]
+Переход с сервера на сервер не удался так как сервер вернул неверные данные. Вам нужно подключиться вручную.
+[Failed to request offline messages. They may be received next time you log in.]
+Ошибка запроса оффлайн сообщений. Они могут быть получены при следующем подключении.
+[Spambot Detected]
+Обнаружен спамбот
+[Contact deleted & further events blocked.]
+Контакт удален, новые события заблокированы.
+[Incoming URL:]
+Входящий URL:
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+Вы отправляете слишком быстро. Попробуйте отправить сообщение позже.\r\nSNAC(4.1) ошибка x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+Вы отправляете слишком быстро. Попробуйте отправить сообщение позже.\r\nSNAC(4.1) ошибка x03
+[The contact does not support receiving offline messages.]
+Контакт не поддерживает прием оффлайн сообщений.
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+Этот пользователь ушел из сети. Попробуйте отправить оффлайн-сообщение.\r\nSNAC(4.1) ошибка x04
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+Служба отправки сообщений временно не доступна. Попробуйте позже.\r\nSNAC(4.1) Ошибка x05
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+Клиент получателя не поддерживает этот тип сообщения.\r\nSNAC(4.1) ошибка x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+Вы отправили слишком длинное сообщение. Клиент получателя не поддерживает его.\r\nSNAC(4.1) Error x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+Формат SNAC не принят сервером.\nSNAC(4.1) ошибка x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+Пользователь временно недоступен. Попробуйте отправить сообщение позже.\r\nSNAC(4.1) Error x13
+[SNAC(4.1) SENDMSG Error (x%02x)]
+SNAC(4.1) Ошибка SENDMSG (x%02x)
+[Contact "%s" has closed the message window.]
+Контакт "%s" закрыл окно сообщений.
+[ICQ Note]
+Информация ICQ
+[Server contact list is unavailable, Miranda will use local contact list.]
+Список контактов на сервере недоступен, Miranda будет использовать локальный.
+[Updating of server contact failed.]
+Не удалось обновить контакт на сервере.
+[Adding of privacy item to server list failed.]
+Не удалось добавить запись конфиденциальности.
+[Removing of privacy item from server list failed.]
+Не удалось удалить запись конфиденциальности.
+[Adding of contact to server list failed.]
+Не удалось добавить контакт на сервер.
+[Adding of group to server list failed.]
+Не удалось добавить группу на сервер.
+[Removing of contact from server list failed.]
+Не удалось удалить контакт с сервера.
+[Updating of group on server list failed.]
+Не удалось обновить группу на сервере.
+[Removing of group from server list failed.]
+Не удалось удалить группу с сервера.
+[Moving of user to another group on server list failed.]
+Не удалось переместить контакт в другую группу на сервере.
+[Renaming of server group failed.]
+Не удалось переименовать группу на сервере.
+[Contact "%s" was authorized in the server list.]
+Контакт "%s" авторизирован в списке на сервере.
+[Contact "%s" lost its authorization in the server list.]
+Контакт "%s" потерял авторизацию в списке на сервере.
+[User "%s" was removed from server list.]
+Пользователь "%s" был удален из списка на сервере.
+[Secure login failed.\nInvalid server response.]
+Ошибка защищённого входа.\nНеверный ответ сервера.
+[Secure login failed.\nInvalid key length.]
+Ошибка защищённого входа.\nНеверная длина ключа
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
+Вы уверены, что хотите отозвать авторизацию?\nНекоторые клиенты при этом удалят вас из списка контактов.
+[Confirmation]
+Подтверждение
+[** This message was blocked by the ICQ server ** The message was invalid.]
+** Это сообщение было заблокировано сервером ICQ ** Сообщение имело неверный формат.
+[** This message was blocked by the ICQ server ** The message was too long.]
+** Это сообщение было заблокировано сервером ICQ ** Сообщение было слишком длинным.
+[** This message was blocked by the ICQ server ** The sender has flooded the server.]
+** Это сообщение было заблокировано сервером ICQ ** Отправитель забросал сервер сообщениями.
+[** This message was blocked by the ICQ server ** You are too evil.]
+** Это сообщение было заблокировано сервером ICQ ** Нехороший вы человек...
+[** Unknown missed message event.]
+** Неизвестное пропущеное событие.
+[Error uploading avatar to server, server temporarily unavailable.]
+Ошибка загрузки аватара на сервер. Сервер временно недоступен.
+[Error uploading avatar to server, server refused to accept the image.]
+Ошибка загрузки аватара на сервер, сервер не принял изображение.
+[Afghanistan]
+Афганистан
+[Albania]
+Албания
+[Algeria]
+Алжир
+[Andorra]
+Андорра
+[Angola]
+Ангола
+[Anguilla]
+Ангилья
+[Antigua and Barbuda]
+Антигуа и Барбуда
+[Argentina]
+Аргентина
+[Armenia]
+Армения
+[Aruba]
+Аруба
+[Ascension Island]
+о. Вознесения
+[Australia]
+Австралия
+[Australia, Antarctic Territory]
+Австралийская антарктическая территория
+[Australia, Christmas Island]
+о. Рождества (Австралия)
+[Australia, Cocos (Keeling) Islands]
+Кокосовые (Килинг) о-ва (Австралия)
+[Australia, Norfolk Island]
+о. Норфолк (Австралия)
+[Austria]
+Австрия
+[Azerbaijan]
+Азербайджан
+[Bahamas]
+Багамы
+[Bahrain]
+Бахрейн
+[Bangladesh]
+Бангладеш
+[Barbados]
+Барбадос
+[Belarus]
+Беларусь
+[Belgium]
+Бельгия
+[Belize]
+Белиз
+[Benin]
+Бенин
+[Bermuda]
+Бермудские о-ва
+[Bhutan]
+Бутан
+[Bolivia]
+Боливия
+[Bosnia and Herzegovina]
+Босния и Герцеговина
+[Botswana]
+Ботсвана
+[Brazil]
+Бразилия
+[British Virgin Islands]
+Британские Виргинские острова
+[Brunei]
+Бруней
+[Bulgaria]
+Болгария
+[Burkina Faso]
+Буркина-Фасо
+[Burundi]
+Бурунди
+[Cambodia]
+Камбоджа
+[Cameroon]
+Камерун
+[Canada]
+Канада
+[Canary Islands]
+Канарские о-ва
+[Cape Verde Islands]
+о-ва Зеленого Мыса
+[Cayman Islands]
+Каймановы о-ва
+[Central African Republic]
+Центральноафриканская Республика
+[Chad]
+Чад
+[Chile, Republic of]
+Республика Чили
+[China]
+Китай (КНР)
+[Colombia]
+Колумбия
+[Comoros]
+Коморы
+[Congo, Democratic Republic of (Zaire)]
+Демократическая республика Конго (Заир)
+[Congo, Republic of the]
+Конго, Республика
+[Cook Islands]
+о-ва Кука
+[Costa Rica]
+Коста-Рика
+[Cote d'Ivoire (Ivory Coast)]
+Республика Кот-д’Ивуар
+[Croatia]
+Хорватия
+[Cuba]
+Куба
+[Greek, Republic of South Cyprus]
+Кипр (Республика Южного Кипра)
+[Czech Republic]
+Чехия
+[Denmark]
+Дания
+[Diego Garcia]
+Диего Гарсия
+[Djibouti]
+Джибути
+[Dominica]
+Доминика
+[Dominican Republic]
+Доминиканская республика
+[Ecuador]
+Эквадор
+[Egypt]
+Египет
+[El Salvador]
+Сальвадор
+[Equatorial Guinea]
+Экваториальная Гвинея
+[Eritrea]
+Эритрея
+[Estonia]
+Эстония
+[Ethiopia]
+Эфиопия
+[Europe]
+Европа
+[Faeroe Islands]
+о-ва Фаэро
+[Falkland Islands]
+Фолклендские о-ва
+[Fiji]
+Фиджи
+[Finland]
+Финляндия
+[France]
+Франция
+[French Antilles]
+Французские Антильские о-ва
+[French Guiana]
+Французская Гвиана
+[French Polynesia]
+Французская Полинезия
+[Gabon]
+Габон
+[Gambia]
+Гамбия
+[Georgia]
+Грузия
+[Germany]
+Германия
+[Ghana]
+Гана
+[Gibraltar]
+Гибралтар
+[Greece]
+Греция
+[Greenland]
+Гренландия
+[Grenada]
+Гренада
+[Guadeloupe]
+Гваделупа
+[Guam, US Territory of]
+Территория Гуам (США)
+[Guatemala]
+Гватемала
+[Guinea]
+Гвинея
+[Guinea-Bissau]
+Гвинея-Бисау
+[Guyana]
+Гайана
+[Haiti]
+Гаити
+[Honduras]
+Гондурас
+[Hong Kong]
+Гонконг
+[Hungary]
+Венгрия
+[Iceland]
+Исландия
+[India]
+Индия
+[Indonesia]
+Индонезия
+[Iran (Islamic Republic of)]
+Исламская Республика Иран
+[Iraq]
+Ирак
+[Ireland]
+Ирландия
+[Israel]
+Израиль
+[Italy]
+Италия
+[Jamaica]
+Ямайка
+[Japan]
+Япония
+[Jordan]
+Иордания
+[Kazakhstan]
+Казахстан
+[Kenya]
+Кения
+[Kiribati]
+Кирибати
+[Korea, North]
+Северная Корея (КНДР)
+[Korea, South]
+Республика Корея
+[Kuwait]
+Кувейт
+[Kyrgyzstan]
+Киргизия
+[Laos]
+Лаос
+[Latvia]
+Латвия
+[Lebanon]
+Ливан
+[Lesotho]
+Лесото
+[Liberia]
+Либерия
+[Libyan Arab Jamahiriya]
+Ливия
+[Liechtenstein]
+Лихтенштейн
+[Lithuania]
+Литва
+[Luxembourg]
+Люксембург
+[Macau]
+Макао
+[Macedonia, Republic of]
+Республика Македония
+[Madagascar]
+Мадагаскар
+[Malawi]
+Малави
+[Malaysia]
+Малайзия
+[Maldives]
+Мальдивы
+[Mali]
+Мали
+[Malta]
+Мальта
+[Marshall Islands]
+Маршалловы о-ва
+[Martinique]
+Мартиника
+[Mauritania]
+Мавритания
+[Mauritius]
+Маврикий
+[Mayotte Island]
+о. Майотт
+[Mexico]
+Мексика
+[Micronesia, Federated States of]
+Микронезия
+[Moldova, Republic of]
+Республика Молдова
+[Monaco]
+Монако
+[Mongolia]
+Монголия
+[Montserrat]
+Монтсеррат
+[Morocco]
+Марокко
+[Mozambique]
+Мозамбик
+[Myanmar]
+Мьянма (Бирма)
+[Namibia]
+Намибия
+[Nauru]
+Науру
+[Nepal]
+Непал
+[Netherlands]
+Нидерланды
+[Netherlands Antilles]
+Нидерландские Антильские о-ва
+[St. Maarten]
+Синт-Маартен
+[Curacao]
+Кюрасао
+[Netherlands (Bonaire Island)]
+Нидерланды (о. Бонайре)
+[Netherlands (Saba Island)]
+Нидерланды  (о. Саба)
+[Netherlands (St. Eustatius Island)]
+Нидерланды (о. Синт-Эстатиус)
+[New Caledonia]
+Новая Каледония
+[New Zealand]
+Новая Зеландия
+[Nicaragua]
+Никарагуа
+[Niger]
+Нигер
+[Nigeria]
+Нигерия
+[Niue]
+Ниуэ
+[Northern Mariana Islands, US Territory of]
+Северные Марианские о-ва, территория США
+[Norway]
+Норвегия
+[Oman]
+Оман
+[Pakistan]
+Пакистан
+[Palau]
+Палау
+[Panama]
+Панама
+[Papua New Guinea]
+Папуа - Новая Гвинея
+[Paraguay]
+Парагвай
+[Peru]
+Перу
+[Philippines]
+Филиппины
+[Poland]
+Польша
+[Portugal]
+Португалия
+[Puerto Rico]
+Пуэрто-Рико
+[Qatar]
+Катар
+[Reunion Island]
+о. Реюньон
+[Romania]
+Румыния
+[Russia]
+Россия
+[Rwanda]
+Руанда
+[Samoa (USA)]
+Американские Самоа
+[Samoa, Western]
+Независимое государство Самоа
+[Saint Helena]
+о. Святой Елены
+[Saint Kitts and Nevis]
+Сент-Китс и Невис
+[Saint Lucia]
+Сент-Люсия
+[Saint Pierre and Miquelon]
+Сен-Пьер и Микелон
+[Saint Vincent and the Grenadines]
+Сент-Винсент и Гренадины
+[San Marino]
+Сан-Марино
+[Sao Tome and Principe]
+Сан-Томе и Принсипи
+[Saudi Arabia]
+Саудовская Аравия
+[Scotland]
+Шотландия
+[Senegal]
+Сенегал
+[Seychelles]
+Сейшельские о-ва
+[Sierra Leone]
+Сьерра-Леоне
+[Singapore]
+Сингапур
+[Slovakia]
+Словакия
+[Slovenia]
+Словения
+[Solomon Islands]
+Соломоновы о-ва
+[Somalia]
+Сомали
+[South Africa]
+Южно-Африканская Республика (ЮАР)
+[Spain]
+Испания
+[Spain, Canary Islands]
+Канарские о-ва (Испания)
+[Sri Lanka]
+Шри-Ланка
+[Sudan]
+Судан
+[Suriname]
+Суринам
+[Swaziland]
+Свазиленд
+[Sweden]
+Швеция
+[Switzerland]
+Швейцария
+[Syrian Arab Republic]
+Сирия
+[Taiwan]
+Тайвань
+[Tajikistan]
+Таджикистан
+[Tanzania]
+Танзания
+[Thailand]
+Тайланд
+[Timor, East]
+Восточный Тимор
+[Togo]
+Того
+[Tokelau]
+Токелау
+[Tonga]
+Тонга
+[Trinidad and Tobago]
+Тринидад и Тобаго
+[Tunisia]
+Тунис
+[Turkey]
+Турция
+[Turkey, Republic of Northern Cyprus]
+Турецкая Республика Северного Кипра
+[Turkmenistan]
+Туркмения
+[Turks and Caicos Islands]
+о-ва Теркс и Кайкос
+[Tuvalu]
+Тувалу
+[Uganda]
+Уганда
+[Ukraine]
+Украина
+[United Arab Emirates]
+Объединённые Арабские Эмираты
+[United Kingdom]
+Великобритания
+[Uruguay]
+Уругвай
+[USA]
+США
+[Uzbekistan]
+Узбекистан
+[Vanuatu]
+Вануату
+[Vatican City]
+г. Ватикан
+[Venezuela]
+Венесуэла
+[Vietnam]
+Вьетнам
+[Virgin Islands (UK)]
+Виргинские о-ва (Англия)
+[Virgin Islands (USA)]
+Виргинские о-ва (США)
+[Wales]
+Уэльс
+[Wallis and Futuna Islands]
+о-ва Валлис и Футуна
+[Yemen]
+Йемен
+[Yugoslavia]
+Югославия
+[Serbia, Republic of]
+Республика Сербия
+[Kosovo, Republic of]
+Республика Косово
+[Montenegro, Republic of]
+Республика Черногория
+[Zambia]
+Замбия
+[Zimbabwe]
+Зимбабве
+[50's]
+50-е
+[60's]
+60-е
+[70's]
+70-е
+[80's]
+80-е
+[Art]
+Искусство
+[Astronomy]
+Астрономия
+[Audio and Visual]
+Звук и визуализация
+[Business]
+Дела
+[Business Services]
+Бизнес услуги
+[Cars]
+Машины
+[Celebrity Fans]
+Фанат знаменитостей
+[Clothing]
+Одежда
+[Collections]
+Коллекционирование
+[Computers]
+Компьютеры
+[Culture]
+Культура
+[Ecology]
+Экология
+[Entertainment]
+Развлечения
+[Finance and Corporate]
+Финансы и корпорация
+[Fitness]
+Фитнес
+[Health and Beauty]
+Здоровье и красота
+[Hobbies]
+Хобби
+[Home Automation]
+Домашняя автоматизация
+[Household Products]
+Домашние продукты
+[Games]
+Игры
+[Government]
+Правительство
+[ICQ - Help]
+ICQ-помощь
+[Internet]
+Интернет
+[Lifestyle]
+Стиль жизни
+[Mail Order Catalog]
+Заказ товаров по почте
+[Media]
+Медиа
+[Movies and TV]
+Кино и ТВ
+[Music]
+Музыка
+[Mystics]
+Мистика
+[News and Media]
+Новости и СМИ
+[Outdoors]
+Отдых на природе
+[Parenting]
+Воспитание
+[Parties]
+Вечеринки
+[Pets and Animals]
+Животные
+[Publishing]
+Публикации
+[Religion]
+Религия
+[Retail Stores]
+Розничная торговля
+[Science]
+Наука
+[Skills]
+Навыки
+[Social science]
+Социология
+[Space]
+Космос
+[Sporting and Athletic]
+Спорт и атлетика
+[Sports]
+Спорт
+[Travel]
+Путешествия
+[Web Design]
+Web Дизайн
+[Women]
+Женщины
+[Afrikaans]
+Африкаанс
+[Albanian]
+Албанский
+[Arabic]
+Арабский
+[Armenian]
+Армянский
+[Azerbaijani]
+Азербайджанский
+[Belorussian]
+Белорусский
+[Bhojpuri]
+Хойпурийский
+[Bosnian]
+Боснийский
+[Bulgarian]
+Болгарский
+[Burmese]
+Бурмезский
+[Cantonese]
+Катонезийский
+[Catalan]
+Каталанский
+[Chamorro]
+Чаморрский
+[Chinese]
+Китайский
+[Croatian]
+Хорватский
+[Czech]
+Чешский
+[Danish]
+Датский
+[Dutch]
+Голландский
+[English]
+Английский
+[Esperanto]
+Эсперанто
+[Estonian]
+Эстонский
+[Farsi]
+Фарси
+[Finnish]
+Финский
+[French]
+Французский
+[Gaelic]
+Гайский
+[German]
+Немецкий
+[Greek]
+Греческий
+[Gujarati]
+Гуджаратский
+[Hebrew]
+Иврит
+[Hindi]
+Хинди
+[Hungarian]
+Венгерский
+[Icelandic]
+Исландский
+[Indonesian]
+Индонезийский
+[Italian]
+Итальянский
+[Japanese]
+Японский
+[Khmer]
+Хмерский
+[Korean]
+Корейский
+[Kurdish]
+Курдский
+[Lao]
+Лаосский
+[Latvian]
+Латышский
+[Lithuanian]
+Литовский
+[Macedonian]
+Македонский
+[Malay]
+Малайский
+[Mandarin]
+Мандарин
+[Mongolian]
+Монгольский
+[Norwegian]
+Норвежский
+[Persian]
+Персидский
+[Polish]
+Польский
+[Portuguese]
+Португальский
+[Punjabi]
+Панджабский
+[Romanian]
+Румынский
+[Russian]
+Русский
+[Serbian]
+Сербский
+[Sindhi]
+Синди
+[Slovak]
+Словацкий
+[Slovenian]
+Словенский
+[Somali]
+Сомалийский
+[Spanish]
+Испанский
+[Swahili]
+Суахили
+[Swedish]
+Шведский
+[Tagalog]
+Тагалог
+[Taiwanese]
+Тайваньский
+[Tamil]
+Тамильский
+[Tatar]
+Татарский
+[Thai]
+Тайский
+[Turkish]
+Турецкий
+[Ukrainian]
+Украинский
+[Urdu]
+Урду
+[Vietnamese]
+Вьетнамский
+[Welsh]
+Уэльский
+[Yiddish]
+Идиш
+[Yoruba]
+Ёрубский
+[Elementary School]
+Начальная школа
+[High School]
+Средняя школа
+[College]
+ВУЗ
+[University]
+Университет
+[Military]
+Военный
+[Past Work Place]
+Прошлая работа
+[Past Organization]
+Прошлая организация
+[Female]
+Женский
+[Male]
+Мужской
 [Associated degree]
 Среднеспециальное
 [Bachelor's degree]
@@ -310,6 +1161,678 @@
 Доктор
 [University / College]
 Университет/Колледж
+[Agriculture]
+Сельское хозяйство
+[Arts]
+Искусство
+[Construction]
+Строительство
+[Consumer Goods]
+Потребительские товары
+[Corporate Services]
+Корпоративные услуги
+[Education]
+Образование
+[Finance]
+Финансы
+[High Tech]
+Наукоемкие технологии
+[Legal]
+Юриспруденция
+[Manufacturing]
+Производство
+[Medical & Health Care]
+Медицина и здравоохранение
+[Non-Profit Organization Management]
+Некоммерческая организация управления
+[Recreation, Travel & Entertainment]
+Отдых, путешествия и развлечения
+[Service Industry]
+Сфера обслуживания
+[Transportation]
+Транспорт
+[Academic]
+Академия
+[Administrative]
+Администрация
+[Art/Entertainment]
+Развлечения
+[College Student]
+Студент колледжа
+[Community & Social]
+Общество и социум
+[Engineering]
+Инженер
+[Financial Services]
+Финансы
+[High School Student]
+Ученик средней школы
+[Home]
+Дом
+[ICQ - Providing Help]
+ICQ - поддержка
+[Law]
+Закон
+[Managerial]
+Управление
+[Medical/Health]
+Медицина/Здоровье
+[Non-Government Organization]
+Неправительственная организация
+[Professional]
+Профессионал
+[Retail]
+Розничный торговец
+[Retired]
+В отставке
+[Science & Research]
+Наука и исследования
+[Technical]
+Технический
+[University Student]
+Студент университета
+[Web Building]
+Web-службы
+[Other Services]
+Другое
+[Alumni Org.]
+Выпускники
+[Charity Org.]
+Благотворительная организация
+[Club/Social Org.]
+Клуб
+[Community Org.]
+Общественное объединение
+[Cultural Org.]
+Культурное объединение
+[Fan Clubs]
+Фан-клуб
+[Fraternity/Sorority]
+Клуб по интересам/Женский клуб
+[Hobbyists Org.]
+Организация по увлечениям
+[International Org.]
+Международная организация
+[Nature and Environment Org.]
+Природоохранная организация
+[Professional Org.]
+Профсоюз
+[Scientific/Technical Org.]
+Научно-техническая организация
+[Self Improvement Group]
+Самосовершенствующаяся группа
+[Spiritual/Religious Org.]
+Религиозная организация
+[Sports Org.]
+Спортивная организация
+[Support Org.]
+Организация поддержки
+[Trade and Business Org.]
+Торговая организация
+[Union]
+Объединение
+[Volunteer Org.]
+Волонтёрская организация
+[60-above]
+60 и более
+[Single]
+В одиночестве
+[Close relationships]
+В близких отношениях
+[Engaged]
+В помолвке
+[Married]
+В браке
+[Divorced]
+В разводе
+[Separated]
+Разведён(а)
+[Widowed]
+Вдовец/Вдова
+[Open relationship]
+В активном поиске
+[No description given]
+Без описания
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Передача файла была отменена, потому что один из выбранных файлов не читается с диска, так как был перемещен или удален.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Передача файла была отменена, потому что невозможно открыть локальный файл на запись. Скорее всего, вы пытаетесь сохранить файл в папку где нет права на запись.
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
+[Add to server list]
+Добавить в список на сервере
+[Show custom status details]
+Подробный xСтатус
+[Open ICQ profile]
+Профиль на сайте ICQ
+[Display all problems]
+Все проблемы
+[Display problems causing possible loss of data]
+Проблемы с возможной потерей данных
+[Display explanations for disconnection]
+Объяснения о разъединении
+[Display problems requiring user intervention]
+Требуется вмешательство пользователя
+[Do not display any problems (not recommended)]
+Скрыть все ошибки (не рекомендуется)
+[Simplified Chinese]
+Китайский (упрощённый)
+[Traditional Chinese]
+Китайский (традиционный)
+[Central European]
+Центральноевропейский
+[Cyrillic]
+Кириллица
+[Latin I]
+Западноевропейский
+[Baltic]
+Балтийский
+[Korean (Johab)]
+Корейский (Johab)
+[System default codepage]
+Системная кодировка
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Contacts]
+Контакты
+[Features]
+Возможности
+[Privacy]
+Приватность
+[Popups]
+Всплывающие окна
+[Popup Title]
+Заголовок окна
+[Sample Note]
+Пример заметки
+[Sample Warning]
+Пример предупреждения
+[Sample Error]
+Пример ошибки
+[Sample Fatal]
+Пример фатальной ошибки
+[Sample Spambot]
+Пример спамбота
+[%s server connection]
+%s подключение к серверу 
+[%s client-to-client connections]
+%s подключения между клиентами
+[User ID]
+ID пользователя
+[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+Вы не ввели номер ICQ.\nНастройте его в разделе Настройки->Сеть->ICQ и попробуйте снова.
+[Unable to connect to ICQ login server, SSL could not be negotiated]
+Невозможно установить SSL соединение с сервером ICQ
+[Unable to connect to ICQ login server]
+Невозможно подключиться к серверу ICQ
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Не удалось выделить порт для соединений между клиентами. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (firewall), настройте в нем несколько портов и укажите их в настройках (Сеть - соединения между пользователями)
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+Неудачное подключение.\nПоследовательность входа не удалась по неизвестной причине.\nПопробуйте позже.
+[Your connection with the ICQ server was abortively closed]
+Подключение к ICQ серверу закрыто.
+[The contact's information was too big and was truncated.]
+Информация о контакте слишком длинная и была обрезана.
+[Failed to create the correct sub-group, the using closest parent group.]
+Не удалось создать правильную подгруппу, будет использована ближайшая родительская группа.
+[NOT FOUND]
+НЕ НАЙДЕНО
+[ALREADY EXISTS]
+УЖЕ СУЩЕСТВУЕТ
+[INVALID DATA]
+НЕВЕРНЫЕ ДАННЫЕ
+[LIST FULL]
+СПИСОК ПОЛНЫЙ
+[FAILED]
+НЕУДАЧА
+[Select contacts you want to store on server.]
+Выберите контакты для хранения на сервере.
+[Ready...]
+Готово...
+[Server rate warning -> slowing down the process.]
+Предупреждение сервера о скорости -> замедляюсь...
+[Adding group "%s"...]
+Добавляю группу "%s"...
+[Uploading %s...]
+Загружаю %s...
+[No upload group available]
+Нет группы для загрузки
+[Deleting %s...]
+Удаляю %s...
+[Moving %s to group "%s"...]
+Перемещаю %s в группу "%s"...
+[Adding %s to visible list...]
+Добавляю %s в список видимости...
+[Adding %s to invisible list...]
+Добавляю %s в список невидимости...
+[Deleting %s from visible list...]
+Удаляю %s из списка видимости...
+[Deleting %s from invisible list...]
+Удаляю %s из списка невидимости...
+[Cleaning groups]
+Чищу группы
+[Updating group "%s"...]
+Обновляю группу "%s"...
+[Deleting group "%s"...]
+Удаляю группу "%s"...
+[All operations complete]
+Все операции завершены
+[Close]
+Закрыть
+[You have to be online to sychronize the server-list!]
+Вы должны быть подключены для синхронизации списка на сервере
+[** All contacts **]
+** Все контакты **
+[Angry]
+Злюсь
+[Taking a bath]
+В ванной
+[Tired]
+Устал
+[Birthday]
+День рождения
+[Drinking beer]
+Пью пиво
+[Thinking]
+Думаю
+[Eating]
+Кушаю
+[Watching TV]
+Смотрю телевизор
+[Meeting]
+Встреча
+[Coffee]
+Пью кофе
+[Listening to music]
+Слушаю музыку
+[Shooting]
+Фотографирую
+[Having fun]
+Веселюсь
+[On the phone]
+На телефоне
+[Gaming]
+Играю
+[Studying]
+Учусь
+[Shopping]
+По магазинам
+[Feeling sick]
+Болею
+[Sleeping]
+Сплю
+[Surfing]
+Серфинг
+[Working]
+Работаю
+[Typing]
+Набор текста
+[Picnic]
+Пикник
+[Cooking]
+Готовлю еду
+[Smoking]
+Курю
+[I'm high]
+Дую
+[On WC]
+В туалете
+[To be or not to be]
+Быть или не быть?
+[Watching pro7 on TV]
+Смотрю pro7
+[Love]
+Любовь
+[Hot Dog]
+Хот-дог
+[Rough]
+Грубый
+[Rock On]
+Рокер
+[Baby]
+Младенец
+[Soccer]
+Футбол
+[Pirate]
+Пират
+[Cyclop]
+Циклоп
+[Monkey]
+Мартышка
+[Birdie]
+Птенчик
+[Cool]
+Крутой
+[Evil]
+Демон
+[Alien]
+Инопланетянин
+[Scooter]
+Скутер
+[Mask]
+Маска
+[Money]
+Деньги
+[Pilot]
+Пилот
+[Afro]
+Африканец
+[St. Patrick]
+Св. Патрик
+[Headmaster]
+Директор
+[Lips]
+Губы
+[Ice-Cream]
+Мороженое
+[Pink Lady]
+Розовая
+[Up yours]
+Иди ты
+[Laughing]
+Смеюсь
+[Dog]
+Собака
+[Candy]
+Конфета
+[Crazy Professor]
+Сумасшедший профессор
+[Ninja]
+Ниндзя
+[Cocktail]
+Тусуюсь
+[Punch]
+Кулак
+[Donut]
+Пончик
+[Feeling Good]
+Клёво
+[Lollypop]
+Леденец
+[Oink Oink]
+Хрю-хрю
+[Kitty]
+Кошечка
+[Sumo]
+Сумо
+[Broken hearted]
+Разбитое сердце
+[Free for Chat]
+Хочу общаться
+[@home]
+Дома
+[@work]
+На работе
+[Strawberry]
+Клубника
+[Angel]
+Ангел
+[Pizza]
+Пицца
+[Snoring]
+Храплю
+[On my mobile]
+С мобильника
+[Depressed]
+Подавленный
+[Beetle]
+Жук
+[Double Rainbow]
+Радуга
+[Basketball]
+Баскетбол
+[Cupid shot me]
+Влюблён
+[Celebrating]
+Праздную
+[Sushi]
+Суши
+[Playing]
+Играет
+[Writing]
+Пишу
+[%s Custom Status]
+xСтатус %s
+[None]
+Нет
+[Custom Status]
+хСтатус
+[Greeting card:]
+Открытка:
+[ICQ XStatus]
+хСтатус ICQ
+[ICQ Warning]
+Предупреждение ICQ
+[ICQ Error]
+Ошибка ICQ
+[ICQ Fatal]
+Фатальная ошибка ICQ
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+Сервер не ответил на попытку подключения. Возможно, он временно недоступен. Попробуйте позже.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Попытка подключения с сервером прервалась с ошибкой. Возможно, пропало подключение к локальной сети.
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+Не удалось разрешить имя сервера в IP адрес. Скорее всего это связано с отсутствием подключения к Интернету (например, ваш модем отключился). Если вы используете прокси, попробуйте включить опцию "Определять имена хостов через прокси": Настройки->Сеть.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Не удалось подключиться к серверу. Возможно, сервер не работает. Пожалуйста, попробуйте подключиться позже.
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+Ваш прокси сервер отверг имя и пароль. Пожалуйста, проверьте их: Настройки->Сеть.
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+Сервер, к которому вы пытаетесь подключиться, не существует. Проверьте сервер: Настройки->Сеть->ICQ.
+[error]
+ошибка
+[%d Files]
+%d файлов
+[The file transfer was aborted by the other user.]
+Передача файла прервана пользователем на той стороне.
+[The file transfer failed: Proxy error]
+Передача файла не удалась: Ошибка прокси
+[The file transfer failed: Invalid request]
+Передача файла не удалась: Неправильный запрос
+[The file transfer failed: Proxy unavailable]
+Передача файла не удалась: Прокси недоступен
+[Failed to Initialize File Transfer. No valid files were specified.]
+Ошибка инициализации передачи файлов. Файл не указан.
+[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+Слишком большие файлы не могут быть отправлены за раз. Файлы больше 4 Гб могут быть отосланы только отдельно.
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+Невозможно начать передачу файла. Невозможно назначить локальный порт, и файловый прокси недоступен.
+[Connection lost during file transfer.]
+Соединение потеряно при передачи файла.
+[File transfer negotiation failed for unknown reason.]
+Передача файла не удалась по неизвестной причине.
+[The checksum of file "%s" does not match, the file is probably damaged.]
+Контрольная сумма файла "%s" не совпадает, файл может быть поврежден.
+[<invalid>]
+<неверно>
+[GMT-12:00 Eniwetok; Kwajalein]
+GMT-12:00 Эневеток, Кваджалейн
+[GMT-11:30]
+
+[GMT-11:00 Midway Island; Samoa]
+GMT-11:00 о. Мидуэй, Самоа
+[GMT-10:30]
+
+[GMT-10:00 Hawaii]
+GMT-10:00 Гавайи
+[GMT-9:30]
+
+[GMT-9:00 Alaska]
+GMT-09:00 Аляска
+[GMT-8:30]
+
+[GMT-8:00 Pacific Time; Tijuana]
+GMT-08:00 Тихоокеанское время; Тихуана
+[GMT-7:30]
+
+[GMT-7:00 Arizona; Mountain Time]
+GMT-07:00 Горное время (США и Канада)
+[GMT-6:30]
+
+[GMT-6:00 Central Time; Central America; Saskatchewan]
+GMT-06:00 Центральное время; Центральная Америка; Саскачеван
+[GMT-5:30]
+
+[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
+GMT-05:00 Восточное время; Богота, Лима, Кито; Индиана (восток)
+[GMT-4:30]
+
+[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
+GMT-04:00 Атлантическое время; Сантьяго; Каракас, Ла Пас
+[GMT-3:30 Newfoundland]
+GMT-03:30 Ньюфаундленд
+[GMT-3:00 Greenland; Buenos Aires; Georgetown]
+GMT-03:00 Гренландия; Буэнос-Айрес, Джорджтаун
+[GMT-2:30]
+
+[GMT-2:00 Mid-Atlantic]
+GMT-02:00 Среднеатлантическое время
+[GMT-1:30]
+
+[GMT-1:00 Cape Verde Islands; Azores]
+GMT-01:00 о-ва Зеленого мыса, Азорские о-ва
+[GMT-0:30]
+
+[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
+GMT+00:00 Время по Гринвичу: Дублин, Лондон, Лиссабон, Эдинбург
+[GMT+0:30]
+
+[GMT+1:00 Central European Time; West Central Africa; Warsaw]
+GMT+01:00 Центрально-европейское время; Зап. Центр. Африка; Варшава
+[GMT+1:30]
+
+[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
+GMT+02:00 Афины; Бухарест; Каир; Иерусалим; Хельсинки; Хараре
+[GMT+2:30]
+
+[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
+GMT+03:00 Москва, Санкт-Петербург, Багдад, Найроби, Кувейт
+[GMT+3:30 Tehran]
+GMT+03:30 Тегеран
+[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
+GMT+04:00 Баку, Ереван, Тбилиси; Абу-Даби, Мускат
+[GMT+4:30 Kabul]
+GMT+04:30 Кабул
+[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
+GMT+05:00 Екатеринбург; Исламабад, Карачи, Ташкент
+[GMT+5:30]
+
+[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
+GMT+06:00 Омск, Новосибирск, Алма-Ата; Астана, Дхака; Шри Джаяварденепура
+[GMT+6:30 Rangoon]
+GMT+06:30 Рангун
+[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
+GMT+07:00 Красноярск; Бангкок, Джакарта, Ханой
+[GMT+7:30]
+
+[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
+GMT+08:00 Иркутск, Улан-Батор; Перт; Тайпей; Сингапур; Гонконг, Пекин
+[GMT+8:30]
+
+[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
+GMT+09:00 Якутск; Сеул; Осака, Саппоро, Токио
+[GMT+9:30 Darwin; Adelaide]
+GMT+09:30 Дарвин; Аделаида
+[GMT+10:00 East Australia; Guam; Vladivostok]
+GMT+10:00 Владивосток; Гуам; Восточная Австралия
+[GMT+10:30]
+
+[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
+GMT+11:00 Магадан, Сахалин, Соломоновы о-ва
+[GMT+11:30]
+
+[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
+GMT+12:00 Камчатка, Фиджи, Маршалловы о-ва, Окленд, Веллингтон
+[January]
+Январь
+[February]
+Февраль
+[March]
+Март
+[April]
+Апрель
+[May]
+Май
+[June]
+Июнь
+[July]
+Июль
+[August]
+Август
+[September]
+Сентябрь
+[October]
+Октябрь
+[November]
+Ноябрь
+[December]
+Декабрь
+[Personal]
+Личное
+[Nickname]
+Ник
+[First name]
+Имя
+[Last name]
+Фамилия
+[Gender]
+Пол
+[About]
+Информация
+[Password]
+Пароль
+[Contact]
+Контакт
+[Primary e-mail]
+Основной e-mail
+[Secondary e-mail]
+Вторичный e-mail
+[Tertiary e-mail]
+Третий e-mail
+[Street]
+Улица
+[City]
+Город
+[State]
+Штат
+[ZIP/postcode]
+Индекс
+[Country]
+Страна
+[Phone number]
+Телефон
+[Fax number]
+Факс
+[Cellular number]
+Мобильный тел.
+[Personal Detail]
+Личные данные
+[Timezone]
+Часовой пояс
+[Year of birth]
+Год рождения
+[Month of birth]
+Месяц рождения
+[Day of birth]
+День рождения
+[Marital Status]
+Семейное положение
+[Spoken language 1]
+Язык 1
+[Spoken language 2]
+Язык 2
+[Spoken language 3]
+Язык 3
+[Originally from]
+По происхождению
+[Level]
+Ступень
 [Institute]
 ВУЗ
 [Degree]
@@ -340,500 +1863,61 @@
 Должность
 [Company industry]
 Вид деятельности
-[Agriculture]
-Сельское хозяйство
-[Arts]
-Искусство
-[Construction]
-Строительство
-[Consumer Goods]
-Потребительские товары
-[Corporate Services]
-Корпоративные услуги
-[Finance]
-Финансы
-[High Tech]
-Наукоемкие технологии
-[Legal]
-Юриспруденция
-[Medical & Health Care]
-Медицина и здравоохранение
-[Non-Profit Organization Management]
-Некоммерческая организация управления
-[Recreation, Travel & Entertainment]
-Отдых, путешествия и развлечения
-[Service Industry]
-Сфера обслуживания
-[Transportation]
-Транспорт
 [Personal Interests]
 Персональные интересы
-[Interest areas 1]
-Интересуюсь 1
-[Interest areas 2]
-Интересуюсь 2
-[Interest areas 3]
-Интересуюсь 3
-[Interest areas 4]
-Интересуюсь 4
 [Interest category 1]
 Категория 1
+[Interest areas 1]
+Интересуюсь 1
 [Interest category 2]
 Категория 2
+[Interest areas 2]
+Интересуюсь 2
 [Interest category 3]
 Категория 3
+[Interest areas 3]
+Интересуюсь 3
 [Interest category 4]
 Категория 4
-[50's]
-50-е
-[60's]
-60-е
-[70's]
-70-е
-[80's]
-80-е
-[Audio and Visual]
-Звук и визуализация
-[Business Services]
-Бизнес услуги
-[Culture]
-Культура
-[Ecology]
-Экология
-[Finance and Corporate]
-Финансы и корпорация
-[Health and Beauty]
-Здоровье и красота
-[Home Automation]
-Домашняя автоматизация
-[Household Products]
-Домашние продукты
-[ICQ - Help]
-ICQ-помощь
-[Mail Order Catalog]
-Заказ товаров по почте
-[Movies and TV]
-Кино и ТВ
-[News and Media]
-Новости и СМИ
-[Outdoors]
-Отдых на природе
-[Pets and Animals]
-Животные
-[Retail Stores]
-Розничная торговля
-[Science]
-Наука
-[Sporting and Athletic]
-Спорт и атлетика
-[%s Details]
-%s Детали
+[Interest areas 4]
+Интересуюсь 4
+[The password does not match your current password. Check Caps Lock and try again.]
+Пароль не совпадает с существующим. Проверьте Caps Lock и попробуйте снова.
+[Change ICQ Details]
+Изменить данные ICQ
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+Пароль не совпадает с паролем, введённым ранее. Проверьте Caps Lock и попробуйте снова.
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+Сервер ICQ не поддерживает пароли длиной более 8 символов. Используйте пароль по короче.
+[<unremovable once applied>]
+<нельзя удалить после ввода>
+[<empty>]
+<нет>
+[Unknown value]
+Неизвестное значение
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Вы сделали изменения, но не сохранили их на сервере. Закрыть окно?
+[Upload in progress...]
+Загрузка...
+[Upload in progress...%d%%]
+Загрузка...%d%%
+[Upload complete]
+Загрузка завершена
+[Upload FAILED]
+Загрузка не удалась
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+Вы не подключены к сети ICQ. Чтобы обновлять данные, нужно подключиться к сети ICQ.
+[Please authorize me to add you to my contact list.]
+Разрешите, пожалуйста, добавить Вас в список.
+[Enter a password for UIN %u:]
+Введите пароль для %u:
 [ (DC Established)]
  (ПП установлено)
 [ScreenName:]
 Имя AIM:
-
-;  ПОИСК КОНТАКТОВ
-
-[Keywords:]
-Кл. слова:
-[Organization:]
-Организация:
-[Language:]
-Язык:
-[Interests]
-Интересы:
-[Category:]
-Категория:
-[60-above]
-60 и более
-[Fan Clubs]
-Фан-клуб
-
-;  хСТАТУСЫ
-
-[Taking a bath]
-В ванной
-[Tired]
-Устал
-[Drinking beer]
-Пью пиво
-[Thinking]
-Думаю
-[Watching TV]
-Смотрю телевизор
-[Listening to music]
-Слушаю музыку
-[Shooting]
-Фотографирую
-[Gaming]
-Играю
-[Studying]
-Учусь
-[Shopping]
-По магазинам
-[Feeling sick]
-Болею
-[Surfing]
-Серфинг
-[Browsing]
-Брожу
-[Picnic]
-Пикник
-[I'm high]
-Дую
-[To be or not to be]
-Быть или не быть?
-[Watching pro7 on TV]
-Смотрю pro7
-[Having fun]
-Веселюсь
-[Hot Dog]
-Хот-дог
-[Rough]
-Грубый
-[Rock On]
-Рокер
-[Baby]
-Младенец
-[Soccer]
-Футбол
-[Pirate]
-Пират
-[Cyclop]
-Циклоп
-[Monkey]
-Мартышка
-[Birdie]
-Птенчик
-[Cool]
-Крутой
-[Evil]
-Демон
-[Scooter]
-Скутер
-[Money]
-Деньги
-[Pilot]
-Пилот
-[Afro]
-Африканец
-[St. Patrick]
-Св. Патрик
-[Headmaster]
-Директор
-[Lips]
-Губы
-[Ice-Cream]
-Мороженое
-[Pink Lady]
-Розовая
-[Up yours]
-Иди ты
-[Dog]
-Собака
-[Candy]
-Конфета
-[Crazy Professor]
-Сумасшедший профессор
-[Ninja]
-Ниндзя
-[Cocktail]
-Тусуюсь
-[Punch]
-Кулак
-[Donut]
-Пончик
-[Feeling Good]
-Клёво
-[Lollypop]
-Леденец
-[Oink Oink]
-Хрю-хрю
-[Kitty]
-Кошечка
-[Sumo]
-Сумо
-[Broken hearted]
-Разбитое сердце
-[@home]
-Дома
-[@work]
-На работе
-[Strawberry]
-Клубника
-[Angel]
-Ангел
-[Pizza]
-Пицца
-[Snoring]
-Храплю
-[On my mobile]
-С мобильника
-[Beetle]
-Жук
-[Double Rainbow]
-Радуга
-[Basketball]
-Баскетбол
-[Cupid shot me]
-Влюблён
-[Celebrating]
-Праздную
-[Sushi]
-Суши
-[Writing]
-Пишу
-
-;  УЧЁТНЫЕ ЗАПИСИ
-
-[ICQ Number:]
-Номер ICQ:
-[Create a new ICQ account]
-Создать новую учётную запись ICQ
-[ICQ accepts only up to 8 characters in password.]
-ICQ принимает максимум 8 символов в пароле.
-
-;  Всплывающие окна и окна предупреждений
-
-[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
-Вы уверены, что хотите отозвать авторизацию?\nНекоторые клиенты при этом удалят вас из списка контактов.
-[Unable to connect to migrated ICQ communication server]
-Невозможно подключиться к мигрированному серверу общения ICQ
-[Unable to connect to ICQ communication server]
-Невозможно подключиться к серверу общения ICQ
-[You could not sign on because the server returned invalid data. Try again.]
-Вы не вошли в сеть, так как сервер вернул неверные данные. Попробуйте позже.
-[You have been disconnected from the ICQ network because the current server shut down.]
-Вас разъединили от сети ICQ потому что текущий сервер был выключен.
-[Connection failed.\nYour ICQ number or password was rejected (%d).]
-Неудачное подключение.\nВаш номер или пароль не приняты сервером (%d).
-[Connection failed.\nServer has too many connections from your IP (%d).]
-Неудачное подключение.\nСлишком много подключений с вашего IP (%d).
-[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
-Неудачное подключение.\nВы слишком часто подключаетесь,\nпопробуйте через 10-20 минут (%d).
-[Connection failed.\nThe server did not accept this client version.]
-Неудачное подключение.\nСервер не принял эту версию клиента.
-[The server sent warning, this version is getting old.\nTry to look for a new one.]
-Сервер послал предупреждение, эта версия клиента старая.\nПоищите новую версию.
-[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
-Неудачное подключение.\nСервер вас не принял по неизвестной причине.\nЭто может случиться, если ваш номер уже подключён.
-[Connection failed.\nSecure (MD5) login is not supported on this account.]
-Неудачное подключение.\nБезопасный вход (MD5) не поддерживается на этой учётной записи.
-[Connection failed.\nUnknown error during sign on: 0x%02x]
-Неудачное подключение.\nНеизвестная ошибка при входе: 0x%02x
-[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
-Сервер закрыл соединение, так как вы вошли с другого места используя тот же номер ICQ.
-[Unknown runtime error: 0x%02x]
-Неизвестная ошибка: 0x%02x
-[A server migration has failed because the server returned invalid data. You must reconnect manually.]
-Переход с сервера на сервер не удался так как сервер вернул неверные данные. Вам нужно подключиться вручную.
-[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
-Вы отправляете слишком быстро. Попробуйте отправить сообщение позже.\r\nSNAC(4.1) ошибка x02
-[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
-Вы отправляете слишком быстро. Попробуйте отправить сообщение позже.\r\nSNAC(4.1) ошибка x03
-[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-Этот пользователь ушел из сети. Попробуйте отправить оффлайн-сообщение.\r\nSNAC(4.1) ошибка x04
-[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
-Клиент получателя не поддерживает этот тип сообщения.\r\nSNAC(4.1) ошибка x09
-[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
-Вы отправили слишком длинное сообщение. Клиент получателя не поддерживает его.\r\nSNAC(4.1) Error x0A
-[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
-Формат SNAC не принят сервером.\nSNAC(4.1) ошибка x0E
-[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
-Пользователь временно недоступен. Попробуйте отправить сообщение позже.\r\nSNAC(4.1) Error x13
-[SNAC(4.1) SENDMSG Error (x%02x)]
-SNAC(4.1) Ошибка SENDMSG (x%02x)
-[** This message was blocked by the ICQ server ** The message was invalid.]
-** Это сообщение было заблокировано сервером ICQ ** Сообщение имело неверный формат.
-[** This message was blocked by the ICQ server ** The message was too long.]
-** Это сообщение было заблокировано сервером ICQ ** Сообщение было слишком длинным.
-[** This message was blocked by the ICQ server ** The sender has flooded the server.]
-** Это сообщение было заблокировано сервером ICQ ** Отправитель забросал сервер сообщениями.
-[** This message was blocked by the ICQ server ** You are too evil.]
-** Это сообщение было заблокировано сервером ICQ ** Нехороший вы человек...
-[** Unknown missed message event.]
-** Неизвестное пропущеное событие.
-[User "%s" was removed from server list.]
-Пользователь "%s" был удален из списка на сервере.
-[Server contact list is unavailable, Miranda will use local contact list.]
-Список контактов на сервере недоступен, Miranda будет использовать локальный.
-[Updating of server contact failed.]
-Не удалось обновить контакт на сервере.
-[Adding of privacy item to server list failed.]
-Не удалось добавить запись конфиденциальности.
-[Removing of privacy item from server list failed.]
-Не удалось удалить запись конфиденциальности.
-[Adding of contact to server list failed.]
-Не удалось добавить контакт на сервер.
-[Adding of group to server list failed.]
-Не удалось добавить группу на сервер.
-[Removing of contact from server list failed.]
-Не удалось удалить контакт с сервера.
-[Updating of group on server list failed.]
-Не удалось обновить группу на сервере.
-[Removing of group from server list failed.]
-Не удалось удалить группу с сервера.
-[Moving of user to another group on server list failed.]
-Не удалось переместить контакт в другую группу на сервере.
-[Renaming of server group failed.]
-Не удалось переименовать группу на сервере.
-[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-Передача файла была отменена, потому что один из выбранных файлов не читается с диска, так как был перемещен или удален.
-[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
-Передача файла была отменена, потому что невозможно открыть локальный файл на запись. Скорее всего, вы пытаетесь сохранить файл в папку где нет права на запись.
-[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
-Неудачное подключение.\nПоследовательность входа не удалась по неизвестной причине.\nПопробуйте позже.
-[Server rate warning -> slowing down the process.]
-Предупреждение сервера о скорости -> замедляюсь...
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Вы не ввели номер ICQ.\nНастройте его в разделе Настройки->Сеть->ICQ и попробуйте снова.
-[The receiver has an invalid user ID.]
-Неверная идентификация получателя.
-[Bad data (internal error #1)]
-Некорректные данные (внутренняя ошибка №1)
-[Bad data (internal error #2)]
-Некорректные данные (внутренняя ошибка №2)
-[Confirmation]
-Подтверждение
-[ICQ Warning]
-Предупреждение ICQ
-[ICQ Error]
-Ошибка ICQ
-[ICQ Fatal]
-Фатальная ошибка ICQ
-[ICQ Note]
-Информация ICQ
-[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
-Сервер не ответил на попытку подключения. Возможно, он временно недоступен. Попробуйте позже.
-[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-Попытка подключения с сервером прервалась с ошибкой. Возможно, пропало подключение к локальной сети.
-[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Не удалось разрешить имя сервера в IP адрес. Скорее всего это связано с отсутствием подключения к Интернету (например, ваш модем отключился). Если вы используете прокси, попробуйте включить опцию "Определять имена хостов через прокси": Настройки->Сеть.
-[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
-Не удалось подключиться к серверу. Возможно, сервер не работает. Пожалуйста, попробуйте подключиться позже.
-[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-Ваш прокси сервер отверг имя и пароль. Пожалуйста, проверьте их: Настройки->Сеть.
-[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-Сервер, к которому вы пытаетесь подключиться, не существует. Проверьте сервер: Настройки->Сеть->ICQ.
-[Please authorize me to add you to my contact list.]
-Разрешите, пожалуйста, добавить Вас в список.
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Изменения вступят в силу при следующем входе в сеть ICQ.
-[Some options are grayed out because they can only be changed when you are online.]
-Некоторые настройки можно изменять только после подключения к сети ICQ.
-[Your connection with the ICQ server was abortively closed]
-Подключение к ICQ серверу закрыто.
-[Unable to connect to ICQ login server]
-Невозможно подключиться к серверу ICQ
-[Contact deleted & further events blocked.]
-Контакт удален, новые события заблокированы.
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Сервер ICQ не поддерживает пароли длиной более 8 символов. Используйте пароль по короче.
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не совпадает с паролем, введённым ранее. Проверьте Caps Lock и попробуйте снова.
-[The password does not match your current password. Check Caps Lock and try again.]
-Пароль не совпадает с существующим. Проверьте Caps Lock и попробуйте снова.
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Вы сделали изменения, но не сохранили их на сервере. Закрыть окно?
-[Contact "%s" has closed the message window.]
-Контакт "%s" закрыл окно сообщений.
-[The contact does not support receiving offline messages.]
-Контакт не поддерживает прием оффлайн сообщений.
-[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
-Служба отправки сообщений временно не доступна. Попробуйте позже.\r\nSNAC(4.1) Ошибка x05
-[Contact "%s" lost its authorization in the server list.]
-Контакт "%s" потерял авторизацию в списке на сервере.
-[Contact "%s" was authorized in the server list.]
-Контакт "%s" авторизирован в списке на сервере.
-[Failed to Initialize File Transfer. No valid files were specified.]
-Ошибка инициализации передачи файлов. Файл не указан.
-[%s has closed the message window.]
-%s закрыл окно беседы.
-[The file transfer failed: Proxy error]
-Передача файла не удалась: Ошибка прокси
-[The file transfer failed: Invalid request]
-Передача файла не удалась: Неправильный запрос
-[The file transfer failed: Proxy unavailable]
-Передача файла не удалась: Прокси недоступен
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
-Слишком большие файлы не могут быть отправлены за раз. Файлы больше 4 Гб могут быть отосланы только отдельно.
-[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
-Невозможно начать передачу файла. Невозможно назначить локальный порт, и файловый прокси недоступен.
-[Connection lost during file transfer.]
-Соединение потеряно при передачи файла.
-[File transfer negotiation failed for unknown reason.]
-Передача файла не удалась по неизвестной причине.
-[The checksum of file "%s" does not match, the file is probably damaged.]
-Контрольная сумма файла "%s" не совпадает, файл может быть поврежден.
-[Error uploading avatar to server, server refused to accept the image.]
-Ошибка загрузки аватара на сервер, сервер не принял изображение.
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Не удалось выделить порт для соединений между клиентами. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (firewall), настройте в нем несколько портов и укажите их в настройках (Сеть - соединения между пользователями)
-[Spambot Detected]
-Обнаружен спамбот
-[Connection failed.\nThe server is temporarily unavailable (%d).]
-Ошибка подключения.\nСервер временно недоступен (%d).
-[Error uploading avatar to server, server temporarily unavailable.]
-Ошибка загрузки аватара на сервер. Сервер временно недоступен.
-[Failed to request offline messages. They may be received next time you log in.]
-Ошибка запроса оффлайн сообщений. Они могут быть получены при следующем подключении.
-[Secure login failed.\nInvalid key length.]
-Ошибка защищённого входа.\nНеверная длина ключа
-[Secure login failed.\nInvalid server response.]
-Ошибка защищённого входа.\nНеверный ответ сервера.
-[The contact's information was too big and was truncated.]
-Информация о контакте слишком длинная и была обрезана.
-[The file transfer was aborted by the other user.]
-Передача файла прервана пользователем на той стороне.
-[Unable to connect to ICQ login server, SSL could not be negotiated]
-Невозможно установить SSL соединение с сервером ICQ
-[Failed to create the correct sub-group, the using closest parent group.]
-Не удалось создать правильную подгруппу, будет использована ближайшая родительская группа.
-
-;  ДИАЛОГ УСТАНОВКИ хСТАТУСА
-
-[Custom Status "%s" Details]
-xСтатус "%s"
-[Retrieving custom status details...]
-Запрос текста хСтатуса...
-
-;  ДИАЛОГ СМЕНЫ ПАРОЛЯ
-
-[Please re-type your new password:]
-Повторите ваш новый пароль:
-[Enter your current password:]
-Введите текущий пароль:
-[Enter ICQ Password]
-Введите пароль ICQ
-[Confirm Password Change]
-Подтвердить смену пароля
-
-;  ДИАЛОГ ВВОДА ПАРОЛЯ
-
-[Enter a password for UIN %u:]
-Введите пароль для %u:
-[Remember this session password]
-Запомнить пароль сеанса
-[Enter a password for UIN %d:]
-Введите пароль для номера %d:
-
-;  СООБЩЕНИЯ
-
-[Greeting card:]
-Открытка:
-[Incoming URL:]
-Входящий URL:
-[<invalid>]
-<неверно>
-[<unremovable once applied>]
-<нельзя удалить после ввода>
-
-;   ЗНАЧКИ
-
-[IcqAccountChooser]
-Выбор учётной записи ICQ
-
-;   ДРУГОЕ
-[Open ICQ profile]
-Профиль на сайте ICQ
+[<not specified>]
+<не указано>
+[Member since:]
+Участник с:
+[%s Details]
+%s Детали

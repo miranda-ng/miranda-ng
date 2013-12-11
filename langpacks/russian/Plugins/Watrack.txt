@@ -573,14 +573,46 @@ VBR или нет
 Прятать если ничего не проигрывается
 [Use popup action buttons]
 Использовать кнопки действий
+[Left click]
+
+[Right click]
+Правый щелчок
+[Default colors]
+По умолчанию
+[Windows colors]
+Цвета Windows
+[Custom colors]
+Задать цвета
+[artist]
+исполнитель
+[album]
+альбом
+[genre]
+жанр
 [Picture transform]
 Трансформация изображения
+[Kilobytes]
+Килобайт
+[Megabytes]
+Мегабайт
+[Precision]
+знаков после запятой
 [none]
 нет
 [kb]
 кб
+[Kb]
+Кб
 [KB]
 Кб
+[Color]
+Цвет
+[Output]
+Вывод
+[Check]
+Отметить
+[Choose font...]
+Шрифт...
 [Genres]
 Жанры
 [[X]Status Title / Text]
@@ -593,8 +625,6 @@ VBR или нет
 Информация о серии
 [Episode]
 Эпизод
-[Kinopoisk info page]
-Информация с Кинопоиска
 [Last.fm error: ]
 Ошибка Last.fm:\s
 [Client is banned]
@@ -607,10 +637,8 @@ VBR или нет
 Похожие исполнители
 [Music Info from ]
 Информация о музыке от\s
-[ answer you]
- ответил
 [You Get Error]
-У Вас ошибка
+У вас ошибка
 [Slider]
 Бегунок	
 [Slider Hovered]
