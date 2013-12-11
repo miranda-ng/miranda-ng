@@ -142,6 +142,8 @@ SSL
 Адкл.
 [Host address]
 &OK
+[Server description]
+Апісанне сервера
 [Network]
 Сеціва
 [Channels on server]
@@ -336,6 +338,8 @@ CTCP %s адказ ад %s: %s
 Пакажыце чыннік
 [Ban'n Kick]
 Выгнаць і забаніць
+[Jerk]
+Jerk
 [*Disconnected*]
 *Адключаны*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
@@ -347,6 +351,8 @@ CTCP %s адказ ад %s: %s
 Функцыя праверкі прыяцеляў уключана
 [The buddy check function is disabled]
 Функцыя праверкі прыяцеляў выключана
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+Няслушныя параметры. Выкарыстанне:/sleep [ms], мс павінна быць ад 0 да 4000.
 [Ignore system is enabled]
 Сістэма ігнаравання укл
 [Ignore system is disabled]
@@ -436,6 +442,8 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Вакно сервера
 [Show channel]
 Паказаць канал
+[WhoIs]
+WhoIs
 [Incoming DCC Chat]
 Уваходны DCC-чат
 [Logo (48x48)]
@@ -514,6 +522,8 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Змяніць ігнор
 [Account]
 Конт
+[DCC'n CTCP]
+DCC'n CTCP
 [Advanced]
 Дадаткова
 ;file \protocols\IRCG\src\output.cpp
@@ -616,6 +626,8 @@ CTCP %s адказ пасланы для %s: %s
 Увядзіце імя чат-пакоі для запрашэння
 [Invite to channel]
 Запрасіць у чат-пакой
+[NickServ]
+NickServ
 [Register nick]
 Зарэгістраваць нік
 [Auth nick]
@@ -718,6 +730,10 @@ Nickserv забіць фантому
 [Offline]
 Адключаны
 ;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+Хутчэй! Шукае ў сетцы для дакладнай адпаведнасці толькі мянушкай. Маска хосту з'яўляецца неабавязковай і забяспечвае дадатковую абарону пры выкарыстанні. Групавыя сімвалы (* і?) Не дапускаюцца.
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
+Марудней! Шукае ў сетцы для мянушак адпаведныя падстаноўкі. Маска хаста з'яўляецца абавязковай і не менш за 4 знакаў
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Налады не захаваны.\n\n Поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
 ;file \protocols\IRCG\src\windows.cpp
@@ -727,6 +743,8 @@ Nickserv забіць фантому
 Канал
 [Mode]
 Рэжым
+[%s - Filtered - %d items]
+%s - адфільтравана - %d
 [---- Not listed server ----]
 ----Сервер па-за спісам---
 [Type new server address here]

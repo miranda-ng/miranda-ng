@@ -1,10 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
+[ICQ protocol support for Miranda NG.]
+Падтрымка пратакола ICQ для Miranda NG.
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 Нумар ICQ:
@@ -836,6 +838,10 @@ ICQ
 Узбекістан
 [Vanuatu]
 Вануату
+[Venezuela]
+Венесуэла
+[Vietnam]
+В'етнам
 [Yemen]
 Емен
 [Zambia]
@@ -1876,6 +1882,8 @@ GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд
 Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць акно?
 [Upload in progress...]
 Загрузка...
+[Upload in progress...%d%%]
+Запампоўка...%d%%
 [Upload complete]
 Загрузка завершана
 [Upload FAILED]

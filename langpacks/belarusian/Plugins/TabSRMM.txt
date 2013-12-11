@@ -140,6 +140,8 @@ Wikipedia
 Капіяваць
 [Cut]
 Выразаць
+[Paste]
+Уставіць
 [Select all]
 Вылучыць усё
 [Clear]
@@ -153,6 +155,8 @@ Wikipedia
 [&Open at this position]
 Адкрыць у гэтым месцы
 ;file \plugins\TabSRMM\res\msgwindow.rc
+[&Retry]
+Паўтарыць
 [&Cancel]
 С&касаваць
 [&Send]
@@ -180,8 +184,6 @@ Wikipedia
 Глабальная ці свая вышыня панэлі
 [Set size to]
 Усталяваць памер
-[Compact (1 Line)]
-Кампактны (1 радок)
 [Normal (2 Lines)]
 Звычайны (2 радкі)
 [Large]
@@ -716,6 +718,8 @@ Esc зачыняе сесію (інакш - згортвае)
 &Адкрыць у новым акне
 [&Open in existing window]
 Адкрыць у &бягучым акне
+[Editor]
+Рэдактар
 [Paste formatted Text]
 Уставіць фарматаваны тэкст
 [Paste and Send immediately]
@@ -1218,6 +1222,8 @@ TabSRMM: Набірае
 Скіны
 [Avatars]
 Аватары
+[Saved TabSRMM avatars]
+Захаваныя аватары
 [Group chat logs root]
 Тэчка логаў
 ;file \plugins\TabSRMM\src\modplus.cpp
@@ -1499,6 +1505,8 @@ TabSRMM: Набірае
 Задача адпраўкі з затрымкай паспяхова выканана. \nАрыгінальнае паведамленне: %s
 [<All contacts>]
 <Усе кантакты>
+[Removed]
+Выдаліць
 [Failed]
 Не атрымалася
 [Pending]
@@ -1576,6 +1584,8 @@ TabSRMM: Набірае
 Срэбны цень
 [Custom (use own gradient colors)]
 Карыстацкі (уласныя каляровыя градыенты)
+[Change skin]
+Змяніць скін
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 Налады акна паведамленняў

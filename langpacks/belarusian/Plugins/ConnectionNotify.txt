@@ -75,6 +75,8 @@ X
 Дзеянне
 [Plugins]
 Плагіны
+[New Connection Notification]
+Паведамленне пра новае далучэнне
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Спачатку зачыніць налады

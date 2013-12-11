@@ -290,6 +290,8 @@
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заблакаваны)
+[%s ago]
+%s назад
 [Log on:]
 Далучаны:
 [Unread emails:]
@@ -312,6 +314,10 @@
 Капіяваць усё
 [Copy avatar]
 Капіяваць аватар
+[<No Label>: ]
+<Без меткі>: 
+[<No Value>]
+<Без значэння>
 [Fav. contacts]
 Абраныя
 [Other]
@@ -325,6 +331,8 @@
 Дзень нараджэння:
 [Client:]
 Кліент:
+[Email]
+Email
 [Email:]
 Пошта:
 [Gender:]

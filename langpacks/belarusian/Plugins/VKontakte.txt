@@ -7,6 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Падтрымка пратаколу ВКонтакте ў Miranda NG.
+;file \protocols\VKontakte\res\resource.rc
 [E-mail or phone number:]
 Пошта ці нумар тэлефона:
 [Password:]
@@ -21,17 +22,26 @@
 Прыняць
 [Cancel]
 Скасаваць
+;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Абразок формы 
 [Protocols]
 Пратаколы
 [VKontakte]
 Вконтакте
+;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
+;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Сеціва
 [Account]
 Конт
+;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
+;file \protocols\VKontakte\src\vk_thread.cpp
+[Attachments:]
+Укладанні:
+[Photo]
+Фота

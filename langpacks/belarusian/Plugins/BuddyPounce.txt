@@ -93,6 +93,22 @@
 Пры далучэнні
 [To Online]
 На "Далучаны"
+[To Away]
+На Адсутнічаю
+[To NA]
+На Недасяжны
+[To Occupied]
+На Заняты
+[To DND]
+На Не турбаваць
+[To Free For Chat]
+На Вольны
+[To Invisible]
+На Нябачны
+[To On The Phone]
+На Тэлефон
+[To Out To Lunch]
+На За ежай
 [The Message    (%d Characters)]
 Паведамленне (%d сімвалаў)
 [Couldn't allocate enough memory]

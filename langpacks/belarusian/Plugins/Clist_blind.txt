@@ -79,7 +79,7 @@
 [Contact List Sorting]
 Сартаванне спісу кантактаў
 [Window]
-Акно
+Вакно
 [Always on top]
 Па-над усімі вокнамі
 [Tool style main window]
@@ -166,6 +166,8 @@
 Бардзюры на панэлях
 [Show resize grip indicator]
 Індыкатар зм. памеру
+[&Main menu]
+Галоўнае меню
 [E&xit]
 Вы&хад
 [&Status]

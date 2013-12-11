@@ -1,31 +1,43 @@
 ﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
-;  File: MsgPopup.dll, messagepopup.dll
-;  Module: Message Popup. Replace a mesaage boxes to Popups
-;  Versions: 0.0.0.1
-;  URL: http://miranda-im.org/download/feed.php?dlfile=1228
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.1.3
+;  Authors: StDenis
 ;============================================================
+[Plugin replaces message boxes (those having only OK button) with popups.]
+Замяняе дыялогавыя вокны (якія маюць толькі кнопку ОК) на усплывальныя вокны.
 [ASTERISK style]
 Зорачка
-[Foreground]
-Тэкст
+[Background color]
+Колер фону
+[Text color]
+Колер тэксту
 [ERROR style]
 Памылка
-[QUESTION style]
-Пытанне
 [EXCLAMATION style]
 Усклік
+[QUESTION style]
+Пытанне
+[Preview]
+Тэст
+[Timeout]
+Таймаўт
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
 Адмысловыя значэнні "таймаўту":\n -1 - увесь час, 0 - значэнне па змаўчанні
 [Emit a sound]
 Граць гук
-[MessagePopup - demo]
-MessagePopup - Дэма
-[This stuff will replace MessageBox'es [whose have only OK button] into Popups]
-Замяняе дыялогавыя вокны з папярэджаннямі на ўсплывальныя вокны. Працуе сумесна з Popup. Пераклад: Wattman.
-[Message with error]
-Папярэджанне пра памылку
+;file \plugins\MsgPopup\src\main.cpp
+[Error]
+Памылка
+[MessagePopup]
+Папярэджанні
+[Popups]
+Усплывальныя вокны
+;file \plugins\MsgPopup\src\options.cpp
 [Message with exclamation]
 Усклік
+[Message with error]
+Папярэджанне пра памылку
 [Message with asterisk]
 Паведамленне *з зорачкай*

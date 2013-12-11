@@ -57,6 +57,8 @@
 [Smiley Button]
 Кнопка смайла
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Show Smiley Selection Window]
+Акно выбару эмоцый
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 Смайлы

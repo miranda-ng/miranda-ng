@@ -144,8 +144,6 @@
 Аднаўляць становішча
 [&Open Options]
 &Адчыніць налады
-[Item context]
-Кантэкст
 [&Edit / Rename]
 &Кіраваць/пераназваць
 [NEW]
@@ -178,16 +176,12 @@ BL&OB
 &Назіраць
 [&Delete]
 &Выдаліць
-[Null Mod context]
-Null Mod кантэкст
 [&Rename]
 &Пераназваць
 [Copy To Contact]
 Капіяваць у кантакт...
 [Export Module]
 Экспартаваць плагін...
-[Contact menu]
-Меню кантакту
 [&Clone]
 Кланаваць
 [Export Contact]
@@ -200,20 +194,14 @@ Null Mod кантэкст
 З устаўленага тэксту...
 [&Add Module]
 Дадаць плагін...
-[NULL contact menu]
-NULL меню кантакту
 [Export Settings]
 Экспартаваць налады
-[Contacts menu]
-Меню кантактаў
 [Export Contacts]
 Экспартаваць кантакты...
 [Import Contacts]
 Імпартаваць кантакты
 [Export Module from all contacts]
 Экспартаваць плагін з усіх кантактаў...
-[new item]
-новы пункт
 [Watch Window]
 Акно назіранняў
 [Reload Watch List]
@@ -330,6 +318,8 @@ INI файлы
 Загрузка кантактаў...
 [Loading modules...]
 Загрузка плагінаў...
+[Module tree not found]
+Модуль дрэва не знойдзены
 [Contacts]
 Кантакты
 [HANDLE]
@@ -348,6 +338,8 @@ HANDLE
 Тып
 [Size]
 Памер
+[BLOB]
+BLOB
 [BYTE]
 байт
 [WORD]

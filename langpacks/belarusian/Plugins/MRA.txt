@@ -5,6 +5,8 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
+Пратакол Mail.ru Agent для Miranda NG.
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 Пошта:
@@ -156,15 +158,66 @@ xСтатус "%s"
 Напісаў:
 [Select e-mail]
 Выбар электроннай пошты
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+[Male]
+Мужчынскі
+[Female]
+Жаночы
+[January]
+Студзень
+[February]
+Люты
+[March]
+Сакавік
+[April]
+Красавік
+[May]
+Травень
+[June]
+Чэрвень
+[July]
+Ліпень
+[August]
+Жнівень
+[September]
+Верасень
+[October]
+Кастрычнік
+[November]
+Лістапад
+[December]
+Снежань
+[Aries]
+Авен
+[Taurus]
+Цялё
+[Gemini]
+Двайняты
+[Cancer]
+Рак
+[Leo]
+Леў
+[Virgo]
+Панна
+[Libra]
+Шалі
+[Scorpio]
+Скарпіён
+[Sagittarius]
+Стралец
+[Capricorn]
+Казярог
+[Aquarius]
+Вадаліў
+[Pisces]
+Рыбы
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 Далучэнне плагіна аватараў
-[Avatars]
-Аватары
 [Avatars: server return HTTP code: %lu]
 Аватары: сервер вярнуў HTTP код: %lu
-[Avatars: can't open file %s, error]'
-Аватары: немагчыма адчыніць файл %s, памылка
+[Avatars: can't open file %s, error]
+Аватары: неамагчма адчыніць %s, памылка
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Для канферэнцый патрэбны убудаваны плагін чатаў.
@@ -238,6 +291,8 @@ xСтатус "%s"
 [Please authorize me]
 Калі ласка, аўтарызуй
 ;file \protocols\MRA\src\MraFilesQueue.cpp
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
+Атрыманне файлаў: не атрымалася вылучыць месца на дыску для файла, памер %lu байт, памылка
 [Receive files: can't open file %s, error]
 Атрыманне файлаў: немагчыма адкрыць файл %s, памылка
 [Receive files: request for file %s not sent, error]
@@ -247,6 +302,10 @@ xСтатус "%s"
 [Send files: requested file: %S - not found in send files list.]
 Адпраўка файлаў: запытаны файл: %S - не знойдзены сярод файлаў падрыхтаваных да адпраўкі
 ;file \protocols\MRA\src\MraIcons.cpp
+[Protocols]
+Пратаколы
+[MRA]
+Mail.ru
 [Main Menu]
 Галоўнае меню
 [Contact Menu]
@@ -296,6 +355,11 @@ Mail.ru дадаткова
 Мой блог статус
 [Written]
 Напісаў
+;file \protocols\MRA\src\Mra_menus.cpp
+[Are you sure?]
+Вы ўпэўнены?
+[Services...]
+Службы...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Сеціва
@@ -305,6 +369,8 @@ Mail.ru дадаткова
 Злучэнні
 [Files]
 Файлы
+[Avatars]
+Аватары
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 Калі ласка, увядзіце e-mail у наладах
@@ -433,5 +499,3 @@ MRIM_CS_SMS_ACK: не знойдзены ў чэргі
 Музыка
 [Dating]
 Сустрэча
-[Are you sure?]
-Вы ўпэўнены?

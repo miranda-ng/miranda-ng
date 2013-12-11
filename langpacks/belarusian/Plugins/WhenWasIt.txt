@@ -192,6 +192,8 @@
 У %s быў дзень нараджэння %d дзён назад.
 [%s had birthday yesterday.]
 У %s учора быў дзень нараджэння.
+[%s has birthday today (Should not happen, please report).]
+%s святкуе сёння дзень нараджэння.
 [Birthday - %s]
 Дзень нараджэння %s
 [He]

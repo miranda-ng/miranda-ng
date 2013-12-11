@@ -62,8 +62,8 @@
 Адключыць гукі
 [Enable sounds]
 Уключыць гукі
-[Frame Background]
-Фон фрэйма
+[Frame background]
+Колер фону
 [Bass library]
 Бібліятэка Bass
 [Sounds enabled]

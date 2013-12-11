@@ -150,6 +150,10 @@
 Паведамленне статусу...
 [%s (locked)]
 %s (заблакаваны)
+[External Applications]
+Знешнія прыкладанні
+[Miranda Related]
+Адносіцца да Miranda
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<current>]
 <бягучы>

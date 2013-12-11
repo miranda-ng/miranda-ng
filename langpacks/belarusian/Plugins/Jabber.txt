@@ -170,6 +170,8 @@ Jabber Пароль
 Праца
 [Internet]
 Інтэрнэт
+[X400]
+X400
 [Jabber vCard: Add Phone Number]
 Jabber vCard: даданне тэлефона
 [Phone number:]
@@ -218,6 +220,10 @@ PCS
 Апошнія наведаныя чаты:
 [Bookmarks]
 Закладкі
+[JID List]
+Спіс JID
+[JID:]
+JID:
 [Register]
 Рэгістрацыя
 [Invite Users]
@@ -478,6 +484,8 @@ Jabber Ad-Hoc каманды на %s
 [Supports Jingle]
 Падтрымка Jingle
 ;file \protocols\JabberG\src\jabber_captcha.cpp
+[Enter the text you see]
+Увядзіце тэкст, які бачыце
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Няма
@@ -837,6 +845,8 @@ Jabber Рэсурс
 Статуснае паведамленне
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[CHAT plugin is required for conferences. Install it before chatting]
+Для канферэнцый патрэбны убудаваны плагін чатаў.
 [To]
 У
 [From]
@@ -1315,6 +1325,8 @@ Jabber Рэсурс
 Змена ролі
 [Status changes]
 Змены статусу
+[JID]
+JID
 [Nick Name]
 Нік
 [Group]
@@ -1587,6 +1599,12 @@ XML для MS Excel (кадзіроўка UTF-8)
 Капіяваць
 [Copy only this value]
 Капіяваць значэнне
+[format]
+фармат
+[Unknown format]
+Невядомы фармат
+[<Photo not available while offline>]
+<Каб убачыць фота, трэба далучыцца>
 [<No photo>]
 <Няма фота>
 [Photo]
@@ -1628,15 +1646,25 @@ XML для MS Excel (кадзіроўка UTF-8)
 Невядомая памылка
 [Error]
 Памылка
+[Unknown error message]
+Невядомая памылка паведамлення
+[Advanced Status]
+Пашыраны статус
 [Set mood...]
 Настрой...
 [Set activity...]
 Занятак...
+[OK (%d)]
+OK (%d)
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Мужчынскі
 [Female]
 Жаночы
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Толькі файлы малюнкаў JPG, GIF, BMP і не больш за 40 Кб.
+[Jabber vCard]
+Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: рэдагаванне E-mail
 [Jabber vCard: Edit Phone Number]
