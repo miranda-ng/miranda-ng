@@ -1,0 +1,73 @@
+﻿#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
+;============================================================
+;  File: SkypeClassic.dll
+;  Plugin: Skype Protocol (Classic)
+;  Version: 0.0.0.54
+;  Authors: leecher, tweety, jls17
+;============================================================
+;file \protocols\SkypeClassic\res\Resource.rc
+[Set]
+Абраць
+[Delete]
+Выдаліць
+[Password:]
+Пароль:
+[Number:]
+Нумар:
+[Cancel]
+Скасаваць
+[OK]
+ОК
+[Dialog]
+Гутарка
+[Host:]
+Хост:
+[Port:]
+Порт:
+[Name:]
+Імя:
+[Birthday:]
+Дзень нараджэння:
+[City:]
+Горад:
+[Country:]
+Краіна:
+[Home phone:]
+Хатні тэлефон:
+[Office phone:]
+Офіс. тэлефон:
+[Homepage:]
+Сайт:
+[Save]
+Захаваць
+[seconds]
+секунд(ы)
+[Background]
+Фон
+[Use Windows colors]
+Колеры Windows
+[Text]
+Тэкст
+[Preview]
+Тэст
+;file \protocols\SkypeClassic\src\contacts.cpp
+[&File]
+&Файл
+;file \protocols\SkypeClassic\src\gchat.cpp
+[Unknown]
+Невядома
+[&Invite user...]
+Запрасіць карыстача...
+[Me]
+Я
+[&Leave chat session]
+&Пакінуць сеанс
+[User &details]
+&Інфармацыя
+[User &history]
+Гісторыя карыстача
+;file \protocols\SkypeClassic\src\skype.cpp
+;file \protocols\SkypeClassic\src\skypeopt.cpp
+[Avatar]
+Аватар
+;file \protocols\SkypeClassic\src\skypesvc.cpp
