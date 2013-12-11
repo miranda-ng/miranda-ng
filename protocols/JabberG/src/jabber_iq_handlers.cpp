@@ -160,6 +160,13 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 				else
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2012 "));
 				break;
+
+			case 3:
+				if (osvi.wProductType == VER_NT_WORKSTATION)
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows 8.1 "));
+				else
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2012 R2 "));
+				break;
 			}
 
 			DWORD dwType = 0;
