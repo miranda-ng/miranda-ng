@@ -11,21 +11,18 @@
 Разные для разных категорий
 [(Leave blank to disable for this category)]
 (Оставьте пустым для выключения)
-
 [Smiley Categories]
 Категории смайлов
 [Contact List smileys]
 Список контактов
 [Standard]
 Стандартные
-
 [Specify Smiley Pack for each category]
 Категории с разными наборами смайлов
 [Nothing loaded]
 Ничего не загружено
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
 Набор смайлов %s не найден.\nВыберите набор смайлов: Настройки -> Тонкая настройка -> Смайлы.
-
 [Replace only smileys surrounded by spaces]
 Заменять только смайлы окружённые пробелами
 [Scale smiley to textheight]
@@ -34,7 +31,6 @@
 Отключить загружаемые смайлы
 [High Quality smiley scaling]
 Качественное масштабирование
-
 [Smiley Selector]
 Выбор смайла
 [Surround inserted smiley with spaces]
@@ -43,26 +39,22 @@
 Размер всех смайлов как у первого
 [IEView style window]
 Окно в стиле IEView
-
 [Input Area]
 Поле ввода
 [Enable Smileys]
 Включить смайлы
 [Don't replace at cursor]
 Не заменять под курсором
-
 [Max "Custom Smiley" height]
 Макс. высота загруж. смайлов
 [Min smiley height]
 Мин. высота смайлов
-
 [Built-In Message Dialog Support]
 Поддержка плагинов сообщений
 [Smiley Button]
 Кнопка смайла
 [off]
 выкл
-
 [Smileys]
 Смайлы
 [SmileyAdd]
@@ -77,7 +69,6 @@ ICQ смайлы
 POP3 смайлы
 [smileys]
 смайлы
-
 [Smiley #%u in Smiley Pack %s not found. Correct Smiley Pack implementation.]
 Смайл #%u в наборе %s не найден. Обновите набор смайлов.
 [Smiley Pack malformed: %s on line %u position: %u Correct Smiley Pack implementation.\n XML spec could found here: http://www.w3.org/TR/xml11/]
@@ -126,7 +117,6 @@ HTTP подключение SmileyAdd
 Выберите набор смайлов: Настройки -> Тонкая настройка -> Смайлы.
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
 Проблемы с загрузкой набора смайлов (необходимо исправить).\nДля подробностей смотрите сетевой журнал.
-
 [Assign Smiley Category]
 Категория смайлов
 [Protocol specific]

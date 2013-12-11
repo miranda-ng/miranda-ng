@@ -49,8 +49,6 @@
 Изменение статуса протокола
 [%s was deleted from contact list!]
 %s был удален из списка контактов!
-
-; /CChatScreen.cpp
 [typing..]
 набирает текст..
 [IRC-Chatroom support is disabled!\nYou need to install the patched IRC.dll (see the readme) to use IRC-Chatrooms on the LCD]
@@ -59,8 +57,6 @@
 Отправка сообщения...
 [Could not send the message!]
 Ошибка отправки сообщения!
-
-; /MirandaG15.rc:IDD_FONTS
 [Device:]
 Клавиатура:
 [No device attached]
@@ -85,15 +81,12 @@
 Если апплет активен:
 [Use the VolumeWheel to scroll up and down (might affect system performance)]
 Использовать колесо регулировки громкости для прокрутки списков
-
 [Use transition effects when changing screens]
 Использовать эффекты при смене экранов
 [For updates and news check the thread on http://www.g15forums.com]
 Обновления и новости ищите в теме на http://www.g15forums.com
 [Or visit http://www.mkleinhans.de]
 Или посетите http://www.mkleinhans.de
-
-; /MirandaG15.rc:IDD_NOTIFICATIONS
 [Chatsessions]
 Беседы
 [Exceptions:]
@@ -150,8 +143,6 @@
 символов
 [Show protocol labels]
 Показывать протоколы
-
-; /MirandaG15.rc:IDD_CLIST
 [Contact list]
 Список контактов
 [Show the contacts protocols]
@@ -184,8 +175,6 @@
 Использовать две колонки
 [Fade out selection rectangle]
 Постепенно затемнять выделение
-
-; /MirandaG15.rc:IDD_CHAT
 [Typing notifications]
 Уведомления о наборе текста
 [Show typing notifications]

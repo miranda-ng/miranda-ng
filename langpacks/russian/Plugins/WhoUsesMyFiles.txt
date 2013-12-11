@@ -47,8 +47,6 @@ WUMF: Показать подключения
 Доступ
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
 Для работы плагина WhoUsesMyFiles требуются права администратора.
-
-;GetFromSource.cmd
 [Alert computer name with username]
 Показывать имена компьютеров вместе с именами пользователей
 [Alert files && folders in UNC format]
