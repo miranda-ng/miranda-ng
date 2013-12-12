@@ -1,107 +1,172 @@
 ﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
 ;============================================================
 ;  File: HTTPServer.dll
-;  Module: HTTP Web Server plugin for Miranda
-;  Versions: 0.1.2.2
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2304
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/HTTPServer/
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
-[%ExternalIP% variable]
-%ExternalIP% переменная
-[&Edit share]
-Изм. общее
-[&New share]
-Новое общее
-[&Remove share]
-Удалить общее
-[Agent]
-Агент
-[Allowed IP]
-Разрешенные IP
-[Allowed Mask]
-Разрешенная маска
-[Completed]
-Завершено
-[Disable HTTP server]
-Отключить HTTP сервер
-[Enable / Disable HTTP server]
-Вкл/Выкл HTTP Сервер
-[Enable HTTP server]
-Вкл. HTTP Сервер
-[External server name]
-Внешнее имя сервера
-[HTTP Server statistics view]
-Статистика просмотров HTTP сервера
-[HTTP Server]
-HTTP Сервер
-[HTTP Share new file]
-HTTP Новый общий файл
+[HTTP Web Server plugin for Miranda.]
+HTTP веб-сервер для Miranda.
+;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 IP адрес 1
 [IPAddress2]
 IP адрес 2
-[Main menu items]
-Элементы главного меню
-[Max ( bytes / sec )]
-Макс (байт/сек)
 [Max downloads]
 Макс. закачки
-[Max Downloads]
-Макс. закачки
-[No control when Away/NA]
-Откл. если недоступен/занят
-[No share selected]
-Папка не выбрана
-[Open log]
-Открыть лог
-[Page keyword]
-Ключевые слова
-[Real path]
-Реальный путь
-[Set to default]
-По умолчанию
+[Address]
+Адрес
+[Mask]
+Маска
 [Share name]
 Имя шары
-[Share removed]
-Общее удалено
+[Allowed IP]
+Разрешенные IP
+[HTTP Server statistics view]
+Статистика просмотров HTTP сервера
+[Display hidden shares]
+
+[New share]
+
 [Show HTTP server statistics]
 Статистика НТТР сервера
-[Specify a file to share]
-Файл для доступа
-[Speed control]
-Контроль скорости
-[Speed]
-Скорость
+[Set to default]
+По умолчанию
+[External server name]
+Внешнее имя сервера
 [This is the link pasted to the message window]
 Это ссылка, вставленная в окно сообщений
-[URL address]
-Адрес URL
 [Write log file]
 Записывать логфайл
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
-Ваш внешний ip определен как %d.%d.%d.%d\r\nс: %s
-[You need to restart miranda to change the main menu]
-Изменения в меню вступят в силу после перезапуска программы.
-[&Open in Browser]
-Открыть в браузере
-[Connection control]
-Контроль соединений
-[Default download limit]
-Лимит загрузок по умолч.
+[Enable / Disable HTTP server]
+Вкл/Выкл HTTP Сервер
+[Main menu items]
+Элементы главного меню
+[Open log]
+Открыть лог
+[Show popups]
+Показывать всплывающие окна
+[Page keyword]
+Ключевые слова
+[URL address]
+Адрес URL
+[%ExternalIP% variable]
+%ExternalIP% переменная
+[Test]
+Тест
 [Transfer limit (Kb/s)]
 Лимит скорости (Кб/с)
-[Total connection limit]
-Максимально соединений
-[Connections per user limit]
-Лимит на пользователя
+[No control when Away/NA]
+Откл. если недоступен/занят
+[Connection control]
+Контроль соединений
 [Index creation]
 Создание индекса
+[Disable]
+Выключить
 [Create HTML (compatibility)]
 Создать HTML (совместимо)
 [Create XML]
 Создать XML
-[HTTPServer]
+[Notifications]
+Уведомления
+[Total connection limit]
+Максимально соединений
+[Connections per user limit]
+Лимит на пользователя
+[Default download limit]
+Лимит загрузок по умолч.
+[&Edit share]
+Изм. общее
+[&Remove share]
+Удалить общее
+[&Open in Browser]
+Открыть в браузере
+[&Copy link]
+&Копировать ссылку
+;file \plugins\HTTPServer\src\Glob.h
+[Miranda NG HTTP-Server]
+
+;file \plugins\HTTPServer\src\GuiElements.cpp
+[Share Current Directory]
+
+[All files]
+Все файлы
+[Specify a file to share]
+Файл для доступа
+[Failed to share new file]
+
+[Max Downloads]
+Макс. закачки
+[Allowed Mask]
+Разрешенная маска
+[Real path]
+Реальный путь
+[User]
+Пользователь
+[Agent]
+Агент
+[Completed]
+Завершено
+[Speed]
+Скорость
+[Selected link size is 0]
+
+[Failed to get access to clipboard]
+
+[Failed to get close the clipboard]
+
+[Failed to set clipboard data]
+
+[ListView_GetItem failed]
+
+[No share selected]
+Папка не выбрана
+[Current IP Address: ]
+
+[Current Address: ]
+
+[IP Adress: ]
+
+[You are browsing from]
+
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+Ваш внешний ip определен как %d.%d.%d.%d\r\nс: %s
+[You need to restart miranda to change the main menu]
+Изменения в меню вступят в силу после перезапуска программы.
+[HTTP Server]
 HTTP Сервер
-[HTTP Web Server plugin for Miranda.]
-HTTP веб-сервер для Miranda.
+[Network]
+Сеть
+[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
+
+[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
+
+[HTTP Share new file]
+HTTP Новый общий файл
+[Failed to add contact menu item]
+
+;file \plugins\HTTPServer\src\HttpUser.cpp
+[Share removed]
+Общее удалено
+;file \plugins\HTTPServer\src\main.cpp
+[Failed to open or create log file]
+
+[Failed to move to the end of the log file]
+
+[Failed to write some part of the log file]
+
+[Failed to open or create file ]
+
+[Failed to write xml header to file ]
+
+[Failed to write xml data to file ]
+
+[Failed to write xml tail to file ]
+
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+
+[Disable HTTP server]
+Отключить HTTP сервер
+[Enable HTTP server]
+Вкл. HTTP Сервер

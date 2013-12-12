@@ -1,79 +1,107 @@
-﻿#muuid {3503d584-6234-4bef-a553-6c1b9cd471f2}
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 ;============================================================
 ;  File: NewEventNotify.dll
-;  Module: NewEventNotify
-;  Versions: 0.1.9.2 - 0.2.1.0
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=341
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3637
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the Popup-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
-Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах. Для работы необходим Popup от Luca Santarelli или аналогичный.
-[You were added!]
-Вас добавили
-[Requests your authorization]
-Запрос вашей авторизации
-[Unknown Event]
-Неизвестное событие
-[Notify of new events]
-Извещать о новых событиях
-[Event Notify]
-События
-[Popup Colors]
-Цвет окна
-[Notify me of...]
-Извещать меня о...
-[Show entry in the main menu]
-Пункт в главном меню
+[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах.
+;file \plugins\NewEventNotify\res\resource.rc
+[General Options]
+Общие параметры
+[Show entry in the Popups menu]
+Пункт в меню "Вспл. окна"
 [Temporarily disable Event Popups]
 Временно запретить извещение
 [Show Preview of Event in Popup]
 Предпросмотр события в окне
+[Popup Options]
+Всплывающие окна
+[Message]
+Сообщение
+[URL]
+Ссылка
+[File]
+Файл
+[Others]
+Другое
+[Text]
+Текст
+[Background]
+Фон
+[Time to expires]
+Время задержки
+[Notify me of...]
+Извещать меня о...
+[Left Click Actions]
+По левому щелчку
+[Dismiss Popup]
+
 [Open Event]
 Открыть событие
 [Dismiss Event]
 Скрыть событие
+[Right Click Actions]
+По правому щелчку
+[Time Expires Actions]
+По истечению времени
+[Message-Event only]
+
 [Don't show Popup when Message-Dialog is already open]
 Не показывать, если открыто окно
-[Open Reply-Dialog instead of reading the Message]
-Диалог ответа вместо чтения сообщения
-[No popups for RSS contacts]
-Выключить для RSS новостей
-[Use OSD plugin instead of popups]
-Использовать плагин OSD вместо Popup
 [Hide Popup when sending new message]
 Скрывать при отправке нового сообщения
+[Open Reply-Dialog instead of reading the Message]
+Диалог ответа вместо чтения сообщения
+[Merge popups from one user]
+Объединять от одного пользователя
+[Preview]
+Тест
+[Show Date]
+Дата
+[Show Time]
+Время
+[Show Headers]
+Заголовки
+[Number of begin shown messages]
+Количество сообщений для начала показа
 [Last message display first]
 Последнее первым
 [Last message display last]
 Последнее последним
-[Merge popups from one user]
-Объединять от одного пользователя
+[Edit]
+Изменить
+[No popups for RSS contacts]
+Выключить для RSS новостей
 [No popups for read messages]
 Выключить для прочтённых
-[Number of begin shown messages]
-Количество сообщений для начала показа
-[Show entry in the Popups menu]
-Пункт в меню "Вспл. окна"
-[Show Headers]
-Заголовки
-[Show newer messeges]
-Новые сообщения
-[Show older messeges]
-Старые сообщения
-[Show Time]
-Время
-[Time Expires Actions]
-По истечению времени
-[Time to expires]
-Время задержки
-[Disable new event notification]
-Выкл. уведомления о событиях
+;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+Всплывающие окна
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Контакты
+[You were added!]
+Вас добавили
+[Requests your authorization]
+Запрос вашей авторизации
+[ICQ Web pager]
+
+[ICQ Email express]
+
+[Unknown Event]
+Неизвестное событие
+[Notify of new events]
+Извещать о новых событиях
 [Enable new event notification]
 Вкл. уведомления о событиях
-[NewEventNotify]
+[Disable new event notification]
+Выкл. уведомления о событиях
+;file \plugins\NewEventNotify\src\options.cpp
+[Event Notify]
 События
-[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
-Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах.
+;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 Получено %d контактов.
 [ added you to the contact list]
@@ -91,4 +119,4 @@
 [Plugin Test]
 Тест плагина
 [[b]Number of new message(s): %d[/b]\n]
-[b]Количество новых сообщений: %d[/b]\n
+

@@ -1,62 +1,15 @@
 ﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;============================================================
-;  File: buddyexpectator.dll
-;  Module: Buddyexpectator plugin
-;  Versions: 0.1.2.3
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3356
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/buddyexpectator/
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
 Плагин уведомляет о возвращении контакта или его длительном отсутствии.
-[Buddy Expectator]
-Жду тебя
-[has gone online for the first time.]
-вышел в сеть в первый раз.
-[has returned after a long absence.]
-вернулся после долгого отсутствия.
-[has returned after being absent since %#x]
-вернулся после отсутствия с %#x
-[has not returned after being absent since %#x]
-не вернулся после отсутствия с %#x
-[has not returned after a long absence.]
-не вернулся после долгого отсутствия.
-[not detected]
-не определен
-[This contact has been absent for an extended period of time.]
-Контакт отсутствовал долгий промежуток времени.
-[has returned after being absent since %d days]
-вернулся после отсутствия %d дней
-[Contact returned]
-Контакт вернулся
-[Contact still absent]
-Контакт всё еще отсутствует
-[Miss you event]
-Событие "Жду тебя"
-[Hide contact event]
-Спрятать событие контакта
-[You awaited this contact!]
-Вы ждали этот контакт!
-[Enable Miss You]
-Включить "Жду тебя"
-[Disable Miss You]
-Выключить "Жду тебя"
-[Tray/popup icon]
-Значок в трее/всплывающем окне
-[Last seen online:]
-Последнее появление:
-[Last input message:]
-Последнее сообщение:
-[Custom absence period:]
-Период отсутствия:
-[Never hide this contact]
-Никогда не скрывать этот контакт
-[Return notification]
-Уведомление возвращения
+;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 При появлении контакта после
-[or comes online for the first time]
-или выходит в сеть в первый раз
 [Show a popup]
 Показывать всплывающее окно
 [Add an event (flashing icon) to the contact]
@@ -65,45 +18,121 @@
 На действия события (дв. клик) или клик по всп. окну
 [Open User Details]
 Открыть детали пользователя
-[Long time no see]
-Давно не видел
+[Open message window]
+Открыть окно беседы
+[Return notification]
+Уведомление возвращения
 [When a contact is absent for]
 Когда контакт отсутствует
-[Hide when no messages for]
-Скрыть, если нет сообщений
-[Delete the contact]
-Удалить контакт
+[Long time no see]
+Давно не видел
+[or comes online for the first time]
+или выходит в сеть в первый раз
 [Enable "Miss you" feature]
 Включить функцию "Жду тебя"
+[Hide when no messages for]
+Скрыть, если нет сообщений
+[Colors]
+
+[Background]
+Фон
+[Text]
+Текст
 [Use Popups colors]
 Цвета Popup
+[Use Windows colors]
+Цвета Windows
+[Delay]
+Задержка
+[Default]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[sec]
+с
+[Preview]
+Тест
+[Last seen online:]
+Последнее появление:
+[Last input message:]
+Последнее сообщение:
+[Custom absence period:]
+Период отсутствия:
+[days]
+дней
+[Never hide this contact]
+Никогда не скрывать этот контакт
+[Enable Miss You]
+Включить "Жду тебя"
+[Notify always]
+Извещать всегда
+;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+Значок в трее/всплывающем окне
+[Enabled]
+Включён
+[Disabled]
+Выключен
+[Hide]
+Скрыть
+[Never hide]
+Никогда не прятать
+[Hiding %s (%S)]
+
+[%d days since last message]
+
+[Disable Miss You]
+Выключить "Жду тебя"
+[You awaited this contact!]
+Вы ждали этот контакт!
+[has gone online for the first time.]
+вышел в сеть в первый раз.
+[has returned after a long absence.]
+вернулся после долгого отсутствия.
+[has returned after being absent since %#x]
+вернулся после отсутствия с %#x
+[has not returned after a long absence.]
+не вернулся после долгого отсутствия.
+[has not returned after being absent since %#x]
+не вернулся после отсутствия с %#x
+[BuddyExpectator]
+Ожидание контактов
+[Contact returned]
+Контакт вернулся
+[Contact still absent]
+Контакт всё еще отсутствует
+[Miss you event]
+Событие "Жду тебя"
+[Hide contact event]
+Спрятать событие контакта
+[Buddy Expectator]
+Жду тебя
+[Hide contact]
+Скрыть контакт
+;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 недель
 [months]
 месяцев
 [years]
 лет
-[BuddyExpectator]
-Ожидание контактов
-[Never hide]
-Никогда не прятать
-[Absence period]
-Период отсутствия
-[Last input message]
-Последнее введённое сообщение
-[Last seen online]
-Последний раз в сети
-[Notify after an absence of ]
-Напоминать после\s
-[On event action (double click):]
-По событию (двойной клик):
-[This plugin notifies you when any contact comes online after an absence of long period.]
-Плагин уведомляет вас, когда контакт выходит в сеть после долгого отсутствия.
-[BuddyExpectator: contact returned]
-Инспектор контактов: контакт возвратился
-[has returned after an absence of long period.]
-[has returned after an absence since %#x]
-[It's already necessary to notify of this contact - an absence has been detected.]
-[monthes]
-[Buddy Expectator+]
-Ожидание контактов+
+[Do nothing]
+Ничего не делать
+[Delete the contact]
+Удалить контакт
+[Contact name]
+Имя контакта
+[has returned after being absent since %d days]
+вернулся после отсутствия %d дней
+[Contacts]
+Контакты
+[Popups]
+Всплывающие окна
+[not detected]
+не определен
+[not found]
+не найдено
+[This contact has been absent for an extended period of time.]
+Контакт отсутствовал долгий промежуток времени.

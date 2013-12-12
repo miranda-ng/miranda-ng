@@ -1,67 +1,106 @@
 ﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
-;  File: fltcontacts.dll
-;  Module: Floating Сontacts
-;  Versions: 1.0.2.2
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4400
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/floatingcontacts/
-;  Authors: iavorv
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.1
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
 Плагин плавающих контактов для Miranda NG.
-[Floating Contacts]
-Плавающие контакты
-[Remove thumb]
-Убрать плавающий контакт
-[Hide all thumbs]
-Скрыть плавающие контакты
-[Show all thumbs]
-Показать плавающие контакты
-[Show/Hide all thumbs]
-Показать/Скрыть все контакты
+;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 Скрытие контактов
-[Hide all contacts]
-Прятать все контакты
-[Hide when a fulscreen app is active]
-Прятать когда приложение развернуто
-[Hide when contact list is shown]
-Прятать когда список контактов виден
+[Hide offline contacts]
+Скрыть отключённых
 [Stick together]
 Склеивать контакты
 [Use fixed width]
 Ширина
+[pixels]
+пикселей
+[Hide all contacts]
+Прятать все контакты
+[Hide when a fulscreen app is active]
+Прятать когда приложение развернуто
+[Show tooltips*]
+
+[ms]
+мс
+[Tooltips]
+
+[Miscellaneous]
+Прочее
+[0 = Default]
+0=Умолчание
 [*requires Tipper plugin]
 *требуется плагин Tipper
 [Bring to front]
 На передний план
 [Bring to front every]
 Перемещать на вверх каждые
-[<Contact List Text>]
-Шрифт в списке контактов
-[Opacity:]
-Непрозрачность:
-[Floating Contacts Background]
-Плавающие контакты: фон
+[seconds]
+секунд
+[Hide when contact list is shown]
+Прятать когда список контактов виден
+[Single click interface]
+Один щелчок
+[Dim idle contacts]
+Затемнить неактивных пользователей
+[Idle contacts]
+
+[Border]
+Рамка
 [Draw border]
 Показывать рамку
-[Left-top edges color:]
-Цвет слева-сверху:
-[Right-bottom eges color:]
-Цвет справа-снизу:
-[Hide if offline]
-Прятать, если отключён
-[Show thumbs]
+[Left-top edge's color:]
+
+[Right-bottom edge's color:]
+
+[Background]
+Фон
+[Background color:]
+Цвет фона:
+[Use background bitmap]
+Фоновое изображение
+[Stretch to width]
+Растянуть по ширине
+[Stretch to height]
+Растянуть по высоте
+[Tile horizontally]
+Горизонтальная мозаика
+[Tile vertically]
+Вертикальная мозаика
+[Stretch proportionally]
+Растянуть
+[Opacity:]
+Непрозрачность:
+;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Стандартные контакты
+[Online contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (в сети)
+[Offline contacts]
+Отключённые контакты
+[Offline contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (отключённые)
+[Contacts which are 'not on list']
+Контакты 'не в списке'
+[Floating contacts]
+
+[Show all thumbs]
 Показать плавающие контакты
-[Hide thumbs/Remove thumb]
-Скрыть/Убрать плавающие контакты
-[Show offline]
-Показывать отключённых
-[Hide when a fullscreen app is active]
-Прятать в полноэкранном режиме
-[same]
-те же
-[as:]
-как:
-[Typeface]
-Гарнитура
+[Hide all thumbs]
+Скрыть плавающие контакты
+[Remove thumb]
+Убрать плавающий контакт
+[Show/Hide all thumbs]
+Показать/Скрыть все контакты
+;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+Плавающие контакты
+[Contact List]
+Список контактов
+[Main Features]
+Главное
+[Appearance]
+Внешний вид

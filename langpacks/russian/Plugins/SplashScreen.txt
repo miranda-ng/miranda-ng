@@ -1,49 +1,57 @@
 ﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
 ;============================================================
-;  Module: SplashScreen.dll
-;  Plugin: Splash Screen
-;  Versions: 0.1.1.2 - 0.1.2.1
-;  URL: http://dev.mirandaim.ru/~thief/
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
 ;============================================================
 [Shows a splash at Miranda startup.]
 Показывает всплывающее окно при старте Miranda NG.
-[Splash Screen]
-Заставка
+;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Настройки заставки
-[Show Miranda Version]
-Показывать версию Miranda NG
 [Show splash]
 Заставка
 [Show random splash]
 Показывать случайную заставку
-[Fade in:]
-Появление:
-[Fade out:]
-Исчезновение:
-[steps]
-шагов
-[Preview...]
-Просмотр...
-[Fade In]
-При появлении
-[Fade Out]
-При исчезновении
-[Fade step:]
-Шаги затемнения:
-[Fade:]
-Затемнение:
+[Play sound]
+
+[Show Miranda Version]
+Показывать версию Miranda NG
+[Enable]
+Включено
+[Prefix:]
+Префикс:
+[Appearance]
+Внешний вид
+[Display time:]
+Отображать:
 [ms]
 мс
-[Show Splash]
-Пок. заставку
-[Splash:]
-Заставка:
-[SplashScreen]
-Заставка
-[Graphic files]
-Графические файлы
+[Fade in:]
+Появление:
+[steps]
+шагов
+[Fade out:]
+Исчезновение:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
 Не найдена библиотека advaimg.dll. Скачайте последнюю версию, чтобы использовать изображения.
+[Preview...]
+Просмотр...
+;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
 Библиотека advaimg.dll устарела или повреждена. Скачайте последнюю версию с сайта Miranda NG.
+[Error]
+Ошибка
+[Call Splash Service]
+
+;file \plugins\SplashScreen\src\options.cpp
+[Graphic files]
+Графические файлы
+[Sound Files]
+
+[Skins]
+Скины
+[Splash Screen]
+Заставка
+;file \plugins\SplashScreen\src\services.cpp

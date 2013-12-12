@@ -7,6 +7,7 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 Антиспам плагин для Miranda NG.
+;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]
 Вопрос: (Ctrl+Enter для начала новой строки)
 [Restore defaults]
@@ -19,6 +20,8 @@
 Ответ на запросы авторизации:
 [Divider:]
 Разделитель:
+[Vars]
+
 [Disable protection for following accounts:]
 Отключить защиту для следующих учётных записей:
 [Do not send more than]
@@ -37,6 +40,7 @@
 Удалять все временные контакты после перезапуска
 [Log Spammers to system history]
 Записывать спамеров в системную историю
+;file \plugins\StopSpamPlus\src\events.cpp
 [Message Sessions]
 Беседы
 [General]
@@ -45,13 +49,22 @@
 Сообщения
 [Accounts]
 Учётные записи
+;file \plugins\StopSpamPlus\src\headers.h
 [StopSpam]
 Антиспам
+;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nВ то время как сообщения от пользователей в Вашем списке приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются, плагин отвечает простым вопросом, и если пользователь дает правильный ответ, плагин добавляет его в список, для того чтобы он мог связаться с Вами.
 [StopSpam automatic message:\r\n]
 Сообщение антиспама:\r\n
+;file \plugins\StopSpamPlus\src\services.cpp
+[Not In List]
+
 [Complete]
 Готово
+;file \plugins\StopSpamPlus\src\settings.h
+[nospam]
+
+;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
 Удалить временные контакты

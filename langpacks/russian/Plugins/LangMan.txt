@@ -1,77 +1,50 @@
-﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2} 
+﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
 ;============================================================
-;  File: langman.dll
-;  Module: Language Pack Manager
-;  Versions: 1.0.2.3
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3003
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Langman/
-;  Authors: HeikoH Herkenrath
+;  File: LangMan.dll
+;  Plugin: Language pack manager
+;  Version: 1.0.2.3
+;  Authors: H. Herkenrath
 ;============================================================
 [Helps you manage Language Packs of different languages.]
 Помогает в управлении файлами локализации.
-[%ls Language Pack]
-%ls интерфейс
+;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+Автор(ы):
+[E-mail:]
+E-mail:
 [Last modified using:]
 Проверено на версии:
-[Not included:]
-Не переведены:
+[Date:]
+Дата:
+[Version:]
+Версия:
+[Locale:]
+Язык:
 [Download more Language Packs]
 Загрузить дополнительные переводы
-[English (default)]
-Английский
-[Language pack manager]
-Плагин управления локализациями
-[Language Pack Manager Plugin]
-Плагин управления локализациями
-[Language Pack Update HTTP connection]
-Подключения плагина локализаций (HTTP)
-[Installed Languages]
-Установленные локализации
-[built-in]
-встроенный
-[(incompatible)]
-(несовместим)
-[All installed plugins are included.]
-Все плагины переведены.
-[Check for new &versions of Language Packs periodically]
-Периодически проверять новые версии локализаций
-[&Download Language]
-Загрузить локализации
-[Language Pack Update Now Available]
-Новая версия локализации теперь доступна!
-[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-Новая версия локализации теперь доступна. Нажмите Установить чтобы загрузить и установить это обновление.
-[New:]
-Новый:
-[&Install Now]
-Установить
-[Language Pack Update succeeded]
-Обновление локализации завершено
-[The language pack "%s" has been sucessfully downloaded and installed.]
-Локализация "%s" загружена и установлена успешно.
-[Language Pack Update failed]
-Ошибка обновления локализации
-[The language pack "%s" could not be downloaded or extracted.]
-Локализация "%s" не может быть загружена или извлечена.
-[Select your language]
-Выберите ваш язык
-[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-Miranda NG доступна на многих языках.\nЗдесь вы видите список доступных локализаций на сайте Miranda NG, пожалуйста выберите ваш основной язык:
-[Download &all languages]
-Загрузить все локализации
-[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
-Примечание: С помощью этого окна, вы загрузите и установите новейшую локализацию для выбранного языка. Другие локализации могут быть доступны на сайте Miranda NG.
-[downloading]
-загружается
-[Language Pack Download finished]
-Загрузка локализации завершена
-[The download succeeded]
-Загрузка завершена успешно
-[The download failed\n\nThe language pack could not be downloaded or extracted.]
-Ошибка загрузки.\n\nНевозможно загрузить или распаковать локализацию.
-[Russian (RU)]
-Русский
-[Russian Language Pack]
-Русский интерфейс
+[Please restart Miranda NG for your changes to take effect.]
+Изменения вступят в силу после перезапуска программы.
+;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 Перезагрузить языковой пакет
+;file \plugins\LangMan\src\options.cpp
+[All installed plugins are included.]
+Все плагины переведены.
+[(incompatible)]
+(несовместим)
+[Unknown]
+Неизвестно
+[Current]
+Текущий
+[Installed Languages]
+Установленные локализации
+[File]
+
+[built-in]
+встроенный
+[&Remove...]
+Удалить...
+[Languages]
+Языки
+[Customize]
+Тонкая настройка

@@ -1,95 +1,33 @@
-﻿#muuid {4aa5eacc-ce9d-11db-b131-5e9956d89593}
+﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
-;  File: historysweeper.dll, historysweeperlight.dll
-;  Module: History Sweeper+
-;  Versions: 0.2.0.2
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4132
-;  Source: http://mirandaimplugins.googlecode.com/svn/trunk/HistorySweeper
-;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy
-
-;  Versions: 0.0.0.7
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4416
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/historysweeperlight/
-;  Authors: tico-tico
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.0.0.7
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
-[History Sweeper]
-Чистка истории
-[Sweep history messages?]
-Очистить историю сообщений?
-[Sweep system history?]
-Очистить системную историю?
-[Sweep whole history?]
-Очистить всю историю?
-[Sweep history from selected contacts?]
-Очистить историю выбранного контакта?
-[Sweep history [%d]]
-Очистить историю (%d)
-[Sweep system history]
-Очистить системную историю
-[Sweep whole history]
-Очистить всю историю
-[Sweep history from selected contacts]
-Очистить истории выбранных контактов
-[Sweep history for this contacts:]
-Очистить историю для этих контактов:
-[Put an item in the main menu*]
-Добавить пункт в главное меню*
-[Put an item in the contact menu*]
-Добавить пункт в меню контакта*
-[Main menu action:]
-Из основного меню выполнять:
-[At Startup/Shutdown:]
-При загрузке/выходе:
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
-Использовать НЕБЕЗОПАСНЫЙ режим (быстрее, но опаснее для БД)
-[* Note: Miranda NG will have to be restarted for changes to take effect.]
-* Изменения вступят в силу после перезапуска программы.
-[Older than 1 Day]
-Старше 1 дня
-[Older than 3 Days]
-Старше 3 дней
-[Older than 7 Days]
-Старше 7 дней
-[Older than 2 Weeks (14 days)]
-Старше 2 недель (14 дней)
-[Older than 1 Month (30 days)]
-Старше 1 месяца (30 дней)
-[Older than 3 Months (90 days)]
-Старше 3 месяцев (90 дней)
-[Older than 6 Months (180 days)]
-Старше 6 месяцев (180 дней)
-[Older than 1 Year (364 days)]
-Старше 1 года (364 дня)
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
 Этот плагин может чистить системную историю, историю всех контактов или только выбранного; чистить историю более старую чем определённое время; также при запуске/выключении программы.
-[Sweep history at Miranda shutdown]
-Очищать историю при выходе
-[Sweep history at Miranda startup]
-Очищать историю при запуске
-[Sweep history]
-Очистить историю
-[History Sweeper+]
-Чистка истории+
-[Perform custom action on entry/exit]
-Настроить действие на вход/выход
-[Custom Action:]
-Действие:
-[Do not preserve any history]
-Не сохранять историю
-[Change History Policy]
-Изменить политику истории
-[Sweep on closing message window]
-Очищать при закрытии окна сообщений
-
-;History Sweeper Light
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 Чистка истории
-[*** Defaut Action ***]
-*** Общее действие ***
-[*** System History ***]
-*** Системная история ***
+[Sweep history for this contacts:]
+Очистить историю для этих контактов:
+[Action 1]
+Действие 1
+[Action 2]
+Действие 2
+[Sweep on closing message window]
+Очищать при закрытии окна сообщений
+[Clicking on the icon in the status bar will change settings]
+Щелчок по иконке в панели статусов меняет настройки
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+Использовать НЕБЕЗОПАСНЫЙ режим (быстрее, но опаснее для БД)
+;file \plugins\HistorySweeperLight\src\main.cpp
+[Keep all events]
+Все события сохраняются в истории
 [Delete all events]
 Все события удаляются из истории
+;file \plugins\HistorySweeperLight\src\options.cpp
 [Delete older than 1 day]
 Удалить историю старше 1 дня
 [Delete older than 3 days]
@@ -106,8 +44,6 @@
 Удалить историю старше 6 месяцев
 [Delete older than 1 year (365 days)]
 Удалить историю старше 1 года
-[Keep all events]
-Все события сохраняются в истории
 [Keep 1 last event]
 Сохранить 1 последнее событие
 [Keep 2 last events]
@@ -120,9 +56,13 @@
 Сохранить 20 последних событий
 [Keep 50 last events]
 Сохранить 50 последних событий
-[Action 1]
-Действие 1
-[Action 2]
-Действие 2
-[Clicking on the icon in the status bar will change settings]
-Щелчок по иконке в панели статусов меняет настройки
+[Default Action]
+
+[Delete All]
+Удалить все
+[*** Defaut Action ***]
+*** Общее действие ***
+[*** System History ***]
+*** Системная история ***
+[History]
+История

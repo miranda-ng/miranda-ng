@@ -1,45 +1,92 @@
 ﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
-;  File: crashdumper.dll
-;  Module: Crash Dumper for Miranda NG by borkra
-;  Versions: 0.0.4.17
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.4.22
+;  Authors: borkra
 ;============================================================
-[Crash Dumper]
-Отчёт об ошибках
 [Crash Dumper for Miranda NG.]
 Плагин создания отчётов об ошибках в случае аварийного завершения работы программы. Поддержка www.miranda-vi.org.
-[Miranda Crashed. dbghelp.dll v. 6.8 required to provide a crash report]
-Miranda NG была завершена аварийно. Необходим dbghelp.dll v6.8 для предоставления отчёта о критической ошибке
+;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
+Информация о версиях
+[Close]
+
+[Copy To Clipboard]
+Копировать в буфер
+[To File]
+В файл
+[Support for miranda-vi.org]
+Поддержка miranda-vi.org
+[Username]
+Имя пользователя
+[Password]
+Пароль
+[Upload automatically when changed]
+Загружать автоматически при изменениях
+[General]
+Общее
+[Use classic dates]
+Классический формат времени и даты
+[Create reports in subfolders naming as current date]
+Сохранять отчеты в папки, названные по дате
+[View]
+Вид
+[&Copy]
+&Копировать
+[Co&py All]
+
+[Select &All]
+
+;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 Версии сохранены в файле %s
 [VersionInfo file %s is inaccessible]
 Файл %s недоступен
-[Store to file]
-Сохранить в файл
-[Store to clipboard]
-Копировать в буфер обмена
-[Get Version Info]
-Получить информацию о версиях
-[Show with DLLs]
-С библиотеками
+[Services]
+Службы
+[Version Information To Clipboard]
+Версии в буфер обмена
+[Version Information To File]
+Версии в файл
 [Show Version Information]
 Показать версии
 [Upload Version Information]
 Загрузить версии
+[Crash Reports]
+Отчёты об ошибках
+[Version Information]
+Версии
+[Copy to clipboard]
+Копировать в буфер обмена
+[Store to file]
+Сохранить в файл
+[Show]
+Показать
+[Show with DLLs]
+С библиотеками
+[Upload]
+Загрузить
+[Open crash report directory]
+Папка сохранения отчётов
+[Open miranda-vi.org]
+Открыть miranda-vi.org
+[Copy Version Info to clipboard]
+Копировать версии в буфер обмена
+[Show Version Info]
+Показать версии
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+Отчёт об ошибках
+;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Путь для записи отчёта об ошибке недоступен
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Установлено более одного плагина отчётов об ошибках. Это ведет к невозможности создания отчётов
-[To Clipboard]
-В буфер обмена
-[To File]
-В файл
-[View Version Information]
-Информация о версиях
+[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
+Miranda NG была завершена аварийно. Отчёт сохранен в \n %s\n\n Хотите ли вы сохранить его в буфер обмена?
+;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Информация о версиях (с библиотеками)
-[Upload automatically when changed]
-Загружать автоматически при изменениях
+;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 Версии успешно загружены,\n%d старых плагинов
 [Cannot upload VersionInfo. Incorrect username or password]
@@ -54,39 +101,6 @@ Miranda NG была завершена аварийно. Необходим dbgh
 Нельзя загрузить информацию о версиях. Хост недоступен
 [Crash Dumper HTTP connections]
 HTTP подключение Crash Dumper
-[Miranda crashed. Crash report stored in the folder:\n %s]
-Критическая ошибка Miranda NG. Отчёт об ошибке сохранён в папке:\n %s
-[Miranda Crash Dumper]
-Отчёт об ошибках
-[Version Information To Clipboard]
-Версии в буфер обмена
-[Version Information To File]
-Версии в файл
-[Support for miranda-vi.org]
-Поддержка miranda-vi.org
-[Crash Report]
-Отчёт об ошибке
-[Crash Reports]
-Отчёты об ошибках
-[Trap all possible exceptions]
-Ловить все возможные исключения
-[Open crash report directory]
-Папка сохранения отчётов
-[Open miranda-vi.org]
-Открыть miranda-vi.org
-[Use classic dates]
-Классический формат времени и даты
-[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda NG была завершена аварийно. Отчёт сохранен в \n %s\n\n Хотите ли вы сохранить его в буфер обмена?
-[Disable Crash Reporting]
-Выключить отчёты об ошибках
-[Notify only if crash stops Miranda]
-Уведомлять только если Miranda "падает"
-[Copy To Clipboard]
-Копировать в буфер
-[Copy Version Info to clipboard]
-Копировать версии в буфер обмена
-[Show Version Info]
-Показать версии
-[Create reports in subfolders naming as current date]
-Сохранять отчеты в папки, названные по дате
+;file \plugins\CrashDumper\src\utils.cpp
+[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
+Установлено более одного плагина отчётов об ошибках. Это ведет к невозможности создания отчётов

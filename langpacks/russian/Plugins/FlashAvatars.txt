@@ -1,15 +1,22 @@
-﻿#muuid {72765A6F-B017-42f1-B30F-5E0941273A3F}
+﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
 ;============================================================
 ;  File: FlashAvatars.dll
-;  Module: Flash avatars service
-;  Versions: 0.0.1.14
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2743
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FlashAvatars/
-;  Authors: Joe Kucera, BigMuscle
+;  Plugin: Flash avatars
+;  Version: 0.0.1.14
+;  Authors: Big Muscle
 ;============================================================
-[Load and manage flash avatars]
-Загружает и показывает Flash аватары
 [Loads and displays flash avatars.]
 Загружает и показывает Flash аватары.
+;file \plugins\FlashAvatars\src\cflash.cpp
+[Flash.ocx not registered!]
+
+[You don't have installed ShockwaveFlash interface in your system.]
+
+[Bugged Flash detected!]
+
+[You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
+
 [Flash Avatars]
 Подключение Flash Avatars
+[Avatars]
+Аватары

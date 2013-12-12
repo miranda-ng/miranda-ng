@@ -1,242 +1,149 @@
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: DbChecker.dll
-;  Module: Miranda NG Database Checker
-;  Versions: 0.11.0.1
-;  URL: http://miranda-ng.org/
+;  Plugin: Database checker
+;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================
-[%s\\Backup (%d) of %s]
-%s\\Резервная копия (%d) %s
-[%s\\Backup of %s]
-%s\\Резервная копия %s
-[&File:]
-Файл:
-[&Finish]
-Завершить
-[&Next >]
-&Далее >
-[&Other...]
-Ещё...
+[Miranda NG Database Checker.]
+Плагин проверки БД Miranda NG.
+;file \plugins\DbChecker\res\resource.rc
+[Welcome to the Miranda Database Wizard]
+Добро пожаловать в мастер базы данных
+[Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
+Используя этот мастер, вы можете уменьшить размер профиля удалением "мёртвого" пространства.
+[To continue, click Next.]
+Нажмите "Далее" для продолжения.
+[This program is licenced under the terms of the GNU General Public License.]
+Программа лицензирована под условиями GNU General Public License.
+[Miranda Database Tool]
+Инструмент базы Miranda NG
 [< &Back]
 < &Назад
-[<check only>]
-<только проверить>
-[Aggressive: random junk at %08X: skipping]
-Агрессивно: случайные данные на %08X: пропускаем
-[Aggressive: unlinked data at %08X: can't automatically place]
-Агрессивно: несвязанные данные на %08X: невозможно автоматически установить их место
-[Aggressively find corruption]
-Агрессивный поиск повреждений
-[All tasks completed but with errors (%d)]
-Все задачи завершены, но с ошибками (%d шт)
-[All tasks completed successfully]
-Все задачи завершены
-[All tasks have been completed.]
-Все задачи завершены.
-[Backup:]
-Резерв:
-[Can't create file mapping (%u)]
-Не могу создать файл карты (%u)
-[Can't create map view of file (%u)]
-Не могу создать карту файла (%u)
-[Can't create output file (%u)]
-Невозможно создать файл на выходе (%u)
-[Can't write to output file - disk full? (%u)]
-Невозможно записать файл - диск переполнен? (%u)
-[Can't write to working file, aggressive mode may be too aggressive now]
-Невозможно записать в рабочий файл, агрессивный режим сейчас может быть слишком агрессивен
-[Check consistency only]
-Только проверить целостность
-[Cleaning Options]
-Опции очистки
-[Click Next to continue]
-Нажмите "Далее" для продолжения
+[&Next >]
+&Далее >
+[Cancel]
+Отмена
+[Select Miranda Profile]
+Выбор профиля Miranda NG
+[You can choose the Miranda profile database to compact or repair.]
+Выберите профиль Miranda NG для сжатия или восстановления.
+[Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
+Выберите профиль базы в списке. Если его нет в списке, нажмите "Ещё..." для поиска на компьютере.
+[&File:]
+Файл:
+[&Other...]
+Ещё...
+[Error Opening Database]
+Ошибка открытия базы
+[There was an error opening the profile database given.]
+Ошибка открытия базы профиля.
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
 Нажмите Далее, чтобы повторить чтение файла, или нажмите Назад, чтобы выбрать другой профиль базы данных.
-[Contact chain corrupted, further entries ignored]
-Цепочка контактов повреждена, последующие данные проигнорированы
-[Contact count marked wrongly: correcting]
-Число контактов указано неправильно: исправление
-[Convert old Unicode messages to UTF8]
-Конвертировать старые Unicode сообщения в UTF8
-[Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
-Конвертирует историю сообщений из <0.7 формата (ANSI+UCS2) в новый UTF8 формат. В большинстве случаев помогает сохранить место на диске (рекомендуется).
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Файл уже используется другой копией Miranda NG. Закройте все открытые копии и нажмите "Далее" для повтора.
+[File Access Options]
+Настройки доступа
+[You can select low level options to determine how the database is processed.]
+Вы можете выбрать уровень изменений базы.
 [Create backup]
 Резервная копия
 [Creates a backup copy of the database before any of the requested changes are made.]
 Создаёт резервную копию базы перед любым изменением.
-[Database is corrupted and too small to contain any recoverable data]
-База повреждена, размер данных слишком мал, чтобы содержать восстанавливаемые данные
-[Database is marked as belonging to an unknown version of Miranda]
-База данных помечена как принадлежащая неизвестной версии Miranda NG
-[Database is newly created and has no data to process]
-База данных новая, и в ней нет данных для обработки
-[Database signature is corrupted, automatic repair is impossible]
-Заголовок базы данных повреждён, автоматическое исправление невозможно
-[Database worker thread activated]
-Активировано восстановление работоспособности базы
-[Duplicate event was found: skipping]
-Найден дубль события: пропускаю
-[Elapsed time: %d sec]
-Затрачено времени: %d сек.
-[Empty settings group at %08X: skipping]
-Группа пустых значений на %08X: пропускаю
-[Erase all histories]
-Удалить всю историю
-[Error Opening Database]
-Ошибка открытия базы
-[Error reading, database truncated? (%u)]
-Ошибка чтения, база данных обрезана? (%u)
-[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-Были найдены ошибки, но вы не сохранили резервную копию. Строго рекомендуется её сделать, так как важные данные могут быть утеряны. Вы хотите сохранить резервную копию оригинальной базы данных?
-[Event chain corrupted, further entries ignored]
-Цепочка событий повреждена, последующие данные игнорированы
-[Event chain corrupted, trying to recover...]
-Цепочка событий повреждена, пробую исправить...
-[Event count marked wrongly: correcting]
-Число событий указано неправильно: исправление
-[Event marked as first which is not: correcting]
-Событие помечено первым, но им не является: исправление
-[Event not backlinked correctly: fixing]
-Событие некорректно связано с предыдущим: исправление
-[Event position in chain is not correct: fixing]
-Ошибочная позиция события в цепочке: исправляем
-[Event position in chain is not correct: unable to fix]
-Ошибочная позиция события в цепочке: невозможно исправить
-[Event position in chain is not correct]
-Ошибочная позиция события в цепочке
-[Extra flags found in event: removing]
-Дополнительные флаги найдены в событии: удаление
-[File Access Options]
-Настройки доступа
-[Finished!]
-Закончено
-[First event not marked as such: correcting]
-Первое событие не помечено: исправление
-[First unread event marked wrong: fixing]
-Первое непрочитанное событие помечено неправильно: исправление
-[Infeasibly large event blob: skipping]
-Событие занимает слишком много места: пропускаем
-[Infeasibly large settings blob: skipping]
-Настройка занимает слишком много места: пропускаем
-[Invalid module name offset, skipping data]
-Неправильное смещение имени модуля, пропускаем данные
-[Invalid offset found (database truncated?)]
-Неверное смещение (база неполная?)
-[Invalid offset found]
-Найдено неправильное смещение
+[Aggressively find corruption]
+Агрессивный поиск повреждений
+[Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
+Сканирует базу для поиска непривязанных данных. Требуется больше времени и места на диске. Используйте, только если вы уверены в повреждениях.
+[Check consistency only]
+Только проверить целостность
 [Just checks that the database is valid, without writing anything to the disk.]
 Только проверка базы, без записи чего-либо на диск.
-[Launch Miranda with this profile]
-Запустить Miranda NG с этим профилем
-[Launches Miranda with the profile that was just worked on.]
-Запускает Miranda NG с предыдущим профилем
+[Cleaning Options]
+Опции очистки
+[You can choose to remove information from the database while it is being processed.]
+Вы можете удалить информацию из базы во время процесса.
+[Erase all histories]
+Удалить всю историю
+[Removes all the saved history for all contacts in the database.]
+Удаляет все сохранённые записи в истории для всех контактов.
 [Mark all events read]
 Пометить как прочитанные
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
 Пометить все события как прочитанные. Это исправит проблемы со старыми сообщениями, всегда отображаемыми в окне сообщения
-[Miranda Database Tool]
-Инструмент базы Miranda NG
-[Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
-Базы данных Miranda NG (*.dat)\0*.DAT\0Все файлы (*)\0*\0
-[Miranda Databases (*.dat)]
-Базы Miranda NG (*.dat)
-[Module chain corrupted, further entries ignored]
-Цепочка модулей повреждена, последующие данные игнорированы
-[Module name '%s' is not unique: %d duplicates found]
-Имя модуля '%s' не уникально: найдено %d дубликатов)
-[More than one user contact: keeping only first]
-Больше чем один контакт пользователя: сохраняем только первый
-[Path]
-Путь:
-[Performing aggressive pass]
-Выполнение агрессивного прохода
+[Convert old Unicode messages to UTF8]
+Конвертировать старые Unicode сообщения в UTF8
+[Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
+Конвертирует историю сообщений из <0.7 формата (ANSI+UCS2) в новый UTF8 формат. В большинстве случаев помогает сохранить место на диске (рекомендуется).
+[Working...]
+Выполнение...
 [Please wait while the requested operations are being performed.]
 Подождите, пока все операции будут завершены.
-[Processing aborted by user]
-Обработка отменена пользователем
-[Processing completed successfully]
-Обработка завершена успешно
-[Processing contact chain]
-Обработка цепочки контактов
-[Processing final tasks]
-Выполнение завершающих работ
+[Finished!]
+Закончено
+[All tasks have been completed.]
+
+[Launch Miranda with this profile]
+Запустить Miranda NG с этим профилем
+[Launches Miranda with the profile that was just worked on.]
+Запускает Miranda NG с предыдущим профилем
+[Backup:]
+Резерв:
+[The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
+Проверка базы завершена. Нажмите "Далее" для возврата в мастер и проверки другой базы, или "Завершить" для выхода.
+;file \plugins\DbChecker\src\finished.cpp
+[&Finish]
+Завершить
+;file \plugins\DbChecker\src\progress.cpp
+[Click Next to continue]
+Нажмите "Далее" для продолжения
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Обработка ещё не завершена; если вы отмените её сейчас, то изменения не будут применены к оригинальной базе данных. Вы хотите отменить?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Обработка ещё не завершена; если вы перейдёте назад сейчас, то изменения не будут применены к оригинальной базе данных. Вы хотите перейти назад?
-[Processing module name chain]
-Обработка цепочки имён модулей
-[Processing user data]
-Обработка пользовательских данных
-[Removes all the saved history for all contacts in the database.]
-Удаляет все сохранённые записи в истории для всех контактов.
-[Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
-Сканирует базу для поиска непривязанных данных. Требуется больше времени и места на диске. Используйте, только если вы уверены в повреждениях.
-[Select Miranda Profile]
-Выбор профиля Miranda NG
-[Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Выберите профиль базы в списке. Если его нет в списке, нажмите "Ещё..." для поиска на компьютере.
-[Settings chain corrupted, further entries ignored]
-Цепочка настроек повреждена, последующие данные игнорированы
-[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
-Файл уже используется другой копией Miranda NG. Закройте все открытые копии и нажмите "Далее" для повтора.
-[The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-Проверка базы завершена. Нажмите "Далее" для возврата в мастер и проверки другой базы, или "Завершить" для выхода.
-[There was an error opening the profile database given.]
-Ошибка открытия базы профиля.
-[This program is licenced under the terms of the GNU General Public License.]
-Программа лицензирована под условиями GNU General Public License.
-[To continue, click Next.]
-Нажмите "Далее" для продолжения.
-[Total size]
-Размер
-[Unable to delete original file]
-Невозможно удалить оригинальный файл
-[Unable to rename original file]
-Невозможно переименовать оригинальный файл
-[Unable to rename output file]
-Невозможно переименовать файл на выходе
-[User corrupted, this could cause major problems]
-Пользователь повреждён, это может быть серьезной проблемой
-[Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-Используя этот мастер, вы можете уменьшить размер профиля удалением "мёртвого" пространства.
-[Wasted]
-Мертво
-[Welcome to the Miranda Database Wizard]
-Добро пожаловать в мастер базы данных
-[Working...]
-Выполнение...
-[You can choose the Miranda profile database to compact or repair.]
-Выберите профиль Miranda NG для сжатия или восстановления.
-[You can choose to remove information from the database while it is being processed.]
-Вы можете удалить информацию из базы во время процесса.
-[You can select low level options to determine how the database is processed.]
-Вы можете выбрать уровень изменений базы.
-[Scanning cryptors directory]
-Сканирование директории алгоритмов шифрования
-[Cryptor loaded: %s [%s] (%s)]
-Загружен алгоритм шифрования: %s [%s] (%s)
-[%d crypto modules loaded]
-Загружено алгоритмов шифрования: %d
-[Database is Secured MMAP database]
-БД: база данных с шифрованием
-[Sorry, but your database encrypted with unknown module]
-БД зашифрована неизвестным алгоритмом
-[You are not authorized for access to Database]
-Вы не авторизованы для доступа к БД
-[your database]
-вашей БД
-[Secured MMAP: authorization successful]
-Защищённая БД: авторизация успешна
-[current database]
-текущей БД
-[Database encrypted with %s by %s]
-БД зашифрована с помощью алгоритма %s от %s
-[Miranda NG Database Checker.]
-Плагин проверки БД Miranda NG.
+;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагин проверки не может найти подходящего драйвера БД для открытия '%s'.
+[Error]
+Ошибка
 [Database driver '%s' doesn't support checking.]
 Драйвер БД '%s' не поддерживает проверку.
+[Database]
+Профиль
+[Total size]
+Размер
+[Wasted]
+Мертво
+[Miranda Databases (*.dat)]
+Базы Miranda NG (*.dat)
+[All Files]
+Все файлы
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
+Были найдены ошибки, но вы не сохранили резервную копию. Строго рекомендуется её сделать, так как важные данные могут быть утеряны. Вы хотите сохранить резервную копию оригинальной базы данных?
+[%s\\Backup of %s]
+%s\\Резервная копия %s
+[%s\\Backup (%d) of %s]
+%s\\Резервная копия (%d) %s
+[Unable to rename original file]
+Невозможно переименовать оригинальный файл
+[Unable to delete original file]
+Невозможно удалить оригинальный файл
+[Unable to rename output file]
+Невозможно переименовать файл на выходе
+[Database worker thread activated]
+Активировано восстановление работоспособности базы
+[<check only>]
+<только проверить>
+[ (Output).dat]
+
+[Can't create output file (%u)]
+Невозможно создать файл на выходе (%u)
+[Processing aborted by user]
+Обработка отменена пользователем
+[Elapsed time: %d sec]
+Затрачено времени: %d сек.
+[All tasks completed but with errors (%d)]
+Все задачи завершены, но с ошибками (%d шт)
+[All tasks completed successfully]
+Все задачи завершены

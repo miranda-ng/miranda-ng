@@ -2,59 +2,237 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Versions: 1.7.0-2.09.00, 3.00.00, 3.1.0.2
+;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-[Exports every message, URL or File you receive to a text file.\r\nMessages are exported to one file per user, users may be set to use the same file.]
-Экспорт сообщений, ссылок или принятых файлов в текстовый файл.\r\nСообщения могут экспортироваться как поконтактно, так и в один общий файл.
 [Exports every message, URL or File you receive to a text file.]
 Экспорт сообщений, ссылок или принятых файлов в текстовый файл.
-[Open E&xported History]
-Экспортированная история
-[Message export]
-Экспорт сообщений
+;file \plugins\Msg_Export\res\resource.rc
+[Browse]
+Обзор
+[Use internal viewer]
+Внутр. просмотр
+[Replace miranda history]
+Заменить историю
+[Use UTF8 in new files]
+UTF8 в новых файлах
+[Append extra new line]
+Доп. перевод строки
+[Use << and >>]
+Знаки << и >>
+[Auto filename]
+Авт. имена
+[Clear all]
+Очистить
+[Help]
+Справка
+[Export all history]
+Экспорт истории
 [Export directory]
 Каталог экспорта
-[Default file]
-Имя файла
-[Export format]
-Формат экспорта
 [Max column width]
 Макс. ширина строки
 [Time format]
 Формат времени
-[Auto filename]
-Авт. имена
-[Export all history]
-Экспорт истории
-[You have not applied the changes, do you wish to apply them first?]
-Есть несохранённые изменения, применить?
-[No contacts found to export]
-Нет контактов для экспорта
-[Failed to export at least one contact]
-Не удалось экспортировать как минимум 1 контакт
-[Max line width must be at least %d]
-Макс ширина строки должна быть не менее %d
+[Export format]
+Формат экспорта
+[Default file]
+Имя файла
+[File viewer]
+Просмотр файлов
 [Exporting old messages]
 Экспорт старых сообщений
-[Reading database information ( Phase 1 of 2 )]
-Шаг 1: Чтение базы данных
+[History file for %s (%s format %s)]
+Файл истории для %s (%s формат %s)
+[&Find...]
+&Найти
+[&External]
+Внешнее
+[&Close]
+&Закрыть
+[When filename changes]
+При переименовании файла
+[Prompt for action]
+Спросить
+[Rename file]
+Переименовать файл
+[Do nothing]
+Ничего не делать
+[When user is deleted]
+При удалении пользователя
+[Delete file]
+Удалить файл
+[Debug]
+Отладка
+[User &details]
+
+[Export selected]
+Экспорт выбранного
+[Set to default filename]
+Имя файла по умолчанию
+[Copy]
+Копировать
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to write to the RichEdit the buffer was to small.]
+
+[Error: Optimal buffer size decrecied to a to low size!]
+
+[Internal error! (lExtraRead >= 0)]
+
+[Faile to execute external file view]
+
+[Failed to load Rich Edit ( RICHED32.DLL )]
+
+[Failed to get handle to RichEdit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
+
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+
+[With scroll to bottom %d\n]
+
+[Search string was not found!]
+Строка не найдена!
+[Save as RTF]
+
+[Color...]
+Цвет...
+[Font...]
+Шрифт
+[Syntax highlight]
+Подсветка синтаксиса
+[Failed to create file]
+Ошибка создания файла
+[Failed to save file]
+
+[History was saved successfully in file\r\n]
+
+[Failed to create history dialog]
+
+;file \plugins\Msg_Export\src\Glob.h
+[Miranda NG (Message Export Plugin)]
+
+;file \plugins\Msg_Export\src\main.cpp
+[Open E&xported History]
+Экспортированная история
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+
+;file \plugins\Msg_Export\src\options.cpp
+[No contacts found to export]
+Нет контактов для экспорта
+[Reading database information (Phase 1 of 2)]
+
+[Failed to export at least one contact]
+Не удалось экспортировать как минимум 1 контакт
 [Sorting and writing database information ( Phase 2 of 2 )]
 Шаг 2: Сортировка и запись информации
-[Select Destination Directory]
-Выбрать папку для записи
-[The following user added you to their contact list:]
-Пользователь добавил вас в свой список контактов:
-[The following user made an authorization request:]
-Следующий пользователь запросил авторизацию:
-[Message has not been saved !]
-Сообщение не было сохранено !
+[Max line width must be at least %d]
+Макс ширина строки должна быть не менее %d
+[You need to restart miranda to change the history function]
+Изменения функции истории вступят в силу после перезапуска Miranda
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 Не удалось получить путь к Msg_Export.dll\nПожалуйста найдите Msg_Export.txt самостоятельно
-[Failed to move to the end of the file :\n]
-Не удалось перейти к концу файла:\n
+[File]
+Файл
+[Nick]
+Ник
+[Proto]
+Протокол
+[UIN]
+Номер
+[You have not applied the changes, do you wish to apply them first?]
+Есть несохранённые изменения, применить?
+[Executable files]
+Исполняемые файлы
+[All files]
+Все файлы
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+
+[Select Destination Directory]
+Выбрать папку для записи
+[Export Protocols]
+Экспорт протоколов
+[Message export]
+Экспорт сообщений
+[History]
+История
+[General]
+Общее
+[Additional]
+Дополнительно
+;file \plugins\Msg_Export\src\utils.cpp
+[No_Nick]
+
+[No_Group]
+
+[DB: Attempt to get wrong type of value, string]
+
+[(Unknown Contact)]
+(Неизвестный контакт)
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Не удалось переименовать файл\n\nстарое имя:\t%s\nновое имя:\t%s\n\nОшибка: %s
+[\nError: ]
+
+[\nMessage has not been saved!\n]
+
+[Do you wish to save debug information?]
+
+[All\0*.*\0Text\0*.TXT\0\0]
+
 [Failed to open or create file :\n]
 Не удалось открыть или создать файл :\n
+[Failed to move to the end of the file :\n]
+Не удалось перейти к концу файла:\n
+[Failed to UTF8 byte order code to file :\n]
+
+[      History for\r\n]
+
+[User      : %User%\r\n]
+
+[Protocol  : %Proto%\r\n]
+
+[UIN       : %UIN%\r\n]
+
+[FirstName : %FirstName%\r\n]
+
+[LastName  : %LastName%\r\n]
+
+[Age       : %Age%\r\n]
+
+[Gender    : %Gender%\r\n]
+
+[e-mail    : %e-mail%\r\n]
+
+[Nick      : %Nick%\r\n]
+
+[City      : %City%\r\n]
+
+[State     : %State%\r\n]
+
+[Phone     : %Phone%\r\n]
+
+[Homepage  : %Homepage%\r\n]
+
+[- About -\r\n%About%\r\n]
+
+[Failed to write user details to file :\n]
+
+[Failed to write timestamp and username to file :\n]
+
+[Failed to write message to the file :\n]
+Не удалось записать сообщение в файл:\n
+[URL: ]
+URL:\s
+[File: ]
+Файл:\s
+[Description: ]
+Описание:\s
+[Failed to write URL/File to the file :\n]
+Не удалось записать передачу файла или URL в файл:\n
 [Nick      :]
 Псевдоним :
 [FirstName :]
@@ -65,97 +243,33 @@
 e-mail    :
 [Reason    :]
 Причина   :
-[Failed to write message to the file :\n]
-Не удалось записать сообщение в файл:\n
-[Failed to write URL/File to the file :\n]
-Не удалось записать передачу файла или URL в файл:\n
-[URL: ]
-URL:\s
-[File: ]
-Файл:\s
-[Description: ]
-Описание:\s
+[Invalid Database event received. Type %d, size %d]
+
+[Failed to write Invalid Database event the file :\n]
+
+[The following user made an authorization request:]
+Следующий пользователь запросил авторизацию:
+[The following user added you to their contact list:]
+Пользователь добавил вас в свой список контактов:
+[UIN       :]
+
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+
 [EmailExpress from:]
 EmailExpress от:
+[WebPager from:]
+WebPager от:
 [No from address]
 без адреса
 [Failed to write EmailExpress to the file :\n]
 Не удалось записать EmailExpress в файл:\n
 [Failed to write SMS to the file :\n]
 Не удалось записать SMS в файл:\n
-[Replace miranda history]
-Заменить историю
-[Use internal viewer]
-Внутр. просмотр
-[You need to restart miranda to change the history function]
-Изменения функции истории вступят в силу после перезапуска Miranda
-[History file for %s (%s)]
-Файл истории для %s (%s)
-[Find...]
-Найти...
-[External]
-Внешний
-[Search string was not found!]
-Строка не найдена!
-[File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
-Имя файла для пользователя "%s" изменилось !\n\nстарое имя:\t%s\nновое имя:\t%s\n\nПереименовать файл?
-[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Не удалось переименовать файл\n\nстарое имя:\t%s\nновое имя:\t%s\n\nОшибка: %s
-[No to A&ll]
-Нет для вс&ех
-[Color...]
-Цвет...
-[Font...]
-Шрифт
-[Failed to delete the file]
-Не удалось удалить файл
-[Prompt to delete file]
-Запрос на удаление
-[Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
-Не удалось заменить историю в Miranda.\r\nСкорее всего, это вызвано изменениями в Miranda.
-[Syntax highlight]
-Подсветка синтаксиса
-[File viewer]
-Просмотр файлов
-[Append extra new line]
-Доп. перевод строки
-[WebPager from:]
-WebPager от:
-[Export selected]
-Экспорт выбранного
-[Set to default filename]
-Имя файла по умолчанию
-[Use << and >>]
-Знаки << и >>
-[When filename changes]
-При переименовании файла
-[When user is deleted]
-При удалении пользователя
-[Prompt for action]
-Спросить
-[Rename file]
-Переименовать файл
-[Delete file]
-Удалить файл
-[Executable files]
-Исполняемые файлы
-[All files]
-Все файлы
-[Export Protocols]
-Экспорт протоколов
-[Use UTF8 in new files]
-UTF8 в новых файлах
-[&External]
-Внешнее
-[Message export2]
-Экспорт сообщений2
-[Message export (mod by ring0)]
-Экспорт сообщений (мод от ring0)
-[History file for %s (%s format %s)]
-Файл истории для %s (%s формат %s)
-[Additional]
-Дополнительно
-[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
-Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
+[Unknown event type %d, size %d]
+
+[Failed to write Unknown event to the file :\n]
+
 [User has been deleted. Do you want to delete the file?]
 Контакт удалён. Хотите удалить файл?
+[Failed to delete the file]
+Не удалось удалить файл

@@ -3,11 +3,10 @@
 ;  File: CyrTranslit.dll
 ;  Plugin: CyrTranslit
 ;  Version: 0.1.2.0
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2523
-;  Source: http://addons.miranda-im.org/download.php?dlsource=2523
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 Транслитерация исходящих сообщений (замена кириллических символов на фонетический эквивалент латинских).
+;file \plugins\CyrTranslit\src\MirandaContact.cpp
 [&Transliterate]
 Транслитерация (ФЫВА->FYVA)

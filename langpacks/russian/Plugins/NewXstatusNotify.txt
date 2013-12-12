@@ -1,139 +1,388 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Module: NewXstatusNotify YM
-;  Versions: 1.4.0.0
-;  URL: http://miranda-easy.net/mods.php
+;  Plugin: xStatus notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Уведомляет вас об изменениях статусов, xСтатусов или статусных сообщений контактов.
-[Notifies you when a contact changes his/her (X)status.]
-Уведомляет вас об изменениях статусов и xСтатусов контактов.
-[<error>]
-<ошибка>
-[%s is now %s]
-%s сейчас %s
-[%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s изменил(а): %s (был(а): %s).\r\n
-[Disable globally]
-Отключить полностью
-[Can't open the log file!]
-Не могу открыть файл журнала!
-[Remove:]
-Удаление:
-[On opening ML:]
-Открытие окна:
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Сообщать, когда статус контакта изменяется на:
+[Online]
+В сети
+[Offline]
+Не в сети
+[Invisible]
+Невидимый
+[Free for chat]
+Готов болтать
+[Away]
+Отсутствую
+[NA]
+Недоступен
+[Occupied]
+Занят
+[DND]
+Не беспокоить
+[Out to lunch]
+Обедаю
+[On the phone]
+На телефоне
+[Always when changing from offline]
+Из статуса "Отключён"
+[Plugin activation]
+Активизация плагина
+[Automatically turn off Popups and Sounds on status change]
+Выключать всплывающие окна и звуки при изменении статуса
+[Configure]
+Настроить
+[Notify me for people not in my Contact List]
+Уведомлять меня о контактах не из списка контактов
+[Blink icon in the system tray]
+Мигающий значок в сист. панели
+[Use status icon]
+Значок статуса
+[Use individual sounds]
+Индивидуальные звуки
+[Log to file]
+Запись в файл
+[Enable]
+Включено
+[Go to Sound to select the sounds]
+Выбор звуков в разделе "Звуки"
+[Extra status]
+xСтатус
+[Open]
+
+[Status message]
+Сообщение статуса
+[Change]
+Изменить
+[Preview]
+Тест
+[Delete]
+Удалить
+[Enable sounds]
+Включить звуки
+[Enable popups]
+Всплывающие окна
+[Status Notify]
+Смена статуса
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Личные звуки выключены.\n\nЧтобы их включить, пойдите в Настройки - Статус - Уведомление, включите \n"Индивидуальные звуки", и снова откройте это окно.
+[Sounds]
+Звуки
+[Popups]
+Всплывающие окна
+[Extra status notify]
+xСтатус
+[Extra status logging]
+Запись xСтатусов
 [Disable all]
 Отключить все
 [Enable all]
 Включить все
-[NewXstatusNotify]
-Уведомление о смене статусов
-[Reset templates]
-Сбросить шаблоны
-[Do you want to reset all templates to default?]
-Вы хотите сбросить все шаблоны на стандартные?
+[Background]
+Фон
+[Text]
+Текст
+[Colors]
+Цвета
+[Use custom colors]
+Задать цвета
+[Use Windows colors]
+Цвета Windows
+[Use Popup colors]
+Цвета всплывающих окон
+[Popup text]
+Текст всплывающих окон
+[Read status message]
+Читать статусное сообщение
+[Show previous status too]
+Показывать предыдущий cтатус
+[Timeout]
+Таймаут
+[Popups when status changes to:]
+Окна, когда статус изменился на:
+[Click action]
+Действия по щелчку
+[Show contact group name]
+Показывать имя группы контакта
+[Use alternative descriptions]
+Использовать альтернативное описание
+[0 = Default]
+0=Умолчание
+[-1 = Infinite]
+-1=Бесконечно
+[Sec]
+сек.
+[On left click]
+Левый щелчок
+[On right click]
+Правый щелчок
+[Show status description]
+Показывать описание статуса
+[Ignore empty status and xStatus messages]
+Игнорировать пустые сообщения
+[Connection timeout]
+Таймаут на старте
+[Notification]
+Уведомление
 [Disable for extra status 'Music']
 Отключить для хСтатуса "Музыка"
-[New status:]
-Новый статус:
-[New message:]
-Новое сообщение:
+[Truncate message length to:]
+Обрезать сообщение до:
+[characters]
+символов
+[Templates]
+Шаблоны
 [Title - text delimiter:]
 Разделитель заголовка - текста:
-[changed %N to: %T%D%I]
-изменил(а) %N на: %T%D%I
-[changed %N message to:%D%I]
-изменил(а) сообщение %N на:%D%I
-[removed %N]
-удалил(а) %N
-[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
-Доступные переменные:\r\n\r\n%N\tназвание xСтатуса (хСтатус, Настроение, Занятие)\r\n%T\tзаголовок xСтатуса\r\n%I\tтекст xСтатуса\r\n%D\tразделитель\r\n%B\tразрыв строки (может использоваться как разделитель)
-[Automatically turn off Popups and Sounds on status change]
-Выключать всплывающие окна и звуки при изменении статуса
-[Notify me for people not in my Contact List]
-Уведомлять меня о контактах не из списка контактов
-[Go to Customize -> Sound to select the sounds]
-Настройка звуков: Тонкая настройка -> Звуки
-[Disable when my status is:]
-Отключать, когда мой статсус:
+[Remove:]
+Удаление:
+[New message:]
+Новое сообщение:
+[New status:]
+Новый статус:
+[Variables]
+Переменные
+[Reset]
+Сброс
+[Disable notifications]
+Выключить уведомления
+[OK]
+
+[Cancel]
+Отмена
+[Disable globally]
+Отключить полностью
 [Disable only if I change global status]
 Отключать, только при изменении глобального статуса
-[Extra status notify]
-xСтатус
-[Extra status]
-xСтатус
-[Extra status logging]
+[Disable when my status is:]
+Отключать, когда мой статсус:
+[Extra status log]
 Запись xСтатусов
-[Prevent identical logs]
-Предотвращать одинаковые записи
+[Enable logging extra status to message window]
+Включить запись xСтатусов в окно сообщений
 [Keep events in history]
 Сохранять события в историю
-[changed %N @ %T%D%I]
-изменил(а) %N @ %T%D%I
-[changed %N message @ %I]
-изменил(а) сообщение %N @ %I
-[has %N @ %T%D%I]
-%N @ %T%D%I
-[Xstatus]
-хСтатус
-[Show available variables]
-Доступные переменные
-[Reset all templates to default]
-Сбросить все шаблоны на стандартные
+[Prevent identical logs]
+Предотвращать одинаковые записи
+[On opening ML:]
+Открытие окна:
+[General]
+Общее
+[Show Popups when I connect]
+Окна при подключении
+[Accounts]
+Учётные записи
+[Enable/Disable accounts which you don't wish to be notified for:]
+Включить/Выключить уведомления для учётных записей:
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound files]
+Звуковые файлы
+[All files]
+Все файлы
+[Wave files]
+Файлы Wave
+[Status]
+Статус
+[Sound for the status]
+Звук для статуса
+[From offline]
+Из оффлайна
+[** All contacts **]
+** Все контакты **
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+(по умолчанию)
+;file \plugins\NewXstatusNotify\src\main.cpp
+[<no status message>]
+<нет сообщения статуса>
+[Contact]
+Контакт
+[connecting]
+подключается
+[aborting]
+отключается
+[playing]
+играет
+[%s is now %s]
+%s сейчас %s
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+%s, %s. %s изменил(а): %s (был(а): %s).\r\n
+[(M) is back online!]
+снова в сети!
+[(F) is back online!]
+снова в сети!
+[(U) is back online!]
+снова в сети!
+[User: Online]
+Пользователь: в сети
+[(M) went offline! :(]
+ушёл из сети! :(
+[(F) went offline! :(]
+ушла из сети! :(
+[(U) went offline! :(]
+ушёл из сети! :(
+[User: Offline]
+Пользователь: не в сети
+[(M) hides in shadows...]
+спрятался в тени...
+[(F) hides in shadows...]
+спряталась в тени...
+[(U) hides in shadows...]
+спрятался в тени...
+[User: Invisible]
+Пользователь: невидимый
+[(M) feels talkative!]
+готов поболтать!
+[(F) feels talkative!]
+готова поболтать!
+[(U) feels talkative!]
+готов(а) поболтать!
+[User: Free For Chat]
+Пользователь: готов болтать
+[(M) went Away]
+отошёл
+[(F) went Away]
+отошла
+[(U) went Away]
+отошёл
+[User: Away]
+Пользователь: отсутствует
+[(M) isn't there anymore!]
+отсутствует!
+[(F) isn't there anymore!]
+отсутствует!
+[(U) isn't there anymore!]
+отсутствует!
+[User: Not Available]
+Пользователь: недоступен
+[(M) has something else to do.]
+занят чем-то другим.
+[(F) has something else to do.]
+занята чем-то другим.
+[(U) has something else to do.]
+занят чем-то другим.
+[User: Occupied]
+Пользователь: занят
+[(M) doesn't want to be disturbed!]
+не хотел бы, чтобы его беспокоили!
+[(F) doesn't want to be disturbed!]
+не хотела бы, чтобы её беспокоили!
+[(U) doesn't want to be disturbed!]
+не хотел бы, чтобы его беспокоили!
+[User: Do Not Disturb]
+Пользователь: не беспокоить
+[(M) is eating something]
+что-то ест
+[(F) is eating something]
+что-то ест
+[(U) is eating something]
+что-то ест
+[User: Out To Lunch]
+Пользователь: обедает
+[(M) had to answer the phone]
+говорит по телефону
+[(F) had to answer the phone]
+говорит по телефону
+[(U) had to answer the phone]
+говорит по телефону
+[User: On The Phone]
+Пользователь: на телефоне
+[Enable status notification]
+Включить уведомления о смене статуса
+[Disable status notification]
+Выключить уведомления о смене статуса
+[Notification enabled]
+Уведомление включено
+[Notification disabled]
+Уведомление выключено
+[New Status Notify]
+Смена статуса
+[User: from offline (has priority!)]
+Пользователь:  из оффлайна (имеет приоритет!)
 [Extra status changed]
 xСтатус изменен
 [Extra status message changed]
 Изменено сообщение xСтатуса
 [Extra status removed]
 xСтатус удален
-[Popup text]
-Текст всплывающих окон
-[Use Popup colors]
-Цвета всплывающих окон
-[Show contact group name]
-Показывать имя группы контакта
-[Show status description]
-Показывать описание статуса
-[Use alternative descriptions]
-Использовать альтернативное описание
-[Extra status log]
-Запись xСтатусов
-[Enable logging extra status to message window]
-Включить запись xСтатусов в окно сообщений
 [Toggle status notification]
 Вкл/Выкл уведомления о смене статуса
-[Status notification enabled]
-Уведомления о смене статуса включены
-[Status notification disabled]
-Уведомления о смене статуса выключены
-[NewStatusNotify]
-Уведомление о смене статусов
-[Go to Sound to select the sounds]
-Выбор звуков в разделе "Звуки"
-[Notification enabled]
-Уведомление включено
-[Notification disabled]
-Уведомление выключено
-[Disable status notification]
-Выключить уведомления о смене статуса
-[Enable status notification]
-Включить уведомления о смене статуса
-[Wave files]
-Файлы Wave
-[changed his/her status message to %n]
-сменил(а) статусное сообщение на %n
-[Enable/Disable accounts which you don't wish to be notified for:]
-Включить/Выключить уведомления для учётных записей:
-[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Доступные переменные:\r\n\r\n%n\tНовое сообщение статуса\r\n%o\tСтарое сообщение статуса\r\n%c\tНикнейм\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция
+;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Все файлы
+[Log]
+Журнал
 [This is status message]
 Это сообщение статуса
-[New Status Notify]
-Смена статуса
-[Ignore empty status and xStatus messages]
-Игнорировать пустые сообщения
-[Popups when status changes to:]
-Окна, когда статус изменился на:
-[Connection timeout]
-Таймаут на старте
+[Do you want to reset all templates to default?]
+Вы хотите сбросить все шаблоны на стандартные?
+[Reset templates]
+Сбросить шаблоны
+[Show available variables]
+Доступные переменные
+[Reset all templates to default]
+Сбросить все шаблоны на стандартные
+[Protocol]
+Протокол
+[Filtering]
+Фильтрация
+[Message log]
+Журнал
+;file \plugins\NewXstatusNotify\src\popup.h
+[Open message window]
+Открыть окно беседы
+[Close popup]
+Закрыть окно
+[Open contact details window]
+Открыть окно деталей контакта
+[Open contact menu]
+Открыть меню контакта
+[Open contact history]
+Открыть историю контакта
+[Do nothing]
+Ничего не делать
+;file \plugins\NewXstatusNotify\src\utils.cpp
+[You cannot specify a value lower than %d and higher than %d.]
+Значение меньшее %d или большее %d не допускается.
+[Can't open the log file!]
+Не могу открыть файл журнала!
+[NewXstatusNotify]
+Уведомление о смене статусов
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Mood]
+Настроение
+[Activity]
+Занятие
+[Xstatus]
+хСтатус
+[<unknown>]
+<неизвестно>
+[%s, %s. %s removed %s.\r\n]
+
+[%s, %s. %s changed %s to: %s.\r\n]
+
+;file \plugins\NewXstatusNotify\src\xstatus.h
+[changed %N to: %T%D%I]
+изменил(а) %N на: %T%D%I
+[changed %N message to:%D%I]
+изменил(а) сообщение %N на:%D%I
+[removed %N]
+удалил(а) %N
+[changed his/her status message to %n]
+сменил(а) статусное сообщение на %n
+[changed %N @ %T%D%I]
+изменил(а) %N @ %T%D%I
+[changed %N message @ %I]
+изменил(а) сообщение %N @ %I
+[has %N @ %T%D%I]
+%N @ %T%D%I
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+Доступные переменные:\r\n\r\n%N\tназвание xСтатуса (хСтатус, Настроение, Занятие)\r\n%T\tзаголовок xСтатуса\r\n%I\tтекст xСтатуса\r\n%D\tразделитель\r\n%B\tразрыв строки (может использоваться как разделитель)
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступные переменные:\r\n\r\n%n\tНовое сообщение статуса\r\n%o\tСтарое сообщение статуса\r\n%c\tНикнейм\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция

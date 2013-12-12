@@ -1,30 +1,34 @@
 ﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;============================================================
-;  File: folders.dll
-;  Module: folders
-;  Version: 0.1.5.8
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2521
-;  Source: https://svn.asylum-studios.org/loki/trunk/plugins/folders/ Login: guest Pass: guestpas
-;  Authors: Cristian Libotean
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.2.0.1
+;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
-[Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
-Служебный плагин. Позволяет другим плагинам сохранять свои данные в произвольных папках. Поддерживаются переменные.
 [Allows plugins to save their data to user selected folders; supports variables.]
 Позволяет другим плагинам сохранять свои данные в произвольных папках. Поддерживаются переменные.
+;file \plugins\Folders\res\folders.rc
+[Dialog]
+Диалог
 [Custom folders]
 Папки
+[Preview]
+
+[Edit]
+Изменить
 [Refresh preview]
 Обновить
 [Variables help]
 Переменные...
-[Changes not saved]
-Изменения не сохранены
-[Some changes weren't saved. Apply the changes now?]
-Изменения не сохранены. Применить изменения?
 [Custom folders variables help]
 Помощь по переменным (Папки)
-[Custom profile folders]
-Служба папок
+[Close]
+Закрыть
+;file \plugins\Folders\src\dlg_handlers.cpp
+[Some changes weren't saved. Apply the changes now?]
+Изменения не сохранены. Применить изменения?
+[Changes not saved]
+Изменения не сохранены
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 Не забудьте нажать Применить для сохранения изменений. Если вы забудете это сделать, изменения
 [be saved to the database, they will only be valid for this session.]
@@ -37,8 +41,8 @@
 Возвращает путь к вашей Miranda NG (к примеру: c:\\program files\\miranda ng).
 [Expands to your profile path - the value found in mirandaboot.ini,]
 Возвращает путь к вашему профилю - значение найденное в mirandaboot.ini,
-[ProfileDir section (usually inside miranda\'s folder).]
-в секции ProfileDir (обычно находится в папке Miranda NG).
+[ProfileDir section (usually inside miranda's folder).]
+
 [Expands to your current profile name without the extenstion.]
 Возвращает имя вашего профиля без расширения.
 [(e.g.default if your your profile is default.dat).]
@@ -53,14 +57,14 @@
 Примечание: Переменные окружения обрабатываются перед любыми переменными Miranda NG. Если у вас,
 [example, %profile_path% defined as a system variable then it will be expanded to that value]
 к примеру, %profile_path% определена как системная переменная, тогда будет возвращено значение системной
-[instead of expanding to Miranda\'s profile path.]
-переменной, а не переменной %profile_path% Miranda NG.
+[instead of expanding to Miranda's profile path.]
+
 [Examples:]
 Примеры:
-[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
-Если значение ProfileDir секции ProfileDir файла mirandaboot.ini - это '.\\profiles\\', текущий
-[profile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\\' then:]
-профиль это 'default.dat' и Miranda NG находится в 'c:\\program files\\miranda ng\\', то:
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
+
+[profile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\' then:]
+
 [will expand to 'c:\\program files\\miranda ng']
 вернёт 'c:\\program files\\miranda ng'
 [will expand to 'c:\\program files\\miranda ng\\profiles']
@@ -75,3 +79,7 @@
 вернёт 'c:\\program files\\miranda ng\\plugins\\config'
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 Примечание: пробелы в начале и в конце строки обрезаются, также как и последние.
+[Folders]
+Папки
+[Customize]
+Тонкая настройка

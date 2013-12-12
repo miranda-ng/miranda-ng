@@ -1,113 +1,192 @@
 ﻿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
 ;============================================================
-;  File: alarms.dll
-;  Plugin: Set once-off, daily, weekly and weekday alarms.
-;  Versions: 0.4.0.5
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2163
-;  Source: https://github.com/sje397/sje-miranda-plugins/tree/master/alarms/
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-[&New Alarm...]
-Новое напоминание...
-[&Suspend]
-Отложить
-[Alarm Reminders]
-Напоминания
-[Alarm: System Tray]
-Трей
-[Alarm]
-Напоминание 
+[Sets once-off, daily, weekly and weekday alarms.]
+Установка ежедневных, еженедельных и разовых уведомлений.
+;file \plugins\Alarms\res\resource.rc
+[New]
+Создать
+[Delete]
+Удалить
+[Edit]
+Изменить
 [Alarms]
 Напоминания
+[Use popup plugin]
+Всплывающие окна
+[Default snooze:]
+Пауза по умолчанию:
+[minutes]
+минут(ы)
+[Row Height:]
+Высота строки
+[Indent:]
+Отступ:
+[Reminder Frame]
+Список напоминаний
+[Auto hide/show]
+Автопоказ/скрытие
+[Loop sound]
+Повторять звук
+[Period (hours):]
+Период (часов):
+[Hide/show with clist]
+Пок./скрыть со списком
+[Auto size vertically]
+Подгонять высоту
+[Transparency (%):]
+Прозрачность (%):
+[Alert Window]
+Окно напоминания
+[Round corners]
+Закруглённые углы
+[Don't steal focus unless idle]
+Если не активен, не перехватывать фокус
+[Preview]
+Тест
+[Alarm]
+Напоминание 
+[OK]
+
+[Cancel]
+Отмена
+[Title:]
+Заголовок:
+[Description:]
+Описание:
+[Actions]
+Действия
+[Popup window]
+Всплывающее окно
+[Sound:]
+Звук:
+[Run command:]
+Выполнить команду:
+[Parameters:]
+Параметры:
 [Alert 1]
 Звук 1
 [Alert 2]
 Звук 2
 [Alert 3]
 Звук 3
-[Alert Window]
-Окно напоминания
-[Auto hide/show]
-Автопоказ/скрытие
-[Auto size vertically]
-Подгонять высоту
-[Date and Time]
-Дата и время
-[DateTimePicker1]
-ДатаВремя1
-[Default snooze:]
-Пауза по умолчанию:
-[Disable next occurrence]
-Отключить следующее напоминание
-[Don't steal focus unless idle]
-Если не активен, не перехватывать фокус
-[Don't trigger on startup]
-Не срабатывать при загрузке
-[Example Alarm]
-Пример напоминания
-[Hide Reminders]
-Скрыть напоминания
-[Hide/show with clist]
-Пок./скрыть со списком
-[i'm hiding]
-прячусь
-[Menu: Set Alarm]
-Меню: Дать напоминание
-[Menu: Show/Hide Reminders]
-Меню: Показать/Скрыть напоминания
-[No reminder]
-Не показывать в списке
+[Speak]
+Речь
 [Occurrence]
 Событие
-[Period (hours):]
-Период (часов):
-[Please enter a title for this alarm.]
-Введите имя напоминания.
-[Reminder Frame Context]
-Содержимое списка
-[Reminder Frame]
-Список напоминаний
-[Reminder: Soon]
-Напоминание: скоро
-[Reminder: Very Soon]
-Напоминание: очень скоро
-[Row Height:]
-Высота строки
-[Run command:]
-Выполнить команду:
-[Set a new alarm]
-Новое напоминание
-[Set Alarm]
-Дать напоминание
-[Show Reminders]
-Показать напоминания
-[Snooze]
-Отложить
-[Some example text. Example, example, example.]
-Пример текста. Пример, пример, пример.
-[The alarm time you have selected is in the past.]
-Выбранное вами время - в прошлом.
-[Transparency (%):]
-Прозрачность (%):
-[Use popup plugin]
-Всплывающие окна
+[Once]
+Один раз
+[Weekly]
+Еженедельно
+[Daily]
+Ежедневно
 [Weekdays]
 По будням
-[Alarms/Background]
-Напоминания/Фон
-[Alarms/Selection Background]
-Напоминания/Фон выбранного
-[Snooze time:]
+[Monthly]
+Ежемесячно
+[Yearly]
+Ежегодно
+[i'm hiding]
+прячусь
+[Date and Time]
+Дата и время
+[Disable next occurrence]
+Отключить следующее напоминание
+[Don't trigger on startup]
+Не срабатывать при загрузке
+[No reminder]
+Не показывать в списке
+[Dismiss]
+Убрать
+[Snooze]
 Отложить
-[Sets once-off, daily, weekly and weekday alarms.]
-Установка ежедневных, еженедельных и разовых уведомлений.
+[Static]
+Статический
+[Reminder Frame Context]
+Содержимое списка
+[&Suspend]
+Отложить
+[&Edit...]
+&Изменить
+[&Delete]
+&Удалить
+[&Options...]
+&Настройки...
+[&New Alarm...]
+Новое напоминание...
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[Unknown command issued: "%s"]
+
+[Set Alarm]
+Дать напоминание
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example Alarm]
+Пример напоминания
+[Some example text. Example, example, example.]
+Пример текста. Пример, пример, пример.
 [5 mins]
 5 минут
 [15 mins]
 15 минут
 [30 mins]
 30 минут
+[1 hour]
+1 час
+[1 day]
+1 день
 [1 week]
 1 неделя
-[New]
-Создать
+[Title]
+Заголовок
+[Background]
+Фон
+[Window]
+Окно
+;file \plugins\Alarms\src\frame.cpp
+[Hide Reminders]
+Скрыть напоминания
+[Show Reminders]
+Показать напоминания
+[Frames]
+Фреймы
+[Alarm Reminders]
+Напоминания
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set Alarm]
+Меню: Дать напоминание
+[Reminder: Soon]
+Напоминание: скоро
+[Reminder: Very Soon]
+Напоминание: очень скоро
+[Alarm: System Tray]
+Трей
+[Menu: Show/Hide Reminders]
+Меню: Показать/Скрыть напоминания
+;file \plugins\Alarms\src\options.cpp
+[Sunday]
+Воскресенье
+[Monday]
+Понедельник
+[Tuesday]
+Вторник
+[Wednesday]
+Среда
+[Thursday]
+Четверг
+[Friday]
+Пятница
+[Saturday]
+Суббота
+[Please enter a title for this alarm.]
+Введите имя напоминания.
+[Error]
+Ошибка
+[The alarm time you have selected is in the past.]
+Выбранное вами время - в прошлом.
+[Events]
+События

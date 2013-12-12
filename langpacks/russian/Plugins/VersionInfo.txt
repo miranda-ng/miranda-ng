@@ -1,84 +1,103 @@
 ﻿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;============================================================
 ;  File: VersionInfo.dll
-;  Module: Version Information
-;  Versions: 1.0.1.3 - 1.4.1.1
+;  Plugin: Version information
+;  Version: 1.5.0.3
+;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
-[VersionInfo]
-Версии
-[Customize using folders plugin]
-Настройка с помощью плагина folders
-[Show plugin UUIDs]
-UUID плагина
-[Output folder]
-Папка сохранения
-[Ask every time]
-Всегда спрашивать
-[Add a menu item to the main Miranda Menu]
-Добавить пункт в главное меню
-[Output to:]
-Вывести в:
-[Text file]
-Текстовый файл
-[DialogBox]
-Диалоговое окно
-[You will need to restart Miranda to add/remove the menu item.]
-Чтобы добавить или удалить пункт меню нужно перезапустить Miranda.
-[Show disabled plugins too]
-Показать отключённые плагины
-[Do it now]
-Сделать
-[Enable debug messages]
-Отладочные сообщения
-[Forum style formatting]
-Форматировать для форума
-[Also copy info to clipboard]
-Скопировать в буфер обмена
-[Show window in taskbar]
-Показать окно в панели задач
-[Highlight version number using]
-Выделить номер версии
-[Attempt to find unloadable plugins]
-Найти плагины, которые не загружаются
-[Ask everytime]
-Всегда спрашивать
-[Suppress header information]
-Не включать заголовок
-[Miranda Version Information]
-Версии плагинов Miranda
-[&Copy text]
-&Копировать
-[Select output:]
-Вывести в:
 [Collects and prints information related to Miranda, the plugins and the OS.]
 Собирает и выводит информацию о Miranda NG, плагинах и операционной системе.
-[Upload to site]
-Закачать на сайт
-[Upload site settings]
-Настройки сайта
-[&Save to file]
-&В файл
-[Show installed languages]
-Показывать установленные языки
-[Information successfully written to file: "%s".]
-Информация успешно записана в файл: "%s".
-[Information successfully copied into clipboard.]
-Информация успешно скопирована в буфер обмена.
-[Informations successfully copied into clipboard.]
-Информация о плагинах успешно скопирована в буфер обмена
-[Informations successfully written on file: "%s".]
-Информация о плагинах успешно записана в файл: "%s".
-[Show plugin UUIDs?]
-UUID плагинов
-[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
-Вы уверены, что хотите включить эту опцию?\nПожалуйста, используйте её, только если понимаете, для чего она или если кто-либо попросил вас включить её.
-[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\nIf you don't check your bug and give help, it will not be fixed!]
-Если вы собираетесь использовать этот отчёт для сообщения об ошибке, не забудьте проверить страницу для вопросов или помощи, которая нужна разработчикам.\nЕсли вы не уведомите об ошибке, она не будет исправлена!
-[Error during the creation of file "%s". Disk may be full or write protected.]
-Ошибка создания файла %s. Возможно диск полон или защищен.
-[Version Informations]
-Версии плагинов
-[&Version Informations]
-&Версии плагинов
+;file \plugins\VersionInfo\res\resource.rc
+[Output to:]
+Вывести в:
+[OK]
+
+[Cancel]
+Отмена
+[Text file]
+Текстовый файл
+[MessageBox]
+Окно уведомления
+[DialogBox]
+Диалоговое окно
 [Output Debug String]
 Вывод отладочных строк
+[Clipboard]
+Буфер обмена
+[Select output:]
+Вывести в:
+[Upload to site]
+Закачать на сайт
+[Forum style formatting]
+Форматировать для форума
+[Aditional options:]
+
+[Do it now]
+Сделать
+[Show window in taskbar]
+Показать окно в панели задач
+[Ask every time]
+Всегда спрашивать
+[Also copy info to clipboard]
+Скопировать в буфер обмена
+[Upload site settings]
+Настройки сайта
+[Username]
+Имя пользователя
+[Password]
+Пароль
+[Highlight version number using]
+Выделить номер версии
+[Show disabled plugins too]
+Показать отключённые плагины
+[Attempt to find unloadable plugins]
+Найти плагины, которые не загружаются
+[Suppress header information]
+Не включать заголовок
+[Enable debug messages]
+Отладочные сообщения
+[Show plugin UUIDs]
+UUID плагина
+[Show installed languages]
+Показывать установленные языки
+[Miranda Version Information]
+Версии плагинов Miranda
+[Close]
+Закрыть
+[&Copy text]
+&Копировать
+[Upload]
+Загрузить
+[&Save to file]
+&В файл
+;file \plugins\VersionInfo\src\CVersionInfo.cpp
+[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+
+[Information successfully written to file: "%s".]
+Информация успешно записана в файл: "%s".
+[Error during the creation of file "%s". Disk may be full or write protected.]
+Ошибка создания файла %s. Возможно диск полон или защищен.
+[The clipboard is not available, retry.]
+
+[Information successfully copied into clipboard.]
+Информация успешно скопирована в буфер обмена.
+;file \plugins\VersionInfo\src\dlgHandlers.cpp
+[Customize using folders plugin]
+Настройка с помощью плагина folders
+[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+Вы уверены, что хотите включить эту опцию?\nПожалуйста, используйте её, только если понимаете, для чего она или если кто-либо попросил вас включить её.
+[Show plugin UUIDs?]
+UUID плагинов
+;file \plugins\VersionInfo\src\hooked_events.cpp
+[VersionInfo]
+Версии
+[Output folder]
+Папка сохранения
+[Version Information]
+Версии
+[Services]
+Службы
+;file \plugins\VersionInfo\src\main.cpp
+;file \plugins\VersionInfo\src\utils.cpp
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Что-то произошло с настройкой "%s". Сообщите автору следующие значения:\nFacility: %X\nКод ошибки: %X\nНомер строки: %d

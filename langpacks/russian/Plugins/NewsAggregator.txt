@@ -1,164 +1,107 @@
 ﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
-;  Module: RSS/Atom news aggregator
-;  Versions: 0.0.3.5 - 0.0.3.23
-;  URL: http://nightly.miranda.im/x32/newsaggregator.zip
+;  Plugin: News aggregator
+;  Version: 0.0.0.1
+;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
 Каналы новостей RSS/Atom.
-[News Aggregator]
-Каналы новостей
-[Adding new feed]
-Добавить канал
-[Manage feed]
-Редактировать канал
-[Auto &discovery]
-&Проверить
+;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+Добавить
+[Change]
+Изменить
+[Remove]
+Удалить
+[Import]
+Импорт
+[Export]
+Экспорт
+[Retrieve news at startup]
+Получать новости при запуске
+[OK]
+
+[Cancel]
+Отмена
+[General Settings]
+Основные настройки
+[Title]
+Заголовок
+[URL]
+Ссылка
+[Check every]
+Пров. каждые
+[minutes]
+минут(ы)
+[Check Feed]
+Проверить
+[Authentication]
+Аутентификация
 [Use &authentication]
 Использовать аутентификацию
-[Maximum displayed items]
-Максимум новостей
+[Login]
+Имя пользователя
+[Password]
+Пароль
 [Visualization]
 Отображение
 [Display news using the following format:]
 Отображать новости, используя формат:
 [All item's tags are valid. Put them between #. Example: #<author>#]
 Все теги новостей действительны. Поместите их между #, например: #<author>#
-[Feed]
-Канал
-[Retrieve news at &startup]
-&Принимать новости при старте
-[E&xport...]
-&Экспорт
-[Import from:]
-Импорт из:
-[&Go]
-&Старт
+[Reset]
+Сброс
+[0 - check manually]
+0 - вручную
+[Feed name]
+
+[This feed seems to need authentication. Please fill username and password fields:]
+Каналу требуется аутентификация. Пожалуйста введите имя пользователя и пароль:
+[Username]
+Имя
 [Available feeds:]
 Имеющиеся каналы:
-[Feeds to be imported:]
-Каналы для импорта:
 [Feeds to be exported:]
 Каналы для экспорта:
-[Export to file:]
-Экспорт в файл:
-[Enter a value in URL field.]
-Заполните поле "Адрес"
-[Enter a value greater than zero in Minutes field.]
-Введите значение большее нуля в поле "Минуты"
-[Enter a value in Username field.]
-Заполните поле "Имя"
-[Enter a value in Password field.]
-Заполните поле "Пароль"
-[Enter a value equal or greater than zero in Maximum items displayed field.]
-Введите значение равное или большее нуля в поле "Максимальное количество полей"
-[Select a feed to manage.]
-Выберите канал для редактирования.
-[Select a feed to delete.]
-Выберите канал для удаления.
-[Invalid path and/or filename.]
-Неправильный путь и/или имя.
-[Exporting sucessfully completed.]
-Экспорт выполнен успешно.
-[There are no items to be exported.]
-Нет новостей для экспорта.
-[Importing sucessfully completed.]
-Импорт выполнен успешно.
-[There are no items to be imported.]
-Нет новостей для импорта.
-[Wait...]
-Ждите...
+[&Export]
+&Экспорт
+[&Close]
+&Закрыть
+[Import from:]
+Импорт из:
+[Feeds to be imported:]
+Каналы для импорта:
+[&Import]
+Импорт
+;file \plugins\NewsAggregator\Src\Authentication.cpp
+[Enter your username]
+Введите имя пользователя
+[Error]
+Ошибка
+[Enter your password]
+Введите пароль
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nдействительно существует.
-[Do you want to use it?]
-Хотите использовать его?
-[is no longer available at the server and no forwarding address is known.]
-более не доступен на сервере и адрес переадресации не известен.
-[This condition is expected to be considered permanent.]
-Это состояние ожидалось как постоянное......
-[Would you like to delete this feed?]
-Вы хотите удалить этот источник?
-[Forbidden address]
-Запрещённый адрес
-[Authorization will not help and the request should not be repeated.]
-Авторизация не поможет и запрос не будет повторен.
-[Feed sucessfully added.]
-Канал успешно добавлен.
-[Retrieve &news]
-Принять &новости
-[&Check all feeds]
-&Проверить все
-[&Add new feed...]
-&Добавить...
-[&Export...]
-&Экспорт
-[MyFeeds]
-МоиКаналы
-[OPML File]
-Файл OPML
-[Feed ID]
-ID канала
-[Avaliable feeds:]
-Имеющиеся каналы:
-[Check &all feeds]
-Проверить &все каналы
-[There are no new items for this feed for a long period of time.]
-Этот канал не обновляется длительный период времени.
-[What do you want to do?]
-Что вы хотите сделать?
-[&Continue checking this feed for new items]
-Продолжить проверку этого канала
-[&Delete this feed]
-Удалить этот канал
-[RSS/Atom reader.]
-Плагин для чтения RSS/Atom.
-[&Do not ask again for this feed]
-Не спрашивать снова для этого канала
-[Authentication]
-Аутентификация
-[Feed options]
-Настройки канала
-[Maximum news displayed]
-Максимум новостей
-[&Store only unread news]
-Сохранять только непрочитанные новости
-[goes to]
-Записывается как
-[&Manage feed...]
-&Редактировать
-[&Delete feed]
-&Удалить канал
-[Feed enabled]
-Канал включён
-[Feed disabled]
-Канал выключен
-[Do not show warning, help and &error messages]
-Не показывать предупреждения и ошибки
-[Enter a value in Title field.]
-Заполните поле "Название"
-[Enter a value in Server field.]
-Заполните поле "Сервер"
-[Enter a value in Location field.]
-Заполните поле "Путь"
-[RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
-Плагин RSS не может соединиться с сервером %s, возможно, он отключён. Попробуйте позже.
-[RSS plugin is unable to resolve the name of the server %s.]
-RSS не смог найти IP-адрес, соответствующий имени сервера %s.
-[All item's tags are valid. Put them between #.]
-Все значения верны. Разделение через #
-[Do not show warning and &error messages]
-Не показывать предупреждения и ошибки
-[Example: #<author>#, #<pubDate>#, etc.]
-Пример: #<автор>#, #<Дата>#, и т.д.
-[Examples: #<author>#, #<pubDate>#, etc.]
-Примеры: #<автор>#, #<Дата>#, и т.д.
-[Maximum items displayed]
-Максимум новостей:
-[Store news using the following format:]
-Сохранять новости в формате:
-[Do not &warn me again for this feed]
-Не &предупреждать меня больше для этого канала
+[News Aggregator]
+Каналы новостей
+[%s\nis not a valid feed's address.]
+%s\nнеправильный адрес канала
+[empty]
+
+;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Импортировано каналов: %d \r\nНе импортировано дубликатов: %d
+[Imported %d feed(s).]
+Импортировано каналов: %d
+[OPML files]
+Файлы OPML
+[Not valid import file.]
+Неверный файл для импорта
+;file \plugins\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Значок протокола
 [Check All Feeds]
 Проверить все каналы
 [Add Feed]
@@ -167,26 +110,30 @@ RSS не смог найти IP-адрес, соответствующий им�
 Импорт каналов
 [Export Feeds]
 Экспорт каналов
-[Check Feed]
-Проверить
+[Auto Update Enabled]
+Автообновление включено
+[Auto Update Disabled]
+Автообновление выключено
+;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Проверить канал
 [Change feed]
 Изменить канал
-[Change Feed]
-Изменить канал
-[0 - check manually]
-0 - вручную
-[Feed Tag Help]
-Помощь по тегам канала
+;file \plugins\NewsAggregator\Src\Options.cpp
+[Enter Feed name]
+Введите имя канала
+[Enter Feed URL]
+Введите URL канала
+[Enter checking interval]
+Введите интервал проверки
+[Enter message format]
+Введите формат сообщения
 [The title of the item.]
 заголовок новости.
 [The item synopsis.]
 текст новости.
 [The URL of the item.]
 URL новости.
-[URL]
-Ссылка
 [Email address of the author of the item.]
 E-mail автора новости.
 [URL of a page for comments relating to the item.]
@@ -195,37 +142,27 @@ URL страницы с комментариями к новости.
 идентификатор новости.
 [Specify one or more categories that the item belongs to.]
 категории новости.
-[Retrieve news at startup]
-Получать новости при запуске
-[%s\nis not a valid feed's address.]
-%s\nнеправильный адрес канала
+[Feed Tag Help]
+Помощь по тегам канала
+[Are you sure?]
+Вы уверены?
 [Tags Mask Reset]
 Сброс тегов
-[Enter Feed name]
-Введите имя канала
+[Wait...]
+Ждите...
+[Change Feed]
+Изменить канал
 [Contact deleting]
 Удаление контакта
-[Enter Feed URL]
-Введите URL канала
-[Enter checking interval]
-Введите интервал проверки
-[Enter message format]
-Введите формат сообщения
+[Network]
+Сеть
+;file \plugins\NewsAggregator\Src\Services.cpp
+[Avatars]
+Аватары
+[Enable/disable auto update]
+Вкл/Выкл автообновление
+;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 HTTP подключение каналов новостей
-[OPML files]
-Файлы OPML
-[Not valid import file.]
-Неверный файл для импорта
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-Импортировано каналов: %d \r\nНе импортировано дубликатов: %d
-[Imported %d feed(s).]
-Импортировано каналов: %d
-[This feed seems to need authentication. Please fill username and password fields:]
-Каналу требуется аутентификация. Пожалуйста введите имя пользователя и пароль:
-[Username]
-Имя
-[Enter your username]
-Введите имя пользователя
-[Enter your password]
-Введите пароль
+[Feed]
+Канал

@@ -1,80 +1,148 @@
-﻿#muuid {29517BE5-779A-48E5-8950-CB4DE1D43172}
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
-;  Module: PackUpdater
-;  Versions: 0.0.6
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
 Простой плагин для обновлений сборок Miranda NG.
-[Pack Updater]
-Обновление сборки
-[Check for pack updates]
-Проверить обновления сборки
-[Downloading pack updates...]
-Загрузка обновлённой сборки...
-[No updates found.]
-Обновлений нет.
+;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
+Найдены обновления!
+[Update]
+Обновить
 [View info]
 Посмотреть инфо
+[Cancel]
+Отмена
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+Были найдены обновлённые версии следующих компонентов:
+[Description]
+Описание
+[Downloading...]
+Получение...
+[Pack update options]
+Настройки обновления сборки
+[On startup]
+При запуске
+[Remind about not installed pack update]
+Напоминать о неустановленном обновлении
+[Hotkey]
+Горячая клавиша
+[Go to Customize -> Hotkeys to change the hotkey]
+Настройка в Тонкая настройка -> Горячие клавиши
+[Notifications]
+Уведомления
+[Message boxes]
+Диалоги
+[Errors]
+Ошибки
+[Info messages]
+Инфо сообщения
+[Progress dialogs]
+Диалоги прогресса
+[Every]
+Каждые
+[(but only once a day)]
+(но только 1 раз в день)
+[Message boxes (*)]
+Диалоги (*)
+[Back]
+Фон
+[Text]
+Текст
+[Colors]
+Цвета
+[Use cus&tom colors]
+Настроить цвета
+[Use &Windows colors]
+Цвета Windows
+[Use Pop&up colors]
+Цвета Pop&up
+[Preview]
+Тест
+[Click action]
+Действия по щелчку
+[On left click]
+Левый щелчок
+[On right click]
+Правый щелчок
+[Timeout]
+Таймаут
+[0 = Default]
+0=Умолчание
+[-1 = Infinite]
+-1=Бесконечно
+[Sec]
+сек.
+[* Needs popup actions to be enabled]
+* Необходимы включённые действия вспл. окон
+[Not sets for "Message boxes"]
+Не устанавливает для "Диалоги"
+[Boxes]
+Окна
+[Popups]
+Всплывающие окна
+;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+Проверить обновления сборки
+[Pack Updater]
+Обновление сборки
+;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occurred while downloading the update.]
 Во время загрузки обновления произошла ошибка.
+[Component Name]
+Имя компонента
+[Current Version]
+Текущая версия
+[New Version]
+Новая версия
+[Downloading pack updates...]
+Загрузка обновлённой сборки...
+[Downloading update...]
+Загрузка обновления...
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузки завершены. Приступить к обновлению? Все данные будут сохранены, а Miranda NG закрыта.
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузка завершена. Приступить к обновлению? Все данные будут сохранены, а Miranda NG закрыта.
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+Вы отказались от немедленной установки обновления сборки.\nВы можете установить это обновление вручную отсюда:\n\n%s
+;file \plugins\PackUpdater\Src\Notifications.h
+[Close popup]
+Закрыть окно
+[Do nothing]
+Ничего не делать
+;file \plugins\PackUpdater\Src\Options.cpp
+[hours]
+часа(ов)
+[days]
+дней
+[Test]
+Тест
+[Services]
+Службы
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+[Clear pack updates folder]
+Очистить папку с обновлениями сборки
+;file \plugins\PackUpdater\Src\Utils.cpp
+['Yes' Button]
+Кнопка 'Да'
+['No' Button]
+Кнопка 'Нет'
+[Pack Updater HTTP connection]
+HTTP подключение Pack Updater
 [URL for checking updates not found.]
 Ссылка для проверки обновлений не найдена.
 [Downloading version info...]
 Загрузка информации о версиях...
 [Name of Update's file is not supported.]
 Имя файла обновления не поддерживается.
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Загрузка завершена. Приступить к обновлению? Все данные будут сохранены, а Miranda NG закрыта.
-[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-Вы отказались от немедленной установки обновления сборки.\nВы можете установить это обновление вручную отсюда:\n\n%s
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Обновление не возможно!\nВы не имеете администраторских прав.\nПожалуйста, запустите Miranda NG с правами администратора.
+[No updates found.]
+Обновлений нет.
 [No files for update.]
 Нет файлов для обновления.
 [Update checking already started!]
 Обновление уже запущено!
-[Automatically check for pack updates]
-Автоматически проверять обновления сборки
-[Pack update options]
-Настройки обновления сборки
-[Remind about not installed pack update]
-Напоминать о неустановленном обновлении
-[Message boxes (*)]
-Диалоги (*)
-[Info messages]
-Инфо сообщения
-[Progress dialogs]
-Диалоги прогресса
-[* Needs popup actions to be enabled]
-* Необходимы включённые действия вспл. окон
-[Not sets for "Message boxes"]
-Не устанавливает для "Диалоги"
-[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Загрузки завершены. Приступить к обновлению? Все данные будут сохранены, а Miranda NG закрыта.
-[Clear pack updates folder]
-Очистить папку с обновлениями сборки
-[Downloading update...]
-Загрузка обновления...
-[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
-Обновление не возможно!\nВы не имеете администраторских прав.\nПожалуйста, запустите Miranda NG с правами администратора.
-[Boxes]
-Окна
-[Message boxes]
-Диалоги
-[Pack Updater HTTP connection]
-HTTP подключение Pack Updater
-[Updates found!]
-Найдены обновления!
-[PackUpdater has detected updated versions\nof the following Miranda components:]
-Были найдены обновлённые версии следующих компонентов:
-['Yes' Button]
-Кнопка 'Да'
-['No' Button]
-Кнопка 'Нет'
-[On startup]
-При запуске
-[(but only once a day)]
-(но только 1 раз в день)
-[Every]
-Каждые
-[days]
-дней

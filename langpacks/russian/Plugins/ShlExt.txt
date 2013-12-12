@@ -7,6 +7,7 @@
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Интеграция Miranda NG в контекстное меню оболочки ОС.
+;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 Отображать контакты по группам (если есть)
 [Only if/when the contact list is using them]
@@ -20,7 +21,7 @@
 [Shell context menus]
 Контекстное меню оболочки
 [Do not display the profile name in use]
-Не показывать в меню название текущего профиля
+
 [Show contacts that you have set privacy rules for]
 Показывать контакты, для которых установлены правила конфиденциальности
 [Remove]
@@ -29,6 +30,7 @@
 Не показывать в меню значки статуса
 [Do not show contacts that are offline, even if my contact list does]
 Не показывать контакты, не находящиеся в сети
+;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
 Проблема! Интеграция в оболочку отсутствует!
 [Successfully created shell registration.]
@@ -41,6 +43,9 @@
 Вы уверены? Это удалит все настройки данного плагин в вашем профиле и все ключи реестра, отвечающие за его интеграцию в оболочку ОС.
 [Disable/Remove shlext]
 Отключить/Удалить shlext
+;file \plugins\ShellExt\src\shlcom.cpp
+[Miranda]
+
 [Recently]
 Последние
 [Clear entries]

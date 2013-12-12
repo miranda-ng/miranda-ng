@@ -1,42 +1,29 @@
 ﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;============================================================
-;  Module: Boltun.dll
+;  File: Boltun.dll
 ;  Plugin: Boltun
-;  Versions: 0.0.3.0
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=470
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Boltun/
-;  Authors: Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
+[Boltun, the chat bot in the russian language.]
+Болтун, чат-бот для русского языка.
+;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
 Болтун
-[Boltun/Auto Chat]
-Болтун/Авто разговор
-[Boltun/Not to Chat]
-Болтун/Не разговаривать
 [Boltun Autochat everybody]
 Болтун говорит со всеми
-[Boltun Autochat anybody not in contact list]
+[Boltun Autochat everybody not in contact list]
 Болтун говорит со всеми, кто не в списке контактов
 [Boltun Autochat everybody while away]
 Болтун говорит со всеми, когда меня нет
 [Warn contacts Boltun is chatting]
 Предупреждать о разговоре с Болтуном
-[Time of pauses before answer]
-Пауза перед ответом
-[Warning text]
-Текст предупреждения
-[Base of remarks]
-База реплик
-[Boltun Error]
-Ошибка Болтуна
-[Can't load SmartBot.dll]
-Не могу загрузить SmartBot.dll
-[Failed to load base of remarks from %s]
-Ошибка при загрузке базы реплик %s
-[Boltun Autochat everybody not in contact list]
-Болтун говорит со всеми, кто не в списке контактов
 [Mark replied messages as read]
 Отмечать сообщения как прочитанные
+[sec]
+с
+[Warning text]
+Текст предупреждения
 [Time before the answer]
 Время перед ответом
 [Typing time depends on message length (in chars)]
@@ -47,25 +34,40 @@
 Время набора (для 4-х слов):
 [Thinking time:]
 Время обдумывания ответа:
+[Engine]
+Движок
+[Base of remarks]
+База реплик
+[Reload]
+Перегрузить
 [Stay silent, if have no good aswers]
 Молчать, если нет хороших ответов
 [Start answers with a lowercase letter]
 Начинать ответы с маленькой буквы.
 [Don't use "I don't understand"-like answers]
 Не использовать ответы типа "Не понял?"
-[Boltun, the chat bot in the russian language.]
-Болтун, чат-бот для русского языка.
-[Boltun, the chat bot in russian languages, Using SmartBot engine by ProVirus.]
-Болтун, чат-бот для русского языка, используется движок SmartBot от ProVirus.
+;file \plugins\Boltun\src\boltun.h
 [Message sessions]
 Беседы
-[Engine]
-Движок
-[Engine Settings]
-Настройки движка
 [Mind Files]
 Mind файлы
+[All Files]
+Все файлы
+[Boltun/Auto Chat]
+Болтун/Авто разговор
+[Boltun/Not to Chat]
+Болтун/Не разговаривать
 [Boltun/Start Chatting]
 Болтун/Начать разговор
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
 Привет, я - Болтун! Я с тобой поговорю, пока хозяина нет. Пожалуйста, пиши без ошибок!
+[Boltun Error]
+Ошибка Болтуна
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+
+[Failed to save base of remarks to %s]
+
+[General Settings]
+
+[Engine Settings]
+Настройки движка

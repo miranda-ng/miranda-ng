@@ -1,47 +1,210 @@
 ﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
-;  File: seenplugin.dll
-;  Module: Last Seen Plugin (NSN Compatible)
-;  Versions: 4.1.4.0-5.0.4.7
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
 ;============================================================
-[Last seen plugin]
-Последнее появление
+[Logs when a user was last seen online and which users were online while you were away.]
+Запоминает, когда пользователь последний раз появлялся в сети и кто был в сети, пока вы отсутствовали.
+;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Параметры последнего появления
 [Last seen menuitem]
 Пункт меню последнего появления
+[Show icon]
+
 [Userinfo tab]
 Закладка в информации о контакте
+[Log to file]
+Запись в файл
+[Log to history]
+Записывать историю
+[Maximum size]
+Максимальный размер
+[Variable list]
+Переменные
+[Enable Idle support]
+Включить режим ожидания
+[Ignore contacts going offline]
+Игнорировать уходящих из сети
+[Enable 'Missed Ones' feature]
+Разрешить функцию 'Пропущенные'
+[Count times]
+Количество входов в сеть
+[Accounts to watch:]
+Учётные записи для наблюдения:
+[Use popups]
+Вспл. окна
+[Title]
+Заголовок
+[Text]
+Текст
+[Popup Colors]
+Цвета окон
+[Online]
+В сети
+[Away]
+Отсутствую
+[NA]
+Недоступен
+[Occupied]
+Занят
+[DND]
+Не беспокоить
+[On the phone]
+На телефоне
+[Out to lunch]
+Обедаю
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[Offline]
+Не в сети
+[Reset colors]
+Сброс цветов
+[Last seen plugin]
+Последнее появление
+[OK]
+
+[You missed following contacts:]
+Пропущены следующие контакты:
+[Test\nTest]
+
+[Alert when user status changes]
+Предупреждать при изменении статуса
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+история последней встречи
+[View User's Details]
+
+[User Menu]
+Меню пользователя
+[Send Instant Message]
+Отправить мгновенное сообщение
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+
+;file \plugins\SeenPlugin\src\main.cpp
+[LastSeen]
+Последнее появление
+[User status change]
+Смена статуса пользователя
+[Changed to Online]
+Смена: В сети
+[User Logged Off]
+Пользователь Отключён
+[User Logged In]
+Пользователь Подключён
+;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<неизвестно>
+[<none>]
+<нет>
+;file \plugins\SeenPlugin\src\options.cpp
+[Last Seen Variables]
+Переменные
+[Contacts]
+Контакты
+[Last seen]
+Последнее появление
+[Popups]
+Всплывающие окна
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+%n %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%bбыл %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Имя:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bВремя:%t%H:%M:%S%bПредыдущий статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутренний IP:%t%r%bКлиент: %t%C%b%bСообщение статуса:%t%T
+[-- Date --]
+-- Дата --
 [year (4 digits)]
 год (4 цифры)
 [year (2 digits)]
 год (2 цифры)
 [month]
 месяц
-[username]
-пользователь
-[UIN/handle]
-номер/обработчик
-[external IP]
-внешний IP
-[internal IP]
-внутренний IP
-[tabulator]
-табуляция
-[Ignore contacts going offline]
-Игнорировать уходящих из сети
-[Enable 'Missed Ones' feature]
-Разрешить функцию 'Пропущенные'
-[You missed following contacts:]
-Пропущены следующие контакты:
-[hours (24)]
-часы (24)
-[hours (12)]
-часы (12)
+[name of month]
+название месяца
+[short name of month]
+назв. месяца (сокр.)
+[day]
+день
 [weekday (full)]
 день недели (полн.)
 [weekday (abbreviated)]
 день недели (сокр.)
+[-- Time --]
+-- Время --
+[hours (24)]
+часы (24)
+[hours (12)]
+часы (12)
+[AM/PM]
+ДП/ПП
+[minutes]
+минут(ы)
+[seconds]
+секунд
+[-- User --]
+-- Пользователь --
+[username]
+пользователь
+[nick]
+ник
+[UIN/handle]
+номер/обработчик
+[Group]
+Группа
+[Status]
+Статус
+[Status message]
+Сообщение статуса
+[Old status]
+Старый статус
+[external IP]
+внешний IP
+[internal IP]
+внутренний IP
+[Client info]
+Клиент
+[Protocol]
+Протокол
+[Account]
+Учётная запись
+[-- Format --]
+-- Формат --
+[tabulator]
+табуляция
+[line break]
+с новой строки
+[Note:]
+Примечание:
+[Use]
+Использовать
+[for empty string]
+для пустой строки
+[instead of]
+вместо
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Sunday]
+Воскресенье
+[Monday]
+Понедельник
+[Tuesday]
+Вторник
+[Wednesday]
+Среда
+[Thursday]
+Четверг
+[Friday]
+Пятница
+[Saturday]
+Суббота
+[Sun.]
+Вс.
 [Mon.]
 Пн.
 [Tue.]
@@ -54,85 +217,57 @@
 Пт.
 [Sat.]
 Сб.
-[Sun.]
-Вс.
-[name of month]
-название месяца
-[short name of month]
-назв. месяца (сокр.)
-[Count times]
-Количество входов в сеть
-[last seen history]
-история последней встречи
-[Log to history]
-Записывать историю
-[Maximum size]
-Максимальный размер
-[Variable list]
-Переменные
-[Accounts to watch:]
-Учётные записи для наблюдения:
-[Alert when user status changes]
-Предупреждать при изменении статуса
-[Logs when a user was last seen online and which users were online while you were away.]
-Запоминает, когда пользователь последний раз появлялся в сети и кто был в сети, пока вы отсутствовали.
-[User Logged In]
-Пользователь Подключён
-[User Logged Off]
-Пользователь Отключён
-[User status change]
-Смена статуса пользователя
-[Changed to Online]
-Смена: В сети
-[Changed to Offline]
-Смена: Отключён
-[For non-watched protocols]
-Для непросм. протоколов
-[Enable Idle support]
-Включить режим ожидания
-[Disable CList Notifications]
-Выкл. уведомления списка контактов
-[For watched protocols]
-Для просм. протоколов
-[Popup interoperability missing or disabled. You need Popups plugin]
-Всплывающие окна отсутствуют или отключены. Необходим плагин всплывающих окон
-[LastSeen]
-Последнее появление
-[Reset colors]
-Сброс цветов
-[Popup Colors]
-Цвета окон
-[Use popups]
-Вспл. окна
-[-- Date --]
--- Дата --
-[-- Time --]
--- Время --
-[-- User --]
--- Пользователь --
-[-- Format --]
--- Формат --
-[Old status]
-Старый статус
-[Client info]
-Клиент
-[for empty string]
-для пустой строки
-[instead of]
-вместо
-[Note:]
-Примечание:
-[LastSeen: User status change]
-LastSeen: Изменение статуса пользователя
+[January]
+Январь
+[February]
+Февраль
+[March]
+Март
+[April]
+Апрель
+[May]
+Май
+[June]
+Июнь
+[July]
+Июль
+[August]
+Август
+[September]
+Сентябрь
+[October]
+Октябрь
+[November]
+Ноябрь
+[December]
+Декабрь
+[Jan.]
+
+[Feb.]
+
+[Mar.]
+
+[Apr.]
+
+[Jun.]
+
+[Jul.]
+
+[Aug.]
+
+[Sep.]
+
+[Oct.]
+
+[Nov.]
+
+[Dec.]
+
 [<never seen>]
 <никогда не появлялся>
-[Last seen plugin mod (NSNCompat)]
-Последнее появление (mod NSNCompat)
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-Имя:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bВремя:%t%H:%M:%S%bПредыдущий статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутренний IP:%t%r%bКлиент: %t%C%b%bСообщение статуса:%t%T
-[Last Seen Variables]
-Переменные
-[%i(%r)%bWas %o]
-%i(%r)%bбыл %o
-[%n is %s (%u)]
-%n %s (%u)
+[Idle]
+Ожидание
+[Unknown]
+Неизвестно
+[Not Idle]
+Не в ожидании

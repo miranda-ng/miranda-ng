@@ -1,24 +1,37 @@
 ﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
-;  Module: Recent Contacts
-;  Versions: 0.0.2.0
+;  Plugin: Recent contacts
+;  Version: 0.0.2.0
+;  Authors: ValeraVi, Kildor
 ;============================================================
-[Recent Contacts]
-Последние контакты
-[Main icon]
-Главный значок
-[Format of date and time\n(Look to readme for placeholders help)]
-Формат времени и даты\n(Формат смотрите в readme)
-[Number of shown contacts:\n (0 to show all)]
-Число отображаемых контактов\n (0 - показывает все)
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 Добавляет пункт в главное меню, который открывает диалог с последними контактами.
-[Show Recent Contacts]
-Показать недавние контакты
+;file \plugins\RecentContacts\res\resource.rc
+[Recent Contacts]
+Последние контакты
+[Plugin settings]
+Настройки
+[Number shown contacts:\n (0 to show all)]
+Число отображаемых контактов\n (0 - показывает все)
+[Format of date and time\n(Look to readme for placeholders help)]
+Формат времени и даты\n(Формат смотрите в readme)
+[Hide offline contacts]
+Скрыть отключённых
+;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+Контакты
+;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Main icon]
+Главный значок
+[Contact]
+Контакт
+[Toggle Ignore]
+Переключить игнорирование
 [Ignore Contact]
 Игнорировать контакт
 [Show Contact]
 Показать контакт
-[Toggle Ignore]
-Переключить игнорирование
+[Show Recent Contacts]
+Показать недавние контакты
+;file \plugins\RecentContacts\src\RecentContacts.h

@@ -7,22 +7,29 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
 Поддержка протокола Skype в Miranda NG. Классическая реализация, требующая запущенный клиент Skype.
-[Call (Skype)]
-Позвонить по Skype
-[Call using SkypeOut]
-Позвонить по SkypeOut
-[&Open group chat]
-Открыть чат
-[Import Skype history]
-Импортировать историю из Skype
+;file \protocols\SkypeClassic\res\Resource.rc
+[Set]
+Выбрать
+[Delete]
+Удалить
 [Start Skype with Miranda NG if not running using the following command line options:]
 Запускать Skype вместе с Miranda, если еще не запущен, со следующими ключами:
-[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
-/NOTRAY - Значок Skype в трее становится серым - "Невидимый"
 [/NOSPLASH - Don't show splash screen on startup]
 /NOSPLASH - Не показывать заставку при старте
 [/MINIMIZED - Start Skype minimized]
 /MINIMIZED - Запустить Skype минимизированным в трей
+[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
+/NOTRAY - Значок Skype в трее становится серым - "Невидимый"
+[/REMOVEABLE - For running portable Skype]
+/REMOVEABLE - Для запуска портативного Skype
+[/SECONDARY - This is the second instance]
+/SECONDARY - Запуск второй копии Skype
+[/DATAPATH - Specify Skype data folder*]
+/DATAPATH - Путь к профилю Skype*
+[Use custom Skype executable*]
+Свой путь к Skype.exe*
+[* Relative path root is Miranda NG folder]
+* Путь относительно корня Miranda NG
 [Shutdown Skype when you close Miranda NG]
 Закрыть Skype при выходе из Miranda NG
 [Unload Skype when you change to Offline status]
@@ -31,32 +38,76 @@
 Пытаться как минимум
 [times to connect to Skype API before giving up]
 раз соединиться со Skype API перед выдачей ошибки
-[Skype]
-Skype
-[Use custom Skype executable*]
-Свой путь к Skype.exe*
-[/REMOVEABLE - For running portable Skype]
-/REMOVEABLE - Для запуска портативного Skype
-[/SECONDARY - This is the second instance]
-/SECONDARY - Запуск второй копии Skype
-[/DATAPATH - Specify Skype data folder*]
-/DATAPATH - Путь к профилю Skype*
-[* Relative path root is Miranda NG folder]
-* Путь относительно корня Miranda NG
-[Skype default]
-Skype умолчания
-[Skype Advanced]
-Skype дополнительно
-[Skype advanced]
-Skype дополнительно
+[User name:]
+
+[Password:]
+Пароль:
+[Dial]
+Позвонить
+[Number:]
+Номер:
+[Cancel]
+Отмена
+[%s is calling]
+%s звонит
+[Join conference with %s]
+Подключиться к разговору с %s
+[Answer call; set call to %s on hold]
+Ответить, поставить звонок %s на паузу
+[Hang up]
+Отбить звонок
+[OK]
+
+[Dialog]
+Диалог
+[Use Skype proxy connection over network instead of local Skype API]
+Использовать сетевой прокси вместо локального Skype API
+[Host:]
+Хост:
+[Port:]
+Порт:
+[* You must restart Miranda NG in order to let the settings take effect]
+* Изменения вступят в силу после перезапуска Miranda.
+[This Skype proxy requires password authentication:]
+Прокси требует аутентификацию по паролю:
+[Name:]
+Имя:
+[Birthday:]
+День рождения:
+[Sex:]
+Пол:
+[City:]
+Город:
+[Country:]
+Страна:
+[Province:]
+Провинция:
+[Home phone:]
+Домашний:
+[Office phone:]
+Офис. телефон:
+[Homepage:]
+Ссылка:
+[Save]
+Сохранить
 [Enable Skype menu options (currently: Find/Add user)]
 Включить опции меню (сейчас только: Найти/добавить контакты)
 [Use popup plugin for displaying messages]
 Использовать всплывающие окна для сообщений
-[Use group chat interface for conversations (requires group chat module)]
-Использовать интерфейс для чата (требуется плагин с поддержкой чатов)
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
 Выключить все сообщения об ошибках (не рекомендуется)
+[Use group chat interface for conversations (requires group chat module)]
+Использовать интерфейс для чата (требуется плагин с поддержкой чатов)
+[Mark group chat message as read to avoid notification]
+Отмечать групповые сообщения как прочтённые без уведомления
+[Keep requested online status on startup under every circumstance]
+Поддерживать статус "В сети" при запуске в любом случае
+[Use time zone patch]
+Использовать часовой пояс
+[Ignore time zones]
+Игнорировать часовые пояса
+[Show default Skype avatar for contacts]
+Показывать аватары по умолчанию
 [Suppress call summary chat message]
 Выключить итоговый отчет о звонках
 [Disable support for N/A and SkypeMe status (for Skype 4+)]
@@ -65,101 +116,98 @@ Skype дополнительно
 Показывать в списке контактов полное имя вместо ника
 [SkypeOut contacts are in status:]
 SkypeOut контакты в статусе:
-[Keep requested online status on startup under every circumstance]
-Поддерживать статус "В сети" при запуске в любом случае
 [Cleanup Nicknames]
 Очистить ники
-[Use time zone patch]
-Использовать часовой пояс
-[Ignore time zones]
-Игнорировать часовые пояса
-[Use Skype proxy connection over network instead of local Skype API]
-Использовать сетевой прокси вместо локального Skype API
-[* You must restart Miranda NG in order to let the settings take effect]
-* Изменения вступят в силу после перезапуска Miranda.
-[This Skype proxy requires password authentication:]
-Прокси требует аутентификацию по паролю:
-[Skype proxy]
-Skype Прокси
-[ERROR: Skype not running / too old / working!]
-Ошибка: Skype не запущен
-[Mark group chat message as read to avoid notification]
-Отмечать групповые сообщения как прочтённые без уведомления
-[Wheee, Skype won't let me use the API. :(]
-У... Skype не разрешает мне использовать API :(
+[Skype Popups]
+Всплывающие окна Skype
+[Incoming Calls]
+Входящие звонки
+[Show incoming calls]
+Показать входящие звонки
+[seconds]
+секунд
+[Background]
+Фон
+[Use Windows colors]
+Цвета Windows
+[Text]
+Текст
+[Preview]
+Тест
+[Error Messages]
+Ошибки
+[Display error messages]
+Показывать ошибки
+;file \protocols\SkypeClassic\src\contacts.cpp
+[Call (Skype)]
+Позвонить по Skype
+[Call using SkypeOut]
+Позвонить по SkypeOut
+[Hang up call (Skype)]
+Отбить звонок (Skype)
+[Hang up SkypeOut call]
+Отбить звонок (SkypeOut)
+[Hold call]
+Удержать звонок
+[Resume call]
+Восстановить звонок
+[&File]
+&Файл
+[&Open group chat]
+Открыть чат
+[Import Skype history]
+Импортировать историю из Skype
+[Add Skype contact]
+Добавить контакт Skype
+;file \protocols\SkypeClassic\src\gchat.cpp
+[Unknown]
+Неизвестно
+[&Invite user...]
+&Пригласить пользователя...
+[Me]
+Я
+[&Leave chat session]
+&Покинуть чат
+[Set &Topic...]
+
+[User &details]
+&Информация
+[User &history]
+История пользователя
+[&Kick user]
+
+;file \protocols\SkypeClassic\src\skype.cpp
+[Do a SkypeOut-call]
+Позвонить по SkypeOut
+[invited ]
+
 [Phone call]
 Звонок
 [Incoming Skype Call]
 Входящий Skype звонок
 [Incoming call from %s]
 Входящий Skype звонок от %s
-[Skype Popups]
-Всплывающие окна Skype
-[Incoming Calls]
-Входящие звонки
-[Show incoming calls popup]
-Показывать вспл. окно при входящем звонке
-[Error Message]
-Ошибки
-[Display Error Message]
-Показывать вспл. окно с ошибкой
-[History import complete!]
-Импорт истории завершен!
-[Cleanup finished.]
-Очистка завершена.
-[Preview Error Message]
-Предпросмотр ошибки
-[Skype was not found installed :(]
-Skype не установлен :(
-[Show default Skype avatar for contacts]
-Показывать аватары по умолчанию
-[%s is calling]
-%s звонит
-[Add Skype contact]
-Добавить контакт Skype
-[Answer call; set call to %s on hold]
-Ответить, поставить звонок %s на паузу
-[Birthday:]
-День рождения:
-[City:]
-Город:
-[Do a SkypeOut-call]
-Позвонить по SkypeOut
-[FEMALE]
-Женщина
-[Hang up call (Skype)]
-Отбить звонок (Skype)
-[Hang up SkypeOut call]
-Отбить звонок (SkypeOut)
-[Hang up]
-Отбить звонок
-[Home phone:]
-Домашний:
-[Homepage:]
-Ссылка:
-[Join conference with %s]
-Подключиться к разговору с %s
-[MALE]
-Мужчина
-[Name:]
-Имя:
-[No Topic]
-Нет темы
-[Office phone :]
-Офисный:
-[Province:]
-Провинция:
-[Resume call]
-Восстановить звонок
-[Sex:]
-Пол:
+[Connection to Skype lost]
+
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? Если вы откажетесь, всегда можно включить его в настройках.
-[Skype protocol]
-Протокол Skype
-[Show incoming calls]
-Показать входящие звонки
-[Error Messages]
-Ошибки
-[Display error messages]
-Показывать ошибки
+;file \protocols\SkypeClassic\src\skypeopt.cpp
+[Preview Error Message]
+Предпросмотр ошибки
+[Skype default]
+Skype умолчания
+[Skype advanced]
+Skype дополнительно
+[Skype proxy]
+Skype Прокси
+[Avatar]
+Аватар
+[Details]
+Детали
+[MALE]
+Мужчина
+[FEMALE]
+Женщина
+;file \protocols\SkypeClassic\src\skypesvc.cpp
+[Skype ID]
+

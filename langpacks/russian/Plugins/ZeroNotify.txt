@@ -1,20 +1,28 @@
 ﻿#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
 ;============================================================
-;  File: zeronotify.dll
-;  Module: Zero Notifications
-;  Versions: 0.0.0.1-0.0.0.4
+;  File: ZeroNotify.dll
+;  Plugin: Zero notifications
+;  Version: 0.0.0.5
+;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
 Автоматическое запрещение различных событий, в зависимости от определённого статуса.
+;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Нет звуков, если:
 [No CLIST blink when:]
 Нет мигания в КЛ:
 [No SysTray blink when:]
 Нет мигания в трее:
-[Zero Notifications]
-Запрет уведомлений
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Скрыть "вкл/выкл звук" в главном меню (требуется перезапуск)
+;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
 Запретить звуки
 [Enable &Sounds]
 Разрешить звуки
+;file \plugins\ZeroNotification\src\main.cpp
+[Zero Notifications]
+Запрет уведомлений
+[Plugins]
+Плагины

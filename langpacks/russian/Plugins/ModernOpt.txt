@@ -1,86 +1,63 @@
 ﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
 ;============================================================
-;  File: modernopt.dll
-;  Module Support for new options design
-;  Versions: 0.1.0.0
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 [Support for new options design.]
 Поддержка нового дизайна окна настроек Miranda NG.
+;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Официальный сайт Miranda NG
+[Sample page]
+
+[Miranda NG Options]
+
+[Use arrow keys to choose category]
+
+[OK]
+
+[Cancel]
+Отмена
+[Apply]
+Применить
 [Switch to classic options]
 Классический вид настроек
-[View help online]
-Онлайн-справка
+[Advanced]
+Дополнительно
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+Дом
+[Miranda NG configuration center]
+
+[Accounts]
+Учётные записи
 [Setup your account information to start messaging.]
 Настройте учётные записи для начала общения.
+[Style]
+Стиль
 [Change the look of Miranda NG according to your taste.]
 Изменяйте внешний вид программы на свой вкус.
+[Contacts]
+Контакты
 [Configure behavior of your contact list.]
 Настройте поведение вашего списка контактов.
+[Chats]
+Чаты
 [Customize look&&feel of your chat windows here.]
 Настройте внешний вид вашего окна беседы.
+[Ignore]
+Игнорировать
 [Ban those users and events, you are annoyed with.]
 Заблокируйте пользователей и события, которые вам не нравятся.
+[Status]
+Статус
 [Set your status messages and idle reporting.]
 Установите статусные сообщения и сообщения отсутствия.
+[Addons]
+Плагины
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Управление вашими дополнительными плагинами.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 У вас есть не сохранённые изменения.\n Хотите ли вы их применить перед переключением?
-[Addons]
-Плагины
-[Window behavior:]
-Поведение списка:
-[Status bar:]
-Панель статуса:
-[List content:]
-Содержание списка:
-[Compact mode]
-Компактный режим
-[Show contact time in list]
-Показывать время контакта
-[List sorting:]
-Сортировка списка:
-[Window:]
-Окно сообщений:
-[Esc closes sessions (minimizes window, if disabled)]
-Esc закрывает сессию (иначе - сворачивает)
-[Always pop up and activate new windows]
-Всегда открывать новое окно сообщений
-[Create new windows in minimized state]
-Создавать новые окна свёрнутыми
-[Message sending:]
-Отправка сообщений:
-[Send message on Ctrl+Enter (always enabled)]
-Посылать по Ctrl+Enter (всегда включено)
-[Send on Shift+Enter]
-Посылать по Shift+Enter
-[Tabs:]
-Вкладки:
-[Use tabbed interface]
-Использовать вкладки
-[Create new tabs without activating them]
-Создавать новые вкладки без активации
-[Pop up minimized window when a new tab is created]
-Открыть свёрнутое окно при создании вкладки
-[Automatically switch tabs in minimized windows]
-Автопереключение вкладок в свёрнутом окне
-[Don't announce when dialog is open]
-Не уведомлять при открытом окне
-[Message events]
-Сообщения
-[File events]
-Файлы
-[Contact list background:]
-Фон списка контактов:
-[Contact list:]
-Список контактов:
-[Ordering:]
-Сортировка:
-[If window is partially covered, bring it to front]
-Если окно частично закрыто, вывести его вперёд
-[Sample Text]
-Пример текста
-[History:]
-История:

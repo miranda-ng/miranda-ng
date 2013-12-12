@@ -1,16 +1,272 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Module: A connection checker
-;  Versions: 0.8.0.97
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4258
-;  Source: http://pboonplugins.googlecode.com/svn/trunk/StatusPlugins/KeepStatus/
+;  Plugin: Keep status
+;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-[<from trigger>]
-<из триггера>
-[KeepStatus]
+[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
+Проверяет наличие подключения к сети и автоматически переподключает при разрывах.
+;file \Plugins\StatusPlugins\resource.rc
+[Check connection]
+Проверять
+[Max. retries]
+Макс. попыток
+[Account connection]
+Подключение учётной записи
+[Delay between retries (secs)]
+Задержка между попытками (сек)
+[Show popups]
+Показывать всплывающие окна
+[General]
+Общее
+[Accounts to check]
+Проверять следующие
+[Dial-Up]
+Удалённый доступ
+[Don't reconnect if no internet connection seems available]
+Не подключаться, если нет соединения с Интернетом
+[Continuously check for internet connection]
+Постоянно проверять подключение к Интернету
+[Do so by pinging host]
+Пинговать хост
+[Confirm status]
+Подтвердите статус
+[Close]
+Закрыть
+[Cancel]
+Отмена
+[Profile]
+Профиль
+[Message]
+Сообщение
+[after]
+через
+[minutes of inactivity]
+минут неактивности
+[minutes of level 1 mode]
+минут режима 1
+[Confirm resetting status]
+Подтвердить сброс статуса
+[Account]
+
+[Only set if current status is]
+Только если статус:
+[Monitor Miranda's activity only]
+Следить только за Miranda
+[Reset status on return]
+Восстановить статус при возвращении
+[when screen saver engages]
+при запуске заставки
+[Set]
+Выбрать
+[only set when inactive]
+только при неактивности
+[when workstation is locked]
+при блокировке компьютера
+[Command line]
+Ком. строка
+[OK]
+
+[Copy to clipboard]
+Копировать в буфер обмена
+[Command line:]
+Ком. строка:
+[Create shortcut]
+Создать ярлык
+[Add new profile]
+Добавить профиль
+[Profile name]
+Имя профиля
+[Set window state]
+Состояние окна
+[Show dialog]
+Показывать диалог
+[Set status to offline before exit]
+"Отключён" при выходе
+[Show CMDL]
+Ком. строка
+[Activate status profile]
+Cтатус-профиль
+[Set docked]
+Парковать
+[Other]
+Другое
+[Status on startup]
+Статус при запуске
+[ms]
+мс
+[Set after]
+через
+[Timeout]
+Таймаут
+[s]
+с
+[Set window location]
+Позиция окна
+[Set window size]
+Размер окна
+[x]
+
+[Allow override]
+Изменять
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Статус-профиль можно создать во вкладке "Профили статусов".
+[Window on startup]
+Окно при запуске
+[Automatically dial on startup]
+Подключаться при старте
+[Automatically hang up on exit]
+Разрывать связь при выходе
+[Dial-up (experimental)]
+Уд. доступ (экспериментально)
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Use Windows colors]
+Цвета Windows
+[Use default colors]
+Цвета по умолчанию
+[Delay]
+Задержка
+[On left click]
+Левый щелчок
+[On right click]
+Правый щелчок
+[Do nothing]
+Ничего не делать
+[Close popup]
+Закрыть окно
+[Cancel reconnecting]
+Отмена подключения
+[Colors]
+Цвета
+[Preview]
+Тест
+[Events]
+События
+[Show when connection is lost]
+Обрыв соединения
+[Show when a connection attempt is made]
+Попытка подключения
+[Show when reconnection has finished]
+Успешное подключение
+[Show other messages]
+Другие
+[From Popup plugin]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Show additional information in popups]
+Дополнительная информация
+[Use Miranda's message setting]
+Использовать настройки Miranda
+[Use this message:]
+Использовать сообщение:
+[Use %time% for the current time, %date% for the current date]
+%date% - сегодняшняя дата; %time% - текущее время
+[Variables...]
+Переменные...
+[Specify settings for each account]
+Настройки для каждой учётной записи
+[Use same settings for all accounts]
+Общие настройки для всех учётных записей
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Игнорировать клавиши Caps Lock, Num Lock и Scroll Lock
+[Check interval (secs)]
+Интервал проверки (сек)
+[Confirm dialog timeout (secs)]
+Интервал подтверждения (сек)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Вы включили функцию смены статуса в разделе настроек "Режим ожидания", настройки ААА будут игнорироваться.
+[Monitor keyboard activity]
+Следить за активностью клавиатуры
+[Monitor mouse activity]
+Следить за активностью мыши
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+Игнорировать клавиши Ctrl, Alt, Shift, Tab, Esc, Win
+[Ignore any key combination with above keys]
+Игнорировать комбинации с упомянутыми клавишами
+[Accounts]
+Учётные записи
+[Enable checking]
+Вкл. проверку
+[Disable checking]
+Откл. проверку
+[Set status message]
+Установить сообщение статуса
+[Status]
+Статус
+[Add...]
+Добавить...
+[Delete]
+Удалить
+[Create a TopToolBar button]
+Создать кнопку Панели кнопок
+[Show confirm dialog when loading]
+Подтверждать при загрузке
+[Create a main menu item]
+Пункт в главном меню
+[Status profiles]
+Профили статусов
+[Hotkey]
+Горячая клавиша
+[In submenu]
+В подменю
+[Max. delay (secs)]
+Макс. задержка (сек)
+[Increase delay exponential]
+Увеличить экспоненциально
+[Cancel all if a account connects from another location]
+Отменить, если учётная запись подключена из другого места
+[Reconnect on APM resume]
+Переподключаться после спящего режима
+[Stop trying to reconnect]
+Прекратить подключение
+[Set delay to]
+Подождать
+[React on login errors]
+Учитывать ошибки входа
+[seconds]
+секунд
+[Set account offline before a connection attempt]
+Отключать учётную запись перед подключением
+[Max. account connecting time (secs)]
+Макс. время подключения (сек)
+[Timers]
+Таймеры
+[Reconnecting]
 Переподключение
+[Ignore locked status of accounts]
+Игнорировать блокированные учётные записи
+[Consider connection lost after]
+Связь потеряна после
+[failed pings]
+неудачных пингов
+[Continuously check interval (secs)]
+Интервал проверки (сек)
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Leaving second auto-away status]
+
+[Becoming active without status change]
+
+[Pre-conditions]
+Предварительные условия
+[TriggerData]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[Protocol]
+Протокол
 [%s connected from another location]
 %s подключён из другого места
 [%s login error, cancel reconnecting]
@@ -21,6 +277,8 @@
 %s ошибка статуса (следующий повтор (%d) через %d с.)
 [Status error (next retry (%d) in %d s)]
 Ошибка статуса (попытка № %d через % с.)
+[%s\t(will be set to %s)\r\n]
+%s\t(будет %s)\r\n
 [Resetting status... (last try (%d))%s]
 Сброс статуса.. (последняя попытка (%d))%s
 [Resetting status... (next retry (%d) in %d s)%s]
@@ -33,159 +291,48 @@
 Статус установлен
 [Giving up]
 Прекращаю
-[connection lost]
-соединение потеряно
-[each retry]
-каждая попытка
-[, each retry]
-, каждая попытка
-[success]
-успешно
-[, success]
-, успешно
-[giving up]
-прекращаю
-[, giving up]
-, прекращаю
-[Check connection]
-Проверять
-[Don't reconnect if no internet connection seems available]
-Не подключаться, если нет соединения с Интернетом
-[Continuously check for internet connection]
-Постоянно проверять подключение к Интернету
-[Do so by pinging host]
-Пинговать хост
-[Cancel reconnecting]
-Отмена подключения
-[Show when connection is lost]
-Обрыв соединения
-[Show when a connection attempt is made]
-Попытка подключения
-[Show when reconnection has finished]
-Успешное подключение
-[Show other messages]
-Другие
-[Show additional information in popups]
-Дополнительная информация
-[connection loss is detected]
-потеряно соединение
-[reconnection attempt is made]
-сделано повторное подключение
-[successfull reconnected]
-успешное повторное подключение
-[giving up reconnecting]
-прекращаю подключения
-[Increase delay exponential]
-Увеличить экспоненциально
-[Cancel all if a protocol connects from another location]
-Отменить, если подключён из другого места
-[Reconnect on APM resume]
-Переподключаться после спящего режима
-[Stop trying to reconnect]
-Прекратить подключение
-[Set delay to]
-Подождать
-[React on login errors]
-Учитывать ошибки входа
-[Set protocol offline before a connection attempt]
-Отключать протокол перед подключением
-[Ignore locked status of accounts]
-Игнорировать блокированные учётные записи
-[Max. retries]
-Макс. попыток
-[Delay between retries (secs)]
-Задержка между попытками (сек)
-[Max. delay (secs)]
-Макс. задержка (сек)
-[Max. protocol connecting time (secs)]
-Макс. время для протокола (сек)
-[Consider connection lost after]
-Связь потеряна после
-[failed pings]
-неудачных пингов
-[Continuously check interval (secs)]
-Интервал проверки (сек)
-[Dial-Up]
-Удалённый доступ
-[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-Проверяет наличие подключения к сети и автоматически переподключает при разрывах.
-[Increase exponential]
-Экспоненциально
-[Initial delay]
-Начальная задержка
-[Max. delay]
-Макс. задержка
-[On left Click]
-Левый щелчок
-[On right Click]
-Правый щелчок
-[You broke the Internet!]
-Соединение с Интернет разорвано!
-[Resetting status... (last try (%d))]
-Сброс статуса... (последняя попытка (%d))
-[Resetting status... (next retry (%d) in %ds)]
-Сброс статуса... (следующий повтор (%d) через %dc)
-[KeepStatus: assigning status %d to %s]
-KeepStatus: устанавливаю статус %d в %s
-[KeepStatus: cancel on login error (%s)]
-KeepStatus: отмена из-за ошибки (%s)
-[KeepStatus: connection lost! (%s)]
-KeepStatus: подключение потеряно! (%s)
-[KeepStatus: connection lost! (continuesly check)]
-KeepStatus: подключение потеряно! (постоянная проверка)
-[KeepStatus: connection state change]
-KeepStatus: состояние подключения изменилось
-[KeepStatus: Enable/Disable checking]
-KeepStatus: Вкл/Выкл проверку
-[KeepStatus: icmp.dll error (1)]
-KeepStatus: icmp.dll ошибка (1)
-[KeepStatus: icmp.dll error (2)]
-KeepStatus: icmp.dll ошибка (2)
-[KeepStatus: icmp.dll not found, ping disabled]
-KeepStatus: icmp.dll не найден. Пинг выключен
-[KeepStatus: pinging %s (result: %d)]
-KeepStatus: пингую %s (результат: %d)
-[KeepStatus: set delay to %d on login error (%s)]
-KeepStatus: задержка %d из-за ошибки (%s)
-[KeepStatus: Setting %s offline before making a new connection attempt]
-KeepStatus: отключаю %s перед следующей попыткой подключения
-[KeepStatus: stop checking (%s)]
-KeepStatus: останов проверки (%s)
-[KeepStatus: unable to resolve %s]
-KeepStatus: не могу разрешить %s
-[Reconnect on login failures]
-Переподключаться после ошибок логина
-[Continuesly check for internet connection]
-Постоянно проверять доступность соединения
-[Dial-Up (please read keepstatus.txt)]
-Dial-Up (прочтите keepstatus.txt)
-[Initial delay (seconds)]
-Начальная задержка
-[Max. delay (seconds)]
-Задержка (секунд)
-[minutes of ]
-минут от\s
+[KeepStatus]
+Переподключение
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Basic]
 Основные
-[Timers]
-Таймеры
-[Reconnecting]
-Переподключение
-[Protocol Connection]
-Соединение
-[%s\t(will be set to %s)\r\n]
-%s\t(будет %s)\r\n
-[(will be set to %s)]
-(будет "%s")
-[will be set to]
-будет
-[Account connection]
-Подключение учётной записи
-[Accounts to check]
-Проверять следующие
-[Max. account connecting time (secs)]
-Макс. время подключения (сек)
-[Set account offline before a connection attempt]
-Отключать учётную запись перед подключением
-[Cancel all if a account connects from another location]
-Отменить, если учётная запись подключена из другого места
+[Advanced]
+Дополнительно
+[You broke the Internet!]
+Соединение с Интернет разорвано!
+[Popups]
+Всплывающие окна
+;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Отошел в %time%.
+[Give it up, I'm not in!]
+Меня нет.
+[Not right now.]
+Не сейчас.
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[I'm a chatbot!]
+Свободен.
+[Yep, I'm here.]
+Да, я здесь.
+[Nope, not here.]
+Нет, меня здесь нет.
+[I'm hiding from the mafia.]
+Я прячусь от мафии.
+[That'll be the phone.]
+Дайте же человеку поговорить по телефону.
+[Mmm... food.]
+Ммм... поесть бы.
+[idleeeeeeee]
+ожидание...
+;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Set %s message for %s.]
+Установить %s сообщение для %s.
+[<last>]
+<последний>
+[<current>]
+<текущий>
+[<n/a>]
+<неизвестно>
+[Closing in %d]
+Закрыть (%d)

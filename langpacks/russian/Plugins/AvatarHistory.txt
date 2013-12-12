@@ -1,78 +1,25 @@
 ﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
 ;============================================================
-;  File: avatarhist.dll, avatarhistW.dll
-;  Plugin: Avatar History
-;  Versions: 0.0.2.10
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3679
-;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/avatarhistory/
-;  Authors: Pescuma
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.1
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Плагин сохраняет историю изменения аватаров контактов и показывает всплывающие окна.
+;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Avatar List Popup]
+
+[Save As...]
+Сохранить как...
+[Delete this entry]
+Удалить эту запись
+[Delete this entry and the bitmap file]
+Удалить эту запись и файл изображения
 [Avatar History]
 История аватаров
-[View Avatar History]
-Показать историю аватаров
-[ Logging options ]
- Настройка журнала\s
-[Store old avatars on disk]
-Хранить старые аватары на диске
-[Also create per contact folders with shortcuts]
-Также поконтактно создавать папки с ярлыками
-[Log avatar changes to history]
-Записывать изменения аватаров в историю
-[ History templates ]
- Шаблоны сообщений\s
-[Avatar change:]
-Смена аватара:
-[Track when contacts remove their avatars too]
-Отслеживать также удаление аватаров
-[Avatar removal:]
-Удаление аватара:
-[Keep all in same folder]
-Сохранять всё в одной папке
-[Avatar Change]
-Смена аватара
-[Show popup when a contact change his avatar]
-Всплывающее окно при смене аватара
-[Show avatar history]
-Показать историю аватаров
-[Show contact history]
-Показать историю контакта
-[Avatar change\n%contact% changed his/her avatar]
-Смена аватара\n%contact% сменил(а) свой аватар
-[Avatar removal\n%contact% removed his/her avatar]
-Удаление аватара\n%contact% удалил(а) свой аватар
-[changed his/her avatar]
-сменил(а) свой аватар
-[removed his/her avatar]
-удалил(а) свой аватар
-[Avatar History: Select how to store history avatars]
-История аватаров: выберите, как хранить историю аватаров
-[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
-Выберите, каким образом сохранять историю аватаров контактов. Это настройку НЕЛЬЗЯ будет изменить в будущем, т.к. все предыдущие события истории будут потеряны.
-[Store history in miranda history and all history avatars in same folder]
-Сохранять историю в истории Miranda и все аватары в одной папке
-[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
-История сохраняется в БД Miranda. Она может быть отображена встроенным просмотрщиком или плагином History++ 
-[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
-Все аватары сохраняются как <Профиль>\\Avatars History\\<Хэш Аватара>
-[Store history in miranda history and history avatars in per protocol folders]
-Сохранять историю в папке Miranda и историю аватаров в папке протоколов
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
-Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<Хэш Аватара>
-[Store history in miranda history and history avatars in per contact folders using shortcuts]
-Сохранять историю в истории Miranda и историю аватаров в папке контакта, используя ярлыки
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
-Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<Хэш аватара> и имеют ярлык в истории <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<Время>
-[Store history avatars in per contact folders using shortcuts]
-Сохранять историю для каждого контакта, используя ярлыки
-[History is stored only in disk. It can be seen by Avatar History internal viewer.]
-История сохраняется только на диск. Её можно просмотреть встроенным просмотрщиком.
-[Store history avatars in per contact folders]
-Сохранять историю в папке каждого контакта
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
-Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<время> (одинаковые аватары могут быть сохранены несколько раз)
+[Static]
+
 [Open Folder]
 Открыть папку
 [Store this user's old avatars in disk]
@@ -81,51 +28,153 @@
 Сохранять смену аватаров в истории
 [Show popups for this user]
 Вспл. окна для этого пользователя
-[Save As...]
-Сохранить как...
-[Delete this entry]
-Удалить эту запись
-[Delete this entry and the bitmap file]
-Удалить эту запись и файл изображения
-[Please select an avatar from the list]
-Выберите аватар из списка
-[No avatar selected]
-Аватар не выбран
-[Delete avatar log?]
-Удалить записи изменений аватаров?
-[Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
-Вы уверены, что хотите удалить эту запись из истории?\nБудет удалена только сама запись, файл изображения останется!
-[Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
-Вы уверены, что хотите удалить этот ярлык аватара?\nБудет удален только ярлык, файл изображения останется!
-[Delete avatar?]
-Удалить аватар?
-[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
-Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены запись из истории и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько записей в истории!
-[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
-Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены ярлык и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько ярлыков!
-[Unknown Protocol]
-Неизвестный протокол
-[Unknown UIN]
-Неизвестный номер
+[OK]
+
+[Protocols]
+Протоколы
+[Enable tracking for these protocols:]
+Отслеживать следующие протоколы:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Метаконтакты обрабатываются особо: информация всегда копируется из субконтактов (уведомления от метаконтактов игнорируются)
-[Avatar history...]
-История аватаров
-[Log avatar changes to disk]
-Сохранять изменения аватаров
-[Log this user's avatars]
-Сохранять историю
-[Popup background color]
+[Show popup when a contact change his avatar]
+Всплывающее окно при смене аватара
+[Colors]
+Цвета
+[Background color]
 Цвет фона
-[Popup text color]
+[Text color]
 Цвет текста
-[Show 'Avatar History' on contacts' menus (takes effect after restart)]
-Показывать пункт "История аватаров" в меню контакта
-[Show popup when user changes their avatar]
-Вспл. окно при смене аватара
-[Use default colors for popups]
-Стандартные цвета для окон
+[Use Windows colors]
+Цвета Windows
+[Use default colors]
+Цвета по умолчанию
+[Delay]
+Задержка
+[From Popup plugin]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Actions]
+Действия
+[On right click:]
+Правый щелчок:
+[On left click:]
+Левый щелчок:
+[Track]
+Трек
+[Avatar change:]
+Смена аватара:
+[Avatar removal:]
+Удаление аватара:
+[Preview]
+Тест
+[Avatar History: Select how to store history avatars]
+История аватаров: выберите, как хранить историю аватаров
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
+Выберите, каким образом сохранять историю аватаров контактов. Это настройку НЕЛЬЗЯ будет изменить в будущем, т.к. все предыдущие события истории будут потеряны.
+[Store history in miranda history and all history avatars in same folder]
+Сохранять историю в истории Miranda и все аватары в одной папке
+[Store history in miranda history and history avatars in per protocol folders]
+Сохранять историю в папке Miranda и историю аватаров в папке протоколов
+[Store history in miranda history and history avatars in per contact folders using shortcuts]
+Сохранять историю в истории Miranda и историю аватаров в папке контакта, используя ярлыки
+[Store history avatars in per contact folders using shortcuts]
+Сохранять историю для каждого контакта, используя ярлыки
+[Store history avatars in per contact folders]
+Сохранять историю в папке каждого контакта
+[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+История сохраняется в БД Miranda. Она может быть отображена встроенным просмотрщиком или плагином History++ 
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+Все аватары сохраняются как <Профиль>\\Avatars History\\<Хэш Аватара>
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<Хэш Аватара>
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<Хэш аватара> и имеют ярлык в истории <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<Время>
+[History is stored only in disk. It can be seen by Avatar History internal viewer.]
+История сохраняется только на диск. Её можно просмотреть встроенным просмотрщиком.
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
+Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<время> (одинаковые аватары могут быть сохранены несколько раз)
+;file \plugins\AvatarHistory\src\AvatarDlg.cpp
+[Avatar History for %s]
+
+[Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
+Вы уверены, что хотите удалить эту запись из истории?\nБудет удалена только сама запись, файл изображения останется!
+[Delete avatar log?]
+Удалить записи изменений аватаров?
+[Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
+Вы уверены, что хотите удалить этот ярлык аватара?\nБудет удален только ярлык, файл изображения останется!
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены запись из истории и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько записей в истории!
+[Delete avatar?]
+Удалить аватар?
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены ярлык и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько ярлыков!
+[Avatar History is empty!]
+
+[avatar path is null.]
+
+[View Avatar History]
+Показать историю аватаров
+[Save Avatar for %s]
+
+[Save Avatar]
+
+;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+[AVH Debug]
+
+[Removed avatar, no avatar before...skipping]
+
+[Hashes are the same... skipping]
+
+[Avatar History: Unable to save avatar]
+
+[AVH Debug: File copied successfully]
+
+[Avatars]
+Аватары
 [Contact changed avatar]
 Контакт сменил аватар
 [Contact removed avatar]
 Контакт удалил аватар
+;file \plugins\AvatarHistory\src\AvatarHistory.h
+[removed his/her avatar]
+удалил(а) свой аватар
+[changed his/her avatar]
+сменил(а) свой аватар
+;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+История
+[Avatar Overlay]
+Оверлей аватара
+;file \plugins\AvatarHistory\src\options.cpp
+[Do nothing]
+Ничего не делать
+[Close popup]
+Закрыть окно
+[Show avatar history]
+Показать историю аватаров
+[Show contact history]
+Показать историю контакта
+[Test Contact]
+Тестовый контакт
+[Test description]
+Тестовое описание
+[Avatar]
+Аватар
+[Popups]
+Всплывающие окна
+[Avatar Change]
+Смена аватара
+;file \plugins\AvatarHistory\src\utils.cpp
+[Unknown UIN]
+Неизвестный номер
+[Unknown Protocol]
+Неизвестный протокол
+[AVH Debug: GetOldStyleAvatarName]
+
+[Avatar History: Unable to create shortcut]
+
+[AVH Debug: Shortcut created successfully]
+

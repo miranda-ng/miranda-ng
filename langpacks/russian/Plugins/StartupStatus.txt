@@ -5,95 +5,337 @@
 ;  Version: 0.8.0.45
 ;  Authors: P Boon
 ;============================================================
-[<last>]
-<последний>
-[<n/a>]
-<неизвестно>
-[Minimized]
-Свернуто
-[Create a status menu item]
-Создать пункт в меню
-[At least one profile must exist]
-Минимум один профиль должен существовать
-[StartupStatus]
-Начальный статус
-[Your default profile will be changed]
-Профиль по умолчанию будет изменен
-[Status profiles]
-Профили статусов
-[There is a maximum of 6 menu items]
-Максимум 6 пунктов меню
+[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
+Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
+;file \Plugins\StatusPlugins\resource.rc
+[Check connection]
+Проверять наличие соединения
+[Max. retries]
+Макс. попыток
+[Account connection]
+
+[Delay between retries (secs)]
+Задержка между попытками (сек)
+[Show popups]
+Показывать всплывающие окна
+[General]
+Общее
+[Accounts to check]
+Проверять учётные записи
+[Dial-Up]
+Удалённый доступ
+[Don't reconnect if no internet connection seems available]
+Не подключаться, если нет соединения с Интернетом
+[Continuously check for internet connection]
+Постоянно проверять подключение к Интернету
+[Do so by pinging host]
+Пинговать хост
+[Confirm status]
+Подтвердите статус
+[Close]
+Закрыть
+[Cancel]
+Отмена
+[Profile]
+Профиль
+[Message]
+Сообщение
+[after]
+через
+[minutes of inactivity]
+минут неактивности
+[minutes of level 1 mode]
+минут режима 1
+[Confirm resetting status]
+Подтвердить сброс статуса
+[Account]
+Учётная запись
+[Only set if current status is]
+Только если статус:
+[Monitor Miranda's activity only]
+Следить только за Miranda
+[Reset status on return]
+Восстановить статус при возвращении
+[when screen saver engages]
+при запуске заставки
+[Set]
+Выбрать
+[only set when inactive]
+только при неактивности
+[when workstation is locked]
+при блокировке компьютера
+[Command line]
+Ком. строка
+[OK]
+
+[Copy to clipboard]
+Копировать в буфер обмена
+[Command line:]
+Ком. строка:
+[Create shortcut]
+Создать ярлык
+[Add new profile]
+Добавить профиль
+[Profile name]
+Имя профиля
 [Set window state]
 Состояние окна
 [Show dialog]
 Показывать диалог
 [Set status to offline before exit]
 "Отключён" при выходе
+[Show CMDL]
+Ком. строка
 [Activate status profile]
 Cтатус-профиль
 [Set docked]
 Парковать
+[Other]
+Другое
+[Status on startup]
+Статус при запуске
+[ms]
+мс
+[Set after]
+через
+[Timeout]
+Таймаут
+[s]
+с
 [Set window location]
 Позиция окна
 [Set window size]
 Размер окна
+[x]
+
 [Allow override]
 Изменять
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Статус-профиль можно создать во вкладке "Профили статусов".
+[Window on startup]
+Окно при запуске
 [Automatically dial on startup]
 Подключаться при старте
 [Automatically hang up on exit]
 Разрывать связь при выходе
+[Dial-up (experimental)]
+Уд. доступ (экспериментально)
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Use Windows colors]
+Цвета Windows
+[Use default colors]
+Цвета по умолчанию
+[Delay]
+Задержка
+[On left click]
+Левый щелчок
+[On right click]
+Правый щелчок
+[Do nothing]
+Ничего не делать
+[Close popup]
+Закрыть окно
+[Cancel reconnecting]
+Отмена подключения
+[Colors]
+Цвета
+[Preview]
+Тест
+[Events]
+События
+[Show when connection is lost]
+Обрыв соединения
+[Show when a connection attempt is made]
+Попытка подключения
+[Show when reconnection has finished]
+Успешное подключение
+[Show other messages]
+Другие
+[From Popup plugin]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Show additional information in popups]
+Дополнительная информация во всплыв.окнах
+[Use Miranda's message setting]
+Использовать настройки Miranda
+[Use this message:]
+Использовать сообщение:
+[Use %time% for the current time, %date% for the current date]
+%date% - сегодняшняя дата; %time% - текущее время
+[Variables...]
+Переменные...
+[Specify settings for each account]
+Настройки для каждой учётной записи
+[Use same settings for all accounts]
+Общие настройки для всех учётных записей
+[Ignore Caps Lock, Num Lock and Scroll Lock keys]
+Игнорировать клавиши Caps Lock, Num Lock и Scroll Lock
+[Check interval (secs)]
+Интервал проверки (сек)
+[Confirm dialog timeout (secs)]
+Интервал подтверждения (сек)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Вы включили функцию смены статуса в разделе настроек "Режим ожидания", настройки ААА будут игнорироваться.
+[Monitor keyboard activity]
+Следить за активностью клавиатуры
+[Monitor mouse activity]
+Следить за активностью мыши
+[Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
+Игнорировать клавиши Ctrl, Alt, Shift, Tab, Esc, Win
+[Ignore any key combination with above keys]
+Игнорировать комбинации с упомянутыми клавишами
+[Accounts]
+Учётные записи
+[Enable checking]
+Вкл. проверку
+[Disable checking]
+Откл. проверку
+[Set status message]
+Установить сообщение статуса
+[Status]
+Статус
+[Add...]
+Добавить...
+[Delete]
+Удалить
 [Create a TopToolBar button]
 Создать кнопку Панели кнопок
 [Show confirm dialog when loading]
 Подтверждать при загрузке
+[Create a main menu item]
+Пункт в главном меню
+[Status profiles]
+Профили статусов
+[Hotkey]
+Горячая клавиша
 [In submenu]
 В подменю
-[Create shortcut]
-Создать ярлык
-[Show CMDL]
-Ком. строка
-[Profile name]
-Имя профиля
-[Set after]
-через
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Статус-профиль можно создать во вкладке "Профили статусов".
-[Dial-up (experimental)]
-Уд. доступ (экспериментально)
-[Command line]
-Ком. строка
-[Add new profile]
-Добавить профиль
-[Default profile]
-По умолчанию
-[Create a TopToolBar button for this profile]
-Создать кнопку TopToolBar для профиля
-[Change status on startup]
-Сменить статус при запуске
-[Show dialog on startup]
-Показывать диалог при запуске
-[Change window state]
-Сменить сост. окна
-[Minimized Window]
+[Max. delay (secs)]
+Макс. задержка (сек)
+[Increase delay exponential]
+Увеличить экспоненциально
+[Cancel all if a account connects from another location]
+Отменить, если учётная запись подключена из другого места
+[Reconnect on APM resume]
+Переподключаться после спящего режима
+[Stop trying to reconnect]
+Прекратить подключение
+[Set delay to]
+Подождать
+[React on login errors]
+Учитывать ошибки входа
+[seconds]
+секунд
+[Set account offline before a connection attempt]
+Отключать учётную запись перед подключением
+[Max. account connecting time (secs)]
+Макс. время подключения (сек)
+[Timers]
+Таймеры
+[Reconnecting]
+Переподключение
+[Ignore locked status of accounts]
+Игнорировать блокированные учётные записи
+[Consider connection lost after]
+Связь потеряна после
+[failed pings]
+неудачных пингов
+[Continuously check interval (secs)]
+Интервал проверки (сек)
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Leaving second auto-away status]
+
+[Becoming active without status change]
+
+[Pre-conditions]
+Предварительные условия
+[TriggerData]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<last>]
+<последний>
+[<current>]
+<текущий>
+[<unknown>]
+<неизвестно>
+[Left]
+Слева
+[Right]
+Справа
+[None]
+Нет
+[size: %d x %d]
+
+[loc: %d x %d]
+
+[Hidden]
+Скрытый
+[Minimized]
 Свернуто
-[Hidden Window]
-Скрытое окно
-[Normal Window]
-Обычное
-[Status on startup]
-Статус при запуске
-[Window on startup]
-Окно при запуске
-[Set %s message for %s.]
-Уст. %s сообщение для %s.
-[Use Miranda's message setting]
-Использовать настройки Miranda
-[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
-Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
-[Confirm status]
-Подтвердите статус
+[Normal]
+Нормальный
+[Create a status menu item]
+Создать пункт в меню
+[default]
+по умолчанию
+[unknown]
+неизвестно
+[At least one profile must exist]
+Минимум один профиль должен существовать
+[StartupStatus]
+Начальный статус
+[Your default profile will be changed]
+Профиль по умолчанию будет изменен
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[There is a maximum of 6 menu items]
+Максимум 6 пунктов меню
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 Зажатая иконка панели
 [Released toolbar icon]
 Отпущенная иконка панели
+;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Отошел в %time%.
+[Give it up, I'm not in!]
+Меня нет.
+[Not right now.]
+Не сейчас.
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[I'm a chatbot!]
+Свободен.
+[Yep, I'm here.]
+Да, я здесь.
+[Nope, not here.]
+Нет, меня здесь нет.
+[I'm hiding from the mafia.]
+Я прячусь от мафии.
+[That'll be the phone.]
+Дайте же человеку поговорить по телефону.
+[Mmm... food.]
+Ммм... поесть бы.
+[idleeeeeeee]
+ожидание...
+;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Set %s message for %s.]
+Уст. %s сообщение для %s.
+[<n/a>]
+<неизвестно>
+[Protocol]
+Протокол
+[Closing in %d]
+Закрыть (%d)

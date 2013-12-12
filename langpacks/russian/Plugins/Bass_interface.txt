@@ -1,42 +1,69 @@
 ﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
-;  File: Bass_interface.dll
-;  Plugin: Bass interface
-;  Versions: 0.0.0.13
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4284
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Bass_interface/
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
 Поддержка библиотеки BASS для Miranda NG.
-[un4seen's bass version: %d.%d.%d.%d]
-Версия библиотеки BASS: %d.%d.%d.%d
-[Volume:]
-Уровень громкости:
-[Current bass.dll path:]
-Текущий путь к bass.dll:
-[bass.dll loading error]
-Ошибка загрузки библиотеки bass.dll
+;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 Поддержка библиотеки BASS
+[bass.dll loading error]
+Ошибка загрузки библиотеки bass.dll
+[Current bass.dll path:]
+Текущий путь к bass.dll:
 [Maximum number of bass internal channels:]
 Максимальное количество каналов:
-[Bass Interface]
-Библиотека BASS
 [Output device:]
 Устройство вывода:
+[Volume:]
+Уровень громкости:
 [Quiet time:]
 Тихий час:
 [download bass library]
 загрузить библиотеку bass
-[--default device--]
---устройство по умолчанию--
-[No sound]
-Нет звука
 [Play only if]
 Играть, если
+[Offline]
+Не в сети
+[Online]
+В сети
+[Away]
+Отсутствую
+[NA]
+
+[Occupied]
+Занят
+[DND]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[On the phone]
+На телефоне
+[Out to lunch]
+Обедаю
+[Preview]
+Тест
+;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
+Библиотека BASS
+;file \plugins\BASS_interface\src\Main.cpp
+[un4seen's bass version: %d.%d.%d.%d]
+Версия библиотеки BASS: %d.%d.%d.%d
+[--default device--]
+--устройство по умолчанию--
+[Sounds]
+Звуки
 [Disable sounds]
 Выключить звуки
+[Enable sounds]
+Включить звуки
+[Frame background]
+Фон фрейма
 [Bass library]
 Библиотека Bass
 [Sounds enabled]

@@ -1,98 +1,156 @@
-﻿#muuid {da0b09f5-9c66-488c-ae37-8a5f191c9079}
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
-;  File: linklist.dll
-;  Module: History Linklist Plugin for Miranda NG
-;  Versions: 0.1.1.1-0.1.1.2
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
 ;============================================================
 [Generates a list of extracted URIs from the history.]
 Создаёт и показывает список ссылок из истории контакта.
-[&Clear Search Results]
-&Очистить результаты поиска
-[&Incoming Messages Only]
-Только входящие сообщения
-[&Mail-Addresses Only]
-Только е-mail адреса
-[&Outgoing Messages Only]
-Только исходящие сообщения
-[&Webaddresses Only]
-Только веб-адреса
-[All directions]
-Все направления
-[All types]
-Все виды
-[Background color]
-Фон
-[Color Select]
-Выбор цвета
-[Deep search]
-Глубокий поиск
-[Incoming only]
-Только входящие
-[Linklist Plugin]
-Плагин Linklist
-[Mail addresses only]
-Только e-mail адреса
-[Message &Direction]
-Направление &сообщений
-[Message &Type]
-Тип &сообщений
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Поиск
+[Close]
+Закрыть
+[Search for:]
+Найти:
+[Message direction]
+Направление сообщения
 [Message types]
 Типы сообщений
-[Open in new Window]
-Открыть в новом окне
-[Open links always in a new window]
-Всегда открывать ссылки в новом окне
+[All directions]
+Все направления
+[Incoming only]
+Только входящие
 [Outgoing only]
 Только исходящие
-[Parting line]
-Раздел. линию
-[Plugin Default]
-По умолчанию
-[Save window position individually for each contact]
-Сохранять позицию окна отдельно для каждого контакта
-[Show Message]
-Показать сообщение
-[Show whole Message on 'mouse over' event]
-Показывать полное сообщение при наведении мыши
-[Show...]
-Показывать...
-[Text color]
-Цвет текста
-[Update list on new events]
-Автоматическое обновление списка при новых событиях
-[Use Miranda Settings]
-Использовать настройки программы
+[All types]
+Все виды
+[Mail addresses only]
+Только e-mail адреса
 [Web addresses only]
 Только веб-адреса
+[Deep search]
+Глубокий поиск
+[Static]
+Статический
+[Color Select]
+Выбор цвета
+[Incoming messages]
+Входящие сообщения
+[Plugin Default]
+По умолчанию
+[Preview]
+
+[Outgoing messages]
+Исходящие сообщения
+[Background color]
+Фон
+[Use Miranda Settings]
+Использовать настройки программы
+[Text color]
+Цвет текста
+[General Settings]
+Основные настройки
+[Open links always in a new window]
+Всегда открывать ссылки в новом окне
+[Update list on new events]
+Автоматическое обновление списка при новых событиях
+[Show whole Message on 'mouse over' event]
+Показывать полное сообщение при наведении мыши
+[Save window position individually for each contact]
+Сохранять позицию окна отдельно для каждого контакта
+[Show...]
+Показывать...
+[Date]
+Дата
+[Parting line]
+Раздел. линию
+[Timestamp]
+Время
+[Direction]
+Направление
+[Type]
+Тип
+[&File]
+&Файл
+[&Save]
+&Сохранить
+[&Close]
+&Закрыть
+[&Options]
+&Настройки
+[Message &Direction]
+Направление &сообщений
+[&Outgoing Messages Only]
+Только исходящие сообщения
+[&Incoming Messages Only]
+Только входящие сообщения
+[Message &Type]
+Тип &сообщений
+[&Webaddresses Only]
+Только веб-адреса
+[&Mail-Addresses Only]
+Только е-mail адреса
+[&Clear Search Results]
+&Очистить результаты поиска
+[&Search]
+&Искать
+[link]
+
+[Open]
+Открыть
+[Open in new Window]
+Открыть в новом окне
+[Copy to Clipboard]
+Копировать в буфер
+[Show Message]
+Показать сообщение
+;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
 История ссылок
-[&Create Linklist]
-&Создать Линк-лист
-[No Miranda Settings specified!]
-Настройки программы не определены!
-[incoming]
-входящие
-[mailaddresses]
-e-mail адреса
-[Matches for searchtext]
-Обнаружено совпадений при поиске
-[Miranda Linklist]
-Журнал ссылок Miranda NG
-[outgoing]
-исходящие
-[Processing history...]
-Обработка истории...
-[Processing list...]
-Обработка списка...
-[search options]
-параметры поиска
 [History is empty!]
 История пуста!
-[Could not create window!]
-Невозможно создать окно!
-[No messages found!\nPlease change current filter options.]
-Сообщений не найдено!\nПожалуйста, измените текущие параметры фильтра.
 [There are no links in history!]
 Ссылок в истории не найдено!
-[Unable to load the Rich Edit control!]
-Средства редактирования не загружены!
+[Error]
+Ошибка
+[incoming]
+входящие
+[outgoing]
+исходящие
+[Filter]
+Фильтр
+[no filter]
+
+[Search Filter]
+
+[no settings]
+
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[&Create Linklist]
+&Создать Линк-лист
+[History]
+История
+[Processing history...]
+Обработка истории...
+[Could not create window!]
+Невозможно создать окно!
+[Could not allocate memory!]
+
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist Plugin]
+Плагин Linklist
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[Matches for searchtext]
+Обнаружено совпадений при поиске
+[Processing list...]
+Обработка списка...
+[No messages found!\nPlease change current filter options.]
+Сообщений не найдено!\nПожалуйста, измените текущие параметры фильтра.
+[RTF file]
+RTF файл
+[All files]
+Все файлы
+[Save RTF File]
+

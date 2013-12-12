@@ -1,75 +1,90 @@
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
-;  Module: Change Keyboard Layout
-;  Versions: 0.0.1.5
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3632
-;  Source: 
-;  Authors: yasnovidyashii
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
 Плагин управления сменой раскладки по горячим клавишам.
-[Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
-Установите конфигурационные строки для неизвестных раскладок(Плагины->ChangeKeyboardLayout)!
-[Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]
-Конфигурационные строки известных раскладок заменены. Отредактируйте, пожалуйста, строки для неизвестных строк, если таковые имеются.
-[Options:]
-Настройки:
-[Hotkey for changing layout of text:]
-Горячая клавиша:
-[Layout of text is current the layout]
-Раскладка текста - текущая раскладка
-["Current word" mode]
-Режим "текущего слова"
-[Log operations:]
-Действия над журналом:
-[Copy result to clipboard]
-Копировать результат в буфер обмена
-[Show result in MessageBox()]
-Показать результат в MessageBox()
-[Strings for keyboard layouts:]
-Строки для раскладок клавиатуры:
-[ChangeKeyboardLayout]
-Смена раскладки
-[HotKey for changing layout of text:]
-Горячая кнопка для смены:
-[Plugin for change keyboard layout of text (multilayout)]
-Плагин для смены раскладок текста.
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Горячие клавиши
 [Changing layout:]
 Смена раскладки:
+["Current word" mode]
+Режим "текущего слова"
 [Changing layout (alternative):]
 Смена раскладки (альтернативно):
-[Changing case:]
-Менять при:
-[Log operations]
-Действия над журналом
-[Show result in Popup]
-Показать результат в окне
-[Layout of text is the current layout]
-Раскладка текста это текущая раскладка
-[Two-way changing layout (experimental)]
-Двустороннее изменение раскладки
-[Strings for keyboard layouts]
-Строки для раскладок клавиатуры
-[Changing Case]
-Инвертировать регистр
-[Changing Layout]
-Смена раскладки
-[Popup colors]
-Цвета вспл.окон
-[Windows colors]
-Цвета Windows
-[Custom colors]
-Настроить цвета
 [Inverting lettercase:]
 Инвертировать регистр:
-[Set Caps Lock state when inverting lettercase:]
-Установить состояние Caps Lock при инвертировании регистра:
+[Options]
+Настройки
+[Two-way changing layout (experimental)]
+Двустороннее изменение раскладки
+[Log operations]
+Действия над журналом
+[Copy result to clipboard]
+Копировать результат в буфер обмена
+[Show result in Popup]
+Показать результат в окне
+[Strings for keyboard layouts]
+Строки для раскладок клавиатуры
+[EN]
+
+[Default]
+
 [Invert current state]
 Инвертировать текущее состояние
 [Switch off]
 Выключить
 [Leave as it is]
 Оставить как есть
+[Set Caps Lock state when inverting lettercase:]
+Установить состояние Caps Lock при инвертировании регистра:
 [Change active keyboard layout in system]
 Менять активную раскладку клавиатуры
+[Colors]
+Цвета
+[Popup colors]
+Цвета вспл.окон
+[Windows colors]
+Цвета Windows
+[Custom colors]
+Настроить цвета
+[Back]
+Фон
+[Text]
+Текст
+[Timeout]
+Таймаут
+[From Popup plugin]
+По умолчанию
+[Permanent]
+Постоянно
+[Custom]
+Настроить
+[On left click]
+Левый щелчок
+[Copy to clipboard]
+Копировать в буфер обмена
+[Dismiss]
+Убрать
+[On right click]
+Правый щелчок
+[Preview]
+Тест
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
+Смена раскладки
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Popup]
+Всплывающее окно
+[Changing Layout]
+Смена раскладки
+[Changing Case]
+Инвертировать регистр
+[Message Sessions]
+Беседы
+[Popups]
+Всплывающие окна

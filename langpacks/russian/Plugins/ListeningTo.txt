@@ -1,32 +1,29 @@
 ﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
 ;============================================================
-;  File: ListeningTo
-;  Module: listeningto.dll
-;  Versions: 0.3.0.0
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3693
-;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/listeningto/
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
 Отправляет информацию о прослушиваемой музыке Вашим контактам.
-[Send to all protocols]
-Отправлять всем протоколам
-[Send to %s]
-Отправлять в %s
-[ListeningTo]
-Музыка в статусе
-[Enable/Disable sending Listening To info (to all protocols)]
-Вкл/Выкл отправку информации о музыке (все протоколы)
-[Listening info]
-Музыка в статусе
-[ Listening to information ]
- Прослушиваемая музыка\s
+;file \plugins\ListeningTo\res\resource.rc
+[Listening to information]
+Информация о прослушиваемой музыке
 [Enable sending listening information to contacts:]
 Включить отправку информации контактам
+[Music]
+Музыка
+[Radio]
+Радио
+[Video]
+Видео
+[Others]
+Другое
 [You also have to enable it per protocol in the main menu]
 Попротокольная настройка находится в главном меню
-[ XStatus ]
- хСтатус\s
+[XStatus]
+хСтатус
 [For protocols that don't support listening to but support XStatus:]
 При отсутствии прямой поддержки протоколом, но поддержке хСтатусов:
 [Set XStatus to Music and show listening info]
@@ -35,12 +32,38 @@
 Если есть хСтатус, но он не "Музыка", то выполнить предыдущий пункт
 [If XStatus is Music, show listening info]
 Если хСтатус "Музыка", то показывать информацию о музыке
+[Do nothing]
+Ничего не делать
+[Contacts]
+Контакты
 [Apply template for info from contacts (overrides contacts template)]
 Применить шаблон для информации от контактов
-[Show advanced icon in slot]
-Доп. значок в слоте
-[ Listening to ]
- Прослушиваемая музыка\s
+[Get info from WATrack plugin]
+Получить информацию из плагина WATrack
+[Get info from these players:]
+Получать информацию из плееров:
+[Winamp (*)]
+
+[Windows Media Player]
+Проигрыватель Windows Media
+[iTunes]
+
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (установите плагин вручную)
+[Other players]
+Остальные плееры
+[Ask for new info every]
+Обновление раз в
+[seconds]
+секунд
+[Allow auto-loading plugins into players (affect players with *)]
+Автозагружать плагины в плееры (только для помеченных *)
+[mRadio]
+
+[Listening to]
+
+[Template:]
+Шаблон:
 [Variables:]
 Переменные:
 [%artist% - Artist name]
@@ -63,43 +86,77 @@
 %type% - тип воспроизводимого (музыка, видео, радио и т.д.)
 [When variable not found, use:]
 Если переменная неизвестна, отсылать:
+[Title:]
+Заголовок:
+[Message:]
+Диалог:
 [Other Variables:]
 Остальные переменные:
 [%listening% - Listening to info (as set above)]
 %listening% - преднастроенная выше информация
 [When nothing is playing, replace %listening% with:]
 Когда ничего не играет, писать:
-[Players]
-Плееры
-[Get info from WATrack plugin]
-Получить информацию из плагина WATrack
-[Get info from these players:]
-Получать информацию из плееров:
-[Windows Media Player]
-Проигрыватель Windows Media
-[foobar2000 (need to install the plugin manually)]
-foobar2000 (установите плагин вручную)
-[Other players]
-Остальные плееры
-[Ask for new info every]
-Обновление раз в
-[Allow auto-loading plugins into players (affect players with *)]
-Автозагружать плагины в плееры (только для помеченных *)
-[Toggle send to all protocols]
-Вкл./выкл. отправлять всем протоколам
-[Don't send to any protocols]
-Не отправлять всем протоколам
+;file \plugins\ListeningTo\src\listeningto.cpp
+[Send to %s]
+Отправлять в %s
 [Listening to (enabled)]
 Музыка (включено)
 [Listening to (disabled)]
 Музыка (выключено)
-[<Unknown>]
-<Неизвестно>
-[<Nothing is playing now>]
-<Ничего не проигрывается>
-[Listening to information]
-Информация о прослушиваемой музыке
+[ListeningTo]
+Музыка в статусе
+[Listening to music]
+Слушаю музыку
+[Send to all protocols]
+Отправлять всем протоколам
+[Listening info]
+Музыка в статусе
+[Listening info as set in the options]
+Информация о прослушивание установленная в настройках
+[Media type: Music, Video, etc.]
+Тип: музыка, видео и т.д.
+[Artist name]
+Исполнитель
+[Album name]
+Альбом
+[Song name]
+Песня
+[Track number]
+Номер песни
+[Song year]
+Год
+[Song genre]
+Жанр
+[Song length]
+Продолжительность
+[Player name]
+Плеер
+[Don't send to any protocols]
+Не отправлять всем протоколам
+[Toggle send to all protocols]
+Вкл./выкл. отправлять всем протоколам
+[Enable/Disable sending Listening To info (to all protocols)]
+Вкл/Выкл отправку информации о музыке (все протоколы)
 [Disable ListeningTo (to all protocols)]
 Выключить ListeningTo (для всех протоколов)
 [Enable ListeningTo (to all protocols)]
 Включить ListeningTo (для всех протоколов)
+;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+<Неизвестно>
+[<Nothing is playing now>]
+<Ничего не проигрывается>
+[Status]
+Статус
+[General]
+Общее
+[Format]
+Формат
+[Players]
+Плееры
+;file \plugins\ListeningTo\src\players\generic.cpp
+[Miranda ListeningTo receiver]
+
+;file \plugins\ListeningTo\src\players\wmp.cpp
+[Miranda ListeningTo WMP receiver]
+

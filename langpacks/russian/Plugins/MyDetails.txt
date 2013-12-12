@@ -1,134 +1,162 @@
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
-;  File: mydetails.dll
-;  Module: My Details 
-;  Versions: 0.0.0.40-0.0.1.10
-;============================================================;
-[<no status name>]
-<нет имени статуса>
-[Hide My Details]
-Скрыть мои детали
-[Main Window/Backgrnd]
-Главное окно/Фон
-;[MyDetails/Backgrnd]
-[Set My Avatar for %s...]
-Сменить мой аватар для %s...
-[Set My Nickname for %s...]
-Сменить мой ник для %s...
-[Set My Status Message for %s...]
-Изменить статусное сообщение для %s...
-[Show My Details]
-Показать мои детали
-[Set My Nickname for %s]
-Сменить мой ник для %s
-[Set My Status Message for %s]
-Установить статус для %s
-[Avatar]
-Аватар
-[Frame Options]
-Настройки фрейма
-[General]
-Общие
-[Protocol]
-Протокол
-[&Offline]
-Отключён
-[Align text to right]
-Выровнять справа
-[Allow it to grow]
-Растянуть аватар
-[Auto-resize frame]
-Выравнивать фрейм
-[Avatar popup]
-Аватар
-[Draw border]
-Рамки на аватарах
-[Background color:]
-Цвет заливки:
-[Bottom:]
-Низ:
-[Context popup]
-Контекст
-[Custom size:]
-Размер аватара:
-[Cycle through accounts]
-Менять учётные записи
-[Cycle through accounts every:]
-Менять учётные записи каждые:
-[Don't cycle through accounts]
-Не менять учётные записи
-[Global on avatar]
-Глобальный аватар
-[Global on nickname]
-Глобальный ник
-[Global on status]
-Глобальный статус
-[Global on status message]
-Глобальное статусное сообщение
-[Left:]
-Лево:
-[Nick popup]
-Ник
-[Replace Smileys]
-Заменять смайлы
-[Right:]
-Право:
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Shows and allows you to edit your details for all protocols.]
+Плагин позволяет показывать и редактировать ваши детали для всех протоколов.
+;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Мой ник
-[Set My Status Message for All Status]
-Статусное сообщение для всех статусов
-[Show previous account]
-Показать предыдущую учётную запись
-[Status message popup]
-Статусное сообщение
-[Status popup]
-Статус
-[Top:]
-Верх:
+[Nickname:]
+Ник:
+[OK]
+
+[Cancel]
+Отмена
+[General]
+Общие
+[...avatar]
+...аватар
+[RTL]
+RTL
+[Align text to right]
+Выровнять справа
+[...nickname]
+...ник
+[Auto-resize frame]
+Выравнивать фрейм
 [Use contact list smileys]
 Смайлики спиcка контактов
+[...status]
+...статус
+[Replace Smileys]
+Заменять смайлы
+[Resize Smileys]
+Изменять размер смайлов
+[...status message]
+...статусное сообщение
+[Top:]
+Верх:
+[Bottom:]
+Низ:
+[Left:]
+Лево:
+[Right:]
+Право:
+[Avatar]
+Аватар
+[Custom size:]
+Размер аватара:
+[pixels]
+пиксел
+[Allow it to grow]
+Растянуть аватар
+[Draw border]
+Рамки на аватарах
+[Round corners]
+Закруглённые углы
+[Custom corner size:]
+Размер угла:
 [Use free space (under avatar) to other texts]
 Использовать свободное место (под аватарами) для текста
+[Global On...]
+Глобальный...
+[Frame Options]
+Настройки фрейма
+[Cycle through accounts every:]
+Менять учётные записи каждые:
+[seconds]
+секунд
+[Account]
+Учётная запись
+[Show account name]
+Показывать имя учётной записи
+[Show account cycle button]
+Кнопки смены учётных записей
+[Set My Status Message for All Status]
+Статусное сообщение для всех статусов
+[Status Message:]
+Сообщение статуса:
+[&Offline]
+Отключён
+[On&line]
+В с&ети
+[&Away]
+&Отсутствую
+[&NA]
+&Недоступен
+[Occ&upied]
+Зан&ят
+[&DND]
+&Не беспокоить
+[&Free for chat]
+&Готов болтать
+[&Invisible]
+&Невидимый
+[On the &Phone]
+На телефоне
+[Out to &Lunch]
+Обедаю
 [Set My Avatar...]
 Сменить мой аватар...
 [Set My Nickname...]
 Сменить мой ник...
 [Set My Status Message...]
 Изменить статусное сообщение...
-[Show next account]
-Показать следующую учётную запись
 [Enable Listening To]
 Включить Сейчас слушаю
+[Show next account]
+Показать следующую учётную запись
+[Show previous account]
+Показать предыдущую учётную запись
+[Cycle through accounts]
+Менять учётные записи
+[Don't cycle through accounts]
+Не менять учётные записи
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<нет имени статуса>
+;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+
+[Status]
+Статус
+[Status Message]
+Статусное сообщение
+[Listening To]
+Слушаю
+[My Details]
+Мои детали
+[Background]
+Фон
+[Avatar Border]
+Граница аватара
+[Show My Details]
+Показать мои детали
 [Enable Listening To for %s]
 Включить Сейчас слушаю для %s
-[Shows and allows you to edit your details for all protocols.]
-Плагин позволяет показывать и редактировать ваши детали для всех протоколов.
-;0.0.1.10
-[Show account cycle button]
-Кнопки смены учётных записей
+[Set My Avatar for %s...]
+Сменить мой аватар для %s...
+[Set My Nickname for %s...]
+Сменить мой ник для %s...
+[Set My Status Message for %s...]
+Изменить статусное сообщение для %s...
+[Hide My Details]
+Скрыть мои детали
+;file \plugins\MyDetails\src\mydetails.cpp
+[Listening to]
+Слушаю
 [Previous protocol]
 Предыдущий протокол
 [Next protocol]
 Следующий протокол
-[Unread Email Count]
-Счётчик непрочитанной почты
-[MyDetails]
-Мои детали
-[My Details]
-Мои детали
-[Listening To]
-Слушаю
-[...avatar]
-...аватар
-[...nickname]
-...ник
-[...status]
-...статус
-[...status message]
-...статусное сообщение
-[Global On...]
-Глобальный...
-[pixels]
-пиксел
-[Show account name]
-Показывать имя учётной записи
+[Set My Nickname for %s]
+Сменить мой ник для %s
+[Set My Status Message for %s]
+Установить статус для %s
+[Contact List]
+Список контактов
+;file \plugins\MyDetails\src\options.cpp

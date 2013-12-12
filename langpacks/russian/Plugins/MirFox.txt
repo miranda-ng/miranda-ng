@@ -7,6 +7,7 @@
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Миранда NG) - часть интеграции Миранда-Firefox - http://wsx22.3.xpdev-hosted.com
+;file \plugins\MirFox\res\resource.rc
 [Send to contact action]
 Действие при отправке контакту
 [on left mouse button click]
@@ -23,10 +24,12 @@ MirFox (Миранда NG) - часть интеграции Миранда-Fire
 Эти контакты будут отображаться в меню Firefox "Отправить..."
 [Show these accounts in 'Set status message' option in Firefox]
 Отображать эти учётные записи в опции Firefox 'Установить сообщение статуса'
+;file \plugins\MirFox\src\MirandaInterface.cpp
 [MirFox/Notification]
 MirFox/Уведомление
 [MirFox/Error]
 MirFox/Ошибка
+;file \plugins\MirFox\src\MirandaOptions.cpp
 [just send message]
 просто отправить сообщение
 [send message and open message window]
@@ -45,6 +48,7 @@ MirFox/Ошибка
 Контакты
 [Accounts]
 Учётные записи
+;file \plugins\MirFox\src\MirandaUtils.cpp
 [MirFox log]
 Лог MirFox
 [Message sent to %s (%s)]
@@ -71,6 +75,7 @@ MirFox
 Не удалось установить сообщение статуса для %s
 [Cannot set status message]
 Не удалось установить сообщение статуса
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
 [This MirFox (Miranda) plugin is too old. Please update it.]
 Дополнение MirFox (Firefox) устарело. Пожалуйста, обновите его.
 [MirFox (Miranda) - Error]

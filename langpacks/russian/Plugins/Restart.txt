@@ -1,11 +1,14 @@
-﻿;============================================================
-;  File: restart.dll
-;  Module: Restart plugin
-;  Versions: 0.0.0.2 - 0.0.2.0
+﻿#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
+;============================================================
+;  File: Restart.dll
+;  Plugin: Restart
+;  Version: 0.0.6.0
+;  Authors: eugene.nv
 ;============================================================
 [Adds Restart menu item.]
 Добавление пункта Рестарт в главное меню.
+;file \plugins\Restart\src\restart.cpp
+[Restart]
+
 [Restart Plugin]
 Плагин Рестарт
-[Restart Miranda]
-Перезапустить программу

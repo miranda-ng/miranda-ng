@@ -1,34 +1,97 @@
 ﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: SMS.dll
-;  Module: SMS
-;  Versions: 0.2.4.8
-;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=589
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
 Отсылка SMS сообщений на мобильные телефоны посредством IM сетей.
-[Send &SMS...]
-Послать SMS
-[&SMS Message]
-Сообщение SMS
-[Can't load SMS Plugin, ICQ protocol must be loaded.]
-Невозможно загрузить плагин SMS. Должен быть запущен ICQ протокол.
-[SMS Plugin Error]
-Ошибка плагина SMS
-[From %s on ICQ:\r\n\r\n]
-От %s в ICQ:\r\n\r\n
-[SMS Plugin]
-Плагин SMS
+;file \plugins\SMS\res\resource.rc
+[Received SMS]
+Полученное SMS
+[&Reply]
+Ответить
+[&Close]
+&Закрыть
+[Read Next]
+Следующее
+[From:]
+От:
+[Message received:]
+Сообщение принято:
+[Number:]
+Номер:
+[Send SMS]
+
+[To:]
+Для:
+[Add number to list]
+Добавить номер к списку
+[&H]
+
+[Save number]
+Сохранить номер
 [Multiple >>]
 Нескольким>>
-[<< Single]
-<<Одному
-[SMS message didn't send by ICQ to %s because:\r\n]
-SMS через ICQ для %s не было послано по причине:\r\n
-[SMS Confirmation from %s]
-SMS подтверждение от %s
+[Enter message:]
+Сообщение
+[Chars:]
+Знаки:
+[%d/160]
+
+[&Send]
+&Отправить
+[SMS Message Didn't Send]
+СМС сообщение не послано
+[&Try again]
+Попытаться еще
+[&Cancel]
+О&тмена
+[The SMS message send timed out]
+Лимит времени отправки SMS
+[SMS Plugin]
+Плагин SMS
+[Begining]
+начало
+[End]
+конец
+[Put signature at the:]
+Поставить подпись в:
+[Use Signature]
+Использовать подпись
+[Show server notifications]
+Показать ответ сервера
+[Auto popup on new message]
+Автоокно на новое сообщение
+[Save window position per contact]
+Сохранять позицию окна поконтактно
+[SMS Message Sent]
+СМС сообщение послано
+[&OK]
+
+[Message ID:]
+ID сообщения:
+[Source:]
+Источник:
+[Network:]
+Оператор:
+;file \plugins\SMS\src\options.cpp
+[From %s:\r\n\r\n]
+От %s:\r\n\r\n
+;file \plugins\SMS\src\receive.cpp
+[SMS message didn't send by %S to %s because: %S]
+
 [SMS Message from %s]
 SMS от %s
+[SMS Confirmation from %s]
+SMS подтверждение от %s
+;file \plugins\SMS\src\recvdlg.cpp
+[Received SMS Confirmation]
+Полученное SMS подтверждения
+;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+История сообщений
 [Add Number To The Multiple List]
 Добавить номер к списку телефонов для отправки
 [Save Number To The User's Details Phonebook]
@@ -39,65 +102,26 @@ SMS от %s
 Показывает, сколько знаков набрано
 [The SMS message send to %s timed out.]
 Истекло время посылки SMS к %s,
-[Error - Message too long]
-Ошибка - сообщение слишком длинное
+[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+
+[Invalid Phone Number]
+
 [Message is too long, press OK to continue.]
 Сообщение слишком длинное, нажмите OK для продолжения
-[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-Правильные номера телефонов должны быть в форме '+(код страны)(номер телефона)'. содержимое части 'номер телефона' зависит от национальных стандартов, но часто первый ноль опускается.
-[No Numbers]
-Нет номеров
+[Error - Message too long]
+Ошибка - сообщение слишком длинное
 [There must be numbers in the list first.]
 В списке должны быть номера.
-[Use Signature?]
-Поставить подпись?
-[Put signature at the:]
-Поставить подпись в:
-[Begining]
-начало
-[End]
-конец
-[Show server notifications]
-Показать ответ сервера
-[Chars:]
-Знаки:
-[Save number]
-Сохранить номер
-[Add number to list]
-Добавить номер к списку
-[Message received:]
-Сообщение принято:
-[Message ID:]
-ID сообщения:
-[Network:]
-Оператор:
-[&Try again]
-Попытаться еще
-[Enter message:]
-Сообщение
-[Incoming SMS Confirmation]
-Подтверждение SMS доставки
-[The SMS message send timed out]
-Лимит времени отправки SMS
+[No Numbers]
+Нет номеров
+[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+
 [Invalid phone number]
 Неверный номер телефона
-[Received SMS]
-Полученное SMS
-[Received SMS Confirmation]
-Полученное SMS подтверждения
-[Read Next]
-Следующее
-[SMS message didn't send by ICQ to %s because :\r\n]
-СМС для %s не отправлено через ICQ из-за:\r\n
-[SMS Message Didn't Send]
-СМС сообщение не послано
-[SMS Message Sent]
-СМС сообщение послано
-[Save window position per contact]
-Сохранять позицию окна поконтактно
-[Auto popup on new message]
-Автоокно на новое сообщение
-[Use Signature]
-Использовать подпись
-[From %s:\r\n\r\n]
-От %s:\r\n\r\n
+[<< Single]
+<<Одному
+;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Message]
+Входящее SMS сообщение
+[Incoming SMS Confirmation]
+Подтверждение SMS доставки

@@ -1,104 +1,176 @@
 ﻿#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
 ;============================================================
-;  File: nimcontact.dll
-;  Module: Non-IM Contact
-;  Versions: 0.5.0.1
+;  File: NimContact.dll
+;  Plugin: Non-IM Contact
+;  Version: 0.6.0.1
+;  Authors: Jonathan Gordon
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
 Не-IM контакт позволяет добавлять ссылки на другие программы и веб-страницы в качестве «контактов». Имена этих «контактов» могут браться из текстового файла (любого файла ASCII).\r\n Этот плагин является комбинацией планинов Favorites и Text Reader, также написанных мной.
-[&String Maker]
-Создать строку
-[Contact is always visible]
-Контакт всегда видим
-[Returns....]
-Возврат...
-[Away as another status]
-Отсутствую, как другой статус
-[Contacts Tooltip]
-Подсказка
-[E&dit Contact Settings]
-Изменить настройки контакта
-[Co&py Non-IM Contact]
-Копировать не-IM контакт
+;file \plugins\Non-IM Contact\res\resource.rc
 [View/Edit Files]
 Просмотр/Изменение файлов
-[Remove Selected File]
-Удалить выбранный
-[Timer Options]
-Опции таймера
-[Program parameters:]
-Аргументы программы:
-[New Non-IM Contact]
-Новый не-IM контакт
-[Disable timer]
-Отключить таймер
-[Use Timer]
-Использовать таймер
-[Update URL every]
-Обновлять URL через
-[Group\\Sub-Group]
-Группа\\Подгруппа
-[Timer Settings]
-Настройки таймера
-[CList Settings]
-Настройки списка
-[O&pen File]
-Открыть файл
-[String to test]
-Строка для просмотра
-[Type one replace string per line in the format "original text,new text"]
-Одна строка замены на каждую строчку в формате "оригинал,новый"
-[Ignore global status change]
-Игнорировать глобальную смену статуса
-[String Maker]
-Создать строку
-[Contacts display name]
-Отображаемое имя
-[EXAMPLE: %fn1,%fn2]
-ПРИМЕР: %fn1,%fn2
-[O&pen Folder]
-Открыть папку
-[&Add Non-IM Contact]
-Добавить не-IM контакт
-[&Export all Non-IM Contacts]
-Экспорт всех не-IM контактов
-[&Export Non-IM Contact]
-Экспорт не-IM контакта
-[&Import Non-IM Contacts]
-Импорт не-IM контактов
-[&Non-IM Contact]
-Не-IM контакт
-[&Test String]
-Проверка
-[&View/Edit Files]
-Просмотр/изменение файлов
 [Add File]
 + файл
 [Add URL]
 + URL
-[Non-IM Contacts]
-Не-IM контакты
-[Non-IM Contact]
-Не-IM контакт
-[Timer interval (in seconds)]
-Интервал (в секундах)
-[This will take affect after Non-IM Contacts' status is changed]
-Изменения вступят в силу после смены статуса контактов
-[Link and CList Settings]
-Ссылки и настройки списка
-[Status Icon]
-Значок статуса
-[Unless Non-IM Contacts protocol is OFFLINE]
-скрыть, если не-IM протокол не в сети
-[Non-IM Contact protocol timer is Disabled]
-Выключать протокол по таймеру
-[&Files]
-Файлы
+[Remove Selected File]
+Удалить выбранный
 [file(#)]
 файл(#)
+[URL]
+Ссылка
+[Update URL every]
+Обновлять URL через
 [Intervals]
 периодов
 [If the protocol timer is disabled web pages won't be updated]
 При выключенном таймере ссылки не обновляются
-[NIM_Contact]
+[contact display info]
+
+[Contacts display name]
+Отображаемое имя
+[Contacts Tooltip]
+Подсказка
+[other settings]
+
+[Link]
+Ссылка
+[Program parameters:]
+Аргументы программы:
+[O&pen File]
+Открыть файл
+[O&pen Folder]
+Открыть папку
+[Link Settings]
+Настройка ссылок
+[CList Settings]
+Настройки списка
+[Group:]
+Группа:
+[Status Icon]
+Значок статуса
+[Group\\Sub-Group]
+Группа\\Подгруппа
+[Timer Settings]
+Настройки таймера
+[Use Timer]
+Использовать таймер
+[Contact is always visible]
+Контакт всегда видим
+[Unless Non-IM Contacts protocol is OFFLINE]
+скрыть, если не-IM протокол не в сети
+[Timer Intervals.  ]
+
+[Dialog]
+Диалог
+[Away as another status]
+Отсутствую, как другой статус
+[Disable timer]
+Отключить таймер
+[Timer interval (in seconds)]
+Интервал (в секундах)
+[This will take affect after Non-IM Contacts' status is changed]
+Изменения вступят в силу после смены статуса контактов
+[Timer Options]
+Опции таймера
+[String Maker]
+Создать строку
+[&Test String]
+Проверка
+[&Exit]
+Вы&ход
+[String to test]
+Строка для просмотра
+[Returns....]
+Возврат...
+[line()]
+
+[start()]
+
+[end()]
+
+[wholeline()]
+
+[csv()]
+
+[file()]
+
+[filename()]
+
+[Help]
+Справка
+[OK]
+
+[Copy / Export contact]
+
+[&Export Non-IM Contact]
+Экспорт не-IM контакта
+[Co&py Non-IM Contact]
+Копировать не-IM контакт
+[Type one replace string per line in the format "original text,new text"]
+Одна строка замены на каждую строчку в формате "оригинал,новый"
+[EXAMPLE: %fn1,%fn2]
+ПРИМЕР: %fn1,%fn2
+;file \plugins\Non-IM Contact\src\contactinfo.cpp
+[Select Folder]
+
+[Non-IM Contact protocol timer is Disabled]
+Выключать протокол по таймеру
+[Timer intervals... Non-IM Contact Protocol timer is %d seconds]
+
+[New Non-IM Contact]
+Новый не-IM контакт
+;file \plugins\Non-IM Contact\src\dialog.cpp
+[String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\nfile(X)\t\t<- specifies the file to read from. MUST be followed by either start() or end() or wholeline()\r\nfilename(X)\t<- copies the filename of file X.\r\nstart(...)\t\t<- specifies where to start copying from.\r\nend(...)\t\t<- specifies where to stop copying.\r\nwholeline(line(...))\t<- specifies a whole line to copy\r\n\r\nstart() and end() explained\r\n.........................\r\nMUST start with line() followed by a number or a string inside " marks, OR csv(separatorX) variable. The number specifies which character in the line to start/end copying. The string specifies a string in the line to start/end copying.\r\n\r\ncsv(seperatorX) explained...\r\nSeperator is either "tab" or "space" or any SINGLE character. X is the Xth seperator to pass before copying, (or to stop before).\r\n\r\nLastly the line(...) variable...\r\nInside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X). The X in lastline is the Xth line above the last line i.e. lastline(1) will use the 2nd last line of the file. If searching for a line with "some words" you may put a + or - X after the closing ) i.e. line("some words")+3 to go 3 lines after the line with "some words".\r\n\r\nSome Examples...\r\nfilename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0)))    <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello")-1)))    <- the wholeline above the first occurrence of "hello" in the file\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- starts at the 2nd last line of the file, from the 2nd tab variable, until the 4th tab variable in the last line (in the 0th file)\r\nfile(0)start(line("hello")+1"zzzz")end(line(6)17))    <- starts from the first occurrence of zzzz in the line after the first occurrence of hello, until the 17th character in the 6th line (starting from line 0) of the 0th file.\r\n]
+
+[Contacts Display Info]
+
+[Link and CList Settings]
+Ссылки и настройки списка
+[Copy Contact]
+
+[Files]
+Файлы
+[Edit Non-IM Contact "%s"]
+
+;file \plugins\Non-IM Contact\src\files.cpp
+[Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
+
+[File couldn't be opened]
+
+[File couldn't be opened,2]
+
+[line(%-3d) = | %s]
+
+;file \plugins\Non-IM Contact\src\http.cpp
+[Non-IM Contacts]
+Не-IM контакты
+;file \plugins\Non-IM Contact\src\main.cpp
+[Plugins]
+Плагины
+[Main Icon]
+Главный значок
+[Non-IM Contact]
 Не-IM контакт
+[&Non-IM Contact]
+Не-IM контакт
+[&Add Non-IM Contact]
+Добавить не-IM контакт
+[&View/Edit Files]
+Просмотр/изменение файлов
+[&Export all Non-IM Contacts]
+Экспорт всех не-IM контактов
+[&Import Non-IM Contacts]
+Импорт не-IM контактов
+[&String Maker]
+Создать строку
+[E&dit Contact Settings]
+Изменить настройки контакта
+;file \plugins\Non-IM Contact\src\namereplacing.cpp
+[%s - ERROR: no line specified or line not found (in %s)]
+
+[%s - ERROR: file couldn't be opened (in %s)]
+
+[%s - ERROR: no file specified in settings (in %s)]
+

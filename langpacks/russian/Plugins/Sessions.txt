@@ -1,59 +1,47 @@
 ﻿#muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;============================================================
-;  File: Sessions
-;  Module: Sessions.dll
-;  Versions: 0.1.3.0
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.1.3.0
+;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
 Менеджер сессий Miranda NG.
-[Sessions]
-Сессии
+;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
 Действие при старте
 [Open Sessions Manager dialog]
 Открыть менеджер сессий
-[User Sessions Management]
-Управление сессиями
-[Action on Exit]
-Действие при выходе
-[Save Session]
-Сохранить сессию
-[adv.]
-доп.
-[Enter session name:]
-Введите название сессии:
-[Save and Close]
-Сохранить и закрыть
-[&Save Session]
-Сохранить
-[Load last session]
-Загрузить последнюю сессию
-[Save session...]
-Сохранить сессию...
-[Load session...]
-Загрузить сессию...
-[Save your current session?]
-Сохранить текущую сессию?
-[Choose session to restore from the list:]
-Выберите сессию для восстановления:
-[&Restore Session]
-&Восстановить
-[Restore Session]
-Восстановить сессию
-[Open Sessions Manager]
-Открыть менеджер сессий
-[Restore last Session]
-Восстановить последнюю сессию
-[Save Current Session]
-Сохранять текущую сессию
-[Only if last session present]
-Только если доступна последняя сессия
 [Restore Last Session]
 Восстановить последнюю сессию
+[Do nothing]
+Ничего не делать
+[Only if last session present]
+Только если доступна последняя сессия
 [Startup delay]
 Задержка открытия
+[ms]
+мс
+[User Sessions Management]
+Управление сессиями
+[Edit]
+Изменить
+[Delete]
+Удалить
+[Save]
+Сохранить
+[Action on Exit]
+Действие при выходе
+[Ask]
+Спросить
+[Save Current Session]
+Сохранять текущую сессию
 [Save only last]
 Сохранить только последнюю
+[Sessions]
+Сессии
+[Misc]
+Прочее
 [Exclude hidden contacts from session on exit]
 Исключить скрытые контакты из сессии при выходе
 [Warn, when some of LastSession contacts are hidden]
@@ -62,26 +50,35 @@
 Показывать дополнительные предупреждения
 [Crash Recovery mode]
 Восстанавливать после сбоев
-[Session Before Last Crash]
-Сессия до последнего сбоя
+[Restore Session]
+Восстановить сессию
+[&Restore Session]
+&Восстановить
+[&Cancel]
+О&тмена
+[Choose session to restore from the list:]
+Выберите сессию для восстановления:
+[Del]
+Уд.
+[Save Session]
+Сохранить сессию
+[&Save Session]
+Сохранить
+[Enter session name:]
+Введите название сессии:
+[Save and Close]
+Сохранить и закрыть
+[adv.]
+доп.
 [Sessions Manager]
 Менеджер сессий
-[Last Sessions is empty]
-Последняя сессия пуста
-[No sessions to open]
-Нет сессий для открытия
-[Current session is empty!]
-Текущая сессия пуста!
-[Session name is empty, enter the name and try again]
-Имя сессии пусто, введите имя и попробуйте ещё раз
-[No contacts to open]
-Нет контактов для открытия
-[This Session already opened]
-Сессия уже открыта
-[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
-Сессия уже открыта(но возможно скрыта).\nВы хотите показывать скрытые контакты?
-[Close Session]
-Закрыть сессию
+[OK]
+
+[Cancel]
+Отмена
+[Save your current session?]
+Сохранить текущую сессию?
+;file \plugins\Sessions\Src\Main.cpp
 [Favorite Session]
 Избранная сессия
 [Not favorite Session]
@@ -90,7 +87,41 @@
 Загрузить сессию
 [Load last Session]
 Загрузить последнюю сессию
-[Close session]
-Закрыть сессию
+[Current session is empty!]
+Текущая сессия пуста!
+[Session name is empty, enter the name and try again]
+Имя сессии пусто, введите имя и попробуйте ещё раз
+[No sessions to open]
+Нет сессий для открытия
+[Last Sessions is empty]
+Последняя сессия пуста
+[No contacts to open]
+Нет контактов для открытия
+[This Session already opened]
+Сессия уже открыта
+[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
+Сессия уже открыта(но возможно скрыта).\nВы хотите показывать скрытые контакты?
+[Open Sessions Manager]
+Открыть менеджер сессий
 [Show Favorite Sessions Menu]
 Открыть меню избранных сессий
+[Restore last Session]
+Восстановить последнюю сессию
+[Close Session]
+Закрыть сессию
+[Save session...]
+Сохранить сессию...
+[Load session...]
+Загрузить сессию...
+[Close session]
+Закрыть сессию
+[Load last session]
+Загрузить последнюю сессию
+;file \plugins\Sessions\Src\Options.cpp
+[View]
+
+[Message Sessions]
+Беседы
+;file \plugins\Sessions\Src\Utils.cpp
+[Session Before Last Crash]
+Сессия до последнего сбоя

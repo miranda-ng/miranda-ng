@@ -1,49 +1,249 @@
 ﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
-;  File: quotes.dll
-;  Module: Quotes
-;  Versions: 0.0.11.0
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.24.0
+;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
 Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
-[&Choose Quotes to watch in contact list:]
-&Выберите котировки для наблюдения в списке контактов:
-[&Refresh Quotes Every:]
-&Обновлять котировки каждые:
-[&Refresh Rates Every:]
-&Обновлять курсы каждые:
-[&Display in Contact List as:]
-&Показывать в списке как:
-[&Status Message:]
-&Сообщение статуса:
-[&Variables...]
-&Переменные...
-[V&ariables...]
-П&еременные...
-[&Convert:]
-Из:
-[&into:]
-в:
-[&Watched currency rates:]
-&Отслеживаемые курсы валют:
-[Open Log File...]
-Открыть файл истории...
+;file \plugins\Quotes\res\Forex.rc
+[Variable List]
+
+[OK]
+
+[Edit Settings]
+Изменить настройки
+[Use contact specific settings]
+Собственные настройки у контакта
+[Log]
+Журнал
 [Use &Internal History]
 Использовать внутреннюю историю
 [&Format:]
 &Формат:
+[&Variables...]
+&Переменные...
 [&Add to History only if Value Changed]
 Добавлять в историю, только если изменилось значение
 [Use &External File]
 Использовать &внешний файл
 [&Select File:]
 &Путь к файлу:
-[F&ormat:]
-Ф&ормат:
 [&Browse...]
 &Обзор...
+[Variables Allowed: %miranda_userdata%,%quotename%]
+Поддерживаемые переменные: %miranda_userdata%,%quotename%
+[F&ormat:]
+Ф&ормат:
+[V&ariables...]
+П&еременные...
 [Add to &Log only if Value Changed]
 Добавлять в файл, только если изменилось значение
+[Show &Popup Window]
+Показывать всплывающее окно
+[Show Popup Window Only if Value &Changed]
+Показывать всплывающее окно только, если изменилось значение
+[Cancel]
+Отмена
+[Popup settings...]
+Настройки вспл. окон...
+[Currency Converter]
+Конвертер валют
+[&to:]
+в:
+[&Swap]
+
+[Convert]
+Конвертировать
+[Info provided by <a href="http://www.google.com">Google</a>]
+
+[Close]
+Закрыть
+[Chart]
+
+[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
+
+[Get data from:]
+
+[Filter:]
+
+[Popup Window Settings]
+Настройки всплывающих окон
+[Colors]
+Цвета
+[Use default colors]
+Цвета по умолчанию
+[Use user-defined colors]
+Настроить цвета
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Delay]
+Задержка
+[From Popup plugin]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Do not add to popup's history]
+
+[Preview]
+Тест
+[&Choose Quotes to watch in contact list:]
+&Выберите котировки для наблюдения в списке контактов:
+[&Refresh Quotes Every:]
+&Обновлять котировки каждые:
+[&Display in Contact List as:]
+&Показывать в списке как:
+[&Status Message:]
+&Сообщение статуса:
+[&Tendency:]
+&Тенденция:
+[&Advanced Settings...]
+Дополнительные настройки...
+[Static]
+Статический
+[<a>SysLink1</a>]
+
+[Current Rate:]
+Текущее значение:
+[Rate Fetch Time:]
+Время обновления:
+[Previous Rate:]
+Предыдущее значение:
+[&Convert:]
+Из:
+[&Add]
+&Добавить
+[&Watched currency rates:]
+&Отслеживаемые курсы валют:
+[&Remove]
+Очистить
+[&Refresh Rates Every:]
+&Обновлять курсы каждые:
+[Quote\\Rate Info]
+Информация о котировке\\курсе валют
+[Type &Stock Name or Symbol:]
+Название котировки:
+[&Watched Quotes:]
+&Отслеживаемые котировки:
+[Status &Message:]
+Сообщение &статуса:
+;file \plugins\Quotes\src\Chart.h
+[There is no to show]
+
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
+[Seconds]
+секунд
+[Minutes]
+минут(ы)
+[Hours]
+Часов
+[Enter integer value between 1 and 60.]
+
+[Enter integer value between 1 and 24.]
+
+[Enter text to display in contact list.]
+
+;file \plugins\Quotes\src\CurrencyConverter.cpp
+[Info provided by]
+Информация предоставлена
+[Enter positive number.]
+Введите положительное число.
+;file \plugins\Quotes\src\Forex.cpp
+[Quotes]
+Котировки
+[Refresh All Quotes\\Rates]
+Обновить все котировки\\курсы валют
+[Currency Converter...]
+Конвертер валют...
+[Export All Quotes]
+Экспорт всех котировок
+[Import All Quotes]
+Импорт всех котировок
+[Refresh]
+Обновить
+[Open Log File...]
+Открыть файл истории...
+[Chart...]
+Диаграмма...
+[Edit Settings...]
+Настройки...
+[Network]
+Сеть
+;file \plugins\Quotes\src\HTTPSession.cpp
+[Quotes HTTP connections]
+HTTP подключение Quotes
+;file \plugins\Quotes\src\IconLib.cpp
+[Protocol icon]
+Значок протокола
+[Quote/Rate up]
+Значение выросло
+[Quote/Rate down]
+Значение упало
+[Quote/Rate not changed]
+Значение не изменилось
+[Quote Section]
+Раздел котировок
+[Quote]
+Котировка
+[Export]
+Экспорт
+[Swap button]
+Поменять местами
+[Import]
+Импорт
+;file \plugins\Quotes\src\ImportExport.cpp
+[Xml File (*.xml)]
+
+[All files (*.*)]
+Все файлы (*.*)
+;file \plugins\Quotes\src\ModuleInfo.cpp
+[Miranda could not load Quotes plugin. XML parser is missing.]
+
+[Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
+
+;file \plugins\Quotes\src\QuoteChart.cpp
+[Log File]
+
+[Miranda's History]
+
+[All]
+Все
+[Last Day]
+
+[Last Week]
+
+[Last Month]
+
+[Last Year]
+
+[User-Defined]
+
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+[Error occurred during html parsing.]
+
+[Error occurred during site access.]
+Ошибка при доступе к сайту.
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
+[Quote Symbol]
+Символ котировки
+[Quote Name]
+Название котировки
+[From Currency Full Name]
+Полное название исходной валюты
+[From Currency Short Name]
+Короткое название исходной валюты
+[Into Currency Full Name]
+Полное название целевой валюты
+[Into Currency Short Name]
+Короткое название целевой валюты
+[Short notation for "%f/%i"]
+Короткое обозначение "%f/%i"
 [Source of Information]
 Источник информации
 [Rate Value]
@@ -62,96 +262,12 @@
 Табуляция
 [Left slash (\\)]
 Символ \\
-[From Currency Full Name]
-Полное название исходной валюты
-[From Currency Short Name]
-Короткое название исходной валюты
-[Into Currency Full Name]
-Полное название целевой валюты
-[Into Currency Short Name]
-Короткое название целевой валюты
-[Short notation for "%f/%i"]
-Короткое обозначение "%f/%i"
-[Quote Symbol]
-Символ котировки
-[Quote Name]
-Название котировки
-[Show currency rates and economic quotes]
-Позволяет наблюдать за изменениями курсов валют и биржевых котировок
-[Quote/Rate up]
-Значение выросло
-[Quote/Rate down]
-Значение упало
-[Quote/Rate not changed]
-Значение не изменилось
-[Quote Section]
-Раздел котировок
-[Quotes HTTP connections]
-HTTP подключение Quotes
-[&to:]
-в:
-[Currency Converter...]
-Конвертер валют...
-[Currency Converter]
-Конвертер валют
-[Chart...]
-Диаграмма...
-[There is no possibility to build chart for this quote.]
-Нет возможности построить диаграмму для этой котировки/курса валют.
-[Refresh All Quotes\\Rates]
-Обновить все котировки\\курсы валют
-[Info provided by]
-Информация предоставлена
-[Rate Fetch Time:]
-Время обновления:
-[Current Rate:]
-Текущее значение:
-[Previous Rate:]
-Предыдущее значение:
-[Quote\\Rate Info]
-Информация о котировке\\курсе валют
-[&Watched Quotes:]
-&Отслеживаемые котировки:
-[Export All Quotes]
-Экспорт всех котировок
-[Import All Quotes]
-Импорт всех котировок
-[Swap button]
-Поменять местами
-[&Advanced Settings...]
-Дополнительные настройки...
-[Variables Allowed: %miranda_userdata%,%quotename%]
-Поддерживаемые переменные: %miranda_userdata%,%quotename%
-[Use contact specific settings]
-Собственные настройки у контакта
-[Show &Popup Window]
-Показывать всплывающее окно
-[Show Popup Window Only if Value &Changed]
-Показывать всплывающее окно только, если изменилось значение
-[Popup settings...]
-Настройки вспл. окон...
-[Edit Settings...]
-Настройки...
-[Quotes]
-Котировки
-[Quote]
-Котировка
-[Popup Window Settings]
-Настройки всплывающих окон
-[Use user-defined colors]
-Настроить цвета
 [Open Price]
 Цена на открытие
 [Percent Change to After Hours]
 Процент изменений за последний час
 [Percent Change to Yesterday Close]
 Процент изменений со вчерашнего закрытия
-[Current = %r\\nPrevious = %p]
-Текущий = %r\\nПредыдущий = %p
-[&Tendency:]
-&Тенденция:
-[Type &Stock Name or Symbol:]
-Название котировки:
 [Day's High]
 Максимальное значение за день
 [Day's Low]
@@ -160,9 +276,16 @@ HTTP подключение Quotes
 Значение на предыдущее закрытие
 [Change]
 Изменение
-[Status &Message:]
-Сообщение &статуса:
-[Enter positive number.]
-Введите положительное число.
-[Error occurred during site access.]
-Ошибка при доступе к сайту.
+;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+
+[Enter integer value]
+
+[Enter log file name.]
+
+[Enter log file format.]
+
+[Enter history format.]
+
+[Enter popup window format.]
+

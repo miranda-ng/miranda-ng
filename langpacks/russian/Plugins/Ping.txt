@@ -60,6 +60,10 @@
 Вниз
 [Edit Host]
 Править хост
+[OK]
+
+[Cancel]
+Отмена
 [Address:]
 Адрес:
 [Label:]
@@ -104,6 +108,8 @@ TCP соединение
 [Disable All Pings]
 Выключить все пинги
 ;file \plugins\Ping\src\options.cpp
+[All\0*.*\0Text\0*.TXT\0]
+
 [<none>]
 <нет>
 [<all>]
@@ -115,8 +121,6 @@ TCP соединение
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Плагин пинг
-[Failed to initialize. Plugin disabled.]
-Ошибка инициализации. Плагин отключён.
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Показывать линии

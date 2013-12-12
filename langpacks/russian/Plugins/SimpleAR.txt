@@ -1,28 +1,26 @@
 ﻿#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;============================================================
-;  File: simplear.dll
-;  Module: Simple Auto Replier
-;  Versions: 1.0.0.2
-;  URL: http://code.google.com/p/alfamar/
+;  File: SimpleAR.dll
+;  Plugin: Simple auto replier
+;  Version: 2.0.2.6
+;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
 ;============================================================
 [Simple Auto Replier.]
 Простой автоответчик.
-[Simple Auto Replier]
-Автоответчик
-[Disable Auto&reply]
-Отключить автоответ
-[Enable Auto&reply]
-Включить автоответ
+;file \plugins\SimpleAR\res\Resource.rc
 [Enable Auto Replier]
 Автоответ включен
-[No-repeat Interval:]
-Не повторять:
 [Reply Message Heading:]
 Заголовок автоответа:
-[Dear %user%, the owner left the following message:]
-Приветствую %user%, %username% оставил Вам сообщение:
 [Reply Message when]
 Автоответ когда
+[No-repeat Interval:]
+Не повторять:
+[mins]
+мин.
+[&Default]
+
+;file \plugins\SimpleAR\src\Main.cpp
 [I am currently away. I will reply to you when I am back.]
 Сейчас меня нет на месте, отвечу как только вернусь.
 [I am currently very busy and can't spare any time to talk with you. Sorry...]
@@ -35,9 +33,18 @@
 Извините, сейчас я говорю по телефону.
 [I am having meal right now. I will get back to you very soon.]
 Я обедаю, поговорим позже.
-[Turn on Autoanswer]
+[Disable Auto&reply]
+Отключить автоответ
+[Enable Auto&reply]
 Включить автоответ
 [Turn off Autoanswer]
 Отключить автоответ
-[mins]
-мин.
+[Turn on Autoanswer]
+Включить автоответ
+[Dear %user%, the owner left the following message:]
+Приветствую %user%, %username% оставил Вам сообщение:
+;file \plugins\SimpleAR\src\Options.cpp
+[Simple Auto Replier]
+Автоответчик
+[Message Sessions]
+Беседы

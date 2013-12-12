@@ -1,93 +1,148 @@
 ﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
-;  File: ieview.dll
-;  Module: IEview provides IE engine to display message log.
-;  Versions: 1.3.0.3
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1788
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/ieview/
-;  Authors: the_leech
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-[IEView]
-Журнал IEView
 [IE Based Chat Log.]
 Журнал на движке IE.
-[Currently the following BBCodes are supported: [b][i][u][img][size][color]]
-Поддерживаются [b][i][u][img][size][color] BBкоды
-[Currently the following BBCodes are supported: [b][i][u][s][img][size][color]]
-Поддерживаются [b][i][u][s][img][size][color] BBкоды
+;file \plugins\IEView\res\ieview.rc
+[Copy]
+Копировать
+[Copy Link]
+Копировать ссылку
+[Select All]
+Выделить всё
+[Save Image As...]
+Сохранить изображение...
+[Print]
+Печать
+[Clear Log]
+
+[Show source]
+Исходник шаблона
+[Options]
+Настройки
+[Enable BBCodes]
+Поддержка BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 Поддерживаются [b][i][u][s][img][size][color][url] BBкоды
 [Enable support for Flash files in smileys and BBCodes]
 Поддержка flash (*.swf) файлов в смайлах и BBкодах
 [Enable workaround for PNG transparency]
 Включить прозрачность для PNG
+[Enable MathModule support]
+Поддержка MathModule
 [Replace smileys in user names]
 Смайлы в именах
 [Hide window border]
 Скрыть границы окна
+[Embed YouTube videos]
+Встраивать видео с YouTube
+[Size:]
+Размер:
+[Mode]
+Режим
 [Compatibility Mode]
 Режим совместимости
 [Use External CSS]
 Внешний CSS файл
 [Use Templates]
 Шаблон
+[Background image]
+Фоновое изображение
+[Scroll with text]
+Прокручивать с текстом
 [Template Options]
 Настройки шаблона
-[Grouping]
-Группировка
+[Use message grouping]
+Группировка сообщений
 [Show nicknames]
 Показывать ники
-[RTL]
-RTL
-[Copy Link]
-Копировать ссылку
-[Save Image As...]
-Сохранить изображение...
-[Print]
-Печать
-[Show source]
-Исходник шаблона
-[External CSS file]
-Внешний CSS файл
-[Events To Show]
-Отображаемые события
-[Animated Smiley Libraries]
-Библиотеки анимированных смайлов
-[Enable smiley replacement]
-Включить замену смайлов
-[Specify library for each protocol]
-Протоколы с разными смайлами
-[Only replace isolated smileys]
-Замена только изолированных
-[Surround smileys with spaces]
-Вставлять смайлы с пробелами
-[Emotikons]
-Смайлики
+[Show time]
+Показывать время
+[Show seconds]
+Секунды
+[Show date]
+Дата
+[Use long date format]
+Буквенный формат даты
+[Use relative timestamp]
+Относительное время
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+
+[Incoming File Transfer]
+
+[URL sent]
+
+[URL received]
+
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Неизвестный контакт)
+[ requested authorization]
+ запросил(а) авторизацию
+[ was added.]
+
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+[OleInitialize failed.]
+
+[ERROR]
+ОШИБКА
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s вошел.
 [%s has left.]
 %s вышел.
-[Message Log Background]
-Фон журнала сообщений
-[RTL CSS file]
-RTL CSS файл
-[RTL templates]
-RTL шаблоны
-[Template Library]
-Библиотека шаблонов
 [The topic is %s.]
 Тема %s
-[Use external CSS file]
-Использовать внешний CSS файл
-[Use template-based HTML builder]
-Использовать компоновку по HTML шаблону
-[HTML Log Options]
-Настройка журнала HTML
-[RTL template file]
-RTL шаблон
+[Error]
+Ошибка
+;file \plugins\IEView\src\Options.cpp
+[General]
+Общее
+[Message Log]
+Журнал
+[Group chats]
+Чаты
+[History]
+История
+[Default]
+По умолчанию
+[Message Sessions]
+Беседы
+[IEView]
+Журнал IEView
+[Skins]
+Скины
+[Template]
+Шаблон
+[All Files]
+Все файлы
 [All Images]
 Все изображения
 [Style Sheet]
 Таблица стилей
-[Embed YouTube videos]
-Встраивать видео с YouTube
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+Сегодня
+[Yesterday]
+Вчера
+[File sent]
+Посылка файла
+[File received]
+Файл получен
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

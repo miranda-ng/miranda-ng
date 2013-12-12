@@ -1,163 +1,248 @@
 ﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll
-;  Module: WhenWhasIs Birthday Reminder
-;  Versions: 0.2.0.0, 0.3.0.1
-;  URL: http://www.miranda-im.org
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.4
+;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
 Уведомление о предстоящих днях рождения.
-[Birthday - %s]
-День рождения %s
-[%s\n%s will be %d years old.]
-%s\n%s исполнится %d .
-[%s\n%s just turned %d.]
-%s\n%s исполнилось %d
-[DTB]
-Дней до ДР
-[Set birthday for %s:]
-День рождения %s
-[WhenWasIt]
-Дни рождения
-[No upcoming birthdays.]
-Близких дней рождения нет.
-[Starting to refresh user details]
-Начало обновления информации о пользователях
-[Done refreshing user details]
-Обновление информации о пользователях завершено
-[Import birthdays]
-Импорт дней рождения
-[Export birthdays]
-Экспорт дней рождения
-[Please select a file to import birthdays from...]
-Выберите файл для импорта дней рождения
-[Please select a file to export birthdays to...]
-Выберите файл для экспорта дней рождения
-[Exporting birthdays to file: %s]
-Идет экспорт в файл %s
-[Done exporting birthdays]
-Экспорт завершен
-[Importing birthdays from file: %s]
-Идет импорт в файл %s
-[Done importing birthdays]
-Импорт завершен
-[Refresh user details]
-Обновить данные контактов
-[Check for birthdays]
-Проверить дни рождения
-[Birthday list]
-Список дней рождения
-[Birthdays (When Was It)]
-Дни рождения
-[When Was It]
-Дни рождения
+;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 Сообщать о днях рождения:
+[Popups]
+Всплывающие окна
+[Popup timeout:]
+Длительность:
+[Preview]
+Тест
 [Don't show popups for subcontacts]
 Не показывать для подконтактов
 [Show popup when no birthdays are near]
 Сообщать, даже если близких дней рождения нет
-[Contact list icon]
-Значок списка
-[Use slot]
-Место
-[to draw icon.]
-для значка.
+[Popup mouse click]
+Щелчок по окну кнопкой
+[Left]
+Слева
+[Right]
+Справа
+[Sounds]
+Звуки
 [Play sounds when there are]
 Проиграть, если осталось
 [days or less to birthday.]
  дней или менее до ДР.
+[Start notifying]
+Напомнить за
 [days in advance and]
 дней до даты
+[Check every]
+Пров. каждые
+[hours]
+часа(ов)
+[Only notify once per day.]
+Напоминать раз в день
 [By default use]
 Использовать
 [to save birthday data.]
 для хранения данных.
+[Show]
+Показать
 [in birthday list window]
 в списке дней рождений
-[Start notifying]
-Напомнить за
+[Dialog]
+Диалог
+[Timeout:]
+Таймаут:
+[seconds]
+секунд
+[Notify for]
+Уведомления
 [afterwards]
  после
+[In background]
+В фоне
+[Birthday list]
+Список дней рождения
+[Close]
+Закрыть
+[Show all contacts]
+Показать все контакты
+[Set birthday:]
+
+[OK]
+
+[Manage anniversaries]
+
+[Title:]
+Заголовок:
+[Description:]
+Описание:
+[Date:]
+Дата:
+[Save]
+Сохранить
+[Delete]
+Удалить
+[Upcoming birthdays]
+Наступающие дни рождения
+;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Upcoming age]
+Будущий возраст
+[Current age]
+Текущий возраст
 [UserInfo module]
 Плагин UserInfo
 [Protocol module]
 Плагин протокола
 [mBirthday module]
 Плагин mBirthday
-[Only notify once per day.]
-Напоминать раз в день
-[Upcoming age]
-Будущий возраст
-[Add/change user birthday]
-День рождения пользователя
-[Birthday list (%d)]
-Список дней рождения (%d)
-[Birthday Reminder]
-Напоминание о дне рождения
-[Birthday near]
-День рождения скоро
-[1 day to birthday]
-1 день до праздника
-[%d days to birthday]
-%d дней до праздника
-[2 days to birthday]
-2 дня до праздника
-[3 days to birthday]
-3 дня до праздника
-[4 days to birthday]
-4 дня до праздника
-[5 days to birthday]
-5 дней до праздника
-[6 days to birthday]
-6 дней до праздника
-[7 days to birthday]
-7 дней до праздника
-[8 days to birthday]
-8 дней до праздника
-[9 days to birthday]
-9 дней до праздника
-[More than %d days to birthday]
-Более %d дней до праздника
-[More than 9 days to birthday]
-Более 9 дней до праздника
-[Check birthdays menu item]
-Проверить дни рождения
-[List birthdays menu item]
-Список дней рождения
-[Add/change birthday]
-Править день рождения
-[Add/change user &birthday]
-День рождения пользователя
-[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Устанавливает задержку уведомления о приближающихся др.\nФормат: задержка по умолчанию [ | задержка для др сегодня]
-[Upcoming birthdays]
-Наступающие дни рождения
-[Closing in %d seconds]
-Автозакрытие %d секунд...
-[Notify for]
-Уведомления
+[Nothing]
+Ничего
+[Dismiss]
+Убрать
+[Message window]
+Окно сообщения
+[All contacts]
+Все контакты
 [All contacts except hidden ones]
 Все, кроме скрытых
 [All contacts except ignored ones]
 Все, кроме игнорируемых
 [All contacts except hidden and ignored ones]
 Все, кроме скрытых и игнорируемых
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
+Устанавливает задержку уведомления о приближающихся др.\nФормат: задержка по умолчанию [ | задержка для др сегодня]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 Выберите плагин хранения дней рождений.\r\n"UserInfo" по умолчанию.\r\nИcп. "Плагин протокола" чтобы видеть данные в данных контакта\n"mBirthday плагин" сохраняет также, как и плагин mBirthday
-[days in advance.]
-дней.
-[%s had birthday yesterday.]
-У %s вчера был день рождения.
-[%s had birthday %d days ago.]
-У %s был день рождения %d дней назад.
+[Set birthday for %s:]
+День рождения %s
+[%S protocol]
+
+[N/A]
+Недоступен
+[Unknown]
+Неизвестно
+[Birthday list (%d)]
+Список дней рождения (%d)
+[Protocol]
+Протокол
+[Contact]
+Контакт
+[DTB]
+Дней до ДР
+[Birthday]
+День рождения
+[Age]
+Возраст
+[Module]
+Модуль
+[Closing in %d seconds]
+Автозакрытие %d секунд...
 [Closing in %d second]
 Закрытие через %d секунд
-[In background]
-В фоне
-[WhenWasIt birthday reminder]
-Дни рождения
-[Birthdays files]
-Файлы дней рождений
+;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Check for birthdays]
+Проверить дни рождения
 [Birthdays]
 Дни рождения
+[Contacts]
+Контакты
+[WhenWasIt]
+Дни рождения
+[Birthday near]
+День рождения скоро
+[Birthday today]
+День рождения сегодня
+[Birthdays (When Was It)]
+Дни рождения
+[Refresh user details]
+Обновить данные контактов
+[Import birthdays]
+Импорт дней рождения
+[Export birthdays]
+Экспорт дней рождения
+[Add/change user &birthday]
+День рождения пользователя
+;file \plugins\WhenWasIt\src\icons.cpp
+[Check birthdays menu item]
+Проверить дни рождения
+[List birthdays menu item]
+Список дней рождения
+[Add/change birthday]
+Править день рождения
+[1 day to birthday]
+1 день до праздника
+[%d days to birthday]
+%d дней до праздника
+[More than %d days to birthday]
+Более %d дней до праздника
+[WhenWasIt birthday reminder]
+Дни рождения
+;file \plugins\WhenWasIt\src\notifiers.cpp
+[No upcoming birthdays.]
+Близких дней рождения нет.
+[%s has birthday in %d days.]
+%s отмечает день рождения через %d дней.
+[%s has birthday tomorrow.]
+%s отмечает День рождения завтра.
+[%s has birthday today.]
+%s отмечает День рождения сегодня.
+[%s had birthday %d days ago.]
+У %s был день рождения %d дней назад.
+[%s had birthday yesterday.]
+У %s вчера был день рождения.
+[%s has birthday today (Should not happen, please report).]
+
+[Birthday - %s]
+День рождения %s
+[He]
+Ему
+[She]
+Ей
+[He/She]
+Ему/ей
+[%s\n%s will be %d years old.]
+%s\n%s исполнится %d .
+[%s\n%s just turned %d.]
+%s\n%s исполнилось %d
+;file \plugins\WhenWasIt\src\services.cpp
+[Starting to refresh user details]
+Начало обновления информации о пользователях
+[Done refreshing user details]
+Обновление информации о пользователях завершено
+[Could not create worker thread. Error#%d - threadID %d]
+
+[Error]
+Ошибка
+[Birthdays files]
+Файлы дней рождений
+[Please select a file to import birthdays from...]
+Выберите файл для импорта дней рождения
+[Importing birthdays from file: %s]
+Идет импорт в файл %s
+[Done importing birthdays]
+Импорт завершен
+[All Files]
+Все файлы
+[Please select a file to export birthdays to...]
+Выберите файл для экспорта дней рождения
+[Exporting birthdays to file: %s]
+Идет экспорт в файл %s
+[Done exporting birthdays]
+Экспорт завершен
+[Could not open file to import birthdays]
+
+[Warning]
+Предупреждение
+[Could not open file to export birthdays]
+
+[Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
+
+[Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
+
+[This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
+
+;file \plugins\WhenWasIt\src\services.h
+[Could not find UID '%s [%S]' in current database, skipping]
+

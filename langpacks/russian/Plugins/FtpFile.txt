@@ -1,172 +1,147 @@
-﻿#muuid {863bfce7-31ed-4a81-af95-da2685ce1bc2}
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
 ;  File: FTPFile.dll
-;  Module: FTPFile, FTP File YM
-;  Versions: 0.5.0.0
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4283
-;  Source: http://tools.assembla.com/svn/miranda_plugins/trunk/FTPFile/
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Плагин позволяет загрузить файл на FTP сервер с помощью Miranda NG и послать ссылку своим контактам.
-[FTP File]
-Файл на FTP
-[FTP File - Select files]
-Файл на FTP - Выбор файла
-[FTP File Error]
-Файл на FTP Ошибка
-[You must change the settings before you FTP a file.]
-Вы должны изменить настройки перед отправкой файла.
-[Error calling function InternetOpen]
-Ошибка вызова функции InternetOpen
-[Error connecting to server]
-Ошибка соединения с сервером
-[Aborting all files...]
-Отмена всех передач...
-[Could not change remote directory to %s (%d, %d)\n\nMore info:\n%s\n\nRetry will try to create the directory]
-Невозможно сменить удалённую папку на %s (%d, %d)\n\nРасширенная информация:\n%s\n\nПовтор для попытки создать папку
-[Could not change remote directory to %s (%d)\n\nRetry will try to create the directory]
-Невозможно сменить удалённую папку на %s (%d)\n\nПовтор для попытки создать папку
-[Could not create directory]
-Невозможно создать папку
-[Error opening local file %s]
-Ошибка открытия локального файла %s
-[Ignoring this file: %s]
-Игнорировать этот файл: %s
-[Error opening file on server]
-Ошибка открытия файла на сервере
-[Error writing remote file file %s]
-Ошибка записи удалённого файла %s
-[Error reading local file %s (%d)\nIgnoring this file...]
-Ошибка чтения локального файла %s (%d)\nФайл проигнорирован...
-[%s\nsent bytes (%d) didn't match filesize (%d)]
-%s\nотправлено бит (%d) не соответствует размеру файла (%d)
-[FtpCommand error]
-Ошибка команды FTP
-[Ignoring error.]
-Игнорировать ошибку.
-[%s (%d, %d)\n\nMore info:\n%s\n\n%s]
-%s (%d, %d)\n\nРасширенная информация:\n%s\n\n%s
-[Do you want to delete a partially uploaded file?]
-Удалить частично закачаный файл?
-[Could not delete file from server]
-Невозможно удалить файл с сервера
-[FTP File (uploading file)]
-Файл на FTP (закачать файл)
-[FTP File (paused)]
-Файл на FTP (пауза)
-[Upload info]
-Информация закачки
-[Upload speed:]
-Скорость закачки:
-[Cancel all]
-Отменить всё
-[File upload complete]
-Закачка файла завершена
-[Upload canceled]
-Закачка отменена
-[FTP Server %d]
-Сервер FTP %d
-[FTP server]
-Сервер FTP
-[Host name]
-Имя хоста
-[Directory on server]
-Папка на сервере
-[Command after upload]
-Команда после загрузки
-[Use Passive mode]
-Использовать пассивный режим
-[File URL options]
-Настройки URL файла
-[Automatically send URL to the contact]
-Отослать ссылку автоматически
-[Copy URL to message log]
-Копировать ссылку в лог сообщений
-[Remove national characters from filename]
-Удалить национальные символы из имени файла
+;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP accounts]
 Учётные записи FTP
+[Host name]
+Имя хоста
+[User]
+Пользователь
+[Password]
+Пароль
+[URL]
+Ссылка
+[Directory on server]
+Папка на сервере
+[Port]
+Порт
+[Command after upload]
+Команда после загрузки
+[Use passive mode]
+Пассивный режим
 [Account name]
 Имя учётной записи
-[Menu items options]
-Настройки пунктов меню
-[Use submenu in contact menu:]
-Использовать подменю в меню контакта:
-[Always (use submenu in any situation)]
-Всегда (подменю используется в любой ситуации)
-[When more than one account is set]
-Только когда установлено более одной учётной записи FTP
-[Never (place items directly into contact menu)]
-Никогда (пункт непосредственно в меню контакта)
-[Hide inactive accounts]
-Прятать неактивные учётные записи FTP
-[FTP File YM]
-Файл на FTP
+[Protocol]
+Протокол
+[Default FTP server]
+Использовать по умолчанию
 [File download link]
 Ссылка на загруженный файл
+[Close dialog after upload is completed]
+Закрыть диалог после успешной загрузки
 [Copy download link to message log]
 Копировать ссылку в лог сообщений
+[Autosend download link to contact]
+Отослать ссылку автоматически
 [Menu items]
 Пункты в меню
 [Use submenu (restart required)]
 Использовать подменю (требуется перезагрузка)
-[Close dialog after upload finishes]
-Закрыть окно после окончания загрузки
-[Upload manager - %d file(s)]
-Менеджер загрузок - %d файл(ов)
-[Sending for:]
-Отправлено для:
-[Download link for uploaded file:]
-Ссылка на загруженный файл:
-[Copy link to clipboard]
-Копировать ссылку в буфер обмена
-[Could not change remote directory.\nDo you want to upload file?]
-Невозможно изменить удалённую директорию.\nВы действительно хотите загрузить файл?
-[FTPFile]
-Файл на FTP
-[Completed:]
-Завершено:
-[Remaining:]
-Осталось:
-[Do you really want to cancel all running uploads?]
-Вы действительно хотите отменить все загрузки?
-[FTP File manager]
-FTP файл менеджер
-[FTPFile manager]
-FTP файл менеджер
-[Delete from list]
-Удалить из списка
-[Deselect all]
-Снять выбор
-[No files...]
-Нет файлов...
-[Delete from FTP]
-Удалить с FTP
-[FINISHED]
-Закончено
-[Copy link]
-Копировать ссылку
-[Do you really want to cancel running upload?]
-Вы действительно хотите отменить загрузку?
-[Show FTPFile manager]
-Показать FTP файл менеджер
-[Download link:]
-Ссылка:
-[You have to fill and enable at least one FTP server in setting.]
-Вы должны добавить хотя бы один FTP сервер в настройках.
+[Hide inactive accounts]
+Прятать неактивные учётные записи FTP
+[Other]
+Другое
 [Automatically delete file from FTP server after (experimental):]
 Автоматически удалять файлы с FTP сервера после (эксперим.):
-[Error occurred when connecting to server.]
-Ошибка при установке соединения с сервером.
-[Aborting file upload...]
-Загрузка файла отменена...
-[Upload file manager]
-Менеджер загрузок
+[ZIP support]
+Поддержка ZIP-архивации
+[Enter archive name manually]
+Введите свое имя архива
+[Compression level:]
+Уровень сжатия:
+[Upload File Manager]
+
+[File:]
+Файл:
+[Completed:]
+Завершено:
+[Speed:]
+Скорость:
+[Remaining:]
+Осталось:
+[Summary]
+Резюме
+[To:]
+Для:
+[Nick]
+Ник
+[Close]
+Закрыть
+[Clipboard]
+Буфер обмена
+[Options]
+Настройки
+[Pause]
+Пауза
+[File Manager]
+
+[Server:]
+Сервер:
+[User info]
+
+[UPLOADING...]
+
+[Open in Browser]
+Открыть в браузере
+[FTP File Manager]
+
+[Select All]
+Выделить всё
+[Deselect All]
+
+[Delete from list]
+Удалить из списка
+[Delete from FTP]
+Удалить с FTP
+[Enter file name]
+
+[OK]
+
+[Cancel]
+Отмена
+[File exists]
+
+[Rename]
+Переименовать
+[Overwrite]
+Перезаписать
+[File with the same name already exists on the server.]
+
+[How to proceed?]
+
+[Copy URL]
+
+[Close dialog after upload finishes]
+Закрыть окно после окончания загрузки
 [Automatically delete file after...]
 Автоматически удалить файл через...
+[Disabled]
+Выключен
+[Delete from List]
+Удалить из списка
+[Copy Link]
+Копировать ссылку
+;file \plugins\FTPFileYM\src\dialog.cpp
+[User Info]
+
+[Copy Link to Clipboard]
+
+[%d minutes]
+%d мин.
+[%d hours]
+%d ч.
 [%d days]
 %d дней
+[Do you really want to cancel all running jobs?]
+Отменить все запущенные задачи?
+;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
 FTP сервер 1
 [FTP Server 2]
@@ -177,22 +152,49 @@ FTP сервер 3
 FTP сервер 4
 [FTP Server 5]
 FTP сервер 5
-[ZIP support]
-Поддержка ZIP-архивации
-[Enter archive name manually]
-Введите свое имя архива
-[Compression level:]
-Уровень сжатия:
-[Close dialog after upload is completed]
-Закрыть диалог после успешной загрузки
-[Default FTP server]
-Использовать по умолчанию
-[Use passive mode]
-Пассивный режим
-[Speed:]
-Скорость:
-[Do you really want to cancel all running jobs?]
-Отменить все запущенные задачи?
+[Send file]
+Передать файл
+[Resume]
+Продолжить
+[FTP File]
+Файл на FTP
+[FTP Server %d]
+Сервер FTP %d
+[Upload file(s)]
+Отправить файл(ы)
+[Zip and upload file(s)]
+Запаковать и отправить файл(ы)
+[Zip and upload folder]
+Запаковать и отправить папку
+[FTP File manager]
+FTP файл менеджер
+[Show FTPFile manager]
+Показать FTP файл менеджер
+[FTP_ShowManager]
+
+[Upload file]
+Отправить файл
+[Zip and upload file]
+Запаковать и отправить файл
+[You have to fill FTP server setting before upload a file.]
+
+[Error has occurred while trying to create a dialog!]
+
+[File upload complete]
+Закачка файла завершена
+[Upload canceled]
+Закачка отменена
+;file \plugins\FTPFileYM\src\job_generic.cpp
+[All Files (*.*)]
+Все файлы (*.*)
+[FTP File - Select files]
+Файл на FTP - Выбор файла
+[FTP File - Select a folder]
+
+[Folder not found!]
+
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+
 [CANCELED]
 Отмена
 [COMPLETED]
@@ -209,17 +211,59 @@ FTP сервер 5
 Ожидание...
 [UNKNOWN]
 Неизвестно
-[Zip and upload folder]
-Запаковать и отправить папку
-[Upload file]
-Отправить файл
-[Zip and upload file]
-Запаковать и отправить файл
+;file \plugins\FTPFileYM\src\job_packer.cpp
+[Error occurred when zipping the file(s).]
+
+[%0.1f kB/s]
+
+[%0.1f%% (%d kB/%d kB)]
+
+[%s (%d kB/%d kB)]
+
+[Do you really want to cancel this upload?]
+
+[Status: %s\r\nFile: %s\r\nServer: %s]
+
+;file \plugins\FTPFileYM\src\job_upload.cpp
+[File exists - %s]
+
+[Error occurred when opening local file.\nAborting file upload...]
+
+[Error occurred when initializing libcurl.\nAborting file upload...]
+
+[FTP error occurred.\n%s]
+
+[Download link:]
+Ссылка:
+[Do you really want to cancel running upload?]
+Вы действительно хотите отменить загрузку?
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+
+;file \plugins\FTPFileYM\src\manager.cpp
+[You have to fill and enable at least one FTP server in setting.]
+Вы должны добавить хотя бы один FTP сервер в настройках.
 [Clear All]
 Снять все
-[Delete from List]
-Удалить из списка
-[Upload file(s)]
-Отправить файл(ы)
-[Zip and upload file(s)]
-Запаковать и отправить файл(ы)
+;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+
+[FTP+SSL (Explicit)]
+
+[FTP+SSL (Implicit)]
+
+[SFTP (Secure FTP over SSH)]
+
+[minutes]
+минут(ы)
+[hours]
+часа(ов)
+[days]
+дней
+[Services]
+Службы
+[Accounts]
+Учётные записи
+[Advanced]
+Дополнительно
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp

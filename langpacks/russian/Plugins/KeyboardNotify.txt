@@ -1,28 +1,95 @@
 ﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
-;  Module: Keyboard Notify
-;  Versions: 1.5.7.7
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2071
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/KeyboardNotify/
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
 Добавляет мигание светодиодов клавиатуры при прибывших сообщениях.
-[Keyboard Notify]
-Уведомление клавиатуры
+;file \plugins\KeyboardNotify\res\resources.rc
+[Accounts to check]
+Проверять учётные записи
+[Events to react on]
+События
 [Incoming messages]
 Входящие сообщения
-[Keys to flash]
-Чем моргать
-[Seconds to wait before starting flash]
-Ожидать перед миганием (секунд)
 [Incoming files]
 Входящие файлы
 [Incoming URLs]
 Входящие URL
+[Everything else]
+Все другие
+[Message-Event only]
+Только для сообщений
+[Blink if message window is open]
+Мигать, если диал. окно открыто
+[and not in foreground]
+и не помещено на передний план
+[Only if last is]
+Если посл.
+[sec. old]
+сек. назад
+[Flash until]
+Мигать до:
+[seconds]
+секунд
+[is re-attended]
+обращения
+[Events are opened]
+События будут открыты
+[End of 'notify when' conditions]
+Окончание "оповещать когда"
+[Notify when]
+Оповещать, когда
+[Full Screen mode]
+Полноэкранный режим
+[Screen Saver is running]
+Запущена заставка
+[Workstation is Locked]
+Компьютер заблокирован
+[Defined programs are running]
+Запущена указ. программа
+[All other situations]
+Все другие ситуации
+[Only notify if status is]
+Показывать, если статус
+[Online]
+В сети
+[Away]
+Отсутствую
+[Occupied]
+Занят
+[NA]
+Недоступен
+[DND]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[On the phone]
+На телефоне
+[Out to lunch]
+Обедаю
+[Pending Events]
+Ожидающиеся события
+[Remind me every]
+Напом. каждые
+[minutes]
+минут(ы)
+[Offline]
+Не в сети
 [xStatuses]
 хСтатусы
+[Keys to flash]
+Чем моргать
+[Num Lock]
+
+[Caps Lock]
+
+[Scroll Lock]
+
 [Flashing effects]
 Мигать
 [All at the same time]
@@ -31,73 +98,121 @@
 По очереди
 [In sequence]
 По порядку
-[left->right]
-лево->право
-[right->left]
-право->лево
-[left<->right]
-лево<->право
 [Custom theme]
 Своя тема
 [Accordingly to events' count]
 По количеству событий
+[Wait before starting flashing]
+Пауза перед началом мигания
+[Flash speed]
+Скорость вспышек
+[Fast]
+Быстро
+[Slow]
+Медленно
+[&Preview]
+&Тест
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
 Эмулировать нажатия клавиш (Только для USB клавиатур)
 [Create/Edit Themes]
 Создать/Редактировать тему
 [Theme]
 Тема
+[Test]
+Тест
+[Add]
+Добавить
+[Update]
+Обновить
+[Delete]
+Удалить
 [Import/Export]
 Импорт/Экспорт
+[Export...]
+Экспорт...
 [Import...]
 Импорт...
 [Override existing]
 Заменить сущ.
-[Set xStatus list]
-Список хСтатусов
 [Set program list]
 Список программ
-[Consider event opened after]
-Действовать через
+[Program]
+Программа
+[OK]
+
+[Cancel]
+Отмена
 [Set LEDs for events]
 Установить по событию
+[Num]
+
+[Caps]
+
+[Scroll]
+
+[Message events]
+Сообщения
+[File events]
+Файлы
+[URL events]
+Ссылки (URL)
+[Other events]
+Другие события
+[Consider event opened after]
+Действовать через
 [Use custom theme]
 Исп. свою тему
-[Hz]
-Гц
-[Beep]
-Сигнал
-[Workstation is locked ]
-Компьютер заблокирован\s
-[Beep the PC Speaker]
-Сигнал в PC Speaker
-[sequence]
-последовательность
-[Turn on without blinking]
-Вкл. без мигания
-[Flashing time]
-Время мигания
-[LEDs to flash]
-Мигать светодиодами
-[reversed]
-обратный
-[Screensaver is running]
-Запущена заставка
-[seconds (0 = unlimited)]
-секунд (0 = бесконечно)
-[ Notify when]
- Уведомлять когда
-[simple]
-простой
-[Ignore others]
-Остальные события
-[Keyboard Notify Ext.]
-Уведомление клавиатуры
+[The following events are being ignored:]
+Следующие события будут проигнорированы:
 [Ignore messages]
 Сообщения
 [Ignore URLs]
 Адреса (URL)
 [Ignore files]
 Передачи файлов
+[Ignore others]
+Остальные события
+[Ignore all]
+Игнорировать все
+[Ignore none]
+Никакие события
+[Ignore]
+Игнорировать
+[Set xStatus list]
+Список хСтатусов
+;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Все контакты **
+[** Unknown contacts **]
+** Неизвестные контакты **
+;file \plugins\KeyboardNotify\src\options.cpp
+[left->right]
+лево->право
+[right->left]
+право->лево
+[left<->right]
+лево<->право
+[Keyboard Flash]
+Мигание клавиатуры
+[Events]
+События
+[Accounts]
+Учётные записи
+[Rules]
+Правила
+[Flashing]
+Мигание
+[Themes]
+
+[Protocol]
+Протокол
 [Keyboard Notify Theme]
 Тема уведомления
+[All Files]
+Все файлы
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
+[None]
+Нет

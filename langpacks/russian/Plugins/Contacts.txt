@@ -1,53 +1,69 @@
-﻿#muuid {0324785e-74ce-4600-b781-851773b3efc5}
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
-;  File: contacts.dll
-;  Module: Contacts
-;  Versions: 1.5.2.0
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1253
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/ContactsPlus/
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
+[Allows you to send and receive contacts.]
+Позволяет вам посылать и получать контакты.
+;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+Послать контакты
+[&Add]
+
+[&User menu]
+Меню пользователя
+[User &details]
+&Информация
+[&History]
+История
+[Choose contacts to be send:]
+Выбрать контакты для отправки:
+[&Send]
+&Отправить
+[Cancel]
+Отмена
+[&Select All]
+&Выделить все
+[Received contacts]
+Принятые контакты
+[Add to &group:]
+Добавить в группу:
 [&Details]
 Детали
+[Close]
+Закрыть
+[Contacts send error]
+Ошибка отправки контактов
+[An error has occurred. The protocol reported the following error:]
+Протокол вернул следующую ошибку:
+[Try again]
+Ещё раз
+[Popup]
+Всплывающее окно
+[Add to List]
+Добавить
+[User details]
+О пользователе
+[Send Message]
+Отправить
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+Получены контакты от
+[Contacts]
+Контакты
 [Incoming Contacts]
 Входящие контакты
 [Outgoing Contacts]
 Исходящие контакты
-[Contacts received from %s]
-Контакты получены от %s
-[Send contacts to %s]
-Отправить контакты к %s
-[Send contacts...]
-Отправить контакты...
-[Mailformed Receive Contacts Packet.]
-Некорректный пакет получения контактов.
-[Add to &group:]
-Добавить в группу:
-[&Add selected]
-&Добавить
-[Choose contacts to be send:]
-Выбрать контакты для отправки:
-[Allows you to send and receive contacts.]
-Позволяет вам посылать и получать контакты.
-[Send Contacts to]
-Отправить контакты
-[Contacts from]
-Контакты от
-[Add to List]
-Добавить
-[The contacts send timed out.]
-Тайм-аут отправки.
-[Contacts received from]
-Получены контакты от
-[Contacts transfer failed!]
-Ошибка передачи контактов
-[The selected contact does not support receiving contacts.]
-Выбранный контакт не поддерживает прием контактов.
-[Contacts send error]
-Ошибка отправки контактов
-[Received contacts]
-Принятые контакты
-[Send contacts]
-Послать контакты
-[Send/Receive Contacts+]
-Отправка/Прием контактов+
+;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+
+[View User's Details]
+
+[View User's History]
+История сообщений
+[User Menu]
+Меню пользователя
+;file \plugins\ContactsPlus\src\send.cpp

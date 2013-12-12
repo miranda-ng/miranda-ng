@@ -7,18 +7,23 @@
 ;============================================================
 [Disables ALL popups and sounds for 10-300 sec at Miranda startup and enables them always for Miranda NG (Automatically per computer settings).]
 Отключает ВСЕ звуки и всплывающие окна при старте Миранды на 10-300 секунд и включает их всегда для Miranda NG (Автоматически запоминает настройки для каждого компьютера).
+;file \plugins\StartupSilence\res\StartupSilence.rc
 [Silence at Startup]
 Тихий запуск
 [Settings for the next Computer Name:]
 Настройки для компьютера:
 [Enable silence at startup]
 Включить тихий запуск
+[spin1]
+
 [for]
 на
 [10-300 seconds (Default 20)]
 10-300 секунд (По умолчанию 20)
 [Show Popup notification]
 Уведомлять во всплывающих окнах
+[spin2]
+
 [Popup time 1-30 seconds (Default 5)]
 Время показа 1-30 секунд (По умолчанию 5)
 [Main Menu Item (plugin reload or Miranda restart required)]
@@ -31,8 +36,20 @@
 Необходимо один раз настраивать для нового компьютера, где Вы запускаете Miranda NG.
 [No Apply button required.]
 Настройки сохраняются автоматически.
+[After startup set:]
+
+[Filtered popups only (leave uncheck for no popups)]
+
+[Enable sounds]
+Включить звуки
+[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
+
+[Allow mRadio or Weather popups, etc.]
+
+;file \plugins\StartupSilence\src\main.cpp
 [Events]
 События
+;file \plugins\StartupSilence\src\StartupSilence.h
 [Silence at startup]
 Тихий запуск
 [Toggle Silence OFF]
@@ -45,8 +62,12 @@
 Включен тихий запуск TTB
 [Sounds and popups are enabled]
 Звуки и всплывающие окна включены
+[Filtered mode ON]
+
 [Sounds and popups are disabled temporarily]
 Звуки и всплывающие окна временно выключены
+[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
+
 [Silent Startup mode changed to ON]
 Тихий запуск включен
 [Silent Startup mode changed to OFF]
@@ -61,4 +82,3 @@
 Для использования этой функции необходим установленный TopToolBar модуль
 [You have to install "YAPP" or "Popup+" to use this option.]
 Для использования этой функции необходим установленный \"YAPP\" или \"Popup+\" модуль всплывающих окон.
-

@@ -1,234 +1,60 @@
 ﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
-;  Module: Traffic Counter
-;  Versions: 0.0.3.6 - 0.0.3.9, 0.1.1.8
-;  URL: http://code.google.com/p/tcounter/
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
 Счётчики трафика и времени.
-[Traffic Counter]
-Счётчик трафика
-[Show/Hide frame]
-Показать/Скрыть фрейм
-[Active protocols]
-Активные протоколы
-[Overall traffic]
-Общий трафик
-[Tooltip format string:]
-Формат подсказки:
-[Protocol counters format string:]
-Формат отображения трафика протокола:
-[Overall counter format string:]
-Формат отображения общего трафика:
-[Show last clear date]
-Показывать дату последнего сброса
-[Draw frame as skin element]
-Отрисовывать фрейм как элемент скина
-["Toggle traffic counter" in main menu]
-"Переключить счётчик трафика" в главном меню
-[Visible protocols]
-Отображаемые протоколы
-[Show ICQ x-status icon]
-Значок хСтатуса
-[Traffic Counter - add feature to count traffic and time]
-Добавляет возможность подсчёта трафика и времени.
-[Hide now]
-Скрыть
-[Show now]
-Показать
-[(unknown)]
-(неизвестно)
-[Now traffic will be cleared. Are you sure?]
-Счётчик трафика будет сброшен. Вы уверены?
-[Show/Hide traffic window]
-Показать/скрыть окно трафика
-[Hide traffic window]
-Скрыть окно трафика
-[Clear the current (Now:) value]
-Сбросить текущее (Now:) значение
-[Draw traffic in kilobytes]
-Рисовать трафик в килобайтах
-[Draw last clear time]
-Рисовать время последнего сброса
-[Traffic counter test]
-Счётчик трафика: ТЕСТ
-[%d bytes recv%c%d bytes send]
-%d байт получено%c%d байт отправлено
-[%dk bytes recv%c%dk bytes send]
-%d килобайт получено%c%d килобайт отправлено
-[%d bytes send]
-%d байт отправлено
-[%dk bytes send]
-%d килобайт отправлено
-[%d bytes recv]
-%d байт получено
-[%dk bytes recv]
-%d килобайт получено
-[Show/Hide traffic window:]
-Показать/скрыть окно трафика:
-[Traffic statistics]
-Статистика
-[Last clear date:]
-Дата сброса:
-[Show on traffic window last clear date]
-Время последнего сброса в окне трафика
-[Automaticaly clear traffic every:]
-Сброс счётчика каждые:
-[Week]
-Неделю
-[Traffic window background color:]
-Цвет фона окна трафика:
-[Traffic window font color:]
-Цвет шрифта окна трафика:
-[Draw border around window]
-Рисовать рамку вокруг окна
-[Transparent traffic window]
-Прозрачное окно трафика
-[Show/hide traffic window together with contact list]
-Показывать/скрывать окно трафика вместе со списком контактов
-[Show traffic in kilobytes]
-Показывать в килобайтах
-[Minimize traffic window size]
-Уменьшать окно трафика
-[Use multiwindow]
-Использовать MultiWindow
-[You will need to restart miranda for the changes you have made to take effect.]
-Изменения вступят в силу после перезапуска Miranda.
-[Clear traffic now]
-Сбросить трафик
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+Выделено всего
+[Accounts]
+
+[Units]
+Единицы
+[Clear statistics]
+Очистить
+[Notification]
+Уведомление
 [Notify me on every]
 Уведомлять каждые
 [kilobytes]
 килобайт
-[Time counter]
-Счётчик времени
-[Options just as Traffic counter]
-Опции как у счётчика трафика
-[Show/Hide time window:]
-Показать/Скрыть окно времени: 
-[Time window background color:]
-Цвет фона окна времени:
-[Time window font color:]
-Цвет шрифта окна времени:
-[Show/hide time window together with contact list]
-Показывать/скрывать окно времени вместе со списком контактов
-[Hide time window]
-Скрыть окно времени
-[Reset time]
-Сбросить время
-[Show/Hide time window]
-Показать/скрыть окно времени
-[Now:]
-Сейчас:
-[Total:]
-Всего:
-[Draw last clear date]
-Рисовать дату последнего сброса
-[Time counter options]
-Счётчик времени
-[Traffic counter expert options]
-Счётчик трафика (Эксперт)
-[Traffic counter options]
-Счётчик трафика
-[kbytes]
-в килобайтах
-[mbytes]
-в мегабайтах
-[dynamic]
-динамически
-[%d total bytes send, %d total bytes recv%c%d bytes send now, %d bytes recv now%cLast clear date: %s]
-%d всего байт отправлено, %d всего байт принято%c%d сейчас байт отправлено, %d сейчас байт принято%cДата сброса: %s
-[Now traffic will be cleared.]
-Счётчик трафика будет сброшен.
-[Transparent time window]
-Прозрачное окно времени
-[Always on top (only if multiwindow is off)]
-Всегда наверху (только если MultiWindow выкл.)
-[Show/hide time window together with contact list (only if multiwindow is off)]
-Показывать/прятать окно вместе со списком контактов (если multiwindow отключён)
-[Show/hide traffic window together with contact list (only if multiwindow is off)]
-Скрывать окно трафика вместе со списком контактов (MultiWindow выкл.)
-[Don't show clear question]
-Скрыть подтверждение
-[Show size in:]
-Показывать объем
-[Minimize traffic window size (only if multiwindow is on)]
-Минимизировать окно трафика (только если MultiWindow вкл.)
-[Show tooltip in traffic window]
-Показывать подсказку в окне трафика
-[Last clear date format string:]
-Строка форматирования для даты сброса:
-[Fixed line height]
-Фиксированная высота строки
-[Line height:]
-Высота строки:
-[Space between lines:]
-Между строками:
-[Last clear date alignment:]
-Выравнивание даты последнего сброса:
-[Draw line above last clear date]
-Рисовать линию над датой последнего сброса
+[minutes]
+минут(ы)
+[Background color:]
+Цвет фона:
+[Text color:]
+Цвет текста:
+[Reset to default]
+Сброс на умолчания
 [Popup timeout]
 Длительность окна
-[Traffic counter: TEST]
-Счётчик трафика: ТЕСТ
-["Show/Hide traffic" in main menu]
-"Показать/Скрыть трафик" в меню
-["Show/Hide time" in main menu]
-"Показать/Скрыть время" в меню
-[Auto clear traffic]
-Автоочистка трафика
-[Incoming connections]
-Входящие подключения
-[Outgoing connections]
-Исходящие подключения
-[Last clear date format:]
-Формат даты сброса:
-[%d total bytes send, %d total bytes recv%c%d bytes send now, %d bytes recv now\nLast clear date: %s]
-%d всего байт послано, %d всего байт получено%c%d байт послано сейчас, %d байт получено сейчас\nДата сброса: %s
-[Summary traffic for active protocols]
-Суммарный трафик для активных протоколов
-[Get time counter value. A: <ProtocolName> OR summary; B: now OR total]
-Получить счётчик времени. А: <ProtocolName> ИЛИ суммарно; B: сейчас ИЛИ всего
-[Get traffic counter value. A: <ProtocolName> OR overall OR summary; B: now OR total; C: sent OR recieved OR both; D: b - in bytes, k - in kilobytes, m - in megabytes, d - dynamic]
-Получить счётчик трафика. A: <ProtocolName> ИЛИ всего ИЛИ суммарно; B: сейчас ИЛИ всего; C: отправлено ИЛИ получено ИЛИ оба; D: b - в байтах, k - в килобайтах, m - в мегабайтах, d - динамически
-[Get last clear date timestamp]
-Получить дату последнего сброса
-[Traffic counter]
-Счётчик трафика
-[Visible accounts]
-Отображаемые учётные записи
-[Summary traffic for active accounts]
-Суммарный трафик активных учётных записей
-[Summary traffic for visible accounts]
-Суммарный трафик для видимых учётных записей
-[Adaptive]
-Плавающий
-[Display traffic for current]
-Трафик за текущий
-[Account counters format string:]
-Формат строки счётчиков учётных записей:
-[Active accounts]
-Активные учётные записи
-[Clear statistics]
-Очистить
-[Hourly]
-Ежечасно
-[Period]
-Период
-[Sum]
-Сумма
-[Selected totals]
-Выделено всего
-[Traffic counter notification]
-Уведомление счётчика трафика
-[%d kilobytes sent]
-%d Кб отправлено
-[%d kilobytes received]
-%d Кб получено
+[From Popup plugin]
+По умолчанию
+[Custom]
+Настроить
+[Test]
+Тест
+[Show now]
+Показать
+[Space between lines:]
+Между строками:
 [Counters format string:]
 Формат строки счётчиков:
+[Tooltip format string:]
+Формат подсказки:
+[Display traffic for current]
+Трафик за текущий
+;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+Показывать
+[Icon]
+Значок
+[Account name]
+Имя учётной записи
 [Current traffic]
 Текущий трафик
 [Total traffic]
@@ -237,11 +63,89 @@
 Текущий онлайн
 [Total online]
 Общий онлайн
+[General]
+Общее
+[Draw frame as skin element]
+Отрисовывать фрейм как элемент скина
+[Show tooltip in traffic window]
+Показывать подсказку в окне трафика
+["Toggle traffic counter" in main menu]
+"Переключить счётчик трафика" в главном меню
+[Visible accounts]
+Отображаемые учётные записи
+[Summary traffic for visible accounts]
+Суммарный трафик для видимых учётных записей
+[Overall traffic]
+Общий трафик
+[Hide now]
+Скрыть
+[Day]
+День
+[Week]
+Неделю
+[Month]
+Месяц
+[Year]
+Год
+[Services]
+Службы
+[Options]
+Настройки
+[Traffic counter]
+Счётчик трафика
+[Statistics]
+Статистика
+[Popups]
+Всплывающие окна
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+Байт
+[KB]
+КБ
 [MB]
 МБ
+[Adaptive]
+Плавающий
+[Hourly]
+Ежечасно
+[Daily]
+Ежедневно
+[Weekly]
+Еженедельно
+[Monthly]
+Ежемесячно
+[Yearly]
+Ежегодно
+[Period]
+Период
+[Incoming]
+Входящие
+[Outgoing]
+Исходящие
+[Sum]
+Сумма
+[Online]
+В сети
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
 Вся статистика по выбранным учётным записям будет очищена\nПродолжить?
 [Couldn't read statistics file]
 Не могу прочитать файл статистики
+[Traffic Counter]
+Счётчик трафика
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Шрифт
+[Show/Hide frame]
+Показать/Скрыть фрейм
+[Hide traffic window]
+Скрыть окно трафика
+[Clear the current (Now:) value]
+Сбросить текущее (Now:) значение
 [Toggle traffic counter]
 Переключить счётчик трафика
+[Traffic counter notification]
+Уведомление счётчика трафика
+[%d kilobytes sent]
+%d Кб отправлено
+[%d kilobytes received]
+%d Кб получено

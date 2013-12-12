@@ -7,30 +7,17 @@
 ;============================================================
 [Open contact-specific windows by hotkey.]
 Открывает окно с контактом по горячей клавише.
-[Quick Contacts]
-Быстрые контакты
-[Open dialog]
-Открыть диалог
-[Open Quick Contacts dialog]
-Открыть диалог быстрых контактов
-[Quick Contacts...]
-Быстрые контакты...
-[Enter Username:]
-Введите имя пользователя:
-[Show all contacts (Ctrl+A)]
-Показать все контакты (Ctrl+A)
-[Send file (Ctrl+F)]
-Послать файл (Ctrl+F)
-[Send URL (Ctrl+U)]
-Послать URL (Ctrl+U)
-[Open userinfo (Ctrl+I)]
-Открыть данные пользователя (Ctrl+I)
-[Open history (Ctrl+H)]
-Открыть историю (Ctrl+H)
-[Open contact menu (Ctrl+M)]
-Открыть меню контакта (Ctrl+M)
+;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 Последнее отправленное событие
+[Enable last-sent-to]
+Включить последнее событие
+[recognize all messages sent]
+Определять все посланные сообщения
+[recognize messages sent with hotkey only]
+Определять только сообщение отправленные гор.клавишей
+[Contacts]
+Контакты
 [Show offline contacts on these protocols:]
 Показывать откл.контакты для этих протоколов:
 [But hide them if protocol is offline]
@@ -45,9 +32,31 @@
 Прятать суб-контакты
 [But keep subcontacts of protocols in above list if meta is hidden]
 Но показывать, если метаконтакт спрятан
+[Enter username:]
+
+[Show all contacts (Ctrl+A)]
+Показать все контакты (Ctrl+A)
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Быстрые контакты
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Открыть диалог
 [Make a voice call]
 Позвонить
+[Send file]
+Передать файл
 [Send URL]
 Послать URL
 [Open userinfo]
 Открыть информацию о пользователе
+[Open history]
+История
+[Open contact menu]
+Открыть меню контакта
+[Show all contacts]
+
+[Quick Contacts...]
+Быстрые контакты...
+[Send message]
+Отправить

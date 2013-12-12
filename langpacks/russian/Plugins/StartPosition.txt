@@ -1,26 +1,35 @@
 ﻿#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
 ;============================================================
-;  File: start_position.dll
-;  Module: Window Start Position	
-;  Versions: 0.2.0.3
+;  File: StartPosition.dll
+;  Plugin: Start position
+;  Version: 0.2.0.3
+;  Authors: Felipe Brahm - souFrag
 ;============================================================
-[Start position]
-Начальная позиция
 [Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
 Плагин позволяет установить начальную позицию списка контактов относительно панели задач и краёв экрана.
-[Always start...]
-При запуске...
+;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 Начальная позиция списка контактов
-[Minimized to System Tray]
-Скрытой в трей
-[Opened]
-Открытая
+[Left]
+Слева
+[Right]
+Справа
+[Pixels from Top]
+Точек сверху
 [Pixels from Bottom]
 Точек снизу
 [Pixels from Side]
 Точек сбоку
-[Pixels from Top]
-Точек сверху
-[Window Start Position]
+[Width]
+Ширина
+[Always start...]
+При запуске...
+[Minimized to System Tray]
+Скрытой в трей
+[Opened]
+Открытая
+;file \plugins\StartPosition\src\main.cpp
+[Contact List]
+Список контактов
+[Start position]
 Начальная позиция

@@ -7,47 +7,102 @@
 ;============================================================
 [Adds some useful options to a contacts menu.]
 Добавляет дополнительные пункты меню контактов.
+;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+Текст запроса авторизации
+[&Send]
+&Отправить
+[&Cancel]
+О&тмена
 [Shown menu items]
 Показаны пункты меню
+[Visibility]
+Видимость
 [Show alpha icons]
 Альфа-значки
-[Show alpha icon]
-Альфа-значок
-[Copy Status Message (SMR needed)]
-Копировать статус (нужен SMR)
-[MenuItemEx]
-Доп. пункты меню
-[Set user properties by contact menu]
-Устанавливает настройки видимости для пользователей в списке контактов
-[Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
-Добавляет контекстные меню: "Принятые файлы", "Сайт", "Последний раз в сети" и "Копировать IP адрес".
-[Hide menu item if directory does not exist]
-Спрятать пункт меню, если каталог не существует
-[Last Status]
-Последний статус
-[Copy to Account]
-Копировать в учётную запись
+[Hide from list]
+Скрыть из списка
+[Ignore]
+Игнорировать
 [Copy to Account (Ctrl+click for move to Account)]
 Копировать в уч. запись (Ctrl+клик - перемещение)
-[* Use Ctrl+click to see popup with the copied text]
-* Ctrl+клик для показа всплывающего окна с текстом
-[Hide contact on 'Ignore all']
-Скрывать при 'Ignore all'
-[Show in list]
-Показывать в списке
-[Add message name]
-Заголовок сообщения
+[Send 'You were added']
+Отправить "Вас добавили"
+[Request Authorization]
+Запросить авторизацию
+[Browse Received Files]
+Принятые файлы
+[Copy IP]
+Копировать IP
+[Copy MirVer]
+Копировать ID клиента
+[Copy Status Message]
+Копировать статус
 [Add item name]
 Добавить имя элемента
-[Do you want to send authorization request\nto new contact?]
-Хотите ли вы послать запрос авторизации\nновому контакту?
-[Open ignore settings]
-Открыть настройки игнорирования
-[Copy xStatus Message]
-Копировать сообщение ХСтатуса
+[Copy ID]
+Копировать ID
+[Add protocol name]
+Добавить протокол
 [Show ID in menu item]
 Показать ID в контекстном меню
 [Trim too long ID]
 Обрезать длинный ID
-[Automatically refresh contact's details after they come online]
-Автоматически обновлять детали контактов при появлении в сети
+[* Use Ctrl+click to see popup with the copied text]
+* Ctrl+клик для показа всплывающего окна с текстом
+[Hide contact on 'Ignore all']
+Скрывать при 'Ignore all'
+;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+Сообщение статуса
+[XStatus title]
+Заголовок хСтатуса
+[XStatus message]
+Сообщение xСтатуса
+[Listening to]
+Слушаю
+[Activity title]
+
+[Activity text]
+
+[Show in list]
+Показывать в списке
+[Always visible]
+Всегда видимый
+[Never visible]
+Всегда невидимый
+[Copy to Account]
+Копировать в учётную запись
+[Copy xStatus Message]
+Копировать сообщение ХСтатуса
+[All]
+Все
+[Messages]
+Сообщения
+[URL]
+Ссылка
+[Files]
+Файлы
+[User Online]
+
+[Authorization]
+Авторизация
+[You Were Added]
+
+[Typing Notify]
+Набирает текст
+[Please authorize me to add you to my contact list.]
+
+[Do you want to send authorization request\nto new contact?]
+Хотите ли вы послать запрос авторизации\nновому контакту?
+[Miranda NG]
+
+[MenuItemEx]
+Доп. пункты меню
+[Open ignore settings]
+Открыть настройки игнорирования
+[Request authorization]
+Запросить авторизацию
+;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Тонкая настройка

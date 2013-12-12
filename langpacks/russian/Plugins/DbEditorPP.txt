@@ -1,15 +1,103 @@
 ﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
-;  File: dbeditorpp.dll, svc_dbepp.dll
-;  Module: Database Editor++
-;  Versions: 2.5.0.1 - 3.2.0.0
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
 ;============================================================
+[Advanced Database Editor.]
+Расширенный редактор базы.
+;file \plugins\DbEditorPP\res\resource.rc
+[Database Editor++ Search and Replace]
+Найти и заменить
+[Case Sensitive]
+Учёт регистра
+[Module Name]
+Модуль
+[Exact Match]
+Точное соотв.
+[Setting Name]
+Имя настройки
+[Setting Value]
+Значение
+[&Search]
+&Искать
+[Found field]
+Найдено поле
+[&Replace]
+&Заменить
+[&Cancel]
+О&тмена
+[Search For]
+Искать
+[Text:]
+Текст:
+[In:]
+В:
+[Replace With]
+Заменить на
+[Entirely]
+Полностью
+[Restore last opened position]
+Восстановить последнее положение
+[Automatically expand "settings" when Database Editor ++ starts]
+Автоматически раскрывать "настройки" при запуске
+[Warn when deleting modules]
+Предупреждать при удалении модулей
+["Open user tree in DBE++" menu item]
+Пункт меню "открыть в редакторе базы" у каждого контакта
+[Use popups when watched settings change values]
+Всплывающие окна при изменении наблюдаемых значений
+[Popup timeout (0 for infinite)]
+Длительность (0 = оставить)
+[Background color]
+Цвет фона
+[Add a module to contact]
+Добавить модуль в контакт
+[Add a module named]
+Добавить модуль с названием
+[Add to all contacts (Includes Settings)]
+Во все контакты (включая настройки)
+[OK]
+
+[Cancel]
+
+[Edit Setting]
+Редактировать настройку
+[Value Name:]
+Имя:
+[Value Data:]
+Значение:
+[Base]
+Основание
+[Save Value as:]
+Сохранить как:
+[Watched Database Variables]
+Переменные под наблюдением
+[Copy module to contact]
+Копировать модуль в контакт
+[Copy to all contacts (Includes Settings)]
+Во все контакты (и общие настройки)
+[Contact to copy module and settings to]
+Копировать модуль и настройки в
+[Import Module/Settings]
+Импортировать модуль/настройки
+[Import]
+Импорт
+[Insert &CR/LF]
+Вставить &CR/LF
+[Paste the Settings to import here.]
+Вставьте настройки сюда.
+[DBEditor++]
+
 [&Main]
 &Главное
 [&Refresh Modules]
 &Обновить модули
 [Refresh &Settings]
 Обновить &настройки
+[E&xit]
+Вы&ход
 [&Actions]
 &Действия
 [&Search and Replace]
@@ -22,16 +110,22 @@
 &Смотреть все...
 [&Delete all]
 &Удалить все
+[&Export]
+&Экспорт
 [Entire &Database]
 Всю &базу...
 [All &Settings]
 Все &настройки...
 [All &Contacts]
 Все &контакты...
+[&Import]
+Импорт
 [From a &file]
 Из &файла...
 [From pasted &text]
 Из вставленного &текста...
+[&Options]
+&Настройки
 [&Sort by protocol]
 Сортировать по &протоколу
 [Show &All]
@@ -80,6 +174,10 @@ BL&OB
 Зашифровать строку
 [&Watch]
 &Наблюдать
+[&Delete]
+&Удалить
+[&Rename]
+&Переименовать
 [Copy To Contact]
 Копировать в контакт...
 [Export Module]
@@ -108,136 +206,90 @@ BL&OB
 Окно наблюдений
 [Reload Watch List]
 Обновить список наблюдений
-[Add a module to contact]
-Добавить модуль в контакт
-[Add a module named]
-Добавить модуль с названием
-[Add to all contacts (Includes Settings)]
-Во все контакты (включая настройки)
-[Edit Setting]
-Редактировать настройку
-[Dword]
-Дв. слово
-[String]
-Строка
-[Hexadecimal]
-Шестнадцатеричная
-[Decimal]
-Десятичная
-[Value Name:]
-Имя:
-[Value Data:]
-Значение:
-[Base]
-Основание
-[Save Value as:]
-Сохранить как:
-[Watched Database Variables]
-Переменные под наблюдением
-[Copy module to contact]
-Копировать модуль в контакт
-[Copy to all contacts (Includes Settings)]
-Во все контакты (и общие настройки)
-[Contact to copy module and settings to]
-Копировать модуль и настройки в
-[Import Module/Settings]
-Импортировать модуль/настройки
-[Insert &CR/LF]
-Вставить &CR/LF
-[Paste the Settings to import here.]
-Вставьте настройки сюда.
-[Database Editor++ Search and Replace]
-Найти и заменить
-[Case Sensitive]
-Учёт регистра
-[Module Name]
-Модуль
-[Exact Match]
-Точное соотв.
-[Setting Name]
-Имя настройки
-[Setting Value]
-Значение
-[Found field]
-Найдено поле
-[&Replace]
-&Заменить
-[Search For]
-Искать
-[In:]
-В:
-[Replace With]
-Заменить на
-[Entirely]
-Полностью
-[Restore last opened position]
-Восстановить последнее положение
-[Automatically expand "settings" when Database Editor ++ starts]
-Автоматически раскрывать "настройки" при запуске
-[Warn when deleting modules]
-Предупреждать при удалении модулей
-["Open user tree in DBE++" menu item]
-Пункт меню "открыть в редакторе базы" у каждого контакта
-[Use popups when watched settings change values]
-Всплывающие окна при изменении наблюдаемых значений
-[Popup timeout (0 for infinite)]
-Длительность (0 = оставить)
-[Database Editor++]
-Редактор базы
-[Error Loading Module List]
-Ошибка загрузки списка модулей
-[Couldnt create the image list...]
-Не удалось создать список изображений...
-[Error Loading Setting List]
-Ошибка загрузки списка настроек
-[(UNLOADED)]
-(ВЫГРУЖЕН)
-[Are you sure you want to delete contact "%s"?]
-Вы уверены, что хотите удалить контакт "%s"?
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+[Cannot Convert!]
+Не могу конвертировать!
+[New BYTE value]
+Создать байт
+[Edit BYTE value]
+Редактировать байт
+[New WORD value]
+Создать слово
+[Edit WORD value]
+Редактировать слово
+[New DWORD value]
+Создать двойное слово
+[Edit DWORD value]
+Редактировать двойное слово
+[New STRING value]
+Создать строку
+[Edit STRING value]
+Редактировать строку
+[New UNICODE value]
+Создать значение Unicode
+[Edit UNICODE value]
+Редактировать значение Unicode
+[New BLOB value]
+Создать BLOB
+[Edit BLOB value]
+Редактировать BLOB
+[Couldn't allocate enough memory!]
+Невозможно выделить память!
+;file \plugins\DbEditorPP\src\copymodule.cpp
+[Settings]
+Настройки
+;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Удалить модуль "%s"?
 [Confirm Module Deletion]
 Удалить модуль?
-[Data]
-Данные
-[BYTE]
-байт
-[WORD]
-слово
-[DWORD]
-дв. слово
-[STRING]
-строка
-[UNICODE]
-юникод
 [Delete module from Database]
 Удалить модуль из базы
 [Delete module from Database... Loading]
 Удаление модуля из базы... Загрузка
+;file \plugins\DbEditorPP\src\exportimport.cpp
+[INI Files]
+INI файлы
+[All Files]
+Все файлы
+[Export to file]
+Экспорт
+[Error Loading Module List]
+Ошибка загрузки списка модулей
+[Couldn't open file for writing]
+Не удается открыть файл на запись
+[Import from files]
+Импорт из файлов
+;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
 Введите строку поиска
+[Stop]
+Стоп
+[Replaced with]
+Заменено на
+[Deleted]
+Удалено
+[Found]
+Найдено
 [%s Module "%s" in contact "%s"]
 %s модуль "%s" в контакте "%s"
+[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
+%s настройка "%s" в модуле "%s" контакта "%s" - "%s"
 [%s Setting "%s" in module "%s" in contact "%s"]
 %s настройка "%s" в модуле "%s" контакта "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" в настройке "%s" в модуле "%s" контакта "%s"
-[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s настройка "%s" в модуле "%s" контакта "%s" - "%s"
-[Found]
-Найдено
-[Deleted]
-Удалено
-[Replaced with]
-Заменено на
-[Finished. %d items found.]
-Поиск завершен, найдено %d элемент(ов).
-[Finished. %d items were found.]
-Поиск завершен, найдено %d элемент(ов).
-[Finished. %d items were found, %d items were replaced.]
-Поиск завершен, найдено %d и заменено %d элемент(ов).
+[Searching...]
+Поиск...
+[Error Loading Setting List]
+Ошибка загрузки списка настроек
 [Finished. %d items were found, %d items were deleted.]
 Поиск завершен, найдено %d и удалено %d элемент(ов).
+[Finished. %d items were found, %d items were replaced.]
+Поиск завершен, найдено %d и заменено %d элемент(ов).
+[Finished. %d items were found.]
+Поиск завершен, найдено %d элемент(ов).
+;file \plugins\DbEditorPP\src\icons.cpp
 [Closed Known Module]
 Известный модуль (закрыт)
 [Open Known Module]
@@ -248,235 +300,78 @@ BL&OB
 Неизвестный контакт
 [Known Contact]
 Известный контакт
-[Edit BYTE value]
-Редактировать байт
-[New BYTE value]
-Создать байт
-[Edit WORD value]
-Редактировать слово
-[New WORD value]
-Создать слово
-[Edit DWORD value]
-Редактировать двойное слово
-[New DWORD value]
-Создать двойное слово
-[Edit UNICODE value]
-Редактировать значение Unicode
-[New UNICODE value]
-Создать значение Unicode
-[Edit BLOB value]
-Редактировать BLOB
-[New BLOB value]
-Создать BLOB
-[Edit STRING value]
-Редактировать строку
-[New STRING value]
-Создать строку
-[Database Editor++ (unicode mode)]
-Редактор базы (режим Юникод)
-[Database Editor++ (ansi mode)]
-Редактор базы (режим ANSI)
+;file \plugins\DbEditorPP\src\main.cpp
+[Database Editor++]
+Редактор базы
+[Open Database Editor]
+Открыть редактор базы
 [Open user tree in DBE++]
 Открыть в редакторе базы
+;file \plugins\DbEditorPP\src\main_window.cpp
+[Are you sure you want to delete contact "%s"?]
+Вы уверены, что хотите удалить контакт "%s"?
+[Confirm Contact Delete]
+Подтверждение удаления контакта
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 Загрузка контактов...
 [Loading modules...]
 Загрузка модулей...
+[Module tree not found]
+
+[Contacts]
+Контакты
 [HANDLE]
 HANDLE
-[Finished. %d items found]
-Завершено. %d найдено
-[Found Module "%s" in contact "%s"]
-Найден модуль "%s" в контакте "%s"
-[Found Setting "%s" in module "%s" in contact "%s"]
-Найдена настройка "%s" в модуле "%s" контакта "%s"
-[Found in Setting "%s" in module "%s" in contact "%s"]
-Найдено в настройке "%s" в модуле "%s" в контакте "%s"
-[Database &Editor]
-&Редактор базы данных
-[Database Editor++ Find Dialog]
-Редактор базы: Поиск
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: (байт) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: (двойное слово) 0x%X
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: (слово) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: "%s"
-[%s (UNLOADED)]
-%s (ВЫГРУЖЕН)
-[%s (Unloaded)]
-%s (не загружен)
-[&All]
-Все
-[&Filters]
-Фильтры
-[&Search...]
-&Искать...
-[(UNLOADED) %s (%s)]
-(ВЫГРУЖЕНО) %s (%s)
-[<unsupported>]
-<не поддерживается>
 [Add module to contact "%s"]
 Добавить модуль контакту "%s"
-[Add to all contacts (Includes Settings folder)]
-Всем контактам (включая "настройки")
-[Cannot Convert!]
-Не могу конвертировать!
-[Confirm Contact Delete]
-Подтверждение удаления контакта
-[Contact already exists]
-Контакт уже есть
-[Contacts menu]
-Меню контактов
-[Copy Module To Contact]
-Копировать модуль в контакт
-[Copy to all contacts (Includes Settings folder)]
-Во все контакты (включая "настройки")
-[Couldn't open file for writing]
-Не удается открыть файл на запись
-[Couldn't allocate enough memory!]
-Невозможно выделить память!
-[Find and Replace]
-Найти и заменить
-[Item context]
-Контекст
-[new item]
-новый пункт
-[NULL contact menu]
-NULL меню контакта
-[Null Mod context]
-Null Mod контекст
-[Only &Loaded]
-Только загруженные
-[Only &Unloaded]
-Только не загруженные
-[Replace with:]
-Заменить на:
-[Search and &Replace]
-Найти и заменить
-[Searching for: %s]
-Поиск: %s
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Изменена настройка БД: \nМодуль: "%s" , Настройка: "%s"\nНовое значение: (UTF8) "%s"
-[Do you want to overwrite it "%s"?]
-Вы хотите перезаписать "%s"?
-[&Use Known Module List]
-&Использовать список известных модулей
-[Add Contact Named]
-Имя контакта
-[Add New Contact]
-Добавить контакт
-[Cannot Convert from a string!]
-Не удается конвертировать из строки!
-[CONTACT: %s\r\n]
-КОНТАКТ: %s\r\n
-[CONTACT: Settings\r\n]
-КОНТАКТ: Настройки\r\n
-[CONTACT:]
-КОНТАКТ:
-[Create a new contact]
-Создать новый контакт
-[Export / Import]
-Экспорт / Импорт
-[Export Entire Database]
-Экспорт всей базы
-[Find and Replace a String Value]
-Найти и заменить значение String
-[Find Module / Setting / String Value]
-Найти модуль / настройку / значение
-[From Pasted text]
-Из вставленного текста
-[Import Database Settings]
-Импорт настроек в БД
-[Log DataBase changes to disk]
-Записывать изменения базы в журнал на диск
-[Mod context]
-Мод контекст
-[New Name]
-Новое имя
-[Notify Changes with popups]
-Изменения во всплывающих окнах
-[Refresh Modules]
-Обновить модули
-[Refresh Settings]
-Обновить настройки
-[Rename for all contacts]
-Переименовать для всех контактов
-[Rename Module "%s"]
-Переименовать модуль "%s"
-[Search inside String values]
-Искать в строковых переменных
-[String to find]
-Найти:
-[Warn before deleting Modules]
-Предупреждать перед удалением модулей
-[Watches]
-Наблюдения
-[Delete all settings (recommended)]
-Удалить все настройки (рекомендуется)
-[Delete module "%s" from all of the contacts?]
-Удалить модуль "%s" из всех контактов?
-[Delete module "%s"?]
-Удалить модуль "%s"?
-[Delete module from all contacts (Includes Setting)]
-Удалить из всех контактов (с настройками)
-[Delete settings (recommended)]
-Удалить настройки (рекомендуется)
-[Delete these settings?]
-Удалить эти настройки?
-[Import from files]
-Импорт из файлов
-[&Database]
-&База данных
-[&Decimal]
-&Десятичная
-[&Hexadecimal]
-&Шестнадцатеричная
-[BINARY]
-двоичное
-[Confirm Module Delete]
-Подтверждение удаления модуля
-[Confirm Setting Delete]
-Подтверждение удаления параметра
-[Current user]
-Текущий пользователь
-[D&elete]
-У&далить
-[Delete contact "%s"?]
-Удалить контакт "%s"?
-[Enter %s Value]
-Введите параметр "%s"
-[Modify database settings]
-Редактор настроек в базе данных
-[Refresh &modules]
-Обновить &модули
-[Value data:]
-Значение параметра:
-[Value name:]
-Название параметра:
-[Advanced Database Editor.]
-Расширенный редактор базы.
-[Error Cloning Contact]
-Ошибка клонирования контакта
-[Enumarating too many modules!!\r\nDatabase is probably corrupt, Or you have more than 128 modules]
-Перечислено слишком много модулей!!\r\nВозможно это сбой базы данных, или у вас более 128 модулей
-[Enumarating too many modules!!\r\nDatabase is probably corrupt, Or you have more than 2048 modules]
-\r\nБаза данных вероятно повреждена или у вас установлено больше 2048 модулей
-[Enumarating too many Settings!!]
-Перечислено слишком много настроек!!
-[ERROR: Couldn't allocate memory for the module list!]
-ОШИБКА: Не хватает памяти для отображения списка модулей!
-[Please enter value name!]
-Пожалуйста введите имя параметра!
-[Value name already existed!]
-Имя параметра уже существует!
-[Background color]
-Цвет фона
+;file \plugins\DbEditorPP\src\options.cpp
+[Database]
+Профиль
+;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Имя
+[Data]
+Данные
+[Type]
+Тип
+[Size]
+Размер
+[BLOB]
+
+[BYTE]
+байт
+[WORD]
+слово
+[DWORD]
+дв. слово
+[STRING]
+строка
+[UNICODE]
+юникод
+[<unsupported>]
+<не поддерживается>
+[<unknown>]
+<неизвестно>
 [Decoded string..]
 Расшифрованная строка
 [Encoded string..]
 Зашифрованная строка
-[Open Database Editor]
-Открыть редактор базы
+;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Контакт
+[Module]
+Модуль
+[Setting]
+Параметр
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
+Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: (байт) %d
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
+Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: (слово) %d
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
+Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: (двойное слово) 0x%X
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
+Изменена настройка базы: \nмодуль: "%s" , настройка: "%s"\nновое значение: "%s"
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
+Изменена настройка БД: \nМодуль: "%s" , Настройка: "%s"\nНовое значение: (UTF8) "%s"

@@ -1,43 +1,78 @@
 ﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
-;  File: yapp.dll
-;  Module: Yet Another Popup Plugin
-;  Versions: 0.5.0.10
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.11
+;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 Предоставляет службу всплывающих сообщений другим плагинам.
-;  Настройки - Всплывающие окна
-[Set timeout:]
-Длительность:
+;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+История всплывающих окон
+[Close]
+Закрыть
+[Case sensitive]
+Учёт регистра
+[Default Timeout]
+
 [Never timeout]
 Постоянно
-[Disable when]
-Выключить когда
-[Full-screen app running]
-Полноэкранное приложение
-[Global hover]
-Общее наведение
-[No time]
-Без времени
-[Time on left]
-Время слева
-[Time on right]
-Время справа
-[Time above avatar]
-Время над аватаром
+[Set timeout:]
+Длительность:
 [Width:]
 Ширина:
 [Maximum height:]
 Макс. высота:
+[Options]
+Настройки
+[Opacity (%):]
+Непрозрачность (%):
+[Border]
+Рамка
+[Round corners (window)]
+Округлять углы окна
+[Preview]
+Тест
+[Transparent background]
+Прозрачный фон
+[Layout]
+Размещение
+[Avatar size:]
+Аватар:
+[Disable when]
+Выключить когда
+[Global hover]
+Общее наведение
+[Sidebar width:]
+Ширина врезки:
+[Text indent:]
+Отступ текста:
 [Padding:]
 Промежуток:
+[Round corners (avatar)]
+Округлять углы аватара
+[Text color:]
+Цвет текста:
+[Background color:]
+Цвет фона:
 [Set timeout]
 Установить таймаут
 [Timeout value (0 = default):]
 Таймаут (0 = по умолчанию):
-[Vertical indent:]
-Отступ по верт.:
-;  Тестовые сообщения
+;file \plugins\YAPP\src\icons.cpp
+[Popups are enabled]
+Всплывающие окна включены
+[Popups are disabled]
+Всплывающие окна выключены
+[Popup History]
+История вспл.окон
+;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+
+;file \plugins\YAPP\src\options.cpp
+[Example]
+Пример
 [The quick brown fox jumped over the lazy dog.]
 Съешь же ещё этих мягких французских булок да выпей йаду!
 [Example With a Long Title]
@@ -46,23 +81,76 @@
 Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду!
 [An avatar.]
 С аватаром
-;  Тонкая настройка — Шрифты и цвета
-[First line]
-Первая строка
-[Title underline]
-Подчеркивание заголовка
-;  Главное меню
-[Popup history]
-История всплывающих окон
-[Popups are enabled]
-Всплывающие окна включены
-[Popups are disabled]
-Всплывающие окна выключены
-[Enable Popups]
-Включить всплывающие окна
+[Bottom right]
+Внизу справа
+[Bottom left]
+Внизу слева
+[Top right]
+Вверху справа
+[Top left]
+Вверху слева
+[Icon on left]
+Значок слева
+[Icon on right]
+Значок справа
+[No time]
+Без времени
+[Time on left]
+Время слева
+[Time on right]
+Время справа
+[Time above avatar]
+Время над аватаром
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар слева
+[Right avatar]
+Аватар справа
+[Status]
+Статус
+[Full-screen app running]
+Полноэкранное приложение
 [No animate]
 Без анимации
 [Horizontal animate]
 Горизонтальная анимация
 [Vertical animate]
 Вертикальная анимация
+[You cannot set a default timeout of 0.\nValue has been reset.]
+
+[Error]
+Ошибка
+[Popups]
+Всплывающие окна
+[Settings]
+Настройки
+[Classes]
+Классы
+;file \plugins\YAPP\src\services.cpp
+[Disable Popups]
+Отключить всплывающие окна
+[Enable Popups]
+Включить всплывающие окна
+;file \plugins\YAPP\src\yapp.cpp
+[Toggle Popups]
+Вкл/Выкл вспл. окна
+[First line]
+Первая строка
+[Second line]
+Вторая строка
+[Time]
+Время
+[Background]
+Фон
+[Sidebar]
+Врезка
+[Title underline]
+Подчеркивание заголовка
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+
+[Copy message to clipboard]
+
+[Copy timestamp to clipboard]
+

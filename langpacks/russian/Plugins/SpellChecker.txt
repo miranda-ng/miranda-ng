@@ -1,32 +1,96 @@
 ﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
-;  File: spellchecker.dll, spellcheckerW.dll
-;  Module: Spell Checker
-;  Versions: 0.2.4.0
-;  URL: http://eth0.dk/files/pescuma/spellchecker.zip
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
-[Unknown Flag]
-Неизвестный флаг
-[Spell Checker/Flags]
-Орфография/Флаги
-[Corrections]
-Исправления
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Проверка орфографии в окне сообщений. Использует Hunspell для проверки.
+;file \plugins\SpellChecker\res\resource.rc
+[Replacements]
+Замены
+[Enable auto-replacements]
+Включить автозамену
+[Language:]
+Язык:
+[Add...]
+Добавить...
+[Edit...]
+Правка...
+[Remove]
+Удалить
+[Add auto-replace word]
+Добавление слова для автозамены
+[Wrong word:]
+Слово с ошибкой:
+[No separators and all lowercase chars]
+Не учитывать разделители и регистр
+[Correction:]
+Исправление:
+[Use variables in correction]
+Использовать переменные для замены
+[OK]
+
+[Cancel]
+Отмена
 [Spell Checker]
 Орфография
 [Default language:]
 Язык по умолчанию:
-[Auto-correct words]
-Автоисправление слов
-[Underline type:]
-Тип подчеркивания:
+[Auto-replace words with dictionary suggestions]
+Автоматическая замена словами из словаря
+[Ignore words with numbers]
+Игнорировать слова с числами
+[Ignore words in UPPER CASE]
+Игнорировать слова ЗАГЛАВНЫМИ БУКВАМИ
+[Ask before sending a message with spelling errors]
+Спрашивать перед отсылкой сообщения с ошибками
 [Download more dictionaries]
 Загрузить другие словари
+[Advanced]
+Дополнительно
+[Underline type:]
+Тип подчеркивания:
 [Show corrections in submenu]
 Группировать исправления в подменю
-[Show all corrections]
-Все исправления
+[Show all corrections in context menu (takes more time to show)]
+Показывать все исправления в меню (требует больше времени)
+[Show wrong word]
+Показывать слово с ошибкой
 [Use flags]
 Отображать флаги
+[Use input language to select dictionary]
+Использовать язык ввода для выбора словаря
+[Use dictionaries from other programs]
+Использовать словари из других программ
+[Avoid removing underscores (slows down checking of long texts)]
+Не удалять подчеркивания (замедляет проверку больших текстов)
+;file \plugins\SpellChecker\src\ardialog.cpp
+[The wrong word can't be empty!]
+
+[Wrong Correction]
+Неверное исправление
+[The correction can't be empty!]
+
+[The correction can't be equal to the wrong word!]
+
+;file \plugins\SpellChecker\src\dictionary.cpp
+[tl_PH]
+
+[Tagalog (Philippines)]
+
+[de_frami_neu]
+
+[German (Germany)]
+
+;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Беседы
+[Auto-replacements]
+Автозамена
+[Line]
+Линия
 [Dotted]
 Точками
 [Dash]
@@ -37,83 +101,45 @@
 Две точки тире
 [Wave]
 Волна
-[Enable spell checking]
-Включить проверку орфографии
-[Ignore words in UPPER CASE]
-Игнорировать слова ЗАГЛАВНЫМИ БУКВАМИ
-[Show all corrections in context menu (takes more time to show)]
-Показывать все исправления в меню (требует больше времени)
-[Show wrong word]
-Показывать слово с ошибкой
-[Dictionaries]
-Словари
-[Custom Dictionaries]
-Личные словари
-[Flag icons]
-Значок с флагом (ICO)
-[Flags DLL]
-Библиотека с флагами (DLL)
-[ Spell Checker ]
-Проверка орфографии\s
-[ Advanced ]
-Дополнительно\s
-[Always replace with]
-Всегда заменять на
-[Add to dictionary]
-Добавить в словарь
-[Wrong word: %s]
-Неверное слово: %s
-[Auto-replace words with dictionary suggestions]
-Автоматическая замена словами из словаря
-[Auto-replace words with user defined replacements]
-Автоматическая замена из пользовательского словаря
-[Use input language to select dictionary]
-Использовать язык ввода для выбора словаря
-[Correction:]
-Исправление:
-[Add auto-replace word]
-Добавление слова для автозамены
-[OLD WORD]
-Старое слово
-[Wrong word:]
-Слово с ошибкой:
-[The correction can't be an empty word!]
-Исправление не может быть пустым!
-[The correction can't be the equal to the wrong word!]
-Исправление не может быть таким же, как слово с ошибкой!
-[Wrong Correction]
-Неверное исправление
-[Could not find the message dialog. This usually means one of two things:\n- In TabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
-Окно сообщений не найдено. Обычно это происходит в двух случаях:\n- В TabSRMM отключена опция "Включить API"\n- вы используете плагин, который не поддерживает проверку орфографии.
-[Languages]
-Языки
-[Languages/Flags]
-Языки/Флаги
-[Wrong words]
-Неправильные слова
-[Use dictionaries from other programs]
-Использовать словари из других программ
-[Auto-replacements]
-Автозамена
+[Thick]
+Жирный
 [Wrong word]
 Неправильное слово
 [Correction]
 Исправление
-[No separators and all lowercase chars]
-Не учитывать разделители и регистр
-[Use variables in correction]
-Использовать переменные для замены
-[Spell checker for the message windows. Uses Hunspell to do the checking.]
-Проверка орфографии в окне сообщений. Использует Hunspell для проверки.
-[Replacements]
-Замены
-[Ignore words with numbers]
-Игнорировать слова с числами
-[Ask before sending a message with spelling errors]
-Спрашивать перед отсылкой сообщения с ошибками
-[Enable auto-replacements]
-Включить автозамену
-[Avoid removing underscores (slows down checking of long texts)]
-Не удалять подчеркивания (замедляет проверку больших текстов)
+;file \plugins\SpellChecker\src\spellchecker.cpp
+[Dictionaries]
+Словари
+[Custom Dictionaries]
+Личные словари
+[Flags DLL]
+Библиотека с флагами (DLL)
 [Enable/disable spell checker]
 Включить/выключить проверку орфографии
+[Enabled]
+Включён
+[Disabled]
+Выключен
+;file \plugins\SpellChecker\src\utils.cpp
+[There are %d spelling errors. Are you sure you want to send this message?]
+
+[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
+
+[Other...]
+Другое...
+[Always replace with]
+Всегда заменять на
+[Ignore all]
+Игнорировать все
+[Add to dictionary]
+Добавить в словарь
+[Corrections]
+Исправления
+[Wrong word: %s]
+Неверное слово: %s
+[Language]
+Язык
+[Enable spell checking]
+Включить проверку орфографии
+[Wrong words]
+Неправильные слова

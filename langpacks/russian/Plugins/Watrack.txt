@@ -617,6 +617,7 @@ VBR или нет
 Жанры
 [[X]Status Title / Text]
 Заголовок/текст статусов
+;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Скробблить с
 [Timeout, ms]
@@ -625,6 +626,7 @@ VBR или нет
 Информация о серии
 [Episode]
 Эпизод
+;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
 Ошибка Last.fm:\s
 [Client is banned]
@@ -633,12 +635,15 @@ VBR или нет
 Неверная авторизация. Проверьте логин и пароль
 [Bad TimeStamp]
 Неправильное время
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
 Похожие исполнители
+;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
 Информация о музыке от\s
 [You Get Error]
-У вас ошибка
+У Вас ошибка
+;other strings
 [Slider]
 Бегунок	
 [Slider Hovered]

@@ -7,6 +7,9 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Уведомление и просмотр новой почты для Miranda NG. Встроен протокол POP3.
+;file \plugins\YAMN\res\YAMN.rc
+[OK]
+
 [Installed plugins]
 Установленные дополнительные плагины
 [Version:]
@@ -27,6 +30,10 @@
 Сервер:
 [Port:]
 Порт:
+[SSL]
+
+[APOP]
+
 [User Name:]
 Логин:
 [Password:]
@@ -70,7 +77,7 @@
 [Keyboard Flash]
 Мигание клавиатуры
 [Tray Icon]
-
+Значок в трее
 [Execute Application]
 Запуск приложения
 [Errors]
@@ -118,7 +125,7 @@
 [Show YAMN as a Protocol (Require Restart)]
 Показывать YAMN как протокол (нужен перезапуск)
 [MailBrowser Options]
-Настройки просмотра писем
+
 [Enable Close on Delete Button]
 Закрывать по нажатию "Удалить"
 [Show long localised date]
@@ -157,6 +164,7 @@
 Цвет фона
 [Text color]
 Цвет текста
+;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Проверить почту
 [Check &mail (This Account)]
@@ -171,14 +179,17 @@
 Проверить почту
 [Connect Fail]
 Обрыв соединения
+;file \plugins\YAMN\src\main.h
 [YAMN: new mail message]
 YAMN: новое письмо
 [YAMN: connect failed]
 YAMN: сбой подключения
+;file \plugins\YAMN\src\services.cpp
 [Nick]
 Ник
 [No new mail message]
 Нет новых писем
+;file \plugins\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 
 [An error occurred. Error code: %d]
@@ -187,6 +198,7 @@ YAMN: сбой подключения
 Неизвестная ошибка
 [ - connection error]
  - ошибка подключения
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d новых писем (%d всего)
 [- new mail message(s)]
@@ -225,12 +237,15 @@ YAMN: сбой подключения
 Удалить %d писем?
 [Delete confirmation]
 Подтверждение удаления
+;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
 
 [Part]
 
+;file \plugins\YAMN\src\proto\netlib.cpp
 [%s connection]
 %s подключение 
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Отключён
 [POP3 protocol (internal)]
@@ -307,6 +322,7 @@ OpenSSL не загружен
 Не могу прочитать SSL данные.
 [Error %d-%d-%d-%d:]
 Ошибка %d-%d-%d-%d:
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Сеть
 [Accounts]

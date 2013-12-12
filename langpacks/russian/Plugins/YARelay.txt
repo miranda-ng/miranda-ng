@@ -7,35 +7,61 @@
 ;============================================================
 [Forwards messages to some contact when you are not available.]
 В ваше отсутствие пересылает получаемые сообщения указанному контакту. 
+;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
 Пересылать сообщения от...
 [Everyone]
 Всех
-[Forward messages to...]
-Пересылать сообщения к...
-[Note: messages from this contact will not be forwarded]
-Примечание: сообщения от этого контакта не будут пересылаться
+[Contact]
+
 [Forward when your status is...]
 Персылать, если ваш статус...
+[Offline]
+Не в сети
+[Online]
+В сети
+[Away]
+Отсутствую
+[NA]
+Недоступен
+[Occupied]
+Занят
+[DND]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[Forward messages to...]
+Пересылать сообщения к...
+[Template]
+Шаблон
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
 %u - ник;   %i - UIN;    %t - время;   \r%d - дата;   %m - сообщение
 [Forwarding options]
 Настройки пересылки
 [Split message (%m)]
 Разделить сообщение (%m)
-[Max size of split part (chars)]
-Макс. размер части (симв.)
 [Send only first]
 Отсылать первые
-[split parts (0 = all)]
-частей (0 = все)
-[Note: Max size - it's a size of %m parameter]
-Примечание: Максимальный размер - величина параметра %m
+[Max size of split part (chars)]
+Макс. размер части (симв.)
 [Mark received messages as 'read']
 Помечать полученные сообщения как прочитанные
 [Save sent messages in recipient's history]
 Сохранять отправленные сообщения в истории
+[split parts (0 = all)]
+частей (0 = все)
+[Note: Max size - it's a size of %m parameter]
+Примечание: Максимальный размер - величина параметра %m
+[Note: messages from this contact will not be forwarded]
+Примечание: сообщения от этого контакта не будут пересылаться
+;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
 !ВСЕМ!
 [!DON'T FORWARD!]
 !НЕ ПЕРЕСЫЛАТЬ!
+[Plugins]
+Плагины
+[yaRelay]
+

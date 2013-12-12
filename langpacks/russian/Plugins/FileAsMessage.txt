@@ -1,25 +1,31 @@
 ﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
 ;============================================================
-;  File: fileAsMessage.dll
-;  Module: Send files as a message between two Miranda NG on top of any IM protocol
-;  Versions: 0.0.2.4
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
 ;============================================================
-[File As Message]
-Файл через сообщения
 [File transfer by using the messaging services - as plain text.]
 Передача файлов на основе сервиса сообщений - через простой текст.
+;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
 Файл через сообщения
-[File As Message...]
-Файл через сообщение...
-[file As Message]
-Файл через сообщения
+[Filename:]
+Имя файла:
+[Size:]
+
 [Chunk size]
 Размер порции
+[ms]
+мс
 [Delays between sends]
 Пауза между передачами
+[bytes]
+байт
 [Transfer settings]
 Настройки передачи
+[Appearance]
+Внешний вид
 [Unsent]
 Не передано
 [Sent]
@@ -32,53 +38,66 @@
 Только буквенно-цифровая кодировка для передачи
 [Extra options: Events > File Transfers, "Receiving files" group]
 Доп. настройки: События > Передача файлов, "Прием файлов"
-[Revive]
-Оживить
+;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 Файл уже есть. Перезаписать?
-[Request sent. Awaiting of acceptance..]
-Запрос послан. Ждем ответа...
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
-Если вы видите этот "мусор", значит у вас нет плагина "fileAsMessage". Посетите http://miranda-ng.org/p/FileAsMessage/
-[Size: %d bytes]
-Размер: %d байт
 [Couldn't open a file]
 Не получилось открыть файл
+[Size: %d bytes]
+Размер: %d байт
+[Request sent. Awaiting of acceptance..]
+Запрос послан. Ждем ответа...
+[Sending...]
+Передача...
 [Received successfully]
 Принято успешно
 [Requesting of missing chunks]
 Запрос отсутствующих частей
+[Receiving...]
+Получение...
 [Sent successfully]
 Послано успешно
-[File transfer is paused because of dropped connection]
-Приостановлено из-за обрыва соединения
-[Transfer is in progress. Do you really want to close?]
-Идет передача файла. Прервать?
-[Canceled by user]
-Отменено пользователем
-[Canceled by remote user]
-Отменено удалённым пользователем
-[Recv file]
-Прием файла
-[Select a file]
-Выбор файла
-[Incoming file...]
-Входящий файл...
-[Synchronizing...]
-Синхронизация...
-[Paused...]
-Пауза...
-[New incoming file request. Do you want to proceed?]
-Новый входящий файл. Хотите продолжить?
+[Unknown command for "File As Message" was received]
+
 [Incoming file request. Do you want to proceed?]
 Входящий файл. Хотите продолжить?
-[Unknown command for "file As Message" was received]
-Принята неизвестная команда для "file As Message"
+[Canceled by remote user]
+Отменено удалённым пользователем
+[New incoming file request. Do you want to proceed?]
+Новый входящий файл. Хотите продолжить?
+[File transfer is paused because of dropped connection]
+Приостановлено из-за обрыва соединения
 [Failed on file initialization]
 Ошибка при инициализации файла
-[Can't get a file size]
-Не могу получить размер файла
+[Paused...]
+Пауза...
+[Synchronizing...]
+Синхронизация...
+[Select a file]
+Выбор файла
 [Save as]
 Сохранить как
-[Revive a transfer]
-Оживить передачу
+[Can't get a file size]
+Не могу получить размер файла
+[Canceled by user]
+Отменено пользователем
+[Transfer is in progress. Do you really want to close?]
+Идет передача файла. Прервать?
+;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+Пуск
+[Pause]
+Пауза
+[Revive]
+Оживить
+[Stop]
+Стоп
+[Main]
+Главный
+[Plugins]
+Плагины
+[File As Message...]
+Файл через сообщение...
+;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+Файл через сообщения

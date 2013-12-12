@@ -13,7 +13,6 @@
 Звонки
 [Voice call]
 Звонок
-;historypp.dll v.1.5.0.112
 [Sh&ow in history]
 Показать в истории
 [Log default]
@@ -60,7 +59,6 @@ WATrack: запрос запрещён
 Показывать изменённые аватары
 [Change appearance]
 Настройка внешнего вида
-;тут и далее grid - это область для результатов поиска. "Сетка" не подходит....
 [Grid background]
 Фон сетки
 [Grid messages]
@@ -111,8 +109,6 @@ WATrack: запрос запрещён
 Подробности события
 [&Reply Quoted]
 &Ответить с цитатой
-[Send &Message]
-Отправить &сообщение
 [Event Info]
 Информация о событии
 [Date/Time:]
@@ -416,7 +412,7 @@ Enter для подробностей события
 [Conversation divider]
 Разделитель бесед
 [Conversation icon]
-Значок беседы
+
 [Conversation summer]
 Беседа летом
 [Conversation autumn]
@@ -703,3 +699,17 @@ Wiki-страница дополнительных параметров
 %d мин
 [&Reset to Default]
 &По умолчанию
+[Contact history]
+История контакта
+[Incoming nick]
+Имя собеседника
+[Outgoing nick]
+Ваше имя
+[Incoming contacts]
+Входящие контакты
+[System message]
+Системное сообщение
+[Incoming timestamp]
+Входящее время
+[Outgoing timestamp]
+Исходящее время

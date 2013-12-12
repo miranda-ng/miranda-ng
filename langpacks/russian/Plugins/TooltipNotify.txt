@@ -7,8 +7,11 @@
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
 Уведомления в трее при смене статуса контакта.
+;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Выберите протоколы
+[OK]
+
 [Choose contacts]
 Выберите контакты
 [Allow tooltip notifications for the following users:]
@@ -55,6 +58,8 @@
 Включить временный запрет уведомлений
 [Auto positioning]
 Автопозиция
+[Transparent input]
+
 [Preview]
 Просмотр
 [Translucency options]
@@ -65,6 +70,7 @@
 Контакты
 [Idle]
 Ожидание
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Всплывающие уведомления
 [Other status]

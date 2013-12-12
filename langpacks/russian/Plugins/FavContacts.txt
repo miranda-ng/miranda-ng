@@ -1,47 +1,74 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
-;  File: favcontacts.dll
-;  Module: Favorite Contacts
-;  Versions: v.0.0.0.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4191
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FavContacts/
-;  Authors: nullbie
+;  File: FavContacts.dll
+;  Plugin: Favorite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
 Меню избранных контактов.
-[px.]
-пикс.
-[Hotkey shows menu centered on screen]
-Меню по горячей кл. в центре экрана 
-[Hide for transparent avatars]
-Скрыть у прозрачных аватар
-[Favorite Contacts]
-Избранные контакты
+;file \plugins\FavContacts\res\resource.rc
+[Customize]
+Тонкая настройка
+[Show second line]
+Показывать вторую строку
+[Show avatars]
+Аватары
 [Draw avatar border]
 Рамка на аватарах
+[Round corners by]
+Округлить углы на
+[px.]
+пикс.
+[Hide for transparent avatars]
+Скрыть у прозрачных аватар
 [Use system colors and fonts]
 Системные цвета и шрифты
+[Hotkey shows menu centered on screen]
+Меню по горячей кл. в центре экрана 
 [Menu item preview:]
 Предпросмотр меню:
-[Multicolumn menu]
-Несколько столбцов
-[Set up menu hotkey...]
-Настроить гор. клавиши...
+[Favorite Contacts]
+Избранные контакты
 [Enable groups]
 Включить группы
+[Multicolumn menu]
+Несколько столбцов
 [Configure fonts and colors...]
 Настроить шрифты и цвета...
+[Align to the right]
+Выравнивание по правому краю
+[Dim idle contact icons]
+Затемнить контакты в ожидании
+[Show]
+Показать
+[recent contacts]
+недавних контактов
+;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+
+;file \plugins\FavContacts\src\main.cpp
+[Favorite Contact]
+Избранный контакт
+[Regular Contact]
+Обычный контакт
+[Contact name]
+Имя контакта
+[Second line]
+Вторая строка
 [Selected contact name (color)]
 Имя контакта под курсором
 [Selected second line (color)]
 Отображение второй строки под курсором
-[Align to the right]
-Выравнивание по правому краю
-[recent contacts]
-недавних контактов
-[Regular Contact]
-Обычный контакт
-[Dim idle contact icons]
-Затемнить контакты в ожидании
+[Background]
+Фон
+[Selected background]
+Фон выделения
 [Show favorite contacts]
 Показать избранные контакты
+[Contacts]
+Контакты
+[Favorites]
+Избранные
+[&Favorite Contacts...]
+

@@ -1,141 +1,142 @@
 ﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
 ;============================================================
-;  File: buddypounce.dll
-;  Module: BuddyPounce
-;  Versions: 0.3.2.1
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1062
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/BuddyPounce/
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-[Default Pounce Settings]
-Настройки Pounce по умолчанию
-[The Message]
-Сообщение
-[Send when contact (MSN status)]
-Послать когда контакт
-[Changes from OFFLINE]
-Переходит из "Отключён"
-[Changes to ONLINE]
-Меняется на "В сети"
-[Changes to AWAY (BRB)]
-Меняется на "Отсутствую"
-[Changes to NA (AWAY)]
-Меняется на "Недоступен"
-[Changes to Occupied (BUSY)]
-Меняется на "Занят"
-[Changes to DND]
-Меняется на "Не беспокоить"
-[Changes to 'Free For Chat']
-Меняется на "Готов чатиться"
-[Changes to 'On The Phone']
-Меняется на "На телефоне"
-[Changes to 'Out To Lunch']
-Меняется на "Обедаю"
-[ONLINE]
-В сети
-[AWAY (BRB)]
-Отсутствую
-[NA (AWAY)]
-Недоступен
-[Occupied (BUSY)]
-Занят
-['Free For Chat']
-Готов чатиться
-['On The Phone']
-На телефоне
-['Out To Lunch']
-Обедаю
-[Reuse]
-Слать
-[Giveup after]
-Не больше
-[Use Confirmation Window]
-Окно с подтверждением
-[CHECK THIS FOR IT TO SEND]
-ОТМЕТИТЬ чтобы отослать
-[&Delete Pounce]
-Удалить Pounce
-[&Load default settings]
-По умолчанию
-[Pounce being sent to %s in %d seconds]
-Pounce отослан %s за %d секунд
-[Buddy Pounce setup for %s]
-Установка Buddy Pounce для %s
-[Allows you to send a message to contacts if they change status and your not there to say hi. Bassically offline messaging for protocols that dont have it.]
-Позволяет отсылать сообщение когда контакт меняет статус, а вас нет на месте. Обычно используется для протоколов, у которых нет возможности отсылки оффлайновых сообщений.
-[To NA]
--> Недоступен
-[Give Up delay]
-Задержка отмены
-[Contact To Send Pounce To]
-Контакт для отправки отложенных
-[The Message:]
-Сообщение:
-[To Out To Lunch]
--> Обедаю
+[Allows you to send a message to contacts if they change status.]
+
+;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 Подтверждение отправки отложенных
-[Free For Chat]
-Готов болтать
-[Confirmation Window]
-Окно подтверждения
-[Show Delivery Messages]
-Показ. доставл. сообщения
-[Default Settings]
-Стандартные настройки
-[These settings are also used when sending a "Simple" pounce]
-Эти настройки также используются для "простых" отлож.сообщений
-[Buddy Pounce]
-Отложенное сообщение
-[Reuse Pounce]
-Применить отложенное
-[Setting text...........]
-Настройка текста.........
-[To Occupied]
--> Занят
-[To On The Phone]
--> На телефоне
-[Load default Settings]
-Загрузить по умолчанию
-[To Away]
--> Отошел
-[To DND]
--> Не беспокоить
-[To Invisible]
--> Невидимый
-[The Message (characters: )]
-Сообщение (символов: )
-[To Online]
--> В сети
+[Send]
+Отправить
+[Cancel]
+Отмена
 [Pounce being sent to]
 Отлож. сообщ. послано для
-[To Free For Chat]
--> Готов болтать
+[Buddy Pounce]
+Отложенное сообщение
+[OK]
+
+[The Message:]
+Сообщение:
 [Delete Pounce]
 Удалить отложенное
-[Message successfully sent to %s]
-Сообщение успешно послано %s
-[Send a File]
-Послать файл
-[Message failed to send to %s]
-Ошибка отправки сообщения для %s
-[Send If Their Status changes]
-Посылать, если они изменяют статус
-[Send If They Change Status to...]
-Посылать, если они изменяют статус на...
-[Send If My Status Is...]
-Посылать, если мой статус...
-[Send If My Status Is]
-Послать, если мой статус
+[Load default Settings]
+Загрузить по умолчанию
+[Setting Value]
+Значение
+[Setting text...........]
+Настройка текста.........
+[Settings]
+Настройки
+[Contact To Send Pounce To]
+Контакт для отправки отложенных
 [<< Simple]
 << Простой
+[Advanced >>]
+Дополнительно >>
+[The Message]
+Сообщение
+[Dialog]
+Диалог
+[Status]
+Статус
 [Use Advanced Dialog]
 Исп. расш. диалог
-[Out To Lunch]
-Обедаю
-[The Message    (%d Characters)]
-Сообщение      (%d символов)
+[The Message (characters: )]
+Сообщение (символов: )
+[Default Settings]
+Стандартные настройки
+[Show Delivery Messages]
+Показ. доставл. сообщения
+[These settings are also used when sending a "Simple" pounce]
+Эти настройки также используются для "простых" отлож.сообщений
+;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+Посылать, если мой статус...
+[Send If They Change Status to...]
+Посылать, если они изменяют статус на...
+[Reuse Pounce]
+Применить отложенное
+[Give Up delay]
+Задержка отмены
+[Confirmation Window]
+Окно подтверждения
+[Send If My Status Is]
+Послать, если мой статус
+[Any]
+Любое
+[Online]
+В сети
+[Away]
+Отсутствую
+[NA]
+Недоступен
+[Occupied]
+Занят
+[DND]
+Не беспокоить
+[Free For Chat]
+Готов болтать
+[Invisible]
+Невидимый
 [On The Phone]
 На телефоне
-[&Buddy Pounce]
-Отложенное сообщение
+[Out To Lunch]
+Обедаю
+[Send If Their Status changes]
+Посылать, если они изменяют статус
+[From Offline]
+
+[To Online]
+-> В сети
+[To Away]
+-> Отошел
+[To NA]
+-> Недоступен
+[To Occupied]
+-> Занят
+[To DND]
+-> Не беспокоить
+[To Free For Chat]
+-> Готов болтать
+[To Invisible]
+-> Невидимый
+[To On The Phone]
+-> На телефоне
+[To Out To Lunch]
+-> Обедаю
+[The Message    (%d Characters)]
+Сообщение      (%d символов)
+[Couldn't allocate enough memory]
+
+[error......]
+
+[The Message    (0 Characters)]
+
+[Reuse this message? (0 to use it once)]
+
+[Times]
+
+[Giveup after.. (0 to not giveup)]
+
+[Days]
+Дней
+[Show confirmation window? (0 to not Show)]
+
+[Seconds to wait before sending]
+
+[Pounce being sent to %s in %d seconds]
+Pounce отослан %s за %d секунд
+[Retry]
+Ещё раз
+[Message successfully sent to %s]
+Сообщение успешно послано %s
+[Message failed to send to %s]
+Ошибка отправки сообщения для %s
+;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+Беседы

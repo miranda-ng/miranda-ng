@@ -1,244 +1,31 @@
 ﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
 ;============================================================
-;  File: variables.dll
-;  Module: variables
-;  Versions: 0.2.2.0-0.2.3.4
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3822
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.10
+;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
 Поддержка динамических переменных для других плагинов.
-[Parse]
-Анализ
-[Auto parse]
-Автоанализ
-[Parse the following string at startup]
-Анализ строки при загрузке
+;file \plugins\Variables\res\Variables.rc
+[Parse options]
+Настройки анализа
 [Automatically strip "end of line" characters]
 Обрезать символ "конец строки"
-[Help...]
-Помощь...
-[Token]
-Маркер
-[(ANSI input only) substring match number z found in subject y with pattern x]
-(Только ANSI ввод) подстрока совпадения z найдена в теме y с шаблоном x
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
-показывает файлы и папки путя z, с фильтром y, разделённым z (y и z необязательны)
-[stores y as alias named x]
-сохраняет Y, как алиас X
-[the number of lines in string x]
-число строк в строке x
-[converts each non-html character into hex format]
-переводит каждый не-HTML символ в шестнадцатеричный формат
-[pads x to length y appending character z (z is optional)]
-удлиняет x до длины y добавляя справа символ z (z необязательно)
-[z if y equals x, multiple y and z arguments allowed]
-z, если y равно x, допустимы множественные аргументы y и z
-[x - y - ...]
-x - y - ...
-[repeats x y times]
-повторяет x y раз
-[formats timestamp x (seconds since 1/1/1970) in time format y]
-выводит время x (в секундах с 1/1/1970) в формате времени y
-[get last seen time of contact x in format y (y is optional)]
-получить время последнего появления контакта x, в формате y (y необязательно)
-[strips y directories from x]
-вырезает y папок из пути x
-[substring of x starting from position y to z]
-подстрока x начинающаяся с позиции y в z
-[uptime in seconds]
-время работы системы в секундах
-[minimum value of (decimal) arguments]
-минимальное значение (десятичных) аргументов
-[retrieves the subject, depending on situation]
-получить subject, в зависимости от ситуации
-[location of first occurrence of string y in x]
-место первого вхождения строки y в x
-[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
-переводит 32битное число (в порядке хоста) в формат IPv4 (4 числа разделены точками)
-[current time in format y (y is optional)]
-текущее время в формате y (y необязательно)
-[words (separated by white spaces) number y to z from string x (z is optional)]
-слова (разделённые пробелом) количеством от y до z из строки x (z необязательно)
-[trims x to length y, keeping last y characters]
-обрезает x по длине y, сохраняя последние y символов
-[location of last occurrence of character y in string x]
-место последнего вхождения символа y в строке x
-[get the version of Miranda]
-получить версию Miranda NG
-[cpu load of process x (without extension) (x is optional)]
-нагрузка ЦПУ процесса x (без расширения) (x необязательно)
-[TRUE if directory x exists]
-ПРАВДА, если папка x существует
-[length of x]
-длина х
-[TRUE if x > y]
-ПРАВДА, если х > у
-[the first argument parsed successfully]
-первый аргумент анализирован успешно
-[Boolean FALSE]
-Логическое ЛОЖЬ
-[db profile path]
-путь профиля базы
-[inserts x tab characters (x is optional)]
-вставить x символов табуляции (x необязательно)
-[get event for contact x (optional), according to y,z,w, see documentation]
-получить событие для контакта x (необязательно), соответствующее y,z,w, см. документацию
-[only stores y as variables x]
-только сохраняет y, как переменную x
-[performs logical OR (x || y || ...)]
-выполняет логическое ИЛИ (x || y || ...)
-[the directory y directories above x]
-путь папки y выше папок x
-[value y from registry key x (REG_SZ (string) values only)]
-значение y из ключа x, из реестра Windows (только значения REG_SZ (string))
-[removes white spaces in before and after x]
-удалить пробелы перед и после x
-[TRUE if the first z characters of x equal y]
-ПРАВДА, если первые z символов x равны y
-[Boolean TRUE]
-Логическое ПРАВДА
-[variable set by put(s) with name x]
-переменная заданная put с именем x
-[translates status code x into a status description]
-переводит статус код x в текстовое описание статуса
-[random number]
-случайное число
-[TRUE if x equals y]
-ПРАВДА, если х = у
-[x + y + ...]
-x + y + ...
-[TRUE if process x is running]
-ПРАВДА, если процесс х запущен
-[performs logical NOT (!x)]
-выполняет логическое НЕТ (!x)
-[moves string x, z characters to the left and trims it to y characters]
-сдвиг строки x, z символов слева и обрезание до y символов
-[replace all occurrences of y in x with z, multiple y and z arguments allowed]
-замена всех вхождений y в x на z, возможны множественные аргументы y и z
-[pads x to length y appending character z, or cut if x is longer (z is optional)]
-удлиняет x до длины y, добавляя справа символ z, или обрезает, если x длиннее (z необязательно)
-[number of contacts with property y described by x, example: (unregistered,nick)]
-номер контакта со свойством y, описанным x, пример: (unregistered,nick)
-[converts each first letter of a word to uppercase, all others to lowercase]
-переводит каждую первую букву слова в ЗАГЛАВНУЮ, все остальные в прописные
-[trims x to length y, keeping first y characters]
-обрезает x по длине y, сохраняя первые символы y
-[cuts x after the first line and appends y (y is optional)]
-обрезает x после первой линии, и добавляет y (у необязательно)
-[retrieves current Winamp state (Playing/Paused/Stopped)]
-получает состояние Winamp (играет/пауза/остановлен)
-[maximum value of (decimal) arguments]
-максимальное значение (десятичных) аргументов
-[path to the Miranda NG executable]
-путь к miranda32(64).exe
-[converts x to upper case]
-переводит x в ЗАГЛАВНЫЕ буквы
-[x times y]
-x умноженное на y
-[inserts string y at position z in string x]
-вставляет строку y, в позицию z в строке x
-[inserts 'end of line' character]
-вставляет символ EOL
-[converts each first letter of a word to uppercase]
-переводит каждую первую букву слова в ЗАГЛАВНУЮ
-[x modulo y (remainder of x divided by y)]
-модуль x от у (остаток x, делённого на y)
-[performs logical XOR (x ^ y)]
-выполняет логическое исключающее ИЛИ - XOR (x ^ y)
-[performs logical AND (x && y && ...)]
-логическое И (x && y && ...)
-[current status description of protocol x (without x, the global status is retrieved)]
-текущее определение статуса протокола x (без x, используется глобальный статус)
-[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
-z контакт со свойством y, описанным в x, пример (unregistered,nick) (z необязательно)
-[x divided by y]
-х, делённое на у
-[db profile name]
-имя профиля базы
-[replaces all end of line characters by y (y is optional)]
-заменяет все символы EOL на y (y необязательно)
-[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
-y > 0: строка номер y из файла x, y = 0: целый файл, y < 0: строка y от конца файла, y = r: случайная строка
-[shows y if x is TRUE, otherwise it shows z]
-показывает y, если x ПРАВДА, в иначе показывает z
-[formats timestamp x (seconds since 1/1/1970) in date format y]
-выводит время x (в секундах с 1/1/1970) в формате даты y
-[TRUE if x equals y, ignoring case]
-ПРАВДА, если x равен y, не учитывая регистр
-[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
-число секунд между датами x и y (x и y в формате: М/д/гг Ч:м:с))
-[window title of first window of class x]
-заголовок первого окна класса x
-[x times y divided by z]
-x умноженное на y делённое на z
-[get last seen status of contact x]
-получить последний статус контакта x
-[pads x to length y prepending character z (z is optional)]
-удлиняет x до длины y добавляя слева символ z (z необязательно)
-[pads x to length y prepending character z, or cut if x is longer (z is optional)]
-удлиняет x до длины y, добавляя слева символ z, или обрезает, если x длиннее (z необязательно)
-[no operation, x as given]
-нет операции, x задан
-[user name]
-Имя пользователя
-[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
-показывает x, если x ПРАВДА в другом случае показывает y (if(x,x,y))
-[the xth string of the arguments]
-x строка по счёту в аргументах
-[the longest string of the arguments]
-самая длинная строка в аргументах
-[get last seen date of contact x in format y (y is optional)]
-получить дату последнего появления контакта x, в формате y (y необязательно)
-[db setting z of module y of contact x]
-настройка базы z, плагина y, контакта x
-[converts x to lowercase]
-переводит x в прописные буквы
-[retrieves song name of the song currently playing in Winamp]
-получает имя песни играемой в Winamp
-[TRUE if the first z characters of x equal y, ignoring case]
-ПРАВДА, если первые z символов x равны y, без учёта регистра
-[converts decimal value x to hex value and padds to length y]
-переводит десятичное значение x в шестнадцатеричное, используя длину y
-[converts a 32-bit number to IPv4 dotted notation]
-переводит 32битное число в формат IPv4 (4 числа разделены точками)
-[expand environment variable x]
-расширяет переменную окружения x
-[x, and stores y as variable named x]
-x, и сохраняет y, как переменную с именем x
-[y if w > x, else z]
-y, если w > x, иначе z
-[converts each hex value into non-html character]
-переводит каждое шестнадцатеричное значение в не-HTML символ
-[location of first occurrence of character y in string x]
-место первого вхождения символа y в строке x
-[computer name]
-Имя компьютера
-[the shortest string of the arguments]
-самая короткая строка в аргументах
-[info property y of contact x]
-информационное свойство y контакта x
-[pads decimal value x to length y with zeros]
-заполняет десятичное значение x по длине y нулями
-[current date in format y (y is optional)]
-текущая дата в формате y (y необязательно)
-[TRUE if file x exists]
-ПРАВДА, если файл x существует
-[External Applications]
-Внешние приложения
-[Internet Related]
-Интернет
-[Logical Expressions]
-Логические выражения
-[Mathematical Functions]
-Математические функции
-[Miranda Related]
-Относящееся к Miranda NG
-[Regular Expressions]
-Регулярные выражения
-[String Functions]
-Строковые функции 
-[System Functions]
-Системные функции
+[Automatically strip white space]
+Автоматически обрезать пробелы
+[Automatically strip all non-parsing characters]
+Автоматически обрезать все не анализированные символы
+[Test area]
+Область теста
+[Click on the help button to get more information]
+Нажмите на кнопку помощи, чтобы получить больше информации
+[Parse the following string at startup]
+Анализ строки при загрузке
+[Auto parse]
+Автоанализ
+[Parse]
+Анализ
 [Please enter your input below]
 Вводите Вашу строку ниже
 [Don't set a contact]
@@ -247,152 +34,345 @@ y, если w > x, иначе z
 Установить контакту
 [The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
 Маркер %subject% будет принят как специальный контакт, который зависит от ситуации, как и где эта строка использована. Используйте этот диалог, чтобы симулировать контакт, который будет подставляться в %subject%. Пример использования этого маркера: !cinfo(%subject%,display).
+[Description]
+Описание
+[Setting]
+Параметр
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 Маркер %extratext% будет принят, как специальная строка, которая зависит от ситуации, как и где эта строка использована. Используйте этот диалог, чтобы симулировать строку, которая будет подставляться в %extratext%
-[%extratext%]
-%extratext%
-[%false%]
-логическое ЛОЖЬ
-[%true%]
-логическое ПРАВДА
-[Automatically strip white space]
-Автоматически обрезать пробелы
-[Test area]
-Область теста
-[Click on the help button to get more information]
-Нажмите на кнопку помощи, чтобы получить больше информации
-[Parse options]
-Настройки анализа
-[Automatically strip all non-parsing characters]
-Автоматически обрезать все не анализированные символы
-[replace all occurrences of \n (Unix) by \r\n (Windows)]
-замена всех вхождений '\n' (Unix) на '\r\n' (Windows)
-[TRUE if x equals any of the following arguments]
-ПРАВДА, если x равен любому из следующих аргументов
-[info property y of protocol ID x]
-информационное свойство y ID протокола x
-[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
-заменить все совпадения \\n (Unix) на \\r\\n (Windows)
-[Automatically strip ]
-Автоматически урезать\s
+[Close]
+Закрыть
+[OK]
+
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Служба переменных подставляет различным маркерам соответствующие значения. Пример: Я использую Miranda NG версии %mirandaversion%. В маркер %mirandaversion% будет подставлен соответствующий номер версии вашей Miranda NG. Следующий список показывает все доступные маркеры.
-[Tokens]
-Маркеры
-[user defined]
-определено пользователем
-[Stopped]
-Остановлено
-[performs w, then shows z and performs y while x is TRUE]
-выполняет w, потом показывает z, и выполняет y, пока x = ПРАВДА
-[y if string length of w > x, else z]
-y, если длина строки w > x, в другом случае z
-[TRUE if x is longer than y]
-ПРАВДА, если x длиннее, чем y
-[boolean TRUE]
-логическое ПРАВДА
-[get the version of miranda]
-получить версию Miranda NG
-[(ANSI input only) the number of substring matches found in y with pattern x]
-(вход. данные только ANSI) количество подстрок найденных в y, по маске x
-[the number of substring matches found in y with pattern x]
-число найденных подстрок в y, по маске x
-[substring match number z found in subject y with pattern x]
-подстрока соответствует номеру z, найденному в subject y, по маске x
-[depends on calling plugin]
-зависит от плагина, который вызывает токен
-[padds x to length y prepending character z (z is optional)]
-заполняет x по длине y символом z (z необязательно)
-[padds x to length y appending character z (z is optional)]
-заполняет x по длине y добавляющим символом z (z необязательно)
-[padds x to length y appending character z, or cut if x is longer (z is optional)]
-заполняет x по длине y добавляющим символом z, или обрезает, если x длиннее (z необязательно)
-[padds x to length y prepending character z, or cut if x is longer (z is optional)]
-заполняет x по длине y символом z, или обрезает, если x длиннее (z необязательно)
-[replace all occurenses of y in x with z, multiple y and z arguments allowed]
-заменяет все совпадения y в x на z, множественные y,z аргументы возможны
-[moves x z charcters to the left and trims it to y characters]
-переносит x на z символов влево, и обрезает у символов
-[TRUE if x equals y, ingnoring case]
-ПРАВДА, если x равняется y, регистр не учитывается
-[TRUE if the first z characters of x equal y, ingnoring case]
-ПРАВДА, если первые z символов x равны y, без учёта регистра
-[location of first occurence of character y in string x]
-положение первого совпадения символа y в строке x
-[location of last occurence of character y in string x]
-положение последнего совпадения символа y в строке x
-[location of first occurence of string y in x]
-положение первого совпадения строки y в x
-[z if y equals x, multple y and z arguments allowed]
-z, если y равняется x, множественные аргументы y,z разрешены
-[z{2,4} matches "zz", "zzz" or "zzzz"\r\n* is equivalent to {0,}\r\n+ is equivalent to {1,}\r\n? is equivalent to {0,1}]
-z{2,4} равно "zz", "zzz" или "zzzz"\r\n* эквивалентно {0,}\r\n+ эквивалентно {1,}\r\n? эквивалентно {0,1}
-[words (seperated by white spaces) number y to z from string x (z is optional)]
-слова (разделённые пробелами) число y от z от строки x (z необязательно)
-[(File content ANSI only) y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
-(Только файл ANSI) y > 0: строка номер y файла x, y = 0: весь файл, y < 0: строка y с конца, y = r: случайная строка
-[moves x z characters to the left and trims it to y characters]
-переносит x на z символов влево, и обрезает у символов
-[value y from registry key x (REG_SZ (string) values only]
-значение y из ключа x, из ресстра Windows (только значения REG_SZ (string))
-[shows files and directories of directory z, with filter y, seperated by z (y and z optional)]
-показывает файлы и папки пути z, с фильтром y, разделённым z (y и z необязательны)
-[Paused]
-Пауза
-;0.2.3.1
-[x if x is TRUE, else z]
-х, если х - ПРАВДА, иначе - z
-[Y if x is TRUE, else z]
-Y, если x ПРАВДА, иначе z
-[get the contact display name]
-получить отображаемое имя контакта
-[get the date and time (using Miranda format)]
-получить дату и время (используется формат Miranda NG)
+[Notes]
+Заметки
+[Variables...]
+Переменные...
+;file \plugins\Variables\src\help.cpp
+[Token]
+Маркер
 [--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique ID (UIN for ICQ, email for MSN) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, ID or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
 --- Специальные символы ---\r\n\r\nСледующие символы имеют специальное значение в строке форматирования:\r\n\r\n?<функция>(<аргументы>)\nОбработка функции с заданными аргументами, результат обрабатывается снова. Пример: сегодня ?cdate(yyyy/MM/dd).\r\n\r\n!<функция>(<аргументы>)\nОбработка функции с заданными аргументами, результат НЕ обрабатывается снова. Пример: Входящее сообщение: !message(,first,rcvd,unread).\r\n\r\n%<поле>%\nОбработает это поле . Пример: Я установил Miranda NG в: %mirandapath%.\r\n\r\n`<строка>`\nНе обработает эту строку, функцию, поле или специальный символ в строке. Пример: Используйте `%mirandapath%` для показа пути установки.\r\n\r\n#<комментарий>\nДобавление комментария. Всё за символом # до конца строки будет удалено. Пример: %dbprofile% #это бесполезный комментарий.\r\n\r\r\n\r\n--- Контакты ---\r\n\r\nЕсли функции необходим контакт как аргумент, его можно получить двумя путями:\r\n\r\n(1) используя уникальный ID (UIN для ICQ, e-mail для MSN) или ID контакта, следующим за ID протокола в формате <PROTOID:UNIQUEID>, например, <MSN:miranda@hotmail.com> или <ICQ:123456789>.\r\n\r\n(2) используя функцию contact:\n?contact(x,y)\nВернет контакт со значением x свойства y, y может быть одним из:\nfirst, last, nick, email, ID или display\r\n\r\nПример: ?contact(miranda@hotmail.com,email) или ?contact(Miranda,nick). Функция contact возвращает уникальный контакт, найденный по заданным аргументам, либо не возвращает ничего, если не найдено ни одного или найдено несколько контактов.
+[Tokens]
+Маркеры
+[Input]
+
+[Cancel]
+Отмена
+[Help]
+Справка
+[Variables Help]
+Помощь по переменным
+[Open String Formatting Help]
+Помощь по формату строк
+;file \plugins\Variables\src\options.cpp
+[Services]
+Службы
+[Variables]
+Переменные
+;file \plugins\Variables\src\parse_alias.cpp
+[Alias]
+Алиас
+[user defined]
+определено пользователем
+[stores y as alias named x]
+сохраняет Y, как алиас X
+;file \plugins\Variables\src\parse_external.cpp
+[Stopped]
+Остановлено
+[Paused]
+Пауза
+[External Applications]
+Внешние приложения
+[retrieves song name of the song currently playing in Winamp]
+получает имя песни играемой в Winamp
+[retrieves current Winamp state (Playing/Paused/Stopped)]
+получает состояние Winamp (играет/пауза/остановлен)
+;file \plugins\Variables\src\parse_inet.cpp
+[Internet Related]
+Интернет
+[converts each non-html character into hex format]
+переводит каждый не-HTML символ в шестнадцатеричный формат
+[converts each hex value into non-html character]
+переводит каждое шестнадцатеричное значение в не-HTML символ
+[converts a 32-bit number to IPv4 dotted notation]
+переводит 32битное число в формат IPv4 (4 числа разделены точками)
+[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
+переводит 32битное число (в порядке хоста) в формат IPv4 (4 числа разделены точками)
+;file \plugins\Variables\src\parse_logic.cpp
+[Logical Expressions]
+Логические выражения
+[performs logical AND (x && y && ...)]
+логическое И (x && y && ...)
+[Boolean FALSE]
+Логическое ЛОЖЬ
+[performs w, then shows z and performs y while x is TRUE]
+выполняет w, потом показывает z, и выполняет y, пока x = ПРАВДА
+[shows y if x is TRUE, otherwise it shows z]
+показывает y, если x ПРАВДА, в иначе показывает z
+[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
+показывает x, если x ПРАВДА в другом случае показывает y (if(x,x,y))
+[the first argument parsed successfully]
+первый аргумент анализирован успешно
+[y if w = x, else z]
+y, если w = x, иначе z
+[y if w > x, else z]
+y, если w > x, иначе z
+[y if string length of w > x, else z]
+y, если длина строки w > x, в другом случае z
+[TRUE if x = y]
+ПРАВДА, если x = y
+[TRUE if x > y]
+ПРАВДА, если х > у
+[TRUE if x is longer than y]
+ПРАВДА, если x длиннее, чем y
+[performs logical NOT (!x)]
+выполняет логическое НЕТ (!x)
+[performs logical OR (x || y || ...)]
+выполняет логическое ИЛИ (x || y || ...)
+[Boolean TRUE]
+Логическое ПРАВДА
+[performs logical XOR (x ^ y)]
+выполняет логическое исключающее ИЛИ - XOR (x ^ y)
+;file \plugins\Variables\src\parse_math.cpp
+[Mathematical Functions]
+Математические функции
+[x + y + ...]
+x + y + ...
+[x divided by y]
+х, делённое на у
+[converts decimal value x to hex value and padds to length y]
+переводит десятичное значение x в шестнадцатеричное, используя длину y
+[x modulo y (remainder of x divided by y)]
+модуль x от у (остаток x, делённого на y)
+[x times y]
+x умноженное на y
+[x times y divided by z]
+x умноженное на y делённое на z
+[minimum value of (decimal) arguments]
+минимальное значение (десятичных) аргументов
+[maximum value of (decimal) arguments]
+максимальное значение (десятичных) аргументов
+[pads decimal value x to length y with zeros]
+заполняет десятичное значение x по длине y нулями
+[random number]
+случайное число
+[x - y - ...]
+x - y - ...
+;file \plugins\Variables\src\parse_metacontacts.cpp
+[MetaContacts]
+Метаконтакты
 [get parent metacontact of contact x]
 возвращает родительский метаконтакт субконтакта x
 [get default subcontact x]
 возвращает субконтакт по умолчанию метаконтакта x
 [get the 'most online' subcontact x]
 возвращает субконтакт 'в сети' метаконтакта x
-[TRUE if service function is exists]
-ПРАВДА, если сервис существует
-[Miranda Core OS]
-Переменные окружения в Miranda
+;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Переменные ядра Miranda
+[path to Miranda root folder]
+путь к папке программы
+[path to current Miranda profile]
+путь к папке текущего профиля
+[name of current Miranda profile (filename, without extension)]
+имя текущего профиля (только имя, без расширения)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+возвратит строку вида %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
 возвращает путь %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
 возвращает путь %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs
-[TRUE if x = y]
-ПРАВДА, если x = y
-[y if w = x, else z]
-y, если w = x, иначе z
+[Miranda Core OS]
+Переменные окружения в Miranda
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+аналог переменной среды %APPDATA% для текущего пользователя системы
+[username for currently logged-on Windows user]
+имя текущего пользователя системы
+["My Documents" folder for currently logged-on Windows user]
+папка "Мои документы" для текущего пользователя Windows
+["Desktop" folder for currently logged-on Windows user]
+папка "Рабочий стол" для текущего пользователя Windows
+[Miranda Related]
+Относящееся к Miranda NG
+[translates status code x into a status description]
+переводит статус код x в текстовое описание статуса
+[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
+z контакт со свойством y, описанным в x, пример (unregistered,nick) (z необязательно)
+[number of contacts with property y described by x, example: (unregistered,nick)]
+номер контакта со свойством y, описанным x, пример: (unregistered,nick)
+[info property y of contact x]
+информационное свойство y контакта x
+[db profile name]
+имя профиля базы
+[db profile path]
+путь профиля базы
 [db setting z of module y of contact x and return w if z isn't exist (w is optional)]
 получить настройку z плагина y контакта x или возвратить w, если z не существует (w не обязательно)
-[text from clipboard]
-текст из буфера обмена
-[Album name]
-Альбом
-[Artist name]
-Исполнитель
-[Song genre]
-Жанр
-[Listening info as set in the options]
-Информация о прослушивание установленная в настройках
-[Song length]
-Продолжительность
-[Player name]
-Плеер
-[Song name]
-Песня
-[Track number]
-Номер песни
-[Media type: Music, Video, etc.]
-Тип: музыка, видео и т.д.
-[Song year]
-Год
+[get event for contact x (optional), according to y,z,w, see documentation]
+получить событие для контакта x (необязательно), соответствующее y,z,w, см. документацию
+[get last seen time of contact x in format y (y is optional)]
+получить время последнего появления контакта x, в формате y (y необязательно)
+[get last seen date of contact x in format y (y is optional)]
+получить дату последнего появления контакта x, в формате y (y необязательно)
+[get last seen status of contact x]
+получить последний статус контакта x
+[path to the Miranda NG executable]
+путь к miranda32(64).exe
+[current status description of protocol x (without x, the global status is retrieved)]
+текущее определение статуса протокола x (без x, используется глобальный статус)
+[info property y of protocol ID x]
+информационное свойство y ID протокола x
+[retrieves the subject, depending on situation]
+получить subject, в зависимости от ситуации
+[translates x]
+переводит х
+[get the version of Miranda]
+получить версию Miranda NG
+[get the contact display name]
+получить отображаемое имя контакта
+[get the date and time (using Miranda format)]
+получить дату и время (используется формат Miranda NG)
 [TRUE if service function exists]
 ПРАВДА, если сервисная функция существует
+;file \plugins\Variables\src\parse_regexp.cpp
+[Regular Expressions]
+Регулярные выражения
+[(ANSI input only) the number of substring matches found in y with pattern x]
+(вход. данные только ANSI) количество подстрок найденных в y, по маске x
+[(ANSI input only) substring match number z found in subject y with pattern x]
+(Только ANSI ввод) подстрока совпадения z найдена в теме y с шаблоном x
+;file \plugins\Variables\src\parse_str.cpp
+[String Functions]
+Строковые функции 
+[converts each first letter of a word to uppercase, all others to lowercase]
+переводит каждую первую букву слова в ЗАГЛАВНУЮ, все остальные в прописные
+[converts each first letter of a word to uppercase]
+переводит каждую первую букву слова в ЗАГЛАВНУЮ
+[inserts 'end of line' character]
+вставляет символ EOL
+[depends on calling plugin]
+зависит от плагина, который вызывает токен
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+заменить все совпадения \\n (Unix) на \\r\\n (Windows)
+[cuts x after the first line and appends y (y is optional)]
+обрезает x после первой линии, и добавляет y (у необязательно)
+[replaces all end of line characters by y (y is optional)]
+заменяет все символы EOL на y (y необязательно)
+[inserts string y at position z in string x]
+вставляет строку y, в позицию z в строке x
+[trims x to length y, keeping first y characters]
+обрезает x по длине y, сохраняя первые символы y
+[length of x]
+длина х
+[the number of lines in string x]
+число строк в строке x
+[the longest string of the arguments]
+самая длинная строка в аргументах
+[converts x to lowercase]
+переводит x в прописные буквы
+[no operation, x as given]
+нет операции, x задан
+[pads x to length y prepending character z (z is optional)]
+удлиняет x до длины y добавляя слева символ z (z необязательно)
+[pads x to length y appending character z (z is optional)]
+удлиняет x до длины y добавляя справа символ z (z необязательно)
+[pads x to length y prepending character z, or cut if x is longer (z is optional)]
+удлиняет x до длины y, добавляя слева символ z, или обрезает, если x длиннее (z необязательно)
+[pads x to length y appending character z, or cut if x is longer (z is optional)]
+удлиняет x до длины y, добавляя справа символ z, или обрезает, если x длиннее (z необязательно)
+[repeats x y times]
+повторяет x y раз
+[replace all occurrences of y in x with z, multiple y and z arguments allowed]
+замена всех вхождений y в x на z, возможны множественные аргументы y и z
+[trims x to length y, keeping last y characters]
+обрезает x по длине y, сохраняя последние y символов
+[moves string x, z characters to the left and trims it to y characters]
+сдвиг строки x, z символов слева и обрезание до y символов
+[TRUE if x equals y]
+ПРАВДА, если х = у
+[TRUE if x equals any of the following arguments]
+ПРАВДА, если x равен любому из следующих аргументов
+[TRUE if the first z characters of x equal y]
+ПРАВДА, если первые z символов x равны y
+[TRUE if x equals y, ignoring case]
+ПРАВДА, если x равен y, не учитывая регистр
+[TRUE if the first z characters of x equal y, ignoring case]
+ПРАВДА, если первые z символов x равны y, без учёта регистра
+[the shortest string of the arguments]
+самая короткая строка в аргументах
+[location of first occurrence of character y in string x]
+место первого вхождения символа y в строке x
+[location of last occurrence of character y in string x]
+место последнего вхождения символа y в строке x
+[location of first occurrence of string y in x]
+место первого вхождения строки y в x
+[substring of x starting from position y to z]
+подстрока x начинающаяся с позиции y в z
+[the xth string of the arguments]
+x строка по счёту в аргументах
+[z if y equals x, multiple y and z arguments allowed]
+z, если y равно x, допустимы множественные аргументы y и z
+[removes white spaces in before and after x]
+удалить пробелы перед и после x
+[inserts x tab characters (x is optional)]
+вставить x символов табуляции (x необязательно)
+[converts x to upper case]
+переводит x в ЗАГЛАВНЫЕ буквы
+[words (separated by white spaces) number y to z from string x (z is optional)]
+слова (разделённые пробелом) количеством от y до z из строки x (z необязательно)
+;file \plugins\Variables\src\parse_system.cpp
+[System Functions]
+Системные функции
+[computer name]
+Имя компьютера
+[cpu load of process x (without extension) (x is optional)]
+нагрузка ЦПУ процесса x (без расширения) (x необязательно)
+[current date in format y (y is optional)]
+текущая дата в формате y (y необязательно)
+[current time in format y (y is optional)]
+текущее время в формате y (y необязательно)
+[the directory y directories above x]
+путь папки y выше папок x
+[strips y directories from x]
+вырезает y папок из пути x
+[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
+число секунд между датами x и y (x и y в формате: М/д/гг Ч:м:с))
+[TRUE if directory x exists]
+ПРАВДА, если папка x существует
+[TRUE if file x exists]
+ПРАВДА, если файл x существует
+[window title of first window of class x]
+заголовок первого окна класса x
+[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
+показывает файлы и папки путя z, с фильтром y, разделённым z (y и z необязательны)
+[TRUE if process x is running]
+ПРАВДА, если процесс х запущен
+[value y from registry key x (REG_SZ (string) values only)]
+значение y из ключа x, из реестра Windows (только значения REG_SZ (string))
+[formats timestamp x (seconds since 1/1/1970) in date format y]
+выводит время x (в секундах с 1/1/1970) в формате даты y
+[formats timestamp x (seconds since 1/1/1970) in time format y]
+выводит время x (в секундах с 1/1/1970) в формате времени y
+[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+y > 0: строка номер y из файла x, y = 0: целый файл, y < 0: строка y от конца файла, y = r: случайная строка
+[uptime in seconds]
+время работы системы в секундах
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+любая переменная среды, определённая в текущей сессии Windows (например, %systemroot%, %allusersprofile% и т.д.)
+[expand environment variable x]
+расширяет переменную окружения x
+[user name]
+Имя пользователя
+[text from clipboard]
+текст из буфера обмена
+;file \plugins\Variables\src\parse_variables.cpp
+[variable set by put(s) with name x]
+переменная заданная put с именем x
+[x, and stores y as variable named x]
+x, и сохраняет y, как переменную с именем x
+[only stores y as variables x]
+только сохраняет y, как переменную x
+;file \plugins\Variables\src\variables.cpp

@@ -1,105 +1,39 @@
 ﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;============================================================
 ;  File: PluginUpdater.dll
-;  Module: PluginUpdater
-;  Versions: 0.0.1.6
+;  Plugin: Plugin updater
+;  Version: 0.1.1.6
+;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
 Обновление плагинов Miranda NG.
-[Plugin Updater]
-Обновление плагинов
-[Check for plugin updates]
-Проверить обновления плагинов
-[Checking new updates...]
-Проверка обновлений...
-[Downloading plugin updates...]
-Загрузка обновлённых плагинов...
-[No updates found.]
-Обновлений нет.
-[View info]
-Посмотреть инфо
-[An error occurred while checking new updates.]
-Во время проверки обновления произошла ошибка.
-[URL for checking updates not found.]
-Ссылка для проверки обновлений не найдена.
-[Downloading version info...]
-Загрузка информации о версиях...
-[No files for update.]
-Нет файлов для обновления.
-[Update checking already started!]
-Обновление уже запущено!
-[Automatically check for plugin updates]
-Автоматически проверять обновления плагинов
-[Plugin updates options]
-Настройки обновления плагинов
-[Remind about not installed plugin updates]
-Напоминать о неустановленных обновлениях
-[Message boxes (*)]
-Диалоги (*)
-[Info messages]
-Инфо сообщения
-[Progress dialogs]
-Диалоги прогресса
-[* Needs popup actions to be enabled]
-* Необходимы включённые действия вспл. окон
-[Not sets for "Message boxes"]
-Не устанавливает для "Диалоги"
-[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
-[Downloading update...]
-Загрузка обновления...
-[Boxes]
-Окна
-[Message boxes]
-Диалоги
-[Plugin Updater HTTP connection]
-HTTP подключение Plugin Updater
+;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Найдены обновления!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 Были найдены обновлённые версии плагинов Miranda NG. Нажмите на кнопку "Детали" для подробной информации.
-['Yes' Button]
-Кнопка 'Да'
-['No' Button]
-Кнопка 'Нет'
+[Update]
+Обновить
+[Details >>]
+Детали >>
+[Cancel]
+Отмена
+[Select &all]
+Выбрать всё
+[Select &none]
+Снять выбор
+[Hotkey]
+Горячая клавиша
+[Go to Customize -> Hotkeys to change the hotkey]
+Настройка в Тонкая настройка -> Горячие клавиши
+[Plugin updates options]
+Настройки обновления плагинов
 [On startup]
 При запуске
 [(but only once a day)]
 (но только 1 раз в день)
 [Every]
 Каждые
-[days]
-дней
-[Select &all]
-Выбрать всё
-[Select &none]
-Снять выбор
-[Details >>]
-Детали >>
-[<< Details]
-<< Детали
-[Go to Customize -> Hotkeys to change the hotkey]
-Настройка в Тонкая настройка -> Горячие клавиши
-[Update icons]
-Обновлять значки
-[Downloading...]
-Загрузка...
-[Succeeded.]
-Завершено.
-[Failed!]
-Ошибка!
-[Skipped.]
-Пропущено.
-[Will be deleted!]
-Удалено!
-[State]
-Состояние
-[Plugins]
-Плагины
-[Icons]
-Значки
-[Other]
-Другое
 [Files source]
 Источник обновления
 [Stable version]
@@ -110,23 +44,124 @@ HTTP подключение Plugin Updater
 Версия в разработке c отладочными символами
 [Custom version]
 Заданная пользователем версия
-[Show full plugin list]
-Список плагинов для установки
+[Notifications]
+Уведомления
+[Message boxes (*)]
+Диалоги (*)
+[Errors]
+Ошибки
+[Info messages]
+Инфо сообщения
+[Progress dialogs]
+Диалоги прогресса
+[Back]
+Фон
+[Text]
+Текст
+[Colors]
+Цвета
+[Use cus&tom colors]
+Настроить цвета
+[Use &Windows colors]
+Цвета Windows
+[Use Pop&up colors]
+Цвета Pop&up
+[Preview]
+Тест
+[Click action]
+Действия по щелчку
+[On left click]
+Левый щелчок
+[On right click]
+Правый щелчок
+[Timeout]
+Таймаут
+[0 = Default]
+0=Умолчание
+[-1 = Infinite]
+-1=Бесконечно
+[Sec]
+сек.
+[* Needs popup actions to be enabled]
+* Необходимы включённые действия вспл. окон
+[Not sets for "Message boxes"]
+Не устанавливает для "Диалоги"
+[Boxes]
+Окна
+[Popups]
+Всплывающие окна
 [Component list]
 Список компонентов
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
 Ниже перечислены все отсутствующие компоненты Miranda NG. Выберите компоненты, которые вы хотите установить.\n\nНажмите на значок информации, чтобы перейти на страницу компонента на сайте.
+[Download]
+Загрузка
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Skipped.]
+Пропущено.
+[Downloading...]
+Загрузка...
+[Failed!]
+Ошибка!
+[Succeeded.]
+Завершено.
+[Plugin Updater]
+Обновление плагинов
 [Download complete]
 Загрузка завершена
 [Download complete. Do you want to go to plugins option page?]
 Загрузка завершена. Перейти на страницу настроек плагинов?
-[List loading already started!]
-Список загружается!
+[Component Name]
+Имя компонента
+[State]
+Состояние
+[Plugins]
+Плагины
+[Icons]
+Значки
+[Other]
+Другое
 [List is empty.]
 Список пуст.
+[List loading already started!]
+Список загружается!
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Will be deleted!]
+Удалено!
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
+Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
+[<< Details]
+<< Детали
+[No updates found.]
+Обновлений нет.
+[Update checking already started!]
+Обновление уже запущено!
+;file \plugins\PluginUpdater\src\Options.cpp
+[hours]
+часа(ов)
+[days]
+дней
+[Test]
+Тест
+[Services]
+Службы
+;file \plugins\PluginUpdater\src\PluginUpdater.cpp
+[Check for plugin updates]
+Проверить обновления плагинов
+[Show full plugin list]
+Список плагинов для установки
+;file \plugins\PluginUpdater\src\Utils.cpp
+['Yes' Button]
+Кнопка 'Да'
+['No' Button]
+Кнопка 'Нет'
 [Plugin info]
 Информация о плагинах
-[Download]
-Загрузка
 [Plugin list]
 Список плагинов
+[Plugin Updater HTTP connection]
+HTTP подключение Plugin Updater
+[Checking new updates...]
+Проверка обновлений...
+[An error occurred while checking new updates.]
+Во время проверки обновления произошла ошибка.

@@ -1,177 +1,155 @@
 ﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
-;  File: sendss.dll
-;  Module: Send ScreenShot
-;  Versions: 0.2.2.3, 0.2.9.5, 0.2.6.3 - 0.2.6.5
+;  File: SendSS.dll
+;  Plugin: Send ScreenShot+
+;  Version: 0.8.3.0
+;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
 Создание и отсылка снимков экрана контакту.
+;file \plugins\SendScreenshotPlus\res\resource.rc
+[Dialog]
+Диалог
+[OK]
+
+[All]
+Все
+[None]
+Нет
+[Cancel]
+Отмена
+[Send screenshot]
+
+[Send screenshot to\n<unknown>]
+
+[Ti&med capture]
+Задержка захвата
+[Time (secs):]
+Секунд:
+[&Format:]
+Формат:
+[Send B&y:]
+Через:
+[E&xplore]
+Обзор
+[&Fill description textbox.]
+Заполнить строки описания.
+[Delete &after send]
+Удалить после отправки
+[Open again]
+Откр. снова
+[&Capture]
+Захват
+[About]
+
+[%s\nv%s]
+
+[Credits >]
+Авторы >
+[&Close]
+&Закрыть
+[Edit]
+Изменить
+[C&lient Area]
+Содержимое
+[Caption:]
+Заголовок:
+[Size (HxW):]
+Размер (ВxШ):
+[Target Tool]
+
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[GCHAT error]
+
+[An unknown error has occurred.]
+Неизвестная ошибка.
+[Error]
+Ошибка
+;file \plugins\SendScreenshotPlus\src\CSend.h
+[Unable to initiate %s.]
+
+[MAPI error (%i):\n%s.]
+
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+
+[The specified attachment was not found]
+
+[The specified attachment could not be opened]
+
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+
+[One or more unspecified errors occurred]
+
+[There was insufficient memory to proceed]
+
+[One or more recipients were invalid or did not resolve to any address]
+
+[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+
+[The text in the message was too large]
+
+[There were too many file attachments]
+
+[There were too many recipients]
+
+[A recipient did not appear in the address list]
+
+[The user canceled one of the dialog boxes]
+
+[Unknown Error]
+
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+[FTPFile transfer]
+
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[Could not start the HTTP Server plugin.]
+Не могу запустить плагин HTTP Сервер.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+
+;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Upload server did not respond timely.]
+
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Retry]
+Ещё раз
+[Yes]
+Да
+[No]
+Нет
+[Abort]
+
+[Ignore]
+Игнорировать
+;file \plugins\SendScreenshotPlus\src\global.h
+[SendScreenshot - Error]
+
+;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Fatal error, image services not found. Send Screenshot will be disabled.]
+
+[Open SendSS+]
+Открыть SendSS+
 [SendSS]
 Отправить скриншот
-[Send using:]
-Способ отправки:
-[Miranda's File Transfer.]
-Передача файлов Miranda NG
-[Send to default email client.]
-Отправить через e-mail клиент
-[Method for capturing the screenshot:]
-Метод получения скриншота:
-[Internal function.]
-Внутренняя функция
-[PrintScreen Emulation. (waste clipboard content)]
-Эмуляция PrintScreen (содержимое буфера обмена)
-[Take a screenshot]
-Сделать скриншот
+[Screenshots]
+Снимки экрана
+[SendSS HTTP connections]
+HTTP подключение SendSS
+[Could not create main dialog.]
+Невозможно создать главный диалог.
 [Send Screenshot]
 Отправить скриншот
 [Send desktop screenshot]
 Отправить скриншот экрана
-[Open again]
-Откр. снова
-[&Emulate Send button click.]
-Посылать автоматически
-[Send B&y:]
-Через:
-[Single &Window]
-Одно окно
-[Time (secs):]
-Секунд:
-[&Desktop]
-Рабочий стол
-[Size (HxW):]
-Размер (ВxШ):
-[Caption:]
-Заголовок:
-[E&xplore]
-Обзор
-[&Capture]
-Захват
-[<Unknown Contact>]
-<Неизвестный контакт>
-[Drag&Drop the target on the desired window.]
-Перетащите прицел на нужное окно.
-[Use Edit&or]
-Редактор
-[&Fill description textbox.]
-Заполнить строки описания.
-[&Format:]
-Формат:
-[Delete &after send]
-Удалить после отправки
-[Send screenshot to <Unknow Contact> - Capture Options]
-Отправить скриншот: <Неизвестный контакт> - Настройки захвата
-[Ti&med capture]
-Задержка захвата
-[C&lient Area]
-Содержимое
-[&Just save it]
-Только сохр.
-[Area]
-Область
-[Could not start the HTTP Server plugin.]
-Не могу запустить плагин HTTP Сервер.
-[FTP File is not loaded!]
-FTP File не загружен!
-[HTTP Server is not loaded!]
-HTTP Server не загружен!
-[New width?]
-Новая ширина?
-[Select a target window.]
-Выберите окно для отправки.
-[Send the screenshot?]
-Послать скриншот?
-[Set &Width]
-Ширина
-[Set C&olor]
-Цвет
-[Set Width]
-Ширина
-[Type the text to be draw:]
-Наберите текст:
-[Upload completed!]
-Загрузка завершена!
-[&Crop tool]
-Обрезать
-[&Ellipse tool]
-Эллипс
-[&Line tool]
-Линия
-[&Pen tool]
-Ручка
-[&Rectangle tool]
-Прямоугольник
-[&Set Width]
-Ширина
-[&Text tool]
-Текст
-[&Tools]
-Инструменты
-[A&bout]
-О программе
-[C&hoose]
-Выбор
-[Clo&se]
-Закрыть
-[Close&&S&end]
-Закрыть&&Послать
-[Close&&Sa&ve]
-Закрыть&&Сохранить
-[Destination for the image file(s):]
-Назначение изображений:
-[Fille&d]
-Заполнять
-[Transparent &Background]
-Прозрачный фон
-[Miranda is exiting]
-Miranda NG выходит
-[Could not create main dialog.]
-Невозможно создать главный диалог.
-[Can't create a Screenshot]
-Невозможно создать скриншот
-[Close all capture dialogs and edit windows now, after that press OK.]
-Закрыть все диалоги захвата и окна редактора, после нажатия OK.
-[Not a supported file type.]
-Тип файла не поддерживается.
-[Could not register miranda service MS_SENDSS_SENDDESKTOP.]
-Невозможно связать службу Miranda NG MS_SENDSS_SENDDESKTOP.
-[Starting upload!]
-Начало закачки!
-[Send screenshot to <unknown> - Capture Options]
-Послать снимок <unknown> - Настройки захвата
-[Could not add a share to the FTP File plugin.]
-Невозможно добавить ресурс в плагин FTP File.
-[Could not add a share to the HTTP Server plugin.]
-Невозможно добавить ресурс в плагин HTTP Server.
-[C&olor]
-Цвет
-[Selection Tool]
-Выделение
-[Tool &Options]
-Опции
-[&Capture Again]
-Захватить снова
-[&Crop]
-Обрезать
-[&Ellipse]
-Овал
-[&Line]
-Строка
-[&Pen]
-Ручка
-[&Text]
-Текст
-[<unknow>]
-<неизвестно>
-[JPG Quality]
-JPG качество
-[Print&Screen Emulation]
-Эмуляция скриншота
-[(Unknow Contact)]
-(Неизвестный контакт)
-[<Unknow Contact>]
-(Неизвестный контакт)
-[Overlays]
-Оверлеи
+[Take a screenshot]
+Сделать скриншот
+[Could not register miranda service.]
+
+[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Screenshot Icon1]
 Значок снимка 1
 [Screenshot Icon2]
@@ -180,10 +158,16 @@ JPG качество
 Курсор цель
 [Target Desktop]
 Курсор рабочий стол
+[Default]
+По умолчанию
 [Overlay on]
 Оверлей вкл
 [Overlay off]
 Оверлей выкл
+[Help]
+Справка
+[Open Folder]
+Открыть папку
 [Description off]
 Описание выкл
 [Description on]
@@ -192,9 +176,70 @@ JPG качество
 Удаление выкл
 [Delete on]
 Удаление вкл
-[Screenshots]
-Снимки экрана
-[SendSS HTTP connections]
-HTTP подключение SendSS
-[Open SendSS+]
-Открыть SendSS+
+[Prev]
+Назад
+[Next]
+Вперёд
+[Update]
+Обновить
+[Apply]
+Применить
+[Down arrow]
+Вниз
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Buttons]
+Кнопки
+[Overlays]
+Оверлеи
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[Credits]
+
+[< Copyright]
+< Права
+[Copyright]
+
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Drag&Drop the target on the desired window.]
+Перетащите прицел на нужное окно.
+[Send screenshot to\n]
+
+[Window]
+Окно
+[Desktop]
+Рабочий стол
+[<Entire Desktop>]
+
+[Monitor]
+
+[ (primary)]
+
+[<Only save>]
+
+[File Transfer]
+Передача файла
+[E-mail]
+E-mail
+[FTP File]
+Файл на FTP
+[ImageShack]
+
+[Information]
+Информация
+[Fill description textbox.]
+
+[Delete after send]
+
+[Capture]
+
+[Can't create a Screenshot]
+Невозможно создать скриншот
+[Select a target window.]
+Выберите окно для отправки.
+[Screenshot ]
+
+[for Client area ]
+
+[of "]
+
+[" Window]
+

@@ -1,48 +1,67 @@
 ﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
-;  Module: Tipper, Tipper YM
-;  Versions: 0.4.1.6-2.0.4.11
-;  Url: http://addons.miranda-im.org/feed.php?dlfile=2791
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
 ;============================================================
-[xStatus: empty xStatus name to default name]
-хСтатус: пустое имя в имя по умолчанию
 [Tool Tip notification windows.]
 Плагин всплывающих подсказок для списка контактов.
-[Min width:]
-Мин. ширина:
-[Min height:]
-Мин. высота:
+;file \plugins\TipperYM\res\resource.rc
+[Options]
+
+[Layout]
+Размещение
+[Text indent:]
+Отступ текста:
+[Window]
+Окно
+[Max width:]
+Макс. ширина:
+[Max height:]
+Макс. высота:
+[Avatar size:]
+Аватар:
+[Show if list not focused]
+Список не в фокусе
+[General padding:]
+Основной отступ:
+[Hover time:]
+Задержка:
 [Status bar tips]
 Подсказки в панели статуса
+[Alignment]
+Выравнивание
 [Labels:]
 Названия:
 [Values:]
 Значения:
-[General padding:]
-Основной отступ:
+[Min width:]
+Мин. ширина:
+[Min height:]
+Мин. высота:
+[Sidebar width:]
+Ширина врезки:
 [Text padding:]
 Межстрочный отступ:
-[Avatar padding:]
-Отступ аватара:
-[Center]
-Центр
-[Max height:]
-Макс. высота:
-[Show if list not focused]
-Список не в фокусе
-[Last message]
-Посл. сообщ.
-[Substitutions]
-Подстановки
-[Right labels]
-Метки справа
-[Hover time:]
-Задержка:
-[XP only]
-Только XP
+[Outer avatar padding:]
+Внеш. отступ аватара:
+[Round corners (avatar)]
+Округлять углы аватара
+[Keep original avatar size]
+Сохранять размер аватара
+[Avatar border]
+Рамка аватара
+[Title indent:]
+Отступ заголовка:
+[Value indent:]
+Отступ значения:
+[Inner avatar padding:]
+Внут. отступ аватара:
 [Substitution]
 Подстановка
+[Label:]
+Метка:
 [Contact protocol module]
 Модуль протокола контакта
 [Module:]
@@ -51,429 +70,634 @@
 Параметр, префикс:
 [Translation:]
 Преобразование:
+[OK]
+
+[Cancel]
+Отмена
+[Item]
+Элемент
 [Value:]
 Значение:
 [Draw a line above]
 Рисовать линию сверху
 [Value on a new line]
 Значение с новой строки
-[<prefix>Day|Month|Year to age]
-<префикс>день|месяц|год - в возраст
-[<prefix>Day|Month|Year to date]
-<префикс>день|месяц|год - в дату
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<префикс>день|месяц|год|часы|мин|сек - в разницу времени
-[<prefix>Hours|Minutes to time]
-<префикс>часы|минуты - во время
-[<prefix>Hours|Minutes|Seconds to time]
-<префикс>часы|минуты|секунды - во время
-[BYTE to Male/Female (ICQ)]
-Байт - в пол (М/Ж) (ICQ)
-[BYTE to Yes/No]
-Байт - в значение Да/Нет
-[DWORD timestamp to date (long)]
-Дв. слово - в дату (длинную)
-[DWORD timestamp to date (short)]
-Дв. слово - в дату (короткую)
-[DWORD timestamp to time (no seconds)]
-Дв. слово - в дату (без секунд)
-[DWORD timestamp to time difference]
-Дв. слово - в разницу времени
-[DWORD timestamp to time]
-Дв. слово - во время
-[DWORD to ip address]
-Дв. слово - в IP-адрес
-[WORD to country name]
-Слово - в название страны
-[WORD to status description]
-Слово - в описание статуса
-[[No translation]]
-(без преобразования)
-[Last message:]
-Последнее сообщение:
-[Labels]
-Метки
-[Values]
-Значения
-[Content]
-Содержимое
-[No icon]
-Без значка
-[No title]
-Без заголовка
-[Bottom]
-Низ
-[%dm]
-%dмин
-[%dh %dm]
-%dчас %dмин
-[%dd %dh %dm]
-%dдн %dчас %dмин
-[Dimensions]
-Размеры
-[Keep original avatar size]
-Сохранять размер аватара
-[Max avatar size:]
-Размер (макс.):
-[Background image:]
-Фоновый рисунок:
-[Stretch]
-Растянуть
-[Item]
-Элемент
-[BYTE timezone to time]
-Байт зона времени во время
-[DWORD seconds to time difference]
-Дв. слово секунд во временную разницу
-[%dy %dd %dh %dm]
-%dг %dдн %dчас %dмин
-[Use glyph transformation]
-Трансформация глифов
-[Country flag]
-Флаг страны
-[Use item]
-Использовать
-[Extra status]
-xСтатус
-[Tooltip skin]
-Скин подсказки
-[Smileys support]
-Смайлики
-[Avatar border]
-Рамка аватара
-[Draw options]
-Опции отображения
-[Stretch both directions]
-Растянуть во все стороны
-[Tile both directions]
-Замостить оба направления
-[Disable status message retrieve in invisible status]
-Отключить запрос сообщения статуса в невидимом режиме
+[Preset items:]
+Заданные элементы:
+[Variables]
+Переменные
+[Parse Tipper variables first]
+Обрабатывать переменные подсказок первыми
+[Items]
+Элементы
+[Substitutions]
+Подстановки
+[Add]
+Добавить
+[Remove]
+Удалить
+[Up]
+Вверх
+[Down]
+Вниз
+[Edit]
+Изменить
+[Separator]
+
+[Advanced options]
+Дополнительно
 [Retrieve XStatus details if auto-retrieve is disabled]
 Запрашивать подробный xСтатус, если автозапрос выключен
-[Margins]
-Поля
-[Title indent:]
-Отступ заголовка:
-[Value indent:]
-Отступ значения:
-[Outer avatar padding:]
-Внеш. отступ аватара:
-[Inner avatar padding:]
-Внут. отступ аватара:
-[Show effect]
-Эффект
-[Animation]
-Анимация
-[Fade]
-Затухание
-[Tray tooltip]
+[Extra icons]
+Экстра значки
+[Smileys support]
+Смайлики
+[Enable SmileyAdd support]
+Поддержка смайликов
+[Resize smileys]
+Масштабировать смайлы
+[Use protocol smileys]
+Смайлики протокола
+[Replace only isolated smileys]
+Только смайлы через пробел
+[Retrieve new status message]
+Запрашивать сообщение статуса
+[Show tooltip after all content is ready (avatar && status message)]
+Показать подсказку только после загрузки всего содержимого
+[Status bar and tray tooltip]
+Панель статуса и подсказка в трее
+[Limit status messages in status bar and tray tooltips to:]
+Ограничить сообщение в панели статуса и в подсказке трея до:
+[characters]
+символов
+[Disable in invisible status]
+Отключить запрос, когда невидимый
+[Skins]
+Скины
+[Opacity (%):]
+Непрозрачность (%):
+[Transparency]
+Прозрачность
+[Effects]
+Эффекты
+[Border]
+Рамка
+[Shadow]
+Тень
+[Round corners (window)]
+Округлять углы окна
+[Aero Glass (Vista+)]
+Эффект Aero Glass (Vista+)
+[Animation speed:]
+Скорость анимации:
+[Preview]
+Тест
+[No preview]
+Нет превью
+[Skin option]
+Настройка скина
+[Load fonts and colors]
+Загружать шрифты и цвета
+[Enable skin coloring]
+Раскраска скинов
+[Reload skin list]
+Обновить список скинов
+[Apply skin]
+Применить скин
+[Load tooltip proportions]
+Загружать пропорции подсказки
+[Get more skins]
+Скачать скины
+[Enable tray tooltips]
 Подсказки в трее
-[Enable tray tooltip]
-Подсказки в трее
-[Enable extended tray tooltip]
-Расширенные подсказки в трее
-[Tray title]
-Заголовок в трее
-[Use status bar setting]
-Настройки панели статуса
-[Expand tooltip after:]
-Развернуть подсказку после:
-[Number of contacts]
-Кол-во контактов
-[Logon time]
-Время входа
-[Unread emails]
-Непрочитанные письма
+[Handle tray tooltips by Tipper]
+Перехватывать подсказки в трее
 [Favorite contacts]
 Избранные контакты
-[Clist event]
-Событие списка
-[Miranda uptime]
-Время работы Miranda NG
+[Expand to second level after:]
+Второй ур-нь подсказки через:
+[ms]
+мс
+[First level tooltip]
+Подсказка первого уровня
+[Second level tooltip]
+Подсказка второго уровня
+[Hide offline protocols]
+Прятать отключённые протоколы
 [Hide offline]
 Скрыть отключённых
 [Append protocol name]
 Добавить имя протокола
-[XStatus:]
-хСтатус:
-[Log on:]
-В сети:
-[Miranda uptime:]
-Время работы Miranda NG:
-[Idle:]
-В ожидании:
-[ ago]
- назад
+;file \plugins\TipperYM\src\mir_smileys.cpp
+[Tipper smileys]
+Подсказки
+;file \plugins\TipperYM\src\options.cpp
+[You must enter a label]
+Вы должны ввести метку
+[Invalid Substitution]
+Ошибочная замена
 [<No Label>]
 <Без метки>
+[Add item]
+Добавить
+[Add separator]
+Добавить разделитель
+[Move up]
+Выше
+[Move down]
+Ниже
+[Icon on left]
+Значок слева
+[Icon on right]
+Значок справа
+[No icon]
+Без значка
+[No title]
+Без заголовка
+[Bottom right]
+Внизу справа
+[Bottom left]
+Внизу слева
+[Top right]
+Вверху справа
+[Top left]
+Вверху слева
+[Top]
+Верх
+[Center]
+Центр
+[Bottom]
+Низ
+[Left]
+Слева
+[Right]
+Справа
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар слева
+[Right avatar]
+Аватар справа
+[Max avatar size:]
+Размер (макс.):
+[None]
+Нет
+[Animation]
+Анимация
+[Fade]
+Затухание
+[Appearance]
+Внешний вид
+[Tooltips]
+Подсказки
+[Customize]
+Тонкая настройка
+[Content]
+Содержимое
+[Tray tooltip]
+Подсказки в трее
+[Extra]
+Другое
+;file \plugins\TipperYM\src\options.h
+[Number of contacts]
+Кол-во контактов
+[Protocol lock status]
+Заблокированный статус
+[Logon time]
+Время входа
+[Unread emails]
+Непрочитанные письма
+[Status]
+Статус
+[Status message]
+Сообщение статуса
+[Extra status]
+xСтатус
+[Listening to]
+Слушаю
+[Miranda uptime]
+Время работы Miranda NG
+[Clist event]
+Событие списка
+[Jabber activity]
+Занятие Jabber
+[Gender]
+Пол
+[Country flag]
+Флаг страны
+[Client]
+Клиент
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (заблокирован)
+[%s ago]
+
+[Log on:]
+В сети:
+[Unread emails:]
+Непрочитанных писем:
+[Status:]
+Статус:
+[Status message:]
+Статусное сообщение:
+[Mood:]
+Настроение:
+[XStatus:]
+хСтатус:
+[Activity:]
+Занятие:
+[Listening to:]
+Слушаю:
 [Copy all items with labels]
 Копировать все с метками 
 [Copy all items]
 Копировать все
 [Copy avatar]
 Копировать аватар
-[Displayed protocols]
-Отображаемые протоколы
-[Do you want to import selected skin setting? Current setting will be overwritten.]
-Импортировать выбранный скин? Текущие настройки будут перезаписаны.
+[<No Label>: ]
+
+[<No Value>]
+
 [Fav. contacts]
 Избранные
-[Invalid Substitution]
-Ошибочная замена
-[Last message: (%sys:last_msg_reltime% ago)
-Последнее сообщение: (%sys:last_msg_reltime% назад)
-[New global status message.]
-Новое глобальное статус-сообщение
-[Select image]
-Выбрать изображение
-[Tipper error]
-Ошибка Tipper
-[Tipper skin import]
-Импорт скина подсказки
-[Tipper smileys]
-Подсказки
-[Xstatus:]
-хСтатус:
-[You must enter a label]
-Вы должны ввести метку
-[You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
-Вам нужен плагин advaimg.dll для поддержки скинов. Он есть в последних альфа сборках Miranda NG.
-[Empty message]
-Пустое сообщение
-[Tooltips View]
-Вид подсказок
-[Tooltips Content]
-Содержание подсказок
-[Jabber activity]
-Занятие Jabber
-[Tipper YM]
-Подсказки
-[XStatus title]
-Заголовок хСтатуса
-[IP internal]
-Внутренний IP
-[Predefined items:]
-Предопределённые элементы:
+[Other]
+Другое
+[Miranda uptime:]
+Время работы Miranda NG:
+;file \plugins\TipperYM\src\preset_items.cpp
+[Birthday]
+День рождения
+[Birthday:]
+День рождения:
+[Client:]
+Клиент:
+[Email]
+
+[Email:]
+
+[Gender:]
+Пол:
+[Homepage]
+Сайт
+[Homepage:]
+Сайт:
 [Identifier]
 Идентификатор
-[XStatus text]
-Текст хСтатуса
-[Number of sent messages]
-Количество отправленных сообщений
-[Number of received messages]
-Количество полученных сообщений
-[[jabber.dll] Activity title]
-(jabber.dll) Заголовок занятия
-[[jabber.dll] Activity text]
-(jabber.dll) Текст занятия
-[[weather.dll] Max/Min temperature]
-(weather.dll) Макс/мин температура
-[[weather.dll] Pressure]
-(weather.dll) Давление
-[[weather.dll] Update time]
-(weather.dll) Время обновления
-[[weather.dll] Sunrise]
-(weather.dll) Восход
-[[weather.dll] Humidity]
-(weather.dll) Влажность
-[[weather.dll] Visibility]
-(weather.dll) Видимость
-[[weather.dll] Wind]
-(weather.dll) Ветер
-[[weather.dll] Moon]
-(weather.dll) Луна
-[[weather.dll] Temperature]
-(weather.dll) Температура
-[[weather.dll] UV Index]
-(weather.dll) Индекс УФ
-[[weather.dll] Condition]
-(weather.dll) Состояние
-[[weather.dll] Sunset]
-(weather.dll) Закат
-[[seenplugin.dll] Last seen time]
-(seenplugin.dll) Последнее появление
-[[seenplugin.dll] Last seen status]
-(seenplugin.dll) Последний статус
-[<prefix>Day|Month to days to next birthday]
-<префикс>день|месяц - в днях до следующего дня рождения
-[Any to /Idle or empty]
-Любое в /В ожидании или пусто
-[Any to Idle/Not Idle/Unknown]
-Любое в /В ожидании/Не в ожидании/Неизвестно
-[Hide offline protocols]
-Прятать отключённые протоколы
-[Basic tooltip]
-Основная подсказка
-[Expanded tooltip]
-Расширенная подсказка
-[Effect speed:]
-Скорость эффекта
-[Aero Glass (Vista+)]
-Эффект Aero Glass (Vista+)
-[Protocol lock status]
-Заблокированный статус
-[Tipper]
-Подсказки
-[Replace only isolated smileys]
-Только смайлы через пробел
-[Show tooltip after all content is ready (avatar && status message)]
-Показать подсказку только после загрузки всего содержимого
-[Disable status message retrieve in all statuses]
-Выключить восстановление статусного сообщения
-[Preset items:]
-Заданные элементы:
-[Add separator]
-Добавить разделитель
-[Status bar and tray tooltip]
-Панель статуса и подсказка в трее
-[Limit status messages in status bar and tray tooltips to:]
-Ограничить сообщение в панели статуса и в подсказке трея до:
+[Idle]
+Ожидание
+[Idle:]
+В ожидании:
+[IP]
+
+[IP:]
+
+[IP internal]
+Внутренний IP
 [IP internal:]
 Внутренний IP:
-[BYTE to language (ICQ)]
-Байт - в язык (ICQ)
-[WORD to name of a day (0..6, 0 = Sunday)]
-Слово - в название день недели (0..6, 0 = Воскресенье)
-[WORD to name of a month (1..12, 1 = January)]
-Слово - в название месяца (1..12, 1 = Январь)
+[Last message]
+Посл. сообщ.
 [Last message: (%sys:last_msg_reltime% ago)]
 Последнее сообщение: (%sys:last_msg_reltime% назад)
-[Add item]
-Добавить
-[No preview]
-Нет превью
-[Skin option]
-Настройка скина
-[Animation speed:]
-Скорость анимации:
-[Load fonts and colors on startup]
-Грузить шрифты, цвета на старте
-[Enable skin coloring]
-Раскраска скинов
-[Apply skin]
-Применить скин
-[Reload skin list]
-Обновить список скинов
-[Load tooltip proportions]
-Загружать пропорции подсказки
-[Load fonts and colors]
-Загружать шрифты и цвета
-[Tipper skins]
-Скины подсказок
-[Activity title:]
-Заголовок занятия:
-[Activity text:]
-Текст занятия:
-[Last seen time:]
-Последнее появление:
-[Last seen status:]
-Последний статус:
-[Wind:]
-Ветер:
-[Visibility:]
-Видимость:
-[Humidity:]
-Влажность:
-[Update time:]
-Время обновления:
-[Pressure:]
-Давление:
-[Moon:]
-Луна:
-[Max/Min:]
-Макс./мин. температура: 
-[Condition:]
-Состояние:
-[Temperature:]
-Температура:
-[UV Index:]
-Индекс УФ:
-[XStatus title:]
-Заголовок хСтатуса:
-[Number of msg [OUT]:]
-Количество отправленных сообщений:
+[Name]
+Имя
+[Name:]
+Имя:
+[Number of received messages]
+Количество полученных сообщений
 [Number of msg [IN]:]
 Количество полученных сообщений:
-[Listening to:]
-Слушаю:
+[Number of sent messages]
+Количество отправленных сообщений
+[Number of msg [OUT]:]
+Количество отправленных сообщений:
+[Contact time]
+Время контакта
+[Time:]
+Время:
+[XStatus title]
+Заголовок хСтатуса
+[XStatus title:]
+Заголовок хСтатуса:
+[XStatus text]
+Текст хСтатуса
 [XStatus text:]
 Текст хСтатуса:
-[Enable tray tooltips]
-Подсказки в трее
-[Handle tray tooltips by Tipper]
-Перехватывать подсказки в трее
-[Expand to second level after:]
-Второй ур-нь подсказки через:
-[Fav]
-Избр.
-[First level tooltip]
-Подсказка первого уровня
-[Second level tooltip]
-Подсказка второго уровня
-[Resize smileys]
-Масштабировать смайлы
+[[jabber.dll] Activity title]
+(jabber.dll) Заголовок занятия
+[Activity title:]
+Заголовок занятия:
+[[jabber.dll] Activity text]
+(jabber.dll) Текст занятия
+[Activity text:]
+Текст занятия:
+[[seenplugin.dll] Last seen time]
+(seenplugin.dll) Последнее появление
+[Last seen time:]
+Последнее появление:
+[[seenplugin.dll] Last seen status]
+(seenplugin.dll) Последний статус
+[Last seen status:]
+Последний статус:
+[[weather.dll] Condition]
+(weather.dll) Состояние
+[Condition:]
+Состояние:
+[[weather.dll] Humidity]
+(weather.dll) Влажность
+[Humidity:]
+Влажность:
+[[weather.dll] Max/Min temperature]
+(weather.dll) Макс/мин температура
+[Max/Min:]
+Макс./мин. температура: 
+[[weather.dll] Moon]
+(weather.dll) Луна
+[Moon:]
+Луна:
+[[weather.dll] Pressure]
+(weather.dll) Давление
+[Pressure:]
+Давление:
+[[weather.dll] Sunrise]
+(weather.dll) Восход
+[Sunrise:]
+Восход:
+[[weather.dll] Sunset]
+(weather.dll) Закат
+[Sunset:]
+Закат:
+[[weather.dll] Temperature]
+(weather.dll) Температура
+[Temperature:]
+Температура:
+[[weather.dll] Update time]
+(weather.dll) Время обновления
+[Update time:]
+Время обновления:
+[[weather.dll] UV Index]
+(weather.dll) Индекс УФ
+[UV Index:]
+Индекс УФ:
+[[weather.dll] Visibility]
+(weather.dll) Видимость
+[Visibility:]
+Видимость:
+[[weather.dll] Wind]
+(weather.dll) Ветер
+[Wind:]
+Ветер:
+;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 # заливка цветом
-[Mood:]
-Настроение:
-[Activity:]
-Занятие:
+;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Фон
+[Dividers]
+Разделители
+[Sidebar]
+Врезка
+[Title]
+Заголовок
+[Labels]
+Метки
+[Values]
+Значения
+[Tray title]
+Заголовок в трее
+[Tipper]
+Подсказки
+;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Женский
+[Male]
+Мужской
+[[No translation]]
+(без преобразования)
+[WORD to status description]
+Слово - в описание статуса
+[DWORD timestamp to time]
+Дв. слово - во время
+[DWORD timestamp to time difference]
+Дв. слово - в разницу времени
+[BYTE to Yes/No]
+Байт - в значение Да/Нет
+[BYTE to Male/Female (ICQ)]
+Байт - в пол (М/Ж) (ICQ)
+[WORD to country name]
+Слово - в название страны
+[DWORD to ip address]
+Дв. слово - в IP-адрес
+[<prefix>Day|Month|Year to date]
+<префикс>день|месяц|год - в дату
+[<prefix>Day|Month|Year to age]
+<префикс>день|месяц|год - в возраст
+[<prefix>Hours|Minutes|Seconds to time]
+<префикс>часы|минуты|секунды - во время
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<префикс>день|месяц|год|часы|мин|сек - в разницу времени
+[<prefix>Day|Month to days to next birthday]
+<префикс>день|месяц - в днях до следующего дня рождения
+[DWORD timestamp to time (no seconds)]
+Дв. слово - в дату (без секунд)
+[<prefix>Hours|Minutes to time]
+<префикс>часы|минуты - во время
+[DWORD timestamp to date (short)]
+Дв. слово - в дату (короткую)
+[DWORD timestamp to date (long)]
+Дв. слово - в дату (длинную)
+[xStatus: empty xStatus name to default name]
+хСтатус: пустое имя в имя по умолчанию
+[DWORD seconds to time difference]
+Дв. слово секунд во временную разницу
+[BYTE timezone to time]
+Байт зона времени во время
 [WORD to name of a day (0..6, 0 is Sunday)]
 Слово - в название дня недели (0..6, 0 - воскресенье)
 [WORD to name of a month (1..12, 1 is January)]
 Слово - в название месяца (1..12, 1 - январь)
-[Get more skins]
-Скачать скины
-[Parse Tipper variables first]
-Обрабатывать переменные подсказок первыми
-[Meta contact:]
-Мета контакт:
-[Cellular:]
-Мобильный:
-[X-Status:]
-Х-Статус:
-[Last seen:]
-Последнее появление:
-[Online since:]
-В сети с:
-[Away since:]
-Отсутствует с:
-[NA since:]
-Недоступен с:
-[Registered:]
-Зарегистрирован:
-[Idle ago:]
-Неактивен с:
-[Total messages: %sys:msg_count_all%]
-Всего сообщений: %sys:msg_count_all%
-[Rainfall:]
-Осадки:
-[Sunrise / Sunset:]
-Восход/Закат:
-[Phase of moon:]
-Фаза луны:
-[Tomorrow:]
-Завтра:
-[Day after tomorrow:]
-Послезавтра:
-[Station URL:]
-URL станции:
-[Genre:]
-Жанр:
-[along]
-назад
-[with status]
-со статусом
-[Last message: (%sys:last_msg_reltime% along)]
-Последнее сообщение: (%sys:last_msg_reltime% назад)
-[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
-(принято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
-[[icq.dll] Logon time]
-(icq.dll) Время входа
-[Retrieve new status message]
-Запрашивать сообщение статуса
-[Disable in invisible status]
-Отключить запрос, когда невидимый
-[Unread emails:]
-Непрочитанных писем:
+[BYTE to language (ICQ)]
+Байт - в язык (ICQ)
+;file \plugins\TipperYM\src\translations.h
+[Afrikaans]
+Африкаанс
+[Albanian]
+Албанский
+[Arabic]
+Арабский
+[Armenian]
+Армянский
+[Azerbaijani]
+Азербайджанский
+[Belorussian]
+Белорусский
+[Bhojpuri]
+Хойпурийский
+[Bosnian]
+Боснийский
+[Bulgarian]
+Болгарский
+[Burmese]
+Бурмезский
+[Cantonese]
+Катонезийский
+[Catalan]
+Каталанский
+[Chamorro]
+Чаморрский
+[Chinese]
+Китайский
+[Croatian]
+Хорватский
+[Czech]
+Чешский
+[Danish]
+Датский
+[Dutch]
+Голландский
+[English]
+Английский
+[Esperanto]
+Эсперанто
+[Estonian]
+Эстонский
+[Farsi]
+Фарси
+[Finnish]
+Финский
+[French]
+Французский
+[Gaelic]
+Гайский
+[German]
+Немецкий
+[Greek]
+Греческий
+[Gujarati]
+Гуджаратский
+[Hebrew]
+Иврит
+[Hindi]
+Хинди
+[Hungarian]
+Венгерский
+[Icelandic]
+Исландский
+[Indonesian]
+Индонезийский
+[Italian]
+Итальянский
+[Japanese]
+Японский
+[Khmer]
+Хмерский
+[Korean]
+Корейский
+[Kurdish]
+Курдский
+[Lao]
+Лаосский
+[Latvian]
+Латышский
+[Lithuanian]
+Литовский
+[Macedonian]
+Македонский
+[Malay]
+Малайский
+[Mandarin]
+Мандарин
+[Mongolian]
+Монгольский
+[Norwegian]
+Норвежский
+[Persian]
+Персидский
+[Polish]
+Польский
+[Portuguese]
+Португальский
+[Punjabi]
+Панджабский
+[Romanian]
+Румынский
+[Russian]
+Русский
+[Serbo-Croatian]
+Сербохорватский
+[Sindhi]
+Синди
+[Slovak]
+Словацкий
+[Slovenian]
+Словенский
+[Somali]
+Сомалийский
+[Spanish]
+Испанский
+[Swahili]
+Суахили
+[Swedish]
+Шведский
+[Tagalog]
+Тагалог
+[Taiwanese]
+Тайваньский
+[Tamil]
+Тамильский
+[Tatar]
+Татарский
+[Thai]
+Тайский
+[Turkish]
+Турецкий
+[Ukrainian]
+Украинский
+[Urdu]
+Урду
+[Vietnamese]
+Вьетнамский
+[Welsh]
+Уэльский
+[Yiddish]
+Идиш
+[Yoruba]
+Ёрубский
+[Sunday]
+Воскресенье
+[Monday]
+Понедельник
+[Tuesday]
+Вторник
+[Wednesday]
+Среда
+[Thursday]
+Четверг
+[Friday]
+Пятница
+[Saturday]
+Суббота
+[January]
+Январь
+[February]
+Февраль
+[March]
+Март
+[April]
+Апрель
+[May]
+Май
+[June]
+Июнь
+[July]
+Июль
+[August]
+Август
+[September]
+Сентябрь
+[October]
+Октябрь
+[November]
+Ноябрь
+[December]
+Декабрь

@@ -1,30 +1,15 @@
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
-;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+, FingerprintNG
-;  Versions: 0.1.0.0
-;  URL: http://miranda-ng.org/
-;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/FingerprintNG/
-;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS, Mataes
+;  Plugin: Fingerprint NG
+;  Version: 0.1.0.0
+;  Authors: faith_healer, ghazan, mataes
 ;============================================================
-[Show Miranda version]
-Показывать версию Miranda
-[Pack overlays]
-Оверлеи сборок
-[Fingerprint]
-Значки клиентов
-[Undetected client]
-Неопределённый клиент
-[Unknown client]
-Неизвестный клиент
-[Platform]
-Операционная система
 [Fingerprint NG (client version) icons module for Miranda NG.]
 Fingerprint NG отображает значки клиентов, используемых вашими собеседниками.
+;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
 Оверлеи значков клиентов
-[Client icons]
-Клиенты
 [Miranda clients]
 Клиенты Miranda
 [Miranda packs overlays]
@@ -37,8 +22,12 @@ Fingerprint NG отображает значки клиентов, исполь�
 Оверлеи платформы
 [Protocols overlays]
 Оверлеи протоколов
+[Unicode overlay]
+Оверлей Unicode
 [Secure overlays]
 Оверлеи шифрования
+[Select protocols]
+Протоколы
 [AIM clients]
 Клиенты AIM
 [Gadu-Gadu clients]
@@ -65,80 +54,35 @@ Fingerprint NG отображает значки клиентов, исполь�
 Клиенты Yahoo
 [Multi-protocol clients]
 Мульти-протокольные клиенты
-[Multi-proto clients]
-Мульти-протокол
 [Other (rare) protocols]
 Клиенты редких протоколов
 [Other icons]
 Другие значки
+[Show client icon in message window status bar]
+Показывать значок клиента в панели статуса окна сообщений
+;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Fingerprint]
+Значки клиентов
+;file \plugins\FingerprintNG\src\finger_groups.h
+[Client icons]
+Клиенты
+[Pack overlays]
+Оверлеи сборок
+[Multi-proto clients]
+Мульти-протокол
 [Other protocols]
 Другие протоколы
 [Overlays]
 Оверлеи
-[Windows overlay]
-Оверлей Windows
-[iOS overlay (iPhone/iPad)]
-Оверлей iOS (iPhone/iPad)
-[MacOS overlay]
-Оверлей MacOS
-[Linux overlay]
-Оверлей Linux
-[Flash overlay]
-Оверлей Flash
-[Java overlay]
-Оверлей Java
-[Symbian overlay]
-Оверлей Symbian
-[Amiga overlay]
-Оверлей Amiga
-[Android overlay]
-Оверлей Android
-[SecureIM overlay]
-Оверлей SecureIM
-[x64 overlay]
-Оверлей x64
-[x32 overlay]
-Оверлей x32
-[Unicode overlay]
-Оверлей Unicode
-[AIM overlay]
-Оверлей AIM
-[ICQJ Plus Mod overlay]
-Оверлей ICQJ Plus Mod
-[ICQJ overlay]
-Оверлей ICQJ
-[IRC overlay]
-Оверлей IRC
-[JGmail overlay]
-Оверлей JGmail
-[JGTalk overlay]
-Оверлей JGTalk
-[Jabber overlay]
-Оверлей Jabber
-[MSN overlay]
-Оверлей MSN
-[QQ overlay]
-Оверлей QQ
-[Tlen.pl overlay]
-Оверлей Tlen.pl
-[Yahoo overlay]
-Оверлей Yahoo
-[Mail.Ru Agent overlay]
-Оверлей Mail.Ru Agent
-[debug overlay]
-Оверлей debug
-[office overlay]
-Оверлей office
-[mobile overlay]
-Оверлей mobile
-[home overlay]
-Оверлей home
-[work overlay]
-Оверлей work
-[notebook overlay]
-Оверлей notebook
-[Client not found]
-Ненайденный клиент
+[Resource]
+Ресурс
+[Platform]
+Операционная система
+[Security]
+Безопасность
+[Protocol]
+
+;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Стабильная Miranda NG
 [Miranda IM (old versions)]
@@ -167,6 +111,36 @@ Tlen.pl клиент
 Jabber клиент
 [XMPP client]
 XMPP клиент
+[Client not found]
+Ненайденный клиент
+[Unknown client]
+Неизвестный клиент
+[Undetected client]
+Неопределённый клиент
+[AIM overlay]
+Оверлей AIM
+[ICQJ Plus Mod overlay]
+Оверлей ICQJ Plus Mod
+[ICQJ overlay]
+Оверлей ICQJ
+[IRC overlay]
+Оверлей IRC
+[JGmail overlay]
+Оверлей JGmail
+[JGTalk overlay]
+Оверлей JGTalk
+[Jabber overlay]
+Оверлей Jabber
+[MSN overlay]
+Оверлей MSN
+[QQ overlay]
+Оверлей QQ
+[Tlen.pl overlay]
+Оверлей Tlen.pl
+[Yahoo overlay]
+Оверлей Yahoo
+[Mail.Ru Agent overlay]
+Оверлей Mail.Ru Agent
 [ICQ 2003 overlay]
 ICQ 2003 оверлей
 [ICQ Lite 4 overlay]
@@ -225,6 +199,36 @@ TM 2.x оверлей
 TM 1.x оверлей
 [QQ 2000 overlay]
 QQ 2000 оверлей
+[Windows overlay]
+Оверлей Windows
+[iOS overlay (iPhone/iPad)]
+Оверлей iOS (iPhone/iPad)
+[MacOS overlay]
+Оверлей MacOS
+[Linux overlay]
+Оверлей Linux
+[Flash overlay]
+Оверлей Flash
+[Java overlay]
+Оверлей Java
+[Symbian overlay]
+Оверлей Symbian
+[Amiga overlay]
+Оверлей Amiga
+[Android overlay]
+Оверлей Android
+[debug overlay]
+Оверлей debug
+[office overlay]
+Оверлей office
+[mobile overlay]
+Оверлей mobile
+[home overlay]
+Оверлей home
+[work overlay]
+Оверлей work
+[notebook overlay]
+Оверлей notebook
 [Miranda NG v0.6 #2 overlay]
 Miranda NG v0.6 #2 оверлей
 [Miranda NG v0.5 #2 overlay]
@@ -251,9 +255,16 @@ Miranda IM v0.6 #2 оверлей
 Miranda IM v0.5 #2 оверлей
 [Miranda IM v0.4 #2 overlay]
 Miranda IM v0.4 #2 оверлей
+[x64 overlay]
+Оверлей x64
+[x32 overlay]
+Оверлей x32
 [NewGPG overlay]
 NewGPG оверлей
 [MirOTR overlay]
 MirOTR оверлей
-[Show client icon in message window status bar]
-Показывать значок клиента в панели статуса окна сообщений
+[SecureIM overlay]
+Оверлей SecureIM
+;file \plugins\FingerprintNG\src\options.cpp
+[Icons]
+Значки

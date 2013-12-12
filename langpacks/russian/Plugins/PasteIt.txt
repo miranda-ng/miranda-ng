@@ -1,47 +1,15 @@
-﻿#muuid {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
+﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
 ;============================================================
 ;  File: PasteIt.dll
-;  Module: Paste It
-;  Versions: 1.0.0.0
+;  Plugin: Paste it
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
 ;============================================================
-
-;Main
-[Paste It]
-Размещение на сайте
 [Uploads the text to web page and sends the URL to your friends.]
 Загружает текст на веб-страницу и отправляет URL друзьям.
-[Paste It - Select file]
-Размещение на сайте - Выбрать файл
-[Paste It HTTP connections]
-HTTP подключение Paste It
-
-;Error messages
-[You can only paste 1 file]
-Вы можете разместить только 1 файл
-[Cannot get data from clipboard]
-Не возможно получить данные из буфера обмена
-[File size is %d KB, do you realy want to paste such a large file?]
-Размер файла %d KБ, вы действительно хотите разместить такой большой файл?
-[Cannot read file '%s']
-Невозможно прочитать файл '%s'
-[File size is larger then 10 MB, cannot be sent]
-Файл размером более 10 MБ, не может быть отправлен
-[Cannot open file '%s']
-Невозможно открыть файл '%s'
-[File '%s' is empty]
-Файл '%s' пуст
-[Error during sending text to web page: %s]
-Ошибка при отправке текста на web-страницу: %s
-[Error during sending text to web page]
-Ошибка при отправке текста на web-страницу
-[Error during getting user key from web page: %s]
-Ошибка при получении ключа пользователя от web-страницы: %s
-
-;Options and Menus
-[Paste from clipboard]
-Разместить из буфера
-[Paste from file]
-Разместить из файла
+;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+Настройки
 [Default web page]
 Стандартная web-страница
 [Default file encoding]
@@ -50,18 +18,20 @@ HTTP подключение Paste It
 Автоопределение UTF-8
 [Show confirmation dialog box]
 Показывать диалоговое окно подтверждения
+[Autosend download link to contact]
+Отослать ссылку автоматически
 [Web page settings]
 Настройки web-страницы
 [Web page to configure]
 Web-страница для настройки
+[Configure]
+Настроить
 [Default formatting]
 Форматирование по умолчанию
 [Auto-detect format from file extension]
 Автоматическое определение формата по расширению файла
 [Public paste]
 Разместить публично
-[Paste expire date]
-разместить на срок
 [Login as guest]
 Войти как гость
 [User key]
@@ -70,15 +40,126 @@ Web-страница для настройки
 Получить ключ пользователя
 [Configure formatting]
 Настроить форматирование
+[OK]
+
+[Cancel]
+Отмена
+[Up]
+Вверх
+[Down]
+Вниз
+[Delete]
+Удалить
+[Restore defaults]
+Сбросить
 [Download more]
 Загрузить больше
 [Login to pastebin.com]
 Войти на pastebin.com
+[User name]
+Логин
+[Password]
+Пароль
+[Paste It]
+Размещение на сайте
+[Format]
+Формат
 [Encoding]
 Кодирование
 [Recode]
 Запись
+;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+Кодировка по умолчанию
+[Thai]
+Тайский
+[Japanese]
+Японский
+[Simplified Chinese]
+Китайский (упрощённый)
+[Korean]
+Корейский
+[Traditional Chinese]
+Китайский (традиционный)
+[Central European]
+Центральноевропейский
+[Cyrillic]
+Кириллица
+[Cyrillic KOI8-R]
+Кириллица KOI8-R
+[Latin I]
+Западноевропейский
+[Greek]
+Греческий
+[Turkish]
+Турецкий
+[Hebrew]
+Иврит
+[Arabic]
+Арабский
+[Baltic]
+Балтийский
+[Vietnamese]
+Вьетнамский
+[Korean (Johab)]
+Корейский (Johab)
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Вы ввели неверную кодовую страницу. Выберите кодовую страницу из выпадающего списка или введите правильное имя.
+[Invalid codepage]
+Неверная кодовая страница
+[Services]
+Службы
+[Main]
+Главный
+[Web page]
+Web-страница
+;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+Все файлы (*.*)
+[Paste It - Select file]
+Размещение на сайте - Выбрать файл
+[Error]
+Ошибка
+[Paste from clipboard]
+Разместить из буфера
+[Paste from file]
+Разместить из файла
+[Paste It HTTP connections]
+HTTP подключение Paste It
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+Вы можете разместить только 1 файл
+[Cannot get data from clipboard]
+Не возможно получить данные из буфера обмена
+[File size is %d KB, do you realy want to paste such a large file?]
+Размер файла %d KБ, вы действительно хотите разместить такой большой файл?
+[Are You sure?]
+Вы уверены?
+[Cannot read file '%s']
+Невозможно прочитать файл '%s'
+[File size is larger then 10 MB, cannot be sent]
+Файл размером более 10 MБ, не может быть отправлен
+[Cannot open file '%s']
+Невозможно открыть файл '%s'
+[File '%s' is empty]
+Файл '%s' пуст
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[Error during sending text to web page: %s]
+Ошибка при отправке текста на web-страницу: %s
+[Error during sending text to web page]
+Ошибка при отправке текста на web-страницу
+[Error during getting user key from web page: %s]
+Ошибка при получении ключа пользователя от web-страницы: %s
+[Paste expire date]
+разместить на срок
+[Never]
+Никогда
 [10 minutes]
 10 минут
+[1 hour]
+1 час
+[1 day]
+1 день
 [1 month]
 1 месяц
+;file \plugins\PasteIt\src\PasteToWeb2.cpp

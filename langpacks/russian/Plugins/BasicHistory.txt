@@ -1,107 +1,23 @@
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
-;  Plugin: Basic History
-;  Versions: 1.0.1.4
-;  URL: 
-;  Source: http://xp-dev.com/svn/BasicHistory/trunk/src/
+;  Plugin: Basic history
+;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
 Просмотрщик истории для Miranda NG.
-;Error messages
-;----------------
-[Number of history items to delete: %d.\nAre you sure you want to do this?]
-Количество удаляемых пунктов истории: %d.\nВы действительно этого хотите?
-[You have reached the end of the group.]
-Вы достигли конца группы
-[Invalid event number]
-Недопустимый номер события
-[Enter filter name]
-Введите имя фильтра
-[Filter name exists]
-Имя фильтра существует
-[Event already exists]
-Событие уже существует
-[File do not exist. Enter correct file path.]
-Файл отсутствует. Введи верный путь к файлу.
-[Invalid file]
-Неверный файл
-[Invalid '%s' value.]
-Неверное значение '%s'.
-[Invalid '%s' value.\n%s]
-Неверное значение '%s'.\n%s
-[At least one contact should be selected.]
-Должен быть выбран, хотя бы один контакт
-[To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
-Для создания сессии, откройте WinSCP, нажмите "Новая сессия", введите дату и сохраните под определённым именем. Помните, если FTP сервер использует пароль, то Вы должны сохранить его в WinSCP.
-[FTP path must contains '/' instead '\\' and starts from '/'.]
-FTP путь должен содержать '/' вместо '\ \' и начинаться с '/'.
+;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
 
-;Options and Menus
-;-------------------
-[Outgoing background]
-Исходящий фон
-[Incoming background]
-Входящий фон
-[Window background]
-Фон окна
-[Open global history]
-Открыть глобальную историю
-[Find Previous]
-Найти предыдущее
-[Switch All Contacts]
-Все контакты
-[Switch Match Case]
-Учитывать регистр
-[Switch Match Whole Word]
-Слово целиком
-[Show/Hide Contacts]
-Показать/скрыть контакты
-[Switch Only Incoming Messages]
-Только входящие сообщения
-[Switch Only Outgoing Messages]
-Только исходящие сообщения
-[Show contact list]
-Показать список
-[Hide contact list]
-Скрыть список
-[Hide Contacts]
-Скрыть контакты
-[Show Contacts]
-Показать контакты
-[Match Case]
-Учитывать регистр
-[Match Whole Word]
-Слово целиком
-[Only Incoming Messages]
-Только входящие сообщения
-[Only Outgoing Messages]
-Только исходящие сообщения
-[Save window position as default]
-Сохранить положение окна
-[Save window position for all contacts]
-Сохранить положение окна для всех контактов
-[Delete All User History]
-Удалить всю историю пользователя
+[Settings]
+Настройки
 [Always show contact list]
 Всегда показывать список контактов
-[New messages on top]
-Новые сообщения сверху
-[Delta time to group messages:]
-Ограничить время для сообщений:
-[Limit messages to:]
-Ограничить сообщения до:
-[Search forward in list group]
-Искать дальше в группе
-[Search forward in message window]
-Искать дальше в окне сообщений
-[Only Selected Group]
-Только выбранная группа
-[Switch Only Selected Group]
-Только выбранные группы
-[Default history events]
-События по умолчанию
+[Show groups in contact list]
+Показывать группы в списке контактов
+[Do not show Find control border]
+Не показывать рамку строки поиска
 [Default Event Filter]
 Фильтр событий
 [Custom filters]
@@ -114,76 +30,337 @@ FTP путь должен содержать '/' вместо '\ \' и начи�
 Создать событие
 [Delete event]
 Удалить событие
-[Contacts received]
-Получение контактов
-[Show groups in contact list]
-Показывать группы в списке контактов
-[Rich Html]
-Полноценный HTML
-[Plain Html]
-Чистый HTML
-[Export To Rich Html]
-Экспорт в полноценный HTML
-[Export To Plain Html]
-Экспорт в чистый HTML
-[Export To Txt]
-Экспорт в текст
-[Export To Binary]
-Экспорт в двоичный файл
-[Export To Dat (mContacts)]
-Экспорт в Dat (мКонтакты)
-[Import From Binary]
-Импорт из двоичного файла
-[Import From Dat (mContacts)]
-Импорт из Dat (мКонтакты)
-[File encoding*]
-Кодировка файла*
-[External CSS file]
-Внешний файл CSS
-[* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
-* Выберите кодировку из выпадающего списка или введите имя кодировки через точку с запятой, имя используется в заголовка типа содержимого.
 [WinSCP path]
 Путь к WinSCP
 [WinSCP log path]
 Путь к логам WinSCP
+[New messages on top]
+Новые сообщения сверху
+[Show event icons]
+Значки событий
+[Show timestamps]
+Показывать время
+[Show names]
+Показывать имена
+[Show messages]
+Сообщения
+[Truncate message length to:]
+
+[Delta time to group messages:]
+Ограничить время для сообщений:
+[hours]
+часа(ов)
+[Limit messages to:]
+Ограничить сообщения до:
+[Show date in timestamps]
+Показывать дату 
+[Show seconds in timestamps]
+Показывать секунды
+[Enable Smileys]
+Включить смайлы
+[Search forward in list group]
+Искать дальше в группе
+[Search forward in message window]
+Искать дальше в окне сообщений
+[Match Case]
+Учитывать регистр
+[Match Whole Word]
+Слово целиком
+[Only Incoming Messages]
+Только входящие сообщения
+[Only Outgoing Messages]
+Только исходящие сообщения
+[Only Selected Group]
+Только выбранная группа
+[All Contacts]
+Все контакты
+[Export To Txt]
+Экспорт в текст
+[File encoding*]
+Кодировка файла*
+[Export To Plain Html]
+Экспорт в чистый HTML
+[Export To Rich Html]
+Экспорт в полноценный HTML
+[External CSS file]
+Внешний файл CSS
+[* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
+* Выберите кодировку из выпадающего списка или введите имя кодировки через точку с запятой, имя используется в заголовка типа содержимого.
 [Add task]
 Добавить задачу
 [Edit task]
 Править задачу
 [Delete task]
 Удалить задачу
+[Display errors using popups]
+Показывать ошибки в окнах
+[Save errors to system history]
+Сохранять ошибки в системной истории
+[Task]
+Задача
+[Name]
+Имя
+[Active]
+Активно
 [Action type]
 Тип действия
+[Filter]
+Фильтр
 [Events older than*]
 События старше чем*
-[Events older than]
-События старше чем
 [Triger type]
 Поведение
+[Time]
+Время
 [Delta time]
 Через время
+[Day of week]
+
+[Day]
+День
 [Export to]
 Экспортировать в
 [Compress output files]
 Сжать файлы
+[Password]
+Пароль
 [Upload to FTP (WinSCP requred)]
 Залить на FTP (требуется WinSCP)
-[Upload to FTP]
-Залить на FTP
 [Session name]
 Имя сессии
-[Path to output file**]
+[Path to file**]
 Путь к файлу**
-[Path to output file]
-Путь к файлу
+[Export imported messages]
+Экспорт импортированных сообщений
 [* Use negative values to filter younger events]
 * Отрицательные значения для фильтрации ранних событий
-[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
-** <date> - вставляет дату, <ext> - расширение, <contact> - имя контакта
 [Execute task for specified contacts]
 Выполнять задачу для определённых контактов
+[OK]
+
+[Cancel]
+Отмена
+;file \plugins\BasicHistory\src\BasicHistory.cpp
+[Open History]
+Открыть историю
+[View &History]
+&История
+[Delete All User History]
+Удалить всю историю пользователя
+[Execute history task]
+
+[Incoming message]
+Входящее сообщение
+[Outgoing message]
+Исходящее сообщение
+[Status change]
+Смена статуса
+[Show Contacts]
+Показать контакты
+[Hide Contacts]
+Скрыть контакты
+[Find Next]
+Найти дальше
+[Find Previous]
+Найти предыдущее
+[Plus in export]
+Плюс в экспорте
+[Minus in export]
+Минус в экспорте
+[History]
+История
+;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Все события
+[Default history events]
+События по умолчанию
+[History for %s]
+История для %s
+[System]
+Система
+[Me]
+Я
+[Invalid Message]
+
+[Authorization request by %s (%s%d): %s]
+Запрос авторизации от %s (%s%d): %s
+;file \plugins\BasicHistory\src\ExportManager.cpp
+[%s Files (*.%s)]
+
+[Import]
+Импорт
+[Export]
+Экспорт
+[File do not contain selected contact]
+
+[File is corrupted]
+
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Эта операция полностью удалит историю этого контакта.\nВы уверены?
+[Are You sure?]
+Вы уверены?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+
+[Open in &new window]
+&Открыть в новом окне
+[&Open in existing window]
+Открыть в &текущем окне
+[&Copy link]
+&Копировать ссылку
+[Copy]
+Копировать
+[Delete]
+Удалить
+[Send Message]
+Отправить
+[Reply &Quoted]
+Ответить с &цитатой
+[Delete Group]
+Удаление группы
+[Options]
+Настройки
+[Filters]
+Фильтры
+[Fonts and colors]
+Шрифты и цвета
+[Icons]
+Значки
+[Hotkeys]
+Горячие клавиши
+[Rich Html]
+Полноценный HTML
+[Plain Html]
+Чистый HTML
+[Txt]
+
+[Binary]
+Двоичный файл
+[Dat (mContacts)]
+Dat (мКонтакты)
+[Save window position as default]
+Сохранить положение окна
+[Save window position for all contacts]
+Сохранить положение окна для всех контактов
+[Do you want to save imported messages to local profile?]
+
+[File contains history for different contact. Do you want to change contact and import?]
+
+[Error]
+Ошибка
+[Number of history items to delete: %d.\nAre you sure you want to do this?]
+Количество удаляемых пунктов истории: %d.\nВы действительно этого хотите?
+;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Сообщение
+[File transfer]
+Передача файла
+[Link]
+Ссылка
+[Authorization request]
+Запрос авторизации
+[You were added]
+Вас добавили
+[Contacts received]
+Получение контактов
+[SMTP Simple Email]
+Сообщение e-mail (SMTP Simple)
+[SMS message]
+Сообщение SMS
+[Group list]
+Список групп
+[Messages]
+Сообщения
+[Searching]
+Поиск
+[Scheduler]
+Планировщик
+[Advanced]
+Дополнительно
+[>> Outgoing timestamp]
+Исходящее время
+[Outgoing background]
+Исходящий фон
+[<< Incoming timestamp]
+Входящее время
+[Incoming background]
+Входящий фон
+[>> Outgoing name]
+Исходящее имя
+[<< Incoming name]
+Входящее имя
+[>> Outgoing messages]
+Исходящее сообщение
+[<< Incoming messages]
+Входящее сообщение
+[Group list background]
+
+[Find window]
+Окно поиска
+[Find window background]
+
+[Window background]
+Фон окна
+[Contact list background]
+Фон списка контактов
+[Open global history]
+Открыть глобальную историю
+[Find]
+Найти
+[Switch Match Case]
+Учитывать регистр
+[Switch Match Whole Word]
+Слово целиком
+[Show/Hide Contacts]
+Показать/скрыть контакты
+[Switch Only Incoming Messages]
+Только входящие сообщения
+[Switch Only Outgoing Messages]
+Только исходящие сообщения
+[Switch Only Selected Group]
+Только выбранные группы
+[Switch All Contacts]
+Все контакты
+[Export To Binary]
+Экспорт в двоичный файл
+[Import From Binary]
+Импорт из двоичного файла
+[Export To Dat (mContacts)]
+Экспорт в Dat (мКонтакты)
+[Import From Dat (mContacts)]
+Импорт из Dat (мКонтакты)
+[Invalid event number]
+Недопустимый номер события
+[Incoming events]
+Входящие события
+[Outgoing events]
+Исходящие события
+[File do not exist. Enter correct file path.]
+Файл отсутствует. Введи верный путь к файлу.
+[Invalid file]
+Неверный файл
+[All Files (*.*)]
+Все файлы (*.*)
+[Enter filter name]
+Введите имя фильтра
+[Filter name exists]
+Имя фильтра существует
+[Event already exists]
+Событие уже существует
+[Browse WinSCP file]
+
+[Save WinSCP log file]
+
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Вы ввели неверную кодовую страницу. Выберите кодовую страницу из выпадающего списка или введите правильное имя.
+[Invalid codepage]
+Неверная кодовая страница
+[Browse CSS file]
+
 [Export and Delete]
 Экспортировать и удалить
+[Import and Marge]
+Импорт и слияние
 [Minute]
 Минуты
 [Hour]
@@ -192,43 +369,115 @@ FTP путь должен содержать '/' вместо '\ \' и начи�
 При запуске
 [At Finish]
 При выходе
+[Daily]
+Ежедневно
+[Weekly]
+Еженедельно
+[Monthly]
+Ежемесячно
 [Delta time (minutes)]
 Через время (минуты)
 [Delta time (hours)]
 Через время (часы)
-[Task]
-Задача
-[Binary]
-Двоичный файл
-[Download from FTP (WinSCP requred)]
-Скачать с FTP (требуется WinSCP)
-[Import and Marge]
-Импорт и слияние
-[Dat (mContacts)]
-Dat (мКонтакты)
-[Import from]
-Импорт из:
-[Input files are compressed]
-Входные файлы сжаты
-[Path to file**]
-Путь к файлу**
+[Monday]
+Понедельник
+[Tuesday]
+Вторник
+[Wednesday]
+Среда
+[Thursday]
+Четверг
+[Friday]
+Пятница
+[Saturday]
+Суббота
+[Sunday]
+Воскресенье
+[Invalid '%s' value.]
+Неверное значение '%s'.
+[Events older than]
+События старше чем
+[Some value is invalid]
+
+[Invalid '%s' value.\n%s]
+Неверное значение '%s'.\n%s
 [** Use <ext> to insert extension, <contact> to insert contact name]
 ** Используйте <ext> для вставки расширения, <contact> для вставки имени контакта
-[Export imported messages]
-Экспорт импортированных сообщений
-[Save errors to system history]
-Сохранять ошибки в системной истории
-[Do not show Find control border]
-Не показывать рамку строки поиска
+[Input files are compressed]
+Входные файлы сжаты
+[Download from FTP (WinSCP requred)]
+Скачать с FTP (требуется WinSCP)
+[Import from]
+Импорт из:
+[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
+** <date> - вставляет дату, <ext> - расширение, <contact> - имя контакта
+;file \plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+[History Log]
+Просмотр истории
+[Filter:]
+
+[Conversation started at %s]
+Беседа начата в %s
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+[_files]
+
+[Menu]
+Меню
+[Open all]
+
+[Close all]
+
+;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 История
-[Plus in export]
-Плюс в экспорте
-[Minus in export]
-Минус в экспорте
-[Open History]
-Открыть историю
-[Find window]
-Окно поиска
-[Contact list background]
-Фон списка контактов
+[Contacts]
+Контакты
+[At least one contact should be selected.]
+Должен быть выбран, хотя бы один контакт
+[Upload to FTP]
+Залить на FTP
+[Path to output file]
+Путь к файлу
+[To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
+Для создания сессии, откройте WinSCP, нажмите "Новая сессия", введите дату и сохраните под определённым именем. Помните, если FTP сервер использует пароль, то Вы должны сохранить его в WinSCP.
+[Path to file]
+
+[FTP path must contains '/' instead '\' and starts from '/'.]
+
+[FTP path cannot contain <date> in import task.]
+
+[Unknown error]
+Неизвестная ошибка
+[Cannot get FTP file(s).]
+
+[Cannot unzip file(s).]
+
+[Incorrect file format: %s.]
+
+[Unknown contact in file: %s.]
+
+[Cannot export history for contact: %s.]
+
+[Cannot compress file(s).]
+
+[Cannot send FTP file(s).]
+
+[Task finished]
+
+[Task '%s' execution failed]
+
+[Task '%s' finished successfully]
+
+[Task '%s' execution failed:]
+
+;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+"%s" не найдено
+[Search]
+Поиск
+[You have reached the end of the group.]
+Вы достигли конца группы
+[You have reached the end of the history.]
+Вы добрались до конца истории.
+;file \plugins\BasicHistory\src\TxtExport.cpp

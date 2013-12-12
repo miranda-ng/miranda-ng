@@ -1,73 +1,82 @@
 ﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;============================================================
-;  File: bosskey.dll
-;  Module: Boss Key
-;  Versions: 0.5.0.3
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3694
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/BossKeyPlus/
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
-[Hide/Show Miranda]
-Скрыть/Показать Miranda NG
-[Hide Miranda when:]
-Спрятать программу когда:
-[Workstation is Locked]
-Компьютер заблокирован
-[Windows is inactive]
-Windows не активен
-[Miranda is inactive]
-Программа неактивна
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Позволяет по нажатию "горячей клавиши" прятать Miranda NG от посторонних глаз.
+;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 АнтиБосс
-[(Previous Status)]
-(Предыдущий)
-[...set the status message to:]
-...изменить статусное сообщение на:
-[and...]
-и...
-[When I return, change my status to...]
-При возвращении изменить статус на:
-[I'm back!]
-Я вернулся!
-[When I press the hotkey, change status to:]
-При нажатии клавиши сменить статус на:
-[(Current Status)]
-(Текущий)
-[Be back soon!]
-Скоро вернусь!
 [Go to Customize -> Hotkeys to change the hotkey]
 Настройка в Тонкая настройка -> Горячие клавиши
-[Use built in to Miranda hotkey module]
-Использовать встроенный модуль горячих клавиш
-[Use built in to Miranda hotkey module (restart required)]
-Использовать встроенный модуль горячих клавиш (требуется перезапуск)
-[Hide Miranda if the computer is locked]
-Блокировать программу, если компьютер заблокирован
 [When I press the hotkey:]
 Когда я нажму горячую кнопку...
 [Change status to]
 Изменить статус на
+[Change only if current status is Online]
+
+[Use default status message]
+Статусное сообщение по умолчанию
+[Disable Sounds]
+Отключить звуки
+[Show the Tray Icon]
+Показывать иконку в трее
 [When I return:]
 При возвращении...
 [Request password:]
 Спросить пароль:
 [Change status back]
 Вернуть предыдущий статус
-[Miranda NG is locked. Enter password to unlock it.]
-Miranda NG заблокирована!\nВведите пароль для разблокировки.
-[Use default status message]
-Статусное сообщение по умолчанию
-[Hide Miranda NG]
-Спрятать Miranda NG
-[get the BossKey name]
-Получить клавишу блокировки из АнтиБосс+
+[Hotkey]
+Горячая клавиша
+[Password:]
+Пароль:
+[OK]
+
+[Cancel]
+Отмена
+[EN]
+
+[Workstation is Locked]
+Компьютер заблокирован
+[Screen Saver is running]
+Запущена заставка
+[Windows is inactive]
+Windows не активен
+[Hide Miranda when:]
+Спрятать программу когда:
+[Miranda is inactive]
+Программа неактивна
+[min]
+мин.
+[Miranda is started]
+Программа запускается
+[Others]
+Другое
+[Create a main menu item]
+Пункт в главном меню
+[Restore hiding on startup after failure]
+Восстанавливать скрытие при запуске после "падения"
+;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
 Miranda NG заблокирована.\nВведите ваш пароль для разблокировки.
 [Password is not correct!\nPlease, enter correct password.]
 Неправильный пароль!\nВведите правильный пароль.
-[Miranda is started]
-Программа запускается
-[Restore hiding on startup after failure]
-Восстанавливать скрытие при запуске после "падения"
+[Hide Miranda NG]
+Спрятать Miranda NG
+[Hide]
+Скрыть
+[Hide/Show Miranda]
+Скрыть/Показать Miranda NG
+[get the BossKey name]
+Получить клавишу блокировки из АнтиБосс+
+;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+События
+[Main]
+Главный
+[Advanced]
+Дополнительно

@@ -1,22 +1,228 @@
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
-;  Module: OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE))private
-;  Versions: 0.11.0.2
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4424
-;  Source: http://code.google.com/p/mirotr/
-;  Authors: ProgAndy, CHEF-KOCH
+;  Plugin: Miranda OTR
+;  Version: 0.11.0.4
+;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 Плагин OTR (Off-the-Record) для Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
+;file \plugins\MirOTR\MirOTR\res\resource.rc
+[OTR Generating Private Key]
+
+[Generating new private key - please wait.]
+
+[Default Policy]
+Политика по умолчанию:
+[Always]
+Всегда
+[Opportunistic]
+Автоматически
+[Manual]
+Вручную
+[Never]
+Никогда
+[End sessions on window close]
+Остановить сессию при закрытии окна
+[End sessions when contacts go offline]
+Остановить сессию, когда контакт уходит из сети
+[Prefix encrypted IMs:]
+Префикс шифрованных IM:
+[Don't add encrypted messages to the history]
+Не записывать шифрованные сообщения в историю
 [Also remove OTR system messages]
 Удалить системные сообщения OTR
+[Show OTR system messages inline]
+Показывать системные сообщения в окне бесед
+[Show OTR system messages as popup]
+Показывать системные сообщения во всплывающем окне
+[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
+Возвращать завершённые сессии в обычный текст по тайм-ауту
+[Show verification dialog when receiving unverified fingerprint]
+Диалог подтверждения при получении непроверенного отпечатка
+[Set OTR policy per protocol]
+Установить OTR-политику попротокольно
+[Current policy:]
+Текущая политика:
+[Generate new private key]
+Генерация нового частного ключа
+[Forget private key]
+Забыть частный ключ
+[Set OTR policy per contact]
+Установить OTR-политику поконтактно
+[View & Modify status of known fingerprints]
+Просмотр и редактирование статусов известных отпечатков
+[Set verified]
+Проверено
+[Set unknown]
+Неизвестно
+[Forget]
+Забыть
+[Socialist Millionaires Protocol]
+Протокол социалистических миллионеров
+[Socialist Millionaires Protocol\r\nVerification progress]
+Протокол социалистических миллионеров\r\nПроцесс проверки
+[&Cancel]
+О&тмена
+[&OK]
+
+[Socialist Millionaires Protocol\r\nVerification]
+Протокол социалистических миллионеров\r\nПроверка
+[&No]
+&Нет
+[&Yes]
+&Да
+[OTR status]
+OTR-статус
+[&Start OTR session]
+&Запустить OTR-сессию
+[&Refresh OTR session]
+&Обновить OTR-сессию
+[Sto&p OTR session]
+Остановить& OTR-сессию
+[&Verify Fingerprint]
+&Проверка отпечатков
+;file \plugins\MirOTR\MirOTR\src\language.h
+[Start OTR]
+Запустить OTR
+[Stop OTR]
+Остановить OTR
+[Yes]
+Да
+[No]
+Нет
+[OTR status (Click for more options)]
+Статус OTR (нажмите для опций)
+[OTR Encryption: Disabled]
+OTR-шифрование: отключено
+[OTR Encryption: UNVERIFIED]
+OTR-шифрование: непроверено
+[OTR Encryption: Private]
+OTR-шифрование: частное
+[OTR Encryption: Finished]
+OTR-шифрование: завершено
+[&Convert HTML (for Pidgin)]
+Конвертировать HTML (для Pidgin)
+[OTR encrypted session with '%s' has been terminated]
+Шифрованная сессия с '%s' была прекращена.
+[Requesting OTR encrypted session with '%s']
+Запрос шифрованной сессии с '%s'
+[Beginning OTR encrypted session with '%s']
+
+[Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
+
+[Trying to refresh OTR encrypted session with '%s']
+Попытка обновления шифрованной сессии с '%s'
+[OTR encrypted session was refreshed by '%s']
+Шифрованная сессия была обновлена '%s'.
+[OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
+Шифрованная сессия была обновлена '%s' (не проверен)
+[OTR encrypted session with '%s' sucessfully refreshed]
+Шифрованная сессия с '%s' успешно обновлена.
+[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+Шифрованная сессия с '%s' успешно обновлена (не проверен).
+[OTR encrypted session has been terminated by '%s'. You should do that, too!]
+Шифрованная сессия была прекращена '%s'. Вы должны сделать тоже самое!
+[OTR encrypted session with '%s' could not be started]
+Шифрованная сессия с '%s' не может быть запущена.
+[OTR could not encrypt when sending message]
+OTR не может шифровать во время отправки сообщения
+[OTR Information]
+
+[[OTR INFO] ]
+
+[Authentication from %s]
+Идентификация от %s
+[Authenticae %s]
+Идентификация %s
+[Unknown]
+Неизвестно
+[OTR: %s (%s)]
+
+[OTR %s (%s)]
+
+[OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
+Шифрованная сессия с '%s' теперь использует ПРОВЕРЕННЫЙ отпечаток.
+[OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
+Шифрованная сессия с '%s' теперь использует НЕПРОВЕРЕННЫЙ отпечаток.
+[OTR unverified]
+OTR непроверен
+[OTR finished]
+OTR завершён
+[OTR private]
+Частный OTR
+[OTR not secure]
+OTR не является безопасным
+[OTR]
+
+[Generating new private key for protocol '%s'.\nPlease Wait...]
+Создание нового частного ключа для протокола '%s'.\nПодождите...
+[General]
+Общее
+[Protocols]
+Протоколы
+[Contacts]
+Контакты
+[Fingerprints]
+Отпечатки
+[Contact]
+Контакт
+[Protocol]
+Протокол
+[Policy]
+Политика
+[Verified]
+Проверено
+[Active]
+
+[Fingerprint]
+Отпечаток
+[Conv. HTML]
+Конв. HTML
+[Default]
+По умолчанию
+[Generating new key for '%s'. Continue?]
+Генерация нового ключа для '% s'. Продолжить?
+[Removing key for '%s'. Continue?]
+Удаление ключа для '%s'. Продолжить?
+[OTR Fingerprint Verification]
+Проверка OTR-отпечатка
+[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
+Шифрованная сессия с '%s'.\nOTR-отпечаток используемый Вашим контактов не проверен.\nВы ему доверяете?
+[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
+Шифрованная сессия с '%s'.\nOTR-отпечаток используемый Вашим контактов проверен.\nВы ему по-прежнему доверяете?
+[Your Fingerprint to tell your contact (use a trusted channel!)]
+Ваш отпечаток для отправки другим контактам (используйте надёжный канал!)
+[VERIFY: Fingerprint from contact]
+Проверка: отпечаток контакта
 [OTR Authenticate: %s (%s)]
 OTR идентификация: %s (%s)
-[Authentication failed]
-Идентификация не удалась (пропустить?)
 [Challenge Question]
 Контрольный вопрос
+[Known Password]
+Известный пароль
+[Manual fingerprint comparison]
+Ручное сравнение отпечатков
+[Secret Answer]
+Секретный ответ:
+[Question]
+Вопрос
+[Password]
+Пароль
+[Authentication sucessful.]
+Успешная идентификация.
+[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+Ваш контакт успешно идентифицирован. Вы можете послать ваш собственный запрос идентификации.
+[Error during authentication.]
+Ошибка при идентификации
+[Authentication failed]
+Идентификация не удалась (пропустить?)
+[Authentication for '%s' is already in progress.]
+Идентификация для '%s' уже запущена.
+[OTR Authenticating: %s (%s)]
+OTR-Идентификация с: %s (%s)
+[Authenticating contact:\n%s (%s)]
+Идентификация контакта: \n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
 Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос на который может ответить только Ваш собеседник. 
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
@@ -33,177 +239,17 @@ OTR идентификация: %s (%s)
 Отпечаток '%s' до сих пор используется в беседе с '%s' (%s). Вы не можете его удалить!
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
 Отпечаток '%s' используется в беседе с '%s' (%s). Он не может быть удалён!
-[Authenticating contact:\n%s (%s)]
-Идентификация контакта: \n%s (%s)
-[OTR Authenticating: %s (%s)]
-OTR-Идентификация с: %s (%s)
-[Authentication for '%s' is already in progress.]
-Идентификация для '%s' уже запущена.
-[Error during authentication.]
-Ошибка при идентификации
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
-Ваш контакт успешно идентифицирован. Вы можете послать ваш собственный запрос идентификации.
-[Authentication sucessful.]
-Успешная идентификация.
-[Secret Answer]
-Секретный ответ:
-[Manual fingerprint comparison]
-Ручное сравнение отпечатков
-[Known Password]
-Известный пароль
-[&Convert HTML (for Pidgin)]
-Конвертировать HTML (для Pidgin)
-[Authenticae %s]
-Идентификация %s
-[Fingerprint '%s' in use in conversation with '%s'. It could not be deleted!]
-Отпечаток '%s' используется в беседе с '%s'. Он не может быть удалён!
-[Fingerprint '%s' still in use in conversation with '%s'. You cannot delete it!]
-Отпечаток '%s' уже используется в беседе с '%s'. Вы не можете его удалить!
-[OTR inline]
-Встроенный OTR:
-[Authentication from %s]
-Идентификация от %s
-[Generating new key for '%s'. Continue?]
-Генерация нового ключа для '% s'. Продолжить?
-[Conv. HTML]
-Конв. HTML
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Создание нового частного ключа для протокола '%s'.\nПодождите...
-[OTR Encryption: Disabled]
-OTR-шифрование: отключено
-[OTR Encryption: Finished]
-OTR-шифрование: завершено
-[OTR Encryption: Private]
-OTR-шифрование: частное
-[OTR Encryption: UNVERIFIED]
-OTR-шифрование: непроверено
-[OTR Fingerprint Verification]
-Проверка OTR-отпечатка
-[OTR could not encrypt when sending message]
-OTR не может шифровать во время отправки сообщения
-[OTR encrypted session has been terminated by '%s'. You should do that, too!]
-Шифрованная сессия была прекращена '%s'. Вы должны сделать тоже самое!
-[OTR encrypted session was refreshed by '%s']
-Шифрованная сессия была обновлена '%s'.
-[OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
-Шифрованная сессия была обновлена '%s' (не проверен)
-[OTR encrypted session with '%s' could not be started]
-Шифрованная сессия с '%s' не может быть запущена.
-[OTR encrypted session with '%s' has been terminated]
-Шифрованная сессия с '%s' была прекращена.
-[OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
-Шифрованная сессия с '%s' теперь использует НЕПРОВЕРЕННЫЙ отпечаток.
-[OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
-Шифрованная сессия с '%s' теперь использует ПРОВЕРЕННЫЙ отпечаток.
-[OTR encrypted session with '%s' sucessfully refreshed]
-Шифрованная сессия с '%s' успешно обновлена.
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
-Шифрованная сессия с '%s' успешно обновлена (не проверен).
-[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
-Шифрованная сессия с '%s'.\nOTR-отпечаток используемый Вашим контактов не проверен.\nВы ему доверяете?
-[OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
-Шифрованная сессия с '%s'.\nOTR-отпечаток используемый Вашим контактов проверен.\nВы ему по-прежнему доверяете?
-[OTR finished]
-OTR завершён
-[OTR not secure]
-OTR не является безопасным
-[OTR private]
-Частный OTR
-[OTR status (Click for more options)]
-Статус OTR (нажмите для опций)
-[OTR unverified]
-OTR непроверен
-[Removing key for '%s'. Continue?]
-Удаление ключа для '%s'. Продолжить?
-[Requesting OTR encrypted session with '%s']
-Запрос шифрованной сессии с '%s'
-[Trying to refresh OTR encrypted session with '%s']
-Попытка обновления шифрованной сессии с '%s'
-[VERIFY: Fingerprint from contact]
-Проверка: отпечаток контакта
-[Verified]
-Проверено
-[Your Fingerprint to tell your contact (use a trusted channel!)]
-Ваш отпечаток для отправки другим контактам (используйте надёжный канал!)
-[Generating new private key.]
-Генерация нового частного ключа
-[Generate new private key]
-Генерация нового частного ключа
-[Question / Answer]
-Вопрос / Ответ
 [Cannot start OTR for '%s'. SecureIM is already running]
 Невозможно запустить OTR для '%s'. Уже запущен SecureIM.
 [OTR: SecureIM installed]
 OTR: установлен SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы используете SecureIM. MirOTR будет работать только с контактами с отключенным SecureIM.
-[Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
-Ваш плагин окна сообщений не поддерживает статусных иконок, не все функции OTR будут доступны.
-[Private Data]
-Личные данные
-[&Refresh OTR session]
-&Обновить OTR-сессию
-[&Start OTR session]
-&Запустить OTR-сессию
-[&Verify Fingerprint]
-&Проверка отпечатков
-[Current policy:]
-Текущая политика:
-[Don't add encrypted messages to the history]
-Не записывать шифрованные сообщения в историю
-[Forget private key]
-Забыть частный ключ
-[Forget]
-Забыть
-[OTR status]
-OTR-статус
-[Prefix encrypted IMs:]
-Префикс шифрованных IM:
-[Set OTR policy per contact]
-Установить OTR-политику поконтактно
-[Set OTR policy per protocol]
-Установить OTR-политику попротокольно
-[Set verified]
-Проверено
-[Set unknown]
-Неизвестно
-[Show OTR system messages as popup]
-Показывать системные сообщения во всплывающем окне
-[Show OTR system messages inline]
-Показывать системные сообщения в окне бесед
-[Show verification dialog when receiving unverified fingerprint]
-Диалог подтверждения при получении непроверенного отпечатка
-[Socialist Millionaires Protocol]
-Протокол социалистических миллионеров
-[Socialist Millionaires Protocol\r\nVerification]
-Протокол социалистических миллионеров\r\nПроверка
-[Socialist Millionaires Protocol\r\nVerification progress]
-Протокол социалистических миллионеров\r\nПроцесс проверки
-[Sto&p OTR session]
-Остановить& OTR-сессию
-[View & Modify status of known fingerprints]
-Просмотр и редактирование статусов известных отпечатков
-[End sessions on window close]
-Остановить сессию при закрытии окна
-[Policy]
-Политика
-[Default Policy]
-Политика по умолчанию:
-[Opportunistic]
-Автоматически
-[Manual]
-Вручную
-[End sessions when contacts go offline]
-Остановить сессию, когда контакт уходит из сети
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Возвращать завершённые сессии в обычный текст по тайм-ауту
-[Fingerprint]
-Отпечаток
-[Fingerprints]
-Отпечатки
-[Start OTR]
-Запустить OTR
-[Stop OTR]
-Остановить OTR
+;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [OTR Status]
 Статус OTR
+;file \plugins\MirOTR\MirOTR\src\options.cpp
+[Private Data]
+Личные данные
+[Services]
+Службы

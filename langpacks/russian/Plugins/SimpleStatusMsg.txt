@@ -1,44 +1,43 @@
 ﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;============================================================
-;  File: simplestatusmsg.dll
-;  Module: Provides a simple way to set status and away messages
-;  Versions: 1.9.0.4
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4321
-;  Source: http://dezeath.googlecode.com/svn/trunk/AddContactPlus/
-;  Authors: Dezeath
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Быстрая смена статусов и предустановленных сообщений статуса.
-[Simple Status Message]
-Сообщение статуса
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+
+[&Cancel]
+
+[Retrieving %s message...]
+Загрузка сообщения "%s"...
+[Co&py to Clipboard]
+Скопировать в буфер
+[%s Message (%s)]
+Сообщение "%s" (%s)
+[OK]
+
+[Retrieving status message for %s...]
+Получение сообщения статуса для %s...
 [Behavior on status change]
 Поведение при изменении статуса
-[Global status change]
-Глобальный статус
-[Do not change status message]
-Не менять сообщение статуса
-[Do not set status message]
-Не устанавливать сообщение статуса
-[Update variables in status messages every]
-Обновлять переменные каждые:
-[Do not update variables during idle]
-Не обновлять переменные в режиме ожидания
-[Do not update variables on ICQ status message requests]
-Не обновлять переменные при смене сообщений статуса ICQ
-[Enable status messages parsing by Variables plugin]
-Разрешить обработку статусного сообщения плагином Variables
-[Exclude %date% token from parsing (restart required)]
-Исключить маркер %date% из обработки (требуется перезапуск)
-[Show 'Go to URL in Away Message' item in contact menu]
-Показывать 'Открыть ссылку' в меню контакта
-[&Go to URL in Away Message]
-&Открыть ссылку
+[Apply to all]
+Для всех
 [Max length:]
 Макс. длина:
 [Pop up dialog box]
 Показать диалоговое окно
+[Do not change status message]
+Не менять сообщение статуса
 [Always set the same message]
 Всегда устанавливать это сообщение
+[Do not set status message]
+Не устанавливать сообщение статуса
+[Status messages]
+Сообщения статуса
 [Pop up dialog asking for new message]
 Диалог для новых сообщений
 [Set an empty message]
@@ -51,91 +50,230 @@
 Последнее сообщение для этого статуса
 [Set the following message:]
 Следующее сообщение:
-[Apply to all]
-Для всех
 [Put default message in message list]
 Стандартное сообщение в список
-[%s Status Message: %s]
-%s Статусное сообщение: %s
-[Co&py to Clipboard]
-Скопировать в буфер
-[Retrieving status message for %s...]
-Получение сообщения статуса для %s...
+[Variables]
+Переменные
+[Update variables in status messages every]
+Обновлять переменные каждые:
+[seconds]
+секунд
+[Do not update variables during idle]
+Не обновлять переменные в режиме ожидания
+[Do not update variables on ICQ status message requests]
+Не обновлять переменные при смене сообщений статуса ICQ
+[Leave last played track's title after exiting the player]
+Оставлять последний трек, после выключения плеера
+[Enable status messages parsing by Variables plugin]
+Разрешить обработку статусного сообщения плагином Variables
+[Exclude %date% token from parsing (restart required)]
+Исключить маркер %date% из обработки (требуется перезапуск)
+[Layout]
+Размещение
 [Show status list]
 Меню списка статусов
 [Show status profiles in status list]
 Показывать профили в статус листе
 [Show icons in status list]
 Значки в списке статусов
+[Buttons:]
+Кнопки:
 [Show icons in message list]
 Значки в списке сообщений
-[Show next to cancel button]
-Показать за кнопкой Отмена
-[Flat, next to cancel button]
-Гладко, за кнопкой Отмена
-[Show in message list]
-Показать в списке сообщений
-[Clear History]
-Очистить
+[Other]
+Другое
 [Store up to]
 Хранить
 [recent messages (0 = disable)]
 последних сообщений (0=отключить)
 [Automatically close dialog window after]
 Автоматически закрывать окно после
-[Leave last played track's title after exiting the player]
-Оставлять последний трек, после выключения плеера
 [Remember last dialog window position]
 Помнить последнюю позицию окна
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Удалять символы возврата каретки (CR = '\\r' = #0D) из сообщений статуса
 [Show 'Copy Away Message' item in contact menu]
 'Скопировать сообщение статуса' в меню контакта
-[Copy Away Message]
-Скопировать сообщение статуса
+[Show 'Go to URL in Away Message' item in contact menu]
+Показывать 'Открыть ссылку' в меню контакта
 [Show 'Status Message...' item in status menu]
 Показывать 'Сообщение статуса' в контекстном меню
+[Clear History]
+Очистить
 [Clear Predefined]
 Очистить
-[Add to Predefined]
-В предустановленные
-[Status Message...]
-Сообщение статуса...
 [* This feature is available only when using StartupStatus plugin.]
 * Эта возможность доступна только при использовании плагина StartupStatus
-[Buttons:]
-Кнопки:
 [Status on Startup]
 Начальный статус
 [Set status after]
 Установить через
 [miliseconds]
 мс
+[Protocol:]
+Протокол:
+[Status:]
+Статус:
 [Independent setting for each protocol]
 Независимая настройка для каждого протокола
 [Pop up dialog asking for status message]
 Показывать диалог запроса смены статуса
-[<Last status>]
-<Последний>
-[Open Status Message Dialog]
-Открыть диалог сообщения статуса
-[Delete Selected]
-Удалить выбранное
-[Recent Message]
-Последнее сообщение
-[Predefined Message]
-Предустановленное сообщение
+[Fortune]
+
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
+[More variables...]
+
+[Cut]
+Вырезать
+[Copy]
+Копировать
+[Paste]
+Вставить
+[Delete]
+Удалить
+[Select All]
+Выделить всё
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Failed to retrieve %s message.]
+
+[&Close]
+&Закрыть
+[Re&ad %s Message]
+
+[Copy %s Message]
+
+[&Go to URL in %s Message]
+
+[Re&ad Away Message]
+Пр&очесть сообщение "Отсутствую"
+[Copy Away Message]
+Скопировать сообщение статуса
+[&Go to URL in Away Message]
+&Открыть ссылку
+;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change Status Message]
 Сменить сообщение статуса
-[Go to URL in Away Message]
-Перейти по ссылки в сообщении отсутствия
-[%s Message (%s)]
-Сообщение "%s" (%s)
+[Open Status Message Dialog]
+Открыть диалог сообщения статуса
+[Status Message]
+Статусное сообщение
+[Status Message...]
+Сообщение статуса...
+[%s (locked)]
+%s (заблокирован)
+[External Applications]
+Внешние приложения
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+
+[Miranda Related]
+Относящееся к Miranda NG
+[get the date (Simple Status Message compatible)]
+
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<startup>]
+
+[<current>]
+<текущий>
+[Add to Predefined]
+В предустановленные
+[Delete Selected]
+Удалить выбранное
+[OK (%d)]
+
+[Global]
+Глобальные
+[Closing in %d]
+Закрыть (%d)
 [Are you sure you want to clear status message history?]
 Вы уверены, что хотите удалить историю сообщений статуса?
 [Confirm clearing history]
 Подтверждение удаления истории
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Global status change]
+Глобальный статус
+[Open String Formatting Help]
+Помощь по формату строк
+[Hide]
+Скрыть
+[Show next to cancel button]
+Показать за кнопкой Отмена
+[Flat, next to cancel button]
+Гладко, за кнопкой Отмена
+[Show in message list]
+Показать в списке сообщений
 [Are you sure you want to clear predefined status messages?]
 Вы уверены, что хотите удалить настроенные сообщения статуса?
 [Confirm clearing predefined]
 Подтверждение удаления настроенных сообщений
+[<Last status>]
+<Последний>
+[Status]
+Статус
+[General]
+Общее
+[Advanced]
+Дополнительно
+;file \plugins\SimpleStatusMsg\src\utils.cpp
+[Recent Message]
+Последнее сообщение
+[Predefined Message]
+Предустановленное сообщение
+[Go to URL in Away Message]
+Перейти по ссылки в сообщении отсутствия
+[Simple Status Message]
+Сообщение статуса
+[I've been away since %time%.]
+Отошел в %time%.
+[Give it up, I'm not in!]
+Меня нет.
+[Not right now.]
+Не сейчас.
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[I'm a chatbot!]
+Свободен.
+[Yep, I'm here.]
+Да, я здесь.
+[Nope, not here.]
+Нет, меня здесь нет.
+[I'm hiding from the mafia.]
+Я прячусь от мафии.
+[That'll be the phone.]
+Дайте же человеку поговорить по телефону.
+[Mmm... food.]
+Ммм... поесть бы.
+[idleeeeeeee]
+ожидание...
