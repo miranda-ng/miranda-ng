@@ -69,8 +69,6 @@
 Журнал сообщений
 [Contact list:]
 Список контактов
-[Chat sessions]
-Беседы
 [Titles:]
 Заголовки
 [If the screensaver is active:]
@@ -147,6 +145,8 @@
 Показывать протоколы
 [Contact list]
 Список контактов
+[Chat sessions]
+Беседы
 [Show the contacts protocols]
 Показывать протоколы контактов
 [Use ignore settings]
