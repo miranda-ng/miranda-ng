@@ -114,6 +114,8 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveFriends();
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
+	void MarkMessagesRead(const CMStringA &mids);
+	void RetrieveMessagesByIds(const CMStringA &mids);
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

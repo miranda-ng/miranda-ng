@@ -354,15 +354,40 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CVkProto::MarkMessagesRead(const CMStringA &mids)
+{
+	if (mids.IsEmpty())
+		return;
+
+	HttpParam params[] = {
+		{ "mids", mids },
+		{ "access_token", m_szAccessToken }
+	};
+	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, SIZEOF(params), params);
+}
+
+void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
+{
+	if (mids.IsEmpty())
+		return;
+
+	HttpParam params[] = {
+		{ "mids", mids },
+		{ "access_token", m_szAccessToken }
+	};
+	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
+}
+
 void CVkProto::RetrieveUnreadMessages()
 {
 	debugLogA("CVkProto::RetrieveMessages");
 
 	HttpParam params[] = {
-		{ "code", "return{\"msgs\":API.messages.get({\"filters\":1})};" },
+		{ "filters", "1" },
+		{ "preview_length", "0" },
 		{ "access_token", m_szAccessToken }
 	};
-	PushAsyncHttpRequest(REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
+	PushAsyncHttpRequest(REQUEST_GET, "/method/messages.get.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
 }
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -380,7 +405,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (pMsgs == NULL)
 		pMsgs = pResponse;
 
-	CMStringA mids;
+	CMStringA mids, lmids;
 
 	int numMessages = json_as_int( json_at(pMsgs, 0));
 	for (int i=1; i <= numMessages; i++) {
@@ -388,12 +413,24 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (pMsg == NULL)
 			continue;
 
-		int mid = json_as_int( json_get(pMsg, "mid"));
-		int datetime = json_as_int( json_get(pMsg, "date"));
-		int isOut = json_as_int( json_get(pMsg, "out"));
-		int uid = json_as_int( json_get(pMsg, "uid"));
-		int isRead = json_as_int( json_get(pMsg, "read_state"));
+		char szMid[40];
+		int mid = json_as_int(json_get(pMsg, "mid"));
+		_itoa(mid, szMid, 10);
+
+		// VK documentation lies: even if you specified preview_length=0, 
+		// long messages get cut out. So we need to retrieve them from scratch
 		ptrT ptszBody( json_as_string( json_get(pMsg, "body")));
+/*		if (_tcslen(ptszBody) > 100) {
+			if (!lmids.IsEmpty())
+				lmids.AppendChar(',');
+			lmids.Append(szMid);
+			continue;
+		}
+  */
+		int datetime = json_as_int(json_get(pMsg, "date"));
+		int isOut = json_as_int(json_get(pMsg, "out"));
+		int uid = json_as_int(json_get(pMsg, "uid"));
+		int isRead = json_as_int(json_get(pMsg, "read_state"));
 
 		JSONNODE *pAttachments = json_get(pMsg, "attachments");
 		if (pAttachments != NULL) {
@@ -419,8 +456,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			ptszBody = mir_tstrdup(tszBody);
 		}
 
-		char szMid[40];
-		_itoa(mid, szMid, 10);
 		HANDLE hContact = FindUser(uid, true);
 
 		PROTORECVEVENT recv = { 0 };
@@ -441,13 +476,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		mids.Append(szMid);
 	}
 
-	if (!mids.IsEmpty()) {
-		HttpParam params[] = {
-			{ "mids", mids },
-			{ "access_token", m_szAccessToken }
-		};
-		PushAsyncHttpRequest(REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, SIZEOF(params), params);
-	}
+	MarkMessagesRead(mids);
+	RetrieveMessagesByIds(lmids);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -526,13 +556,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 		}
 	}
 
-	if ( !mids.IsEmpty()) {
-		HttpParam params[] = {
-			{ "mids", mids },
-			{ "access_token", m_szAccessToken }
-		};
-		PushAsyncHttpRequest(REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages, SIZEOF(params), params);
-	}
+	RetrieveMessagesByIds(mids);
 }
 
 int CVkProto::PollServer()
