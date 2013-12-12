@@ -1982,8 +1982,8 @@ Fax
 [<Root group>]
 < ルートグループ >
 ;file \src\modules\database\database.cpp
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Miranda は ' %s ' を開けませんでした。プロファイルプラグインがインストールされていません\ndbx_3x.dllもしくは , それに相当するものをインストールしてください
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda は ' %s ' を開けませんでした。プロファイルプラグインがインストールされていません\ndbx_mmap.dllもしくは , それに相当するものをインストールしてください
 [No profile support installed!]
 プロファイルサポートがインストールされていません!
 [Miranda can't understand that profile]
@@ -2008,7 +2008,7 @@ Miranda はプロファイルを開けませんでした
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 プロファイルは既に存在します
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 %s を Recycle Bin に移動できませんでした。別のプロファイル名を選択してください
 [Problem moving profile]
 プロファイル移動時の不具合

@@ -1768,7 +1768,7 @@ Miranda forstår ikke profilen
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 Profilen eksisterer allerede
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 Kunne ikke flytte '%s' til søppelbøtten, Vennligst velg et annet profilnavn.
 [Problem moving profile]
 Problem ved profilflytting

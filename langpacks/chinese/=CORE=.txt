@@ -2016,8 +2016,8 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [<Root group>]
 <根群组>
 ;file \src\modules\database\database.cpp
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Miranda 无法打开 '%s', 因为您没有安装任何配置文件插件. \n您需要安装 dbx_3x.dll 或类似插件. 
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda 无法打开 '%s', 因为您没有安装任何配置文件插件. \n您需要安装 dbx_mmap.dll 或类似插件. 
 [No profile support installed!]
 未安装配置文件支持! 
 [Miranda can't understand that profile]
@@ -2042,7 +2042,7 @@ Miranda 无法打开此配置文件
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 配置文件已存在
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 无法将 '%s' 移到回收站. 请选择其它配置文件名称. 
 [Problem moving profile]
 移动配置文件出现问题
@@ -2070,8 +2070,6 @@ Miranda 无法打开此配置文件
 [Chat activity]
 聊天活动
 ;file \src\modules\extraicons\extraicons.cpp
-[Chat Activity]
-聊天活动
 ;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 额外图标

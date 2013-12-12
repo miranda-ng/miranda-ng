@@ -1,8 +1,8 @@
 ﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
 ;============================================================
 ;  File: WhatsApp.dll
-;  Plugin: WhatsApp
-;  Version: 0.0.2.0
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.2.1
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -37,7 +37,7 @@ SMS-код:
 Введіть нік
 [Please enter a password.]
 Введіть пароль
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneousley!\nContinue?]
+[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS-повідомлення з реєстраційним кодом буде відправлено на ваш мобільний телефон.\nНагадуемо, що ви не зможете використовувати справжній WhatsApp і цей плагін одночасно!\nПродовжити?
 [Please correctly specify your registration code received by SMS]
 Будь ласка, правильно вкажіть ваш реєстраційний код, отриманий SMS

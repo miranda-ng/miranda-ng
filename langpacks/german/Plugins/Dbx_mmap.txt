@@ -16,7 +16,19 @@ Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf,
 
 [Cancel]
 
+[New password]
+
+[Please enter your new password]
+
 [Enter password]
+
+[Change password]
+
+[Change]
+
+[Remove]
+
+[Old password]
 
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
@@ -29,6 +41,21 @@ Datenbankfehler
 Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/p/DbChecker/ herunterladen. Miranda NG wird beendet.
 [Database Panic]
 Datenbankprobleme
+;file \plugins\Db3x_mmap\src\ui.cpp
+[Logo]
+
+[Password]
+
+[Password is too short!]
+
+[Passwords do not match!]
+
+[Wrong old password entered!]
+
+[Database]
+
+[Set password]
+
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 Ausführen: Gründliche Fehlersuche

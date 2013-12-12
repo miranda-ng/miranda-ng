@@ -1826,7 +1826,7 @@ Exibir/Ocultar Lista de Contatos
 Ler Mensagem
 [Open Options page]
 Abrir Opções de Página
-[Open Find User Dialog]
+[Open 'Find user' dialog]
 Abrir Diálogo Procurar Usuário
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
@@ -1834,8 +1834,8 @@ Abrir Diálogo Procurar Usuário
 [<Root group>]
 <Grupo Raiz>
 ;file \src\modules\database\database.cpp
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Miranda não consegue abrir '% s' porque você não tem qualquer perfil de plugins instalados.\n Você precisa instalar dbx_3x.dll ou equivalente.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda não consegue abrir '% s' porque você não tem qualquer perfil de plugins instalados.\n Você precisa instalar dbx_mmap.dll ou equivalente.
 [No profile support installed!]
 Nenhum perfil de apoio instalado!
 [Miranda can't understand that profile]
@@ -1844,7 +1844,7 @@ Miranda não consegue entender que o perfil
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 O perfil já existe
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 Não foi possível mover '%s' para a Lixeira, por favor escolha outro nome de perfil.
 [Problem moving profile]
 Problema perfil longitudinal

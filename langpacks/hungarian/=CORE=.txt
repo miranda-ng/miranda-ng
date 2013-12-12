@@ -1774,8 +1774,8 @@ Csoporthoz &adás
 [<Root group>]
 <Alap csoport>
 ;file \src\modules\database\database.cpp
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Miranda nem tudja megnyitni '%s'-t, mert nincs telepítve profil beépülõ.\nTelepítsd a dbx_3x.dll-t, vagy ennek megfelelõt.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda nem tudja megnyitni '%s'-t, mert nincs telepítve profil beépülõ.\nTelepítsd a dbx_mmap.dll-t, vagy ennek megfelelõt.
 [No profile support installed!]
 Nincs profiltámogatás telepítve!
 [Miranda can't understand that profile]
@@ -1784,7 +1784,7 @@ Miranda nem érti ezt a profilt
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 A profil már létezik
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 '%s' áthelyezése a Lomtárba sikertelen, kérlek válassz másik profilnevet.
 [Problem moving profile]
 probléma profil mozgatása során

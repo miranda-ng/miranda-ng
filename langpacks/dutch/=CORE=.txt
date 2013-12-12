@@ -1368,14 +1368,14 @@ Lijst weergeven verbergen
 Bericht lezen
 [Open Options page]
 Opties scherm openen
-[Open Find User Dialog]
+[Open 'Find user' dialog]
 Zoek gebruiker scherm openen
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Naar groep verplaatsen
 ;file \src\modules\database\database.cpp
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Miranda kan '%s' niet openen omdat u geen profiel plugins heeft geinstalleerd.\nU moet dbx_3x.dll of een equivalent installeren.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda kan '%s' niet openen omdat u geen profiel plugins heeft geinstalleerd.\nU moet dbx_mmap.dll of een equivalent installeren.
 [No profile support installed!]
 Geen profiel ondersteuning geinstalleerd!
 [Miranda can't understand that profile]
@@ -1384,7 +1384,7 @@ Miranda kan dat profiel niet begrijpen
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 Het profiel bestaat al
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 Kan '%s' niet verplaatsen naar de prullenbak. Selecteer aub een ander profiel.
 [Problem moving profile]
 Probleem verplaaten profiel

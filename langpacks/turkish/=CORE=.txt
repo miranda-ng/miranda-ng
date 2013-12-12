@@ -1800,8 +1800,8 @@ Gruba &Taşı
 [<Root group>]
 <Kök Grup>
 ;file \src\modules\database\database.cpp
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Miranda hiç bir profil eklentisi kurulmamış olduğundan '%s' ögesini açamadı.\ndbx_3x.dll veya eşdeğerini kurmalısınız.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda hiç bir profil eklentisi kurulmamış olduğundan '%s' ögesini açamadı.\ndbx_mmap.dll veya eşdeğerini kurmalısınız.
 [No profile support installed!]
 Hiç profil desteği kurulmamış!
 [Miranda can't understand that profile]
@@ -1810,7 +1810,7 @@ Miranda bu profili tanıyamadı
 ;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 Profil zaten var
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
 '%s' Geri Dönüşüm kutusuna taşınamadı, lütfen başka bir profil adı seçin.
 [Problem moving profile]
 Profil taşınırken hata oldu

@@ -953,7 +953,7 @@ In entrata
 [Error]
 Errore
 ;file \src\core\stdfile\fileexistsdlg.cpp
-[All Files]
+[All files]
 Tutti i file
 ;file \src\core\stdfile\fileopts.cpp
 [Executable Files]

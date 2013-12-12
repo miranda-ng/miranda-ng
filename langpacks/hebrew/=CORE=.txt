@@ -1460,7 +1460,7 @@ OutputDebugString()
 קרא הודעה
 [Open Options page]
 פתח דף אפשרויות
-[Open Find User Dialog]
+[Open 'Find user' dialog]
 פתח תיבת חיפוש משתמש
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
