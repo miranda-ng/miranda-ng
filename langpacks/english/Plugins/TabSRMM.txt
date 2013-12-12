@@ -871,7 +871,6 @@
 [Remove popups under following conditions]
 [Message window behavior]
 [Sending messages]
-[Send on SHIFT - Enter]
 [Close the message window on send]
 [Always flash contact list and tray icon for new messages]
 [Delete temporary contacts on close]
