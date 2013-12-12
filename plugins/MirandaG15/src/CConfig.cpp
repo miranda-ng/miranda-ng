@@ -276,7 +276,7 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 	// ---------------------
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CHAT);
-	odp.pszTitle    = "Chatsessions";
+	odp.pszTitle    = "Chat sessions";
 	odp.pfnDlgProc  = CConfig::ChatDlgProc;
 
 	Options_AddPage(wParam, &odp);

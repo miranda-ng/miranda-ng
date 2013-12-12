@@ -69,6 +69,8 @@
 Журнал сообщений
 [Contact list:]
 Список контактов
+[Chat sessions]
+Беседы
 [Titles:]
 Заголовки
 [If the screensaver is active:]
