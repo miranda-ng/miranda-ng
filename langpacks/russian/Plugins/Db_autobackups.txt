@@ -15,8 +15,6 @@
 Отменить
 [Automatic backups]
 Авторезервирование профиля
-[Number of backups to keep:]
-Количество резервных копий:
 [Backup NOW]
 Сохранить СЕЙЧАС
 [Disabled]
@@ -27,6 +25,8 @@
 При выходе из Miranda NG
 [Every:]
 Каждые:
+[Number of backups to keep:]
+Количество резервных копий:
 [Backup to folder:]
 Сохранять в папку:
 [Browse...]

@@ -6,14 +6,14 @@
 ;  Authors: bidyut, Maat
 ;============================================================
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
-[Hide the "toggle sound" menu item (requires restart of Miranda)]
-Cacher le Menu "toggle sound" (nécessite le redémarrage de Miranda)
 [No sounds when:]
 Pas de sons si:
-[No SysTray blink when:]
-Pas de flash systray si:
 [No CLIST blink when:]
 Pas de flash CLIST si:
+[No SysTray blink when:]
+Pas de flash systray si:
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Cacher le Menu "toggle sound" (nécessite le redémarrage de Miranda)
 ;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
 Désactiver les sons

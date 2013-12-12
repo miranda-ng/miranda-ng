@@ -2476,7 +2476,8 @@ Uruguay
 Ouzbékistan
 [Vanuatu]
 Vanuatu
-[Venezuela, Bolivarian Republic of]
+[Venezuela]
+
 [Yemen]
 Yémen
 [Zambia]

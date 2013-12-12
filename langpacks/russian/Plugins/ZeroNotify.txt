@@ -6,15 +6,15 @@
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
 Автоматическое запрещение различных событий, в зависимости от определённого статуса.
+[No sounds when:]
+Нет звуков, если:
+[No CLIST blink when:]
+Нет мигания в КЛ:
+[No SysTray blink when:]
+Нет мигания в трее:
 [Zero Notifications]
 Запрет уведомлений
 [Disable &Sounds]
 Запретить звуки
 [Enable &Sounds]
 Разрешить звуки
-[No sounds when:]
-Нет звуков, если:
-[No SysTray blink when:]
-Нет мигания в трее:
-[No CLIST blink when:]
-Нет мигания в КЛ:

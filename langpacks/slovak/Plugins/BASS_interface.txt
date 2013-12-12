@@ -62,7 +62,7 @@ Zvuky
 
 [Enable sounds]
 
-[Frame Background]
+[Frame background]
 
 [Bass library]
 

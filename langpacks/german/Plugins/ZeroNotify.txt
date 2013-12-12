@@ -8,14 +8,14 @@
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
 Ermöglicht die Deaktivierung von Benachrichtigungen, wenn ein Protokoll in einem bestimmten Status ist.
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
-[Hide the "toggle sound" menu item (requires restart of Miranda)]
-Menüpunkt verstecken (erfordert Neustart von Miranda)
 [No sounds when:]
 Keine Klänge, wenn:
-[No SysTray blink when:]
-Kein Blinken (Tray), wenn:
 [No CLIST blink when:]
 Kein Blinken (Liste), wenn:
+[No SysTray blink when:]
+Kein Blinken (Tray), wenn:
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Menüpunkt verstecken (erfordert Neustart von Miranda)
 ;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
 Klänge deaktivieren

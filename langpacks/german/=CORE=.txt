@@ -2600,7 +2600,7 @@ Benin
 Bermuda
 [Bhutan]
 Bhutan
-[Bolivia, Plurinational State of]
+[Bolivia]
 Bolivien, pluralistischer Staat
 [Bonaire, Sint Eustatius and Saba]
 Bonaire, Sint Eustatius und Saba
@@ -2614,7 +2614,7 @@ Bouvet Insel
 Brasilien
 [British Indian Ocean Territory]
 Britisches Territorium Indischer Ozean
-[Brunei Darussalam]
+[Brunei]
 Brunei Darussalam
 [Bulgaria]
 Bulgarien
@@ -2648,7 +2648,7 @@ Kokos (Keeling) Inseln
 Kolumbien
 [Comoros]
 Comoren
-[Congo]
+[Congo, Republic of the]
 Kongo
 [Congo, Democratic Republic of the]
 Kongo, demokratische Republik
@@ -2704,7 +2704,7 @@ Frankreich
 Französisch-Guayana
 [French Polynesia]
 Französisch-Polynesien
-[French Southern Territories]
+[French Southern and Antarctic Lands]
 Französische Südliche Territorien
 [Gabon]
 Gabun
@@ -2742,7 +2742,7 @@ Guyana
 Haiti
 [Heard Island and McDonald Islands]
 Heard Insel und McDonald Inseln
-[Holy See (Vatican City State)]
+[Holy See (Vatican City)]
 Heiliger Stuhl (Vatikanstadt)
 [Honduras]
 Honduras
@@ -2782,15 +2782,15 @@ Kasachstan
 Kenia
 [Kiribati]
 Kiribati
-[Korea, Democratic People's Republic of]
+[North Korea]
 Korea, Demokratische Volksrepublik
-[Korea, Republic of]
+[South Korea]
 Korea, Republik
 [Kuwait]
 Kuwait
 [Kyrgyzstan]
 Kirgisien
-[Lao People's Democratic Republic]
+[Laos]
 Lao, Demokratische Volksrepublik
 [Latvia]
 Lettland
@@ -2886,7 +2886,7 @@ Oman
 Pakistan
 [Palau]
 Palau
-[Palestinian Territory, Occupied]
+[Palestinian Territories]
 Palästinensisches Territorium, besetzt
 [Panama]
 Panama
@@ -2898,7 +2898,7 @@ Paraguay
 Peru
 [Philippines]
 Philippinen
-[Pitcairn]
+[Pitcairn Islands]
 Pitcairn
 [Poland]
 Polen
@@ -2912,7 +2912,7 @@ Katar
 Reunion
 [Romania]
 Rumänien
-[Russian Federation]
+[Russia]
 Russische Föderation
 [Rwanda]
 Ruanda
@@ -2986,7 +2986,7 @@ Syrien
 Taiwan, Provinz von China
 [Tajikistan]
 Tadschikistan
-[Tanzania, United Republic of]
+[Tanzania]
 Tansania, vereinigte Republik
 [Thailand]
 Thailand
@@ -3028,13 +3028,13 @@ Uruguay
 Usbekistan
 [Vanuatu]
 Vanuatu
-[Venezuela, Bolivarian Republic of]
+[Venezuela]
 Venezuela, bolivarische Republik
-[Viet Nam]
+[Vietnam]
 Vietnam
-[Virgin Islands, British]
+[Virgin Islands (British)]
 Jungferninseln, Britisch
-[Virgin Islands, U.S.]
+[Virgin Islands (United States)]
 Jungferninseln, U.S.
 [Wallis and Futuna]
 Wallis und Futuna

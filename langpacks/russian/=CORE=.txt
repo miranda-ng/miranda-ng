@@ -2615,8 +2615,8 @@ ANSI плагин
 Гаити
 [Heard Island and McDonald Islands]
 о. Херд и о-ва Макдональд
-[Holy See (Vatican City State)]
-Святой Престол (Ватикан)
+[Holy See (Vatican City)]
+Ватикан
 [Honduras]
 Гондурас
 [Hong Kong]

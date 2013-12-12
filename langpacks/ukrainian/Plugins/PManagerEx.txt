@@ -19,7 +19,7 @@ Miranda NG буде закрито.\n\nВи впевнені, що хочете 
 Перевірити базу
 [Restart]
 Перезапуск
-[Profile manager]
-Менеджер профілів
 [Database]
 Профіль
+[Profile manager]
+Менеджер профілів

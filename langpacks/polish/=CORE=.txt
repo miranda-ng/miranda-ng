@@ -2600,7 +2600,7 @@ Benin
 Bermudy
 [Bhutan]
 Bhutan
-[Bolivia, Plurinational State of]
+[Bolivia]
 Boliwia
 [Bonaire, Sint Eustatius and Saba]
 Bonaire
@@ -2614,7 +2614,7 @@ Wyspa Bouveta
 Brazylia
 [British Indian Ocean Territory]
 Brytyjskie Terytorium Oceanu Indyjskiego
-[Brunei Darussalam]
+[Brunei]
 Brunei
 [Bulgaria]
 Bułgaria
@@ -2648,7 +2648,7 @@ Wyspy Kokosowe
 Kolumbia
 [Comoros]
 Komory
-[Congo]
+[Congo, Republic of the]
 Kongo
 [Congo, Democratic Republic of the]
 Demokratyczna Republika Konga
@@ -2704,7 +2704,7 @@ Francja
 Gujana Francuska
 [French Polynesia]
 Polinezja Francuska
-[French Southern Territories]
+[French Southern and Antarctic Lands]
 Francuskie Terytoria Południowe i Antarktyczne
 [Gabon]
 Gabon
@@ -2742,7 +2742,7 @@ Gujana
 Haiti
 [Heard Island and McDonald Islands]
 Wyspy Heard i McDonalda
-[Holy See (Vatican City State)]
+[Holy See (Vatican City)]
 Watykan
 [Honduras]
 Honduras
@@ -2782,15 +2782,15 @@ Kazachstan
 Kenia
 [Kiribati]
 Kiribati
-[Korea, Democratic People's Republic of]
+[North Korea]
 Korea Północna
-[Korea, Republic of]
+[South Korea]
 Korea Południowa
 [Kuwait]
 Kuwejt
 [Kyrgyzstan]
 Kirgistan
-[Lao People's Democratic Republic]
+[Laos]
 Laos
 [Latvia]
 Łotwa
@@ -2886,7 +2886,7 @@ Oman
 Pakistan
 [Palau]
 Palau
-[Palestinian Territory, Occupied]
+[Palestinian Territories]
 Palestyna
 [Panama]
 Panama
@@ -2898,7 +2898,7 @@ Paragwaj
 Peru
 [Philippines]
 Filipiny
-[Pitcairn]
+[Pitcairn Islands]
 Pitcairn
 [Poland]
 Polska
@@ -2912,7 +2912,7 @@ Katar
 Reunion
 [Romania]
 Rumunia
-[Russian Federation]
+[Russia]
 Rosja
 [Rwanda]
 Rwanda
@@ -2986,7 +2986,7 @@ Syryjska Republika Arabska
 Tajwan
 [Tajikistan]
 Tadżykistan
-[Tanzania, United Republic of]
+[Tanzania]
 Tanzania
 [Thailand]
 Tajlandia
@@ -3028,13 +3028,13 @@ Urugwaj
 Uzbekistan
 [Vanuatu]
 Vanuatu
-[Venezuela, Bolivarian Republic of]
+[Venezuela]
 Venezuela, Bolivarian Republic of
-[Viet Nam]
-Viet Nam
-[Virgin Islands, British]
+[Vietnam]
+Wietnam
+[Virgin Islands (British)]
 Brytyjskie Wyspy Dziewicze
-[Virgin Islands, U.S.]
+[Virgin Islands (United States)]
 Wyspy Dziewicze Stanów Zjednoczonych
 [Wallis and Futuna]
 Wallis i Futuna

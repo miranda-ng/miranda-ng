@@ -20,7 +20,7 @@ Profil ändern
 Datenbank überprüfen
 [Restart]
 Neustart
-[Profile manager]
-Profilmanager
 [Database]
 Datenbank
+[Profile manager]
+Profilmanager

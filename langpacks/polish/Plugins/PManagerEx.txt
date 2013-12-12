@@ -20,7 +20,7 @@ Zmień profil
 Sprawdź profil
 [Restart]
 Restart
-[Profile manager]
-Menedżer profili
 [Database]
 Profil
+[Profile manager]
+Menedżer profili

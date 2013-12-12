@@ -15,8 +15,6 @@
 Скасувати
 [Automatic backups]
 Авторезервирование профілю
-[Number of backups to keep:]
-Число резервних копій для зберігання:
 [Backup NOW]
 Резервувати ЗАРАЗ!
 [Disabled]
@@ -27,6 +25,8 @@
 При виході
 [Every:]
 Кожні:
+[Number of backups to keep:]
+Число резервних копій для зберігання:
 [Backup to folder:]
 Папка для резервних копій
 [Browse...]

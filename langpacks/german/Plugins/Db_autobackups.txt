@@ -14,8 +14,6 @@ Fortschritt der Sicherung
 Abbrechen
 [Automatic backups]
 Automatische Sicherung
-[Number of backups to keep:]
-Anzahl der gespeicherten Sicherungen:
 [Backup NOW]
 Jetzt sichern
 [Disabled]
@@ -26,6 +24,8 @@ Während des Startvorgangs
 Während des Beendens
 [Every:]
 Alle:
+[Number of backups to keep:]
+Anzahl der gespeicherten Sicherungen:
 [Backup to folder:]
 Ordner für Sicherungen:
 [Browse...]

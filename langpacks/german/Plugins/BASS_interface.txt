@@ -62,7 +62,7 @@ Klänge
 Klänge deaktivieren
 [Enable sounds]
 Klänge aktivieren
-[Frame Background]
+[Frame background]
 Frame-Hintergrund
 [Bass library]
 Bass-Bibliothek

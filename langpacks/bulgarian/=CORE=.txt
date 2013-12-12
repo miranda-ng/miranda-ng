@@ -2569,8 +2569,8 @@ PNG изображения
 Бермуда
 [Bhutan]
 Бутан
-[Bolivia, Plurinational State of]
-Многонационална държава Боливия
+[Bolivia]
+Боливия
 [Bonaire, Sint Eustatius and Saba]
 отвъдморски територии на Нидерландия
 [Bosnia and Herzegovina]
@@ -2583,7 +2583,7 @@ PNG изображения
 Бразилия
 [British Indian Ocean Territory]
 Британска индоокеанска територия
-[Brunei Darussalam]
+[Brunei]
 Бруней
 [Bulgaria]
 България
@@ -2617,7 +2617,7 @@ PNG изображения
 Колумбия
 [Comoros]
 Коморски острови
-[Congo]
+[Congo, Republic of the]
 Конго
 [Congo, Democratic Republic of the]
 Демократична република Конго
@@ -2673,7 +2673,7 @@ PNG изображения
 Френска Гвиана
 [French Polynesia]
 Френска Полинезия
-[French Southern Territories]
+[French Southern and Antarctic Lands]
 Френски южни и антарктически територии
 [Gabon]
 Габон
@@ -2711,7 +2711,7 @@ PNG изображения
 Хаити
 [Heard Island and McDonald Islands]
 острови Хърд и Макдоналд
-[Holy See (Vatican City State)]
+[Holy See (Vatican City)]
 (Ватикан) Светият престол
 [Honduras]
 Хондурас
@@ -2751,15 +2751,15 @@ PNG изображения
 Кения
 [Kiribati]
 Кирибати
-[Korea, Democratic People's Republic of]
+[North Korea]
 Корейска народно-демократична република
-[Korea, Republic of]
+[South Korea]
 Република Корея (Южна Корея)
 [Kuwait]
 Кувейт
 [Kyrgyzstan]
 Киргизстан
-[Lao People's Democratic Republic]
+[Laos]
 Лаоска народнодемократична република
 [Latvia]
 Латвия
@@ -2855,7 +2855,7 @@ PNG изображения
 Пакистан
 [Palau]
 Палау
-[Palestinian Territory, Occupied]
+[Palestinian Territories]
 Палестински окупирани територии
 [Panama]
 Панама
@@ -2867,7 +2867,7 @@ PNG изображения
 Перу
 [Philippines]
 Филипини
-[Pitcairn]
+[Pitcairn Islands]
 Питкерн
 [Poland]
 Полша
@@ -2881,7 +2881,7 @@ PNG изображения
 Реюнион
 [Romania]
 Румъния
-[Russian Federation]
+[Russia]
 Русия
 [Rwanda]
 Руанда
@@ -2955,7 +2955,7 @@ PNG изображения
 Тайван, провинция на Китай
 [Tajikistan]
 Таджикистан
-[Tanzania, United Republic of]
+[Tanzania]
 Танзания
 [Thailand]
 Тайланд
@@ -2997,13 +2997,13 @@ PNG изображения
 Узбекистан
 [Vanuatu]
 Вануату
-[Venezuela, Bolivarian Republic of]
+[Venezuela]
 Венесуела, Боливарска република
-[Viet Nam]
+[Vietnam]
 Виетнам
-[Virgin Islands, British]
+[Virgin Islands (British)]
 Британски Вирджински острови
-[Virgin Islands, U.S.]
+[Virgin Islands (United States)]
 Американски Вирджински острови
 [Wallis and Futuna]
 острови Уолис и Футуна

@@ -8,14 +8,14 @@
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
 增加选项当协议处于特定状态时自动禁用通知.
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
-[Hide the "toggle sound" menu item (requires restart of Miranda)]
-隐藏 "切换声音" 菜单项 (需重启 Miranda)
 [No sounds when:]
 无声音于:
-[No SysTray blink when:]
-无系统托盘闪烁于:
 [No CLIST blink when:]
 无联系人列表闪烁于:
+[No SysTray blink when:]
+无系统托盘闪烁于:
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+隐藏 "切换声音" 菜单项 (需重启 Miranda)
 ;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
 禁用声音(&S)

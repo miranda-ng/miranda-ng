@@ -8,7 +8,7 @@
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 提示信息样式
-[Background]
+[Background color]
 背景
 [ERROR style]
 错误信息样式

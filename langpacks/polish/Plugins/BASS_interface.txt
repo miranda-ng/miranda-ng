@@ -62,7 +62,7 @@ Dźwięki
 Wyłącz dźwięki
 [Enable sounds]
 Włącz dźwięki
-[Frame Background]
+[Frame background]
 Tło ramki
 [Bass library]
 Biblioteka BASS

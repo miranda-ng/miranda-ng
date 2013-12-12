@@ -20,7 +20,7 @@
 
 [Restart]
 Рестартиране
-[Profile manager]
-
 [Database]
 База от данни
+[Profile manager]
+

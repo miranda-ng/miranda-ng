@@ -2579,7 +2579,7 @@ neznáme
 
 [Bhutan]
 
-[Bolivia, Plurinational State of]
+[Bolivia]
 
 [Bonaire, Sint Eustatius and Saba]
 
@@ -2593,7 +2593,7 @@ neznáme
 
 [British Indian Ocean Territory]
 
-[Brunei Darussalam]
+[Brunei]
 
 [Bulgaria]
 
@@ -2627,7 +2627,7 @@ neznáme
 
 [Comoros]
 
-[Congo]
+[Congo, Republic of the]
 
 [Congo, Democratic Republic of the]
 
@@ -2683,7 +2683,7 @@ neznáme
 
 [French Polynesia]
 
-[French Southern Territories]
+[French Southern and Antarctic Lands]
 
 [Gabon]
 
@@ -2721,7 +2721,7 @@ neznáme
 
 [Heard Island and McDonald Islands]
 
-[Holy See (Vatican City State)]
+[Holy See (Vatican City)]
 
 [Honduras]
 
@@ -2761,15 +2761,15 @@ neznáme
 
 [Kiribati]
 
-[Korea, Democratic People's Republic of]
+[North Korea]
 
-[Korea, Republic of]
+[South Korea]
 
 [Kuwait]
 
 [Kyrgyzstan]
 
-[Lao People's Democratic Republic]
+[Laos]
 
 [Latvia]
 
@@ -2865,7 +2865,7 @@ neznáme
 
 [Palau]
 
-[Palestinian Territory, Occupied]
+[Palestinian Territories]
 
 [Panama]
 
@@ -2877,7 +2877,7 @@ neznáme
 
 [Philippines]
 
-[Pitcairn]
+[Pitcairn Islands]
 
 [Poland]
 
@@ -2891,7 +2891,7 @@ neznáme
 
 [Romania]
 
-[Russian Federation]
+[Russia]
 
 [Rwanda]
 
@@ -2965,7 +2965,7 @@ neznáme
 
 [Tajikistan]
 
-[Tanzania, United Republic of]
+[Tanzania]
 
 [Thailand]
 
@@ -3007,13 +3007,13 @@ neznáme
 
 [Vanuatu]
 
-[Venezuela, Bolivarian Republic of]
+[Venezuela]
 
-[Viet Nam]
+[Vietnam]
 
-[Virgin Islands, British]
+[Virgin Islands (British)]
 
-[Virgin Islands, U.S.]
+[Virgin Islands (United States)]
 
 [Wallis and Futuna]
 

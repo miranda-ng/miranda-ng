@@ -1534,7 +1534,7 @@ PNG изображения
 Мексико
 [Micronesia, Federated States of]
 Микронезия
-[Moldova, Republic of]
+[Moldova]
 Молдова
 [Monaco]
 Монако
@@ -1644,7 +1644,7 @@ PNG изображения
 Швеция
 [Switzerland]
 Швейцария
-[Syrian Arab Republic]
+[Syria]
 Сирия
 [Tajikistan]
 Таджикистан

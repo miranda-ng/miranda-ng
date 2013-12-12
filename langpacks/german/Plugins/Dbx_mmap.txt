@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -29,6 +29,16 @@ Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf,
 [Remove]
 
 [Old password]
+
+[Database encryption mode]
+
+[Standard]
+
+[Total]
+
+[Only critical data are encrypted (passwords, security tokens etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of loosing everything you've stored in a profile in case of loosing password. Recommended only for paranoidal users]
 
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]

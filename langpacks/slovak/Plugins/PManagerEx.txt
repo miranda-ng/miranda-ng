@@ -20,7 +20,7 @@
 
 [Restart]
 
-[Profile manager]
-
 [Database]
+
+[Profile manager]
 

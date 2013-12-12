@@ -14,7 +14,7 @@
 [--default device--]
 [Disable sounds]
 [Enable sounds]
-[Frame Background]
+[Frame background]
 [Bass library]
 [Sounds enabled]
 [Sounds disabled]

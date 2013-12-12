@@ -14,8 +14,6 @@ Tworzenie kopii zapasowej profilu...
 Anuluj
 [Automatic backups]
 Automatyczne kopie zapasowe
-[Number of backups to keep:]
-Liczba trzymanych kopii zapasowych:
 [Backup NOW]
 Utwórz kopię
 [Disabled]
@@ -26,6 +24,8 @@ Twórz podczas uruchamiania Mirandy
 Twórz podczas wyłączania Mirandy
 [Every:]
 Twórz co:
+[Number of backups to keep:]
+Liczba trzymanych kopii zapasowych:
 [Backup to folder:]
 Zapisuj kopie do folderu:
 [Browse...]

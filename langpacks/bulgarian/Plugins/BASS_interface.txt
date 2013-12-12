@@ -62,7 +62,7 @@ BASS интерфейс
 Изключване на звука
 [Enable sounds]
 Включване на звука
-[Frame Background]
+[Frame background]
 
 [Bass library]
 Библиотеката Bass

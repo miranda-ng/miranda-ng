@@ -5,14 +5,14 @@
 ;  Version: 0.1.1.3
 ;  Authors: StDenis
 ;============================================================
-[Plugin replaces MessageBoxes (those having only OK button) with popups.]
+[Plugin replaces message boxes (those having only OK button) with popups.]
 Ersetzt Meldungsfenlder (die mit nur OK Buttons) durch Popups.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 Information-Stil
-[Background]
+[Background color]
 Hintergrund
-[Foreground]
+[Foreground color]
 Vordergrund
 [ERROR style]
 Fehler-Stil
@@ -31,7 +31,7 @@ Sound abspielen
 ;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
 
-[MsgBox]
+[Error]
 
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
 
