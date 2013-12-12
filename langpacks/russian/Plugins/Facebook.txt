@@ -186,7 +186,7 @@ URL:
 [Message read: %s]
 Сообщение прочтено в: %s
 [This message is no longer available, because it was marked as abusive or spam.]
-Сообщение недоступно, оно было отмечено, как оскорбительное или спам.
+Сообщение недоступно, поскольку было отмечено, как оскорбительное или спам.
 [%s and more (%d)]
 
 [You cannot send messages when you are offline.]

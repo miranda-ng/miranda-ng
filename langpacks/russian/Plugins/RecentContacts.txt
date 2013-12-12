@@ -12,7 +12,7 @@
 Последние контакты
 [Plugin settings]
 Настройки
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 Число отображаемых контактов\n (0 - показывает все)
 [Format of date and time\n(Look to readme for placeholders help)]
 Формат времени и даты\n(Формат смотрите в readme)
