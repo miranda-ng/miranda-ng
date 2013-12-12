@@ -713,3 +713,15 @@ Wiadomość systemowa
 Przychodzący czas
 [Outgoing timestamp]
 Wychodzący czas
+[Open in &new window]
+
+[Open in existing &window]
+
+[Copy &Link]
+
+[Co&py]
+
+[Select &All]
+
+[Send &Message]
+

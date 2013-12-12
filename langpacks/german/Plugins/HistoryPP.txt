@@ -713,3 +713,15 @@ Systemnachricht
 Eingehender Zeitstempel
 [Outgoing timestamp]
 Ausgehender Zeitstempel
+[Open in &new window]
+
+[Open in existing &window]
+
+[Copy &Link]
+
+[Co&py]
+
+[Select &All]
+
+[Send &Message]
+
