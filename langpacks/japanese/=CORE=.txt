@@ -2146,7 +2146,7 @@ Miranda プラグインを有効にしますか ?
 あなたのアカウントは正常にアップグレードされました。アクティブ化するには Miranda の再起動が必要です\n\n今すぐ Miranda を再起動するなら「はい」を押してください。他のアカウントもアップグレードしたい場合は「いいえ」を押してください
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 このアカウントはレガシプロトコルプラグインを使用しています。基本設定を変更するには Miranda NG のオプションダイアログを使用して下さい
-[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Miranda NG のアカウントマネージャーにようこそ !\nここで IM アカウントのセットアップができます\n\n利用可能なオプションを見るには , 左にあるリストの中からアカウントを選択してください。もしくは , リストの下にある + 印をクリックして新規 IM アカウントをセットアップしてください
 [Create new account]
 新規アカウントを作成する
