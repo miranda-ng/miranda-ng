@@ -1,0 +1,15 @@
+﻿Miranda Language Pack Version 1
+Language: Spanish (ES)
+Locale: 0c0a
+Authors: Carlos Sánchez (c-sanchez)
+Author-email: carlos1994sanchez@gmail.com
+Last-Modified-Using: Miranda NG v0.94.4 #5216
+
+; Una nueva traducción al Español para Miranda NG realizada desde cero.
+
+; Gracias a:
+;
+; Robert Pösel (Robyer) por explicarme varias cosas para poder realizarla.
+;
+; Todo el equipo de Miranda NG, por mantener y mejorar día a día a Miranda NG y
+;  permitirme entrar en el repositorio de este y subir la nueva traducción.
