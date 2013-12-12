@@ -1,0 +1,102 @@
+﻿;============================================================
+;  File: yweather.ini
+;  Module: weather
+;============================================================
+[Feel]
+Tocar
+[Forecast Day 1]
+pronóstico día 1
+[Forecast Day 1 Condition]
+Pronóstico día 1 Condición
+[Forecast Day 1 Date]
+Pronóstico día 1 Fecha
+[Forecast Day 1 Day]
+Pronóstico día 1 Día
+[Forecast Day 1 High]
+Pronóstico día 1 Alto
+[Forecast Day 1 Low]
+Pronóstico día 1 Bajo
+[Heat Index]
+Índice de calor
+[Wind Direction]
+Dirección del viento
+[Wind Speed]
+Velocidad del viento
+[Wind Direction Degrees]
+Grados de dirección del viento
+[Mon]
+Lun
+[Tue]
+Mar
+[Wed]
+Mié
+[Thu]
+Jue
+[Fri]
+Vie
+[Sat]
+Sab
+[Sun]
+Dom
+[Sunny]
+Soleado
+[Partly Sunny]
+Parcialmente soleado
+[Mostly Sunny]
+Mayormente soleado
+[Partly Cloudy]
+Parcialmente nublado
+[Mostly Cloudy]
+Mayormente nublado
+[Mostly Clear]
+Despejado
+[N]
+N
+[W]
+O
+[S]
+S
+[E]
+E
+[NW]
+NO
+[NE]
+NE
+[SW]
+SO
+[SE]
+SE
+[NNW]
+
+[NNE]
+
+[SSW]
+
+[SSE]
+
+[ENE]
+
+[WSW]
+
+[WNW]
+
+[ESE]
+
+[Scattered Clouds]
+Nubes dispersas
+[North]
+Norte
+[East]
+Este
+[South]
+Sur
+[West]
+Oeste
+[Northwest]
+Noroeste
+[Northeast]
+Nordeste
+[Southwest]
+Suroeste
+[Southeast]
+Sudeste
