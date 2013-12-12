@@ -99,7 +99,7 @@ TOptionListGroup m_lvGroupsMsg[] = {
 };
 
 TOptionListItem m_lvItemsMsg[] = {
-	0, LPGENT("Send on SHIFT+Enter"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendonshiftenter", 1,
+	0, LPGENT("Send on Shift+Enter"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendonshiftenter", 1,
 	0, LPGENT("Send message on 'Enter'"), SRMSGDEFSET_SENDONENTER, LOI_TYPE_SETTING, (UINT_PTR)SRMSGSET_SENDONENTER, 1,
 	0, LPGENT("Send message on double 'Enter'"), 0, LOI_TYPE_SETTING, (UINT_PTR)"SendOnDblEnter", 1,
 	0, LPGENT("Minimize the message window on send"), SRMSGDEFSET_AUTOMIN, LOI_TYPE_SETTING, (UINT_PTR)SRMSGSET_AUTOMIN, 1,
