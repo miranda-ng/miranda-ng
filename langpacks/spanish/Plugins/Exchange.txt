@@ -1,0 +1,67 @@
+﻿#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+[Notifies you if you have unread email on an exchange server.]
+Notifica si tiene mensajes no leídos en un servidor de intercambio.
+;file \plugins\Exchange\res\exchange.rc
+[Unread emails]
+Mensajes de correo no leídos
+[Close]
+Cerrar
+[Mark as read]
+Marcar como leído
+[Dialog]
+Diálogo
+[Connection]
+Conexión
+[Username:]
+Usuario:
+[Password:]
+Contraseña:
+[Server:]
+Servidor:
+[Preferences]
+Preferencias
+[Check every]
+Comprobar cada
+[seconds]
+segundos
+[Force reconnect every]
+Forzar reconexión cada
+[minutes]
+minutos
+[Check server before trying to connect]
+Comprobar servidor antes de intentar conectar
+[Try to connect]
+Intentar conectarse
+[times before giving up]
+Veces antes de darse por vencido
+[Show email notifications using popup module]
+Mostrar notificaciones de correo usando módulo popup
+;file \plugins\Exchange\src\dlg_handlers.cpp
+[Entry ID]
+Introduzca ID
+[Subject]
+Sujeto
+[Sender]
+Remitente
+;file \plugins\Exchange\src\emails.cpp
+[You have %d unread emails...]
+Tiene %d mensajes sin leer
+[You have one unread email...]
+Usted tiene un correo sin leer
+[Exchange email]
+Correo de intercambio
+[Do you want to see the email headers?]
+¿Desea ver los encabezados de correo electrónico?
+;file \plugins\Exchange\src\hooked_events.cpp
+[Check exchange mailbox]
+Comprobar buzones de intercambio
+[Exchange notify]
+Notificar intercambio
+[Plugins]
+Plugins

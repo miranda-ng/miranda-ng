@@ -1,0 +1,72 @@
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+[un4seen's BASS interface Miranda NG plugin.]
+interfaz para el plugin un4seen's BASS de Miranda NG.
+;file \plugins\BASS_interface\res\Bass.rc
+[un4seen's bass interface]
+un4seen's bass interfaz
+[bass.dll loading error]
+Error cargando bass.dll
+[Current bass.dll path:]
+Ruta de bass.dll actual:
+[Maximum number of bass internal channels:]
+Número máximo de canales bajos internos:
+[Output device:]
+Dispositivo de salida
+[Volume:]
+Volumen:
+[Quiet time:]
+Tiempo de silencio:
+[download bass library]
+Descargar biblioteca bass
+[Play only if]
+Reproducir sólo si
+[Offline]
+Fuera de línea
+[Online]
+En línea
+[Away]
+Fuera
+[NA]
+No disponible
+[Occupied]
+Ocupado
+[DND]
+No molestar
+[Free for chat]
+Libre para el chat	
+[Invisible]
+Invisible
+[On the phone]
+En el teléfono
+[Out to lunch]
+Salí a comer
+[Preview]
+Previsualizar
+;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
+Bass interfaz
+;file \plugins\BASS_interface\src\Main.cpp
+[un4seen's bass version: %d.%d.%d.%d]
+Versión de un4seen's bass: %d.%d.%d.%d
+[--default device--]
+--dispositivo por defecto--
+[Sounds]
+Sonidos
+[Disable sounds]
+Desabilitar sonidos
+[Enable sounds]
+Habilitar sonidos
+[Frame background]
+Marco de fondo
+[Bass library]
+Biblioteca Bass
+[Sounds enabled]
+Sonidos habilitados
+[Sounds disabled]
+Sonidos desabilitados

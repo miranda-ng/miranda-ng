@@ -1,0 +1,111 @@
+﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+;============================================================
+;  File: ClientChangeNotify.dll
+;  Plugin: Client change notify
+;  Version: 0.1.1.3
+;  Authors: Deathdemon
+;============================================================
+[Shows a notification when someone in your contact list changes his client.]
+
+;file \plugins\ClientChangeNotify\res\Resources.rc
+[ClientChangeNotify error]
+
+[OK]
+Aceptar
+[Fingerprint plugin not found.]
+
+[ClientChangeNotify requires it to work properly.]
+
+[Don't remind me anymore]
+
+[Enable notification]
+
+[Show previous client name]
+
+[Notify also when just client version changes]
+
+[Show client version]
+
+[Don't notify for contacts with disabled status notification]
+
+[Click action]
+Acción de clic
+[On left click]
+En clic izquierdo
+[On right click]
+En clic derecho
+[Delay]
+Retardo
+[Sec]
+Seg
+[0 = Default]
+0 = por defecto
+[-1 = Infinite]
+-1 = Infinito
+[Colors]
+Colores
+[Background]
+Fondo
+[Use default]
+
+[Text]
+Texto
+[Preview]
+Previsualizar
+[Ignore these clients (separated by semicolons):]
+
+[(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
+
+;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
+[changed client to %s (was %s)]
+
+[changed client to %s]
+
+[%s (was %s)]
+
+[) changed client to ]
+
+[Client change notifications:]
+
+[Never, ignore client changes for this contact]
+
+[Always except when client change notifications are disabled globally]
+
+[Always, even when client change notifications are disabled globally]
+
+[Use global settings (default)]
+
+[Disable c&lient change notification]
+
+[Enable c&lient change notification]
+
+[Popups]
+Ventanas emergentes
+[ClientChangeNotify: Client changed]
+
+[ClientChangeNotify]
+
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
+
+;file \plugins\ClientChangeNotify\src\Misc.h
+[Error #%d]
+
+[Can't open log file ]
+
+;file \plugins\ClientChangeNotify\src\OptDlg.cpp
+[(you can use regular expressions here)]
+
+[Open message window]
+
+[Close popup]
+Cerrar popup
+[Open contact details window]
+
+[Open contact menu]
+
+[Open contact history]
+
+[Open log file]
+
+[Do nothing]
+No hacer nada

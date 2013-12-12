@@ -1,0 +1,275 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.2.2.1
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+[Facebook protocol support for Miranda NG.]
+Compatibilidad con el protocolo de Facebook para Miranda NG.
+;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+Correo:
+[Password:]
+Contraseña:
+[Create a new Facebook account]
+Crear una nueva cuenta de Facebook
+[What's on your mind?]
+¿Qué tienes en mente?
+[Wall:]
+Muro:
+[Visibility:]
+Visibilidad:
+[Text:]
+Texto:
+[URL:]
+URL:
+[Place:]
+Lugar:
+[Share]
+Compartir
+[Cancel]
+Cancelar
+[Contacts >>]
+Contactos >>]
+[Attach contacts:]
+Adjuntar contactos:
+[User details]
+Detalles del usuario
+[Default group:]
+Grupo predeterminado:
+[Automatically set 'Ignore status change' flag]
+Establecer automáticamente bandera 'Ignorar el cambio de estado'
+[Contacts Settings]
+Configuración de contactos
+[Use bigger avatars]
+Usar avatares grandes
+[Event notifications]
+Notificaciones de eventos
+[Notifications]
+Notificaciones
+[News feeds]
+Nuevas noticias
+[News Feed types to notify:]
+Tipos de noticias a notificar:
+[Other events]
+Otros eventos
+[Client notifications]
+Notificaciones cliente
+[Preview]
+Previsualizar
+[Use balloon notifications in system tray instead of popups]
+Globos de aviso en la  bandeja en vez de ventanas emergentes
+[Advanced Settings]
+Opciones avanzadas
+[Force secure (HTTPS) connection]
+Forzar conexión segura (HTTPS)
+[Post Miranda statuses to Wall]
+Enviar estados de Miranda al Muro
+[Use secure connection also for channel requests]
+Usar conexión segura también para solicitudes de canal
+[Also disconnect chat when going to offline]
+También desconectar charla cuando se va a fuera de línea
+[Map non-standard statuses to Invisible (instead of Online)]
+Mapa de estados no estándar a Invisible (en lugar de en línea)
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+Activar soporte para emoticonos personalizados (¡EXPERIMENTAL + BUGGY!)
+[Use local time for received messages]
+Usar la hora local para los mensajes recibidos
+[Use this server for opening links:]
+Abrir enlaces con este servidor:
+[Allow posting statuses to my pages (may slow down login)]
+Permitir publicar estados a mis páginas (puede ralentizar sesión)
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+&Invitar usuario...
+[&Leave chat session]
+&Abandonar sesión de charla
+[User &details]
+&Detalles del usuario
+[User &history]
+&Historial del usuario
+;file \protocols\FacebookRM\src\communication.cpp
+[Login error: %s]
+Error de inicio de sesión: %s
+[Unknown error]
+Error desconocido
+[Login error: Invalid request.]
+Error de inicio de sesión: Solicitud no válida.
+[Login error: Some Facebook things are required.]
+Error de inicio de sesión: Se necesitan algunas cosas de Facebook.
+[Login error: Captcha code is required. Bad login credentials?]
+Error de inicio de sesión: Es necesario el código Captcha. ¿Malas contraseñas credenciales?
+[Login error, probably bad login credentials.]
+Error de inicio de sesión, las credenciales de inicio de sesión probablemente son malas.
+[Your account requires HTTPS connection. Activating.]
+Su cuenta requiere una conexión HTTPS. Activando.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Algo le pasó a Facebook. Tal vez hubo alguna actualización importante por lo que debe esperar a una actualización.
+[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de facebook y tratar de enviar un mensaje a este contacto de nuevo!
+[Timeout when sending message.]
+Tiempo de espera al enviar el mensaje
+[Status update was successful.]
+Estado actualizado con un éxito.
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+Por favor, introduzca un nombre de usuario.
+[Please enter a password.]
+Por favor, introduzca una contraseña.
+;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+Más reciente
+[Wall Posts]
+Mensajes de Muro
+[Top News]
+Noticias principales
+[Photos]
+Fotos
+[Links]
+Enlaces
+[Apps and Games]
+Aplicaciones y Juegos
+[Classic website]
+Sitio web clásico
+[Mobile website]
+Sitio web para móvil
+[Smartphone website]
+Sitio web para smartphone
+[Public]
+Público
+[Friends of friends]
+Amigos de amigos
+[Friends]
+Amigos
+[Friends except acquaintances]
+Amigos menos conocidos
+[Only me]
+Sólo para mí
+;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+El contacto fue eliminado de la lista de servidores.
+[Error occurred when removing contact from server.]
+Se produjo un error al quitar el contacto del servidor.
+[Request for friendship was sent.]
+La solicitud de amistad se ha enviado.
+[Error occurred when requesting friendship.]
+Se produjo un error al solicitar la amistad.
+[Request for friendship was canceled.]
+La solicitud de amistad fue cancelada.
+[Error occurred when canceling friendship request.]
+Se produjo un error al cancelar la solicitud de amistad.
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
+Por defecto
+[<< Contacts]
+<< Contactos
+[What's on your mind, %s?]
+¿Qué hay en tu mente, %s?
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+Nota: Asegúrese de haber desactivado la opción 'Validar certificados SSL' en las opciones de red para que funcione correctamente.
+[Sample event]
+Evento de ejemplo
+[Sample request]
+Ejemplo de solicitud
+[Sample newsfeed]
+Ejemplo de noticias
+[Sample notification]
+Notificación de ejemplo
+;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+una etiqueta
+[files]
+archivos
+[a file]
+un archivo
+[photos]
+fotos
+[a photo]
+una foto
+[User sent you %s:]
+El usuario le envió %s:
+[Message read: %s by %s]
+Leer mensaje: %s por %s
+[Message read: %s]
+Leer mensaje: %s
+[This message is no longer available, because it was marked as abusive or spam.]
+Este mensaje ya no está disponible, porque estaba marcado como abusivo o correo no deseado.
+[%s and more (%d)]
+%s y más (%d)
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+No puede enviar mensajes cuando no esté conectado.
+;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+El contacto regresa a la lista del servidor.
+[Contact is no longer on server-list.]
+El contacto ya no está en la lista del servidor.
+;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+%s conexión al servidor
+[Unable to get Netlib connection for Facebook]
+No se puede obtener la conexión Netlib para Facebook
+[Facebook ID must be numeric value.]
+Facebook ID debe ser un valor numérico.
+[Network]
+Red
+[Account]
+Cuenta
+[Events]
+Eventos
+[Advanced]
+Avanzado
+[Share status...]
+Compartir estado...
+[Own wall]
+Propio muro
+[Loading newsfeeds...]
+Cargando noticias...
+[Checking friend requests...]
+Comprobando solicitudes de amistad...
+[Refreshing buddy list...]
+Refrescando lista de amigos...
+[Do you want to cancel your friendship with '%s'?]
+¿Quiere cancelar su amistad con '%s'?
+[Show 'Share status' window]
+Mostrar ventana "Compartir estado'
+[Notification]
+Notificación
+[News Feed]
+Nuevas noticias
+[Other Event]
+Otros eventos
+;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+Icono de Facebook
+[Mind]
+Mente
+[Poke]
+Meter
+[Newsfeed]
+Fuentes noticias
+[Friendship details]
+Detalles de amistad
+[Visit profile]
+Visitar perfil
+[Visit friendship details]
+Visitar detalles de amistad
+[Cancel friendship]
+Cancelar amistad
+[Cancel friendship request]
+Cancelar solicitud de amistad
+[Request friendship]
+Solicitud de amistad
+[Approve friendship]
+Aprobar amistad
+[Services...]
+Servicios...
+[Refresh Buddy List]
+Refrescar lista de amigos
+[Services]
+Servicios
+[Check Friends Requests]
+Comprobar solicitudes de amistad
+[Check Newsfeeds]
+Comprobar fuentes de noticias

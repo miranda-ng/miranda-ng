@@ -1,0 +1,388 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.9
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+[Notifies you when a contact changes his/her (X)status or status message.]
+
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+
+[Online]
+En línea
+[Offline]
+Fuera de línea
+[Invisible]
+Invisible
+[Free for chat]
+Libre para el chat	
+[Away]
+Fuera
+[NA]
+No disponible
+[Occupied]
+Ocupado
+[DND]
+No molestar
+[Out to lunch]
+Salí a comer
+[On the phone]
+En el teléfono
+[Always when changing from offline]
+
+[Plugin activation]
+
+[Automatically turn off Popups and Sounds on status change]
+
+[Configure]
+Configurar
+[Notify me for people not in my Contact List]
+
+[Blink icon in the system tray]
+
+[Use status icon]
+
+[Use individual sounds]
+
+[Log to file]
+
+[Enable]
+Habilitar
+[Go to Sound to select the sounds]
+
+[Extra status]
+
+[Open]
+
+[Status message]
+
+[Change]
+
+[Preview]
+Previsualizar
+[Delete]
+Eliminar
+[Enable sounds]
+Habilitar sonidos
+[Enable popups]
+
+[Status Notify]
+
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+
+[Sounds]
+Sonidos
+[Popups]
+Ventanas emergentes
+[Extra status notify]
+
+[Extra status logging]
+
+[Disable all]
+
+[Enable all]
+
+[Background]
+Fondo
+[Text]
+Texto
+[Colors]
+Colores
+[Use custom colors]
+Usar colores personalizados
+[Use Windows colors]
+Usar colores de Windows
+[Use Popup colors]
+
+[Popup text]
+
+[Read status message]
+
+[Show previous status too]
+
+[Timeout]
+Tiempo de espera
+[Popups when status changes to:]
+
+[Click action]
+Acción de clic
+[Show contact group name]
+
+[Use alternative descriptions]
+
+[0 = Default]
+0 = por defecto
+[-1 = Infinite]
+-1 = Infinito
+[Sec]
+Seg
+[On left click]
+En clic izquierdo
+[On right click]
+En clic derecho
+[Show status description]
+
+[Ignore empty status and xStatus messages]
+
+[Connection timeout]
+
+[Notification]
+Notificación
+[Disable for extra status 'Music']
+
+[Truncate message length to:]
+
+[characters]
+
+[Templates]
+Plantillas
+[Title - text delimiter:]
+
+[Remove:]
+
+[New message:]
+
+[New status:]
+
+[Variables]
+Variables
+[Reset]
+Reiniciar
+[Disable notifications]
+
+[OK]
+Aceptar
+[Cancel]
+Cancelar
+[Disable globally]
+
+[Disable only if I change global status]
+
+[Disable when my status is:]
+
+[Extra status log]
+
+[Enable logging extra status to message window]
+
+[Keep events in history]
+
+[Prevent identical logs]
+
+[On opening ML:]
+
+[General]
+General
+[Show Popups when I connect]
+
+[Accounts]
+Cuentas
+[Enable/Disable accounts which you don't wish to be notified for:]
+
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound files]
+Archivos de sonido
+[All files]
+Todos los archivos
+[Wave files]
+
+[Status]
+Estado
+[Sound for the status]
+
+[From offline]
+
+[** All contacts **]
+** Todos los contactos **
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+
+;file \plugins\NewXstatusNotify\src\main.cpp
+[<no status message>]
+
+[Contact]
+Contacto
+[connecting]
+
+[aborting]
+
+[playing]
+
+[%s is now %s]
+
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+
+[(M) is back online!]
+
+[(F) is back online!]
+
+[(U) is back online!]
+
+[User: Online]
+
+[(M) went offline! :(]
+
+[(F) went offline! :(]
+
+[(U) went offline! :(]
+
+[User: Offline]
+
+[(M) hides in shadows...]
+
+[(F) hides in shadows...]
+
+[(U) hides in shadows...]
+
+[User: Invisible]
+
+[(M) feels talkative!]
+
+[(F) feels talkative!]
+
+[(U) feels talkative!]
+
+[User: Free For Chat]
+
+[(M) went Away]
+
+[(F) went Away]
+
+[(U) went Away]
+
+[User: Away]
+
+[(M) isn't there anymore!]
+
+[(F) isn't there anymore!]
+
+[(U) isn't there anymore!]
+
+[User: Not Available]
+
+[(M) has something else to do.]
+
+[(F) has something else to do.]
+
+[(U) has something else to do.]
+
+[User: Occupied]
+
+[(M) doesn't want to be disturbed!]
+
+[(F) doesn't want to be disturbed!]
+
+[(U) doesn't want to be disturbed!]
+
+[User: Do Not Disturb]
+
+[(M) is eating something]
+
+[(F) is eating something]
+
+[(U) is eating something]
+
+[User: Out To Lunch]
+
+[(M) had to answer the phone]
+
+[(F) had to answer the phone]
+
+[(U) had to answer the phone]
+
+[User: On The Phone]
+
+[Enable status notification]
+
+[Disable status notification]
+
+[Notification enabled]
+
+[Notification disabled]
+
+[New Status Notify]
+
+[User: from offline (has priority!)]
+
+[Extra status changed]
+
+[Extra status message changed]
+
+[Extra status removed]
+
+[Toggle status notification]
+
+;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Todos los archivos
+[Log]
+Registro
+[This is status message]
+
+[Do you want to reset all templates to default?]
+
+[Reset templates]
+
+[Show available variables]
+
+[Reset all templates to default]
+
+[Protocol]
+Protocolo
+[Filtering]
+Filtrando
+[Message log]
+Registro de mensaje
+;file \plugins\NewXstatusNotify\src\popup.h
+[Open message window]
+
+[Close popup]
+Cerrar popup
+[Open contact details window]
+
+[Open contact menu]
+
+[Open contact history]
+
+[Do nothing]
+No hacer nada
+;file \plugins\NewXstatusNotify\src\utils.cpp
+[You cannot specify a value lower than %d and higher than %d.]
+
+[Can't open the log file!]
+
+[NewXstatusNotify]
+
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Mood]
+
+[Activity]
+
+[Xstatus]
+
+[<unknown>]
+<desconocido>
+[%s, %s. %s removed %s.\r\n]
+
+[%s, %s. %s changed %s to: %s.\r\n]
+
+;file \plugins\NewXstatusNotify\src\xstatus.h
+[changed %N to: %T%D%I]
+
+[changed %N message to:%D%I]
+
+[removed %N]
+
+[changed his/her status message to %n]
+
+[changed %N @ %T%D%I]
+
+[changed %N message @ %I]
+
+[has %N @ %T%D%I]
+
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+

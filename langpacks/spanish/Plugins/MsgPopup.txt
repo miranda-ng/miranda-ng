@@ -1,0 +1,50 @@
+﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.1.3
+;  Authors: StDenis
+;============================================================
+[Plugin replaces message boxes (those having only OK button) with popups.]
+Plugin reemplaza cuadros de mensaje (aquellos que solo tiene el botón Aceptar) con popups
+;file \plugins\MsgPopup\res\MsgPopup.rc
+[ASTERISK style]
+estilo ASTERISCO
+[Background color]
+Color de fondo
+[Text color]
+Color de texto
+[ERROR style]
+estilo ERROR
+[EXCLAMATION style]
+estilo EXCLAMACIÓN
+[QUESTION style]
+estilo PREGUNTA
+[Preview]
+Previsualizar
+[Timeout]
+Tiempo de espera
+[Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
+Valores especiales del "Tiempo de espera":\n -1 - infinito, 0 - usar valor de tiempo de espera por defecto
+[Emit a sound]
+Emite un sonido
+;file \plugins\MsgPopup\src\main.cpp
+[VirtualProtect failed. Code %d\nTry to call the author]
+VirtualProtect a fallado. Código %d\nTrate de llamar al autor
+[Error]
+Error
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
+Hmm. Algo va mal. No puedo escribir en la memoria.\nY como se puede ver, allí no hay ninguna excepción planteada...\nTrate de llamar al autor
+[MessagePopup]
+Mensaje emergente
+[Popups]
+Ventanas emergentes
+;file \plugins\MsgPopup\src\options.cpp
+[Message with question]
+Mensaje con pregunta
+[Message with exclamation]
+Mensaje con exclamación
+[Message with error]
+Mensaje con error
+[Message with asterisk]
+Mensaje con asterisco

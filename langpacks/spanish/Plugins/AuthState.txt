@@ -1,0 +1,36 @@
+﻿#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization state
+;  Version: 0.0.2.1
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+[If a contact didn't authorize you this plugin puts an icon in front of the contact's name.]
+Si un contacto no autorizó que este plugin colocar un icono delante del nombre del contacto.
+;file \plugins\AuthState\res\authstate.rc
+[Show Auth icon]
+Mostrar icono de autenticación
+[Show Grant icon]
+Mostrar icono de concesión
+[Plugin settings]
+Configuración de plugin
+[Enable menu item (*)]
+Activar opción de menú (*)
+[Show icons only for recently added contacts]
+Mostrar sólo iconos de los contactos agregados recientemente
+;file \plugins\AuthState\src\main.cpp
+[Disable AuthState icons]
+Deshabilitar iconos estado de autenticación
+[Enable AuthState icons]
+Habilitar iconos estado de autenticación
+[Auth]
+Autenticación
+[Grant]
+Conceder
+[Auth & Grant]
+Autenticación & Concesión
+[Auth State]
+Estado de autenticación
+;file \plugins\AuthState\src\options.cpp
+[Icons]
+Iconos
