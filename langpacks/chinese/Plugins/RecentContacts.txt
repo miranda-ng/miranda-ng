@@ -10,7 +10,7 @@
 ;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
 最近联系人
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 显示联系人数量:\n (0 显示所有)
 [Format of date and time\n(Look to readme for placeholders help)]
 格式化日期及时间\n(占位符相关请查看帮助)

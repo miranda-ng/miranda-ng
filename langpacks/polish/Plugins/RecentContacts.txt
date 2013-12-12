@@ -12,7 +12,7 @@ Dodaje do głównego menu pozycję otwierającą okno z listą ostatnio używany
 Ostatnie kontakty
 [Plugin settings]
 Ustawienia wtyczki
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 Liczba pokazanych kontaktów:\n (0, by pokazać wszystkie)
 [Format of date and time\n(Look to readme for placeholders help)]
 Format daty i czasu\n(Zajrzyj do Readme, by uzyskać pomoc na temat znaczników miejsca)

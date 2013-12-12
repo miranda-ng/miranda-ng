@@ -826,8 +826,6 @@ Désactiver les popups pour les conditions suivantes
 Comportement de la fenêtre des messages
 [Sending messages]
 Envoi de messages
-[Send on SHIFT - Enter]
-Taper "Shift" + "Entrée" pour envoyer
 [Send message on 'Enter']
 Taper 1 fois "Entrée" pour envoyer
 [Send message on double 'Enter']

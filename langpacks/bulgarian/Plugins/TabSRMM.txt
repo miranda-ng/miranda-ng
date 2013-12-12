@@ -1696,8 +1696,6 @@ TabSRMM съобщение (%s)
 Поведение на прозореца за съобщения
 [Sending messages]
 Изпращане на съобщения
-[Send on SHIFT - Enter]
-Изпращане със SHIFT+Enter
 [Close the message window on send]
 Затваряне на прозореца след изпращане
 [Always flash contact list and tray icon for new messages]

@@ -1388,8 +1388,6 @@ TabSRMM 消息 (%s)
 消息窗口行为
 [Sending messages]
 发送消息
-[Send on SHIFT - Enter]
-SHIFT - Enter 发送
 [Close the message window on send]
 发送时关闭消息窗口
 [Always flash contact list and tray icon for new messages]

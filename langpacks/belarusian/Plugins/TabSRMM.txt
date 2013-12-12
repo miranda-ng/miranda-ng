@@ -1655,8 +1655,6 @@ TabSRMM: Набірае
 Паводзіны вакна паведамленняў
 [Sending messages]
 Адпраўка паведамленняў
-[Send on SHIFT - Enter]
-Пасылаць па "Shift+Enter"
 [Close the message window on send]
 Зачыняць вакно пасля адпраўкі
 [Always flash contact list and tray icon for new messages]

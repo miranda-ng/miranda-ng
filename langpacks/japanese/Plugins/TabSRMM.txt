@@ -1318,8 +1318,6 @@ RSS プロトコルからのイベントを通知しない
 メッセージウィンドウの動作
 [Sending messages]
 メッセージの送信中
-[Send on SHIFT - Enter]
-SHIFT - Enter で送信
 [Close the message window on send]
 送信用メッセージウィンドウを閉じる
 [Always flash contact list and tray icon for new messages]

@@ -2615,8 +2615,6 @@ ANSI плагин
 Гаити
 [Heard Island and McDonald Islands]
 о. Херд и о-ва Макдональд
-[Holy See (Vatican City)]
-Ватикан
 [Honduras]
 Гондурас
 [Hong Kong]
@@ -2855,7 +2853,7 @@ ANSI плагин
 Швейцария
 [Syria]
 Сирия
-[Taiwan, Province of China]
+[Taiwan]
 Тайвань
 [Tajikistan]
 Таджикистан
@@ -2901,6 +2899,8 @@ ANSI плагин
 Узбекистан
 [Vanuatu]
 Вануату
+[Vatican City]
+Ватикан
 [Venezuela]
 Венесуэла
 [Vietnam]

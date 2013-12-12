@@ -2742,8 +2742,6 @@ ANSI плагін
 Гаіці
 [Heard Island and McDonald Islands]
 Выспы Херд і Макдональд
-[Holy See (Vatican City)]
-Святая зямля (Ватыкан)
 [Honduras]
 Гандурас
 [Hong Kong]
@@ -2810,7 +2808,7 @@ ANSI плагін
 Люксембург
 [Macao]
 Макао
-[Macedonia, The Former Yugoslav Republic of]
+[Macedonia]
 Македонія, Былая Югаславія
 [Madagascar]
 Мадагаскар
@@ -2982,7 +2980,7 @@ ANSI плагін
 Швейцарыя
 [Syria]
 Сірыйская Арабская Рэспубліка
-[Taiwan, Province of China]
+[Taiwan]
 Тайвань
 [Tajikistan]
 Таджыкістан
@@ -3028,6 +3026,8 @@ ANSI плагін
 Узбекістан
 [Vanuatu]
 Вануату
+[Vatican City]
+Ватыкан
 [Venezuela]
 Венесуэла
 [Vietnam]

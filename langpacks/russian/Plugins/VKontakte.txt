@@ -13,6 +13,12 @@ E-mail или номер телефона:
 Пароль:
 [Open VKontakte site] 
 Открыть страницу ВКонтакте
+[Login settings]
+Настройки входа
+[Advanced]
+Дополнительные настройки
+[Server-side delivery confirmation]
+Подтверждение доставки со стороны сервера
 [Bots challenge test]
 Защита от ботов
 [Instruction:]

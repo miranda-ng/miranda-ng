@@ -11,7 +11,7 @@
 Останні контакти
 [Plugin settings]
 Налаштування
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 Кількість відображуваних контактів\n (0 - відображує всі)
 [Format of date and time\n(Look to readme for placeholders help)]
 Формат дати та часу\n(Формат дивіться у readme)

@@ -12,7 +12,7 @@ Fügt einen Menüeintrag im Hauptmenü hinzu, der ein Fenster mit den zuletzt ve
 Letzte Kontakte
 [Plugin settings]
 Plugin-Einstellungen
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 Anzahl angezeigter Kontakte:\n(0 um alle anzuzeigen)
 [Format of date and time\n(Look to readme for placeholders help)]
 Format von Datum und Uhrzeit\n(Siehe Readme für Hilfe zu Platzhaltern)

@@ -1675,8 +1675,6 @@ TabSRMM: Набирает
 Поведение окна сообщений
 [Sending messages]
 Отправка сообщений
-[Send on SHIFT - Enter]
-Посылать по "Shift+Enter"
 [Close the message window on send]
 Закрывать окно после отправки
 [Always flash contact list and tray icon for new messages]

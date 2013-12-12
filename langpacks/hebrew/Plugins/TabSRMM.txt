@@ -490,8 +490,6 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 התנהגות חלון הודעה
 [Sending messages]
 שליחת הודעות
-[Send on SHIFT - Enter]
-אנטר SHIFT שלח הודעות בלחיצה
 [Close the message window on send]
 סגור את חלון ההודעה בשליחת ההודעה
 [Delete temporary contacts on close]

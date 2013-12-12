@@ -2742,8 +2742,6 @@ Gujana
 Haiti
 [Heard Island and McDonald Islands]
 Wyspy Heard i McDonalda
-[Holy See (Vatican City)]
-Watykan
 [Honduras]
 Honduras
 [Hong Kong]
@@ -2810,7 +2808,7 @@ Litwa
 Luksemburg
 [Macao]
 Makau
-[Macedonia, The Former Yugoslav Republic of]
+[Macedonia]
 Macedonia
 [Madagascar]
 Madagaskar
@@ -2982,7 +2980,7 @@ Szwecja
 Szwajcaria
 [Syria]
 Syryjska Republika Arabska
-[Taiwan, Province of China]
+[Taiwan]
 Tajwan
 [Tajikistan]
 Tadżykistan
@@ -3028,6 +3026,8 @@ Urugwaj
 Uzbekistan
 [Vanuatu]
 Vanuatu
+[Vatican City]
+Watykan
 [Venezuela]
 Venezuela, Bolivarian Republic of
 [Vietnam]

@@ -2711,8 +2711,6 @@ PNG изображения
 Хаити
 [Heard Island and McDonald Islands]
 острови Хърд и Макдоналд
-[Holy See (Vatican City)]
-(Ватикан) Светият престол
 [Honduras]
 Хондурас
 [Hong Kong]
@@ -2779,7 +2777,7 @@ PNG изображения
 Люксембург
 [Macao]
 Монако
-[Macedonia, The Former Yugoslav Republic of]
+[Macedonia]
 Македония, Бивша югославска република
 [Madagascar]
 Мадагаскар
@@ -2951,7 +2949,7 @@ PNG изображения
 Швейцария
 [Syria]
 Сирия
-[Taiwan, Province of China]
+[Taiwan]
 Тайван, провинция на Китай
 [Tajikistan]
 Таджикистан
@@ -2997,6 +2995,8 @@ PNG изображения
 Узбекистан
 [Vanuatu]
 Вануату
+[Vatican City]
+Ватикан
 [Venezuela]
 Венесуела, Боливарска република
 [Vietnam]

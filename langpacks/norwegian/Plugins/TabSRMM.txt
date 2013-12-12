@@ -728,8 +728,6 @@ Fjern popups under følgende forhold
 Meldingsvindu oppførsel
 [Sending messages]
 Sende meldinger
-[Send on SHIFT - Enter]
-Send ved SHIFT - Enter
 [Send message on 'Enter']
 Send melding ved 'Enter'
 [Send message on double 'Enter']

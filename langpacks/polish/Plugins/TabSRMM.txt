@@ -1707,8 +1707,6 @@ Usuń popupy w następujących przypadkach:
 Zachowanie okna rozmowy
 [Sending messages]
 Wysyłanie wiadomości
-[Send on SHIFT - Enter]
-Shift+Enter wysyła wiadomość
 [Close the message window on send]
 Zamknij okno rozmowy po wysłaniu
 [Always flash contact list and tray icon for new messages]

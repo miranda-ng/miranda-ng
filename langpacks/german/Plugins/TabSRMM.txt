@@ -1707,8 +1707,6 @@ Entferne Popups unter den folgenden Bedingungen
 Verhalten des Nachrichtenfensters
 [Sending messages]
 Nachrichten senden
-[Send on SHIFT - Enter]
-'Umschalt+Enter' sendet Nachricht
 [Close the message window on send]
 Nachrichtenfenster beim Senden schließen
 [Always flash contact list and tray icon for new messages]

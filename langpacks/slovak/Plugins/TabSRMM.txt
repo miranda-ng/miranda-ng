@@ -1706,8 +1706,6 @@ Ikona v oznamovacej oblasti
 
 [Sending messages]
 
-[Send on SHIFT - Enter]
-
 [Close the message window on send]
 
 [Always flash contact list and tray icon for new messages]

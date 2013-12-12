@@ -10,7 +10,7 @@
 Главный значок
 [Format of date and time\n(Look to readme for placeholders help)]
 Формат времени и даты\n(Формат смотрите в readme)
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 Число отображаемых контактов\n (0 - показывает все)
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 Добавляет пункт в главное меню, который открывает диалог с последними контактами.

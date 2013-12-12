@@ -23,8 +23,6 @@
 Видаляти тимчасові контакти при закритті
 [Sending messages]
 Відправка повідомлень
-[Send on SHIFT - Enter]
-Посилати "Shift+Enter"
 [Enable "Paste and send" feature]
 Включити функцію "вставити та відправити"
 [Allow BBCode formatting in outgoing messages]

@@ -471,7 +471,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Канада
 [Canary Islands]
 Канарские о-ва
-[Cape Verde Islands]
+[Cape Verde]
 о-ва Зеленого Мыса
 [Cayman Islands]
 Каймановы о-ва
@@ -479,7 +479,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Центральноафриканская Республика
 [Chad]
 Чад
-[Chile, Republic of]
+[Chile]
 Республика Чили
 [China]
 Китай (КНР)
@@ -487,16 +487,16 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Колумбия
 [Comoros]
 Коморы
-[Congo, Democratic Republic of (Zaire)]
-Демократическая республика Конго (Заир)
+[Congo, Democratic Republic of the]
+Демократическая республика Конго
 [Congo, Republic of the]
 Конго, Республика
 [Cook Islands]
 о-ва Кука
 [Costa Rica]
 Коста-Рика
-[Cote d'Ivoire (Ivory Coast)]
-Республика Кот-д’Ивуар
+[Cote d'Ivoire]
+Кот-д’Ивуар
 [Croatia]
 Хорватия
 [Cuba]
@@ -531,7 +531,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Эфиопия
 [Europe]
 Европа
-[Faeroe Islands]
+[Faroe Islands]
 о-ва Фаэро
 [Falkland Islands]
 Фолклендские о-ва
@@ -591,8 +591,8 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Индия
 [Indonesia]
 Индонезия
-[Iran (Islamic Republic of)]
-Исламская Республика Иран
+[Iran]
+Иран
 [Iraq]
 Ирак
 [Ireland]
@@ -631,7 +631,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Лесото
 [Liberia]
 Либерия
-[Libyan Arab Jamahiriya]
+[Libya]
 Ливия
 [Liechtenstein]
 Лихтенштейн
@@ -663,14 +663,14 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Мавритания
 [Mauritius]
 Маврикий
-[Mayotte Island]
+[Mayotte]
 о. Майотт
 [Mexico]
 Мексика
 [Micronesia, Federated States of]
 Микронезия
-[Moldova, Republic of]
-Республика Молдова
+[Moldova]
+Молдавия
 [Monaco]
 Монако
 [Mongolia]
@@ -743,7 +743,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Пуэрто-Рико
 [Qatar]
 Катар
-[Reunion Island]
+[Reunion]
 о. Реюньон
 [Romania]
 Румыния
@@ -807,7 +807,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Швеция
 [Switzerland]
 Швейцария
-[Syrian Arab Republic]
+[Syria]
 Сирия
 [Taiwan]
 Тайвань
@@ -867,18 +867,18 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 Виргинские о-ва (США)
 [Wales]
 Уэльс
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 о-ва Валлис и Футуна
 [Yemen]
 Йемен
 [Yugoslavia]
 Югославия
-[Serbia, Republic of]
-Республика Сербия
+[Serbia]
+Сербия
 [Kosovo, Republic of]
 Республика Косово
-[Montenegro, Republic of]
-Республика Черногория
+[Montenegro]
+Черногория
 [Zambia]
 Замбия
 [Zimbabwe]

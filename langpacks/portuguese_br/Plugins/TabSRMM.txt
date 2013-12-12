@@ -933,8 +933,6 @@ Remover popups sob as seguintes condições
 Comportamento da janela de mensagem
 [Sending messages]
 Envio de mensagens
-[Send on SHIFT - Enter]
-Enviar em SHIFT - Enter
 [Close the message window on send]
 Feche a janela de mensagens ao enviar
 [Always flash contact list and tray icon for new messages]
