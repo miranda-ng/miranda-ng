@@ -1105,3 +1105,5 @@ Lösche Ansicht und kehre zu Ausgangsanzeige zurück
 Kontaktfilter aufheben
 [View Modes]
 Kontaktfilter
+[TrayMenu]
+

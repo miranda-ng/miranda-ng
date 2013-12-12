@@ -223,3 +223,4 @@
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 [reVista for Modern v0.5]
 [This is second default Modern Contact list skin in Vista Aero style]
+[TrayMenu]

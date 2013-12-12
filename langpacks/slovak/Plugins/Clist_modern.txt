@@ -1105,3 +1105,5 @@ Menu stavov
 
 [View Modes]
 
+[TrayMenu]
+

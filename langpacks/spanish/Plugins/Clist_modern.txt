@@ -1105,3 +1105,5 @@ Limpiar modo de vista y volver a valores predeterminados de visualización
 Reiniciar modo de vista
 [View Modes]
 Modos de vista
+[TrayMenu]
+

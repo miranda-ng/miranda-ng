@@ -1105,3 +1105,5 @@ Wyczyść tryb widoku i przywróć domyślne wyświetlanie
 Resetuj tryb widoku
 [View Modes]
 Tryby widoku
+[TrayMenu]
+

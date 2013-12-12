@@ -408,3 +408,4 @@
 [Clear view mode and return to default display]
 [Reset view mode]
 [View Modes]
+[TrayMenu]
