@@ -1978,7 +1978,7 @@ Réseau
 ;file \src\modules\options\options.cpp
 [<all modules>]
 < Tous les plugins >
-[Miranda NG Options]
+[Miranda NG options]
 Options de Miranda NG
 ;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
@@ -2045,8 +2045,6 @@ Historique
 Flèche bas
 [Find user]
 Chercher un contact
-[Send E-mail]
-envoyer e-mail
 [Search all]
 rechercher tous
 [Tick]

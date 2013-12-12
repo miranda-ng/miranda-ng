@@ -2316,7 +2316,7 @@ Sieť
 
 [%s options]
 
-[Miranda NG Options]
+[Miranda NG options]
 
 [&Options...]
 Nastavenia...
@@ -2363,7 +2363,7 @@ Nastavenia...
 
 [Account name has to be unique. Please enter unique name.]
 
-[Account Error]
+[Account error]
 
 [Account is disabled. Please activate it to access options.]
 
@@ -2421,11 +2421,11 @@ Konfigurovať
 [Miranda scope]
 
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Pripojený užívatel
-[Group (Open)]
+[Group (open)]
 Skupina (otvoriť)
-[Group (Closed)]
+[Group (closed)]
 Skupina (zavrieť)
 [Connecting]
 Pripájam sa
@@ -2433,29 +2433,27 @@ Pripájam sa
 
 [History]
 
-[Down Arrow]
+[Down arrow]
 
-[Find User]
-
-[Send E-mail]
+[Find user]
 
 [SMS]
 
-[Search All]
+[Search all]
 
 [Tick]
 
-[No Tick]
+[No tick]
 
 [Help]
 Pomoc
 [Miranda website]
 
-[Small Dot]
+[Small dot]
 
-[Filled Blob]
+[Filled blob]
 
-[Empty Blob]
+[Empty blob]
 
 [Unicode plugin]
 
@@ -2473,7 +2471,7 @@ Pomoc
 
 [Leave chat]
 
-[Move to Group]
+[Move to group]
 
 [On]
 
@@ -2497,29 +2495,29 @@ Pomoc
 
 [Locked status]
 
-[Status Icons]
+[Status icons]
 
-[%s Icons]
+[%s icons]
 %s ikon
-[Main Icons]
+[Main icons]
 Moje ikony
 ;file \src\modules\skin\sounds.cpp
-[Sound Files]
+[Sound files]
 
-[WAV Files]
+[WAV files]
 
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 
-[All Bitmaps]
+[All bitmaps]
 Všetky obrázky
-[Windows Bitmaps]
+[Windows bitmaps]
 Windows obrázky
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG obrázky
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF obrázky
-[PNG Bitmaps]
+[PNG bitmaps]
 
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]

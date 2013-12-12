@@ -1904,8 +1904,6 @@ Historikk
 Pil Ned
 [Find user]
 Finn Bruker
-[Send E-mail]
-Send E-post
 [SMS]
 SMS
 [Search all]

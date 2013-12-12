@@ -41,20 +41,29 @@
 
 [Database Panic]
 
+;file \plugins\Db3x_mmap\src\dbintf.h
+[Change/remove password]
+
+[Set password]
+
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 
 [Password]
 
+[Too many errors!]
+
+[Password is not correct!]
+
+[Please type in your password]
+
+[Wrong old password entered!]
+
 [Password is too short!]
 
 [Passwords do not match!]
 
-[Wrong old password entered!]
-
 [Database]
-
-[Set password]
 
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]

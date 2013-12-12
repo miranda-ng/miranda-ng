@@ -1271,7 +1271,7 @@ Tempo in microsecondi
 Rete
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
-[Miranda NG Options]
+[Miranda NG options]
 Opzioni di Miranda NG
 [&Options...]
 &Opzioni...

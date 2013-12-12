@@ -1940,8 +1940,6 @@ Elõzmény
 Le Nyíl
 [Find user]
 Felhasználó keresése
-[Send E-mail]
-E-mail küldése
 [SMS]
 SMS
 [Search all]
@@ -1992,7 +1990,7 @@ Engedély visszavonása
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Szükség van egy kép szolgáltatás beépülõre a PNG képek feldolgozásához.
-[All Bitmaps]
+[All bitmaps]
 összes bitkép
 [Windows bitmaps]
 Windows bitképek

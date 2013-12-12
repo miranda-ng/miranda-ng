@@ -1972,8 +1972,6 @@ Geçmiş
 Aşağı Ok
 [Find user]
 Kullanıcı Bul
-[Send E-mail]
-E-posta Gönder
 [SMS]
 SMS
 [Search all]
@@ -2018,21 +2016,21 @@ Kapalı
 İzin ver
 [Revoke authorization]
 İzni kaldır
-[%s Icons]
+[%s icons]
 %s Simgeler
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 PNG resimleri işlemek için resim hizmeti eklentisine gerek duyuyorsunuz.
-[All Bitmaps]
+[All bitmaps]
 Tüm bitmaplar
-[Windows Bitmaps]
+[Windows bitmaps]
 Windows Bitmapları
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG bitmap
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF Bitmap
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG Bitmap
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp

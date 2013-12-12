@@ -1086,8 +1086,6 @@ Kasutaja detailid
 Ajalugu
 [Find user]
 Otsi kasutajat
-[Send E-mail]
-Saada e-mail
 [SMS]
 SMS
 [Search all]

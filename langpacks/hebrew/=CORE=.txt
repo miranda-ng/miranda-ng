@@ -1519,7 +1519,7 @@ OutputDebugString()
 רשת
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
-[Miranda NG Options]
+[Miranda NG options]
 אפשרויות מירנדה
 [&Options...]
 ...אפשרויו&ת

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -60,12 +60,6 @@
 用户信息 - 必需
 [Other]
 其它
-[Reconnect]
-重新连接
-[Wait (s)]
-等待 (秒)
-[Retry count]
-重试次数
 [Check every (s):]
 检查每 (秒): 
 [Don't check if more than (users):]
@@ -626,8 +620,6 @@ WhoIs 信息(&W)
 添加用户(&A)
 [Connecting to]
 正在连接至
-[Reconnecting to]
-正在重新连接至
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 离线

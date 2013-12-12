@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -54,12 +54,6 @@ Standaard netwerk
 Gebruikers info - Verplicht
 [Other]
 Ander
-[Reconnect]
-Opnieuw verbinden
-[Wait (s)]
-Wacht (s)
-[Retry count]
-Opnieuw proberen
 [User information]
 Gebruikers informatie
 [Version]
@@ -380,8 +374,6 @@ Bestand versturen
 Gebruiker toevoegen
 [Connecting to]
 Verbinding maken met
-[Reconnecting to]
-Opnieuw verbinden met
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Offline

@@ -2018,8 +2018,6 @@ Histórico
 Baixar
 [Find user]
 Localizar usuário
-[Send E-mail]
-Enviar E-mail
 [SMS]
 SMS
 [Search all]

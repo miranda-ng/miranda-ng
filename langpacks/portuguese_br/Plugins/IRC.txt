@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -60,12 +60,6 @@ Rede padrão
 Informação do utilizador - Obrigatório
 [Other]
 Outros
-[Reconnect]
-Reconectar
-[Wait (s)]
-Aguarde (s)
-[Retry count]
-Repetir contagem
 [Check every (s):]
 Verifique a cada (s):
 [Don't check if more than (users):]
@@ -614,8 +608,6 @@ Adicionar a &lista de ignorados
 &Adicionar Usuário
 [Connecting to]
 Conectando-se a
-[Reconnecting to]
-Reconectando
 ;file \protocols\IRCG\src\tools.cpp
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp

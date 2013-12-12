@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -60,12 +60,6 @@
 ユーザー情報 - 必須
 [Other]
 その他
-[Reconnect]
-再接続
-[Wait (s)]
-待機 ( 秒 )
-[Retry count]
-再試行回数
 [Check every (s):]
 必ずチェック (s):
 [Don't check if more than (users):]
@@ -632,8 +626,6 @@ Voice を取得 (&o)
 ユーザーを追加 (&A)
 [Connecting to]
 接続中:
-[Reconnecting to]
-再接続中:
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 オフライン

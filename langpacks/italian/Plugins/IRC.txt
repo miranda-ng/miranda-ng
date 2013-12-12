@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -44,12 +44,6 @@ Rete predefinita
 Informazioni utente - Richieste
 [Other]
 Altro
-[Reconnect]
-Riconnetti
-[Wait (s)]
-Attesa
-[Retry count]
-Numero tentativi
 [User information]
 Informazioni utente
 [Version]

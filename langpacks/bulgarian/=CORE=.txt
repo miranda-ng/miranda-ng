@@ -2293,7 +2293,7 @@ URL
 Зареждане... %d%%
 [%s options]
 %s настройки
-[Miranda NG Options]
+[Miranda NG options]
 Miranda NG настройки
 [&Options...]
 Настройки...
@@ -2340,7 +2340,7 @@ Miranda NG настройки
 Надграждане на акаунт
 [Account name has to be unique. Please enter unique name.]
 Името на акаунта трябва да бъде уникално.
-[Account Error]
+[Account error]
 Грешка в акаунт
 [Account is disabled. Please activate it to access options.]
 Акаунтът е изключен. За достъп до настройките е необходимо да бъде включен.
@@ -2406,11 +2406,11 @@ Win +\s
 [Miranda scope]
 Само за Miranda
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Потребител "На линия"
-[Group (Open)]
+[Group (open)]
 Група (отворена)
-[Group (Closed)]
+[Group (closed)]
 Група (затворена)
 [Connecting]
 Свързване
@@ -2418,29 +2418,27 @@ Win +\s
 Подробности за потребителя
 [History]
 История
-[Down Arrow]
+[Down arrow]
 Стрелка надолу
-[Find User]
+[Find user]
 Търсене на потребител
-[Send E-mail]
-Изпращане на имейл
 [SMS]
 SMS
-[Search All]
+[Search all]
 Търсене на всичко
 [Tick]
 Отметка
-[No Tick]
+[No tick]
 Без отметка
 [Help]
 Помощ
 [Miranda website]
 Сайта на Miranda
-[Small Dot]
+[Small dot]
 Малка точица
-[Filled Blob]
+[Filled blob]
 
-[Empty Blob]
+[Empty blob]
 Без отметка
 [Unicode plugin]
 Unicode приставка
@@ -2458,7 +2456,7 @@ ANSI приставка
 Главно меню
 [Leave chat]
 Излизане от чата
-[Move to Group]
+[Move to group]
 Преместване в друга група
 [On]
 Включено
@@ -2482,29 +2480,29 @@ ANSI приставка
 Винаги невидим
 [Locked status]
 Заключено състояние
-[Status Icons]
+[Status icons]
 Икони на състоянията
-[%s Icons]
+[%s icons]
 %s икони
-[Main Icons]
+[Main icons]
 Главни икони
 ;file \src\modules\skin\sounds.cpp
-[Sound Files]
+[Sound files]
 Файлове със звуци
-[WAV Files]
+[WAV files]
 WAV файлове
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Необходима е услуга за изображенията за обработка на PNG изображения.
-[All Bitmaps]
+[All bitmaps]
 Всички изображения
-[Windows Bitmaps]
+[Windows bitmaps]
 BMP изображения
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG изображения
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF изображения
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG изображения
 ;file \src\modules\utils\path.cpp
 [Avatars]

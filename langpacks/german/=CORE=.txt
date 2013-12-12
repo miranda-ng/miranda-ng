@@ -2324,7 +2324,7 @@ Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 Lade... %d%%
 [%s options]
 %s-Einstellungen
-[Miranda NG Options]
+[Miranda NG options]
 Miranda-NG-Einstellungen
 [&Options...]
 Einstellungen...
@@ -2371,7 +2371,7 @@ Bearbeite Konto
 Aktualisiere Konto
 [Account name has to be unique. Please enter unique name.]
 Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
-[Account Error]
+[Account error]
 Konto-Fehler
 [Account is disabled. Please activate it to access options.]
 Konto ist deaktiviert. Bitte aktivieren Sie es, um auf die Kontoeinstellungen zugreifen zu können.
@@ -2437,11 +2437,11 @@ Systemweit
 [Miranda scope]
 Mirandaweit
 ;file \src\modules\skin\skinicons.cpp
-[User Online]
+[User online]
 Benutzer online
-[Group (Open)]
+[Group (open)]
 Gruppe (offen)
-[Group (Closed)]
+[Group (closed)]
 Gruppe (geschlossen)
 [Connecting]
 Verbinden
@@ -2449,29 +2449,27 @@ Verbinden
 Kontaktprofil
 [History]
 Verlauf
-[Down Arrow]
+[Down arrow]
 Pfeil nach unten
-[Find User]
+[Find user]
 Kontakte suchen/hinzufügen
-[Send E-mail]
-E-Mail senden
 [SMS]
 SMS
-[Search All]
+[Search all]
 Suche überall
 [Tick]
 Aktiv
-[No Tick]
+[No tick]
 Inaktiv
 [Help]
 Hilfe
 [Miranda website]
 Miranda Webseite
-[Small Dot]
+[Small dot]
 Punkt
-[Filled Blob]
+[Filled blob]
 Gefüllter Klecks
-[Empty Blob]
+[Empty blob]
 Leerer Klecks
 [Unicode plugin]
 Unicode-Plugin
@@ -2489,7 +2487,7 @@ Beenden
 Hauptmenü
 [Leave chat]
 Chat verlassen
-[Move to Group]
+[Move to group]
 In Gruppe verschieben
 [On]
 Ein
@@ -2513,29 +2511,29 @@ Immer sichtbar
 Immer unsichtbar
 [Locked status]
 Gesperrter Status
-[Status Icons]
+[Status icons]
 Statusicons
-[%s Icons]
+[%s icons]
 %s Icons
-[Main Icons]
+[Main icons]
 Allgemeine Icons
 ;file \src\modules\skin\sounds.cpp
-[Sound Files]
+[Sound files]
 Klangdateien
-[WAV Files]
+[WAV files]
 WAV-Dateien
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Sie benötigen ein Bilddiensteplugin, um PNG-Grafiken zu verarbeiten.
-[All Bitmaps]
+[All bitmaps]
 Alle Bilder
-[Windows Bitmaps]
+[Windows bitmaps]
 BMP-Bilder
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG-/JPG-Bilder
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF-Bilder
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG-Bilder
 ;file \src\modules\utils\path.cpp
 [Avatars]

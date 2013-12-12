@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -70,12 +70,6 @@ Standardnetzwerk
 Erforderliche Angaben
 [Other]
 Sonstige
-[Reconnect]
-wieder verbinden
-[Wait (s)]
-Warten (s)
-[Retry count]
-Neuversuche
 [Check every (s):]
 Prüfe alle (s):
 [SSL]
@@ -732,8 +726,6 @@ Benutzer &ignorieren
 Benutzer hinzufügen
 [Connecting to]
 Verbindung zu
-[Reconnecting to]
-Wiederverbinden mit
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Offline

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -60,12 +60,6 @@ Standard nettverk
 Brukerinfo - Påkrevd
 [Other]
 Annet
-[Reconnect]
-Koble på nytt
-[Wait (s)]
-Vent (s)
-[Retry count]
-Gjenta telling
 [Check every (s):]
 Sjekk hvert (s):
 [Don't check if more than (users):]
@@ -488,8 +482,6 @@ Legg til &ignoreringsliste
 &Legg til Bruker
 [Connecting to]
 Kobler til
-[Reconnecting to]
-Kobler på nytt til
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Frakoblet

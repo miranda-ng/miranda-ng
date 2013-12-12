@@ -2278,8 +2278,6 @@ Miranda 范围
 向下箭头
 [Find user]
 查找用户
-[Send E-mail]
-发送邮件
 [Search all]
 全部搜索
 [Tick]

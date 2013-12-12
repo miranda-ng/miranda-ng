@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -60,12 +60,6 @@ Varsayılan ağ
 Kullanıcı bilgisi - Gerekli
 [Other]
 Diğer
-[Reconnect]
-Yeniden bağlan
-[Wait (s)]
-Bekleme (sn)
-[Retry count]
-Yineleme sayısı
 [Check every (s):]
 Şu aralıkla denetle:
 [Don't check if more than (users):]
@@ -620,8 +614,6 @@ Yoksay l&istesine ekle
 Kull&anıcı Ekle
 [Connecting to]
 Şuna bağlanıyor
-[Reconnecting to]
-Şuna yeniden bağlanıyor
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Çevrimdışı

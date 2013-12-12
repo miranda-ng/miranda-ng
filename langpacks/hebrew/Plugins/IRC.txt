@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -40,10 +40,6 @@
 אינפ' משתמש - נדרשת
 [Other]
 אחר
-[Reconnect]
-התחברות מחדש
-[Wait (s)]
-המתן (s)
 [Version]
 גרסה
 [&Refresh]

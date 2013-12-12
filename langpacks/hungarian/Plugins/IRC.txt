@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
@@ -60,12 +60,6 @@ Alap hálózat
 Felhasználó infók - Szükséges
 [Other]
 Egyéb
-[Reconnect]
-Újracsatlakozás
-[Wait (s)]
-Várj (mp)
-[Retry count]
-Szám újrapróbálása
 [Check every (s):]
 Összes ellenõrzése (s):
 [Don't check if more than (users):]
@@ -620,8 +614,6 @@ Hozzáadás elvetési &listához
 Felhasználó &hozzáadása
 [Connecting to]
 Csatlakozás ehhez:
-[Reconnecting to]
-Újracsatlakozás ehhez:
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Kilépett
