@@ -284,7 +284,7 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 	// ---------------------
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CLIST);
-	odp.pszTitle    = "Contactlist";
+	odp.pszTitle    = "Contact list";
 	odp.pfnDlgProc  = CConfig::ContactlistDlgProc;
 
 	Options_AddPage(wParam, &odp);
