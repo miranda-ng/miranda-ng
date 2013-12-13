@@ -5109,8 +5109,6 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Проблема с перемещением профиля
 [Problem with search]
 Проблема с поиском
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
-Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_3x.dll
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_mmap.dll
 [Profile]
