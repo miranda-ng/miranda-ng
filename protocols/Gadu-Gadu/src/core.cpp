@@ -381,7 +381,7 @@ retry:
 	p.status_descr = mir_utf8encodeT(getstatusmsg(m_iDesiredStatus));
 	p.status = status_m2gg(m_iDesiredStatus, p.status_descr != NULL);
 
-	debugLogA("mainthread() (%x): Connecting with number %d, status %d and description \"%S\".", this, p.uin, m_iDesiredStatus,
+	debugLog(_T("mainthread() (%x): Connecting with number %d, status %d and description \"%s\"."), this, p.uin, m_iDesiredStatus,
 				p.status_descr ? getstatusmsg(m_iDesiredStatus) : _T("<none>"));
 	gg_LeaveCriticalSection(&modemsg_mutex, "mainthread", 13, 1, "modemsg_mutex", 1);
 
@@ -839,7 +839,7 @@ retry:
 							gcevent.ptszNick = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), GCDNF_TCHAR);
 							gcevent.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-							debugLogA("mainthread() (%x): Conference message to room %S & id %S.", this, chat, id);
+							debugLog(_T("mainthread() (%x): Conference message to room %s & id %s."), this, chat, id);
 							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 							mir_free(messageT);
 						}
@@ -914,7 +914,7 @@ retry:
 						gcevent.time = e->event.multilogon_msg.time;
 						gcevent.bIsMe = 1;
 						gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-						debugLogA("mainthread() (%x): Sent conference message to room %S.", this, chat);
+						debugLog(_T("mainthread() (%x): Sent conference message to room %s."), this, chat);
 						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 						mir_free(messageT);
 						mir_free(nickT);
@@ -1555,7 +1555,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!hContact) {
-		debugLogA("getcontact(): Failed to create Gadu-Gadu contact %S", szNick);
+		debugLog(_T("getcontact(): Failed to create Gadu-Gadu contact %s"), szNick);
 		return NULL;
 	}
 
@@ -1722,7 +1722,7 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, in
 	// Check if there's description and if it's not empty
 	if (idescr && *idescr)
 	{
-		debugLogA("changecontactstatus(): Saving for %d status descr \"%S\".", uin, idescr);
+		debugLog(_T("changecontactstatus(): Saving for %d status descr \"%s\"."), uin, idescr);
 		db_set_ts(hContact, "CList", GG_KEY_STATUSDESCR, idescr);
 	} else {
 		// Remove status if there's nothing

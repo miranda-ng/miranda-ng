@@ -33,9 +33,9 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	if (_taccess(pszDest, 0)) {
 		int ret = CreateDirectoryTreeT(pszDest);
 		if (ret == 0)
-			debugLogA("getAvatarFilename(): Created new directory for avatar cache: %S.", pszDest);
+			debugLog(_T("getAvatarFilename(): Created new directory for avatar cache: %s."), pszDest);
 		else {
-			debugLogA("getAvatarFilename(): Can not create directory for avatar cache: %S. errno=%d: %s", pszDest, errno, strerror(errno));
+			debugLog(_T("getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s"), pszDest, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pszDest);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
@@ -269,9 +269,9 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						_write(file_fd, resp->pData, resp->dataLength);
 						_close(file_fd);
 						result = 1;
-						debugLogA("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%S.", data->szAvatarURL, pai.filename);
+						debugLog(_T("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%s."), data->szAvatarURL, pai.filename);
 					} else {
-						debugLogA("avatarrequestthread(): _topen file %S error. errno=%d: %s", pai.filename, errno, strerror(errno));
+						debugLog(_T("avatarrequestthread(): _topen file %s error. errno=%d: %s"), pai.filename, errno, strerror(errno));
 						TCHAR error[512];
 						mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai.filename);
 						showpopup(m_tszUserName, error, GG_POPUP_ERROR);

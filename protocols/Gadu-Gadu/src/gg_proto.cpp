@@ -681,7 +681,7 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
 	{
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
-		debugLogA("getawaymsgthread(): Reading away msg <%S>.", dbv.ptszVal);
+		debugLog(_T("getawaymsgthread(): Reading away msg <%s>."), dbv.ptszVal);
 		db_free(&dbv);
 	} else {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
@@ -707,7 +707,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *newMsg)
 	int status = gg_normalizestatus(iStatus);
 	TCHAR **msgPtr;
 
-	debugLogA("SetAwayMsg(): PS_SETAWAYMSG(%d, \"%S\").", iStatus, newMsg);
+	debugLog(_T("SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\")."), iStatus, newMsg);
 
 	gg_EnterCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, "modemsg_mutex", 1);
 	// Select proper our msg ptr

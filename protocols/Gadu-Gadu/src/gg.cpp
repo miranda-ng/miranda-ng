@@ -157,7 +157,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		TCHAR avatarsPath[MAX_PATH];
 		mir_sntprintf(avatarsPath, MAX_PATH, _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 
-		debugLogA("cleanuplastplugin() 1: miranda_avatarcache = %S", avatarsPath);
+		debugLog(_T("cleanuplastplugin() 1: miranda_avatarcache = %s"), avatarsPath);
 
 		if (avatarsPath !=  NULL){
 			HANDLE hFind = INVALID_HANDLE_VALUE;
@@ -170,7 +170,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 					TCHAR filePathT [2*MAX_PATH + 10];
 					mir_sntprintf(filePathT, 2*MAX_PATH + 10, _T("%s\\%s"), avatarsPath, ffd.cFileName);
 					if (!_taccess(filePathT, 0)){
-						debugLogA("cleanuplastplugin() 1: remove file = %S", filePathT);
+						debugLog(_T("cleanuplastplugin() 1: remove file = %s"), filePathT);
 						_tremove(filePathT);
 					}
 				} while (FindNextFile(hFind, &ffd) != 0);

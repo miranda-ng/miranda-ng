@@ -391,7 +391,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 		TCHAR error[256];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLogA("import_text(): Cannot import list from file \"%S\". errno=%d: %s", str, errno, strerror(errno));
+		debugLog(_T("import_text(): Cannot import list from file \"%s\". errno=%d: %s"), str, errno, strerror(errno));
 	}
 
 	return 0;
@@ -434,7 +434,7 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrDefExt = _T("txt");
 
 #ifdef DEBUGMODE
-	debugLogA("export_text(%S).", str);
+	debugLog(_T("export_text(%s)."), str);
 #endif
 	if (!GetSaveFileName(&ofn)) return 0;
 
