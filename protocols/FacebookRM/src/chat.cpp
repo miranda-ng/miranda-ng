@@ -221,7 +221,7 @@ char *FacebookProto::GetChatUsers(const TCHAR *chat_id)
 	gci.pszID = (TCHAR *)chat_id;
 	CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
 
-	debugLogA("**Chat - Users in chat %s: %s", chat_id, gci.pszUsers);
+	debugLogA("**Chat - Users in chat %s: %s", _T2A(chat_id), gci.pszUsers);
 
 	// mir_free(gci.pszUsers);
 	return gci.pszUsers;
