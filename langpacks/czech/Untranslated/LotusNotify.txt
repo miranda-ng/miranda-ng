@@ -10,7 +10,6 @@
 [Filter messages contain below strings in:]
 [Lotus connection settings]
 [Primary server:]
-[Database:]
 [try detect]
 [Secondary server:]
 [Check interval:]

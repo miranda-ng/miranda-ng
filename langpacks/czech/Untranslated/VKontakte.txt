@@ -1,4 +1,6 @@
 ﻿[VKontakte protocol support for Miranda NG.]
 [Open VKontakte site]
+[Login settings]
+[Server-side delivery confirmation]
 [Captcha form icon]
 [VKontakte]

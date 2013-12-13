@@ -2742,8 +2742,6 @@ Guyana
 Haiti
 [Heard Island and McDonald Islands]
 Heardův ostrov a McDonaldovy ostrovy
-[Holy See (Vatican City)]
-Svatý stolec (Vatikánský městský stát)
 [Honduras]
 Honduras
 [Hong Kong]
@@ -2810,8 +2808,8 @@ Litva
 Lucembursko
 [Macao]
 Macao
-[Macedonia, The Former Yugoslav Republic of]
-Makedonie, bývalá jugoslávská republika
+[Macedonia]
+Makedonie
 [Madagascar]
 Madagaskar
 [Malawi]
@@ -2982,8 +2980,8 @@ Swazijsko
 Švýcarsko
 [Syria]
 Sýrie
-[Taiwan, Province of China]
-Tchaj-wan, čínská provincie
+[Taiwan]
+Taiwan
 [Tajikistan]
 Tádžikistán
 [Tanzania]
@@ -3028,6 +3026,8 @@ Uruguay
 Uzbekistán
 [Vanuatu]
 Vanuatu
+[Vatican City]
+Vatikán
 [Venezuela]
 Venezuela
 [Vietnam]

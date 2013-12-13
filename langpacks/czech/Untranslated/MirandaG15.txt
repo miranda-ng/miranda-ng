@@ -77,4 +77,6 @@
 [Maximized replying]
 [Close chat after]
 [When in background]
+[MirandaG15]
+[Chat sessions]
 [No device attached]

@@ -47,7 +47,7 @@ Předmět
 [Primary server:]
 
 [Database:]
-
+Databáze:
 [try detect]
 
 [Secondary server:]

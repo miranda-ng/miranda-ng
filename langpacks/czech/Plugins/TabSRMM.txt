@@ -1707,8 +1707,6 @@ Zavírat upozornění při těchto podmínkách:
 Chování komunikačního okna
 [Sending messages]
 Odesílání zpráv
-[Send on SHIFT - Enter]
-Odeslat zprávu pomocí SHIFT+ENTER
 [Close the message window on send]
 Zavřít okno kliknutím na 'Poslat'
 [Always flash contact list and tray icon for new messages]

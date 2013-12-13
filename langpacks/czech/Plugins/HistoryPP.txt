@@ -194,9 +194,9 @@ Prosím počkejte, okno se zavírá...
 [Partial History [%s] - [%s]]
 Částečná historie [%s] - [%s]
 [Delete &Bookmark]
-
+&Smazat záložku
 [Remove &Bookmark]
-Odstranit záložku
+Od&stranit záložku
 [Ready to search]
 Připraveno k vyhledávání
 [Click Search button to start]
@@ -206,7 +206,7 @@ Od %s
 [To %s]
 Pro %s
 [Advanced <<]
-
+Pokročilé <<
 [HotSearch: %s (F3 to find next)]
 Vyhledávání: %s (F3 najde další)
 [You have reached the end of the history.]
@@ -228,7 +228,7 @@ Smazat vybrané
 [Do you really want to delete selected item?]
 Opravdu chcete odstranit vybranou položku?
 [%s - History++]
-
+%s - History++
 [History is empty]
 Historie je prázdná
 [No such items]
@@ -236,7 +236,7 @@ Historie je prázdná
 [Conversations]
 Konverzace
 [Conversations (F4)]
-
+Konverzace (F4)
 [History Search]
 Hledat v historii
 [His&tory Search]
@@ -248,9 +248,9 @@ Otevřít &odkaz
 [Open Link in New &Window]
 Otevřít odkaz v no&vém okně
 [Open &File]
-
+Otevřít &soubor
 [Open File Fo&lder]
-
+Otevřít složku se souborem
 [Disable &Processing]
 
 [Export as &HTML...]
@@ -304,17 +304,17 @@ Hledat nahoru (Ctrl+šipka nahoru)
 [Search Down (Ctrl+Down)]
 Hledat dolů (Ctrl+šipka dolu)
 [HTML file (*.html; *.htm)|*.html;*.htm]
-
+HTML soubor (*.html; *.htm|*.html;*.htm
 [XML file (*.xml)|*.xml]
-
+XML soubor (*.xml)|*.xml
 [RTF file (*.rtf)|*.rtf]
-
+RTF soubor (*.rtf)|*.rtf
 [Unicode text file (*.txt)|*.txt]
-
+Textový soubor (Unicode) (*.txt)|*.txt
 [Text file (*.txt)|*.txt]
-
+Textový soubor (*.txt)|*.txt
 [All files (*.*)|*.*]
-
+Všechny soubory (*.*)|*.*
 [Conversation started at %s]
 Rozhovor začal %s
 [Remove bookmark]
@@ -356,7 +356,7 @@ Požadavek na autorizaci od %s (%d): %s
 [Broadcast message from %s (%s): %s]
 Hromadná zpráva od %s (%s): %s
 [All except status]
-
+Všechno kromě stavů
 [Show all events]
 Zobrazit všechny události
 [Avatar changes]
@@ -372,7 +372,7 @@ Zpráva webpageru
 [EMail Express message]
 Zpráva Email Express
 [Grid options]
-
+Nastavení mřížky
 [Recent events on top]
 Zobrazit nejnovější události nahoře
 [Use RTL by default]
@@ -472,7 +472,7 @@ Příchozí SMS
 [Link URLs]
 Odkazy
 [History++]
-
+History++
 [Unicode text file]
 Unicode textový soubor
 [RTF file]
@@ -514,7 +514,7 @@ Požadavek na zjištění stavu od  %s (%d):%s
 [Ignored status request by %s (%d):%s]
 Ignorovaný požadavek na zjištění stavu od  %s (%d):%s
 [Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]
-
+Umělec: %s\\r\\nNázev: %s\\r\\nAlbum: %s
 [No "%s" items]
 Žádné položky "%s"
 [Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
@@ -548,7 +548,7 @@ Vaše verze doplňku Emoticons není podporována
 [%.0f items in history]
 
 [%s (to %s)]
-
+%s (pro %s)
 [%s Header]
 
 [&Additional]
@@ -556,9 +556,9 @@ Vaše verze doplňku Emoticons není podporována
 [&Delete All]
 &Smazat vše
 [&Password Protection...]
-
+&Ochrana heslem...
 [(time and date)]
-
+(čas a datum)
 [All Items]
 
 [and]
@@ -674,7 +674,7 @@ Navštivte Wiki stránku pro více informací
 [&Load...]
 N&ačíst...
 [&Save...]
-
+&Uložit...
 [&User Name:]
 
 [(Unknown Contact)']
@@ -684,7 +684,7 @@ N&ačíst...
 [Other (unknown)]
 
 [Database:]
-
+Databáze:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 
 [History++ (2in1)]
@@ -713,3 +713,15 @@ Zpráva systému
 Příchozí časový údaj
 [Outgoing timestamp]
 Odchozí časový údaj
+[Open in &new window]
+Otevřít v &novém okně
+[Open in existing &window]
+Otevřít v &existujícím okně
+[Copy &Link]
+Zkopírovat &odkaz
+[Co&py]
+Zko&pírovat
+[Select &All]
+Vybr&at vše
+[Send &Message]
+Poslat zp&rávu

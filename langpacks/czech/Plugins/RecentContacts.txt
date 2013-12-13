@@ -12,7 +12,7 @@ Přidává položku do hlavního menu pro zobrazení okna se seznamem jmen posle
 Nedávné kontakty
 [Plugin settings]
 Nastavení doplňku
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 Počet kontaktů pro zobrazení:\n (0 pro zobrazení všech)
 [Format of date and time\n(Look to readme for placeholders help)]
 Formát data a času\n(Podívejte se do nápovědy pro zástupné symboly)

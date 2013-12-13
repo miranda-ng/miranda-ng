@@ -211,5 +211,11 @@ Nedělat nic
 [When in background]
 
 ;file \plugins\MirandaG15\src\CConfig.cpp
+[MirandaG15]
+
+[Appearance]
+Vzhled
+[Chat sessions]
+
 [No device attached]
 
