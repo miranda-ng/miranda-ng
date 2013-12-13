@@ -7,7 +7,6 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 
-;file \plugins\WebView\res\webview.rc
 [Webview]
 
 [Update data every]
@@ -184,7 +183,6 @@
 
 [C&lear all]
 
-;file \plugins\WebView\src\main.cpp
 [Alert event]
 
 [Auto update disabled]
@@ -211,14 +209,12 @@
 
 [Stop data processing]
 
-;file \plugins\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 
 [Network]
 Сеть
 [Popups]
 Всплывающие окна
-;file \plugins\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 
 [Last updated on]
@@ -249,7 +245,6 @@
 
 [Loaded from cache]
 
-;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 
 [Stop processing]
@@ -260,7 +255,6 @@
 
 [Disable stick to the front]
 
-;file \plugins\WebView\src\webview_getdata.cpp
 [URL not supplied]
 
 [Download in progress, please wait...]
@@ -307,7 +301,6 @@
 
 [Alert test conditions not met; press the refresh button to view content.]
 
-;file \plugins\WebView\src\webview_opts.cpp
 [No whitespace removal]
 
 [Minimal level of whitespace removal]
@@ -344,7 +337,6 @@
 
 [Invalid symbol present in contact name.]
 
-;file \plugins\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
 
 [Missing "psite.bat" file.]

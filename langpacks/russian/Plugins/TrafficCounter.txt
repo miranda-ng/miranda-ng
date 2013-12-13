@@ -7,11 +7,10 @@
 ;============================================================
 [Adding traffic and time counters.]
 Счётчики трафика и времени.
-;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Выделено всего
 [Accounts]
-
+Учётные записи
 [Units]
 Единицы
 [Clear statistics]
@@ -48,7 +47,6 @@
 Формат подсказки:
 [Display traffic for current]
 Трафик за текущий
-;file \plugins\TrafficCounter\src\options.cpp
 [Display]
 Показывать
 [Icon]
@@ -97,7 +95,6 @@
 Статистика
 [Popups]
 Всплывающие окна
-;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Байт
 [KB]
@@ -132,7 +129,6 @@
 Не могу прочитать файл статистики
 [Traffic Counter]
 Счётчик трафика
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Шрифт
 [Show/Hide frame]

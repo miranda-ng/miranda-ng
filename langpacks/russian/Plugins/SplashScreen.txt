@@ -7,7 +7,6 @@
 ;============================================================
 [Shows a splash at Miranda startup.]
 Показывает всплывающее окно при старте Miranda NG.
-;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Настройки заставки
 [Show splash]
@@ -38,20 +37,17 @@
 Не найдена библиотека advaimg.dll. Скачайте последнюю версию, чтобы использовать изображения.
 [Preview...]
 Просмотр...
-;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
 Библиотека advaimg.dll устарела или повреждена. Скачайте последнюю версию с сайта Miranda NG.
 [Error]
 Ошибка
 [Call Splash Service]
 
-;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Графические файлы
 [Sound Files]
-
+Звуковые файлы
 [Skins]
 Скины
 [Splash Screen]
 Заставка
-;file \plugins\SplashScreen\src\services.cpp

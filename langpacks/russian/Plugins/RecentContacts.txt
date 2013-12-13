@@ -7,7 +7,6 @@
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 Добавляет пункт в главное меню, который открывает диалог с последними контактами.
-;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
 Последние контакты
 [Plugin settings]
@@ -18,10 +17,8 @@
 Формат времени и даты\n(Формат смотрите в readme)
 [Hide offline contacts]
 Скрыть отключённых
-;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Контакты
-;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 Главный значок
 [Contact]
@@ -34,4 +31,3 @@
 Показать контакт
 [Show Recent Contacts]
 Показать недавние контакты
-;file \plugins\RecentContacts\src\RecentContacts.h

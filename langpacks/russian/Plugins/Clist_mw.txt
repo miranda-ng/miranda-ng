@@ -46,7 +46,7 @@ Cлужба:
 [Default]
 По умолчанию
 [Delete Contact]
-
+Удалить контакт
 [No]
 Нет
 [Yes]
@@ -170,7 +170,7 @@ Cлужба:
 [Make selection highlight translucent]
 Полупрозрачное выделение
 ['Hide Offline' means to hide:]
-
+'Скрыть отключённых' - скрыть:
 [Groups]
 Группы
 [Draw a line alongside group names]
@@ -262,9 +262,9 @@ Cлужба:
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
 [On the &Phone\tCtrl+8]
-
+На &телефоне\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-
+Обед&аю\tCtrl+9
 [Tray]
 Трей
 [&Hide/Show]
@@ -286,7 +286,7 @@ Cлужба:
 [Group]
 Группа
 [&New Subgroup]
-
+Создать подгруппу
 [&Hide Offline Users in here]
 Скрыть отключённых в группе
 [&Rename Group]

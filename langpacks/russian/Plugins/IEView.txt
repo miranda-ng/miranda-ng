@@ -7,7 +7,6 @@
 ;============================================================
 [IE Based Chat Log.]
 Журнал на движке IE.
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 Копировать
 [Copy Link]
@@ -70,23 +69,20 @@
 Буквенный формат даты
 [Use relative timestamp]
 Относительное время
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 
 [Incoming File Transfer]
-
+Входящий файл
 [URL sent]
 
 [URL received]
 
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Неизвестный контакт)
 [ requested authorization]
  запросил(а) авторизацию
 [ was added.]
 
-;file \plugins\IEView\src\IEView.cpp
 [IID_IOleObject failed.]
 
 [RESULT]
@@ -101,7 +97,6 @@
 
 [ERROR]
 ОШИБКА
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s вошел.
 [%s has left.]
@@ -110,7 +105,6 @@
 Тема %s
 [Error]
 Ошибка
-;file \plugins\IEView\src\Options.cpp
 [General]
 Общее
 [Message Log]
@@ -135,7 +129,6 @@
 Все изображения
 [Style Sheet]
 Таблица стилей
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Сегодня
 [Yesterday]
@@ -144,5 +137,3 @@
 Посылка файла
 [File received]
 Файл получен
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

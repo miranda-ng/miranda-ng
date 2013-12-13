@@ -7,7 +7,6 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого GPG плагина и SecureIM.
-;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 
 [OK]
@@ -162,7 +161,6 @@ ID ключа:
 
 [Import keys]
 
-;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 
 [GPG Turn on encryption]
@@ -179,7 +177,6 @@ ID ключа:
 Экспортировать публичные GPG ключи
 [Import GPG Public keys]
 Импортировать публичные GPG ключи
-;file \plugins\New_GPG\src\main.cpp
 [Email]
 
 [Name]
@@ -195,7 +192,7 @@ ID ключа:
 [Default]
 По умолчанию
 [key ID]
-
+Ключ
 [not set]
 
 [Default private key ID]
@@ -290,7 +287,6 @@ ID ключа:
 
 [Metacontact detected]
 
-;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 
 [Do you want to try to decrypt encrypted message?]
@@ -303,7 +299,6 @@ ID ключа:
 
 [Something is wrong, GPG does not understand us, aborting encryption.]
 
-;file \plugins\New_GPG\src\options.cpp
 [Services]
 Службы
 [Main]
@@ -327,7 +322,7 @@ ID ключа:
 [we have secret key for this public key, do not removing from GPG keyring]
 
 [info]
-
+Инфо
 [Key removed from GPG keyring]
 
 [Do you want to remove key from entire metacontact (all subcontacts)?]
@@ -364,7 +359,6 @@ ID ключа:
 
 [There is no public or private key.]
 
-;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 
 [Target file exists, do you want to replace it?]

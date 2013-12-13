@@ -7,7 +7,6 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 Антиспам плагин для Miranda NG.
-;file \plugins\StopSpamMod\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]
 Вопрос: (Ctrl+Enter для начала новой строки)
 [Restore defaults]
@@ -72,14 +71,12 @@
 Математические выражения
 [Details..]
 Детали..
-;file \plugins\StopSpamMod\src\init.cpp
 [StopSpam]
 Антиспам
 [StopSpam Logs]
 Логи антиспама
 [Remove Temporary Contacts]
 Удалить временные контакты
-;file \plugins\StopSpamMod\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nВ то время как сообщения от пользователей в Вашем списке приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются, плагин отвечает простым вопросом, и если пользователь дает правильный ответ, плагин добавляет его в список, для того чтобы он мог связаться с Вами.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]

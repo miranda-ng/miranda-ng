@@ -3,9 +3,7 @@
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
 ;  Version: 0.0.0.10
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3667
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/db_autobackups/
-;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
 Плагин авторезервирования профиля.

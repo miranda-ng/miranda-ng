@@ -30,7 +30,7 @@
 [Support and latest version information]
 Поддержка и информация о последней версии
 [Delete Contact]
-
+Удалить контакт
 [No]
 Нет
 [Yes]
@@ -240,7 +240,7 @@
 [Fully transparent (like TweakUI)]
 Полностью прозрачное (как TweakUI)
 [Items]
-
+Элементы
 [Show divider between online and offline contacts]
 Граница между подкл. и откл. пользователями
 [Hot track items as mouse passes over]
@@ -462,9 +462,9 @@
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
 [On the &Phone\tCtrl+8]
-
+На &телефоне\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-
+Обед&аю\tCtrl+9
 [Tray]
 Трей
 [&Hide/Show]
@@ -484,7 +484,7 @@
 [Hide Miranda]
 Скрыть список контактов
 [&New Subgroup]
-
+Создать подгруппу
 [&Hide Offline Users in here]
 Скрыть отключённых в группе
 [&Rename Group]
@@ -554,7 +554,7 @@
 [Copy from]
 Копировать из
 [<None>]
-
+<нет>
 [Raised]
 Приподнятый
 [Sunken]

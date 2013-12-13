@@ -7,7 +7,6 @@
 ;============================================================
 [Generates a list of extracted URIs from the history.]
 Создаёт и показывает список ссылок из истории контакта.
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Поиск
 [Close]
@@ -97,7 +96,7 @@
 [&Search]
 &Искать
 [link]
-
+Ссылка
 [Open]
 Открыть
 [Open in new Window]
@@ -106,7 +105,6 @@
 Копировать в буфер
 [Show Message]
 Показать сообщение
-;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
 История ссылок
 [History is empty!]
@@ -127,7 +125,6 @@
 
 [no settings]
 
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 &Создать Линк-лист
 [History]
@@ -138,10 +135,8 @@
 Невозможно создать окно!
 [Could not allocate memory!]
 
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist Plugin]
 Плагин Linklist
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]
 Обнаружено совпадений при поиске
 [Processing list...]

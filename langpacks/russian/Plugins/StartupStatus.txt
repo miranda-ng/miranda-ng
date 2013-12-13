@@ -7,7 +7,6 @@
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Проверять наличие соединения
 [Max. retries]
@@ -264,7 +263,6 @@ Cтатус-профиль
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
 
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 <последний>
 [<current>]
@@ -299,15 +297,12 @@ Cтатус-профиль
 Начальный статус
 [Your default profile will be changed]
 Профиль по умолчанию будет изменен
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
 Максимум 6 пунктов меню
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 Зажатая иконка панели
 [Released toolbar icon]
 Отпущенная иконка панели
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Отошел в %time%.
 [Give it up, I'm not in!]
@@ -330,7 +325,6 @@ Cтатус-профиль
 Ммм... поесть бы.
 [idleeeeeeee]
 ожидание...
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Уст. %s сообщение для %s.
 [<n/a>]

@@ -15,6 +15,8 @@
 Сохранить пароль
 [Create new account]
 Новая учётная запись
+[Tlen]
+
 [Options]
 Настройки
 [Automatically reconnect after unintentional disconnection]
@@ -194,7 +196,7 @@ Tlen чаты
 [Alert]
 Предупреждение
 [Tlen Chats]
-
+Tlen чаты
 [Multi-User Conference]
 Чат-комната
 [Tlen Mail]

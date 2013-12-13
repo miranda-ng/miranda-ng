@@ -124,7 +124,7 @@
 [Items]
 Элементы
 ['Hide Offline' means to hide:]
-
+'Скрыть отключённых' - скрыть:
 [Groups]
 Группы
 [Show counts of number of contacts in a group]
@@ -188,9 +188,9 @@
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
 [On the &Phone\tCtrl+8]
-
+На &телефоне\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-
+Обед&аю\tCtrl+9
 [Tray]
 Трей
 [&Hide/Show]
@@ -212,7 +212,7 @@
 [Group]
 Группа
 [&New Subgroup]
-
+Создать подгруппу
 [&Hide Offline Users in here]
 Скрыть отключённых в группе
 [&Rename Group]

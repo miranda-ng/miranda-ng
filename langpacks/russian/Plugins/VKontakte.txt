@@ -11,8 +11,8 @@
 E-mail или номер телефона:
 [Password:]
 Пароль:
-[Open VKontakte site] 
-Открыть страницу ВКонтакте
+[Open VKontakte site]
+
 [Login settings]
 Настройки входа
 [Advanced]
@@ -45,9 +45,3 @@ E-mail или номер телефона:
 Вложения:
 [Photo]
 Фото
-[Login settings]
-Настройки входа
-[Advanced]
-Дополнительно
-[Server-side delivery confirmation]
-Подтверждение доставки со стороны сервера

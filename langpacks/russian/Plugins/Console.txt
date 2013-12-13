@@ -7,7 +7,6 @@
 ;============================================================
 [Console log window for Miranda.]
 Плагин окна консоли журнала Miranda NG.
-;file \plugins\Console\res\resource.rc
 [Console]
 Консоль
 [Single window mode*]
@@ -26,7 +25,6 @@
 * Требуется перезапуск
 [Save settings and restart console]
 Сохранить настройки и перезапустить консоль
-;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
 Показать/скрыть консоль
 [Hide Console]

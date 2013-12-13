@@ -11,6 +11,8 @@
 
 [EN]
 
+[OK]
+
 [Cancel]
 Отмена
 [New password]

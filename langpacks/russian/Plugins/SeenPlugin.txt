@@ -7,7 +7,6 @@
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
 Запоминает, когда пользователь последний раз появлялся в сети и кто был в сети, пока вы отсутствовали.
-;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Параметры последнего появления
 [Last seen menuitem]
@@ -74,18 +73,16 @@
 
 [Alert when user status changes]
 Предупреждать при изменении статуса
-;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 история последней встречи
 [View User's Details]
-
+Информация о пользователе
 [User Menu]
 Меню пользователя
 [Send Instant Message]
 Отправить мгновенное сообщение
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 
-;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Последнее появление
 [User status change]
@@ -96,12 +93,10 @@
 Пользователь Отключён
 [User Logged In]
 Пользователь Подключён
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <неизвестно>
 [<none>]
 <нет>
-;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 Переменные
 [Contacts]
@@ -110,7 +105,6 @@
 Последнее появление
 [Popups]
 Всплывающие окна
-;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
 %n %s (%u)
 [%i(%r)%bWas %o]
@@ -187,8 +181,6 @@
 для пустой строки
 [instead of]
 вместо
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
 Воскресенье
 [Monday]

@@ -10,7 +10,7 @@
 [Unread emails]
 Непрочитанные письма
 [Close]
-
+Закрыть
 [Mark as read]
 
 [Dialog]

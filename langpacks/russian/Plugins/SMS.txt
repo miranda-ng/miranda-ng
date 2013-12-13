@@ -7,7 +7,6 @@
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
 Отсылка SMS сообщений на мобильные телефоны посредством IM сетей.
-;file \plugins\SMS\res\resource.rc
 [Received SMS]
 Полученное SMS
 [&Reply]
@@ -76,20 +75,16 @@ ID сообщения:
 Источник:
 [Network:]
 Оператор:
-;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
 От %s:\r\n\r\n
-;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 
 [SMS Message from %s]
 SMS от %s
 [SMS Confirmation from %s]
 SMS подтверждение от %s
-;file \plugins\SMS\src\recvdlg.cpp
 [Received SMS Confirmation]
 Полученное SMS подтверждения
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 История сообщений
 [Add Number To The Multiple List]
@@ -105,7 +100,7 @@ SMS подтверждение от %s
 [The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 
 [Invalid Phone Number]
-
+Неверный номер телефона
 [Message is too long, press OK to continue.]
 Сообщение слишком длинное, нажмите OK для продолжения
 [Error - Message too long]
@@ -120,7 +115,6 @@ SMS подтверждение от %s
 Неверный номер телефона
 [<< Single]
 <<Одному
-;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Входящее SMS сообщение
 [Incoming SMS Confirmation]

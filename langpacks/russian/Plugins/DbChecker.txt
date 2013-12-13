@@ -7,7 +7,6 @@
 ;============================================================
 [Miranda NG Database Checker.]
 Плагин проверки БД Miranda NG.
-;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
 Добро пожаловать в мастер базы данных
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -90,17 +89,14 @@
 Резерв:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
 Проверка базы завершена. Нажмите "Далее" для возврата в мастер и проверки другой базы, или "Завершить" для выхода.
-;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
 Завершить
-;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 Нажмите "Далее" для продолжения
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Обработка ещё не завершена; если вы отмените её сейчас, то изменения не будут применены к оригинальной базе данных. Вы хотите отменить?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Обработка ещё не завершена; если вы перейдёте назад сейчас, то изменения не будут применены к оригинальной базе данных. Вы хотите перейти назад?
-;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагин проверки не может найти подходящего драйвера БД для открытия '%s'.
 [Error]
@@ -117,8 +113,6 @@
 Базы Miranda NG (*.dat)
 [All Files]
 Все файлы
-;file \plugins\DbChecker\src\wizard.cpp
-;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 Были найдены ошибки, но вы не сохранили резервную копию. Строго рекомендуется её сделать, так как важные данные могут быть утеряны. Вы хотите сохранить резервную копию оригинальной базы данных?
 [%s\\Backup of %s]

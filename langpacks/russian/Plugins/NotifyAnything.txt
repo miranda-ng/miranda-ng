@@ -7,7 +7,6 @@
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
 
-;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Property Page]
 
 [Security]
@@ -34,10 +33,8 @@
 Разрешить выполнение программ
 [Password:]
 Пароль:
-;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
 
-;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
 
 [Icon indices start at 1.]
@@ -66,7 +63,6 @@
 
 [Error]
 Ошибка
-;file \plugins\NotifyAnything\src\options.cpp
 [Services]
 Службы
 [LogService]

@@ -7,7 +7,6 @@
 ;============================================================
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 Проверяет наличие подключения к сети и автоматически переподключает при разрывах.
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Проверять
 [Max. retries]
@@ -264,7 +263,6 @@ Cтатус-профиль
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
 
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [Protocol]
 Протокол
 [%s connected from another location]
@@ -293,7 +291,6 @@ Cтатус-профиль
 Прекращаю
 [KeepStatus]
 Переподключение
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Basic]
 Основные
 [Advanced]
@@ -302,7 +299,6 @@ Cтатус-профиль
 Соединение с Интернет разорвано!
 [Popups]
 Всплывающие окна
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Отошел в %time%.
 [Give it up, I'm not in!]
@@ -325,7 +321,6 @@ Cтатус-профиль
 Ммм... поесть бы.
 [idleeeeeeee]
 ожидание...
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Установить %s сообщение для %s.
 [<last>]

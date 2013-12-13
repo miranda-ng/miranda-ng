@@ -7,7 +7,6 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
 Поддержка протокола Skype в Miranda NG. Классическая реализация, требующая запущенный клиент Skype.
-;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
 Выбрать
 [Delete]
@@ -138,7 +137,6 @@ SkypeOut контакты в статусе:
 Ошибки
 [Display error messages]
 Показывать ошибки
-;file \protocols\SkypeClassic\src\contacts.cpp
 [Call (Skype)]
 Позвонить по Skype
 [Call using SkypeOut]
@@ -159,7 +157,6 @@ SkypeOut контакты в статусе:
 Импортировать историю из Skype
 [Add Skype contact]
 Добавить контакт Skype
-;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 Неизвестно
 [&Invite user...]
@@ -176,7 +173,6 @@ SkypeOut контакты в статусе:
 История пользователя
 [&Kick user]
 
-;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
 Позвонить по SkypeOut
 [invited ]
@@ -191,7 +187,6 @@ SkypeOut контакты в статусе:
 
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? Если вы откажетесь, всегда можно включить его в настройках.
-;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]
 Предпросмотр ошибки
 [Skype default]
@@ -208,6 +203,5 @@ Skype Прокси
 Мужчина
 [FEMALE]
 Женщина
-;file \protocols\SkypeClassic\src\skypesvc.cpp
 [Skype ID]
 

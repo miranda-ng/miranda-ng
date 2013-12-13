@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin updater for Miranda NG.]
 Обновление плагинов Miranda NG.
-;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Найдены обновления!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
@@ -96,7 +95,6 @@
 Ниже перечислены все отсутствующие компоненты Miranda NG. Выберите компоненты, которые вы хотите установить.\n\nНажмите на значок информации, чтобы перейти на страницу компонента на сайте.
 [Download]
 Загрузка
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Skipped.]
 Пропущено.
 [Downloading...]
@@ -125,7 +123,6 @@
 Список пуст.
 [List loading already started!]
 Список загружается!
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Удалено!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
@@ -136,7 +133,6 @@
 Обновлений нет.
 [Update checking already started!]
 Обновление уже запущено!
-;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 часа(ов)
 [days]
@@ -145,12 +141,10 @@
 Тест
 [Services]
 Службы
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for plugin updates]
 Проверить обновления плагинов
 [Show full plugin list]
 Список плагинов для установки
-;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 Кнопка 'Да'
 ['No' Button]

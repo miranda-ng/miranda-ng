@@ -7,7 +7,6 @@
 ;============================================================
 [Merges contacts from the same or different protocols into one.]
 Объединяет контакты одинаковых и/или разных протоколов в один.
-;file \plugins\MetaContacts\res\MetaContacts.rc
 [Add to Existing MetaContact]
 Добавить к метаконтакту
 [Please select a MetaContact:]
@@ -110,7 +109,6 @@ UIN, E-mail и т.д.
 История субконтакта, синхронизированная с метаконтактом
 [History (** beware - change at your own risk **)]
 История (** ОСТОРОЖНО - ИЗМЕНЯЙТЕ НА СВОЙ РИСК **)
-;file \plugins\MetaContacts\src\addto.cpp
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
 Нет еще ни одного метаконтакта в базе (в этом случае нужно сначала конвертировать один простой контакт в метаконтакт).\nКак вариант преобразуйте этот контакт в новый метаконтакт.\n\nПреобразовать этот контакт в метаконтакт?
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
@@ -135,7 +133,6 @@ UIN, E-mail и т.д.
 Не удалось добавить к метаконтакту.
 [Assignment failure]
 Неудачное назначение
-;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (Неизвестный контакт)
 [Yes]
@@ -152,7 +149,6 @@ ID
 Отправка в оффлайн
 [Delete MetaContact?]
 Удалить метаконтакт?
-;file \plugins\MetaContacts\src\icons.cpp
 [Toggle Off]
 Выключить
 [Toggle On]
@@ -166,16 +162,13 @@ ID
 [Set to Default]
 По умолчанию
 [Remove]
-
-;file \plugins\MetaContacts\src\metacontacts.h
+Удалить
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Удалить метаконтакт?
-;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
 Ошибка - база повреждена.\nПлагин отключён.
 [MetaContacts]
 Метаконтакты
-;file \plugins\MetaContacts\src\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 Обнаружена проблема добавления контакта к метаконтакту
 [Error]
@@ -186,10 +179,8 @@ ID
 Вы уверены?
 [Remove from MetaContact]
 Удалить из метаконтакта
-;file \plugins\MetaContacts\src\meta_options.cpp
 [<default>]
 <по умолчанию>
-;file \plugins\MetaContacts\src\meta_services.cpp
 [Meta ID]
 Meta ID
 [No online contacts found.]
@@ -216,7 +207,6 @@ Meta ID
 Приоритеты
 [History]
 История
-;file \plugins\MetaContacts\src\meta_utils.cpp
 [Sender]
 
 [Could not get MetaContact ID]

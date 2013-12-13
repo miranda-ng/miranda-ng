@@ -7,7 +7,6 @@
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
 Плагин добавляет возможность управления выключением компьютера через Miranda NG.
-;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 Выключение
 [&Show confirmation dialog before shutdown]
@@ -66,7 +65,6 @@
 Нажмите "Отмена" если хотите прервать процесс
 [&Now!]
 Сейчас!
-;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 Выключить в:
 [Time left:]
@@ -87,17 +85,14 @@
 Фон
 [Progress Bar]
 Строка состояния
-;file \plugins\AutoShutdown\src\main.cpp
 [Header]
 Заголовок
 [Active]
 Активно
 [Inactive]
 Неактивно
-;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 События
-;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [Second(s)]
 Секунд(ы)
 [Minute(s)]
@@ -122,7 +117,6 @@
 Остановить автовыключение 
 [Automatic &shutdown...]
 Автовыключение...
-;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG автоматически закроется через %u секунд(ы).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -146,7 +140,7 @@ Miranda NG автоматически закроется через %u секу�
 [The shutdown process failed!\nReason: %s]
 Ошибка процесса автоотключения!\nПричина: %s
 [Unknown]
-
+Неизвестно
 [Inititiating the shutdown process failed!\nReason: %s]
 Ошибка запуска процесса выключения!\nПричина: %s
 [Close Miranda NG]
@@ -189,7 +183,6 @@ Miranda NG автоматически закроется через %u секу�
 Уведомления
 [Automatic Shutdown Countdown]
 Обратный отсчёт автовыключения
-;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 Переключить автовыключение
 [Main]

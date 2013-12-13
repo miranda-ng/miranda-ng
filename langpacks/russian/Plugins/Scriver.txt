@@ -7,7 +7,6 @@
 ;============================================================
 [Scriver - send and receive instant messages.]
 Плагин личных и групповых чатов для Miranda NG.
-;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Поведение
 [Automatically pop up the window when]
@@ -191,7 +190,7 @@
 [&Filter]
 Фильтр
 [&Room Settings]
-
+Настройки
 [&Show/hide nicklist]
 &Показать/Скрыть список ников
 [Show these events only:]
@@ -229,7 +228,7 @@
 [pixels]
 пикселей
 [Log Options]
-
+Настройки журнала
 [Your name]
 Ваше имя
 [Other name]
@@ -275,9 +274,9 @@
 [&Copy]
 &Копировать
 [Co&py All]
-
+Ко&пировать всё
 [Select &All]
-
+Выделить &всё
 [Word lookup]
 Найти слово
 [Google]
@@ -297,7 +296,7 @@
 [Foodnetwork]
 
 [C&lear Log]
-
+Очистить журнал
 [&Open link]
 &Открыть ссылку
 [&Copy link]
@@ -332,7 +331,6 @@
 Очистить ча&т
 [Co&py all]
 Ко&пировать всё
-;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Добавить контакт
 [User's details]
@@ -408,7 +406,7 @@
 [Action (10x10)]
 Действие (10x10)
 [Add Status (10x10)]
-
+Добавить статус (10х10)
 [Remove status (10x10)]
 Удалить статус (10х10)
 [Join (10x10)]
@@ -461,7 +459,6 @@
 Вьетнамский
 [Korean (Johab)]
 Корейский (Johab)
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Сообщения
 [Navigate: Previous Tab]
@@ -490,7 +487,6 @@
 Действие: Послать всем
 [Action: Paste & Send]
 Действие: Вставить и отправить
-;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
 Цитата
 [Smiley]
@@ -510,9 +506,9 @@
 [No word to look up]
 Нет слов для просмотра
 [Add Contact Permanently to List]
-
+Добавить в список контактов
 [View User's Details]
-
+Информация о пользователе
 [View User's History]
 История сообщений
 [Quote Text]
@@ -535,7 +531,6 @@
 %s набирает текст...
 [Last message received on %s at %s.]
 Последнее сообщение вы получили %s в %s.
-;file \plugins\Scriver\src\msglog.cpp
 [Unknown Contact]
 Неизвестный контакт
 [Me]
@@ -562,7 +557,6 @@
 
 [URL received]
 
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Общее
 [Event Log]
@@ -679,7 +673,6 @@
 Беседы
 [Typing Notify]
 Набирает текст
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Сообщение от %s
 [%s is typing a message]
@@ -702,22 +695,16 @@
 Контакт начал набор сообщения
 [Contact stopped typing]
 Контакт закончил набор сообщения
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Неизвестная ошибка.
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Поверх всех окон
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Таймаут отправки сообщения
-;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
 Войти в чат
 [Open chat window]
 Открыть окно чата
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
 %s вошёл
 [You have joined %s]
@@ -746,12 +733,10 @@
 %s выключает статус '%s' для %s
 [<invalid>]
 <неверно>
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 Зайти
 [&Leave]
 &Оставить
-;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
@@ -919,7 +904,7 @@ ID текущего контакта (если определен). Наприм
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Показать в новом окне, если 'Фильтр событий' включён
 [Select Folder]
-
+Выбрать папку
 [Popups]
 Всплывающие окна
 [Message is highlighted]
@@ -936,10 +921,8 @@ ID текущего контакта (если определен). Наприм
 Пользователь отправил уведомление
 [The topic has been changed]
 Тема изменилась
-;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
 Сервер: %s
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s требует вашего внимания в %s
 [%s speaks in %s]
@@ -974,7 +957,6 @@ ID текущего контакта (если определен). Наприм
 Тема '%s' (установлена %s)
 [&Message %s]
 &Сообщение %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Курсив
 [Underline]

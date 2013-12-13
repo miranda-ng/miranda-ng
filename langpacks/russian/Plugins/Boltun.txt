@@ -7,7 +7,6 @@
 ;============================================================
 [Boltun, the chat bot in the russian language.]
 Болтун, чат-бот для русского языка.
-;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
 Болтун
 [Boltun Autochat everybody]
@@ -46,7 +45,6 @@
 Начинать ответы с маленькой буквы.
 [Don't use "I don't understand"-like answers]
 Не использовать ответы типа "Не понял?"
-;file \plugins\Boltun\src\boltun.h
 [Message sessions]
 Беседы
 [Mind Files]

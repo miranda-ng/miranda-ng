@@ -7,7 +7,6 @@
 ;============================================================
 [Take a screenshot and send it to a contact.]
 Создание и отсылка снимков экрана контакту.
-;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Диалог
 [OK]
@@ -19,7 +18,7 @@
 [Cancel]
 Отмена
 [Send screenshot]
-
+Отправить скриншот
 [Send screenshot to\n<unknown>]
 
 [Ti&med capture]
@@ -58,19 +57,16 @@
 Размер (ВxШ):
 [Target Tool]
 
-;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [GCHAT error]
 
 [An unknown error has occurred.]
 Неизвестная ошибка.
 [Error]
 Ошибка
-;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 
 [MAPI error (%i):\n%s.]
 
-;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 
 [The specified attachment was not found]
@@ -99,20 +95,16 @@
 
 [Unknown Error]
 
-;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
 Не могу запустить плагин HTTP Сервер.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 [Upload server did not respond timely.]
 
-;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Ещё раз
 [Yes]
@@ -123,10 +115,8 @@
 
 [Ignore]
 Игнорировать
-;file \plugins\SendScreenshotPlus\src\global.h
 [SendScreenshot - Error]
 
-;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 
 [Open SendSS+]
@@ -149,7 +139,6 @@ HTTP подключение SendSS
 
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Screenshot Icon1]
 Значок снимка 1
 [Screenshot Icon2]
@@ -186,19 +175,16 @@ HTTP подключение SendSS
 Применить
 [Down arrow]
 Вниз
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
 Кнопки
 [Overlays]
 Оверлеи
-;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 
 [< Copyright]
 < Права
 [Copyright]
 
-;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
 [Send screenshot to\n]

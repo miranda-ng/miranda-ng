@@ -7,9 +7,8 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Просмотрщик истории для Miranda NG.
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
-
+История сообщений
 [Settings]
 Настройки
 [Always show contact list]
@@ -140,7 +139,6 @@
 
 [Cancel]
 Отмена
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Открыть историю
 [View &History]
@@ -169,7 +167,6 @@
 Минус в экспорте
 [History]
 История
-;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Все события
 [Default history events]
@@ -181,10 +178,9 @@
 [Me]
 Я
 [Invalid Message]
-
+Сообщение повреждено
 [Authorization request by %s (%s%d): %s]
 Запрос авторизации от %s (%s%d): %s
-;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 
 [Import]
@@ -195,7 +191,6 @@
 
 [File is corrupted]
 
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Эта операция полностью удалит историю этого контакта.\nВы уверены?
 [Are You sure?]
@@ -250,7 +245,6 @@ Dat (мКонтакты)
 Ошибка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Количество удаляемых пунктов истории: %d.\nВы действительно этого хотите?
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Сообщение
 [File transfer]
@@ -411,15 +405,12 @@ Dat (мКонтакты)
 Импорт из:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ** <date> - вставляет дату, <ext> - расширение, <contact> - имя контакта
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [History Log]
 Просмотр истории
 [Filter:]
 
 [Conversation started at %s]
 Беседа начата в %s
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [_files]
 
 [Menu]
@@ -428,7 +419,6 @@ Dat (мКонтакты)
 
 [Close all]
 
-;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 История
 [Contacts]
@@ -471,7 +461,6 @@ Dat (мКонтакты)
 
 [Task '%s' execution failed:]
 
-;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" не найдено
 [Search]
@@ -480,4 +469,3 @@ Dat (мКонтакты)
 Вы достигли конца группы
 [You have reached the end of the history.]
 Вы добрались до конца истории.
-;file \plugins\BasicHistory\src\TxtExport.cpp

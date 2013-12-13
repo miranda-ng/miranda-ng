@@ -7,11 +7,10 @@
 ;============================================================
 [Crash Dumper for Miranda NG.]
 Плагин создания отчётов об ошибках в случае аварийного завершения работы программы. Поддержка www.miranda-vi.org.
-;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Информация о версиях
 [Close]
-
+Закрыть
 [Copy To Clipboard]
 Копировать в буфер
 [To File]
@@ -35,10 +34,9 @@
 [&Copy]
 &Копировать
 [Co&py All]
-
+Ко&пировать всё
 [Select &All]
-
-;file \plugins\CrashDumper\src\crshdmp.cpp
+Выделить &всё
 [VersionInfo stored into file %s]
 Версии сохранены в файле %s
 [VersionInfo file %s is inaccessible]
@@ -75,18 +73,14 @@
 Копировать версии в буфер обмена
 [Show Version Info]
 Показать версии
-;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
 Отчёт об ошибках
-;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Путь для записи отчёта об ошибке недоступен
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda NG была завершена аварийно. Отчёт сохранен в \n %s\n\n Хотите ли вы сохранить его в буфер обмена?
-;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Информация о версиях (с библиотеками)
-;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 Версии успешно загружены,\n%d старых плагинов
 [Cannot upload VersionInfo. Incorrect username or password]
@@ -101,6 +95,5 @@ Miranda NG была завершена аварийно. Отчёт сохран
 Нельзя загрузить информацию о версиях. Хост недоступен
 [Crash Dumper HTTP connections]
 HTTP подключение Crash Dumper
-;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
 Установлено более одного плагина отчётов об ошибках. Это ведет к невозможности создания отчётов

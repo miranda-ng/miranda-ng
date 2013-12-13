@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Уведомляет вас об изменениях статусов, xСтатусов или статусных сообщений контактов.
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Сообщать, когда статус контакта изменяется на:
 [Online]
@@ -180,7 +179,6 @@ xСтатус
 Учётные записи
 [Enable/Disable accounts which you don't wish to be notified for:]
 Включить/Выключить уведомления для учётных записей:
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Звуковые файлы
 [All files]
@@ -195,10 +193,8 @@ xСтатус
 Из оффлайна
 [** All contacts **]
 ** Все контакты **
-;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (по умолчанию)
-;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <нет сообщения статуса>
 [Contact]
@@ -313,7 +309,6 @@ xСтатус изменен
 xСтатус удален
 [Toggle status notification]
 Вкл/Выкл уведомления о смене статуса
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Все файлы
 [Log]
@@ -334,7 +329,6 @@ xСтатус удален
 Фильтрация
 [Message log]
 Журнал
-;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]
 Открыть окно беседы
 [Close popup]
@@ -347,14 +341,12 @@ xСтатус удален
 Открыть историю контакта
 [Do nothing]
 Ничего не делать
-;file \plugins\NewXstatusNotify\src\utils.cpp
 [You cannot specify a value lower than %d and higher than %d.]
 Значение меньшее %d или большее %d не допускается.
 [Can't open the log file!]
 Не могу открыть файл журнала!
 [NewXstatusNotify]
 Уведомление о смене статусов
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 Настроение
 [Activity]
@@ -367,7 +359,6 @@ xСтатус удален
 
 [%s, %s. %s changed %s to: %s.\r\n]
 
-;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %N to: %T%D%I]
 изменил(а) %N на: %T%D%I
 [changed %N message to:%D%I]

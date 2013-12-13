@@ -7,7 +7,6 @@
 ;============================================================
 [Miranda interface to the Microsoft Speech API.]
 Интерфейс распознавания речи Microsoft.
-;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
 Настройки движка
 [Engine]
@@ -27,7 +26,7 @@
 [Welcome Message]
 Приветствие:
 [Status Changes]
-
+Смены статуса
 [Offline]
 Не в сети
 [Online]
@@ -86,15 +85,12 @@
 Добавить
 [Remove]
 Удалить
-;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
 [** All contacts **]
 ** Все контакты **
 [** Unknown contacts **]
 ** Неизвестные контакты **
-;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
 [testing testing 1 2 3]
 Проверка, проверка: 1 2 3
-;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
 Сообщение от пользователя %u.
 [incoming URL from %u]
@@ -107,19 +103,16 @@
 Есть файл от пользователя %u.
 [%u says]
 %u пишет:
-;file \plugins\WinterSpeak\src\main.cpp
 [Speak]
 Речь
 [Engine/Voice]
 Движок/Голос
 [Announce]
 Анонс
-;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
 [Message Session]
 Сообщение сессии
 [Message Received]
 Сообщение получено
-;file \plugins\WinterSpeak\src\UserInformation.cpp
 [%u is now offline]
 %u сейчас не в сети.
 [%u is now online]

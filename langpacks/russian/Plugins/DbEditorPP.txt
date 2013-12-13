@@ -7,7 +7,6 @@
 ;============================================================
 [Advanced Database Editor.]
 Расширенный редактор базы.
-;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ Search and Replace]
 Найти и заменить
 [Case Sensitive]
@@ -61,7 +60,7 @@
 [OK]
 
 [Cancel]
-
+Отмена
 [Edit Setting]
 Редактировать настройку
 [Value Name:]
@@ -206,7 +205,6 @@ BL&OB
 Окно наблюдений
 [Reload Watch List]
 Обновить список наблюдений
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
 Не могу конвертировать!
 [New BYTE value]
@@ -235,10 +233,8 @@ BL&OB
 Редактировать BLOB
 [Couldn't allocate enough memory!]
 Невозможно выделить память!
-;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]
 Настройки
-;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Удалить модуль "%s"?
 [Confirm Module Deletion]
@@ -247,7 +243,6 @@ BL&OB
 Удалить модуль из базы
 [Delete module from Database... Loading]
 Удаление модуля из базы... Загрузка
-;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлы
 [All Files]
@@ -260,7 +255,6 @@ INI файлы
 Не удается открыть файл на запись
 [Import from files]
 Импорт из файлов
-;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
 Введите строку поиска
 [Stop]
@@ -289,7 +283,6 @@ INI файлы
 Поиск завершен, найдено %d и заменено %d элемент(ов).
 [Finished. %d items were found.]
 Поиск завершен, найдено %d элемент(ов).
-;file \plugins\DbEditorPP\src\icons.cpp
 [Closed Known Module]
 Известный модуль (закрыт)
 [Open Known Module]
@@ -300,20 +293,16 @@ INI файлы
 Неизвестный контакт
 [Known Contact]
 Известный контакт
-;file \plugins\DbEditorPP\src\main.cpp
 [Database Editor++]
 Редактор базы
 [Open Database Editor]
 Открыть редактор базы
 [Open user tree in DBE++]
 Открыть в редакторе базы
-;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Вы уверены, что хотите удалить контакт "%s"?
 [Confirm Contact Delete]
 Подтверждение удаления контакта
-;file \plugins\DbEditorPP\src\modules.cpp
-;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 Загрузка контактов...
 [Loading modules...]
@@ -326,10 +315,8 @@ INI файлы
 HANDLE
 [Add module to contact "%s"]
 Добавить модуль контакту "%s"
-;file \plugins\DbEditorPP\src\options.cpp
 [Database]
 Профиль
-;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 Имя
 [Data]
@@ -358,7 +345,6 @@ HANDLE
 Расшифрованная строка
 [Encoded string..]
 Зашифрованная строка
-;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 Контакт
 [Module]

@@ -256,9 +256,9 @@ Jabber vCard: добавление телефона
 [JID List]
 
 [Apply Filter]
-
+Применить фильтр
 [Reset Filter]
-
+Сбросить фильтр
 [Jabber Agent Registration]
 
 [JID:]
@@ -322,9 +322,9 @@ JID / URL:
 [Rules:]
 Правила:
 [Simple Mode]
-
+Простой режим
 [Advanced Mode]
-
+Расширенный режим
 [Add list... (Ins)]
 
 [Activate (Space)]
@@ -376,7 +376,7 @@ Hовое имя списка приватности:
 [Node:]
 Узел:
 [Change %s Message]
-
+Изменить сообщение "%s"
 [Closing in %d]
 Закрыть (%d)
 [Account type:]
@@ -1288,7 +1288,7 @@ Jabber ошибка
 [From]
 От
 [Both]
-
+в обе стороны
 [Errors]
 Ошибки
 [Incoming note from %s]
@@ -1964,7 +1964,7 @@ XML для MS Excel (кодировка UTF-8)
 [Change global status]
 Изменить глобальный статус
 [Set Options]
-
+Установить настройки
 [Set the desired options]
 Установите желаемые настройки
 [Automatically Accept File Transfers]

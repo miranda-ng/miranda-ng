@@ -7,7 +7,6 @@
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
 Сканирует сеть в поисках пользователей, использующих ваши файлы, открытые для доступа по сети и уведомляет всплывающими окнами.
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Текущие соединения
 [OK]
@@ -56,7 +55,6 @@ WUMF: Текущие соединения
 Будут доступны в следующей версии
 [Show current connections]
 Показать соединения
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [ID]
 ID
 [User]
@@ -71,7 +69,6 @@ ID
 Ошибка открытия файла
 [Error memory allocation]
 
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 
 [Popup plugin not found!]

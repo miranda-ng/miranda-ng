@@ -29,8 +29,12 @@ SMS-код:
 Вставьте пароль из программы WART
 [Use WART utility from Plugins folder for registering your number and generating password]
 Для регистрации номера и получения пароля воспользуйтесь программой WART из папки Plugins
+[WhatsApp]
+
 [Cancel]
 Отмена
+[OK]
+
 [Please enter a country-code.]
 Введите код страны.
 [Please enter a phone-number without country code.]

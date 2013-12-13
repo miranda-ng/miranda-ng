@@ -7,7 +7,6 @@
 ;============================================================
 [Shows currency rates and economic quotes.]
 Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
-;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 
 [OK]
@@ -132,10 +131,8 @@
 &Отслеживаемые котировки:
 [Status &Message:]
 Сообщение &статуса:
-;file \plugins\Quotes\src\Chart.h
 [There is no to show]
 
-;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 секунд
 [Minutes]
@@ -148,12 +145,10 @@
 
 [Enter text to display in contact list.]
 
-;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 Информация предоставлена
 [Enter positive number.]
 Введите положительное число.
-;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
 Котировки
 [Refresh All Quotes\\Rates]
@@ -174,10 +169,8 @@
 Настройки...
 [Network]
 Сеть
-;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 HTTP подключение Quotes
-;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 Значок протокола
 [Quote/Rate up]
@@ -196,17 +189,14 @@ HTTP подключение Quotes
 Поменять местами
 [Import]
 Импорт
-;file \plugins\Quotes\src\ImportExport.cpp
 [Xml File (*.xml)]
 
 [All files (*.*)]
 Все файлы (*.*)
-;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 
-;file \plugins\Quotes\src\QuoteChart.cpp
 [Log File]
 
 [Miranda's History]
@@ -223,13 +213,10 @@ HTTP подключение Quotes
 
 [User-Defined]
 
-;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 
 [Error occurred during site access.]
 Ошибка при доступе к сайту.
-;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
 Символ котировки
 [Quote Name]
@@ -276,7 +263,6 @@ HTTP подключение Quotes
 Значение на предыдущее закрытие
 [Change]
 Изменение
-;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 
 [Enter integer value]

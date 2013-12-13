@@ -11,6 +11,8 @@
 Пароль:
 [Login name:]
 Логин
+[XFire]
+
 [Nick:]
 Ник:
 [Current protocol version:]
@@ -394,7 +396,7 @@
 [Daily]
 Ежедневно
 [<Root Group>]
-
+<Корневая группа>
 [Are you sure you want to remove this game?]
 
 [Please select a game.]

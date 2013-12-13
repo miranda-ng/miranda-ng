@@ -17,6 +17,8 @@
 &Обновление
 [Updating]
 Обновление
+[OK]
+
 [Cancel]
 Отмена
 [Apply]
@@ -78,7 +80,7 @@
 [Assistant:]
 Ассистент:
 [Add Phone Number]
-
+Добавить телефон
 [Enter your phone number\nand don't worry about formating.]
 Введите номер телефона\nв любом формате.
 [Enter a category for this number:]
@@ -390,7 +392,7 @@ E-Mail
 [Edit E-Mail]
 
 [Edit Phone Number]
-
+Редактировать телефон
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 
 [Choose the item to display.]
@@ -408,7 +410,7 @@ E-Mail
 [Other]
 Другое
 [<Unspecified>]
-
+<не указано>
 [ETA]
 Осталось дней
 [Contact]
@@ -532,7 +534,7 @@ E-Mail
 [Custom Phone]
 Выбранный телефон
 [e-mail]
-
+E-Mail
 [Down arrow]
 Стрелка вниз
 [Add]
@@ -1060,7 +1062,7 @@ Web Дизайн
 [sen.]
 сен.
 ['(Unknown Contact)']
-
+'(Неизвестный контакт)'
 [Send e-mail]
 Отправить e-mail
 [Memory allocation error!]
@@ -1172,7 +1174,7 @@ Web Дизайн
 [The ini-file "%s"\nfor reading contact information could not be opened.]
 
 [all Contacts]
-
+Все контакты
 [Select a destination file...]
 Выберите имя файла для экспорта
 [Import User Details from VCard]

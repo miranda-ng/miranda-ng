@@ -7,7 +7,6 @@
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Плагин сохраняет историю изменения аватаров контактов и показывает всплывающие окна.
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Avatar List Popup]
 
 [Save As...]
@@ -96,7 +95,6 @@
 История сохраняется только на диск. Её можно просмотреть встроенным просмотрщиком.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<время> (одинаковые аватары могут быть сохранены несколько раз)
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
 
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
@@ -121,7 +119,6 @@
 
 [Save Avatar]
 
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [AVH Debug]
 
 [Removed avatar, no avatar before...skipping]
@@ -138,17 +135,14 @@
 Контакт сменил аватар
 [Contact removed avatar]
 Контакт удалил аватар
-;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 удалил(а) свой аватар
 [changed his/her avatar]
 сменил(а) свой аватар
-;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 История
 [Avatar Overlay]
 Оверлей аватара
-;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
 Ничего не делать
 [Close popup]
@@ -167,7 +161,6 @@
 Всплывающие окна
 [Avatar Change]
 Смена аватара
-;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Неизвестный номер
 [Unknown Protocol]

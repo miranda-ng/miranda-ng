@@ -11,6 +11,8 @@
 Вход в Miranda NG
 [EN]
 
+[OK]
+
 [Cancel]
 Отмена
 [New password]
@@ -24,7 +26,7 @@
 [Old password]
 Старый пароль
 [Install Database Settings]
-
+Установить настройки базы данных
 [Yes]
 Да
 [No]
@@ -40,7 +42,7 @@
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены о небезопасных изменениях.
 [Database Setting Change]
-
+Изменение настроек базы данных
 [Database settings are being imported from]
 Настройки импортируются из
 [This file wishes to change the setting]
@@ -56,9 +58,9 @@
 [&No]
 &Нет
 [Cancel Import]
-
+Отменить импорт
 [Database Import Complete]
-
+Импорт базы завершен
 [The import has completed from]
 Импорт завершен из
 [What do you want to do with the file now?]

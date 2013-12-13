@@ -7,7 +7,6 @@
 ;============================================================
 [Ping labelled IP addresses or domain names.]
 Пингует IP адрес или доменное имя.
-;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Задержка между пингами (сек):
 [Timeout]
@@ -100,14 +99,12 @@ TCP соединение
 Настройки...
 [Hosts...]
 Хосты...
-;file \plugins\Ping\src\menu.cpp
 [PING]
 Пинг
 [Enable All Pings]
 Включить все пинги
 [Disable All Pings]
 Выключить все пинги
-;file \plugins\Ping\src\options.cpp
 [All\0*.*\0Text\0*.TXT\0]
 
 [<none>]
@@ -118,10 +115,8 @@ TCP соединение
 Настройки
 [Hosts]
 Хосты
-;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Плагин пинг
-;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Показывать линии
 [Show stats]
@@ -134,7 +129,6 @@ TCP соединение
 МАКС %hd мс
 [MIN %hd ms]
 МИН %hd мс
-;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%s' (%d)]
 %d - установка статуса протокола '%s' (%d)
 [%s - reply, %d]
@@ -151,10 +145,8 @@ TCP соединение
 Пинг
 [Show/Hide &Ping Window]
 Показать/скрыть окно
-;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s требует уменьшить количество посылаемого вами трафика.
-;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 Неизвестный адрес
 [Unknown]

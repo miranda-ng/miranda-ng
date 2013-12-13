@@ -7,7 +7,6 @@
 ;============================================================
 [Shows a notification when someone in your contact list changes his client.]
 Оповещает, если кто-то из вашего списка контактов сменил свой клиент.
-;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 Ошибка ClientChangeNotify
 [OK]
@@ -56,7 +55,6 @@
 Игнорировать эти клиенты (через точку с запятой):
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 (установите pcre.dll или pcre3.dll чтобы использовать здесь регулярные выражения)
-;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [changed client to %s (was %s)]
 поменял(а) клиент на %s (был %s)
 [changed client to %s]
@@ -87,12 +85,10 @@
 Уведомление о смене клиента
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
 
-;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Ошибка #%d
 [Can't open log file ]
 Невозможно открыть файл журнала\s
-;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (Вы можете использовать здесь регулярные выражения)
 [Open message window]

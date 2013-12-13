@@ -21,6 +21,10 @@
 Тип lParam
 [Service name]
 Имя службы
+[wParam]
+
+[lParam]
+
 [Result action]
 Результат действия
 [Window option]
@@ -261,6 +265,7 @@
 Помощь по структуре
 [Descr]
 Описание
+;other strings
 [Open contact window]
 Открыть окно контакта
 [Call service]

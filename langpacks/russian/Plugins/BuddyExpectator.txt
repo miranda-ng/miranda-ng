@@ -7,7 +7,6 @@
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
 Плагин уведомляет о возвращении контакта или его длительном отсутствии.
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 При появлении контакта после
 [Show a popup]
@@ -68,7 +67,6 @@
 Включить "Жду тебя"
 [Notify always]
 Извещать всегда
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
 Значок в трее/всплывающем окне
 [Enabled]
@@ -111,7 +109,6 @@
 Жду тебя
 [Hide contact]
 Скрыть контакт
-;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 недель
 [months]

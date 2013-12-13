@@ -7,7 +7,6 @@
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 Плагин OTR (Off-the-Record) для Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
-;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 
 [Generating new private key - please wait.]
@@ -82,7 +81,6 @@ OTR-статус
 Остановить& OTR-сессию
 [&Verify Fingerprint]
 &Проверка отпечатков
-;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 Запустить OTR
 [Stop OTR]
@@ -245,10 +243,8 @@ OTR-Идентификация с: %s (%s)
 OTR: установлен SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы используете SecureIM. MirOTR будет работать только с контактами с отключенным SecureIM.
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [OTR Status]
 Статус OTR
-;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Private Data]
 Личные данные
 [Services]

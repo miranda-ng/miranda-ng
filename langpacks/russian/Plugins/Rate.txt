@@ -7,7 +7,6 @@
 ;============================================================
 [Shows rating of contact in contact list (if presents).]
 Показывает рейтинг контакта в списке контактов (если имеется).
-;file \plugins\Rate\src\main.cpp
 [Rate high]
 Высокий рейтинг
 [Rate medium]

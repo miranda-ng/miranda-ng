@@ -7,7 +7,6 @@
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
 Загружает и управляет аватарами для других плагинов.
-;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Установленные здесь изображения являются аватарами для контактов, у которых нет своего аватара. Галочка включает/выключает отображение стандартного аватара для протоколов.
 [Set default picture]
@@ -78,10 +77,8 @@
 Выбрать
 [Use per protocol avatars]
 Разные аватары протоколов
-;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 У всех протоколов разные аватары
-;file \plugins\AVS\src\main.cpp
 [Global avatar]
 Глобальный аватар
 [Global avatar for %s accounts]
@@ -96,7 +93,6 @@
 Фатальная ошибка, служба изображений не найдена. Служба аватаров будет отключена.
 [Avatar Service]
 Служба аватар
-;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Настройки аватара для %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
@@ -118,20 +114,19 @@
 [Are you sure you want to remove your avatar?]
 Вы хотите удалить ваш аватар?
 [Global Avatar]
-
+Глобальный аватар
 [Avatar]
 Аватар
-;file \plugins\AVS\src\services.cpp
 [All Files]
 Все файлы
 [Windows Bitmaps]
-
+Изображения Windows Bitmap
 [JPEG Bitmaps]
-
+Изображения JPEG
 [GIF Bitmaps]
-
+Изображения GIF
 [PNG Bitmaps]
-
+Изображения PNG
 [Flash Animations]
 Flash анимация
 [XML Files]

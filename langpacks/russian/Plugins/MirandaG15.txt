@@ -5,94 +5,60 @@
 ;  Version: 0.1.2.0
 ;  Authors: Martin Kleinhans
 ;============================================================
-[Timeout: No response from contact/server]
-Таймаут: Нет ответа от контакта/сервера
-[New message from %s]
-Новое сообщение от %s
-[Incoming URL from %s]
-Новая ссылка от %s
-[Incoming contacts from %s]
-Новый контакт от %s
-[You were added by %s]
-%s добавил вас!
-[Authrequest from %s]
-Запрос авторизации от %s
-[Incoming file from %s]
-Входящий файл от %s
-[%s has joined the channel]
-%s Присоединился к каналу.
-[%s has left: %s]
-%s вышел: %s
-[%s has disconnected: %s]
-%s отсоединился: %s
-[%s has kicked %s: %s]
-%s выбросил %s: %s
-[Topic is now '%s' (set by %s)]
-Тема: "%s" (установил %s)
-[%s enables '%s' for %s]
-%s включает "%s" для %s
-[%s disables '%s' for %s]
-%s отключает "%s" для %s
-[Joined %s]
-Присоединились к %s
-[%s signed on (%s)]
-%s приходит (%s)
-[Left %s]
-Покинули %s
-[%s signed off]
-%s уходит
-[Contact list event]
-Событие списка контактов
-[You are now %s]
-Вы теперь %s
-[Protocol status change]
-Изменение статуса протокола
-[%s was deleted from contact list!]
-%s был удален из списка контактов!
-[typing..]
-набирает текст..
-[IRC-Chatroom support is disabled!\nYou need to install the patched IRC.dll (see the readme) to use IRC-Chatrooms on the LCD]
-Поддержка чатов IRC отключена!\nВам нужно установить IRC.dll (смотрите Readme) для активации этой функции!
-[Sending message...]
-Отправка сообщения...
-[Could not send the message!]
-Ошибка отправки сообщения!
-[Device:]
-Клавиатура:
-[No device attached]
-Не присоединено
+[Provides an interface to use Miranda from the LCD of various Logitech devices.]
+Плагин добавляет возможность использования Miranda NG на ЖК-экране различных устройств Logitech.
+[Fonts]
+Шрифты
+[General settings]
+
 [Show softkey labels]
 Показывать подписи кнопок
 [Event log:]
 Журнал событий:
+[Sample]
+Пример
 [Message log:]
 Журнал сообщений
 [Contact list:]
 Список контактов
 [Titles:]
 Заголовки
-[If the screensaver is active:]
-Если активна заставка:
+[Notifications:]
+
 [Turn off backlights]
 Выключить подсветку
-[Lock the Screen]
-Заблокировать экран
 [If the applet is active:]
 Если апплет активен:
 [Use the VolumeWheel to scroll up and down (might affect system performance)]
 Использовать колесо регулировки громкости для прокрутки списков
+[Show seconds in timestamps]
+
 [Use transition effects when changing screens]
 Использовать эффекты при смене экранов
+[Credits]
+
+[About]
+
+[Mirandag15 + TrillianG15]
+
 [For updates and news check the thread on http://www.g15forums.com]
 Обновления и новости ищите в теме на http://www.g15forums.com
 [Or visit http://www.mkleinhans.de]
 Или посетите http://www.mkleinhans.de
-[Chatsessions]
-Беседы
-[Exceptions:]
-Исключения:
-[Don't skip when repyling]
-Не пропускать во время ответа
+[mail@mkleinhans.de]
+
+[© 2006 by Martin Kleinhans]
+
+[Device:]
+Клавиатура:
+[If the screensaver is active:]
+Если активна заставка:
+[Lock the screen]
+Заблокировать экран
+[Skip driver missing notification]
+
+[Notifications]
+
 [Notification screen title]
 Заголовок окна уведомления
 [Hide it]
@@ -105,14 +71,24 @@
 Размер журнала
 [Notification duration]
 Длительн. уведомления
+[events]
+События
+[seconds]
+секунд
 [Notification types]
 Типы уведомлений
+[Incoming messages]
+Входящие сообщения
 [Contact signs off]
 Контакт выходит из сети
 [Contact changes status]
 Контакт изменяет статус
+[Incoming URL]
+Входящий URL
 [Contact list events]
 События сп. контактов
+[Incoming file transfers]
+
 [Protocol disconnected]
 Протокол отсоединен
 [Protocol connected]
@@ -123,32 +99,44 @@
 Показывать события только следующих протоколов:
 [Contact signs on]
 Контакт входит в сеть
-[When a chatsession is active, skip the following notifications for that contact:]
-Пропускать следующие уведомления для контакта, с которым активен разговор:
-[Chatsession specific]
-Только для сессии
+[When a chat session is active, skip the following notifications for that contact:]
+
+[Chat session specific]
+
+[Show timestamps]
+
+[Messages]
+Сообщения
 [User events]
 События польз.
 [Emotes]
 Эмоции
+[Status changes]
+Смены статуса
 [Special IRC events:]
 Только для IRC
+[Notices]
+Уведомления
 [Channel events]
 События канала
-[Cutoff nicknames after]
-Ограничить имена до
-[Cutoff channelnames after]
-Ограничить каналы до
+[Cut off nicknames after]
+
 [chars]
 символов
 [Show protocol labels]
 Показывать протоколы
+[Don't skip when replying]
+
+[Exceptions:]
+Исключения:
+[Cut off channel names after]
+
 [Contact list]
 Список контактов
-[Chat sessions]
-Беседы
 [Show the contacts protocols]
 Показывать протоколы контактов
+[Hide offline users]
+Скрыть отключённых
 [Use ignore settings]
 Учитывать игнорирование контактов
 [Use groups/subgroups]
@@ -177,16 +165,14 @@
 Использовать две колонки
 [Fade out selection rectangle]
 Постепенно затемнять выделение
+[Chat]
+Чат
 [Typing notifications]
 Уведомления о наборе текста
 [Show typing notifications]
 Отображать
 [Send typing notifications]
 Отсылать
-[When in background]
-Когда в фоне
-[Close chat after]
-Закрывать чат после
 [Maximizing]
 Полный экран
 [When maximized:]
@@ -195,8 +181,6 @@
 Скрывать заголовок
 [Hide labels]
 Скрывать метки
-[Load only unread messages]
-Загружать только непрочитанные сообщения
 [Show only new messages]
 Показывать только новые сообщения
 [Mark incoming messages as read]
@@ -207,17 +191,29 @@
 Размер журнала:
 [On incoming messages:]
 При входящих сообщениях:
+[Do nothing]
+
 [Scroll to the first line]
 К первой строке
 [Scroll to the last line]
 К последней строке
 [Replying]
 Ответ
-[Show linebreak indicators]
-Показывать символы переноса строки
-[Send messages with return, insert linebreaks with ctrl+return]
-Отправка сообщений по Enter, перевод строки по CTRL+Enter)
+[Show line break indicators]
+
+[Send messages with return, insert line breaks with ctrl+return]
+
 [Maximized replying]
 Ответ в режиме полного экрана
-[Provides an interface to use Miranda from the LCD of various Logitech devices.]
-Плагин добавляет возможность использования Miranda NG на ЖК-экране различных устройств Logitech.
+[Close chat after]
+Закрывать чат после
+[When in background]
+Когда в фоне
+[MirandaG15]
+
+[Appearance]
+
+[Chat sessions]
+Беседы
+[No device attached]
+Не присоединено

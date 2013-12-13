@@ -7,7 +7,6 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Предоставляет сервис всплывающих окон для различных плагинов.
-;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Стиль окон
 [Go to Customize > Fonts && Colors for fonts and colors options]
@@ -200,7 +199,6 @@ History++ для истории окон
 Полный экран
 [Debug]
 Отладка
-;file \plugins\Popup\src\actions.cpp
 [no overwrite]
 нет действия
 [Send message]
@@ -219,7 +217,6 @@ History++ для истории окон
 Копировать в буфер обмена
 [Action]
 Действие
-;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Пустословие
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
@@ -234,20 +231,16 @@ History++ для истории окон
 Это предупреждение
 [This is an error message]
 Это сообщение об ошибке
-;file \plugins\Popup\src\effects.cpp
 [Square fading]
 Шахматика
-;file \plugins\Popup\src\font.cpp
 [Hovered Action]
 Наведённое действие
 [Clock]
 Время
-;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 История всплывающих окон отключена
 [Popup History message]
 История всплывающих окон
-;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Окна включены
 [Popups are disabled]
@@ -285,8 +278,7 @@ History++ для истории окон
 [Add Contact Permanently]
 Добавить контакт постоянно
 [Dismiss Popup]
-
-;file \plugins\Popup\src\main.cpp
+Закрыть
 [Classes]
 Классы
 [Actions]
@@ -305,17 +297,14 @@ History++ для истории окон
 Всплывающие окна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 
-;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без эффекта
 [Fade in/out]
 Плавный показ
-;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
 Группы плагинов
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 В своём доме в Р’льехе мёртвый Ктулху спит, ожидая своего часа
-;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Не в сети
 [Online]
@@ -360,7 +349,6 @@ History++ для истории окон
 Настройка 'Упорядочивать (сдвигать) окна' отключена.\r\nЭто может привести к перекосу при использовании с\r\nаватарами и заменой текста (с плагином NewStatusNotify).\r\n\r\nВключить упорядочивание (сдвигание) окон?\r\n
 [Popup Plus Warning]
 Предупреждение Popup Plus
-;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 
 [Skin preview]
@@ -383,23 +371,18 @@ History++ для истории окон
 Глобальные настройки
 [Refresh List]
 Обновить список
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
 
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 
-;file \plugins\Popup\src\services.cpp
 [Error]
 Ошибка
 [Warning]
 Предупреждение
 [Notify]
 Уведомление
-;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 
-;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Авто
 [Favorite]

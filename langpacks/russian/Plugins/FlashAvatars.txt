@@ -7,7 +7,6 @@
 ;============================================================
 [Loads and displays flash avatars.]
 Загружает и показывает Flash аватары.
-;file \plugins\FlashAvatars\src\cflash.cpp
 [Flash.ocx not registered!]
 
 [You don't have installed ShockwaveFlash interface in your system.]

@@ -7,13 +7,12 @@
 ;============================================================
 [Forwards messages to some contact when you are not available.]
 В ваше отсутствие пересылает получаемые сообщения указанному контакту. 
-;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
 Пересылать сообщения от...
 [Everyone]
 Всех
 [Contact]
-
+Контакт
 [Forward when your status is...]
 Персылать, если ваш статус...
 [Offline]
@@ -56,7 +55,6 @@
 Примечание: Максимальный размер - величина параметра %m
 [Note: messages from this contact will not be forwarded]
 Примечание: сообщения от этого контакта не будут пересылаться
-;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
 !ВСЕМ!
 [!DON'T FORWARD!]

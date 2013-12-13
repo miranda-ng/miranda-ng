@@ -7,7 +7,6 @@
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
 Плагин позволяет показывать и редактировать ваши детали для всех протоколов.
-;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Мой ник
 [Nickname:]
@@ -116,12 +115,10 @@ RTL
 Менять учётные записи
 [Don't cycle through accounts]
 Не менять учётные записи
-;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <нет имени статуса>
-;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
-
+Ник
 [Status]
 Статус
 [Status Message]
@@ -146,7 +143,6 @@ RTL
 Изменить статусное сообщение для %s...
 [Hide My Details]
 Скрыть мои детали
-;file \plugins\MyDetails\src\mydetails.cpp
 [Listening to]
 Слушаю
 [Previous protocol]
@@ -159,4 +155,3 @@ RTL
 Установить статус для %s
 [Contact List]
 Список контактов
-;file \plugins\MyDetails\src\options.cpp

@@ -7,7 +7,6 @@
 ;============================================================
 [Favorite contacts menu.]
 Меню избранных контактов.
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Тонкая настройка
 [Show second line]
@@ -44,10 +43,8 @@
 Показать
 [recent contacts]
 недавних контактов
-;file \plugins\FavContacts\src\favlist.h
 [<no group>]
 
-;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
 Избранный контакт
 [Regular Contact]

@@ -60,7 +60,7 @@
 [Copy from]
 Копировать из
 [<None>]
-
+<нет>
 [Raised]
 Приподнятый
 [Sunken]

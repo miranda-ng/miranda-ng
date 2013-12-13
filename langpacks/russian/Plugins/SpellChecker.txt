@@ -7,7 +7,6 @@
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
 Проверка орфографии в окне сообщений. Использует Hunspell для проверки.
-;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Замены
 [Enable auto-replacements]
@@ -66,7 +65,6 @@
 Использовать словари из других программ
 [Avoid removing underscores (slows down checking of long texts)]
 Не удалять подчеркивания (замедляет проверку больших текстов)
-;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
 
 [Wrong Correction]
@@ -75,7 +73,6 @@
 
 [The correction can't be equal to the wrong word!]
 
-;file \plugins\SpellChecker\src\dictionary.cpp
 [tl_PH]
 
 [Tagalog (Philippines)]
@@ -84,7 +81,6 @@
 
 [German (Germany)]
 
-;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Беседы
 [Auto-replacements]
@@ -107,7 +103,6 @@
 Неправильное слово
 [Correction]
 Исправление
-;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Словари
 [Custom Dictionaries]
@@ -120,7 +115,6 @@
 Включён
 [Disabled]
 Выключен
-;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 
 [Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]

@@ -3,8 +3,6 @@
 ;  File: AutoRun.dll
 ;  Plugin: AutoRun
 ;  Version: 0.1.0.1
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4353
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/autorun/
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
 ;============================================================
 [This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]

@@ -3,8 +3,6 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  URL: http://miranda-ng.org/distr/x32/Plugins/addcontactplus.zip
-;  Source: http://svn.miranda-ng.org/main/trunk/plugins/AddContactPlus/
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 [Provides the ability to quickly add new contacts.]

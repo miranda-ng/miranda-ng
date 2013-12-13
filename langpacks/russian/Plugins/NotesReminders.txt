@@ -7,7 +7,6 @@
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Заметки и напоминания для Miranda NG.
-;file \plugins\NotesAndReminders\res\resource.rc
 [Sticky Notes Options]
 
 [Default Note Size]
@@ -123,7 +122,7 @@
 [Reset]
 Сбросить
 [Text Color]
-
+Цвет текста
 [Font]
 Шрифт
 [Paste Title]
@@ -154,10 +153,8 @@
 Удалить &все заметки
 [&Show / Hide Notes]
 &Показать / Скрыть заметки
-;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
 Заметки и напоминания
-;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Новая заметка
 [Toggle Notes Visibility]
@@ -166,7 +163,6 @@
 Переместить заметки на передний план
 [New Reminder]
 Новое напоминание
-;file \plugins\NotesAndReminders\src\main.cpp
 [Are you sure you want to delete all notes?]
 Уверены, что хотите удалить все заметки?!
 [Are you sure you want to delete all reminders?]
@@ -223,7 +219,6 @@
 &Переместить на передний план
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 
-;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Чёрный
 [Maroon]
@@ -266,7 +261,6 @@
 Заметка
 [Date/Title]
 Дата/заголовок
-;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 Заголовок
 [Sticky Note Background Color]
@@ -277,7 +271,6 @@
 
 [Select Executable]
 Выбрать программу…
-;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 Минут
 [Hours]

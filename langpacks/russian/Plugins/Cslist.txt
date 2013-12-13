@@ -7,7 +7,6 @@
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
 Этот плагин предоставляет простой в использовании менеджер хСтатусов и возможность хранения хСтатусов в одном месте.
-;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Пользовательский список статусов
 [No items available in the database.\nClick the Add button to define some.]
@@ -28,7 +27,6 @@
 Помнить последнее положение окна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Примечание: Пункты меню отображаются только при наличии хотя бы одной правильно установленной учётной записи. Проверьте, если у вас есть по крайней мере одна учётная запись с UIN.
-;file \plugins\CSList\src\cslist.cpp
 [Status]
 Статус
 [Add new item]
@@ -55,9 +53,8 @@
 Удалить выбранную запись?
 [Do you want old database entries to be deleted after Import?]
 Вы хотите удалить записи старой базы данных после импорта?
-;file \plugins\CSList\src\cslist.h
 [Main Menu]
-
+Главное меню
 [Main Icon]
 Главный значок
 [Modify selected item]

@@ -7,7 +7,6 @@
 ;============================================================
 [Adds some useful options to a contacts menu.]
 Добавляет дополнительные пункты меню контактов.
-;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
 Текст запроса авторизации
 [&Send]
@@ -52,7 +51,6 @@
 * Ctrl+клик для показа всплывающего окна с текстом
 [Hide contact on 'Ignore all']
 Скрывать при 'Ignore all'
-;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Сообщение статуса
 [XStatus title]
@@ -84,11 +82,11 @@
 [Files]
 Файлы
 [User Online]
-
+Пользователь в сети
 [Authorization]
 Авторизация
 [You Were Added]
-
+Вас добавили
 [Typing Notify]
 Набирает текст
 [Please authorize me to add you to my contact list.]
@@ -103,6 +101,5 @@
 Открыть настройки игнорирования
 [Request authorization]
 Запросить авторизацию
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Тонкая настройка

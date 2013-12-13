@@ -7,13 +7,12 @@
 ;============================================================
 [Support for new options design.]
 Поддержка нового дизайна окна настроек Miranda NG.
-;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Официальный сайт Miranda NG
 [Sample page]
 
 [Miranda NG Options]
-
+Настройки Miranda NG
 [Use arrow keys to choose category]
 
 [OK]
@@ -26,7 +25,6 @@
 Классический вид настроек
 [Advanced]
 Дополнительно
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Home]
 Дом
 [Miranda NG configuration center]

@@ -7,11 +7,10 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Быстрая смена статусов и предустановленных сообщений статуса.
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
-
+%s (%s)
 [&Cancel]
-
+О&тмена
 [Retrieving %s message...]
 Загрузка сообщения "%s"...
 [Co&py to Clipboard]
@@ -166,13 +165,12 @@
 Удалить
 [Select All]
 Выделить всё
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 
 [&Close]
 &Закрыть
 [Re&ad %s Message]
-
+&Прочитать сообщение "%s"
 [Copy %s Message]
 
 [&Go to URL in %s Message]
@@ -183,7 +181,6 @@
 Скопировать сообщение статуса
 [&Go to URL in Away Message]
 &Открыть ссылку
-;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change Status Message]
 Сменить сообщение статуса
 [Open Status Message Dialog]
@@ -202,7 +199,6 @@
 Относящееся к Miranda NG
 [get the date (Simple Status Message compatible)]
 
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 
 [<current>]
@@ -221,7 +217,6 @@
 Вы уверены, что хотите удалить историю сообщений статуса?
 [Confirm clearing history]
 Подтверждение удаления истории
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Глобальный статус
 [Open String Formatting Help]
@@ -246,7 +241,6 @@
 Общее
 [Advanced]
 Дополнительно
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent Message]
 Последнее сообщение
 [Predefined Message]

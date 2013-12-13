@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you when you receive a message, url, file or any other event by displaying a popup.]
 Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах.
-;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 Общие параметры
 [Show entry in the Popups menu]
@@ -76,10 +75,8 @@
 Выключить для RSS новостей
 [No popups for read messages]
 Выключить для прочтённых
-;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Всплывающие окна
-;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Контакты
 [You were added!]
@@ -98,10 +95,8 @@
 Вкл. уведомления о событиях
 [Disable new event notification]
 Выкл. уведомления о событиях
-;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 События
-;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 Получено %d контактов.
 [ added you to the contact list]

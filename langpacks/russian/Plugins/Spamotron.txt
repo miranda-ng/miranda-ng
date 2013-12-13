@@ -7,7 +7,6 @@
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
 Антиспам плагин с капчей и Байесовской фильтрацией.
-;file \plugins\Spamotron\res\spamotron.rc
 [Enabled]
 Включен
 [Learned ham messages:]
@@ -114,10 +113,8 @@
 По умолчанию
 [Preview]
 Предпросмотр
-;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Расположение базы Байеса
-;file \plugins\Spamotron\src\common.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
 Cообщение временно заблокировано. Напишите "%response%" без кавычек.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
@@ -128,7 +125,6 @@ Cообщение временно заблокировано. Напишите 
 Запрос авторизации временно заблокирован. Напишите "%response%" без кавычек.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 Запрос авторизации временно заблокирован. Сколько будет %mathexpr%?
-;file \plugins\Spamotron\src\options.cpp
 [Simple]
 Простой
 [Math expression]
@@ -151,14 +147,12 @@ Cообщение временно заблокировано. Напишите 
 Байес
 [Popups]
 Всплывающие окна
-;file \plugins\Spamotron\src\popups.cpp
 [Message blocked due to preview action]
 
 [Message approved due to preview action]
 
 [Challenge sent to preview contact]
 
-;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Контакт %s подтвержден.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
@@ -177,6 +171,5 @@ Cообщение временно заблокировано. Напишите 
 
 [Sending math expression challenge to %s.]
 Отправка контрольного вопроса %s.
-;file \plugins\Spamotron\src\utils.cpp
 [Their message was]
 Сообщение было

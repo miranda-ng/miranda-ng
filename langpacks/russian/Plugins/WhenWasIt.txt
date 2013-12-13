@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you of upcoming birthdays.]
 Уведомление о предстоящих днях рождения.
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 Сообщать о днях рождения:
 [Popups]
@@ -86,7 +85,6 @@
 Удалить
 [Upcoming birthdays]
 Наступающие дни рождения
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
 Будущий возраст
 [Current age]
@@ -141,7 +139,6 @@
 Автозакрытие %d секунд...
 [Closing in %d second]
 Закрытие через %d секунд
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Check for birthdays]
 Проверить дни рождения
 [Birthdays]
@@ -164,7 +161,6 @@
 Экспорт дней рождения
 [Add/change user &birthday]
 День рождения пользователя
-;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Проверить дни рождения
 [List birthdays menu item]
@@ -179,7 +175,6 @@
 Более %d дней до праздника
 [WhenWasIt birthday reminder]
 Дни рождения
-;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 Близких дней рождения нет.
 [%s has birthday in %d days.]
@@ -206,7 +201,6 @@
 %s\n%s исполнится %d .
 [%s\n%s just turned %d.]
 %s\n%s исполнилось %d
-;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
 Начало обновления информации о пользователях
 [Done refreshing user details]
@@ -243,6 +237,5 @@
 
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 
-;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 

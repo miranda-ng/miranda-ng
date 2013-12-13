@@ -7,7 +7,6 @@
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
 Служба шифрования для плагина SecureIM.
-;file \plugins\CryptoPP\src\GPGw\gpg.rc
 [GnuPG Plugin - Passphrase]
 
 [Enter passphrase for the secret key of user:]

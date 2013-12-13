@@ -3,8 +3,6 @@
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
 ;  Version: 0.0.2.1
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3161
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/authstate/
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you this plugin puts an icon in front of the contact's name.]

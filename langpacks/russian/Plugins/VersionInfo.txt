@@ -7,7 +7,6 @@
 ;============================================================
 [Collects and prints information related to Miranda, the plugins and the OS.]
 Собирает и выводит информацию о Miranda NG, плагинах и операционной системе.
-;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Вывести в:
 [OK]
@@ -70,7 +69,6 @@ UUID плагина
 Загрузить
 [&Save to file]
 &В файл
-;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 
 [Information successfully written to file: "%s".]
@@ -81,14 +79,12 @@ UUID плагина
 
 [Information successfully copied into clipboard.]
 Информация успешно скопирована в буфер обмена.
-;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [Customize using folders plugin]
 Настройка с помощью плагина folders
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Вы уверены, что хотите включить эту опцию?\nПожалуйста, используйте её, только если понимаете, для чего она или если кто-либо попросил вас включить её.
 [Show plugin UUIDs?]
 UUID плагинов
-;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]
 Версии
 [Output folder]
@@ -97,7 +93,5 @@ UUID плагинов
 Версии
 [Services]
 Службы
-;file \plugins\VersionInfo\src\main.cpp
-;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 Что-то произошло с настройкой "%s". Сообщите автору следующие значения:\nFacility: %X\nКод ошибки: %X\nНомер строки: %d

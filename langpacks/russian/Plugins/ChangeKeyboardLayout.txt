@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
 Плагин управления сменой раскладки по горячим клавишам.
-;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Горячие клавиши
 [Changing layout:]
@@ -33,7 +32,7 @@
 [EN]
 
 [Default]
-
+По умолчанию
 [Invert current state]
 Инвертировать текущее состояние
 [Switch off]
@@ -74,10 +73,8 @@
 Правый щелчок
 [Preview]
 Тест
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
 Смена раскладки
-;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 Всплывающее окно
 [Changing Layout]

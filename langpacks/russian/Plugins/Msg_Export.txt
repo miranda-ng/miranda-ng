@@ -7,7 +7,6 @@
 ;============================================================
 [Exports every message, URL or File you receive to a text file.]
 Экспорт сообщений, ссылок или принятых файлов в текстовый файл.
-;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Обзор
 [Use internal viewer]
@@ -65,14 +64,13 @@ UTF8 в новых файлах
 [Debug]
 Отладка
 [User &details]
-
+&Информация
 [Export selected]
 Экспорт выбранного
 [Set to default filename]
 Имя файла по умолчанию
 [Copy]
 Копировать
-;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]
 
 [Error: Optimal buffer size decrecied to a to low size!]
@@ -109,15 +107,12 @@ UTF8 в новых файлах
 
 [Failed to create history dialog]
 
-;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
 
-;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Экспортированная история
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
 
-;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Нет контактов для экспорта
 [Reading database information (Phase 1 of 2)]
@@ -162,7 +157,6 @@ UTF8 в новых файлах
 Общее
 [Additional]
 Дополнительно
-;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 
 [No_Group]

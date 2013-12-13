@@ -7,9 +7,8 @@
 ;============================================================
 [Change status when you send/receive an event.]
 Меняет статус при получении или отправки события.
-;file \plugins\StatusChange\res\resource.rc
 [Offline]
-
+Не в сети
 [Online]
 В сети
 [Away]
@@ -44,7 +43,6 @@
 ...сменить статус на...
 [...if status is...]
 ...если статус...
-;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Изменение статуса
 [Status]

@@ -7,7 +7,6 @@
 ;============================================================
 [Notify about new mail in Lotus Database]
 
-;file \plugins\LotusNotify\res\LotusNotify.rc
 [Show again if still unread]
 
 [Show error messages]
@@ -66,7 +65,6 @@
 
 [autoregister]
 
-;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]

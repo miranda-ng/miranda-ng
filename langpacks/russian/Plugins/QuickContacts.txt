@@ -7,7 +7,6 @@
 ;============================================================
 [Open contact-specific windows by hotkey.]
 Открывает окно с контактом по горячей клавише.
-;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 Последнее отправленное событие
 [Enable last-sent-to]
@@ -36,10 +35,8 @@
 
 [Show all contacts (Ctrl+A)]
 Показать все контакты (Ctrl+A)
-;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 Быстрые контакты
-;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 Открыть диалог
 [Make a voice call]

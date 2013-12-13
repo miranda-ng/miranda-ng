@@ -7,7 +7,6 @@
 ;============================================================
 [RSS/Atom news aggregator.]
 Каналы новостей RSS/Atom.
-;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Добавить
 [Change]
@@ -74,14 +73,12 @@
 Каналы для импорта:
 [&Import]
 Импорт
-;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Введите имя пользователя
 [Error]
 Ошибка
 [Enter your password]
 Введите пароль
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nдействительно существует.
 [News Aggregator]
@@ -90,7 +87,6 @@
 %s\nнеправильный адрес канала
 [empty]
 
-;file \plugins\NewsAggregator\Src\ExportImport.cpp
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
 Импортировано каналов: %d \r\nНе импортировано дубликатов: %d
 [Imported %d feed(s).]
@@ -99,7 +95,6 @@
 Файлы OPML
 [Not valid import file.]
 Неверный файл для импорта
-;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Значок протокола
 [Check All Feeds]
@@ -114,12 +109,10 @@
 Автообновление включено
 [Auto Update Disabled]
 Автообновление выключено
-;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Проверить канал
 [Change feed]
 Изменить канал
-;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 Введите имя канала
 [Enter Feed URL]
@@ -156,12 +149,10 @@ URL страницы с комментариями к новости.
 Удаление контакта
 [Network]
 Сеть
-;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
 Аватары
 [Enable/disable auto update]
 Вкл/Выкл автообновление
-;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 HTTP подключение каналов новостей
 [Feed]

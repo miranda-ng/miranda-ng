@@ -7,6 +7,8 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Поддержка протокола Microsoft Network (MSN) в Miranda NG.
+[MSN]
+
 [Live ID:]
 
 [Password:]

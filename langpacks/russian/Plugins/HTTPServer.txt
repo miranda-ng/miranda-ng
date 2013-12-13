@@ -7,7 +7,6 @@
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
 HTTP веб-сервер для Miranda.
-;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 IP адрес 1
 [IPAddress2]
@@ -84,10 +83,8 @@ IP адрес 2
 Открыть в браузере
 [&Copy link]
 &Копировать ссылку
-;file \plugins\HTTPServer\src\Glob.h
 [Miranda NG HTTP-Server]
 
-;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 
 [All files]
@@ -146,10 +143,8 @@ HTTP Сервер
 HTTP Новый общий файл
 [Failed to add contact menu item]
 
-;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Общее удалено
-;file \plugins\HTTPServer\src\main.cpp
 [Failed to open or create log file]
 
 [Failed to move to the end of the log file]

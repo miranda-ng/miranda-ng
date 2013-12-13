@@ -222,7 +222,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Space on right]
 Отступ справа
 [Delete Contact]
-
+Удалить контакт
 [No]
 Нет
 [Yes]
@@ -326,7 +326,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Dim idle contacts]
 Затемнить неактивных пользователей
 ['Hide Offline' means to hide:]
-
+'Скрыть отключённых' - скрыть:
 [Groups]
 Группы
 [Draw a line alongside group names]
@@ -624,9 +624,9 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
 [On the &Phone\tCtrl+8]
-
+На &телефоне\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-
+Обед&аю\tCtrl+9
 [Tray]
 Трей
 [&Hide/Show]
@@ -646,7 +646,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Hide Miranda]
 Скрыть список контактов
 [&New Subgroup]
-
+Создать подгруппу
 [&Hide Offline Users in here]
 Скрыть отключённых в группе
 [&Show Offline Users in here]
