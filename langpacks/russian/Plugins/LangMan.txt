@@ -7,7 +7,6 @@
 ;============================================================
 [Helps you manage Language Packs of different languages.]
 Помогает в управлении файлами локализации.
-;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Автор(ы):
 [E-mail:]
@@ -24,10 +23,8 @@ E-mail:
 Загрузить дополнительные переводы
 [Please restart Miranda NG for your changes to take effect.]
 Изменения вступят в силу после перезапуска программы.
-;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 Перезагрузить языковой пакет
-;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Все плагины переведены.
 [(incompatible)]
@@ -39,7 +36,7 @@ E-mail:
 [Installed Languages]
 Установленные локализации
 [File]
-
+Файл
 [built-in]
 встроенный
 [&Remove...]

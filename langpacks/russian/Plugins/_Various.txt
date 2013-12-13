@@ -23,3 +23,11 @@
 Последнее сообщение: (%sys:last_msg_reltime% назад)
 [(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
 (принято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
+[Coordinates]
+Координаты
+[Import from database]
+Импорт из профиля
+[Current = %r\\nPrevious = %p]
+Текущий = %r\\nПредыдущий = %p
+[Langpack reload]
+Перезагрузка языкового пакета
