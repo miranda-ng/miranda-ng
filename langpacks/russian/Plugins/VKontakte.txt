@@ -12,7 +12,7 @@ E-mail или номер телефона:
 [Password:]
 Пароль:
 [Open VKontakte site]
-
+Открыть страницу ВКонтакте
 [Login settings]
 Настройки входа
 [Advanced]

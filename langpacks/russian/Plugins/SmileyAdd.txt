@@ -1,26 +1,28 @@
 ﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
-;  File: SmileyAdd.dll
-;  Plugin: SmileyAdd
-;  Version: 0.2.3.17
-;  Authors: Peacow, nightwish, bid, borkra
+;  File: SmileyAdd.dll, SmileyAddW.dll
+;  Module: SmileyAdd
+;  Versions: 0.1.3.2-0.2.3.15
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=540
 ;============================================================
 [Smiley support for Miranda NG.]
 Поддержка смайлов в Miranda NG.
+[Specify library for each category]
+Разные для разных категорий
+[(Leave blank to disable for this category)]
+(Оставьте пустым для выключения)
 [Smiley Categories]
 Категории смайлов
+[Contact List smileys]
+Список контактов
+[Standard]
+Стандартные
 [Specify Smiley Pack for each category]
 Категории с разными наборами смайлов
-[Name:]
-Имя:
-[Author:]
-
-[Version:]
-
-[Preview]
-
-[Display]
-
+[Nothing loaded]
+Ничего не загружено
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Набор смайлов %s не найден.\nВыберите набор смайлов: Настройки -> Тонкая настройка -> Смайлы.
 [Replace only smileys surrounded by spaces]
 Заменять только смайлы окружённые пробелами
 [Scale smiley to textheight]
@@ -29,12 +31,6 @@
 Отключить загружаемые смайлы
 [High Quality smiley scaling]
 Качественное масштабирование
-[Animate]
-Анимация
-[Max "Custom Smiley" height]
-Макс. высота загруж. смайлов
-[Min smiley height]
-Мин. высота смайлов
 [Smiley Selector]
 Выбор смайла
 [Surround inserted smiley with spaces]
@@ -49,53 +45,91 @@
 Включить смайлы
 [Don't replace at cursor]
 Не заменять под курсором
+[Max "Custom Smiley" height]
+Макс. высота загруж. смайлов
+[Min smiley height]
+Мин. высота смайлов
 [Built-In Message Dialog Support]
 Поддержка плагинов сообщений
-[Disable]
-Выключить
 [Smiley Button]
 Кнопка смайла
-[Show Smiley Selection Window]
-
-[SmileyAdd]
-Смайлы
-[Smiley Cache]
-Кэш смайлов
-[SmileyAdd HTTP connections]
-HTTP подключение SmileyAdd 
-[Button Smiley]
-Кнопка смайла
-[Assign Smiley Category]
-Категория смайлов
-[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Только одна копия SmileyAdd может быть запущена.\nУдалите дубликат из папки "Plugins"
+[off]
+выкл
 [Smileys]
 Смайлы
-[Customize]
-Тонкая настройка
-[Off]
-Откл.
-[Top]
-
-[Bottom]
-
+[SmileyAdd]
+Смайлы
+[Standard smileys]
+Станд. смайлы
+[AIM smileys]
+AIM смайлы
+[ICQ smileys]
+ICQ смайлы
+[POP3 smileys]
+POP3 смайлы
+[smileys]
+смайлы
+[Smiley #%u in Smiley Pack %s not found. Correct Smiley Pack implementation.]
+Смайл #%u в наборе %s не найден. Обновите набор смайлов.
+[Smiley Pack malformed: %s on line %u position: %u Correct Smiley Pack implementation.\n XML spec could found here: http://www.w3.org/TR/xml11/]
+Набор смайлов поврежден: %s в линии %u позиция: %u. Обновите набор смайлов.\nXML спецификации находятся тут: http://www.w3.org/TR/xml11/
 [Smiley Packs]
 Набор смайлов
-[All Files]
-Все файлы
-[Protocol specific]
-В соответствии с протоколом
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Набор смайлов %s не найден.\nВыберите набор смайлов: Настройки -> Тонкая настройка -> Смайлы.
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
-Проблемы с загрузкой набора смайлов (необходимо исправить).\nДля подробностей смотрите сетевой журнал.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
-Смайл #%u в файле %s для набора смайликов %s не найден.
-[Standard]
-Стандартные
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
-Регулярное выражение "%s" в наборе смайлов "%s" не может выводить "пустые значения".
+[SmileyAdd emoticon file (*.msl)]
+Файл смайлов (*.msl)
+[GDI+ not installed. Smiley Pack %s could not be loaded.\nGDI+ can be downloaded here: http://www.microsoft.com/downloads]
+GDI+ не установлен. Набор смайлов %s не будет загружен.\nGDI+ можно загрузить отсюда: http://www.microsoft.com/downloads
+[MS XML parser not installed. Smiley Pack %s could not be loaded.\nMS XML parser can be downloaded here: http://www.microsoft.com/downloads]
+MS XML parser не установлен. Набор смайлов %s не будет загружен.\nMS XML parser можно загрузить отсюда: http://www.microsoft.com/downloads
 [Regular Expression "%s" in smiley pack "%s" malformed.]
 Регулярное выражение "%s" в наборе смайлов "%s" повреждено.
+[Regular Expression "%s" in smiley pack "%s" malformed.\nCorrect Smiley Pack implementation.]
+Регулярное выражение "%s" в пакете "%s" неверное.\nИсправьте ошибку.
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".\nCorrect Smiley Pack implementation.]
+Регулярное выражение "%s" в наборе смайлов "%s" не может выводить "пустые значения".
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+Только одна копия SmileyAdd может быть запущена.\nУдалите дубликат из папки "Plugins"
+[Selection]
+Выбранное
 [d'Oh!]
 Ох!
+[Smiley #%u in file %s for Smiley Pack %s not found.]
+Смайл #%u в файле %s для набора смайликов %s не найден.
+[Only one instance of SmileyAdd could be executed.\n]
+Только одна копия SmileyAdd может быть запущена.\n
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+Регулярное выражение "%s" в наборе смайлов "%s" не может выводить "пустые значения".
+[Remove duplicate instances from 'Plugins' directory]
+Удалите дубликаты из папки 'Plugins'
+[Time elapsed: %u]
+Прошло времени: %u
+[GDI+ can be downloaded here: http://www.microsoft.com/downloads]
+GDI+ можно скачать здесь: http://www.microsoft.com/downloads
+[Smiley Pack %s not found.\n]
+Набор смайлов %s не найден.\n
+[Test String]
+Тестовая строка
+[GDI+ not installed.\n]
+GDI+ не установлен.\n
+[SmileyAdd HTTP connections]
+HTTP подключение SmileyAdd 
+[Select correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Выберите набор смайлов: Настройки -> Тонкая настройка -> Смайлы.
+[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+Проблемы с загрузкой набора смайлов (необходимо исправить).\nДля подробностей смотрите сетевой журнал.
+[Assign Smiley Category]
+Категория смайлов
+[Protocol specific]
+В соответствии с протоколом
+[Smiley #%u in file %s for Smiley Pack %s not found. Correct Smiley Pack implementation.]
+Смайл #%u в файле %s набора смайлов %s не найден. Исправьте набор смайлов.
+[Regular Expression "%s" malformed. Correct Smiley Pack implementation.]
+Регулярное выражение "%s" неверное. Обновите набор смайлов.
+[Smiley Cache]
+Кэш смайлов
+[Button Smiley]
+Кнопка смайла
+[Animate]
+Анимация
+[Disable]
+Выключить
