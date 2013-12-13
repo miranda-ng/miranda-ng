@@ -183,8 +183,7 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 
 int MO_RemoveAllObjects()
 {
-	int i;
-	for (i=0; i < g_menus.getCount(); i++)
+	for (int i=0; i < g_menus.getCount(); i++)
 		delete g_menus[i];
 
 	g_menus.destroy();
@@ -202,7 +201,7 @@ INT_PTR MO_RemoveMenuObject(WPARAM wParam, LPARAM)
 	if (objidx == -1)
 		return -1;
 
-	delete g_menus[ objidx ];
+	delete g_menus[objidx];
 	g_menus.remove(objidx);
 	return 0;
 }
@@ -266,7 +265,7 @@ INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
 
 	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)wParam);
 	mir_cslock lck(csMenuHook);
-	if ( !pimi)
+	if (pimi == NULL)
 		return -1;
 
 	*mi = pimi->mi;
@@ -303,7 +302,7 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 	mir_cslock lck(csMenuHook);
 
 	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)menuHandle);
-	if ( !pimi)
+	if (pimi == NULL)
 		return -1;
 
 	if (pmi->flags & CMIM_NAME) {
@@ -448,7 +447,7 @@ int MO_SetOptionsMenuItem(PMO_IntMenuItem aHandle, int setting, INT_PTR value)
 
 	mir_cslock lck(csMenuHook);
 	PMO_IntMenuItem pimi = MO_GetIntMenuItem(aHandle);
-	if ( !pimi)
+	if (pimi == NULL)
 		return -1;
 
 	if (setting == OPT_MENUITEMSETUNIQNAME) {
@@ -535,7 +534,7 @@ INT_PTR MO_RemoveMenuItem(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(csMenuHook);
 	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)wParam);
-	if ( !pimi)
+	if (pimi == NULL)
 		return -1;
 
 	if (pimi->submenu.first) {
@@ -1212,11 +1211,12 @@ TIntMenuObject::~TIntMenuObject()
 	ImageList_Destroy(m_hMenuIcons);
 }
 
-void TIntMenuObject::freeItem(TMO_IntMenuItem* p)
+void TIntMenuObject::freeItem(TMO_IntMenuItem *p)
 {
 	if (FreeService)
 		CallService(FreeService, (WPARAM)p, (LPARAM)p->mi.ownerdata);
 
+	p->signature = 0;
 	FreeAndNil((void**)&p->mi.pszName);
 	FreeAndNil((void**)&p->UniqName);
 	FreeAndNil((void**)&p->CustomName);
