@@ -1098,7 +1098,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Фон панели кнопок
 [StatusBar Background]
 Фон панели статуса
-[Frames TitleBar Background]
+[Frames TitleBar BackGround]
 Фон заголовка фреймов
 ['Hide Offline' means to hide:]
 'Скрыть отключённых' - скрыть:
