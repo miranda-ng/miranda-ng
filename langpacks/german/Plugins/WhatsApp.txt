@@ -11,9 +11,9 @@ WhatsApp-Protokollunterstützung für Miranda NG.
 [Phone-Number]
 Telefonnummer
 [Including country code, without '+' or '00']
-Inklusive Landescode, ohne '*' oder '00'
+Inklusive Landescode, ohne '+' oder '00'
 [Password]
-
+Passwort
 [Nickname]
 Nickname
 [Request Code]
@@ -27,9 +27,9 @@ Wird nur zur Registrierung verwendet
 [Use SSL connection (443 port)]
 SSL-Verbindung verwenden (Port 443)
 [Paste password from WART  utility]
-
+Passwort aus WART-Utility einfügen
 [Use WART utility from Plugins folder for registering your number and generating password]
-
+Verwenden Sie das WART-Utility aus dem Plugins-Verzeichnis um Ihre Nummer zu registrieren und ein Passwort zu erzeugen
 [WhatsApp]
 WhatsApp
 [Cancel]
@@ -54,7 +54,7 @@ Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 Ihr Passwort wurde automatisch gesetzt.\nWenn Sie Ihr Passwort manuell ändern, können Sie es verlieren und müssen einen neuen Code anfordern.
 ;file \protocols\WhatsApp\src\main.cpp
 [Did not unpack registration utility WART-1.5.4.0.exe.]
-
+Kann das Registrierungs-Utility WART-1.5.4.0.exe nicht entpacken.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -63,9 +63,9 @@ Konnte keine Netzwerkverbindung für WhatsApp herstellen.
 [Network-connection error.]
 Netzwerk Verbindungsfehler.
 [Network]
-
+Netzwerk
 [Account]
-
+Konto
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp Icon]
 WhatsApp Icon

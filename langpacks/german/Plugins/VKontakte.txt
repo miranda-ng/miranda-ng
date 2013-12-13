@@ -15,11 +15,11 @@ Passwort:
 [Open VKontakte site]
 VKontakte-Seite öffnen
 [Login settings]
-
+Login-Einstellungen
 [Advanced]
-
+Erweitert
 [Server-side delivery confirmation]
-
+Serverseitige Empfangsbestätigungen
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]

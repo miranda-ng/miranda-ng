@@ -1,3 +1,0 @@
-﻿[Login settings]
-[Advanced]
-[Server-side delivery confirmation]
