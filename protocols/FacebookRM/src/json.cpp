@@ -372,7 +372,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 		std::string t = json_as_pstring(type);
 		if (t == "messaging") {
-			// we use this only for incomming messages (and getting seen info)
+			// various messaging stuff (received and sent messages, getting seen info)
 
 			JSONNODE *type = json_get(it, "event");
 			if (type == NULL)
@@ -470,10 +470,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				// Process attachements and stickers
 				parseAttachments(proto, &message_text, msg);
 
-				// Ignore messages from myself, as there is no id of recipient
-				if (id == proto->facy.self_.user_id)
-					continue;
-
 				// Ignore duplicits or messages sent from miranda
 				if (body == NULL || ignore_duplicits(proto, message_id, message_text))
 					continue;
@@ -524,9 +520,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					// RM TODO: better use check if chatroom exists/is in db/is online... no?
 					/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
 					if (proto->GetChatUsers(thread_id.c_str()) == NULL) {
-						// Set thread id (TID) for later.
 						proto->AddChat(thread_id.c_str(), name.c_str());
 						hChatContact = proto->ChatIDToHContact(thread_id);
+						// Set thread id (TID) for later
 						proto->setTString(hChatContact, FACEBOOK_KEY_TID, thread_id.c_str());
 					}
 
@@ -551,21 +547,25 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						senderName = senderName.substr(0, pos);							
 					}*/
 
-					// Last fall-back for adding this sender (Incase was not in the participants) - Is this even needed?
+					// Last fall-back for adding this sender (in case he was not in the participants) - is this even needed?
 					if (!proto->IsChatContact(thread_id.c_str(), id.c_str())) {
 						proto->AddChatContact(thread_id.c_str(), id.c_str(), senderName.c_str());
 					}
 
-					// Update chat with message.
+					// Update chat with message
+					// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?)
 					proto->UpdateChat(thread_id.c_str(), id.c_str(), senderName.c_str(), message_text.c_str(), utils::time::fix_timestamp(json_as_float(timestamp)));
 					proto->setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, message_id.c_str());
 					proto->ForkThread(&FacebookProto::ReadMessageWorker, hChatContact);
 				} else {
 					facebook_message* message = new facebook_message();
+					
+					message->isIncoming = (id != proto->facy.self_.user_id);
 					message->message_text = message_text;
 					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name)));
 					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
-					message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+					message->thread_id = json_as_pstring(tid);
+					message->user_id = message->isIncoming ? id : proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
 					message->message_id = message_id;
 
 					messages->push_back(message);
@@ -867,6 +867,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		if (author_email != NULL)
 			message->sender_name = json_as_pstring(author_email);
 		message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+		message->thread_id = thread_id;
 		message->message_id = message_id;
 		message->isIncoming = (author_id != proto->facy.self_.user_id);
 
@@ -875,7 +876,6 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			// this is chatroom message
 			message->isChat = true;
 			message->user_id = author_id;
-			message->thread_id = thread_id;
 		} else {
 			// this is standard message
 
@@ -894,6 +894,47 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		}		
 
 		messages->push_back(message);
+	}
+
+	json_delete(root);
+	return EXIT_SUCCESS;
+}
+
+int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
+{
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
+
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	JSONNODE *threads = json_get(payload, "threads");
+	if (threads == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	std::map<std::string, std::string> thread_ids;
+	for (unsigned int i = 0; i < json_size(threads); i++) {
+		JSONNODE *it = json_at(threads, i);
+		JSONNODE *canonical = json_get(it, "canonical_fbid");
+		JSONNODE *thread_id = json_get(it, "thread_id");
+		JSONNODE *message_count = json_get(it, "message_count"); // TODO: this could be useful for loading history from server
+
+		if (canonical == NULL || thread_id == NULL)
+			continue;
+
+		std::string id = json_as_pstring(canonical);
+		if (id == "null")
+			continue;
+
+		*user_id = id;
 	}
 
 	json_delete(root);

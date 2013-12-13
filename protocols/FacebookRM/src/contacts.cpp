@@ -94,6 +94,50 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 	return 0;
 }
 
+std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
+{
+	std::string user_id;
+
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (!IsMyContact(hContact))
+			continue;
+
+		ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
+		if (tid && !strcmp(tid, thread_id.c_str())) {
+			user_id = ptrA( getStringA(hContact, FACEBOOK_KEY_ID));
+			return user_id;
+		}
+	}
+	
+	// We don't have any contact with thish thread_id cached, we must ask server	
+
+	std::string data = "client=mercury";
+	data += "&__user=" + facy.self_.user_id;
+	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&__a=1&__dyn=&__req=&ttstamp=0";
+	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
+
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
+
+	if (resp.code == HTTP_CODE_OK) {
+		CODE_BLOCK_TRY
+
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_thread_info(&resp.data, &user_id);
+		delete p;
+
+		debugLogA("***** Thread info processed");
+
+		CODE_BLOCK_CATCH
+
+		debugLogA("***** Error processing thread info: %s", e.what());
+
+		CODE_BLOCK_END
+	}
+
+	return user_id;
+}
+
 HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool dont_check)
 {
 	HANDLE hContact;

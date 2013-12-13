@@ -188,6 +188,7 @@ public:
 	bool    IsMyContact(HANDLE, bool include_chat = false);
 	HANDLE  ContactIDToHContact(std::string);
 	HANDLE  ChatIDToHContact(std::tstring);
+	std::string ThreadIDToContactID(std::string thread_id);
 	HANDLE  AddToContactList(facebook_user*, ContactType type, bool dont_check = false);
 	void    SetAllContactStatuses(int status);
 	HANDLE  HContactFromAuthEvent(HANDLE hEvent);
