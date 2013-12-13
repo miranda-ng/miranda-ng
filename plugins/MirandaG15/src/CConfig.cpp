@@ -254,13 +254,13 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 	odp.cbSize      = sizeof(odp);
 	odp.position    = 847000000;
 	odp.hInstance   = hInstance;
-	odp.pszGroup    = "MirandaG15";
+	odp.pszGroup    = LPGEN("MirandaG15");
 	odp.flags		= ODPF_BOLDGROUPS;
 
 	// ---------------------
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FONTS);
-	odp.pszTitle    = "Appearance";
-	odp.pszGroup    = "MirandaG15";
+	odp.pszTitle    = LPGEN("Appearance");
+	odp.pszGroup    = LPGEN("MirandaG15");
 	odp.pfnDlgProc  = CConfig::AppearanceDlgProc;
 	
 	Options_AddPage(wParam, &odp);
@@ -268,7 +268,7 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 	// ---------------------
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_NOTIFICATIONS);
-	odp.pszTitle    = "Notifications";
+	odp.pszTitle    = LPGEN("Notifications");
 	odp.pfnDlgProc  = CConfig::NotificationsDlgProc;
 
 	Options_AddPage(wParam, &odp);
@@ -276,7 +276,7 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 	// ---------------------
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CHAT);
-	odp.pszTitle    = "Chat sessions";
+	odp.pszTitle    = LPGEN("Chat sessions");
 	odp.pfnDlgProc  = CConfig::ChatDlgProc;
 
 	Options_AddPage(wParam, &odp);
@@ -284,7 +284,7 @@ int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 	// ---------------------
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CLIST);
-	odp.pszTitle    = "Contact list";
+	odp.pszTitle    = LPGEN("Contact list");
 	odp.pfnDlgProc  = CConfig::ContactlistDlgProc;
 
 	Options_AddPage(wParam, &odp);
