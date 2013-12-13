@@ -10,7 +10,7 @@
 [Fonts]
 Шрифты
 [General settings]
-
+Общие настройки
 [Show softkey labels]
 Показывать подписи кнопок
 [Event log:]
@@ -24,7 +24,7 @@
 [Titles:]
 Заголовки
 [Notifications:]
-
+Уведомления:
 [Turn off backlights]
 Выключить подсветку
 [If the applet is active:]
@@ -45,10 +45,6 @@
 Обновления и новости ищите в теме на http://www.g15forums.com
 [Or visit http://www.mkleinhans.de]
 Или посетите http://www.mkleinhans.de
-[mail@mkleinhans.de]
-
-[© 2006 by Martin Kleinhans]
-
 [Device:]
 Клавиатура:
 [If the screensaver is active:]
@@ -58,7 +54,7 @@
 [Skip driver missing notification]
 
 [Notifications]
-
+Уведомления
 [Notification screen title]
 Заголовок окна уведомления
 [Hide it]
@@ -88,7 +84,7 @@
 [Contact list events]
 События сп. контактов
 [Incoming file transfers]
-
+Приём файлов
 [Protocol disconnected]
 Протокол отсоединен
 [Protocol connected]
@@ -100,11 +96,11 @@
 [Contact signs on]
 Контакт входит в сеть
 [When a chat session is active, skip the following notifications for that contact:]
-
+Пропускать следующие уведомления для контакта, с которым активен разговор:
 [Chat session specific]
-
+Только для сессии 
 [Show timestamps]
-
+Показывать время
 [Messages]
 Сообщения
 [User events]
@@ -120,7 +116,7 @@
 [Channel events]
 События канала
 [Cut off nicknames after]
-
+Ограничить имена до
 [chars]
 символов
 [Show protocol labels]
@@ -200,9 +196,9 @@
 [Replying]
 Ответ
 [Show line break indicators]
-
+Показывать символы переноса строки
 [Send messages with return, insert line breaks with ctrl+return]
-
+Отправка сообщений по Enter, перевод строки по CTRL+Enter
 [Maximized replying]
 Ответ в режиме полного экрана
 [Close chat after]
