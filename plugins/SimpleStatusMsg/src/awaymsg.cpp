@@ -329,24 +329,7 @@ static char *StrFindURL(char *pszStr)
 
 static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv;
-	char *szMsg;
-
-
-	int unicode = !db_get((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
-	db_free(&dbv);
-	if (unicode)
-	{
-		db_get_ws((HANDLE)wParam, "CList", "StatusMsg", &dbv);
-		szMsg = mir_u2a(dbv.pwszVal);
-	}
-	else
-
-	{
-		db_get_s((HANDLE)wParam, "CList", "StatusMsg", &dbv);
-		szMsg = mir_strdup(dbv.pszVal);
-	}
-	db_free(&dbv);
+	ptrA szMsg(db_get_sa((HANDLE)wParam, "CList", "StatusMsg"));
 
 	char *szURL = StrFindURL(szMsg);
 	if (szURL != NULL)
@@ -363,7 +346,6 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 			mir_free(szMsgURL);
 		}
 	}
-	mir_free(szMsg);
 
 	return 0;
 }
@@ -373,13 +355,11 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	TCHAR str[128];
 	char *szProto = GetContactProto((HANDLE)wParam);
 	int iHidden = szProto ? db_get_b((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
-	char *szMsg;
 	int iStatus;
 
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
-
 	if (!iHidden) {
 		iHidden = 1;
 		iStatus = db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
@@ -396,23 +376,11 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ModifyItem(hAwayMsgMenuItem, &clmi);
 	Skin_ReleaseIcon(clmi.hIcon);
 
+	ptrA szMsg(db_get_sa((HANDLE)wParam, "CList", "StatusMsg"));
+
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
-	if (!iHidden) {
-		DBVARIANT dbv;
-
-		int unicode = !db_get((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
-		db_free(&dbv);
-		if (unicode) {
-			db_get_ws((HANDLE)wParam, "CList", "StatusMsg", &dbv);
-			szMsg = mir_u2a(dbv.pwszVal);
-		}
-		else {
-			db_get_s((HANDLE)wParam, "CList", "StatusMsg", &dbv);
-			szMsg = mir_strdup(dbv.pszVal);
-		}
-		db_free(&dbv);
-
-		if (db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1) && szMsg && *szMsg != '\0') {
+	if (!iHidden && szMsg != NULL) {
+		if (db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1)) {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s Message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 			clmi.ptszName = str;
@@ -421,15 +389,16 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ModifyItem(hCopyMsgMenuItem, &clmi);
 
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
-	if (!iHidden) {
+	if (!iHidden && szMsg != NULL) {
 		if (db_get_b(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) && StrFindURL(szMsg) != NULL) {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
 			mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s Message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 			clmi.ptszName = str;
 		}
-		mir_free(szMsg);
+
 	}
 	Menu_ModifyItem(hGoToURLMenuItem, &clmi);
+
 	return 0;
 }
 

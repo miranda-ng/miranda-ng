@@ -1682,9 +1682,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 				mir_snprintf(buff, SIZEOF(buff), "SMsg%d", j);
 				if (!db_get_ts(NULL, "SimpleStatusMsg", buff, &dbv))
 				{
-
 					if (!lstrcmp(dbv.ptszVal, szMsgW))
-
 					{
 						found = TRUE;
 						mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sMsg", ps[i]->szName);
@@ -1692,6 +1690,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 						db_free(&dbv);
 						break;
 					}
+					db_free(&dbv);
 				}
 			}
 

@@ -781,9 +781,9 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 
 		if (!db_get(NULL, "SimpleStatusMsg", setting, &dbv))
 		{
-			if (dbv.pszVal)
+			if (dbv.pszVal && strlen(dbv.pszVal))
 			{
-				if (strlen(dbv.pszVal) && !db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2))
+				if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2))
 				{
 					if (dbv2.ptszVal && lstrlen(dbv2.ptszVal))
 					{
@@ -1154,8 +1154,6 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (bCurrentStatus)
 				copy_init_data->m_iStatus = ID_STATUS_CURRENT;
 
-			mir_free(init_data);
-
 			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_EDIT1), EditBoxSubProc);
 			if (!init_data->m_bOnEvent && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
 			{
@@ -1164,6 +1162,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			}
 			else
 				SetFocus(GetDlgItem(hwndDlg, IDC_OK));
+
+			mir_free(init_data);
 
 			if (!db_get_b(NULL, "SimpleStatusMsg", "WinCentered", 1))
 			{
@@ -1323,6 +1323,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 									db_free(&dbv);
 									break;
 								}
+								db_free(&dbv);
 							}
 						}
 
