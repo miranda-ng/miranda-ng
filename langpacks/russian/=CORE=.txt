@@ -2549,6 +2549,8 @@ ANSI плагин
 Доминика
 [Dominican Republic]
 Доминиканская республика
+[East Timor]
+Восточный Тимор
 [Ecuador]
 Эквадор
 [Egypt]
@@ -2574,7 +2576,7 @@ ANSI плагин
 [France]
 Франция
 [French Guiana]
-Французская Гвиана
+Гвиана
 [French Polynesia]
 Французская Полинезия
 [French Southern and Antarctic Lands]
@@ -2679,7 +2681,7 @@ ANSI плагин
 Литва
 [Luxembourg]
 Люксембург
-[Macao]
+[Macau]
 Макао
 [Macedonia]
 Македония
@@ -2861,8 +2863,6 @@ ANSI плагин
 Танзания
 [Thailand]
 Тайланд
-[Timor-Leste]
-Восточный Тимор
 [Togo]
 Того
 [Tokelau]
@@ -2906,9 +2906,9 @@ ANSI плагин
 [Vietnam]
 Вьетнам
 [Virgin Islands (British)]
-Британские Виргинские о-ва
+Виргинские о-ва (Британские)
 [Virgin Islands (United States)]
-Виргинские о-ва (США)
+Виргинские о-ва (Американские)
 [Wallis and Futuna]
 о-ва Уоллис и Футуна
 [Western Sahara]
