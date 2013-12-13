@@ -7,8 +7,7 @@
 ;============================================================
 [Adds Restart menu item.]
 Добавление пункта Рестарт в главное меню.
-;file \plugins\Restart\src\restart.cpp
 [Restart]
-
+Перезапуск
 [Restart Plugin]
 Плагин Рестарт
