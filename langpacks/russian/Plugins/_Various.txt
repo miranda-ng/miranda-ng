@@ -31,3 +31,7 @@
 Текущий = %r\\nПредыдущий = %p
 [Langpack reload]
 Перезагрузка языкового пакета
+[Flat borders]
+Плоские границы
+[Draw gradient background]
+Фон с градиентом
