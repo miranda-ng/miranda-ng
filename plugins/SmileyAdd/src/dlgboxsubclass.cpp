@@ -244,7 +244,7 @@ public:
 				SendMessage(hSmlButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hSmlIco);
 			}
 
-			SendMessage(hSmlButton, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show Smiley Selection Window"), 0);
+			SendMessage(hSmlButton, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show smiley selection window"), 0);
 			SendMessage(hSmlButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 	}

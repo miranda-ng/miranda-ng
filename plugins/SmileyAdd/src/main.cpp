@@ -48,7 +48,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mira
 	return (PLUGININFOEX*)&pluginInfoEx;
 }
 
-static IconItem icon = { LPGEN("Button Smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON };
+static IconItem icon = { LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON };
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
@@ -63,7 +63,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.position = 2000070050;
 	mi.icolibItem = icon.hIcolib;
 	mi.pszPopupName = (char*)-1;
-	mi.pszName = LPGEN("Assign Smiley Category");
+	mi.pszName = LPGEN("Assign smiley category");
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 	DownloadInit();

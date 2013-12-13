@@ -205,7 +205,7 @@ int FolderChanged(WPARAM, LPARAM)
 
 void GetSmileyCacheFolder(void)
 {
-	hFolder = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley Cache"), MIRANDA_USERDATAT _T("\\SmileyCache"));
+	hFolder = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT _T("\\SmileyCache"));
 	if (hFolder) {
 		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);

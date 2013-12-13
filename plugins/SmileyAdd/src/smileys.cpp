@@ -305,7 +305,7 @@ bool SmileyPackType::LoadSmileyFile(const CMString& filename, bool onlyInfo, boo
 	int fh = _topen(modpath.c_str(), _O_BINARY | _O_RDONLY);
 	if (fh == -1) {
 		if (!noerr) {
-			static const TCHAR errmsg[] = LPGENT("Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.");
+			static const TCHAR errmsg[] = LPGENT("Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
 			TCHAR msgtxt[1024];
 			mir_sntprintf(msgtxt, SIZEOF(msgtxt), TranslateTS(errmsg), modpath.c_str());
 			ReportError(msgtxt);
@@ -348,7 +348,7 @@ bool SmileyPackType::LoadSmileyFile(const CMString& filename, bool onlyInfo, boo
 		res = LoadSmileyFileXEP(tbuf, onlyInfo, modpath);
 
 	if (errorFound)
-		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee Network Log for details."));
+		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee network log for details."));
 
 	return res;
 }
@@ -468,7 +468,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString& tbuf, bool onlyInfo, CMString& 
 				m_SmileyList.insert(dat);
 
 			if (!noerr) {
-				static const TCHAR errmsg[] = LPGENT("Smiley #%u in file %s for Smiley Pack %s not found."); 
+				static const TCHAR errmsg[] = LPGENT("Smiley #%u in file %s for smiley pack %s not found."); 
 				TCHAR msgtxt[1024];
 				mir_sntprintf(msgtxt, SIZEOF(msgtxt), TranslateTS(errmsg), smnum, resname.c_str(), modpath.c_str());
 				CallService(MS_NETLIB_LOG,(WPARAM) hNetlibUser, (LPARAM)(char*)T2A_SM(msgtxt));
@@ -982,13 +982,13 @@ SmileyLookup::SmileyLookup(const CMString& str, const bool regexs, const int ind
 			m_valid &= (!matcher->findFirstMatch() ||
 				matcher->getStartingIndex() != matcher->getEndingIndex());
 			if (!m_valid) {
-				static const TCHAR errmsg[] = LPGENT("Regular Expression \"%s\" in smiley pack \"%s\" could produce \"empty matches\".");
+				static const TCHAR errmsg[] = LPGENT("Regular expression \"%s\" in smiley pack \"%s\" could produce \"empty matches\".");
 				mir_sntprintf(msgtxt, SIZEOF(msgtxt), TranslateTS(errmsg), str.c_str(), smpt.c_str());
 			}
 			delete matcher;
 		}
 		else {
-			static const TCHAR errmsg[] = LPGENT("Regular Expression \"%s\" in smiley pack \"%s\" malformed.") ;
+			static const TCHAR errmsg[] = LPGENT("Regular expression \"%s\" in smiley pack \"%s\" malformed.") ;
 			mir_sntprintf(msgtxt, SIZEOF(msgtxt), TranslateTS(errmsg), str.c_str(), smpt.c_str());
 		}
 
