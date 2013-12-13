@@ -63,6 +63,22 @@ bool DBGetContactSettingAsString(HANDLE hContact, const char *szModuleName, cons
 	return buff[0] ? true : false;
 }
 
+bool CheckContactType(HANDLE hContact, const DISPLAYITEM &di)
+{
+	if (di.type == DIT_ALL)
+		return true;
+
+	char *szProto = GetContactProto(hContact);	
+	if (szProto) {
+		if (db_get_b(hContact, szProto, "ChatRoom", 0) != 0)
+			return di.type == DIT_CHATS;
+		else
+			return di.type == DIT_CONTACTS;
+	}
+
+	return false;
+}
+
 void StripBBCodesInPlace(TCHAR *swzText)
 {
 	if (!db_get_b(0, MODULE, "StripBBCodes", 1))

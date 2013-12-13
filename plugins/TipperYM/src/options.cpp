@@ -187,6 +187,8 @@ bool LoadDI(DISPLAYITEM *di, int index)
 		db_free(&dbv);
 	}
 
+	mir_snprintf(setting, SIZEOF(setting), "DIType%d", index);
+	di->type = (DisplayItemType)db_get_b(0, MODULE_ITEMS, setting, DIT_ALL);
 	mir_snprintf(setting, SIZEOF(setting), "DILineAbove%d", index);
 	di->bLineAbove = (db_get_b(0, MODULE_ITEMS, setting, 0) == 1);
 	mir_snprintf(setting, SIZEOF(setting), "DIValNewline%d", index);
@@ -219,6 +221,8 @@ void SaveDI(DISPLAYITEM *di, int index)
 		db_set_s(0, MODULE_ITEMS, setting, buff);
 	}
 
+	mir_snprintf(setting, SIZEOF(setting), "DIType%d", index);
+	db_set_b(0, MODULE_ITEMS, setting, (BYTE)di->type);
 	mir_snprintf(setting, SIZEOF(setting), "DILineAbove%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, di->bLineAbove ? 1 : 0);
 	mir_snprintf(setting, SIZEOF(setting), "DIValNewline%d", index);
@@ -580,6 +584,14 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel);
 			SetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue);
 
+			for (int i = 0; i < SIZEOF(displayItemTypes); i++)
+			{
+				int index = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateTS(displayItemTypes[i].title));
+				SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETITEMDATA, index, (LPARAM)displayItemTypes[i].type);
+				if (displayItemTypes[i].type == di->type)
+					SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETCURSEL, index, 0);
+			}
+
 			CheckDlgButton(hwndDlg, IDC_CHK_LINEABOVE, di->bLineAbove ? TRUE : FALSE);
 			CheckDlgButton(hwndDlg, IDC_CHK_VALNEWLINE, di->bValueNewline ? TRUE : FALSE);
 			CheckDlgButton(hwndDlg, IDC_CHK_PARSETIPPERFIRST, di->bParseTipperVarsFirst ? TRUE : FALSE);
@@ -603,11 +615,19 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						GetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel, LABEL_LEN);
 						GetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue, VALUE_LEN);
 
+						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETCURSEL, 0, 0);
+						int type = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETITEMDATA, sel, 0);
+						for (int i = 0; i < SIZEOF(displayItemTypes); i++)
+						{
+							if (displayItemTypes[i].type == type)
+								di->type = displayItemTypes[i].type;
+						}
+
 						di->bLineAbove = (IsDlgButtonChecked(hwndDlg, IDC_CHK_LINEABOVE) ? true : false);
 						di->bValueNewline = (IsDlgButtonChecked(hwndDlg, IDC_CHK_VALNEWLINE) ? true : false);
 						di->bParseTipperVarsFirst = (IsDlgButtonChecked(hwndDlg, IDC_CHK_PARSETIPPERFIRST) ? true : false);
 
-						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
+						sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
 						if (sel != CB_ERR)
 						{
 							TCHAR buff[256];

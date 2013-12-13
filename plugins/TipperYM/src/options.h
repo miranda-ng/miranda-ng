@@ -41,13 +41,25 @@ typedef struct {
 	TCHAR *swzTooltip;
 } OPTBUTTON;
 
+typedef enum { DIT_ALL = 0, DIT_CONTACTS = 1, DIT_CHATS = 2 } DisplayItemType;
 typedef struct {
 	TCHAR swzLabel[LABEL_LEN];
 	TCHAR swzValue[VALUE_LEN];
+	DisplayItemType type;
 	bool bLineAbove, bValueNewline;
 	bool bIsVisible;
 	bool bParseTipperVarsFirst;
 } DISPLAYITEM;
+
+// display item types
+static struct {
+	DisplayItemType type;
+	TCHAR* title;
+} displayItemTypes[] = {
+	{ DIT_ALL, LPGENT("Show for all contact types") },
+	{ DIT_CONTACTS, LPGENT("Show only for contacts") },
+	{ DIT_CHATS, LPGENT("Show only for chatrooms") }
+};
 
 typedef enum {DVT_DB = 0, DVT_PROTODB = 1} DisplaySubstType;
 typedef struct {

@@ -24,6 +24,8 @@ Boston, MA 02111-1307, USA.
 bool GetLabelText(HANDLE hContact, const DISPLAYITEM &di, TCHAR *buff, int iBufflen);
 bool GetValueText(HANDLE hContact, const DISPLAYITEM &di, TCHAR *buff, int iBufflen);
 
+bool CheckContactType(HANDLE hContact, const DISPLAYITEM &di);
+
 void StripBBCodesInPlace(TCHAR *text);
 
 // can be used with hContact == 0 to get uid for a given proto

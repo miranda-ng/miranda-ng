@@ -1054,7 +1054,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				DIListNode *node = opt.diList;
 				TCHAR buff_label[LABEL_LEN], buff[VALUE_LEN];
 				while (node) {
-					if (node->di.bIsVisible) {
+					if (node->di.bIsVisible && CheckContactType(pwd->hContact, node->di)) {
 						if (GetLabelText(pwd->hContact, node->di, buff_label, LABEL_LEN) && GetValueText(pwd->hContact, node->di, buff, VALUE_LEN)) {
 							if (node->di.bLineAbove // we have a line above
 								&& pwd->iRowCount > 0 // and we're not the first row

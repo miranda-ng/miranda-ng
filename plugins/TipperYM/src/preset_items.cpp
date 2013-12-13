@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 
 PRESETITEM presetItems[] = 
 {
+	"account", LPGENT("Account"), LPGENT("Account:"), _T("%sys:account%"), 0, 0, 0,
 	"birth", LPGENT("Birthday"), LPGENT("Birthday:"), _T("%birthday_date% (%birthday_age%) @ Next: %birthday_next%"), "birthdate", "birthage", "birthnext",
 	"client", LPGENT("Client"), LPGENT("Client:"), _T("%raw:/MirVer%"), 0, 0, 0,
 	"email", LPGENT("Email"), LPGENT("Email:"), _T("%raw:/e-mail%"), 0, 0, 0,

@@ -111,6 +111,7 @@
 #define IDC_CHK_USEPROTOSMILEYS         1106
 #define IDC_CHK_ONLYISOLATED            1107
 #define IDC_CMB_PRESETITEMS             1111
+#define IDC_CMB_TYPE                    1112
 #define IDC_CHK_LIMITMSG                1113
 #define IDC_ED_CHARCOUNT                1114
 #define IDC_SPIN_CHARCOUNT              1115
