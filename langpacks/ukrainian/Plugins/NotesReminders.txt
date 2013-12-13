@@ -152,7 +152,7 @@
 [&Show / Hide Notes]
 &Показати / Приховати нотатки
 [Notes & Reminders]
-нотатки і нагадування
+Нотатки і нагадування
 [New Note]
 Новий нотаток
 [Toggle Notes Visibility]

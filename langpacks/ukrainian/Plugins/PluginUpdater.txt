@@ -9,7 +9,7 @@ Plugin updater for Miranda NG.]
 Оновлення плагінів Miranda NG.
 [Updates found!]
 Знайдені оновлення!
-[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 Були знайдені оновлені версії плагінів Miranda NG. Натисніть на кнопку "Деталі" для докладної інформації.
 [Update]
 Оновити
@@ -90,9 +90,9 @@ Plugin updater for Miranda NG.]
 [Popups]
 Спливаючі вікна
 [Component list]
-
+Перелік компонентів
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
-
+Ось повний список відсутніх Miranda NG компонентів. Перевірте компоненти, які ви хочете завантажити.\n\nНатисніть тут, на значку компонент для перегляду інформаційну сторінку.
 [Download]
 Завантажити
 [Skipped.]
@@ -106,9 +106,9 @@ Plugin updater for Miranda NG.]
 [Plugin Updater]
 Оновлення плагінів
 [Download complete]
-
+Завантаження завершено
 [Download complete. Do you want go to plugins option page?]
-
+Завантаження завершено. Хочеш піти до сторінки налаштувань плагіну?
 [Component Name]
 Ім'я компонента
 [State]
@@ -120,9 +120,9 @@ Plugin updater for Miranda NG.]
 [Other]
 Інше
 [List is empty.]
-
+Список порожній.
 [List loading already started!]
-
+Завантаження вже почався!
 [Will be deleted!]
 Видалено!
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
@@ -146,18 +146,22 @@ Plugin updater for Miranda NG.]
 [Check plugin for updates]
 Перевірити оновлення плагінів
 [Show full plugin list]
-
+Показати повний список плагінів
 ['Yes' Button]
 Кнопка 'Так'
 ['No' Button]
 Кнопка 'Немає'
 [Plugin info]
-
+Інормація
 [Plugin list]
-
+Список плагінів
 [Plugin HTTP Updater connection]
 HTTP підключення Plugin Updater
 [Checking new updates...]
-
+Перевірка оновлень...
 [An error occured while checking new updates.]
-
+Сталася помилка при перевірці оновлень.
+[Version Information]
+Версії
+[Upload]
+Завантажити

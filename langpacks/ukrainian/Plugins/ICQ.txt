@@ -97,7 +97,7 @@
 Перекодування ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Ставати видимим для контакту, якому посилаєте повідомлення
-[Notify me when a message has delivery failed (recommended)]
+[Notify me when a message delivery has failed (recommended)]
 Повідомляти про невдалу доставки повідомлень (старий метод)
 [Never use legacy messaging (server acknowledgements)]
 Ігнорувати старий метод, використовувати сервера сповіщення про доставку
@@ -113,7 +113,7 @@
 Включити підтримку хСтатусов для доповнень
 [Enable Custom status support for moods]
 Включити підтримку хСтатусов для настроїв
-[Reset Custom status on change status]
+[Reset Custom status on status change]
 Скинути хСтатус при зміні статусу
 [Auto-retrieve Custom status details]
 Автозавантаження хСтатусов

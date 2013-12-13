@@ -9,7 +9,7 @@
 [Imports history saved in TXT files from other clients.]
 Імпортує історію з текстових файлів.
 [Import history to ]
-Імпортувати в історію\s
+Імпортувати історію у\s
 [Import history]
 Імпорт історії
 [Choose a file...]

@@ -209,6 +209,8 @@
 Усі події
 [None]
 Нічого
+[<none>]
+<немає>
 [Only the ticked contacts will be shown on the main contact list]
 Лише відмічені контакти буде показано у головному списку контактів
 [Ignore]
@@ -1710,7 +1712,7 @@ Iндекс:
 [Not focused]
 Cписок неактивний
 [Offline]
-Від'єднаний
+Від'єднані
 [Online]
 Онлайн
 [Away]
@@ -2925,3 +2927,9 @@ ANSI-плагін
 Замбія
 [Zimbabwe]
 Зімбабве
+[<mixed>]
+змішано
+[ContactMenu] 
+Меню контакту 
+[MainMenu] 
+Гловне меню 

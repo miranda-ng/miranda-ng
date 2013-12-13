@@ -691,3 +691,29 @@ Wiki-сторінка додаткових параметрів
 Вхідний час
 [Outgoing timestamp]
 Вихідний час
+[Open in &new window]
+Відкрити у &новому вікні
+[Open in existing &window]
+&Відкрити в існуючому вікні
+[Copy &Link]
+Копіювати &посилання
+[Co&py]
+&Копіювати
+[Select &All]
+Виділити &все
+[Send &Message]
+Відправити повідомлення
+[View user's History]
+Історія повідомлень
+[View &History]
+&Історія
+[Enable SmileyAdd support]
+Підтримка смайликів
+[Always RTL]
+Справа наліво
+[Always LTR]
+Зліва направо
+[Enable MathModule support]
+Підтримка MathModule
+[Show event icons]
+Значки подій

@@ -1,0 +1,37 @@
+﻿;=======================================================================
+;  Module: various actions and tipper items not included in source code.
+;=======================================================================
+[Last seen:]
+Остання поява:
+[Online since:]
+В мережі з:
+[Away since:]
+Відсутній з:
+[NA since:]
+Недоступний з:
+[Registered:]
+Зареєстрований:
+[Idle ago:]
+Неактивний з:
+[Messages received]
+Прийнято повідомлень
+[Messages sent]
+Відправлено повідомлень
+[Total messages: %sys:msg_count_all%]
+Всього повідомлень: %sys:msg_count_all%
+[Last message: (%sys:last_msg_reltime% along)]
+Останнє повідомлення: (%sys:last_msg_reltime% тому)
+[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
+(прийнято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
+[Coordinates]
+Координати
+[Import from database]
+Імпорт з профілю
+[Current = %r\\nPrevious = %p]
+Поточний = %r\\nПопередній = %p
+[Langpack reload]
+Перезавантаження пакету мови
+[Flat borders]
+Плоскі кордони
+[Draw gradient background]
+Фон з градієнтом

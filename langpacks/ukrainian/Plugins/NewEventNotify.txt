@@ -30,7 +30,7 @@
 Відкрити подію
 [Dismiss Event]
 Приховати подію
-[Don't show Popup Message when-Dialog is already open]
+[Don't show when Popup Message-Dialog is already open]
 Не показувати, якщо відкрито вікно
 [Open Reply-Dialog instead of reading the Message]
 Діалог відповіді замість читання повідомлення
@@ -90,3 +90,11 @@
 Тест плагіна
 [[b]Number of new message(s): %d[/b]\n]
 [b]Кількість нових повідомлень: %d[/b]\n
+[Left Click Actions]
+По лівому кліку
+[Right Click Actions]
+По правому кліку
+[Dismiss Popup]
+Приховати спл. вікно
+[Others]
+Інше

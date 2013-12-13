@@ -96,7 +96,7 @@ TLS
 Вказати хост для підключення
 [Automatically delete contacts not in my roster]
 Автоматично видаляти контакти, які не в списку
-[User directory]
+[User directory:]
 Директорія користувачів:
 [Language for human-readable resources:]
 Мова для видимих людині ресурсів:
@@ -128,6 +128,8 @@ TLS
 відправив присутність з помилкою
 [sent unknown presence type]
 відправив невідомий тип присутності
+[Keep connection alive]
+Підтримувати з'єднання
 
 ; Чат-кімнати
 [Chat options]
@@ -1439,3 +1441,7 @@ Jabber помилка
 Окитан, провансальський
 [Volapuk]
 Волап'юк
+[Enable avatars]
+Ввімкнути аватари
+[Send messenges slower, bat with full acknowledgement]
+Відправляти повідомлення повільніше, але с підтвердженням

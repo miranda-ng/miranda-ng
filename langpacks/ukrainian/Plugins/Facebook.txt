@@ -149,8 +149,8 @@
 Значок Facebook
 [Mind]
 Думка
-[Other Event]
-Інша подія
+[Other event]
+Інші події
 [a sticker]
 стікер
 [files]
@@ -215,3 +215,7 @@
 Дані контакту
 [User &history]
 Історія користувача
+[This message is no longer available, because it was marked as abusive or spam.]
+Повідомлення недоступне, оскільки було відзначено, як образа або спам.
+[Automatically set 'Ignore status change' flag]
+Автоматично ввімкнути ігнорування зміни статусів

@@ -181,17 +181,19 @@ OTR-статус
 Зупинити& OTR-сесію
 [View & Modify status of known fingerprints]
 Перегляд і редагування статусів відомих відбитків
-[End sessions on close window]
+[End sessions on window close]
 Зупинити сесію при закритті вікна
 [Policy]
 Політика
 [Default Policy]
 Політика за замовчанням:
+[Alwaysl]
+Завжди
 [Opportunistic]
 Автоматично
 [Manual]
 Вручну
-[End sessions when go offline contacts]
+[End sessions when contacts go offline ]
 Зупинити сесію, коли контакт йде з мережі
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 Повертати завершені сесії в звичайний текст по тайм-ауту
@@ -205,3 +207,7 @@ OTR-статус
 Зупинити OTR
 [OTR Status]
 Статус OTR
+[Active]
+Активно
+[Fingerprints]
+Відбитки
