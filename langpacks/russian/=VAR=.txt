@@ -1,0 +1,29 @@
+;============================================
+;  Module: various actions and tipper items.
+;============================================
+[Restart]
+Перезапуск
+[ETA]
+Осталось
+[Last seen:]
+Последнее появление:
+[Online since:]
+В сети с:
+[Away since:]
+Отсутствует с:
+[NA since:]
+Недоступен с:
+[Registered:]
+Зарегистрирован:
+[Idle ago:]
+Неактивен с:
+[Messages received]
+Принято сообщений
+[Messages sent]
+Отправлено сообщений
+[Total messages: %sys:msg_count_all%]
+Всего сообщений: %sys:msg_count_all%
+[Last message: (%sys:last_msg_reltime% along)]
+Последнее сообщение: (%sys:last_msg_reltime% назад)
+[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
+(принято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
