@@ -12,7 +12,7 @@
 [Import history to ]
 Импортировать историю в\s
 [Import history]
-
+Импорт истории
 [Choose a file...]
 Выберите файл...
 [Choose a pattern...]

@@ -55,8 +55,14 @@ WATrack: запрос запрещён
 Настройки форматирования текста
 [Enable raw RTF support]
 Поддержка RAW RTF
-[Enable SmileAdd support]
+[Enable SmileyAdd support]
 Поддержка смайлов
+[Always RTL]
+Справа налево
+[Always LTR]
+Слева направо
+[Enable MathModule support]
+Поддержка MathModule
 [Display changed avatars]
 Показывать изменённые аватары
 [Change appearance]
@@ -85,6 +91,8 @@ WATrack: запрос запрещён
 Свойства фильтра
 [&Name:]
 &Имя:
+[Show event icons]
+Значки событий
 [Show all except selected events]
 Показать все, кроме выбранных событий
 [Show only selected events]
@@ -727,3 +735,11 @@ Wiki-страница дополнительных параметров
 Выделить &всё
 [Send &Message]
 Отправить сообщение
+Смайлы
+[View user's history]
+История сообщений
+Смайлы
+[View user's history]
+История сообщений
+[View User's History]
+История сообщений

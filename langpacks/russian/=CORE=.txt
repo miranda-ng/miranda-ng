@@ -2151,6 +2151,8 @@ Miranda NG не может открыть этот профиль
 Пользователи не найдены
 [Failed to create file]
 Ошибка создания файла
+[<mixed>]
+<смешано>
 [<none>]
 <нет>
 [Shadow at left]
@@ -2919,3 +2921,7 @@ ANSI плагин
 Замбия
 [Zimbabwe]
 Зимбабве
+[ContactMenu]
+Меню контакта
+[MainMenu]
+Главное меню

@@ -52,7 +52,7 @@ URL:
 [News Feed types to notify:]
 Уведомлять о типах новостей:
 [Other events]
-
+Другие события
 [Client notifications]
 Уведомления клиента
 [Preview]
