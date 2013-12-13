@@ -14,6 +14,7 @@
 [Run]
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 [Host we are connecting to is not the one certificate was issued for]
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

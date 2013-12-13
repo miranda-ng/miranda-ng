@@ -1,0 +1,6 @@
+﻿[Preview]
+[no filter]
+[Search Filter]
+[no settings]
+[Could not allocate memory!]
+[Save RTF File]

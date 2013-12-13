@@ -1,0 +1,4 @@
+﻿[Open]
+[OK]
+[%s, %s. %s removed %s.\r\n]
+[%s, %s. %s changed %s to: %s.\r\n]

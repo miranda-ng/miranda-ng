@@ -1,0 +1,2 @@
+﻿[OK]
+[Unknown command issued: "%s"]

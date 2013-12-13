@@ -1,0 +1,7 @@
+﻿[dbxTree Profile Wizard]
+[Next >]
+[< Prev]
+[Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
+[ was successfully]
+[ could not be]
+[Journal "%s" was found on start.\nBackups "%s" and "%s" could not be created in "%s".]

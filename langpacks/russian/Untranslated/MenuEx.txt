@@ -1,0 +1,4 @@
+﻿[Activity title]
+[Activity text]
+[Please authorize me to add you to my contact list.]
+[Miranda NG]

@@ -1,0 +1,2 @@
+﻿[MPD Host]
+[Watrack MPD]

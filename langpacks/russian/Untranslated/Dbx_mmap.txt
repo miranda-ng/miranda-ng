@@ -1,0 +1,4 @@
+﻿[Login to Miranda NG]
+[EN]
+[OK]
+[Logo]

@@ -1,0 +1,3 @@
+﻿[Vars]
+[Not In List]
+[nospam]

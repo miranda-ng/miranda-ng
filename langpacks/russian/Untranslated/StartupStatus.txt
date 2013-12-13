@@ -1,4 +1,5 @@
-﻿[OK]
+﻿[Account connection]
+[OK]
 [x]
 [Entering first auto-away status]
 [Entering second auto-away status]
@@ -7,3 +8,5 @@
 [Becoming active without status change]
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
+[size: %d x %d]
+[loc: %d x %d]
