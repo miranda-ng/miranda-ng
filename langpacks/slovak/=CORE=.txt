@@ -2655,6 +2655,8 @@ neznáme
 
 [Dominican Republic]
 
+[East Timor]
+
 [Ecuador]
 
 [Egypt]
@@ -2785,7 +2787,7 @@ neznáme
 
 [Luxembourg]
 
-[Macao]
+[Macau]
 
 [Macedonia]
 
@@ -2966,8 +2968,6 @@ neznáme
 [Tanzania]
 
 [Thailand]
-
-[Timor-Leste]
 
 [Togo]
 

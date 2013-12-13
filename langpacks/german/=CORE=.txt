@@ -2676,6 +2676,8 @@ Dschibuti
 Dominica
 [Dominican Republic]
 Dominikanische Republik
+[East Timor]
+Timor-Leste
 [Ecuador]
 Ecuador
 [Egypt]
@@ -2806,7 +2808,7 @@ Liechtenstein
 Litauen
 [Luxembourg]
 Luxemburg
-[Macao]
+[Macau]
 Macao
 [Macedonia]
 Mazedonien, ehemalige Jugoslawische Republik
@@ -2988,8 +2990,6 @@ Tadschikistan
 Tansania, vereinigte Republik
 [Thailand]
 Thailand
-[Timor-Leste]
-Timor-Leste
 [Togo]
 Togo
 [Tokelau]

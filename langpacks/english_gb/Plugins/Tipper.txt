@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.4
+;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Load fonts and colors]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.4
+;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
@@ -78,16 +78,16 @@
 Элемент
 [Value:]
 Значэнне:
+[Variables]
+Зменныя
 [Draw a line above]
 Маляваць лінію зверху
 [Value on a new line]
 Значэнне з новага радка
-[Preset items:]
-Зададзеныя элементы:
-[Variables]
-Зменныя
 [Parse Tipper variables first]
 Апрацоўваць зменныя падказак першымі
+[Preset items:]
+Зададзеныя элементы:
 [Items]
 Элементы
 [Substitutions]

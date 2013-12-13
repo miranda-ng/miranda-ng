@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.4
+;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
@@ -70,24 +70,22 @@
 Параметр, префикс:
 [Translation:]
 Преобразование:
-[OK]
-
 [Cancel]
 Отмена
 [Item]
 Элемент
 [Value:]
 Значение:
+[Variables]
+Переменные
 [Draw a line above]
 Рисовать линию сверху
 [Value on a new line]
 Значение с новой строки
-[Preset items:]
-Заданные элементы:
-[Variables]
-Переменные
 [Parse Tipper variables first]
 Обрабатывать переменные подсказок первыми
+[Preset items:]
+Заданные элементы:
 [Items]
 Элементы
 [Substitutions]

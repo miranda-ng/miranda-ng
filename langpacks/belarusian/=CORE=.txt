@@ -2676,6 +2676,8 @@ ANSI плагін
 Дамініка
 [Dominican Republic]
 Дамініканская Рэспубліка
+[East Timor]
+Усходні Тымор
 [Ecuador]
 Эквадор
 [Egypt]
@@ -2806,7 +2808,7 @@ ANSI плагін
 Літва
 [Luxembourg]
 Люксембург
-[Macao]
+[Macau]
 Макао
 [Macedonia]
 Македонія, Былая Югаславія
@@ -2988,8 +2990,6 @@ ANSI плагін
 Танзанія
 [Thailand]
 Тайланд
-[Timor-Leste]
-Усходні Тымор
 [Togo]
 Того
 [Tokelau]
