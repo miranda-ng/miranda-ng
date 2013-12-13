@@ -647,7 +647,7 @@ Lesotho
 [Liberia]
 Liberia
 [Libya]
-Liban
+Libia
 [Liechtenstein]
 Liechtenstein
 [Lithuania]
@@ -883,7 +883,7 @@ Wyspy Dziewicze (USA)
 [Wales]
 Walia
 [Wallis and Futuna]
-Wallis i Futuny
+Wallis i Futuna
 [Yemen]
 Jemen
 [Yugoslavia]

@@ -15,11 +15,11 @@ Hasło:
 [Open VKontakte site]
 Otwórz stronę VKontakte
 [Login settings]
-
+Opcje logowania
 [Advanced]
-
+Zaawansowane
 [Server-side delivery confirmation]
-
+Potwierdzenie dostarczenia ze strony serwera
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]

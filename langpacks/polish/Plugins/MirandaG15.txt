@@ -211,5 +211,11 @@ Zamknij czat po
 [When in background]
 Gdy w tle
 ;file \plugins\MirandaG15\src\CConfig.cpp
+[MirandaG15]
+MirandaG15
+[Appearance]
+Personalizacja
+[Chat sessions]
+
 [No device attached]
 Brak podłączonych urządzeń

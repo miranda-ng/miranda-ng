@@ -332,9 +332,9 @@ Inne
 Czas działania Mirandy:
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
-
+Konto
 [Account:]
-
+Konto:
 [Birthday]
 Urodziny
 [Birthday:]

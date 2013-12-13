@@ -714,14 +714,14 @@ Przychodzący czas
 [Outgoing timestamp]
 Wychodzący czas
 [Open in &new window]
-
+Otwórz w nowym oknie
 [Open in existing &window]
-
+Otwórz w aktywnym oknie
 [Copy &Link]
-
+Kopiuj link
 [Co&py]
-
+Kopiuj
 [Select &All]
-
+Zaznacz wszystko
 [Send &Message]
-
+Wyślij wiadomość

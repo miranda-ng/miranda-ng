@@ -11,9 +11,9 @@ Zastępuje "Okna komunikatów" (tych tylko z przyciskiem OK), popup-ami.
 [ASTERISK style]
 styl gwiazdki
 [Background color]
-Tło
-[Foreground color]
-Pierwszy Plan
+Kolor tła
+[Text color]
+Kolor tekstu
 [ERROR style]
 Styl błędu
 [EXCLAMATION style]
@@ -32,7 +32,7 @@ Emituj dźwięk
 [VirtualProtect failed. Code %d\nTry to call the author]
 Wirtualna ochrona zawiodła. Kod %d\nSpróbuj skontaktować się z autorem
 [Error]
-Okienka
+Błąd
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
 Hmm. Coś idzie nie tak. Nie mogę pisać do pamięci.\nI jak widzisz nie wygenerowano żadnych wyjątków.\nSpróbuj skontaktować się z autorem.
 [MessagePopup]
