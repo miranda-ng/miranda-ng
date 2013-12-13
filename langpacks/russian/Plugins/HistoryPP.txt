@@ -55,6 +55,8 @@ WATrack: запрос запрещён
 Настройки форматирования текста
 [Enable raw RTF support]
 Поддержка RAW RTF
+[Enable SmileAdd support]
+Поддержка смайлов
 [Display changed avatars]
 Показывать изменённые аватары
 [Change appearance]
