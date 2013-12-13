@@ -143,13 +143,15 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 					title = ptrA( mir_utf8decodeA(title.c_str()));	
 				}
 
+				bool silent = resp.data.find("\"silentError\":1") != std::string::npos;
+
 				resp.error_number = error_num;
 				resp.error_text = error;
 				resp.error_title = title;
 				resp.code = HTTP_CODE_FAKE_ERROR;
 
 				parent->debugLogA(" ! !  Received Facebook error: %d -- %s", error_num, error.c_str());
-				if (notify_errors(request_type))
+				if (notify_errors(request_type) && !silent)
 					client_notify(_A2T(error.c_str()));
 			}
 		}
