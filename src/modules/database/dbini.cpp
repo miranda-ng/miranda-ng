@@ -228,7 +228,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		char szLine[2048];
 		if (fgets(szLine, sizeof(szLine), fp) == NULL)
 			break;
-
+LBL_NewLine:
 		int lineLength = lstrlenA(szLine);
 		while (lineLength && (BYTE)(szLine[lineLength-1]) <= ' ')
 			szLine[--lineLength] = '\0';
@@ -356,6 +356,26 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		case 'u':
 		case 'U':
 			db_set_utf(NULL, szSection, szName, szValue+1);
+			break;
+		case 'm':
+		case 'M':
+			{
+				CMStringA memo(szValue+1);
+				memo.Append("\r\n");
+				while (fgets(szLine, sizeof(szLine), fp) != NULL) {
+					switch (szLine[0]) {
+					case 0: case '\r': case '\n': case ' ': case '\t':
+						break;
+					default:
+						db_set_utf(NULL, szSection, szName, memo);
+						goto LBL_NewLine;
+					}
+
+					memo.Append(rtrim(szLine+1));
+					memo.Append("\r\n");
+				}
+				db_set_utf(NULL, szSection, szName, memo);
+			}
 			break;
 		case 'n':
 		case 'h':
