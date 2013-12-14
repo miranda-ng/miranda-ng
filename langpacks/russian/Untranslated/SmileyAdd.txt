@@ -1,7 +1,0 @@
-﻿[Author:]
-[Version:]
-[Preview]
-[Display]
-[Show Smiley Selection Window]
-[Top]
-[Bottom]

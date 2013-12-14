@@ -79,6 +79,8 @@
 Подождите, пока все операции будут завершены.
 [Finished!]
 Закончено
+[All tasks have been completed.]
+Все операции завершены.
 [Launch Miranda with this profile]
 Запустить Miranda NG с этим профилем
 [Launches Miranda with the profile that was just worked on.]
