@@ -83,28 +83,76 @@ static INT_PTR DbEventTypeGet(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)eventTypes[idx];
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static TCHAR* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
+{
+	LPSTR in = buf;
+	buf += strlen(buf) + 1;
+	return (dbei->flags & DBEF_UTF) ? Utf8DecodeT(in) : mir_a2t(in);
+}
+
 static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTGETTEXT* egt = (DBEVENTGETTEXT*)lParam;
-	BOOL bIsDenyUnicode = (egt->datatype & DBVTF_DENYUNICODE);
+	if (egt == NULL)
+		return 0;
 
-	DBEVENTINFO* dbei = egt->dbei;
-	DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)DbEventTypeGet((WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	DBEVENTINFO *dbei = egt->dbei;
 
+	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)DbEventTypeGet((WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 	if (et && ServiceExists(et->textService))
 		return CallService(et->textService, wParam, lParam);
 
-	if ( !dbei->pBlob) return 0;
+	if (!dbei->pBlob)
+		return 0;
+
+	// no text for this kind of events
+	if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
+		// blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+		DWORD  uin = *(DWORD*)dbei->pBlob;
+		HANDLE hContact = (HANDLE)*(DWORD*)(dbei->pBlob + sizeof(DWORD));
+		char  *buf = LPSTR(dbei->pBlob) + sizeof(DWORD)*2;
+		ptrT tszNick(getEventString(dbei, buf));
+		ptrT tszFirst(getEventString(dbei, buf));
+		ptrT tszLast(getEventString(dbei, buf));
+		ptrT tszEmail(getEventString(dbei, buf));
+		ptrT tszReason(getEventString(dbei, buf));
+		
+		CMString nick, text;
+		if (tszFirst || tszLast) {
+			nick.AppendFormat(_T("%s %s"), tszFirst, tszLast);
+			nick.Trim();
+		}
+		if (tszEmail) {
+			if (!nick.IsEmpty())
+				nick.Append(_T(", "));
+			nick.Append(tszEmail);
+		}
+		if (uin != 0) {
+			if (!nick.IsEmpty())
+				nick.Append(_T(", "));
+			nick.AppendFormat(_T("%d"), uin);
+		}
+		if (!nick.IsEmpty())
+			nick = _T("(") + nick + _T(")");
+			
+		text.Format(_T("Authorization request from %s%s: %s"),
+			(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
+
+		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
+	}
 
 	if (dbei->eventType == EVENTTYPE_FILE) {
-		char *filename = ((char *)dbei->pBlob) + sizeof(DWORD);
-		char *descr = filename + lstrlenA(filename) + 1;
-		char *str = (*descr == 0) ? filename : descr;
+		char *buf = LPSTR(dbei->pBlob) + sizeof(DWORD);
+		ptrT tszFileName(getEventString(dbei, buf));
+		ptrT tszDescription(getEventString(dbei, buf));
+		ptrT &ptszText = (*tszDescription == 0) ? tszFileName : tszDescription;
 		switch (egt->datatype) {
 		case DBVT_WCHAR:
-			return (INT_PTR)((dbei->flags & DBEF_UTF) ? Utf8DecodeT(str) : mir_a2t(str));
+			return (INT_PTR)ptszText.detouch();
 		case DBVT_ASCIIZ:
-			return (INT_PTR)((dbei->flags & DBEF_UTF) ? Utf8Decode(mir_strdup(str), NULL) : mir_strdup(str));
+			return (INT_PTR)mir_t2a(ptszText);
 		}
 		return 0;
 	}
@@ -114,39 +162,23 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 	if (dbei->eventType == 25368 && dbei->cbBlob == 1 && dbei->pBlob[0] == 1)
 		return 0;
 
-	egt->datatype &= ~DBVTF_DENYUNICODE;
+	// by default treat an event's blob as a string 
 	if (egt->datatype == DBVT_WCHAR) {
-		WCHAR *msg = NULL;
-		if (dbei->flags & DBEF_UTF) {
-			char *str = (char*)alloca(dbei->cbBlob + 1);
-			if (str == NULL) return NULL;
-			memcpy(str, dbei->pBlob, dbei->cbBlob);
-			str[dbei->cbBlob] = 0;
-			Utf8DecodeCP(str, egt->codepage, &msg);
-		}
-		else {
-			size_t msglen = strlen((char*)dbei->pBlob) + 1, msglenW = 0;
-			if (msglen != dbei->cbBlob) {
-				size_t i, count = ((dbei->cbBlob - msglen) / sizeof(WCHAR));
-				WCHAR *p = (WCHAR*)&dbei->pBlob[ msglen ];
-				for (i=0; i < count; i++) {
-					if (p[i] == 0) {
-						msglenW = i;
-						break;
-					}
-				}
-			}
+		char *str = (char*)alloca(dbei->cbBlob + 1);
+		memcpy(str, dbei->pBlob, dbei->cbBlob);
+		str[dbei->cbBlob] = 0;
 
-			if (msglenW > 0 && msglenW < msglen && !bIsDenyUnicode)
-				msg = mir_wstrdup((WCHAR*)&dbei->pBlob[ msglen ]);
-			else {
-				msg = (WCHAR*)mir_alloc(sizeof(WCHAR) * msglen);
-				MultiByteToWideChar(egt->codepage, 0, (char *) dbei->pBlob, -1, msg, (int)msglen);
-			}
+		if (dbei->flags & DBEF_UTF) {
+			WCHAR *msg = NULL;
+			Utf8DecodeCP(str, egt->codepage, &msg);
+			if (msg)
+				return (INT_PTR)msg;
 		}
-		return (INT_PTR)msg;
+
+		return (INT_PTR)mir_a2t_cp(str, egt->codepage);
 	}
-	else if (egt->datatype == DBVT_ASCIIZ) {
+
+	if (egt->datatype == DBVT_ASCIIZ) {
 		char *msg = mir_strdup((char*)dbei->pBlob);
 		if (dbei->flags & DBEF_UTF)
 			Utf8DecodeCP(msg, egt->codepage, NULL);

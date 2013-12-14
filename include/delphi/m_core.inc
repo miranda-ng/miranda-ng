@@ -50,7 +50,6 @@ const
   DBVT_UTF8            = 253; // pszVal is valid
   DBVT_WCHAR           = 252; // pszVal is valid
   DBVTF_VARIABLELENGTH = $80; // ?
-  DBVTF_DENYUNICODE    = $10000;
 
 type
   PDBVARIANT = ^TDBVARIANT;
