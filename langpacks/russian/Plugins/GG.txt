@@ -13,8 +13,6 @@
 Номер Gadu-Gadu:
 [Password:]
 Пароль:
-[E-mail:]
-
 [Create new account]
 Новая учётная запись
 [Remove account]
@@ -99,8 +97,6 @@
 Сохранить изменения
 [Enter token to continue]
 Введите маркер для продолжения
-[OK]
-
 [Cancel]
 Отмена
 [Create Gadu-Gadu account]
@@ -117,20 +113,14 @@
 Создать
 [Remove Gadu-Gadu account]
 Удалить номер Gadu-Gadu
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-
 [Yes, I want to remove my account]
 Да, удалите мою учётную запись
 [Remove]
 Удалить
 [Change Gadu-Gadu password]
 Изменить пароль Gadu-Gadu
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-
 [Change Gadu-Gadu e-mail]
 Изменить e-mail Gadu-Gadu
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-
 [Age from:]
 Возраст:
 [to:]
@@ -143,8 +133,6 @@
 &Отправить
 [Open new conference]
 Начать конференцию
-[Open new conference\nSelect conference participants]
-
 [Open]
 Открыть
 [Concurrent Sessions]
@@ -153,12 +141,6 @@
 Одновременные сессии %s\nИнформация об активных одновременных сессиях
 [Sign out all sessions]
 Выйти из всех сессий
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
-[Cannot create avatar file. ERROR: %d: %s\n%s]
-
-[Cannot open avatar file. ERROR: %d: %s\n%s]
-
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 Miranda не может распознать имя сервера Gadu-Gadu по IP-адресу.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
@@ -173,20 +155,12 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Соединение с Gadu-Gadu разорвано.
 [Cannot establish secure connection.]
 Невозможно установить SSL соединение.
-[Server disconnected asking you for changing your e-mail.]
-
-[Too many login attempts with invalid password.]
-
-[Gadu-Gadu servers are now down. Try again later.]
-
 [Unknown]
 Неизвестно
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Внешний хост для прямых подключений %s неверен. Перенаправление на внешний хост выключено.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Имя сервера %s неверно. Использую сервер сети по умолчанию.
-[Connection cannot be established. errno=%d: %s]
-
 [Age:]
 Возраст:
 [List import successful.]
@@ -199,12 +173,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Я
 [Unknown client]
 Неизвестный клиент
-[You have logged in at another location]
-
-[You are logged in at another location]
-
-[Incoming image]
-
 [Male]
 Мужской
 [Female]
@@ -239,16 +207,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Спросить
 [Ignore]
 Игнорировать
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-
-[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
-
-[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
-
-[HTTP failed memory]
-
 [HTTP failed connecting]
 HTTP ошибка подключения
 [HTTP failed resolving]
@@ -323,46 +281,24 @@ HTTP неизвестная ошибка
 Параллельные сессии
 [&Image]
 Изображение
-[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
-
 [Image cannot be written to disk.]
 Изображение не может быть записано на диск.
-[Delete image from the list]
-
-[Save image to disk]
-
 [Image from %s]
 Изображение от %s
 [Image for %s]
 Изображение для %s
 [Select picture to send]
 Выберите изображение для отправки
-[Cannot create image cache directory. ERROR: %d: %s\n%s]
-
-[Cannot save received image to file. ERROR: %d: %s\n%s]
-
-[Cannot open image file. ERROR: %d: %s\n%s]
-
 [Image exceeds maximum allowed size of 255 KB.]
 Допустимый размер в 255Кб превышен
 [You have to be connected before you can import/export contacts from/to server.]
 Установите соединение перед импортом/экспортом контактов с/на сервер.
-[List cannot be imported because of error:\n\t%s (Error: %d)]
-
-[List cannot be removed because of error: %s (Error: %d)]
-
 [Text files]
 Текстовый файл
 [All Files]
 Все файлы
-[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
-
 [contacts]
 контакта(ов)
-[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
-
-[List cannot be exported because of error:\n\t%s (Error: %d)]
-
 [Import List From &Server]
 Импорт списка с &Сервера
 [Import List From &Text File...]
@@ -375,24 +311,14 @@ HTTP неизвестная ошибка
 Экспортировать список в &Файл...
 [Gadu-Gadu Link Protocol]
 Протокол Gadu-Gadu
-[Password could not be reminded because of error:\n\t%s (Error: %d)]
-
 [Password was sent to your e-mail.]
 Пароль выслан на ваш e-mail.
 [Notify]
 Уведомление
 [Error]
 Ошибка
-[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
-
-[Cannot remove old avatar file. ERROR: %d: %s\n%s]
-
-[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
-
 [Client Name]
 Имя клиента
-[IP Address]
-
 [Login Time]
 Время входа
 [Action]
@@ -417,8 +343,6 @@ HTTP неизвестная ошибка
 Невозможно зарегистрировать пользователя из-за ошибки:\n\t%s
 [Registration rejected]
 В регистрации отказано
-[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
-
 [Your account cannot be removed because of error:\n\t%s]
 Невозможно удалить пользователя из-за ошибки:\n\t%s
 [Bad number or password]

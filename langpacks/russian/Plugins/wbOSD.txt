@@ -53,8 +53,6 @@
 Нажатие открывает окно сообщения
 [Show when my status is:]
 Показывать OSD, когда мой статус:
-[%s is %s]
-
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
 Переменные:\n  %n : Имя\n  %m : Сообщение\n  %l : Новая строка
 [Help]
@@ -63,5 +61,3 @@
 Miranda NG прекрасна, а это - пример длинного сообщения.
 [Plugins]
 Плагины
-[OSD]
-

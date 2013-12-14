@@ -21,10 +21,6 @@
 Тип lParam
 [Service name]
 Имя службы
-[wParam]
-
-[lParam]
-
 [Result action]
 Результат действия
 [Window option]

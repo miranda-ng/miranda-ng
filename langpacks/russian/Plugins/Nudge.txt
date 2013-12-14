@@ -69,8 +69,6 @@
 Обедаю
 [Shaking Clist Options]
 Тряска списка контактов
-[Number of moves]
-
 [Width of move]
 Ширина движений
 [Static]

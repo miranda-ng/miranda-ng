@@ -25,16 +25,8 @@
 Горячие клавиши
 [Show/Hide:]
 Показать/Спрятать:
-[Read Message:]
-
 [Web Search:]
 Поиск в web:
-[URL:]
-
-[Open in new browser window]
-
-[Show Options]
-
 [Hide offline users]
 Скрыть отключённых
 [Hide empty groups]
@@ -241,19 +233,9 @@
 Обедаю
 [On the phone]
 На телефоне
-[Group: %name% %count% [%mode%]]
-
-[Divider: %s]
-
-[Info: %s]
-
 [List]
 Список
 [Global]
 Глобальные
 [Unknown Protocol]
 Неизвестный протокол
-[Expanded]
-
-[Colapsed]
-

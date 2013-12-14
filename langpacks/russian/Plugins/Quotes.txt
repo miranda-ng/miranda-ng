@@ -7,10 +7,6 @@
 ;============================================================
 [Shows currency rates and economic quotes.]
 Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
-[Variable List]
-
-[OK]
-
 [Edit Settings]
 Изменить настройки
 [Use contact specific settings]
@@ -51,22 +47,10 @@
 Конвертер валют
 [&to:]
 в:
-[&Swap]
-
 [Convert]
 Конвертировать
-[Info provided by <a href="http://www.google.com">Google</a>]
-
 [Close]
 Закрыть
-[Chart]
-
-[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
-
-[Get data from:]
-
-[Filter:]
-
 [Popup Window Settings]
 Настройки всплывающих окон
 [Colors]
@@ -87,8 +71,6 @@
 Настроить
 [Permanent]
 Постоянно
-[Do not add to popup's history]
-
 [Preview]
 Тест
 [&Choose Quotes to watch in contact list:]
@@ -105,8 +87,6 @@
 Дополнительные настройки...
 [Static]
 Статический
-[<a>SysLink1</a>]
-
 [Current Rate:]
 Текущее значение:
 [Rate Fetch Time:]
@@ -131,20 +111,12 @@
 &Отслеживаемые котировки:
 [Status &Message:]
 Сообщение &статуса:
-[There is no to show]
-
 [Seconds]
 секунд
 [Minutes]
 минут(ы)
 [Hours]
 Часов
-[Enter integer value between 1 and 60.]
-
-[Enter integer value between 1 and 24.]
-
-[Enter text to display in contact list.]
-
 [Info provided by]
 Информация предоставлена
 [Enter positive number.]
@@ -189,32 +161,10 @@ HTTP подключение Quotes
 Поменять местами
 [Import]
 Импорт
-[Xml File (*.xml)]
-
 [All files (*.*)]
 Все файлы (*.*)
-[Miranda could not load Quotes plugin. XML parser is missing.]
-
-[Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
-
-[Log File]
-
-[Miranda's History]
-
 [All]
 Все
-[Last Day]
-
-[Last Week]
-
-[Last Month]
-
-[Last Year]
-
-[User-Defined]
-
-[Error occurred during html parsing.]
-
 [Error occurred during site access.]
 Ошибка при доступе к сайту.
 [Quote Symbol]
@@ -263,15 +213,3 @@ HTTP подключение Quotes
 Значение на предыдущее закрытие
 [Change]
 Изменение
-[Log Files (*.txt,*.log)]
-
-[Enter integer value]
-
-[Enter log file name.]
-
-[Enter log file format.]
-
-[Enter history format.]
-
-[Enter popup window format.]
-

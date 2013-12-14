@@ -81,8 +81,6 @@
 Ответы: (находятся в переменных %response%, %response-n%)
 [Reply on success:]
 Уведомлять при подтверждении:
-[Send challenge on authorization request:]
-
 [Keep blocked messages in contact history]
 Хранить заблокированные сообщения в истории
 [and mark them unread after approval]
@@ -147,12 +145,6 @@ Cообщение временно заблокировано. Напишите 
 Байес
 [Popups]
 Всплывающие окна
-[Message blocked due to preview action]
-
-[Message approved due to preview action]
-
-[Challenge sent to preview contact]
-
 [Contact %s approved.]
 Контакт %s подтвержден.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
@@ -165,10 +157,6 @@ Cообщение временно заблокировано. Напишите 
 Сообщение от %s заблокировано, т.к. у него высокая вероятность спама.
 [Sending plain challenge to %s.]
 Отправка контрольного вопроса %s.
-[Sending round-robin challenge to %s.]
-
-[Sending random challenge to %s.]
-
 [Sending math expression challenge to %s.]
 Отправка контрольного вопроса %s.
 [Their message was]

@@ -11,8 +11,6 @@
 Пароль:
 [Login name:]
 Логин
-[XFire]
-
 [Nick:]
 Ник:
 [Current protocol version:]
@@ -57,10 +55,6 @@
 Основная группа для друзей друзей:
 [Files]
 Файлы
-[xfire_games.ini]
-
-[icons.dll]
-
 [Blocked User List]
 Заблокированный список пользователей
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
@@ -87,28 +81,16 @@
 Менять статус на Занят или Не беспокоить
 [The status message and status will be reset, if you close the game.]
 Статусное сообщение и статус будут сброшены, если вы закроете игру.
-[Prefer dnd when it is available]
-
 [Games]
 Игры
-[Game:]
-
 [Don't detect this game as running]
 Не обнаруживать игру когда запущена
 [Apply]
 Применить
 [Don't set status message for other protocols]
 Не ставить сообщение статуса другим протоколам
-[Add new game]
-
 [Remove]
 Удалить
-[Don't show in start menu]
-
-[(manual added)]
-
-[Extra Command Line Parameters:]
-
 [Edit...]
 Правка...
 [Username:]
@@ -119,30 +101,16 @@
 Голосовой чат
 [Name:]
 Имя:
-[IP:]
-
 [Port:]
 Порт:
 [User details]
 Детали пользователя
 [Copy]
 Копировать
-[Enter Password]
-
-[Join]
-
 [Set Nickname]
 Ввод ника
-[OK]
-
 [Cancel]
 Отмена
-[New xfire_games.ini]
-
-[There is a new XFire gamelist online, do you want to update now?]
-
-[New supported games:]
-
 [Update]
 Обновить
 [Add game]
@@ -151,52 +119,18 @@
 Искать:
 [Custom...]
 Изменить…
-[Game name:]
-
-[Game exe:]
-
 [Browse...]
 Обзор...
-[Launcher exe (optional):]
-
-[Game ID:]
-
-[Send game ID:]
-
-[Status message for Xfire, if this game will be started:]
-
-[Parameter:]
-
 [Add a new game]
 Добавить новую игру
 [Searching games...]
 Поиск игр...
 [All Files]
 Все файлы
-[Please wait, game.ini will be currently parsed...]
-
 [XFire Options]
 Настройки XFire
 [Please choose one game in the list!]
 Пожалуйста, выберите игру из списка!
-[If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
-
-[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
-
-[Please enter a game name.]
-
-[Please enter a game ID.]
-
-[Please enter a game ID above 1.]
-
-[This game ID is already in use.]
-
-[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
-
-[Supported Games]
-
-[Custom game]
-
 [Yep, I'm here.]
 Да, я здесь.
 [I've been away since %time%.]
@@ -207,66 +141,18 @@
 Не сейчас.
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
-[Well, I would talk to you if Miranda ICQ supported chat]
-
 [That'll be the phone.]
 Дайте же человеку поговорить по телефону.
 [Mmm... food.]
 Ммм... поесть бы.
-[The xfire_games.ini was updated.]
-
-[Error during xfire_games Update.]
-
-[There is a new Icons.dll online, do you want to update now?]
-
-[The Icons.dll was updated.]
-
-[Error during Icons.dll Update.]
-
 [Protocol icon]
 Значок протокола
-[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
-
-[Friends of Friends Playing]
-
-[Login failed.]
-
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Старая версия протокола. Измените текущую версию %d на %d. Вы должны переподключиться.
-[The protocol version is too old. Cannot detect a new version number.]
-
-[Someone logged in with your account. Disconnect.]
-
-[Do you really want to add %s to your friend list?]
-
-[Add me to your friends list.]
-
-[XFire is not connected.]
-
-[Current Game]
-
-[My Current Game]
-
-[ServerIP]
-
-[My Current ServerIP]
-
 [Voice]
 Голос
-[My Current Voice]
-
-[Voice ServerIP]
-
-[My Voice ServerIP]
-
-[Xfire Link Protocol]
-
 [Buddy start a game]
 Начало игры
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
-
-[Away from Keyboard]
-
 [&XFire Online Profile]
 Онлайн профиль XFire
 [XFire &Clan Site]
@@ -285,50 +171,30 @@
 Заблокировать пользователя...
 [&My XFire Online Profile]
 Мой профиль XFire
-[&Activity Report]
-
 [&Rescan my games...]
 Пересканировать мои игры...
 [Set &Nickname]
 Псевдоним...
-[Protocols/XFire]
-
 [XFire game icon]
 Значок игры XFire
 [XFire voice icon]
 Значок голоса XFire
-[XFire does not support offline messaging!]
-
 [Username]
 Имя пользователя
 [Unable to connect to XFire.]
 Не могу подключится к XFire.
 [No Login name is set!]
 Логин не установлен!
-[No Password is set!]
-
-[Last game: %s playtime: %.2d:%.2d:%.2d]
-
-[%s is playing %s.]
-
-[%s is playing %s on server %d.%d.%d.%d:%d.]
-
 [Playing]
 Играет
 [Do you really want to delete your friend %s?]
 Вы действительно хотите удалить %s?
 [Confirm Delete]
 Подтвердите удаление
-[Block this user from ever contacting you again?]
-
-[Block Confirmation]
-
 [Avatars]
 Аватары
 [Disable avatars]
 Выключить аватары
-[Don't download avatars of clan members]
-
 [Use alternate way for Avatar download]
 Использовать альтернативный путь скачивания аватаров
 [General]
@@ -357,8 +223,6 @@
 Всплывающие окна, если кто-нибудь начинает игру
 [Don't automatically create clan groups]
 Не создавать автоматически группы кланов
-[Enable MBot support]
-
 [Gamedetection]
 Обнаружение игры
 [Disable game detection]
@@ -379,8 +243,6 @@
 Не создавать бекапы при обновлении
 [Background updating]
 Обновлять фон
-[The username must be lowercase, so it will be lowercased saved.]
-
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Сделанные вами изменения требуют, что бы вы переподключились к сети XFire для вступления их в силу.
 [Hidden]
@@ -397,18 +259,8 @@
 Ежедневно
 [<Root Group>]
 <Корневая группа>
-[Are you sure you want to remove this game?]
-
-[Please select a game.]
-
-[Error: unknown game ID.]
-
 [Not supported]
 Не поддерживается
-[Configuration saved!]
-
-[Game not found?!]
-
 [Network]
 Сеть
 [Account]
@@ -421,8 +273,6 @@
 Статусные сообщения
 [Please enter server password...]
 Введите пароль сервера.
-[Write to database...]
-
 [Games found:%s%s]
 Найдены игры:%s%s
 [<not specified>]

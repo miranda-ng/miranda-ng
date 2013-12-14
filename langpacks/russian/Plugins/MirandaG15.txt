@@ -31,16 +31,8 @@
 Если апплет активен:
 [Use the VolumeWheel to scroll up and down (might affect system performance)]
 Использовать колесо регулировки громкости для прокрутки списков
-[Show seconds in timestamps]
-
 [Use transition effects when changing screens]
 Использовать эффекты при смене экранов
-[Credits]
-
-[About]
-
-[Mirandag15 + TrillianG15]
-
 [For updates and news check the thread on http://www.g15forums.com]
 Обновления и новости ищите в теме на http://www.g15forums.com
 [Or visit http://www.mkleinhans.de]
@@ -51,8 +43,6 @@
 Если активна заставка:
 [Lock the screen]
 Заблокировать экран
-[Skip driver missing notification]
-
 [Notifications]
 Уведомления
 [Notification screen title]
@@ -121,12 +111,8 @@
 символов
 [Show protocol labels]
 Показывать протоколы
-[Don't skip when replying]
-
 [Exceptions:]
 Исключения:
-[Cut off channel names after]
-
 [Contact list]
 Список контактов
 [Show the contacts protocols]
@@ -187,8 +173,6 @@
 Размер журнала:
 [On incoming messages:]
 При входящих сообщениях:
-[Do nothing]
-
 [Scroll to the first line]
 К первой строке
 [Scroll to the last line]
@@ -205,10 +189,6 @@
 Закрывать чат после
 [When in background]
 Когда в фоне
-[MirandaG15]
-
-[Appearance]
-
 [Chat sessions]
 Беседы
 [No device attached]

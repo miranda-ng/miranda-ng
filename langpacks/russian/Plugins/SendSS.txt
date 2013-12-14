@@ -9,8 +9,6 @@
 Создание и отсылка снимков экрана контакту.
 [Dialog]
 Диалог
-[OK]
-
 [All]
 Все
 [None]
@@ -19,8 +17,6 @@
 Отмена
 [Send screenshot]
 Отправить скриншот
-[Send screenshot to\n<unknown>]
-
 [Ti&med capture]
 Задержка захвата
 [Time (secs):]
@@ -39,10 +35,6 @@
 Откр. снова
 [&Capture]
 Захват
-[About]
-
-[%s\nv%s]
-
 [Credits >]
 Авторы >
 [&Close]
@@ -55,70 +47,20 @@
 Заголовок:
 [Size (HxW):]
 Размер (ВxШ):
-[Target Tool]
-
-[GCHAT error]
-
 [An unknown error has occurred.]
 Неизвестная ошибка.
 [Error]
 Ошибка
-[Unable to initiate %s.]
-
-[MAPI error (%i):\n%s.]
-
-[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
-
-[The specified attachment was not found]
-
-[The specified attachment could not be opened]
-
-[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
-
-[One or more unspecified errors occurred]
-
-[There was insufficient memory to proceed]
-
-[One or more recipients were invalid or did not resolve to any address]
-
-[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
-
-[The text in the message was too large]
-
-[There were too many file attachments]
-
-[There were too many recipients]
-
-[A recipient did not appear in the address list]
-
-[The user canceled one of the dialog boxes]
-
-[Unknown Error]
-
-[FTPFile transfer]
-
-[%s (%i):\nCould not add a share to the FTP File plugin.]
-
 [Could not start the HTTP Server plugin.]
 Не могу запустить плагин HTTP Сервер.
-[%s (%i):\nCould not add a share to the HTTP Server plugin.]
-
-[Upload server did not respond timely.]
-
 [Retry]
 Ещё раз
 [Yes]
 Да
 [No]
 Нет
-[Abort]
-
 [Ignore]
 Игнорировать
-[SendScreenshot - Error]
-
-[Fatal error, image services not found. Send Screenshot will be disabled.]
-
 [Open SendSS+]
 Открыть SendSS+
 [SendSS]
@@ -135,10 +77,6 @@ HTTP подключение SendSS
 Отправить скриншот экрана
 [Take a screenshot]
 Сделать скриншот
-[Could not register miranda service.]
-
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-
 [Screenshot Icon1]
 Значок снимка 1
 [Screenshot Icon2]
@@ -179,53 +117,23 @@ HTTP подключение SendSS
 Кнопки
 [Overlays]
 Оверлеи
-[Credits]
-
 [< Copyright]
 < Права
-[Copyright]
-
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
-[Send screenshot to\n]
-
 [Window]
 Окно
 [Desktop]
 Рабочий стол
-[<Entire Desktop>]
-
-[Monitor]
-
-[ (primary)]
-
-[<Only save>]
-
 [File Transfer]
 Передача файла
 [E-mail]
 E-mail
 [FTP File]
 Файл на FTP
-[ImageShack]
-
 [Information]
 Информация
-[Fill description textbox.]
-
-[Delete after send]
-
-[Capture]
-
 [Can't create a Screenshot]
 Невозможно создать скриншот
 [Select a target window.]
 Выберите окно для отправки.
-[Screenshot ]
-
-[for Client area ]
-
-[of "]
-
-[" Window]
-

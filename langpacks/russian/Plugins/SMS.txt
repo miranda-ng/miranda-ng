@@ -21,14 +21,10 @@
 Сообщение принято:
 [Number:]
 Номер:
-[Send SMS]
-
 [To:]
 Для:
 [Add number to list]
 Добавить номер к списку
-[&H]
-
 [Save number]
 Сохранить номер
 [Multiple >>]
@@ -37,8 +33,6 @@
 Сообщение
 [Chars:]
 Знаки:
-[%d/160]
-
 [&Send]
 &Отправить
 [SMS Message Didn't Send]
@@ -67,8 +61,6 @@
 Сохранять позицию окна поконтактно
 [SMS Message Sent]
 СМС сообщение послано
-[&OK]
-
 [Message ID:]
 ID сообщения:
 [Source:]
@@ -77,8 +69,6 @@ ID сообщения:
 Оператор:
 [From %s:\r\n\r\n]
 От %s:\r\n\r\n
-[SMS message didn't send by %S to %s because: %S]
-
 [SMS Message from %s]
 SMS от %s
 [SMS Confirmation from %s]
@@ -97,8 +87,6 @@ SMS подтверждение от %s
 Показывает, сколько знаков набрано
 [The SMS message send to %s timed out.]
 Истекло время посылки SMS к %s,
-[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-
 [Invalid Phone Number]
 Неверный номер телефона
 [Message is too long, press OK to continue.]
@@ -109,8 +97,6 @@ SMS подтверждение от %s
 В списке должны быть номера.
 [No Numbers]
 Нет номеров
-[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-
 [Invalid phone number]
 Неверный номер телефона
 [<< Single]

@@ -19,8 +19,6 @@
 Интеграция
 [Shell context menus]
 Контекстное меню оболочки
-[Do not display the profile name in use]
-
 [Show contacts that you have set privacy rules for]
 Показывать контакты, для которых установлены правила конфиденциальности
 [Remove]
@@ -41,8 +39,6 @@
 Вы уверены? Это удалит все настройки данного плагин в вашем профиле и все ключи реестра, отвечающие за его интеграцию в оболочку ОС.
 [Disable/Remove shlext]
 Отключить/Удалить shlext
-[Miranda]
-
 [Recently]
 Последние
 [Clear entries]

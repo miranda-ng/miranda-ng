@@ -165,8 +165,6 @@
 История
 [&Quote]
 &Цитировать
-[&OK]
-
 [Send To All Tabs]
 Отправить всем вкладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -267,8 +265,6 @@
 Длительность (с)
 [(0 means default setting, -1 means indefinite time)]
 0 = стандартные значения, -1 = бесконечное время
-[OK]
-
 [Log]
 Журнал
 [&Copy]
@@ -279,22 +275,6 @@
 Выделить &всё
 [Word lookup]
 Найти слово
-[Google]
-
-[Bing]
-
-[Yandex]
-
-[Wikipedia (en)]
-
-[Google Maps]
-
-[Google Translate]
-
-[Yahoo]
-
-[Foodnetwork]
-
 [C&lear Log]
 Очистить журнал
 [&Open link]
@@ -465,8 +445,6 @@
 Навигация: Предыдущая вкладка
 [Navigate: Next Tab]
 Навигация: Следующая вкладка
-[Navigate: Tab %d]
-
 [Window: Toggle Statusbar]
 Окно: вкл./выкл. панели статуса
 [Window: Toggle Titlebar]
@@ -535,16 +513,6 @@
 Неизвестный контакт
 [Me]
 Я
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
-[My Contact]
-
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
 [Today]
 Сегодня
 [Yesterday]
@@ -553,10 +521,6 @@
 Посылка файла
 [File received]
 Файл получен
-[URL sent]
-
-[URL received]
-
 [General]
 Общее
 [Event Log]
@@ -585,16 +549,12 @@
 Двоеточие во входящих сообщениях
 [Message area]
 Область сообщения
-[Input area background]
-
 [Outgoing URL]
 Исходящий URL
 [Incoming URL]
 Входящий URL
 [Infobar contact name]
 Инфо-Панель: имя контакта
-[Infobar background]
-
 [Infobar status message]
 Инфо-Панель: cтатусное сообщение
 [Others nicknames]
@@ -679,8 +639,6 @@
 %s набирает текст
 [Typing Notification]
 Уведомление о наборе текста
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-
 [Instant messages]
 Сообщения IM
 [Incoming (Focused Window)]
@@ -865,8 +823,6 @@ ID текущего контакта (если определен). Наприм
 имя текущего профиля (только имя, без расширения)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 возвратит строку вида %miranda_profile%\\Profiles\\%miranda_profilename%
-[will return parsed string %miranda_userdata%\\Logs]
-
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог переменной среды %APPDATA% для текущего пользователя системы
 [username for currently logged-on Windows user]
@@ -889,8 +845,6 @@ ID текущего контакта (если определен). Наприм
 сокращённое название месяца
 [full month name]
 полное название месяца
-[year without century, 01-  99]
-
 [year with century, 1901-9999]
 год из 4-х цифр, 1901-9999
 [abbreviated weekday name]
@@ -987,8 +941,6 @@ ID текущего контакта (если определен). Наприм
 Управление комнатой чата (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Включить/выключить фильтр событий (CTRL+F)
-[Nick name]
-
 [Unique ID]
 Уник. ID
 [Status]

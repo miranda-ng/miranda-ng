@@ -29,12 +29,6 @@
 Растянуть
 [Tile vertically according to Row Height]
 Растягивать вертикально по высоте
-[Warning!\r\nThis MenuObject not support user defined options.]
-
-[MenuObjects]
-
-[MenuItems]
-
 [InsertSeparator]
 Разделитель
 [Service:]
@@ -111,8 +105,6 @@ Cлужба:
 Не перемещать отключённых вниз
 [Pin to desktop]
 Прикрепить к столу
-[Rows]
-
 [Row height:]
 Высота строки:
 [pixels]
@@ -235,8 +227,6 @@ Cлужба:
 Индикатор изменения размера
 [Show bevel effect on panels]
 Эффект бордюра на панелях
-[Use connecting Icon]
-
 [Use New Drawer for StatusBar]
 Новый стиль панели статуса
 [&Main menu]

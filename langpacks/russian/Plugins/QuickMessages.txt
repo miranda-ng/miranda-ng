@@ -55,15 +55,9 @@
 Быстрые сообщения
 [Enter Value]
 Введите значение
-[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
-
-[You win!]
-
 [New Button]
 Новая кнопка
 [New Menu Entry]
 Новый пункт меню
 [Message Sessions]
 Беседы
-[Quick Messages Button %u]
-

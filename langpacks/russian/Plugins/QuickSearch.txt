@@ -31,8 +31,6 @@ lParam тип:
 целое число
 [Save Item]
 Сохранить значение
-[Client ID]
-
 [Quick Search]
 Поиск по списку
 [Quick search]

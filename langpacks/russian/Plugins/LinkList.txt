@@ -39,8 +39,6 @@
 Входящие сообщения
 [Plugin Default]
 По умолчанию
-[Preview]
-
 [Outgoing messages]
 Исходящие сообщения
 [Background color]
@@ -119,12 +117,6 @@
 исходящие
 [Filter]
 Фильтр
-[no filter]
-
-[Search Filter]
-
-[no settings]
-
 [&Create Linklist]
 &Создать Линк-лист
 [History]
@@ -133,8 +125,6 @@
 Обработка истории...
 [Could not create window!]
 Невозможно создать окно!
-[Could not allocate memory!]
-
 [Linklist Plugin]
 Плагин Linklist
 [Matches for searchtext]
@@ -147,5 +137,3 @@
 RTF файл
 [All files]
 Все файлы
-[Save RTF File]
-

@@ -59,10 +59,6 @@
 Сообщение xСтатуса
 [Listening to]
 Слушаю
-[Activity title]
-
-[Activity text]
-
 [Show in list]
 Показывать в списке
 [Always visible]
@@ -89,12 +85,8 @@
 Вас добавили
 [Typing Notify]
 Набирает текст
-[Please authorize me to add you to my contact list.]
-
 [Do you want to send authorization request\nto new contact?]
 Хотите ли вы послать запрос авторизации\nновому контакту?
-[Miranda NG]
-
 [MenuItemEx]
 Доп. пункты меню
 [Open ignore settings]

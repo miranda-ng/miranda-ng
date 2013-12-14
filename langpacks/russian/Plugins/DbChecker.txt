@@ -79,8 +79,6 @@
 Подождите, пока все операции будут завершены.
 [Finished!]
 Закончено
-[All tasks have been completed.]
-
 [Launch Miranda with this profile]
 Запустить Miranda NG с этим профилем
 [Launches Miranda with the profile that was just worked on.]
@@ -129,8 +127,6 @@
 Активировано восстановление работоспособности базы
 [<check only>]
 <только проверить>
-[ (Output).dat]
-
 [Can't create output file (%u)]
 Невозможно создать файл на выходе (%u)
 [Processing aborted by user]

@@ -9,8 +9,6 @@
 Плагин личных и групповых чатов для Miranda NG.
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Добавьте пользователя по его имени или по ID. Рекомендуется использовать маски.
-[OK]
-
 [Cancel]
 Отмена
 [Show these events]
@@ -45,8 +43,6 @@
 Настройки
 [Add new rooms to group:]
 Добавлять чат-комнаты в группу:
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-
 [Log files]
 Файлы журнала
 [Enable logging to disk]
@@ -117,10 +113,6 @@
 Ко&пировать всё
 [Word lookup]
 Найти слово
-[Google]
-
-[Wikipedia]
-
 [Link]
 Ссылка
 [Open a &new browser window]
@@ -171,8 +163,6 @@
 Продолжить
 [Exit Miranda]
 Выход из Miranda
-[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-
 [Customize the panel]
 Настроить инфо-панель
 [Scope of settings]
@@ -717,8 +707,6 @@ Esc закрывает сессию (иначе - сворачивает)
 &Открыть в новом окне
 [&Open in existing window]
 Открыть в &текущем окне
-[Editor]
-
 [Paste formatted Text]
 Вставить форматированный текст
 [Paste and Send immediately]
@@ -795,8 +783,6 @@ Esc закрывает сессию (иначе - сворачивает)
 Глобальные настройки
 [Force Off]
 Выключить
-[Unread Menu]
-
 [Recent Sessions]
 Последние сеансы
 [Favorites]
@@ -837,16 +823,12 @@ Esc закрывает сессию (иначе - сворачивает)
 Белый
 [Clear all Formatting]
 Очистить форматирование
-[Dummy]
-
 [No Message Sessions opened]
 Нет открытых окон сообщений
 [Add Contact to Favorites]
 Добавить контакт к избранным
 [Remove Contact from Favorites]
 Удалить контакт из избранных
-[dummy]
-
 [Set Position for this Session]
 Установить позицию для этой сессии
 [Set and Save for all Sessions]
@@ -973,8 +955,6 @@ Esc закрывает сессию (иначе - сворачивает)
 Объединить с:
 [Meta Contact]
 Метаконтакт
-[(Forced)]
-
 [Autoselect]
 Автовыбор
 [Use Protocol]
@@ -1257,28 +1237,10 @@ TabSRMM: Набирает
 Доставка не удалась: %s
 [The message send timed out]
 время отправки истекло
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-
-[Unforce failed]
-
-[The selected protocol cannot be forced at this time]
-
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-
-[Contact is offline and this protocol does not support sending files to offline users.]
-
-[Error creating destination directory]
-
-[Save contact picture]
-
 [Image files]
 Файлы изображений
-[The file exists. Do you want to overwrite it?]
-
 [Set Your Avatar...]
 Сменить аватар
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
-
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 Либо плагин тряски не установлен, либо протокол контакта не поддерживает отправку события тряски.
 ['(Unknown Contact)']
@@ -1363,10 +1325,6 @@ TabSRMM: Набирает
 Кодировка по умолчанию
 [<no skin>]
 <без скина>
-[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
-
-[Load theme]
-
 [Internal message log]
 Встроенный журнал
 [IEView plugin]
@@ -1517,20 +1475,8 @@ TabSRMM: Набирает
 Это имя уже используется
 [A send later job completed successfully.\nThe original message: %s]
 Задача отправки с задержкой успешно выполнена. \nОригинальное сообщение: %s
-[A send later job failed to complete.\nThe original message: %s]
-
 [<All contacts>]
 <Все контакты>
-[Removed]
-
-[Failed]
-
-[Sent OK]
-
-[Deferred]
-
-[Suspended]
-
 [Pending]
 В ожидании
 [Contact]
@@ -1545,8 +1491,6 @@ TabSRMM: Набирает
 Информация о последней отправке
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Вы собираетесь изменить состояние одного или нескольких элементов в очереди отправки. Требуемое действие(я) будет выполнено при следующей запланированной обработке очереди. Это действие не может быть отменено.
-[The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
-
 [A message delivery has failed.\nClick to open the message window.]
 Доставка сообщения не удалась.\nНажмите для открытия окна беседы
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -1571,8 +1515,6 @@ TabSRMM: Набирает
 Расширенное размещение с аватарами, вертикальная ориентация
 [This version of TabSRMM requires Windows 2000 or later.]
 Требуется Windows 2000 или более новая операционная система.
-[TabSRMM Message (%s)]
-
 [Previews not availble when using History++ plugin for message log display.]
 Предпросмотр недоступен при использовании History++ в качестве журнала сообщений.
 [%d Unread]
@@ -1779,8 +1721,6 @@ TabSRMM: Набирает
 Принудительно IEView
 [Set messaging options for %s]
 Настройки бесед для %s
-[Important release notes|A test warning message]
-
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 Проверка версии набора значков|Установленный набор значков устарел и может быть несовместим с плагином TabSRMM версии 3.\n\n \\b1 Отсутствующие или неуместные значки могут вызвать проблемы с установленным набором.\\b0
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
@@ -1835,14 +1775,6 @@ TabSRMM: Набирает
 %s выключает статус '%s' для %s
 [<invalid>]
 <неверно>
-[Add user to highlight list]
-
-[Edit user highlight list]
-
-[Group chat log background]
-
-[Input area background]
-
 [Log background]
 Фон журнала
 [Single Messaging]
@@ -1851,12 +1783,6 @@ TabSRMM: Набирает
 Исходящий фон
 [Incoming background]
 Входящий фон
-[Status background]
-
-[Incoming background(old)]
-
-[Outgoing background(old)]
-
 [Horizontal Grid Lines]
 Горизонтальные линии сетки журнала
 [Info Panel]
@@ -2113,8 +2039,6 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 Выделенный текст
 [Incremental search highlight]
 Подсветка поиска
-[Fields background]
-
 [Userlist background]
 Фон списка пользователей
 [nick of current contact (if defined)]
@@ -2131,8 +2055,6 @@ ID текущего контакта (если определен). Наприм
 имя текущего профиля (только имя, без расширения)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 возвратит строку вида %miranda_profile%\\Profiles\\%miranda_profilename%
-[will return parsed string %miranda_userdata%\\Logs]
-
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог переменной среды %APPDATA% для текущего пользователя системы
 [username for currently logged-on Windows user]

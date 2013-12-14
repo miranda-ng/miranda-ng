@@ -61,11 +61,5 @@ Mind файлы
 Привет, я - Болтун! Я с тобой поговорю, пока хозяина нет. Пожалуйста, пиши без ошибок!
 [Boltun Error]
 Ошибка Болтуна
-[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
-
-[Failed to save base of remarks to %s]
-
-[General Settings]
-
 [Engine Settings]
 Настройки движка

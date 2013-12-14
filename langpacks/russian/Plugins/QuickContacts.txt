@@ -31,8 +31,6 @@
 Прятать суб-контакты
 [But keep subcontacts of protocols in above list if meta is hidden]
 Но показывать, если метаконтакт спрятан
-[Enter username:]
-
 [Show all contacts (Ctrl+A)]
 Показать все контакты (Ctrl+A)
 [Quick Contacts]
@@ -51,8 +49,6 @@
 История
 [Open contact menu]
 Открыть меню контакта
-[Show all contacts]
-
 [Quick Contacts...]
 Быстрые контакты...
 [Send message]

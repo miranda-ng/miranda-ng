@@ -7,8 +7,6 @@
 ;============================================================
 [Music Player Daemon support for Watrack.]
 Поддержка Music Player Daemon для плагина Watrack.
-[MPD Host]
-
 [Port]
 Порт
 [Password]
@@ -19,5 +17,3 @@
 Сейчас играет (WATrack)
 [Plugins]
 Плагины
-[Watrack MPD]
-

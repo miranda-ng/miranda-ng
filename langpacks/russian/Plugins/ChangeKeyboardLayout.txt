@@ -29,8 +29,6 @@
 Показать результат в окне
 [Strings for keyboard layouts]
 Строки для раскладок клавиатуры
-[EN]
-
 [Default]
 По умолчанию
 [Invert current state]

@@ -87,26 +87,8 @@ URL:
 Данные контакта
 [User &history]
 История пользователя
-[Login error: %s]
-
 [Unknown error]
 Неизвестная ошибка
-[Login error: Invalid request.]
-
-[Login error: Some Facebook things are required.]
-
-[Login error: Captcha code is required. Bad login credentials?]
-
-[Login error, probably bad login credentials.]
-
-[Your account requires HTTPS connection. Activating.]
-
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-
-[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
-
-[Timeout when sending message.]
-
 [Status update was successful.]
 Успешное обновление статуса.
 [Please enter a username.]
@@ -141,26 +123,12 @@ URL:
 Друзьям, кроме знакомых
 [Only me]
 Только мне
-[Contact was removed from your server list.]
-
-[Error occurred when removing contact from server.]
-
-[Request for friendship was sent.]
-
-[Error occurred when requesting friendship.]
-
-[Request for friendship was canceled.]
-
-[Error occurred when canceling friendship request.]
-
 [Default]
 По умолчанию
 [<< Contacts]
 << Контакты
 [What's on your mind, %s?]
 О чём Вы думаете, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-
 [Sample event]
 Пример события
 [Sample request]
@@ -187,20 +155,10 @@ URL:
 Сообщение прочтено в: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Сообщение недоступно, поскольку было отмечено, как оскорбительное или спам.
-[%s and more (%d)]
-
 [You cannot send messages when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
-[Contact is back on server-list.]
-
-[Contact is no longer on server-list.]
-
 [%s server connection]
 %s подключение к серверу 
-[Unable to get Netlib connection for Facebook]
-
-[Facebook ID must be numeric value.]
-
 [Network]
 Сеть
 [Account]

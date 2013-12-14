@@ -7,10 +7,6 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Поддержка протокола Microsoft Network (MSN) в Miranda NG.
-[MSN]
-
-[Live ID:]
-
 [Password:]
 Пароль:
 [Nickname:]
@@ -57,8 +53,6 @@
 Вы в списке контакта на сервере
 [Refresh]
 Обновить
-[Hotmail]
-
 [Disable Popup notifications]
 Отключить уведомление всплывающими окнами
 [Disable Tray notifications]
@@ -77,8 +71,6 @@
 Отключить уведомления в списке контактов
 [Set Nickname]
 Ввод ника
-[OK]
-
 [Cancel]
 Отмена
 [Mobile Device (used for SMS)]
@@ -105,10 +97,6 @@
 Удалить из адресной книги Hotmail
 [Block Contact]
 Заблокировать
-[Invite Contact To Chat]
-
-[Live ID]
-
 [&Invite]
 Пригласить
 [&Cancel]
@@ -131,10 +119,6 @@
 История пользователя
 [Contact tried to open an audio conference (currently not supported)]
 Контакт пытался открыть аудиоконференцию (не поддерживается)
-[%I64u bytes]
-
-[Accept NetMeeting request from %s?]
-
 [MSN Protocol]
 Протокол MSN
 [MSN Alert]
@@ -161,8 +145,6 @@ MSN Чат
 Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контакт %s был удален с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
-[%s protocol]
-
 [Subject: %s]
 Тема: %s
 [Hotmail from %s (%S)]
@@ -263,8 +245,6 @@ Live уведомление
 %s подключение к серверу
 [Contact already in your contact list]
 Контакт уже в вашем списке
-[Protocol is offline]
-
 [You cannot send message to yourself]
 Вы не можете посылать сообщения самому себе
 [Message is too long: SMS page limited to 133 UTF8 chars]

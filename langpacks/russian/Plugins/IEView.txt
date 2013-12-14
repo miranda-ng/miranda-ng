@@ -17,8 +17,6 @@
 Сохранить изображение...
 [Print]
 Печать
-[Clear Log]
-
 [Show source]
 Исходник шаблона
 [Options]
@@ -69,32 +67,12 @@
 Буквенный формат даты
 [Use relative timestamp]
 Относительное время
-[Outgoing File Transfer]
-
 [Incoming File Transfer]
 Входящий файл
-[URL sent]
-
-[URL received]
-
 [(Unknown Contact)]
 (Неизвестный контакт)
 [ requested authorization]
  запросил(а) авторизацию
-[ was added.]
-
-[IID_IOleObject failed.]
-
-[RESULT]
-
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
-[OleInitialize failed.]
-
 [ERROR]
 ОШИБКА
 [%s has joined.]

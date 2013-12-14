@@ -7,8 +7,6 @@
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Поддержка протокола Mail.ru Агент (MRA) в Miranda NG.
-[E-mail:]
-
 [Password:]
 Пароль:
 [Create a new Mail.ru account]
@@ -63,8 +61,6 @@
 до:
 [Birthday:]
 День рождения:
-[Zodiak:]
-
 [Location]
 Место
 [Country:]
@@ -75,8 +71,6 @@
 Только подключённых пользователей
 [City:]
 Город:
-[Remember]
-
 [Enable avatars support (loading)]
 Включить поддержку образов (загружать)
 [Server:]
@@ -121,8 +115,6 @@
 Зарегистрироваться в Mail.ru
 [Retrieve a lost password]
 Забыли пароль?
-[Leave empty if you don't want to change password]
-
 [Popup type]
 Тип окна
 [Popup settings]
@@ -147,14 +139,10 @@ xСтатус "%s"
 Заголовок:
 [Message:]
 Диалог:
-[OK]
-
 [Cancel]
 Отмена
 [Notify]
 Уведомление
-[Written:]
-
 [Select e-mail]
 Выбор электронной почты
 [Male]
@@ -213,14 +201,6 @@ xСтатус "%s"
 Подключение аватаров
 [Avatars: server return HTTP code: %lu]
 Аватары: сервер вернул HTTP код: %lu
-[Avatars: can't open file %s, error]
-
-[CHAT plugin is required for conferences. Install it before chatting]
-
-[invite sender]
-
-[invite new members]
-
 [Your contact wakes you]
 Ваш собеседник будит вас
 [Display &Inbox]
@@ -283,14 +263,6 @@ xСтатус "%s"
 Сообщение статуса в блоге
 [New E-mail available in Inbox]
 Новая почта в папке "Входящие"
-[Please authorize me]
-
-[Receive files: can't allocate disk space for file, size %lu bytes, error]
-
-[Receive files: can't open file %s, error]
-
-[Receive files: request for file %s not sent, error]
-
 [Send files: can't open file %s, error]
 Отправка файлов: невозможно открыть файл %s, ошибка
 [Send files: requested file: %S - not found in send files list.]
@@ -325,10 +297,6 @@ xСтатус "%s"
 Всплывающие окна
 [%s connection]
 %s подключение 
-[Mail.ru Xstatus]
-
-[Mail.ru extra info]
-
 [E-mail address]
 Адрес e-mail
 [Unread mail is available: %lu/%lu messages]
@@ -337,14 +305,8 @@ xСтатус "%s"
 От: %S\r\nТема: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Непрочитанной почты нет\r\nВсего сообщений: %lu
-[Closing in %ld]
-
-[Reply to %s blog status]
-
 [Set my blog status]
 Статус моего блога
-[Written]
-
 [Are you sure?]
 Вы уверены?
 [Services...]
@@ -483,5 +445,3 @@ MRIM_CS_SMS_ACK: не найден в очереди
 Звезда
 [Music]
 Музыка
-[Dating]
-

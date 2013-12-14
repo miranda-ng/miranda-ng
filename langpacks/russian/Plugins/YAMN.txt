@@ -7,8 +7,6 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Уведомление и просмотр новой почты для Miranda NG. Встроен протокол POP3.
-[OK]
-
 [Installed plugins]
 Установленные дополнительные плагины
 [Version:]
@@ -19,8 +17,6 @@
 Права:
 [Contact:]
 Контакт:
-[WWW:]
-
 [Account]
 Учётная запись
 [Name:]
@@ -29,10 +25,6 @@
 Сервер:
 [Port:]
 Порт:
-[SSL]
-
-[APOP]
-
 [User Name:]
 Логин:
 [Password:]
@@ -123,8 +115,6 @@
 Пункт YAMN в главном меню
 [Show YAMN as a Protocol (Require Restart)]
 Показывать YAMN как протокол (нужен перезапуск)
-[MailBrowser Options]
-
 [Enable Close on Delete Button]
 Закрывать по нажатию "Удалить"
 [Show long localised date]
@@ -185,10 +175,6 @@ YAMN: сбой подключения
 Ник
 [No new mail message]
 Нет новых писем
-[%s - connection error]
-
-[An error occurred. Error code: %d]
-
 [Unknown error]
 Неизвестная ошибка
 [ - connection error]
@@ -201,8 +187,6 @@ YAMN: сбой подключения
 %s : %d новых писем, %d всего
 [%d new mail message(s), %d total]
 %d новых писем (%d всего)
-[No new mail message, %d spam(s)]
-
 [Invalid]
 Неверно
 [Header]
@@ -231,10 +215,6 @@ YAMN: сбой подключения
 Удалить %d писем?
 [Delete confirmation]
 Подтверждение удаления
-[Translate header error]
-
-[Part]
-
 [%s connection]
 %s подключение 
 [Disconnected]
@@ -261,8 +241,6 @@ POP3 плагин - ошибка при записи в файл
 Авторизация...
 [Searching for new mail message]
 Поиск новой почты
-[Reading body %s]
-
 [Reading new mail messages (%d%% done)]
 Чтение новых писем (%d%% выполнено)
 [Deleting requested mails]
@@ -335,10 +313,6 @@ OpenSSL не загружен
 Все файлы
 [Select executable used for notification]
 Выбор программы для уведомления
-[Dialog box error]
-
-[Failed]
-
 [Do you really want to delete this account?]
 Вы действительно хотите удалить эту учётную запись?
 [Delete account confirmation]

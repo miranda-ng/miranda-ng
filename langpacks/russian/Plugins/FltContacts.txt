@@ -21,12 +21,8 @@
 Прятать все контакты
 [Hide when a fulscreen app is active]
 Прятать когда приложение развернуто
-[Show tooltips*]
-
 [ms]
 мс
-[Tooltips]
-
 [Miscellaneous]
 Прочее
 [0 = Default]
@@ -45,16 +41,10 @@
 Один щелчок
 [Dim idle contacts]
 Затемнить неактивных пользователей
-[Idle contacts]
-
 [Border]
 Рамка
 [Draw border]
 Показывать рамку
-[Left-top edge's color:]
-
-[Right-bottom edge's color:]
-
 [Background]
 Фон
 [Background color:]

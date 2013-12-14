@@ -573,8 +573,6 @@ VBR или нет
 Прятать если ничего не проигрывается
 [Use popup action buttons]
 Использовать кнопки действий
-[Left click]
-
 [Right click]
 Правый щелчок
 [Default colors]

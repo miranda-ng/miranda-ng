@@ -49,8 +49,6 @@
 Тест
 [Alarm]
 Напоминание 
-[OK]
-
 [Cancel]
 Отмена
 [Title:]
@@ -117,8 +115,6 @@
 &Настройки...
 [&New Alarm...]
 Новое напоминание...
-[Unknown command issued: "%s"]
-
 [Set Alarm]
 Дать напоминание
 [Example Alarm]

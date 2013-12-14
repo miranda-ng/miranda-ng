@@ -7,10 +7,6 @@
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 Плагин OTR (Off-the-Record) для Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
-[OTR Generating Private Key]
-
-[Generating new private key - please wait.]
-
 [Default Policy]
 Политика по умолчанию:
 [Always]
@@ -63,8 +59,6 @@
 Протокол социалистических миллионеров\r\nПроцесс проверки
 [&Cancel]
 О&тмена
-[&OK]
-
 [Socialist Millionaires Protocol\r\nVerification]
 Протокол социалистических миллионеров\r\nПроверка
 [&No]
@@ -105,10 +99,6 @@ OTR-шифрование: завершено
 Шифрованная сессия с '%s' была прекращена.
 [Requesting OTR encrypted session with '%s']
 Запрос шифрованной сессии с '%s'
-[Beginning OTR encrypted session with '%s']
-
-[Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
-
 [Trying to refresh OTR encrypted session with '%s']
 Попытка обновления шифрованной сессии с '%s'
 [OTR encrypted session was refreshed by '%s']
@@ -125,20 +115,12 @@ OTR-шифрование: завершено
 Шифрованная сессия с '%s' не может быть запущена.
 [OTR could not encrypt when sending message]
 OTR не может шифровать во время отправки сообщения
-[OTR Information]
-
-[[OTR INFO] ]
-
 [Authentication from %s]
 Идентификация от %s
 [Authenticae %s]
 Идентификация %s
 [Unknown]
 Неизвестно
-[OTR: %s (%s)]
-
-[OTR %s (%s)]
-
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Шифрованная сессия с '%s' теперь использует ПРОВЕРЕННЫЙ отпечаток.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -151,8 +133,6 @@ OTR завершён
 Частный OTR
 [OTR not secure]
 OTR не является безопасным
-[OTR]
-
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Создание нового частного ключа для протокола '%s'.\nПодождите...
 [General]
@@ -171,8 +151,6 @@ OTR не является безопасным
 Политика
 [Verified]
 Проверено
-[Active]
-
 [Fingerprint]
 Отпечаток
 [Conv. HTML]

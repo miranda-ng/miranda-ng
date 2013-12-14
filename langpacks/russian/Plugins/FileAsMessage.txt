@@ -55,8 +55,6 @@
 Получение...
 [Sent successfully]
 Послано успешно
-[Unknown command for "File As Message" was received]
-
 [Incoming file request. Do you want to proceed?]
 Входящий файл. Хотите продолжить?
 [Canceled by remote user]

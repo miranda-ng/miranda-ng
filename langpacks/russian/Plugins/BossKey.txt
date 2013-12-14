@@ -15,8 +15,6 @@
 Когда я нажму горячую кнопку...
 [Change status to]
 Изменить статус на
-[Change only if current status is Online]
-
 [Use default status message]
 Статусное сообщение по умолчанию
 [Disable Sounds]
@@ -33,12 +31,8 @@
 Горячая клавиша
 [Password:]
 Пароль:
-[OK]
-
 [Cancel]
 Отмена
-[EN]
-
 [Workstation is Locked]
 Компьютер заблокирован
 [Screen Saver is running]

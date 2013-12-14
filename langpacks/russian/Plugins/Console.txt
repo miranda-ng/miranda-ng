@@ -49,14 +49,6 @@
 Пауза журналирования во всех вкладках
 [Close tab (Ctrl+W)]
 Закрыть вкладку (Ctrl+W)
-[*** Console started ***]
-
-[*** Console paused ***]
-
-[*** Console resumed ***]
-
-[*** Console cleared ***]
-
 [Miranda Console]
 Окно консоли
 [Services]

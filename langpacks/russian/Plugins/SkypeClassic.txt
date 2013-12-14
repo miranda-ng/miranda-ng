@@ -37,8 +37,6 @@
 Пытаться как минимум
 [times to connect to Skype API before giving up]
 раз соединиться со Skype API перед выдачей ошибки
-[User name:]
-
 [Password:]
 Пароль:
 [Dial]
@@ -55,8 +53,6 @@
 Ответить, поставить звонок %s на паузу
 [Hang up]
 Отбить звонок
-[OK]
-
 [Dialog]
 Диалог
 [Use Skype proxy connection over network instead of local Skype API]
@@ -165,26 +161,18 @@ SkypeOut контакты в статусе:
 Я
 [&Leave chat session]
 &Покинуть чат
-[Set &Topic...]
-
 [User &details]
 &Информация
 [User &history]
 История пользователя
-[&Kick user]
-
 [Do a SkypeOut-call]
 Позвонить по SkypeOut
-[invited ]
-
 [Phone call]
 Звонок
 [Incoming Skype Call]
 Входящий Skype звонок
 [Incoming call from %s]
 Входящий Skype звонок от %s
-[Connection to Skype lost]
-
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? Если вы откажетесь, всегда можно включить его в настройках.
 [Preview Error Message]
@@ -203,5 +191,3 @@ Skype Прокси
 Мужчина
 [FEMALE]
 Женщина
-[Skype ID]
-

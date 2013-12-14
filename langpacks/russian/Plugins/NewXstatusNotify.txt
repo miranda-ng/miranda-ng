@@ -53,8 +53,6 @@
 Выбор звуков в разделе "Звуки"
 [Extra status]
 xСтатус
-[Open]
-
 [Status message]
 Сообщение статуса
 [Change]
@@ -151,8 +149,6 @@ xСтатус
 Сброс
 [Disable notifications]
 Выключить уведомления
-[OK]
-
 [Cancel]
 Отмена
 [Disable globally]
@@ -355,10 +351,6 @@ xСтатус удален
 хСтатус
 [<unknown>]
 <неизвестно>
-[%s, %s. %s removed %s.\r\n]
-
-[%s, %s. %s changed %s to: %s.\r\n]
-
 [changed %N to: %T%D%I]
 изменил(а) %N на: %T%D%I
 [changed %N message to:%D%I]

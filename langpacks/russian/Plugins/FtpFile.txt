@@ -55,8 +55,6 @@
 Введите свое имя архива
 [Compression level:]
 Уровень сжатия:
-[Upload File Manager]
-
 [File:]
 Файл:
 [Completed:]
@@ -79,44 +77,24 @@
 Настройки
 [Pause]
 Пауза
-[File Manager]
-
 [Server:]
 Сервер:
-[User info]
-
-[UPLOADING...]
-
 [Open in Browser]
 Открыть в браузере
 [FTP File Manager]
 FTP файл менеджер
 [Select All]
 Выделить всё
-[Deselect All]
-
 [Delete from list]
 Удалить из списка
 [Delete from FTP]
 Удалить с FTP
-[Enter file name]
-
-[OK]
-
 [Cancel]
 Отмена
-[File exists]
-
 [Rename]
 Переименовать
 [Overwrite]
 Перезаписать
-[File with the same name already exists on the server.]
-
-[How to proceed?]
-
-[Copy URL]
-
 [Close dialog after upload finishes]
 Закрыть окно после окончания загрузки
 [Automatically delete file after...]
@@ -127,10 +105,6 @@ FTP файл менеджер
 Удалить из списка
 [Copy Link]
 Копировать ссылку
-[User Info]
-
-[Copy Link to Clipboard]
-
 [%d minutes]
 %d мин.
 [%d hours]
@@ -167,16 +141,10 @@ FTP сервер 5
 FTP файл менеджер
 [Show FTPFile manager]
 Показать FTP файл менеджер
-[FTP_ShowManager]
-
 [Upload file]
 Отправить файл
 [Zip and upload file]
 Запаковать и отправить файл
-[You have to fill FTP server setting before upload a file.]
-
-[Error has occurred while trying to create a dialog!]
-
 [File upload complete]
 Закачка файла завершена
 [Upload canceled]
@@ -185,12 +153,6 @@ FTP файл менеджер
 Все файлы (*.*)
 [FTP File - Select files]
 Файл на FTP - Выбор файла
-[FTP File - Select a folder]
-
-[Folder not found!]
-
-[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
-
 [CANCELED]
 Отмена
 [COMPLETED]
@@ -207,44 +169,14 @@ FTP файл менеджер
 Ожидание...
 [UNKNOWN]
 Неизвестно
-[Error occurred when zipping the file(s).]
-
-[%0.1f kB/s]
-
-[%0.1f%% (%d kB/%d kB)]
-
-[%s (%d kB/%d kB)]
-
-[Do you really want to cancel this upload?]
-
-[Status: %s\r\nFile: %s\r\nServer: %s]
-
-[File exists - %s]
-
-[Error occurred when opening local file.\nAborting file upload...]
-
-[Error occurred when initializing libcurl.\nAborting file upload...]
-
-[FTP error occurred.\n%s]
-
 [Download link:]
 Ссылка:
 [Do you really want to cancel running upload?]
 Вы действительно хотите отменить загрузку?
-[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-
 [You have to fill and enable at least one FTP server in setting.]
 Вы должны добавить хотя бы один FTP сервер в настройках.
 [Clear All]
 Снять все
-[FTP (Standard)]
-
-[FTP+SSL (Explicit)]
-
-[FTP+SSL (Implicit)]
-
-[SFTP (Secure FTP over SSH)]
-
 [minutes]
 минут(ы)
 [hours]

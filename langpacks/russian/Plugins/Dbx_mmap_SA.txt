@@ -9,10 +9,6 @@
 Поддержка базы данных Miranda NG: глобальные настройки, контакты, история, настройки контактов. Расширенная модификация с поддержкой шифрования.
 [Login to Miranda NG]
 Вход в Miranda NG
-[EN]
-
-[OK]
-
 [Cancel]
 Отмена
 [New password]
@@ -81,8 +77,6 @@
 Автор:
 [Site:]
 Сайт:
-[Email:]
-
 [Unique ID:]
 Уник. ID:
 [Database is Secured MMAP database]

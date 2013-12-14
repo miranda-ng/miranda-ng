@@ -9,16 +9,12 @@
 Плагин расширенной информации о пользователе. Позволяет редактировать всю информацию о контакте.
 [Edit Contact Information]
 Редактировать данные контакта
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-
 [Origin]
 Происхождение
 [&Update]
 &Обновление
 [Updating]
 Обновление
-[OK]
-
 [Cancel]
 Отмена
 [Apply]
@@ -127,8 +123,6 @@
 Использовать список игнорирования
 [Birthday popup colors]
 Настройка дней рождения
-[r]
-
 [Background color]
 Цвет фона
 [Text color]
@@ -245,12 +239,6 @@
 Адаптировать Настройки к стилю Aero.
 [Import]
 Импорт
-[Importing...\nPlease wait!]
-
-[Setting/Event (20/100)]
-
-[John Doe (1/10)]
-
 [Dialog]
 Диалог
 [All]
@@ -293,8 +281,6 @@ E-Mail
 Прочее
 [Show 'Restart' menu item]
 Пункт меню "Перезапуск"
-[Use Zodiac as default avatar]
-
 [Country Flags]
 Флаги стран
 [Use &unknown flag if country cannot be determined]
@@ -315,8 +301,6 @@ E-Mail
 Не напоминать мне об этом празднике.
 [Refresh Contact Details]
 Обновить данные контактов
-[Preparing...]
-
 [Hide]
 Скрыть
 [What do you want to export?]
@@ -365,36 +349,16 @@ E-Mail
 Обновление настроенных дней рождений
 [Keeps your custom birthday up to date.]
 Резервирует настроенные дни рождения.
-[Due to a parameter error, one of the treeitems can't be added!]
-
-[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
-
-[Rename Item]
-
-[Hide Item]
-
-[Show Items:]
-
 [Reset to defaults]
 Стандартные
-[Creating unique name for a page failed with %d and error code %d]
-
-[Creating the label for a page failed with %d and error code %d]
-
-[The dialog template type is no longer supported]
-
 [Add a new anniversary]
 Добавить новый праздник
 [Delete an existing anniversary]
 Удалить существующий праздник
 [Unspecified]
 Не указано
-[Edit E-Mail]
-
 [Edit Phone Number]
 Редактировать телефон
-[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
-
 [Choose the item to display.]
 Выбрать запись.
 [Edit the currently displayed item.]
@@ -403,10 +367,6 @@ E-Mail
 Добавить новую запись.
 [Delete the selected item.]
 Удалить данную запись.
-[CRITICAL: Unable to edit current entry!\nThis should not happen!]
-
-[Do you really want to delete the current selected item?\n\t%s\n\t%s]
-
 [Other]
 Другое
 [<Unspecified>]
@@ -439,30 +399,10 @@ E-Mail
 Да
 [No]
 Нет
-[Abord]
-
 [Ignore]
 Игнорировать
 [Error]
 Ошибка
-[Protocol '%s' is offline]
-
-[Upload Details]
-
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-
-[Uploading]
-
-[Creating the imagelist failed!]
-
-[Could not find contact's protocol. Maybe it is not active!]
-
-[No pages have been added. Canceling dialog creation!]
-
-[Details dialog failed to be created. Returning error is %d.]
-
-[The Page to add has invalid size %d bytes!]
-
 [General]
 Общее
 [Contact (private)]
@@ -485,14 +425,6 @@ E-Mail
 Импорт из файла
 [Owner]
 Владелец
-[Upload ICQ Details]
-
-[Upload failed]
-
-[Your details were not uploaded successfully.\nThey were written to database only.]
-
-[Fatal error, image services not found. Flags Module will be disabled.]
-
 [IM Naming]
 Имя в IM
 [Password]
@@ -591,10 +523,6 @@ E-Mail
 Праздник через 9 дней
 [Anniversary later]
 Праздник позже
-[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-
-[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-
 [Main]
 Главный
 [UserInfoEx]
@@ -603,12 +531,8 @@ E-Mail
 Экспорт/Импорт контакта
 [User &details]
 &Информация
-[&Export User Details]
-
 [&Import]
 Импорт
-[&Import User Details]
-
 [View/Change My &Details...]
 Личные &данные
 [Export all contacts]
@@ -621,8 +545,6 @@ E-Mail
 Проверить праздники
 [Extended UserInfo]
 Личные данные
-[Ex-/Import Group]
-
 [&Export Group]
 Экспортировать группу
 [&Import Group]
@@ -631,10 +553,6 @@ E-Mail
 Мои заметки:
 [About:]
 Информация:
-[Please enter a valid Description first!]
-
-[No valid date selected for editing!]
-
 [Do you really want to delete the %s?]
 Вы действительно хотите удалить %s?
 [Home]
@@ -647,18 +565,12 @@ E-Mail
 Вторичный e-mail
 [Tertiary e-mail]
 Третий e-mail
-[Address & Contact]
-
-[Company]
-
 [Question]
 Вопрос
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
 Эта функция удалит все настройки, которые вы сделали \nВсе настройки дерева, позиций окна, и др.!\n\nВы действительно хотите продолжить?
 [Ready]
 Готово
-[Everything is done!]
-
 [All settings are reset to default values now!]
 Все установки сейчас будут сброшены!
 [Reminder disabled]
@@ -667,8 +579,6 @@ E-Mail
 Только дни рождения
 [everything]
 Все напоминания
-[mBirthday]
-
 [UserInfo (default)]
 Личные данные (по умолчанию)
 [This is the reminder message]
@@ -687,18 +597,8 @@ E-Mail
 Принадлежность
 [Interest]
 Интересы
-[Sorry, but there is a problem with adding a new item of type "%s"]
-
 [<empty>]
 <нет>
-[Add Affliation]
-
-[Edit Category]
-
-[Edit Value]
-
-[Delete an entry]
-
 [Do you really want to delete this entry?]
 Вы действительно хотите удалить это?
 [Afrikaans]
@@ -1039,10 +939,6 @@ Web Дизайн
 ВУЗ
 [University]
 Университет
-[TmplPast Work Place]
-
-[TmplPast Organization]
-
 [Single]
 В одиночестве
 [Close relationships]
@@ -1065,50 +961,20 @@ Web Дизайн
 '(Неизвестный контакт)'
 [Send e-mail]
 Отправить e-mail
-[Memory allocation error!]
-
-[E-mail (uinfoex)]
-
 [Gender (uinfoex)]
 Пол (uinfoex)
-[User has no valid homepage]
-
 [View Homepage]
 Сайт
 [&Homepage]
 Сайт
 [Homepage (uinfoex)]
 Сайт (uinfoex)
-[(uinfoex)]
-
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
-
-[Abort Refreshing Contact Details]
-
-[Do you want to cancel the current refresh procedure?]
-
-[Miranda must be online for refreshing contact information!]
-
-[The function caused an exception!]
-
-[%s has %s today.]
-
-[an anniversary]
-
 [He]
 Ему
 [She]
 Ей
 [He/She]
 Ему/ей
-[%s has the following anniversaries:\0]
-
-[%d. %s today\0]
-
-[%d. %s tomorrow\0]
-
-[%d. %s in %d days\0]
-
 [%s has birthday today.]
 %s отмечает День рождения сегодня.
 [%s has birthday tomorrow.]
@@ -1129,85 +995,21 @@ Web Дизайн
 Напоминание о приближающемся дне рождения
 [Anniversary Reminder]
 Напоминание о празднике
-[contact identificaion]
-
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
-
-[Importing a new contact was aborted!]
-
-[You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
-
-[Importing a new meta subcontact failed!]
-
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-
-[Settings: %S]
-
-[Events: %S]
-
 [All Contacts]
 Все контакты
 [Required modules]
 Обязательные модули
 [Optional modules]
 Дополнительные модули
-[Miranda NG]
-
-[Shows Miranda's installation directory.]
-
-[Shows the directory with all your Miranda's profiles.]
-
-[The OpenFileDialog returned an error: %d!]
-
-[The SaveFileDialog returned an error: %d!]
-
-[The ini-file "%s"\nfor saving contact information could not be opened.]
-
-[None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
-
 [Import complete]
 Импорт завершен
-[Some basic statistics]
-
-[Added %d of %d contacts stored in the ini-file.]
-
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-
 [all Contacts]
 Все контакты
 [Select a destination file...]
 Выберите имя файла для экспорта
-[Import User Details from VCard]
-
-[Can't create xml file!\n%S]
-
-[Export took %f ms]
-
-[Contact: %s (%S)]
-
-[Importing %s caused error %d]
-
-[Loading contact %s from xml failed with error %d]
-
-[Importing Owner caused error %d]
-
-[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
-
-[The selected file is no valid XMLCard]
-
-[The version of the XMLCard is not supported by UserInfoEx]
-
 [Complete]
 Готово
-[Owner contact successfully imported.]
-
-[Selected XMLCard does not contain an owner contact!]
-
-[Import took %f ms]
-
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Добавлено контактов: %u / %u\nДобавлено настроек: %u / %u\nДобавлено событий: %u / %u\nДублирующих событий: %u
-[FATAL: An exception was thrown while importing contacts from xmlCard!]
-
 [Flags (uinfoex)]
 Флаги (uinfoex)

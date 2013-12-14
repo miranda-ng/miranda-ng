@@ -9,8 +9,6 @@
 Собирает и выводит информацию о Miranda NG, плагинах и операционной системе.
 [Output to:]
 Вывести в:
-[OK]
-
 [Cancel]
 Отмена
 [Text file]
@@ -29,8 +27,6 @@
 Закачать на сайт
 [Forum style formatting]
 Форматировать для форума
-[Aditional options:]
-
 [Do it now]
 Сделать
 [Show window in taskbar]
@@ -69,14 +65,10 @@ UUID плагина
 Загрузить
 [&Save to file]
 &В файл
-[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-
 [Information successfully written to file: "%s".]
 Информация успешно записана в файл: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Ошибка создания файла %s. Возможно диск полон или защищен.
-[The clipboard is not available, retry.]
-
 [Information successfully copied into clipboard.]
 Информация успешно скопирована в буфер обмена.
 [Customize using folders plugin]

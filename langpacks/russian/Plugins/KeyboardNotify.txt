@@ -83,12 +83,6 @@
 хСтатусы
 [Keys to flash]
 Чем моргать
-[Num Lock]
-
-[Caps Lock]
-
-[Scroll Lock]
-
 [Flashing effects]
 Мигать
 [All at the same time]
@@ -137,18 +131,10 @@
 Список программ
 [Program]
 Программа
-[OK]
-
 [Cancel]
 Отмена
 [Set LEDs for events]
 Установить по событию
-[Num]
-
-[Caps]
-
-[Scroll]
-
 [Message events]
 Сообщения
 [File events]
@@ -199,17 +185,11 @@
 Правила
 [Flashing]
 Мигание
-[Themes]
-
 [Protocol]
 Протокол
 [Keyboard Notify Theme]
 Тема уведомления
 [All Files]
 Все файлы
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-
 [None]
 Нет

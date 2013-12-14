@@ -11,8 +11,6 @@
 Проверять наличие соединения
 [Max. retries]
 Макс. попыток
-[Account connection]
-
 [Delay between retries (secs)]
 Задержка между попытками (сек)
 [Show popups]
@@ -65,8 +63,6 @@
 при блокировке компьютера
 [Command line]
 Ком. строка
-[OK]
-
 [Copy to clipboard]
 Копировать в буфер обмена
 [Command line:]
@@ -105,8 +101,6 @@ Cтатус-профиль
 Позиция окна
 [Set window size]
 Размер окна
-[x]
-
 [Allow override]
 Изменять
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -247,22 +241,8 @@ Cтатус-профиль
 неудачных пингов
 [Continuously check interval (secs)]
 Интервал проверки (сек)
-[Entering first auto-away status]
-
-[Entering second auto-away status]
-
-[Leaving first auto-away status]
-
-[Leaving second auto-away status]
-
-[Becoming active without status change]
-
 [Pre-conditions]
 Предварительные условия
-[TriggerData]
-
-[Status: The status the account will change to\r\nAccount: The account changing state]
-
 [<last>]
 <последний>
 [<current>]
@@ -275,10 +255,6 @@ Cтатус-профиль
 Справа
 [None]
 Нет
-[size: %d x %d]
-
-[loc: %d x %d]
-
 [Hidden]
 Скрытый
 [Minimized]

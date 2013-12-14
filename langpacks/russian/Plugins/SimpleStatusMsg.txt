@@ -17,8 +17,6 @@
 Скопировать в буфер
 [%s Message (%s)]
 Сообщение "%s" (%s)
-[OK]
-
 [Retrieving status message for %s...]
 Получение сообщения статуса для %s...
 [Behavior on status change]
@@ -117,44 +115,6 @@
 Независимая настройка для каждого протокола
 [Pop up dialog asking for status message]
 Показывать диалог запроса смены статуса
-[Fortune]
-
-[?cinfo(contact,property)]
-
-[?contact(string,property)]
-
-[?mstatus(protocol)]
-
-[?lsdate(contact,format)]
-
-[?lsstatus(contact)]
-
-[?lstime(contact,format)]
-
-[?dbsetting(contact,module,setting)]
-
-[?txtfile(file,line)]
-
-[?if(condition,true,false)]
-
-[?strcmp(string1,string2)]
-
-[?stricmp(string1,string2)]
-
-[?cdate(format)]
-
-[?ctime(format)]
-
-[?replace(sub,string1,string2)]
-
-[?lower(string)]
-
-[?upper(string)]
-
-[?scroll(string,numchars,numchars)]
-
-[More variables...]
-
 [Cut]
 Вырезать
 [Copy]
@@ -165,16 +125,10 @@
 Удалить
 [Select All]
 Выделить всё
-[Failed to retrieve %s message.]
-
 [&Close]
 &Закрыть
 [Re&ad %s Message]
 &Прочитать сообщение "%s"
-[Copy %s Message]
-
-[&Go to URL in %s Message]
-
 [Re&ad Away Message]
 Пр&очесть сообщение "Отсутствую"
 [Copy Away Message]
@@ -193,22 +147,14 @@
 %s (заблокирован)
 [External Applications]
 Внешние приложения
-[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-
 [Miranda Related]
 Относящееся к Miranda NG
-[get the date (Simple Status Message compatible)]
-
-[<startup>]
-
 [<current>]
 <текущий>
 [Add to Predefined]
 В предустановленные
 [Delete Selected]
 Удалить выбранное
-[OK (%d)]
-
 [Global]
 Глобальные
 [Closing in %d]

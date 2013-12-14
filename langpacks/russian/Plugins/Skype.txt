@@ -37,12 +37,6 @@ Skype протокол для Miranda NG.
 Подтверждение:
 [Password hint:]
 Подсказка пароля:
-[Configure conference]
-
-[&OK]
-
-[Join role:]
-
 [Set password]
 Установить пароль
 [Hint:]
@@ -51,8 +45,6 @@ Skype протокол для Miranda NG.
 Введите пароль
 [Remember this session password]
 Запомнить пароль этой сессии
-[OK]
-
 [Cancel]
 Отмена
 [Status text:]
@@ -153,16 +145,12 @@ Skype протокол для Miranda NG.
 Сообщить о нарушении
 [Did not unpack SkypeKit.exe.]
 SkypeKit.exe не распакован.
-[LOGOUT_CALLED]
-
 [HTTPS proxy authentication failed]
 Аутентификация по HTTP прокси не удалась
 [SOCKS proxy authentication failed]
 Аутентификация по SOCKS прокси не удалась
 [P2P connection failed]
 Соединение по P2P не удалось
-[SERVER_CONNECT_FAILED]
-
 [Server is overloaded]
 Сервер перегружен
 [SkypeKit database already in use]
@@ -175,38 +163,20 @@ SkypeKit.exe не распакован.
 Недопустимый пароль
 [Skype name is taken]
 Логин Skype занят
-[REJECTED_AS_UNDERAGE]
-
-[NO_SUCH_IDENTITY]
-
 [Incorrect password]
 Неверный пароль
 [Too many login attempts]
 Слишком много попыток входа
 [Password has changed]
 Пароль был изменён
-[PERIODIC_UIC_UPDATE_FAILED]
-
-[DB_DISK_FULL]
-
-[DB_IO_ERROR]
-
 [SkypeKit database is corrupt]
 База данных SkypeKit повреждена
-[DB_FAILURE]
-
 [Invalid application ID]
 Неверное ID приложения
-[APP_ID_FAILURE]
-
 [Version is unsupported]
 Версия не поддерживается
-[Account blocked]
-
 [Logout from another instance]
 Выход на других устройствах
-[ACCESS_TOKEN_RENEWAL_FAILED]
-
 [Password successfully changed]
 Пароль успешно изменён
 [Password changing]
@@ -259,24 +229,8 @@ SkypeKit.exe не распакован.
 Копировать URI конференции
 [Creator]
 Создатель
-[Master]
-
-[Helper]
-
 [User]
 Пользователь
-[Listener]
-
-[Applicant]
-
-[Retried]
-
-[Outlaw]
-
-[me]
-
-[waits to join]
-
 [Incoming group call finished]
 Входящий групповой звонок закончен
 [The password is incorrect]
@@ -295,10 +249,6 @@ SkypeKit.exe не распакован.
 Входящий групповой звонок
 [Enter a password for %s:]
 Введите пароль для %s:
-[Password can't be empty.]
-
-[Old password is not correct.]
-
 [New password is same as old password.]
 Новый и старый пароль одинаковы
 [New password and confirmation must be same.]
@@ -325,8 +275,6 @@ SkypeKit.exe не распакован.
 Дом
 [General]
 Общее
-[Skype account]
-
 [Protocol icon]
 Значок протокола
 [Call]
@@ -385,47 +333,15 @@ SkypeKit не запустился.
 %s подключение
 [Skype name]
 Логин Skype
-[SENDER_NOT_AUTHORIZED]
-
-[REMOTELY_CANCELED]
-
-[FAILED_READ]
-
-[FAILED_REMOTE_READ]
-
-[FAILED_WRITE]
-
-[FAILED_REMOTE_WRITE]
-
-[REMOTE_DOES_NOT_SUPPORT_FT]
-
-[REMOTE_OFFLINE_FOR_TOO_LONG]
-
-[TOO_MANY_PARALLEL]
-
-[PLACEHOLDER_TIMEOUT]
-
-[NOT_VALIDATED]
-
 [Validation succeeded]
 Валидация пройдена
 [Password is too short]
 Пароль слишком короткий
-[The value exceeds max size limit for the given property]
-
-[Value contains illegal characters]
-
-[Value contains whitespace]
-
-[Password cannot be the same as Skype name]
-
 [Value has invalid format]
 Значение имеет неверный формат
 [Value contains invalid word]
 Значение имеет недопустимое слово
 [Password is too simple]
 Пароль слишком простой
-[Value starts with an invalid character]
-
 [Command "%s" is unsupported]
 Команда "%s" не поддерживается

@@ -11,8 +11,6 @@
 Параметры последнего появления
 [Last seen menuitem]
 Пункт меню последнего появления
-[Show icon]
-
 [Userinfo tab]
 Закладка в информации о контакте
 [Log to file]
@@ -65,12 +63,8 @@
 Сброс цветов
 [Last seen plugin]
 Последнее появление
-[OK]
-
 [You missed following contacts:]
 Пропущены следующие контакты:
-[Test\nTest]
-
 [Alert when user status changes]
 Предупреждать при изменении статуса
 [last seen history]
@@ -81,8 +75,6 @@
 Меню пользователя
 [Send Instant Message]
 Отправить мгновенное сообщение
-[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
-
 [LastSeen]
 Последнее появление
 [User status change]
@@ -233,28 +225,6 @@
 Ноябрь
 [December]
 Декабрь
-[Jan.]
-
-[Feb.]
-
-[Mar.]
-
-[Apr.]
-
-[Jun.]
-
-[Jul.]
-
-[Aug.]
-
-[Sep.]
-
-[Oct.]
-
-[Nov.]
-
-[Dec.]
-
 [<never seen>]
 <никогда не появлялся>
 [Idle]

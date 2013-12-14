@@ -5,8 +5,6 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-[Allows you to send a message to contacts if they change status.]
-
 [Confirm Pounce send]
 Подтверждение отправки отложенных
 [Send]
@@ -17,8 +15,6 @@
 Отлож. сообщ. послано для
 [Buddy Pounce]
 Отложенное сообщение
-[OK]
-
 [The Message:]
 Сообщение:
 [Delete Pounce]
@@ -87,8 +83,6 @@
 Обедаю
 [Send If Their Status changes]
 Посылать, если они изменяют статус
-[From Offline]
-
 [To Online]
 -> В сети
 [To Away]
@@ -109,24 +103,8 @@
 -> Обедаю
 [The Message    (%d Characters)]
 Сообщение      (%d символов)
-[Couldn't allocate enough memory]
-
-[error......]
-
-[The Message    (0 Characters)]
-
-[Reuse this message? (0 to use it once)]
-
-[Times]
-
-[Giveup after.. (0 to not giveup)]
-
 [Days]
 Дней
-[Show confirmation window? (0 to not Show)]
-
-[Seconds to wait before sending]
-
 [Pounce being sent to %s in %d seconds]
 Pounce отослан %s за %d секунд
 [Retry]

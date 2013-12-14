@@ -47,8 +47,6 @@
 минут режима 1
 [Confirm resetting status]
 Подтвердить сброс статуса
-[Account]
-
 [Only set if current status is]
 Только если статус:
 [Monitor Miranda's activity only]
@@ -65,8 +63,6 @@
 при блокировке компьютера
 [Command line]
 Ком. строка
-[OK]
-
 [Copy to clipboard]
 Копировать в буфер обмена
 [Command line:]
@@ -105,8 +101,6 @@ Cтатус-профиль
 Позиция окна
 [Set window size]
 Размер окна
-[x]
-
 [Allow override]
 Изменять
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -247,22 +241,8 @@ Cтатус-профиль
 неудачных пингов
 [Continuously check interval (secs)]
 Интервал проверки (сек)
-[Entering first auto-away status]
-
-[Entering second auto-away status]
-
-[Leaving first auto-away status]
-
-[Leaving second auto-away status]
-
-[Becoming active without status change]
-
 [Pre-conditions]
 Предварительные условия
-[TriggerData]
-
-[Status: The status the account will change to\r\nAccount: The account changing state]
-
 [Protocol]
 Протокол
 [%s connected from another location]

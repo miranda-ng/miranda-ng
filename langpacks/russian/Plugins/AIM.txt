@@ -99,8 +99,6 @@ AIM Установить Instant Idle
 Зайти
 [&Cancel]
 О&тмена
-[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
-
 [Change Password]
 Сменить пароль
 [Original]
@@ -127,8 +125,6 @@ E-mail
 Пригласить
 [Invitation reason]
 Причина приглашения
-[Chat Room Invitation Request]
-
 [&Deny]
 &Запретить
 [Message]
@@ -147,190 +143,24 @@ E-mail
 &Информация
 [User &history]
 История пользователя
-[Invalid Screen Name or password.]
-
 [Mismatched Screen Name or password.]
 Неправильное имя AIM или пароль.
-[You are connecting too frequently. Try waiting 10 minutes to reconnect.]
-
 [Unknown error occurred when attempting to connect.]
 Неизвестная ошибка при соединении.
-[Invalid SNAC header.]
-
-[Server rate limit exceeded.]
-
-[Client rate limit exceeded]
-
-[Recipient is not logged in.]
-
-[Requested service is unavailable.]
-
-[Requested service is not defined.]
-
-[You sent obsolete SNAC.]
-
-[Not supported by server.]
-
-[Not supported by the client.]
-
-[Refused by client.]
-
-[Reply too big.]
-
-[Response lost.]
-
-[Request denied.]
-
-[Incorrect SNAC format.]
-
-[Insufficient rights.]
-
-[Recipient blocked.]
-
-[Sender too evil.]
-
-[Receiver too evil.]
-
-[User temporarily unavailable.]
-
-[No Match.]
-
-[List overflow.]
-
-[Request ambiguous.]
-
-[Server queue full.]
-
-[Not while on AOL.]
-
-[Check your Screen Name.]
-
-[Check your Password.]
-
-[Check your Email Address.]
-
 [Service temporarily unavailable.]
 Сервис временно недоступен.
-[Field change temporarily unavailable.]
-
-[Invalid Screen Name.]
-
-[Invalid Password.]
-
-[Invalid Email.]
-
-[Invalid Registration Preference.]
-
-[Invalid Old Password.]
-
-[Invalid Screen Name Length.]
-
-[Invalid Password Length.]
-
-[Invalid Email Length.]
-
-[Invalid Old Password Length.]
-
-[Need Old Password.]
-
-[Read Only Field.]
-
-[Write Only Field.]
-
-[Unsupported Type.]
-
 [An Error has occurred.]
 Неизвестная ошибка.
-[Invalid Account.]
-
-[Delete Account.]
-
-[Expired Account.]
-
-[No Database access.]
-
-[Invalid Database fields.]
-
-[Bad Database status.]
-
-[Migration Cancel.]
-
-[Internal Error.]
-
-[There is already a Pending Request for this Screen Name.]
-
-[Not DT status.]
-
-[Outstanding Confirmation.]
-
-[No Email Address.]
-
-[Over Limit.]
-
-[Email Host Fail.]
-
-[DNS Fail.]
-
-[Failed to open file: %s : %s]
-
 [AIM Link Protocol]
 Протокол AIM
-[%s Protocol]
-
-[Open mail account?]
-
 [%s server connection]
 %s подключение к серверу 
 [%s Client-to-client connection]
 %s подключения между клиентами 
 [[Auto-Response]:]
 (Автоответ):
-[Contact tried to open an audio/video conference (currently not supported)]
-
 [No information has been provided by the server.]
 Сервер не предоставил никакой информации.
-[Item you want to delete not found in list.]
-
-[Failed to add buddy to list: Item already exist.]
-
-[Error adding buddy (invalid ID or already in list?)]
-
-[Cannot add buddy. Limit for this type of item exceeded.]
-
-[Error? Attempting to add ICQ contact to an AIM list.]
-
-[Cannot add this buddy because it requires authorization.]
-
-[Unknown error when adding buddy to list. Error code %#x]
-
-[Item you want to modify not found in list.]
-
-[Unknown error when attempting to modify a group. Error code %#x]
-
-[You've got mail! Checked at]
-
-[Error uploading avatar. (Too small)]
-
-[Error uploading avatar. (Too big)]
-
-[Error uploading avatar. (Wrong type)]
-
-[Error uploading avatar. (Is banned)]
-
-[Error uploading avatar. (Unknown error)]
-
-[A confirmation message has been sent to the new email address. Please follow its instructions.]
-
-[A confirmation message has been sent to your email address. Please follow its instructions.]
-
-[Unable to confirm at this time. Please try again later.]
-
-[Your account has already been confirmed.]
-
-[Can't start the confirmation procedure.]
-
-[ICQ]
-
 [Block]
 Заблокировать
 [Profile]
@@ -339,8 +169,6 @@ E-mail
 Почта AOL
 [AIM Icon]
 Значок AIM
-[Hiptop]
-
 [AOL Bot]
 Бот AOL
 [Admin]
@@ -351,8 +179,6 @@ E-mail
 Непроверенный
 [Blocked list]
 Список заблокированных
-[AOL]
-
 [Foreground Color]
 Цвет переднего плана
 [Background Color]
@@ -383,8 +209,6 @@ E-mail
 Нестандартный скрипт
 [Profile Editor]
 Редактор профиля
-[AIM Account Type]
-
 [AIM Extended Status]
 Расширенный статус AIM
 [&Block]
@@ -407,11 +231,5 @@ E-mail
 Основные
 [Privacy]
 Приватность
-[Join me in this buddy chat!]
-
 [Please, enter a username in the options dialog.]
 Пожалуйста, введи имя пользователя в настройках
-[Please, enter a password in the options dialog.]
-
-[Failed to open file: %s %s]
-

@@ -9,12 +9,8 @@
 Сканирует сеть в поисках пользователей, использующих ваши файлы, открытые для доступа по сети и уведомляет всплывающими окнами.
 [WUMF: Current connections]
 WUMF: Текущие соединения
-[OK]
-
 [Popup delay settings]
 Настройки показа Popup
-[Popup Delay (seconds)]
-
 [Background color]
 Цвет фона
 [Text color]
@@ -67,10 +63,6 @@ ID
 Для работы плагина WhoUsesMyFiles требуются права администратора.
 [Error opening file]
 Ошибка открытия файла
-[Error memory allocation]
-
-[Error creating menu]
-
 [Popup plugin not found!]
 Не установлен плагин Popup!
 [Error]
@@ -79,14 +71,8 @@ ID
 Включить WUMF окна
 [Disable WUMF popups]
 Выключить WUMF окна
-[Common Dialog Error 0x%lx]
-
-[Not implemented yet...]
-
 [Show connections list]
 Показать список подключений
-[Wumf]
-
 [Services]
 Службы
 [Popups]

@@ -53,8 +53,6 @@
 Сохранить 20 последних событий
 [Keep 50 last events]
 Сохранить 50 последних событий
-[Default Action]
-
 [Delete All]
 Удалить все
 [*** Defaut Action ***]

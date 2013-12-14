@@ -9,8 +9,6 @@
 Уведомления в трее при смене статуса контакта.
 [Select protocols]
 Выберите протоколы
-[OK]
-
 [Choose contacts]
 Выберите контакты
 [Allow tooltip notifications for the following users:]
@@ -57,8 +55,6 @@
 Включить временный запрет уведомлений
 [Auto positioning]
 Автопозиция
-[Transparent input]
-
 [Preview]
 Просмотр
 [Translucency options]

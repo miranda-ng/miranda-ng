@@ -9,8 +9,6 @@
 Оповещает, если кто-то из вашего списка контактов сменил свой клиент.
 [ClientChangeNotify error]
 Ошибка ClientChangeNotify
-[OK]
-
 [Fingerprint plugin not found.]
 Плагин Fingerprint не найден.
 [ClientChangeNotify requires it to work properly.]
@@ -27,8 +25,6 @@
 Показать версию клиента 
 [Don't notify for contacts with disabled status notification]
 Не уведомлять для контактов с отключённым уведомлением статуса
-[Click action]
-
 [On left click]
 Левый щелчок
 [On right click]
@@ -63,16 +59,6 @@
 %s (был %s)
 [) changed client to ]
 ) сменил клиент на\s
-[Client change notifications:]
-
-[Never, ignore client changes for this contact]
-
-[Always except when client change notifications are disabled globally]
-
-[Always, even when client change notifications are disabled globally]
-
-[Use global settings (default)]
-
 [Disable c&lient change notification]
 Выключить уведомления о смене клиента
 [Enable c&lient change notification]
@@ -83,8 +69,6 @@
 Уведомление о смене клиента: Клиент изменился
 [ClientChangeNotify]
 Уведомление о смене клиента
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
-
 [Error #%d]
 Ошибка #%d
 [Can't open log file ]

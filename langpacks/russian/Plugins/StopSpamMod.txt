@@ -17,8 +17,6 @@
 Поздравление:
 [Auth. request reply:]
 Ответ на запросы авторизации:
-[Vars]
-
 [Available accounts:]
 Доступные уч. записи:
 [Filtered accounts:]
@@ -81,8 +79,6 @@
 Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nВ то время как сообщения от пользователей в Вашем списке приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются, плагин отвечает простым вопросом, и если пользователь дает правильный ответ, плагин добавляет его в список, для того чтобы он мог связаться с Вами.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Здравствуйте! Вы говорите с антиспам-ботом. Пожалуйста напишите слово "nospam" без кавычек, чтобы пройти проверку на спам.
-[nospam]
-
 [StopSpam: send a message and reply to a anti-spam bot question.]
 StopSpam: отправьте сообщение и ответьте на вопрос антиспам-бота.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]

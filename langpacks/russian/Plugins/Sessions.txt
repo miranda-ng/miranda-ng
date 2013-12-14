@@ -71,8 +71,6 @@
 доп.
 [Sessions Manager]
 Менеджер сессий
-[OK]
-
 [Cancel]
 Отмена
 [Save your current session?]
@@ -115,8 +113,6 @@
 Закрыть сессию
 [Load last session]
 Загрузить последнюю сессию
-[View]
-
 [Message Sessions]
 Беседы
 [Session Before Last Crash]

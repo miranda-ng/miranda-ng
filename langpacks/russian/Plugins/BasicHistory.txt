@@ -43,8 +43,6 @@
 Показывать имена
 [Show messages]
 Сообщения
-[Truncate message length to:]
-
 [Delta time to group messages:]
 Ограничить время для сообщений:
 [hours]
@@ -113,8 +111,6 @@
 Время
 [Delta time]
 Через время
-[Day of week]
-
 [Day]
 День
 [Export to]
@@ -135,8 +131,6 @@
 * Отрицательные значения для фильтрации ранних событий
 [Execute task for specified contacts]
 Выполнять задачу для определённых контактов
-[OK]
-
 [Cancel]
 Отмена
 [Open History]
@@ -145,8 +139,6 @@
 &История
 [Delete All User History]
 Удалить всю историю пользователя
-[Execute history task]
-
 [Incoming message]
 Входящее сообщение
 [Outgoing message]
@@ -181,22 +173,14 @@
 Сообщение повреждено
 [Authorization request by %s (%s%d): %s]
 Запрос авторизации от %s (%s%d): %s
-[%s Files (*.%s)]
-
 [Import]
 Импорт
 [Export]
 Экспорт
-[File do not contain selected contact]
-
-[File is corrupted]
-
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Эта операция полностью удалит историю этого контакта.\nВы уверены?
 [Are You sure?]
 Вы уверены?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-
 [Open in &new window]
 &Открыть в новом окне
 [&Open in existing window]
@@ -227,8 +211,6 @@
 Полноценный HTML
 [Plain Html]
 Чистый HTML
-[Txt]
-
 [Binary]
 Двоичный файл
 [Dat (mContacts)]
@@ -237,10 +219,6 @@ Dat (мКонтакты)
 Сохранить положение окна
 [Save window position for all contacts]
 Сохранить положение окна для всех контактов
-[Do you want to save imported messages to local profile?]
-
-[File contains history for different contact. Do you want to change contact and import?]
-
 [Error]
 Ошибка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
@@ -287,12 +265,8 @@ Dat (мКонтакты)
 Исходящее сообщение
 [<< Incoming messages]
 Входящее сообщение
-[Group list background]
-
 [Find window]
 Окно поиска
-[Find window background]
-
 [Window background]
 Фон окна
 [Contact list background]
@@ -341,16 +315,10 @@ Dat (мКонтакты)
 Имя фильтра существует
 [Event already exists]
 Событие уже существует
-[Browse WinSCP file]
-
-[Save WinSCP log file]
-
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 Вы ввели неверную кодовую страницу. Выберите кодовую страницу из выпадающего списка или введите правильное имя.
 [Invalid codepage]
 Неверная кодовая страница
-[Browse CSS file]
-
 [Export and Delete]
 Экспортировать и удалить
 [Import and Marge]
@@ -391,8 +359,6 @@ Dat (мКонтакты)
 Неверное значение '%s'.
 [Events older than]
 События старше чем
-[Some value is invalid]
-
 [Invalid '%s' value.\n%s]
 Неверное значение '%s'.\n%s
 [** Use <ext> to insert extension, <contact> to insert contact name]
@@ -407,18 +373,10 @@ Dat (мКонтакты)
 ** <date> - вставляет дату, <ext> - расширение, <contact> - имя контакта
 [History Log]
 Просмотр истории
-[Filter:]
-
 [Conversation started at %s]
 Беседа начата в %s
-[_files]
-
 [Menu]
 Меню
-[Open all]
-
-[Close all]
-
 [History task]
 История
 [Contacts]
@@ -431,36 +389,8 @@ Dat (мКонтакты)
 Путь к файлу
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 Для создания сессии, откройте WinSCP, нажмите "Новая сессия", введите дату и сохраните под определённым именем. Помните, если FTP сервер использует пароль, то Вы должны сохранить его в WinSCP.
-[Path to file]
-
-[FTP path must contains '/' instead '\' and starts from '/'.]
-
-[FTP path cannot contain <date> in import task.]
-
 [Unknown error]
 Неизвестная ошибка
-[Cannot get FTP file(s).]
-
-[Cannot unzip file(s).]
-
-[Incorrect file format: %s.]
-
-[Unknown contact in file: %s.]
-
-[Cannot export history for contact: %s.]
-
-[Cannot compress file(s).]
-
-[Cannot send FTP file(s).]
-
-[Task finished]
-
-[Task '%s' execution failed]
-
-[Task '%s' finished successfully]
-
-[Task '%s' execution failed:]
-
 ["%s" not found]
 "%s" не найдено
 [Search]

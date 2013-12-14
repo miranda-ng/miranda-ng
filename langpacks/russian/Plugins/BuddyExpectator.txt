@@ -31,8 +31,6 @@
 Включить функцию "Жду тебя"
 [Hide when no messages for]
 Скрыть, если нет сообщений
-[Colors]
-
 [Background]
 Фон
 [Text]
@@ -77,10 +75,6 @@
 Скрыть
 [Never hide]
 Никогда не прятать
-[Hiding %s (%S)]
-
-[%d days since last message]
-
 [Disable Miss You]
 Выключить "Жду тебя"
 [You awaited this contact!]

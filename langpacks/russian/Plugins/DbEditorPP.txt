@@ -57,8 +57,6 @@
 Добавить модуль с названием
 [Add to all contacts (Includes Settings)]
 Во все контакты (включая настройки)
-[OK]
-
 [Cancel]
 Отмена
 [Edit Setting]
@@ -87,8 +85,6 @@
 Вставить &CR/LF
 [Paste the Settings to import here.]
 Вставьте настройки сюда.
-[DBEditor++]
-
 [&Main]
 &Главное
 [&Refresh Modules]
@@ -307,8 +303,6 @@ INI файлы
 Загрузка контактов...
 [Loading modules...]
 Загрузка модулей...
-[Module tree not found]
-
 [Contacts]
 Контакты
 [HANDLE]
@@ -325,8 +319,6 @@ HANDLE
 Тип
 [Size]
 Размер
-[BLOB]
-
 [BYTE]
 байт
 [WORD]

@@ -11,10 +11,6 @@
 Пользовательский список статусов
 [No items available in the database.\nClick the Add button to define some.]
 Нет записей в базе данных.\nНажмите на кнопку "Добавить новый пункт" для заполнения списка.
-[Add/Modify Custom Status]
-
-[Add/Modify]
-
 [Cancel]
 Отмена
 [List settings]
@@ -39,8 +35,6 @@
 Изменить
 [Warning]
 Предупреждение
-[This field doesn't accept string longer than %d characters. The string will be truncated.]
-
 [Favorites]
 Избранные
 [Regular statuses]

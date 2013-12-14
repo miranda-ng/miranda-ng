@@ -23,10 +23,6 @@ IP адрес 2
 Разрешенные IP
 [HTTP Server statistics view]
 Статистика просмотров HTTP сервера
-[Display hidden shares]
-
-[New share]
-
 [Show HTTP server statistics]
 Статистика НТТР сервера
 [Set to default]
@@ -83,16 +79,10 @@ IP адрес 2
 Открыть в браузере
 [&Copy link]
 &Копировать ссылку
-[Miranda NG HTTP-Server]
-
-[Share Current Directory]
-
 [All files]
 Все файлы
 [Specify a file to share]
 Файл для доступа
-[Failed to share new file]
-
 [Max Downloads]
 Макс. закачки
 [Allowed Mask]
@@ -107,26 +97,8 @@ IP адрес 2
 Завершено
 [Speed]
 Скорость
-[Selected link size is 0]
-
-[Failed to get access to clipboard]
-
-[Failed to get close the clipboard]
-
-[Failed to set clipboard data]
-
-[ListView_GetItem failed]
-
 [No share selected]
 Папка не выбрана
-[Current IP Address: ]
-
-[Current Address: ]
-
-[IP Adress: ]
-
-[You are browsing from]
-
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш внешний ip определен как %d.%d.%d.%d\r\nс: %s
 [You need to restart miranda to change the main menu]
@@ -135,32 +107,10 @@ IP адрес 2
 HTTP Сервер
 [Network]
 Сеть
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
-
 [HTTP Share new file]
 HTTP Новый общий файл
-[Failed to add contact menu item]
-
 [Share removed]
 Общее удалено
-[Failed to open or create log file]
-
-[Failed to move to the end of the log file]
-
-[Failed to write some part of the log file]
-
-[Failed to open or create file ]
-
-[Failed to write xml header to file ]
-
-[Failed to write xml data to file ]
-
-[Failed to write xml tail to file ]
-
-[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
-
 [Disable HTTP server]
 Отключить HTTP сервер
 [Enable HTTP server]

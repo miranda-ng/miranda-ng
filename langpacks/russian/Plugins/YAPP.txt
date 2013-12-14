@@ -113,8 +113,6 @@
 Горизонтальная анимация
 [Vertical animate]
 Вертикальная анимация
-[You cannot set a default timeout of 0.\nValue has been reset.]
-
 [Error]
 Ошибка
 [Popups]

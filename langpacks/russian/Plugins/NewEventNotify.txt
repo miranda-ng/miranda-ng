@@ -35,8 +35,6 @@
 Извещать меня о...
 [Left Click Actions]
 По левому щелчку
-[Dismiss Popup]
-
 [Open Event]
 Открыть событие
 [Dismiss Event]
@@ -45,8 +43,6 @@
 По правому щелчку
 [Time Expires Actions]
 По истечению времени
-[Message-Event only]
-
 [Don't show Popup when Message-Dialog is already open]
 Не показывать, если открыто окно
 [Hide Popup when sending new message]
@@ -83,10 +79,6 @@
 Вас добавили
 [Requests your authorization]
 Запрос вашей авторизации
-[ICQ Web pager]
-
-[ICQ Email express]
-
 [Unknown Event]
 Неизвестное событие
 [Notify of new events]
@@ -113,5 +105,3 @@
 Это пример других событий ;-D
 [Plugin Test]
 Тест плагина
-[[b]Number of new message(s): %d[/b]\n]
-

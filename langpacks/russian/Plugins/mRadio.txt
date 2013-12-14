@@ -179,16 +179,12 @@ URL станции/плейлиста
 Дополнительно
 [Stop]
 Остановить
-[Play]
-
 [Frame background]
 Фон фрейма
 [OFF]
 выкл
 [Volume]
 Громкость
-[Device list]
-
 [Equalizer]
 Эквалайзер
 [New]

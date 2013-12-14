@@ -11,8 +11,6 @@
 Редактировать заметку
 [Tags:]
 Теги:
-[OK]
-
 [Cancel]
 Отмена
 [Type:]
@@ -33,8 +31,6 @@
 Настройка подключения (узел и порт):
 [Use Domain Login]
 Доменный логин
-[Go]
-
 [Search service]
 Служба поиска
 [Roster Editor]
@@ -49,8 +45,6 @@
 Импорт из файла
 [Export to file]
 Экспорт
-[Jabber]
-
 [Username:]
 Пользователь:
 [Change password]
@@ -99,34 +93,10 @@ TLS
 Отключите все опции, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
 [Jabber Account Registration]
 Регистрация учётной записи Jabber
-[Jabber Agents]
-
-[Register/Search Jabber Agents]
-
-[Jabber server:]
-
 [Browse]
 Обзор
-[Register...]
-
-[Browse/Join chat room...]
-
-[Search...]
-
-[Registered Jabber Transports]
-
-[Log on]
-
-[Log off]
-
-[Register with a new service...]
-
 [Close]
 Закрыть
-[Command]
-
-[Jabber Form]
-
 [Instruction:]
 Инструкция:
 [Submit]
@@ -143,8 +113,6 @@ Jabber Пароль
 Запомнить пароль для этой сессии
 [Save password permanently]
 Сохранить пароль
-[Data form test]
-
 [Address1:]
 Адрес 1:
 [Address2:]
@@ -183,12 +151,8 @@ Jabber Пароль
 Отдел:
 [Title:]
 Заголовок:
-[E-mail:]
-
 [Phone:]
 Телефон:
-[Jabber vCard: Add Email Address]
-
 [Email address:]
 Адрес E-mail:
 [Home]
@@ -197,8 +161,6 @@ Jabber Пароль
 Работа
 [Internet]
 Интернет
-[X400]
-
 [Jabber vCard: Add Phone Number]
 Jabber vCard: добавление телефона
 [Phone number:]
@@ -223,8 +185,6 @@ Jabber vCard: добавление телефона
 Номер
 [PCS]
 Шт
-[Load]
-
 [Save]
 Сохранить
 [Delete]
@@ -239,12 +199,8 @@ Jabber vCard: добавление телефона
 Новый пароль:
 [Confirm New Password:]
 Подтверждение:
-[Jabber Multi-User Conference]
-
 [Conference server:]
 Сервер:
-[Create or Join group chat]
-
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Чат-комната Jabber\nСоздание или вход в чат-комнату.
 [Room:]
@@ -253,16 +209,10 @@ Jabber vCard: добавление телефона
 Последние посещённые чаты:
 [Bookmarks]
 Закладки
-[JID List]
-
 [Apply Filter]
 Применить фильтр
 [Reset Filter]
 Сбросить фильтр
-[Jabber Agent Registration]
-
-[JID:]
-
 [Register]
 Регистрация
 [Invite Users]
@@ -325,24 +275,6 @@ JID / URL:
 Простой режим
 [Advanced Mode]
 Расширенный режим
-[Add list... (Ins)]
-
-[Activate (Space)]
-
-[Set as default (Ctrl+Space)]
-
-[Remove list (Del)]
-
-[Add rule (Ins)]
-
-[Edit rule... (F2)]
-
-[Move rule up (Alt+Up)]
-
-[Move rule down (Alt+Down)]
-
-[Remove rule (Del)]
-
 [Privacy rule]
 Правило приватности
 [If:]
@@ -379,26 +311,16 @@ Hовое имя списка приватности:
 Изменить сообщение "%s"
 [Closing in %d]
 Закрыть (%d)
-[Account type:]
-
 [Login server:]
 Сервер:
-[Register account now]
-
-[Jabber Account Information:]
-
 [Member Information]
 Права доступа
 [Member Information\n<user ID>]
 Информация о пользователе\n<user ID>
 [Role:]
 Роль:
-[Set role]
-
 [Affiliation:]
 Принадл.:
-[Set affiliation]
-
 [Status message:]
 Статусное сообщение:
 [Chat options]
@@ -413,20 +335,6 @@ Hовое имя списка приватности:
 Шлепок:
 [Authorization request]
 Запрос авторизации
-[HTTP Authorization\nAccept or reject incoming request]
-
-[Someone (maybe you) has requested the following file:]
-
-[Request was sent from JID:]
-
-[The transaction identifier is:]
-
-[Request method is:]
-
-[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
-
-[Authorize]
-
 [Deny]
 Запретить
 [Dialog]
@@ -453,8 +361,6 @@ XML Консоль
 Занятие Jabber
 [Jabber Mood]
 Настроение Jabber
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Я использую Miranda NG (http://miranda-ng.org/.)
 [/me slaps %s around a bit with a large trout]
@@ -491,8 +397,6 @@ Jabber Ad-Hoc команды на %s
 Чат-комнаты
 [Links]
 Ссылки
-[Bytestream Proxy not available]
-
 [Supports Service Discovery info]
 Информация о службах
 [Supports Service Discovery items list]
@@ -533,8 +437,6 @@ Jabber Ad-Hoc команды на %s
 vCard (визитные карточки)
 [Supports iq-based avatars]
 Аватары (iq протокол)
-[Supports XHTML formatting of chat messages]
-
 [Supports Jabber Browsing]
 Просмотр Jabber
 [Can negotiate options for specific features]
@@ -551,8 +453,6 @@ vCard (визитные карточки)
 Поддержка плагина SecureIM для Miranda NG
 [Supports OTR (Off-the-Record Messaging)]
 Поддержка OTR (Off-the-Record Messaging)
-[Supports New_GPG plugin for Miranda NG]
-
 [Can block communications from particular other users using Privacy lists]
 Блокировка пользователей с использованием листов приватности
 [Supports Message Receipts]
@@ -565,10 +465,6 @@ vCard (визитные карточки)
 Хранение XML (для закладок и пр.)
 [Supports attention requests ('nudge')]
 Поддержка уведомлений внимания ('Встряска')
-[Supports chat history retrieving]
-
-[Supports chat history management]
-
 [Can report information about user activity]
 Сообщение об активности пользователя
 [Receives information about user activity]
@@ -577,8 +473,6 @@ vCard (визитные карточки)
 Поддержка заметок Miranda NG
 [Supports Jingle]
 Поддержка Jingle
-[Supports Roster Exchange]
-
 [Enter the text you see]
 Введите текст, который видите
 [None]
@@ -595,32 +489,18 @@ vCard (визитные карточки)
 Участник
 [Moderator]
 Модератор
-[Visitors]
-
 [Participants]
 Участники
-[Moderators]
-
-[Owners]
-
 [User %s is now banned.]
 Пользователь %s был забанен.
 [User %s changed status to %s with message: %s]
 %s изменил статус на %s: %s
 [User %s changed status to %s]
 %s изменил статус на %s.
-[Room configuration was changed.]
-
-[Outcast]
-
 [Affiliation of %s was changed to '%s'.]
 Принадлежность %s изменилась на %s.
 [Role of %s was changed to '%s'.]
 Роль %s сменилась на '%s'.
-[because room is now members-only]
-
-[user banned]
-
 [Change &nickname]
 Изменить ник
 [&Invite a user]
@@ -723,38 +603,22 @@ vCard (визитные карточки)
 Инфо пользователя: %s
 [Member Information\n%s from %s]
 Информация о пользователе\n%s из %s
-[Real JID not available]
-
 [Reason to kick %s]
 Причина пинка %s
 [Reason to ban %s]
 Причина бана %s
-[Invite %s to %s]
-
 [Set topic for %s]
 Установить тему для %s
 [Change nickname in %s]
 Изменить ник в %s
 [Reason to destroy %s]
 Причина уничтожения %s
-[Can't send data while you are offline.]
-
 [Jabber Error]
 Jabber ошибка
-[Outgoing XML parsing error]
-
-[request timeout.]
-
 [Node hierarchy]
 Иерархия узла
 [Node]
 Узел
-[Navigate]
-
-[Browse all favorites]
-
-[Remove all favorites]
-
 [Registered transports]
 Транспорты
 [Browse local transports]
@@ -795,316 +659,24 @@ Jabber ошибка
 Скопировать информацию
 [Identities]
 Идентификаторы
-[category]
-
 [type]
 тип
-[Category]
-
 [Type]
 Тип
 [Supported features]
 Поддерживаемые возможности
-[Info request error]
-
-[Items request error]
-
-[One or more addresses for communication related to abusive traffic]
-
-[One or more addresses for customer feedback]
-
-[One or more addresses for communication related to sales and marketing]
-
-[One or more addresses for communication related to security concerns]
-
-[One or more addresses for customer support]
-
-[The Jabber ID of a single entity to which an operation applies]
-
-[The Jabber ID of one or more entities to which an operation applies]
-
-[The Jabber IDs associated with active sessions]
-
-[The number of online entities that are active]
-
-[A list of entities with administrative privileges]
-
-[The text of an announcement to be sent to active users or all users]
-
-[A list of entities with whom communication is blocked]
-
-[The number of seconds to delay before applying a change]
-
-[The Jabber IDs that have been disabled]
-
-[The number of disabled entities]
-
-[The email address for a user]
-
-[The given (first) name of a user]
-
-[The number of online entities that are idle]
-
-[The IP addresses of an account's online sessions]
-
-[The last login time (per XEP-0082) of a user]
-
-[The number of logins per minute for an account]
-
-[The maximum number of items associated with a search or list]
-
-[The text of a message of the day]
-
-[The names of an account's online sessions]
-
-[The Jabber IDs associated with online users]
-
-[The number of online entities]
-
-[The password for an account]
-
-[Password verification]
-
-[A list of registered entities]
-
-[The number of registered entities]
-
-[Number of roster items for an account]
-
-[The number of stanzas being sent per second by an account]
-
-[The family (last) name of a user]
-
-[The text of a welcome message]
-
-[A list of entities with whom communication is allowed]
-
 [First Name]
 Имя
 [Last Name]
 Фамилия
-[Desired Nickname]
-
-[Your URL]
-
-[Email Address]
-
-[FAQ Entry]
-
-[Whether to Allow Occupants to Invite Others]
-
-[Whether to Allow Occupants to Change Subject]
-
-[Whether to Enable Logging of Room Conversations]
-
-[Natural Language for Room Discussions]
-
-[Maximum Number of Room Occupants]
-
-[Whether an Make Room Members-Only]
-
-[Whether to Make Room Moderated]
-
-[Whether a Password is Required to Enter]
-
-[Whether to Make Room Persistent]
-
-[Roles for which Presence is Broadcast]
-
-[Whether to Allow Public Searching for Room]
-
-[Full List of Room Admins]
-
-[Short Description of Room]
-
-[Natural-Language Room Name]
-
-[Full List of Room Owners]
-
-[The Room Password]
-
-[Affiliations that May Discover Real JIDs of Occupants]
-
-[Precondition: node configuration with the specified access model]
-
-[Whether to allow the subscription]
-
-[The SubID of the subscription]
-
-[The NodeID of the relevant node]
-
-[The address (JID) of the subscriber]
-
-[Whether an entity wants to receive or disable notifications]
-
-[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
-
-[The minimum number of milliseconds between sending any two notification digests]
-
-[The DateTime at which a leased subscription will end or has ended]
-
-[Whether an entity wants to receive an XMPP message body in addition to the payload format]
-
-[The presence states for which an entity wants to receive notifications]
-
-[Who may subscribe and retrieve items]
-
-[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
-
-[The collection with which a node is affiliated]
-
-[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
-
-[Whether to deliver payloads with event notifications]
-
-[Whether owners or publisher should receive replies to items]
-
-[Who may associate leaf nodes with a collection]
-
-[The list of JIDs that may associated leaf nodes with a collection]
-
-[The child nodes (leaf or collection) associated with a collection]
-
-[The maximum number of child nodes that can be associated with a collection]
-
-[The maximum number of items to persist]
-
-[The maximum payload size in bytes]
-
-[Whether the node is a leaf (default) or a collection]
-
-[Whether to notify subscribers when the node configuration changes]
-
-[Whether to notify subscribers when the node is deleted]
-
-[Whether to notify subscribers when items are removed from the node]
-
-[Whether to persist items to storage]
-
-[Whether to deliver notifications to available users only]
-
-[The publisher model]
-
-[The specific multi-user chat rooms to specify for replyroom]
-
-[The specific JID(s) to specify for replyto]
-
-[The roster group(s) allowed to subscribe and retrieve items]
-
-[Whether to send items to new subscribers]
-
-[Whether to allow subscriptions]
-
-[A friendly name for the node]
-
-[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
-
-[The JIDs of those to contact with questions]
-
-[The datetime when the node was created]
-
-[The JID of the node creator]
-
-[A description of the node]
-
-[The default language of the node]
-
-[The number of subscribers to the node]
-
-[The JIDs of those with an affiliation of owner]
-
-[The JIDs of those with an affiliation of publisher]
-
-[The name of the node]
-
-[Payload type]
-
-[Whether to automatically authorize subscription requests]
-
-[Whether to automatically accept file transfers]
-
-[Whether to automatically open new messages]
-
-[Whether to automatically go offline when idle]
-
-[Whether to play sounds]
-
-[A list of pending file transfers]
-
-[A list of joined group chat rooms]
-
-[A presence or availability status]
-
-[The status message text]
-
-[The new priority for the client]
-
-[Account name associated with the user]
-
-[Familiar name of the user]
-
-[Password or secret for the user]
-
-[Full name of the user]
-
-[First name or given name of the user]
-
-[Last name, surname, or family name of the user]
-
-[Email address of the user]
-
-[Street portion of a physical or mailing address]
-
-[Locality portion of a physical or mailing address]
-
-[Region portion of a physical or mailing address]
-
-[Postal code portion of a physical or mailing address]
-
-[Family Name]
-
-[Whether to accept the invitation]
-
-[Another resource with which to continue the session]
-
-[Disclosure of content, decryption keys or identities]
-
-[Whether may send Chat State Notifications per XEP-0085]
-
-[Whether allowed to use XHTML-IM formatting per XEP-0071]
-
-[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
-
-[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
-
-[Whether to renegotiate the session]
-
-[Minimum security level]
-
-[Whether to terminate the session]
-
-[Whether to enable Message Receipts per XEP-0184]
-
-[Failed to retrieve room list from server.]
-
-[No rooms available on server.]
-
-[Room list request timed out.]
-
-[<no nick>]
-
 [Loading...]
 Загрузка...
 [Please wait for room list to download.]
 Пожалуйста, подождите пока список комнат загрузится.
-[Please specify group chat directory first.]
-
 [Bookmarks...]
 Закладки...
 [Change nickname in <%s>]
 Изменить ник в <%s>
-[has set the subject to:]
-
 [%s\nIncoming group chat invitation.]
 %s\nПриглашение в конференцию.
 [transport]
@@ -1191,16 +763,12 @@ Jabber ошибка
 Приватность
 [Authentication failed for %s.]
 Аутентификация не прошла для %s.
-[Jabber Authentication]
-
 [Registration successful]
 Регистрация успешно пройдена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Пароль успешно изменен. Не забудьте обновить Ваш пароль в настройках учётной записи Jabber.
 [Password cannot be changed.]
 Пароль не может быть изменен
-[Jabber Bookmarks Error]
-
 [%s, %d items (%s)]
 %s, %d пункта(ов) (%s)
 [Voice List]
@@ -1219,8 +787,6 @@ Jabber ошибка
 Причина бана
 [Removing %s?]
 Удалить %s?
-[Http authentication request received]
-
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
@@ -1281,8 +847,6 @@ Jabber ошибка
 Высочайший приоритет (по выбору сервера)
 [Status Message]
 Статусное сообщение
-[CHAT plugin is required for conferences. Install it before chatting]
-
 [To]
 В
 [From]
@@ -1295,8 +859,6 @@ Jabber ошибка
 Входящая заметка от %s
 [Send note to %s]
 Отправить заметку %s
-[From: %s]
-
 [All tags]
 Все теги
 [Notes are not saved, close this window without uploading data to server?]
@@ -1681,8 +1243,6 @@ Jabber ошибка
 Настройки протокола Jabber
 [Confirm password]
 Введите пароль
-[Passwords do not match.]
-
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Эта операция удалит Вашу учётную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учётную запись?
 [Account removal warning]
@@ -1775,8 +1335,6 @@ Jabber ошибка
 Смены статуса
 [Don't notify history messages]
 Не показывать уведомлений из истории
-[JID]
-
 [Nick Name]
 Ник
 [Group]
@@ -1803,16 +1361,10 @@ XML для MS Excel (кодировка UTF-8)
 Защищённая сеть XMPP
 [Secure XMPP Network (old style)]
 Защищённая сеть XMPP (старый стиль)
-[Google Talk!]
-
 [LiveJournal Talk]
 ЖЖ
 [Facebook Chat]
 Чат Facebook
-[Odnoklassniki]
-
-[Some changes will take effect the next time you connect to the Jabber network.]
-
 [Set New Password for %s@%S]
 Установка нового пароля для %s@%S
 [New password does not match.]
@@ -1823,22 +1375,14 @@ XML для MS Excel (кодировка UTF-8)
 Отправка запроса, пожалуйста, подождите...
 [Warning: privacy lists were changed on server.]
 Внимание: списки приватности сохранены на сервере.
-[Error occurred while applying changes]
-
-[Privacy lists successfully saved]
-
 [Privacy list %s set as active]
 Список приватности %s - активный
 [Active privacy list successfully declined]
 Активный список приватности отклонен успешно
-[Error occurred while setting active list]
-
 [Privacy list %s set as default]
 Список приватности %s - основной
 [Default privacy list successfully declined]
 Стандартный список приватности успешно отклонен
-[Error occurred while setting default list]
-
 [Simple mode]
 Простой режим
 [Advanced mode]
@@ -1855,10 +1399,6 @@ XML для MS Excel (кодировка UTF-8)
 Добавить правило
 [Delete rule]
 Удалить правило
-[Move rule up]
-
-[Move rule down]
-
 [Add list...]
 Добавить...
 [Remove list]
@@ -1875,10 +1415,6 @@ XML для MS Excel (кодировка UTF-8)
 ** Подписка: нет **
 [<none>]
 <нет>
-[allow ]
-
-[deny ]
-
 [all.]
 всё.
 [messages]
@@ -1891,8 +1427,6 @@ XML для MS Excel (кодировка UTF-8)
 исходящее присутствие
 [queries]
 запросы
-[Else ]
-
 [If Jabber ID is ']
 Если JID '
 [ (nickname: ]
@@ -1901,8 +1435,6 @@ XML для MS Excel (кодировка UTF-8)
 Если группа '
 [If subscription is ']
 Если подписка '
-[then ]
-
 [ (act., def.)]
  (активн., основн.)
 [ (active)]
@@ -1943,8 +1475,6 @@ XML для MS Excel (кодировка UTF-8)
 Заблокировать компьютер
 [Quit Miranda NG]
 Закрыть Miranda NG
-[Change Status]
-
 [Choose the status and status message]
 Установить статус и статусное сообщение
 [Status]
@@ -1975,26 +1505,14 @@ XML для MS Excel (кодировка UTF-8)
 Выключить удалённое управление (проверяйте дважды, что вы делаете)
 [There is no messages to forward]
 Нет сообщений для отправки
-[Forward options]
-
-[%d message(s) to be forwarded]
-
-[Mark messages as read]
-
-[%d message(s) forwarded]
-
 [Workstation successfully locked]
 Компьютер успешно заблокирован
 [Error %d occurred during workstation lock]
 Ошибка %d возникла во время процесса блокировки
-[Confirmation needed]
-
 [Please confirm Miranda NG shutdown]
 Подтвердите выключение программы
 [There is no group chats to leave]
 Нет чатов для отключения
-[Choose the group chats you want to leave]
-
 [Error %s %s\r\nPlease select other server]
 Ошибка %s %s\r\nПожалуйста выберите другой сервер
 [Error: unknown reply received\r\nPlease select other server]
@@ -2033,8 +1551,6 @@ XML для MS Excel (кодировка UTF-8)
 Запрос регистрационной инструкции...
 [Authentication failed for %s@%S.]
 Аутентификация не прошла для %s@%S.
-[Message redirected from: %s\r\n%s]
-
 [Sending registration information...]
 Отсылка регистрационной информации...
 [Resource]
@@ -2081,24 +1597,16 @@ XML для MS Excel (кодировка UTF-8)
 нет
 [Last logoff time]
 Время выхода:
-[Uptime]
-
 [Logoff message]
 Сообщение выхода
 [<no information available>]
 <нет информации>
 [Last active resource]
 Последний активный ресурс
-[Please switch online to see more details.]
-
 [Copy]
 Копировать
 [Copy only this value]
 Копировать значение
-[format]
-
-[Unknown format]
-
 [<Photo not available while offline>]
 <Фото недоступно без подключения к сети>
 [<No photo>]
@@ -2141,24 +1649,14 @@ Cлужба недоступна
 Неизвестная ошибка
 [Error]
 Ошибка
-[Unknown error message]
-
-[Advanced Status]
-
 [Set mood...]
 Настроение...
 [Set activity...]
 Занятие...
-[OK (%d)]
-
 [Male]
 Мужской
 [Female]
 Женский
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-
-[Jabber vCard]
-
 [Jabber vCard: Edit Email Address]
 Jabber vCard: редактирование E-mail
 [Jabber vCard: Edit Phone Number]

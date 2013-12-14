@@ -13,8 +13,6 @@
 Заставка
 [Show random splash]
 Показывать случайную заставку
-[Play sound]
-
 [Show Miranda Version]
 Показывать версию Miranda NG
 [Enable]
@@ -41,8 +39,6 @@
 Библиотека advaimg.dll устарела или повреждена. Скачайте последнюю версию с сайта Miranda NG.
 [Error]
 Ошибка
-[Call Splash Service]
-
 [Graphic files]
 Графические файлы
 [Sound Files]

@@ -37,10 +37,6 @@
 Хранить ключ:
 [days]
 дней
-[PGP]
-
-[GPG]
-
 [Reset All]
 Сброс
 [Protocols]
@@ -53,8 +49,6 @@
 Не в сети:
 [RSA Key]
 Ключ RSA
-[SHA1:]
-
 [Public]
 Публичный
 [&Copy SHA1]
@@ -79,8 +73,6 @@
 Исполняемые:
 [Home Directory:]
 Домашний каталог:
-[Temp Dir:]
-
 [Key Assignment]
 Назначение ключей
 [Debug]
@@ -129,8 +121,6 @@
 Пользователь:
 [Password:]
 Пароль:
-[OK]
-
 [Cancel]
 Отмена
 [SecureIM plugin Passphrase of private key]
@@ -145,8 +135,6 @@
 PGP в SecureIM
 [GPG SecureIM]
 GPG в SecureIM
-[RSA/AES SecureIM]
-
 [Status]
 Статус
 [Always Try to Establish Secure IM]
@@ -161,22 +149,12 @@ Secure IM Выключен
 Установить ключ
 [Delete key]
 Удалить ключ
-[Set pre-shared key]
-
-[Delete pre-shared key]
-
 [Public key]
 Открытый ключ
 [Export key]
 Экспортировать ключ
 [Import key]
 Импортировать ключ
-[Export public key]
-
-[Import public key]
-
-[Delete public key]
-
 [SecureIM established...]
 Безопасное соединение установлено...
 [Key exchange failed...]
@@ -217,8 +195,6 @@ SecureIM выключен! Вы должны включить его для эт
 Невозможно отправить шифрованное сообщение!\nПользователь сейчас не в сети, и его ключ шифрования устарел, вы хотите отправить сообщение?\nОно будет отправлено незашифрованным!
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 Плагин SecureIM не может быть загружен, потому что библиотека cryptopp.dll не найдена или неправильной версии!
-[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM не может отправить шифрованное сообщение! Проверьте доверие к PGP/GPG ключу!
 [Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
@@ -255,8 +231,6 @@ PGP SDK v%i.%i.%i найден.
 PGP SDK не найден!
 [This version not supported!]
 Эта версия не поддерживается!
-[(none)]
-
 [Private key loaded.]
 Секретный ключ загружен.
 [Private key not loaded!]
@@ -277,14 +251,6 @@ Keyrings отключены!
 Создать SecureIM соединение
 [Disable SecureIM connection]
 Отменить SecureIM соединение
-[Load PGP Key]
-
-[Unload PGP Key]
-
-[Load GPG Key]
-
-[Unload GPG Key]
-
 [Delete RSA Key]
 Удалить ключ RSA
 [SecureIM mode (Native)]
@@ -383,22 +349,14 @@ SecureIM: получено зашифрованное сообщение:\n
 Статус шифрования
 [Executable Files]
 Исполняемые файлы
-[Select GnuPG Executable]
-
-[ASC files]
-
 [All files]
 Все файлы
-[Open Key File]
-
 [Save Private Key File]
 Сохранение приватного ключа
 [Save Public Key File]
 Сохранение публичного ключа
 [Load Private Key File]
 Загрузка приватного ключа
-[Load Public Key File]
-
 [Services]
 Службы
 [Key Popup]

@@ -71,8 +71,6 @@ ID пользователя
 Другое
 [Check every (s):]
 Проверять каждые (с):
-[SSL]
-
 [Don't check if more than (users):]
 Не проверять, если больше (польз):
 [User information]
@@ -111,8 +109,6 @@ ID пользователя
 Информация СТСР
 [Question]
 Вопрос
-[&OK]
-
 [&Cancel]
 О&тмена
 [Perform]
@@ -139,10 +135,6 @@ ID пользователя
 Авто
 [Off]
 Откл.
-[Host address]
-
-[Server description]
-
 [Network]
 Сеть
 [Channels on server]
@@ -259,10 +251,6 @@ Wildcard поиск по сети
 Сообщения
 [Notices]
 Уведомления
-[CTCP]
-
-[DCC]
-
 [Ignore mask ( nick!user@host )]
 Маска игнорирования( nick!user@host )
 [Network (*)]
@@ -347,8 +335,6 @@ Jerk
 Функция проверки приятелей включена
 [The buddy check function is disabled]
 Функция проверки приятелей выключена
-[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-
 [Ignore system is enabled]
 Система игнорирования вкл
 [Ignore system is disabled]
@@ -435,8 +421,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Окно сервера
 [Show channel]
 Показать чат-комнату
-[WhoIs]
-
 [Incoming DCC Chat]
 Входящий DCC-чат
 [Logo (48x48)]
@@ -515,8 +499,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Изменить игнор
 [Account]
 Учётная запись
-[DCC'n CTCP]
-
 [Advanced]
 Дополнительно
 [WallOps from %s: ]
@@ -617,8 +599,6 @@ WallOps от %s:\s
 Введите имя чат-комнаты для приглашения
 [Invite to channel]
 Пригласить в чат-комнату
-[NickServ]
-
 [Register nick]
 Зарегистрировать ник
 [Auth nick]
@@ -719,22 +699,14 @@ Nickserv убить фантома
 Соединение с
 [Offline]
 Не в сети
-[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-
-[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
-[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-
 [Please wait...]
 Подождите, пожалуйста...
 [Channel]
 Чат-комната
 [Mode]
 Режим
-[%s - Filtered - %d items]
-
 [---- Not listed server ----]
 ----Сервер вне списка---
 [Type new server address here]

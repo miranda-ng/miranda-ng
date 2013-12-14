@@ -15,12 +15,8 @@
 Сохранить пароль
 [Create new account]
 Новая учётная запись
-[Tlen]
-
 [Options]
 Настройки
-[Automatically reconnect after unintentional disconnection]
-
 [Leave status message after disconnection]
 Оставить сообщение статуса после отключения
 [Ignore advertisements]
@@ -41,8 +37,6 @@
 Сохр. увед. как сооб.
 [Group chat policy]
 Политика чатов
-[Image transfer policy]
-
 [Voice Chats]
 Голосовые чаты
 [Voice chat policy]
@@ -61,22 +55,12 @@
 Порт:
 [Keep connection alive]
 Поддерживать соединение
-[Enable encryption]
-
 [Enable Always Visible and Never Visible]
 Вкл. Всегда видим и Всегда невидим
 [P2P Connections]
 P2P Подключения
 [Use proxy for incoming connections]
 Исп. прокси для входящих подключений
-[Proxy type:]
-
-[Proxy server:]
-
-[Proxy requires authorization]
-
-[Mail Notification]
-
 [Enable incoming mail notification]
 Вкл. уведомление о входящей почте
 [Colors]
@@ -97,8 +81,6 @@ P2P Подключения
 Тест
 [Tlen Password]
 Пароль Tlen
-[OK]
-
 [Cancel]
 Отмена
 [Nick name:]
@@ -107,8 +89,6 @@ P2P Подключения
 Имя:
 [Last name:]
 Фамилия:
-[E-mail:]
-
 [Gender:]
 Пол:
 [Year of birth:]
@@ -123,26 +103,14 @@ P2P Подключения
 Ищу:
 [Voice chats]
 Голосовые чаты
-[Publicly visible status]
-
-[Save changes]
-
 [Avatar]
 Аватар
-[Avatar Options]
-
-[Public avatar]
-
 [Tlen login:]
 Вход Tlen:
 [Subscription:]
 Подписка:
-[Software:]
-
 [Version:]
 Версия:
-[System:]
-
 [Personal Information]
 Персональные данные
 [Nickname:]
@@ -157,14 +125,6 @@ P2P Подключения
 Статус:
 [Plan:]
 План:
-[Tlen Voice Chat]
-
-[Quality]
-
-[In]
-
-[Out]
-
 [Finish]
 Завершить
 [Tlen Voice Chat Invitation]
@@ -199,24 +159,14 @@ Tlen чаты
 Tlen чаты
 [Multi-User Conference]
 Чат-комната
-[Tlen Mail]
-
-[Send picture]
-
 [Voice Chat]
 Голосовой чат
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
-[1 File]
-
 [%d Files]
 %d файлов
-[Authentication failed for]
-
-[Tlen Authentication]
-
 [You have been kicked. Reason: %s ]
 Вас выкинули. Причина: %s\s
 [You cannot join this chat room, because you are banned.]
@@ -271,56 +221,14 @@ Tlen чаты
 Игнорировать приглашения от неавторизованных контактов
 [Ignore all invitation]
 Игнорировать все приглашения
-[Accept all images]
-
-[Ignore images from unauthorized contacts]
-
-[Ignore all images]
-
 [<Last message>]
 (Последнее сообщение)
 [Forwarding]
 Перенаправление
-[SOCKS4]
-
-[SOCKS5]
-
-[%s mail]
-
-[Image sent file://%s]
-
-[Image received file://%s]
-
-[Tlen login]
-
-[Enter password for]
-
-[Tlen Connection Error]
-
-[Windows Server 2003]
-
-[Windows XP]
-
-[Windows 2000]
-
-[Windows NT]
-
-[Windows 95]
-
-[Windows 98]
-
-[Windows ME]
-
-[Windows]
-
 [%s Web Messages]
 %s Web сообщений
-[Web message]
-
 [From]
 От
-[E-mail]
-
 [An alert has been received.]
 Уведомление принято.
 [Private conference]
@@ -335,8 +243,6 @@ Tlen чаты
 из
 [none]
 нет
-[not on roster]
-
 [...Connecting...]
 ...Подключение...
 [...Waiting for connection...]
@@ -351,5 +257,3 @@ Tlen чаты
 По умолчанию
 [%s connection]
 %s подключение 
-[%s SOCKS connection]
-
