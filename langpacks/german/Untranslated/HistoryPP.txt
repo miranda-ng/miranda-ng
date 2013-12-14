@@ -19,3 +19,4 @@
 [Co&py]
 [Select &All]
 [Send &Message]
+[User Details]

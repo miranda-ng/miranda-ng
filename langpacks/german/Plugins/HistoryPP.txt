@@ -725,3 +725,5 @@ Ausgehender Zeitstempel
 
 [Send &Message]
 
+[User Details]
+

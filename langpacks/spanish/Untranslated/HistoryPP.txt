@@ -348,3 +348,4 @@
 [System message]
 [Incoming timestamp]
 [Outgoing timestamp]
+[User Details]

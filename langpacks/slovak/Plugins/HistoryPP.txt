@@ -725,3 +725,5 @@ História systému
 
 [Send &Message]
 
+[User Details]
+
