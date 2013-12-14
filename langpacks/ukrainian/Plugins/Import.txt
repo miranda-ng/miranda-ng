@@ -79,32 +79,10 @@ Miranda знайшла наступні профілі. Виберіть про�
 Пропускаю подія від самого себе
 [Added contact %u (found in history)]
 Додано контакт %u (знайдено в історії)
-[Failed to add %S contact %s]
-
-[Added %S contact %s '%s']
-
-[Added %S contact %s]
-
 [Skipping contact with no protocol]
 Пропуск контактів без протоколу
-[Skipping contact %S not installed.]
-
-[Skipping non-IM contact (%S)]
-
-[Skipping %S contact, ID not found]
-
-[Skipping duplicate %S contact %s]
-
-[Unknown error while adding %S contact %s]
-
 [Failed to add message]
 Не вдається додати повідомлення
-[Error retrieving current profile, exiting.]
-
-[There's no database driver to open the input file, exiting.]
-
-[Error loading source file, exiting.]
-
 [Number of contacts in database: %d]
 Кількість контактів в базі: %d
 [Importing groups.]

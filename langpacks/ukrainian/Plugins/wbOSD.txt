@@ -15,8 +15,6 @@
 Вибір шрифту
 [Shadow]
 Тінь
-[Show drop shadow]
-
 [Shadow align]
 Вирівнювання тіні
 [Shadow color]
@@ -31,8 +29,6 @@
 Колір фону
 [Transparent]
 Прозорість
-[Alpha:]
-
 [Timeout (ms):]
 Тайм-аут (мс):
 [Show testing OSD]
@@ -55,12 +51,5 @@
 Показувати, коли мій статус:
 [%s is %s]
 %s - %s
-[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
-
-[Help]
-
-[Miranda NG is great and this is a long message.]
-
 [Plugins]
 Плагіни
-

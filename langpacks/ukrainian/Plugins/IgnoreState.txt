@@ -17,8 +17,6 @@
 Всі
 [Messages]
 Повідомлення
-[URL]
-
 [Files]
 Файли
 [User Online]
@@ -35,7 +33,5 @@
 Часткове ігнорування
 [Message Ignore]
 Ігнорувати повідомлення
-[Ignore State]
-
 [Icons]
 Значки

@@ -9,14 +9,8 @@
 Підтримка нового дизайну вікна налаштувань Miranda NG.
 [Visit official Miranda NG website]
 Офіційний сайт Miranda NG
-[Sample page]
-
 [Miranda NG Options]
 Установки Miranda NG
-[Use arrow keys to choose category]
-
-[OK]
-
 [Cancel]
 Скасування
 [Apply]

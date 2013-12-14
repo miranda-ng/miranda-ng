@@ -11,8 +11,6 @@
 Виділено всього
 [Accounts]
 Облікові записи
-[Units]
-
 [Clear statistics]
 Очистити
 [Повідомлення]
@@ -31,8 +29,6 @@
 Скинути
 [Popup timeout]
 Тривалість вікна
-[From Popup plugin]
-
 [Custom]
 Налаштувати
 [Test]
@@ -41,8 +37,6 @@
 Показати
 [Space lines between:]
 Відстань між рядками:
-[Counters format string:]
-
 [Tooltip format string:]
 Формат підказки:
 [Display traffic for current]
@@ -51,16 +45,6 @@
 Показувати
 [Icon]
 Значок
-[Account name]
-
-[Current traffic]
-
-[Total traffic]
-
-[Current online]
-
-[Total online]
-
 [General]
 Загальна
 [Draw frame as skin element]
@@ -69,8 +53,6 @@
 Показувати підказку у вікні трафіку
 ["Toggle traffic counter" in main menu]
 "Перемикач лічильника трафіку" в головному меню
-[Visible accounts]
-
 [Summary traffic for visible accounts]
 Сумарний трафік для видимих акаунтів
 [Overall traffic]
@@ -123,10 +105,6 @@
 Сума
 [Online]
 В мережі
-[Now traffic statistics for selected accounts will be cleared.\nContinue?]
-
-[Couldn't read statistics file]
-
 [Traffic Counter]
 Лічильник трафіку
 [Font]
@@ -137,8 +115,6 @@
 Приховати вікно трафіку
 [Clear the current (Now:) value]
 Скинути поточне (Now:) значення
-[Toggle traffic counter]
-
 [Traffic counter notification]
 Повідомлення лічильника трафіку
 [%d kilobytes sent]

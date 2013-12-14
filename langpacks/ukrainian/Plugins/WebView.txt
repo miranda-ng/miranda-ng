@@ -85,8 +85,6 @@ WebView
 Очистити дисплей
 [Remove HTML]
 Видалити HTML
-[OK]
-
 [Cancel]
 Скасувати
 [Apply]
@@ -295,8 +293,6 @@ URL-адреса не поставляється
 В мережі
 [A site is already downloading, try again in a moment.]
 Сайт вже завантаження, спробуйте ще раз в хвилину.
-[Bytes in display]
-
 [Bytes downloaded]
 Скачано байтів
 [Alert test conditions not met; press the refresh button to view content.]

@@ -11,8 +11,6 @@
 Додати до метаконтакту
 [Please select a MetaContact:]
 Виберіть метаконтакт:
-[&OK]
-
 [&Cancel]
 &Скасувати
 [Sort Alphabetically]
@@ -141,8 +139,6 @@ UIN, E-mail і т.д.
 Ні
 [Contact]
 Контакт
-[ID]
-
 [Protocol]
 Протокол
 [Send Offline]
@@ -181,8 +177,6 @@ UIN, E-mail і т.д.
 Видалити з метаконтакту
 [<default>]
 <за замовчуванням>
-[Meta ID]
-
 [No online contacts found.]
 Не знайдено контактів у мережі.
 [Message from %s]
@@ -207,8 +201,6 @@ UIN, E-mail і т.д.
 Пріоритети
 [History]
 Історія
-[Sender]
-
 [Could not get MetaContact ID]
 Не можу отримати ID метаконтакту
 [Assignment error]

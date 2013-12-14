@@ -23,8 +23,6 @@
 Головний значок
 [Contact]
 Контакт
-[Toggle Ignore]
-
 [Ignore Contact]
 Ігнорувати контакт
 [Show Contact]

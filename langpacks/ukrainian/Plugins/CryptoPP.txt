@@ -7,14 +7,8 @@
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
 Служба шифрування для модуля SecureIM.
-[GnuPG Plugin - Passphrase]
-
-[Enter passphrase for the secret key of user:]
-
 [User ID]
 ID пользователя
-[OK]
-
 [Cancel]
 Отмена
 [GnuPG Plugin - Select public key]

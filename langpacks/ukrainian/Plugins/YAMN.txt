@@ -7,8 +7,6 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Повідомлення і перегляд нової пошти для Miranda NG. Вбудований протокол POP3.
-[OK]
-
 [Installed plugins]
 Встановлені додаткові плагіни
 [Version:]
@@ -79,8 +77,6 @@ SSL
 Статус:
 [Account]
 Обліковий запис
-[APOP]
-
 [Name:]
 Ім'я:
 [Options]
@@ -187,8 +183,6 @@ YAMN: помилка підключення
 Немає нових листів
 [%s - connection error]
 %s - помилка підключення
-[An error occured. Error code: %d]
-
 [Unknown error]
 Невідома помилка
 [ - connection error]
@@ -231,8 +225,6 @@ YAMN: помилка підключення
 Видалити %d листів?
 [Delete confirmation]
 Підтвердження видалення
-[Translate header error]
-
 [Part]
 Частина
 [%s connection]
@@ -261,8 +253,6 @@ POP3 плагін - помилка при записі у файл
 Авторизація...
 [Searching for new mail message]
 Пошук нової пошти
-[Reading body %s]
-
 [Reading new mail messages (%d%% done)]
 Зчитування нових повідомлень (%d%% готово)
 [Deleting requested mails]
@@ -335,8 +325,6 @@ OpenSSL не завантажений.
 Всі файли
 [Select executable used for notification]
 Вибір програми для сповіщення
-[Dialog box error]
-
 [Failed]
 Не вдалося
 [Do you really want to delete this account?]

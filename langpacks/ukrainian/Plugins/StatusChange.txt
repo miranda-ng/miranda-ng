@@ -35,8 +35,6 @@
 Отримати
 [Message]
 Повідомлення
-[URL]
-
 [File transfer]
 Передача файлу
 [...change status to...]

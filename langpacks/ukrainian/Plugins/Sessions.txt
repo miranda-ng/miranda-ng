@@ -71,8 +71,6 @@
 дод.
 [Sessions Manager]
 Менеджер сесій
-[OK]
-
 [Cancel]
 Скасувати
 [Save your current session?]

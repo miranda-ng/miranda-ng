@@ -187,8 +187,6 @@ URL станції/плейлиста
 вимкнено
 [Volume]
 Гучність
-[Device list]
-
 [Equalizer]
 Еквалайзер
 [New]

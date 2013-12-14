@@ -99,8 +99,6 @@
 &Зберегти зміни
 [Enter token to continue]
 Введіть маркер для продовження
-[OK]
-
 [Cancel]
 Скасувати
 [Create Gadu-Gadu account]
@@ -265,22 +263,12 @@ The connection with the server was abortively closed during the connection attem
 Допустимий розмір в 255 КБ перевищено
 [You have to be connected before you can import/export contacts from/to server.]
 Встановіть з'єднання перед імпортом/експортом контактів з/на сервер.
-[List cannot be imported because of error:\n\t%s (Error: %d)]
-
-[List cannot be removed because of error: %s (Error: %d)]
-
 [Text files]
 Текстовий файл
 [All Files]
 Всі файли
-[List cannot be imported from file "%s \ " because of error:\n\t%s (Error: %d)]
-
 [contacts]
 контактів
-[List cannot be exported to file\"% s \ " because of error:\n\t%s (Error: %d)]
-
-[List cannot be exported because of error:\n\t%s (Error: %d)]
-
 [Import List From &Server]
 Імпорт списку з &сервера
 [Import List From &Text File...]
@@ -293,18 +281,12 @@ The connection with the server was abortively closed during the connection attem
 Експортувати список у &файл...
 [Gadu-Gadu Link Protocol]
 Посилання протоколу Gadu-Gadu
-[Password could not be reminded because of error:\n\t%s (Error: %d)]
-
 [Password was sent to your e-mail.]
 Пароль надіслано на ваш E-mail.
 [Notify]
 Повідомлення
 [Error]
 Помилка
-[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
-
-[Can not remove old avatar file. ERROR: %d: %s\n%s]
-
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 Свій аватар треба видаляти на веб-сайті gg.pl
 [Client Name]

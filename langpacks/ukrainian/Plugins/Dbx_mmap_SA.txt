@@ -9,10 +9,6 @@
 Підтримка бази даних Miranda NG: глобальні налаштування, контакти, історія, встановлення контактів. Розширена модифікація з підтримкою шифрування.
 [Login to Miranda NG]
 Вхід в Miranda NG
-[EN]
-
-[OK]
-
 [Cancel]
 Скасування
 [New password]
@@ -85,8 +81,6 @@
 Ел. пошта:
 [Unique ID:]
 Унік. ID:
-[Database is Secured MMAP database]
-
 [You are not authorized for access to Database]
 Ви не авторізовані для доступу к ДБ
 [Secured MMAP: authorization successful]
@@ -121,8 +115,6 @@ Secured MMAP: авторізація підтверджена
 Паролі не збігаються!
 [Wrong password!]
 Невірний пароль!
-[Sorry, but your database encrypted with unknown module]
-
 [Error]
 Помилка
 [Crypto modules not found]

@@ -41,12 +41,8 @@
 Отримати інформацію з плагіну WATrack
 [Get info from these players:]
 Отримувати інформацію з плеєрів:
-[Winamp (*)]
-
 [Windows Media Player]
 Програвач Windows Media
-[iTunes]
-
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (встановіть плагін вручну)
 [Other players]
@@ -57,8 +53,6 @@ foobar2000 (встановіть плагін вручну)
 секунд(и)
 [Allow auto-loading plugins into players (affect players with *)]
 Автозагружать плагіни в плеєри (тільки для позначено *)
-[mRadio]
-
 [Listening to]
 Слухаю
 [Template:]
@@ -109,8 +103,6 @@ foobar2000 (встановіть плагін вручну)
 Відправляти всіх протоколів
 [Listening info]
 Музика в статусі
-[Listening info as set in the options]
-
 [Media type: Music, Video, etc]
 Тип: Музика, Відео, інше
 [Artist name]
@@ -123,10 +115,6 @@ foobar2000 (встановіть плагін вручну)
 Номер
 [Song year]
 Рік
-[Song genre]
-
-[Song length]
-
 [Player name]
 Назва плеєру
 [Don't send to any protocols]
@@ -151,7 +139,3 @@ foobar2000 (встановіть плагін вручну)
 Формат
 [Players]
 Плеєри
-[Miranda ListeningTo receiver]
-
-[Miranda ListeningTo WMP receiver]
-

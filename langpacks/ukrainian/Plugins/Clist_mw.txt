@@ -27,14 +27,8 @@
 Прокручувати з текстом
 [Stretch proportionally]
 Розтягнути
-[Tile vertically according to Row Height]
-
 [Warning!\r\nThis MenuObject not support user defined options.]
 Увага!\r\nЦі пункти меню не піддаються налаштуванню.
-[MenuObjects]
-
-[MenuItems]
-
 [InsertSeparator]
 Розділювач
 [Service:]
@@ -53,8 +47,6 @@
 Так
 [Hide from list only in order to keep their history and ignore/visibility settings]
 Приховати списку залишаться історія і налаштування видимості
-[Use Options->Contacts->to Ignore unhide contacts.]
-
 [Are you sure you want to delete %s?]
 Видалити %s зі списку?
 [This will all erase history and settings for this contact!]
@@ -85,8 +77,6 @@
 Завжди показувати статус у підказці
 [Disable icon blinking]
 Вимкнути блимання
-[ms, delay between icon blinking]
-
 [Show]
 Показати
 [icon when statuses differ]
@@ -107,8 +97,6 @@
 Значки протоколів в системному лотку
 [Contact List Sorting]
 Сортування списку контактів
-[Dont move offline user to bottom]
-
 [Pin to desktop]
 Прикріпити до столу
 [Rows]
@@ -205,14 +193,10 @@
 Фон списку
 [Use 'Meta' protocol icons for Metacontacts]
 Використовувати значок Meta протоколу для метаконтактів
-[Avoid doubleclick expand]
-
 [Hide all 'Extra icons' for subcontacts]
 Ховати всі екстра значки субконтактів
 [MetaContacts supporting]
 Підтримка метаконтактів
-[Ignore Empty Extra icons places (arrange to right).]
-
 [Hide offline subcontacts.]
 Приховувати відключені субконтакти.
 [Status Bar]

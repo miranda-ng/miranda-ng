@@ -55,14 +55,8 @@
 Стать:
 [Age:]
 Вік:
-[from:]
-
-[to:]
-
 [Birthday:]
 День народження:
-[Zodiak:]
-
 [Location]
 Місце
 [Country:]
@@ -73,8 +67,6 @@
 Тільки підключених користувачів
 [City:]
 Місто:
-[Remember]
-
 [Enable avatars support (loading)]
 Включити підтримку аватарів (завантажувати)
 [Server:]
@@ -127,18 +119,12 @@
 Налаштування спливаючих вікон
 [Enable]
 Включено
-[&Use Windows colors]
-
-[Back Color]
-
 [Text Color]
 Колір тексту
 [Timeout]
 Таймаут
 [Previe&w]
 &Тест
-[Custom Status "%s" Details]
-
 [Closing in %d]
 Закрити (%d)
 [Title:]
@@ -149,8 +135,6 @@
 Скасування
 [Notify]
 Повідомлення
-[Written:]
-
 [Select e-mail]
 Вибір електронної пошти
 [Male]
@@ -205,18 +189,10 @@
 Водолій
 [Pisces]
 Риби
-[Avatars' plugin connections]
-
 [Avatars: server return HTTP code: %lu]
 Аватари: сервер повернув HTTP код: %lu
 [Avatars: can't open file %s, error]
 Аватари: неможливо відкрити файл %s, помилка
-[CHAT plugin is required for conferences. Install it before chatting]
-
-[invite sender]
-
-[invite new members]
-
 [Your contact wakes you]
 Ваш співрозмовник будить вас
 [Display &Inbox]
@@ -265,8 +241,6 @@
 Відповіді
 [World]
 Світ
-[Send &Nudge]
-
 [Mail box deleted]
 Поштова скринька видалена
 [Contact not on server]
@@ -279,14 +253,6 @@
 Повідомлення статусу в блозі
 [New E-mail available in Inbox]
 Нова пошта в папці "Вхідні"
-[Please authorize me]
-
-[Receive files: can't allocate disk space for file, size %lu bytes, error]
-
-[Receive files: can't open file %s, error]
-
-[Receive files: request for file %s not sent, error]
-
 [Send files: can't open file %s, error]
 Відправка файлів: неможливо відкрити файл %s, помилка
 [Send files: requested file: %S - not found in send files list.]
@@ -319,10 +285,6 @@
 Спливаючі вікна
 [%s connection]
 Підключення %s
-[Mail.ru Xstatus]
-
-[Mail.ru extra info]
-
 [E-mail address]
 Адреса E-mail
 [Unread mail is available: %lu/%lu messages]
@@ -331,14 +293,6 @@
 Від: %S\r\nТема: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Непрочитаної пошти немає\r\nВсього повідомлень: %lu
-[Closing in %ld]
-
-[Reply to %s blog status]
-
-[Set my blog status]
-
-[Written]
-
 [Are you sure?]
 Ви впевнені?
 [Services...]

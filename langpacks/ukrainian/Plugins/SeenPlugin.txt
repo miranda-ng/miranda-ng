@@ -39,8 +39,6 @@
 Заголовок
 [Text]
 Текст
-[Popup Colors]
-
 [Online]
 В мережі
 [Away]
@@ -65,12 +63,8 @@
 Скидання кольорів
 [Last seen plugin]
 Остання поява
-[OK]
-
 [You missed following contacts:]
 Пропущені такі контакти:
-[Test\nTest]
-
 [Alert when user status changes]
 Попереджати при зміні статусу
 [last seen history]
@@ -81,8 +75,6 @@
 Меню користувача
 [Send Instant Message]
 Надіслати миттєве повідомлення
-[Date: %d.%m.%y(%Y) \n Date desc: %W %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
-
 [LastSeen]
 Остання поява
 [User status change]
@@ -135,8 +127,6 @@
 годинник (24)
 [hours (12)]
 годинник (12)
-[AM/PM]
-
 [minutes]
 хвилин(и)
 [seconds]

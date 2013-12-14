@@ -47,14 +47,6 @@
 Спливаючі вікна
 [Network]
 Мережа
-[Why C sucks]
-
-[brickstrace@gmail.com [1]]
-
-[ bems\n]
-
-[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphіsm, subtyping reuse and code\n* No metaprogramming except preprocessor macros\n* No exceptions]
-
 [GMail notifications]
 Повідомлення про пошту в GMail
 [subject\n %s\nfrom\n%s\n%s\n]

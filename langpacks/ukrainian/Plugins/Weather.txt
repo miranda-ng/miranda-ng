@@ -79,8 +79,6 @@
 2 символи
 [3 chars]
 3 символи
-[Elevation]
-
 [ft]
 фут
 [m]
@@ -99,8 +97,6 @@
 Прогноз погоди
 [City name]
 Місто
-[ID]
-
 [Log Information]
 Збереження інформації
 [Internal Use history]
@@ -155,8 +151,6 @@ URL додаткової інформації
 Затримка
 [seconds]
 секунд
-[From Popup plugin]
-
 [Permanent]
 Постійно
 [Popup Text]
@@ -215,8 +209,6 @@ URL додаткової інформації
 Налаштування INI файл плагіну "Погода"
 [Weather Protocol INI Setup\nInstall and load your weather ini-file here]
 Установка INI погоди\nВстановлення і завантаження вашого INI погоди тут
-[Weather Protocol cannot find any weather INI-file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-
 [Click here to download a weather ini-file from Miranda file listing]
 Натисніть тут для завантаження INI погоди списку файлів Miranda NG
 [Extract the weather ini-file from archive to this directory]
@@ -329,8 +321,6 @@ INI файл погоди для цієї станції не знайдений
 %n %u: %c, %t (відчувається %f) Вітер: %i %w Вологість: %m
 [%c, %t\nToday: High %h, Low %l]
 %c, %t\nСегодня: макс. %h, хв. %l
-[Temperature: %[Temperature]]
-
 [Current weather information for %s.]
 Поточна інформація про погоду для %s.
 [%s is now the default weather station]
@@ -347,8 +337,6 @@ INI файл погоди для цієї станції не знайдений
 Журнал погоди не ведеться.
 [URL for The complete forcast have not been set. You can set it from the Edit Settings dialog.]
 URL повного прогнозу погоди не встановлено. Ви можете встановити його в налаштуваннях.
-[URL for The weather map have not been set. You can set it from the Edit Settings dialog.]
-
 [Get city name from ID]
 Отримати назва міста, ID
 [Weather INI information]
@@ -441,8 +429,6 @@ HTTP підключення Weather
 Опис:
 [Here is a list of custom variables that are currently available]
 Список додаткових змінних, доступних на даний момент
-[No update data file is found. Please check your Plugins\\Weather directory.]
-
 [Invalid ini format for: %s]
 Власний формат ini для: %s
 [Update All data has been reloaded.]

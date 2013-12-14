@@ -39,8 +39,6 @@ Web-сторінка для налаштування
 Отримати ключ користувача
 [Configure formatting]
 Налаштувати форматування
-[OK]
-
 [Cancel]
 Скасувати
 [Up]
@@ -145,8 +143,6 @@ HTTP підключення Paste It
 Помилка при надсиланні тексту на web-сторінку
 [Error during getting user key from web page: %s]
 Помилка при отриманні ключа користувача від web-сторінки: %s
-[Paste expire date]
-
 [Never]
 Ніколи
 [10 minutes]

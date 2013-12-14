@@ -7,10 +7,6 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Підтримка протоколу Microsoft Network (MSN) в Miranda NG.
-[MSN]
-
-[Live ID:]
-
 [Password:]
 Пароль:
 [Nickname:]
@@ -77,8 +73,6 @@
 Відключити повідомлення у списку контактів
 [Set Nickname]
 Введення ніка
-[OK]
-
 [Cancel]
 Скасувати
 [Mobile Device (used for SMS)]
@@ -107,8 +101,6 @@
 Заблокувати
 [Invite Contact To Chat]
 Запросити контакт у чат
-[Live ID]
-
 [&Invite]
 &Запросити
 [&Cancel]
@@ -131,8 +123,6 @@
 Історія користувача
 [Contact tried to open an audio conference (currently not supported)]
 Контакт намагався відкрити аудіоконференцію (не підтримується)
-[%I64u bytes]
-
 [Accept NetMeeting request from %s?]
 Прийнато NetMeeting запит від %s?]
 [MSN Protocol]

@@ -63,8 +63,6 @@
 Не вдалося ініціювати %s.
 [MAPI error (%i):\n%s.]
 Помилка MAPI (%i):\n%s.
-[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
-
 [The specified attachment was not found]
 Вкладення не знайдено
 [The specified attachment could not be opened]
@@ -213,8 +211,6 @@ HTTP-з'єднання SendSS
 Виберіть вікно, щоб зробити знімок.
 [Screenshot ]
 Знімок екрану
-[for Client area ]
-
 [of "]
 з "
 [" Window]

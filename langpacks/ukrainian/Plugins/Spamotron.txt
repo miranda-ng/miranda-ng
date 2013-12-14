@@ -8,7 +8,6 @@
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
 Антиспам плагін з капчі і Байєсівської фільтрації.
-
 ; Settings tab
 [Settings]
 Налаштування
@@ -38,7 +37,6 @@
 раз на день
 [Do not reply to messages with words in this list:]
 Чорний список слів у вхідних повідомленнях:
-
 ; Messages tab
 [Messages]
 Повідомлення
@@ -72,8 +70,6 @@
 і позначати непрочитаними при підтвердженні
 [Reset to defaults]
 За замовчанням
-
-
 ; Bayes tab
 [Bayes]
 Байєсівської
@@ -113,7 +109,6 @@
 Перевірити
 [Message score]
 Спам-рейтинг
-
 ; Popups tab
 [Enable popup notifications]
 Включити повідомлення спливаючими вікнами
@@ -139,7 +134,6 @@
 За замовчанням
 [Preview]
 Попередній перегляд
-
 ; Default Messages
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
 Повідомлення тимчасово заблоковано. Напишіть "%response%" без лапок.
@@ -151,7 +145,6 @@
 Запит авторизації тимчасово заблокований. Напишіть "%response%" без лапок.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 Запит авторизації тимчасово заблокований. Скільки буде %mathexpr%?
-
 ; Notifications
 [Contact %s approved.]
 Контакт %s підтверджений.
@@ -169,7 +162,6 @@
 Відправка контрольного питання %s.
 [Their message was]
 Повідомлення було
-
 [Invalid regular expression.\nKeeping previous value.]
 Помилка в регулярному виразі.\nБудет використано старе значення.
 [Bayes database path]

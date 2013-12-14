@@ -39,8 +39,6 @@
 Змінити
 [Warning]
 Попередження
-[This field doesn't accept string longer than %d characters. The string will be truncated.]
-
 [Favorites]
 Обрані
 [Regular statuses]

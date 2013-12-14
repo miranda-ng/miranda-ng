@@ -7,10 +7,6 @@
 ;============================================================
 [Yahoo Protocol support for Miranda NG.]
 Підтримка протоколу Yahoo в Miranda NG.
-[Yahoo]
-
-[ID:]
-
 [Password:]
 Пароль:
 [Nick:]
@@ -45,8 +41,6 @@ Yahoo! Японія
 Ігнорувати на Yahoo!
 [Ignore anyone who is not on my Yahoo buddy list]
 Ігнорувати всіх, хто не у моєму списку контактів Yahoo!
-[Ignore only the people below:]
-
 [&Add]
 &Додати
 [&Remove]
@@ -55,8 +49,6 @@ Yahoo! Японія
 Встановлення хСтатусу
 [Show as busy]
 Показати як "зайнятий"
-[OK]
-
 [Cancel]
 Скасувати
 [Protocol:]
@@ -69,12 +61,6 @@ Yahoo! Японія
 %Зайти
 [&Deny]
 &Вимкнути
-[Denial Message]
-
-[Invitation Message]
-
-[Host]
-
 [Invite Buddy To Chat Room]
 Запрошення в чат-кімнату
 [Screen Name]
@@ -91,8 +77,6 @@ Yahoo! Японія
 Аватари
 [[miranda] Got conference invite to room: %s with msg: %s]
 (Miranda NG) Отримано запрошення в кімнату %s:%s
-[%s denied invitation with message: %s]
-
 [Me]
 Я
 [Others]
@@ -131,8 +115,6 @@ Yahoo! помилка
 Повідомлення занадто довге: Yahoo! обмежено 800 UTF8 символів
 [YAHOO Link Protocol]
 Посилання протоколу Yahoo!
-[YAHOO plugin HTTP connections]
-
 [The changes you have made you to require reconnect to the Yahoo network before they take effect]
 Зміни вступлять при наступному вході в мережу Yahoo!.
 [YAHOO Options]
@@ -161,8 +143,6 @@ Yahoo! Ігнор
 Нова пошта в папці "Вхідні"
 [%s plugin connections]
 %s підключення до сервера
-[ID]
-
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Введіть ваш Yahoo! ID - Налаштування/Мережа/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]
@@ -195,10 +175,6 @@ Yahoo! Ігнор
 Календар нагадувань
 [%s has rejected your request and sent the following message:]
 %s відхилив запит і послав повідомлення:
-[Invalid Contact]
-
-[The ID you tried to add is invalid.]
-
 [Unknown Error.]
 Невідомиа помилка.
 [New Mail]
@@ -213,12 +189,6 @@ Yahoo! Ігнор
 Системне повідомлення Yahoo!
 [Yahoo Ping Error]
 Yahoo! помилка пінгу
-[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
-
-[Could not log into Yahoo service - incorrect password. Please verify that your username and password are correctly typed.]
-
-[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
-
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Ви були відключені від сервісу Yahoo!, можливо із-за іншого підключення.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
@@ -235,11 +205,7 @@ Yahoo! помилка пінгу
 %s вже ігнорується
 [%s is not in the ignore list]
 %s не в ігнор-списку
-[%s is in buddy list - cannot ignore]
-
 [System Error: %s]
 Системна помилка: %s
 [Server Connection Error: %s]
 Помилка з'єднання сервера: %s
-[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
-

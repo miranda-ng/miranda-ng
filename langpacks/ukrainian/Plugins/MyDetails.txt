@@ -11,16 +11,12 @@
 Мій нік
 [Nickname:]
 Нік:
-[OK]
-
 [Cancel]
 Скасування
 [General]
 Загальні
 [...avatar]
 ...аватар
-[RTL]
-
 [Align text to right]
 Вирівняти праворуч
 [...nickname]
@@ -57,24 +53,16 @@
 Рисувати рамку
 [Round corners]
 Закруглені кути
-[Custom corner size:]
-
 [Use free space (under avatar) to other texts]
 Вікор. вільне місце (під аватарами) для тексту
-[Global On...]
-
 [Frame Options]
 Опції фрейму
-[Cycle through accounts every:]
-
 [seconds]
 секунд(и)
 [Account]
 Обліковий запис
 [Show account name]
 Показувати ім'я облікового запису
-[Show account cycle button]
-
 [Set My Status Message for All Status]
 Статусне повідомлення для ycix статусів
 [Status Message:]
@@ -109,12 +97,6 @@
 Ввімкнути "Зараз слухаю"
 [Show next account]
 Наступний обліковий запис
-[Show previous account]
-
-[Cycle through accounts]
-
-[Don't cycle through accounts]
-
 [<no status name>]
 <немає імені статусу>
 [Nickname]
@@ -129,8 +111,6 @@
 Мої деталі
 [Background]
 Фон
-[Avatar Border]
-
 [Show My Details]
 Показати мої деталі
 [Enable Listening To for %s]

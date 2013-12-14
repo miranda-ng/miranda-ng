@@ -55,8 +55,6 @@
 Вимкнути
 [Smiley Button]
 Кнопка смайла
-[Show Smiley Selection Window]
-
 [SmileyAdd]
 Смайли
 [Smiley Cache]
@@ -77,8 +75,6 @@ HTTP підключення SmileyAdd
 Вимкнено.
 [Top]
 Верх
-[Bottom]
-
 [Smiley Packs]
 Набір смайлів
 [All Files]

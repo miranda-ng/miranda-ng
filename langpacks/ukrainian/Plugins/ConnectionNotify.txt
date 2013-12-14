@@ -29,8 +29,6 @@
 Повідомляти, якщо жоден фільтр не визначений
 [Attempt interval (ms.)]
 Інтервал спроб (мс)
-[Online mean]
-
 [Filters]
 Фільтри
 [DN]
@@ -39,20 +37,10 @@
 Вг
 [Rule editor]
 Редактор правил
-[Application name]
-
 [Local IP:Port]
 Локальний IP:Порт
-[Action:]
-
-[OK]
-
 [Cancel]
 Скасування
-[* and ? wildcard characters also available (for port enter number or *)]
-
-[Remote IP:Port]
-
 [Show]
 Показати
 [Hide]
@@ -75,5 +63,3 @@
 Плагіни
 [New Connection Notification]
 Повідомлення про нове підключення
-[First close options window]
-

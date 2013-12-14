@@ -15,8 +15,6 @@
 Далі >
 [< Prev]
 < Назад
-[Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
-
 [ was successfully]
  було успішно
 [ could not be]

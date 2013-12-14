@@ -45,8 +45,6 @@
 Повноекранний режим
 [Screen Saver is running]
 З'являється заставка
-[Workstation is Locked]
-
 [Defined programs are running]
 Запущена вказ. програма
 [All other situations]
@@ -83,12 +81,6 @@
 хСтатуси
 [Keys to flash]
 Чим блимати
-[Num Lock]
-
-[Caps Lock]
-
-[Scroll Lock]
-
 [Flashing effects]
 Блимати
 [All at the same time]
@@ -137,18 +129,10 @@
 Список програм
 [Program]
 Програма
-[OK]
-
 [Cancel]
 Скасувати
 [Set LEDs for events]
 Встановити для новини
-[Num]
-
-[Caps]
-
-[Scroll]
-
 [Message events]
 Повідомлення
 [File events]

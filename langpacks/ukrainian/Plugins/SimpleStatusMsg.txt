@@ -17,8 +17,6 @@
 С&копіювати до буфера
 [%s Message (%s)]
 Повідомлення "%s" (%s)
-[OK]
-
 [Retrieving status message for %s...]
 Отримання повідомлення статусу для %s...
 [Behaviour on change status]
@@ -117,42 +115,6 @@
 Незалежне налаштування для кожного протоколу
 [Pop up dialog asking for status message]
 Показувати діалог запиту зміни статусу
-[Fortune]
-
-[?cinfo(contact,property)]
-
-[?contact(string,property)]
-
-[?mstatus(protocol)]
-
-[?lsdate(contact,format)]
-
-[?lsstatus(contact)]
-
-[?lstime(contact,format)]
-
-[?dbsetting(contact,module,setting)]
-
-[?txtfile(file,line)]
-
-[?if(condition,true,false)]
-
-[?strcmp(string1,string2)]
-
-[?stricmp(string1,string2)]
-
-[?cdate(format)]
-
-[?ctime(format)]
-
-[?replace(sub,string1,string2)]
-
-[?lower(string)]
-
-[?upper(string)]
-
-[?scroll(string,numchars,numchars)]
-
 [More variables...]
 Білше змінних...
 [Cut]
@@ -193,12 +155,6 @@
 %s (заблокований)
 [External Applications]
 Зовнішня програма
-[retrieves song name of the currently playing song in Winamp (Simple Status Message compatible)]
-
-[Miranda Related]
-
-[get the date (Simple Status Message compatible)]
-
 [<startup>]
 <стартовий>
 [<current>]
@@ -207,8 +163,6 @@
 У передвстановлені
 [Delete Selected]
 Видалити вибране
-[OK (%d)]
-
 [Global]
 Глобальні
 [Closing in %d]

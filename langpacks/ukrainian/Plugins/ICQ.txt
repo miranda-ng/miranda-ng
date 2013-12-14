@@ -25,12 +25,8 @@
 Введіть пароль для номера %d:
 [Remember this session password]
 Запам'ятати пароль сеансу
-[OK]
-
 [Cancel]
 Скасування
-[ICQ]
-
 [ICQ number:]
 Номер ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -209,8 +205,6 @@
 Ім'я:
 [Last name:]
 Прізвище:
-[E-mail:]
-
 [Gender:]
 Стать:
 [Age:]
@@ -1581,8 +1575,6 @@ ID користувача
 Хроплю
 [On my mobile]
 З мобільника
-[Depressed]
-
 [Beetle]
 Жук
 [Double Rainbow]
@@ -1655,64 +1647,36 @@ ID користувача
 <невірно>
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Еніветок, Кваджалейн
-[GMT-11:30]
-
 [GMT-11:00 Midway Island; Samoa]
 GMT-11:00 о. Мідуей, Самоа
-[GMT-10:30]
-
 [GMT-10:00 Hawaii]
 GMT-10:00 Гаваї
-[GMT-9:30]
-
 [GMT-9:00 Alaska]
 GMT-09:00 Аляска
-[GMT-8:30]
-
 [GMT-8:00 Pacific Time; Tijuana]
 GMT-08:00 Тихоокеанський час; Тіхуана
-[GMT-7:30]
-
 [GMT-7:00 Arizona; Mountain Time]
 GMT-07:00 Гірський час (США і Канада)
-[GMT-6:30]
-
 [GMT-6:00 Central Time; Central America; Saskatchewan]
 GMT-06:00 Центральний час; Центральна Америка; Саскачеван
-[GMT-5:30]
-
 [GMT-5:00 Eastern Time; Bogota; Lima; Quito]
 GMT-05:00 Східний час; Богота, Ліма, Кіто; Індіана (схід)
-[GMT-4:30]
-
 [GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
 GMT-04:00 Атлантичний час; Сантьяго; Каракас, Ла-Пас
 [GMT-3:30 Newfoundland]
 GMT-03:30 Ньюфаундленд
 [GMT-3:00 Greenland; Buenos Aires; Georgetown]
 GMT-03:00 Гренландія; Буенос-Айрес, Джорджтаун
-[GMT-2:30]
-
 [GMT-2:00 Mid-Atlantic]
 GMT-02:00 Середньоатлантичний час
-[GMT-1:30]
-
 [GMT-1:00 Cape Verde Islands; Azores]
 GMT-01:00 о-ви Зеленого мису, Азорські о-ви
-[GMT-0:30]
-
 [GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
 GMT+00:00 Час за Гринвічем: Дублін, Лондон, Лісабон, Едінбург
-[GMT+0:30]
-
 [GMT+1:00 Central European Time; West Central Africa; Warsaw]
 GMT+01:00 Центрально-європейський час; Зах. Центр. Африка; Варшава
-[GMT+1:30]
-
 [GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
 GMT+02:00 Афіни; Бухарест; Каїр; Єрусалим; Гельсінкі; Хараре
-[GMT+2:30]
-
 [GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
 GMT+03:00 Москва, Санкт-Петербург, Багдад, Найробі, Кувейт
 [GMT+3:30 Tehran]
@@ -1723,32 +1687,22 @@ GMT+04:00 Баку, Єреван, Тбілісі; Абу-Дабі, Маскат
 GMT+04:30 Кабул
 [GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
 GMT+05:00 Єкатеринбург; Ісламабад, Карачі, Ташкент
-[GMT+5:30]
-
 [GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
 GMT+06:00 Омськ, Новосибірськ, Алма-Ата; Астана, Дакка; Шрі-Джаяварденепура
 [GMT+6:30 Rangoon]
 GMT+06:30 Рангун
 [GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
 GMT+07:00 Красноярськ; Бангкок, Джакарта, Ханой
-[GMT+7:30]
-
 [GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
 GMT+08:00 Іркутськ, Улан-Батор; Перт; Тайпей; Сінгапур; Гонконг, Пекін
-[GMT+8:30]
-
 [GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
 GMT+09:00 Якутськ; Сеул; Осака; Саппоро; Токіо
 [GMT+9:30 Darwin; Adelaide]
 GMT+09:30 Дарвін; Аделаїда
 [GMT+10:00 East Australia; Guam; Vladivostok]
 GMT+10:00 Владивосток; Гуам; Східна Австралія
-[GMT+10:30]
-
 [GMT+11:00 Magadan; Solomon Is.; New Caledonia]
 GMT+11:00 Магадан, Сахалін, Соломонові о-ви
-[GMT+11:30]
-
 [GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
 GMT+12:00 Камчатка, Фіджі, Маршаллові о-ви, Окленд, Веллінгтон
 [January]

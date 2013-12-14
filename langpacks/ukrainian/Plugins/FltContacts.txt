@@ -45,16 +45,10 @@
 Один клацання
 [Dim idle contacts]
 Затемнити неактивних користувачів
-[Idle contacts]
-
 [Border]
 Рамка
 [Draw border]
 Показувати рамку
-[Left-top edge's color:]
-
-[Right-bottom edge's color:]
-
 [Background]
 Фон
 [Background colour:]

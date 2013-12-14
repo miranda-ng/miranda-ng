@@ -521,16 +521,8 @@ Unicode вимкнено
 Невідомій контакт
 [Me]
 Я
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
 [My Contact]
 Мій контакт
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
 [Today]
 Сьогодні
 [Yesterday]
@@ -621,8 +613,6 @@ Unicode вимкнено
 Фон поля введення
 [User list members (online)]
 Члени списку (в мережі)
-[User list background]
-
 [User list members (away)]
 Користувачі (відсутні)
 [User list lines]

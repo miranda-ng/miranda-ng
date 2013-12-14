@@ -97,8 +97,6 @@
 Будь ласка авторезуйте мене щоб я додав Вас у свій КЛ
 [Do you want to send authorization request\nto new contact?]
 Чи хочете ви надіслати запит авторизації\nновому контакту?
-[Miranda NG]
-
 [MenuItemEx]
 Дод. пункти меню
 [Open ignore settings]

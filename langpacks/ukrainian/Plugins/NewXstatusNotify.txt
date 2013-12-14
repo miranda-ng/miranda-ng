@@ -57,8 +57,6 @@
 Відкрити
 [Status message]
 Повідомлення статусу
-[IndSndList]
-
 [Change]
 Змінити
 [Preview]
@@ -153,8 +151,6 @@
 Скидання
 [Disable notifications]
 Вимкнути повідомлення
-[OK]
-
 [Cancel]
 Скасувати
 [Disable globally]
@@ -179,8 +175,6 @@
 Показувати спливаючі вікна, коли я підключаюся
 [Accounts]
 Облікові записи
-[Enable/Disable accounts which you don't wish to be notified for:]
-
 [Sound files]
 Звукові файли
 [All files]
@@ -299,8 +293,6 @@ WAV файли
 Повідомлення включено
 [Notification disabled]
 Повідомлення вимкнено
-[New Status Notify]
-
 [User: from offline (has priority!)]
 Користувач: з оффлайна (має пріоритет!)
 [Extra status changed]

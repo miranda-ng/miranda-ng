@@ -33,8 +33,6 @@
 Дозволити виконання програм
 [Password:]
 Пароль:
-[NotifyAnything]
-
 [No resource name given.]
 Не ім'я, дане ресурсу.
 [Icon indices start at 1.]

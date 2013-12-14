@@ -41,10 +41,6 @@
 Показувати ніки, якщо доступно
 [Show friends of my friends]
 Показувати друзів моїх друзів
-[Options]
-
-[More options]
-
 [Display Error and Infomessage:]
 Помилка та інформація:
 [Main group for clan groups:]
@@ -99,14 +95,6 @@
 Видалити
 [Don't show in start menu]
 Вимкнути пункт у головному меню
-[(manual added)]
-
-[Extra Command Line Parameters:]
-
-[Edit...]
-
-[Username:]
-
 [Game]
 Гра
 [Voicechat]
@@ -117,62 +105,32 @@
 Порт:
 [User details]
 Про користувача
-[Copy]
-
-[Enter Password]
-
-[Join]
-
-[Set Nickname]
-
 [Cancel]
 Скасувати
 [New xfire_games.ini]
 Новий xfire_games.ini
-[There is a new XFire gamelist online, do you want to update now?]
-
-[New supported games:]
-
 [Update]
 Оновити
 [Add game]
 Додати
-[Search:]
-
-[Custom...]
-
 [Game name:]
 Назва:
-[Game exe:]
-
 [Browse...]
 Огляд...
-[Launcher exe (optional):]
-
 [Game ID:]
 ID гри:
-[Send game ID:]
-
-[Status message for Xfire, if this game will be started:]
-
-[Parameter:]
-
 [Add a new game]
 Додати нову гру
 [Searching games...]
 Пошук ігор...
 [All Files]
 Усі файли
-[Please wait, game.ini will be currently parsed...]
-
 [XFire Options]
 Налаштування XFire
 [Please choose one game in the list!]
 Будь ласка, виберіть гру зі списку!
 [If you add a mod of a Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 Якщо ви додаєте мод гри, яка підтримується Xfire, то можна вказати, який ID буде відправлено Xfire. Наприклад, можна вказати ID Half-Life для моду Half-Life, тоді ваші друзі будуть бачити значок Half-Life поряд з вашим іменем, коли гратимете в цей мод.
-[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
-
 [Please enter a game name.]
 Введіть назву гри.
 [Please enter a game ID.]
@@ -181,12 +139,6 @@ ID гри:
 ID гри має бути більше 1.
 [This game ID is already in use.]
 Такий ID гри вже використовується.
-[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
-
-[Supported Games]
-
-[Custom game]
-
 [Yep, I'm here.]
 Так, я тут.
 [I've been away since %time%.]
@@ -197,66 +149,22 @@ ID гри має бути більше 1.
 Не зараз.
 [Give a guy some peace, would ya?]
 Дайте спокій, я зайнятий.
-[Well, I would talk to you if Miranda ICQ supported chat]
-
 [That'll be the phone.]
 Та дайте ж людині поговорити по телефону...
 [Mmm... food.]
 Ммм... поїсти б...
 [The xfire_games.ini was updated.]
 Xfire_games.ini оновлено.
-[Error during xfire_games Update.]
-
-[There is a new Icons.dll online, do you want to update now?]
-
-[The Icons.dll was updated.]
-
-[Error during Icons.dll Update.]
-
-[Protocol icon]
-
-[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
-
-[Friends of Friends Playing]
-
-[Login failed.]
-
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Стара версія протоколу. Змініть поточну версію %d на %d. Ви повинні перепідключитися.
-[The protocol version is too old. Cannot detect a new version number.]
-
-[Someone logged in with your account. Disconnect.]
-
-[Do you really want to add %s to your friend list?]
-
-[Add me to your friends list.]
-
-[XFire is not connected.]
-
 [Current Game]
 Поточна гра
-[My Current Game]
-
 [ServerIP]
 IP сервера
-[My Current ServerIP]
-
-[Voice]
-
-[My Current Voice]
-
-[Voice ServerIP]
-
-[My Voice ServerIP]
-
 [Xfire Link Protocol]
 Протокол Xfire Link
 [Buddy start a game]
 Початок гри
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
-
-[Away from Keyboard]
-
 [&XFire Online Profile]
 &Онлайн профіль XFire
 [XFire &Clan Site]
@@ -279,10 +187,6 @@ IP сервера
 Звіт активності
 [&Rescan my games...]
 &Пересканувати мої ігри...
-[Set &Nickname]
-
-[Protocols/XFire]
-
 [XFire game icon]
 Значок гри XFire
 [XFire voice icon]
@@ -297,18 +201,12 @@ XFire не підтримує надсилання офлайнових пові
 Логін не встановлений!
 [No Password is set!]
 Пароль не встановлений!
-[Last game: %s playtime: %.2d:%.2d:%.2d]
-
 [%s is playing %s.]
 %s грає в %s.
 [%s is playing %s on server %d.%d.%d.%d:%d.]
 %s грає в %s на сервері %d.%d.%d.%d:%d.
-[Playing]
-
 [Do you really want to delete your friend %s?]
 Ви дійсно хочете видалити %s?
-[Confirm Delete]
-
 [Block this user from ever contacting you again?]
 Заблокувати цього користувача?
 [Block Confirmation]
@@ -317,12 +215,8 @@ XFire не підтримує надсилання офлайнових пові
 Аватари
 [Disable avatars]
 Вимкнути аватари
-[Don't download avatars of clan members]
-
 [Use alternate way for Avatar download]
 Використовувати альтернативний шлях скачування аватарів
-[General]
-
 [Automatically reconnect on protocol version changes]
 Автоматично перепідключатися при зміні версії протоколу
 [No Ip/Port in StatusMsg]
@@ -373,8 +267,6 @@ XFire не підтримує надсилання офлайнових пові
 Ім'я користувача буде збережено в нижньому регістрі.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Необхідно перепідключились до мережі XFire, щоб зроблені вами зміни вступили в силу.
-[Hidden]
-
 [Messagebox]
 Діалогове вікно
 [Popup]
@@ -395,24 +287,16 @@ XFire не підтримує надсилання офлайнових пові
 Помилка: невідомий ID гри.
 [Not supported]
 Не підтримується
-[Configuration saved!]
-
-[Game not found?!]
-
 [Network]
 Мережа
 [Account]
 Обліковий запис
-[Features]
-
 [Blocklist / Games]
 Блоковані / Ігри
 [StatusMsg]
 Статусні повідомлення
 [Please enter server password...]
 Введіть пароль сервера...
-[Write to database...]
-
 [Games found:%s%s]
 Знайдені ігри:%s%s
 [<not specified>]

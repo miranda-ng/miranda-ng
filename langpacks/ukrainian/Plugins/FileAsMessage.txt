@@ -55,8 +55,6 @@
 Отримання...
 [Sent successfully]
 Написано успішно
-[Unknown command for "" SERVICE_TITLE "" was received]
-
 [Incoming file request. Do you want proceed?]
 Вхідний файл. Хочете продовжити?
 [Canceled by remote user]

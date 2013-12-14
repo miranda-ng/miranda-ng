@@ -79,34 +79,6 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Безпека
 [Protocol]
 Протокол
-[Miranda NG stable]
-
-[Miranda IM (old versions)]
-
-[Miranda (unknown)]
-
-[spam client]
-
-[PHP Jabber Client]
-
-[MP3 Script for mIRC]
-
-[Mail.Ru Agent (official)]
-
-[Mail.Ru (unknown client)]
-
-[TM 2008 and >]
-
-[Gadu-Gadu client]
-
-[Tlen.pl client]
-
-[Python-based clients]
-
-[Jabber client]
-
-[XMPP client]
-
 [Client not found]
 Незнайдений клієнт
 [Unknown client]
@@ -137,64 +109,6 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Оверлей Yahoo
 [Mail.Ru Agent overlay]
 Оверлей Mail.Ru Agent
-[ICQ 2003 overlay]
-
-[ICQ Lite 4 overlay]
-
-[ICQ v5.x overlay]
-
-[ICQ v6.x overlay]
-
-[ICQ v7.x overlay]
-
-[ICQ v8.x overlay]
-
-[Yahoo v11.x overlay]
-
-[Yahoo v10.x overlay]
-
-[Yahoo v9.x overlay]
-
-[Gadu-Gadu v11 client]
-
-[Gadu-Gadu v10 client]
-
-[Gadu-Gadu v9 client]
-
-[Gadu-Gadu v8 client]
-
-[Tlen 7.x overlay]
-
-[Tlen 6.x overlay]
-
-[Tlen 5.x overlay]
-
-[TM/QQ 2012 overlay]
-
-[TM/QQ 2011 overlay]
-
-[TM/QQ 2010 overlay]
-
-[TM/QQ 2009 overlay]
-
-[TM/QQ 2008 overlay]
-
-[TM/QQ 2007 overlay]
-
-[TM/QQ 2006 overlay]
-
-[TM/QQ 2005 overlay]
-
-[QQ 2004 overlay]
-
-[TM 3.x / QQ 2003 overlay]
-
-[TM 2.x overlay]
-
-[TM 1.x overlay]
-
-[QQ 2000 overlay]
-
 [Windows overlay]
 Оверлей Windows
 [iOS overlay (iPhone/iPad)]
@@ -225,32 +139,6 @@ Fingerprint NG відображаються значки клієнтів, ви�
 Оверлей work
 [notebook overlay]
 Оверлей notebook
-[Miranda NG v0.6 #2 overlay]
-
-[Miranda NG v0.5 #2 overlay]
-
-[Miranda NG v0.4 #2 overlay]
-
-[Miranda NG v0.3 #2 overlay]
-
-[Miranda NG v0.2 #2 overlay]
-
-[Miranda NG v0.1 #2 overlay]
-
-[Miranda IM v0.10 #2 overlay]
-
-[Miranda IM v0.9 #2 overlay]
-
-[Miranda IM v0.8 #2 overlay]
-
-[Miranda IM v0.7 #2 overlay]
-
-[Miranda IM v0.6 #2 overlay]
-
-[Miranda IM v0.5 #2 overlay]
-
-[Miranda IM v0.4 #2 overlay]
-
 [x64 overlay]
 Оверлей x64
 [x32 overlay]

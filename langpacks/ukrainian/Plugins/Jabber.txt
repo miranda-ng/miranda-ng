@@ -5,11 +5,9 @@
 ;  Versions: 0.10.0.2
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-
 ; Сторінки опцій
 [Jabber protocol support for Miranda NG.]
 Підтримка протоколу Jabber в Miranda NG.
-
 ; МЕРЕЖА
 ; Ім'я облікового запису Jabber
 [Register new user]
@@ -130,7 +128,6 @@ TLS
 відправив невідомий тип присутності
 [Keep connection alive]
 Підтримувати з'єднання
-
 ; Чат-кімнати
 [Chat options]
 Налаштування чату
@@ -170,7 +167,6 @@ TLS
 Я використовую Miranda NG (http://miranda-ng.org/.)
 [Alternate nick:]
 Альтернативний нік:
-
 ; Додатково
 [Allow file sending through direct peer-to-peer connection]
 Передача файлів через пряме з'єднання
@@ -238,7 +234,6 @@ TLS
 Обробляти XMPP-посилання (потрібен плагін Association Manager)
 [Keep contacts assigned to local groups (ignore roster group)]
 Використовувати локальні групи (ігнорувати групи ростеру)
-
 ; Шрифти кольору
 [Frame text]
 Текст фрейму
@@ -246,11 +241,9 @@ TLS
 Заголовок фрейму
 [Background]
 Фон
-
 ; Гарячі клавіші
 [Privacy lists]
 Списки приватності
-
 ; МЕНЮ
 ; Меню контакту
 [Convert]
@@ -293,7 +286,6 @@ TLS
 OpenID Запит
 [Personal vCard]
 Особиста візитна картка
-
 ; Контекстне Меню
 [Voice List]
 Список учасників
@@ -475,7 +467,6 @@ Jabber Ad-Hoc команди на %s
 Видалити %s?
 [Real JID:]
 Реальний JID:
-
 ; Значки
 [Send note]
 Надіслати нотатку
@@ -489,7 +480,6 @@ Jabber Ad-Hoc команди на %s
 Настрої
 [transport]
 транспорт
-
 ; Інформація про контакті
 [<No photo>]
 <Немає фото>
@@ -653,7 +643,6 @@ Unicode зборка
 Прийом інформації про заняття користувача
 [Tune]
 Мелодія
-
 ; Меню протоколу
 [Services...]
 Служби...
@@ -911,7 +900,6 @@ XML Консоль
 XML для MS Excel (кодування UTF-8)
 [Please wait for room list to download.]
 Будь ласка, зачекайте поки список кімнат завантажиться.
-
 ; Заняття
 [Doing chores]
 Пораюся
@@ -1057,7 +1045,6 @@ XML для MS Excel (кодування UTF-8)
 ловлю рибу
 [smoking]
 курю
-
 ; Настрою
 [Sad]
 Сумний
@@ -1211,7 +1198,6 @@ XML для MS Excel (кодування UTF-8)
 Вдячний
 [Weak]
 Нерішучий
-
 ; Закладки і замітки
 [Jabber Bookmarks]
 Закладки
@@ -1243,7 +1229,6 @@ JID / URL:
 Вхідна нотатка
 [Notes are not saved, close this window without uploading data to server?]
 Нотатки не збережені, закрити вікно без завантаження нотаток на сервер?
-
 ; Перегляд служб + транспорти
 [Identities]
 Ідентифікатори
@@ -1275,7 +1260,6 @@ JID / URL:
 Огляд чат-кімнат
 [Browse local transports]
 Огляд локальних транспортів
-
 ; Ad-Hoc команди і запрошення користувачів
 [Set status]
 Встановити статус
@@ -1347,7 +1331,6 @@ Jabber помилка
 Відправити Ad-Hoc команду %s
 [Requesting command list. Please wait...]
 Запит списку команд. Почекайте...
-
 ; Інформація і статуси в чатах
 [User %s changed status to %s]
 %s змінив статус на %s.
@@ -1365,7 +1348,6 @@ Jabber помилка
 Причина стусана %s
 [Reason to destroy %s]
 Причина знищення %s
-
 ; Вікно повідомлень
 [Last active]
 Останній активний
@@ -1373,7 +1355,6 @@ Jabber помилка
 Найвищий пріоритет (за вибором сервера)
 [No activity yet, use server's choice]
 Активного ще немає, використовуйте щодо вибору сервера
-
 ; Пошук
 [Search service]
 Служба пошуку

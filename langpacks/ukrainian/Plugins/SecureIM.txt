@@ -37,10 +37,6 @@
 Зберігати ключ:
 [days]
 днів
-[PGP]
-
-[GPG]
-
 [Reset All]
 Скинути все
 [Protocols]
@@ -53,8 +49,6 @@
 Не в мережі:
 [RSA Key]
 Ключ RSA
-[SHA1:]
-
 [Public]
 Публічний
 [&Copy SHA1]
@@ -73,8 +67,6 @@
 Відключити keyrings
 [Load &Private key]
 Завантажити &закритий ключ
-[Basic]
-
 [Executable:]
 Виконувані:
 [Home Directory]
@@ -99,18 +91,12 @@
 Безпечне з'єднання
 [Send/Receive encrypted colors]
 Кольори шифрованих повідомлень
-[SecureIM Popup Colors]
-
 [Preview]
 Тест
 [Events]
 Події
-[Popup Timeout]
-
 [Time in Seconds]
 Час (с)
-[0 = Default Popup Timeout Value]
-
 [Show a popup on connection established]
 Встановлення з'єднання
 [Show a popup disabled on connection]
@@ -129,8 +115,6 @@
 Користувач:
 [Password:]
 Пароль:
-[OK]
-
 [Cancel]
 Скасувати
 [SecureIM plugin Passphrase of private key]
@@ -145,8 +129,6 @@
 PGP SecureIM
 [GPG SecureIM]
 GPG в SecureIM
-[RSA/AES SecureIM]
-
 [Status]
 Статус
 [Always Try to Establish Secure IM]
@@ -161,10 +143,6 @@ Secure IM Вимкнено
 Встановити ключ
 [Delete key]
 Видалити ключ
-[Set pre-shared key]
-
-[Delete pre-shared key]
-
 [Public key]
 Відкритий ключ
 [Export key]
@@ -183,8 +161,6 @@ Secure IM Вимкнено
 Обмін ключами не відбувся
 [Key from disabled...]
 Ключ був відкинутий...
-[Sent back message received...]
-
 [Sending back secure message...]
 Відправка зворотного повідомлення...
 [SecureIM disabled...]
@@ -217,8 +193,6 @@ SecureIM вимкнений! Ви повинні включити його дл�
 Неможливо надіслати зашифроване повідомлення!\nКористувач зараз не в мережі, і ключ шифрування застарів, ви хочете відправити повідомлення?\nВоно буде відправлено незашифрованим!
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 Плагін SecureIM не може бути завантажений, тому що бібліотека cryptopp.dll не знайдена або неправильної версії!
-[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM не може надіслати зашифроване повідомлення! Перевірте довіру до PGP/GPG ключа!
 [Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
@@ -277,14 +251,6 @@ Keyrings відключені!
 Створити SecureIM з'єднання
 [Disable SecureIM connection]
 Скасувати SecureIM з'єднання
-[Load PGP Key]
-
-[Unload PGP Key]
-
-[Load GPG Key]
-
-[Unload GPG Key]
-
 [Delete RSA Key]
 Видалити ключ RSA
 [SecureIM mode (Native)]
@@ -383,22 +349,14 @@ SecureIM: отримано зашифроване повідомлення:\n
 Статус шифрування
 [Executable Files]
 Виконувані файли
-[Select GnuPG Executable]
-
-[ASC files]
-
 [All files]
 Всі файли
-[Open Key File]
-
 [Save Private Key File]
 Збереження приватного ключа
 [Save Public Key File]
 Збереження публічного ключа
 [Load Private Key File]
 Завантаження приватного ключа
-[Load Public Key File]
-
 [Services]
 Служби
 [Key Popup]

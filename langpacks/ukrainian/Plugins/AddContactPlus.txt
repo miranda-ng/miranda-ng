@@ -23,18 +23,10 @@ ID користувача:
 Налаштування
 [Add temporarily]
 Додати тимчасово
-[Send "You were added"]
-
-[Send authorization request]
-
-[Authorization request]
-
 [&Add]
 &Додати
 [&Cancel]
 &Скасувати
-[Please authorize my request and add me to your contact list.]
-
 [None]
 Немає
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]

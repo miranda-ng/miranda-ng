@@ -107,16 +107,6 @@ Miranda NG HTTP Server
 Завершено
 [Speed]
 Швидкість
-[Selected link size is 0]
-
-[Failed to get access to clipboard]
-
-[Failed to get close the clipboard]
-
-[Failed to set clipboard data]
-
-[ListView_GetItem failed]
-
 [No share selected]
 Папка не вибрана
 [Current IP Address: ]
@@ -125,8 +115,6 @@ Miranda NG HTTP Server
 Поточна адреса:
 [IP Adress: ]
 IP-адреса
-[You are browsing from]
-
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nс: %s
 [You need to restart miranda to change the main menu]
@@ -135,10 +123,6 @@ IP-адреса
 HTTP Сервер
 [Network]
 Мережа
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
-
 [HTTP Share new file]
 HTTP Новий розшарений файл
 [Failed to add contact menu item]
@@ -149,18 +133,12 @@ HTTP Новий розшарений файл
 Помилка відкриття або створення журналу
 [Failed to move to the end of the log file]
 Помилка переміщення в кінець журналу
-[Failed to write some part of the log file]
-
 [Failed to open or create file ]
 Помилка відкриття або створення файлу
 [Failed to write xml header to file ]
 Помилка запису в заголовок XML файлу
 [Failed to write xml data to file ]
 Помилка запису у XML файл
-[Failed to write xml tail to file ]
-
-[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
-
 [Disable HTTP server]
 Вимкнути HTTP сервер
 [Enable HTTP server]

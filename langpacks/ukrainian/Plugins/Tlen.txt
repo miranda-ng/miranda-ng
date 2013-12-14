@@ -167,7 +167,6 @@ P2P з'єднання
 Залишити повідомлення статусу після відключення
 [Anonymous nicknames are not allowed in this chat room.]
 Анонімні псевдоніми заборонені в цій кімнаті.
-
 ;no translation
 [I'd like to go downtown]
 [I'd like to go on a blind date]
@@ -187,8 +186,6 @@ P2P з'єднання
 [Available]
 [College student]
 [Send picture]
-[%s mail]
-
 [...Status...]
 ...Статус...
 [Event Filter]

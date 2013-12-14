@@ -127,8 +127,6 @@
 Вимкнути спливаючі вікна
 [Enable Popups]
 Ввімкнути спливаючі вікна
-[Toggle Popups]
-
 [First line]
 Перший рядок
 [Second line]

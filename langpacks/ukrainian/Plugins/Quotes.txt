@@ -9,8 +9,6 @@
 Дозволяє спостерігати за змінами курсів валют і біржових котирувань.
 [Variable List]
 Змінні
-[OK]
-
 [Edit Settings]
 Редагувати
 [Use contact specific settings]
@@ -51,20 +49,8 @@
 Конвертер валют
 [&to:]
 &у:
-[&Swap]
-
-[Convert]
-
-[Info provided by <a href="http://www.google.com">Google</a>]
-
 [Close]
 Закрити
-[Chart]
-
-[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
-
-[Get data from:]
-
 [Filter:]
 Філтр:
 [Popup Window Settings]
@@ -81,8 +67,6 @@
 Колір тексту
 [Delay]
 Затримка
-[From Popup plugin]
-
 [Custom]
 Налаштувати
 [Permanent]
@@ -105,8 +89,6 @@
 &Додаткові параметри...
 [Static]
 Статичний
-[<a>SysLink1</a>]
-
 [Current Rate:]
 Поточне значення:
 [Rate Fetch Time:]
@@ -131,20 +113,12 @@
 &Відслідковані котирування:
 [Status &Message:]
 Повідомлення &статусу:
-[There is no to show]
-
 [Seconds]
 секунд
 [Minutes]
 хвилин
 [Hours]
 Годин
-[Enter integer value between 1 and 60.]
-
-[Enter integer value between 1 and 24.]
-
-[Enter text to display in contact list.]
-
 [Info provided by]
 Інформація надана
 [Enter positive number.]
@@ -193,10 +167,6 @@ HTTP підключення Quotes
 XML файли
 [All files (*.*)]
 Всі файли
-[Miranda could not load Quotes plugin. XML parser is missing.]
-
-[Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
-
 [Log File]
 Журнал
 [Miranda's History]
@@ -211,10 +181,6 @@ XML файли
 Місяць
 [Last Year]
 Рік
-[User-Defined]
-
-[Error occurred during html parsing.]
-
 [Error occurred during site access.]
 Помилка при доступі до сайту.
 [Quote Symbol]
@@ -265,13 +231,3 @@ XML файли
 Зміна
 [Log Files (*.txt,*.log)]
 Журнали (*.txt,*.log)
-[Enter integer value]
-
-[Enter log file name.]
-
-[Enter log file format.]
-
-[Enter history format.]
-
-[Enter popup window format.]
-

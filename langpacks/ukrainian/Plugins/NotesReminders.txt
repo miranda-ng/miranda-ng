@@ -77,8 +77,6 @@
 &Закрити
 [&View Reminders]
 &Перегляд нагадувань
-[reftime]
-
 [Reminder]
 Нагадування
 [After:]
@@ -101,8 +99,6 @@
 &Видалити нагадування
 [D&elete All Reminders]
 В&идалити всі нагадування
-[Context Menu Note Popup]
-
 [&Hide Note]
 &Сховати нотатку
 [&Always On Top]
@@ -215,40 +211,6 @@
 &Видалити всі нотатки
 [&Bring All to Front]
 Перемістити на передній план
-[Black]
-
-[Maroon]
-
-[Green]
-
-[Olive]
-
-[Navy]
-
-[Purple]
-
-[Teal]
-
-[Gray]
-
-[Silver]
-
-[Red]
-
-[Orange]
-
-[Lime]
-
-[Yellow]
-
-[Blue]
-
-[Fuchsia]
-
-[Aqua]
-
-[White]
-
 [Are you sure you want to delete this note?]
 Впевнені, що хочете видалити нотатки?
 [Notes]
@@ -259,8 +221,6 @@
 Дата/заголовок
 [Sticky Note Caption]
 Заголовок
-[Sticky Note Background Color]
-
 [Sticky Note Body]
 Вікно
 [Select Executable]
@@ -281,8 +241,6 @@
 Зазначений час недійсне із-за переходу на «літній час»
 [The specified time is invalid.]
 Зазначений час недійсний.
-[The specified time offset is invalid.]
-
 [&Update Reminder]
 &Оновити нагадування
 [Every]

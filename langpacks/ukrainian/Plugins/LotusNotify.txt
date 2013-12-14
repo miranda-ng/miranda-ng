@@ -33,8 +33,6 @@
 Пам'ятайте нові повідомлення ID\n і не показувати старі
 [version:]
 Версія:
-[Clear popups history]
-
 [Filter messages contain below strings in:]
 Фільтр повідомлення містять нижче рядка в:
 [Sender]

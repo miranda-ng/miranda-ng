@@ -35,8 +35,6 @@ AIM Деталі користувача
 Відключити розширені значки статусу
 [Notify about new mail]
 Повідомляти про нову пошту
-[Advanced Options]
-
 [Instant Idle on Login]
 Режим очікування при вході
 [Force Proxy File Transfers]
@@ -45,12 +43,8 @@ AIM Деталі користувача
 Представлятися як Sidekick/Hiptop
 [*Aim must be reconnected for some option to take effect]
 *AIM повинен бути перепідключений, щоб зміни вступили в силу
-[Connection]
-
 [Port:]
 Порт:
-[Reset]
-
 [Disable SSL]
 Вимк. SSL
 [Manage Server Groups]
@@ -87,8 +81,6 @@ AIM Встановити Instant Idle
 Додати
 [Remove]
 Видалити
-[Idle]
-
 [Allow contacts to be notified of:]
 Повідомити про контакти:
 [Join Chat Room]
@@ -99,16 +91,12 @@ AIM Встановити Instant Idle
 &Увійти
 [&Cancel]
 &Скасувати
-[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
-
 [Change Password]
 Змінити пароль
 [Original]
 Старий
 [New]
 Новий
-[Repeat]
-
 [*Passwords don't match.]
 *Паролі не співпадають.
 [Screen Name]
@@ -131,8 +119,6 @@ AIM Встановити Instant Idle
 &Відхилити
 [Message]
 Повідомлення
-[Room]
-
 [Me]
 Я
 [Others]
@@ -145,190 +131,44 @@ AIM Встановити Instant Idle
 Про &користувача
 [User &history]
 &Історія
-[Invalid Screen Name or password.]
-
 [Mismatched Screen Name or password.]
 Неправильне ім'я AIM або пароль.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Ви підключаєтесь занадто часто. Почекайте 10 хвилин і спробуйте знову.
 [Unknown error occurred when attempting to connect.]
 Невідома помилка при з'єднанні.
-[Invalid SNAC header.]
-
-[Server rate limit exceeded.]
-
-[Client rate limit exceeded]
-
-[Recipient is not logged in.]
-
-[Requested service is unavailable.]
-
-[Requested service is not defined.]
-
-[You sent obsolete SNAC.]
-
 [Not supported by server.]
 Не підтримується сервером
 [Not supported by the client.]
 Не підтримується клієнтом
-[Refused by client.]
-
-[Reply too big.]
-
-[Response lost.]
-
-[Request denied.]
-
-[Incorrect SNAC format.]
-
-[Insufficient rights.]
-
-[Recipient blocked.]
-
-[Sender too evil.]
-
-[Receiver too evil.]
-
 [User temporarily unavailable.]
 Користувач тимчасово недоступний.
-[No Match.]
-
-[List overflow.]
-
-[Request ambiguous.]
-
-[Server queue full.]
-
-[Not while on AOL.]
-
-[Check your Screen Name.]
-
-[Check your Password.]
-
-[Check your Email Address.]
-
 [Service temporarily unavailable.]
 Сервіс тимчасово недоступний.
-[Field change temporarily unavailable.]
-
-[Invalid Screen Name.]
-
-[Invalid Password.]
-
-[Invalid Email.]
-
-[Invalid Registration Preference.]
-
-[Invalid Old Password.]
-
-[Invalid Screen Name Length.]
-
-[Invalid Password Length.]
-
-[Invalid Email Length.]
-
-[Invalid Old Password Length.]
-
-[Need Old Password.]
-
-[Read Only Field.]
-
-[Write Only Field.]
-
 [Unsupported Type.]
 Цей тип не підтримується
 [An Error has occurred.]
 Невідома помилка.
-[Invalid Account.]
-
-[Delete Account.]
-
-[Expired Account.]
-
-[No Database access.]
-
-[Invalid Database fields.]
-
-[Bad Database status.]
-
-[Migration Cancel.]
-
 [Internal Error.]
 Внутрішня помилка.
-[There is already a Pending Request for this Screen Name.]
-
-[Not DT status.]
-
-[Outstanding Confirmation.]
-
-[No Email Address.]
-
-[Over Limit.]
-
-[Email Host Fail.]
-
-[DNS Fail.]
-
 [Failed to open file: %s : %s]
 Не вдалося відкрити файл: %s : %s
 [AIM Link Protocol]
 Протокол AIM Link
 [%s Protocol]
 Протокол %s
-[Open mail account?]
-
 [%s server connection]
 %s підключення до сервера
 [%s Client-to-client connection]
 %s підключення між клієнтами
 [[Auto-Response]:]
 (Автовідповідь):
-[Contact tried to open an audio/video conference (currently not supported)]
-
 [No information has been provided by the server.]
 Сервер не надав жодної інформації.
-[Item you want to delete not found in list.]
-
-[Failed to add buddy to list: Item already exist.]
-
-[Error adding buddy (invalid ID or already in list?)]
-
-[Cannot add buddy. Limit for this type of item exceeded.]
-
-[Error? Attempting to add ICQ contact to an AIM list.]
-
-[Cannot add this buddy because it requires authorization.]
-
 [Unknown error when adding buddy to list. Error code %#x]
 Невідома помилка при додаванні до списку. Код %#x
-[Item you want to modify not found in list.]
-
 [Unknown error when attempting to modify a group. Error code %#x]
 Невідома помилка при спробі модифікувати групу. Код %#x
-[You've got mail! Checked at]
-
-[Error uploading avatar. (Too small)]
-
-[Error uploading avatar. (Too big)]
-
-[Error uploading avatar. (Wrong type)]
-
-[Error uploading avatar. (Is banned)]
-
-[Error uploading avatar. (Unknown error)]
-
-[A confirmation message has been sent to the new email address. Please follow its instructions.]
-
-[A confirmation message has been sent to your email address. Please follow its instructions.]
-
-[Unable to confirm at this time. Please try again later.]
-
-[Your account has already been confirmed.]
-
-[Can't start the confirmation procedure.]
-
-[Block]
-
 [Profile]
 Профіль
 [AOL Mail]
@@ -395,12 +235,6 @@ AIM Встановити Instant Idle
 Додати в список на сервері
 [Network]
 Мережа
-[Basic]
-
-[Privacy]
-
-[Join me in this buddy chat!]
-
 [Please, enter a username in the options dialog.]
 Будь ласка, введіть ім'я користувача в налаштуваннях.
 [Please, enter a password in the options dialog.]

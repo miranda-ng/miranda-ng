@@ -49,8 +49,6 @@ OK
 Виділити номер версії
 [Show disabled plugins too]
 Показати відключені плагіни
-[Attempt to find unloadable plugins]
-
 [Suppress header information]
 Не включати заголовок
 [Enable debug messages]
@@ -69,14 +67,10 @@ UUID плагіна
 Завантажити
 [&Save to file]
 &Файл
-[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-
 [Information successfully written to file:% s.]
 Інформація успішно записана у файл:\"% s\".
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Помилка створення файлу %s. Можливо диск повний або захищений.
-[The clipboard is not available, retry.]
-
 [Information successfully copied clipboard into.]
 Інформація успішно скопійовано в буфер обміну.
 [Customize using folders plugin]
@@ -93,5 +87,3 @@ UUID плагінів
 Версії
 [Services]
 Служби
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-

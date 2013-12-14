@@ -153,8 +153,6 @@ History++ для історії вікон
 Кольори налаштовуються в\r\nТонкаі налаштування > Шрифти та кольори
 [Більше...]
 Ще...
-[Disable if message window is open]
-
 [Sec]
 с.
 [0 = Default]
@@ -221,8 +219,6 @@ History++ для історії вікон
 Дія
 [The Jabberwocky]
 Пустослів'я
-[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
-
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Тестовий перегляд для налаштувань плагіна спливаючих вікон. Заголовок досить довгий...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -255,8 +251,6 @@ History++ для історії вікон
 Поновити список
 [Popup Placement]
 Положення
-[OK]
-
 [Cancel]
 Скасувати
 [Popup Group]
@@ -297,8 +291,6 @@ History++ для історії вікон
 Відключити спливаючі вікна
 [Popup Plus]
 Спливаючі вікна
-[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
-
 [No effect]
 Без ефекту
 [Fade in/out]
@@ -351,8 +343,6 @@ History++ для історії вікон
 Налаштування 'Впорядковувати (зсувати) вікна' вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewStatusNotify).\r\n\r\nВключити впорядкування (зрушення) вікон?\r\n
 [Popup Plus Warning]
 Попередження Popup Plus
-[Failed to register %s class.]
-
 [Skin preview]
 Перегляд скіна
 [Just take a look at this skin... ;)]
@@ -373,18 +363,12 @@ History++ для історії вікон
 Глобальні налаштування
 [Refresh List]
 Поновити список
-[Failed to GetClassInfoExW from EDIT class.]
-
-[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
-
 [Error]
 Помилка
 [Warning]
 Попередження
 [Notify]
 Повідомлення
-[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-
 [Popup Mode: Auto]
 Режим спливаючих вікон: за замовчуванням
 [Popup Mode: Favourite]

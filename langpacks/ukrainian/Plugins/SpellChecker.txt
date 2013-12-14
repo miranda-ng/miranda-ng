@@ -29,8 +29,6 @@
 Виправлення:
 [Use variables in correction]
 Використовувати змінні для заміни
-[OK]
-
 [Cancel]
 Скасування
 [Spell Checker]
@@ -65,22 +63,8 @@
 Використовувати словники з інших програм
 [Avoid removing underscores (slows down checking of long texts)]
 Не видаляти підкреслення (уповільнює перевірку великих текстів)
-[The wrong word can't be empty!]
-
 [Wrong Correction]
 Невірне виправлення
-[The correction can't be empty!]
-
-[The correction can't be equal to the wrong word!]
-
-[tl_PH]
-
-[Tagalog (Philippines)]
-
-[de_frami_neu]
-
-[German (Germany)]
-
 [Message Sessions]
 Бесіди
 [Auto-replacements]

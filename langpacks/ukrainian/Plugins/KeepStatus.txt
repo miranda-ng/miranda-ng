@@ -85,8 +85,6 @@
 Показати CMDL
 [Activate status profile]
 Активувати профіль статусу
-[Set docked]
-
 [Other]
 Інше
 [Status on startup]
@@ -111,8 +109,6 @@
 Вікно при старті
 [Automatically dial on startup]
 Автоматично встановлювати з'єднання при запуску
-[Automatically hang up on exit]
-
 [Dial-up (experimental)]
 Dial-up (експериментальна)
 [Background color]
@@ -255,8 +251,6 @@ Dial-up (експериментальна)
 Стають активними без зміни статусу
 [Pre-conditions]
 Попередні умови
-[TriggerData]
-
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: статус, який має бути встановлено для облікового запису\r\nОбліковий запис: обліковий запис, для якого потрібно змінити статус
 [Protocol]

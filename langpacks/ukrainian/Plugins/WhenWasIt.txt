@@ -69,10 +69,6 @@
 Показати всі контакти
 [Set birthday:]
 Вказати день народження:
-[OK]
-
-[Manage anniversaries]
-
 [Title:]
 Заголовок:
 [Description:]
@@ -187,8 +183,6 @@
 У %s був день народження %d днів тому.
 [%s had birthday yesterday.]
 У %s вчора був день народження.
-[%s has birthday today (Should not happen, please report).]
-
 [Birthday - %s]
 День народження %s
 [He]

@@ -277,8 +277,6 @@ Skype протокол для Miranda NG.
 Видалити
 [Protocols]
 Протоколи
-[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
-
 [Initialization key or corrupted not valid.]
 Ключ ініціалізації пошкоджений або не дійсний.
 [SkypeKit did not initialize (%d).]

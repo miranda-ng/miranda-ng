@@ -69,8 +69,6 @@
 Параметр, префікс:
 [Translation:]
 Перетворення:
-[OK]
-
 [Cancel]
 Скасувати
 [Item]
@@ -101,8 +99,6 @@
 Вниз
 [Edit]
 Змінити
-[Separator]
-
 [Advanced options]
 Додатково
 [Retrieve XStatus details if auto-retrieve is disabled]
@@ -311,10 +307,6 @@
 Копіювати все
 [Copy avatar]
 Копіювати аватар
-[<No Label>: ]
-
-[<No Value>]
-
 [Fav. contacts]
 Обрані
 [Other]
@@ -327,10 +319,6 @@
 День народження:
 [Client:]
 Клієнт:
-[Email]
-
-[Email:]
-
 [Gender:]
 Стать:
 [Homepage]
@@ -343,10 +331,6 @@
 Очікування
 [Idle:]
 В очікуванні:
-[IP]
-
-[IP:]
-
 [IP internal]
 Внутрішній IP
 [IP internal:]
