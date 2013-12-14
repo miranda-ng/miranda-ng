@@ -1844,155 +1844,155 @@ Cмущённый
 [buying groceries]
 покупаю продукты
 [cleaning]
-Убираюсь
+убираюсь
 [cooking]
-Готовлю еду
+готовлю еду
 [doing maintenance]
-Повседневные дела
+повседневные дела
 [doing the dishes]
-Мою посуду
+мою посуду
 [doing the laundry]
-Стираю
+стираю
 [gardening]
-Садовничаю
+садовничаю
 [running an errand]
-Выполняю поручения
+выполняю поручения
 [walking the dog]
-Выгуливаю собаку
+выгуливаю собаку
 [Drinking]
 Пью
 [having a beer]
-Пью пиво
+пью пиво
 [having coffee]
-Пью кофе
+пью кофе
 [having tea]
-Пью чай
+пью чай
 [Eating]
 Кушаю
 [having a snack]
-Перекусываю
+перекусываю
 [having breakfast]
-Завтракаю
+завтракаю
 [having dinner]
-Обедаю
+обедаю
 [having lunch]
-Ужинаю
+ужинаю
 [Exercising]
 Упражняюсь
 [cycling]
-На велосипеде
+на велосипеде
 [dancing]
-Танцую
+танцую
 [hiking]
-Хожу пешком
+хожу пешком
 [jogging]
-Пробегаюсь
+пробегаюсь
 [playing sports]
-Занимаюсь спортом
+занимаюсь спортом
 [running]
-Бегаю
+бегаю
 [skiing]
-Катаюсь на лыжах
+катаюсь на лыжах
 [swimming]
-Плаваю
+плаваю
 [working out]
-Тренируюсь
+тренируюсь
 [Grooming]
 Гигиена
 [at the spa]
-В спа
+в спа
 [brushing teeth]
-Чищу зубы
+чищу зубы
 [getting a haircut]
-Подстригаюсь
+подстригаюсь
 [shaving]
-Бреюсь
+бреюсь
 [taking a bath]
-Принимаю ванну
+принимаю ванну
 [taking a shower]
-Принимаю душ
+принимаю душ
 [Having appointment]
 На свидании
 [Inactive]
-Неактивен
+Неактивно
 [day off]
-Выходной
+выходной
 [hanging out]
-Слоняюсь
+слоняюсь
 [hiding]
-Прячусь
+прячусь
 [on vacation]
-В отпуске
+в отпуске
 [praying]
-Молюсь
+молюсь
 [scheduled holiday]
-Каникулы
+каникулы
 [sleeping]
-Сплю
+сплю
 [thinking]
-Думаю
+думаю
 [Relaxing]
 Расслабляюсь
 [fishing]
-Ловлю рыбу
+ловлю рыбу
 [gaming]
-Играю
+играю
 [going out]
-Выхожу в свет
+выхожу в свет
 [partying]
-Тусуюсь
+тусовка
 [reading]
-Читаю
+читаю
 [rehearsing]
-Выступаю
+выступаю
 [shopping]
-Делаю покупки
+делаю покупки
 [smoking]
-Курю
+курю
 [socializing]
-Общаюсь
+общаюсь
 [sunbathing]
-Загораю
+загораю
 [watching TV]
-Смотрю телевизор
+смотрю телевизор
 [watching a movie]
-Смотрю фильм
+смотрю фильм
 [Talking]
 Разговариваю
 [in real life]
-В реальной жизни
+в реальной жизни
 [on the phone]
-По телефону
+по телефону
 [on video phone]
-По видео телефону
+по видео телефону
 [Traveling]
 В дороге
 [commuting]
-Общественный транспорт
+общественный транспорт
 [driving]
-За рулем
+за рулем
 [in a car]
-В автомобиле
+в автомобиле
 [on a bus]
-В автобусе
+в автобусе
 [on a plane]
 в самолете
 [on a train]
-В поезде
+в поезде
 [on a trip]
-Путешествую
+путешествую
 [walking]
-Гуляю
+гуляю
 [Working]
 Работаю
 [coding]
-Программирую
+программирую
 [in a meeting]
-На совещании
+на совещании
 [studying]
-Учусь
+учусь
 [writing]
-Пишу
+пишу
 [Activity: %s]
 Занятие: %s
 [Set Activity]
