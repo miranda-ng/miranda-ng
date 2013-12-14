@@ -1555,8 +1555,8 @@ TabSRMM: Набирает
 Настройки окна сообщений
 [Error feedback]
 Ошибки доставки сообщений
-[Show skinnable tooltip in chat (tipper plugin required)]
-Использовать плагин tipper для отображения подсказок в чате
+[Show skinnable tooltip in chat (Tipper plugin required)]
+Использовать плагин Tipper для отображения подсказок в чате
 [Enable typing sounds]
 Включить звук набора текста
 [Disable animated GIF avatars (will not affect already open message windows)]

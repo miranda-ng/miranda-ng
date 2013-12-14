@@ -1592,7 +1592,7 @@ ID пользователя
 [Sushi]
 Суши
 [Playing]
-Играет
+Играю
 [Writing]
 Пишу
 [%s Custom Status]

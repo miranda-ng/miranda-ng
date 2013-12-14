@@ -374,7 +374,7 @@ MRIM_CS_SMS_ACK: не найден в очереди
 [Duck]
 В ванной
 [Playing]
-Играет
+Играю
 [Smoking]
 Курю
 [Office]
