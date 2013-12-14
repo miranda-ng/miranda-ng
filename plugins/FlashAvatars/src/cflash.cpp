@@ -223,7 +223,7 @@ static void prepareFlash(char* pProto, const TCHAR* pUrl, FLASHAVATAR& fa, IShoc
 	debug("Preparing flash...\n");
 	if(flash == NULL) {
 		// Flash component is not registered in the system
-		ShowBalloon(LPGENT("Flash.ocx not registered!"), LPGENT("You don't have installed ShockwaveFlash interface in your system."), NIIF_ERROR);
+		ShowBalloon(LPGENT("Flash.ocx not registered!"), LPGENT("You don't have installed Shockwave Flash interface in your system."), NIIF_ERROR);
 
 		DestroyWindow(fa.hWindow);
 		fa.hWindow = 0;
@@ -585,13 +585,13 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 	nl_user.cbSize = sizeof(nl_user);
 	nl_user.szSettingsModule = "FlashAvatars";
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS;
-	nl_user.szDescriptiveName = Translate("Flash Avatars");
+	nl_user.szDescriptiveName = Translate("Flash avatars");
 
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
 
 	TCHAR path[MAX_PATH];
 	mir_sntprintf(path, MAX_PATH, _T("%s\\%s\\"), VARST(_T("%miranda_avatarcache%")), _T("Flash"));
-	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Flash Avatars"), path);
+	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Flash avatars"), path);
 	return 0;
 }
 
