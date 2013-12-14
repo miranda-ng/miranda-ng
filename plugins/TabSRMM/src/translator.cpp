@@ -39,7 +39,7 @@ TOptionListGroup m_lvGroupsModPlus[] = {
 };
 
 TOptionListItem m_lvItemsModPlus[] = {
-	0, LPGENT("Show skinnable tooltip in chat (tipper plugin required)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"adv_TipperTooltip", 0,
+	0, LPGENT("Show skinnable tooltip in chat (Tipper plugin required)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"adv_TipperTooltip", 0,
 	0, LPGENT("Enable typing sounds"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_soundontyping", 0,
 	0, LPGENT("Disable animated GIF avatars (will not affect already open message windows)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_DisableAniAvatars", 0,
 	0, LPGENT("Close current tab on send"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_AutoClose_2", 0,
