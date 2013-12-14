@@ -137,12 +137,11 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		if (!nick.IsEmpty())
 			nick = _T("(") + nick + _T(")");
 			
-		text.Format(LPGENT("Authorization request from %s%s: %s"),
+		text.Format(TranslateT("Authorization request from %s%s: %s"),
 			(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
 		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
 	}
-
-	if (dbei->eventType == EVENTTYPE_FILE) {
+	else if (dbei->eventType == EVENTTYPE_FILE) {
 		char *buf = LPSTR(dbei->pBlob) + sizeof(DWORD);
 		ptrT tszFileName(getEventString(dbei, buf));
 		ptrT tszDescription(getEventString(dbei, buf));
