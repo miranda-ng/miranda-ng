@@ -1500,6 +1500,7 @@ XML для MS Excel (кодировка UTF-8)
 [LiveJournal Talk]
 ЖЖ
 [Facebook Chat]
+Чат Facebook
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некоторые изменения вступят в силу после следующего подключения к сети.
 [Set New Password for %s@%S]

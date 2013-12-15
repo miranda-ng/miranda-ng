@@ -12,6 +12,7 @@ E-mail:
 [Password:]
 Пароль:
 [Create a new Facebook account]
+Создать новую учётную запись Facebook
 [What's on your mind?]
 О чем вы думаете?
 [Wall:]
@@ -187,6 +188,7 @@ URL:
 [Other Event]
 Другое событие
 [Facebook icon]
+Значок Facebook
 [Mind]
 Мнение
 [Poke]
