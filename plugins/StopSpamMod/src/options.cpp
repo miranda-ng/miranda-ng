@@ -107,7 +107,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 			case ID_RESTOREDEFAULTS:
 				SetDlgItemText(hwnd, ID_QUESTION, defQuestion);
-				SetDlgItemText(hwnd, ID_ANSWER,  TranslateT("nospam"));
+				SetDlgItemText(hwnd, ID_ANSWER,  _T("nospam"));
 				SetDlgItemText(hwnd, ID_AUTHREPL, TranslateT("StopSpam: send a message and reply to a anti-spam bot question."));
 				SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

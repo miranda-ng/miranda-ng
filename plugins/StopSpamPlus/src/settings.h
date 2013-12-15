@@ -66,7 +66,7 @@ public:
 		_T("Внимание! Антиспам защита. Ответьте \"nospam\" без кавычек и пробелов, если хотите связаться со мной.")))
 	,AuthRepl("AuthReply",TranslateTS(_T("StopSpam: send a message and reply to a anti-spam bot question.\r\n")
 		_T("Антиспам: отправьте сообщение и ответьте на вопрос антиспам системы.")))
-	,Answer("Answer",TranslateT("nospam"))
+	,Answer("Answer",_T("nospam"))
 	,Congratulation("Congratulation",TranslateTS(_T("Congratulations! You just passed human/robot test. Now you can write me a message.\r\n")
 		_T("Поздравляю! Вы прошли антиспам проверку. Теперь вы можете писать мне.")))
 	,DisabledProtoList("DisabledProtoList","MetaContacts RSSNews")
