@@ -6,7 +6,6 @@
 [times before giving up]
 [Show email notifications using popup module]
 [Entry ID]
-[Sender]
 [You have %d unread emails...]
 [You have one unread email...]
 [Exchange email]

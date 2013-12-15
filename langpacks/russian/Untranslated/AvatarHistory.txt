@@ -1,5 +1,4 @@
 ﻿[Avatar List Popup]
-[OK]
 [Avatar History for %s]
 [Avatar History is empty!]
 [avatar path is null.]

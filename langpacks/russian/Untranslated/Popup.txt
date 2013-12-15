@@ -1,5 +1,4 @@
 ﻿[Disable if message window is open]
-[OK]
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 [Failed to register %s class.]
 [Failed to GetClassInfoExW from EDIT class.]

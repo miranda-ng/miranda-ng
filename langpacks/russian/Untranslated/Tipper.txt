@@ -1,5 +1,4 @@
-﻿[OK]
-[Show only for contacts]
+﻿[Show only for contacts]
 [%s ago]
 [<No Label>: ]
 [<No Value>]

@@ -81,6 +81,8 @@
 Пауза
 [Server:]
 Сервер:
+[User info]
+О пользователе
 [UPLOADING...]
 Загрузка...
 [Open in Browser]
@@ -95,6 +97,8 @@ FTP файл менеджер
 Удалить из списка
 [Delete from FTP]
 Удалить с FTP
+[OK]
+OK
 [Cancel]
 Отмена
 [Rename]
@@ -111,6 +115,8 @@ FTP файл менеджер
 Удалить из списка
 [Copy Link]
 Копировать ссылку
+[User Info]
+О пользователе
 [Copy Link to Clipboard]
 Копировать ссылку в буфер обмена
 [%d minutes]

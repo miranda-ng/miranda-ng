@@ -25,6 +25,8 @@
 Сохранять смену аватаров в истории
 [Show popups for this user]
 Вспл. окна для этого пользователя
+[OK]
+OK
 [Protocols]
 Протоколы
 [Enable tracking for these protocols:]

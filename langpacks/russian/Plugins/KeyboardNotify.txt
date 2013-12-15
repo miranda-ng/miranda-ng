@@ -131,6 +131,8 @@
 Список программ
 [Program]
 Программа
+[OK]
+OK
 [Cancel]
 Отмена
 [Set LEDs for events]

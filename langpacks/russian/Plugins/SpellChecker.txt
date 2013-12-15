@@ -29,6 +29,8 @@
 Исправление:
 [Use variables in correction]
 Использовать переменные для замены
+[OK]
+OK
 [Cancel]
 Отмена
 [Spell Checker]

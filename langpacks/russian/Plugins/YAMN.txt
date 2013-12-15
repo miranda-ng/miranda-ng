@@ -7,6 +7,8 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Уведомление и просмотр новой почты для Miranda NG. Встроен протокол POP3.
+[OK]
+OK
 [Installed plugins]
 Установленные дополнительные плагины
 [Version:]
@@ -177,6 +179,8 @@ YAMN: сбой подключения
 Ник
 [No new mail message]
 Нет новых писем
+[%s - connection error]
+%s  - ошибка соединения
 [Unknown error]
 Неизвестная ошибка
 [ - connection error]

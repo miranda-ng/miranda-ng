@@ -135,6 +135,8 @@
 * Отрицательные значения для фильтрации ранних событий
 [Execute task for specified contacts]
 Выполнять задачу для определённых контактов
+[OK]
+OK
 [Cancel]
 Отмена
 [Open History]
@@ -377,6 +379,8 @@ Dat (мКонтакты)
 ** <date> - вставляет дату, <ext> - расширение, <contact> - имя контакта
 [History Log]
 Просмотр истории
+[Filter:]
+Фильтр
 [Conversation started at %s]
 Беседа начата в %s
 [Menu]

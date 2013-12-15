@@ -41,6 +41,8 @@
 Маркер %extratext% будет принят, как специальная строка, которая зависит от ситуации, как и где эта строка использована. Используйте этот диалог, чтобы симулировать строку, которая будет подставляться в %extratext%
 [Close]
 Закрыть
+[OK]
+OK
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Служба переменных подставляет различным маркерам соответствующие значения. Пример: Я использую Miranda NG версии %mirandaversion%. В маркер %mirandaversion% будет подставлен соответствующий номер версии вашей Miranda NG. Следующий список показывает все доступные маркеры.
 [Notes]

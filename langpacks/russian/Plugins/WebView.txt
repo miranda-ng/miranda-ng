@@ -29,6 +29,8 @@
 (не рекомендуется)
 [Display]
 Показывать
+[OK]
+OK
 [Cancel]
 Отмена
 [Apply]
@@ -39,8 +41,16 @@
 &Следующий
 [Find what:]
 Найти:
+[Add time and date of alert to contact name]
+Добавить время и дату к имени контакта
+[Add as prefix]
+Добавить как префикс
+[Add as suffix]
+Добавить как суффикс
 [Log to file]
 Запись в файл
+[Log file:]
+Файл журнала:
 [Append data to file]
 Добавить содержимое в файл
 [Popup delay]
@@ -83,6 +93,8 @@
 Автообновление выключено
 [Auto update enabled]
 Автообновление включено
+[Contact options]
+Параметры
 [Network]
 Сеть
 [Popups]
@@ -97,5 +109,7 @@
 Сервер упал или лагает.
 [Online]
 В сети
+[A site is already downloading, try again in a moment.]
+Сайт уже загружается, попробуйте позже.
 [Popup plugin]
 Вспл. окна

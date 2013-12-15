@@ -21,6 +21,8 @@
 Вверх
 [Application name]
 Имя приложения
+[OK]
+OK
 [Cancel]
 Отмена
 [Show]

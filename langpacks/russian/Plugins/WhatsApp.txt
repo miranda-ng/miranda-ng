@@ -31,6 +31,8 @@ SMS-код:
 Для регистрации номера и получения пароля воспользуйтесь программой WART из папки Plugins
 [Cancel]
 Отмена
+[OK]
+OK
 [Please enter a country-code.]
 Введите код страны.
 [Please enter a phone-number without country code.]

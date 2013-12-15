@@ -17,6 +17,8 @@
 Скопировать в буфер
 [%s Message (%s)]
 Сообщение "%s" (%s)
+[OK]
+OK
 [Retrieving status message for %s...]
 Получение сообщения статуса для %s...
 [Behavior on status change]

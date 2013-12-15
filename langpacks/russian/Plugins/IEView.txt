@@ -71,12 +71,16 @@
 Относительное время
 [Incoming File Transfer]
 Входящий файл
+[URL sent]
+Посылка URL'a
 [URL received]
 Получен URL
 [(Unknown Contact)]
 (Неизвестный контакт)
 [ requested authorization]
  запросил(а) авторизацию
+[RESULT]
+результат
 [ERROR]
 ОШИБКА
 [%s has joined.]

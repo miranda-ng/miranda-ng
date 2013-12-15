@@ -57,12 +57,20 @@
 Порт:
 [Keep connection alive]
 Поддерживать соединение
+[Enable encryption]
+Включить шифрование
 [Enable Always Visible and Never Visible]
 Вкл. Всегда видим и Всегда невидим
 [P2P Connections]
 P2P Подключения
 [Use proxy for incoming connections]
 Исп. прокси для входящих подключений
+[Proxy type:]
+Тип прокси:
+[Proxy server:]
+Прокси-сервер:
+[Proxy requires authorization]
+Прокси требует авторизации
 [Enable incoming mail notification]
 Вкл. уведомление о входящей почте
 [Colors]
@@ -83,6 +91,8 @@ P2P Подключения
 Тест
 [Tlen Password]
 Пароль Tlen
+[OK]
+OK
 [Cancel]
 Отмена
 [Nick name:]
@@ -91,6 +101,8 @@ P2P Подключения
 Имя:
 [Last name:]
 Фамилия:
+[E-mail:]
+E-mail:
 [Gender:]
 Пол:
 [Year of birth:]
@@ -109,12 +121,18 @@ P2P Подключения
 Сохранить изменения
 [Avatar]
 Аватар
+[Avatar Options]
+Настройки аватара
 [Tlen login:]
 Вход Tlen:
 [Subscription:]
 Подписка:
+[Software:]
+Клиент:
 [Version:]
 Версия:
+[System:]
+Система:
 [Personal Information]
 Персональные данные
 [Nickname:]
@@ -177,6 +195,10 @@ Tlen чаты
 Авторизовать
 [%d Files]
 %d файлов
+[Authentication failed for]
+Аутентификация не пройдена для
+[Tlen Authentication]
+Аутентификация Tlen
 [You have been kicked. Reason: %s ]
 Вас выкинули. Причина: %s\s
 [You cannot join this chat room, because you are banned.]
@@ -237,6 +259,8 @@ Tlen чаты
 Перенаправление
 [Enter password for]
 Введите пароль для
+[Windows]
+Windows
 [%s Web Messages]
 %s Web сообщений
 [From]
@@ -257,6 +281,8 @@ E-Mail
 из
 [none]
 нет
+[not on roster]
+не в ростере
 [...Connecting...]
 ...Подключение...
 [...Waiting for connection...]

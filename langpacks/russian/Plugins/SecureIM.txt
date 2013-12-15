@@ -121,6 +121,8 @@
 Пользователь:
 [Password:]
 Пароль:
+[OK]
+OK
 [Cancel]
 Отмена
 [SecureIM plugin Passphrase of private key]

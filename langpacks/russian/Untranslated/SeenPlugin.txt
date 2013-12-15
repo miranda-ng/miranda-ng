@@ -1,5 +1,4 @@
-﻿[OK]
-[Test\nTest]
+﻿[Test\nTest]
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 [Jan.]
 [Feb.]

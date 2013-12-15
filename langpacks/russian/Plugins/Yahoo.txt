@@ -53,6 +53,8 @@ Yahoo Япония
 Установка xСтатуса
 [Show as busy]
 Показать как "занят"
+[OK]
+OK
 [Cancel]
 Отмена
 [Protocol:]

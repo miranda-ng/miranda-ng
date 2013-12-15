@@ -1,2 +1,1 @@
-﻿[OK]
-[Feed name]
+﻿[Feed name]

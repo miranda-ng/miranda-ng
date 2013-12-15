@@ -7,6 +7,8 @@
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Поддержка протокола Mail.ru Агент (MRA) в Miranda NG.
+[E-mail:]
+E-mail:
 [Password:]
 Пароль:
 [Create a new Mail.ru account]
@@ -139,6 +141,8 @@ xСтатус "%s"
 Заголовок:
 [Message:]
 Диалог:
+[OK]
+OK
 [Cancel]
 Отмена
 [Notify]
@@ -201,6 +205,8 @@ xСтатус "%s"
 Подключение аватаров
 [Avatars: server return HTTP code: %lu]
 Аватары: сервер вернул HTTP код: %lu
+[CHAT plugin is required for conferences. Install it before chatting]
+Для конференций требуется модуль Chat или tabSRMM 1.0+.
 [Your contact wakes you]
 Ваш собеседник будит вас
 [Display &Inbox]

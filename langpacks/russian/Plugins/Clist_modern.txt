@@ -93,20 +93,30 @@
 ВНИМАНИЕ: \tСкины могут изменять Ваш профиль. Откат невозможен. \n\t\tПожалуйста, сделайте РЕЗЕРВНУЮ КОПИЮ профиля.
 [* Restart may be required for all changes to take effect]
 * Необходим рестарт для вступления изменений в силу
+[Available objects]
+Доступные объекты
 [Copy]
 Копировать
 [Paste]
 Вставить
+[Object properties]
+Свойства объекта
 [Type]
 Тип
 [Color]
 Цвет
 [Alpha]
 Альфа
+[Image file and fitting mode]
+Изображение и тип заполнения
 [File]
 Файл
 [Borders]
 Границы
+[Fit mode]
+Заливка
+[Fragment location]
+Место фрагмента
 [Position:]
 Должность:
 [Left]
@@ -119,6 +129,8 @@
 Ширина
 [Height]
 Высота
+[W x H: 0 x 0 pixels]
+Ш х В: 0 х 0 пикс.
 [Available view modes]
 Доступные режимы вида
 [Include protocols]
@@ -131,6 +143,8 @@
 Показывать контакты в группах
 [Include status modes]
 Включить статусы
+[OK]
+OK
 [Cancel]
 Отмена
 [Sticky contacts]
@@ -539,20 +553,52 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Смайлики на третьей строке
 [Preview]
 Тест
+[Top/Left]
+Лево/верх
+[Bottom/Right]
+Право/низ
+[Position (vertical)]
+Позиция (вертикаль)
 [Align]
 Выравнивание
 [Options]
 Настройки
 [Visible]
 Видимо
+[Show Title]
+Заголовок
+[Locked]
+Заблокирован
 [Border]
 Рамка
 [Floating]
 Плавающее
+[Frames Order]
+Порядок фреймов
+[Row template]
+Шаблон
+[Add container]
+Добавить
+[Remove container]
+Удалить
+[Vertical align:]
+Вертикально:
+[Horizontal align:]
+Горизонтально:
+[Container type:]
+Тип контейнера:
+[Container width:]
+Ширина:
+[Container height:]
+Высота:
+[Layered]
+Слои
 [Move up]
 Выше
 [Move down]
 Ниже
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+ЭТА СТРАНИЦА ТОЛЬКО РАЗРАБАТЫВАЕТСЯ. Пожалуйста, НЕ СООБЩАЙТЕ об ошибках. Принимаются только комментарии к дизайну.
 [&Main menu]
 Главное меню
 [E&xit]
@@ -631,6 +677,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Добавление к метаконтакту
 [Do you want contact '%s' to be default?]
 Хотите сделать '%s' контактом по умолчанию?
+[Set default contact]
+Контакт по умолчанию
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Хотите удалить '%s' из метаконтакта '%s' и добавить в '%s'?
 [Changing MetaContacts (Moving)]
@@ -791,6 +839,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Текст
 [Extra icons]
 Экстра значки
+[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+Анимировать аватары (требуется GDI+ и avs.dll)
 [Left align group names]
 Имена групп слева
 [Center group names]
@@ -799,6 +849,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Имена групп справа
 [Row]
 Строка
+[Row design]
+Дизайн
 [Second Line]
 Вторая строка
 [Third Line]
@@ -867,30 +919,68 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Восстановить последнее состояние статуса
 [Show/Hide Offline Users]
 Показать/Скрыть отключённых
+[Empty %s cell]
+Очистить %s ячейку
+[column]
+столбец
 [line]
 Линия
 [columns]
 Колонки
 [lines]
 линий
+[%s, contain %s]
+%s, содержит %s
+[- Empty - (do not draw this object)]
+ - НЕТ - (не рисовать этот объект)
+[Solid fill object]
+Сплошная заливка
+[Image (draw image)]
+Изображение
+[Fragment (draw portion of image)]
+Фрагмент изображения
 [Stretch Both directions]
 Растянуть во все стороны
+[Stretch Vertical, Tile Horizontal]
+Растянуть вер., замостить гориз.
+[Tile Vertical, Stretch Horizontal]
+Замостить вер., растянуть гориз.
 [Tile Both directions]
 Замостить оба направления
+[Image size is]
+Размер
 [You need an image services plugin to process PNG images.]
 Для поддержки PNG вам нужен плагин службы изображений.
 [Error]
 Ошибка
+[Load/Save]
+Загрузить/Сохранить
+[Object Editor]
+Редактор объектов
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(ы):\t %s\nКонтакт:\t %s\nWeb:\t %s\n\nФайл:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(ы): %s\nКонтакт:\t %s\nВеб:\t %s\n\nФайл:\t %s
 [This is second default Modern Contact list skin in Vista Aero style]
 Это второй стандартный скин списка контактов в стиле Vista Aero
+[Inside library]
+Внутри библиотеки
+[Skin Information]
+Информация о скине
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Есть несохранённые изменения.\n\nВсе изменения будут потеряны\n\nПродолжить загрузку?
+[Warning!]
+Внимание!
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Текущий скин не сохранен.\n\nВсе изменения будут потеряны.\n\nПродолжить загрузку нового скина?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Предпросмотр не доступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nАВТОРЫ:\n%s\n\nКОНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
+[Select skin from list]
+Выберите скин из списка
+[Please select skin to apply]
+Пожалуйста, выберите скин
 [Default Skin]
 Стандартный скин
 [%Default Skin%]

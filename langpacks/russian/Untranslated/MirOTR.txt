@@ -1,5 +1,4 @@
 ﻿[Generating new private key - please wait.]
-[&OK]
 [Beginning OTR encrypted session with '%s']
 [Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
 [[OTR INFO] ]

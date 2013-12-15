@@ -65,6 +65,8 @@
 Сброс цветов
 [Last seen plugin]
 Последнее появление
+[OK]
+OK
 [You missed following contacts:]
 Пропущены следующие контакты:
 [Alert when user status changes]

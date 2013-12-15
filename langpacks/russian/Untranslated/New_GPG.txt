@@ -1,5 +1,4 @@
 ﻿[Load Public GPG key]
-[OK]
 [Email:]
 [Enter password for your secret key]
 [Received encrypted file]
@@ -22,7 +21,6 @@
 [Toggle GPG encryption]
 [Send public key]
 [Expire date]
-[Failed to open file]
 [Generating new random key, please wait]
 [Failed to alocate memory]
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]

@@ -11,6 +11,8 @@
 Официальный сайт Miranda NG
 [Miranda NG Options]
 Настройки Miranda NG
+[OK]
+OK
 [Cancel]
 Отмена
 [Apply]

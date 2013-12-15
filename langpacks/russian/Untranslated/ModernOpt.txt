@@ -1,4 +1,3 @@
 ﻿[Sample page]
 [Use arrow keys to choose category]
-[OK]
 [Miranda NG configuration center]

@@ -1,7 +1,5 @@
 ﻿[Configure conference]
-[&OK]
 [Join role:]
-[OK]
 [LOGOUT_CALLED]
 [SERVER_CONNECT_FAILED]
 [REJECTED_AS_UNDERAGE]

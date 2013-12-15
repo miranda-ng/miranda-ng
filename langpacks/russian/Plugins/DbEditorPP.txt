@@ -57,6 +57,8 @@
 Добавить модуль с названием
 [Add to all contacts (Includes Settings)]
 Во все контакты (включая настройки)
+[OK]
+OK
 [Cancel]
 Отмена
 [Edit Setting]
@@ -321,6 +323,8 @@ HANDLE
 Тип
 [Size]
 Размер
+[BLOB]
+BLOB
 [BYTE]
 байт
 [WORD]

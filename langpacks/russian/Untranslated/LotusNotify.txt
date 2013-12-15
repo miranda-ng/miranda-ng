@@ -9,7 +9,6 @@
 [Remember newest message ID\n and don't show older]
 [Clear popups history]
 [Filter messages contain below strings in:]
-[Sender]
 [Lotus connection settings]
 [Primary server:]
 [try detect]

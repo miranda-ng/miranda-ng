@@ -1,7 +1,4 @@
-﻿[Read Message:]
-[URL:]
-[Open in new browser window]
-[Show Options]
+﻿[URL:]
 [Group: %name% %count% [%mode%]]
 [Divider: %s]
 [Info: %s]

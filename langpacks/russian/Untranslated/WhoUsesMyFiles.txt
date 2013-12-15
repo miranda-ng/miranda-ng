@@ -1,5 +1,4 @@
-﻿[OK]
-[Error memory allocation]
+﻿[Error memory allocation]
 [Error creating menu]
 [Common Dialog Error 0x%lx]
 [Not implemented yet...]

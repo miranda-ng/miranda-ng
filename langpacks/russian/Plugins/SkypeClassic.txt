@@ -55,6 +55,8 @@
 Ответить, поставить звонок %s на паузу
 [Hang up]
 Отбить звонок
+[OK]
+OK
 [Dialog]
 Диалог
 [Use Skype proxy connection over network instead of local Skype API]
@@ -163,6 +165,8 @@ SkypeOut контакты в статусе:
 Я
 [&Leave chat session]
 &Покинуть чат
+[Set &Topic...]
+Установить тему...
 [User &details]
 &Информация
 [User &history]

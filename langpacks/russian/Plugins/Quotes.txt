@@ -9,6 +9,8 @@
 Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
 [Variable List]
 Переменные
+[OK]
+OK
 [Edit Settings]
 Изменить настройки
 [Use contact specific settings]
@@ -49,10 +51,14 @@
 Конвертер валют
 [&to:]
 в:
+[&Swap]
+&Обменять
 [Convert]
 Конвертировать
 [Close]
 Закрыть
+[Filter:]
+Фильтр
 [Popup Window Settings]
 Настройки всплывающих окон
 [Colors]

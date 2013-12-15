@@ -9,6 +9,8 @@
 Оповещает, если кто-то из вашего списка контактов сменил свой клиент.
 [ClientChangeNotify error]
 Ошибка ClientChangeNotify
+[OK]
+OK
 [Fingerprint plugin not found.]
 Плагин Fingerprint не найден.
 [ClientChangeNotify requires it to work properly.]

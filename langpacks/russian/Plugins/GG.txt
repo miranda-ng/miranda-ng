@@ -13,6 +13,8 @@
 Номер Gadu-Gadu:
 [Password:]
 Пароль:
+[E-mail:]
+E-mail:
 [Create new account]
 Новая учётная запись
 [Remove account]
@@ -97,6 +99,8 @@
 Сохранить изменения
 [Enter token to continue]
 Введите маркер для продолжения
+[OK]
+OK
 [Cancel]
 Отмена
 [Create Gadu-Gadu account]

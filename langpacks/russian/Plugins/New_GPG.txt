@@ -7,6 +7,8 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого GPG плагина и SecureIM.
+[OK]
+OK
 [Load from file]
 Импорт из файла
 [Select existing]
@@ -149,6 +151,8 @@ ID ключа:
 Не установлено
 [Default private key ID]
 Основной приватный ключ
+[Failed to open file]
+Невозможно открыть файл
 [Error]
 Ошибка
 [Warning]

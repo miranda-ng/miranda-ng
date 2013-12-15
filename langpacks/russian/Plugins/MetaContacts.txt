@@ -11,6 +11,8 @@
 Добавить к метаконтакту
 [Please select a MetaContact:]
 Выберите метаконтакт
+[&OK]
+ОК
 [&Cancel]
 О&тмена
 [Sort Alphabetically]
@@ -203,6 +205,8 @@ Meta ID
 Приоритеты
 [History]
 История
+[Sender]
+Отправитель
 [Could not get MetaContact ID]
 Не могу получить ID метаконтакта
 [Assignment error]

@@ -31,6 +31,10 @@
 Растягивать вертикально по высоте
 [Warning!\r\nThis MenuObject not support user defined options.]
 Внимание!\r\nЭти пункты меню не поддаются настройке.
+[MenuObjects]
+Виды меню
+[MenuItems]
+Пункты меню
 [InsertSeparator]
 Разделитель
 [Service:]
@@ -107,6 +111,8 @@ Cлужба:
 Не перемещать отключённых вниз
 [Pin to desktop]
 Прикрепить к столу
+[Rows]
+Строки
 [Row height:]
 Высота строки:
 [pixels]

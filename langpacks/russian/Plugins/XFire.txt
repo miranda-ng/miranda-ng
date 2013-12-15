@@ -111,8 +111,12 @@
 Копировать
 [Enter Password]
 Введите пароль
+[Join]
+Присоединиться
 [Set Nickname]
 Ввод ника
+[OK]
+OK
 [Cancel]
 Отмена
 [Update]

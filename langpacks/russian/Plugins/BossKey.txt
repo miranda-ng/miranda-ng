@@ -33,6 +33,8 @@
 Горячая клавиша
 [Password:]
 Пароль:
+[OK]
+OK
 [Cancel]
 Отмена
 [Workstation is Locked]

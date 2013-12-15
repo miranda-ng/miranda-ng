@@ -25,8 +25,14 @@
 Горячие клавиши
 [Show/Hide:]
 Показать/Спрятать:
+[Read Message:]
+Прочитать сообщение
 [Web Search:]
 Поиск в web:
+[Open in new browser window]
+Открыть в новом окне
+[Show Options]
+Настройки
 [Hide offline users]
 Скрыть отключённых
 [Hide empty groups]

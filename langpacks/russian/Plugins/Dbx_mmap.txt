@@ -9,6 +9,8 @@
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
 [Login to Miranda NG]
 Вход в Miranda NG
+[OK]
+OK
 [Cancel]
 Отмена
 [New password]

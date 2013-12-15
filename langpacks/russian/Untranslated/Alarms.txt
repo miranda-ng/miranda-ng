@@ -1,2 +1,1 @@
-﻿[OK]
-[Unknown command issued: "%s"]
+﻿[Unknown command issued: "%s"]

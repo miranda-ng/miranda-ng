@@ -9,6 +9,8 @@
 Создание и отсылка снимков экрана контакту.
 [Dialog]
 Диалог
+[OK]
+OK
 [All]
 Все
 [None]
@@ -123,8 +125,12 @@ HTTP подключение SendSS
 Кнопки
 [Overlays]
 Оверлеи
+[Credits]
+Кредиты
 [< Copyright]
 < Права
+[Copyright]
+Права
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
 [Window]

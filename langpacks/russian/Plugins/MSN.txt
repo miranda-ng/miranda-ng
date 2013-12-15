@@ -53,6 +53,8 @@
 Вы в списке контакта на сервере
 [Refresh]
 Обновить
+[Hotmail]
+Hotmail
 [Disable Popup notifications]
 Отключить уведомление всплывающими окнами
 [Disable Tray notifications]
@@ -71,6 +73,8 @@
 Отключить уведомления в списке контактов
 [Set Nickname]
 Ввод ника
+[OK]
+OK
 [Cancel]
 Отмена
 [Mobile Device (used for SMS)]

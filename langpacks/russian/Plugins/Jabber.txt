@@ -11,6 +11,8 @@
 Редактировать заметку
 [Tags:]
 Теги:
+[OK]
+OK
 [Cancel]
 Отмена
 [Type:]
@@ -31,6 +33,8 @@
 Настройка подключения (узел и порт):
 [Use Domain Login]
 Доменный логин
+[Go]
+>>
 [Search service]
 Служба поиска
 [Roster Editor]
@@ -93,10 +97,34 @@ TLS
 Отключите все опции, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
 [Jabber Account Registration]
 Регистрация учётной записи Jabber
+[Jabber Agents]
+Агенты Jabber
+[Register/Search Jabber Agents]
+Регистрация/поиск агентов Jabber
+[Jabber server:]
+Сервер Jabber:
 [Browse]
 Обзор
+[Register...]
+Регистрация
+[Browse/Join chat room...]
+Обзор комнат...
+[Search...]
+Поиск...
+[Registered Jabber Transports]
+Зарегистрированные транспорты Jabber
+[Log on]
+Войти
+[Log off]
+Выйти
+[Register with a new service...]
+Регистрация новой службы...
 [Close]
 Закрыть
+[Command]
+Команда
+[Jabber Form]
+Jabber форма
 [Instruction:]
 Инструкция:
 [Submit]
@@ -151,8 +179,12 @@ Jabber Пароль
 Отдел:
 [Title:]
 Заголовок:
+[E-mail:]
+E-mail:
 [Phone:]
 Телефон:
+[Jabber vCard: Add Email Address]
+Jabber vCard: добавление E-mail
 [Email address:]
 Адрес E-mail:
 [Home]
@@ -185,6 +217,8 @@ Jabber vCard: добавление телефона
 Номер
 [PCS]
 Шт
+[Load]
+Загрузить
 [Save]
 Сохранить
 [Delete]
@@ -199,6 +233,8 @@ Jabber vCard: добавление телефона
 Новый пароль:
 [Confirm New Password:]
 Подтверждение:
+[Jabber Multi-User Conference]
+Конференция Jabber
 [Conference server:]
 Сервер:
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
@@ -209,10 +245,14 @@ Jabber vCard: добавление телефона
 Последние посещённые чаты:
 [Bookmarks]
 Закладки
+[JID List]
+Список
 [Apply Filter]
 Применить фильтр
 [Reset Filter]
 Сбросить фильтр
+[Jabber Agent Registration]
+Регистрация агента Jabber
 [Register]
 Регистрация
 [Invite Users]
@@ -275,6 +315,24 @@ JID / URL:
 Простой режим
 [Advanced Mode]
 Расширенный режим
+[Add list... (Ins)]
+Добавить список... (Ins)
+[Activate (Space)]
+Активировать (пробел)
+[Set as default (Ctrl+Space)]
+По умолчанию (Ctrl+пробел)
+[Remove list (Del)]
+Удалить список (Del)
+[Add rule (Ins)]
+Добавить правило (Ins)
+[Edit rule... (F2)]
+Изменить правило (F2)
+[Move rule up (Alt+Up)]
+Переместить вверх (Alt+вверх)
+[Move rule down (Alt+Down)]
+Переместить вниз (Alt+вниз)
+[Remove rule (Del)]
+Удалить правило (Del)
 [Privacy rule]
 Правило приватности
 [If:]
@@ -311,16 +369,26 @@ Hовое имя списка приватности:
 Изменить сообщение "%s"
 [Closing in %d]
 Закрыть (%d)
+[Account type:]
+Тип аккаунта:
 [Login server:]
 Сервер:
+[Register account now]
+Зарегистрировать аккаунт
+[Jabber Account Information:]
+Информация Jabber аккаунта:
 [Member Information]
 Права доступа
 [Member Information\n<user ID>]
 Информация о пользователе\n<user ID>
 [Role:]
 Роль:
+[Set role]
+Установить роль
 [Affiliation:]
 Принадл.:
+[Set affiliation]
+Установить принадлежность
 [Status message:]
 Статусное сообщение:
 [Chat options]
@@ -335,6 +403,20 @@ Hовое имя списка приватности:
 Шлепок:
 [Authorization request]
 Запрос авторизации
+[HTTP Authorization\nAccept or reject incoming request]
+HTTP авторизация\nПринять или отклонить входящий запрос
+[Someone (maybe you) has requested the following file:]
+Кто-то (возможно, вы) запросил следующий файл:
+[Request was sent from JID:]
+Запрос послан с JID:
+[The transaction identifier is:]
+Идентификатор транзакции:
+[Request method is:]
+Метод запроса:
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+Нажмите "авторизировать" чтобы принять запрос или нажмите "запретить" для отклонения.
+[Authorize]
+Авторизовать
 [Deny]
 Запретить
 [Dialog]
@@ -491,18 +573,32 @@ xHTML формат чат сообщений
 Участник
 [Moderator]
 Модератор
+[Visitors]
+Посетители
 [Participants]
 Участники
+[Moderators]
+Модераторы
+[Owners]
+Владельцы
 [User %s is now banned.]
 Пользователь %s был забанен.
 [User %s changed status to %s with message: %s]
 %s изменил статус на %s: %s
 [User %s changed status to %s]
 %s изменил статус на %s.
+[Room configuration was changed.]
+Настройки комнаты были изменены.
+[Outcast]
+Изгнанные
 [Affiliation of %s was changed to '%s'.]
 Принадлежность %s изменилась на %s.
 [Role of %s was changed to '%s'.]
 Роль %s сменилась на '%s'.
+[because room is now members-only]
+потому что комната только для постоянных участников
+[user banned]
+забаненый
 [Change &nickname]
 Изменить ник
 [&Invite a user]
@@ -605,22 +701,36 @@ xHTML формат чат сообщений
 Инфо пользователя: %s
 [Member Information\n%s from %s]
 Информация о пользователе\n%s из %s
+[Real JID not available]
+Реальный JID недоступен
 [Reason to kick %s]
 Причина пинка %s
 [Reason to ban %s]
 Причина бана %s
+[Invite %s to %s]
+Пригласить %s в %s
 [Set topic for %s]
 Установить тему для %s
 [Change nickname in %s]
 Изменить ник в %s
 [Reason to destroy %s]
 Причина уничтожения %s
+[Can't send data while you are offline.]
+Невозможно послать - не в сети.
 [Jabber Error]
 Jabber ошибка
+[request timeout.]
+таймаут запроса.
 [Node hierarchy]
 Иерархия узла
 [Node]
 Узел
+[Navigate]
+Переход
+[Browse all favorites]
+Обзор избранного
+[Remove all favorites]
+Удалить всё избранное
 [Registered transports]
 Транспорты
 [Browse local transports]
@@ -661,16 +771,32 @@ Jabber ошибка
 Скопировать информацию
 [Identities]
 Идентификаторы
+[category]
+категория
 [type]
 тип
+[Category]
+Категория
 [Type]
 Тип
 [Supported features]
 Поддерживаемые возможности
+[Info request error]
+Ошибка запроса информации
+[Items request error]
+Ошибка запроса значений
 [First Name]
 Имя
 [Last Name]
 Фамилия
+[Failed to retrieve room list from server.]
+Ошибка запроса списка комнат с сервера.
+[No rooms available on server.]
+На сервере нет доступных комнат
+[Room list request timed out.]
+Таймаут запроса списка комнат.
+[<no nick>]
+<без ника>
 [Loading...]
 Загрузка...
 [Please wait for room list to download.]
@@ -679,6 +805,8 @@ Jabber ошибка
 Закладки...
 [Change nickname in <%s>]
 Изменить ник в <%s>
+[has set the subject to:]
+установил(а) тему:
 [%s\nIncoming group chat invitation.]
 %s\nПриглашение в конференцию.
 [transport]
@@ -765,12 +893,16 @@ Jabber ошибка
 Приватность
 [Authentication failed for %s.]
 Аутентификация не прошла для %s.
+[Jabber Authentication]
+Аутентификация Jabber
 [Registration successful]
 Регистрация успешно пройдена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Пароль успешно изменен. Не забудьте обновить Ваш пароль в настройках учётной записи Jabber.
 [Password cannot be changed.]
 Пароль не может быть изменен
+[Jabber Bookmarks Error]
+Ошибка закладок Jabber
 [%s, %d items (%s)]
 %s, %d пункта(ов) (%s)
 [Voice List]
@@ -789,6 +921,8 @@ Jabber ошибка
 Причина бана
 [Removing %s?]
 Удалить %s?
+[Http authentication request received]
+Получен запрос HTTP авторизации
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
@@ -849,6 +983,8 @@ Jabber ошибка
 Высочайший приоритет (по выбору сервера)
 [Status Message]
 Статусное сообщение
+[CHAT plugin is required for conferences. Install it before chatting]
+Для конференций требуется модуль Chat или tabSRMM 1.0+.
 [To]
 В
 [From]
@@ -1367,6 +1503,8 @@ XML для MS Excel (кодировка UTF-8)
 ЖЖ
 [Facebook Chat]
 Чат Facebook
+[Some changes will take effect the next time you connect to the Jabber network.]
+Некоторые изменения вступят в силу после следующего подключения к сети.
 [Set New Password for %s@%S]
 Установка нового пароля для %s@%S
 [New password does not match.]
@@ -1377,14 +1515,22 @@ XML для MS Excel (кодировка UTF-8)
 Отправка запроса, пожалуйста, подождите...
 [Warning: privacy lists were changed on server.]
 Внимание: списки приватности сохранены на сервере.
+[Error occurred while applying changes]
+Ошибка при применении изменений
+[Privacy lists successfully saved]
+Списки приватности сохранены успешно
 [Privacy list %s set as active]
 Список приватности %s - активный
 [Active privacy list successfully declined]
 Активный список приватности отклонен успешно
+[Error occurred while setting active list]
+Ошибка при установке списка активным
 [Privacy list %s set as default]
 Список приватности %s - основной
 [Default privacy list successfully declined]
 Стандартный список приватности успешно отклонен
+[Error occurred while setting default list]
+Ошибка при установке списка по умолчанию
 [Simple mode]
 Простой режим
 [Advanced mode]
@@ -1401,6 +1547,10 @@ XML для MS Excel (кодировка UTF-8)
 Добавить правило
 [Delete rule]
 Удалить правило
+[Move rule up]
+Переместить вверх
+[Move rule down]
+Переместить вниз
 [Add list...]
 Добавить...
 [Remove list]
@@ -1417,6 +1567,10 @@ XML для MS Excel (кодировка UTF-8)
 ** Подписка: нет **
 [<none>]
 <нет>
+[allow ]
+разрешить
+[deny ]
+запретить
 [all.]
 всё.
 [messages]
@@ -1429,6 +1583,8 @@ XML для MS Excel (кодировка UTF-8)
 исходящее присутствие
 [queries]
 запросы
+[Else ]
+Иначе
 [If Jabber ID is ']
 Если JID '
 [ (nickname: ]
@@ -1437,6 +1593,8 @@ XML для MS Excel (кодировка UTF-8)
 Если группа '
 [If subscription is ']
 Если подписка '
+[then ]
+то
 [ (act., def.)]
  (активн., основн.)
 [ (active)]
@@ -1509,10 +1667,20 @@ XML для MS Excel (кодировка UTF-8)
 Выключить удалённое управление (проверяйте дважды, что вы делаете)
 [There is no messages to forward]
 Нет сообщений для отправки
+[Forward options]
+Опции пересылки
+[%d message(s) to be forwarded]
+%d сообщений(я) для отправки
+[Mark messages as read]
+Пометить сообщения прочитанными
+[%d message(s) forwarded]
+сообщений отправлено: %d
 [Workstation successfully locked]
 Компьютер успешно заблокирован
 [Error %d occurred during workstation lock]
 Ошибка %d возникла во время процесса блокировки
+[Confirmation needed]
+Необходимо подтверждение
 [Please confirm Miranda NG shutdown]
 Подтвердите выключение программы
 [There is no group chats to leave]
@@ -1555,6 +1723,8 @@ XML для MS Excel (кодировка UTF-8)
 Запрос регистрационной инструкции...
 [Authentication failed for %s@%S.]
 Аутентификация не прошла для %s@%S.
+[Message redirected from: %s\r\n%s]
+Сообщение переслано от %s\r\n%s
 [Sending registration information...]
 Отсылка регистрационной информации...
 [Resource]
@@ -1601,18 +1771,24 @@ XML для MS Excel (кодировка UTF-8)
 нет
 [Last logoff time]
 Время выхода:
+[Uptime]
+Время работы
 [Logoff message]
 Сообщение выхода
 [<no information available>]
 <нет информации>
 [Last active resource]
 Последний активный ресурс
+[Please switch online to see more details.]
+Подключитесь для получения детальной информации.
 [Copy]
 Копировать
 [Copy only this value]
 Копировать значение
 [format]
 Формат
+[Unknown format]
+Неизвестный формат
 [<Photo not available while offline>]
 <Фото недоступно без подключения к сети>
 [<No photo>]
@@ -1655,6 +1831,10 @@ Cлужба недоступна
 Неизвестная ошибка
 [Error]
 Ошибка
+[Unknown error message]
+Неизвестная ошибка
+[Advanced Status]
+Дополнительный статус
 [Set mood...]
 Настроение...
 [Set activity...]
@@ -1663,6 +1843,10 @@ Cлужба недоступна
 Мужской
 [Female]
 Женский
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Поддерживаются только изображения JPG, GIF и BMP, которые меньше 40 Кб.
+[Jabber vCard]
+Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: редактирование E-mail
 [Jabber vCard: Edit Phone Number]

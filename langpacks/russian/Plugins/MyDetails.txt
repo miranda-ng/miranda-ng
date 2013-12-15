@@ -11,6 +11,8 @@
 Мой ник
 [Nickname:]
 Ник:
+[OK]
+OK
 [Cancel]
 Отмена
 [General]

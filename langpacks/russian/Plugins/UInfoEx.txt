@@ -15,6 +15,8 @@
 &Обновление
 [Updating]
 Обновление
+[OK]
+OK
 [Cancel]
 Отмена
 [Apply]
@@ -239,6 +241,12 @@
 Адаптировать Настройки к стилю Aero.
 [Import]
 Импорт
+[Importing...\nPlease wait!]
+Импортируется...\nПожалуйста подождите!
+[Setting/Event (20/100)]
+Настройка/Событие (20/100)
+[John Doe (1/10)]
+Вася Пупкин (1/10)
 [Dialog]
 Диалог
 [All]
@@ -301,6 +309,8 @@ E-Mail
 Не напоминать мне об этом празднике.
 [Refresh Contact Details]
 Обновить данные контактов
+[Preparing...]
+Подготовка...
 [Hide]
 Скрыть
 [What do you want to export?]
@@ -349,16 +359,34 @@ E-Mail
 Обновление настроенных дней рождений
 [Keeps your custom birthday up to date.]
 Резервирует настроенные дни рождения.
+[Due to a parameter error, one of the treeitems can't be added!]
+Из-за ошибки в параметре, один из элементов дерева не может быть добавлен!
+[Rename Item]
+Переименовать
+[Hide Item]
+Скрыть
+[Show Items:]
+Показать:
 [Reset to defaults]
 Стандартные
+[Creating unique name for a page failed with %d and error code %d]
+Ошибка при создании имя для страницы с %d, код ошибки %d
+[Creating the label for a page failed with %d and error code %d]
+Ошибка при создании названия для страницы с %d, код ошибки %d
+[The dialog template type is no longer supported]
+Шаблон диалога больше не поддерживается
 [Add a new anniversary]
 Добавить новый праздник
 [Delete an existing anniversary]
 Удалить существующий праздник
 [Unspecified]
 Не указано
+[Edit E-Mail]
+Редактировать E-Mail
 [Edit Phone Number]
 Редактировать телефон
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+Номер телефона должен начинаться с + и состоять из\nцифр, пробелов, скобок и тире.
 [Choose the item to display.]
 Выбрать запись.
 [Edit the currently displayed item.]
@@ -367,6 +395,10 @@ E-Mail
 Добавить новую запись.
 [Delete the selected item.]
 Удалить данную запись.
+[CRITICAL: Unable to edit current entry!\nThis should not happen!]
+ФАТАЛЬНО: Невозможно редактировать эту запись!\nЭтого не должно было произойти!
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+Удалить выбранную запись?\n\t%s\n\t%s
 [Other]
 Другое
 [<Unspecified>]
@@ -403,6 +435,22 @@ E-Mail
 Игнорировать
 [Error]
 Ошибка
+[Protocol '%s' is offline]
+Протокол '%s' не в сети
+[Upload Details]
+Закачать Детали
+[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+Вы сейчас не подключены к сети ICQ.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
+[Uploading]
+Закачка
+[Creating the imagelist failed!]
+Ошибка при создании imagelist!
+[Could not find contact's protocol. Maybe it is not active!]
+Невозможно найти протокол контакта. Может быть он отключён!
+[No pages have been added. Canceling dialog creation!]
+Страницы не были добавлены. Отмена создания диалога!
+[Details dialog failed to be created. Returning error is %d.]
+Ошибка создания диалога деталей. Ошибка %d.
 [General]
 Общее
 [Contact (private)]
@@ -425,8 +473,12 @@ E-Mail
 Импорт из файла
 [Owner]
 Владелец
+[Upload ICQ Details]
+Загрузить детали ICQ
 [Upload failed]
 Загрузка не удалась
+[Your details were not uploaded successfully.\nThey were written to database only.]
+Ваши детали не загружены.\nОни сохранены локально.
 [IM Naming]
 Имя в IM
 [Password]
@@ -525,6 +577,10 @@ E-Mail
 Праздник через 9 дней
 [Anniversary later]
 Праздник позже
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Внимание: Версия Вашего текущего набора значков отличается от версии UserInfoEx.\nНекоторые значки могут быть не отображены правильно
+[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+Внимание: Набор значков не найден ни в одной из папок: 'customize\\icons', 'icons' или 'plugins'!
 [Main]
 Главный
 [UserInfoEx]
@@ -533,8 +589,12 @@ E-Mail
 Экспорт/Импорт контакта
 [User &details]
 &Информация
+[&Export User Details]
+&Экспорт данных пользователя
 [&Import]
 Импорт
+[&Import User Details]
+&Импорт данных пользователя
 [View/Change My &Details...]
 Личные &данные
 [Export all contacts]
@@ -555,6 +615,10 @@ E-Mail
 Мои заметки:
 [About:]
 Информация:
+[Please enter a valid Description first!]
+Пожалуйста, введите правильное описание сначала!
+[No valid date selected for editing!]
+Нет выбранной даты для редактирования!
 [Do you really want to delete the %s?]
 Вы действительно хотите удалить %s?
 [Home]
@@ -567,12 +631,16 @@ E-Mail
 Вторичный e-mail
 [Tertiary e-mail]
 Третий e-mail
+[Company]
+Компания
 [Question]
 Вопрос
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
 Эта функция удалит все настройки, которые вы сделали \nВсе настройки дерева, позиций окна, и др.!\n\nВы действительно хотите продолжить?
 [Ready]
 Готово
+[Everything is done!]
+Всё готово!
 [All settings are reset to default values now!]
 Все установки сейчас будут сброшены!
 [Reminder disabled]
@@ -601,8 +669,18 @@ E-Mail
 Принадлежность
 [Interest]
 Интересы
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Извините, ошибка добавления нового элемента с типом "%s"
 [<empty>]
 <нет>
+[Add Affliation]
+Присоединить
+[Edit Category]
+Изменить категорию
+[Edit Value]
+Изменить значение
+[Delete an entry]
+Удалить запись
 [Do you really want to delete this entry?]
 Вы действительно хотите удалить это?
 [Afrikaans]
@@ -965,8 +1043,12 @@ Web Дизайн
 '(Неизвестный контакт)'
 [Send e-mail]
 Отправить e-mail
+[Memory allocation error!]
+Ошибка выделения памяти!
 [Gender (uinfoex)]
 Пол (uinfoex)
+[User has no valid homepage]
+У пользователя нет правильной домашней страницы
 [View Homepage]
 Сайт
 [&Homepage]
@@ -975,6 +1057,16 @@ Web Дизайн
 Сайт (uinfoex)
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [b]%s (%S)...[/b]\n%d контактов осталось
+[Abort Refreshing Contact Details]
+Отменить обновление данных контактов
+[Do you want to cancel the current refresh procedure?]
+Вы точно хотите отменить обновление данных?
+[Miranda must be online for refreshing contact information!]
+Протоколы должны быть в сети для обновления данных!
+[%s has %s today.]
+%s отмечает %s сегодня.
+[an anniversary]
+праздник
 [He]
 Ему
 [She]
@@ -1001,23 +1093,79 @@ Web Дизайн
 Напоминание о приближающемся дне рождения
 [Anniversary Reminder]
 Напоминание о празднике
+[contact identificaion]
+идентификация контакта
+[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+Контакт %s(%s) не имеет уникального номера в vCard,\nно в контакт листе есть контакт с таким же псевдонимом и протоколом.\nВы хотите использовать его номер для этого контакта?
+[Importing a new contact was aborted!]
+Импортирование нового контакта прервано!
+[You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
+Вы отменили импорт нового контакта.\nНекоторая информация может быть неверной для этого контакта.\n\nВы хотите удалить незаконченный контакт?
+[Importing a new meta subcontact failed!]
+Ошибка при импортировании нового мета подконтакта!
+[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+Созданный мета подконтакт '%s'\nне может быть добавлен к МетаКонтакту '%s'!\n\nВы хотите удалить этот контакт?
+[Settings: %S]
+Настройки: %S
+[Events: %S]
+События: %S
 [All Contacts]
 Все контакты
 [Required modules]
 Обязательные модули
 [Optional modules]
 Дополнительные модули
+[Shows Miranda's installation directory.]
+Показывать папку установки Miranda IM.
+[Shows the directory with all your Miranda's profiles.]
+Показывать папку со всеми профилями Miranda IM.
+[The OpenFileDialog returned an error: %d!]
+OpenFileDialog вернул ошибку: %d!
+[The SaveFileDialog returned an error: %d!]
+SaveFileDialog вернул ошибку: %d!
+[The ini-file "%s"\nfor saving contact information could not be opened.]
+INI файл "%s"\nдля сохранения контакта не может быть открыт.
+[None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
+Ни один из %d контактов, в ini файле не соответствует выбранному контакту!\nНичего не будет импортировано
 [Import complete]
 Импорт завершен
+[Some basic statistics]
+Статистика
+[Added %d of %d contacts stored in the ini-file.]
+Добавлено %d из %d контактов из ini-файла.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+INI файл "%s"\nдля чтения контакта не может быть открыт.
 [all Contacts]
 Все контакты
 [Select a destination file...]
 Выберите имя файла для экспорта
 [Import User Details from VCard]
 Импорт деталей пользователя из vCard
+[Can't create xml file!\n%S]
+Невозможно создать XML файл!\n%S
+[Contact: %s (%S)]
+Контакт: %s (%S)
+[Importing %s caused error %d]
+Импорт %s вызвал ошибку %d
+[Loading contact %s from xml failed with error %d]
+Ошибка %d при загрузке контакта %s из xml
+[Importing Owner caused error %d]
+Импорт Владельца вызвал ошибку %d
+[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+Невозможно загрузить XML карточку "%s"\nОшибка: %d\nОписание: %s
+[The selected file is no valid XMLCard]
+Выбранный файл не является XML карточкой
+[The version of the XMLCard is not supported by UserInfoEx]
+Эта версия XML карточки не поддерживается модулем UserInfoEx
 [Complete]
 Готово
+[Owner contact successfully imported.]
+Информация Владельца импортирована удачно.
+[Selected XMLCard does not contain an owner contact!]
+Выбранная XML карточка не содержит информации владельца!
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Добавлено контактов: %u / %u\nДобавлено настроек: %u / %u\nДобавлено событий: %u / %u\nДублирующих событий: %u
+[FATAL: An exception was thrown while importing contacts from xmlCard!]
+ФАТАЛЬНО: Ошибка при импортировании контактов из xml карточки!
 [Flags (uinfoex)]
 Флаги (uinfoex)

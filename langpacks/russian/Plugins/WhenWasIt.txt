@@ -67,6 +67,8 @@
 Закрыть
 [Show all contacts]
 Показать все контакты
+[OK]
+OK
 [Title:]
 Заголовок:
 [Description:]
