@@ -32,7 +32,7 @@
 [Animate]
 Анимация
 [Maximum 'Custom smiley' height]
-Максимальная высота загруженных смайлов
+Макс. высота загружаемых смайлов
 [Minimum smiley height]
 Минимальная высота смайлов
 [Smiley selector]
