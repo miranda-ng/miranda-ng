@@ -115,8 +115,6 @@
 Присоединиться
 [Set Nickname]
 Ввод ника
-[OK]
-OK
 [Cancel]
 Отмена
 [Update]

@@ -7,8 +7,6 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого GPG плагина и SecureIM.
-[OK]
-OK
 [Load from file]
 Импорт из файла
 [Select existing]

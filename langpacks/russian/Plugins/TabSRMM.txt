@@ -9,8 +9,6 @@
 Плагин личных и групповых чатов для Miranda NG.
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Добавьте пользователя по его имени или по ID. Рекомендуется использовать маски.
-[OK]
-OK
 [Cancel]
 Отмена
 [Show these events]

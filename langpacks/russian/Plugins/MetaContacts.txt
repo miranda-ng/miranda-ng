@@ -11,8 +11,6 @@
 Добавить к метаконтакту
 [Please select a MetaContact:]
 Выберите метаконтакт
-[&OK]
-ОК
 [&Cancel]
 О&тмена
 [Sort Alphabetically]

@@ -135,8 +135,6 @@
 * Отрицательные значения для фильтрации ранних событий
 [Execute task for specified contacts]
 Выполнять задачу для определённых контактов
-[OK]
-OK
 [Cancel]
 Отмена
 [Open History]

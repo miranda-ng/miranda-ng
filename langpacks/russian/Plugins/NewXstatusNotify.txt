@@ -151,8 +151,6 @@ xСтатус
 Сброс
 [Disable notifications]
 Выключить уведомления
-[OK]
-OK
 [Cancel]
 Отмена
 [Disable globally]

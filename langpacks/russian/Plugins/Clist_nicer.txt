@@ -15,8 +15,6 @@
 Выход из Miranda
 [About CList Nicer+]
 О плагине Nicer+
-[OK]
-OK
 [Version]
 Версия
 [Support and latest version information]

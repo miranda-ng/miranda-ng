@@ -55,8 +55,6 @@
 Выключить, когда все передачи файлов завершились
 [&Action:]
 Действие:
-[OK]
-OK
 [Cancel]
 Отмена
 [Unsaved data in open applications except Miranda NG might get lost.]

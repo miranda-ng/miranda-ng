@@ -19,8 +19,6 @@
 Экспорт
 [Retrieve news at startup]
 Получать новости при запуске
-[OK]
-OK
 [Cancel]
 Отмена
 [General Settings]

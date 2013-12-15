@@ -71,8 +71,6 @@
 доп.
 [Sessions Manager]
 Менеджер сессий
-[OK]
-OK
 [Cancel]
 Отмена
 [Save your current session?]

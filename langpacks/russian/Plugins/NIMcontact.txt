@@ -81,8 +81,6 @@
 Возврат...
 [Help]
 Справка
-[OK]
-OK
 [&Export Non-IM Contact]
 Экспорт не-IM контакта
 [Co&py Non-IM Contact]

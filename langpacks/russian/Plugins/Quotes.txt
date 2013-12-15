@@ -9,8 +9,6 @@
 Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
 [Variable List]
 Переменные
-[OK]
-OK
 [Edit Settings]
 Изменить настройки
 [Use contact specific settings]

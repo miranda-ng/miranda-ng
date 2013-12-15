@@ -37,8 +37,6 @@ Skype протокол для Miranda NG.
 Подтверждение:
 [Password hint:]
 Подсказка пароля:
-[&OK]
-ОК
 [Set password]
 Установить пароль
 [Hint:]
@@ -47,8 +45,6 @@ Skype протокол для Miranda NG.
 Введите пароль
 [Remember this session password]
 Запомнить пароль этой сессии
-[OK]
-OK
 [Cancel]
 Отмена
 [Status text:]

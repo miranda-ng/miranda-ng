@@ -25,8 +25,6 @@
 Введите пароль для номера %d:
 [Remember this session password]
 Запомнить пароль сеанса
-[OK]
-OK
 [Cancel]
 Отмена
 [ICQ number:]

@@ -165,8 +165,6 @@
 История
 [&Quote]
 &Цитировать
-[&OK]
-ОК
 [Send To All Tabs]
 Отправить всем вкладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -267,8 +265,6 @@
 Длительность (с)
 [(0 means default setting, -1 means indefinite time)]
 0 = стандартные значения, -1 = бесконечное время
-[OK]
-OK
 [Log]
 Журнал
 [&Copy]

@@ -251,8 +251,6 @@ History++ для истории окон
 Обновить список
 [Popup Placement]
 Положение
-[OK]
-OK
 [Cancel]
 Отмена
 [Popup Group]

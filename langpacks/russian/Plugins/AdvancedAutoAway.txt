@@ -65,8 +65,6 @@
 при блокировке компьютера
 [Command line]
 Ком. строка
-[OK]
-OK
 [Copy to clipboard]
 Копировать в буфер обмена
 [Command line:]

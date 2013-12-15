@@ -99,8 +99,6 @@ E-mail:
 Сохранить изменения
 [Enter token to continue]
 Введите маркер для продолжения
-[OK]
-OK
 [Cancel]
 Отмена
 [Create Gadu-Gadu account]

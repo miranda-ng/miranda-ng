@@ -15,8 +15,6 @@
 Отлож. сообщ. послано для
 [Buddy Pounce]
 Отложенное сообщение
-[OK]
-OK
 [The Message:]
 Сообщение:
 [Delete Pounce]

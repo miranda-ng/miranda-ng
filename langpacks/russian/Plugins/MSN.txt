@@ -73,8 +73,6 @@ Hotmail
 Отключить уведомления в списке контактов
 [Set Nickname]
 Ввод ника
-[OK]
-OK
 [Cancel]
 Отмена
 [Mobile Device (used for SMS)]

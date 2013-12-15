@@ -7,8 +7,6 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Уведомление и просмотр новой почты для Miranda NG. Встроен протокол POP3.
-[OK]
-OK
 [Installed plugins]
 Установленные дополнительные плагины
 [Version:]

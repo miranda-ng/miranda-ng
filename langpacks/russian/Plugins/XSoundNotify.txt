@@ -23,8 +23,6 @@
 Сброс
 [Ignore sound for this contact]
 Игнорировать звук для этого контакта
-[OK]
-OK
 [Cancel]
 Отмена
 [Custom sound for %s (%s)]

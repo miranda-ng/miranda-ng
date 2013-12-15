@@ -55,8 +55,6 @@
 Ответить, поставить звонок %s на паузу
 [Hang up]
 Отбить звонок
-[OK]
-OK
 [Dialog]
 Диалог
 [Use Skype proxy connection over network instead of local Skype API]

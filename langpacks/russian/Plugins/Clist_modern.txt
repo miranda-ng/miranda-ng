@@ -143,8 +143,6 @@
 Показывать контакты в группах
 [Include status modes]
 Включить статусы
-[OK]
-OK
 [Cancel]
 Отмена
 [Sticky contacts]

@@ -59,8 +59,6 @@
 Вниз
 [Edit Host]
 Править хост
-[OK]
-OK
 [Cancel]
 Отмена
 [Address:]
