@@ -24,5 +24,4 @@
 [StopSpam automatic message:\r\n]
 [Not In List]
 [Complete]
-[nospam]
 [Remove Temporary Contacts]

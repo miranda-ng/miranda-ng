@@ -53,7 +53,5 @@
 Не у списку
 [Complete]
 Готово
-[nospam]
-не спам
 [Remove Temporary Contacts]
 Видалити тимчасові контакти
