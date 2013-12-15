@@ -7,6 +7,8 @@
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 Плагин OTR (Off-the-Record) для Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
+[OTR Generating Private Key]
+OTR Создание личного ключа
 [Default Policy]
 Политика по умолчанию:
 [Always]
@@ -115,6 +117,8 @@ OTR-шифрование: завершено
 Шифрованная сессия с '%s' не может быть запущена.
 [OTR could not encrypt when sending message]
 OTR не может шифровать во время отправки сообщения
+[OTR Information]
+Информация OTR
 [Authentication from %s]
 Идентификация от %s
 [Authenticae %s]
@@ -133,6 +137,8 @@ OTR завершён
 Частный OTR
 [OTR not secure]
 OTR не является безопасным
+[OTR]
+Шифрование
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Создание нового частного ключа для протокола '%s'.\nПодождите...
 [General]

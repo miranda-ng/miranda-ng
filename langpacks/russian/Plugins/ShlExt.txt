@@ -19,6 +19,8 @@
 Интеграция
 [Shell context menus]
 Контекстное меню оболочки
+[Do not display the profile name in use]
+Не показывать в меню название текущего профиля
 [Show contacts that you have set privacy rules for]
 Показывать контакты, для которых установлены правила конфиденциальности
 [Remove]

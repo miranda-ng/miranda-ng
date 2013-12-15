@@ -1,5 +1,4 @@
-﻿[Send SMS]
-[&H]
+﻿[&H]
 [%d/160]
 [&OK]
 [SMS message didn't send by %S to %s because: %S]

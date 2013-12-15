@@ -411,6 +411,8 @@ Enter для подробностей события
 Закладки нет
 [Conversation divider]
 Разделитель бесед
+[Conversation icon]
+Значок беседы
 [Conversation summer]
 Беседа летом
 [Conversation autumn]

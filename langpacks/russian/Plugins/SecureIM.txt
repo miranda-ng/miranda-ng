@@ -231,6 +231,8 @@ PGP SDK v%i.%i.%i найден.
 PGP SDK не найден!
 [This version not supported!]
 Эта версия не поддерживается!
+[(none)]
+(нет)
 [Private key loaded.]
 Секретный ключ загружен.
 [Private key not loaded!]
@@ -349,6 +351,8 @@ SecureIM: получено зашифрованное сообщение:\n
 Статус шифрования
 [Executable Files]
 Исполняемые файлы
+[Select GnuPG Executable]
+Выбор GnuPG выполняемых
 [All files]
 Все файлы
 [Save Private Key File]

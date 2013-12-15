@@ -34,5 +34,4 @@
 [Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 [Cannot remove old avatar file. ERROR: %d: %s\n%s]
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
-[IP Address]
 [You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]

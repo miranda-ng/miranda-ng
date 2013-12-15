@@ -85,6 +85,8 @@
 Вставить &CR/LF
 [Paste the Settings to import here.]
 Вставьте настройки сюда.
+[DBEditor++]
+Редактор базы
 [&Main]
 &Главное
 [&Refresh Modules]

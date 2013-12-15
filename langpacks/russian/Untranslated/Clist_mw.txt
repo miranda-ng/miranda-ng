@@ -1,5 +1,3 @@
-﻿[Warning!\r\nThis MenuObject not support user defined options.]
-[MenuObjects]
+﻿[MenuObjects]
 [MenuItems]
 [Rows]
-[Use connecting Icon]

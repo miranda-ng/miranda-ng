@@ -81,6 +81,8 @@
 Каналы новостей
 [%s\nis not a valid feed's address.]
 %s\nнеправильный адрес канала
+[empty]
+Пусто
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
 Импортировано каналов: %d \r\nНе импортировано дубликатов: %d
 [Imported %d feed(s).]

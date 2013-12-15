@@ -29,6 +29,8 @@
 Растянуть
 [Tile vertically according to Row Height]
 Растягивать вертикально по высоте
+[Warning!\r\nThis MenuObject not support user defined options.]
+Внимание!\r\nЭти пункты меню не поддаются настройке.
 [InsertSeparator]
 Разделитель
 [Service:]
@@ -227,6 +229,8 @@ Cлужба:
 Индикатор изменения размера
 [Show bevel effect on panels]
 Эффект бордюра на панелях
+[Use connecting Icon]
+Значок соединения
 [Use New Drawer for StatusBar]
 Новый стиль панели статуса
 [&Main menu]

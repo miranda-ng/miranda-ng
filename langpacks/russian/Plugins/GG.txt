@@ -319,6 +319,8 @@ HTTP неизвестная ошибка
 Ошибка
 [Client Name]
 Имя клиента
+[IP Address]
+IP адрес
 [Login Time]
 Время входа
 [Action]

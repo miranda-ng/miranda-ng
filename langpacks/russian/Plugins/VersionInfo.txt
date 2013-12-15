@@ -69,6 +69,8 @@ UUID плагина
 Информация успешно записана в файл: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Ошибка создания файла %s. Возможно диск полон или защищен.
+[The clipboard is not available, retry.]
+Буфер обмена недоступен, повтор.
 [Information successfully copied into clipboard.]
 Информация успешно скопирована в буфер обмена.
 [Customize using folders plugin]

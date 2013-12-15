@@ -115,6 +115,8 @@
 Пункт YAMN в главном меню
 [Show YAMN as a Protocol (Require Restart)]
 Показывать YAMN как протокол (нужен перезапуск)
+[MailBrowser Options]
+Настройки просмотра писем
 [Enable Close on Delete Button]
 Закрывать по нажатию "Удалить"
 [Show long localised date]
@@ -313,6 +315,8 @@ OpenSSL не загружен
 Все файлы
 [Select executable used for notification]
 Выбор программы для уведомления
+[Failed]
+НЕУДАЧА
 [Do you really want to delete this account?]
 Вы действительно хотите удалить эту учётную запись?
 [Delete account confirmation]

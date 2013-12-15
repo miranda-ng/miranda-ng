@@ -81,6 +81,8 @@
 Ответы: (находятся в переменных %response%, %response-n%)
 [Reply on success:]
 Уведомлять при подтверждении:
+[Send challenge on authorization request:]
+Отправлять контрольный вопрос при запросе авторизации:
 [Keep blocked messages in contact history]
 Хранить заблокированные сообщения в истории
 [and mark them unread after approval]

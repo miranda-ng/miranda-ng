@@ -21,6 +21,8 @@
 Сообщение принято:
 [Number:]
 Номер:
+[Send SMS]
+Отправить SMS
 [To:]
 Для:
 [Add number to list]

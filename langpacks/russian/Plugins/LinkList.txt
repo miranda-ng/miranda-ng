@@ -127,6 +127,8 @@
 Обработка истории...
 [Could not create window!]
 Невозможно создать окно!
+[Could not allocate memory!]
+Невозможно распределить память!
 [Linklist Plugin]
 Плагин Linklist
 [Matches for searchtext]

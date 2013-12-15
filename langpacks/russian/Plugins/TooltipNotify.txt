@@ -55,6 +55,8 @@
 Включить временный запрет уведомлений
 [Auto positioning]
 Автопозиция
+[Transparent input]
+Прозрачный вход
 [Preview]
 Просмотр
 [Translucency options]

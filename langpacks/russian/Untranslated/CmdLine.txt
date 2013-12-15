@@ -2,8 +2,6 @@
 [Current global status: %s.%s]
 ['%s' doesn't seem to be a valid account.]
 [Failed to change status for account '%s' to '%s'.]
-[Failed to set '%S' status message to '%s' (status is '%s').]
-[Successfully set '%S' status message to '%s' (status is '%s').]
 [Account '%S' does not support away messages, skipping.]
 [Account '%s' does not support away messages, skipping.]
 [Failed to change status message for account '%s' to '%s' (status is '%s').]

@@ -14,7 +14,6 @@
 [Xml File (*.xml)]
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
-[Log File]
 [Miranda's History]
 [Last Day]
 [Last Week]

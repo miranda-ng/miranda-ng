@@ -11,7 +11,6 @@
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 [Host we are connecting to is not the one certificate was issued for]
-[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

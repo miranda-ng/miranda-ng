@@ -1,2 +1,1 @@
-﻿[Do not display the profile name in use]
-[Miranda]
+﻿[Miranda]

@@ -1,5 +1,4 @@
 ﻿[Displays popups for custom events, triggered by UDP packages.]
-[Property Page]
 [(Default is 12001)]
 [NotifyAnything]
 [No resource name given.]

@@ -5,7 +5,6 @@
 [CTCP]
 [DCC]
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-[WhoIs]
 [DCC'n CTCP]
 [NickServ]
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]

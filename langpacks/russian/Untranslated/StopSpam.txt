@@ -1,2 +1,1 @@
-﻿[Vars]
-[Not In List]
+﻿[Not In List]

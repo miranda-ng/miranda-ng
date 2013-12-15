@@ -55,6 +55,8 @@
 Быстрые сообщения
 [Enter Value]
 Введите значение
+[You win!]
+Вы выиграли!
 [New Button]
 Новая кнопка
 [New Menu Entry]

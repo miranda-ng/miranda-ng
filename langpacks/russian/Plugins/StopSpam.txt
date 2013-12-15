@@ -19,6 +19,8 @@
 Ответ на запросы авторизации:
 [Divider:]
 Разделитель:
+[Vars]
+пер.
 [Disable protection for following accounts:]
 Отключить защиту для следующих учётных записей:
 [Do not send more than]

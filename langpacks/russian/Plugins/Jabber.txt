@@ -437,6 +437,8 @@ Jabber Ad-Hoc команды на %s
 vCard (визитные карточки)
 [Supports iq-based avatars]
 Аватары (iq протокол)
+[Supports XHTML formatting of chat messages]
+xHTML формат чат сообщений
 [Supports Jabber Browsing]
 Просмотр Jabber
 [Can negotiate options for specific features]
@@ -1475,6 +1477,8 @@ XML для MS Excel (кодировка UTF-8)
 Заблокировать компьютер
 [Quit Miranda NG]
 Закрыть Miranda NG
+[Change Status]
+Менять статус
 [Choose the status and status message]
 Установить статус и статусное сообщение
 [Status]

@@ -105,6 +105,8 @@
 -> Обедаю
 [The Message    (%d Characters)]
 Сообщение      (%d символов)
+[Times]
+Время
 [Days]
 Дней
 [Pounce being sent to %s in %d seconds]

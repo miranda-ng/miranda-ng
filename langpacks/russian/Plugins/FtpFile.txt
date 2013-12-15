@@ -55,6 +55,8 @@
 Введите свое имя архива
 [Compression level:]
 Уровень сжатия:
+[Upload File Manager]
+Менеджер загрузок
 [File:]
 Файл:
 [Completed:]
@@ -79,12 +81,16 @@
 Пауза
 [Server:]
 Сервер:
+[UPLOADING...]
+Загрузка...
 [Open in Browser]
 Открыть в браузере
 [FTP File Manager]
 FTP файл менеджер
 [Select All]
 Выделить всё
+[Deselect All]
+Снять выбор
 [Delete from list]
 Удалить из списка
 [Delete from FTP]
@@ -105,6 +111,8 @@ FTP файл менеджер
 Удалить из списка
 [Copy Link]
 Копировать ссылку
+[Copy Link to Clipboard]
+Копировать ссылку в буфер обмена
 [%d minutes]
 %d мин.
 [%d hours]

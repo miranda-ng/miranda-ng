@@ -129,6 +129,8 @@
 &Закрыть
 [Re&ad %s Message]
 &Прочитать сообщение "%s"
+[Copy %s Message]
+Копировать сообщение %s
 [Re&ad Away Message]
 Пр&очесть сообщение "Отсутствую"
 [Copy Away Message]

@@ -165,6 +165,8 @@ HTTP подключение Quotes
 Импорт
 [All files (*.*)]
 Все файлы (*.*)
+[Log File]
+Файл журнала
 [All]
 Все
 [Error occurred during site access.]

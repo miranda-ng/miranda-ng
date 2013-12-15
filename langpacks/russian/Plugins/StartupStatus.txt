@@ -11,6 +11,8 @@
 Проверять наличие соединения
 [Max. retries]
 Макс. попыток
+[Account connection]
+Подключение учётной записи
 [Delay between retries (secs)]
 Задержка между попытками (сек)
 [Show popups]

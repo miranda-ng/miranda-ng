@@ -7,6 +7,8 @@
 ;============================================================
 [Yahoo Protocol support for Miranda NG.]
 Поддержка протокола Yahoo в Miranda NG.
+[Yahoo]
+Yahoo
 [Password:]
 Пароль:
 [Nick:]
@@ -111,6 +113,8 @@ Yahoo ошибка
 Таймаут отправки сообщения
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Сообщение слишком длинное: Yahoo ограничено в 800 UTF8 символов
+[YAHOO Link Protocol]
+Протокол Yahoo
 [YAHOO plugin HTTP connections]
 Yahoo подключения по HTTP
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]

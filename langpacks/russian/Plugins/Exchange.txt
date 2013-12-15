@@ -9,6 +9,8 @@
 Непрочитанные письма
 [Close]
 Закрыть
+[Mark as read]
+Прочитанное
 [Dialog]
 Диалог
 [Connection]

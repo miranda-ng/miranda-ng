@@ -11,6 +11,8 @@
 WUMF: Текущие соединения
 [Popup delay settings]
 Настройки показа Popup
+[Popup Delay (seconds)]
+Окно видимо (секунд)
 [Background color]
 Цвет фона
 [Text color]

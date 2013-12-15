@@ -2,7 +2,6 @@
 [WWW:]
 [SSL]
 [APOP]
-[MailBrowser Options]
 [%s - connection error]
 [An error occurred. Error code: %d]
 [No new mail message, %d spam(s)]
@@ -10,4 +9,3 @@
 [Part]
 [Reading body %s]
 [Dialog box error]
-[Failed]

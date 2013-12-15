@@ -53,6 +53,8 @@
 Неизвестная ошибка.
 [Error]
 Ошибка
+[Unknown Error]
+Неизвестная ошибка
 [Could not start the HTTP Server plugin.]
 Не могу запустить плагин HTTP Сервер.
 [Retry]
@@ -61,6 +63,8 @@
 Да
 [No]
 Нет
+[Abort]
+Отмена
 [Ignore]
 Игнорировать
 [Open SendSS+]

@@ -19,6 +19,8 @@
 Фильтры
 [UP]
 Вверх
+[Application name]
+Имя приложения
 [Cancel]
 Отмена
 [Show]
@@ -27,6 +29,8 @@
 Скрыть
 [Status]
 Статус
+[Application]
+Приложение
 [Action]
 Действие
 [Plugins]

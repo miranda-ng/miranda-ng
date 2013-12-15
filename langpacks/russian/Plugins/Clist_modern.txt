@@ -869,8 +869,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Показать/Скрыть отключённых
 [line]
 Линия
+[columns]
+Колонки
 [lines]
 линий
+[Stretch Both directions]
+Растянуть во все стороны
+[Tile Both directions]
+Замостить оба направления
 [You need an image services plugin to process PNG images.]
 Для поддержки PNG вам нужен плагин службы изображений.
 [Error]

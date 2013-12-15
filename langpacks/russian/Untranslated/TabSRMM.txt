@@ -21,7 +21,6 @@
 [Load theme]
 [A send later job failed to complete.\nThe original message: %s]
 [Removed]
-[Failed]
 [Sent OK]
 [Deferred]
 [Suspended]

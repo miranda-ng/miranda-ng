@@ -1,5 +1,4 @@
 ﻿[contact display info]
-[other settings]
 [Timer Intervals.  ]
 [line()]
 [start()]

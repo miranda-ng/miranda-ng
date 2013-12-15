@@ -1,5 +1,4 @@
 ﻿[OK]
-[Popup Delay (seconds)]
 [Error memory allocation]
 [Error creating menu]
 [Common Dialog Error 0x%lx]

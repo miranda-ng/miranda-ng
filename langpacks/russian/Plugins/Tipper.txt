@@ -99,6 +99,8 @@
 Вниз
 [Edit]
 Изменить
+[Separator]
+Разделитель
 [Advanced options]
 Дополнительно
 [Retrieve XStatus details if auto-retrieve is disabled]
@@ -323,6 +325,8 @@ xСтатус
 День рождения:
 [Client:]
 Клиент:
+[Email]
+Почта
 [Gender:]
 Пол:
 [Homepage]
@@ -335,6 +339,8 @@ xСтатус
 Ожидание
 [Idle:]
 В ожидании:
+[IP]
+IP
 [IP internal]
 Внутренний IP
 [IP internal:]

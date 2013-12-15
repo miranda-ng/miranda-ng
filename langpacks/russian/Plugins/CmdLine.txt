@@ -75,6 +75,10 @@ Miranda была закрыта или произошла ошибка при о
 Изменен глобальный статус на '%s' (предыдущий был '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
 Изменен '%s' статус на '%s' (предыдущий был '%s').
+[Failed to set '%S' status message to '%s' (status is '%s').]
+Не удалось установить сообщение статуса '%s' для '%s' (статус '%s').
+[Successfully set '%S' status message to '%s' (status is '%s').]
+Успешно установлено '%s' сообщение статуса для '%s' (статус '%s').
 [Changed '%s' status message to '%s' (status is '%s').]
 Изменено '%s' сообщение статуса на '%s' (статус '%s').
 [Issued check email command to Exchange plugin.]

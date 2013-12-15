@@ -29,6 +29,8 @@
 Отображаемое имя
 [Contacts Tooltip]
 Подсказка
+[other settings]
+Дополнительные настройки
 [Link]
 Ссылка
 [Program parameters:]

@@ -5,6 +5,8 @@
 ;  Version: 0.0.2.8
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
+[Property Page]
+Страница свойств
 [Security]
 Безопасность
 [Only listen to localhost]

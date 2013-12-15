@@ -105,6 +105,8 @@ P2P Подключения
 Ищу:
 [Voice chats]
 Голосовые чаты
+[Save changes]
+Сохранить изменения
 [Avatar]
 Аватар
 [Tlen login:]
@@ -127,6 +129,12 @@ P2P Подключения
 Статус:
 [Plan:]
 План:
+[Quality]
+Качество
+[In]
+Входящее
+[Out]
+Исходящее
 [Finish]
 Завершить
 [Tlen Voice Chat Invitation]
@@ -227,6 +235,8 @@ Tlen чаты
 (Последнее сообщение)
 [Forwarding]
 Перенаправление
+[Enter password for]
+Введите пароль для
 [%s Web Messages]
 %s Web сообщений
 [From]

@@ -17,6 +17,8 @@
 Поздравление:
 [Auth. request reply:]
 Ответ на запросы авторизации:
+[Vars]
+пер.
 [Available accounts:]
 Доступные уч. записи:
 [Filtered accounts:]

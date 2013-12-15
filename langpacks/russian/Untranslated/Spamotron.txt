@@ -1,5 +1,4 @@
-﻿[Send challenge on authorization request:]
-[Message blocked due to preview action]
+﻿[Message blocked due to preview action]
 [Message approved due to preview action]
 [Challenge sent to preview contact]
 [Sending round-robin challenge to %s.]
