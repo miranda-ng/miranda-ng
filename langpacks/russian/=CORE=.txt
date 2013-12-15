@@ -31,6 +31,8 @@
 Настройки
 [Authorization request]
 Запрос авторизации
+[Authorization request from %s%s: %s]
+Запрос авторизации от %s%s: %s
 [Delete contact]
 Удалить контакт
 [&Yes]
@@ -565,6 +567,8 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Фильтр
 [&Room settings]
 Настройки
+[&Show/Hide nicklist]
+&Показать/Скрыть список ников
 [Show these events only:]
 Показывать только:
 [Actions]
@@ -2103,6 +2107,8 @@ Miranda NG не может открыть этот профиль
 Вы уверены, что хотите удалить профиль "%s"?
 [Size]
 Размер
+[Run]
+Запустить
 [Check database]
 Проверить базу
 [Created]
@@ -2921,4 +2927,3 @@ ANSI плагин
 Замбия
 [Zimbabwe]
 Зимбабве
-
