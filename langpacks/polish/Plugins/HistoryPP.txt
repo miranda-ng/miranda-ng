@@ -725,5 +725,3 @@ Kopiuj
 Zaznacz wszystko
 [Send &Message]
 Wyślij wiadomość
-[User Details]
-

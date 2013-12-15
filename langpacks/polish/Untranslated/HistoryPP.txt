@@ -1,7 +1,0 @@
-﻿[Open in &new window]
-[Open in existing &window]
-[Copy &Link]
-[Co&py]
-[Select &All]
-[Send &Message]
-[User Details]
