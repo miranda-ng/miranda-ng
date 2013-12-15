@@ -129,7 +129,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					db_set_ws(NULL, pluginName, "question", GetDlgItemString(hwnd, ID_QUESTION).c_str());
 					gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
 					db_set_ws(NULL, pluginName, "answer", GetDlgItemString(hwnd, ID_ANSWER).c_str());
-					gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", TranslateT("nospam"));
+					gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
 					db_set_ws(NULL, pluginName, "authrepl", GetDlgItemString(hwnd, ID_AUTHREPL).c_str());
 					gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateT("StopSpam: send a message and reply to a anti-spam bot question."));
 					db_set_ws(NULL, pluginName, "congratulation", GetDlgItemString(hwnd, ID_CONGRATULATION).c_str());

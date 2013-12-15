@@ -48,7 +48,6 @@
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 [StopSpam: send a message and reply to a anti-spam bot question.]
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
-[nospam]
 [If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
 [Info]
 [Message Sessions]
