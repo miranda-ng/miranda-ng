@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
-Pobiera informacje o pogodzie wyświetlając je w Twojej liście kontaktów.
+Pobiera informacje o pogodzie wyświetlając je na Twojej liście kontaktów.
 ;file \plugins\Weather\res\resource.rc
 [Update]
 Aktualizacja
@@ -21,13 +21,13 @@ Opcje
 [Update weather information on startup]
 Aktualizacja informacji o pogodzie na starcie
 [Update weather information every]
-Aktualizuj informacje o pogodzie cały czas
+Aktualizuj informacje o pogodzie co
 [minutes]
 minut
 [Consider weather info updated only when condition and temperature are changed]
-Aktualizuj informacje o pogodzie tylko w razie zmiany warunków i pogody
+Uznaj informacje o pogodzie za zaktualizowane tylko w razie zmiany warunków pogodowych
 [Remove old data when updating]
-Usuwanie starych danych podczas aktualizowania
+Usuń stare dane podczas aktualizowania
 [Make the contact italic when weather alert is issued]
 Wyświetl kontakt kursywą jeśli ogłoszono alarm pogodowy
 [Modes]
@@ -89,7 +89,7 @@ m
 [Do not append units to values]
 Nie dodawaj jednostek do liczb
 [Do not display fractional values]
-Nie wyświetlaj ułamkowych wartości
+Nie wyświetlaj wartości ułamkowych
 [Frame]
 Ramka
 [Avatar size]
@@ -121,9 +121,9 @@ Mapa pogodowa
 [Other Options]
 Inne opcje
 [Set as default station]
-Ustaw jako domyślną stacje
+Ustaw jako stację domyślną
 [Disable automatic update for this station]
-Wyłącz automatyczną aktualizację dla tej stacji
+Wyłącz automatyczne aktualizację dla tej stacji
 [Disable Popup for this station]
 Wyłącz Popup dla tej stacji
 [Change]
@@ -131,7 +131,7 @@ Zmień
 [Cancel]
 Anuluj
 [Popup Options]
-Opcje Popup
+Opcje Popupu
 [Enable popups]
 Włącz popupy
 [Popup only when condition changes]
@@ -145,7 +145,7 @@ Kolor tekstu
 [Use Windows colors]
 Użyj kolorów Windows
 [Popup Actions]
-Akcje Popup
+Akcje Popupu
 [Left Click]
 LPM
 [Right Click]
@@ -197,15 +197,15 @@ Domyślne
 [Status Message]
 Opis
 [Sunset]
-Słońce - zachód
+zachód słońca
 [Feel-like]
 Odczuwalność
 [Today's Low]
-Dzisiejszy niż
+Dzisiejsze minimum
 [Today's High]
-Dzisiejszy wyż
+Dzisiejsze maksimum
 [Sunrise]
-Słońce - wschód
+Wschód słońca
 [Dewpoint]
 Temperatura rosy
 [Humidity]
@@ -266,7 +266,7 @@ Autoaktualizacja wyłączona
 [Weather Condition Changed]
 Warunki pogodowe uległy zmianie
 [Weather Alert Issued]
-Ogłoszone alarmy pogodowe
+Ogłoszono alarm pogodowy
 ;file \plugins\Weather\src\weather.h
 [N/A]
 Niedostępny
@@ -338,7 +338,7 @@ Temperatura:  %[Temperature]
 [Current weather information for %s.]
 Aktualne informacje o pogodzie dla miejscowości %s.
 [%s is now the default weather station]
-%s jest obecnie domyślną stację meteo
+%s jest obecnie domyślną stacją meteo
 [Weather Protocol]
 Protokół pogodowy
 [Please try again after weather update is completed.]
@@ -355,7 +355,7 @@ Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienk
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
 [Get city name from ID]
-Pobierz nazwę miasta od ID
+Pobierz nazwę miasta z ID
 [Weather INI information]
 Informacja pogodowa INI
 [Browse]
@@ -407,7 +407,7 @@ Aktualizuj pogode
 [Popup]
 Popup
 [No Popup]
-Brak Popup
+Brak Popupu
 [Edit Settings]
 Edytuj ustawienia
 ;file \plugins\Weather\src\weather_info.cpp
@@ -428,7 +428,7 @@ Nazwa Pliku
 [The corresponding INI file for "%s" is not found.]
 Zgodny plik INI dla \"%s\" nie został znaleziony.
 [Weather INI information for "%s":]
-Inofrmacja pogodowa INI dla \"%s\":
+Informacja pogodowa INI dla \"%s\":
 [Name:]
 Nazwa:
 [Internal Name:]
@@ -460,9 +460,9 @@ Niepoprawny format INI dla: %s
 Wszystkie aktualizacje danych zostały przeładowane.
 ;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
-Tekst ramki
+Czcionka tekstu ramki
 [Frame Title Font]
-Tekst tytułu ramki
+Czcionka tekstu tytułu ramki
 [Frame Background]
 Tło ramki
 ;file \plugins\Weather\src\weather_opt.cpp
@@ -475,12 +475,12 @@ Wyświetlanie
 [Popups]
 Popupy
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twchód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
+%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
 [Weather Protocol Text Preview]
 Podgląd tekstu protokołu pogody
 ;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twchód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
+%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
 [%[..]\tcustom variables]
 %[..]\twłasne zmienne
 ;file \plugins\Weather\src\weather_svcs.cpp
@@ -501,7 +501,7 @@ Pokaż całą prognozę
 [Weather]
 Pogoda
 [Enable/Disable Weather Update]
-Włącz/wyłacz aktualizacje pogodowe
+Włącz/wyłącz aktualizacje pogodowe
 [Update All Weather]
 Aktualizuj całą pogodę
 [Remove Old Data then Update All]
