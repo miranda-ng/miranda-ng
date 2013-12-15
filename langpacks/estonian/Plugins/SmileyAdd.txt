@@ -14,7 +14,7 @@ Nimi:
 ;file \plugins\SmileyAdd\src\options.cpp
 [Customize]
 Kohandamine
-[All Files]
+[All files]
 Kõik failid
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

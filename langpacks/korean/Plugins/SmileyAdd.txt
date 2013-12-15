@@ -10,7 +10,7 @@
 ;file \plugins\SmileyAdd\src\download.cpp
 ;file \plugins\SmileyAdd\src\main.cpp
 ;file \plugins\SmileyAdd\src\options.cpp
-[All Files]
+[All files]
 모든 파일
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

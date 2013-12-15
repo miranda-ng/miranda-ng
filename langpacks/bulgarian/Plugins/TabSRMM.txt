@@ -1632,7 +1632,7 @@ TabSRMM съобщение (%s)
 
 [Error feedback]
 При грешка
-[Show skinnable tooltip in chat (tipper plugin required)]
+[Show skinnable tooltip in chat (Tipper plugin required)]
 
 [Enable typing sounds]
 Включване на звука при писане

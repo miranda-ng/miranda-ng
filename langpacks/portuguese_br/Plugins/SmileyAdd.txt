@@ -6,27 +6,27 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Categorias de Smiley
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Especifique Smiley Pack para cada categoria
 [Name:]
 Nome:
 [Replace only smileys surrounded by spaces]
 Substituir somente smileys rodeado por espaços
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Definir smiley para altura do texto
 [Disable custom smileys]
 Desabilitar smileys personalizados
-[High Quality smiley scaling]
+[High quality smiley scaling]
 Aplicar Alta Qualidade aos smileys
 [Animate]
 Animar
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 Max tanhanho do "Smiley Personalizado"
-[Min smiley height]
+[Minimum smiley height]
 Min tanhanho do smiley
-[Smiley Selector]
+[Smiley selector]
 Seletor de Smiley 
 [Surround inserted smiley with spaces]
 Surround inserido smiley com espaços
@@ -34,16 +34,16 @@ Surround inserido smiley com espaços
 Use smiley para definir o tamanho
 [IEView style window]
 Estilo de janela do IEView
-[Input Area]
+[Input area]
 Área de Entrada
 [Don't replace at cursor]
 Não substituir pelo cursor
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 Suporta Messagem de Diálogo Built-In
-[Smiley Button]
+[Smiley button]
 Botão Smiley 
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Mostrar Janela de Seleção de Smiley 
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
@@ -51,7 +51,7 @@ SmileyAdd
 [SmileyAdd HTTP connections]
 Conexões HTTP para Adicionar Smiley
 ;file \plugins\SmileyAdd\src\main.cpp
-[Assign Smiley Category]
+[Assign smiley category]
 Atribuir Categoria de  Smiley
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Apenas uma instância de SmileyAdd poderia ser executado.\nRemove ocorrências duplicadas do diretório 'Plugins'
@@ -62,14 +62,14 @@ Smileys
 Personalizar
 [Off]
 Desligado
-[Smiley Packs]
+[Smiley packs]
 Smiley Packs
-[All Files]
+[All files]
 Todos os Arquivos
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Smiley Pack %s não encontrado.\nSelecione o  Smiley Pack correto em Miranda Opções| Personalizar | Smileys.
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+Smiley pack %s não encontrado.\nSelecione o  Smiley Pack correto em Miranda Opções| Personalizar | Smileys.
 [Standard]
 Padrão
 ;file \plugins\SmileyAdd\src\smltool.cpp

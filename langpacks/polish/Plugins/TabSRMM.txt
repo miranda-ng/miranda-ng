@@ -1643,8 +1643,8 @@ Zmień skórkę
 Poprawki okna rozmowy
 [Error feedback]
 Błędy
-[Show skinnable tooltip in chat (tipper plugin required)]
-Pokaż skórkowalny tooltip w czacie (wymaga wtyczki tipper)
+[Show skinnable tooltip in chat (Tipper plugin required)]
+Pokaż skórkowalny tooltip w czacie (wymaga wtyczki Tipper)
 [Enable typing sounds]
 Włącz dźwięki przy pisaniu
 [Disable animated GIF avatars (will not affect already open message windows)]

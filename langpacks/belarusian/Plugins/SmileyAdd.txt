@@ -8,9 +8,9 @@
 [Smiley support for Miranda NG.]
 Падтрымка смайлаў у Miranda NG.
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Катэгорыі смайлаў
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Катэгорыі з унікальнымі наборамі смайлаў
 [Name:]
 Імя:
@@ -24,19 +24,19 @@
 Паказваць
 [Replace only smileys surrounded by spaces]
 Замяняць толькі смайлы акружаныя прабеламі
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Маштабаваць смайлы пад тэкст
 [Disable custom smileys]
 Адключыць загружаныя смайлы
-[High Quality smiley scaling]
+[High quality smiley scaling]
 Якаснае маштабаванне
 [Animate]
 Анімацыя
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 Макс. вышыня загруж. смайлаў
-[Min smiley height]
+[Minimum smiley height]
 Мін. вышыня смайлаў
-[Smiley Selector]
+[Smiley selector]
 Выбар смайла
 [Surround inserted smiley with spaces]
 Уставіць смайл з прабеламі
@@ -44,32 +44,32 @@
 Памер усіх смайлаў як у першага
 [IEView style window]
 Акно ў стылі IEView
-[Input Area]
+[Input area]
 Поле ўводу
-[Enable Smileys]
+[Enable smileys]
 Уключыць смайлы
 [Don't replace at cursor]
 Не замяняць пад курсорам
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 Падтрымка модуляў паведамленняў
 [Disable]
 Выключыць
-[Smiley Button]
+[Smiley button]
 Кнопка смайла
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Акно выбару эмоцый
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 Смайлы
-[Smiley Cache]
+[Smiley cache]
 Кэш смайлаў
 [SmileyAdd HTTP connections]
 HTTP далучэнне SmileyAdd 
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 Кнопка смайла
-[Assign Smiley Category]
+[Assign smiley category]
 Катэгорыя смайлаў
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Толькі адна копія SmileyAdd можа быць запушчана.\nУдаліце дублікат з тэчкі "Plugins"
@@ -84,25 +84,25 @@ HTTP далучэнне SmileyAdd
 Угару
 [Bottom]
 Ніз
-[Smiley Packs]
+[Smiley packs]
 Набор смайлаў
-[All Files]
+[All files]
 Усе файлы
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 У адпаведнасці з пратаколам
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Набор смайлаў %s не знойдзены.\nВыбярыце набор смайлаў: Налады -> Тонкая налада -> Смайлы.
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Праблемы з загрузкай набору смайлаў (неабходна выправіць).\nДля падрабязнасцяў гледзіце сеткавы дзённік.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 Смайл #%u у файле %s для набору смайлікаў %s не знойдзены.
 [Standard]
 Стандартныя
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 Рэгулярны выраз "%s" у наборы смайлаў "%s" не можа выводзіць "пустыя значэнні".
-[Regular Expression "%s" in smiley pack "%s" malformed.]
+[Regular expression "%s" in smiley pack "%s" malformed.]
 Рэгулярны выраз "%s" у наборы смайлаў "%s" пашкоджана.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]

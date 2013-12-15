@@ -6,17 +6,17 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Smiley categorieën
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Smiley Pack opgeven voor elke categorie
 [Name:]
 Naam:
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Smiley naar teksthoogte schalen
 [Animate]
 Animatie
-[Smiley Selector]
+[Smiley selector]
 Smiley kiezer
 [Surround inserted smiley with spaces]
 Zet een spatie aan beide kanten van de ingevoegde smiley
@@ -24,10 +24,10 @@ Zet een spatie aan beide kanten van de ingevoegde smiley
 Gebruik de eerste smiley voor de grootte van de selectie
 [IEView style window]
 Scherm in IEView-stijl
-[Smiley Button]
+[Smiley button]
 Smiley knop
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Smiley selectiescherm tonen
 ;file \plugins\SmileyAdd\src\download.cpp
 ;file \plugins\SmileyAdd\src\main.cpp
@@ -36,7 +36,7 @@ Smiley selectiescherm tonen
 Aanpassen
 [Off]
 Uit
-[All Files]
+[All files]
 Alle bestanden
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

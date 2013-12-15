@@ -6,27 +6,27 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 表情分类
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 为每个分类指定表情包
 [Name:]
 名称: 
 [Replace only smileys surrounded by spaces]
 仅替换以空格包围表情
-[Scale smiley to textheight]
+[Scale smiley to text height]
 将表情缩放为文本宽度
 [Disable custom smileys]
 禁用自定义表情
-[High Quality smiley scaling]
+[High quality smiley scaling]
 高质量表情缩放
 [Animate]
 动态化?
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 最大 "自定义表情" 高度
-[Min smiley height]
+[Minimum smiley height]
 最小表情高度
-[Smiley Selector]
+[Smiley selector]
 表情选择器
 [Surround inserted smiley with spaces]
 插入表情以空格包围
@@ -34,26 +34,26 @@
 使用首个表情作为选定大小
 [IEView style window]
 IEView 样式窗口
-[Input Area]
+[Input area]
 输入区域
 [Don't replace at cursor]
 不要替换光标位置
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 内置消息窗口支持
-[Smiley Button]
+[Smiley button]
 表情按钮
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 显示表情选择窗口
 ;file \plugins\SmileyAdd\src\download.cpp
-[Smiley Cache]
+[Smiley cache]
 表情缓存
 [SmileyAdd HTTP connections]
 SmileyAdd HTTP 连接
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 按钮表情
-[Assign Smiley Category]
+[Assign smiley category]
 对应表情分类
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 SmileyAdd 不能被重复加载.\n请删除 'Plugins' 目录下的重复文件.
@@ -64,24 +64,24 @@ SmileyAdd 不能被重复加载.\n请删除 'Plugins' 目录下的重复文件.
 自定义
 [Off]
 关闭
-[Smiley Packs]
+[Smiley packs]
 表情包
-[All Files]
+[All files]
 所有文件
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 协议特定
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 表情包 %s 未找到.\n请于 Miranda 选项中选择正确表情包 | 自定义 | 表情.
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 加载表情包出现问题 (应该可纠正).\n详细资料可查看网络记录.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 表情 #%u 在文件 %s 在表情包 %s 中未找到.
 [Standard]
 标准
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 正则表达式 "%s" 于表情包 "%s" 可产生 "空匹配".
-[Regular Expression "%s" in smiley pack "%s" malformed.]
+[Regular expression "%s" in smiley pack "%s" malformed.]
 正则表达式 "%s" 于表情包 "%s" 无效.
 ;file \plugins\SmileyAdd\src\smltool.cpp

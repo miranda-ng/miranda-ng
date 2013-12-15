@@ -16,7 +16,7 @@ Ad:
 Kişiselleştir
 [Off]
 Kapalı
-[All Files]
+[All files]
 Tüm Dosyalar
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

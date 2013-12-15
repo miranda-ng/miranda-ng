@@ -7,5 +7,5 @@
 ;============================================================
 [Customize]
 Customise
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customise | Smileys.
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+Smiley pack %s not found.\nSelect correct smiley pack in the Miranda Options -> Customise -> Smileys.

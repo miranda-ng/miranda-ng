@@ -2139,6 +2139,9 @@ URL
 Тази команда не е известна като сигурна.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Невалиден тип настройка за "%s". Първият знак на всяка стойност трябва да бъде b, w, d, l, s, e, u, g, h или n.
+;file \src\modules\database\dbutils.cpp
+[Authorization request from %s%s: %s]
+
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.

@@ -6,25 +6,25 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 顔文字カテゴリー
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 カテゴリー毎に顔文字パックを指定
 [Name:]
 名前:
 [Replace only smileys surrounded by spaces]
 空白で囲まれた顔文字のみ置換
-[Scale smiley to textheight]
+[Scale smiley to text height]
 テキスト高で顔文字を拡大縮小
 [Disable custom smileys]
 カスタム顔文字を無効
-[High Quality smiley scaling]
+[High quality smiley scaling]
 高品質で顔文字を拡大縮小
 [Animate]
 アニメ化する
-[Min smiley height]
+[Minimum smiley height]
 顔文字の高さの最小値
-[Smiley Selector]
+[Smiley selector]
 顔文字セレクター
 [Surround inserted smiley with spaces]
 挿入する顔文字を空白で囲む
@@ -32,24 +32,24 @@
 先頭の顔文字を選択したサイズで使用
 [IEView style window]
 IEView スタイルウィンドウ
-[Input Area]
+[Input area]
 入力エリア
 [Don't replace at cursor]
 カーソルで置換しない
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 組み込みメッセージダイアログサポート
-[Smiley Button]
+[Smiley button]
 顔文字ボタン
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 選択したウィンドウに顔文字を表示
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd HTTP connections]
 SmileyAdd HTTP 接続
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 顔文字ボタン
-[Assign Smiley Category]
+[Assign smiley category]
 顔文字カテゴリーを指定
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
@@ -58,13 +58,13 @@ SmileyAdd HTTP 接続
 カスタマイズ
 [Off]
 オフ
-[Smiley Packs]
+[Smiley packs]
 顔文字パック
-[All Files]
+[All files]
 全てのファイル
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 顔文字パックの読み込み時に問題が発生しました ( 要修正 )\n詳細はネットワークログを参照してください
 [Standard]
 標準

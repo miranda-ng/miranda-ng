@@ -1591,8 +1591,8 @@ TabSRMM: Набірае
 Налады акна паведамленняў
 [Error feedback]
 Памылкі дастаўкі паведамленняў
-[Show skinnable tooltip in chat (tipper plugin required)]
-Выкарыстоўваць плагiн tipper для падказак у чаце
+[Show skinnable tooltip in chat (Tipper plugin required)]
+Выкарыстоўваць плагiн Tipper для падказак у чаце
 [Enable typing sounds]
 Уключыць гук набору тэксту
 [Disable animated GIF avatars (will not affect already open message windows)]

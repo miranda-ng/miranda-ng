@@ -8,9 +8,9 @@
 [Smiley support for Miranda NG.]
 Smiley-Unterstützung für Miranda NG.
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Smileykategorien
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Für jede Kategorie separate Smileys setzen
 [Name:]
 Name:
@@ -24,19 +24,19 @@ Vorschau
 Anzeige
 [Replace only smileys surrounded by spaces]
 Nur von Leerzeichen umgebene Smileys ersetzen
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Smileys an Texthöhe anpassen
 [Disable custom smileys]
 'Custom Smileys' deaktivieren
-[High Quality smiley scaling]
+[High quality smiley scaling]
 Hochwertige Skalierung von Smileys
 [Animate]
 Animieren
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 Maximale 'Custom Smiley'-Höhe
-[Min smiley height]
+[Minimum smiley height]
 Minimale Smiley-Höhe
-[Smiley Selector]
+[Smiley selector]
 Smileyauswahl
 [Surround inserted smiley with spaces]
 Eingefügte Smileys mit Leerzeichen umgeben
@@ -44,32 +44,32 @@ Eingefügte Smileys mit Leerzeichen umgeben
 Auswahlgröße an ersten Smiley anpassen
 [IEView style window]
 IEView-Auswahlfenster
-[Input Area]
+[Input area]
 Eingabebereich
-[Enable Smileys]
+[Enable smileys]
 Smileys aktivieren
 [Don't replace at cursor]
 Erst bei nächstem Zeichen anzeigen
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 Nachrichtenfensterunterstützung
 [Disable]
 Deaktivieren
-[Smiley Button]
+[Smiley button]
 Smileybutton
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Smiley-Auswahlfenster anzeigen
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 SmileyAdd
-[Smiley Cache]
+[Smiley cache]
 Smiley-Cache
 [SmileyAdd HTTP connections]
 SmileyAdd-Plugin HTTP-Verbindungen
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 Smiley-Button
-[Assign Smiley Category]
+[Assign smiley category]
 Smileykategorie zuweisen
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Nur eine Instanz von SmileyAdd kann ausgeführt werden.\nEntfernung des Duplikats im 'Plugins'-Verzeichnis erforderlich.
@@ -84,25 +84,25 @@ Aus
 Oben
 [Bottom]
 Unten
-[Smiley Packs]
+[Smiley packs]
 Smileypacks
-[All Files]
+[All files]
 Alle Dateien
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 protokollspezifisch
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Smileypack %s nicht gefunden.\nKorrektes Smileypack in den Miranda-Einstellungen unter 'Customize -> Smileys' auswählen!
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Das verwendete Smileypack ist fehlerhaft und muss korrigiert werden.\nDetails finden sich im Netzwerklog.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 [Standard]
 Standard
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 Regulärer Ausdruck "%s" im Smileypack "%s" könnte "leere Treffer" verursachen.
-[Regular Expression "%s" in smiley pack "%s" malformed.]
+[Regular expression "%s" in smiley pack "%s" malformed.]
 Regulärer Ausduck "%s" in Smileypack deformiert.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]

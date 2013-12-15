@@ -6,27 +6,27 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 קטגוריות סמיילים
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 הגדרת חבילת סמיילים לכל קטגוריה
 [Name:]
 שם:
 [Replace only smileys surrounded by spaces]
 החלף רק סמיילים שמוקפים ברווח
-[Scale smiley to textheight]
+[Scale smiley to text height]
 התאם גודל סמיילי לטקסט
 [Disable custom smileys]
 בטל סמיילים מותאמים
-[High Quality smiley scaling]
+[High quality smiley scaling]
 סמיילים בקנה מידה גבוה
 [Animate]
 הנפש
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 מקס גובה "סמיילים מותאמים"
-[Min smiley height]
+[Minimum smiley height]
 גובה סמיילי מינימלי
-[Smiley Selector]
+[Smiley selector]
 בוחר סמיילים
 [Surround inserted smiley with spaces]
 הקף סמיילים ברווחים
@@ -34,13 +34,13 @@
 השתמש בסמיילי הראשון לגודל נבחר
 [IEView style window]
 IEView סגנון חלון
-[Input Area]
+[Input area]
 איזור קלט
 [Don't replace at cursor]
 אל תחליף במצביע עכבר
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 תמיכת הודעת דו שיח מובנית
-[Smiley Button]
+[Smiley button]
 כפתור סמיילי
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 ;file \plugins\SmileyAdd\src\download.cpp
@@ -49,7 +49,7 @@ IEView סגנון חלון
 [SmileyAdd HTTP connections]
 SmileyAdd HTTP חיבורי
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 כפתור סמיילים
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
@@ -58,7 +58,7 @@ SmileyAdd HTTP חיבורי
 התאמה אישית
 [Off]
 כבוי
-[All Files]
+[All files]
 כל הקבצים
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

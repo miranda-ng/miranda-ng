@@ -2170,6 +2170,9 @@ Este cambio se sabe es son potencialmente peligroso.
 Este cambio no se sabe que es seguro
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h o n.
+;file \src\modules\database\dbutils.cpp
+[Authorization request from %s%s: %s]
+
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 El perfil '%s' ya existe. ¿Desea mover a la Papelera de reciclaje?\n\nADVERTENCIA: El perfil será borrado si la papelera de reciclaje está desactivada\nDVERTENCIA: Un perfil puede contener información confidencial y debe ser eliminado adecuadamente.

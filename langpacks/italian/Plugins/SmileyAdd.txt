@@ -8,15 +8,15 @@
 ;file \plugins\SmileyAdd\res\resource.rc
 [Name:]
 Nome:
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Ridimensiona le faccine
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Mostra finestra selezione faccine
 ;file \plugins\SmileyAdd\src\download.cpp
 ;file \plugins\SmileyAdd\src\main.cpp
 ;file \plugins\SmileyAdd\src\options.cpp
-[All Files]
+[All files]
 Tutti i file
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

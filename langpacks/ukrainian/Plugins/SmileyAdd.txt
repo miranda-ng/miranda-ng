@@ -7,9 +7,9 @@
 ;============================================================
 [Smiley support for Miranda NG.]
 Підтримка смайлів в Miranda NG.
-[Smiley Categories]
+[Smiley categories]
 Категорії смайлів
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Категорії з різними наборами смайлів
 [Name:]
 Ім'я:
@@ -23,19 +23,19 @@
 Показувати
 [Replace only smileys surrounded by spaces]
 Замінювати тільки смайли оточені пробілами
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Масштабувати смайли під текст
 [Disable custom smileys]
 Вимкнути завантаження смайли
-[High Quality smiley scaling]
+[High quality smiley scaling]
 Якісне масштабування
 [Animate]
 Анімація
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 Макс. висота загруж. смайлів
-[Min smiley height]
-Хв. висота смайлів
-[Smiley Selector]
+[Minimum smiley height]
+Мінімальна висота смайлів
+[Smiley selector]
 Вибір смайла
 [Surround inserted smiley with spaces]
 Вставити смайл з пробілами
@@ -43,27 +43,27 @@
 Розмір всіх смайлів як у першого
 [IEView style window]
 Вікно в стилі IEView
-[Input Area]
+[Input area]
 Поле вводу
-[Enable Smileys]
+[Enable smileys]
 Включити смайли
 [Don't replace at cursor]
 Не замінювати під курсором
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 Підтримка плагінів повідомлень
 [Disable]
 Вимкнути
-[Smiley Button]
+[Smiley button]
 Кнопка смайла
 [SmileyAdd]
 Смайли
-[Smiley Cache]
+[Smiley cache]
 Кеш смайлів
 [SmileyAdd HTTP connections]
 HTTP підключення SmileyAdd
-[Button Smiley]
+[Button smiley]
 Кнопка смайла
-[Assign Smiley Category]
+[Assign smiley category]
 Категорія смайлів
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Тільки одна копія SmileyAdd може бути запущена.\nВидаліть дублікат з папки "Plugins"
@@ -75,23 +75,23 @@ HTTP підключення SmileyAdd
 Вимкнено.
 [Top]
 Верх
-[Smiley Packs]
+[Smiley packs]
 Набір смайлів
-[All Files]
+[All files]
 Всі файли
 [Protocol specific]
 Згідно з протоколом
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Набір смайлів %s не знайдено.\nВиберіть набір смайлів: Налаштування -> Тонка настройка -> Смайли.
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблеми з завантаженням набору смайлів (необхідно виправити).\nДля подробиць дивіться мережевий журнал.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 Смайл #%u у файлі %s для набору смайликів %s не знайдено.
 [Standard]
 Стандартні
-[Regular Expression\"% s \ " in smiley pack "%s \ " could produce "empty matches".]
+[Regular expression\"% s \ " in smiley pack "%s \ " could produce "empty matches".]
 Регулярний вираз "%s" в наборі смайлів "%s" не може виводити "порожні значення".
-[Regular Expression\"% s \ " in smiley pack "%s" malformed.]
+[Regular expression\"% s \ " in smiley pack "%s" malformed.]
 Регулярний вираз "%s" в наборі смайлів "%s" пошкоджено.
 [d'oh!]
 Ох!

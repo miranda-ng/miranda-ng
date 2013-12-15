@@ -5,18 +5,18 @@
 ;  Version: 0.0.1.14
 ;  Authors: Big Muscle
 ;============================================================
-[Loads and displays flash avatars.]
+[Loads and displays Flash avatars.]
 Wczytuje i wyświetla awatary we flashu.
 ;file \plugins\FlashAvatars\src\cflash.cpp
 [Flash.ocx not registered!]
 Flash.ocx niezarejestrowany!
-[You don't have installed ShockwaveFlash interface in your system.]
+[You don't have installed Shockwave Flash interface in your system.]
 Nie posiadasz interfejsu Shockwave zainstalowanego w swoim systemie.
 [Bugged Flash detected!]
 Wykryto błędną instalację Flash!
 [You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
 Posiadasz zainstalowany Flash w wersji 8.\r\nTa wersja posiada błąd, który może powodować niestabilne działanie programu.\r\nZaleca się aktualizację lub przejście na starszą wersję biblioteki Flash.
-[Flash Avatars]
+[Flash avatars]
 Awatary Flash
 [Avatars]
 Awatary

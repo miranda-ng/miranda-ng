@@ -1643,7 +1643,7 @@ Skin ändern
 Nachrichtenfenster-Tweaks
 [Error feedback]
 Fehlermeldung
-[Show skinnable tooltip in chat (tipper plugin required)]
+[Show skinnable tooltip in chat (Tipper plugin required)]
 Skinbare Tooltips in Chat anzeigen (benötigt Tipper-Plugin)
 [Enable typing sounds]
 Tipp-Klänge aktivieren

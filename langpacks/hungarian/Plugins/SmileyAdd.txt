@@ -16,7 +16,7 @@ Név:
 Testreszabás
 [Off]
 Ki
-[All Files]
+[All files]
 Minden fájl
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

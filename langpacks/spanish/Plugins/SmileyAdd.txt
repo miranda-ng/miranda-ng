@@ -8,9 +8,9 @@
 [Smiley support for Miranda NG.]
 
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 
 [Name:]
 Nombre:
@@ -24,19 +24,19 @@ Previsualizar
 
 [Replace only smileys surrounded by spaces]
 
-[Scale smiley to textheight]
+[Scale smiley to text height]
 
 [Disable custom smileys]
 
-[High Quality smiley scaling]
+[High quality smiley scaling]
 
 [Animate]
 
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 
-[Min smiley height]
+[Minimum smiley height]
 
-[Smiley Selector]
+[Smiley selector]
 
 [Surround inserted smiley with spaces]
 
@@ -44,32 +44,32 @@ Previsualizar
 
 [IEView style window]
 
-[Input Area]
+[Input area]
 
-[Enable Smileys]
+[Enable smileys]
 
 [Don't replace at cursor]
 
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 
 [Disable]
 Deshabilitar
-[Smiley Button]
+[Smiley button]
 
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 
-[Smiley Cache]
+[Smiley cache]
 
 [SmileyAdd HTTP connections]
 
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 
-[Assign Smiley Category]
+[Assign smiley category]
 
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 
@@ -84,25 +84,25 @@ Apagado
 Superior
 [Bottom]
 
-[Smiley Packs]
+[Smiley packs]
 
-[All Files]
+[All files]
 Todos los archivos
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 
 [Standard]
 
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 
-[Regular Expression "%s" in smiley pack "%s" malformed.]
+[Regular expression "%s" in smiley pack "%s" malformed.]
 
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]

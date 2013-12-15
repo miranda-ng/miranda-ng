@@ -1642,7 +1642,7 @@ Stav
 
 [Error feedback]
 
-[Show skinnable tooltip in chat (tipper plugin required)]
+[Show skinnable tooltip in chat (Tipper plugin required)]
 
 [Enable typing sounds]
 

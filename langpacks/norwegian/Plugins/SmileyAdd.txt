@@ -6,19 +6,19 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Smilefjes kategorier
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Angi Smilefjes pakke for hver kategori
 [Name:]
 Navn:
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Endre smilefjes til teksthøyde
 [Disable custom smileys]
 Deaktiver selvvalgte smilefjes
 [Animate]
 Beveg
-[Smiley Selector]
+[Smiley selector]
 Smilefjes Velger
 [Surround inserted smiley with spaces]
 Omgi innsatt smilefjes med tomrom
@@ -28,7 +28,7 @@ Bruk første smilefjeset for utvalgsstørrelse
 IEView stil på vindu
 [Don't replace at cursor]
 Ikke erstatt ved pekeren
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 Innebygger Meldingsdialog Støtte
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 ;file \plugins\SmileyAdd\src\download.cpp
@@ -38,7 +38,7 @@ Innebygger Meldingsdialog Støtte
 Tilpass
 [Off]
 Av
-[All Files]
+[All files]
 Alle Filer
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp

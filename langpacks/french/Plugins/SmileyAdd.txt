@@ -6,21 +6,21 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Catégories de smileys
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Spécifier un pack de smileys par catégorie
 [Name:]
 Nom:
 [Replace only smileys surrounded by spaces]
 Ne remplacer que les smileys entouré d'espace
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Smileys à l'échelle du texte
 [Disable custom smileys]
 Désactiver les smileys personalisés
 [Animate]
 Animés
-[Smiley Selector]
+[Smiley selector]
 Sélecteur de smileys
 [Surround inserted smiley with spaces]
 Espace de chaque côté des smileys
@@ -28,38 +28,38 @@ Espace de chaque côté des smileys
 Se référer au 1ier smiley afin de définir la taille de sélection
 [IEView style window]
 Fenêtre style IEView
-[Input Area]
+[Input area]
 Zone de saisie
-[Smiley Button]
+[Smiley button]
 Position du bouton
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Voir la fenêtre de sélection des smileys
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd HTTP connections]
 Connexions HTTP de SmileyAdd
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 Bouton Smiley
-[Assign Smiley Category]
+[Assign smiley category]
 Assigner à une catégorie de smileys
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Un seul fois SmileyAdd peut être exécuté à la fois.\nEffacer le doublon du répertoire 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
 [Customize]
 Apparence
-[Smiley Packs]
+[Smiley packs]
 Pack de Smiley
-[All Files]
+[All files]
 Tous les fichiers
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Il s'est produit une erreur lors du chargement du pack de smileys (il doit être corrigé).\nLisez l'enregistrement réseau pour plus de détails.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 le smiley #%u, du fichier %s, du pack %s, est introuvable.
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 L'expression régulière "%s" du pack de smileys "%s" pourrait produire des "empty matches".
-[Regular Expression "%s" in smiley pack "%s" malformed.]
+[Regular expression "%s" in smiley pack "%s" malformed.]
 L'expression régulière "%s" du pack de smileys "%s" est mal construite.
 ;file \plugins\SmileyAdd\src\smltool.cpp

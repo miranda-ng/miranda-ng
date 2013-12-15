@@ -2170,6 +2170,9 @@ Diese Änderung ist bekannt dafür, dass sie potenziell gefährlich ist.
 Diese Veränderung ist nicht bekannt dafür, sicher zu sein.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss b, w, d, l, s, e, u, g, h oder n sein.
+;file \src\modules\database\dbutils.cpp
+[Authorization request from %s%s: %s]
+
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Das Profil '%s' existiert bereits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.

@@ -8,9 +8,9 @@
 [Smiley support for Miranda NG.]
 Осигурява поддръжка на емотикони в Miranda NG.
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Категории усмивки
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Различен пакет усмивки за всяка категория
 [Name:]
 Име:
@@ -24,19 +24,19 @@
 Изобразяване
 [Replace only smileys surrounded by spaces]
 Замяна само на усмивки оградени от интервал
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Мащабиране до големината на текста
 [Disable custom smileys]
 Без персонални усмивки
-[High Quality smiley scaling]
+[High quality smiley scaling]
 Висококачествено мащабиране
 [Animate]
 Анимиране
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 
-[Min smiley height]
+[Minimum smiley height]
 Мин. височина на усмивките
-[Smiley Selector]
+[Smiley selector]
 Избор на усмивка
 [Surround inserted smiley with spaces]
 Ограждане на вмъкнатите усмивки с интервал
@@ -44,32 +44,32 @@
 Задаване на размер от първата усмивка
 [IEView style window]
 
-[Input Area]
+[Input area]
 Поле за въвеждане
-[Enable Smileys]
+[Enable smileys]
 Включване на усмивките
 [Don't replace at cursor]
 Без замяна при посочване
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 Прозорец за съобщения
 [Disable]
 Изключване
-[Smiley Button]
+[Smiley button]
 Бутон "Усмивки"
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Показване на прозореца за избор на усмивка
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 SmileyAdd
-[Smiley Cache]
+[Smiley cache]
 
 [SmileyAdd HTTP connections]
 HTTP връзки на SmileyAdd
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 Бутон "Усмивки"
-[Assign Smiley Category]
+[Assign smiley category]
 Задаване на категория усмивки
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 
@@ -84,25 +84,25 @@ HTTP връзки на SmileyAdd
 Горе
 [Bottom]
 Долу
-[Smiley Packs]
+[Smiley packs]
 Пакети усмивки
-[All Files]
+[All files]
 Всички файлове
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблем при зареждането на пакет усмивки (би трябвало да е отстранен).\nПрегледайте мрежовия дневник за подробности.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 
 [Standard]
 Стандарт
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 
-[Regular Expression "%s" in smiley pack "%s" malformed.]
+[Regular expression "%s" in smiley pack "%s" malformed.]
 
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
