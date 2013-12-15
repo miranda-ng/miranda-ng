@@ -1,4 +1,5 @@
-﻿[x]
+﻿[OK]
+[x]
 [Entering first auto-away status]
 [Entering second auto-away status]
 [Leaving first auto-away status]

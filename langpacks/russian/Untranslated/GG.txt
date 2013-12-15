@@ -1,4 +1,5 @@
-﻿[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+﻿[OK]
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
 [Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
 [Open new conference\nSelect conference participants]

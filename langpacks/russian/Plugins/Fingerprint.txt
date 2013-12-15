@@ -221,9 +221,10 @@ QQ 2000 оверлей
 Оверлей mobile
 [home overlay]
 Оверлей home
+[notebook overlay]
+Оверлей notebook
 [work overlay]
 Оверлей work
-[notebook overlay]
 [Miranda NG v0.6 #2 overlay]
 Miranda NG v0.6 #2 оверлей
 [Miranda NG v0.5 #2 overlay]

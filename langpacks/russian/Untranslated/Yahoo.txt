@@ -1,4 +1,5 @@
 ﻿[ID:]
+[OK]
 [Chat Room Invitation Request]
 [Denial Message]
 [Invitation Message]

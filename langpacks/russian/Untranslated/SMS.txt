@@ -1,5 +1,6 @@
 ﻿[&H]
 [%d/160]
+[&OK]
 [SMS message didn't send by %S to %s because: %S]
 [The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]

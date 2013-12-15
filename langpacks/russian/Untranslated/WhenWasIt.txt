@@ -1,4 +1,5 @@
 ﻿[Set birthday:]
+[OK]
 [Manage anniversaries]
 [%S protocol]
 [%s has birthday today (Should not happen, please report).]

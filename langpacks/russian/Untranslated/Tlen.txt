@@ -1,6 +1,7 @@
 ﻿[Tlen]
 [Image transfer policy]
 [Mail Notification]
+[OK]
 [Publicly visible status]
 [Public avatar]
 [Tlen Voice Chat]

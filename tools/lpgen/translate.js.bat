@@ -1,0 +1,1 @@
+cscript /nologo translate.js /sourcelang:"russian" /noref:"yes" /out:"E:\1\Russian" /untranslated:"E:\1\Russian\Untranslated"

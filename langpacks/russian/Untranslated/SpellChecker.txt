@@ -1,4 +1,5 @@
-﻿[The wrong word can't be empty!]
+﻿[OK]
+[The wrong word can't be empty!]
 [The correction can't be empty!]
 [The correction can't be equal to the wrong word!]
 [tl_PH]

@@ -26,6 +26,7 @@
 [Opens data window]
 [Display clean-up]
 [Remove HTML]
+[OK]
 [Search was completed.]
 [Alert options]
 [Events and alerts]

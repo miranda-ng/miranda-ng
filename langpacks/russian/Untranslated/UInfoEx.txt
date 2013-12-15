@@ -1,4 +1,5 @@
 ﻿[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
+[OK]
 [r]
 [Use Zodiac as default avatar]
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]

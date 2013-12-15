@@ -1,6 +1,7 @@
 ﻿[Zodiak:]
 [Remember]
 [Leave empty if you don't want to change password]
+[OK]
 [Written:]
 [Avatars: can't open file %s, error]
 [invite sender]

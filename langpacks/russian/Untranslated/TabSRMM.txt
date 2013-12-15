@@ -1,4 +1,5 @@
-﻿[Google]
+﻿[OK]
+[Google]
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 [A send later job failed to complete.\nThe original message: %s]
 [Removed]

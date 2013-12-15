@@ -1,4 +1,5 @@
-﻿[Fortune]
+﻿[OK]
+[Fortune]
 [?cinfo(contact,property)]
 [?contact(string,property)]
 [?mstatus(protocol)]

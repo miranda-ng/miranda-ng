@@ -1,4 +1,5 @@
 ﻿[SSL]
+[&OK]
 [Host address]
 [Server description]
 [CTCP]

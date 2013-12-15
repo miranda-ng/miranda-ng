@@ -1,5 +1,6 @@
 ﻿[MSN]
 [Live ID:]
+[OK]
 [Invite Contact To Chat]
 [Live ID]
 [%I64u bytes]
