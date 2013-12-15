@@ -17,6 +17,8 @@
 Сохранить изображение...
 [Print]
 Печать
+[Clear Log]
+Очистить историю
 [Show source]
 Исходник шаблона
 [Options]
@@ -69,6 +71,8 @@
 Относительное время
 [Incoming File Transfer]
 Входящий файл
+[URL received]
+Получен URL
 [(Unknown Contact)]
 (Неизвестный контакт)
 [ requested authorization]

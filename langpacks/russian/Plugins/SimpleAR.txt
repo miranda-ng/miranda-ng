@@ -17,6 +17,8 @@
 Не повторять:
 [mins]
 мин.
+[&Default]
+По умолчанию
 [I am currently away. I will reply to you when I am back.]
 Сейчас меня нет на месте, отвечу как только вернусь.
 [I am currently very busy and can't spare any time to talk with you. Sorry...]

@@ -1,5 +1,4 @@
 ﻿[Tlen]
-[Automatically reconnect after unintentional disconnection]
 [Image transfer policy]
 [Enable encryption]
 [Proxy type:]
@@ -43,6 +42,5 @@
 [Windows ME]
 [Windows]
 [Web message]
-[E-mail]
 [not on roster]
 [%s SOCKS connection]

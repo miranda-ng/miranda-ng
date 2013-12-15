@@ -231,6 +231,8 @@ SkypeKit.exe не распакован.
 Создатель
 [User]
 Пользователь
+[me]
+Я
 [Incoming group call finished]
 Входящий групповой звонок закончен
 [The password is incorrect]

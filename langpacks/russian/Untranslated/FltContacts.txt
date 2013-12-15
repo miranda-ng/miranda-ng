@@ -1,5 +1,4 @@
 ﻿[Show tooltips*]
-[Tooltips]
 [Idle contacts]
 [Left-top edge's color:]
 [Right-bottom edge's color:]

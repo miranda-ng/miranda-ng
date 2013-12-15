@@ -1,6 +1,5 @@
 ﻿[OK]
 [Send screenshot to\n<unknown>]
-[About]
 [%s\nv%s]
 [Target Tool]
 [GCHAT error]

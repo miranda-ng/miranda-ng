@@ -43,6 +43,8 @@
 Показывать имена
 [Show messages]
 Сообщения
+[Truncate message length to:]
+Обрезать сообщение до:
 [Delta time to group messages:]
 Ограничить время для сообщений:
 [hours]
@@ -111,6 +113,8 @@
 Время
 [Delta time]
 Через время
+[Day of week]
+День недели
 [Day]
 День
 [Export to]

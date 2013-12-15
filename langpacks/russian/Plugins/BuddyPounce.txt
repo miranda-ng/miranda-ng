@@ -83,6 +83,8 @@
 Обедаю
 [Send If Their Status changes]
 Посылать, если они изменяют статус
+[From Offline]
+Из оффлайна
 [To Online]
 -> В сети
 [To Away]

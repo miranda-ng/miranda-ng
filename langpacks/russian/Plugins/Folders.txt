@@ -11,6 +11,8 @@
 Диалог
 [Custom folders]
 Папки
+[Preview]
+Тест
 [Edit]
 Изменить
 [Refresh preview]

@@ -113,6 +113,8 @@
 Закрыть сессию
 [Load last session]
 Загрузить последнюю сессию
+[View]
+Вид
 [Message Sessions]
 Беседы
 [Session Before Last Crash]

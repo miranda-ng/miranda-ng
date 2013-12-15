@@ -5,10 +5,14 @@
 ;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
+[Popup options]
+Всплывающие окна
 [Background]
 Фон
 [Text]
 Текст
+[version:]
+Версия:
 [Subject]
 Тема
 [Database:]

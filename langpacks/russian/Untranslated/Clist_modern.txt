@@ -27,7 +27,6 @@
 [Row design]
 [Empty %s cell]
 [column]
-[line]
 [columns]
 [%s, contain %s]
 [ layered]

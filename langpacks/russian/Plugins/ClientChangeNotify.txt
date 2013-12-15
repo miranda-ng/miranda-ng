@@ -25,6 +25,8 @@
 Показать версию клиента 
 [Don't notify for contacts with disabled status notification]
 Не уведомлять для контактов с отключённым уведомлением статуса
+[Click action]
+Действия по щелчку
 [On left click]
 Левый щелчок
 [On right click]

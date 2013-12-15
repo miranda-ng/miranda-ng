@@ -37,6 +37,8 @@
 Пытаться как минимум
 [times to connect to Skype API before giving up]
 раз соединиться со Skype API перед выдачей ошибки
+[User name:]
+Логин:
 [Password:]
 Пароль:
 [Dial]

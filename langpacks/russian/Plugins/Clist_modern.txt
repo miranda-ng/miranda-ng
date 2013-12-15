@@ -867,6 +867,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Восстановить последнее состояние статуса
 [Show/Hide Offline Users]
 Показать/Скрыть отключённых
+[line]
+Линия
 [lines]
 линий
 [You need an image services plugin to process PNG images.]

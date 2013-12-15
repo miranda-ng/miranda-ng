@@ -37,6 +37,8 @@ ID ключа:
 Копировать публич. ключ
 [Export private key]
 Экспорт приватного ключа
+[Change password]
+Изменить пароль
 [Set GPG bin path and keyring home dir.]
 Задайте путь к исполняемому файлу GnuPG и директории с ключами
 [Continue]

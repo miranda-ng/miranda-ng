@@ -53,6 +53,8 @@
 Выбор звуков в разделе "Звуки"
 [Extra status]
 xСтатус
+[Open]
+Открыть
 [Status message]
 Сообщение статуса
 [Change]

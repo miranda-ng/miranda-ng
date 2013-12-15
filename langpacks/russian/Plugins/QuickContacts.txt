@@ -49,6 +49,8 @@
 История
 [Open contact menu]
 Открыть меню контакта
+[Show all contacts]
+Показать все контакты
 [Quick Contacts...]
 Быстрые контакты...
 [Send message]

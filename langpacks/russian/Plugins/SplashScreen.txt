@@ -13,6 +13,8 @@
 Заставка
 [Show random splash]
 Показывать случайную заставку
+[Play sound]
+Играть звук
 [Show Miranda Version]
 Показывать версию Miranda NG
 [Enable]

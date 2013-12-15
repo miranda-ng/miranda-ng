@@ -35,6 +35,8 @@
 Запись в файл
 [Append data to file]
 Добавить содержимое в файл
+[Popup delay]
+Задержка окна
 [Delay]
 Задержка
 [From Popup plugin]

@@ -1,5 +1,4 @@
-﻿[User name:]
-[OK]
+﻿[OK]
 [Set &Topic...]
 [&Kick user]
 [invited ]

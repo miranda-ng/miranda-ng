@@ -1,2 +1,1 @@
-﻿[Play sound]
-[Call Splash Service]
+﻿[Call Splash Service]

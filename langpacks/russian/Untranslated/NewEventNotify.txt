@@ -1,5 +1,3 @@
-﻿[Dismiss Popup]
-[Message-Event only]
-[ICQ Web pager]
+﻿[ICQ Web pager]
 [ICQ Email express]
 [[b]Number of new message(s): %d[/b]\n]

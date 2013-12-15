@@ -151,6 +151,8 @@ OTR не является безопасным
 Политика
 [Verified]
 Проверено
+[Active]
+Активно
 [Fingerprint]
 Отпечаток
 [Conv. HTML]

@@ -1,6 +1,5 @@
 ﻿[Winamp (*)]
 [iTunes]
 [mRadio]
-[Listening to]
 [Miranda ListeningTo receiver]
 [Miranda ListeningTo WMP receiver]

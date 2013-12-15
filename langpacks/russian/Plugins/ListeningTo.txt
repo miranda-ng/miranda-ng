@@ -53,6 +53,8 @@ foobar2000 (установите плагин вручную)
 секунд
 [Allow auto-loading plugins into players (affect players with *)]
 Автозагружать плагины в плееры (только для помеченных *)
+[Listening to]
+Слушаю
 [Template:]
 Шаблон:
 [Variables:]

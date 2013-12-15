@@ -107,6 +107,8 @@
 Детали пользователя
 [Copy]
 Копировать
+[Enter Password]
+Введите пароль
 [Set Nickname]
 Ввод ника
 [Cancel]

@@ -129,6 +129,8 @@ URL доп. информации
 Изменить
 [Cancel]
 Отмена
+[Popup Options]
+Всплывающие окна
 [Enable popups]
 Всплывающие окна
 [Popup only when condition changes]
@@ -233,6 +235,8 @@ URL доп. информации
 Город:
 [Menu]
 Меню
+[Dismiss Popup]
+Закрыть
 [Open brief information]
 Краткая информация
 [Open complete forecast]

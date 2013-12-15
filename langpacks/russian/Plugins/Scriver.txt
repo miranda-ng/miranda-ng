@@ -521,6 +521,8 @@
 Посылка файла
 [File received]
 Файл получен
+[URL received]
+Получен URL
 [General]
 Общее
 [Event Log]

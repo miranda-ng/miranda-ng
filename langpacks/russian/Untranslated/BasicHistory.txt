@@ -1,6 +1,4 @@
-﻿[Truncate message length to:]
-[Day of week]
-[OK]
+﻿[OK]
 [Execute history task]
 [%s Files (*.%s)]
 [File do not contain selected contact]

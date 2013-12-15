@@ -31,6 +31,8 @@
 Включить функцию "Жду тебя"
 [Hide when no messages for]
 Скрыть, если нет сообщений
+[Colors]
+Цвета
 [Background]
 Фон
 [Text]

@@ -19,7 +19,6 @@
 [Applicant]
 [Retried]
 [Outlaw]
-[me]
 [waits to join]
 [Password can't be empty.]
 [Old password is not correct.]

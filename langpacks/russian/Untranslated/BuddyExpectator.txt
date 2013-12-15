@@ -1,3 +1,2 @@
-﻿[Colors]
-[Hiding %s (%S)]
+﻿[Hiding %s (%S)]
 [%d days since last message]

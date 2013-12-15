@@ -242,7 +242,6 @@
 [Message redirected from: %s\r\n%s]
 [Uptime]
 [Please switch online to see more details.]
-[format]
 [Unknown format]
 [Unknown error message]
 [Advanced Status]

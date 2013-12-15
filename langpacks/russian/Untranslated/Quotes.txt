@@ -1,5 +1,4 @@
-﻿[Variable List]
-[OK]
+﻿[OK]
 [&Swap]
 [Info provided by <a href="http://www.google.com">Google</a>]
 [Chart]

@@ -31,8 +31,12 @@
 Если апплет активен:
 [Use the VolumeWheel to scroll up and down (might affect system performance)]
 Использовать колесо регулировки громкости для прокрутки списков
+[Show seconds in timestamps]
+Показывать секунды
 [Use transition effects when changing screens]
 Использовать эффекты при смене экранов
+[About]
+Информация
 [For updates and news check the thread on http://www.g15forums.com]
 Обновления и новости ищите в теме на http://www.g15forums.com
 [Or visit http://www.mkleinhans.de]
@@ -173,6 +177,8 @@
 Размер журнала:
 [On incoming messages:]
 При входящих сообщениях:
+[Do nothing]
+Ничего не делать
 [Scroll to the first line]
 К первой строке
 [Scroll to the last line]
@@ -189,6 +195,8 @@
 Закрывать чат после
 [When in background]
 Когда в фоне
+[Appearance]
+Внешний вид
 [Chat sessions]
 Беседы
 [No device attached]

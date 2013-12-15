@@ -15,6 +15,8 @@
 Когда я нажму горячую кнопку...
 [Change status to]
 Изменить статус на
+[Change only if current status is Online]
+Изменять только при статусе 'В сети'
 [Use default status message]
 Статусное сообщение по умолчанию
 [Disable Sounds]

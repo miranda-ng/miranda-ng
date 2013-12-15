@@ -1,2 +1,1 @@
-﻿[Play]
-[Device list]
+﻿[Device list]

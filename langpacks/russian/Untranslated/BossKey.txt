@@ -1,3 +1,2 @@
-﻿[Change only if current status is Online]
-[OK]
+﻿[OK]
 [EN]

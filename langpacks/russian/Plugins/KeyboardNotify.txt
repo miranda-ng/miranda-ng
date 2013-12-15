@@ -185,6 +185,8 @@
 Правила
 [Flashing]
 Мигание
+[Themes]
+Темы
 [Protocol]
 Протокол
 [Keyboard Notify Theme]

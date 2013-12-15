@@ -1607,6 +1607,8 @@ XML для MS Excel (кодировка UTF-8)
 Копировать
 [Copy only this value]
 Копировать значение
+[format]
+Формат
 [<Photo not available while offline>]
 <Фото недоступно без подключения к сети>
 [<No photo>]

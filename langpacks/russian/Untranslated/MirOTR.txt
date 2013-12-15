@@ -8,4 +8,3 @@
 [OTR: %s (%s)]
 [OTR %s (%s)]
 [OTR]
-[Active]

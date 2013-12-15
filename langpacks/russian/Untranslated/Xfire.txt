@@ -8,7 +8,6 @@
 [(manual added)]
 [Extra Command Line Parameters:]
 [IP:]
-[Enter Password]
 [Join]
 [OK]
 [New xfire_games.ini]

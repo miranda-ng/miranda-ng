@@ -1,7 +1,5 @@
-﻿[Clear Log]
-[Outgoing File Transfer]
+﻿[Outgoing File Transfer]
 [URL sent]
-[URL received]
 [ was added.]
 [IID_IOleObject failed.]
 [RESULT]

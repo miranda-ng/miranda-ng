@@ -47,6 +47,8 @@
 минут режима 1
 [Confirm resetting status]
 Подтвердить сброс статуса
+[Account]
+Учётная запись
 [Only set if current status is]
 Только если статус:
 [Monitor Miranda's activity only]

@@ -17,6 +17,8 @@
 Новая учётная запись
 [Options]
 Настройки
+[Automatically reconnect after unintentional disconnection]
+Переподключиться после неожиданного разрыва
 [Leave status message after disconnection]
 Оставить сообщение статуса после отключения
 [Ignore advertisements]
@@ -229,6 +231,8 @@ Tlen чаты
 %s Web сообщений
 [From]
 От
+[E-mail]
+E-Mail
 [An alert has been received.]
 Уведомление принято.
 [Private conference]

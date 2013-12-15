@@ -39,6 +39,8 @@
 Входящие сообщения
 [Plugin Default]
 По умолчанию
+[Preview]
+Тест
 [Outgoing messages]
 Исходящие сообщения
 [Background color]

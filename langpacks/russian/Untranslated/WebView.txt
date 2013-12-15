@@ -48,7 +48,6 @@
 [Alert when specific area of web page changes]
 [Log file:]
 [Save as raw data]
-[Popup delay]
 [Use same colors as data window]
 [Left click action]
 [Open data display window]

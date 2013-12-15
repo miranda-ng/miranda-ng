@@ -1,2 +1,1 @@
 ﻿[Enter username:]
-[Show all contacts]

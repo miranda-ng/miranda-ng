@@ -7,6 +7,8 @@
 ;============================================================
 [Shows currency rates and economic quotes.]
 Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
+[Variable List]
+Переменные
 [Edit Settings]
 Изменить настройки
 [Use contact specific settings]
