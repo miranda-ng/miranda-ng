@@ -209,8 +209,6 @@
 Усі події
 [None]
 Нічого
-[<none>]
-<немає>
 [Only the ticked contacts will be shown on the main contact list]
 Лише відмічені контакти буде показано у головному списку контактів
 [Ignore]
@@ -429,6 +427,8 @@ Miranda NG перезапускається.\nЗачекайте...
 Дрібний текст:
 [This font is used to display various addtional notes.]
 Шрифт для додаткового тексту, приміток.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Вітаємо у менеджері облікових записів програми Miranda NG!\nТут можна налаштувати свої облікові записи мереж обміну миттєвими повідомленнями.\n\nЩоб побачити доступні можливості, виберіть обліковий запис зі списку ліворуч. Щоб створити новий обліковий запис, натисніть значок "+" унизу.
 [Event icon legend:]
 Події:
 [Choose events you wish to ignore:]
@@ -2083,6 +2083,8 @@ Miranda не може відкрити цей профіль
 Невідомо, чи є ця зміна налаштувань безпечною.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Хибний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
+[Authorization request from %s%s: %s]
+Запит авторизації від %s%s: %s
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль "%s" вже існує. Бажаєте перемістити його до смітника?\n\nУВАГА! Якщо смітник (кошик) вимкнено, то профіль буде безповоротно видалено.\nУВАГА! Профіль може містити конфіденційну інформцію і його потрібно видаляти належним чином.
 [The profile already exists]
@@ -2255,8 +2257,6 @@ Miranda не може відкрити цей профіль
 Ваш обліковий запис успішно оновлено. Для його активації необхідно перезапустити Miranda\n\n\Щоб перезапустити програму зараз, натисніть "Так". Щоб оновити інший обліковий запис, натисніть "Ні".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Цей обліковий запис використовує застарілий протокол. Зміна особистих даних користувача відбувається в основному діалозі налаштувань.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Вітаємо у менеджері облікових записів програми Miranda NG!\nТут можна налаштувати свої облікові записи мереж обміну миттєвими повідомленнями.\n\nЩоб побачити доступні можливості, виберіть обліковий запис зі списку ліворуч. Щоб створити новий обліковий запис, натисніть значок "+" унизу.
 [Create new account]
 Створити новий запис
 [Editing account]
@@ -2580,7 +2580,7 @@ ANSI-плагін
 [France]
 Франція
 [French Guiana]
-Французька Гвіана
+Гвіана
 [French Polynesia]
 Французька Полінезія
 [French Southern and Antarctic Lands]
@@ -2923,9 +2923,3 @@ ANSI-плагін
 Замбія
 [Zimbabwe]
 Зімбабве
-[<mixed>]
-змішано
-[ContactMenu] 
-Меню контакту 
-[MainMenu] 
-Гловне меню 

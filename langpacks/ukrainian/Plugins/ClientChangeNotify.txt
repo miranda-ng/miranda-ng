@@ -39,7 +39,7 @@
 0=Умовчання
 [-1 = Infinite]
 -1=Нескінченно
-[Colours]
+[Colors]
 Кольори
 [Background]
 Фон
@@ -88,7 +88,7 @@
 [Can't open log file ]
 Неможливо відкрити файл журналу
 [(you can use regular expressions here)]
-(Ви можете використовувати тут регулярні вирази)
+(Можна також використовувати регулярні вирази)
 [Open message window]
 Відкрити вікно бесіди
 [Close popup]

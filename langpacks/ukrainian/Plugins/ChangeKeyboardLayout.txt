@@ -1,73 +1,85 @@
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
-;  Module: Change Keyboard Layout
-;  Versions: 0.0.1.5
-;  Authors: yasnovidyashii
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
 Плагін управління зміною розкладки по гарячих клавішах.
-[Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
-Встановіть конфігураційні рядки для невідомих розкладок (Плагіни -> ChangeKeyboardLayout)!
-[Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]
-Конфігураційні рядки відомих розкладок замінені. Відредагуйте, будь ласка, рядки для невідомих розкладок, якщо такі є.
-[Options:]
-Налаштування:
-[Hotkey for changing layout of text:]
-Гаряча клавіша:
-[Layout of text is current the layout]
-Розкладка тексту - поточна розкладка
-["Current word" mode]
-Режим "поточного слова"
-[Log operations:]
-Дії над журналом:
-[Copy result to clipboard]
-Копіювати результат в буфер обміну
-[Show result in MessageBox()]
-Показати результат в MessageBox()
-[Strings for keyboard layouts:]
-Рядки для розкладок клавіатури:
-[ChangeKeyboardLayout]
-Зміна розкладки
-[HotKey for changing layout of text:]
-Гаряча клавіша для зміни:
-[Plugin for change keyboard layout of text (multilayout)]
-Плагін для зміни розкладок тексту.
+[Hotkeys]
+Гарячі клавіші
 [Changing layout:]
 Зміна розкладки:
+["Current word" mode]
+Режим "поточного слова"
 [Changing layout (alternative):]
-Зміна розкладки (Альтернативна):
-[Changing case:]
-Змінювати при:
-[Log operations]
-Дії над журналом
-[Show result in Popup]
-Показати результат у вікні
-[Layout of text is the current layout]
-Розкладка тексту це поточна розкладка
-[Two-way changing layout (experimental)]
-Двостороння зміна розкладки
-[Strings for keyboard layouts]
-Рядки для розкладок клавіатури
-[Changing Case]
-Інвертувати регістр
-[Changing Layout]
-Зміна розкладки
-[Popup colors]
-Кольори сплив. вікон
-[Windows colors]
-Кольори Windows
-[Custom colors]
-Налаштувати кольори
+Зміна розкладки (альтернативна):
 [Inverting lettercase:]
 Інвертувати регістр:
-[Set Caps Lock state when inverting lettercase:]
-Стан Caps Lock при інвертуванні регістру:
+[Options]
+Налаштування
+[Two-way changing layout (experimental)]
+Двостороння зміна розкладки
+[Log operations]
+Дії над журналом
+[Copy result to clipboard]
+Копіювати результат в буфер обміну
+[Show result in Popup]
+Показати результат у вікні
+[Strings for keyboard layouts]
+Рядки для розкладок клавіатури
+[Default]
+За замовчуванням
 [Invert current state]
 Інвертувати поточний стан
 [Switch off]
 Вимкнути
 [Leave as it is]
 Залишити як є
+[Set Caps Lock state when inverting lettercase:]
+Стан Caps Lock при інвертуванні регістру:
 [Change active keyboard layout in system]
 Змінювати активну розкладку клавіатури
+[Colors]
+Кольори
+[Popup colors]
+Кольори сплив. вікон
+[Windows colors]
+Кольори Windows
+[Custom colors]
+Налаштувати кольори
+[Back]
+Фон
+[Text]
+Текст
+[Timeout]
+Затримка
+[From Popup plugin]
+З плагіна сплив. вікон
+[Permanent]
+Постійно
+[Custom]
+Вказати
+[On left click]
+Лівий клік
+[Copy to clipboard]
+Копіювати в буфер обміну
+[Dismiss]
+Прибрати
+[On right click]
+Правий клік
+[Preview]
+Тест
+[ChangeKeyboardLayout]
+Зміна розкладки
+[Popup]
+Спливаюче вікно
+[Changing Layout]
+Зміна розкладки
+[Changing Case]
+Інвертувати регістр
+[Message Sessions]
+Бесіди
+[Popups]
+Спливаючі вікна
