@@ -493,7 +493,7 @@ protected:
 
 	// menus
 	HGENMENU m_hMenuRoot;
-	static HGENMENU hChooserMenu;
+	static HANDLE hChooserMenu;
 	static HGENMENU contactMenuItems[CMI_MAX];
 
 	virtual	int __cdecl RequestAuth(WPARAM, LPARAM);

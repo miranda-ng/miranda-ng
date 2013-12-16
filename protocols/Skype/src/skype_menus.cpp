@@ -118,11 +118,7 @@ int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void  CSkypeProto::InitMenus()
 {
-	TMenuParam mnu = {0};
-	mnu.cbSize = sizeof(mnu);
-	mnu.name = "SkypeAccountChooser";
-	mnu.ExecService = "Skype/MenuChoose";
-	hChooserMenu = MO_CreateMenuObject(LPGEN("Skype menu chooser"), &mnu);
+	hChooserMenu = MO_CreateMenuObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
