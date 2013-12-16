@@ -2400,7 +2400,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				ulockfrm();
 			}
 
-			if (wParam & MK_RBUTTON) {
+			if (wParam & MK_LBUTTON) {
 				int newh = -1,prevold;
 
 				if (GetCapture() != hwnd){break;}

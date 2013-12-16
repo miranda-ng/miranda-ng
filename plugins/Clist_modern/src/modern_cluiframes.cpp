@@ -3209,17 +3209,12 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 						GetCursorPos(&curpt);
 
 						g_pfwFrames[pos].TitleBar.oldpos = curpt;
-
-
 						return 0;
-					};
+					}
+				}
+			}
 
-				};
-
-				//return 0;
-			};
-
-			if (wParam&MK_RBUTTON) {
+			if (wParam & MK_LBUTTON) {
 				int newh = -1,prevold;
 
 				if (GetCapture() != hwnd){break;};
@@ -3251,11 +3246,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 							nTop	 += (short)dY;
 
 							if ( !(wParam&MK_CONTROL))
-							{
 								PositionThumb( &g_pfwFrames[pos], nLeft, nTop );
-							}else
-							{
-
+							else
 								SetWindowPos(	g_pfwFrames[pos].ContainerWnd,
 									HWND_TOPMOST,
 									nLeft,
@@ -3263,12 +3255,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 									0, 
 									0, 
 									SWP_NOSIZE |SWP_NOACTIVATE| SWP_NOZORDER );
-							};
 
 							ptOld = ptNew;
-
-
-
 						}
 
 						pt.x = nLeft;
@@ -3284,7 +3272,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 					GetCursorPos(&pt);
 
 					if ((g_pfwFrames[pos].TitleBar.oldpos.x == pt.x) && (g_pfwFrames[pos].TitleBar.oldpos.y == pt.y))
-					{break;};
+						break;
 
 					ypos = rect.top+pt.y;xpos = rect.left+pt.x;
 					Framemod = -1;
@@ -3297,20 +3285,16 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 						direction = 1;
 						Framemod = g_pfwFrames[pos].prevvisframe;
 					}
-					if (g_pfwFrames[Framemod].Locked) {break;};
-					if (s_nCurDragBar != -1 && s_nCurDragBar != pos) {break;};
+					if (g_pfwFrames[Framemod].Locked) break;
+					if (s_nCurDragBar != -1 && s_nCurDragBar != pos) break;
 
 					if (s_nLastByPos == -1) {
 						s_nCurDragBar = pos;
 						s_nLastByPos = ypos;
 						s_nOldFrameHeight = g_pfwFrames[Framemod].height;
 						SetCapture(hwnd);
-						{break;};
+						break;
 					}
-					else
-					{
-						//	if (GetCapture() != hwnd){break;};
-					};
 
 					newh = s_nOldFrameHeight+direction*(ypos-s_nLastByPos);
 					if (newh>0)	{
@@ -3324,64 +3308,52 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 					g_pfwFrames[pos].TitleBar.oldpos = pt;
 				}
 
-				if (newh>0)
-				{
+				if (newh > 0)
 					CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
-				};
 				break;
 			}
 			s_nCurDragBar = -1;s_nLastByPos = -1;s_nOldFrameHeight = -1;ReleaseCapture();
 		}
 		break;
+
 	case WM_PRINT:
 	case WM_PRINTCLIENT:
-		{
-			//if (lParam&PRF_CLIENT)
-			{
-				GetClientRect(hwnd,&rect);
-				if ( !g_CluiData.fLayered)
-				{
-					ske_BltBackImage(hwnd,(HDC)wParam,&rect);
-				}
-				DrawTitleBar((HDC)wParam,&rect,Frameid);
-			}
-			break;
-		}
-	case WM_SIZE:
-		{
-			InvalidateRect(hwnd,NULL,FALSE);
-			return DefWindowProc(hwnd, msg, wParam, lParam);
-		}
-	case WM_PAINT:
-		{
-			HDC paintDC;
-			if (g_pfwFrames[id2pos(Frameid)].floating || (!g_CluiData.fLayered))
-			{
-				GetClientRect(hwnd,&rect);
-				paintDC = GetDC(hwnd);
-				DrawTitleBar(paintDC,&rect,Frameid);
-				ReleaseDC(hwnd,paintDC);
-				ValidateRect(hwnd,NULL);
+		GetClientRect(hwnd, &rect);
+		if (!g_CluiData.fLayered)
+			ske_BltBackImage(hwnd, (HDC)wParam, &rect);
 
-			}
-			return DefWindowProc(hwnd, msg, wParam, lParam);
+		DrawTitleBar((HDC)wParam, &rect, Frameid);
+		break;
+
+	case WM_SIZE:
+		InvalidateRect(hwnd,NULL,FALSE);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_PAINT:
+		if (g_pfwFrames[id2pos(Frameid)].floating || !g_CluiData.fLayered) {
+			GetClientRect(hwnd, &rect);
+			HDC paintDC = GetDC(hwnd);
+			DrawTitleBar(paintDC, &rect, Frameid);
+			ReleaseDC(hwnd, paintDC);
+			ValidateRect(hwnd, NULL);
 		}
-	default:return DefWindowProc(hwnd, msg, wParam, lParam);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 	return TRUE;
 }
 static int CLUIFrameResizeFloatingFrame(int framepos)
 {
-
-	int width,height;
 	RECT rect;
 
 	if ( !g_pfwFrames[framepos].floating){return 0;};
 	if (g_pfwFrames[framepos].ContainerWnd == 0){return 0;};
 	GetClientRect(g_pfwFrames[framepos].ContainerWnd,&rect);
 
-	width = rect.right-rect.left;
-	height = rect.bottom-rect.top;
+	int width = rect.right-rect.left;
+	int height = rect.bottom - rect.top;
 
 	g_pfwFrames[framepos].visible?CLUI_ShowWindowMod(g_pfwFrames[framepos].ContainerWnd,SW_SHOW/*NOACTIVATE*/):CLUI_ShowWindowMod(g_pfwFrames[framepos].ContainerWnd,SW_HIDE);
 
@@ -3426,130 +3398,78 @@ static int CLUIFrameOnMainMenuBuild(WPARAM wParam,LPARAM lParam)
 
 static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	RECT rect = { 0 };
+	int Frameid = (GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-	RECT rect;
-	int Frameid;
+	switch (msg) {
+	case WM_ACTIVATE:
+		if (g_bTransparentFlag) {
+			BYTE alpha;
+			if ((wParam != WA_INACTIVE || ((HWND)lParam == hwnd) || GetParent((HWND)lParam) == hwnd)) {
+				HWND hw = lParam ? GetParent((HWND)lParam) : 0;
+				alpha = db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
+				if (hw) SetWindowPos(hw, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+				CLUI_SmoothAlphaTransition(hwnd, alpha, 1);
+			}
+		}
 
-	Frameid = (GetWindowLongPtr(hwnd,GWLP_USERDATA));
-	memset(&rect, 0, sizeof(rect));
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
-	/*
-	if ((msg == WM_MOVE) || (msg == WM_MOVING) || (msg == WM_NCLBUTTONDOWN) || (msg == WM_SYSCOMMAND)  )
-	{
-	if ( ServiceExists("Utils/SnapWindowProc"))
-	{
-	SnapWindowProc_t SnapInfo;
-	memset(&SnapInfo, 0, sizeof(SnapInfo));
+	case WM_NOTIFY:
+	case WM_PARENTNOTIFY:
+	case WM_SYSCOMMAND:
+		return SendMessage(pcli->hwndContactList, msg, wParam, lParam);
 
-	SnapInfo.hWnd = hwnd;
-	SnapInfo.wParam = wParam;
-	SnapInfo.lParam = lParam;
-	if (CallService("Utils/SnapWindowProc",(WPARAM)&SnapInfo,msg) != 0){return(TRUE);};
-	};
-	};
-	*/
-	switch(msg) {
-  case WM_ACTIVATE:
-	  {
-		  if (g_bTransparentFlag)
-		  {
-			  BYTE alpha;
-			  if ((wParam != WA_INACTIVE || ((HWND)lParam == hwnd) || GetParent((HWND)lParam) == hwnd))
-			  {
-				  HWND hw = lParam?GetParent((HWND)lParam):0;
-				  alpha = db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT);
-				  if (hw) SetWindowPos(hw,HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE);
-				  CLUI_SmoothAlphaTransition(hwnd, alpha, 1);
-			  }
-		  }
-	  }
-	  return DefWindowProc(hwnd, msg, wParam, lParam);
+	case WM_MOVE:
+		if (g_CluiData.fDocked)
+			return 1;
+		break;
 
-  case WM_NOTIFY:
-  case WM_PARENTNOTIFY:
-  case WM_SYSCOMMAND:
-	  return SendMessage(pcli->hwndContactList,msg,wParam,lParam);
+	case WM_WINDOWPOSCHANGING:
+		if (g_CluiData.mutexPreventDockMoving) {
+			WINDOWPOS *wp;
+			wp = (WINDOWPOS*)lParam;
+			wp->flags |= SWP_NOMOVE/*|SWP_NOSIZE*/;
+			wp->flags &= (wp->flags&~SWP_NOACTIVATE);
+			return DefWindowProc(hwnd, msg, wParam, lParam);
+		}
+		break;
 
-  case WM_MOVE:
-	  if (g_CluiData.fDocked) return 1;
-	  break;
+	case WM_WINDOWPOSCHANGED:
+		if (g_CluiData.fDocked && g_CluiData.mutexPreventDockMoving)
+			return 0;
+		break;
 
-  case WM_WINDOWPOSCHANGING:
-	  {
-		  if (g_CluiData.mutexPreventDockMoving)
-		  {
-			  WINDOWPOS *wp;
-			  wp = (WINDOWPOS*)lParam;
-			  wp->flags |= SWP_NOMOVE/*|SWP_NOSIZE*/;
-			  wp->flags &= (wp->flags&~SWP_NOACTIVATE);
-			  return DefWindowProc(hwnd, msg, wParam, lParam);
-		  }
-		  break;
-	  }
-  case WM_WINDOWPOSCHANGED:
-	  {
-		  if (g_CluiData.fDocked && g_CluiData.mutexPreventDockMoving)
-			  return 0;
-	  }
-	  break;
-  case WM_NCPAINT:
-  case WM_PAINT:
-	  {
-		  //ValidateRect(hwnd,NULL);
-		  return DefWindowProc(hwnd, msg, wParam, lParam);
-	  }
-  case WM_ERASEBKGND:
-	  {
-		  return 1;
-	  }
-	};
+	case WM_NCPAINT:
+	case WM_PAINT:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_ERASEBKGND:
+		return 1;
+	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
-};
+}
 
-static HWND CreateSubContainerWindow(HWND parent,int x,int y,int width,int height)
+static HWND CreateSubContainerWindow(HWND parent, int x, int y, int width, int height)
 {
-	HWND hwnd;
-	hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName,_T("SubContainerWindow"),WS_POPUP|(!g_CluiData.fLayered ? WS_BORDER : 0),x,y,width,height,parent, 0, g_hInst,0);
-	SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)&~(WS_CAPTION|WS_BORDER));
-	if (g_CluiData.fOnDesktop)
-	{
-		HWND hProgMan = FindWindow(_T("Progman"),NULL);
+	HWND hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName, _T("SubContainerWindow"), WS_POPUP | (!g_CluiData.fLayered ? WS_BORDER : 0), x, y, width, height, parent, 0, g_hInst, 0);
+	SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_BORDER));
+	if (g_CluiData.fOnDesktop) {
+		HWND hProgMan = FindWindow(_T("Progman"), NULL);
 		if (IsWindow(hProgMan))
-			SetParent(hwnd,hProgMan);
+			SetParent(hwnd, hProgMan);
 	}
 
-
 	return hwnd;
-};
-
-
+}
 
 static LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-
 	RECT rect;
-	int Frameid;
-
-	Frameid = (GetWindowLongPtr(hwnd,GWLP_USERDATA));
+	int Frameid = (GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	memset(&rect, 0, sizeof(rect));
-	/*
-	if ((msg == WM_MOVE) || (msg == WM_MOVING) || (msg == WM_NCLBUTTONDOWN) || (msg == WM_SYSCOMMAND)  )
-	{
-	if ( ServiceExists("Utils/SnapWindowProc"))
-	{
-	SnapWindowProc_t SnapInfo;
-	memset(&SnapInfo, 0, sizeof(SnapInfo));
 
-	SnapInfo.hWnd = hwnd;
-	SnapInfo.wParam = wParam;
-	SnapInfo.lParam = lParam;
-	if (CallService("Utils/SnapWindowProc",(WPARAM)&SnapInfo,msg) != 0){return(TRUE);};
-	};
-	};
-	*/
-	switch(msg)
-	{
-
+	switch(msg) {
 	case WM_CREATE:
 		{
 			int framepos;
