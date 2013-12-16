@@ -863,7 +863,12 @@ URL събития
 Облицована рамка
 [Floating]
 Плаващо
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frames menu]
+
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Groups menu]
+
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
@@ -872,5 +877,7 @@ URL събития
 Настройки...
 [&About the contact list...]
 Относно списъка с контакти...
+[Subgroup menu]
+
 [&New SubGroup]
 Нова подгрупа

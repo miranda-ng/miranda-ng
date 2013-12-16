@@ -865,12 +865,19 @@ Titelzeile anzeigen
 Skinnbarer Frame
 [Floating]
 Frei bewegend
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frames menu]
+
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Groups menu]
+
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
 Einstellungen...
 [&About the contact list...]
 Über die Kont&aktliste...
+[Subgroup menu]
+
 [&New SubGroup]
 &Neue Untergruppe

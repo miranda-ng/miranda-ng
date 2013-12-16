@@ -246,6 +246,8 @@ OTR: Инсталирана е приставката SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 В момента се използва приставката SecureIM.\nMirOTR ще може да бъде използван само с контакти, за които SecureIM е изключена.
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+[MirOTR menu]
+
 [OTR Status]
 
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

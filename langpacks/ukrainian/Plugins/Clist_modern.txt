@@ -51,8 +51,6 @@
 Непрозорість 75%
 [only when statuses differ]
 при різних статусах
-[TrayMenu]
-Меню в треї
 ;Список
 [Hide vertical scrollbar]
 Приховати смугу прокручування

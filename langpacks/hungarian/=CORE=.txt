@@ -1728,6 +1728,8 @@ Kérlek engedélyezd a kérelmemet és adj hozzá a kapcsolati listádhoz.
 Egyéni állapot
 [%s (locked)]
 %s (kizárva)
+[Main menu]
+Fõmenü
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (ismeretlen partner)
@@ -1970,8 +1972,6 @@ Futó beépülõ
 Mutat/Rejt
 [Exit]
 Kilépés
-[Main menu]
-Fõmenü
 [On]
 Be
 [Off]

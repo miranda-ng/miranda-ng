@@ -366,6 +366,8 @@
 
 [Block this person...]
 
+[Skype menu chooser]
+
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]

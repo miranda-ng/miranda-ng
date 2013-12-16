@@ -1989,6 +1989,10 @@ URL від %s
 xСтатус
 [%s (locked)]
 %s (заблокований)
+[Status menu]
+Меню статусів
+[Main menu]
+Головне меню
 [(Unknown contact)]
 (Невідомий контакт)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2365,8 +2369,6 @@ ANSI-плагін
 Показати/сховати
 [Exit]
 Вихід
-[Main menu]
-Головне меню
 [Leave chat]
 Вийти з чату
 [Move to group]

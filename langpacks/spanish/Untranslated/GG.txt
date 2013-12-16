@@ -146,6 +146,7 @@
 [&Remove List From Server]
 [Export List To &Server]
 [Export List To &Text File...]
+[Gadu-Gadu account chooser]
 [Gadu-Gadu Link Protocol]
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 [Password was sent to your e-mail.]

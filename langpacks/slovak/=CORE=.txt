@@ -2057,6 +2057,10 @@ Zobraziť/Zmeniť moje informácie...
 
 [%s (locked)]
 
+[Status menu]
+
+[Main menu]
+
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
@@ -2469,8 +2473,6 @@ Pomoc
 [Show/Hide]
 
 [Exit]
-
-[Main menu]
 
 [Leave chat]
 

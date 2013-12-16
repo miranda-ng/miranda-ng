@@ -1845,6 +1845,8 @@ Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 États personnalisés
 [%s (locked)]
 %s (verrouillé)
+[Main menu]
+Menu principal
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Contact inconnu)
@@ -2071,8 +2073,6 @@ Plugin actif
 Plugin non chargé
 [Exit]
 Quitter
-[Main menu]
-Menu principal
 [Frames]
 Cadres
 [Request authorization]

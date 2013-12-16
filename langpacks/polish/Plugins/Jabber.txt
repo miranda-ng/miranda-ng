@@ -1241,6 +1241,8 @@ Usunąć %s?
 [Http authentication request received]
 Żądanie autoryzacji http przyjęte
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]

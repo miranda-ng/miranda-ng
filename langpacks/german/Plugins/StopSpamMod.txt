@@ -88,8 +88,6 @@ Spammer haben mich dazu gebracht, ein kleines Anti-Spam-System zu installieren, 
 StopSpam: senden Sie eine Nachricht und antworten Sie auf die Frage des Anti-Spam-Bots.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Sie eine Nachricht schreiben.
-[nospam]
-nospam
 [If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
 Wenn mathematischer Ausdruck aktiviert ist dann können Sie folgenden Ausdruck im Nachrichtentext verwenden:\nXX+XX-X/X*X\nJedes X wird durch eine Zufallszahl ersetzt und die Antwort wird das Ergebnis des Ausdruckes sein.\nNachricht darf nur einen Ausdruck ohne Leerzeichen enthalten.
 [Info]

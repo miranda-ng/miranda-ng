@@ -2063,6 +2063,10 @@ Por favor autorice mi petición y añadame a su lista de contactos.
 Estado personalizado
 [%s (locked)]
 %s (bloqueado)
+[Status menu]
+
+[Main menu]
+Menú principal
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Contacto desconocido)
@@ -2486,8 +2490,6 @@ Plugin sin cargar
 Mostrar/Ocultar
 [Exit]
 Salir
-[Main menu]
-Menú principal
 [Leave chat]
 Dejar charla
 [Move to group]

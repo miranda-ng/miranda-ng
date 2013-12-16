@@ -2063,6 +2063,8 @@ URL ад %s
 хстатус
 [%s (locked)]
 %s (заблакаваны)
+[Main menu]
+Галоўнае меню
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
@@ -2483,8 +2485,6 @@ ANSI плагін
 Схаваць/паказаць
 [Exit]
 Выйсце
-[Main menu]
-Галоўнае меню
 [Leave chat]
 Пакінуць чат
 [Move to group]

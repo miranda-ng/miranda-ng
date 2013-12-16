@@ -472,8 +472,6 @@ Jabber Ad-Hoc команди на %s
 Надіслати нотатку
 [Multi-User Conference]
 Чат-кімната
-[JabberAccountChooser]
-Вибір облікового запису Jabber
 [Activities]
 Заняття
 [Moods]

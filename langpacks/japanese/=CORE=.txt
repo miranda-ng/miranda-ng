@@ -1934,6 +1934,8 @@ Fax
 カスタムステータス
 [%s (locked)]
 %s ( ロック中 )
+[Main menu]
+メインメニュー
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 ( 不明なコンタクト )
@@ -2254,8 +2256,6 @@ ANSI プラグイン
 ハイド表示
 [Exit]
 終了
-[Main menu]
-メインメニュー
 [Leave chat]
 チャットから離席
 [Move to group]

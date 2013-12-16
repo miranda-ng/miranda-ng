@@ -385,6 +385,8 @@ Gadu-Gadu номер
 [Export List To &Text File...]
 Изнасяне на списъка в текстови файл...
 ;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu account chooser]
+
 [Gadu-Gadu Link Protocol]
 
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp

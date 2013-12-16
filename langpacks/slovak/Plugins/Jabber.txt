@@ -1235,6 +1235,8 @@ Osobná karta
 [Http authentication request received]
 
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+
 [Request authorization]
 
 [Grant authorization]

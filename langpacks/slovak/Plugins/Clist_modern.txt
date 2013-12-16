@@ -669,6 +669,14 @@ Zmazať skupinu
 
 [Contact List smileys]
 
+[List Background]
+Pozadie zoznamu
+[Menu Background]
+
+[StatusBar Background]
+
+[Frames TitleBar BackGround]
+
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 
 [Converting to MetaContact]
@@ -768,8 +776,6 @@ Pozadie
 Zoznam
 [Window]
 Okno
-[List Background]
-Pozadie zoznamu
 [Not focused]
 Neoznačené
 [Offline]
@@ -813,6 +819,8 @@ Meno
 [Behind right edge]
 
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area Background]
+
 [Event Area]
 
 [No Events]
@@ -867,6 +875,8 @@ Text
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[Tray menu]
+
 [&Find/Add Contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]
@@ -917,10 +927,13 @@ Nastavenia...
 
 [Show TitleBar]
 
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[GroupMenu]
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
 
-[SubGroupMenu]
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+[Group menu]
+
+[Subgroup menu]
 
 [&New SubGroup]
 
@@ -1054,6 +1067,8 @@ Menu stavov
 
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 
+[ToolBar Background]
+
 [Toolbar upgrade]
 
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
@@ -1103,7 +1118,7 @@ Menu stavov
 
 [Reset view mode]
 
-[View Modes]
+[View Mode Background]
 
-[TrayMenu]
+[View Modes]
 

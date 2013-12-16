@@ -366,6 +366,8 @@ SkypeKit startete nicht.
 Diese Person nicht mehr blockieren...
 [Block this person...]
 Diese Person blockieren...
+[Skype menu chooser]
+
 [Request authorization]
 Autorisierung anfragen
 [Grant authorization]

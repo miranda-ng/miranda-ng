@@ -2063,6 +2063,10 @@ Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 Custom Status
 [%s (locked)]
 %s (gesperrt)
+[Status menu]
+
+[Main menu]
+Hauptmenü
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Unbekannter Kontakt)
@@ -2486,8 +2490,6 @@ Plugin deaktiviert
 Anzeigen/Verstecken
 [Exit]
 Beenden
-[Main menu]
-Hauptmenü
 [Leave chat]
 Chat verlassen
 [Move to group]

@@ -2063,6 +2063,10 @@ Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 Niestandardowy status
 [%s (locked)]
 %s (zablokowane)
+[Status menu]
+
+[Main menu]
+Menu główne
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Nieznany kontakt)
@@ -2486,8 +2490,6 @@ Niezaładowane wtyczki
 Pokaż/ukryj
 [Exit]
 Wyłącz
-[Main menu]
-Menu główne
 [Leave chat]
 Opuść czat
 [Move to group]

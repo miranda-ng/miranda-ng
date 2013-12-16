@@ -1704,6 +1704,8 @@ Vennligst godta min forespørsel og legg meg til i din kontaktliste.
 Selvvalgt status
 [%s (locked)]
 %s (låst)
+[Main menu]
+Hovedmeny
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Ukjent Kontakt)
@@ -1930,8 +1932,6 @@ ANSI plugin
 Kjørende tillegg
 [Unloaded plugin]
 Avslått Plugin
-[Main menu]
-Hovedmeny
 [On]
 På
 [Off]

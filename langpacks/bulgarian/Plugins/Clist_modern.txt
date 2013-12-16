@@ -665,6 +665,14 @@ Modern contact list
 Насложени над състоянието икони
 [Contact List smileys]
 Усмивки в списъка с контакти
+[List Background]
+Фон на списъка
+[Menu Background]
+
+[StatusBar Background]
+
+[Frames TitleBar BackGround]
+
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него?
 [Converting to MetaContact]
@@ -764,8 +772,6 @@ Modern contact list
 Списък
 [Window]
 Прозорец
-[List Background]
-Фон на списъка
 [Not focused]
 Дефокусирано
 [Offline]
@@ -809,6 +815,8 @@ Modern contact list
 [Behind right edge]
 Зад десния ръб
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area Background]
+
 [Event Area]
 Зона за събития
 [No Events]
@@ -863,6 +871,8 @@ Modern contact list
 [(Unknown Contact)]
 (Непознат контакт)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[Tray menu]
+
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
@@ -915,10 +925,13 @@ Modern contact list
 Заключване на рамката
 [Show TitleBar]
 Показване на заглавна лента
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[GroupMenu]
+[Group menu]
 Меню на групите
-[SubGroupMenu]
+[Subgroup menu]
 Меню на подгрупите
 [&New SubGroup]
 Нова подгрупа
@@ -1052,6 +1065,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 Минимизиране
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 За да имате лента с инструменти в Clist Modern се нуждаете от приставката TopToolBar.\nНатиснете "Да" ако искате да я свалите или "Отказ" за да продължите
+[ToolBar Background]
+
 [Toolbar upgrade]
 
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
@@ -1101,5 +1116,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 Изчистване на режима за преглед и връщане към стандартния
 [Reset view mode]
 Анулиране на режима за преглед
+[View Mode Background]
+
 [View Modes]
 Режими за преглед

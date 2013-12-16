@@ -1241,6 +1241,8 @@ Begründung für Bann
 [Http authentication request received]
 HTTP-Authentifizierungsanfrage empfangen
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+
 [Request authorization]
 Autorisierung anfragen
 [Grant authorization]

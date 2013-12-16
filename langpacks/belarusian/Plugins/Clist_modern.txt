@@ -916,9 +916,9 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Show TitleBar]
 Паказаць загаловак
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[GroupMenu]
+[Group menu]
 Меню груп
-[SubGroupMenu]
+[Subgroup menu]
 Меню падгруп
 [&New SubGroup]
 Стварыць падгрупу

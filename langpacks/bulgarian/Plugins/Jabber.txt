@@ -1235,6 +1235,8 @@ Jabber удостоверяване
 [Http authentication request received]
 Получена е HTTP молба за удостоверяване
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]

@@ -530,6 +530,7 @@
 [Owner List]
 [Removing]
 [Http authentication request received]
+[Jabber account chooser]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]

@@ -385,6 +385,8 @@ Eksportuj listę na &serwer
 [Export List To &Text File...]
 Eksportuj listę do pliku
 ;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu account chooser]
+
 [Gadu-Gadu Link Protocol]
 Powiązanie protokołu Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp

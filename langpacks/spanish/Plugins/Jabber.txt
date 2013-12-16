@@ -1241,6 +1241,8 @@ Protocolos
 [Http authentication request received]
 
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+
 [Request authorization]
 Solicitar autorización
 [Grant authorization]

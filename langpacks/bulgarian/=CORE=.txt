@@ -2032,6 +2032,10 @@ URL
 Персонално състояние
 [%s (locked)]
 %s (заключен)
+[Status menu]
+
+[Main menu]
+Главно меню
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Непознат контакт)
@@ -2455,8 +2459,6 @@ ANSI приставка
 Показване/Скриване
 [Exit]
 Изход
-[Main menu]
-Главно меню
 [Leave chat]
 Излизане от чата
 [Move to group]

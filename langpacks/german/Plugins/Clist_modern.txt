@@ -667,6 +667,14 @@ Avatar-Overlay
 Status-Overlay
 [Contact List smileys]
 Smileys in Kontaktliste
+[List Background]
+Hintergrund Liste
+[Menu Background]
+
+[StatusBar Background]
+
+[Frames TitleBar BackGround]
+
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?
 [Converting to MetaContact]
@@ -768,8 +776,6 @@ Allgemein
 Liste
 [Window]
 Fenster
-[List Background]
-Hintergrund Liste
 [Not focused]
 nicht fokussiert
 [Offline]
@@ -813,6 +819,8 @@ Hinter linken Rand
 [Behind right edge]
 Hinter rechten Rand
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area Background]
+
 [Event Area]
 Ereignisbereich
 [No Events]
@@ -867,6 +875,8 @@ Dritte Zeile
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[Tray menu]
+
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
@@ -917,10 +927,13 @@ Alle Titelleisten verstecken
 Keine Größenänderung
 [Show TitleBar]
 Titelzeile anzeigen
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[GroupMenu]
+[Group menu]
 Kontaktlistenmenü
-[SubGroupMenu]
+[Subgroup menu]
 Gruppenkontextmenü
 [&New SubGroup]
 &Neue Untergruppe
@@ -1054,6 +1067,8 @@ Klänge deaktivieren
 Minimieren
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Um eine Toolbar in Clist Modern zu sehen, benötigen Sie das TopToolBar Plugin. Klicken Sie Ja um es zu installieren, oder Abbrechen um fortzusetzen.
+[ToolBar Background]
+
 [Toolbar upgrade]
 Toolbar aktuallisieren
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
@@ -1103,7 +1118,7 @@ Kontaktfilter einstellen
 Lösche Ansicht und kehre zu Ausgangsanzeige zurück
 [Reset view mode]
 Kontaktfilter aufheben
+[View Mode Background]
+
 [View Modes]
 Kontaktfilter
-[TrayMenu]
-

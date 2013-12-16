@@ -228,5 +228,8 @@
 [Show TitleBar]
 [Skinned frame]
 [Floating]
+[Frames menu]
+[Groups menu]
 [&About the contact list...]
+[Subgroup menu]
 [&New SubGroup]

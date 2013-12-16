@@ -134,6 +134,7 @@
 [SkypeKit did not start.]
 [Unblock this person...]
 [Block this person...]
+[Skype menu chooser]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]

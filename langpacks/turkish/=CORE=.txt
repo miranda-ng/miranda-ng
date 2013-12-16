@@ -1754,6 +1754,8 @@ Lütfen isteğimi yanıtlayıp beni kişi listenize ekleyin.
 Kişisel durum
 [%s (locked)]
 %s (kilitli)
+[Main menu]
+Ana Menü
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Bilinmmeyen Kişi)
@@ -2002,8 +2004,6 @@ Kaldırılan eklenti
 Göster/Gizle
 [Exit]
 Çıkış
-[Main menu]
-Ana Menü
 [On]
 Açık
 [Off]

@@ -332,6 +332,8 @@ Kontakt
 
 [Block this person...]
 
+[Skype menu chooser]
+
 [Request authorization]
 
 [Grant authorization]

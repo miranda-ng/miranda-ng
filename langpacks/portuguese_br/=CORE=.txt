@@ -1764,6 +1764,8 @@ Por favor, autorizar o meu pedido e me adicionar à sua lista de contatos.
 Status personalizada
 [%s (locked)]
 %s (travado)
+[Main menu]
+Menu Principal
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Contato Desconhecido)
@@ -2048,8 +2050,6 @@ Plugin desativado
 Exibir/Ocultar
 [Exit]
 Sair
-[Main menu]
-Menu Principal
 [Leave chat]
 Sair do chat
 [Move to group]

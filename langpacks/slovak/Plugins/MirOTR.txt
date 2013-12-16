@@ -246,6 +246,8 @@ Prednastavené
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+[MirOTR menu]
+
 [OTR Status]
 
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

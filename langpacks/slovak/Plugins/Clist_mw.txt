@@ -368,6 +368,8 @@ Telefonuje
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[Tray menu]
+
 [&Find/Add Contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]
@@ -379,6 +381,10 @@ Nastavenia...
 
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[Group menu]
+
+[Subgroup menu]
+
 [&New SubGroup]
 
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -430,5 +436,8 @@ Nastavenia...
 [Show TitleBar]
 
 [Floating]
+
+;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
 
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

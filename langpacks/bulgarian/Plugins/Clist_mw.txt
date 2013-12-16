@@ -366,6 +366,8 @@ _НямаПротокол_
 [(Unknown Contact)]
 (Непознат контакт)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[Tray menu]
+
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
@@ -379,6 +381,10 @@ _НямаПротокол_
 Моите контакти
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[Group menu]
+
+[Subgroup menu]
+
 [&New SubGroup]
 Нова подгрупа
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -431,4 +437,7 @@ _НямаПротокол_
 Показване на заглавна лента
 [Floating]
 Плаващо
+;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

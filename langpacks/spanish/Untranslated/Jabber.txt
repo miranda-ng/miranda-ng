@@ -465,6 +465,7 @@
 [Reason to ban]
 [Removing %s?]
 [Http authentication request received]
+[Jabber account chooser]
 [Convert]
 [Add to Bookmarks]
 [Commands]

@@ -667,6 +667,14 @@ Nakładka awatara
 Nakładka statusu
 [Contact List smileys]
 Emotikony listy kontaktów
+[List Background]
+Tło listy
+[Menu Background]
+
+[StatusBar Background]
+
+[Frames TitleBar BackGround]
+
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Chcesz przekonwertować kontakt "%s" do metakontaktu i dodać do niego "%s"?
 [Converting to MetaContact]
@@ -768,8 +776,6 @@ Ogólne
 Lista
 [Window]
 Okno
-[List Background]
-Tło listy
 [Not focused]
 Nieaktywne
 [Offline]
@@ -813,6 +819,8 @@ Za lewą krawędzią
 [Behind right edge]
 Za prawą krawędzią
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area Background]
+
 [Event Area]
 Obszar zdarzeń
 [No Events]
@@ -867,6 +875,8 @@ Trzecia linia
 [(Unknown Contact)]
 (Nieznany kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[Tray menu]
+
 [&Find/Add Contacts...]
 Szukaj/Dodaj kontakty...
 [&Options...]
@@ -917,10 +927,13 @@ Ukryj wszystkie paski tytułów
 Zablokuj ramkę
 [Show TitleBar]
 Pokaż pasek tytułu
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[GroupMenu]
+[Group menu]
 Menu grupy
-[SubGroupMenu]
+[Subgroup menu]
 Menu podgrupy
 [&New SubGroup]
 Nowa podgrupa
@@ -1054,6 +1067,8 @@ Wyłącz dźwięki
 Minimalizuj
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Aby wyświetlić pasek narzędzi w Clist Modern wymagana jest wtyczka TopToolBar. Kliknij Tak aby pobrać lub Nie aby kontynuować.
+[ToolBar Background]
+
 [Toolbar upgrade]
 Aktualizacja paska narzędzi
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
@@ -1103,5 +1118,7 @@ Ustaw tryby widoku
 Wyczyść tryb widoku i przywróć domyślne wyświetlanie
 [Reset view mode]
 Resetuj tryb widoku
+[View Mode Background]
+
 [View Modes]
 Tryby widoku

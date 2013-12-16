@@ -368,6 +368,7 @@ Global
 [(Unknown Contact)]
 (Contacto desconocido)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[Tray menu]
 [&Find/Add Contacts...]
 &Buscar/Agregar contactos...
 [&Options...]
@@ -379,6 +380,10 @@ Global
 
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[Group menu]
+
+[Subgroup menu]
+
 [&New SubGroup]
 
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -430,5 +435,8 @@ Marcos
 [Show TitleBar]
 
 [Floating]
+
+;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
 
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

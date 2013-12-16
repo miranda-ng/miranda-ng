@@ -366,6 +366,8 @@ Protocolos
 
 [Block this person...]
 
+[Skype menu chooser]
+
 [Request authorization]
 Solicitar autorización
 [Grant authorization]

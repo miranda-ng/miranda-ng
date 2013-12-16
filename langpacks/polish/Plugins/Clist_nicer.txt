@@ -865,12 +865,18 @@ Pokaż pasek tutułu
 Skórkowalna ramka
 [Floating]
 Pływający
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frames menu]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Groups menu]
+
 [&Find/Add Contacts...]
 Szukaj/dodaj kontakty...
 [&Options...]
 Opcje...
 [&About the contact list...]
 O liście kontaktów...
+[Subgroup menu]
+
 [&New SubGroup]
 Nowa podgrupa

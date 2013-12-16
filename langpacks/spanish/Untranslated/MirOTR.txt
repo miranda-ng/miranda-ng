@@ -104,5 +104,6 @@
 [Cannot start OTR for '%s'. SecureIM is already running]
 [OTR: SecureIM installed]
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
+[MirOTR menu]
 [OTR Status]
 [Private Data]
