@@ -442,8 +442,12 @@
 [Show TitleBar]
 [Skinned frame]
 [Floating]
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frames menu]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Groups menu]
 [&Find/Add Contacts...]
 [&Options...]
 [&About the contact list...]
+[Subgroup menu]
 [&New SubGroup]

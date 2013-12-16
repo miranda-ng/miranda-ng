@@ -201,6 +201,7 @@
 [Export List To &Server]
 [Export List To &Text File...]
 ;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu account chooser]
 [Gadu-Gadu Link Protocol]
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]

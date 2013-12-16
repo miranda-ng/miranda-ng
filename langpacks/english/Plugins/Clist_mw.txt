@@ -190,6 +190,7 @@
 [_NoProtocol_]
 [(Unknown Contact)]
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[Tray menu]
 [&Find/Add Contacts...]
 [&Options...]
 [&About]
@@ -197,6 +198,8 @@
 [My Contacts]
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[Group menu]
+[Subgroup menu]
 [&New SubGroup]
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
@@ -224,4 +227,6 @@
 [Visible]
 [Show TitleBar]
 [Floating]
+;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

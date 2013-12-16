@@ -1058,6 +1058,8 @@
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 [%s (locked)]
+[Status menu]
+[Main menu]
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 ;file \src\modules\clist\clisttray.cpp
@@ -1285,7 +1287,6 @@
 [Unloaded plugin]
 [Show/Hide]
 [Exit]
-[Main menu]
 [Leave chat]
 [Move to group]
 [On]
