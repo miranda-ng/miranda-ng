@@ -2219,6 +2219,8 @@ Miranda NG не может открыть этот профиль
 <Все подключения>
 [Network]
 Сеть
+[Host we are connecting to is not the one certificate was issued for]
+Выданный сертификат не соответсует имени сервера, к которому производится подключение
 [<all modules>]
 <все модули>
 [<core modules>]
@@ -2245,7 +2247,7 @@ Miranda NG не может открыть этот профиль
 Невозможно загрузить плагин в служебном режиме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Невозможно загрузить ни один из установленных плагинов списка контактов. Даже отключённые в настройках не запускаются.
-[Can't find a contact list plugin! You need StdClist.dll or any other clist plugin.]
+Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 Не найден плагин списка контактов! Вам нужен StdClist.dll или один из плагинов clist_*.dll.
 [Plugin]
 Плагин
