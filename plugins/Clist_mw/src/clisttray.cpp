@@ -192,16 +192,11 @@ INT_PTR FreeOwnerDataTrayMenu (WPARAM wParam,LPARAM lParam)
 
 void InitTrayMenus(void)
 {
-	TMenuParam tmp;
-	OptParam op;
-
 	//Tray menu
-	memset(&tmp,0,sizeof(tmp));
-	tmp.cbSize = sizeof(tmp);
-	tmp.CheckService = NULL;
-	tmp.ExecService = "CLISTMENUSTRAY/ExecService";
-	tmp.name = "TrayMenu";
-	hTrayMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
+	hTrayMenuObject = MO_CreateMenuObject("TrayMenu", LPGEN("Tray menu"), 0, "CLISTMENUSTRAY/ExecService");
+	MO_SetMenuObjectParam(hTrayMenuObject, OPT_USERDEFINEDITEMS, TRUE);
+	MO_SetMenuObjectParam(hTrayMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSTRAY/FreeOwnerDataTrayMenu");
+	MO_SetMenuObjectParam(hTrayMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
 
 	CreateServiceFunction("CLISTMENUSTRAY/ExecService",TrayMenuExecService);
 	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu",FreeOwnerDataTrayMenu);
@@ -211,21 +206,6 @@ void InitTrayMenus(void)
 	CreateServiceFunction(MS_CLIST_REMOVETRAYMENUITEM,RemoveTrayMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY,BuildTrayMenu);
 	hPreBuildTrayMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDTRAYMENU);
-
-	op.Handle = hTrayMenuObject;
-	op.Setting = OPT_USERDEFINEDITEMS;
-	op.Value = TRUE;
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-
-	op.Handle = hTrayMenuObject;
-	op.Setting = OPT_MENUOBJECT_SET_FREE_SERVICE;
-	op.Value = (INT_PTR)"CLISTMENUSTRAY/FreeOwnerDataTrayMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-
-	op.Handle = hTrayMenuObject;
-	op.Setting = OPT_MENUOBJECT_SET_ONADD_SERVICE;
-	op.Value = (INT_PTR)"CLISTMENUSTRAY/TrayMenuonAddService";
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	//add  exit command to menu
 	CLISTMENUITEM mi = { sizeof(mi) };

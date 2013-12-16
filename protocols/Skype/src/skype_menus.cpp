@@ -1,6 +1,6 @@
 #include "skype.h"
 
-HGENMENU CSkypeProto::hChooserMenu;
+HANDLE   CSkypeProto::hChooserMenu;
 HGENMENU CSkypeProto::contactMenuItems[CMI_MAX];
 
 INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
@@ -122,7 +122,7 @@ void  CSkypeProto::InitMenus()
 	mnu.cbSize = sizeof(mnu);
 	mnu.name = "SkypeAccountChooser";
 	mnu.ExecService = "Skype/MenuChoose";
-	hChooserMenu = (HGENMENU)::CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
+	hChooserMenu = MO_CreateMenuObject(LPGEN("Skype menu chooser"), &mnu);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization

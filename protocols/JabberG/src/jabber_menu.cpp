@@ -183,8 +183,7 @@ void g_MenuInit(void)
 
 	CreateServiceFunction("Jabber/MenuChoose", JabberMenuChooseService);
 
-	TMenuParam mnu = { sizeof(mnu), "JabberAccountChooser", 0, "Jabber/MenuChoose" };
-	hChooserMenu = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
+	hChooserMenu = MO_CreateMenuObject("JabberAccountChooser", LPGEN("Jabber account chooser"), 0, "Jabber/MenuChoose");
 
 	TMO_MenuItem tmi = { sizeof(tmi) };
 	tmi.pszName = "Cancel";

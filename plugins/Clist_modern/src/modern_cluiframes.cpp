@@ -982,7 +982,7 @@ static int ModifyMItem(WPARAM wParam,LPARAM lParam)
 {
 	if ((int)wParam == -1 ) return 0;	   // FIXME
 
-	return ModifyMenuItemProxy(wParam,lParam);
+	return CallService(MS_CLIST_MODIFYMENUITEM, wParam, lParam);
 };
 
 
@@ -2959,11 +2959,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 		return 1;
 
 	case WM_COMMAND:
-		if ( ServiceExists(MO_CREATENEWMENUOBJECT)) {
-			if ( ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0), (LPARAM)Frameid))
-				break;
-		}
-		else if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid))
+		if ( CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),0), Frameid))
 			break;
 
 		if (HIWORD(wParam) == 0) {//mouse events for self created menu

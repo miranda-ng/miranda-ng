@@ -136,12 +136,6 @@ struct FRAMEWND
 #define CLUIFrameTitleBarClassName				_T("CLUIFrameTitleBar")
 #define CLUIFrameModule							"CLUIFrames"
 
-//integrated menu module
-#define MS_INT_MENUMEASUREITEM "CLUIFrames/IntMenuMeasureItem"
-#define MS_INT_MENUDRAWITEM "CLUIFrames/IntMenuDrawItem"
-#define MS_INT_MENUPROCESSCOMMAND "CLUIFrames/IntMenuProcessCommand"
-#define MS_INT_MODIFYMENUITEM "CLUIFrames/IntModifyMenuItem"
-
 #endif
 
 

@@ -251,11 +251,6 @@ int static OnIconLibIconChanged(WPARAM wParam,LPARAM lParam)
 
 void InitGroupMenus(void)
 {
-	TMenuParam tmp;
-	OptParam op;
-	//hicon=LoadIconFromExternalFile("clisticons.dll",2,TRUE,TRUE,"NewGroup","Contact List","New Group",-IDI_NEWGROUP2);
-	//NewGroupIconidx=ImageList_AddIcon(hCListImages,hicon );
-
 	CreateServiceFunction("CLISTMENUSGroup/ExecService",GroupMenuExecService);
 	CreateServiceFunction("CLISTMENUSGroup/FreeOwnerDataGroupMenu",FreeOwnerDataGroupMenu);
 	CreateServiceFunction("CLISTMENUSGroup/GroupMenuonAddService",GroupMenuonAddService);
@@ -272,29 +267,10 @@ void InitGroupMenus(void)
 	InitSubGroupMenus();
 
 	//Group menu
-	memset(&tmp,0,sizeof(tmp));
-	tmp.cbSize=sizeof(tmp);
-	tmp.CheckService=NULL;
-	tmp.ExecService="CLISTMENUSGroup/ExecService";
-	tmp.name="GroupMenu";
-	hGroupMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
-
-
-	op.Handle=hGroupMenuObject;
-	op.Setting=OPT_USERDEFINEDITEMS;
-	op.Value=TRUE;
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-
-	op.Handle=hGroupMenuObject;
-	op.Setting=OPT_MENUOBJECT_SET_FREE_SERVICE;
-	op.Value=(INT_PTR)"CLISTMENUSGroup/FreeOwnerDataGroupMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-
-	op.Handle=hGroupMenuObject;
-	op.Setting=OPT_MENUOBJECT_SET_ONADD_SERVICE;
-	op.Value=(INT_PTR)"CLISTMENUSGroup/GroupMenuonAddService";
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-
+	hGroupMenuObject = MO_CreateMenuObject("GroupMenu", LPGEN("Groups menu"), 0, "CLISTMENUSGroup/ExecService");
+	MO_SetMenuObjectParam(hGroupMenuObject, OPT_USERDEFINEDITEMS, TRUE);
+	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
+	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
 	{
 		//add  exit command to menu
 		GroupMenuParam gmp;
@@ -562,9 +538,6 @@ INT_PTR GroupMenuExecProxy(WPARAM wParam,LPARAM lParam)
 
 void InitSubGroupMenus(void)
 {
-	TMenuParam tmp;
-	OptParam op;
-
 	CreateServiceFunction("CLISTMENUSSubGroup/ExecService",SubGroupMenuExecService);
 	CreateServiceFunction("CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu",FreeOwnerDataSubGroupMenu);
 	CreateServiceFunction("CLISTMENUSSubGroup/SubGroupMenuonAddService",SubGroupMenuonAddService);
@@ -580,30 +553,11 @@ void InitSubGroupMenus(void)
 	hPreBuildSubGroupMenuEvent=CreateHookableEvent(ME_CLIST_PREBUILDSUBGROUPMENU);
 	HookEvent(ME_CLIST_PREBUILDSUBGROUPMENU,OnBuildSubGroupMenu);
 
-
-	//SubGroup menu
-	memset(&tmp,0,sizeof(tmp));
-	tmp.cbSize=sizeof(tmp);
-	tmp.CheckService=NULL;
-	tmp.ExecService="CLISTMENUSSubGroup/ExecService";
-	tmp.name="SubGroupMenu";
-	hSubGroupMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
-
-
-	op.Handle=hSubGroupMenuObject;
-	op.Setting=OPT_USERDEFINEDITEMS;
-	op.Value=TRUE;
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-
-	op.Handle=hSubGroupMenuObject;
-	op.Setting=OPT_MENUOBJECT_SET_FREE_SERVICE;
-	op.Value=(INT_PTR)"CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-
-	op.Handle=hSubGroupMenuObject;
-	op.Setting=OPT_MENUOBJECT_SET_ONADD_SERVICE;
-	op.Value=(INT_PTR)"CLISTMENUSSubGroup/SubGroupMenuonAddService";
-	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
+	// SubGroup menu
+	hSubGroupMenuObject = MO_CreateMenuObject("SubGroupMenu", LPGEN("Subgroup menu"), 0, "CLISTMENUSSubGroup/ExecService");
+	MO_SetMenuObjectParam(hSubGroupMenuObject, OPT_USERDEFINEDITEMS, TRUE);
+	MO_SetMenuObjectParam(hSubGroupMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu");
+	MO_SetMenuObjectParam(hSubGroupMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSSubGroup/SubGroupMenuonAddService");
 
 	{
 		//add  exit command to menu

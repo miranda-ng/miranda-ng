@@ -89,7 +89,7 @@ static int SaveTree(HWND hwndDlg)
 	TIntMenuObject *pimo = g_menus[menupos];
 
 	char MenuNameItems[256];
-	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->Name);
+	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->pszName);
 	int runtimepos = 100;
 
 	while (tvi.hItem != NULL) {
@@ -141,7 +141,7 @@ static int BuildMenuObjectsTree(HWND hwndDlg)
 			continue;
 
 		tvis.item.lParam = (LPARAM)g_menus[i]->id;
-		tvis.item.pszText = Langpack_PcharToTchar(g_menus[i]->Name);
+		tvis.item.pszText = TranslateTS(g_menus[i]->ptszDisplayName);
 		tvis.item.iImage = tvis.item.iSelectedImage = TRUE;
 		TreeView_InsertItem(hTree, &tvis);
 		mir_free(tvis.item.pszText);
@@ -231,7 +231,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 	if (pimo->m_items.first == NULL)
 		return FALSE;
 
-	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->Name);
+	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->pszName);
 
 	int count = 0;
 	{

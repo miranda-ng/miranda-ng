@@ -227,9 +227,7 @@ int     LoadStatusBarData();                                                //mo
 int     MenuModulesLoaded(WPARAM wParam,LPARAM lParam);                              //clistmenu.c
 int     MenuModulesShutdown(WPARAM wParam,LPARAM lParam);                           //clistmenu.c
 int     MenuProcessCommand(WPARAM wParam,LPARAM lParam);                           //clistmenu.c
-int     ModifyMenuItemProxy(WPARAM wParam,LPARAM lParam);                           //framesmenu.c
 int     OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam);                  //cluiframes.c
-int     ProcessCommandProxy(WPARAM wParam,LPARAM lParam);                           //framesmenu.c
 int     QueueAllFramesUpdating (BYTE);                                          //cluiframes.c
 int     RecursiveDeleteMenu(HMENU hMenu);                                       //clistmenus.c
 int     ModernSkinButtonRedrawAll(HDC hdc);                                                //modern_button.c

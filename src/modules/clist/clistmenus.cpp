@@ -850,13 +850,7 @@ void RebuildMenuOrder(void)
 		mir_free(hStatusMenuHandles);
 	}
 
-	TMenuParam tmp = { 0 };
-	tmp.cbSize = sizeof(tmp);
-	tmp.ExecService = "StatusMenuExecService";
-	tmp.CheckService = "StatusMenuCheckService";
-	tmp.name = "StatusMenu";
-
-	hStatusMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&tmp);
+	hStatusMenuObject = MO_CreateMenuObject("StatusMenu", LPGEN("Status menu"), "StatusMenuCheckService", "StatusMenuExecService");
 	MO_SetOptionsMenuObject(hStatusMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
 
 	hStatusMainMenuHandles = (PMO_IntMenuItem*)mir_calloc(SIZEOF(statusModeList) * sizeof(PMO_IntMenuItem*));
@@ -1324,29 +1318,16 @@ void InitCustomMenus(void)
 	hStatusMenuHandles = NULL;
 	hStatusMenuHandlesCnt = 0;
 
-	//new menu sys
+	// new menu sys
 	InitGenMenu();
 
-	//main menu
-	{
-		TMenuParam tmp = { sizeof(tmp) };
-		tmp.ExecService = "MainMenuExecService";
-		tmp.name = "MainMenu";
-		hMainMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&tmp);
-	}
-
+	// main menu
+	hMainMenuObject = MO_CreateMenuObject("MainMenu", LPGEN("Main menu"), 0, "MainMenuExecService");
 	MO_SetOptionsMenuObject(hMainMenuObject, OPT_USERDEFINEDITEMS, TRUE);
 	MO_SetOptionsMenuObject(hMainMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataMainMenu");
 
-	//contact menu
-	{
-		TMenuParam tmp = { sizeof(tmp) };
-		tmp.CheckService = "ContactMenuCheckService";
-		tmp.ExecService = "ContactMenuExecService";
-		tmp.name = "ContactMenu";
-		hContactMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&tmp);
-	}
-
+	// contact menu
+	hContactMenuObject = MO_CreateMenuObject("ContactMenu", LPGEN("Contact menu"), "ContactMenuCheckService", "ContactMenuExecService");
 	MO_SetOptionsMenuObject(hContactMenuObject, OPT_USERDEFINEDITEMS, TRUE);
 	MO_SetOptionsMenuObject(hContactMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataContactMenu");
 

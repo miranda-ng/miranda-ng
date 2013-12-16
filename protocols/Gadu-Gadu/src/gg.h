@@ -337,7 +337,6 @@ void WindowFreeIcon(HWND hWnd);
 /* URI parser functions */
 void gg_links_instancemenu_init();
 void gg_links_init();
-void gg_links_destroy();
 
 #define UIN2IDA(uin,id) _itoa(uin,id,10)
 #define UIN2IDT(uin,id) _itot(uin,id,10)

@@ -36,11 +36,9 @@ extern HINSTANCE g_hInst;
 #define frame_menu_visible			2
 #define frame_menu_showtitlebar		3
 #define frame_menu_floating			4
-extern  int ModifyMenuItemProxy(WPARAM wParam,LPARAM lParam);
 static int UpdateTBToolTip(int framepos);
 INT_PTR CLUIFrameSetFloat(WPARAM wParam,LPARAM lParam);
 int CLUIFrameResizeFloatingFrame(int framepos);
-extern int ProcessCommandProxy(WPARAM wParam,LPARAM lParam);
 extern int InitFramesMenus(void);
 int GapBetweenTitlebar;
 
@@ -796,7 +794,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGENMENU (*
 
 INT_PTR ModifyMItem(WPARAM wParam,LPARAM lParam)
 {
-	return ModifyMenuItemProxy(wParam,lParam);
+	return CallService(MS_CLIST_MODIFYMENUITEM, wParam, lParam);
 }
 
 static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam,LPARAM lParam)
@@ -2168,13 +2166,10 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return 0;
 
 	case WM_COMMAND:
-		if ( ServiceExists(MO_CREATENEWMENUOBJECT)) {
-			if (ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)) break;
-		}
-		else if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid))
+		if ( CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),0), Frameid))
 			break;
 
-		if (HIWORD(wParam) == 0) {//mouse events for self created menu
+		if (HIWORD(wParam) == 0) { //mouse events for self created menu
 			int framepos = id2pos(Frameid);
 			if (framepos == -1)
 				break;

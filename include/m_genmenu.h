@@ -249,31 +249,6 @@ typedef struct
 }
 	TCheckProcParam,*PCheckProcParam;
 
-typedef struct
-{
-	int cbSize;
-	char *name;
-
-	/*
-	This service called when module build menu(MO_BUILDMENU).
-	Service called with params
-
-	wparam=PCheckProcParam
-	lparam=0
-	if return==FALSE item is skiped.
-	*/
-	char *CheckService;
-
-	/*
-	This service called when user select menu item.
-	Service called with params
-	wparam=ownerdata
-	lparam=lParam from MO_PROCESSCOMMAND
-	*/
-	char *ExecService;//called when processmenuitem called
-}
-	TMenuParam,*PMenuParam;
-
 //used in MO_BUILDMENU
 typedef struct tagListParam
 {
@@ -308,20 +283,6 @@ typedef struct
 //Service automatically find right menuobject and menuitem
 //and call MO_PROCESSCOMMAND
 #define MO_PROCESSCOMMANDBYMENUIDENT		"MO/ProcessCommandByMenuIdent"
-
-
-//wparam=0;
-//lparam=PMenuParam;
-//returns=MenuObjectHandle on success,-1 on failure
-#define MO_CREATENEWMENUOBJECT				"MO/CreateNewMenuObject"
-
-//wparam=MenuObjectHandle
-//lparam=0
-//returns 0 on success,-1 on failure
-//Note: you must free all ownerdata structures, before you
-//call this service.MO_REMOVEMENUOBJECT NOT free it.
-#define MO_REMOVEMENUOBJECT					"MO/RemoveMenuObject"
-
 
 //wparam=MenuItemHandle
 //lparam=0
@@ -382,6 +343,39 @@ typedef struct
 //enable ability user to edit menuitems via options page.
 #define OPT_USERDEFINEDITEMS 1
 
+// szName = unique menu object identifier
+// szDisplayName = menu display name (auto-translated by core)
+// szCheckService = this service called when module build menu(MO_BUILDMENU).
+//    Service is called with params wparam = PCheckProcParam, lparam = 0
+//    if service returns FALSE, item is skipped.
+// szExecService = this service called when user select menu item.
+//    Service called with params wparam = ownerdata; lparam = lParam from MO_PROCESSCOMMAND
+// 
+// returns = MenuObjectHandle on success,-1 on failure
+
+struct TMenuParam
+{
+	int cbSize;
+	LPCSTR name, CheckService, ExecService;
+};
+
+__forceinline HANDLE MO_CreateMenuObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService)
+{
+	TMenuParam param = { sizeof(param), szName, szCheckService, szExecService };
+	return (HANDLE)CallService("MO/CreateNewMenuObject", (WPARAM)szDisplayName, (LPARAM)&param);
+}
+
+//wparam=MenuObjectHandle
+//lparam=0
+//returns 0 on success,-1 on failure
+//Note: you must free all ownerdata structures, before you
+//call this service.MO_REMOVEMENUOBJECT NOT free it.
+#define MO_REMOVEMENUOBJECT "MO/RemoveMenuObject"
+
+// wparam=0
+// lparam=*lpOptParam
+// returns TRUE if it processed the command, FALSE otherwise
+#define MO_SRV_SETOPTIONSMENUOBJECT "MO/SetOptionsMenuObject"
 
 typedef struct tagOptParam
 {
@@ -391,21 +385,26 @@ typedef struct tagOptParam
 }
 	OptParam,*lpOptParam;
 
+__forceinline void MO_SetMenuObjectParam(HANDLE hMenu, int iSetting, INT_PTR iValue)
+{
+	OptParam param = { hMenu, iSetting, iValue };
+	CallService(MO_SRV_SETOPTIONSMENUOBJECT, 0, (LPARAM)&param);
+}
+__forceinline void MO_SetMenuObjectParam(HANDLE hMenu, int iSetting, LPCSTR pszValue)
+{
+	OptParam param = { hMenu, iSetting, (INT_PTR)pszValue };
+	CallService(MO_SRV_SETOPTIONSMENUOBJECT, 0, (LPARAM)&param);
+}
+
 //wparam=0
 //lparam=*lpOptParam
 //returns TRUE if it processed the command, FALSE otherwise
-#define MO_SETOPTIONSMENUOBJECT					"MO/SetOptionsMenuObject"
-
-
-//wparam=0
-//lparam=*lpOptParam
-//returns TRUE if it processed the command, FALSE otherwise
-#define MO_SETOPTIONSMENUITEM					"MO/SetOptionsMenuItem"
+#define MO_SETOPTIONSMENUITEM "MO/SetOptionsMenuItem"
 
 //wparam=char* szProtoName
 //lparam=0
 //returns HGENMENU of the root item or NULL
-#define MO_GETPROTOROOTMENU					"MO/GetProtoRootMenu"
+#define MO_GETPROTOROOTMENU "MO/GetProtoRootMenu"
 
 __forceinline HGENMENU MO_GetProtoRootMenu( const char* szProtoName )
 {

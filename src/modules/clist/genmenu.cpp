@@ -50,7 +50,7 @@ static void DumpMenuItem(TMO_IntMenuItem* pParent, int level = 0)
 
 static int CompareMenus(const TIntMenuObject* p1, const TIntMenuObject* p2)
 {
-	return lstrcmpA(p1->Name, p2->Name);
+	return lstrcmpA(p1->pszName, p2->pszName);
 }
 
 LIST<TIntMenuObject> g_menus(10, CompareMenus);
@@ -434,7 +434,7 @@ int MO_ProcessCommand(PMO_IntMenuItem aHandle, LPARAM lParam)
 			return -1;
 	}
 
-	char *srvname = pimi->parent->ExecService;
+	LPCSTR srvname = pimi->parent->ExecService;
 	void *ownerdata = pimi->mi.ownerdata;
 	CallService(srvname, (WPARAM)ownerdata, lParam);
 	return 1;
@@ -495,20 +495,21 @@ int MO_SetOptionsMenuObject(HANDLE handle, int setting, INT_PTR value)
 	return res;
 }
 
-//wparam = 0;
+//wparam = LPCSTR szDisplayName;
 //lparam = PMenuParam;
 //result = MenuObjectHandle
-INT_PTR MO_CreateNewMenuObject(WPARAM, LPARAM lParam)
+INT_PTR MO_CreateNewMenuObject(WPARAM wParam, LPARAM lParam)
 {
-	PMenuParam pmp = (PMenuParam)lParam;
-	if ( !bIsGenMenuInited || pmp == NULL)
+	TMenuParam *pmp = (TMenuParam *)lParam;
+	if (!bIsGenMenuInited || pmp == NULL)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
 
 	TIntMenuObject* p = new TIntMenuObject();
 	p->id = NextObjectId++;
-	p->Name = mir_strdup(pmp->name);
+	p->pszName = mir_strdup(pmp->name);
+	p->ptszDisplayName = Langpack_PcharToTchar(LPCSTR(wParam));
 	p->CheckService = mir_strdup(pmp->CheckService);
 	p->ExecService = mir_strdup(pmp->ExecService);
 	p->m_hMenuIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 15, 100);
@@ -901,7 +902,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			DBVARIANT dbv = { 0 };
 			int pos;
 			char MenuNameItems[256];
-			mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pmo->Name);
+			mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pmo->pszName);
 
 			char menuItemName[256];
 			GetMenuItemName(pmi, menuItemName, sizeof(menuItemName));
@@ -1045,10 +1046,10 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
 		TCHAR sectionName[256];
-		mir_sntprintf(sectionName, SIZEOF(sectionName), LPGENT("Menu icons") _T("/%s"), (TCHAR*)_A2T(pmi->parent->Name));
+		mir_sntprintf(sectionName, SIZEOF(sectionName), LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
 
 		char iconame[256];
-		mir_snprintf(iconame, sizeof(iconame), "genmenu_%s_%s", pmi->parent->Name, uname && *uname ? uname : descr);
+		mir_snprintf(iconame, sizeof(iconame), "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
 
 		// remove '&'
 		if (descr) {
@@ -1154,7 +1155,7 @@ int InitGenMenu()
 	CreateServiceFunction(MO_BUILDMENU, MO_BuildMenu);
 
 	CreateServiceFunction(MO_PROCESSCOMMAND, (MIRANDASERVICE)MO_ProcessCommand);
-	CreateServiceFunction(MO_CREATENEWMENUOBJECT, MO_CreateNewMenuObject);
+	CreateServiceFunction("MO/CreateNewMenuObject", MO_CreateNewMenuObject);
 	CreateServiceFunction(MO_REMOVEMENUITEM, MO_RemoveMenuItem);
 	CreateServiceFunction(MO_ADDNEWMENUITEM, (MIRANDASERVICE)MO_AddNewMenuItem);
 	CreateServiceFunction(MO_MENUITEMGETOWNERDATA, MO_MenuItemGetOwnerData);
@@ -1166,7 +1167,7 @@ int InitGenMenu()
 	CreateServiceFunction(MO_REMOVEMENUOBJECT, MO_RemoveMenuObject);
 	CreateServiceFunction(MO_GETPROTOROOTMENU, MO_GetProtoRootMenu);
 
-	CreateServiceFunction(MO_SETOPTIONSMENUOBJECT, SRVMO_SetOptionsMenuObject);
+	CreateServiceFunction(MO_SRV_SETOPTIONSMENUOBJECT, SRVMO_SetOptionsMenuObject);
 	CreateServiceFunction(MO_SETOPTIONSMENUITEM, SRVMO_SetOptionsMenuItem);
 
 	bIconsDisabled = db_get_b(NULL, "CList", "DisableMenuIcons", 0) != 0;
@@ -1206,7 +1207,8 @@ TIntMenuObject::~TIntMenuObject()
 	FreeAndNil((void**)&onAddService);
 	FreeAndNil((void**)&CheckService);
 	FreeAndNil((void**)&ExecService);
-	FreeAndNil((void**)&Name);
+	FreeAndNil((void**)&ptszDisplayName);
+	FreeAndNil((void**)&pszName);
 
 	ImageList_Destroy(m_hMenuIcons);
 }

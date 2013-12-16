@@ -24,12 +24,10 @@
 //////////////////////////////////////////////////////////
 // File Association Manager support
 
-#define GGS_PARSELINK "%s/ParseLink"
-#define GGS_MENUCHOOSE "%s/MenuChoose"
+#define GGS_PARSELINK "GG/ParseLink"
+#define GGS_MENUCHOOSE "GG/MenuChoose"
 
 static HANDLE hInstanceMenu;
-static HANDLE hServiceMenuChoose;
-static HANDLE hServiceParseLink;
 
 static INT_PTR gg_menuchoose(WPARAM wParam, LPARAM lParam)
 {
@@ -111,17 +109,10 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 
 void gg_links_instancemenu_init()
 {
-	char service[MAXMODULELABELLENGTH];
-	TMenuParam mnu = {0};
+	CreateServiceFunction(GGS_MENUCHOOSE, gg_menuchoose);
+	hInstanceMenu = MO_CreateMenuObject("GGAccountChooser", LPGEN("Gadu-Gadu account chooser"), 0, GGS_MENUCHOOSE);
+
 	TMO_MenuItem tmi = {0};
-
-	mir_snprintf(service, sizeof(service), GGS_MENUCHOOSE, GGDEF_PROTO);
-	hServiceMenuChoose = CreateServiceFunction(service, gg_menuchoose);
-	mnu.cbSize = sizeof(mnu);
-	mnu.name = "GGAccountChooser";
-	mnu.ExecService = service;
-	hInstanceMenu = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
-
 	tmi.cbSize = sizeof(tmi);
 	tmi.pszName = "Cancel";
 	tmi.position = 9999999;
@@ -131,21 +122,10 @@ void gg_links_instancemenu_init()
 
 void gg_links_init()
 {
-	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
-	{
-		char service[MAXMODULELABELLENGTH];
-
-		mir_snprintf(service, sizeof(service), GGS_PARSELINK, GGDEF_PROTO);
-		hServiceParseLink = CreateServiceFunction(service, gg_parselink);
-		AssocMgr_AddNewUrlType("gg:", Translate("Gadu-Gadu Link Protocol"), hInstance, IDI_GG, service, 0);
+	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
+		CreateServiceFunction(GGS_PARSELINK, gg_parselink);
+		AssocMgr_AddNewUrlType("gg:", Translate("Gadu-Gadu Link Protocol"), hInstance, IDI_GG, GGS_PARSELINK, 0);
 	}
-}
-
-void gg_links_destroy()
-{
-	DestroyServiceFunction(hServiceMenuChoose);
-	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
-		DestroyServiceFunction(hServiceParseLink);
 }
 
 void GGPROTO::links_instance_init()

@@ -195,15 +195,6 @@ static int gg_modulesloaded(WPARAM wParam, LPARAM lParam)
 }
 
 //////////////////////////////////////////////////////////
-// When Miranda starting shutdown sequence
-static int gg_preshutdown(WPARAM wParam, LPARAM lParam)
-{
-	gg_links_destroy();
-
-	return 0;
-}
-
-//////////////////////////////////////////////////////////
 // Gets protocol instance associated with a contact
 static GGPROTO* gg_getprotoinstance(HANDLE hContact)
 {
@@ -349,7 +340,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Hook system events
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
-	hHookPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, gg_preshutdown);
 
 	// Prepare protocol name
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };

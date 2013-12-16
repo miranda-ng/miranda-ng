@@ -200,36 +200,20 @@ void InitMirOTRMenu(void)
 	CreateServiceFunction("MirOTRMenuExecService",MirOTRMenuExecService);
 	CreateServiceFunction("MirOTRMenuCheckService",MirOTRMenuCheckService);
 
-	//free services
+	// menu object
 	CreateServiceFunction("MIROTRMENUS/FreeOwnerDataMirOTRMenu",FreeOwnerDataMirOTRMenu);
 	CreateServiceFunction("MIROTRMENUS/OnAddMenuItemMirOTRMenu",OnAddMenuItemMirOTRMenu);
 
 	CreateServiceFunction(MS_MIROTR_ADDMIROTRMENUITEM,AddMirOTRMenuItem);
 	CreateServiceFunction(MS_MIROTR_MENUBUILDMIROTR,BuildMirOTRMenu);
 	CreateServiceFunction(MS_MIROTR_REMOVEMIROTRMENUITEM,RemoveMirOTRMenuItem);
-	{
-		TMenuParam tmp = { 0 };
-		tmp.cbSize=sizeof(tmp);
-		tmp.CheckService="MirOTRMenuCheckService";
-		tmp.ExecService="MirOTRMenuExecService";
-		tmp.name="MirOTRMenu";
-		hMirOTRMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
-	}
 
-	OptParam params;
-	params.Handle = hMirOTRMenuObject;
-	params.Setting = OPT_USERDEFINEDITEMS;
-	params.Value = FALSE;
-	CallService(MO_SETOPTIONSMENUOBJECT, 0, (LPARAM)&params);
+	hMirOTRMenuObject = MO_CreateMenuObject("MirOTRMenu", LPGEN("MirOTR menu"), "MirOTRMenuCheckService", "MirOTRMenuExecService");
+	MO_SetMenuObjectParam(hMirOTRMenuObject, OPT_USERDEFINEDITEMS, FALSE);
+	MO_SetMenuObjectParam(hMirOTRMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "MIROTRMENUS/FreeOwnerDataMirOTRMenu");
+	MO_SetMenuObjectParam(hMirOTRMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "MIROTRMENUS/OnAddMenuItemMirOTRMenu");
 
-	params.Setting = OPT_MENUOBJECT_SET_FREE_SERVICE;
-	params.Value = (INT_PTR)"MIROTRMENUS/FreeOwnerDataMirOTRMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT, 0, (LPARAM)&params);
-
-	params.Setting = OPT_MENUOBJECT_SET_ONADD_SERVICE;
-	params.Value = (INT_PTR)"MIROTRMENUS/OnAddMenuItemMirOTRMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT, 0, (LPARAM)&params);
-
+	// menu items
 	MIROTRMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
 

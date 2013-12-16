@@ -136,89 +136,22 @@ static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
 }
 
 //==========================Frames end
-boolean InternalGenMenuModule=FALSE;
-
-INT_PTR MeasureItemProxy(WPARAM wParam,LPARAM lParam)
-{
-	int val;
-	if (InternalGenMenuModule) 
-	{
-		val=CallService(MS_INT_MENUMEASUREITEM,wParam,lParam);
-		if (val) return(val);
-	}
-
-	return CallService(MS_CLIST_MENUMEASUREITEM,wParam,lParam);
-}
-
-INT_PTR DrawItemProxy(WPARAM wParam,LPARAM lParam)
-{
-	if (InternalGenMenuModule) 
-	{
-		int val;
-		val=CallService(MS_INT_MENUDRAWITEM,wParam,lParam);
-		if (val) return(val);
-	}
-	return CallService(MS_CLIST_MENUDRAWITEM,wParam,lParam);
-}
-
-int ProcessCommandProxy(WPARAM wParam,LPARAM lParam) 
-{
-	if (InternalGenMenuModule) {
-		int val;
-		val=CallService(MS_INT_MENUPROCESSCOMMAND,wParam,lParam);
-		if (val) 
-			return(val);
-	}
-	return CallService(MS_CLIST_MENUPROCESSCOMMAND,wParam,lParam);
-}
-
-INT_PTR ModifyMenuItemProxy(WPARAM wParam,LPARAM lParam)
-{
-	if (InternalGenMenuModule) 
-	{
-		int val;
-		val=CallService(MS_INT_MODIFYMENUITEM,wParam,lParam);
-		if (val) return(val);
-	}
-
-	return CallService(MS_CLIST_MODIFYMENUITEM,wParam,lParam);
-}
 
 int InitFramesMenus(void)
 {
-	TMenuParam tmp;
+	CreateServiceFunction("FrameMenuExecService",FrameMenuExecService);
+	CreateServiceFunction("FrameMenuCheckService",FrameMenuCheckService);
+	CreateServiceFunction("FrameMenuFreeService",FreeOwnerDataFrameMenu);
 
-	if ( !ServiceExists(MO_REMOVEMENUOBJECT))
-		InternalGenMenuModule=TRUE;
+	CreateServiceFunction(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM,RemoveContextFrameMenuItem);
+	CreateServiceFunction("CList/AddContextFrameMenuItem",AddContextFrameMenuItem);
+	CreateServiceFunction(MS_CLIST_MENUBUILDFRAMECONTEXT,BuildContextFrameMenu);
+	CreateServiceFunction(MS_CLIST_FRAMEMENUNOTIFY,ContextFrameMenuNotify);
+	hPreBuildFrameMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDFRAMEMENU);
 
-	if (ServiceExists(MO_REMOVEMENUOBJECT))
-	{
-		CreateServiceFunction("FrameMenuExecService",FrameMenuExecService);
-		CreateServiceFunction("FrameMenuCheckService",FrameMenuCheckService);
-		CreateServiceFunction("FrameMenuFreeService",FreeOwnerDataFrameMenu);
-
-
-		CreateServiceFunction(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM,RemoveContextFrameMenuItem);
-		CreateServiceFunction("CList/AddContextFrameMenuItem",AddContextFrameMenuItem);
-		CreateServiceFunction(MS_CLIST_MENUBUILDFRAMECONTEXT,BuildContextFrameMenu);
-		CreateServiceFunction(MS_CLIST_FRAMEMENUNOTIFY,ContextFrameMenuNotify);
-		hPreBuildFrameMenuEvent=CreateHookableEvent(ME_CLIST_PREBUILDFRAMEMENU);
-
-		//frame menu object
-		memset(&tmp,0,sizeof(tmp));
-		tmp.cbSize=sizeof(tmp);
-		tmp.CheckService="FrameMenuCheckService";
-		tmp.ExecService="FrameMenuExecService";
-		tmp.name="Frames_Menu";
-		hFrameMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
-		{
-			OptParam op;
-			op.Handle=hFrameMenuObject;
-			op.Setting=OPT_MENUOBJECT_SET_FREE_SERVICE;
-			op.Value=(INT_PTR)"FrameMenuFreeService";
-			CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
-		}
-	}
+	//frame menu object
+	hFrameMenuObject = MO_CreateMenuObject("Frames_Menu", LPGEN("Frames menu"), "FrameMenuCheckService", "FrameMenuExecService");
+	MO_SetMenuObjectParam(hFrameMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "FrameMenuFreeService");
 	return 0;
 }
 
