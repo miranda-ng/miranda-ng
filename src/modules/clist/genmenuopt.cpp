@@ -137,14 +137,14 @@ static int BuildMenuObjectsTree(HWND hwndDlg)
 		return FALSE;
 
 	for (i=0; i < g_menus.getCount(); i++) {
-		if (g_menus[i]->id == (int)hStatusMenuObject  || !g_menus[i]->m_bUseUserDefinedItems)
+		TIntMenuObject *p = g_menus[i];
+		if (p->id == (int)hStatusMenuObject  || !p->m_bUseUserDefinedItems)
 			continue;
 
-		tvis.item.lParam = (LPARAM)g_menus[i]->id;
-		tvis.item.pszText = TranslateTS(g_menus[i]->ptszDisplayName);
+		tvis.item.lParam = (LPARAM)p->id;
+		tvis.item.pszText = TranslateTS(p->ptszDisplayName);
 		tvis.item.iImage = tvis.item.iSelectedImage = TRUE;
 		TreeView_InsertItem(hTree, &tvis);
-		mir_free(tvis.item.pszText);
 	}
 	return 1;
 }
