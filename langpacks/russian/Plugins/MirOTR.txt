@@ -229,6 +229,8 @@ OTR-Идентификация с: %s (%s)
 OTR: установлен SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы используете SecureIM. MirOTR будет работать только с контактами с отключенным SecureIM.
+[MirOTR menu]
+Меню MirOTR
 [OTR Status]
 Статус OTR
 [Private Data]

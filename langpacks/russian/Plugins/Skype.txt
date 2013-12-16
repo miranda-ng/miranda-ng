@@ -303,6 +303,8 @@ SkypeKit не запустился.
 Разблокировать пользователя...
 [Block this person...]
 Блокировать пользователя...
+[Skype menu chooser]
+Выбор учётной записи Skype
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]

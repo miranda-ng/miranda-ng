@@ -311,6 +311,8 @@ HTTP неизвестная ошибка
 Экспортировать список на &Сервер
 [Export List To &Text File...]
 Экспортировать список в &Файл...
+[Gadu-Gadu account chooser]
+Выбор учётной записи Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Протокол Gadu-Gadu
 [Password was sent to your e-mail.]

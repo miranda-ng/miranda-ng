@@ -855,6 +855,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Третья строка
 [(Unknown Contact)]
 (Неизвестный контакт)
+[Tray menu]
+Меню в трее
 [&Find/Add Contacts...]
 Добавить &контакты
 [&Options...]
@@ -903,9 +905,11 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Закрепить фрейм
 [Show TitleBar]
 Показать заголовок
-[GroupMenu]
+[Frame menu]
+Меню фреймов
+[Group menu]
 Меню групп
-[SubGroupMenu]
+[Subgroup menu]
 Меню подгрупп
 [&New SubGroup]
 Создать подгруппу

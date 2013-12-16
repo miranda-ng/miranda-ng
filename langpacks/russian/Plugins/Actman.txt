@@ -214,7 +214,7 @@
 [Core Hotkey]
 Горячая клавиша
 [Tray menu]
-Меню трея
+Меню в трее
 [2 state button/item]
 2 положения кнопки/пункта
 [Save button/item state]

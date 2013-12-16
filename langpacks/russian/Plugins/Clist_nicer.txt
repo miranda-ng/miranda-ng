@@ -831,11 +831,17 @@
 Применять скин к фрейму
 [Floating]
 Плавающее
+[Frames menu]
+Меню фреймов
+[Groups menu]
+Меню групп
 [&Find/Add Contacts...]
 Добавить &контакты
 [&Options...]
 &Настройки...
 [&About the contact list...]
 О списке контактов...
+[Subgroup menu]
+Меню подгрупп
 [&New SubGroup]
 Создать подгруппу

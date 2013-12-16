@@ -921,6 +921,8 @@ Jabber ошибка
 Удалить %s?
 [Http authentication request received]
 Получен запрос HTTP авторизации
+[Jabber account chooser]
+Выбор учётной записи Jabber
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
