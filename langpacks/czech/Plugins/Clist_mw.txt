@@ -368,6 +368,8 @@ _žádný-protokol_
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[Tray menu]
+Nabídka ikony
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 [&Options...]
@@ -379,6 +381,10 @@ O progr&amu
 Seznam kontaktů
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[Group menu]
+Nabídka skupiny
+[Subgroup menu]
+Nabídka podskupiny
 [&New SubGroup]
 &Nová podskupina
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -431,4 +437,7 @@ Viditelné
 Zobrazit záhlaví rámečku
 [Floating]
 Plovoucí
+;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+Nabídka rámečku
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

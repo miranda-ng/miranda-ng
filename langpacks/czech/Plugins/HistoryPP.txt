@@ -725,3 +725,21 @@ Zko&pírovat
 Vybr&at vše
 [Send &Message]
 Poslat zp&rávu
+[User Details]
+Informace o uživateli
+[Enable SmileyAdd support]
+Podporovat doplněk SmileyAdd
+[Always RTL]
+Vždy zprava doleva
+[Always LTR]
+Vždy zleva doprava
+[Enable MathModule support]
+Podporovat doplněk MathModule
+[Show event icons]
+Zobrazit ikony událostí
+[View user's history]
+Zobrazit historii
+[View User's History]
+Zobrazit historii
+[View &History]
+Zobrazit &historii

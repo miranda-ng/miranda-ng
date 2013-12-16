@@ -385,6 +385,8 @@ Odstranit seznam ze se&rveru
 [Export List To &Text File...]
 E&xportovat seznam do souboru...
 ;file \protocols\Gadu-Gadu\src\links.cpp
+[Gadu-Gadu account chooser]
+Volba účtu protokolu Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Odkaz protokolu Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp

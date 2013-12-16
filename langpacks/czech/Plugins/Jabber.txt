@@ -1241,6 +1241,8 @@ Odebrání %s?
 [Http authentication request received]
 
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Jabber account chooser]
+Volba účtu protokolu Jabber
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]

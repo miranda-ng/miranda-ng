@@ -1643,8 +1643,8 @@ Změnit skin
 Komunikační okno
 [Error feedback]
 Hlášení o chybách
-[Show skinnable tooltip in chat (tipper plugin required)]
-
+[Show skinnable tooltip in chat (Tipper plugin required)]
+Zobrazit skinovatelné tipy v chatu (vyžaduje doplněk Tipper)
 [Enable typing sounds]
 Povolit zvuky psaní
 [Disable animated GIF avatars (will not affect already open message windows)]

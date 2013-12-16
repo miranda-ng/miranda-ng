@@ -246,6 +246,8 @@ Nelze zahájit šifrování (OTR) pro '%s'. Již se používá SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Používáte SecureIM. MirOTR funguje pouze pro kontakty s vypnutým SecureIM
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+[MirOTR menu]
+Nabídka MirOTR
 [OTR Status]
 Stav šifrování (OTR)
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

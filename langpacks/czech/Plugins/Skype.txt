@@ -366,6 +366,8 @@ SkypeKit nebyl spuštěn.
 Odblokovat tohoto uživatele...
 [Block this person...]
 Zablokovat tohoto uživatele...
+[Skype menu chooser]
+Volba nabídky protokolu Skype
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]

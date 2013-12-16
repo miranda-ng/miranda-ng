@@ -865,12 +865,19 @@ Zobrazit záhlaví rámečku
 Skin na rámeček
 [Floating]
 Plovoucí
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frames menu]
+Nabídka rámečku
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[Groups menu]
+Nabídka skupiny
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 [&Options...]
 M&ožnosti...
 [&About the contact list...]
 O sezn&amu kontaktů...
+[Subgroup menu]
+Nabídka podskupiny
 [&New SubGroup]
 &Nová podskupina

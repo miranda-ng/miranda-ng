@@ -667,6 +667,14 @@ Překrytí avataru
 Překrytí stavu
 [Contact List smileys]
 Smajlíky pro kontakty
+[List Background]
+Pozadí seznamu
+[Menu Background]
+Pozadí nabídky
+[StatusBar Background]
+Pozadí stavové lišty
+[Frames TitleBar BackGround]
+Pozadí záhlaví rámečku
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
 [Converting to MetaContact]
@@ -768,8 +776,6 @@ Obecné
 Seznam
 [Window]
 Okno
-[List Background]
-Pozadí seznamu
 [Not focused]
 Neaktivní
 [Offline]
@@ -813,6 +819,8 @@ Za levý okraj
 [Behind right edge]
 Za pravý okraj
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area Background]
+Pozadí oblasti oznámení
 [Event Area]
 Oblast pro události
 [No Events]
@@ -867,6 +875,8 @@ Třetí řádek
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[Tray menu]
+Nabídka ikony
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 [&Options...]
@@ -917,10 +927,13 @@ Skrýt záhlaví rámečků
 Zamknout rámeček
 [Show TitleBar]
 Zobrazit záhlaví rámečku
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+Nabídka rámečku
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[GroupMenu]
+[Group menu]
 Nabídka skupiny
-[SubGroupMenu]
+[Subgroup menu]
 Nabídka podskupiny
 [&New SubGroup]
 &Nová podskupina
@@ -1054,6 +1067,8 @@ Zakázat zvuky
 Minimalizovat
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Pro zobrazení lišty tlačítek v seznamu kontaktů potřebujete doplněk TopToolBar. Klikněte na Ano pro stažení nebo Zrušit pro pokračování
+[ToolBar Background]
+Pozadí tlačítkové lišty
 [Toolbar upgrade]
 Aktualizace lišty tlačítek
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
@@ -1103,5 +1118,7 @@ Nastavení režimů zobrazení
 Vrátí zpět výchozí režim zobrazení
 [Reset view mode]
 Výchozí režim zobrazení
+[View Mode Background]
+Pozadí režimu zobrazení
 [View Modes]
 Pohledy

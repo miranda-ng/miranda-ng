@@ -2063,6 +2063,10 @@ Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 Rozšířený stav
 [%s (locked)]
 %s (uzamčený)
+[Status menu]
+Nabídka stavů
+[Main menu]
+Hlavní nabídka
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
@@ -2170,6 +2174,9 @@ Tato úprava se považuje za potenciálně nebezpečnou.
 Neznámý druh úpravy; nelze považovat za bezpečné.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
+;file \src\modules\database\dbutils.cpp
+[Authorization request from %s%s: %s]
+Žádost o autorizaci od %s%s: %s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil '%s' již existuje. Přejete si jej přesunout do koše?\n\nVAROVÁNÍ: Pokud je koš vypnut, profil bude rovnou smazán.\nVAROVÁNÍ: Profil může obsahovat důvěrné informace a měl by být řádně smazán.
@@ -2483,8 +2490,6 @@ Nespuštěný doplněk
 Zobrazit nebo skrýt
 [Exit]
 Ukončit
-[Main menu]
-Hlavní nabídka
 [Leave chat]
 Opustit diskusi
 [Move to group]
@@ -2676,6 +2681,8 @@ Džibuti
 Dominika
 [Dominican Republic]
 Dominikánská republika
+[East Timor]
+Východní Timor
 [Ecuador]
 Ekvádor
 [Egypt]
@@ -2806,7 +2813,7 @@ Lichtenštejnsko
 Litva
 [Luxembourg]
 Lucembursko
-[Macao]
+[Macau]
 Macao
 [Macedonia]
 Makedonie
@@ -2988,8 +2995,6 @@ Tádžikistán
 Tanzánie
 [Thailand]
 Thajsko
-[Timor-Leste]
-Východní Timor
 [Togo]
 Togo
 [Tokelau]

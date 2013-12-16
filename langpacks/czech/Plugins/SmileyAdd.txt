@@ -8,9 +8,9 @@
 [Smiley support for Miranda NG.]
 Podpora smajlíků pro Mirandu NG.
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley Categories]
+[Smiley categories]
 Sady smajlíků
-[Specify Smiley Pack for each category]
+[Specify smiley pack for each category]
 Pro každý protokol definovat jinou sadu
 [Name:]
 Název:
@@ -24,19 +24,19 @@ Náhled
 Zobrazení
 [Replace only smileys surrounded by spaces]
 Nahradit pouze smajlíky ohraničené mezerami
-[Scale smiley to textheight]
+[Scale smiley to text height]
 Sjednotit velikost smajlíků s textem
 [Disable custom smileys]
 Zakázat vlastní smajlíky
-[High Quality smiley scaling]
+[High quality smiley scaling]
 Zapnout kvalitní přepočet velikosti
 [Animate]
 Animovat
-[Max "Custom Smiley" height]
+[Maximum 'Custom smiley' height]
 Max. velikost vlastních smajlíků
-[Min smiley height]
+[Minimum smiley height]
 Min. velikost smajlíků
-[Smiley Selector]
+[Smiley selector]
 Použití smajlíku
 [Surround inserted smiley with spaces]
 Přidat mezeru z každé strany smajlíku
@@ -44,32 +44,32 @@ Přidat mezeru z každé strany smajlíku
 Velikost smajlíku definovat dle prvního
 [IEView style window]
 Vzhled okna nastavit dle IEView
-[Input Area]
+[Input area]
 Oblast psaní zprávy
-[Enable Smileys]
+[Enable smileys]
 Povolit smajlíky
 [Don't replace at cursor]
 Nenahrazovat během psaní
-[Built-In Message Dialog Support]
+[Built-in message dialog support]
 Vestavěná podpora
 [Disable]
 Vypnout
-[Smiley Button]
+[Smiley button]
 Tlačítko se smajlíky
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Show Smiley Selection Window]
+[Show smiley selection window]
 Zobrazit okno s výběrem smajlíků
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
 Smajlíky
-[Smiley Cache]
+[Smiley cache]
 Cache vlastních smajlíků
 [SmileyAdd HTTP connections]
 SmileyAdd - spojení pomocí protokolu HTTP
 ;file \plugins\SmileyAdd\src\main.cpp
-[Button Smiley]
+[Button smiley]
 Tlačítko smajlíků
-[Assign Smiley Category]
+[Assign smiley category]
 Přiřazení kategorie smajlíků
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Pouze jedna instance doplňku SmileyAdd může běžet.\nOdstraňte duplicitní instance ze složky 'Plugins'
@@ -84,25 +84,25 @@ Vyp
 Nahoře
 [Bottom]
 Dole
-[Smiley Packs]
+[Smiley packs]
 Sady smajlíků
-[All Files]
+[All files]
 Všechny soubory
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 Závisí na protokolu
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Knihovna smajlíků %s nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti | Vlastní úpravy | Smajlíky.
-[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+Knihovna smajlíků %s nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti -> Vlastní úpravy -> Smajlíky.
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
-[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Smiley #%u in file %s for smiley pack %s not found.]
 Smajlík č.%u v souboru %s sady smajlíků %s nebyl nalezen.
 [Standard]
 Standardní
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 Regulární výraz "%s" v knihovně smajlíků "%s" může vracet "prázdné výsledky".
-[Regular Expression "%s" in smiley pack "%s" malformed.]
+[Regular expression "%s" in smiley pack "%s" malformed.]
 Regulární výraz "%s" v knihovně smajlíků "%s" je neplatný.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
