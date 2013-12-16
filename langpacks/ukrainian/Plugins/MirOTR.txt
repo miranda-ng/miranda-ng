@@ -209,5 +209,3 @@ OTR-статус
 Статус OTR
 [Active]
 Активно
-[Fingerprints]
-Відбитки

@@ -1424,3 +1424,5 @@ Jabber помилка
 Ввімкнути аватари
 [Send messenges slower, bat with full acknowledgement]
 Відправляти повідомлення повільніше, але с підтвердженням
+[Jabber account chooser]
+Вибір облікового запису Jabber
