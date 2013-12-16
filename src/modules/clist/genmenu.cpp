@@ -509,7 +509,7 @@ INT_PTR MO_CreateNewMenuObject(WPARAM wParam, LPARAM lParam)
 	TIntMenuObject* p = new TIntMenuObject();
 	p->id = NextObjectId++;
 	p->pszName = mir_strdup(pmp->name);
-	p->ptszDisplayName = Langpack_PcharToTchar(LPCSTR(wParam));
+	p->ptszDisplayName = mir_a2t(LPCSTR(wParam));
 	p->CheckService = mir_strdup(pmp->CheckService);
 	p->ExecService = mir_strdup(pmp->ExecService);
 	p->m_hMenuIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 15, 100);
