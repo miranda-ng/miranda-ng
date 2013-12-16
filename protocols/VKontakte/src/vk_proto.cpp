@@ -94,7 +94,7 @@ DWORD_PTR CVkProto::GetCaps(int type, HANDLE hContact)
 		return PF2_ONTHEPHONE;
 
 	case PFLAG_MAXLENOFMESSAGE:
-		return 2000;
+		return 4096;
 
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)"VK ID";
