@@ -661,6 +661,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Оверлей статуса
 [Contact List smileys]
 Список контактов
+[List Background]
+Фон списка
+[Menu Background]
+Фон меню
+[StatusBar Background]
+Фон панели статуса
+[Frames TitleBar BackGround]
+Фон заголовка фреймов
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него?
 [Converting to MetaContact]
@@ -761,8 +769,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Список
 [Window]
 Окно
-[List Background]
-Фон списка
 [Not focused]
 Не в фокусе
 [Offline]
@@ -805,6 +811,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 За левый край
 [Behind right edge]
 За правый край
+[Event Area Background]
+Фон области событий
 [Event Area]
 Область событий
 [No Events]
@@ -1025,6 +1033,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Свернуть
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Для отображения панели кнопок в Clist Modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
+[ToolBar Background]
+Фон панели кнопок
 [Toolbar upgrade]
 Обновление панели кнопок
 [Ungrouped contacts]
@@ -1073,5 +1083,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Сбросить режим и перейти в режим по умолчанию
 [Reset view mode]
 Сбросить режим
+[View Mode Background]
+Фон режимов вида
 [View Modes]
 Режимы вида

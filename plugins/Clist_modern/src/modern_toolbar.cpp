@@ -303,7 +303,7 @@ static int Toolbar_ModuleReloaded(WPARAM wParam, LPARAM lParam)
 
 static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 {
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)"ToolBar Background/ToolBar",0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("ToolBar Background")"/ToolBar"),0);
 	
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
 

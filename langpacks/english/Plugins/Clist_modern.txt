@@ -337,6 +337,10 @@
 [Avatar Overlay]
 [Status Overlay]
 [Contact List smileys]
+[List Background]
+[Menu Background]
+[StatusBar Background]
+[Frames TitleBar BackGround]
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 [Converting to MetaContact]
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
@@ -388,7 +392,6 @@
 [General]
 [List]
 [Window]
-[List Background]
 [Not focused]
 [Offline]
 [Online]
@@ -411,6 +414,7 @@
 [Behind left edge]
 [Behind right edge]
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area Background]
 [Event Area]
 [No Events]
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
@@ -542,6 +546,7 @@
 [Disable sounds]
 [Minimize]
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[ToolBar Background]
 [Toolbar upgrade]
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
@@ -567,4 +572,5 @@
 [Setup view modes]
 [Clear view mode and return to default display]
 [Reset view mode]
+[View Mode Background]
 [View Modes]

@@ -1253,7 +1253,7 @@ static int  ehhViewModeBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 void CreateViewModeFrame()
 {
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"View Mode Background/ViewMode",0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("View Mode Background")"/ViewMode"),0);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhViewModeBackgroundSettingsChanged);
 	ehhViewModeBackgroundSettingsChanged(0, 0);
 
