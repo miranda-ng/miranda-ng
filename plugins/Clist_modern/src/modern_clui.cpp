@@ -1586,11 +1586,11 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 	return 0;
 }
 
-BOOL CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase )
+BOOL CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
 {
 	if ( CLUI_IsInMainWindow(hWnd) && g_CluiData.fLayered) {
-		if ( IsWindowVisible(hWnd))
-			return SkinInvalidateFrame( hWnd, lpRect );
+		if (IsWindowVisible(hWnd))
+			return SkinInvalidateFrame(hWnd, lpRect);
 
 		g_flag_bFullRepaint = 1;
 		return 0;
@@ -2003,7 +2003,7 @@ LRESULT CLUI::OnPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (IsWindowVisible(m_hWnd)) {
 			if (g_CluiData.fLayered)
-				SkinInvalidateFrame(m_hWnd,NULL);
+				SkinInvalidateFrame(m_hWnd, NULL);
 			else {
 				RECT w = {0};
 				RECT w2 = {0};

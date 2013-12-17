@@ -64,23 +64,23 @@ struct LISTMODERNMASK
 };
 
 /// PROTOTYPES
-int AddModernMaskToList(MODERNMASK *mm,  LISTMODERNMASK * mmTemplateList);
-int AddStrModernMaskToList(DWORD maskID, char * szStr, char * objectName,  LISTMODERNMASK * mmTemplateList, void * pObjectList);
-int SortMaskList(LISTMODERNMASK * mmList);
+int AddModernMaskToList(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList);
+int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODERNMASK *mmTemplateList, void *pObjectList);
+int SortMaskList(LISTMODERNMASK *mmList);
 
-int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList);
-int ClearMaskList(LISTMODERNMASK * mmTemplateList);
-int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList);
+int DeleteMaskByItID(DWORD mID,LISTMODERNMASK *mmTemplateList);
+int ClearMaskList(LISTMODERNMASK *mmTemplateList);
+int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK *mmTemplateList);
 
-int ParseToModernMask(MODERNMASK *mm, char * szText);
+int ParseToModernMask(MODERNMASK *mm, char *szText);
 BOOL CompareModernMask(MODERNMASK *mmValue,MODERNMASK *mmTemplate);
 BOOL CompareStrWithModernMask(char * szValue,MODERNMASK *mmTemplate);
 MODERNMASK * FindMaskByStr(char * szValue,LISTMODERNMASK * mmTemplateList);
 DWORD mod_CalcHash(const char * a);
-char * ModernMaskToString(MODERNMASK *mm, char * buf, UINT bufsize);
-int RegisterObjectByParce(char * ObjectName, char * Params);
-SKINOBJECTDESCRIPTOR *  skin_FindObjectByRequest(char * szValue,LISTMODERNMASK * mmTemplateList);
-SKINOBJECTDESCRIPTOR *  skin_FindObjectByMask (MODERNMASK *mm,LISTMODERNMASK * mmTemplateList);
+char * ModernMaskToString(MODERNMASK *mm, char *buf, UINT bufsize);
+int RegisterObjectByParce(char * ObjectName, char *Params);
+SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue,LISTMODERNMASK *mmTemplateList);
+SKINOBJECTDESCRIPTOR* skin_FindObjectByMask (MODERNMASK *mm,LISTMODERNMASK *mmTemplateList);
 TCHAR * GetParamNT(char * string, TCHAR * buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);
 int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMask);
 #endif

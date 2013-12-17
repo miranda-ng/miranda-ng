@@ -103,7 +103,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_global_structure.h"
 #include "modern_clc.h"
 #include "modern_clist.h"
-#include "modern_cluiframes.h"
+#include "CLUIFrames/cluiframes.h"
 #include "modern_rowheight_funcs.h"
 #include "modern_cache_funcs.h"
 #include "modern_log.h"

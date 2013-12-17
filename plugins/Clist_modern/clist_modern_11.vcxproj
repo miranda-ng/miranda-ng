@@ -194,6 +194,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\CLUIFrames\cluiframes.cpp">
+      <PrecompiledHeaderFile>../hdr/modern_commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\CLUIFrames\framesmenu.cpp">
+      <PrecompiledHeaderFile>../hdr/modern_commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\CLUIFrames\groupmenu.cpp">
+      <PrecompiledHeaderFile>../hdr/modern_commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\init.cpp" />
     <ClCompile Include="src\modern_aniavatars.cpp" />
     <ClCompile Include="src\modern_awaymsg.cpp" />
@@ -212,18 +221,15 @@
     <ClCompile Include="src\modern_clistsettings.cpp" />
     <ClCompile Include="src\modern_clisttray.cpp" />
     <ClCompile Include="src\modern_clui.cpp" />
-    <ClCompile Include="src\modern_cluiframes.cpp" />
     <ClCompile Include="src\modern_cluiservices.cpp" />
     <ClCompile Include="src\modern_commonheaders.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\modern_contact.cpp" />
     <ClCompile Include="src\modern_docking.cpp" />
-    <ClCompile Include="src\modern_framesmenu.cpp" />
     <ClCompile Include="src\modern_gdiplus.cpp" />
     <ClCompile Include="src\modern_gettextasync.cpp" />
     <ClCompile Include="src\modern_global.cpp" />
-    <ClCompile Include="src\modern_groupmenu.cpp" />
     <ClCompile Include="src\modern_image_array.cpp" />
     <ClCompile Include="src\modern_keyboard.cpp" />
     <ClCompile Include="src\modern_log.cpp" />
@@ -247,13 +253,13 @@
     <ClCompile Include="src\modern_xptheme.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CLUIFrames\cluiframes.h" />
     <ClInclude Include="src\hdr\modern_cache_funcs.h" />
     <ClInclude Include="src\hdr\modern_callproc.h" />
     <ClInclude Include="src\hdr\modern_clc.h" />
     <ClInclude Include="src\hdr\modern_clcpaint.h" />
     <ClInclude Include="src\hdr\modern_clist.h" />
     <ClInclude Include="src\hdr\modern_clui.h" />
-    <ClInclude Include="src\hdr\modern_cluiframes.h" />
     <ClInclude Include="src\hdr\modern_commonheaders.h" />
     <ClInclude Include="src\hdr\modern_commonprototypes.h" />
     <ClInclude Include="src\hdr\modern_defsettings.h" />

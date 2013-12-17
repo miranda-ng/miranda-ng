@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_png.h>
 #include "m_api/m_skin_eng.h"
 #include "hdr/modern_skinselector.h"
-#include "hdr/modern_cluiframes.h"
+#include "CLUIFrames/cluiframes.h"
 
 #define _EFFECTENUM_FULL_H
 #include "hdr/modern_effectenum.h"

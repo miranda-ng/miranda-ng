@@ -20,16 +20,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "hdr/modern_commonheaders.h"
-#include "m_api/m_skin_eng.h"
-#include "hdr/modern_cluiframes.h"
-#include "hdr/modern_commonprototypes.h"
-#include "hdr/modern_sync.h"
+#include "../hdr/modern_commonheaders.h"
+#include "../m_api/m_skin_eng.h"
+#include "../hdr/modern_commonprototypes.h"
+#include "../hdr/modern_sync.h"
 
 
 // ALL THIS MODULE FUNCTION SHOULD BE EXECUTED FROM MAIN THREAD
 
-#include "hdr/modern_static_cluiframes_service.h" // contain services initialization and proxiation
+#include "../hdr/modern_static_cluiframes_service.h" // contain services initialization and proxiation
 
 
 static const int UNCOLLAPSED_FRAME_SIZE		 = 0;
