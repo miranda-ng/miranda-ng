@@ -385,7 +385,7 @@ typedef struct tagOptParam
 }
 	OptParam,*lpOptParam;
 
-__forceinline void MO_SetMenuObjectParam(HANDLE hMenu, int iSetting, INT_PTR iValue)
+__forceinline void MO_SetMenuObjectParam(HANDLE hMenu, int iSetting, int iValue)
 {
 	OptParam param = { hMenu, iSetting, iValue };
 	CallService(MO_SRV_SETOPTIONSMENUOBJECT, 0, (LPARAM)&param);
