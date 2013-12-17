@@ -41,7 +41,7 @@ void CSH_Destroy();
 int DefaultImageListColorDepth = ILC_COLOR32;
 
 extern HPEN g_hPenCLUIFrames;
-extern wndFrame *wndFrameCLC;
+extern FRAMEWND *wndFrameCLC;
 extern ButtonItem *g_ButtonItems;
 
 extern int during_sizing;

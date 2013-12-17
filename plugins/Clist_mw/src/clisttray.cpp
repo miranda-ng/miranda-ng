@@ -183,8 +183,8 @@ INT_PTR FreeOwnerDataTrayMenu (WPARAM wParam,LPARAM lParam)
 	lpTrayMenuExecParam mmep;
 	mmep = (lpTrayMenuExecParam)lParam;
 	if (mmep != NULL){
-		FreeAndNil((void**)&mmep->szServiceName);
-		FreeAndNil((void**)&mmep);
+		mir_free(mmep->szServiceName);
+		mir_free(mmep);
 	}
 
 	return 0;

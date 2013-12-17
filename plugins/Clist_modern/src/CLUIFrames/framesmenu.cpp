@@ -3,6 +3,7 @@
 
 //========================== Frames
 HANDLE hFrameMenuObject;
+static HANDLE hPreBuildFrameMenuEvent;
 
 //contactmenu exec param(ownerdata)
 //also used in checkservice
@@ -10,8 +11,17 @@ typedef struct{
 	char *szServiceName;
 	int Frameid;
 	INT_PTR param1;
+}FrameMenuExecParam,*lpFrameMenuExecParam;
+
+INT_PTR FreeOwnerDataFrameMenu(WPARAM wParam, LPARAM lParam)
+{
+	lpFrameMenuExecParam cmep = (lpFrameMenuExecParam)lParam;
+	if (cmep != NULL){
+		mir_free(cmep->szServiceName);
+		mir_free(cmep);
+	}
+	return 0;
 }
-	FrameMenuExecParam,*lpFrameMenuExecParam;
 
 static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 {
@@ -27,23 +37,16 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 	if (fmep == NULL)
 		return 0;
 
-	memset(fmep, 0, sizeof(FrameMenuExecParam));
 	fmep->szServiceName = mir_strdup(mi->pszService);
 	fmep->Frameid = mi->popupPosition;
 	fmep->param1 = (INT_PTR)mi->pszContactOwner;
 	tmi.ownerdata = fmep;
+
 	return CallService(MO_ADDNEWMENUITEM, (WPARAM)hFrameMenuObject, (LPARAM)&tmi);
 }
 
 static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)CallService(MO_MENUITEMGETOWNERDATA, wParam, lParam);
-	if (fmep != NULL) {
-		if (fmep->szServiceName != NULL)
-			mir_free(fmep->szServiceName);
-		mir_free(fmep);
-	}
-
 	if (lParam != 1)
 		CallService(MO_REMOVEMENUITEM, wParam, 0);
 
@@ -56,7 +59,7 @@ static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)wParam;
-	if (fmep ==NULL)
+	if (fmep == NULL)
 		return -1;
 
 	CallService(fmep->szServiceName, lParam, fmep->param1);
@@ -71,7 +74,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	TMO_MenuItem mi;
-	if ( CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
+	if (CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
 		lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mi.ownerdata;
 		if (fmep != NULL) {
 			//pcpp->wParam  -  frameid
@@ -84,7 +87,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContextFrameMenuNotify(WPARAM wParam, LPARAM lParam)
 {
-	NotifyEventHooks(g_CluiData.hEventPreBuildFrameMenu, wParam, lParam);
+	NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
 	return 0;
 }
 
@@ -105,20 +108,18 @@ static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
 
 int InitFramesMenus(void)
 {
-	CreateServiceFunction("FrameMenuExecService",FrameMenuExecService);
-	CreateServiceFunction("FrameMenuCheckService",FrameMenuCheckService);
+	CreateServiceFunction("FrameMenuExecService", FrameMenuExecService);
+	CreateServiceFunction("FrameMenuCheckService", FrameMenuCheckService);
+	CreateServiceFunction("FrameMenuFreeService", FreeOwnerDataFrameMenu);
 
-	CreateServiceFunction(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM,RemoveContextFrameMenuItem);
-	CreateServiceFunction("CList/AddContextFrameMenuItem",AddContextFrameMenuItem);
-	CreateServiceFunction(MS_CLIST_MENUBUILDFRAMECONTEXT,BuildContextFrameMenu);
-	CreateServiceFunction(MS_CLIST_FRAMEMENUNOTIFY,ContextFrameMenuNotify);
+	CreateServiceFunction(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, RemoveContextFrameMenuItem);
+	CreateServiceFunction("CList/AddContextFrameMenuItem", AddContextFrameMenuItem);
+	CreateServiceFunction(MS_CLIST_MENUBUILDFRAMECONTEXT, BuildContextFrameMenu);
+	CreateServiceFunction(MS_CLIST_FRAMEMENUNOTIFY, ContextFrameMenuNotify);
+	hPreBuildFrameMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDFRAMEMENU);
 
 	// frame menu object
 	hFrameMenuObject = MO_CreateMenuObject("FrameMenu", LPGEN("Frame menu"), "FrameMenuCheckService", "FrameMenuExecService");
-	return 0;
-}
-
-int UnitFramesMenu()
-{
+	MO_SetMenuObjectParam(hFrameMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "FrameMenuFreeService");
 	return 0;
 }

@@ -242,7 +242,6 @@ INT_PTR ToggleHideOffline(WPARAM wParam,LPARAM lParam);                         
 INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam);                                 //contact.c
 INT_PTR SetUseGroups(WPARAM wParam,LPARAM lParam);                                 //contact.c
 INT_PTR ToggleSounds(WPARAM wParam,LPARAM lParam);                                 //contact.c
-int     UnitFramesMenu();                                                   //framesmenu.c
 void    ClcOptionsChanged();                                                //clc.c
 void    Docking_GetMonitorRectFromWindow(HWND hWnd,RECT *rc);                        //Docking.c
 void    DrawAvatarImageWithGDIp(HDC hDestDC,int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1,DWORD flag,BYTE alpha);   //gdiplus.cpp

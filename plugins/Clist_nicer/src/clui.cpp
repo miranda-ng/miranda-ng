@@ -60,7 +60,7 @@ extern HBRUSH g_CLUISkinnedBkColor;
 extern HWND g_hwndSFL;
 extern ButtonItem *g_ButtonItems;
 extern COLORREF g_CLUISkinnedBkColorRGB;
-extern wndFrame *wndFrameCLC;
+extern FRAMEWND *wndFrameCLC;
 
 static BYTE old_cliststate, show_on_first_autosize = FALSE;
 
@@ -1702,9 +1702,9 @@ buttons_done:
 
 					if ( !(showOpts & 6) && cfg::dat.bEqualSections)
 						x = (dis->rcItem.left + dis->rcItem.right - 16) >> 1;
-					if (pd->statusbarpos == 0)
+					if (pd->protopos == 0)
 						x += (cfg::dat.bEqualSections ? (cfg::dat.bCLeft / 2) : cfg::dat.bCLeft);
-					else if (pd->statusbarpos == nParts - 1)
+					else if (pd->protopos == nParts - 1)
 						x -= (cfg::dat.bCRight / 2);
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 					Skin_ReleaseIcon(hIcon);
@@ -1722,9 +1722,9 @@ buttons_done:
 				}
 				else {
 					x += 2;
-					if (pd->statusbarpos == 0)
+					if (pd->protopos == 0)
 						x += (cfg::dat.bEqualSections ? (cfg::dat.bCLeft / 2) : cfg::dat.bCLeft);
-					else if (pd->statusbarpos == nParts - 1)
+					else if (pd->protopos == nParts - 1)
 						x -= (cfg::dat.bCRight / 2);
 				}
 				

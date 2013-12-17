@@ -1,6 +1,6 @@
 #include "../commonheaders.h"
 
-// == == == == == == == == == == == == == Frames
+//========================== Frames
 HANDLE hFrameMenuObject;
 static HANDLE hPreBuildFrameMenuEvent;
 extern int InitCustomMenus(void);
@@ -13,37 +13,25 @@ typedef struct{
 	INT_PTR param1;
 }FrameMenuExecParam,*lpFrameMenuExecParam;
 
-void FreeAndNil( void **p )
+INT_PTR FreeOwnerDataFrameMenu(WPARAM wParam, LPARAM lParam)
 {
-	if ( p == NULL )
-		return;
-
-	if ( *p != NULL ) {
-		mir_free( *p );
-		*p = NULL;
-}	}
-
-INT_PTR FreeOwnerDataFrameMenu (WPARAM wParam,LPARAM lParam)
-{
-	lpFrameMenuExecParam cmep;
-
-	cmep = (lpFrameMenuExecParam)lParam;
+	lpFrameMenuExecParam cmep = (lpFrameMenuExecParam)lParam;
 	if (cmep != NULL){
-		FreeAndNil((void**)&cmep->szServiceName);
-		FreeAndNil((void**)&cmep);
+		mir_free(cmep->szServiceName);
+		mir_free(cmep);
 	}
 	return 0;
 }
 
-static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	if ( !pcli->pfnConvertMenu(mi, &tmi))
-		return 0;
 
-	if ((mi->flags & CMIF_ROOTPOPUP) || (mi->flags & CMIF_CHILDPOPUP))
-		tmi.root = mi->hParentMenu;
+	TMO_MenuItem tmi;
+	if ( !pcli->pfnConvertMenu(mi, &tmi))
+		return NULL;
+
+	tmi.root = (mi->flags & CMIF_ROOTHANDLE) ? mi->hParentMenu : NULL;
 
 	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mir_alloc(sizeof(FrameMenuExecParam));
 	if (fmep == NULL)
@@ -57,19 +45,8 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 	return CallService(MO_ADDNEWMENUITEM, (WPARAM)hFrameMenuObject, (LPARAM)&tmi);
 }
 
-static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	/* this do by free service
-	lpFrameMenuExecParam fmep;
-	fmep = (lpFrameMenuExecParam)CallService(MO_MENUITEMGETOWNERDATA,wParam,lParam);
-	if (fmep != NULL){
-	if (fmep->szServiceName != NULL){
-	mir_free(fmep->szServiceName);
-	fmep->szServiceName = NULL;
-	}
-	mir_free(fmep);
-	}
-	*/
 	CallService(MO_REMOVEMENUITEM,wParam,0);
 	return 0;
 }
@@ -77,34 +54,36 @@ static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR FrameMenuExecService(WPARAM wParam,LPARAM lParam)
+INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)wParam;
-	if (fmep == NULL){return(-1);}
-	CallService(fmep->szServiceName,lParam,fmep->param1);	
+	if (fmep == NULL)
+		return -1;
 
+	CallService(fmep->szServiceName, lParam, fmep->param1);
 	return 0;
 }
 
 //true - ok,false ignore
-INT_PTR FrameMenuCheckService(WPARAM wParam,LPARAM lParam)
+INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM lParam)
 {
 	PCheckProcParam pcpp = (PCheckProcParam)wParam;
 	if (pcpp == NULL)
 		return FALSE;
 
 	TMO_MenuItem mi;
-	if (CallService(MO_GETMENUITEM,(WPARAM)pcpp->MenuItemHandle,(LPARAM)&mi) == 0) {
-		lpFrameMenuExecParam  fmep = (lpFrameMenuExecParam)mi.ownerdata;
+	if (CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
+		lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mi.ownerdata;
 		if (fmep != NULL) {
 			//pcpp->wParam  -  frameid
-			if (((WPARAM)fmep->Frameid == pcpp->wParam)||fmep->Frameid == -1) return(TRUE);	
+			if (((WPARAM)fmep->Frameid == pcpp->wParam) || fmep->Frameid == -1)
+				return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-static INT_PTR ContextFrameMenuNotify(WPARAM wParam,LPARAM lParam)
+static INT_PTR ContextFrameMenuNotify(WPARAM wParam, LPARAM lParam)
 {
 	NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
 	return 0;
@@ -112,21 +91,18 @@ static INT_PTR ContextFrameMenuNotify(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	HMENU hMenu;
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hFrameMenuObject;
 	param.wParam = wParam;
 	param.lParam = lParam;
 
-	hMenu = CreatePopupMenu();
-	//NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,-1);
-	ContextFrameMenuNotify(wParam,-1);
-	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
+	HMENU hMenu = CreatePopupMenu();
+	ContextFrameMenuNotify(wParam, -1);
+	CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
 	return (INT_PTR)hMenu;
 }
 
-// == == == == == == == == == == == == == Frames end
+//========================== Frames end
 
 int InitFramesMenus(void)
 {

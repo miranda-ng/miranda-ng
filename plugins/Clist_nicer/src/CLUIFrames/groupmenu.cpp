@@ -162,7 +162,8 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam)
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam) {
+INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam)
+{
 	if (wParam!=0) {
 		lpGroupMenuExecParam mmep=(lpGroupMenuExecParam)wParam;
 		if ( !strcmp(mmep->szServiceName,"Help/AboutCommand")) {
@@ -176,19 +177,17 @@ INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam) {
 
 	};
 	return(1);
-};
-INT_PTR FreeOwnerDataGroupMenu (WPARAM wParam,LPARAM lParam)
+}
+
+INT_PTR FreeOwnerDataGroupMenu(WPARAM wParam, LPARAM lParam)
 {
-
-	lpGroupMenuExecParam mmep;
-	mmep=(lpGroupMenuExecParam)lParam;
-	if (mmep!=NULL) {
-		FreeAndNil((void **)&mmep->szServiceName);
-		FreeAndNil((void **)&mmep);
+	lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)lParam;
+	if (mmep != NULL) {
+		mir_free(mmep->szServiceName);
+		mir_free(mmep);
 	}
-
 	return 0;
-};
+}
 
 INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
 {
@@ -519,13 +518,11 @@ INT_PTR SubGroupMenuExecService(WPARAM wParam,LPARAM lParam) {
 
 INT_PTR FreeOwnerDataSubGroupMenu (WPARAM wParam,LPARAM lParam)
 {
-	lpSubGroupMenuExecParam mmep;
-	mmep=(lpSubGroupMenuExecParam)lParam;
-	if (mmep!=NULL) {
-		FreeAndNil((void **)&mmep->szServiceName);
-		FreeAndNil((void **)&mmep);
+	lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)lParam;
+	if (mmep != NULL) {
+		mir_free(mmep->szServiceName);
+		mir_free(mmep);
 	}
-
 	return 0;
 }
 

@@ -192,5 +192,3 @@ BOOL __forceinline GetItemByStatus(int status, StatusItems_t *retitem);
 void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, ImageItem *item);
 
 void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat);
-
-void FreeAndNil( void** );

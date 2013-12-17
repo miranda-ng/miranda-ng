@@ -33,7 +33,7 @@ $Id: viewmodes.cpp 13824 2011-09-03 06:32:11Z borkra $
 
 extern HIMAGELIST hCListImages;
 extern HPEN g_hPenCLUIFrames;
-extern wndFrame *wndFrameViewMode;
+extern FRAMEWND *wndFrameViewMode;
 
 typedef int (__cdecl *pfnEnumCallback)(char *szName);
 static HWND clvmHwnd = 0;

@@ -144,6 +144,4 @@ typedef struct {
 
 extern ExternDrawer SED;
 
-void FreeAndNil( void** p );
-
 #endif /* _CLC_H_ */

@@ -28,7 +28,7 @@ HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHei
 
 extern struct CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
 extern int ( *saveRemoveEvent )(HANDLE hContact, HANDLE hDbEvent);
-extern wndFrame *wndFrameEventArea;
+extern FRAMEWND *wndFrameEventArea;
 
 extern HPEN g_hPenCLUIFrames;
 

@@ -60,8 +60,8 @@ typedef struct
 struct FrameMenuHandles
 {
 	HGENMENU MainMenuItem;
-	HGENMENU MIVisible,MITitle,MITBVisible,MILock,MIColl,MIFloating,MIAlignRoot;
-	HGENMENU MIAlignTop,MIAlignClient,MIAlignBottom;
+	HGENMENU MIVisible, MITitle, MITBVisible, MILock, MIColl, MIFloating, MIAlignRoot;
+	HGENMENU MIAlignTop, MIAlignClient, MIAlignBottom;
 	HGENMENU MIBorder, MIPosRoot, MIPosUp, MIPosDown;
 };
 
@@ -71,8 +71,8 @@ struct FrameTitleBar
 	HWND TitleBarbutt;
 	HWND hwndTip;
 
-	TCHAR* tbname;
-	TCHAR* tooltip;
+	LPTSTR tbname;
+	LPTSTR tooltip;
 
 	char * sztbname;
 	char * sztooltip;
@@ -98,10 +98,10 @@ struct DockOpt
 struct FRAMEWND
 {
 	int id;
-	HWND hWnd ;
+	HWND hWnd;
 	RECT wndSize;
-	TCHAR * Name;
-	char  * szName;
+	LPTSTR name;
+	LPSTR  szName;
 	int align;
 	int height;
 	int dwFlags;
@@ -137,7 +137,3 @@ struct FRAMEWND
 #define CLUIFrameModule							"CLUIFrames"
 
 #endif
-
-
-
-

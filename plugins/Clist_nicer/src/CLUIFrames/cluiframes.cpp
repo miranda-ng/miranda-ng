@@ -58,16 +58,10 @@ static int UpdateTBToolTip(int framepos);
 INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam);
 int CLUIFrameResizeFloatingFrame(int framepos);
 extern int InitFramesMenus(void);
-extern int UnitFramesMenu();
 static int CLUIFramesReSort();
 
 boolean FramesSysNotStarted = TRUE;
 HPEN g_hPenCLUIFrames = 0;
-
-typedef struct {
-	int order;
-	int realpos;
-} SortData;
 
 static SortData g_sd[MAX_FRAMES];
 
@@ -85,16 +79,9 @@ static int sortfunc(const void *a, const void *b)
 	return 0;
 }
 
-#define CLUIFRAMESSETALIGN					"CLUIFramesSetAlign"
-#define CLUIFRAMESSETALIGNALTOP				"CLUIFramesSetAlignalTop"
-#define CLUIFRAMESSETALIGNALCLIENT			"CLUIFramesSetAlignalClient"
-#define CLUIFRAMESSETALIGNALBOTTOM			"CLUIFramesSetAlignalBottom"
-#define CLUIFRAMESMOVEUP					"CLUIFramesMoveUp"
-#define CLUIFRAMESMOVEDOWN					"CLUIFramesMoveDown"
+static FRAMEWND *Frames = NULL;
 
-static wndFrame *Frames = NULL;
-
-wndFrame *wndFrameCLC = NULL, *wndFrameEventArea = NULL, *wndFrameViewMode = NULL;
+FRAMEWND *wndFrameCLC = NULL, *wndFrameEventArea = NULL, *wndFrameViewMode = NULL;
 
 static int nFramescount = 0;
 static int alclientFrame = -1;//for fast access to frame with alclient properties
@@ -123,9 +110,9 @@ static BOOLEAN CLUIFramesFitInSize(void);
 HWND hWndExplorerToolBar;
 static int GapBetweenFrames = 1;
 
-static int RemoveItemFromList(int pos, wndFrame **lpFrames, int *FrameItemCount)
+static int RemoveItemFromList(int pos, FRAMEWND **lpFrames, int *FrameItemCount)
 {
-	memcpy(&((*lpFrames)[pos]), &((*lpFrames)[pos+1]), sizeof(wndFrame)*(*FrameItemCount - pos - 1));
+	memcpy(&((*lpFrames)[pos]), &((*lpFrames)[pos+1]), sizeof(FRAMEWND)*(*FrameItemCount - pos - 1));
 	(*FrameItemCount)--;
 	return 0;
 }
@@ -160,7 +147,7 @@ void __forceinline ulockfrm()
 	LeaveCriticalSection(&csFrameHook);
 }
 
-static wndFrame* FindFrameByWnd(HWND hwnd)
+static FRAMEWND* FindFrameByWnd(HWND hwnd)
 {
 	BOOL        bFound  = FALSE;
 	int i;
@@ -176,7 +163,7 @@ static wndFrame* FindFrameByWnd(HWND hwnd)
 }
 
 
-static void DockThumbs(wndFrame *pThumbLeft, wndFrame *pThumbRight, BOOL bMoveLeft)
+static void DockThumbs(FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight, BOOL bMoveLeft)
 {
 	if ((pThumbRight->dockOpt.hwndLeft == NULL) && (pThumbLeft->dockOpt.hwndRight == NULL)) {
 		pThumbRight->dockOpt.hwndLeft   = pThumbLeft->ContainerWnd;
@@ -185,7 +172,7 @@ static void DockThumbs(wndFrame *pThumbLeft, wndFrame *pThumbRight, BOOL bMoveLe
 }
 
 
-static void UndockThumbs(wndFrame *pThumb1, wndFrame *pThumb2)
+static void UndockThumbs(FRAMEWND *pThumb1, FRAMEWND *pThumb2)
 {
 	if ((pThumb1 == NULL) || (pThumb2 == NULL))
 		return;
@@ -205,12 +192,12 @@ static void UndockThumbs(wndFrame *pThumb1, wndFrame *pThumb2)
 
 BOOLEAN bMoveTogether;
 
-static void PositionThumb(wndFrame *pThumb, short nX, short nY)
+static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 {
-	wndFrame    *pCurThumb  = &Frames[0];
-	wndFrame    *pDockThumb = pThumb;
-	wndFrame    fakeMainWindow;
-	wndFrame    fakeTaskBarWindow;
+	FRAMEWND    *pCurThumb  = &Frames[0];
+	FRAMEWND    *pDockThumb = pThumb;
+	FRAMEWND    fakeMainWindow;
+	FRAMEWND    fakeTaskBarWindow;
 	RECT        rc;
 	RECT        rcThumb;
 	RECT        rcOld;
@@ -1819,10 +1806,10 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 	if (Frames == NULL) {
-		Frames = (wndFrame*)malloc(sizeof(wndFrame) * (MAX_FRAMES + 2));
-		ZeroMemory(Frames, sizeof(wndFrame) * (MAX_FRAMES + 2));
+		Frames = (FRAMEWND*)malloc(sizeof(FRAMEWND) * (MAX_FRAMES + 2));
+		ZeroMemory(Frames, sizeof(FRAMEWND) * (MAX_FRAMES + 2));
 	}
-	memset(&Frames[nFramescount], 0, sizeof(wndFrame));
+	memset(&Frames[nFramescount], 0, sizeof(FRAMEWND));
 
 	Frames[nFramescount].id = NextFrameId++;
 	Frames[nFramescount].align = clfrm->align;
@@ -1957,7 +1944,7 @@ static INT_PTR CLUIFramesRemoveFrame(WPARAM wParam, LPARAM lParam)
 	}
 
 	{
-		wndFrame* F = &Frames[pos];
+		FRAMEWND* F = &Frames[pos];
 		if (F->hWnd == g_hwndEventArea)
 			wndFrameEventArea = NULL;
 		else if (F->hWnd == pcli->hwndContactTree)
@@ -1989,14 +1976,14 @@ static INT_PTR CLUIFramesRemoveFrame(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUIFramesForceUpdateTB(const wndFrame *Frame)
+INT_PTR CLUIFramesForceUpdateTB(const FRAMEWND *Frame)
 {
 	if (Frame->TitleBar.hwnd != 0)
 		RedrawWindow(Frame->TitleBar.hwnd, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW | RDW_ERASE | RDW_INVALIDATE | RDW_FRAME);
 	return 0;
 }
 
-INT_PTR CLUIFramesForceUpdateFrame(const wndFrame *Frame)
+INT_PTR CLUIFramesForceUpdateFrame(const FRAMEWND *Frame)
 {
 	if (Frame->hWnd != 0)
 		RedrawWindow(Frame->hWnd, NULL, NULL, RDW_UPDATENOW | RDW_FRAME | RDW_ERASE | RDW_INVALIDATE);
@@ -2006,7 +1993,7 @@ INT_PTR CLUIFramesForceUpdateFrame(const wndFrame *Frame)
 	return 0;
 }
 
-int CLUIFrameMoveResize(const wndFrame *Frame)
+int CLUIFrameMoveResize(const FRAMEWND *Frame)
 {
 	TitleBarH = cfg::dat.titleBarHeight;
 	// we need to show or hide the frame?
@@ -3365,6 +3352,5 @@ int UnLoadCLUIFramesModule(void)
 	UnregisterClass(CLUIFrameTitleBarClassName, g_hInst);
 	LeaveCriticalSection(&csFrameHook);
 	DeleteCriticalSection(&csFrameHook);
-	UnitFramesMenu();
 	return 0;
 }

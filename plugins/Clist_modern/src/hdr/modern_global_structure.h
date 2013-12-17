@@ -76,7 +76,6 @@ typedef struct tagCLUIDATA
 	HANDLE hEventExtraClick;
 	HANDLE hEventBkgrChanged;
 	HANDLE hEventPreBuildTrayMenu;
-	HANDLE hEventPreBuildFrameMenu;
 	HANDLE hEventPreBuildGroupMenu;
 	HANDLE hEventPreBuildSubGroupMenu;
 	HANDLE hEventStatusBarShowToolTip;
