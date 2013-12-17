@@ -54,7 +54,7 @@ void cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add)
 static int GetStatusModeOrdering(int statusMode)
 {
 	int i;
-	for (i=0;i < SIZEOF(statusModeOrder);i++)
+	for (i=0; i < SIZEOF(statusModeOrder); i++)
 		if (statusModeOrder[i].m_cache_nStatus == statusMode) return statusModeOrder[i].order;
 	return 1000;
 }

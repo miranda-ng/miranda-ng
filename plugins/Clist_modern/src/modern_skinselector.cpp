@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 char * ModernMaskToString(MODERNMASK *mm, char * buf, UINT bufsize)
 {
 	int i=0;
-	for (i=0; i < (int)mm->dwParamCnt;i++)
+	for (i=0; i < (int)mm->dwParamCnt; i++)
 	{
 		if (mm->pl_Params[i].bMaskParamFlag)
 		{
@@ -54,7 +54,7 @@ int SkinSelector_DeleteMask(MODERNMASK *mm)
 {
 	int i;
 	if ( !mm->pl_Params) return 0;
-	for (i=0;i < (int)mm->dwParamCnt;i++)
+	for (i=0; i < (int)mm->dwParamCnt; i++)
 	{
 		free(mm->pl_Params[i].szName);
 		free(mm->pl_Params[i].szValue);
@@ -121,7 +121,7 @@ lph_top:	 //only 4 of 9 instructions in here don't use AL, so optimal pipe use i
     DWORD hash = 0;
     int i;
     int shift = 0;
-    for (i=0;szStr[i];i++) {
+    for (i=0;szStr[i]; i++) {
         hash ^= szStr[i] << shift;
         if (shift>24) hash ^= (szStr[i]>>(32-shift))&0x7F;
         shift = (shift+5)&0x1F;

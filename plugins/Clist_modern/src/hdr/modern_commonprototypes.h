@@ -138,7 +138,7 @@ int     RowHeight_CalcRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, in
 
 /* SkinEngine */
 BOOL    ske_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest,int nHeightDest,HDC hdcSrc,int nXOriginSrc,int nYOriginSrc,int nWidthSrc,int nHeightSrc,BLENDFUNCTION blendFunction);
-void    ske_ApplyTransluency(void);
+void    ske_ApplyTranslucency(void);
 int     ske_BltBackImage (HWND destHWND, HDC destDC, RECT *BltClientRect);
 HBITMAP ske_CreateDIB32(int cx, int cy);
 HBITMAP ske_CreateDIB32Point(int cx, int cy, void ** bits);
@@ -148,7 +148,6 @@ int     ske_DrawImageAt(HDC hdc, RECT *rc);
 BOOL    ske_DrawIconEx(HDC hdc,int xLeft,int yTop,HICON hIcon,int cxWidth,int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags);
 int     ske_DrawNonFramedObjects(BOOL Erase,RECT *r);
 BOOL    ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format);
-BOOL    ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT *lpRect, UINT format);
 LPSKINOBJECTDESCRIPTOR   ske_FindObjectByName(const char * szName, BYTE objType, SKINOBJECTSLIST* Skin);
 HBITMAP ske_GetCurrentWindowImage();
 int     ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder,BOOL madeAbsolute);
@@ -161,21 +160,24 @@ HRESULT SkinEngineLoadModule();
 void    ske_LoadSkinFromDB(void);
 int     ske_LoadSkinFromIniFile(TCHAR*, BOOL);
 TCHAR*  ske_ParseText(TCHAR *stzText);
-int     ske_PrepeareImageButDontUpdateIt(RECT *r);
+int     ske_PrepareImageButDontUpdateIt(RECT *r);
 int     ske_ReCreateBackImage(BOOL Erase,RECT *w);
 int     ske_RedrawCompleteWindow();
-BOOL    ske_ResetTextEffect(HDC);
-BOOL    ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor);
+bool    ske_ResetTextEffect(HDC);
+bool    ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor);
 INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam);
 BOOL    ske_SetRectOpaque(HDC memdc,RECT *fr, BOOL force = FALSE );
 BOOL    ske_SetRgnOpaque(HDC memdc,HRGN hrgn, BOOL force = FALSE );
 BOOL    ske_TextOut(HDC hdc, int x, int y, LPCTSTR lpString, int nCount);
-BOOL    ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount);
 int     ske_UnloadGlyphImage(HBITMAP hbmp);
 int     SkinEngineUnloadModule();
 int     ske_UpdateWindowImage();
 int     ske_UpdateWindowImageRect(RECT *lpRect);
 int     ske_ValidateFrameImageProc(RECT *r);
+
+__forceinline BOOL ske_DrawTextA(HDC hdc, char *lpString, int nCount, RECT *lpRect, UINT format)
+{	return ske_DrawText(hdc, _A2T(lpString), nCount, lpRect, format);
+}
 
 /* CLUIFrames.c PROXIED */
 

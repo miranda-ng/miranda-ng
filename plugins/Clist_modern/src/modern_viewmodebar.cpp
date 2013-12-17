@@ -711,7 +711,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN,2,0);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT,10, 0);
-			for (i=0;i <= FONTID_MAX;i++)
+			for (i=0; i <= FONTID_MAX; i++)
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
 			
 			CLCINFOITEM cii = { sizeof(cii) };

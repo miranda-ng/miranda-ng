@@ -79,7 +79,7 @@ void GroupMenus_Init();
 int ModernSkinButtonLoadModule();
 int ModernSkinButton_ReposButtons(HWND parent, BYTE draw,RECT *r);
 
-void ske_ApplyTransluency();
+void ske_ApplyTranslucency();
 HBITMAP ske_CreateDIB32(int cx, int cy);
 HBITMAP ske_CreateDIB32Point(int cx, int cy, void ** bits);
 int ske_JustUpdateWindowImage();

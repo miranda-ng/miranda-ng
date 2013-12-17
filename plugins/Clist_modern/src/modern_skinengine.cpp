@@ -40,35 +40,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Global variables */
 
 SKINOBJECTSLIST g_SkinObjectList = {0};
-CURRWNDIMAGEDATA * g_pCachedWindow = NULL;
+CURRWNDIMAGEDATA *g_pCachedWindow = NULL;
 
-BOOL    g_flag_bPostWasCanceled  = FALSE;
-BOOL	g_flag_bFullRepaint      = FALSE;
-BOOL    g_mutex_bLockUpdating    = FALSE;
+BOOL g_flag_bPostWasCanceled  = FALSE;
+BOOL g_flag_bFullRepaint      = FALSE;
+BOOL g_mutex_bLockUpdating    = FALSE;
 
-SortedList * gl_plGlyphTexts = NULL;
-SortedList * gl_plSkinFonts  = NULL;
+SortedList *gl_plGlyphTexts = NULL;
+SortedList *gl_plSkinFonts  = NULL;
 
 /* Private module variables */
 
 static HANDLE  hSkinLoadedEvent;
 
-static GLYPHIMAGE * pLoadedImages = NULL;
-static DWORD        dwLoadedImagesCount = 0;
-static DWORD        dwLoadedImagesAlocated = 0;
+static GLYPHIMAGE *pLoadedImages = NULL;
+static DWORD dwLoadedImagesCount = 0;
+static DWORD dwLoadedImagesAlocated = 0;
 
 static BOOL flag_bUpdateQueued = FALSE;
 static BOOL	flag_bJustDrawNonFramedObjects = FALSE;
 static BOOL mutex_bLockUpdate = FALSE;
 
-static SortedList       * pEffectStack = NULL;
-static SKINOBJECTSLIST  * pCurrentSkin = NULL;
-static char            ** pszSettingName = NULL;
-static int                nArrayLen = 0;
+static LIST<EFFECTSSTACKITEM> arEffectStack(10, HandleKeySortT);
+static SKINOBJECTSLIST *pCurrentSkin = NULL;
+static char  **pszSettingName = NULL;
+static int   nArrayLen = 0;
 
-static BYTE             pbGammaWeight[256] = {0};
-static BYTE             pbGammaWeightAdv[256] = {0};
-static BOOL             bGammaWeightFilled = FALSE;
+static BYTE  pbGammaWeight[256] = {0};
+static BYTE  pbGammaWeightAdv[256] = {0};
+static BOOL  bGammaWeightFilled = FALSE;
 
 static CRITICAL_SECTION cs_SkinChanging = {0};
 
@@ -98,39 +98,39 @@ static MODERNEFFECT meCurrentEffect = {-1,{0}, 0, 0};
 //////////////////////////////////////////////////////////////////////////
 // Ini file parser
 //////////////////////////////////////////////////////////////////////////
-IniParser::IniParser( TCHAR * tcsFileName, BYTE flags ) : _Flags( flags )
+IniParser::IniParser(TCHAR * tcsFileName, BYTE flags) : _Flags(flags)
 {
 	_DoInit();
-	if ( !tcsFileName ) return;
+	if (!tcsFileName) return;
 
-	if ( tcsFileName[0] == _T('%'))
+	if (tcsFileName[0] == _T('%'))
 	{
 		//TODO: Add parser of resource filename here
-		_LoadResourceIni( g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF");
+		_LoadResourceIni(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF");
 		return;
 	}
 
-	_hFile = _tfopen( tcsFileName, _T("r"));
+	_hFile = _tfopen(tcsFileName, _T("r"));
 
-	if ( _hFile != NULL )
+	if (_hFile != NULL)
 	{
 		_eType = IT_FILE;
 		_isValid = true;
 	}
 }
 
-IniParser::IniParser( HINSTANCE hInst, const char *  resourceName, const char * resourceType, BYTE flags ) : _Flags( flags )
+IniParser::IniParser(HINSTANCE hInst, const char *  resourceName, const char * resourceType, BYTE flags) : _Flags(flags)
 {
 	_DoInit();
-	_LoadResourceIni( hInst, resourceName, resourceType );
+	_LoadResourceIni(hInst, resourceName, resourceType);
 }
 
 IniParser::~IniParser()
 {
-	mir_free( _szSection );
-	if ( _hFile ) fclose( _hFile );
-	if ( _hGlobalRes ) {
-		UnlockResource( _hGlobalRes );
+	mir_free(_szSection);
+	if (_hFile) fclose(_hFile);
+	if (_hGlobalRes) {
+		UnlockResource(_hGlobalRes);
 		FreeResource(_hGlobalRes);
 	}
 
@@ -141,14 +141,13 @@ IniParser::~IniParser()
 	_eType = IT_UNKNOWN;
 }
 
-HRESULT IniParser::Parse( ParserCallback_t pLineCallBackProc, LPARAM SecCheck )
+HRESULT IniParser::Parse(ParserCallback_t pLineCallBackProc, LPARAM SecCheck)
 {
-	if ( _isValid && pLineCallBackProc )
+	if (_isValid && pLineCallBackProc)
 	{
 		_pLineCallBackProc = pLineCallBackProc;
 		_SecCheck = SecCheck;
-		switch ( _eType )
-		{
+		switch (_eType) {
 		case IT_FILE:
 			return _DoParseFile();
 		case IT_RESOURCE:
@@ -158,47 +157,40 @@ HRESULT IniParser::Parse( ParserCallback_t pLineCallBackProc, LPARAM SecCheck )
 	return E_FAIL;
 }
 
-
 HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, const char * szValue, IniParser * This )
 {
-	if ( This->_SecCheck)
-	{
+	if ( This->_SecCheck) {
 		//TODO check security here
-		if ( wildcmp( szSection,"Skin_Description_Section")) return S_OK;
+		if ( wildcmp( szSection,"Skin_Description_Section"))
+			return S_OK;
 	}
 	if (( This->_Flags == IniParser::FLAG_ONLY_OBJECTS ) && !wildcmp( szSection, DEFAULTSKINSECTION))
 		return S_OK;					 // skip not objects
 
-
-//	if ( strlen(szValue)>0 && szValue[strlen(szValue)-1] == '\n' )
-//		szValue[strlen(szValue)-1] = '\0';  //kill linefeed at the end
-
-	switch(szValue[0]) {
+	switch (szValue[0]) {
 	case 'b':
-		db_set_b(NULL, szSection, szName, (BYTE)atoi(szValue+1));
+		db_set_b(NULL, szSection, szName, (BYTE)atoi(szValue + 1));
 		break;
 
 	case 'w':
-		db_set_w(NULL, szSection, szName, (WORD)atoi(szValue+1));
+		db_set_w(NULL, szSection, szName, (WORD)atoi(szValue + 1));
 		break;
 
 	case 'd':
-		db_set_dw(NULL, szSection, szName, (DWORD)atoi(szValue+1));
+		db_set_dw(NULL, szSection, szName, (DWORD)atoi(szValue + 1));
 		break;
 
 	case 's':
-		db_set_s(NULL,szSection,szName,szValue+1);
+		db_set_s(NULL, szSection, szName, szValue + 1);
 		break;
 	}
 	return S_OK;
 }
+
 int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolderName )
 {
-	TCHAR *pszPos;
-	TCHAR *szBuff;
-
-	szBuff = mir_tstrdup( szFileName );
-	pszPos = szBuff + _tcslen( szBuff );
+	TCHAR *szBuff = mir_tstrdup(szFileName);
+	TCHAR *pszPos = szBuff + _tcslen(szBuff);
 	while ( pszPos > szBuff && *pszPos != _T('.')) { pszPos--; }
 	*pszPos = _T('\0');
 	_tcscpy( pszFolderName, szBuff );
@@ -222,54 +214,49 @@ int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolder
 
 void IniParser::_DoInit()
 {
-	_isValid	 = false;
-	_eType		 = IT_UNKNOWN;
-	_szSection	 = NULL;
-	_hFile		 = NULL;
-	_hGlobalRes  = NULL;
+	_isValid = false;
+	_eType = IT_UNKNOWN;
+	_szSection = NULL;
+	_hFile = NULL;
+	_hGlobalRes = NULL;
 	_dwSizeOfRes = 0;
-	_pPosition   = NULL;
+	_pPosition = NULL;
 	_pLineCallBackProc = NULL;
-	_SecCheck		 = 0;
-
+	_SecCheck = 0;
 }
 
 void IniParser::_LoadResourceIni( HINSTANCE hInst,  const char *  resourceName, const char * resourceType )
 {
+	if (_eType != IT_UNKNOWN)
+		return;
 
-	if ( _eType != IT_UNKNOWN ) return;
+	HRSRC hRSrc = FindResourceA(hInst, resourceName, resourceType);
+	if (!hRSrc)
+		return;
 
-	HRSRC hRSrc = FindResourceA( hInst, resourceName, resourceType );
-	if ( !hRSrc ) return;
+	_hGlobalRes = LoadResource(hInst, hRSrc);
+	if (!_hGlobalRes)
+		return;
 
-	_hGlobalRes = LoadResource( hInst, hRSrc );
-	if ( !_hGlobalRes ) return;
-
-	_dwSizeOfRes = SizeofResource( hInst, hRSrc );
-	_pPosition  = (char*) LockResource( _hGlobalRes );
+	_dwSizeOfRes = SizeofResource(hInst, hRSrc);
+	_pPosition = (char*)LockResource(_hGlobalRes);
 
 	_isValid = true;
-	_eType	 = IT_RESOURCE;
-
+	_eType = IT_RESOURCE;
 }
-
-
 
 HRESULT IniParser::_DoParseFile()
 {
 	char szLine[MAX_LINE_LEN];
 	_nLine = 0;
-	while ( fgets( szLine, SIZEOF(szLine), _hFile ) != NULL )
-	{
+	while (fgets(szLine, SIZEOF(szLine), _hFile) != NULL) {
 		size_t len = 0;
-		char * pLine = (char*)_RemoveTailings( szLine, len );
-		if ( len > 0 )
-		{
+		char * pLine = (char*)_RemoveTailings(szLine, len);
+		if (len > 0) {
 			pLine[len] = '\0';
-			if ( !_DoParseLine( pLine ))	return E_FAIL;
+			if (!_DoParseLine(pLine))	return E_FAIL;
 		}
-		else
-			_nLine++;
+		else _nLine++;
 	};
 
 	return S_OK;
@@ -279,29 +266,25 @@ HRESULT IniParser::_DoParseResource()
 {
 	_nLine = 0;
 	char szLine[MAX_LINE_LEN];
-	char * pos = ( char* ) _pPosition;
+	char * pos = (char*)_pPosition;
 
-	while ( pos < _pPosition + _dwSizeOfRes )
-	{
-		int i=0;
-		while ( pos < _pPosition + _dwSizeOfRes && *pos != '\n' && *pos != '\0' && i < MAX_LINE_LEN - 1 )
-		{
-			if ((*pos) != '\r' )
-				szLine[ i++ ] = *pos;
+	while (pos < _pPosition + _dwSizeOfRes) {
+		int i = 0;
+		while (pos < _pPosition + _dwSizeOfRes && *pos != '\n' && *pos != '\0' && i < MAX_LINE_LEN - 1) {
+			if ((*pos) != '\r')
+				szLine[i++] = *pos;
 			pos++;
 		}
-		szLine[ i ] = '\0';
+		szLine[i] = '\0';
 		pos++;
 
 		size_t len = 0;
-		char * pLine = (char*) _RemoveTailings( szLine, len );
-		if ( len > 0 )
-		{
+		char * pLine = (char*)_RemoveTailings(szLine, len);
+		if (len > 0) {
 			pLine[len] = '\0';
-			if ( !_DoParseLine( pLine ))	return E_FAIL;
+			if (!_DoParseLine(pLine))	return E_FAIL;
 		}
-		else
-			_nLine++;
+		else _nLine++;
 	}
 	return S_OK;
 }
@@ -309,9 +292,11 @@ HRESULT IniParser::_DoParseResource()
 const char * IniParser::_RemoveTailings( const char * szLine, size_t& len )
 {
 	const char * pStart = szLine;
-	while( *pStart == ' ' || *pStart == '\t' ) pStart++; //skip spaces at begin
-	const char * pEnd = pStart + strlen( pStart );
-	while( pEnd > pStart && ( *pEnd == ' ' || *pEnd == '\t' || *pEnd == '\n' || *pEnd == '\r' )) pEnd--;
+	while (*pStart == ' ' || *pStart == '\t')
+		pStart++; //skip spaces at begin
+	const char * pEnd = pStart + strlen(pStart);
+	while (pEnd > pStart && (*pEnd == ' ' || *pEnd == '\t' || *pEnd == '\n' || *pEnd == '\r'))
+		pEnd--;
 
 	len = pEnd - pStart;
 	return pStart;
@@ -322,29 +307,28 @@ BOOL IniParser::_DoParseLine( char * szLine )
 	_nLine++;
 	DWORD len = strlen( szLine );
 
-	if ( len == 0 )	return TRUE;
+	if (len == 0)	return TRUE;
 
-	switch( szLine[0] )
-	{
+	switch( szLine[0] ) {
 	case ';':
 		return TRUE; // start of comment is found
-	case '[':
-		{
-			//New section start here
-			mir_free( _szSection );
-			_szSection = NULL;
 
+	case '[':
+		//New section start here
+		mir_free(_szSection);
+		_szSection = NULL;
+		{
 			char *tbuf = szLine + 1;	// skip [
 
 			char *ebuf = tbuf;
 
-			while ( *ebuf != ']' && *ebuf != '\0' ) ebuf++;
-			if ( *ebuf == '\0' )
+			while (*ebuf != ']' && *ebuf != '\0') ebuf++;
+			if (*ebuf == '\0')
 				return FALSE; // no close bracket
 
 			DWORD sectionLen = ebuf - tbuf;
-			_szSection = (char*) mir_alloc( sectionLen + 1 );
-			strncpy( _szSection, tbuf, sectionLen );
+			_szSection = (char*)mir_alloc(sectionLen + 1);
+			strncpy(_szSection, tbuf, sectionLen);
 			_szSection[sectionLen] = '\0';
 		}
 		return TRUE;
@@ -435,16 +419,10 @@ int SkinEngineUnloadModule()
 	mir_free_and_nil(g_SkinObjectList.pMaskList);
 	mir_free_and_nil(MainModernMaskList);
 
-	if (pEffectStack)
-	{
-		for (int i=0; i < pEffectStack->realCount; i++)
-			if (pEffectStack->items[i]) {
-				EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM*)(pEffectStack->items[i]);
-				mir_free(effect);
-			}
-		List_Destroy(pEffectStack);
-		mir_free_and_nil(pEffectStack);
-	}
+	for (int i=0; i < arEffectStack.getCount(); i++)
+		mir_free(arEffectStack[i]);
+	arEffectStack.destroy();
+
 	if (g_pCachedWindow) {
 		SelectObject(g_pCachedWindow->hBackDC,g_pCachedWindow->hBackOld);
 		SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageOld);
@@ -1489,7 +1467,7 @@ int ske_AddDescriptorToSkinObjectList (LPSKINOBJECTDESCRIPTOR lpDescr, SKINOBJEC
 	if (mir_bool_strcmpi(lpDescr->szObjectID,"_HEADER_")) return 0;
 	{//check if new object allready presents.
 		DWORD i=0;
-		for (i=0; i < sk->dwObjLPAlocated;i++)
+		for (i=0; i < sk->dwObjLPAlocated; i++)
 			if ( !mir_strcmp(sk->pObjects[i].szObjectID,lpDescr->szObjectID)) return 0;
 	}
 	if (sk->dwObjLPAlocated+1>sk->dwObjLPReserved)
@@ -2253,14 +2231,13 @@ void ske_LoadSkinFromDB(void)
 
 static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 {
-
-	IniParser parser(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS );
-	if ( !parser.CheckOK()) return 0;
-
-	ske_DeleteAllSettingInSection("ModernSkin");
-	db_set_s(NULL,SKIN,"SkinFolder","%Default%");
-	db_set_s(NULL,SKIN,"SkinFile","%Default%");
-	parser.Parse( IniParser::WriteStrToDb, 0 );
+	IniParser parser(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
+	if (parser.CheckOK()) {
+		ske_DeleteAllSettingInSection("ModernSkin");
+		db_set_s(NULL, SKIN, "SkinFolder", "%Default%");
+		db_set_s(NULL, SKIN, "SkinFile", "%Default%");
+		parser.Parse(IniParser::WriteStrToDb, 0);
+	}
 	return 0;
 }
 
@@ -2270,8 +2247,9 @@ int ske_LoadSkinFromIniFile(TCHAR *szFileName, BOOL bOnlyObjects)
 	if (_tcschr(szFileName,_T('%')))
 		return ske_LoadSkinFromResource( bOnlyObjects );
 
-	IniParser parser( szFileName, bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS  );
-	if ( !parser.CheckOK()) return 0;
+	IniParser parser(szFileName, bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
+	if (!parser.CheckOK())
+		return 0;
 
 	ske_DeleteAllSettingInSection("ModernSkin");
 
@@ -2282,8 +2260,7 @@ int ske_LoadSkinFromIniFile(TCHAR *szFileName, BOOL bOnlyObjects)
 	db_set_ts(NULL,SKIN,"SkinFolder", skinFolder);
 	db_set_ts(NULL,SKIN,"SkinFile", skinFile);
 
-	parser.Parse( IniParser::WriteStrToDb, 1 );
-
+	parser.Parse(IniParser::WriteStrToDb, 1);
 	return 0;
 }
 
@@ -2293,7 +2270,7 @@ static int ske_enumdb_SkinSectionDeletionProc (const char *szSetting,LPARAM lPar
 		return 0;
 
 	nArrayLen++;
-	pszSettingName = (char **)realloc(pszSettingName,nArrayLen*sizeof(char *));
+	pszSettingName = (char **)realloc(pszSettingName, nArrayLen*sizeof(char *));
 	pszSettingName[nArrayLen-1] = _strdup(szSetting);
 	return 0;
 }
@@ -2323,41 +2300,30 @@ static int ske_DeleteAllSettingInSection(char * SectionName)
 	return 0;
 }
 
-BOOL ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount)
-{
-	TCHAR *buf = (TCHAR *)mir_alloc((2+nCount)*sizeof(TCHAR));
-	BOOL res;
-	MultiByteToWideChar(CallService(MS_LANGPACK_GETCODEPAGE, 0, 0 ), 0, lpString, -1, buf, (2+nCount)*sizeof(TCHAR));
-	res = ske_TextOut(hdc,x,y,buf,nCount);
-	mir_free(buf);
-	return res;
-}
-
 BOOL ske_TextOut(HDC hdc, int x, int y, LPCTSTR lpString, int nCount)
 {
 	SIZE sz;
-	GetTextExtentPoint32(hdc,lpString,nCount,&sz);
+	GetTextExtentPoint32(hdc, lpString, nCount, &sz);
 	int ta = GetTextAlign(hdc);
 
-	RECT rc = {0};
-	SetRect(&rc,x,y,x+sz.cx,y+sz.cy);
-	ske_DrawText(hdc,lpString,nCount,&rc,DT_NOCLIP|DT_SINGLELINE|DT_LEFT);
+	RECT rc = { 0 };
+	SetRect(&rc, x, y, x + sz.cx, y + sz.cy);
+	ske_DrawText(hdc, lpString, nCount, &rc, DT_NOCLIP | DT_SINGLELINE | DT_LEFT);
 	return 1;
 }
 
 static INT_PTR ske_Service_AlphaTextOut(WPARAM wParam,LPARAM lParam)
 {
 	if ( !wParam) return 0;
-	{
-		AlphaTextOutParams ap = *(AlphaTextOutParams*)wParam;
-		return ske_AlphaTextOut(ap.hDC,ap.lpString,ap.nCount,ap.lpRect,ap.format,ap.ARGBcolor);
-	}
+
+	AlphaTextOutParams ap = *(AlphaTextOutParams*)wParam;
+	return ske_AlphaTextOut(ap.hDC,ap.lpString,ap.nCount,ap.lpRect,ap.format,ap.ARGBcolor);
 }
 
 static __inline void ske_SetMatrix( sbyte * matrix,
-										  sbyte a, sbyte b, sbyte c,
-										  sbyte d, sbyte e, sbyte f,
-										  sbyte g, sbyte h, sbyte i)
+	sbyte a, sbyte b, sbyte c,
+	sbyte d, sbyte e, sbyte f,
+	sbyte g, sbyte h, sbyte i)
 {
 	matrix[0] = a;	matrix[1] = b;	matrix[2] = c;
 	matrix[3] = d;	matrix[4] = e;	matrix[5] = f;
@@ -2366,10 +2332,9 @@ static __inline void ske_SetMatrix( sbyte * matrix,
 
 static void ske_SetTextEffect(BYTE EffectID, DWORD FirstColor, DWORD SecondColor)
 {
-	if (EffectID>MAXPREDEFINEDEFFECTS) return;
+	if (EffectID > MAXPREDEFINEDEFFECTS) return;
 	if (EffectID == -1) meCurrentEffect.EffectID = -1;
-	else
-	{
+	else {
 		meCurrentEffect.EffectID = EffectID;
 		meCurrentEffect.EffectMatrix = ModernEffectsEnum[EffectID];
 		meCurrentEffect.EffectColor1 = FirstColor;
@@ -2377,72 +2342,55 @@ static void ske_SetTextEffect(BYTE EffectID, DWORD FirstColor, DWORD SecondColor
 	}
 }
 
-BOOL ske_ResetTextEffect(HDC hdc)
+bool ske_ResetTextEffect(HDC hdc)
 {
-	int i;
-	if ( !pEffectStack || !pEffectStack->realCount) return TRUE;
-	for (i=0; i < pEffectStack->realCount; i++)
-		if (pEffectStack->items[i] && ((EFFECTSSTACKITEM*)(pEffectStack->items[i]))->hdc == hdc)
-		{
-			EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM*)(pEffectStack->items[i]);
-			mir_free(effect);
-			List_Remove(pEffectStack,i);
-			return TRUE;
-		}
-		return FALSE;
-};
+	int idx = arEffectStack.getIndex((EFFECTSSTACKITEM*)&hdc);
+	if (idx == -1)
+		return false;
 
-BOOL ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor)
+	mir_free(arEffectStack[idx]);
+	arEffectStack.remove(idx);
+	return true;
+}
+
+bool ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor)
 {
-	if (EffectID>MAXPREDEFINEDEFFECTS) return 0;
-	if (EffectID == -1) return ske_ResetTextEffect(hdc);
-	if ( !pEffectStack)
-	{
-		pEffectStack = List_Create(0, 1);
-	}
-	{
-		int i;
-		for (i=0; i < pEffectStack->realCount; i++)
-			if (pEffectStack->items[i] && ((EFFECTSSTACKITEM*)(pEffectStack->items[i]))->hdc == hdc)
-			{
-				EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM*)(pEffectStack->items[i]);
-				effect->EffectID = EffectID;
-				effect->FirstColor = FirstColor;
-				effect->SecondColor = SecondColor;
-				return TRUE;
-			}
-	}
-	{
-		EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM *) mir_alloc(sizeof(EFFECTSSTACKITEM));
+	if (EffectID > MAXPREDEFINEDEFFECTS)
+		return false;
+
+	if (EffectID == -1)
+		return ske_ResetTextEffect(hdc);
+
+	EFFECTSSTACKITEM *effect = arEffectStack.find((EFFECTSSTACKITEM*)&hdc);
+	if (effect == NULL) {
+		effect = (EFFECTSSTACKITEM *)mir_alloc(sizeof(EFFECTSSTACKITEM));
 		effect->hdc = hdc;
-		effect->EffectID = EffectID;
-		effect->FirstColor = FirstColor;
-		effect->SecondColor = SecondColor;
-		List_Insert(pEffectStack, effect, 0);
-		return TRUE;
+		arEffectStack.insert(effect);
 	}
-	return FALSE;
+
+	effect->EffectID = EffectID;
+	effect->FirstColor = FirstColor;
+	effect->SecondColor = SecondColor;
+	return true;
 }
 
-static BOOL ske_GetTextEffect(HDC hdc, MODERNEFFECT * modernEffect)
+static bool ske_GetTextEffect(HDC hdc, MODERNEFFECT *modernEffect)
 {
-	int i=0;
-	if ( !pEffectStack || !pEffectStack->realCount) return FALSE;
-	if ( !modernEffect) return FALSE;
-	for (i=0; i < pEffectStack->realCount; i++)
-		if (pEffectStack->items[i] && ((EFFECTSSTACKITEM*)(pEffectStack->items[i]))->hdc == hdc)
-		{
-			EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM*)(pEffectStack->items[i]);
-			modernEffect->EffectID = effect->EffectID;
-			modernEffect->EffectColor1 = effect->FirstColor;
-			modernEffect->EffectColor2 = effect->SecondColor;
-			modernEffect->EffectMatrix = ModernEffectsEnum[effect->EffectID];
-			return TRUE;
-		}
-		return FALSE;
+	if (!modernEffect)
+		return false;
+
+	EFFECTSSTACKITEM *effect = arEffectStack.find((EFFECTSSTACKITEM*)&hdc);
+	if (effect == NULL)
+		return false;
+
+	modernEffect->EffectID = effect->EffectID;
+	modernEffect->EffectColor1 = effect->FirstColor;
+	modernEffect->EffectColor2 = effect->SecondColor;
+	modernEffect->EffectMatrix = ModernEffectsEnum[effect->EffectID];
+	return true;
 }
 
-static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD height, MODERNEFFECT *effect)
+static bool ske_DrawTextEffect(BYTE* destPt, BYTE* maskPt, DWORD width, DWORD height, MODERNEFFECT *effect)
 {
 	sbyte *buf;
 	sbyte *outbuf;
@@ -2462,9 +2410,9 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 	int maxX = 0;
 	int minY = height;
 	int maxY = 0;
-	if (effect->EffectID == 0xFF) return FALSE;
-	if ( !width || ! height) return FALSE;
-	if ( !destPt) return FALSE;
+	if (effect->EffectID == 0xFF) return false;
+	if (!width || !height) return false;
+	if (!destPt) return false;
 	buf = (sbyte*)malloc(width*height*sizeof(BYTE));
 	{
 		matrix = effect->EffectMatrix.matrix;
@@ -2581,12 +2529,12 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 		}
 		free(buf);
 	}
-	return FALSE;
+	return false;
 }
 
 static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, DWORD ARGBcolor)
 {
-	if ( !( lpString && lpRect ))
+	if (!(lpString && lpRect))
 		return 0;
 
 	// Step first fill fast calc correction tables:
@@ -2603,8 +2551,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 		BYTE redCf     = db_get_b(NULL,"ModernData","AlphaTextOutRed Correction", 77 );
 		BYTE greenCf   = db_get_b(NULL,"ModernData","AlphaTextOutGreen Correction", 151 );
 
-		for ( int i=0; i < 256; i++ )
-		{
+		for ( int i=0; i < 256; i++ ) {
 			gammaTbl[i] = (BYTE)( 255 * pow((double)i / 255, gammaCfPw ));
 			blueMulTbl[i] = i * blueCf;
 			redMulTbl[i] = i * redCf;
@@ -2613,40 +2560,37 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 	}
 
 	// Calc len of input string
-	if ( nCount == -1 ) nCount = lstrlen( lpString );
+	if (nCount == -1)
+		nCount = lstrlen(lpString);
 
 	// retrieve destination bitmap bits
-	HBITMAP hDestBitmap = (HBITMAP) GetCurrentObject( hDC, OBJ_BITMAP );
+	HBITMAP hDestBitmap = (HBITMAP)GetCurrentObject(hDC, OBJ_BITMAP);
 	BITMAP  bmpDest;
-	GetObject( hDestBitmap, sizeof(BITMAP), &bmpDest );
+	GetObject(hDestBitmap, sizeof(BITMAP), &bmpDest);
 
 	BOOL destHasNotDIB = FALSE;
-	BYTE * pDestBits = NULL;
-	if ( bmpDest.bmBits == NULL )
-	{
+	BYTE *pDestBits = NULL;
+	if (bmpDest.bmBits == NULL) {
 		destHasNotDIB = TRUE;
 		pDestBits = (BYTE*) malloc ( bmpDest.bmHeight * bmpDest.bmWidthBytes );
 		GetBitmapBits( hDestBitmap, bmpDest.bmHeight*bmpDest.bmWidthBytes, pDestBits );
 	}
-	else
-		pDestBits = (BYTE*)bmpDest.bmBits;
+	else pDestBits = (BYTE*)bmpDest.bmBits;
 
-	BOOL isDest16bit = ( bmpDest.bmBitsPixel ) != 32;
-
+	BOOL isDest16bit = (bmpDest.bmBitsPixel) != 32;
 
 	// Creating offscreen buffer
-	HDC hOffscreenDC = CreateCompatibleDC( hDC );
+	HDC hOffscreenDC = CreateCompatibleDC(hDC);
 
 	// Font to be used to draw text
-	HFONT hFont      = (HFONT)GetCurrentObject( hDC, OBJ_FONT);
-	HFONT hOldOffscreenFont = (HFONT)SelectObject( hOffscreenDC, hFont );
+	HFONT hFont = (HFONT)GetCurrentObject(hDC, OBJ_FONT);
+	HFONT hOldOffscreenFont = (HFONT)SelectObject(hOffscreenDC, hFont);
 
 	// Calculating text geometric size
 	RECT workRect = *lpRect;
-	int  workRectWidth  = workRect.right - workRect.left;
-	int  workRectHeight = workRect.bottom - workRect.top;
-
-	if ( workRectWidth <= 0 || workRectHeight <= 0 )
+	int workRectWidth = workRect.right - workRect.left;
+	int workRectHeight = workRect.bottom - workRect.top;
+	if (workRectWidth <= 0 || workRectHeight <= 0)
 		return 0;
 
 	SIZE textSize;
@@ -2656,8 +2600,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 	BOOL bNeedFreeWorkString = FALSE;
 
 	// if we need to cut the text with ellipsis
-	if (( format&DT_END_ELLIPSIS ) && textSize.cx > workRectWidth )
-	{
+	if ((format & DT_END_ELLIPSIS) && textSize.cx > workRectWidth) {
 		// Calc geometric width of ellipsis
 		SIZE szEllipsis;
 		GetTextExtentPoint32A(hOffscreenDC,"...",3,&szEllipsis);
@@ -2665,17 +2608,10 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 
 		// Calc count of visible chars
 		int visibleCharCount = nCount;
-		if ( workRectWidth > szEllipsis.cx)
-		{
-			GetTextExtentExPoint( hOffscreenDC, lpString, nCount,
-			                      workRectWidth - szEllipsis.cx,
-			                      &visibleCharCount, NULL, &textSize );
-		}
+		if (workRectWidth > szEllipsis.cx)
+			GetTextExtentExPoint(hOffscreenDC, lpString, nCount, workRectWidth - szEllipsis.cx, &visibleCharCount, NULL, &textSize);
 		else
-		{
-			GetTextExtentExPoint( hOffscreenDC, lpString, nCount,
-			                     0, &visibleCharCount, NULL, &textSize);
-		}
+			GetTextExtentExPoint(hOffscreenDC, lpString, nCount, 0, &visibleCharCount, NULL, &textSize);
 
 		// replace end of string by elipsis
 		bNeedFreeWorkString = TRUE;
@@ -2693,104 +2629,82 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 
 	int drx = 0;                  // x-axis offset of draw point
 
-	if ( workRectWidth > textSize.cx )
-	{
+	if (workRectWidth > textSize.cx) {
 		if ( format & ( DT_RIGHT | DT_RTLREADING ))
-		{
 			drx = workRectWidth - textSize.cx;
-		}
 		else if ( format & DT_CENTER )
-		{
 			drx = ( workRectWidth - textSize.cx ) >> 1;
-		}
 	}
-	else
-	{
-		textSize.cx = workRectWidth;
-	}
+	else textSize.cx = workRectWidth;
 
 	int dry = 0;                  // y-axis offset of draw point
 
-	if ( workRectHeight > textSize.cy )
-	{
-		if ( format & DT_BOTTOM )
-		{
+	if (workRectHeight > textSize.cy) {
+		if (format & DT_BOTTOM)
 			dry = workRectHeight - textSize.cy;
-		}
-		else if ( format & DT_VCENTER )
-		{
-			dry = ( workRectHeight - textSize.cy ) >> 1;
-		}
+		else if (format & DT_VCENTER)
+			dry = (workRectHeight - textSize.cy) >> 1;
 	}
-	else
-	{
-		textSize.cy = workRectHeight;
-	}
+	else textSize.cy = workRectHeight;
 
 	textSize.cx += 4;    // CORRECTION: for effects ???
 	textSize.cy += 4;	 // CORRECTION: for effects ???
 
-	if ( textSize.cx > 0 && textSize.cy > 0 )     // Ok we need to paint
-	{
+	if (textSize.cx > 0 && textSize.cy > 0) { // Ok we need to paint
 		// probably here are mess ofscreen and temp buff dc
 
 		//Create bitmap image for offscreen
-		BYTE * bits     = NULL;
-		HBITMAP hbmp    = ske_CreateDIB32Point( textSize.cx, textSize.cy, (void**)&bits );
-		if ( bits != NULL )
-		{
+		BYTE *bits = NULL;
+		HBITMAP hbmp = ske_CreateDIB32Point(textSize.cx, textSize.cy, (void**)&bits);
+		if (bits != NULL) {
 			HBITMAP holdbmp = (HBITMAP)SelectObject( hOffscreenDC, hbmp );
 
 			//Create buffer bitmap image for temp text
-			BYTE *  bufbits  = NULL;
-			HBITMAP bufbmp   = ske_CreateDIB32Point( textSize.cx, textSize.cy, (void**)&bufbits );
-			if ( bufbits != NULL )
-			{
-				HDC     bufDC     = CreateCompatibleDC( hDC );
-				HBITMAP bufoldbmp = (HBITMAP)SelectObject( bufDC, bufbmp );
-				HFONT   hOldBufFont = (HFONT)SelectObject( bufDC, hFont );
-				SetBkColor( bufDC,  RGB( 0, 0, 0 ));
-				SetTextColor( bufDC,RGB(255,255,255));
+			BYTE *bufbits = NULL;
+			HBITMAP bufbmp = ske_CreateDIB32Point(textSize.cx, textSize.cy, (void**)&bufbits);
+			if ( bufbits != NULL ) {
+				HDC     bufDC = CreateCompatibleDC(hDC);
+				HBITMAP bufoldbmp = (HBITMAP)SelectObject(bufDC, bufbmp);
+				HFONT   hOldBufFont = (HFONT)SelectObject(bufDC, hFont);
+				SetBkColor(bufDC, RGB(0, 0, 0));
+				SetTextColor(bufDC, RGB(255, 255, 255));
 
 				// Copy from destination to temp buffer
-				BitBlt( hOffscreenDC, 0, 0, textSize.cx, textSize.cy, hDC, workRect.left + drx - 2, workRect.top + dry - 2, SRCCOPY );
+				BitBlt(hOffscreenDC, 0, 0, textSize.cx, textSize.cy, hDC, workRect.left + drx - 2, workRect.top + dry - 2, SRCCOPY);
 
 				//Draw text on offscreen bitmap
-				TextOut( bufDC, 2, 2, lpWorkString, nCount);
+				TextOut(bufDC, 2, 2, lpWorkString, nCount);
 
 				MODERNEFFECT effect;
-				if (ske_GetTextEffect( hDC, &effect ))
-					ske_DrawTextEffect( bits, bufbits, textSize.cx, textSize.cy, &effect );
+				if (ske_GetTextEffect(hDC, &effect))
+					ske_DrawTextEffect(bits, bufbits, textSize.cx, textSize.cy, &effect);
 
-				//RenderText
+				// RenderText
 				RECT drawRect;
 				drawRect.left = 0; drawRect.top = 0;
 				drawRect.right = textSize.cx;
 				drawRect.bottom = textSize.cy;
 
-				DWORD x,y;
 				DWORD width = textSize.cx;
 				DWORD heigh = textSize.cy;
 
-				BYTE * pDestScanLine;
-				BYTE * pBufScanLine;
-				BYTE * pix;
-				BYTE * bufpix;
+				BYTE *pDestScanLine;
+				BYTE *pBufScanLine;
+				BYTE *pix;
+				BYTE *bufpix;
 
 				BYTE al = 255 - ((BYTE)( ARGBcolor >> 24 ));
 				BYTE r = GetRValue( ARGBcolor );
 				BYTE g = GetGValue( ARGBcolor );
 				BYTE b = GetBValue( ARGBcolor );
 
-				for ( y = 2; y < heigh - 2; y++ )
-				{
+				for (DWORD y = 2; y < heigh - 2; y++) {
 					int lineBytes = y * (width << 2);
 
 					pDestScanLine = bits + lineBytes;
 					pBufScanLine  = bufbits + lineBytes;
 
-					for ( x = 2; x < width - 2; x++)
-					{
+					for (DWORD x = 2; x < width - 2; x++) {
 						pix    = pDestScanLine + ( x << 2 );
 						bufpix = pBufScanLine  + ( x << 2 );
 
@@ -2799,16 +2713,14 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 						BYTE gx = gammaTbl[ bufpix[1] ];
 						BYTE rx = gammaTbl[ bufpix[2] ];
 
-						if ( al != 255 )
-						{
+						if ( al != 255 ) {
 							bx *= al/255;
 							gx *= al/255;
 							rx *= al/255;
 						}
-						BYTE ax = (BYTE)(( (DWORD)rx*77 + (DWORD)gx * 151 + (DWORD)bx *28 + 128 ) / 256 );
 
-						if (ax)
-						{
+						BYTE ax = (BYTE)(( (DWORD)rx*77 + (DWORD)gx * 151 + (DWORD)bx *28 + 128 ) / 256 );
+						if (ax) {
 							//Normalize components to gray
 							BYTE axx = 255 - (( r + g + b ) >> 2 ) ; // Coefficient of grayance, more white font - more gray edges
 							WORD atx = ax * (255 - axx);
@@ -2816,10 +2728,9 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 							gx = ( atx + gx * axx )/255;
 							rx = ( atx + rx * axx )/255;
 
-							short rrx, grx, brx;
-							brx = (short)((b-pix[0])*bx/255);
-							grx = (short)((g-pix[1])*gx/255);
-							rrx = (short)((r-pix[2])*rx/255);
+							short brx = (short)((b - pix[0])*bx / 255);
+							short grx = (short)((g - pix[1])*gx / 255);
+							short rrx = (short)((r - pix[2])*rx / 255);
 
 							pix[0] += brx;
 							pix[1] += grx;
@@ -2829,92 +2740,84 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 					}
 				}
 
-				//Blit to destination
-				BitBlt( hDC, workRect.left + drx - 2, workRect.top + dry - 2, textSize.cx, textSize.cy, hOffscreenDC, 0, 0, SRCCOPY );
+				// Blit to destination
+				BitBlt(hDC, workRect.left + drx - 2, workRect.top + dry - 2, textSize.cx, textSize.cy, hOffscreenDC, 0, 0, SRCCOPY);
 
 				//free resources
-				SelectObject(bufDC,bufoldbmp);
+				SelectObject(bufDC, bufoldbmp);
 				DeleteObject(bufbmp);
-				SelectObject(bufDC, hOldBufFont );
+				SelectObject(bufDC, hOldBufFont);
 				DeleteDC(bufDC);
 			}
-			SelectObject(hOffscreenDC,holdbmp);
+			SelectObject(hOffscreenDC, holdbmp);
 			DeleteObject(hbmp);
 		}
 	}
 
 	// Final cleanup
-	SelectObject( hOffscreenDC, hOldOffscreenFont );
-	DeleteDC( hOffscreenDC );
+	SelectObject(hOffscreenDC, hOldOffscreenFont);
+	DeleteDC(hOffscreenDC);
 
-	if ( destHasNotDIB )
-		free( pDestBits );
+	if (destHasNotDIB)
+		free(pDestBits);
 
-	if ( bNeedFreeWorkString )
-		free((void*)lpWorkString );
+	if (bNeedFreeWorkString)
+		free((void*)lpWorkString);
 
 	return 0;
 }
 
 static int ske_DrawTextWithEffectWorker( HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, MODERNFONTEFFECT * effect )
 {
-    if (format&DT_CALCRECT) return DrawText(hdc,lpString,nCount,lpRect,format);
+	if (format & DT_CALCRECT)
+		return DrawText(hdc, lpString, nCount, lpRect, format);
 
-    if (format&DT_RTLREADING) SetTextAlign(hdc,TA_RTLREADING);
-    DWORD color = GetTextColor(hdc);
+	if (format & DT_RTLREADING)
+		SetTextAlign(hdc, TA_RTLREADING);
 
-    RECT r = *lpRect;
-    OffsetRect(&r,1,1);
-    DWORD form = format;
-    if ( effect && effect->effectIndex )
-        ske_SelectTextEffect( hdc, effect->effectIndex - 1, effect->baseColour, effect->secondaryColour );
+	DWORD color = GetTextColor(hdc);
+	RECT r = *lpRect;
+	OffsetRect(&r, 1, 1);
+	DWORD form = format;
+	if (effect && effect->effectIndex)
+		ske_SelectTextEffect(hdc, effect->effectIndex - 1, effect->baseColour, effect->secondaryColour);
 
-    int res = ske_AlphaTextOut(hdc, lpString, nCount, lpRect, form, color );
+	int res = ske_AlphaTextOut(hdc, lpString, nCount, lpRect, form, color);
 
-    if ( effect && effect->effectIndex )
-        ske_ResetTextEffect( hdc );
+	if (effect && effect->effectIndex)
+		ske_ResetTextEffect(hdc);
 
-    return res;
+	return res;
 }
 
 INT_PTR ske_Service_DrawTextWithEffect(WPARAM wParam, LPARAM lParam)
 {
-    DrawTextWithEffectParam * p = ( DrawTextWithEffectParam * ) wParam;
-    if ( p->cbSize != sizeof(DrawTextWithEffectParam))
-        return FALSE;
-    return ske_DrawTextWithEffectWorker( p->hdc, p->lpchText, p->cchText, p->lprc, p->dwDTFormat, p->pEffect );
+	DrawTextWithEffectParam *p = (DrawTextWithEffectParam *)wParam;
+	if (p->cbSize != sizeof(DrawTextWithEffectParam))
+		return FALSE;
+	return ske_DrawTextWithEffectWorker(p->hdc, p->lpchText, p->cchText, p->lprc, p->dwDTFormat, p->pEffect);
 }
-
-BOOL ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT *lpRect, UINT format)
-{
-	TCHAR *buf = mir_a2u(lpString);
-	BOOL res;
-	res = ske_DrawText(hdc,buf,nCount,lpRect,format);
-	mir_free(buf);
-	return res;
-}
-
 
 BOOL ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format)
 {
 	DWORD form = 0, color = 0;
 	RECT r = *lpRect;
-	OffsetRect(&r,1,1);
-	if (format&DT_RTLREADING) SetTextAlign(hdc,TA_RTLREADING);
-	if (format&DT_CALCRECT) return DrawText(hdc,lpString,nCount,lpRect,format);
-	if (format&DT_FORCENATIVERENDER || g_CluiData.fDisableSkinEngine)
-		return DrawText(hdc,lpString,nCount,lpRect,format&~DT_FORCENATIVERENDER);
+	OffsetRect(&r, 1, 1);
+	if (format & DT_RTLREADING) SetTextAlign(hdc, TA_RTLREADING);
+	if (format & DT_CALCRECT) return DrawText(hdc, lpString, nCount, lpRect, format);
+	if (format & DT_FORCENATIVERENDER || g_CluiData.fDisableSkinEngine)
+		return DrawText(hdc, lpString, nCount, lpRect, format&~DT_FORCENATIVERENDER);
+
 	form = format;
 	color = GetTextColor(hdc);
-	return ske_AlphaTextOut(hdc,lpString,nCount,lpRect,form,color);
+	return ske_AlphaTextOut(hdc, lpString, nCount, lpRect, form, color);
 }
 
 HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i, UINT fStyle)
 {
 	IMAGEINFO imi = {0};
 	BITMAP bm = {0};
-	if (i != -1)
-	{
+	if (i != -1) {
 		ImageList_GetImageInfo(himl,i,&imi);
 		GetObject(imi.hbmImage,sizeof(bm),&bm);
 		if (bm.bmBitsPixel == 32) //stupid bug of Microsoft
@@ -2926,50 +2829,42 @@ HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i, UINT fStyle)
 			// TODO: Direct draw Icon from imagelist without
 			// extracting of icon
 		{
-			BYTE * bits = NULL;
-			bits = (BYTE*)bm.bmBits;
-			if ( !bits)
-			{
+			BYTE *bits = (BYTE*)bm.bmBits;
+			if (!bits) {
 				bits = (BYTE*)malloc(bm.bmWidthBytes*bm.bmHeight);
 				GetBitmapBits(imi.hbmImage,bm.bmWidthBytes*bm.bmHeight,bits);
 			}
-			{
-				int iy;
-				BYTE *bcbits;
-				int wb = ((imi.rcImage.right-imi.rcImage.left)*bm.bmBitsPixel>>3);
-				bcbits = bits+(bm.bmHeight-imi.rcImage.bottom)*bm.bmWidthBytes+(imi.rcImage.left*bm.bmBitsPixel>>3);
-				for (iy = 0; iy < imi.rcImage.bottom-imi.rcImage.top; iy++)
-				{
-					int x;
-					// Dummy microsoft fix - alpha can be less than r,g or b
-					// Looks like color channels in icons should be non-premultiplied with alpha
-					// But AddIcon store it premultiplied (incorrectly cause can be Alpha == 7F, but R,G or B == 80
-					// So i check that alpha is 0x7F and set it to 0x80
-					DWORD *c = ((DWORD*)bcbits);
-					for (x = 0;x < imi.rcImage.right-imi.rcImage.left; x++)
-					{
-						DWORD val = *c;
-						BYTE a = (BYTE)((val)>>24);
-						if (a != 0)
+
+			int wb = ((imi.rcImage.right - imi.rcImage.left)*bm.bmBitsPixel >> 3);
+			BYTE *bcbits = bits + (bm.bmHeight - imi.rcImage.bottom)*bm.bmWidthBytes + (imi.rcImage.left*bm.bmBitsPixel >> 3);
+			for (int iy = 0; iy < imi.rcImage.bottom - imi.rcImage.top; iy++) {
+				int x;
+				// Dummy microsoft fix - alpha can be less than r,g or b
+				// Looks like color channels in icons should be non-premultiplied with alpha
+				// But AddIcon store it premultiplied (incorrectly cause can be Alpha == 7F, but R,G or B == 80
+				// So i check that alpha is 0x7F and set it to 0x80
+				DWORD *c = ((DWORD*)bcbits);
+				for (x = 0; x < imi.rcImage.right - imi.rcImage.left; x++) {
+					DWORD val = *c;
+					BYTE a = (BYTE)((val) >> 24);
+					if (a != 0) {
+						BYTE r = (BYTE)((val & 0xFF0000) >> 16);
+						BYTE g = (BYTE)((val & 0xFF00) >> 8);
+						BYTE b = (BYTE)(val & 0xFF);
+						if (a < r || a < g || a < b)
 						{
-							BYTE r = (BYTE)((val&0xFF0000)>>16);
-							BYTE g = (BYTE)((val&0xFF00)>>8);
-							BYTE b = (BYTE)(val&0xFF);
-							if (a < r || a < g || a < b)
-							{
-								a = max(max(r,g),b);
-								val = a << 24|r << 16|g << 8|b;
-								*c = val;
-							}
+							a = max(max(r, g), b);
+							val = a << 24 | r << 16 | g << 8 | b;
+							*c = val;
 						}
-						c++;
 					}
-					bcbits += bm.bmWidthBytes;
+					c++;
 				}
+				bcbits += bm.bmWidthBytes;
 			}
-			if ( !bm.bmBits)
-			{
-				SetBitmapBits(imi.hbmImage,bm.bmWidthBytes*bm.bmHeight,bits);
+
+			if (!bm.bmBits) {
+				SetBitmapBits(imi.hbmImage, bm.bmWidthBytes*bm.bmHeight, bits);
 				free(bits);
 			}
 		}
@@ -2988,39 +2883,38 @@ HBITMAP ske_ExtractDIBFromImagelistIcon( HIMAGELIST himl,int index, int * outWid
 BOOL ske_ImageList_DrawEx( HIMAGELIST himl,int i,HDC hdcDst,int x,int y,int dx,int dy,COLORREF rgbBk,COLORREF rgbFg,UINT fStyle)
 {
 	//the routine to directly draw icon from image list without creating icon from there - should be some faster
-
-	if (i < 0) return FALSE;
+	if (i < 0)
+		return FALSE;
 
 	if (g_CluiData.fDisableSkinEngine)
-		return ImageList_DrawEx( himl, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
+		return ImageList_DrawEx(himl, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
 
 	BYTE alpha;
 	if (fStyle&ILD_BLEND25) alpha = 64;
 	else if (fStyle&ILD_BLEND50) alpha = 128;
 	else alpha = 255;
 
-	HICON hIcon = ske_ImageList_GetIcon(himl,i,ILD_NORMAL);
-	if (hIcon)
-	{
-		ske_DrawIconEx(hdcDst,x,y,hIcon,dx?dx:GetSystemMetrics(SM_CXSMICON),dy?dy:GetSystemMetrics(SM_CYSMICON), 0, NULL,DI_NORMAL|(alpha << 24));
-		DestroyIcon(hIcon);
-		return TRUE;
-	}
-	return FALSE;
-}
+	HICON hIcon = ske_ImageList_GetIcon(himl, i, ILD_NORMAL);
+	if (hIcon == NULL)
+		return FALSE;
 
+	ske_DrawIconEx(hdcDst, x, y, hIcon, dx ? dx : GetSystemMetrics(SM_CXSMICON), dy ? dy : GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL | (alpha << 24));
+	DestroyIcon(hIcon);
+	return TRUE;
+}
 
 static INT_PTR ske_Service_DrawIconEx(WPARAM wParam,LPARAM lParam)
 {
 	DrawIconFixParam *p = (DrawIconFixParam*)wParam;
-	if ( !p) return 0;
+	if (!p)
+		return 0;
+
 	return ske_DrawIconEx(p->hdc,p->xLeft,p->yTop,p->hIcon,p->cxWidth,p->cyWidth,p->istepIfAniCur,p->hbrFlickerFreeDraw,p->diFlags);
 }
 
 
 BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags)
 {
-
 	ICONINFO ici;
 	BYTE alpha = (BYTE)((diFlags&0xFF000000)>>24);
 
@@ -3045,11 +2939,11 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 	if ( g_CluiData.fDisableSkinEngine && !(diFlags&0x80))
 		return DrawIconEx(hdcDst,xLeft,yTop,hIcon,cxWidth,cyWidth,istepIfAniCur,hbrFlickerFreeDraw,diFlags&0xFFFF7F);
 
-	if ( !GetIconInfo(hIcon,&ici))  return 0;
+	if (!GetIconInfo(hIcon, &ici))
+		return 0;
 
 	GetObject(ici.hbmColor,sizeof(BITMAP),&imbt);
-	if (imbt.bmWidth*imbt.bmHeight == 0)
-	{
+	if (imbt.bmWidth*imbt.bmHeight == 0) {
 		DeleteObject(ici.hbmColor);
 		DeleteObject(ici.hbmMask);
 		return 0;
@@ -3057,98 +2951,85 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 	GetObject(ici.hbmMask,sizeof(BITMAP),&immaskbt);
 	cy = imbt.bmHeight;
 
-	if (imbt.bmBitsPixel != 32)
-	{
-		HDC tempDC1;
+	if (imbt.bmBitsPixel != 32) {
 		HBITMAP otBmp;
 		no32bit = TRUE;
-		tempDC1 = CreateCompatibleDC(hdcDst);
-		tBmp = ske_CreateDIB32(imbt.bmWidth,imbt.bmHeight);
-		if (tBmp)
-		{
-			GetObject(tBmp,sizeof(BITMAP),&imbt);
-			otBmp = (HBITMAP)SelectObject(tempDC1,tBmp);
-			DrawIconEx(tempDC1, 0, 0, hIcon,imbt.bmWidth,imbt.bmHeight,istepIfAniCur,hbrFlickerFreeDraw,DI_IMAGE);
+		HDC tempDC1 = CreateCompatibleDC(hdcDst);
+		tBmp = ske_CreateDIB32(imbt.bmWidth, imbt.bmHeight);
+		if (tBmp) {
+			GetObject(tBmp, sizeof(BITMAP), &imbt);
+			otBmp = (HBITMAP)SelectObject(tempDC1, tBmp);
+			DrawIconEx(tempDC1, 0, 0, hIcon, imbt.bmWidth, imbt.bmHeight, istepIfAniCur, hbrFlickerFreeDraw, DI_IMAGE);
 			noMirrorMask = TRUE;
 
 		}
-		SelectObject(tempDC1,otBmp);
+		SelectObject(tempDC1, otBmp);
 		DeleteDC(tempDC1);
 	}
-	if (imbt.bmBits == NULL)
-	{
+
+	if (imbt.bmBits == NULL) {
 		NoDIBImage = TRUE;
 		imimagbits = (BYTE*)malloc(cy*imbt.bmWidthBytes);
-		GetBitmapBits(ici.hbmColor,cy*imbt.bmWidthBytes,(void*)imimagbits);
+		GetBitmapBits(ici.hbmColor, cy*imbt.bmWidthBytes, (void*)imimagbits);
 	}
 	else imimagbits = (BYTE*)imbt.bmBits;
 
-
-	if (immaskbt.bmBits == NULL)
-	{
+	if (immaskbt.bmBits == NULL) {
 		immaskbits = (BYTE*)malloc(cy*immaskbt.bmWidthBytes);
-		GetBitmapBits(ici.hbmMask,cy*immaskbt.bmWidthBytes,(void*)immaskbits);
+		GetBitmapBits(ici.hbmMask, cy*immaskbt.bmWidthBytes, (void*)immaskbits);
 	}
-	else
-		immaskbits = (BYTE*)immaskbt.bmBits;
+	else immaskbits = (BYTE*)immaskbt.bmBits;
+
 	icy = imbt.bmHeight;
 	cx = imbt.bmWidth;
 	imDC = CreateCompatibleDC(hdcDst);
-	imBmp = ske_CreateDIB32Point(cx,icy,(void**)&imbits);
-	oldBmp = (HBITMAP)SelectObject(imDC,imBmp);
-	if (imbits != NULL && imimagbits != NULL && immaskbits != NULL)
-	{
+	imBmp = ske_CreateDIB32Point(cx, icy, (void**)&imbits);
+	oldBmp = (HBITMAP)SelectObject(imDC, imBmp);
+	if (imbits != NULL && imimagbits != NULL && immaskbits != NULL) {
 		int x; int y;
-		int bottom,right,top,h;
-		int mwb,mwb2;
+		int bottom, right, top, h;
+		int mwb, mwb2;
 		mwb = immaskbt.bmWidthBytes;
 		mwb2 = imbt.bmWidthBytes;
 		bottom = icy;
 		right = cx;
 		top = 0;
 		h = icy;
-		for (y = top;(y < bottom) && !hasmask; y++)
-		{
-			t1 = immaskbits+y*mwb;
+		for (y = top; (y < bottom) && !hasmask; y++) {
+			t1 = immaskbits + y*mwb;
 			for (x = 0; (x < mwb) && !hasmask; x++)
-				hasmask |= (*(t1+x) != 0);
+				hasmask |= (*(t1 + x) != 0);
 		}
 
-		for (y = top;(y < bottom) && !hasalpha; y++)
-		{
-			t1 = imimagbits+(cy-y-1)*mwb2;
+		for (y = top; (y < bottom) && !hasalpha; y++) {
+			t1 = imimagbits + (cy - y - 1)*mwb2;
 			for (x = 0; (x < right) && !hasalpha; x++)
 				hasalpha |= (*(t1+(x << 2)+3) != 0);
 		}
 
-		for (y = 0; y < (int)icy; y++)
-		{
+		for (y = 0; y < (int)icy; y++) {
 			t1 = imimagbits+(h-y-1-top)*mwb2;
 			t2 = imbits+(!no32bit?y:(icy-y-1))*mwb2;
 			t3 = immaskbits+(noMirrorMask?y:(h-y-1-top))*mwb;
-			for (x = 0; x < right; x++)
-			{
-				DWORD * src, *dest;
+			for (x = 0; x < right; x++) {
 				BYTE mask = 0;
 				BYTE a = 0;
-				src = (DWORD*)(t1+(x << 2));
-				dest = (DWORD*)(t2+(x << 2));
+				DWORD *src = (DWORD*)(t1 + (x << 2));
+				DWORD *dest = (DWORD*)(t2 + (x << 2));
 				if (hasalpha && !hasmask)
 					a = ((BYTE*)src)[3];
-				else
-				{
-					mask = ((1 << (7-x%8))&(*(t3+(x>>3)))) != 0;
-					if (mask)// && !hasalpha)
-					{
-						if ( !hasalpha)
-						{ *dest = 0; continue; }
-						else
-						{
-							if (((BYTE*)src)[3]>0 )
-								a = ((BYTE*)src)[3];
-							else
-							    a = 0;
+				else {
+					mask = ((1 << (7 - x % 8))&(*(t3 + (x >> 3)))) != 0;
+					if (mask) {
+						if (!hasalpha) {
+							*dest = 0;
+							continue;
 						}
+
+						if (((BYTE*)src)[3]>0 )
+							a = ((BYTE*)src)[3];
+						else
+						    a = 0;
 					}
 					else if (hasalpha || hasmask)
 						a = (((BYTE*)src)[3]>0?((BYTE*)src)[3]:255);
@@ -3156,66 +3037,55 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 						a = 255;
 					else {  *dest = 0; continue; }
 				}
-				if (a>0)
-				{
+				if (a > 0) {
 					((BYTE*)dest)[3] = a;
-					((BYTE*)dest)[0] = ((BYTE*)src)[0]*a/255;
-					((BYTE*)dest)[1] = ((BYTE*)src)[1]*a/255;
-					((BYTE*)dest)[2] = ((BYTE*)src)[2]*a/255;
+					((BYTE*)dest)[0] = ((BYTE*)src)[0] * a / 255;
+					((BYTE*)dest)[1] = ((BYTE*)src)[1] * a / 255;
+					((BYTE*)dest)[2] = ((BYTE*)src)[2] * a / 255;
 				}
-				else
-					*dest = 0;
+				else *dest = 0;
 			}
 		}
 	}
-	{
-		BLENDFUNCTION bf = {AC_SRC_OVER, diFlags&128, alpha, AC_SRC_ALPHA };
-		ske_AlphaBlend(hdcDst,xLeft,yTop,cxWidth, cyWidth, imDC, 0, 0, cx,icy,bf);
-	}
+
+	BLENDFUNCTION bf = { AC_SRC_OVER, diFlags & 128, alpha, AC_SRC_ALPHA };
+	ske_AlphaBlend(hdcDst, xLeft, yTop, cxWidth, cyWidth, imDC, 0, 0, cx, icy, bf);
+
 	if (immaskbt.bmBits == NULL) free(immaskbits);
 	if (imbt.bmBits == NULL) free(imimagbits);
-	SelectObject(imDC,oldBmp);
+	SelectObject(imDC, oldBmp);
 	DeleteObject(imBmp);
 	if (no32bit)DeleteObject(tBmp);
 	DeleteObject(ici.hbmColor);
 	DeleteObject(ici.hbmMask);
-	SelectObject(imDC,GetStockObject(DEFAULT_GUI_FONT));
+	SelectObject(imDC, GetStockObject(DEFAULT_GUI_FONT));
 	DeleteDC(imDC);
-	return 1;// DrawIconExS(hdc,xLeft,yTop,hIcon,cxWidth,cyWidth,istepIfAniCur,hbrFlickerFreeDraw,diFlags);
+	return 1;
 }
 
-
-
-int ske_PrepeareImageButDontUpdateIt(RECT *r)
+int ske_PrepareImageButDontUpdateIt(RECT *r)
 {
-	if (g_CluiData.fLayered)
-	{
-		mutex_bLockUpdate = 1;
-		ske_DrawNonFramedObjects(TRUE,r);
-		ske_ValidateFrameImageProc(r);
-		mutex_bLockUpdate = 0;
-		return 0;
-	}
-	else
-	{
-		return ske_ReCreateBackImage(FALSE,r);
-	}
+	if (!g_CluiData.fLayered)
+		return ske_ReCreateBackImage(FALSE, r);
+
+	mutex_bLockUpdate = 1;
+	ske_DrawNonFramedObjects(TRUE, r);
+	ske_ValidateFrameImageProc(r);
+	mutex_bLockUpdate = 0;
 	return 0;
 }
 
 int ske_RedrawCompleteWindow()
 {
-	if (g_CluiData.fLayered)
-	{
+	if (g_CluiData.fLayered) {
 		ske_DrawNonFramedObjects(TRUE,0);
 		CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, 0, 0);
 	}
-	else
-	{
-		RedrawWindow(pcli->hwndContactList,NULL,NULL,RDW_ALLCHILDREN|RDW_ERASE|RDW_INVALIDATE|RDW_FRAME);
-	}
+	else RedrawWindow(pcli->hwndContactList,NULL,NULL,RDW_ALLCHILDREN|RDW_ERASE|RDW_INVALIDATE|RDW_FRAME);
+
 	return 0;
 }
+
 // Request to repaint frame or change/drop callback data
 // wParam = hWnd of called frame
 // lParam = pointer to sPaintRequest (or NULL to redraw all)
@@ -3223,7 +3093,8 @@ int ske_RedrawCompleteWindow()
 
 static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam)           // Immideately recall paint routines for frame and refresh image
 {
-	if ( MirandaLoading()) return 0;
+	if ( MirandaLoading())
+		return 0;
 
 	RECT wnd;
 	FRAMEWND *frm;
@@ -3233,42 +3104,40 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam)       
 		GetWindowRect(pcli->hwndContactList,&wnd);
 	else
 		wnd = g_rcEdgeSizingRect;
-	if ( !g_CluiData.fLayered)
-	{
+
+	if (!g_CluiData.fLayered) {
 		RedrawWindow((HWND)wParam,NULL,NULL,RDW_UPDATENOW|RDW_ERASE|RDW_INVALIDATE|RDW_FRAME);
 		return 0;
 	}
+
 	if (g_pCachedWindow == NULL) ske_ValidateFrameImageProc(&wnd);
 	else if (g_pCachedWindow->Width != wnd.right-wnd.left || g_pCachedWindow->Height != wnd.bottom-wnd.top) ske_ValidateFrameImageProc(&wnd);
 	else if (wParam == 0) ske_ValidateFrameImageProc(&wnd);
-	else // all Ok Update Single Frame
-	{
+	else { // all Ok Update Single Frame
 		// TO BE LOCKED OR PROXIED
 		frm = FindFrameByItsHWND((HWND)wParam);
-		if ( !frm)  ske_ValidateFrameImageProc(&wnd);
+		if (!frm)
+			ske_ValidateFrameImageProc(&wnd);
 		// Validate frame, update window image and remove it from queue
-		else
-		{
-			if (frm->UpdateRgn)
-			{
+		else {
+			if (frm->UpdateRgn) {
 				DeleteObject(frm->UpdateRgn);
 				frm->UpdateRgn = 0;
 			}
-			ske_ValidateSingleFrameImage(frm,0);
+			ske_ValidateSingleFrameImage(frm, 0);
 			ske_UpdateWindowImage();
 			NoCancelPost = 1;
 			//-- Remove frame from queue
-			if (flag_bUpdateQueued)
-			{
-				int i;
+			if (flag_bUpdateQueued) {
 				frm->bQueued = 0;
-				for (i=0;i < g_nFramesCount;i++)
-					if (IsAnyQueued |= g_pfwFrames[i].bQueued) break;
+				for (int i = 0; i < g_nFramesCount; i++)
+					if (IsAnyQueued |= g_pfwFrames[i].bQueued)
+						break;
 			}
 		}
 	}
-	if ((!NoCancelPost || !IsAnyQueued) && flag_bUpdateQueued) // no any queued updating cancel post or need to cancel post
-	{
+
+	if ((!NoCancelPost || !IsAnyQueued) && flag_bUpdateQueued) { // no any queued updating cancel post or need to cancel post
 		flag_bUpdateQueued = 0;
 		g_flag_bPostWasCanceled = 1;
 	}
@@ -3276,240 +3145,216 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam)       
 }
 static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)       // Post request for updating
 {
-	if ( MirandaLoading()) return 0;
-	if (wParam)
-	{
+	if (MirandaLoading()) return 0;
+
+	if (wParam) {
 		FRAMEWND *frm = FindFrameByItsHWND((HWND)wParam);
-		sPaintRequest * pr = (sPaintRequest*)lParam;
-		if ( !g_CluiData.fLayered || (frm && frm->floating)) return InvalidateRect((HWND)wParam,pr?(RECT*)&(pr->rcUpdate):NULL,FALSE);
-		if (frm)
-		{
-			if (frm->PaintCallbackProc != NULL)
-			{
+		sPaintRequest *pr = (sPaintRequest*)lParam;
+		if (!g_CluiData.fLayered || (frm && frm->floating))
+			return InvalidateRect((HWND)wParam, pr ? (RECT*)&(pr->rcUpdate) : NULL, FALSE);
+
+		if (frm) {
+			if (frm->PaintCallbackProc != NULL) {
 				frm->PaintData = (sPaintRequest *)pr;
 				frm->bQueued = 1;
-				if (pr)
-				{
+				if (pr) {
 					HRGN r2;
-					if ( !IsRectEmpty(&pr->rcUpdate))
-					{
+					if (!IsRectEmpty(&pr->rcUpdate)) {
 						RECT rcClient;
 						RECT rcUpdate;
-						GetClientRect(frm->hWnd,&rcClient);
-						IntersectRect( &rcUpdate, &rcClient, &pr->rcUpdate );
-						if ( IsRectEmpty( &rcUpdate ))
+						GetClientRect(frm->hWnd, &rcClient);
+						IntersectRect(&rcUpdate, &rcClient, &pr->rcUpdate);
+						if (IsRectEmpty(&rcUpdate))
 							return 0;
-						r2 = CreateRectRgn( rcUpdate.left, rcUpdate.top, rcUpdate.right, rcUpdate.bottom );
+						r2 = CreateRectRgn(rcUpdate.left, rcUpdate.top, rcUpdate.right, rcUpdate.bottom);
 					}
-					else
-					{
+					else {
 						RECT r;
-						GetClientRect(frm->hWnd,&r);
-						r2 = CreateRectRgn(r.left,r.top,r.right,r.bottom);
+						GetClientRect(frm->hWnd, &r);
+						r2 = CreateRectRgn(r.left, r.top, r.right, r.bottom);
 					}
-					if ( !frm->UpdateRgn)
-					{
-						frm->UpdateRgn = CreateRectRgn(0, 0, 1,1);
-						CombineRgn(frm->UpdateRgn,r2, 0, RGN_COPY);
+
+					if (!frm->UpdateRgn) {
+						frm->UpdateRgn = CreateRectRgn(0, 0, 1, 1);
+						CombineRgn(frm->UpdateRgn, r2, 0, RGN_COPY);
 					}
-					else CombineRgn(frm->UpdateRgn,frm->UpdateRgn,r2,RGN_OR);
+					else CombineRgn(frm->UpdateRgn, frm->UpdateRgn, r2, RGN_OR);
 					DeleteObject(r2);
 				}
-
 			}
 		}
-		else
-		{
-			Sync( QueueAllFramesUpdating, (BYTE)1 );
-		}
+		else Sync(QueueAllFramesUpdating, 1);
 	}
-	else
-		Sync( QueueAllFramesUpdating , (BYTE)1 );
-	if ( !flag_bUpdateQueued || g_flag_bPostWasCanceled)
-		if (PostMessage(pcli->hwndContactList,UM_UPDATE, 0, 0))
-		{
-			flag_bUpdateQueued = 1;
-			g_flag_bPostWasCanceled = 0;
-		}
-		return 1;
-}
+	else Sync(QueueAllFramesUpdating, 1);
 
+	if ( !flag_bUpdateQueued || g_flag_bPostWasCanceled)
+	if (PostMessage(pcli->hwndContactList, UM_UPDATE, 0, 0)) {
+		flag_bUpdateQueued = 1;
+		g_flag_bPostWasCanceled = 0;
+	}
+	return 1;
+}
 
 static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting)                              // Calling frame paint proc
 {
 	if ( !g_pCachedWindow) { TRACE("ske_ValidateSingleFrameImage calling without cached\n"); return 0;}
 	if (Frame->hWnd == (HWND)-1 && !Frame->PaintCallbackProc)  { TRACE("ske_ValidateSingleFrameImage calling without FrameProc\n"); return 0;}
-	{ // if ok update image
-		HDC hdc;
-		HBITMAP o,n;
-		RECT rcPaint,wnd;
-		RECT ru = {0};
-		int w,h,x,y;
-		int w1,h1,x1,y1;
 
-		CLUI_SizingGetWindowRect(pcli->hwndContactList,&wnd);
-		rcPaint = Frame->wndSize;
+	// if ok update image
+	HDC hdc;
+	HBITMAP o,n;
+	RECT rcPaint,wnd;
+	RECT ru = {0};
+	int w,h,x,y;
+	int w1,h1,x1,y1;
+
+	CLUI_SizingGetWindowRect(pcli->hwndContactList,&wnd);
+	rcPaint = Frame->wndSize;
+	{
+		int dx,dy,bx,by;
+		if (g_CluiData.mutexOnEdgeSizing)
 		{
-			int dx,dy,bx,by;
-			if (g_CluiData.mutexOnEdgeSizing)
+			dx = rcPaint.left-wnd.left;
+			dy = rcPaint.top-wnd.top;
+			bx = rcPaint.right-wnd.right;
+			by = rcPaint.bottom-wnd.bottom;
+			wnd = g_rcEdgeSizingRect;
+			rcPaint.left = wnd.left+dx;
+			rcPaint.top = wnd.top+dy;
+			rcPaint.right = wnd.right+bx;
+			rcPaint.bottom = wnd.bottom+by;
+		}
+	}
+	//OffsetRect(&rcPaint,-wnd.left,-wnd.top);
+	w = rcPaint.right-rcPaint.left;
+	h = rcPaint.bottom-rcPaint.top;
+	if (w <= 0 || h <= 0)
+	{
+		TRACE("Frame size smaller than 0\n");
+		return 0;
+	}
+	x = rcPaint.left;
+	y = rcPaint.top;
+	hdc = CreateCompatibleDC(g_pCachedWindow->hImageDC);
+	n = ske_CreateDIB32(w,h);
+	o = (HBITMAP)SelectObject(hdc,n);
+	{
+		if (Frame->UpdateRgn && !SkipBkgBlitting)
+		{
+			GetRgnBox(Frame->UpdateRgn,&ru);
 			{
-				dx = rcPaint.left-wnd.left;
-				dy = rcPaint.top-wnd.top;
-				bx = rcPaint.right-wnd.right;
-				by = rcPaint.bottom-wnd.bottom;
-				wnd = g_rcEdgeSizingRect;
-				rcPaint.left = wnd.left+dx;
-				rcPaint.top = wnd.top+dy;
-				rcPaint.right = wnd.right+bx;
-				rcPaint.bottom = wnd.bottom+by;
+				RECT rc;
+				GetClientRect(Frame->hWnd,&rc);
+				if (ru.top < 0) ru.top = 0;
+				if (ru.left < 0) ru.left = 0;
+				if (ru.right>rc.right) ru.right = rc.right;
+				if (ru.bottom>rc.bottom) ru.bottom = rc.bottom;
 			}
-		}
-		//OffsetRect(&rcPaint,-wnd.left,-wnd.top);
-		w = rcPaint.right-rcPaint.left;
-		h = rcPaint.bottom-rcPaint.top;
-		if (w <= 0 || h <= 0)
-		{
-			TRACE("Frame size smaller than 0\n");
-			return 0;
-		}
-		x = rcPaint.left;
-		y = rcPaint.top;
-		hdc = CreateCompatibleDC(g_pCachedWindow->hImageDC);
-		n = ske_CreateDIB32(w,h);
-		o = (HBITMAP)SelectObject(hdc,n);
-		{
-			if (Frame->UpdateRgn && !SkipBkgBlitting)
+			if ( !IsRectEmpty(&ru))
 			{
-				GetRgnBox(Frame->UpdateRgn,&ru);
-				{
-					RECT rc;
-					GetClientRect(Frame->hWnd,&rc);
-					if (ru.top < 0) ru.top = 0;
-					if (ru.left < 0) ru.left = 0;
-					if (ru.right>rc.right) ru.right = rc.right;
-					if (ru.bottom>rc.bottom) ru.bottom = rc.bottom;
-				}
-				if ( !IsRectEmpty(&ru))
-				{
-					x1 = ru.left;
-					y1 = ru.top;
-					w1 = ru.right-ru.left;
-					h1 = ru.bottom-ru.top;
-				}
-				else
-				{x1 = 0; y1 = 0; w1 = w; h1 = h;}
-				// copy image at hdc
-				if (SkipBkgBlitting)  //image already at foreground
-				{
-					BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hImageDC,x+x1,y+y1,SRCCOPY);
-				}
-				else
-				{
-					BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hBackDC,x+x1,y+y1,SRCCOPY);
-				}
-				Frame->PaintCallbackProc(Frame->hWnd,hdc,&ru,Frame->UpdateRgn, Frame->dwFlags,Frame->PaintData);
+				x1 = ru.left;
+				y1 = ru.top;
+				w1 = ru.right-ru.left;
+				h1 = ru.bottom-ru.top;
+			}
+			else
+			{x1 = 0; y1 = 0; w1 = w; h1 = h;}
+			// copy image at hdc
+			if (SkipBkgBlitting)  //image already at foreground
+			{
+				BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hImageDC,x+x1,y+y1,SRCCOPY);
 			}
 			else
 			{
-			    HRGN rgnUpdate;
-				RECT r;
-				GetClientRect(Frame->hWnd,&r);
-				rgnUpdate = CreateRectRgn(r.left,r.top,r.right,r.bottom);
-				ru = r;
-				if ( !IsRectEmpty(&ru))
-				{
-					x1 = ru.left;
-					y1 = ru.top;
-					w1 = ru.right-ru.left;
-					h1 = ru.bottom-ru.top;
-				}
-				else
-				{x1 = 0; y1 = 0; w1 = w; h1 = h;}
-				// copy image at hdc
-				if (SkipBkgBlitting)  //image already at foreground
-				{
-					BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hImageDC,x+x1,y+y1,SRCCOPY);
-				}
-				else
-				{
-					BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hBackDC,x+x1,y+y1,SRCCOPY);
-				}
-				Frame->PaintCallbackProc(Frame->hWnd,hdc,&r,rgnUpdate, Frame->dwFlags,Frame->PaintData);
-				ru = r;
-			    DeleteObject(rgnUpdate);
+				BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hBackDC,x+x1,y+y1,SRCCOPY);
 			}
-			DeleteObject(Frame->UpdateRgn);
-			Frame->UpdateRgn = 0;
-		}
-		if ( !IsRectEmpty(&ru))
-		{
-			x1 = ru.left;
-			y1 = ru.top;
-			w1 = ru.right-ru.left;
-			h1 = ru.bottom-ru.top;
+			Frame->PaintCallbackProc(Frame->hWnd,hdc,&ru,Frame->UpdateRgn, Frame->dwFlags,Frame->PaintData);
 		}
 		else
-		{x1 = 0; y1 = 0; w1 = w; h1 = h;}
-		/*  if ( !SkipBkgBlitting)
 		{
-		BitBlt(g_pCachedWindow->hImageDC,x+x1,y+y1,w1,h1,g_pCachedWindow->hBackDC,x+x1,y+y1,SRCCOPY);
-		}
-
-		*/
-		{
-			//BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-			BitBlt(g_pCachedWindow->hImageDC,x+x1,y+y1,w1,h1,hdc,x1,y1,SRCCOPY);
-			//BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-			//MyAlphaBlend(g_pCachedWindow->hImageDC,x+x1,y+y1,w1,h1,hdc,x1,y1,w1,h1,bf);
-		}
-
-		if (GetWindowLongPtr(Frame->hWnd,GWL_STYLE) & WS_VSCROLL)
-		{
-			//Draw vertical scroll bar
-			//
-			RECT rThumb;
-			RECT rUpBtn;
-			RECT rDnBtn;
-			RECT rLine;
-			int dx,dy;
-			SCROLLBARINFO si = {0};
-			si.cbSize = sizeof(SCROLLBARINFO);
-			GetScrollBarInfo(Frame->hWnd, OBJID_VSCROLL, &si);
-			rLine = (si.rcScrollBar);
-			rUpBtn = rLine;
-			rDnBtn = rLine;
-			rThumb = rLine;
-
-			rUpBtn.bottom = rUpBtn.top+si.dxyLineButton;
-			rDnBtn.top = rDnBtn.bottom-si.dxyLineButton;
-			rThumb.top = rLine.top+si.xyThumbTop;
-			rThumb.bottom = rLine.top+si.xyThumbBottom;
+			   HRGN rgnUpdate;
+			RECT r;
+			GetClientRect(Frame->hWnd,&r);
+			rgnUpdate = CreateRectRgn(r.left,r.top,r.right,r.bottom);
+			ru = r;
+			if ( !IsRectEmpty(&ru))
 			{
-				dx = Frame->wndSize.right-rLine.right;
-				dy = -rLine.top+Frame->wndSize.top;
+				x1 = ru.left;
+				y1 = ru.top;
+				w1 = ru.right-ru.left;
+				h1 = ru.bottom-ru.top;
 			}
-			OffsetRect(&rLine,dx,dy);
-			OffsetRect(&rUpBtn,dx,dy);
-			OffsetRect(&rDnBtn,dx,dy);
-			OffsetRect(&rThumb,dx,dy);
-			BitBlt(g_pCachedWindow->hImageDC,rLine.left,rLine.top,rLine.right-rLine.left,rLine.bottom-rLine.top,g_pCachedWindow->hBackDC,rLine.left,rLine.top,SRCCOPY);
+			else
+			{x1 = 0; y1 = 0; w1 = w; h1 = h;}
+			// copy image at hdc
+			if (SkipBkgBlitting)  //image already at foreground
 			{
-				char req[255];
-				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
-				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rLine,&rLine,req);
-				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
-				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rThumb,&rThumb,req);
-				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
-				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rUpBtn,&rUpBtn,req);
-				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
-				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rDnBtn,&rDnBtn,req);
+				BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hImageDC,x+x1,y+y1,SRCCOPY);
 			}
+			else
+			{
+				BitBlt(hdc,x1,y1,w1,h1,g_pCachedWindow->hBackDC,x+x1,y+y1,SRCCOPY);
+			}
+			Frame->PaintCallbackProc(Frame->hWnd,hdc,&r,rgnUpdate, Frame->dwFlags,Frame->PaintData);
+			ru = r;
+			   DeleteObject(rgnUpdate);
 		}
-
-		SelectObject(hdc,o);
-		DeleteObject(n);
-		DeleteDC(hdc);
+		DeleteObject(Frame->UpdateRgn);
+		Frame->UpdateRgn = 0;
 	}
+	if ( !IsRectEmpty(&ru))
+	{
+		x1 = ru.left;
+		y1 = ru.top;
+		w1 = ru.right-ru.left;
+		h1 = ru.bottom-ru.top;
+	}
+	else {
+		x1 = 0; y1 = 0; w1 = w; h1 = h;
+	}
+
+	BitBlt(g_pCachedWindow->hImageDC,x+x1,y+y1,w1,h1,hdc,x1,y1,SRCCOPY);
+
+	if (GetWindowLongPtr(Frame->hWnd, GWL_STYLE) & WS_VSCROLL) {
+		//Draw vertical scroll bar
+		//
+		SCROLLBARINFO si = {0};
+		si.cbSize = sizeof(SCROLLBARINFO);
+		GetScrollBarInfo(Frame->hWnd, OBJID_VSCROLL, &si);
+
+		RECT rLine = (si.rcScrollBar);
+		RECT rUpBtn = rLine;
+		RECT rDnBtn = rLine;
+		RECT rThumb = rLine;
+
+		rUpBtn.bottom = rUpBtn.top+si.dxyLineButton;
+		rDnBtn.top = rDnBtn.bottom-si.dxyLineButton;
+		rThumb.top = rLine.top+si.xyThumbTop;
+		rThumb.bottom = rLine.top+si.xyThumbBottom;
+
+		int dx = Frame->wndSize.right-rLine.right;
+		int dy = -rLine.top + Frame->wndSize.top;
+
+		OffsetRect(&rLine, dx, dy);
+		OffsetRect(&rUpBtn, dx, dy);
+		OffsetRect(&rDnBtn, dx, dy);
+		OffsetRect(&rThumb, dx, dy);
+		BitBlt(g_pCachedWindow->hImageDC, rLine.left, rLine.top, rLine.right - rLine.left, rLine.bottom - rLine.top, g_pCachedWindow->hBackDC, rLine.left, rLine.top, SRCCOPY);
+
+		char req[255];
+		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
+		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rLine,&rLine,req);
+		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
+		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rThumb,&rThumb,req);
+		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
+		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rUpBtn,&rUpBtn,req);
+		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
+		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rDnBtn,&rDnBtn,req);
+	}
+
+	SelectObject(hdc, o);
+	DeleteObject(n);
+	DeleteDC(hdc);
 	return 1;
 }
 
@@ -3519,8 +3364,7 @@ int ske_BltBackImage (HWND destHWND, HDC destDC, RECT *BltClientRect)
 	POINT ptChildWnd = {0};
 	RECT from = {0};
 	RECT w = {0};
-	if (g_CluiData.fDisableSkinEngine)
-	{
+	if (g_CluiData.fDisableSkinEngine) {
 		FillRect(destDC,BltClientRect,GetSysColorBrush(COLOR_3DFACE));
 		return 0;
 	}
@@ -3544,40 +3388,34 @@ int ske_ReCreateBackImage(BOOL Erase,RECT *w)
 	GetClientRect(pcli->hwndContactList,&wnd);
 	if (w) wnd = *w;
 	//-- Check cached.
-	if (g_pCachedWindow == NULL)
-	{
+	if (g_pCachedWindow == NULL) {
 		//-- Create New Cache
-		{
-			g_pCachedWindow = (CURRWNDIMAGEDATA*)mir_calloc(sizeof(CURRWNDIMAGEDATA));
-			g_pCachedWindow->hScreenDC = GetDC(NULL);
-			g_pCachedWindow->hBackDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
-			g_pCachedWindow->hImageDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
-			g_pCachedWindow->Width = wnd.right-wnd.left;
-			g_pCachedWindow->Height = wnd.bottom-wnd.top;
-			if (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0)
-			{
-				g_pCachedWindow->hImageDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hImageDIBByte));
-				g_pCachedWindow->hBackDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hBackDIBByte));
-				g_pCachedWindow->hImageOld = (HBITMAP)SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageDIB);
-				g_pCachedWindow->hBackOld = (HBITMAP)SelectObject(g_pCachedWindow->hBackDC,g_pCachedWindow->hBackDIB);
-			}
+		g_pCachedWindow = (CURRWNDIMAGEDATA*)mir_calloc(sizeof(CURRWNDIMAGEDATA));
+		g_pCachedWindow->hScreenDC = GetDC(NULL);
+		g_pCachedWindow->hBackDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
+		g_pCachedWindow->hImageDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
+		g_pCachedWindow->Width = wnd.right-wnd.left;
+		g_pCachedWindow->Height = wnd.bottom-wnd.top;
+		if (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0) {
+			g_pCachedWindow->hImageDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hImageDIBByte));
+			g_pCachedWindow->hBackDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hBackDIBByte));
+			g_pCachedWindow->hImageOld = (HBITMAP)SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageDIB);
+			g_pCachedWindow->hBackOld = (HBITMAP)SelectObject(g_pCachedWindow->hBackDC,g_pCachedWindow->hBackDIB);
 		}
 		IsNewCache = 1;
 	}
-	if (g_pCachedWindow->Width != wnd.right-wnd.left || g_pCachedWindow->Height != wnd.bottom-wnd.top)
-	{
+
+	if (g_pCachedWindow->Width != wnd.right-wnd.left || g_pCachedWindow->Height != wnd.bottom-wnd.top) {
 		HBITMAP hb1 = NULL,hb2 = NULL;
 		g_pCachedWindow->Width = wnd.right-wnd.left;
 		g_pCachedWindow->Height = wnd.bottom-wnd.top;
-		if (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0)
-		{
+		if (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0) {
 			hb1 = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hImageDIBByte));
 			hb2 = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hBackDIBByte));
 			SelectObject(g_pCachedWindow->hImageDC,hb1);
 			SelectObject(g_pCachedWindow->hBackDC,hb2);
 		}
-		else
-		{
+		else {
 			SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageOld);
 			SelectObject(g_pCachedWindow->hBackDC,g_pCachedWindow->hBackOld);
 		}
@@ -3587,9 +3425,8 @@ int ske_ReCreateBackImage(BOOL Erase,RECT *w)
 		g_pCachedWindow->hBackDIB = hb2;
 		IsNewCache = 1;
 	}
-	if ((Erase || IsNewCache ) &&  (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0))
-	{
 
+	if ((Erase || IsNewCache ) &&  (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0)) {
 		hb2 = ske_CreateDIB32(g_pCachedWindow->Width,g_pCachedWindow->Height);
 		SelectObject(g_pCachedWindow->hBackDC,hb2);
 		DeleteObject(g_pCachedWindow->hBackDIB);
@@ -3600,45 +3437,42 @@ int ske_ReCreateBackImage(BOOL Erase,RECT *w)
 	}
 	return 1;
 }
+
 int ske_DrawNonFramedObjects(BOOL Erase,RECT *r)
 {
-	RECT w,wnd;
+	RECT w, wnd;
 	if (r) w = *r;
-	else CLUI_SizingGetWindowRect(pcli->hwndContactList,&w);
-	if ( !g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE,0);
+	else CLUI_SizingGetWindowRect(pcli->hwndContactList, &w);
+	if (!g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE, 0);
 	if (g_pCachedWindow == NULL)
 		return ske_ValidateFrameImageProc(&w);
 
 	wnd = w;
 	OffsetRect(&w, -w.left, -w.top);
-	if (Erase)
-	{
+	if (Erase) {
 		HBITMAP hb2;
-		hb2 = ske_CreateDIB32(g_pCachedWindow->Width,g_pCachedWindow->Height);
-		SelectObject(g_pCachedWindow->hBackDC,hb2);
+		hb2 = ske_CreateDIB32(g_pCachedWindow->Width, g_pCachedWindow->Height);
+		SelectObject(g_pCachedWindow->hBackDC, hb2);
 		DeleteObject(g_pCachedWindow->hBackDIB);
 		g_pCachedWindow->hBackDIB = hb2;
 	}
 
-	SkinDrawGlyph(g_pCachedWindow->hBackDC,&w,&w,"Main,ID=Background");
+	SkinDrawGlyph(g_pCachedWindow->hBackDC, &w, &w, "Main,ID=Background");
+
 	//--Draw frames captions
-	{
-		int i;
-		for (i=0;i < g_nFramesCount;i++)
-			if (g_pfwFrames[i].TitleBar.ShowTitleBar && g_pfwFrames[i].visible && !g_pfwFrames[i].floating)
-			{
-				RECT rc;
-				SetRect(&rc,g_pfwFrames[i].wndSize.left,g_pfwFrames[i].wndSize.top-g_nTitleBarHeight-g_CluiData.nGapBetweenTitlebar,g_pfwFrames[i].wndSize.right,g_pfwFrames[i].wndSize.top-g_CluiData.nGapBetweenTitlebar);
-				//GetWindowRect(Frames[i].TitleBar.hwnd,&rc);
-				//OffsetRect(&rc,-wnd.left,-wnd.top);
-				Sync( DrawTitleBar, g_pCachedWindow->hBackDC, &rc, g_pfwFrames[i].id );
-			}
+	for (int i = 0; i < g_nFramesCount; i++) {
+		if (g_pfwFrames[i].TitleBar.ShowTitleBar && g_pfwFrames[i].visible && !g_pfwFrames[i].floating) {
+			RECT rc;
+			SetRect(&rc, g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.top - g_nTitleBarHeight - g_CluiData.nGapBetweenTitlebar, g_pfwFrames[i].wndSize.right, g_pfwFrames[i].wndSize.top - g_CluiData.nGapBetweenTitlebar);
+			Sync(DrawTitleBar, g_pCachedWindow->hBackDC, &rc, g_pfwFrames[i].id);
+		}
 	}
 	g_mutex_bLockUpdating = 1;
 
 	flag_bJustDrawNonFramedObjects = 1;
 	return 0;
 }
+
 int ske_ValidateFrameImageProc(RECT *r)                                // Calling queued frame paint procs and refresh image
 {
 	RECT wnd = {0};
@@ -3646,28 +3480,27 @@ int ske_ValidateFrameImageProc(RECT *r)                                // Callin
 	BOOL IsForceAllPainting = 0;
 	if (r) wnd = *r;
 	else GetWindowRect(pcli->hwndContactList,&wnd);
-	if (wnd.right-wnd.left == 0 || wnd.bottom-wnd.top == 0) return 0;
+	if (wnd.right-wnd.left == 0 || wnd.bottom-wnd.top == 0)
+		return 0;
+
 	g_mutex_bLockUpdating = 1;
+
 	//-- Check cached.
-	if (g_pCachedWindow == NULL)
-	{
+	if (g_pCachedWindow == NULL) {
 		//-- Create New Cache
-		{
-			g_pCachedWindow = (CURRWNDIMAGEDATA*)mir_calloc(sizeof(CURRWNDIMAGEDATA));
-			g_pCachedWindow->hScreenDC = GetDC(NULL);
-			g_pCachedWindow->hBackDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
-			g_pCachedWindow->hImageDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
-			g_pCachedWindow->Width = wnd.right-wnd.left;
-			g_pCachedWindow->Height = wnd.bottom-wnd.top;
-			g_pCachedWindow->hImageDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hImageDIBByte));
-			g_pCachedWindow->hBackDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hBackDIBByte));
-			g_pCachedWindow->hImageOld = (HBITMAP)SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageDIB);
-			g_pCachedWindow->hBackOld = (HBITMAP)SelectObject(g_pCachedWindow->hBackDC,g_pCachedWindow->hBackDIB);
-		}
+		g_pCachedWindow = (CURRWNDIMAGEDATA*)mir_calloc(sizeof(CURRWNDIMAGEDATA));
+		g_pCachedWindow->hScreenDC = GetDC(NULL);
+		g_pCachedWindow->hBackDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
+		g_pCachedWindow->hImageDC = CreateCompatibleDC(g_pCachedWindow->hScreenDC);
+		g_pCachedWindow->Width = wnd.right-wnd.left;
+		g_pCachedWindow->Height = wnd.bottom-wnd.top;
+		g_pCachedWindow->hImageDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hImageDIBByte));
+		g_pCachedWindow->hBackDIB = ske_CreateDIB32Point(g_pCachedWindow->Width,g_pCachedWindow->Height,(void**)&(g_pCachedWindow->hBackDIBByte));
+		g_pCachedWindow->hImageOld = (HBITMAP)SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageDIB);
+		g_pCachedWindow->hBackOld = (HBITMAP)SelectObject(g_pCachedWindow->hBackDC,g_pCachedWindow->hBackDIB);
 		IsNewCache = 1;
 	}
-	if (g_pCachedWindow->Width != wnd.right-wnd.left || g_pCachedWindow->Height != wnd.bottom-wnd.top)
-	{
+	if (g_pCachedWindow->Width != wnd.right-wnd.left || g_pCachedWindow->Height != wnd.bottom-wnd.top) {
 		HBITMAP hb1,hb2;
 		g_pCachedWindow->Width = wnd.right-wnd.left;
 		g_pCachedWindow->Height = wnd.bottom-wnd.top;
@@ -3681,39 +3514,34 @@ int ske_ValidateFrameImageProc(RECT *r)                                // Callin
 		g_pCachedWindow->hBackDIB = hb2;
 		IsNewCache = 1;
 	}
-	if (IsNewCache)
-	{
+	if (IsNewCache) {
 		ske_DrawNonFramedObjects(0, &wnd);
 		IsForceAllPainting = 1;
 	}
-	if (flag_bJustDrawNonFramedObjects)
-	{
+	if (flag_bJustDrawNonFramedObjects) {
 		IsForceAllPainting = 1;
 		flag_bJustDrawNonFramedObjects = 0;
 	}
-	if (IsForceAllPainting)
-	{
+	if (IsForceAllPainting) {
 		BitBlt(g_pCachedWindow->hImageDC, 0, 0, g_pCachedWindow->Width,g_pCachedWindow->Height,g_pCachedWindow->hBackDC, 0, 0, SRCCOPY);
 		Sync( QueueAllFramesUpdating, (BYTE)1 );
 	}
 	//-- Validating frames
-	{
-		int i;
-		for (i=0;i < g_nFramesCount;i++)
-			if (g_pfwFrames[i].PaintCallbackProc && g_pfwFrames[i].visible && !g_pfwFrames[i].floating )
-				if (g_pfwFrames[i].bQueued || IsForceAllPainting)
-					ske_ValidateSingleFrameImage(&g_pfwFrames[i],IsForceAllPainting);
-	}
+	for (int i=0; i < g_nFramesCount; i++)
+		if (g_pfwFrames[i].PaintCallbackProc && g_pfwFrames[i].visible && !g_pfwFrames[i].floating)
+			if (g_pfwFrames[i].bQueued || IsForceAllPainting)
+				ske_ValidateSingleFrameImage(&g_pfwFrames[i], IsForceAllPainting);
+
 	g_mutex_bLockUpdating = 1;
 	ModernSkinButtonRedrawAll(0);
 	g_mutex_bLockUpdating = 0;
-	if ( !mutex_bLockUpdate)  ske_UpdateWindowImageRect(&wnd);
+	if ( !mutex_bLockUpdate)
+		ske_UpdateWindowImageRect(&wnd);
+
 	//-- Clear queue
-	{
-		Sync( QueueAllFramesUpdating, (BYTE)0 );
-		flag_bUpdateQueued = 0;
-		g_flag_bPostWasCanceled = 0;
-	}
+	Sync(QueueAllFramesUpdating, 0);
+	flag_bUpdateQueued = 0;
+	g_flag_bPostWasCanceled = 0;
 	return 1;
 }
 
@@ -3721,18 +3549,16 @@ int ske_UpdateWindowImage()
 {
 	if (MirandaExiting())
 		return 0;
-	if (g_CluiData.fLayered)
-	{
+
+	if (g_CluiData.fLayered) {
 		RECT r;
 		GetWindowRect(pcli->hwndContactList,&r);
 		return ske_UpdateWindowImageRect(&r);
 	}
-	else
-		ske_ReCreateBackImage(FALSE,0);
-	ske_ApplyTransluency();
+	else ske_ReCreateBackImage(FALSE,0);
+	ske_ApplyTranslucency();
 	return 0;
 }
-
 
 int ske_UpdateWindowImageRect(RECT *r)                                     // Update window with current image and
 {
@@ -3740,11 +3566,10 @@ int ske_UpdateWindowImageRect(RECT *r)                                     // Up
 	//else Update using current alpha
 	RECT wnd = *r;
 
-	if ( !g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE,0);
+	if (!g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE, 0);
 	if (g_pCachedWindow == NULL) return ske_ValidateFrameImageProc(&wnd);
 	if (g_pCachedWindow->Width != wnd.right-wnd.left || g_pCachedWindow->Height != wnd.bottom-wnd.top) return ske_ValidateFrameImageProc(&wnd);
-	if (g_flag_bFullRepaint)
-	{
+	if (g_flag_bFullRepaint) {
 		g_flag_bFullRepaint = 0;
 		return ske_ValidateFrameImageProc(&wnd);
 	}
@@ -3752,7 +3577,7 @@ int ske_UpdateWindowImageRect(RECT *r)                                     // Up
 	return 0;
 }
 
-void ske_ApplyTransluency()
+void ske_ApplyTranslucency()
 {
 	int IsTransparancy;
 	HWND hwnd = pcli->hwndContactList;
@@ -3761,9 +3586,10 @@ void ske_ApplyTransluency()
 	IsTransparancy = g_CluiData.fSmoothAnimation || g_bTransparentFlag;
 	if ( !g_bTransparentFlag && !g_CluiData.fSmoothAnimation && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
-	if ( !g_CluiData.fLayered && IsTransparancy)
-	{
-		if ( !layered) SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+
+	if ( !g_CluiData.fLayered && IsTransparancy) {
+		if (!layered)
+			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 		SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)g_CluiData.bCurrentAlpha, LWA_ALPHA);
 	}
 
@@ -3774,43 +3600,37 @@ void ske_ApplyTransluency()
 int ske_JustUpdateWindowImage()
 {
 	RECT r;
-	if ( !g_CluiData.fLayered)
-	{
-		ske_ApplyTransluency();
+	if (!g_CluiData.fLayered) {
+		ske_ApplyTranslucency();
 		return 0;
 	}
 	GetWindowRect(pcli->hwndContactList,&r);
 	return ske_JustUpdateWindowImageRect(&r);
 }
+
+// Update window image
 int ske_JustUpdateWindowImageRect(RECT *rty)
-//Update window image
 {
-	BLENDFUNCTION bf = {AC_SRC_OVER, 0, g_CluiData.bCurrentAlpha, AC_SRC_ALPHA };
-	POINT dest = {0}, src = {0};
-	int res;
-	RECT wnd = *rty;
-
-	RECT rect;
-	SIZE sz = {0};
-
-	if ( !g_CluiData.fLayered)
-	{
-		ske_ApplyTransluency();
+	if (!g_CluiData.fLayered) {
+		ske_ApplyTranslucency();
 		return 0;
 	}
-	if ( !pcli->hwndContactList) return 0;
-	rect = wnd;
+	if (!pcli->hwndContactList)
+		return 0;
+
+	RECT wnd = *rty;
+	RECT rect = wnd;
+	POINT dest = { 0 }, src = { 0 };
 	dest.x = rect.left;
 	dest.y = rect.top;
-	sz.cx = rect.right-rect.left;
-	sz.cy = rect.bottom-rect.top;
-	if (g_CluiData.fLayered)
-	{
-		if ( !(GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE)&WS_EX_LAYERED))
-			SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) |WS_EX_LAYERED);
-		Sync( SetAlpha, g_CluiData.bCurrentAlpha );
+	SIZE sz = { rect.right - rect.left, rect.bottom - rect.top };
+	if (g_CluiData.fLayered) {
+		if (!(GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE)&WS_EX_LAYERED))
+			SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+		Sync(SetAlpha, g_CluiData.bCurrentAlpha);
 
-		res = UpdateLayeredWindow(pcli->hwndContactList,g_pCachedWindow->hScreenDC,&dest,&sz,g_pCachedWindow->hImageDC,&src,RGB(1,1,1),&bf,ULW_ALPHA);
+		BLENDFUNCTION bf = { AC_SRC_OVER, 0, g_CluiData.bCurrentAlpha, AC_SRC_ALPHA };
+		UpdateLayeredWindow(pcli->hwndContactList, g_pCachedWindow->hScreenDC, &dest, &sz, g_pCachedWindow->hImageDC, &src, RGB(1, 1, 1), &bf, ULW_ALPHA);
 		g_CluiData.fAeroGlass = false;
 		CLUI_UpdateAeroGlass();
 	}
@@ -3841,17 +3661,16 @@ static DWORD ske_HexToARGB(char * Hex)
 {
 	char buf[10] = {0};
 	char buf2[11] = {0};
-	char * st;
-	BYTE alpha;
-	DWORD AARRGGBB = 0;
 	mir_snprintf(buf, SIZEOF(buf), "%s\n", Hex);
 	if (buf[1] == 'x' || buf[1] == 'X')
 		mir_snprintf(buf2, SIZEOF(buf2), "0x%s\n", buf+2);
 	else
 		mir_snprintf(buf2, SIZEOF(buf2), "0x%s\n", buf);
 	buf2[10] = '\0';
-	AARRGGBB = strtoul(buf2,&st,16);
-	alpha = (BYTE)((AARRGGBB&0xFF000000)>>24);
+
+	char *st;
+	DWORD AARRGGBB = strtoul(buf2, &st, 16);
+	BYTE alpha = (BYTE)((AARRGGBB & 0xFF000000) >> 24);
 	alpha = 255-((alpha == 0)?255:alpha);
 	AARRGGBB = (alpha << 24)+((AARRGGBB&0x00FF0000)>>16)+((AARRGGBB&0x000000FF) << 16)+(AARRGGBB&0x0000FF00);
 	return AARRGGBB;
@@ -3872,15 +3691,14 @@ static TCHAR *ske_ReAppend(TCHAR *lfirst, TCHAR * lsecond, int len)
 TCHAR* ske_ReplaceVar(TCHAR *var)
 {
 	if ( !var) return mir_tstrdup(_T(""));
-	if ( !lstrcmpi(var,_T("Profile")))
-	{
+	if ( !lstrcmpi(var,_T("Profile"))) {
 		char buf[MAX_PATH] = {0};
 		CallService(MS_DB_GETPROFILENAME,(WPARAM)MAX_PATH,(LPARAM)buf);
-		{
-			int i = strlen(buf);
-			while (buf[i] != '.' && i>0) i--;
-			buf[i] = '\0';
-		}
+
+		int i = strlen(buf);
+		while (buf[i] != '.' && i>0) i--;
+		buf[i] = '\0';
+
 		mir_free(var);
 		return mir_a2u(buf);
 	}
@@ -3888,6 +3706,7 @@ TCHAR* ske_ReplaceVar(TCHAR *var)
 	mir_free(var);
 	return mir_tstrdup(_T(""));
 }
+
 TCHAR *ske_ParseText(TCHAR *stzText)
 {
 	int len = lstrlen(stzText);
@@ -3895,45 +3714,36 @@ TCHAR *ske_ParseText(TCHAR *stzText)
 	int stpos = 0;
 	int curpos = 0;
 
-	while(curpos < len)
-	{
+	while (curpos < len) {
 		//1 find first %
-		while(curpos < len && stzText[curpos] != (TCHAR)'%') curpos++;
-		if (curpos < len) //% found
-		{
+		while (curpos < len && stzText[curpos] != (TCHAR)'%')
+			curpos++;
+		if (curpos < len) { //% found
 			if (curpos-stpos>0)
 				result = ske_ReAppend(result,stzText+stpos,curpos-stpos);
 			stpos = curpos+1;
 			curpos++;
 			//3 find second %
-			while(curpos < len && stzText[curpos] != (TCHAR)'%') curpos++;
-			if (curpos < len)
-			{
-				if (curpos-stpos>0)
-				{
-					TCHAR *var = (TCHAR *)mir_alloc((curpos-stpos+1)*sizeof(TCHAR));
-					memmove(var,stzText+stpos,(curpos-stpos)*sizeof(TCHAR));
-					var[curpos-stpos] = (TCHAR)'\0';
-					var = ske_ReplaceVar(var);
-					result = ske_ReAppend(result,var,0);
-					mir_free(var);
-				}
-				else result = ske_ReAppend(result,_T("%"),0);
-
+			while(curpos < len && stzText[curpos] != (TCHAR)'%')
 				curpos++;
-				stpos = curpos;
-			}
-			else
-			{
-				//  if (curpos-stpos>0)
-				//    result = ske_ReAppend(result,stzText+stpos,curpos-stpos);
+			if (curpos >= len)
 				break;
+			if (curpos - stpos > 0) {
+				TCHAR *var = (TCHAR *)mir_alloc((curpos - stpos + 1)*sizeof(TCHAR));
+				memmove(var, stzText + stpos, (curpos - stpos)*sizeof(TCHAR));
+				var[curpos - stpos] = (TCHAR)'\0';
+				var = ske_ReplaceVar(var);
+				result = ske_ReAppend(result, var, 0);
+				mir_free(var);
 			}
+			else result = ske_ReAppend(result, _T("%"), 0);
+
+			curpos++;
+			stpos = curpos;
 		}
-		else
-		{
-			if (curpos-stpos>0)
-				result = ske_ReAppend(result,stzText+stpos,curpos-stpos);
+		else {
+			if (curpos - stpos > 0)
+				result = ske_ReAppend(result, stzText + stpos, curpos - stpos);
 			break;
 		}
 	}
@@ -3944,98 +3754,43 @@ TCHAR *ske_ParseText(TCHAR *stzText)
 *   szGlyphTextID and Define string is:
 *   t[szGlyphTextID] = s[HostObjectID],[Left],[Top],[Right],[Bottom],[LTRBHV],[FontID],[Color1],[reservedforColor2],[Text]
 */
-static void OLDske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineString,SKINOBJECTSLIST *Skin)
-{
-
-	GLYPHOBJECT *globj = NULL;
-	{
-		char buf[255] = {0};
-		GetParamN(szDefineString,buf,sizeof(buf), 0, ',',TRUE);
-		if (strlen(buf))
-		{
-			SKINOBJECTDESCRIPTOR * lpobj;
-			lpobj = ske_FindObjectByName(buf,OT_GLYPHOBJECT,Skin);
-			if (lpobj)
-				globj = (GLYPHOBJECT*)lpobj->Data;
-		}
-		if (globj)
-		{
-			GLYPHTEXT * glText;
-
-			if ( !globj->plTextList)
-			{
-				globj->plTextList = List_Create(0, 1);
-				globj->plTextList->sortFunc = ske_SortTextGlyphObjectFunc;
-			}
-			glText = (GLYPHTEXT*)mir_calloc(sizeof(GLYPHTEXT));
-			glText->szGlyphTextID = mir_strdup(szGlyphTextID);
-			glText->szObjectName = mir_strdup(buf);
-			glText->iLeft = atoi(GetParamN(szDefineString,buf,sizeof(buf),1,',',TRUE));
-			glText->iTop = atoi(GetParamN(szDefineString,buf,sizeof(buf),2,',',TRUE));
-			glText->iRight = atoi(GetParamN(szDefineString,buf,sizeof(buf),3,',',TRUE));
-			glText->iBottom = atoi(GetParamN(szDefineString,buf,sizeof(buf),4,',',TRUE));
-			{
-				memset(buf, 0, 6);
-				GetParamN(szDefineString,buf,sizeof(buf),5,',',TRUE);
-				buf[0] &= 95; buf[1] &= 95; buf[2] &= 95; buf[3] &= 95; buf[4] &= 95; buf[5] &= 95;   //to uppercase: &01011111 (0-95)
-				glText->RelativeFlags =
-					(buf[0] == 'C'?1:((buf[0] == 'R')?2:0))       //[BC][RC][BC][RC] --- Left relative
-					|(buf[1] == 'C'?4:((buf[1] == 'B')?8:0))       //  |   |   |--------- Top relative
-					|(buf[2] == 'C'?16:((buf[2] == 'R')?32:0))     //  |   |--------------Right relative
-					|(buf[3] == 'C'?64:((buf[3] == 'B')?128:0));   //  |------------------Bottom relative
-				glText->dwFlags = (buf[4] == 'C'?DT_CENTER:((buf[4] == 'R')?DT_RIGHT:DT_LEFT))
-					|(buf[5] == 'C'?DT_VCENTER:((buf[5] == 'B')?DT_BOTTOM:DT_TOP));
-			}
-			glText->szFontID = mir_strdup(GetParamN(szDefineString,buf,sizeof(buf),6,',',TRUE));
-
-			glText->dwColor = ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),7,',',TRUE));
-			glText->dwShadow = ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),8,',',TRUE));
-			glText->stValueText = mir_a2u(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
-			glText->stText = ske_ParseText(glText->stValueText);
-			List_Insert(globj->plTextList,(void*)glText,globj->plTextList->realCount);
-			qsort(globj->plTextList->items,globj->plTextList->realCount,sizeof(void*),(int(*)(const void*, const void*))globj->plTextList->sortFunc);
-		}
-	}
-}
-
 
 static void ske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineString,SKINOBJECTSLIST *Skin)
 {
 	char buf[255] = {0};
 	GetParamN(szDefineString,buf,sizeof(buf), 0, ',',TRUE);
-	if (strlen(buf))
+	if (buf[0] == 0)
+		return;
+
+	GLYPHTEXT *glText = (GLYPHTEXT*)mir_calloc(sizeof(GLYPHTEXT));
+	glText->szGlyphTextID = mir_strdup(szGlyphTextID);
+	glText->szObjectName = mir_strdup(buf);
+	glText->iLeft = atoi(GetParamN(szDefineString,buf,sizeof(buf),1,',',TRUE));
+	glText->iTop = atoi(GetParamN(szDefineString,buf,sizeof(buf),2,',',TRUE));
+	glText->iRight = atoi(GetParamN(szDefineString,buf,sizeof(buf),3,',',TRUE));
+	glText->iBottom = atoi(GetParamN(szDefineString,buf,sizeof(buf),4,',',TRUE));
 	{
-		GLYPHTEXT * glText;
-		glText = (GLYPHTEXT*)mir_calloc(sizeof(GLYPHTEXT));
-		glText->szGlyphTextID = mir_strdup(szGlyphTextID);
-		glText->szObjectName = mir_strdup(buf);
-		glText->iLeft = atoi(GetParamN(szDefineString,buf,sizeof(buf),1,',',TRUE));
-		glText->iTop = atoi(GetParamN(szDefineString,buf,sizeof(buf),2,',',TRUE));
-		glText->iRight = atoi(GetParamN(szDefineString,buf,sizeof(buf),3,',',TRUE));
-		glText->iBottom = atoi(GetParamN(szDefineString,buf,sizeof(buf),4,',',TRUE));
-		{
-			memset(buf, 0, 6);
-			GetParamN(szDefineString,buf,sizeof(buf),5,',',TRUE);
-			buf[0] &= 95; buf[1] &= 95; buf[2] &= 95; buf[3] &= 95; buf[4] &= 95; buf[5] &= 95;   //to uppercase: &01011111 (0-95)
-			glText->RelativeFlags =
-				(buf[0] == 'C'?1:((buf[0] == 'R')?2:0))       //[BC][RC][BC][RC] --- Left relative
-				|(buf[1] == 'C'?4:((buf[1] == 'B')?8:0))       //  |   |   |--------- Top relative
-				|(buf[2] == 'C'?16:((buf[2] == 'R')?32:0))     //  |   |--------------Right relative
-				|(buf[3] == 'C'?64:((buf[3] == 'B')?128:0));   //  |------------------Bottom relative
-			glText->dwFlags = (buf[4] == 'C'?DT_CENTER:((buf[4] == 'R')?DT_RIGHT:DT_LEFT))
-				|(buf[5] == 'C'?DT_VCENTER:((buf[5] == 'B')?DT_BOTTOM:DT_TOP));
-		}
-		glText->szFontID = mir_strdup(GetParamN(szDefineString,buf,sizeof(buf),6,',',TRUE));
-
-		glText->dwColor = ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),7,',',TRUE));
-		glText->dwShadow = ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),8,',',TRUE));
-		glText->stValueText = mir_a2u(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
-		glText->stText = ske_ParseText(glText->stValueText);
-
-		if ( !Skin->pTextList)
-			Skin->pTextList = List_Create(0, 1);
-		List_InsertPtr(Skin->pTextList,glText);
+		memset(buf, 0, 6);
+		GetParamN(szDefineString,buf,sizeof(buf),5,',',TRUE);
+		buf[0] &= 95; buf[1] &= 95; buf[2] &= 95; buf[3] &= 95; buf[4] &= 95; buf[5] &= 95;   //to uppercase: &01011111 (0-95)
+		glText->RelativeFlags =
+			(buf[0] == 'C'?1:((buf[0] == 'R')?2:0))       //[BC][RC][BC][RC] --- Left relative
+			|(buf[1] == 'C'?4:((buf[1] == 'B')?8:0))       //  |   |   |--------- Top relative
+			|(buf[2] == 'C'?16:((buf[2] == 'R')?32:0))     //  |   |--------------Right relative
+			|(buf[3] == 'C'?64:((buf[3] == 'B')?128:0));   //  |------------------Bottom relative
+		glText->dwFlags = (buf[4] == 'C'?DT_CENTER:((buf[4] == 'R')?DT_RIGHT:DT_LEFT))
+			|(buf[5] == 'C'?DT_VCENTER:((buf[5] == 'B')?DT_BOTTOM:DT_TOP));
 	}
+	glText->szFontID = mir_strdup(GetParamN(szDefineString,buf,sizeof(buf),6,',',TRUE));
+
+	glText->dwColor = ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),7,',',TRUE));
+	glText->dwShadow = ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),8,',',TRUE));
+	glText->stValueText = mir_a2u(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
+	glText->stText = ske_ParseText(glText->stValueText);
+
+	if ( !Skin->pTextList)
+		Skin->pTextList = List_Create(0, 1);
+	List_InsertPtr(Skin->pTextList,glText);
 }
 
 
@@ -4085,97 +3840,49 @@ static void ske_AddParseSkinFont(char * szFontID,char * szDefineString,SKINOBJEC
 }
 
 /*
-HICON ske_CreateJoinedIcon_Old(HICON hBottom, HICON hTop,BYTE alpha)
-{
-HDC tempDC;
-HICON res = NULL;
-HBITMAP oImage,nImage;
-HBITMAP nMask;
-ICONINFO iNew = {0};
-ICONINFO iciBottom = {0};
-ICONINFO iciTop = {0};
-BITMAP bmp = {0};
-SIZE sz = {0};
-{
-if ( !GetIconInfo(hBottom,&iciBottom)) return NULL;
-GetObject(iciBottom.hbmColor,sizeof(BITMAP),&bmp);
-sz.cx = bmp.bmWidth; sz.cy = bmp.bmHeight;
-if (iciBottom.hbmColor) DeleteObject(iciBottom.hbmColor);
-if (iciBottom.hbmMask) DeleteObject(iciBottom.hbmMask);
-}
-if (sz.cx == 0 || sz.cy == 0) return NULL;
-tempDC = CreateCompatibleDC(NULL);
-nImage = ske_CreateDIB32(sz.cx,sz.cy);
-oImage = SelectObject(tempDC,nImage);
-ske_DrawIconEx(tempDC, 0, 0, hBottom,sz.cx,sz.cy, 0, NULL,DI_NORMAL);
-ske_DrawIconEx(tempDC, 0, 0, hTop,sz.cx,sz.cy, 0, NULL,DI_NORMAL|(alpha << 24));
-SelectObject(tempDC,oImage);
-DeleteDC(tempDC);
-{
-BYTE * p = malloc(sz.cx*sz.cy/8+10);
-nMask = CreateBitmap(sz.cx,sz.cy,1,1,(void*)p);
-iNew.fIcon = TRUE;
-iNew.hbmColor = nImage;
-iNew.hbmMask = nMask;
-res = CreateIconIndirect(&iNew);
-if ( !res)
-TRACE_ERROR();
-DeleteObject(nImage);
-DeleteObject(nMask);
-free(p);
-}
-return res;
-}
-*/
-
-
-/*
-*   ske_CheckHasAlfaChannel - checks if image has at least one BYTE in alpha chennel
-*                  that is not a 0. (is image real 32 bit or just 24 bit)
-*/
+ *   ske_CheckHasAlfaChannel - checks if image has at least one BYTE in alpha chennel
+ *                  that is not a 0. (is image real 32 bit or just 24 bit)
+ */
 static BOOL ske_CheckHasAlfaChannel(BYTE * from, int widthByte, int height)
 {
-	int i=0, j = 0;
-	DWORD * pt = (DWORD*)from;
-	while (j < height)
-	{
-		BYTE * add = (BYTE*)pt+widthByte;
-		while (pt < (DWORD*)add)
-		{
-			if ((*pt&0xFF000000) != 0) return TRUE;
+	DWORD *pt = (DWORD*)from;
+	for (int j = 0; j < height; j++) {
+		BYTE *add = (BYTE*)pt+widthByte;
+		while (pt < (DWORD*)add) {
+			if ((*pt & 0xFF000000) != 0)
+				return TRUE;
 			pt++;
 		}
 		pt = (DWORD*)(from+widthByte*j);
-		j++;
 	}
 	return FALSE;
 }
 
 /*
-*   ske_CheckIconHasMask - checks if mask image has at least one that is not a 0.
-*                  Not sure is ir required or not
-*/
+ *   ske_CheckIconHasMask - checks if mask image has at least one that is not a 0.
+ *                  Not sure is ir required or not
+ */
 static BOOL ske_CheckIconHasMask(BYTE * from)
 {
-	int i=0;
-	for (i=0; i < 16*16/8; i++)
-	{
-		if (from[i] != 0) return TRUE;
-	}
+	for (int i=0; i < 16*16/8; i++)
+		if (from[i] != 0)
+			return TRUE;
+
 	return FALSE;
 }
 
 /*
-*   ske_GetMaskBit - return value of apropriate mask bit in line at x position
-*/
+ *   ske_GetMaskBit - return value of apropriate mask bit in line at x position
+ */
 static BOOL ske_GetMaskBit(BYTE *line, int x)
 {
 	return ((*(line+(x>>3)))&(0x01 << (7-(x&0x07)))) != 0;
 }
+
 /*
-*    ske_Blend  - alpha ske_Blend ARGB values of 2 pixels. X1 - underlaying,
-*            X2 - overlaying points.
-*/
+ *    ske_Blend  - alpha ske_Blend ARGB values of 2 pixels. X1 - underlaying,
+ *            X2 - overlaying points.
+ */
 
 static DWORD ske_Blend(DWORD X1,DWORD X2, BYTE alpha)
 {
@@ -4204,145 +3911,130 @@ static DWORD ske_Blend(DWORD X1,DWORD X2, BYTE alpha)
 
 	if (ar == 0) return 0;
 
-	//else
-	{
-		WORD arm = ar*255;
-		WORD rr = (((WORD)r1*am+(WORD)r2*a2*255))/arm;
-		WORD gr = (((WORD)g1*am+(WORD)g2*a2*255))/arm;
-		WORD br = (((WORD)b1*am+(WORD)b2*a2*255))/arm;
-		return (ar << 24)|(rr << 16)|(gr << 8)|br;
-	}
-
+	WORD arm = ar*255;
+	WORD rr = (((WORD)r1*am+(WORD)r2*a2*255))/arm;
+	WORD gr = (((WORD)g1*am+(WORD)g2*a2*255))/arm;
+	WORD br = (((WORD)b1*am+(WORD)b2*a2*255))/arm;
+	return (ar << 24)|(rr << 16)|(gr << 8)|br;
 }
+
 /*
-*    CreateJoinedIcon  - creates new icon by drawing hTop over hBottom.
-*/
+ *    CreateJoinedIcon  - creates new icon by drawing hTop over hBottom.
+ */
+
 HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 {
-	HDC tempDC;
-	HICON res = NULL;
-	HBITMAP oImage,nImage;
 	HBITMAP nMask;
-	BITMAP bmp = {0};
+	BITMAP bmp = { 0 };
 	BYTE *ptPixels;
-	ICONINFO iNew = {0};
-	ICONINFO iciBottom = {0};
-	ICONINFO iciTop = {0};
+	ICONINFO iNew = { 0 };
+	ICONINFO iciBottom = { 0 };
+	ICONINFO iciTop = { 0 };
 
-	BITMAP bmp_top = {0};
-	BITMAP bmp_top_mask = {0};
+	BITMAP bmp_top = { 0 };
+	BITMAP bmp_top_mask = { 0 };
 
-	BITMAP bmp_bottom = {0};
-	BITMAP bmp_bottom_mask = {0};
+	BITMAP bmp_bottom = { 0 };
+	BITMAP bmp_bottom_mask = { 0 };
 
-	tempDC = CreateCompatibleDC(NULL);
-	nImage = ske_CreateDIB32Point(16,16,(void**)&ptPixels);
-	oImage = (HBITMAP)SelectObject(tempDC,nImage);
+	HDC tempDC = CreateCompatibleDC(NULL);
+	HBITMAP nImage = ske_CreateDIB32Point(16, 16, (void**)&ptPixels);
+	HBITMAP oImage = (HBITMAP)SelectObject(tempDC, nImage);
 
-	GetIconInfo(hBottom,&iciBottom);
-	GetObject(iciBottom.hbmColor,sizeof(BITMAP),&bmp_bottom);
-	GetObject(iciBottom.hbmMask,sizeof(BITMAP),&bmp_bottom_mask);
+	GetIconInfo(hBottom, &iciBottom);
+	GetObject(iciBottom.hbmColor, sizeof(BITMAP), &bmp_bottom);
+	GetObject(iciBottom.hbmMask, sizeof(BITMAP), &bmp_bottom_mask);
 
-	GetIconInfo(hTop,&iciTop);
-	GetObject(iciTop.hbmColor,sizeof(BITMAP),&bmp_top);
-	GetObject(iciTop.hbmMask,sizeof(BITMAP),&bmp_top_mask);
+	GetIconInfo(hTop, &iciTop);
+	GetObject(iciTop.hbmColor, sizeof(BITMAP), &bmp_top);
+	GetObject(iciTop.hbmMask, sizeof(BITMAP), &bmp_top_mask);
 
-	if (bmp_bottom.bmBitsPixel == 32  && bmp_top.bmBitsPixel == 32)
-	{
-		BYTE * BottomBuffer, * TopBuffer, * BottomMaskBuffer, * TopMaskBuffer;
-		BYTE * bb, * tb, * bmb, * tmb;
-		BYTE * db = ptPixels;
-		int vstep_d = 16*4;
+	if (bmp_bottom.bmBitsPixel == 32 && bmp_top.bmBitsPixel == 32) {
+		BYTE *BottomBuffer, *TopBuffer, *BottomMaskBuffer, *TopMaskBuffer;
+		BYTE *bb, *tb, *bmb, *tmb;
+		BYTE *db = ptPixels;
+		int vstep_d = 16 * 4;
 		int vstep_b = bmp_bottom.bmWidthBytes;
 		int vstep_t = bmp_top.bmWidthBytes;
 		int vstep_bm = bmp_bottom_mask.bmWidthBytes;
 		int vstep_tm = bmp_top_mask.bmWidthBytes;
-		alpha = alpha?alpha:255;
+		alpha = alpha ? alpha : 255;
 		if (bmp_bottom.bmBits) bb = BottomBuffer = (BYTE*)bmp_bottom.bmBits;
-		else
-		{
+		else {
 			BottomBuffer = (BYTE*)malloc(bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes);
-			GetBitmapBits(iciBottom.hbmColor,bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes,BottomBuffer);
-			bb = BottomBuffer+vstep_b*(bmp_bottom.bmHeight-1);
+			GetBitmapBits(iciBottom.hbmColor, bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes, BottomBuffer);
+			bb = BottomBuffer + vstep_b*(bmp_bottom.bmHeight - 1);
 			vstep_b = -vstep_b;
 		}
+
 		if (bmp_top.bmBits) tb = TopBuffer = (BYTE*)bmp_top.bmBits;
-		else
-		{
+		else {
 			TopBuffer = (BYTE*)malloc(bmp_top.bmHeight*bmp_top.bmWidthBytes);
 			GetBitmapBits(iciTop.hbmColor,bmp_top.bmHeight*bmp_top.bmWidthBytes,TopBuffer);
 			tb = TopBuffer+vstep_t*(bmp_top.bmHeight-1);
 			vstep_t = -vstep_t;
 		}
-		if (bmp_bottom_mask.bmBits)
-		{
+
+		if (bmp_bottom_mask.bmBits) {
 			BottomMaskBuffer = (BYTE*)bmp_bottom_mask.bmBits;
 			bmb = BottomMaskBuffer;
 		}
-		else
-		{
+		else {
 			BottomMaskBuffer = (BYTE*)malloc(bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes);
 			GetBitmapBits(iciBottom.hbmMask,bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes,BottomMaskBuffer);
 			bmb = BottomMaskBuffer+vstep_bm*(bmp_bottom_mask.bmHeight-1);
 			vstep_bm = -vstep_bm;
 
 		}
-		if (bmp_top_mask.bmBits)
-		{
+
+		if (bmp_top_mask.bmBits) {
 			TopMaskBuffer = (BYTE*)bmp_top_mask.bmBits;
 			tmb = TopMaskBuffer;
-
 		}
-		else
-		{
+		else {
 			TopMaskBuffer = (BYTE*)malloc(bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes);
 			GetBitmapBits(iciTop.hbmMask,bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes,TopMaskBuffer);
 			tmb = TopMaskBuffer+vstep_tm*(bmp_top_mask.bmHeight-1);
 			vstep_tm = -vstep_tm;
 		}
-		{
-			int x = 0; int y = 0;
-			BOOL topHasAlpha = ske_CheckHasAlfaChannel(TopBuffer,bmp_top.bmWidthBytes,bmp_top.bmHeight);
-			BOOL bottomHasAlpha = ske_CheckHasAlfaChannel(BottomBuffer,bmp_bottom.bmWidthBytes,bmp_bottom.bmHeight);
-			BOOL topHasMask = ske_CheckIconHasMask(TopMaskBuffer);
-			BOOL bottomHasMask = ske_CheckIconHasMask(BottomMaskBuffer);
-			for (y = 0; y < 16; y++)
-			{
-				for (x = 0; x < 16; x++)
-				{
-					BOOL mask_b = ske_GetMaskBit(bmb,x);
-					BOOL mask_t = ske_GetMaskBit(tmb,x);
-					DWORD bottom_d = ((DWORD*)bb)[x];
-					DWORD top_d = ((DWORD*)tb)[x];
-					if (topHasMask)
-					{
-						if (mask_t == 1 && !topHasAlpha )  top_d &= 0xFFFFFF;
-						else if ( !topHasAlpha) top_d |= 0xFF000000;
-					}
-					if (bottomHasMask)
-					{
-						if (mask_b == 1 && !bottomHasAlpha) bottom_d &= 0xFFFFFF;
-						else if ( !bottomHasAlpha) bottom_d |= 0xFF000000;
-					}
-					((DWORD*)db)[x] = ske_Blend(bottom_d,top_d,alpha);
+
+		BOOL topHasAlpha = ske_CheckHasAlfaChannel(TopBuffer, bmp_top.bmWidthBytes, bmp_top.bmHeight);
+		BOOL bottomHasAlpha = ske_CheckHasAlfaChannel(BottomBuffer, bmp_bottom.bmWidthBytes, bmp_bottom.bmHeight);
+		BOOL topHasMask = ske_CheckIconHasMask(TopMaskBuffer);
+		BOOL bottomHasMask = ske_CheckIconHasMask(BottomMaskBuffer);
+		for (int y = 0; y < 16; y++) {
+			for (int x = 0; x < 16; x++) {
+				BOOL mask_b = ske_GetMaskBit(bmb, x);
+				BOOL mask_t = ske_GetMaskBit(tmb, x);
+				DWORD bottom_d = ((DWORD*)bb)[x];
+				DWORD top_d = ((DWORD*)tb)[x];
+				if (topHasMask) {
+					if (mask_t == 1 && !topHasAlpha)  top_d &= 0xFFFFFF;
+					else if (!topHasAlpha) top_d |= 0xFF000000;
 				}
-				bb += vstep_b;
-				tb += vstep_t;
-				bmb += vstep_bm;
-				tmb += vstep_tm;
-				db += vstep_d;
+				if (bottomHasMask) {
+					if (mask_b == 1 && !bottomHasAlpha) bottom_d &= 0xFFFFFF;
+					else if (!bottomHasAlpha) bottom_d |= 0xFF000000;
+				}
+				((DWORD*)db)[x] = ske_Blend(bottom_d, top_d, alpha);
 			}
+			bb += vstep_b;
+			tb += vstep_t;
+			bmb += vstep_bm;
+			tmb += vstep_tm;
+			db += vstep_d;
 		}
-		if ( !bmp_bottom.bmBits) free(BottomBuffer);
-		if ( !bmp_top.bmBits) free(TopBuffer);
-		if ( !bmp_bottom_mask.bmBits) free(BottomMaskBuffer);
-		if ( !bmp_top_mask.bmBits) free(TopMaskBuffer);
+
+		if (!bmp_bottom.bmBits) free(BottomBuffer);
+		if (!bmp_top.bmBits) free(TopBuffer);
+		if (!bmp_bottom_mask.bmBits) free(BottomMaskBuffer);
+		if (!bmp_top_mask.bmBits) free(TopMaskBuffer);
 	}
-	else
-	{
+	else {
 		ske_DrawIconEx(tempDC, 0, 0, hBottom,16,16, 0, NULL,DI_NORMAL);
 		ske_DrawIconEx(tempDC, 0, 0, hTop,16,16, 0, NULL,DI_NORMAL|(alpha << 24));
 	}
+
 	DeleteObject(iciBottom.hbmColor);
 	DeleteObject(iciTop.hbmColor);
 	DeleteObject(iciBottom.hbmMask);
@@ -4350,33 +4042,30 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 
 	SelectObject(tempDC,oImage);
 	DeleteDC(tempDC);
+
+	BYTE p[32] = {0};
+	nMask = CreateBitmap(16,16,1,1,(void*)&p);
 	{
-		//BYTE *p = malloc(32);
-		//memset(p, 0, 32);
-		BYTE p[32] = {0};
-		nMask = CreateBitmap(16,16,1,1,(void*)&p);
-		{
-			HDC tempDC2 = CreateCompatibleDC(NULL);
-			HDC tempDC3 = CreateCompatibleDC(NULL);
-			HBITMAP hbm = CreateCompatibleBitmap(tempDC3,16,16);
-			HBITMAP obmp = (HBITMAP)SelectObject(tempDC2,nMask);
-			HBITMAP obmp2 = (HBITMAP)SelectObject(tempDC3,hbm);
-			DrawIconEx(tempDC2, 0, 0, hBottom,16,16, 0, NULL,DI_MASK);
-			DrawIconEx(tempDC3, 0, 0, hTop,16,16, 0, NULL,DI_MASK);
-			BitBlt(tempDC2, 0, 0, 16,16,tempDC3, 0, 0, SRCAND);
-			SelectObject(tempDC2,obmp);
-			SelectObject(tempDC3,obmp2);
-			DeleteObject(hbm);
-			DeleteDC(tempDC2);
-			DeleteDC(tempDC3);
-		}
-		iNew.fIcon = TRUE;
-		iNew.hbmColor = nImage;
-		iNew.hbmMask = nMask;
-		res = CreateIconIndirect(&iNew);
-		DeleteObject(nImage);
-		DeleteObject(nMask);
+		HDC tempDC2 = CreateCompatibleDC(NULL);
+		HDC tempDC3 = CreateCompatibleDC(NULL);
+		HBITMAP hbm = CreateCompatibleBitmap(tempDC3,16,16);
+		HBITMAP obmp = (HBITMAP)SelectObject(tempDC2,nMask);
+		HBITMAP obmp2 = (HBITMAP)SelectObject(tempDC3,hbm);
+		DrawIconEx(tempDC2, 0, 0, hBottom,16,16, 0, NULL,DI_MASK);
+		DrawIconEx(tempDC3, 0, 0, hTop,16,16, 0, NULL,DI_MASK);
+		BitBlt(tempDC2, 0, 0, 16,16,tempDC3, 0, 0, SRCAND);
+		SelectObject(tempDC2,obmp);
+		SelectObject(tempDC3,obmp2);
+		DeleteObject(hbm);
+		DeleteDC(tempDC2);
+		DeleteDC(tempDC3);
 	}
+	iNew.fIcon = TRUE;
+	iNew.hbmColor = nImage;
+	iNew.hbmMask = nMask;
+	HICON res = CreateIconIndirect(&iNew);
+	DeleteObject(nImage);
+	DeleteObject(nMask);
 	return res;
 }
 
@@ -4391,33 +4080,35 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 
 #define SKINSETSECTION "SkinnedSettings"
 
-BOOL SkinDBGetContactSetting(HANDLE hContact, const char* szSection, const char*szKey, DBVARIANT * retdbv, BOOL * bSkined )
+BOOL SkinDBGetContactSetting(HANDLE hContact, const char* szSection, const char*szKey, DBVARIANT * retdbv, BOOL * bSkinned )
 {
-	if ( !hContact) {  //only for not contact settings
-		char * szSkinKey;
-		NEWJOINEDSTR(szSkinKey,szSection,"@",szKey);
-		if ( !db_get(hContact, SKINSETSECTION, szSkinKey, retdbv))	{
-			if (bSkined) *bSkined = TRUE;
+	if (!hContact) {  //only for not contact settings
+		char *szSkinKey;
+		NEWJOINEDSTR(szSkinKey, szSection, "@", szKey);
+		if (!db_get(hContact, SKINSETSECTION, szSkinKey, retdbv))	{
+			if (bSkinned) *bSkinned = TRUE;
 			return FALSE;
-	}	}
+		}
+	}
 	// not skinned
-	if (bSkined) bSkined = FALSE;
+	if (bSkinned) bSkinned = FALSE;
 	return db_get(hContact, szSection, szKey, retdbv);
 }
 
 BYTE SkinDBGetContactSettingByte(HANDLE hContact, const char* szSection, const char*szKey, BYTE bDefault)
 {
-	DBVARIANT dbv = {0};
-	BOOL bSkined = FALSE;
-	if ( !SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkined)) {
-		if (dbv.type == DBVT_BYTE)
-		{
+	DBVARIANT dbv = { 0 };
+	BOOL bSkinned = FALSE;
+	if (!SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkinned)) {
+		if (dbv.type == DBVT_BYTE) {
 			BYTE retVal = dbv.bVal;
 			db_free(&dbv);
 			return retVal;
-		} else {
+		}
+		else {
 			db_free(&dbv);
-			if ( !bSkined) return db_get_b(hContact, szSection, szKey, bDefault);
+			if (!bSkinned)
+				return db_get_b(hContact, szSection, szKey, bDefault);
 		}
 	}
 	return bDefault;
@@ -4425,34 +4116,34 @@ BYTE SkinDBGetContactSettingByte(HANDLE hContact, const char* szSection, const c
 
 WORD SkinDBGetContactSettingWord(HANDLE hContact, const char* szSection, const char*szKey, WORD wDefault)
 {
-	BOOL bSkined = FALSE;
-	DBVARIANT dbv = {0};
-	if ( !SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkined)) {
+	BOOL bSkinned = FALSE;
+	DBVARIANT dbv = { 0 };
+	if (!SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkinned)) {
 		if (dbv.type == DBVT_WORD)	{
 			WORD retVal = dbv.wVal;
 			db_free(&dbv);
 			return retVal;
-		} else {
-			db_free(&dbv);
-			if ( !bSkined) return db_get_w(hContact, szSection, szKey, wDefault);
 		}
+		db_free(&dbv);
+		if (!bSkinned)
+			return db_get_w(hContact, szSection, szKey, wDefault);
 	}
 	return wDefault;
 }
 
 DWORD SkinDBGetContactSettingDword(HANDLE hContact, const char* szSection, const char*szKey, DWORD dwDefault)
 {
-	DBVARIANT dbv = {0};
-	BOOL bSkined = FALSE;
-	if ( !SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkined)) {
+	DBVARIANT dbv = { 0 };
+	BOOL bSkinned = FALSE;
+	if (!SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkinned)) {
 		if (dbv.type == DBVT_DWORD)	{
 			DWORD retVal = dbv.dVal;
 			db_free(&dbv);
 			return retVal;
-		} else {
-			db_free(&dbv);
-			if ( !bSkined) return db_get_dw(hContact, szSection, szKey, dwDefault);
 		}
+		db_free(&dbv);
+		if (!bSkinned)
+			return db_get_dw(hContact, szSection, szKey, dwDefault);
 	}
 	return dwDefault;
 }

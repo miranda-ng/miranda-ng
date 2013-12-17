@@ -195,8 +195,6 @@ void MakeButtonSkinned(HWND hWnd);
 
 extern void TRACE_ERROR();
 extern BOOL DebugDeleteObject(HGDIOBJ a);
-extern BOOL ske_ResetTextEffect(HDC hdc);
-extern BOOL ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor);
 extern void IvalidateDisplayNameCache(DWORD mode);
 
 extern SortedList *clistCache;

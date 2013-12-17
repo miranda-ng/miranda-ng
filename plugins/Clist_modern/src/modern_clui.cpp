@@ -1763,7 +1763,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 				//reposition buttons and new size applying
 				{
 					ModernSkinButton_ReposButtons( m_hWnd, SBRF_DO_NOT_DRAW, &work_rect );
-					ske_PrepeareImageButDontUpdateIt(&work_rect);
+					ske_PrepareImageButDontUpdateIt(&work_rect);
 					g_CluiData.mutexPreventDockMoving = 0;
 					ske_UpdateWindowImageRect(&work_rect);
 					EndDeferWindowPos(PosBatch);

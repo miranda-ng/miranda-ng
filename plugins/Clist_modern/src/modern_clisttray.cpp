@@ -97,7 +97,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam)
 	int curstatus = 0;
 	int i;
 	int connectingCount = 0;
-	for (i=0;i < pcli->hClcProtoCount;i++)
+	for (i=0; i < pcli->hClcProtoCount; i++)
 	{
 		if ( !pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
 		if (pcli->clcProto[i].dwStatus >= ID_STATUS_CONNECTING  && 

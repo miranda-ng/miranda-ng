@@ -239,7 +239,7 @@ int cliGetRowByIndex(ClcData *dat,int testindex,ClcContact **contact,ClcGroup **
 				if (group->cl.items[group->scanIndex]->SubAllocated)
 					if (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta)
 					{
-						for (i=0;i < group->cl.items[group->scanIndex]->SubAllocated;i++)
+						for (i=0; i < group->cl.items[group->scanIndex]->SubAllocated; i++)
 						{
 							if ((index>0) && (index < CacheArrSize)) 
 							{

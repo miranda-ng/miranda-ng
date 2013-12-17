@@ -86,11 +86,12 @@ struct tga_header_t
 class IniParser
 {
 public:
-	enum {	FLAG_WITH_SETTINGS = 0,
+	enum {
+		FLAG_WITH_SETTINGS = 0,
 		FLAG_ONLY_OBJECTS = 1,
 	};
 
-	enum {	IT_UNKNOWN,	IT_FILE, IT_RESOURCE };
+	enum { IT_UNKNOWN, IT_FILE, IT_RESOURCE };
 
 	typedef HRESULT (*ParserCallback_t)( const char * szSection, const char * szKey, const char * szValue, IniParser * This );
 

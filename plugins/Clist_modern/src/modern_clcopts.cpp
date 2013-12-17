@@ -352,7 +352,7 @@ static void FillCheckBoxTree(HWND hwndTree,const struct CheckBoxValues_t *values
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_STATE|TVIF_IMAGE;
-	for (i=0;i < nValues;i++) {
+	for (i=0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
 		tvis.item.pszText = TranslateTS(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -477,7 +477,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			TreeView_SetImageList(GetDlgItem(hwndDlg,IDC_HIDEOFFLINEOPTS),himlCheckBoxes,TVSIL_NORMAL);
 
 			DWORD exStyle = db_get_dw(NULL,"CLC","ExStyle",GetDefaultExStyle());
-			for (int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
+			for (int i=0; i < SIZEOF(checkBoxToStyleEx); i++)
 				CheckDlgButton(hwndDlg,checkBoxToStyleEx[i].id,(exStyle&checkBoxToStyleEx[i].flag)^(checkBoxToStyleEx[i].flag*checkBoxToStyleEx[i].neg)?BST_CHECKED:BST_UNCHECKED);
 
 			UDACCEL accel[2] = {{0, 10},{2,50}};
@@ -538,7 +538,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			case PSN_APPLY:
 				{
 					DWORD exStyle = 0;
-					for (int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
+					for (int i=0; i < SIZEOF(checkBoxToStyleEx); i++)
 						if ((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].neg)
 							exStyle |= checkBoxToStyleEx[i].flag;
 					db_set_dw(NULL,"CLC","ExStyle",exStyle);
@@ -712,7 +712,7 @@ static int _GetNetVisibleProtoCount()
 	int i,count,netProtoCount;
 	PROTOACCOUNT **accs;
 	ProtoEnumAccounts( &count, &accs );
-	for (i=0, netProtoCount = 0;i < count;i++)
+	for (i=0, netProtoCount = 0;i < count; i++)
 	{
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 )
 			continue;
@@ -873,7 +873,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				ProtoEnumAccounts( &count, &accs );
 				item = SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_ADDSTRING, 0, (LPARAM)TranslateT("Global"));
 				SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETITEMDATA,item,0);
-				for (i=0;i < count;i++) {
+				for (i=0; i < count; i++) {
 					if ( !IsAccountEnabled( accs[i] ) || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0) == 0)
 						continue;
 

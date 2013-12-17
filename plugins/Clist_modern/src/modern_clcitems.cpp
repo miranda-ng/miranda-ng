@@ -236,7 +236,7 @@ void * AddTempGroup(HWND hwnd,ClcData *dat,const TCHAR *szName,DWORD flags,int g
 	if ( wildcmp( _T2A(szName), "-@-HIDDEN-GROUP-@-"))
 		return NULL;
 
-	for (i = 1;;i++) {
+	for (i = 1;; i++) {
 		szGroupName = pcli->pfnGetGroupName(i,&groupFlags);
 		if (szGroupName == NULL) break;
 		if ( !mir_tstrcmpi(szGroupName,szName)) f = 1;
@@ -360,7 +360,7 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 	dat->selection = -1;
 	dat->HiLightMode = db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT);
 	{
-		for (int i = 1;;i++) {
+		for (int i = 1;; i++) {
 			DWORD groupFlags;
 			TCHAR *szGroupName = pcli->pfnGetGroupName(i,&groupFlags); //UNICODE
 			if (szGroupName == NULL)

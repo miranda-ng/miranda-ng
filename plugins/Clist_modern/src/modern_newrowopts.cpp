@@ -124,7 +124,7 @@ void TraceTreeLevel(NodeList * node)
 		TRACE(buf);
 	}
 	ident += 5;
-	for (i=0; i < node->AllocatedChilds;i++)
+	for (i=0; i < node->AllocatedChilds; i++)
 	{
 
 		if (node->childNodes[i].AllocatedChilds>0)
