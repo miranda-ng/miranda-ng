@@ -1114,9 +1114,9 @@ Web Дизайн
 [Optional modules]
 Дополнительные модули
 [Shows Miranda's installation directory.]
-Показывать папку установки Miranda IM.
+Показывать папку установки Miranda NG.
 [Shows the directory with all your Miranda's profiles.]
-Показывать папку со всеми профилями Miranda IM.
+Показывать папку со всеми профилями Miranda NG.
 [The OpenFileDialog returned an error: %d!]
 OpenFileDialog вернул ошибку: %d!
 [The SaveFileDialog returned an error: %d!]
