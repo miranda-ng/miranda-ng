@@ -833,7 +833,7 @@
 Плавающее
 [Frame menu]
 Меню фреймов
-[Groups menu]
+[Group menu]
 Меню групп
 [&Find/Add Contacts...]
 Добавить &контакты

@@ -266,7 +266,7 @@ void InitGroupMenus(void)
 	InitSubGroupMenus();
 
 	//Group menu
-	hGroupMenuObject = MO_CreateMenuObject("GroupMenu", LPGEN("Groups menu"), 0, "CLISTMENUSGroup/ExecService");
+	hGroupMenuObject = MO_CreateMenuObject("GroupMenu", LPGEN("Group menu"), 0, "CLISTMENUSGroup/ExecService");
 	MO_SetMenuObjectParam(hGroupMenuObject, OPT_USERDEFINEDITEMS, TRUE);
 	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
 	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");

@@ -445,7 +445,7 @@
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[Groups menu]
+[Group menu]
 [&Find/Add Contacts...]
 [&Options...]
 [&About the contact list...]
