@@ -940,7 +940,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, 1024);
 	mir_tcsadd(pszFileDesc, winText);
 	if(m_opt_tabCapture==1)
-		mir_tcsadd(pszFileDesc, TranslateT("\""));
+		mir_tcsadd(pszFileDesc, _T("\""));
 	else
 		mir_tcsadd(pszFileDesc, TranslateT("\" Window"));
 
