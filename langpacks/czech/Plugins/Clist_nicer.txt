@@ -866,10 +866,10 @@ Skin na rámeček
 [Floating]
 Plovoucí
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frames menu]
+[Frame menu]
 Nabídka rámečku
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[Groups menu]
+[Group menu]
 Nabídka skupiny
 [&Find/Add Contacts...]
 &Vyhledat kontakty...

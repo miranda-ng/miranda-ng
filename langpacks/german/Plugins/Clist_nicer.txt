@@ -866,10 +866,10 @@ Skinnbarer Frame
 [Floating]
 Frei bewegend
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frames menu]
+[Frame menu]
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[Groups menu]
+[Group menu]
 
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...

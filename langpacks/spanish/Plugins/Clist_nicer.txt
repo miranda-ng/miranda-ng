@@ -869,7 +869,7 @@ Marcos
 [Frames menu]
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[Groups menu]
+[Group menu]
 
 [&Find/Add Contacts...]
 &Buscar/Agregar contactos...
