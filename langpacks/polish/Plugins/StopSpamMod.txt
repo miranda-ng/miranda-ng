@@ -7,9 +7,8 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 Wtyczka antyspamowa dla Mirandy NG.
-;file \plugins\StopSpamMod\res\stopspam.rc
-[Question: (Ctrl-Enter for carriage return)]
-Pytanie: (Ctrl+Enter dla nowej linii)
+[Question (Ctrl+Enter for carriage return):]
+Pytanie (Ctrl+Enter dla nowej linii):
 [Restore defaults]
 Przywróć domyślne
 [Answer:]
@@ -62,7 +61,7 @@ Po potwierdzeniu (tyko ICQ)
 Automatycznie udzielaj autoryzacji
 [Request authorization from contacts which pass stopspam test]
 Prośba o autoryzację od kontaktów, które przechodzą test stopspam
-[Remove all tempory contacts after restart]
+[Remove all temporary contacts after restart]
 Usuń wszystkie tymczasowe kontakty po restarcie
 [Use regex for answers checking]
 Użyj regex dla kontroli odpowiedzi
@@ -70,16 +69,14 @@ Użyj regex dla kontroli odpowiedzi
 Dziennik spamu w historii systemowej
 [Use math expression in question]
 Używaj wyrażeń matematycznych
-[Details..]
-Detale..
-;file \plugins\StopSpamMod\src\init.cpp
+[Details...]
+Detale...
 [StopSpam]
 StopSpam
 [StopSpam Logs]
 Logi StopSpam
 [Remove Temporary Contacts]
 Usuń tymczasowe kontakty
-;file \plugins\StopSpamMod\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 Nigdy więcej spamu! Roboty się nie przedrą! Tylko ludzie przejdą zabezpieczenie!\r\n\r\nWtyczka działa bardzo prosto:\r\nWiadomości od użytkowników z listy kontaktów zostaną dostarczone, ponieważ nie ma żadnego oprogramowania anty-spamowego, wiadomości od nieznanych użytkowników nie będą dostarczane. Ale też nie są one ignorowane, wtyczka zadaje proste pytanie, a jeśli użytkownik poda poprawną odpowiedź, plugin doda go do twojej listy kontaktów aby mógł się z tobą skontaktować.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]

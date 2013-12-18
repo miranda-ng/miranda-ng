@@ -7,23 +7,16 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 Плагін антыспама для  Miranda NG.
-;file \plugins\StopSpamMod\res\stopspam.rc
-[Question: (Ctrl-Enter for carriage return)]
-Пытанне: (Ctrl+Enter для пачатку новага радка)
+[Question (Ctrl+Enter for carriage return):]
+Пытанне (Ctrl+Enter для пачатку новага радка):
 [Restore defaults]
 Скінуць
-[Answer:]
-Адказ:
 [Congratulation:]
 Віншаванні:
 [Auth. request reply:]
 Адказ на запыты аўтарызацыі:
 [Vars]
 Зменныя
-[Available accounts:]
-Даступныя конты:
-[Filtered accounts:]
-Засцярожаныя конты:
 [Do not send more than]
 Не адпраўляць больш
 [questions to one contact (0 - for no limit)]
@@ -34,64 +27,10 @@
 Дадаваць у сталы спіс
 [Enable auth. requests blocking]
 Блакаваць запыты аўтарызацыі
-[Hide unanswered contacts and spammers from contact list]
-Схаваць якія не адказалі кантакты з кантакт-ліста
-[Ignore spammers (do not write messages to history)]
-Ігнараваць спамераў (не пісаць паведамленні ў гісторыю)
-[Log spam to file]
-Запісваць спам у файл
-[Case insensitive answer checking]
-Не ўлічваць рэгістр адказу
-[Disable question in invisible mode]
-Адключыць пытанне пры статуце "Нябачны"
-[Enable integration with DOS plugin]
-Уключыць інтэграцыю з DOS модулем
-[Exclude contacts which we sending something from spam check]
-Адключаць антыспам для кантактаў, якім паслалі паведамленне
-[Remove Excluded contacts after restart]
-Выдаляць часова дададзеныя кантакты пасля перазапуску
-[Add contacts to specified group:]
-Дадаць кантакты ў групу:
-[Ignore URL in messages and auth requests]
-Ігнараваць спасылкі ў паведамленнях і запытах аўтарызацыі
-[Add contact to server list]
-Дадаць кантакт у спіс на серверы
-[After congratulation (ICQ only)]
-Пасля віншавання (толькі для ICQ)
-[Automatically grant authorization]
-Аўтарызаваць аўтаматычна
-[Request authorization from contacts which pass stopspam test]
-Запытваць аўтарызацыю ў кантактаў мінулых праверку антыспаму
-[Remove all tempory contacts after restart]
+[Remove all temporary contacts after restart]
 Выдаляць усе часовыя кантакты пасля перазапуску
-[Use regex for answers checking]
-Выкарыстоўваць рэгулярныя выразы для праверкі адказаў
 [Log Spammers to system history]
 Запісваць у сістэмную гісторыю
-[Use math expression in question]
-Матэматычныя выразы ў пытанні
-[Details..]
-Дэталі..
-;file \plugins\StopSpamMod\src\init.cpp
-[StopSpam]
-Антыспам
-[StopSpam Logs]
-Журнал антыспама
-[Remove Temporary Contacts]
-Выдаліць часовыя кантакты
-;file \plugins\StopSpamMod\src\options.cpp
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
-Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты модуль працуе проста:\r\nУ той час як паведамленні ад карыстачоў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых карыстачоў вам не дастаўляюцца. Але яны не ігнаруюцца, модуль адказвае простым пытаннем, і калі карыстач дае правільны адказ, модуль дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
-[Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
-Прывітанне! Вы гавораце з с анты-спам ботам. Клі ласка, напішыце "nospam" без двукоссяў, каб прайсці праверку.
-[StopSpam: send a message and reply to a anti-spam bot question.]
-StopSpam: адпраўце паведамленне і адкажыце на простае пытанне анты-спам бота.
-[Congratulations! You just passed human/robot test. Now you can write me a message.]
-Віншуем! Вы прайшлі тэст, зараз можаце адпраўляць паведамленні карыстачу.
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
-Калі адключаны матэматычныя выразы, іх магчыма выкарыстоўваць у тэксце пытання:\nXX+XX-X/X*X\nкожны X будзе заменены выпадковай лічбай, адказам будзе рашэнне\nПытанне можа ўключаць толькі адзін выраз, запісаны без прабелаў
-[Info]
-Інфа
 [Message Sessions]
 Гутаркі
 [General]
@@ -100,5 +39,9 @@ StopSpam: адпраўце паведамленне і адкажыце на п�
 Паведамленні
 [Accounts]
 Конты
-[Advanced]
-Дадаткова
+[StopSpam]
+Антыспам
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты модуль працуе проста:\r\nУ той час як паведамленні ад карыстачоў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых карыстачоў вам не дастаўляюцца. Але яны не ігнаруюцца, модуль адказвае простым пытаннем, і калі карыстач дае правільны адказ, модуль дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
+[Remove Temporary Contacts]
+Выдаліць часовыя кантакты

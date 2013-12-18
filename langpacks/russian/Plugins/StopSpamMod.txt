@@ -7,8 +7,8 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 Антиспам плагин для Miranda NG.
-[Question: (Ctrl-Enter for carriage return)]
-Вопрос: (Ctrl+Enter для начала новой строки)
+[Question (Ctrl+Enter for carriage return):]
+Вопрос (Ctrl+Enter для начала новой строки):
 [Restore defaults]
 Сбросить
 [Answer:]
@@ -61,7 +61,7 @@
 Авторизовать автоматически
 [Request authorization from contacts which pass stopspam test]
 Запрашивать авторизацию у контактов прошедших проверку антиспама
-[Remove all tempory contacts after restart]
+[Remove all temporary contacts after restart]
 Удалять все временные контакты после перезапуска
 [Use regex for answers checking]
 Использовать регулярные выражения для проверки ответов
@@ -69,8 +69,8 @@
 Записывать спамеров в системную историю
 [Use math expression in question]
 Математические выражения
-[Details..]
-Детали..
+[Details...]
+Детали...
 [StopSpam]
 Антиспам
 [StopSpam Logs]
