@@ -21,6 +21,8 @@
 Курсив
 [Underline]
 Подчёркивание
+[Error messages]
+Ошибки
 [Suppress error messages]
 Подавлять сообщения об ошибках
 [Expert options]

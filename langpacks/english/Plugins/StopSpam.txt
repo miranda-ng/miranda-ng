@@ -7,7 +7,7 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 ;file \plugins\StopSpamPlus\res\stopspam.rc
-[Question: (Ctrl-Enter for carriage return)]
+[Question (Ctrl+Enter for carriage return):]
 [Restore defaults]
 [Answer (Use divider to separate answers):]
 [Congratulation:]
@@ -21,7 +21,7 @@
 [Add contact permanently]
 [Enable auth. requests blocking]
 [Answer is not case sensitive]
-[Remove all tempory contacts after restart]
+[Remove all temporary contacts after restart]
 [Log Spammers to system history]
 ;file \plugins\StopSpamPlus\src\events.cpp
 [Message Sessions]

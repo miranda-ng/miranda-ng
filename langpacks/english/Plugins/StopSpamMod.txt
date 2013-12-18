@@ -7,7 +7,7 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 ;file \plugins\StopSpamMod\res\stopspam.rc
-[Question: (Ctrl-Enter for carriage return)]
+[Question (Ctrl+Enter for carriage return):]
 [Restore defaults]
 [Answer:]
 [Congratulation:]
@@ -34,11 +34,11 @@
 [After congratulation (ICQ only)]
 [Automatically grant authorization]
 [Request authorization from contacts which pass stopspam test]
-[Remove all tempory contacts after restart]
+[Remove all temporary contacts after restart]
 [Use regex for answers checking]
 [Log Spammers to system history]
 [Use math expression in question]
-[Details..]
+[Details...]
 ;file \plugins\StopSpamMod\src\init.cpp
 [StopSpam]
 [StopSpam Logs]

@@ -2,9 +2,7 @@
 ;============================================================
 ;  File: actman.dll
 ;  Plugin: Action Manager
-;  Versions: 0.2.0.1
-;  URL: 
-;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
+;  Version: 0.2.0.1
 ;  Authors: Awkward
 ;============================================================
 [Contact window]
