@@ -3,7 +3,6 @@
 //========================== Frames
 HANDLE hFrameMenuObject;
 static HANDLE hPreBuildFrameMenuEvent;
-extern int InitCustomMenus(void);
 
 //contactmenu exec param(ownerdata)
 //also used in checkservice

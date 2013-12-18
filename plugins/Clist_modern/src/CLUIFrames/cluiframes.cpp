@@ -1704,9 +1704,9 @@ static int CLUIFramesLoadMainMenu()
 	if (_fCluiFramesModuleNotStarted)
 		return -1;
 
-	if (_hmiRoot != (HGENMENU)-1) {
-		CallService(MS_CLIST_REMOVEMAINMENUITEM,(WPARAM)_hmiRoot,0);
-		_hmiRoot = (HGENMENU)-1;
+	if (_hmiRoot != HGENMENU_ROOT) {
+		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)_hmiRoot, 0);
+		_hmiRoot = HGENMENU_ROOT;
 	}
 
 	// create root menu
@@ -3795,34 +3795,34 @@ int CLUIFrameOnModulesUnload(WPARAM wParam,LPARAM lParam)
 {
 	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;
 
-	if ( !_hmiVisible)
+	if (!_hmiVisible)
 		return 0;
 
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiVisible, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiTBVisible, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiLock, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiColl, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiFloating, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignTop, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignClient, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignBottom, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiBorder, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignRoot, 1 );
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiVisible, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiTBVisible, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiLock, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiColl, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiFloating, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignTop, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignClient, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignBottom, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiBorder, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiAlignRoot, 0);
 
 
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiPosUp, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiPosDown, 1 );
-	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiPosRoot, 1 );
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiPosUp, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiPosDown, 0);
+	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiPosRoot, 0);
 
 
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiVisible, 1 );
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiTBVisible, 1 );
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiLock, 1 );
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiColl, 1 );
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiFloating, 1 );
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiBorder, 1 );
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignRoot, 1 );
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiPosRoot, 1 );
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiVisible, 0);
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiTBVisible, 0);
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiLock, 0);
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiColl, 0);
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiFloating, 0);
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiBorder, 0);
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignRoot, 0);
+	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiPosRoot, 0);
 
 	_hmiVisible = 0;
 	return 0;
@@ -3830,66 +3830,50 @@ int CLUIFrameOnModulesUnload(WPARAM wParam,LPARAM lParam)
 
 int LoadCLUIFramesModule(void)
 {
-	WNDCLASS wndclass;
-	WNDCLASS cntclass;
-	WNDCLASS subconclass;
 	InitializeCriticalSection(&_cluiFramesModuleCS);
 	_cluiFramesModuleCSInitialized = TRUE;
 
-	wndclass.style         = CS_DBLCLKS;//|CS_HREDRAW|CS_VREDRAW ;
+	WNDCLASS wndclass = { 0 };
+	wndclass.style = CS_DBLCLKS;//|CS_HREDRAW|CS_VREDRAW ;
 	wndclass.lpfnWndProc   = CLUIFrameTitleBarProc;
-	wndclass.cbClsExtra    = 0;
-	wndclass.cbWndExtra    = 0;
 	wndclass.hInstance     = g_hInst;
-	wndclass.hIcon         = NULL;
 	wndclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
-	wndclass.lpszMenuName  = NULL;
 	wndclass.lpszClassName = CLUIFrameTitleBarClassName;
 	RegisterClass(&wndclass);
 
-	subconclass.style         = CS_DBLCLKS;//|CS_HREDRAW|CS_VREDRAW ;
+	WNDCLASS subconclass = { 0 };
+	subconclass.style = CS_DBLCLKS;//|CS_HREDRAW|CS_VREDRAW ;
 	subconclass.lpfnWndProc   = CLUIFrameSubContainerProc;
-	subconclass.cbClsExtra    = 0;
-	subconclass.cbWndExtra    = 0;
 	subconclass.hInstance     = g_hInst;
-	subconclass.hIcon         = NULL;
 	subconclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
-	subconclass.hbrBackground = NULL;
-	subconclass.lpszMenuName  = NULL;
 	subconclass.lpszClassName = CLUIFrameSubContainerClassName;
 	RegisterClass(&subconclass);
 
 	//container helper
-
-	cntclass.style         = CS_DBLCLKS/*|CS_HREDRAW|CS_VREDRAW*/|CS_DROPSHADOW;
+	WNDCLASS cntclass = { 0 };
+	cntclass.style = CS_DBLCLKS/*|CS_HREDRAW|CS_VREDRAW*/ | CS_DROPSHADOW;
 	cntclass.lpfnWndProc   = CLUIFrameContainerWndProc;
-	cntclass.cbClsExtra    = 0;
-	cntclass.cbWndExtra    = 0;
 	cntclass.hInstance     = g_hInst;
-	cntclass.hIcon         = NULL;
 	cntclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
-	cntclass.hbrBackground = NULL;
-	cntclass.lpszMenuName  = NULL;
 	cntclass.lpszClassName = _T("FramesContainer");
 	RegisterClass(&cntclass);
 	//end container helper
 
-	GapBetweenFrames = db_get_dw(NULL,"CLUIFrames","GapBetweenFrames",SETTING_GAPFRAMES_DEFAULT);
+	GapBetweenFrames = db_get_dw(NULL, "CLUIFrames", "GapBetweenFrames", SETTING_GAPFRAMES_DEFAULT);
 
 	g_nFramesCount = 0;
 
 	InitFramesMenus();
 
-	HookEvent(ME_SYSTEM_MODULESLOADED,CLUIFrameOnModulesLoad);
-	HookEvent(ME_CLIST_PREBUILDFRAMEMENU,CLUIFramesModifyContextMenuForFrame);
-	HookEvent(ME_CLIST_PREBUILDMAINMENU,CLUIFrameOnMainMenuBuild);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN,  CLUIFrameOnModulesUnload);
+	HookEvent(ME_SYSTEM_MODULESLOADED, CLUIFrameOnModulesLoad);
+	HookEvent(ME_CLIST_PREBUILDFRAMEMENU, CLUIFramesModifyContextMenuForFrame);
+	HookEvent(ME_CLIST_PREBUILDMAINMENU, CLUIFrameOnMainMenuBuild);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, CLUIFrameOnModulesUnload);
 
-    CreateCluiFramesServices();
+	CreateCluiFramesServices();
 
-
-	hWndExplorerToolBar	 = FindWindowEx(0, 0, _T("Shell_TrayWnd"),NULL);
+	hWndExplorerToolBar = FindWindowEx(0, 0, _T("Shell_TrayWnd"), NULL);
 	OnFrameTitleBarBackgroundChange(0, 0);
 	_fCluiFramesModuleNotStarted = FALSE;
 	return 0;
@@ -3898,10 +3882,9 @@ int LoadCLUIFramesModule(void)
 static INT_PTR UnloadMainMenu()
 {
 	CLUIFrameOnModulesUnload(0, 0);
-	if (_hmiRoot != (HANDLE)-1)
-	{
-		CallService(MS_CLIST_REMOVEMAINMENUITEM,(WPARAM)_hmiRoot,0);
-		_hmiRoot = (HGENMENU)-1;
+	if (_hmiRoot != HGENMENU_ROOT) {
+		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)_hmiRoot, 0);
+		_hmiRoot = HGENMENU_ROOT;
 	}
 
 	return (INT_PTR) _hmiRoot;
@@ -3909,16 +3892,13 @@ static INT_PTR UnloadMainMenu()
 
 int UnLoadCLUIFramesModule(void)
 {
-	int i;
-
 	_fCluiFramesModuleNotStarted = TRUE;
 	if (hBmpBackground) {DeleteObject(hBmpBackground); hBmpBackground = NULL;}
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	CLUIFramesStoreAllFrames();
 
 	UnloadMainMenu();
-	for (i=0; i < g_nFramesCount; i++)
-	{
+	for (int i=0; i < g_nFramesCount; i++) {
 		if (g_pfwFrames[i].hWnd != pcli->hwndContactTree)
 			DestroyWindow(g_pfwFrames[i].hWnd);
 
@@ -3944,7 +3924,7 @@ int UnLoadCLUIFramesModule(void)
 	free(g_pfwFrames);
 	g_pfwFrames = NULL;
 	g_nFramesCount = 0;
-	UnregisterClass(CLUIFrameTitleBarClassName,g_hInst);
+	UnregisterClass(CLUIFrameTitleBarClassName, g_hInst);
 	DeleteObject(_hTitleBarFont);
 
 	_cluiFramesModuleCSInitialized = FALSE;
@@ -3955,61 +3935,50 @@ int UnLoadCLUIFramesModule(void)
 static int _us_DoSetFramePaintProc(WPARAM wParam, LPARAM lParam)
 {
 	if ( !wParam) return 0;
-	{
-		// LOOK REQUIRED OR SYNC CALL NEEDED
-		FRAMEWND *frm = FindFrameByItsHWND((HWND)wParam);
-		if ( !frm) return 0;
-		if (lParam)
-			frm->PaintCallbackProc = (tPaintCallbackProc)lParam;
-		else
-			frm->PaintCallbackProc = NULL;
-		return 1;
-	}
+
+	// LOOK REQUIRED OR SYNC CALL NEEDED
+	FRAMEWND *frm = FindFrameByItsHWND((HWND)wParam);
+	if (!frm) return 0;
+	if (lParam)
+		frm->PaintCallbackProc = (tPaintCallbackProc)lParam;
+	else
+		frm->PaintCallbackProc = NULL;
+	return 1;
 }
+
 int CLUIFrames_SetLayeredMode( BOOL fLayeredMode, HWND hwnd )
 {
-	int i;
-	for (i=0; i < g_nFramesCount; i++)
-	{
-		if (fLayeredMode)
-		{
-			if (g_pfwFrames[i].visible && GetParent(g_pfwFrames[i].hWnd) == pcli->hwndContactList && g_pfwFrames[i].PaintCallbackProc == NULL)
-			{
+	for (int i=0; i < g_nFramesCount; i++) {
+		if (fLayeredMode) {
+			if (g_pfwFrames[i].visible && GetParent(g_pfwFrames[i].hWnd) == pcli->hwndContactList && g_pfwFrames[i].PaintCallbackProc == NULL) {
 				//create owner window
-				g_pfwFrames[i].OwnerWindow = CreateSubContainerWindow(pcli->hwndContactList,g_pfwFrames[i].FloatingPos.x,g_pfwFrames[i].FloatingPos.y,10, 10);
-				SetParent(g_pfwFrames[i].hWnd,g_pfwFrames[i].OwnerWindow);
+				g_pfwFrames[i].OwnerWindow = CreateSubContainerWindow(pcli->hwndContactList, g_pfwFrames[i].FloatingPos.x, g_pfwFrames[i].FloatingPos.y, 10, 10);
+				SetParent(g_pfwFrames[i].hWnd, g_pfwFrames[i].OwnerWindow);
 			}
 		}
-		else
-		{
-			if (GetParent(g_pfwFrames[i].hWnd) == g_pfwFrames[i].OwnerWindow)
-			{
-				SetParent(g_pfwFrames[i].hWnd,hwnd);
-				if ((INT_PTR)g_pfwFrames[i].OwnerWindow>0)
-				{
-					DestroyWindow(g_pfwFrames[i].OwnerWindow);
-					g_pfwFrames[i].OwnerWindow = (HWND)-2;
-				}
+		else if (GetParent(g_pfwFrames[i].hWnd) == g_pfwFrames[i].OwnerWindow) {
+			SetParent(g_pfwFrames[i].hWnd, hwnd);
+			if ((INT_PTR)g_pfwFrames[i].OwnerWindow>0) {
+				DestroyWindow(g_pfwFrames[i].OwnerWindow);
+				g_pfwFrames[i].OwnerWindow = (HWND)-2;
 			}
 		}
 	}
 
-	CLUIFrames_UpdateFrame((WPARAM)-1,0);  //update all frames
+	CLUIFrames_UpdateFrame((WPARAM)-1, 0);  //update all frames
 	return 0;
 }
 
 int CLUIFrames_UpdateBorders()
 {
-	for ( int i=0; i < g_nFramesCount; i++ )
-	{
-		if ( !g_pfwFrames[i].floating )
-		{
-			DWORD style = (int)GetWindowLongPtr( g_pfwFrames[i].hWnd, GWL_STYLE ) & ( ~WS_BORDER );
-			if ( !g_CluiData.fLayered && g_pfwFrames[i].UseBorder ) style |= WS_BORDER;
-			SetWindowLongPtr( g_pfwFrames[i].hWnd, GWL_STYLE, style );
-			CLUIFramesModifyMainMenuItems( g_pfwFrames[i].id, 0 );
-			RedrawWindow( g_pfwFrames[i].hWnd, NULL, NULL, RDW_FRAME | RDW_INVALIDATE );
-		};
+	for (int i = 0; i < g_nFramesCount; i++) {
+		if (!g_pfwFrames[i].floating) {
+			DWORD style = (int)GetWindowLongPtr(g_pfwFrames[i].hWnd, GWL_STYLE) & (~WS_BORDER);
+			if (!g_CluiData.fLayered && g_pfwFrames[i].UseBorder) style |= WS_BORDER;
+			SetWindowLongPtr(g_pfwFrames[i].hWnd, GWL_STYLE, style);
+			CLUIFramesModifyMainMenuItems(g_pfwFrames[i].id, 0);
+			RedrawWindow(g_pfwFrames[i].hWnd, NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
+		}
 	}
 
 	return 0;

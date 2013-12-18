@@ -47,9 +47,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	if (lParam != 1)
-		CallService(MO_REMOVEMENUITEM, wParam, 0);
-
+	CallService(MO_REMOVEMENUITEM, wParam, 0);
 	return 0;
 }
 
