@@ -877,50 +877,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Скрыть аватар
 [My Contacts]
 Мои контакты
-[&Visible]
-Показывать
-[&Show title]
-&Показывать название
-[&Locked]
-Закрепить
-[&Expanded]
-&Расширенный
-[&Floating Mode]
-Плавающий режим
-[&Border]
-&Рамка
-[&Align]
-Выравнивание
-[&Top]
-Верх
-[&Client]
-Вручную
-[&Bottom]
-Низ
-[&Position]
-Положение
-[&Up]
-&Вверх
-[&Down]
-В&низ
-[Show All Frames]
-Показать все фреймы
-[Show All Titlebars]
-Показывать названия
-[Hide All Titlebars]
-Скрыть названия
-[Lock Frame]
-Закрепить фрейм
-[Show TitleBar]
-Показать заголовок
-[Frame menu]
-Меню фреймов
-[Group menu]
-Меню групп
-[Subgroup menu]
-Меню подгрупп
-[&New SubGroup]
-Создать подгруппу
 [Close Miranda]
 Закрыть программу
 [Main]
@@ -1087,3 +1043,47 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Фон режимов вида
 [View Modes]
 Режимы вида
+[&Visible]
+Показывать
+[&Show title]
+&Показывать название
+[&Locked]
+Закрепить
+[&Expanded]
+&Расширенный
+[&Floating Mode]
+Плавающий режим
+[&Border]
+&Рамка
+[&Align]
+Выравнивание
+[&Top]
+Верх
+[&Client]
+Вручную
+[&Bottom]
+Низ
+[&Position]
+Положение
+[&Up]
+&Вверх
+[&Down]
+В&низ
+[Show All Frames]
+Показать все фреймы
+[Show All Titlebars]
+Показывать названия
+[Hide All Titlebars]
+Скрыть названия
+[Lock Frame]
+Закрепить фрейм
+[Show TitleBar]
+Показать заголовок
+[Frame menu]
+Меню фреймов
+[Group menu]
+Меню групп
+[Subgroup menu]
+Меню подгрупп
+[&New SubGroup]
+Создать подгруппу

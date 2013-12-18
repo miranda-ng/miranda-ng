@@ -831,7 +831,7 @@
 Применять скин к фрейму
 [Floating]
 Плавающее
-[Frames menu]
+[Frame menu]
 Меню фреймов
 [Groups menu]
 Меню групп
