@@ -41,7 +41,7 @@ FONT 8, "MS Shell Dlg", 0, 0
 /*
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 0,3,0,1
- PRODUCTVERSION 0,9,0,0
+ PRODUCTVERSION 0,3,0,1
  FILEFLAGSMASK $3F
  FILEOS 4
  FILETYPE 2
@@ -58,7 +58,7 @@ BEGIN
       VALUE "InternalName", "ActManager"0
       VALUE "OriginalFilename", "actman.dll"0
       VALUE "ProductName", "Action Manager Dynamic Link Library (DLL)"0
-      VALUE "ProductVersion", "0, 9, 0, 0 "0
+      VALUE "ProductVersion", "0, 3, 0, 1 "0
       VALUE "SpecialBuild", "18.11.2012 "0
     END
   END

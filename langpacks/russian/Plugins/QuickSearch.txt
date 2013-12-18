@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search
-;  Version: 1.4.0.18
+;  Version: 1.4.0.19
 ;  Authors: Awkward
 ;============================================================
 [QuickSearch]

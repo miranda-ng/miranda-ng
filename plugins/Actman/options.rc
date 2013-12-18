@@ -300,7 +300,7 @@ IDI_VAR_UNCHECKED ICON "ico\vuncheck.ico"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 0,2,0,1
- PRODUCTVERSION 0,9,0,0
+ PRODUCTVERSION 0,2,0,1
  FILEFLAGSMASK $3F
  FILEOS 4
  FILETYPE 2
@@ -317,7 +317,7 @@ BEGIN
       VALUE "InternalName", "ActManager"0
       VALUE "OriginalFilename", "actman.dll"0
       VALUE "ProductName", "Action Manager Dynamic Link Library (DLL)"0
-      VALUE "ProductVersion", "0, 9, 0, 0 "0
+      VALUE "ProductVersion", "0, 2, 0, 1 "0
       VALUE "SpecialBuild", "18.08.2011 "0
     END
   END

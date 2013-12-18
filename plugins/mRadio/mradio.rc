@@ -157,7 +157,7 @@ BTN_RECDN ICON "ico\recoff.ico"
 LANGUAGE 0,0 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 0,0,2,2
- PRODUCTVERSION 0,0,8,0
+ PRODUCTVERSION 0,0,2,2
  FILEFLAGSMASK $3F
  FILEOS 4 
  FILETYPE 2 
@@ -174,7 +174,7 @@ BEGIN
       VALUE "InternalName", "mRadio Mod"0 
       VALUE "OriginalFilename", "mradio.dll"0 
       VALUE "ProductName", "mRadio Mod Dynamic Link Library (DLL)"0 
-      VALUE "ProductVersion", "0, 0, 8, 0 "0 
+      VALUE "ProductVersion", "0, 0, 2, 2 "0 
       VALUE "SpecialBuild", "10.05.2012 "0 
     END
   END
