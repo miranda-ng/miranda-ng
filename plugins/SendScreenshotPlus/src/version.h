@@ -1,7 +1,7 @@
 #define __MAJOR_VERSION				0
 #define __MINOR_VERSION				8
 #define __RELEASE_NUM				3
-#define __BUILD_NUM					0
+#define __BUILD_NUM					1
 
 #define __DEF2STR_(s) #s
 #define __DEF2STR(s) __DEF2STR_(s)

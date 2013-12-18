@@ -939,7 +939,10 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	mir_tcsadd(pszFileDesc, TranslateT("of \""));
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, 1024);
 	mir_tcsadd(pszFileDesc, winText);
-	mir_tcsadd(pszFileDesc, TranslateT("\" Window"));
+	if(m_opt_tabCapture==1)
+		mir_tcsadd(pszFileDesc, TranslateT("\""));
+	else
+		mir_tcsadd(pszFileDesc, TranslateT("\" Window"));
 
 	// convert to 32Bits (make shure it is 32bit)
 	FIBITMAP *dib_new = FIP->FI_ConvertTo32Bits(dib);
