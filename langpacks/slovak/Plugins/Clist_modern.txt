@@ -890,53 +890,6 @@ Nastavenia...
 
 [My Contacts]
 
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
-[&Visible]
-
-[&Show title]
-
-[&Locked]
-
-[&Expanded]
-
-[&Floating Mode]
-
-[&Border]
-
-[&Align]
-
-[&Top]
-
-[&Client]
-
-[&Bottom]
-
-[&Position]
-
-[&Up]
-
-[&Down]
-
-[Show All Frames]
-
-[Show All Titlebars]
-
-[Hide All Titlebars]
-
-[Lock Frame]
-
-[Show TitleBar]
-
-;file \plugins\Clist_modern\src\modern_framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[Group menu]
-
-[Subgroup menu]
-
-[&New SubGroup]
-
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 
@@ -1121,4 +1074,51 @@ Menu stavov
 [View Mode Background]
 
 [View Modes]
+
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Visible]
+
+[&Show title]
+
+[&Locked]
+
+[&Expanded]
+
+[&Floating Mode]
+
+[&Border]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Show All Frames]
+
+[Show All Titlebars]
+
+[Hide All Titlebars]
+
+[Lock Frame]
+
+[Show TitleBar]
+
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+[Group menu]
+
+[Subgroup menu]
+
+[&New SubGroup]
 

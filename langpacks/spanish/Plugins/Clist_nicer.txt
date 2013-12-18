@@ -866,7 +866,7 @@ Marcos
 [Floating]
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frames menu]
+[Frame menu]
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]

@@ -890,53 +890,6 @@ Kontakt&avatar anzeigen
 Kontakt&avatar verstecken
 [My Contacts]
 Meine Kontakte
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
-[&Visible]
-Sichtbar
-[&Show title]
-Titel anzeigen
-[&Locked]
-Gesperrt
-[&Expanded]
-Ausgeklappt
-[&Floating Mode]
-&Frei beweglicher Modus
-[&Border]
-Rand
-[&Align]
-&Ausrichtung
-[&Top]
-Oben
-[&Client]
-Mitte, Kontakte
-[&Bottom]
-Unten
-[&Position]
-&Position
-[&Up]
-A&uf
-[&Down]
-Ab
-[Show All Frames]
-Alle Frames anzeigen
-[Show All Titlebars]
-Alle Titelleisten anzeigen
-[Hide All Titlebars]
-Alle Titelleisten verstecken
-[Lock Frame]
-Keine Größenänderung
-[Show TitleBar]
-Titelzeile anzeigen
-;file \plugins\Clist_modern\src\modern_framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[Group menu]
-Kontaktlistenmenü
-[Subgroup menu]
-Gruppenkontextmenü
-[&New SubGroup]
-&Neue Untergruppe
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Miranda schließen
@@ -1122,3 +1075,50 @@ Kontaktfilter aufheben
 
 [View Modes]
 Kontaktfilter
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Visible]
+Sichtbar
+[&Show title]
+Titel anzeigen
+[&Locked]
+Gesperrt
+[&Expanded]
+Ausgeklappt
+[&Floating Mode]
+&Frei beweglicher Modus
+[&Border]
+Rand
+[&Align]
+&Ausrichtung
+[&Top]
+Oben
+[&Client]
+Mitte, Kontakte
+[&Bottom]
+Unten
+[&Position]
+&Position
+[&Up]
+A&uf
+[&Down]
+Ab
+[Show All Frames]
+Alle Frames anzeigen
+[Show All Titlebars]
+Alle Titelleisten anzeigen
+[Hide All Titlebars]
+Alle Titelleisten verstecken
+[Lock Frame]
+Keine Größenänderung
+[Show TitleBar]
+Titelzeile anzeigen
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+[Group menu]
+Kontaktlistenmenü
+[Subgroup menu]
+Gruppenkontextmenü
+[&New SubGroup]
+&Neue Untergruppe

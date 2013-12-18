@@ -888,53 +888,6 @@ Modern contact list
 Скриване на аватара
 [My Contacts]
 Моите контакти
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
-[&Visible]
-Видима
-[&Show title]
-Показване на името
-[&Locked]
-Заключена
-[&Expanded]
-Разгърнато
-[&Floating Mode]
-Плаващ режим
-[&Border]
-Рамка
-[&Align]
-Подреждане
-[&Top]
-Горе
-[&Client]
-Клиент
-[&Bottom]
-Долу
-[&Position]
-Позиция
-[&Up]
-Нагоре
-[&Down]
-Надолу
-[Show All Frames]
-Показване на всички рамки
-[Show All Titlebars]
-Показване на всички заглавни ленти
-[Hide All Titlebars]
-Скриване на всички заглавни ленти
-[Lock Frame]
-Заключване на рамката
-[Show TitleBar]
-Показване на заглавна лента
-;file \plugins\Clist_modern\src\modern_framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[Group menu]
-Меню на групите
-[Subgroup menu]
-Меню на подгрупите
-[&New SubGroup]
-Нова подгрупа
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Затваряне на Miranda
@@ -1120,3 +1073,50 @@ Angeli-Ka (изображения), FYR (шаблон)
 
 [View Modes]
 Режими за преглед
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Visible]
+Видима
+[&Show title]
+Показване на името
+[&Locked]
+Заключена
+[&Expanded]
+Разгърнато
+[&Floating Mode]
+Плаващ режим
+[&Border]
+Рамка
+[&Align]
+Подреждане
+[&Top]
+Горе
+[&Client]
+Клиент
+[&Bottom]
+Долу
+[&Position]
+Позиция
+[&Up]
+Нагоре
+[&Down]
+Надолу
+[Show All Frames]
+Показване на всички рамки
+[Show All Titlebars]
+Показване на всички заглавни ленти
+[Hide All Titlebars]
+Скриване на всички заглавни ленти
+[Lock Frame]
+Заключване на рамката
+[Show TitleBar]
+Показване на заглавна лента
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+[Group menu]
+Меню на групите
+[Subgroup menu]
+Меню на подгрупите
+[&New SubGroup]
+Нова подгрупа

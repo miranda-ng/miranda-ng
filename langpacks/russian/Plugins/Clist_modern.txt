@@ -504,13 +504,13 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Right-To-Left reading mode (mirror template)]
 Режим справа налево (зеркальный шаблон)
 [Replace smileys in clist]
-Заменять смайлики в списке
+Заменять смайлы в списке
 [Use protocol smileys]
-Смайлики протокола
+Смайлы протокола
 [Draw smileys on first line]
-Смайлики в первой строке
+Смайлы в первой строке
 [Resize smileys and 'Listening to' icon]
-Изменить размеры смайликов и значка 'Сейчас слушаю'
+Изменить размеры смайлов и значка 'Сейчас слушаю'
 [Align to right]
 Выровнять справа
 [Append nick if different from custom name]
@@ -522,7 +522,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Top space:]
 Положение:
 [Draw smileys on second line]
-Смайлики на второй строке
+Смайлы на второй строке
 [Text:]
 Текст:
 [Status]
@@ -548,7 +548,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Show third line]
 Показывать третью строку
 [Draw smileys on third line]
-Смайлики на третьей строке
+Смайлы на третьей строке
 [Preview]
 Тест
 [Top/Left]

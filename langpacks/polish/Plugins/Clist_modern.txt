@@ -890,53 +890,6 @@ Pokaż awatar kontaktu
 Ukryj awatar kontaktu
 [My Contacts]
 Moje kontakty
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
-[&Visible]
-Widoczny
-[&Show title]
-Pokaż tytuł ramki
-[&Locked]
-Zablokowany
-[&Expanded]
-Rozszerzony
-[&Floating Mode]
-Pływające okno
-[&Border]
-Obramowanie
-[&Align]
-Wyrównanie
-[&Top]
-Góra
-[&Client]
-Klient
-[&Bottom]
-Dół
-[&Position]
-Pozycja
-[&Up]
-Góra
-[&Down]
-Dół
-[Show All Frames]
-Pokaż wszystkie ramki
-[Show All Titlebars]
-Pokaż wszystkie paski tytułów
-[Hide All Titlebars]
-Ukryj wszystkie paski tytułów
-[Lock Frame]
-Zablokuj ramkę
-[Show TitleBar]
-Pokaż pasek tytułu
-;file \plugins\Clist_modern\src\modern_framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[Group menu]
-Menu grupy
-[Subgroup menu]
-Menu podgrupy
-[&New SubGroup]
-Nowa podgrupa
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Wyłącz Mirandę NG
@@ -1122,3 +1075,50 @@ Resetuj tryb widoku
 
 [View Modes]
 Tryby widoku
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Visible]
+Widoczny
+[&Show title]
+Pokaż tytuł ramki
+[&Locked]
+Zablokowany
+[&Expanded]
+Rozszerzony
+[&Floating Mode]
+Pływające okno
+[&Border]
+Obramowanie
+[&Align]
+Wyrównanie
+[&Top]
+Góra
+[&Client]
+Klient
+[&Bottom]
+Dół
+[&Position]
+Pozycja
+[&Up]
+Góra
+[&Down]
+Dół
+[Show All Frames]
+Pokaż wszystkie ramki
+[Show All Titlebars]
+Pokaż wszystkie paski tytułów
+[Hide All Titlebars]
+Ukryj wszystkie paski tytułów
+[Lock Frame]
+Zablokuj ramkę
+[Show TitleBar]
+Pokaż pasek tytułu
+;file \plugins\Clist_modern\src\modern_framesmenu.cpp
+[Frame menu]
+
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+[Group menu]
+Menu grupy
+[Subgroup menu]
+Menu podgrupy
+[&New SubGroup]
+Nowa podgrupa

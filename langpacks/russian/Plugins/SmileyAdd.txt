@@ -90,7 +90,7 @@ HTTP-подключение SmileyAdd
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблемы с загрузкой набора смайлов (необходимо исправить).\nДля подробностей смотрите сетевой лог.
 [Smiley #%u in file %s for smiley pack %s not found.]
-Смайл #%u в файле %s для набора смайликов %s не найден.
+Смайл #%u в файле %s для набора смайлов %s не найден.
 [Standard]
 Стандартные
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]

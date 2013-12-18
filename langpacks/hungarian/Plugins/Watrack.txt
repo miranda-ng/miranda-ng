@@ -1,9 +1,9 @@
 ﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
-;  File: watrack.dll
-;  Module: Winamp Track |Unicode aware|
-;  Versions: 0.0.2.4 - 0.0.6.12
-;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;  File: Watrack.dll
+;  Plugin: Winamp Track
+;  Version: 0.0.6.12
+;  Authors: Awkward
 ;============================================================
 [Color codes]
 Színkódok

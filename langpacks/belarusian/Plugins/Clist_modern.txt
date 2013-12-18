@@ -878,50 +878,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Схаваць аватар
 [My Contacts]
 Мае кантакты
-;file \plugins\Clist_modern\src\modern_cluiframes.cpp
-[&Visible]
-&Бачнасць
-[&Show title]
-&Паказваць назву
-[&Locked]
-Замацаваць
-[&Expanded]
-&Пашыраны
-[&Floating Mode]
-Плывучы рэжым
-[&Border]
-&Рамка
-[&Align]
-Выраўняць
-[&Top]
-Верх
-[&Client]
-Уручную
-[&Bottom]
-Ніз
-[&Position]
-Становішча
-[&Up]
-&Уверх
-[&Down]
-У&ніз
-[Show All Frames]
-Паказаць усе
-[Show All Titlebars]
-Паказваць назвы
-[Hide All Titlebars]
-Схаваць назвы
-[Lock Frame]
-Замацаваць фрэйм
-[Show TitleBar]
-Паказаць загаловак
-;file \plugins\Clist_modern\src\modern_groupmenu.cpp
-[Group menu]
-Меню груп
-[Subgroup menu]
-Меню падгруп
-[&New SubGroup]
-Стварыць падгрупу
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Зачыніць праграму
@@ -1107,3 +1063,47 @@ Angeli-Ka (графіка), FYR (шаблон)
 Скінуць рэжым
 [View Modes]
 Рэжымы выгляду
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Visible]
+&Бачнасць
+[&Show title]
+&Паказваць назву
+[&Locked]
+Замацаваць
+[&Expanded]
+&Пашыраны
+[&Floating Mode]
+Плывучы рэжым
+[&Border]
+&Рамка
+[&Align]
+Выраўняць
+[&Top]
+Верх
+[&Client]
+Уручную
+[&Bottom]
+Ніз
+[&Position]
+Становішча
+[&Up]
+&Уверх
+[&Down]
+У&ніз
+[Show All Frames]
+Паказаць усе
+[Show All Titlebars]
+Паказваць назвы
+[Hide All Titlebars]
+Схаваць назвы
+[Lock Frame]
+Замацаваць фрэйм
+[Show TitleBar]
+Паказаць загаловак
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+[Group menu]
+Меню груп
+[Subgroup menu]
+Меню падгруп
+[&New SubGroup]
+Стварыць падгрупу

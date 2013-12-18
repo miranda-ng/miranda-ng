@@ -158,7 +158,7 @@
 [User &details]
 &Информация
 [&Emoticons]
-Смайлики
+Смайлы
 [&Add]
 &Добавить
 [&History]
@@ -472,7 +472,7 @@ Yahoo
 [Quote]
 Цитата
 [Smiley]
-Смайлик
+Смайл
 [Add Contact]
 Добавить контакт
 [User Menu]

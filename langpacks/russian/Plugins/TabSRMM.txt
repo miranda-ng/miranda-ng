@@ -1124,7 +1124,7 @@ TabSRMM: Набирает
 [Send message]
 Отправить
 [Smiley selector]
-Выбор смайлика
+Выбор смайла
 [Show message history]
 Показать историю сообщений
 [Show user menu]

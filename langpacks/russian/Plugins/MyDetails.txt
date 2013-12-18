@@ -26,7 +26,7 @@ RTL
 [Auto-resize frame]
 Выравнивать фрейм
 [Use contact list smileys]
-Смайлики спиcка контактов
+Смайлы спиcка контактов
 [...status]
 ...статус
 [Replace Smileys]

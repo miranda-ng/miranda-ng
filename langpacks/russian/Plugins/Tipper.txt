@@ -108,13 +108,13 @@
 [Extra icons]
 Экстра значки
 [Smileys support]
-Смайлики
+Смайлы
 [Enable SmileyAdd support]
-Поддержка смайликов
+Поддержка смайлов
 [Resize smileys]
 Масштабировать смайлы
 [Use protocol smileys]
-Смайлики протокола
+Смайлы протокола
 [Replace only isolated smileys]
 Только смайлы через пробел
 [Retrieve new status message]
