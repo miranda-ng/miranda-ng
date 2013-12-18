@@ -1,8 +1,8 @@
 ﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
 ;============================================================
-;  File: historypp.dll
-;  Module: History++ (Unicode + ANSI)
-;  Versions: 1.5.1.4
+;  File: HistoryPP.dll
+;  Module: History++
+;  Version: 1.5.1.5
 ;  Authors: theMIROn
 ;============================================================
 [Easy, fast and feature complete history viewer.]

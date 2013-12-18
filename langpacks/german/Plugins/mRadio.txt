@@ -1,9 +1,9 @@
 ﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
 ;============================================================
-;  File: mradio.dll
-;  Module: mRadio, mRadio Mod
-;  Versions: 0.0.2.1
-;  URL:http://awkward.mirandaim.ru
+;  File: mRadio.dll
+;  Module: mRadio
+;  Version: 0.0.2.1
+;  Authors: Awkward
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
 Diese Plugin spielt Internetradiostreams ab und nimmt sie auf. Auch lokale Mediendateien können abgespielt werden.

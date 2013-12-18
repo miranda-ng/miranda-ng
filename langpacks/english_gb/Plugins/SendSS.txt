@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.0
+;  Version: 0.8.3.1
 ;  Authors: Merlin
 ;============================================================
 [The user canceled one of the dialog boxes]
