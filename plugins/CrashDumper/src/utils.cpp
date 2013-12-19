@@ -74,12 +74,19 @@ void GetOSDisplayString(CMString& buffer)
 				else 
 					buffer.Append(TEXT("Windows Server 2008 R2 "));
 				break;
-
-			default:
+				
+			case 2:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					buffer.Append(TEXT("Windows 8 "));
 				else 
 					buffer.Append(TEXT("Windows Server 2012 "));
+				break;
+
+			default:
+				if (osvi.wProductType == VER_NT_WORKSTATION)
+					buffer.Append(TEXT("Windows 8.1 "));
+				else
+					buffer.Append(TEXT("Windows Server 2012 R2 "));
 				break;
 			}
 
