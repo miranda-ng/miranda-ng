@@ -29,6 +29,7 @@ extern HINSTANCE hInst;
 // utils.cpp
 size_t __fastcall strlennull(const char *string);
 int __fastcall strcmpnull(const char *str1, const char *str2);
+void __fastcall strcpynull(char *str1, const char *str2);
 char* __fastcall null_strdup(const char *string);
 
 TCHAR* GetContactUID(HANDLE hContact);

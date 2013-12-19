@@ -444,9 +444,9 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 			dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 			for (i = 0, pBlob = (char*)dbei.pBlob; i < ackData->nContacts; i++) {
-				strcpy(pBlob, (char*)maSend[i].mcaNick);
+				strcpynull(pBlob, (char*)maSend[i].mcaNick);
 				pBlob += strlennull(pBlob) + 1;
-				strcpy(pBlob, maSend[i].mcaUIN);
+				strcpynull(pBlob, maSend[i].mcaUIN);
 				pBlob += strlennull(pBlob) + 1;
 			}
 			db_event_add(ackData->hContact, &dbei);

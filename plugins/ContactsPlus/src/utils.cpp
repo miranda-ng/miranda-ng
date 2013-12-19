@@ -23,8 +23,6 @@
 
 #include "contacts.h"
 
-int utf8_decode(const unsigned char *from, char **to);
-
 /* a strlennull() that likes NULL */
 size_t __fastcall strlennull(const char *string)
 {
@@ -39,6 +37,14 @@ int __fastcall strcmpnull(const char *str1, const char *str2)
 	if (!str1 || !str2) return 1;
 
 	return strcmp(str1, str2);
+}
+
+void __fastcall strcpynull(char *str1, const char *str2)
+{
+	if (!str2)
+		str2 = "";
+
+	strcpy(str1, str2);
 }
 
 char* __fastcall null_strdup(const char *string)
