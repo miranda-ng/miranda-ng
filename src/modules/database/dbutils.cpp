@@ -149,9 +149,9 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		while (buf < limit) {
 			ptrT tszUin(getEventString(dbei, buf));
 			ptrT tszNick(getEventString(dbei, buf));
-			if (tszNick)
+			if (tszNick && *tszNick)
 				text.AppendFormat(_T("\"%s\" "), tszNick);
-			if (tszUin)
+			if (tszUin && *tszUin)
 				text.AppendFormat(_T("<%s>; "), tszUin);
 		}
 		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);

@@ -978,60 +978,56 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 					if (bIsStatusChangeEvent)
 						dbei.eventType = EVENTTYPE_STATUSCHANGE;
 					switch (dbei.eventType) {
-						case EVENTTYPE_MESSAGE:
-						case EVENTTYPE_ERRMSG:
-						case EVENTTYPE_STATUSCHANGE: {
-							if (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_ERRMSG) {
-								if (dbei.eventType == EVENTTYPE_ERRMSG && dbei.cbBlob == 0)
-									break;
-								if (dbei.eventType == EVENTTYPE_ERRMSG) {
-									if (!skipFont)
-										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
-									else
-										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line ");
-								} else  {
-									if (!skipFont)
-										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
-								}
-							} else {
+					case EVENTTYPE_MESSAGE:
+					case EVENTTYPE_ERRMSG:
+					case EVENTTYPE_STATUSCHANGE:
+						if (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_ERRMSG) {
+							if (dbei.eventType == EVENTTYPE_ERRMSG && dbei.cbBlob == 0)
+								break;
+							if (dbei.eventType == EVENTTYPE_ERRMSG) {
 								if (!skipFont)
-									AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+									AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
+								else
+									AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line ");
 							}
-
-							if (rtfMessage != NULL) {
-								AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s", rtfMessage);
-							} else {
-								AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, formatted, MAKELONG(isSent, dat->isHistory));
-							}
-							AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s", "\\b0\\ul0\\i0 ");
-							break;
+							else if (!skipFont)
+								AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
 						}
-						case EVENTTYPE_FILE:
-							if (!skipFont)
-								AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMISC + iFontIDOffset : MSGFONTID_YOURMISC + iFontIDOffset));
-							{
-								char* szFileName = (char *)dbei.pBlob + sizeof(DWORD);
-								char* szDescr = szFileName + lstrlenA(szFileName) + 1;
-								TCHAR* tszFileName = DbGetEventStringT( &dbei, szFileName );
-								if ( *szDescr != 0 ) {
-									TCHAR* tszDescr = DbGetEventStringT( &dbei, szDescr );
-									TCHAR buf[1000];
-									mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), tszFileName, tszDescr);
-									AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, buf, 0 );
-									mir_free(tszDescr);
-								}
-								else {
-									AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszFileName, 0 );
-								}
-								mir_free( tszFileName );
+						else if (!skipFont)
+							AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+
+						if (rtfMessage != NULL)
+							AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s", rtfMessage);
+						else
+							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, formatted, MAKELONG(isSent, dat->isHistory));
+
+						AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s", "\\b0\\ul0\\i0 ");
+						break;
+
+					case EVENTTYPE_FILE:
+						if (!skipFont)
+							AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMISC + iFontIDOffset : MSGFONTID_YOURMISC + iFontIDOffset));
+						{
+							char *szFileName = (char *)dbei.pBlob + sizeof(DWORD);
+							char *szDescr = szFileName + lstrlenA(szFileName) + 1;
+							TCHAR *tszFileName = DbGetEventStringT(&dbei, szFileName);
+							if (*szDescr != 0) {
+								TCHAR *tszDescr = DbGetEventStringT(&dbei, szDescr);
+								TCHAR buf[1000];
+								mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), tszFileName, tszDescr);
+								AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, buf, 0);
+								mir_free(tszDescr);
 							}
-							break;
-						default:
-							if (IsCustomEvent(dbei.eventType)) {
-								TCHAR* tszText = DbGetEventTextT(&dbei, CP_ACP);
-								AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszText, 0);
+							else {
+								AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszFileName, 0);
 							}
-							break;
+							mir_free(tszFileName);
+						}
+						break;
+
+					default:
+						TCHAR* tszText = DbGetEventTextT(&dbei, CP_ACP);
+						AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszText, 0);
 					}
 					break;
 				case '*':       // bold

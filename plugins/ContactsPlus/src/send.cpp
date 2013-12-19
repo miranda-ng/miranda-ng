@@ -347,12 +347,11 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				HWND hList = GetDlgItem(hwndDlg, IDC_LIST);
 				hContact = FindFirstClistContact(hList, &hItem);
-				while (hContact)
-				{
+				while (hContact) {
+					// build list of contacts to send
 					if (SendMessage(hList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
-					{ // build list of contacts to send
 						wndData->AddContact(hContact);
-					}
+
 					hContact = FindNextClistContact(hList, hContact, &hItem);
 				}
 				/* send contacts */

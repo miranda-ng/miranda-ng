@@ -541,7 +541,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
-	if (dbei.flags & DBEF_SENT || (isCustomEvent && !isShownCustomEvent) || dbei.flags & DBEF_READ)
+	if ((dbei.flags & (DBEF_READ | DBEF_SENT)) || (isCustomEvent && !isShownCustomEvent))
 		return 0;
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, 1);
