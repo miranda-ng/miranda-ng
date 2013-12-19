@@ -203,7 +203,7 @@ procedure tform1.Button1Click(Sender: TObject);
     savestring;
     sList:=TstringList.Create;
     sList.add(first);
-    for i := 1 to j do
+    for i := 0 to j do
       begin
         if copy(s[0,i],1,1)=';' then
           sList.add(s[0,i]);
