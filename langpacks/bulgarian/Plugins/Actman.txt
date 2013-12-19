@@ -288,6 +288,10 @@ Unicode низ
 
 [Return]
 Връща
+[Scheduler]
+
+[TopToolbar]
+
 [Effect]
 Ефект
 [Start]

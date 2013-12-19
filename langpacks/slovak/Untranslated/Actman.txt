@@ -139,6 +139,8 @@
 [Choose contact]
 [Miranda service help]
 [Return]
+[Scheduler]
+[TopToolbar]
 [Effect]
 [Start]
 [action group list was changed: some was added or deleted]
