@@ -35,27 +35,29 @@
 #define IDI_DOWNARROW                   264
 
 struct TReceivedItem {
-  char* mcaUIN;
-  TCHAR* mcaNick;
-  ~TReceivedItem() { SAFE_FREE((void**)&mcaUIN); SAFE_FREE((void**)&mcaNick); }
-  TReceivedItem() { mcaUIN = NULL; mcaNick = NULL; }
+	TCHAR* mcaUIN;
+	TCHAR* mcaNick;
+	~TReceivedItem() { mir_free(mcaUIN); mir_free(mcaNick); }
+	TReceivedItem() { mcaUIN = NULL; mcaNick = NULL; }
 };
 
-struct TRecvContactsData { 
-  HANDLE  mhDbEvent;    // handle to recv DB event
-  HANDLE  mhContact;    // from whom we received this
-  HIMAGELIST mhListIcon;// icons for listview
-  HMENU   mhPopup;      // popup menu for listview
-  HANDLE  hHook;        // hook to event
-  HANDLE  rhSearch;     // handle to uin-search
-  char*   haUin;
-  int     iPopupItem;
-  TReceivedItem** maReceived;// received contacts
-  int     cbReceived;
-  TReceivedItem* AddReceivedItem();
-  HICON   hIcons[4];    // icons for dialog
-  TRecvContactsData(HANDLE contact) { mhContact = contact; hHook = NULL; cbReceived = 0; maReceived = NULL; haUin = NULL; };
-  ~TRecvContactsData() { if (cbReceived) { for(int i=0;i<cbReceived;i++) delete maReceived[i]; SAFE_FREE((void**)&maReceived); SAFE_FREE((void**)&haUin); }; };
+struct TRecvContactsData
+{
+	TRecvContactsData(HANDLE contact);
+	~TRecvContactsData();
+
+	HANDLE  mhDbEvent;    // handle to recv DB event
+	HANDLE  mhContact;    // from whom we received this
+	HIMAGELIST mhListIcon;// icons for listview
+	HMENU   mhPopup;      // popup menu for listview
+	HANDLE  hHook;        // hook to event
+	HANDLE  rhSearch;     // handle to uin-search
+	TCHAR*  haUin;
+	int     iPopupItem;
+	TReceivedItem** maReceived;// received contacts
+	int     cbReceived;
+	TReceivedItem* AddReceivedItem();
+	HICON   hIcons[4];    // icons for dialog
 };
 
 extern HANDLE ghRecvWindowList;

@@ -48,49 +48,46 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {0324785E-74CE-4600-B781-851773B3EFC5}
-	{0x0324785E, 0x74CE, 0x4600, {0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5}}
+	{ 0x0324785E, 0x74CE, 0x4600, { 0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-  hInst = hinstDLL;
-  return TRUE;
+	hInst = hinstDLL;
+	return TRUE;
 }
 
 static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
 {
-  HANDLE hContact = (HANDLE)wParam;
-  HANDLE hDbEvent = (HANDLE)lParam;
-  //process the event
-  DBEVENTINFO dbe = { sizeof(dbe) };
-  db_event_get(hDbEvent, &dbe);
-  //check if we should process the event
-  if (dbe.flags & (DBEF_SENT|DBEF_READ) || dbe.eventType != EVENTTYPE_CONTACTS) return 0;
-  //get event contents
-  dbe.cbBlob = db_event_getBlobSize(hDbEvent);
-  if (dbe.cbBlob != -1)
-    dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);
-  db_event_get(hDbEvent, &dbe);
-  //play received sound
-  SkinPlaySound("RecvContacts");
-  { //add event to the contact list
-    CLISTEVENT cle = {0};
-    TCHAR caToolTip[128];
+	HANDLE hContact = (HANDLE)wParam;
+	HANDLE hDbEvent = (HANDLE)lParam;
+	//process the event
+	DBEVENTINFO dbe = { sizeof(dbe) };
+	db_event_get(hDbEvent, &dbe);
+	//check if we should process the event
+	if (dbe.flags & (DBEF_SENT | DBEF_READ) || dbe.eventType != EVENTTYPE_CONTACTS) return 0;
+	//get event contents
+	dbe.cbBlob = db_event_getBlobSize(hDbEvent);
+	if (dbe.cbBlob != -1)
+		dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);
+	db_event_get(hDbEvent, &dbe);
+	//play received sound
+	SkinPlaySound("RecvContacts");
+	{
+		//add event to the contact list
+		TCHAR caToolTip[128];
+		mir_sntprintf(caToolTip, SIZEOF(caToolTip), _T("%s %s"), TranslateT("Contacts received from"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-    cle.cbSize = sizeof(cle);
-    cle.hContact = hContact;
-    cle.hDbEvent = hDbEvent;
-    cle.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
-    cle.pszService = MS_CONTACTS_RECEIVE;
-
-    WCHAR tmp[MAX_PATH];
-    mir_sntprintf(caToolTip, SIZEOF(caToolTip), "%s %s", SRCTranslateT("Contacts received from", tmp), (TCHAR*)GetContactDisplayNameT(hContact));
-
-    cle.ptszTooltip = caToolTip;
-    cle.flags |= CLEF_UNICODE;
-    CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-  }
-  return 0; //continue processing by other hooks
+		CLISTEVENT cle = { sizeof(cle) };
+		cle.hContact = hContact;
+		cle.hDbEvent = hDbEvent;
+		cle.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
+		cle.pszService = MS_CONTACTS_RECEIVE;
+		cle.ptszTooltip = caToolTip;
+		cle.flags |= CLEF_UNICODE;
+		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+	}
+	return 0; //continue processing by other hooks
 }
 
 static void ProcessUnreadEvents(void)
@@ -100,7 +97,7 @@ static void ProcessUnreadEvents(void)
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
-			if (!(dbei.flags & (DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_CONTACTS) {
+			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_CONTACTS) {
 				//process the event
 				HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);
 			}
@@ -138,17 +135,14 @@ static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	char* modules[2] = {0};
-	WCHAR tmp[MAX_PATH];
+	char* modules[2] = { 0 };
 
 	modules[0] = MODULENAME;
-	CallService("DBEditorpp/RegisterModule",(WPARAM)modules,(LPARAM)1);
+	CallService("DBEditorpp/RegisterModule", (WPARAM)modules, (LPARAM)1);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.ptszName = SRCTranslateT("Contacts", tmp);
+	mi.pszName = LPGEN("Contacts");
 	mi.position = -2000009990;  //position in menu
-	mi.flags = CMIF_KEEPUNTRANSLATED;
-	mi.flags |= CMIF_UNICODE;
 	mi.pszService = MS_CONTACTS_SEND;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
@@ -164,56 +158,49 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 static int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-  DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-  char *szProto =GetContactProto((HANDLE)wParam);
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	char *szProto = GetContactProto((HANDLE)wParam);
 
-  if (strcmpnull(cws->szModule,"CList") && strcmpnull(cws->szModule, szProto)) return 0;
+	if (strcmpnull(cws->szModule, "CList") && strcmpnull(cws->szModule, szProto)) return 0;
 
-  WindowList_Broadcast(ghSendWindowList,DM_UPDATETITLE,0,0);
-  WindowList_Broadcast(ghRecvWindowList,DM_UPDATETITLE,0,0);
-
-  return 0;
+	WindowList_Broadcast(ghSendWindowList, DM_UPDATETITLE, 0, 0);
+	WindowList_Broadcast(ghRecvWindowList, DM_UPDATETITLE, 0, 0);
+	return 0;
 }
 
 static int HookContactDeleted(WPARAM wParam, LPARAM lParam)
 {  // if our contact gets deleted close his window
-  HWND h = WindowList_Find(ghSendWindowList,(HANDLE)wParam);
+	HWND h = WindowList_Find(ghSendWindowList, (HANDLE)wParam);
 
-  if (h)
-  {
-    SendMessageT(h,WM_CLOSE,0,0);
-  }
+	if (h)
+	{
+		SendMessage(h, WM_CLOSE, 0, 0);
+	}
 
-  while (h = WindowList_Find(ghRecvWindowList, (HANDLE)wParam))
-  { // since we hack the window list - more windows for one contact, we need to close them all
-    SendMessageT(h, WM_CLOSE,0,0);
-  }
-  return 0;
+	while (h = WindowList_Find(ghRecvWindowList, (HANDLE)wParam))
+	{ // since we hack the window list - more windows for one contact, we need to close them all
+		SendMessage(h, WM_CLOSE, 0, 0);
+	}
+	return 0;
 }
 
 static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM lParam)
 {
-  HWND hWnd;
-  //find window for hContact
-  hWnd = WindowList_Find(ghSendWindowList, (HANDLE)wParam);
-
-  if (!hWnd)
-    CreateDialogParamT(hInst, MAKEINTRESOURCE(IDD_SEND), NULL, SendDlgProc, (LPARAM)(HANDLE)wParam);
-  else
-  {
-    SetForegroundWindow(hWnd);
-    SetFocus(hWnd);
-  }
-  return 0;
+	//find window for hContact
+	HWND hWnd = WindowList_Find(ghSendWindowList, (HANDLE)wParam);
+	if (!hWnd)
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEND), NULL, SendDlgProc, wParam);
+	else {
+		SetForegroundWindow(hWnd);
+		SetFocus(hWnd);
+	}
+	return 0;
 }
 
 static INT_PTR ServiceReceiveCommand(WPARAM wParam, LPARAM lParam)
 {
-  CLISTEVENT* pcle = (CLISTEVENT*)lParam;
-
-  CreateDialogParamT(hInst, MAKEINTRESOURCE(IDD_RECEIVE), NULL, RecvDlgProc, (LPARAM)pcle);
-
-  return 0;
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_RECEIVE), NULL, RecvDlgProc, lParam);
+	return 0;
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -227,7 +214,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getCLI();
 
 	InitCommonControls();
-	InitI18N();
 
 	//init hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookModulesLoaded);
