@@ -8,4 +8,4 @@ http://winscp.net/eng/docs/executables
 
 WinSCP homepage is http://winscp.net/
 
-See the file 'licence.txt' for the licence conditions.
+See the file 'license.txt' for the license conditions.
