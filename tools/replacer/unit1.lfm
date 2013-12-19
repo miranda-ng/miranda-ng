@@ -1,11 +1,13 @@
 object Form1: TForm1
   Left = 292
   Height = 275
-  Top = 179
-  Width = 362
+  Top = 156
+  Width = 361
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'Miranda NG Langpack Tools: Replacer'
   ClientHeight = 275
-  ClientWidth = 362
+  ClientWidth = 361
   LCLVersion = '1.0.14.0'
   object CheckListBox1: TCheckListBox
     Left = 8

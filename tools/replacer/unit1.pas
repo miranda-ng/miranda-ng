@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   CheckLst;
-
+{  IMAGE_FILE_LINE_NUMS_STRIPPED or IMAGE_FILE_LOCAL_SYMS_STRIPPED
+  $WEAKLINKRTTI ON $RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([]) }
 type
 
   { TForm1 }
@@ -36,7 +37,6 @@ var
   i,j:integer;
   s:string;
   r,t:integer;
-
 
 implementation
 
