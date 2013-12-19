@@ -141,7 +141,23 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 			(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
 		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
 	}
-	else if (dbei->eventType == EVENTTYPE_FILE) {
+
+	if (dbei->eventType == EVENTTYPE_CONTACTS) {
+		CMString text(TranslateT("Contacts: "));
+		// blob is: [uin(ASCIIZ), nick(ASCIIZ)]*
+		char *buf = LPSTR(dbei->pBlob), *limit = LPSTR(dbei->pBlob) + dbei->cbBlob;
+		while (buf < limit) {
+			ptrT tszUin(getEventString(dbei, buf));
+			ptrT tszNick(getEventString(dbei, buf));
+			if (tszNick)
+				text.AppendFormat(_T("\"%s\" "), tszNick);
+			if (tszUin)
+				text.AppendFormat(_T("<%s>; "), tszUin);
+		}
+		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
+	}
+
+	if (dbei->eventType == EVENTTYPE_FILE) {
 		char *buf = LPSTR(dbei->pBlob) + sizeof(DWORD);
 		ptrT tszFileName(getEventString(dbei, buf));
 		ptrT tszDescription(getEventString(dbei, buf));
