@@ -298,7 +298,7 @@ current contact
 В базу добавлен новый контакт
 [Scheduler]
 Планировщик
-[TopToolBar]
+[TopToolbar]
 Панель кнопок
 [Contact deleting]
 Удаление контакта

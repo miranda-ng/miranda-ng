@@ -148,7 +148,7 @@
 [Miranda service help]
 [Return]
 [Scheduler]
-[TopToolBar]
+[TopToolbar]
 [Effect]
 [Start]
 [Action group list was changed: some was added or deleted]
