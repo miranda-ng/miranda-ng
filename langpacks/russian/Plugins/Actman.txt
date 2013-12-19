@@ -296,5 +296,9 @@ current contact
 Двойной щелчок по списку контактов
 [New contact added to database]
 В базу добавлен новый контакт
+[Scheduler]
+Планировщик
+[TopToolBar]
+Панель кнопок
 [Contact deleting]
 Удаление контакта
