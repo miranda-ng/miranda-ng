@@ -27,9 +27,9 @@ Będzie użyty tylko do rejestracji
 [Use SSL connection (443 port)]
 Używaj połączenia SSL (port 443)
 [Paste password from WART  utility]
-
+Wklej hasło z narzędzia WART
 [Use WART utility from Plugins folder for registering your number and generating password]
-
+Użyj narzędzia WART umieszczonego w folderze Plugins, aby zarejestrować numer i wygenerować hasło
 [WhatsApp]
 WhatsApp
 [Cancel]
@@ -54,7 +54,7 @@ Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
 Twoje hasło zostało ustawione automatycznie.\nJeżeli zmienisz je ręcznie, możesz je stracić i będziesz musiał zażądać nowego kodu weryfikacyjnego.
 ;file \protocols\WhatsApp\src\main.cpp
 [Did not unpack registration utility WART-1.5.4.0.exe.]
-
+Nie wypakowano narzędzia rejestracji WART-1.5.4.0.exe.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Połączenie %s

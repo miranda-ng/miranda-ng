@@ -1242,7 +1242,7 @@ Usunąć %s?
 Żądanie autoryzacji http przyjęte
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
-
+Wybór konta Jabber
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]

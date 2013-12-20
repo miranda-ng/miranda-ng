@@ -369,7 +369,7 @@ Brak protokołu
 (Nieznany kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [Tray menu]
-
+Menu zasobnika
 [&Find/Add Contacts...]
 Szukaj/dodaj kontakty...
 [&Options...]
@@ -382,9 +382,9 @@ Moje kontakty
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [Group menu]
-
+Menu grupy
 [Subgroup menu]
-
+Menu podgrupy
 [&New SubGroup]
 Nowa podgrupa
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -439,5 +439,5 @@ Pokaż pasek tutułu
 Pływający
 ;file \plugins\Clist_mw\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-
+Menu ramki
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

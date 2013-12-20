@@ -260,11 +260,11 @@ Podpowiedź w zasobniku
 Dodatkowe
 ;file \plugins\TipperYM\src\options.h
 [Show for all contact types]
-
+Pokazuj dla wszystkich typów kontaktów
 [Show only for contacts]
-
+Pokazuj tylko dla kontaktów
 [Show only for chatrooms]
-
+Pokazuj tylko dla rozmów grupowych
 [Number of contacts]
 Ilość kontaktów
 [Protocol lock status]
@@ -398,15 +398,15 @@ Tekst xStatus:
 [Activity title:]
 Tytuł aktywności:
 [[jabber.dll] Activity text]
-[jabber.dll] Tekst aktywności
+[jabber.dll] tekst aktywności
 [Activity text:]
 Tekst aktywności:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Ostatnio widziano
+[seenplugin.dll] ostatnio widziano o
 [Last seen time:]
 Czas:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Ostatnio widziany status
+[seenplugin.dll] ostatnio widziany status
 [Last seen status:]
 Status:
 [[weather.dll] Condition]
@@ -418,7 +418,7 @@ Warunki:
 [Humidity:]
 Wilgotność
 [[weather.dll] Max/Min temperature]
-[weather.dll] Temperatura maks./min.
+[weather.dll] maks./min. temperatura
 [Max/Min:]
 Maks/Min:
 [[weather.dll] Moon]
@@ -434,7 +434,7 @@ Ciśnienie:
 [Sunrise:]
 Wschód słońca:
 [[weather.dll] Sunset]
-[weather.dll] Zachód słońca
+[weather.dll] zachód słońca
 [Sunset:]
 Zachód słońca:
 [[weather.dll] Temperature]
@@ -442,19 +442,19 @@ Zachód słońca:
 [Temperature:]
 Temperatura:
 [[weather.dll] Update time]
-[weather.dll] Zaktualizowano
+[weather.dll] zaktualizowano o
 [Update time:]
 Czas aktualizacji:
 [[weather.dll] UV Index]
-[weather.dll] Indeks UV
+[weather.dll] współczynnik UV
 [UV Index:]
 Indeks UV:
 [[weather.dll] Visibility]
-[weather.dll] Widoczność
+[weather.dll] widoczność
 [Visibility:]
 Widoczność:
 [[weather.dll] Wind]
-[weather.dll] Wiatr
+[weather.dll] wiatr
 [Wind:]
 Wiatr:
 ;file \plugins\TipperYM\src\skin_parser.cpp

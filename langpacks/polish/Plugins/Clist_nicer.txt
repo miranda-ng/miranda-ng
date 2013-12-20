@@ -450,8 +450,6 @@ Wyjdź
 Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
 Dostępny\tCtrl+1
-[&Away\tCtrl+2]
-Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
 Niedostępny
 [Occ&upied\tCtrl+4]
@@ -868,8 +866,9 @@ Pływający
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
-
+Menu grupy
 [&Find/Add Contacts...]
 Szukaj/dodaj kontakty...
 [&Options...]
@@ -877,6 +876,6 @@ Opcje...
 [&About the contact list...]
 O liście kontaktów...
 [Subgroup menu]
-
+Menu podgrupy
 [&New SubGroup]
 Nowa podgrupa

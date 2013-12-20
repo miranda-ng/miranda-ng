@@ -2064,7 +2064,7 @@ Niestandardowy status
 [%s (locked)]
 %s (zablokowane)
 [Status menu]
-
+Menu statusu
 [Main menu]
 Menu główne
 ;file \src\modules\clist\clistsettings.cpp
@@ -2176,7 +2176,9 @@ Ta zmiana wydaje się być niebezpieczna.
 Nieprawidłowe ustawienie typu dla '%s'. Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
-
+Prośba o autoryzację od %s%s: %s
+[Contacts: ]
+Kontakty:
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil '%s' już istnieje. Czy chcesz, aby przenieść go do Kosza?\n\nUWAGA: Profil zostanie usunięty jeśli kosz jest wyłączony.\nUWAGA: Profil może zawierać informacje poufne i powinien być odpowiednio usunięty.

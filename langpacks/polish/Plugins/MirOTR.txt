@@ -247,7 +247,7 @@ OTR: SecureIM zainstalowany
 Używasz SecureIM. MirOTR zadziała tylko z kontaktami, dla których SecureIM jest wyłączony..
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
-
+Menu MirOTR
 [OTR Status]
 Status OTR
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

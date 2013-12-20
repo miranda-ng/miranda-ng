@@ -216,6 +216,6 @@ MirandaG15
 [Appearance]
 Personalizacja
 [Chat sessions]
-
+Sesje rozmowy
 [No device attached]
 Brak podłączonych urządzeń
