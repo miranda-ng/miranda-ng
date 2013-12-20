@@ -57,7 +57,6 @@ object Form1: TForm1
     Height = 21
     Top = 8
     Width = 72
-    Enabled = False
     ItemHeight = 13
     ItemIndex = 0
     Items.Strings = (
@@ -130,13 +129,12 @@ object Form1: TForm1
     )
     TabOrder = 9
   end
-  object CheckBox1: TCheckBox
-    Left = 400
-    Height = 17
-    Top = 12
-    Width = 104
-    Caption = 'Other languages:'
-    Enabled = False
-    TabOrder = 10
+  object Label1: TLabel
+    Left = 448
+    Height = 14
+    Top = 15
+    Width = 61
+    Caption = 'Other langs:'
+    ParentColor = False
   end
 end
