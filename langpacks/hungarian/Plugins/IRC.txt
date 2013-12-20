@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Új
 [&Edit]
@@ -158,6 +157,8 @@ Színmentesítés
 Elõre küldés
 [Attempt reverse DCC (good if firewalled)]
 Fordított DCC megkísérlése (tûzfalnál jó)
+[none]
+Egyik sem
 [everyone on the contact list]
 mindenki a partnerlistán
 [everyone]
@@ -200,6 +201,8 @@ DCC csevegés felkérések elvetés ismeretlen partnerektõl
 Felhasználók elvetése
 [(*) Queries from users on your contact list are never ignored]
 (*) Partnerlistán szereplõ felhasználók kérdõívei soha nincsenek elvetve
+[Queries]
+kérdõívek
 [Messages]
 Üzenetek
 [Notices]
@@ -220,10 +223,8 @@ Események elvetése
 Jelszó:
 [Alternate nick]
 Becenév váltakozása
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP csevegési felkérés ettõl: %s
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s %s módot állítja be
 [%s sets mode %s%s]
@@ -288,7 +289,6 @@ Tökfej
 Az /AWAY használata a végrehajtás tárolóban korlátozva van\n mivel az IRC automatikusan elküldi ezt a parancsot.
 [IRC Error]
 IRC hiba
-;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 Barát ellenõrzési funkció bekapcsolva
 [The buddy check function is disabled]
@@ -329,12 +329,12 @@ DCC hiba: Porthoz csatlakozás sikertelen
 Beviteli parancs
 [Please enter the reply]
 Kérlek add meg a választ
-;file \protocols\IRCG\src\irclib.cpp
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 DCC hiba: Passzív fájlátvitelhez helyi porthoz csatlakozás sikertelen
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Információ
+[Nickname]
+Becenév
 [DCC ERROR: No valid files specified]
 DCC hiba: Nincs érvényes fájl megadva
 [DCC reversed file transfer request sent to %s [%s]]
@@ -351,7 +351,6 @@ A dcc csevegési kapcsolat nem aktív
 Kérlek válassz egy IRC-hálózatot a csatlakozáshoz. Ez lesz az alapért. hálózat.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Csatlakozás sikertelen! Nem töltöttél ki minden szükséges mezõt (Becenév, Felhasználó azonosító és m_név).
-;file \protocols\IRCG\src\options.cpp
 [Add]
 Új
 [Apply]
@@ -420,7 +419,6 @@ Elvetés szerkesztése
 DCC'n CTCP
 [Advanced]
 Haladó
-;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 Opok innen %s:
 [%s invites you to %s]
@@ -435,7 +433,6 @@ CTCP %s válasz küldve ennek: %s
 CTCP %s válasz: %s, küldve ennek: %s
 [Notice to %s: ]
 Jegyzet ennek: %s:
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Gyorscsatlakozás
 [&Join channel]
@@ -614,11 +611,8 @@ Hozzáadás elvetési &listához
 Felhasználó &hozzáadása
 [Connecting to]
 Csatlakozás ehhez:
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Kilépett
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp
 [Channel]
 Csatorna
 [---- Not listed server ----]

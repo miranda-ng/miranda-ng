@@ -5,16 +5,11 @@
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-;file \plugins\PackUpdater\Res\Resource.rc
 [Cancel]
 Mégsem
 [Text]
 Szöveg
+[Sec]
+mp.
 [Popups]
 Felugrók
-;file \plugins\PackUpdater\Src\Events.cpp
-;file \plugins\PackUpdater\Src\Notifications.cpp
-;file \plugins\PackUpdater\Src\Notifications.h
-;file \plugins\PackUpdater\Src\Options.cpp
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
-;file \plugins\PackUpdater\Src\Utils.cpp

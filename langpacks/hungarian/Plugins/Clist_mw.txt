@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [Stretch to width]
 Nyújtás a szélességhez
 [Stretch to height]
@@ -204,6 +203,8 @@ Beesés hatás a paneleken
 Kapcsolat ikon használata
 [Use New Drawer for StatusBar]
 Új rajzoló használata az ÁllapotSorhoz
+[&Main menu]
+&Fõmenü
 [E&xit]
 &Kilépés
 [&Status]
@@ -256,12 +257,10 @@ Kilépett partnerek elrejtése itt
 Csoport átnevezése
 [&Delete Group]
 &Csoport törlése
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Testreszabás
 [Backgrounds]
 Hátterek
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Standard contacts]
 Alapvetõ partnerek
 [Online contacts to whom you have a different visibility]
@@ -290,7 +289,6 @@ Kijelölt Szöveg
 Gyorkövetés szöveg
 [Quicksearch Text]
 Gyorskeresés szöveg
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Lista
 [List Background]
@@ -321,26 +319,17 @@ Láthatatlan
 Ebédel
 [On the phone]
 Telefonál
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 Globális
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 _NoProtocol_
 [(Unknown Contact)]
 (ismeretlen partner)
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 &Partnerek keresése/hozzáadása
-[&Main menu]
-&Fõmenü
 [&Options...]
 &Beállítások...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&New SubGroup]
+Új alcsoport
 [Frames]
 Keretek
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

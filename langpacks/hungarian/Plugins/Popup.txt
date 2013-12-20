@@ -5,52 +5,67 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
-;file \plugins\Popup\res\resource.rc
 [Effects]
 Effektek
 [History]
 Elõzmény
+[events]
+Események
 [pixels]
 képpont
 [Close]
 Bezárás
 [General]
 Általános
+[Sec]
+mp.
 [seconds]
 mp.
 [Position:]
 Pozíció:
-;file \plugins\Popup\src\actions.cpp
+[User details]
+Felhasználó részletek
 [Contact menu]
 Partner Menü
-;file \plugins\Popup\src\config.cpp
-;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-;file \plugins\Popup\src\history.cpp
-;file \plugins\Popup\src\icons.cpp
 [OK]
 OK
 [Cancel]
 Mégsem
-[User details]
-Felhasználó részletek
-;file \plugins\Popup\src\main.cpp
+[Blocked Contact]
+Blokkolt partner
+[Contact Menu]
+Partner Menü
 [Actions]
 Akciók
 [Contacts]
 Partnerek
 [Advanced]
 Haladó
-;file \plugins\Popup\src\opt_adv.cpp
-;file \plugins\Popup\src\opt_class.cpp
-;file \plugins\Popup\src\opt_gen.cpp
-;file \plugins\Popup\src\opt_skins.cpp
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Invisible]
+Láthatatlan
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Out to lunch]
+Ebédel
+[On the phone]
+Telefonál
+[Skin preview]
+Bõr rlõnézet
+[Enable Aero Glass (Vista+)]
+Aero Glass be (Vista+)
 [Use Windows colors]
 Windows színek használata
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-;file \plugins\Popup\src\services.cpp
 [Error]
 Hiba
-;file \plugins\Popup\src\skin.cpp
-;file \plugins\Popup\src\srmm_menu.cpp

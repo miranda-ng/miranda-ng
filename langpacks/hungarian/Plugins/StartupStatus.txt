@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.45
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Általános
 [Close]
@@ -20,6 +19,8 @@ Profil
 Beállít
 [OK]
 OK
+[Command line:]
+Parancssor:
 [Other]
 Egyéb
 [Background color]
@@ -44,14 +45,14 @@ Fiókok
 Törlés
 [seconds]
 mp.
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<unknown>]
+<ismeretlen>
 [None]
 Egyik sem
 [default]
 alap
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
-;file \Plugins\StatusPlugins\commonstatus.cpp
+[unknown]
+Ismeretlen
 [I've been away since %time%.]
 Távol vagyok ekkortól: %idõ%.
 [Give it up, I'm not in!]
@@ -74,7 +75,6 @@ Csörög a telefonom.
 Mmm... kaja.
 [idleeeeeeee]
 Inaktíííííív
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protokoll
 [Closing in %d]

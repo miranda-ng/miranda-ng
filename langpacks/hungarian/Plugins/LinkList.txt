@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Keresés
 [Close]
@@ -14,6 +13,10 @@ Bezárás
 Bejövõ üzenetek
 [Outgoing messages]
 Kimenõ üzenetek
+[Background color]
+Háttérszín
+[Text color]
+Szövegszín
 [Timestamp]
 Idõbélyeg
 [&File]
@@ -24,11 +27,15 @@ Idõbélyeg
 &Beállítások
 [&Search]
 &Keresés
-;file \plugins\HistoryLinkListPlus\src\language.h
+[link]
+Hivatkozás
 [Error]
 Hiba
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[incoming]
+Bejövõ
+[outgoing]
+Kimenõ
 [History]
 Elõzmény
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+Minden fájl

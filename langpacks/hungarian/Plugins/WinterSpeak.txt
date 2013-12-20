@@ -1,0 +1,55 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Status Changes]
+Állapotváltozások
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[DND]
+Ne zavarjanak
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[Incoming message]
+Bejövõ üzenet
+[Incoming URL]
+Bejövõ URL
+[Incoming File]
+Bejövõ fájl
+[Authorization request]
+Engedélyezési kérés
+[Status messages]
+Állapot Üzenetek
+[The following events are being ignored:]
+A következõ események elvetése:
+[Messages]
+Üzenetek
+[Online Notification]
+Online Értesítések
+[All Events]
+Összes Esemény
+[None]
+Egyik sem
+[Add]
+Új
+[Remove]
+Eltávolítás
+[** All contacts **]
+** Minden új partner **
+[** Unknown contacts **]
+** Ismeretlen partnerek **
+[Message Session]
+Üzenet mukamenet

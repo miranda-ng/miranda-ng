@@ -5,14 +5,17 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 OK
+[Background color]
+Háttérszín
+[Text color]
+Szövegszín
 [Use windows colors]
 Windows színek használata
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [File]
 Fájl
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error]
+Hiba
 [Popups]
 Felugrók

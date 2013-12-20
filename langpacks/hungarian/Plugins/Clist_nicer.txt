@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 A CList Nicer+ névjegye
 [OK]
@@ -118,6 +117,8 @@ Ne legyenek elkülönítve a kilépetek
 Elrejtés, mint kilépett
 [Right align contacts]
 Partnerek igazítása jobbra
+[Height]
+magasság
 [Draw a border around avatars]
 Legyen keret az avatár körül
 [Rounded avatars]
@@ -290,6 +291,8 @@ Alkalmaz
 Protokoll
 [Group]
 Csoport
+[Last message]
+Utolsó üzenet
 [Per contact skins:]
 Partenkénti bõrök:
 [< Reload]
@@ -362,6 +365,8 @@ Második sor:
 Ikon az avatár fölé
 [Show local time]
 Helyi idõ mutatása
+[&Main menu]
+&Fõmenü
 [E&xit]
 &Kilépés
 [&Status]
@@ -422,11 +427,12 @@ Metakapcsolat proto ikonok
 További gombok mutatása
 [Draw sunken Frame]
 Besüllyesztett keret rajzolása
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Általános
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+Szövegszín
+[<None>]
+<nincs>
 [Show menu]
 Menü mutatása
 [Show / hide offline contacts]
@@ -447,7 +453,6 @@ Partnerlista lekicsinyítése
 Nézet mód kiválasztása
 [Clear view mode]
 Nézet mód ürítése
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Nem fókuszált
 [Offline]
@@ -480,8 +485,6 @@ Automatikus (RTL)
 Név
 [Status]
 Állpot
-[Last message]
-Utolsó üzenet
 [Message frequency]
 Üzenet gyakoriság
 [For RTL only]
@@ -510,7 +513,8 @@ Partnerek
 Csoportok és nézet
 [Advanced]
 Haladó
-;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Contact list]
+Kapcsolati lista
 [Add permanently]
 Végleges hozzáadás
 [Revert to default]
@@ -529,10 +533,8 @@ Ha szükséges az állapot üzenethez
 Partnerlista nézet és hanyagolás beállítások %s
 [&Contact list settings...]
 Partnerlista beállítások
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Globális
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Elérhetõ/kilépett mutatás váltogatása
 [Toggle groups]
@@ -547,6 +549,8 @@ TabSRMM menü mutatása
 Hangok kikapcsolva
 [Setup accounts]
 Fiókok beállítása
+[Event Area]
+Esemény terület
 [Open main menu]
 Fõmenü megnyitása
 [Set status modes]
@@ -575,40 +579,35 @@ Kijelölt Szöveg
 Gyorkövetés szöveg
 [Quicksearch Text]
 Gyorskeresés szöveg
-;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Címsor
 [Tool Window]
 Eszköz ablak
 [Thin border]
 Vékony keret
 [No border]
 Nincs keret
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 A CList nem dokkolható alap címsorral és kerettel. Használja az eszközablak vagy keretnélküli stílust.
 [Clist docking]
 CList dokkolás
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Current view mode: %s]
 Aktuális nézet mód: %s
 [No view mode]
 Nincs nézet mód
 [Clear current View Mode]
 Aktuális nézet mód ürítése
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 Bõrözött keret
 [Frames]
 Keretek
 [Skinned frame]
 Bõrözött keret
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Partnerek keresése/hozzáadása
-[&Main menu]
-&Fõmenü
 [&Options...]
 &Beállítások...
 [&About the contact list...]
 A partnerlista &névjegye...
+[&New SubGroup]
+Új alcsoport

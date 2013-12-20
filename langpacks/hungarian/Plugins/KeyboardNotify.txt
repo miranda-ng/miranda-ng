@@ -5,7 +5,6 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-;file \plugins\KeyboardNotify\res\resources.rc
 [Incoming messages]
 Bejövõ üzenetek
 [seconds]
@@ -46,12 +45,10 @@ Mégsem
 A következõ események elvetése:
 [Ignore]
 Mellõz
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Minden új partner **
 [** Unknown contacts **]
 ** Ismeretlen partnerek **
-;file \plugins\KeyboardNotify\src\options.cpp
 [Events]
 Események
 [Accounts]

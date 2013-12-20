@@ -1,0 +1,47 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+mp.
+[Bold]
+Félkövér
+[URL:]
+URL:
+[OK]
+OK
+[Cancel]
+Mégsem
+[Apply]
+Alkalmaz
+[Find]
+Keresés
+[&Find next]
+Következõ &Keresése
+[Find what:]
+Keresés Erre:
+[Use custom colors]
+Egyedi színek használata
+[Background]
+Háttér
+[Text]
+Szöveg
+[Use Windows colors]
+Windows színek használata
+[Log]
+Napló
+[&Copy]
+&Másol
+[&Delete]
+&Törlés
+[Co&py all]
+Mindet másol
+[Network]
+Hálózat
+[Popups]
+Felugrók
+[Online]
+Elérhetõ

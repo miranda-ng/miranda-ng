@@ -5,7 +5,6 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Becenevem bállítása
 [Nickname:]
@@ -76,10 +75,10 @@ Avatarom beállítása...
 Becenevem beállítása
 [Set My Status Message...]
 Állapot üzenetem beállítása...
-;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <nincs állapot név>
-;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+Becenév
 [Status]
 Állpot
 [My Details]
@@ -96,13 +95,9 @@ Becenevem beállítása %s részére...
 Állapot üzenetem bállítása %s részére...
 [Hide My Details]
 Részleteim elrejtése
-;file \plugins\MyDetails\src\mydetails.cpp
 [Set My Nickname for %s]
 Becenevem beállítása %s részére
 [Set My Status Message for %s]
 Állapot üzenetem beállítása %s részére
-[Show next account]
-
 [Contact List]
 Kapcsolati lista
-;file \plugins\MyDetails\src\options.cpp

@@ -5,8 +5,12 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-;file \plugins\Db3x_mmap\src\database.cpp
+[OK]
+OK
+[Cancel]
+Mégsem
+[Remove]
+Eltávolítás
 [Disk is full. Miranda will now shutdown.]
 A lemez megtelt. A Miranda most kilép.
 [Database failure. Miranda will now shutdown.]
@@ -15,12 +19,3 @@ Adatbázis hiba. A Miranda most leáll.
 Adatbázis hiba
 [Database Panic]
 Adatbázis pánik
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp

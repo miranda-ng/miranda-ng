@@ -1,11 +1,10 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
-;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 Azonosító:
 [Password:]
@@ -46,10 +45,10 @@ Visszautasít
 &Mégse
 [Add]
 Új
-;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 Konferenciameghívást kaptál ebbe a szobába: %s ezzel az üzenettel: %s
-;file \protocols\Yahoo\src\icolib.cpp
+[User &details]
+Felhasználó &részletek
 [Mail]
 E-mail
 [Profile]
@@ -60,16 +59,12 @@ Címtár
 Állapot beállítása
 [Calendar]
 Naptár
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo hiba
 [The message send timed out.]
 Az üzenetküldés idõtúlépés miatt meghiúsult.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Túl hosszú az üzenet: Yahho üzenetek korlátozva vannak 800 UTF8 karakterre
-;file \protocols\Yahoo\src\links.cpp
-;file \protocols\Yahoo\src\main.cpp
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 A változtatások életbe lépéséhez szükség van a Yahoo Hláózathoz történõ újracsatlakozásra
 [YAHOO Options]
@@ -88,14 +83,12 @@ Kapcsolódva kell lenned a Yahoo-hoz elvetési listáról történõ eltávolít
 Válassz egy havert az elvetési listán az eltávolításhoz.
 [Network]
 Hálózat
-;file \protocols\Yahoo\src\proto.cpp
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Kérlek add meg a Yahoo azonosítód a Beállítások/Hálózat/Yahoo menüben
 [Please enter your yahoo password in Options/Network/Yahoo]
 Kérlek add meg a yahoo jelszavad a Beállítások/Hálózat/Yahoo menüben
 [Yahoo Login Error]
 Yahoo belépési hiba
-;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 kapcsolódva kell lenned az egyéni üzenet beállításához
 [You need to be connected to refresh your buddy list]
@@ -112,10 +105,8 @@ Kapcsolódva kell lenned a haverlistád frissítéséhez
 &Naptár
 [&Show Profile]
 Profil &mutatása
-;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
 Webkamerameghívásod érkezett. (jelenleg nem támogatott)
-;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Naptár Emlékeztetõ
 [%s has rejected your request and sent the following message:]

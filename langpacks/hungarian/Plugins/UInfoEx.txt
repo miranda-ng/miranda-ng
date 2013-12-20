@@ -5,7 +5,6 @@
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-;file \plugins\UserInfoEx\res\resource.rc
 [Updating]
 Frissítés
 [OK]
@@ -70,6 +69,8 @@ Ikonok
 Egyik sem
 [Off]
 Ki
+[Extra Icons]
+Extra ikonok
 [Gender:]
 Nem:
 [Phone]
@@ -78,20 +79,14 @@ Telefon
 E-levél
 [Age:]
 Életkor
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[not found]
+NEM TALÁLHATÓ
 [Unspecified]
 Nem meghatározott
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Other]
 Egyéb
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Contact]
 Kapcsolat
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Yes]
 Igen
 [No]
@@ -100,7 +95,6 @@ Nem
 Mellõz
 [Error]
 Hiba
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [General]
 Általános
 [Work]
@@ -111,38 +105,38 @@ Profil
 Megjegyzések
 [Owner]
 Tulaj
-;file \plugins\UserInfoEx\src\init.cpp
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Upload failed]
+Feltöltés SIKERTELEN
+[Marital status]
+Családi állapot
 [Default]
 Alap
 [Fax]
 Fax
+[e-mail]
+E-levél
+[Down arrow]
+Le Nyíl
 [Add]
 Új
 [Edit]
 Szerkeszt
 [Search]
 Keresés
-;file \plugins\UserInfoEx\src\mir_icolib.h
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [User &details]
 Felhasználó &részletek
 [View/Change My &Details...]
 Saját &Részletek megtekintése/módosítása...
-;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Jegyzeteim:
 [About:]
 Névjegy
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-;file \plugins\UserInfoEx\src\psp_contact.cpp
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Contacts]
 Partnerek
 [Advanced]
 Haladó
 [Popups]
 Felugrók
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
 Kultúra és irodalom
 [Movies/TV]
@@ -179,25 +173,9 @@ Audio és megjelenés
 Sport és atlétika
 [Home automation]
 Otthon gépesítés
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(ismeretlen partner)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 e-mail küldése
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Complete]
 Teljes
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

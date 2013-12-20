@@ -5,19 +5,13 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-;file \plugins\SmileyAdd\res\resource.rc
 [Name:]
 Név:
-;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-;file \plugins\SmileyAdd\src\download.cpp
-;file \plugins\SmileyAdd\src\main.cpp
-;file \plugins\SmileyAdd\src\options.cpp
+[Smiley button]
+Emotikon gomb
 [Customize]
 Testreszabás
 [Off]
 Ki
 [All files]
 Minden fájl
-;file \plugins\SmileyAdd\src\services.cpp
-;file \plugins\SmileyAdd\src\smileys.cpp
-;file \plugins\SmileyAdd\src\smltool.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
-;file \plugins\ModernOpt\res\resource.rc
 [OK]
 OK
 [Cancel]
@@ -14,7 +13,6 @@ Mégsem
 Alkalmaz
 [Advanced]
 Haladó
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Accounts]
 Fiókok
 [Style]

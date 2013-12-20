@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [Set default picture]
 Alap kép beállítása
 [Delete default picture]
@@ -64,10 +63,32 @@ Színkülönbség:
 Beállít
 [Use per protocol avatars]
 Protokollonként eltérõ avatár
-;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 A protokolloknal eltérõ avatarjai vannak
-;file \plugins\AVS\src\main.cpp
+[Global avatar]
+Globális avatár
+[My Avatars]
+Avatarjaim
+[My Global Avatar Cache]
+Globális avatár táram
+[Set avatar options for %s]
+Avatar opciók megadása neki: %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Kép törlése a helyi lemezrõl? (szükséges lehet az újratöltés kikényszerítéséhez)
+[Reset contact picture]
+Kapcsolat képe alapra
+[Contact has no avatar]
+A partnernek nincs avatarja
+[Contacts]
+Partnerek
+[Contact Avatars]
+Partner avatárok
+[Own Avatars]
+Saját avatárok
+[Are you sure you want to remove your avatar?]
+Biztosan eltávolítja az avatárját?
+[Global Avatar]
+Globális avatár
 [All Files]
 Minden fájl
 [Windows Bitmaps]
@@ -86,26 +107,3 @@ XML fájlok
 Avatarom beállítása
 [Set My Avatar for %s]
 Avatarom beállítása %s részére
-[My Avatars]
-Avatarjaim
-[My Global Avatar Cache]
-Globális avatár táram
-[Contacts]
-Partnerek
-[Contact Avatars]
-Partner avatárok
-[Own Avatars]
-Saját avatárok
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Avatar opciók megadása neki: %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Kép törlése a helyi lemezrõl? (szükséges lehet az újratöltés kikényszerítéséhez)
-[Reset contact picture]
-Kapcsolat képe alapra
-[Contact has no avatar]
-A partnernek nincs avatarja
-[Are you sure you want to remove your avatar?]
-Biztosan eltávolítja az avatárját?
-[Global Avatar]
-Globális avatár

@@ -1,0 +1,43 @@
+﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Module: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn
+;============================================================
+[&Copy Link]
+&Link másolása
+[Copy All]
+Összes másolása
+[System History]
+Rendszer történet
+[Incoming url]
+Bejövõ URL
+[Outgoing file]
+Kimenõ fájl
+[Outgoing url]
+Kimenõ URL
+[Message log options]
+Üzenetnapló beállítások
+[Incoming Url]
+Bejövõ URL
+[Outgoing Url]
+Kimenõ URL
+[Authorization request]
+Engedélyezési kérés
+[&Reset to Default]
+&Visszaállítás alapért.-re
+[Open in &new window]
+Megnyitás &új ablakban
+[Select &All]
+&Összes kijelölése
+[Send &Message]
+&Üzenet küldése
+[User Details]
+Felhasználó részletek
+[View user's history]
+Felhasználó elõzményeinek megtekintése
+[View User's History]
+Felhasználó elõzményeinek megtekintése
+[View &History]
+&Elõzmény megtekintése

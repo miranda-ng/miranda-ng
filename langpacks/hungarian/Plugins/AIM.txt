@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM felhasználó részletek
 [Password:]
@@ -40,6 +39,8 @@ Proxy fájlátvitelek kényszerítése
 Port:
 [Reset]
 Alapraállítás
+[Manage Server Groups]
+Szerver csoportok kezelése
 [Save Profile]
 Profil mentése
 [AIM Instant Idler]
@@ -64,24 +65,22 @@ Tétlen
 &Mégse
 [E-mail]
 E-levél
+[Save Changes]
+Változások mentése
 [&Deny]
 Visszautasít
 [Message]
 Üzenet
-;file \protocols\AimOscar\src\chat.cpp
-;file \protocols\AimOscar\src\error.cpp
-;file \protocols\AimOscar\src\file.cpp
-;file \protocols\AimOscar\src\links.cpp
-;file \protocols\AimOscar\src\popup.cpp
-;file \protocols\AimOscar\src\proto.cpp
-;file \protocols\AimOscar\src\server.cpp
+[User &details]
+Felhasználó &részletek
 [[Auto-Response]:]
 Auto-válasz:
 [No information has been provided by the server.]
 Nincs információ a szervertõl.
-;file \protocols\AimOscar\src\theme.cpp
 [Profile]
 Profil
+[Background Color]
+Háttérszín
 [Bold]
 Félkövér
 [Manage Account]
@@ -94,7 +93,5 @@ Azonnali idle
 Profil megtekintése
 [Add To Server List]
 Szerverlistához adás
-;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Hálózat
-;file \protocols\AimOscar\src\utility.cpp

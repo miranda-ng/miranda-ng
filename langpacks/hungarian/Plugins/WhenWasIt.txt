@@ -5,7 +5,6 @@
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Popups]
 Felugrók
 [Sounds]
@@ -24,7 +23,6 @@ Leírás:
 Dátum:
 [Delete]
 Törlés
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Unknown]
 Ismeretlen
 [Protocol]
@@ -33,14 +31,9 @@ Protokoll
 Kapcsolat
 [Age]
 Kor
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Contacts]
 Partnerek
-;file \plugins\WhenWasIt\src\icons.cpp
-;file \plugins\WhenWasIt\src\notifiers.cpp
-;file \plugins\WhenWasIt\src\services.cpp
 [Error]
 Hiba
 [All Files]
 Minden fájl
-;file \plugins\WhenWasIt\src\services.h

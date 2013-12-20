@@ -5,23 +5,23 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Username:]
 Felhasználónév:
 [Cancel]
 Mégsem
 [sec]
 mp.
+[Use Windows colors]
+Windows színek használata
+[Use custom colors]
+Egyedi színek használata
 [Text]
 Szöveg
 [Custom]
 Egyedi
 [OK]
 OK
-;file \protocols\Twitter\src\connection.cpp
-;file \protocols\Twitter\src\proto.cpp
 [Network]
 Hálózat
 [Popups]
 Felugrók
-;file \protocols\Twitter\src\theme.cpp

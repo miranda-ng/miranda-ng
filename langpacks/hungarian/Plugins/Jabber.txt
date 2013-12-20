@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
 [Cancel]
@@ -260,6 +259,8 @@ Akkor:
 következõ strófa típusok:
 [Messages]
 Üzenetek
+[Queries]
+kérdõívek
 [Incoming presence]
 Bejövõ jelenlét
 [Outgoing presence]
@@ -274,6 +275,8 @@ Szolgáltatás felfedezés
 Megtekintés faként
 [View as list]
 Megtekintés listaként
+[Favorites]
+Kedvencek
 [Node:]
 Csomópont:
 [Change %s Message]
@@ -296,6 +299,8 @@ Feladat beállítása
 Csatlakozás:
 [Set affiliation]
 Csatlakozás beállítása
+[Status message:]
+Állapot üzenet:
 [Chat options]
 Csevegés beállítások
 [Custom messages]
@@ -324,11 +329,8 @@ Megtagadás
 XML konzol
 [Reset log]
 Napló visszaállítása
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
 [/me slaps %s around a bit with a large trout]
 /me megcsapkodja %s-t egy kicsit egy nagy pisztránggal
-;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Hiba %s %s
 [Select Command]
@@ -345,20 +347,16 @@ Parancslista lekérése. Kérlek várj...
 Jabber alkalmi parancsok itt:
 [Sending Ad-Hoc command to %s]
 Alkalmi parancs küldése ide:
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Nincs üzenet
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Könyvjelzõ név
 [Address (JID or URL)]
 Cím (JID vagy URL)
+[Nickname]
+Becenév
 [Conferences]
 Konferenciák
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Egyik sem
 [Member]
@@ -439,6 +437,8 @@ Csevegésre kész
 &Felhasználó részletek
 [Member &info]
 Tag &infó
+[User &details]
+Felhasználó &részletek
 [&Add to roster]
 Névjegyzékhez &adás
 [&Copy to clipboard]
@@ -469,26 +469,12 @@ Kizárt (&tilt)
 Valós &JID másolása
 [Real &JID: %s]
 Valós &JID: %s
-[Member Info:]
-Tag infó:
 [Real JID not available]
 Valós JID nem elérhetõ
-[Reason to kick]
-Kirúgás oka
-[Reason to ban]
-Kizárás oka
-[Set topic for]
-Téma beállítása ehhez:
-[Change nickname in]
-Becenév váltása itt:
-[Reason to destroy]
-Megsemmisítés oka
-;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Nem küldhetsz adatot offline módban.
 [Jabber Error]
 Jabber hiba
-;file \protocols\JabberG\src\jabber_disco.cpp
 [Node hierarchy]
 Csomópont rangsor
 [Node]
@@ -507,7 +493,6 @@ Helyi átvitelek böngészése
 Csevegésszobák böngészése
 [Add to roster]
 Névsorba vétel
-;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Személyazonosságok
 [category]
@@ -520,8 +505,10 @@ Támogatott jellemzõk
 Info kérelem hiba
 [Items request error]
 Elem kérelem hiba
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
+[First Name]
+Keresztnév
+[Last Name]
+Vezetéknév
 [Failed to retrieve room list from server.]
 Szobalista lekérése szoerverrõl sikertelen.
 [No rooms available on server.]
@@ -538,7 +525,8 @@ Kérlek várd meg, míg letöltõdik a szobalista.
 Kérlek add meg elõbb a csoportos csevegés könyvtárát.
 [Bookmarks...]
 Könyvjelzõk...
-;file \protocols\JabberG\src\jabber_icolib.cpp
+[transport]
+Átvitel
 [Notes]
 Megjegyzések
 [Agents list]
@@ -603,7 +591,6 @@ Kérdõívek engedélyezése
 Kérdõívek megtagadása
 [Dialogs]
 Párbeszédek
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Jabber Authentication]
 Jabber hitelesítés
 [Registration successful]
@@ -614,7 +601,6 @@ A jelszó sikeresen módosítva. Ne felejtsd el frissíteni a jelszavad a Jabber
 A jelszó módosítása nem lehetséges.
 [Jabber Bookmarks Error]
 Jabber Könyvjelzõk Hiba
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Voice List]
 Hang lista
 [Member List]
@@ -627,12 +613,10 @@ Tiltó lista
 Admin lista
 [Owner List]
 Tulajdonos lista
-[Removing]
-Eltávolítás
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
+[Reason to ban]
+Kizárás oka
 [Http authentication request received]
 Http meghatalmazási kérelem fogadva
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 Engedély kérés
 [Grant authorization]
@@ -667,26 +651,22 @@ Névsor szerkesztõ
 Forrás priortás
 [Resource priority [%d]]
 Forrás prioritás [%d]
-[Last active]
-Legutóbb aktív
+[Privacy lists]
+Adatvédelmi listák
+[Service discovery]
+Szolgáltatás felfedezés
 [No activity yet, use server's choice]
 Nincs aktivitás még, használd a szerver választását
 [Highest priority (server's choice)]
 Legmagasabb prioritás (szerver választása)
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
 Címzett
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Nauru]
 Nauru
 [These changes will take effect the next time you connect to the Jabber network.]
 Ezek a módosítások a következõ Jabber hálózathoz történõ csatlakozáskor lépnek életbe.
 [Jabber Protocol Option]
 Jabber Protokoll Beállítások
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Ez a mûvelet megsemmisíti a fiókod, a névjegyzéked és minden más a szerveren tárolt információt. Biztosan ezt akarod?
 [Account removal warning]
 Fiók eltávolítási figyelmeztetés
 [Messaging]
@@ -751,6 +731,8 @@ Feladat változások
 Állapotváltozások
 [JID]
 JID
+[Nick Name]
+Becenév
 [Group]
 Csoport
 [Subscription]
@@ -775,14 +757,10 @@ Google Talk!
 LiveJournal Talk
 [Some changes will take effect the next time you connect to the Jabber network.]
 Néhány módosítás a következõ Jabber hálózathoz történõ csatlakozáskor lép életbe.
-;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Új Jelszó beállítása ehhez:
 [New password does not match.]
 Az új jelszó nem egyezik.
 [Current password is incorrect.]
 A jelenlegi jelszó helytelen.
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
 Figyelmeztetés: a privát listák mentve a szerveren.
 [Error occurred while applying changes]
@@ -879,15 +857,14 @@ Privát listák nincsenek mentve, kilépés változtatások mentése nélkül?
 Lista mentése nem lehetséges, mert jelenleg offline módban vagy.
 [List Editor...]
 Lista Szerkesztõ...
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
+[Set status]
+Állapot beállítása
 [Status]
 Állpot
 [Invisible]
 Láthatatlan
 [Offline]
 Kilépett
-;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 %s %s hiba\r\nKérlek válassz másik szervert
 [Error: unknown reply received\r\nPlease select other server]
@@ -902,7 +879,6 @@ Válaszd ki/gépeld be a keresési szolgáltatás URL-jét és kattints az <Ugr�
 Kérlek várj...\r\nCsatlakozás keresési szerverhez...
 [You have to be connected to server]
 Csatlakozva kell lenned a szerverhez
-;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 befejezett csevegés munkamenet
 [sent subscription request]
@@ -915,7 +891,6 @@ megtagadott hozzájárulás
 elküldött jelenléti hiba
 [sent unknown presence type]
 elküldött ismeretlen jelenléti típus
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Error: Not enough memory]
 Hiba: Nincs elég memória
 [Error: Cannot connect to the server]
@@ -928,7 +903,6 @@ Regisztrációs utasítás kérése...
 üzenet átirányítva innen: %s\r\n%s
 [Sending registration information...]
 Regisztrációs információ küldése...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Üzenet
 [<not specified>]
@@ -939,14 +913,16 @@ Szoftver
 Verzió
 [System]
 Rendszer
+[unknown]
+Ismeretlen
 [Idle since]
 Inaktív ekkortól:
 [Client capabilities]
 Kliens adottságok
-[Yes]
-Igen
-[No]
-Nem
+[to]
+Címzett
+[none]
+Egyik sem
 [Last logoff time]
 Utolsó kijelentkezési idõ
 [Uptime]
@@ -973,14 +949,14 @@ Ismeretlen formátum
 <Nincs fotó>
 [Photo]
 Kép
-;file \protocols\JabberG\src\jabber_util.cpp
+[Not found]
+NEM TALÁLHATÓ
 [Error]
 Hiba
 [Unknown error message]
 Ismeretlen hiba üzenet
 [Advanced Status]
 Haladó Állapot
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Férfi
 [Female]
@@ -995,8 +971,6 @@ Jabber vCard: E-mailcím szerkesztése
 Jabber vCard: Telefonszám szerkesztése
 [Contacts]
 Partnerek
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 Fél
 [Amazed]
@@ -1111,4 +1085,17 @@ Meglepett
 Szomjas
 [Worried]
 Aggódó
-;file \protocols\JabberG\src\ui_utils.cpp
+[taking a bath]
+Fürdik
+[thinking]
+Elmélkedik
+[gaming]
+Játszik
+[shopping]
+Vásárol
+[watching TV]
+Tévézik
+[on the phone]
+Telefonál
+[studying]
+Tanul

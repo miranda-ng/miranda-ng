@@ -5,7 +5,6 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
-;file \plugins\SecureIM\res\resource.rc
 [sec]
 mp.
 [Text]
@@ -22,23 +21,27 @@ OK
 Mégsem
 [Status]
 Állpot
-;file \plugins\SecureIM\src\language.cpp
 [General]
 Általános
+[Nickname]
+Becenév
 [Name]
 Név
+[ON]
+Be
 [Off]
 Ki
-;file \plugins\SecureIM\src\loadicons.cpp
+[Disabled]
+kikapcsolva
 [Contact List]
 Kapcsolati lista
+[Contact Menu]
+Partner Menü
 [Popups]
 Felugrók
-;file \plugins\SecureIM\src\main.cpp
 [Icons]
 Ikonok
-;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 Végrehajható fájlok
-;file \plugins\SecureIM\src\popupOptions.cpp
-;file \plugins\SecureIM\src\svcs_srmm.cpp
+[All files]
+Minden fájl

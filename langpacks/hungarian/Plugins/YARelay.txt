@@ -5,7 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
-;file \plugins\YARelay\res\yaRelay.rc
+[Everyone]
+mindenki
 [Contact]
 Kapcsolat
 [Offline]
@@ -24,6 +25,5 @@ Ne zavarjanak
 Csevegésre kész
 [Invisible]
 Láthatatlan
-;file \plugins\YARelay\src\options.cpp
 [Plugins]
 Beépülõk

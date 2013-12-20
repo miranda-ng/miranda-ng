@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 üzenet Elõzmény
 [Show names]
@@ -18,22 +17,22 @@ Név
 OK
 [Cancel]
 Mégsem
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 &Elõzmény megtekintése
 [Incoming message]
 Bejövõ üzenet
 [Outgoing message]
 Kimenõ üzenet
+[Status change]
+Állapotváltás
 [History]
 Elõzmény
-;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Összes Esemény
 [History for %s]
 Elõzmény ehhez: %s
 [System]
 Rendszer
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 Megnyitás &új ablakban
 [&Open in existing window]
@@ -48,32 +47,33 @@ Törlés
 Csoport törlése
 [Options]
 Beállítások
+[Fonts and colors]
+Betûtípusok és Színek
 [Icons]
 Ikonok
 [Hotkeys]
 Gyorsbillentyûk
 [Error]
 Hiba
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Üzenet
 [Link]
 Hivatkozás
+[Authorization request]
+Engedélyezési kérés
+[You were added]
+Hozzáadásra Kerültél
 [Messages]
 Üzenetek
 [Searching]
 Keresés
 [Advanced]
 Haladó
+[Contact list background]
+Kapcsolati lista háttér
 [Find]
 Keresés
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
 [Contacts]
 Partnerek
-;file \plugins\BasicHistory\src\Searcher.cpp
 [Search]
 Keresés
-;file \plugins\BasicHistory\src\TxtExport.cpp

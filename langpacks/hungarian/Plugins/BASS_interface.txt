@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-;file \plugins\BASS_interface\res\Bass.rc
 [Offline]
 Kilépett
 [Online]
@@ -26,7 +25,5 @@ Láthatatlan
 Telefonál
 [Out to lunch]
 Ebédel
-;file \plugins\BASS_interface\src\Bass_interface.h
-;file \plugins\BASS_interface\src\Main.cpp
 [Sounds]
 Hangok

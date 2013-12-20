@@ -1,11 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+ICQ szám:
 [Password:]
 Jelszó:
 [&Send]
@@ -138,6 +139,8 @@ Hiba
 Végzetes
 [Spam detected]
 Észlelt spam
+[&Use Windows colors]
+Windows színek használata
 [Use system &icons]
 Rendszer &ikonok használata
 [Use default colors]
@@ -212,7 +215,6 @@ Jelszómódosítás megerõsítése
 Kérlek gépeld be újra az új jelszavad:
 [Enter your current password:]
 Jelenlegi jelszó megadása:
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 A migrált ICQ kommunikációs szerverhez történõ csatlakozás sikertelen
 [Unable to connect to ICQ communication server]
@@ -243,17 +245,14 @@ Kapcsolat megszakítva.\nIsmeretlen hiba bejelentkezéskor: 0x%02x
 A kapcsolat az ICQ hálózattal megszakítva, mert ugyanazzal az ICQ számmal léptél be egy másik helyrõl.
 [Unknown runtime error: 0x%02x]
 Ismeretlen futási hiba: 0x%02x
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Egy szerverköltöztetés sikertelen volt, mert a szerver érvénytelen adatokat válaszolt. Manuálisan kell újracsatlakoznod.
 [Failed to request offline messages. They may be received next time you log in.]
 Offline üzenetek lekérése sikertelen. A következõ belépésedkor elérhetõek lesznek.
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 Spambot észlelve
 [Contact deleted & further events blocked.]
 Partner törölve, további események blokkolva.
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 Bejövõ URL:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -278,7 +277,6 @@ A felhasználó átmenetileg nem elérhetõ. Várj egy kicsit és próbáld újr
 SNAC(4.1) SENDMSG hiba (x%02x)
 [ICQ Note]
 ICQ megjegyzés
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 A szerver partnerlista nem elérhetõ, Miranda a helyi partnerlistát használja.
 [Updating of server contact failed.]
@@ -301,12 +299,10 @@ Csoport eltávolítása a szerverlistáról sikertelen.
 Felhasználó áthelyezése más csoportba a szerverlistán sikertelen.
 [Renaming of server group failed.]
 Szervercsoport átnevezése sikertelen.
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 Biztonságos belépés sikertelen.\nÉrvénytelen szerverválasz.
 [Secure login failed.\nInvalid key length.]
 Biztonságos belépés sikertelen.\nÉrvénytelen kulcshossz.
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 Biztosan vissza akarod vonni a felhasználó felhatalmazását?\nEzzel eltávolítod magad a listájáról néhány kliensen.
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -317,13 +313,10 @@ Biztosan vissza akarod vonni a felhasználó felhatalmazását?\nEzzel eltávol�
 ** Ezt az üzenetet az ICQ szerver blokkolta ** A küldõ elárasztotta a szervert.
 [** This message was blocked by the ICQ server ** You are too evil.]
 ** Ezt az üzenetet az ICQ szerver blokkolta ** Túl gonosz vagy.
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Error uploading avatar to server, server temporarily unavailable.]
 Avatár feltöltése a szerverre sikertelen, a szerver átmenetileg nem elérhetõ.
 [Error uploading avatar to server, server refused to accept the image.]
 Avatár feltöltése szerverre sikertelen, a szerver nem fogadta el a képet.
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Afganisztán
 [Albania]
@@ -774,8 +767,26 @@ Jugoszlávia
 Zambia
 [Zimbabwe]
 Zimbabwe
+[Audio and Visual]
+Audio és megjelenés
 [Business]
 Hivatalos
+[Business Services]
+Üzleti szolgáltatások
+[Finance and Corporate]
+Pénzügy és vállalatok
+[Health and Beauty]
+Egészség és szépség
+[Home Automation]
+Otthon gépesítés
+[Household Products]
+Háztartási termékek
+[Mail Order Catalog]
+Levél rendezõ katalógus
+[Retail Stores]
+Kiskereskedelemi üzletek
+[Sporting and Athletic]
+Sport és atlétika
 [Past Work Place]
 Múlt munka hely
 [Past Organization]
@@ -786,13 +797,10 @@ Nõ
 Férfi
 [60-above]
 60-fölött
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 A fájl átvitel megszakadt, mert a kijelölt fájlok egyike már nem olvasható a megadott helyen. Lehet, hogy törölve lett, vagy el lett mozgatva máshova.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 A fájl fogadása megszakadt, mert a Miranda nem tudta megnyitni írásra a célfájlt. Lehet, hogy csak olvasható könyvtárba próbálta menteni.
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Engedély kérés
 [Grant authorization]
@@ -803,7 +811,6 @@ Engedély visszavonása
 Szerverlistához adás
 [Show custom status details]
 Egyéni állapot részletek mutatása
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 Minden probléma megjelenítése
 [Display problems causing possible loss of data]
@@ -822,7 +829,6 @@ Hálózat
 Partnerek
 [Popups]
 Felugrók
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 Megjegyzés sablon
 [Sample Warning]
@@ -833,10 +839,8 @@ Hiba sablon
 Végzetes sablon
 [Sample Spambot]
 Spambot sablon
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Nem adtál meg ICQ számot.\nÁllítsd be a Beállítások->Hálózat->ICQ menüben és próbáld újra.
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server]
 ICQ belépési szerverhez csatlakozás sikertelen
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
@@ -845,10 +849,8 @@ Miranda nem tudott kiosztani portot partnerek közötti direkt kapcsolatokhoz. A
 Kapcsolat sikertelen.\nBelépési folyamat sikertelen ismeretlen okból.\nPróbáld újra késõbb.
 [Your connection with the ICQ server was abortively closed]
 Kapcsolatod az ICQ szerverrel megszakadt
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 Partner információja túl nagy volt és csonkítva lett.
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 NEM TALÁLHATÓ
 [ALREADY EXISTS]
@@ -889,7 +891,6 @@ Bezárás
 Csatlakozva kell lenned hogy szinkronizálhasd a szerverlistát.
 [** All contacts **]
 ** Minden új partner **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 Fürdik
 [Drinking beer]
@@ -924,15 +925,16 @@ Belõve
 Lenni vagy nem lenni
 [Watching pro7 on TV]
 Pro7-et néz tévén
+[Free for Chat]
+Csevegésre kész
 [%s Custom Status]
 %s egyedi állapot
 [None]
 Egyik sem
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Custom Status]
+Egyéni állapot
 [Greeting card:]
 Üdvözlõkártya:
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ Figyelmeztetés
 [ICQ Error]
@@ -949,7 +951,8 @@ A proxy megtagadta a megadott felhasználónevet és jelszót. Ellenõrizd õket
 A szerver, amihez kapcsolódni próbálsz, nem létezik. Ellenõrizd a helyesírást az M->Beállítások->Hálózat->ICQ menüben.
 [error]
 hiba
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d fájlok
 [The file transfer was aborted by the other user.]
 Fájlátvitel megszakítva a másik felhasználó által.
 [The file transfer failed: Proxy error]
@@ -968,10 +971,8 @@ Fájlátvitel indítása sikertelen. Helyi porthoz kötés sikertelen és a fáj
 A kapcsolat megszakadt fájlátvitel során.
 [File transfer negotiation failed for unknown reason.]
 Fájlátviteli párbeszéd sikertelen ismeretlen okból.
-;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <érvénytelen>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Eniwetok; Kwajalein
 [GMT-11:30]
@@ -1072,6 +1073,8 @@ GMT+11:30
 GMT+12:00 Auckland; Wellington; Fidzsi-szigetek; Kamcsatka; Marshall-szigetek
 [Personal]
 Személyes
+[Nickname]
+Becenév
 [First name]
 Keresztnév
 [Last name]
@@ -1150,7 +1153,6 @@ Személyes érdeklõdés
 4. érdeklõdési kategória
 [Interest areas 4]
 4. érdeklõdési körök
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 A jelszó nem egyezik a jelenlegi jelszavaddal. Ellenõrizd a Caps Lock-ot és próbáld újra.
 [Change ICQ Details]
@@ -1159,7 +1161,6 @@ ICQ részletek módosítása
 A jelszó nem egyezik az eredetileg megadott jelszóval. Ellenõrizd a Caps Lock-ot és próbáld újra.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 Az ICQ szerver nem támogatja a 8 karakternél hosszabb jelszavakat. Kérlek használj rövidebb jelszót.
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
 <alkalmazva eltávolíthatatlan>
 [Unknown value]
@@ -1174,14 +1175,10 @@ Feltöltés folyamatban...%d%%
 Feltöltés kész
 [Upload FAILED]
 Feltöltés SIKERTELEN
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Jelenleg nem vagy csatlakozva az ICQ hálózathoz. Csatlakozva kell lenned az információd frissítéséhez a szerveren.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Adj meg egy UIN %s jelszót:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
  (DC Létrejött)
 [ScreenName:]

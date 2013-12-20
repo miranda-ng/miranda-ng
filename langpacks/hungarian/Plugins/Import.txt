@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Válassza ki, hogyan szeretne importálni:
 [It is recommended that you create a backup of your current Miranda profile before importing.]
@@ -58,7 +57,6 @@ URlek
 Fájl átvitelek
 [Other]
 Egyéb
-;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Saját magunkat érintõ esemény hanyagolva
 [Added contact %u (found in history)]
@@ -97,17 +95,13 @@ Kihagyva %d partner.
 Kihagyva %d duplikátum és %d kiszûrt esemény.
 [Skipped %d duplicates.]
 Kihagyva %d azonos elem.
-;file \plugins\Import\src\main.cpp
 [&Import...]
 &Importálás...
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 A megadott fájl nem létezik. Kérem ellenõrizze a fájlnév helyességét.
 [Miranda Import]
 Miranda importálás
 [All Files]
 Minden fájl
-;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Duplikált csoport %s hanyagolva.
-;file \plugins\Import\src\wizard.cpp

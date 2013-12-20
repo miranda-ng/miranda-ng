@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
 [Password:]
@@ -46,14 +45,20 @@ Egyéb
 OK
 [Cancel]
 Mégsem
+[First Name]
+Keresztnév
+[Last Name]
+Vezetéknév
+[Nickname]
+Becenév
 [&Cancel]
 &Mégse
 [Add]
 Új
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Csevegés #
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+Felhasználó &részletek
 [Contact tried to open an audio conference (currently not supported)]
 partner megpróbált audiókonferenciát nyitni (jelenleg nem támogatott)
 [MSN Protocol]
@@ -76,30 +81,24 @@ Csak 1 személy maradt a csevegésben, szeretnél visszaváltani a szabvány üz
 MSN csevegés
 [Message delivery failed]
 Üzenet kézbesítése sikertelen
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 A felhasználó nincs online
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Tárgy: %s
 [Hotmail from %s (%S)]
 Hotmail ettõl: %s (%S)
 [Hotmail from %s]
 Hotmail ettõl: %s
-;file \protocols\MSN\src\msn_menu.cpp
 [You must be talking to start Netmeeting]
 Beszélgetésben kell lenned Nettalálkozó indításához
 [&Start Netmeeting]
 &Nettalálkozó indítása
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 Hiba
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Profile]
 Profil
+[Contact list]
+Kapcsolati lista
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 A szervercsoportok importálása a kapcsolati listád szerkezetét módosíthatja a következõ belépéskor. Feltöltöd a saját csoportjaid a szerverre?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -118,12 +117,10 @@ MSN Protokollnál szükséges, hogy az üzenet idõkeret ne legyen kevesebb, min
 Hálózat
 [Server list]
 Szerver lista
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 Partner megpróbálta elküldeni a webkamerája adatait (jelenleg nem támogatott)
 [Contact tried to view our webcam data (currently not supported)]
 Partner megpróbálta megtekinteni a webkamerád adatait (jelenleg nem támogatott)
-;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live Mail
 [Live Alert]
@@ -136,7 +133,5 @@ Túl hosszú az üzenet: SMS oldal korlátozva 133 UTF8 karakterre
 Túl hosszú az üzenet: MSN üzenetek korlátozva 1202 UTF8 karakterre
 [Offline messaging is not allowed for LCS contacts]
 Offline üzenetek nincsenek engedélyezve LCS kapcsolatnál
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Csevegés munkamenet megszakadt inaktivitás miatt

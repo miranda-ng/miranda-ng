@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Show counts of number of contacts in a group]
 Partnerek számának megjelenítése a csoportokban
 [Hide group counts when there are none online]
@@ -86,6 +85,8 @@ Töredékek helye
 Pozíció:
 [Size:]
 Méret:
+[Height]
+magasság
 [W x H: 0 x 0 pixels]
 Sz x M: 0 x 0 pixel
 [Show contacts in groups]
@@ -98,6 +99,8 @@ Mégsem
 Protokoll
 [Group]
 Csoport
+[Last message]
+Utolsó üzenet
 [Status Bar]
 Állapotsáv
 [Show status bar]
@@ -122,6 +125,8 @@ Beállítások hozzáférésenként
 Egyedi hozzáférés beállítások be
 [Hide account completely]
 Hozzáférés teljes elrejtése
+[Use connecting icon]
+Kapcsolat ikon használata
 [Show xStatus icon]
 XÁllapot ikon mutatása
 [Show both icons]
@@ -210,6 +215,8 @@ képenyõn tartás
 Ugrás a sarkokhoz
 [Event notify area]
 Esemény értesítés terület
+[Disabled]
+kikapcsolva
 [Show automaticaly]
 Mutatás automatikusan
 [Always Visible]
@@ -268,16 +275,14 @@ Ikonok ismétélse minden
 mp., ha eltérnek az állapotok
 [Show multiple icons]
 Többszörös ikonok megjelnítése
-[Only when statuses differ]
-Csak ha az állapotok eltérnek
+[only when statuses differ]
+csak eltérõ állapotoknál
 [System tray icon]
 Rendszer tálca ikon
 [System tray icon mode]
 Rendszertálca ikon mód
 [Use xStatus icon]
 XÁllapot ikon használata
-[only when statuses differ]
-csak eltérõ állapotoknál
 [Expand metacontacts]
 Metapartnerek kibontása
 [MetaContacts stuff]
@@ -392,6 +397,8 @@ Felsõ hely:
 Emotikonok a második sorban
 [Status]
 Állpot
+[Nickname]
+Becenév
 [XStatus has priority]
 XÁllapotnak prioritása van
 [Use 'XStatus: XMessage']
@@ -438,6 +445,8 @@ Tartalmazó magasság:
 Sokszintû
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 A Beállítások lap felújítás alat áll. Kérem ne foglalkozzon az itt látott hibákkal.\nCsak felsõ-szintû megjegyzések alkalmazhatóak.
+[&Main menu]
+&Fõmenü
 [E&xit]
 &Kilépés
 [&Status]
@@ -490,9 +499,12 @@ Kilépett partnerek mutatása itt
 Csoport átnevezése
 [&Delete Group]
 &Csoport törlése
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kapcsolati lista emotikonok
+[List Background]
+Lista háttérszín
+[StatusBar Background]
+Állapotsor háttere
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Átalakítja '%s' partnert Metapartnerré, és hozzáadja '%s'-t ehhez?
 [Converting to MetaContact]
@@ -513,7 +525,10 @@ Alapértelmezett kapcsolat megadása
 Eltávolítja '%s' partnert '%s' MetaParnerekbõl és hozzáadja ide: '%s'?
 [Changing MetaContacts (Moving)]
 MetaContact módosítása (mozgatás)
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Do you want contact '%s' to be added to MetaContact '%s'?]
+Hozzáadja '%s' partnert '%s' MetaPartnerhez?
+[Row items]
+Sor elemek
 [Standard contacts]
 Alapvetõ partnerek
 [Away contacts]
@@ -560,14 +575,14 @@ Esemény terület szöveg
 Aktuális nézet mód szöveg
 [Background]
 Háttér
+[Selected text]
+Kijelölt Szöveg
 [General]
 Általános
 [List]
 Lista
 [Window]
 Ablak
-[List Background]
-Lista háttérszín
 [Not focused]
 Nem fókuszált
 [Offline]
@@ -600,10 +615,10 @@ Elrejtés a tálcára
 Bal sarok mögött
 [Behind right edge]
 Jobb sarok mögött
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+Esemény terület
 [No Events]
 Nincsenek események
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 Egyik sem
 [Contact rate None]
@@ -614,34 +629,24 @@ Partner arány Alacsony
 Partner arány Átlagos
 [Contact rate High]
 Partner arány Magas
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 Szöveg
 [Extra icons]
 Extra ikonok
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 Avatárok animálása (GDI+ és Avatár kiszolgáló modul - avs.dll - szükséges)
-[Row items]
-Sor elemek
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[Third Line]
+Harmadik sor
 [(Unknown Contact)]
 (ismeretlen partner)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Partnerek keresése/hozzáadása
-[&Main menu]
-&Fõmenü
 [&Options...]
 &Beállítások...
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Partner Avatár mutatása
 [Hide Contact &Avatar]
 Partner Avatár elrejtése
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
 Üres %s cella
 [column]
@@ -654,15 +659,12 @@ oszlop
 %s, tartalma %s
 [ layered]
  rétegelt
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [Image size is]
 A kép mérete
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Szükség van egy kép szolgáltatás beépülõre a PNG képek feldolgozásához.
 [Error]
 Hiba
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Betöltés/Mentés
 [Object Editor]
@@ -693,17 +695,17 @@ Válassza ki az felhúzandó bõrt
 Alap bõr
 [%Default Skin%]
 %Default Skin%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Globális>>
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Fõmenü
 [Accounts]
 Fiókok
 [Find user]
 Felhasználó keresése
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Disable Groups]
+Csoportok kikapcsolása
 [Configuring view mode: %s]
 Nézet mód beállítása: %s
+[&New SubGroup]
+Új alcsoport

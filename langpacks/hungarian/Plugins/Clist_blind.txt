@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Partner törlése
 [Are you sure you want to delete %s?]
@@ -140,6 +139,8 @@ Egyenlõ széles szakaszok
 Besüllyestett panelek
 [Show resize grip indicator]
 Átméretezés fogóka megjelnítése
+[&Main menu]
+&Fõmenü
 [E&xit]
 &Kilépés
 [&Status]
@@ -192,7 +193,6 @@ Kilépett partnerek elrejtése itt
 Csoport átnevezése
 [&Delete Group]
 &Csoport törlése
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Nem fókuszált
 [Offline]
@@ -217,8 +217,5 @@ Ebédel
 Telefonál
 [List]
 Lista
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Globális
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

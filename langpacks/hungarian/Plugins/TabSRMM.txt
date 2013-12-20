@@ -5,7 +5,6 @@
 ;  Version: 3.1.99.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
 [Cancel]
@@ -112,7 +111,12 @@ Fülek
 Többi fül bezárása
 [&Open at this position]
 Megnyitás ebben a pozícióban
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+&Mégse
+[&Send]
+&Küldés
+[&Add]
+&Új
 [Advanced tweaks]
 Haladó beállítások
 [Message send timeout]
@@ -355,6 +359,8 @@ Dátum és idõ
 Másodpercek mutatása az idõbélyegzõn
 [Use contacts local time]
 Partner helyi idejének használata
+[Format]
+formátum
 [Indent message body]
 Üzenettest behúzása
 [Display grid lines]
@@ -377,6 +383,10 @@ Normál sablonok használata (különben egyszerû sablonok)
 Igen
 [No]
 Nem
+[Send message on 'Enter']
+Üzenet küldése 'Enter'-re
+[Send message on double 'Enter']
+Üzenet küldése dupla 'Enter'-re
 [Minimize the message window on send]
 Üzenet ablak minimalizálása küldéskor
 [&Copy]
@@ -495,6 +505,8 @@ Nincs megnyitott üzenet munkamenet
 Partner hozzáadása a Kedvencekhez
 [Remove Contact from Favorites]
 Partner eltávolítása a Kedvencekbõl
+[dummy]
+Minta
 [Set Position for this Session]
 Aktuális munkamenet helyzetének beállításai
 [Set and Save for all Sessions]
@@ -555,12 +567,10 @@ Aktuális ablak helyzetének mentése alapértelmezettként
 Súgó
 [About TabSRMM...]
 a TabSRMM-rõl...
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 Üzenetnapló beállítások
 [View User's History]
 Felhasználó elõzményeinek megtekintése
-;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Címsor elrejtése
 [Message Session...]
@@ -577,7 +587,10 @@ Autokijelölés
 Protokol használata
 [Set Default Protocol]
 Alap protokoll beállítása
-;file \plugins\TabSRMM\src\containeroptions.cpp
+[Title bar]
+Címsor
+[Contact avatars]
+Partner avatárok
 [Container options]
 Tartalmazó beállítások
 [Globally on]
@@ -588,20 +601,18 @@ Be, ha bejelentkezett
 Általánosan KI
 [Don't show them]
 Ne mutasd
-;file \plugins\TabSRMM\src\controls.cpp
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 Hangok %s. Kattintson az állapot váltásához, Shift + katt hogy minden nyitott tartalmazóét állítsa.
 [disabled]
 kikapcsolva
 [Sending typing notifications is %s.]
 Gépelés értesítés állapota: %s.
-;file \plugins\TabSRMM\src\eventpopups.cpp
+[Incoming file]
+Bejövõ fájl
 [New messages: ]
 Új üzenetek: 
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Last received: %s at %s]
 Utolsó fogadva: %s napon %s idõpontban
-;file \plugins\TabSRMM\src\globals.cpp
 [Incoming (Focused Window)]
 Bejövõ (kijelölt ablak)
 [Incoming (Unfocused Window)]
@@ -628,15 +639,16 @@ kijelentkezett.
 bejelentkezett és most %s.
 [changed status from %s to %s.]
 állapota %s helyett %s.
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
 [TabSRMM Information]
 TabSRMM Információ
+[contact]
+Kapcsolat
+[Always off]
+Mindig ki
+[Always on]
+Mindig be
 [Use Global Setting]
 Globális beállítások használata
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Character Encoding]
 Karakter kódolás
 [A message failed to send successfully.]
@@ -665,7 +677,6 @@ A kiválasztott protokoll jelenleg nem érvényes
 Vigyázat: Egy jelenleg nem elérhetõ alprotokollt választottál ki a következõ üzenetek küldéséhez
 [Contact is offline and this protocol does not support sending files to offline users.]
 A partner kilépett és ez a protokoll nem támogatja fájlok küldését kilépett felhasználóknak.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 Hiba a célkönyvtár létrehozásakor
 [Save contact picture]
@@ -676,8 +687,6 @@ A fájl már létezik. Felülírod?
 A 'beillesztés és küldés' opció ki van kapcsolva. Bekapcsolás az 'Általános' beállítások oldal 'Üzenetküldés' részlegében
 ['(Unknown Contact)']
 '(ismeretlen partner)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 El kívánod olvasni a téma üzenetsablonjait is?\nFigyelem: Ez felülírja az elmentett sablonkészletet, ami jelentõsen befolyásolhatja az üzenetablak kinézetét.\nVálaszd a mégsem-et a betöltés törléséhez.
 [Load theme]
@@ -700,6 +709,8 @@ Csak ha nincs nyitva üzenetablak
 Fülek és nézet
 [Containers]
 Befoglalók
+[Message log]
+Üzenet napló
 [Tool bar]
 Fülsor
 [Typing Notify]
@@ -710,7 +721,6 @@ Napló formázása
 Kiemelés
 [Choose status modes]
 Állapot kiválasztása
-;file \plugins\TabSRMM\src\msgs.cpp
 [Quote text]
 Szöveg idézése
 [Save and close]
@@ -763,8 +773,6 @@ Munkamenet lista
 4-es keret
 [Message Log]
 Üzenet napló
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Befoglaló kiválasztása ehhez: %s
 [You cannot delete the default container]
@@ -775,47 +783,36 @@ Hiba
 Az alapértelmezett befoglaló nem átnevezhetõ.
 [This name is already in use]
 Ez a név már használatban van
-;file \plugins\TabSRMM\src\sendlater.cpp
+[Failed]
+SIKERTELEN
 [Contact]
 Kapcsolat
 [Status]
 Állpot
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Egy üzenetküldés sikertelen volt.\nKattints az üzenetablak megnyitásához.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Egy üzenetküldés sikertelen volt a partner csevegõablakának bezárása miatt. Az utolsó üzenet újraküldése javasolt
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 El nem küldött üzenetek várnak megerõsítésre.\nHa most bezárod az ablakot, Miranda megpróbálja kézbesíteni azokat, de a lehetséges küldési hibákról esetlegesen nem kapsz értesítést.\nTényleg be akarod zárni az ablako(ka)t?
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
 [TabSRMM Message (%s)]
 TabSRMM üzenet (%s)
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
 Sablon beállításkezelõ
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Ez visszaállítja a sablonbeállítást az alapért. beépített sablonra. Biztos, hogy ezt akarod tenni?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Sablonbeállítás sikeresen átállítva, kérlek zárj be és nyiss meg újra minden üzenetablakot. Ez a sablonkezelõ ablak most bezárul. 
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
 [All message containers need to close before the skin can be changed\nProceed?]
 Minden üzenetbefoglalót be kell zárni a bõr váltásához\nFolytatod?
 [Change skin]
 Bõr váltása
-;file \plugins\TabSRMM\src\translator.cpp
 [System tray icon]
 Rendszer tálca ikon
-[Send message on 'Enter']
-Üzenet küldése 'Enter'-re
-[Send message on double 'Enter']
-Üzenet küldése dupla 'Enter'-re
 [Close the message window on send]
 Üzenet ablak bezárása küldéskor
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
+[Use Message Grouping]
+Üzenetek csoportosítása
 [Disable &typing notification]
 &Gépelési értesítés kikapcsolása
 [Enable &typing notification]
@@ -824,7 +821,6 @@ Rendszer tálca ikon
 ...üzenetet gépel.
 [...has stopped typing.]
 ...már nem gépel.
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 Mindig be
 [Always Off]
@@ -835,12 +831,10 @@ Alapértelmezett üzenetnapló kényszerítése
 Elõzmény++ kényszerítése
 [Force IEView]
 IEView kényszerítése
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
 [Join chat]
 Csatlakozás csevegéshez
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
+[Text color]
+Szövegszín
 [%s has joined]
 %s csatlakozott
 [You have joined %s]
@@ -863,8 +857,6 @@ Megjegyzés %s feladótól:
  (beállította: %s)
 [<invalid>]
 <érvénytelen>
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Timestamp]
 Idõbélyeg
 [Others nicknames]
@@ -929,6 +921,8 @@ Felhasználó-listatagok (távol)
 * Szimbólumok (bejövõ)
 [* Symbols (outgoing)]
 * Szimbólumok (kimenõ)
+[Nickname]
+Becenév
 [Protocol]
 Protokoll
 [Contacts local time]
@@ -957,6 +951,8 @@ Elválasztó pozíció szinkronizálás az alap IM munkamenettel
 Alternatív rendezési mód a taglistában
 [Prefix all events with a timestamp]
 Minden esemény elõtt legyen idõbélyeg
+[Timestamp has same color as the event]
+Az idõbélyegnak és az eseménynek azonos a színe
 [Indent the second line of a message]
 Az üzenet 2. sorának behúzása
 [Limit user names in the message log to 20 characters]
@@ -1029,6 +1025,8 @@ Kiterjesztett mód 1
 Kiterjesztett mód 2
 [Selection background]
 Kijelölés háttere
+[Selected text]
+Kijelölt Szöveg
 [Incremental search highlight]
 Folytatólagos keresés kiemelés
 [All Files]
@@ -1049,12 +1047,10 @@ Felhasználó nevet változtatott
 Felhasználó megjegyzést küldött
 [The topic has been changed]
 A téma megváltozott
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 &Csatlakozás
 [&Leave]
 &Kilépés
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s szertné a figyelmedet itt: %s
 [%s speaks in %s]
@@ -1081,13 +1077,12 @@ Információ %s
 Megjegyzés %s feladótól: %s
 [No word to look up]
 Nincs feloldandó szó
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
-Becenév
-[Nick]
 Becenév
 [Unique ID]
 Egyedi azonosító
+[Nick]
+Becenév
 [%s: Chat Room (%u user%s)]
 %s: csevegõszoba (%u felhasználó%s)
 [%s: Chat Room (%u users%s)]

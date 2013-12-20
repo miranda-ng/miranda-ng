@@ -5,15 +5,12 @@
 ;  Version: 1.0.2.3
 ;  Authors: H. Herkenrath
 ;============================================================
-;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Szerzõ(k):
 [E-mail:]
 E-levél
 [Date:]
 Dátum:
-;file \plugins\LangMan\src\main.cpp
-;file \plugins\LangMan\src\options.cpp
 [Unknown]
 Ismeretlen
 [File]

@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
-;file \plugins\New_GPG\res\new_gpg.rc
 [OK]
 OK
 [Ignore]
@@ -14,8 +13,8 @@ Mellõz
 Mégsem
 [Password:]
 Jelszó:
-;file \plugins\New_GPG\src\init.cpp
-;file \plugins\New_GPG\src\main.cpp
+[Current password:]
+Jelenlegi jelszó:
 [Name]
 Név
 [Accounts]
@@ -24,8 +23,6 @@ Fiókok
 Alap
 [Error]
 Hiba
-;file \plugins\New_GPG\src\messages.cpp
-;file \plugins\New_GPG\src\options.cpp
 [Messages]
 Üzenetek
 [Advanced]
@@ -34,4 +31,5 @@ Haladó
 Kapcsolat
 [Protocol]
 Protokoll
-;file \plugins\New_GPG\src\utilities.cpp
+[LOG files]
+Naplók

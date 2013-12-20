@@ -5,7 +5,6 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-;file \plugins\SeenPlugin\res\resource.rc
 [Text]
 Szöveg
 [Online]
@@ -30,33 +29,28 @@ Láthatatlan
 Kilépett
 [OK]
 OK
-;file \plugins\SeenPlugin\src\history.cpp
 [View User's Details]
 Felhasználó részletinek megtekintése
 [User Menu]
 Felhasználó menü
-;file \plugins\SeenPlugin\src\main.cpp
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <ismeretlen>
 [<none>]
 <nincs>
-;file \plugins\SeenPlugin\src\options.cpp
 [Contacts]
 Partnerek
 [Popups]
 Felugrók
-;file \plugins\SeenPlugin\src\seen.h
 [seconds]
 mp.
+[nick]
+Becenév
 [Group]
 Csoport
 [Status]
 Állpot
 [Protocol]
 Protokoll
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
 [Idle]
 Tétlen
 [Unknown]

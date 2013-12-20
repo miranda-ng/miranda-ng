@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.6
 ;  Authors: Ivan Rozhuk
 ;============================================================
-;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-levél
 [Password:]
@@ -30,6 +29,10 @@ Utolsó név:
 Nem:
 [Age:]
 Életkor
+[from:]
+Küldõ:
+[to:]
+Címzett:
 [Location]
 Helyzet
 [Country:]
@@ -40,6 +43,8 @@ Ország:
 Város:
 [Full e-mail:]
 Teljes e-mail:
+[&Use Windows colors]
+Windows színek használata
 [Text Color]
 Szövegszín
 [Closing in %d]
@@ -48,18 +53,20 @@ Bezárás %d
 OK
 [Cancel]
 Mégsem
-;file \protocols\MRA\src\MraAvatars.cpp
-;file \protocols\MRA\src\MraChat.cpp
-;file \protocols\MRA\src\MraConstans.h
+[Male]
+Férfi
+[Female]
+Nõ
 [Request authorization]
 Engedély kérés
 [Grant authorization]
 Engedély megadása
-;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Fõmenü
-;file \protocols\MRA\src\MraPopUp.cpp
+[Contact Menu]
+Partner Menü
+[Custom Status]
+Egyéni állapot
 [None]
 Egyik sem
 [Information]
@@ -68,16 +75,11 @@ Információ
 Hiba
 [Popups]
 Felugrók
-;file \protocols\MRA\src\MraProto.cpp
 [E-mail address]
 E-levél cím
-;file \protocols\MRA\src\Mra_functions.cpp
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Hálózat
 [Files]
 Fájlok
-;file \protocols\MRA\src\Mra_proto.cpp
-;file \protocols\MRA\src\Mra_svcs.cpp
 [On the phone]
 Telefonál

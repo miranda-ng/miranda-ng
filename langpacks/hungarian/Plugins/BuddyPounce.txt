@@ -5,7 +5,6 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 Mégsem
 [OK]
@@ -14,7 +13,6 @@ OK
 Haladó >>
 [Status]
 Állpot
-;file \plugins\BuddyPounce\src\dialog.cpp
 [Online]
 Elérhetõ
 [Away]
@@ -25,8 +23,15 @@ NA
 Elfoglalt
 [DND]
 Ne zavarjanak
+[Free For Chat]
+Csevegésre kész
 [Invisible]
 Láthatatlan
-;file \plugins\BuddyPounce\src\main.cpp
+[On The Phone]
+Telefonál
+[Out To Lunch]
+Ebédel
+[Times]
+idõk
 [Message Sessions]
 Üzenet mukamenetek

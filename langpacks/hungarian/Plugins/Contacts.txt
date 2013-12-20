@@ -5,9 +5,10 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-;file \plugins\ContactsPlus\res\contacts.rc
 [&Add]
 &Új
+[User &details]
+Felhasználó &részletek
 [&Send]
 &Küldés
 [Cancel]
@@ -18,12 +19,18 @@ Bezárás
 Hiba történt. A protokol az alábbi hibát jelentette:
 [Try again]
 Újra próbál
+[Add to List]
+Hozzáadás listához
 [User details]
 Felhasználó részletek
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts]
 Partnerek
-;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+Becenév
+[First Name]
+Keresztnév
+[Last Name]
+Vezetéknév
 [Add Contact Permanently to List]
 Partner végleges hozzáadása a listához
 [View User's Details]
@@ -32,4 +39,3 @@ Felhasználó részletinek megtekintése
 Felhasználó elõzményeinek megtekintése
 [User Menu]
 Felhasználó menü
-;file \plugins\ContactsPlus\src\send.cpp

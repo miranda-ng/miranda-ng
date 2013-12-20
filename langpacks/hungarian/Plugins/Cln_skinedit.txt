@@ -5,7 +5,9 @@
 ;  Version: 0.0.0.4
 ;  Authors: Nightwish, Pixel
 ;============================================================
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Általános
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Text color]
+Szövegszín
+[<None>]
+<nincs>

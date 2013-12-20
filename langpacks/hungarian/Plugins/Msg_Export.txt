@@ -5,7 +5,6 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
 [Help]
 Súgó
 [&Find...]
@@ -16,18 +15,17 @@ Súgó
 Felhasználó &részletek
 [Copy]
 Másol
-;file \plugins\Msg_Export\src\FileViewer.cpp
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
-;file \plugins\Msg_Export\src\options.cpp
 [File]
 Fájl
 [Nick]
 Becenév
+[Executable files]
+Végrehajható fájlok
+[All files]
+Minden fájl
 [History]
 Elõzmény
 [General]
 Általános
-;file \plugins\Msg_Export\src\utils.cpp
 [(Unknown Contact)]
 (ismeretlen partner)

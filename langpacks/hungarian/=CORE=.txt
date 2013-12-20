@@ -1,5 +1,4 @@
-﻿;file \src\resource.rc
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Add meg a fiók nevét (pl. Saját Google)
 [Choose the protocol type]
 Protokolltípus választása
@@ -411,7 +410,6 @@ Megnyitás létezõ ablakban
 &Link másolása
 [Cancel change]
 Változtatás Elvetése
-;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Meghatalmazás
 [&Deny]
@@ -422,7 +420,6 @@ Indok:
 Hozzáadásra Kerültél
 [&Close]
 &Bezárás
-;file \src\core\stdaway\resource.rc
 [%s message for %s]
 %s Üzenet ennek: %s
 [Retrieving %s message...]
@@ -443,7 +440,6 @@ Alapért. szerint használd ezt az üzenetet:
 Változtat %s üzenet
 [Closing in %d]
 Bezárás %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Küldés
 [Show these events only:]
@@ -550,7 +546,6 @@ Fülek
 Többi fül bezárása
 [&Open at this position]
 Megnyitás ebben a pozícióban
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Kilépett felhasználók elrejtése
 [Hide empty groups]
@@ -725,6 +720,8 @@ Egyenlõ széles szakaszok
 Besüllyestett panelek
 [Show resize grip indicator]
 Átméretezés fogóka megjelnítése
+[&Main menu]
+&Fõmenü
 [&Status]
 Álla&pot
 [&Offline\tCtrl+0]
@@ -747,7 +744,6 @@ El&foglalt\tCtrl+4
 Telefonál\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Ebédel\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Fájl(ok) Küldése
 [To:]
@@ -850,10 +846,8 @@ Ha a bejövõ fájl már létezik
 Kérdezz engem
 [You will always be asked about files from people not on your contact list]
 A kapcsolati listádon nem szereplõktõl érkezõ fájlokról mindig megkérdezünk
-;file \src\core\stdhelp\resource.rc
 [Credits >]
 Köszönet >
-;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Inaktívvá válás ha a következõ gazdátlan marad:
 [Windows]
@@ -876,7 +870,6 @@ ennek
 Ne állítsa vissza online módra az állapotot ha visszatérek inaktív módból
 [Idle options]
 Inaktív Beállítások
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automatikus felugrás ekkor:
 [Close the message window on send]
@@ -957,7 +950,6 @@ Villogás a tálcán és a kapcsolati listában
 Buboréksúgó megjelenik
 [Delete]
 Törlés
-;file \src\core\stduihist\resource.rc
 [Find]
 Keresés
 [&Find next]
@@ -968,7 +960,6 @@ Keresés Erre:
 üzenet Elõzmény
 [&Find...]
 &Keresés...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Telefonszám hozzáadása
 [Enter country, area code and phone number:]
@@ -1035,7 +1026,6 @@ Részleg:
 Pozíció:
 [Website:]
 Weboldal:
-;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s meghatalmazást kér
 [%u requests authorization]
@@ -1044,17 +1034,16 @@ Weboldal:
 %u hozzáadott a kapcsolati listájához
 [Alerts]
 Riasztások
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Felhasználó részletinek megtekintése
 [Add contact permanently to list]
 Partner végleges hozzáadása a listához
+[<Unknown>]
+<ismeretlen>
 [(Unknown)]
 (Ismeretlen)
-;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
 %s Üzenet o&lvasása
-;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Távol vagyok ekkortól: %idõ%.
 [Give it up, I'm not in!]
@@ -1079,11 +1068,8 @@ Mmm... kaja.
 Inaktíííííív
 [Status]
 Állpot
-;file \src\core\stdchat\src\clist.cpp
 [Join chat]
 Csatlakozás csevegéshez
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
 [%s has joined]
 %s csatlakozott
 [You have joined %s]
@@ -1106,7 +1092,6 @@ Megjegyzés %s feladótól:
  (beállította: %s)
 [<invalid>]
 <érvénytelen>
-;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Többiek becenevei
 [Your nickname]
@@ -1385,10 +1370,8 @@ Felhasználó nevet változtatott
 Felhasználó megjegyzést küldött
 [The topic has been changed]
 A téma megváltozott
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 &Csatlakozás
-;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s szertné a figyelmedet itt: %s
 [%s speaks in %s]
@@ -1417,7 +1400,6 @@ Információ %s
 Megjegyzés %s feladótól: %s
 [No word to look up]
 Nincs feloldandó szó
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Emotikon beszúrása
 [Make the text bold (CTRL+B)]
@@ -1452,7 +1434,6 @@ Aktuális fül bezárása (CTRL+F4)
 Becenév
 [Unique ID]
 Egyedi azonosító
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Alapvetõ partnerek
 [Online contacts to whom you have a different visibility]
@@ -1473,7 +1454,6 @@ Kijelölt Szöveg
 Gyorkövetés szöveg
 [Quicksearch text]
 Gyorskeresés szöveg
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Nem fókuszált
 [Offline]
@@ -1498,18 +1478,14 @@ Ebédel
 Telefonál
 [List background]
 Lista háttérszín
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Globális
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 A felhasználónak nincs regisztrált e-mailcíme
 [Send e-mail]
 e-mail küldése
 [&E-mail]
 &e-mail
-;file \src\core\stdfile\file.cpp
 [File from %s]
 Fájl innen: %s
 [bytes]
@@ -1524,29 +1500,24 @@ Teljes
 Hiba
 [Denied]
 Megtagadva
-;file \src\core\stdfile\fileexistsdlg.cpp
 [%s file]
 %s fájl
 [All files]
 Minden fájl
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 Végrehajható fájlok
 [Events]
 Események
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 Felhasználó elõzményeinek megtekintése
 [User menu]
 Felhasználó menü
 [Canceled]
 Törölve
-;file \src\core\stdfile\filesenddlg.cpp
 [%d files]
 %d fájlok
 [%d directories]
 %d könyvtárak
-;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Ezen a fájlon még nem lett víruskeresés lefuttatva. Biztosan meg akarod nyitni?
 [File received]
@@ -1561,27 +1532,20 @@ mp.
 hátralévõ
 [Connecting...]
 Kapcsolódás...
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Kimenõ
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 &Bõvebben...
 [&Report bug]
 Rovar &jelentése
-;file \src\core\stdidle\idle.cpp
 [Idle]
 Tétlen
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Az üzenetküldés idõtúlépés miatt meghiúsult.
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Bejövõ üzenet (10x10)
 [Outgoing message (10x10)]
 Kimenõ üzenet (10x10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Utolsó üzenet fogadva, nap: %s, idõpont: %s.
 [signed off (was %s)]
@@ -1592,10 +1556,8 @@ bejelentkezett (ekkor: %s)
 most %s (régebben: %s)
 [%s is typing a message...]
 %s gépel...
-;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Fájl elküldve
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Kimenõ üzenetek
 [Incoming messages]
@@ -1626,7 +1588,6 @@ Buboréksúgó megjelenik (nem-támogatott rendszer)
 Üzenet napló
 [Typing notify]
 Gépelés értesítés
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Üzenet tõle: %s
 [%s is typing a message]
@@ -1641,10 +1602,8 @@ Bejövõ (kijelölt ablak)
 Bejövõ (kijelöletlen ablak)
 [Incoming (new session)]
 Bejövõ (új munkamenet)
-;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ismeretlen hiba történt.
-;file \src\core\stduihist\history.cpp
 [Outgoing URL]
 Kimenõ URL
 [Incoming URL]
@@ -1661,19 +1620,16 @@ Biztosan el kívánod távolítani ezt az elõzményelemet?
 Elõzmény törlése
 [View &history]
 &Elõzmény megtekintése
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 URl innen: %s
 [Web page address (&URL)]
 Weboldal cím (&URL)
 [URL]
 URL
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 URL küldése ide:
 [Send timed out]
 Küldés elévült
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
 E-mail cím szerkesztése
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1692,7 +1648,6 @@ Mobil
 Munakhelyi telefon
 [Work fax]
 Munkahelyi fax
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Férfi
 [Female]
@@ -1709,34 +1664,24 @@ Helyzet
 Munka
 [Notes]
 Megjegyzések
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Tulaj
 [View/change my &details...]
 Saját &Részletek megtekintése/módosítása...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s online
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Új partner
 [Please authorize my request and add me to your contact list.]
 Kérlek engedélyezd a kérelmemet és adj hozzá a kapcsolati listádhoz.
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Egyéni állapot
 [%s (locked)]
 %s (kizárva)
 [Main menu]
 Fõmenü
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (ismeretlen partner)
-;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-&Fõmenü
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ez a felhasználó olyan üzenetküldõ rendszeren van, ami egy központi szerveren tárolja a kapcsolati listáját. A partner eltávolításra kerül a szerverrõl és a kapcsolati listádról a következõ csatlakozásodkor.
 [De&lete]
@@ -1745,20 +1690,16 @@ Tör&lés
 &Átnevezés
 [&Add permanently to list]
 Végleges &hozzáadás listához
-;file \src\modules\clist\contacts.cpp
 [Nick]
 Becenév
 [E-mail]
 E-levél
 ['(Unknown contact)']
 '(ismeretlen partner)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menük
 [Customize]
 Testreszabás
-;file \src\modules\clist\groups.cpp
 [New group]
 Új csoport
 [Delete group]
@@ -1769,21 +1710,16 @@ Már van ilyen néven csoport. Kérem adjon meg egy edefi nevet a csoportnak.
 Csoport átnevezése
 [This group]
 Ez a csoport
-;file \src\modules\clist\keyboard.cpp
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Csoporthoz &adás
 [<Root group>]
 <Alap csoport>
-;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
 Miranda nem tudja megnyitni '%s'-t, mert nincs telepítve profil beépülõ.\nTelepítsd a dbx_mmap.dll-t, vagy ennek megfelelõt.
 [No profile support installed!]
 Nincs profiltámogatás telepítve!
 [Miranda can't understand that profile]
 Miranda nem érti ezt a profilt
-;file \src\modules\database\dbini.cpp
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 A profil már létezik
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -1806,14 +1742,10 @@ Létrehozva
 Profiljaim
 [New profile]
 Új Profil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
 [Chat activity]
 Cset elérhetõség
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Extra ikonok
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Nem töltötted ki a keresési mezõt. Kérlek adj meg egy keresési kifejezést és próbáld újra.
 [Search]
@@ -1830,7 +1762,6 @@ Keresés
 Kezelés
 [&Find/Add contacts...]
 &Partnerek keresése/hozzáadása
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 '%s' átkutatása sikertelen, hiba lépett fel - %s csatlakozva van? 
 [Could not search on any of the protocols, are you online?]
@@ -1845,39 +1776,32 @@ Hiba a keresés során
 %s felhasználó találva (
 [No users found]
 Nincs talált felhasználó
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <nincs>
+[Text files]
+Szövegfájlok
 [Fonts]
 Betûtípusok
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Ikon beállítások
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Minden új partner **
 [Contacts]
 Partnerek
-;file \src\modules\netlib\netliblog.cpp
 [Select where log file will be created]
 Válaszd ki a naplófájl létrehozási helyét
 [Select program to be run]
 Válaszd ki a futtatni kívánt programot
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Összes kapcsolat>
 [Network]
 Hálózat
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [<all modules>]
 <összes modul>
 [%s options]
 %s beállítások
 [&Options...]
 &Beállítások...
-;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' kikapcsolva, bekapcsolod?
 [Re-enable Miranda plugin?]
@@ -1886,14 +1810,12 @@ Hálózat
 Beépülõ betöltése Szolgáltatás Módban nem lehetséges!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 A telepített kapcsolati lista beépülõk indítása sikertelen, a kedvezményezett kapcsolati lista elvetésével sem tölthetõk be.
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Beépülõ
 [Version]
 Verzió
 [Plugins]
 Beépülõk
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Új fiók létrehozása
 [Editing account]
@@ -1918,14 +1840,12 @@ Fiók azonosító
 %s fiók törlése
 [&Accounts...]
 &Fiókok...
-;file \src\modules\skin\hotkey_opts.cpp
 [Remove shortcut]
 Parancsikon eltávolítása
 [Add another shortcut]
 Új rövidítés hozzáadása
 [System]
 Rendszer
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Felhasználó online
 [Group (open)]
@@ -1984,10 +1904,10 @@ Engedély kérés
 Engedély megadása
 [Revoke authorization]
 Engedély visszavonása
+[Always visible]
+Mindig látható
 [%s icons]
 %s Ikonok
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Szükség van egy kép szolgáltatás beépülõre a PNG képek feldolgozásához.
 [All bitmaps]
@@ -2000,8 +1920,6 @@ JPEG bitképek
 GIF bitképek
 [PNG bitmaps]
 PNG bitképek
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 Nem meghatározott
 [Unknown]
@@ -2054,12 +1972,16 @@ Benin
 Berbuda
 [Bhutan]
 Bhután
+[Bolivia]
+Bolívia
 [Bosnia and Herzegovina]
 Bosznia-Hercegovina
 [Botswana]
 Botswana
 [Brazil]
 Brazília
+[Brunei]
+Brunei
 [Bulgaria]
 Bulgária
 [Burkina Faso]
@@ -2072,12 +1994,16 @@ Kambodzsa
 Kamerun
 [Canada]
 Kanada
+[Cape Verde]
+Zöld-foki Köztársaság
 [Cayman Islands]
 Kajmán-szigetek
 [Central African Republic]
 Közép-Afrika
 [Chad]
 Csád
+[Chile]
+Chile
 [China]
 Kínai Népköztársaság
 [Christmas Island]
@@ -2088,10 +2014,16 @@ Kókusz-szigetek
 Kolumbia
 [Comoros]
 Comore-szigetek
+[Congo, Republic of the]
+Kongói Köztársaság
+[Congo, Democratic Republic of the]
+Kongói Demokratikus Köztársaság
 [Cook Islands]
 Cook-szigetek
 [Costa Rica]
 Costa Rica
+[Cote d'Ivoire]
+Elefántcsontpart
 [Croatia]
 Horvátország
 [Cuba]
@@ -2122,6 +2054,8 @@ Eritrea
 Észtország
 [Ethiopia]
 Etiópia
+[Faroe Islands]
+Feröer-szögetek
 [Fiji]
 Fidzsi-szigetek
 [Finland]
@@ -2174,6 +2108,8 @@ Izland
 India
 [Indonesia]
 Indonézia
+[Iran]
+Irán
 [Iraq]
 Irak
 [Ireland]
@@ -2198,6 +2134,8 @@ Kiribati
 Kuvait
 [Kyrgyzstan]
 Kirgizisztán
+[Laos]
+Laosz
 [Latvia]
 Lettország
 [Lebanon]
@@ -2206,12 +2144,16 @@ Libanon
 Lesotho
 [Liberia]
 Libéria
+[Libya]
+Líbia
 [Liechtenstein]
 Liechtenstein
 [Lithuania]
 Litvánia
 [Luxembourg]
 Luxemburg
+[Macau]
+Macao
 [Madagascar]
 Madagaszkár
 [Malawi]
@@ -2232,6 +2174,8 @@ Martinique
 Mauritánia
 [Mauritius]
 Mauritius
+[Mayotte]
+Mayotte
 [Mexico]
 Mexikó
 [Micronesia, Federated States of]
@@ -2298,8 +2242,12 @@ Portugália
 Puerto Rico
 [Qatar]
 Quatar
+[Reunion]
+Réunion
 [Romania]
 Románia
+[Russia]
+Oroszország
 [Rwanda]
 Ruanda
 [Saint Kitts and Nevis]
@@ -2350,8 +2298,12 @@ Svédország
 Svájc
 [Syria]
 Szíria
+[Taiwan]
+Taiwan
 [Tajikistan]
 Tadzsikisztán
+[Tanzania]
+Tanzánia
 [Thailand]
 Thaiföld
 [Togo]
@@ -2386,10 +2338,17 @@ Uruguay
 Üzbegisztán
 [Vanuatu]
 Vanuatu
+[Vatican City]
+Vatikán
+[Venezuela]
+Venezuela
+[Vietnam]
+Vietnámi Köztársaság
+[Wallis and Futuna]
+Wallis és Futuna
 [Yemen]
 Jemen
 [Zambia]
 Zambia
 [Zimbabwe]
 Zimbabwe
-;file \src\modules\visibility\visibility.cpp

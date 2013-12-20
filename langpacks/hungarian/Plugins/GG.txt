@@ -1,11 +1,10 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
+;  Plugin: Gadu-Gadu Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
-;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Gadu-Gadu felhasználó részletek
 [Gadu-Gadu Number:]
@@ -104,14 +103,14 @@ Gadu-Gadu jelszó módosítása
 Gadu-Gadu e-mail módosítása
 [Age from:]
 Kor ettõl:
+[to:]
+Címzett:
 [&Close]
 &Bezárás
 [&Send]
 &Küldés
 [Open new conference]
 Új konferencia indítása
-;file \protocols\Gadu-Gadu\src\avatar.cpp
-;file \protocols\Gadu-Gadu\src\core.cpp
 [Unknown]
 Ismeretlen
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
@@ -126,7 +125,6 @@ Lista importálása sikeres.
 Lista eltávolítása sikeres.
 [List export successful.]
 Lista exportálás sikeres.
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Férfi
 [Female]
@@ -153,8 +151,6 @@ Bontsd a kapcsolatot, mielõtt a fiókodban végleges változásokat tennél.\nS
 Engedélyezés
 [Ignore]
 Mellõz
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed connecting]
 Hiba HTTP csatlakozáskor
 [HTTP failed resolving]
@@ -165,10 +161,10 @@ Hiba HTTP olvasáskor
 Hiba HTTP íráskor
 [Unknown HTTP error]
 Ismeretlen HTTP hiba
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Contact list]
+Kapcsolati lista
 [Gadu-Gadu Number]
 Gadu-Gadu szám
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Kon&ferencia indítása...
 [&Clear ignored conferences]
@@ -187,7 +183,6 @@ Kapcsolódva kell lenned új konferencia indításához.
 Minden elvetett konferencia újra aktív és a konferenciaszabályok érvényesek.
 [There are no ignored conferences.]
 Nincs elvetett konferencia.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Import list from server]
 Lista importálása szerverrõl
 [Import list from text file]
@@ -208,7 +203,6 @@ Következõ kép
 Kép mentése
 [Delete image]
 Kép törlése
-;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 &Kép
 [Image cannot be written to disk.]
@@ -221,7 +215,6 @@ Kép ennek: %s
 Kép kiválasztása küldéshez
 [Image exceeds maximum allowed size of 255 KB.]
 A kép túllépi a megengedett 255 KB-os méretet.
-;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Kapcsolódva kell lenned partnerek importálásához/exportálásához a szerverre/rõl.
 [Text files]
@@ -240,21 +233,14 @@ Lista &eltávolítása a szerverrõl
 Lista exportálása &szerverre
 [Export List To &Text File...]
 Lista exportálása szö&vegfájlba...
-;file \protocols\Gadu-Gadu\src\links.cpp
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password was sent to your e-mail.]
 A jelszó elküldésre került az e-mailedre.
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Error]
 Hiba
-;file \protocols\Gadu-Gadu\src\services.cpp
-;file \protocols\Gadu-Gadu\src\sessions.cpp
-;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 Utalvány helyreállítása sikertelen, hiba miatt:\n\t%s
 [Could not load token image.]
 Utalványkép betöltése sikertelen.
-;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Új fiók regisztrálása sikertelen, hiba miatt:\n\t%s
 [Registration rejected]

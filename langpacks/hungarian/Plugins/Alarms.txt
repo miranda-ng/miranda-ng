@@ -5,11 +5,12 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 Törlés
 [Edit]
 Szerkeszt
+[Row Height:]
+Sormagasság:
 [OK]
 OK
 [Cancel]
@@ -18,22 +19,18 @@ Mégsem
 Leírás:
 [Actions]
 Akciók
+[Date and Time]
+Dátum és idõ
 [&Delete]
 &Törlés
 [&Options...]
 &Beállítások...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 Háttér
 [Window]
 Ablak
-;file \plugins\Alarms\src\frame.cpp
 [Frames]
 Keretek
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Error]
 Hiba
 [Events]

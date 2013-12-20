@@ -1,11 +1,10 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.9.0.1
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Általános
 [Close]
@@ -20,6 +19,8 @@ Profil
 Beállít
 [OK]
 OK
+[Command line:]
+Parancssor:
 [Other]
 Egyéb
 [Background color]
@@ -44,15 +45,12 @@ Fiókok
 Törlés
 [seconds]
 mp.
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protokoll
 [Advanced]
 Haladó
 [Popups]
 Felugrók
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Távol vagyok ekkortól: %idõ%.
 [Give it up, I'm not in!]
@@ -75,6 +73,5 @@ Csörög a telefonom.
 Mmm... kaja.
 [idleeeeeeee]
 Inaktíííííív
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Closing in %d]
 Bezárás %d

@@ -5,11 +5,12 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [Background]
 Háttér
 [Text]
 Szöveg
+[Use Windows colors]
+Windows színek használata
 [Default]
 Alap
 [Custom]
@@ -18,9 +19,11 @@ Egyedi
 mp.
 [Notify always]
 Mindig értesítsen
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
-;file \plugins\BuddyExpectator\src\options.cpp
+[Disabled]
+kikapcsolva
 [Contacts]
 Partnerek
 [Popups]
 Felugrók
+[not found]
+NEM TALÁLHATÓ

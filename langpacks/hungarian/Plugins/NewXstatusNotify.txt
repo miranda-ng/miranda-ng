@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Online]
 Elérhetõ
 [Offline]
@@ -40,6 +39,8 @@ Szöveg
 Egyedi színek használata
 [Use Windows colors]
 Windows színek használata
+[Sec]
+mp.
 [Reset]
 Alapraállítás
 [OK]
@@ -50,25 +51,23 @@ Mégsem
 Általános
 [Accounts]
 Fiókok
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+Minden fájl
 [Status]
 Állpot
 [** All contacts **]
 ** Minden új partner **
-;file \plugins\NewXstatusNotify\src\indsnd.h
-;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 Kapcsolat
-;file \plugins\NewXstatusNotify\src\options.cpp
+[connecting]
+Csatlakozás
 [All Files]
 Minden fájl
 [Log]
 Napló
 [Protocol]
 Protokoll
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Message log]
+Üzenet napló
 [<unknown>]
 <ismeretlen>
-;file \plugins\NewXstatusNotify\src\xstatus.h

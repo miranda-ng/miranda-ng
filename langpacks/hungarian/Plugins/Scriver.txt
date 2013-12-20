@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Automatically pop up the window when]
 Ablak automatikusan felugrik, ha
 [and stay minimized]
@@ -48,6 +47,8 @@ Követõ üzenetek megjelölése idõbélyeggel
 Üzenet szövegének kezdése új sorban
 [Indent text]
 Szöveg behúzása
+[events]
+Események
 [Typing Notification Options]
 Gépelés értesítés beállítások
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -76,6 +77,12 @@ amíg elküldi az alábbi üzenetet:
 Mégsem
 [Message Session]
 Üzenet mukamenet
+[User &details]
+Felhasználó &részletek
+[&Add]
+&Új
+[&Quote]
+&Idézés
 [Send To All Tabs]
 Küldés minden fülön
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -86,6 +93,8 @@ Választás megjegyzése ehhez a befoglalóhoz
 Igen
 [No]
 Nem
+[&Underline]
+&Aláhúzott
 [Show these events only:]
 Csak az alábbi események mutatása:
 [Actions]
@@ -190,7 +199,8 @@ Lista
 Napló ürítése
 [Co&py all]
 Mindet másol
-;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Új partner
 [User's details]
 Felhasználó részletei
 [User's history]
@@ -283,10 +293,8 @@ Kiemelés (10x10)
 Információ (10x10)
 [Group chats]
 Csoportos csevegések
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Üzenés
-;file \plugins\Scriver\src\msgdialog.cpp
 [Add Contact]
 Új partner
 [User Menu]
@@ -319,12 +327,10 @@ Küldés folyamatban: %s üzenet van hátra...
 %s gépel...
 [Last message received on %s at %s.]
 Utolsó üzenet fogadva, nap: %s, idõpont: %s.
-;file \plugins\Scriver\src\msglog.cpp
 [File sent]
 Fájl elküldve
 [File received]
 Fájl fogadva
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Általános
 [Outgoing messages]
@@ -425,7 +431,6 @@ Buboréksúgó megjelenik (nem-támogatott rendszer)
 Üzenet mukamenetek
 [Typing Notify]
 Gépelés értesítés
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Üzenet tõle: %s
 [%s is typing a message]
@@ -442,20 +447,14 @@ Bejövõ (kijelöletlen ablak)
 Bejövõ (új munkamenet)
 [Outgoing]
 Kimenõ
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ismeretlen hiba történt.
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Mindig felül
-;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Az üzenetküldés idõtúlépés miatt meghiúsult.
-;file \plugins\Scriver\src\chat\clist.cpp
 [Join chat]
 Csatlakozás csevegéshez
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
 %s csatlakozott
 [You have joined %s]
@@ -478,12 +477,10 @@ Megjegyzés tõle: %s
  (beállította: %s)
 [<invalid>]
 <érvénytelen>
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 &Csatlakozás
 [&Leave]
 &Kilépés
-;file \plugins\Scriver\src\chat\options.cpp
 [Prefix all events with a timestamp]
 Minden esemény elõtt legyen idõbélyeg
 [Only prefix with timestamp if it has changed]
@@ -530,7 +527,7 @@ Ikon megjelenítse a tálcán kiemelésekhez
 Ikon megjelenítse a tálcán kilépõ felhasználókhoz
 [Show icon in tray for users kicking other user]
 Ikon megjelenítse a tálcán egymást kirúgó felhasználókhoz
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Ikon megjelenítse a tálcán megjegyzésekhez
 [Show icon in tray for name changes]
 Ikon megjelenítse a tálcán névváltozásokhoz
@@ -558,8 +555,6 @@ Felhasználó nevet változtatott
 Felhasználó megjegyzést küldött
 [The topic has been changed]
 A téma megváltozott
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s szertné a figyelmedet itt: %s
 [%s speaks in %s]
@@ -584,7 +579,6 @@ Információ %s
 %s kirúgta õt: %s (%s)
 [Notice from %s: %s]
 Megjegyzés %s feladótól: %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Insert a smiley]
 Emotikon beszúrása
 [Make the text bold (CTRL+B)]

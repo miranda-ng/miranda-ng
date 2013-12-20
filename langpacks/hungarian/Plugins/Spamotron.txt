@@ -5,19 +5,13 @@
 ;  Version: 0.0.4.6
 ;  Authors: vu1tur
 ;============================================================
-;file \plugins\Spamotron\res\spamotron.rc
 [Outgoing message]
 Kimenõ üzenet
 [Background]
 Háttér
-;file \plugins\Spamotron\src\bayes.cpp
-;file \plugins\Spamotron\src\common.h
-;file \plugins\Spamotron\src\options.cpp
 [Message Sessions]
 Üzenet mukamenetek
 [Messages]
 Üzenetek
 [Popups]
 Felugrók
-;file \plugins\Spamotron\src\spamotron.cpp
-;file \plugins\Spamotron\src\utils.cpp

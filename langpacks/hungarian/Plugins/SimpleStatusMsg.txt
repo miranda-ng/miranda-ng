@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 %s Üzenet ennek: %s
 [&Cancel]
@@ -30,29 +29,26 @@ Beszúrás
 Törlés
 [Select All]
 Összes kijelölése
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &Bezárás
 [Re&ad %s Message]
 %s Üzenet o&lvasása
 [Re&ad Away Message]
 Távol Üzenet o&lvasása
-;file \plugins\SimpleStatusMsg\src\main.cpp
 [%s (locked)]
 %s (kizárva)
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Global]
 Globális
 [Closing in %d]
 Bezárás %d
-;file \plugins\SimpleStatusMsg\src\options.cpp
+[<Last status>]
+<Utolsó állapot>
 [Status]
 Állpot
 [General]
 Általános
 [Advanced]
 Haladó
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [I've been away since %time%.]
 Távol vagyok ekkortól: %idõ%.
 [Give it up, I'm not in!]

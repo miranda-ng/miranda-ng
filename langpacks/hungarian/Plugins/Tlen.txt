@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Felhasználónév:
 [Password:]
@@ -40,18 +39,24 @@ Változások mentése
 Becenév
 [Age:]
 Életkor
+[to]
+Címzett
 [From:]
 Küldõ:
-;file \protocols\Tlen\src\tlen_iqid.cpp
-;file \protocols\Tlen\src\tlen_opt.cpp
+[Group chats]
+Csoportos csevegés
+[Request authorization]
+Engedély kérés
+[Grant authorization]
+Engedély megadása
+[%d Files]
+%d fájlok
 [General]
 Általános
 [Advanced]
 Haladó
 [Network]
 Hálózat
-;file \protocols\Tlen\src\tlen_svc.cpp
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Tlen Connection Error]
 Tlen Kapcsolat Hiba
 [Windows Server 2003]
@@ -72,18 +77,7 @@ Windows ME
 Windows
 [E-mail]
 E-levél
-;file \protocols\Tlen\src\tlen_ws.cpp
-;file \protocols\Tlen\src\tlen.cpp
-[Group chats]
-Csoportos csevegés
-[Request authorization]
-Engedély kérés
-[Grant authorization]
-Engedély megadása
-;file \protocols\Tlen\src\tlen_file.cpp
-;file \protocols\Tlen\src\tlen_muc.cpp
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-;file \protocols\Tlen\src\tlen_voice.cpp
+[none]
+Egyik sem
 [Default]
 Alap
