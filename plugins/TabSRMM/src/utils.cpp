@@ -874,15 +874,15 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 			::ImageList_Destroy(hIml_c);
 		}
 	}
-	return(hIcon);
+	return hIcon;
 }
 
 AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const HANDLE hContact)
 {
-	if (ServiceExists(MS_AV_GETAVATARBITMAP))
-		return(reinterpret_cast<AVATARCACHEENTRY *>(CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0)));
-	else
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		return 0;
+
+	return (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 }
 
 void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)
@@ -1053,20 +1053,21 @@ const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRi
  */
 LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, TWindowData *dat, TContainerData *pContainer)
 {
-	switch(uType) {
-		case CMD_CONTAINER:
-			if (pContainer && hwndDlg)
-				return(DM_ContainerCmdHandler(pContainer, cmd, wParam, lParam));
-			break;
-		case CMD_MSGDIALOG:
-			if (pContainer && hwndDlg && dat)
-				return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
-			break;
-		case CMD_INFOPANEL:
-			if (MsgWindowMenuHandler(dat, cmd, MENU_LOGMENU) == 0) {
-				return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
-			}
-			break;
+	switch (uType) {
+	case CMD_CONTAINER:
+		if (pContainer && hwndDlg)
+			return(DM_ContainerCmdHandler(pContainer, cmd, wParam, lParam));
+		break;
+
+	case CMD_MSGDIALOG:
+		if (pContainer && hwndDlg && dat)
+			return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
+		break;
+
+	case CMD_INFOPANEL:
+		if (MsgWindowMenuHandler(dat, cmd, MENU_LOGMENU) == 0)
+			return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
+		break;
 	}
 	return 0;
 }
@@ -1080,9 +1081,8 @@ LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, 
 void Utils::sanitizeFilename(wchar_t* tszFilename)
 {
 	static wchar_t *forbiddenCharacters = L"%/\\':|\"<>?";
-	int    i;
 
-	for (i=0; i < lstrlenW(forbiddenCharacters); i++) {
+	for (int i=0; i < lstrlenW(forbiddenCharacters); i++) {
 		wchar_t*	szFound = 0;
 
 		while ((szFound = wcschr(tszFilename, (int)forbiddenCharacters[i])) != NULL)
@@ -1108,9 +1108,7 @@ void Utils::ensureTralingBackslash(wchar_t *szPathname)
  */
 HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 {
-	wchar_t		sysPathName[MAX_PATH + 2];
-	HMODULE		_h = 0;
-
+	wchar_t sysPathName[MAX_PATH + 2];
 	if (0 == ::GetSystemDirectoryW(sysPathName, MAX_PATH))
 		return 0;
 
@@ -1119,7 +1117,7 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 		return 0;
 
 	lstrcatW(sysPathName, szFilename);
-	_h = LoadLibraryW(sysPathName);
+	HMODULE _h = LoadLibraryW(sysPathName);
 	if (0 == _h)
 		return 0;
 
@@ -1230,7 +1228,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 	 * block the shutdown)
 	 */
 	if (CMimAPI::m_shutDown)
-		return(-1);
+		return -1;
 
 	if (tszTxt)
 		_s = const_cast<wchar_t *>(tszTxt);
@@ -1254,20 +1252,17 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 			_s = (dwFlags & CWF_UNTRANSLATED ? const_cast<wchar_t *>(tszTxt) : TranslateW(tszTxt));
 		}
 		else
-			return(-1);
+			return -1;
 	}
 
 	if ((wcslen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
-
 		if (uId >= 0) {
 			mask = getMask();
 			val = ((__int64)1L) << uId;
 		}
-		else
-			mask = val = 0;
+		else mask = val = 0;
 
 		if (0 == (mask & val) || dwFlags & CWF_NOALLOWHIDE) {
-
 			wchar_t *s = reinterpret_cast<wchar_t *>(mir_alloc((wcslen(_s) + 1) * 2));
 			wcscpy(s, _s);
 			separator_pos = wcschr(s, '|');
@@ -1290,7 +1285,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 				mir_free(s);
 		}
 	}
-	return(-1);
+	return -1;
 }
 
 /**
@@ -1465,12 +1460,9 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			case WM_LBUTTONUP:
 				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
 
-				const wchar_t*	wszUrl = Utils::extractURLFromRichEdit(e, ::GetDlgItem(hwnd, IDC_WARNTEXT));
+				const wchar_t *wszUrl = Utils::extractURLFromRichEdit(e, ::GetDlgItem(hwnd, IDC_WARNTEXT));
 				if (wszUrl) {
-					char* szUrl = mir_t2a(wszUrl);
-
-					CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
-					mir_free(szUrl);
+					CallService(MS_UTILS_OPENURL, OUF_UNICODE, (LPARAM)wszUrl);
 					mir_free(const_cast<TCHAR *>(wszUrl));
 				}
 			}

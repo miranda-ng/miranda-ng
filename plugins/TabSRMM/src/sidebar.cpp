@@ -310,7 +310,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 int CSideBarButton::testCloseButton() const
 {
 	if (m_id == IDC_SIDEBARUP || m_id == IDC_SIDEBARDOWN)							// scroller buttons don't have a close button
-		return(-1);
+		return -1;
 
 	if (m_sideBar->getContainer()->dwFlagsEx & TCF_CLOSEBUTTON && !(getLayout()->dwFlags & CSideBar::SIDEBARLAYOUT_NOCLOSEBUTTONS)) {
 		POINT pt;
@@ -332,7 +332,7 @@ int CSideBarButton::testCloseButton() const
 				return 1;
 		}
 	}
-	return(-1);
+	return -1;
 }
 /**
  * call back from the button window procedure. Activate my session

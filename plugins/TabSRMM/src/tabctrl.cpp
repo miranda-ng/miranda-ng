@@ -47,7 +47,7 @@ static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, P
 		RECT  rcTab;
 
 		if (tci.flags & TCHT_NOWHERE)
-			return(-1);
+			return -1;
 
 		TabCtrl_GetItemRect(hwnd, iTab, &rcTab);
 		if (tabdat->dwStyle & TCS_BUTTONS) {
@@ -63,7 +63,7 @@ static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, P
 		if (PtInRect(&rcTab, tci.pt))
 			return(iTab);
 	}
-	return(-1);
+	return -1;
 }
 
 /*

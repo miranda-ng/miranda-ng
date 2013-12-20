@@ -88,7 +88,7 @@ public:
 			if (m_TbButtons[i].idCommand == id )
 				return(i);
 		}
-		return(-1);
+		return -1;
 	}
 public:
 	static   HHOOK   m_hHook;

@@ -187,7 +187,7 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM 
 			return ::SendMessage(m_pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 	}
-	return(-1);
+	return -1;
 }
 
 /**
