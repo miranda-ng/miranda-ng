@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
-;file \plugins\Import\res\resource.rc
 [Import completed]
 Importimine lõpetatud
 [&Filename:]
@@ -28,7 +27,6 @@ URL-id
 Failide ülekanded
 [Other]
 Muu
-;file \plugins\Import\src\import.cpp
 [Added contact %u (found in history)]
 Lisatud kontakt %u (leitud ajaloost)
 [Importing groups.]
@@ -39,11 +37,7 @@ Kontaktide importimine
 Ajaloo importimine
 [Import completed in %d seconds.]
 Importimine teostatud %d sekundiga.
-;file \plugins\Import\src\main.cpp
 [&Import...]
 &Import...
-;file \plugins\Import\src\miranda.cpp
 [All Files]
 Kõik failid
-;file \plugins\Import\src\utils.cpp
-;file \plugins\Import\src\wizard.cpp

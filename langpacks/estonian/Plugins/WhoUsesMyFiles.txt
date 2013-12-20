@@ -5,10 +5,13 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 OK
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[Background color]
+Taustavärv
+[Text color]
+Teksti värv
 [File]
 Fail
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error]
+Viga

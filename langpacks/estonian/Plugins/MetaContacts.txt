@@ -5,7 +5,6 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
-;file \plugins\MetaContacts\res\MetaContacts.rc
 [&Cancel]
 &Tühista
 [Name:]
@@ -20,8 +19,6 @@ Rakenda
 Valikud
 [Contact List]
 Kontaktide nimekiri
-;file \plugins\MetaContacts\src\addto.cpp
-;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 Tundmatu kontakt
 [Yes]
@@ -32,20 +29,13 @@ Ei
 Kontakt
 [Protocol]
 Protokoll
-;file \plugins\MetaContacts\src\icons.cpp
 [Remove]
 Eemalda
-;file \plugins\MetaContacts\src\metacontacts.h
-;file \plugins\MetaContacts\src\meta_main.cpp
-;file \plugins\MetaContacts\src\meta_menu.cpp
 [Error]
 Viga
-;file \plugins\MetaContacts\src\meta_options.cpp
-;file \plugins\MetaContacts\src\meta_services.cpp
 [Message from %s]
 Teade %s'lt
 [General]
 Üldine
 [History]
 Ajalugu
-;file \plugins\MetaContacts\src\meta_utils.cpp

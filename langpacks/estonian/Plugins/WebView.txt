@@ -1,0 +1,39 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+sekundit
+[Bold]
+Rasvane
+[URL:]
+URL:
+[OK]
+OK
+[Cancel]
+Tühista
+[Apply]
+Rakenda
+[Find]
+Otsi
+[&Find next]
+&Otsi järgmist
+[Find what:]
+Otsi mida:
+[Background]
+Taust
+[Text]
+Tekst
+[&Copy]
+Kopeeri
+[&Delete]
+Kustuta
+[Co&py all]
+Kopeeri kõik
+[Network]
+Võrgustik
+[Online]
+Sees

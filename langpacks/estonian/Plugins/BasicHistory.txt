@@ -5,7 +5,6 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\BasicHistory\res\BasicHistory.rc
 [Show names]
 Kuva nimed
 [Show messages]
@@ -16,7 +15,6 @@ Nimi
 OK
 [Cancel]
 Tühista
-;file \plugins\BasicHistory\src\BasicHistory.cpp
 [View &History]
 Vaata ajalugu
 [Incoming message]
@@ -25,13 +23,12 @@ Sisenev teade
 Väljundteade
 [History]
 Ajalugu
-;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Kõik sündmused
 [History for %s]
 %s ajalugu
 [System]
 Süsteem
-;file \plugins\BasicHistory\src\ExportManager.cpp
-;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [Open in &new window]
 Ava uues aknas
 [&Open in existing window]
@@ -46,30 +43,29 @@ Kustuta
 Kustuta grupp
 [Options]
 Valikud
+[Fonts and colors]
+Fondid ja värvid
 [Icons]
 Ikoonid
 [Hotkeys]
 Kiirklahvid
 [Error]
 Viga
-;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Teade
 [Link]
 Link
+[You were added]
+Sa oled lisatud
 [Messages]
 Teated
 [Searching]
 Otsimine
+[Contact list background]
+Kontaktide nimekirja taust
 [Find]
 Otsi
-;file \plugins\BasicHistory\src\Options.h
-;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-;file \plugins\BasicHistory\src\Scheduler.cpp
 [Contacts]
 Kontaktid
-;file \plugins\BasicHistory\src\Searcher.cpp
 [Search]
 Otsi
-;file \plugins\BasicHistory\src\TxtExport.cpp

@@ -5,7 +5,6 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
-;file \plugins\ModernOpt\res\resource.rc
 [Miranda NG Options]
 Miranda NG valikud
 [OK]
@@ -14,7 +13,6 @@ OK
 Tühista
 [Apply]
 Rakenda
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Accounts]
 Kontod
 [Style]

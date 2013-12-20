@@ -5,8 +5,5 @@
 ;  Version: 0.0.1.1
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\YahooGroups\res\YahooGroups.rc
-;file \plugins\YahooGroups\src\hooked_events.cpp
 [Plugins]
 Pluginad
-;file \plugins\YahooGroups\src\utils.cpp

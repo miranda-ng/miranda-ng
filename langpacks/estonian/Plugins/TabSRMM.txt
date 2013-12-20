@@ -5,7 +5,6 @@
 ;  Version: 3.1.99.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
 [Cancel]
@@ -58,7 +57,12 @@ Vali kõik
 Puhasta
 [&Close tab]
 Sulge sakk
-;file \plugins\TabSRMM\res\resource.rc
+[&Cancel]
+&Tühista
+[&Send]
+Saada
+[&Add]
+&Lisa
 [seconds]
 sekundit
 [Text]
@@ -119,6 +123,10 @@ Toeta BBCODE
 Jah
 [No]
 Ei
+[Send message on 'Enter']
+Saada teade 'Enter' vajutamisel
+[Send message on double 'Enter']
+Saada teade topelt 'Enter' vajutamisel
 [&Copy]
 Kopeeri
 [Co&py All]
@@ -145,37 +153,38 @@ Lemmikud
 Font
 [&File]
 &Fail
+[Show Menu Bar]
+Kuva menüürida
+[Show Status Bar]
+Kuva olekuriba
 [Show Tool Bar]
 Kuva tööriistariba
 [Help]
 Spikker
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [View User's History]
 Vaata kasutaja ajalugu
-;file \plugins\TabSRMM\src\container.cpp
-;file \plugins\TabSRMM\src\containeroptions.cpp
-;file \plugins\TabSRMM\src\controls.cpp
-;file \plugins\TabSRMM\src\eventpopups.cpp
+[Contact avatars]
+Kontaktide avatarid
+[Incoming file]
+Sisenev tulev fail
 [New messages: ]
 Uued teated: 
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-;file \plugins\TabSRMM\src\globals.cpp
 [Outgoing]
 Väljuv
 [Other]
 Muu
 [Message from %s]
 Teade %s'lt
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
-;file \plugins\TabSRMM\src\infopanel.cpp
-;file \plugins\TabSRMM\src\mim.cpp
-;file \plugins\TabSRMM\src\modplus.cpp
-;file \plugins\TabSRMM\src\msgdialog.cpp
+[contact]
+Kontakt
+[Always off]
+Alati väljas
+[Always on]
+Alati sees
 [Character Encoding]
 Märkide kodeering
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt on välja logitud ja see protokoll ei toeta failide saatmist väljas olevatele kasutajatele.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 Viga sihtkataloogi loomisel
 [Save contact picture]
@@ -184,17 +193,16 @@ Salvesta kontatki pilt
 Fail eksisteerib. Kas soovid üle kirjutada?
 ['(Unknown Contact)']
 '(Tundmatu kontakt)'
-;file \plugins\TabSRMM\src\msglog.cpp
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [** New contacts **]
 ** Uued kontaktid **
 [** Unknown contacts **]
 ** Tundmatud kontaktid **
 [General]
 Üldine
+[Message log]
+Teadete logi
 [Typing Notify]
 Trükkimise teavitus
-;file \plugins\TabSRMM\src\msgs.cpp
 [Save and close]
 Salvesta ja sulge
 [Font color]
@@ -209,50 +217,28 @@ Sisenev teade
 Väljundteade
 [Message Log]
 Teadete logi
-;file \plugins\TabSRMM\src\msgs.h
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Error]
 Viga
-;file \plugins\TabSRMM\src\sendlater.cpp
 [Contact]
 Kontakt
 [Status]
 Staatus
-;file \plugins\TabSRMM\src\sendqueue.cpp
-;file \plugins\TabSRMM\src\sidebar.cpp
-;file \plugins\TabSRMM\src\srmm.cpp
-;file \plugins\TabSRMM\src\taskbar.cpp
-;file \plugins\TabSRMM\src\templates.cpp
-;file \plugins\TabSRMM\src\themeio.cpp
-;file \plugins\TabSRMM\src\themes.cpp
 [Change skin]
 Muuda nahk
-;file \plugins\TabSRMM\src\translator.cpp
-[Send message on 'Enter']
-Saada teade 'Enter' vajutamisel
-[Send message on double 'Enter']
-Saada teade topelt 'Enter' vajutamisel
 [Close the message window on send]
 Sulge teate aken peale saatmist
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
 [Enable &typing notification]
 Võimalda trükkimise teavitused
 [...is typing a message.]
 ...on trükkimas teadet.
 [...has stopped typing.]
 ...lõpetas trükkimise.
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 Alati sees
 [Always Off]
 Alati väljas
-;file \plugins\TabSRMM\src\utils.cpp
-;file \plugins\TabSRMM\src\chat\clist.cpp
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-;file \plugins\TabSRMM\src\chat\log.cpp
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-;file \plugins\TabSRMM\src\chat\options.cpp
+[Text color]
+Teksti värv
 [Timestamp]
 Ajatempel
 [Your nickname]
@@ -263,6 +249,8 @@ Kasutas ühines
 Kasutaja lahkus
 [* Error and warning Messages]
 * Vea- ja hoiatusteated
+[Nickname]
+Hüüdnimi
 [Protocol]
 Protokoll
 [Appearance and functionality of chat room windows]
@@ -273,13 +261,10 @@ Teadete logi välisilme
 Kõik failid
 [Select Folder]
 Vali kaust
-;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 &Ühine
 [&Leave]
 Lahku
-;file \plugins\TabSRMM\src\chat\tools.cpp
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 Hüüdnimi
 [Unique ID]

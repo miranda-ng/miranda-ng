@@ -2,10 +2,9 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-;file \plugins\AVS\res\avs.rc
 [Set default picture]
 Sea vaikimisi pilt
 [Delete default picture]
@@ -34,8 +33,18 @@ Valikud
 Taust
 [Set]
 Sea
-;file \plugins\AVS\src\acc.cpp
-;file \plugins\AVS\src\main.cpp
+[My Avatars]
+Minu avatarid
+[Reset contact picture]
+Algväärtusta kontakti pilt
+[Contact has no avatar]
+Kontaktil ei ole avatari
+[Contacts]
+Kontaktid
+[Contact Avatars]
+Kontaktide avatarid
+[Own Avatars]
+Oma avatarid
 [All Files]
 Kõik failid
 [JPEG Bitmaps]
@@ -44,16 +53,3 @@ JPEG bittraster
 XML-fail
 [Set My Avatar]
 Sea minu avatar
-[My Avatars]
-Minu avatarid
-[Contacts]
-Kontaktid
-[Contact Avatars]
-Kontaktide avatarid
-[Own Avatars]
-Oma avatarid
-;file \plugins\AVS\src\options.cpp
-[Reset contact picture]
-Algväärtusta kontakti pilt
-[Contact has no avatar]
-Kontaktil ei ole avatari

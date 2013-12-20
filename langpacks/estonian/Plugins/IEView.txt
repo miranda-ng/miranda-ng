@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 Kopeeri
 [Select All]
@@ -16,29 +15,25 @@ Valikud
 Suurus:
 [Show seconds]
 Kuva sekundid
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Incoming File Transfer]
 Siseneva faili ülekanne
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 Tundmatu kontakt
-;file \plugins\IEView\src\IEView.cpp
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[ERROR]
+Viga
 [Error]
 Viga
-;file \plugins\IEView\src\Options.cpp
 [General]
 Üldine
 [Message Log]
 Teadete logi
+[Group chats]
+Grupivestlused
 [History]
 Ajalugu
 [All Files]
 Kõik failid
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [File sent]
 Fail saadetud
 [File received]
 Fail vastu võetud
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

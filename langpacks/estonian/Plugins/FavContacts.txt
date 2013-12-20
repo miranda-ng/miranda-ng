@@ -5,14 +5,13 @@
 ;  Version: 0.0.0.6
 ;  Authors: Victor Pavlychko
 ;============================================================
-;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Kohandamine
 [Show]
 Kuva
-;file \plugins\FavContacts\src\favlist.h
-;file \plugins\FavContacts\src\main.cpp
 [Background]
 Taust
 [Contacts]
 Kontaktid
+[Favorites]
+Lemmikud

@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \Plugins\StatusPlugins\resource.rc
 [General]
 Üldine
 [Close]
@@ -20,6 +19,8 @@ Teade
 Sea
 [OK]
 OK
+[Command line:]
+Käsurida:
 [Other]
 Muu
 [Background color]
@@ -38,17 +39,14 @@ Staatus
 Kustuta
 [seconds]
 sekundit
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status messages]
 Oleku teated
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [Not right now.]
 Mitte praegu
 [Yep, I'm here.]
 Jah, ma olen siin.
 [Mmm... food.]
 Mmm... söök
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Protocol]
 Protokoll
 [Closing in %d]

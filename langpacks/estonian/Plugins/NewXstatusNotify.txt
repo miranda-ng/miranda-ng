@@ -5,7 +5,6 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Online]
 Sees
 [Offline]
@@ -32,6 +31,8 @@ Helid
 Taust
 [Text]
 Tekst
+[Sec]
+sek.
 [Reset]
 Algväärtusta
 [OK]
@@ -42,23 +43,19 @@ Tühista
 Üldine
 [Accounts]
 Kontod
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[All files]
+Kõik failid
 [Status]
 Staatus
 [** All contacts **]
 ** Kõik kontaktid **
-;file \plugins\NewXstatusNotify\src\indsnd.h
-;file \plugins\NewXstatusNotify\src\main.cpp
 [Contact]
 Kontakt
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Kõik failid
 [Protocol]
 Protokoll
-;file \plugins\NewXstatusNotify\src\popup.h
-;file \plugins\NewXstatusNotify\src\utils.cpp
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Message log]
+Teadete logi
 [<unknown>]
 <tundmatu>
-;file \plugins\NewXstatusNotify\src\xstatus.h

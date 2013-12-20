@@ -5,7 +5,6 @@
 ;  Version: 0.7.5.4
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
-;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [OK]
 OK
 [Cancel]
@@ -34,12 +33,9 @@ Teisalda/nimeta ümber
 Lahku
 [Unique ID:]
 Unikaalne ID:
-;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
-;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Name]
 Nimi
 [Version]
 Versioon
-;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Error]
 Viga

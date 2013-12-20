@@ -1,0 +1,31 @@
+﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Module: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn
+;============================================================
+[&Copy Link]
+Kopeeri link
+[System History]
+Süsteemi ajalugu
+[Incoming url]
+Sisendteate URL
+[Outgoing file]
+Väljuv fail
+[Incoming Url]
+Sisendteate URL
+[Open in &new window]
+Ava uues aknas
+[Select &All]
+Vali &kõik
+[Send &Message]
+Saada teade
+[User Details]
+Kasutaja detailid
+[View user's history]
+Vaata kasutaja ajalugu
+[View User's History]
+Vaata kasutaja ajalugu
+[View &History]
+Vaata ajalugu

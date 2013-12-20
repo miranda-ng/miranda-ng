@@ -5,7 +5,6 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-;file \plugins\Clist_nicer\res\resource.rc
 [OK]
 OK
 [Version]
@@ -30,6 +29,8 @@ Grupid
 Sorteeri grupid tähestikuliselt
 [Contact List Sorting]
 Kontaktide nimekirja sorteerimine
+[Height]
+kõrgus
 [Radius]
 Raadius
 [Icons]
@@ -106,6 +107,8 @@ Kuvamise valikud
 Kuva avatar:
 [Show local time]
 Kuva kohalik aeg
+[&Main menu]
+Põhimenüü
 [E&xit]
 Välju
 [&Status]
@@ -144,16 +147,16 @@ Peida siin väljas kasutajad
 Nimeta grupp ümber
 [&Delete Group]
 Kustuta grupp
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [General]
 Üldine
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Text color]
+Teksti värv
+[<None>]
+<pole>
 [Show menu]
 Kuva menüü
 [Accounts]
 Kontod
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Offline]
 Väljas
 [Online]
@@ -180,25 +183,17 @@ Staatus
 Taust
 [Contacts]
 Kontaktid
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-;file \plugins\Clist_nicer\src\clistopts.cpp
+[Contact list]
+Kontaktide nimekiri
 [Global]
 Globaalne
-;file \plugins\Clist_nicer\src\clui.cpp
 [Sounds are off]
 Helid on väljas
 [Offline contacts]
 Väljas olevad kontaktid
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-;file \plugins\Clist_nicer\src\Docking.cpp
-;file \plugins\Clist_nicer\src\extBackg.cpp
-;file \plugins\Clist_nicer\src\init.cpp
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Otsi/lisa kontakte...
-[&Main menu]
-Põhimenüü
 [&Options...]
 &Valikud...
+[&New SubGroup]
+Uus alamgrupp

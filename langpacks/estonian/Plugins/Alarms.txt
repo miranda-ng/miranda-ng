@@ -5,9 +5,10 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\Alarms\res\resource.rc
 [Delete]
 Kustuta
+[Row Height:]
+Rea kõrgus:
 [OK]
 OK
 [Cancel]
@@ -20,16 +21,10 @@ Tegevused
 Kustuta
 [&Options...]
 &Valikud...
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
-;file \plugins\Alarms\src\alarm_win.cpp
 [Background]
 Taust
 [Window]
 Aken
-;file \plugins\Alarms\src\frame.cpp
-;file \plugins\Alarms\src\icons.cpp
-;file \plugins\Alarms\src\options.cpp
 [Error]
 Viga
 [Events]

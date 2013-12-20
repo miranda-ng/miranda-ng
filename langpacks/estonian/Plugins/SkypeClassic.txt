@@ -1,0 +1,45 @@
+﻿#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
+;============================================================
+;  File: SkypeClassic.dll
+;  Plugin: Skype Protocol (Classic)
+;  Version: 0.0.0.54
+;  Authors: leecher, tweety, jls17
+;============================================================
+[Set]
+Sea
+[Delete]
+Kustuta
+[Password:]
+Parool:
+[Cancel]
+Tühista
+[OK]
+OK
+[Host:]
+Host:
+[Port:]
+Port:
+[Name:]
+Nimi:
+[City:]
+Linn
+[Country:]
+Riik
+[Homepage:]
+Koduleht:
+[seconds]
+sekundit
+[Background]
+Taust
+[Text]
+Tekst
+[&File]
+&Fail
+[Unknown]
+Tundmatu
+[User &details]
+Kasutaja detailid
+[MALE]
+Mees
+[FEMALE]
+Naine

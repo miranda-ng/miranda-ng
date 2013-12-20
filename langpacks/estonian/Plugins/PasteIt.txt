@@ -5,17 +5,11 @@
 ;  Version: 1.0.0.3
 ;  Authors: Krzysztof Kral
 ;============================================================
-;file \plugins\PasteIt\res\PasteIt.rc
 [OK]
 OK
 [Cancel]
 Tühista
 [Delete]
 Kustuta
-;file \plugins\PasteIt\src\Options.cpp
-;file \plugins\PasteIt\src\PasteIt.cpp
 [Error]
 Viga
-;file \plugins\PasteIt\src\PasteToWeb.cpp
-;file \plugins\PasteIt\src\PasteToWeb1.cpp
-;file \plugins\PasteIt\src\PasteToWeb2.cpp

@@ -5,21 +5,22 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
-;file \plugins\CSList\res\cslist.rc
 [Cancel]
 Tühista
-;file \plugins\CSList\src\cslist.cpp
 [Status]
 Staatus
 [Add]
 Lisa
+[Favorites]
+Lemmikud
 [Message]
 Teade
-;file \plugins\CSList\src\cslist.h
 [Main Menu]
 Põhimenüü
 [Remove]
 Eemalda
+[Undo changes]
+Ennista muudatused
 [Clear]
 Puhasta
 [Set]

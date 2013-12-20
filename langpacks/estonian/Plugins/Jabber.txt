@@ -1,11 +1,10 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-;file \protocols\JabberG\res\jabber.rc
 [OK]
 OK
 [Cancel]
@@ -60,6 +59,10 @@ Kirjeldus:
 Viimati külastatud jututoad:
 [Bookmarks]
 Lemmikud
+[Apply Filter]
+Rakenda filtrit
+[Reset Filter]
+Algväärtusta filter
 [Add]
 Lisa
 [Nickname:]
@@ -72,23 +75,20 @@ URL
 Teated
 [Service Discovery]
 Teenuse avastamine
+[Favorites]
+Lemmikud
 [Change %s Message]
 Muuda "%s" teadet
 [Closing in %d]
 Sulgub %d s. pärast
+[Status message:]
+Oleku teade:
 [Chat options]
 Vestluse valikud
 [XML Console]
 XML-konsool
-;file \protocols\JabberG\src\jabber.cpp
-;file \protocols\JabberG\src\jabber.h
-;file \protocols\JabberG\src\jabber_adhoc.cpp
-;file \protocols\JabberG\src\jabber_agent.cpp
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
-;file \protocols\JabberG\src\jabber_byte.cpp
-;file \protocols\JabberG\src\jabber_caps.cpp
-;file \protocols\JabberG\src\jabber_captcha.cpp
-;file \protocols\JabberG\src\jabber_chat.cpp
+[Nickname]
+Hüüdnimi
 [None]
 Pole
 [Owner]
@@ -103,58 +103,46 @@ Eemal
 Pole kättesaadav
 [Free for chat]
 Vestluseks vaba
-;file \protocols\JabberG\src\jabber_console.cpp
+[User &details]
+Kasutaja detailid
 [Jabber Error]
 Jabber'i viga
-;file \protocols\JabberG\src\jabber_disco.cpp
-;file \protocols\JabberG\src\jabber_disco.h
-;file \protocols\JabberG\src\jabber_form2.cpp
-;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Loading...]
 Laadimine
-;file \protocols\JabberG\src\jabber_icolib.cpp
 [Notes]
 Märkused
 [Apply filter]
 Rakenda filtrit
 [Reset filter]
 Algväärtusta filter
-;file \protocols\JabberG\src\jabber_iqid.cpp
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
-;file \protocols\JabberG\src\jabber_menu.cpp
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
-;file \protocols\JabberG\src\jabber_notes.cpp
-;file \protocols\JabberG\src\jabber_opt.cpp
+[Service discovery]
+Teenuse avastamine
 [Server options]
 Serveri valikud
 [Other]
 Muu
 [General]
 Üldine
+[Nick Name]
+Hüüdnimi
 [Group]
 Grupp
 [Connecting...]
 Ühendumine...
 [Network]
 Võrgustik
-;file \protocols\JabberG\src\jabber_password.cpp
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [<none>]
 <pole>
-;file \protocols\JabberG\src\jabber_proto.cpp
-;file \protocols\JabberG\src\jabber_rc.cpp
+[messages]
+Teated
+[Set status]
+Sea olek
 [Status]
 Staatus
 [Invisible]
 Nähtamatu
 [Offline]
 Väljas
-;file \protocols\JabberG\src\jabber_search.cpp
-;file \protocols\JabberG\src\jabber_svc.cpp
-;file \protocols\JabberG\src\jabber_thread.cpp
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Message]
 Teade
 [<not specified>]
@@ -163,18 +151,16 @@ Teade
 Versioon
 [System]
 Süsteem
-[Yes]
-Jah
-[No]
-Ei
+[unknown]
+Tundmatu
+[none]
+Pole
 [Copy]
 Kopeeri
 [Photo]
 Foto
-;file \protocols\JabberG\src\jabber_util.cpp
 [Error]
 Viga
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Mees
 [Female]
@@ -183,6 +169,5 @@ Naine
 Toetatakse ainult JPG, GIF ja BMP pildifailid, mis väiksemad kui 40KB.
 [Contacts]
 Kontaktid
-;file \protocols\JabberG\src\jabber_ws.cpp
-;file \protocols\JabberG\src\jabber_xstatus.cpp
-;file \protocols\JabberG\src\ui_utils.cpp
+[on the phone]
+Telefonil

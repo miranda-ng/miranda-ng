@@ -5,16 +5,9 @@
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
-;file \plugins\StopSpamPlus\res\stopspam.rc
-;file \plugins\StopSpamPlus\src\events.cpp
 [General]
 Üldine
 [Messages]
 Teated
 [Accounts]
 Kontod
-;file \plugins\StopSpamPlus\src\headers.h
-;file \plugins\StopSpamPlus\src\options.cpp
-;file \plugins\StopSpamPlus\src\services.cpp
-;file \plugins\StopSpamPlus\src\settings.h
-;file \plugins\StopSpamPlus\src\stopspam.cpp

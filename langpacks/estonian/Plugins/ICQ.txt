@@ -1,11 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
-;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+ICQ number:
 [Password:]
 Parool:
 [&Send]
@@ -66,56 +67,36 @@ Linn
 Muu
 [Closing in %d]
 Sulgub %d s. pärast
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [ICQ Note]
 ICQ märkus
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-;file \protocols\IcqOscarJ\src\icq_constants.h
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Estonia]
 Eesti
 [Female]
 Naine
 [Male]
 Mees
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Add to server list]
+Lisa serverinimekirja
 [Network]
 Võrgustik
 [Contacts]
 Kontaktid
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
-;file \protocols\IcqOscarJ\src\icq_server.cpp
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [Close]
 Sulge
 [** All contacts **]
 ** Kõik kontaktid **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [On the phone]
 Telefonil
 [Typing]
 Trükkimine
+[Free for Chat]
+Vestluseks vaba
 [None]
 Pole
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
-;file \protocols\IcqOscarJ\src\init.cpp
-;file \protocols\IcqOscarJ\src\log.cpp
 [error]
 viga
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
-;file \protocols\IcqOscarJ\src\utilities.cpp
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[Nickname]
+Hüüdnimi
 [Contact]
 Kontakt
 [Country]
@@ -126,15 +107,9 @@ Räägitav keel 1
 Räägitav keel 2
 [Spoken language 3]
 Räägitav keel 3
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [Change ICQ Details]
 Muuda ICQ detaile
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [Upload complete]
 Üleslaadimine lõpetatud
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [<not specified>]
 <pole märgitud>

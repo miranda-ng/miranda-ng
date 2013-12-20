@@ -5,8 +5,5 @@
 ;  Version: 1.0.0.0
 ;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
 ;============================================================
-;file \plugins\QuickContacts\res\resource.rc
 [Contacts]
 Kontaktid
-;file \plugins\QuickContacts\src\options.cpp
-;file \plugins\QuickContacts\src\quickcontacts.cpp

@@ -5,7 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Kasutajanimi:
 [Password:]
@@ -40,24 +39,15 @@ Salvesta muudatused
 Hüüdnimi:
 [Age:]
 Vanus:
-;file \protocols\Tlen\src\tlen_iqid.cpp
-;file \protocols\Tlen\src\tlen_opt.cpp
+[Group chats]
+Grupivestlused
 [General]
 Üldine
 [Network]
 Võrgustik
-;file \protocols\Tlen\src\tlen_svc.cpp
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Windows]
 Aknad
 [E-mail]
 E-mail
-;file \protocols\Tlen\src\tlen_ws.cpp
-;file \protocols\Tlen\src\tlen.cpp
-[Group chats]
-Grupivestlused
-;file \protocols\Tlen\src\tlen_file.cpp
-;file \protocols\Tlen\src\tlen_muc.cpp
-;file \protocols\Tlen\src\tlen_picture.cpp
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-;file \protocols\Tlen\src\tlen_voice.cpp
+[none]
+Pole

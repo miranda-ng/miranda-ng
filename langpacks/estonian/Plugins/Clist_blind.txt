@@ -5,7 +5,6 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
-;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Kustuta kontakt
 [Yes]
@@ -78,6 +77,8 @@ Parem klikk avab olekumenüü
 Parem klikk avab Miranda NG menüü
 [Make sections equal width]
 Tee sektsioonid võrdse laiusega
+[&Main menu]
+Põhimenüü
 [E&xit]
 Välju
 [&Status]
@@ -118,7 +119,6 @@ Peida siin väljas kasutajad
 Nimeta grupp ümber
 [&Delete Group]
 Kustuta grupp
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Offline]
 Väljas
 [Online]
@@ -139,8 +139,5 @@ Lõunastamas
 Telefonil
 [List]
 Nimekiri
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Globaalne
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp

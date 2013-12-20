@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-;file \plugins\Clist_modern\res\resource.rc
 [Always on top]
 Alati pealmine
 [seconds]
@@ -38,6 +37,8 @@ Värv
 Fail
 [Size:]
 Suurus:
+[Height]
+kõrgus
 [OK]
 OK
 [Cancel]
@@ -64,6 +65,8 @@ Kuva mõlemad ikoonid
 Kuva lugemata e-mailid (kui toetatud)
 [Right click opens status menu]
 Parem klikk avab olekumenüü
+[Right click opens Miranda menu]
+Parem klikk avab Miranda menüü
 [Delete Contact]
 Kustuta kontakt
 [No]
@@ -124,6 +127,8 @@ Peida ikoon, kui avatar kuvatud
 Peida gruppide ikoon
 [Status]
 Staatus
+[Nickname]
+Hüüdnimi
 [Position (vertical)]
 Asukoht (vertikaalne)
 [Options]
@@ -134,6 +139,8 @@ Kuva tiitel
 Lukustatud
 [Vertical align:]
 Vertikaalne joondus:
+[&Main menu]
+Põhimenüü
 [E&xit]
 Välju
 [&Status]
@@ -174,8 +181,8 @@ Kuva siin väljas kasutajad
 Nimeta grupp ümber
 [&Delete Group]
 Kustuta grupp
-;file \plugins\Clist_modern\src\modern_clc.cpp
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[List Background]
+Nimekirjade taust
 [Away contacts]
 Eemal kontaktid
 [Invisible contacts]
@@ -190,8 +197,6 @@ Taust
 Nimekiri
 [Window]
 Aken
-[List Background]
-Nimekirjade taust
 [Offline]
 Väljas
 [Online]
@@ -214,49 +219,34 @@ Telefonil
 Nimi
 [Global]
 Globaalne
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [No Events]
 Pole sündmusi
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [None]
 Pole
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Text]
 Tekst
 [Extra icons]
 Ekstra ikoonid
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 Tundmatu kontakt
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 Otsi/lisa kontakte...
-[&Main menu]
-Põhimenüü
 [&Options...]
 &Valikud...
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Kuva kontakti &avatar
 [Hide Contact &Avatar]
 Peida kontakti &avatar
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [column]
 veerg
 [line]
 rida
 [columns]
 veerud
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [Image size is]
 Pildi suurus on
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Error]
 Viga
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Warning!]
 Hoiatus!
 [Please select skin to apply]
@@ -265,15 +255,13 @@ Palun vali rakendatav nahk
 Vaikimisi nahk
 [%Default Skin%]
 %Vaikimisi nahk%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Globaalne>>
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Põhimenüü
 [Accounts]
 Kontod
 [Find user]
 Otsi kasutajat
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[&New SubGroup]
+Uus alamgrupp

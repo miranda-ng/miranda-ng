@@ -5,7 +5,6 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 Parool:
 [Options]
@@ -14,6 +13,8 @@ Valikud
 Veel valikuid
 [Files]
 Failid
+[Status message:]
+Oleku teade:
 [Apply]
 Rakenda
 [Remove]
@@ -24,6 +25,8 @@ Kasutajanimi:
 Nimi:
 [Port:]
 Port:
+[User details]
+Kasutaja detailid
 [Copy]
 Kopeeri
 [OK]
@@ -32,19 +35,14 @@ OK
 Tühista
 [Search:]
 Otsi:
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Kõik failid
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Jah, ma olen siin.
 [Not right now.]
 Mitte praegu
 [Mmm... food.]
 Mmm... söök
-;file \protocols\Xfire\src\iniupdater.cpp
-;file \protocols\Xfire\src\main.cpp
-;file \protocols\Xfire\src\options.cpp
 [General]
 Üldine
 [No]
@@ -53,9 +51,5 @@ Ei
 Juurgrupp
 [Network]
 Võrgustik
-;file \protocols\Xfire\src\searching4games.cpp
-;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
 <pole märgitud>
-;file \protocols\Xfire\src\Xfire_game.cpp
-;file \protocols\Xfire\src\Xfire_gamelist.cpp

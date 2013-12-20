@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
-;file \protocols\Skype\res\Resource.rc
 [&Cancel]
 &Tühista
 [Add]
@@ -34,40 +33,23 @@ Maakond:
 Riik
 [Timezone:]
 Ajatsoon:
-;file \protocols\Skype\src\skype.cpp
-;file \protocols\Skype\src\skype_account.cpp
-;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Nimi
-;file \protocols\Skype\src\skype_bookmarks.cpp
-;file \protocols\Skype\src\skype_chat.cpp
 [&Add]
 &Lisa
-;file \protocols\Skype\src\skype_contacts.cpp
-;file \protocols\Skype\src\skype_dialogs.cpp
 [<not specified>]
 <pole märgitud>
 [Male]
 Mees
 [Female]
 Naine
-;file \protocols\Skype\src\skype_events.cpp
 [Network]
 Võrgustik
 [Contacts]
 Kontaktid
 [General]
 Üldine
-;file \protocols\Skype\src\skype_icons.cpp
 [Contact]
 Kontakt
 [Delete]
 Kustuta
-;file \protocols\Skype\src\skype_ignore_list.cpp
-;file \protocols\Skype\src\skype_instances.cpp
-;file \protocols\Skype\src\skype_menus.cpp
-;file \protocols\Skype\src\skype_messages.cpp
-;file \protocols\Skype\src\skype_netlib.cpp
-;file \protocols\Skype\src\skype_proto.cpp
-;file \protocols\Skype\src\skype_transfers.cpp
-;file \protocols\Skype\src\skype_utils.cpp

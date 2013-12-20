@@ -5,7 +5,6 @@
 ;  Version: 0.0.4.22
 ;  Authors: borkra
 ;============================================================
-;file \plugins\CrashDumper\res\crshdmp.rc
 [Close]
 Sulge
 [General]
@@ -16,11 +15,5 @@ Kopeeri
 Kopeeri kõik
 [Select &All]
 Vali &kõik
-;file \plugins\CrashDumper\src\crshdmp.cpp
 [Show]
 Kuva
-;file \plugins\CrashDumper\src\crshdmp_icons.cpp
-;file \plugins\CrashDumper\src\exhndlr.cpp
-;file \plugins\CrashDumper\src\ui.cpp
-;file \plugins\CrashDumper\src\upload.cpp
-;file \plugins\CrashDumper\src\utils.cpp

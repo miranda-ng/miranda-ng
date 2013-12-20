@@ -5,20 +5,13 @@
 ;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
-;file \plugins\YAPP\res\yapp.rc
 [Close]
 Sulge
 [Options]
 Valikud
-;file \plugins\YAPP\src\icons.cpp
-;file \plugins\YAPP\src\notify_imp.cpp
-;file \plugins\YAPP\src\options.cpp
 [Status]
 Staatus
 [Error]
 Viga
-;file \plugins\YAPP\src\services.cpp
-;file \plugins\YAPP\src\yapp.cpp
 [Background]
 Taust
-;file \plugins\YAPP\src\yapp_history_dlg.cpp

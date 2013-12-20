@@ -1,0 +1,45 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Offline]
+Väljas
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[Incoming message]
+Sisenev teade
+[Incoming URL]
+Sisendteate URL
+[Incoming File]
+Sisenev tulev fail
+[Status messages]
+Oleku teated
+[Messages]
+Teated
+[Online Notification]
+Sees oleku teavitamine
+[All Events]
+Kõik sündmused
+[None]
+Pole
+[Add]
+Lisa
+[Remove]
+Eemalda
+[** All contacts **]
+** Kõik kontaktid **
+[** Unknown contacts **]
+** Tundmatud kontaktid **

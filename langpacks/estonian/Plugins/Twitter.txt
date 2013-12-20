@@ -5,7 +5,6 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-;file \protocols\Twitter\res\twitter.rc
 [Username:]
 Kasutajanimi:
 [Cancel]
@@ -16,8 +15,5 @@ sek.
 Tekst
 [OK]
 OK
-;file \protocols\Twitter\src\connection.cpp
-;file \protocols\Twitter\src\proto.cpp
 [Network]
 Võrgustik
-;file \protocols\Twitter\src\theme.cpp

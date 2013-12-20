@@ -1,11 +1,10 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
-;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
 [Password:]
@@ -32,14 +31,16 @@ Muu
 OK
 [Cancel]
 Tühista
+[Nickname]
+Hüüdnimi
 [&Cancel]
 &Tühista
 [Add]
 Lisa
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Vestlus #
-;file \protocols\MSN\src\msn_commands.cpp
+[User &details]
+Kasutaja detailid
 [Contact tried to open an audio conference (currently not supported)]
 Kontakt proovis avada audio-konverentsi (praegu ei toetata)
 [MSN Protocol]
@@ -52,22 +53,16 @@ Jäänud on ainult 1 isik jututuppa. Kas Sa soovid lülituda ümber standartsess
 MSN-vestlus
 [Message delivery failed]
 Teate edastus ebaõnnestus
-;file \protocols\MSN\src\msn_errors.cpp
-;file \protocols\MSN\src\msn_links.cpp
-;file \protocols\MSN\src\msn_lists.cpp
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Teema: %s
-;file \protocols\MSN\src\msn_menu.cpp
 [&Start Netmeeting]
 Alusta Netmeeting't
-;file \protocols\MSN\src\msn_misc.cpp
 [Error]
 Viga
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Profile]
 Profiil
+[Contact list]
+Kontaktide nimekiri
 [MSN Options]
 MSN valikud
 [Automatically obtain host/port]
@@ -78,11 +73,7 @@ Määra käsitsi host/port
 Võrgustik
 [Server list]
 Serveri nimekiri
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 Kontakt proovis saata veebikaamera andmeid (ei toetata)
 [Contact tried to view our webcam data (currently not supported)]
 Kontakt proovis vaadata meie veebikaamera andmeid (ei toetata)
-;file \protocols\MSN\src\msn_proto.cpp
-;file \protocols\MSN\src\msn_svcs.cpp
-;file \protocols\MSN\src\msn_ws.cpp

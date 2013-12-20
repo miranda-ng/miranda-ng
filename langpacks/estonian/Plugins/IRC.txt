@@ -5,7 +5,6 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-;file \protocols\IRCG\res\IRC.rc
 [&Add]
 &Lisa
 [System]
@@ -30,6 +29,8 @@ Võrgustik
 &Ühine
 [&Clear all]
 Puhasta kõik
+[none]
+Pole
 [Send notice]
 Saada teavitus
 [Messages]
@@ -40,8 +41,6 @@ Teavitused
 Ignoreeri sündmusi
 [Password:]
 Parool:
-;file \protocols\IRCG\src\clist.cpp
-;file \protocols\IRCG\src\commandmonitor.cpp
 [IRC error]
 IRC viga
 [Unknown]
@@ -50,14 +49,12 @@ Tundmatu
 Ignoreeri
 [IRC Error]
 IRC viga
-;file \protocols\IRCG\src\input.cpp
 [IRC warning]
 IRC hoiatus
-;file \protocols\IRCG\src\irclib.cpp
-;file \protocols\IRCG\src\ircproto.cpp
 [Information]
 Info
-;file \protocols\IRCG\src\options.cpp
+[Nickname]
+Hüüdnimi
 [Add]
 Lisa
 [Apply]
@@ -68,12 +65,7 @@ Nimeta ümber
 Tühista
 [Show channel]
 Kuva kanal
-;file \protocols\IRCG\src\output.cpp
-;file \protocols\IRCG\src\services.cpp
 [Set language]
 Sea keel
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Väljas
-;file \protocols\IRCG\src\userinfo.cpp
-;file \protocols\IRCG\src\windows.cpp

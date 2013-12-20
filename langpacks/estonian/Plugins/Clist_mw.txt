@@ -5,7 +5,6 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
-;file \plugins\Clist_mw\res\resource.rc
 [MenuObjects]
 Menüüobjektid
 [MenuItems]
@@ -96,8 +95,12 @@ Kuva protokolli nimed
 Kuva oleku tekst
 [Right click opens status menu]
 Parem klikk avab olekumenüü
+[Right click opens Miranda menu]
+Parem klikk avab Miranda menüü
 [Make sections equal width]
 Tee sektsioonid võrdse laiusega
+[&Main menu]
+Põhimenüü
 [E&xit]
 Välju
 [&Status]
@@ -138,17 +141,16 @@ Peida siin väljas kasutajad
 Nimeta grupp ümber
 [&Delete Group]
 Kustuta grupp
-;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Kohandamine
 [Backgrounds]
 Taustad
-;file \plugins\Clist_mw\src\clcfonts.cpp
 [Offline contacts]
 Väljas olevad kontaktid
+[Status messages]
+Oleku teated
 [Background]
 Taust
-;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Nimekiri
 [List Background]
@@ -171,22 +173,13 @@ Nähtamatu
 Lõunastamas
 [On the phone]
 Telefonil
-;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 Globaalne
-;file \plugins\Clist_mw\src\clistsettings.cpp
 [(Unknown Contact)]
 Tundmatu kontakt
-;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 Otsi/lisa kontakte...
-[&Main menu]
-Põhimenüü
 [&Options...]
 &Valikud...
-;file \plugins\Clist_mw\src\clui.cpp
-;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\groupmenu.cpp
-;file \plugins\Clist_mw\src\keyboard.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
-;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
+[&New SubGroup]
+Uus alamgrupp

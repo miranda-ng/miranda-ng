@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Otsi
 [Close]
@@ -14,6 +13,10 @@ Sulge
 Sisenevad teated
 [Outgoing messages]
 Väljundteated
+[Background color]
+Taustavärv
+[Text color]
+Teksti värv
 [Timestamp]
 Ajatempel
 [&File]
@@ -24,11 +27,15 @@ Ajatempel
 &Valikud
 [&Search]
 Otsi
-;file \plugins\HistoryLinkListPlus\src\language.h
+[link]
+Link
 [Error]
 Viga
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[incoming]
+Sisenev
+[outgoing]
+Väljuv
 [History]
 Ajalugu
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[All files]
+Kõik failid

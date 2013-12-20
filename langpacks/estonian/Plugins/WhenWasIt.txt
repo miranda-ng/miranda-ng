@@ -5,7 +5,6 @@
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
-;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Sounds]
 Helid
 [Show]
@@ -22,21 +21,15 @@ Kirjeldus:
 Daatum:
 [Delete]
 Kustuta
-;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Unknown]
 Tundmatu
 [Protocol]
 Protokoll
 [Contact]
 Kontakt
-;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Contacts]
 Kontaktid
-;file \plugins\WhenWasIt\src\icons.cpp
-;file \plugins\WhenWasIt\src\notifiers.cpp
-;file \plugins\WhenWasIt\src\services.cpp
 [Error]
 Viga
 [All Files]
 Kõik failid
-;file \plugins\WhenWasIt\src\services.h

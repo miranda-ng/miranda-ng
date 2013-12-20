@@ -5,15 +5,13 @@
 ;  Version: 0.1.3.0
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-;file \plugins\Sessions\res\Sessions.rc
 [Delete]
 Kustuta
 [&Cancel]
 &Tühista
+[Save and Close]
+Salvesta ja sulge
 [OK]
 OK
 [Cancel]
 Tühista
-;file \plugins\Sessions\Src\Main.cpp
-;file \plugins\Sessions\Src\Options.cpp
-;file \plugins\Sessions\Src\Utils.cpp

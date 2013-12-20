@@ -5,7 +5,6 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [&Cancel]
 &Tühista
 [OK]
@@ -26,21 +25,16 @@ Pane
 Kustuta
 [Select All]
 Vali kõik
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &Sul&ge
-;file \plugins\SimpleStatusMsg\src\main.cpp
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [Global]
 Globaalne
 [Closing in %d]
 Sulgub %d s. pärast
-;file \plugins\SimpleStatusMsg\src\options.cpp
 [Status]
 Staatus
 [General]
 Üldine
-;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Not right now.]
 Mitte praegu
 [Yep, I'm here.]

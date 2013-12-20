@@ -5,14 +5,12 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
-;file \plugins\BuddyPounce\res\resource.rc
 [Cancel]
 Tühista
 [OK]
 OK
 [Status]
 Staatus
-;file \plugins\BuddyPounce\src\dialog.cpp
 [Online]
 Sees
 [Away]
@@ -21,6 +19,11 @@ Eemal
 Pole kättesaadav
 [Occupied]
 Hõivatud
+[Free For Chat]
+Vestluseks vaba
 [Invisible]
 Nähtamatu
-;file \plugins\BuddyPounce\src\main.cpp
+[On The Phone]
+Telefonil
+[Out To Lunch]
+Lõunastamas

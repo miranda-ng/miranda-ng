@@ -1,7 +1,4 @@
-﻿[Cancel Import]
-Tühista import
-;file \src\resource.rc
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Sisesta konto nimi (nt. Minu Google')
 [Choose the protocol type]
 Vali protokolli tüüp
@@ -277,14 +274,12 @@ Ava uues aknas
 Ava olemas olevas aknas
 [&Copy link]
 Kopeeri link
-;file \src\core\stdauth\resource.rc
 [Reason:]
 Põhjus
 [You were added]
 Sa oled lisatud
 [&Close]
 &Sul&ge
-;file \src\core\stdaway\resource.rc
 [Status messages]
 Oleku teated
 [By default, use this message:]
@@ -293,7 +288,6 @@ Vaikimisi kasuta seda teadet:
 Muuda "%s" teadet
 [Closing in %d]
 Sulgub %d s. pärast
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 Saada
 [Show these events only:]
@@ -350,7 +344,6 @@ Vali kõik
 Puhasta
 [&Close tab]
 Sulge sakk
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Peida väljas olevad kasutajad
 [Hide empty groups]
@@ -427,6 +420,8 @@ Parem klikk avab olekumenüü
 Parem klikk avab Miranda NG menüü
 [Make sections equal width]
 Tee sektsioonid võrdse laiusega
+[&Main menu]
+Põhimenüü
 [&Status]
 &Olek
 [&Offline\tCtrl+0]
@@ -445,7 +440,6 @@ Vestluseks vaba\tCtrl+6
 Telefonil\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Lõunastamas\tCtrl+9
-;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Saada fail(id)
 [File(s):]
@@ -466,12 +460,6 @@ Daatum:
 Failid
 [Save to:]
 Salvesta kuhu:
-[Contact menu]
-Kontaktide menüü
-[Open...]
-Ava...
-[Open folder]
-Ava kaust
 [Transfer completed, open file(s).]
 Ülekanne lõpetatud, ava fail(id).
 [No data transferred]
@@ -498,6 +486,8 @@ Eksisteeriv fail
 Suurus:
 [Open file]
 Ava fail
+[Open folder]
+Ava kaust
 [File properties]
 Faili omadused
 [File transfers]
@@ -534,10 +524,8 @@ Hoiata mind avamast faili, mida ei ole skänneeritud
 Kui sisenevad failid juba eksisteerivad
 [Ask me]
 Küsi minult
-;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Info Miranda NG kohta
-;file \src\core\stdidle\resource.rc
 [Windows]
 Aknad
 [Miranda]
@@ -546,7 +534,6 @@ Miranda
 minutit
 [Idle options]
 Tegevusetuse valikud
-;file \src\core\stdmsg\res\resource.rc
 [Close the message window on send]
 Sulge teate aken peale saatmist
 [Show 'Send' button]
@@ -589,7 +576,6 @@ Kuva trükkimise teavitused kui kasutaja trükib teadet
 Kuva trükkimise teavitus, kui teateaken ei ole avatud
 [Delete]
 Kustuta
-;file \src\core\stduihist\resource.rc
 [Find]
 Otsi
 [&Find next]
@@ -598,7 +584,6 @@ Otsi
 Otsi mida:
 [&Find...]
 &Otsi...
-;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Lisa telefoninumber
 [Enter country, area code and phone number:]
@@ -655,16 +640,14 @@ Firma:
 Osakond:
 [Website:]
 Veebisait
-;file \src\core\stdauth\auth.cpp
 [Alerts]
 Alarmid
-;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Vaata kasutaja detaile
+[<Unknown>]
+<tundmatu>
 [(Unknown)]
 (Tundmatu)
-;file \src\core\stdaway\awaymsg.cpp
-;file \src\core\stdaway\sendmsg.cpp
 [Not right now.]
 Mitte praegu
 [Yep, I'm here.]
@@ -673,10 +656,6 @@ Jah, ma olen siin.
 Mmm...söök
 [Status]
 Staatus
-;file \src\core\stdchat\src\clist.cpp
-;file \src\core\stdchat\src\colorchooser.cpp
-;file \src\core\stdchat\src\log.cpp
-;file \src\core\stdchat\src\options.cpp
 [Your nickname]
 Sinu hüüdnimi
 [User has joined]
@@ -715,27 +694,24 @@ Jututoa ajalugu
 Jututoa seaded
 [Event filter enabled]
 Sündmuste filter võimaldatud
+[Group chats]
+Grupivestlused
 [Appearance and functionality of chat room windows]
 Jututoa akende välisilme ja funktsionaalsus
 [Appearance of the message log]
 Teadete logi välisilme
 [Select folder]
 Vali kaust
-[Group chats]
-Grupivestlused
 [General]
 Üldine
 [Chat log]
 Vestluse logi
 [Chat]
 Vestlus
-;file \src\core\stdchat\src\services.cpp
 [&Join]
 &Ühine
-;file \src\core\stdchat\src\tools.cpp
 [%s says: %s]
 %s ütles: %s
-;file \src\core\stdchat\src\window.cpp
 [Make the text bold (CTRL+B)]
 Tee tekst rasvaseks (CTRL+B)
 [Make the text italicized (CTRL+I)]
@@ -754,10 +730,8 @@ Sulge praegune sakk (CTRL+F4)
 Hüüdnimi
 [Unique ID]
 Unikaalne id
-;file \src\core\stdclist\src\clcfonts.cpp
 [Offline contacts]
 Väljas olevad kontaktid
-;file \src\core\stdclist\src\clcopts.cpp
 [Offline]
 Väljas
 [Online]
@@ -778,70 +752,56 @@ Lõunastamas
 Telefonil
 [List background]
 Nimekirjade taust
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Globaalne
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Kasutajal ei ole registreeritud e-maili aadressi
 [Send e-mail]
 Saada e-mail
 [&E-mail]
 E-mail
-;file \src\core\stdfile\file.cpp
 [&File]
 &Fail
 [Incoming]
 Sisenev
 [Error]
 Viga
-;file \src\core\stdfile\fileexistsdlg.cpp
 [All files]
 Kõik failid
-;file \src\core\stdfile\fileopts.cpp
 [Executable files]
 Käivitatavad failid
 [Events]
 Sündmused
-;file \src\core\stdfile\filerecvdlg.cpp
 [View user's history]
 Vaata kasutaja ajalugu
 [Canceled]
 Tühistatud
-;file \src\core\stdfile\filesenddlg.cpp
-;file \src\core\stdfile\filexferdlg.cpp
 [File received]
 Fail vastu võetud
+[Contact menu]
+Kontaktide menüü
+[Open...]
+Ava...
 [sec]
 sek.
 [remaining]
 lõpetamiseni
 [Connecting...]
 Ühendumine...
-;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Väljuv
-;file \src\core\stdhelp\about.cpp
-;file \src\core\stdhelp\help.cpp
 [&About...]
 Teave...
 [&Miranda NG homepage]
 &Miranda NG koduleht
 [&Report bug]
 &Raporteeri puugist
-;file \src\core\stdidle\idle.cpp
 [Idle]
 Tegevusetus
-;file \src\core\stdmsg\src\cmdlist.cpp
-;file \src\core\stdmsg\src\globals.cpp
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Viimane teade saadud %s kell %s.
-;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Fail saadetud
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Väljundteated
 [Incoming messages]
@@ -868,17 +828,10 @@ Teadete logi
 ** Tundmatud kontaktid **
 [Typing notify]
 Trükkimise teavitus
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Teade %s'lt
 [Typing notification]
 Trükkimisest teavitamine
-;file \src\core\stdmsg\src\msgtimedout.cpp
-;file \src\core\stduihist\history.cpp
-[Outgoing Message]
-Väljuv teade
-[Incoming Message]
-Sisenev teade
 [Incoming URL]
 Sisendteate URL
 [Outgoing file]
@@ -891,13 +844,10 @@ Sisenev tulev fail
 Kustuta ajalugu
 [View &history]
 Vaata ajalugu
-;file \src\core\stdurl\url.cpp
 [Web page address (&URL)]
 Veebilehe aadress (&URL)
 [URL]
 URL
-;file \src\core\stdurl\urldialogs.cpp
-;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail address]
 Redigeeri e-maili aadressi
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -914,7 +864,6 @@ Mobiil
 Töötelefon
 [Work fax]
 Tööfaks
-;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 Mees
 [Female]
@@ -931,42 +880,30 @@ Asukoht
 Töö
 [Notes]
 Märkused
-;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Omanik
 [View/change my &details...]
 Vaata/muuda minu &detaile...
-;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s on sees
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Lisa kontakt
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
-;file \src\modules\clist\clistsettings.cpp
+[Main menu]
+Põhimenüü
 [(Unknown contact)]
 Tundmatu kontakt
-;file \src\modules\clist\clisttray.cpp
-[&Main Menu]
-Põhimenüü
-;file \src\modules\clist\clui.cpp
 [De&lete]
 Kustuta
 [&Rename]
 Nimeta ümber
-;file \src\modules\clist\contacts.cpp
 [E-mail]
 E-mail
 ['(Unknown contact)']
 '(Tundmatu kontakt)'
-;file \src\modules\clist\genmenu.cpp
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menüüd
 [Customize]
 Kohandamine
-;file \src\modules\clist\groups.cpp
 [New group]
 Uus grupp
 [Delete group]
@@ -975,17 +912,12 @@ Kustuta grupp
 Nimeta grupp ümber
 [This group]
 See grupp
-;file \src\modules\clist\keyboard.cpp
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Teisalda gruppi
 [<Root group>]
 Juurgrupp
-;file \src\modules\database\database.cpp
 [No profile support installed!]
 Profiili toetus ei ole installeeritud
-;file \src\modules\database\dbini.cpp
-;file \src\modules\database\profilemanager.cpp
 [The profile already exists]
 Profiil juba eksisteerib
 [Problem moving profile]
@@ -1006,12 +938,8 @@ Loodud
 Minu profiilid
 [New profile]
 Uus profiil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Ekstra ikoonid
-;file \src\modules\findadd\findadd.cpp
 [Search]
 Otsi
 [Results]
@@ -1022,46 +950,34 @@ Otsimine
 Kõik võrgustikud
 [&Find/Add contacts...]
 Otsi/lisa kontakte...
-;file \src\modules\findadd\searchresults.cpp
 [%d users found (]
 Leiti %d kasutajat (
 [No users found]
 Kasutajaid ei leitud
-;file \src\modules\fonts\FontOptions.cpp
 [<none>]
 <pole>
 [Fonts]
 Fondid
-;file \src\modules\fonts\FontService.cpp
-;file \src\modules\icolib\skin2opts.cpp
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Kõik kontaktid **
 [Contacts]
 Kontaktid
-;file \src\modules\netlib\netliblog.cpp
-;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Kõik ühendused>
 [Network]
 Võrgustik
-;file \src\modules\netlib\netlibssl.cpp
-;file \src\modules\options\options.cpp
 [<all modules>]
 <kõik moodulid>
 [Miranda NG options]
 Miranda NG valikud
 [&Options...]
 &Valikud...
-;file \src\modules\plugins\newplugins.cpp
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Plugin
 [Version]
 Versioon
 [Plugins]
 Pluginad
-;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Loo uus konto
 [Protocol]
@@ -1074,10 +990,8 @@ Konto ID
 Nimeta ümber
 [&Accounts...]
 Kontod...
-;file \src\modules\skin\hotkey_opts.cpp
 [System]
 Süsteem
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Kasutaja sees
 [User details]
@@ -1098,18 +1012,13 @@ Miranda veebisait
 Kuva/Peida
 [Exit]
 Välju
-[Main menu]
-Põhimenüü
-;file \src\modules\skin\sounds.cpp
-;file \src\modules\utils\bmpfilter.cpp
+[Always visible]
+Alati nähtav
 [All bitmaps]
 Kõik bittrasterid
 [JPEG bitmaps]
 JPEG bittraster
-;file \src\modules\utils\timezones.cpp
-;file \src\modules\utils\utils.cpp
 [Unknown]
 Tundmatu
 [Estonia]
 Eesti
-;file \src\modules\visibility\visibility.cpp

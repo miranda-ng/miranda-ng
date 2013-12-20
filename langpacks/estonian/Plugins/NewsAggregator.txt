@@ -5,7 +5,6 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Lisa
 [Remove]
@@ -18,12 +17,9 @@ Tühista
 URL
 [Reset]
 Algväärtusta
-;file \plugins\NewsAggregator\Src\Icons.cpp
-;file \plugins\NewsAggregator\Src\Menus.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+[&Close]
+&Sul&ge
 [Error]
 Viga
 [Network]
 Võrgustik
-;file \plugins\NewsAggregator\Src\Services.cpp
-;file \plugins\NewsAggregator\Src\Utils.cpp

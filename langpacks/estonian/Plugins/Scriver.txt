@@ -5,7 +5,6 @@
 ;  Version: 2.10.0.2
 ;  Authors: Miranda NG Development Team
 ;============================================================
-;file \plugins\Scriver\res\resource.rc
 [Send message on 'Enter']
 Saada teade 'Enter' vajutamisel
 [Send message on double 'Enter']
@@ -24,6 +23,8 @@ Kuva ikoonid
 Kuva sekundid
 [Show names]
 Kuva nimed
+[events]
+Sündmused
 [Typing Notification Options]
 Trükkimise teavituste valikud
 [Show typing notifications when a user is typing a message]
@@ -36,6 +37,10 @@ Saada viga
 Proovi uuesti
 [Cancel]
 Tühista
+[User &details]
+Kasutaja detailid
+[&Add]
+&Lisa
 [Yes]
 Jah
 [No]
@@ -108,7 +113,8 @@ Teade
 Puhasta logi
 [Co&py all]
 Kopeeri kõik
-;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Lisa kontakt
 [Sending]
 Saatmine
 [Text color]
@@ -125,8 +131,8 @@ Jututoa ajalugu
 Jututoa seaded
 [Event filter enabled]
 Sündmuste filter võimaldatud
-;file \plugins\Scriver\src\input.cpp
-;file \plugins\Scriver\src\msgdialog.cpp
+[Group chats]
+Grupivestlused
 [Add Contact]
 Lisa kontakt
 [User details]
@@ -139,12 +145,10 @@ Vaata kasutaja detaile
 Vaata kasutaja ajalugu
 [Last message received on %s at %s.]
 Viimane teade saadud %s kell %s.
-;file \plugins\Scriver\src\msglog.cpp
 [File sent]
 Fail saadetud
 [File received]
 Fail vastu võetud
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Üldine
 [Outgoing messages]
@@ -177,6 +181,10 @@ Kasutaja lahkus
 Sisenev teade
 [Outgoing message]
 Väljundteade
+[Message background]
+Teate taust
+[User list background]
+Kasutajanimekirja taust
 [Offline]
 Väljas
 [Online]
@@ -201,27 +209,18 @@ Telefonil
 ** Tundmatud kontaktid **
 [Typing Notify]
 Trükkimise teavitus
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Teade %s'lt
 [Typing Notification]
 Trükkimisest teavitamine
 [Outgoing]
 Väljuv
-;file \plugins\Scriver\src\msgtimedout.cpp
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Alati pealmine
-;file \plugins\Scriver\src\sendqueue.cpp
-;file \plugins\Scriver\src\chat\clist.cpp
-;file \plugins\Scriver\src\chat\colorchooser.cpp
-;file \plugins\Scriver\src\chat\log.cpp
-;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 &Ühine
 [&Leave]
 Lahku
-;file \plugins\Scriver\src\chat\options.cpp
 [Show users joining]
 Kuva kasutajate ühinemised
 [Show messages]
@@ -234,13 +233,8 @@ Kuva kasutajate lahkumised
 Kuva kasutajate olekute muutused
 [Select Folder]
 Vali kaust
-[Group chats]
-Grupivestlused
-;file \plugins\Scriver\src\chat\services.cpp
-;file \plugins\Scriver\src\chat\tools.cpp
 [%s says: %s]
 %s ütles: %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Make the text bold (CTRL+B)]
 Tee tekst rasvaseks (CTRL+B)
 [Make the text italicized (CTRL+I)]

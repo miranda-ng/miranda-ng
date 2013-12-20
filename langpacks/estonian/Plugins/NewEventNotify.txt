@@ -5,7 +5,6 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-;file \plugins\NewEventNotify\res\resource.rc
 [Message]
 Teade
 [URL]
@@ -16,9 +15,5 @@ Fail
 Tekst
 [Background]
 Taust
-;file \plugins\NewEventNotify\src\menuitem.cpp
-;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Kontaktid
-;file \plugins\NewEventNotify\src\options.cpp
-;file \plugins\NewEventNotify\src\popup.cpp

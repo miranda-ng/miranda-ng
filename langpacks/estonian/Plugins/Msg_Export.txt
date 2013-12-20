@@ -5,7 +5,6 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-;file \plugins\Msg_Export\res\resource.rc
 [Help]
 Spikker
 [&Find...]
@@ -16,16 +15,15 @@ Spikker
 Kasutaja detailid
 [Copy]
 Kopeeri
-;file \plugins\Msg_Export\src\FileViewer.cpp
-;file \plugins\Msg_Export\src\Glob.h
-;file \plugins\Msg_Export\src\main.cpp
-;file \plugins\Msg_Export\src\options.cpp
 [File]
 Fail
+[Executable files]
+Käivitatavad failid
+[All files]
+Kõik failid
 [History]
 Ajalugu
 [General]
 Üldine
-;file \plugins\Msg_Export\src\utils.cpp
 [(Unknown Contact)]
 Tundmatu kontakt

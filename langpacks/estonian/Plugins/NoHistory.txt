@@ -5,12 +5,8 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
-;file \plugins\NoHistory\res\NoHistory.rc
-;file \plugins\NoHistory\src\dllmain.cpp
-;file \plugins\NoHistory\src\icons.cpp
 [Clear]
 Puhasta
-;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Kõik kontaktid **
 [History]
