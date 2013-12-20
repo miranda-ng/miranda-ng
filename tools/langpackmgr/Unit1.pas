@@ -260,7 +260,7 @@ begin
 end;
 
 procedure tform1.Button4Click(Sender: TObject);
-  var str:widestring; i:integer;
+  var str:string; i:integer;
    begin
    str:='http://translate.google.com/?hl=&ie=yhgg#auto/';
    if  locale='belarusian' then str:=str+'be/';

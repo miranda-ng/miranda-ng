@@ -71,25 +71,25 @@ object Form1: TForm1
     Left = 136
     Height = 21
     Top = 312
-    Width = 43
+    Width = 56
     Caption = 'Copy'
     OnClick = Button3Click
     TabOrder = 5
   end
   object Button4: TButton
-    Left = 184
+    Left = 200
     Height = 21
     Top = 312
-    Width = 43
+    Width = 56
     Caption = 'Google'
     OnClick = Button4Click
     TabOrder = 6
   end
   object Button2: TButton
-    Left = 232
+    Left = 264
     Height = 21
     Top = 312
-    Width = 43
+    Width = 56
     Caption = 'Find'
     Enabled = False
     OnClick = Button2Click
@@ -108,7 +108,7 @@ object Form1: TForm1
     Left = 136
     Height = 35
     Top = 0
-    Width = 137
+    Width = 169
     AutoFill = True
     Caption = 'View'
     ChildSizing.LeftRightSpacing = 6
@@ -120,7 +120,7 @@ object Form1: TForm1
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 2
     ClientHeight = 17
-    ClientWidth = 133
+    ClientWidth = 165
     Columns = 2
     ItemIndex = 0
     Items.Strings = (
@@ -130,7 +130,7 @@ object Form1: TForm1
     TabOrder = 9
   end
   object Label1: TLabel
-    Left = 448
+    Left = 424
     Height = 14
     Top = 15
     Width = 61
